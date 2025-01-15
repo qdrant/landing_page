@@ -2,12 +2,15 @@
 title: Multilingual & Multimodal RAG with LlamaIndex
 weight: 14
 partition: build
+social_preview_image: /documentation/examples/multimodal-search/social_preview.png
 aliases:
   - /documentation/tutorials/multimodal-search-fastembed/
   - /documentation/advanced-tutorials/multimodal-search-fastembed/
 ---
 
 # Multilingual & Multimodal RAG with LlamaIndex
+
+![Snow prints](/documentation/examples/multimodal-search/image-1.png)
 
 | Time: 15 min | Level: Beginner |Output: [GitHub](https://github.com/qdrant/examples/blob/master/multimodal-search/Multimodal_Search_with_LlamaIndex.ipynb)|[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/multimodal-search/Multimodal_Search_with_LlamaIndex.ipynb)   |
 | --- | ----------- | ----------- | ----------- |
