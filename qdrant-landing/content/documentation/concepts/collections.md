@@ -755,6 +755,52 @@ The distance function for sparse vectors is always `Dot` and does not need to be
 
 However, there are optional parameters to tune the underlying [sparse vector index](/documentation/concepts/indexing/#sparse-vector-index).
 
+### Strict mode
+
+*Available as of v1.13.0*
+
+Strict mode is a feature to restrict certain type of operations on the collection in order to protect it.
+
+The goal is to prevent inefficient usage patterns of the collection and to protect it from being overloaded.
+
+This configuration provides a more predictible and responsive service when you do not have control over the queries that are being executed.
+
+Here is a non exhaustive list of operations that can be restricted using strict mode:
+
+- Preventing querying non indexed payload which can be very slow
+- Rate limits the number of queries and updates per second
+- Maximum number of filtering conditions in a query
+- Maximum batch size when inserting vectors
+- Maximum collection size (in terms of vectors or payload size)
+
+See [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection) for all the `strict_mode_config` parameters.
+
+As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically.
+
+The `strict_mode_config` can be enabled when creating a collection.
+
+```http
+PUT /collections/{collection_name}
+{
+    "strict_mode_config": {
+        "enabled": true,
+        "unindexed_filtering_retrieve": true
+    }
+}
+```
+
+or enabled later on an existing collection.
+
+```http
+PATCH /collections/{collection_name}
+{
+    "strict_mode_config": {
+        "enabled": true,
+        "unindexed_filtering_retrieve": true
+    }
+}
+```
+
 ### Check collection existence
 
 *Available as of v1.8.0*
