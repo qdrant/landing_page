@@ -885,8 +885,8 @@ client, err := qdrant.NewClient(&qdrant.Config{
 client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	CollectionName: "{collection_name}",
 	StrictModeConfig: &qdrant.StrictModeConfig{
-        Enabled: true,
-		IndexingThreshold: true,
+        Enabled: qdrant.PtrOf(true),
+		IndexingThreshold: qdrant.PtrOf(true),
 	},
 })
 ```
@@ -982,8 +982,8 @@ client, err := qdrant.NewClient(&qdrant.Config{
 client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 	CollectionName: "{collection_name}",
 	StrictModeConfig: &qdrant.StrictModeConfig{
-        Enabled: true,
-		IndexingThreshold: true,
+        Enabled: qdrant.PtrOf(true),
+		IndexingThreshold: qdrant.PtrOf(true),
 	},
 })
 ```
@@ -1075,7 +1075,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
 client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 	CollectionName: "{collection_name}",
 	StrictModeConfig: &qdrant.StrictModeConfig{
-        Enabled: false,
+        Enabled: qdrant.PtrOf(false),
 	},
 })
 ```
