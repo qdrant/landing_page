@@ -1,0 +1,4 @@
+Sitemap: https://qdrant.tech/sitemap.xml
+User-agent: *
+Allow: /
+Disallow: /*?*
