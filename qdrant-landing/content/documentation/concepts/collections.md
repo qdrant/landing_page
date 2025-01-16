@@ -761,9 +761,9 @@ However, there are optional parameters to tune the underlying [sparse vector ind
 
 Strict mode is a feature to restrict certain type of operations on the collection in order to protect it.
 
-The goal is to prevent inefficient usage patterns of the collection and to protect it from being overloaded.
+The goal is to prevent inefficient usage patterns that could overload the collections.
 
-This configuration provides a more predictible and responsive service when you do not have control over the queries that are being executed.
+This configuration ensures a more predictible and responsive service when you do not have control over the queries that are being executed.
 
 Here is a non exhaustive list of operations that can be restricted using strict mode:
 
@@ -797,6 +797,18 @@ PATCH /collections/{collection_name}
     "strict_mode_config": {
         "enabled": true,
         "unindexed_filtering_retrieve": true
+    }
+}
+```
+
+It can be disabled on an existing collection.
+
+```http
+
+PATCH /collections/{collection_name}
+{
+    "strict_mode_config": {
+        "enabled": false
     }
 }
 ```
