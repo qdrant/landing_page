@@ -22,28 +22,35 @@ tags:
 **Memory Map for Payload Storage:** Use mmap storage for payloads by default to make it more efficient, eliminating unexpected latency spikes. </br>
 
 
-## GPU Indexing
+## GPU Accelerated Indexing
 Qdrant introduces GPU-accelerated HNSW indexing to dramatically reduce index construction times.
 This feature is optimized for large datasets where indexing speed is critical. 
-The new feature delivers speeds up to 10x faster than CPU-based methods. 
+
+> The new feature delivers speeds up to 10x faster than CPU-based methods. 
+
 It is built with Vulkan API for broad GPU compatibility, including Nvidia, AMD, and integrated GPUs. 
 As of right now this solution supports only on-premises deployments, but we will introduce cloud shortly.
 
-Technical Highlights
-	•	Multi-GPU Support: Index segments concurrently to handle large-scale workloads.
-	•	Hybrid Compatibility: Seamlessly integrate GPU-enabled and CPU-only nodes in the same cluster.
-	•	Hardware Flexibility: Supports mid-range GPUs like Nvidia T4 for optimal cost-performance balance.
-	•	Full Feature Support: Maintains compatibility with filtering, quantization, and payloads.
+Highlights
+- Multi-GPU Support: Index segments concurrently to handle large-scale workloads.
+- Hybrid Compatibility: Seamlessly integrate GPU-enabled and CPU-only nodes in the same cluster.
+- Hardware Flexibility: Supports mid-range GPUs like Nvidia T4 for optimal cost-performance balance.
+- Full Feature Support: Maintains compatibility with filtering, quantization, and payloads.
 
 ### Using Qdrant on GPU Instances
 Setup is simple with pre-configured Docker images for GPU environments. 
 Users can enable GPU indexing with minimal configuration changes. 
 Logs clearly indicate GPU detection and usage for transparency.
 
-Read more in documentation
+Read more about [GPU Indexing](https://qdrant.tech)
 
-## Streaming Snapshots
+## Snapshot Streaming
 
+MISSING ABOUT 
+
+MISSING CODE
+
+Read more about [Snapshot Streaming](https://qdrant.tech)
 
 ## Strict Mode
 
@@ -381,9 +388,16 @@ client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 })
 ```
 
+Read more about [Strict Mode](https://qdrant.tech)
+
 ## HNSW Graph Optimization
 
+MISSING ABOUT
 
+
+MISSING CODE
+
+Read more about [HNSW Graph Optimization](https://qdrant.tech)
 
 
 ## Named Vector Filtering
@@ -519,10 +533,14 @@ client.Scroll(context.Background(), &qdrant.ScrollPoints{
 	},
 })
 ```
+Read more about [Named Vector Filtering](https://qdrant.tech)
 
 ## Memory Map for Payload Storage
 
+MISSING ABOUT SECTION
 
+
+POSSIBLY DIAGRAM
 
 
 
