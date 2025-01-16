@@ -775,6 +775,8 @@ Here is a non exhaustive list of operations that can be restricted using strict 
 
 See [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection) for all the `strict_mode_config` parameters.
 
+Upon crossing a limit, the server will return a client side error with the information about the limit that was crossed.
+
 As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically.
 
 The `strict_mode_config` can be enabled when creating a collection.
@@ -804,7 +806,6 @@ PATCH /collections/{collection_name}
 It can be disabled on an existing collection.
 
 ```http
-
 PATCH /collections/{collection_name}
 {
     "strict_mode_config": {
