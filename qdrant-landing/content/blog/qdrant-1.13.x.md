@@ -37,6 +37,10 @@ Highlights
 - Hardware Flexibility: Supports mid-range GPUs like Nvidia T4 for optimal cost-performance balance.
 - Full Feature Support: Maintains compatibility with filtering, quantization, and payloads.
 
+### Benchmarks on Common GPUs
+
+TABLE HERE
+
 ### Using Qdrant on GPU Instances
 Setup is simple with pre-configured Docker images for GPU environments. 
 Users can enable GPU indexing with minimal configuration changes. 
