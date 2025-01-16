@@ -1056,7 +1056,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.UpdateCollectionAsync(
 	collectionName: "{collection_name}",
-	strictModeConfig: new StrictModeConfig { enabled = false }
+	strictModeConfig: new StrictModeConfig { Enabled = false }
 );
 ```
 
