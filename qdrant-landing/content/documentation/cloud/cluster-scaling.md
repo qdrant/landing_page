@@ -78,7 +78,7 @@ POST /collections/{collection_name}/cluster
 
 A few things to be aware of with regards to resharding:
 
-- during resharding the performance of your cluster may be slightly reduced
-- during resharding the reported point counts will not be accurate
+- during resharding, performance of your cluster may be slightly reduced
+- during resharding, reported point counts will not be accurate
 - resharding may be a long running operation on huge collections
 - you can only run one resharding operation per collection at a time
