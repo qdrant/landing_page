@@ -23,9 +23,9 @@ Note, that it is not possible to scale down the disk space of the cluster due to
 
 ## Horizontal scaling
 
-Vertical scaling can be an effective way to improve the performance of a cluster and extend the capacity, but it has some limitations.  The main disadvantage of vertical scaling is that there are limits to how much a cluster can be expanded.  At some point, adding more resources to a cluster can become impractical or cost-prohibitive.  
+Vertical scaling can be an effective way to improve the performance of a cluster and extend the capacity, but it has some limitations. The main disadvantage of vertical scaling is that there are limits to how much a cluster can be expanded.  At some point, adding more resources to a cluster can become impractical or cost-prohibitive.  
 
-In such cases, horizontal scaling may be a more effective solution. 
+In such cases, horizontal scaling may be a more effective solution.
 
 Horizontal scaling, also known as horizontal expansion, is the process of increasing the capacity of a cluster by adding more nodes and distributing the load and data among them. The horizontal scaling at Qdrant starts on the collection level. You have to choose the number of shards you want to distribute your collection around while creating the collection.  Please refer to the [sharding documentation](/documentation/guides/distributed_deployment/#sharding) section for details.
 
