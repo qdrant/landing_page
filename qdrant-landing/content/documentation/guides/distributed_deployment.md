@@ -304,7 +304,7 @@ Shards are evenly distributed across all existing nodes when a collection is fir
 
 ### Resharding
 
-*Available as of v1.13.0 in [Cloud](/documentation/cloud-intro/)*
+*Available as of v1.13.0 in Cloud*
 
 Resharding allows you to change the number of shards in your existing collections if you're hosting with our [Cloud](/documentation/cloud-intro/) offering.
 
