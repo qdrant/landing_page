@@ -43,7 +43,7 @@ We will be glad to consult you on an optimal strategy for scaling.
 
 *Available as of Qdrant v1.13.0*
 
-<aside role="status">Resharding is exclusively available across our <a href="https://qdrant.to/cloud">cloud</a> offering, including <a href="/documentation/hybrid-cloud/">Hybrid</a> and <a href="/documentation/private-cloud/">Private</a> Cloud.</aside>
+<aside role="status">Resharding is exclusively available across our <a href="/documentation/cloud-intro/">cloud</a> offering, including <a href="/documentation/hybrid-cloud/">Hybrid</a> and <a href="/documentation/private-cloud/">Private</a> Cloud.</aside>
 
 When creating a collection, it has a specific number of shards. The ideal number of shards might change as your cluster evolves.
 
