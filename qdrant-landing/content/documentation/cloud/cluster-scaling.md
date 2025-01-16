@@ -39,17 +39,17 @@ We will be glad to consult you on an optimal strategy for scaling.
 
 [Let us know](/documentation/support/) your needs and decide together on a proper solution.
 
-## Resharding - change number of shards
+## Resharding
 
 *Available as of Qdrant v1.13.0*
+
+<aside role="status">Resharding is exclusively available across our <a href="https://qdrant.to/cloud">cloud</a> offering, including <a href="/documentation/hybrid-cloud/">Hybrid</a> and <a href="/documentation/private-cloud/">Private</a> Cloud.</aside>
 
 When creating a collection, it has a specific number of shards. The ideal number of shards might change as your cluster evolves.
 
 Resharding allows you to change the number of shards in your existing collections, both up and down, without having to recreate the collection from scratch.
 
-Resharding is a transparent process, meaning that the collection can still be used while resharding is going on without having downtime. This allows you to scale from one node to any number of nodes and back, keeping your data perfectly distributed, without compromise.
-
-<aside role="status">Resharding is exclusively available across our <a href="https://qdrant.to/cloud">cloud</a> offering, including <a href="/documentation/hybrid-cloud">Hybrid</a> and <a href="/documentation/private-cloud">Private</a> Cloud.</aside>
+Resharding is a transparent process, meaning that the collection is still available while resharding is going on without having downtime. This allows you to scale from one node to any number of nodes and back, keeping your data perfectly distributed without compromise.
 
 To increase the number of shards (reshard up), use the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster) to initiate the resharding process:
 
