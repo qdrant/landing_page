@@ -916,6 +916,10 @@ curl -X PATCH http://localhost:6333/collections/{collection_name} \
 ```
 
 ```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
 client.update_collection(
     collection_name="{collection_name}",
     strict_mode_config=models.StrictModeConfig(enabled=True, unindexed_filtering_retrieve=True),
@@ -923,6 +927,10 @@ client.update_collection(
 ```
 
 ```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
 client.updateCollection("{collection_name}", {
   strict_mode_config: {
     enabled: true,
@@ -1010,6 +1018,10 @@ curl -X PATCH http://localhost:6333/collections/{collection_name} \
 ```
 
 ```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
 client.update_collection(
     collection_name="{collection_name}",
     strict_mode_config=models.StrictModeConfig(enabled=False),
@@ -1017,6 +1029,10 @@ client.update_collection(
 ```
 
 ```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
 client.updateCollection("{collection_name}", {
   strict_mode_config: {
     enabled: false,
