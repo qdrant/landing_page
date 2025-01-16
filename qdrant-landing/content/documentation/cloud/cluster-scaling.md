@@ -38,3 +38,47 @@ When scaling down horizontally, the cloud platform will automatically ensure tha
 We will be glad to consult you on an optimal strategy for scaling.
 
 [Let us know](/documentation/support/) your needs and decide together on a proper solution.
+
+## Resharding - change number of shards
+
+*Available as of Qdrant v1.13.0*
+
+When creating a collection, it has a specific number of shards. The ideal number of shards might change as your cluster evolves.
+
+Resharding allows you to change the number of shards in your existing collections, both up and down, without having to recreate the collection from scratch.
+
+Resharding is a transparent process, meaning that the collection can still be used while resharding is going on without having downtime. This allows you to scale from one node to any number of nodes and back, keeping your data perfectly distributed, without compromise.
+
+<aside role="status">Resharding is exclusively available across our <a href="https://qdrant.to/cloud">cloud</a> offering, including <a href="/documentation/hybrid-cloud">Hybrid</a> and <a href="/documentation/private-cloud">Private</a> Cloud.</aside>
+
+To increase the number of shards (reshard up), use the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster) to initiate the resharding process:
+
+```http
+POST /collections/{collection_name}/cluster
+{
+    "start_resharding": {
+        "direction": "up",
+        "shard_key": null
+    }
+}
+```
+
+To decrease the number of shards (reshard down), you may specify the `"down"` direction.
+
+The current status of resharding can be checked using the [collection info](/documentation/concepts/collections/#collection-info) API. It shows if resharding is currently ongoing.
+
+We always recommend to run an ongoing resharding operation till the end. But, if at any point the resharding operation needs to be aborted, you can use:
+
+```http
+POST /collections/{collection_name}/cluster
+{
+    "abort_resharding": {}
+}
+```
+
+A few things to be aware of with regards to resharding:
+
+- during resharding the performance of your cluster may be slightly reduced
+- during resharding the reported point counts will not be accurate
+- resharding may be a long running operation on huge collections
+- you can only run one resharding operation per collection at a time
