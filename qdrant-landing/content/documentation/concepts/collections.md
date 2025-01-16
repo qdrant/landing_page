@@ -963,7 +963,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.UpdateCollectionAsync(
 	collectionName: "{collection_name}",
-	strictModeConfig: new StrictModeConfig { enabled = true, unindexed_filtering_retrieve = true }
+	strictModeConfig: new StrictModeConfig { Enabled = true, UnindexedFilteringRetrieve = true }
 );
 ```
 
