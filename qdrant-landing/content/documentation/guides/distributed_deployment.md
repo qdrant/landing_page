@@ -302,6 +302,16 @@ If you anticipate a lot of growth, we recommend 12 shards since you can expand f
 
 Shards are evenly distributed across all existing nodes when a collection is first created, but Qdrant does not automatically rebalance shards if your cluster size or replication factor changes (since this is an expensive operation on large clusters). See the next section for how to move shards after scaling operations.
 
+### Resharding
+
+*Available as of v1.13.0 in [Cloud](/documentation/cloud-intro/)*
+
+Resharding allows you to change the number of shards in your existing collections if you're hosting with our [Cloud](/documentation/cloud-intro/) offering.
+
+Resharding change the number of shards both up and down, without having to recreate the collection from scratch.
+
+Please refer to the [Resharding](/documentation/cloud/cluster-scaling/#resharding) section in our cloud documentation for more details.
+
 ### Moving shards
 
 *Available as of v0.9.0*
