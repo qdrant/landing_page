@@ -768,7 +768,6 @@ This configuration ensures a more predictible and responsive service when you do
 Here is a non exhaustive list of operations that can be restricted using strict mode:
 
 - Preventing querying non indexed payload which can be very slow
-- Rate limits the number of queries and updates per second
 - Maximum number of filtering conditions in a query
 - Maximum batch size when inserting vectors
 - Maximum collection size (in terms of vectors or payload size)
