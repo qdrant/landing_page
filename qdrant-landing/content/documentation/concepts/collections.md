@@ -991,7 +991,7 @@ client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 	CollectionName: "{collection_name}",
 	StrictModeConfig: &qdrant.StrictModeConfig{
         Enabled: qdrant.PtrOf(true),
-		IndexingThreshold: qdrant.PtrOf(true),
+		UnindexedFilteringRetrieve: qdrant.PtrOf(true),
 	},
 })
 ```
