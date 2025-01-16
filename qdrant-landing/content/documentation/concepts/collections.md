@@ -773,7 +773,7 @@ Here is a non exhaustive list of operations that can be restricted using strict 
 - Maximum batch size when inserting vectors
 - Maximum collection size (in terms of vectors or payload size)
 
-See [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection) for all the `strict_mode_config` parameters.
+See [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the `strict_mode_config` parameters.
 
 Upon crossing a limit, the server will return a client side error with the information about the limit that was crossed.
 
