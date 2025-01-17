@@ -4,7 +4,12 @@ weight: 14
 partition: build
 ---
 
-# Building an Agentic RAG Discord ChatBot with Qdrant, CAMEL-AI, and OpenAI
+![agentic-rag-camelai-astronaut](/documentation/examples//agentic-rag-camelai/astronaut-main.png)
+
+# Agentic RAG Discord ChatBot with Qdrant, CAMEL-AI, & OpenAI
+
+| Time: 45 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/tree/master/agentic_rag_zoom_crewai) |
+| --- | ----------- | ----------- |----------- |
 
 Unlike traditional RAG techniques, which passively retrieve context and generate responses, **agentic RAG** involves active decision-making and multi-step reasoning by the chatbot. This approach allows the bot to dynamically interact with various data sources, adapt its behavior based on context, and perform more complex tasks autonomously.
 
