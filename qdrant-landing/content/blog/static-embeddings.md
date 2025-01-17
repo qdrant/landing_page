@@ -3,7 +3,7 @@ draft: false
 title: "Static Embeddings: should you pay attention?"
 slug: static-embeddings
 short_description: "Static embeddings are a thing back! Is the encoding speedup worth a try? We checked that!"
-description: "A surprising renaissance of static embeddings is taking place, offering remarkable speed improvements with surprisingly small quality trade-offs. We evaluated how Qdrant users can benefit from this renaissance, and the results are promising."
+description: "Static embeddings are a thing back! Is the encoding speedup worth a try? We checked that!"
 preview_image: /blog/static-embeddings/preview.png
 date: 2025-01-17T09:13:00.000Z
 author: Kacper Łukawski
