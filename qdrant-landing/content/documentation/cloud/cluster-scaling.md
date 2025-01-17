@@ -65,7 +65,11 @@ POST /collections/{collection_name}/cluster
 
 To decrease the number of shards (reshard down), you may specify the `"down"` direction.
 
-The current status of resharding can be checked using the [collection info](/documentation/concepts/collections/#collection-info) API. It shows if resharding is currently ongoing.
+The current status of resharding is listed in the [collection cluster info](https://api.qdrant.tech/v-1-12-x/api-reference/distributed/collection-cluster-info) which can be fetched with:
+
+```http
+GET /collections/{collection_name}/cluster
+```
 
 We always recommend to run an ongoing resharding operation till the end. But, if at any point the resharding operation needs to be aborted, you can use:
 
