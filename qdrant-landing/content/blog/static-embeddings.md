@@ -82,7 +82,7 @@ that the model might be even up to 400x faster on a CPU than the state-of-the-ar
 
 We didn't perform any proper benchmarking of the encoding speed, but one of the experiments done on `TREC-COVID` dataset 
 from [BeIR](https://github.com/beir-cellar/beir) shows that we can **encode and fully index 171K documents in Qdrant in 
-around 7.5 minutes**. All of it done on a customer-grade laptop, without GPU acceleration.
+around 7.5 minutes**. All of it done on a consumer-grade laptop, without GPU acceleration.
 
 ## Quantization of the static embeddings
 
