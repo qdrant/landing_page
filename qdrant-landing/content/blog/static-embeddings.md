@@ -2,8 +2,8 @@
 draft: false
 title: "Static Embeddings: should you pay attention?"
 slug: static-embeddings
-short_description: "Discover how static embeddings are making a comeback, offering speeds up to 400x faster than transformer models while maintaining 85% of their performance - perfect for mobile, browser, and edge computing applications."
-description: "As transformer models dominate the AI landscape, static embeddings are experiencing an unexpected renaissance. This article explores how recent innovations like Model2Vec and static-retrieval-mrl have transformed these lightweight alternatives into practical solutions for resource-constrained environments. Learn how you can achieve transformer-like quality at a fraction of the computational cost, with real-world benchmarks and implementation examples using Qdrant. Whether you're building for mobile devices, browsers, or IoT systems, discover why static embeddings deserve your attention in 2025."
+short_description: "Static embeddings are a thing back! Is the encoding speedup worth a try? We checked that!"
+description: "A surprising renaissance of static embeddings is taking place, offering remarkable speed improvements with surprisingly small quality trade-offs. We evaluated how Qdrant users can benefit from this renaissance, and the results are promising."
 preview_image: /blog/static-embeddings/preview.png
 date: 2025-01-17T09:13:00.000Z
 author: Kacper Łukawski
