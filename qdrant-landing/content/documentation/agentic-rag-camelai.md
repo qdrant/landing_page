@@ -30,11 +30,11 @@ Below is a high-level look at our Agentic RAG workflow:
 | 8. Bot Integration       | Integrate the bot with Qdrant and CAMEL-AI to handle user interactions and provide responses.          |
 | 9. Testing               | Test the bot in a live Discord server.                                                                 |
 
-## Architecture Diagram (placeholder)
+## Architecture Diagram
 
 Below is the architecture diagram representing the workflow and interactions of the chatbot:
 
-![placeholder-image](/documentation/examples/agentic-rag-camelai/diagram.jpg)
+![Architecture Diagram](/documentation/examples/agentic-rag-camelai/diagram.jpg)
 
 ---
 
