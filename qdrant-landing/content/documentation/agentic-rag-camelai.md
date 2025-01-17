@@ -337,7 +337,7 @@ auto_retriever = AutoRetriever(
                 QDRANT_CLOUD_API_KEY,
               ),
               storage_type=StorageType.QDRANT,
-              embedding_model=openai_embedding
+              embedding_model=embedding_model
             )
 qdrant_agent = ChatAgent(system_message=assistant_sys_msg, model=model)
 
@@ -419,13 +419,17 @@ async def on_message(message: discord.Message):
         return
     user_input = message.content
 
-    query_results = qdrant_storage.query(VectorDBQuery(query_vector=openai_client.embeddings.create(
-            input=user_input,  # Using user input as query
-            model=embedding_model,
-            ).data[0].embedding,
-            top_k=5))
+    retrieved_info = auto_retriever.run_vector_retriever(
+        query=user_input,
+        contents=[
+            "https://qdrant.tech/articles/what-is-a-vector-database/",
+        ],
+        top_k=10,
+        similarity_threshold = 0.3,
+        return_detailed_info=True,
+    )
 
-    user_msg = str(query_results)
+    user_msg = str(retrieved_info)
     assistant_response = qdrant_agent.step(user_msg)
     response_content = assistant_response.msgs[0].content
 
