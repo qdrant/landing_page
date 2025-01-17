@@ -778,7 +778,7 @@ Upon crossing a limit, the server will return a client side error with the infor
 
 As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically.
 
-The `strict_mode_config` can be enabled when creating a collection, for instance below to active the `unindexed_filtering_retrieve` limit.
+The `strict_mode_config` can be enabled when [creating](#create-a-collection) a collection, for instance below to active the `unindexed_filtering_retrieve` limit.
 
 ```http
 PUT /collections/{collection_name}
@@ -891,7 +891,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 })
 ```
 
-or enabled later on an existing collection.
+Or enable it later on an existing collection through the [collection update](#update-collection-parameters) API:
 
 ```http
 PATCH /collections/{collection_name}
@@ -996,7 +996,7 @@ client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 })
 ```
 
-It can be disabled on an existing collection.
+To disable strict mode on an existing collection use:
 
 ```http
 PATCH /collections/{collection_name}
