@@ -18,24 +18,37 @@ tags:
 **Strict Mode:** Restrict certain type of operations on collections</br>
 
 **HNSW Graph Optimization:** Compress HNSW graph links.</br>
+**New storage for Payloads and Sparse Vectors:** A replacement of general-purpose RocksDB with our custom storage implementation, which allows reads and writes in constant number of disk operations</br>
 **Named Vector Filtering:** Add Has Vector filtering condition, check if a named vector is present on a point.</br>
-**Memory Map for Payload Storage:** Use mmap storage for payloads by default to make it more efficient, eliminating unexpected latency spikes. </br>
 
 
 ## GPU Accelerated Indexing
+
 Qdrant introduces GPU-accelerated HNSW indexing to dramatically reduce index construction times.
 This feature is optimized for large datasets where indexing speed is critical. 
 
-> The new feature delivers speeds up to 10x faster than CPU-based methods. 
+> The new feature delivers speeds up to 10x faster than CPU-based methods for the equivalent hardware price.
 
-It is built with Vulkan API for broad GPU compatibility, including Nvidia, AMD, and integrated GPUs. 
+We introduce our custom implementation of GPU-accelerated HNSW indexing,
+ which doesn't rely on any third-party libraries, and therefore is not limited to any specific GPU vendor.
+The only requirement is a GPU with Vulkan support, which is available on most modern GPUs.
+
+Here is a picture of us, running Qdrant with GPU support on a SteamDeck (AMD Van Gogh GPU):
+
+
+{{< figure src="/blog/qdrant-1.13.x/steamdeck.jpg" alt="Qdrant on SteamDeck" caption="Qdrant on SteamDeck with AMD GPU" >}}
+
+This experiment didn't require any changes to the codebase, everything worked with the default docker image.
+
 As of right now this solution supports only on-premises deployments, but we will introduce cloud shortly.
 
-Highlights
+**Highlights**
+
 - Multi-GPU Support: Index segments concurrently to handle large-scale workloads.
 - Hybrid Compatibility: Seamlessly integrate GPU-enabled and CPU-only nodes in the same cluster.
-- Hardware Flexibility: Supports mid-range GPUs like Nvidia T4 for optimal cost-performance balance.
-- Full Feature Support: Maintains compatibility with filtering, quantization, and payloads.
+- Hardware Flexibility: Doesn't require high-end GPUs to achieve significant performance improvements.
+- Full Feature Support: GPU indexing supports all quantization options and datatypes implemented in Qdrant.
+- Large-Scale Benefits: Fast indexing unlocks larger size of segments, which leads to higher PRS on the same hardware.
 
 ### Benchmarks on Common GPUs
 
@@ -50,16 +63,25 @@ Read more about [GPU Indexing](https://qdrant.tech)
 
 ## Snapshot Streaming
 
-MISSING ABOUT 
+Snapshots plays an important role in data workflow, and especially they are important in the context of distributed deployment.
 
-MISSING CODE
+Snapshots are used to transfer points with constructed indexes between nodes.
+It happens when a new node joins the cluster, or when a node needs synchronization with the rest of the cluster.
 
-Read more about [Snapshot Streaming](https://qdrant.tech)
+Before v1.13, shapshot-based transfer required an extra consideration before using, as it was necessary to ensure, that the machine has enough disk space to store snapshot file.
+It is especially challenging, if you take into account that vector data has very high entropy, and therefore is hard to compress.
+
+Streamable snapshots allows to create snapshots on the fly, without storing them on disk. That significantly reduces requirements for disk space and simplifies the process of transferring data between nodes. In addition, it makes the transfer process faster deployments with slow disks.
+
+In order to implement this feature, we had to not only change code in Qdrant itself, but also to introduce changes in upstream of [tar-rs](https://github.com/alexcrichton/tar-rs/pulls?q=is%3Apr+author%3Axzfc+is%3Aclosed) library, a Rust library for working with tar archives.
+
+Introduction of streaming support finally bringings tar (aka tape archive), a format historically designed to put data on tape streamers, to its historical roots.
+
 
 ## Strict Mode
 
 Qdrant’s Strict Mode introduces operational controls to safeguard resource usage and maintain consistent performance in shared, serverless environments. 
-By capping the computational cost of operations like unindexed filtering, batch sizes, and search parameters (e.g., hnsw_ef and oversampling), it prevents inefficient usage patterns that could overload collections. 
+By capping the computational cost of operations like unindexed filtering, batch sizes, and search parameters (e.g., hnsw_ef and oversampling), it prevents inefficient usage patterns that could overload the service. 
 Additional limits on payload sizes, filter conditions, and timeouts ensure that even high-demand applications remain predictable and responsive. 
 
 Strict Mode is configured at the collection level via `strict_mode_config`, this feature allows users to define thresholds while preserving backward compatibility. 
@@ -136,6 +158,7 @@ client
     )
     .await?;
 ```
+
 ```java
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
@@ -222,6 +245,7 @@ client.update_collection(
     strict_mode_config=models.StrictModeConfig(enabled=True, unindexed_filtering_retrieve=True),
 )
 ```
+
 ```typescript
 import { QdrantClient } from "@qdrant/js-client-rest";
 
@@ -392,16 +416,16 @@ client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 })
 ```
 
-Read more about [Strict Mode](https://qdrant.tech)
+Read more about [Strict Mode](/documentation/guides/administration/#strict-mode)
 
-## HNSW Graph Optimization
+## HNSW Graph Compression
 
-MISSING ABOUT
+Search engines rely on a variety of optimization, dedicates to speed up the search or reduce the memory footprint.
+One of the popular optimization technique in classical inverted index is [Delta Encoding](https://en.wikipedia.org/wiki/Delta_encoding).
 
+Turns out, with some [custom modifications](https://github.com/qdrant/qdrant/pull/5487), we can apply the same technique to HNSW graph links.
 
-MISSING CODE
-
-Read more about [HNSW Graph Optimization](https://qdrant.tech)
+In the contrast to traditional compression algorithms, like gzip or lz4, delta encoding requires very little CPU overhead for decompression, which makes it a perfect fit for the HNSW graph links. As a result of out experiments, we didn't observe any measurable performance degradation, while the memory footprint of the HNSW graph was reduced by up to 30%.
 
 
 ## Named Vector Filtering
@@ -539,75 +563,30 @@ client.Scroll(context.Background(), &qdrant.ScrollPoints{
 ```
 Read more about [Named Vector Filtering](https://qdrant.tech)
 
-## Memory Map for Payload Storage
+## New storage backend
 
-MISSING ABOUT SECTION
+Historically, Qdrant used RocksDB as a storage backend for payloads and sparse vectors.
+RocksDB is a general-purpose key-value storage, which is optimized for random reads and writes. 
 
+But in the context of Qdrant, RocksDB's general-purpose nature was not the best fit.
+For example, RocksDB assumes that both keys and values in the storage can be an arbitrary bytes of arbitrary length.
 
-POSSIBLY DIAGRAM
+Because of those relaxed assumptions, RocksDB requires an additional step in the lifecycle of the data: compaction.
 
+Compaction happens in the background, but under heavy write load, it can lead to significant performance degradation.
+In case of Qdrant, we observed timeout errors happening randomly during an upload of a large number of points.
 
+As a solution, we introduced a custom storage backend, which is optimized for Qdrant's specific use case.
+The main characteristic of this new storage is that it allows reads and writes in a constant number of disk operations, regardless of the size of the data.
 
+Here is how it works:
 
+{{< figure src="/blog/qdrant-1.13.x/storage.png" alt="New Qdrant Storage Backend" caption="New Qdrant Storage Backend" >}}
 
+Storage is devided in tree layers.
 
+- **Data Layer** - Contains of the fixed-size blocks, which contain the actual data. The size of the block is a configuration parameter, which can be adjusted depending on the workload. Each record occupies required number of blocks. If data size exceeds the block size, it is split into multiple blocks. If data size is less than the block size, it still occupies the whole block.
 
+- **Mask Layer** - This layer contains a bit-mask, which indicates which blocks are occupied and which are free. The size of the mask is equal to the number of blocks in the data layer. For example, if the block size is 128 bytes, bit-mask layer will contain 1 bit for each 128 bytes of the data layer. Which means the overhead for the mask layer is 1/1024 of the data layer. Is saved on disk and doesn't require to be loaded into memory.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- **Tracker Layer** - Final layer of the storage, which contains information about mask regions. Size of each bitmask region is configured to match the size of the memory page. This layer is used to quickly find the region of the mask layer, which contains enough free blocks to store the data. This layer have to be loaded into memory, but it contains only minimal information about each region. Overall, the requirement is to keep 1/million of the data layer size in memory. That is one KB of RAM for a GB of data.
