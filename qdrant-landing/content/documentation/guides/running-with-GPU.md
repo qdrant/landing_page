@@ -68,7 +68,7 @@ Ensure your device supports Vulkan API v1.3. This enables compatibility with App
 
 ## NVIDIA GPUs
 
-### Prerequires
+### Prerequisites
 
 To run Docker with NVidia support, your host should have an actual driver and [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html). Most default AI or CUDA images on Amazon/GCP/etc. are configured with nvidia container toolkit.
 
