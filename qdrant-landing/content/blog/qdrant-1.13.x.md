@@ -1,5 +1,5 @@
 ---
-title: "Qdrant 1.13 - GPU Indexing, Snapshot Streaming & Strict Mode"
+title: "Qdrant 1.13 - GPU Indexing, Strict Mode & New Storage Engine"
 draft: false
 short_description: ""
 description: "" 
@@ -14,7 +14,6 @@ tags:
 [**Qdrant 1.13.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.13.0) Let's look at the main features for this version:
 
 **GPU Accelerated Indexing:** Fast HNSW indexing with architecture-free GPU support.</br>
-**Snapshot Streaming:** Generate snapshots dynamically without writing to disk first.</br>
 **Strict Mode:** Enforce operation restrictions on collections for enhanced control.</br>
 
 **HNSW Graph Compression:** Reduce storage use via HNSW Delta Encoding.</br>
@@ -27,7 +26,7 @@ tags:
 
 We are making it easier for you to handle even **the most demanding workloads**.
 
-Qdrant now supports GPU-accelerated HNSW indexing **on all architectures, including NVIDIA, AMD and Intel**. 
+Qdrant now supports GPU-accelerated HNSW indexing **on all major GPU vendors, including NVIDIA, AMD and Intel**. 
 This new feature reduces indexing times, making it a game-changer for projects where speed truly matters.
 
 > Indexing over GPU now delivers speeds up to 10x faster than CPU-based methods for the equivalent hardware price.
@@ -36,9 +35,9 @@ Our custom implementation of GPU-accelerated HNSW indexing **is built entirely i
 
 *Here is a picture of us, running Qdrant with GPU support on a SteamDeck (AMD Van Gogh GPU):*
 
-{{< figure src="/blog/qdrant-1.13.x/gpu-test.jpg" alt="Qdrant on SteamDeck" caption="Qdrant on SteamDeck with AMD GPU" >}}
+{{< figure src="/blog/qdrant-1.13.x/gpu-test.jpg" alt="Qdrant on SteamDeck" caption="Qdrant on SteamDeck with integrated AMD GPU" >}}
 
-This experiment didn't require any changes to the codebase, and everything worked with the default Docker image.
+This experiment didn't require any changes to the codebase, and everything worked right out of the box with our AMD Docker image.
 
 > As of right now this solution supports only on-premises deployments, but we will introduce support for Qdrant Cloud shortly.
 
@@ -68,27 +67,6 @@ Users can enable GPU indexing with minimal configuration changes.
 > Note: Logs will clearly indicate GPU detection and usage for transparency.
 
 *Read more about this feature in the [**GPU Indexing Documentation**](https://qdrant.tech)*
-
-## Snapshot Streaming
-
-![snapshot-streaming](/blog/qdrant-1.13.x/image_1.png)
-
-[**Snapshots**](/documentation/concepts/snapshots/) play an important role in data workflows, especially in the context of distributed deployments.
-
-They are used to transfer points with constructed indexes between nodes. This happens when a new node joins the cluster or when a node needs to synchronize with the rest of the cluster.
-
-- **The Old Way:** Before v1.13, snapshot-based transfers required extra consideration, as it was necessary to ensure that the machine had enough disk space to store the snapshot file. 
-This was particularly challenging given that vector data has very high entropy, making it difficult to compress.
-
-- **The New Way:** Now you can create of snapshots on the fly without storing them on disk. This significantly reduces disk space requirements and simplifies the process of transferring data between nodes. Additionally, it accelerates deployments with slow disks.
-
-**How We Did It:**
-
-To implement this feature, we not only had to modify the code in Qdrant itself but also introduce changes to the upstream [**tar-rs**](https://github.com/alexcrichton/tar-rs/pulls?q=is%3Apr+author%3Axzfc+is%3Aclosed) library, a Rust library used to work with tar archives.
-
-The introduction of streaming support finally brings tar (short for “tape archive”), a format historically designed for tape streamers, back to its original purpose.
-
-*Read more in our documentation on [**Database Snapshots**](/documentation/concepts/snapshots/).* 
 
 ## Strict Mode for Operational Control
 
@@ -396,7 +374,7 @@ When Qdrant started, we used **RocksDB** as the storage backend for payloads and
 
 A key example is compaction, a process that reorganizes data on disk to maintain performance. **Under heavy write loads, compaction can become a bottleneck**, causing significant slowdowns. For Qdrant, this meant huge latency spikes at random moments causing timeout errors during large uploads—a frustrating roadblock.
 
-To solve this, we built a **custom storage backend** optimized for our specific use case. Unlike RocksDB, our system delivers consistent performance by ensuring reads and writes require a constant number of disk operations, regardless of data size. The result? Faster, more reliable performance tailored to Qdrant’s needs.
+To solve this, we built a **custom storage backend** optimized for our specific use case. Unlike RocksDB, our system delivers consistent performance by ensuring reads and writes require a constant number of disk operations, regardless of data size. As a result, you will get faster and reliable performance - free from latency-spikes.
 
 ### Our New Storage Architecture
 
@@ -413,6 +391,7 @@ Furthermore, there is an additional structure which tracks gaps in regions of th
 **The Tracker Layer** is in charge of fast lookups, it directly links the IDs of the points to the place where the data is located.
 
 ## Get Started with Qdrant
+![get-started](/blog/qdrant-1.13.x/image_1.png)
 
 The easiest way to reach that **Hello World** moment is to [**try vector search in a live cluster**](/documentation/quickstart-cloud/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
 
