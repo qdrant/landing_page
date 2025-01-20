@@ -140,7 +140,6 @@ sudo systemctl restart docker
 ## AMD GPUs
 
 Docker images for AMD GPUs use the tag suffix `gpu-amd`, e.g., `qdrant/qdrant:v1.13.0-gpu-amd`. These images include all required dependencies.
-This docker image contains all required dependencies to run Qdrant with GPU support.
 
 To enable GPU for docker, you need an additional `--device /dev/kfd --device /dev/dri` flags. To enable GPU for Qdrant you need to set enable flag. Example of starting Qdrant with AMD GPU support:
 
