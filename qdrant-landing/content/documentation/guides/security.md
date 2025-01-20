@@ -148,7 +148,7 @@ Both API keys can be used simultaneously.
 *Available as of v1.9.0*
 
 For more complex cases, Qdrant supports granular access control with [JSON Web Tokens (JWT)](https://jwt.io/).
-This allows you to have tokens, which allow restricited access to a specific parts of the stored data and build [Role-based access control (RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control) on top of that.
+This allows you to create tokens which restrict access to data stored in your cluster, and build [Role-based access control (RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control) on top of that.
 In this way, you can define permissions for users and restrict access to sensitive endpoints.
 
 To enable JWT-based authentication in your own Qdrant instance you need to specify the `api-key` and enable the `jwt_rbac` feature in the configuration:
