@@ -4,7 +4,7 @@ weight: 14
 partition: build
 ---
 
-![agentic-rag-camelai-astronaut](/documentation/examples//agentic-rag-camelai-discord/astronaut-main.png)
+![agentic-rag-camelai-astronaut](/documentation/examples/agentic-rag-camelai-discord/astronaut-main.png)
 
 # Agentic RAG Discord ChatBot with Qdrant, CAMEL-AI, & OpenAI
 
