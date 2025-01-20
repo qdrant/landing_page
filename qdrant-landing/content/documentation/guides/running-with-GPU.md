@@ -139,6 +139,12 @@ sudo systemctl restart docker
 
 ## AMD GPUs
 
+### Prerequisites
+
+Running Qdrant with AMD GPUs requires [ROCm](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/detailed-install.html) to be installed on your host.
+
+### Docker images with AMD GPU support
+
 Docker images for AMD GPUs use the tag suffix `gpu-amd`, e.g., `qdrant/qdrant:v1.13.0-gpu-amd`. These images include all required dependencies.
 
 To enable GPU for Docker, you need additional `--device /dev/kfd --device /dev/dri` flags. To enable GPU for Qdrant you need to set the enable flag. Here is an example:
