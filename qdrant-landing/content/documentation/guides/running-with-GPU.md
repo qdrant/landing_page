@@ -162,7 +162,7 @@ To ensure that the GPU was initialized correctly, you may check it in logs:
 2025-01-10T11:56:55.926504Z  INFO gpu::device: Create GPU device AMD Radeon Graphics (RADV GFX1103_R1)
 ```
 
-That’s it. In a basic scenario, there is nothing to do more.
+This concludes the setup. In a basic scenario, you won't need to configure anything else.
 
 
 ## Known limitations
