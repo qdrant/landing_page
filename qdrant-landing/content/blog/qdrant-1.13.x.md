@@ -34,7 +34,7 @@ This new feature reduces indexing times, making it a game-changer for projects w
 
 Our custom implementation of GPU-accelerated HNSW indexing **is built entirely in-house**. Unlike solutions that depend on third-party libraries, our approach is vendor-agnostic, meaning it works seamlessly with any modern GPU that supports **Vulkan API**. This ensures broad compatibility and flexibility for a wide range of systems.
 
-*Qdrant's new AMD Docker Image running on SteamDeck with an AMD Van Gogh GPU:*
+*Here is a picture of us, running Qdrant with GPU support on a SteamDeck (AMD Van Gogh GPU):*
 
 {{< figure src="/blog/qdrant-1.13.x/gpu-test.jpg" alt="Qdrant on SteamDeck" caption="Qdrant on SteamDeck with AMD GPU" >}}
 
@@ -46,12 +46,12 @@ This experiment didn't require any changes to the codebase, and everything worke
 
 **Qdrant doesn't require high-end GPUs** to achieve significant performance improvements. Let's take a look at some benchmark results for common GPU machines:
 
-| **Configuration**            | **With GPU (s)** | **Without GPU (s)** | **Price per Instance (USD/hour)** |
-|-------------------------------|-------------------|----------------------|------------------------------------|
-| 8 vCPU / AMD Radeon Pro V520 | 33.066           | 94.733              | $0.54                             |
-| 8 vCPU / Nvidia T4           | 18.801           | 97.709              | $0.51                             |
-| 8 vCPU / Nvidia L4           | 12.389           | 99.944              | $0.85                             |
-| 4 vCPU / Nvidia T4           | 19.333           | 221.933             | $0.38                             |
+| **Configuration**            | **With GPU (s)** | **Without GPU (s)** | **Price per Instance (USD/hour)** | **Price per Instance (USD/month)** |
+|------------------------------|------------------|---------------------|-----------------------------------|------------------------------------|
+| 8 vCPU / AMD Radeon Pro V520 | 33.066           | 94.733              | $0.54                             | $394.20                            |
+| 8 vCPU / Nvidia T4           | 18.801           | 97.709              | $0.51                             | $372.30                            |
+| 8 vCPU / Nvidia L4           | 12.389           | 99.944              | $0.85                             | $620.50                            |
+| 4 vCPU / Nvidia T4           | 19.333           | 221.933             | $0.38                             | $277.40                            |
 
 **Additional Benefits:**
 
@@ -84,7 +84,7 @@ This was particularly challenging given that vector data has very high entropy, 
 
 **How We Did It:**
 
-To implement this feature, we not only had to modify the code in Qdrant itself but also introduce changes to the upstream [**tar-rs**](https://github.com/alexcrichton/tar-rs/pulls?q=is%3Apr+author%3Axzfc+is%3Aclosed) library, a Rust library for working with tar archives.
+To implement this feature, we not only had to modify the code in Qdrant itself but also introduce changes to the upstream [**tar-rs**](https://github.com/alexcrichton/tar-rs/pulls?q=is%3Apr+author%3Axzfc+is%3Aclosed) library, a Rust library used to work with tar archives.
 
 The introduction of streaming support finally brings tar (short for “tape archive”), a format historically designed for tape streamers, back to its original purpose.
 
@@ -232,21 +232,15 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 
 ![hnsw-graph-compression](/blog/qdrant-1.13.x/image_3.png)
 
-We’re always looking for ways to make your search experience faster and more efficient. That’s why we are introducing a new optimization method for our HNSW graph technology: [**Delta Encoding**](https://en.wikipedia.org/wiki/Delta_encoding). This improvement makes your searches lighter on memory without sacrificing speed.
+We’re always looking for ways to make your search experience faster and more efficient. 
+That’s why we are introducing a new optimization method for our HNSW graph technology: [**Delta Encoding**](https://en.wikipedia.org/wiki/Delta_encoding). 
+This improvement makes your searches lighter on memory without sacrificing speed.
 
 **Delta Encoding** is a clever way to compress data by storing only the differences (or “deltas”) between values. It’s commonly used in search engines (*for the classical inverted index*) to save space and improve performance. We’ve now [**adapted this technique**](https://github.com/qdrant/qdrant/pull/5487) for the HNSW graph structure that powers Qdrant’s search.
 
-> With **Delta Encoding**, the memory needed to store your data’s graph structure can be reduced by up to 30%. 
+In contrast with traditional compression algorithms, like gzip or lz4, **Delta Encoding** requires very little CPU overhead for decompression, which makes it a perfect fit for the HNSW graph links. 
 
-The best part? This optimization doesn’t slow down your searches. You’ll experience the same lightning-fast results you’re used to, but with a smaller memory footprint.
-
-### How Delta Encoding Works
-
-Unlike traditional compression methods like gzip, which can be resource-intensive to decompress, **Delta Encoding** is designed to be lightweight. It works seamlessly in the background, minimizing the strain on your system while keeping performance at its peak.
-
-1. Imagine your data is represented as a series of connected points (a graph).
-2. **Delta Encoding** compresses this graph by storing only the necessary information about the differences between points.
-3. The result is a smaller, more efficient structure that’s quick to access.
+> Our experiments didn't observe any measurable performance degradation. However, the memory footprint of the HNSW graph was **reduced by up to 30%**.
 
 *For more general info, read about [**Indexing and Data Structures in Qdrant**](/documentation/concepts/indexing/)*
 
@@ -388,7 +382,7 @@ client.Scroll(context.Background(), &qdrant.ScrollPoints{
 	},
 })
 ```
-This feature makes it easier to manage and query collections with heterogeneous data. It give you more flexibility and control over your vector search workflows.
+This feature makes it easier to manage and query collections with heterogeneous data. It will give you more flexibility and control over your vector search workflows.
 
 *To dive deeper into filtering by named vectors, check out the [**Filtering Documentation**](/documentation/concepts/filtering/#has-vector)*
 
