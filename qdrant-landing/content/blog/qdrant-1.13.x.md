@@ -256,7 +256,7 @@ This makes it easy to search for points based on the presence of specific vector
 
 ### Create a Collection with Named Vectors
 
-Upon collection creation, you define named vector types, such as `image` or `text`:
+Upon collection [creation](/documentation/concepts/collections/#collection-with-multiple-vectors), you define named vector types, such as `image` or `text`:
 
 ```http
 PUT /collections/{collection_name}
