@@ -96,7 +96,7 @@ docker run \
 
 To ensure that the GPU was initialized correctly, you may check it in logs. First Qdrant prints all found GPU devices without filtering and then prints list of all created devices:
 
-```
+```text
 2025-01-13T11:58:29.124087Z  INFO gpu::instance: Foung GPU device: NVIDIA GeForce RTX 3090    
 2025-01-13T11:58:29.124118Z  INFO gpu::instance: Foung GPU device: llvmpipe (LLVM 15.0.7, 256 bits)    
 2025-01-13T11:58:29.124138Z  INFO gpu::device: Create GPU device NVIDIA GeForce RTX 3090    
@@ -113,27 +113,27 @@ If your GPU is not detected in Docker, make sure your driver and `nvidia-contain
 Verify Vulkan API visibility in the Docker container using:
 
 
-```
+```bash
 docker run --rm --gpus=all qdrant/qdrant:gpu-nvidia-latest vulkaninfo --summary
 ```
 
 The system may show you an error message explaining why the NVIDIA device is not visible.
 Note that if your NVIDIA GPU is not visible in Docker, the Docker image cannot use libGLX_nvidia.so.0 on your host. Here is what an error message could look like:
 
-```
+```text
 ERROR: [Loader Message] Code 0 : loader_scanned_icd_add: Could not get `vkCreateInstance` via `vk_icdGetInstanceProcAddr` for ICD libGLX_nvidia.so.0
 WARNING: [Loader Message] Code 0 : terminator_CreateInstance: Failed to CreateInstance in ICD 0. Skipping ICD.
 ```
 
 To resolve errors, update your NVIDIA container runtime configuration:
 
-```
+```bash
 sudo nano /etc/nvidia-container-runtime/config.toml
 ```
 
 Set `no-cgroups=false`, save the configuration, and restart Docker:
 
-```
+```bash
 sudo systemctl restart docker
 ```
 
