@@ -101,7 +101,7 @@ No, Qdrant requires full precision vectors for operations like reindexing, resco
 
 ### Is Qdrant compatible with CPUs or GPUs for vector computation?
 
-Qdrant primarily relies on CPU acceleration for scalability and efficiency, with no current support for GPU acceleration.
+Qdrant primarily relies on CPU acceleration for scalability and efficiency. However, we also support GPU-accelerated indexing on all major vendors.
 
 ### Do you guarantee compatibility across versions?
 
