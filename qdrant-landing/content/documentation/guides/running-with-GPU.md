@@ -7,7 +7,7 @@ weight: 10
 
 Starting from version v1.13.0, Qdrant offers support for GPU acceleration. 
 
-GPU support is not included into the default Qdrant binary, as it requires additional dependencies and libraries. Instead, we provide separate Docker images with GPU support.
+However, GPU support is not included in the default Qdrant binary due to additional dependencies and libraries. Instead, you will need to use dedicated Docker images with GPU support.
 
 
 ## Configuration
