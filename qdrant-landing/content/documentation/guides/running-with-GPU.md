@@ -78,7 +78,7 @@ Most AI or CUDA images on Amazon/GCP come pre-configured with the NVIDIA contain
 
 ### Docker images with NVidia GPU support
 
-Nvidia docker images have the same tag as Qdrant but with `gpu-nvidia` suffix, for example `qdrant/qdrant:v1.13.0-gpu-nvidia`.
+Docker images with NVIDIA GPU support use the tag suffix `gpu-nvidia`, e.g., `qdrant/qdrant:v1.13.0-gpu-nvidia`. These images include all necessary dependencies.
 This docker image contains all required dependencies to run Qdrant with GPU support.
 
 To enable GPU for docker, you need an additional `--gpus=all` flag. To enable GPU for Qdrant you need to set enable flag from settings. Example of starting Qdrant with NVidia GPU support:
