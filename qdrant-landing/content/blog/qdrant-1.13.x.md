@@ -1,5 +1,5 @@
 ---
-title: "Qdrant 1.13"
+title: "Qdrant 1.13 - GPU Indexing, Snapshot Streaming & Strict Mode"
 draft: false
 short_description: ""
 description: "" 
@@ -11,94 +11,63 @@ featured: true
 tags:
 ---
 
-[**Qdrant 1.13.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.13.0) Let's look at major new features and a few minor additions:
+[**Qdrant 1.13.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.13.0) Let's look at the main features for this version:
 
-**GPU Indexing:** Add GPU support for HNSW super fast indexing.</br>
-**Streaming Snapshots:** Create snapshots on the fly without putting them on disk first.</br>
-**Strict Mode:** Restrict certain type of operations on collections</br>
+**Snapshot Streaming:** Generate dynamically without writing them to disk first.</br>
+**Strict Mode:** Enforce operation restrictions on collections for enhanced control.</br>
+**HNSW Graph Compression:** Reduce storage use via HNSW Delta Encoding.</br>
 
-**HNSW Graph Optimization:** Compress HNSW graph links.</br>
-**New storage for Payloads and Sparse Vectors:** A replacement of general-purpose RocksDB with our custom storage implementation, which allows reads and writes in constant number of disk operations</br>
-**Named Vector Filtering:** Add Has Vector filtering condition, check if a named vector is present on a point.</br>
+**Named Vector Filtering:** New `has_vector` filtering condition for named vectors.</br>
+**Custom Storage:** For constant-time reads/writes of payloads and sparse vectors.</br>
 
-
-## GPU Accelerated Indexing
-
-Qdrant introduces GPU-accelerated HNSW indexing to dramatically reduce index construction times.
-This feature is optimized for large datasets where indexing speed is critical. 
-
-> The new feature delivers speeds up to 10x faster than CPU-based methods for the equivalent hardware price.
-
-We introduce our custom implementation of GPU-accelerated HNSW indexing,
- which doesn't rely on any third-party libraries, and therefore is not limited to any specific GPU vendor.
-The only requirement is a GPU with Vulkan support, which is available on most modern GPUs.
-
-Here is a picture of us, running Qdrant with GPU support on a SteamDeck (AMD Van Gogh GPU):
-
-
-{{< figure src="/blog/qdrant-1.13.x/steamdeck.jpg" alt="Qdrant on SteamDeck" caption="Qdrant on SteamDeck with AMD GPU" >}}
-
-This experiment didn't require any changes to the codebase, everything worked with the default docker image.
-
-As of right now this solution supports only on-premises deployments, but we will introduce cloud shortly.
-
-**Highlights**
-
-- Multi-GPU Support: Index segments concurrently to handle large-scale workloads.
-- Hybrid Compatibility: Seamlessly integrate GPU-enabled and CPU-only nodes in the same cluster.
-- Hardware Flexibility: Doesn't require high-end GPUs to achieve significant performance improvements.
-- Full Feature Support: GPU indexing supports all quantization options and datatypes implemented in Qdrant.
-- Large-Scale Benefits: Fast indexing unlocks larger size of segments, which leads to higher PRS on the same hardware.
-
-### Benchmarks on Common GPUs
-
-TABLE HERE
-
-### Using Qdrant on GPU Instances
-Setup is simple with pre-configured Docker images for GPU environments. 
-Users can enable GPU indexing with minimal configuration changes. 
-Logs clearly indicate GPU detection and usage for transparency.
-
-Read more about [GPU Indexing](https://qdrant.tech)
+**GPU Accelerated Indexing:** Fast HNSW indexing with architecture-free GPU support.</br>
 
 ## Snapshot Streaming
 
-Snapshots plays an important role in data workflow, and especially they are important in the context of distributed deployment.
+![snapshot-streaming](/blog/qdrant-1.13.x/image_1.png)
 
-Snapshots are used to transfer points with constructed indexes between nodes.
-It happens when a new node joins the cluster, or when a node needs synchronization with the rest of the cluster.
+[**Snapshots**](/documentation/concepts/snapshots/) are key to data workflows, especially in distributed setups. They help sync nodes by transferring points and indexes when new nodes join or existing ones need updates.
 
-Before v1.13, shapshot-based transfer required an extra consideration before using, as it was necessary to ensure, that the machine has enough disk space to store snapshot file.
-It is especially challenging, if you take into account that vector data has very high entropy, and therefore is hard to compress.
+> **Snapshots** are used to transfer points with constructed indexes between nodes.
+This happens when a new node joins the cluster, or when a node needs synchronization with the rest of the cluster.
 
-Streamable snapshots allows to create snapshots on the fly, without storing them on disk. That significantly reduces requirements for disk space and simplifies the process of transferring data between nodes. In addition, it makes the transfer process faster deployments with slow disks.
+- **The Old Way:** Before v1.13, snapshots required ample disk space to store high-entropy vector data, which is tough to compress. This made deployments cumbersome and slow on machines with limited disk speed or capacity.
 
-In order to implement this feature, we had to not only change code in Qdrant itself, but also to introduce changes in upstream of [tar-rs](https://github.com/alexcrichton/tar-rs/pulls?q=is%3Apr+author%3Axzfc+is%3Aclosed) library, a Rust library for working with tar archives.
+- **The New Way:** Now snapshots can be streamed. Instead of saving files to disk, snapshots are created and transferred on the fly. This slashes disk space needs and speeding up the process, even on slower hardware.
 
-Introduction of streaming support finally bringings tar (aka tape archive), a format historically designed to put data on tape streamers, to its historical roots.
+**How We Did It:**
 
+Implementing streamable snapshots required **significant changes to Qdrant’s core functionality**. Additionally, we made contributions to the [**tar-rs**](https://github.com/alexcrichton/tar-rs/pulls?q=is%3Apr+author%3Axzfc+is%3Aclosed) library, a Rust-based tool for handling tar archives. These updates extended tar’s streaming capabilities, aligning the format with its original purpose of supporting tape streamers.
+
+With the introduction of streaming support, tar (short for “tape archive”) returns to its roots as a format designed for efficient data streaming. 
+
+> This enhancement not only honors its historical legacy but also modernizes it for today’s high-performance distributed systems.
+
+*Read more in our documentation on [**Database Snapshots**](/documentation/concepts/snapshots/).* 
 
 ## Strict Mode
 
-Qdrant’s Strict Mode introduces operational controls to safeguard resource usage and maintain consistent performance in shared, serverless environments. 
-By capping the computational cost of operations like unindexed filtering, batch sizes, and search parameters (e.g., hnsw_ef and oversampling), it prevents inefficient usage patterns that could overload the service. 
-Additional limits on payload sizes, filter conditions, and timeouts ensure that even high-demand applications remain predictable and responsive. 
+![strict-mode](/blog/qdrant-1.13.x/image_2.png)
 
-Strict Mode is configured at the collection level via `strict_mode_config`, this feature allows users to define thresholds while preserving backward compatibility. 
-Newly created collections default to strict mode, enforcing compliance by design and balancing workloads across tenants.
+**Strict Mode** ensures consistent performance in shared, serverless deployments by enforcing operational controls. It limits computationally intensive operations like unindexed filtering, batch sizes, and search parameters (`hnsw_ef`, `oversampling`) This prevents inefficient usage that could overload your system.
 
-Strict Mode also enhances usability by providing detailed error messages when requests exceed defined limits, offering clear guidance on resolution steps. 
-The robust verification system guarantees that all operations adhere to the configured constraints, making Qdrant an excellent choice for multi-tenant and serverless deployments. 
-Strict Mode mitigates the noisy neighbor problem and ensures efficient resource allocation. 
+Additional safeguards, including limits on payload sizes, filter conditions, and timeouts, keep high-demand applications fast and reliable. This feature is configured via `strict_mode_config`, and it allows collection-level customization while maintaining backward compatibility.
+
+> New collections will default to **Strict Mode**, ensuring compliance by design and balancing workloads across tenants. 
+
+This feature also enhances usability by providing **detailed error messages** when requests exceed defined limits. The system will give you clear guidance on resolution steps. 
+
+**Strict Mode** solves the “*noisy neighbor*” problem and optimizes resource allocation, making Qdrant a top choice for multi-tenant and serverless vector search.
 
 ### Using Strict Mode
-See [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the `strict_mode_config` parameters.
 
-Upon crossing a limit, the server will return a client side error with the information about the limit that was crossed.
+To configure **Strict Mode**, refer to the [**schema definitions**](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config`) for all available `strict_mode_config` parameters.
 
-As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically.
+When a defined limit is crossed, Qdrant responds with a client-side error that includes details about the specific limit exceeded. This can make troubleshooting much simpler. 
 
-The `strict_mode_config` can be enabled when creating a collection, for instance below to active the `unindexed_filtering_retrieve` limit.
+> The `enabled` field in the configuration acts as a dynamic toggle, allowing you to activate or deactivate Strict Mode as needed.
+
+In this example we enable **Strict Mode** when creating a collection to activate the `unindexed_filtering_retrieve` limit:
 
 ```http
 PUT /collections/{collection_name}
@@ -210,229 +179,45 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	},
 })
 ```
+> You may also use the `PATCH` request to enable Strict Mode on an existing collection.
 
-or enabled later on an existing collection.
-
-```http
-PATCH /collections/{collection_name}
-{
-    "strict_mode_config": {
-        "enabled": true,
-        "unindexed_filtering_retrieve": true
-    }
-}
-```
-
-
-```bash
-curl -X PATCH http://localhost:6333/collections/{collection_name} \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "strict_mode_config": {
-        "enabled": true,
-        "unindexed_filtering_retrieve": true
-    }
-  }'
-```
-
-```python
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.update_collection(
-    collection_name="{collection_name}",
-    strict_mode_config=models.StrictModeConfig(enabled=True, unindexed_filtering_retrieve=True),
-)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.updateCollection("{collection_name}", {
-  strict_mode_config: {
-    enabled: true,
-    unindexed_filtering_retrieve: true,
-  },
-});
-```
-
-```rust
-use qdrant_client::qdrant::{StrictModeConfigBuilder, UpdateCollectionBuilder};
-
-client
-    .update_collection(
-        UpdateCollectionBuilder::new("{collection_name}").strict_mode_config(
-            StrictModeConfigBuilder::default().enabled(true).unindexed_filtering_retrieve(true),
-        ),
-    )
-    .await?;
-```
-
-```java
-import io.qdrant.client.grpc.Collections.StrictModeConfigBuilder;
-import io.qdrant.client.grpc.Collections.UpdateCollection;
-
-client.updateCollectionAsync(
-    UpdateCollection.newBuilder()
-        .setCollectionName("{collection_name}")
-        .setStrictModeConfig(
-            StrictModeConfig.newBuilder().setEnabled(true).setUnindexedFilteringRetrieve(true).build())
-        .build());
-```
-
-```csharp
-using Qdrant.Client;
-using Qdrant.Client.Grpc;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.UpdateCollectionAsync(
-	collectionName: "{collection_name}",
-	strictModeConfig: new StrictModeConfig { Enabled = true, UnindexedFilteringRetrieve = true }
-);
-```
-
-```go
-import (
-	"context"
-
-	"github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
-client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
-	CollectionName: "{collection_name}",
-	StrictModeConfig: &qdrant.StrictModeConfig{
-        Enabled: qdrant.PtrOf(true),
-		UnindexedFilteringRetrieve: qdrant.PtrOf(true),
-	},
-})
-```
-
-It can be disabled on an existing collection.
-
-```http
-PATCH /collections/{collection_name}
-{
-    "strict_mode_config": {
-        "enabled": false
-    }
-}
-```
-
-```bash
-curl -X PATCH http://localhost:6333/collections/{collection_name} \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "strict_mode_config": {
-        "enabled": false,
-    }
-  }'
-```
-
-```python
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.update_collection(
-    collection_name="{collection_name}",
-    strict_mode_config=models.StrictModeConfig(enabled=False),
-)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.updateCollection("{collection_name}", {
-  strict_mode_config: {
-    enabled: false,
-  },
-});
-```
-
-```rust
-use qdrant_client::qdrant::{StrictModeConfigBuilder, UpdateCollectionBuilder};
-
-client
-    .update_collection(
-        UpdateCollectionBuilder::new("{collection_name}").strict_mode_config(
-            StrictModeConfigBuilder::default().enabled(false),
-        ),
-    )
-    .await?;
-```
-
-```java
-import io.qdrant.client.grpc.Collections.StrictModeConfigBuilder;
-import io.qdrant.client.grpc.Collections.UpdateCollection;
-
-client.updateCollectionAsync(
-    UpdateCollection.newBuilder()
-        .setCollectionName("{collection_name}")
-        .setStrictModeConfig(
-            StrictModeConfig.newBuilder().setEnabled(false).build())
-        .build());
-```
-
-```csharp
-using Qdrant.Client;
-using Qdrant.Client.Grpc;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.UpdateCollectionAsync(
-	collectionName: "{collection_name}",
-	strictModeConfig: new StrictModeConfig { Enabled = false }
-);
-```
-
-```go
-import (
-	"context"
-
-	"github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
-client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
-	CollectionName: "{collection_name}",
-	StrictModeConfig: &qdrant.StrictModeConfig{
-        Enabled: qdrant.PtrOf(false),
-	},
-})
-```
-
-Read more about [Strict Mode](/documentation/guides/administration/#strict-mode)
+*Read more about Strict Mode in the [**Database Administration Guide**](/documentation/guides/administration/#strict-mode)*
 
 ## HNSW Graph Compression
 
-Search engines rely on a variety of optimization, dedicates to speed up the search or reduce the memory footprint.
-One of the popular optimization technique in classical inverted index is [Delta Encoding](https://en.wikipedia.org/wiki/Delta_encoding).
+![hnsw-graph-compression](/blog/qdrant-1.13.x/image_3.png)
 
-Turns out, with some [custom modifications](https://github.com/qdrant/qdrant/pull/5487), we can apply the same technique to HNSW graph links.
+We’re always looking for ways to make your search experience faster and more efficient. That’s why we are introducing a new optimization method for our HNSW graph technology: [**Delta Encoding**](https://en.wikipedia.org/wiki/Delta_encoding). This improvement makes your searches lighter on memory without sacrificing speed.
 
-In the contrast to traditional compression algorithms, like gzip or lz4, delta encoding requires very little CPU overhead for decompression, which makes it a perfect fit for the HNSW graph links. As a result of out experiments, we didn't observe any measurable performance degradation, while the memory footprint of the HNSW graph was reduced by up to 30%.
+**Delta Encoding** is a clever way to compress data by storing only the differences (or “deltas”) between values. It’s commonly used in search engines (*for the classical inverted index*) to save space and improve performance. We’ve now [**adapted this technique**](https://github.com/qdrant/qdrant/pull/5487) for the HNSW graph structure that powers Qdrant’s search.
 
+> With **Delta Encoding**, the memory needed to store your data’s graph structure can be reduced by up to 30%. 
 
-## Named Vector Filtering
+The best part? This optimization doesn’t slow down your searches. You’ll experience the same lightning-fast results you’re used to, but with a smaller memory footprint.
 
-This condition enables filtering by the presence of a given named vector on a point.
+### How Delta Encoding Works
 
-For example, if we have two named vector in our collection.
+Unlike traditional compression methods like gzip, which can be resource-intensive to decompress, **Delta Encoding** is designed to be lightweight. It works seamlessly in the background, minimizing the strain on your system while keeping performance at its peak.
+
+1. Imagine your data is represented as a series of connected points (a graph).
+2. **Delta Encoding** compresses this graph by storing only the necessary information about the differences between points.
+3. The result is a smaller, more efficient structure that’s quick to access.
+
+*For more general info, read about [**Indexing and Data Structures in Qdrant**](/documentation/concepts/indexing)*
+
+## Filter by Named Vectors
+
+![filter-named-vectors](/blog/qdrant-1.13.x/image_4.png)
+
+In Qdrant, you can store multiple vectors of different sizes and types in a single data point. This is useful when you have to representing data with multiple embeddings, such as image, text, or video features.
+
+> We previously introduced this feature as [**Named Vectors**](/documentation/concepts/vectors/#named-vectors). Now, you can filter points by checking if a specific named vector exists.
+
+This makes it easy to search for points based on the presence of specific vectors. For example, *if your collection includes image and text vectors, you can filter for points that only have the image vector defined*.
+
+### Create a Collection with Named Vectors
+
+Upon collection creation, you define named vector types, such as `image` or `text`:
 
 ```http
 PUT /collections/{collection_name}
@@ -453,12 +238,9 @@ PUT /collections/{collection_name}
     },
 }
 ```
+### Filter by Named Vector
 
-Some points in the collection might have all vectors, some might have only a subset of them.
-
-<aside role="status">If your collection does not have named vectors, use an empty (<code>""</code>) name.</aside>
-
-This is how you can search for points which have the dense `image` vector defined:
+Some points might include both **image** and **text** vectors, while others might include just one. With this new feature, you can easily filter for points that specifically have the **image** vector defined.
 
 ```http
 POST /collections/{collection_name}/points/scroll
@@ -561,32 +343,91 @@ client.Scroll(context.Background(), &qdrant.ScrollPoints{
 	},
 })
 ```
-Read more about [Named Vector Filtering](https://qdrant.tech)
+This feature makes it easier to manage and query collections with heterogeneous data. It give you more flexibility and control over your vector search workflows.
 
-## New storage backend
+*To dive deeper into filtering by named vectors, check out the [**Filtering Documentation**](/documentation/concepts/filtering/#has-vector)*
 
-Historically, Qdrant used RocksDB as a storage backend for payloads and sparse vectors.
-RocksDB is a general-purpose key-value storage, which is optimized for random reads and writes. 
+## Custom Storage Engine
 
-But in the context of Qdrant, RocksDB's general-purpose nature was not the best fit.
-For example, RocksDB assumes that both keys and values in the storage can be an arbitrary bytes of arbitrary length.
+![custom-storage-engine](/blog/qdrant-1.13.x/image_5.png)
 
-Because of those relaxed assumptions, RocksDB requires an additional step in the lifecycle of the data: compaction.
+When Qdrant started, we used **RocksDB** as the storage backend for payloads and sparse vectors. RocksDB, known for its versatility and ability to handle random reads and writes, seemed like a solid choice. But as our needs evolved, its “*general-purpose*” design began to show cracks.
 
-Compaction happens in the background, but under heavy write load, it can lead to significant performance degradation.
-In case of Qdrant, we observed timeout errors happening randomly during an upload of a large number of points.
+> RocksDB is built to handle arbitrary keys and values of any size, but this flexibility comes at a cost. 
 
-As a solution, we introduced a custom storage backend, which is optimized for Qdrant's specific use case.
-The main characteristic of this new storage is that it allows reads and writes in a constant number of disk operations, regardless of the size of the data.
+A key example is compaction, a process that reorganizes data on disk to maintain performance. **Under heavy write loads, compaction can become a bottleneck**, causing significant slowdowns. For Qdrant, this meant random timeout errors during large uploads—a frustrating roadblock.
 
-Here is how it works:
+To solve this, we built a **custom storage backend** optimized for our specific use case. Unlike RocksDB, our system delivers consistent performance by ensuring reads and writes require a constant number of disk operations, regardless of data size. The result? Faster, more reliable performance tailored to Qdrant’s needs.
 
-{{< figure src="/blog/qdrant-1.13.x/storage.png" alt="New Qdrant Storage Backend" caption="New Qdrant Storage Backend" >}}
+### Our New Storage Architecture
 
-Storage is devided in tree layers.
+Storage is divided into three layers. The **Data Layer**, **Mask Layer** and **Tracker Layer**.
 
-- **Data Layer** - Contains of the fixed-size blocks, which contain the actual data. The size of the block is a configuration parameter, which can be adjusted depending on the workload. Each record occupies required number of blocks. If data size exceeds the block size, it is split into multiple blocks. If data size is less than the block size, it still occupies the whole block.
+{{< figure src="/blog/qdrant-1.13.x/storage.png" alt="Qdrant's New Storage Backend" caption="Qdrant's New Storage Backend" >}}
 
-- **Mask Layer** - This layer contains a bit-mask, which indicates which blocks are occupied and which are free. The size of the mask is equal to the number of blocks in the data layer. For example, if the block size is 128 bytes, bit-mask layer will contain 1 bit for each 128 bytes of the data layer. Which means the overhead for the mask layer is 1/1024 of the data layer. Is saved on disk and doesn't require to be loaded into memory.
+**The Data Layer** consists of fixed-size blocks that store the actual data. The block size is a configurable parameter that can be adjusted based on the workload. Each record occupies the required number of blocks. If the data size exceeds the block size, it is split into multiple blocks. If the data size is smaller than the block size, it still occupies an entire block.
 
-- **Tracker Layer** - Final layer of the storage, which contains information about mask regions. Size of each bitmask region is configured to match the size of the memory page. This layer is used to quickly find the region of the mask layer, which contains enough free blocks to store the data. This layer have to be loaded into memory, but it contains only minimal information about each region. Overall, the requirement is to keep 1/million of the data layer size in memory. That is one KB of RAM for a GB of data.
+**The Mask Layer** contains a bitmask that indicates which blocks are occupied and which are free. The size of the mask corresponds to the number of blocks in the Data Layer. For instance, if the block size is 128 bytes, the bitmask will allocate 1 bit for every 128 bytes in the Data Layer. This results in an overhead of 1/1024 of the Data Layer size. The bitmask is stored on disk and does not need to be loaded into memory.
+
+**The Tracker Layer** is the final storage layer, holding metadata about regions of the Mask Layer. Each bitmask region corresponds to the size of a memory page, which is also configurable. This layer is used to quickly identify regions of the Mask Layer that have sufficient free blocks to store data. The Tracker Layer must be loaded into memory, but it only contains minimal information about each region. As a result, the memory requirement is approximately 1/1,000,000 of the Data Layer size, or 1 KB of RAM per GB of data.
+
+## GPU Accelerated Indexing 
+
+![gpu-accelerated-indexing](/blog/qdrant-1.13.x/image_6.png)
+
+We are making it easier for you to handle even **the most demanding workloads**.
+
+Qdrant now supports GPU-accelerated HNSW indexing **on all architectures, including NVIDIA, AMD, Intel**. This new feature dramatically reduces indexing times, making it a game-changer for projects where speed truly matters.
+
+> Indexing over GPU now delivers speeds up to 10x faster than CPU-based methods for the equivalent hardware price.
+
+Our custom implementation of GPU-accelerated HNSW indexing **is built entirely in-house**. Unlike solutions that depend on third-party libraries, our approach is vendor-agnostic, meaning it works seamlessly with any modern GPU that supports **Vulkan API**. This ensures broad compatibility and flexibility for a wide range of systems.
+
+*Here is a picture of us, running Qdrant with GPU support on a SteamDeck (AMD Van Gogh GPU):*
+
+{{< figure src="/blog/qdrant-1.13.x/gpu-test.jpg" alt="Qdrant on SteamDeck" caption="Qdrant on SteamDeck with AMD GPU" >}}
+
+This experiment didn't require any changes to the codebase, and everything worked with the default Docker image.
+
+> As of right now this solution supports only on-premises deployments, but we will introduce support for Qdrant Cloud shortly.
+
+### Mixed Resource Architecture
+
+You can easily integrate **GPU-enabled and CPU-only nodes** in the same cluster. This feature was built in such a way that you can configure multiple low-powered CPU machines to handle vector search and dedicate one GPU machine just for indexing. 
+
+![composite-cluster](/blog/qdrant-1.13.x/composite-cluster.png)
+
+{{< figure src="/blog/qdrant-1.13.x/composite-cluster.png" alt="Architecture combining GPU and CPU nodes" caption="Architecture combining GPU and CPU nodes." >}}
+
+### Benchmarks on Common GPUs
+
+**Qdrant doesn't require high-end GPUs** to achieve significant performance improvements. Let's take a look at some benchmark results for common GPU machines:
+
+| **placeholder** | **placeholder** |
+|-------------|-------------|
+| placeholder | placeholder |
+| placeholder | placeholder |
+| placeholder | placeholder |
+| placeholder | placeholder |
+
+**Additional Benefits:**
+
+- Fast indexing unlocks larger size of segments, which leads to **higher PRS on the same hardware**.
+
+- GPU indexing **supports all quantization options** and datatypes implemented in Qdrant.
+
+### Usage Instructions 
+Setup is simple with [**pre-configured Docker images**](https://hub.docker.com/r/qdrant/qdrant/tags) for GPU environments. 
+Users can enable GPU indexing with minimal configuration changes.
+
+> Logs will clearly indicate GPU detection and usage for transparency.
+
+*Read more about this feature in the [**GPU Indexing Documentation**](https://qdrant.tech)*
+
+## Get Started with Qdrant
+
+The easiest way to reach that **Hello World** moment is to [**try vector search in a live cluster**](/documentation/quickstart-cloud/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
+
+**New features, like named vector filtering, can be tested in the Qdrant Dashboard:**
+
+![qdrant-filtering-tutorial](/articles_data/vector-search-filtering/qdrant-filtering-tutorial.png)
