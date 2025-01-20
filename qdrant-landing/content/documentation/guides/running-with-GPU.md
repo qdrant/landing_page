@@ -117,7 +117,7 @@ Verify Vulkan API visibility in the Docker container using:
 docker run --rm --gpus=all qdrant/qdrant:gpu-nvidia-latest vulkaninfo --summary
 ```
 
-You may find an error message with an explanation of why the NVidia device is not visible.
+The system may show you an error message explaining why the NVIDIA device is not visible.
 If your NVidia GPU is not visible in Docker, Docker image cannot use libGLX_nvidia.so.0 on your host. Example of an error message:
 
 ```
