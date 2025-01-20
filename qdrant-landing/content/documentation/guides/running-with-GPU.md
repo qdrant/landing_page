@@ -112,7 +112,6 @@ If your GPU is not detected in Docker, make sure your driver and `nvidia-contain
 
 Verify Vulkan API visibility in the Docker container using:
 
-To check that Vulkan API is visible in a docker container, try to run this command:
 
 ```
 docker run --rm --gpus=all qdrant/qdrant:gpu-nvidia-latest vulkaninfo --summary
