@@ -154,7 +154,7 @@ docker run \
 	qdrant/qdrant:gpu-amd-latest
 ```
 
-To ensure that the GPU was initialized correctly, you may check it in logs:
+Check logs to confirm GPU initialization. Example log output:
 
 ```text
 2025-01-10T11:56:55.926466Z  INFO gpu::instance: Foung GPU device: AMD Radeon Graphics (RADV GFX1103_R1)
