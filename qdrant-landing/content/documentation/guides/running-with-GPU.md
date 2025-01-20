@@ -169,7 +169,7 @@ That’s it. In a basic scenario, there is nothing to do more.
 
 * Only Lnux x86_64 is supported. Windows, MacOS, ARM and other platforms are not supported yet.
 
-* In current implementation, there is a limit of vector data, that can be processed by one GPU device in one indexing iteration - 16Gb.
+* **Memory Limits:** Each GPU can process up to 16GB of vector data per indexing iteration. 
 
 Due to this limitation, you should not create segments where either original vectors OR quantized vectors are larger than 16GB.
 
