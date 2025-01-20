@@ -106,7 +106,7 @@ In this example logs you may see that 2 devices were found: RTX 3090 and llvmpip
 
 That’s it. In a basic scenario, there is nothing to do more.
 
-### Troubleshoots
+### Troubleshooting NVIDIA GPUs
 
 If your GPU is not detected in docker, check first your driver and `nvidia-container-toolkit` versions.
 They both should be latest.
