@@ -64,7 +64,7 @@ For standalone usage, you can build Qdrant with GPU support by running the follo
 cargo build --release --features gpu
 ```
 
-To use GPUs, the device should support Vulkan API v1.3. That means Apple Silicon, Intel GPUs, CPU emulators, etc should work correctly.
+Ensure your device supports Vulkan API v1.3. This enables compatibility with Apple Silicon, Intel GPUs, and CPU emulators.
 
 ## NVIDIA GPUs
 
