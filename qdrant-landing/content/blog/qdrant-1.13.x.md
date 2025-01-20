@@ -13,41 +13,88 @@ tags:
 
 [**Qdrant 1.13.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.13.0) Let's look at the main features for this version:
 
+**GPU Accelerated Indexing:** Fast HNSW indexing with architecture-free GPU support.</br>
 **Snapshot Streaming:** Generate snapshots dynamically without writing to disk first.</br>
 **Strict Mode:** Enforce operation restrictions on collections for enhanced control.</br>
-**HNSW Graph Compression:** Reduce storage use via HNSW Delta Encoding.</br>
 
+**HNSW Graph Compression:** Reduce storage use via HNSW Delta Encoding.</br>
 **Named Vector Filtering:** New `has_vector` filtering condition for named vectors.</br>
 **Custom Storage:** For constant-time reads/writes of payloads and sparse vectors.</br>
 
-**GPU Accelerated Indexing:** Fast HNSW indexing with architecture-free GPU support.</br>
+## GPU Accelerated Indexing 
+
+![gpu-accelerated-indexing](/blog/qdrant-1.13.x/image_6.png)
+
+We are making it easier for you to handle even **the most demanding workloads**.
+
+Qdrant now supports GPU-accelerated HNSW indexing **on all architectures, including NVIDIA, AMD and Intel**. 
+This new feature reduces indexing times, making it a game-changer for projects where speed truly matters.
+
+> Indexing over GPU now delivers speeds up to 10x faster than CPU-based methods for the equivalent hardware price.
+
+Our custom implementation of GPU-accelerated HNSW indexing **is built entirely in-house**. Unlike solutions that depend on third-party libraries, our approach is vendor-agnostic, meaning it works seamlessly with any modern GPU that supports **Vulkan API**. This ensures broad compatibility and flexibility for a wide range of systems.
+
+*Qdrant's new AMD Docker Image running on SteamDeck with an AMD Van Gogh GPU:*
+
+{{< figure src="/blog/qdrant-1.13.x/gpu-test.jpg" alt="Qdrant on SteamDeck" caption="Qdrant on SteamDeck with AMD GPU" >}}
+
+This experiment didn't require any changes to the codebase, and everything worked with the default Docker image.
+
+> As of right now this solution supports only on-premises deployments, but we will introduce support for Qdrant Cloud shortly.
+
+### Benchmarks on Common GPUs
+
+**Qdrant doesn't require high-end GPUs** to achieve significant performance improvements. Let's take a look at some benchmark results for common GPU machines:
+
+| **Configuration**            | **With GPU (s)** | **Without GPU (s)** | **Price per Instance (USD/hour)** |
+|-------------------------------|-------------------|----------------------|------------------------------------|
+| 8 vCPU / AMD Radeon Pro V520 | 33.066           | 94.733              | $0.54                             |
+| 8 vCPU / Nvidia T4           | 18.801           | 97.709              | $0.51                             |
+| 8 vCPU / Nvidia L4           | 12.389           | 99.944              | $0.85                             |
+| 4 vCPU / Nvidia T4           | 19.333           | 221.933             | $0.38                             |
+
+**Additional Benefits:**
+
+- **Multi-GPU Support:** Index segments concurrently to handle large-scale workloads.
+- **Hybrid Compatibility:** Seamlessly integrate GPU-enabled and CPU-only nodes in the same cluster.
+- **Hardware Flexibility:** Doesn't require high-end GPUs to achieve significant performance improvements.
+- **Full Feature Support:** GPU indexing supports **all quantization options and datatypes** implemented in Qdrant.
+- **Large-Scale Benefits:** Fast indexing unlocks larger size of segments, which leads to **higher RPS on the same hardware**.
+
+### Usage Instructions 
+Setup is simple with [**pre-configured Docker images**](https://hub.docker.com/r/qdrant/qdrant/tags) for GPU environments. 
+Users can enable GPU indexing with minimal configuration changes.
+
+> Note: Logs will clearly indicate GPU detection and usage for transparency.
+
+*Read more about this feature in the [**GPU Indexing Documentation**](https://qdrant.tech)*
 
 ## Snapshot Streaming
 
 ![snapshot-streaming](/blog/qdrant-1.13.x/image_1.png)
 
-[**Snapshots**](/documentation/concepts/snapshots/) are key to data workflows, especially in distributed setups. 
-They help sync nodes by transferring points and indexes when new nodes join or when existing nodes need updates.
+[**Snapshots**](/documentation/concepts/snapshots/) play an important role in data workflows, especially in the context of distributed deployments.
 
-- **The Old Way:** Before v1.13, snapshots required ample disk space to store high-entropy vector data, which is tough to compress. This made deployments cumbersome and slow on machines with limited disk speed or capacity.
+They are used to transfer points with constructed indexes between nodes. This happens when a new node joins the cluster or when a node needs to synchronize with the rest of the cluster.
 
-- **The New Way:** Now snapshots can be streamed. Instead of saving files to disk, snapshots are created and transferred on the fly. This slashes disk space needs and speeds up the process, even on slower hardware.
+- **The Old Way:** Before v1.13, snapshot-based transfers required extra consideration, as it was necessary to ensure that the machine had enough disk space to store the snapshot file. 
+This was particularly challenging given that vector data has very high entropy, making it difficult to compress.
+
+- **The New Way:** Now you can create of snapshots on the fly without storing them on disk. This significantly reduces disk space requirements and simplifies the process of transferring data between nodes. Additionally, it accelerates deployments with slow disks.
 
 **How We Did It:**
 
-Implementing streamable snapshots required **significant changes to Qdrant’s core functionality**. Additionally, we made contributions to the [**tar-rs**](https://github.com/alexcrichton/tar-rs/pulls?q=is%3Apr+author%3Axzfc+is%3Aclosed) library, a Rust-based tool for handling tar archives. These updates extended the streaming capabilities, aligning the format with its original purpose of supporting tape streamers.
+To implement this feature, we not only had to modify the code in Qdrant itself but also introduce changes to the upstream [**tar-rs**](https://github.com/alexcrichton/tar-rs/pulls?q=is%3Apr+author%3Axzfc+is%3Aclosed) library, a Rust library for working with tar archives.
 
-With the introduction of streaming support, tar (short for “tape archive”) returns to its roots as a format designed for efficient data streaming. 
-
-> This enhancement not only honors its historical legacy but also modernizes it for today’s high-performance distributed systems.
+The introduction of streaming support finally brings tar (short for “tape archive”), a format historically designed for tape streamers, back to its original purpose.
 
 *Read more in our documentation on [**Database Snapshots**](/documentation/concepts/snapshots/).* 
 
-## Strict Mode
+## Strict Mode for Operational Control
 
 ![strict-mode](/blog/qdrant-1.13.x/image_2.png)
 
-**Strict Mode** ensures consistent performance in shared, serverless deployments by enforcing operational controls. It limits computationally intensive operations like unindexed filtering, batch sizes, and search parameters (`hnsw_ef`, `oversampling`) This prevents inefficient usage that could overload your system.
+**Strict Mode** ensures consistent performance in distributed deployments by enforcing operational controls. It limits computationally intensive operations like unindexed filtering, batch sizes, and search parameters (`hnsw_ef`, `oversampling`) This prevents inefficient usage that could overload your system.
 
 Additional safeguards, including limits on **payload sizes**, **filter conditions**, and **timeouts**, keep high-demand applications fast and reliable. This feature is configured via `strict_mode_config`, and it allows collection-level customization while maintaining backward compatibility.
 
@@ -366,60 +413,10 @@ Storage is divided into three layers. The **Data Layer**, **Mask Layer** and **T
 **The Data Layer** consists of fixed-size blocks that store the actual data. The block size is a configurable parameter that can be adjusted based on the workload. Each record occupies the required number of blocks. If the data size exceeds the block size, it is split into multiple blocks. If the data size is smaller than the block size, it still occupies an entire block.
 
 **The Mask Layer** contains a bitmask that indicates which blocks are occupied and which are free. The size of the mask corresponds to the number of blocks in the Data Layer. For instance, if the block size is 128 bytes, the bitmask will allocate 1 bit for every 128 bytes in the Data Layer. This results in an overhead of 1/1024 of the Data Layer size. The bitmask is stored on disk and does not need to be loaded into memory.
+
 Furthermore, there is an additional structure which tracks gaps in regions of the bitmask. This is to get an even smaller overhead against the data, which can be loaded into memory easily. Each region summarizes 1KB of bits in the bitmask, which represents a millionth scale of the Data Layer size, or 6 KB of RAM per GB of data.
 
 **The Tracker Layer** is in charge of fast lookups, it directly links the IDs of the points to the place where the data is located.
-
-## GPU Accelerated Indexing 
-
-![gpu-accelerated-indexing](/blog/qdrant-1.13.x/image_6.png)
-
-We are making it easier for you to handle even **the most demanding workloads**.
-
-Qdrant now supports GPU-accelerated HNSW indexing **on all architectures, including NVIDIA, AMD, Intel**. This new feature dramatically reduces indexing times, making it a game-changer for projects where speed truly matters.
-
-> Indexing over GPU now delivers speeds up to 10x faster than CPU-based methods for the equivalent hardware price.
-
-Our custom implementation of GPU-accelerated HNSW indexing **is built entirely in-house**. Unlike solutions that depend on third-party libraries, our approach is vendor-agnostic, meaning it works seamlessly with any modern GPU that supports **Vulkan API**. This ensures broad compatibility and flexibility for a wide range of systems.
-
-*Here is a picture of us, running Qdrant with GPU support on a SteamDeck (AMD Van Gogh GPU):*
-
-{{< figure src="/blog/qdrant-1.13.x/gpu-test.jpg" alt="Qdrant on SteamDeck" caption="Qdrant on SteamDeck with AMD GPU" >}}
-
-This experiment didn't require any changes to the codebase, and everything worked with the default Docker image.
-
-> As of right now this solution supports only on-premises deployments, but we will introduce support for Qdrant Cloud shortly.
-
-### Mixed Resource Architecture
-
-You can easily integrate **GPU-enabled and CPU-only nodes** in the same cluster. This feature was built in such a way that you can configure multiple low-powered CPU machines to handle vector search and dedicate one GPU machine just for indexing. 
-
-{{< figure src="/blog/qdrant-1.13.x/composite-cluster.png" alt="Architecture combining GPU and CPU nodes" caption="Architecture combining GPU and CPU nodes." >}}
-
-### Benchmarks on Common GPUs
-
-**Qdrant doesn't require high-end GPUs** to achieve significant performance improvements. Let's take a look at some benchmark results for common GPU machines:
-
-| **placeholder** | **placeholder** |
-|-------------|-------------|
-| placeholder | placeholder |
-| placeholder | placeholder |
-| placeholder | placeholder |
-| placeholder | placeholder |
-
-**Additional Benefits:**
-
-- Fast indexing unlocks larger size of segments, which leads to **higher PRS on the same hardware**.
-
-- GPU indexing **supports all quantization options** and datatypes implemented in Qdrant.
-
-### Usage Instructions 
-Setup is simple with [**pre-configured Docker images**](https://hub.docker.com/r/qdrant/qdrant/tags) for GPU environments. 
-Users can enable GPU indexing with minimal configuration changes.
-
-> Logs will clearly indicate GPU detection and usage for transparency.
-
-*Read more about this feature in the [**GPU Indexing Documentation**](https://qdrant.tech)*
 
 ## Get Started with Qdrant
 
