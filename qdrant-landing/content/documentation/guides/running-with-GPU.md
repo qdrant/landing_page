@@ -104,7 +104,7 @@ To ensure that the GPU was initialized correctly, you may check it in logs. Firs
 
 In this example logs you may see that 2 devices were found: RTX 3090 and llvmpipe (a CPU-emulated GPU which is included into docker image). And later you may see that only RTX was initialized.
 
-That’s it. In a basic scenario, there is nothing to do more.
+This concludes the setup. Now, you can start using this Qdrant instance.
 
 ### Troubleshooting NVIDIA GPUs
 
