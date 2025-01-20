@@ -106,7 +106,7 @@ This feature also enhances usability by providing **detailed error messages** wh
 
 ### Enable Strict Mode
 
-To configure **Strict Mode**, refer to the [**schema definitions**](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config`) for all available `strict_mode_config` parameters.
+To configure **Strict Mode**, refer to the [**schema definitions**](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all available `strict_mode_config` parameters.
 
 When a defined limit is crossed, Qdrant responds with a client-side error that includes details about the specific limit exceeded. This can make troubleshooting much simpler. 
 
