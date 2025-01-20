@@ -118,7 +118,7 @@ docker run --rm --gpus=all qdrant/qdrant:gpu-nvidia-latest vulkaninfo --summary
 ```
 
 The system may show you an error message explaining why the NVIDIA device is not visible.
-If your NVidia GPU is not visible in Docker, Docker image cannot use libGLX_nvidia.so.0 on your host. Example of an error message:
+Note that if your NVIDIA GPU is not visible in Docker, the Docker image cannot use libGLX_nvidia.so.0 on your host. Here is what an error message could look like:
 
 ```
 ERROR: [Loader Message] Code 0 : loader_scanned_icd_add: Could not get `vkCreateInstance` via `vk_icdGetInstanceProcAddr` for ICD libGLX_nvidia.so.0
