@@ -394,7 +394,7 @@ When Qdrant started, we used **RocksDB** as the storage backend for payloads and
 
 > RocksDB is built to handle arbitrary keys and values of any size, but this flexibility comes at a cost. 
 
-A key example is compaction, a process that reorganizes data on disk to maintain performance. **Under heavy write loads, compaction can become a bottleneck**, causing significant slowdowns. For Qdrant, this meant random timeout errors during large uploads—a frustrating roadblock.
+A key example is compaction, a process that reorganizes data on disk to maintain performance. **Under heavy write loads, compaction can become a bottleneck**, causing significant slowdowns. For Qdrant, this meant huge latency spikes at random moments causing timeout errors during large uploads—a frustrating roadblock.
 
 To solve this, we built a **custom storage backend** optimized for our specific use case. Unlike RocksDB, our system delivers consistent performance by ensuring reads and writes require a constant number of disk operations, regardless of data size. The result? Faster, more reliable performance tailored to Qdrant’s needs.
 
