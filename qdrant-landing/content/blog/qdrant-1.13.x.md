@@ -66,7 +66,7 @@ Users can enable GPU indexing with minimal configuration changes.
 
 > Note: Logs will clearly indicate GPU detection and usage for transparency.
 
-*Read more about this feature in the [**GPU Indexing Documentation**](https://qdrant.tech)*
+*Read more about this feature in the [**GPU Indexing Documentation**](/documentation/guides/running-with-gpu/)*
 
 ## Strict Mode for Operational Control
 
