@@ -45,12 +45,14 @@ This experiment didn't require any changes to the codebase, and everything worke
 
 **Qdrant doesn't require high-end GPUs** to achieve significant performance improvements. Let's take a look at some benchmark results for common GPU machines:
 
-| **Configuration**            | **With GPU (s)** | **Without GPU (s)** | **Price per Instance (USD/hour)** | **Price per Instance (USD/month)** |
-|------------------------------|------------------|---------------------|-----------------------------------|------------------------------------|
-| 8 vCPU / AMD Radeon Pro V520 | 33.066           | 94.733              | $0.54                             | $394.20                            |
-| 8 vCPU / Nvidia T4           | 18.801           | 97.709              | $0.51                             | $372.30                            |
-| 8 vCPU / Nvidia L4           | 12.389           | 99.944              | $0.85                             | $620.50                            |
-| 4 vCPU / Nvidia T4           | 19.333           | 221.933             | $0.38                             | $277.40                            |
+| **Configuration**            | **With GPU (s)** | **Without GPU (s)** | **Price per Instance (USD/month)** |
+|------------------------------|------------------|---------------------|-------------------------------------|
+| 8 vCPU / AMD Radeon Pro V520 | 33.066           | 94.733              | $394.20                             |
+| 8 vCPU / Nvidia T4           | 18.801           | 97.709              | $532.90                             |
+| 8 vCPU / Nvidia L4           | 12.389           | 99.944              | $624.15                             |
+| 4 vCPU / Nvidia T4           | 19.333           | 221.933             | $384.20                             |
+
+*Quoted prices are from Google Cloud Platform.*
 
 **Additional Benefits:**
 
