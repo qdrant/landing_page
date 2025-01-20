@@ -366,8 +366,9 @@ Storage is divided into three layers. The **Data Layer**, **Mask Layer** and **T
 **The Data Layer** consists of fixed-size blocks that store the actual data. The block size is a configurable parameter that can be adjusted based on the workload. Each record occupies the required number of blocks. If the data size exceeds the block size, it is split into multiple blocks. If the data size is smaller than the block size, it still occupies an entire block.
 
 **The Mask Layer** contains a bitmask that indicates which blocks are occupied and which are free. The size of the mask corresponds to the number of blocks in the Data Layer. For instance, if the block size is 128 bytes, the bitmask will allocate 1 bit for every 128 bytes in the Data Layer. This results in an overhead of 1/1024 of the Data Layer size. The bitmask is stored on disk and does not need to be loaded into memory.
+Furthermore, there is an additional structure which tracks gaps in regions of the bitmask. This is to get an even smaller overhead against the data, which can be loaded into memory easily. Each region summarizes 1KB of bits in the bitmask, which represents a millionth scale of the Data Layer size, or 6 KB of RAM per GB of data.
 
-**The Tracker Layer** is the final storage layer, holding metadata about regions of the Mask Layer. Each bitmask region corresponds to the size of a memory page, which is also configurable. This layer is used to quickly identify regions of the Mask Layer that have sufficient free blocks to store data. The Tracker Layer must be loaded into memory, but it only contains minimal information about each region. As a result, the memory requirement is approximately 1/1,000,000 of the Data Layer size, or 1 KB of RAM per GB of data.
+**The Tracker Layer** is in charge of fast lookups, it directly links the IDs of the points to the place where the data is located.
 
 ## GPU Accelerated Indexing 
 
