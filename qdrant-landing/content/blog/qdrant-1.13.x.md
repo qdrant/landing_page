@@ -13,7 +13,7 @@ tags:
 
 [**Qdrant 1.13.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.13.0) Let's look at the main features for this version:
 
-**Snapshot Streaming:** Generate dynamically without writing them to disk first.</br>
+**Snapshot Streaming:** Generate snapshots dynamically without writing to disk first.</br>
 **Strict Mode:** Enforce operation restrictions on collections for enhanced control.</br>
 **HNSW Graph Compression:** Reduce storage use via HNSW Delta Encoding.</br>
 
