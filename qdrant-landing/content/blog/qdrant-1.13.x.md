@@ -31,11 +31,11 @@ They help sync nodes by transferring points and indexes when new nodes join or w
 
 - **The Old Way:** Before v1.13, snapshots required ample disk space to store high-entropy vector data, which is tough to compress. This made deployments cumbersome and slow on machines with limited disk speed or capacity.
 
-- **The New Way:** Now snapshots can be streamed. Instead of saving files to disk, snapshots are created and transferred on the fly. This slashes disk space needs and speeding up the process, even on slower hardware.
+- **The New Way:** Now snapshots can be streamed. Instead of saving files to disk, snapshots are created and transferred on the fly. This slashes disk space needs and speeds up the process, even on slower hardware.
 
 **How We Did It:**
 
-Implementing streamable snapshots required **significant changes to Qdrant’s core functionality**. Additionally, we made contributions to the [**tar-rs**](https://github.com/alexcrichton/tar-rs/pulls?q=is%3Apr+author%3Axzfc+is%3Aclosed) library, a Rust-based tool for handling tar archives. These updates extended tar’s streaming capabilities, aligning the format with its original purpose of supporting tape streamers.
+Implementing streamable snapshots required **significant changes to Qdrant’s core functionality**. Additionally, we made contributions to the [**tar-rs**](https://github.com/alexcrichton/tar-rs/pulls?q=is%3Apr+author%3Axzfc+is%3Aclosed) library, a Rust-based tool for handling tar archives. These updates extended the streaming capabilities, aligning the format with its original purpose of supporting tape streamers.
 
 With the introduction of streaming support, tar (short for “tape archive”) returns to its roots as a format designed for efficient data streaming. 
 
@@ -49,7 +49,7 @@ With the introduction of streaming support, tar (short for “tape archive”) r
 
 **Strict Mode** ensures consistent performance in shared, serverless deployments by enforcing operational controls. It limits computationally intensive operations like unindexed filtering, batch sizes, and search parameters (`hnsw_ef`, `oversampling`) This prevents inefficient usage that could overload your system.
 
-Additional safeguards, including limits on payload sizes, filter conditions, and timeouts, keep high-demand applications fast and reliable. This feature is configured via `strict_mode_config`, and it allows collection-level customization while maintaining backward compatibility.
+Additional safeguards, including limits on **payload sizes**, **filter conditions**, and **timeouts**, keep high-demand applications fast and reliable. This feature is configured via `strict_mode_config`, and it allows collection-level customization while maintaining backward compatibility.
 
 > New collections will default to **Strict Mode**, ensuring compliance by design and balancing workloads across tenants. 
 
@@ -236,7 +236,7 @@ PUT /collections/{collection_name}
     },
 }
 ```
-### Filter by Named Vector
+### Sample Request
 
 Some points might include both **image** and **text** vectors, while others might include just one. With this new feature, you can easily filter for points that specifically have the **image** vector defined.
 
@@ -392,8 +392,6 @@ This experiment didn't require any changes to the codebase, and everything worke
 ### Mixed Resource Architecture
 
 You can easily integrate **GPU-enabled and CPU-only nodes** in the same cluster. This feature was built in such a way that you can configure multiple low-powered CPU machines to handle vector search and dedicate one GPU machine just for indexing. 
-
-![composite-cluster](/blog/qdrant-1.13.x/composite-cluster.png)
 
 {{< figure src="/blog/qdrant-1.13.x/composite-cluster.png" alt="Architecture combining GPU and CPU nodes" caption="Architecture combining GPU and CPU nodes." >}}
 
