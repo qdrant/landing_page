@@ -49,7 +49,7 @@ Below is a high-level look at our Agentic RAG workflow:
 
 Below is the architecture diagram representing the workflow and interactions of the chatbot:
 
-![Architecture Diagram](/documentation/examples/agentic-rag-camelai/diagram.jpg)
+![Architecture Diagram](/documentation/examples/agentic-rag-camelai/architecture-diagram.jpg)
 
 The workflow starts with data ingestion. HTML documents are scraped using BeautifulSoup to extract text content, forming the knowledge base for the system.
 
