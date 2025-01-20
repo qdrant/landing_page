@@ -5,7 +5,7 @@ weight: 10
 
 # Running with GPU
 
-Starting with version v1.13.0, Qdrant supports running on GPU.
+Starting from version v1.13.0, Qdrant offers support for GPU acceleration. 
 
 GPU support is not included into the default Qdrant binary, as it requires additional dependencies and libraries. Instead, we provide separate Docker images with GPU support.
 
