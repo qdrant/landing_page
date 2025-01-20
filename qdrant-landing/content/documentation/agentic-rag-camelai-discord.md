@@ -4,7 +4,7 @@ weight: 14
 partition: build
 ---
 
-![agentic-rag-camelai-astronaut](/documentation/examples//agentic-rag-camelai/astronaut-main.png)
+![agentic-rag-camelai-astronaut](/documentation/examples//agentic-rag-camelai-discord/astronaut-main.png)
 
 # Agentic RAG Discord ChatBot with Qdrant, CAMEL-AI, & OpenAI
 
@@ -49,7 +49,7 @@ Below is a high-level look at our Agentic RAG workflow:
 
 Below is the architecture diagram representing the workflow and interactions of the chatbot:
 
-![Architecture Diagram](/documentation/examples/agentic-rag-camelai/architecture-diagram.jpg)
+![Architecture Diagram](/documentation/examples/agentic-rag-camelai-discord/architecture-diagram.jpg)
 
 The workflow starts with data ingestion. HTML documents are scraped using BeautifulSoup to extract text content, forming the knowledge base for the system.
 
@@ -467,7 +467,7 @@ discord_q_bot.run()
 
 3. Start chatting with the bot in your Discord server. It will retrieve context from Qdrant and provide relevant answers based on your queries.
 
-![agentic-rag-discord-bot-what-is-quantization](/documentation/examples/agentic-rag-camelai/example.png)
+![agentic-rag-discord-bot-what-is-quantization](/documentation/examples/agentic-rag-camelai-discord/example.png)
 
 ---
 
