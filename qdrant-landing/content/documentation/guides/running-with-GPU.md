@@ -102,7 +102,7 @@ To ensure that the GPU was initialized correctly, you may check it in logs. Firs
 2025-01-13T11:58:29.124138Z  INFO gpu::device: Create GPU device NVIDIA GeForce RTX 3090    
 ```
 
-In this example logs you may see that 2 devices were found: RTX 3090 and llvmpipe (a CPU-emulated GPU which is included into docker image). And later you may see that only RTX was initialized.
+Here you can see that two devices were found: RTX 3090 and llvmpipe (a CPU-emulated GPU which is included in the Docker image). Later, you will see that only RTX was initialized.
 
 This concludes the setup. Now, you can start using this Qdrant instance.
 
@@ -175,7 +175,7 @@ This concludes the setup. In a basic scenario, you won't need to configure anyth
 
 ## Known limitations
 
-* **Platform Support:** Only Linux x86_64 is supported. Windows, macOS, ARM, and other platforms are not supported.
+* **Platform Support:** Docker images are only available for Linux x86_64. Windows, macOS, ARM, and other platforms are not supported.
 
 * **Memory Limits:** Each GPU can process up to 16GB of vector data per indexing iteration. 
 
