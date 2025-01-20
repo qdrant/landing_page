@@ -167,7 +167,7 @@ That’s it. In a basic scenario, there is nothing to do more.
 
 ## Known limitations
 
-* Only Lnux x86_64 is supported. Windows, MacOS, ARM and other platforms are not supported yet.
+* **Platform Support:** Only Linux x86_64 is supported. Windows, macOS, ARM, and other platforms are not supported.
 
 * **Memory Limits:** Each GPU can process up to 16GB of vector data per indexing iteration. 
 
