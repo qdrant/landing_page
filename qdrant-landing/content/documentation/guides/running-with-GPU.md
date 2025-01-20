@@ -3,7 +3,7 @@ title: Running with GPU
 weight: 10
 ---
 
-# Running with GPU
+# Running Qdrant with GPU Support
 
 Starting from version v1.13.0, Qdrant offers support for GPU acceleration. 
 
