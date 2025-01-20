@@ -55,7 +55,7 @@ Additional safeguards, including limits on **payload sizes**, **filter condition
 
 This feature also enhances usability by providing **detailed error messages** when requests exceed defined limits. The system will give you clear guidance on resolution steps. 
 
-**Strict Mode** solves the “*noisy neighbor*” problem and optimizes resource allocation, making Qdrant a top choice for multi-tenant and serverless vector search.
+**Strict Mode** solves the “*noisy neighbor*” problem and optimizes resource allocation, making multi-tenancy work nicely in serverless mode.
 
 ### Enable Strict Mode
 
