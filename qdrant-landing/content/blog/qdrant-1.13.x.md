@@ -203,7 +203,7 @@ Unlike traditional compression methods like gzip, which can be resource-intensiv
 2. **Delta Encoding** compresses this graph by storing only the necessary information about the differences between points.
 3. The result is a smaller, more efficient structure that’s quick to access.
 
-*For more general info, read about [**Indexing and Data Structures in Qdrant**](/documentation/concepts/indexing)*
+*For more general info, read about [**Indexing and Data Structures in Qdrant**](/documentation/concepts/indexing/)*
 
 ## Filter by Named Vectors
 
