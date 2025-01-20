@@ -57,7 +57,7 @@ This feature also enhances usability by providing **detailed error messages** wh
 
 **Strict Mode** solves the “*noisy neighbor*” problem and optimizes resource allocation, making Qdrant a top choice for multi-tenant and serverless vector search.
 
-### Using Strict Mode
+### Enable Strict Mode
 
 To configure **Strict Mode**, refer to the [**schema definitions**](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config`) for all available `strict_mode_config` parameters.
 
