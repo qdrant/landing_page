@@ -125,7 +125,7 @@ ERROR: [Loader Message] Code 0 : loader_scanned_icd_add: Could not get `vkCreate
 WARNING: [Loader Message] Code 0 : terminator_CreateInstance: Failed to CreateInstance in ICD 0. Skipping ICD.
 ```
 
-To fix it, try to change the config:
+To resolve errors, update your NVIDIA container runtime configuration:
 
 ```
 sudo nano /etc/nvidia-container-runtime/config.toml
