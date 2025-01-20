@@ -171,7 +171,7 @@ That’s it. In a basic scenario, there is nothing to do more.
 
 * In current implementation, there is a limit of vector data, that can be processed by one GPU device in one indexing iteration - 16Gb.
 
-That means that you should not create segments, where either original vectors or (if you are usign quantization) quantized vectors are larger than 16Gb.
+Due to this limitation, you should not create segments where either original vectors OR quantized vectors are larger than 16GB.
 
 For example, the collection with 1536d vectors and scalar quatization can have at most
 
