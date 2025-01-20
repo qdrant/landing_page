@@ -56,7 +56,7 @@ gpu:
 It is not recommended to change these options unless you are familiar with the Qdrant internals and the Vulkan API.
 
 
-## Standalone
+## Standalone GPU Support
 
 For standalone usage, you can build Qdrant with GPU support by running the following command:
 
