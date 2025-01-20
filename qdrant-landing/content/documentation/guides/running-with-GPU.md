@@ -108,7 +108,9 @@ This concludes the setup. Now, you can start using this Qdrant instance.
 
 ### Troubleshooting NVIDIA GPUs
 
-If your GPU is not detected in docker, check first your driver and `nvidia-container-toolkit` versions.
+If your GPU is not detected in Docker, make sure your driver and `nvidia-container-toolkit` are up-to-date. 
+
+Verify Vulkan API visibility in the Docker container using:
 They both should be latest.
 
 To check that Vulkan API is visible in a docker container, try to run this command:
