@@ -26,10 +26,8 @@ tags:
 
 ![snapshot-streaming](/blog/qdrant-1.13.x/image_1.png)
 
-[**Snapshots**](/documentation/concepts/snapshots/) are key to data workflows, especially in distributed setups. They help sync nodes by transferring points and indexes when new nodes join or existing ones need updates.
-
-> **Snapshots** are used to transfer points with constructed indexes between nodes.
-This happens when a new node joins the cluster, or when a node needs synchronization with the rest of the cluster.
+[**Snapshots**](/documentation/concepts/snapshots/) are key to data workflows, especially in distributed setups. 
+They help sync nodes by transferring points and indexes when new nodes join or when existing nodes need updates.
 
 - **The Old Way:** Before v1.13, snapshots required ample disk space to store high-entropy vector data, which is tough to compress. This made deployments cumbersome and slow on machines with limited disk speed or capacity.
 
