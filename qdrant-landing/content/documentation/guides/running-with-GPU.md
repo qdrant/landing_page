@@ -133,7 +133,7 @@ To fix it, try to change the config:
 sudo nano /etc/nvidia-container-runtime/config.toml
 ```
 
-Set `no-cgroups=false`, save config, and restart docker
+Set `no-cgroups=false`, save the configuration, and restart Docker:
 
 ```
 sudo systemctl restart docker
