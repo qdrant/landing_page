@@ -6,7 +6,7 @@ short_description: "The viability of DeepSeek-V3."
 description: "Proprietary technology is death. Open source is life."
 preview_image: /blog/gpt-is-dead/social_preview.png
 social_preview_image: /blog/gpt-is-dead/social_preview.png
-date: 2025-01-19T00:02:00Z
+date: 2025-01-20T00:02:00Z
 author: David Myriel
 featured: true
 tags:
