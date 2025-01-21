@@ -105,9 +105,9 @@ DeepSeek-V3 is rough around the edges - but this does not matter when you use a 
 
 Feeding DeepSeek-V3 relevant context beyond its 128K context window is the ultimate RAG scenario. **But you already know about RAG, and you most certainly know about [Qdrant](/qdrant-vector-database/)**.
 
-[**We prepared a minimal code implementation**](https://github.com/qdrant/examples) for you to copy and scale as part of your system. Give it a try and report back to us. 
+[**We prepared a minimal code implementation**](https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb) for you to copy and scale as part of your system. Give it a try and report back to us. 
 
-![tutorial](/blog/gpt-is-dead/tutorial.png)
+[![tutorial](/blog/gpt-is-dead/tutorial.png)](https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb)
 
 *We want to know about your total cost, response accuracy and system scalability.*
 
