@@ -86,7 +86,7 @@ In Qdrant's first year of selling Enterprise services, we discovered the importa
 
 Though our [**Qdrant Cloud SaaS**](https://cloud.qdrant.io/) is well known by this point, many users opt for [**Hybrid Cloud offering**](/hybrid-cloud/), mostly due to compliance conflicts. 
 
-This is why I believe that DeepSeek-V3 is the heavy hitter for 2025. We are **in the world of production** now and GenAI systems built with OS components are about to start scaling. 
+This is why I believe that DeepSeek-V3 is the heavy hitter for 2025. We are **in the world of production** now and GenAI systems built with OS components are about to start scaling. They will cost a lot of money.
 
 
 ### All you need is memory
