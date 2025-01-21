@@ -21,7 +21,7 @@ tags:
 
 **It’s the entire idea that you have to spend $60-100 million on a frontier model.**
 
-[**DeepSeek-V3**](https://huggingface.co/deepseek-ai/DeepSeek-V3) cost $6 million and roughly 2.8m GPU hours. That makes models like GPT-4o or Llama 3.1 at least 10x expensive. Even [**Andrey Karpathy**](https://x.com/karpathy/status/1872362712958906460?lang=en) had to chime in:
+[**DeepSeek-V3**](https://huggingface.co/deepseek-ai/DeepSeek-V3) cost $6 million and roughly 2.8m GPU hours. That makes models like GPT-4o or Llama 3.1 at least 10x expensive. Even [**Andrej Karpathy**](https://x.com/karpathy/status/1872362712958906460?lang=en) had to chime in:
 
 ![karpathy](/blog/gpt-is-dead/karpathy.png)
 
