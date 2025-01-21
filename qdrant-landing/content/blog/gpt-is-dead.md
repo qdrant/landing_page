@@ -39,7 +39,7 @@ In all of this hype, DeepSeek has reminded us what peak performance looks like. 
 
 ![deepseek-cost](/blog/gpt-is-dead/deepseek-cost.png)
 
-Just for reference - a simple request is 500 tokens. A codebase search is around 50,000. This is what competition looks like.
+Just for reference - a simple request is 500 tokens. A codebase search is around 50,000. 
 
 274,000,000 tokens is a lot of LLM. Most likely for some type of an agentic system where a model accesses multiple tools and keeps watch over its own results. 
 
@@ -49,6 +49,7 @@ DeepSeek's cost is a far cry from what we’ve seen on the customer side - with 
 
 ![cost](/blog/gpt-is-dead/cost.png)
 
+This is what competition looks like.
 
 ### Let’s look at the benchmarks
 
