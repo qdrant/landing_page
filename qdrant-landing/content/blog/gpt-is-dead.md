@@ -49,7 +49,7 @@ DeepSeek's cost is a far cry from what we’ve seen on the customer side - with 
 
 ![cost](/blog/gpt-is-dead/cost.png)
 
-This is what competition looks like.
+> This is what competition looks like.
 
 ### Let’s look at the benchmarks
 
@@ -58,6 +58,13 @@ A meta-analysis of DeepSeek’s own benchmark results can be compiled from the r
 ![benchmarks](/blog/gpt-is-dead/benchmarks.png)
 
 Users are already stress testing DeepSeek-V3. Though we are only three-weeks in, I found a great [**hands-on report by Sunil Kumar Dash from Composio**](https://composio.dev/blog/notes-on-new-deepseek-v3/).
+
+His conclusions:
+
+- For reasoning, **Deepseek-V3** is a better model, followed by Claude 3.5 Sonnet and then OpenAI GPT-4o.
+- For math, again, **Deepseek-V3**>Claude 3.5 Sonnet> OpenAI GPT-4o.
+- For coding, **Claude 3.5 Sonnet**>Deepseek-V3~> OpenAI GPT-4o.
+- For creative writing, **Claude 3.5 Sonnet**>Deepseek-V3~ OpenAI GPT-4o.
 
 Though its reasoning capabilities are not beyond O1, the Chinese model holds its own against GPT-4o and Claude. Moreover, its Chain of Thought reasoning works well. 
 
