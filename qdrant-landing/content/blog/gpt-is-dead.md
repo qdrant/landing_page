@@ -21,7 +21,7 @@ tags:
 
 **It’s the entire idea that you have to spend $60-100 million on a frontier model.**
 
-[DeepSeek-V3](https://huggingface.co/deepseek-ai/DeepSeek-V3) cost $6 million and roughly 2.8m GPU hours. That makes models like GPT-4o or Llama 3.1 at least 10x expensive. Even [**Andrey Karpathy**](https://x.com/karpathy/status/1872362712958906460?lang=en) had to chime in:
+[**DeepSeek-V3**](https://huggingface.co/deepseek-ai/DeepSeek-V3) cost $6 million and roughly 2.8m GPU hours. That makes models like GPT-4o or Llama 3.1 at least 10x expensive. Even [**Andrey Karpathy**](https://x.com/karpathy/status/1872362712958906460?lang=en) had to chime in:
 
 ![karpathy](/blog/gpt-is-dead/karpathy.png)
 
@@ -43,9 +43,12 @@ Just for reference - a simple request is 500 tokens. A codebase search is around
 
 274,000,000 tokens is a lot of LLM. Most likely for some type of an agentic system where a model accesses multiple tools and keeps watch over its own results. 
 
-DeepSeek's cost is a far cry from what we’ve seen on the customer side - with tens of thousands of dollars being spent on corporate experiments. **Here is a comparison with GPT-4o on Azure:**
+DeepSeek's cost is a far cry from what we’ve seen on the customer side - with tens of thousands of dollars being spent on corporate experiments. 
+
+**Here is a comparison with GPT-4o on Azure [(source)](https://www.reddit.com/r/LocalLLaMA/comments/1hmxjbn/deepseek_is_better_than_4o_on_most_benchmarks_at/):**
 
 ![cost](/blog/gpt-is-dead/cost.png)
+
 
 ### Let’s look at the benchmarks
 
@@ -61,7 +64,7 @@ Though its reasoning capabilities are not beyond O1, the Chinese model holds its
 
 ### Yes - it does pass the “strawberry” question. 
 
-**No - it isn’t as consistent across all domains.**
+*No - it isn’t as consistent across all domains. In practice - it isn't perfect.*
 
 All of this checks out with the average user experience reported on [r/LocalLlama](https://www.reddit.com/r/LocalLLaMA/comments/1i2y810/is_deepseek_v3_overhyped/), where DeepSeek-V3 is a major source of hype. 
 
@@ -77,21 +80,29 @@ All of this checks out with the average user experience reported on [r/LocalLlam
 
 ### The general-purpose LLM for enterprises
 
-In Qdrant's first year of selling Enterprise services, we discovered the importance of open-source.  Many of Qdrant’s users can’t use the SaaS database - mostly due to compliance conflicts. This is why they take full advantage of our [Hybrid Cloud offering](/hybrid-cloud/). 
+In Qdrant's first year of selling Enterprise services, we discovered the importance of open-source in business. 
 
-The use cases themselves are actually not that complex - **but the data must stay private**.
+> The use cases are not that complex - **but the data must stay private**.
+
+Though our [**Qdrant Cloud SaaS**](https://cloud.qdrant.io/) is well known by this point, many users opt for [**Hybrid Cloud offering**](/hybrid-cloud/), mostly due to compliance conflicts. 
 
 This is why I believe that DeepSeek-V3 is the heavy hitter for 2025. We are **in the world of production** now and GenAI systems built with OS components are about to start scaling. 
 
-DeepSeek-V3 is rough around the edges - but this does not matter when you use a vector database. 
+
+### All you need is memory
+
+DeepSeek-V3 is rough around the edges - but this does not matter when you use a [**vector database**](https://qdrant.tech) like Qdrant. 
 
 ![vector-database](/blog/gpt-is-dead/vector-database.png)
 
-Feeding DeepSeek-V3 relevant context beyond its 128K context window is the ultimate RAG scenario. But you already know about RAG, and you most certainly know about Qdrant.
+Feeding DeepSeek-V3 relevant context beyond its 128K context window is the ultimate RAG scenario. **But you already know about RAG, and you most certainly know about [Qdrant](/qdrant-vector-database/)**.
 
-We prepared a minimal implementation for you to copy and scale as part of your system. Give it a try and report back to us.
-We want to know about 1) your total cost, 2) response accuracy and 3) system scalability.
+[**We prepared a minimal code implementation**](https://github.com/qdrant/examples) for you to copy and scale as part of your system. Give it a try and report back to us. 
 
-Please share these results with us on Discord or publicly on social networks. 
+![tutorial](/blog/gpt-is-dead/tutorial.png)
+
+*We want to know about your total cost, response accuracy and system scalability.*
+
+Please share these results with us on [**our Discord**](https://qdrant.to/discord) or publicly on social networks. 
 
 
