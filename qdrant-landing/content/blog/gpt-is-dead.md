@@ -2,8 +2,8 @@
 draft: false
 title: "GPT is Dead: The Rise of DeepSeek"
 slug: 
-short_description: "Using vector search for quality control and anomaly detection in computer vision."
-description: "How Visua uses Qdrant as a vector search engine for quality control and anomaly detection in their computer vision platform."
+short_description: "The viability of DeepSeek-V3."
+description: "Proprietary technology is death. Open source is life."
 preview_image: /blog/gpt-is-dead/social_preview.png
 social_preview_image: /blog/gpt-is-dead/social_preview.png
 date: 2025-01-19T00:02:00Z
@@ -51,7 +51,7 @@ DeepSeek's cost is a far cry from what we’ve seen on the customer side - with 
 
 A meta-analysis of DeepSeek’s own benchmark results can be compiled from the report’s findings. DeepSeek-V3 is the best across all domains. **This sounds too good to be true.**
 
-![benchmarks](/blog/gpt-is-dead/benchmark.png)
+![benchmarks](/blog/gpt-is-dead/benchmarks.png)
 
 Users are already stress testing DeepSeek-V3. Though we are only three-weeks in, I found a great [**hands-on report by Sunil Kumar Dash from Composio**](https://composio.dev/blog/notes-on-new-deepseek-v3/).
 
@@ -93,3 +93,5 @@ We prepared a minimal implementation for you to copy and scale as part of your s
 We want to know about 1) your total cost, 2) response accuracy and 3) system scalability.
 
 Please share these results with us on Discord or publicly on social networks. 
+
+
