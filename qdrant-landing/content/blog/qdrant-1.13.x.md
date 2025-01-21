@@ -380,7 +380,7 @@ To solve this, we built a **custom storage backend** optimized for our specific 
 
 ### Our New Storage Architecture
 
-Storage is divided into three layers. The **Data Layer**, **Mask Layer** and **Tracker Layer**.
+There are four elements: the **Data Layer**, **Mask Layer**, **the Region** and **Tracker Layer**.
 
 {{< figure src="/blog/qdrant-1.13.x/storage.png" alt="Qdrant's New Storage Backend" caption="Qdrant's New Storage Backend" >}}
 
@@ -388,7 +388,7 @@ Storage is divided into three layers. The **Data Layer**, **Mask Layer** and **T
 
 **The Mask Layer** contains a bitmask that indicates which blocks are occupied and which are free. The size of the mask corresponds to the number of blocks in the Data Layer. For instance, if we have 64 blocks of 128 bytes each, the bitmask will allocate 1 bit for every block in the Data Layer resulting in 8 bytes. This results in an overhead of 1/1024 of the Data Layer size, because each byte in the mask covers 1024 bytes of blocked storage. The bitmask is stored on disk and does not need to be loaded into memory.
 
-Furthermore, there is an additional structure which tracks gaps in regions of the bitmask. This is to get an even smaller overhead against the data, which can be loaded into memory easily. Each region summarizes 1KB of bits in the bitmask, which represents a millionth scale of the Data Layer size, or 6 KB of RAM per GB of data.
+**The Region** is an additional structure which tracks gaps in regions of the bitmask. This is to get an even smaller overhead against the data, which can be loaded into memory easily. Each region summarizes 1KB of bits in the bitmask, which represents a millionth scale of the Data Layer size, or 6 KB of RAM per GB of data.
 
 **The Tracker Layer** is in charge of fast lookups, it directly links the IDs of the points to the place where the data is located.
 
