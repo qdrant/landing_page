@@ -27,7 +27,7 @@ tags:
 
 Engineering is all about solving big problems with less resources. That’s exactly what DeepSeek’s young engineers did…and they wrote [**a world-class academic report**](https://arxiv.org/pdf/2412.19437). 
 
-DeepSeek-V3 is a mixture-of-experts (MoE) transformer that comprises 671 billion parameters, and 37B of those are active for each token. The team trained the model in 2.79 million GPU hours, less than a 1/10 of what it [**took to train Llama 3.1**](https://build.nvidia.com/meta/llama-3_1-405b-instruct/modelcard). 
+DeepSeek-V3 is a mixture-of-experts (MoE) transformer that comprises 671 billion parameters, and 37B of those are active for each token. The team trained the model in less than a 1/10 of what it [**took to train Llama 3.1**](https://build.nvidia.com/meta/llama-3_1-405b-instruct/modelcard). 
 
 By launching this model in late December 2024, DeepSeek has redefined the standard for Large Language Models.
 
