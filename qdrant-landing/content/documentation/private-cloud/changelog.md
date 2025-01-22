@@ -5,6 +5,14 @@ weight: 5
 
 # Changelog
 
+## 1.3.0
+
+Support for re-sharding with Qdrant >= 1.13.0
+
+## 1.2.0
+
+Performance and stability improvements
+
 ## 1.1.0
 
 * Activate cluster-manager for automatic shard replication

@@ -6,7 +6,7 @@ resources:
   description: Qdrant Stars are our top contributors, organizers, and evangelists. Learn more about how you can become a Star.
   link:
     text: Learn More
-    url: /blog/qdrant-stars-announcement/
+    url: /stars/
   image:
     src: /img/community-features/qdrant-stars.svg
     alt: Avatar
@@ -55,7 +55,7 @@ features:
   description: Whatever your strengths are, we got you covered. Learn more about how to contribute to Qdrant.
   link:
     text: Learn More
-    url: https://github.com/qdrant/qdrant/blob/master/CONTRIBUTING.md
+    url: https://github.com/qdrant/qdrant/blob/master/docs/CONTRIBUTING.md 
 - id: 2
   icon:
     src: /icons/outline/handshake-blue.svg
@@ -68,9 +68,9 @@ features:
 - id: 3
   icon:
     src: /icons/outline/mail-blue.svg
-    alt: Newsletter
-  title: Newsletter
-  description: Stay up to date with all the latest Qdrant news
+    alt: News & Updates
+  title: News & Updates
+  description: Stay up to date on product news, technical articles, and more. 
   link:
     text: Learn More
     url: /subscribe/

@@ -110,9 +110,6 @@ operator:
       # Maximum burst for throttle.
       # Default is 500.
       burst: 500
-      # If set to true, the operator reconciles all watched CRs,
-      # fully ignoring operator.qdrant.com/version annotation on them
-      disableOperatorVersionCheck: true
     # Features contains the settings for enabling / disabling the individual features of the operator
     features:
       # ClusterManagement contains the settings for qdrant (database) cluster management
@@ -280,10 +277,6 @@ operator:
           # Whether or not the ScheduledSnapshot feature is enabled.
           # Default is true.
           enable: true
-          # RemoveCronJobs can be enabled when the previous [Python] operator (qdrant-operator) has been run and this
-          # operator should remove the cron jobs it created (not used by this operator anymore).
-          # Default is true.
-          removeCronJobs: true
           # MaxConcurrentReconciles is the maximum number of concurrent Reconciles which can be run. Defaults to 1.
           maxConcurrentReconciles: 1
         # Restores contains the settings for restoring (a snapshot) as part of backup management.

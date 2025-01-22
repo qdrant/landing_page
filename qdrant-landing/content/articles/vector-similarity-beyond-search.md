@@ -17,6 +17,7 @@ keywords:
     - discovery
     - diversity
     - recommendation
+category: data-exploration
 ---
 
 # Vector Similarity: Unleashing Data Insights Beyond Traditional Search

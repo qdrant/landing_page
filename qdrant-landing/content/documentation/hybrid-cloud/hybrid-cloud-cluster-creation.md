@@ -26,6 +26,8 @@ When creating or editing a cluster, you can configure how the database Pods get 
 
 ### Authentication to your Qdrant clusters
 
+<aside role="alert">By default, clusters in Hybrid Cloud are only exposed through a Kubernetes ClusterIP Service inside of the Kubernetes network and not accessible to the outside, and no API key is configured. If you choose to expose the database internally or externally, you must configure an API key.</aside>
+
 In Hybrid Cloud the authentication information is provided by Kubernetes secrets.
 
 You can configure authentication for your Qdrant clusters in the "Configuration" section of the Qdrant Cluster detail page. There you can configure the Kubernetes secret name and key to be used as an API key and/or read-only API key.
@@ -135,6 +137,8 @@ spec:
 Please refer to the Kubernetes, ingress controller and cloud provider documentation for more details.
 
 If you expose the database like this, you will be able to see this also reflected as an endpoint on the cluster detail page. And will see the Qdrant database dashboard link pointing to it.
+
+<aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key nor bearer tokens. Internal gRPC uses port 6335. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, Qdrant Hybrid Cloud deployes a strict NetworkPolicy to only allow communication on port 6335 between Qdrant Cluster nodes.</aside>
 
 ### Configuring TLS
 

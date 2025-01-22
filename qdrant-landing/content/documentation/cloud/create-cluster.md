@@ -89,6 +89,10 @@ Once provisioned, you can access your cluster on ports 443 and 6333 (REST) and 6
 
 You should now see the new cluster in the **Clusters** menu.
 
+## Deleting a cluster
+
+You can delete a Qdrant database cluster from the cluster's detail page.
+
 ## Next steps
 
 You will need to connect to your new Qdrant Cloud cluster. Follow [**Authentication**](/documentation/cloud/authentication/) to create one or more API keys. 

@@ -26,4 +26,10 @@ featureCards:
     link:
       text: Learn More
       url: /data-analysis-anomaly-detection/
+  - id: 4
+    title: AI Agents
+    content: Unlock the full potential of your AI agents with Qdrant’s powerful vector search and scalable infrastructure, allowing them to handle complex tasks, adapt in real time, and drive smarter, data-driven outcomes across any environment.
+    link:
+      text: Learn More
+      url: /ai-agents/
 ---

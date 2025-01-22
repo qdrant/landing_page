@@ -41,6 +41,13 @@
     display: flex;
     flex-direction: column;
     gap: $spacer * 5;
+
+    & > div:first-child {
+      .vectors__card-image {
+        height: pxToRem(256);
+        margin-bottom: -$spacer * 2;
+      }
+    }
   }
 
   &__card {
@@ -87,7 +94,10 @@
   }
 
   @include media-breakpoint-up(xl) {
+    padding-bottom: $spacer * 10;
+
     &__header {
+      padding-top: $spacer * 7.5;
       padding-bottom: $spacer * 7.5;
     }
 
@@ -105,6 +115,19 @@
 
     &__cards {
       gap: $spacer * 10;
+
+      & > div:first-child {
+        .vectors__card-image {
+          height: pxToRem(392);
+        }
+      }
+
+      & > div:last-of-type {
+        .vectors__card-title {
+          font-size: map-get($font-sizes, 2);
+          line-height: pxToRem(67);
+        }
+      }
     }
 
     &__card {
@@ -135,16 +158,6 @@
 
     &__card-description {
       max-width: pxToRem(445);
-    }
-  }
-}
-
-.vectors__card:first-child {
-  .vectors__card-image {
-    height: pxToRem(256);
-
-    @include media-breakpoint-up(xl) {
-      height: pxToRem(392);
     }
   }
 }

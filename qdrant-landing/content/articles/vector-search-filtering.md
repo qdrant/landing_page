@@ -8,12 +8,13 @@ weight: -200
 author: Sabrina Aquino, David Myriel
 author_link: 
 date: 2024-09-10T00:00:00.000Z
+category: vector-search-manuals
 ---
 Imagine you sell computer hardware. To help shoppers easily find products on your website, you need to have a **user-friendly [search engine](https://qdrant.tech)**.
 
 ![vector-search-ecommerce](/articles_data/vector-search-filtering/vector-search-ecommerce.png)
 
- If you’re selling computers and have extensive data on laptops, desktops, and accessories, your search feature should guide customers to the exact device they want - or a **very similar** match needed.
+ If you’re selling computers and have extensive data on laptops, desktops, and accessories, your search feature should guide customers to the exact device they want - or at least a **very similar** match.
 
 When storing data in Qdrant, each product is a point, consisting of an `id`, a `vector` and `payload`:
 

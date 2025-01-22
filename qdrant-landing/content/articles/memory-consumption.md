@@ -1,7 +1,7 @@
 ---
-title: "How to Optimize RAM Requirements for 1 Million Vectors: A Case Study"
-short_description: Master RAM measurement and memory optimization for optimal performance and resource use.
-description: Unlock the secrets of efficient RAM measurement and memory optimization with this comprehensive guide, ensuring peak performance and resource utilization.
+title: Minimal RAM you need to serve a million vectors
+short_description: How to properly measure RAM usage and optimize Qdrant for memory consumption.
+description: How to properly measure RAM usage and optimize Qdrant for memory consumption.
 social_preview_image: /articles_data/memory-consumption/preview/social_preview.jpg
 preview_dir: /articles_data/memory-consumption/preview
 small_preview_image: /articles_data/memory-consumption/icon.svg
@@ -9,6 +9,7 @@ weight: 7
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
 date: 2022-12-07T10:18:00.000Z
+category: qdrant-internals
 # aliases: [ /articles/memory-consumption/ ]
 ---
 
@@ -31,8 +32,6 @@ Introduction:
     3. Process may use disk cache.
 3. As a result, if you see `10GB` memory consumption in `htop`, it doesn't mean that your process actually needs `10GB` of RAM to work.
 -->
-
-# Mastering RAM Measurement and Memory Optimization in Qdrant: A Comprehensive Guide
 
 When it comes to measuring the memory consumption of our processes, we often rely on tools such as `htop` to give us an indication of how much RAM is being used. However, this method can be misleading and doesn't always accurately reflect the true memory usage of a process.
 

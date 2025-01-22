@@ -22,6 +22,7 @@ tags:
 weight: -130
 
 aliases: [ /blog/binary-quantization-openai/ ]
+category: practicle-examples
 ---
 
 OpenAI Ada-003 embeddings are a powerful tool for natural language processing (NLP). However, the size of the embeddings are a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings.

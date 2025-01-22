@@ -67,8 +67,8 @@ cards:
       src: /img/stars/nicola-procopio.jpg
       alt: Nicola Procopio Photo
     name: Nicola Procopio
-    position: Senior Data Scientist @ Fincons Group
-    description: Nicola, a data scientist and open-source enthusiast since 2009, has used Qdrant since 2023. He developed fastembed for Haystack, vector search for Cheshire Cat A.I., and shares his expertise through articles, tutorials, and talks.
+    position: Senior Data Scientist | Machine Learning & A.I. Expert @ ACSoftware
+    description: I am a data scientist and open-source enthusiast since 2009, I used Qdrant since 2023. I contribute to FastEmbed integration for Haystack, Haystack core and vector search for Cheshire Cat A.I., and I like to share my expertise through articles, tutorials, and talks.
   - id: 8
     image:
       src: /img/stars/eduardo-vasquez.jpg

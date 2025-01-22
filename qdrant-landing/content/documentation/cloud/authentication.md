@@ -5,17 +5,16 @@ weight: 30
 
 # Database Authentication in Qdrant Managed Cloud
 
-This page shows you how to use the Qdrant Cloud Console to create a custom API key for a cluster. You will learn how to connect to your cluster using the new API key.
+This page shows you how to use the Qdrant Cloud Console to create a Database API key for a cluster. You will learn how to connect to your cluster using the new API key.
 
-## Create API keys
+## Create Database API keys
 
 The API key is only shown once after creation. If you lose it, you will need to create a new one. 
 However, we recommend rotating the keys from time to time. To create additional API keys do the following.
 
 1. Go to the [Cloud Dashboard](https://qdrant.to/cloud).
-2. Select **Access Management** to display available API keys, or go to the **API Keys** section of the Cluster detail page.
-3. Click **Create** and choose a cluster name from the dropdown menu.
-> **Note:** You can create a key that provides access to multiple clusters. Select desired clusters in the dropdown box.
+2. Go to the **API Keys** section of the Cluster detail page.
+3. Click **Create**. If you have granular access control activated, you can now configure the permissions for the new key.
 4. Click **OK** and retrieve your API key. 
 
 ## Test cluster access
@@ -38,8 +37,8 @@ Open Terminal and run the request. You should get a response that looks like thi
 
 ## Authenticate via SDK
 
-Now that you have created your first cluster and key, you might want to access Qdrant Cloud from within your application.
-Our official Qdrant clients for Python, TypeScript, Go, Rust, .NET and Java all support the API key parameter. 
+Now that you have created your first cluster and key, you might want to access your database from within your application.
+Our [official Qdrant clients](/documentation/interfaces/) for Python, TypeScript, Go, Rust, .NET and Java all support the API key parameter. 
 
 ```bash
 curl \

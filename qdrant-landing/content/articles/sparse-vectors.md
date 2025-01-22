@@ -15,6 +15,7 @@ keywords:
   - SPLADE
   - hybrid search
   - vector search
+category: vector-search-manuals
 ---
 
 Think of a library with a vast index card system. Each index card only has a few keywords marked out (sparse vector) of a large possible set for each book (document). This is what sparse vectors enable for text. 

@@ -10,12 +10,12 @@ author: Zein Wen
 author_link: https://www.linkedin.com/in/zishenwen/
 date: 2023-10-12T08:00:00+03:00
 draft: false
-keywords: 
-
+keywords:
     - payload filtering
     - geo polygon
     - search condition
-    - gsoc'23 
+    - gsoc'23
+category: qdrant-internals
 ---
 
 
