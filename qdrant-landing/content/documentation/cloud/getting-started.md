@@ -21,8 +21,6 @@ Before deploying any cluster, consider the resources needed for your specific wo
 
 After setting up your account, you can create a Qdrant Cluster by following the steps in [Create a Cluster](/documentation/cloud/create-cluster/).
 
-**Please Note:** In Hybrid Cloud environments, Qdrant clusters remain internal to your Kubernetes cluster by default. To connect to your database from outside the Kubernetes environment, refer to the [Authentication documentation](/documentation/cloud/authentication/).
-
 ## Preparing for Production
 
 For a production-ready environment, consider deploying a multi-node Qdrant cluster (at least three nodes) with replication enabled. Instructions for configuring distributed clusters are available in the [Distributed Deployment](/documentation/guides/distributed_deployment/) guide.
