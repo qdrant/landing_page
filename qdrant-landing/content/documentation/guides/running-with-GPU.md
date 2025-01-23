@@ -7,7 +7,7 @@ weight: 10
 
 Starting from version v1.13.0, Qdrant offers support for GPU acceleration. 
 
-However, GPU support is not included in the default Qdrant binary due to additional dependencies and libraries. Instead, you will need to use dedicated Docker ([NVIDIA](#nvidia-gpus), [AMD](#amd-gpus)) images with GPU support.
+However, GPU support is not included in the default Qdrant binary due to additional dependencies and libraries. Instead, you will need to use dedicated Docker images with GPU support ([NVIDIA](#nvidia-gpus), [AMD](#amd-gpus)).
 
 
 ## Configuration
@@ -157,7 +157,7 @@ docker run \
 	--device /dev/kfd --device /dev/dri \
 	-p 6333:6333 \
 	-p 6334:6334 \
-  -e QDRANT__LOG_LEVEL=debug \
+	-e QDRANT__LOG_LEVEL=debug \
 	-e QDRANT__GPU__INDEXING=1 \
 	qdrant/qdrant:gpu-amd-latest
 ```
