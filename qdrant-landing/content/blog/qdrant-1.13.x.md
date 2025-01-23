@@ -48,10 +48,10 @@ This experiment didn't require any changes to the codebase, and everything worke
 | **Configuration**            | **Indexing time (s)** | **Price per Instance (USD/month)**      |
 |------------------------------|-----------------------|-----------------------------------------|
 | AMD Radeon Pro V520          | 33.1                  | $394.20 (CPU + GPU)                     |
-| Nvidia T4                    | 19.1                  | $277.40 (CPU) + $255.50(GPU) = $532.90  |
-| Nvidia L4                    | 12.4                  | $214.32 (CPU) + $408.83(GPU) = $624.15  |
+| Nvidia T4                    | 19.1                  | <span>$</span>277.40 (CPU) + <span>$</span>255.50(GPU) = $532.90  |
+| Nvidia L4                    | 12.4                  | <span>$</span>214.32 (CPU) + <span>$</span>408.83(GPU) = $624.15  |
 | 8 CPU Cores                  | 97.5                  | $195.67                                 |
-| 4 CPU Cores                  | 221.9                 | $97.84                                  |
+| 4 CPU Cores                  | 221.9                 | $107.16                                 |
 
 *Quoted prices are from Google Cloud Platform (NVIDIA) and AWS (AMD)*
 
