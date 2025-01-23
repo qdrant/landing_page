@@ -5,7 +5,7 @@ short_description: ""
 description: "" 
 preview_image: /blog/qdrant-1.13.x/social_preview.png
 social_preview_image: /blog/qdrant-1.13.x/social_preview.png
-date: 2025-01-15T00:00:00-08:00
+date: 2025-01-23T00:00:00-08:00
 author: David Myriel
 featured: true
 tags:
