@@ -1644,6 +1644,8 @@ One way of optimizing storage when using groups is to store the information shar
 
 ![Group id matches point id](/docs/lookup_id_linking.png)
 
+<aside role="status">Store only document-level metadata (e.g., titles, abstracts) in the lookup collection, not chunks or duplicated data.</aside>
+
 This has the extra benefit of having a single point to update when the information shared by the points in a group changes.
 
 For example, if you have a collection of documents, you may want to chunk them and store the points for the chunks in a separate collection, making sure that you store the point id from the document it belongs in the payload of the chunk point.
@@ -1851,7 +1853,9 @@ The looked up result will show up under `lookup` in each group.
 }
 ```
 
-Since the lookup is done by matching directly with the point id, any group id that is not an existing (and valid) point id in the lookup collection will be ignored, and the `lookup` field will be empty.
+Since the lookup is done by matching directly with the point id, the lookup collection must be pre-populated with points where the `id` matches the `group_by` value (e.g., document_id) from your primary collection.
+
+Any group id that is not an existing (and valid) point id in the lookup collection will be ignored, and the `lookup` field will be empty.
 
 ## Random Sampling
 
