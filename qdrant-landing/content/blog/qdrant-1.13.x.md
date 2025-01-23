@@ -43,7 +43,7 @@ This experiment didn't require any changes to the codebase, and everything worke
 
 ### Benchmarks on Common GPUs
 
-**Qdrant doesn't require high-end GPUs** to achieve significant performance improvements. Let's take a look at some benchmark results for common GPU machines:
+**Qdrant doesn't require high-end GPUs** to achieve significant performance improvements. The table below compares indexing times and instance costs for 1 million vectors (1536-dimensional) across common GPU machines:
 
 | **Configuration**            | **Indexing time (s)** | **Price per Instance (USD/month)**      |
 |------------------------------|-----------------------|-----------------------------------------|
