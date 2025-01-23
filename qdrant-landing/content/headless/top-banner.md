@@ -12,7 +12,7 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   height="16" fill="white"/></clipPath></defs></svg>
 text: "New version: Qdrant 1.13.0 and introducing GPU-accelerated HNSW indexing"
 link:
-  text: Read more
+  text: Read More
   url: /blog/qdrant-1.13.x/
 start: 2025-01-23T13:00:00.000Z
 sitemapExclude: true
