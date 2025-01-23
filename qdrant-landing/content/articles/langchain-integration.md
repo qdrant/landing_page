@@ -18,6 +18,7 @@ keywords:
   - question answering
   - openai
   - embeddings
+category: practicle-examples
 ---
 
 # Streamlining Question Answering: Simplifying Integration with LangChain and Qdrant

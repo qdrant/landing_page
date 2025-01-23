@@ -2,12 +2,17 @@
   {{ if gt (.TableOfContents | len) 34 }}
     <div class="table-of-contents">
       <p class="table-of-contents__head">On this page:</p>
-
-      {{ .TableOfContents }}
+      {{ $tocStartLevel := .Params.toc_start_level }}
+      {{ if not $tocStartLevel }}
+        {{ $tocStartLevel = default 1 $.Parent.Params.toc_start_level }}
+      {{ end }}
+      {{ $tocEndLevel := default 3 .Params.toc_end_level }}
+      {{ $tocOrdered := false }}
+      {{ .Fragments.ToHTML $tocStartLevel $tocEndLevel $tocOrdered | safeHTML }}
 
 
       <ul class="table-of-contents__external-links">
-        {{ if eq .Section "documentation" }}
+        {{ if or (eq .Section "documentation") (eq .Section "articles") }}
           <li class="table-of-contents__link">
             <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
               {{ partial "svg" "github.svg" }}

@@ -11,6 +11,7 @@ author_link: https://medium.com/@yusufsarigoz
 date: 2022-08-23T13:00:00+03:00
 draft: false
 aliases: [ /articles/embedding-recycler/ ]
+category: machine-learning
 ---
 
 A recent [paper](https://arxiv.org/abs/2207.04993)

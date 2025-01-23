@@ -8,6 +8,7 @@ weight: -150
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com
 date: 2024-07-25T00:00:00.000Z
+category: vector-search-manuals
 ---
 
 It's been over a year since we published the original article on how to build a hybrid
@@ -258,6 +259,80 @@ client.query_points(
 
 The options are endless, the new Query API gives you the flexibility to experiment with different setups. **You
 rarely need to build such a complex search pipeline**, but it's good to know that you can do that if needed.
+
+<aside role="status">
+The example above is a simplified version of the search pipeline using <b>multi-vector representations, such as late
+interaction models</b>. Practically, these methods are computationally expensive, and there are some considerations
+to take into account when building a real-world system. The paragraph below will give you some hints on how to use
+these methods efficiently.
+</aside>
+
+## Lessons learned: multi-vector representations
+
+Many of you have already started building hybrid search systems and reached out to us with questions and feedback. 
+We've seen many different approaches, however one recurring idea was to utilize **multi-vector representations with 
+ColBERT-style models as a reranking step**, after retrieving candidates with single-vector dense and/or sparse methods. 
+This reflects the latest trends in the field, as single-vector methods are still the most efficient, but multivectors
+capture the nuances of the text better.
+
+![Reranking with late interaction models](/articles_data/hybrid-search/late-interaction-reranking.png)
+
+Assuming you never use late interaction models for retrieval alone, but only for reranking, this setup comes with a 
+hidden cost. By default, each configured dense vector of the collection will have a corresponding HNSW graph created. 
+Even, if it is a multi-vector.
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(...)
+client.create_collection(
+    collection_name="my-collection",
+    vectors_config={
+        "dense": models.VectorParams(...),
+        "late-interaction": models.VectorParams(
+            size=128,
+            distance=models.Distance.COSINE,
+            multivector_config=models.MultiVectorConfig(
+                comparator=models.MultiVectorComparator.MAX_SIM
+            ),
+        )
+    },
+    sparse_vectors_config={
+        "sparse": models.SparseVectorParams(...)
+    },
+)
+```
+
+Reranking will never use the created graph, as all the candidates are already retrieved. Multi-vector ranking will only 
+be applied to the candidates retrieved by the previous steps, so no search operation is needed. HNSW becomes redundant 
+while still the indexing process has to be performed, and in that case, it will be quite heavy. ColBERT-like models 
+create hundreds of embeddings for each document, so the overhead is significant. **To avoid it, you can disable the HNSW 
+graph creation for this kind of model**:
+
+```python
+client.create_collection(
+    collection_name="my-collection",
+    vectors_config={
+        "dense": models.VectorParams(...),
+        "late-interaction": models.VectorParams(
+            size=128,
+            distance=models.Distance.COSINE,
+            multivector_config=models.MultiVectorConfig(
+                comparator=models.MultiVectorComparator.MAX_SIM
+            ),
+            hnsw_config=models.HnswConfigDiff(
+                m=0,  # Disable HNSW graph creation
+            ),
+        )
+    },
+    sparse_vectors_config={
+        "sparse": models.SparseVectorParams(...)
+    },
+)
+```
+
+You won't notice any difference in the search performance, but the use of resources will be significantly lower when you 
+upload the embeddings to the collection.
 
 ## Some anecdotal observations
 

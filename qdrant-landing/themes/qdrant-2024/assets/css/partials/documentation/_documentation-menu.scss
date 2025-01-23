@@ -2,43 +2,12 @@
 @use 'sass:math';
 
 .docs-menu {
+  display: none;
   background-color: $neutral-20;
-  border-top: 1px solid $neutral-30;
-  margin: 0 (-$spacer) $spacer * 2;
   scrollbar-width: none;
 
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: pxToRem(15) pxToRem(20);
-    cursor: pointer;
-    .docs-menu__button svg {
-      transition: transform 0.2s;
-    }
-
-    &.active {
-      .docs-menu__button svg {
-        transform: rotate(180deg);
-      }
-    }
-
-    h2 {
-      font-size: pxToRem(18);
-      line-height: pxToRem(27);
-      font-weight: 400;
-      color: $neutral-90;
-      margin: 0;
-    }
-  }
-
   &__content {
-    display: none;
-    padding: pxToRem(12) $spacer * 1.5;
-
-    &.active {
-      display: block;
-    }
+    padding: 0 $spacer $spacer * 1.5;
   }
 
   &__input {
@@ -85,15 +54,15 @@
   &__links {
     &-title {
       margin-bottom: 0;
-      padding: math.div($spacer, 2);
+      padding: pxToRem(12) math.div($spacer, 2) math.div($spacer, 4);
       color: $neutral-98;
       font-weight: bold;
       font-size: $spacer;
       line-height: $spacer * 1.5;
 
       &:not(:nth-of-type(1)) {
-        margin-top: pxToRem(12);
-        padding-top: $spacer;
+        margin-top: $spacer;
+        padding-top: pxToRem(20);
       }
     }
 
@@ -101,6 +70,7 @@
       &-heading {
         display: block;
         position: relative;
+
         // hide native details marker
         &::-webkit-details-marker {
           display: none;
@@ -111,8 +81,6 @@
           justify-content: space-between;
           align-items: center;
           color: $neutral-70;
-          font-size: pxToRem(14);
-          line-height: pxToRem(21);
           font-weight: 400;
         }
       }
@@ -123,7 +91,7 @@
         width: pxToRem(10);
         height: pxToRem(10);
         position: absolute;
-        top: pxToRem(10);
+        top: pxToRem(15);
         right: $spacer;
         background-image: url("data:image/svg+xml,%3Csvg width='10' height='11' viewBox='0 0 10 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.832764 3.41669L4.99943 7.58335L9.1661 3.41669' stroke='%238F98B3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
         background-size: cover;
@@ -133,7 +101,7 @@
       }
 
       &.active {
-        .docs-menu__links-group-heading > a {
+        .docs-menu__links-group-heading>a {
           font-weight: 600;
           background-color: $neutral-30;
           color: $neutral-90;
@@ -141,7 +109,7 @@
         }
 
         summary:after {
-          top: pxToRem(10);
+          top: pxToRem(15);
         }
       }
 
@@ -152,8 +120,8 @@
       }
 
       a {
-        padding: math.div($spacer, 4) $spacer * 1.5 math.div($spacer, 4) math.div($spacer, 2);
-        // margin-bottom: math.div($spacer, 4);
+        margin-top: math.div($spacer, 4);
+        padding: math.div($spacer, 2) $spacer * 1.5 math.div($spacer, 2) math.div($spacer, 2);
       }
 
       &.external-link {
@@ -186,9 +154,7 @@
           justify-content: space-between;
           align-items: center;
           color: $neutral-70;
-          font-size: pxToRem(14);
           font-weight: 400;
-          line-height: pxToRem(21);
         }
 
         &.active {
@@ -200,7 +166,19 @@
     }
   }
 
+  &__articles-link {
+    &.active {
+      background-color: $neutral-20;
+      border-radius: $spacer * 0.5;
+
+      a {
+        color: $neutral-98;
+      }
+    }
+  }
+
   @include media-breakpoint-up(xl) {
+    display: block;
     height: calc(100vh - 80px);
     width: pxToRem(256);
     flex-shrink: 0;
@@ -209,41 +187,62 @@
     top: $spacer * 5;
     padding: $spacer $spacer $spacer;
     background-color: transparent;
-    border-top: none;
-    margin: 0;
     border-right: pxToRem(1) solid $neutral-20;
 
-    &__header {
-      display: none;
-    }
-
     &__content {
-      display: block;
       padding: 0;
-    }
-
-    &__input {
-      display: none;
     }
 
     &__links {
       &-title {
+        padding: math.div($spacer, 2);
+
         &:not(:nth-of-type(1)) {
           border-top: pxToRem(1) solid $neutral-20;
+          margin-top: pxToRem(12);
+          padding-top: $spacer;
         }
       }
 
-      & > :last-child {
+      &> :last-child {
         padding-bottom: $spacer;
         border-bottom: pxToRem(1) solid $neutral-20;
       }
+
+      &-submenu-item {
+        a {
+          font-size: pxToRem(14);
+          line-height: pxToRem(21);
+        }
+      }
     }
+
 
     &__links-group {
       &.active {
-        .docs-menu__links-group-heading > a {
+        .docs-menu__links-group-heading>a {
           background-color: $neutral-20;
         }
+
+        summary:after {
+          top: pxToRem(10);
+        }
+      }
+
+      summary:after {
+        top: pxToRem(10);
+      }
+
+      &-heading {
+        a {
+          font-size: pxToRem(14);
+          line-height: pxToRem(21);
+        }
+      }
+
+      a {
+        padding: math.div($spacer, 4) $spacer * 1.5 math.div($spacer, 4) math.div($spacer, 2);
+        margin: 0;
       }
     }
   }
@@ -300,7 +299,7 @@
         }
 
         &.active {
-          .docs-menu__links-group-heading > a {
+          .docs-menu__links-group-heading>a {
             color: $primary-50;
             background: $neutral-90;
           }
@@ -336,7 +335,7 @@
       }
     }
 
-    &__links > :last-child,
+    &__links> :last-child,
     &__links-title:not(:nth-of-type(1)) {
       border-color: $neutral-80;
     }
@@ -346,7 +345,7 @@
 
       &__links-group {
         &.active {
-          .docs-menu__links-group-heading > a {
+          .docs-menu__links-group-heading>a {
             color: $neutral-30;
           }
         }
@@ -361,6 +360,18 @@
               background: $neutral-30;
             }
           }
+        }
+      }
+    }
+
+    &__articles-link {
+      &.active {
+        background-color: $neutral-90;
+        border-radius: $spacer * 0.5;
+
+        a {
+          color: $neutral-30;
+          font-weight: bold;
         }
       }
     }

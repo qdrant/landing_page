@@ -80,13 +80,43 @@ Once you are onboarded to Qdrant Private Cloud, you will receive credentials to 
 kubectl create namespace qdrant-private-cloud
 kubectl create secret docker-registry qdrant-registry-creds --docker-server=registry.cloud.qdrant.io --docker-username='your-username' --docker-password='your-password' --namespace qdrant-private-cloud
 helm registry login 'registry.cloud.qdrant.io' --username 'your-username' --password 'your-password'
-helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.6.4 --wait
-helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.1.0
+helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.8.0 --wait
+helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.3.0
 ```
 
 For a list of available versions consult the [Private Cloud Changelog](/documentation/private-cloud/changelog/).
 
 Especially ensure, that the default values to reference `StorageClasses` and the corresponding `VolumeSnapshotClass` are set correctly in your environment.
+
+### Scope of the operator
+
+By default, the Qdrant Operator will only manage Qdrant clusters in the same Kubernetes namespace, where it is already deployed. The RoleBindings are also limited to this specific namespace. This default is chosen to limit the operator to the least amount of permissions necessary within a Kubernetes cluster. 
+
+If you want to manage Qdrant clusters in multiple namespaces with the same operator, you can either configure a list of namespaces that the operator should watch:
+
+```yaml
+operator:
+  watch:
+    # If true, watches only the namespace where the Qdrant operator is deployed, otherwise watches the namespaces in watch.namespaces
+    onlyReleaseNamespace: false
+    # an empty list watches all namespaces.
+    namespaces:
+      - qdrant-private-cloud
+      - some-other-namespase
+  limitRBAC: true
+```
+
+Or you can configure the operator to watch all namespaces:
+
+```yaml 
+operator:
+  watch:
+    # If true, watches only the namespace where the Qdrant operator is deployed, otherwise watches the namespaces in watch.namespaces
+    onlyReleaseNamespace: false
+    # an empty list watches all namespaces.
+    namespaces: []
+  limitRBAC: false
+```
 
 ## Uninstallation
 

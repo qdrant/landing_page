@@ -11,6 +11,7 @@ author_link: https://llogiq.github.io
 date: 2023-07-12T10:00:00+01:00
 draft: false
 keywords: rust, serverless, lambda, semantic, search
+category: practicle-examples
 ---
 
 Do you want to insert a semantic search function into your website or online app? Now you can do so - without spending any money! In this example, you will learn how to create a free prototype search engine for your own non-commercial purposes.

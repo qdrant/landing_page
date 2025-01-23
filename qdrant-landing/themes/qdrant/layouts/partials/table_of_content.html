@@ -21,7 +21,7 @@
         </ul>
         <div class="divider pt-2 mb-3"></div>
 
-        {{ if (and (not .Params.hide_feedback) (.Site.Params.feedback.enable) (.Site.GoogleAnalytics)) }}
+        {{ if (and (not .Params.hide_feedback) (.Site.Params.feedback.enable) (.Site.Config.Services.GoogleAnalytics.ID)) }}
             {{ partial "feedback.html" . -}}
         {{ end }}
     </div>

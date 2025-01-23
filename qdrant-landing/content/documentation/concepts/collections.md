@@ -145,6 +145,7 @@ In addition to the required options, you can also specify custom values for the 
 * `shard_number` - which defines how many shards the collection should have. See [distributed deployment](/documentation/guides/distributed_deployment/#sharding) section for details.
 * `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
 * `quantization_config` - see [quantization](/documentation/guides/quantization/#setting-up-quantization-in-qdrant) for details.
+* `strict_mode_config` - see [strict mode](/documentation/guides/administration/#strict-mode) for details.
 
 Default parameters for the optional collection parameters are defined in [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
 
@@ -741,7 +742,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
 })
 
 client.CreateCollection(context.Background(), &qdrant.CreateCollection{
-	CollectionName: "{collection_namee}",
+	CollectionName: "{collection_name}",
 	SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
 		map[string]*qdrant.SparseVectorParams{
 			"text": {},
@@ -934,6 +935,7 @@ The following parameters can be updated:
 * `quantization_config` - see [quantization](/documentation/guides/quantization/#setting-up-quantization-in-qdrant) for details.
 * `vectors_config` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
 * `params` - other collection parameters, including `write_consistency_factor` and `on_disk_payload`. 
+* `strict_mode_config` - see [strict mode](/documentation/guides/administration/#strict-mode) for details.
 
 Full API specification is available in [schema definitions](https://api.qdrant.tech/api-reference/collections/update-collection).
 
@@ -1470,6 +1472,9 @@ client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 	OptimizersConfig: &qdrant.OptimizersConfigDiff{},
 })
 ```
+
+Alternatively you may use the `Trigger Optimizers` button in the [Qdrant Web UI](/documentation/web-ui/).
+It is shown next to the grey collection status on the collection info page.
 
 ### Approximate point and vector counts
 

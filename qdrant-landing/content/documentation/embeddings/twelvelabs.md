@@ -36,7 +36,7 @@ qdrant_client = QdrantClient(url="http://localhost:6333/")
 
 ```typescript
 import { QdrantClient } from '@qdrant/js-client-rest';
-import { TwelveLabs, EmbeddingsTask, SegmentEmbedding } from 'twelvelabs';
+import { TwelveLabs, EmbeddingsTask, SegmentEmbedding } from 'twelvelabs-js';
 
 // Get your API keys from:
 // https://playground.twelvelabs.io/dashboard/api-key
@@ -46,15 +46,15 @@ const twelveLabsClient = new TwelveLabs({ apiKey: TL_API_KEY });
 const qdrantClient = new QdrantClient({ url: 'http://localhost:6333' });
 ```
 
-The following example uses the `"Marengo-retrieval-2.6"` engine to embed a video. It generates vector embeddings of 1024 dimensionality and works with cosine similarity.
+The following example uses the `"Marengo-retrieval-2.7"` model to embed a video. It generates vector embeddings of 1024 dimensionality and works with cosine similarity.
 
-You can use the same engine to embed audio, text and images into a common vector space. Enabling cross-modality searches!
+You can use the same model to embed audio, text and images into a common vector space. Enabling cross-modality searches!
 
 ### Embedding videos
 
 ```python
 task = twelvelabs_client.embed.task.create(
-    engine_name="Marengo-retrieval-2.6",
+    model_name="Marengo-retrieval-2.7",
     video_url="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_2mb.mp4"
 )
 
@@ -64,7 +64,7 @@ task_result = twelvelabs_client.embed.task.retrieve(task.id)
 ```
 
 ```typescript
-const task = await twelveLabsClient.embed.task.create("Marengo-retrieval-2.6", {
+const task = await twelveLabsClient.embed.task.create("Marengo-retrieval-2.7", {
     url: "https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_2mb.mp4"
 })
 
@@ -144,26 +144,75 @@ await qdrantClient.upsert(COLLECTION_NAME, {
 Once the vectors are added, you can run semantic searches across different modalities. Let's try text.
 
 ```python
-segment = twelvelabs_client.embed.create(
-    engine_name="Marengo-retrieval-2.6",
+text_segment = twelvelabs_client.embed.create(
+    model_name="Marengo-retrieval-2.7",
     text="<YOUR_QUERY_TEXT>",
 ).text_embedding.segments[0]
 
-
 qdrant_client.query_points(
     collection_name=collection_name,
-    query=segment.embeddings_float,
+    query=text_segment.embeddings_float,
 )
 ```
 
 ```typescript
-const segment = (await twelveLabsClient.embed.create({
-    engineName: "Marengo-retrieval-2.6",
+const textSegment = (await twelveLabsClient.embed.create({
+    modelName: "Marengo-retrieval-2.7",
     text: "<YOUR_QUERY_TEXT>"
 })).textEmbedding.segments[0]
 
 await qdrantClient.query(COLLECTION_NAME, {
-    query: segment.embeddingsFloat,
+    query: textSegment.embeddingsFloat,
+});
+```
+
+Let's try audio:
+
+```python
+audio_segment = twelvelabs_client.embed.create(
+    model_name="Marengo-retrieval-2.7",
+    audio_url="https://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3",
+).audio_embedding.segments[0]
+
+qdrant_client.query_points(
+    collection_name=collection_name,
+    query=audio_segment.embeddings_float,
+)
+```
+
+```typescript
+const audioSegment = (await twelveLabsClient.embed.create({
+    modelName: "Marengo-retrieval-2.7",
+    audioUrl: "https://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3"
+})).audioEmbedding.segments[0]
+
+await qdrantClient.query(COLLECTION_NAME, {
+    query: audioSegment.embeddingsFloat,
+});
+```
+
+Similarly, querying by image:
+
+```python
+image_segment = twelvelabs_client.embed.create(
+    model_name="Marengo-retrieval-2.7",
+    image_url="https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-1170x780.jpg",
+).image_embedding.segments[0]
+
+qdrant_client.query_points(
+    collection_name=collection_name,
+    query=image_segment.embeddings_float,
+)
+```
+
+```typescript
+const imageSegment = (await twelveLabsClient.embed.create({
+    modelName: "Marengo-retrieval-2.7",
+    imageUrl: "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-1170x780.jpg"
+})).imageEmbedding.segments[0]
+
+await qdrantClient.query(COLLECTION_NAME, {
+    query: imageSegment.embeddingsFloat,
 });
 ```
 
