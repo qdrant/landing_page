@@ -48,4 +48,7 @@ You can interface with the Qdrant instance using the following Tooljet operation
 ## Further Reading
 
 - [ToolJet Documentation](https://docs.tooljet.com/docs/).
+<!---
 - [ToolJet Qdrant Plugin](https://docs.tooljet.com/docs/marketplace/plugins/marketplace-plugin-qdrant/).
+-->
+
