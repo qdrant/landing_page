@@ -7,7 +7,7 @@ weight: 10
 
 Starting from version v1.13.0, Qdrant offers support for GPU acceleration. 
 
-However, GPU support is not included in the default Qdrant binary due to additional dependencies and libraries. Instead, you will need to use dedicated Docker images with GPU support.
+However, GPU support is not included in the default Qdrant binary due to additional dependencies and libraries. Instead, you will need to use dedicated Docker ([NVIDIA](#nvidia-gpus), [AMD](#amd-gpus)) images with GPU support.
 
 
 ## Configuration
@@ -64,7 +64,7 @@ For standalone usage, you can build Qdrant with GPU support by running the follo
 cargo build --release --features gpu
 ```
 
-Ensure your device supports Vulkan API v1.3. This enables compatibility with Apple Silicon, Intel GPUs, and CPU emulators.
+Ensure your device supports Vulkan API v1.3. This includes compatibility with Apple Silicon, Intel GPUs, and CPU emulators. Note that `gpu.indexing: true` must be set in your configuration to use GPUs at runtime.
 
 ## NVIDIA GPUs
 
@@ -76,7 +76,7 @@ To use Docker with NVIDIA GPU support, ensure the following are installed on you
 
 Most AI or CUDA images on Amazon/GCP come pre-configured with the NVIDIA container toolkit.
 
-### Docker images with NVidia GPU support
+### Docker images with NVIDIA GPU support
 
 Docker images with NVIDIA GPU support use the tag suffix `gpu-nvidia`, e.g., `qdrant/qdrant:v1.13.0-gpu-nvidia`. These images include all necessary dependencies.
 
@@ -84,13 +84,13 @@ To enable GPU support, use the `--gpus=all` flag with Docker settings. Example:
 
 ```bash
 # `--gpus=all` flag says to Docker that we want to use GPUs.
-# `-e QDRANT__GPU__indexing=1` flag says to QDrant that we want to use GPUs for indexing.
+# `-e QDRANT__GPU__INDEXING=1` flag says to Qdrant that we want to use GPUs for indexing.
 docker run \
 	--rm \
 	--gpus=all \
 	-p 6333:6333 \
 	-p 6334:6334 \
-	-e QDRANT__GPU__indexing=1 \
+	-e QDRANT__GPU__INDEXING=1 \
 	qdrant/qdrant:gpu-nvidia-latest
 ```
 
@@ -151,14 +151,14 @@ To enable GPU for Docker, you need additional `--device /dev/kfd --device /dev/d
 
 ```bash
 # `--device /dev/kfd --device /dev/dri` flags say to Docker that we want to use GPUs.
-# `-e QDRANT__GPU__indexing=1` flag says to QDrant that we want to use GPUs for indexing.
+# `-e QDRANT__GPU__INDEXING=1` flag says to Qdrant that we want to use GPUs for indexing.
 docker run \
 	--rm \
 	--device /dev/kfd --device /dev/dri \
-	-e QDRANT__log_level=debug \
 	-p 6333:6333 \
 	-p 6334:6334 \
-	-e QDRANT__GPU__indexing=1 \
+  -e QDRANT__LOG_LEVEL=debug \
+	-e QDRANT__GPU__INDEXING=1 \
 	qdrant/qdrant:gpu-amd-latest
 ```
 
@@ -181,19 +181,20 @@ This concludes the setup. In a basic scenario, you won't need to configure anyth
 
 Due to this limitation, you should not create segments where either original vectors OR quantized vectors are larger than 16GB.
 
-For example, the collection with 1536d vectors and scalar quatization can have at most
+For example, a collection with 1536d vectors and scalar quantization can have at most:
 
 ```text
 16Gb / 1536 ~= 11 million vectors per segment
 ```
 
-And without quantization
+And without quantization:
 
 ```text
 16Gb / 1536 * 4 ~= 2.7 million vectors per segment
 ```
 
-Maximal size of the segment can be configured in collection settings.
+The maximum size of each segment can be configured in the collection settings.
+Use the following operation to [change](/documentation/concepts/collections/#update-collection-parameters) on your existing collection:
 
 ```http
 PATCH collections/{collection_name}
@@ -204,5 +205,4 @@ PATCH collections/{collection_name}
 }
 ```
 
-Note, that `max_segment_size` is specified in KiloBytes.
-
+Note that `max_segment_size` is specified in KiloBytes.
