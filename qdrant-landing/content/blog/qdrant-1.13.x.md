@@ -45,13 +45,13 @@ This experiment didn't require any changes to the codebase, and everything worke
 
 **Qdrant doesn't require high-end GPUs** to achieve significant performance improvements. The table below compares indexing times and instance costs for 1 million vectors (1536-dimensional) across common GPU machines:
 
-| **Configuration**            | **Indexing time (s)** | **Price per Instance (USD/month)**      |
-|------------------------------|-----------------------|-----------------------------------------|
-| AMD Radeon Pro V520          | 33.1                  | $394.20 (CPU + GPU)                     |
-| Nvidia T4                    | 19.1                  | <span>$</span>277.40 (CPU) + <span>$</span>255.50(GPU) = $532.90  |
-| Nvidia L4                    | 12.4                  | <span>$</span>214.32 (CPU) + <span>$</span>408.83(GPU) = $624.15  |
-| 8 CPU Cores                  | 97.5                  | $195.67                                 |
-| 4 CPU Cores                  | 221.9                 | $107.16                                 |
+| **Hardware**              | Type | **Indexing Time** | **Speed vs 4-Core CPU**  | **Total Cost/Month** |
+|------------------------|------|---------------|--------------------------------|------------------|
+| AMD Radeon Pro V520   | GPU  | 33.1s         | 7x faster                      | $394.20 (CPU + GPU)          |
+| **NVIDIA L4**             | GPU  | **12.4s**         | **18x faster**                     | <span>$</span>214.32 (CPU) + <span>$</span>408.83(GPU) = $624.15         |
+| NVIDIA T4             | GPU  | 19.1s         | 12x faster                     | <span>$</span>277.40 (CPU) + <span>$</span>255.50(GPU) = $532.90        |
+| **8 CPU Cores**            | CPU  | 97.5s         | 2.3x faster                    | $195.67          |
+| **4 CPU Cores** (Baseline)          | CPU  | 221.9s        | –                      | $107.16          |
 
 *Quoted prices are from Google Cloud Platform (NVIDIA) and AWS (AMD)*
 
