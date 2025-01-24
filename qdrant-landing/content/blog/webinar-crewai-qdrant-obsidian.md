@@ -5,7 +5,7 @@ slug: webinar-crewai-qdrant-obsidian
 short_description: "Email automation with CrewAI, Qdrant, and Obsidian notes"
 description: "Learn how to build an agentic RAG system to semi-automate email communication with CrewAI, Qdrant, and Obsidian."
 preview_image: /blog/webinar-crewai-qdrant-obsidian/preview.jpg
-date: 2025-01-23T09:13:00.000Z
+date: 2025-01-24T09:00:00.000Z
 author: Kacper Łukawski
 featured: false
 ---
