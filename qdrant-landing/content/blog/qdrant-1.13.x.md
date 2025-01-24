@@ -58,7 +58,6 @@ This experiment didn't require any changes to the codebase, and everything worke
 **Additional Benefits:**
 
 - **Multi-GPU Support:** Index segments concurrently to handle large-scale workloads.
-- **Hybrid Compatibility:** Seamlessly integrate GPU-enabled and CPU-only nodes in the same cluster.
 - **Hardware Flexibility:** Doesn't require high-end GPUs to achieve significant performance improvements.
 - **Full Feature Support:** GPU indexing supports **all quantization options and datatypes** implemented in Qdrant.
 - **Large-Scale Benefits:** Fast indexing unlocks larger size of segments, which leads to **higher RPS on the same hardware**.
