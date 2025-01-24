@@ -101,6 +101,8 @@ Container images:
 - `registry.cloud.qdrant.io/qdrant/prometheus`
 - `registry.cloud.qdrant.io/qdrant/prometheus-config-reloader`
 - `registry.cloud.qdrant.io/qdrant/kube-state-metrics`
+- `registry.cloud.qdrant.io/qdrant/kubernetes-event-exporter`
+- `registry.cloud.qdrant.io/qdrant/qdrant-cluster-exporter`
 
 Open Containers Initiative (OCI) Helm charts:
 
@@ -108,6 +110,8 @@ Open Containers Initiative (OCI) Helm charts:
 - `registry.cloud.qdrant.io/qdrant-charts/operator`
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-cluster-manager`
 - `registry.cloud.qdrant.io/qdrant-charts/prometheus`
+- `registry.cloud.qdrant.io/qdrant-charts/kubernetes-event-exporter`
+- `registry.cloud.qdrant.io/qdrant-charts/qdrant-cluster-exporter`
 
 To mirror all necessary container images and Helm charts into your own registry, you should use an automatic replication feature that your registry provides, so that you have new image versions available automatically. Alternatively you can manually sync the images with tools like [Skopeo](https://github.com/containers/skopeo). When syncing images manually, make sure that you sync then with all, or with the right CPU architecture.
 
@@ -160,7 +164,8 @@ skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/pro
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/kube-state-metrics your-registry.example.com/qdrant/kube-state-metrics
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/qdrant your-registry.example.com/qdrant/qdrant
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/cluster-manager your-registry.example.com/qdrant/cluster-manager
-skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/operator your-registry.example.com/qdrant/operator
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/qdrant-cluster-exporter your-registry.example.com/qdrant/qdrant-cluster-exporter
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/kubernetes-event-exporter your-registry.example.com/qdrant/kubernetes-event-exporter
 ```
 
 To sync all helm charts:
@@ -170,7 +175,8 @@ skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-cha
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/operator your-registry.example.com/qdrant-charts/operator
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api your-registry.example.com/qdrant-charts/qdrant-kubernetes-api
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-cloud-agent your-registry.example.com/qdrant-charts/qdrant-cloud-agent
-skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/operator your-registry.example.com/qdrant-charts/operator
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-cluster-exporter your-registry.example.com/qdrant-charts/qdrant-cluster-exporter
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/kubernetes-event-exporter your-registry.example.com/qdrant-charts/kubernetes-event-exporter
 ```
 
 With the above configuration, you can add the following values to the advanced section of your Hybrid Cloud Environment:
