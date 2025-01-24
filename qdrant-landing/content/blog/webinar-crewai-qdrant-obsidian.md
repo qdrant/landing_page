@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "Webinar: Building Intelligent Agentic RAG with CrewAI and Qdrant"
+title: "How to Build Intelligent Agentic RAG with CrewAI and Qdrant"
 slug: webinar-crewai-qdrant-obsidian
 short_description: "Email automation with CrewAI, Qdrant, and Obsidian notes"
 description: "Learn how to build an agentic RAG system to semi-automate email communication with CrewAI, Qdrant, and Obsidian."
@@ -10,13 +10,16 @@ author: Kacper Łukawski
 featured: false
 ---
 
-January 21st, 2025 was the day of the first webinar hosted with [CrewAI](https://crewai.com/), a framework for building 
-intelligent multi-agent applications. The webinar focused on touching the basics of CrewAI and presenting how to use 
-Qdrant to build an agentic RAG system to semi-automate email communication, with [Obsidian](https://obsidian.md/) acting 
-as a knowledge base. 
+In a recent live session, we teamed up with [CrewAI](https://crewai.com/), a framework for building intelligent, 
+multi-agent applications. If you missed it, [Kacper Łukawski](https://www.linkedin.com/in/kacperlukawski/) from Qdrant 
+and [Tony Kipkemboi](https://www.linkedin.com/in/tonykipkemboi) from [CrewAI](https://crewai.com/) gave an insightful 
+overview of CrewAI’s capabilities and demonstrated how to leverage Qdrant for creating an agentic RAG 
+(Retrieval-Augmented Generation) system. The focus was on semi-automating email communication, using 
+[Obsidian](https://obsidian.md/) as the knowledge base.
 
-The webinar was hosted by [Kacper Łukawski](https://www.linkedin.com/in/kacperlukawski/) from Qdrant, with a special
-guest appearance from [Tony Kipkemboi](https://www.linkedin.com/in/tonykipkemboi) from [CrewAI](https://crewai.com/).
+In this article, we’ll guide you through the process of setting up an AI-powered system that connects directly to your
+email inbox and knowledge base, enabling it to analyze incoming messages and existing content to generate contextually
+relevant response suggestions.
 
 ## Background agents
 
