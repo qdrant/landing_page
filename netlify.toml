@@ -16,7 +16,7 @@ HUGO_PARAMS_segmentWriteKey = "eQYi1nZE2zQSmnHuxjMRlDd2uLl65oHe"
 
 [context.deploy-preview.environment]
 HUGO_ENV = "staging"
-HUGO_PARAMS_segmentWriteKey = "DZ49RYXkFEV0pY6DG4i0RyxyobSovIlU"
+HUGO_PARAMS_segmentWriteKey = "PVpuTLKGJveLivvc1r3ZyzFutWgtzkvQ"
 
 [[headers]]
     for = "/*"

@@ -240,13 +240,14 @@ export function loadSegment() {
         t.type = "text/javascript";
         t.async = true;
         t.setAttribute("data-global-segment-analytics-key", i);
-        t.src = "https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";
+        t.src = "https://evs.analytics.qdrant.tech/5caWuitPgcGFN5Q7HMpTaj/vEkmzjuRSqeXGbhGAFTWex.min.js";
         var r = document.getElementsByTagName("script")[0];
         r.parentNode.insertBefore(t, r);
         analytics._loadOptions = n;
       };
 
       analytics._writeKey = writeKey;
+      analytics._cdn = "https://evs.analytics.qdrant.tech";
       analytics.SNIPPET_VERSION = "5.2.0";
       analytics.load(writeKey);
 
