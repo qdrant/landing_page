@@ -1,6 +1,6 @@
 .customers-testimonial {
   padding-top: $spacer * 4;
-  padding-bottom: $spacer * 5;
+  padding-bottom: 0;
 
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 5;
