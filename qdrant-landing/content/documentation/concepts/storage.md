@@ -7,19 +7,23 @@ aliases:
 
 # Storage
 
-All data within one collection is divided into segments.
-Each segment has its independent vector and payload storage as well as indexes.
+In a Qdrant collection, all data is divided into **segments**. Each segment contains several components: **vector** and **payload storages** as well as **vector** and **payload indexes**. Behind the scenes, each segment has an ID mapper that links internal and external IDs. 
 
-Data stored in segments usually do not overlap.
-However, storing the same point in different segments will not cause problems since the search contains a deduplication mechanism.
+Qdrant gives you the flexibility to store segment components—such as vector storage, payload storage, and indexes—either in memory or on disk, depending on your needs.
 
-The segments consist of vector and payload storages, vector and payload [indexes](/documentation/concepts/indexing/), and id mapper, which stores the relationship between internal and external ids.
+Data in each segment does not usually overlap, but if the same point is stored in multiple segments, the system will handle it using a deduplication mechanism during searches.
 
-A segment can be `appendable` or `non-appendable` depending on the type of storage and index used.
-You can freely add, delete and query data in the `appendable` segment.
-With `non-appendable` segment can only read and delete data.
+Here is the architecture of a Qdrant collection with two storage segments:
 
-The configuration of the segments in the collection can be different and independent of one another, but at least one `appendable' segment must be present in a collection.
+![qdrant collection architecture](/documentation/concepts/storage/collection_architecture.png)
+
+Segments can be either **appendable** or **non-appendable**, depending on the storage type and index used.
+
+An appendable segment allows you to freely add, delete, and query data. In contrast, a non-appendable segment is read-only and permits only data deletion. While segments within a collection can be configured differently and operate independently, every collection must include at least one appendable segment.
+
+
+
+
 
 ## Vector storage
 
