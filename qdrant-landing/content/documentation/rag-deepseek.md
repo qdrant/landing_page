@@ -15,11 +15,13 @@ social_preview_image: /documentation/examples/rag-deepseek/social_preview.png
 This tutorial demonstrates how to build a **Retrieval-Augmented Generation (RAG)** pipeline using Qdrant as a vector storage solution and DeepSeek for semantic query enrichment. RAG pipelines enhance Large Language Model (LLM) responses by providing contextually relevant data.
 
 ## Overview
-We'll cover:
-1. Setting up Qdrant and DeepSeek.
-2. Preparing and populating a vector database.
-3. Building and testing a RAG pipeline.
-4. Extending prompts for improved LLM responses.
+In this tutorial, we will:
+1. Combine Qdrant and DeepSeek into a minimal RAG pipeline.
+2. Add sample data to a Qdrant vector database. We will store dummy information about different software products. 
+3. Test different DeepSeek prompts and answers. 
+4. Enrich DeepSeek prompts with content retrieved from Qdrant.
+
+![deepseek-rag-architecture](/documentation/examples/rag-deepseek/architecture.png)
 
 ---
 
@@ -34,7 +36,7 @@ Ensure you have the following:
 
 
 ```python
-%pip install "qdrant-client[fastembed]"
+pip install "qdrant-client[fastembed]"
 ```
 
 [Qdrant](https://qdrant.tech) will act as a knowledge base providing the context information for the prompts we'll be sending to the LLM.
