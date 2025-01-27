@@ -16,11 +16,12 @@ This tutorial demonstrates how to build a **Retrieval-Augmented Generation (RAG)
 
 ## Overview
 In this tutorial, we will:
-1. Take sample data and turn it to vectors with FastEmbed.
-2. Combine Qdrant and DeepSeek into a minimal RAG pipeline.
-3. Add vectors to a Qdrant vector database. 
+1. Take sample text and turn it to vectors with FastEmbed.
+2. Send the vectors to a Qdrant collection. 
+3. Connect Qdrant and DeepSeek into a minimal RAG pipeline.
 4. Ask DeepSeek different questions and test answer accuracy.
 5. Enrich DeepSeek prompts with content retrieved from Qdrant.
+6. Evaluate answer accuracy before and after.
 
 #### Architecture:
 
