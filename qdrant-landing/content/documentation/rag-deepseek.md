@@ -21,6 +21,8 @@ In this tutorial, we will:
 3. Test different DeepSeek prompts and answers. 
 4. Enrich DeepSeek prompts with content retrieved from Qdrant.
 
+#### Architecture:
+
 ![deepseek-rag-architecture](/documentation/examples/rag-deepseek/architecture.png)
 
 ---
