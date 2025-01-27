@@ -114,8 +114,8 @@ Now we can finally call the completion API.
 import requests
 import json
 
-# Fill the environmental variable with your own Deepseek API key
-# See: https://platform.deepseek.com/api_keys
+# Provide your own Deepseek API key
+# from https://platform.deepseek.com/api_keys
 API_KEY = "<YOUR_DEEPSEEK_KEY>"
 
 HEADERS = {
