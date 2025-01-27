@@ -7,7 +7,7 @@ social_preview_image: /documentation/examples/rag-deepseek/social_preview.png
 
 ![deepseek-rag-qdrant](/documentation/examples/rag-deepseek/deepseek.png)
 
-# Testing a Minimal RAG Pipeline with Qdrant and DeepSeek
+# Enriching Prompts with Qdrant and DeepSeek: A Minimal RAG Implementation
 
 | Time: 45 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb) |
 | --- | ----------- | ----------- |----------- |
