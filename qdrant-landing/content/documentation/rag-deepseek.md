@@ -30,7 +30,7 @@ Ensure you have the following:
 - Access to [Qdrant Cloud](https://qdrant.tech)
 - A DeepSeek API key from [DeepSeek Platform](https://platform.deepseek.com/api_keys)
 
-### Preparing the environment
+## Setup Qdrant
 
 
 ```python
@@ -84,7 +84,7 @@ client.add(
 )
 ```
 
-## Retrieval Augmented Generation
+## Setup DeepSeek
 
 RAG changes the way we interact with Large Language Models. We're converting a knowledge-oriented task, in which the model may create a counterfactual answer, into a language-oriented task. The latter expects the model to extract meaningful information and generate an answer. LLMs, when implemented correctly, are supposed to be carrying out language-oriented tasks.
 
