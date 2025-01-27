@@ -2,7 +2,7 @@
 title: Minimal RAG with Qdrant and DeepSeek
 weight: 15
 partition: build
-social_preview_image: /documentation/examples/rag-deepseek/social-preview.png
+social_preview_image: /documentation/examples/rag-deepseek/social_preview.png
 ---
 
 ![deepseek-rag-qdrant](/documentation/examples/rag-deepseek/deepseek.png)
