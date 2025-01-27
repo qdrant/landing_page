@@ -1,5 +1,5 @@
 ---
-title: Minimal RAG with Qdrant and DeepSeek
+title: 5 Minute RAG with Qdrant and DeepSeek
 weight: 15
 partition: build
 social_preview_image: /documentation/examples/rag-deepseek/social_preview.png
@@ -7,9 +7,9 @@ social_preview_image: /documentation/examples/rag-deepseek/social_preview.png
 
 ![deepseek-rag-qdrant](/documentation/examples/rag-deepseek/deepseek.png)
 
-# Enriching Prompts with Qdrant and DeepSeek: A Minimal RAG Implementation
+# 5 Minute RAG with Qdrant and DeepSeek
 
-| Time: 45 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb) |
+| Time: 5 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb) |
 | --- | ----------- | ----------- |----------- |
 
 This tutorial demonstrates how to build a **Retrieval-Augmented Generation (RAG)** pipeline using Qdrant as a vector storage solution and DeepSeek for semantic query enrichment. RAG pipelines enhance Large Language Model (LLM) responses by providing contextually relevant data.
