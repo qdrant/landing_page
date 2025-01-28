@@ -64,13 +64,15 @@ Qdrant uses the **HNSW (Hierarchical Navigable Small World Graph) algorithm** as
 
 **Figure 2:** A sample HNSW vector index with three layers. Follow the blue arrow on the top layer to see how a query travels throughout the database index. The closest result is on the bottom level, nearest to the gray query point.
 
-![hnsw-vector-index](/articles_data/resource-optimization/hnsw-vector-index.png)
+![hnsw](/articles_data/vector-database-optimization/hnsw.png)
 
 #### Vector Index Optimization Parameters
 
 Working with massive datasets that contain billions of vectors demands significant resources—and those resources come with a price. While Qdrant provides reasonable defaults, tailoring them to your specific use case can unlock optimal performance. Here’s what you need to know.
 
 The following parameters give you the flexibility to fine-tune Qdrant’s performance for your specific workload. You can modify them directly in Qdrant's [configuration](https://qdrant.tech/documentation/guides/configuration/) files or at the collection and named vector levels for more granular control.
+
+![hnsw-parameters](/articles_data/vector-database-optimization/hnsw-parameters.png)
 
 #### Edges per Node - the `m` parameter
 
@@ -167,6 +169,8 @@ Learn More about [Scalar Quantization](/documentation/concepts/quantization/)
 #### Binary Quantization
 
 **Binary quantization** takes scalar quantization to the next level by compressing each vector component into just **a single bit**. This method achieves unparalleled memory efficiency and query speed, reducing memory usage by a factor of 32 and enabling searches up to 40x faster.
+
+![binary-quantization](/articles_data/vector-database-optimization/binary-quantization.png)
 
 #### **Benefits of Binary Quantization:**
 
@@ -282,7 +286,7 @@ client.create_collection(
 
 **Figure 6:** Users can both upsert and query shards that are relevant to them, all within the same collection. Regional sharding can help avoid cross-continental traffic.
 
-![custom-sharding](/articles_data/vector-database-optimization/custom-sharding.png)
+![user-defined-sharding](/articles_data/vector-database-optimization/user-defined-sharding.png)
 
 **Example:**
 
@@ -350,7 +354,7 @@ query_vector=[0.1, 0.2, 0.3], limit=10,
 with_payload={"include": ["category"]})
 ```
 
----
+![filterable-vector-index](/articles_data/vector-database-optimization/filterable-vector-index.png)
 
 ---
 
@@ -371,6 +375,8 @@ client.query_points(
 )
 ```
 
+![reranking](/articles_data/vector-database-optimization/reranking.png)
+
 ---
 
 #### 4. Hybrid Search
@@ -380,6 +386,8 @@ Hybrid search combines **keyword filtering** with **vector similarity search**, 
 ![image1.png](/articles_data/resource-optimization/image1.png)
 
 Fig. 3: Architecture of Hybrid Search
+
+![hybrid-search](/articles_data/vector-database-optimization/hybrid-search.png)
 
 #### Caching Mechanisms
 
@@ -410,6 +418,8 @@ Before sending a query to Qdrant, the system checks the query vector's similarit
 #### Batch Processing Optimization
 
 Batch processing consolidates multiple operations into a single execution cycle, reducing transaction overhead and enhancing throughput. It’s an effective strategy for both data insertion and query execution.
+
+![batch-processing](/articles_data/vector-database-optimization/batch-processing.png)
 
 - **Batch Insertions**: Instead of inserting vectors individually, group them into larger batches to minimize the number of database transactions and the overhead of frequent writes.
 
