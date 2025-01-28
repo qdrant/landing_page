@@ -61,6 +61,12 @@ If you want to retrieve the secret again, you can also use `kubectl`:
 kubectl get secret qdrant-api-key -o jsonpath="{.data.api-key}" --namespace the-qdrant-namespace | base64 --decode
 ```
 
+#### Watch the Video
+
+In this tutorial, we walk you through the steps to expose your Qdrant database cluster running on Qdrant Hybrid Cloud to external applications or users outside your Kubernetes cluster. Learn how to configure TLS certificates for secure communication, set up authentication, and explore different methods like load balancers, ingress, and port configurations. 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ikofKaUc4x0?si=uWyv5r4zDbs2ZsrD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ### Exposing Qdrant clusters to your client applications
 
 You can expose your Qdrant clusters to your client applications using Kubernetes services and ingresses. By default, a `ClusterIP` service is created for each Qdrant cluster.
