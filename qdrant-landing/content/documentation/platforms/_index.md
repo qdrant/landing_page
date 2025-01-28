@@ -20,4 +20,5 @@ partition: build
 | [Portable.io](/documentation/platforms/portable/)       | Cloud platform for developing and deploying ELT transformations.                         |
 | [PrivateGPT](/documentation/platforms/privategpt/)      | Tool to ask questions about your documents using local LLMs emphasising privacy.         |
 | [Rivet](/documentation/platforms/rivet/)                | A visual programming environment for building AI agents with LLMs.                       |
+| [ToolJet](/documentation/platforms/tooljet/)            | A low-code platform for business apps that connect to DBs, cloud storages and more.      |
 | [Vectorize](/documentation/platforms/vectorize/)        | Platform to automate data extraction, RAG evaluation, deploy RAG pipelines.              |
