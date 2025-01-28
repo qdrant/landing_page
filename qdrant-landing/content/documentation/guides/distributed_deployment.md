@@ -1033,8 +1033,11 @@ Qdrant provides a few options to control consistency guarantees:
 
 ### Write consistency factor
 
-The `write_consistency_factor` represents the number of replicas that must acknowledge a write operation before responding to the client. It is set to one by default.
-It can be configured at the collection's creation time.
+The `write_consistency_factor` represents the number of replicas that must acknowledge a write operation before responding to the client. It is set to 1 by default.
+It can be configured at the collection's creation or when updating the
+collection parameters.
+
+This value can range from 1 to the number of replicas you have for each shard.
 
 ```http
 PUT /collections/{collection_name}
@@ -1165,7 +1168,14 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 })
 ```
 
-Write operations will fail if the number of active replicas is less than the `write_consistency_factor`.
+Write operations will fail if the number of active replicas is less than the
+`write_consistency_factor`. In this case, the client is expected to send the
+operation again to ensure a consistent state is reached.
+
+Setting the `write_consistency_factor` to a lower value may allow accepting
+writes even if there are unresponsive nodes. Unresponsive nodes are marked as
+dead and will automatically be recovered once available to ensure data
+consistency.
 
 The configuration of the `write_consistency_factor` is important for adjusting the cluster's behavior when some nodes go offline due to restarts, upgrades, or failures.
 
