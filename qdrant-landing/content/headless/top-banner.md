@@ -10,11 +10,11 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "New version: Qdrant 1.13.0 and introducing GPU-accelerated HNSW indexing"
+text: "Building Open-Source Agentic RAG with DeepSeek on February 13"
 link:
-  text: Read More
-  url: /blog/qdrant-1.13.x/
-start: 2025-01-23T13:00:00.000Z
+  text: Learn more
+  url: https://try.qdrant.tech/deepseek?utm_source=website&utm_medium=homepage-banner&utm_campaign=feb-webinar
+start: 2025-01-28T13:00:00.000Z
 sitemapExclude: true
-end: 2025-02-06T08:00:00.000Z
+end: 2025-02-13T08:00:00.000Z
 ---
