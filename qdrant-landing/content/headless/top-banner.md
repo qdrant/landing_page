@@ -13,7 +13,7 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
 text: "Building Open-Source Agentic RAG with DeepSeek on February 13"
 link:
   text: Learn more
-  url: [/blog/qdrant-1.13.x/](https://try.qdrant.tech/deepseek?utm_source=website&utm_medium=homepage-banner&utm_campaign=feb-webinar)
+  url: https://try.qdrant.tech/deepseek?utm_source=website&utm_medium=homepage-banner&utm_campaign=feb-webinar
 start: 2025-01-28T13:00:00.000Z
 sitemapExclude: true
 end: 2025-02-13T08:00:00.000Z
