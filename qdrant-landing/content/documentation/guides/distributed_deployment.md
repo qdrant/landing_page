@@ -1174,7 +1174,7 @@ operation again to ensure a consistent state is reached.
 
 Setting the `write_consistency_factor` to a lower value may allow accepting
 writes even if there are unresponsive nodes. Unresponsive nodes are marked as
-dead and will automatically be recovered again once available to ensure data
+dead and will automatically be recovered once available to ensure data
 consistency.
 
 The configuration of the `write_consistency_factor` is important for adjusting the cluster's behavior when some nodes go offline due to restarts, upgrades, or failures.
