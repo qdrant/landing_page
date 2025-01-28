@@ -90,7 +90,7 @@ Here is how you can take a snapshot and recover a collection:
 
 ## Backup considerations
 
-For AWS and GCP clusters backups are incremental. For example, if you have two backups, backup number 2
+Backups are incremental for AWS and GCP clusters. For example, if you have two backups, backup number 2
 contains only the data that changed since backup number 1. This reduces the
 total cost of your backups.
 
