@@ -56,7 +56,7 @@ Learn more about [Qdrant’s Optimization Methods](/documentation/guides/optimiz
 
 ## Configure Indexing for Faster Searches
 
-![indexing](/articles_data/vector-search-filtering/payload-index-filtering.png)
+![indexing](/articles_data/vector-database-optimization/section.png)
 
 **What is it?** A vector index is the central location where Qdrant calculates vector similarity. It is the backbone of your search process, retrieving relevant results from vast amounts of data. 
 
@@ -117,7 +117,7 @@ Learn More about [Indexing](/documentation/concepts/indexing/).
 
 
 ## Data Compression Techniques
-![quantization](/articles_data/what-is-vector-quantization/astronaut-mars.jpg)
+![quantization](/articles_data/vector-database-optimization/section.png)
 
 Efficient data compression is a cornerstone of resource optimization in vector databases. By reducing memory usage, you can achieve faster query performance without sacrificing too much accuracy. One powerful technique is **quantization**, which transforms high-dimensional vectors into compact representations while preserving relative similarity. Let’s explore the quantization options available in Qdrant.
 
@@ -207,7 +207,7 @@ Learn More about [Binary Quantization](/documentation/guides/quantization/)
 
 ## Scaling the Database 
 
-![database](/articles_data/what-is-a-vector-database/vector-database-1.jpeg)
+![database](/articles_data/vector-database-optimization/section.png)
 
 Efficiently managing large datasets in distributed systems like Qdrant requires smart strategies for data isolation. **Multitenancy** and **Sharding** are essential tools to help you handle high volumes of user-specific data while maintaining performance and scalability.
 
@@ -333,7 +333,7 @@ Here’s how to choose the shard_number:
 Learn More about [Sharding](/documentation/guides/distributed_deployment/)
 
 ## Query Optimization
-![qdrant](/articles_data/vector-search-filtering/scanning-lens.png)
+![qdrant](/articles_data/vector-database-optimization/section.png)
 
 Improving vector database performance is critical when dealing with large datasets and complex queries. By leveraging techniques like **query optimization**, **caching**, and **batch processing**, you can ensure fast response times and maintain efficiency even at scale.
 
@@ -680,7 +680,7 @@ In multi-user environments, isolating user-specific data is crucial to ensure da
 _________________________________________________________________________
 
 #### Start Building With Qdrant
-![qdrant](/articles_data/what-is-a-vector-database/vector-database-7.jpeg)
+![qdrant](/articles_data/vector-database-optimization/section.png)
 
 In this guide, we explored strategies to improve system efficiency without compromising data integrity or query accuracy. Here are the key takeaways to guide you in building a robust and scalable vector database system:
 
