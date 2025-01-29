@@ -2,8 +2,8 @@
 title: "A Complete Guide to Vector Database Optimization"
 short_description: "Combine optimization methods to improve resource usage."
 description: "Combine optimization methods in Qdrant. Discover key tricks and best practices to boost semantic search performance and reduce Qdrant's resource usage."
-preview_dir: /articles_data/resource-optimization/preview
-social_preview_image: /articles_data/resource-optimization/social_preview.png
+preview_dir: /articles_data/vector-database-optimization/preview
+social_preview_image: /articles_data/vector-database-optimization/social_preview.png
 weight: -200
 author: David Myriel
 category: vector-search-manuals
@@ -41,7 +41,7 @@ In this guide, we will show you how to use Qdrant’s features to meet your perf
 
 **Figure 1:** Different use cases require different balances between **memory usage**, **search speed**, and **precision**. 
 
-![optimization-triangle](/articles_data/resource-optimization/optimization-triangle.png)
+![optimization-triangle](/articles_data/vector-database-optimization/optimization.png)
 
 Choose the **Optimization Strategy** that best fits your **Intended Result** to properly balance your resource expenditure.
 
@@ -129,7 +129,7 @@ This method minimizes the number of bits used to represent each vector component
 
 **Figure 3:** The top example shows a float32 vector with a size of 40 bytes. Converting it to int8 format reduces its size by a factor of four, while preserving the original representation of the user data.
 
-![scalar-quantization](/articles_data/resource-optimization/scalar-quantization.png)
+![scalar-quantization](/articles_data/vector-database-optimization/scalar-quantization.png)
 
 #### Benefits of Scalar Quantization:
 
@@ -162,7 +162,7 @@ When working with Qdrant, you can fine-tune the quantization configuration to op
 
 Adjust these settings to strike the right balance between precision and efficiency for your specific workload.
 
-Learn More about [Scalar Quantization](/documentation/concepts/quantization/)
+Learn More about [Scalar Quantization](/documentation/guides/quantization/)
 
 ---
 
@@ -178,7 +178,7 @@ Binary quantization is ideal for high-dimensional datasets and compatible embedd
 
 **Figure 4:** This method causes maximum compression. It reduces memory usage by 32x and speeds up searches by up to 40x.
 
-![binary-quantization](/articles_data/resource-optimization/binary-quantization.png)
+![binary-quantization](/articles_data/vector-database-optimization/binary-quantization.png)
 
 **Efficient similarity calculations:** Emulates Hamming distance through dot product comparisons, making it fast and effective.
 
@@ -330,7 +330,7 @@ Here’s how to choose the shard_number:
 - **Future-Proofing**: Starting with around **12 shards** is a good rule of thumb. This setup allows your system to scale seamlessly from 1 to 12 nodes without requiring re-sharding.
 - **Avoid Re-Sharding**: Re-sharding can be complex and requires creating a new collection, so it's best to plan ahead to minimize disruptions.
 
-Learn More about [Sharding](/documentation/guides/distributed-deployment/)
+Learn More about [Sharding](/documentation/guides/distributed_deployment/)
 
 ## Query Optimization
 ![qdrant](/articles_data/vector-search-filtering/scanning-lens.png)
@@ -383,7 +383,7 @@ client.query_points(
 
 Hybrid search combines **keyword filtering** with **vector similarity search**, enabling faster and more precise results. Keywords help narrow down the dataset quickly, while vector similarity ensures semantic accuracy.
 
-![image1.png](/articles_data/resource-optimization/image1.png)
+![image1.png](/articles_data/vector-database-optimization/image1.png)
 
 Fig. 3: Architecture of Hybrid Search
 
