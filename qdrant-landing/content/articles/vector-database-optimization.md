@@ -217,7 +217,7 @@ Efficiently managing large datasets in distributed systems like Qdrant requires 
 
 **Figure 5:** Each individual vector is assigned a specific payload that denotes which tenant it belongs to. This is how a large number of different tenants can share a single Qdrant collection.
 
-![multitenancy](/articles_data/vector-database-optimization/multiple-partitions.png)
+![multitenancy](/articles_data/vector-database-optimization/multitenancy.png)
 
 **Why Choose Multitenancy?**
 
@@ -250,7 +250,7 @@ client.upsert(
 
 To ensure proper data isolation in a multitenant environment, you can assign a unique identifier, such as a **group_id**, to each vector. This approach ensures that each user's data remains segregated, allowing users to access only their own data. You can further enhance this setup by applying filters during queries to restrict access to the relevant data.
 
-Learn More about [Multitenancy](/documentation/guides/multitenancy/)
+Learn More about [Multitenancy](/documentation/guides/multiple-partitions/)
 
 #### Sharding
 
