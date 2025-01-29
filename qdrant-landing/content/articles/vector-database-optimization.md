@@ -52,7 +52,7 @@ Choose the **Optimization Strategy** that best fits your **Intended Result** to 
 | High Precision + High Speed    | RAM Storage + Quantization   |
 | Latency vs Throughput          | Segment Configuration        |
 
-Learn more about [Qdrant’s Optimization Methods](/documentation/guides/optimization/).
+Learn more about [Qdrant’s Optimization Methods](/documentation/guides/optimize/).
 
 ## Configure Indexing for Faster Searches
 
@@ -201,7 +201,7 @@ client.create_collection(
 ```
 > By default, quantized vectors load like original vectors unless you set **always_ram** to True for instant access and faster queries.
 
-Learn More about [Binary Quantization](/documentation/concepts/quantization/)
+Learn More about [Binary Quantization](/documentation/guides/quantization/)
 
 ---
 
@@ -217,7 +217,7 @@ Efficiently managing large datasets in distributed systems like Qdrant requires 
 
 **Figure 5:** Each individual vector is assigned a specific payload that denotes which tenant it belongs to. This is how a large number of different tenants can share a single Qdrant collection.
 
-![multitenancy](/articles_data/vector-database-optimization/multitenancy.png)
+![multitenancy](/articles_data/vector-database-optimization/multiple-partitions.png)
 
 **Why Choose Multitenancy?**
 
