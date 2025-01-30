@@ -13,16 +13,18 @@ Rerankers analyze in-depth token-level interactions between the query and each d
 
 ## Goal of this Tutorial 
 
-It's common to use [cross-enconder]((https://sbert.net/examples/applications/cross-encoder/README.html)) models as rerankers. This tutorial uses [Jina Reranker v2 Base Multilingual](https://jina.ai/news/jina-reranker-v2-for-agentic-rag-ultra-fast-multilingual-function-calling-and-code-search/) -- cross-encoder reranker supported in FastEmbed. 
+It's common to use [cross-enconder](https://sbert.net/examples/applications/cross-encoder/README.html) models as rerankers. This tutorial uses [Jina Reranker v2 Base Multilingual](https://jina.ai/news/jina-reranker-v2-for-agentic-rag-ultra-fast-multilingual-function-calling-and-code-search/) (licensed under CC-BY-NC-4.0) -- cross-encoder reranker supported in FastEmbed. 
+
+
 
 We use the `all-MiniLM-L6-v2` dense embedding model (also supported in FastEmbed) as a first-stage retriever and then refine results with `Jina Reranker v2`.
 
 ## Setup
 
-Install `fastembed`.
+Install `qdrant-client` with `fastembed`.
 
 ```python
-pip install fastembed
+pip install "qdrant-client[fastembed]"
 ```
 
 Imports cross-encoders and text embeddings for the first-stage retrieval.
@@ -133,12 +135,6 @@ descriptions_embeddings = list(
 ```
 
 Let's upload embeddings to Qdrant.
-
-Install `qdrant-client`
-
-```python
-pip install qdrant-client
-```
 
 Qdrant Client has a simple in-memory mode that allows you to experiment locally on small data volumes. 
 Alternatively, you could use for experiments [a free cluster](https://qdrant.tech/documentation/cloud/create-cluster/#create-a-cluster) in Qdrant Cloud.
