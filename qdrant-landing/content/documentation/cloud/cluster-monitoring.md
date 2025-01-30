@@ -35,4 +35,8 @@ Metrics in a Prometheus-compatible format are available at the `/sys_metrics` cl
 
 For more information see [Qdrant monitoring](/documentation/guides/monitoring/#monitoring-in-qdrant-cloud).
 
+## Grafana dashboard
 
+If you scrape your Qdrant Cluster system metrics into your own monitoring system, and your are using Grafana, you can use our [Grafana dashboard](https://github.com/qdrant/qdrant-cloud-grafana-dashboard) to visualize these metrics.
+
+![Grafa dashboard](/documentation/cloud/cloud-grafana-dashboard.png)
