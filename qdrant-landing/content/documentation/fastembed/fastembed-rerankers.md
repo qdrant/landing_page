@@ -7,17 +7,16 @@ weight: 8
 
 ## Rerankers
 
-A reranker is a model that improves the ordering of search results. A subset of documents is initially prefetched using a fast, simple method (e.g., BM25 or dense embeddings). Then, a reranker, a more powerful & precise but slower & heavier model, re-evaluates this subset to refine document relevance to a query.
+A reranker is a model that improves the ordering of search results. A subset of documents is initially retrieved using a fast, simple method (e.g., BM25 or dense embeddings). Then, a reranker -- a more powerful, precise, but slower and heavier model -- re-evaluates this subset to refine document relevance to the query.
 
-Rerankers analyze in-depth token-level interactions between the query and each document, making them expensive in usage but precise in defining relevancy. They trade off speed for accuracy, so they are best used on **a limited candidate set** rather than the entire corpus.
+Rerankers analyze token-level interactions between the query and each document in depth, making them expensive to use but precise in defining relevance. They trade speed for accuracy, so they are best used on a limited candidate set rather than the entire corpus.
 
 ## Goal of this Tutorial 
 
-It's common to use [cross-enconder](https://sbert.net/examples/applications/cross-encoder/README.html) models as rerankers. This tutorial uses [Jina Reranker v2 Base Multilingual](https://jina.ai/news/jina-reranker-v2-for-agentic-rag-ultra-fast-multilingual-function-calling-and-code-search/) (licensed under CC-BY-NC-4.0) -- cross-encoder reranker supported in FastEmbed. 
-
-
+It's common to use [cross-encoder](https://sbert.net/examples/applications/cross-encoder/README.html) models as rerankers. This tutorial uses [Jina Reranker v2 Base Multilingual](https://jina.ai/news/jina-reranker-v2-for-agentic-rag-ultra-fast-multilingual-function-calling-and-code-search/) (licensed under CC-BY-NC-4.0) -- a cross-encoder reranker supported in FastEmbed.
 
 We use the `all-MiniLM-L6-v2` dense embedding model (also supported in FastEmbed) as a first-stage retriever and then refine results with `Jina Reranker v2`.
+
 
 ## Setup
 
@@ -27,19 +26,19 @@ Install `qdrant-client` with `fastembed`.
 pip install "qdrant-client[fastembed]"
 ```
 
-Imports cross-encoders and text embeddings for the first-stage retrieval.
+Import cross-encoders and text embeddings for the first-stage retrieval.
 
 ```python
 from fastembed import TextEmbedding
 from fastembed.rerank.cross_encoder import TextCrossEncoder
 ```
-You can list which cross encoder rerankers are supported in FastEmbed.
+You can list the cross-encoder rerankers supported in FastEmbed using the following command.
 
 ```python
 TextCrossEncoder.list_supported_models()
 ```
 
-This command displays the available models. The output shows details about the model, including output embedding dimensions, model description, model size, model sources, and model file.
+This command displays the available models, including details such as output embedding dimensions, model description, model size, model sources, and model file.
 
 <details>
 <summary> <span style="background-color: gray; color: black;"> Avaliable models </span> </summary>
@@ -86,20 +85,20 @@ This command displays the available models. The output shows details about the m
 </details>
 
 
-Now, load the first stage retriever and reranker.
+Now, load the first-stage retriever and reranker.
 
 ```python
 dense_embedding_model = TextEmbedding("sentence-transformers/all-MiniLM-L6-v2")
 reranker = TextCrossEncoder(model_name='jinaai/jina-reranker-v2-base-multilingual')
 ```
 
-Models' files will be fetched and downloaded, with progress showing.
+The model files will be fetched and downloaded, with progress displayed.
 
 ## Embed & index data for the first-stage retrieval
 
-We will vectorize a toy movie description dataset with the `all-MiniLM-L6-v2` model & save embeddings in Qdrant to use them for the first-stage retrieval.
+We will vectorize a toy movie description dataset using the `all-MiniLM-L6-v2` model and save the embeddings in Qdrant for first-stage retrieval.
 
-Then, we will use a cross-econder reranking model to rerank a small subset of data retrieved in the first stage.
+Then, we will use a cross-encoder reranking model to rerank a small subset of data retrieved in the first stage.
 
 <details>
 <summary> <span style="background-color: gray; color: black;"> Movie description dataset </span> </summary>
@@ -134,10 +133,10 @@ descriptions_embeddings = list(
 )
 ```
 
-Let's upload embeddings to Qdrant.
+Let's upload the embeddings to Qdrant.
 
-Qdrant Client has a simple in-memory mode that allows you to experiment locally on small data volumes. 
-Alternatively, you could use for experiments [a free cluster](https://qdrant.tech/documentation/cloud/create-cluster/#create-a-cluster) in Qdrant Cloud.
+Qdrant Client offers a simple in-memory mode, allowing you to experiment locally with small data volumes.  
+Alternatively, you can use [a free cluster](https://qdrant.tech/documentation/cloud/create-cluster/#create-a-cluster) in Qdrant Cloud for experiments.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -159,7 +158,7 @@ qdrant_client.create_collection(
 )
 ```
 
-And upload embeddings to it.
+And upload the embeddings to it.
 
 ```python
 qdrant_client.upload_points(
@@ -182,7 +181,7 @@ qdrant_client.upload_points(
 
 ## First-stage retrieval
 
-Let's see how relevant will be results using only an `all-MiniLM-L6-v2`-based dense retriever. 
+Let's see how relevant the results will be using only an `all-MiniLM-L6-v2`-based dense retriever.
 
 ```python
 query = '''A story about a strong historically significant female figure.'''
@@ -202,7 +201,7 @@ for i, hit in enumerate(initial_retrieval.points):
     description_hits.append(hit.payload["description"])
 ```
 
-The result is the following:
+The result is as follows:
 
 ```bash
 Result number 1 is "A world-weary political journalist picks up the story of a woman's search for her son, who was taken away from her decades ago after she became pregnant and was forced to live in a convent."
@@ -212,9 +211,9 @@ Result number 9 is "A biopic detailing the 2 decades that Punjabi Sikh revolutio
 Result number 10 is "In 1431, Jeanne d'Arc is placed on trial on charges of heresy. The ecclesiastical jurists attempt to force Jeanne to recant her claims of holy visions."
 ```
 
-We can see that the description of *"The Messenger: The Story of Joan of Arc"* movie, which is the most fitting, is 10th in the results. 
+We can see that the description of *"The Messenger: The Story of Joan of Arc"*, which is the most fitting, appears 10th in the results.
 
-Let's try refining the retrieved subset's order with `Jina Reranker v2`. It takes as an input query and a set of documents (movie descriptions) and calculates the relevance score based on token-level interaction between the query and each document. 
+Let's try refining the order of the retrieved subset with `Jina Reranker v2`. It takes a query and a set of documents (movie descriptions) as input and calculates a relevance score based on token-level interactions between the query and each document.
 
 ```python
 new_scores = list(reranker.rerank(query, description_hits)) #returns scores between query and each document
@@ -226,7 +225,7 @@ for i, rank in enumerate(ranking):
     print(f'''Reranked result number {i+1} is \"{description_hits[rank[0]]}\"''')
 ```
 
-The reranker puts the desired movie in the first position by relevance.
+The reranker moves the desired movie to the first position based on relevance.
 
 ```bash
 Reranked result number 1 is "In 1431, Jeanne d'Arc is placed on trial on charges of heresy. The ecclesiastical jurists attempt to force Jeanne to recant her claims of holy visions."
@@ -239,9 +238,9 @@ Reranked result number 10 is "A biopic detailing the 2 decades that Punjabi Sikh
 
 ## Conclusion
 
-Rerankers help refine search results by reordering retrieved candidates based on deeper semantic analysis. They should be applied **only to a small subset of retrieved results** for efficiency.  
+Rerankers refine search results by reordering retrieved candidates through deeper semantic analysis. For efficiency, they should be applied **only to a small subset of retrieved results**.
 
-Balance speed and accuracy in search using the power of rerankers!
+Balance speed and accuracy in search by leveraging the power of rerankers!
 
 
 
