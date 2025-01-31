@@ -5,20 +5,22 @@ short_description: Simplify the evaluation of embedding models.
 description: Simplify the evaluation of embedding models with a handy Python library.
 preview_image: /blog/choosing-embedding-models/social_preview.png 
 social_preview_image: /blog/choosing-embedding-models/social_preview.png 
-date: 2025-01-30T00:40:24-03:00
+date: 2025-01-31T00:40:24-03:00
 author: Clelia Astra Bertelli
 featured: no
 ---
 
-In the ever-expanding landscape of large language models (LLMs) and retrieval-augmented generation (RAG), choosing the right embedding model for your application is critical. With over 10,000 models available on Sentence Transformers alone, it can be overwhelming to determine the best fit for your specific dataset and use case.
+In the ever-expanding landscape of large language models (LLMs) and [retrieval-augmented generation (RAG](https://qdrant.tech/rag/), choosing the right embedding model for your application is critical. With over 10,000 models available on Sentence Transformers alone, it can be overwhelming to determine the best fit for your specific dataset and use case.
 
-Enter **Sentrev**, a Python library designed by Clelia Astra Bertelli to simplify the evaluation of embedding models, helping users determine which model works best for their text-based documents. In this blog, we will explore Sentrev, its methodology, and why choosing the right embedding model is crucial for building high-performing LLM applications.
+Enter **Sentrev**, a Python library designed by [Clelia Astra Bertelli](https://github.com/AstraBert) to simplify the evaluation of embedding models, helping users determine which model works best for their text-based documents. 
+
+In this blog, we will explore [**Sentrev**](https://github.com/AstraBert/SenTrEv), its methodology, and why choosing the right embedding model is crucial for building [high-performing LLM applications](/demo/).
 
 ---
 
 ## Why Choosing the Right Embedding Model Matters
 
-Embedding models convert text into vector representations, allowing similarity searches and contextual understanding within vector databases like Qdrant. However, not all embedding models are created equal.
+Embedding models convert text into [vector representations](/documentation/concepts/vectors/), allowing [similarity searches](/advanced-search/) and contextual understanding within vector databases like Qdrant. However, not all embedding models are created equal.
 
 Factors influencing model choice include:
 
@@ -28,13 +30,13 @@ Factors influencing model choice include:
 4. **Hardware and Cost Considerations** – Some models perform well on CPUs, while others require GPUs.
 5. **Carbon Footprint** – Running embedding models has an environmental impact, and understanding this can help optimize efficiency.
 
-A poorly chosen embedding model can lead to ineffective search results, increased latency, and wasted resources. Sentrev aims to solve this by providing an evaluation framework that identifies the best model for a given dataset.
+A poorly chosen embedding model can lead to [ineffective search results, increased latency, and wasted resources](/benchmarks/). Sentrev aims to solve this by providing an evaluation framework that identifies the best model for a given dataset.
 
 ---
 
 ## Introducing Sentrev: A Python Library for Model Evaluation
 
-Sentrev offers a streamlined workflow for evaluating embedding models. It is integrated with **Qdrant** (a leading open-source vector database), **FastEmbed** (a sparse embedding model library), and **Hugging Face** (which hosts a vast array of models).
+Sentrev offers a streamlined workflow for evaluating embedding models. It is integrated with **Qdrant** (a leading open-source [vector database](/qdrant-vector-database/)), **FastEmbed** ([a package for vectorization](/documentation/fastembed/)), and **Hugging Face** (which hosts a vast array of models).
 
 ### Features of Sentrev:
 
@@ -50,7 +52,7 @@ Sentrev offers a streamlined workflow for evaluating embedding models. It is int
 
 ### Step 1: Install and Set Up Sentrev
 
-Sentrev can be installed using pip:
+[**Sentrev**](https://github.com/AstraBert/SenTrEv) can be installed using pip:
 
 ```bash
 pip install sentrev
@@ -74,10 +76,14 @@ client = QdrantClient("http://localhost:6333")
 Users can run Sentrev’s evaluation pipeline on different models to compare their performance:
 
 ```python
-from sentrev import SentrevEvaluator
-
-evaluator = SentrevEvaluator(client=client, data_files=["data1.pdf", "data2.docx"], models=["all-mpnet-base-v2", "mini-lm"])
-evaluator.evaluate()
+from sentrev.evaluator import evaluate_dense_retrieval
+from sentence_transformers import SentenceTransformer
+# Define all the encoders
+dense_encoder1 = SentenceTransformer('sentence-transformers/all-mpnet-base-v2', device="cuda")
+dense_encoder2 = SentenceTransformer('sentence-transformers/all-MiniLM-L12-v2', device="cuda")
+dense_encoder3 = SentenceTransformer('sentence-transformers/LaBSE', device="cuda")
+# Evaluate retrieval!
+evaluate_dense_retrieval(files = ["data1.pdf", "data2.docx"],  encoders = [dense_encoder1, dense_encoder2, dense_encoder3], encoder_to_names = { dense_encoder1: 'all-mpnet-base-v2', dense_encoder2: 'all-MiniLM-L12-v2', dense_encoder3: 'LaBSE'}, client = client, csv_path="~/evals/dense_stats.csv", chunking_size = 1500, text_percentage=0.3, distance="dot", mrr=10, carbon_tracking="USA", plot=True)
 ```
 
 Sentrev will output retrieval success rates, ranking metrics, and execution times to help users determine the best model.
@@ -94,17 +100,17 @@ Sentrev will output retrieval success rates, ranking metrics, and execution time
 
 ## Future of Sentrev: Expanding to Multi-Modal Retrieval
 
-Sentrev is currently focused on text data but plans to expand to **multi-modal retrieval**, incorporating image and audio embeddings. As the demand for hybrid search grows, Sentrev will provide insights into evaluating models across diverse data types.
+Sentrev is currently focused on text data but plans to expand to **multi-modal retrieval**, incorporating image and audio embeddings. As the demand for [hybrid search](/articles/hybrid-search/) grows, Sentrev will provide insights into evaluating models across diverse data types.
 
 ---
 
 ## Conclusion
 
-Choosing the right embedding model is essential for optimizing retrieval accuracy, efficiency, and resource consumption. Sentrev simplifies this process by providing a comprehensive framework for evaluating different models, making it easier for developers to build high-performance LLM applications.
+Choosing the right embedding model is essential for optimizing retrieval accuracy, efficiency, and [resource consumption](/documentation/guides/optimize/). [**Sentrev**](https://github.com/AstraBert/SenTrEv) simplifies this process by providing a comprehensive framework for evaluating different models, making it easier for developers to build high-performance LLM applications.
 
-With tight integration with Qdrant and FastEmbed, Sentrev is a powerful tool for anyone working on retrieval-augmented generation and semantic search. If you're looking to fine-tune your search quality and optimize your AI system, Sentrev is definitely worth exploring.
+With tight integration with [Qdrant](https://qdrant.tech/) and [FastEmbed](https://qdrant.tech/documentation/fastembed/), Sentrev is a powerful tool for anyone working on retrieval-augmented generation and semantic search. If you're looking to fine-tune your search quality and optimize your AI system, Sentrev is definitely worth exploring.
 
-For more information, visit Sentrev’s GitHub repository and join the Qdrant community to stay updated on the latest advancements in vector search!
+For more information, visit [**Sentrev’s GitHub repository**](https://github.com/AstraBert/SenTrEv) and join the [**Qdrant Discord community**](https://discord.gg/qdrant) to stay updated on the latest advancements in vector search!
 
 ---
 
