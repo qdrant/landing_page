@@ -250,15 +250,15 @@ mask = processed_images.input_ids[0] == model_processor.image_token_id
 #   and reshape them to (x_patches, y_patches, dim)
 
 # (x_patches, y_patches, 128)
-image_tokens = image_embedding[mask].view(x_patches, y_patches, model.dim)
+image_patch_embeddings = image_embedding[mask].view(x_patches, y_patches, model.dim)
 
 # Now we can apply mean pooling by rows and columns
 
 # (x_patches, 128)
-pooled_by_rows = image_tokens.mean(dim=0)
+pooled_by_rows = image_patch_embeddings.mean(dim=0)
 
 # (y_patches, 128)
-pooled_by_columns = image_tokens.mean(dim=1)
+pooled_by_columns = image_patch_embeddings.mean(dim=1)
 
 # [Optionally] we can also concatenate special tokens to the pooled representations, 
 # For ColPali, it's only postfix
