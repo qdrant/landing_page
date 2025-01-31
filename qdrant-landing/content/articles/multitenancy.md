@@ -6,7 +6,7 @@ social_preview_image: /articles_data/multitenancy/social_preview.png
 preview_dir: /articles_data/multitenancy/preview
 weight: -120
 author: David Myriel
-date: 2024-02-06T13:21:00.000Z
+date: 2025-30-06T13:21:00.000Z
 draft: false
 keywords:
   - multitenancy
