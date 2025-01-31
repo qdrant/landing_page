@@ -1,21 +1,21 @@
 @use '../helpers/functions' as *;
 
 .customers-vector-space-wall {
-  padding-top: $spacer * 3;
   padding-bottom: $spacer * 4;
   background-color: $neutral-94;
 
   &__title {
+    width: 100%;
     margin-bottom: $spacer * 2.5;
+    padding-top: $spacer * 3;
     font-size: $spacer * 2.5;
     line-height: $spacer * 3;
     color: $neutral-20;
     text-align: center;
+    border-top: pxToRem(1) solid $neutral-90;
   }
 
   &__link {
-    //text-align: center;
-    //margin: 0 auto $spacer * 5;
     margin-bottom: $spacer * 5;
   }
 
@@ -86,10 +86,10 @@
   }
 
   @include media-breakpoint-up(lg) {
-    padding-top: $spacer * 5;
     padding-bottom: $spacer * 5;
 
     &__title {
+      padding-top: $spacer * 5;
       font-size: $spacer * 3.5;
       line-height: pxToRem(67);
     }

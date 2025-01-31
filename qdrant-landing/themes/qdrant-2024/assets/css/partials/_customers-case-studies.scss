@@ -1,4 +1,5 @@
 @use '../helpers/functions' as *;
+@use '../mixins/marquee' as marquee;
 
 .customers-case-studies {
   background-color: $neutral-94;
@@ -43,6 +44,8 @@
 
     &-title {
       padding: $spacer 0;
+      font-size: map-get($font-sizes-text, 'xl');
+      line-height: pxToRem(30);
       font-weight: 500;
     }
 

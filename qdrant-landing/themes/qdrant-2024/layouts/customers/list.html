@@ -3,33 +3,69 @@
 
   {{ partial "customers-hero" . }}
 
-  {{ with (.Site.GetPage "/customers/customers-testimonial1") }}
+  {{ with (.Site.GetPage "/customers/logo-cards-1") }}
+    {{ partial "logo-cards" . }}
+  {{ end }}
+
+  <section class="bg-mid-gray pt-6">
+    <div class="container">
+      {{ with (.Site.GetPage "/customers/case-study-1") }}
+        {{ partial "case-study" . }}
+      {{ end }}
+    </div>
+  </section>
+
+  {{ with (.Site.GetPage "/customers/customers-testimonial-1") }}
     {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial") }}
   {{ end }}
 
+  {{ with (.Site.GetPage "/customers/case-studies-1") }}
+    {{ partial "customers-case-studies" . }}
+  {{ end }}
 
-  <section class="bg-mid-gray pb-6">
+  <section class="bg-mid-gray pt-6">
     <div class="container">
-      {{ with (.Site.GetPage "/customers/logo-cards-1") }}
-        {{ partial "logo-cards" . }}
+      {{ with (.Site.GetPage "/customers/case-study-2") }}
+        {{ partial "case-study" . }}
       {{ end }}
     </div>
   </section>
 
-  {{ partial "customers-case-studies" . }}
+  {{ with (.Site.GetPage "/customers/customers-testimonial-3") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial") }}
+  {{ end }}
 
-  {{ with (.Site.GetPage "/customers/customers-testimonial2") }}
+  <section class="bg-mid-gray pt-6">
+    <div class="container">
+      {{ with (.Site.GetPage "/customers/case-study-3") }}
+        {{ partial "case-study" . }}
+      {{ end }}
+    </div>
+  </section>
+
+  {{ with (.Site.GetPage "/customers/logo-cards-2") }}
+    {{ partial "logo-cards" . }}
+  {{ end }}
+
+  <section class="bg-mid-gray pt-6">
+    <div class="container">
+      {{ with (.Site.GetPage "/customers/case-study-4") }}
+        {{ partial "case-study" . }}
+      {{ end }}
+    </div>
+  </section>
+
+  {{ with (.Site.GetPage "/customers/case-studies-2") }}
+    {{ partial "customers-case-studies" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/customers/customers-testimonial-2") }}
     {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial reversed") }}
   {{ end }}
 
-
-  <section class="bg-mid-gray pb-6">
-    <div class="container">
-      {{ with (.Site.GetPage "/customers/logo-cards-3") }}
-        {{ partial "logo-cards" . }}
-      {{ end }}
-    </div>
-  </section>
+  {{ with (.Site.GetPage "/customers/logo-cards-3") }}
+    {{ partial "logo-cards" . }}
+  {{ end }}
 
   {{ partial "customers-vector-space-wall" . }}
 
