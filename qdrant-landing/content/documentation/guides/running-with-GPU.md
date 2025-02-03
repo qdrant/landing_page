@@ -97,8 +97,8 @@ docker run \
 To ensure that the GPU was initialized correctly, you may check it in logs. First Qdrant prints all found GPU devices without filtering and then prints list of all created devices:
 
 ```text
-2025-01-13T11:58:29.124087Z  INFO gpu::instance: Foung GPU device: NVIDIA GeForce RTX 3090    
-2025-01-13T11:58:29.124118Z  INFO gpu::instance: Foung GPU device: llvmpipe (LLVM 15.0.7, 256 bits)    
+2025-01-13T11:58:29.124087Z  INFO gpu::instance: Found GPU device: NVIDIA GeForce RTX 3090    
+2025-01-13T11:58:29.124118Z  INFO gpu::instance: Found GPU device: llvmpipe (LLVM 15.0.7, 256 bits)    
 2025-01-13T11:58:29.124138Z  INFO gpu::device: Create GPU device NVIDIA GeForce RTX 3090    
 ```
 
@@ -165,8 +165,8 @@ docker run \
 Check logs to confirm GPU initialization. Example log output:
 
 ```text
-2025-01-10T11:56:55.926466Z  INFO gpu::instance: Foung GPU device: AMD Radeon Graphics (RADV GFX1103_R1)
-2025-01-10T11:56:55.926485Z  INFO gpu::instance: Foung GPU device: llvmpipe (LLVM 17.0.6, 256 bits) 
+2025-01-10T11:56:55.926466Z  INFO gpu::instance: Found GPU device: AMD Radeon Graphics (RADV GFX1103_R1)
+2025-01-10T11:56:55.926485Z  INFO gpu::instance: Found GPU device: llvmpipe (LLVM 17.0.6, 256 bits) 
 2025-01-10T11:56:55.926504Z  INFO gpu::device: Create GPU device AMD Radeon Graphics (RADV GFX1103_R1)
 ```
 
