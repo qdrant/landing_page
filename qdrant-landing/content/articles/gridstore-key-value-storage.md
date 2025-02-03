@@ -24,11 +24,17 @@ Over time, we ran into issues. It handled generic keys, while we only used seque
 
 We needed something better because nothing out there fit our needs. We didn’t require generic keys. We wanted full control over when data was written. Our system already had crash recovery. Compaction wasn’t a priority. Debugging misconfigurations was not a great use of our time.
 
-So we built our own. Simple, efficient, and designed just for Qdrant.
+So we built our own storage. As of [**Qdrant Version 1.13**](/blog/qdrant-1.13.x/), we are using GridStore for **payload and sparse vector storage**. 
 <div style="text-align: center;">
   <img src="/articles_data/gridstore-key-value-storage/gridstore.png" alt="GridStore" style="width: 50%;">
-  <p>A completely custom key-value store.</p>
+  <p>Simple, efficient, and designed just for Qdrant.</p>
 </div>
+
+#### In this article, you’ll learn about:
+- **How GridStore works** – a deep dive into its architecture and mechanics.
+- **Why we built it this way** – the key design decisions that shaped GridStore.
+- **Rigorous testing** – how we ensured GridStore is production-ready.
+- **Performance benchmarks** – official metrics that demonstrate its efficiency.
 
 **Our first challenge?** Figuring out the best way to handle sequential keys and variable-sized data.
 
@@ -89,7 +95,7 @@ However, real-world systems don’t operate in a vacuum. Failures happen: softwa
 If one component is updated but another isn’t, the entire system could become inconsistent. Worse, if an operation is only partially written to disk, it could lead to orphaned data, unusable space, or even data corruption.
 
 ### Stability Through Idempotency: Recovering With WAL
-To guard against these risks, GridStore relies on a [Write-Ahead Log (WAL)](/documentation/concepts/storage/). Before committing an operation, Qdrant ensures that it is at least recorded in the WAL. If a crash happens before all updates are flushed, the system can safely replay operations from the log. 
+To guard against these risks, GridStore relies on a [**Write-Ahead Log (WAL)**](/documentation/concepts/storage/). Before committing an operation, Qdrant ensures that it is at least recorded in the WAL. If a crash happens before all updates are flushed, the system can safely replay operations from the log. 
 
 This recovery mechanism introduces another essential property: [**idempotency**](https://en.wikipedia.org/wiki/Idempotence). 
 
@@ -106,7 +112,7 @@ To achieve this, **GridStore completes updates lazily**, prioritizing the most c
 ## How We Tested the Final Product 
 ![gridstore](/articles_data/gridstore-key-value-storage/gridstore-3.png)
 
-### First - Simple Model Testing 
+### First...Simple Model Testing 
 
 GridStore can be tested efficiently using model testing, which compares its behavior to a simple in-memory hash map. Since GridStore should function like a persisted hash map, this method quickly detects inconsistencies.
 
