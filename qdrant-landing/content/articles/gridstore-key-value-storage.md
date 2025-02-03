@@ -7,7 +7,7 @@ social_preview_image: /articles_data/gridstore-key-value-storage/social-preview.
 weight: -150
 author: Luis Cossio, Arnaud Gourlay & David Myriel
 date: 2025-02-01T00:00:00.000Z
-category: vector-search-manuals
+category: qdrant-internals
 ---
 
 ## Why We Built Our Own Storage Engine
