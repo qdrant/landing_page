@@ -250,6 +250,8 @@ Strictly speaking, RocksDB is slightly smaller, but the difference is negligible
 
 - test sparse
 
+- TODO: mention that Gridstore has not been released as a standalone crate because it is tightly integrated with Qdrant, and it has not reached a stable API yet. We might do it later as a contribution to the Rust community.
+
 <div style="text-align: center;">
   <img src="/articles_data/gridstore-key-value-storage/gridstore_movie.gif" alt="Gridstore Movie" style="width: 50%;">
 </div>
