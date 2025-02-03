@@ -67,7 +67,7 @@ To further optimize space management, GridStore introduces **The Region Gap Laye
 
 Instead of scanning the entire bitmask, GridStore groups blocks into regions and keeps track of the largest contiguous free space within each region, known as a **The Region Gap**. By also storing the leading and trailing gaps of each region, the system can efficiently combine multiple regions when needed for storing large values. 
 
-{{< figure src="/articles_data/gridstore-key-value-storage/architecture-3.png" alt="The Region Gap Layer" caption="Complete architecture Wwth the Region Gap Layer." >}}
+{{< figure src="/articles_data/gridstore-key-value-storage/architecture-3.png" alt="The Region Gap Layer" caption="Complete architecture with the Region Gap Layer." >}}
 
 This layered approach allows GridStore to locate available space quickly, reducing the need for large-scale scans while keeping memory overhead minimal. With this system, finding storage space for new values requires scanning only a tiny fraction of the total metadata, making updates and insertions highly efficient.
 
