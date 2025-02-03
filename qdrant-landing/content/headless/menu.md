@@ -69,18 +69,14 @@ menuItems:
         icon: community.svg
         url: /community/
       - id: subMenu-2-2
-        name: Qdrant Stars
-        icon: qdrant-stars.svg
-        url: /stars/
-      - id: subMenu-2-3
         name: Github
         icon: github.svg
         url: https://github.com/qdrant/qdrant
-      - id: subMenu-2-4
+      - id: subMenu-2-3
         name: Roadmap
         icon: roadmap.svg
         url: https://qdrant.to/roadmap
-      - id: subMenu-2-5
+      - id: subMenu-2-4
         name: Changelog
         icon: changelog.svg
         url: https://github.com/qdrant/qdrant/releases
