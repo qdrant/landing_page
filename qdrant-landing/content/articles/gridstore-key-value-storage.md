@@ -42,12 +42,12 @@ GridStore’s architecture is built around three key components that enable fast
 | The Mask Layer                 | Uses a bitmask to track which blocks are in use and which are available.                      |
 | The Region Gap Layer | Manages block availability at a higher level, allowing for quick space allocation.            |
 
-### 1. The Data Layer for Fast Storage and Retrieval
+### 1. The Data Layer for Fast Retrieval
 At the core of GridStore is **The Data Layer**, which is designed to retrieve values quickly based on their keys. This structure allows for both efficient reads and a simple method of appending new values.
 
 Instead of scanning through an index, GridStore stores keys in a structured array of pointers, where each pointer tells the system exactly where a value starts and how long it is. 
 
-{{< figure src="/articles_data/gridstore-key-value-storage/architecture-1.png" alt="The Data Layer" caption="The Data Layer" >}}
+{{< figure src="/articles_data/gridstore-key-value-storage/architecture-1.png" alt="The Data Layer" caption="The Data Layer uses an array of pointers to quickly retrieve data." >}}
 
 This makes lookups incredibly fast. For example, finding key 3 is just a matter of jumping to the third position in the pointer array and reading the value. 
 
@@ -56,7 +56,7 @@ However, because values are of variable size, the data itself is stored in fixed
 ### 2. The Bitmask Layer for Efficient Updates
 **The Bitmask Layer** helps GridStore handle updates and deletions without the need for expensive data compaction. Instead of maintaining complex metadata for each block, GridStore tracks usage with a bitmask, where each bit represents a block, with 1 for used, 0 for free.  
 
-{{< figure src="/articles_data/gridstore-key-value-storage/architecture-2.png" alt="The Mask Layer" caption="Adding the Mask Layer" >}}
+{{< figure src="/articles_data/gridstore-key-value-storage/architecture-2.png" alt="The Bitmask Layer" caption="The bitmask efficiently tracks update/delete usage." >}}
 
 This makes it easy to determine where new values can be written. When a value is deleted, its pointer is removed, and the corresponding blocks in the bitmask are marked as available. Similarly, when updating a value, the new version is written elsewhere, and the old blocks are freed.
 
@@ -67,7 +67,7 @@ To further optimize space management, GridStore introduces **The Region Gap Laye
 
 Instead of scanning the entire bitmask, GridStore groups blocks into regions and keeps track of the largest contiguous free space within each region, known as a **The Region Gap**. By also storing the leading and trailing gaps of each region, the system can efficiently combine multiple regions when needed for storing large values. 
 
-{{< figure src="/articles_data/gridstore-key-value-storage/architecture-3.png" alt="The Region Gap Layer" caption="Complete Architecture With the Region Gap Layer" >}}
+{{< figure src="/articles_data/gridstore-key-value-storage/architecture-3.png" alt="The Region Gap Layer" caption="Complete architecture Wwth the Region Gap Layer." >}}
 
 This layered approach allows GridStore to locate available space quickly, reducing the need for large-scale scans while keeping memory overhead minimal. With this system, finding storage space for new values requires scanning only a tiny fraction of the total metadata, making updates and insertions highly efficient.
 
