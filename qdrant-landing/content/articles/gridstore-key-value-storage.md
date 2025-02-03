@@ -239,4 +239,14 @@ We optimized for speed, and it paid off—but what about storage size?
 - GridStore: 2333MB
 - RocksDB: 2319MB
 
-Technically, RocksDB is slightly smaller, but the difference is negligible compared to the 2x faster ingestion and more stable throughput. A small trade-off for a big performance gain! 🚀
+Technically, RocksDB is slightly smaller, but the difference is negligible compared to the 2x faster ingestion and more stable throughput. A small trade-off for a big performance gain! 
+
+## Trying Out GridStore
+
+- test payload
+
+- test sparse
+
+<div style="text-align: center;">
+  <img src="/articles_data/gridstore-key-value-storage/gridstore_movie.gif" alt="GridStore Movie" style="width: 50%;">
+</div>
