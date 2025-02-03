@@ -38,12 +38,12 @@ So we built our own. Simple, efficient, and designed just for Qdrant.
 GridStore’s architecture is built around three key components that enable fast lookups and efficient space management:
 | Component                  | Description                                                                                   |
 |----------------------------|-----------------------------------------------------------------------------------------------|
-| Data Layer                 | Stores values in fixed-sized blocks and retrieves them using a pointer-based lookup system.    |
-| Mask Layer                 | Uses a bitmask to track which blocks are in use and which are available.                      |
-| Gap Region & Tracker Layer | Manages block availability at a higher level, allowing for quick space allocation.            |
+| The Data Layer                 | Stores values in fixed-sized blocks and retrieves them using a pointer-based lookup system.    |
+| The Mask Layer                 | Uses a bitmask to track which blocks are in use and which are available.                      |
+| The Region Gap Layer | Manages block availability at a higher level, allowing for quick space allocation.            |
 
 ### 1. The Data Layer for Fast Storage and Retrieval
-At the core of GridStore is **the Data Layer**, which is designed to retrieve values quickly based on their keys. This structure allows for both efficient reads and a simple method of appending new values.
+At the core of GridStore is **The Data Layer**, which is designed to retrieve values quickly based on their keys. This structure allows for both efficient reads and a simple method of appending new values.
 
 Instead of scanning through an index, GridStore stores keys in a structured array of pointers, where each pointer tells the system exactly where a value starts and how long it is. 
 
@@ -63,9 +63,9 @@ This makes it easy to determine where new values can be written. When a value is
 This approach ensures that GridStore doesn’t waste space, but as the storage grows, scanning large bitmasks for available blocks can become computationally expensive.
 
 ### 3. The Region Gap Layer for Effective Storage
-To further optimize space management, GridStore introduces **the Gap Region and Tracker Layer**, which provide a higher-level view of block availability. 
+To further optimize space management, GridStore introduces **The Region Gap Layer**, which provide a higher-level view of block availability. 
 
-Instead of scanning the entire bitmask, GridStore groups blocks into regions and keeps track of the largest contiguous free space within each region, known as a **the Region Gap**. By also storing the leading and trailing gaps of each region, the system can efficiently combine multiple regions when needed for storing large values. 
+Instead of scanning the entire bitmask, GridStore groups blocks into regions and keeps track of the largest contiguous free space within each region, known as a **The Region Gap**. By also storing the leading and trailing gaps of each region, the system can efficiently combine multiple regions when needed for storing large values. 
 
 {{< figure src="/articles_data/gridstore-key-value-storage/architecture-3.png" alt="The Region Gap Layer" caption="Complete Architecture With the Region Gap Layer" >}}
 
@@ -168,19 +168,19 @@ This aggressive yet simple approach has uncovered real-world issues when run for
 ## Testing GridStore Performance: Benchmarks
 ![gridstore](/articles_data/gridstore-key-value-storage/gridstore-4.png)
 
-To measure the impact of our new storage engine, we used bustle, a KV-storage benchmarking framework, to compare GridStore against RocksDB. We tested three workloads:
+To measure the impact of our new storage engine, we used [**Bustle, a key-value storage benchmarking framework**](https://github.com/jonhoo/bustle), to compare GridStore against RocksDB. We tested three workloads:
 
-| Workload Type                                                                                                                |
-|-----------------------------------------------------------------------------------------------------------------------------|
-| Read-heavy (95% reads)                                                                                                      |
-| Insert-heavy (80% inserts)                                                                                                  |
-| Update-heavy (50% updates)  
+| Workload Type                | Operation Distribution            |
+|------------------------------|-----------------------------------|
+| Read-heavy                   | 95% reads                         |
+| Insert-heavy                 | 80% inserts                       |
+| Update-heavy                 | 50% updates  
 
-The results speak for themselves. Write latency dropped significantly, showing a clear performance boost. 
+#### The results speak for themselves:
 
-#### As we can see, the investment in GridStore is paying off:
+Average latency for reads, inserts and updates is lower across the board. 
 
-Average latency for reads, inserts and updates is lower across the board.
+This shows a clear boost in performance. As we can see, the investment in GridStore is paying off.
 ![image.png](/articles_data/gridstore-key-value-storage/1.png)
 
 ### End-to-End Benchmarking
@@ -210,7 +210,16 @@ This benchmark upserts 1 million points twice. Each point has:
 - A tiny dense vector (dense vectors use a different storage type)
 - A sparse vector
 
-The test updates payloads separately in another request. There are no payload indices, ensuring we measure pure ingestion speed. Of course, we always gather log latency metrics for analysis.
+---------------------------
+#### Additional configuration:
+
+1. The test we conducted updated payload data separately in another request. 
+
+2. There were no payload indices, which ensured we measured pure ingestion speed.
+
+3. Finally, we gathered log latency metrics for analysis.
+
+---------------------------
 
 We ran this against Qdrant 1.12.6, toggling between the old and new storage backends. 
 
