@@ -1,7 +1,7 @@
 ---
-title: "GridStore Unveiled: A New Frontier in Key-Value Storage"
-short_description: ""
-description: ""
+title: "Introducing GridStore: Qdrant's Custom Key-Value Store"
+short_description: "Why and how we built our own key-value store."
+description: "Why and how we built our own key-value store. A short technical report on our procedure and results."
 preview_dir: /articles_data/gridstore-key-value-storage/preview
 social_preview_image: /articles_data/gridstore-key-value-storage/social-preview.png
 weight: -150
@@ -10,105 +10,113 @@ date: 2025-02-01T00:00:00.000Z
 category: vector-search-manuals
 ---
 
-## Key-Value Storage in Qdrant
+## Why We Built Our Own Storage Engine
 
-Every database or search engine needs a reliable place to store and retrieve data. This is where key-value storage comes in. It links unique keys to their corresponding values.
+Databases need a place to store and retrieve data. That’s what Qdrant's [**key-value storage**](https://en.wikipedia.org/wiki/Key–value_database) does—it links keys to values.
 
-There are many key-value storage solutions available. Most are designed to be embedded in an application as a persistence layer. They handle basic operations like inserts, updates, and deletions.
+When we started Qdrant, we chose [**RocksDB**](https://rocksdb.org) as our embedded key-value store.
+<div style="text-align: center;">
+  <img src="/articles_data/gridstore-key-value-storage/rocksdb.jpg" alt="RockdSB" style="width: 50%;">
+  <p>It was fast, reliable, and well-documented.</p>
+</div>
 
-In 2020, we chose RocksDB for Qdrant. It was mature, high-performance, and came with extensive documentation. It was ready to use out of the box. Over time, however, we realized we could build something even better.
+Over time, we ran into issues. It handled generic keys, while we only used sequential IDs. Its architecture required compaction, which caused random latency spikes. Tuning it was a headache. And working with C++ slowed us down.
 
-When Qdrant started, we used **RocksDB** as the storage backend for payloads and sparse vectors. RocksDB, known for its versatility and ability to handle random reads and writes, seemed like a solid choice. But as our needs evolved, its “*general-purpose*” design began to show cracks.
+We needed something better because nothing out there fit our needs. We didn’t require generic keys. We wanted full control over when data was written. Our system already had crash recovery. Compaction wasn’t a priority. Debugging misconfigurations was not a great use of our time.
 
-> RocksDB is built to handle arbitrary keys and values of any size, but this flexibility comes at a cost. 
+So we built our own. Simple, efficient, and designed just for Qdrant.
+<div style="text-align: center;">
+  <img src="/articles_data/gridstore-key-value-storage/gridstore.png" alt="GridStore" style="width: 50%;">
+  <p>A completely custom key-value store.</p>
+</div>
 
-A key example is compaction, a process that reorganizes data on disk to maintain performance. **Under heavy write loads, compaction can become a bottleneck**, causing significant slowdowns. For Qdrant, this meant huge latency spikes at random moments causing timeout errors during large uploads—a frustrating roadblock.
+**Our first challenge?** Figuring out the best way to handle sequential keys and variable-sized data.
 
-To solve this, we built a **custom storage backend** optimized for our specific use case. Unlike RocksDB, our system delivers consistent performance by ensuring reads and writes require a constant number of disk operations, regardless of data size. As a result, you will get faster and reliable performance - free from latency-spikes.
+## GridStore Architecture: Three Main Components
+![gridstore](/articles_data/gridstore-key-value-storage/gridstore-2.png)
 
+GridStore’s architecture is built around three key components that enable fast lookups and efficient space management:
+| Component                  | Description                                                                                   |
+|----------------------------|-----------------------------------------------------------------------------------------------|
+| Data Layer                 | Stores values in fixed-sized blocks and retrieves them using a pointer-based lookup system.    |
+| Mask Layer                 | Uses a bitmask to track which blocks are in use and which are available.                      |
+| Gap Region & Tracker Layer | Manages block availability at a higher level, allowing for quick space allocation.            |
 
-## Challenges in Customization
+### 1. The Data Layer for Fast Storage and Retrieval
+At the core of GridStore is **the Data Layer**, which is designed to retrieve values quickly based on their keys. This structure allows for both efficient reads and a simple method of appending new values.
 
-RocksDB showed us several areas where it did not quite meet our specific needs. It is designed to handle generic keys and values. It uses an LSM architecture. This architecture requires compaction. Compaction can lead to latency spikes during write-heavy operations. We also struggled with the lack of detailed knowledge about its internals. Even though there is plenty of documentation, it was hard to optimize its configuration for our use case. Finally, integrating a C++ project into our workflow created significant friction for our developers.
+Instead of scanning through an index, GridStore stores keys in a structured array of pointers, where each pointer tells the system exactly where a value starts and how long it is. 
 
-As Qdrant evolved, we decided that we needed a storage solution that fit our requirements more tightly. You might wonder why we would invest time and resources into building something custom when there are plenty of options available. The answer lies in our specific needs.
+{{< figure src="/articles_data/gridstore-key-value-storage/architecture-1.png" alt="The Data Layer" caption="The Data Layer" >}}
 
-We do not need generic keys. Our internal IDs are sequential integers with no gaps. We want full control over our operations, including when data is flushed to disk. Qdrant already has its own write-ahead log (WAL) and recovery procedures to handle crashes. This means we do not need an extra WAL at the storage level. Online compaction is not essential for us either. Our segment optimizer handles merging segments as needed. We have also experienced several lengthy investigations into data losses caused by misconfigurations of RocksDB. Ultimately, we needed something simpler—something that we could control entirely.
+This makes lookups incredibly fast. For example, finding key 3 is just a matter of jumping to the third position in the pointer array and reading the value. 
 
-With this in mind, we began rethinking how to handle sequential keys linked to variable-sized data.
+However, because values are of variable size, the data itself is stored in fixed-sized blocks, which are grouped into larger page files. When inserting a value, GridStore allocates one or more consecutive blocks to store it, ensuring that each block only holds data from a single value. 
 
-## Building a Custom Key-Value Store
-![image.png](/articles_data/gridstore-key-value-storage/gridstore-2.png)
-We want very fast reads. Given a key, the system should quickly locate its associated value, regardless of its size. To achieve this, keys are stored in an array that holds key information. Each entry indicates where the data starts and how long it is. We call this information a pointer. Because our keys are sequential, retrieving the pointer for key 3 is as simple as accessing the array at offset 3.
+### 2. The Bitmask Layer for Efficient Updates
+**The Bitmask Layer** helps GridStore handle updates and deletions without the need for expensive data compaction. Instead of maintaining complex metadata for each block, GridStore tracks usage with a bitmask, where each bit represents a block, with 1 for used, 0 for free.  
 
-Variable-sized data is a bit more complex than a simple array. We divide the data section into fixed-size blocks. When inserting a value, its content is stored in one or more consecutive blocks. This method ensures that each block contains data from only one value. The blocks are then packed into page files of a fixed size.
+{{< figure src="/articles_data/gridstore-key-value-storage/architecture-2.png" alt="The Mask Layer" caption="Adding the Mask Layer" >}}
 
-Together, these two mechanisms allow for efficient data insertion and lookup. Data is always appended after the last used block, and a lookup requires only two reads: one for the pointer and one for the data itself.
+This makes it easy to determine where new values can be written. When a value is deleted, its pointer is removed, and the corresponding blocks in the bitmask are marked as available. Similarly, when updating a value, the new version is written elsewhere, and the old blocks are freed.
 
-**The Data Layer** consists of fixed-size blocks that store the actual data. The block size is a configurable parameter that can be adjusted based on the workload. Each record occupies the required number of blocks. If the data size exceeds the block size, it is split into multiple blocks. If the data size is smaller than the block size, it still occupies an entire block.
+This approach ensures that GridStore doesn’t waste space, but as the storage grows, scanning large bitmasks for available blocks can become computationally expensive.
 
-{{< figure src="/articles_data/gridstore-key-value-storage/architecture-1.png" alt="A Key-Value Store is the First Element of the System" caption="A Key-Value Store is the First Element of the System" >}}
+### 3. The Region Gap Layer for Effective Storage
+To further optimize space management, GridStore introduces **the Gap Region and Tracker Layer**, which provide a higher-level view of block availability. 
 
-### Reusing Storage Space
+Instead of scanning the entire bitmask, GridStore groups blocks into regions and keeps track of the largest contiguous free space within each region, known as a **the Region Gap**. By also storing the leading and trailing gaps of each region, the system can efficiently combine multiple regions when needed for storing large values. 
 
-The real challenge is handling updates—whether it’s removals or rewrites. We don’t want to perform compaction, yet we also don’t want the storage to grow indefinitely. We need our storage to reuse space.
+{{< figure src="/articles_data/gridstore-key-value-storage/architecture-3.png" alt="The Region Gap Layer" caption="Complete Architecture With the Region Gap Layer" >}}
 
-If we only had pointers and no metadata about the data itself, how could we tell whether a block is available? This is where a bitmask comes into play. Each bit in the bitmask represents a block. A bit set to 1 means the block is in use; a bit set to 0 means it is available.
+This layered approach allows GridStore to locate available space quickly, reducing the need for large-scale scans while keeping memory overhead minimal. With this system, finding storage space for new values requires scanning only a tiny fraction of the total metadata, making updates and insertions highly efficient.
 
-Now we have a structure that can quickly tell us which blocks are free. When we remove a value, we mark its pointer and blocks as deleted. To update a value, we write the new data elsewhere, mark the previous blocks as deleted, and update the pointer accordingly.
+## GridStore in Production: Maintaining Data Integrity 
+![gridstore](/articles_data/gridstore-key-value-storage/gridstore-1.png)
 
-**The Mask Layer** contains a bitmask that indicates which blocks are occupied and which are free. The size of the mask corresponds to the number of blocks in the Data Layer. For instance, if we have 64 blocks of 128 bytes each, the bitmask will allocate 1 bit for every block in the Data Layer resulting in 8 bytes. This results in an overhead of 1/1024 of the Data Layer size, because each byte in the mask covers 1024 bytes of blocked storage. The bitmask is stored on disk and does not need to be loaded into memory.
+GridStore’s architecture introduces multiple interdependent structures that must remain in sync to ensure data integrity:
+- **The Data Layer** associates each key with its location in storage, including page ID, block offset, and block count.
+- **The Bitmask Layer** keeps track of which blocks are occupied and which are free.
+- **The Gap Region Layer** provides an indexed view of free blocks for efficient space allocation.
 
-{{< figure src="/articles_data/gridstore-key-value-storage/architecture-2.png" alt="Introducing the Bitmask" caption="Introducing the Bitmask" >}}
+Every time a new value is inserted or an existing value is updated, all these components need to be modified in a coordinated way.
 
-### Managing User Payloads
+### When Things Break in Real Life
+However, real-world systems don’t operate in a vacuum. Failures happen: software bugs cause unexpected crashes, memory exhaustion forces processes to terminate, disks fail to persist data reliably, and power losses can interrupt operations at any moment. 
 
-Let’s break this down step by step. The bitmask gives us a magnification over the data. For example, if each block is 128 bytes, the bitmask offers a thousandfold view (128 * 8 = 1024). But this might not be sufficient for large-scale systems.
+*The critical question is: what happens if a failure occurs while updating these structures?*
 
-Consider this: a segment can easily hold 10 million points. If each payload is under 128 bytes, the minimal data size is around 1.2 GB. That means the bitmask would occupy about 1.2 MB. If we perform many updates, scanning through a megabyte of bitmask repeatedly could become resource-intensive.
+If one component is updated but another isn’t, the entire system could become inconsistent. Worse, if an operation is only partially written to disk, it could lead to orphaned data, unusable space, or even data corruption.
 
-We need a higher-level mechanism to provide an overview of the bitmask itself. To solve this, we track fixed-size regions of the bitmask. We summarize each region by identifying its largest section of consecutive free blocks. We call this a region gap.
+### Stability Through Idempotency: Recovering With WAL
+To guard against these risks, GridStore relies on a [Write-Ahead Log (WAL)](/documentation/concepts/storage/). Before committing an operation, Qdrant ensures that it is at least recorded in the WAL. If a crash happens before all updates are flushed, the system can safely replay operations from the log. 
 
-We also store the leading and trailing gaps of each region. This allows us to combine adjacent regions if we need a large number of blocks for a single value.
+This recovery mechanism introduces another essential property: [**idempotency**](https://en.wikipedia.org/wiki/Idempotence). 
 
-With this gap structure in place, we achieve a magnification of about one millionth over the stored data. This amounts to roughly 6 KB per GB of data. It easily fits in RAM and is quick to scan.
+The storage system must be designed so that reapplying the same operation after a failure leads to the same final state as if the operation had been applied just once.
 
-**The Region** is an additional structure which tracks gaps in regions of the bitmask. This is to get an even smaller overhead against the data, which can be loaded into memory easily. Each region summarizes 1KB of bits in the bitmask, which represents a millionth scale of the Data Layer size, or 6 KB of RAM per GB of data.
+### The Grand Solution: Lazy Updates
+To achieve this, **GridStore completes updates lazily**, prioritizing the most critical part of the write: the data itself. 
+|                                                                                                                |
+|-----------------------------------------------------------------------------------------------------------------------------|
+| 👉 Instead of immediately updating all metadata structures, it writes the new value first while keeping pending changes in memory. |
+| 👉 The system only finalizes these updates when explicitly requested, ensuring that a crash never results in marking data as deleted before the update has been safely persisted. |
+| 👉 In the worst-case scenario, GridStore may need to write the same data twice, leading to minor space overhead, but it will never corrupt the storage by overwriting valid data. |
 
-**The Tracker Layer** is in charge of fast lookups, it directly links the IDs of the points to the place where the data is located.
-
-{{< figure src="/articles_data/gridstore-key-value-storage/architecture-3.png" alt="The Region Gap" caption="The Region Gap" >}}
-
-### Final Architecture
-
-Putting all these concepts together, we’ve restricted how much computation is needed for a single update: 
-
-1. Using the gaps structure, find which region has enough available blocks.
-2. Within the region in the bitmask, find where those blocks are.
-3. Write the value in the blocks.
-
-Finding the blocks within the bitmask region is also super fast, because we’re always scanning just about 1KB of the bitmask in a CPU-optimized way.
-
-### Maintaining Data Integrity
-
-Our system has four components that must stay in sync: the Data Layer (stored values), the Mask Layer (bitmask tracking block usage), the Region (gap structure for free blocks), and the Tracker Layer (mapping keys to data locations).
-
-Every time we insert or update a value, we must update all these components. In production, however, crashes and failures are inevitable—whether from logical errors, out-of-memory issues, disk write failures, or power losses. What if a crash occurs mid-update? What if some components are flushed to disk while others are not? Can we safely replay an operation from our write-ahead log (WAL)?
-
-An acknowledgment from Qdrant means the operation is in the WAL and can be replayed if needed. This demands idempotency: repeating an operation should leave the system in the same state as if it were executed just once.
-
-To achieve this, our storage writes the data first and defers updating the rest of the system until later. This lazy approach prevents premature deletion and, in the worst case, may result in writing data twice—but it guarantees data integrity.
+## Testing: Can GridStore Handle the Pressure?
+![gridstore](/articles_data/gridstore-key-value-storage/gridstore-3.png)
 
 ### Model Testing
-![image.png](/articles_data/gridstore-key-value-storage/gridstore-1.png)
 
-One effective way to test our key-value storage is through model testing. We expect our storage to behave like a persistent hash map from the user’s perspective. To validate this, we:
-	1.	Initialize a GridStore and an in-memory hash map.
-	2.	Generate a large sequence of random operations (put, delete, update).
-	3.	Apply each operation to both GridStore and the hash map, ensuring the results match.
-	4.	Perform an in-depth comparison of all keys between the two systems.
+GridStore can be tested efficiently using model testing, which compares its behavior to a simple in-memory hash map. Since GridStore should function like a persisted hash map, this method quickly detects inconsistencies.
 
-This approach greatly increases our test coverage and helps ensure reliability.
+The process is straightforward:
+1. Initialize a GridStore instance and an empty hash map.
+2. Run random operations (put, delete, update) on both.
+3. Verify that results match after each operation.
+4. Compare all keys and values to ensure consistency.
+
+This approach provides high test coverage, exposing issues like incorrect persistence or faulty deletions. Running large-scale model tests ensures GridStore remains reliable in real-world use.
 
 Here is a naive way to generate operations in Rust.
 
@@ -141,53 +149,45 @@ impl Operation {
     }
 }
 ```
+Model testing is a high-value way to catch bugs, especially when your system mimics a well-defined component like a hash map. If your storage behaves predictably, this method is a no-brainer.
 
-This approach has a high return on investment to find bugs and we recommend giving a try to model testing if your system can be modeled according to a well defined existing component.
+We could have tested against RocksDB, but speed mattered more. A simple hash map let us run massive test sequences quickly, exposing issues faster.
 
-We also could have compared against RocksDB but we wanted a really fast execution with large sequences.
+For even sharper debugging, Property-Based Testing adds automated test generation and shrinking. It pinpoints failures with minimal test cases, making bug hunting faster and more effective.
 
-To go even further, model testing can be improved by mixing it with Property Based Testing in order to get nice minified bugs by leveraging various shrinking mechanisms. 
+### Crash Testing
 
-### Crash testing
+Designing for crash resilience is one thing, and proving it works under stress is another. To push Qdrant’s data integrity to the limit, we built [**Crasher**](https://github.com/qdrant/crasher), a test bench that brutally kills and restarts Qdrant while it handles a heavy update workload.
 
-Having a design that guarantees data integrity during crashes is important—but testing it is even more crucial.
+Crasher runs a loop that continuously writes data, then randomly crashes Qdrant. On each restart, Qdrant replays its [**Write-Ahead Log (WAL)**](/documentation/concepts/storage/), and we verify if data integrity holds. Possible anomalies include:
+- Missing data (points, vectors, or payloads)
+- Corrupt payload values
 
-We took a pragmatic approach by asking: What happens if Qdrant crashes repeatedly during a heavy update workload over an extended period?
+This aggressive yet simple approach has uncovered real-world issues when run for extended periods. While we also use chaos testing for distributed setups, Crasher excels at fast, repeatable failure testing in a local environment.
 
-To answer this, we built our own crash test bench called Crasher. Crasher is a standalone program that supervises a Qdrant binary and intentionally disturbs it. It runs a write-heavy workload while randomly killing and restarting Qdrant.
+## Testing GridStore Performance: Benchmarks
+![gridstore](/articles_data/gridstore-key-value-storage/gridstore-4.png)
 
-Each time Qdrant restarts, it replays its WAL. This lets us check data integrity from both Crasher’s perspective and on the server side.
+To measure the impact of our new storage engine, we used bustle, a KV-storage benchmarking framework, to compare GridStore against RocksDB. We tested three workloads:
 
-Possible anomalies include:
-	•	A point is completely missing.
-	•	A point is missing a vector.
-	•	A point is missing a payload.
-	•	A point has an incorrect payload value.
+| Workload Type                                                                                                                |
+|-----------------------------------------------------------------------------------------------------------------------------|
+| Read-heavy (95% reads)                                                                                                      |
+| Insert-heavy (80% inserts)                                                                                                  |
+| Update-heavy (50% updates)  
 
-This approach might seem naive, but it has proven very effective at uncovering issues when run over long periods.
+The results speak for themselves. Write latency dropped significantly, showing a clear performance boost. 
 
-We also use a more traditional chaos testing setup to examine Qdrant’s distributed aspects. However, Crasher fills a unique niche with its fast feedback cycle and aggressive local testing.
+#### As we can see, the investment in GridStore is paying off:
 
-## Analyzing Results: Improvement or Flop?
-![image.png](/articles_data/gridstore-key-value-storage/gridstore-3.png)
-
-### Component benchmarking
-
-Leveraging `bustle`, a kv-storage benchmarking framework, we made a component benchmark which directly compares the new storage and RocksDB (in the same configuration as we use it in Qdrant) against 3 different workloads:
-
-- **read heavy**: 95% of operations are reads
-- **insert heavy**: 80% of operations are inserts
-- **update heavy**: 50% of operations are updates
-
+Average latency for reads, inserts and updates is lower across the board.
 ![image.png](/articles_data/gridstore-key-value-storage/1.png)
 
-The chart shows that latency has dropped significantly for writes.
+### End-to-End Benchmarking
 
-So far it looks like a good return on investment.
+Now, let’s test the impact on a real Qdrant instance. So far, we’ve only implemented GridStore for [**payloads**](/documentation/concepts/payload/) and [**sparse vector**](/documentation/concepts/vectors/#sparse-vectors), but even this partial switch should show noticeable improvements.
 
-### Benchmarking End-to-end 
-
-Finally, let’s see it in action with a real Qdrant instance. We have currently replaced only the storage for payloads and sparse vectors. The benchmark workload was created using our custom bfb tool. If you’re interested, here is the command we used.
+For benchmarking, we used our in-house [**bfb tool**](https://github.com/qdrant/bfb) to generate a workload. Our configuration:
 
 ```json
 bfb -n 2000000 --max-id 1000000 \
@@ -205,35 +205,23 @@ bfb -n 2000000 --max-id 1000000 \
     --skip-field-indices \
     --jsonl-updates ./rps.jsonl
 ```
-It’s a long list of options, but essentially the benchmark does the following:
-	•	Upserts 1M points twice.
-	•	Each point contains:
-	•	A medium to large payload,
-	•	A very small dense vector (dense vectors use a different storage type),
-	•	A sparse vector.
-	•	A separate request sets the payload again.
-	•	No payload indices are created, ensuring we measure pure ingestion performance.
-	•	Latencies are saved to a file.
+This benchmark upserts 1 million points twice. Each point has: 
+- A medium to large payload
+- A tiny dense vector (dense vectors use a different storage type)
+- A sparse vector
 
-We ran this benchmark on Qdrant version 1.12.6, using special flags to switch between the two storage backends. The results speak for themselves: total ingestion time is 2x faster, and throughput is more stable 😍.
+The test updates payloads separately in another request. There are no payload indices, ensuring we measure pure ingestion speed. Of course, we always gather log latency metrics for analysis.
+
+We ran this against Qdrant 1.12.6, toggling between the old and new storage backends. 
+
+### Final Result 
+
+Data ingestion is twice and fast with a smoother throughput — a massive win! 
 
 ![image.png](/articles_data/gridstore-key-value-storage/2.png)
 
-We optimized for speed and it paid off, but what about storage size?
+We optimized for speed, and it paid off—but what about storage size?
+- GridStore: 2333MB
+- RocksDB: 2319MB
 
-Total storage size: 2333MB for gridstore, vs 2319MB for rocksdb
-
-Strictly speaking, rocksdb has an edge here. But considering the other improvements, it becomes negligible.
-
-## Conclusion
-![image.png](/articles_data/gridstore-key-value-storage/gridstore-4.png)
-- general-purpose systems make trade-offs
-- specificity pays off
--
-
-
-
-
-
-
-
+Technically, RocksDB is slightly smaller, but the difference is negligible compared to the 2x faster ingestion and more stable throughput. A small trade-off for a big performance gain! 🚀
