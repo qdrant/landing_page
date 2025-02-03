@@ -103,10 +103,10 @@ To achieve this, **GridStore completes updates lazily**, prioritizing the most c
 | 👉 The system only finalizes these updates when explicitly requested, ensuring that a crash never results in marking data as deleted before the update has been safely persisted. |
 | 👉 In the worst-case scenario, GridStore may need to write the same data twice, leading to minor space overhead, but it will never corrupt the storage by overwriting valid data. |
 
-## Testing: Can GridStore Handle the Pressure?
+## How We Tested the Final Product 
 ![gridstore](/articles_data/gridstore-key-value-storage/gridstore-3.png)
 
-### Model Testing
+### First - Simple Model Testing 
 
 GridStore can be tested efficiently using model testing, which compares its behavior to a simple in-memory hash map. Since GridStore should function like a persisted hash map, this method quickly detects inconsistencies.
 
@@ -155,7 +155,7 @@ We could have tested against RocksDB, but speed mattered more. A simple hash map
 
 For even sharper debugging, Property-Based Testing adds automated test generation and shrinking. It pinpoints failures with minimal test cases, making bug hunting faster and more effective.
 
-### Crash Testing
+### Crash Testing: Can GridStore Handle the Pressure?
 
 Designing for crash resilience is one thing, and proving it works under stress is another. To push Qdrant’s data integrity to the limit, we built [**Crasher**](https://github.com/qdrant/crasher), a test bench that brutally kills and restarts Qdrant while it handles a heavy update workload.
 
