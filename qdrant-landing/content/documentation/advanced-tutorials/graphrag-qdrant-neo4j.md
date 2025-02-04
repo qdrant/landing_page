@@ -170,6 +170,7 @@ qdrant_url = os.getenv("QDRANT_URL")
 neo4j_uri = os.getenv("NEO4J_URI")
 neo4j_username = os.getenv("NEO4J_USERNAME")
 neo4j_password = os.getenv("NEO4J_PASSWORD")
+openai_key = os.getenv("OPENAI_API_KEY")
 ```
 
 ---
@@ -228,18 +229,39 @@ We now initialize the OpenAI client and define a function to send prompts to the
 client = OpenAI()
 
 def openai_llm_parser(prompt):
-    completion = client.beta.chat.completions.parse(
+    completion = client.chat.completions.create(
         model="gpt-4o-2024-08-06",
+        response_format={"type": "json_object"},
         messages=[
-            {"role": "system", "content": "Extract graph components."},
-            {"role": "user", "content": prompt}
-        ],
-        response_format=GraphComponents,
+            {
+                "role": "system",
+                "content": 
+                   
+                """ You are a precise graph relationship extractor. Extract all 
+                    relationships from the text and format them as a JSON object 
+                    with this exact structure:
+                    {
+                        "graph": [
+                            {"node": "Person/Entity", 
+                             "target_node": "Related Entity", 
+                             "relationship": "Type of Relationship"},
+                            ...more relationships...
+                        ]
+                    }
+                    Include ALL relationships mentioned in the text, including 
+                    implicit ones. Be thorough and precise. """
+                    
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
     )
-
-    return completion.choices[0].message.parse
+    
+    return GraphComponents.model_validate_json(completion.choices[0].message.content)
+    
 ```
-
 ---
 
 This function sends a prompt to the LLM, asking it to extract graph components (nodes and relationships) from the provided text. The response is parsed into structured graph data.
@@ -407,29 +429,6 @@ def ingest_to_qdrant(collection_name, raw_data, node_id_mapping):
 
 The ingest_to_qdrant function generates embeddings for each paragraph in the raw data and stores them in a Qdrant collection. It associates each embedding with a unique ID and its corresponding node ID from the node_id_mapping dictionary, ensuring proper linkage for later retrieval.
 
-### Putting it Together
-
-Since this is a demo, we will ingest some sample data. Let's integrate the code above into a complete solution.
-
-```python
-raw_data = """Alice works at Acme Corp.
-Alice and Bob are friends.
-Acme Corp is located in New York City.
-Bob is a software engineer.
-Alice is a data scientist at Acme Corp.
-They both attended MIT."""
-
-collection_name = "vectorstore-graphRAG"
-vector_dimension = 1536
-
-create_collection(qdrant_client, collection_name, vector_dimension)
-
-nodes, relationships = extract_graph_components(raw_data)
-
-node_id_mapping = ingest_to_neo4j(nodes, relationships)
-
-ingest_to_qdrant(collection_name, raw_data, node_id_mapping)
-```
 
 ---
 
@@ -442,7 +441,7 @@ In this section, we will create the retrieval and generation engine for the syst
 The retriever integrates vector search and graph data, enabling semantic similarity searches with Qdrant and fetching relevant graph data from Neo4j. This enriches the RAG process and allows for more informed responses.
 
 ```python
-def retriever_search(neo4j_driver, qdrant_client, collection_name):
+def retriever_search(neo4j_driver, qdrant_client, collection_name, query):
     retriever = QdrantNeo4jRetriever(
         driver=neo4j_driver,
         client=qdrant_client,
@@ -455,8 +454,6 @@ def retriever_search(neo4j_driver, qdrant_client, collection_name):
     
     return results
 ```
-
----
 
 ---
 
@@ -480,21 +477,31 @@ We need to fetch subgraph data from a Neo4j database based on specific entity ID
 ```python
 def fetch_related_graph(neo4j_client, entity_ids):
     query = """
-    MATCH (e:Entity)-[r]-(related)
+    MATCH (e:Entity)-[r1]-(n1)-[r2]-(n2)
     WHERE e.id IN $entity_ids
-    RETURN e, r, related
+    RETURN e, r1 as r, n1 as related, r2, n2
+    UNION
+    MATCH (e:Entity)-[r]-(related)
+    WHERE e.id IN $entity_ids`
+    RETURN e, r, related, null as r2, null as n2
     """
-
     with neo4j_client.session() as session:
         result = session.run(query, entity_ids=entity_ids)
-        print(result)
-
-        subgraph = [
-            {"entity": record["e"], "relationship": record["r"], "related_node": record["related"]}
-            for record in result
-        ]
-
+        subgraph = []
+        for record in result:
+            subgraph.append({
+                "entity": record["e"],
+                "relationship": record["r"],
+                "related_node": record["related"]
+            })
+            if record["r2"] and record["n2"]:
+                subgraph.append({
+                    "entity": record["related"],
+                    "relationship": record["r2"],
+                    "related_node": record["n2"]
+                })
     return subgraph
+
 ```
 
 ---
@@ -535,35 +542,30 @@ Now that we have the graph context, we need to generate a prompt for a language 
 
 ```python
 def graphRAG_run(graph_context, user_query):
-    # Prepare the graph context as a readable string
-    nodes = ", ".join(graph_context["nodes"])
-    edges = "; ".join(graph_context["edges"])
-
-    # Create the LLM prompt
+    nodes_str = ", ".join(graph_context["nodes"])
+    edges_str = "; ".join(graph_context["edges"])
     prompt = f"""
     You are an intelligent assistant with access to the following knowledge graph:
 
-    Nodes: {nodes}
+    Nodes: {nodes_str}
 
-    Edges: {edges}
+    Edges: {edges_str}
 
     Using this graph, Answer the following question:
 
     User Query: "{user_query}"
     """
-
-    print(prompt)
-
-    # Query the LLM with the generated prompt
+    
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4",
             messages=[
                 {"role": "system", "content": "Provide the answer for the following question:"},
                 {"role": "user", "content": prompt}
             ]
         )
         return response.choices[0].message
+    
     except Exception as e:
         return f"Error querying LLM: {str(e)}"
 ```
@@ -578,30 +580,93 @@ Finally, let’s integrate everything into an end-to-end pipeline where we inges
 
 ```python
 if __name__ == "__main__":
+    print("Script started")
+    print("Loading environment variables...")
+    load_dotenv('.env.local')
+    print("Environment variables loaded")
+    
+    print("Initializing clients...")
+    neo4j_driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_username, neo4j_password))
+    qdrant_client = QdrantClient(
+        url=qdrant_url,
+        api_key=qdrant_key
+    )
+    print("Clients initialized")
+    
+    print("Creating collection...")
+    collection_name = "graphRAGstoreds"
+    vector_dimension = 1536
+    create_collection(qdrant_client, collection_name, vector_dimension)
+    print("Collection created/verified")
+    
+    print("Extracting graph components...")
+    
+    raw_data = """Alice is a data scientist at TechCorp's Seattle office.
+    Bob and Carol collaborate on the Alpha project.
+    Carol transferred to the New York office last year.
+    Dave mentors both Alice and Bob.
+    TechCorp's headquarters is in Seattle.
+    Carol leads the East Coast team.
+    Dave started his career in Seattle.
+    The Alpha project is managed from New York.
+    Alice previously worked with Carol at DataCo.
+    Bob joined the team after Dave's recommendation.
+    Eve runs the West Coast operations from Seattle.
+    Frank works with Carol on client relations.
+    The New York office expanded under Carol's leadership.
+    Dave's team spans multiple locations.
+    Alice visits Seattle monthly for team meetings.
+    Bob's expertise is crucial for the Alpha project.
+    Carol implemented new processes in New York.
+    Eve and Dave collaborated on previous projects.
+    Frank reports to the New York office.
+    TechCorp's main AI research is in Seattle.
+    The Alpha project revolutionized East Coast operations.
+    Dave oversees projects in both offices.
+    Bob's contributions are mainly remote.
+    Carol's team grew significantly after moving to New York.
+    Seattle remains the technology hub for TechCorp."""
 
-    query = "Who attended MIT?"
+    nodes, relationships = extract_graph_components(raw_data)
+    print("Nodes:", nodes)
+    print("Relationships:", relationships)
+    
+    print("Ingesting to Neo4j...")
+    node_id_mapping = ingest_to_neo4j(nodes, relationships)
+    print("Neo4j ingestion complete")
+    
+    print("Ingesting to Qdrant...")
+    ingest_to_qdrant(collection_name, raw_data, node_id_mapping)
+    print("Qdrant ingestion complete")
 
-    # Retrieve relevant entities from Qdrant
-    retriever_result = retriever_search(neo4j_driver, qdrant_client, collection_name)
-
-    # Extract entity IDs from the retrieval results
+    query = "How is Bob connected to New York?"
+    print("Starting retriever search...")
+    retriever_result = retriever_search(neo4j_driver, qdrant_client, collection_name, query)
+    print("Retriever results:", retriever_result)
+    
+    print("Extracting entity IDs...")
     entity_ids = [item.content.split("'id': '")[1].split("'")[0] for item in retriever_result.items]
-
-    # Fetch the related graph from Neo4j
+    print("Entity IDs:", entity_ids)
+    
+    print("Fetching related graph...")
     subgraph = fetch_related_graph(neo4j_driver, entity_ids)
-
-    # Format the graph context
+    print("Subgraph:", subgraph)
+    
+    print("Formatting graph context...")
     graph_context = format_graph_context(subgraph)
+    print("Graph context:", graph_context)
+    
+    print("Running GraphRAG...")
+    answer = graphRAG_run(graph_context, query)
+    print("Final Answer:", answer)
 
-    # Run the RAG process to get a refined answer to the user query
-    graphRAG_run(graph_context, query)
 ```
 
 ---
 
 Here’s what’s happening:
 
-- First, the user query is defined ("Who attended MIT?").
+- First, the user query is defined ("How is Bob connected to New York?").
 - The QdrantNeo4jRetriever searches for related entities in the Qdrant vector database based on the user query’s embedding. It retrieves the top 5 results (top_k=5).
 - The entity_ids are extracted from the retriever result.
 - The fetch_related_graph function retrieves related entities and their relationships from the Neo4j database.
