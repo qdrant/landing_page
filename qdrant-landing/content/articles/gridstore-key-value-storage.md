@@ -244,3 +244,10 @@ We optimized for speed, and it paid off—but what about storage size?
 
 Strictly speaking, RocksDB is slightly smaller, but the difference is negligible compared to the 2x faster ingestion and more stable throughput. A small trade-off for a big performance gain! 
 
+## Trying Out Gridstore
+
+- test payload
+
+- test sparse
+
+- TODO: mention that Gridstore has not been released as a standalone crate because it is tightly integrated with Qdrant, and it has not reached a stable API yet. We might do it later as a contribution to the Rust community.
