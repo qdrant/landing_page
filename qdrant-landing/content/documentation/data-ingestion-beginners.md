@@ -368,6 +368,6 @@ In this example, we queried **Phones with improved design**. Then, we converted 
 
 In this guide, we set up an S3 bucket, ingested various data types, and stored embeddings in Qdrant. Using LangChain, we dynamically processed text and image files, making it easy to work with each file type.
 
-Now, it’s your turn. Try experimenting with different data types, such as videos, and explore Qdrant’s advanced features to enhance your applications. To get started, [sign up](https://cloud.qdrant.io/) for Qdrant today. 
+Now, it’s your turn. Try experimenting with different data types, such as videos, and explore Qdrant’s advanced features to enhance your applications. To get started, [sign up](https://cloud.qdrant.io/signup) for Qdrant today. 
 
 ![data-ingestion-beginners-12](/documentation/examples/data-ingestion-beginners/data-ingestion-12.png)

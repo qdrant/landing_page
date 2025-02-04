@@ -49,4 +49,4 @@ Our simple Kubernetes-native design lets you deploy Qdrant Hybrid Cloud on your 
 
 #### Ready to Get Started?
 
-Create a [Qdrant Cloud account](https://cloud.qdrant.io/login) and deploy your first **Qdrant Hybrid Cloud** cluster in a few minutes. You can always learn more in the [official release blog](/blog/hybrid-cloud/). 
+Create a [Qdrant Cloud account](https://cloud.qdrant.io/signup) and deploy your first **Qdrant Hybrid Cloud** cluster in a few minutes. You can always learn more in the [official release blog](/blog/hybrid-cloud/). 

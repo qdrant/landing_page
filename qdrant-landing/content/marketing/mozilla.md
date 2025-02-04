@@ -11,7 +11,7 @@ heroSection:
     description: The leading open-source vector database designed to handle high-dimensional vectors for performance and massive-scale AI applications. Qdrant is purpose-built in Rust for unmatched speed and reliability even when processing billions of vectors.
     buttonLeft:
         text: Start Free
-        link: https://cloud.qdrant.io/
+        link: https://cloud.qdrant.io/signup
     buttonRight:
         text: See Benchmarks
         link: /benchmarks/

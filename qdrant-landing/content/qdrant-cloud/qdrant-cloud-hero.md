@@ -3,7 +3,7 @@ title: Qdrant Cloud
 description: Qdrant Cloud provides optimal flexibility and offers a suite of features focused on efficient and scalable vector search - fully managed. Available on AWS, Google Cloud, and Azure.
 startFree:
   text: Get Started
-  url: https://cloud.qdrant.io/
+  url: https://cloud.qdrant.io/signup
 contactUs:
   text: Talk to Sales
   url: /contact-us/

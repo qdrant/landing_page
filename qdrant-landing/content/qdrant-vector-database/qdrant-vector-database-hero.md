@@ -3,7 +3,7 @@ title: Qdrant. Efficient, Scalable, Fast.
 description: Qdrant is the most advanced vector database with highest RPS, minimal latency, fast indexing, high control with accuracy, and so much more.
 startFree:
   text: Get Started
-  url: https://cloud.qdrant.io/
+  url: https://cloud.qdrant.io/signup
 contactUs:
   text: Talk to Sales
   url: /contact-us/

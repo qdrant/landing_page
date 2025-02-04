@@ -16,7 +16,7 @@ aliases:
 
 ## Setup a Qdrant Cloud cluster
 
-1. Register for a [Cloud account](https://cloud.qdrant.io/) with your email, Google or Github credentials.
+1. Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google or Github credentials.
 2. Go to **Overview** and follow the onboarding instructions under **Create First Cluster**. 
 
 ![create a cluster](/docs/gettingstarted/gui-quickstart/create-cluster.png)
