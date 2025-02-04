@@ -19,7 +19,7 @@ Every account is tied to an email address. You can invite additional users to yo
 
 ### Email registration
 
-1. Register for a [Cloud account](https://cloud.qdrant.io/) with your email, Google or GitHub credentials.
+1. Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google or GitHub credentials.
 
 ## Inviting additional users to an account
 

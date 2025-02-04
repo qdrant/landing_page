@@ -87,7 +87,7 @@ The system is built on three main components:
 ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-2.png)
 
 1. **Get API Credentials for Qdrant**:
-   - Sign up for an account at [Qdrant Cloud](https://cloud.qdrant.io/).
+   - Sign up for an account at [Qdrant Cloud](https://cloud.qdrant.io/signup).
    - Create a new cluster and copy the **Cluster URL** (format: https://xxx.gcp.cloud.qdrant.io).
    - Go to **Data Access Control** and generate an **API key**.
 

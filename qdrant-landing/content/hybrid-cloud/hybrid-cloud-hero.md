@@ -19,7 +19,7 @@ features:
 description: Seamlessly deploy and manage the vector database across diverse environments, ensuring performance, security, and cost efficiency for AI-driven applications.
 startFree:
   text: Get Started
-  url: https://cloud.qdrant.io/
+  url: https://cloud.qdrant.io/signup
 contactUs:
   text: Request a demo
   url: /contact-hybrid-cloud/

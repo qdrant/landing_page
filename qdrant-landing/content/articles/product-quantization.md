@@ -227,4 +227,4 @@ In circumstances that do not align with the above, Scalar Quantization should be
 If you’re already a Qdrant user, we have, documentation on [Product Quantization](/documentation/guides/quantization/#setting-up-product-quantization) that will help you to set and configure the new quantization for your data and achieve even 
 up to 64x memory reduction.
 
-Ready to experience the power of Product Quantization? [Sign up now](https://cloud.qdrant.io/) for a free Qdrant demo and optimize your data management today!
+Ready to experience the power of Product Quantization? [Sign up now](https://cloud.qdrant.io/signup) for a free Qdrant demo and optimize your data management today!
