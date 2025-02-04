@@ -53,7 +53,7 @@ At the core of Gridstore is **The Data Layer**, which is designed to retrieve va
 
 Since internal IDs are always sequential integers (0, 1, 2, 3, 4, ...), Gridstore stores keys in a structured array of pointers, where each pointer tells the system exactly where a value starts and how long it is. 
 
-{{< figure src="/articles_data/gridstore-key-value-storage/architecture-1.png" alt="The Data Layer" caption="The Data Layer uses an array of pointers to quickly retrieve data." >}}
+{{< figure src="/articles_data/gridstore-key-value-storage/data-layer.png" alt="The Data Layer" caption="The Data Layer uses an array of pointers to quickly retrieve data." >}}
 
 This makes lookups incredibly fast. For example, finding key 3 is just a matter of jumping to the third position in the pointer array and reading the value. 
 
@@ -62,7 +62,7 @@ However, because values are of variable size, the data itself is stored separate
 ### 2. The Mask Layer for Reusing Space
 **The Mask Layer** helps Gridstore handle updates and deletions without the need for expensive data compaction. Instead of maintaining complex metadata for each block, Gridstore tracks usage with a bitmask, where each bit represents a block, with 1 for used, 0 for free.  
 
-{{< figure src="/articles_data/gridstore-key-value-storage/architecture-2.png" alt="The Bitmask Layer" caption="The bitmask efficiently tracks block usage." >}}
+{{< figure src="/articles_data/gridstore-key-value-storage/bitmask-region.png" alt="The Mask Layer" caption="The bitmask efficiently tracks block usage." >}}
 
 This makes it easy to determine where new values can be written. When a value is removed, it gets soft-deleted at its pointer, and the corresponding blocks in the bitmask are marked as available. Similarly, when updating a value, the new version is written elsewhere, and the old blocks are freed at the bitmask.
 
@@ -73,7 +73,7 @@ To further optimize update handling, Gridstore introduces **The Gaps Layer**, wh
 
 Instead of scanning the entire bitmask, Gridstore splits the bitmask into regions and keeps track of the largest contiguous free space within each region, known as a **Region Gap**. By also storing the leading and trailing gaps of each region, the system can efficiently combine multiple regions when needed for storing large values.
 
-{{< figure src="/articles_data/gridstore-key-value-storage/architecture-3.png" alt="The Region Gap Layer" caption="Complete architecture with the Gaps Layer." >}}
+{{< figure src="/articles_data/gridstore-key-value-storage/architecture.png" alt="The Gaps Layer" caption="Complete architecture with the Gaps Layer." >}}
 
 This layered approach allows Gridstore to locate available space quickly, reducing the work required for scans while keeping memory overhead minimal. With this system, finding storage space for new values requires scanning only a tiny fraction of the total metadata, making updates and insertions highly efficient, even in large segments.
 
@@ -244,14 +244,3 @@ We optimized for speed, and it paid off—but what about storage size?
 
 Strictly speaking, RocksDB is slightly smaller, but the difference is negligible compared to the 2x faster ingestion and more stable throughput. A small trade-off for a big performance gain! 
 
-## Trying Out Gridstore
-
-- test payload
-
-- test sparse
-
-- TODO: mention that Gridstore has not been released as a standalone crate because it is tightly integrated with Qdrant, and it has not reached a stable API yet. We might do it later as a contribution to the Rust community.
-
-<div style="text-align: center;">
-  <img src="/articles_data/gridstore-key-value-storage/gridstore_movie.gif" alt="Gridstore Movie" style="width: 50%;">
-</div>
