@@ -59,7 +59,7 @@ This makes lookups incredibly fast. For example, finding key 3 is just a matter 
 
 However, because values are of variable size, the data itself is stored separately in a grid of fixed-sized blocks, which are grouped into larger page files. The fixed size of each block is usually 128 bytes. When inserting a value, Gridstore allocates one or more consecutive blocks to store it, ensuring that each block only holds data from a single value.
 
-### 2. The Mask Layer for Reusing Space
+### 2. The Mask Layer to Reuse Space
 **The Mask Layer** helps Gridstore handle updates and deletions without the need for expensive data compaction. Instead of maintaining complex metadata for each block, Gridstore tracks usage with a bitmask, where each bit represents a block, with 1 for used, 0 for free.  
 
 {{< figure src="/articles_data/gridstore-key-value-storage/bitmask-region.png" alt="The Mask Layer" caption="The bitmask efficiently tracks block usage." >}}
