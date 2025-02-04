@@ -49,13 +49,13 @@ Gridstore’s architecture is built around three key components that enable fast
 | The Gaps Layer | Manages block availability at a higher level, allowing for quick space allocation.            |
 
 ### 1. The Data Layer for Fast Retrieval
-At the core of Gridstore is **The Data Layer**, which is designed to retrieve values quickly based on their keys. This structure allows us to do efficient reads and lets us store variable-sized data.
+At the core of Gridstore is **The Data Layer**, which is designed to store and retrieve values quickly based on their keys. This layer allows us to do efficient reads and lets us store variable-sized data. The main two components of this layer are the **tracker** and the **data grid**.
 
-Since internal IDs are always sequential integers (0, 1, 2, 3, 4, ...), Gridstore stores keys in a structured array of pointers, where each pointer tells the system exactly where a value starts and how long it is. 
+Since internal IDs are always sequential integers (0, 1, 2, 3, 4, ...), the tracker is an array of pointers, where each pointer tells the system exactly where a value starts and how long it is. 
 
 {{< figure src="/articles_data/gridstore-key-value-storage/data-layer.png" alt="The Data Layer" caption="The Data Layer uses an array of pointers to quickly retrieve data." >}}
 
-This makes lookups incredibly fast. For example, finding key 3 is just a matter of jumping to the third position in the pointer array and reading the value. 
+This makes lookups incredibly fast. For example, finding key 3 is just a matter of jumping to the third position in the tracker, and follow the pointer to find the value in the data grid. 
 
 However, because values are of variable size, the data itself is stored separately in a grid of fixed-sized blocks, which are grouped into larger page files. The fixed size of each block is usually 128 bytes. When inserting a value, Gridstore allocates one or more consecutive blocks to store it, ensuring that each block only holds data from a single value.
 
@@ -75,7 +75,7 @@ Instead of scanning the entire bitmask, Gridstore splits the bitmask into region
 
 {{< figure src="/articles_data/gridstore-key-value-storage/architecture.png" alt="The Gaps Layer" caption="Complete architecture with the Gaps Layer." >}}
 
-This layered approach allows Gridstore to locate available space quickly, reducing the work required for scans while keeping memory overhead minimal. With this system, finding storage space for new values requires scanning only a tiny fraction of the total metadata, making updates and insertions highly efficient, even in large segments.
+This layered approach allows Gridstore to locate available space quickly, scaling down the work required for scans while keeping memory overhead minimal. With this system, finding storage space for new values requires scanning only a tiny fraction of the total metadata, making updates and insertions highly efficient, even in large segments.
 
 Given the default configuration, the gaps layer is scoped out in a millionth fraction of the actual storage size. This means that for each 1GB of data, the gaps layer only requires to scan 6KB of metadata. With this mechanism, the other operations can be computed in virtually constant-time complexity.
 
