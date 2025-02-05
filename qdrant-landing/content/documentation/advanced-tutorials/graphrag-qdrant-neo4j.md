@@ -14,6 +14,8 @@ social_preview_image: /documentation/examples/graphrag-qdrant-neo4j/social_previ
 | Time: 30 min | Level: Intermediate |Output: [GitHub](https://github.com/qdrant/examples/blob/master/graphrag_neo4j/graphrag.py)|   
 | --- | ----------- | ----------- | 
 
+<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/o9pszzRuyjo?si=P-AfKB0tZ9Csph5C" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+
 To make Artificial Intelligence (AI) systems more intelligent and reliable, we face a paradox: Large Language Models (LLMs) possess remarkable reasoning capabilities, yet they struggle to connect information in ways humans find intuitive. While groundbreaking, Retrieval-Augmented Generation (RAG) approaches often fall short when tasked with complex information synthesis. When asked to connect disparate pieces of information or understand holistic concepts across large documents, these systems frequently miss crucial connections that would be obvious to human experts.
 
 To solve these problems, Microsoft introduced **GraphRAG,** which uses Knowledge Graphs (KGs) instead of vectors as a context for LLMs. GraphRAG depends mainly on LLMs for creating KGs and querying them. However, this reliance on LLMs can lead to many problems. We will address these challenges by combining vector databases with graph-based databases.
