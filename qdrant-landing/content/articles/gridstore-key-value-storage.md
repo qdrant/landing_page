@@ -6,7 +6,7 @@ preview_dir: /articles_data/gridstore-key-value-storage/preview
 social_preview_image: /articles_data/gridstore-key-value-storage/social_preview.png
 weight: -150
 author: Luis Cossio, Arnaud Gourlay & David Myriel
-date: 2025-02-04T00:00:00.000Z
+date: 2025-02-05T00:00:00.000Z
 category: qdrant-internals
 ---
 
