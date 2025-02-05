@@ -246,11 +246,11 @@ Strictly speaking, RocksDB is slightly smaller, but the difference is negligible
 
 ## Trying Out Gridstore
 
-Gridstore represents a significant advancement in how Qdrant manages its **key-value storage** needs. It offers great performance and streamlined updates tailored specifically for our use case. We have managed to achieve faster, more reliable data ingestion while maintaining data integrity, even under heavy workloads and unexpected failures.
+Gridstore represents a significant advancement in how Qdrant manages its **key-value storage** needs. It offers great performance and streamlined updates tailored specifically for our use case. We have managed to achieve faster, more reliable data ingestion while maintaining data integrity, even under heavy workloads and unexpected failures. It is already used as a storage backend for on-disk payloads and sparse vectors.
 
 👉 It’s important to note that Gridstore remains tightly integrated with Qdrant and, as such, has not been released as a standalone crate. 
 
-Its API is still evolving, and we are focused on refining it within our ecosystem to ensure maximum stability and performance. That said, we recognize the value this innovation could bring to the wider Rust community. In the future, once the API stabilizes and Gridstore proves its robustness in production, we might consider open-sourcing it as a contribution to the community.
+Its API is still evolving, and we are focused on refining it within our ecosystem to ensure maximum stability and performance. That said, we recognize the value this innovation could bring to the wider Rust community. In the future, once the API stabilizes and we decouple it enough from Qdrant, we will consider publishing it as a contribution to the community ❤️.
 
 For now, Gridstore continues to drive improvements in Qdrant, demonstrating the benefits of a custom-tailored storage engine designed with modern demands in mind. Stay tuned for further updates and potential community releases as we keep pushing the boundaries of performance and reliability.
 
@@ -258,3 +258,4 @@ For now, Gridstore continues to drive improvements in Qdrant, demonstrating the 
   <img src="/articles_data/gridstore-key-value-storage/gridstore.png" alt="Gridstore" style="width: 50%;">
   <p>Simple, efficient, and designed just for Qdrant.</p>
 </div>
+
