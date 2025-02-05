@@ -20,6 +20,11 @@ To solve these problems, Microsoft introduced **GraphRAG,** which uses Knowledge
 
 This tutorial will demonstrate how to build a GraphRAG system with vector search using Neo4j and Qdrant.
 
+|Additional Materials|
+|-|
+|This advanced tutorial is based on our original integration doc: [**Neo4j - Qdrant Integration**](/documentation/frameworks/neo4j-graphrag/)|
+|The output for this tutorial is in our GitHub Examples repo: [**Neo4j - Qdrant Agent in Python**](https://github.com/qdrant/examples/blob/master/graphrag_neo4j/graphrag.py)
+
 ## Watch the Video
 
 <p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/o9pszzRuyjo?si=P-AfKB0tZ9Csph5C" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
