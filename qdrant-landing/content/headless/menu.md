@@ -103,6 +103,10 @@ menuItems:
         name: Startup Program
         icon: qdrant-for-startups.svg
         url: /qdrant-for-startups/
+      - id: subMenu-3-5
+        name: Bug Bounty Program
+        icon: bug-bounty-program.svg
+        url: /security/bug-bounty-program/
   - id: menu-4
     name: Company
     subMenuItems:
