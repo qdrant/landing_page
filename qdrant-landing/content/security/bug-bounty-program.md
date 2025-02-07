@@ -3,53 +3,53 @@ title: Bug Bounty Program
 ---
 
 # Bug Bounty Program Overview
-User trust is our top priority, and we adhere to the highest privacy and security standards. We actively invite security researchers to identify vulnerabilities and are committed to collaborating with them to resolve issues quickly and effectively.
-Qdrant values the security research community and supports responsible disclosure of vulnerabilities in our products and services. Through our bug bounty program, we reward researchers who help us enhance the security of our platform.
+We prioritize user trust and adhere to the highest privacy and security standards. This is why we actively invite security experts to identify vulnerabilities and commit to collaborating with them to resolve issues swiftly and effectively.
+Qdrant values the security research community and supports the responsible disclosure of vulnerabilities in our products and services. Through our bug bounty program, we reward researchers who help enhance the security of our platform.
 
-## Responsible Dislcosure Program Rules
-- Reports must include detailed, reproducible steps. Issues that cannot be reproduced will not qualify for a reward.
-- Submit one vulnerability per report unless multiple vulnerabilities need to be chained to demonstrate impact.
-- In cases of duplicate reports, only the first reproducible report received will be eligible for a reward.
-- Vulnerabilities stemming from the same root cause will be considered a single issue and awarded one bounty.
-- Social engineering attacks (e.g., phishing, vishing, smishing) are strictly prohibited.
-- Only interact with accounts you own or have explicit permission to access. Do not test using Qdrant employee accounts or internal tools.
-- Before running automated scanners, you will check with us first.
+## Responsible Disclosure Program Rules
+- Include detailed, reproducible steps in your reports. We will not reward issues you cannot reproduce.
+- Submit one vulnerability per report unless you need to chain multiple vulnerabilities to demonstrate impact.
+- In cases of duplicate reports, we will reward only the first reproducible report.
+- We will consider vulnerabilities stemming from the same root cause as a single issue and award only one bounty.
+- We strictly prohibit social engineering attacks (e.g., phishing, vishing, smishing).
+- Interact only with accounts you own or have explicit permission to access. Do not test using Qdrant employee accounts or internal tools.
+- Before you run automated scanners, please check with us first.
 
 ### In Scope
-This program covers vulnerabilities found in the following areas:
+We cover vulnerabilities in the following areas:
 - *.cloud.qdrant.io Qdrant Cloud Application
-- [qdrant.tech](http://qdrant.tech) Website
+- [qdrant.tech](http://qdrant.tech/) Website
 
 ### Out of Scope
-The following areas are always out of scope:
+We always exclude the following areas:
 - Third-party applications or websites
 - Staging or test environments
 - Social engineering attacks
-- DOS/DDOS attacks
-- User / email enumeration
-- Brute forcing
+- DoS/DDoS attacks
+- User/email enumeration
+- Brute-force attacks
 - Physical security issues
 - Reports from automated tools or scanners
 - Generic information disclosure, such as the `Server` or `X-Powered-By` headers
 - Email security: DMARC, DKIM, SPF
-- Spamming that can be prevented by rate limiting techniques
+- Spamming that rate limiting techniques can prevent
 
-## Severity Levels and Rewards (internal only)
-- We assess reported bugs based on their risk and other relevant factors, so our response may take some time.
-- Submissions that include detailed remediation steps or recommendations are more likely to receive higher rewards.
-- Bounty amounts are determined by multiple factors, including the impact of the vulnerability, the ease of exploitation, and the quality of the report. Please note that very low-risk issues may not qualify for a bounty.
-- We typically evaluate the criticality of issues using the CVSS v4 framework to ensure consistent risk assessment.
-- While we aim to reward similar vulnerabilities with comparable compensation, factors such as the time and effort required to discover the issue are also considered. Keep in mind that rewards for future reports are not guaranteed to match past compensations.
+## Severity Levels and Rewards
+- We assess reported bugs based on their risk and other relevant factors; our response may take some time.
+- We tend to award higher rewards for submissions that include detailed remediation steps or recommendations.
+- We determine bounty amounts based on multiple factors, including the vulnerability’s impact, the ease of exploitation, and the quality of the report. Please note that we may not award a bounty for very low-risk issues.
+- We use the CVSS v4 framework to evaluate the criticality of issues and ensure a consistent risk assessment.
+- We aim to reward similar vulnerabilities with comparable compensation; however, we also consider factors such as the time and effort required to discover the issue. Keep in mind that we may not match previous compensations for future reports.
 
 ## Disclosure Policy
-Please contact us at [security@qdrant.com](mailto:security@qdrant.com) to report vulnerabilities. Our security team aims to provide an initial response within 5 business days, followed by triage within 5-7 business days. Fix implementation timelines vary based on severity, and bounty payments are processed after fix verification.
+Contact us at [security@qdrant.com](mailto:security@qdrant.com) to report vulnerabilities. Our security team will provide an initial response within 5 business days and triage the issue within 5-7 business days. We vary fix implementation timelines based on severity, and we process bounty payments after verifying the fix.
 
-When disclosing vulnerabilities to us, we kindly ask you to adhere to the following guidelines:
-- Report any potential security vulnerabilities immediately upon discovery - we are committed to swift resolution of all issues.
-- Maintain strict confidentiality about discovered vulnerabilities. Public disclosure requires explicit authorization from the Qdrant security team.
+Follow these guidelines when disclosing vulnerabilities to us:
+- Report any potential security vulnerabilities immediately upon discovery, as we commit to resolving issues swiftly.
+- Maintain strict confidentiality regarding discovered vulnerabilities. Obtain explicit authorization from the Qdrant security team before publicly disclosing any vulnerabilities.
 - Exercise caution to prevent data loss, privacy breaches, or service disruptions while conducting security research.
-- Limit testing to your own accounts or those where you have received explicit permission. Report any accidental access to unauthorized data immediately.
-- Safe Harbor: We support ethical security research and commit to not initiating legal action against researchers who report vulnerabilities in good faith and comply with this disclosure policy. Ensure that your testing is non-disruptive and respects the outlined guidelines to qualify for Safe Harbor protections.
+- Limit testing to your own accounts or those for which you have received explicit permission. Report any accidental access to unauthorized data immediately.
+- **Safe Harbor:** We support ethical security research and promise not to initiate legal action against researchers who report vulnerabilities in good faith and comply with this disclosure policy. Ensure that your testing remains non-disruptive and respects the outlined guidelines so you qualify for Safe Harbor protections.
 
 ### Contact
 For questions about the program or to report security issues, contact:
