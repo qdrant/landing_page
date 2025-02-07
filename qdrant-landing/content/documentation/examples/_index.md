@@ -16,7 +16,9 @@ partition: build
 | [Question-Answering System for Customer Support](/documentation/examples/rag-customer-support-cohere-airbyte-aws/)                                 | Build a RAG System for AI Customer Support               | Qdrant, Cohere, Airbyte, AWS                                      |  
 | [Hybrid Search on PDF Documents](/documentation/examples/hybrid-search-llamaindex-jinaai/)                                 | Develop a Hybrid Search System for Product PDF Manuals                | Qdrant, LlamaIndex, Jina AI   
 | [Blog-Reading RAG Chatbot](/documentation/examples/rag-chatbot-scaleway/)                                 | Develop a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LangChain, GPT-4o   
-| [Movie Recommendation System](/documentation/examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |   
+| [Movie Recommendation System](/documentation/examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |
+| [GraphRAG Agent](/documentation/examples/graphrag-qdrant-neo4j/)                                 | Build a GraphRAG Agent with Neo4J and Qdrant               | Qdrant, Neo4j |
+ 
 
 
 ## Notebooks
