@@ -17,4 +17,3 @@ partition: qdrant
 | [Build a Text/Image Multimodal Search System with Qdrant and FastEmbed](/documentation/advanced-tutorials/multimodal-search-fastembed/)        | 
 | [Navigate Your Codebase with Semantic Search and Qdrant](/documentation/advanced-tutorials/code-search/)                     | 
 | [Ensure optimal large-scale PDF Retrieval with Qdrant and ColPali/ColQwen](/documentation/advanced-tutorials/pdf-retrieval-at-scale/)                     | 
-| [Build a GraphRAG Agent with Neo4J and Qdrant](/documentation/advanced-tutorials/graphrag-qdrant-neo4j/)                     | 
