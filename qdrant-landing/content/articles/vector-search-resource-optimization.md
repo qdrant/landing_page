@@ -245,7 +245,7 @@ client.upsert(
 To ensure proper data isolation in a multitenant environment, you can assign a unique identifier, such as a **group_id**, to each vector. This approach ensures that each user's data remains segregated, allowing users to access only their own data. You can further enhance this setup by applying filters during queries to restrict access to the relevant data.
 
 ---
-Learn More about [Multitenancy](/documentation/guides/multiple-partitions/)
+Learn More about [**Multitenancy**](/documentation/guides/multiple-partitions/)
 
 ---
 
@@ -571,6 +571,6 @@ _________________________________________________________________________
 
 ## Get the Cheatsheet
 
-Want to download a printer-friendly version of this guide? [Download it now.](https://try.qdrant.tech/resource-optimization-guide).
+Want to download a printer-friendly version of this guide? [**Download it now.**](https://try.qdrant.tech/resource-optimization-guide).
 
 [![downloadable vector search resource optimization guide](/articles_data/vector-search-resource-optimization/downloadable-guide.jpg)](https://try.qdrant.tech/resource-optimization-guide)
