@@ -546,6 +546,8 @@ client.create_collection(
     collection_name="{collection_name}",
     on_disk_payload= True
 )
+```
+
 The general guideline for selecting a storage method in Qdrant is to use **InMemory storage** when high performance is a priority, and sufficient RAM is available to accommodate the dataset. This approach ensures the fastest access speeds by keeping data readily accessible in memory. 
 
 However, for larger datasets or scenarios where memory is limited, **Memmap** and **OnDisk storage** are more suitable. These methods significantly reduce memory usage by storing data on disk while leveraging advanced techniques like page caching and indexing to maintain efficient and relatively fast data access.
