@@ -488,6 +488,7 @@ client.query_points(
        with_payload=True,
        limit=10,
 )
+```
 ___
 Learn more about [**Reranking**](/documentation/search-precision/reranking-hybrid-search/#rerank).
 
