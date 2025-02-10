@@ -324,7 +324,6 @@ Here’s how to choose the shard_number:
 | **Match Shards to Nodes**       | The number of shards should align with the number of nodes in your cluster to balance resource utilization and query performance. |
 | **Plan for Scalability**        | Start with at least **2 shards per node** to allow room for future growth.                                        |
 | **Future-Proofing**             | Starting with around **12 shards** is a good rule of thumb. This setup allows your system to scale seamlessly from 1 to 12 nodes without requiring re-sharding. |
-| **Avoid Re-Sharding**           | Re-sharding can be complex and requires creating a new collection, so it's best to plan ahead to minimize disruptions. |
 
 Learn more about [**Sharding in Distributed Deployment**](/documentation/guides/distributed_deployment/)
 
@@ -344,10 +343,15 @@ The filterable vector index is Qdrant's solves pre and post-filtering problems b
 
 ```python
 results = client.search(
-    collection_name="my_collection", 
-    query_vector=[0.1, 0.2, 0.3], 
+    collection_name="my_collection",
+    query_vector=[0.1, 0.2, 0.3],
+    query_filter=models.Filter(must=[
+        models.FieldCondition(
+            key="category",
+            match=models.MatchValue(value="my-category-name"),
+        )
+    ]),
     limit=10, 
-    with_payload={"include": ["category"]}
 )
 ```
 **Figure 7:** The filterable vector index adds specialized links to the search graph to speed up traversal.
@@ -362,11 +366,11 @@ Read more about [**Filtering Docs**](/documentation/concepts/filtering/) and che
 ---
 #### Batch Processing
 
-Batch processing consolidates multiple operations into a single execution cycle, reducing transaction overhead and enhancing throughput. It’s an effective strategy for both data insertion and query execution.
+Batch processing consolidates multiple operations into a single execution cycle, reducing request overhead and enhancing throughput. It’s an effective strategy for both data insertion and query execution.
 
 <img src="/articles_data/vector-search-resource-optimization/batch-processing.png" alt="batch-processing" style="width: 75%;">
 
-**Batch Insertions**: Instead of inserting vectors individually, group them into larger batches to minimize the number of database transactions and the overhead of frequent writes.
+**Batch Insertions**: Instead of inserting vectors individually, group them into medium-sized batches to minimize the number of database requests and the overhead of frequent writes.
 
 **Example:**
 
@@ -504,8 +508,7 @@ Learn more about [**Reranking**](/documentation/search-precision/reranking-hybri
 
 #### Which Disk Type?
 
-1. **SSD**: Recommended for optimal performance, particularly for workloads involving random reads and writes. SSDs can significantly enhance query response times when the data is stored on disk.
-2. **HDD**: While more cost-effective, HDDs are slower and can negatively impact performance, especially for large datasets or applications requiring high-speed access.
+**Local SSDs** are recommended for optimal performance, as they provide the fastest query response times with minimal latency. While network-attached storage is also viable, it typically introduces additional latency that can affect performance, so local SSDs are preferred when possible, particularly for workloads requiring high-speed random access.
 
 #### Memory Management for Vectors and Payload
 
