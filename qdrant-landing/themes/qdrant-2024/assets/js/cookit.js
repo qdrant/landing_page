@@ -39,9 +39,9 @@ import { handleConsent } from './segment-helpers';
     button.textContent = settings.buttonText;
 
     // CHECK IF COOKIE ALREADY EXISTS
-    if (!getCookie('cookie-consent')) {
-      init();
-    }
+    // if (!getCookie('cookie-consent')) {
+    //   init();
+    // }
 
     // INITIALISATION
     function init() {

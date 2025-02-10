@@ -6,18 +6,20 @@ export function hasAnswered() {
         window.cookiehub.hasAnswered('preferences')
 }
 
-export function trackConsent() {
-    // if first time tracking or updating consent
-    // skip this IF consent hasn't changed and already tracked (may need a cookie to record )
+export function trackConsent(settings = {
+    marketing: undefined,
+    analytics: undefined,
+    preferences: undefined
+}) {
     trackEvent('segment_consent_preference_updated', undefined, {
         context: {
             consent: {
                 properties: {
                     categoryPreferences: {
-                        Advertising: cookiehub.hasAnswered('marketing') && cookiehub.hasConsented('marketing'),
-                        Analytics: cookiehub.hasAnswered('analytics') && cookiehub.hasConsented('analytics'),
+                        Advertising: settings.marketing || (cookiehub.hasAnswered('marketing') && cookiehub.hasConsented('marketing')),
+                        Analytics: settings.analytics || (cookiehub.hasAnswered('analytics') && cookiehub.hasConsented('analytics')),
                         Functional: true,
-                        Preferences: cookiehub.hasAnswered('preferences') && cookiehub.hasConsented('preferences'),
+                        Preferences: settings.preferences || (cookiehub.hasAnswered('preferences') && cookiehub.hasConsented('preferences')),
                     }
                 }
             }
