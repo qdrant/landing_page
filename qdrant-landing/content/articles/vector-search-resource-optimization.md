@@ -97,7 +97,6 @@ The `ef` parameter is configured during the search process:
 client.query_points(
    collection_name="{collection_name}",
    query=[...]
-   ),
    search_params=models.SearchParams(hnsw_ef=128, exact=False),
 )
 ```
@@ -119,7 +118,7 @@ Scalar quantization strikes an excellent balance between compression and perform
 
 This method minimizes the number of bits used to represent each vector component. For instance, Qdrant compresses 32-bit floating-point values (**float32**) into 8-bit unsigned integers (**uint8**), slashing memory usage by an impressive 75%.
 
-**Figure 4:** The top example shows a float32 vector with a size of 40 bytes. Converting it to int8 format reduces its size by a factor of four, while preserving the original representation of the user data.
+**Figure 4:** The top example shows a float32 vector with a size of 40 bytes. Converting it to int8 format reduces its size by a factor of four, while maintaining approximate similarity relationships between vectors. The loss in precision compared to the original representation is typically negligible for most practical applications.
 
 <img src="/articles_data/vector-search-resource-optimization/scalar-quantization.png" alt="scalar-quantization" style="width: 75%;">
 
@@ -167,7 +166,7 @@ Learn More about [**Scalar Quantization**](/documentation/guides/quantization/)
 
 #### **Benefits of Binary Quantization:**
 
-Binary quantization is ideal for high-dimensional datasets and compatible embedding models, where compression and speed are paramount. 
+Binary quantization is ideal for large-scale datasets and compatible embedding models, where compression and speed are paramount.
 
 **Figure 5:** This method causes maximum compression. It reduces memory usage by 32x and speeds up searches by up to 40x.
 
@@ -176,7 +175,7 @@ Binary quantization is ideal for high-dimensional datasets and compatible embedd
 | Benefit                          | Description                                                                                                      |
 |----------------------------------|------------------------------------------------------------------------------------------------------------------|
 | **Efficient similarity calculations** | Emulates Hamming distance through dot product comparisons, making it fast and effective. |
-| **Perfect for high-dimensional vectors** | Works well with embedding models like OpenAI’s text-embedding-ada-002 or Cohere’s embed-english-v2.0. |
+| **Perfect for high-dimensional vectors** | Works well with embedding models like OpenAI’s text-embedding-ada-002 or Cohere’s embed-english-v3.0. |
 | **Precision management**         | Consider rescoring or oversampling to offset precision loss. |
 
 Here’s how you can enable binary quantization in Qdrant:
@@ -220,6 +219,21 @@ Efficiently managing large datasets in distributed systems like Qdrant requires 
 - **Scalability**: Handles high user volumes without compromising performance.
 
 Here’s how you can implement multitenancy efficiently in Qdrant:
+
+```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="group_id",
+    field_schema=models.KeywordIndexParams(
+        type="keyword",
+        is_tenant=True,
+    ),
+)
+```
+
+Creating a keyword payload index, with the `is_tenant` parameter set to `True`, modifies the way the vectors will be logically stored. Storage structure will be organized to co-locate vectors of the same tenant together.
+
+Now, each point stored in Qdrant should have the `group_id` payload attribute set:
 
 ```python
 client.upsert(
@@ -287,14 +301,21 @@ When implementing user-defined sharding in Qdrant, two key parameters are critic
 Here’s how you can add a data point to a collection with user-defined sharding:
 
 ```python
-client.upsert( collection_name="my_collection", 
-points=[models.PointStruct(id=1111, vector=[0.1, 0.2, 0.3])], 
-shard_key_selector="tenant_1" )
+client.upsert(
+    collection_name="my_custom_sharded_collection", 
+    points=[
+        models.PointStruct(
+            id=1111, 
+            vector=[0.1, 0.2, 0.3]
+        )
+    ], 
+    shard_key_selector="tenant_1"
+)
 ```
 
 ---
 
-This code assigns the point to a specific shard based on the tenant_1 shard key, ensuring proper data placement.
+This code assigns the point to a specific shard based on the `tenant_1` shard key, ensuring proper data placement.
 
 Here’s how to choose the shard_number:
 
@@ -322,9 +343,12 @@ The filterable vector index is Qdrant's solves pre and post-filtering problems b
 **Example:**
 
 ```python
-results = client.search( collection_name="my_collection", 
-query_vector=[0.1, 0.2, 0.3], limit=10, 
-with_payload={"include": ["category"]})
+results = client.search(
+    collection_name="my_collection", 
+    query_vector=[0.1, 0.2, 0.3], 
+    limit=10, 
+    with_payload={"include": ["category"]}
+)
 ```
 **Figure 7:** The filterable vector index adds specialized links to the search graph to speed up traversal.
 
@@ -457,14 +481,13 @@ These methods are practically applicable only when used on a smaller subset of c
 
 ```python
 client.query_points(
-        "collection-name",
+       "collection-name",
        prefetch=prefetch, # Previous results
        query=late_vectors, # Colbert converted query
        using="colbertv2.0",
        with_payload=True,
        limit=10,
 )
-```
 ___
 Learn more about [**Reranking**](/documentation/search-precision/reranking-hybrid-search/#rerank).
 
@@ -519,10 +542,9 @@ To do the same for payloads:
 
 ```python
 client.create_collection(
-collection_name="{collection_name}",
-on_disk_payload= True
+    collection_name="{collection_name}",
+    on_disk_payload= True
 )
-```
 The general guideline for selecting a storage method in Qdrant is to use **InMemory storage** when high performance is a priority, and sufficient RAM is available to accommodate the dataset. This approach ensures the fastest access speeds by keeping data readily accessible in memory. 
 
 However, for larger datasets or scenarios where memory is limited, **Memmap** and **OnDisk storage** are more suitable. These methods significantly reduce memory usage by storing data on disk while leveraging advanced techniques like page caching and indexing to maintain efficient and relatively fast data access.
