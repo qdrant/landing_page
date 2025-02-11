@@ -1,6 +1,6 @@
 import * as params from '@params';
 import { setCookie, getCookie, tagCloudUILinksWithAnonymousId } from './helpers';
-import { hasAnswered, trackConsent } from './cookiehub-helpers';
+import { hasAnswered, trackConsent, tagCloudUILinksWithConsentSettings } from './cookiehub-helpers';
 import { tagAllAnchors } from './segment-helpers';
 import { addUTMToLinks } from './helpers';
 
@@ -30,12 +30,19 @@ document.addEventListener('cookie_hub_allowed_analytics', () => {
 })
 
 document.addEventListener('cookie_hub_initialized', () => {
-    if (!getCookie('cookie-consent')) { // if cookit (old) cookie still present
-        trackConsent({ marketing: true, analytics: true, preference: true})
-        document.cookie = 'cookie-consent=; Max-Age=0; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'; // remove cookie
-    } else {
-        if(!hasAnswered()) trackConsent(); // if user has not answered
+    if (hasAnswered()) {
+        tagCloudUILinksWithConsentSettings();
+        return; // if user has answered CookieHub banner don't track consent
     }
+
+    const consentPayload = getCookie('cookie-consent') ?
+        { marketing: true, analytics: true, preference: true } : undefined;
+
+    trackConsent(consentPayload);
+
+    // removing the old cookit cookie implementation if stored
+    document.cookie = 'cookie-consent=; Max-Age=0; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
 });
 
 document.addEventListener('segment_loaded', () => {

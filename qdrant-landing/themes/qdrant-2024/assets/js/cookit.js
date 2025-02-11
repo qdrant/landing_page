@@ -1,5 +1,4 @@
-import { getCookie, setCookie } from './helpers';
-import { handleConsent } from './segment-helpers';
+import { setCookie, getCookie } from './helpers';
 
 (function () {
   window.cookit = function (options) {
@@ -39,9 +38,9 @@ import { handleConsent } from './segment-helpers';
     button.textContent = settings.buttonText;
 
     // CHECK IF COOKIE ALREADY EXISTS
-    // if (!getCookie('cookie-consent')) {
-    //   init();
-    // }
+    if (!getCookie('cookie-consent')) {
+      init();
+    }
 
     // INITIALISATION
     function init() {
@@ -59,10 +58,6 @@ import { handleConsent } from './segment-helpers';
 
     // EVENT LISTENER (click)
     button.addEventListener('click', () => {
-      if (!window.analytics) {
-        handleConsent();
-      }
-
       banner.remove();
       setCookie('cookie-consent', 1, settings.lifetime);
     });

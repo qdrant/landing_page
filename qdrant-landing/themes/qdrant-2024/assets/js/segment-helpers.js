@@ -127,10 +127,3 @@ const trackInteractionEvent = (properties = {}) => {
   )
 }
 
-/***********/
-/* Consent */
-/***********/
-export function handleConsent() {
-  trackEvent('Consented', PAYLOAD_BOILERPLATE)
-  devLog('User consented...')
-}
