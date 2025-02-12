@@ -87,18 +87,7 @@ PATCH /collections/your_collection
 }
 ```
 
-This approach immediately places all incoming vectors on disk. You can configure a threshold so that small segments are kept in RAM, but large segments automatically move to memmap storage once they exceed that threshold. This is controlled by the `memmap_threshold` in the collection’s `optimizers_config`.
-
-```json
-PATCH /collections/your_collection
-{
-    "optimizers_config": {
-        "memmap_threshold": 20000
-    }
-}
-```
-
-If you want both dense and sparse vectors to be stored on disk, you need to enable `on_disk` for each type separately.
+This approach immediately places all incoming vectors on disk. If you want both dense and sparse vectors to be stored on disk, you need to enable `on_disk` for each type separately.
 
 For dense vectors, set `on_disk: true` inside `hnsw_config`.
 
