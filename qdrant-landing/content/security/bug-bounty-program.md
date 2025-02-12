@@ -22,6 +22,7 @@ We cover vulnerabilities in the following areas:
 
 ### Out of Scope
 We always exclude the following areas:
+- Qdrant support system on https://support.qdrant.io
 - Third-party applications or websites
 - Staging or test environments
 - Social engineering attacks
@@ -31,8 +32,9 @@ We always exclude the following areas:
 - Physical security issues
 - Reports from automated tools or scanners
 - Generic information disclosure, such as the `Server` or `X-Powered-By` headers
-- Email security: DMARC, DKIM, SPF
+- Email security: DMARC, DKIM, SPF, etc.
 - Spamming that rate limiting techniques can prevent
+- Clickjacking and Tabnabbing
 
 ## Severity Levels and Rewards
 - We assess reported bugs based on their risk and other relevant factors; our response may take some time.
