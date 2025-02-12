@@ -781,7 +781,7 @@ PUT /collections/{collection_name}
         "distance": "Cosine"
     },
     "shard_number": 6,
-    "replication_factor": 2,
+    "replication_factor": 2
 }
 ```
 
@@ -1048,7 +1048,7 @@ PUT /collections/{collection_name}
     },
     "shard_number": 6,
     "replication_factor": 2,
-    "write_consistency_factor": 2,
+    "write_consistency_factor": 2
 }
 ```
 

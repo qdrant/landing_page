@@ -1,11 +1,15 @@
-<div class="row g-4">
-  {{ range .Params.logos }}
-    <div class="col-12 col-lg-4">
-      <div class="card">
-        <div class="text-center">
-          {{ readFile (printf "%s%s" "static" .) | safeHTML }}
+<section class="bg-mid-gray pt-6">
+  <div class="container">
+    <div class="row g-4">
+      {{ range .Params.logos }}
+        <div class="col-12 col-lg-4">
+          <div class="card">
+            <div class="text-center">
+              {{ readFile (printf "%s%s" "static" .) | safeHTML }}
+            </div>
+          </div>
         </div>
-      </div>
+      {{ end }}
     </div>
-  {{ end }}
-</div>
+  </div>
+</section>

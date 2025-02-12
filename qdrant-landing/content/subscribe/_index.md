@@ -15,7 +15,7 @@ form:
   placeholder: info@qdrant.com
   button: Subscribe
 footer:
-  rights: "&copy; 2024 Qdrant. All Rights Reserved"
+  rights: "&copy; 2025 Qdrant. All Rights Reserved"
   termsLink:
     url: /legal/terms_and_conditions/
     text: Terms

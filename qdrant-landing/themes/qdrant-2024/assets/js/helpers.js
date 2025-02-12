@@ -91,7 +91,7 @@ export function tagCloudUILinksWithAnonymousId() {
   }
 
   // Select all <a> elements with href exactly containing targetUrl
-  const links = document.querySelectorAll(`a[href*="${targetUrl}"]`);
+  const links = document.querySelectorAll(`a[href^="${targetUrl}"]`);
 
   // Loop through all selected <a> elements and update their href
   links.forEach(link => {

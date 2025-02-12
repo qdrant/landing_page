@@ -160,14 +160,14 @@ For maximum control, security, and cost-efficiency, choose Qdrant. It offers fle
 
 Qdrant is one of the leading Pinecone alternatives in the market. For developers who seek control of their vector database, Qdrant offers the highest level of customization, flexible deployment options, and advanced security features.
 
-To get started with Qdrant, explore our [documentation](https://qdrant.tech/documentation/), hop on to our [Discord](https://qdrant.to/discord) channel, sign up for [Qdrant cloud](https://cloud.qdrant.io/) (or [Hybrid cloud](https://qdrant.tech/hybrid-cloud/)), or [get in touch](https://qdrant.tech/contact-us/) with us today.
+To get started with Qdrant, explore our [documentation](https://qdrant.tech/documentation/), hop on to our [Discord](https://qdrant.to/discord) channel, sign up for [Qdrant cloud](https://cloud.qdrant.io/signup) (or [Hybrid cloud](https://qdrant.tech/hybrid-cloud/)), or [get in touch](https://qdrant.tech/contact-us/) with us today.
 
 References:
 
 - [Pinecone Documentation](https://docs.pinecone.io/)
 - [Qdrant Documentation](https://qdrant.tech/documentation/)
 
-  - If you aren't ready yet, [try out Qdrant locally](/documentation/quick-start/) or sign up for [Qdrant Cloud](https://cloud.qdrant.io/).
+  - If you aren't ready yet, [try out Qdrant locally](/documentation/quick-start/) or sign up for [Qdrant Cloud](https://cloud.qdrant.io/signup).
 
   - For more basic information on Qdrant read our [Overview](/documentation/overview/) section or learn more about Qdrant Cloud's [Free Tier](/documentation/cloud/).
 

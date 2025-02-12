@@ -116,7 +116,7 @@ menuItems:
       - id: 4
         name: Contact Us
         url: /contact-us/
-copyright: © 2024 Qdrant. All Rights Reserved
+copyright: © 2025 Qdrant. All Rights Reserved
 termsLink:
   text: Terms
   url: /legal/terms_and_conditions/
