@@ -143,7 +143,6 @@ PATCH /collections/your_collection
 ```
 
 Previously, vector data had to be held in RAM until optimizers could move it to disk, which caused significant memory pressure. Now, by writing vectors to disk directly, memory overhead is significantly reduced, making bulk ingestion much more efficient.
-<aside role="status">If your collection already contains a large number of vectors, changing these parameters will trigger a full index reconstruction, potentially causing slight performance degradation.</aside>
 
 ### 2. Disable HNSW for dense vectors (`m=0`)
 
