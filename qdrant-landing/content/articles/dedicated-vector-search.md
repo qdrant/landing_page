@@ -7,7 +7,7 @@ preview_dir: /articles_data/dedicated-vector-search/preview
 weight: -170
 author: Evgeniya Sukhodolskaya & Andrey Vasnetsov
 date: 2025-02-14T10:00:00+03:00
-draft: true
+draft: false
 keywords:
     - system architecture
     - vector search
@@ -15,131 +15,176 @@ keywords:
 category: qdrant-internals
 ---
 
-# General vs Dedicated Solutions: The Performance Gap
-Every database is specialized to handle certain types of data with specific properties. That’s why, just like in every area of life, there is no universal tool perfect for everything — a Swiss Army knife has scissors that can cut, but they’re far from being the best scissors one has ever seen.
+Every complex enough problem requires a specialized solution. 
+You can use a Swiss Army to open a bottle or poke a hole in a cardboard box, but you are going to need an axe to chop wood. 
+The same goes for software.
 
-Vector databases are optimized for high-throughput retrieval of natively large vectorized data, supporting [high RPS with minimal latency](https://qdrant.tech/benchmarks/). Their architecture is specifically designed for vector search, taking into account all its nuances, whether dealing with thousands or billions of vectors.
+In this article we are going to describe what unique challenges and optimization opportunities vector search poses, and why a dedicated solution is the best way to tackle them.
 
-In this article, we discuss these specifics and architectural decisions needed to accommodate them. We explain why vector databases will always outperform vector extensions and when choosing a dedicated solution is crucial.
+## Vectors
 
-## Architecture of Vector Search
+Let's take a look at the central concept of vector databases - vectors.
 
-### Data in Vector Search
+Vectors (aka embeddings) are high-dimensional representations of various data points - texts, images, e.t.c.. 
+Many state-of-the-art text models generate embeddings of over 1,500 dimensions. When it comes to state-of-the-art PDF retrieval, the representations can reach [over 100,000 dimensions per page](https://qdrant.tech/documentation/advanced-tutorials/pdf-retrieval-at-scale/).
 
-#### Vectorized data is large
+This brings us to the first challenge of vector search - vectors are heavy.
 
-Embeddings — vector representations of various data points — are typically high-dimensional vectors. Many state-of-the-art text models generate embeddings of over 1,500 dimensions. When it comes to state-of-the-art PDF retrieval, the representations can reach [over 100,000 dimensions per page](https://qdrant.tech/documentation/advanced-tutorials/pdf-retrieval-at-scale/). To put this in perspective, one million – a very small amount of records for the modern databases – 1536-dimensional embeddings from OpenAI’s text-embedding-ada-002 require around ~6GB of storage.
+### Vectors are heavy
 
-#### Vectorized has a fixed size
+To put this in perspective, consider one million records stored in relational database. 
+A relatively small amount of data for modern databases, which can be handled evem by a free tier of many cloud providers.
 
-Vectorized representations of documents and queries are produced by a single model, leading to all of them having a similar size.
+But apply a 1536-dimensional embedding from OpenAI's `text-embedding-ada-002` to each record, and you are looking at around 6GB of storage.
+As a result, vector search workloads, especially if not optimized, will quickly dominate main use cases of a database.
 
-#### Vectorized data is a restorable transformation
+Having vectors as a part of a main database is a potential issue for one another reason - vectors are always a transformation of other data.
 
-If lost, it can be restored with the same embedding model used previously. At the same time, even small changes in that model can shift the geometry of the vector space, so if you update or change the embedding model, you need to update and reindex all the data to maintain accurate vector comparisons.
+### Vectors are a transformation
 
-#### Make it Work for You
+Vectors are always obtained from some other source-of-truth data.
+If lost, it can be restored with the same embedding model used previously.
+At the same time, even small changes in that model can shift the geometry of the vector space, so if you update or change the embedding model, you need to update and reindex all the data to maintain accurate vector comparisons.
 
-For fast search, vectors need to be instantly accessible, either stored directly in active memory or in a format that allows rapid retrieval. With heavy vectors, RAM quickly becomes too expensive, and you might have to store vectors in the secondary storage. For a dedicated storage, their fixed size comes as a blessing. Knowing exactly how much space one data point needs, we don’t have to deal with the usual headache of memory management & mapping & accesses, the location of elements in storage is straightforward to calculate.
+This update process, if coupled with the main database, can lead to a significant complications and even unavailability of the whole system.
+
+<aside role="status">
+Decouple vector workloads even if you are planning to use a general-purpose database for vectors.
+</aside>
+
+But there are a positive properties of vectors as well. One of the most important is that vectors are fixed-size.
+
+### Vectors are fixed-size
+
+Embedding models are designed to produce vectors of a fixed size. We have to use it to our advantage.
+
+For fast search, vectors need to be instantly accessible. Stored either in RAM or disk, vectors should be stored in a format that allows for quick access and comparison.
+This is essential, as vector comparison is a very hot operation in vector search workloads. 
+In make cases it is performed thousands of times per search query, so even a small overhead can lead to a significant slowdown.
+
+For a dedicated storage, their fixed size comes as a blessing.
+Knowing exactly how much space one data point needs, we don’t have to deal with the usual overhead of locating data, the location of elements in storage is straightforward to calculate.
 
 Everything becomes far less intuitive if vectors are stored together with other data types, for example, texts or JSONs. The size of a single data point is not fixed anymore, so accessing it becomes non-trivial, especially if data is added, updated and deleted over time.
 
-![dedicated-storage](/articles_data/dedicated-vector-search/dedicated_storage.png)
+{{<figure src=/articles_data/dedicated-vector-search/dedicated_storage.png caption="Fidex size columns VS Variable length table" width=80% >}}
 
 **Storing vectors together with other types of data, we lose all the benefits of their characteristics**; however, we fully “enjoy” their drawbacks, polluting the storage with an extremely heavy transformation of data already existing in that storage. 
 
-### Vector Search, not just a Vector Store
+## Vector Search
 
-![databases-ecosystem](/articles_data/dedicated-vector-search/compass.png)
+Unlike traditional databases that serve as data stores, **vector databases are more like search engines**. They are designed to be **scalable**, always **available**, and capable of delivering high-speed search results even under heavy loads.
+Just as Google or Bing can handle billions of queries at once, vector databases are designed for scenarios where rapid, high-throughput, low-latency retrieval is a must.
 
-Unlike traditional databases that serve as data stores, **vector databases are more like search engines**. They are engineered to be **scalable**, always **available**, and capable of delivering high-speed search results even under heavy loads. Just as Google or Bing can handle billions of queries at once, vector databases are designed for scenarios where rapid, high-throughput, low-latency retrieval is a must.
+{{<figure src=/articles_data/dedicated-vector-search/compass.png caption="Databse Compass" width=80% >}}
 
-#### Pick Any Two
+
+### Pick Any Two
 
 Distributed systems are perfect for scalability – horizontal scaling in these systems allows you to add more machines as needed. In the world of distributed systems, one well-known principle – the **CAP theorem** — illustrates that you cannot have it all. The theorem states that a distributed system can guarantee only two out of three properties: **Consistency**, **Availability**, and **Partition Tolerance**.
 
 Because network partitions are inevitable in any real-world distributed system, all modern distributed databases are designed with partition tolerance in mind, forcing a trade-off between **consistency** (providing the most up-to-date data) and **availability** (remaining responsive).
 
 <aside role="status">
-<ul>
-        <li><strong>CP systems</strong> are still available to clients under normal operation — they prioritize data correctness over availability during failures.</li>
-        <li><strong>AP systems</strong> deliver quick responses by relaxing immediate consistency guarantees but eventually converge to a correct state.</li>
-    </ul>
+<strong>CP systems</strong> are still available to clients under normal operation — they prioritize data correctness over availability during failures. <br/>
+<strong>AP systems</strong> deliver quick responses by relaxing immediate consistency guarantees but eventually converge to a correct state.
 </aside>
 
 There are two main design philosophies for databases in this context:
 
-#### ACID: Prioritizing Consistency
+### ACID: Prioritizing Consistency
 
-The ACID model ensures that every transaction (a group of operations treated as a single unit, such as transferring money between accounts) is executed fully or not at all (reverted), leaving the database in a valid state. When a system is distributed, achieving ACID properties requires complex coordination between nodes. Each node must communicate and agree on the state of a transaction, which can **limit system availability** — if a node is uncertain about the state of another, it may refuse to process a transaction until consistency is assured. This coordination also makes **scaling more challenging**.
+The ACID model ensures that every transaction (a group of operations treated as a single unit, such as transferring money between accounts) is executed fully or not at all (reverted), leaving the database in a valid state.
+When a system is distributed, achieving ACID properties requires complex coordination between nodes.
+Each node must communicate and agree on the state of a transaction, which can **limit system availability** — if a node is uncertain about the state of another, it may refuse to process a transaction until consistency is assured.
+This coordination also makes **scaling more challenging**.
 
 Financial institutions use ACID-compliant databases when dealing with money transfers, where even a momentary discrepancy in an account balance is unacceptable. 
 
-#### BASE: Prioritizing Availability
+### BASE: Prioritizing Availability
 
 On the other hand, the BASE model favours high availability and partition tolerance. BASE systems distribute data and workload across multiple nodes, enabling them to respond to read and write requests immediately. They operate under the principle of **eventual consistency** — although data may be temporarily out-of-date, the system will converge on a consistent state given time.
 
 Social media platforms, streaming services, and search engines all benefit from the BASE approach. For these applications, having immediate responsiveness is more critical than strict consistency.
 
-#### BASEd Vector Search
+### BASEd Vector Search
 
 Considering the specifics of vector search – its nature demanding availability & scalability – it should be served on BASE-oriented architecture. This choice is made due to the need for horizontal scaling, high availability, low latency and high throughput. For example, having BASE-focused architecture allows us to [easily manage resharding](https://qdrant.tech/documentation/cloud/cluster-scaling/#resharding).
 A strictly consistent transactional approach also loses its attractiveness when we remember that vectors are heavy transformations of data at our disposal – what’s the point in limiting data protection mechanisms if we can always restore vectorized data through a transformation?
 
-### Indexing in Vector Search
+## Vector Index
 
-Vector search relies on high-dimensional vector mathematics, making it computationally heavy at scale. A brute-force similarity search would require comparing a query against every vector in the database. In a database with 100 million 1536-dimensional vectors, performing 100 million comparisons per one query is unfeasible for production scenarios. Instead of using brute-force approach, vector databases have specialized approximate nearest neighbor (ANN) indexes that balance search precision with speed. These indexes require carefully designed architectures to make their maintenance in production feasible.
+Vector search relies on high-dimensional vector mathematics, making it computationally heavy at scale.
+A brute-force similarity search would require comparing a query against every vector in the database.
+In a database with 100 million 1536-dimensional vectors, performing 100 million comparisons per one query is unfeasible for production scenarios.
+Instead of using brute-force approach, vector databases have specialized approximate nearest neighbor (ANN) indexes that balance search precision with speed.
+These indexes require carefully designed architectures to make their maintenance in production feasible.
 
-One of the most popular vector indexes is **HNSW (Hierarchical Navigable Small World)**, which we picked for its capability to provide simultaneously high search speed and accuracy. High performance came with a cost – implementing it in production is untrivial due to several challenges, so to make it shine all the system’s architecture has to be structured around it, serving the capricious index.
+{{< figure src=/articles_data/dedicated-vector-search/hnsw.png caption="HNSW Index" width=80% >}}
 
-#### Index Speed
+One of the most popular vector indexes is **HNSW (Hierarchical Navigable Small World)**, which we picked for its capability to provide simultaneously high search speed and accuracy.
+High performance came with a cost – implementing it in production is untrivial due to several challenges, so to make it shine all the system’s architecture has to be structured around it, serving the capricious index.
 
-![hnsw](/articles_data/dedicated-vector-search/hnsw.png)
 
+### Index Complexity
 
-HNSW is structured as a multi-layered graph. With a new data point inserted, the algorithm must compare it to existing nodes across several layers to index it. As the number of vectors grows, these comparisons will noticeably slow down the construction process, making updates increasingly time-consuming. The indexing operation can quickly become the bottleneck in the system, slowing down the time for user search requests to be completed and then farewell availability.
+HNSW is structured as a multi-layered graph.
+With a new data point inserted, the algorithm must compare it to existing nodes across several layers to index it.
+As the number of vectors grows, these comparisons will noticeably slow down the construction process, making updates increasingly time-consuming.
+The indexing operation can quickly become the bottleneck in the system, slowing down search requests.
 
-**Storing HNSW as a monolith is a recipe for disaster** – its size has to be limited, as **its construction time scales non-linearly with the number of elements**. To keep the construction process feasible and ensure it doesn't affect the search time, we came up with layered architecture that breaks down all data management into small units called **segments**.
+Building HNSW monolith means limiting the scalability of your solution - its size has to be capped, as its construction time scales **non-linearly** with the number of elements.
+To keep the construction process feasible and ensure it doesn't affect the search time, we came up with layered architecture that breaks down all data management into small units called **segments**.
 
-![segments](/articles_data/dedicated-vector-search/segments.png)
+{{<figure src=/articles_data/dedicated-vector-search/segments.png caption="Storage structure" width=80% >}}
 
-Each segment isolates a subset of vectorized corpora and supports all collection-level operations on it, from searching to indexing, for example segments build their own index on the subset of data available to them. For users working on a collection level, the specifics of segmentation are unnoticeable. The search results they get span the whole collection, as sub-results are gathered from segments and then merged & deduplicated. 
+Each segment isolates a subset of vectorized corpora and supports all collection-level operations on it, from searching to indexing, for example segments build their own index on the subset of data available to them.
+For users working on a collection level, the specifics of segmentation are unnoticeable.
+The search results they get span the whole collection, as sub-results are gathered from segments and then merged & deduplicated. 
 
-Segments speed search and indexing up, acting as natural units of parallelization. With index maintenance divided between segments, Qdrant can ensure high performance even during heavy load, and additional optimizations secure that further. These optimizations come from an idea that working with immutable structures introduces plenty of benefits: the possibility of using internally fixed sized lists (so no dynamic updates), ordering stored data accordingly to access patterns (so no unpredictable random accesses). With this in mind, to optimize search speed and memory management further, we use a strategy that combines and manages [mutable and immutable segments](https://qdrant.tech/articles/immutable-data-structures/).
+By balancing between size and number of segments, we can ensure the right balance between search speed and indexing time, making the system flexible for different workloads.
+
+### Immutability
+
+With index maintenance divided between segments, Qdrant can ensure high performance even during heavy load, and additional optimizations secure that further.
+These optimizations come from an idea that working with immutable structures introduces plenty of benefits: the possibility of using internally fixed sized lists (so no dynamic updates), ordering stored data accordingly to access patterns (so no unpredictable random accesses). With this in mind, to optimize search speed and memory management further, we use a strategy that combines and manages [mutable and immutable segments](https://qdrant.tech/articles/immutable-data-structures/).
 
 | | |
 |---------------------|-------------|
 | **Mutable Segments** | These are used for quickly ingesting new data and handling changes (updates) to existing data. |
 | **Immutable Segments** | Once a mutable segment reaches a certain size, an optimization process converts it into an immutable segment, constructing an HNSW index – you could read about these optimizers [here](https://qdrant.tech/documentation/concepts/optimizer/#optimizer) in detail. This immutability trick allowed us, for example, to ensure effective [tenant isolation](https://qdrant.tech/documentation/concepts/indexing/#tenant-index). |
 
-Immutable segments are an implementation detail not noticeable to users – they can delete vectors at any time, while additions and updates are applied to a mutable segment instead. This combination of mutability and immutability allows search and indexing to smoothly run simultaneously, even under heavy loads.
+Immutable segments are an implementation detail transparent for users – they can delete vectors at any time, while additions and updates are applied to a mutable segment instead. This combination of mutability and immutability allows search and indexing to smoothly run simultaneously, even under heavy loads.
 This approach minimizes the performance impact of indexing time and allows on-the-fly configuration changes on a collection level (such as enabling or disabling data quantization) without downtimes. 
 
+### Filterable Index
 
-#### Index Quality
+Vector search wasn't hisorically designed for filtering — imposing strict constraints on results. It’s inherently fuzzy; every document is, to some extent, both similar and dissimilar to any query — there’s no binary “*fits/doesn’t fit*” segregation.
+As a result, vector search algorithms weren’t originally built with filtering in mind.
 
-Vector search isn’t designed for filtering — imposing strict constraints on results. It’s inherently fuzzy; every document is, to some extent, both similar and dissimilar to a query — there’s no binary “*fits/doesn’t fit*” segregation. As a result, vector search indexes weren’t originally built with filtering in mind.
+At the same time, filtering is unavoidable in many vector search applications, such as e-commerce search/recommendations.
+Searching for a Christmas present, you might want to filter out everything over 100 euros while still benefiting from vector search semantic nature.
 
-At the same time, filtering is unavoidable in many vector search applications, such as e-commerce search/recommendations. Searching for a Christmas present, you might want to filter out everything over 100 euros while still benefiting from vector search semantic nature.
+In many vector search solutions filtering is approached in two ways: **pre-filtering** (computes a binary mask for all vectors before running HNSW search) or **post-filtering** (running HNSW as usual and then filtering the results).
 
-In many vector search solutions filtering is approached in two ways: **pre-filtering** (searching only within HNSW nodes that meet filtering conditions) or **post-filtering** (running HNSW as usual and then filtering the results).
+| | | |
+|----|------------------|---------|
+| ❌ | **Pre-filtering** | Has linear complexity of computing vector mask, becomes a bottleneck for large datasets. |
+| ❌ | **Post-filtering** | The problem with **post-filtering** is tied to vector search "*everything fits and doesn't at the same time*" nature: imagine a low-cardinality filter that leaves only a few matching elements in the database. If none of them are similar enough to the query to appear in the top-X retrieved results, they’ll all be filtered out. |
 
-| | |
-|------------------|---------|
-| **Pre-filtering** | Underperforms when a filter cardinality drops below a certain threshold (dependent on HNSW parameter m – edges per node in HNSW), however, the restricted set is not small enough to use a brute-force similarity search on it. Then, **pre-filtering** can disrupt HNSW connectivity, negatively impacting traversal and, ultimately, result quality.  |
-| **Post-filtering** | The problem with **post-filtering** is tied to vector search "*everything fits and doesn't at the same time*" nature: imagine a low-cardinality filter that leaves only a few matching elements in the database. If none of them are similar enough to the query to appear in the top-X retrieved results, they’ll all be filtered out. |
+Qdrant [took filtering in vector search further](https://qdrant.tech/articles/vector-search-filtering/), recognizing the limitations of pre-filtering & post-filtering strategies. We developed an adaptation of HNSW — [filterable HNSW](https://qdrant.tech/articles/filtrable-hnsw/) — that also enables **in-place filtering** during graph traversal. To make this possible, we condition HNSW index construction on possible filtering conditions reflected by [payload indexes](https://qdrant.tech/documentation/concepts/indexing/#payload-index) (inverted indexes built on vectors’ [metadata](https://qdrant.tech/documentation/concepts/payload/)).
 
-Qdrant [took filtering in vector search further](https://qdrant.tech/articles/vector-search-filtering/), recognizing the limitations of pre-filtering & post-filtering strategies. We developed an adaptation of HNSW — [filterable HNSW](https://qdrant.tech/articles/filtrable-hnsw/) — that also enables **in-place filtering** during graph traversal. To make this possible, we condition HNSW index construction on possible filtering conditions reflected by [payload indexes](https://qdrant.tech/documentation/concepts/indexing/#payload-index) (inverted indexes built on vectors’ [metadata](https://qdrant.tech/documentation/concepts/payload/)). However, in databases not designed for vector search, the HNSW index is constructed independently, making this option not viable. 
+Qdrant was designed with vector index being a central component of the system.
+That made it possible to organize optimizers, payload indexes and other components around the vector index, unlocking a possibility to build a filterable index. 
 
-![filterable-vector-index](/articles_data/dedicated-vector-search/filterable-vector-index.png)
+{{<figure src=/articles_data/dedicated-vector-search/filterable-vector-index.png caption="Filterable Vector Index" width=80% >}}
 
-For industries where fast and accurate vector search under filtering constraints is crucial, being able to choose at any given moment the most beneficial strategy: **pre-, in-place or post-filtering** provides Qdrant users with relevant results without compromising performance—even at scale.
-
-In general, optimizing vector search requires a custom, finely tuned approach to data & index management that secures high performance even as data grows and changes dynamically. This specialized architecture is the key reason why **dedicated vector databases will always outperform general-purpose databases in production settings**.
+In general, optimizing vector search requires a custom, finely tuned approach to data & index management that secures high performance even as data grows and changes dynamically.
+This specialized architecture is the key reason why dedicated vector databases will always outperform general-purpose databases in production settings.
 
 ## Vector Search Beyond RAG
 
-![venn-diagram](/articles_data/dedicated-vector-search/venn-diagram.png)
+{{<figure src=/articles_data/dedicated-vector-search/venn-diagram.png caption="Vector Search is not Text Search Extension" width=80% >}}
 
 Many discussions about the purpose of vector databases focus on RAG (Retrieval-Augmented Generation) — or its more advanced variant, agentic RAG – where vector databases are used as a knowledge source to retrieve context for large language models (LLMs). This is a legitimate use case, however, the hype wave of RAG solutions has overshadowed the broader potential of vector search, which goes [beyond augmenting generative AI](https://qdrant.tech/articles/vector-similarity-beyond-search/).
 
@@ -199,7 +244,7 @@ Staying at the cutting edge of vector search is not just about performance — i
 
 When it comes to vector search, there’s a clear distinction between using a dedicated vector search solution and extending a database to support vector operations.
 
-**For small-scale applications or prototypes handling a few million data points, a non-optimized architecture might suffice.** However, as the volume of vectors grows, an unoptimized solution will quickly become a bottleneck — slowing down search operations and limiting scalability. Dedicated vector search solutions are engineered from the ground up to handle massive amounts of high-dimensional data efficiently.
+**For small-scale applications or prototypes handling up to a million data points, a non-optimized architecture might suffice.** However, as the volume of vectors grows, an unoptimized solution will quickly become a bottleneck — slowing down search operations and limiting scalability. Dedicated vector search solutions are engineered from the ground up to handle massive amounts of high-dimensional data efficiently.
 
 State-of-the-art (SOTA) vector search evolves rapidly. If you plan to build on the latest advances, using a vector extension will eventually hold you back. Dedicated vector search solutions integrate these features natively, ensuring that you benefit from continuous innovations without compromising performance.
 
