@@ -6,7 +6,7 @@ social_preview_image: /articles_data/dedicated-vector-search/preview/social_prev
 preview_dir: /articles_data/dedicated-vector-search/preview
 weight: -170
 author: Evgeniya Sukhodolskaya & Andrey Vasnetsov
-date: 2025-02-14T10:00:00+03:00
+date: 2025-02-17T10:00:00+03:00
 draft: false
 keywords:
     - system architecture
