@@ -75,6 +75,12 @@
     right: 0;
   }
 
+  .hs_recaptcha.hs-recaptcha {
+    display: flex;
+    align-items: end;
+    margin-bottom: -1px;
+  }
+
   &__top-overlay {
     position: absolute;
     right: 0;

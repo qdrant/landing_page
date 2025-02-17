@@ -67,4 +67,8 @@
       max-width: pxToRem(537);
     }
   }
+
+  .hs_recaptcha.hs-recaptcha {
+    order: 3;
+  }
 }
