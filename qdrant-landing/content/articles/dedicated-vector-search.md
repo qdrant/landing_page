@@ -27,7 +27,7 @@ Vectors (also known as embeddings) are high-dimensional representations of vario
 
 This brings us to the first challenge of vector search — **vectors are heavy**.
 
-### Vectors are heavy
+### Vectors are Heavy
 
 To put this in perspective, consider one million records stored in a relational database. It's a relatively small amount of data for modern databases, which a free tier of many cloud providers could easily handle.
 
@@ -47,7 +47,7 @@ Decouple vector workloads even if you plan to use a general-purpose database for
 
 However, vectors have positive properties as well. One of the most important is that vectors are fixed-size.
 
-### Vectors are fixed-size
+### Vectors are Fixed-Size
 
 Embedding models are designed to produce vectors of a fixed size. We have to use it to our advantage.
 
@@ -217,7 +217,7 @@ State-of-the-art (SOTA) vector search evolves rapidly. If you plan to build on t
 
 The power of vector search extends into areas such as big data analysis, recommendation systems, and discovery-based applications, and to support these vector search capabilities, a dedicated solution is needed.
 
-### When to Choose a Dedicated Database over Extension:
+### When to Choose a Dedicated Database over an Extension:
 
 - **High-Volume, Real-Time Search**: Ideal for applications with many simultaneous users who require fast, continuous access to search results—think search engines, e-commerce recommendations, social media, or media streaming services.
 - **Dynamic, Unstructured Data**: Perfect for scenarios where data is continuously evolving and where the goal is to discover insights from data patterns.
