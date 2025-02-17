@@ -278,7 +278,7 @@ Output:
 The task was solved successfully, even without any optimization. However, each of the events has the "Event Name: " 
 prefix that we might want to remove. DSPy allows optimizing the module, so we can improve the results. Optimization 
 might be done in different ways, and it's [well covered in the DSPy 
-documentation](https://dspy-docs.vercel.app/docs/building-blocks/optimizers). 
+documentation](https://dspy.ai/learn/optimization/optimizers/). 
 
 We are not going to go through the optimization process in this tutorial. However, we encourage you to experiment with 
 it, as it might significantly improve the performance of your pipeline.

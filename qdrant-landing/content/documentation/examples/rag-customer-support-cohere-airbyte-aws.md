@@ -97,8 +97,7 @@ os.environ["QDRANT_API_KEY"] = "your-api-key"
 ### Airbyte Open Source
 
 Airbyte is an open-source data integration platform that helps you replicate your data in your warehouses, lakes, and
-databases. You can install it on your infrastructure and use it to load the data into Qdrant. The installation process
-for AWS EC2 is described in the [official documentation](https://docs.airbyte.com/deploying-airbyte/on-aws-ec2).
+databases. You can install it on your infrastructure and use it to load the data into Qdrant. The installation process is described in the [official documentation](https://docs.airbyte.com/deploying-airbyte/).
 Please follow the instructions to set up your own instance.
 
 #### Setting up the connection

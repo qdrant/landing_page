@@ -1295,7 +1295,7 @@ To get the facet counts for a field, you can use the following:
 
 <aside role="status">By default, the number of <code>hits</code> returned is limited to 10. To change this, use the <code>limit</code> parameter. Keep this in mind when checking the number of unique values a payload field contains.</aside>
 
-REST API ([Facet](https://api.qdrant.tech/api-reference/search/facet))
+REST API ([Facet](https://api.qdrant.tech/v-1-13-x/api-reference/points/facet))
 
 ```http
 POST /collections/{collection_name}/facet

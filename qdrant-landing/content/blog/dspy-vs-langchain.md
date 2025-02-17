@@ -140,7 +140,7 @@ DSPy treats the LM like a device and abstracts out the underlying complexities o
 
 ### **Signatures**
 
-[Signatures](https://dspy-docs.vercel.app/docs/building-blocks/signatures) replace handwritten prompts and are written in natural language. They are simply declarations or specs of the behavior that you expect from the language model. Some examples are:
+[Signatures](https://dspy.ai/learn/programming/signatures/) replace handwritten prompts and are written in natural language. They are simply declarations or specs of the behavior that you expect from the language model. Some examples are:
 
 - question -> answer
 - long_document -> summary
@@ -156,17 +156,17 @@ DSPy Signatures can be specified in two ways:
 
 ### **Modules**
 
-Modules take signatures as input, and automatically generate high-quality prompts. Inspired heavily from PyTorch, DSPy [modules](https://dspy-docs.vercel.app/docs/building-blocks/modules) eliminate the need for crafting prompts manually.
+Modules take signatures as input, and automatically generate high-quality prompts. Inspired heavily from PyTorch, DSPy [modules](https://dspy.ai/learn/programming/modules/) eliminate the need for crafting prompts manually.
 
 The framework supports advanced modules like [dspy.ChainOfThought](https://dspy-docs.vercel.app/api/modules/ChainOfThought), which adds step-by-step rationalization before producing an output. The output not only provides answers but also rationales. Other modules include [dspy.ProgramOfThought](https://dspy-docs.vercel.app/api/modules/ProgramOfThought), which outputs code whose execution results dictate the response, and [dspy.ReAct](https://dspy-docs.vercel.app/api/modules/ReAct), an agent that uses tools to implement signatures.
 
-DSPy also offers modules like [dspy.MultiChainComparison](https://dspy-docs.vercel.app/api/modules/MultiChainComparison), which can compare multiple outputs from dspy.ChainOfThought in order to produce a final prediction. There are also utility modules like [dspy.majority](https://dspy-docs.vercel.app/docs/building-blocks/modules#what-other-dspy-modules-are-there-how-can-i-use-them) for aggregating responses through voting.
+DSPy also offers modules like [dspy.MultiChainComparison](https://dspy-docs.vercel.app/api/modules/MultiChainComparison), which can compare multiple outputs from dspy.ChainOfThought in order to produce a final prediction. There are also utility modules like [dspy.majority](https://dspy.ai/learn/programming/modules/?h=modul#what-other-dspy-modules-are-there-how-can-i-use-them) for aggregating responses through voting.
 
 Modules can be composed into larger programs, and you can compose multiple modules into bigger modules. This allows you to create complex, behavior-rich applications using language models.
 
 ### **Optimizers**
 
-[Optimizers](https://dspy-docs.vercel.app/docs/building-blocks/optimizers) take a set of modules that have been connected to create a pipeline, compile them into auto-optimized prompts, and maximize an outcome metric.
+[Optimizers](https://dspy.ai/learn/optimization/optimizers/) take a set of modules that have been connected to create a pipeline, compile them into auto-optimized prompts, and maximize an outcome metric.
 
 Essentially, optimizers are designed to generate, test, and refine prompts, and ensure that the final prompt is highly optimized for the specific dataset and task at hand. Using optimizers in the DSPy framework significantly simplifies the process of developing and refining LM applications by automating the prompt engineering process.
 
@@ -212,7 +212,7 @@ print(response.answer)
 
 ```
 
-You are not restricted to using one LLM in your program; you can use [multiple](https://dspy-docs.vercel.app/docs/building-blocks/language_models#using-multiple-lms-at-once). DSPy can be used with both managed models such as OpenAI, Cohere, Anyscale, Together, or PremAI as well as with local LLM deployments through vLLM, Ollama, or TGI server. All LLM calls are cached by default.
+You are not restricted to using one LLM in your program; you can use [multiple](https://dspy.ai/learn/programming/language_models/?h=language#using-multiple-lms). DSPy can be used with both managed models such as OpenAI, Cohere, Anyscale, Together, or PremAI as well as with local LLM deployments through vLLM, Ollama, or TGI server. All LLM calls are cached by default.
 
 **Vector Store Integration (Retrieval Model)**
 
@@ -270,7 +270,7 @@ Using DSPy optimizers involves the following steps:
 5. Run the optimizer with the DSPy program, metric function, and training inputs. DSPy will compile the program and automatically adjust parameters and improve performance.
 6. Use the compiled program to perform the task. Iterate and adapt if required.
 
-To learn more about optimizing DSPy programs, read [this](https://dspy-docs.vercel.app/docs/building-blocks/optimizers).
+To learn more about optimizing DSPy programs, read [this](https://dspy.ai/learn/optimization/optimizers/).
 
 DSPy is heavily influenced by PyTorch, and replaces complex prompting with reusable modules for common tasks. Instead of crafting specific prompts, you write code that DSPy automatically translates for the LLM. This, along with built-in optimizers, makes working with LLMs more systematic and efficient.
 
@@ -400,4 +400,4 @@ LangChain and DSPy both offer unique capabilities and can help you build powerfu
 
 [https://python.langchain.com/v0.1/docs/get_started/introduction](https://python.langchain.com/v0.1/docs/get_started/introduction)
 
-[https://dspy-docs.vercel.app/docs/intro](https://dspy-docs.vercel.app/docs/intro)
+[DSPy Introduction](https://dspy.ai/)
