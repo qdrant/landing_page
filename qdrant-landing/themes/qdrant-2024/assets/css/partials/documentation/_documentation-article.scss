@@ -111,6 +111,16 @@
     }
   }
 
+  blockquote {
+    padding: pxToRem(32) pxToRem(24);
+    border-radius: $spacer * 0.5;
+    background: linear-gradient(180deg, #161e33 0%, #0e1424 100%);
+    color: $neutral-98;
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   @include media-breakpoint-up(xl) {
     width: 100%;
 
