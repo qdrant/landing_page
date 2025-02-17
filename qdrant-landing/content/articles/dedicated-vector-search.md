@@ -35,7 +35,7 @@ Now, generate a 1536-dimensional embedding with OpenAI's `text-embedding-ada-002
 
 Having vectors as a part of a main database is a potential issue for another reason — vectors are always a transformation of other data.
 
-### Vectors are a transformation
+### Vectors are a Transformation
 
 Vectors are obtained from some other source-of-truth data. They can be restored if lost with the same embedding model previously used. At the same time, even small changes in that model can shift the geometry of the vector space, so if you update or change the embedding model, you need to update and reindex all the data to maintain accurate vector comparisons.
 
