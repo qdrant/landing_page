@@ -12,16 +12,18 @@ We'll see how to do so, using basic VectaX vector encryption and the sophisticat
 
 Let's set up both the VectaX and Qdrant clients.
 
-```bash
-export MIRROR_API_KEY="<your-api-key>"
-```
-
 ```python
 from mirror_sdk.core.mirror_core import MirrorSDK, MirrorConfig
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams
 
-config = MirrorConfig.from_env()
+# Get your API key from
+# https://platform.mirrorsecurity.io
+config = MirrorConfig(
+    api_key="<your_api_key>",
+    server_url="https://mirrorapi.azure-api.net/v1",
+    secret="<your_encrypt_secret>",
+)
 mirror_sdk = MirrorSDK(config)
 
 # Connects to http://localhost:6333/ by default
@@ -34,9 +36,10 @@ We can now secure our vectors after we've retrieved them using VectaX encryption
 
 ```python
 from qdrant_client.models import PointStruct
+from mirror_sdk.core.models import VectorData
 
-# Get the vector embeddings from your provider
-# embedding = generate_vector_embeddings()
+# Get the vector embeddings from your provider.
+# embedding = generate_document_embedding()
 
 vector_data = VectorData(vector=embedding, id="doc1")
 encrypted = mirror_sdk.vectax.encrypt(vector_data)
@@ -52,11 +55,15 @@ point = PointStruct(
 )
 qdrant.upsert(collection_name="vectax", points=[point])
 
+# Get the vector embeddings from your provider.
+# query_embedding = generate_query_embedding()
+
 encrypted_query = mirror_sdk.vectax.encrypt(
-    VectorData(vector=query_vector, id="query")
+    VectorData(vector=query_embedding, id="query")
 )
+
 results = qdrant.query_points(
-    collection_name="secure_docs",
+    collection_name="vectax",
     query=encrypted_query.ciphertext,
     limit=5
 ).points
