@@ -2,7 +2,7 @@
 title: VectaX - Mirror Security
 ---
 
-# VectaX
+![VectaX Logo](/documentation/frameworks/mirror-security/vectax-logo.png)
 
 [VectaX](https://mirrorsecurity.io/vectax) by Mirror Security is an AI-centric access control and encryption system  designed for managing and protecting vector embeddings. It combines similarity-preserving encryption with fine-grained RBAC to enable secure storage, retrieval, and operations on vector data.
 
