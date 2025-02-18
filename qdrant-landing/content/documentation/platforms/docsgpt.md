@@ -11,7 +11,7 @@ Qdrant is supported as a vectorstore in DocsGPT to ingest and semantically retri
 
 ## Configuration
 
-Learn how to setup DocsGPT in their [Quickstart guide](https://docs.docsgpt.co.uk/Deploying/Quickstart).
+Learn how to setup DocsGPT in their [Quickstart guide](https://docs.docsgpt.cloud/quickstart).
 
 You can configure DocsGPT with environment variables in a `.env` file.
 

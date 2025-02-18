@@ -24,7 +24,7 @@ the documents used to generate the response.
 *Source: https://docs.cohere.com/docs/retrieval-augmented-generation-rag*
 
 The connectors have to implement a specific interface and expose the data source as HTTP REST API. Cohere documentation
-[describes a general process of creating a connector](https://docs.cohere.com/docs/creating-and-deploying-a-connector). 
+[describes a general process of creating a connector](https://docs.cohere.com/v1/docs/creating-and-deploying-a-connector). 
 This tutorial guides you step by step on building such a service around Qdrant.
 
 ## Qdrant connector
@@ -153,7 +153,7 @@ class SearchQuery(BaseModel):
     query: str
 ```
 
-RAG connector does not have to return the documents in any specific format. There are [some good practices to follow](https://docs.cohere.com/docs/creating-and-deploying-a-connector#configure-the-connection-between-the-connector-and-the-chat-api), 
+RAG connector does not have to return the documents in any specific format. There are [some good practices to follow](https://docs.cohere.com/v1/docs/creating-and-deploying-a-connector#configure-the-connection-between-the-connector-and-the-chat-api), 
 but Cohere models are quite flexible here. Results just have to be returned as JSON, with a list of objects in a 
 `results` property of the output. We will use the same document structure as we did for the Qdrant payloads, so there
 is no conversion required. That requires two additional models to be created.

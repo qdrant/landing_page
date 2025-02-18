@@ -35,7 +35,7 @@ online_store:
     write_batch_size: 100
 ```
 
-You can refer to the Feast [reference](https://rtd.feast.dev/en/master/index.html#) for the full list of configuration options.
+You can refer to the Feast [documentation](https://docs.feast.dev/reference/alpha-vector-database#configuration-and-installation) for the full list of configuration options.
 
 ## Retrieving Documents
 
@@ -58,6 +58,5 @@ feature_values = feature_store.retrieve_online_documents(
 
 ## 📚 Further Reading
 
-- [Feast Docs](http://docs.feast.dev/)
-- [Feast Reference](https://rtd.feast.dev/en/master/index.html/)
+- [Feast Documentation](http://docs.feast.dev/)
 - [Source](https://github.com/feast-dev/feast/tree/master/sdk/python/feast/infra/online_stores/)

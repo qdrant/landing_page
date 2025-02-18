@@ -37,10 +37,6 @@ First, install the required libraries `qdrant-client` and `llama-index-embedding
 pip install qdrant-client llama-index-embeddings-huggingface
 ```
 
-<aside role="status">
-The code for this tutorial can be found <a href="https://github.com/qdrant/examples/multimodal-search">here</a>.
-</aside>
-
 ## Dataset
 
 To make the demonstration simple, we created a tiny dataset of images and their captions for you.
