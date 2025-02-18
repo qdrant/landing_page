@@ -9,22 +9,22 @@ aliases:
 
 A Qdrant collection can be split into multiple shards. Each shard is a separate storage unit. By default, a collection is created with a single [shard](/documentation/concepts/sharding/). They are used to distribute data across nodes in a cluster, enabling parallel processing and improving performance. 
 
-From a storage perspective, data within a shard is organized into segments. Each segment independently manages its vector and payload storage, along with its indexes.
+From a storage perspective, data within a shard is organized into segments. Each segment independently manages its vector and payload storage, along with their respective indexes.
 
 ![Storage Architecture](/documentation/concepts/storage/storage-architecture.png)
 
 Typically, data in segments does not overlap. If the same data point is stored in multiple segments, it won't cause issues because the search process includes a deduplication mechanism.
 
 Segments are made up of:
-- Vector and payload storage
-- Vector and payload [indexes](/documentation/concepts/indexing/)
+- Vector and Payload Storage
+- Vector and Payload [Indexes](/documentation/concepts/indexing/)
 - An ID mapper that links internal and external IDs
 
 Segments can be either `appendable` or `non-appendable`:
 - **Appendable segments**: You can add, delete, and query data freely.
 - **Non-appendable segments**: You can only read and delete data.
 
-Each collection can have segments configured differently, but it must include at least one `appendable` segment.
+Each collection can have segments that are configured differently, but it must include at least one `appendable` segment.
 
 ## Vector Storage
 
@@ -41,7 +41,7 @@ Qdrant offers two main options for storing vectors, depending on your applicatio
 
 ### Configuring On-Disk Storage
 
-You can configure store your data on disk in two ways:
+You can store your data on disk in two ways:
 
 - **Enable `on_disk` option**: Use this setting in the collection creation API to store vectors on disk.
 
@@ -159,9 +159,9 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 })
 ```
 
-When you enable On-Disk storage, all vectors in a collection are stored on disk immediately. This is recommended if your Qdrant instance uses fast disks and handles large collections.
+When you enable **On-Disk** storage, all vectors in a collection are stored on disk immediately. This is recommended if your Qdrant instance uses fast disks and handles large collections.
 
-To configure when segments switch to On-Disk storage, use the `memmap_threshold` option. You can set this threshold in two ways:
+To configure when segments switch to **On-Disk** storage, use the `memmap_threshold` option. You can set this threshold in two ways:
 
 1. **Globally**: Adjust the `memmap_threshold` parameter in the [configuration file](/documentation/guides/configuration/).
 2. **Per Collection**: Set the threshold during the [creation](/documentation/concepts/collections/#create-collection) or [update](/documentation/concepts/collections/#update-collection-parameters) of each collection.
@@ -295,7 +295,7 @@ The rule of thumb for setting the `memmap_threshold` is straightforward:
 - **Balanced Use**: Set `memmap_threshold` equal to `indexing_threshold` (default is 20000). This way, the optimizer handles all thresholds together without extra runs.
 - **High Write Load & Low RAM**: Set `memmap_threshold` lower than `indexing_threshold`, e.g., 10000. This prioritizes converting segments to Memmap storage before indexing.
 
-Additionally, Memmap storage can be used for the HNSW index. To enable this, set the `hnsw_config.on_disk` parameter to `true` during collection [creation](/documentation/concepts/collections/#create-a-collection) or [updating](/documentation/concepts/collections/#update-collection-parameters).
+Additionally, **On-Disk** storage can be used for the HNSW index. To enable this, set the `hnsw_config.on_disk` parameter to `true` during collection [creation](/documentation/concepts/collections/#create-a-collection) or [updating](/documentation/concepts/collections/#update-collection-parameters).
 
 ```http
 PUT /collections/{collection_name}
@@ -439,7 +439,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 
 ## Payload Storage
 
-Qdrant supports two types of payload storage: In-Memory and On-Disk.
+Qdrant supports two types of payload storage: **In-Memory** and **On-Disk**.
 
 - **In-Memory Storage**:
   - Loads payload data into RAM at startup.
