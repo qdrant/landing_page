@@ -1,0 +1,22 @@
+{{ with (.Site.GetPage "/enterprise-solutions/enterprise-solutions-capabilities") }}
+  <section class="enterprise-solutions-capabilities">
+    <div class="container">
+      <h2 class="enterprise-solutions-capabilities__title">{{ .Params.title }}</h2>
+      <div class="enterprise-solutions-capabilities__cards">
+        {{ range .Params.cards }}
+        <div class="enterprise-solutions-capabilities__card">
+          <div class="enterprise-solutions-capabilities__card-info">
+            <h6 class="enterprise-solutions-capabilities__card-title">{{ .title }}</h6>
+            <p class="enterprise-solutions-capabilities__card-content">{{ .content | safeHTML }}</p>
+            <a class="enterprise-solutions-capabilities__card-link link link_md" href="{{ .link.url }}">
+              {{ .link.text }}
+            </a>
+          </div>
+          <img class="enterprise-solutions-capabilities__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ partial "top-and-bottom-overlay" (dict "context" . "class" "enterprise-solutions-capabilities") }}
+  </section>
+{{ end }}
