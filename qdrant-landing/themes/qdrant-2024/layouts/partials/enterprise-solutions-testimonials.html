@@ -1,0 +1,9 @@
+<section class="enterprise-solutions-testimonials">
+  {{ with (.Site.GetPage "/enterprise-solutions/testimonial-1") }}
+    {{ partial "testimonial-light" (dict "context" .) }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/enterprise-solutions/testimonial-2") }}
+    {{ partial "testimonial-light" (dict "context" .) }}
+  {{ end }}
+</section>
