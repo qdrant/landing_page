@@ -43,6 +43,13 @@
     p {
       margin-bottom: 0;
     }
+
+    & > p {
+      width: 49.5%;
+      &:last-child {
+        text-align: right;
+      }
+    }
   }
 
   &-link:hover {
