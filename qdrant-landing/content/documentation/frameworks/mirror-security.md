@@ -2,13 +2,13 @@
 title: VectaX - Mirror Security
 ---
 
-# VectaX - Mirror Security
+# VectaX
 
-VectaX by Mirror Security is an AI-centric access control and encryption system  designed for managing and protecting vector embeddings. It combines similarity-preserving encryption with fine-grained RBAC to enable secure storage, retrieval, and operations on vector data.
+[VectaX](https://mirrorsecurity.io/vectax) by Mirror Security is an AI-centric access control and encryption system  designed for managing and protecting vector embeddings. It combines similarity-preserving encryption with fine-grained RBAC to enable secure storage, retrieval, and operations on vector data.
 
 It can be integrated with Qdrant to secure vector searches.
 
-We'll see how to do so, using basic VectaX vector encryption and the sophisticated RBAC mechanism. You can obtain an API key from the [Mirror Security Platform](https://platform.mirrorsecurity.io/en/login).
+We'll see how to do so using basic VectaX vector encryption and the sophisticated RBAC mechanism. You can obtain an API key from the [Mirror Security Platform](https://platform.mirrorsecurity.io/en/login).
 
 Let's set up both the VectaX and Qdrant clients.
 
@@ -30,15 +30,15 @@ mirror_sdk = MirrorSDK(config)
 qdrant = QdrantClient()
 ```
 
-- Vector Encryption
+## Vector Encryption
 
-We can now secure our vectors after we've retrieved them using VectaX encryption
+Now, let's secure vector embeddings using VectaX encryption.
 
 ```python
 from qdrant_client.models import PointStruct
 from mirror_sdk.core.models import VectorData
 
-# Get the vector embeddings from your provider.
+# Generate or retrieve vector embeddings
 # embedding = generate_document_embedding()
 
 vector_data = VectorData(vector=embedding, id="doc1")
@@ -55,8 +55,8 @@ point = PointStruct(
 )
 qdrant.upsert(collection_name="vectax", points=[point])
 
-# Get the vector embeddings from your provider.
-# query_embedding = generate_query_embedding()
+# Encrypt a query vector for secure search
+# query_embedding = generate_query_embedding(...)
 
 encrypted_query = mirror_sdk.vectax.encrypt(
     VectorData(vector=query_embedding, id="query")
@@ -69,63 +69,95 @@ results = qdrant.query_points(
 ).points
 ```
 
-- Vector search with RBAC
+## Vector Search with RBAC
+
+RBAC allows fine-grained access control over encrypted vector data based on roles, groups, and departments.
+
+### Defining Access Policies
 
 ```python
 from mirror_sdk.core.models import RBACVectorData
-from mirros_sdk.core import MirrorError
-from qdrant_client import QdrantClient, models
+from mirror_sdk.core import MirrorError
 
+app_policy = {
+    "roles": ["admin", "analyst", "user"],
+    "groups": ["team_a", "team_b"],
+    "departments": ["research", "engineering"],
+}
+mirror_sdk.set_policy(app_policy)
+```
 
-class RBACQdrant:
-    def __init__(self, mirror_sdk, qdrant: QdrantClient):
-        self.sdk = mirror_sdk
-        self.qdrant = qdrant
+### Generating Access Keys
 
-    def upsert_with_rbac(self, points: list[models.PointStruct], access_policies):
-        records = []
-        for point, policy in zip(points, access_policies):
-            vector_data = RBACVectorData(
-                vector=point.vector, id=point.id, access_policy=policy
-            )
-            encrypted = self.sdk.rbac.encrypt(vector_data)
+```python
+# Generate a secret key for use by the 'admin' role holders.
+admin_key = mirror_sdk.rbac.generate_user_secret_key(
+    {"roles": ["admin"], "groups": ["team_a"], "departments": ["research"]}
+)
+```
 
-            records.append(
-                (
-                    point.id,
-                    encrypted.crypto.ciphertext,
-                    {
-                        "encrypted_header": encrypted.encrypted_header,
-                        "access_policy": policy,
-                        **point.payload,
-                    },
-                )
-            )
+### Storing Encrypted Data with RBAC Policies
 
-        self.index.upsert(records)
+We can now store data that is only accessible to users with the "admin" role.
 
-    def query_with_rbac(self, collection_name: str, query_vector, user_key):
-        query_data = RBACVectorData(vector=query_vector, id="query")
-        encrypted_query = self.sdk.rbac.encrypt(query_data)
+```python
+policy = {
+    "roles": ["admin"],
+    "groups": ["team_a"],
+    "departments": ["research"],
+}
+# vector_embedding = generate_vector_embedding(...)
+vector_data = RBACVectorData(
+    # Generate or retrieve vector embeddings
+    vector=vector_embedding,
+    id=1,
+    access_policy=policy,
+)
+encrypted = mirror_sdk.rbac.encrypt(vector_data)
 
-        results = self.qdrant.query_points(
-            collection_name=collection_name, query=encrypted_query
+qdrant.upsert(
+    collection_name="vectax",
+    points=[
+        PointStruct(
+            id=1,
+            vector=encrypted.crypto.ciphertext,
+            payload={"encrypted_header": encrypted.encrypted_header},
         )
+    ],
+)
+```
 
-        verified_results = []
-        for match in results.points:
-            try:
-                self.sdk.rbac.decrypt(
-                    match.vector, match.payload["encrypted_header"], user_key
-                )
-                verified_results.append(match)
-            except MirrorError:
-                continue
+### Querying with Role-Based Decryption
 
-        return verified_results
+Using the admin key, only accessible data will be decrypted.
+
+```python
+# Encrypt a query vector for secure search
+# query_embedding = generate_query_embedding(...)
+
+query_data = RBACVectorData(vector=query_embedding, id="query", access_policy=policy)
+encrypted_query = mirror_sdk.rbac.encrypt(query_data)
+
+results = qdrant.query_points(
+    collection_name="vectax", query=encrypted_query.crypto.ciphertext, limit=10
+)
+
+allowed_points = []
+for point in results.points:
+    try:
+        admin_decrypted = mirror_sdk.rbac.decrypt(
+            point.vector,
+            point.payload["encrypted_header"],
+            admin_key,
+        )
+        allowed_points.append(point)
+    except MirrorError as e:
+        print(f"Access denied: {e}, Point ID: {point.id}")
+
+# Proceed to only use results within `allowed_points`.
 ```
 
 ## Further Reading
 
-- [Mirror Security Docs](https://docs.mirrorsecurity.io/introduction).
+- [Mirror Security Docs](https://docs.mirrorsecurity.io/introduction)
 - [Mirror Security Blog](https://mirrorsecurity.io/blog)
