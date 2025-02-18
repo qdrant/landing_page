@@ -7,7 +7,11 @@ aliases:
 
 # Storage
 
-In Qdrant, data within a collection is organized into segments. Each segment independently manages its vector and payload storage, along with its indexes.
+A Qdrant collection can be split into multiple shards. Each shard is a separate storage unit. By default, a collection is created with a single [shard](/documentation/concepts/sharding/). They are used to distribute data across nodes in a cluster, enabling parallel processing and improving performance. 
+
+From a storage perspective, data within a shard is organized into segments. Each segment independently manages its vector and payload storage, along with its indexes.
+
+![Storage Architecture](/documentation/concepts/storage/storage-architecture.png)
 
 Typically, data in segments does not overlap. If the same data point is stored in multiple segments, it won't cause issues because the search process includes a deduplication mechanism.
 
@@ -464,9 +468,3 @@ Qdrant ensures data integrity through a two-stage process:
    - If a new change has a lower sequential number than the current version, it is ignored.
 
 This process allows Qdrant to restore storage safely from the WAL in case of an unexpected shutdown.
-
-| Component                  | Description                                      |
-|----------------------------|--------------------------------------------------|
-| Vector and Payload Storage | Stores the vectors and associated payload data.  |
-| Vector and Payload Indexes | [Indexes](/documentation/concepts/indexing/) for efficient searching and retrieval. |
-| ID Mapper                  | Links internal and external IDs.                 |
