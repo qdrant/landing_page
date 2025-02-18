@@ -26,7 +26,7 @@ Let's look at the central concept of vector databases — [**vectors**](/documen
 
 Vectors (also known as embeddings) are high-dimensional representations of various data points — texts, images, videos, etc. Many state-of-the-art (SOTA) embedding models generate representations of over 1,500 dimensions. When it comes to state-of-the-art PDF retrieval, the representations can reach [**over 100,000 dimensions per page**](/documentation/advanced-tutorials/pdf-retrieval-at-scale/).
 
-This brings us to the first challenge of vector search — **vectors are heavy**.
+This brings us to the first challenge of vector search — vectors are heavy.
 
 ### Vectors are Heavy
 
