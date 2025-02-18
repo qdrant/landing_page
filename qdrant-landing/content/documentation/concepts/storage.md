@@ -7,7 +7,7 @@ aliases:
 
 # Storage
 
-A Qdrant collection can be split into multiple shards. Each shard is a separate storage unit. By default, a collection is created with a single [shard](/documentation/concepts/sharding/). They are used to distribute data across nodes in a cluster, enabling parallel processing and improving performance. 
+A Qdrant collection can be split into multiple shards. Each shard is a separate storage unit. By default, a collection is created with a single [shard](/documentation/guides/distributed_deployment/). They are used to distribute data across nodes in a cluster, enabling parallel processing and improving performance. 
 
 From a storage perspective, data within a shard is organized into segments. Each segment independently manages its vector and payload storage, along with their respective indexes.
 
