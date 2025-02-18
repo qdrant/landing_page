@@ -7,7 +7,7 @@ aliases:
 
 # Storage
 
-In a Qdrant collection, all data is divided into **segments**. Each segment contains several components: **vector** and **payload storages** as well as **vector** and **payload indexes**. Behind the scenes, each segment has an ID mapper that links internal and external IDs. 
+In a Qdrant shard, all data is divided into **segments**. Each segment contains several components: **vector** and **payload storages** as well as **vector** and **payload indexes**. Behind the scenes, each segment has an ID mapper that links internal and external IDs. 
 
 Qdrant gives you the flexibility to store segment components—such as vector storage, payload storage, and indexes—either in memory or on disk, depending on your needs.
 
