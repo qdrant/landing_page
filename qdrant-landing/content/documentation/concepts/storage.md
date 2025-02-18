@@ -9,8 +9,6 @@ aliases:
 
 In Qdrant, data within a collection is organized into segments. Each segment independently manages its vector and payload storage, along with its indexes.
 
-![collection-architecture](/static/documentation/concepts/storage/collection-architecture.png)
-
 Typically, data in segments does not overlap. If the same data point is stored in multiple segments, it won't cause issues because the search process includes a deduplication mechanism.
 
 Segments are made up of:
