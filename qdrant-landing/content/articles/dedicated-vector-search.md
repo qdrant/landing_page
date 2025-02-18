@@ -20,6 +20,7 @@ Any problem with even a bit of complexity requires a specialized solution. You c
 In this article, we will describe the unique challenges vector search poses and why a dedicated solution is the best way to tackle them.
 
 ## Vectors
+![vectors](/articles_data/dedicated-vector-search/image1.png)
 
 Let's look at the central concept of vector databases — [**vectors**](/documentation/concepts/vectors/).
 
@@ -62,6 +63,7 @@ Everything becomes far less intuitive if vectors are stored together with other 
 **Storing vectors together with other types of data, we lose all the benefits of their characteristics**; however, we fully "enjoy" their drawbacks, polluting the storage with an extremely heavy transformation of data already existing in that storage.
 
 ## Vector Search
+![vector-search](/articles_data/dedicated-vector-search/image2.png)
 
 Unlike traditional databases that serve as data stores, **vector databases are more like search engines**. They are designed to be **scalable**, always **available**, and capable of delivering high-speed search results even under heavy loads. Just as Google or Bing can handle billions of queries at once, vector databases are designed for scenarios where rapid, high-throughput, low-latency retrieval is a must.
 
@@ -99,6 +101,7 @@ Considering the specifics of vector search — its nature demanding availability
 A strictly consistent transactional approach also loses its attractiveness when we remember that vectors are heavy transformations of data at our disposal — what's the point in limiting data protection mechanisms if we can always restore vectorized data through a transformation?
 
 ## Vector Index
+![vector-index](/articles_data/dedicated-vector-search/image3.png)
 
 [**Vector search**](/documentation/concepts/search/) relies on high-dimensional vector mathematics, making it computationally heavy at scale. A brute-force similarity search would require comparing a query against every vector in the database. In a database with 100 million 1536-dimensional vectors, performing 100 million comparisons per one query is unfeasible for production scenarios. Instead of a brute-force approach, vector databases have specialized approximate nearest neighbour (ANN) indexes that balance search precision and speed. These indexes require carefully designed architectures to make their maintenance in production feasible.
 
@@ -177,6 +180,7 @@ Even if you want to retrofit these capabilities, it's not just a matter of addin
 When the underlying architecture wasn't initially designed for this kind of interaction, integrating interfaces is a **software engineering team nightmare**. You end up breaking existing assumptions, forcing inefficient workarounds, and often introducing backwards-compatibility problems. It's why attempts to patch vector search onto traditional databases won't match the efficiency of purpose-built systems.
 
 ## Making Vector Search State-of-the-Art
+![vector-search-state-of-the-art](/articles_data/dedicated-vector-search/image4.png)
 
 Now, let's shift focus to another key advantage of dedicated solutions — their ability to keep up with state-of-the-art solutions in the field.
 
@@ -208,6 +212,7 @@ In addition to that, we continuously look for improvements in:
 Staying at the cutting edge of vector search is not just about performance — it's also about keeping pace with an evolving AI landscape.
 
 ## Summing up
+![conclusion-vector-search](/articles_data/dedicated-vector-search/image5.png)
 
 When it comes to vector search, there's a clear distinction between using a dedicated vector search solution and extending a database to support vector operations.
 
