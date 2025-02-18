@@ -128,6 +128,12 @@ You can install `cwebp` with the following command:
 curl -s https://raw.githubusercontent.com/Intervox/node-webp/latest/bin/install_webp | sudo bash
 ```
 
+For **macOS**, you'll have to install `coreutils` too.
+
+```
+brew install coreutils
+```
+
 #### Prepare preview image
 
 For the preview use an image with an aspect ratio of 3 to 1 in JPG or PNG format. With a resolution not smaller than 1200x630px. The image should illustrate in some way the article's core idea. Fill free got creative. Check out that the most important part of the image is in the center.
@@ -147,6 +153,11 @@ bash -x automation/process-article-img.sh ~/Pictures/my_preview.jpg filtrable-hn
 ```
 
 This command will create a directory `preview` in `static/article_data/filtrable-hnsw` and generate preview images in it. If the directory `static/article_data/filtrable-hnsw` doesn't exist, it will be created. If it exists, only files in the children `preview` directory will be affected. In this case, preview images will be overwritten. Your original image will not be affected.
+
+For **macOS** you'll have to make 2 adjustements to `process-img.sh` script which is run by `process-article-img.sh` script:
+
+1. Exchange `stat -c %Y` with `stat -f %m`;
+2. Exchange `realpath` with `grealpath`.
 
 #### Preview images set
 
