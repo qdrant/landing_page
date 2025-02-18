@@ -453,7 +453,7 @@ You can choose the type of payload storage in the [configuration file](/document
 
 Qdrant ensures data integrity through a two-stage process:
 
-1. **Write-ahead Log (WAL)**:
+1. **Write-Ahead Log (WAL)**:
    - All data changes are first written to the WAL.
    - The WAL orders operations and assigns them a sequential number.
    - Changes in the WAL are safe from power loss.
@@ -464,3 +464,9 @@ Qdrant ensures data integrity through a two-stage process:
    - If a new change has a lower sequential number than the current version, it is ignored.
 
 This process allows Qdrant to restore storage safely from the WAL in case of an unexpected shutdown.
+
+| Component                  | Description                                      |
+|----------------------------|--------------------------------------------------|
+| Vector and Payload Storage | Stores the vectors and associated payload data.  |
+| Vector and Payload Indexes | [Indexes](/documentation/concepts/indexing/) for efficient searching and retrieval. |
+| ID Mapper                  | Links internal and external IDs.                 |
