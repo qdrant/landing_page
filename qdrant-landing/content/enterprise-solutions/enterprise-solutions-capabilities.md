@@ -6,7 +6,7 @@ cards:
   content: Ensure customer trust by safeguarding their data with top-tier security measures.<br><br>We provide SOC2 Type 2 Certification, Hybrid Cloud deployments for highly regulated environments, and Private Cloud options to give you complete control and ensure data sovereignty.
   link:
     text: Learn More
-    url: /
+    url: /blog/qdrant-soc2-type2-audit/
   image:
     src: /img/enterprise-solutions-capabilities/enabling-compliance.svg
     alt: Enabling Compliance
@@ -15,7 +15,7 @@ cards:
   content: Fundamental for maintaining sensitive data within the database. We offer Enterprise SSO, Cloud RBAC, and Database API Keys with RBAC.
   link:
     text: Learn More
-    url: /
+    url: /documentation/cloud/qdrant-cloud-setup/#enterprise-single-sign-on-sso
   image:
     src: /img/enterprise-solutions-capabilities/identity-and-access-management.svg
     alt: Identity and Access Management
@@ -24,7 +24,7 @@ cards:
   content: Offers a flexible, scalable solution to automate tasks and seamlessly integrate our database into custom applications.
   link:
     text: Learn More
-    url: /
+    url: /documentation/cloud/authentication/
   image:
     src: /img/enterprise-solutions-capabilities/api.svg
     alt: API
@@ -33,7 +33,7 @@ cards:
   content: Deeply understand your database application performance to identify and resolve issues effectively.
   link:
     text: Learn More
-    url: /
+    url: /documentation/guides/monitoring/
   image:
     src: /img/enterprise-solutions-capabilities/observability.svg
     alt: Observability
