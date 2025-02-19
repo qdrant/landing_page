@@ -5,7 +5,7 @@ short_description: Discover how Qdrant's enterprise-grade features enhance secur
 preview_image: /blog/enterprise-vector-search-2025/social_preview.jpg
 social_preview_image: /blog/enterprise-vector-search-2025/social_preview.jpg
 date: 2025-02-19T16:04:57.804Z
-author: David Myriel
+author: Qdrant Team
 featured: true
 tags:
   - Qdrant
