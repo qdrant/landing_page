@@ -3,6 +3,7 @@ draft: false
 title: Introducing Enterprise-Ready Vector Search with Qdrant
 short_description: Discover how Qdrant's enterprise-grade features enhance security, scalability, and seamless operations for AI applications.
 preview_image: /blog/enterprise-vector-search-2025/social_preview.jpg
+social_preview_image: /blog/enterprise-vector-search-2025/social_preview.jpg
 date: 2025-02-19T16:04:57.804Z
 author: David Myriel
 featured: true
