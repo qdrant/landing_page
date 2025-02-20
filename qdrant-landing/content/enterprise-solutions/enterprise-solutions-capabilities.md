@@ -12,7 +12,7 @@ cards:
     alt: Enabling Compliance
 - id: 1
   title: Identity and Access Management
-  content: Fundamental for maintaining sensitive data within the database. We offer Enterprise SSO, Cloud RBAC, and Database API Keys with RBAC.
+  content: Fundamental for maintaining sensitive data within the database. We offer Enterprise SSO, Cloud RBAC (coming soon), and Database API Keys with RBAC.
   link:
     text: Learn More
     url: /documentation/cloud/qdrant-cloud-setup/#enterprise-single-sign-on-sso
