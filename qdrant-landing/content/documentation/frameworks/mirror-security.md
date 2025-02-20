@@ -8,7 +8,7 @@ title: VectaX - Mirror Security
 
 It can be integrated with Qdrant to secure vector searches.
 
-We'll see how to do so using basic VectaX vector encryption and the sophisticated RBAC mechanism. You can obtain an API key from the [Mirror Security Platform](https://platform.mirrorsecurity.io/en/login).
+We'll see how to do so using basic VectaX vector encryption and the sophisticated RBAC mechanism. You can obtain an API key and the Mirror SDK from the [Mirror Security Platform](https://platform.mirrorsecurity.io/en/login).
 
 Let's set up both the VectaX and Qdrant clients.
 
@@ -76,9 +76,6 @@ RBAC allows fine-grained access control over encrypted vector data based on role
 ### Defining Access Policies
 
 ```python
-from mirror_sdk.core.models import RBACVectorData
-from mirror_sdk.core import MirrorError
-
 app_policy = {
     "roles": ["admin", "analyst", "user"],
     "groups": ["team_a", "team_b"],
@@ -101,6 +98,9 @@ admin_key = mirror_sdk.rbac.generate_user_secret_key(
 We can now store data that is only accessible to users with the "admin" role.
 
 ```python
+from mirror_sdk.core.models import RBACVectorData
+from mirror_sdk.utils import encode_binary_data
+
 policy = {
     "roles": ["admin"],
     "groups": ["team_a"],
@@ -118,10 +118,16 @@ encrypted = mirror_sdk.rbac.encrypt(vector_data)
 qdrant.upsert(
     collection_name="vectax",
     points=[
-        PointStruct(
+        models.PointStruct(
             id=1,
             vector=encrypted.crypto.ciphertext,
-            payload={"encrypted_header": encrypted.encrypted_header},
+            payload={
+                "encrypted_header": encrypted.encrypted_header,
+                "encrypted_vector_metadata": encode_binary_data(
+                    encrypted.crypto.serialize()
+                ),
+                "content": "My content",
+            },
         )
     ],
 )
@@ -132,6 +138,10 @@ qdrant.upsert(
 Using the admin key, only accessible data will be decrypted.
 
 ```python
+from mirror_sdk.core import MirrorError
+from mirror_sdk.core.models import MirrorCrypto
+from mirror_sdk.utils import decode_binary_data
+
 # Encrypt a query vector for secure search
 # query_embedding = generate_query_embedding(...)
 
@@ -142,19 +152,31 @@ results = qdrant.query_points(
     collection_name="vectax", query=encrypted_query.crypto.ciphertext, limit=10
 )
 
-allowed_points = []
+accessible_results = []
 for point in results.points:
     try:
+        encrypted_vector_metadata = decode_binary_data(
+            point.payload["encrypted_vector_metadata"]
+        )
+        mirror_data = MirrorCrypto.deserialize(encrypted_vector_metadata)
         admin_decrypted = mirror_sdk.rbac.decrypt(
-            point.vector,
+            mirror_data,
             point.payload["encrypted_header"],
             admin_key,
         )
-        allowed_points.append(point)
-    except MirrorError as e:
-        print(f"Access denied: {e}, Point ID: {point.id}")
+        accessible_results.append(
+            {
+                "id": point.id,
+                "content": point.payload["content"],
+                "score": point.score,
+                "accessible": True,
+            }
+        )
 
-# Proceed to only use results within `allowed_points`.
+    except MirrorError as e:
+        print(f"Access denied for point {point.id}: {e}")
+
+# Proceed to only use results within `accessible_results`.
 ```
 
 ## Further Reading
