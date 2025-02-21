@@ -8,14 +8,14 @@ aliases:
 
 # Blog-Reading Chatbot with GPT-4o
 
-| Time: 90 min | Level: Advanced |[GitHub](https://github.com/qdrant/examples/blob/master/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb)|    |
+| Time: 90 min | Level: Advanced |[GitHub](https://github.com/qdrant/examples/blob/langchain-lcel-rag/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb)|    |
 |--------------|-----------------|--|----|
 
 In this tutorial, you will build a RAG system that combines blog content ingestion with the capabilities of semantic search. **OpenAI's GPT-4o LLM** is powerful, but scaling its use requires us to supply context systematically.
 
 RAG enhances the LLM's generation of answers by retrieving relevant documents to aid the question-answering process. This setup showcases the integration of advanced search and AI language processing to improve information retrieval and generation tasks.
 
-A notebook for this tutorial is available on [GitHub](https://github.com/qdrant/examples/blob/master/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb).
+A notebook for this tutorial is available on [GitHub](https://github.com/qdrant/examples/blob/langchain-lcel-rag/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb).
 
 **Data Privacy and Sovereignty:** RAG applications often rely on sensitive or proprietary internal data. Running the entire stack within your own environment becomes crucial for maintaining control over this data. Qdrant Hybrid Cloud deployed on [Scaleway](https://www.scaleway.com/) addresses this need perfectly, offering a secure, scalable platform that still leverages the full potential of RAG. Scaleway offers serverless [Functions](https://www.scaleway.com/en/serverless-functions/) and serverless [Jobs](https://www.scaleway.com/en/serverless-jobs/), both of which are ideal for embedding creation in large-scale RAG cases.
 

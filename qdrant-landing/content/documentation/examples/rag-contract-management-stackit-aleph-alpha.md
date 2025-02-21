@@ -27,10 +27,10 @@ Directory.
 > **Note:** In this tutorial, we are going to build a solid foundation for such a system. However, it is up to your organization's setup to implement the entire solution.
 
 - **Dataset** - a collection of documents, using different formats, such as PDF or DOCx, scraped from internet
-- **Asymmetric semantic embeddings** - [Aleph Alpha embedding](https://docs.aleph-alpha.com/api/semantic-embed/) to 
+- **Asymmetric semantic embeddings** - [Aleph Alpha embedding](https://docs.aleph-alpha.com/api/pharia-inference/semantic-embed/) to 
   convert the queries and the documents into vectors
 - **Large Language Model** - the [Luminous-extended-control 
-  model](https://docs.aleph-alpha.com/docs/introduction/model-card/), but you can play with a different one from the 
+  model](https://docs.aleph-alpha.com/api/pharia-inference/available-models/), but you can play with a different one from the 
   Luminous family
 - **Qdrant Hybrid Cloud** - a knowledge base to store the vectors and search over the documents
 - **STACKIT** - a [German business cloud](https://www.stackit.de) to run the Qdrant Hybrid Cloud and the application 
@@ -44,7 +44,7 @@ interacts with the system with some set of permissions, and can only access the 
 
 ### Aleph Alpha account
 
-Since you will be using Aleph Alpha's models, [sign up](https://app.aleph-alpha.com/signup) with their managed service and  generate an API token in the [User Profile](https://app.aleph-alpha.com/profile). Once you have it ready, store it as an environment variable:
+Since you will be using Aleph Alpha's models, [sign up](https://aleph-alpha.com) with their managed service and obtain an API token. Once you have it ready, store it as an environment variable:
 
 ```shell
 export ALEPH_ALPHA_API_KEY="<your-token>"

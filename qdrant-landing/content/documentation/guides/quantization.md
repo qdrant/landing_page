@@ -59,7 +59,7 @@ However, binary quantization is only efficient for high-dimensional vectors and 
 At the moment, binary quantization shows good accuracy results with the following models:
 
 - OpenAI `text-embedding-ada-002` - 1536d tested with [dbpedia dataset](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) achieving 0.98 recall@100 with 4x oversampling
-- Cohere AI `embed-english-v2.0` - 4096d tested on [wikipedia embeddings](https://huggingface.co/datasets/nreimers/wikipedia-22-12-large/tree/main) - 0.98 recall@50 with 2x oversampling
+- Cohere AI `embed-english-v2.0` - 4096d tested on Wikipedia embeddings - 0.98 recall@50 with 2x oversampling
 
 Models with a lower dimensionality or a different distribution of vector components may require additional experiments to find the optimal quantization parameters.
 
