@@ -5,6 +5,12 @@ weight: 5
 
 # Changelog
 
+## 1.5.0
+
+Added support for P2P TLS configuration
+Faster node removal on scale down
+Various performance improvements and stability fixes
+
 ## 1.4.0
 
 Support deleting peers on horizontal scale down, even if they are already offline
