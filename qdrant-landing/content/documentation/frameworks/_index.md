@@ -27,6 +27,7 @@ partition: build
 | [LangGraph](/documentation/frameworks/langgraph/)             | Python, Javascript libraries for building stateful, multi-actor applications.                                        |
 | [LlamaIndex](/documentation/frameworks/llama-index/)          | A data framework for building LLM applications with modular integrations.                                            |
 | [Mastra](/documentation/frameworks/mastra/)                   | Typescript framework to build AI applications and features quickly.                                                  |
+| [Mirror Security](/documentation/frameworks/mirror-security/) | Python framework for vector encryption and access control.                                                           |
 | [Mem0](/documentation/frameworks/mem0/)                       | Self-improving memory layer for LLM applications, enabling personalized AI experiences.                              |
 | [MemGPT](/documentation/frameworks/memgpt/)                   | System to build LLM agents with long term memory & custom tools                                                      |
 | [Neo4j GraphRAG](/documentation/frameworks/neo4j-graphrag/)   | Package to build graph retrieval augmented generation (GraphRAG) applications using Neo4j and Python.                |
