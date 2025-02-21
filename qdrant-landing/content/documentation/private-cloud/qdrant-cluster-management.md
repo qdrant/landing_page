@@ -200,6 +200,10 @@ spec:
 
 *Available as of Operator v2.2.0*
 
+<aside role="alert">
+The feature can be enabled only at the cluster creation. Later changes are not possible.
+</aside>
+
 If you want to encrypt communication between Qdrant nodes, you need to enable TLS by providing
 certificate, key, and root CA certificate used for generating the former.
 
