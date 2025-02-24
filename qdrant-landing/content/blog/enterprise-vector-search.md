@@ -23,7 +23,7 @@ We are excited to introduce Qdrant Cloud’s new suite of enterprise features. U
 
 Enterprise AI applications demand more than just a powerful vector database—they require robust security, access control, and monitoring to ensure compliance, performance, and scalability. Qdrant’s new enterprise features address these needs, giving your team the tools to simplify authentication, enforce access policies, gain deep visibility into performance, and reduce operational overhead.
 
-### New Cloud Features:
+## New Cloud Features
 
 * Enterprise-Grade Access Controls – Fine-tune permissions with **Cloud RBAC** to ensure the right users can manage clusters, billing, and deployments.  
 * Streamlined Authentication – Simplify access across teams with **Single Sign-On (SSO)** via Okta, Google Workspace, Azure Active Directory (Entra ID), and more.  
@@ -52,7 +52,7 @@ By supporting Okta, Google Workspace, Azure Active Directory (Entra ID), LDAP, S
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/EtUcA-MCZJM?si=RhI1zEP59ssoRojA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
 
-**Database API Keys**
+### Database API Keys 
 
 You can now **control API access** at a highly detailed level— using specific API keys, enforcing expiration policies, and revoking credentials.
 
@@ -66,7 +66,7 @@ The Qdrant Cloud API provides controls over **API key creation, management, and 
 
 [Read more about Database API keys](https://qdrant.tech/documentation/cloud/authentication/).
 
-**Advanced Monitoring**
+## Advanced Monitoring
 
 With Prometheus/OpenMetrics support, you can have real-time visibility into Qdrant’s performance. You can easily integrate with your preferred monitoring stacks like [Datadog](https://qdrant.tech/documentation/observability/datadog/), [Grafana](https://qdrant.tech/documentation/cloud/cluster-monitoring/#grafana-dashboard), and other [enterprise observability tools](https://qdrant.tech/documentation/observability/).
 
