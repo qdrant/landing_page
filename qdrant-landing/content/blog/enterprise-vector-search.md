@@ -2,7 +2,7 @@
 draft: false
 title: "Introducing Qdrant Cloud’s New Enterprise-Ready Vector Search"
 short_description: "Enterprise-grade features for secure vector search at scale."
-description: "Discover Qdrant Cloud's new enterprise features including RBAC, SSO, granular API keys, and advanced monitoring for secure, scalable AI deployments."
+description: "Discover Qdrant Cloud's enterprise features including RBAC, SSO, granular API keys, and advanced monitoring for secure deployments."
 preview_image: /blog/enterprise-vector-search/social_preview.jpg
 social_preview_image: /blog/enterprise-vector-search/social_preview.jpg
 date: 2025-02-25T00:00:00Z
@@ -12,11 +12,12 @@ tags:
 - vector search
 - enterprise
 - monitoring
+- RBAC
 - observability
 ---
 # Introducing Qdrant Cloud’s New Enterprise-Ready Vector Search
 
-This is an update. We are excited to introduce Qdrant Cloud’s new suite of enterprise features. Using Cloud RBAC, Single Sign-On (SSO), Granular API Keys, and Advanced Monitoring, you now have the control and visibility they need to operate at scale.
+We are excited to introduce Qdrant Cloud’s new suite of enterprise features. Using Cloud RBAC, Single Sign-On (SSO), Granular API Keys, and Advanced Monitoring, you now have the control and visibility they need to operate at scale.
 
 ## More Ways to Secure and Scale Your AI Workloads
 
@@ -73,7 +74,7 @@ Qdrant provides **comprehensive cluster monitoring**, including detailed telemet
 
 **Why it matters: Proactively address your infrastructure issues** before they impact AI workloads by tracking query performance and detecting anomalies.
 
-[https://www.youtube.com/watch?v=pKPP-tL5\_6w](https://www.youtube.com/watch?v=pKPP-tL5_6w) 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pKPP-tL5_6w?si=EmR0R3WrQQlpDVJC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
 
 [Read more about advanced monitoring](https://qdrant.tech/documentation/cloud/cluster-monitoring/).
 
