@@ -14,24 +14,24 @@ tags:
 - monitoring
 - observability
 ---
-# **Introducing Qdrant Cloud’s New Enterprise-Ready Vector Search**
+# Introducing Qdrant Cloud’s New Enterprise-Ready Vector Search
 
-We are excited to introduce Qdrant Cloud’s new suite of enterprise features. Using Cloud RBAC, Single Sign-On (SSO), Granular API Keys, and Advanced Monitoring, you now have the control and visibility they need to operate at scale.
+This is an update. We are excited to introduce Qdrant Cloud’s new suite of enterprise features. Using Cloud RBAC, Single Sign-On (SSO), Granular API Keys, and Advanced Monitoring, you now have the control and visibility they need to operate at scale.
 
-## **More Ways to Secure and Scale Your AI Workloads**
+## More Ways to Secure and Scale Your AI Workloads
 
 Enterprise AI applications demand more than just a powerful vector database—they require robust security, access control, and monitoring to ensure compliance, performance, and scalability. Qdrant’s new enterprise features address these needs, giving your team the tools to simplify authentication, enforce access policies, gain deep visibility into performance, and reduce operational overhead.
 
-### **New Cloud Features:**
+### New Cloud Features:
 
 * Enterprise-Grade Access Controls – Fine-tune permissions with **Cloud RBAC** to ensure the right users can manage clusters, billing, and deployments.  
 * Streamlined Authentication – Simplify access across teams with **Single Sign-On (SSO)** via Okta, Google Workspace, Azure Active Directory (Entra ID), and more.  
 * **Granular API Access** – Restrict API keys that can be scoped per cluster or collection, with expiration and revocation controls.  
 * **Advanced Monitoring** – Implement real-time observability with Prometheus/OpenMetrics integrations, helping teams track latency, resource usage, and query performance.
 
-## **How Each Feature Works**
+## How Each Feature Works
 
-### **Cloud RBAC (Role-Based Access Control)** 
+### Cloud RBAC (Role-Based Access Control)
 
 With Cloud RBAC, you can define granular permissions for managing cloud clusters, hybrid deployments, and billing. This ensures that your organization can prevent unauthorized access while enabling teams to collaborate securely.
 
@@ -39,7 +39,7 @@ With Cloud RBAC, you can define granular permissions for managing cloud clusters
 
 *Coming soon: [Sign up](https://share-eu1.hsforms.com/1H5vI2Xx6TbCjwfyARUwQaA2b46ng) to receive email notice when GA*
 
-**Single Sign-On (SSO)** 
+### Single Sign-On (SSO)
 
 By supporting Okta, Google Workspace, Azure Active Directory (Entra ID), LDAP, SAML, and more, Qdrant solves credential sprawl and unifies authentication.
 
@@ -61,9 +61,9 @@ The Qdrant Cloud API provides controls over **API key creation, management, and 
 
 **Why it matters: Reduce security risks** by limiting API key access **only to necessary workloads** while maintaining operational flexibility. Also, speed up setup, keep deployments across cloud consistent, and scale easily with **Terraform**. 
 
-[https://www.youtube.com/watch?v=3c-8tcBIVdQ](https://www.youtube.com/watch?v=3c-8tcBIVdQ)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3c-8tcBIVdQ?si=QxR_W7ax9WYtMg91" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-[Read more about Database API keys](https://qdrant.tech/documentation/cloud/authentication/#:~:text=Create%20Database%20API%20keys&text=Go%20to%20the%20Cloud%20Dashboard,days\)%20for%20your%20API%20key.).
+[Read more about Database API keys](https://qdrant.tech/documentation/cloud/authentication/).
 
 **Advanced Monitoring**
 
