@@ -6,7 +6,7 @@ avatar:
   src: /img/customers/jeremy-t-daly-singh.svg
   alt: Jeremy Teichmann Avatar
 logo: 
-  src: /img/brands/bosch-gray.svg
+  src: /img/brands/bosch.svg
   alt: Logo
 sitemapExclude: true
 ---
