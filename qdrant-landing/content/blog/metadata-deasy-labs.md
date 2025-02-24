@@ -7,7 +7,7 @@ description: Metadata plays a critical role in vector search accuracy, yet it’
 preview_image: /blog/metadata-deasy-labs/preview.jpg
 social_preview_image: /blog/metadata-deasy-labs/social_preview.png
 title_preview_image: /blog/metadata-deasy-labs/title.jpg # Optional image used for 
-date: 2025-02-21T18:29:51-03:00
+date: 2025-02-24T18:29:51-03:00
 author: Sabrina Aquino # Change this
 featured: false # if true, this post will be featured on the blog page
 tags: # Change this, related by tags posts will be shown on the blog page
