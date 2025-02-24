@@ -66,7 +66,7 @@ The Qdrant Cloud API provides controls over **API key creation, management, and 
 
 [Read more about Database API keys](https://qdrant.tech/documentation/cloud/authentication/).
 
-## Advanced Monitoring
+### Advanced Monitoring
 
 With Prometheus/OpenMetrics support, you can have real-time visibility into Qdrant’s performance. You can easily integrate with your preferred monitoring stacks like [Datadog](https://qdrant.tech/documentation/observability/datadog/), [Grafana](https://qdrant.tech/documentation/cloud/cluster-monitoring/#grafana-dashboard), and other [enterprise observability tools](https://qdrant.tech/documentation/observability/).
 
