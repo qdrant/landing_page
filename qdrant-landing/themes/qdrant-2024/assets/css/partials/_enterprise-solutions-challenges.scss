@@ -1,0 +1,97 @@
+@use '../helpers/functions' as *;
+
+.enterprise-solutions-challenges {
+  background-color: $neutral-94;
+
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+
+  &__title {
+    max-width: pxToRem(920);
+    margin: 0 auto $spacer * 4;
+    font-size: $spacer * 3;
+    line-height: pxToRem(57);
+    color: $neutral-20;
+  }
+
+  &__card {
+    &-info {
+      padding-bottom: $spacer * 2;
+    }
+
+    &-icon {
+      height: $spacer * 3.5;
+      width: $spacer * 3.5;
+      margin-bottom: $spacer;
+    }
+
+    &-title {
+      font-size: $spacer * 2;
+      line-height: $spacer * 2.5;
+      margin-bottom: $spacer;
+      color: $neutral-20;
+    }
+
+    &-description {
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
+      margin-bottom: 0;
+      color: $neutral-30;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      margin-bottom: $spacer * 7.5;
+      font-size: $spacer * 3.5;
+      line-height: pxToRem(67);
+      text-align: center;
+    }
+
+    &__card {
+      position: relative;
+
+      &:nth-of-type(2),
+      &:nth-of-type(4) {
+        & > div {
+          margin-left: auto;
+
+          &:before {
+            content: "";
+            display: block;
+            height: 100%;
+            width: pxToRem(1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: $neutral-80;
+          }
+        }
+      }
+
+      &:nth-of-type(1),
+      &:nth-of-type(2) {
+        & > div {
+          &:after {
+            content: "";
+            display: block;
+            width: calc(100% - pxToRem(32));
+            height: pxToRem(1);
+            position: absolute;
+            bottom: -$spacer;
+            left: $spacer;
+            background-color: $neutral-80;
+          }
+        }
+      }
+
+      &-info {
+        max-width: pxToRem(495);
+        padding-top: $spacer * 2;
+      }
+    }
+  }
+}
