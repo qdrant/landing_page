@@ -14,6 +14,7 @@ partition: qdrant
 |                 | 
 |--------------------------------------------|
 | [Bulk Upload Vectors to a Qdrant Collection](/documentation/database-tutorials/bulk-upload/)        | 
+| [Large Scale Search](/documentation/database-tutorials/large-scale-search/)        |
 | [Backup and Restore Qdrant Collections Using Snapshots](/documentation/database-tutorials/create-snapshot/) |
 | [Load and Search Hugging Face Datasets with Qdrant](/documentation/database-tutorials/huggingface-datasets/)                       | 
 | [Using Qdrant’s Async API for Efficient Python Applications](/documentation/database-tutorials/async-api/)            | 
