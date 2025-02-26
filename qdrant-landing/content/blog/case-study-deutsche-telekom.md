@@ -16,11 +16,13 @@ tags:
 
 **How Deutsche Telekom Built a Scalable, Multi-Agent Enterprise Platform Leveraging Qdrant—Powering Over 2 Million Conversations Across Europe**
 
-[Arun Joseph](https://www.linkedin.com/in/arun-joseph-ab47102a/), who leads engineering and architecture for [Deutsche Telekom’s AI Competence Center (AICC)](https://www.telekom.com/en/company/digital-responsibility/details/artificial-intelligence-at-deutsche-telekom-1055154), faced a critical challenge: how do you efficiently and scalably deploy AI-powered assistants across a vast enterprise ecosystem? The goal was to deploy GenAI for customer sales and service operations to resolve customer queries faster across the 10 countries where Deutsche Telekom operates in Europe . To achieve this, Telekom developed [*Frag Magenta OneBOT*](https://www.telekom.de/hilfe/frag-magenta?samChecked=true) *(Eng: Ask Magenta)*, a platform that includes chatbots and voice bots, built as a Platform as a Service (PaaS) to ensure scalability across Deutsche Telekom’s ten European subsidiaries.
+[Arun Joseph](https://www.linkedin.com/in/arun-joseph-ab47102a/), who leads engineering and architecture for [Deutsche Telekom’s AI Competence Center (AICC)](https://www.telekom.com/en/company/digital-responsibility/details/artificial-intelligence-at-deutsche-telekom-1055154), faced a critical challenge: how do you efficiently and scalably deploy AI-powered assistants across a vast enterprise ecosystem? The goal was to deploy GenAI for customer sales and service operations to resolve customer queries faster across the 10 countries where Deutsche Telekom operates in Europe. 
+
+To achieve this, Telekom developed [*Frag Magenta OneBOT*](https://www.telekom.de/hilfe/frag-magenta?samChecked=true) *(Eng: Ask Magenta)*, a platform that includes chatbots and voice bots, built as a Platform as a Service (PaaS) to ensure scalability across Deutsche Telekom’s ten European subsidiaries.
 
 “We knew from the start that we couldn’t just deploy RAG, tool calling, and workflows at scale without a platform-first approach,” Arun explains. “When I looked at the challenge, it looked a lot like a distributed systems and engineering challenge, not just an AI problem.”
 
-### **Key Requirements for Scaling Enterprise AI Agents**
+### Key Requirements for Scaling Enterprise AI Agents
 
 While flashy AI demos are easy to build, Deutsche Telekom’s team quickly discovered that scaling AI agents for enterprise use presents a far more complex challenge. "This isn’t just about AI," Arun explains. "It’s a distributed systems problem that requires rigorous engineering." Based on their experience deploying AI across multiple regions, they identified three key challenges in scaling AI agents in production:
 
@@ -32,7 +34,7 @@ While flashy AI demos are easy to build, Deutsche Telekom’s team quickly disco
 
 This insight led to the formation of [LMOS as an open-source Eclipse Foundation project](https://eclipse.dev/lmos/). Now, other companies can leverage LMOS for their own AI agent development.
 
-### **Why Deutsche Telekom Had to Rethink Its AI Stack from the Ground Up**
+### Why Deutsche Telekom Had to Rethink Its AI Stack from the Ground Up
 
 The team started its journey in June 2023 with a small-scale Generative AI initiative, focusing on chatbots with customized AI models. Initially, they used LangChain and a major vector database provider for vector search and retrieval , alongside a custom Dense Passage Retrieval (DPR) model fine-tuned for German language use cases.
 
@@ -47,7 +49,7 @@ Additionally, there was a strong need to leverage existing engineering assets, a
 
 Recognizing this, the team made a bold decision: to build a **fully-fledged PaaS platform for AI agents**, streamlining development and accelerating deployment of AI Agents. 
 
-### **LMOS: Deutsche Telekom’s Open-Source Multi-Agent AI PaaS for Enterprise AI**
+### LMOS: Deutsche Telekom’s Open-Source Multi-Agent AI PaaS for Enterprise AI
 
 Recognizing that an AI-driven platform required deep engineering rigor, the Telekom team designed **LMOS (Language Models Operating System)** — a multi-agent PaaS designed for high scalability and modular AI agent deployment. Key technical decisions included:
 
@@ -62,7 +64,7 @@ Recognizing that an AI-driven platform required deep engineering rigor, the Tele
 
 LMOS architecture powering AI agent collaboration and lifecycle management in a cloud-native environment.
 
-### **Why Qdrant? Finding the Right Vector Database for LMOS**
+### Why Qdrant? Finding the Right Vector Database for LMOS
 
 When Deutsche Telekom began searching for a scalable, high-performance vector database, they faced operational challenges with their initial choice, Milvus. Seeking a solution better suited to their PaaS-first approach and multitenancy requirements, they evaluated alternatives, and [Qdrant](https://qdrant.tech/qdrant-vector-database/) quickly stood out.
 
