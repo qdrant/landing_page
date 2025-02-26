@@ -3,7 +3,7 @@ title: How Deutsche Telekom Built a Scalable, Multi-Agent Enterprise Platform Le
 draft: false
 slug: case-study-deutsche-telekom
 short_description: How Deutsche Telekom built a fully-fledged PaaS platform for AI agents, streamlining development and accelerating deployment of AI Agents. 
-description: How Deutsche Telekom deployed GenAI for customer sales and service operations to resolve customer queries faster across the 10 countries.
+description: How Deutsche Telekom deployed GenAI to resolve customer queries faster.
 preview_image: /case-studies/bloop/social_preview.png
 date: 2025-02-26T09:48:00.000Z
 author: Manuel Meyer
@@ -15,6 +15,8 @@ tags:
 ---
 
 **How Deutsche Telekom Built a Scalable, Multi-Agent Enterprise Platform Leveraging Qdrant—Powering Over 2 Million Conversations Across Europe**
+
+**INSERT FIRST IMAGE HERE**
 
 [Arun Joseph](https://www.linkedin.com/in/arun-joseph-ab47102a/), who leads engineering and architecture for [Deutsche Telekom’s AI Competence Center (AICC)](https://www.telekom.com/en/company/digital-responsibility/details/artificial-intelligence-at-deutsche-telekom-1055154), faced a critical challenge: how do you efficiently and scalably deploy AI-powered assistants across a vast enterprise ecosystem? The goal was to deploy GenAI for customer sales and service operations to resolve customer queries faster across the 10 countries where Deutsche Telekom operates in Europe. 
 
@@ -60,7 +62,7 @@ Recognizing that an AI-driven platform required deep engineering rigor, the Tele
 
 “Our engineers already knew their APIs — billing, shopping, user profiles. Why should we introduce new abstractions that only complicate the stack?” Arun notes, “also, I envisioned us building the foundations of what I call a**gentic computing**, playing a role in shaping the application stacks of the future on top of LLMs.”
 
-**INSERT IMAGE HERE**
+**INSERT SECOND IMAGE HERE**
 
 LMOS architecture powering AI agent collaboration and lifecycle management in a cloud-native environment.
 
