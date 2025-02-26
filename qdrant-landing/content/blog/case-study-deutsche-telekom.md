@@ -5,7 +5,7 @@ slug: case-study-deutsche-telekom
 short_description: How Deutsche Telekom built a fully-fledged PaaS platform for AI agents, streamlining development and accelerating deployment of AI Agents. 
 description: How Deutsche Telekom deployed GenAI for customer sales and service operations to resolve customer queries faster across the 10 countries.
 preview_image: /case-studies/bloop/social_preview.png
-date: 2024-02-26T09:48:00.000Z
+date: 2025-02-26T09:48:00.000Z
 author: Manuel Meyer
 featured: false
 tags: 
