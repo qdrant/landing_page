@@ -85,7 +85,7 @@ Deutsche Telekom’s engineers also cited several standout features that made Qd
 
 As part of their evaluation, Deutsche Telekom engineers compared multiple solutions, weighing operational simplicity and reliability. One engineer summarized their findings: “Qdrant has way fewer components. Milvus required Kafka, Zookeeper, and only had a hot standby for its index and query nodes. If you rescale Milvus, you get downtime. Qdrant stays up.” 
 
-### **Scaling AI at Deutsche Telekom & The Future of LMOS**
+### Scaling AI at Deutsche Telekom & The Future of LMOS
 
 Today, LMOS with Qdrant serves as the backbone for Deutsche Telekom’s AI services, processing over 2 million conversations across three countries. The time required to develop a new agent has dropped from 15 days to just 2\.
 
