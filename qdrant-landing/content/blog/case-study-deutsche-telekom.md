@@ -4,8 +4,8 @@ draft: false
 slug: case-study-deutsche-telekom
 short_description: How Deutsche Telekom built a fully-fledged PaaS platform for AI agents, streamlining development and accelerating deployment of AI Agents. 
 description: How Deutsche Telekom deployed GenAI to resolve customer queries faster.
-preview_image: /blog/case-study-deutsche-telekom/social_preview.png
-social_preview_image: /blog/case-study-deutsche-telekom/social_preview.png
+preview_image: /blog/case-study-deutsche-telekom/social_preview_2.jpg
+social_preview_image: /blog/case-study-deutsche-telekom/social_preview_2.jpg
 date: 2025-02-26T09:48:00.000Z
 author: Manuel Meyer
 featured: false
