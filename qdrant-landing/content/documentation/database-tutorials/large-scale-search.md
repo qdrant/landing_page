@@ -310,7 +310,7 @@ storage:
 
 In Qdrant Managed cloud Async IO can be enabled via `Advanced optimizations` section in cluster `Configuration` tab.
 
-{{< figure src="/documentation/tutorials/large-scale-search/async_io.png" caption="Async IO configuration in Cloud" >}}
+{{< figure src="/documentation/tutorials/large-scale-search/async_io.png" caption="Async IO configuration in Cloud" width="80%" >}}
 
 
 ## Running search requests
@@ -333,6 +333,8 @@ In our request we achieved the following results:
 | 5000          | 81.0%        | 2.2s             |
 
 Additional experiments with `m=16` demonstrated that we can achieve `85%` precision with `rescore_limit=1000`, but they would require slightly more memory.
+
+{{< figure src="/documentation/tutorials/large-scale-search/precision.png" caption="Log of search evaluation" width="50%">}}
 
 
 ## Conclusion
