@@ -332,7 +332,7 @@ In our request we achieved the following results:
 | 1000          | 75.2%        | 0.7s             |
 | 5000          | 81.0%        | 2.2s             |
 
-Additional experiments with `m=16` demonstrated that we can achieve `XX.0%` precision with `rescore_limit=1000`, but they would require slightly more memory.
+Additional experiments with `m=16` demonstrated that we can achieve `85%` precision with `rescore_limit=1000`, but they would require slightly more memory.
 
 
 ## Conclusion
