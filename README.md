@@ -271,15 +271,83 @@ In the blog post file, you'll see:
 - If a post has `featured: true` property in the front matter this post will appear in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.
   - If there are more than 4 `featured: true` posts (where `draft: false`), the oldest post disappears from /blog.
 
-## Marketing Landing Pages
+## Shortcodes
 
-### Build styles
+Hugo lets you use built-in and custom shortcodes to simplify the creation of content. Meanwhile, **keep in mind that shortcodes make the content less portable**. If you decide to move the content to another platform, you'll need to rewrite the shortcodes. **Avoid to overuse them.**
 
-From the root of the project:
+You can use shortcodes in markdown files by enclosing the shortcode in double curly braces. For example:
 
-```bash
-sass --watch --style=compressed ./qdrant-landing/themes/qdrant/static/css/pages/marketing-landing.scss ./qdrant-landing/themes/qdrant/static/css/marketing-landing.css
+```markdown
+{{< shortcode-name param1="value1" param2="value2" >}}
 ```
+
+### Built-in shortcodes
+
+List of built-in shortcodes can be found in the [Hugo documentation](https://gohugo.io/content-management/shortcodes/).
+
+If you use a shortcode in your markdown file, but it fails to render, check if the shortcode is available with the Hugo version the site is built with.
+
+### Custom shortcodes
+
+You can find the list of available shortcodes in the `qdrant-landing/themes/qdrant/layouts/shortcodes` directory.
+
+#### Card
+- Card - variant 1
+
+  ![](readme-assets/shortcode-card-1.png)
+
+Example:
+```
+{{< card  
+title="Qdrant Quickstart"  
+link="/documentation"  
+type="Info"  // optional
+icon="/icons/outline/documentation-blue.svg" 
+col="6" >}}
+  This guide will help you get started with Qdrant locally.  
+{{< /card >}}
+```
+
+- Card - variant 2
+
+  ![](readme-assets/shortcode-card-2.png)
+
+Example:
+```
+{{< card  
+title="Qdrant Quickstart"  
+link="/documentation"  
+image="/img/brand-resources-hero.svg"  
+col="6" >}}  
+  This guide will help you get started with Qdrant locally.  
+{{< /card >}}
+```
+
+Options for card shortcode:
+- `title` - required
+- `link` -required
+- `image` - optional, default null
+- `type` - optional, default "Document"
+- `icon` - optional, default is an icon of documents
+- `col` - optional, default 12
+
+Card variant 1 is the default; you can optionally change the icon and type, if you use `image` option, you will get variant 2, type and icon will be ignored even if given.
+
+#### Banner
+
+![](readme-assets/shortcode-banner.png)
+
+Example:
+```
+{{< banner link="/documentation" >}}  
+  This guide will help you get started with Qdrant locally.  
+{{< /banner >}}
+```
+
+Options for banner shortcode:
+- `link` - required
+- `cta` - optional, default "Get Started"
+- `image` - optional, default "/img/rocket.svg"
 
 ## SEO
 
