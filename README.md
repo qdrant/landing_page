@@ -298,7 +298,7 @@ You can find the list of available shortcodes in the `qdrant-landing/themes/qdra
 
 Example:
 ```
-{{< card  
+{{< card
 title="Qdrant Quickstart"  
 link="/documentation"  
 type="Info"  // optional
@@ -314,11 +314,11 @@ col="6" >}}
 
 Example:
 ```
-{{< card  
+{{< card
 title="Qdrant Quickstart"  
 link="/documentation"  
 image="/img/brand-resources-hero.svg"  
-col="6" >}}  
+col="6" >}}
   This guide will help you get started with Qdrant locally.  
 {{< /card >}}
 ```
@@ -332,6 +332,32 @@ Options for card shortcode:
 - `col` - optional, default 12
 
 Card variant 1 is the default; you can optionally change the icon and type, if you use `image` option, you will get variant 2, type and icon will be ignored even if given.
+
+#### Grid Row
+
+Cards should be enclosed in a row shortcode if you want to have more than one card in a row.
+
+Example:
+```
+{{< grid-row >}}
+  {{< card
+    title="Title one"  
+    link="/some-link"  
+    image="some-image.svg"  
+    col="6" >}}
+      This is a first card.  
+  {{< /card >}}
+  {{< card  
+    title="Title two"  
+    link="/another-link"  
+    image="another-image.svg"  
+    col="6" >}}
+      This is a second card.
+  {{< /card >}}
+{{< /grid-row >}}
+```
+
+Each card will take up half of the row in the example above.
 
 #### Banner
 
