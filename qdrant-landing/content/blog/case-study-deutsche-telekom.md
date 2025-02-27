@@ -61,7 +61,7 @@ Recognizing that an AI-driven platform required deep engineering rigor, the Tele
 * **Providing a Heroku-like experience** where engineers don't need to worry about classifiers, agent lifecycles, deployment models, monitoring, and horizontal scaling.  
 * **Enterprise Grade while being flexible:** LMOS was built with enterprise-grade scalability, versioning, and multi-tenancy in mind, while also offering the flexibility to integrate agents from other frameworks — not just JVM-based solutions — ensuring interoperability across diverse AI ecosystems.
 
-"Our engineers already knew their APIs — billing, shopping, user profiles. Why should we introduce new abstractions that only complicate the stack?" Arun notes, "also, I envisioned us building the foundations of what I call a**gentic computing**, playing a role in shaping the application stacks of the future on top of LLMs."
+"Our engineers already knew their APIs — billing, shopping, user profiles. Why should we introduce new abstractions that only complicate the stack?" Arun notes, "also, I envisioned us building the foundations of what I call **agentic computing**, playing a role in shaping the application stacks of the future on top of LLMs."
 
 ![LMOS architecture diagram showing AI agent collaboration and lifecycle management](/blog/case-study-deutsche-telekom/lmos-architecture.png)
 
@@ -92,4 +92,8 @@ Today, LMOS with Qdrant serves as the backbone for Deutsche Telekom's AI service
 
 With [LMOS now part of the Eclipse Foundation](https://projects.eclipse.org/projects/technology.lmos), Deutsche Telekom is opening up its platform to the broader AI engineering community. Arun sees a future ecosystem of like-minded developers coalescing around LMOS, Qdrant, and other AI infrastructure components.
 
-"For enterprises looking to build their own AI agent platforms, the future isn't just about AI models — it's about scalable, open, and opinionated infrastructure. And that's exactly what we've built," says Arun Joseph. You can learn more about Deutsche Telekom's AI Agents and Arun's vision for LMOS in his [talk](https://www.infoq.com/presentations/ai-agents-platform%20) at the InfoQ Dev Summit Boston.
+"For enterprises looking to build their own AI agent platforms, the future isn't just about AI models — it's about scalable, open, and opinionated infrastructure. And that's exactly what we've built," says Arun Joseph. 
+
+You can learn more about Deutsche Telekom's AI Agents and Arun's vision for LMOS in his [talk](https://www.infoq.com/presentations/ai-agents-platform%20) at the InfoQ Dev Summit Boston.
+
+![Qdrant & Deutsche Telekom](/blog/case-study-deutsche-telekom/Deutsche-Telekom-Case-Study-Finisher.jpg)
