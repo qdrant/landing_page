@@ -1,0 +1,18 @@
+{{ with (.Site.GetPage "enterprise-solutions/enterprise-solutions-challenges") }}
+  <section class="enterprise-solutions-challenges">
+    <div class="container">
+      <h2 class="enterprise-solutions-challenges__title">{{ .Params.title }}</h2>
+      <div class="enterprise-solutions-challenges__cards row g-4">
+        {{ range $index, $element := .Params.cards }}
+          <div class="enterprise-solutions-challenges__card col-12 col-xl-6">
+            <div class="enterprise-solutions-challenges__card-info">
+              <img class="enterprise-solutions-challenges__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h5 class="enterprise-solutions-challenges__card-title">{{ .title }}</h5>
+              <p class="enterprise-solutions-challenges__card-description">{{ .description | safeHTML }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
