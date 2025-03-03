@@ -16,9 +16,6 @@ tags:
 - observability
 ---
 
-# **Introducing Qdrant Cloud’s New Enterprise-Ready Vector Search**
-
-
 At Qdrant, we enable developers to power AI workloads - not only securely, but at any scale. That’s why we are excited to introduce Qdrant Cloud’s new suite of enterprise-grade features. With **our Cloud API, Cloud RBAC**, **Single Sign-On (SSO)**, granular **Database API Keys**, and **Advanced Monitoring & Observability**, you now have the control and visibility needed to operate at scale.
 
 ## Securely Scale Your AI Workloads
