@@ -2,10 +2,10 @@
 draft: false
 title: "Introducing Qdrant Cloud’s New Enterprise-Ready Vector Search"
 short_description: "Enterprise-grade features for secure vector search at scale."
-description: "Discover Qdrant Cloud's enterprise features including RBAC, SSO, granular API keys, and advanced monitoring for secure deployments."
-preview_image: /blog/enterprise-vector-search/social_preview.jpg
-social_preview_image: /blog/enterprise-vector-search/social_preview.jpg
-date: 2025-02-25T00:00:00Z
+description: "Discover Qdrant Cloud's enterprise features: RBAC, SSO, granular API keys, advanced monitoring/observability."
+preview_image: /blog/enterprise-vector-search/Social_preview_V2.jpg
+social_preview_image: /blog/enterprise-vector-search/Social_preview_V2.jpg
+date: 2025-03-04T00:00:00Z
 author: Daniel Azoulai
 featured: false
 tags:
@@ -15,73 +15,88 @@ tags:
 - RBAC
 - observability
 ---
-# Introducing Qdrant Cloud’s New Enterprise-Ready Vector Search
 
-We are excited to introduce Qdrant Cloud’s new suite of enterprise features. Using Cloud RBAC, Single Sign-On (SSO), Granular API Keys, and Advanced Monitoring, you now have the control and visibility they need to operate at scale.
+# **Introducing Qdrant Cloud’s New Enterprise-Ready Vector Search**
 
-## More Ways to Secure and Scale Your AI Workloads
 
-Enterprise AI applications demand more than just a powerful vector database—they require robust security, access control, and monitoring to ensure compliance, performance, and scalability. Qdrant’s new enterprise features address these needs, giving your team the tools to simplify authentication, enforce access policies, gain deep visibility into performance, and reduce operational overhead.
+At Qdrant, we enable developers to power AI workloads - not only securely, but at any scale. That’s why we are excited to introduce Qdrant Cloud’s new suite of enterprise-grade features. With **our Cloud API, Cloud RBAC**, **Single Sign-On (SSO)**, granular **Database API Keys**, and **Advanced Monitoring & Observability**, you now have the control and visibility needed to operate at scale.
 
-## New Cloud Features
+## Securely Scale Your AI Workloads
 
-* Enterprise-Grade Access Controls – Fine-tune permissions with **Cloud RBAC** to ensure the right users can manage clusters, billing, and deployments.  
-* Streamlined Authentication – Simplify access across teams with **Single Sign-On (SSO)** via Okta, Google Workspace, Azure Active Directory (Entra ID), and more.  
-* **Granular API Access** – Restrict API keys that can be scoped per cluster or collection, with expiration and revocation controls.  
-* **Advanced Monitoring** – Implement real-time observability with Prometheus/OpenMetrics integrations, helping teams track latency, resource usage, and query performance.
+Your enterprise-grade AI applications demand more than just a powerful vector database—they need to meet compliance, performance, and scalability requirements. To do that, you need simplified management, secure access & authentication, and real-time monitoring & observability. Now, Qdrant’s new enterprise-grade features address these needs, giving your team the tools to reduce operational overhead, simplify authentication, enforce access policies, and have deep visibility into performance.
 
-## How Each Feature Works
+## Our New Qdrant Cloud Capabilities:
 
-### Cloud RBAC (Role-Based Access Control)
+* **Cloud API for Simplified Management →** Automate and scale with **API-driven control** and **Terraform support**. 
+* **Secure Access & Authentication** → Control who gets in and what they can do with **Cloud RBAC**, **SSO**, and granular **Database API Keys**. 
+* **Advanced Monitoring & Observability** → Stay ahead of issues with **Prometheus/OpenMetrics**, **Datadog**, **Grafana**, and other third-party integrations.
 
-With Cloud RBAC, you can define granular permissions for managing cloud clusters, hybrid deployments, and billing. This ensures that your organization can prevent unauthorized access while enabling teams to collaborate securely.
+## Ok, now for the good part…
 
-**Why it matters:** RBAC enables your organization to implement zero-trust security models and streamlined compliance management as teams scale by enabling fine-grained control over access.
+### Cloud API for Simplified Management
 
-*Coming soon: [Sign up](https://share-eu1.hsforms.com/1H5vI2Xx6TbCjwfyARUwQaA2b46ng) to receive email notice when GA*
+Skip the UI—manage Qdrant entirely through code. The [**Qdrant Cloud API**](https://qdrant.tech/documentation/qdrant-cloud-api/?) lets you automate cluster creation, updates, and scaling, ensuring repeatable, version-controlled deployments. You can also programmatically generate and revoke API keys, update configurations, and adapt infrastructure as workloads change.
 
-### Single Sign-On (SSO)
+You can manage the Qdrant Cloud lifecycle with Qdrant’s [**Terraform Provider**](https://qdrant.tech/documentation/cloud-tools/terraform/). With this support, you can define and automate cluster provisioning using Infrastructure-as-Code (IaC) best practices.
 
-By supporting Okta, Google Workspace, Azure Active Directory (Entra ID), LDAP, SAML, and more, Qdrant solves credential sprawl and unifies authentication.
+**Why it matters:** By automating cluster management and scaling, Qdrant helps you focus on building AI-powered applications, not maintaining infrastructure.
 
-**SSO** is integrated into the [Qdrant Cloud Account Setup](https://cloud.qdrant.io/signup), allowing you to authenticate users across multiple services while maintaining strict security policies. Your users can sign in via approved authentication providers, ensuring compliance and ease of access management.
+### Secure Access & Authentication \- Control the Who and What
 
-**Why it matters:** SSO **simplifies the login experience** for growing teams while ensuring security policies are enforced consistently.
+#### Cloud RBAC (Role-Based Access Control) \- The Who
 
-*Only available for [Premium Tier](https://qdrant.tech/documentation/cloud/premium/) customers. [Learn more about SSO](https://qdrant.tech/documentation/cloud/qdrant-cloud-setup/#enterprise-single-sign-on-sso).*
+With **Cloud RBAC**, you can define precise **role-based permissions** for team members managing clusters, billing, and hybrid cloud deployments in Qdrant Cloud. Instead of granting broad, unrestricted access, teams can **assign permissions based on roles**, ensuring tighter security and compliance.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/EtUcA-MCZJM?si=RhI1zEP59ssoRojA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+*Coming soon: [Sign up](https://share-eu1.hsforms.com/1H5vI2Xx6TbCjwfyARUwQaA2b46ng) to receive email notice when Cloud RBAC becomes generally available*
 
-### Database API Keys 
+#### Granular Database API Keys \- The What
 
-You can now **control API access** at a highly detailed level— using specific API keys, enforcing expiration policies, and revoking credentials.
+**Database API Keys** let applications and services **directly interact with data inside Qdrant**. You can **grant API access at the cluster, collection, or even vector level**, specifying **read-only or read/write permissions** for each key.
 
-API keys with granular access control use JWTs (JSON Web Tokens), which start with 'eyJhb' and allow fine-tuned permissions.
+Unlike **Cloud RBAC**, which governs **team permissions in the [Cloud Console](https://cloud.qdrant.io/login)**, **Database API Keys** control how external applications access stored data. You can define **fine-grained API key permissions**, apply **Time-to-Live (TTL) expiration policies**, and revoke keys instantly—without requiring a database restart (**only available in Qdrant Cloud**).
 
-The Qdrant Cloud API provides controls over **API key creation, management, and deletion.** You can generate API keys directly in the [Qdrant Cloud Console](https://login.cloud.qdrant.io/u/signup/identifier?state=hKFo2SAxeFNkY0JxeTMwUmpsRk15SFRUR2dFbmFYcjJUdnpHc6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIFpOOTQ4S21uUEVlM3o1WUx1QnMzSUlrMmlIR1NtV1JCo2NpZNkgckkxd2NPUEhPTWRlSHVUeDR4MWtGMEtGZFE3d25lemc), define their scope (cluster-wide, per collection and/or by payload filters), and automate workflows. And with the [Qdrant Terraform Provider](https://registry.terraform.io/providers/qdrant/qdrant-cloud/latest), you can define and automate cluster provisioning using Infrastructure-as-Code (IaC) best practices.
+To further refine access, **payload-based filters** allow you to restrict API keys to **only retrieve vectors that match specific metadata conditions**. Before finalizing an API key, you can **preview its access settings** to ensure it behaves as expected—reducing misconfigurations and improving security.
 
-**Why it matters: Reduce security risks** by limiting API key access **only to necessary workloads** while maintaining operational flexibility. Also, speed up setup, keep deployments across cloud consistent, and scale easily with **Terraform**. 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3c-8tcBIVdQ?si=OoyobgPTU-DHIhee" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/3c-8tcBIVdQ?si=QxR_W7ax9WYtMg91" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+#### [Read more about Database API keys](https://qdrant.tech/documentation/cloud/authentication/).
 
-[Read more about Database API keys](https://qdrant.tech/documentation/cloud/authentication/).
+#### Single Sign-On (SSO) for Simplified Authentication
 
-### Advanced Monitoring
+**SSO** eliminates password sprawl by allowing users to log in through **Okta, Google Workspace, Azure AD (Entra ID), SAML, PingFederate, and more**—enforcing authentication policies while reducing IT overhead. Instead of managing separate credentials, users **simply enter their company email** and are redirected to their organization’s authentication system.
 
-With Prometheus/OpenMetrics support, you can have real-time visibility into Qdrant’s performance. You can easily integrate with your preferred monitoring stacks like [Datadog](https://qdrant.tech/documentation/observability/datadog/), [Grafana](https://qdrant.tech/documentation/cloud/cluster-monitoring/#grafana-dashboard), and other [enterprise observability tools](https://qdrant.tech/documentation/observability/).
+**SSO setup is fully supported**—to enable it for your company, **contact Qdrant support**, and our team will guide you through the setup process. SSO also works with **multi-factor authentication (MFA)** for additional security.
 
-Qdrant provides **comprehensive cluster monitoring**, including detailed telemetry and logs, accessible through the [Qdrant Cloud Console](https://login.cloud.qdrant.io/u/signup/identifier?state=hKFo2SAxeFNkY0JxeTMwUmpsRk15SFRUR2dFbmFYcjJUdnpHc6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIFpOOTQ4S21uUEVlM3o1WUx1QnMzSUlrMmlIR1NtV1JCo2NpZNkgckkxd2NPUEhPTWRlSHVUeDR4MWtGMEtGZFE3d25lemc) (see the **Metrics** and **Requests** sections of the **Cluster** **Details** page). You can track database health, set up automated alerts for memory and storage thresholds, and integrate metrics into their existing monitoring infrastructure.
+*SSO is only available for [Premium Tier](https://qdrant.tech/documentation/cloud/premium/) customers. [Learn more about SSO](https://qdrant.tech/documentation/cloud/qdrant-cloud-setup/#enterprise-single-sign-on-sso).*
 
-**Why it matters: Proactively address your infrastructure issues** before they impact AI workloads by tracking query performance and detecting anomalies.
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EtUcA-MCZJM?si=-u31oU5R0FkVrspN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/pKPP-tL5_6w?si=EmR0R3WrQQlpDVJC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+**Why it matters:** By integrating **Cloud RBAC**, granular **Database API Keys** and **SSO**, Qdrant Cloud helps your team have the right access at the right time—without unnecessary friction.
+
+### Advanced Monitoring and Observability for Full Performance Insights
+
+Qdrant Cloud provides **real-time visibility into database performance** with built-in **Prometheus/OpenMetrics support**. You can monitor **CPU usage, memory usage, disk space, request volumes, and query latencies** directly in the **Qdrant Cloud Console**, giving you a **live overview of system health**.
+
+For **deeper analytics**, Qdrant lets you **integrate with your existing monitoring stack**, including [Datadog](https://qdrant.tech/documentation/observability/datadog/)**,** [Grafana](https://qdrant.tech/documentation/cloud/cluster-monitoring/#grafana-dashboard)**,** and [other enterprise observability tools](https://qdrant.tech/documentation/observability/). Every Qdrant Cloud cluster includes a **metrics endpoint**, accessible via a **read-only API key**, providing **Prometheus and OpenTelemetry compatible data** for easy ingestion into Grafana Cloud or any other supported monitoring system.
+
+Qdrant also provides a **ready-to-use [Grafana dashboard](https://www.google.com/url?q=https://github.com/qdrant/qdrant-cloud-grafana-dashboard&sa=D&source=docs&ust=1740526418360488&usg=AOvVaw05rFuBRxp_H7lC7ZiOClxE)** to help you **visualize key database metrics**, including historical performance data, cluster uptime, request latencies, backup schedules, and network I/O.
+
+You can set up **customizable alerts** in [Grafana](https://qdrant.tech/documentation/cloud/cluster-monitoring/#grafana-dashboard), Prometheus, or [Datadog](https://qdrant.tech/documentation/observability/datadog/) to **track key performance indicators** such as **memory**, **storage**, and **query** **latency** thresholds.
+
+For **historical performance tracking**, third-party integrations allow you to **analyze trends over time**, providing deeper insights into system performance and long-term optimization strategies.
+
+**Why it matters:** With **detailed telemetry, automated alerts, and deep observability integrations**, you can troubleshoot issues faster, optimize database performance, and scale AI applications.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pKPP-tL5_6w?si=ASKiG1P61m2YYk9J" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 [Read more about advanced monitoring](https://qdrant.tech/documentation/cloud/cluster-monitoring/).
 
-## A Fully Integrated Enterprise Cloud Solution
+## Simply put, Qdrant is Enterprise-Ready
 
-By combining Qdrant's high-performance vector search engine for billion-scale use cases with Qdrant Cloud's enterprise-grade security, observability, and automation features, your organization can efficiently manage their vector search infrastructure with enhanced control and compliance. That’s why Qdrant is the enterprise vector database of choice—no matter the deployment (cloud, hybrid cloud, or private), and no matter the scale. 
+Our high-performance vector search engine already handles billion-scale use cases. Through Qdrant Cloud, you get our Cloud API, authentication & access tools, and monitoring & observability integrations.
 
-## Come Build with Us 
+With this combination, you can simplify infrastructure management, implement secure access & authentication, and stay ahead of performance challenges. That’s why Qdrant is the enterprise vector database of choice—**no matter the scale**.
+
+## Come Build with Us\!
 
 [Contact Sales](https://qdrant.tech/contact-us/) to enable enterprise features for your team, or [start prototyping with a free Qdrant cluster](https://login.cloud.qdrant.io/u/signup/identifier?state=hKFo2SAxeFNkY0JxeTMwUmpsRk15SFRUR2dFbmFYcjJUdnpHc6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIFpOOTQ4S21uUEVlM3o1WUx1QnMzSUlrMmlIR1NtV1JCo2NpZNkgckkxd2NPUEhPTWRlSHVUeDR4MWtGMEtGZFE3d25lemc).
