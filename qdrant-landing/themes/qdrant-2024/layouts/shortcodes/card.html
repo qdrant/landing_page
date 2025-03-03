@@ -1,0 +1,20 @@
+{{ $col := .Get "col" }}
+{{ $tagColor := .Get "tagColor" }}
+{{ $type := default "Document" (.Get "type") }}
+{{ $icon := default "/icons/outline/documentation-blue.svg" (.Get "icon") }}
+{{ $image := .Get "image" }}
+<div class="col-{{ if $col }}{{ $col }}{{ else }}12{{ end }} mb-4">
+  <a class="docs-card" href="{{ .Get "link" }}">
+    {{ if $image }}
+      <img class="docs-card__image" src="{{ $image }}" alt="{{ .Get "title" }}" />
+    {{ else }}
+      <div class="docs-card__tag{{ if $tagColor }}docs-card__tag_{{- $tagColor -}}{{ end }}">
+        <img class="docs-card__icon" src="{{ $icon }}" alt="icon" />
+        <span>{{ $type }}</span>
+      </div>
+    {{ end }}
+    <h3 class="docs-card__title">{{ .Get "title" }}</h3>
+    <p class="docs-card__description">{{ .Inner | .Page.RenderString }}</p>
+    <span class="docs-card__link link link_sm">Read More</span>
+  </a>
+</div>
