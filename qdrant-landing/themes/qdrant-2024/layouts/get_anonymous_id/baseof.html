@@ -23,21 +23,16 @@
         }}();
       }
 
-      const msgEvent = {
-        origin: isProduction ? 'https://cloud.qdrant.io' : 'https://localhost:3000',
-        data: 'getAnonymousId'
-      }
-
       window.onload = function() {
         window.addEventListener('message', (cloudUIEvent) => {
           analytics.ready(() => {
-            if (cloudUIEvent.origin === msgEvent.origin && cloudUIEvent.data === msgEvent.data) {
-              const anonymousId = analytics.user().anonymousId();
+            const isQdrantOrigin = ['https://cloud.qdrant.io', 'https://staging-cloud.qdrant.io'].includes(cloudUIEvent.origin);
+            const isLocal = !isProduction && cloudUIEvent.origin === 'https://localhost:3000';
+            const originPass = isQdrantOrigin || isLocal;
 
-              cloudUIEvent.source.postMessage({
-                anonymousId,
-                consent: {  analytics: true }
-              }, cloudUIEvent.origin);
+            if (originPass && cloudUIEvent.data === 'getAnonymousId') {
+              const anonymousId = analytics.user().anonymousId();
+              cloudUIEvent.source.postMessage({ anonymousId }, cloudUIEvent.origin);
             }
           });
         });
@@ -46,9 +41,9 @@
   </head>
   <body></body>
   
-<!--Cookies banner-->
-{{ $cookit := resources.Get "/js/cookit.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-<script src="{{ $cookit.RelPermalink }}"></script>
-{{ with (.Site.GetPage "/headless/cookies") }}
-{{ end }}
+  <!--Cookies banner-->
+  {{ $cookit := resources.Get "/js/cookit.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $cookit.RelPermalink }}"></script>
+  {{ with (.Site.GetPage "/headless/cookies") }}
+  {{ end }}
 </html>
