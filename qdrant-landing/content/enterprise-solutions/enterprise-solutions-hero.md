@@ -1,6 +1,6 @@
 ---
 title: Enterprise-Grade Vector Search 
-description: "The premier vector database for enterprises: flexible deployment options for low latency and state-of-the-art privacy and security features. High performance at billion vector scale."
+description: "Qdrant’s enterprise-grade features give you deployment flexibility (Managed, Hybrid or Private Cloud), streamline authentication (SSO), improve access control (RBAC), enhance monitoring, and simplify infrastructure management. All for billion+ vector scale."
 startFree:
   text: Get Started
   url: https://cloud.qdrant.io/signup
@@ -9,7 +9,6 @@ contactUs:
   url: /contact-sales/
 image:
   src: /img/enterprise-solutions-hero.png
-  srcMobile: /img/mobile/enterprise-solutions-hero-mobile.png
   alt: Enterprise-solutions
 sitemapExclude: true
 ---

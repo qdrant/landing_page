@@ -1,0 +1,29 @@
+@use '../helpers/functions' as *;
+
+.enterprise-solutions-testimonials {
+  .testimonial-light {
+    &:first-of-type {
+      padding-top: $spacer * 5;
+      padding-bottom: 0;
+    }
+
+    &:last-of-type {
+      padding-top: $spacer * 2.5;
+      padding-bottom: $spacer * 5;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    .testimonial-light {
+      &:first-of-type {
+        padding-top: $spacer * 7.5;
+      }
+
+      &:last-of-type {
+        div.row {
+          flex-direction: row-reverse;
+        }
+      }
+    }
+  }
+}
