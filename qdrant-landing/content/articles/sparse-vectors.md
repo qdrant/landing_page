@@ -46,7 +46,7 @@ BM25 relies solely on the frequency of words in a document and does not attempt 
 Sparse vectors harness the power of neural networks to surmount these limitations while retaining the ability to query exact words and phrases.
 They excel in handling large text data, making them crucial in modern data processing a and marking an advancement over traditional methods such as BM25.
 
-# Understanding sparse vectors
+## Understanding sparse vectors
 
 Sparse Vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, complimenting the meaning-rich embedding or dense vectors. 
 
