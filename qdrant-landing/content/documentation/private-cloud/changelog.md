@@ -7,6 +7,7 @@ weight: 5
 
 ## 1.5.1 (2025-03-04)
 
+* Correctly scale down clusters that have TLS with self-signed certificates configured
 * Various performance improvements and stability fixes
 
 ## 1.5.0 (2025-02-21)
