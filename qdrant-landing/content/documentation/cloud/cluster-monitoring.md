@@ -43,6 +43,8 @@ If you scrape your Qdrant Cluster system metrics into your own monitoring system
 
 ![Grafa dashboard](/documentation/cloud/cloud-grafana-dashboard.png)
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pKPP-tL5_6w?si=ASKiG1P61m2YYk9J" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ### Cluster system metrics `/sys_metrics`
 
 In Qdrant Cloud, each Qdrant cluster will expose the following metrics. This endpoint is not available when running Qdrant open-source.
