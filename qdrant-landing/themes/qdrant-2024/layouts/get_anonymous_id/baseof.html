@@ -40,10 +40,4 @@
     </script>
   </head>
   <body></body>
-  
-  <!--Cookies banner-->
-  {{ $cookit := resources.Get "/js/cookit.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-  <script src="{{ $cookit.RelPermalink }}"></script>
-  {{ with (.Site.GetPage "/headless/cookies") }}
-  {{ end }}
 </html>
