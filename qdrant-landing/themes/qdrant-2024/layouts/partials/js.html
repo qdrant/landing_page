@@ -175,12 +175,10 @@
         const hiddenCurrentUrl = formEl.querySelector('[name="last_form_fill_url"]');
         if (hiddenCurrentUrl) {
           hiddenCurrentUrl.value = window.location.href;
-          console.log("Captured URL:", hiddenCurrentUrl.value);
         }
         const hiddenReferrer = formEl.querySelector('[name="referrer_url"]');
         if (hiddenReferrer) {
           hiddenReferrer.value = document.referrer;
-          console.log("Captured referrer:", hiddenReferrer.value);
         }
       }
     }
