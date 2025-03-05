@@ -1,9 +1,9 @@
 ---
-title: How Deutsche Telekom Built a Scalable, Multi-Agent Enterprise Platform Leveraging Qdrant—Powering Over 2 Million Conversations Across Europe
+title: How Deutsche Telekom Built a Scalable, Multi-Agent Enterprise Platform Leveraging Qdrant—Powering Over 2 Million Conversations
 draft: false
 slug: case-study-deutsche-telekom
 short_description: How Deutsche Telekom built a fully-fledged PaaS platform for AI agents, streamlining development and accelerating deployment of AI Agents. 
-description: How Deutsche Telekom deployed GenAI to resolve customer queries faster.
+description: Learn about Deutsche Telekom's requirements for scaling enterprise AI agents, key AI stack considerations, and how the team built a Platform as a Service (PaaS) - LMOS (Language Models Operating System) — a multi-agent PaaS designed for high scalability and modular AI agent deployment.
 preview_image: /blog/case-study-deutsche-telekom/social_preview_2.jpg
 social_preview_image: /blog/case-study-deutsche-telekom/social_preview_2.jpg
 date: 2025-02-26T09:48:00.000Z
@@ -96,4 +96,9 @@ With [LMOS now part of the Eclipse Foundation](https://projects.eclipse.org/proj
 
 You can learn more about Deutsche Telekom's AI Agents and Arun's vision for LMOS in his [talk](https://www.infoq.com/presentations/ai-agents-platform%20) at the InfoQ Dev Summit Boston.
 
-![Qdrant & Deutsche Telekom](/blog/case-study-deutsche-telekom/Deutsche-Telekom-Case-Study-Finisher.jpg)
+### Join us March 27th for a livestream with Arun 
+
+In this Vector Space talk, Thierry from Qdrant and Arun from Deutsche Telekom talk about the key requirements for scaling enterprise AI agents, key AI stack considerations, and how the team built a Platform as a Service (PaaS) - LMOS (Language Models Operating System) — a multi-agent PaaS designed for high scalability and modular AI agent deployment.
+
+[Register now](https://try.qdrant.tech/deutsche-telekom-talk).
+
