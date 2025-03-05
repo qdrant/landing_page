@@ -76,7 +76,7 @@ Qdrant Cloud provides **real-time visibility into database performance** with bu
 
 For **deeper analytics**, Qdrant lets you **integrate with your existing monitoring stack**, including [Datadog](https://qdrant.tech/documentation/observability/datadog/)**,** [Grafana](https://qdrant.tech/documentation/cloud/cluster-monitoring/#grafana-dashboard)**,** and [other enterprise observability tools](https://qdrant.tech/documentation/observability/). Every Qdrant Cloud cluster includes a **metrics endpoint**, accessible via a **read-only API key**, providing **Prometheus and OpenTelemetry compatible data** for easy ingestion into Grafana Cloud or any other supported monitoring system.
 
-Qdrant also provides a **ready-to-use [Grafana dashboard](https://www.google.com/url?q=https://github.com/qdrant/qdrant-cloud-grafana-dashboard&sa=D&source=docs&ust=1740526418360488&usg=AOvVaw05rFuBRxp_H7lC7ZiOClxE)** to help you **visualize key database metrics**, including historical performance data, cluster uptime, request latencies, backup schedules, and network I/O.
+Qdrant also provides a **ready-to-use [Grafana dashboard](https://github.com/qdrant/qdrant-cloud-grafana-dashboard)** to help you **visualize key database metrics**, including historical performance data, cluster uptime, request latencies, backup schedules, and network I/O.
 
 You can set up **customizable alerts** in [Grafana](https://qdrant.tech/documentation/cloud/cluster-monitoring/#grafana-dashboard), Prometheus, or [Datadog](https://qdrant.tech/documentation/observability/datadog/) to **track key performance indicators** such as **memory**, **storage**, and **query** **latency** thresholds.
 
