@@ -10,11 +10,11 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Qdrant Expands Enterprise Capabilities with New Cloud Features"
+text: "From Code-Free Development to Scalable AI: Two March Opportunities"
 link:
-  text: Read more
-  url: https://qdrant.tech/blog/enterprise-vector-search/
-start: 2025-03-04T13:00:00.000Z
+  text: Tune in
+  url: https://try.qdrant.tech/march-livestreams
+start: 2025-03-10T08:05:00.000Z
 sitemapExclude: true
-end: 2025-03-10T08:00:00.000Z
+end: 2025-03-17T08:00:00.000Z
 ---
