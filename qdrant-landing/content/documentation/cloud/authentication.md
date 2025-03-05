@@ -26,6 +26,8 @@ Database API keys with granular access control are available for clusters using 
 
 We recommend configuring an expiration and rotating your API keys regularly as a security best practice.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3c-8tcBIVdQ?si=OoyobgPTU-DHIhee" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## Admin Database API keys
 
 The previous iteration of Database API keys, called Admin Database API keys, do not have granular access control. Clusters created before January 27, 2025 will still see the option to create Admin Database API keys. Older Admin Database API keys will continue to work but we do recommend switching to Database API keys with granular access control to take advantage of better security controls.
