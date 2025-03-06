@@ -163,3 +163,24 @@
     });
   </script>
 {{ end }}
+
+<script>
+  window.addEventListener("message", event => {
+    if (
+            event.data.type === "hsFormCallback" &&
+            event.data.eventName === "onFormReady"
+    ) {
+      const formEl = document.querySelector(`form[data-form-id="${event.data.id}"]`);
+      if (formEl) {
+        const hiddenCurrentUrl = formEl.querySelector('[name="last_form_fill_url"]');
+        if (hiddenCurrentUrl) {
+          hiddenCurrentUrl.value = window.location.href;
+        }
+        const hiddenReferrer = formEl.querySelector('[name="referrer_url"]');
+        if (hiddenReferrer) {
+          hiddenReferrer.value = document.referrer;
+        }
+      }
+    }
+  });
+</script>
