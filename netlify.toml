@@ -3,7 +3,7 @@ publish = "qdrant-landing/public"
 command = "bash -x ./install-and-build.sh"
 
 [build.environment]
-HUGO_VERSION = "0.123.0"
+HUGO_VERSION = "0.141.0"
 DART_SASS_VERSION = "1.70.0"
 NODE_VERSION = "20.10.0"
 HUGO_PARAMS_segmentWriteKey = "UOgPyE2GbtD4lletUP2uWfBGQQSfkzf1"
