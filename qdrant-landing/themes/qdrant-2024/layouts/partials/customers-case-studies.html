@@ -1,27 +1,16 @@
-{{ with (.Site.GetPage "/customers/customers-case-studies") }}
-  <section class="customers-case-studies">
-    <div class="container">
-      {{ partial "case-study" . }}
-
-
-      <div class="customers-case-studies__cards row g-4 gx-lg-4 gy-lg-6">
-        <section class="bg-mid-gray">
-          {{ with (.Site.GetPage "/customers/logo-cards-2") }}
-            {{ partial "logo-cards" . }}
-          {{ end }}
-        </section>
-
-        {{ range .Params.cases }}
-          <div class="customers-case-studies__card col-12 col-md-6 col-lg-4">
-            <div class="customers-case-studies__card-preview">
-              <img class="customers-case-studies__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
-              <img class="customers-case-studies__card-logo" src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
-            </div>
-            <h6 class="customers-case-studies__card-title">{{ .title }}</h6>
-            <a class="customers-case-studies__card-link link link_xl" href="{{ .link.url }}">{{ .link.text }}</a>
+<section class="customers-case-studies">
+  <div class="container">
+    <div class="customers-case-studies__cards row g-4 gx-lg-4 gy-lg-6">
+      {{ range .Params.cases }}
+        <div class="customers-case-studies__card col-12 col-md-6 col-lg-4">
+          <div class="customers-case-studies__card-preview">
+            <img class="customers-case-studies__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+            <img class="customers-case-studies__card-logo" src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
           </div>
-        {{ end }}
-      </div>
+          <h6 class="customers-case-studies__card-title">{{ .title }}</h6>
+          <a class="customers-case-studies__card-link link link_xl" href="{{ .link.url }}">{{ .link.text }}</a>
+        </div>
+      {{ end }}
     </div>
-  </section>
-{{ end }}
+  </div>
+</section>

@@ -35,7 +35,23 @@ spec:
     log_level: "DEBUG"
 ```
 
+### Integrating with a log management system
+
+You can integrate the logs into any log management system that supports Kubernetes. There are no Qdrant specific configurations necessary. Just configure the agents of your system to collect the logs from all Pods in the Qdrant namespace.
+
 ## Monitoring
 
-The Qdrant database, and the operator both expose a Prometheus compatible metrics endpoint at `/metrics`. That provides telemetry on the operator and your Qdrant databases.
+The Qdrant Cloud console gives you access to basic metrics about CPU, memory and disk usage of your Qdrant clusters.
+
+If you want to integrate the Qdrant metrics into your own monitoring system, you can instruct it to scrape the following endpoints that provide metrics in a Prometheus/OpenTelemetry compatible format:
+
+* `/metrics` on port 6333 of every Qdrant database Pod, this provides metrics about each the database and its internals itself
+* `/metrics` on port 9290 of the Qdrant Operator Pod, this provides metrics about the Operator, as well as the status of Qdrant Clusters and Snapshots
+* For metrics about the state of Kubernetes resources like Pods and PersistentVolumes within the Qdrant Hybrid Cloud namespace, we recommend using [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics)
+
+### Grafana dashboard
+
+If you scrape the above metrics into your own monitoring system, and your are using Grafana, you can use our [Grafana dashboard](https://github.com/qdrant/qdrant-cloud-grafana-dashboard) to visualize these metrics.
+
+![Grafa dashboard](/documentation/cloud/cloud-grafana-dashboard.png)
 

@@ -87,4 +87,4 @@ QdrantIngestOperator(
 ## Reference
 - 📦 [Provider package PyPI](https://pypi.org/project/apache-airflow-providers-qdrant/)
 - 📚 [Provider docs](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/index.html)
-- 📄 [Source Code](https://github.com/apache/airflow/tree/main/airflow/providers/qdrant)
+- 📄 [Source Code](https://github.com/apache/airflow/tree/main/providers/qdrant)

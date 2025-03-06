@@ -118,6 +118,20 @@ cards:
     name: Şahin Utar
     position: Software Builder, Entrepreneur
     description: Şahin, a dedicated RAG evangelist since 2022, leverages vector databases in his startups as an early GenAI adopter. A former CTO, now an entrepreneur, he focuses on Dart and Python, using GenAI, RAG, and domain ontologies to simplify complex consumer challenges.
+  - id: 15
+    image:
+      src: /img/stars/astra-clelia-bertelli.jpg
+      alt: Astra Clelia Bertelli Photo
+    name: Astra Clelia Bertelli
+    position: Foundation Engineer, Bioinformatics researcher
+    description: Foundation Engineer @ Criad LTD, Bioinformatics researcher @ Natural History Museum Vienna
+  - id: 16
+    image:
+      src: /img/stars/turja-narayan-chaudhuri.jpg
+      alt: Turja Narayan Chaudhuri Photo
+    name: Turja Narayan Chaudhuri
+    position: Global Platform Presales Leader
+    description: Global Platform Presales Leader, EY. 13+ years of experience in the IT Industry across Samsung, PwC, EY, and Accenture.
 sitemapExclude: true
 ---
 

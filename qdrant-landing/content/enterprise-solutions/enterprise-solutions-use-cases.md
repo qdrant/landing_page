@@ -1,9 +1,13 @@
 ---
-title: Qdrant Enterprise Solutions
+description: Our enterprise solutions not only address performance and scalability, but also adapt to your unique infrastructure and compliance needs.
+descriptionImage:
+  src: /img/connecting-lines.svg
+  alt: Connecting lines
+title: Deploy the Way you Need
 items:
 - id: 0
   image:
-    src: /img/enterprise-solutions-use-cases/managed-cloud.svg
+    src: /img/enterprise-solutions-use-cases/managed-cloud.png
     alt: Managed Cloud
   title: Managed Cloud
   description: Qdrant Cloud provides optimal flexibility and offers a suite of features focused on efficient and scalable vector search - fully managed. Available on AWS, Google Cloud, and Azure.

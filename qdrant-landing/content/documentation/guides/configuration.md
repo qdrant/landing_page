@@ -130,10 +130,14 @@ log_level: INFO
 # Qdrant logs to stdout. You may configure to also write logs to a file on disk.
 # Be aware that this file may grow indefinitely.
 # logger:
+#   # Logging format, supports `text` and `json`
+#   format: text
 #   on_disk:
 #     enabled: true
 #     log_file: path/to/log/file.log
 #     log_level: INFO
+#     # Logging format, supports `text` and `json`
+#     format: text
 
 storage:
   # Where to store all the data
@@ -418,6 +422,12 @@ service:
   # Use generated token instead of API key.
   #
   # jwt_rbac: true
+
+  # Hardware reporting adds information to the API responses with a
+  # hint on how many resources were used to execute the request.
+  #
+  # Uncomment to enable.
+  # hardware_reporting: true
 
 cluster:
   # Use `enabled: true` to run Qdrant in distributed deployment mode

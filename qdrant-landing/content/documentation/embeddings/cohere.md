@@ -73,9 +73,9 @@ client.upsert(
 Once the documents are indexed, you can search for the most relevant documents using the Embed v3 model:
 
 ```python
-client.search(
+client.query_points(
     collection_name="MyCollection",
-    query_vector=cohere_client.embed(
+    query=cohere_client.embed(
         model="embed-english-v3.0",  # New Embed v3 model
         input_type="search_query",  # Input type for search queries
         texts=["The best vector database"],

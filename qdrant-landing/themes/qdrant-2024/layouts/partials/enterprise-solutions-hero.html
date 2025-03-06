@@ -1,8 +1,8 @@
 {{ with (.Site.GetPage "enterprise-solutions/enterprise-solutions-hero") }}
   <section class="enterprise-solutions-hero">
     <div class="container">
-      <div class="row">
-        <div class="col-12">
+      <div class="row align-items-lg-center">
+        <div class="col-12 col-lg-6">
           <h3 class="enterprise-solutions-hero__title">{{ .Params.title }}</h3>
           <div class="enterprise-solutions-hero__description">{{ .Params.description }}</div>
           <div class="enterprise-solutions-hero__buttons">
@@ -14,13 +14,16 @@
             </a>
           </div>
         </div>
+
+        <div class="col-12 col-lg-6">
+          <img class="enterprise-solutions-hero__preview" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
       </div>
     </div>
-    <img class="enterprise-solutions-hero__preview" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
-    <img
-      class="enterprise-solutions-hero__preview-mobile"
-      src="{{ .Params.image.srcMobile }}"
-      alt="{{ .Params.image.alt }}"
-    />
+
+    {{ with (.Site.GetPage "customer-list") }}
+      {{ .Scratch.Set "setting" (slice " dark") }}{{ partial "customer-list" . }}
+    {{ end }}
+    <div class="customers-hero__overlay"></div>
   </section>
 {{ end }}

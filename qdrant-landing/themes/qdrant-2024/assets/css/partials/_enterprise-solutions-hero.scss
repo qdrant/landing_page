@@ -2,6 +2,8 @@
 
 .enterprise-solutions-hero {
   padding-top: $spacer * 2.5;
+  position: relative;
+  overflow: hidden;
   text-align: center;
   background: url('/img/stars-pattern.png') $neutral-10;
 
@@ -31,19 +33,31 @@
     }
   }
 
-  &__preview-mobile {
+  &__preview {
     width: 100%;
-    padding: 0 pxToRem(12);
+    max-width: pxToRem(520);
+    margin: $spacer * 2.5 0 $spacer;
   }
 
-  &__preview {
-    display: none;
+  .customer-list.dark {
+    padding-top: $spacer * 3;
+    background-color: transparent;
+
+    .customer-list__logos__container:after,
+    .customer-list__logos__container:before {
+      display: none;
+    }
+  }
+
+  .customers-hero__overlay {
+    bottom: pxToRem(-48);
   }
 
   @include media-breakpoint-up(lg) {
     padding-left: 0;
     padding-right: 0;
     padding-top: $spacer * 5;
+    text-align: left;
 
     &__title {
       font-size: $spacer * 4;
@@ -59,20 +73,16 @@
 
     &__buttons {
       flex-direction: row;
+      justify-content: flex-start;
 
       .button {
         min-width: auto;
       }
     }
 
-    &__preview-mobile {
-      display: none;
-    }
-
     &__preview {
       display: block;
-      width: 100%;
-      padding: 0;
+      margin: 0 0 0 auto;
     }
   }
 }

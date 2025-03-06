@@ -66,6 +66,7 @@ Sparse vectors are a special type of vectors.
 Mathematically, they are the same as dense vectors, but they contain many zeros so they are stored in a special format.
 
 Sparse vectors in Qdrant don't have a fixed length, as it is dynamically allocated during vector insertion.
+The amount of non-zero values in sparse vectors is currently limited to u32 datatype range (4294967295). 
 
 In order to define a sparse vector, you need to provide a list of non-zero elements and their indexes.
 

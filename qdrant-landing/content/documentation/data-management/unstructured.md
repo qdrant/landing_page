@@ -97,4 +97,4 @@ if __name__ == "__main__":
 
 - Unstructured API [reference](https://unstructured-io.github.io/unstructured/api.html).
 - Qdrant ingestion destination [reference](https://unstructured-io.github.io/unstructured/ingest/destination_connectors/qdrant.html).
-- [Source Code](https://github.com/Unstructured-IO/unstructured/blob/main/unstructured/ingest/connector/qdrant.py)
+- [Source Code](https://github.com/Unstructured-IO/unstructured-ingest/blob/main/unstructured_ingest/connector/qdrant.py)

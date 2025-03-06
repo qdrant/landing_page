@@ -214,3 +214,10 @@ form.hs-form {
   line-height: pxToRem(24);
   text-align: right;
 }
+
+.hs_recaptcha.hs-recaptcha {
+
+  .grecaptcha-badge {
+    box-shadow: none !important;
+  }
+}

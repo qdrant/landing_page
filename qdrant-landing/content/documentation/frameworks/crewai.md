@@ -83,6 +83,10 @@ class QdrantStorage(RAGStorage):
 
     def _initialize_app(self):
         self.client = QdrantClient()
+        # uncomment the next line of code
+        # and choose from the [supported embedders](https://qdrant.github.io/fastembed/examples/Supported_Models/)
+        # if you don't want to use the default one
+        # self.client._embedding_model_name = 'jinaai/jina-embeddings-v2-small-en'
         if not self.client.collection_exists(self.type):
             self.client.create_collection(
                 collection_name=self.type,

@@ -16,8 +16,6 @@ category: practicle-examples
 
 Do you want to insert a semantic search function into your website or online app? Now you can do so - without spending any money! In this example, you will learn how to create a free prototype search engine for your own non-commercial purposes.
 
-You may find all of the assets for this tutorial on [GitHub](https://github.com/qdrant/examples/tree/master/lambda-search).
-
 ## Ingredients
 
 * A [Rust](https://rust-lang.org) toolchain
@@ -244,7 +242,7 @@ fn setup<'i>(
 }
 ```
 
-Depending on whether you want to efficiently filter the data, you can also add some indexes. I'm leaving this out for brevity, but you can look at the [example code](https://github.com/qdrant/examples/tree/master/lambda-search) containing this operation. Also this does not implement chunking (splitting the data to upsert in multiple requests, which avoids timeout errors).
+Depending on whether you want to efficiently filter the data, you can also add some indexes. I'm leaving this out for brevity. Also this does not implement chunking (splitting the data to upsert in multiple requests, which avoids timeout errors).
 
 Add a suitable `main` method and you can run this code to insert the points (or just use the binary from the example). Be sure to include the port in the `qdrant_url`.
 
@@ -274,7 +272,7 @@ You can also filter by adding a `filter: ...` field to the `SearchPoints`, and y
 
 ## Putting it all together
 
-Now that you have all the parts, it's time to join them up. Now copying and wiring up the snippets above is left as an exercise to the reader. Impatient minds can peruse the [example repo](https://github.com/qdrant/examples/tree/master/lambda-search) instead.
+Now that you have all the parts, it's time to join them up. Now copying and wiring up the snippets above is left as an exercise to the reader.
 
 You'll want to extend the `main` method a bit to connect with the Client once at the start, also get API keys from the environment so you don't need to compile them into the code. To do that, you can get them with `std::env::var(_)` from the rust code and set the environment from the AWS console.
 

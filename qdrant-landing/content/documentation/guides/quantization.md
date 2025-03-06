@@ -59,7 +59,7 @@ However, binary quantization is only efficient for high-dimensional vectors and 
 At the moment, binary quantization shows good accuracy results with the following models:
 
 - OpenAI `text-embedding-ada-002` - 1536d tested with [dbpedia dataset](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) achieving 0.98 recall@100 with 4x oversampling
-- Cohere AI `embed-english-v2.0` - 4096d tested on [wikipedia embeddings](https://huggingface.co/datasets/nreimers/wikipedia-22-12-large/tree/main) - 0.98 recall@50 with 2x oversampling
+- Cohere AI `embed-english-v2.0` - 4096d tested on Wikipedia embeddings - 0.98 recall@50 with 2x oversampling
 
 Models with a lower dimensionality or a different distribution of vector components may require additional experiments to find the optimal quantization parameters.
 
@@ -143,6 +143,8 @@ The `quantization_config` can also be set on a per vector basis by specifying it
 ### Setting up Scalar Quantization
 
 To enable scalar quantization, you need to specify the quantization parameters in the `quantization_config` section of the collection configuration.
+
+When enabling scalar quantization on an existing collection, use a PATCH request or the corresponding `update_collection` method and omit the vector configuration, as it's already defined.
 
 ```http
 PUT /collections/{collection_name}
@@ -331,6 +333,8 @@ In this case, you can set `always_ram` to `true` to store quantized vectors in R
 
 To enable binary quantization, you need to specify the quantization parameters in the `quantization_config` section of the collection configuration.
 
+When enabling binary quantization on an existing collection, use a PATCH request or the corresponding `update_collection` method and omit the vector configuration, as it's already defined.
+
 ```http
 PUT /collections/{collection_name}
 {
@@ -480,6 +484,8 @@ In this case, you can set `always_ram` to `true` to store quantized vectors in R
 ### Setting up Product Quantization
 
 To enable product quantization, you need to specify the quantization parameters in the `quantization_config` section of the collection configuration.
+
+When enabling product quantization on an existing collection, use a PATCH request or the corresponding `update_collection` method and omit the vector configuration, as it's already defined.
 
 ```http
 PUT /collections/{collection_name}

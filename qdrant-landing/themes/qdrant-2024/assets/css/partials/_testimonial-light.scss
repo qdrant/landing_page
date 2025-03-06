@@ -25,10 +25,6 @@
     &-avatar {
       margin-bottom: $spacer;
       height: $spacer * 3;
-      width: pxToRem(48);
-      height: pxToRem(48);
-      border-radius: 50%;
-      overflow: hidden;
 
       img {
         height: 100%;

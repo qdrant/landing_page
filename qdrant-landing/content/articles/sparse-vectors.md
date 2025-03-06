@@ -46,7 +46,7 @@ BM25 relies solely on the frequency of words in a document and does not attempt 
 Sparse vectors harness the power of neural networks to surmount these limitations while retaining the ability to query exact words and phrases.
 They excel in handling large text data, making them crucial in modern data processing a and marking an advancement over traditional methods such as BM25.
 
-# Understanding sparse vectors
+## Understanding sparse vectors
 
 Sparse Vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, complimenting the meaning-rich embedding or dense vectors. 
 
@@ -65,7 +65,7 @@ For example, in the medical domain, many rare terms are not present in the gener
 
 Where do sparse vectors fail though? They're not great at capturing nuanced relationships between words. For example, they can't capture the relationship between "king" and "queen" as well as dense vectors.
 
-# SPLADE
+## SPLADE
 
 Let's check out [SPLADE](https://europe.naverlabs.com/research/computer-science/splade-a-sparse-bi-encoder-bert-based-model-achieves-effective-and-efficient-full-text-document-ranking/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), an excellent way to make sparse vectors. Let's look at some numbers first. Higher is better:
 
@@ -219,7 +219,7 @@ For example, assume a 1M document corpus. Say, we use 100 sparse token ids + wei
 | OpenAI Embedding  | 12.288                  |
 | Sparse Vector     | 1.12                    |
 
-## How SPLADE works: leveraging BERT
+### How SPLADE works: leveraging BERT
 
 SPLADE leverages a transformer architecture to generate sparse representations of documents and queries, enabling efficient retrieval. Let's dive into the process. 
 
@@ -234,7 +234,7 @@ The token-level distributions that you'd expect in a standard transformer model 
 
 The resulting sparse vectors are not only memory-efficient but also tailored for precise matching in the high-dimensional space of a search engine like Qdrant.
 
-## Interpreting SPLADE
+### Interpreting SPLADE
 
 A downside of dense vectors is that they are not interpretable, making it difficult to understand why a document is relevant to a query.
 
@@ -248,7 +248,7 @@ The switch to max pooling in SPLADE improved its performance on the MS MARCO and
 ### Document and query Eecoder 
 The SPLADE model variant that uses a document encoder with max pooling but no query encoder reaches the same performance level as the prior SPLADE model. This suggests a limitation in the necessity of a query encoder, potentially affecting the efficiency of the model​​.
 
-## Other sparse vector methods
+### Other sparse vector methods
 
 SPLADE is not the only method to create sparse vectors.
 

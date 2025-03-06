@@ -7,7 +7,7 @@ testimonials:
   avatar:
     src: /img/customers/owen-colegrove.svg
     alt: Avatar
-  text: qurant has been amazing!
+  text: qdrant has been amazing!
 - id: 1
   name: Darren
   nickname: "@darrenangle"
