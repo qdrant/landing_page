@@ -19,6 +19,12 @@ HUGO_ENV = "staging"
 HUGO_PARAMS_segmentWriteKey = "DZ49RYXkFEV0pY6DG4i0RyxyobSovIlU"
 
 [[headers]]
+  for = "/get_anonymous_id"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors https://qdrant.io https://staging-cloud.qdrant.io;"
+    X-Frame-Options = "SAMEORIGIN"
+
+[[headers]]
     for = "/*"
     [headers.values]
         X-Content-Type-Options = "nosniff"
