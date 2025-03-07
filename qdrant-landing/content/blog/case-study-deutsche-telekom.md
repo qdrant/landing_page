@@ -39,7 +39,7 @@ This insight led to the formation of [LMOS as an open-source Eclipse Foundation 
 
 ### Why Deutsche Telekom Had to Rethink Its AI Stack from the Ground Up
 
-The team started its journey in June 2023 with a small-scale Generative AI initiative, focusing on chatbots with customized AI models. Initially, they used LangChain and a major vector database provider for vector search and retrieval , alongside a custom Dense Passage Retrieval (DPR) model fine-tuned for German language use cases.
+The team started its journey in June 2023 with a small-scale Generative AI initiative, focusing on chatbots with customized AI models. Initially, they used LangChain and a major vector database provider for vector search and retrieval, alongside a custom Dense Passage Retrieval (DPR) model fine-tuned for German language use cases.
 
 However, as they scaled, these issues quickly emerged:
 
@@ -69,7 +69,7 @@ LMOS architecture powering AI agent collaboration and lifecycle management in a 
 
 ### Why Qdrant? Finding the Right Vector Database for LMOS
 
-When Deutsche Telekom began searching for a scalable, high-performance vector database, they faced operational challenges with their initial choice, Milvus. Seeking a solution better suited to their PaaS-first approach and multitenancy requirements, they evaluated alternatives, and [Qdrant](https://qdrant.tech/qdrant-vector-database/) quickly stood out.
+When Deutsche Telekom began searching for a scalable, high-performance vector database, they faced operational challenges with their initial choice. Seeking a solution better suited to their PaaS-first approach and multitenancy requirements, they evaluated alternatives, and [Qdrant](https://qdrant.tech/qdrant-vector-database/) quickly stood out.
 
 "I was looking for open-source components with deep technical expertise behind them," Arun recalls. "I looked at Qdrant and immediately loved the simplicity, [Rust-based efficiency](https://qdrant.tech/articles/why-rust/), and [memory management capabilities](https://qdrant.tech/articles/memory-consumption/). These guys knew what they were doing."
 
@@ -84,7 +84,9 @@ Deutsche Telekom's engineers also cited several standout features that made Qdra
 2. **Developer experience**—libraries, multi-language clients, and cross-framework support make integrations seamless.  
 3. **WebUI & Collection Visualization**—engineers found Qdrant's [built-in collection visualization](https://qdrant.tech/documentation/web-ui/) tools highly useful.
 
-As part of their evaluation, Deutsche Telekom engineers compared multiple solutions, weighing operational simplicity and reliability. One engineer summarized their findings: "Qdrant has way fewer components. Milvus required Kafka, Zookeeper, and only had a hot standby for its index and query nodes. If you rescale Milvus, you get downtime. Qdrant stays up." 
+As part of their evaluation, Deutsche Telekom engineers compared multiple solutions, weighing operational simplicity and reliability. 
+
+One engineer summarized their findings: "Qdrant has way fewer components, compared to the another that required required Kafka, Zookeeper, and only had a hot standby for its index and query nodes. If you rescale it, you get downtime. Qdrant stays up." 
 
 ### Scaling AI at Deutsche Telekom & The Future of LMOS
 
