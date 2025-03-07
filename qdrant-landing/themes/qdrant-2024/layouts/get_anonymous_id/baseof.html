@@ -25,11 +25,14 @@
 
       window.onload = function() {
         window.addEventListener('message', (cloudUIEvent) => {
+          console.log('1', cloudUIEvent)
           analytics.ready(() => {
+            console.log('2')
             const isQdrantOrigin = ['https://cloud.qdrant.io', 'https://staging-cloud.qdrant.io'].includes(cloudUIEvent.origin);
             const isLocal = !isProduction && cloudUIEvent.origin === 'https://localhost:3000';
             const originPass = isQdrantOrigin || isLocal;
 
+            console.log('3', isQdrantOrigin, isLocal, cloudUIEvent.data)
             if (originPass && cloudUIEvent.data === 'getAnonymousId') {
               const anonymousId = analytics.user().anonymousId();
               cloudUIEvent.source.postMessage({ anonymousId }, cloudUIEvent.origin);
