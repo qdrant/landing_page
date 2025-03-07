@@ -25,15 +25,3 @@ Cloud RBAC ensures that every aspect of our platform is secure and governed by s
 - Account Configuration
 
 Cloud RBAC will also introduce an improved and overhauled UI for the existing Invites and User Management capabilities of Qdrant Cloud.
-
-To learn more detailed information about the available permissions see the attached documentation.
-
-## **The Roadmap Ahead**
-
-Our larger plan involves delivering three key features in a controlled and phased manner:
-
-1. **Cloud RBAC:** Cloud User Permissions (this feature)
-2. **Database API Keys w/ JWT RBAC:** A separate feature that enhances the built-in database api keys, including per-collection controls, with the ability to create client credentials for programmatic access to a cluster.
-3. **Automatic Dashboard Auth**: The integration of Cloud RBAC and Database API Keys to allow admins to configure per-cluster permissions for a Cloud User Identity, as well as enable automatic authentication to the Database GUI based on that user’s permissions (this feature is planned later)
-
-Once all three features are delivered, you will enjoy seamless integration between them, ensuring secure automated access across Qdrant Cloud.
