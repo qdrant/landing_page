@@ -1,5 +1,5 @@
 ---
-title: How Deutsche Telekom Built a Multi-Agent Enterprise Platform Leveraging Qdrant—Powering 2+ Million Conversations
+title: How Deutsche Telekom Built a Multi-Agent Enterprise Platform Leveraging Qdrant
 draft: false
 slug: case-study-deutsche-telekom
 short_description: How Deutsche Telekom built a fully-fledged PaaS platform for AI agents, streamlining development and accelerating deployment of AI Agents. 
