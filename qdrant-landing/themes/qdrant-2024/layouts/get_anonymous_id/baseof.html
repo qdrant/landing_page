@@ -26,7 +26,7 @@
       console.log('-1')
       window.addEventListener('message', (cloudUIEvent) => {
         console.log('0')
-        analytics.ready(() => {
+        // analytics.ready(() => {
           console.log('1', cloudUIEvent)
           const isQdrantOrigin = ['https://cloud.qdrant.io', 'https://staging-cloud.qdrant.io'].includes(cloudUIEvent.origin);
           const isLocal = !isProduction && cloudUIEvent.origin === 'https://localhost:3000';
@@ -37,7 +37,7 @@
             const anonymousId = analytics.user().anonymousId();
             cloudUIEvent.source.postMessage({ anonymousId }, cloudUIEvent.origin);
           }
-        }); // analytics
+        // }); // analytics
       }); // eventListener
     </script>
   </head>
