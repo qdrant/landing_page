@@ -39,7 +39,7 @@ This insight led to the formation of [LMOS as an open-source Eclipse Foundation 
 
 ### Why Deutsche Telekom Had to Rethink Its AI Stack from the Ground Up
 
-The team started its journey in June 2023 with a small-scale Generative AI initiative, focusing on chatbots with customized AI models. Initially, they used LangChain and a major vector database provider for vector search and retrieval , alongside a custom Dense Passage Retrieval (DPR) model fine-tuned for German language use cases.
+The team started its journey in June 2023 with a small-scale Generative AI initiative, focusing on chatbots with customized AI models. Initially, they used LangChain and a major vector database provider for vector search and retrieval, alongside a custom Dense Passage Retrieval (DPR) model fine-tuned for German language use cases.
 
 However, as they scaled, these issues quickly emerged:
 
