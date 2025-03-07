@@ -21,7 +21,11 @@ HUGO_PARAMS_segmentWriteKey = "DZ49RYXkFEV0pY6DG4i0RyxyobSovIlU"
 [[headers]]
   for = "/get_anonymous_id"
   [headers.values]
-    Content-Security-Policy = "frame-ancestors https://qdrant.io https://staging-cloud.qdrant.io"  {{ if ne .Environment.Branch "main" }} " http://localhost:3000" {{ end }} ";"
+    Content-Security-Policy = [
+      "frame-ancestors https://qdrant.io https://staging-cloud.qdrant.io",
+      {{ if ne .Environment.Branch "main" }} "http://localhost:3000" {{ end }},
+      ";"
+    ]
     X-Frame-Options = "SAMEORIGIN"
 
 [[headers]]
