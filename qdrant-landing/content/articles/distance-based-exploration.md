@@ -12,6 +12,7 @@ keywords:
   - clusterization
   - dimensionality reduction
   - vizualization
+category: data-exploration
 ---
 
 
@@ -90,7 +91,7 @@ import seaborn as sns
 Establish connection to Qdrant:
 
 ```python
-qdrant = QdrantClient("http://localhost:6333")
+client = QdrantClient("http://localhost:6333")
 ```
 
 </details>
@@ -147,7 +148,42 @@ and multiple others.
 
 ## Clustering
 
-ToDo
+Another approach to understand the structure of the data is to group similar items together. This is something that data scientists call clustering.
+There are no single best way to determine criteria for good clustering, nor there is a single best algorithm to perform clustering. 
+
+{{< figure src="/articles_data/distance-based-exploration/clustering.png" alt="Clustering" caption="Clustering example, [source](https://scikit-learn.org/)" width="80%" >}}
+
+Luckily, many clustering algorithms can use precomputed distance matrix as input, so we can use the same distance matrix we calculated before.
+
+Let's consider a simple example of clustering the Midlib dataset with KMeans algorithm.
+
+From the documentation we know, what KMeans algorithm prefers as an input: 
+
+
+> `X{array-like, sparse matrix} of shape (n_samples, n_features)`:  
+> Training instances to cluster. It must be noted that the data will be converted to C ordering, which will cause a memory copy if the given data is not C-contiguous. If a sparse matrix is passed, a copy will be made if it’s not in CSR format.
+
+
+So we can re-use the same distance matrix we calculated before:
+
+
+```python
+from sklearn.cluster import KMeans
+
+# Initialize KMeans with 10 clusters
+kmeans = KMeans(n_clusters=10)
+
+# Generate index of the cluster each sample belongs to
+cluster_labels = kmeans.fit_predict(matrix)
+```
+
+With this simple code, we have clustered the data into 10 clusters, while the main CPU-intensive part of the process was done by Qdrant.
+
+{{< figure src="/articles_data/distance-based-exploration/clustering-midlib.png" alt="Clustering on Midlib" caption="Clustering applied to Midlib dataset" >}}
+
+
+
+
 
 ## Graphs
 
