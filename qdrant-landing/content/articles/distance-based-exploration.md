@@ -182,6 +182,20 @@ With this simple code, we have clustered the data into 10 clusters, while the ma
 {{< figure src="/articles_data/distance-based-exploration/clustering-midlib.png" alt="Clustering on Midlib" caption="Clustering applied to Midlib dataset" >}}
 
 
+<details>
+<summary>How to plot this chart</summary>
+
+```python
+sns.scatterplot(
+    # Coordinates obtained from UMAP
+    x=vectors_2d[:, 0], y=vectors_2d[:, 1],
+    # Color datapoints by cluster
+    hue=cluster_labels,
+    palette=sns.color_palette("pastel", 10),
+    legend="full",
+)
+```
+</details>
 
 
 
