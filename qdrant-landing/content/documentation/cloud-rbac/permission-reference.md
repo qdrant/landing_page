@@ -5,12 +5,12 @@ weight: 3
 
 # **Permission Reference**
 
-This document outlines the different permissions available in Qdrant Cloud.
+This document outlines the permissions available in Qdrant Cloud.
 
 ---
 
 ## **Identity and Access Management**
-Permissions related to user roles, access management, and invitations.
+Permissions for users, user roles, management keys, and invitations.
 
 | Permission | Description |
 |------------|------------|
@@ -29,7 +29,7 @@ Permissions related to user roles, access management, and invitations.
 ---
 
 ## **Cluster**
-Permissions for clusters, backups, API keys, and schedules.
+Permissions for API Keys, backups, clusters, and backup schedules.
 
 ### **API Keys**
 | Permission | Description |
@@ -45,7 +45,7 @@ Permissions for clusters, backups, API keys, and schedules.
 | `write:backups` | Create backups from the **Backups page** and **Cluster details > Backups tab**. |
 | `delete:backups` | Remove backups from the **Backups page** and **Cluster details > Backups tab**. |
 
-### **Cluster**
+### **Clusters**
 | Permission | Description |
 |------------|------------|
 | `read:clusters` | View cluster details. |

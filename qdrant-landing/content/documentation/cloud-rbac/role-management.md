@@ -5,7 +5,7 @@ weight: 1
 
 # Role Management
 
-A **Role** contains a set of **permissions** that define the ability to perform or control specific actions within the platform. Permissions are accessible through the Permissions tab in the Role Details page and offer fine-grained access control, logically grouped for easy identification.
+A **Role** contains a set of **permissions** that define the ability to perform or control specific actions in Qdrant Cloud. Permissions are accessible through the Permissions tab in the Role Details page and offer fine-grained access control, logically grouped for easy identification.
 
 ## Built-In Roles
 
@@ -21,7 +21,7 @@ There are three types: 
 
 ## Custom Roles
 
-An **Admin/Owner** or another authorised user can create their own custom roles with specific sets of permissions, giving them more control over who has what access to which resource.
+An authorized user can create their own custom roles with specific sets of permissions, giving them more control over who has what access to which resource.
 
 ![image.png](/documentation/cloud/role-based-access-control/custom-roles.png)
 
