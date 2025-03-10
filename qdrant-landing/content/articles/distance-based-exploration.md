@@ -5,7 +5,7 @@ description: "Explore your data under a new angle with Qdrant's tools for dimens
 social_preview_image: /articles_data/distance-based-exploration/social-preview.jpg
 preview_dir: /articles_data/distance-based-exploration/preview
 weight: -250
-author: Qdrant team
+author: Andrey Vasnetsov
 date: 2024-10-20T12:00:00+03:00
 draft: false
 keywords:
