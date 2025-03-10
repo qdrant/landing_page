@@ -221,9 +221,13 @@ If you don't run the installation command, the secrets will not be updated and t
 
 To delete a Hybrid Cloud Environment, first delete all Qdrant database clusters in it. Then you can delete the environment itself.
 
-To clean up your Kubernetes cluster, after deleting the Hybrid Cloud Environment, you can use the following script to remove all Qdrant related resources:
+To clean up your Kubernetes cluster, after deleting the Hybrid Cloud Environment, you can download the script from https://github.com/qdrant/qdrant-cloud-support-tools/tree/main/hybrid-cloud-cleanup to remove all Qdrant related resources.
 
-Download the script at https://github.com/qdrant/qdrant-cloud-support-tools/tree/main/hybrid-cloud-cleanup. Then run the following command while being connected to your Kubernetes cluster. The script requires `kubectl` and `helm` to be installed.
+<aside role="alert">
+    This will destroy all Qdrant related resources from your cluster and is non reversible. Please make sure to double check your environment and that you have created and tested your backups before proceeding.
+</aside>
+
+Run the following command while being connected to your Kubernetes cluster. The script requires `kubectl` and `helm` to be installed.
 
 ```shell
 ./hybrid-cloud-cleanup.sh your-qdrant-namespace
