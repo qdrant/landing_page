@@ -198,13 +198,74 @@ sns.scatterplot(
 </details>
 
 
-
 ## Graphs
 
-### Global Graph
+Clustering and dimensionality reduction are both aimed at giving us a better overview of the data,
+but they share a common trait - they require a training step before we can see the results.
 
-ToDo
+That also means that introducing new data points will require re-running the training step, which might be computationally expensive.
 
-### Response Graph
+Graphs are the alternative approach for data exploration, that allows direct interactive rendering of the relations between data points.
+In graph representation, each data point is a node, and the similarity between data points is represented as edges between nodes.
+
+More similar data points are, higher the strength of the edge between them.
+This graph can be rendered in real time using so-called [force-directed layout](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) algorithms, that try to minimize the energy of the system by moving nodes around.
+
+Adding new data points to the graph is as simple as adding new nodes and edges, without the need to re-run the training step.
+
+In practice, rendering a graph for the whole dataset at once might be computationally expensive and overwhelming for the user.
+So, let's take a look at a few options to approach this problem.
+
+**Expanding from a single node**
+
+This a simplest approach, where we start with a single node and expand the graph by adding the most similar nodes to the graph.
+
+{{< figure src="/articles_data/distance-based-exploration/graph.gif" alt="Graph" caption="Graph representation of the data" >}}
+
+<aside role="status">Interactive version of this plot is available in Qdrant Web UI!</aside>
+
+**Sampling collection**
+
+Expanding a single node works well if you want to explore neighbors of a single point, but what if you want to explore the whole dataset?
+If your dataset is small enough, you can render relations for all the data points at once. But it is a rare case in practice.
+
+Instead, we can sample a subset of the data and render the graph for this subset.
+This way we can get a good overview of the data, without overwhelming the user with too much information.
+
+Let's try to do so:
+
+```json
+{
+  "limit": 5,
+  "sample": 100
+}
+```
+
+{{< figure src="/articles_data/distance-based-exploration/graph-sampled.png" alt="Graph" caption="Graph representation of the data" >}}
+
+This graph does capture some high-level structure of the data, but as you might notice, it quite noisy.
+This is because the difference in similarities are relatively small, and they might be overwhelmed by the stretches and compressions of the force-directed layout algorithm.
+
+To make the graph more readable, let's concentrate on the most important similarities and build a so called [Minimum/Maximum Spanning Tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree).
+
+```json
+{
+  "limit": 5,
+  "sample": 100,
+  "tree": true
+}
+```
+
+{{< figure src="/articles_data/distance-based-exploration/spanning-tree.png" alt="Graph" caption="Spanning tree of the graph" width="80%" >}}
+
+This algorithm will only keep the most important edges, and remove the rest, while keeping the graph connected.
+By doing so, we can reveal clusters of the data, and the most important relations between them.
+
+In some sense this is similar to heirarchical clustering, but with the ability to interactively explore the data.
+Another analogy might be a dynamically constructed mind-maps.
+
+
+**Using search response**
+
 
 ToDo
