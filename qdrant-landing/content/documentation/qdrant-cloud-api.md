@@ -1,11 +1,11 @@
 ---
 title: Qdrant Cloud API
-weight: 26
-partition: cloud 
+weight: 27
+partition: cloud
 ---
-# Qdrant Cloud API 
+# Qdrant Cloud API
 
-The Qdrant Cloud API lets you manage Cloud accounts and their respective Qdrant clusters. You can use this API to manage your clusters, authentication methods, and cloud configurations. 
+The Qdrant Cloud API lets you manage Cloud accounts and their respective Qdrant clusters. You can use this API to manage your clusters, authentication methods, and cloud configurations.
 
 | REST API      | Documentation                                                                        |
 | -------- | ------------------------------------------------------------------------------------ |
@@ -34,14 +34,14 @@ curl -X 'GET' \
 
 This request will return a list of clusters associated with your account in JSON format.
 
-## Cluster Management  
-Use these endpoints to create and manage your Qdrant database clusters. The API supports fine-grained control over cluster resources (CPU, RAM, disk), node configurations, tolerations, and other operational characteristics across all cloud providers (AWS, GCP, Azure) and their respective regions in Qdrant Cloud, as well as Hybrid Cloud. 
+## Cluster Management
+Use these endpoints to create and manage your Qdrant database clusters. The API supports fine-grained control over cluster resources (CPU, RAM, disk), node configurations, tolerations, and other operational characteristics across all cloud providers (AWS, GCP, Azure) and their respective regions in Qdrant Cloud, as well as Hybrid Cloud.
    - **Get Cluster by ID**: Retrieve detailed information about a specific cluster using the cluster ID and associated account ID.
    - **Delete Cluster**: Remove a cluster, with optional deletion of backups.
    - **Update Cluster**: Apply modifications to a cluster's configuration.
    - **List Clusters**: Get all clusters associated with a specific account, filtered by region or other criteria.
    - **Create Cluster**: Add new clusters to the account with configurable parameters such as nodes, cloud provider, and regions.
-   - **Get Booking**: Manage hosting across various cloud providers (AWS, GCP, Azure) and their respective regions. 
+   - **Get Booking**: Manage hosting across various cloud providers (AWS, GCP, Azure) and their respective regions.
 
 ## Cluster Authentication Management
 Use these endpoints to manage your cluster API keys.

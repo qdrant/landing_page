@@ -1,16 +1,16 @@
 ---
-title: Permissions Reference
+title: Permission Reference
 weight: 3
 ---
 
-# **Permissions Reference**
+# **Permission Reference**
 
-This document outlines the different permissions available in the system, categorized for clarity.
+This document outlines the different permissions available in Qdrant Cloud.
 
 ---
 
-## **Identity and Access Management**  
-Controls permissions related to user roles, access management, and invitations.  
+## **Identity and Access Management**
+Permissions related to user roles, access management, and invitations.
 
 | Permission | Description |
 |------------|------------|
@@ -28,8 +28,8 @@ Controls permissions related to user roles, access management, and invitations.
 
 ---
 
-## **Cluster**  
-Manages permissions for clusters, backups, API keys, and schedules.
+## **Cluster**
+Permissions for clusters, backups, API keys, and schedules.
 
 ### **API Keys**
 | Permission | Description |
@@ -61,8 +61,8 @@ Manages permissions for clusters, backups, API keys, and schedules.
 
 ---
 
-## **Hybrid Cloud**  
-Manages permissions for hybrid cloud infrastructure.
+## **Hybrid Cloud**
+Permissions for hybrid cloud environments.
 
 | Permission | Description |
 |------------|------------|
@@ -72,8 +72,8 @@ Manages permissions for hybrid cloud infrastructure.
 
 ---
 
-## **Payment & Billing**  
-Handles permissions related to payment methods and billing information.
+## **Payment & Billing**
+Permissions for payment methods and billing information.
 
 | Permission | Description |
 |------------|------------|
@@ -82,8 +82,8 @@ Handles permissions related to payment methods and billing information.
 
 ---
 
-## **Account Management**  
-Controls permissions for managing user accounts.
+## **Account Management**
+Permissions for managing user accounts.
 
 | Permission | Description |
 |------------|------------|
@@ -93,8 +93,8 @@ Controls permissions for managing user accounts.
 
 ---
 
-## **Profile**  
-Handles permissions for accessing and managing user profile information.
+## **Profile**
+Permissions for accessing personal profile information.
 
 | Permission | Description |
 |------------|------------|

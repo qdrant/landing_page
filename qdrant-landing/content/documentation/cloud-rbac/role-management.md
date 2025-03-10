@@ -5,17 +5,17 @@ weight: 1
 
 # Role Management
 
-A **Role** comprises a set of **permissions** that define the ability to perform or control specific actions within the platform. Permissions are accessible through the Permissions tab in the Role Details page and offer fine-grained access control, logically grouped for easy identification. 
+A **Role** contains a set of **permissions** that define the ability to perform or control specific actions within the platform. Permissions are accessible through the Permissions tab in the Role Details page and offer fine-grained access control, logically grouped for easy identification.
 
 ## Built-In Roles
 
-The system includes some built-in roles that have default sets of permissions assigned to them, covering common use-cases and the permissions for these built-in roles cannot be changed.
+Qdrant Cloud includes some built-in roles for common use-cases. The permissions for these built-in roles cannot be changed.
 
 There are three types: 
 
-- **Base Role** which provide the minimum necessary privileges for typical tasks
-- The **Admin Role** that has all available permissions except the account related permissions
-- The **Owner Role** that has all available permissions assigned
+- The **Base Role** is assigned to all users, and provides the minimum privileges required to access Qdrant Cloud.
+- The **Admin Role**  has all available permissions, except for account write permissions.
+- The **Owner Role** has all available permissions assigned, including account write permissions. There can only be one Owner per account currently.
 
 ![image.png](/documentation/cloud/role-based-access-control/built-in-roles.png)
 
