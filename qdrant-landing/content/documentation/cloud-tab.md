@@ -44,6 +44,15 @@ content:
       link:
         url: /documentation/private-cloud/
         text: Read More
+    - id: 4
+      image:
+        src: /img/dev-portal-cloud/private-cloud.png
+        alt: Role based Access Control
+      title: Role based Access Control
+      description: Qdrant Cloud enables you to manage permissions for your cloud resources with greater precision.
+      link:
+        url: /documentation/role-based-access-control/
+        text: Read More
   - partial: documentation/sections/cards-section
     title: Customer Support
     description: Stream, index, and migrate data to Qdrant with these essential tools and strategies.
