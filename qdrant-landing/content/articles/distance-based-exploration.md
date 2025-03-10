@@ -18,48 +18,42 @@ category: data-exploration
 
 ## Hidden Structure
 
-When working with large collections of documents, images or other arrays of unstructured data, it ofter becomes useful to understand the big picture.
-Looking at datapoints one by one is not always the best way to understand the structure of the data.
+When working with large collections of documents, images, or other arrays of unstructured data, it often becomes useful to understand the big picture.
+Examining data points individually is not always the best way to grasp the structure of the data.
 
 {{< figure src="/articles_data/distance-based-exploration/no-context-data.png" alt="Data visualization" caption="Datapoints without context, pretty much useless" >}}
 
-Similar to how numbers in a table obtain meaning when plotted on a graph, similarities between items of the unstructured data can reveal hidden structures and patterns.
+Similar to how numbers in a table obtain meaning when plotted on a graph, similarities between items of unstructured data can reveal hidden structures and patterns.
 
 {{< figure src="/articles_data/distance-based-exploration/data-on-chart.png" alt="Data visualization" caption="Vizualized chart, very intuitive" >}}
 
-There are many tools to investigate data similarity, but with the latest release of Qdrant it became much easier to start working with them.
-With the new [Distance Matrix API](/documentation/concepts/explore/#distance-matrix), Qdrant takes care of the most computationally expensive part of the process - calculating the distances between data points.
+There are many tools to investigate data similarity, but with the latest release of Qdrant, it has become much easier to get started. With the new [Distance Matrix API](/documentation/concepts/explore/#distance-matrix), Qdrant handles the most computationally expensive part of the process—calculating the distances between data points.
 
-In many implementations, the distance matrix was calculated on the same process that performed the clustering or visualization, but that either required a brute-force computation or building a temporary index.
-With Qdrant, on the other hand, the data is already indexed and distance matrix can be calculated relatively cheaply.
+In many implementations, the distance matrix calculation was part of the same process performing clustering or visualization, requiring either brute-force computation or building a temporary index. With Qdrant, however, the data is already indexed, and the distance matrix can be computed relatively cheaply.
 
-In this article we will take a look at a few ways to explore the data using the distance matrix API.
+In this article, we will explore several methods for data exploration using the Distance Matrix API.
 
 ## Dimensionality Reduction
 
-As a first instinct, we might want have an ability to look at the whole dataset, or at least a large part of it, with a single glance.
-But when the data is high-dimensional, it is not possible to visualize it directly. We need to apply a technique called dimensionality reduction.
-Dimensionality reduction allows us to convert high-dimensional data into a lower-dimensional representation, while preserving the most important properties of the data.
+Initially, we might want to visualize an entire dataset, or at least a large portion of it, at a glance. However, high-dimensional data cannot be directly visualized. We must apply dimensionality reduction techniques to convert high-dimensional data into a lower-dimensional representation while preserving important data properties.
 
-In this article we will use the [UMAP](https://github.com/lmcinnes/umap) as our dimensionality reduction algorithm of choice.
-It will be very easy to understand why we chose UMAP, if we quickly recap how it works.
+In this article, we will use [UMAP](https://github.com/lmcinnes/umap) as our dimensionality reduction algorithm.
 
 Here is a **very** simplified, but intuitive explanation of UMAP:
 
-1. *Randomply generate points in the 2d space*: for each high-dimensional point, generate a random 2d point.
-1. *Generate distance matrix for the the high-dimensional points*: calculate distances between all pairs of points.
-1. *Generate distance matrix for the 2d points*:  the same way as in the high-dimensional space.
-1. *Try to match both distance matricies to each other*: move 2d points around until the difference is minimized.
+1. *Randomly generate points in 2D space*: Assign a random 2D point to each high-dimensional point.
+2. *Compute distance matrix for high-dimensional points*: Calculate distances between all pairs of points.
+3. *Compute distance matrix for 2D points*: Perform similarly to step 2.
+4. *Match both distance matrices*: Adjust 2D points to minimize differences.
 
 {{< figure src="/articles_data/distance-based-exploration/umap.png" alt="UMAP" caption="Canonical example of UMAP results, [source](https://github.com/lmcinnes/umap?tab=readme-ov-file#performance-and-examples)" >}}
 
-As you can see, UMAP tries to preserve the relative distances between points in the high-dimensional space, while the actual high-dimensional coordinates are not important.
-In fact, we can skip the second step completely if we have the distance matrix already calculated.
+UMAP preserves the relative distances between high-dimensional points; the actual coordinates are not essential. If we already have the distance matrix, step 2 can be skipped entirely.
 
-Let's see how we can use Qdrant to calculate the distance matrix and then apply UMAP to it.
+Let's see how to use Qdrant to calculate the distance matrix and apply UMAP.
 We will one of the default datasets that come with Qdrant - Midjourney Styles dataset.
 
-Use this command to download the dataset and import it into Qdrant:
+Use this command to download and import the dataset into Qdrant:
 
 ```http
 PUT /collections/midlib/snapshots/recover
@@ -136,20 +130,15 @@ That's all that is needed to get the 2d representation of the data.
 
 <aside role="status">Interactive version of this plot is available in Qdrant Web UI!</aside>
 
-UMAP is not the only dimensionality reduction algorithm, compatible with Sparse Distance Matrix input.
-
-Sci-kit learn has a list of algorithms that can work with precomputed distances:
+UMAP isn't the only algorithm compatible with sparse distance matrix input. Scikit-learn offers others like:
 
 - [Isomap](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html) - Non-linear dimensionality reduction through Isometric Mapping
 - [SpectralEmbedding](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.SpectralEmbedding.html) - Forms an affinity matrix given by the specified function and applies spectral decomposition to the corresponding graph laplacian.
 - [TSNE](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html) - well-known algorithm for dimensionality reduction
 
-and multiple others.
-
 ## Clustering
 
-Another approach to understand the structure of the data is to group similar items together. This is something that data scientists call clustering.
-There are no single best way to determine criteria for good clustering, nor there is a single best algorithm to perform clustering. 
+Another approach to understanding data structure is clustering - grouping similar items together. There's no universally best clustering criterion or algorithm.
 
 {{< figure src="/articles_data/distance-based-exploration/clustering.png" alt="Clustering" caption="Clustering example, [source](https://scikit-learn.org/)" width="80%" >}}
 
@@ -200,29 +189,28 @@ sns.scatterplot(
 
 ## Graphs
 
-Clustering and dimensionality reduction are both aimed at giving us a better overview of the data,
-but they share a common trait - they require a training step before we can see the results.
+Clustering and dimensionality reduction both aim to provide a clearer overview of the data.
+However, they share a common characteristic - they require a training step before the results can be visualized.
 
-That also means that introducing new data points will require re-running the training step, which might be computationally expensive.
+This also implies that introducing new data points necessitates re-running the training step, which may be computationally expensive.
 
-Graphs are the alternative approach for data exploration, that allows direct interactive rendering of the relations between data points.
-In graph representation, each data point is a node, and the similarity between data points is represented as edges between nodes.
+Graphs offer an alternative approach for data exploration, enabling direct, interactive visualization of relationships between data points.
+In a graph representation, each data point is a node, and similarities between data points are represented as edges connecting the nodes.
 
-More similar data points are, higher the strength of the edge between them.
-This graph can be rendered in real time using so-called [force-directed layout](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) algorithms, that try to minimize the energy of the system by moving nodes around.
+The more similar the data points, the stronger the edges between them.
+This graph can be rendered in real-time using [force-directed layout](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) algorithms, which aim to minimize the system's energy by repositioning nodes dynamically.
 
-Adding new data points to the graph is as simple as adding new nodes and edges, without the need to re-run the training step.
+Adding new data points to the graph is as straightforward as inserting new nodes and edges, without the need to re-run any training steps.
 
-In practice, rendering a graph for the whole dataset at once might be computationally expensive and overwhelming for the user.
-So, let's take a look at a few options to approach this problem.
+In practice, rendering a graph for an entire dataset at once may be computationally expensive and overwhelming for the user. Therefore, let's explore a few strategies to address this issue.
 
 **Expanding from a single node**
 
-This a simplest approach, where we start with a single node and expand the graph by adding the most similar nodes to the graph.
+This is the simplest approach, where we start with a single node and expand the graph by adding the most similar nodes to the graph.
 
 {{< figure src="/articles_data/distance-based-exploration/graph.gif" alt="Graph" caption="Graph representation of the data" >}}
 
-<aside role="status">Interactive version of this plot is available in Qdrant Web UI!</aside>
+<aside role="status">An interactive version of this plot is available in Qdrant Web UI!</aside>
 
 **Sampling collection**
 
@@ -230,7 +218,7 @@ Expanding a single node works well if you want to explore neighbors of a single 
 If your dataset is small enough, you can render relations for all the data points at once. But it is a rare case in practice.
 
 Instead, we can sample a subset of the data and render the graph for this subset.
-This way we can get a good overview of the data, without overwhelming the user with too much information.
+This way, we can get a good overview of the data without overwhelming the user with too much information.
 
 Let's try to do so:
 
@@ -243,8 +231,8 @@ Let's try to do so:
 
 {{< figure src="/articles_data/distance-based-exploration/graph-sampled.png" alt="Graph" caption="Graph representation of the data" >}}
 
-This graph does capture some high-level structure of the data, but as you might notice, it quite noisy.
-This is because the difference in similarities are relatively small, and they might be overwhelmed by the stretches and compressions of the force-directed layout algorithm.
+This graph captures some high-level structure of the data, but as you might have noticed, it is quite noisy.
+This is because the differences in similarities are relatively small, and they might be overwhelmed by the stretches and compressions of the force-directed layout algorithm.
 
 To make the graph more readable, let's concentrate on the most important similarities and build a so called [Minimum/Maximum Spanning Tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree).
 
@@ -258,12 +246,11 @@ To make the graph more readable, let's concentrate on the most important similar
 
 {{< figure src="/articles_data/distance-based-exploration/spanning-tree.png" alt="Graph" caption="Spanning tree of the graph" width="80%" >}}
 
-This algorithm will only keep the most important edges, and remove the rest, while keeping the graph connected.
-By doing so, we can reveal clusters of the data, and the most important relations between them.
+This algorithm will only keep the most important edges and remove the rest while keeping the graph connected.
+By doing so, we can reveal clusters of the data and the most important relations between them.
 
-In some sense this is similar to heirarchical clustering, but with the ability to interactively explore the data.
-Another analogy might be a dynamically constructed mind-maps.
-
+In some sense, this is similar to hierarchical clustering, but with the ability to interactively explore the data.
+Another analogy might be a dynamically constructed mind map.
 
 
 <!--
@@ -280,9 +267,8 @@ ToDo
 
 ## Conclusion
 
-Vector simularity is not only useful for looking up nearest neighbors, but also provides a powerful tool for data exploration.
+Vector similarity is not only useful for looking up the nearest neighbors but also provides a powerful tool for data exploration.
 There are many algorithms that can contruct human-readable representations of the data, and Qdrant makes it easy to use them.
 
-Some of the instruments are available in the Qdrant Web UI, but for more advanced use-cases, you might want to use the API directly.
+Some of the instruments are available in the Qdrant Web UI, but for more advanced use cases, you might want to use the API directly.
 Try it with your data and see what hidden structures you can reveal.
-
