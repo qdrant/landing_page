@@ -265,7 +265,24 @@ In some sense this is similar to heirarchical clustering, but with the ability t
 Another analogy might be a dynamically constructed mind-maps.
 
 
+
+<!--
+
+We can talk about building graphs for search response as well, but it would require experiments
+and this article is stale already. Maybe later we can either extend this or create a new article.
+
 **Using search response**
 
 
 ToDo
+
+-->
+
+## Conclusion
+
+Vector simularity is not only useful for looking up nearest neighbors, but also provides a powerful tool for data exploration.
+There are many algorithms that can contruct human-readable representations of the data, and Qdrant makes it easy to use them.
+
+Some of the instruments are available in the Qdrant Web UI, but for more advanced use-cases, you might want to use the API directly.
+Try it with your data and see what hidden structures you can reveal.
+
