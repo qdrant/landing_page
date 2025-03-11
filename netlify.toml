@@ -42,3 +42,9 @@ HUGO_PARAMS_segmentWriteKey = "DZ49RYXkFEV0pY6DG4i0RyxyobSovIlU"
     to = "https://hybrid-cloud.qdrant.tech/"
     status = 301
     force = true
+
+[[redirects]]
+    from = "/legal/terms_cloud/"
+    to = "https://qdrant.to/cloud-terms/"
+    status = 301
+    force = true
