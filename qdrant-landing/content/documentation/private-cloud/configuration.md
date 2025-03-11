@@ -91,7 +91,7 @@ operator:
     appEnvironment: kubernetes
     # The log level for the operator
     # Available options: DEBUG | INFO | WARN | ERROR
-    logLevel: INFO 
+    logLevel: INFO
     # Metrics contains the operator config related the metrics
     metrics:
       # The port used for metrics
@@ -103,7 +103,7 @@ operator:
     # Controller related settings
     controller:
       # The period a forced recync is done by the controller (if watches are missed / nothing happened)
-      forceResyncPeriod: 10h
+      forceResyncPeriod: 2m
       # QPS indicates the maximum QPS to the master from this client.
       # Default is 200
       qps: 200
@@ -130,7 +130,7 @@ operator:
         # Qdrant config contains settings specific for the database
         qdrant:
           # The config where to find the image for qdrant
-          image: 
+          image:
             # The repository where to find the image for qdrant
             # Default is "qdrant/qdrant"
             repository: registry.cloud.qdrant.io/qdrant/qdrant
@@ -154,7 +154,7 @@ operator:
               # See: <https://qdrant.tech/articles/io_uring/#and-what-about-qdrant>
               asyncScorer: false
           # Qdrant DB log level
-          # Available options: DEBUG | INFO | WARN | ERROR 
+          # Available options: DEBUG | INFO | WARN | ERROR
           # Default is "INFO"
           logLevel: INFO
           # Default Qdrant security context configuration
@@ -199,8 +199,7 @@ operator:
           # Default is false.
           enable: true
           # The endpoint address the cluster manager could be reached
-          # If set, this should be a full URL like: http://cluster-manager.qdrant-cloud-ns.svc.cluster.local:7333
-          endpointAddress: http://cluster-manager
+          endpointAddress: "http://qdrant-cluster-manager"
           # InvocationInterval is the interval between calls (started after the previous call is retured)
           # Default is 10 seconds
           invocationInterval: 10s
@@ -209,7 +208,7 @@ operator:
           timeout: 30s
           # Specifies overrides for the manage rules
           manageRulesOverrides:
-            #dry_run: 
+            #dry_run:
             #max_transfers:
             #max_transfers_per_collection:
             #rebalance:
@@ -248,7 +247,7 @@ operator:
         # Default is 3 seconds
         telemetryTimeout: 3s
         # MaxConcurrentReconciles is the maximum number of concurrent Reconciles which can be run. Defaults to 20.
-        maxConcurrentReconciles: 20  
+        maxConcurrentReconciles: 20
         # VolumeExpansionMode specifies the expansion mode, which can be online or offline (e.g. in case of Azure).
         # Available options: Online, Offline
         # Default is Online
@@ -277,13 +276,17 @@ operator:
           # Whether or not the ScheduledSnapshot feature is enabled.
           # Default is true.
           enable: true
+          # RemoveCronJobs can be enabled when the previous [Python] operator (qdrant-operator) has been run and this
+          # operator should remove the cron jobs it created (not used by this operator anymore).
+          # Default is true.
+          removeCronJobs: true
           # MaxConcurrentReconciles is the maximum number of concurrent Reconciles which can be run. Defaults to 1.
           maxConcurrentReconciles: 1
         # Restores contains the settings for restoring (a snapshot) as part of backup management.
         restores:
           # Whether or not the Restore feature is enabled.
           # Default is true.
-          enable: true
+          enable:  true
           # MaxConcurrentReconciles is the maximum number of concurrent Reconciles which can be run. Defaults to 1.
           maxConcurrentReconciles: 1
 

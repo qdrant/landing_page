@@ -57,6 +57,26 @@ _Appears in:_
 
 
 
+#### ComponentReference
+
+
+
+
+
+
+
+_Appears in:_
+- [QdrantCloudRegionSpec](#qdrantcloudregionspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `apiVersion` _string_ | APIVersion is the group and version of the component being referenced. |  |  |
+| `kind` _string_ | Kind is the type of component being referenced |  |  |
+| `name` _string_ | Name is the name of component being referenced |  |  |
+| `namespace` _string_ | Namespace is the namespace of component being referenced. |  |  |
+| `markedForDeletion` _boolean_ | MarkedForDeletion specifies whether the component is marked for deletion |  |  |
+
+
 #### ComponentStatus
 
 
@@ -75,6 +95,35 @@ _Appears in:_
 | `version` _string_ | Version specifies the version of the component |  |  |
 | `phase` _[ComponentPhase](#componentphase)_ | Phase specifies the current phase of the component |  |  |
 | `message` _string_ | Message specifies the info explaining the current phase of the component |  |  |
+
+
+#### GPU
+
+
+
+
+
+
+
+_Appears in:_
+- [QdrantClusterSpec](#qdrantclusterspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `gpuType` _[GPUType](#gputype)_ | GPUType specifies the type of the GPU to use. |  | Enum: [nvidia amd] <br /> |
+
+
+#### GPUType
+
+_Underlying type:_ _string_
+
+
+
+
+
+_Appears in:_
+- [GPU](#gpu)
+
 
 
 #### HelmRelease
@@ -109,6 +158,22 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `markedForDeletionAt` _string_ | MarkedForDeletionAt specifies the time when the helm repository was marked for deletion |  |  |
 | `object` _[HelmRepository](#helmrepository)_ | Object specifies the helm repository object |  | EmbeddedResource: {} <br /> |
+
+
+#### InferenceConfig
+
+
+
+
+
+
+
+_Appears in:_
+- [QdrantConfiguration](#qdrantconfiguration)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `enabled` _boolean_ | Enabled specifies whether to enable inference for the cluster or not. | false |  |
 
 
 #### Ingress
@@ -246,6 +311,47 @@ _Appears in:_
 | `grpcHost` _string_ | GRPCHost specifies the host name for the GRPC ingress. |  |  |
 
 
+#### NodeInfo
+
+
+
+
+
+
+
+_Appears in:_
+- [QdrantCloudRegionStatus](#qdrantcloudregionstatus)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `name` _string_ | Name specifies the name of the node |  |  |
+| `region` _string_ | Region specifies the region of the node |  |  |
+| `zone` _string_ | Zone specifies the zone of the node |  |  |
+| `instanceType` _string_ | InstanceType specifies the instance type of the node |  |  |
+| `arch` _string_ | Arch specifies the CPU architecture of the node |  |  |
+| `capacity` _[NodeResourceInfo](#noderesourceinfo)_ | Capacity specifies the capacity of the node |  |  |
+| `allocatable` _[NodeResourceInfo](#noderesourceinfo)_ | Allocatable specifies the allocatable resources of the node |  |  |
+
+
+#### NodeResourceInfo
+
+
+
+
+
+
+
+_Appears in:_
+- [NodeInfo](#nodeinfo)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `cpu` _string_ | CPU specifies the CPU resources of the node |  |  |
+| `memory` _string_ | Memory specifies the memory resources of the node |  |  |
+| `pods` _string_ | Pods specifies the pods resources of the node |  |  |
+| `ephemeralStorage` _string_ | EphemeralStorage specifies the ephemeral storage resources of the node |  |  |
+
+
 #### NodeStatus
 
 
@@ -263,74 +369,6 @@ _Appears in:_
 | `started_at` _string_ | StartedAt specifies the time when the node started (in RFC3339 format) |  |  |
 | `state` _object (keys:[PodConditionType](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#podconditiontype-v1-core), values:[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#conditionstatus-v1-core))_ | States specifies the condition states of the node |  |  |
 | `version` _string_ | Version specifies the version of Qdrant running on the node |  |  |
-
-
-#### Operation
-
-
-
-
-
-
-
-_Appears in:_
-- [QdrantClusterStatus](#qdrantclusterstatus)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `type` _[OperationType](#operationtype)_ | Type specifies the type of the operation |  |  |
-| `phase` _[OperationPhase](#operationphase)_ | Phase specifies the phase of the operation |  |  |
-| `id` _integer_ | Id specifies the id of the operation |  |  |
-| `startTime` _string_ | StartTime specifies the time when the operation started |  |  |
-| `completionTime` _string_ | CompletionTime specifies the time when the operation completed |  |  |
-| `message` _string_ | Message specifies the message of the operation |  |  |
-| `subOperation` _boolean_ | SubOperation specifies whether the operation is a sub-operation of another operation |  |  |
-| `steps` _[OperationStep](#operationstep) array_ | Steps specifies the steps the operation has performed |  |  |
-
-
-#### OperationPhase
-
-_Underlying type:_ _string_
-
-
-
-
-
-_Appears in:_
-- [Operation](#operation)
-
-
-
-#### OperationStep
-
-
-
-
-
-
-
-_Appears in:_
-- [Operation](#operation)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `name` _string_ | Name specifies the name of the step |  |  |
-| `id` _integer_ | Id specifies the id of the step |  |  |
-| `phase` _[StepPhase](#stepphase)_ | Phase specifies the phase of the step |  |  |
-| `message` _string_ | Message specifies the reason in case of failure |  |  |
-
-
-#### OperationType
-
-_Underlying type:_ _string_
-
-
-
-
-
-_Appears in:_
-- [Operation](#operation)
-
 
 
 #### Pause
@@ -402,8 +440,9 @@ _Appears in:_
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
 | `id` _string_ | Id specifies the unique identifier of the region |  |  |
-| `helmRepositories` _[HelmRepository](#helmrepository) array_ | HelmRepositories specifies the list of helm repositories to be created to the region |  |  |
-| `helmReleases` _[HelmRelease](#helmrelease) array_ | HelmReleases specifies the list of helm releases to be created to the region |  |  |
+| `components` _[ComponentReference](#componentreference) array_ | Components specifies the list of components to be installed in the region |  |  |
+| `helmRepositories` _[HelmRepository](#helmrepository) array_ | HelmRepositories specifies the list of helm repositories to be created to the region<br />Deprecated: Use "Components" instead |  |  |
+| `helmReleases` _[HelmRelease](#helmrelease) array_ | HelmReleases specifies the list of helm releases to be created to the region<br />Deprecated: Use "Components" instead |  |  |
 
 
 
@@ -650,7 +689,6 @@ _Appears in:_
 | `clusterManager` _boolean_ | ClusterManager specifies whether to use the cluster manager for this cluster.<br />The Python-operator will deploy a dedicated cluster manager instance.<br />The Go-operator will use a shared instance.<br />If not set, the default will be taken from the operator config. |  |  |
 | `suspend` _boolean_ | Suspend specifies whether to suspend the cluster.<br />If enabled, the cluster will be suspended and all related resources will be removed except the PVCs. | false |  |
 | `pauses` _[Pause](#pause) array_ | Pauses specifies a list of pause request by developer for manual maintenance.<br />Operator will skip handling any changes in the CR if any pause request is present. |  |  |
-| `distributed` _boolean_ | Deprecated |  |  |
 | `image` _[QdrantImage](#qdrantimage)_ | Image specifies the image to use for each Qdrant node. |  |  |
 | `resources` _[Resources](#resources)_ | Resources specifies the resources to allocate for each Qdrant node. |  |  |
 | `security` _[QdrantSecurityContext](#qdrantsecuritycontext)_ | Security specifies the security context for each Qdrant node. |  |  |
@@ -659,11 +697,13 @@ _Appears in:_
 | `config` _[QdrantConfiguration](#qdrantconfiguration)_ | Config specifies the Qdrant configuration setttings for the clusters. |  |  |
 | `ingress` _[Ingress](#ingress)_ | Ingress specifies the ingress for the cluster. |  |  |
 | `service` _[KubernetesService](#kubernetesservice)_ | Service specifies the configuration of the Qdrant Kubernetes Service. |  |  |
+| `gpu` _[GPU](#gpu)_ | GPU specifies GPU configuration for the cluster. If this field is not set, no GPU will be used. |  |  |
 | `statefulSet` _[KubernetesStatefulSet](#kubernetesstatefulset)_ | StatefulSet specifies the configuration of the Qdrant Kubernetes StatefulSet. |  |  |
 | `storageClassNames` _[StorageClassNames](#storageclassnames)_ | StorageClassNames specifies the storage class names for db and snapshots. |  |  |
 | `topologySpreadConstraints` _[TopologySpreadConstraint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#topologyspreadconstraint-v1-core)_ | TopologySpreadConstraints specifies the topology spread constraints for the cluster. |  |  |
 | `podDisruptionBudget` _[PodDisruptionBudgetSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#poddisruptionbudgetspec-v1-policy)_ | PodDisruptionBudget specifies the pod disruption budget for the cluster. |  |  |
 | `restartAllPodsConcurrently` _boolean_ | RestartAllPodsConcurrently specifies whether to restart all pods concurrently (also called one-shot-restart).<br />If enabled, all the pods in the cluster will be restarted concurrently in situations where multiple pods<br />need to be restarted like when RestartedAtAnnotationKey is added/updated or the Qdrant version need to be upgraded.<br />This helps sharded but not replicated clusters to reduce downtime to possible minimum during restart. |  |  |
+| `startupDelaySeconds` _integer_ | If StartupDelaySeconds is set (> 0), an additional 'sleep <value>' will be emitted to the pod startup.<br />The sleep will be added when a pod is restarted, it will not force any pod to restart.<br />This feature can be used for debugging the core, e.g. if a pod is in crash loop, it provided a way<br />to inspect the attached storage. |  |  |
 
 
 
@@ -686,6 +726,7 @@ _Appears in:_
 | `service` _[QdrantConfigurationService](#qdrantconfigurationservice)_ | Service specifies the service level configuration for Qdrant. |  |  |
 | `tls` _[QdrantConfigurationTLS](#qdrantconfigurationtls)_ | TLS specifies the TLS configuration for Qdrant. |  |  |
 | `storage` _[StorageConfig](#storageconfig)_ | Storage specifies the storage configuration for Qdrant. |  |  |
+| `inference` _[InferenceConfig](#inferenceconfig)_ | Inference configuration. This is used in Qdrant Managed Cloud only. If not set Inference is not available to this cluster. |  |  |
 
 
 #### QdrantConfigurationCollection
@@ -757,6 +798,7 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `cert` _[QdrantSecretKeyRef](#qdrantsecretkeyref)_ | Reference to the secret containing the server certificate chain file |  |  |
 | `key` _[QdrantSecretKeyRef](#qdrantsecretkeyref)_ | Reference to the secret containing the server private key file |  |  |
+| `caCert` _[QdrantSecretKeyRef](#qdrantsecretkeyref)_ | Reference to the secret containing the CA certificate file |  |  |
 
 
 #### QdrantImage
@@ -999,17 +1041,25 @@ _Appears in:_
 
 
 
-#### StepPhase
+#### StorageClass
 
-_Underlying type:_ _string_
+
 
 
 
 
 
 _Appears in:_
-- [OperationStep](#operationstep)
+- [QdrantCloudRegionStatus](#qdrantcloudregionstatus)
 
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `name` _string_ | Name specifies the name of the storage class |  |  |
+| `default` _boolean_ | Default specifies whether the storage class is the default storage class |  |  |
+| `provisioner` _string_ | Provisioner specifies the provisioner of the storage class |  |  |
+| `allowVolumeExpansion` _boolean_ | AllowVolumeExpansion specifies whether the storage class allows volume expansion |  |  |
+| `reclaimPolicy` _string_ | ReclaimPolicy specifies the reclaim policy of the storage class |  |  |
+| `parameters` _object (keys:string, values:string)_ | Parameters specifies the parameters of the storage class |  |  |
 
 
 #### StorageClassNames
@@ -1076,6 +1126,23 @@ _Appears in:_
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
 | `allowedSourceRanges` _string array_ | AllowedSourceRanges specifies the allowed CIDR source ranges for the ingress. |  |  |
+
+
+#### VolumeSnapshotClass
+
+
+
+
+
+
+
+_Appears in:_
+- [QdrantCloudRegionStatus](#qdrantcloudregionstatus)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `name` _string_ | Name specifies the name of the volume snapshot class |  |  |
+| `driver` _string_ | Driver specifies the driver of the volume snapshot class |  |  |
 
 
 #### VolumeSnapshotInfo

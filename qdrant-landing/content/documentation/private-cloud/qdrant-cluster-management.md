@@ -288,3 +288,38 @@ step certificate create mydomain.com qdrant-nodes.crt qdrant-nodes.key \
   --san qdrant-my-cluster-1.qdrant-headless-my-cluster
 ```
 </aside>
+
+## Creating a cluster with GPU support
+
+Starting with Qdrant 1.13 you can create a cluster that uses GPUs to accelarate indexing. Starting with private-cloud version 1.6.0 you can make use of this in private cloud.
+
+As a prerequisite, you need to have a Kubernetes cluster with GPU support. You can check the [Kubernetes documentation](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/) for generic information on GPUs and Kubernetes, or the documentation of your specific Kubernetes distribution.
+
+Examples:
+
+* [AWS EKS GPU support](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/amazon-eks.html)
+* [Azure AKS GPU support](https://docs.microsoft.com/en-us/azure/aks/gpu-cluster)
+* [GCP GKE GPU support](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus)
+* [Vultr Kubernetes GPU support](https://blogs.vultr.com/whats-new-vultr-q2-2023)
+
+Once you have a Kubernetes cluster with GPU support, you can create a QdrantCluster with GPU support:
+
+```yaml
+apiVersion: qdrant.io/v1
+kind: QdrantCluster
+metadata:
+  name: qdrant-a7d8d973-0cc5-42de-8d7b-c29d14d24840
+  labels:
+    cluster-id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
+    customer-id: "acme-industries"
+spec:
+  id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
+  version: "v1.13.4"
+  size: 1
+  resources:
+    cpu: 2
+    memory: "8Gi"
+    storage: "40Gi"
+  gpu:
+    gpuType: "nvidia"
+```
