@@ -1,6 +1,6 @@
 ---
 title: Cloud RBAC
-weight: 26
+weight: 16
 partition: cloud
 ---
 
@@ -31,4 +31,4 @@ Check out our [Early Access FAQ](/documentation/cloud-rbac/early-access-faq/) fo
 
 ## Reference
 
-- [Permission List](/documentation/cloud-rbac/permission-reference/)
+- [Permission List](/documentation/cloud-rbac/permission-list/)
