@@ -31,4 +31,4 @@ Check out our [Early Access FAQ](/documentation/cloud-rbac/early-access-faq/) fo
 
 ## Reference
 
-- [Permission List](/documentation/cloud-rbac/permission-list/)
+- [Permission List](/documentation/cloud-rbac/permission-reference/)
