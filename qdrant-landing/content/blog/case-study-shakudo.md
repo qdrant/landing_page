@@ -40,4 +40,4 @@ By deploying Qdrant Hybrid Cloud on Shakudo, organizations gain immediate compat
 
 Ready to learn how Qdrant on Shakudo can enhance your AI infrastructure? Contact the Shakudo team to explore how they can help you deploy secure, high-performance vector search in your VPC environment, or get started [here](https://www.shakudo.io/integrations/qdrant).
 
-If you are interested in Qdrant’s Managed Cloud, Hybrid Cloud, or Private Cloud solutions for flexible deployment options for top-tier data privacy, [contact us](https://qdrant.tech/contact-sales/).
+If you are interested in Qdrant’s Managed Cloud, Hybrid Cloud, or Private Cloud solutions for flexible deployment options for top-tier data privacy, [contact us](https://qdrant.tech/contact-us/).

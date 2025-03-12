@@ -21,8 +21,8 @@ startFree:
   text: Get Started
   url: https://cloud.qdrant.io/signup
 contactUs:
-  text: Request a demo
-  url: /contact-hybrid-cloud/
+  text: Talk to sales
+  url: /contact-us/
 image:
   src: /img/hybrid-cloud-graphic.svg
   alt: Enterprise-solutions

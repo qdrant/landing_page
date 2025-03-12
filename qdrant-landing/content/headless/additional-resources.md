@@ -13,8 +13,8 @@ resourceCards:
   title: Enterprise Solutions
   content: For maximal control for production-ready applications Qdrant is available as a Hybrid Cloud and Private Cloud (Full On Premise) solution.
   link:
-    text: Contact Sales
-    url: /contact-sales/
+    text: Read More
+    url: /enterprise-solutions/
 - id: 2
   icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1912_14111)"><path d="M14 14H10V23H14V14Z" stroke="#E0700D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 18H1V23H5V18Z" stroke="#E0700D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 10H19V23H23V10Z" stroke="#E0700D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 10L8 5L12 9L20 1" stroke="#E0700D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 1H20V6" stroke="#E0700D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_1912_14111"><rect width="24" height="24" fill="white"/></clipPath></defs></svg>
   title: Benchmarks
