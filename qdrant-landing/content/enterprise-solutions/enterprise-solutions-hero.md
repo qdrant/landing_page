@@ -6,7 +6,7 @@ startFree:
   url: https://cloud.qdrant.io/signup
 contactUs:
   text: Talk to Sales
-  url: /contact-sales/
+  url: /contact-us/
 image:
   src: /img/enterprise-solutions-hero.png
   alt: Enterprise-solutions
