@@ -150,18 +150,75 @@ There are multiple expressions available, check the [API docs for specific detai
 - **ln** - Natural logarithm of an expression.
 - **exp** - Exponential function of an expression (`e^x`).
 - **geo distance** - Haversine distance between two geographic points. Values need to be `{ "lat": 0.0, "lon": 0.0 }` objects.
+- **decay** - Apply a decay function to an expression, which clamps the output between 0 and 1. Available decay functions are **linear**, **exponential**, and **gaussian**. [See more](#boost-points-closer-to-user).
 
 It is possible to define a default for when the variable (either from payload or prefetch score) is not found. This is given in the form of a mapping from variable to value.
 If there is no variable, and no defined default, a default value of `0.0` is used.
 
-TODO: add example with defaults
-
+<aside role="status">
+    
 **Considerations when using formula queries:**
 
 - Formula queries can only be used as a rescoring step.
 - Formula results are always sorted in descending order (bigger is better). **For euclidean scores, make sure to negate them** to sort closest to farthest.
 - If a score or variable is not available, and there is no default value, it will be evaluated as 0.
 - Multiplication and division are lazily evaluated, meaning that if a 0 is encountered, the rest of operations don't execute (e.g. `0.0 * condition` won't check the condition).
+</aside>
+
+### Boost points closer to user
+Another example. Combine the score with how close the result is to a user. 
+
+Considering each point has an associated geo location, we can calculate the distance between the point and the request's location.
+
+Assuming we have cosine scores in the prefetch, we can use a helper function to clamp the geographical distance between 0 and 1, by using a decay function. Once clamped, we can sum the score and the distance together. Pseudocode:
+
+`score = score + gauss_decay(distance)`
+
+In this case we use a **gauss_decay** function.
+
+```http
+POST /collections/{collection_name}/points/query
+{
+    "prefetch": { "query": [0.2, 0.8, ...], "limit": 50 },
+    "query": {
+        "formula": {
+            "sum": [
+                "$score",
+                { 
+                    "gauss_decay": {
+                        "scale": 5000, // 5km
+                        "x": {
+                            "geo_distance": {
+                                "origin": { "lat": 52.504043, "lon": 13.393236 } // Berlin
+                                "to": "geo.location"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "defaults": { "geo.location": {"lat": 48.137154, "lon": 11.576124} } // Munich
+    }
+}
+```
+
+For all decay functions, there are these parameters available
+
+| Parameter | Default | Description |
+| --- | --- | --- |
+| `x` | N/A | The value to decay |
+| `target` | 0.0 | The value at which the decay will be at its peak. For distances it is usually set at 0.0, but can be set to any value. |
+| `scale` | 1.0 | The value at which the decay function will be equal to `midpoint`. This is in terms of `x` units, for example, if `x` is in meters, `scale` of 5000 means 5km. Must be a non-zero positive number |
+| `midpoint` | 0.5 | Output is `midpoint` when `x` equals `scale`. Must be in the range (0.0, 1.0), exclusive |
+
+The formulas for each decay function are as follows:
+<iframe src="https://www.desmos.com/calculator/idv5hknwb1?embed" width="600" height="400" style="border: 1px solid #ccc" frameborder=0></iframe>
+
+| Decay Function | Formula | Range |
+| --- | --- | --- | 
+| Linear (green) | $ \max\left(0,\ -\frac{\left(1-m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)+1\right) $ | $[0, 1]$ |
+| Exponential (red) | $ \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)\right) $ | $(0, 1]$ |
+| Gaussian (purple) | $ \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}^{2}}\cdot {abs}\left(x-t_{arget}\right)^{2}\right) $ | $(0, 1]$ |
 
 ## Grouping
 
