@@ -8,7 +8,10 @@ weight: 2
 
 ## Inviting Users to an Account
 
+
+
 > 💡 You can access this in **Access Management > User & Role Management** *if available see [this page for more details](/documentation/cloud-rbac/).*
+
 
 Users can be invited via the **User Management** section, where they are assigned the **Base role** by default. Additionally, users have the option to select a specific role when inviting another user. The **Base role** is a predefined role with minimal permissions, granting users access to the platform while restricting them to viewing only their own profile.
 
