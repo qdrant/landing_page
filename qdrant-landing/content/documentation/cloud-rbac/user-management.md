@@ -6,6 +6,13 @@ weight: 2
 
 # User Management
 
+
+
+> 💡 You can access this in **Access Management > User & Role Management** *if available see [this page for details](/documentation/cloud-rbac/).*
+
+
+
+
 ## Inviting Users to an Account
 
 
@@ -14,9 +21,6 @@ Users can be invited via the **User Management** section, where they are assigne
 ![image.png](/documentation/cloud/role-based-access-control/user-invitation.png)
 
 
-
-
-> 💡 You can access this in **Access Management > User & Role Management** *if available see [this page for details](/documentation/cloud-rbac/).*
 
 
 
