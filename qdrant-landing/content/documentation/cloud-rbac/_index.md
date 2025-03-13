@@ -18,7 +18,7 @@ Qdrant Cloud enables you to manage permissions for your cloud resources with gre
 
 *Note: Current permissions control access to ALL clusters. Per Cluster permissions will be in a future release.*
 
-> 💡 You can access this in **Access Management > User & Access Management** *if enabled.*
+> 💡 You can access this in **Access Management > User & Role Management** *if enabled.*
 
 ### How can I participate in the Early Access program for Cloud RBAC?
 
