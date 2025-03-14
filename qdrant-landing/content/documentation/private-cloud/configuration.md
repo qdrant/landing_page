@@ -103,7 +103,7 @@ operator:
     # Controller related settings
     controller:
       # The period a forced recync is done by the controller (if watches are missed / nothing happened)
-      forceResyncPeriod: 2m
+      forceResyncPeriod: 10h
       # QPS indicates the maximum QPS to the master from this client.
       # Default is 200
       qps: 200
