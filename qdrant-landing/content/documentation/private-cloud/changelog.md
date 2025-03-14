@@ -5,6 +5,11 @@ weight: 5
 
 # Changelog
 
+## 1.6.1 (2025-03-14)
+
+* Add support for GPU instances
+* Experimental support for automatic shard balancing
+
 ## 1.5.1 (2025-03-04)
 
 * Fix scaling down clusters that have TLS with self-signed certificates configured

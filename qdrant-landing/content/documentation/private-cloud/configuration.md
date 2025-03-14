@@ -91,7 +91,7 @@ operator:
     appEnvironment: kubernetes
     # The log level for the operator
     # Available options: DEBUG | INFO | WARN | ERROR
-    logLevel: INFO 
+    logLevel: INFO
     # Metrics contains the operator config related the metrics
     metrics:
       # The port used for metrics
@@ -130,7 +130,7 @@ operator:
         # Qdrant config contains settings specific for the database
         qdrant:
           # The config where to find the image for qdrant
-          image: 
+          image:
             # The repository where to find the image for qdrant
             # Default is "qdrant/qdrant"
             repository: registry.cloud.qdrant.io/qdrant/qdrant
@@ -154,7 +154,7 @@ operator:
               # See: <https://qdrant.tech/articles/io_uring/#and-what-about-qdrant>
               asyncScorer: false
           # Qdrant DB log level
-          # Available options: DEBUG | INFO | WARN | ERROR 
+          # Available options: DEBUG | INFO | WARN | ERROR
           # Default is "INFO"
           logLevel: INFO
           # Default Qdrant security context configuration
@@ -198,9 +198,8 @@ operator:
           # If disabled, all other properties in this struct are disregarded. Otherwise, the individual features will be inspected.
           # Default is false.
           enable: true
-          # The endpoint address the cluster manager could be reached
-          # If set, this should be a full URL like: http://cluster-manager.qdrant-cloud-ns.svc.cluster.local:7333
-          endpointAddress: http://cluster-manager
+          # The endpoint address where the cluster manager can be reached
+          endpointAddress: "http://qdrant-cluster-manager"
           # InvocationInterval is the interval between calls (started after the previous call is retured)
           # Default is 10 seconds
           invocationInterval: 10s
@@ -209,7 +208,7 @@ operator:
           timeout: 30s
           # Specifies overrides for the manage rules
           manageRulesOverrides:
-            #dry_run: 
+            #dry_run:
             #max_transfers:
             #max_transfers_per_collection:
             #rebalance:
@@ -248,7 +247,7 @@ operator:
         # Default is 3 seconds
         telemetryTimeout: 3s
         # MaxConcurrentReconciles is the maximum number of concurrent Reconciles which can be run. Defaults to 20.
-        maxConcurrentReconciles: 20  
+        maxConcurrentReconciles: 20
         # VolumeExpansionMode specifies the expansion mode, which can be online or offline (e.g. in case of Azure).
         # Available options: Online, Offline
         # Default is Online
@@ -283,7 +282,7 @@ operator:
         restores:
           # Whether or not the Restore feature is enabled.
           # Default is true.
-          enable: true
+          enable:  true
           # MaxConcurrentReconciles is the maximum number of concurrent Reconciles which can be run. Defaults to 1.
           maxConcurrentReconciles: 1
 

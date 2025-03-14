@@ -288,3 +288,62 @@ step certificate create mydomain.com qdrant-nodes.crt qdrant-nodes.key \
   --san qdrant-my-cluster-1.qdrant-headless-my-cluster
 ```
 </aside>
+
+## GPU support
+
+Starting with Qdrant 1.13 and private-cloud version 1.6.1 you can create a cluster that uses GPUs to accelarate indexing.
+
+As a prerequisite, you need to have a Kubernetes cluster with GPU support. You can check the [Kubernetes documentation](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/) for generic information on GPUs and Kubernetes, or the documentation of your specific Kubernetes distribution.
+
+Examples:
+
+* [AWS EKS GPU support](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/amazon-eks.html)
+* [Azure AKS GPU support](https://docs.microsoft.com/en-us/azure/aks/gpu-cluster)
+* [GCP GKE GPU support](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus)
+* [Vultr Kubernetes GPU support](https://blogs.vultr.com/whats-new-vultr-q2-2023)
+
+Once you have a Kubernetes cluster with GPU support, you can create a QdrantCluster with GPU support:
+
+```yaml
+apiVersion: qdrant.io/v1
+kind: QdrantCluster
+metadata:
+  name: qdrant-a7d8d973-0cc5-42de-8d7b-c29d14d24840
+  labels:
+    cluster-id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
+    customer-id: "acme-industries"
+spec:
+  id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
+  version: "v1.13.4"
+  size: 1
+  resources:
+    cpu: 2
+    memory: "8Gi"
+    storage: "40Gi"
+  gpu:
+    gpuType: "nvidia"
+```
+
+Once the cluster Pod has started, you can check in the logs if the GPU is detected:
+
+```shell
+$ kubectl logs qdrant-a7d8d973-0cc5-42de-8d7b-c29d14d24840-0
+
+Starting initializing for pod 0
+           _                 _
+  __ _  __| |_ __ __ _ _ __ | |_
+ / _` |/ _` | '__/ _` | '_ \| __|
+| (_| | (_| | | | (_| | | | | |_
+ \__, |\__,_|_|  \__,_|_| |_|\__|
+    |_|
+
+Version: 1.13.4, build: 7abc6843
+Access web UI at http://localhost:6333/dashboard
+
+2025-03-14T10:25:30.509636Z  INFO gpu::instance: Found GPU device: NVIDIA A16-2Q
+2025-03-14T10:25:30.509679Z  INFO gpu::instance: Found GPU device: llvmpipe (LLVM 15.0.7, 256 bits)
+2025-03-14T10:25:30.509734Z  INFO gpu::device: Create GPU device NVIDIA A16-2Q
+...
+```
+
+For more GPU configuration options, see the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/).
