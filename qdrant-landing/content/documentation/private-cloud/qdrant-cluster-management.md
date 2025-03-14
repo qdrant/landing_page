@@ -289,7 +289,7 @@ step certificate create mydomain.com qdrant-nodes.crt qdrant-nodes.key \
 ```
 </aside>
 
-## Creating a cluster with GPU support
+## GPU support
 
 Starting with Qdrant 1.13 you can create a cluster that uses GPUs to accelarate indexing. Starting with private-cloud version 1.6.0 you can make use of this in private cloud.
 
