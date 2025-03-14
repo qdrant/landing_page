@@ -24,6 +24,8 @@ Package v1 contains API Schema definitions for the qdrant.io v1 API group
 - [QdrantClusterScheduledSnapshotList](#qdrantclusterscheduledsnapshotlist)
 - [QdrantClusterSnapshot](#qdrantclustersnapshot)
 - [QdrantClusterSnapshotList](#qdrantclustersnapshotlist)
+- [QdrantEntity](#qdrantentity)
+- [QdrantEntityList](#qdrantentitylist)
 - [QdrantRelease](#qdrantrelease)
 - [QdrantReleaseList](#qdrantreleaselist)
 
@@ -97,6 +99,32 @@ _Appears in:_
 | `message` _string_ | Message specifies the info explaining the current phase of the component |  |  |
 
 
+#### EntityPhase
+
+_Underlying type:_ _string_
+
+
+
+
+
+_Appears in:_
+- [QdrantEntityStatus](#qdrantentitystatus)
+
+
+
+#### EntityResult
+
+_Underlying type:_ _string_
+
+EntityResult is the last result from the invocation to a manager
+
+
+
+_Appears in:_
+- [QdrantEntityStatusResult](#qdrantentitystatusresult)
+
+
+
 #### GPU
 
 
@@ -110,7 +138,13 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `gpuType` _[GPUType](#gputype)_ | GPUType specifies the type of the GPU to use. |  | Enum: [nvidia amd] <br /> |
+| `gpuType` _[GPUType](#gputype)_ | GPUType specifies the type of the GPU to use. If set, GPU indexing is enabled. |  | Enum: [nvidia amd] <br /> |
+| `forceHalfPrecision` _boolean_ | ForceHalfPrecision for `f32` values while indexing.<br />`f16` conversion will take place<br />only inside GPU memory and won't affect storage type. | false |  |
+| `deviceFilter` _string array_ | DeviceFilter for GPU devices by hardware name. Case-insensitive.<br />List of substrings to match against the gpu device name.<br />Example: [- "nvidia"]<br />If not specified, all devices are accepted. |  | MinItems: 1 <br /> |
+| `devices` _string array_ | Devices is a List of explicit GPU devices to use.<br />If host has multiple GPUs, this option allows to select specific devices<br />by their index in the list of found devices.<br />If `deviceFilter` is set, indexes are applied after filtering.<br />If not specified, all devices are accepted. |  | MinItems: 1 <br /> |
+| `parallelIndexes` _integer_ | ParallelIndexes is the number of parallel indexes to run on the GPU. | 1 | Minimum: 1 <br /> |
+| `groupsCount` _integer_ | GroupsCount is the amount of used vulkan "groups" of GPU.<br />In other words, how many parallel points can be indexed by GPU.<br />Optimal value might depend on the GPU model.<br />Proportional, but doesn't necessary equal to the physical number of warps.<br />Do not change this value unless you know what you are doing. |  | Minimum: 1 <br /> |
+| `allowIntegrated` _boolean_ | AllowIntegrated specifies whether to allow integrated GPUs to be used. | false |  |
 
 
 #### GPUType
@@ -799,6 +833,84 @@ _Appears in:_
 | `cert` _[QdrantSecretKeyRef](#qdrantsecretkeyref)_ | Reference to the secret containing the server certificate chain file |  |  |
 | `key` _[QdrantSecretKeyRef](#qdrantsecretkeyref)_ | Reference to the secret containing the server private key file |  |  |
 | `caCert` _[QdrantSecretKeyRef](#qdrantsecretkeyref)_ | Reference to the secret containing the CA certificate file |  |  |
+
+
+#### QdrantEntity
+
+
+
+QdrantEntity is the Schema for the qdrantentities API
+
+
+
+_Appears in:_
+- [QdrantEntityList](#qdrantentitylist)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `apiVersion` _string_ | `qdrant.io/v1` | | |
+| `kind` _string_ | `QdrantEntity` | | |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
+| `spec` _[QdrantEntitySpec](#qdrantentityspec)_ |  |  |  |
+
+
+#### QdrantEntityList
+
+
+
+QdrantEntityList contains a list of QdrantEntity objects
+
+
+
+
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `apiVersion` _string_ | `qdrant.io/v1` | | |
+| `kind` _string_ | `QdrantEntityList` | | |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
+| `items` _[QdrantEntity](#qdrantentity) array_ |  |  |  |
+
+
+#### QdrantEntitySpec
+
+
+
+QdrantEntitySpec defines the desired state of QdrantEntity
+
+
+
+_Appears in:_
+- [QdrantEntity](#qdrantentity)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `id` _string_ | The unique identifier of the entity (in UUID format). |  |  |
+| `entityType` _string_ | The type of the entity. |  |  |
+| `createdAt` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#time-v1-meta)_ | Timestamp when the entity was created. |  |  |
+| `lastUpdatedAt` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#time-v1-meta)_ | Timestamp when the entity was last updated. |  |  |
+| `deletedAt` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#time-v1-meta)_ | Timestamp when the entity was deleted (or is started to be deleting).<br />If not set the entity is not deleted |  |  |
+| `payload` _[JSON](#json)_ | Generic payload for this entity |  |  |
+
+
+
+
+#### QdrantEntityStatusResult
+
+
+
+QdrantEntityStatusResult is the last result from the invocation to a manager
+
+
+
+_Appears in:_
+- [QdrantEntityStatus](#qdrantentitystatus)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `result` _[EntityResult](#entityresult)_ | The result of last reconcile of the entity |  | Enum: [Ok Pending Error] <br /> |
+| `reason` _string_ | The reason of the result (e.g. in case of an error) |  |  |
+| `payload` _[JSON](#json)_ | The optional payload of the status. |  |  |
 
 
 #### QdrantImage
