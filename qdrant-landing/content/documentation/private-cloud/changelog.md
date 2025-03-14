@@ -5,7 +5,7 @@ weight: 5
 
 # Changelog
 
-## 1.6.0 (2025-03-07)
+## 1.6.1 (2025-03-14)
 
 * Add support for GPU instances
 * Experimental support for automatic shard balancing

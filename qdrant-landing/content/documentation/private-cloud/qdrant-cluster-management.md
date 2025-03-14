@@ -323,3 +323,27 @@ spec:
   gpu:
     gpuType: "nvidia"
 ```
+
+Once the cluster Pod has started, you can check in the logs if the GPU is detected:
+
+```shell
+$ kubectl logs qdrant-a7d8d973-0cc5-42de-8d7b-c29d14d24840-0
+
+Starting initializing for pod 0
+           _                 _
+  __ _  __| |_ __ __ _ _ __ | |_
+ / _` |/ _` | '__/ _` | '_ \| __|
+| (_| | (_| | | | (_| | | | | |_
+ \__, |\__,_|_|  \__,_|_| |_|\__|
+    |_|
+
+Version: 1.13.4, build: 7abc6843
+Access web UI at http://localhost:6333/dashboard
+
+2025-03-14T10:25:30.509636Z  INFO gpu::instance: Found GPU device: NVIDIA A16-2Q
+2025-03-14T10:25:30.509679Z  INFO gpu::instance: Found GPU device: llvmpipe (LLVM 15.0.7, 256 bits)
+2025-03-14T10:25:30.509734Z  INFO gpu::device: Create GPU device NVIDIA A16-2Q
+...
+```
+
+For more GPU configuration options, see the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/).

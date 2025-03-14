@@ -198,7 +198,7 @@ operator:
           # If disabled, all other properties in this struct are disregarded. Otherwise, the individual features will be inspected.
           # Default is false.
           enable: true
-          # The endpoint address the cluster manager could be reached
+          # The endpoint address where the cluster manager can be reached
           endpointAddress: "http://qdrant-cluster-manager"
           # InvocationInterval is the interval between calls (started after the previous call is retured)
           # Default is 10 seconds
@@ -276,10 +276,6 @@ operator:
           # Whether or not the ScheduledSnapshot feature is enabled.
           # Default is true.
           enable: true
-          # RemoveCronJobs can be enabled when the previous [Python] operator (qdrant-operator) has been run and this
-          # operator should remove the cron jobs it created (not used by this operator anymore).
-          # Default is true.
-          removeCronJobs: true
           # MaxConcurrentReconciles is the maximum number of concurrent Reconciles which can be run. Defaults to 1.
           maxConcurrentReconciles: 1
         # Restores contains the settings for restoring (a snapshot) as part of backup management.
