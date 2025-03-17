@@ -9,6 +9,14 @@ link:
   url: /customers/
 storyCards:
   - id: 0
+    icon: /img/brands/hubspot.svg
+    brand: Hubspot
+    content: “Qdrant powers our demanding recommendation and RAG applications. We chose it for its ease of deployment and high performance at scale, and have been consistently impressed with its results.”
+    author:
+      avatar: '/img/customers/srubin-sethu-madhavan.svg'
+      fullName: Srubin Sethu Madhavan
+      position: Technical Lead II at Hubspot
+  - id: 1
     icon: /img/brands/bayer.svg
     brand: Bayer
     content: “VectorStores are definitely here to stay, the objects in the world around us from image, sound, video and text become easily universal and searchable thanks to the embedding models. I personally recommend Qdrant. We have been using it for a while and couldn't be happier.“

@@ -6,6 +6,10 @@
 
   {{ partial "enterprise-solutions-use-cases" . }}
 
+  {{ with (.Site.GetPage "/customers/customers-testimonial-0") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial pt-1 pb-7") }}
+  {{ end }}
+
   {{ partial "enterprise-solutions-capabilities" . }}
 
   {{ partial "enterprise-solutions-testimonials" . }}

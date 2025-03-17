@@ -12,11 +12,30 @@
 
   {{ partial "retrieval-augmented-generation-evaluation" . }}
 
-  {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-use-cases") }}
-    {{ partial "use-cases-vector-cases" (dict "context" . "class" "rag-use-cases") }}
+  {{ $class := "rag-use-cases" }}
+  <section class="use-cases-vector-cases pb-1">
+    <div class="container">
+      {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-use-cases") }}
+        {{ partial "use-cases-cards" (dict "context" . "class" $class) }}
+      {{ end }}
+    </div>
+  </section>
+
+  {{ with (.Site.GetPage "/customers/customers-testimonial-0") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial pt-1") }}
   {{ end }}
 
+
+  <section class="use-cases-vector-cases {{ $class }}">
+    <div class="container">
+      {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-use-cases") }}
+        {{ partial "case-study" . }}
+      {{ end }}
+    </div>
+  </section>
+
   {{ partial "retrieval-augmented-generation-guide" . }}
+
 
   <!-- {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
     {{ partial "get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}

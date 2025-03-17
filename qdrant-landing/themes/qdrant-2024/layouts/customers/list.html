@@ -3,9 +3,23 @@
 
   {{ partial "customers-hero" . }}
 
+
+  <section class="bg-mid-gray pt-6">
+    <div class="container">
+      {{ with (.Site.GetPage "/customers/case-study-0") }}
+        {{ partial "case-study" . }}
+      {{ end }}
+    </div>
+  </section>
+
+  {{ with (.Site.GetPage "/customers/customers-testimonial-0") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial") }}
+  {{ end }}
+
   {{ with (.Site.GetPage "/customers/logo-cards-1") }}
     {{ partial "logo-cards" . }}
   {{ end }}
+
 
   <section class="bg-mid-gray pt-6">
     <div class="container">
@@ -23,6 +37,7 @@
     {{ partial "customers-case-studies" . }}
   {{ end }}
 
+
   <section class="bg-mid-gray pt-6">
     <div class="container">
       {{ with (.Site.GetPage "/customers/case-study-2") }}
@@ -35,6 +50,7 @@
     {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial") }}
   {{ end }}
 
+
   <section class="bg-mid-gray pt-6">
     <div class="container">
       {{ with (.Site.GetPage "/customers/case-study-3") }}
@@ -46,6 +62,7 @@
   {{ with (.Site.GetPage "/customers/logo-cards-2") }}
     {{ partial "logo-cards" . }}
   {{ end }}
+
 
   <section class="bg-mid-gray pt-6">
     <div class="container">
