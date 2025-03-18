@@ -10,11 +10,11 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "From Code-Free Development to Scalable Enterprise AI: Two March Opportunities to Join Us Live"
+text: "How Deutsche Telekom Scaled an Enterprise Multi-Agent Platform with Qdrant, Powering 2M+ Conversations"
 link:
   text: Tune in
-  url: https://try.qdrant.tech/march-livestreams
-start: 2025-03-10T13:00:00.000Z
+  url: https://try.qdrant.tech/deutsche-telekom-talk
+start: 2025-03-18T08:05:00.000Z
 sitemapExclude: true
-end: 2025-03-17T12:55:00.000Z
+end: 2025-03-27T05:00:00.000Z
 ---
