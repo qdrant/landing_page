@@ -1,13 +1,7 @@
 {{ with (.Site.GetPage "enterprise-solutions/enterprise-solutions-use-cases") }}
   <section class="enterprise-solutions-use-cases pb-7">
     <div class="container">
-      <h5 class="enterprise-solutions-use-cases__description">{{ .Params.description }}</h5>
-      <img
-        class="enterprise-solutions-use-cases__description-image"
-        src="{{ .Params.descriptionImage.src }}"
-        alt="{{ .Params.descriptionImage.alt }}"
-      />
-      <h2 class="enterprise-solutions-use-cases__title">{{ .Params.title }}</h2>
+      <h2 class="enterprise-solutions-use-cases__title pt-4">{{ .Params.title }}</h2>
       <div class="enterprise-solutions-use-cases__cases row g-4">
         {{ range $index, $element := .Params.items }}
           <div class="{{ if eq $index 0 }}col-12{{ else }}col-12 col-lg-6{{ end }}">
