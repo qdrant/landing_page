@@ -7,7 +7,7 @@
   background-color: $neutral-94;
 
   &__logos {
-    @include marquee.base(64px, 224px, 15, 15, 52px, $neutral-94, false, 50s, block);
+    @include marquee.base(64px, 224px, 18, 18, 52px, $neutral-94, false, 50s, block);
   }
 
   &__title {
@@ -25,7 +25,7 @@
     background-color: $neutral-20;
 
     .customer-list__logos {
-      @include marquee.base(64px, 224px, 15, 15, 52px, $neutral-20, false, 50s, block);
+      @include marquee.base(64px, 224px, 18, 18, 52px, $neutral-20, false, 50s, block);
     }
 
     .customer-list__title {

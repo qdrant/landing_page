@@ -1,7 +1,7 @@
 ---
 logos:
-  -  /img/customers-logo/gitbook.svg
-  -  /img/customers-logo/deloitte.svg
-  -  /img/customers-logo/disney.svg
+  -  /img/customers-logo/flipkart.svg
+  -  /img/customers-logo/x.svg
+  -  /img/customers-logo/quora.svg
 sitemapExclude: true
 ---

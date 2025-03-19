@@ -1,7 +1,7 @@
 ---
 logos:
-  -  /img/customers-logo/flipkart.svg
-  -  /img/customers-logo/x.svg
-  -  /img/customers-logo/quora.svg
+  -  /img/customers-logo/mozilla.svg
+  -  /img/customers-logo/voiceflow.svg
+  -  /img/customers-logo/bosch-digital.svg
 sitemapExclude: true
 ---
