@@ -34,7 +34,7 @@
   }
 
   .customers__logos {
-    @include marquee.base(64px, 224px, 22, 22, 52px, $neutral-10, false, 50s, block);
+    @include marquee.base(64px, 224px, 24, 24, 52px, $neutral-10, false, 50s, block);
   }
 
   @include media-breakpoint-up(xl) {
