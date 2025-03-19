@@ -9,7 +9,7 @@ This document outlines the permissions available in Qdrant Cloud.
 
 ---
 
-> 💡 When enabling `write:*` permissions in the UI, the corresponding `read:*` permission will also be enabled. This guarantees access to resources after creating and/or updating them.
+> 💡 When enabling `write:*` permissions in the UI, the corresponding `read:*` permission will also be enabled and non-actioable. This guarantees access to resources after creating and/or updating them.
 
 ## **Identity and Access Management**
 Permissions for users, user roles, management keys, and invitations.
