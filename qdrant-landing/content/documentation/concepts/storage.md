@@ -7,37 +7,43 @@ aliases:
 
 # Storage
 
-All data within one collection is divided into segments.
-Each segment has its independent vector and payload storage as well as indexes.
+A Qdrant collection can be split into multiple shards. Each shard is a separate storage unit. By default, a collection is created with a single [shard](/documentation/guides/distributed_deployment/). They are used to distribute data across nodes in a cluster, enabling parallel processing and improving performance. 
 
-Data stored in segments usually do not overlap.
-However, storing the same point in different segments will not cause problems since the search contains a deduplication mechanism.
+From a storage perspective, data within a shard is organized into segments. Each segment independently manages its vector and payload storage, along with their respective indexes.
 
-The segments consist of vector and payload storages, vector and payload [indexes](/documentation/concepts/indexing/), and id mapper, which stores the relationship between internal and external ids.
+![Storage Architecture](/documentation/concepts/storage/storage-architecture.png)
 
-A segment can be `appendable` or `non-appendable` depending on the type of storage and index used.
-You can freely add, delete and query data in the `appendable` segment.
-With `non-appendable` segment can only read and delete data.
+Typically, data in segments does not overlap. If the same data point is stored in multiple segments, it won't cause issues because the search process includes a deduplication mechanism.
 
-The configuration of the segments in the collection can be different and independent of one another, but at least one `appendable' segment must be present in a collection.
+Segments are made up of:
+- Vector and Payload Storage
+- Vector and Payload [Indexes](/documentation/concepts/indexing/)
+- An ID mapper that links internal and external IDs
 
-## Vector storage
+Segments can be either `appendable` or `non-appendable`:
+- **Appendable segments**: You can add, delete, and query data freely.
+- **Non-appendable segments**: You can only read and delete data.
 
-Depending on the requirements of the application, Qdrant can use one of the data storage options.
-The choice has to be made between the search speed and the size of the RAM used.
+Each collection can have segments that are configured differently, but it must include at least one `appendable` segment.
 
-**In-memory storage** - Stores all vectors in RAM, has the highest speed since disk access is required only for persistence.
+## Vector Storage
 
-**Memmap storage** - Creates a virtual address space associated with the file on disk. [Wiki](https://en.wikipedia.org/wiki/Memory-mapped_file).
-Mmapped files are not directly loaded into RAM. Instead, they use page cache to access the contents of the file.
-This scheme allows flexible use of available memory. With sufficient RAM, it is almost as fast as in-memory storage.
+Qdrant offers two main options for storing vectors, depending on your application's needs. The choice affects search speed and RAM usage:
 
+- **In-Memory storage**: 
+  - Stores all vectors in RAM.
+  - Offers the highest speed because disk access is only needed for saving data.
 
-### Configuring Memmap storage
+- **On-Disk storage**:
+  - Uses a virtual address space linked to a file on disk. [Learn more](https://en.wikipedia.org/wiki/Memory-mapped_file).
+  - Vectors aren't loaded directly into RAM. Instead, they use the page cache to access file contents.
+  - This method allows flexible memory use and can be nearly as fast as in-memory storage if enough RAM is available.
 
-There are two ways to configure the usage of memmap(also known as on-disk) storage:
+### Configuring On-Disk Storage
 
-- Set up `on_disk` option for the vectors in the collection create API:
+You can store your data on disk in two ways:
+
+- **Enable `on_disk` option**: Use this setting in the collection creation API to store vectors on disk.
 
 *Available as of v1.2.0*
 
@@ -153,16 +159,12 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 })
 ```
 
-This will create a collection with all vectors immediately stored in memmap storage.
-This is the recommended way, in case your Qdrant instance operates with fast disks and you are working with large collections.
+When you enable **On-Disk** storage, all vectors in a collection are stored on disk immediately. This is recommended if your Qdrant instance uses fast disks and handles large collections.
 
+To configure when segments switch to **On-Disk** storage, use the `memmap_threshold` option. You can set this threshold in two ways:
 
-- Set up `memmap_threshold` option. This option will set the threshold after which the segment will be converted to memmap storage.
-
-There are two ways to do this:
-
-1. You can set the threshold globally in the [configuration file](/documentation/guides/configuration/). The parameter is called `memmap_threshold` (previously `memmap_threshold_kb`).
-2. You can set the threshold for each collection separately during [creation](/documentation/concepts/collections/#create-collection) or [update](/documentation/concepts/collections/#update-collection-parameters).
+1. **Globally**: Adjust the `memmap_threshold` parameter in the [configuration file](/documentation/guides/configuration/).
+2. **Per Collection**: Set the threshold during the [creation](/documentation/concepts/collections/#create-collection) or [update](/documentation/concepts/collections/#update-collection-parameters) of each collection.
 
 ```http
 PUT /collections/{collection_name}
@@ -229,7 +231,6 @@ import io.qdrant.client.grpc.Collections.CreateCollection;
 import io.qdrant.client.grpc.Collections.Distance;
 import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
 import io.qdrant.client.grpc.Collections.VectorParams;
-import io.qdrant.client.grpc.Collections.VectorsConfig;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
@@ -289,13 +290,12 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 })
 ```
 
-The rule of thumb to set the memmap threshold parameter is simple:
+The rule of thumb for setting the `memmap_threshold` is straightforward:
 
-- if you have a balanced use scenario - set memmap threshold the same as `indexing_threshold` (default is 20000). In this case the optimizer will not make any extra runs and will optimize all thresholds at once.
-- if you have a high write load and low RAM - set memmap threshold lower than `indexing_threshold` to e.g. 10000. In this case the optimizer will convert the segments to memmap storage first and will only apply indexing after that.
+- **Balanced Use**: Set `memmap_threshold` equal to `indexing_threshold` (default is 20000). This way, the optimizer handles all thresholds together without extra runs.
+- **High Write Load & Low RAM**: Set `memmap_threshold` lower than `indexing_threshold`, e.g., 10000. This prioritizes converting segments to Memmap storage before indexing.
 
-In addition, you can use memmap storage not only for vectors, but also for HNSW index.
-To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` during collection [creation](/documentation/concepts/collections/#create-a-collection) or [updating](/documentation/concepts/collections/#update-collection-parameters).
+Additionally, **On-Disk** storage can be used for the HNSW index. To enable this, set the `hnsw_config.on_disk` parameter to `true` during collection [creation](/documentation/concepts/collections/#create-a-collection) or [updating](/documentation/concepts/collections/#update-collection-parameters).
 
 ```http
 PUT /collections/{collection_name}
@@ -437,30 +437,34 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 })
 ```
 
-## Payload storage
+## Payload Storage
 
-Qdrant supports two types of payload storages: InMemory and OnDisk.
+Qdrant supports two types of payload storage: **In-Memory** and **On-Disk**.
 
-InMemory payload storage is organized in the same way as in-memory vectors.
-The payload data is loaded into RAM at service startup while disk and [RocksDB](https://rocksdb.org/) are used for persistence only.
-This type of storage works quite fast, but it may require a lot of space to keep all the data in RAM, especially if the payload has large values attached - abstracts of text or even images.
+- **In-Memory Storage**:
+  - Loads payload data into RAM at startup.
+  - Uses disk and [RocksDB](https://rocksdb.org/) for persistence.
+  - Fast access but requires a lot of RAM, especially for large payloads like text or images.
 
-In the case of large payload values, it might be better to use OnDisk payload storage.
-This type of storage will read and write payload directly to RocksDB, so it won't require any significant amount of RAM to store.
-The downside, however, is the access latency.
-If you need to query vectors with some payload-based conditions - checking values stored on disk might take too much time.
-In this scenario, we recommend creating a payload index for each field used in filtering conditions to avoid disk access.
-Once you create the field index, Qdrant will preserve all values of the indexed field in RAM regardless of the payload storage type.
+- **On-Disk Storage**:
+  - Reads and writes payloads directly to [Gridstore](/articles/gridstore-key-value-storage/).
+  - Requires less RAM but has higher access latency.
+  - If querying vectors with payload-based conditions, create a payload index for each field to avoid disk access. Indexed fields are kept in RAM.
 
-You can specify the desired type of payload storage with [configuration file](/documentation/guides/configuration/) or with collection parameter `on_disk_payload` during [creation](/documentation/concepts/collections/#create-collection) of the collection.
+You can choose the type of payload storage in the [configuration file](/documentation/guides/configuration/) or by setting the `on_disk_payload` parameter when [creating](/documentation/concepts/collections/#create-collection) a collection.
 
 ## Versioning
 
-To ensure data integrity, Qdrant performs all data changes in 2 stages.
-In the first step, the data is written to the Write-ahead-log(WAL), which orders all operations and assigns them a sequential number.
+Qdrant ensures data integrity through a two-stage process:
 
-Once a change has been added to the WAL, it will not be lost even if a power loss occurs.
-Then the changes go into the segments.
-Each segment stores the last version of the change applied to it as well as the version of each individual point.
-If the new change has a sequential number less than the current version of the point, the updater will ignore the change.
-This mechanism allows Qdrant to safely and efficiently restore the storage from the WAL in case of an abnormal shutdown.
+1. **Write-Ahead Log (WAL)**:
+   - All data changes are first written to the WAL.
+   - The WAL orders operations and assigns them a sequential number.
+   - Changes in the WAL are safe from power loss.
+
+2. **Segment Updates**:
+   - Changes are then applied to segments.
+   - Each segment keeps the latest version of changes and the version of each point.
+   - If a new change has a lower sequential number than the current version, it is ignored.
+
+This process allows Qdrant to restore storage safely from the WAL in case of an unexpected shutdown.
