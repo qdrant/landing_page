@@ -33,6 +33,10 @@
     {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial") }}
   {{ end }}
 
+  {{ with (.Site.GetPage "/customers/logo-cards-2") }}
+    {{ partial "logo-cards" . }}
+  {{ end }}
+
   {{ with (.Site.GetPage "/customers/case-studies-1") }}
     {{ partial "customers-case-studies" . }}
   {{ end }}
@@ -50,6 +54,10 @@
     {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial") }}
   {{ end }}
 
+  {{ with (.Site.GetPage "/customers/logo-cards-3") }}
+    {{ partial "logo-cards" . }}
+  {{ end }}
+
 
   <section class="bg-mid-gray pt-6">
     <div class="container">
@@ -59,8 +67,16 @@
     </div>
   </section>
 
-  {{ with (.Site.GetPage "/customers/logo-cards-2") }}
+  {{ with (.Site.GetPage "/customers/customers-testimonial-2") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial reversed") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/customers/logo-cards-4") }}
     {{ partial "logo-cards" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/customers/case-studies-2") }}
+    {{ partial "customers-case-studies" . }}
   {{ end }}
 
 
@@ -71,18 +87,6 @@
       {{ end }}
     </div>
   </section>
-
-  {{ with (.Site.GetPage "/customers/case-studies-2") }}
-    {{ partial "customers-case-studies" . }}
-  {{ end }}
-
-  {{ with (.Site.GetPage "/customers/customers-testimonial-2") }}
-    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial reversed") }}
-  {{ end }}
-
-  {{ with (.Site.GetPage "/customers/logo-cards-3") }}
-    {{ partial "logo-cards" . }}
-  {{ end }}
 
   {{ partial "customers-vector-space-wall" . }}
 
