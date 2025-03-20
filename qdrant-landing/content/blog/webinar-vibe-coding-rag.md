@@ -44,9 +44,13 @@ great success.
 
 ## Understanding the Model Context Protocol (MCP)
 
-Before diving into the tools, it's important to understand what powers our approach. The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) is an open protocol that enables seamless integration between LLM applications and external data sources and tools. Whether you're building an AI-powered IDE, enhancing a chat interface, or creating custom AI workflows, MCP provides a standardized way to connect LLMs with the context they need.
+Before diving into the tools, it's important to understand what powers our approach. The [Model Context Protocol 
+(MCP)](https://modelcontextprotocol.io/introduction) is an open protocol that enables seamless integration between LLM 
+applications and external data sources and tools. Whether you're building an AI-powered IDE, enhancing a chat interface, 
+or creating custom AI workflows, MCP provides a standardized way to connect LLMs with the context they need.
 
-Our `mcp-server-qdrant` implementation acts as a semantic memory layer on top of [Qdrant](https://qdrant.tech/), a vector search engine. This combination allows AI agents to:
+Our `mcp-server-qdrant` implementation acts as a semantic memory layer on top of [Qdrant](https://qdrant.tech/). This 
+combination allows AI agents to:
 
 1. Store and retrieve memories (code snippets, documentation, etc.)
 2. Perform semantic searches across your codebase
