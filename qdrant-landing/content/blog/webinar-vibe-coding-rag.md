@@ -42,6 +42,22 @@ our live vibe coding session to see if it’s really that easy.
 either way! It's less than an hour, and even having somehow functional demo within that time can already be considered a 
 great success. 
 
+## Understanding the Model Context Protocol (MCP)
+
+Before diving into the tools, it's important to understand what powers our approach. The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) is an open protocol that enables seamless integration between LLM applications and external data sources and tools. Whether you're building an AI-powered IDE, enhancing a chat interface, or creating custom AI workflows, MCP provides a standardized way to connect LLMs with the context they need.
+
+Our `mcp-server-qdrant` implementation acts as a semantic memory layer on top of [Qdrant](https://qdrant.tech/), a vector search engine. This combination allows AI agents to:
+
+1. Store and retrieve memories (code snippets, documentation, etc.)
+2. Perform semantic searches across your codebase
+3. Find the most relevant context for generating new code
+
+The server provides two primary tools:
+- `qdrant-store`: Stores information with optional metadata in the Qdrant database
+- `qdrant-find`: Retrieves relevant information using semantic search
+
+This architecture enables AI coding agents to maintain context awareness throughout your development process.
+
 ## AI coding assistants
 
 There isn't a clear winner of the AI coding tools, and the choice depends on your preferences and requirements. We
@@ -133,6 +149,22 @@ claude mcp add qdrant-code-search \
   -e TOOL_STORE_DESCRIPTION="$TOOL_STORE_DESCRIPTION" \
   -- uvx mcp-server-qdrant
 ```
+
+The MCP server configuration is primarily done through environment variables. For those looking to set up their own 
+instance, here are the key configuration options:
+
+| Name                 | Description                                                     | Default Value                            |
+|----------------------|-----------------------------------------------------------------|------------------------------------------|
+| `QDRANT_URL`         | URL of the Qdrant server                                        | None                                     |
+| `QDRANT_API_KEY`     | API key for the Qdrant server                                   | None                                     |
+| `COLLECTION_NAME`    | Name of the collection to use                                   | *Required*                               |
+| `QDRANT_LOCAL_PATH`  | Path to the local Qdrant database (alternative to `QDRANT_URL`) | None                                     |
+| `EMBEDDING_PROVIDER` | Embedding provider to use                                       | `fastembed`                              |
+| `EMBEDDING_MODEL`    | Name of the embedding model to use                              | `sentence-transformers/all-MiniLM-L6-v2` |
+
+By default, the server uses the `sentence-transformers/all-MiniLM-L6-v2` embedding model from 
+[FastEmbed](https://qdrant.github.io/fastembed/) to encode memories, which offers a good balance between performance and
+accuracy.
 
 ### Building the knowledge base of the DaisyUI components
 
