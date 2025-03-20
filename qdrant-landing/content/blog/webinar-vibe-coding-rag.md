@@ -49,8 +49,8 @@ Before diving into the tools, it's important to understand what powers our appro
 applications and external data sources and tools. Whether you're building an AI-powered IDE, enhancing a chat interface, 
 or creating custom AI workflows, MCP provides a standardized way to connect LLMs with the context they need.
 
-Our `mcp-server-qdrant` implementation acts as a semantic memory layer on top of [Qdrant](https://qdrant.tech/). This 
-combination allows AI agents to:
+Our [`mcp-server-qdrant`](https://github.com/qdrant/mcp-server-qdrant) implementation acts as a semantic memory layer on 
+top of [Qdrant](https://qdrant.tech/). This combination allows AI agents to:
 
 1. Store and retrieve memories (code snippets, documentation, etc.)
 2. Perform semantic searches across your codebase
@@ -73,8 +73,7 @@ There's been a lot of excitement around **Cursor** recently, and for good reason
 built on Visual Studio Code that promises to transform how we code with AI assistance. But those of you who had a 
 somewhat complicated relationship with VS Code, like me, may prefer to stick with the familiar tools where you're most
 productive, e.g. JetBrains IDEs. A huge benefit of Cursor is that it can integrate with the **MCP servers**, such as 
-[`mcp-server-qdrant`](https://github.com/qdrant/mcp-server-qdrant), which allows you to provide your own context to the 
-AI model.
+`mcp-server-qdrant`, which allows you to provide your own context to the AI model.
 
 ![GitHub Copilot](/blog/webinar-vibe-coding-rag/github-copilot.png)
 
@@ -125,10 +124,9 @@ it can automatically search for relevant examples in our codebase and create new
 Moreover, when the assistant is done with generating the code, it can also store it in Qdrant for further reference. And 
 if configured correctly, it will only do that when we accept the change.
 
-The latest version of the [`mcp-server-qdrant`](https://github.com/qdrant/mcp-server-qdrant) allows to specify the
-instructions for the AI agent, so it can understand when to use which of the tools. This way, the MCP server can not 
-only be used for coding but virtually to any semantic search task, where the context is crucial. This is how we did 
-that during the webinar:
+The latest version of the `mcp-server-qdrant` allows to specify the instructions for the AI agent, so it can understand 
+when to use which of the tools. This way, the MCP server can not only be used for coding but virtually to any semantic 
+search task, where the context is crucial. This is how we did that during the webinar:
 
 ```bash
 export TOOL_FIND_DESCRIPTION="Use this tool ALWAYS before generating any FRONTEND code. \
@@ -200,6 +198,6 @@ If you are interested to see how well Claude Code performed in action, you can w
 <iframe width="560" height="315" src="https://www.youtube.com/embed/rL1wlYIyJho" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 No matter if you build an MVP, or want to build a more complex application with the help of AI, it's key to give your
-agent a reliable source of information. That's why we've built [our MCP 
-server](https://github.com/qdrant/mcp-server-qdrant), so you can easily connect your documentation and codebase to
-Claude Code, Cursor, Windsurf or any other AI agent that supports the Model Context Protocol.
+agent a reliable source of information. That's why we've built our MCP server, so you can easily connect your 
+documentation and codebase to Claude Code, Cursor, Windsurf or any other AI agent that supports the Model Context 
+Protocol.
