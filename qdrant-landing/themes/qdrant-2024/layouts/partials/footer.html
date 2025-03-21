@@ -26,7 +26,18 @@
           <div class="row gx-lg-5 gy-5 gy-md-6">
             {{ range .Params.menuItems }}
               <div class="col-6 col-lg-4">
-                <p class="footer__menu-section-title">{{ .title }}</p>
+                {{ if .url }}
+                  <a
+                    href="{{ .url }}"
+                    {{ if strings.HasPrefix .url "http" }}
+                      target="_blank" rel="noopener noreferrer nofollow"
+                    {{ end }}
+                    class="footer__menu-section-title"
+                    >{{ .title }}</a
+                  >
+                {{ else }}
+                  <p class="footer__menu-section-title">{{ .title }}</p>
+                {{ end }}
                 <ul class="footer__menu-items">
                   {{ range .items }}
                     <li class="footer__menu-item">
