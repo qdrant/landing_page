@@ -81,7 +81,7 @@ kubectl create namespace qdrant-private-cloud
 kubectl create secret docker-registry qdrant-registry-creds --docker-server=registry.cloud.qdrant.io --docker-username='your-username' --docker-password='your-password' --namespace qdrant-private-cloud
 helm registry login 'registry.cloud.qdrant.io' --username 'your-username' --password 'your-password'
 helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.15.0 --wait
-helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.6.1
+helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.6.2
 ```
 
 For a list of available versions consult the [Private Cloud Changelog](/documentation/private-cloud/changelog/).

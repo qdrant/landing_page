@@ -5,6 +5,10 @@ weight: 5
 
 # Changelog
 
+## 1.6.2 (2025-03-21)
+
+* Allow disabling NetworkPolicy management in Qdrant Cluster operator
+
 ## 1.6.1 (2025-03-14)
 
 * Add support for GPU instances
