@@ -173,6 +173,10 @@ operator:
             #group: 3000
           # Network policies configuration for the Qdrant databases
           networkPolicies:
+            # Whether or not NetworkPolicy management is enabled.
+            # If set to false, no NetworkPolicies will be created.
+            # Default is true.
+            enable: true
             ingress:
               - ports:
                   - protocol: TCP
