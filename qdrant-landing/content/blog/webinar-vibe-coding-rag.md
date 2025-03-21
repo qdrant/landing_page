@@ -5,7 +5,7 @@ slug: webinar-vibe-coding-rag
 short_description: "Coding Youtube In-Video Search with AI agents"
 description: "Check out how the MCP server can give you more control over the quality of vibe coding with AI agents like Cursor, and Claude Code!"
 preview_image: /blog/webinar-vibe-coding-rag/preview.jpg
-date: 2025-03-19T12:02:00+01:00
+date: 2025-03-21T12:02:00+01:00
 author: Kacper Łukawski
 featured: false
 tags:
