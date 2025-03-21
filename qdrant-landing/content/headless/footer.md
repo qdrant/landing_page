@@ -28,14 +28,14 @@ menuItems:
         name: Qdrant Vector Database
         url: /qdrant-vector-database/
       - id: 1
-        name: Enterprise Solutions
-        url: /enterprise-solutions/
-      - id: 2
         name: Qdrant Cloud
         url: /cloud/
-      - id: 3
-        name: Hybrid Cloud
+      - id: 2
+        name: Qdrant Hybrid Cloud
         url: /hybrid-cloud/
+      - id: 3
+        name: Qdrant Enterprise Solutions
+        url: /enterprise-solutions/
   - title: Use Cases
     items:
       - id: 0
@@ -85,12 +85,15 @@ menuItems:
         name: Articles
         url: /articles/
       - id: 3
+        name: Events
+        url: https://try.qdrant.tech/events
+      - id: 4
         name: Startup Program
         url: /qdrant-for-startups/
-      - id: 4
+      - id: 5
         name: Demos + Tutorials
         url: /demo/
-      - id: 5
+      - id: 6
         name: Bug Bounty
         url: /security/bug-bounty-program/
   - title: Company
@@ -99,12 +102,15 @@ menuItems:
         name: About Us
         url: /about-us/
       - id: 1
+        name: Customers
+        url: /customers/
+      - id: 2
         name: Partners
         url: /partners/
-      - id: 2
+      - id: 3
         name: Careers
         url: https://qdrant.join.com/
-      - id: 3
+      - id: 4
         name: Contact Us
         url: /contact-us/
   - title: Pricing
