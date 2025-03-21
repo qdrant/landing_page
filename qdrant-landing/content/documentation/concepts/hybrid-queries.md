@@ -151,6 +151,7 @@ There are multiple expressions available, check the [API docs for specific detai
 - **exp** - Exponential function of an expression (`e^x`).
 - **geo distance** - Haversine distance between two geographic points. Values need to be `{ "lat": 0.0, "lon": 0.0 }` objects.
 - **decay** - Apply a decay function to an expression, which clamps the output between 0 and 1. Available decay functions are **linear**, **exponential**, and **gaussian**. [See more](#boost-points-closer-to-user).
+- **datetime** - Parse a datetime string (see formats [here](/documentation/concepts/payload/#datetime)), and use it as a POSIX timestamp, in seconds.
 
 It is possible to define a default for when the variable (either from payload or prefetch score) is not found. This is given in the form of a mapping from variable to value.
 If there is no variable, and no defined default, a default value of `0.0` is used.
@@ -161,7 +162,9 @@ If there is no variable, and no defined default, a default value of `0.0` is use
 
 - Formula queries can only be used as a rescoring step.
 - Formula results are always sorted in descending order (bigger is better). **For euclidean scores, make sure to negate them** to sort closest to farthest.
-- If a score or variable is not available, and there is no default value, it will be evaluated as 0.
+- If a score or variable is not available, and there is no default value, it will return an error.
+- If a value is not a number (or the expected type), it will return an error.
+- To leverage payload indices, single-value arrays are considered the same as the inner value. For example: `[0.2]` is the same as `0.2`, but `[0.2, 0.7]` will be interpreted as `[0.2, 0.7]`
 - Multiplication and division are lazily evaluated, meaning that if a 0 is encountered, the rest of operations don't execute (e.g. `0.0 * condition` won't check the condition).
 </aside>
 
