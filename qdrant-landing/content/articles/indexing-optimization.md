@@ -27,35 +27,52 @@ Qdrant employs an **HNSW-based index** for fast similarity search on dense vecto
 
 Sparse vectors use an **inverted index**. This index is updated at the **time of upsertion**, meaning you cannot disable or postpone it for sparse vectors. In most cases, its overhead is smaller than that of building an HNSW graph, but you should still be aware that each upsert triggers a sparse index update.
 
+<aside role="status">Sparse vectors are always indexed on upsert, regardless of the threshold.</aside>
 
-## Disabling vs. deferring dense indexing
+## Bulk upload configuration for dense vectors
 
-**`indexing_threshold=0`** 
- 
-Disables HNSW index creation for dense vectors. Qdrant will not build the HNSW graph for those vectors, letting you upload large volumes of data without incurring the memory cost of index creation.
+When performing high-volume vector ingestion, you have **two primary options** for handling indexing overhead. You should choose one depending on your specific workload and memory constraints:
 
-**`indexing_threshold>0`**  
+- **The `"m"` parameter**
 
-A positive threshold tells Qdrant how many kilobytes unindexed dense vectors can accumulate in a segment before building the HNSW graph. Small thresholds (e.g., 100 KB) mean more frequent indexing with less data each time, which can still be costly if many segments exist. Larger thresholds (e.g., 10000 KB) delay indexing to batch more vectors at once, potentially using more RAM at the moment of index build, but fewer builds overall. 
+For dense vectors, the `m` parameter defines how many edges each node in the HNSW graph can have. 
 
-The following operation can be used to [update](https://qdrant.tech/documentation/concepts/collections/#update-collection-parameters) the indexing threshold in your existing collection:
+**Figure 1:** A description of three key HNSW parameters.
+
+<img src="/articles_data/indexing-optimization/hnsw-parameters.png" width="600">
+
+To reduce memory and CPU pressure during bulk ingestion, you can **disable HNSW indexing entirely** by setting `"m": 0`. This way, no dense vector index will be built, no matter the `indexing_threshold`, preventing unnecessary memory spikes.
+
+```json
+PATCH /collections/your_collection
+{
+  "hnsw_config": {
+    "m": 0
+  }
+}
+```
+
+**After ingestion is complete**, you can **re-enable HNSW** by setting `m` back to a production value (commonly 16 or 32). Remember that the vectors won't be searchable via HNSW until `m` is re-enabled.
+
+- **The `indexing_threshold` parameter**  
+
+The `indexing_threshold` tells Qdrant how many unindexed dense vectors can accumulate in a segment before building the HNSW graph. Setting `"indexing_threshold"=0` defers indexing entirely, keeping **ingestion speed at maximum**. However, this means uploaded vectors are not moved to disk while uploading, which can lead to **high RAM usage**.
 
 ```json
 PATCH /collections/your_collection
 {
   "optimizer_config": {
-    "indexing_threshold": 10000
+    "indexing_threshold": 0
   }
 }
 ```
+<aside role="status">Warning: If your dataset is large, this can lead to excessive memory usage. Ensure your system has sufficient RAM or consider using "m"=0 instead.</aside>
 
-<aside role="status">Sparse vectors are always indexed on upsert, regardless of the threshold.</aside>
+After bulk ingestion, set `indexing_threshold` to a positive value to ensure vectors are indexed and searchable via HNSW. **Vectors will not be searchable via HNSW until indexing is performed.**
 
----
+Small thresholds (e.g., 100) mean more frequent indexing, which can still be costly if many segments exist. Larger thresholds (e.g., 10000) delay indexing to batch more vectors at once, potentially using more RAM at the moment of index build, but fewer builds overall. 
 
-## The `"m"` parameter
-
-For dense vectors, the `m` parameter defines how many edges each node in the HNSW graph can have. Setting `"m": 0` effectively **disables the HNSW graph**, so no dense vector index will be built, no matter the `indexing_threshold`. This can be helpful during massive ingestion if you don’t need immediate searchability.
+Between these two approaches, we generally recommend disabling HNSW (`"m"=0`) during bulk ingestion to keep memory usage predictable. Using `indexing_threshold=0` can be an alternative, but only if your system has enough memory to accommodate the unindexed vectors in RAM.
 
 ---
 
@@ -210,4 +227,4 @@ Quantized vectors remain **in-memory** yet consume less space, preserving much o
 
 High-volume vector ingestion can place significant memory demands on Qdrant, especially if dense vectors are indexed in real time. By following these tips, you can substantially reduce the risk of out-of-memory errors and maintain stable performance in a memory-limited environment.
 
-As always, monitor your system’s behavior. Review logs, watch metrics, and keep an eye on memory usage. Each workload is different, so it’s wise to fine-tune Qdrant’s parameters (e.g., `indexing_threshold`, `m`) according to your hardware and data scale.
+As always, monitor your system’s behavior. Review logs, watch metrics, and keep an eye on memory usage. Each workload is different, so it’s wise to fine-tune Qdrant’s parameters according to your hardware and data scale.
