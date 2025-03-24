@@ -7,7 +7,7 @@ preview_image: /blog/case-study-hubspot/HubSpot-Case-Study-Hero.jpg
 social_preview_image: /blog/case-study-hubspot/preview.jpg  
 date: 2025-03-24T00:00:00Z  
 author: "Andre Zayarni"  
-featured: false
+featured: true
 
 tags:  
 - vector search  
