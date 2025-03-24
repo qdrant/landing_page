@@ -56,6 +56,6 @@ Looking ahead, HubSpot is actively evaluating other features, such as sparse vec
 
 ---
 
-"Qdrant powers our demanding recommendation and RAG applications. We chose it for its ease of deployment and high performance at scale, and we have been consistently impressed with its results. The platform’s continuous feature enhancements and overall performance gains, coupled with their responsiveness, make Qdrant a reliable solution for our AI infrastructure."
+*"Qdrant powers our demanding recommendation and RAG applications. We chose it for its ease of deployment and high performance at scale, and we have been consistently impressed with its results. The platform’s continuous feature enhancements and overall performance gains, coupled with their responsiveness, make Qdrant a reliable solution for our AI infrastructure."*
 
 **– Srubin Sethu Madhavan, Technical Lead, HubSpot**
