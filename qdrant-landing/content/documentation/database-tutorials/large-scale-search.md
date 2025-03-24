@@ -152,7 +152,7 @@ In our scenario we store only quantized vectors in RAM, so it is relatively easy
 
 ### Size of vector index
 
-Vector intex is a bit more complicated, as it is not a simple matrix.
+Vector index is a bit more complicated, as it is not a simple matrix.
 Internally it is stored as a list of connections in a graph, and each connection is a 4-byte integer.
 
 Number of connections is defined by the `M` parameter of the HNSW index, and in our case it is `6` on high level and `2 x M` on the level-0.
