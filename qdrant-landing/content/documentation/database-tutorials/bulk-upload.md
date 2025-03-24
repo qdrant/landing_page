@@ -16,12 +16,112 @@ We recommend using our [Rust client library](https://github.com/qdrant/rust-clie
 
 If you are not using Rust, you might want to consider parallelizing your upload process.
 
-## Disable indexing during upload
+## Choose an Indexing Strategy
 
-In case you are doing an initial upload of a large dataset, you might want to disable indexing during upload.
-It will enable to avoid unnecessary indexing of vectors, which will be overwritten by the next batch.
+Qdrant incrementally builds an HNSW index for dense vectors as new data arrives. This ensures fast search, but indexing is memory- and CPU-intensive. During bulk ingestion, frequent index updates can reduce throughput and increase resource usage.
 
-To disable indexing during upload, set `indexing_threshold` to `0`:
+To control this behavior and optimize for your system’s limits, adjust the following parameters:
+
+| Your Goal                                 | What to Do                                      | Configuration                                      |
+|-------------------------------------------|-------------------------------------------------|----------------------------------------------------|
+| Fastest upload, tolerate high RAM usage           | Disable indexing completely                     | `indexing_threshold: 0`                           |
+| Low memory usage during upload            | Defer HNSW graph construction (recommended)                  | `m: 0`                 |
+| Searchable immediately after upload       | Keep indexing enabled (default behavior)        | `m: 16`, `indexing_threshold: 20000` *(default)* |
+
+
+### Defer HNSW graph construction (`m: 0`)
+
+For dense vectors, setting the HNSW `m` parameter to `0` disables index building entirely. Vectors will still be stored, but not indexed until you enable indexing later.
+
+```http
+PUT /collections/{collection_name}
+{
+    "vectors": {
+      "size": 768,
+      "distance": "Cosine"
+    },
+    "hnsw_config": {
+        "m": 0
+    }
+}
+```
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
+    hnsw_config=models.HnswConfigDiff(
+        m=0,
+    ),
+)
+```
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  hnsw_config: {
+    m: 0,
+  },
+});
+```
+
+Once ingestion is complete, re-enable HNSW by setting `m` to your production value (usually 16 or 32).
+
+```http
+PATCH /collections/{collection_name}
+{
+    "vectors": {
+      "size": 768,
+      "distance": "Cosine"
+    },
+    "hnsw_config": {
+        "m": 16
+    }
+}
+```
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.update_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
+    hnsw_config=models.HnswConfigDiff(
+        m=16,
+    ),
+)
+```
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.updateCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  hnsw_config: {
+    m: 16,
+  },
+});
+```
+
+### Disable indexing completely (`indexing_threshold: 0`)
+
+In case you are doing an initial upload of a large dataset, you might want to disable indexing during upload. It will enable to avoid unnecessary indexing of vectors, which will be overwritten by the next batch.
+
+Setting `indexing_threshold` to `0` disables indexing altogether:
 
 ```http
 PUT /collections/{collection_name}
@@ -66,6 +166,10 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+<aside role="status">
+Vectors will remain in memory and are not flushed to disk while indexing is disabled. To avoid unbounded RAM usage, combine this with on_disk: true.
+</aside>
+
 After upload is done, you can enable indexing by setting `indexing_threshold` to a desired value (default is 20000):
 
 ```http
@@ -99,6 +203,8 @@ client.updateCollection("{collection_name}", {
   },
 });
 ```
+
+At this point, Qdrant will begin indexing new and previously unindexed segments in the background.
 
 ## Upload directly to disk
 
