@@ -33,15 +33,16 @@ Sparse vectors use an **inverted index**. This index is updated at the **time of
 
 When performing high-volume vector ingestion, you have **two primary options** for handling indexing overhead. You should choose one depending on your specific workload and memory constraints:
 
-- **The `"m"` parameter**
+- **Disable HNSW indexing**
 
+To reduce memory and CPU pressure during bulk ingestion, you can **disable HNSW indexing entirely** by setting `"m": 0`.
 For dense vectors, the `m` parameter defines how many edges each node in the HNSW graph can have. 
+This way, no dense vector index will be built, preventing unnecessary CPU usage during ingestion.
 
 **Figure 1:** A description of three key HNSW parameters.
 
 <img src="/articles_data/indexing-optimization/hnsw-parameters.png" width="600">
 
-To reduce memory and CPU pressure during bulk ingestion, you can **disable HNSW indexing entirely** by setting `"m": 0`. This way, no dense vector index will be built, no matter the `indexing_threshold`, preventing unnecessary memory spikes.
 
 ```json
 PATCH /collections/your_collection
@@ -52,9 +53,10 @@ PATCH /collections/your_collection
 }
 ```
 
-**After ingestion is complete**, you can **re-enable HNSW** by setting `m` back to a production value (commonly 16 or 32). Remember that the vectors won't be searchable via HNSW until `m` is re-enabled.
+**After ingestion is complete**, you can **re-enable HNSW** by setting `m` back to a production value (commonly 16 or 32).
+Remember that search won't use HNSW until the index is built, so search performance may be slower during this period.
 
-- **The `indexing_threshold` parameter**  
+- **Disabling optimizations completely**  
 
 The `indexing_threshold` tells Qdrant how many unindexed dense vectors can accumulate in a segment before building the HNSW graph. Setting `"indexing_threshold"=0` defers indexing entirely, keeping **ingestion speed at maximum**. However, this means uploaded vectors are not moved to disk while uploading, which can lead to **high RAM usage**.
 
