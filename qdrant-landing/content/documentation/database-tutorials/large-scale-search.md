@@ -23,7 +23,7 @@ The recommended Qdrant version for this tutorial is `v1.13.5` and higher.
 
 ## Dataset
 
-The dataset we will use is [LAION-400M](https://laion.ai/blog/laion-400-open-dataset/), a collection of approximately 400 vectors obtained from
+The dataset we will use is [LAION-400M](https://laion.ai/blog/laion-400-open-dataset/), a collection of approximately 400 million vectors obtained from
 images extracted from a Common Crawl dataset. Each vector is 512-dimensional and generated using a [CLIP](https://openai.com/blog/clip/) model.
 
 Vectors are associated with a number of metadata fields, such as `url`, `caption`, `LICENSE`, etc.
