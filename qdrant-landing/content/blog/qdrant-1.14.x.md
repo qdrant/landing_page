@@ -132,7 +132,7 @@ Qdrant now **saturates CPU and disk IO** more effectively in parallel when optim
 This leads to **faster optimizations**, which are specially noticeable on large machines handling big data movement.
 It also gives you **predictable performance**, as there are fewer sudden spikes or slowdowns during indexing and merging operations.
 
-**Figure 1:** Indexing 400 million vectors - CPU and disk usage profiles.
+**Figure 1:** Indexing 400 million vectors - CPU and disk usage profiles. Previous Qdrant version on the left, new Qdrant version on the right.
 ![indexation-improvement](/blog/qdrant-1.14.x/indexation.png)
 
 **Observed Results:** The improvement is especially noticeable during large-scale indexing. In our experiment, **we indexed 400 million 512-dimensional vectors**. The previous version of Qdrant took around 40 hours on an 8-core machine, while the development version with this change completed the task in just 28 hours.
