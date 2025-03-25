@@ -33,7 +33,7 @@ tags:
 ## Score-Boosting Reranker
 ![reranking](/blog/qdrant-1.14.x/reranking.jpg)
 
-When integrating vector search into specific applications, you might want to tweak the final result list using domain or business logic. For example, if you are building a **chatbot or search on website content**, you might want to rank results with `title` metadata higher than `body_text` in your results. 
+When integrating vector search into specific applications, you can now tweak the final result list using domain or business logic. For example, if you are building a **chatbot or search on website content**, you can rank results with `title` metadata higher than `body_text` in your results. 
 
 In **e-commerce** you may want to boost products from a specific manufacturer—perhaps because you have a promotion or need to clear inventory. With this update, you can easily influence ranking using metadata like `brand` or `stock_status`.
 
@@ -93,7 +93,7 @@ One of the most important advancements is the ability to prioritize recency. In 
 
 Now, the similarity score **doesn’t have to rely solely on cosine distance**. It can also take into account how recent the data is, allowing for much more dynamic and context-aware ranking. 
 
-> With the Score-Boosting Reranker, simply add a `date` payload field and factor it into your formula so fresher data rises to the top.
+> With the Score-Boosting Reranker, simply add a `datetime` payload field and factor it into your formula so fresher data rises to the top.
 
 **Example Query**:
 
@@ -160,7 +160,7 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
-You can tweak parameters like target, scale, and midpoint to shape how quickly the score decays over distance. This is extremely useful for local search scenarios, where location is a major factor but not the only factor.
+You can tweak parameters like `target`, `scale`, and `midpoint` to shape how quickly the score decays over distance. This is extremely useful for local search scenarios, where location is a major factor but not the only factor.
 
 > This is a very powerful feature that allows for extensive customization. Read more about this feature in the [**Hybrid Queries Documentation**](/documentation/concepts/hybrid-queries/)
 
@@ -186,7 +186,7 @@ In our experiment, **we indexed 400 million 512-dimensional vectors**. The previ
 
 #### Ending our Reliance on RocksDB
 
-RocksDB has been removed from the **mutable ID tracker** and all **immutable payload indices**, which are both internal components of Qdrant. In practical terms, this means: less RocksDB, faster internals.
+RocksDB has been removed from the **mutable ID tracker** and all **immutable payload indices**, which are both internal components of Qdrant. In practical terms, this means: less RocksDB, more customization, faster internals.
 
 Even though RocksDB is great for general-purpose use cases, it hasn’t been an ideal fit for Qdrant. The two biggest issues are: **1) the lack of control over the files it creates** and **2) unpredictable timing of data compaction**.
 
