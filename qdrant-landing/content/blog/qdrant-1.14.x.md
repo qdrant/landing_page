@@ -14,11 +14,11 @@ tags:
 [**Qdrant 1.14.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.14.0) Let's look at the main features for this version:
 
 **Score-Boosting Reranker:** Blend vector similarity with custom rules and context.</br>
-**Smarter Resource Utilization:** CPU and disk IO optimization for faster processing.</br>
+**Improved Resource Utilization:** CPU and disk IO optimization for faster processing.</br>
 
 **Memory Optimization:** Reduced usage for large datasets with improved ID tracking.</br>
-**IO Measurements:** Detailed cost tracking for performance analysis.</br>
-**RocksDB to Gridstore:** Additional reliance on our custom KV store. </br>
+**RocksDB to Gridstore:** Additional reliance on our custom key-value store. </br>
+**IO Measurements:** Detailed cost tracking for deployment performance analysis.</br>
 
 ## Score-Boosting Reranker
 ![reranking](/blog/qdrant-1.14.x/reranking.jpg)
@@ -78,6 +78,28 @@ Now, the similarity score **doesn’t have to rely solely on cosine distance**. 
 
 > With the Score-Boosting Reranker, simply add a `date` payload field and factor it into your formula so fresher data rises to the top.
 
+**Example Query**:
+
+```bash
+POST /collections/{collection_name}/points/query
+{
+  "prefetch": { ... },
+  "query": {
+    "formula": {
+      "sum": [
+        "$score",
+        {
+          "gauss_decay":
+            "target": { "datetime": <todays date> },
+            "x": { "datetime_key": <payload key> },
+            "scale": <1 week in seconds>
+        }
+      ]
+    }
+  }
+}
+```
+
 ### Idea 3: Factor in Geographical Proximity
 
 Let’s say you’re searching for a restaurant serving Currywurst. Sure, Berlin has some of the best, but you probably don’t want to spend two days traveling for a sausage covered in magical seasoning. The best match is the one that **balances the distance with a real-world geographical distance**. You want your users see relevant and conveniently located options.
@@ -125,7 +147,7 @@ You can tweak parameters like target, scale, and midpoint to shape how quickly t
 
 > This is a very powerful feature that allows for extensive customization. Read more about this feature in the [**Hybrid Queries Documentation**](/documentation/concepts/hybrid-queries/)
 
-## Smarter Resource Utilization During Optimization
+## Improved Resource Use During Segment Optimization
 
 Qdrant now **saturates CPU and disk IO** more effectively in parallel when optimizing segments. This helps reduce the "sawtooth" usage pattern—where CPU or disk often sat idle while waiting on the other resource.
 
@@ -137,33 +159,38 @@ It also gives you **predictable performance**, as there are fewer sudden spikes 
 
 **Observed Results:** The new version on the right clearly shows much better CPU saturation across the full process. The improvement is especially noticeable during large-scale indexing. In our experiment, **we indexed 400 million 512-dimensional vectors**. The previous version of Qdrant took around 40 hours on an 8-core machine, while the new version with this change completed the task in just 28 hours.
 
+> **Tutorial:** If you want to work with a large number of vectors, we can show you how. [**Learn how to upload and search large collections efficiently.**](/documentation/database-tutorials/large-scale-search/)
+
 ### Minor Fixes & Optimizations
 ![reranking](/blog/qdrant-1.14.x/gridstore.jpg)
 
-**Optimized Memory Usage in Immutable Segments**
+#### Optimized Memory Usage in Immutable Segments
 
 We revamped how the ID tracker and related metadata structures store data in memory. This can result in a notable RAM reduction for very large datasets (hundreds of millions of vectors).
 
 This causes **much lower overhead**, where memory savings let you store more vectors on the same hardware. Also, improved scalability is a major benefit. If your workload was near the RAM limit, this might let you push further **without using additional servers**.
 
-**IO Measurements for Serverless Deployments**
+#### Ending our Reliance on RocksDB
 
-Qdrant 1.14 introduces detailed tracking of **read/write costs** (CPU, disk, etc.) per operation. This is primarily intended for serverless billing, but also helps diagnose performance hotspots in dedicated setups.
+RocksDB has been removed from the **mutable ID tracker** and all **immutable payload indices**, which are both internal components of Qdrant. In practical terms, this means: less RocksDB, faster internals.
 
-> Now you can have **full cost visibility**, and you can understand exactly which queries or updates cause the most overhead.
+Even though RocksDB is great for general-purpose use cases, it hasn’t been an ideal fit for Qdrant. The two biggest issues are: **1) the lack of control over the files it creates** and **2) unpredictable timing of data compaction**.
 
-This also makes for easier optimization - you can tweak indexes, partitioning, or formula queries to reduce resource usage based on concrete metrics.
+These limitations can lead to issues like latency spikes that are difficult to diagnose or mitigate. Our long-term goal is to fully eliminate RocksDB to gain complete control over Qdrant’s performance and storage behavior. **That’s also why we built GridStore**—a key-value engine designed specifically for our needs.
 
-**Ending our Reliance on RocksDB**
-
-The **mutable ID tracker no longer relies on RocksDB**. This continues our journey toward minimal external dependencies. With our custom-built [**Gridstore**](/articles/gridstore-key-value-storage/), you can expect fewer random compactions and more predictable disk usage.
-
-This reduces complexity, with fewer external data engines in your stack.
-It also leads to better performance, by eliminating potential latency spikes from RocksDB's background operations.
+> The last remaining use of RocksDB is within mutable payload indices, and that too will be removed in a future release, fully cutting the dependency.
 
 ![reranking](/blog/qdrant-1.14.x/gridstore.png)
 
 *Read more about how we built [**Gridstore, our custom key-value store**](/articles/gridstore-key-value-storage/).*
+
+#### I/O Measurements for Serverless Deployments
+
+Qdrant 1.14 introduces detailed tracking of **read/write costs** (CPU, disk, etc.) per operation. This is primarily intended for serverless billing, but also helpsyou diagnose performance hotspots in dedicated setups.
+
+> Now you can have **full cost visibility**, and you can understand exactly which queries or updates cause the most overhead.
+
+This also makes for easier optimization - you can tweak indexes, partitioning, or formula queries to reduce resource usage based on concrete metrics.
 
 ## Upgrading to Version 1.14
 
