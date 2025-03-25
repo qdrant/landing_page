@@ -22,10 +22,6 @@ There is no inherent limitation on metadata size, but it should be [optimized fo
 
 Yes, due to differences in hardware configurations and parallel processing, results may vary slightly.
 
-### What to do with documents with small chunks using a fixed chunk strategy?
-
-For documents with small chunks, consider merging chunks or using variable chunk sizes to optimize vector representation and search performance.
-
 ### How do I choose the right vector embeddings for my use case?
 
 This depends on the nature of your data and the specific application. Consider factors like dimensionality, domain-specific models, and the performance characteristics of different embeddings.
@@ -37,6 +33,18 @@ Qdrant natively [supports multiple vectors per data point](/documentation/concep
 ### Can I migrate my embeddings from another vector store to Qdrant?
 
 Yes, Qdrant supports migration of embeddings from other vector stores, facilitating easy transitions and adoption of Qdrant’s features.
+
+### Why the amount of indexed vectors doesn't match the amount of vectors in the collection?
+
+Qdrant doesn't always need to index all vectors in the collection.
+It stores data is segments, and if the segment is small enough, it is more efficient to perform a full-scan search on it.
+
+Make sure to check that the collection status is `green` and that the number of unindexed vectors smaller than indexing threshold.
+
+### Why collection info shows inaccurate number of points?
+
+Collection info API in Qdrant returns an approximate number of points in the collection.
+If you need an exact number, you can use the [count](/documentation/concepts/points/#counting-points) API.
 
 ## Search 
 
@@ -121,5 +129,5 @@ We only guarantee compatibility if you update between consecutive versions. You 
 
 ### Is it possible to scale down a Qdrant Cloud cluster?
 
-It is possible to vertically scale down a Qdrant Cloud cluster, as long as the disk size is not reduced. Horizontal downscaling is currently not possible, but on our roadmap.
-But in some cases, we might be able to help you with that manually. Please open a support ticket, so that we can assist.
+Yes, it is possible to both vertically and horizontally scale down a Qdrant Cloud cluster.
+Note, that during the vertical scaling down, the disk size cannot be reduced.
