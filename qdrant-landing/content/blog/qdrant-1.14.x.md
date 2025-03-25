@@ -172,7 +172,7 @@ Qdrant now **saturates CPU and disk IO** more effectively in parallel when optim
 This leads to **faster optimizations**, which are specially noticeable on large machines handling big data movement.
 It also gives you **predictable performance**, as there are fewer sudden spikes or slowdowns during indexing and merging operations.
 
-**Figure 1:** Indexing 400 million vectors - CPU and disk usage profiles. Previous Qdrant version on the left, new Qdrant version on the right.
+**Figure 2:** Indexing 400 million vectors - CPU and disk usage profiles. Previous Qdrant version on the left, new Qdrant version on the right.
 ![indexation-improvement](/blog/qdrant-1.14.x/indexation.png)
 
 **Observed Results:** The new version on the right clearly shows much better CPU saturation across the full process. The improvement is especially noticeable during large-scale indexing. 
@@ -220,6 +220,7 @@ With Qdrant 1.14, all client libraries remain fully compatible. If you do not ne
 
 In **Qdrant Cloud**, simply go to your **Cluster Details** screen and select **Version 1.14** from the dropdown. The upgrade may take a few moments. 
 
+**Figure 3:** Updating to the latest software version from Qdrant Cloud dashboard.
 ![reranking](/blog/qdrant-1.14.x/upgrade.png)
 
 **Documentation:** For a full list of formula expressions, conditions, decay functions, and usage examples, see the official [**Qdrant documentation**](https://qdrant.tech/documentation) and the [**API reference**](https://api.qdrant.tech/). This includes detailed code snippets for popular languages and a variety of advanced reranking examples.
