@@ -135,7 +135,7 @@ It also gives you **predictable performance**, as there are fewer sudden spikes 
 **Figure 1:** Indexing 400 million vectors - CPU and disk usage profiles. Previous Qdrant version on the left, new Qdrant version on the right.
 ![indexation-improvement](/blog/qdrant-1.14.x/indexation.png)
 
-**Observed Results:** The improvement is especially noticeable during large-scale indexing. In our experiment, **we indexed 400 million 512-dimensional vectors**. The previous version of Qdrant took around 40 hours on an 8-core machine, while the development version with this change completed the task in just 28 hours.
+**Observed Results:** The new version on the right clearly shows much better CPU saturation across the full process. The improvement is especially noticeable during large-scale indexing. In our experiment, **we indexed 400 million 512-dimensional vectors**. The previous version of Qdrant took around 40 hours on an 8-core machine, while the new version with this change completed the task in just 28 hours.
 
 ### Minor Fixes & Optimizations
 ![reranking](/blog/qdrant-1.14.x/gridstore.jpg)
