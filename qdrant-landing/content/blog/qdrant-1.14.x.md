@@ -1,14 +1,24 @@
 ---
 title: "Qdrant 1.14 - Reranking Support, More Resource Optimizations & Cost Tracking"
 draft: false
-short_description: ""
-description: "" 
+short_description: "Qdrant 1.14 adds Score-Boosting Reranker for custom search ranking and improved performance optimizations."
+description: "Qdrant 1.14 introduces Score-Boosting Reranker for custom search ranking, improved resource utilization, and detailed cost tracking." 
 preview_image: /blog/qdrant-1.14.x/social_preview.png
 social_preview_image: /blog/qdrant-1.14.x/social_preview.png
 date: 2025-03-25T00:00:00-08:00
 author: David Myriel
 featured: true
 tags:
+  - vector search
+  - vector database
+  - semantic search
+  - release notes
+  - performance optimization
+  - reranking
+  - search engine
+  - database
+  - AI
+  - machine learning
 ---
 
 [**Qdrant 1.14.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.14.0) Let's look at the main features for this version:
