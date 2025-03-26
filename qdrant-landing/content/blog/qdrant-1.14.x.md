@@ -1,8 +1,8 @@
 ---
-title: "Qdrant 1.14 - Reranking Support, More Resource Optimizations & Cost Tracking"
+title: "Qdrant 1.14 - Reranking Support & Extensive Resource Optimizations"
 draft: false
 short_description: "Qdrant 1.14 adds Score-Boosting Reranker for custom search ranking and improved performance optimizations."
-description: "Qdrant 1.14 introduces Score-Boosting Reranker for custom search ranking, improved resource utilization, and detailed cost tracking." 
+description: "Qdrant 1.14 introduces Score-Boosting Reranker for custom search ranking, and improved resource utilization." 
 preview_image: /blog/qdrant-1.14.x/social_preview.png
 social_preview_image: /blog/qdrant-1.14.x/social_preview.png
 date: 2025-03-25T00:00:00-08:00
@@ -28,7 +28,6 @@ tags:
 
 **Memory Optimization:** Reduced usage for large datasets with improved ID tracking.</br>
 **RocksDB to Gridstore:** Additional reliance on our custom key-value store. </br>
-**IO Measurements:** Detailed cost tracking for deployment performance analysis.</br>
 
 ## Score-Boosting Reranker
 ![reranking](/blog/qdrant-1.14.x/reranking.jpg)
@@ -203,14 +202,6 @@ These limitations can lead to issues like latency spikes that are difficult to d
 We revamped how the ID tracker and related metadata structures store data in memory. This can result in a notable RAM reduction for very large datasets (hundreds of millions of vectors).
 
 This causes **much lower overhead**, where memory savings let you store more vectors on the same hardware. Also, improved scalability is a major benefit. If your workload was near the RAM limit, this might let you push further **without using additional servers**.
-
-#### I/O Measurements for Serverless Deployments
-
-Qdrant 1.14 introduces detailed tracking of **read/write costs** (CPU, disk, etc.) per operation. This is primarily intended for serverless billing, but also helps you diagnose performance hotspots in dedicated setups.
-
-> Now you can have **full cost visibility**, and you can understand exactly which queries or updates cause the most overhead.
-
-This also makes for easier optimization - you can tweak indexes, partitioning, or formula queries to reduce resource usage based on concrete metrics.
 
 ## Upgrading to Version 1.14
 
