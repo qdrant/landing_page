@@ -119,7 +119,7 @@ POST /collections/{collection_name}/points/query
 
 ### Idea 3: Factor in Geographical Proximity
 
-Let’s say you’re searching for a restaurant serving Currywurst. Sure, Berlin has some of the best, but you probably don’t want to spend two days traveling for a sausage covered in magical seasoning. The best match is the one that **balances the distance with a real-world geographical distance**. You want your users see relevant and conveniently located options.
+Let’s say you’re searching for a restaurant serving Currywurst. Sure, Berlin has some of the best, but you probably don’t want to spend two days traveling for a sausage covered in magical seasoning. The best match is the one that **balances the distance in the vector space with a real-world geographical distance**. You want your users see relevant and conveniently located options.
 
 This feature introduces a multi-objective optimization: combining semantic similarity with geographical proximity. Suppose each point has a `geo.location` payload field (latitude, longitude). You can use a `gauss_decay` function to clamp the distance into a 0–1 range and add that to your similarity score:
 
