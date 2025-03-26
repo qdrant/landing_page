@@ -89,7 +89,7 @@ POST /collections/{collection_name}/points/query
 
 ### Idea 2: Reranking Most Recent Results
 
-One of the most important advancements is the ability to prioritize recency. In many scenarios, such as in news or job listings, users want to see the most recent results first. Until now, this wasn’t possible without additional work: *you had to fetch all the data and manually filter for the latest entries on their side*.
+One of the most important advancements is the ability to prioritize recency. In many scenarios, such as in news or job listings, users want to see the most recent results first. Until now, this wasn’t possible without additional work: *you had to fetch all the data and manually filter for the latest entries on your side*.
 
 Now, the similarity score **doesn’t have to rely solely on cosine distance**. It can also take into account how recent the data is, allowing for much more dynamic and context-aware ranking. 
 
