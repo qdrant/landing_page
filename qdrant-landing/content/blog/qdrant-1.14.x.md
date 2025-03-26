@@ -206,7 +206,7 @@ This causes **much lower overhead**, where memory savings let you store more vec
 
 #### I/O Measurements for Serverless Deployments
 
-Qdrant 1.14 introduces detailed tracking of **read/write costs** (CPU, disk, etc.) per operation. This is primarily intended for serverless billing, but also helpsyou diagnose performance hotspots in dedicated setups.
+Qdrant 1.14 introduces detailed tracking of **read/write costs** (CPU, disk, etc.) per operation. This is primarily intended for serverless billing, but also helps you diagnose performance hotspots in dedicated setups.
 
 > Now you can have **full cost visibility**, and you can understand exactly which queries or updates cause the most overhead.
 
