@@ -26,7 +26,9 @@ To control this behavior and optimize for your system’s limits, adjust the fol
 |-------------------------------------------|-------------------------------------------------|----------------------------------------------------|
 | Fastest upload, tolerate high RAM usage           | Disable indexing completely                     | `indexing_threshold: 0`                           |
 | Low memory usage during upload            | Defer HNSW graph construction (recommended)                  | `m: 0`                 |
-| Searchable immediately after upload       | Keep indexing enabled (default behavior)        | `m: 16`, `indexing_threshold: 20000` *(default)* |
+| Faster index availability after upload       | Keep indexing enabled (default behavior)        | `m: 16`, `indexing_threshold: 20000` *(default)* |
+
+Indexing must be re-enabled after upload to activate fast HNSW search if it was disabled during ingestion.
 
 
 ### Defer HNSW graph construction (`m: 0`)
@@ -45,6 +47,7 @@ PUT /collections/{collection_name}
     }
 }
 ```
+
 ```python
 from qdrant_client import QdrantClient, models
 
@@ -58,6 +61,7 @@ client.create_collection(
     ),
 )
 ```
+
 ```typescript
 import { QdrantClient } from "@qdrant/js-client-rest";
 
@@ -74,6 +78,89 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, HnswConfigDiffBuilder, VectorParamsBuilder,
+};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
+            .hnsw_config(HnswConfigDiffBuilder::default().m(0)),
+    )
+    .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.HnswConfigDiff;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setHnswConfig(HnswConfigDiff.newBuilder().setM(0).build())
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
+	hnswConfig: new HnswConfigDiff { M = 0 }
+);
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	HnswConfig: &qdrant.HnswConfigDiff{
+		M:        qdrant.PtrOf(uint64(0)),
+	},
+})
+```
+
 Once ingestion is complete, re-enable HNSW by setting `m` to your production value (usually 16 or 32).
 
 ```http
@@ -88,6 +175,7 @@ PATCH /collections/{collection_name}
     }
 }
 ```
+
 ```python
 from qdrant_client import QdrantClient, models
 
@@ -101,6 +189,7 @@ client.update_collection(
     ),
 )
 ```
+
 ```typescript
 import { QdrantClient } from "@qdrant/js-client-rest";
 
@@ -115,6 +204,69 @@ client.updateCollection("{collection_name}", {
     m: 16,
   },
 });
+```
+
+```rust
+use qdrant_client::qdrant::{
+    UpdateCollectionBuilder, HnswConfigDiffBuilder,
+};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .update_collection(
+        UpdateCollectionBuilder::new("{collection_name}")
+            .hnsw_config(HnswConfigDiffBuilder::default().m(16)),
+    )
+    .await?;
+```
+
+```java
+import io.qdrant.client.grpc.Collections.UpdateCollection;
+import io.qdrant.client.grpc.Collections.HnswConfigDiff;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.updateCollectionAsync(
+    UpdateCollection.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setHnswConfig(HnswConfigDiff.newBuilder().setM(16).build())
+        .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpdateCollectionAsync(
+	collectionName: "{collection_name}",
+	hnswConfig: new HnswConfigDiff { M = 16 }
+);
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client, err := client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
+	CollectionName: "{collection_name}",
+	HnswConfig: &qdrant.HnswConfigDiff{
+		M:        qdrant.PtrOf(uint64(16)),
+	},
+})
 ```
 
 ### Disable indexing completely (`indexing_threshold: 0`)
@@ -166,8 +318,90 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{
+    OptimizersConfigDiffBuilder, UpdateCollectionBuilder,
+};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .optimizers_config(OptimizersConfigDiffBuilder::default().indexing_threshold(0)),
+    )
+    .await?;
+```
+
+```java
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.createCollectionAsync(
+    CreateCollection.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setVectorsConfig(
+            VectorsConfig.newBuilder()
+                .setParams(
+                    VectorParams.newBuilder()
+                        .setSize(768)
+                        .setDistance(Distance.Cosine)
+                        .build())
+                .build())
+        .setOptimizersConfig(
+            OptimizersConfigDiff.newBuilder()
+                .setIndexingThreshold(0)
+                .build())
+        .build()
+).get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+    collectionName: "{collection_name}",
+    vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
+    optimizersConfig: new OptimizersConfigDiff { IndexingThreshold = 0 }
+);
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	OptimizersConfig: &qdrant.OptimizersConfigDiff{
+		IndexingThreshold: qdrant.PtrOf(uint64(0)),
+	},
+})
+```
+
 <aside role="status">
-Vectors will remain in memory and are not flushed to disk while indexing is disabled. To avoid unbounded RAM usage, combine this with on_disk: true.
+With indexing_threshold set to 0, storage won't be optimized properly, which can lead to high RAM usage as segments accumulate in memory.
 </aside>
 
 After upload is done, you can enable indexing by setting `indexing_threshold` to a desired value (default is 20000):
@@ -203,6 +437,71 @@ client.updateCollection("{collection_name}", {
   },
 });
 ```
+
+```rust
+use qdrant_client::qdrant::{
+    OptimizersConfigDiffBuilder, UpdateCollectionBuilder,
+};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .update_collection(
+        UpdateCollectionBuilder::new("{collection_name}")
+            .optimizers_config(OptimizersConfigDiffBuilder::default().indexing_threshold(20000)),
+    )
+    .await?;
+```
+
+```java
+import io.qdrant.client.grpc.Collections.UpdateCollection;
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+
+client.updateCollectionAsync(
+    UpdateCollection.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setOptimizersConfig(
+            OptimizersConfigDiff.newBuilder()
+                .setIndexingThreshold(20000)
+                .build()
+        )
+        .build()
+).get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpdateCollectionAsync(
+    collectionName: "{collection_name}",
+    optimizersConfig: new OptimizersConfigDiff { IndexingThreshold = 20000 }
+);
+```
+
+```go
+import (
+	"context"
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
+	CollectionName: "{collection_name}",
+	OptimizersConfig: &qdrant.OptimizersConfigDiff{
+		IndexingThreshold: qdrant.PtrOf(uint64(20000)),
+	},
+})
+```
+
+
 
 At this point, Qdrant will begin indexing new and previously unindexed segments in the background.
 
@@ -267,4 +566,82 @@ client.createCollection("{collection_name}", {
   },
   shard_number: 2,
 });
+```
+
+```rust
+use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
+            .shard_number(2),
+    )
+    .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setShardNumber(2)
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
+	shardNumber: 2
+);
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	ShardNumber: qdrant.PtrOf(uint32(2)),
+})
 ```
