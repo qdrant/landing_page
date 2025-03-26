@@ -165,7 +165,7 @@ You can tweak parameters like `target`, `scale`, and `midpoint` to shape how qui
 > This is a very powerful feature that allows for extensive customization. Read more about this feature in the [**Hybrid Queries Documentation**](/documentation/concepts/hybrid-queries/)
 
 ## Improved Resource Use During Segment Optimization
-![optimizations](/blog/qdrant-1.14.x/optimizations.jpg)
+[![optimizations](/blog/qdrant-1.14.x/optimizations.jpg)](/blog/qdrant-1.14.x/optimizations.jpg)
 
 Qdrant now **saturates CPU and disk IO** more effectively in parallel when optimizing segments. This helps reduce the "sawtooth" usage pattern—where CPU or disk often sat idle while waiting on the other resource.
 
