@@ -219,10 +219,10 @@ The formulas for each decay function are as follows:
 <iframe src="https://www.desmos.com/calculator/idv5hknwb1?embed" width="600" height="400" style="border: 1px solid #ccc" frameborder=0></iframe>
 
 | Decay Function | Formula | Range |
-| --- | --- | --- | 
-| Linear (green) | $ \max\left(0,\ -\frac{\left(1-m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)+1\right) $ | $[0, 1]$ |
-| Exponential (red) | $ \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)\right) $ | $(0, 1]$ |
-| Gaussian (purple) | $ \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}^{2}}\cdot {abs}\left(x-t_{arget}\right)^{2}\right) $ | $(0, 1]$ |
+| --- | --- | --- |
+| `lin_decay` (green) | $ \max\left(0,\ -\frac{\left(1-m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)+1\right) $ | $[0, 1]$ |
+| `exp_decay` (red) | $ \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)\right) $ | $(0, 1]$ |
+| `gauss_decay` (purple) | $ \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}^{2}}\cdot \left(x-t_{arget}\right)^{2}\right) $ | $(0, 1]$ |
 
 ## Grouping
 
