@@ -29,9 +29,5 @@ teamMembers:
     name: Manuel Meyer
     position: Growth
     avatar: '/img/leadership/manuel-meyer.png'
-  - id: 7
-    name: Karim Chester
-    position: Sales
-    avatar: '/img/leadership/karim-chester.png'
 sitemapExclude: true
 ---
