@@ -54,6 +54,6 @@ defs = dg.Definitions(
 
 ## Next steps
 
-- Dagster [docs](https://docs.dagster.io).
+- Dagster [documentation](https://docs.dagster.io)
 
 - Dagster [examples](https://github.com/dagster-io/dagster/tree/b985d57aadc7d9bf88d8dcbd32b16d3487e433cc/examples)
