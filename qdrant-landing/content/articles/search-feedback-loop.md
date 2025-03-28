@@ -23,7 +23,6 @@ category: machine-learning
 
 This quote applies as much to life as it does to information retrieval.
 
-
 With a well-formulated query, retrieving the relevant document becomes trivial.
 In reality, however, most users struggle to precisely define what they are searching for.
 
@@ -31,14 +30,13 @@ While users may struggle to formulate a perfect request — especially in unfami
 
 **Relevance is a powerful feedback mechanism for a retrieval system** to iteratively refine results in the direction of user interest.
 
-In 2025, with social media flooded with daily AI breakthroughs, it almost seems like information retrieval is solved, Agents can iteratively adjsut their search queries while assessing the relevance.
+In 2025, with social media flooded with daily AI breakthroughs, it almost seems like information retrieval is solved, agents can iteratively adjust their search queries while assessing the relevance.
 
 Of course, there's a catch: these models still rely on retrieval systems (*RAG isn't dead yet, despite daily predictions of its demise*).
 They receive only a handful of top-ranked results provided by a far simpler and cheaper retriever.
 As a result, the success of guided retrieval still mainly depends on the retrieval system itself.
 
 So, we should find a way of effectively and efficiently incorporating relevance feedback directly into a retrieval system. 
-
 In this article, we'll explore the approaches proposed in the research literature and try to answer the following question:
 
 *If relevance feedback in search is so widely studied and praised as effective, why is it practically not used in dedicated vector search solutions?*
@@ -53,30 +51,28 @@ The resulting taxonomy isn't set in stone, but we aim to make it useful.
 
 ### Pseudo-Relevance Feedback (PRF)
 
-Historically first, PRF takes the top-ranked documents from the initial retrieval and treats them as relevant. This approach might be considered naive, but it's does provide a noticable performance boost in lexical retrieval, while being relatively cheap to compute.
+Pseudo-Relevance feedback takes the top-ranked documents from the initial retrieval results and treats them as relevant. This approach might seem naive, but it provides a noticeable performance boost in lexical retrieval while being relatively cheap to compute.
 
 ### Binary Relevance Feedback
 
-The most straightforward way to gather relevance feedback is to ask users directly.
+The most straightforward way to gather feedback is to ask users directly if document is relevant.
 There are two main limitations to this approach:
 
 First, users are notoriously reluctant to provide feedback. Did you know that [Google once had](https://en.wikipedia.org/wiki/Google_SearchWiki#:~:text=SearchWiki%20was%20a%20Google%20Search,for%20a%20given%20search%20query) an upvote/downvote mechanism on search results but removed it because almost no one used it?
 
-Second, even if users are willing to provide feedback, it might happen that no relevant documents are present in the initial retrieval results. In this case, the user has no way to provide a meaningful signal.
+Second, even if users are willing to provide feedback, no relevant documents might be present in the initial retrieval results. In this case, the user can't provide a meaningful signal.
 
-Of course, insread of users we can ask a smart agent to provide feedback, but this would actually limit its potential to provide granular judgements.
+Instead of asking users, we can ask a smart model to provide binary relevance judgements, but this would limit its potential to generate granular judgements.
 
 ### Re-scored Relevance Feedback
 
-We can also apply a more sophisticated methods to extract relevance feedback from the top-ranked documents.
-
-Machine learning models are no longer limited in binary choice (relevant/irrelevant) but can provide a relevance score for each document.
+We can also apply more sophisticated methods to extract relevance feedback from the top-ranked documents - machine learning models can provide a relevance score for each document.
 
 The obvious concern here is twofold: 
-1. How accurate can the automated judge determine relevance (or irrelevance)? 
+1. How accurately can the automated judge determine relevance (or irrelevance)? 
 2. How cost-efficient is it? After all, you can’t expect GPT-4o to re-rank thousands of documents for every user query — unless you’re filthy rich.
 
-Nevertheless, re-scored feedback could be a scalable way to improve search when explicit binary feedback is not accessible.
+Nevertheless, automated re-scored feedback could be a scalable way to improve search when explicit binary feedback is not accessible.
 
 ## Has the Problem Already Been Solved?
 
@@ -108,8 +104,8 @@ Thus, approaches for incorporating relevance feedback in search fall into two ca
 
 ## Query Refinement
 
-There are a number of ways to refine a query based on relevance feedback.
-Globally, we prefer to distinguish between two approaches: modifying the query as text and modifying vector representations of the query.
+There are several ways to refine a query based on relevance feedback.
+Globally, we prefer to distinguish between two approaches: modifying the query as text and modifying the vector representation of the query.
 
 {{<figure src=/articles_data/search-feedback-loop/query.png caption="Incorporating Relevance Feedback in Query" width=80% >}}
 
@@ -140,10 +136,9 @@ Started with simple classifiers based on hand-crafted features, this trend natur
 
 This approach significantly outperformed BM25 + RM3 baseline in experiments (+11% NDCG@20). However, it required **11.01x** more computation than just using BERT for reranking, and reranking 1000 documents with BERT would take around 9 seconds alone.
 
-
 Query term expansion can *hypothetically* work for neural retrieval as well. New terms might shift the query vector closer to that of the desired document. However, [this approach isn’t guaranteed to succeed](https://dl.acm.org/doi/10.1145/3570724). Neural search depends entirely on embeddings, and how those embeddings are generated — consequently, how similar query and document vectors are — depends heavily on the model’s training.
 
-However, it definitely works if **query refining is done by a model operating in the same vector space**, which typically requires offline training of a retriever.
+It definitely works if **query refining is done by a model operating in the same vector space**, which typically requires offline training of a retriever.
 The goal is to extend the query encoder input to also include feedback documents, producing an adjusted query embedding. Examples include [`ANCE-PRF`](https://arxiv.org/pdf/2108.13454) and [`ColBERT-PRF`](https://dl.acm.org/doi/10.1145/3572405) – ANCE and ColBERT fine-tuned extensions. 
 
 {{<figure src=/articles_data/search-feedback-loop/updated-encoder.png caption="Generating a new relevance-aware query vector" width=100% >}}
@@ -158,7 +153,7 @@ Alternatively, one could skip a step — and work directly with vectors.
 Instead of modifying the initial query, a more scalable approach is to directly adjust the query vector.
 It is  easily applicable across modalities and suitable for both lexical and neural retrieval.
 
-Although vector search has become a trend in recent years, its core principles have existed in the field for decades. For example, the SMART retrieval system used by [Rocchio](https://sigir.org/files/museum/pub-08/XXIII-1.pdf]) in 1965 for his relevance feedback in search experiments operated on bag-of-words representations of text mapped to a concept space.
+Although vector search has become a trend in recent years, its core principles have existed in the field for decades. For example, the SMART retrieval system used by [Rocchio](https://sigir.org/files/museum/pub-08/XXIII-1.pdf]) in 1965 for his relevance feedback experiments operated on bag-of-words vector representations of text.
 
 {{<figure src=/articles_data/search-feedback-loop/Roccio.png caption="Roccio's Relevance Feedback Method" width=100% >}}
 
@@ -179,14 +174,14 @@ The next iteration of gradient-based methods of query refinement – [`ReFit`](h
 {{<figure src=/articles_data/search-feedback-loop/refit.png caption="An overview of ReFit, a gradient-based method for query refinement" width=90% >}}
 
 Gradient descent-based methods seem like a production-viable option, an alternative to finetuning the retriever (distilling it from a reranker).
-Indeed, it doesn't require in-advance training, and compatible with any re-ranking models. 
+Indeed, it doesn't require in-advance training and is compatible with any re-ranking models. 
 
-However, there are a few limitations baked into these methods, which prevented a wider adoption in the industry.
+However, a few limitations baked into these methods prevented a broader adoption in the industry.
 
-First, the gradient descent-based methods modify elemets of the query vector as if was a model parameters, therefore, 
+The gradient descent-based methods modify elements of the query vector as if it were model parameters; therefore, 
 they require a substantial amount of feedback documents to converge to a stable solution.
 
-Second, the gradient descent-based methods are sensitive to the choice of hyperparameters, which can lead to **query drift**, where the query may drift entirely away from the user’s intent.
+On top of that, the gradient descent-based methods are sensitive to the choice of hyperparameters, leading to **query drift**, where the query may drift entirely away from the user's intent.
 
 ## Similarity Scoring 
 
@@ -195,14 +190,12 @@ Second, the gradient descent-based methods are sensitive to the choice of hyperp
 Another family of approaches is built around the idea of incorporating relevance feedback directly into the similarity scoring function. 
 It might be desirable in cases where we want to preserve the original query intent, but still adjust the similarity score based on relevance feedback.
 
-
 In **lexical retrieval**, this can be as simple as boosting documents that share more terms with those judged as relevant.
+
 Its **neural search counterpart** is a [`k-nearest neighbors-based method`](https://aclanthology.org/2022.emnlp-main.614.pdf) that adjusts the query-document similarity score by adding the sum of similarities between the candidate document and all known relevant examples.
+This technique yields a significant improvement, around 5.6 percentage points in NDCG@20, but it requires a substantial amount of explicitly labelled feedback documents to be effective.
 
-This technique yields a significant improvement, around 5.6 percentage points in NDCG@20.
-However, it requires a substantial amount of explicilty labeled feedback documents to be effective.
-
-In all other papers, we found that adjusting similarity scores based on relevance feedback is also centred around [reranking](https://qdrant.tech/documentation/search-precision/reranking-semantic-search/) – **training or finetuning rerankers to become relevance feedback-aware**.
+In all other papers, we found that adjusting similarity scores based on relevance feedback is centred around [reranking](https://qdrant.tech/documentation/search-precision/reranking-semantic-search/) – **training or finetuning rerankers to become relevance feedback-aware**.
 Typically, experiments include cross-encoders, though [simple classifiers are also an option](https://arxiv.org/pdf/1904.08861).
 These methods generally involve rescoring a broader set of documents retrieved during an initial search, guided by feedback from a smaller top-ranked subset. It is not a similarity matching function adjustment per se but rather a similarity scoring model adjustment.
 
