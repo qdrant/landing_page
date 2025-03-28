@@ -11,9 +11,8 @@
                 <h6 class="additional-resources__card-title">{{ .title }}</h6>
                 <p class="additional-resources__card-content">{{ .content }}</p>
               </div>
-              <a class="additional-resources__card-link" href="{{ .link.url }}">
-                <span>{{ .link.text }}</span>
-                <span>{{ partial "svg" "arrow-right-white.svg" }}</span>
+              <a class="link link_white link_md additional-resources__card-link" href="{{ .link.url }}">
+                {{ .link.text }}
               </a>
             </div>
           </div>

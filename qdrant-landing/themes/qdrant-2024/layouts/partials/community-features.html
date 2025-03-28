@@ -6,14 +6,14 @@
       <div class="community-features__resources-cards row g-4">
         {{ range $index, $element := .Params.resources }}
           <div class="col-12 {{ if or (eq $index 0) (eq $index 3) }}col-lg-7{{ else }}col-lg-5{{ end }}">
-            <div class="card community-features__resources-card">
+            <a href="{{ .link.url }}" class="card community-features__resources-card">
               <h6 class="community-features__resources-card-title">{{ .title }}</h6>
               <p class="community-features__resources-card-description">{{ .description }}</p>
-              <a class="community-features__resources-card-link link link_md align-self-start" href="{{ .link.url }}">
+              <span class="community-features__resources-card-link link link_md align-self-start">
                 {{ .link.text }}
-              </a>
+              </span>
               <img class="community-features__resources-card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
-            </div>
+            </a>
           </div>
         {{ end }}
       </div>
@@ -21,14 +21,14 @@
       <div class="row g-4 gy-lg-3">
         {{ range $index, $element := .Params.features }}
           <div class="col-12 col-lg-3">
-            <div class="card community-features__card">
+            <a class="card community-features__card" href="{{ .link.url }}">
               <img class="community-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
               <h6 class="community-features__card-title">{{ .title }}</h6>
               <p class="community-features__card-description">{{ .description }}</p>
-              <a class="community-features__card-link link link_md align-self-start" href="{{ .link.url }}">
+              <span class="community-features__card-link link link_md align-self-start">
                 {{ .link.text }}
-              </a>
-            </div>
+              </span>
+            </a>
           </div>
         {{ end }}
       </div>
