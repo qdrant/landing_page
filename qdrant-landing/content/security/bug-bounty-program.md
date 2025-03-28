@@ -16,12 +16,23 @@ Qdrant values the security research community and supports the responsible discl
 - Before you run automated scanners, please check with us first.
 
 ### In Scope
-We cover vulnerabilities in the following areas:
+The Bug Bounty program covers the following areas:
 - *.cloud.qdrant.io Qdrant Cloud Application
 - [qdrant.tech](http://qdrant.tech/) Website
 
+In most cases, we will only reward the following types of vulnerabilities:
+- Arbitrary code execution and OS Command Injection
+- Stored Cross-Site Scripting (Stored XSS)
+- SQL injection
+- File Upload
+- Authentication bypass and privilege escalation (authentication / authorization circumvention)
+- Significant Sensitive Data Exposure
+- Server-Side Request Forgery (SSRF)
+- Critical Business Logic Flaws
+
 ### Out of Scope
 We always exclude the following areas:
+- Findings related to intended functionality or accepted business risks
 - Qdrant support system on https://support.qdrant.io
 - Third-party applications or websites
 - Staging or test environments
@@ -34,6 +45,9 @@ We always exclude the following areas:
 - Generic information disclosure, such as the `Server` or `X-Powered-By` headers
 - Email security: DMARC, DKIM, SPF, etc.
 - Spamming that rate limiting techniques can prevent
+- Missing DNSSEC
+- CSRF for Login, Logout and Signup pages
+- Cross-site scripting that requires full control of a http header, such as Referer, Host etc.
 - Clickjacking and Tabnabbing
 
 ## Severity Levels and Rewards
