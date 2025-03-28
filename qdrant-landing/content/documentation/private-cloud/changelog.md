@@ -5,6 +5,10 @@ weight: 5
 
 # Changelog
 
+## 1.6.3 (2025-03-28)
+
+* Performance and stability improvements for collection re-sharding
+
 ## 1.6.2 (2025-03-21)
 
 * Allow disabling NetworkPolicy management in Qdrant Cluster operator
