@@ -22,8 +22,6 @@ tags:
 
 ## 📡 Qdrant Launches Satellite Vector Broadcasting for Near-Zero Latency Retrieval
 
-![](/blog/satellite-vector-broadcasting/image1.png)
-
 **CAPE CANAVERAL, FL** — Qdrant today announced the successful deployment of **Satellite Vector Broadcasting**, an ambitious new system for high-speed vector search that uses **actual satellites** to transmit, shard, and retrieve embeddings — bypassing Earth entirely.
 
 > “Cloud is old news. Space is the new infrastructure,” said orbital software lead Luna Hertz. “We're proud to say we've finally untethered cosine similarity from the bonds of gravity and Wi-Fi.”
@@ -32,10 +30,6 @@ tags:
 The system uses a **constellation of proprietary CubeSats** equipped with ultra-low-latency broadcasting gear to beam vector data across the planet — and eventually, the solar system — via **inter-satellite vector laser relays**. Think 5G, but with telescopes.
 
 ### 📊 Benchmark Results
-
-![](/blog/satellite-vector-broadcasting/image3.png)
-
-### 📶 Query Latency by Deployment Mode
 
 | **Infrastructure Mode** | **Avg. Latency (ms)** |
 | --- | --- |
