@@ -66,7 +66,7 @@ The system uses a **constellation of proprietary CubeSats** equipped with ultra-
 ### 🛸 Coming Soon
 
 - **PlutoEdge™**: Coldest-ever vector cache, temperature-stabilized by cosmic background radiation
-- **StarlinkGPT Embedding Sync** (pending Elon's mood)
+- **StarlinkGPT Embedding Sync** (requires 42 satellites and a lot of coffee)
 - **Mars Cluster Alpha**: Terraforming... for faster search
 
 ### 📡 Availability
