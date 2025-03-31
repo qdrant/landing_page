@@ -35,7 +35,7 @@ The system uses a **constellation of proprietary CubeSats** equipped with ultra-
 
 ![](/blog/satellite-vector-broadcasting/image3.png)
 
-### 📶 *Query Latency by Deployment Mode
+### 📶 Query Latency by Deployment Mode
 
 | **Infrastructure Mode** | **Avg. Latency (ms)** |
 | --- | --- |
