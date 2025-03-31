@@ -153,7 +153,7 @@ Alternatively, one could skip a step — and work directly with vectors.
 Instead of modifying the initial query, a more scalable approach is to directly adjust the query vector.
 It is  easily applicable across modalities and suitable for both lexical and neural retrieval.
 
-Although vector search has become a trend in recent years, its core principles have existed in the field for decades. For example, the SMART retrieval system used by [Rocchio](https://sigir.org/files/museum/pub-08/XXIII-1.pdf]) in 1965 for his relevance feedback experiments operated on bag-of-words vector representations of text.
+Although vector search has become a trend in recent years, its core principles have existed in the field for decades. For example, the SMART retrieval system used by [Rocchio](https://sigir.org/files/museum/pub-08/XXIII-1.pdf) in 1965 for his relevance feedback experiments operated on bag-of-words vector representations of text.
 
 {{<figure src=/articles_data/search-feedback-loop/Roccio.png caption="Roccio's Relevance Feedback Method" width=100% >}}
 
@@ -193,9 +193,9 @@ It might be desirable in cases where we want to preserve the original query inte
 In **lexical retrieval**, this can be as simple as boosting documents that share more terms with those judged as relevant.
 
 Its **neural search counterpart** is a [`k-nearest neighbors-based method`](https://aclanthology.org/2022.emnlp-main.614.pdf) that adjusts the query-document similarity score by adding the sum of similarities between the candidate document and all known relevant examples.
-This technique yields a significant improvement, around 5.6 percentage points in NDCG@20, but it requires a substantial amount of explicitly labelled feedback documents to be effective.
+This technique yields a significant improvement, around 5.6 percentage points in NDCG@20, but it requires a substantial amount of explicitly labelled feedback documents to be effective. 
 
-In all other papers, we found that adjusting similarity scores based on relevance feedback is centred around [reranking](https://qdrant.tech/documentation/search-precision/reranking-semantic-search/) – **training or finetuning rerankers to become relevance feedback-aware**.
+In experiments, the knn-based method is treated as a reranker. In all other papers, we also found that adjusting similarity scores based on relevance feedback is centred around [reranking](https://qdrant.tech/documentation/search-precision/reranking-semantic-search/) – **training or finetuning rerankers to become relevance feedback-aware**.
 Typically, experiments include cross-encoders, though [simple classifiers are also an option](https://arxiv.org/pdf/1904.08861).
 These methods generally involve rescoring a broader set of documents retrieved during an initial search, guided by feedback from a smaller top-ranked subset. It is not a similarity matching function adjustment per se but rather a similarity scoring model adjustment.
 
