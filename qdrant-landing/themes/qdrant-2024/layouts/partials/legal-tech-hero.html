@@ -1,0 +1,28 @@
+{{ with (.Site.GetPage "legal-tech/legal-tech-hero") }}
+  <section class="legal-tech-hero">
+    <div class="container">
+      <div class="row justify-content-lg-between align-items-lg-center">
+        <div class="col-12 col-lg-6 legal-tech-hero__content">
+          <div class="legal-tech-hero__tag">
+            <img class="legal-tech-hero__tag-icon" src="{{ .Params.tag.icon.src }}" alt="{{ .Params.tag.icon.alt }}" />
+            <p class="legal-tech-hero__tag-name">{{ .Params.tag.name }}</p>
+          </div>
+          <h3 class="legal-tech-hero__title">{{ .Params.title }}</h3>
+          <p class="legal-tech-hero__description">{{ .Params.description | safeHTML }}</p>
+          <div class="legal-tech-hero__buttons">
+            <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg">
+              {{ .Params.startFree.text }}
+            </a>
+            <a href="{{ .Params.contactUs.url }}" class="button button_outlined button_lg">
+              {{ .Params.contactUs.text }}
+            </a>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 legal-tech-hero__preview">
+          <div class="legal-tech-hero__preview-square-grid"></div>
+          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
