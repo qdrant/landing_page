@@ -2,7 +2,7 @@
 content: Empower Your Legal Team with AI & Vector Search
 contactUs:
   text: Talk to Sales
-  url: /#
+  url: /contact-us/
 sitemapExclude: true
 ---
 
