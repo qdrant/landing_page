@@ -5,7 +5,7 @@ short_description: "Introducing Satellite Vector Broadcasting for near-zero late
 description: "The future of vector search, featuring a constellation of CubeSats for ultra-low-latency vector retrieval. Complete with benchmark results and field reports from our beta testers."
 preview_image: /blog/satellite-vector-broadcasting/social_preview.png
 social_preview_image: /blog/satellite-vector-broadcasting/social_preview.png
-date: 2025-03-30T00:00:00-08:00
+date: 2025-04-01T00:00:00-08:00
 author: Qdrant Team
 featured: false
 tags:
