@@ -32,7 +32,7 @@
 
             if (originPass && cloudUIEvent.data === 'getAnonymousId') {
               const anonymousId = analytics.user().anonymousId();
-              cloudUIEvent.source.postMessage({ anonymousId }, cloudUIEvent.origin);
+              cloudUIEvent.source.postMessage(anonymousId, cloudUIEvent.origin);
             }
           });
         });
