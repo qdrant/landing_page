@@ -193,7 +193,7 @@ It might be desirable in cases where we want to preserve the original query inte
 In **lexical retrieval**, this can be as simple as boosting documents that share more terms with those judged as relevant.
 
 Its **neural search counterpart** is a [`k-nearest neighbors-based method`](https://aclanthology.org/2022.emnlp-main.614.pdf) that adjusts the query-document similarity score by adding the sum of similarities between the candidate document and all known relevant examples.
-This technique yields a significant improvement, around 5.6 percentage points in NDCG@20, but it requires a substantial amount of explicitly labelled feedback documents to be effective. 
+This technique yields a significant improvement, around 5.6 percentage points in NDCG@20, but it requires explicitly labelled (by users) feedback documents to be effective. 
 
 In experiments, the knn-based method is treated as a reranker. In all other papers, we also found that adjusting similarity scores based on relevance feedback is centred around [reranking](https://qdrant.tech/documentation/search-precision/reranking-semantic-search/) – **training or finetuning rerankers to become relevance feedback-aware**.
 Typically, experiments include cross-encoders, though [simple classifiers are also an option](https://arxiv.org/pdf/1904.08861).
@@ -201,7 +201,7 @@ These methods generally involve rescoring a broader set of documents retrieved d
 
 Methods typically fall into two categories: 
 1. **Training rerankers offline** to ingest relevance feedback as an additional input at inference time, [as here](https://aclanthology.org/D18-1478.pdf) — again, attention-based models and lengthy inputs: a production-deadly combination.
-2. **Finetuning rerankers** on relevance feedback from the first retrieval stage, [as Baumgärtner et al. did](https://aclanthology.org/2022.emnlp-main.614.pdf), finetuning bias parameters of a small cross-encoder per query on 2,000 feedback documents (still a lot, especially considering that their method works with explicit feedback).
+2. **Finetuning rerankers** on relevance feedback from the first retrieval stage, [as Baumgärtner et al. did](https://aclanthology.org/2022.emnlp-main.614.pdf), finetuning bias parameters of a small cross-encoder per query on 2k, k={2, 4, 8} feedback documents. 
 
 The biggest limitation here is that these reranker-based methods cannot retrieve relevant documents beyond those returned in the initial search, and using rerankers on thousands of documents in production is a no-go – it’s too expensive.
 Ideally, to avoid that, a similarity scoring function updated with relevance feedback should be used directly in the second retrieval iteration. However, in every research paper we’ve come across, retrieval systems are **treated as black boxes** — ingesting queries, returning results, and offering no built-in mechanism to modify scoring.
