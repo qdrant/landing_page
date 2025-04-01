@@ -118,3 +118,10 @@ disableKinds = ["taxonomy", "term"]
 [services]
   [services.googleAnalytics]
     id = 'G-NZYW2651NE'
+
+[server]
+  [server.headers]
+    for = '/get_anonymous_id/**'
+    [[server.headers.values]]
+      Content-Security-Policy = 'frame-ancestors https://localhost:3000'
+      X-Frame-Options = 'ALLOW-FROM https://localhost:3000'
