@@ -1,3 +1,44 @@
+# Index
+- [Running locally](#running-locally)
+  - [Prerequisites](#prerequisites)
+    - [Required](#required)
+    - [Needed only for development](#needed-only-for-development)
+      - [Updating npm dependencies via hugo](#updating-npm-dependencies-via-hugo)
+  - [Run](#run)
+  - [Run with drafts](#run-with-drafts)
+  - [Build css from scss](#build-css-from-scss)
+- [Content Management](#content-management)
+  - [Main Page](#main-page)
+    - [Customers/Partners Logos](#customerspartners-logos)
+  - [Articles](#articles)
+    - [Metadata](#metadata)
+    - [Preview image mechanism](#preview-image-mechanism)
+    - [Article preview](#article-preview)
+  - [Documentation](#documentation)
+    - [Metadata](#metadata-1)
+    - [Preview images for documentation pages](#preview-images-for-documentation-pages)
+    - [Documentation sidebar](#documentation-sidebar)
+      - [Delimiter](#delimiter)
+      - [External link](#external-link)
+      - [Params](#params)
+  - [Blog](#blog)
+    - [Images](#images)
+    - [Important notes](#important-notes)
+  - [Shortcodes 🧩🧩🧩](#shortcodes-)
+    - [Built-in shortcodes](#built-in-shortcodes)
+    - [Custom shortcodes](#custom-shortcodes)
+      - [🧩 Card](#-card)
+      - [🧩 Grid Row](#-grid-row)
+      - [🧩 Banner](#-banner)
+      - [🧩 Code Snippets Widget](#-code-snippets-widget)
+        - [📁 Directory Structure](#-directory-structure)
+        - [▶️ Example Usage](#-example-usage)
+        - [⚙️ Parameters](#-parameters)
+        - [⚠️ Notes](#-notes)
+        - [🚫 Limitations](#-limitations)
+
+
+
 # Running locally
 
 ## Prerequisites
@@ -271,7 +312,7 @@ In the blog post file, you'll see:
 - If a post has `featured: true` property in the front matter this post will appear in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.
   - If there are more than 4 `featured: true` posts (where `draft: false`), the oldest post disappears from /blog.
 
-## Shortcodes
+## Shortcodes 🧩🧩🧩
 
 Hugo lets you use built-in and custom shortcodes to simplify the creation of content. Meanwhile, **keep in mind that shortcodes make the content less portable**. If you decide to move the content to another platform, you'll need to rewrite the shortcodes. **Avoid to overuse them.**
 
@@ -291,7 +332,7 @@ If you use a shortcode in your markdown file, but it fails to render, check if t
 
 You can find the list of available shortcodes in the `qdrant-landing/themes/qdrant/layouts/shortcodes` directory.
 
-#### Card
+#### 🧩 Card
 - Card - variant 1
 
   ![](readme-assets/shortcode-card-1.png)
@@ -323,7 +364,7 @@ col="6" >}}
 {{< /card >}}
 ```
 
-Options for card shortcode:
+Parameters for card shortcode:
 - `title` - required
 - `link` -required
 - `image` - optional, default null
@@ -333,7 +374,9 @@ Options for card shortcode:
 
 Card variant 1 is the default; you can optionally change the icon and type, if you use `image` option, you will get variant 2, type and icon will be ignored even if given.
 
-#### Grid Row
+<hr>
+
+#### 🧩 Grid Row
 
 Cards should be enclosed in a row shortcode if you want to have more than one card in a row.
 
@@ -359,7 +402,9 @@ Example:
 
 Each card will take up half of the row in the example above.
 
-#### Banner
+<hr>
+
+#### 🧩 Banner
 
 ![](readme-assets/shortcode-banner.png)
 
@@ -370,10 +415,54 @@ Example:
 {{< /banner >}}
 ```
 
-Options for banner shortcode:
+Parameters for banner shortcode:
 - `link` - required
 - `cta` - optional, default "Get Started"
 - `image` - optional, default "/img/rocket.svg"
+
+<hr>
+
+#### 🧩 Code Snippets Widget
+
+![](readme-assets/shortcode-snippets.png)
+
+This shortcode renders a code snippets widget from a specified path.
+Use it when you want to manage code examples as a collection of separate Markdown files.
+
+##### 📁 Directory Structure
+Place all code snippets for a single widget into one directory. Each file should be named after the programming language it represents:
+
+```
+points-id/
+├── http.md
+├── python.md
+├── go.md
+```
+File names are used for sorting. It's recommended to name files according to the language they contain (e.g., python.md, go.md). Sorting is controlled by the order parameter or the snippetsOrder parameter (see below).
+
+Each file should contain a code snippet in a fenced code block (```).
+
+##### ▶️ Example Usage
+``` hugo
+{{< code-snippet path="/documentation/headless/snippets/points-id/" order="python http go" >}}
+``` 
+
+##### ⚙️ Parameters
+- `path` (required) – Path to the directory (inside content/) containing the snippet files.
+- `order` (optional) – Space-separated list of snippet names to display first. Remaining files will be rendered in the order they appear in the directory. Sorting is based on file names (without .md).
+
+You can also define a global default snippet order using the snippetsOrder parameter in the relevant section’s _index.md.
+
+##### ⚠️ Notes
+**Important:** Turn off rendering for the snippets directory if it's not already disabled in its parent section. Otherwise, Hugo will attempt to generate standalone pages for these files.
+
+You can include multiple snippets in a single Markdown file, but in that case, the order parameter has no effect—they will render in the order they appear in the file.
+
+##### 🚫 Limitations
+Snippet files must not contain front matter (---). Each code snippet should be a fenced code block (```).
+
+The snippetsOrder parameter only works at the section level or deeper. If you're adding snippets to a section for the first time, make sure to define snippetsOrder in that section’s or a child section’s _index.md.
+
 
 ## SEO
 
@@ -419,3 +508,5 @@ If you want to add a new schema, create a new JSON file in the `qdrant-landing/a
 When use `seo_schema` and `seo_schema_json` together, `seo_schema` will be used additionally to `seo_schema_json` adding the second <script> tag with the `seo_schema` value.
 
 Use `seo_schema_json` if you want to reuse the same schema for multiple pages to avoid duplication and make it easier to maintain.
+
+[To Index](#index)
