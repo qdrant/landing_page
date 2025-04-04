@@ -142,7 +142,7 @@ query = (
     .with_natural_query(natural_query=sl.Param("natural_query"))
 )
 ```
-### Breaking Down the Query
+#### Breaking Down the Query
 
 ![superlinked-query](/blog/superlinked-multimodal-search/superlinked-query.svg)
 
