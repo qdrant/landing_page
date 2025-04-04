@@ -6,7 +6,7 @@
 
   <section class="bg-mid-gray pt-6">
     <div class="container">
-      {{ with (.Site.GetPage "/customers/case-study-0") }}
+      {{ with (.Site.GetPage "/customers/case-study-hubspot") }}
         {{ partial "case-study" . }}
       {{ end }}
     </div>
@@ -23,7 +23,7 @@
 
   <section class="bg-mid-gray pt-6">
     <div class="container">
-      {{ with (.Site.GetPage "/customers/case-study-1") }}
+      {{ with (.Site.GetPage "/customers/case-study-telekom") }}
         {{ partial "case-study" . }}
       {{ end }}
     </div>
@@ -37,6 +37,15 @@
     {{ partial "logo-cards" . }}
   {{ end }}
 
+
+  <section class="bg-mid-gray pt-6">
+    <div class="container">
+      {{ with (.Site.GetPage "/customers/case-study-sprinklr") }}
+        {{ partial "case-study" . }}
+      {{ end }}
+    </div>
+  </section>
+
   {{ with (.Site.GetPage "/customers/case-studies-1") }}
     {{ partial "customers-case-studies" . }}
   {{ end }}
@@ -44,7 +53,7 @@
 
   <section class="bg-mid-gray pt-6">
     <div class="container">
-      {{ with (.Site.GetPage "/customers/case-study-2") }}
+      {{ with (.Site.GetPage "/customers/case-study-voiceflow") }}
         {{ partial "case-study" . }}
       {{ end }}
     </div>
@@ -61,7 +70,7 @@
 
   <section class="bg-mid-gray pt-6">
     <div class="container">
-      {{ with (.Site.GetPage "/customers/case-study-3") }}
+      {{ with (.Site.GetPage "/customers/case-study-nyris") }}
         {{ partial "case-study" . }}
       {{ end }}
     </div>
@@ -75,18 +84,18 @@
     {{ partial "logo-cards" . }}
   {{ end }}
 
-  {{ with (.Site.GetPage "/customers/case-studies-2") }}
-    {{ partial "customers-case-studies" . }}
-  {{ end }}
-
 
   <section class="bg-mid-gray pt-6">
     <div class="container">
-      {{ with (.Site.GetPage "/customers/case-study-4") }}
+      {{ with (.Site.GetPage "/customers/case-study-dailymotion") }}
         {{ partial "case-study" . }}
       {{ end }}
     </div>
   </section>
+
+  {{ with (.Site.GetPage "/customers/case-studies-2") }}
+    {{ partial "customers-case-studies" . }}
+  {{ end }}
 
   {{ partial "customers-vector-space-wall" . }}
 
