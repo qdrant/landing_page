@@ -23,16 +23,17 @@ tags:
 
 ## Introduction
 
-The proliferation of AI has changed how people use search for products, services or education. The general public is getting used to expressing their desires in **natural language**, while expecting to receive precise and tailored results. 
+The proliferation of AI has changed how people use search for products, services or education. The general public is getting used to expressing their desires in **natural language**, and they are still expecting to receive precise and tailored results. 
 
 Let's say you are trying to book a hotel in Paris, and you have some very basic criteria:
 
 ![superlinked-search](/blog/superlinked-multimodal-search/superlinked-search.png)
 
-*"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking."* isn't just a search query. **Behind the scenes** - it is a complex set of interrelated preferences spanning multiple data types.
+*"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking."* isn't just a search query. Behind the scenes - it is a complex set of interrelated preferences spanning multiple data types.
 
 > In this blog, we'll show you how we built [**The Hotel Search Demo**](https://hotel-search-recipe.superlinked.io/). 
 
+**Figure 1:** Vectors for this app are generated via Superlinked and stored in Qdrant.
 ![superlinked-hotel-search](/blog/superlinked-multimodal-search/superlinked-hotel-search.png)
 
 What's really cool is that this demo breaks down your natural language query into very precise parameters. As you type in your question at the top, you can observe the query parameters change in the left sidebar.
@@ -43,14 +44,18 @@ In this blog, we'll show you how Qdrant and Superlinked can be used to combine *
 ## Core Components
 
 FILIP PLEASE EXPLAIN THE APP ARCHITECTURE
+- vectorization
+- embedding model
+- storing in a Qdrant collection
+- structuring retrieval
 
 ![superlinked-architecture](/blog/superlinked-multimodal-search/superlinked-architecture.png)
 
 ### 1. Vector Spaces: The Building Blocks of Intelligent Search
 
-At the heart of Superlinked's innovation are [Spaces](https://docs.superlinked.com/concepts/overview) - specialized vector embedding environments designed for different data types. Unlike conventional approaches that force all data into a single embedding format, these spaces respect the inherent characteristics of different data types.
+At the heart of Superlinked's innovation are [**Spaces**](https://docs.superlinked.com/concepts/overview) - specialized vector embedding environments designed for different data types. Unlike conventional approaches that force all data into a single embedding format, these spaces respect the inherent characteristics of different data types.
 
-In the Hotel Search Demo, four distinct spaces work together: **Description**, **Rating**, **Price** and **Rating Count**.
+In our demo, four distinct spaces work together: **Description**, **Rating**, **Price** and **Rating Count**. Here is how they are defined:
 
 ```python
 # Text data is embedded using a specialized language model
@@ -85,13 +90,12 @@ rating_count_space = sl.NumberSpace(
 ```
 
 What makes this powerful is that each space properly preserves the semantic relationships within its domain - all while allowing these different spaces to be combined into a cohesive search experience.
-- **Prices** are embedded to maintain their proportional relationships.
-- **Text** embeddings capture semantic meanings.
-- **Ratings** preserve their relative quality indicators 
+
+**Prices** are embedded to maintain their proportional relationships, **Text** embeddings capture semantic meanings, **Ratings** preserve their relative quality indicators, and the **Ratings Count** uses logarithmic scaling to properly weight the significance of review volume.
 
 ### 2. Multimodal Vector Search: The Full Picture
 
-Traditional vector search is single-dimensional - typically just text. Superlinked transcends this limitation by creating a rich multi-modal search environment where different data types collaborate rather than compete.
+Traditional users see vector search as typically just text-based. Both Qdrant and Superlinked transcends this limitation by supporting a rich multimodal search environment where different data types collaborate rather than compete.
 
 In our hotel demo, this means:
 
