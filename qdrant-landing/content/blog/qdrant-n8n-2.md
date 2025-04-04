@@ -4,8 +4,9 @@ draft: false
 slug: qdrant-n8n-beyond-simple-similarity-search
 short_description: "Build powerful agentic workflows for recommendations and large-scale data analysis with the combined capabilities of Qdrant and n8n."
 description: "Build powerful agentic workflows for recommendations and large-scale data analysis with the combined capabilities of Qdrant and n8n."
-preview_image: /qdrant-n8n-2/preview.jpg
-date: 2025-04-03T00:02:00+01:00
+preview_image: /blog/qdrant-n8n-2/preview.jpg
+social_preview_image: /blog/qdrant-n8n-2/social_preview.png
+date: 2025-04-04T00:00:00+01:00
 author: Evgeniya Sukhodolskaya
 featured: false
 tags:
@@ -84,7 +85,7 @@ After saving the configuration and running the Starter Kit, use `QDRANT_API_KEY`
 
 Vector search's ability to determine semantic similarity between objects is often used to address models' hallucinations, powering the memory of Retrieval-Augmented Generation-based applications.
 
-Yet there's more to vector search than just a "knowledge base" role. By exploring the concept of "dissimilarity," we unlock new possibilities. By measuring how similar data points are in a semantic vector space, we can also analyze their differences.
+Yet there's more to vector search than just a "knowledge base" role. **By exploring the concept of "dissimilarity," we unlock new possibilities.** By measuring how similar data points are in a semantic vector space, we can also analyze their differences.
 
 This combination of similarity and dissimilarity expands vector search to recommendations, discovery search, and large-scale unstructured data analysis. 
 
@@ -105,15 +106,15 @@ Imagine a home cinema night—you've already watched Harry Potter 666 times and 
 
 A [Template Agentic Movie Recommendation Workflow](https://n8n.io/workflows/2440-building-rag-chatbot-for-movie-recommendations-with-qdrant-and-open-ai/) consists of three parts:
 
-1. **Movie Data Uploader**: Embeds movie descriptions and uploads them to Qdrant using the [Qdrant Vector Store Node](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant). In the template workflow, the dataset is fetched from GitHub, but you can use any supported storage, for example [Google Cloud Storage](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlecloudstorage).
-2. **AI Agent**: Uses the [AI Agent Node](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent) to formulate Qdrant Recommendation API calls based on your natural language requests. Choose an LLM as a "brain" and define a [JSON schema](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.toolworkflow/#specify-input-schema) for the recommendations tool powered by Qdrant. This schema lets the LLM map your requests to the tool input format.
+1. **Movie Data Uploader**: Embeds movie descriptions and uploads them to Qdrant using the [Qdrant Vector Store Node](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant). In the template workflow, the dataset is fetched from GitHub, but you can use any supported storage, for example [Google Cloud Storage node](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlecloudstorage).
+2. **AI Agent**: Uses the [AI Agent Node](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent) to formulate Recommendation API calls based on your natural language requests. Choose an LLM as a "brain" and define a [JSON schema](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.toolworkflow/#specify-input-schema) for the recommendations tool powered by Qdrant. This schema lets the LLM map your requests to the tool input format.
 3. **Recommendations Tool**: A [subworkflow](https://docs.n8n.io/flow-logic/subworkflows/) that calls the Qdrant Recommendation API using the [HTTP Request Node](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest). The agent extracts relevant and irrelevant movie descriptions from your chat message and passes them to the tool. The tool embeds them with `text-embedding-3-small` and uses the Qdrant Recommendation API to get movie recommendations, which are passed back to the agent.
 
 <aside role="status">
 To use Qdrant's functionality beyond <a href="https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant">Qdrant Vector Store node</a> capabilities, map requests from <a href="https://api.qdrant.tech/api-reference">Qdrant API reference</a> to n8n's <a href="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/">HTTP Request nodes</a>.
 </aside>
 
-Run a chat and ask for "*something about wizards but not Harry Potter*." 
+Set it up, run a chat and ask for "*something about wizards but not Harry Potter*." 
 What results do you get?
 
 ---
@@ -140,7 +141,7 @@ To make it more interesting, this time we'll focus on image data.
 
 One definition of "anomaly" comes intuitively after projecting vector representations of data points into a 2D space—Qdrant webUI provides this functionality. Points that don't belong to any clusters are more likely to be anomalous.
 
-TBD IMAGE
+![anomalies-on-2D](/blog/qdrant-n8n-2/anomalies-2D.png)
 
 With that intuition comes the recipe for building an anomaly detection tool. We will demonstrate it on anomaly detection in agricultural crops. Qdrant will be used to:
 1. Store vectorized images.
@@ -148,7 +149,8 @@ With that intuition comes the recipe for building an anomaly detection tool. We 
 3. Define the borders of each cluster.
 4. Check if new images fall within these boundaries. If an image does not fit within any cluster, it is flagged as anomalous. Alternatively, you can check if an image is anomalous to a specific cluster.
 
-TBD IMAGE
+
+![anomaly-detection](/blog/qdrant-n8n-2/anomaly-detection.png)
 
 **Setup:**
 1. **Dataset**: We use the [Agricultural Crops Image Classification dataset](https://www.kaggle.com/datasets/mdwaquarazam/agricultural-crops-image-classification).
@@ -179,6 +181,8 @@ We used two approaches (it's not an exhaustive list) to defining a cluster repre
 |----------------------|-----------------------------------------------------------------------------|
 | **Medoids**          | A point within the cluster that has the smallest total distance to all other cluster points. This approach needs labeled data for each cluster. |
 | **Perfect Representative** | A representative defined by a textual description of the ideal cluster member—the multimodality of Voyage AI embeddings allows for this trick. For example, for cherries: *"Small, glossy red fruits on a medium-sized tree with slender branches and serrated leaves."* The closest image to this description in the vector space is selected as the representative. This method requires experimentation to align descriptions with real data. |
+
+![cluster-representative](/blog/qdrant-n8n-2/cluster-representative.png)
 
 **Workflow:**
 
@@ -226,9 +230,9 @@ The anomaly detection tool can also be used for classification, but there's a si
 
 > "Show me your friends, and I will tell you who you are."
 
-The KNN method labels a data point by analyzing its classified neighbors and assigning this point the majority class in the neighborhood. This approach doesn't require all data points to be labeled—a subset of labeled examples can serve as anchors to propagate labels across the dataset. Qdrant is well-suited for this task, offering fast neighbor searches with filtering capabilities.
+![KNN-2D](/blog/qdrant-n8n-2/KNN.png)
 
-TBD IMAGE
+The KNN method labels a data point by analyzing its classified neighbors and assigning this point the majority class in the neighborhood. This approach doesn't require all data points to be labeled—a subset of labeled examples can serve as anchors to propagate labels across the dataset. Qdrant is well-suited for this task, offering fast neighbor searches with filtering capabilities.
 
 Let's build a KNN-based image classification tool.
 
