@@ -1,5 +1,5 @@
 ---
-title: "How to Build a Hotel Search App with Multimodal Vector Embeddings"
+title: "Building a Hotel Search App with Superlinked's Multimodal Vector Embeddings"
 draft: false
 short_description: "Transform hotel search with multi-modal vector embeddings, combining text, price, ratings, and amenities for intelligent results."
 description: "Discover how multimodal vector search revolutionizes hotel discovery by understanding complex queries with text, numerical, and categorical data."
@@ -23,19 +23,28 @@ tags:
 
 ## Introduction
 
-In the age of AI, search has undergone a radical transformation. Users no longer want to meticulously craft keyword combinations; they want to express their desires in **natural language** and receive precisely tailored results. 
+The proliferation of AI has changed how people use search for products, services or education. The general public is getting used to expressing their desires in **natural language**, while expecting to receive precise and tailored results. 
 
-*"Family-friendly beachfront resorts in Miami under $300 with good reviews"* isn't just a search query; it's a complex set of interrelated preferences spanning multiple data types.
+Let's say you are trying to book a hotel in Paris, and you have some very basic criteria:
 
 ![superlinked-search](/blog/superlinked-multimodal-search/superlinked-search.png)
 
-In this blog, we'll show you how we built [**The Hotel Search Demo**](https://hotel-search-recipe.superlinked.io/). 
+*"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking."* isn't just a search query. **Behind the scenes** - it is a complex set of interrelated preferences spanning multiple data types.
 
-This app demonstrates how Qdrant and Superlinked can solve real-world challenges in search. We'll teach you how to combine **textual understanding**, **numerical reasoning**, and **categorical filtering** into a seamless experienc that modern users expect. 
+> In this blog, we'll show you how we built [**The Hotel Search Demo**](https://hotel-search-recipe.superlinked.io/). 
+
+![superlinked-hotel-search](/blog/superlinked-multimodal-search/superlinked-hotel-search.png)
+
+What's really cool is that this demo breaks down your natural language query into very precise parameters. As you type in your question at the top, you can observe the query parameters change in the left sidebar.
+
+In this blog, we'll show you how Qdrant and Superlinked can be used to combine **textual understanding**, **numerical reasoning**, and **categorical filtering** into a seamless search experience that modern users expect. 
+
 
 ## Core Components
 
+FILIP PLEASE EXPLAIN THE APP ARCHITECTURE
 
+![superlinked-architecture](/blog/superlinked-multimodal-search/superlinked-architecture.png)
 
 ### 1. Vector Spaces: The Building Blocks of Intelligent Search
 
@@ -75,7 +84,10 @@ rating_count_space = sl.NumberSpace(
 )
 ```
 
-What makes this powerful is that each space properly preserves the semantic relationships within its domain. Prices are embedded to maintain their proportional relationships, text embeddings capture semantic meanings, and ratings preserve their relative quality indicators - all while allowing these different spaces to be combined into a cohesive search experience.
+What makes this powerful is that each space properly preserves the semantic relationships within its domain - all while allowing these different spaces to be combined into a cohesive search experience.
+- **Prices** are embedded to maintain their proportional relationships.
+- **Text** embeddings capture semantic meanings.
+- **Ratings** preserve their relative quality indicators 
 
 ### 2. Multimodal Vector Search: The Full Picture
 
@@ -128,40 +140,49 @@ query = (
     .with_natural_query(natural_query=sl.Param("natural_query"))
 )
 ```
+### Breaking Down the Query
 
-This enables queries like "affordable luxury hotels in Paris with spa" to be automatically translated into:
+![superlinked-query](/blog/superlinked-multimodal-search/superlinked-query.svg)
 
-- A text similarity search for "luxury" and "spa" concepts
-- Appropriate weighting for price (lower range)
-- Hard filtering for "Paris" location
-- Potential filtering for spa amenities
+This setup enables queries like *"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking."* to be automatically translated into:
+
+- A text similarity search for **"luxury"** and **"Eiffel Tower"** concepts
+- Appropriate weighting for **"affordable" price** (lower range)
+- Hard filtering for **"free parking"** as an amenity
+- Search for **"lots" (rating count) + good reviews (rating)**
 
 Unlike systems that rely on reranking after retrieval (which can miss relevant results if the initial retrieval is too restrictive) or metadata filters (which convert fuzzy preferences like "affordable" to rigid boundaries), this approach maintains the nuance of the search throughout the entire process.
 
 ### 4. Hybrid Search Reimagined: Solving the Modern Search Problem
 
-Today's search landscape is dominated by discussions of hybrid search - the combination of keyword matching for precision with vector search for semantic understanding. The Hotel Search Demo takes this concept further by implementing a multimodal hybrid search method that spans not just text retrieval methods but entire data domains.
+Today's search landscape is dominated by discussions of hybrid search - the combination of keyword matching for precision with vector search for semantic understanding. The hotel search demo takes this concept further by implementing a multimodal hybrid search method that spans not just text retrieval methods but entire data domains.
 
 In the hotel search demo, we see hybrid search reimagined across multiple dimensions:
 - Text hybrid search: Combining exact matching (for city names, amenity keywords) with semantic similarity (for concepts like "luxury" or "family-friendly")
 - Numerical hybrid search: Blending exact range filters (minimum/maximum price) with preference-based vector similarity (for concepts like "affordable" or "high-rated")
 - Categorical hybrid search: Integrating hard categorical constraints (must be in Paris) with soft preferences (prefer hotels with specific amenities)
 
-This multi-dimensional hybrid approach solves critical problems that plague conventional search systems:
+This multi-dimensional hybrid approach solves challenges facing conventional search systems:
 
 1. Single-modal vector search fails when queries span multiple data types
-2. Traditional hybrid search still separates keyword and vector components, making it difficult to weight them appropriately
+2. Traditional hybrid search still separates keyword and vector components, which means they have to be weighed appropriately
 3. Separate storage per attribute forces complex result reconciliation that loses semantic nuance
-4. Pure filtering approaches convert preferences into binary decisions, losing the "strength" of preference
-5. Re-ranking strategies suffer from poor initial retrieval, especially with broad queries
+4. Pure filtering approaches convert preferences into binary decisions, missing the "strength" of preference
+5. Re-ranking strategies may lead to weaker initial retrieval, especially with broad queries
 
 This unified approach maintains the semantic relationships of all attributes in a multi-dimensional search space, where preferences become weights rather than filters, and where hard constraints and soft preferences seamlessly coexist in the same query.
 
 The result is a search experience that feels intuitive and "just works" - whether users are looking for "pet-friendly boutique hotels with good reviews near the city center" or "affordable family suites with pool access in resort areas" - because the system understands both the semantics and the relationships between different attributes of what users are asking for.
 
-### Results
+> As search expectations continue to evolve, this multimodal and multidimensional hybrid search approach represents not just an incremental improvement but a fundamental rethinking of how search should work. 
 
-As search expectations continue to evolve, this multimodal and multidimensional hybrid search approach represents not just an incremental improvement but a fundamental rethinking of how search should work. The Hotel Search Demo showcases this vision in action, a glimpse into a future where search understands not just the words we use, but the complex, nuanced preferences they represent.
+The hotel search demo showcases this vision in action, a glimpse into a future where search understands not just the words we use, but the complex, nuanced preferences they represent.
+
+## Hosting the Demo
+
+FILIP - WE NEED TO SHOW PEOPLE HOW TO HOST IN YOUR REPO
+
+![superlinked-localhost](/blog/superlinked-multimodal-search/superlinked-localhost.png)
 
 ## Watch the Video
 
