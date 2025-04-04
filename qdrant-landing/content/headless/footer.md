@@ -91,7 +91,7 @@ menuItems:
         name: Startup Program
         url: /qdrant-for-startups/
       - id: 5
-        name: Demos + Tutorials
+        name: Demos
         url: /demo/
       - id: 6
         name: Bug Bounty

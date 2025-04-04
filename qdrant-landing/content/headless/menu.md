@@ -96,7 +96,7 @@ menuItems:
         icon: articles.svg
         url: /articles/
       - id: subMenu-3-3
-        name: Demos + Tutorials
+        name: Demos
         icon: demos.svg
         url: /demo/
       - id: subMenu-3-4
