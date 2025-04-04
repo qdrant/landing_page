@@ -54,7 +54,7 @@
 {{ $files := slice }}
 
 {{ range (readDir (printf "content/%s" $path)) }}
-  {{ if strings.HasSuffix .Name ".md" }}
+  {{ if and (strings.HasSuffix .Name ".md") (ne .Name "_index.md") }}
     {{ $filePath := printf "content/%s/%s" $path .Name }}
     {{ $content := readFile $filePath | markdownify }}
     {{ $files = $files | append (dict "name" (strings.TrimSuffix ".md" .Name) "content" $content) }}
