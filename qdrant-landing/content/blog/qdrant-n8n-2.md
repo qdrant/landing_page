@@ -1,5 +1,5 @@
 ---
-title: "Automating with Qdrant and n8n: Use Cases Beyond Simple Similarity Search"
+title: "Automating Business Processes with Qdrant and n8n: Use Cases Beyond Simple Similarity Search"
 draft: false
 slug: qdrant-n8n-beyond-simple-similarity-search
 short_description: "Build powerful agentic workflows for recommendations and large-scale data analysis with the combined capabilities of Qdrant and n8n."
