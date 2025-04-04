@@ -1,0 +1,19 @@
+{{ with (.Site.GetPage "/legal-tech/legal-tech-features") }}
+  <section class="legal-tech-features">
+    <div class="legal-tech-features__square-grid-overlay"></div>
+    <div class="container">
+      <h3 class="legal-tech-features__title">{{ .Params.title }}</h3>
+      <div class="legal-tech-features__cards row justify-content-lg-between g-4">
+        {{ range .Params.cards }}
+          <div class="col-12 col-lg-4">
+            <div class="card legal-tech-features__card">
+              <img class="legal-tech-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h3 class="legal-tech-features__card-title">{{ .title }}</h3>
+              <p class="legal-tech-features__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
