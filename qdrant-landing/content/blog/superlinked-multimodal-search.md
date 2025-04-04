@@ -21,33 +21,34 @@ tags:
   - innovation
 ---
 
-The proliferation of AI has changed how people use search for products, services or education. The general public is getting used to expressing their desires in **natural language**, and they are still expecting to receive precise and tailored results. 
+The proliferation of AI has transformed how people search for products, services, and educational content. Users now expect to express their needs in **natural language** and receive precise, tailored results that match their intent.
 
-Let's say you are trying to book a hotel in Paris, and you have some very basic criteria:
+Let's say you're trying to book a hotel in Paris, and you have some specific criteria:
 
 ![superlinked-search](/blog/superlinked-multimodal-search/superlinked-search.png)
 
-*"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking."* isn't just a search query. Behind the scenes - it is a complex set of interrelated preferences spanning multiple data types.
+*"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking."* This isn't just a search query—it's a complex set of interrelated preferences spanning multiple data types.
 
 > In this blog, we'll show you how we built [**The Hotel Search Demo**](https://hotel-search-recipe.superlinked.io/). 
 
 **Figure 1:** Vectors for this app are generated via Superlinked and stored in Qdrant.
 ![superlinked-hotel-search](/blog/superlinked-multimodal-search/superlinked-hotel-search.png)
 
-What's really cool is that this demo breaks down your natural language query into very precise parameters. As you type in your question at the top, you can observe the query parameters change in the left sidebar.
+What makes this app particularly powerful is how it breaks down your natural language query into precise parameters. As you type your question at the top, you can observe the query parameters dynamically update in the left sidebar.
 
-In this blog, we'll show you how Qdrant and Superlinked can be used to combine **textual understanding**, **numerical reasoning**, and **categorical filtering** into a seamless search experience that modern users expect. 
-
+In this blog, we'll show you how Qdrant and Superlinked combine **textual understanding**, **numerical reasoning**, and **categorical filtering** to create a seamless search experience that meets modern user expectations.
 
 ## Core Components
 
-FILIP PLEASE EXPLAIN THE APP ARCHITECTURE
-- vectorization
-- embedding model
-- storing in a Qdrant collection
-- structuring retrieval
+**Figure 2:** in a typical search or RAG app, the embedding framework (Superlinked) combines your data and its metadata into vectors. They are ingested into a Qdrant collection and indexed. 
 
 ![superlinked-architecture](/blog/superlinked-multimodal-search/superlinked-architecture.png)
+
+Then, a user query is also embedded and sent as a query vector to the engine for nearest neighbour retrieval. The result is a top-k similar or exact response.
+
+**SuperLinked Framework Setup:** Once you [**setup the Superlinked server**](https://github.com/superlinked/superlinked-recipes/tree/main/projects/hotel-search), most of the prototype work is done right out of the [**sample notebook**](https://github.com/superlinked/superlinked-recipes/blob/main/projects/hotel-search/notebooks/superlinked-queries.ipynb). Once ready, you can host from a GitHub repository and deploy via Actions. 
+
+**Qdrant Vector Database:** The easiest way to store vectors is to [**create a free Qdrant Cloud cluster**](https://cloud.qdrant.io/login). We have simple docs that show you how to [**grab the API key**](/documentation/quickstart-cloud/) and upsert your new vectors and run some basic searches. For this demo, we have deployed a live Qdrant Cloud cluster.
 
 ### 1. Vector Spaces: The Building Blocks of Intelligent Search
 
@@ -93,14 +94,12 @@ What makes this powerful is that each space properly preserves the semantic rela
 
 ### 2. Multimodal Vector Search: The Full Picture
 
-Traditional users see vector search as typically just text-based. Both Qdrant and Superlinked transcends this limitation by supporting a rich multimodal search environment where different data types collaborate rather than compete.
+Traditional users see vector search as typically just text-based. Both **Qdrant and Superlinked transcend this limitation** by supporting a rich multimodal search environment where different data types collaborate rather than compete. For our hotel demo, this means:
 
-In our hotel demo, this means:
-
-- **Text descriptions** are embedded using state-of-the-art language models that understand semantics
-- **Prices use** logarithmic scaling to properly handle wide ranges of values
-- **Ratings** are embedded linearly to preserve their quality indicators
-- **Review counts** use logarithmic scaling to account for the diminishing returns of additional reviews
+- **Text descriptions** are embedded using state-of-the-art language models that understand semantics.
+- **Prices use** logarithmic scaling to properly handle a wide ranges of values.
+- **Ratings** are embedded linearly to preserve their quality indicators.
+- **Review counts** use logarithmic scaling to account for the diminishing returns of additional reviews.
 
 Unlike approaches that stringify all data into text before embedding (resulting in unpredictable non-monotonic relationships between numbers), or systems that maintain separate indices for different attributes, Superlinked creates a unified search space where multiple attributes can be considered simultaneously with appropriate semantic relationships preserved.
 
