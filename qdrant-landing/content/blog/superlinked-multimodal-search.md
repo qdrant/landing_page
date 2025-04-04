@@ -21,8 +21,6 @@ tags:
   - innovation
 ---
 
-## Introduction
-
 The proliferation of AI has changed how people use search for products, services or education. The general public is getting used to expressing their desires in **natural language**, and they are still expecting to receive precise and tailored results. 
 
 Let's say you are trying to book a hotel in Paris, and you have some very basic criteria:
