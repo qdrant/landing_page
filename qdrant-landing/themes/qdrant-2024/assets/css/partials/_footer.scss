@@ -180,6 +180,12 @@
       min-width: unset;
     }
 
+    a.footer__menu-section-title {
+      &:hover {
+        box-shadow: 0 1px 0 0 currentColor;
+      }
+    }
+
     &__top-content {
       padding: 0;
       flex-direction: row;
