@@ -51,6 +51,7 @@ Then, a user query is also embedded and sent as a query vector to the engine for
 **Qdrant Vector Database:** The easiest way to store vectors is to [**create a free Qdrant Cloud cluster**](https://cloud.qdrant.io/login). We have simple docs that show you how to [**grab the API key**](/documentation/quickstart-cloud/) and upsert your new vectors and run some basic searches. For this demo, we have deployed a live Qdrant Cloud cluster.
 
 ### 1. Vector Spaces: The Building Blocks of Intelligent Search
+![superlinked-hotel-1](/blog/superlinked-multimodal-search/superlinked-hotel-1.jpg)
 
 At the heart of Superlinked's innovation are [**Spaces**](https://docs.superlinked.com/concepts/overview) - specialized vector embedding environments designed for different data types. Unlike conventional approaches that force all data into a single embedding format, these spaces respect the inherent characteristics of different data types.
 
