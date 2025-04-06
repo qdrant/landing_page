@@ -231,8 +231,15 @@ def save_snippets(snippets: list[SnippetsGroup]):
 
         sub_category_path = os.path.join(SNIPPETS_ROOT, category, sub_category)
 
+        group.path = os.path.join(SNIPPERS_MD_ROOT, category, sub_category) + "/"
+
         if sub_category not in existing_sub_categories:
             os.makedirs(sub_category_path, exist_ok=True)
+        else:
+            overwrite = input(f"Sub-category '{sub_category}' already exists. Do you want to overwrite? (y/N): ")
+            if overwrite.lower() != 'y':
+                print("Skipping snippet") 
+                continue
 
         for snippet in group.snippets:
             with open(os.path.join(sub_category_path, f"{snippet.language}.md"), "w") as f:
@@ -245,7 +252,6 @@ def save_snippets(snippets: list[SnippetsGroup]):
         with open(os.path.join(sub_category_path, "_index.md"), "w") as f:
             f.write(group.context)
 
-        group.path = os.path.join(SNIPPERS_MD_ROOT, category, sub_category) + "/"
     
     return snippets
 
