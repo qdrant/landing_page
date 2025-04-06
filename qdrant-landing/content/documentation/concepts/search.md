@@ -205,6 +205,28 @@ The result of this API contains one array per search requests.
 }
 ```
 
+## Query by ID
+
+Whenever you need to use a vector as an input, you can always use a [point ID](/documentation/concepts/points/#point-ids) instead.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/by-existing-id/" >}}
+
+The above example will fetch the default vector from the point with this id, and use it as the query vector.
+
+If the `using` parameter is also specified, Qdrant will use the vector with that name.
+
+It is also possible to reference an ID from a different collection, by setting the `lookup_from` parameter.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/by-existing-id-with-lookup/" >}}
+
+In the case above, Qdrant will fetch the `"image-512"` vector from the specified point id in the 
+collection `another_collection`.
+
+<aside role="status">
+ The fetched vector(s) must match the characteristics of the <code>using</code> vector, otherwise, an error will be returned.
+</aside>
+
+
 ## Pagination
 
 Search and [recommendation](/documentation/concepts/explore/#recommendation-api) APIs allow to skip first results of the search and return only the result starting from some specified offset:

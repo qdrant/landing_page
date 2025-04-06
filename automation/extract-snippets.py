@@ -173,6 +173,8 @@ def get_existing_categories() -> list[str]:
     for file in os.listdir(SNIPPETS_ROOT):
         if os.path.isdir(os.path.join(SNIPPETS_ROOT, file)):
             categories.append(file)
+
+    categories.sort()
     return categories
 
 
@@ -180,7 +182,9 @@ def get_existing_sub_categories(category: str) -> list[str]:
     """
     Returns a list of existing sub-categories for a given category.
     """
-    return os.listdir(os.path.join(SNIPPETS_ROOT, category))
+    sub_categories = os.listdir(os.path.join(SNIPPETS_ROOT, category))
+    sub_categories.sort()
+    return sub_categories
 
 
 def save_snippets(snippets: list[SnippetsGroup]):
