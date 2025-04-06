@@ -1,6 +1,7 @@
 ---
 snippetsOrder:
 - http
+- bash
 - python
 - typescript
 - rust

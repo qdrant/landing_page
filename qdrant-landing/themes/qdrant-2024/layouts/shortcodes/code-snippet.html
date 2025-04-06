@@ -54,7 +54,12 @@
 {{ $files := slice }}
 
 {{ range (readDir (printf "content/%s" $path)) }}
-  {{ if and (strings.HasSuffix .Name ".md") (ne .Name "_index.md") }}
+  <!--- Skip files starting with `_` -->
+  {{ if strings.HasPrefix .Name "_" }}
+    {{ continue }}
+  {{ end }}
+
+  {{ if strings.HasSuffix .Name ".md" }}
     {{ $filePath := printf "content/%s/%s" $path .Name }}
     {{ $content := readFile $filePath | markdownify }}
     {{ $files = $files | append (dict "name" (strings.TrimSuffix ".md" .Name) "content" $content) }}
@@ -63,19 +68,17 @@
 
 
 <!-- Render snippets in the specified order first -->
-<div>
-  {{ range $order }}
-    {{ $snippet := index (where $files "name" .) 0 }}
-    {{ if $snippet }}
-      {{ $snippet.content | markdownify }}
-    {{ end }}
+{{ range $order }}
+  {{ $snippet := index (where $files "name" .) 0 }}
+  {{ if $snippet }}
+    {{ $snippet.content | markdownify }}
   {{ end }}
+{{ end }}
 
 
-  <!-- Render remaining files that were not in the order list -->
-  {{ range $files }}
-    {{ if not (in $order .name) }}
-      {{ .content | markdownify }}
-    {{ end }}
+<!-- Render remaining files that were not in the order list -->
+{{ range $files }}
+  {{ if not (in $order .name) }}
+    {{ .content | markdownify }}
   {{ end }}
-</div>
+{{ end }}
