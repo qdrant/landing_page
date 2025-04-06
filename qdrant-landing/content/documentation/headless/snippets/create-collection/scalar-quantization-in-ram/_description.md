@@ -1,0 +1,1 @@
+You can create a collection for high-speed search with low memory usage by configuring it to store original vectors on disk and quantized vectors in RAM. The quantization technique compresses vectors to `int8` using the scalar method, optimizing memory usage and minimizing disk reads for efficient search operations.

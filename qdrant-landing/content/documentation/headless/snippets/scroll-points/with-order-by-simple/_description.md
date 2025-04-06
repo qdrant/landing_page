@@ -1,0 +1,1 @@
+Sort your collection points by a custom payload key when using the scroll API. This feature enables you to order and retrieve the points based on a specific payload key, in this case, the `"timestamp"` field. Just keep in mind that for this to work efficiently, Qdrant needs a payload index supporting range filtering conditions.

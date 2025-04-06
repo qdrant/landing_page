@@ -1,0 +1,1 @@
+This query is designed to retrieve points from a collection based on specific criteria. In this case, the query is filtering for points related to the sightseeing location "Osaka Castle" within the nested array of cities for each country. The result will only include points linked to this sightseeing location.

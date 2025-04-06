@@ -1,0 +1,1 @@
+This code snippet demonstrates a request to retrieve groups of data points based on specified grouping parameters. The query specifies the field to group by, the maximum number of groups to return, and the maximum number of points allowed per group.

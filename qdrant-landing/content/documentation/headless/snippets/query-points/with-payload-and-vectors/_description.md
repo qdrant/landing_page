@@ -1,0 +1,1 @@
+This code snippet demonstrates the functionality to include payload and vectors in the query results. By setting the `with_vectors` and `with_payload` parameters to true, additional stored information is returned alongside the query results. This allows for a more detailed and comprehensive retrieval process.

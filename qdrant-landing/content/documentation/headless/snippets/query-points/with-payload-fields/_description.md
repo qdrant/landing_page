@@ -1,0 +1,1 @@
+This code snippet demonstrates how to send a POST request to query points from a collection. It includes a query array and specifies certain payload fields to be included in the response, such as 'city', 'village', and 'town'. The `with_payload` parameter helps to filter the payload and retrieve only the specified fields.

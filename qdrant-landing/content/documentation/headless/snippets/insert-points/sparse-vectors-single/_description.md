@@ -1,0 +1,1 @@
+Inserts a point with a sparse vector, identified by its ID and containing indices and corresponding values, into the specified collection.

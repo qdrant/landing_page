@@ -1,0 +1,1 @@
+This code snippet demonstrates a feature to check if a collection exists by making a GET request to a specified endpoint that includes the collection name. This functionality is available starting from version 1.8.0.

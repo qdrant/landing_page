@@ -1,0 +1,1 @@
+This code snippet uses a `FieldCondition` with a `MatchExcept` condition for the key "color". It specifies that the condition should match values except "black" and "yellow". This is useful when you want to ensure that the stored value is not one of the specified values.

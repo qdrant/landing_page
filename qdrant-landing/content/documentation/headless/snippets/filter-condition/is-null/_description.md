@@ -1,0 +1,1 @@
+This code snippet defines an `IsNullCondition` to check if a specified field (`reports`) is NULL in a dataset. This condition is used to test for `NULL` values instead of using the `match` condition.

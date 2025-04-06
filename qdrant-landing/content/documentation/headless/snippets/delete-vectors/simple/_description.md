@@ -1,0 +1,1 @@
+This code snippet demonstrates a way to delete specific vectors from specified points in a collection. It allows users to remove selected vectors while retaining other vectors associated with the points. The points themselves are not deleted during this process, only certain vectors are removed. This method is available starting from version 1.2.0.

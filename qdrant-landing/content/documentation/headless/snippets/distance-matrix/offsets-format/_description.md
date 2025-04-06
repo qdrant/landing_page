@@ -1,0 +1,1 @@
+This code snippet describes how to obtain a distance matrix in an offsets format. The distance matrix is represented through four arrays: `offsets_row` and `offsets_col` indicate the positions of non-zero distance values in the matrix, `scores` holds the distance values, and `ids` stores the point ids associated with the distance values.

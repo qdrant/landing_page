@@ -1,0 +1,1 @@
+By setting `"rescore": false`, the code snippet suggests disabling the re-scoring feature during query point searches in order to enhance search speed, especially in systems with high disk latency. This optimization aims to minimize the impact of disk reads and improve the efficiency of the search operation.

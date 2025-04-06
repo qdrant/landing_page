@@ -1,0 +1,1 @@
+To speed up the search process and reduce disk reads, you have the option to disable rescoring by setting the `rescore` parameter to false in the search parameters. Keep in mind that this choice may result in a small decrease in precision.

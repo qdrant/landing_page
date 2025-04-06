@@ -1,0 +1,1 @@
+This code snippet is used to list all the full storage snapshots available.

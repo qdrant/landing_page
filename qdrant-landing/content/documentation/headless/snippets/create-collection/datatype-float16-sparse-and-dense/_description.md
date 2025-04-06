@@ -1,0 +1,1 @@
+This code sets up a collection with vectors containing 128 dimensions and a cosine distance metric. It configures the datatype for dense vectors to be Float16, which consumes less memory than Float32 without significant impact on search quality. Additionally, it specifies Float16 as the datatype for sparse text vectors in the collection.

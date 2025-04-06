@@ -1,0 +1,1 @@
+This code snippet demonstrates a query functionality to search for points in a collection named 'collection_name' using a specified query with four values, limiting the results to three. The search is conducted based on named vectors with the 'image' method specified in the query.

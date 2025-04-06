@@ -1,0 +1,1 @@
+This code snippet deletes a specific snapshot associated with a collection. The `DELETE` method is used to initiate the deletion process for the snapshot with the specified `snapshot_name` within the `collection_name`.

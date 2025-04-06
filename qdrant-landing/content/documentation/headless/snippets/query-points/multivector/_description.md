@@ -1,0 +1,1 @@
+Perform a multivector search within the specified collection by using the `query` endpoint. The request includes a list of arrays representing points to be queried for similarity matching within the collection.

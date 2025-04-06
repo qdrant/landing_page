@@ -1,0 +1,1 @@
+This code snippet showcases a filtering setup that allows searching for specific values within nested arrays. In this case, it focuses on retrieving data where the population of cities within a country is equal to or greater than a certain value. The notation `country.cities[].population` targets these nested values efficiently.

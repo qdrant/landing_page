@@ -1,0 +1,1 @@
+This code defines a filter condition for a field named "comments" where the search will only consider items with more than two comments.

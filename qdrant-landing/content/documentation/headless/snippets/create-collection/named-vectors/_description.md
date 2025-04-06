@@ -1,0 +1,1 @@
+You can create a collection with named vectors in Qdrant by defining multiple vector spaces for different features or modalities like image and text. Each vector space can have a unique name along with specific size and distance calculation method. Additionally, you can include sparse vectors in the collection configuration for more efficient representation of data points.

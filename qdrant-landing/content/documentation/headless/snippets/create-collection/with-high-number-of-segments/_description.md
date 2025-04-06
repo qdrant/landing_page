@@ -1,0 +1,1 @@
+By creating a collection with a high number of segments, you can optimize Qdrant to minimize latency and utilize multiple cores efficiently. Setting the segment number to match the number of cores allows for parallel processing of segments, resulting in faster query results.

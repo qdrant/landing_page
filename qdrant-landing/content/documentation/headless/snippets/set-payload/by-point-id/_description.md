@@ -1,0 +1,1 @@
+Update the specified properties with the provided values for the selected points within a collection. This code snippet demonstrates setting the payload data for specific points identified by their unique IDs in the collection.

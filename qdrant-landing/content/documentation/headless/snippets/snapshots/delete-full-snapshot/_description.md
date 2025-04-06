@@ -1,0 +1,1 @@
+This code snippet represents functionality to delete a full storage snapshot. It allows users to send a request to delete a specific snapshot by its name. This operation can be used to manage storage snapshots efficiently.

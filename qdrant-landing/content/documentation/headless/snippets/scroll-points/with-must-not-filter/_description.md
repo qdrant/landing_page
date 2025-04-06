@@ -1,0 +1,1 @@
+This code snippet demonstrates how to use a filter to exclude certain points when scrolling through a collection. In this case, points with the key "city" set to "London" and the key "color" set to "red" are excluded from the results.

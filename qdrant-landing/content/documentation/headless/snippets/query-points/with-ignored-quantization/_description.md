@@ -1,0 +1,1 @@
+This code snippet demonstrates a technique to disable quantization for querying points from a collection. By setting the "ignore" parameter to true within the request parameters, quantization can be turned off, allowing for more precise search results without quantization affecting the output.

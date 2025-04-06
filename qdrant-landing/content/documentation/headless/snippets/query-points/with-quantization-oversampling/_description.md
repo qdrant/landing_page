@@ -1,0 +1,2 @@
+Description: 
+This code snippet demonstrates a POST request to query points from a specified collection. The query contains an array of values along with parameters for quantization, where quantization is enabled with oversampling set to 2.0. The limit parameter is also included to restrict the number of results to 10. The search process can be controlled by additional options specified in the request.

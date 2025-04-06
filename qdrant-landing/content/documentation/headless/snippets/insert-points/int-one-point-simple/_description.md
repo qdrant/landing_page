@@ -1,0 +1,1 @@
+This code snippet represents a functionality to update points in a collection. In this instance, it updates a point with id 1 by changing its payload to have a color of "red" and its vector coordinates to [0.9, 0.1, 0.1].

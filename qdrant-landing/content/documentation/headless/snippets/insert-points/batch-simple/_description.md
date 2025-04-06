@@ -1,0 +1,1 @@
+You can efficiently upload multiple points into Qdrant with a single API call using batching. This snippet demonstrates the process of creating new points with a batch operation. The batch contains IDs, payloads (such as color information), and vectors for each point. By grouping points together, you can reduce network connection overhead and improve performance.

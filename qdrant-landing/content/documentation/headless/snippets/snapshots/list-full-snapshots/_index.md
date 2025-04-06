@@ -1,2 +1,0 @@
-### List full storage snapshots
-

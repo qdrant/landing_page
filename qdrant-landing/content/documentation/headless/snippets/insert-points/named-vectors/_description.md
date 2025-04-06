@@ -1,0 +1,1 @@
+This code snippet allows inserting a point with named vectors into a collection. The point has an ID and contains vectors labeled as "image," "text," and "text-sparse." The "image" vector has four values, the "text" vector has five values, and the "text-sparse" vector includes indices and corresponding values.

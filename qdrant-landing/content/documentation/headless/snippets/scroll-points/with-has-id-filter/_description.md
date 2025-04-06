@@ -1,0 +1,1 @@
+This code snippet demonstrates a query that filters data based on specific IDs. By providing a list of IDs, the query filters out results that do not match these specific IDs. This type of filtering can be beneficial when there is a need to exclude certain data points or focus the search on a predefined set of IDs.

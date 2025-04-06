@@ -1,0 +1,1 @@
+Recover a collection snapshot by providing a URL pointing to the location of the snapshot file. This method allows you to recover a collection snapshot from a URL or a local file stored on the node. If the specified collection does not exist, a new collection will be created upon recovery.

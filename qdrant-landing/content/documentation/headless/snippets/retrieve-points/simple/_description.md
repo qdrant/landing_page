@@ -1,0 +1,1 @@
+This code snippet represents a method for retrieving points by their ids from a collection. The function allows users to specify the ids of the points to be retrieved as part of a POST request to the specified endpoint. The provided ids are an array of integers, indicating the specific points to retrieve.
