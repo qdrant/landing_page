@@ -199,7 +199,7 @@ Usage of `uuid` index type is recommended in payload-heavy collections to save R
 ## Create point with payload
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/upsert-points))
 
-{{< code-snippet path="/documentation/headless/snippets/insert-points/with-payload/" }}
+{{< code-snippet path="/documentation/headless/snippets/insert-points/with-payload/" >}}
 
 ## Update payload
 
@@ -211,12 +211,12 @@ Set only the given payload values on a point.
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/set-payload)):
 
-{{< code-snippet path="/documentation/headless/snippets/set-payload/by-point-id/" }}
+{{< code-snippet path="/documentation/headless/snippets/set-payload/by-point-id/" >}}
 
 You don't need to know the ids of the points you want to modify. The alternative
 is to use filters.
 
-{{< code-snippet path="/documentation/headless/snippets/set-payload/by-filter/" }}
+{{< code-snippet path="/documentation/headless/snippets/set-payload/by-filter/" >}}
 
 _Available as of v1.8.0_
 
@@ -237,7 +237,7 @@ For instance, given the following payload JSON object on a point:
 
 You can modify the `nested_property` of `property1` with the following request:
 
-{{< code-snippet path="/documentation/headless/snippets/set-payload/by-nested-key/" }}
+{{< code-snippet path="/documentation/headless/snippets/set-payload/by-nested-key/" >}}
 
 Resulting in the following payload:
 
@@ -258,7 +258,7 @@ Fully replace any existing payload with the given one.
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/overwrite-payload)):
 
-{{< code-snippet path="/documentation/headless/snippets/overwrite-payload/by-point-id/" }}
+{{< code-snippet path="/documentation/headless/snippets/overwrite-payload/by-point-id/" >}}
 
 Like [set payload](#set-payload), you don't need to know the ids of the points
 you want to modify. The alternative is to use filters.
@@ -269,7 +269,7 @@ This method removes all payload keys from specified points
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/clear-payload)):
 
-{{< code-snippet path="/documentation/headless/snippets/clear-payload/simple/" }}
+{{< code-snippet path="/documentation/headless/snippets/clear-payload/simple/" >}}
 
 <aside role="status">
 You can also use <code>models.FilterSelector</code> to remove the points matching given filter criteria, instead of providing the ids.
@@ -281,11 +281,11 @@ Delete specific payload keys from points.
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/delete-payload)):
 
-{{< code-snippet path="/documentation/headless/snippets/delete-payload/by-point-id/" }}
+{{< code-snippet path="/documentation/headless/snippets/delete-payload/by-point-id/" >}}
 
 Alternatively, you can use filters to delete payload keys from the points.
 
-{{< code-snippet path="/documentation/headless/snippets/delete-payload/by-filter/" }}
+{{< code-snippet path="/documentation/headless/snippets/delete-payload/by-filter/" >}}
 
 ## Payload indexing
 
@@ -302,7 +302,7 @@ To create index for the field, you can use the following:
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/indexes/create-field-index))
 
-{{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-keyword/" }}
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-keyword/" >}}
 
 The index usage flag is displayed in the payload schema with the [collection info API](https://api.qdrant.tech/api-reference/collections/get-collection).
 
@@ -342,7 +342,7 @@ To get the facet counts for a field, you can use the following:
 
 REST API ([Facet](https://api.qdrant.tech/v-1-13-x/api-reference/points/facet))
 
-{{< code-snippet path="/documentation/headless/snippets/facet-counts/simple-with-filter/" }}
+{{< code-snippet path="/documentation/headless/snippets/facet-counts/simple-with-filter/" >}}
 
 The response will contain the counts for each unique value in the field:
 
@@ -366,4 +366,4 @@ Only values with non-zero counts will be returned.
 
 By default, the way Qdrant the counts for each value is approximate to achieve fast results. This should accurate enough for most cases, but if you need to debug your storage, you can use the `exact` parameter to get exact counts.
 
-{{< code-snippet path="/documentation/headless/snippets/facet-counts/exact/" }}
+{{< code-snippet path="/documentation/headless/snippets/facet-counts/exact/" >}}

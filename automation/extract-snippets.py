@@ -263,7 +263,7 @@ def replace_snippets(markdown_content: str, snippets: list[SnippetsGroup]):
     for group in snippets:
         if group.path is None:
             continue
-        markdown_content = markdown_content.replace(group.raw_content, '{{< code-snippet path="'  + group.path + '" }}')
+        markdown_content = markdown_content.replace(group.raw_content, '{{< code-snippet path="'  + group.path + '" >}}')
     return markdown_content
 
 

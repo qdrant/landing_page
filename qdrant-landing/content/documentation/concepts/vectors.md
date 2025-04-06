@@ -83,15 +83,15 @@ Sparse vectors in Qdrant are kept in special storage and indexed in a separate i
 To create a collection with sparse vectors:
 
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector/" }}
+{{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector/" >}}
 
 Insert a point with a sparse vector into the created collection:
 
-{{< code-snippet path="/documentation/headless/snippets/insert-points/sparse-vectors-single/" }}
+{{< code-snippet path="/documentation/headless/snippets/insert-points/sparse-vectors-single/" >}}
 
 Now you can run a search with sparse vectors:
 
-{{< code-snippet path="/documentation/headless/snippets/query-points/sparse-vectors/" }}
+{{< code-snippet path="/documentation/headless/snippets/query-points/sparse-vectors/" >}}
 
 ### Multivectors
 
@@ -133,15 +133,15 @@ Where $N$ is the number of vectors in the first matrix, $M$ is the number of vec
 
 To use multivectors, create a collection with the following configuration:
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/with-multivector/" }}
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-multivector/" >}}
 
 To insert a point with multivector:
 
-{{< code-snippet path="/documentation/headless/snippets/insert-points/with-multivector/" }}
+{{< code-snippet path="/documentation/headless/snippets/insert-points/with-multivector/" >}}
 
 To search with multivector (available in `query` API): 
 
-{{< code-snippet path="/documentation/headless/snippets/query-points/multivector/" }}
+{{< code-snippet path="/documentation/headless/snippets/query-points/multivector/" >}}
 
 
 ## Named Vectors
@@ -156,15 +156,15 @@ Each vector should have a unique name. Vectors can represent different modalitie
 
 To create a collection with named vectors, you need to specify a configuration for each vector:
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/named-vectors/" }}
+{{< code-snippet path="/documentation/headless/snippets/create-collection/named-vectors/" >}}
 
 To insert a point with named vectors:
 
-{{< code-snippet path="/documentation/headless/snippets/insert-points/named-vectors/" }}
+{{< code-snippet path="/documentation/headless/snippets/insert-points/named-vectors/" >}}
 
 To search with named vectors (available in `query` API):
 
-{{< code-snippet path="/documentation/headless/snippets/query-points/named-vector/" }}
+{{< code-snippet path="/documentation/headless/snippets/query-points/named-vector/" >}}
 
 ## Datatypes
 
@@ -204,7 +204,7 @@ The main advantage of Float16 is that it requires half the memory of Float32, wh
 
 To use Float16, you need to specify the datatype for vectors in the collection configuration:
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-float16-sparse-and-dense/" }}
+{{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-float16-sparse-and-dense/" >}}
 
 **Uint8**
 
@@ -227,7 +227,7 @@ Dense vectors are required to be in the range from 0 to 255, while sparse vector
 </aside>
 
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-uint8-sparse-and-dense/" }}
+{{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-uint8-sparse-and-dense/" >}}
 
 ## Quantization
 

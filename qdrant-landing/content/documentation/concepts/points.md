@@ -45,11 +45,11 @@ Examples of UUID string representations:
 That means that in every request UUID string could be used instead of numerical id.
 Example:
 
-{{< code-snippet path="/documentation/headless/snippets/insert-points/uuid-one-point-simple/" }}
+{{< code-snippet path="/documentation/headless/snippets/insert-points/uuid-one-point-simple/" >}}
 
 and
 
-{{< code-snippet path="/documentation/headless/snippets/insert-points/int-one-point-simple/" }}
+{{< code-snippet path="/documentation/headless/snippets/insert-points/int-one-point-simple/" >}}
 
 are both possible.
 
@@ -83,11 +83,11 @@ Internally, these options do not differ and are made only for the convenience of
 
 Create points with batch:
 
-{{< code-snippet path="/documentation/headless/snippets/insert-points/batch-simple/" }}
+{{< code-snippet path="/documentation/headless/snippets/insert-points/batch-simple/" >}}
 
 or record-oriented equivalent:
 
-{{< code-snippet path="/documentation/headless/snippets/insert-points/list-of-points-simple/" }}
+{{< code-snippet path="/documentation/headless/snippets/insert-points/list-of-points-simple/" >}}
 
 The Python client has additional features for loading points, which include:
 
@@ -164,7 +164,7 @@ Even with such a system, Qdrant ensures data consistency.
 
 If the collection was created with multiple vectors, each vector data can be provided using the vector's name:
 
-{{< code-snippet path="/documentation/headless/snippets/insert-points/with-multiple-vectors/" }}
+{{< code-snippet path="/documentation/headless/snippets/insert-points/with-multiple-vectors/" >}}
 
 _Available as of v1.2.0_
 
@@ -215,7 +215,7 @@ If the `indices` are not sorted, Qdrant will sort them internally so you may not
 
 Sparse vectors must be named and can be uploaded in the same way as dense vectors.
 
-{{< code-snippet path="/documentation/headless/snippets/insert-points/sparse-vectors/" }}
+{{< code-snippet path="/documentation/headless/snippets/insert-points/sparse-vectors/" >}}
 
 ## Modify points
 
@@ -231,7 +231,7 @@ vectors are kept unchanged. All given points must exist.
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/update-vectors)):
 
-{{< code-snippet path="/documentation/headless/snippets/update-vectors/simple/" }}
+{{< code-snippet path="/documentation/headless/snippets/update-vectors/simple/" >}}
 
 To update points and replace all of its vectors, see [uploading
 points](#upload-points).
@@ -245,7 +245,7 @@ vectors are kept unchanged. Points are never deleted.
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/delete-vectors)):
 
-{{< code-snippet path="/documentation/headless/snippets/delete-vectors/simple/" }}
+{{< code-snippet path="/documentation/headless/snippets/delete-vectors/simple/" >}}
 
 To delete entire points, see [deleting points](#delete-points).
 
@@ -257,11 +257,11 @@ Learn how to modify the payload of a point in the [Payload](/documentation/conce
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/delete-points)):
 
-{{< code-snippet path="/documentation/headless/snippets/delete-points/simple/" }}
+{{< code-snippet path="/documentation/headless/snippets/delete-points/simple/" >}}
 
 Alternative way to specify which points to remove is to use filter.
 
-{{< code-snippet path="/documentation/headless/snippets/delete-points/by-filter/" }}
+{{< code-snippet path="/documentation/headless/snippets/delete-points/by-filter/" >}}
 
 This example removes all points with `{ "color": "red" }` from the collection.
 
@@ -271,7 +271,7 @@ There is a method for retrieving points by their ids.
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/get-points)):
 
-{{< code-snippet path="/documentation/headless/snippets/retrieve-points/simple/" }}
+{{< code-snippet path="/documentation/headless/snippets/retrieve-points/simple/" >}}
 
 This method has additional parameters `with_vectors` and `with_payload`.
 Using these parameters, you can select parts of the point you want as a result.
@@ -281,7 +281,7 @@ The single point can also be retrieved via the API:
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/get-point)):
 
-{{< code-snippet path="/documentation/headless/snippets/retrieve-points/single/" }}
+{{< code-snippet path="/documentation/headless/snippets/retrieve-points/single/" >}}
 
 ## Scroll points
 
@@ -289,7 +289,7 @@ Sometimes it might be necessary to get all stored points without knowing ids, or
 
 REST API ([Schema](https://api.qdrant.tech/master/api-reference/points/scroll-points)):
 
-{{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-and-params/" }}
+{{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-and-params/" >}}
 
 Returns all point with `color` = `red`.
 
@@ -325,11 +325,11 @@ When using the [`scroll`](#scroll-points) API, you can sort the results by paylo
 
 <aside role="status">Without an appropriate index, payload-based ordering would create too much load on the system for each request. Qdrant therefore requires a payload index which supports <a href=/documentation/concepts/indexing/#payload-index target="_blank">Range filtering conditions</a> on the field used for <code>order_by</code></aside>
 
-{{< code-snippet path="/documentation/headless/snippets/scroll-points/with-order-by-simple/" }}
+{{< code-snippet path="/documentation/headless/snippets/scroll-points/with-order-by-simple/" >}}
 
 You need to use the `order_by` `key` parameter to specify the payload key. Then you can add other fields to control the ordering, such as `direction` and `start_from`:
 
-{{< code-snippet path="/documentation/headless/snippets/scroll-points/with-order-by-advanced/" }}
+{{< code-snippet path="/documentation/headless/snippets/scroll-points/with-order-by-advanced/" >}}
 
 <aside role="alert">When you use the <code>order_by</code> parameter, pagination is disabled.</aside>
 
@@ -349,7 +349,7 @@ Among others, for example, we can highlight the following scenarios:
 
 REST API ([Schema](https://api.qdrant.tech/master/api-reference/points/count-points)):
 
-{{< code-snippet path="/documentation/headless/snippets/count-points/with-filter-exact/" }}
+{{< code-snippet path="/documentation/headless/snippets/count-points/with-filter-exact/" >}}
 
 Returns number of counts matching given filtering conditions:
 
@@ -382,7 +382,7 @@ The following example snippet makes use of all operations.
 
 REST API ([Schema](https://api.qdrant.tech/master/api-reference/points/batch-update)):
 
-{{< code-snippet path="/documentation/headless/snippets/batch-update-points/basic/" }}
+{{< code-snippet path="/documentation/headless/snippets/batch-update-points/basic/" >}}
 
 To batch many points with a single operation type, please use batching
 functionality in that operation directly.
