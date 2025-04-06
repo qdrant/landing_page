@@ -1,5 +1,6 @@
 ---
 snippetsOrder:
+- json
 - http
 - bash
 - python
