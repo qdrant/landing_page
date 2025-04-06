@@ -1,7 +1,6 @@
 ```java
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static io.qdrant.client.PointIdFactory.id;
 import static io.qdrant.client.ValueFactory.value;
@@ -19,9 +18,19 @@ client
         "{collection_name}",
         List.of(
             PointStruct.newBuilder()
-                .setId(id(UUID.fromString("5c56c793-69f3-4fbf-87e6-c4bf54c28c26")))
-                .setVectors(vectors(0.05f, 0.61f, 0.76f, 0.74f))
-                .putAllPayload(Map.of("color", value("Red")))
+                .setId(id(1))
+                .setVectors(vectors(0.9f, 0.1f, 0.1f))
+                .putAllPayload(Map.of("color", value("red")))
+                .build(),
+            PointStruct.newBuilder()
+                .setId(id(2))
+                .setVectors(vectors(0.1f, 0.9f, 0.1f))
+                .putAllPayload(Map.of("color", value("green")))
+                .build(),
+            PointStruct.newBuilder()
+                .setId(id(3))
+                .setVectors(vectors(0.1f, 0.1f, 0.9f))
+                .putAllPayload(Map.of("color", value("blue")))
                 .build()))
     .get();
 ```

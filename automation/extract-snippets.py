@@ -60,6 +60,7 @@ Snippets in the original file should be replaced with the link to the new file, 
 import dataclasses
 import re
 import os
+import argparse
 from typing import Optional
 
 
@@ -244,7 +245,7 @@ def save_snippets(snippets: list[SnippetsGroup]):
         with open(os.path.join(sub_category_path, "_index.md"), "w") as f:
             f.write(group.context)
 
-        group.path = os.path.join(SNIPPERS_MD_ROOT, category, sub_category)
+        group.path = os.path.join(SNIPPERS_MD_ROOT, category, sub_category) + "/"
     
     return snippets
 
@@ -260,12 +261,16 @@ def replace_snippets(markdown_content: str, snippets: list[SnippetsGroup]):
     return markdown_content
 
 
-
 def main():
-    file_path = "qdrant-landing/content/documentation/concepts/collections.md"
-    replaced_file = "qdrant-landing/content/documentation/concepts/collections.md.tmp"
+    parser = argparse.ArgumentParser(description='Extract code snippets from markdown file.')
+    parser.add_argument('input_file', help='Path to the input markdown file')
+    parser.add_argument('--output', '-o', help='Path to the output file (default: input_file.tmp)')
+    args = parser.parse_args()
 
-    with open(file_path, "r") as f:
+    input_file = args.input_file
+    output_file = args.output or f"{input_file}.tmp"
+
+    with open(input_file, "r") as f:
         content = f.read()
 
     snippets = extract_snippets(content)
@@ -273,8 +278,9 @@ def main():
 
     replaced_content = replace_snippets(content, snippets)
 
-    with open(replaced_file, "w") as f:
+    with open(output_file, "w") as f:
         f.write(replaced_content)
+
 
 if __name__ == "__main__":
     main()
