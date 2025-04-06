@@ -1,0 +1,57 @@
+```python
+models.FieldCondition(
+    key="location",
+    geo_polygon=models.GeoPolygon(
+        exterior=models.GeoLineString(
+            points=[
+                models.GeoPoint(
+                    lon=-70.0,
+                    lat=-70.0,
+                ),
+                models.GeoPoint(
+                    lon=60.0,
+                    lat=-70.0,
+                ),
+                models.GeoPoint(
+                    lon=60.0,
+                    lat=60.0,
+                ),
+                models.GeoPoint(
+                    lon=-70.0,
+                    lat=60.0,
+                ),
+                models.GeoPoint(
+                    lon=-70.0,
+                    lat=-70.0,
+                ),
+            ]
+        ),
+        interiors=[
+            models.GeoLineString(
+                points=[
+                    models.GeoPoint(
+                        lon=-65.0,
+                        lat=-65.0,
+                    ),
+                    models.GeoPoint(
+                        lon=0.0,
+                        lat=-65.0,
+                    ),
+                    models.GeoPoint(
+                        lon=0.0,
+                        lat=0.0,
+                    ),
+                    models.GeoPoint(
+                        lon=-65.0,
+                        lat=0.0,
+                    ),
+                    models.GeoPoint(
+                        lon=-65.0,
+                        lat=-65.0,
+                    ),
+                ]
+            )
+        ],
+    ),
+)
+```
