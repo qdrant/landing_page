@@ -1,0 +1,1 @@
+This code snippet demonstrates the use of the Match Any condition in a field filter. In this case, it checks if the value stored in the "color" field is either "black" or "yellow". The Match Any condition functions as a logical OR operation for the specified values, akin to the `IN` operator in databases.

@@ -1,0 +1,1 @@
+This code snippet allows you to perform a search operation on a collection by specifying a filter condition based on a nested field. In this case, the search is filtering points where the `country.name` field matches the value "Germany". This enables you to retrieve scroll points that meet the specified criteria.

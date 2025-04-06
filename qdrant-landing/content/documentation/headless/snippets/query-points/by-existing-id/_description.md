@@ -1,0 +1,1 @@
+This code snippet is used to query points by an existing ID. In this case, the ID specified in the query is "43cf51e2-8777-4f52-bc74-c2cbde0c8b04".

@@ -1,0 +1,1 @@
+This code snippet is used to list snapshots for a specific collection. It is designed to provide a way to retrieve a collection's snapshots for reference or further actions within an application.

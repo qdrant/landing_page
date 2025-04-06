@@ -1,0 +1,12 @@
+---
+snippetsOrder:
+- json
+- http
+- bash
+- python
+- typescript
+- rust
+- java
+- csharp
+- go
+---

@@ -1,0 +1,1 @@
+Retrieve a set of 100 results initially based on a single vector, then reevaluate and prioritize the results using a multi-vector approach to obtain the top 10 outcomes.

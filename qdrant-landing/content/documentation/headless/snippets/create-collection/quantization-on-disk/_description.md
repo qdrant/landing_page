@@ -1,0 +1,1 @@
+This code snippet configures a collection where vectors are stored on disk, optimizing memory usage at the expense of search speed. It employs quantization with int8 data type and disables always keeping the data in RAM for efficient storage on fast drives like SSD or NVMe, using mmap for storage.

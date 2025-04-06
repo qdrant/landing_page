@@ -1,0 +1,1 @@
+This code snippet demonstrates how to configure Memmap storage, also known as on-disk storage, for a collection. You can achieve this by setting the `on_disk` option to true in the vectors configuration within the collection creation API. This feature is available starting from version 1.2.0.

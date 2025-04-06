@@ -1,0 +1,1 @@
+This code snippet represents a query that filters data from a collection based on specific criteria. In this case, it filters points that have "meat" in the 'food' field of the 'diet' array and where the 'likes' field of the 'diet' array has a boolean value of true.

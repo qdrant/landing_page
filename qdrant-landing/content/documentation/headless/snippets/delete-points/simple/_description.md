@@ -1,0 +1,1 @@
+This code represents a task to delete specific points from a collection. The API endpoint allows you to send a POST request to delete points with the specified indexes (0, 3, and 100) from a collection specified by its name.

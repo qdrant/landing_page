@@ -1,0 +1,1 @@
+This code snippet demonstrates how to insert multiple points with additional payload data into a collection. Each point is defined by an ID, a vector, and a payload containing information such as city names and prices. The `PUT` request is used to send this data to the server for storage or further processing.

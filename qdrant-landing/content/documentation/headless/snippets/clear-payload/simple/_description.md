@@ -1,0 +1,1 @@
+This code snippet demonstrates a functionality to clear payload keys from specific points by providing a list of point identifiers.

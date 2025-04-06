@@ -1,0 +1,1 @@
+Retrieve a specific snapshot from a collection by its name using the available REST API. This code snippet allows downloading the snapshot as a file once it is fetched from the collection.

@@ -1,0 +1,1 @@
+This code defines a filter condition based on a geo bounding box for a location field. The bounding box is specified by its top-left and bottom-right coordinates on a map.

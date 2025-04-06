@@ -1,0 +1,1 @@
+This code snippet demonstrates an alternative way to specify and remove certain points from a collection by filtering based on a specific key-value pair. In this case, the filter is set to remove points with the key "color" that match the value "red".

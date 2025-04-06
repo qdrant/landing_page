@@ -1,0 +1,1 @@
+This code snippet is used to retrieve all aliases from a collection.

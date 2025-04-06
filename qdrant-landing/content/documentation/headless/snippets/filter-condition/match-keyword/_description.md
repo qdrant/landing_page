@@ -1,0 +1,1 @@
+This code snippet sets a filter condition to match records where the key is "color" and the value is "red".

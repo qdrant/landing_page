@@ -1,0 +1,10 @@
+```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="payload_field_name",
+    field_schema=models.KeywordIndexParams(
+        type=models.KeywordIndexType.KEYWORD,
+        is_tenant=True,
+    ),
+)
+```

@@ -1,0 +1,1 @@
+This code snippet creates an alias named "production_collection" for the collection called "example_collection".

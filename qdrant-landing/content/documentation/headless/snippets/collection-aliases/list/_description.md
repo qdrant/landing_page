@@ -1,0 +1,1 @@
+This code retrieves a list of aliases associated with a specific collection.

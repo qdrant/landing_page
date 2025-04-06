@@ -1,0 +1,1 @@
+Retrieve vectors from a collection by specifying a query and applying a filter to only retrieve vectors that have a `group_id` matching a specific value like "user_1". You can also set a limit on the number of vectors to be returned.

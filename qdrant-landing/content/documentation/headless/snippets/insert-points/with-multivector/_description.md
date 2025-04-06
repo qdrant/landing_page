@@ -1,0 +1,1 @@
+This code snippet is for inserting a point with a multivector into a collection. It defines an operation to update a collection with a new point containing an ID and a vector represented by multiple arrays of values.

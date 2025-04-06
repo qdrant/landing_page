@@ -1,0 +1,1 @@
+This code snippet represents a functionality to overwrite the payload for specified points within a collection. It allows you to replace the current payload of the specified points with a new set of properties and values provided in the request body. The points that will have their payloads overwritten are identified by their respective IDs within the collection.

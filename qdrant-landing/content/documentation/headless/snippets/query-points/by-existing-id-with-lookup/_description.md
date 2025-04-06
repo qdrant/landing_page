@@ -1,0 +1,1 @@
+This code snippet demonstrates a query to retrieve points by an existing ID using a specified vector for comparison. There is an option to specify a different collection and vector to reference the ID and vector from another collection for the query.

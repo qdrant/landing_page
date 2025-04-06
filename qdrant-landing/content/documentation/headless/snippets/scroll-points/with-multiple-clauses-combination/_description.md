@@ -1,0 +1,1 @@
+This code snippet demonstrates a way to combine multiple clauses to filter data. In this example, the code shows how to filter data based on a specific city value (in this case, "London") while excluding another specific value (in this case, the color "red"). The specified clauses work together in the filter to refine the results accordingly.

@@ -1,0 +1,1 @@
+This code snippet sets a filter condition based on a geographical radius. It specifies the center point with latitude and longitude coordinates, and sets a radius of 1000 meters from that center point.

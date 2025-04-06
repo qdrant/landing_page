@@ -1,0 +1,1 @@
+This code snippet shows an example of filtering scroll points based on specified conditions using the "must" filter logic. In this case, the code filters scroll points where the city is "London" and the color is "red".
