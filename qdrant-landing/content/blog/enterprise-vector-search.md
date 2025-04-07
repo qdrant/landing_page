@@ -44,8 +44,6 @@ You can manage the Qdrant Cloud lifecycle with Qdrant’s [**Terraform Provider*
 
 With **Cloud RBAC**, you can define precise **role-based permissions** for team members managing clusters, billing, and hybrid cloud deployments in Qdrant Cloud. Instead of granting broad, unrestricted access, teams can **assign permissions based on roles**, ensuring tighter security and compliance.
 
-*Coming soon: [Sign up](https://share-eu1.hsforms.com/1H5vI2Xx6TbCjwfyARUwQaA2b46ng) to receive email notice when Cloud RBAC becomes generally available*
-
 #### Granular Database API Keys \- The What
 
 **Database API Keys** let applications and services **directly interact with data inside Qdrant**. You can **grant API access at the cluster, collection, or even vector level**, specifying **read-only or read/write permissions** for each key.
