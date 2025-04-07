@@ -281,28 +281,6 @@ Assuming you never use late interaction models for retrieval alone, but only for
 hidden cost. By default, each configured dense vector of the collection will have a corresponding HNSW graph created. 
 Even, if it is a multi-vector.
 
-```python
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient(...)
-client.create_collection(
-    collection_name="my-collection",
-    vectors_config={
-        "dense": models.VectorParams(...),
-        "late-interaction": models.VectorParams(
-            size=128,
-            distance=models.Distance.COSINE,
-            multivector_config=models.MultiVectorConfig(
-                comparator=models.MultiVectorComparator.MAX_SIM
-            ),
-        )
-    },
-    sparse_vectors_config={
-        "sparse": models.SparseVectorParams(...)
-    },
-)
-```
-
 Reranking will never use the created graph, as all the candidates are already retrieved. Multi-vector ranking will only 
 be applied to the candidates retrieved by the previous steps, so no search operation is needed. HNSW becomes redundant 
 while still the indexing process has to be performed, and in that case, it will be quite heavy. ColBERT-like models 
@@ -332,7 +310,8 @@ client.create_collection(
 ```
 
 You won't notice any difference in the search performance, but the use of resources will be significantly lower when you 
-upload the embeddings to the collection.
+upload the embeddings to the collection. If you didn't disable HNSW graph creation, it would spark the indexation 
+process, even though the index will never be used in your search operations.
 
 ## Some anecdotal observations
 
