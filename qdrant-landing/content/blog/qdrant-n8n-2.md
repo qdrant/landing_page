@@ -4,8 +4,10 @@ draft: false
 slug: qdrant-n8n-beyond-simple-similarity-search
 short_description: "Build powerful agentic workflows for recommendations and large-scale data analysis with the combined capabilities of Qdrant and n8n."
 description: "Build powerful agentic workflows for recommendations and large-scale data analysis with the combined capabilities of Qdrant and n8n."
-preview_image: /blog/qdrant-n8n-2/preview/preview.jpg
+title_preview_image: /blog/qdrant-n8n-2/preview/title.jpg
 social_preview_image: /blog/qdrant-n8n-2/preview/social_preview.png
+small_preview_image: /blog/qdrant-n8n-2/preview/preview.jpg
+preview_image: /blog/qdrant-n8n-2/preview/preview.jpg
 date: 2025-04-04T00:00:00+01:00
 author: Evgeniya Sukhodolskaya
 featured: false
