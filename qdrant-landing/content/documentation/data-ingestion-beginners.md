@@ -1,6 +1,6 @@
 ---
 title: Data Ingestion for Beginners
-weight: 11
+weight: 2
 partition: build
 social_preview_image: /documentation/examples/data-ingestion-beginners/social_preview.png
 ---

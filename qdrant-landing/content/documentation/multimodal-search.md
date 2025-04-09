@@ -1,6 +1,6 @@
 ---
 title: Multilingual & Multimodal RAG with LlamaIndex
-weight: 14
+weight: 5
 partition: build
 social_preview_image: /documentation/examples/multimodal-search/social_preview.png
 aliases:

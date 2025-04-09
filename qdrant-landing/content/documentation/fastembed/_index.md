@@ -1,7 +1,7 @@
 ---
-title: "FastEmbed" 
-weight: 7
-partition: qdrant
+title: "FastEmbed"
+weight: 11
+partition: build
 ---
 
 # What is FastEmbed?
@@ -21,7 +21,7 @@ FastEmbed easily integrates with Qdrant for a variety of multimodal search purpo
 
 - Light: Unlike other inference frameworks, such as PyTorch, FastEmbed requires very little external dependencies. Because it uses the ONNX runtime, it is perfect for serverless environments like AWS Lambda.
 - Fast: By using ONNX, FastEmbed ensures high-performance inference across various hardware platforms.
-- Accurate: FastEmbed aims for better accuracy and recall than models like OpenAI’s `Ada-002`. It always uses model which demonstrate strong results on the MTEB leaderboard.
+- Accurate: FastEmbed aims for better accuracy and recall than models like OpenAI's `Ada-002`. It always uses model which demonstrate strong results on the MTEB leaderboard.
 - Support: FastEmbed supports a wide range of models, including multilingual ones, to meet diverse use case needs.
 
 

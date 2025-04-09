@@ -1,6 +1,6 @@
 ---
 title: Agentic RAG Discord Bot with CAMEL-AI
-weight: 14
+weight: 4
 partition: build
 social_preview_image: /documentation/examples/agentic-rag-camelai-discord/social-preview.png
 ---
