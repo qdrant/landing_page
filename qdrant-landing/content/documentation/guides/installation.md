@@ -95,8 +95,8 @@ The following table gives you an overview about the feature differences between 
 | Zero-downtime upgrades with optimized restart strategy |                   | ✅            |
 | Production ready out-of the box                        |                   | ✅            |
 | Dataloss prevention on downscaling                     |                   | ✅            |
-| Automatic shard rebalancing                            |                   | ✅            |
 | Full cluster backup and disaster recovery              |                   | ✅            |
+| Automatic shard rebalancing                            |                   | ✅            |
 | Re-sharding support                                    |                   | ✅            |
 | Automatic persistent volume scaling                    |                   | ✅            |
 | Advanced telemetry                                     |                   | ✅            |
