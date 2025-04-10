@@ -98,7 +98,6 @@ The following table gives you an overview about the feature differences between 
 | Automatic shard rebalancing                            |                   | ✅            |
 | Full cluster backup and disaster recovery              |                   | ✅            |
 | Re-sharding support                                    |                   | ✅            |
-| Safe vertical downscaling                              |                   | ✅            |
 | Automatic persistent volume scaling                    |                   | ✅            |
 | Advanced telemetry                                     |                   | ✅            |
 | One-click API key revoking                             |                   | ✅            |
