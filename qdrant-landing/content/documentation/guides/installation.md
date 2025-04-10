@@ -62,22 +62,49 @@ Qdrant can be installed in different ways depending on your needs:
 
 For production, you can use our Qdrant Cloud to run Qdrant either fully managed in our infrastructure or with Hybrid Cloud in yours. 
 
-For testing or development setups, you can run the Qdrant container or as a binary executable.
+If you want to run Qdrant in your own infrastructure, without any cloud connection, we recommend to install Qdrant in a Kubernetes cluster with our Qdrant Private Cloud Enterprise Operator.
 
-If you want to run Qdrant in your own infrastructure, without any cloud connection, we recommend to install Qdrant in a Kubernetes cluster with our Helm chart, or to use our Qdrant Enterprise Operator.
+For testing or development setups, you can run the Qdrant container or as a binary executable. We also provide a Helm chart for an easy installation in Kubernetes.
 
 ## Production
-
-For production, we recommend that you configure Qdrant in the cloud, with Kubernetes, or with a Qdrant Enterprise Operator.
 
 ### Qdrant Cloud
 
 You can set up production with the [Qdrant Cloud](https://qdrant.to/cloud), which provides fully managed Qdrant databases.
 It provides horizontal and vertical scaling, one click installation and upgrades, monitoring, logging, as well as backup and disaster recovery. For more information, see the [Qdrant Cloud documentation](/documentation/cloud/).
 
+### Qdrant Kubernetes Operator
+
+We provide a Qdrant Enterprise Operator for Kubernetes installations as part of our [Qdrant Private Cloud](/documentation/private-cloud/) offering. For more information, [use this form](https://qdrant.to/contact-us) to contact us.
+
 ### Kubernetes
 
-You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in your Kubernetes cluster:
+You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in your Kubernetes cluster. While it is possible to deploy Qdrant in a distributed setup with the Helm chart, it does not come with the same level of features for zero-downtime upgrades, up and down-scaling, monitoring, logging, and backup and disaster recovery as the Qdrant Cloud offering or the Qdrant Private Cloud Enterprise Operator. Instead you must manage and set this up [yourself](https://qdrant.tech/documentation/guides/distributed_deployment/). Support for the Helm chart is limited to community support.
+
+The following table gives you an overview about the feature differences between the Qdrant Cloud and the Helm chart:
+
+| Feature                                                | Qdrant Helm Chart | Qdrant Cloud  |
+|--------------------------------------------------------|:-----------------:|:-------------:|
+| Open-source                                            | ✅                |               |
+| Community support only                                 | ✅                |               |
+| Quick to get started                                   | ✅                | ✅            |
+| Vertical and horizontal scaling                        | ✅                | ✅            |
+| API keys with granular access control                  | ✅                | ✅            |
+| Qdrant version upgrades                                | ✅                | ✅            |
+| Support for transit and storage encryption             | ✅                | ✅            |
+| Zero-downtime upgrades with optimized restart strategy |                   | ✅            |
+| Production ready out-of the box                        |                   | ✅            |
+| Dataloss prevention on downscaling                     |                   | ✅            |
+| Full cluster backup and disaster recovery              |                   | ✅            |
+| Automatic shard rebalancing                            |                   | ✅            |
+| Re-sharding support                                    |                   | ✅            |
+| Automatic persistent volume scaling                    |                   | ✅            |
+| Advanced telemetry                                     |                   | ✅            |
+| One-click API key revoking                             |                   | ✅            |
+| Recreating nodes with new volumes in existing cluster  |                   | ✅            |
+| Enterprise support                                     |                   | ✅            |
+
+To install the helm chart:
 
 ```bash
 helm repo add qdrant https://qdrant.to/helm
@@ -85,10 +112,6 @@ helm install qdrant qdrant/qdrant
 ```
 
 For more information, see the [qdrant-helm](https://github.com/qdrant/qdrant-helm/tree/main/charts/qdrant) README.
-
-### Qdrant Kubernetes Operator
-
-We provide a Qdrant Enterprise Operator for Kubernetes installations. For more information, [use this form](https://qdrant.to/contact-us) to contact us.
 
 ### Docker and Docker Compose
 
