@@ -150,6 +150,7 @@ If there is no variable, and no defined default, a default value of `0.0` is use
 - If a value is not a number (or the expected type), it will return an error.
 - To leverage payload indices, single-value arrays are considered the same as the inner value. For example: `[0.2]` is the same as `0.2`, but `[0.2, 0.7]` will be interpreted as `[0.2, 0.7]`
 - Multiplication and division are lazily evaluated, meaning that if a 0 is encountered, the rest of operations don't execute (e.g. `0.0 * condition` won't check the condition).
+- Payload variables used within the formula also benefit from having payload indices. Please try to always have a payload index set up for the variables used in the formula for better performance.
 </aside>
 
 ### Boost points closer to user
