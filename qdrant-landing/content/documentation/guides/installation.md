@@ -101,6 +101,7 @@ The following table gives you an overview about the feature differences between 
 | Automatic persistent volume scaling                    |                   | ✅            |
 | Advanced telemetry                                     |                   | ✅            |
 | One-click API key revoking                             |                   | ✅            |
+| Recreating nodes with new volumes in existing cluster  |                   | ✅            |
 | Enterprise support                                     |                   | ✅            |
 
 To install the helm chart:
