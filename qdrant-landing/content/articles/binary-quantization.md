@@ -114,7 +114,9 @@ if not client.collection_exists(collection_name):
         ),
         optimizers_config=models.OptimizersConfigDiff(
             default_segment_number=5,
-            indexing_threshold=0,
+        ),
+        hnsw_config=models.HnswConfigDiff(
+        m=0,
         ),
         quantization_config=models.BinaryQuantization(
             binary=models.BinaryQuantizationConfig(always_ram=True),
@@ -122,11 +124,11 @@ if not client.collection_exists(collection_name):
     )
 ```
 
-#### What is happening in the OptimizerConfig? 
+#### What is happening in the HnswConfig? 
 
-We're setting `indexing_threshold` to 0 i.e. disabling the indexing to zero. This allows faster uploads of vectors and payloads. We will turn it back on down below, once all the data is loaded
+We're setting `m` to 0 i.e. disabling the HNSW graph construction. This allows faster uploads of vectors and payloads. We will turn it back on down below, once all the data is loaded.
 
-#### Next, we upload our vectors to this and then enable indexing: 
+#### Next, we upload our vectors to this and then enable the graph construction: 
 
 ```python
 batch_size = 10000
@@ -141,14 +143,14 @@ client.upload_collection(
 )
 ```
 
-Enable indexing again:
+Enable HNSW graph construction again:
 
 ```python
 client.update_collection(
     collection_name=f"{collection_name}",
-    optimizer_config=models.OptimizersConfigDiff(
-        indexing_threshold=20000
-    )
+    hnsw_config=models.HnswConfigDiff(
+        m=16,
+    ,
 )
 ```
 #### Configure the search parameters:
