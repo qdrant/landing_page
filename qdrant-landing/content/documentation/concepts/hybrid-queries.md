@@ -113,24 +113,7 @@ Query API can rescore points with custom formulas. They can be based on:
 To express the formula, the syntax uses objects to identify each element.
 Taking the documentation example, the request would look like this:
 
-```http
-POST /collections/{collection_name}/points/query
-{
-    "prefetch": {
-        "query": [0.2, 0.8, ...],  // <-- dense vector
-        "limit": 50
-    }
-    "query": {
-        "formula": {
-            "sum": [
-                "$score,
-                { "mult": [ 0.5, { "key": "tag", "match": { "any": ["h1", "h2", "h3", "h4"] } } ] },
-                { "mult": [ 0.25, { "key": "tag", "match": { "any": ["p", "li"] } } ] }
-            ]
-        }
-    }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-tags/" >}}
 
 TODO: add all clients
 
@@ -170,7 +153,7 @@ If there is no variable, and no defined default, a default value of `0.0` is use
 </aside>
 
 ### Boost points closer to user
-Another example. Combine the score with how close the result is to a user. 
+Another example. Combine the score with how close the result is to a user.
 
 Considering each point has an associated geo location, we can calculate the distance between the point and the request's location.
 
@@ -180,31 +163,7 @@ Assuming we have cosine scores in the prefetch, we can use a helper function to 
 
 In this case we use a **gauss_decay** function.
 
-```http
-POST /collections/{collection_name}/points/query
-{
-    "prefetch": { "query": [0.2, 0.8, ...], "limit": 50 },
-    "query": {
-        "formula": {
-            "sum": [
-                "$score",
-                { 
-                    "gauss_decay": {
-                        "scale": 5000, // 5km
-                        "x": {
-                            "geo_distance": {
-                                "origin": { "lat": 52.504043, "lon": 13.393236 } // Berlin
-                                "to": "geo.location"
-                            }
-                        }
-                    }
-                }
-            ]
-        },
-        "defaults": { "geo.location": {"lat": 48.137154, "lon": 11.576124} } // Munich
-    }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-closer-to-user/" >}}
 
 For all decay functions, there are these parameters available
 
@@ -232,114 +191,6 @@ It is possible to group results by a certain field. This is useful when you have
 
 REST API ([Schema](https://api.qdrant.tech/master/api-reference/search/query-points-groups)):
 
-```http
-POST /collections/{collection_name}/points/query/groups
-{
-    "query": [0.01, 0.45, 0.67],
-    group_by="document_id",  # Path of the field to group by
-    limit=4,  # Max amount of groups
-    group_size=2,  # Max amount of points per group
-}
-```
-
-```python
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.query_points_groups(
-    collection_name="{collection_name}",
-    query=[0.01, 0.45, 0.67],
-    group_by="document_id",
-    limit=4,
-    group_size=2,
-)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.queryGroups("{collection_name}", {
-    query: [0.01, 0.45, 0.67],
-    group_by: "document_id",
-    limit: 4,
-    group_size: 2,
-});
-```
-
-```rust
-use qdrant_client::Qdrant;
-use qdrant_client::qdrant::{Query, QueryPointsBuilder};
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
-client.query_groups(
-    QueryPointGroupsBuilder::new("{collection_name}", "document_id")
-        .query(Query::from(vec![0.01, 0.45, 0.67]))
-        .limit(4u64)
-        .group_size(2u64)
-).await?;
-```
-
-```java
-import static io.qdrant.client.QueryFactory.nearest;
-
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.QueryPointGroups;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
-client
-    .queryGroupsAsync(
-        QueryPointGroups.newBuilder()
-            .setCollectionName("{collection_name}")
-            .setGroupBy("document_id")
-            .setQuery(nearest(0.01f, 0.45f, 0.67f))
-            .setLimit(4)
-            .setGroupSize(2)
-            .build())
-    .get();
-```
-
-```csharp
-using Qdrant.Client;
-using Qdrant.Client.Grpc;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.QueryGroupsAsync(
-  collectionName: "{collection_name}",
-  groupBy: "document_id",
-  query: new float[] {
-    0.01f, 0.45f, 0.67f
-  },
-  limit: 4,
-  groupSize: 2
-);
-```
-
-```go
-import (
-	"context"
-
-	"github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
-client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
-	CollectionName: "{collection_name}",
-	Query:          qdrant.NewQuery(0.01, 0.45, 0.67),
-	GroupBy:        "document_id",
-	GroupSize:      qdrant.PtrOf(uint64(2)),
-})
-```
+{{< code-snippet path="/documentation/headless/snippets/query-groups/basic/" >}}
 
 For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](/documentation/concepts/search/#search-groups) and [lookup](/documentation/concepts/search/#lookup-in-groups).
