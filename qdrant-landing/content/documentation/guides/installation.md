@@ -84,7 +84,7 @@ You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in yo
 The following table gives you an overview about the feature differences between the Qdrant Cloud and the Helm chart:
 
 | Feature                                                | Qdrant Helm Chart | Qdrant Cloud  |
-|--------------------------------------------------------|-------------------|---------------|
+|--------------------------------------------------------|:-----------------:|:-------------:|
 | Open-source                                            | ✅                |               |
 | Community support only                                 | ✅                |               |
 | Quick to get started                                   | ✅                | ✅            |
