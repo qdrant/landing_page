@@ -1,0 +1,20 @@
+{{ with (.Site.GetPage "legal-tech/legal-tech-why-qdrant") }}
+  <section class="legal-tech-why-qdrant">
+    <div class="container">
+      <div class="row justify-content-lg-between align-items-lg-center">
+        <div class="col-12 col-lg-6 legal-tech-why-qdrant__items">
+          <h3 class="legal-tech-why-qdrant__title">{{ .Params.title }}</h3>
+          {{ range .Params.items }}
+            <div class="legal-tech-why-qdrant__item">
+              <img class="legal-tech-why-qdrant__item-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <p class="legal-tech-why-qdrant__item-description">{{ .description | safeHTML }}</p>
+            </div>
+          {{ end }}
+        </div>
+        <div class="col-12 col-lg-6 legal-tech-why-qdrant__preview">
+          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

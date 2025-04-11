@@ -1,0 +1,122 @@
+@use 'sass:math';
+@use '../helpers/functions' as *;
+
+.legal-tech-hero {
+  overflow: hidden;
+  padding-top: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer * 0.5;
+    padding: math.div($spacer, 4) $spacer;
+    background-color: $neutral-98;
+    border-radius: pxToRem(100);
+
+    &-name {
+      margin-bottom: 0;
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
+      color: $neutral-60;
+    }
+
+    &-icon {
+      height: $spacer;
+      width: $spacer;
+    }
+  }
+
+  &__title {
+    margin-top: $spacer * 1.5;
+    margin-bottom: $spacer * 1.5;
+    font-size: $spacer * 2;
+    line-height: pxToRem(38);
+    color: $neutral-20;
+  }
+
+  &__description {
+    margin-bottom: $spacer * 2;
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    color: $neutral-30;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: $spacer * 1.5;
+
+    .button_outlined {
+      color: $neutral-30;
+    }
+  }
+
+  &__preview {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: $spacer * 1.5;
+    z-index: 0;
+
+    &-square-grid {
+      display: none;
+    }
+
+    img {
+      position: relative;
+      display: block;
+      width: 100%;
+      max-width: pxToRem(560);
+      margin-right: -$spacer * 1.5;
+      margin-bottom: -$spacer * 1.5;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: pxToRem(58);
+    }
+
+    &__preview {
+      justify-content: flex-end;
+      margin-top: 0;
+
+      &-square-grid {
+        display: block;
+        position: absolute;
+        width: pxToRem(686);
+        height: pxToRem(480);
+        right: -24%;
+        top: -3%;
+        background-image: url('/img/legal-tech-hero-grid.svg');
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 0;
+      }
+
+      img {
+        width: 110%;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__preview {
+      &-square-grid {
+        width: pxToRem(800);
+        height: pxToRem(560);
+        top: -5%;
+      }
+    }
+  }
+}

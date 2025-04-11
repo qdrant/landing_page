@@ -1,0 +1,26 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "legal-tech-hero" . }}
+
+  {{ partial "legal-tech-challengers" . }}
+
+  {{ with (.Site.GetPage "/legal-tech/legal-tech-testimonial") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial pb-5 pb-lg-7") }}
+  {{ end }}
+
+  {{ partial "legal-tech-help" . }}
+
+  {{ with (.Site.GetPage "/legal-tech/legal-tech-get-contacted") }}
+    {{ partial "get-contacted" (dict "context" . "class" "legal-tech-get-contacted") }}
+  {{ end }}
+
+  {{ partial "legal-tech-features" . }}
+
+  {{ partial "legal-tech-why-qdrant" . }}
+
+  {{ with (.Site.GetPage "/legal-tech/legal-tech-get-started") }}
+    {{ partial "get-started-small" (dict "context" . "class" "get-started-small-rocket") }}
+  {{ end }}
+
+{{ end }}
