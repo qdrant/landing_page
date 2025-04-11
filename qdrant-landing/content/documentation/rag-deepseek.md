@@ -1,6 +1,6 @@
 ---
 title: 5 Minute RAG with Qdrant and DeepSeek
-weight: 15
+weight: 6
 partition: build
 social_preview_image: /documentation/examples/rag-deepseek/social_preview.png
 ---

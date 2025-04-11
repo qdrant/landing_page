@@ -1,6 +1,6 @@
 ---
 title: Agentic RAG With LangGraph 
-weight: 13
+weight: 3
 partition: build
 ---
 # Agentic RAG With LangGraph and Qdrant

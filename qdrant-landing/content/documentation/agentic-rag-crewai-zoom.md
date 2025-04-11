@@ -1,6 +1,6 @@
 ---
 title: Simple Agentic RAG System
-weight: 12
+weight: 2
 partition: build
 social_preview_image: /documentation/examples/agentic-rag-crewai-zoom/social_preview.png
 ---
