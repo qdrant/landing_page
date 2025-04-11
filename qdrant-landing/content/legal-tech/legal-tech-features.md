@@ -1,5 +1,5 @@
 ---
-title: Who We Help
+title: Who We Help Build AI Applications
 cards:
 - id: 0
   icon:

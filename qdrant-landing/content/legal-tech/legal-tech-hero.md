@@ -4,8 +4,8 @@ tag:
   icon: 
     src: /icons/outline/legal-blue.svg
     alt: Legal
-title: Vector Search Solves Old Legal Challenges
-description: Revolutionize legal research, contract analysis, and compliance workflows with Qdrant’s high-performance <b>vector search database</b>—making legal intelligence faster and more accurate.
+title: "Qdrant's Vector Search: Using AI to Address Common Legal Industry Challenges"
+description: Revolutionize legal research, contract analysis, and compliance workflows with Qdrant’s high-performance <b>vector search</b>—making legal intelligence faster and more accurate.
 startFree:
   text: Get Started
   url: https://cloud.qdrant.io/signup

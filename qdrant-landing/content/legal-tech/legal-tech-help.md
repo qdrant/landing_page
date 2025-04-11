@@ -1,5 +1,5 @@
 ---
-title: How Qdrant Can Help
+title: How Qdrant Can Help<br>Developers to Build Diverse AI Applications
 items:
 - id: 0
   title: AI-Driven Legal Research
@@ -9,7 +9,7 @@ items:
   description: Identify discrepancies, ensure compliance, automate contract analysis.
 - id: 2
   title: AI Legal Assistants & Chatbots
-  description: Enable fast legal research with AI-powered virtual assistants.
+  description: Enable efficient legal research with AI-powered virtual assistants.
 - id: 3
   title: Anomaly Detection
   description: Spot inconsistencies in case law, policies, and contracts before they become liabilities.
