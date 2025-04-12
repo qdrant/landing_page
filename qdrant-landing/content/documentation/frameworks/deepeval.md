@@ -4,7 +4,7 @@ title: DeepEval
 
 # DeepEval
 
-[DeepEval](https://docs.confident-ai.com) by Confident AI is an open-source framework for testing large language model systems. Similar to Pytest but designed for LLM outputs, it evaluates metrics like G-Eval, hallucination, answer relevancy, and RAGAS using local NLP models.
+[DeepEval](https://docs.confident-ai.com) by Confident AI is an open-source framework for testing large language model systems. Similar to Pytest but designed for LLM outputs, it evaluates metrics like G-Eval, hallucination, answer relevancy.
 
 DeepEval can be integrated with Qdrant to evaluate RAG pipelines — ensuring your LLM applications return relevant, grounded, and faithful responses based on retrieved vector search context.
 
@@ -14,7 +14,22 @@ A test case is a blueprint provided by DeepEval to unit test LLM outputs. There 
 
 `LLMTestCase`: Used to evaluate a single input-output pair, such as RAG responses or agent actions.
 
-`ConversationalTestCase`: A sequence of LLMTestCase turns representing a back-and-forth interaction with an LLM system. This is especially useful for chatbot or assistant testing.
+`ConversationalTestCase`: A sequence of `LLMTestCase` turns representing a back-and-forth interaction with an LLM system. This is especially useful for chatbot or assistant testing.
+
+## Metrics Overview
+
+DeepEval offers a suite of metrics to evaluate various aspects of LLM outputs, including:
+
+- **Answer Relevancy**: Measures how relevant the LLM's output is to the given input query.
+- **Faithfulness**: Assesses whether the LLM's response is grounded in the provided context, ensuring factual accuracy.
+- **Contextual Precision**: Determines whether the most relevant pieces of context are ranked higher than less relevant ones.
+- **G-Eval**: A versatile metric that uses LLM-as-a-judge with chain-of-thought reasoning to evaluate outputs based on custom criteria.
+- **Hallucination**: Detects instances where the LLM generates information not present in the source context.
+- **Toxicity**: Assesses the presence of harmful or offensive content in the LLM's output.
+- **Bias**: Evaluates the output for any unintended biases.
+- **Summarization**: Measures the quality and accuracy of generated summaries.
+
+For a comprehensive list and detailed explanations of all available metrics, please refer to the [DeepEval metrics reference](https://docs.confident-ai.com/docs/metrics-introduction).
 
 ## Using Qdrant with DeepEval
 
@@ -61,9 +76,9 @@ evaluate(
 )
 ```
 
-You can scale this process with a dataset (e.g. from Hugging Face) and evaluate multiple test cases at once by looping through question-answer pairs, querying Qdrant for context, and scoring with DeepEval metrics.
-
 All evaluations performed using DeepEval can be viewed on the [Confident AI Dashboard](https://app.confident-ai.com).
+
+You can scale this process with a dataset (e.g. from Hugging Face) and evaluate multiple test cases at once by looping through question-answer pairs, querying Qdrant for context, and scoring with DeepEval metrics.
 
 ## Further Reading
 
