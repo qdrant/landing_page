@@ -1,0 +1,1 @@
+This code snippet shows an example of using filters to delete specific keys from a payload based on defined criteria. In this example, it showcases how to delete keys "color" and "price" where the "color" key matches the value "red".

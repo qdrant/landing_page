@@ -1,0 +1,1 @@
+This code snippet demonstrates updating HNSW index and quantization parameters for a collection, as well as for a specific vector within the collection called `my_vector`. The values like `m`, `ef_construct`, compression type, and quantization settings are adjusted for optimization.

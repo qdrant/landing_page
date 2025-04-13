@@ -1,0 +1,1 @@
+This code snippet demonstrates a complex query setup with multiple techniques. It includes prefetching with both small byte vectors and full dense vectors, along with a multi-vector query using the "colbert" technique. The query includes multiple sub-vectors for more specific search criteria, all combined into a single query for efficient processing.

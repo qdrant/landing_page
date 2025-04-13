@@ -1,0 +1,1 @@
+This code snippet allows you to insert a point with a specific ID into a collection. The point contains a payload with color information and a vector represented by an array of three values. The ID of the point is a UUID, which can be used as a unique identifier for the point within the collection.

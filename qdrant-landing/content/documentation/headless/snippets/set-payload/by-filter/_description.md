@@ -1,0 +1,1 @@
+Set the payload for points in a collection by applying a filter based on the specified properties. In this case, the code will set the payload with "property1" and "property2" values for points where the value of the "color" property is "red" within the specified collection. This approach allows for targeted modifications without needing to know the specific point ids.

@@ -1,0 +1,1 @@
+This code snippet defines a field condition specifying that the key is "count" and the matching value for the field is set to 0.

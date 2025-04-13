@@ -1,0 +1,1 @@
+This code snippet demonstrates the usage of a recommendation API in a system called Qdrant. It shows how to make a POST request to search for points based on multiple positive and negative examples, using point IDs or raw vectors. The search query includes a strategy for recommendation and a filtering condition to find points in a specific city, like London.

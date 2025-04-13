@@ -1,0 +1,1 @@
+This code snippet pertains to deleting specific keys from the payload of points. It specifies the keys to be deleted as 'color' and 'price' from the points with IDs 0, 3, and 100 within a collection.

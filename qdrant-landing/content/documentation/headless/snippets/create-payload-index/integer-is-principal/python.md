@@ -1,0 +1,10 @@
+```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="timestamp",
+    field_schema=models.IntegerIndexParams(
+        type=models.IntegerIndexType.INTEGER,
+        is_principal=True,
+    ),
+)
+```

@@ -1,0 +1,9 @@
+```python
+client.update_collection_aliases(
+    change_aliases_operations=[
+        models.DeleteAliasOperation(
+            delete_alias=models.DeleteAlias(alias_name="production_collection")
+        ),
+    ]
+)
+```

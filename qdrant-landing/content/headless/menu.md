@@ -69,7 +69,7 @@ menuItems:
         icon: community.svg
         url: /community/
       - id: subMenu-2-2
-        name: Github
+        name: GitHub
         icon: github.svg
         url: https://github.com/qdrant/qdrant
       - id: subMenu-2-3
@@ -77,7 +77,7 @@ menuItems:
         icon: roadmap.svg
         url: https://qdrant.to/roadmap
       - id: subMenu-2-4
-        name: Changelog
+        name: Change Log
         icon: changelog.svg
         url: https://github.com/qdrant/qdrant/releases
   - id: menu-3

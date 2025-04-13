@@ -1,0 +1,1 @@
+This code snippet demonstrates how to configure Qdrant to create a collection with vectors stored as uint8 datatypes. This is useful when dealing with pre-quantized embeddings, such as uint8 embeddings provided by embedding providers like Cohere. The vectors in the collection will have a size of 1024 and will be using the Cosine distance metric for similarity comparison.

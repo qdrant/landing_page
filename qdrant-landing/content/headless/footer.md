@@ -24,27 +24,18 @@ socialMedia:
 menuItems:
   - title: Products
     items:
-      - id: 1
+      - id: 0
         name: Qdrant Vector Database
         url: /qdrant-vector-database/
-      - id: 2
-        name: Enterprise Solutions
-        url: /enterprise-solutions/
-      - id: 3
+      - id: 1
         name: Qdrant Cloud
         url: /cloud/
-#      - id: 4
-#        name: Private Cloud
-#        url: /private-cloud/
-      - id: 5
-        name: Hybrid Cloud
+      - id: 2
+        name: Qdrant Hybrid Cloud
         url: /hybrid-cloud/
-      - id: 6
-        name: Demos
-        url: /demo/
-      - id: 7
-        name: Pricing
-        url: /pricing/
+      - id: 3
+        name: Qdrant Enterprise Solutions
+        url: /enterprise-solutions/
   - title: Use Cases
     items:
       - id: 0
@@ -59,30 +50,27 @@ menuItems:
       - id: 3
         name: Data Analysis & Anomaly Detection
         url: /data-analysis-anomaly-detection/
-#      - id: 4
-#        name: Qdrant for Startups
-#        url: /qdrant-for-startups/
+      - id: 4
+        name: AI Agents
+        url: /ai-agents/
   - title: Developers
     items:
       - id: 0
         name: Documentation
         url: /documentation/
       - id: 1
-        name: Discord
-        url: https://qdrant.to/discord
-#      - id: 2
-#        name: Qdrant Stars
-#        url: /stars/
-      - id: 3
-        name: Github
+        name: Community
+        url: /community/
+      - id: 2
+        name: GitHub
         url: https://github.com/qdrant/qdrant
-      - id: 4
+      - id: 3
         name: Roadmap
         url: https://qdrant.to/roadmap
-      - id: 5
-        name: Changelog
+      - id: 4
+        name: Change Log
         url: https://github.com/qdrant/qdrant/releases
-      - id: 6
+      - id: 5
         name: Status Page
         url: https://status.qdrant.io/
   - title: Resources
@@ -97,25 +85,36 @@ menuItems:
         name: Articles
         url: /articles/
       - id: 3
+        name: Events
+        url: https://try.qdrant.tech/events
+      - id: 4
         name: Startup Program
         url: /qdrant-for-startups/
+      - id: 5
+        name: Demos
+        url: /demo/
+      - id: 6
+        name: Bug Bounty
+        url: /security/bug-bounty-program/
   - title: Company
     items:
       - id: 0
         name: About Us
         url: /about-us/
-#      - id: 1
-#        name: Customers
-#        url: /customers/
-#      - id: 2
-#        name: Partners
-#        url: /partners/
+      - id: 1
+        name: Customers
+        url: /customers/
+      - id: 2
+        name: Partners
+        url: /partners/
       - id: 3
         name: Careers
         url: https://qdrant.join.com/
       - id: 4
         name: Contact Us
         url: /contact-us/
+  - title: Pricing
+    url: /pricing/
 copyright: © 2025 Qdrant. All Rights Reserved
 termsLink:
   text: Terms

@@ -1,0 +1,1 @@
+This code snippet showcases how to use a filter with multiple conditions for scrolling through points in a collection. In this case, the conditions specified in the filter are that the "city" should be "London" and the "color" should be "red". The usage of "should" indicates that any point meeting at least one of these conditions will be included in the results.

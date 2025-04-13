@@ -1,0 +1,1 @@
+Perform atomic alias actions to switch collections. In this scenario, there is a POST request made to manage aliases. The code snippet demonstrates a sequence of actions where an alias named "production_collection" is deleted, and then a new alias with the same name is created for the "example_collection". This allows for switching between collections efficiently.

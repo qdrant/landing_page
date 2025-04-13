@@ -1,0 +1,1 @@
+This code snippet demonstrates how to paginate search results by specifying an offset to skip the initial results and retrieve the subsequent results. The query includes parameters to request points with vectors and payloads, set a limit on the number of results returned, and an offset of 100 to skip the first 100 results before returning the next set of results.

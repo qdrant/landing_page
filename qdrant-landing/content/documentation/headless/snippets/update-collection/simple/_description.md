@@ -1,0 +1,1 @@
+Update collection parameters to adjust the optimizer's configuration. In this case, the code snippet demonstrates how to patch the collection by setting an indexing threshold of 10000 for more efficient initial loading of vectors. This allows you to optimize resource usage by enabling indexing selectively based on the number of vectors stored in each segment.

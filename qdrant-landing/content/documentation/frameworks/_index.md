@@ -14,6 +14,7 @@ partition: build
 | [Cheshire Cat](/documentation/frameworks/cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                                    |
 | [CrewAI](/documentation/frameworks/crewai/)                   | CrewAI is a framework to build automated workflows using multiple AI agents that perform complex tasks.              |
 | [Dagster](/documentation/frameworks/dagster/)                 | Python framework for data orchestration with integrated lineage, observability.                                      |
+| [DeepEval](/documentation/frameworks/deepeval/)               | Python framework for testing large language model systems.                                                           |
 | [DocArray](/documentation/frameworks/docarray/)               | Python library for managing data in multi-modal AI applications.                                                     |
 | [DSPy](/documentation/frameworks/dspy/)                       | Framework for algorithmically optimizing LM prompts and weights.                                                     |
 | [dsRAG](/documentation/frameworks/dsrag/)                     | High-performance Python retrieval engine for unstructured data.                                                      |

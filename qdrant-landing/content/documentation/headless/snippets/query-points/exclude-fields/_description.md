@@ -1,0 +1,1 @@
+This code snippet showcases a feature to query points from a collection while excluding specific fields, with 'city' being explicitly excluded in this case.

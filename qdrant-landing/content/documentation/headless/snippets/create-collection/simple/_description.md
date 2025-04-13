@@ -1,0 +1,1 @@
+This code snippet is used to create a collection with a specific vector configuration. The collection is defined by its name, and the vectors within the collection are set to have a size of 300 dimensions and use the Cosine distance metric.

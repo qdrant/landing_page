@@ -1,0 +1,1 @@
+This code creates a full storage snapshot for the specified category.

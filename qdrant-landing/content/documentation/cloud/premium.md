@@ -16,4 +16,4 @@ Qdrant Cloud offers an optional premium tier for customers who require additiona
 
 Please refer to the [Qdrant Cloud SLA](https://qdrant.to/sla/) for a detailed definition on uptime and support SLAs.
 
-If you are interested in using switch to Qdrant Cloud Premium, please [contact us](/contact-us/) for more information.
+If you are interested in switching to Qdrant Cloud Premium, please [contact us](/contact-us/) for more information.

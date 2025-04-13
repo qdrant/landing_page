@@ -1,0 +1,1 @@
+Generate a keyword payload index for the `group_id` field with the option to mark it as a tenant using the `is_tenant` parameter, starting from version 1.11.0. If using versions prior to that, default settings for keyword index creation should be utilized.

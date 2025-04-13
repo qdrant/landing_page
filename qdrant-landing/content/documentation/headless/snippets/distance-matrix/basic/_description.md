@@ -1,0 +1,1 @@
+This code snippet represents a request to retrieve a distance matrix in pairwise format for points in a collection. The matrix will contain pairs of point IDs along with their corresponding scores based on a specific filtering condition (in this case, filtering by the color red). The request aims to return a limited number of samples that meet the filter criteria.

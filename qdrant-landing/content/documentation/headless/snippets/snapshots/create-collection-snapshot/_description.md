@@ -1,0 +1,1 @@
+This code snippet allows you to create a snapshot for a specific collection. It mentions that when working with a distributed deployment, snapshots should be created for each node individually as a snapshot will only include the data from the node it was created on.

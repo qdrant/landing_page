@@ -1,0 +1,3 @@
+Fine-Tuning Search Parameters
+
+You can optimize your search by adjusting key parameters such as `hnsw_ef` and `exact`. `hnsw_ef` represents the number of neighbors visited during search, with a higher value leading to improved accuracy but slower speed. Setting `exact` to `true` enables precise search, albeit at a slower pace. This allows you to make comparisons between search results achieved with varied `hnsw_ef` values and the actual ground truth.

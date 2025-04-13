@@ -1,0 +1,10 @@
+```java
+ client
+      .facetAsync(
+          Points.FacetCounts.newBuilder()
+              .setCollectionName(collection_name)
+              .setKey("foo")
+              .setExact(true)
+              .build())
+      .get();
+```

@@ -1,0 +1,1 @@
+This code snippet demonstrates re-scoring examples where initially 1000 results are fetched using a small byte vector and then re-scored based on a full vector to retrieve the top 10 results.

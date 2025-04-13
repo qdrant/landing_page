@@ -1,0 +1,1 @@
+This code snippet demonstrates how to perform a POST request to filter items based on specific criteria. The filter specifies that the collection should not include points where the city is "London" and the color is "red". The conditions are nested within each other to create complex filtering logic.

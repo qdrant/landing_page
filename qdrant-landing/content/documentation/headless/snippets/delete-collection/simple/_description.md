@@ -1,0 +1,1 @@
+This code snippet is for deleting a collection.

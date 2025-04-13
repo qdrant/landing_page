@@ -98,9 +98,9 @@ With [LMOS now part of the Eclipse Foundation](https://projects.eclipse.org/proj
 
 You can learn more about Deutsche Telekom's AI Agents and Arun's vision for LMOS in his [talk](https://www.infoq.com/presentations/ai-agents-platform%20) at the InfoQ Dev Summit Boston.
 
-### Join us March 27th for a livestream with Arun 
+### Watch livestream with Arun 
 
 In this Vector Space talk, Thierry from Qdrant and Arun from Deutsche Telekom talk about the key requirements for scaling enterprise AI agents, key AI stack considerations, and how the team built a Platform as a Service (PaaS) - LMOS (Language Models Operating System) — a multi-agent PaaS designed for high scalability and modular AI agent deployment.
 
-[Register now](https://try.qdrant.tech/deutsche-telekom-talk).
+<iframe width="560" height="315" src="https://www.youtube.com/embed/l_4EDFqx1qk?si=Lk71qTMWWCM2oQ_k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 

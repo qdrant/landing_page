@@ -1,0 +1,1 @@
+This code snippet triggers the update process for a specific collection named "{collection_name}" to resume paused optimizations indicated by the grey status or "optimizations pending, awaiting update operation" message. By sending a PATCH request with an empty "optimizers_config" object, the update operation is initiated, allowing the ongoing optimizations to start again.

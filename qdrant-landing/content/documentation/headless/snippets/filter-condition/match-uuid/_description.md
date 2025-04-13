@@ -1,0 +1,1 @@
+This code snippet demonstrates a field condition where the key is "uuid" and the value is set to a specific UUID value "f47ac10b-58cc-4372-a567-0e02b2c3d479" for matching purposes. It highlights the functionality of matching UUID values efficiently.

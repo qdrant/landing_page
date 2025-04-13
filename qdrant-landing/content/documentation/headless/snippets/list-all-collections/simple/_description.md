@@ -1,0 +1,1 @@
+This code snippet retrieves and lists all available collections.

@@ -1,0 +1,1 @@
+This code snippet creates a field condition for the "price" key with a specified range. The range includes values greater than or equal to 100.0 and less than or equal to 450.0.

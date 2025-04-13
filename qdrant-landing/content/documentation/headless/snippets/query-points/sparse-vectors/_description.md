@@ -1,0 +1,1 @@
+This code snippet allows you to perform a search using sparse vectors. The query includes indices and corresponding values to search within the specified collection using a text-based search approach.

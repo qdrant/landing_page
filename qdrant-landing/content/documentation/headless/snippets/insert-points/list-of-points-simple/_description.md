@@ -1,0 +1,1 @@
+Inserts a list of points along with their IDs, payload data (such as color), and vector coordinates into a collection for storage or processing. The points are structured as objects with different attributes like ID, payload, and vector to represent properties of each point.

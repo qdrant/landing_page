@@ -21,66 +21,7 @@ For a step-by-step guide on how to use snapshots, see our [tutorial](/documentat
 
 To create a new snapshot for an existing collection:
 
-```http
-POST /collections/{collection_name}/snapshots
-```
-
-```python
-from qdrant_client import QdrantClient
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.create_snapshot(collection_name="{collection_name}")
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.createSnapshot("{collection_name}");
-```
-
-```rust
-use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
-client.create_snapshot("{collection_name}").await?;
-```
-
-```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-
-QdrantClient client =
-      new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
-client.createSnapshotAsync("{collection_name}").get();
-```
-
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.CreateSnapshotAsync("{collection_name}");
-```
-
-```go
-import (
-	"context"
-
-	"github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
-client.CreateSnapshot(context.Background(), "{collection_name}")
-```
+{{< code-snippet path="/documentation/headless/snippets/snapshots/create-collection-snapshot/" >}}
 
 This is a synchronous operation for which a `tar` archive file will be generated into the `snapshot_path`.
 
@@ -88,139 +29,13 @@ This is a synchronous operation for which a `tar` archive file will be generated
 
 *Available as of v1.0.0*
 
-```http
-DELETE /collections/{collection_name}/snapshots/{snapshot_name}
-```
-
-```python
-from qdrant_client import QdrantClient
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.delete_snapshot(
-    collection_name="{collection_name}", snapshot_name="{snapshot_name}"
-)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.deleteSnapshot("{collection_name}", "{snapshot_name}");
-```
-
-```rust
-use qdrant_client::qdrant::DeleteSnapshotRequestBuilder;
-use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
-client
-    .delete_snapshot(DeleteSnapshotRequestBuilder::new(
-        "{collection_name}",
-        "{snapshot_name}",
-    ))
-    .await?;
-```
-
-```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
-client.deleteSnapshotAsync("{collection_name}", "{snapshot_name}").get();
-```
-
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.DeleteSnapshotAsync(collectionName: "{collection_name}", snapshotName: "{snapshot_name}");
-```
-
-```go
-import (
-	"context"
-
-	"github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
-client.DeleteSnapshot(context.Background(), "{collection_name}", "{snapshot_name}")
-```
+{{< code-snippet path="/documentation/headless/snippets/snapshots/delete-collection-snapshot/" >}}
 
 ## List snapshot
 
 List of snapshots for a collection:
 
-```http
-GET /collections/{collection_name}/snapshots
-```
-
-```python
-from qdrant_client import QdrantClient
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.list_snapshots(collection_name="{collection_name}")
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.listSnapshots("{collection_name}");
-```
-
-```rust
-use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
-client.list_snapshots("{collection_name}").await?;
-```
-
-```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
-client.listSnapshotAsync("{collection_name}").get();
-```
-
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.ListSnapshotsAsync("{collection_name}");
-```
-
-```go
-import (
-	"context"
-
-	"github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
-client.ListSnapshots(context.Background(), "{collection_name}")
-```
+{{< code-snippet path="/documentation/headless/snippets/snapshots/list-collection-snapshots/" >}}
 
 ## Retrieve snapshot
 
@@ -228,15 +43,7 @@ client.ListSnapshots(context.Background(), "{collection_name}")
 
 To download a specified snapshot from a collection as a file:
 
-```http
-GET /collections/{collection_name}/snapshots/{snapshot_name}
-```
-
-```shell
-curl 'http://{qdrant-url}:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.snapshot' \
-    -H 'api-key: ********' \
-    --output 'filename.snapshot'
-```
+{{< code-snippet path="/documentation/headless/snippets/snapshots/download-collection-snapshot/" >}}
 
 ## Restore snapshot
 
@@ -259,33 +66,7 @@ This method of recovery requires the snapshot file to be downloadable from a URL
 
 To recover from a URL or local file use the [snapshot recovery endpoint](https://api.qdrant.tech/master/api-reference/snapshots/recover-from-snapshot). This endpoint accepts either a URL like `https://example.com` or a [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) like `file:///tmp/snapshot-2022-10-10.snapshot`. If the target collection does not exist, it will be created.
 
-```http
-PUT /collections/{collection_name}/snapshots/recover
-{
-  "location": "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot"
-}
-```
-
-```python
-from qdrant_client import QdrantClient
-
-client = QdrantClient(url="http://qdrant-node-2:6333")
-
-client.recover_snapshot(
-    "{collection_name}",
-    "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
-)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.recoverSnapshot("{collection_name}", {
-  location: "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot",
-});
-```
+{{< code-snippet path="/documentation/headless/snippets/snapshots/recover-collection-snapshot-from-url/" >}}
 
 <aside role="status">When recovering from a URL, the URL must be reachable by the Qdrant node that you are restoring. In Qdrant Cloud, restoring via URL is not supported since all outbound traffic is blocked for security purposes. You may still restore via file URI or via an uploaded file.</aside>
 
@@ -343,43 +124,7 @@ broken state.
 
 To recover from a URL, you specify an additional parameter in the request body:
 
-```http
-PUT /collections/{collection_name}/snapshots/recover
-{
-  "location": "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot",
-  "priority": "snapshot"
-}
-```
-
-```python
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient(url="http://qdrant-node-2:6333")
-
-client.recover_snapshot(
-    "{collection_name}",
-    "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot",
-    priority=models.SnapshotPriority.SNAPSHOT,
-)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.recoverSnapshot("{collection_name}", {
-  location: "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot",
-  priority: "snapshot"
-});
-```
-
-```bash
-curl -X POST 'http://qdrant-node-1:6333/collections/{collection_name}/snapshots/upload?priority=snapshot' \
-    -H 'api-key: ********' \
-    -H 'Content-Type:multipart/form-data' \
-    -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
-```
+{{< code-snippet path="/documentation/headless/snippets/snapshots/recover-snapshot-with-priority/" >}}
 
 ## Snapshots for the whole storage
 
@@ -394,202 +139,23 @@ Qdrant provides a dedicated API for that as well. It is similar to collection-le
 
 ### Create full storage snapshot
 
-```http
-POST /snapshots
-```
-
-```python
-from qdrant_client import QdrantClient
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.create_full_snapshot()
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.createFullSnapshot();
-```
-
-```rust
-use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
-client.create_full_snapshot().await?;
-```
-
-```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
-client.createFullSnapshotAsync().get();
-```
-
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.CreateFullSnapshotAsync();
-```
-
-```go
-import (
-	"context"
-
-	"github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
-client.CreateFullSnapshot(context.Background())
-```
+{{< code-snippet path="/documentation/headless/snippets/snapshots/create-full-snapshot/" >}}
 
 ### Delete full storage snapshot
 
 *Available as of v1.0.0*
 
-```http
-DELETE /snapshots/{snapshot_name}
-```
-
-```python
-from qdrant_client import QdrantClient
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.delete_full_snapshot(snapshot_name="{snapshot_name}")
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.deleteFullSnapshot("{snapshot_name}");
-```
-
-```rust
-use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
-client.delete_full_snapshot("{snapshot_name}").await?;
-```
-
-```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
-client.deleteFullSnapshotAsync("{snapshot_name}").get();
-```
-
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.DeleteFullSnapshotAsync("{snapshot_name}");
-```
-
-```go
-import (
-	"context"
-
-	"github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
-client.DeleteFullSnapshot(context.Background(), "{snapshot_name}")
-```
+{{< code-snippet path="/documentation/headless/snippets/snapshots/delete-full-snapshot/" >}}
 
 ### List full storage snapshots
 
-```http
-GET /snapshots
-```
-
-```python
-from qdrant_client import QdrantClient
-
-client = QdrantClient("localhost", port=6333)
-
-client.list_full_snapshots()
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.listFullSnapshots();
-```
-
-```rust
-use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
-client.list_full_snapshots().await?;
-```
-
-```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
-client.listFullSnapshotAsync().get();
-```
-
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.ListFullSnapshotsAsync();
-```
-
-```go
-import (
-	"context"
-
-	"github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
-client.ListFullSnapshots(context.Background())
-```
+{{< code-snippet path="/documentation/headless/snippets/snapshots/list-full-snapshots/" >}}
 
 ### Download full storage snapshot
 
 <aside role="status">Only available through the REST API for the time being.</aside>
 
-```http
-GET /snapshots/{snapshot_name}
-```
+{{< code-snippet path="/documentation/headless/snippets/snapshots/download-full-snapshot/" >}}
 
 ## Restore full storage snapshot
 

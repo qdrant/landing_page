@@ -1,0 +1,1 @@
+This code snippet showcases a feature where you can retrieve information about an existing collection in order to understand how the points are distributed and indexed within it.
