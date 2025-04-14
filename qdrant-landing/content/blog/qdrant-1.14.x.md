@@ -27,7 +27,7 @@ tags:
 **Improved Resource Utilization:** CPU and disk IO optimization for faster processing.</br>
 
 **Incremental HNSW Indexing:** Build indexes gradually as data arrives.</br>
-**Batch Search:** Optimized parallel processing for multiple queries.</br>
+**Batch Search:** Optimized parallel processing for batch queries.</br>
 
 **Memory Optimization:** Reduced usage for large datasets with improved ID tracking.</br>
 **RocksDB to Gridstore:** Additional reliance on our custom key-value store. </br>
