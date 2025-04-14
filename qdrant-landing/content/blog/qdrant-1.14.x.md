@@ -231,7 +231,7 @@ In our experiment, **we indexed 400 million 512-dimensional vectors**. The previ
 ## Ending our Reliance on RocksDB
 ![rocksdb-gridstore](/blog/qdrant-1.14.x/rocksdb-gridstore.jpg)
 
-RocksDB has been removed from the **mutable ID tracker** and all **immutable payload indices**, which are both internal components of Qdrant. In practical terms, this means: less RocksDB, more customization, faster internals.
+RocksDB has been removed from the **mutable ID tracker** and all **immutable payload indices**, which are both internal components of Qdrant. In practical terms, this means: less RocksDB, more control, faster internals.
 
 Even though RocksDB is great for general-purpose use cases, it hasn’t been an ideal fit for Qdrant. The two biggest issues are: **1) the lack of control over the files it creates** and **2) unpredictable timing of data compaction**.
 
