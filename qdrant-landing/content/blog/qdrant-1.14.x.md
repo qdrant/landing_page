@@ -200,12 +200,12 @@ We ran the same test of large queries for the following configurations:
 
 | Configuration | Segments | Shards | Indexing Threshold | Before | After | Improvement |
 |--------------|----------|---------|-------------------|---------|--------|-------------|
-| Single Segment | 1 | 1 | - | 10.5s | 4.5s | 57% |
-| Multi Segment | 10 | 1 | - | 5.5s | 5.1s | 7% |
-| Single Segment, Multi Shard | 1 | 4 | - | 5.2s | 4.6s | 12% |
-| Multi Everything | 10 | 4 | 1000 | 5.1s | 4.5s | 12% |
-| High Shard, Single Segment | 1 | 16 | 1000 | 5.2s | 3.7s | 29% |
-| High Shard, Multi Segment | 10 | 16 | 1000 | 2.5s | 1.7s | 32% |
+| Single Segment | 1 | 1 | 20k | 10.5s | 4.5s | 57% |
+| Multi Segment | 10 | 1 | 20k | 5.5s | 5.1s | 7% |
+| Single Segment, Multi Shard | 1 | 4 | 20k | 5.2s | 4.6s | 12% |
+| Multi Everything | 10 | 4 | 1k | 5.1s | 4.5s | 12% |
+| High Shard, Single Segment | 1 | 16 | 1k | 5.2s | 3.7s | 29% |
+| High Shard, Multi Segment | 10 | 16 | 1k | 2.5s | 1.7s | 32% |
 
 As you can see, the improvement is **most significant (57%) in single-segment configurations** where parallelization was previously limited. Even in already-optimized multi-shard setups, we still see good gains of 12-32%.
 
