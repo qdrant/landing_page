@@ -1,22 +1,5 @@
-import { getCookie } from './helpers';
-
 export function registerAndCall() {
-    // No Cookie Failsafe
-    let consent_onetrust = '';
-
-    // Grab OptanonConsent cookie value
-    let cookie_OptanonConsent = getCookie('OptanonConsent');
-    if (typeof cookie_OptanonConsent !== 'undefined') {
-      cookie_OptanonConsent = decodeURIComponent(cookie_OptanonConsent);
-      // Get 'groups' from OptanonConsent cookie
-      if (cookie_OptanonConsent.includes('&groups=')) {
-        consent_onetrust = cookie_OptanonConsent
-          .split('&groups=')[1]
-          .split('&')
-          .filter((item) => item !== '')
-          .join(', ');
-      }
-    }
+    const consentPreferences = window.OnetrustActiveGroups ?? '';
 
     // Register OneTrust Integration plugin
     window.analytics
@@ -29,19 +12,19 @@ export function registerAndCall() {
         // context object and reference to the analytics.js instance
         page: (ctx) => {
           if (ctx.event.context) {
-            ctx.updateEvent((ctx.event.context.consent = { onetrust: consent_onetrust }));
+            ctx.updateEvent('context.consent', { onetrust: consentPreferences });
           }
           return ctx;
         },
         track: (ctx) => {
           if (ctx.event.context) {
-            ctx.updateEvent((ctx.event.context.consent = { onetrust: consent_onetrust }));
+            ctx.updateEvent('context.consent', { onetrust: consentPreferences });
           }
           return ctx;
         },
         identify: (ctx) => {
           if (ctx.event.context) {
-            ctx.updateEvent((ctx.event.context.consent = { onetrust: consent_onetrust }));
+            ctx.updateEvent('context.consent', { onetrust: consentPreferences });
           }
           return ctx;
         },
