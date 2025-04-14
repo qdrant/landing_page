@@ -1,7 +1,7 @@
 ---
 title: Hybrid Queries #required
 weight: 57 # This is the order of the page in the sidebar. The lower the number, the higher the page will be in the sidebar.
-aliases: 
+aliases:
   - ../hybrid-queries
 hideInSidebar: false # Optional. If true, the page will not be shown in the sidebar. It can be used in regular documentation pages and in documentation section pages (_index.md).
 ---
@@ -10,7 +10,7 @@ hideInSidebar: false # Optional. If true, the page will not be shown in the side
 
 *Available as of v1.10.0*
 
-With the introduction of [many named vectors per point](/documentation/concepts/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries, 
+With the introduction of [many named vectors per point](/documentation/concepts/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries,
 or by performing the search in more than one stage.
 
 Qdrant has a flexible and universal interface to make this possible, called `Query API` ([API reference](https://api.qdrant.tech/api-reference/search/query-points)).
@@ -23,6 +23,8 @@ Specifically, whenever a query has at least one prefetch, Qdrant will:
 
 Additionally, prefetches can have prefetches themselves, so you can have nested prefetches.
 
+<aside role="status">Using <code>offset</code> parameter only affects the main query. This means that the prefetches must have a <code>limit</code> of at least <code>limit + offset</code> of the main query, otherwise you can get an empty result.</aside>
+
 ## Hybrid Search
 
 One of the most common problems when you have different representations of the same data is to combine the queried points for each representation into a single result.
@@ -34,23 +36,23 @@ plus the best of matching specific words.
 
 Qdrant currently has two ways of combining the results from different queries:
 
-- `rrf` - 
+- `rrf` -
 <a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">
 Reciprocal Rank Fusion
 </a>
 
   Considers the positions of results within each query, and boosts the ones that appear closer to the top in multiple of them.
-  
-- `dbsf` - 
+
+- `dbsf` -
 <a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">
 Distribution-Based Score Fusion
 </a> *(available as of v1.11.0)*
 
   Normalizes the scores of the points in each query, using the mean +/- the 3rd standard deviation as limits, and then sums the scores of the same point across different queries.
-  
+
   <aside role="status"><code>dbsf</code> is stateless and calculates the normalization limits only based on the results of each query, not on all the scores that it has seen.</aside>
 
-Here is an example of Reciprocal Rank Fusion for a query containing two prefetches against different named vectors configured to respectively hold sparse and dense vectors. 
+Here is an example of Reciprocal Rank Fusion for a query containing two prefetches against different named vectors configured to respectively hold sparse and dense vectors.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-basic/" >}}
 
