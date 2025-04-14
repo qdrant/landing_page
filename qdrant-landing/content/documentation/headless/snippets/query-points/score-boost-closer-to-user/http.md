@@ -8,13 +8,13 @@ POST /collections/{collection_name}/points/query
                 "$score",
                 {
                     "gauss_decay": {
-                        "scale": 5000, // 5km
                         "x": {
                             "geo_distance": {
                                 "origin": { "lat": 52.504043, "lon": 13.393236 } // Berlin
                                 "to": "geo.location"
                             }
-                        }
+                        },
+                        "scale": 5000 // 5km
                     }
                 }
             ]
