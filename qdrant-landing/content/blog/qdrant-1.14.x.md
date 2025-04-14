@@ -184,7 +184,7 @@ In this release, Qdrant introduces a major performance boost for [**batch query 
 
 The new optimization changes that. Large query batches are now split into chunks, and each chunk is processed on a separate thread. 
 
-> This allows Qdrant to execute queries concurrently, even when operating over a single segment. 
+> This allows Qdrant to execute queries concurrently, even when operating over a single segment with a limited number of requests.
 
 You will get much faster response times for large batches of queries. If you’re working with high-volume query workloads, you should notice a significant improvement in latency. Benchmark results show just how dramatic the difference can be.
 
