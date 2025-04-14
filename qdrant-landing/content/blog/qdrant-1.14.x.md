@@ -30,7 +30,7 @@ tags:
 **Batch Search:** Optimized parallel processing for batch queries.</br>
 
 **Memory Optimization:** Reduced usage for large datasets with improved ID tracking.</br>
-**RocksDB to Gridstore:** Additional reliance on our custom key-value store. </br>
+**RocksDB to Gridstore:** Additional reliance on our optimized key-value store.</br>
 
 ## Score-Boosting Reranker
 ![reranking](/blog/qdrant-1.14.x/reranking.jpg)
