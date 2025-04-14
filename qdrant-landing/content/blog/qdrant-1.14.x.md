@@ -188,7 +188,7 @@ The new optimization changes that. Large query batches are now split into chunks
 
 You will get much faster response times for large batches of queries. If you’re working with high-volume query workloads, you should notice a significant improvement in latency. Benchmark results show just how dramatic the difference can be.
 
-Using our [**bfb benchmarking tool**](https://github.com/qdrant/bfb), we populated a 1-segment collection and ran a request of 240 batch queries.
+As a basic test, we populated a 1-segment collection using our [**bfb benchmarking tool**](https://github.com/qdrant/bfb), and ran a request of 240 batch queries.
 
 Initially, this process only saturated a single CPU and took 11 seconds:
 ![parallel-before](/blog/qdrant-1.14.x/parallel-before.png)
