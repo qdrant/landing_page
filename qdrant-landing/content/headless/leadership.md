@@ -29,5 +29,9 @@ teamMembers:
     name: Manuel Meyer
     position: Growth
     avatar: '/img/leadership/manuel-meyer.png'
+  - id: 7
+    name: Randy Petkoff
+    position: VP Sales
+    avatar: '/img/leadership/randy-petkoff.png'    
 sitemapExclude: true
 ---
