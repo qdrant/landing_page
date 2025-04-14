@@ -180,7 +180,7 @@ That means much less time spent building and more time searching. Although this 
 ## Faster Batch Queries
 ![reranking](/blog/qdrant-1.14.x/gridstore.jpg)
 
-In this release, Qdrant introduces a major performance boost for [**batch search operations**](/documentation/concepts/search/#batch-search-api). Until now, the query batch API used a single thread per segment, which worked well—unless you had just one segment and a large batch of queries. In such cases, everything was processed on a single thread, significantly slowing things down. This scenario was especially common when using our [**Python client**](https://github.com/qdrant/qdrant-client), which is single-threaded by default.
+In this release, Qdrant introduces a major performance boost for [**batch query operations**](/documentation/concepts/search/#batch-search-api). Until now, the query batch API used a single thread per segment, which worked well—unless you had just one segment and a large batch of queries in a single request. In such cases, everything was processed on a single thread, significantly slowing things down. This scenario was especially common when using our [**Python client**](https://github.com/qdrant/qdrant-client), which is single-threaded by default.
 
 The new optimization changes that. Large query batches are now split into chunks, and each chunk is processed on a separate thread. 
 
