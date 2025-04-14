@@ -71,7 +71,8 @@ This command displays the available models. The output shows details about the m
 Now, load the model.
 
 ```python
-embedding_model = LateInteractionTextEmbedding("colbert-ir/colbertv2.0")
+model_name = "colbert-ir/colbertv2.0"
+embedding_model = LateInteractionTextEmbedding(model_name)
 ```
 The model files will be fetched and downloaded, with progress showing.
 
@@ -131,7 +132,7 @@ That means that for the first description, we have **48** vectors of lengths **1
 Install `qdrant-client`
 
 ```python
-pip install qdrant-client
+pip install "qdrant-client>=1.14.0"
 ```
 
 Qdrant Client has a simple in-memory mode that allows you to experiment locally on small data volumes. 
@@ -192,6 +193,9 @@ metadata = [{"movie_name": "The Passion of Joan of Arc", "movie_watch_time_min":
 </details>
 
 ```python
+descriptions_embeddings = list(
+    embedding_model.embed(descriptions)
+)
 qdrant_client.upload_points(
     collection_name="movies",
     points=[
@@ -204,6 +208,30 @@ qdrant_client.upload_points(
     ],
 )
 ```
+
+<aside role="status">
+Qdrant client has an integration with Fastembed which allows to skip the explicit process of vectors computation. (An example is under the spoiler).
+</aside>
+
+<details>
+    <summary>Upload with implicit embeddings computation</summary>
+
+
+```python
+description_documents = [models.Document(text=description, model=model_name) for description in descriptions]
+qdrant_client.upload_points(
+    collection_name="movies",
+    points=[
+        models.PointStruct(
+            id=idx,
+            payload=metadata[idx],
+            vector=description_documents[idx]
+        )
+        for idx, vector in enumerate(descriptions_embeddings)
+    ],
+)
+```
+</details>
 
 ## Querying
 
@@ -218,6 +246,24 @@ qdrant_client.query_points(
     with_payload=True #So metadata is provided in the output
 )
 ```
+
+<aside role="status">
+Example of query_points with implicit embedding computation. (Under the spoiler).
+</aside>
+
+<details>
+    <summary>Query points with implicit embeddings computation</summary>
+
+
+```python
+query_document = models.Document(text="A movie for kids with fantasy elements and wonders", model=model_name)
+qdrant_client.query_points(
+    collection_name="movies",
+    query=query_document,
+    limit=1,
+)
+```
+</details>
 
 The result is the following:
 
