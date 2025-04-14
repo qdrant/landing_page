@@ -2,13 +2,41 @@
     <script>
       (function() {
         const options = {{- .hubspotFormOptions | safeJS -}};
+
+        const honeypotClass = "weh";
+        const createHoneypot = function() {
+          const honeypot = document.createElement("input");
+          honeypot.classList.add(honeypotClass);
+          honeypot.type = "text";
+          honeypot.name = "my-work-email";
+          honeypot.style.display = "none";
+          honeypot.placeholder = "Email";
+          honeypot.ariaHidden = "true";
+          return honeypot;
+        };
+
+        const initHoneypot = function($form) {
+         const honeypot = createHoneypot();
+          $form.appendChild(honeypot);
+
+          const submit = $form.querySelector('[type="submit"]');
+
+          honeypot.addEventListener('input', function () {
+            if (honeypot.value.length > 0) {
+              submit.disabled = true;
+            }
+          });
+        };
         try {
-        hbspt.forms.create({
-          ...options,
-          formInstanceId: "{{- .context.Permalink -}}#{{- .id -}}",
-          pageId: "{{- .context.Permalink -}}",
-          target: "#{{- .id -}}",
-        });
+          hbspt.forms.create({
+            ...options,
+            formInstanceId: "{{- .context.Permalink -}}#{{- .id -}}",
+            pageId: "{{- .context.Permalink -}}",
+            target: "#{{- .id -}}",
+            onFormReady: function($form) {
+              initHoneypot($form);
+            },
+          });
         } catch (e) {
           document.getElementById("{{- .id -}}").innerHTML = '<p class="text-white">Here should be a form but looks like it was blocked on your side. Please, check your trackers blocking policy.</p>';
         }
