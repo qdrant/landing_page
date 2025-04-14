@@ -5,7 +5,7 @@ short_description: "Qdrant 1.14 adds Score-Boosting Reranker for custom search r
 description: "Qdrant 1.14 introduces Score-Boosting Reranker for custom search ranking, and improved resource utilization." 
 preview_image: /blog/qdrant-1.14.x/social_preview.png
 social_preview_image: /blog/qdrant-1.14.x/social_preview.png
-date: 2025-03-25T00:00:00-08:00
+date: 2025-04-14T00:00:00-08:00
 author: David Myriel
 featured: true
 tags:
@@ -25,6 +25,9 @@ tags:
 
 **Score-Boosting Reranker:** Blend vector similarity with custom rules and context.</br>
 **Improved Resource Utilization:** CPU and disk IO optimization for faster processing.</br>
+
+**Incremental HNSW Indexing:** Build indexes gradually as data arrives.</br>
+**Batch Search:** Optimized parallel processing for multiple queries.</br>
 
 **Memory Optimization:** Reduced usage for large datasets with improved ID tracking.</br>
 **RocksDB to Gridstore:** Additional reliance on our custom key-value store. </br>
@@ -163,8 +166,53 @@ You can tweak parameters like `target`, `scale`, and `midpoint` to shape how qui
 
 > This is a very powerful feature that allows for extensive customization. Read more about this feature in the [**Hybrid Queries Documentation**](/documentation/concepts/hybrid-queries/)
 
+## Incremental HNSW Indexing 
+![optimizations](/blog/qdrant-1.14.x/optimizations.jpg)
+
+Rebuilding an entire [**HNSW graph**](/documentation/concepts/indexing/#vector-index) every time new data is added can be computationally expensive. With this release, Qdrant now supports incremental HNSW indexing—an approach that extends existing HNSW graphs rather than recreating them from scratch.
+
+> This feature is designed to make indexing faster and more efficient when you’re only adding new points. It reuses the existing structure of the HNSW graph and appends the new data directly onto it. 
+
+That means much less time spent building and more time searching. Although this initial implementation currently only support upserts, it lays the groundwork for a more dynamic and performance-friendly indexing process. Especially for collections with frequent updates to payload values or growing datasets, incremental HNSW is a big step forward.
+
+> Note that deletes and updates will still trigger a full rebuild. Check out the [**indexing documentation**](/documentation/concepts/indexing/) to learn more. 
+
+## Faster Batch Queries
+![reranking](/blog/qdrant-1.14.x/gridstore.jpg)
+
+In this release, Qdrant introduces a major performance boost for [**batch search operations**](/documentation/concepts/search/#batch-search-api). Until now, the query batch API used a single thread per segment, which worked well—unless you had just one segment and a large batch of queries. In such cases, everything was processed on a single thread, significantly slowing things down. This scenario was especially common when using our [**Python client**](https://github.com/qdrant/qdrant-client), which is single-threaded by default.
+
+The new optimization changes that. Large query batches are now split into chunks, and each chunk is processed on a separate thread. 
+
+> This allows Qdrant to execute queries concurrently, even when operating over a single segment. 
+
+You will get much faster response times for large batches of queries. If you’re working with high-volume query workloads, you should notice a significant improvement in latency. Benchmark results show just how dramatic the difference can be.
+
+Using our [**bfb benchmarking tool**](https://github.com/qdrant/bfb), we populated a 1-segment collection and ran a request of 240 batch queries.
+
+Initially, this process only saturated a single CPU and took 11 seconds:
+![parallel-before](/blog/qdrant-1.14.x/parallel-before.png)
+
+After, it saturated 23 CPUs (search threads = CPU count - 1) and took 4.5 seconds:
+![parallel-after](/blog/qdrant-1.14.x/parallel-after.png)
+
+We ran the same test of large queries for the following configurations:
+
+| Configuration | Segments | Shards | Indexing Threshold | Before | After | Improvement |
+|--------------|----------|---------|-------------------|---------|--------|-------------|
+| Single Segment | 1 | 1 | - | 10.5s | 4.5s | 57% |
+| Multi Segment | 10 | 1 | - | 5.5s | 5.1s | 7% |
+| Single Segment, Multi Shard | 1 | 4 | - | 5.2s | 4.6s | 12% |
+| Multi Everything | 10 | 4 | 1000 | 5.1s | 4.5s | 12% |
+| High Shard, Single Segment | 1 | 16 | 1000 | 5.2s | 3.7s | 29% |
+| High Shard, Multi Segment | 10 | 16 | 1000 | 2.5s | 1.7s | 32% |
+
+As you can see, the improvement is **most significant (57%) in single-segment configurations** where parallelization was previously limited. Even in already-optimized multi-shard setups, we still see good gains of 12-32%.
+
+> For more on batch queries, check out the [**Search documentation**](/documentation/concepts/search/#batch-search-api).
+
 ## Improved Resource Use During Segment Optimization
-[![optimizations](/blog/qdrant-1.14.x/optimizations.jpg)](/blog/qdrant-1.14.x/optimizations.jpg)
+![segment-optimization](/blog/qdrant-1.14.x/segment-optimization.jpg)
 
 Qdrant now **saturates CPU and disk IO** more effectively in parallel when optimizing segments. This helps reduce the "sawtooth" usage pattern—where CPU or disk often sat idle while waiting on the other resource.
 
@@ -180,10 +228,8 @@ In our experiment, **we indexed 400 million 512-dimensional vectors**. The previ
 
 > **Tutorial:** If you want to work with a large number of vectors, we can show you how. [**Learn how to upload and search large collections efficiently.**](/documentation/database-tutorials/large-scale-search/)
 
-### Minor Fixes & Optimizations
-![reranking](/blog/qdrant-1.14.x/gridstore.jpg)
-
-#### Ending our Reliance on RocksDB
+## Ending our Reliance on RocksDB
+![rocksdb-gridstore](/blog/qdrant-1.14.x/rocksdb-gridstore.jpg)
 
 RocksDB has been removed from the **mutable ID tracker** and all **immutable payload indices**, which are both internal components of Qdrant. In practical terms, this means: less RocksDB, more customization, faster internals.
 
