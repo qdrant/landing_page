@@ -1,0 +1,21 @@
+{{ with (.Site.GetPage "legal-tech/legal-tech-help") }}
+  <section class="legal-tech-help">
+    <div class="container">
+      <h3 class="legal-tech-help__title">{{ .Params.title | safeHTML }}</h3>
+      <div class="row justify-content-lg-between align-items-lg-center">
+        <div class="col-12 col-lg-6 legal-tech-help__items">
+          {{ range .Params.items }}
+            <div class="legal-tech-help__item">
+              <h3 class="legal-tech-help__item-title">{{ .title }}</h3>
+              <p class="legal-tech-help__item-description">{{ .description }}</p>
+            </div>
+          {{ end }}
+        </div>
+        <div class="col-12 col-lg-6 legal-tech-help__preview">
+          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+    </div>
+    {{ partial "top-and-bottom-overlay" (dict "context" . "class" "legal-tech-help") }}
+  </section>
+{{ end }}

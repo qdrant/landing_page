@@ -1,0 +1,49 @@
+@use '../helpers/functions' as *;
+
+.legal-tech-challengers {
+  padding-top: $spacer * 3.5;
+  background-color: $neutral-94;
+
+  &__title {
+    margin-bottom: $spacer * 3;
+    font-size: $spacer * 2;
+    line-height: pxToRem(38);
+    color: $neutral-20;
+    text-align: center;
+  }
+
+  &__card {
+    &-icon {
+      display: block;
+      height: $spacer * 3;
+      width: $spacer * 3;
+      margin-bottom: pxToRem(12);
+      padding: pxToRem(12);
+      background-color: $neutral-98;
+      border: pxToRem(0.75) solid $neutral-90;
+      border-radius: pxToRem(4);
+    }
+
+    &-title {
+      margin-bottom: $spacer * 0.5;
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
+      color: $neutral-20;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      color: $neutral-30;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 2.5;
+
+    &__title {
+      margin-bottom: $spacer * 5;
+      font-size: $spacer * 3;
+      line-height: pxToRem(58);
+    }
+  }
+}

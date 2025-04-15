@@ -1,0 +1,75 @@
+@use '../helpers/functions' as *;
+
+.legal-tech-features {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+  position: relative;
+
+  &__title {
+    margin-bottom: $spacer * 2.5;
+    font-size: $spacer * 2;
+    line-height: pxToRem(38);
+    text-align: center;
+    color: $neutral-20;
+  }
+
+  &__cards {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__card {
+    justify-content: flex-start;
+    padding: pxToRem(40);
+
+    &-icon {
+      display: block;
+      height: $spacer * 3;
+      width: $spacer * 3;
+      margin-bottom: $spacer * 2;
+    }
+
+    &-title {
+      font-size: pxToRem(24);
+      line-height: pxToRem(34);
+      color: $neutral-20;
+      margin-bottom: $spacer * 0.5;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
+      color: $neutral-30;
+    }
+  }
+
+  &__square-grid-overlay {
+    display: none;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: pxToRem(58);
+      margin-bottom: $spacer * 6;
+    }
+
+    &__square-grid-overlay {
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: pxToRem(40);
+      width: 100%;
+      height: pxToRem(400);
+      background-image: url('/img/square-grid.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+}
