@@ -13,6 +13,7 @@ partition: build
 | [Canopy](/documentation/frameworks/canopy/)                   | Framework from Pinecone for building RAG applications using LLMs and knowledge bases.                                |
 | [Cheshire Cat](/documentation/frameworks/cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                                    |
 | [CrewAI](/documentation/frameworks/crewai/)                   | CrewAI is a framework to build automated workflows using multiple AI agents that perform complex tasks.              |
+| [Dagster](/documentation/frameworks/dagster/)                 | Python framework for data orchestration with integrated lineage, observability.                                      |
 | [DeepEval](/documentation/frameworks/deepeval/)               | Python framework for testing large language model systems.                                                           |
 | [DocArray](/documentation/frameworks/docarray/)               | Python library for managing data in multi-modal AI applications.                                                     |
 | [DSPy](/documentation/frameworks/dspy/)                       | Framework for algorithmically optimizing LM prompts and weights.                                                     |
@@ -38,6 +39,7 @@ partition: build
 | [Rig-rs](/documentation/frameworks/rig-rs/)                   | Rust library for building scalable, modular, and ergonomic LLM-powered applications.                                 |
 | [Semantic Router](/documentation/frameworks/semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.                             |
 | [SmolAgents](/documentation/frameworks/smolagents/)           | Barebones library for agents. Agents write python code to call tools and orchestrate other agent.                    |
+| [Solon](/documentation/frameworks/solon/)                     | A lightweight, high-performance Java enterprise framework                                                            |
 | [Spring AI](/documentation/frameworks/spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design.                 |
 | [Superduper](/documentation/frameworks/superduper/)           | Framework for building flexible, compositional AI apps which may be applied directly to databases.                   |
 | [Swarm](/documentation/frameworks/swarm/)                     | Python framework for managing multiple AI agents that can work together.                                             |
