@@ -3,8 +3,8 @@ draft: false
 title: "How Lyzr Supercharged AI Agent Performance with Qdrant"
 short_description: "Lyzr scaled intelligent agents by upgrading to Qdrant."
 description: "Discover how Lyzr improved latency, throughput, and infrastructure efficiency for its AI agents with Qdrant."
-preview_image: /blog/case-study-lyzr/Social_Preview_Partnership-Lyzr.jpg
-social_preview_image: /blog/case-study-lyzr/Social_Preview_Partnership-Lyzr.jpg
+preview_image: /blog/case-study-lyzr/social_preview.jpg
+social_preview_image: /blog/case-study-lyzr/social_preview.jpg
 date: 2025-04-15T00:00:00Z
 author: "Daniel Azoulai"
 featured: true
