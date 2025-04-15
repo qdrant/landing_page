@@ -547,5 +547,3 @@ client.Upsert(context.Background(), &qdrant.UpsertPoints{
 	},
 })
 ```
-
-</rewritten_file> 
