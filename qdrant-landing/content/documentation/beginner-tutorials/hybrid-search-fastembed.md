@@ -143,7 +143,7 @@ metadata = []
 with open(payload_path) as fd:
     for line in fd:
         obj = json.loads(line)
-        description = obj.pop("description")
+        description = obj["description"]
         documents.append(
             {
                 dense_vector_name: models.Document(text=description, model=dense_model_name),
