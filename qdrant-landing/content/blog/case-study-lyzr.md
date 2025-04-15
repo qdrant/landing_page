@@ -5,7 +5,7 @@ short_description: "Lyzr scaled intelligent agents by upgrading to Qdrant."
 description: "Discover how Lyzr improved latency, throughput, and infrastructure efficiency for its AI agents with Qdrant."
 preview_image: /blog/case-study-lyzr/Social_Preview_Partnership-Lyzr.jpg
 social_preview_image: /blog/case-study-lyzr/Social_Preview_Partnership-Lyzr.jpg
-date: 2025-04-14T00:00:00Z
+date: 2025-04-15T00:00:00Z
 author: "Daniel Azoulai"
 featured: true
 
@@ -18,7 +18,7 @@ tags:
 ---
 # How Lyzr Supercharged AI Agent Performance with Qdrant
 
-![How Lyzr Supercharged AI Agent Performance with Qdrant](/blog/case-study-Lyzr/Case-Study-Lyzr-Summary-Dark.jpg)
+![How Lyzr Supercharged AI Agent Performance with Qdrant](/blog/case-study-lyzr/case-study-lyzr-summary-dark.jpg)
 
 ## Scaling Intelligent Agents: How Lyzr Supercharged Performance with Qdrant
 
@@ -30,7 +30,7 @@ This is how they rethought their stack and adopted Qdrant as the foundation for 
 
 ## The Scaling Limits of Early Stack Choices
 
-![Lyzr-architecture](/blog/case-study-Lyzr/Lyzr-Architecture.png)
+![Lyzr-architecture](/blog/case-study-lyzr/lyzr-architecture.png)
 
 Lyzr’s architecture used Weaviate, with additional benchmarking on Pinecone. Initially, this setup was fine for development and controlled testing. The system managed around 1,500 vector entries, with a small number of agents issuing moderate query loads in a steady pattern.
 
@@ -97,7 +97,7 @@ One deployment, built for NTT Data, focused on automating IT change request work
 
 After migrating to Qdrant, the difference was immediate. Retrieval accuracy improved substantially, even for long-tail queries. The system maintained high responsiveness under concurrent loads, and horizontal scaling became simpler—ensuring consistent performance as project demands evolved.
 
-![NTT Architecture](/blog/case-study-Lyzr/NTT-Visual.png)
+![NTT Architecture](/blog/case-study-lyzr/NTT-visual.png)
 
 ---
 
@@ -107,7 +107,7 @@ Another example involved NPD, which deployed customer-facing agents across six w
 
 Qdrant’s vector search enabled accurate, low-latency retrieval across thousands of entries. Even under increasing user traffic, the platform delivered consistent performance, eliminating the latency spikes experienced with previous solutions.
 
-![NPD Architecture](/blog/case-study-Lyzr/NPD-visual.png)
+![NPD Architecture](/blog/case-study-lyzr/NPD-visual.png)
 
 ## Final Thoughts
 
