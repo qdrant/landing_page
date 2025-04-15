@@ -7,72 +7,80 @@ aliases:
   - distributed_deployment
 ---
 
-# Distributed Deployment 
+# Distributed Deployment
 
-Since version v0.8.0 Qdrant supports a distributed deployment mode.
-In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
+Starting with Qdrant v0.8.0, you can enable a distributed deployment mode. In this mode, multiple Qdrant services communicate with each other to distribute data across peers, extending storage capabilities and increasing overall stability.
 
-## How many Qdrant nodes should I run?
+| Section                                                         | Description                                              |
+|---------------------------------------------------------------|----------------------------------------------------------|
+| [Choosing the Number of Nodes](#how-many-qdrant-nodes-should-i-run) | Cost, resilience, and performance trade-offs.           |
+| [Self-Hosted Distributed Mode](#enabling-distributed-mode-in-self-hosted-qdrant) | Enabling and configuring Qdrant locally.                |
+| [Qdrant Cloud Distributed Mode](#enabling-distributed-mode-in-qdrant-cloud) | Scaling your cluster in Qdrant Cloud.                   |
+| [Using a New Distributed Cluster](#making-use-of-a-new-distributed-qdrant-cluster) | Creating replicas and moving shards.                    |
+| [Raft Overview](#raft-overview)                               | The cluster’s consensus mechanism.                      |
 
-The ideal number of Qdrant nodes depends on how much you value cost-saving, resilience, and performance/scalability in relation to each other.
 
-- **Prioritizing cost-saving**: If cost is most important to you, run a single Qdrant node. This is not recommended for production environments. Drawbacks:
-  - Resilience: Users will experience downtime during node restarts, and recovery is not possible unless you have backups or snapshots.
-  - Performance: Limited to the resources of a single server.
+## How Many Qdrant Nodes Should I Run?
 
-- **Prioritizing resilience**: If resilience is most important to you, run a Qdrant cluster with three or more nodes and two or more shard replicas. Clusters with three or more nodes and replication can perform all operations even while one node is down. Additionally, they gain performance benefits from load-balancing and they can recover from the permanent loss of one node without the need for backups or snapshots (but backups are still strongly recommended). This is most recommended for production environments. Drawbacks:
-   - Cost: Larger clusters are more costly than smaller clusters, which is the only drawback of this configuration.
+The ideal number of Qdrant nodes depends on how you balance **cost savings, resilience, and performance or scalability**.
 
-- **Balancing cost, resilience, and performance**: Running a two-node Qdrant cluster with replicated shards allows the cluster to respond to most read/write requests even when one node is down, such as during maintenance events. Having two nodes also means greater performance than a single-node cluster while still being cheaper than a three-node cluster. Drawbacks:
-   - Resilience (uptime): The cluster cannot perform operations on collections when one node is down. Those operations require >50% of nodes to be running, so this is only possible in a 3+ node cluster. Since creating, editing, and deleting collections are usually rare operations, many users find this drawback to be negligible.
-   - Resilience (data integrity): If the data on one of the two nodes is permanently lost or corrupted, it cannot be recovered aside from snapshots or backups. Only 3+ node clusters can recover from the permanent loss of a single node since recovery operations require >50% of the cluster to be healthy.
-   - Cost: Replicating your shards requires storing two copies of your data.
-   - Performance: The maximum performance of a Qdrant cluster increases as you add more nodes.
+#### Cost-Focused (Single Node)
+If minimizing cost is your top priority, you can run a single Qdrant node. However, this setup is not recommended for production environments.  
+- Resilience: Users will experience downtime during node restarts, and data recovery depends on having backups or snapshots.  
+- Performance: Limited by the resources of a single server.
 
-In summary, single-node clusters are best for non-production workloads, replicated 3+ node clusters are the gold standard, and replicated 2-node clusters strike a good balance.
+#### Resilience-Focused (3+ Nodes)
+For maximum resilience, run a Qdrant cluster with three or more nodes and at least two shard replicas. Clusters of this size and replication level can continue normal operations even when one node is down. This setup also provides performance benefits through load balancing. If a node is permanently lost, the cluster can recover the data without relying on backups or snapshots (though backups are still strongly recommended). This is the most common recommendation for production environments.  
+- Cost: Larger clusters are more expensive, which is the primary downside of this configuration.
 
-## Enabling distributed mode in self-hosted Qdrant
+#### Balanced (2 Nodes)  
+Running a two-node cluster with replicated shards strikes a balance between cost, resilience, and performance. The cluster can continue most read/write operations if one node goes down (e.g., during maintenance). This configuration will be more performant than a single-node cluster and more affordable than a three-node cluster.  
+- Resilience (uptime): The cluster cannot perform operations on collections (create, modify, delete) when one node is down, since these operations require a majority (>50%) of nodes to be active (i.e., 3+ nodes).  
+- Resilience (data integrity): If one node is permanently lost or corrupted, data cannot be recovered unless you have backups or snapshots. Unlike 3+ node clusters, there is no built-in recovery for the permanent loss of a node.  
+- Cost: Storing two copies of the data increases storage costs.  
+- Performance: Adding more nodes generally increases maximum cluster throughput.
 
-To enable distributed deployment - enable the cluster mode in the [configuration](/documentation/guides/configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
+In summary:
+- Single-node clusters are best for non-production workloads.  
+- 3+ node clusters with replication are considered the gold standard for production.  
+- 2-node clusters provide a middle ground between cost and resilience.
+
+## Enabling Distributed Mode in Self-Hosted Qdrant
+
+To enable distributed deployment, set `cluster.enabled = true` in the [configuration](/documentation/guides/configuration/) or by using the `QDRANT__CLUSTER__ENABLED=true` environment variable:
 
 ```yaml
 cluster:
   # Use `enabled: true` to run Qdrant in distributed deployment mode
   enabled: true
-  # Configuration of the inter-cluster communication
+  # Configuration for inter-cluster communication
   p2p:
-    # Port for internal communication between peers
+    # Port used for internal communication between peers
     port: 6335
 
-  # Configuration related to distributed consensus algorithm
+  # Configuration related to the distributed consensus algorithm
   consensus:
-    # How frequently peers should ping each other.
-    # Setting this parameter to lower value will allow consensus
-    # to detect disconnected node earlier, but too frequent
-    # tick period may create significant network and CPU overhead.
-    # We encourage you NOT to change this parameter unless you know what you are doing.
+    # Frequency for peers to ping each other.
+    # Lower values detect disconnected nodes faster but can increase network and CPU overhead.
+    # Change this only if you fully understand the implications.
     tick_period_ms: 100
 ```
 
-By default, Qdrant will use port `6335` for its internal communication.
-All peers should be accessible on this port from within the cluster, but make sure to isolate this port from outside access, as it might be used to perform write operations.
+By default, Qdrant uses port `6335` for internal communication. All peers must be accessible on this port within the cluster, so ensure it is isolated from outside access.
 
-Additionally, you must provide the `--uri` flag to the first peer so it can tell other nodes how it should be reached:
+You also need to provide the `--uri` flag to the first peer so it can inform other nodes of its address:
 
 ```bash
 ./qdrant --uri 'http://qdrant_node_1:6335'
 ```
 
-Subsequent peers in a cluster must know at least one node of the existing cluster to synchronize through it with the rest of the cluster.
-
-To do this, they need to be provided with a bootstrap URL:
+Subsequent peers must know at least one existing cluster node to synchronize with the rest of the cluster. They receive this information via the `--bootstrap` flag:
 
 ```bash
 ./qdrant --bootstrap 'http://qdrant_node_1:6335'
 ```
 
-The URL of the new peers themselves will be calculated automatically from the IP address of their request.
-But it is also possible to provide them individually using the `--uri` argument.
+The URL for new peers is derived automatically from the IP address of their request. However, you can specify it explicitly using the `--uri` argument if needed.
 
 ```text
 USAGE:
@@ -80,27 +88,23 @@ USAGE:
 
 OPTIONS:
         --bootstrap <URI>
-            Uri of the peer to bootstrap from in case of multi-peer deployment. If not specified -
-            this peer will be considered as a first in a new deployment
+            URI of the peer to bootstrap from in case of multi-peer deployment.
+            If not specified, this peer is considered the first in a new deployment.
 
         --uri <URI>
-            Uri of this peer. Other peers should be able to reach it by this uri.
-
-            This value has to be supplied if this is the first peer in a new deployment.
-
-            In case this is not the first peer and it bootstraps the value is optional. If not
-            supplied then qdrant will take internal grpc port from config and derive the IP address
-            of this peer on bootstrap peer (receiving side)
-
+            URI of this peer (reachable by other peers). Must be supplied if this is
+            the first peer in a new deployment. If not the first peer, this argument
+            is optional. If omitted, Qdrant derives the IP address on the bootstrap
+            peer (the receiving side).
 ```
 
-After a successful synchronization you can observe the state of the cluster through the [REST API](https://api.qdrant.tech/master/api-reference/distributed/cluster-status):
+After successful synchronization, you can check the cluster status through the [REST API](https://api.qdrant.tech/master/api-reference/distributed/cluster-status):
 
 ```http
 GET /cluster
 ```
 
-Example result:
+Example response:
 
 ```json
 {
@@ -128,38 +132,33 @@ Example result:
 }
 ```
 
-Note that enabling distributed mode does not automatically replicate your data. See the section on [making use of a new distributed Qdrant cluster](#making-use-of-a-new-distributed-qdrant-cluster) for the next steps.
+Note that enabling distributed mode does not automatically replicate your data. See the [Making Use of a New Distributed Qdrant Cluster](#making-use-of-a-new-distributed-qdrant-cluster) section for the next steps.
 
-## Enabling distributed mode in Qdrant Cloud
+## Enabling Distributed Mode in Qdrant Cloud
 
-For best results, first ensure your cluster is running Qdrant v1.7.4 or higher. Older versions of Qdrant do support distributed mode, but improvements in v1.7.4 make distributed clusters more resilient during outages.
+For the best results, ensure your cluster is running Qdrant v1.7.4 or higher. Distributed mode does work with older Qdrant versions, but improvements in v1.7.4 enhance resilience during outages.
 
-In the [Qdrant Cloud console](https://cloud.qdrant.io/), click "Scale Up" to increase your cluster size to >1. Qdrant Cloud configures the distributed mode settings automatically.
+In the [Qdrant Cloud console](https://cloud.qdrant.io/), click “Scale Up” to enlarge your cluster beyond a single node. Qdrant Cloud automatically configures distributed mode settings.
 
-After the scale-up process completes, you will have a new empty node running alongside your existing node(s). To replicate data into this new empty node, see the next section.
+Once the scale-up process completes, you’ll have a new empty node running alongside your existing node(s). To replicate data to this new node, see the next section.
 
-## Making use of a new distributed Qdrant cluster
+## Making Use of a New Distributed Qdrant Cluster
 
-When you enable distributed mode and scale up to two or more nodes, your data does not move to the new node automatically; it starts out empty. To make use of your new empty node, do one of the following:
+When distributed mode is activated and your cluster grows to two or more nodes, any new node starts out empty. To populate it with data, you have several options:
 
-* Create a new replicated collection by setting the [replication_factor](/documentation/guides/replication/#replication-factor) to 2 or more and setting the [number of shards](/documentation/guides/sharding/#choosing-the-right-number-of-shards) to a multiple of your number of nodes.
-* If you have an existing collection which does not contain enough shards for each node, you must create a new collection as described in the previous bullet point.
-* If you already have enough shards for each node and you merely need to replicate your data, follow the directions for [creating new shard replicas](/documentation/guides/replication/#creating-new-shard-replicas).
-* If you already have enough shards for each node and your data is already replicated, you can move data (without replicating it) onto the new node(s) by [moving shards](/documentation/guides/sharding/#moving-shards).
+- Create a new replicated collection by specifying a [replication_factor](/documentation/guides/replication/#replication-factor) of 2 or more and setting your [number of shards](/documentation/guides/sharding/#choosing-the-right-number-of-shards) to a multiple of the total number of nodes.  
+- If your existing collection does not have enough shards for each node, you must create a new collection as described above.  
+- If you already have enough shards and just need data replication, follow the instructions for [creating new shard replicas](/documentation/guides/replication/#creating-new-shard-replicas).  
+- If your data is already replicated and you simply want to move data (without additional replication) to the new node(s), see [moving shards](/documentation/guides/sharding/#moving-shards).
 
 ## Raft Overview
 
-Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to maintain consistency regarding the cluster topology and the collections structure.
+Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to maintain a consistent view of cluster topology and the collection structure.
 
-Operations on points, on the other hand, do not go through the consensus infrastructure.
-Qdrant is not intended to have strong transaction guarantees, which allows it to perform point operations with low overhead.
-In practice, it means that Qdrant does not guarantee atomic distributed updates but allows you to wait until the [operation is complete](/documentation/concepts/points/#awaiting-result) to see the results of your writes.
+Point-level operations do not go through consensus. Qdrant does not provide strong transaction guarantees but keeps the overhead low for point operations. This means Qdrant does not guarantee atomic distributed updates, though you can [wait for the completion](/documentation/concepts/points/#awaiting-result) of write operations to see the results.
 
-Operations on collections, on the contrary, are part of the consensus which guarantees that all operations are durable and eventually executed by all nodes.
-In practice it means that a majority of nodes agree on what operations should be applied before the service will perform them.
+In contrast, collection-level operations (like creating or deleting a collection) go through the consensus protocol. A majority of nodes must agree on an operation before it is performed. If the cluster is in a transitional state—such as electing a new leader after a failure or during startup—collection update operations will be denied.
 
-Practically, it means that if the cluster is in a transition state - either electing a new leader after a failure or starting up, the collection update operations will be denied.
+For details on the cluster’s current state, consult the [REST API](https://api.qdrant.tech/master/api-reference/distributed/cluster-status).
 
-You may use the cluster [REST API](https://api.qdrant.tech/master/api-reference/distributed/cluster-status) to check the state of the consensus.
-
-See [Advanced Deployment](/documentation/production/advanced-deployment/) for more details on Raft internals and consensus checkpointing. 
+See [Advanced Deployment](/documentation/production/advanced-deployment/) for more information on Raft internals and consensus checkpointing.
