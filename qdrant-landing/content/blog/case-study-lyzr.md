@@ -32,13 +32,13 @@ This is how they rethought their stack and adopted Qdrant as the foundation for 
 
 ![Lyzr-architecture](/blog/case-study-lyzr/lyzr-architecture.jpg)
 
-Lyzr’s architecture used Weaviate, with additional benchmarking on Pinecone. Initially, this setup was fine for development and controlled testing. The system managed around 1,500 vector entries, with a small number of agents issuing moderate query loads in a steady pattern.
+Lyzr’s architecture used another vector database and benchmarked other options as well. Initially, this setup was fine for development and controlled testing. The system managed around 1,500 vector entries, with a small number of agents issuing moderate query loads in a steady pattern.
 
 ### Initial setup:
 
 | Parameter | Details  |
 | :---: | :---: |
-| Deployment Type | Single-node or small-cluster  (Weaviate and other vector db) |
+| Deployment Type | Single-node or small-cluster  ( another vector db) |
 | Embedding Model | Sentence-transformer  (768 dimensions) |
 | Concurrent Agents | 10 to 20 knowledge search agents |
 | Query Rate per Agent | 5-10 queries per minute |
@@ -75,13 +75,13 @@ They needed something that could handle heavier loads while maintaining fast res
 
 That shift came with Qdrant, which quickly surpassed expectations across every critical metric.
 
-With Qdrant, query latency dropped to just **20–50 milliseconds**, a **\>90% improvement** over Weaviate and Pinecone. Even with hundreds of concurrent agents generating over 1,000 queries per minute, performance remained consistent.
+With Qdrant, query latency dropped to just **20–50 milliseconds**, a **\>90% improvement** over other vector dbs. Even with hundreds of concurrent agents generating over 1,000 queries per minute, performance remained consistent.
 
 Indexing operations improved dramatically. Ingestion times for large datasets were **2x faster**, and the system required significantly fewer compute and memory resources to complete them. This enabled the team to reduce infrastructure costs by approximately **30%**.
 
-Qdrant also demonstrated greater consistency. While Weaviate and Pinecone both encountered performance degradation at scale, Qdrant remained stable under 1,000+ queries per minute—supporting over 100 concurrent agents without latency spikes or slowdowns. Most notably, Lyzr sustained **throughput of more than 250 queries per second**, across distributed agents, without compromising speed or stability. 
+Qdrant also demonstrated greater consistency. While other vector dbs both encountered performance degradation at scale, Qdrant remained stable under 1,000+ queries per minute—supporting over 100 concurrent agents without latency spikes or slowdowns. Most notably, Lyzr sustained **throughput of more than 250 queries per second**, across distributed agents, without compromising speed or stability. 
 
-| Metric | Weaviate  | Pinecone | Qdrant |
+| Metric | VectorDB 1  | VectorDB 2 | Qdrant |
 | :---: | :---: | :---: | :---: |
 | Avg Query Latency at 100 agents (ms) | 300-500 | 250-450 | 20-50 (P99) |
 | Indexing Hours (2,500+ entries) | \~3 | \~2.5 | \~1.5 |
