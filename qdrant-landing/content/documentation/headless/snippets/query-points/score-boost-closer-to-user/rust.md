@@ -6,9 +6,8 @@ use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
-client
-    .query(
-        QueryPointsBuilder::new("{collection_name}")
+let _geo_boosted = client.query(
+    QueryPointsBuilder::new("{collection_name}")
             .add_prefetch(
                 PrefetchQueryBuilder::default()
                     .query(vec![0.01, 0.45, 0.67])
@@ -19,10 +18,8 @@ client
                     Expression::variable("$score"),
                     Expression::exp_decay(
                         DecayParamsExpressionBuilder::new(Expression::geo_distance_with(
-                            GeoPoint {
-                                lat: 52.504043,
-                                lon: 13.393236,
-                            }, // Berlin
+                            // Berlin
+                            GeoPoint { lat: 52.504043, lon: 13.393236 },
                             "geo.location",
                         ))
                         .scale(5_000.0),

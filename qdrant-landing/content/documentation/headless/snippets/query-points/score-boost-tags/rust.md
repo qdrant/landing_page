@@ -6,7 +6,7 @@ use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
-client.query(
+let _tag_boosted = client.query(
     QueryPointsBuilder::new("{collection_name}")
         .add_prefetch(PrefetchQueryBuilder::default()
             .query(vec![0.01, 0.45, 0.67])
@@ -24,5 +24,5 @@ client.query(
             ]),
         ])))
         .limit(10)
-).await?;
+    ).await?;
 ```
