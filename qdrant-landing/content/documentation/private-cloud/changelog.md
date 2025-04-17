@@ -5,6 +5,10 @@ weight: 5
 
 # Changelog
 
+## 1.6.4 (2025-04-17)
+
+* Fix bug in operator Helm chart that caused role binding generation to fail when using `watch.namespaces`
+
 ## 1.6.3 (2025-03-28)
 
 * Performance and stability improvements for collection re-sharding
