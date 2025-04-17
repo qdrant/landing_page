@@ -31,7 +31,14 @@ await client.QueryAsync(
 				),
 			},
 		},
-		Defaults = { ["lat"] = 48.137154, ["lon"] = 11.576124 },
+		Defaults =
+		{
+			["geo.location"] = new Dictionary<string, Value>
+			{
+				["lat"] = 48.137154,
+				["lon"] = 11.576124,
+			},
+		},
 	}
 );
 ```

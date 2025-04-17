@@ -33,8 +33,10 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 			},
 		}),
 		Defaults: qdrant.NewValueMap(map[string]any{
-			"lat": 48.137154,
-			"lon": 11.576124,
+			"geo.location": map[string]any{
+				"lat": 48.137154,
+				"lon": 11.576124,
+			},
 		}),
 	}),
 })
