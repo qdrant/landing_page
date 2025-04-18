@@ -1,16 +1,28 @@
 import scrollHandler from './scroll-handler';
 import { XXL_BREAKPOINT } from './constants';
-import { initGoToTopButton, getCookie } from './helpers';
-import { loadSegment, createSegmentStoredPage } from './segment-helpers';
+import { initGoToTopButton } from './helpers';
+import { handleSegmentReady } from './segment-helpers';
+import { registerAndCall } from './onetrust-helpers';
 import TableOfContents from './table-of-content';
-
-createSegmentStoredPage();
 
 // on document ready
 document.addEventListener('DOMContentLoaded', function () {
-  if (!window.analytics && getCookie('cookie-consent')) {
-    loadSegment();
-  }
+  const handleOneTrustLoaded = () => {   // One Trust Loaded
+    window.OneTrust.OnConsentChanged(async () => { // One Trust Preference Updated
+      registerAndCall();
+
+      await window.analytics.track('onetrust_consent_preference_updated', {
+        onetrust_active_groups: window.OnetrustActiveGroups ?? '',
+      });
+    });
+
+    handleSegmentReady();
+
+    // Only called once ∴ remove once called
+    document.removeEventListener('onetrust_loaded', handleOneTrustLoaded);
+  };
+
+  document.addEventListener('onetrust_loaded', handleOneTrustLoaded);
 
   // Top banner activation
   const topBanner = document.querySelector('.top-banner');

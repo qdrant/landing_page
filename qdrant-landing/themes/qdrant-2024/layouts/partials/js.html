@@ -1,22 +1,38 @@
-<!--Cookies banner-->
-{{ $cookit := resources.Get "/js/cookit.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-<script src="{{ $cookit.RelPermalink }}"></script>
-{{ with (.Site.GetPage "/headless/cookies") }}
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    window.cookit({
-      messageText: "{{ .Params.message.text }}",
-      linkText: "{{ .Params.link.text }}",
-      linkUrl: "{{ .Params.link.url }}",
-      buttonText: "{{ .Params.button.text }}",
-      backgroundColor: {{ .Params.background }},
-      messageColor: {{ .Params.message.color }},
-      linkColor: {{ .Params.link.color }},
-      buttonColor: {{ .Params.button.color }},
-    });
-  });
-</script>
+<!-- OneTrust Cookies Consent Notice start for local.qdrant.tech -->
+{{ if .Site.Params.onetrustScriptID }}
+  {{ $testSuffix := "-test" }}
+  {{ if hugo.IsProduction }}
+    {{ $testSuffix = "" }}
+  {{ end }}
+
+  <script src="https://cdn.cookielaw.org/consent/{{ .Site.Params.onetrustScriptID }}{{ $testSuffix }}/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="0196246a-3663-7350-9a45-b65f645d6314-test" ></script>
+  <script type="text/javascript">
+  function OptanonWrapper() {
+    const onetrustAnalyticsChoice = new CustomEvent('onetrust_loaded');
+    document.dispatchEvent(onetrustAnalyticsChoice);
+  }
+  </script>
 {{ end }}
+<!-- OneTrust Cookies Consent Notice end for local.qdrant.tech -->
+
+<!-- Segment -->
+{{ if hugo.IsProduction }}
+  <script>
+    !function(){const writeKey = "{{ .Site.Params.segmentWriteKey }}";var i="analytics",analytics=window[i]=window[i]||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","screen","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware","register"];analytics.factory=function(e){return function(){if(window[i].initialized)return window[i][e].apply(window[i],arguments);var n=Array.prototype.slice.call(arguments);if(["track","screen","alias","group","page","identify"].indexOf(e)>-1){var c=document.querySelector("link[rel='canonical']");n.push({__t:"bpc",c:c&&c.getAttribute("href")||void 0,p:location.pathname,u:location.href,s:location.search,t:document.title,r:document.referrer})}n.unshift(e);analytics.push(n);return analytics}};for(var n=0;n<analytics.methods.length;n++){var key=analytics.methods[n];analytics[key]=analytics.factory(key)}analytics.load=function(key,n){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.setAttribute("data-global-segment-analytics-key",i);t.src="https://evs.analytics.qdrant.tech/5caWuitPgcGFN5Q7HMpTaj/vEkmzjuRSqeXGbhGAFTWex.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r);analytics._loadOptions=n};analytics._writeKey=writeKey;analytics._cdn = "https://evs.analytics.qdrant.tech";analytics.SNIPPET_VERSION="5.2.0";
+    analytics.load(writeKey);
+    }}();
+  </script>
+{{ else }}
+  <script>
+    !function(){const writeKey = "{{ .Site.Params.segmentWriteKey }}";var i="analytics",analytics=window[i]=window[i]||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","screen","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware","register"];analytics.factory=function(e){return function(){if(window[i].initialized)return window[i][e].apply(window[i],arguments);var n=Array.prototype.slice.call(arguments);if(["track","screen","alias","group","page","identify"].indexOf(e)>-1){var c=document.querySelector("link[rel='canonical']");n.push({__t:"bpc",c:c&&c.getAttribute("href")||void 0,p:location.pathname,u:location.href,s:location.search,t:document.title,r:document.referrer})}n.unshift(e);analytics.push(n);return analytics}};for(var n=0;n<analytics.methods.length;n++){var key=analytics.methods[n];analytics[key]=analytics.factory(key)}analytics.load=function(key,n){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.setAttribute("data-global-segment-analytics-key",i);t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r);analytics._loadOptions=n};analytics._writeKey=writeKey;;analytics.SNIPPET_VERSION="5.2.0";
+    analytics.load(writeKey);
+    }}();
+  </script>
+{{ end }}
+
+<!--Google Measurement ID-->
+{{ $googleJs := resources.Get "js/google-setup.js" | js.Build (dict "params" (dict "gaMeasurementId" .Site.Config.Services.GoogleAnalytics.ID)) | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $googleJs.RelPermalink }}"></script>
 
 {{ $indexJs := resources.Get "/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $indexJs.RelPermalink }}"></script>
