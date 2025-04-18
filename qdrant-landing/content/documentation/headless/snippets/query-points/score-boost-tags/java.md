@@ -20,44 +20,44 @@ import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SumExpression;
 
 QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+  new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client
-    .queryAsync(
-        QueryPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addPrefetch(
-                PrefetchQuery.newBuilder()
-                    .setQuery(nearest(0.01f, 0.45f, 0.67f))
-                    .setLimit(100)
-                    .build())
-            .setQuery(
-                formula(
-                    Formula.newBuilder()
-                        .setExpression(
-                            sum(
-                                SumExpression.newBuilder()
-                                    .addSum(variable("$score"))
-                                    .addSum(
-                                        mult(
-                                            MultExpression.newBuilder()
-                                                .addMult(constant(0.5f))
-                                                .addMult(
-                                                    condition(
-                                                        matchKeywords(
-                                                            "tag",
-                                                            List.of("h1", "h2", "h3", "h4"))))
-                                                .build()))
-                                    .addSum(mult(MultExpression.newBuilder()
-                                    .addMult(constant(0.25f))
-                                    .addMult(
-                                        condition(
-                                            matchKeywords(
-                                                "tag",
-                                                List.of("p", "li"))))
-                                    .build()))
-                                    .build()))
+  .queryAsync(
+    QueryPoints.newBuilder()
+      .setCollectionName("{collection_name}")
+      .addPrefetch(
+        PrefetchQuery.newBuilder()
+          .setQuery(nearest(0.01f, 0.45f, 0.67f))
+          .setLimit(100)
+          .build())
+      .setQuery(
+        formula(
+          Formula.newBuilder()
+            .setExpression(
+              sum(
+                SumExpression.newBuilder()
+                  .addSum(variable("$score"))
+                  .addSum(
+                    mult(
+                      MultExpression.newBuilder()
+                        .addMult(constant(0.5f))
+                        .addMult(
+                          condition(
+                            matchKeywords(
+                              "tag",
+                              List.of("h1", "h2", "h3", "h4"))))
                         .build()))
-            .build())
-    .get();
+                  .addSum(mult(MultExpression.newBuilder()
+                  .addMult(constant(0.25f))
+                  .addMult(
+                    condition(
+                      matchKeywords(
+                        "tag",
+                        List.of("p", "li"))))
+                  .build()))
+                  .build()))
+            .build()))
+      .build())
+  .get();
 ```
