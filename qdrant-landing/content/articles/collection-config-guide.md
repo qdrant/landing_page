@@ -106,7 +106,7 @@ Qdrant supports multiple types of vector representations within the same collect
 
 ### 1. Dense Vectors
 
-Dense vectors are the workhorse of vector search - fixed-size arrays of floats that capture semantic meaning in continuous space. The dimensionality and distance metrics you choose have profound effects on both accuracy and performance.
+Dense vectors are fixed-length arrays of floating-point numbers that encode the semantic meaning of data in a high-dimensional space. The dimensionality and distance metrics you choose have profound effects on both accuracy and performance.
 
 These parameters control how dense vectors operate:
 
@@ -119,7 +119,7 @@ These parameters control how dense vectors operate:
 | `quantization_config` | No | Controls memory/performance trade-offs |
 | `datatype` | No | Storage type: `float32` (default), `float16`, or `uint8` |
 
-You can specify a vector `datatype` (e.g. `uint8`) for compact storage as an alternative to quantization for saving memory.
+You can specify a vector `datatype` (e.g. `uint8`) for compact storage as an **alternative to quantization** for saving memory.
 
 Here's how to create a simple collection with dense vectors:
 
@@ -169,7 +169,7 @@ client.create_collection(
 
 ### 3. Sparse Vectors
 
-Instead of dense embeddings with distributed meaning, sparse vectors directly encode discrete tokens as non-zero values at specific positions. They're ideal for keyword-based or token-based representations.
+Instead of dense embeddings with distributed meaning, sparse vectors directly encode discrete tokens as non-zero values at specific positions. They're ideal for **keyword-based** or **token-based** representations.
 
 The sparse vector configuration focuses on efficient storage and retrieval of these mostly-zero vectors:
 
@@ -235,7 +235,7 @@ client.create_collection(
 
 1. **Dimensionality**: Always match the `size` parameter to your embedding model's output dimensions
 2. **Distance Metrics**: Choose the appropriate distance metric for your embedding model:
-   - `COSINE`: For most text embeddings where magnitude isn't meaningful
+   - `COSINE`: For **most text embeddings** where magnitude isn't meaningful
    - `DOT`: For embeddings trained with dot-product similarity
    - `EUCLID`: For spatial data or when absolute distances matter
 3. **Memory Management**: Use `on_disk=True` for large collections to conserve RAM
@@ -324,7 +324,7 @@ client.create_collection(
 )
 ```
 
-The global configuration provides additional parameters not available at the vector level:
+The global configuration provides additional parameters **not** available at the vector level:
 
 | Parameter | Purpose |
 |-----------|---------|
@@ -406,7 +406,7 @@ Qdrant supports three quantization methods, each with distinct performance chara
 
 #### Scalar Quantization
 
-Scalar quantization maps `float32` values to smaller integer types like `int8`, shrinking memory usage by 75% while maintaining high accuracy. Each vector dimension is scaled to fit the range of the smaller type.
+[Scalar quantization](https://qdrant.tech/documentation/guides/quantization/?q=binary+qunatization+40x#setting-up-scalar-quantization) maps `float32` values to smaller integer types like `int8`, shrinking memory usage by 75% while maintaining high accuracy. Each vector dimension is scaled to fit the range of the smaller type.
 
 | Parameter | Description | Recommended Values |
 |-----------|-------------|-------------------|
@@ -416,13 +416,13 @@ Scalar quantization maps `float32` values to smaller integer types like `int8`, 
 
 #### Binary Quantization
 
-Binary quantization offers maximum compression and speed by reducing each dimension to a single bit (0 or 1). Values greater than zero become 1, and values less than or equal to zero become 0. This reduces a 1536-dimensional vector from 6 KB to just 192 bytes (a 32× reduction):
+[Binary quantization](https://qdrant.tech/documentation/guides/quantization/?q=binary+qunatization+40x#setting-up-binary-quantization) offers maximum compression and speed by reducing each dimension to a single bit (0 or 1). Values greater than zero become 1, and values less than or equal to zero become 0. For example, this reduces a 1536-dimensional vector from 6 KB to just 192 bytes (a 32× reduction):
 
 | Parameter | Description | Recommended Values |
 |-----------|-------------|-------------------|
 | `always_ram` | Keeps vectors in memory | `false` for storage optimization, `true` for speed |
 
-Binary quantization is exceptionally fast because it enables the use of highly optimized CPU instructions (XOR and Popcount) for distance computations, offering up to 40× speed improvement on compatible models.
+Binary quantization is exceptionally fast because it enables the use of highly optimized CPU instructions (XOR and Popcount) for distance computations, offering up to 40× speed improvement. [Read more about Binary Quantization - Vector Search, 40x Faster](https://qdrant.tech/articles/binary-quantization/).
 
 Important: Binary quantization is most effective with embeddings that have **at least 1024 dimensions**. Known compatible models include:
 - OpenAI's `text-embedding-ada-002`, `text-embedding-3-small` and `text-embedding-3-large`.
@@ -430,7 +430,7 @@ Important: Binary quantization is most effective with embeddings that have **at 
 
 #### Product Quantization
 
-Product quantization segments vectors into subvectors and compresses each subvector using codebooks. Instead of storing raw values, each subvector is represented by an index pointing to its nearest centroid.
+[Product quantization](https://qdrant.tech/documentation/guides/quantization/?q=binary+qunatization+40x#setting-up-product-quantization) segments vectors into subvectors and compresses each subvector using codebooks. Instead of storing raw values, each subvector is represented by an index pointing to its nearest centroid.
 
 | Parameter | Description | Recommended Values |
 |-----------|-------------|-------------------|
@@ -490,10 +490,10 @@ client.create_collection(
 
 #### Best Practices
 
-- **For ingestion-heavy workloads**, set a higher `default_segment_number` (4–8) and `max_segment_size` to keep insertion fast and avoid early merges.
-- **For high-delete workloads**, reduce `deleted_threshold` and `vacuum_min_vector_number` to keep your index lean.
-- **On memory-constrained systems**, lower `memmap_threshold` to offload larger segments to disk.
-- **To maximize indexing performance**, adjust `indexing_threshold` upward to delay indexing until segments are mature.
+- **For ingestion-heavy workloads**, set a higher `default_segment_number` (e.g. 4–8) to spread incoming data across multiple segments and reduce contention. Increasing `max_segment_size` will delay compactions, improving write throughput by minimizing early merges.
+- **For high-delete workloads**, lower `deleted_threshold` to trigger cleanup sooner and reduce tombstone overhead. Also reduce `vacuum_min_vector_number` to ensure even small segments are eligible for optimization. This helps keep your index lean and responsive.
+- **On memory-constrained systems**, decrease `memmap_threshold` so that large segments are stored as memory-mapped files instead of fully in RAM. This saves memory with only a slight increase in access latency.
+- **To maximize indexing performance**, raise `indexing_threshold` to delays HNSW index creation, which allows faster bulk writes. Useful for high-throughput imports, but expect increased memory pressure and slower queries until indexing completes.
 
 This configuration doesn't directly affect query latency but plays a critical role in maintaining throughput, stability, and predictable performance as your dataset evolves.
 
@@ -542,12 +542,14 @@ The WAL configuration doesn’t directly impact search performance, but it plays
 
 ## Sharding and Replication
 
-Sharding and replication allow Qdrant to scale collections across multiple nodes while maintaining availability and fault tolerance. These features are essential for production environments that require horizontal scalability, high availability, or write resilience.
+[Sharding](https://qdrant.tech/documentation/guides/distributed_deployment/?q=sharding#sharding) and [replication](https://qdrant.tech/documentation/guides/distributed_deployment/?q=sharding#replication) allow Qdrant to scale collections across multiple nodes while maintaining availability and fault tolerance. These features are **essential** for production environments that require horizontal scalability, high availability, or write resilience.
 
 ![](/articles_data/collection-config-guide/shards.png)
 
-- **Sharding** splits a collection into multiple parts, each stored and indexed independently. This enables parallel processing, better memory distribution, and faster ingestion.
-- **Replication** creates redundant copies of each shard to protect against node failure and ensure data availability even under hardware or network issues.
+- **Sharding** splits your data into separate partitions called **shards**. Each shard holds a subset of the collection and is stored and indexed independently. This allows Qdrant to distribute data and load across multiple nodes, enabling parallel search, faster ingestion, and better use of system resources. Shard count is what determines *how* your data is divided and processed.
+- **Replication** makes copies of existing shards and places them on different nodes. It protects against data loss or downtime if a node fails. Replication does not split your data or increase query parallelism, it only creates redundant copies of the current shards. 
+
+To scale performance, you need to increase the number of shards. To improve fault tolerance, you increase the replication factor.
 
 These parameters control how Qdrant distributes and protects your data:
 
@@ -591,15 +593,24 @@ Read More: [Sharding and Replication Documentation](https://qdrant.tech/document
 
 ## Storage Configuration
 
-Storage configuration in Qdrant determines how payload data is managed in memory and on disk. While vector data can already be stored on disk using parameters like on_disk or quantization, payloads can also consume significant memory if not managed carefully.
+In Qdrant, each collection is composed of **segments**, which are the core units of storage and indexing. Every segment maintains its own vector data, payloads, and associated indexes. Segments operate independently, which enables Qdrant to scale efficiently, optimize incrementally, and recover reliably.
 
-Qdrant allows you to offload payloads to disk. The primary parameter here is:
+There are two key types of data stored in a segment:
+
+- Vectors, which we covered earlier in the [Vector Configuration](#vector-configurations) section.
+- Payloads, which can be kept in memory or offloaded to disk depending on your needs.
+
+### Payload Storage
+
+While small payloads can remain in RAM, large documents or rich metadata fields can quickly consume memory at scale.
+
+To manage this, Qdrant allows you to offload payloads to disk. The primary parameter here is:
 
 | Parameter | Default | When to use it |
 |-----------|---------------|----------------|
-| `on_disk_payload` | false | Store payloads on disk instead of in RAM. Saves memory at the cost of slightly higher latency. |
+| `on_disk_payload` | false | When `true`, stores payloads on disk instead of RAM. Saves memory but adds slight latency on access. |
 
-To persist payloads to disk, set `on_disk_payload=True` during collection creation. This parameter is fixed at creation time and cannot be modified later. If not set, payloads will be stored in memory.
+If you do not explicitly set `on_disk_payload=True` during collection creation, Qdrant will store all payloads in memory by default. **This setting is fixed at collection creation and cannot be changed later.**
 
 ```python
 from qdrant_client import QdrantClient, models
