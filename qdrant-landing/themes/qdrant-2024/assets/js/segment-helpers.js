@@ -77,15 +77,6 @@ const removeSegmentStoredInteractions = () => { // Remove Interaction Entires
   sessionStorage.removeItem(INTERACTIONS_SESSION_STORAGE_KEY);
 };
 
-// Create and Queue
-export function createSegmentStoredPage() { // Create and Queue Page Entry
-  const payload = storedPayload();
-
-  const existingPages = JSON.parse(sessionStorage.getItem(PAGES_SESSION_STORAGE_KEY) || '[]');
-  const updatedPages = [...existingPages, payload];
-  sessionStorage.setItem(PAGES_SESSION_STORAGE_KEY, JSON.stringify(updatedPages));
-};
-
 export function createSegmentStoredInteraction(payload) { // Create and Queue Interaction Entry
   const updatedPayload = {
     ...payload,

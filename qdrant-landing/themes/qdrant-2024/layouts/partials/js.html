@@ -7,7 +7,10 @@
 
   <script src="https://cdn.cookielaw.org/consent/{{ .Site.Params.onetrustScriptID }}{{ $testSuffix }}/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="0196246a-3663-7350-9a45-b65f645d6314-test" ></script>
   <script type="text/javascript">
-  function OptanonWrapper() {}
+  function OptanonWrapper() {
+    const onetrustAnalyticsChoice = new CustomEvent('onetrust_loaded');
+    document.dispatchEvent(onetrustAnalyticsChoice);
+  }
   </script>
 {{ end }}
 <!-- OneTrust Cookies Consent Notice end for local.qdrant.tech -->
