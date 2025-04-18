@@ -10,7 +10,7 @@ POST /collections/{collection_name}/points/query
                     "gauss_decay": {
                         "x": {
                             "geo_distance": {
-                                "origin": { "lat": 52.504043, "lon": 13.393236 } // Berlin
+                                "origin": { "lat": 52.504043, "lon": 13.393236 }
                                 "to": "geo.location"
                             }
                         },
@@ -19,7 +19,7 @@ POST /collections/{collection_name}/points/query
                 }
             ]
         },
-        "defaults": { "geo.location": {"lat": 48.137154, "lon": 11.576124} } // Munich
+        "defaults": { "geo.location": {"lat": 48.137154, "lon": 11.576124} }
     }
 }
 ```

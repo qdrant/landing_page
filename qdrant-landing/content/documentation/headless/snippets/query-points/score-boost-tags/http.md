@@ -9,8 +9,23 @@ POST /collections/{collection_name}/points/query
         "formula": {
             "sum": [
                 "$score,
-                { "mult": [ 0.5, { "key": "tag", "match": { "any": ["h1", "h2", "h3", "h4"] } } ] },
-                { "mult": [ 0.25, { "key": "tag", "match": { "any": ["p", "li"] } } ] }
+                { 
+                    "mult": [ 
+                        0.5,
+                        { 
+                            "key": "tag",
+                            "match": { "any": ["h1", "h2", "h3", "h4"] } } 
+                    ]
+                },
+                {
+                    "mult": [
+                        0.25,
+                        { 
+                            "key": "tag",
+                            "match": { "any": ["p", "li"] } 
+                        }
+                    ]
+                }
             ]
         }
     }

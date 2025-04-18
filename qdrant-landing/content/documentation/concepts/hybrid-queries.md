@@ -115,8 +115,6 @@ Taking the documentation example, the request would look like this:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-tags/" >}}
 
-TODO: add all clients
-
 There are multiple expressions available, check the [API docs for specific details](https://api.qdrant.tech/v-1-13-x/api-reference/search/query-points#request.body.query.Query%20Interface.Query.Formula%20Query.formula).
 - **constant** - A floating point number. e.g. `0.5`.
 - `"$score"` - Reference to the score of the point in the prefetch. This is the same as `"$score[0]"`.
@@ -176,13 +174,25 @@ For all decay functions, there are these parameters available
 | `midpoint` | 0.5 | Output is `midpoint` when `x` equals `scale`. Must be in the range (0.0, 1.0), exclusive |
 
 The formulas for each decay function are as follows:
-<iframe src="https://www.desmos.com/calculator/idv5hknwb1?embed" width="600" height="400" style="border: 1px solid #ccc" frameborder=0></iframe>
 
-| Decay Function | Formula | Range |
-| --- | --- | --- |
-| `lin_decay` (green) | $ \max\left(0,\ -\frac{\left(1-m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)+1\right) $ | $[0, 1]$ |
-| `exp_decay` (red) | $ \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)\right) $ | $(0, 1]$ |
-| `gauss_decay` (purple) | $ \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}^{2}}\cdot \left(x-t_{arget}\right)^{2}\right) $ | $(0, 1]$ |
+
+<iframe src="https://www.desmos.com/calculator/idv5hknwb1?embed" width="600" height="400" style="border: 1px solid #ccc" frameborder=0 class="mx-auto d-block"></iframe>
+
+
+#### Decay functions
+
+
+**`lin_decay`** (green), range: `[0, 1]`
+
+$$ \text{lin_decay}(x) = \max\left(0,\ -\frac{\left(1-m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)+1\right) $$
+
+**`exp_decay`** (red), range: `(0, 1]`
+
+$$ \text{exp_decay}(x) = \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)\right) $$
+
+**`gauss_decay`** (purple), range: `(0, 1]`
+
+$$ \text{gauss_decay}(x) = \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}^{2}}\cdot \left(x-t_{arget}\right)^{2}\right) $$
 
 ## Grouping
 
