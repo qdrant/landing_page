@@ -18,7 +18,7 @@ await client.QueryAsync(
 			Sum =
 			{
 				"$score",
-				WithExpDecay(
+				FromExpDecay(
 					new()
 					{
 						X = new GeoDistance
