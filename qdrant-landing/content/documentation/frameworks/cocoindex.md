@@ -35,6 +35,14 @@ doc_embeddings.export(
 )
 ```
 
+The spec takes the following fields:
+
+- collection_name (type: str, required): The name of the collection to export the data to.
+- grpc_url (type: str, optional): The gRPC URL of the Qdrant instance. Defaults to http://localhost:6334/.
+-api_key (type: str, optional). API key to authenticate requests with.
+
+Before exporting, you must create a collection with a vector name that matches the vector field name in CocoIndex, and set setup_by_user=True during export.
+
 ## Further Reading
 
 - [CocoIndex Documentation](https://cocoindex.io/docs/ops/storages#qdrant)
