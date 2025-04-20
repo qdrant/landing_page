@@ -12,6 +12,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [AutoGen](/documentation/frameworks/autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.                             |
 | [Camel](/documentation/frameworks/camel/)                     | Framework to build and use LLM-based agents for real-world task solving                                              |
 | [Canopy](/documentation/frameworks/canopy/)                   | Framework from Pinecone for building RAG applications using LLMs and knowledge bases.                                |
+| [CocoIndex](/documentation/frameworks/cocoindex/)             | High performance ETL framework to transform data for AI; with real-time incremental processing     |
 | [Cheshire Cat](/documentation/frameworks/cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                                    |
 | [CrewAI](/documentation/frameworks/crewai/)                   | CrewAI is a framework to build automated workflows using multiple AI agents that perform complex tasks.              |
 | [Dagster](/documentation/frameworks/dagster/)                 | Python framework for data orchestration with integrated lineage, observability.                                      |
