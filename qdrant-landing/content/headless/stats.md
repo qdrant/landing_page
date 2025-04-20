@@ -1,6 +1,6 @@
 ---
 stats:
-  githubStars: 23.0k
-  discordMembers: 7.8k
+  githubStars: 23.1k
+  discordMembers: 7.9k
   twitterFollowers: 7.5k
 ---
