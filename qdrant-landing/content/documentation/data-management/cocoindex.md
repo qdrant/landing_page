@@ -6,7 +6,7 @@ title: CocoIndex
 
 [CocoIndex](https://cocoindex.com) is a high performance ETL framework to transform data for AI, with real-time incremental processing.
 
-Qdrant is available as a native built-in as a vector database to store and retrieve embeddings.
+Qdrant is available as a native built-in vector database to store and retrieve embeddings.
 
 
 Install CocoIndex:
