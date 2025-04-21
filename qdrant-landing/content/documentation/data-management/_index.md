@@ -10,6 +10,7 @@ partition: build
 | ------------------------------- | -------------------------------------------------------------------------------------------------- |
 | [Airbyte](/documentation/data-management/airbyte/)           | Data integration platform specialising in ELT pipelines.                                           |
 | [Airflow](/documentation/data-management/airflow/)           | Platform designed for developing, scheduling, and monitoring batch-oriented workflows.             |
+| [CocoIndex](/documentation/data-management/cocoindex/)           | High performance ETL framework to transform data for AI, with real-time incremental processing     |
 | [Connect](/documentation/data-management/redpanda/)          | Declarative data-agnostic streaming service for efficient, stateless processing.                   |
 | [Confluent](/documentation/data-management/confluent/)       | Fully-managed data streaming platform with a cloud-native Apache Kafka engine.                     |
 | [DLT](/documentation/data-management/dlt/)                   | Python library to simplify data loading processes between several sources and destinations.        |
