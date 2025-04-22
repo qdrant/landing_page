@@ -59,7 +59,7 @@ score = score + (is_title * 0.5) + (is_paragraph * 0.25)
 
 **Above is just sample logic - but here is the actual Qdrant API request:**
 
-```bash
+```http
 POST /collections/{collection_name}/points/query
 {
   "prefetch": {
