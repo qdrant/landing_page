@@ -106,12 +106,14 @@ Experiments showed that SPLADE without its term expansion tells the same old sto
 
 Striving for absolute perfection, the sparse neural retrieval field either produced models performing worse than BM25 (funnily enough, [trained with BM25-based hard negatives](https://arxiv.org/pdf/2307.10488)) — so not-so-"neural", or representations which are not-so-sparse.
 
-What if instead we lift this burden of perfection, but select and fulfill the minimal amount of criteria which a usable sparse neural retriever should fit:
+What if instead we lift this burden of being ideal from sparse neural retrievers and select and fulfil the minimal amount of criteria which a usable sparse neural retriever should fit:
 
-- **It should produce sparse representations (it's in the name!).** It should be lightweight, using perks of a term-based retrieval — for broader semantic search, there are dense retrievers, and they work.
-- **It should be better than BM25 at ranking.** BM25 is a decent baseline, but the goal is to make a term-based retriever which is capable of distinguishing word meanings. And it should be better than BM25 in not just one domain -- it should be generalisable. 
-- **It should become a useful part of a hybrid search system.** Instead of trying to replace hybrid search, sparse neural retrieval could enhance it further (preferably, without increasing its cost).
+- **It should produce sparse representations (it's in the name!).** Inheriting the perks of a term-based retrieval, it should be lightweight and simple. For a broader semantic search, there are dense retrievers, and they work.
+- **It should be better than BM25 at ranking.** BM25 is a decent baseline, and the goal is to make a term-based retriever capable of distinguishing word meanings -- what BM25 can't do. Better in not just one domain, the result should be reusable, so able to generalize. 
 
+**Then it could become a useful part of a hybrid search system.** Instead of trying to replace hybrid search and dense retrieval within it, sparse neural retrieval could enhance hybrid retrieval -- and ideally, without significantly increasing its cost.
+
+Our "what if" of this kind resulted in a **miniCOIl** sparse neural retriever.
 
 ## miniCOIL
 
