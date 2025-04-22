@@ -1,0 +1,1 @@
+The snippet demonstrates how to boost the score of points based on their tag field. If the tag field is one of the headers, it will be more relevant to the query. Tags are located in the payload and included in the boost formula as a filtering condition.
