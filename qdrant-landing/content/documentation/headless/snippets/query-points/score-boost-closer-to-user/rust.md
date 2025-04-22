@@ -15,7 +15,7 @@ let _geo_boosted = client.query(
             )
             .query(
                 FormulaBuilder::new(Expression::sum_with([
-                    Expression::variable("$score"),
+                    Expression::score(),
                     Expression::exp_decay(
                         DecayParamsExpressionBuilder::new(Expression::geo_distance_with(
                             // Berlin
