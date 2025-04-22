@@ -53,38 +53,44 @@ Let's say you are trying to improve the search feature for a documentation site,
 
 Your website collection can have vectors for **titles**, **paragraphs**, and **code snippet** sections of your documentation. You can create a `tag` payload field that indicates whether a point is a title, paragraph, or snippet. Then, to give more weight to titles and paragraphs, you might do something like:
 
-```
+```text
 score = score + (is_title * 0.5) + (is_paragraph * 0.25)
 ```
 
 **Above is just sample logic - but here is the actual Qdrant API request:**
 
-```bash
+```http
 POST /collections/{collection_name}/points/query
 {
-    "prefetch": {
-        "query": [0.2, 0.8, ...],   // <-- dense vector for the query
-        "limit": 50
-    },
-    "query": {
-        "formula": {
-            "sum": [
-                "$score",
-                {
-                    "mult": [
-                        0.5,
-                        { "key": "tag", "match": { "any": ["h1","h2","h3","h4"] } }
-                    ]
-                },
-                {
-                    "mult": [
-                        0.25,
-                        { "key": "tag", "match": { "any": ["p","li"] } }
-                    ]
-                }
-            ]
+  "prefetch": {
+    "query": [0.2, 0.8, ...],   // <-- dense vector for the query
+    "limit": 50
+  },
+  "query": {
+    "formula": {
+      "sum": [
+        "$score", // Semantic score
+        {
+          "mult": [
+            0.5, // weight for title
+            { // Filter for title
+              "key": "tag",
+              "match": { "any": ["h1","h2","h3","h4"] } 
+            }
+          ]
+        },
+        {
+          "mult": [
+            0.25, // weight for paragraph
+            { // Filter for paragraph
+              "key": "tag",
+              "match": { "any": ["p","li"] } 
+            }
+          ]
         }
+      ]
     }
+  }
 }
 ```
 
@@ -98,7 +104,7 @@ Now, the similarity score **doesn’t have to rely solely on cosine distance**. 
 
 **Example Query**:
 
-```bash
+```http
 POST /collections/{collection_name}/points/query
 {
   "prefetch": { ... },
@@ -124,40 +130,46 @@ Let’s say you’re searching for a restaurant serving Currywurst. Sure, Berlin
 
 This feature introduces a multi-objective optimization: combining semantic similarity with geographical proximity. Suppose each point has a `geo.location` payload field (latitude, longitude). You can use a `gauss_decay` function to clamp the distance into a 0–1 range and add that to your similarity score:
 
-```
+```text
 score = $score + gauss_decay(distance)
 ```
 
 **Example Query**:
 
-```bash
+```http
 POST /collections/{collection_name}/points/query
 {
-    "prefetch": {
-        "query": [0.2, 0.8, ...],
-        "limit": 50
-    },
-    "query": {
-        "formula": {
-            "sum": [
-                "$score",
-                {
-                    "gauss_decay": {
-                        "scale": 5000,               // e.g. 5 km
-                        "x": {
-                            "geo_distance": {
-                                "origin": { "lat": 52.504043, "lon": 13.393236 }, // Berlin
-                                "to": "geo.location"
-                            }
-                        }
-                    }
-                }
-            ]
-        },
-        "defaults": {
-            "geo.location": { "lat": 48.137154, "lon": 11.576124 } // Munich
+  "prefetch": {
+      "query": [0.2, 0.8, ...],
+      "limit": 50
+  },
+  "query": {
+    "formula": {
+      "sum": [
+        "$score",
+        {
+          "gauss_decay": {
+            "scale": 5000, // e.g. 5 km
+            "x": {
+              "geo_distance": {
+                "origin": { // Berlin
+                  "lat": 52.504043,
+                  "lon": 13.393236
+                }, 
+                "to": "geo.location"
+              }
+            }
+          }
         }
+      ]
+    },
+    "defaults": {
+      "geo.location": { // Munich
+        "lat": 48.137154,
+        "lon": 11.576124 
+      }
     }
+  }
 }
 ```
 
