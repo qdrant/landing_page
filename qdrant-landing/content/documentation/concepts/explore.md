@@ -80,6 +80,22 @@ A beneficial side-effect of `best_score` strategy is that you can use it with on
 
 Combining negative-only examples with filtering can be a powerful tool for data exploration and cleaning.
 
+### Sum scores strategy
+
+Another strategy for using multiple query vectors simultaneously is to just sum their scores against the candidates. In qdrant, this is called `sum_scores` strategy.
+
+This strategy was used in [this paper](https://arxiv.org/abs/2210.10695) by [UKP Lab](http://www.ukp.tu-darmstadt.de/), [hessian.ai](https://hessian.ai) and [cohere.ai](https://cohere.ai) to incorporate relevance feedback into a subsequent search. In the paper this boosted the nDCG@20 performance by 5.6% points when using 2-8 positive feedback documents.
+
+The formula that this strategy implements is
+
+$$
+s_i = \sum_{v_q\in Q^+}s(v_q, v_i) - \sum_{v_q\in Q^-}s(v_q, v_i)
+$$
+
+where $Q^+$ is the set of positive examples, $Q^-$ is the set of negative examples, and $s(v_q, v_i)$ is the score of the vector $v_q$ against the vector $v_i$
+
+As with `best_score`, this strategy also allows using only negative examples.
+
 ### Multiple vectors
 
 *Available as of v0.10.0*
@@ -98,12 +114,12 @@ If you have collections with vectors of the same dimensionality,
 and you want to look for recommendations in one collection based on the vectors of another collection,
 you can use the `lookup_from` parameter.
 
-It might be useful, e.g. in the item-to-user recommendations scenario. 
+It might be useful, e.g. in the item-to-user recommendations scenario.
 Where user and item embeddings, although having the same vector parameters (distance type and dimensionality), are usually stored in different collections.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points-explore/recommend-lookup-from/" >}}
 
-Vectors are retrieved from the external collection by ids provided in the `positive` and `negative` lists. 
+Vectors are retrieved from the external collection by ids provided in the `positive` and `negative` lists.
 These vectors then used to perform the recommendation in the current collection, comparing against the "using" or default vector.
 
 
