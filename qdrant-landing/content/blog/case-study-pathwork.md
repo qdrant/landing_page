@@ -5,7 +5,7 @@ short_description: "Pathwork increased underwriting accuracy and efficiency thro
 description: "Learn how Pathwork leveraged Qdrant's vector search capabilities to significantly reduce errors, cut latency by 78%, and drive substantial month-over-month user growth in life insurance underwriting."
 preview_image: /blog/case-study-pathwork/social_preview_pathwork.jpg
 social_preview_image: /blog/case-study-pathwork/social_preview_pathwork.jpg
-date: 2025-04-16T00:00:00Z
+date: 2025-04-22T00:00:00Z
 author: "Daniel Azoulai"
 featured: true
 
@@ -21,7 +21,7 @@ tags:
 
 ## **Pathwork Optimizes Life Insurance Underwriting with Precision Vector Search**
 
-![Pathwork Optimizes Life Insurance Underwriting with Precision Vector Search](/blog/case-study-pathwork/case-study-pathwork-summary-dark.png)
+![Pathwork Optimizes Life Insurance Underwriting with Precision Vector Search](/blog/case-study-pathwork/case-study-pathwork-summary-dark-b.jpg)
 
 ### **About Pathwork**
 
