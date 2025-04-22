@@ -4,7 +4,7 @@ weight: 16
 partition: cloud
 ---
 
-# Cloud RBAC - Early Access
+# Cloud RBAC
 
 ## About Cloud RBAC
 
@@ -19,12 +19,6 @@ Qdrant Cloud enables you to manage permissions for your cloud resources with gre
 *Note: Current permissions control access to ALL clusters. Per Cluster permissions will be in a future release.*
 
 > 💡 You can access this in **Access Management > User & Role Management** *if enabled.*
-
-### How can I participate in the Early Access program for Cloud RBAC?
-
-Customers who are interested should [register your interest](https://share-eu1.hsforms.com/1H5vI2Xx6TbCjwfyARUwQaA2b46ng).
-
-Check out our [Early Access FAQ](/documentation/cloud-rbac/early-access-faq/) for more information.
 
 ## Guides
 
