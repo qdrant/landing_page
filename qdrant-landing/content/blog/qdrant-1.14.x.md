@@ -5,7 +5,7 @@ short_description: "Qdrant 1.14 adds Score-Boosting Reranker for custom search r
 description: "Qdrant 1.14 introduces Score-Boosting Reranker for custom search ranking, and improved resource utilization." 
 preview_image: /blog/qdrant-1.14.x/social_preview.png
 social_preview_image: /blog/qdrant-1.14.x/social_preview.png
-date: 2025-04-14T00:00:00-08:00
+date: 2025-04-22T00:00:00-08:00
 author: David Myriel
 featured: true
 tags:
@@ -30,7 +30,6 @@ tags:
 **Batch Search:** Optimized parallel processing for batch queries.</br>
 
 **Memory Optimization:** Reduced usage for large datasets with improved ID tracking.</br>
-**RocksDB to Gridstore:** Additional reliance on our optimized key-value store.</br>
 
 ## Score-Boosting Reranker
 ![reranking](/blog/qdrant-1.14.x/reranking.jpg)
@@ -228,22 +227,9 @@ In our experiment, **we indexed 400 million 512-dimensional vectors**. The previ
 
 > **Tutorial:** If you want to work with a large number of vectors, we can show you how. [**Learn how to upload and search large collections efficiently.**](/documentation/database-tutorials/large-scale-search/)
 
-## Ending our Reliance on RocksDB
-![rocksdb-gridstore](/blog/qdrant-1.14.x/rocksdb-gridstore.jpg)
 
-RocksDB has been removed from the **mutable ID tracker** and all **immutable payload indices**, which are both internal components of Qdrant. In practical terms, this means: less RocksDB, more control, faster internals.
-
-Even though RocksDB is great for general-purpose use cases, it hasn’t been an ideal fit for Qdrant. The two biggest issues are: **1) the lack of control over the files it creates** and **2) unpredictable timing of data compaction**.
-
-These limitations can lead to issues like latency spikes that are difficult to diagnose or mitigate. Our long-term goal is to fully eliminate RocksDB to gain complete control over Qdrant’s performance and storage behavior. **That’s also why we built GridStore**—a key-value engine designed specifically for our needs.
-
-> The last remaining use of RocksDB is within **mutable payload indices**, and that too will be removed in a future release, fully cutting the dependency.
-
-![reranking](/blog/qdrant-1.14.x/gridstore.png)
-
-*Read more about how we built [**Gridstore, our custom key-value store**](/articles/gridstore-key-value-storage/).*
-
-#### Optimized Memory Usage in Immutable Segments
+## Optimized Memory Usage in Immutable Segments
+![immutable-segments](/blog/qdrant-1.14.x/immutable-segments.jpg)
 
 We revamped how the ID tracker and related metadata structures store data in memory. This can result in a notable RAM reduction for very large datasets (hundreds of millions of vectors).
 
