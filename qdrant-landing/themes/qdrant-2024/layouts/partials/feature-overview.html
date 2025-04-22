@@ -9,22 +9,22 @@
         <div class="feature-overview__cards-wrapper col-12">
           <div class="feature-overview__cards">
             {{ range $index, $element := .Params.cards }}
-              <div class="card feature-overview__card">
+              <a href="{{ .link.url }}" class="card feature-overview__card">
                 <div>
                   <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
                   <h5 class="feature-overview__card-title">{{ .title }}</h5>
                   {{ if eq $index 1 }}
                     <p class="feature-overview__card-content">
                       {{ .content }}
-                      <a href="{{ .contentLink.url }}">{{ .contentLink.text }}</a>
+                      <span class="card__content-link" data-href="{{ .contentLink.url }}">{{ .contentLink.text }}</span>
                       {{ .contentSecondPart }}
                     </p>
                   {{ else }}
                     <p class="feature-overview__card-content">{{ .content }}</p>
                   {{ end }}
                 </div>
-                <a class="link link_dark link_md align-self-start" href="{{ .link.url }}">{{ .link.text }}</a>
-              </div>
+                <span class="link link_dark link_md align-self-start">{{ .link.text }}</span>
+              </a>
             {{ end }}
           </div>
         </div>

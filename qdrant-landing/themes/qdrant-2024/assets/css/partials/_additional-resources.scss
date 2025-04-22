@@ -43,6 +43,17 @@
         max-height: pxToRem(24);
       }
     }
+    &[href]:hover {
+      .link {
+        &:after {
+          animation: dash 0.3s ease-in-out forwards;
+        }
+
+        &:before {
+          animation: dash 0.3s ease-in-out forwards;
+        }
+      }
+    }
   }
 
   &__card-title {

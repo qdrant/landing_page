@@ -106,4 +106,14 @@ document.addEventListener('DOMContentLoaded', function () {
   if (document.getElementById('TableOfContents') && document.querySelector('.qdrant-post__body')) {
     new TableOfContents('#TableOfContents', '.qdrant-post__body');
   }
+
+  document.querySelectorAll('.card__content-link').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const url = link.dataset.href;
+      window.history.pushState({}, '', url);
+      window.location.href = url;
+    });
+  });
 });

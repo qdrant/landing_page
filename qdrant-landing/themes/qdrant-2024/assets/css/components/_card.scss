@@ -14,8 +14,9 @@
   &[href]:hover {
     border-top: 1px solid $neutral-100;
     background: $neutral-98;
-    box-shadow: 0 10px 20px 0 rgba(22, 30, 51, 0.1),
-    0 1px 2px 0 rgba(22, 30, 51, 0.1);
+    box-shadow:
+      0 10px 20px 0 rgba(22, 30, 51, 0.1),
+      0 1px 2px 0 rgba(22, 30, 51, 0.1);
 
     .link {
       &:after {
@@ -43,5 +44,13 @@
         background: $link-color;
       }
     }
+  }
+}
+
+.card__content-link {
+  cursor: pointer;
+  color: $primary-50;
+  &:hover {
+    color: $primary-60;
   }
 }
