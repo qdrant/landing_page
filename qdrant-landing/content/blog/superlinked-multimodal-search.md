@@ -21,9 +21,10 @@ tags:
   - innovation
 ---
 
-The proliferation of AI has transformed how people search for products, services, and educational content. Users now expect to express their needs in **natural language** and receive precise, tailored results that match their intent.
+## Why Multimodal Search?
+AI has transformed how we find products, services, and content. Now users express needs in **natural language** and expect precise, tailored results.
 
-Let's say you're trying to book a hotel in Paris, and you have some specific criteria:
+For example, you might search for hotels in Paris with specific criteria:
 
 ![superlinked-search](/blog/superlinked-multimodal-search/superlinked-search.png)
 
@@ -41,13 +42,13 @@ In this blog, we'll show you how Qdrant and Superlinked combine **textual unders
 
 ## Core Components
 
-**Figure 2:** in a typical search or RAG app, the embedding framework (Superlinked) combines your data and its metadata into vectors. They are ingested into a Qdrant collection and indexed. 
+**Figure 2:** In a typical search or RAG app, the embedding framework (Superlinked) combines your data and its metadata into vectors. They are ingested into a Qdrant collection and indexed. 
 
 ![superlinked-architecture](/blog/superlinked-multimodal-search/superlinked-architecture.png)
 
 Superlinked makes search smarter by embedding data into specialized "spaces" designed for each type of attribute, rather than using a single embedding method for everything. For example, this ensures that "50" is properly understood as halfway between "0" and "100".
 
-When a user queries "Affordable luxury hotels near Eiffel Tower with good reviews and free parking," Superlinked uses an LLM to do natural query understanding and set weights. These weights determine:
+When a user queries **"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking"**, Superlinked uses an LLM to do natural query understanding and set weights. These weights determine:
 - Preference direction (negative for lower values, positive for higher values).
 - Preference strength (higher numbers have stronger influence).
 - Balance between different attributes (e.g., price_weight: -1.0 and rating_weight: 1.0 are balanced).
@@ -103,7 +104,7 @@ What makes this powerful is that each space properly preserves the semantic rela
 
 **Prices** are embedded to maintain their proportional relationships, **Text** embeddings capture semantic meanings, **Ratings** preserve their relative quality indicators, and the **Ratings Count** uses logarithmic scaling to properly weight the significance of review volume.
 
-### Multimodal Vector Search: The Full Picture
+### 2. Multimodal Vector Search: The Full Picture
 
 Traditional users see vector search as typically just text-based. Both **Qdrant and Superlinked transcend this limitation** by supporting a rich multimodal search environment where different data types collaborate rather than compete. For our hotel demo, this means:
 
@@ -191,7 +192,19 @@ The result is a search experience that feels intuitive and "just works" - whethe
 
 The hotel search demo showcases this vision in action, a glimpse into a future where search understands not just the words we use, but the complex, nuanced preferences they represent.
 
-## Hosting the Demo
+## How to Build the App
+
+For more details, [check out the documentation](https://github.com/superlinked/hotel-search-recipe-qdrant).
+
+Otherwise, you can clone the app:
+
+```shell
+git clone https://github.com/superlinked/hotel-search-recipe-qdrant.git
+```
+
+The backend is located under `superlinked_app`, while the frontend has to be built from `frontend_app`.
+
+### Deploy the Backend
 
 Use [`superlinked_app/.env-example`](./superlinked_app/.env-example) as a template, create `superlinked_app/.env` and set `OPENAI_API_KEY` required for Natural Query Interface, `QDRANT_URL` and `QDRANT_API_KEY` required for Qdrant Vector Database.
 
@@ -217,14 +230,19 @@ Please wait until the ingestion is finished. You will see the message.
 
 #### Inspecting Collections in Qdrant Cloud Dashboard
 
-Once your Superlinked vectors are ingested, log in to the Qdrant Cloud dashboard to:
-- Navigate to **Collections** and select your `defaul` hotel collection.
-- Browse individual points under the **Data** tab to view payload metadata (price, rating, amenities) alongside their raw vector embeddings.
-- Use the **Search** tab to run real-time KNN queries or apply metadata filters and observe how Superlinked's weighting impacts results.
-- Monitor performance metrics (throughput, latency) and storage usage in the **Insights** section.
-- Configure autoscaling, backups, and snapshots under **Qdrant Cloud Dashboard** to keep your service reliable and cost-efficient.
+Once your Superlinked vectors are ingested, log in to the Qdrant Cloud dashboard to navigate to **Collections** and select your `default` hotel collection.
 
-### Streamlit frontend
+![default-collection](/blog/superlinked-multimodal-search/default-collection.png)
+
+You can browse individual points under the **Data** tab to view payload metadata (price, rating, amenities) alongside their raw vector embeddings.
+
+![collection-information](/blog/superlinked-multimodal-search/collection-information.png)
+
+In the **Collection Infromation** section, you can use the **Search** tab to run real-time KNN queries or apply metadata filters. In the **Search Quality** section, you can also monitor performance metrics (throughput, latency).
+
+When scaling up your app, go back to **Qdrant Cloud Dashboard** to configure autoscaling, backups, and snapshots. These options will keep your service reliable and cost-efficient.
+
+### Build the Frontend
 
 ```shell
 cd frontend_app
@@ -234,13 +252,13 @@ pip install -e .
 python -m streamlit run app/frontend/main.py
 ```
 
-The Streamlit UI will be available at [localhost:8501](http://localhost:8501).
+The Frontend UI will be available at [localhost:8501](http://localhost:8501).
 
-## Need superlinked for your larger scale projects ?
+#### Superlinked CLI 
 
-With `superlinked cli` you will be able to run a superlinked application at scale with components such as batch processing engine, logging and more. For more details contact the superlinked team at: [superlinked.com](https://superlinked.typeform.com/to/LXMRzHWk?typeform-source=hotel-search-recipe).
+> **Note:** If you need Superlinked for larger scale projects, you can use `superlinked cli`.
 
-![superlinked-localhost](/blog/superlinked-multimodal-search/superlinked-localhost.png)
+With it, you will be able to run a Superlinked application at scale with components such as batch processing engine, logging and more. For more details contact the Superlinked team at: [superlinked.com](https://superlinked.typeform.com/to/LXMRzHWk?typeform-source=hotel-search-recipe).
 
 ## Materials
 
