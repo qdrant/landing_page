@@ -88,9 +88,9 @@ Well, most oftenly perfect is the enemy of the good:)
 
 [The detailed history of sparse neural retrieval makes a whole other article](https://qdrant.tech/articles/modern-sparse-neural-retrieval/). Summing a big part of it up, there were many attempts to map a word representation produced by a dense encoder to a single-valued importance score, and most of them never saw the real world outside of research papers (**DeepImpact**, **TILDEv2**, **uniCOIL**).
 
-Squishing high-dimensional word representations (usually 768-dimensional BERT embeddings) into a single number inevitably leads to a blended word's meaning. On the other hand, stepping in a late-interaction-like direction with vector-per-word representations, as done by the authors of **Contextualized Inverted Lists**, goes against one of the main benefits of using sparse representations -- retrieval speed and a small memory footprint. 
+Squishing high-dimensional word representations (usually 768-dimensional BERT embeddings) into a single number inevitably leads to a blended word's meaning. On the other hand, stepping in a late-interaction-like direction with vector-per-word representations, as done by the authors of **Contextualized Inverted Lists**, goes against one of the main benefits of using sparse representations -- retrieval speed and a small memory footprint.
 
-In general, trained end-to-end on a relevance objective, most of the **sparse encoders** estimated word importance well only for a particular domain. [Their out-of-domain accuracy (on datasets they hadn't "seen" during training) was worse than BM25.](https://arxiv.org/pdf/2307.10488). > 
+In general, trained end-to-end on a relevance objective, most of the **sparse encoders** estimated word importance well only for a particular domain. [Their out-of-domain accuracy (on datasets they hadn't "seen" during training) was worse than BM25.](https://arxiv.org/pdf/2307.10488).
 
 The SOTA of sparse neural retrieval is (Sparse Lexical and Expansion Model) -- **SPLADE**. This one surely made its way into retrieval systems -- you could [use SPLADE++ in Qdrant with FastEmbed](https://qdrant.tech/documentation/fastembed/fastembed-splade/). 
 
@@ -111,48 +111,167 @@ What if instead we lift this burden of being ideal from sparse neural retrievers
 - **It should produce sparse representations (it's in the name!).** Inheriting the perks of a term-based retrieval, it should be lightweight and simple. For a broader semantic search, there are dense retrievers, and they work.
 - **It should be better than BM25 at ranking.** BM25 is a decent baseline, and the goal is to make a term-based retriever capable of distinguishing word meanings -- what BM25 can't do. Better in not just one domain, the result should be reusable, so able to generalize. 
 
-**Then it could become a useful part of a hybrid search system.** Instead of trying to replace hybrid search and dense retrieval within it, sparse neural retrieval could enhance hybrid retrieval -- and ideally, without significantly increasing its cost.
+**Then it could become a useful part of a hybrid search system.** Instead of trying to replace hybrid search and dense encoders within it, sparse neural model could enhance hybrid retrieval -- and ideally, without significantly increasing its cost.
 
 Our "what if" of this kind resulted in a **miniCOIl** sparse neural retriever.
 
 ## miniCOIL
 
-![sparse-neural-retrieval-problems](/articles_data/minicoil/minicoil.png)
+![minicoil](/articles_data/minicoil/minicoil.png)
 
-[Haystack doc](https://docs.google.com/document/d/1s-fvhWyMPZxhBtPRngWQ_8LwC1jOQkhkyIToRuGXus8/edit?tab=t.0)
+STARTING FROM HERE VERY DRAFT-Y
 
-[miniCOIL is not the first of our attempts](https://qdrant.tech/articles/bm42/) to look in the direction of better sparse neural retrieval.
-The main idea is to keep BM25 as a fallback, and add to it an ability to understand/distinguish meaning of words. It will help with two BM25 problems: (1) inability to distinguish a *"fruit bat"* and a *"baseball bat"* and (2) mixing all the word forms in case if stemming is used in BM25 (then *"inform"*, *"informant"*, *"informational"*, *"informed"* and *"informally"* are all mixed in a one *"inform"* stem)
+To get a model performant on out-of-domain data, we should abandon the end-to-end training on relevance objective -- there is not enough data to train a model able to generalize.
 
-To get a model performant on out-of-domain data, we're abandon the end-to-end training objectives. Instead of assigning importance score of words based on their meaning and relevance in texts, we take BM25 scoring formula and add to it a semantic component, which encodes words meaning.
+### Standing on the Shoulders of BM25
 
-## Overview
+BM25 is a decent baseline in various domains for many years for a reason, so why to discard it, when we can build on top of it, using the proved formula as-is. 
 
-One number is not enough to encode the meaning of the word in the context. 128 (as ColBERT does) and 32 (as COIL did) is not combining with a sparsity paradigm.
-What if we keep 4 dimensions? Then vectors would be only 4 times less sparse than a classical bag-of-words version, 1 token fitting in 4 bytes if needed.
-Let's also avoid spending a lot of training resources.
+The only thing it lacks is ability to distinguish word meanings.
 
-1. Cheap inference for hybrid (we already use dense model embeddings)
-2. Takes output of any transformer model as an input (if trained)
-3. Only needs 1 linear layer of computation to infer 1 embedding. Learn by word, so one can have a mechanism of training a small down-projection layer per word and combining them in one model
-4. New words can be dynamically added and fine-tuned individually
-5. If the word is not in vocabulary, falls back to Bm25 formula
+- It doesn't see a difference between a *"fruit bat"* and a *"baseball bat"*
+- When used on with word stemms, it can't distinguish parts of speech. For example, *"inform"*, *"informant"*, *"informational"*, *"informed"* and *"informally"* will be all mixed in a one *"inform"* stem.
+
+So, instead of learning to assign importance score of words based on texts relevance, let's just add a semantic component to BM25, to make it rank better, understanding word meanings.
+
+### Keep it Sparse
+
+How many meanings one word can have?
+
+One number is not enough to express several meanings. Using 128 (as ColBERT) and 32 (as COIL) numbers goes against sparsity criteria.
+
+What if we use four dimensions to describe word's meaning? Then vectors would be only 4 times less sparse than a classical bag-of-words version, 1 token fitting in 4 bytes if needed. 
+
+How many words have much more than 4 meanings? If they do, though, we can choose a bigger number, for example, 8.
+
+### Searching for Meaning
+
+Now we're coming to the part where we need to understand how to get this 4 dimensional encapsulation of a word meaning.
+
+Firstly, we need to somehow get any representation of a word meaning within input, as it will vary each time based on the context Well, re-use and recycle. Dense encoders are capable of generating contextualized token representations. If we're working in a hybrid search scenario, we have to use dense encoder regardless, so why not re-use token high-dimensional representations.
+
+Yet we need a condenced one. Then we can reformulate our task to training a model capable of a meaning preserving dimensionality reduction.
+
+![minicoil-inference](/articles_data/minicoil/minicoil-inference-hybrid.png)
+
+### Words not Tokens!
+
+Transformers provide contextualized token embeddings, not word ones. 
+
+Yet working directly on words is far better for retrieval, say, we want to use a word “retriever” for semantic search in our documentation, since we write about different types of retrievers and this word has several meanings within the documentation.
+
+Transformer tokenizer will break it down into re, #trie and #ver, and we wouldn’t want to work with sparse vectors having separate cells for each of 3 pieces.
+
+Our goal is to work on words, and we will resolve tokens into a word representation in a same way we did for BM42.
+
+### Everything new is well-forgotten old
+Our goal is to learn downprojecting contextualized embeddings of one word, so the resulting four dimensional vector reflects word meaning in general, and we could match and compare it with word meanings in our corpora.
+
+We need a target which reflects this context in the best way. We want to re-use this target for different dense encoders used in a hybrid search and we want to re-use this target for training different words.
+
+Well, do you remember word2vec skipgramms? Word's meaning is engraved in its context.
+
+Then let's assume that sentences containing the same words with different meanings (defined by sentence context), should cluster in vector space based on these meanings.
 
 ### It's Going to Work, I Bat
 
-Initially, let's see if there is any sense in it. Let's downproject a word with several meanings with UMAP.
-We coudl try to use UMAP projections of a smart model (in our case mixbread) to 4 dimensional space and use them
+Let’s take a look at the word “bat”. 
+We took several thousands of sentences containing the word “bat”, sampled from OpenWebText.
+
+Let’s encode these sentences with a smart big transformer, which certainly knows how to capture context (mxbai-embed-large-v1). 
+Now let’s downproject them to 2D with UMAP, to see if we can visually distinguish any clusters, containing sentences where “bat” has the same meaning. 
 
 ![bat-umap](/articles_data/minicoil/bat.png)
 
-### Training Triplets
-Trainings:
-1. No query-to-response datasets
-2. Input is the token vector
-3. Output should represent context
-4. Train skip gram - predict context by the word, predict sentence embedding by embedding - that's how we're going to engrave contextual representation in our 4 dim.
+Ok, so we found a working target (sentence embeddings of a powerful transformer), which will help us to guide meaning-in-a-context-preserving downprojection for a transformer-of-choice input.
 
+### How do you eat an elephant? One Bite at a Time
 
+So, we see that for 1 word it seems to work out. Then let's keep it simple and flexible, from the inference, training and explainability perspective. Let's learn to meaningfully compress one word. Then we can scale to all words in vocabulary that we're interested and simply combine (stack) all word encoders in one miniCOIL.
 
+This will come with:
 
+1. Extremely simple architecture: even one layer can suffice.
+2. Super fast and easy training process.
+3. Cheap and fast inference due to simple architecture.
+4. Flexibility to discover and tune underperforming words.
+5. Flexibility to extend and shrink vocabulary depending on desired domain.
 
+### A simple encoder and no heavy Decoders
+
+Usually dimensionality reduction in this case would ask for autoencoder architecture.
+
+Yet training encoder + decoder from 4 dimensions to 1024 dimensions of mxbai-embed-large-v1 which was chosen as a target context embedder is too expensive for each word (say, we want to have 30k words in miniCOIl vocab) for each input transformer of choice (we don’t want to stop on jina-small, in an ideal scenario).
+
+So we embed target sentences as-is with mxbai-embed-large-v1 only once (and store them in Qdrant, obviously).
+
+And instead of learning encoder through decoder, we directly learn to align spatial relations (based on a Cosine Distance) of compressed representations based on [triplet loss](https://qdrant.tech/articles/triplet-loss/) guided by our target.
+
+Basically, we use the confidence of a big model (margin between positive and negative examples) & it’s knowledge (what’s positive and what’s negative compared to anchor) to tune our downprojection.
+
+![minicoil-training](/articles_data/minicoil/minicoil-training.png)
+
+### Architecture & Training details
+
+For ones interested, maybe hide
+
+#### Encoder
+
+512 x 4 + Tahn (TBD Picture)
+
+#### miniCOIL vocab
+List of 30k commonly used words (after cleaning it out of stop words and 1-2 letter words + stemming)
+Fun Fact: Firstly he tried to generate them with ChatGPT, aka “give me 30000 most frequently used english words”. ChatGPT generated a file with:
+“Word_1
+Word_2
+…
+Word_30000”
+#### Target data
+https://paperswithcode.com/dataset/openwebtext a subset of OpenWebText dataset, split into sentences. In the end we had 40 mln sentences, all uploaded to Qdrant with their mxbai-large embeddings and full text word index on sentences, so it’s easy to sample training data per word.
+
+How many sentences do we sample per training a word stem? 8000, random sampled. We calculate a cosine distance matrix between them, and sample from it triplets for a triplet loss (anchor, positive, negative) with a margin of at least 0.1
+
+Additionally we apply augmentation – we take a sentence and cut a target word + 1-3 (randomly chosen number) words around it, forming a new sentence. We use the same similarity score between original and augmented sentences for simplicity. This augmentation allows us to train miniCOIL to grasp context better (in big sentences it gets blended out).
+
+#### Input Data
+The same sentences, we filter them based on a word from the train vocabulary and generate this word’s contextualized embedding (in a sentence) as input.
+
+#### Parameters
+Epoches - 60
+Trained on 1 CPU (!!! – so super cheap to train!) – takes 50 seconds per word;
+Optimizer - Adam (1e-4)
+Validation - 20%
+
+## Results
+
+#### Validation Loss
+
+Theoretical difference between the small transformer (jina-small) and the “role model” transformer (mixbread-large) is 83% (in 17% jina will make a mistake in distinguishing positive and negative examples in relation to anchor)
+
+Our validation loss gets very close to this number – cc https://github.com/qdrant/miniCOIL/pull/7#issuecomment-2585474300 
+
+### Demo
+https://minicoil.qdrant.tech/ here is the demo. It uses miniCOIL vectors, projecting onto 2D first 2 [0-1] and second two [2-3] coordinates of them.
+
+### Benchmarks
+We’re running miniCOIL versus BM25 (our implementation) on the BEIR benchmark.
+k = 1.2, b = 0.75 (bm25 defaults), avg_len estimated on 50k documents of a dataset.
+
+The main goal was to check on msmarco (it’s the biggest one). It’s important to note that all sparse neural retrieval models are usually trained end-to-end on msmarco, and miniCOIL is not, our goal was to make it as least domain- and dataset-dependent as possible.
+
+BM25 NDCG@10 MsMarco 0.237
+MiniCOIL NDCG@10 MsMarco 0.244
+
+miniCOIL performs a little better, which shows that we’re moving in the right direction with our research, dealing successfully with cons of sparse neural retrieval without being domain-dependent
+
+### miniCOIL strengths
+
+1. Allow people to use transformers of their choice, which they will (regardless) use for inference in hybrid search, to cover the dense part of it. miniCOIL should be trained per transformer.
+2. Simple architecture, where 1 word – 1 uber small trainable model, leads to EXTREMELY fast inference (and also super fast training) & it doesn’t weigh too much. And EXTREMELY fast and cheap training - 1 CPU 50 seconds per word.
+3. No dependency on relevance objective (if document is relevant or irrelevant to the query), we don’t need labelled data for training – so (1) we can find a lot of training data (2) avoid risk of overfitting to a domain, as most sparse retrievers do with MsMarco dataset
+4. This 1 word = 1 model allows for flexibility: you want to extend vocabulary of words, usable by miniCOIL, for your particular dataset – just train it for unknown words, don’t have to redo all the training.
+
+### What's next?
+
+link to repo
+More transformers
