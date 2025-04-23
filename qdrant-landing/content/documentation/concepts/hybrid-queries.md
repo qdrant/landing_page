@@ -117,7 +117,7 @@ Taking the documentation example, the request would look like this:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-tags/" >}}
 
-There are multiple expressions available, check the [API docs for specific details](https://api.qdrant.tech/v-1-13-x/api-reference/search/query-points#request.body.query.Query%20Interface.Query.Formula%20Query.formula).
+There are multiple expressions available, check the [API docs for specific details](https://api.qdrant.tech/v-1-14-x/api-reference/search/query-points#request.body.query.Query%20Interface.Query.Formula%20Query.formula).
 - **constant** - A floating point number. e.g. `0.5`.
 - `"$score"` - Reference to the score of the point in the prefetch. This is the same as `"$score[0]"`.
 - `"$score[0]"`, `"$score[1]"`, `"$score[2]"`, ... - When using multiple prefetches, you can reference specific prefetch with the index within the array of prefetches.
