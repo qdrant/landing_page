@@ -262,6 +262,6 @@ In **Qdrant Cloud**, simply go to your **Cluster Details** screen and select **V
 
 #### Join the Discussion!
 
-**We'd love to hear your feedback:** If you have questions or want to share your experience, join our [**Discord**](https://qdrant.to/join-slack) or open an issue on [**GitHub**](https://github.com/qdrant/qdrant/issues).
+**We'd love to hear your feedback:** If you have questions or want to share your experience, join our [**Discord**](https://discord.gg/qdrant) or open an issue on [**GitHub**](https://github.com/qdrant/qdrant/issues).
 
 ![community](/blog/qdrant-1.14.x/community.jpg)
