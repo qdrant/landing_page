@@ -1,0 +1,19 @@
+{{ with (.Site.GetPage "/legal-tech/legal-tech-challengers") }}
+  <section class="legal-tech-challengers">
+    <div class="container">
+      <h3 class="legal-tech-challengers__title">{{ .Params.title }}</h3>
+      <div class="legal-tech-challengers__cards row justify-content-lg-between g-4 g-lg-6">
+        {{ range .Params.cards }}
+          <div class="col-12 col-lg-4">
+            <div class="legal-tech-challengers__card">
+              <img class="legal-tech-challengers__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h3 class="legal-tech-challengers__card-title">{{ .title }}</h3>
+              <p class="legal-tech-challengers__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
+

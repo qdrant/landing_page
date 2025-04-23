@@ -1,0 +1,6 @@
+@use '../helpers/functions' as *;
+@use '../mixins/get-contacted' as get-contacted;
+
+.legal-tech-get-contacted {
+  @include get-contacted.base($spacer * 5, $spacer * 2.5, 0, 0, pxToRem(300));
+}
