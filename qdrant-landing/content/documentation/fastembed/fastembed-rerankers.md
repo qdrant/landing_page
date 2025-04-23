@@ -142,7 +142,7 @@ Alternatively, you can use [a free cluster](https://qdrant.tech/documentation/cl
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(":memory:") # Qdrant is running from RAM.
+client = QdrantClient(":memory:")  # Qdrant is running from RAM.
 ```
 
 Let's create a [collection](https://qdrant.tech/documentation/concepts/collections/) with our movie data.
@@ -152,7 +152,7 @@ client.create_collection(
     collection_name="movies",
     vectors_config={
         "embedding": models.VectorParams(
-            size=384, #size of `all-MiniLM-L6-v2` embeddings
+            size=384,  # size of `all-MiniLM-L6-v2` embeddings
             distance=models.Distance.COSINE
         )
     }
@@ -260,10 +260,10 @@ We can see that the description of *"The Messenger: The Story of Joan of Arc"*, 
 Let's try refining the order of the retrieved subset with `Jina Reranker v2`. It takes a query and a set of documents (movie descriptions) as input and calculates a relevance score based on token-level interactions between the query and each document.
 
 ```python
-new_scores = list(reranker.rerank(query, description_hits)) #returns scores between query and each document
+new_scores = list(reranker.rerank(query, description_hits))  # returns scores between query and each document
 
-ranking = [(i, score) for i, score in enumerate(new_scores)] #saving document indices
-ranking.sort(key=lambda x: x[1], reverse=True) #sorting them in order of relevance defined by reranker
+ranking = [(i, score) for i, score in enumerate(new_scores)]  # saving document indices
+ranking.sort(key=lambda x: x[1], reverse=True)  # sorting them in order of relevance defined by reranker
 
 for i, rank in enumerate(ranking):
     print(f'''Reranked result number {i+1} is \"{description_hits[rank[0]]}\"''')
