@@ -1,8 +1,8 @@
 ---
-title: "Building a Hotel Search App with Superlinked's Multimodal Vector Embeddings"
+title: "Multimodal Vector Search: Building a Hotel Booking App with Superlinked and Qdrant"
 draft: false
-short_description: "Transform hotel search with multi-modal vector embeddings, combining text, price, ratings, and amenities for intelligent results."
-description: "Discover how multimodal vector search revolutionizes hotel discovery by understanding complex queries with text, numerical, and categorical data."
+short_description: "Combine Superlinked's multimodal embeddings with Qdrant's high-performance vector database for intelligent hotel search."
+description: "Discover how Superlinked and Qdrant work together to deliver a scalable, intelligent multimodal hotel search experience prioritizing both embedding quality and fast retrieval."
 preview_image: /blog/superlinked-multimodal-search/social_preview.png
 social_preview_image: /blog/superlinked-multimodal-search/social_preview.png
 date: 2025-04-03T00:00:00-08:00
@@ -31,12 +31,13 @@ Let's say you're trying to book a hotel in Paris, and you have some specific cri
 
 > In this blog, we'll show you how we built [**The Hotel Search Demo**](https://hotel-search-recipe.superlinked.io/). 
 
-**Figure 1:** Vectors for this app are generated via Superlinked and stored in Qdrant.
+**Figure 1:** Superlinked generates the multimodal vectors which are indexed and served by Qdrant for fast, accurate hotel search.
 ![superlinked-hotel-search](/blog/superlinked-multimodal-search/superlinked-hotel-search.png)
 
 What makes this app particularly powerful is how it breaks down your natural language query into precise parameters. As you type your question at the top, you can observe the query parameters dynamically update in the left sidebar.
 
 In this blog, we'll show you how Qdrant and Superlinked combine **textual understanding**, **numerical reasoning**, and **categorical filtering** to create a seamless search experience that meets modern user expectations.
+
 
 ## Core Components
 
@@ -44,11 +45,20 @@ In this blog, we'll show you how Qdrant and Superlinked combine **textual unders
 
 ![superlinked-architecture](/blog/superlinked-multimodal-search/superlinked-architecture.png)
 
-Then, a user query is also embedded and sent as a query vector to the engine for nearest neighbour retrieval. The result is a top-k similar or exact response.
+Superlinked makes search smarter by embedding data into specialized "spaces" designed for each type of attribute, rather than using a single embedding method for everything. For example, this ensures that "50" is properly understood as halfway between "0" and "100".
+
+When a user queries "Affordable luxury hotels near Eiffel Tower with good reviews and free parking," Superlinked uses an LLM to do natural query understanding and set weights. These weights determine:
+- Preference direction (negative for lower values, positive for higher values).
+- Preference strength (higher numbers have stronger influence).
+- Balance between different attributes (e.g., price_weight: -1.0 and rating_weight: 1.0 are balanced).
+
+This flexibility with weights allows users to rapidly iterate, experiment, and implement business logic or context much faster than rebuilding entire search systems from scratch. Superlinked then applies mandatory hard filters to narrow results, then ranks them using weighted K-Nearest Neighbors (KNN) search, providing nuanced, accurate results tailored to user preferences. All vectors are stored in Qdrant.
 
 **SuperLinked Framework Setup:** Once you [**setup the Superlinked server**](https://github.com/superlinked/superlinked-recipes/tree/main/projects/hotel-search), most of the prototype work is done right out of the [**sample notebook**](https://github.com/superlinked/superlinked-recipes/blob/main/projects/hotel-search/notebooks/superlinked-queries.ipynb). Once ready, you can host from a GitHub repository and deploy via Actions. 
 
 **Qdrant Vector Database:** The easiest way to store vectors is to [**create a free Qdrant Cloud cluster**](https://cloud.qdrant.io/login). We have simple docs that show you how to [**grab the API key**](/documentation/quickstart-cloud/) and upsert your new vectors and run some basic searches. For this demo, we have deployed a live Qdrant Cloud cluster.
+
+**OpenAI API Key:** For natural language queries and generating the weights you will need an OpenAI API key
 
 ### 1. Vector Spaces: The Building Blocks of Intelligent Search
 ![superlinked-hotel-1](/blog/superlinked-multimodal-search/superlinked-hotel-1.jpg)
@@ -93,7 +103,7 @@ What makes this powerful is that each space properly preserves the semantic rela
 
 **Prices** are embedded to maintain their proportional relationships, **Text** embeddings capture semantic meanings, **Ratings** preserve their relative quality indicators, and the **Ratings Count** uses logarithmic scaling to properly weight the significance of review volume.
 
-### 2. Multimodal Vector Search: The Full Picture
+### Multimodal Vector Search: The Full Picture
 
 Traditional users see vector search as typically just text-based. Both **Qdrant and Superlinked transcend this limitation** by supporting a rich multimodal search environment where different data types collaborate rather than compete. For our hotel demo, this means:
 
@@ -118,6 +128,7 @@ index = sl.Index(
     fields=[hotel_schema.city, hotel_schema.amenities, ...]
 )
 ```
+If you want to have a deeper understanding of the algorithm and how multi vector embeddings work, you can have a read in-depth in our [article.](https://links.superlinked.com/multi_attribute_search_qd)
 
 ### 3. Intelligent Query Processing: From Natural Language to Results
 
@@ -182,15 +193,54 @@ The hotel search demo showcases this vision in action, a glimpse into a future w
 
 ## Hosting the Demo
 
-FILIP - WE NEED TO SHOW PEOPLE HOW TO HOST IN YOUR REPO
+Use [`superlinked_app/.env-example`](./superlinked_app/.env-example) as a template, create `superlinked_app/.env` and set `OPENAI_API_KEY` required for Natural Query Interface, `QDRANT_URL` and `QDRANT_API_KEY` required for Qdrant Vector Database.
+
+```shell
+python3.11 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+APP_MODULE_PATH=superlinked_app python -m superlinked.server
+```
+
+It will take some time (depending on the network) to download the sentence-transformers model for the very first time.
+
+API docs will be available at [localhost:8080/docs](http://localhost:8080/docs).
+
+To ingest the dataset, run this command in your terminal:
+```shell
+curl -X 'POST' \
+  'http://localhost:8080/data-loader/hotel/run' \
+  -H 'accept: application/json' \
+  -d ''
+```
+Please wait until the ingestion is finished. You will see the message.
+
+#### Inspecting Collections in Qdrant Cloud Dashboard
+
+Once your Superlinked vectors are ingested, log in to the Qdrant Cloud dashboard to:
+- Navigate to **Collections** and select your `defaul` hotel collection.
+- Browse individual points under the **Data** tab to view payload metadata (price, rating, amenities) alongside their raw vector embeddings.
+- Use the **Search** tab to run real-time KNN queries or apply metadata filters and observe how Superlinked's weighting impacts results.
+- Monitor performance metrics (throughput, latency) and storage usage in the **Insights** section.
+- Configure autoscaling, backups, and snapshots under **Qdrant Cloud Dashboard** to keep your service reliable and cost-efficient.
+
+### Streamlit frontend
+
+```shell
+cd frontend_app
+python3.11 -m venv .venv-frontend
+. .venv-frontend/bin/activate
+pip install -e .
+python -m streamlit run app/frontend/main.py
+```
+
+The Streamlit UI will be available at [localhost:8501](http://localhost:8501).
+
+## Need superlinked for your larger scale projects ?
+
+With `superlinked cli` you will be able to run a superlinked application at scale with components such as batch processing engine, logging and more. For more details contact the superlinked team at: [superlinked.com](https://superlinked.typeform.com/to/LXMRzHWk?typeform-source=hotel-search-recipe).
 
 ![superlinked-localhost](/blog/superlinked-multimodal-search/superlinked-localhost.png)
-
-## Watch the Video
-
-As usual, we prepared a video recording of the talk, so you can watch it at your convenience:
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/WIBtZa7mcCs?si=7PrL0B74kRZK_BFC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Materials
 
@@ -200,3 +250,4 @@ As usual, we prepared a video recording of the talk, so you can watch it at your
 - [Qdrant Documentation](https://qdrant.tech/documentation)
 - [Qdrant Cloud](https://cloud.qdrant.io)
 - [Qdrant Discord Community](https://discord.gg/qdrant)
+
