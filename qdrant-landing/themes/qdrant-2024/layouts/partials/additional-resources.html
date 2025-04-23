@@ -4,19 +4,18 @@
       <h2 class="additional-resources__title">{{ .Params.title }}</h2>
       <div class="additional-resources__cards row">
         {{ range .Params.resourceCards }}
-          <div class="additional-resources__card col-12 col-md-6 col-xl-3 gy-3 gy-xl-0">
+          <a href="{{ .link.url }}" class="additional-resources__card col-12 col-md-6 col-xl-3 gy-3 gy-xl-0">
             <div class="additional-resources__card-info">
               <div>
                 {{ .icon | safeHTML }}
                 <h6 class="additional-resources__card-title">{{ .title }}</h6>
                 <p class="additional-resources__card-content">{{ .content }}</p>
               </div>
-              <a class="additional-resources__card-link" href="{{ .link.url }}">
-                <span>{{ .link.text }}</span>
-                <span>{{ partial "svg" "arrow-right-white.svg" }}</span>
-              </a>
+              <span class="link link_white link_md additional-resources__card-link">
+                {{ .link.text }}
+              </span>
             </div>
-          </div>
+          </a>
         {{ end }}
       </div>
     </div>

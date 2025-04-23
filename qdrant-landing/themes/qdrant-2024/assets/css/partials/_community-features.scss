@@ -39,6 +39,12 @@
       align-self: center;
       margin-top: $spacer * 1.5;
     }
+
+    &:hover {
+      .community-features__resources-card-title {
+        color: $primary-50;
+      }
+    }
   }
 
   &__resources-cards {
@@ -84,6 +90,11 @@
 
     &-link {
       @include mixins.link-color($neutral-20);
+    }
+    &:hover {
+      .community-features__card-title {
+        color: $primary-50;
+      }
     }
   }
 

@@ -26,14 +26,14 @@
       <div class="row g-4 gy-md-3">
         {{ range $index, $element := .Params.features }}
           <div class="col-12 col-md-6 {{ if or (eq $index 3) (eq $index 4) }}col-xl-6{{ else }}col-xl-4{{ end }}">
-            <div class="card use-cases-vector-features__card">
+            <a href="{{ .link.url }}" class="card use-cases-vector-features__card">
               <img class="use-cases-vector-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
               <h6 class="use-cases-vector-features__card-title">{{ .title }}</h6>
               <p class="use-cases-vector-features__card-description">{{ .description }}</p>
-              <a class="use-cases-vector-features__card-link link link_md align-self-start" href="{{ .link.url }}">
+              <span class="use-cases-vector-features__card-link link link_md align-self-start">
                 {{ .link.text }}
-              </a>
-            </div>
+              </span>
+            </a>
           </div>
         {{ end }}
       </div>

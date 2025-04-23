@@ -5,14 +5,14 @@
       <div class="advanced-search-use-cases__cards row g-4">
         {{ range .Params.features }}
           <div class="col-12 col-md-6 col-xl-4">
-            <div class="card advanced-search-use-cases__card">
+            <a href="{{ .link.url }}" class="card advanced-search-use-cases__card">
               <img class="advanced-search-use-cases__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
               <h6 class="advanced-search-use-cases__card-title">{{ .title }}</h6>
               <p class="advanced-search-use-cases__card-description">{{ .description }}</p>
               <div class="advanced-search-use-cases__card-link">
-                <a class="link link_md" href="{{ .link.url }}">{{ .link.text }}</a>
+                <span class="link link_md">{{ .link.text }}</span>
               </div>
-            </div>
+            </a>
           </div>
         {{ end }}
       </div>

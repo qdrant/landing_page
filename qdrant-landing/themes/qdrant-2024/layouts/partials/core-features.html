@@ -10,27 +10,27 @@
           </div>
         </div>
         <div class="col-12">
-          <div class="card core-features__cloud-native">
+          <a href="{{ .Params.cloudFeature.link.url }}" class="card core-features__cloud-native">
             <div>
               <h4 class="core-features__card-title">{{ .Params.cloudFeature.title }}</h4>
               <p class="core-features__card-content">{{ .Params.cloudFeature.content }}</p>
-              <a class="link link_dark link_md" href="{{ .Params.cloudFeature.link.url }}">
+              <span class="link link_dark link_md">
                 {{ .Params.cloudFeature.link.text }}
-              </a>
+              </span>
             </div>
             <div class="core-features__cloud-native-image"></div>
-          </div>
+          </a>
         </div>
         {{ range .Params.featureCards }}
           <div class="col-12 col-xl-4">
-            <div class="card core-features__card">
+            <a href="{{ .link.url }}" class="card core-features__card">
               <div>
                 {{ .icon | safeHTML }}
                 <h6 class="core-features__card-title">{{ .title }}</h6>
                 <p class="core-features__card-content">{{ .content }}</p>
               </div>
-              <a class="link link_dark link_md align-self-start" href="{{ .link.url }}"> {{ .link.text }} </a>
-            </div>
+              <span class="link link_dark link_md align-self-start"> {{ .link.text }} </span>
+            </a>
           </div>
         {{ end }}
       </div>
