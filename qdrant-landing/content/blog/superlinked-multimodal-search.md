@@ -194,7 +194,7 @@ The hotel search demo showcases this vision in action, a glimpse into a future w
 
 ## How to Build the App
 
-For more details, [check out the documentation](https://github.com/superlinked/hotel-search-recipe-qdrant).
+For more details, [check out the repository](https://github.com/superlinked/hotel-search-recipe-qdrant).
 
 Otherwise, you can clone the app:
 
@@ -238,7 +238,7 @@ You can browse individual points under the **Data** tab to view payload metadata
 
 ![collection-information](/blog/superlinked-multimodal-search/collection-information.png)
 
-In the **Collection Infromation** section, you can use the **Search** tab to run real-time KNN queries or apply metadata filters. In the **Search Quality** section, you can also monitor performance metrics (throughput, latency).
+In the **Collection Infromation** section, you can use the **Search** tab to apply metadata filters or search by vector. In the **Search Quality** section, you can also monitor performance metrics (throughput, latency).
 
 When scaling up your app, go back to **Qdrant Cloud Dashboard** to configure autoscaling, backups, and snapshots. These options will keep your service reliable and cost-efficient.
 
