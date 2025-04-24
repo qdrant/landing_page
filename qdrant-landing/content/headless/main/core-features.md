@@ -24,7 +24,7 @@ featureCards:
     content: Dramatically reduce memory usage with built-in compression options and offload data to disk.
     link:
       text: Quantization
-      url: /articles/scalar-quantization/
+      url: /documentation/guides/quantization/
   - id: 2
     icon: <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M28 28H20V46H28V28Z" stroke="url(#paint0_linear_1651_8186)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 38H2V46H10V38Z" stroke="url(#paint1_linear_1651_8186)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 18H38V46H46V18Z" stroke="url(#paint2_linear_1651_8186)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 18L16 8L24 16L38 2" stroke="#DC244C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 2H38V11" stroke="#DC244C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="paint0_linear_1651_8186" x1="24" y1="28" x2="24" y2="46" gradientUnits="userSpaceOnUse"><stop stop-color="#717C99"/><stop offset="1" stop-color="#161E33"/></linearGradient><linearGradient id="paint1_linear_1651_8186" x1="6" y1="38" x2="6" y2="46" gradientUnits="userSpaceOnUse"><stop stop-color="#717C99"/><stop offset="1" stop-color="#161E33"/></linearGradient><linearGradient id="paint2_linear_1651_8186" x1="42" y1="18" x2="42" y2="46" gradientUnits="userSpaceOnUse"><stop stop-color="#717C99"/><stop offset="1" stop-color="#161E33"/></linearGradient></defs></svg>
     title: Rust-Powered Reliability & Performance

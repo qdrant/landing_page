@@ -20,7 +20,7 @@ features:
   description: Basic RAG pipeline with Qdrant and OpenAI SDKs.
   link:
     text: Learn More
-    url: /articles/food-discovery-demo/
+    url: /documentation/examples/rag-chatbot-scaleway/
 caseStudy:
   logo:
     src: /img/retrieval-augmented-generation-use-cases/customer-logo.svg
