@@ -4,7 +4,7 @@ title: DeepEval
 
 # DeepEval
 
-[DeepEval](https://docs.confident-ai.com) by Confident AI is an open-source framework for testing large language model systems. Similar to Pytest but designed for LLM outputs, it evaluates metrics like G-Eval, hallucination, answer relevancy.
+[DeepEval](https://deepeval.com) by Confident AI is an open-source framework for testing large language model systems. Similar to Pytest but designed for LLM outputs, it evaluates metrics like G-Eval, hallucination, answer relevancy.
 
 DeepEval can be integrated with Qdrant to evaluate RAG pipelines — ensuring your LLM applications return relevant, grounded, and faithful responses based on retrieved vector search context.
 
@@ -29,7 +29,7 @@ DeepEval offers a suite of metrics to evaluate various aspects of LLM outputs, i
 - **Bias**: Evaluates the output for any unintended biases.
 - **Summarization**: Measures the quality and accuracy of generated summaries.
 
-For a comprehensive list and detailed explanations of all available metrics, please refer to the [DeepEval metrics reference](https://docs.confident-ai.com/docs/metrics-introduction).
+For a comprehensive list and detailed explanations of all available metrics, please refer to the [DeepEval metrics reference](https://deepeval.com/docs/metrics-introduction).
 
 ## Using Qdrant with DeepEval
 
@@ -83,4 +83,4 @@ You can scale this process with a dataset (e.g. from Hugging Face) and evaluate 
 ## Further Reading
 
 - [End-to-end Evalutation Example](https://github.com/qdrant/qdrant-rag-eval/blob/master/workshop-rag-eval-qdrant-deepeval/notebook/rag_eval_qdrant_deepeval.ipynb)
-- [Confident AI documentation](https://docs.confident-ai.com)
+- [DeepEval documentation](https://deepeval.com)
