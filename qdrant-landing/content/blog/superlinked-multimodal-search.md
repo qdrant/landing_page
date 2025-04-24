@@ -204,7 +204,7 @@ The backend is located under `superlinked_app`, while the frontend has to be bui
 
 ### Deploy the Backend
 
-Use [`superlinked_app/.env-example`](./superlinked_app/.env-example) as a template, create `superlinked_app/.env` and set `OPENAI_API_KEY` required for Natural Query Interface, `QDRANT_URL` and `QDRANT_API_KEY` required for Qdrant Vector Database.
+Use `superlinked_app/.env-example` as a template, create `superlinked_app/.env` and set `OPENAI_API_KEY` required for Natural Query Interface, `QDRANT_URL` and `QDRANT_API_KEY` required for Qdrant Vector Database.
 
 ```shell
 python3.11 -m venv .venv
