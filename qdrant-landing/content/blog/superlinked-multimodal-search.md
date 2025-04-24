@@ -5,7 +5,7 @@ short_description: "Combine Superlinked's multimodal embeddings with Qdrant's hi
 description: "Discover how Superlinked and Qdrant work together to deliver a scalable, intelligent hotel search experience prioritizing both embedding quality and fast retrieval."
 preview_image: /blog/superlinked-multimodal-search/social_preview.png
 social_preview_image: /blog/superlinked-multimodal-search/social_preview.png
-date: 2025-04-03T00:00:00-08:00
+date: 2025-04-24T00:00:00-08:00
 author: Filip Makraduli, David Myriel
 featured: true
 tags:
