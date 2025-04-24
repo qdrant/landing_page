@@ -204,7 +204,7 @@ Then, we use the confidence of a big model (margin between positive and negative
 
 ![minicoil-training](/articles_data/minicoil/minicoil-training.png)
 
-### Realization Details 
+#### Realization Details 
 
 TBD : make it probably into a table with specs
 
