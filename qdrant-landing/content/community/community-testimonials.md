@@ -35,13 +35,13 @@ testimonials:
   avatar:
     src: /img/customers/sengpt.svg
     alt: Avatar
-  text: Thank you, Qdrant is awesome
+  text: Qdrant is awesome
 - id: 4
-  name: Owen Colegrove
-  nickname: "@ocolegro"
+  name: Charlie Greenman
+  nickname: "@razroo_chief"
   avatar:
-    src: /img/customers/owen-colegrove.svg
+    src: /img/customers/chalie-greenman.png
     alt: Avatar
-  text: that sounds good to me, big fan of qdrant.
+  text: I am so inspired by Qdrant's performance. It is simply off the charts. How they do such a complex operation in under 100ms is exceptional. I've never witnessed first hand a tool like it.
 sitemapExclude: true
 ---
