@@ -1,8 +1,8 @@
 ---
-title: "Multimodal Vector Search: Building a Hotel Booking App with Superlinked and Qdrant"
+title: "Beyond Multimodal Vector Search: Building a Hotel Booking App with Superlinked and Qdrant"
 draft: false
 short_description: "Combine Superlinked's multimodal embeddings with Qdrant's high-performance vector database for intelligent hotel search."
-description: "Discover how Superlinked and Qdrant work together to deliver a scalable, intelligent multimodal hotel search experience prioritizing both embedding quality and fast retrieval."
+description: "Discover how Superlinked and Qdrant work together to deliver a scalable, intelligent hotel search experience prioritizing both embedding quality and fast retrieval."
 preview_image: /blog/superlinked-multimodal-search/social_preview.png
 social_preview_image: /blog/superlinked-multimodal-search/social_preview.png
 date: 2025-04-03T00:00:00-08:00
@@ -21,7 +21,7 @@ tags:
   - innovation
 ---
 
-## Why Multimodal Search?
+## More Than Just Multimodal Search? 
 AI has transformed how we find products, services, and content. Now users express needs in **natural language** and expect precise, tailored results.
 
 For example, you might search for hotels in Paris with specific criteria:
@@ -32,7 +32,7 @@ For example, you might search for hotels in Paris with specific criteria:
 
 > In this blog, we'll show you how we built [**The Hotel Search Demo**](https://hotel-search-recipe.superlinked.io/). 
 
-**Figure 1:** Superlinked generates the multimodal vectors which are indexed and served by Qdrant for fast, accurate hotel search.
+**Figure 1:** Superlinked generates vectors of different modalities which are indexed and served by Qdrant for fast, accurate hotel search.
 ![superlinked-hotel-search](/blog/superlinked-multimodal-search/superlinked-hotel-search.png)
 
 What makes this app particularly powerful is how it breaks down your natural language query into precise parameters. As you type your question at the top, you can observe the query parameters dynamically update in the left sidebar.
@@ -46,14 +46,14 @@ In this blog, we'll show you how Qdrant and Superlinked combine **textual unders
 
 ![superlinked-architecture](/blog/superlinked-multimodal-search/superlinked-architecture.png)
 
-Superlinked makes search smarter by embedding data into specialized "spaces" designed for each type of attribute, rather than using a single embedding method for everything. For example, this ensures that "50" is properly understood as halfway between "0" and "100".
+Superlinked makes search smarter by embedding data into specialized "spaces" designed for each type of attribute, rather than using a single embedding method for everything.
 
 When a user queries **"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking"**, Superlinked uses an LLM to do natural query understanding and set weights. These weights determine:
 - Preference direction (negative for lower values, positive for higher values).
 - Preference strength (higher numbers have stronger influence).
 - Balance between different attributes (e.g., price_weight: -1.0 and rating_weight: 1.0 are balanced).
 
-This flexibility with weights allows users to rapidly iterate, experiment, and implement business logic or context much faster than rebuilding entire search systems from scratch. Superlinked then applies mandatory hard filters to narrow results, then ranks them using weighted K-Nearest Neighbors (KNN) search, providing nuanced, accurate results tailored to user preferences. All vectors are stored in Qdrant.
+This flexibility with weights allows users to rapidly iterate, experiment, and implement business logic or context much faster than rebuilding entire search systems from scratch. Superlinked then applies mandatory hard filters to narrow results, then ranks them using weighted nearest neighbors search, providing nuanced, accurate results tailored to user preferences. All vectors are stored in Qdrant.
 
 **SuperLinked Framework Setup:** Once you [**setup the Superlinked server**](https://github.com/superlinked/superlinked-recipes/tree/main/projects/hotel-search), most of the prototype work is done right out of the [**sample notebook**](https://github.com/superlinked/superlinked-recipes/blob/main/projects/hotel-search/notebooks/superlinked-queries.ipynb). Once ready, you can host from a GitHub repository and deploy via Actions. 
 
@@ -104,9 +104,9 @@ What makes this powerful is that each space properly preserves the semantic rela
 
 **Prices** are embedded to maintain their proportional relationships, **Text** embeddings capture semantic meanings, **Ratings** preserve their relative quality indicators, and the **Ratings Count** uses logarithmic scaling to properly weight the significance of review volume.
 
-### 2. Multimodal Vector Search: The Full Picture
+### 2. Beyond Multimodal Vector Search: The Full Picture
 
-Traditional users see vector search as typically just text-based. Both **Qdrant and Superlinked transcend this limitation** by supporting a rich multimodal search environment where different data types collaborate rather than compete. For our hotel demo, this means:
+Both **Qdrant and Superlinked** support a rich multimodal search environment where different data types collaborate rather than compete. For our hotel demo, this means:
 
 - **Text descriptions** are embedded using state-of-the-art language models that understand semantics.
 - **Prices use** logarithmic scaling to properly handle a wide ranges of values.
@@ -188,8 +188,6 @@ This unified approach maintains the semantic relationships of all attributes in 
 
 The result is a search experience that feels intuitive and "just works" - whether users are looking for "pet-friendly boutique hotels with good reviews near the city center" or "affordable family suites with pool access in resort areas" - because the system understands both the semantics and the relationships between different attributes of what users are asking for.
 
-> As search expectations continue to evolve, this multimodal and multidimensional hybrid search approach represents not just an incremental improvement but a fundamental rethinking of how search should work. 
-
 The hotel search demo showcases this vision in action, a glimpse into a future where search understands not just the words we use, but the complex, nuanced preferences they represent.
 
 ## How to Build the App
@@ -238,7 +236,7 @@ You can browse individual points under the **Data** tab to view payload metadata
 
 ![collection-information](/blog/superlinked-multimodal-search/collection-information.png)
 
-In the **Collection Infromation** section, you can use the **Search** tab to apply metadata filters or search by vector. In the **Search Quality** section, you can also monitor performance metrics (throughput, latency).
+In the **Collection Information** section, you can use the **Search** tab to apply metadata filters or search by vector. In the **Search Quality** section, you can also monitor performance metrics (throughput, latency).
 
 When scaling up your app, go back to **Qdrant Cloud Dashboard** to configure autoscaling, backups, and snapshots. These options will keep your service reliable and cost-efficient.
 
@@ -256,9 +254,9 @@ The Frontend UI will be available at [localhost:8501](http://localhost:8501).
 
 #### Superlinked CLI 
 
-> **Note:** If you need Superlinked for larger scale projects, you can use `superlinked cli`.
+> **Note:** If you need Superlinked for larger scale projects, you can use **Superlinked Cloud**.
 
-With it, you will be able to run a Superlinked application at scale with components such as batch processing engine, logging and more. For more details contact the Superlinked team at: [superlinked.com](https://superlinked.typeform.com/to/LXMRzHWk?typeform-source=hotel-search-recipe).
+With 'superlinked cli', you will be able to run a Superlinked application at scale with components such as batch processing engine, logging and more. For more details contact the Superlinked team at: [superlinked.com](https://superlinked.typeform.com/to/LXMRzHWk?typeform-source=hotel-search-recipe).
 
 ## Materials
 
