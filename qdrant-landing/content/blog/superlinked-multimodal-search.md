@@ -1,8 +1,8 @@
 ---
-title: "Beyond Multimodal Vector Search: Building a Hotel Booking App with Superlinked and Qdrant"
+title: "Beyond Multimodal Vectors: Hotel Search With Superlinked and Qdrant"
 draft: false
 short_description: "Combine Superlinked's multimodal embeddings with Qdrant's high-performance vector database for intelligent hotel search."
-description: "Discover how Superlinked and Qdrant work together to deliver a scalable, intelligent hotel search experience prioritizing both embedding quality and fast retrieval."
+description: "Build a scalable & smart search experience with quality embeddings and fast retrieval."
 preview_image: /blog/superlinked-multimodal-search/social_preview.png
 social_preview_image: /blog/superlinked-multimodal-search/social_preview.png
 date: 2025-04-24T00:00:00-08:00
