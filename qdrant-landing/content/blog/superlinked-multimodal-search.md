@@ -7,7 +7,7 @@ preview_image: /blog/superlinked-multimodal-search/social_preview.png
 social_preview_image: /blog/superlinked-multimodal-search/social_preview.png
 date: 2025-04-24T00:00:00-08:00
 author: Filip Makraduli, David Myriel
-featured: true
+featured: false
 tags:
   - vector search
   - vector database
