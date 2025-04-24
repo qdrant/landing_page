@@ -38,6 +38,14 @@ from testcontainers.qdrant import QdrantContainer
 qdrant_container = QdrantContainer("qdrant/qdrant").start()
 ```
 
+```csharp
+var qdrantContainer = new QdrantBuilder()
+  .WithImage("qdrant/qdrant")
+  .Build();
+
+await qdrantContainer.StartAsync();
+```
+
 Testcontainers modules provide options/methods to configure ENVs, volumes, and virtually everything you can configure in a Docker container.
 
 ## Further reading
