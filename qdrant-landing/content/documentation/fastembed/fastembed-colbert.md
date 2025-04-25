@@ -225,9 +225,9 @@ qdrant_client.upload_points(
         models.PointStruct(
             id=idx,
             payload=metadata[idx],
-            vector=description_documents[idx]
+            vector=description_document
         )
-        for idx, vector in enumerate(descriptions_embeddings)
+        for idx, description_document in enumerate(description_documents)
     ],
 )
 ```
