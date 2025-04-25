@@ -12,11 +12,11 @@ category: vector-search-manuals
 
 # The Anatomy of a Qdrant Collection
 
-In Qdrant, a **collection** defines both the structure of your data and how that data is indexed, stored, and searched. Every configuration choice matters. Vector structure, memory layout, indexing parameters, optimizer thresholds. Each one carries operational weight. These settings shape your system’s behavior across performance, accuracy, memory efficiency, fault tolerance, and scalability.
+In Qdrant, a **collection** defines both the structure of your data and how that data is indexed, stored, and searched. Every configuration choice matters: vector structure, memory layout, indexing parameters, optimizer thresholds—each carries operational weight. These settings shape your system's behavior in terms of performance, accuracy, memory efficiency, fault tolerance, and scalability.
 
-At small scale, defaults are fine. But as you scale with hybrid retrieval, multimodal inputs, millions of points, and latency-sensitive applications, *you need more control.* 
+At a small scale, the defaults are usually sufficient. However, as you scale up—incorporating hybrid retrieval, multimodal inputs, millions of points, and latency-sensitive applications—you need more control.
 
-If you’ve inspected a collection in production, you’ve probably seen something like this:
+If you've examined a collection in production, you might have seen something like this:
 
 ```json
 {
@@ -87,7 +87,7 @@ If you’ve inspected a collection in production, you’ve probably seen somethi
 
 Every field here has implications on performance, memory, latency, fault tolerance, indexing behavior, and more. 
 
-In this article, we’ll walk through each part of this configurations. What the settings mean. What happens if you leave them at default. What tradeoffs you’re implicitly making. And how to adjust them for your needs.
+In this article, we'll walk through each part of this configurations. What the settings mean. What happens if you leave them at default. What tradeoffs you're implicitly making. And how to adjust them for your needs.
 
 ## Vector Configurations
 
@@ -264,7 +264,7 @@ The key parameters that control HNSW behavior:
 | `max_indexing_threads` | 0 | Parallelism during indexing | 2-4 for multi-core systems; 1 for shared environments |
 | `payload_m` | Same as `m` | Connections optimized for payload filtering | Raise (32+) if you rely heavily on filtering; reduce if filters are minimal |
 
-Here’s a visual breakdown of what these parameters affect inside the HNSW graph:
+Here's a visual breakdown of what these parameters affect inside the HNSW graph:
 
 <img src="/articles_data/collection-config-guide/hnsw-parameters.png" width="600">
 
@@ -447,7 +447,7 @@ The optimizer in Qdrant is responsible for maintaining the internal health of yo
 
 <img src="/articles_data/collection-config-guide/optimization.svg" width="800">
 
-Unlike HNSW or quantization settings, optimizer parameters don’t affect the search algorithm itself. They affect the infrastructure of the search system: memory usage, latency during insertions, and long-term scalability.
+Unlike HNSW or quantization settings, optimizer parameters don't affect the search algorithm itself. They affect the infrastructure of the search system: memory usage, latency during insertions, and long-term scalability.
 
 These settings define how aggressively Qdrant manages its internal segments and memory:
 
@@ -501,7 +501,7 @@ Read More: [Optimizer Documentation](https://qdrant.tech/documentation/concepts/
 
 ## WAL (Write-Ahead Log) Configuration
 
-The Write-Ahead Log (WAL) is Qdrant’s durability backbone. It ensures that no data is lost in the event of a crash. Before any insert, update, or delete is applied to the in-memory state or persisted to disk, it is first written to the WAL.
+The Write-Ahead Log (WAL) is Qdrant's durability backbone. It ensures that no data is lost in the event of a crash. Before any insert, update, or delete is applied to the in-memory state or persisted to disk, it is first written to the WAL.
 
 If Qdrant is interrupted mid-operation, it can safely restore the latest state by replaying the WAL entries in order. This recovery mechanism is especially critical in write-heavy scenarios or when operating in environments without strong external persistence guarantees.
 
@@ -538,7 +538,7 @@ client.create_collection(
 - **To smooth out performance under continuous load**, allocate more segments ahead with `wal_segments_ahead`. This minimizes delays due to WAL segment rotation.
 - **For low-latency or embedded use**, you can keep both values low to reduce memory pressure, as long as your ingestion rate is modest.
 
-The WAL configuration doesn’t directly impact search performance, but it plays a foundational role in system stability, especially when paired with frequent writes and delayed flushing.
+The WAL configuration doesn't directly impact search performance, but it plays a foundational role in system stability, especially when paired with frequent writes and delayed flushing.
 
 ## Sharding and Replication
 
@@ -633,7 +633,7 @@ Read More: [Storage Documentation](https://qdrant.tech/documentation/concepts/st
 
 Strict mode is a safeguard against operations that could overload your system or degrade performance. It enforces hard limits on queries, timeouts, search parameters, and access rates. This is especially useful in shared environments, multi-tenant clusters, or production systems exposed to external traffic.
 
-When enabled, strict mode helps maintain system stability by rejecting operations that exceed pre-defined constraints. It’s a proactive way to protect Qdrant from unbounded requests, misconfigured clients, or unindexed queries that would otherwise bypass indexing optimizations.
+When enabled, strict mode helps maintain system stability by rejecting operations that exceed pre-defined constraints. It's a proactive way to protect Qdrant from unbounded requests, misconfigured clients, or unindexed queries that would otherwise bypass indexing optimizations.
 
 These parameters control strict mode behavior:
 
@@ -642,7 +642,7 @@ These parameters control strict mode behavior:
 | `enabled`                     | `false` | Activates strict mode enforcement                            | Enable in production or shared environments                    |
 | `max_query_limit`             | `None`  | Upper limit on number of points returned per query           | Set to avoid accidental full scans                             |
 | `max_timeout`                 | `None`  | Maximum allowed timeout in seconds for any request           | Lower to restrict long-running operations                      |
-| `unindexed_filtering_retrieve` | `true` | Allow filtering on unindexed payload fields                  | Set to `false` to avoid slow scans                             |
+| `unindexed_filtering_retrieve` | `true`  | Allow filtering on unindexed payload fields                  | Set to `false` to avoid slow scans                             |
 | `search_max_hnsw_ef`          | `None`  | Cap on the `ef` parameter during search                      | Limit to prevent high memory usage during searches             |
 | `search_allow_exact`          | `true`  | Permit exact search when no HNSW index is present            | Set to `false` to block brute-force fallback                   |
 | `read_rate_limit`             | `None`  | Max reads per minute per replica                             | Use to throttle high-QPS environments                          |
@@ -680,7 +680,7 @@ client.create_collection(
 - **Cap** `search_max_hnsw_ef` to prevent large in-memory search operations from overwhelming nodes.
 - **Rate limits** (`read_rate_limit`, `write_rate_limit`) help protect replicas from overload, especially under unpredictable load.
 
-Strict mode doesn’t affect how Qdrant stores or indexes data, it governs what kinds of operations are allowed at runtime, based on defined safety limits.
+Strict mode doesn't affect how Qdrant stores or indexes data, it governs what kinds of operations are allowed at runtime, based on defined safety limits.
 
 ## Collection Runtime Status
 
@@ -697,12 +697,12 @@ Each field helps answer a specific operational question:
 | `indexed_vectors_count` | Vectors that are fully indexed and searchable                               | If this lags far behind `points_count`, indexing is catching up.                 |
 | `segments_count`        | Number of data segments in the collection                                   | High segment count can hurt performance. Optimizer will gradually reduce it.     |
 
-If indexed_vectors_count < points_count, some vectors haven’t been picked up by the optimizer yet. This can happen right after ingestion or if the indexing_threshold hasn’t been reached.
+If indexed_vectors_count < points_count, some vectors haven't been picked up by the optimizer yet. This can happen right after ingestion or if the indexing_threshold hasn't been reached.
 
 ## Final Thoughts
 
-By now, you’ve seen how each part of Qdrant’s collection configuration contributes to the overall performance, scalability, and reliability of your vector search system. From choosing the right vector types to configuring indexing, quantization, sharding, and safety limits, every setting plays a role in shaping how your system behaves at scale.
+By now, you've seen how each part of Qdrant's collection configuration contributes to the overall performance, scalability, and reliability of your vector search system. From choosing the right vector types to configuring indexing, quantization, sharding, and safety limits, every setting plays a role in shaping how your system behaves at scale.
 
-**Don’t try to memorize this guide**, it intended to be a reference. Whether you’re optimizing for recall, ingestion speed, memory efficiency, or distributed resilience, Qdrant’s collection API gives you the knobs to make those tradeoffs explicit and observable.
+**Don't try to memorize this guide**, it intended to be a reference. Whether you're optimizing for recall, ingestion speed, memory efficiency, or distributed resilience, Qdrant's collection API gives you the knobs to make those tradeoffs explicit and observable.
 
 Qdrant is built to be fast, reliable, and flexible, but it performs best when your configuration matches the realities of your use case.
