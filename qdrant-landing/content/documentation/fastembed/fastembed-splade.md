@@ -130,12 +130,7 @@ Let's use the tokenizer vocab to make sense of these indices.
 import json
 from tokenizers import Tokenizer
 
-model_descriptions = SparseTextEmbedding.list_supported_models()
-hf_source = None
-for model_description in model_descriptions:
-    if model_description['model'] == model_name:  # names are unique
-        hf_source = model_description['sources']['hf']  # Qdrant/Splade_PP_en_v1
-tokenizer = Tokenizer.from_pretrained(hf_source)
+tokenizer = Tokenizer.from_pretrained("Qdrant/Splade_PP_en_v1")
 ```
 
 The `get_tokens_and_weights` function takes a `SparseEmbedding` object and a `tokenizer` as input. It will construct a dictionary where the keys are the decoded tokens, and the values are their corresponding weights. 
