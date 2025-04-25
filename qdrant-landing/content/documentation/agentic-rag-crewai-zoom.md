@@ -67,7 +67,7 @@ The system is built on three main components:
 
 1. **Data Processing Pipeline**  
    - Processes meeting transcripts and metadata
-   - Creates embeddings with SentenceTransformer
+   - Creates embeddings with FastEmbed
    - Manages Qdrant collection and data upload
 
 2. **AI Agent System**  
@@ -162,7 +162,6 @@ class MeetingData:
             url=os.getenv('qdrant_url'),
             api_key=os.getenv('qdrant_api_key')
         )
-        self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 ```
 The singleton pattern in data_loader.py is implemented through a MeetingData class that uses Python's __new__ and __init__ methods. The class maintains a private _instance variable to track if an instance exists, and a _initialized flag to ensure the initialization code only runs once. When creating a new instance with MeetingData(), __new__ first checks if _instance exists - if it doesn't, it creates one and sets the initialization flag to False. The __init__ method then checks this flag, and if it's False, runs the initialization code and sets the flag to True. This ensures that all subsequent calls to MeetingData() return the same instance with the same initialized resources.
 
@@ -209,17 +208,11 @@ But the real power comes from our vector search integration. This tool converts 
 ```python
 class SearchMeetingsTool(BaseTool):
     def _run(self, query: str) -> List[Dict]:
-        response = openai_client.embeddings.create(
-            model="text-embedding-ada-002",
-            input=query
-        )
-        query_vector = response.data[0].embedding
-        
-        return self.qdrant_client.search(
+        return client.query_points(
             collection_name='zoom_recordings',
-            query_vector=query_vector,
-            limit=10
-        )
+            query=models.Document(text=query, model="sentence-transformers/all-MiniLM-L6-v2"),
+            limit=10,
+        ).points
 ```
 
 The search results then feed into our analysis tool, which uses Claude to provide deeper insights:
