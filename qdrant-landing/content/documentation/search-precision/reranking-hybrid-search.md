@@ -139,13 +139,6 @@ Next, we need to insert the documents along with their multiple embeddings into 
 ```python
 from qdrant_client.models import PointStruct
 points = []
-for idx, doc in enumerate(documents):
-    point = PointStruct(
-        id=idx,
-        vector={
-            
-        }
-    )
 for idx, (dense_embedding, bm25_embedding, late_interaction_embedding, doc) in enumerate(zip(dense_embeddings, bm25_embeddings, late_interaction_embeddings, documents)):
   
     point = PointStruct(
