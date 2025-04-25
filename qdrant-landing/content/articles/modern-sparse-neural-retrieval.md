@@ -438,6 +438,7 @@ metadata = [{"movie_name": "The Passion of Joan of Arc", "movie_watch_time_min":
 </details>
 
 Upload embedded descriptions with movie metadata into the collection.
+
 ```python
 qdrant_client.upsert(
     collection_name="movies",
@@ -456,6 +457,25 @@ qdrant_client.upsert(
     ],
 )
 ```
+
+```python
+## LOCAL INFERENCE
+
+qdrant_client.upsert(
+    collection_name="movies",
+    points=[
+        models.PointStruct(
+            id=idx,
+            payload=metadata[idx],
+            vector={
+                "film_description": models.Document(text=description, model=sparse_model_name)
+            },
+        )
+        for idx, description in enumerate(descriptions)
+    ],
+)
+```
+
 #### Querying
 Let’s query our collection!
 
@@ -472,6 +492,21 @@ response = qdrant_client.query_points(
 )
 print(response)
 ```
+
+```python
+## LOCAL INFERENCE
+
+response = qdrant_client.query_points(
+    collection_name="movies",
+    query=models.Document(text="A movie about music", model=sparse_model_name),
+    using="film_description",
+    limit=1,
+    with_vectors=True,
+    with_payload=True
+)
+print(response)
+```
+
 Output looks like this:
 ```bash
 points=[ScoredPoint(
@@ -577,6 +612,21 @@ query_embedding = list(sparse_model.embed("A movie about music"))[0]
 response = qdrant_client.query_points(
     collection_name="movies",
     query=models.SparseVector(indices=query_embedding.indices, values=query_embedding.values),
+    using="film_description",
+    limit=1,
+    with_vectors=True,
+    with_payload=True
+)
+
+print(get_tokens_and_weights(response.points[0].vector['film_description'], tokenizer))
+```
+
+```python
+## LOCAL INFERENCE
+
+response = qdrant_client.query_points(
+    collection_name="movies",
+    query=models.Document(text="A movie about music", model=sparse_model_name)
     using="film_description",
     limit=1,
     with_vectors=True,

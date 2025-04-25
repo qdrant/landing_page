@@ -219,11 +219,11 @@ You are not restricted to using one LLM in your program; you can use [multiple](
 You can easily set up [Qdrant](/documentation/frameworks/dspy/) vector store to act as the retrieval model. To do so, follow these steps:
 
 ```python
-# pip install dspy-ai[qdrant]
+# pip install dspy-ai dspy-qdrant
 
 import dspy
 
-from dspy.retrieve.qdrant_rm import QdrantRM
+from dspy_qdrant import QdrantRM
 
 from qdrant_client import QdrantClient
 
