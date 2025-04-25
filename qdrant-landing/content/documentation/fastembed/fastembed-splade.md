@@ -19,7 +19,6 @@ Next, import the required modules for sparse embeddings and Python’s typing mo
 
 ```python
 from fastembed import SparseTextEmbedding, SparseEmbedding
-from typing import List
 ```
 
 You may always check the list of all supported sparse embedding models.
@@ -30,25 +29,34 @@ SparseTextEmbedding.list_supported_models()
 This will return a list of models, each with its details such as model name, vocabulary size, description, and sources.
 
 ```python
-[{'model': 'prithivida/Splade_PP_en_v1',
-  'vocab_size': 30522,
-  'description': 'Independent Implementation of SPLADE++ Model for English',
-  'size_in_GB': 0.532,
-  'sources': {'hf': 'Qdrant/SPLADE_PP_en_v1'}}]
+[
+    {
+        'model': 'prithivida/Splade_PP_en_v1', 
+        'sources': {'hf': 'Qdrant/Splade_PP_en_v1', ...},
+        'model_file': 'model.onnx', 
+        'description': 'Independent Implementation of SPLADE++ Model for English.', 
+        'license': 'apache-2.0', 
+        'size_in_GB': 0.532,  
+        'vocab_size': 30522,
+        ...
+    }, 
+    ...
+]  # part of the output was omitted
 ```
 
 Now, load the model.
 
 ```python
-model_name = "prithvida/Splade_PP_en_v1"
+model_name = "prithivida/Splade_PP_en_v1"
 # This triggers the model download
 model = SparseTextEmbedding(model_name=model_name)
 ```
+
 ## Embed data
 
 You need to define a list of documents to be embedded.
 ```python
-documents: List[str] = [
+documents: list[str] = [
     "Chandrayaan-3 is India's third lunar mission",
     "It aimed to land a rover on the Moon's surface - joining the US, China and Russia",
     "The mission is a follow-up to Chandrayaan-2, which had partial success",
@@ -67,7 +75,7 @@ Then, generate sparse embeddings for each document.
 Here,`batch_size` is optional and helps to process documents in batches.
 
 ```python
-sparse_embeddings_list: List[SparseEmbedding] = list(
+sparse_embeddings_list: list[SparseEmbedding] = list(
     model.embed(documents, batch_size=6)
 ) 
 ```
@@ -122,7 +130,7 @@ Let's use the tokenizer vocab to make sense of these indices.
 import json
 from tokenizers import Tokenizer
 
-tokenizer = Tokenizer.from_pretrained(SparseTextEmbedding.list_supported_models()[0]["sources"]["hf"])
+tokenizer = Tokenizer.from_pretrained("Qdrant/Splade_PP_en_v1")
 ```
 
 The `get_tokens_and_weights` function takes a `SparseEmbedding` object and a `tokenizer` as input. It will construct a dictionary where the keys are the decoded tokens, and the values are their corresponding weights. 
