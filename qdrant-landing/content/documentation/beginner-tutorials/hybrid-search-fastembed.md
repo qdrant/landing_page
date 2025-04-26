@@ -117,11 +117,16 @@ As soon as the choice is made, we need to configure a collection in Qdrant.
 ```python
 dense_vector_name = "dense"
 sparse_vector_name = "sparse"
+dense_model_name = "sentence-transformers/all-MiniLM-L6-v2"
+sparse_model_name = "prithivida/Splade_PP_en_v1"
 if not client.collection_exists("startups"):
     client.create_collection(
         collection_name="startups",
         vectors_config={
-            dense_vector_name: models.VectorParams(size=384, distance=models.Distance.COSINE)
+            dense_vector_name: models.VectorParams(
+                size=client.get_embedding_size(dense_model_name), 
+                distance=models.Distance.COSINE
+            )
         },  # size and distance are model dependent
         sparse_vectors_config={sparse_vector_name: models.SparseVectorParams()},
     )
@@ -137,8 +142,6 @@ Parameters `size` and `distance` are mandatory, however, you can additionaly  sp
 import json
 
 payload_path = "startups_demo.json"
-dense_model_name = "sentence-transformers/all-MiniLM-L6-v2"
-sparse_model_name = "prithivida/Splade_PP_en_v1"
 documents = []
 metadata = []
 
