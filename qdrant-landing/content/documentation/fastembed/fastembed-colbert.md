@@ -71,7 +71,8 @@ This command displays the available models. The output shows details about the m
 Now, load the model.
 
 ```python
-embedding_model = LateInteractionTextEmbedding("colbert-ir/colbertv2.0")
+model_name = "colbert-ir/colbertv2.0"
+embedding_model = LateInteractionTextEmbedding(model_name)
 ```
 The model files will be fetched and downloaded, with progress showing.
 
@@ -131,7 +132,7 @@ That means that for the first description, we have **48** vectors of lengths **1
 Install `qdrant-client`
 
 ```python
-pip install qdrant-client
+pip install "qdrant-client>=1.14.2"
 ```
 
 Qdrant Client has a simple in-memory mode that allows you to experiment locally on small data volumes. 
@@ -205,6 +206,30 @@ qdrant_client.upload_points(
 )
 ```
 
+<aside role="status">
+Qdrant client has an integration with Fastembed which allows to skip the explicit process of vectors computation. (An example is under the spoiler).
+</aside>
+
+<details>
+    <summary>Upload with implicit embeddings computation</summary>
+
+
+```python
+description_documents = [models.Document(text=description, model=model_name) for description in descriptions]
+qdrant_client.upload_points(
+    collection_name="movies",
+    points=[
+        models.PointStruct(
+            id=idx,
+            payload=metadata[idx],
+            vector=description_document
+        )
+        for idx, description_document in enumerate(description_documents)
+    ],
+)
+```
+</details>
+
 ## Querying
 
 ColBERT uses two distinct methods for embedding documents and queries, as do we in Fastembed. However, we altered query pre-processing used in ColBERT, so we don't have to cut all queries after 32-token length but ingest longer queries directly.
@@ -218,6 +243,24 @@ qdrant_client.query_points(
     with_payload=True #So metadata is provided in the output
 )
 ```
+
+<aside role="status">
+Example of query_points with implicit embedding computation. (Under the spoiler).
+</aside>
+
+<details>
+    <summary>Query points with implicit embeddings computation</summary>
+
+
+```python
+query_document = models.Document(text="A movie for kids with fantasy elements and wonders", model=model_name)
+qdrant_client.query_points(
+    collection_name="movies",
+    query=query_document,
+    limit=1,
+)
+```
+</details>
 
 The result is the following:
 
