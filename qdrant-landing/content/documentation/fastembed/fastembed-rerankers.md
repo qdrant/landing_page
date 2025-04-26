@@ -152,7 +152,7 @@ client.create_collection(
     collection_name="movies",
     vectors_config={
         "embedding": models.VectorParams(
-            size=384,  # size of `all-MiniLM-L6-v2` embeddings
+            size=client.get_embedding_size("sentence-transformers/all-MiniLM-L6-v2"), 
             distance=models.Distance.COSINE
         )
     }
