@@ -36,7 +36,7 @@ To complete this tutorial, you will need:
 
 - Docker - The easiest way to use Qdrant is to run a pre-built Docker image.  
 - [Raw parsed data](https://storage.googleapis.com/generall-shared-data/startups_demo.json) from startups-list.com.
-- Python version >=3.8
+- Python version >=3.9
 
 ## Prepare sample dataset 
 
@@ -90,9 +90,9 @@ All data uploaded to Qdrant is saved inside the `./qdrant_storage` directory and
 1. Install the official Python client to best interact with Qdrant.
 
 ```bash
-pip install "qdrant-client[fastembed]>=1.8.2"
+pip install "qdrant-client[fastembed]>=1.14.2"
 ```
-> **Note:** This tutorial requires fastembed of version >=0.2.6.
+> **Note:** This tutorial requires fastembed of version >=0.6.1.
 
 At this point, you should have startup records in the `startups_demo.json` file and Qdrant running on a local machine.
 
@@ -102,78 +102,82 @@ Now you need to write a script to upload all startup data and vectors into the s
 
 ```python
 # Import client library
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
 ```
 
-3. Select model to encode your data.
 
-You will be using two pre-trained models to compute dense and sparse vectors correspondingly: `sentence-transformers/all-MiniLM-L6-v2` and `prithivida/Splade_PP_en_v1`.
+3. Choose models to encode your data and prepare collections.
 
-<aside role="status">
-Hybrid search implementation can be easily switched to a dense vector search by omitting the lines related to sparse vectors.
-</aside>
-
-```python
-client.set_model("sentence-transformers/all-MiniLM-L6-v2")
-# comment this line to use dense vectors only
-client.set_sparse_model("prithivida/Splade_PP_en_v1")
-```
-
-4. Related vectors need to be added to a collection. Create a new collection for your startup vectors.
+In this tutorial, we will be using two pre-trained models to compute dense and sparse vectors correspondingly 
+The models are: `sentence-transformers/all-MiniLM-L6-v2` and `prithivida/Splade_PP_en_v1`.
+As soon as the choice is made, we need to configure a collection in Qdrant.
 
 ```python
+dense_vector_name = "dense"
+sparse_vector_name = "sparse"
+dense_model_name = "sentence-transformers/all-MiniLM-L6-v2"
+sparse_model_name = "prithivida/Splade_PP_en_v1"
 if not client.collection_exists("startups"):
     client.create_collection(
         collection_name="startups",
-        vectors_config=client.get_fastembed_vector_params(),
-        # comment this line to use dense vectors only
-        sparse_vectors_config=client.get_fastembed_sparse_vector_params(),  
+        vectors_config={
+            dense_vector_name: models.VectorParams(
+                size=client.get_embedding_size(dense_model_name), 
+                distance=models.Distance.COSINE
+            )
+        },  # size and distance are model dependent
+        sparse_vectors_config={sparse_vector_name: models.SparseVectorParams()},
     )
 ```
 
 Qdrant requires vectors to have their own names and configurations.
-
-Methods `get_fastembed_vector_params` and `get_fastembed_sparse_vector_params` help you to get the corresponding parameters for the models you are using.
-These parameters include vector size, distance function, etc.
-
-Without fastembed integration, you would need to specify the vector size and distance function manually. Read more about it [here](/documentation/tutorials/neural-search/).
-
-Additionally, you can specify extended configuration for your vectors, like `quantization_config` or `hnsw_config`.
+Parameters `size` and `distance` are mandatory, however, you can additionaly  specify extended configuration for your vectors, like `quantization_config` or `hnsw_config`.
 
 
-5. Read data from the file.
+4. Read data from the file.
 
 ```python
 import json
 
 payload_path = "startups_demo.json"
-metadata = []
 documents = []
+metadata = []
 
 with open(payload_path) as fd:
     for line in fd:
         obj = json.loads(line)
-        documents.append(obj.pop("description"))
+        description = obj["description"]
+        dense_document = models.Document(text=description, model=dense_model_name)
+        sparse_document = models.Document(text=description, model=sparse_model_name)
+        documents.append(
+            {
+                dense_vector_name: dense_document,
+                sparse_vector_name: sparse_document,
+            }
+        )
         metadata.append(obj)
 ```
 
-In this block of code, we read data from `startups_demo.json` file and split it into 2 lists: `documents` and `metadata`.
-Documents are the raw text descriptions of startups. Metadata is the payload associated with each startup, such as the name, location, and picture.
+In this block of code, we read data from `startups_demo.json` file and split it into two list: `documents` and `metadata`.
+Documents are models with descriptions of startups and model names to embed data. Metadata is payload associated with each startup, such as the name, location, and picture.
 We will use `documents` to encode the data into vectors.
-
 
 6. Encode and upload data.
 
 ```python
-client.add(
-    collection_name="startups",
-    documents=documents,
-    metadata=metadata,
-    parallel=0,  # Use all available CPU cores to encode data. 
-    # Requires wrapping code into if __name__ == '__main__' block
-)
+    client.upload_collection(
+        collection_name="startups",
+        vectors=tqdm.tqdm(documents),
+        payload=metadata,
+        parallel=4,  # Use 4 CPU cores to encode data.
+        # This will spawn a model per process, which might be memory expensive
+        # Make sure that your system does not use swap, and reduce the amount
+        # # of processes if it does. 
+        # Otherwise, it might significantly slow down the process.
+        # Requires wrapping code into if __name__ == '__main__' block
+    )
 ```
 
 <aside role="status">
@@ -193,55 +197,53 @@ tar -xvf startups_hybrid_search_processed_40k.tar.gz
 Then you can upload the data to Qdrant.
 
 ```python
-from typing import List
 import json
 import numpy as np
-from qdrant_client import models
 
 
-def named_vectors(vectors: List[float], sparse_vectors: List[models.SparseVector]) -> dict:
-    # make sure to use the same client object as previously
-    # or `set_model_name` and `set_sparse_model_name` manually
-    dense_vector_name = client.get_vector_field_name()
-    sparse_vector_name = client.get_sparse_vector_field_name()  
+def named_vectors(
+        vectors: list[float], 
+        sparse_vectors: list[models.SparseVector]
+) -> dict:
     for vector, sparse_vector in zip(vectors, sparse_vectors):
         yield {
             dense_vector_name: vector,
             sparse_vector_name: models.SparseVector(**sparse_vector),
-        } 
+        }
+
 
 with open("dense_vectors.npy", "rb") as f:
     vectors = np.load(f)
-    
 with open("sparse_vectors.json", "r") as f:
     sparse_vectors = json.load(f)
-    
-with open("payload.json", "r",) as f:
+
+with open("payload.json", "r") as f:
     payload = json.load(f)
 
 client.upload_collection(
-    "startups", vectors=named_vectors(vectors, sparse_vectors), payload=payload
+    "startups", 
+    vectors=named_vectors(vectors, sparse_vectors), 
+    payload=payload
 )
 ```
 </details>
 
-The `add` method will encode all documents and upload them to Qdrant.
-This is one of the two fastembed-specific methods, that combines encoding and uploading into a single step.
+The `upload_collection` method will encode all documents and upload them to Qdrant.
 
 The `parallel` parameter enables data-parallelism instead of built-in ONNX parallelism.
 
 Additionally, you can specify ids for each document, if you want to use them later to update or delete documents.
-If you don't specify ids, they will be generated automatically and returned as a result of the `add` method.
+If you don't specify ids, they will be generated automatically.
 
-You can monitor the progress of the encoding by passing tqdm progress bar to the `add` method.
+You can monitor the progress of the encoding by passing tqdm progress bar to the `upload_collection` method.
 
 ```python
 from tqdm import tqdm
 
-client.add(
+client.upload_collection(
     collection_name="startups",
-    documents=documents,
-    metadata=metadata,
+    vectors=documents,
+    payload=metadata,
     ids=tqdm(range(len(documents))),
 )
 ```
@@ -252,44 +254,52 @@ Now that all the preparations are complete, let's start building a neural search
 
 In order to process incoming requests, the hybrid search class will need 3 things: 1) models to convert the query into a vector, 2) the Qdrant client to perform search queries, 3) fusion function to re-rank dense and sparse search results.
 
-Fastembed integration encapsulates query encoding, search and fusion into a single method call.
-Fastembed leverages [reciprocal rank fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf) in order combine the results.
+Qdrant supports 2 fusion functions for combining the results: [reciprocal rank fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf) and [distribution based score fusion](https://qdrant.tech/documentation/concepts/hybrid-queries/?q=distribution+based+sc#:~:text=Distribution%2DBased%20Score%20Fusion)
 
 
 1. Create a file named `hybrid_searcher.py` and specify the following.
 
 ```python
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 
 
 class HybridSearcher:
     DENSE_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
     SPARSE_MODEL = "prithivida/Splade_PP_en_v1"
+    
     def __init__(self, collection_name):
         self.collection_name = collection_name
-        # initialize Qdrant client
-        self.qdrant_client = QdrantClient("http://localhost:6333")
-        self.qdrant_client.set_model(self.DENSE_MODEL)
-        # comment this line to use dense vectors only
-        self.qdrant_client.set_sparse_model(self.SPARSE_MODEL)
+        self.qdrant_client = QdrantClient()
 ```
 
 2. Write the search function.
 
 ```python
 def search(self, text: str):
-    search_result = self.qdrant_client.query(
+    search_result = self.qdrant_client.query_points(
         collection_name=self.collection_name,
-        query_text=text,
+        query=models.FusionQuery(
+            fusion=models.Fusion.RRF  # we are using reciprocal rank fusion here
+        ),
+        prefetch=[
+            models.Prefetch(
+                query=models.Document(text=text, model=self.DENSE_MODEL)
+            ),
+            models.Prefetch(
+                query=models.Document(text=text, model=self.SPARSE_MODEL)
+            ),
+        ],
         query_filter=None,  # If you don't want any filters for now
         limit=5,  # 5 the closest results
-    )
-    # `search_result` contains found vector ids with similarity scores 
-    # along with the stored payload
-    
+    ).points
+    # `search_result` contains models.QueryResponse structure
+    # We can access list of scored points with the corresponding similarity scores,
+    # vectors (if `with_vectors` was set to `True`), and payload via `points` attribute.
+
     # Select and return metadata
-    metadata = [hit.metadata for hit in search_result]
+    metadata = [point.payload for point in search_result]
     return metadata
+
 ```
 
 3. Add search filters.
@@ -298,8 +308,6 @@ With Qdrant it is also feasible to add some conditions to the search.
 For example, if you wanted to search for startups in a certain city, the search query could look like this:
 
 ```python
-from qdrant_client import models
-
     ...
 
     city_of_interest = "Berlin"
@@ -314,12 +322,13 @@ from qdrant_client import models
         ]
     )
 
-    search_result = self.qdrant_client.query(
+    # NOTE: it is not a hybrid search! It's just a dense query for simplicity
+    search_result = self.qdrant_client.query_points(
         collection_name=self.collection_name,
-        query_text=text,
+        query=models.Document(text=text, model=self.DENSE_MODEL),
         query_filter=city_filter,
         limit=5
-    )
+    ).points
     ...
 ```
 
