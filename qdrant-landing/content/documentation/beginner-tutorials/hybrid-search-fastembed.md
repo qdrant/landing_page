@@ -167,13 +167,17 @@ We will use `documents` to encode the data into vectors.
 6. Encode and upload data.
 
 ```python
-client.upload_collection(
-    collection_name="startups",
-    vectors=documents,
-    payload=metadata,
-    parallel=0,  # Use all available CPU cores to encode data. 
-    # Requires wrapping code into if __name__ == '__main__' block
-)
+    client.upload_collection(
+        collection_name="startups",
+        vectors=tqdm.tqdm(documents),
+        payload=metadata,
+        parallel=4,  # Use 4 CPU cores to encode data.
+        # This will spawn a model per process, which might be memory expensive
+        # Make sure that your system does not use swap, and reduce the amount
+        # # of processes if it does. 
+        # Otherwise, it might significantly slow down the process.
+        # Requires wrapping code into if __name__ == '__main__' block
+    )
 ```
 
 <aside role="status">
@@ -213,10 +217,7 @@ with open("dense_vectors.npy", "rb") as f:
 with open("sparse_vectors.json", "r") as f:
     sparse_vectors = json.load(f)
 
-with open(
-    "payload.json",
-    "r",
-) as f:
+with open("payload.json", "r") as f:
     payload = json.load(f)
 
 client.upload_collection(
