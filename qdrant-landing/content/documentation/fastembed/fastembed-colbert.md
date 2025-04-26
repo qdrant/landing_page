@@ -132,7 +132,7 @@ That means that for the first description, we have **48** vectors of lengths **1
 Install `qdrant-client`
 
 ```python
-pip install "qdrant-client>=1.14.0"
+pip install "qdrant-client>=1.14.2"
 ```
 
 Qdrant Client has a simple in-memory mode that allows you to experiment locally on small data volumes. 
@@ -193,9 +193,6 @@ metadata = [{"movie_name": "The Passion of Joan of Arc", "movie_watch_time_min":
 </details>
 
 ```python
-descriptions_embeddings = list(
-    embedding_model.embed(descriptions)
-)
 qdrant_client.upload_points(
     collection_name="movies",
     points=[
