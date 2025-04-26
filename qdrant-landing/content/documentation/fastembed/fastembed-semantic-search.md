@@ -5,15 +5,9 @@ weight: 3
 
 # Using FastEmbed with Qdrant for Vector Search
 
-## Install Qdrant Client
+## Install Qdrant Client and FastEmbed
 ```python
-pip install "qdrant-client>1.14.0"
-```
-
-## Install FastEmbed
-Installing FastEmbed will let you quickly turn data to vectors, so that Qdrant can search over them.
-```python
-pip install fastembed
+pip install "qdrant-client[fastembed]>=1.14.2"
 ```
 
 ## Initialize the client
