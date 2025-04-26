@@ -36,7 +36,7 @@ To complete this tutorial, you will need:
 
 - Docker - The easiest way to use Qdrant is to run a pre-built Docker image.  
 - [Raw parsed data](https://storage.googleapis.com/generall-shared-data/startups_demo.json) from startups-list.com.
-- Python version >=3.8
+- Python version >=3.9
 
 ## Prepare sample dataset 
 
@@ -90,7 +90,7 @@ All data uploaded to Qdrant is saved inside the `./qdrant_storage` directory and
 1. Install the official Python client to best interact with Qdrant.
 
 ```bash
-pip install "qdrant-client[fastembed]>=1.14.0"
+pip install "qdrant-client[fastembed]>=1.14.2"
 ```
 > **Note:** This tutorial requires fastembed of version >=0.6.1.
 
@@ -102,7 +102,7 @@ Now you need to write a script to upload all startup data and vectors into the s
 
 ```python
 # Import client library
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
 ```
@@ -120,8 +120,10 @@ sparse_vector_name = "sparse"
 if not client.collection_exists("startups"):
     client.create_collection(
         collection_name="startups",
-        vectors_config={dense_vector_name: models.VectorParams(size=384, distance=models.Distance.COSINE)},  # size and distance are model dependent
-        sparse_vectors_config={sparse_vector_name: models.SparseVectorParams()},  
+        vectors_config={
+            dense_vector_name: models.VectorParams(size=384, distance=models.Distance.COSINE)
+        },  # size and distance are model dependent
+        sparse_vectors_config={sparse_vector_name: models.SparseVectorParams()},
     )
 ```
 
@@ -137,17 +139,19 @@ import json
 payload_path = "startups_demo.json"
 dense_model_name = "sentence-transformers/all-MiniLM-L6-v2"
 sparse_model_name = "prithivida/Splade_PP_en_v1"
-documents = [] 
+documents = []
 metadata = []
 
 with open(payload_path) as fd:
     for line in fd:
         obj = json.loads(line)
         description = obj["description"]
+        dense_document = models.Document(text=description, model=dense_model_name)
+        sparse_document = models.Document(text=description, model=sparse_model_name)
         documents.append(
             {
-                dense_vector_name: models.Document(text=description, model=dense_model_name),
-                sparse_vector_name: models.Document(text=description, model=sparse_model_name),
+                dense_vector_name: dense_document,
+                sparse_vector_name: sparse_document,
             }
         )
         metadata.append(obj)
@@ -186,29 +190,36 @@ tar -xvf startups_hybrid_search_processed_40k.tar.gz
 Then you can upload the data to Qdrant.
 
 ```python
-from typing import List
 import json
 import numpy as np
 
 
-def named_vectors(vectors: List[float], sparse_vectors: List[models.SparseVector]) -> dict:  
+def named_vectors(
+        vectors: list[float], 
+        sparse_vectors: list[models.SparseVector]
+) -> dict:
     for vector, sparse_vector in zip(vectors, sparse_vectors):
         yield {
             dense_vector_name: vector,
             sparse_vector_name: models.SparseVector(**sparse_vector),
-        } 
+        }
+
 
 with open("dense_vectors.npy", "rb") as f:
     vectors = np.load(f)
-    
 with open("sparse_vectors.json", "r") as f:
     sparse_vectors = json.load(f)
-    
-with open("payload.json", "r",) as f:
+
+with open(
+    "payload.json",
+    "r",
+) as f:
     payload = json.load(f)
 
 client.upload_collection(
-    "startups", vectors=named_vectors(vectors, sparse_vectors), payload=payload
+    "startups", 
+    vectors=named_vectors(vectors, sparse_vectors), 
+    payload=payload
 )
 ```
 </details>
@@ -228,7 +239,7 @@ from tqdm import tqdm
 client.upload_collection(
     collection_name="startups",
     vectors=documents,
-    payload=payload,
+    payload=metadata,
     ids=tqdm(range(len(documents))),
 )
 ```
@@ -245,12 +256,13 @@ Qdrant supports 2 fusion functions for combining the results: [reciprocal rank f
 1. Create a file named `hybrid_searcher.py` and specify the following.
 
 ```python
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 
 
 class HybridSearcher:
     DENSE_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
     SPARSE_MODEL = "prithivida/Splade_PP_en_v1"
+    
     def __init__(self, collection_name):
         self.collection_name = collection_name
         self.qdrant_client = QdrantClient()
@@ -266,18 +278,24 @@ def search(self, text: str):
             fusion=models.Fusion.RRF  # we are using reciprocal rank fusion here
         ),
         prefetch=[
-            models.Prefetch(query=models.Document(text=text, model=self.DENSE_MODEL)),
-            models.Prefetch(query=models.Document(text=text, model=self.SPARSE_MODEL))
+            models.Prefetch(
+                query=models.Document(text=text, model=self.DENSE_MODEL)
+            ),
+            models.Prefetch(
+                query=models.Document(text=text, model=self.SPARSE_MODEL)
+            ),
         ],
-        query_filter=None,  # If you don't want any filters for now 
+        query_filter=None,  # If you don't want any filters for now
         limit=5,  # 5 the closest results
     ).points
-    # `search_result` contains models.QueryResponse structure 
-    # We can access list of scored points with the corresponding similarity scores, vectors (if `with_vectors` was set to `True`), and payload via `points` attribute.
-    
+    # `search_result` contains models.QueryResponse structure
+    # We can access list of scored points with the corresponding similarity scores,
+    # vectors (if `with_vectors` was set to `True`), and payload via `points` attribute.
+
     # Select and return metadata
-    metadata = [point.payload for hit in search_result]
+    metadata = [point.payload for point in search_result]
     return metadata
+
 ```
 
 3. Add search filters.
@@ -286,8 +304,6 @@ With Qdrant it is also feasible to add some conditions to the search.
 For example, if you wanted to search for startups in a certain city, the search query could look like this:
 
 ```python
-from qdrant_client import models
-
     ...
 
     city_of_interest = "Berlin"
