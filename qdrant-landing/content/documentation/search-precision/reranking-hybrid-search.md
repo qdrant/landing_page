@@ -263,9 +263,6 @@ Check how queries can be made with builtin Fastembed integration.
 
 
 ```python
-dense_vectors = next(dense_embedding_model.query_embed(query))
-sparse_vectors = next(bm25_embedding_model.query_embed(query))
-late_vectors = next(late_interaction_embedding_model.query_embed(query))
 prefetch = [
         models.Prefetch(
             query=models.Document(text=query, model="sentence-transformers/all-MiniLM-L6-v2"),
