@@ -52,7 +52,7 @@ client.create_collection(
     vectors_config=models.VectorParams(
         size=client.get_embedding_size(model_name), 
         distance=models.Distance.COSINE
-    ),  # size and distance are model dependent, however, distance is almost always cosine
+    ),  # size and distance are model dependent
 )
 
 ```
