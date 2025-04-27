@@ -2,48 +2,29 @@
 title: Distributed Deployment
 weight: 1
 aliases:
-  - ../distributed_deployment
-  - /guides/distributed_deployment
-  - distributed_deployment
+  - /documentation/guides/distributed_deployment
 ---
 
 # Distributed Deployment
 
-Starting with Qdrant v0.8.0, you can enable a distributed deployment mode. In this mode, multiple Qdrant services communicate with each other to distribute data across peers, extending storage capabilities and increasing overall stability.
-
-| Section                                                         | Description                                              |
-|---------------------------------------------------------------|----------------------------------------------------------|
-| [Choosing the Number of Nodes](#how-many-qdrant-nodes-should-i-run) | Cost, resilience, and performance trade-offs.           |
-| [Self-Hosted Distributed Mode](#enabling-distributed-mode-in-self-hosted-qdrant) | Enabling and configuring Qdrant locally.                |
-| [Qdrant Cloud Distributed Mode](#enabling-distributed-mode-in-qdrant-cloud) | Scaling your cluster in Qdrant Cloud.                   |
-| [Using a New Distributed Cluster](#making-use-of-a-new-distributed-qdrant-cluster) | Creating replicas and moving shards.                    |
-| [Raft Overview](#raft-overview)                               | The cluster’s consensus mechanism.                      |
-
+You can run Qdrant in a distributed deployment mode. This allows you to scale your Qdrant cluster horizontally by adding more nodes, which can improve performance and resilience.
+In this mode, multiple Qdrant services communicate with each other to distribute data across peers, extending storage capabilities and increasing overall stability.
 
 ## How Many Qdrant Nodes Should I Run?
 
-The ideal number of Qdrant nodes depends on how you balance **cost savings, resilience, and performance or scalability**.
+For full resilience, you should run **at least 3** Qdrant nodes. Here are the reasons for this recommendation:
 
-#### Cost-Focused (Single Node)
-If minimizing cost is your top priority, you can run a single Qdrant node. However, this setup is not recommended for production environments.  
-- Resilience: Users will experience downtime during node restarts, and data recovery depends on having backups or snapshots.  
-- Performance: Limited by the resources of a single server.
+- Replications: Production deployment should have at least two replicas of the data running at all times. This ensures that the failure of any specific node of the cluster doesn't lead to downtime.
+- Leader Election: Qdrant uses the [Raft consensus algorithm](https://raft.github.io/) to elect a leader node. This requires a majority of nodes to be available. For example, in a two-node cluster, if one node goes down, the other cannot elect a new leader and will be unable to perform any operations.
 
-#### Resilience-Focused (3+ Nodes)
-For maximum resilience, run a Qdrant cluster with three or more nodes and at least two shard replicas. Clusters of this size and replication level can continue normal operations even when one node is down. This setup also provides performance benefits through load balancing. If a node is permanently lost, the cluster can recover the data without relying on backups or snapshots (though backups are still strongly recommended). This is the most common recommendation for production environments.  
-- Cost: Larger clusters are more expensive, which is the primary downside of this configuration.
+Those two points are the main reasons for the recommendation of three nodes. Here is a brealdown of guarantees provided by different cluster configurations:
 
-#### Balanced (2 Nodes)  
-Running a two-node cluster with replicated shards strikes a balance between cost, resilience, and performance. The cluster can continue most read/write operations if one node goes down (e.g., during maintenance). This configuration will be more performant than a single-node cluster and more affordable than a three-node cluster.  
-- Resilience (uptime): The cluster cannot perform operations on collections (create, modify, delete) when one node is down, since these operations require a majority (>50%) of nodes to be active (i.e., 3+ nodes).  
-- Resilience (data integrity): If one node is permanently lost or corrupted, data cannot be recovered unless you have backups or snapshots. Unlike 3+ node clusters, there is no built-in recovery for the permanent loss of a node.  
-- Cost: Storing two copies of the data increases storage costs.  
-- Performance: Adding more nodes generally increases maximum cluster throughput.
 
-In summary:
-- Single-node clusters are best for non-production workloads.  
-- 3+ node clusters with replication are considered the gold standard for production.  
-- 2-node clusters provide a middle ground between cost and resilience.
+- **1 Node, no replication**: Outage of the node leads to downtime. Loss of the node leads to data loss.
+- **2 Nodes, no replication**: Outage of one node leads to downtime. Loss of one node leads to data loss.
+- **2 Nodes, with replication**: Outage of one node leads to partial downtime, collection level operations won't be available. Loss of one node **leads to data loss**, as the consensus won't be able to recover
+- **3 Nodes, with replication**: Outage of one node does not lead to downtime. Loss of one node is recoverable.
+
 
 ## Enabling Distributed Mode in Self-Hosted Qdrant
 
@@ -147,7 +128,7 @@ Once the scale-up process completes, you’ll have a new empty node running alon
 When distributed mode is activated and your cluster grows to two or more nodes, any new node starts out empty. To populate it with data, you have several options:
 
 - Create a new replicated collection by specifying a [replication_factor](/documentation/guides/replication/#replication-factor) of 2 or more and setting your [number of shards](/documentation/guides/sharding/#choosing-the-right-number-of-shards) to a multiple of the total number of nodes.  
-- If your existing collection does not have enough shards for each node, you must create a new collection as described above.  
+- If your existing collection does not have enough shards for each node, you must run a [resharding operation](/documentation/production/sharding/#resharding) to increase the number of shards. This operation will create new shards and move data from the old shards to the new ones.
 - If you already have enough shards and just need data replication, follow the instructions for [creating new shard replicas](/documentation/guides/replication/#creating-new-shard-replicas).  
 - If your data is already replicated and you simply want to move data (without additional replication) to the new node(s), see [moving shards](/documentation/guides/sharding/#moving-shards).
 
