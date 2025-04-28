@@ -211,6 +211,7 @@ def get_documents(collection_name, query, num_documents=3):
     ).points
 
     results = [r.payload["document"] for r in search_results]
+    return results
 ```
 
 ### Setting up Quotient
