@@ -19,7 +19,7 @@ tags:
 ---
 
 
-## **How SayOne Enhanced Government AI Services with Qdrant**
+## How SayOne Enhanced Government AI Services with Qdrant
 
 
 ![SayOne Enhanced Government AI Services](/blog/case-study-sayone/case-study-sayone-summary-dark.jpg)
