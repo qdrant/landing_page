@@ -3,9 +3,9 @@ draft: false
 title: "How SayOne Enhanced Government AI Services with Qdrant"
 short_description: "SayOne improved latency, scalability, and privacy compliance for AI government services by switching to Qdrant."
 description: "Explore how SayOne leveraged Qdrant’s superior performance, easy deployment, and robust features to meet demanding government requirements worldwide."
-preview_image: /blog/case-study-sayone/sayone-social-preview.jpg
-social_preview_image: /blog/case-study-sayone/sayone-social-preview.jpg
-date: 2025-04-17T00:00:00Z
+preview_image: /blog/case-study-sayone/case-study-sayone-social-preview.jpg
+social_preview_image: /blog/case-study-sayone/case-study-sayone-social-preview.jpg
+date: 2025-04-28T00:00:00Z
 author: "Daniel Azoulai"
 featured: true
 
