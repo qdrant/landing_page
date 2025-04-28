@@ -458,9 +458,14 @@ qdrant_client.upsert(
 )
 ```
 
-```python
-## LOCAL INFERENCE
+<aside role="status">
+You can also implicitly generate sparse vectors using built-in FastEmbed integration.
+</aside>
 
+<details>
+    <summary>Implicitly generate sparse vectors (Click to expand)</summary>
+
+```python
 qdrant_client.upsert(
     collection_name="movies",
     points=[
@@ -475,6 +480,8 @@ qdrant_client.upsert(
     ],
 )
 ```
+
+</details>
 
 #### Querying
 Let’s query our collection!
@@ -493,9 +500,10 @@ response = qdrant_client.query_points(
 print(response)
 ```
 
-```python
-## LOCAL INFERENCE
+<details>
+    <summary>Implicitly generate sparse vectors (Click to expand)</summary>
 
+```python
 response = qdrant_client.query_points(
     collection_name="movies",
     query=models.Document(text="A movie about music", model=sparse_model_name),
@@ -506,6 +514,8 @@ response = qdrant_client.query_points(
 )
 print(response)
 ```
+
+</details>
 
 Output looks like this:
 ```bash
@@ -621,9 +631,10 @@ response = qdrant_client.query_points(
 print(get_tokens_and_weights(response.points[0].vector['film_description'], tokenizer))
 ```
 
-```python
-## LOCAL INFERENCE
+<details>
+    <summary>Implicitly generate sparse vectors (Click to expand)</summary>
 
+```python
 response = qdrant_client.query_points(
     collection_name="movies",
     query=models.Document(text="A movie about music", model=sparse_model_name)
@@ -635,6 +646,8 @@ response = qdrant_client.query_points(
 
 print(get_tokens_and_weights(response.points[0].vector['film_description'], tokenizer))
 ```
+
+</details>
 
 And that's how SPLADE++ expanded the answer.
 
