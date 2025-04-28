@@ -45,14 +45,14 @@ This tutorial requires qdrant-client version 1.7.1 or higher.
 
 ### Import the models 
 
-Once the two main frameworks are defined, you need to specify the exact models this engine will use. Before you do, activate the Python prompt (`>>>`) with the `python` command.
+Once the two main frameworks are defined, you need to specify the exact models this engine will use.
 
 ```python
 from qdrant_client import models, QdrantClient
 from sentence_transformers import SentenceTransformer
 ```
 
-The [Sentence Transformers](https://www.sbert.net/index.html) framework contains many embedding models. However, [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) is the fastest encoder for this tutorial.
+The [Sentence Transformers](https://www.sbert.net/index.html) framework contains many embedding models. We'll take [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) as it has a good balance between speed and embedding quality for this tutorial.
 
 ```python
 encoder = SentenceTransformer("all-MiniLM-L6-v2")
@@ -242,10 +242,3 @@ The query has been narrowed down to one result from 2008.
 ## Next Steps
 
 Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial you should try building an actual [Neural Search Service with a complete API and a dataset](/documentation/tutorials/neural-search/).
-
-## Return to the bash shell
-
-To return to the bash prompt:
-
-1. Press Ctrl+D to exit the Python prompt (`>>>`).
-1. Enter the `deactivate` command to deactivate the virtual environment.

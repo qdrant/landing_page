@@ -23,7 +23,7 @@ We use the `all-MiniLM-L6-v2` dense embedding model (also supported in FastEmbed
 Install `qdrant-client` with `fastembed`.
 
 ```python
-pip install "qdrant-client[fastembed]"
+pip install "qdrant-client[fastembed]>=1.14.1"
 ```
 
 Import cross-encoders and text embeddings for the first-stage retrieval.
@@ -80,7 +80,7 @@ This command displays the available models, including details such as output emb
   'sources': {'hf': 'jinaai/jina-reranker-v2-base-multilingual'},
   'model_file': 'onnx/model.onnx',
   'description': 'A multi-lingual reranker model for cross-encoder re-ranking with 1K context length and sliding window',
-  'license': 'cc-by-nc-4.0'}]
+  'license': 'cc-by-nc-4.0'}]  # some of the fields are omitted for brevity
 ```
 </details>
 
@@ -88,7 +88,8 @@ This command displays the available models, including details such as output emb
 Now, load the first-stage retriever and reranker.
 
 ```python
-dense_embedding_model = TextEmbedding("sentence-transformers/all-MiniLM-L6-v2")
+encoder_name = "sentence-transformers/all-MiniLM-L6-v2"
+dense_embedding_model = TextEmbedding(model_name=encoder_name)
 reranker = TextCrossEncoder(model_name='jinaai/jina-reranker-v2-base-multilingual')
 ```
 
@@ -141,17 +142,17 @@ Alternatively, you can use [a free cluster](https://qdrant.tech/documentation/cl
 ```python
 from qdrant_client import QdrantClient, models
 
-qdrant_client = QdrantClient(":memory:") # Qdrant is running from RAM.
+client = QdrantClient(":memory:")  # Qdrant is running from RAM.
 ```
 
 Let's create a [collection](https://qdrant.tech/documentation/concepts/collections/) with our movie data.
 
 ```python
-qdrant_client.create_collection(
+client.create_collection(
     collection_name="movies",
     vectors_config={
         "embedding": models.VectorParams(
-            size=384, #size of `all-MiniLM-L6-v2` embeddings
+            size=client.get_embedding_size("sentence-transformers/all-MiniLM-L6-v2"), 
             distance=models.Distance.COSINE
         )
     }
@@ -161,33 +162,54 @@ qdrant_client.create_collection(
 And upload the embeddings to it.
 
 ```python
-qdrant_client.upload_points(
+client.upload_points(
+    collection_name="movies",
+    points=[
+        models.PointStruct(
+            id=idx, 
+            payload={"description": description}, 
+            vector={"embedding": vector}
+        )
+        for idx, (description, vector) in enumerate(
+            zip(descriptions, descriptions_embeddings)
+        )
+    ],
+)
+
+```
+
+<aside role="status">
+Check how points can be uploaded with builtin Fastembed integration.
+</aside>
+
+<details>
+    <summary>Upload with implicit embeddings computation</summary>
+
+
+```python
+client.upload_points(
     collection_name="movies",
     points=[
         models.PointStruct(
             id=idx,
-            payload={
-                "description": description
-            },
-            vector={
-                "embedding": vector
-            }
+            payload={"description": description},
+            vector={"embedding": models.Document(text=description, model=encoder_name)},
         )
-        for idx, (description, vector) in enumerate(zip(descriptions, 
-                                                        descriptions_embeddings))
+        for idx, description in enumerate(descriptions)
     ],
 )
 ```
+</details>
 
 ## First-stage retrieval
 
 Let's see how relevant the results will be using only an `all-MiniLM-L6-v2`-based dense retriever.
 
 ```python
-query = '''A story about a strong historically significant female figure.'''
+query = "A story about a strong historically significant female figure."
 query_embedded = list(dense_embedding_model.query_embed(query))[0]
 
-initial_retrieval = qdrant_client.query_points(
+initial_retrieval = client.query_points(
     collection_name="movies",
     using="embedding",
     query=query_embedded,
@@ -197,9 +219,30 @@ initial_retrieval = qdrant_client.query_points(
 
 description_hits = []
 for i, hit in enumerate(initial_retrieval.points):
-    print(f'''Result number {i+1} is \"{hit.payload["description"]}\"''')
+    print(f'Result number {i+1} is \"{hit.payload["description"]}\"')
     description_hits.append(hit.payload["description"])
 ```
+
+<aside role="status">
+Check how queries can be made with builtin Fastembed integration.
+</aside>
+
+<details>
+    <summary>Query points with implicit embeddings computation</summary>
+
+
+```python
+query = "A story about a strong historically significant female figure."
+
+initial_retrieval = client.query_points(
+    collection_name="movies",
+    using="embedding",
+    query=models.Document(text=query, model=encoder_name),
+    with_payload=True,
+    limit=10
+)
+```
+</details>
 
 The result is as follows:
 
@@ -216,10 +259,16 @@ We can see that the description of *"The Messenger: The Story of Joan of Arc"*, 
 Let's try refining the order of the retrieved subset with `Jina Reranker v2`. It takes a query and a set of documents (movie descriptions) as input and calculates a relevance score based on token-level interactions between the query and each document.
 
 ```python
-new_scores = list(reranker.rerank(query, description_hits)) #returns scores between query and each document
+new_scores = list(
+    reranker.rerank(query, description_hits)
+)  # returns scores between query and each document
 
-ranking = [(i, score) for i, score in enumerate(new_scores)] #saving document indices
-ranking.sort(key=lambda x: x[1], reverse=True) #sorting them in order of relevance defined by reranker
+ranking = [
+    (i, score) for i, score in enumerate(new_scores)
+]  # saving document indices
+ranking.sort(
+    key=lambda x: x[1], reverse=True
+)  # sorting them in order of relevance defined by reranker
 
 for i, rank in enumerate(ranking):
     print(f'''Reranked result number {i+1} is \"{description_hits[rank[0]]}\"''')

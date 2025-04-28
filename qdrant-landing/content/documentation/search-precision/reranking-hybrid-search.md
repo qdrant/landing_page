@@ -158,6 +158,37 @@ operation_info = client.upsert(
 )
 ```
 
+<aside role="status">
+Check how points can be uploaded with builtin Fastembed integration.
+</aside>
+
+<details>
+    <summary>Upload with implicit embeddings computation</summary>
+
+
+```python
+from qdrant_client.models import PointStruct
+points = []
+
+for idx, doc in enumerate(documents):
+    point = PointStruct(
+        id=idx,
+        vector={
+            "all-MiniLM-L6-v2": models.Document(text=doc, model="sentence-transformers/all-MiniLM-L6-v2"),
+            "bm25": models.Document(text=doc, model="Qdrant/bm25"),
+            "colbertv2.0": models.Document(text=doc, model="colbert-ir/colbertv2.0"),
+        },
+        payload={"document": doc}
+    )
+    points.append(point)
+
+operation_info = client.upsert(
+    collection_name="hybrid-search",
+    points=points
+)
+```
+</details>
+
 ---
 
 This code pulls everything together by creating a list of **PointStruct** objects, each containing the embeddings and corresponding documents.
@@ -222,6 +253,39 @@ results = client.query_points(
         limit=10,
 )
 ```
+
+<aside role="status">
+Check how queries can be made with builtin Fastembed integration.
+</aside>
+
+<details>
+    <summary>Query points with implicit embeddings computation</summary>
+
+
+```python
+prefetch = [
+        models.Prefetch(
+            query=models.Document(text=query, model="sentence-transformers/all-MiniLM-L6-v2"),
+            using="all-MiniLM-L6-v2",
+            limit=20,
+        ),
+        models.Prefetch(
+            query=models.Document(text=query, model="Qdrant/bm25"),
+            using="bm25",
+            limit=20,
+        ),
+    ]
+results = client.query_points(
+         "hybrid-search",
+        prefetch=prefetch,
+        query=models.Document(text=query, model="colbert-ir/colbertv2.0"),
+        using="colbertv2.0",
+        with_payload=True,
+        limit=10,
+)
+```
+</details>
+
 
 ---
 

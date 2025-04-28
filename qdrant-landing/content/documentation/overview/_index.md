@@ -52,7 +52,7 @@ system, each vector could represent a song, and elements of the vector would cap
 such as tempo, genre, lyrics, and so on.
 
 Vector databases are optimized for **storing** and **querying** these high-dimensional vectors 
-efficiently, and they often using specialized data structures and indexing techniques such as 
+efficiently, and they often use specialized data structures and indexing techniques such as 
 Hierarchical Navigable Small World (HNSW) -- which is used to implement Approximate Nearest 
 Neighbors -- and Product Quantization, among others. These databases enable fast similarity 
 and semantic search while allowing users to find vectors that are the closest to a given query 

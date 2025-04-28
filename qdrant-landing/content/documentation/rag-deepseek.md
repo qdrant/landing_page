@@ -16,7 +16,7 @@ This tutorial demonstrates how to build a **Retrieval-Augmented Generation (RAG)
 
 ## Overview
 In this tutorial, we will:
-1. Take sample text and turn it to vectors with FastEmbed.
+1. Take sample text and turn it into vectors with FastEmbed.
 2. Send the vectors to a Qdrant collection. 
 3. Connect Qdrant and DeepSeek into a minimal RAG pipeline.
 4. Ask DeepSeek different questions and test answer accuracy.
@@ -32,7 +32,7 @@ In this tutorial, we will:
 ## Prerequisites
 
 Ensure you have the following:
-- Python environment (3.7+)
+- Python environment (3.9+)
 - Access to [Qdrant Cloud](https://qdrant.tech)
 - A DeepSeek API key from [DeepSeek Platform](https://platform.deepseek.com/api_keys)
 
@@ -40,7 +40,7 @@ Ensure you have the following:
 
 
 ```python
-pip install "qdrant-client[fastembed]"
+pip install "qdrant-client[fastembed]>=1.14.1"
 ```
 
 [Qdrant](https://qdrant.tech) will act as a knowledge base providing the context information for the prompts we'll be sending to the LLM.
@@ -57,36 +57,52 @@ QDRANT_API_KEY = "<your-api-key>"
 
 
 ```python
-import qdrant_client
+from qdrant_client import QdrantClient, models
 
-client = qdrant_client.QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
 ```
 
 ### Building the knowledge base
 
 Qdrant will use vector embeddings of our facts to enrich the original prompt with some context. Thus, we need to store the vector embeddings and the facts used to generate them.
 
-We'll be using the [bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) model via [FastEmbed](https://github.com/qdrant/fastembed/) - A lightweight, fast, Python library for embeddings generation.
+We'll be using the [bge-base-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) model via [FastEmbed](https://github.com/qdrant/fastembed/) - A lightweight, fast, Python library for embeddings generation.
 
 The Qdrant client provides a handy integration with FastEmbed that makes building a knowledge base very straighforward.
 
+First, we need to create a collection, so Qdrant would know what vectors it will be dealing with, and then, we just pass our raw documents
+wrapped into `models.Document` to compute and upload the embeddings.
 
 ```python
-client.set_model("BAAI/bge-base-en-v1.5")
+collection_name = "knowledge_base"
+model_name = "BAAI/bge-small-en-v1.5"
+client.create_collection(
+    collection_name=collection_name,
+    vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE)
+)
+```
 
-client.add(
-    collection_name="knowledge-base",
-    # The collection is automatically created if it doesn't exist.
-    documents=[
-        "Qdrant is a vector database & vector similarity search engine. It deploys as an API service providing search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!",
-        "Docker helps developers build, share, and run applications anywhere — without tedious environment configuration or management.",
-        "PyTorch is a machine learning framework based on the Torch library, used for applications such as computer vision and natural language processing.",
-        "MySQL is an open-source relational database management system (RDBMS). A relational database organizes data into one or more data tables in which data may be related to each other; these relations help structure the data. SQL is a language that programmers use to create, modify and extract data from the relational database, as well as control user access to the database.",
-        "NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server. NGINX is known for its high performance, stability, rich feature set, simple configuration, and low resource consumption.",
-        "FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.",
-        "SentenceTransformers is a Python framework for state-of-the-art sentence, text and image embeddings. You can use this framework to compute sentence / text embeddings for more than 100 languages. These embeddings can then be compared e.g. with cosine-similarity to find sentences with a similar meaning. This can be useful for semantic textual similar, semantic search, or paraphrase mining.",
-        "The cron command-line utility is a job scheduler on Unix-like operating systems. Users who set up and maintain software environments use cron to schedule jobs (commands or shell scripts), also known as cron jobs, to run periodically at fixed times, dates, or intervals.",
-    ]
+```python
+documents = [
+    "Qdrant is a vector database & vector similarity search engine. It deploys as an API service providing search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!",
+    "Docker helps developers build, share, and run applications anywhere — without tedious environment configuration or management.",
+    "PyTorch is a machine learning framework based on the Torch library, used for applications such as computer vision and natural language processing.",
+    "MySQL is an open-source relational database management system (RDBMS). A relational database organizes data into one or more data tables in which data may be related to each other; these relations help structure the data. SQL is a language that programmers use to create, modify and extract data from the relational database, as well as control user access to the database.",
+    "NGINX is a free, open-source, high-performance HTTP server and reverse proxy, as well as an IMAP/POP3 proxy server. NGINX is known for its high performance, stability, rich feature set, simple configuration, and low resource consumption.",
+    "FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.",
+    "SentenceTransformers is a Python framework for state-of-the-art sentence, text and image embeddings. You can use this framework to compute sentence / text embeddings for more than 100 languages. These embeddings can then be compared e.g. with cosine-similarity to find sentences with a similar meaning. This can be useful for semantic textual similar, semantic search, or paraphrase mining.",
+    "The cron command-line utility is a job scheduler on Unix-like operating systems. Users who set up and maintain software environments use cron to schedule jobs (commands or shell scripts), also known as cron jobs, to run periodically at fixed times, dates, or intervals.",
+]
+client.upsert(
+    collection_name=collection_name,
+    points=[
+        models.PointStruct(
+            id=idx,
+            vector=models.Document(text=document, model=model_name),
+            payload={"document": document},
+        )
+        for idx, document in enumerate(documents)
+    ],
 )
 ```
 
@@ -114,31 +130,33 @@ Now we can finally call the completion API.
 import requests
 import json
 
-# Provide your own Deepseek API key
-# from https://platform.deepseek.com/api_keys
+# Fill the environmental variable with your own Deepseek API key
+# See: https://platform.deepseek.com/api_keys
 API_KEY = "<YOUR_DEEPSEEK_KEY>"
 
 HEADERS = {
-    'Authorization': f'Bearer {API_KEY}',
-    'Content-Type': 'application/json',
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json",
 }
+
 
 def query_deepseek(prompt):
     data = {
-        'model': 'deepseek-chat',
-        'messages': [
-            {'role': 'user', 'content': prompt}
-        ],
-        'stream': False
+        "model": "deepseek-chat",
+        "messages": [{"role": "user", "content": prompt}],
+        "stream": False,
     }
 
-    response = requests.post("https://api.deepseek.com/chat/completions", headers=HEADERS, data=json.dumps(data))
+    response = requests.post(
+        "https://api.deepseek.com/chat/completions", headers=HEADERS, data=json.dumps(data)
+    )
 
     if response.ok:
         result = response.json()
-        return result['choices'][0]['message']['content']
+        return result["choices"][0]["message"]["content"]
     else:
         raise Exception(f"Error {response.status_code}: {response.text}")
+
 ```
 
 and also the query
@@ -159,9 +177,9 @@ The response is:
 Even though the original answer sounds credible, it didn't answer our question correctly. Instead, it gave us a generic description of an application stack. To improve the results, enriching the original prompt with the descriptions of the tools available seems like one of the possibilities. Let's use a semantic knowledge base to augment the prompt with the descriptions of different technologies!
 
 ```python
-results = client.query(
-    collection_name="knowledge-base",
-    query_text=prompt,
+results = client.query_points(
+    collection_name=collection_name,
+    query=models.Document(text=prompt, model=model_name),
     limit=3,
 )
 results
@@ -170,9 +188,11 @@ results
 Here is the response: 
 
 ```bash
-[QueryResponse(id='116eb694-f127-4b80-9c94-1177ee578bba', embedding=None, sparse_embedding=None, metadata={'document': 'Qdrant is a vector database & vector similarity search engine. It deploys as an API service providing search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!'}, document='Qdrant is a vector database & vector similarity search engine. It deploys as an API service providing search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!', score=0.82907003),
-QueryResponse(id='61d886cf-af3e-4ab0-bdd5-b52770832666', embedding=None, sparse_embedding=None, metadata={'document': 'FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.'}, document='FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.', score=0.81901294),
-QueryResponse(id='1d904593-97a2-421b-87f4-12c9eae4c310', embedding=None, sparse_embedding=None, metadata={'document': 'PyTorch is a machine learning framework based on the Torch library, used for applications such as computer vision and natural language processing.'}, document='PyTorch is a machine learning framework based on the Torch library, used for applications such as computer vision and natural language processing.', score=0.80565226)]
+QueryResponse(points=[
+    ScoredPoint(id=0, version=0, score=0.67437416, payload={'document': 'Qdrant is a vector database & vector similarity search engine. It deploys as an API service providing search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!'}, vector=None, shard_key=None, order_value=None), 
+    ScoredPoint(id=6, version=0, score=0.63144326, payload={'document': 'SentenceTransformers is a Python framework for state-of-the-art sentence, text and image embeddings. You can use this framework to compute sentence / text embeddings for more than 100 languages. These embeddings can then be compared e.g. with cosine-similarity to find sentences with a similar meaning. This can be useful for semantic textual similar, semantic search, or paraphrase mining.'}, vector=None, shard_key=None, order_value=None), 
+    ScoredPoint(id=5, version=0, score=0.6064749, payload={'document': 'FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.'}, vector=None, shard_key=None, order_value=None)
+])
 ```
 
 
@@ -180,7 +200,7 @@ We used the original prompt to perform a semantic search over the set of tool de
 
 
 ```python
-context = "\n".join(r.document for r in results)
+context = "\n".join(r.payload['document'] for r in results.points)
 context
 ```
 
@@ -257,24 +277,24 @@ By leveraging the semantic context we provided our model is doing a better job a
 
 ```python
 def rag(question: str, n_points: int = 3) -> str:
-    results = client.query(
-        collection_name="knowledge-base",
-        query_text=question,
+    results = client.query_points(
+        collection_name=collection_name,
+        query=models.Document(text=question, model=model_name),
         limit=n_points,
     )
 
-    context = "\n".join(r.document for r in results)
+    context = "\n".join(r.payload["document"] for r in results.points)
 
     metaprompt = f"""
     You are a software architect. 
     Answer the following question using the provided context. 
     If you can't find the answer, do not pretend you know it, but only answer "I don't know".
-    
+
     Question: {question.strip()}
-    
+
     Context: 
     {context.strip()}
-    
+
     Answer:
     """
 
