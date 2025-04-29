@@ -7,7 +7,7 @@ preview_image: /blog/case-study-sayone/case-study-sayone-social-preview.jpg
 social_preview_image: /blog/case-study-sayone/case-study-sayone-social-preview.jpg
 date: 2025-04-28T00:00:00Z
 author: "Daniel Azoulai"
-featured: true
+featured: false
 
 
 tags:
