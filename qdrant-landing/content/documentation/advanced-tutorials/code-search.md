@@ -19,12 +19,10 @@ source code itself, which is mostly written in Rust.
 
 ## The approach
 
-We want to search codebases using natural semantic queries, and searching for
-code based on similar logic. You can set up these tasks with embeddings: 
+We want to search codebases using natural semantic queries, and searching for code based on similar logic. You can set up these tasks with embeddings: 
 
 1. General usage neural encoder for Natural Language Processing (NLP), in our case
-   `all-MiniLM-L6-v2` from the
-   [sentence-transformers](https://www.sbert.net/docs/pretrained_models.html) library.
+   `sentence-transformers/all-MiniLM-L6-v2`.
 2. Specialized embeddings for code-to-code similarity search. We use the
    `jina-embeddings-v2-base-code` model.
 
@@ -192,13 +190,7 @@ Function Await ready for timeout that does Return true if ready false if timed o
 
 ## Ingestion pipeline
 
-Next, we build the code search engine to vectorizing data and set up a semantic
-search mechanism for both embedding models.
-
-- We'll use the the `all-MiniLM-L6-v2` model from `sentence-transformers` for the natural language embeddings.
-- The `jina-embeddings-v2-base-code` model is a good candidate for source code embeddings.
-
-With both the natural language and code embeddings, we can store them in the Qdrant collection.
+Next, we'll build a pipeline for vectorizing the data and set up a semantic search mechanism for both embedding models.
 
 ### Building Qdrant collection
 
@@ -228,11 +220,11 @@ client.create_collection(
     "qdrant-sources",
     vectors_config={
         "text": models.VectorParams(
-            size=nlp_embeddings.shape[1],
+            size=384,
             distance=models.Distance.COSINE,
         ),
         "code": models.VectorParams(
-            size=code_embeddings.shape[1],
+            size=768,
             distance=models.Distance.COSINE,
         ),
     }
@@ -253,8 +245,12 @@ points = [
     models.PointStruct(
         id=uuid.uuid4().hex,
         vector={
-            "text": models.Document(text=text, model="sentence-transformers/all-MiniLM-L6-v2"),
-            "code": models.Document(text=code, model="jinaai/jina-embeddings-v2-base-code"),
+            "text": models.Document(
+                text=text, model="sentence-transformers/all-MiniLM-L6-v2"
+            ),
+            "code": models.Document(
+                text=code, model="jinaai/jina-embeddings-v2-base-code"
+            ),
         },
         payload=structure,
     )
@@ -331,18 +327,22 @@ responses = client.query_batch_points(
     collection_name="qdrant-sources",
     requests=[
         models.QueryRequest(
-            query=models.Document(text=query, model="sentence-transformers/all-MiniLM-L6-v2"),
+            query=models.Document(
+                text=query, model="sentence-transformers/all-MiniLM-L6-v2"
+            ),
             using="text",
             with_payload=True,
             limit=5,
         ),
         models.QueryRequest(
-            query=models.Document(text=query, model="jinaai/jina-embeddings-v2-base-code"),
+            query=models.Document(
+                text=query, model="jinaai/jina-embeddings-v2-base-code"
+            ),
             using="code",
             with_payload=True,
             limit=5,
         ),
-    ]
+    ],
 )
 
 results = [response.points for response in responses]
