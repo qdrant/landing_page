@@ -308,7 +308,8 @@ If new nodes remain empty after joining, you waste resources. If departing nodes
 
 ||
 |-|
-|**Read More:** [Distributed Deployment Documentation](https://qdrant.tech/documentation/guides/distributed_deployment/)|
+|**Read More:** [**Distributed Deployment Documentation**](https://qdrant.tech/documentation/guides/distributed_deployment/)|
+|**Read More:** [**Resharding**](https://qdrant.tech/documentation/cloud/cluster-scaling/#resharding)|
 
 ### How to Predict and Test Cluster Performance
 
