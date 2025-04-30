@@ -482,7 +482,7 @@ The [QdrantNeo4jRetriever](https://qdrant.tech/documentation/frameworks/neo4j-gr
 **Graph Fetching:**
 
 - **`neo4j_driver`** connects to Neo4j for querying graph data.
-- **`id_property_neo4j="id"**` ensures the entity IDs from Qdrant match the graph nodes in Neo4j.
+- **`id_property_neo4j="id"`** ensures the entity IDs from Qdrant match the graph nodes in Neo4j.
 
 ### Querying Neo4j for Related Graph Data
 
@@ -496,7 +496,7 @@ def fetch_related_graph(neo4j_client, entity_ids):
     RETURN e, r1 as r, n1 as related, r2, n2
     UNION
     MATCH (e:Entity)-[r]-(related)
-    WHERE e.id IN $entity_ids`
+    WHERE e.id IN $entity_ids
     RETURN e, r, related, null as r2, null as n2
     """
     with neo4j_client.session() as session:
