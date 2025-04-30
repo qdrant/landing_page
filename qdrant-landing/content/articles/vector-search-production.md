@@ -505,7 +505,7 @@ For users of Qdrant's managed cloud service, there's an option to configure RBAC
 
 ❌ Don't run latency-critical search alongside heavy batch jobs—**separate workloads**.
 
-❌ Don't skip quantization—it can **greatly reduce memory and storage footprint**.
+❌ Don't skip quantization—it can **greatly reduce memory footprint and speed up searches**.
 
 ❌ Don't keep outdated Qdrant versions running—**update regularly**.
 
