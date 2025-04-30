@@ -149,7 +149,7 @@ Once all records are inserted, you can rebuild the index in a single pass. Consi
 
 > By default, Qdrant uses up to 16 threads for indexing, but if you notice your CPU isn't being fully utilized during indexing, you can increase this number.
 
-✅ **Optimize batch size and concurrency:** Keep your batch size at the default (around 100) and instead increase the number of concurrent processes. Running 50-60 concurrent processes can significantly improve upload performance. Using just one or two processes won't allow you to see the true performance potential.
+✅ **Use Batch Processes:** Increase the number of concurrent processes. Running 50-60 processes can significantly improve upload performance. Using just one or two processes won't allow you to see the true performance potential.
 
 **Be patient with indexing:** After uploading large datasets, there's a waiting period for indexing to complete. This is normal and can take time depending on your dataset size. 
 
@@ -508,8 +508,6 @@ For users of Qdrant's managed cloud service, there's an option to configure RBAC
 ❌ Don't skip quantization—it can **greatly reduce memory footprint and speed up searches**.
 
 ❌ Don't keep outdated Qdrant versions running—**update regularly**.
-
-❌ Resharding isn't the ultimate solution—**strike a balance between replica and shard counts.**
 
 ## Conclusion
 
