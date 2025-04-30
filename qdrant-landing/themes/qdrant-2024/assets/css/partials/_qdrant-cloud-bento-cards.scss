@@ -35,7 +35,7 @@
       width: 100%;
     }
 
-    a {
+    .link {
       margin-top: pxToRem(12);
     }
   }
@@ -76,7 +76,7 @@
         flex-grow: 1;
       }
 
-      a {
+      .link {
         margin-top: pxToRem(12);
       }
     }
