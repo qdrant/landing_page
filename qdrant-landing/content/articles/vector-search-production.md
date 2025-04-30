@@ -147,7 +147,7 @@ Once all records are inserted, you can rebuild the index in a single pass. Consi
 
 ✅ **Increase indexing threads:** If you're using more than 16 cores, consider explicitly increasing the number of indexing threads. 
 
-> By default, Qdrant uses around 16 threads for indexing, but if you notice your CPU isn't being fully utilized during indexing, you can increase this number.
+> By default, Qdrant uses up to 16 threads for indexing, but if you notice your CPU isn't being fully utilized during indexing, you can increase this number.
 
 ✅ **Optimize batch size and concurrency:** Keep your batch size at the default (around 100) and instead increase the number of concurrent processes. Running 50-60 concurrent processes can significantly improve upload performance. Using just one or two processes won't allow you to see the true performance potential.
 
