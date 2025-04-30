@@ -28,7 +28,7 @@ Learning from the mistakes of previous attempts, we created **miniCOIL**, a new 
 
 Sparse neural retrieval is not so well known, as opposed to methods it's based on -- term-based and dense retrieval. Their weaknesses motivated this field development, guiding it's evolution. Let's follow its path.
 
-![sparse-neural-retrieval-evolution](/articles_data/minicoil/models_evolution.png)
+{{< figure src="/articles_data/minicoil/models_evolution.png" alt="Retrievers evolation" caption="Retrievers evolation" width="80%" >}}
 
 ### Term-based Retrieval
 
@@ -69,7 +69,7 @@ Of course, we want the best of both worlds, fuzed in one model, no drawbacks inc
 - Why **neural**? Instead of deriving an importance score for a word based on its statistics, let's use machine learning models capable of encoding words' meaning.
 
 **So why is it not widely used?**
-![sparse-neural-retrieval-problems](/articles_data/minicoil/models_problems.png)
+{{< figure src="/articles_data/minicoil/models_problems.png" alt="Modern sparse neural retrieval problems" caption="Modern sparse neural retrieval problems" width="80%" >}}
 
 The detailed history of sparse neural retrieval makes [a whole other article](https://qdrant.tech/articles/modern-sparse-neural-retrieval/). Summing a big part of it up, there were many attempts to map a word representation produced by a dense encoder to a single-valued importance score, and most of them never saw the real world outside of research papers (**DeepImpact**, **TILDEv2**, **uniCOIL**).
 
@@ -94,7 +94,7 @@ So, to be usable in production, the minimal criteria a sparse neural retriever s
 - **Producing lightweight sparse representations (it's in the name!).** Inheriting the perks of term-based retrieval, it should be lightweight and simple. For broader semantic search, there are dense retrievers, and they work.
 - **Being better than BM25 at ranking in different domains.** The goal is a term-based retriever capable of distinguishing word meanings — what BM25 can't do — preserving BM25's out-of-domain, time-proven performance.
 
-![minicoil](/articles_data/minicoil/minicoil.png)
+{{< figure src="/articles_data/minicoil/minicoil.png" alt="The Idea Behind the miniCOIL Model" caption="The Idea Behind the miniCOIL Model" width="80%" >}}
 
 ### Inspired by COIL
 
@@ -176,8 +176,7 @@ Let’s test our assumption and take a look at the word *“bat”*.
 
 We took several thousand sentences with this word, which we sampled from [OpenWebText dataset](https://paperswithcode.com/dataset/openwebtext) and vectorized with a [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) encoder. The goal was to check if we could distinguish any clusters containing sentences where *“bat”* shares the same meaning.
 
-![bat-umap](/articles_data/minicoil/bat.png)
-CAPTION: Looks like a bat
+{{< figure src="/articles_data/minicoil/bat.png" alt="Sentences with \"bat\" in 2D" caption="Sentences with \"bat\" in 2D. <br>A very important observation: *Looks like a bat*:)" width="80%" >}}
 
 The result had two big clusters related to *"bat"* as an animal and *"bat"* as a sports equipment, and two smaller ones related to fluttering motion and verb used in sports. As a bonus, projection on 2D looked like a bat, which made us sure that the experiment was successful:)
 
@@ -194,7 +193,7 @@ TBD: IMAGE OF A MINICOIL MODEL. (Input Transformer DIM x miniCOIL vector DIM)
 As a training objective, we can select the minimization of [triplet loss](https://qdrant.tech/articles/triplet-loss/), where triplets are picked and aligned based on distances between [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) sentence embeddings. We rely on the confidence (size of the margin) of [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) to guide our *"bat"* miniCOIL compression.
 
 TBD REDO IMAGE IN OUR STYLE  
-![minicoil-training](/articles_data/minicoil/minicoil-training.png)
+{{< figure src="/articles_data/minicoil/minicoil-training.png" alt="MiniCOIL training objective" caption="MiniCOIL training objective" width="80%" >}}
 
 <aside role="status">
 Since miniCOIL vectors are trained to reflect spatial relationships based on cosine similarity, they should be normalized before inserting them into bag-of-words sparse vectors.
@@ -242,7 +241,7 @@ Input transformer [`jina-embeddings-v2-small-en`](https://huggingface.co/jinaai/
 
 The validation loss we obtained, depending on the miniCOIL vector size (4, 8, or 16), demonstrates miniCOIL correctly distinguishing from 76% (60 failed triplets on average per batch of size 256) to 85% (38 failed triplets on average per batch of size 256) triplets respectively.
 
-![validation-loss](/articles_data/minicoil/validation_loss.png)
+{{< figure src="/articles_data/minicoil/validation_loss.png" alt="Validation loss" caption="Validation loss" width="80%" >}}
 
 ### Benchmarking
 The benchmarking code is open-sourced in [this repository](https://github.com/qdrant/mini-coil-demo/tree/master/minicoil_demo). 
