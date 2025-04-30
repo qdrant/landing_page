@@ -162,7 +162,7 @@ Once all records are inserted, you can rebuild the index in a single pass. Consi
 
 > It's possible for indexing to temporarily fall behind data ingestion, both during gradual streaming uploads and after large bulk uploads.
 
-By default, searches include indexed data. However, a large number of unindexed points can significantly slow down searches due to full scans, potentially causing high search latency, timeouts, and application failures.
+By default, searches include unindexed data. However, a large number of unindexed points can significantly slow down searches due to full scans, potentially causing high search latency, timeouts, and application failures.
 
 If the maximum number of indexed points remains consistently low, this is likely not an issue. If you anticipate periods with many unindexed points, you should take measures to prevent search disruptions in production.
 
