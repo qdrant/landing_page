@@ -249,9 +249,9 @@ The benchmarking code is open-sourced in [this repository](https://github.com/qd
 
 To check miniCOIL performance in different domains, we, ironically, chose a subset of the same [BEIR datasets](https://github.com/beir-cellar/beir), high benchmark values on which became an end in itself for many sparse neural retrievers. Yet the difference is that **miniCOIL wasn't trained on BEIR datasets and shouldn't be biased towards them**.
 
-We're testing our miniCOIL model versus [our BM25 implementation](https://huggingface.co/Qdrant/bm25). BEIR are indexed to Qdrant using the following:
-- `k = 1.2`, `b = 0.75` default values of BM25 parameters;
-- `avg_len` parameter of BM25 estimated on 50_000 documents from the respective dataset.
+We're testing our miniCOIL model versus [our BM25 implementation](https://huggingface.co/Qdrant/bm25). BEIR datasets are indexed to Qdrant using the following parameters:
+- `k = 1.2`, `b = 0.75` default values of BM25;
+- `avg_len` estimated on 50_000 documents from the respective dataset.
 
 We compare models based on `NDCG@10`, as we're interested in the ranking performance of miniCOIL compared to BM25. They retrieve the same subset of indexed corpora based on exact matches, but if everything was done right, miniCOIL should rank this subset better based on its semantics understanding.
 
@@ -263,8 +263,9 @@ The result is the following (*we will most probably extend it further*):
 | NQ         | 0.304          | **0.319**          |
 | Quora      | 0.784          | **0.802**          |
 | FiQA-2018  | 0.252          | **0.257**          |
+| HotpotQA   | RUNS           | RUNS               |
 
-We can see miniCOIL performing slightly better than BM25 in several domains. It shows that **we're moving in the right direction to make sparse neural retrieval usable**.
+We can see miniCOIL performing slightly better than BM25 in various domains. It shows that **we're moving in the right direction to make sparse neural retrieval usable**.
 
 <aside role="status">
 To use any model for your specific use case, always benchmark it yourself!<br> Performance on public benchmarks doesn't secure your high performance on specific data.
