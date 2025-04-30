@@ -260,7 +260,7 @@ The result is the following (*we will most probably extend it further*):
 | Dataset    | BM25 (NDCG@10) | MiniCOIL (NDCG@10) |
 |:-----------|:--------------|:------------------|
 | MS MARCO   | 0.237          | **0.244**          |
-| NQ         | RUNS           | RUNS               |
+| NQ         | 0.304          | **0.319**          |
 | Quora      | 0.784          | **0.802**          |
 | FiQA-2018  | 0.252          | **0.257**          |
 
