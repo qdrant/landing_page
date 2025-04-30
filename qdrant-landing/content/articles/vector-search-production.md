@@ -78,7 +78,7 @@ Unlike some other engines, Qdrant lets you make the optimal choice of which fiel
 |-|
 |**Read More:** [**Filtering Documentation**](https://qdrant.tech/documentation/concepts/filtering/)|
 
-### Dont Forget to Tune HNSW Search Parameters
+### Don't Forget to Tune HNSW Search Parameters
 
 ||
 |:-:|
