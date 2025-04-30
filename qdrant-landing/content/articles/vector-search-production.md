@@ -3,7 +3,7 @@ title: "Vector Search in Production"
 short_description: "A comprehensive guide to running vector search in production environments"
 description: "We gathered our most recommended tips and tricks to make your production deployment run smoothly."
 preview_dir: /articles_data/vector-search-production/preview
-social_preview_image: /articles_data/vector-search-production/social-preview.jpg
+social_preview_image: /articles_data/vector-search-production/social_preview.png
 author: David Myriel
 author_link: 
 date: 2025-04-30T00:00:00.000Z
