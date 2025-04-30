@@ -3,7 +3,7 @@ title: "Vector Search in Production"
 short_description: "A comprehensive guide to running vector search in production environments"
 description: "We gathered our most recommended tips and tricks to make your production deployment run smoothly."
 preview_dir: /articles_data/vector-search-production/preview
-social_preview_image: /articles_data/vector-search-production/social-preview.png
+social_preview_image: /articles_data/vector-search-production/social_preview.png
 author: David Myriel
 author_link: 
 date: 2025-04-29T00:00:00.000Z
@@ -22,7 +22,7 @@ Running vector search in production is about ensuring **reliability, performance
 
 ### This Guide Addresses Most Common Issues in Production
 
-![vector-search-production](/articles_data/vector-search-production/vector-search-production-1.jpg)
+![vector-search-production](/articles_data/vector-search-production/vector-search-production-0.jpg)
 
 Whether you're planning your first deployment or looking to improve an existing system, this walkthrough will help you build resilient and high-performing vector search infrastructure.
 
@@ -112,7 +112,7 @@ Many users skip [**quantization**](https://qdrant.tech/documentation/guides/quan
 
 If your workload can tolerate a moderate drop in embedding precision, data compression offers a powerful way to shrink vector size and slash memory usage. By converting high-dimensional floating-point values into lower-bit formats (such as 8-bit scalar or even a single bit-sized representations), you can keep far more vectors in RAM while reducing disk footprint.
 
-> ✅ [**You should evaluate and apply quantization**]((https://qdrant.tech/documentation/guides/quantization/#how-to-choose-the-right-quantization-method)) if your use case allows. Quantization seriously improves performance and reduces storage costs.
+> ✅ [**You should evaluate and apply quantization**](https://qdrant.tech/documentation/guides/quantization/#how-to-choose-the-right-quantization-method) if your use case allows. Quantization seriously improves performance and reduces storage costs.
 
 This not only speeds up query throughput for large-scale datasets, but also cuts hardware costs and storage overhead. While Scalar Quantization is a midrange compression alternative, Binary quantization is more drastic, so be sure to test your accuracy requirements for each thoroughly.
 
@@ -125,7 +125,7 @@ When using [**quantization**](https://qdrant.tech/documentation/guides/quantizat
 |**Read More:** [**Quantization Documentation**](https://qdrant.tech/documentation/guides/quantization/)|
 
 ## 2. How do I Ingest and Index Large Amounts of Data?
-![vector-search-production](/articles_data/vector-search-production/vector-search-production-1.jpg)
+![vector-search-production](/articles_data/vector-search-production/vector-search-production-2.jpg)
 
 ||
 |:-:|
@@ -133,9 +133,9 @@ When using [**quantization**](https://qdrant.tech/documentation/guides/quantizat
 
 ❓ **Use Case:** A fintech team ingested 500 million transaction records. Performance was fine initially but collapsed within an hour. 
 
-They had left indexing enabled, so every insert triggered a full index update. Unfortunately, their CPU usage soared, and other services timed out.
+They had left HNSW indexing enabled, so every insert triggered a full index update. Unfortunately, their CPU usage soared, and other services timed out.
 
-> ✅ On a case-by-case basis, we recommend **disabling indexing during large uploads** to improve ingestion and indexing speed. 
+> ✅ On a case-by-case basis, we recommend **disabling building the HNSW index during large uploads** to improve ingestion and indexing speed. 
 
 Once all records are inserted, you can rebuild the index in a single pass. Consider a specialized ingestion pipeline that batches writes and schedules indexing during low-traffic windows. If you don't have such low-traffic windows, you can tune the `indexing_threshold` to find a balance between receiving updates without triggering indexation, and keeping the collection indexed.
 
@@ -145,7 +145,7 @@ Once all records are inserted, you can rebuild the index in a single pass. Consi
 
 ### Other Solutions to Alleviate Indexing Bottleneck
 
-✅ **Increase indexing threads:** If you're using more than 16 cores, consider explicitly increasing the number of indexing threads. B
+✅ **Increase indexing threads:** If you're using more than 16 cores, consider explicitly increasing the number of indexing threads. 
 
 > By default, Qdrant uses around 16 threads for indexing, but if you notice your CPU isn't being fully utilized during indexing, you can increase this number.
 
@@ -158,7 +158,7 @@ Once all records are inserted, you can rebuild the index in a single pass. Consi
 |**Read More:** [**Configuration Documentation**](https://qdrant.tech/documentation/guides/configuration/)|
 
 ### When Indexing Falls Behind Ingestion
-![vector-search-production](/articles_data/vector-search-production/vector-search-production-1.jpg)
+![vector-search-production](/articles_data/vector-search-production/vector-search-production-3.jpg)
 
 > It's possible for indexing to temporarily fall behind data ingestion, both during gradual streaming uploads and after large bulk uploads.
 
@@ -200,7 +200,7 @@ For example, **some services might write a "status" field as a string ("active")
 
 ❓ **Use Case:** When implementing vector databases, healthcare organizations need to ensure isolation between users' data. Our customer needed to make sure that when they filtered queries to only show a particular patient's documents, and no other patient's documents appeared in the query results.
 
-✅ [**You should always consolidate tenants to a single collection**](https://qdrant.tech/documentation/guides/multiple-partitions/) if possible, tagging by tenant.
+✅ [**You should almost always consolidate tenants to a single collection**](https://qdrant.tech/documentation/guides/multiple-partitions/) if possible, tagging by tenant.
 
 ```text
 PUT /collections/{collection_name}/index
@@ -224,7 +224,7 @@ Figure: For many-tenant setups, spinning up a new collection per tenant can ball
 |**Read More:** [**Multitenancy Documentation**](https://qdrant.tech/documentation/concepts/multitenancy/)|
 
 ## 3. What's the Best Way to Scale the Database and Optimize Resources?
-![vector-search-production](/articles_data/vector-search-production/vector-search-production-1.jpg)
+![vector-search-production](/articles_data/vector-search-production/vector-search-production-4.jpg)
 
 ||
 |:-:|
@@ -288,7 +288,7 @@ Proper sharding considers data distribution and query patterns. By default, shar
 |**Read More:** [Sharding Documentation](https://qdrant.tech/documentation/concepts/sharding/)|
 
 ### Manage Your Costs by Scaling Up or Down
-![vector-search-production](/articles_data/vector-search-production/vector-search-production-1.jpg)
+![vector-search-production](/articles_data/vector-search-production/vector-search-production-5.jpg)
 
 Some teams scale up for daytime surges, then scale down overnight to save resources. If you do this, ensure data is sharded and replicated appropriately, so that scaling up and down won't result in service degradation.
 
@@ -350,7 +350,7 @@ High concurrency and large memory footprints can expose misconfigurations more q
 
 ### Set up Telemetry for Early Detection
 
-❓ **Use Case:** A customer in health care uses telemetry data from their Qdrant deployment to identify performance and scaling issues with their open-source implementation. The telemetry helps them monitor metrics such as search performance, RAM utilization efficiency, and indexing speed. By analyzing this data, they can work toward reducing query response times from 50-60 seconds to 0.5 seconds and optimize their system configuration.
+❓ **Use Case:** A customer in health care uses telemetry data from their Qdrant deployment to identify performance and scaling issues with their open-source implementation. The telemetry helps them monitor metrics such as search performance, RAM utilization efficiency, and indexing speed. By analyzing this data, they can work toward reducing query response times and optimize their system configuration.
 
 ✅ **Enable telemetry and monitoring** so you can track latency, throughput, and optimization stats.
 
@@ -378,7 +378,7 @@ By following these comprehensive load testing practices, you'll be able to ident
 |**Read More:** [**Cloud Monitoring Documentation**](https://qdrant.tech/documentation/hybrid-cloud/networking-logging-monitoring/)
 
 ## 4. Ensuring Disaster Recovery With Database Backups and Snapshots
-![vector-search-production](/articles_data/vector-search-production/vector-search-production-1.jpg)
+![vector-search-production](/articles_data/vector-search-production/vector-search-production-6.jpg)
 
 ||
 |:-:|
@@ -408,7 +408,7 @@ Whichever you choose, always test the restore process. Some teams only realize b
 
 If you host tens of billions of vectors, store backups off-node in a different data center or a remote repository. Also, confirm your restore bandwidth is sufficient. If the restore pipeline is slower than the local disk, it'll take far longer than expected.
 
-> To avoid mismatched versions after restoration, always include index configurations—like quantization settings or HNSW parameters.
+> To avoid mismatched versions after restoration, always preserve index configurations, such as quantization settings or HNSW parameters.
 
 ||
 |-|
@@ -417,7 +417,7 @@ If you host tens of billions of vectors, store backups off-node in a different d
 |**Read More:** [**Private Cloud Backup Documentation**](https://qdrant.tech/documentation/private-cloud/backups/)|
 
 ## 5. Tips for Proper Database Administration
-![vector-search-production](/articles_data/vector-search-production/vector-search-production-1.jpg)
+![vector-search-production](/articles_data/vector-search-production/vector-search-production-7.jpg)
 
 ||
 |:-:|
@@ -493,12 +493,8 @@ For users of Qdrant's managed cloud service, there's an option to configure RBAC
 |-|
 |**Read More:** [**Cloud RBAC Documentation**](https://qdrant.tech/documentation/cloud-rbac/)|
 
-## Conclusion
-![vector-search-production](/articles_data/vector-search-production/vector-search-production-1.jpg)
-
-In conclusion, **vector search in production** isn't tied to a specific cloud provider or infrastructure. The same core principles of **careful configuration, robust ingestion/indexing, intelligent scaling, thorough backups, strong observability, and security** apply universally. By embracing these fundamentals, you'll deliver fast, reliable, and scalable search for your users, regardless of where your hardware or services run.
-
 ### Remember to Avoid These Common Pitfalls
+![vector-search-production](/articles_data/vector-search-production/vector-search-production-8.jpg)
 
 ❌ Don't forget to index payload fields—**not doing this will slow your search.**
 
@@ -514,4 +510,8 @@ In conclusion, **vector search in production** isn't tied to a specific cloud pr
 
 ❌ Resharding isn't the ultimate solution—**strike a balance between replica and shard counts.**
 
-![vector-search-production](/articles_data/vector-search-production/vector-search-production-1.jpg)
+## Conclusion
+
+In conclusion, **vector search in production** isn't tied to a specific cloud provider or infrastructure. The same core principles of **careful configuration, robust ingestion/indexing, intelligent scaling, thorough backups, strong observability, and security** apply universally. By embracing these fundamentals, you'll deliver fast, reliable, and scalable search for your users, regardless of where your hardware or services run.
+
+![vector-search-production](/articles_data/vector-search-production/vector-search-production-9.jpg)
