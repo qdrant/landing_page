@@ -285,7 +285,7 @@ Proper sharding considers data distribution and query patterns. By default, shar
 
 ||
 |-|
-|**Read More:** [Sharding Documentation](https://qdrant.tech/documentation/concepts/sharding/)|
+|**Read More:** [**Sharding Documentation**](https://qdrant.tech/documentation/concepts/sharding/)|
 
 ### Manage Your Costs by Scaling Up or Down
 ![vector-search-production](/articles_data/vector-search-production/vector-search-production-5.jpg)
