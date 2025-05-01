@@ -2,6 +2,8 @@
 title: Reranking in Semantic Search
 weight: 1
 partition: build
+aliases:
+  - ../search-precision
 ---
 
 # Reranking in RAG with Qdrant Vector Database
