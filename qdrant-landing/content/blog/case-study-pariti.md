@@ -40,7 +40,7 @@ Engineering Lead Elvis Moraa needed a production-grade vector database that coul
 
 3. Clear documentation to move from “Hello, vectors” to a live integration in a single afternoon.
 
-Pariti ingested the entire 60,000–70,000-candidate corpus, and a lightweight back-end now creates embeddings the moment new data arrives. Queries travel over HTTP and come back in 22–40 milliseconds with 0 percent downtime since launch.
+Pariti ingested the entire 70,000-candidate corpus, and a lightweight back-end now creates embeddings the moment new data arrives. Queries travel over HTTP and come back in between 22 and 40 milliseconds with 0 percent downtime since launch.
 
 ### What the Workflow Looks Like Today
 
