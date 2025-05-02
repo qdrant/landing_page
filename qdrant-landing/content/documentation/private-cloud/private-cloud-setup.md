@@ -38,7 +38,7 @@ Open Containers Initiative (OCI) Helm charts:
 
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud`
 - `registry.cloud.qdrant.io/library/qdrant-kubernetes-api`
-- 
+
 ### Mirroring images and charts
 
 To mirror all necessary container images and Helm charts into your own registry, you can either use a replication feature that your registry provides, or you can manually sync the images with [Skopeo](https://github.com/containers/skopeo):
