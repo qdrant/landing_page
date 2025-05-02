@@ -62,7 +62,6 @@ Learn how to:
 * [Connect Qdrant with your data stack](https://qdrant.tech/documentation/data-management/) for seamless workflows
 
 **Pick a Deployment Model**
-
 If you are looking for freedom of choice, [enterprise-readiness](https://qdrant.tech/blog/enterprise-vector-search/), and scalability without [vendor lock-in](https://qdrant.tech/blog/are-you-vendor-locked/), look no further. Here you can learn about the different deployment options we offer. 
 
 Whether you want a fully managed experience, complete infrastructure control, or something in between, Qdrant delivers:
@@ -72,7 +71,6 @@ Whether you want a fully managed experience, complete infrastructure control, or
 * If sovereignty and control are non-negotiable, Private Cloud is built for air-gapped, high-security environments.
 
 **Support, Community, and Docs**
-
 We have robust documentation, as well as a global [community](https://discord.com/invite/qdrant) of users that share projects, advice, and help each other build. If you run into technical issues, our support team is happy to help troubleshoot. Here you can find what you need if you run into roadblocks when building. 
 
 ## Cluster Overview 
@@ -81,8 +79,7 @@ Now this is probably where you will spend most of your time when building with Q
 
 When looking at the overview of your cluster, we’ve added new tabs with an improved menu structure. 
 
-* **Overview**: This has everything you need at a glance, including a visual of your node, disk, RAM, CPU usage so you can see if you are approaching any limits.   
-* It’s also easier now to scale your cluster. Once scaled to a paid tier via credit card or marketplace, you can access backup and disaster recovery, a 99.5% uptime SLA, horizontal and vertical scaling, monitoring and log management, and more.   
+* **Overview**: This has everything you need at a glance, including a visual of your node, disk, RAM, CPU usage so you can see if you are approaching any limits. It’s also easier now to scale your cluster. Once scaled to a paid tier via credit card or marketplace, you can access backup and disaster recovery, a 99.5% uptime SLA, horizontal and vertical scaling, monitoring and log management, and more.   
 * **API** **keys**: Manage access to your database cluster  
 * **Metrics**: a visualization of your resources, RAM, CPU, disk and requests over different timeframes   
 * **Logs**: get a real-time window into what’s happening inside cluste for transparency, diagnostics, and control (especially important during debugging, performance tuning, or infrastructure troubleshooting\!)  
@@ -102,13 +99,11 @@ If you haven’t tried Qdrant Cloud yet, now is the time to get started\!
 
 [**Go try out your 1GB free cluster and poke around\!**](https://cloud.qdrant.io/signup%20)   
 
-Want to share feedback? 
-
-\<a href="[mailto:community@qdrant.com](mailto:community@qdrant.com)"\>Email us.\</a\>
+Want to share feedback? Email us at community@qdrant.com
 
 ## Migrating your data just got easier 
 
-Also, on April 30th, we launched the beta release of a database migration tool, significantly simplifying data migration processes.
+We also launched the beta release of a database migration tool, significantly simplifying data migration processes.
 
 IMAGE OF GITHUB
 
@@ -118,4 +113,4 @@ Unlike Qdrant’s included [snapshot migration method](https://qdrant.tech/docum
 
 This is especially useful if you want to change the collection configuration on the target, for example by choosing a different replication factor or quantization method.
 
-Learn more and start migrating easily: [Qdrant Migration Tool](https://github.com/qdrant/migration)
+**Learn more and start migrating easily: [Qdrant Migration Tool](https://github.com/qdrant/migration)**
