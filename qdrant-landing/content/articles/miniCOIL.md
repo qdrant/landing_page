@@ -188,7 +188,7 @@ We have a training pool of sentences containing the word *"bat"* in different me
 
 We're dealing with only one word, so it should be enough to use just one linear layer for dimensionality reduction, with a [`Tanh activation`](https://pytorch.org/docs/stable/generated/torch.nn.Tanh.html) on top, mapping values of compressed vectors to (-1, 1) range. The activation function choice is made to align miniCOIL representations with dense encoder ones, which are mainly compared through `cosine similarity`.
 
-{{< figure src="/articles_data/minicoil/minicoil_one_word.png" alt="miniCOIL architecture on a word level" caption="miniCOIL architecture on a word level" width="100%" >}}
+{{< figure src="/articles_data/minicoil/miniCOIL_one_word.png" alt="miniCOIL architecture on a word level" caption="miniCOIL architecture on a word level" width="100%" >}}
 
 As a training objective, we can select the minimization of [triplet loss](https://qdrant.tech/articles/triplet-loss/), where triplets are picked and aligned based on distances between [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) sentence embeddings. We rely on the confidence (size of the margin) of [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) to guide our *"bat"* miniCOIL compression.
 
@@ -212,7 +212,7 @@ What if we keep it simple and continue training a model per word? It has certain
 
 Then we could train all the words we're interested in and simply combine (stack) all models into one big miniCOIL.
 
-{{< figure src="/articles_data/minicoil/minicoil_full.png" alt="miniCOIL model" caption="miniCOIL model" width="100%" >}}
+{{< figure src="/articles_data/minicoil/miniCOIL_full.png" alt="miniCOIL model" caption="miniCOIL model" width="100%" >}}
 
 ### Implementation Details 
 
