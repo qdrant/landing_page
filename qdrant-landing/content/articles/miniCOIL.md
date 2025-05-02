@@ -1,18 +1,18 @@
 ---
-title: "MiniCOIL: on the Road to Usable Sparse Neural Retrieval"
+title: "miniCOIL: on the Road to Usable Sparse Neural Retrieval"
 short_description: "Our attempt to learn from drawbacks of modern sparse neural retrievers"
 description: "Introducing miniCOIL -- a lightweight sparse neural retriever capable of understanding words’ meaning in the context & performant on out-of-domain datasets."
 social_preview_image: /articles_data/minicoil/social-preview.jpg
 preview_dir: /articles_data/minicoil/preview
 weight: -190
 author: Evgeniya Sukhodolskaya
-date: 2025-04-23T12:00:00+03:00
+date: 2025-05-02T00:00:00+03:00
 draft: false
 keywords:
   - hybrid search
-  - sparse embeddings
-  - miniCOIL
+  - sparse retrieval
   - bm25
+  - splade
 category: machine-learning
 ---
 
@@ -28,7 +28,7 @@ Learning from the mistakes of previous attempts, we created **miniCOIL**, a new 
 
 Sparse neural retrieval is not so well known, as opposed to methods it's based on -- term-based and dense retrieval. Their weaknesses motivated this field development, guiding it's evolution. Let's follow its path.
 
-{{< figure src="/articles_data/minicoil/models_evolution.png" alt="Retrievers evolation" caption="Retrievers evolation" width="80%" >}}
+{{< figure src="/articles_data/minicoil/models_evolution.png" alt="Retrievers evolation" caption="Retrievers evolation" width="100%" >}}
 
 ### Term-based Retrieval
 
@@ -69,7 +69,7 @@ Of course, we want the best of both worlds, fuzed in one model, no drawbacks inc
 - Why **neural**? Instead of deriving an importance score for a word based on its statistics, let's use machine learning models capable of encoding words' meaning.
 
 **So why is it not widely used?**
-{{< figure src="/articles_data/minicoil/models_problems.png" alt="Modern sparse neural retrieval problems" caption="Modern sparse neural retrieval problems" width="80%" >}}
+{{< figure src="/articles_data/minicoil/models_problems.png" alt="Problems of modern sparse neural retrievers" caption="Problems of modern sparse neural retrievers" width="100%" >}}
 
 The detailed history of sparse neural retrieval makes [a whole other article](https://qdrant.tech/articles/modern-sparse-neural-retrieval/). Summing a big part of it up, there were many attempts to map a word representation produced by a dense encoder to a single-valued importance score, and most of them never saw the real world outside of research papers (**DeepImpact**, **TILDEv2**, **uniCOIL**).
 
@@ -94,7 +94,7 @@ So, to be usable in production, the minimal criteria a sparse neural retriever s
 - **Producing lightweight sparse representations (it's in the name!).** Inheriting the perks of term-based retrieval, it should be lightweight and simple. For broader semantic search, there are dense retrievers, and they work.
 - **Being better than BM25 at ranking in different domains.** The goal is a term-based retriever capable of distinguishing word meanings — what BM25 can't do — preserving BM25's out-of-domain, time-proven performance.
 
-{{< figure src="/articles_data/minicoil/minicoil.png" alt="The Idea Behind the miniCOIL Model" caption="The Idea Behind the miniCOIL Model" width="80%" >}}
+{{< figure src="/articles_data/minicoil/minicoil.png" alt="The idea behind miniCOIL" caption="The idea behind miniCOIL" width="100%" >}}
 
 ### Inspired by COIL
 
@@ -126,10 +126,10 @@ $$
 
 Then, if we manage to capture a word's meaning, our solution alone could work like BM25 combined with a semantically aware reranker -- or, in other words:
 
-- It could see the difference between a *"fruit **bat**"* and a *"baseball **bat**"*
-- When used with word stems, it could distinguish parts of speech. For example, *"inform"*, *"informant"*, *"informational"*, *"informed"*, and *"informally"* won't get lost in one *"**inform**"* stem.
+- It could see the difference between homophrapgs;
+- When used with word stems, it could distinguish parts of speech.
 
-TBD IMAGE OF EXAMPLES
+{{< figure src="/articles_data/minicoil/examples.png" alt="Meaning component" caption="Meaning component" width="100%" >}}
 
 And if our model stumbles upon a word it hasn't "seen" during training, we can just fall back to the original BM25 formula!
 
@@ -140,17 +140,17 @@ COIL uses 32 values to describe one term. Do we need this many? How many words w
 Yet, even if we use fewer values in COIL representations, the initial problem of dense vectors not fitting into a classical inverted index persists.  
 Unless... We do a simple trick!
 
-TBD IMAGE 1D -> 4D BAG-OF-WORD
+{{< figure src="/articles_data/minicoil/bow_4D.png" alt="miniCOIL vectors to sparse representation" caption="miniCOIL vectors to sparse representation" width="80%" >}}
 
 Imagine a bag-of-words sparse vector. Every word from the vocabulary takes up one cell. If the word is present in the encoded text — we assign some weight; if it isn't — it equals zero.
 
-If we have a miniCOIL vector describing a word's meaning, for example, in 4D semantic space, we could just dedicate 4 consecutive cells for this word in the sparse vector, one cell per "meaning" dimension. If we don't, we could fall back to a classic one-cell description with a pure BM25 score.
+If we have a mini COIL vector describing a word's meaning, for example, in 4D semantic space, we could just dedicate 4 consecutive cells for TBD word in the sparse vector, one cell per "meaning" dimension. If we don't, we could fall back to a classic one-cell description with a pure BM25 score.
 
-**Such representation of miniCOIL vectors can be used in any standard inverted index.**
+**Such representations can be used in any standard inverted index.**
 
 ## Training miniCOIL
 
-Now, we're coming to the part where we need to somehow get this low-dimensional encapsulation of a word's meaning -- a miniCOIL vector.
+Now, we're coming to the part where we need to somehow get this low-dimensional encapsulation of a word's meaning -- **a miniCOIL vector**.
 
 We want to work smarter, not harder, and rely as much as possible on time-proven solutions. Dense encoders are good at encoding a word's meaning in its context, so it would be convenient to reuse their output. Moreover, we could kill two birds with one stone if we wanted to add miniCOIL to hybrid search -- where dense encoder inference is done regardless. 
 
@@ -178,7 +178,7 @@ We took several thousand sentences with this word, which we sampled from [OpenWe
 
 {{< figure src="/articles_data/minicoil/bat.png" alt="Sentences with \"bat\" in 2D" caption="Sentences with \"bat\" in 2D. <br>A very important observation: *Looks like a bat*:)" width="80%" >}}
 
-The result had two big clusters related to *"bat"* as an animal and *"bat"* as a sports equipment, and two smaller ones related to fluttering motion and verb used in sports. As a bonus, projection on 2D looked like a bat, which made us sure that the experiment was successful:)
+The result had two big clusters related to *"bat"* as an animal and *"bat"* as a sports equipment, and two smaller ones related to fluttering motion and verb used in sports. Seems like it could work!
 
 ### Architecture and Training Objective
 
@@ -186,17 +186,16 @@ Let's continue dealing with *"bats"*.
 
 We have a training pool of sentences containing the word *"bat"* in different meanings. Using a dense encoder of choice, we get a contextualized embedding of *"bat"* from each sentence and learn to compress it into a low-dimensional miniCOIL *"bat"* space, guided by [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) sentence embeddings.
 
-We're dealing with only one word, so it should be enough to use just one linear layer for dimensionality reduction, with a [`Tanh activation`](https://pytorch.org/docs/stable/generated/torch.nn.Tanh.html) on top. The activation function choice is made to align miniCOIL vectors with dense encoder representations, which are mainly compared through `cosine similarity`.
+We're dealing with only one word, so it should be enough to use just one linear layer for dimensionality reduction, with a [`Tanh activation`](https://pytorch.org/docs/stable/generated/torch.nn.Tanh.html) on top, mapping values of compressed vectors to (-1, 1) range. The activation function choice is made to align miniCOIL representations with dense encoder ones, which are mainly compared through `cosine similarity`.
 
-TBD: IMAGE OF A MINICOIL MODEL. (Input Transformer DIM x miniCOIL vector DIM)
+{{< figure src="/articles_data/minicoil/minicoil_one_word.png" alt="miniCOIL architecture on a word level" caption="miniCOIL architecture on a word level" width="100%" >}}
 
 As a training objective, we can select the minimization of [triplet loss](https://qdrant.tech/articles/triplet-loss/), where triplets are picked and aligned based on distances between [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) sentence embeddings. We rely on the confidence (size of the margin) of [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) to guide our *"bat"* miniCOIL compression.
 
-TBD REDO IMAGE IN OUR STYLE  
-{{< figure src="/articles_data/minicoil/minicoil-training.png" alt="MiniCOIL training objective" caption="MiniCOIL training objective" width="80%" >}}
+{{< figure src="/articles_data/minicoil/training_objective.png" alt="miniCOIL training" caption="miniCOIL training" width="80%" >}}
 
 <aside role="status">
-Since miniCOIL vectors are trained to reflect spatial relationships based on cosine similarity, they should be normalized before inserting them into bag-of-words sparse vectors.
+Since miniCOIL vectors are trained to reflect spatial relationships based on cosine similarity, they should be normalized before inserting them into bag-of-words sparse vectors (compared though dot product).
 </aside>
 
 #### Eating Elephant One Bite at a Time
@@ -213,14 +212,14 @@ What if we keep it simple and continue training a model per word? It has certain
 
 Then we could train all the words we're interested in and simply combine (stack) all models into one big miniCOIL.
 
-TBD IMAGE OF STACKING?
+{{< figure src="/articles_data/minicoil/minicoil_full.png" alt="miniCOIL model" caption="miniCOIL model" width="100%" >}}
 
 ### Implementation Details 
 
-The code of the training approach explained above is open-sourced [in this repository](https://github.com/qdrant/miniCOIL).  
-NEEDS UPDATED README CC ANDREY
+The code of the training approach sketched above is open-sourced [in this repository](https://github.com/qdrant/miniCOIL). 
+TBD: NEEDS UPDATED README CC ANDREY
 
-Specific characteristics of the miniCOIL model trained by us are the following:
+Here are the specific characteristics of the miniCOIL model we trained based on this approach:
 
 | Component | Description |
 |:---|:---|
@@ -232,12 +231,14 @@ Specific characteristics of the miniCOIL model trained by us are the following:
 | **Training Parameters** | **Epochs**: 60<br>**Optimizer**: Adam with a learning rate of 1e-4<br>**Validation set**: 20% |
 
 Each word was **trained on just one CPU**, and it took approximately fifty seconds per word to train.
+We released this version of a miniCOIL in [our FastEmbed library](https://qdrant.tech/documentation/fastembed/). 
+TBD MINICOIL in FASTEMBED CC ANDREY/GEORGE.
 
 ## Results
 
 ### Validation Loss
 
-Input transformer [`jina-embeddings-v2-small-en`](https://huggingface.co/jinaai/jina-embeddings-v2-small-en) approximates the “role model” transformer [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) with a (measured by us) quality of 83%. That means that in 17% of cases, [`jina-embeddings-v2-small-en`](https://huggingface.co/jinaai/jina-embeddings-v2-small-en) will take a sentence triplet from [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) and embed it in a way that the negative example will be closer to the anchor than the positive one.
+Input transformer [`jina-embeddings-v2-small-en`](https://huggingface.co/jinaai/jina-embeddings-v2-small-en) approximates the “role model” transformer [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) context relations with a (measured though triplets) quality of 83%. That means that in 17% of cases, [`jina-embeddings-v2-small-en`](https://huggingface.co/jinaai/jina-embeddings-v2-small-en) will take a sentence triplet from [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) and embed it in a way that the negative example from the perspective of `mxbai` will be closer to the anchor than the positive one.
 
 The validation loss we obtained, depending on the miniCOIL vector size (4, 8, or 16), demonstrates miniCOIL correctly distinguishing from 76% (60 failed triplets on average per batch of size 256) to 85% (38 failed triplets on average per batch of size 256) triplets respectively.
 
@@ -246,15 +247,15 @@ The validation loss we obtained, depending on the miniCOIL vector size (4, 8, or
 ### Benchmarking
 The benchmarking code is open-sourced in [this repository](https://github.com/qdrant/mini-coil-demo/tree/master/minicoil_demo). 
 
-To check miniCOIL performance in different domains, we, ironically, chose a subset of the same [BEIR datasets](https://github.com/beir-cellar/beir), high benchmark values on which became an end in itself for many sparse neural retrievers. Yet the difference is that **miniCOIL wasn't trained on BEIR datasets and shouldn't be biased towards them**.
+To check our 4D miniCOIL version performance in different domains, we, ironically, chose a subset of the same [BEIR datasets](https://github.com/beir-cellar/beir), high benchmark values on which became an end in itself for many sparse neural retrievers. Yet the difference is that **miniCOIL wasn't trained on BEIR datasets and shouldn't be biased towards them**.
 
-We're testing our miniCOIL model versus [our BM25 implementation](https://huggingface.co/Qdrant/bm25). BEIR datasets are indexed to Qdrant using the following parameters:
-- `k = 1.2`, `b = 0.75` default values of BM25;
-- `avg_len` estimated on 50_000 documents from the respective dataset.
+We're testing our 4D miniCOIL model versus [our BM25 implementation](https://huggingface.co/Qdrant/bm25). BEIR datasets are indexed to Qdrant using the following parameters for both methods:
+- `k = 1.2`, `b = 0.75` default values recommended to use with BM25 scoring;
+- `avg_len` estimated on 50_000 documents from a respective dataset.
 
-We compare models based on `NDCG@10`, as we're interested in the ranking performance of miniCOIL compared to BM25. They retrieve the same subset of indexed corpora based on exact matches, but if everything was done right, miniCOIL should rank this subset better based on its semantics understanding.
+We compare models based on the `NDCG@10` metric, as we're interested in the ranking performance of miniCOIL compared to BM25. Both retrieve the same subset of indexed documents based on exact matches, but miniCOIL should ideally rank this subset better based on its semantics understanding.
 
-The result is the following (*we will most probably extend it further*):
+The result on several domains we tested is the following:
 
 | Dataset    | BM25 (NDCG@10) | MiniCOIL (NDCG@10) |
 |:-----------|:--------------|:------------------|
@@ -262,44 +263,42 @@ The result is the following (*we will most probably extend it further*):
 | NQ         | 0.304          | **0.319**          |
 | Quora      | 0.784          | **0.802**          |
 | FiQA-2018  | 0.252          | **0.257**          |
-| HotpotQA   | RUNS           | RUNS               |
+| HotpotQA   | **0.634**      | 0.633              |
 
-We can see miniCOIL performing slightly better than BM25 in various domains. It shows that **we're moving in the right direction to make sparse neural retrieval usable**.
+We can see miniCOIL performing slightly better than BM25 in four out of five tested domains. It shows that **we're moving in the right direction**.
 
 <aside role="status">
-To use any model for your specific use case, always benchmark it yourself!<br> Performance on public benchmarks doesn't secure your high performance on specific data.
+To use any model for your specific use case, always benchmark it yourself!<br> Performance on public benchmarks doesn't secure high performance on specific data.
 </aside>
 
 ## Key Takeaways
 
-This article describes our ([yet another](https://qdrant.tech/articles/bm42/)) attempt to make sparse neural retrieval usable. This overlooked field has a lot of potential, and we hope to see it gain more traction.
+This article describes our attempt to make a lightweight sparse neural retriever that is able to generalize to our-of-domain data. Sparse neural retrieval has a lot of potential, and we hope to see it gain more traction.
 
-To support field development, we trained and released the miniCOIL model, which you can try in FastEmbed TBD CC ANDREY.
-
-### Why is miniCOIL Usable?
+### Why this Approach can be Called Usable?
 
 This approach to training sparse neural retrievers:
 
-1. Doesn't depend on a relevance objective as it's trained in a self-supervised manner, so it doesn't require labelled data to scale. That makes it generalizable.
-2. Builds on the time-proven BM25 formula, simply adding a semantic component to it.
+1. Doesn’t rely on a relevance objective because it is trained in a self-supervised way, so it doesn’t need labeled datasets to scale.
+2. Builds on the proven BM25 formula, simply adding a semantic component to it.
 3. Creates lightweight sparse representations that fit into a standard inverted index.
-4. Fully reuses a dense encoder's output, making it adaptable to various dense encoders. Moreover, this makes miniCOIL a cheap enhancement in hybrid search solutions.
-5. Is based on a simple architecture, with a one-layer model per word in miniCOIL's vocabulary. This leads to extremely fast training and inference. Additionally, this word-level training makes it easy to extend miniCOIL's vocabulary for a particular use case by additionally training the required words.
+4. Fully reuses the outputs of dense encoders, making it adaptable to different models. This also makes miniCOIL a cheap upgrade for hybrid search solutions.
+5. Uses an extremely simple model architecture, with one trainable layer per word in miniCOIL’s vocabulary. This results in very fast training and inference. Also, this word-level training makes it easy to expand miniCOIL’s vocabulary for a specific use case by additionally training the needed words.
 
-### The Right Tool for The Right Job
+### The Right Tool for the Right Job
 
-When is miniCOIL usable?
+When are miniCOIL retrievers applicable?
 
-If you need precise term matching in your search solutions but BM25 doesn't meet your needs -- with top-ranked documents containing words of the right form but the wrong meaning.
+If you need precise term matching but BM25-based retrieval doesn't meet your needs, ranking higher documents with words of the right form but the wrong semantical meaning.
 
-For example, you might need to implement a search in documentation. In this type of search, keywords are widely used, but BM25 won't account for different meanings of these keywords depending on context. If you're searching for a *"data **point**"* in our documentation, you'd prefer to see *"a **point** is a record in Qdrant"* ranked higher than *floating **point** precision*, and here miniCOIL is an alternative to try.
+Say you're implementing search in your documentation. In this use case, keywords-based search prevails, but BM25 won't account for different context-based meanings of these keywords. For example, if you're searching for a *"data **point**"* in our documentation, you'd prefer to see *"a **point** is a record in Qdrant"* ranked higher than *floating **point** precision*, and here miniCOIL-based retrieval is an alternative to consider.
 
-Additionally, miniCOIL makes sense as part of a hybrid search system, as it enhances results without any noticeable increase in resource consumption, directly reusing contextual word representations produced by a dense encoder.
+Additionally, miniCOIL fits nicely as a part of a hybrid search, as it enhances sparse retrieval without any noticeable increase in resource consumption, directly reusing contextual word representations produced by a dense encoder.
 
-To sum up, miniCOIL works as if BM25 understood the meanings of matched terms and ranked better based on this semantic knowledge. It operates only on exact matches, so if your search aims for documents semantically similar to the query but expressed in different terms, dense encoders are the way to go.
+To sum up, miniCOIL should work as if BM25 understood the meaning of words and ranked documents based on this semantic knowledge. It operates only on exact matches, so if you aim for documents semantically similar to the query but expressed in different words, dense encoders are the way to go.
 
 ### What's Next?
 
-This small step is not yet a giant leap for mankind. We will continue working on improving our approach -- both in-depth, making it better and more performant, and in-width, extending it to more dense encoders and languages beyond English.
+We will continue working on improving our approach -- both in-depth, searching for ways to improve the model's quality, and in-width, extending it to various dense encoders and languages beyond English.
 
-We would love to share this road to usable sparse neural retrieval with you!
+And we would love to share this road to usable sparse neural retrieval with you!
