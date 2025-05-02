@@ -156,7 +156,7 @@ We want to work smarter, not harder, and rely as much as possible on time-proven
 
 ### Reducing Dimensions
 
-Yet dense encoder outputs are high-dimensional, so we need to perform **meaning-in-context preserving dimensionality reduction**. The goal is to:
+Yet dense encoder outputs are high-dimensional, so we need to perform **dimensionality reduction, which should preserve the word's meaning in context**. The goal is to:
 
 - Avoid relevance objective and dependence on labelled datasets;
 - Find reflecting meaning spatial relations target;
