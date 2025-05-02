@@ -23,8 +23,7 @@ Once accepted, they'll be assigned that role's permissions, along with the base 
 
 ### Revoking an Invitation
 
-Before being accepted, an A
-dmin/Owner can cancel a pending invite directly on either the **User Management** or **Role Details** page.
+Before being accepted, an Admin/Owner can cancel a pending invite directly on either the **User Management** or **Role Details** page.
 
 ![image.png](/documentation/cloud/role-based-access-control/revoke-invite.png)
 

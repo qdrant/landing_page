@@ -25,7 +25,7 @@ Every account is tied to an email address. You can invite additional users to yo
 
 ## Inviting additional users to an account
 
-You can invite additional users to your account, and manage their permissions on the *Account -> Access Management* page in the Qdrant Cloud Console.
+You can invite additional users to your account, and manage their permissions on the **Account -> Access Management** page in the Qdrant Cloud Console.
 
 ![Invitations](/documentation/cloud/invitations.png)
 
@@ -47,7 +47,7 @@ The Qdrant Cloud Console supports light and dark mode. You can switch between th
 
 ## Account settings
 
-You can configure your account settings in the Qdrant Cloud Console on the *Account -> Settings* page.
+You can configure your account settings in the Qdrant Cloud Console on the **Account -> Settings** page.
 
 The following functionality is available.
 
