@@ -1,10 +1,12 @@
 ---
 title: Billing & Payments
-weight: 65
+weight: 18
+partition: cloud
 aliases:
   - aws-marketplace
   - gcp-marketplace
   - azure-marketplace
+  - /documentation/cloud/pricing-payments/
 ---
 
 # Qdrant Cloud Billing & Payments

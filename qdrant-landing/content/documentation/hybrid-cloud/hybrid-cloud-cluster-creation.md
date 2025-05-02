@@ -24,7 +24,7 @@ These settings can also be changed after the cluster is created on the cluster d
 
 When creating or editing a cluster, you can configure how the database Pods get scheduled in your Kubernetes cluster. This can be useful to ensure that the Qdrant databases will run on dedicated nodes. You can configure the necessary node selectors and tolerations in the "Kubernetes Configuration" section during cluster creation, or on the cluster detail page.
 
-### Authentication to your Qdrant clusters
+### Authentication to your Qdrant Clusters
 
 <aside role="alert">By default, clusters in Hybrid Cloud are only exposed through a Kubernetes ClusterIP Service inside of the Kubernetes network and not accessible to the outside, and no API key is configured. If you choose to expose the database internally or externally, you must configure an API key.</aside>
 
@@ -32,7 +32,7 @@ In Hybrid Cloud the authentication information is provided by Kubernetes secrets
 
 You can configure authentication for your Qdrant clusters in the "Configuration" section of the Qdrant Cluster detail page. There you can configure the Kubernetes secret name and key to be used as an API key and/or read-only API key.
 
-![Hybrid Cloud cluster configuration](/documentation/cloud/hybrid_cloud_detail_cluster_configuration.png)
+![Hybrid Cloud API Key configuration](/documentation/cloud/hybrid_cloud_api_key.png)
 
 One way to create a secret is with kubectl:
 
@@ -88,6 +88,8 @@ kubectl --namespace your-qdrant-namespace port-forward service/qdrant-9a9f48c7-b
 You can also expose the database outside the Kubernetes cluster with a `LoadBalancer` (if supported in your Kubernetes environment) or `NodePort` service or an ingress.
 
 The service type and necessary annotations can be configured in the "Kubernetes Configuration" section during cluster creation, or on the cluster detail page.
+
+![Hybrid Cloud API Key configuration](/documentation/cloud/hybrid_cloud_service.png)
 
 Especially if you create a LoadBalancer Service, you may need to provide annotations for the loadbalancer configration. Please refer to the documention of your cloud provider for more details.
 
@@ -156,6 +158,8 @@ If you want to configure TLS for accessing your Qdrant database in Hybrid Cloud,
 If you want to offload TLS at the ingress or loadbancer level, please refer to their respective documents.
 
 If you want to configure TLS directly in the Qdrant database, you can reference a secret containing the TLS certificate and key in the "Configuration" section of the Qdrant Cluster detail page.
+
+![Hybrid Cloud API Key configuration](/documentation/cloud/hybrid_cloud_tls.png)
 
 To create such a secret, you can use `kubectl`:
 

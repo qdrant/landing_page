@@ -11,26 +11,30 @@ Database API keys can be configured with granular access control. Database API k
 
 Database API keys with granular access control are available for clusters using version **v1.11.0** and above.
 
-## Create Database API keys
+## Create Database API Keys
 
 <aside role="alert">
     The API key is only shown once after creation. If you lose it, you will need to create a new one. 
 </aside>
 
+![API Key](/documentation/cloud/create-api-key.png)
+
 1. Go to the [Cloud Dashboard](https://qdrant.to/cloud).
-2. Go to the **API Keys** section of the Cluster detail page.
+2. Go to the **API Keys** section of the **Cluster Detail Page**.
 3. Click **Create**.
 4. Choose a name and an optional expiration (in days, the default is 90 days) for your API key. An empty expiration will result in no expiration.
 5. By default, tokens are given cluster-wide permissions, with a choice between manage/write permissions (default) or read-only.<br/><br/>To restrict a token to a subset of collections, you can select the Collections tab and choose from the collections available in your cluster.
 6. Click **Create** and retrieve your API key.
 
+![API Key](/documentation/cloud/api-key.png)
+
 We recommend configuring an expiration and rotating your API keys regularly as a security best practice.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/3c-8tcBIVdQ?si=OoyobgPTU-DHIhee" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-## Admin Database API keys
+## Admin Database API Keys
 
-The previous iteration of Database API keys, called Admin Database API keys, do not have granular access control. Clusters created before January 27, 2025 will still see the option to create Admin Database API keys. Older Admin Database API keys will continue to work but we do recommend switching to Database API keys with granular access control to take advantage of better security controls.
+The previous iteration of Database API keys, called Admin Database API keys, do not have granular access control. Clusters created before January 27, 2025 will still see the option to create Admin Database API keys. Older Admin Database API keys will continue to work, but we do recommend switching to Database API keys with granular access control to take advantage of better security controls.
 
 <aside role="alert">
     Enabling Database API keys with granular access control will trigger a restart of your cluster.
@@ -40,7 +44,7 @@ To enable Database API keys with granular access control, click **Enable** on th
 
 After enabling Database API keys with granular access control for a cluster, existing Admin Database API keys will continue to work, but you will not be able to create new Admin Database API Keys.
 
-## Test cluster access
+## Test Cluster Access
 
 After creation, you will receive a code snippet to access your cluster. Your generated request should look very similar to this one:
 

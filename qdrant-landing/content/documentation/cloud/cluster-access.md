@@ -5,13 +5,17 @@ weight: 35
 
 # Accessing Qdrant Cloud Clusters
 
-Once you [created](/documentation/cloud/create-cluster/) a cluster, and set up an [API key](/documentation/cloud/authentication/), you can access your cluster through the integrated Web UI, the REST API and the GRPC API.
+Once you [created](/documentation/cloud/create-cluster/) a cluster, and set up an [API key](/documentation/cloud/authentication/), you can access your cluster through the integrated Cluster UI, the REST API and the GRPC API.
 
-## Web UI
+## Cluster UI
 
-There is the convenient link on the cluster detail page in the Qdrant Cloud Console to access the [Web UI](/documentation/web-ui/) of your cluster.
+There is the convenient link on the cluster detail page in the Qdrant Cloud Console to access the [Cluster UI](/documentation/web-ui/).
 
-![Cluster Web UI](/documentation/cloud/cloud-db-dashboard.png)
+![Cluster Cluster UI](/documentation/cloud/cloud-db-dashboard.png)
+
+The Overview tab also contains direct links to explore Qdrant tutorials and sample datasets.
+
+![Cluster Cluster UI Tutorials](/documentation/cloud/cloud-db-deeplinks.png)
 
 ## API
 
@@ -21,7 +25,7 @@ The REST API is exposed on your cluster endpoint at port `6333`. The GRPC API is
 
 Have a look at the [API reference](/documentation/interfaces/#api-reference) and the official [client libraries](/documentation/interfaces/#client-libraries)  for more information on how to interact with the Qdrant Cloud API.
 
-## Node specific endpoints
+## Node Specific Endpoints
 
 Next to the cluster endpoint which loadbalances requests across all healthy Qdrant nodes, each node in the cluster has its own endpoint as well. This is mainly usefull for monitoring or manual shard management purpuses.
 

@@ -11,7 +11,7 @@ The amount of data is always growing and at some point you might need to upgrade
 
 There are different options for how it can be done.
 
-## Vertical scaling
+## Vertical Scaling
 
 Vertical scaling is the process of increasing the capacity of a cluster by adding or removing CPU, storage and memory resources on each database node.
 
@@ -21,7 +21,7 @@ If you want to scale your cluster down, the new, smaller memory size must be sti
 
 Note, that it is not possible to scale down the disk space of the cluster due to technical limitations of the underlying cloud providers.
 
-## Horizontal scaling
+## Horizontal Scaling
 
 Vertical scaling can be an effective way to improve the performance of a cluster and extend the capacity, but it has some limitations. The main disadvantage of vertical scaling is that there are limits to how much a cluster can be expanded. At some point, adding more resources to a cluster can become impractical or cost-prohibitive.
 

@@ -1,6 +1,9 @@
 ---
 title: Premium Tier
-weight: 66
+weight: 19
+partition: cloud
+aliases:
+  - /documentation/cloud/premium/
 ---
 
 # Qdrant Cloud Premium Tier
