@@ -1,6 +1,6 @@
 ---
 title: Managed Cloud
-weight: 12
+weight: 15
 aliases:
   - /documentation/overview/qdrant-alternatives/documentation/cloud/
 partition: cloud
@@ -14,7 +14,7 @@ Transitioning to the Managed Cloud version of Qdrant does not change how you int
 
 You can also attach your own infrastructure as a Hybrid Cloud Environment. For details, see our [Hybrid Cloud](/documentation/hybrid-cloud/) documentation.
 
-## Cluster configuration
+## Cluster Configuration
 
 Each database cluster comes pre-configured with the following tools, features, and support services:
 
@@ -26,4 +26,3 @@ Each database cluster comes pre-configured with the following tools, features, a
 - Available natively on AWS and GCP, and Azure. 
 - Available on your own infrastructure and other providers if you use the Hybrid Cloud.
 
-## Ready? [**Click here to get started!**](/documentation/cloud/getting-started/)

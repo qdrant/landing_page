@@ -54,7 +54,9 @@ You have a broad choice of regions on AWS, Azure and Google Cloud.
 
 For payment information see [**Pricing and Payments**](/documentation/cloud/pricing-payments/).
 
-## Create a cluster
+## Create a Cluster
+
+![Create Cluster Page](/documentation/cloud/create-cluster.png)
 
 This page shows you how to use the Qdrant Cloud Console to create a custom Qdrant Cloud cluster.
 
@@ -85,15 +87,17 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 
 Once provisioned, you can access your cluster on ports 443 and 6333 (REST) and 6334 (gRPC).
 
-![Cluster configured in the UI](/docs/cloud/create-cluster-test.png)
+![Cluster configured in the UI](/documentation/cloud/cluster-detail.png)
 
 You should now see the new cluster in the **Clusters** menu.
 
-## Deleting a cluster
+## Deleting a Cluster
 
 You can delete a Qdrant database cluster from the cluster's detail page.
 
-## Next steps
+![Delete Cluster](/documentation/cloud/delete-cluster.png)
+
+## Next Steps
 
 You will need to connect to your new Qdrant Cloud cluster. Follow [**Authentication**](/documentation/cloud/authentication/) to create one or more API keys. 
 

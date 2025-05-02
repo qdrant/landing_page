@@ -1,6 +1,9 @@
 ---
 title: Getting Started
-weight: 1
+weight: 12
+partition: cloud
+aliases:
+  - /documentation/cloud/getting-started/
 ---
 
 # Getting Started with Qdrant Managed Cloud
@@ -26,7 +29,3 @@ After setting up your account, you can create a Qdrant Cluster by following the 
 For a production-ready environment, consider deploying a multi-node Qdrant cluster (at least three nodes) with replication enabled. Instructions for configuring distributed clusters are available in the [Distributed Deployment](/documentation/guides/distributed_deployment/) guide.
 
 If you are looking to optimize costs, you can reduce memory usage through [Quantization](/documentation/guides/quantization/) or by [offloading vectors to disk](/documentation/concepts/storage/#configuring-memmap-storage).
-
-## Support
-
-If you need assistance, you can reach our Support Team through the Qdrant Cloud UI or directly via [https://support.qdrant.io/](https://support.qdrant.io/). Information on service-level agreements is provided at [https://qdrant.to/sla](https://qdrant.to/sla).

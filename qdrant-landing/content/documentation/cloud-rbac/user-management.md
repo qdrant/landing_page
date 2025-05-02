@@ -3,26 +3,15 @@ title: User Management
 weight: 2
 ---
 
-
 # User Management
-
-
 
 > 💡 You can access this in **Access Management > User & Role Management** *if available see [this page for details](/documentation/cloud-rbac/).*
 
-
-
-
 ## Inviting Users to an Account
-
 
 Users can be invited via the **User Management** section, where they are assigned the **Base role** by default. Additionally, users have the option to select a specific role when inviting another user. The **Base role** is a predefined role with minimal permissions, granting users access to the platform while restricting them to viewing only their own profile.
 
 ![image.png](/documentation/cloud/role-based-access-control/user-invitation.png)
-
-
-
-
 
 ### Inviting Users from a Role
 
@@ -34,7 +23,8 @@ Once accepted, they'll be assigned that role's permissions, along with the base 
 
 ### Revoking an Invitation
 
-Before being accepted, an Admin/Owner can cancel a pending invite directly on either the **User Management** or **Role Details** page.
+Before being accepted, an A
+dmin/Owner can cancel a pending invite directly on either the **User Management** or **Role Details** page.
 
 ![image.png](/documentation/cloud/role-based-access-control/revoke-invite.png)
 

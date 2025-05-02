@@ -7,9 +7,13 @@ weight: 55
 
 ## Telemetry
 
+![Cluster Metrics](/documentation/cloud/cluster-metrics.png)
+
 Qdrant Cloud provides you with a set of metrics to monitor the health of your database cluster. You can access these metrics in the Qdrant Cloud Console in the **Metrics** and **Request** sections of the cluster details page.
 
 ## Logs
+
+![Cluster Logs](/documentation/cloud/cluster-logs.png)
 
 Logs of the database cluster are available in the Qdrant Cloud Console in the **Logs** section of the cluster details page.
 
@@ -17,13 +21,13 @@ Logs of the database cluster are available in the Qdrant Cloud Console in the **
 
 You will receive automatic alerts via email before your cluster reaches the currently configured memory or storage limits, including recommendations for scaling your cluster.
 
-## Qdrant database metrics and telemetry
+## Qdrant Database Metrics and Telemetry
 
 You can also directly access the metrics and telemetry that the Qdrant database nodes provide.
 
 To scrape metrics from a Qdrant cluster running in Qdrant Cloud, an [API key](/documentation/cloud/authentication/) is required to access `/metrics` and `/sys_metrics`. Qdrant Cloud also supports supplying the API key as a [Bearer token](https://www.rfc-editor.org/rfc/rfc6750.html), which may be required by some providers.
 
-### Qdrant Node metrics
+### Qdrant Node Metrics
 
 Metrics in a Prometheus compatible format are available at the `/metrics` endpoint of each Qdrant database node. When scraping, you should use the [node specific URLs](/documentation/cloud/cluster-access/#node-specific-endpoints) to ensure that you are scraping metrics from all nodes in each cluster. For more information see [Qdrant monitoring](/documentation/guides/monitoring/).
 
@@ -31,13 +35,13 @@ You can also access the `/telemetry` [endpoint](https://api.qdrant.tech/api-refe
 
 For more information, see [Qdrant monitoring](/documentation/guides/monitoring/).
 
-### Cluster system metrics
+### Cluster System Metrics
 
 Cluster system metrics is a cloud-only endpoint that not only shares all the information about the database from `/metrics` but also provides additional operational data from our infrastructure about your cluster, including information from our load balancers, ingresses, and cluster workloads themselves.
 
 Metrics in a Prometheus-compatible format are available at the `/sys_metrics` cluster endpoint. Database API Keys are used to authenticate access to cluster system metrics. `/sys_metrics` only need to be queried once per cluster on the main load-balanced cluster endpoint. You don't need to scrape each cluster node individually, instead it will always provide metrics about all nodes.
 
-## Grafana dashboard
+## Grafana Dashboard
 
 If you scrape your Qdrant Cluster system metrics into your own monitoring system, and your are using Grafana, you can use our [Grafana dashboard](https://github.com/qdrant/qdrant-cloud-grafana-dashboard) to visualize these metrics.
 
@@ -45,7 +49,7 @@ If you scrape your Qdrant Cluster system metrics into your own monitoring system
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/pKPP-tL5_6w?si=ASKiG1P61m2YYk9J" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-### Cluster system metrics `/sys_metrics`
+### Cluster System Mtrics `/sys_metrics`
 
 In Qdrant Cloud, each Qdrant cluster will expose the following metrics. This endpoint is not available when running Qdrant open-source.
 
