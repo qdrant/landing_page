@@ -25,7 +25,7 @@ We've reduced the steps to create and access your account, and also simplified n
 
 Upon log in, of course you continue to have the option to toggle between dark and light mode, or choose your system default. 
 
-GIF OF DARK MODE
+![gif-dark-light-mode.gif](/blog/product-ui-changes/gif-dark-light-mode.gif)
 
 Now for the biggest improvements. 
 
