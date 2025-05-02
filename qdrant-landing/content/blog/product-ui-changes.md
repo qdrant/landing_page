@@ -21,7 +21,7 @@ We always aim to simplify our product for developers, platform teams, and enterp
 
 We've reduced the steps to create and access your account, and also simplified navigation between login and registration.
 
-IMAGE OF LOGIN PAGE
+![log-in-page-image](/blog/case-study-sprinklr/log-in-page.jpg)
 
 Upon log in, of course you continue to have the option to toggle between dark and light mode, or choose your system default. 
 
