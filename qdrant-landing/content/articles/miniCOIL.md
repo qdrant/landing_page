@@ -144,7 +144,7 @@ Unless... We do a simple trick!
 
 Imagine a bag-of-words sparse vector. Every word from the vocabulary takes up one cell. If the word is present in the encoded text — we assign some weight; if it isn't — it equals zero.
 
-If we have a mini COIL vector describing a word's meaning, for example, in 4D semantic space, we could just dedicate 4 consecutive cells for TBD word in the sparse vector, one cell per "meaning" dimension. If we don't, we could fall back to a classic one-cell description with a pure BM25 score.
+If we have a mini COIL vector describing a word's meaning, for example, in 4D semantic space, we could just dedicate 4 consecutive cells for word in the sparse vector, one cell per "meaning" dimension. If we don't, we could fall back to a classic one-cell description with a pure BM25 score.
 
 **Such representations can be used in any standard inverted index.**
 
@@ -216,8 +216,7 @@ Then we could train all the words we're interested in and simply combine (stack)
 
 ### Implementation Details 
 
-The code of the training approach sketched above is open-sourced [in this repository](https://github.com/qdrant/miniCOIL). 
-TBD: NEEDS UPDATED README CC ANDREY
+The code of the training approach sketched above is open-sourced [in this repository](https://github.com/qdrant/miniCOIL).
 
 Here are the specific characteristics of the miniCOIL model we trained based on this approach:
 
@@ -252,6 +251,10 @@ To check our 4D miniCOIL version performance in different domains, we, ironicall
 We're testing our 4D miniCOIL model versus [our BM25 implementation](https://huggingface.co/Qdrant/bm25). BEIR datasets are indexed to Qdrant using the following parameters for both methods:
 - `k = 1.2`, `b = 0.75` default values recommended to use with BM25 scoring;
 - `avg_len` estimated on 50_000 documents from a respective dataset.
+
+<aside role="status">
+BM25 results depend on implementation details, such as the choice of stemmer, tokenizer, stop word list, etc. So, to make miniCOIL comparable to BM25, we use our own BM25 implementation and reuse all its implementation choices for miniCOIL.
+</aside>
 
 We compare models based on the `NDCG@10` metric, as we're interested in the ranking performance of miniCOIL compared to BM25. Both retrieve the same subset of indexed documents based on exact matches, but miniCOIL should ideally rank this subset better based on its semantics understanding.
 
