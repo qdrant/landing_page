@@ -62,6 +62,7 @@ Learn how to:
 * [Connect Qdrant with your data stack](https://qdrant.tech/documentation/data-management/) for seamless workflows
 
 **Pick a Deployment Model**
+
 If you are looking for freedom of choice, [enterprise-readiness](https://qdrant.tech/blog/enterprise-vector-search/), and scalability without [vendor lock-in](https://qdrant.tech/blog/are-you-vendor-locked/), look no further. Here you can learn about the different deployment options we offer. 
 
 Whether you want a fully managed experience, complete infrastructure control, or something in between, Qdrant delivers:
@@ -71,6 +72,7 @@ Whether you want a fully managed experience, complete infrastructure control, or
 * If sovereignty and control are non-negotiable, Private Cloud is built for air-gapped, high-security environments.
 
 **Support, Community, and Docs**
+
 We have robust documentation, as well as a global [community](https://discord.com/invite/qdrant) of users that share projects, advice, and help each other build. If you run into technical issues, our support team is happy to help troubleshoot. Here you can find what you need if you run into roadblocks when building. 
 
 ## Cluster Overview 
