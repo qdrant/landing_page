@@ -41,7 +41,7 @@ const handleClickInteraction = (event) => {
   };
 
   // If consented to tracking the track 
-  if(getCookie('cookie-consent')) {
+  if('cookiehub' in window && window.cookiehub.hasConsented('analytics')) {
     trackInteractionEvent(payload);
     
     // If element can be clicked more than once (ie user remains on same page)
@@ -55,7 +55,7 @@ const handleClickInteraction = (event) => {
 
 // Gather all <a> elements that have been tagged 
 // for tracking via 'data-metric-loc' attribute
-function tagAllAnchors() {
+export function tagAllAnchors() {
   const allMetricsAnchors= document.querySelectorAll('a[data-metric-loc]');
 
   if (allMetricsAnchors) {
@@ -63,14 +63,6 @@ function tagAllAnchors() {
       anchor.addEventListener('click', handleClickInteraction, false);
     })
   }
-}
-
-// Segment Key Getter & Setter
-const getSegmentWriteKey = () => {
-  return JSON.parse(sessionStorage.getItem(WRITE_KEY));
-}
-export const setSegmentWriteKey = (segmentWriteKey) => {
-  sessionStorage.setItem(WRITE_KEY, JSON.stringify(segmentWriteKey));
 }
 
 /****************/
@@ -116,43 +108,7 @@ export function createSegmentStoredInteraction(payload) { // Create and Queue In
 /******************/
 /* Tracking Logic */
 /******************/
-const trackStoredPageViews = () => {
-  const category = 'Qdrant.tech';
-
-  // Iterate over all stored page views
-  getSegmentStoredPages().forEach(properties => {
-    const name = nameMapper(properties.url);
-    const originalTimestamp = properties.storedEvent ? properties.storedTimestamp : null;
-    delete properties['storedTimestamp'];
-
-    addGA4Properties(properties);
-
-    if(window.analytics) {
-      window.analytics.page(
-        category,
-        name,
-        properties,
-        originalTimestamp ? { timestamp: originalTimestamp } : null
-      );
-    }
-  });
-  
-  removeSegmentStoredPages();
-}
-
-const trackStoredInteractions = () => {
-  // Iterate over all stored interactions
-  getSegmentStoredInteractions().forEach(interactionPayload => {
-    trackInteractionEvent(interactionPayload);
-  });
-  
-  removeSegmentStoredInteractions();
-}
-
-const trackEvent = (name, properties = {}) => {
-  const originalTimestamp = properties.storedEvent ? properties.storedTimestamp : null;
-  delete properties['storedTimestamp'];
-
+export const trackEvent = (name, properties = {}, options = {}) => {
   addGA4Properties(properties);
 
   if(window.analytics) {
@@ -160,8 +116,7 @@ const trackEvent = (name, properties = {}) => {
       event: name,
       properties
     }, 
-    originalTimestamp ? { timestamp: originalTimestamp } : null
-    )
+    options)
   }
 }
 
@@ -172,93 +127,3 @@ const trackInteractionEvent = (properties = {}) => {
   )
 }
 
-/***********/
-/* Consent */
-/***********/
-export function handleConsent() {
-  trackEvent('Consented', PAYLOAD_BOILERPLATE)
-  devLog('User consented...')
-}
-
-/*******************/
-/* Loading Segment */
-/*******************/
-export function loadSegment() {
-  const writeKey = getSegmentWriteKey();
-  if (!writeKey) return; // Fail silently?
-
-  devLog('Loading Segment...');
-
-  // Segment snippet initialization
-  var i = "analytics",
-    analytics = window[i] = window[i] || [];
-
-  if (!analytics.initialize) {
-    if (analytics.invoked) {
-      window.console && console.error && console.error("Segment snippet included twice.");
-    } else {
-      analytics.invoked = true;
-      analytics.methods = [
-        "trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "reset", "group", "track",
-        "ready", "alias", "debug", "page", "screen", "once", "off", "on", "addSourceMiddleware", "addIntegrationMiddleware",
-        "setAnonymousId", "addDestinationMiddleware", "register"
-      ];
-
-      analytics.factory = function(e) {
-        return function() {
-          if (window[i].initialized) {
-            return window[i][e].apply(window[i], arguments);
-          }
-
-          var n = Array.prototype.slice.call(arguments);
-          if (["track", "screen", "alias", "group", "page", "identify"].indexOf(e) > -1) {
-            var c = document.querySelector("link[rel='canonical']");
-            n.push({
-              __t: "bpc",
-              c: c && c.getAttribute("href") || void 0,
-              p: location.pathname,
-              u: location.href,
-              s: location.search,
-              t: document.title,
-              r: document.referrer
-            });
-          }
-
-          n.unshift(e);
-          analytics.push(n);
-          return analytics;
-        }
-      };
-
-      for (var n = 0; n < analytics.methods.length; n++) {
-        var key = analytics.methods[n];
-        analytics[key] = analytics.factory(key);
-      }
-
-      analytics.load = function(key, n) {
-        var t = document.createElement("script");
-        t.type = "text/javascript";
-        t.async = true;
-        t.setAttribute("data-global-segment-analytics-key", i);
-        t.src = "https://evs.analytics.qdrant.tech/5caWuitPgcGFN5Q7HMpTaj/vEkmzjuRSqeXGbhGAFTWex.min.js";
-        var r = document.getElementsByTagName("script")[0];
-        r.parentNode.insertBefore(t, r);
-        analytics._loadOptions = n;
-      };
-
-      analytics._writeKey = writeKey;
-      analytics._cdn = "https://evs.analytics.qdrant.tech";
-      analytics.SNIPPET_VERSION = "5.2.0";
-      analytics.load(writeKey);
-
-      analytics.ready(function() {
-        tagCloudUILinksWithAnonymousId();
-        tagAllAnchors();
-      });
-    }
-  }
-
-  // Track any pages that may have been visited and stored in session storage
-  trackStoredPageViews();
-  trackStoredInteractions();
-};
