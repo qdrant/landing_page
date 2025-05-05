@@ -13,7 +13,9 @@ tags:
 ---
 # Exploring Qdrant Cloud just got easier
 
-We always aim to simplify our product for developers, platform teams, and enterprises. Here’s a quick overview of recent improvements designed to simplify your journey from login, creating your first cluster, prototyping, and going to production.
+We always aim to simplify our product for developers, platform teams, and enterprises. 
+
+Here’s a quick overview of recent improvements designed to simplify your journey from login, creating your first cluster, prototyping, and going to production.
 
 ## Simplified Login
 
@@ -39,6 +41,28 @@ The 1 GB free gives you enough storage for approximately 1 million vectors at 76
 
 Don’t forget to create a collection, add vectors, then run your first search.
 
+## Cluster Overview 
+
+Now this is probably where you will spend most of your time when building with Qdrant. 
+
+When looking at the overview of your cluster, we’ve added new tabs with an improved menu structure. 
+
+![Image of cluster overview](/blog/product-ui-changes/my-first-cluster-overview.jpg)
+
+* **Overview**: This has everything you need at a glance, including a visual of your node, disk, RAM, CPU usage so you can see if you are approaching any limits. It’s also easier now to scale your cluster. Once scaled to a paid tier via credit card or marketplace, you can access backup and disaster recovery, a 99.5% uptime SLA, horizontal and vertical scaling, monitoring and log management, and more.   
+* **API** **keys**: Manage access to your database cluster  
+* **Metrics**: a visualization of your resources, RAM, CPU, disk and requests over different timeframes   
+* **Logs**: get a real-time window into what’s happening inside cluste for transparency, diagnostics, and control (especially important during debugging, performance tuning, or infrastructure troubleshooting\!)  
+* **Backups:** View snapshots of your vector data and metadata that can be used to restore your collections in case of data loss, migration, or rollbacks (not available on free clusters)   
+* **Configuration**: Check your collection defaults and add advanced optimizations (after reading Docs of course)   
+  * For example, we advise against setting up a ton of different collections. Instead segment with [payloads](https://qdrant.tech/documentation/concepts/payload/).
+
+When viewing the details of your clusters, you can now view the Cluster UI Dashboard regardless of where you are, and also have easier access to tutorials and resources. 
+
+We also are making it more seamless to update your cluster to the latest version as well as see GitHub release notes.   
+   
+![JPG of changing version](/blog/product-ui-changes/change-version.png)
+
 ## Get Started Overview 
 
 Next we’ve done a major overhaul to the “Get Started” page. Our goal is to make it as easy as possible for you to find the resources you need, whether it's guides, sample data, or tutorials.   
@@ -62,37 +86,11 @@ Learn how to:
 
 If you are looking for freedom of choice, [enterprise-readiness](https://qdrant.tech/blog/enterprise-vector-search/), and scalability without [vendor lock-in](https://qdrant.tech/blog/are-you-vendor-locked/), look no further. Here you can learn about the different deployment options we offer. 
 
-Whether you want a fully managed experience, complete infrastructure control, or something in between, Qdrant delivers:
-
-* Qdrant Cloud gives you a ready-to-use scalable vector database, no ops needed.  
-* Bring your own cluster with Hybrid Cloud to run in your infra with full autonomy and flexibility.  
-* If sovereignty and control are non-negotiable, Private Cloud is built for air-gapped, high-security environments.
+Whether you want a fully managed experience, complete infrastructure control, or something in between, Qdrant delivers.
 
 **Support, Community, and Docs**
 
 We have robust documentation, as well as a global [community](https://discord.com/invite/qdrant) of users that share projects, advice, and help each other build. If you run into technical issues, our support team is happy to help troubleshoot. Here you can find what you need if you run into roadblocks when building. 
-
-## Cluster Overview 
-
-Now this is probably where you will spend most of your time when building with Qdrant. 
-
-When looking at the overview of your cluster, we’ve added new tabs with an improved menu structure. 
-
-![Image of cluster overview](/blog/product-ui-changes/my-first-cluster-overview.jpg)
-
-* **Overview**: This has everything you need at a glance, including a visual of your node, disk, RAM, CPU usage so you can see if you are approaching any limits. It’s also easier now to scale your cluster. Once scaled to a paid tier via credit card or marketplace, you can access backup and disaster recovery, a 99.5% uptime SLA, horizontal and vertical scaling, monitoring and log management, and more.   
-* **API** **keys**: Manage access to your database cluster  
-* **Metrics**: a visualization of your resources, RAM, CPU, disk and requests over different timeframes   
-* **Logs**: get a real-time window into what’s happening inside cluste for transparency, diagnostics, and control (especially important during debugging, performance tuning, or infrastructure troubleshooting\!)  
-* **Backups:** View snapshots of your vector data and metadata that can be used to restore your collections in case of data loss, migration, or rollbacks (not available on free clusters)   
-* **Configuration**: Check your collection defaults and add advanced optimizations (after reading Docs of course)   
-  * For example, we advise against setting up a ton of different collections. Instead segment with [payloads](https://qdrant.tech/documentation/concepts/payload/).
-
-When viewing the details of your clusters, you can now view the Cluster UI Dashboard regardless of where you are, and also have easier access to tutorials and resources. 
-
-We also are making it more seamless to update your cluster to the latest version as well as see GitHub release notes.   
-   
-![JPG of changing version](/blog/product-ui-changes/change-version.png)
 
 ## See for yourself
 
