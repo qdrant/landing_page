@@ -92,6 +92,8 @@ When viewing the details of your clusters, you can now view the Cluster UI Dashb
 
 We also are making it more seamless to update your cluster to the latest version as well as see GitHub release notes.   
    
+![JPG of changing version](/blog/product-ui-changes/change-version.png)
+
 ## See for yourself
 
 If you haven’t tried Qdrant Cloud yet, now is the time to get started.
