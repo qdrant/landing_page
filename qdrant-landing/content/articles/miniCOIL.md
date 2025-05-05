@@ -1,7 +1,7 @@
 ---
 title: "miniCOIL: on the Road to Usable Sparse Neural Retrieval"
 short_description: "Our attempt to learn from drawbacks of modern sparse neural retrievers"
-description: "Introducing miniCOIL -- a lightweight sparse neural retriever capable of understanding words’ meaning in the context & performant on out-of-domain datasets."
+description: "Introducing miniCOIL, a lightweight sparse neural retriever capable of generalization."
 social_preview_image: /articles_data/minicoil/preview/social_preview.jpg
 preview_dir: /articles_data/minicoil/preview
 weight: -190
