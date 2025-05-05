@@ -1,7 +1,7 @@
 ---
 draft: false
 title: "Exploring Qdrant Cloud just got easier"
-short_description: "Short description"
+short_description: "Read about recent improvements designed to simplfiy your journey with Qdrant."
 preview_image: /blog/case-study-shakudo/preview.png
 social_preview_image: /blog/case-study-shakudo/preview.png
 date: 2025-05-05T00:02:00Z
@@ -13,19 +13,17 @@ tags:
 ---
 # Exploring Qdrant Cloud just got easier
 
-EMBED VIDEO HERE
-
 We always aim to simplify our product for developers, platform teams, and enterprises. Here’s a quick overview of recent improvements designed to simplify your journey from login, creating your first cluster, prototyping, and going to production.
 
 ## Simplified Login
 
 We've reduced the steps to create and access your account, and also simplified navigation between login and registration.
 
-![log-in-page.jpg](/blog/product-ui-changes/log-in-page.jpg)
+![JPG of log in page](/blog/product-ui-changes/log-in-page.jpg)
 
 Upon log in, of course you continue to have the option to toggle between dark and light mode, or choose your system default. 
 
-![gif-dark-light-mode.gif](/blog/product-ui-changes/gif-dark-light-mode.gif)
+![GIF of toggling between dark and light mode](/blog/product-ui-changes/gif-dark-light-mode.gif)
 
 Now for the biggest improvements. 
 
@@ -37,7 +35,7 @@ Simply name your first cluster, choose your region, and click “Create.” Your
 
 The 1 GB free gives you enough storage for approximately 1 million vectors at 768 dimensions and is great for prototyping and learning.
 
-GIF OF CLUSTER CREATION
+![GIF of the first cluster being created](/blog/product-ui-changes/my-first-cluster.gif)
 
 Don’t forget to create a collection, add vectors, then run your first search.
 
@@ -45,7 +43,7 @@ Don’t forget to create a collection, add vectors, then run your first search.
 
 Next we’ve done a major overhaul to the “Get Started” page. Our goal is to make it as easy as possible for you to find the resources you need, whether it's guides, sample data, or tutorials.   
     
-IMAGE OF GET STARTED PAGE
+![Image of Get Started webpage](/blog/product-ui-changes/get-started-overview.jpg)
 
 **Explore Your Data or Start with Samples**  
 You’ll see immediately pertinent information to help you get the most out of Qdrant quickly, including the [Cloud Quickstart guide](https://qdrant.tech/documentation/quickstart-cloud/), and resources to help you get your data into Qdrant, or use sample data. 
@@ -56,7 +54,6 @@ Learn about the different ways to connect to your cluster, use the Qdrant API, t
 If you are ready to build an app, but looking for ideas or the best place to start, we have our top three tutorials highlighted for you. 
 
 Learn how to:
-
 * [Build a hybrid search service](https://qdrant.tech/documentation/beginner-tutorials/hybrid-search-fastembed/) with [FastEmbed](https://github.com/qdrant/fastembed)   
 * [Build a RAG app with DeepSeek](https://qdrant.tech/documentation/rag-deepseek/) for semantic query enrichment  
 * [Connect Qdrant with your data stack](https://qdrant.tech/documentation/data-management/) for seamless workflows
@@ -95,6 +92,8 @@ We also are making it more seamless to update your cluster to the latest version
    
 IMAGE OF CLUSTER OVERVIEW
 
+![Image of cluster overview](/blog/product-ui-changes/my-first-cluster-overview.jpg)
+
 ## See for yourself
 
 If you haven’t tried Qdrant Cloud yet, now is the time to get started\!
@@ -106,8 +105,6 @@ Want to share feedback? Email us at community@qdrant.com
 ## Migrating your data just got easier 
 
 We also launched the beta release of a database migration tool, significantly simplifying data migration processes.
-
-IMAGE OF GITHUB
 
 You can take data from any Qdrant instance to another. Examples include from open source to another running in Qdrant Cloud as well as migrating from one cloud region to another. All with one command\!
 
