@@ -6,7 +6,7 @@ social_preview_image: /articles_data/minicoil/preview/social_preview.jpg
 preview_dir: /articles_data/minicoil/preview
 weight: -190
 author: Evgeniya Sukhodolskaya
-date: 2025-05-02T00:00:00+03:00
+date: 2025-05-05T00:00:00+03:00
 draft: false
 keywords:
   - hybrid search
@@ -231,7 +231,7 @@ Here are the specific characteristics of the miniCOIL model we trained based on 
 
 Each word was **trained on just one CPU**, and it took approximately fifty seconds per word to train.
 We released this version of a miniCOIL in [our FastEmbed library](https://qdrant.tech/documentation/fastembed/). 
-TBD MINICOIL in FASTEMBED CC ANDREY/GEORGE.
+TBD MINICOIL in FASTEMBED CC ANDREY/GEORGE ADD LINK BEFORE PUBLISHING.
 
 ## Results
 
@@ -276,7 +276,7 @@ To use any model for your specific use case, always benchmark it yourself!<br> P
 
 ## Key Takeaways
 
-This article describes our attempt to make a lightweight sparse neural retriever that is able to generalize to our-of-domain data. Sparse neural retrieval has a lot of potential, and we hope to see it gain more traction.
+This article describes our attempt to make a lightweight sparse neural retriever that is able to generalize to out-of-domain data. Sparse neural retrieval has a lot of potential, and we hope to see it gain more traction.
 
 ### Why this Approach can be Called Usable?
 
