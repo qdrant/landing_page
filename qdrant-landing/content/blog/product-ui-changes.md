@@ -2,7 +2,7 @@
 draft: false
 title: "Exploring Qdrant Cloud just got easier"
 short_description: "Read about recent improvements designed to simplfiy your journey with Qdrant."
-description: Read about recent improvements designed to simplfiy designed to simplify your journey from login, creating your first cluster, prototyping, and going to production. 
+description: Read about recent improvements designed to simplify your journey from login, creating your first cluster, prototyping, and going to production. 
 preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
 social_preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
 title_preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
