@@ -2,8 +2,8 @@
 draft: false
 title: "Exploring Qdrant Cloud just got easier"
 short_description: "Read about recent improvements designed to simplfiy your journey with Qdrant."
-preview_image: /blog/product-ui-changes/new-ui-hero.jpg
-social_preview_image: /blog/product-ui-changes/new-ui-hero.jpg
+preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
+social_preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
 date: 2025-05-05T00:02:00Z
 author: Qdrant
 featured: false
