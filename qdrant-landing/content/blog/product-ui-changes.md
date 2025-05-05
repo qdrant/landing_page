@@ -78,6 +78,8 @@ Now this is probably where you will spend most of your time when building with Q
 
 When looking at the overview of your cluster, we’ve added new tabs with an improved menu structure. 
 
+![Image of cluster overview](/blog/product-ui-changes/my-first-cluster-overview.jpg)
+
 * **Overview**: This has everything you need at a glance, including a visual of your node, disk, RAM, CPU usage so you can see if you are approaching any limits. It’s also easier now to scale your cluster. Once scaled to a paid tier via credit card or marketplace, you can access backup and disaster recovery, a 99.5% uptime SLA, horizontal and vertical scaling, monitoring and log management, and more.   
 * **API** **keys**: Manage access to your database cluster  
 * **Metrics**: a visualization of your resources, RAM, CPU, disk and requests over different timeframes   
@@ -90,13 +92,9 @@ When viewing the details of your clusters, you can now view the Cluster UI Dashb
 
 We also are making it more seamless to update your cluster to the latest version as well as see GitHub release notes.   
    
-IMAGE OF CLUSTER OVERVIEW
-
-![Image of cluster overview](/blog/product-ui-changes/my-first-cluster-overview.jpg)
-
 ## See for yourself
 
-If you haven’t tried Qdrant Cloud yet, now is the time to get started\!
+If you haven’t tried Qdrant Cloud yet, now is the time to get started.
 
 [**Go try out your 1GB free cluster and poke around\!**](https://cloud.qdrant.io/signup%20)   
 
