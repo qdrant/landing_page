@@ -1,5 +1,5 @@
 ---
-draft: false # What does this mean? published blogs say false or true
+draft: true # What does this mean? published blogs say false or true
 title: Title # Name of the blog with character count max of XX
 sitemapExclude: true # What does this mean??
 slug: slug-example # This is your URL after /blog BUT write instructions on how to avoid 404   
