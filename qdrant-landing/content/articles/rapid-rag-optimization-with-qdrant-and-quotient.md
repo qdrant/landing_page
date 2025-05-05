@@ -65,19 +65,10 @@ We will then assess our RAG application’s ability to answer questions about Qd
 To prepare our knowledge store we will use Qdrant, which can be leveraged in 3 different ways as below : 
 
 ```python
-##Uncomment to initialise qdrant client in memory
-#client = qdrant_client.QdrantClient(
-#    location=":memory:",
-#)
-
-##Uncomment below to connect to Qdrant Cloud
 client = qdrant_client.QdrantClient(
     os.environ.get("QDRANT_URL"),
     api_key=os.environ.get("QDRANT_API_KEY"),
 )
-
-## Uncomment below to connect to local Qdrant
-#client = qdrant_client.QdrantClient("http://localhost:6333")
 ```
 
 We will be using [Qdrant Cloud](https://cloud.qdrant.io/login) so it is a good idea to provide the `QDRANT_URL` and `QDRANT_API_KEY` as environment variables for easier access.
@@ -90,26 +81,7 @@ COLLECTION_NAME = "qdrant-docs-quotient"
 
 In this case , we may need to create different collections based on the experiments we conduct.
 
-To help us provide seamless embedding creations throughout the experiment, we will use Qdrant’s native embedding provider [Fastembed](https://qdrant.github.io/fastembed/) which supports [many different models](https://qdrant.github.io/fastembed/examples/Supported_Models/) including dense as well as sparse vector models.
-
-We can initialize and switch the embedding model of our choice as below :
-
-```python
-## Declaring the intended Embedding Model with Fastembed
-from fastembed.embedding import TextEmbedding
-
-## General Fastembed specific operations
-##Initilising embedding model
-## Using Default Model - BAAI/bge-small-en-v1.5
-embedding_model = TextEmbedding()
-
-## For custom model supported by Fastembed
-#embedding_model = TextEmbedding(model_name="BAAI/bge-small-en", max_length=512)
-#embedding_model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2", max_length=384)
-
-## Verify the chosen Embedding model
-embedding_model.model_name
-```
+To help us provide seamless embedding creations throughout the experiment, we will use Qdrant’s own embeddings library [Fastembed](https://qdrant.github.io/fastembed/) which supports [many different models](https://qdrant.github.io/fastembed/examples/Supported_Models/) including dense as well as sparse vector models.
 
 Before implementing RAG, we need to prepare and index our data in Qdrant.
 
@@ -134,7 +106,7 @@ len(langchain_docs)
 #240
 ```
 
-You can preview documents in the dataset as below : 
+You can preview documents in the dataset as below :
 
 ```python
 ## Here's an example of what a document in our dataset looks like
@@ -168,6 +140,10 @@ Following the ingestion of data in Qdrant, we proceed to retrieve pertinent docu
 Next we define methods to take care of logistics with respect to adding documents to Qdrant 
 
 ```python
+import uuid
+
+from qdrant_client import models
+
 def add_documents(client, collection_name, chunk_size, chunk_overlap, embedding_model_name):
     """
     This function adds documents to the desired Qdrant collection given the specified RAG parameters.
@@ -201,9 +177,23 @@ def add_documents(client, collection_name, chunk_size, chunk_overlap, embedding_
     print("content: ", len(docs_contents))
     print("metadata: ", len(docs_metadatas))
 
-    ## Adding documents to Qdrant using desired embedding model
-    client.set_model(embedding_model_name=embedding_model_name)
-    client.add(collection_name=collection_name, metadata=docs_metadatas, documents=docs_contents)
+    if not client.collection_exists(collection_name):
+        client.create_collection(
+            collection_name=collection_name,
+            vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
+        )
+
+    client.upsert(
+        collection_name=collection_name,
+        points=[
+            models.PointStruct(
+                id=uuid.uuid4().hex,
+                vector=models.Document(text=content, model=embedding_model_name),
+                payload={"metadata": metadata, "document": content},
+            )
+            for metadata, content in zip(docs_metadatas, docs_contents)
+        ],
+    )
 ```
 
 and retrieving documents from Qdrant during our RAG Pipeline assessment.
@@ -214,12 +204,13 @@ def get_documents(collection_name, query, num_documents=3):
     This function retrieves the desired number of documents from the Qdrant collection given a query.
     It returns a list of the retrieved documents.
     """
-    search_results = client.query(
+    search_results = client.query_points(
         collection_name=collection_name,
-        query_text=query,
+        query=models.Document(text=query, model=embedding_model_name),
         limit=num_documents,
-    )
-    results = [r.metadata["document"] for r in search_results]
+    ).points
+
+    results = [r.payload["document"] for r in search_results]
     return results
 ```
 
