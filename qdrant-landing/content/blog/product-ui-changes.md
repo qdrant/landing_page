@@ -98,7 +98,7 @@ We have robust documentation, as well as a global [community](https://discord.co
 
 If you haven’t tried Qdrant Cloud yet, now is the time to get started.
 
-[**Go try out your 1GB free cluster and poke around\!**](https://cloud.qdrant.io/signup%20)   
+[**Try now!**](https://cloud.qdrant.io/signup%20)   
 
 Want to share feedback? Email us at community@qdrant.com
 
