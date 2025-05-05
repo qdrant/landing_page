@@ -2,7 +2,7 @@
 draft: false # What does this mean? published blogs say false or true
 title: Title # Name of the blog with character count max of XX
 sitemapExclude: true # What does this mean??
-slug: teaching-vector-db-at-scale # This is your URL after /blog BUT write instructions on how to avoid 404   
+slug: slug-example # This is your URL after /blog BUT write instructions on how to avoid 404   
 short_description: Description # What is this and why is it shorter
 description: Description # What is this and why is it longer
 preview_image: /blog/from_cms/alfredo-deza-bp-cropped.png
@@ -24,4 +24,4 @@ Intro paragraph
 
 ## Header 1
 
-Bullet points
+This is a sentence with a word in **bold**. 
