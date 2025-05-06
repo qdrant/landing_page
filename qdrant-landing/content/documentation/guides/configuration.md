@@ -324,6 +324,10 @@ storage:
     # Number of replicas of each shard that network tries to maintain
     replication_factor: 1
 
+    # Number of shards created per node
+    shard_number_per_node: 1
+    # The total of shards would then be number_of_nodes * shard_number_per_node
+
     # How many replicas should apply the operation for us to consider it successful
     write_consistency_factor: 1
 
