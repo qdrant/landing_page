@@ -13,7 +13,7 @@ tags:
   - Qdrant
 ---
 
- Migrating your data just got easier 
+## Migrating your data just got easier 
 
 We also launched the beta release of a database migration tool, significantly simplifying data migration processes.
 
@@ -23,4 +23,4 @@ Unlike Qdrant’s included [snapshot migration method](https://qdrant.tech/docum
 
 This is especially useful if you want to change the collection configuration on the target, for example by choosing a different replication factor or quantization method.
 
-**Learn more and start migrating easily: [Qdrant Migration Tool](https://github.com/qdrant/migration)**
+## **Learn more and start migrating easily: [Qdrant Migration Tool](https://github.com/qdrant/migration)**
