@@ -1,6 +1,6 @@
 ---
-draft: true
-title: "Beta launch: database migration tool"
+draft: false
+title: "Title of blog for beta launch: database migration tool"
 short_description: "Short description"
 description: "Other description."
 preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
