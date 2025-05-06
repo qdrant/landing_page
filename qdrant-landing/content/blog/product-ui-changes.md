@@ -6,7 +6,7 @@ description: Read about recent improvements designed to simplify your journey fr
 preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
 social_preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
 title_preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
-date: 2025-05-05T00:02:00Z
+date: 2025-05-06T00:02:00Z
 author: Qdrant
 featured: false
 tags:
@@ -18,6 +18,8 @@ tags:
 We always aim to simplify our product for developers, platform teams, and enterprises. 
 
 Here’s a quick overview of recent improvements designed to simplify your journey from login, creating your first cluster, prototyping, and going to production.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/J75pNicPEo8?si=1HznwER1Kqx5ZrLG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Simplified Login
 
@@ -101,15 +103,3 @@ If you haven’t tried Qdrant Cloud yet, now is the time to get started.
 [**Try now!**](https://cloud.qdrant.io/signup%20)   
 
 Want to share feedback? Email us at community@qdrant.com
-
-## Migrating your data just got easier 
-
-We also launched the beta release of a database migration tool, significantly simplifying data migration processes.
-
-You can take data from any Qdrant instance to another. Examples include from open source to another running in Qdrant Cloud as well as migrating from one cloud region to another. All with one command\!
-
-Unlike Qdrant’s included [snapshot migration method](https://qdrant.tech/documentation/concepts/snapshots/), which requires consistent node-specific snapshots, our migration tool enables you to easily migrate data between different Qdrant database clusters in streaming batches. 
-
-This is especially useful if you want to change the collection configuration on the target, for example by choosing a different replication factor or quantization method.
-
-**Learn more and start migrating easily: [Qdrant Migration Tool](https://github.com/qdrant/migration)**
