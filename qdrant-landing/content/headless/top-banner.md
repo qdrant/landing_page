@@ -16,5 +16,5 @@ link:
   url: https://qdrant.tech/blog/qdrant-1.14.x/
 start: 2025-05-06T05:00:00.000Z
 sitemapExclude: true
-end: 2025-04-29T14:00:00.000Z
+end: 2025-05-16T14:00:00.000Z
 ---
