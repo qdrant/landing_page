@@ -161,7 +161,7 @@ We want to work smarter, not harder, and rely as much as possible on time-proven
 Dense encoder outputs are high-dimensional, so we need to perform **dimensionality reduction, which should preserve the word's meaning in context**. The goal is to:
 
 - Avoid relevance objective and dependence on labelled datasets;
-- Find reflecting meaning spatial relations target;
+- Find a target capturing spatial relations between word’s meanings;
 - Use the simplest architecture possible.
 
 ### Training Data
