@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "Exploring Qdrant Cloud just got easier"
+title: "Exploring Qdrant Cloud Just Got Easier"
 short_description: "Read about recent improvements designed to simplfiy your journey with Qdrant."
 description: Read about recent improvements designed to simplify your journey from login, creating your first cluster, prototyping, and going to production. 
 preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
@@ -96,7 +96,7 @@ Whether you want a fully managed experience, complete infrastructure control, or
 
 We have robust documentation, as well as a global [community](https://discord.com/invite/qdrant) of users that share projects, advice, and help each other build. If you run into technical issues, our support team is happy to help troubleshoot. Here you can find what you need if you run into roadblocks when building. 
 
-## See for yourself
+## See for Yourself
 
 If you haven’t tried Qdrant Cloud yet, now is the time to get started.
 
