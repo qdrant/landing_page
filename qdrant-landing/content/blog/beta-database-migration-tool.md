@@ -23,8 +23,11 @@ Unlike Qdrant’s included [snapshot migration method](https://qdrant.tech/docum
 
 This is especially useful if you want to change the collection configuration on the target, for example by choosing a different replication factor or quantization method.
 
-The easiest way to run the qdrant migration tool is as a container. You can run it any machine where you have connectivity to both the source and the target Qdrant databases. Direct connectivity between both databases is not required. For optimal performance, you should run the tool on a machine with a fast network connection and minimum latency to both databases. [Read more about installation.](https://github.com/qdrant/migration?tab=readme-ov-file#installation)
+The easiest way to run the qdrant migration tool is as a container. You can run it on any machine where you have connectivity to both the source and the target Qdrant databases. Direct connectivity between both databases is not required. For optimal performance, you should run the tool on a machine with a fast network connection and minimum latency to both databases.
 
-## Learn more and start migrating easily: [Qdrant Migration Tool](https://github.com/qdrant/migration) 
+## Learn more and start migrating easily
+
+## [Qdrant Migration Tool](https://github.com/qdrant/migration) 
 
 Note: This project is in beta. The API may change in future releases.
+
