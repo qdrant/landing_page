@@ -1,11 +1,11 @@
 ---
-draft: true
+draft: false
 title: "Database Migration Tool Beta Launch: One-Command Cluster-to-Cluster Transfers"
 short_description: "Qdrant’s Migration Tool (Beta) lets you move data across clusters or regions with one command—no snapshots needed. Try it now."
 description: "We're launching the beta of Qdrant’s Database Migration Tool—migrate data across clusters, regions, or from open source to cloud with just one command. No manual snapshots, fully stream-based. Try the beta now!"
-preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
-social_preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
-title_preview_image: /blog/product-ui-changes/new-ui-hero-final.jpg
+preview_image: /blog/beta-migration-tool/data-migration-tool-beta.jpg
+social_preview_image: /blog/beta-migration-tool/data-migration-tool-beta.jpg
+title_preview_image: /blog/beta-migration-tool/data-migration-tool-beta.jpg
 date: 2025-05-07T00:02:00Z # year, month, date
 author: Qdrant
 featured: false
