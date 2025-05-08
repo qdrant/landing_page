@@ -1,6 +1,6 @@
 ---
 title: Private Cloud
-weight: 14
+weight: 17
 partition: cloud
 ---
 

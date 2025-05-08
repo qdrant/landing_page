@@ -34,6 +34,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Mirror Security](/documentation/frameworks/mirror-security/) | Python framework for vector encryption and access control.                                                           |
 | [Mem0](/documentation/frameworks/mem0/)                       | Self-improving memory layer for LLM applications, enabling personalized AI experiences.                              |
 | [Neo4j GraphRAG](/documentation/frameworks/neo4j-graphrag/)   | Package to build graph retrieval augmented generation (GraphRAG) applications using Neo4j and Python.                |
+| [OpenAI Agents](/documentation/frameworks/openai-agents/)     | Python framework for managing multiple AI agents that can work together.                                             |
 | [Pandas-AI](/documentation/frameworks/pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language                        |
 | [Ragbits](/documentation/frameworks/ragbits/)                 | Python package that offers essential "bits" for building powerful Retrieval-Augmented Generation (RAG) applications. |
 | [Rig-rs](/documentation/frameworks/rig-rs/)                   | Rust library for building scalable, modular, and ergonomic LLM-powered applications.                                 |
@@ -42,7 +43,6 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Solon](/documentation/frameworks/solon/)                     | A lightweight, high-performance Java enterprise framework                                                            |
 | [Spring AI](/documentation/frameworks/spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design.                 |
 | [Superduper](/documentation/frameworks/superduper/)           | Framework for building flexible, compositional AI apps which may be applied directly to databases.                   |
-| [Swarm](/documentation/frameworks/swarm/)                     | Python framework for managing multiple AI agents that can work together.                                             |
 | [Sycamore](/documentation/frameworks/sycamore/)               | Document processing engine for ETL, RAG, LLM-based applications, and analytics on unstructured data.                 |
 | [Testcontainers](/documentation/frameworks/testcontainers/)   | Framework for providing throwaway, lightweight instances of systems for testing                                      |
 | [txtai](/documentation/frameworks/txtai/)                     | Python library for semantic search, LLM orchestration and language model workflows.                                  |

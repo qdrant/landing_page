@@ -20,8 +20,8 @@ content:
     - id: 1
       image:
         src: /img/dev-portal-cloud/managed-cloud.png
-        alt: Qdrant Cloud
-      title: Qdrant Cloud
+        alt: Managed Cloud
+      title: Managed Cloud
       description: Qdrant Managed Cloud is our SaaS solution, providing managed Qdrant database clusters on the cloud.
       link:
         url: /documentation/cloud/

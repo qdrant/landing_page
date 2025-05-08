@@ -5,13 +5,9 @@ weight: 1
 
 # Role Management
 
-
-
 > 💡 You can access this in **Access Management > User & Role Management** *if available see [this page for details](/documentation/cloud-rbac/).*
 
-
 A **Role** contains a set of **permissions** that define the ability to perform or control specific actions in Qdrant Cloud. Permissions are accessible through the Permissions tab in the Role Details page and offer fine-grained access control, logically grouped for easy identification.
-
 
 ## Built-In Roles
 
@@ -29,7 +25,7 @@ There are three types: 
 
 An authorized user can create their own custom roles with specific sets of permissions, giving them more control over who has what access to which resource.
 
-![image.png](/documentation/cloud/role-based-access-control/custom-roles.png)
+![image.png]( /documentation/cloud/role-based-access-control/custom-roles.png)
 
 ### Creating a Custom Role
 
@@ -41,8 +37,6 @@ To create a new custom role, click on the **Add** button at the top-right corn
 Once created, the new role will appear under the **Custom Roles** section in the navigation.
 
 ![image.png](/documentation/cloud/role-based-access-control/create-custom-role.png)
-
-![image.png](/documentation/cloud/role-based-access-control/create-new-role.png)
 
 ### Editing a Custom Role
 

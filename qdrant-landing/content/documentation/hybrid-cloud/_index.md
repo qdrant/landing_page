@@ -1,6 +1,6 @@
 ---
 title: Hybrid Cloud
-weight: 13
+weight: 16
 partition: cloud
 ---
 

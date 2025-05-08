@@ -1,6 +1,8 @@
 ---
 title: Qdrant Fundamentals
 weight: 1
+aliases:
+  - ../faq
 ---
 
 # Frequently Asked Questions: General Topics
@@ -45,6 +47,14 @@ Make sure to check that the collection status is `green` and that the number of 
 
 Collection info API in Qdrant returns an approximate number of points in the collection.
 If you need an exact number, you can use the [count](/documentation/concepts/points/#counting-points) API.
+
+### Vectors in the collection don't match what I uploaded.
+
+There are two possible reasons for this:
+
+- You used the `Cosine` distance metric in the [collection settings](/concepts/collections/#collections). In this case, Qdrant pre-normalizes your vectors for faster distance computation. If you strictly need the original vectors to be preserved, consider using the `Dot` distance metric instead.
+- You used the `uint8` [datatype](/documentation/concepts/vectors/#datatypes) to store vectors. `uint8` requires a special format for input values, which might not be compatible with the typical output of embedding models.
+
 
 ## Search 
 

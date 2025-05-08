@@ -7,6 +7,7 @@ aliases:
   - cloud-quick-start
   - cloud-quickstart
   - cloud/quickstart-cloud/
+  - /documentation/quickstart-cloud/
 ---
 # How to Get Started With Qdrant Cloud
 
@@ -14,20 +15,22 @@ aliases:
 <p style="text-align: center;">You can try vector search on Qdrant Cloud in three steps. 
 </br> Instructions are below, but the video is faster:</p>
 
-## Setup a Qdrant Cloud cluster
+## Setup a Qdrant Cloud Cluster
 
 1. Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google or Github credentials.
-2. Go to **Overview** and follow the onboarding instructions under **Create First Cluster**. 
+2. Go to **Clusters** and follow the onboarding instructions under **Create First Cluster**. 
 
 ![create a cluster](/docs/gettingstarted/gui-quickstart/create-cluster.png)
 
-3. When you create it, you will receive an API key. You will need to copy and paste it soon.
-4. Your new cluster will be created under **Clusters**. Give it a few moments to provision.
+3. When you create it, you will receive an API key. You will need to copy it and store it somewhere self. It will not be displayed again. If you loose it, you can always create a new one on the **Cluster Detail Page** later.
 
-## Access the cluster dashboard
+![get api key](/docs/gettingstarted/gui-quickstart/api-key.png)
 
-1. Go to your **Clusters**. Under **Actions**, open the **Dashboard**.
-2. Paste your new API key here. You can revoke and create new API keys in **Access Management**.
+
+## Access the Cluster UI
+
+1. Click on **Cluster UI** on the **Cluster Detail Page** to access the cluster UI dashboard.
+2. Paste your new API key here. You can revoke and create new API keys in the **API Keys** tab on your **Cluster Detail Page**.
 3. The key will grant you access to your Qdrant instance. Now you can see the cluster Dashboard.
 
 ![access the dashboard](/docs/gettingstarted/gui-quickstart/access-dashboard.png)
@@ -108,7 +111,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
 })
 ```
 
-## Try the Tutorial sandbox
+## Try the Tutorial Sandbox
 
 1. Open the interactive **Tutorial**. Here, you can test basic Qdrant API requests.
 2. Using the **Quickstart** instructions, create a collection, add vectors and run a search.
@@ -116,11 +119,11 @@ client, err := qdrant.NewClient(&qdrant.Config{
 
 ![interactive-tutorial](/docs/gettingstarted/gui-quickstart/interactive-tutorial.png)
 
-## That's vector search!
+## That's Vector Search!
 You can stay in the sandbox and continue trying our different API calls.</br>
 When ready, use the Console and our complete REST API to try other operations.
 
-## What's next?
+## What's Next?
 
 Now that you have a Qdrant Cloud cluster up and running, you should [test remote access](/documentation/cloud/authentication/#test-cluster-access) with a Qdrant Client.
 

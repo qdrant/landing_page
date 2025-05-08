@@ -260,6 +260,16 @@ In **Qdrant Cloud**, simply go to your **Cluster Details** screen and select **V
 
 **Documentation:** For a full list of formula expressions, conditions, decay functions, and usage examples, see the official [**Qdrant documentation**](https://qdrant.tech/documentation) and the [**API reference**](https://api.qdrant.tech/). This includes detailed code snippets for popular languages and a variety of advanced reranking examples.
 
+#### Watch the Features in Action! 
+
+Want to see these updates working in a real-world setup?
+
+In our latest Qdrant Office Hours, we demoed the new Score-Boosting Reranker, walked through Incremental HNSW Indexing, and tested the impact of the new multi-threaded batch queries.
+
+Watch the full recording here:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nBqlqR8yM4Y?si=TgHYMmF-tjkPCwUT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 #### Join the Discussion!
 
 **We'd love to hear your feedback:** If you have questions or want to share your experience, join our [**Discord**](https://discord.gg/qdrant) or open an issue on [**GitHub**](https://github.com/qdrant/qdrant/issues).

@@ -4,14 +4,22 @@
       <div class="qdrant-cloud-bento-cards__cards row">
         {{ range $index, $element := .Params.items }}
           <div class="col-12">
-            <div class="card qdrant-cloud-bento-cards__card">
-              <h5 class="qdrant-cloud-bento-cards__card-title">{{ .title }}</h5>
-              <p class="qdrant-cloud-bento-cards__card-description">{{ .description | safeHTML }}</p>
-              {{ if .link }}
-                <a class="link link_md align-self-start" href="{{ .link.url }}">{{ .link.text }}</a>
-              {{ end }}
-              <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
-            </div>
+            {{ if .link }}
+              <a href="{{ .link.url }}" class="card qdrant-cloud-bento-cards__card">
+                <h5 class="qdrant-cloud-bento-cards__card-title">{{ .title }}</h5>
+                <p class="qdrant-cloud-bento-cards__card-description">{{ .description | safeHTML }}</p>
+                {{ if .link }}
+                  <span class="link link_md align-self-start">{{ .link.text }}</span>
+                {{ end }}
+                <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              </a>
+            {{ else }}
+              <div class="card qdrant-cloud-bento-cards__card">
+                <h5 class="qdrant-cloud-bento-cards__card-title">{{ .title }}</h5>
+                <p class="qdrant-cloud-bento-cards__card-description">{{ .description | safeHTML }}</p>
+                <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              </div>
+            {{ end }}
           </div>
         {{ end }}
       </div>

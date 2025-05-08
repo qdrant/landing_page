@@ -27,7 +27,7 @@ set up your cluster, as described in the following sections:
 - Set up [Authentication](/documentation/cloud/authentication/)
 - Configure one or more [Collections](/documentation/concepts/collections/)
 
-## Automatic backups
+## Automatic Backups
 
 You can set up automatic backups of your clusters with our Cloud UI. With the
 procedures listed in this page, you can set up
@@ -44,16 +44,12 @@ need. You can restore a cluster from the snapshot of your choice.
 >   - Node count
 >   - Qdrant version
 
-### Configure a backup
+### Configure a Backup
 
 After you have taken the prerequisite steps, you can configure a backup with the
 [Qdrant Cloud Dashboard](https://cloud.qdrant.io). To do so, take these steps:
 
-1. Sign in to the dashboard
-1. Select Clusters.
-1. Select the cluster that you want to back up.
-   ![Select a cluster](/documentation/cloud/select-cluster.png)
-1. Find and select the **Backups** tab.
+1. On the **Cluster Detail Page** and select the **Backups** tab.
 1. Now you can set up a backup schedule.
    The **Days of Retention** is the number of days after a backup snapshot is
    deleted.
@@ -61,7 +57,7 @@ After you have taken the prerequisite steps, you can configure a backup with the
 
 ![Configure a cluster backup](/documentation/cloud/backup-schedule.png)
 
-### Restore a backup
+### Restore a Backup
 
 If you have a backup, it appears in the list of **Available Backups**. You can
 choose to restore or delete the backups of your choice.
@@ -70,7 +66,7 @@ choose to restore or delete the backups of your choice.
 
 <!-- I think we should move this to the Snapshot page, but I'll do it later -->
 
-## Backups with a snapshot
+## Backups With a Snapshot
 
 Qdrant also offers a snapshot API which allows you to create a snapshot
 of a specific collection or your entire cluster. For more information, see our
@@ -88,7 +84,7 @@ Here is how you can take a snapshot and recover a collection:
 3. Recover the snapshot:
    - Call the [recover endpoint](/documentation/concepts/snapshots/#recover-in-cluster-deployment). Set a location which points to the snapshot file (`file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`) for each host.
 
-## Backup considerations
+## Backup Considerations
 
 Backups are incremental for AWS and GCP clusters. For example, if you have two backups, backup number 2
 contains only the data that changed since backup number 1. This reduces the
