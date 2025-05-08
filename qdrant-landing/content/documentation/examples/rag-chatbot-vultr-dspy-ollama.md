@@ -42,7 +42,7 @@ We are going to need a couple of Python packages to run our application. They mi
 `dspy-ai` package and `qdrant` extra:
 
 ```shell
-pip install dspy-ai[qdrant]
+pip install dspy-ai dspy-qdrant
 ```
 
 ### Qdrant Hybrid Cloud
@@ -181,7 +181,7 @@ gemma_model = dspy.OllamaLocal(
 Similarly, we have to define connection to our Qdrant Hybrid Cloud cluster:
 
 ```python
-from dspy.retrieve.qdrant_rm import QdrantRM
+from dspy_qdrant import QdrantRM
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(
