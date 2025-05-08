@@ -194,7 +194,7 @@ Next, we'll build a pipeline for vectorizing the data and set up a semantic sear
 
 ### Building Qdrant collection
 
-We use the `qdrant-client` library to interact with the Qdrant server. Let's install it:
+We use the `qdrant-client` library with the `fastembed` extra to interact with the Qdrant server and generate vector embeddings locally. Let's install it:
 
 ```shell
 pip install "qdrant-client[fastembed]"
@@ -220,14 +220,18 @@ client.create_collection(
     "qdrant-sources",
     vectors_config={
         "text": models.VectorParams(
-            size=384,
+            size=client.get_embedding_size(
+                model_name="sentence-transformers/all-MiniLM-L6-v2"
+            ),
             distance=models.Distance.COSINE,
         ),
         "code": models.VectorParams(
-            size=768,
+            size=client.get_embedding_size(
+                model_name="jinaai/jina-embeddings-v2-base-code"
+            ),
             distance=models.Distance.COSINE,
         ),
-    }
+    },
 )
 ```
 
@@ -257,9 +261,13 @@ points = [
     for text, code, structure in zip(text_representations, code_snippets, structures)
 ]
 
+# Note: This might take a while since inference happens implicitly.
+# Parallel processing can help.
+# But too many processes may trigger swap memory and hurt performance.
 client.upload_points("qdrant-sources", points=points, batch_size=64)
 ```
 
+Internally, `qdrant-client` uses [FastEmbed](https://github.com/qdrant/fastembed) to implicitly convert our documents into their vector representations.
 The uploaded points are immediately available for search. Next, query the
 collection to find relevant code snippets.
 
