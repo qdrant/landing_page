@@ -32,23 +32,24 @@ Let's break down each component of this workflow:
 - **Qdrant:** As your vector database, Qdrant stores embeddings and their [payloads](https://qdrant.tech/documentation/concepts/payload/), enabling efficient similarity search and retrieval across all content types.
 
 ## Prerequisites
+
 ![data-ingestion-beginners-11](/documentation/examples/data-ingestion-beginners/data-ingestion-11.png)
 
 In this section, you’ll get a step-by-step guide on ingesting data from an S3 bucket. But before we dive in, let’s make sure you’re set up with all the prerequisites:
 
-|||
-|-|-|
-|Sample Data|We’ll use a sample dataset, where each folder includes product reviews in text format along with corresponding images.|
-|AWS Account|An active [AWS account](https://aws.amazon.com/free/) with access to S3 services.|
-|Qdrant Account|A [Qdrant Cloud account](https://cloud.qdrant.io) with access to the WebUI for managing collections and running queries.|
-|Embedding Models|Use embedding models such as [OpenAI's text embedding model](https://openai.com/index/openai-api/) for text files and CLIP for images.|
-|LangChain| You will use this [popular framework](https://www.langchain.com) to tie everything together. |
+|                |                                                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Sample Data    | We’ll use a sample dataset, where each folder includes product reviews in text format along with corresponding images.   |
+| AWS Account    | An active [AWS account](https://aws.amazon.com/free/) with access to S3 services.                                        |
+| Qdrant Cloud   | A [Qdrant Cloud account](https://cloud.qdrant.io) with access to the WebUI for managing collections and running queries. |
+| LangChain      | You will use this [popular framework](https://www.langchain.com) to tie everything together.                             |
+
 
 #### Supported Document Types
 
 The documents used for ingestion can be of various types, such as PDFs, text files, or images. We will organize a structured S3 bucket with folders with the supported document types for testing and experimentation.
 
-#### Python Environment 
+#### Python Environment
 
 Ensure you have a Python environment (Python 3.9 or higher) with these libraries installed:
 
@@ -72,6 +73,7 @@ ACCESS_KEY = ""
 SECRET_ACCESS_KEY = ""
 QDRANT_KEY = ""
 ```
+
 ---
 
 <aside role="alert"> Although the code includes support for processing PDFs, the sample data currently has no PDF files included. </aside>
@@ -193,7 +195,7 @@ create_collection("products-data")
 
 ---
 
-This function creates a collection for storing text (1536 dimensions) and image (512 dimensions) embeddings, using cosine similarity to compare embeddings within the collection.
+This function creates a collection for storing text (384 dimensions) and image (512 dimensions) embeddings, using cosine similarity to compare embeddings within the collection.
 
 Once the collection is set up, you can load the embeddings into Qdrant. This involves inserting (or updating) the embeddings and their associated metadata (payload) into the specified collection.
 
@@ -259,12 +261,12 @@ if __name__ == "__main__":
     print(operation_info)
 ```
 
----
-
 The `PointStruct` is instantiated with these key parameters:
 
 - **id:** A unique identifier for each embedding, typically an incremental index.
-- **vector:** A dictionary containing the text and image embeddings generated from each document.
+
+- **vector:** A dictionary holding the text and image inputs to be embedded. `qdrant-client` uses [FastEmbed](https://github.com/qdrant/fastembed) under the hood to automatically generate vector representations from these inputs locally.
+
 - **payload:** A dictionary storing additional metadata, like product reviews and image references, which is invaluable for retrieval and context during searches.
 
 The code dynamically loads folders from an S3 bucket, processes text and image files separately, and stores their embeddings and associated data in dedicated lists. It then creates a `PointStruct` for each data entry and calls the ingestion function to load it into Qdrant.
@@ -308,6 +310,6 @@ In this example, we queried **Phones with improved design**. Then, we converted 
 
 In this guide, we set up an S3 bucket, ingested various data types, and stored embeddings in Qdrant. Using LangChain, we dynamically processed text and image files, making it easy to work with each file type.
 
-Now, it’s your turn. Try experimenting with different data types, such as videos, and explore Qdrant’s advanced features to enhance your applications. To get started, [sign up](https://cloud.qdrant.io/signup) for Qdrant today. 
+Now, it’s your turn. Try experimenting with different data types, such as videos, and explore Qdrant’s advanced features to enhance your applications. To get started, [sign up](https://cloud.qdrant.io/signup) for Qdrant today.
 
 ![data-ingestion-beginners-12](/documentation/examples/data-ingestion-beginners/data-ingestion-12.png)
