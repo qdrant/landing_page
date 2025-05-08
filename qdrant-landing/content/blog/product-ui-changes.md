@@ -100,6 +100,6 @@ We have robust documentation, as well as a global [community](https://discord.co
 
 If you haven’t tried Qdrant Cloud yet, now is the time to get started.
 
-[**Try now!**](https://cloud.qdrant.io/signup%20)   
+[**Try now!**](https://cloud.qdrant.io/signup)   
 
 Want to share feedback? Email us at community@qdrant.com
