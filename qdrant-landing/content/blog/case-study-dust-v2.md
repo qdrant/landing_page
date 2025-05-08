@@ -3,8 +3,8 @@ draft: false
 title: "How Dust Scaled to 5,000+ Data Sources with Qdrant"
 short_description: "Dust consolidated thousands of vector collections and slashed search latency to sub-second with Qdrant."
 description: "Learn how Dust overhauled its vector stack—cutting RAM usage by 4×, moving queries from 5–10 s to <1 s, and enabling true multi-tenant scale—by migrating to Qdrant."
-preview_image: /blog/case-study-dust-v2/social_preview_partnership-dust-v2.jpg
-social_preview_image: /blog/case-study-dust-v2/social_preview_partnership-dust-v2.jpg
+preview_image: /blog/case-study-dust-v2/case-study-dust-v2-social-preview.jpg
+social_preview_image: /blog/case-study-dust-v2/case-study-dust-v2-social-preview.jpg
 date: 2025-04-29T00:00:00Z
 author: "Daniel Azoulai"
 featured: false
@@ -19,7 +19,7 @@ tags:
 
 ## Inside Dust’s Vector Stack Overhaul: Scaling to 5,000+ Data Sources with Qdrant
 
-![How Dust Scaled to 5,000+ Data Sources with Qdrant](/blog/case-study-dust-v2/case-study-dust-summary-dark.jpg)
+![How Dust Scaled to 5,000+ Data Sources with Qdrant](/blog/case-study-dust-v2/case-study-dust-v2-v2-bento-dark.jpg)
 
 ### The Challenge: Scaling AI Infrastructure for Thousands of Data Sources
 
