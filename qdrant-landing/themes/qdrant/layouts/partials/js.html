@@ -1,7 +1,6 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script src="{{ "js/jquery.js" | absURL }}"></script>
 <script src="{{ "js/jquery.mCustomScrollbar.concat.min.js" | absURL }}"></script>
-<script src="{{ "js/cookit.js" | absURL }}"></script>
 <script src="{{ "js/clipboard.min.js" | absURL }}"></script>
 <script src="{{ "js/anchor.min.js" | absURL }}"></script>
 <script src="{{ "js/vendor.min.js" | absURL }}"></script>
@@ -26,19 +25,6 @@
   clipboard.on('error', function (e) {
     console.error('Action:', e.action);
     console.error('Trigger:', e.trigger);
-  });
-
-  $(function () {
-    $.cookit({
-      messageText: "{{ .Site.Params.gdpr }}",
-      linkText: "Learn more",
-      linkUrl: "/legal/privacy-policy",
-      buttonText: "I accept",
-      backgroundColor: '#1c1c1c',
-      messageColor: '#fff',
-      linkColor: '#fad04c',
-      buttonColor: '#fad04c'
-    });
   });
 
   anchors.options.placement = 'left';
