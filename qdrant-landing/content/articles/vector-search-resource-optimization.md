@@ -32,7 +32,7 @@ Let's take a look at some common goals and optimization strategies:
 
 | Intended Result                | Optimization Strategy        |
 |--------------------------------|------------------------------|
-| [**High Search Precision + Low Memory Expenditure**](/documentation/guides/optimize/#1-high-speed-search-with-low-memory-usage)    | [**On-Disk Indexing**](/documentation/guides/optimize/#1-high-speed-search-with-low-memory-usage)             |
+| [**High Search Precision + Low Memory Expenditure**](http://localhost:1313/documentation/guides/optimize/#1-high-speed-search-with-low-memory-usage)    | [**On-Disk Indexing**](/documentation/guides/optimize/#1-high-speed-search-with-low-memory-usage)             |
 | [**Low Memory Expenditure + Fast Search Speed**](/documentation/guides/quantization/)        | [**Quantization**](/documentation/guides/quantization/)                 |
 | [**High Search Precision + Fast Search Speed**](/documentation/guides/optimize/#3-high-precision-with-high-speed-search)    | [**RAM Storage + Quantization**](/documentation/guides/optimize/#3-high-precision-with-high-speed-search)   |
 | [**Balance Latency vs Throughput**](/documentation/guides/optimize/#balancing-latency-and-throughput)         | [**Segment Configuration**](/documentation/guides/optimize/#balancing-latency-and-throughput)        |
