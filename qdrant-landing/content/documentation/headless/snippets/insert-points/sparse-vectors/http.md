@@ -15,7 +15,7 @@ PUT /collections/{collection_name}/points
             "id": 2,
             "vector": {
                 "text": {
-                    "indices": [1, 2, 3, 4, 5],
+                    "indices": [1, 2, 4, 15, 33, 34],
                     "values": [0.1, 0.2, 0.3, 0.4, 0.5]
                 }
             }

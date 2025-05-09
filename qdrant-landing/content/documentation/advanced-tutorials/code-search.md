@@ -19,12 +19,10 @@ source code itself, which is mostly written in Rust.
 
 ## The approach
 
-We want to search codebases using natural semantic queries, and searching for
-code based on similar logic. You can set up these tasks with embeddings: 
+We want to search codebases using natural semantic queries, and searching for code based on similar logic. You can set up these tasks with embeddings: 
 
 1. General usage neural encoder for Natural Language Processing (NLP), in our case
-   `all-MiniLM-L6-v2` from the
-   [sentence-transformers](https://www.sbert.net/docs/pretrained_models.html) library.
+   `sentence-transformers/all-MiniLM-L6-v2`.
 2. Specialized embeddings for code-to-code similarity search. We use the
    `jina-embeddings-v2-base-code` model.
 
@@ -192,77 +190,19 @@ Function Await ready for timeout that does Return true if ready false if timed o
 
 ## Ingestion pipeline
 
-Next, we build the code search engine to vectorizing data and set up a semantic
-search mechanism for both embedding models.
-
-### Natural language embeddings
-
-We can encode text representations through the `all-MiniLM-L6-v2` model from
-`sentence-transformers`. With the following command, we install `sentence-transformers`
-with dependencies:
-
-```shell
-pip install sentence-transformers optimum onnx
-```
-
-Then we can use the model to encode the text representations:
-
-```python
-from sentence_transformers import SentenceTransformer
-
-nlp_model = SentenceTransformer("all-MiniLM-L6-v2")
-nlp_embeddings = nlp_model.encode(
-    text_representations, show_progress_bar=True,
-)
-```
-
-### Code embeddings
-
-The `jina-embeddings-v2-base-code` model is a good candidate for this task.
-You can also get it from the `sentence-transformers` library, with conditions. 
-Visit [the model page](https://huggingface.co/jinaai/jina-embeddings-v2-base-code),
-accept the rules, and generate the access token in your [account settings](https://huggingface.co/settings/tokens). 
-Once you have the token, you can use the model as follows:
-
-```python
-HF_TOKEN = "THIS_IS_YOUR_TOKEN"
-
-# Extract the code snippets from the structures to a separate list
-code_snippets = [
-    structure["context"]["snippet"] for structure in structures
-]
-
-code_model = SentenceTransformer(
-    "jinaai/jina-embeddings-v2-base-code",
-    token=HF_TOKEN,
-    trust_remote_code=True
-)
-code_model.max_seq_length = 8192  # increase the context length window
-code_embeddings = code_model.encode(
-    code_snippets, batch_size=4, show_progress_bar=True,
-)
-```
-
-Remember to set the `trust_remote_code` parameter to `True`. Otherwise, the
-model does not produce meaningful vectors. Setting this parameter allows the
-library to download and possibly launch some code on your machine, so be sure
-to trust the source.
-
-With both the natural language and code embeddings, we can store them in the 
-Qdrant collection.
+Next, we'll build a pipeline for vectorizing the data and set up a semantic search mechanism for both embedding models.
 
 ### Building Qdrant collection
 
-We use the `qdrant-client` library to interact with the Qdrant server. Let's
-install that client:
+We use the `qdrant-client` library with the `fastembed` extra to interact with the Qdrant server and generate vector embeddings locally. Let's install it:
 
 ```shell
-pip install qdrant-client
+pip install "qdrant-client[fastembed]"
 ```
 
 Of course, we need a running Qdrant server for vector search. If you need one,
 you can [use a local Docker container](/documentation/quick-start/)
-or deploy it using the [Qdrant Cloud](https://cloud.qdrant.io/). 
+or deploy it using the [Qdrant Cloud](https://cloud.qdrant.io/).
 You can use either to follow this tutorial. Configure the connection parameters:
 
 ```python
@@ -280,37 +220,54 @@ client.create_collection(
     "qdrant-sources",
     vectors_config={
         "text": models.VectorParams(
-            size=nlp_embeddings.shape[1],
+            size=client.get_embedding_size(
+                model_name="sentence-transformers/all-MiniLM-L6-v2"
+            ),
             distance=models.Distance.COSINE,
         ),
         "code": models.VectorParams(
-            size=code_embeddings.shape[1],
+            size=client.get_embedding_size(
+                model_name="jinaai/jina-embeddings-v2-base-code"
+            ),
             distance=models.Distance.COSINE,
         ),
-    }
+    },
 )
 ```
 
 Our newly created collection is ready to accept the data. Let's upload the embeddings:
- 
+
 ```python
 import uuid
+
+# Extract the code snippets from the structures to a separate list
+code_snippets = [
+    structure["context"]["snippet"] for structure in structures
+]
 
 points = [
     models.PointStruct(
         id=uuid.uuid4().hex,
         vector={
-            "text": text_embedding,
-            "code": code_embedding,
+            "text": models.Document(
+                text=text, model="sentence-transformers/all-MiniLM-L6-v2"
+            ),
+            "code": models.Document(
+                text=code, model="jinaai/jina-embeddings-v2-base-code"
+            ),
         },
         payload=structure,
     )
-    for text_embedding, code_embedding, structure in zip(nlp_embeddings, code_embeddings, structures)
+    for text, code, structure in zip(text_representations, code_snippets, structures)
 ]
 
+# Note: This might take a while since inference happens implicitly.
+# Parallel processing can help.
+# But too many processes may trigger swap memory and hurt performance.
 client.upload_points("qdrant-sources", points=points, batch_size=64)
 ```
 
+Internally, `qdrant-client` uses [FastEmbed](https://github.com/qdrant/fastembed) to implicitly convert our documents into their vector representations.
 The uploaded points are immediately available for search. Next, query the
 collection to find relevant code snippets.
 
@@ -329,7 +286,7 @@ query = "How do I count points in a collection?"
 
 hits = client.query_points(
     "qdrant-sources",
-    query=nlp_model.encode(query).tolist(),
+    query=models.Document(text=query, model="sentence-transformers/all-MiniLM-L6-v2"),
     using="text",
     limit=5,
 ).points
@@ -352,7 +309,7 @@ It seems we were able to find some relevant code structures. Let's try the same 
 ```python
 hits = client.query_points(
     "qdrant-sources",
-    query=code_model.encode(query).tolist(),
+    query=models.Document(text=query, model="jinaai/jina-embeddings-v2-base-code"),
     using="code",
     limit=5,
 ).points
@@ -375,21 +332,25 @@ and then combine the results to get the most relevant code snippets, from a sing
 
 ```python
 responses = client.query_batch_points(
-    "qdrant-sources",
+    collection_name="qdrant-sources",
     requests=[
         models.QueryRequest(
-            query=nlp_model.encode(query).tolist(),
+            query=models.Document(
+                text=query, model="sentence-transformers/all-MiniLM-L6-v2"
+            ),
             using="text",
             with_payload=True,
             limit=5,
         ),
         models.QueryRequest(
-            query=code_model.encode(query).tolist(),
+            query=models.Document(
+                text=query, model="jinaai/jina-embeddings-v2-base-code"
+            ),
             using="code",
             with_payload=True,
             limit=5,
         ),
-    ]
+    ],
 )
 
 results = [response.points for response in responses]
@@ -446,11 +407,10 @@ we can see multiple results from the `map_index` module. Let's group the
 results and assume a single result per module:
 
 ```python
-results = client.search_groups(
-    "qdrant-sources",
-    query_vector=(
-        "code", code_model.encode(query).tolist()
-    ),
+results = client.query_points_groups(
+    collection_name="qdrant-sources",
+    using="code",
+    query=models.Document(text=query, model="jinaai/jina-embeddings-v2-base-code"),
     group_by="context.module",
     limit=5,
     group_size=1,
