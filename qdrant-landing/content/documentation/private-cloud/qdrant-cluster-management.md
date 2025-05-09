@@ -347,3 +347,31 @@ Access web UI at http://localhost:6333/dashboard
 ```
 
 For more GPU configuration options, see the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/).
+
+## Ephemeral Snapshot Volumes
+
+If you do not [create snapshots](https://api.qdrant.tech/api-reference/snapshots/create-snapshot), or there is no need
+to keep them available after cluster restart, the snapshot storage classname can be set to `emptyDir`:
+
+```yaml
+apiVersion: qdrant.io/v1
+kind: QdrantCluster
+metadata:
+  name: qdrant-a7d8d973-0cc5-42de-8d7b-c29d14d24840
+  labels:
+    cluster-id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
+    customer-id: "acme-industries"
+spec:
+  id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
+  version: "v1.13.4"
+  size: 1
+  resources:
+    cpu: 2
+    memory: "8Gi"
+    storage: "40Gi"
+  storageClassNames:
+    snapshots: emptyDir
+```
+
+See [Kubernetes docs on emptyDir volumes](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir) for more details,
+on how k8s node ephemeral storage is allocated and used.
