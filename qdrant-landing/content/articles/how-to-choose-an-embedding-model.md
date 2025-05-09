@@ -30,8 +30,8 @@ in a practical way, and how to move from model selection to running it in produc
 ## Evaluation: the holy grail of vector search
 
 You can't improve what you don't measure. It's cliché, but it's true also for retrieval. Search quality might and should
-be measured, but not only in a running system, but also before you make the most important decision - which embedding
-model to use. 
+be measured not only in a running system, but also before you make the most important decision - which embedding model 
+to use. 
 
 ### Know the language your model speaks
 
@@ -71,7 +71,8 @@ we recorded together with DeepLearning.AI.
 How do you know if the tokenizer supports the target language? That's pretty easy for the Open Source models, as you 
 can just run the tokenizer without the model and see how the yielded tokens look like. For the commercial models that 
 might be slightly harder, but companies like OpenAI and Cohere are transparent about it and open source their 
-tokenizers.
+tokenizers. In the worst case, you can just modify some of the suspected tokens and see how the model reacts in terms
+of the similarity between the original and modified text.
 
 ### Checklist of things to consider
 
@@ -166,6 +167,8 @@ Once you have the dataset, you can start evaluating the models using one of the 
 help you with that. Running the evaluation process on various models is a good way to get a sense of how they perform
 on your data. You can test even proprietary models that way. However, it's not the only thing you should consider when 
 choosing the best model.
+
+[//]: # (TODO: mention that it's a manual process, and people should not be scared)
 
 ## Compute resource constraints
 
