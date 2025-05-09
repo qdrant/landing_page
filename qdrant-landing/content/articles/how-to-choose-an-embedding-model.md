@@ -12,8 +12,8 @@ category: vector-search-manuals
 
 No matter if you are just beginning your journey in the world of vector search, or you are a seasoned practitioner, you 
 have probably wondered how to choose the right embedding model to achieve the best search precision. There are some
-public benchmarks, such as [MTEB](https://huggingface.co/spaces/mteb/leaderboard), than can help you narrow down the 
-options, but datasets used in those benchmarks will rarely be representative of your domain specific data. Moreover, 
+public benchmarks, such as [MTEB](https://huggingface.co/spaces/mteb/leaderboard), that can help you narrow down the 
+options, but datasets used in those benchmarks will rarely be representative of your domain-specific data. Moreover, 
 search precision is not the only requirement you could have. For example, some of the best models might have amazing 
 quality for retrieval, but you can't afford to run them, e.g., due to high resource usage and/or your budget 
 constraints.
@@ -23,7 +23,7 @@ Although this article focuses mostly on the dense text embedding models, most of
 sparse and multivector representations, but also different modalities.
 </aside>
 
-Selecting the best embedding model is a multi-objective optimization problem and there is no one-size-fits-all solution
+Selecting the best embedding model is a multi-objective optimization problem and there is no one-size-fits-all solution,
 and there probably never will be. In this article, we will try to provide some guidance on how to approach this problem
 in a practical way, and how to move from model selection to running it in production.
 
@@ -36,7 +36,7 @@ to use.
 ### Know the language your model speaks
 
 Embedding models are trained with specific languages in mind. When evaluating one, consider whether it supports all the 
-languages you have or predict to have in your data. If your data is not homogenous, you might require a multilingual 
+languages you have or predict to have in your data. If your data is not homogeneous, you might require a multilingual 
 model that can properly embed text across different languages. If you use Open Source models, then your model is likely
 documented on Hugging Face Hub. For example, the popular in demos `all-MiniLM-L6-v2` was trained on English data only, 
 so it's not a good choice if you have data in other languages.
@@ -58,8 +58,8 @@ contradicting sentences are actually perfect matches in your search.
 
 The same may go for accented letters, different alphabets, etc. However, in that case you shouldn't be using such 
 a model in the first place, as it does not support the target language either way. Tokenization has a bigger impact on
-the quality of the embeddings, than many people think. If you want to understand what are the effects of tokenization,
-we recommend you to take the course on [Retrieval Optimization: From Tokenization to Vector 
+the quality of the embeddings than many people think. If you want to understand what the effects of tokenization are,
+we recommend you take the course on [Retrieval Optimization: From Tokenization to Vector 
 Quantization](https://www.deeplearning.ai/short-courses/retrieval-optimization-from-tokenization-to-vector-quantization/)
 we recorded together with DeepLearning.AI.
 
@@ -187,7 +187,7 @@ When selecting an embedding model for production, you need to consider three cri
    interactive chatbots, low latency is crucial. Quantized versions of larger models can offer significant latency 
    improvements.
 3. **Cost**: This includes both infrastructure costs (CPU/GPU resources, memory) and, for API-based models, per-token or 
-   per-request charges. For example, running your own model might have higher upfront costs but lower per-request costs,
+   per-request charges. For example, running your own model might have higher upfront costs but lower per-request costs
    than some SaaS models.
 
 The right balance depends on your specific use case. A news recommendation system might prioritize throughput for 
@@ -209,8 +209,8 @@ Here's an example of how such a comparison table might look:
 | open-source-gpu-required         | 0.88         | 0.83 | 120ms          | 15GB         | Self-hosted    | English                    | 1024                |
 | open-source-on-cpu               | 0.85         | 0.79 | 30ms           | 120MB        | Self-hosted    | English                    | 512                 |
 
-The decision process should be guided by your specific requirements. Organization struggling with budget constraints 
-might lean towards self-hosted options, while the ones who prefer to avoid dealing with infrastructure management
+The decision process should be guided by your specific requirements. Organizations struggling with budget constraints 
+might lean towards self-hosted options, while those who prefer to avoid dealing with infrastructure management
 might prefer API-based solutions. Who knows? Maybe your project does not require the highest precision possible, and a 
 smaller model will do the job just fine.
 
