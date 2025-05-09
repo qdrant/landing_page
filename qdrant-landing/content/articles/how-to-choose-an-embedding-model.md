@@ -47,14 +47,14 @@ However, it's not only about the language, but also about how the model treats t
 often overlooked. Text embedding models use a specific tokenizer to chunk the input data into pieces, and then starts 
 all the Transformer magic with assigning each token a specific input vector representation. 
 
-TODO: image presenting how tokenization works
+![An example of tokenization with WordPiece tokenizer](/articles_data/how-to-choose-an-embedding-model/tokenization-example.png)
 
 One of the effects of such inner workings is that the model can only understand what its tokenizer was trained on (yes, 
 tokenizers are also trainable components). As a result, any characters it hasn't seen during the training will be 
 replaced with a special `UNK` token. If you analyze social media data, then you might be surprised that two 
 contradicting sentences are actually perfect matches in your search.
 
-TODO: image with contradicting sentences (raining vs sunny emoji)
+![Tokenization: The weather today is so 🌧️ vs The weather today is so 🌞](/articles_data/how-to-choose-an-embedding-model/tokenization-contradictions.png)
 
 The same may go for accented letters, different alphabets, etc. However, in that case you shouldn't be using such 
 a model in the first place, as it does not support the target language either way. Tokenization has a bigger impact on
@@ -91,9 +91,10 @@ not the only thing you should consider when choosing the right embedding model, 
   architecture and your hardware. Many models are more suitable for running on GPUs, while others are better for CPUs. 
   The more complex the model, the higher the inference cost. Maybe your infrastructure won’t allow you to run a specific 
   model efficiently, and it’s better to choose a smaller one, even if it’s not the best one?
-
-[//]: # (TODO: add compatiblity with optimizations such as Binary Quantization, or Matryoshka embeddings - MRL)
-[//]: # (TODO: add open source vs proprietary, as fine-tuning might be considered by many)
+- **Optimization support** - there are plenty of optimization in vector search, but not all the models are compatible.
+  For example, if you want to use Binary Quantization, then you need to make sure that the model you are using is 
+  compatible with it with minimal loss in accuracy. Matryoshka embeddings are another example of a technique that 
+  requires specific model training procedure to be effective.
 
 The list is not exhaustive, as there might be plenty of other things to consider, but you get the idea.
 
@@ -168,7 +169,9 @@ help you with that. Running the evaluation process on various models is a good w
 on your data. You can test even proprietary models that way. However, it's not the only thing you should consider when 
 choosing the best model.
 
-[//]: # (TODO: mention that it's a manual process, and people should not be scared)
+Please do not be afraid of building your evaluation dataset. It’s not as complicated as it might seem, and it's a 
+critical step! You don’t need millions of samples to get a good idea of how the model performs. A few hundred 
+well-curated samples are usually enough. Even dozens of samples are better than nothing!
 
 ## Compute resource constraints
 
@@ -177,7 +180,8 @@ do not live in isolation, and you have to consider the bigger picture. For examp
 that limit your choices. It's also about being pragmatic. If you have a model that is 1% more precise, but it's 10 times 
 slower and consumes 10 times more resources, is it really worth it?
 
-TODO: image with inference time vs model size
+Eventually, enjoying the journey is more important than reaching the destination in some cases, but that doesn't hold 
+true for search. The simpler and faster the means that took you there, the better.
 
 ## Throughput, latency and cost
 
@@ -194,9 +198,9 @@ When selecting an embedding model for production, you need to consider three cri
    than some SaaS models.
 
 The right balance depends on your specific use case. A news recommendation system might prioritize throughput for 
-processing large volumes of articles, while a customer service chatbot might prioritize latency for real-time responses.
-
-[//]: # (TODO: think about some other examples, as the ones above sound too generic)
+processing large volumes of articles in real-time, while a website search might prioritize latency for real-time
+results. Similarly, a chatbot using a Large Language Model to generate a response might prioritize cost-effectiveness, 
+as LLMs are often slower and retrieval isn't the most time-consuming part of the process.
 
 ## Balancing all aspects
 
@@ -205,24 +209,27 @@ different conditions. Now things are getting hard and answers are not obvious an
 
 Here's an example of how such a comparison table might look:
 
-| Model                         | Precision@10 | MRR  | Inference Time | Memory Usage | Cost           | Multilingual               | Max Sequence Length |
-|-------------------------------|--------------|------|----------------|--------------|----------------|----------------------------|---------------------|
-| OpenAI text-embedding-3-small | 0.92         | 0.87 | API-dependent  | N/A          | $0.02/M tokens | Probably, yet undocumented | 8191                |
-| Jina embeddings-v3            | 0.89         | 0.84 | API-dependent  | N/A          | $0.10/M tokens | Yes (94 languages)         | 8192                |
-| BAAI/bge-large-en-v1.5        | 0.88         | 0.83 | 120ms          | 1.5GB        | Self-hosted    | English                    | 512                 |
-| FastEmbed (bge-small)         | 0.85         | 0.79 | 30ms           | 120MB        | Self-hosted    | English                    | 512                 |
+| Model                            | Precision@10 | MRR  | Inference Time | Memory Usage | Cost           | Multilingual               | Max Sequence Length |
+|----------------------------------|--------------|------|----------------|--------------|----------------|----------------------------|---------------------|
+| expensive-proprietary-saas-only  | 0.92         | 0.87 | API-dependent  | N/A          | $0.25/M tokens | Probably, yet undocumented | 8192                |
+| cheaper-proprietary-multilingual | 0.89         | 0.84 | API-dependent  | N/A          | $0.01/M tokens | Yes (94 languages)         | 4096                |
+| open-source-gpu-required         | 0.88         | 0.83 | 120ms          | 15GB         | Self-hosted    | English                    | 1024                |
+| open-source-on-cpu               | 0.85         | 0.79 | 30ms           | 120MB        | Self-hosted    | English                    | 512                 |
 
 The decision process should be guided by your specific requirements. Organization struggling with budget constraints 
 might lean towards self-hosted options, while the ones who prefer to avoid dealing with infrastructure management
 might prefer API-based solutions. Who knows? Maybe your project does not require the highest precision possible, and a 
 smaller model will do the job just fine.
 
-[//]: # (TODO: add an image: fast, precise, cheap - choose two)
+![Fast, precise, cheap - pick two](/articles_data/how-to-choose-an-embedding-model/pyramid.png)
 
 Remember that this doesn't have to be a one-time decision. As your application evolves, you might need to revisit your 
 choice of embedding model. Qdrant's architecture makes it relatively easy to migrate to a different model if needed, or
 to extend the system with multiple models and switch between them based on the query, or build a hybrid search that
 takes advantage of different models or more complex search pipelines.
+
+An important decision to make is also where to host the embedding model. Maybe you prefer not to deal with the 
+infrastructure management and send the data you process in its original form? Qdrant now has something for you!
 
 ## Locally sourced embeddings
 
@@ -231,9 +238,9 @@ might be one of the biggest enemies, and transferring millions of vectors over t
 a distant location. Moreover, some of the cloud providers will charge you for the data transfer, so it's not only about
 the latency, but also about the cost.
 
-Qdrant's Cloud Inference solves these problems by allowing you to run the embedding model next to the cluster where your
-vector database is running. It's a perfect solution for those who want not to worry about the model inference and just
-use search that works on the data they have. Check out the [Cloud Inference 
+**Qdrant's Cloud Inference** solves these problems by allowing you to run the embedding model next to the cluster where 
+your vector database is running. It's a perfect solution for those who want not to worry about the model inference and 
+just use search that works on the data they have. Check out the [Cloud Inference 
 documentation](/#cloud-inference-documentation) to learn more.
 
 [//]: # (TODO: add a correct link to the documentation above)
