@@ -39,7 +39,7 @@ To scale a cluster, update the CPU, memory and storage resources in the QdrantCl
 
 To upgrade the Qdrant version of a database cluster, update the `version` field in the QdrantCluster spec. The Qdrant operator will automatically upgrade the cluster to the new version. The upgrade process is highly available on a multi-node cluster with replicated collections.
 
-Note, that you should not skip minor versions when upgrading. For example, if you are running version `v1.11.3`, you can upgrade to `v1.11.4` or `v1.12.2`, but not directly to `v1.13.0`.
+Note, that you should not skip minor versions when upgrading. For example, if you are running version `v1.11.3`, you can upgrade to `v1.11.5` or `v1.12.6`, but not directly to `v1.13.0`.
 
 ## Exposing a Cluster
 
