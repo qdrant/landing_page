@@ -65,4 +65,4 @@ Filterable HNSW didn’t just speed up existing workflows; it unlocked an entire
 
 As Garden’s customer base grows, query-per-second (QPS) requirements will rise faster than data volume. Meanwhile, Garden plans deeper enrichment of every patent—breaking long descriptions into structured facts the vector index can exploit.
 
-“We don’t have to think about the vector layer anymore,” Mack notes. “Qdrant lets us focus on the IP insights our customers pay for.”
+*“We don’t have to think about the vector layer anymore,” Mack notes. “Qdrant lets us focus on the IP insights our customers pay for.”*
