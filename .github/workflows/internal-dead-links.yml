@@ -25,7 +25,7 @@ jobs:
           bash -x ./install-and-build.sh
           CURRENT_DIR=$(pwd)
           export PATH="${CURRENT_DIR}/dart-sass:${PATH}"
-          cd qdrant-landing && hugo --gc -b 'http://localhost:1314' && hugo serve &
+          cd qdrant-landing && hugo --gc -b 'http://localhost:1314' && hugo serve --port 1314 &
           sleep 5 # wait for server to start
       - name: Internal Links Check
         id: lychee
