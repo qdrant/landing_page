@@ -77,24 +77,17 @@ of the similarity between the original and modified text.
 ### Checklist of things to consider
 
 Nevertheless, the evaluation does not focus on the input tokens only. First and foremost, we should measure how well
-a particular model can handle the task we want to use it for. Vector embeddings are multipurpose tools, and some of the
-models might be more suitable for **semantic similarity**, while others might be better for **retrieval** or **question 
-answering**. Nobody, except you, can tell what's the nature of the problem you are trying to solve. Type of the task is 
-not the only thing you should consider when choosing the right embedding model, but there is more to it, e.g.:
+a particular model can handle the task we want to use it for. Vector embeddings are multipurpose tools, and some models
+might be more suitable for **semantic similarity**, while others for **retrieval** or **question answering**. Nobody, 
+except you, can tell what's the nature of the problem you are trying to solve. Type of the task is not the only thing 
+to consider when choosing the right embedding model:
 
-- **Sequence length** - embedding models are Transformer-based, and they also have a limited size of input they can 
-  process at a time. You don’t expect the meaning of a whole book to be compressed to a single vector with even 8192
-  dimensions, do you? You’d better check how long the documents you want to embed are and how many tokens they contain. 
-  You see? That’s another time when the tokenizer can mess things up.
-- **Model size** - the bigger the model, the more parameters it has, and the more memory it requires to store them. 
-  However, the model's size is not the only thing that matters. The inference time also depends on the model 
-  architecture and your hardware. Many models are more suitable for running on GPUs, while others are better for CPUs. 
-  The more complex the model, the higher the inference cost. Maybe your infrastructure won’t allow you to run a specific 
-  model efficiently, and it’s better to choose a smaller one, even if it’s not the best one?
-- **Optimization support** - there are plenty of optimization in vector search, but not all the models are compatible.
-  For example, if you want to use Binary Quantization, then you need to make sure that the model you are using is 
-  compatible with it with minimal loss in accuracy. Matryoshka embeddings are another example of a technique that 
-  requires specific model training procedure to be effective.
+- **Sequence length** - embedding models have a limited input size they can process at a time. Check how long your 
+  documents are and how many tokens they contain.
+- **Model size** - larger models have more parameters and require more memory. Inference time also depends on model 
+  architecture and your hardware. Some models run effectively only on GPUs, while others can run on CPUs as well.
+- **Optimization support** - not all models are compatible with every optimization technique. For example, Binary 
+  Quantization and Matryoshka embeddings require specific model characteristics.
 
 The list is not exhaustive, as there might be plenty of other things to consider, but you get the idea.
 
