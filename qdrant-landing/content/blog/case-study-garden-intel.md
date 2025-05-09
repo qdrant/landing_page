@@ -37,7 +37,7 @@ A second migration to a self-hosted open-source alternative cut costs but introd
 
 When Garden found Qdrant’s blog post on filterable HNSW, the team realized they could get the search semantics they wanted without bolting on bespoke sharding logic.
 
-“Filterable HNSW was the deal-maker, but Qdrant Cloud’s *managed* Rust backbone sealed it,” says Mack. “We kept source-level transparency while off-loading 24×7 ops.”
+*“Filterable HNSW was the deal-maker, but Qdrant Cloud’s *managed* Rust backbone sealed it,” says Mack. “We kept source-level transparency while off-loading 24×7 ops.”*
 
 * **Scalar quantization (8-bit)** keeps hot vectors in RAM while colder, full-precision embeddings sit on disk—perfect for Garden’s read-heavy, bursty workload.
 
