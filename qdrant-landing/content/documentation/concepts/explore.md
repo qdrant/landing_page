@@ -227,7 +227,7 @@ Example:
 Notes about context search:
 
 * When providing ids as examples, they will be excluded from the results.
-* Score is always in descending order (larger is better), regardless of the metric used.
+* Score is always in ascending order (smaller is better), regardless of the metric used.
 * Best possible score is `0.0`, and it is normal that many points get this score.
 
 </aside>
