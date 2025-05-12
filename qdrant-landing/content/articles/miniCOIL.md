@@ -28,7 +28,7 @@ Learning from the mistakes of previous attempts, we created **miniCOIL**, a new 
 
 Sparse neural retrieval is not so well known, as opposed to methods it's based on -- term-based and dense retrieval. Their weaknesses motivated this field's development, guiding its evolution. Let's follow its path.
 
-{{< figure src="/articles_data/minicoil/models_evolution.png" alt="Retrievers evolation" caption="Retrievers evolation" width="100%" >}}
+{{< figure src="/articles_data/minicoil/models_evolution.png" alt="Retrievers evolution" caption="Retrievers evolution" width="100%" >}}
 
 ### Term-based Retrieval
 
@@ -38,7 +38,7 @@ Famous **BM25** estimates words' contribution based on their:
 1. Importance in a particular text -- Term Frequency (TF) based.
 2. Significance within the whole corpus -- Inverse Document Frequency (IDF) based.
 
-It also has several parameters reflecting typical text length in the corpus, the exact meaning of which you can check in [our detailed breakdown of the BM25 formula](https://qdrant.tech/articles/bm42/).
+It also has several parameters reflecting typical text length in the corpus, the exact meaning of which you can check in [our detailed breakdown of the BM25 formula](https://qdrant.tech/articles/bm42/#why-has-bm25-stayed-relevant-for-so-long).
 
 Precisely defining word importance within a text is nontrivial. 
 
@@ -55,7 +55,7 @@ How to capture the meaning? Bag-of-words models like BM25 assume that words are 
 
 This idea, together with the motivation to numerically express word relationships, powered the development of the second branch of retrieval -- dense vectors. Transformer models with attention mechanisms solved the challenge of distinguishing word meanings within text context, making it a part of relevance matching in retrieval.
 
-Yet dense retrieval didn't (and can't) become a complete replacement for term-based retreival. Dense retrievers are capable of broad semantic similarity searches, yet they lack precision when we need results including a specific keyword. 
+Yet dense retrieval didn't (and can't) become a complete replacement for term-based retrieval. Dense retrievers are capable of broad semantic similarity searches, yet they lack precision when we need results including a specific keyword. 
 
 It's a fool's errand -- trying to make dense retrievers do exact matching, as they're built in a paradigm where every word matches every other word semantically to some extent, and this semantic similarity depends on the training data of a particular model.
 
@@ -227,7 +227,7 @@ Here are the specific characteristics of the miniCOIL model we trained based on 
 | **Input Dense Encoder** | [`jina-embeddings-v2-small-en`](https://huggingface.co/jinaai/jina-embeddings-v2-small-en) (512 dimensions) |
 | **miniCOIL Vectors Size** | 4 dimensions |
 | **miniCOIL Vocabulary** | List of 30,000 of the most common English words, cleaned of stop words and words shorter than 3 letters, [taken from here](https://github.com/arstgit/high-frequency-vocabulary/tree/master). Words are stemmed to align miniCOIL with our BM25 implementation. |
-| **Training Data** | 40 million sentences — a random subset of the [OpenWebText dataset](https://paperswithcode.com/dataset/openwebtext). To make sampling convenient, we uploaded sentences and their [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) embeddings to Qdrant and built a [full-text payload index](https://qdrant.tech/documentation/concepts/indexing/#full-text-index) on sentences with a tokenizer of type `word`. |
+| **Training Data** | 40 million sentences — a random subset of the [OpenWebText dataset](https://paperswithcode.com/dataset/openwebtext). To make triplet sampling convenient, we uploaded sentences and their [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) embeddings to Qdrant and built a [full-text payload index](https://qdrant.tech/documentation/concepts/indexing/#full-text-index) on sentences with a tokenizer of type `word`. |
 | **Training Data per Word** | We sample 8000 sentences per word and form triplets with a margin of at least **0.1**.<br>Additionally, we apply **augmentation** — take a sentence and cut out the target word plus its 1–3 neighbours. We reuse the same similarity score between original and augmented sentences for simplicity. |
 | **Training Parameters** | **Epochs**: 60<br>**Optimizer**: Adam with a learning rate of 1e-4<br>**Validation set**: 20% |
 
@@ -288,7 +288,7 @@ This approach to training sparse neural retrievers:
 2. Builds on the proven BM25 formula, simply adding a semantic component to it.
 3. Creates lightweight sparse representations that fit into a standard inverted index.
 4. Fully reuses the outputs of dense encoders, making it adaptable to different models. This also makes miniCOIL a cheap upgrade for hybrid search solutions.
-5. Uses an extremely simple model architecture, with one trainable layer per word in miniCOIL’s vocabulary. This results in very fast training and inference. Also, this word-level training makes it easy to expand miniCOIL’s vocabulary for a specific use case by additionally training the needed words.
+5. Uses an extremely simple model architecture, with one trainable layer per word in miniCOIL’s vocabulary. This results in very fast training and inference. Also, this word-level training makes it easy to expand miniCOIL’s vocabulary for a specific use case.
 
 ### The Right Tool for the Right Job
 
