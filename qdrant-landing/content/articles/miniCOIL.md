@@ -232,8 +232,13 @@ Here are the specific characteristics of the miniCOIL model we trained based on 
 | **Training Parameters** | **Epochs**: 60<br>**Optimizer**: Adam with a learning rate of 1e-4<br>**Validation set**: 20% |
 
 Each word was **trained on just one CPU**, and it took approximately fifty seconds per word to train.
-We released this version of a miniCOIL in [our FastEmbed library](https://qdrant.tech/documentation/fastembed/). 
-TBD MINICOIL in FASTEMBED CC ANDREY/GEORGE ADD LINK BEFORE PUBLISHING.
+We included this `minicoil-v1` version in the [v0.7.0 release of our FastEmbed library](https://github.com/qdrant/fastembed).
+
+You can check an example of `minicoil-v1` usage with FastEmbed in the [HuggingFace card](https://huggingface.co/Qdrant/minicoil-v1).
+
+<aside role="status">
+  To use <span style="font-weight: bold;">minicoil-v1</span> correctly, make sure to configure sparse vectors with <a href="https://qdrant.tech/documentation/concepts/indexing/?q=modifier#idf-modifier">Modifier.IDF</a>
+</aside>
 
 ## Results
 
