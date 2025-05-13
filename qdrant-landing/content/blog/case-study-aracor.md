@@ -19,7 +19,7 @@ tags:
 - case study
 ---
 
-Precision at Scale: How Aracor Uses Qdrant to Accelerate Legal Due Diligence Resulting in 90% Faster Workflows
+## Precision at Scale: How Aracor Uses Qdrant to Accelerate Legal Due Diligence Resulting in 90% Faster Workflows ##
 
 ![How Aracor Sped Up Due Diligence Workflows by 90%](/blog/case-study-aracor/case-study-aracor-bento-dark.jpg)
 
@@ -45,21 +45,21 @@ By adopting Qdrant's vector database, Aracor gained the critical ability to effi
 
 When Aracor first set out to integrate a vector database roughly eighteen months ago, Lesly and the team evaluated several vendors. Qdrant stood out for several reasons:
 
-* Open-source and Self-hosted: Qdrant provided a developer-friendly, easily deployable solution at a stage when Aracor needed both flexibility and affordability.
+* **Open-source and Self-hosted:** Qdrant provided a developer-friendly, easily deployable solution at a stage when Aracor needed both flexibility and affordability.
 
-* Superior Scalability: Unlike other databases, Qdrant offered seamless scaling and robust handling of immense document volumes—critical as Aracor’s client base rapidly expanded.
+* **Superior Scalability:** Unlike other databases, Qdrant offered seamless scaling and robust handling of immense document volumes—critical as Aracor’s client base rapidly expanded.
 
-* Hybrid and Metadata-Driven Search: Qdrant made it possible to combine semantic search with structured filters—so users can instantly surface the exact clause, obligation, or restriction they need, even inside complex, nested legal documents. This dramatically improves speed, accuracy, and confidence in results.
+* **Hybrid and Metadata-Driven Search:** Qdrant made it possible to combine semantic search with structured filters—so users can instantly surface the exact clause, obligation, or restriction they need, even inside complex, nested legal documents. This dramatically improves speed, accuracy, and confidence in results.
 
 ### Tangible Results with Qdrant
 
 Since integrating Qdrant, Aracor has realized substantial operational improvements:
 
-* Massive Time Savings: Tasks such as signature validation and document summarization, previously taking weeks, now complete in mere minutes. Customers report: 90% faster due diligence workflows, 70% reduction in document turnaround time, and 40% fewer legal hours required.
+* **Massive Time Savings:** Tasks such as signature validation and document summarization, previously taking weeks, now complete in mere minutes. Customers report: 90% faster due diligence workflows, 70% reduction in document turnaround time, and 40% fewer legal hours required.
 
-* Increased Accuracy: High-quality citation and retrieval accuracy have significantly increased user trust, a crucial advantage in the meticulous legal environment.
+* **Increased Accuracy:** High-quality citation and retrieval accuracy have significantly increased user trust, a crucial advantage in the meticulous legal environment.
 
-* Scalable Infrastructure: Transitioning from self-hosted to Qdrant's cloud solution has streamlined operations, allowing Aracor’s technical team to focus on further feature development and optimization, such as integrating multimodal embeddings and hybrid search.
+* **Scalable Infrastructure:** Transitioning from self-hosted to Qdrant's cloud solution has streamlined operations, allowing Aracor’s technical team to focus on further feature development and optimization, such as integrating multimodal embeddings and hybrid search.
 
 ### Looking Forward
 
