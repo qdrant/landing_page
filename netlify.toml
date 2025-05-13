@@ -24,8 +24,8 @@ HUGO_PARAMS_onetrustScriptId = "0196246a-3663-7350-9a45-b65f645d6314"
 [[headers]]
   for = "/get_anonymous_id/"
   [headers.values]
-    Content-Security-Policy = "frame-ancestors https://development-cloud.qdrant.io https://staging-cloud.qdrant.io https://cloud.qdrant.io"
-    X-Frame-Options = "ALLOW-FROM https://development-cloud.qdrant.io https://staging-cloud.qdrant.io https://cloud.qdrant.io"
+    Content-Security-Policy = "frame-ancestors https://login.development-cloud.qdrant.io https://development-cloud.qdrant.io https://staging-cloud.qdrant.io https://login.cloud.qdrant.io https://cloud.qdrant.io"
+    X-Frame-Options = "ALLOW-FROM https://login.development-cloud.qdrant.io https://development-cloud.qdrant.io https://staging-cloud.qdrant.io https://login.cloud.qdrant.io https://cloud.qdrant.io"
 
     
 [[headers]]
