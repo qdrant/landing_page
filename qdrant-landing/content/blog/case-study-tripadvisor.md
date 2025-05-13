@@ -1,9 +1,9 @@
 ---
 draft: false
-title: "How Tripadvisor Drives 2–3x More Revenue with Qdrant-Powered AI"
+title: "How Tripadvisor Drives 2 to 3x More Revenue with Qdrant-Powered AI"
 short_description: "Tripadvisor unlocked its travel data with Qdrant to deliver personalized AI experiences."
-description: "Tripadvisor transformed trip planning and search by using Qdrant to index over a billion user-generated reviews and images. Learn how this powered AI features that boost revenue 2–3x for engaged users."
-preview_image: /blog/case-study-tripadvisor/social-preview-partnership-tripadvisor.jpg
+description: "Tripadvisor transformed trip planning and search by using Qdrant to index over a billion user-generated reviews and images. Learn how this powered AI features that boost revenue 2 to 3x for engaged users."
+preview_image: /blog/case-study-tripadvisor/social-preview-tripadvisor.jpg
 social_preview_image: /blog/case-study-tripadvisor/social-preview-tripadvisor.jpg
 date: 2025-05-13T00:00:00Z
 author: "Daniel Azoulai"
@@ -19,9 +19,7 @@ tags:
 
 # How Tripadvisor Is Reimagining Travel with Qdrant
 
-![How Tripadvisor Drives 2–3x More Revenue with Qdrant-Powered AI]
-
-(/blog/case-study-tripadvisor/case-study-tripadvisor-summary-dark.jpg)
+![How Tripadvisor Drives 2–3x More Revenue with Qdrant-Powered AI](/blog/case-study-tripadvisor/case-study-tripadvisor-summary-dark.jpg)
 
 Tripadvisor, the world’s largest travel guidance platform, is undergoing a deep transformation. With hundreds of millions of monthly users and over a billion reviews and contributions, it holds one of the richest datasets in the travel industry. And until recently, that data—particularly its unstructured content—had incredible  untapped potential. Now, with the rise of generative AI and the adoption of tools like Qdrant’s vector database, Tripadvisor is unlocking its full potential to deliver intelligent, personalized, and high-impact travel experiences.
 
