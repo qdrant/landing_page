@@ -6,7 +6,7 @@ social_preview_image: /articles_data/minicoil/preview/social_preview.jpg
 preview_dir: /articles_data/minicoil/preview
 weight: -190
 author: Evgeniya Sukhodolskaya
-date: 2025-05-05T00:00:00+03:00
+date: 2025-05-13T00:00:00+03:00
 draft: false
 keywords:
   - hybrid search
