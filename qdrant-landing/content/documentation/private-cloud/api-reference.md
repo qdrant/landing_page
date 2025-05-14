@@ -736,8 +736,9 @@ _Appears in:_
 | `storageClassNames` _[StorageClassNames](#storageclassnames)_ | StorageClassNames specifies the storage class names for db and snapshots. |  |  |
 | `topologySpreadConstraints` _[TopologySpreadConstraint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#topologyspreadconstraint-v1-core)_ | TopologySpreadConstraints specifies the topology spread constraints for the cluster. |  |  |
 | `podDisruptionBudget` _[PodDisruptionBudgetSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#poddisruptionbudgetspec-v1-policy)_ | PodDisruptionBudget specifies the pod disruption budget for the cluster. |  |  |
-| `restartAllPodsConcurrently` _boolean_ | RestartAllPodsConcurrently specifies whether to restart all pods concurrently (also called one-shot-restart).<br />If enabled, all the pods in the cluster will be restarted concurrently in situations where multiple pods<br />need to be restarted like when RestartedAtAnnotationKey is added/updated or the Qdrant version need to be upgraded.<br />This helps sharded but not replicated clusters to reduce downtime to possible minimum during restart. |  |  |
+| `restartAllPodsConcurrently` _boolean_ | RestartAllPodsConcurrently specifies whether to restart all pods concurrently (also called one-shot-restart).<br />If enabled, all the pods in the cluster will be restarted concurrently in situations where multiple pods<br />need to be restarted, like when RestartedAtAnnotationKey is added/updated or the Qdrant version needs to be upgraded.<br />This helps sharded but not replicated clusters to reduce downtime to a possible minimum during restart.<br />If unset, the operator is going to restart nodes concurrently if none of the collections if replicated. |  |  |
 | `startupDelaySeconds` _integer_ | If StartupDelaySeconds is set (> 0), an additional 'sleep <value>' will be emitted to the pod startup.<br />The sleep will be added when a pod is restarted, it will not force any pod to restart.<br />This feature can be used for debugging the core, e.g. if a pod is in crash loop, it provided a way<br />to inspect the attached storage. |  |  |
+| `rebalanceStrategy` _[RebalanceStrategy](#rebalancestrategy)_ | RebalanceStrategy specifies the strategy to use for automaticially rebalancing shards the cluster.<br />Cluster-manager needs to be enabled for this feature to work. |  |  |
 
 
 
@@ -887,9 +888,10 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `id` _string_ | The unique identifier of the entity (in UUID format). |  |  |
 | `entityType` _string_ | The type of the entity. |  |  |
-| `createdAt` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#time-v1-meta)_ | Timestamp when the entity was created. |  |  |
-| `lastUpdatedAt` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#time-v1-meta)_ | Timestamp when the entity was last updated. |  |  |
-| `deletedAt` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#time-v1-meta)_ | Timestamp when the entity was deleted (or is started to be deleting).<br />If not set the entity is not deleted |  |  |
+| `clusterId` _string_ | The optional cluster identifier |  |  |
+| `createdAt` _[MicroTime](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#microtime-v1-meta)_ | Timestamp when the entity was created. |  |  |
+| `lastUpdatedAt` _[MicroTime](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#microtime-v1-meta)_ | Timestamp when the entity was last updated. |  |  |
+| `deletedAt` _[MicroTime](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#microtime-v1-meta)_ | Timestamp when the entity was deleted (or is started to be deleting).<br />If not set the entity is not deleted |  |  |
 | `payload` _[JSON](#json)_ | Generic payload for this entity |  |  |
 
 
@@ -1025,6 +1027,19 @@ _Appears in:_
 | `user` _integer_ | User specifies the user to run the Qdrant process as. |  |  |
 | `group` _integer_ | Group specifies the group to run the Qdrant process as. |  |  |
 | `fsGroup` _integer_ | FsGroup specifies file system group to run the Qdrant process as. |  |  |
+
+
+#### RebalanceStrategy
+
+_Underlying type:_ _string_
+
+
+
+
+
+_Appears in:_
+- [QdrantClusterSpec](#qdrantclusterspec)
+
 
 
 #### RegionCapabilities
@@ -1220,8 +1235,8 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `optimizerCPUBudget` _integer_ | OptimizerCPUBudget defines the number of CPU allocation.<br />If 0 - auto selection, keep 1 or more CPUs unallocated depending on CPU size<br />If negative - subtract this number of CPUs from the available CPUs.<br />If positive - use this exact number of CPUs. |  |  |
-| `asyncScorer` _boolean_ | AsyncScorer enables io_uring when rescoring |  |  |
+| `optimizer_cpu_budget` _integer_ | OptimizerCPUBudget defines the number of CPU allocation.<br />If 0 - auto selection, keep 1 or more CPUs unallocated depending on CPU size<br />If negative - subtract this number of CPUs from the available CPUs.<br />If positive - use this exact number of CPUs. |  |  |
+| `async_scorer` _boolean_ | AsyncScorer enables io_uring when rescoring |  |  |
 
 
 #### TraefikConfig
@@ -1238,6 +1253,7 @@ _Appears in:_
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
 | `allowedSourceRanges` _string array_ | AllowedSourceRanges specifies the allowed CIDR source ranges for the ingress. |  |  |
+| `entryPoints` _string array_ | EntryPoints is the list of traefik entry points to use for the ingress route.<br />If nothing is set, it will take the entryPoints configured in the operator config. |  |  |
 
 
 #### VolumeSnapshotClass
