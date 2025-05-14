@@ -5,6 +5,18 @@ weight: 5
 
 # Changelog
 
+## 1.7.0 (2025-05-14)
+
+|                                |         |
+|--------------------------------|---------|
+| qdrant-kubernetes-api version  | v1.16.3 |
+| operator version               | 2.4.2   |
+| qdrant-cluster-manager version | v0.3.5  |
+
+* Add optional automatic shard balancing
+* Set strict mode by default for new clusters to only allow queries with payload filters on fields that are indexed
+
+
 ## 1.6.4 (2025-04-17)
 
 |                                |         |
