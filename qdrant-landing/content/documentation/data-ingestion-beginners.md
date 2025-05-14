@@ -27,8 +27,6 @@ Let's break down each component of this workflow:
 
 - **S3 Bucket:** This is our starting point—a centralized, scalable storage solution for various file types like PDFs, images, and text.
 - **LangChain:** Acting as the pipeline’s orchestrator, LangChain handles extraction, preprocessing, and manages data flow for embedding generation. It simplifies processing PDFs, so you won’t need to worry about applying OCR (Optical Character Recognition) here.
-- **Text Embeddings API:** This API transforms text from files and PDFs into vector representations, capturing semantic meaning for advanced analysis and search.
-- **Image Embeddings API:** This tool takes image files and converts them into vector representations, making similarity search and analysis possible for visual content.
 - **Qdrant:** As your vector database, Qdrant stores embeddings and their [payloads](https://qdrant.tech/documentation/concepts/payload/), enabling efficient similarity search and retrieval across all content types.
 
 ## Prerequisites
@@ -236,7 +234,7 @@ if __name__ == "__main__":
             aws_secret_access_key=aws_secret_access_key
         )
         docs = loader.load()
-        text_embedding, image_embedding, points, text_review, product_image = [], [], [], "", ""
+        points, text_review, product_image = [], "", ""
         for idx, doc in enumerate(docs):
             source = doc.metadata['source']
             if source.endswith(".txt") or source.endswith(".pdf"):
