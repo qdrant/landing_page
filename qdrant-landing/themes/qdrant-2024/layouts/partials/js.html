@@ -193,5 +193,15 @@
         }
       }
     }
+
+    // todo: experimenting, remove if not used
+    if (
+        event.data.type === 'hsCallsToActionCallback' &&
+        event.data.eventName === 'onCallToActionReady'
+    ) {
+      console.log('Call To Action rendered');
+      console.log(event);
+    }
+
   });
 </script>
