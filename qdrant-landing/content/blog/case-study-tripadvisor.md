@@ -5,7 +5,7 @@ short_description: "Tripadvisor unlocked its travel data with Qdrant to deliver 
 description: "Tripadvisor transformed trip planning and search by using Qdrant to index over a billion user-generated reviews and images. Learn how this powered AI features that boost revenue 2 to 3x for engaged users."
 preview_image: /blog/case-study-tripadvisor/social-preview-tripadvisor.jpg
 social_preview_image: /blog/case-study-tripadvisor/social-preview-tripadvisor.jpg
-date: 2025-05-13T00:00:00Z
+date: 2025-05-13T23:00:00Z
 author: "Daniel Azoulai"
 featured: true
 
