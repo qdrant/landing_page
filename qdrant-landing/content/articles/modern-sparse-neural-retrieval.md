@@ -438,6 +438,7 @@ metadata = [{"movie_name": "The Passion of Joan of Arc", "movie_watch_time_min":
 </details>
 
 Upload embedded descriptions with movie metadata into the collection.
+
 ```python
 qdrant_client.upsert(
     collection_name="movies",
@@ -456,6 +457,34 @@ qdrant_client.upsert(
     ],
 )
 ```
+
+<aside role="status">
+You can also implicitly generate sparse vectors using built-in FastEmbed integration.
+</aside>
+
+<details>
+    <summary>Implicitly generate sparse vectors (Click to expand)</summary>
+
+```python
+qdrant_client.upsert(
+    collection_name="movies",
+    points=[
+        models.PointStruct(
+            id=idx,
+            payload=metadata[idx],
+            vector={
+                "film_description": models.Document(
+                    text=description, model=sparse_model_name
+                )
+            },
+        )
+        for idx, description in enumerate(descriptions)
+    ],
+)
+```
+
+</details>
+
 #### Querying
 Let’s query our collection!
 
@@ -472,6 +501,24 @@ response = qdrant_client.query_points(
 )
 print(response)
 ```
+
+<details>
+    <summary>Implicitly generate sparse vectors (Click to expand)</summary>
+
+```python
+response = qdrant_client.query_points(
+    collection_name="movies",
+    query=models.Document(text="A movie about music", model=sparse_model_name),
+    using="film_description",
+    limit=1,
+    with_vectors=True,
+    with_payload=True,
+)
+print(response)
+```
+
+</details>
+
 Output looks like this:
 ```bash
 points=[ScoredPoint(
@@ -585,6 +632,24 @@ response = qdrant_client.query_points(
 
 print(get_tokens_and_weights(response.points[0].vector['film_description'], tokenizer))
 ```
+
+<details>
+    <summary>Implicitly generate sparse vectors (Click to expand)</summary>
+
+```python
+response = qdrant_client.query_points(
+    collection_name="movies",
+    query=models.Document(text="A movie about music", model=sparse_model_name),
+    using="film_description",
+    limit=1,
+    with_vectors=True,
+    with_payload=True,
+)
+
+print(get_tokens_and_weights(response.points[0].vector["film_description"], tokenizer))
+```
+
+</details>
 
 And that's how SPLADE++ expanded the answer.
 

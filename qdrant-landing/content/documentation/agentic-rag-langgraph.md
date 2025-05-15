@@ -156,7 +156,7 @@ LangGraph works with a state-based system. We define our state like this:
 
 ```python
 class State(TypedDict):
-messages: Annotated[list, add_messages]
+    messages: Annotated[list, add_messages]
 ```
 ---
 

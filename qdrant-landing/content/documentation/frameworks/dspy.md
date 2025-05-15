@@ -17,7 +17,7 @@ Qdrant can be used as a retrieval mechanism in the DSPy flow.
 
 For the Qdrant retrieval integration, include `dspy-ai` with the `qdrant` extra:
 ```bash
-pip install dspy-ai[qdrant]
+pip install dspy-ai dspy-qdrant
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ pip install dspy-ai[qdrant]
 We can configure `DSPy` settings to use the Qdrant retriever model like so:
 ```python
 import dspy
-from dspy.retrieve.qdrant_rm import QdrantRM
+from dspy_qdrant import QdrantRM
 
 from qdrant_client import QdrantClient
 
