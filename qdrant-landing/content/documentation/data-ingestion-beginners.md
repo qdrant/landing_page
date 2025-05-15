@@ -27,32 +27,31 @@ Let's break down each component of this workflow:
 
 - **S3 Bucket:** This is our starting point—a centralized, scalable storage solution for various file types like PDFs, images, and text.
 - **LangChain:** Acting as the pipeline’s orchestrator, LangChain handles extraction, preprocessing, and manages data flow for embedding generation. It simplifies processing PDFs, so you won’t need to worry about applying OCR (Optical Character Recognition) here.
-- **Text Embeddings API:** This API transforms text from files and PDFs into vector representations, capturing semantic meaning for advanced analysis and search.
-- **Image Embeddings API:** This tool takes image files and converts them into vector representations, making similarity search and analysis possible for visual content.
 - **Qdrant:** As your vector database, Qdrant stores embeddings and their [payloads](https://qdrant.tech/documentation/concepts/payload/), enabling efficient similarity search and retrieval across all content types.
 
 ## Prerequisites
+
 ![data-ingestion-beginners-11](/documentation/examples/data-ingestion-beginners/data-ingestion-11.png)
 
 In this section, you’ll get a step-by-step guide on ingesting data from an S3 bucket. But before we dive in, let’s make sure you’re set up with all the prerequisites:
 
-|||
-|-|-|
-|Sample Data|We’ll use a sample dataset, where each folder includes product reviews in text format along with corresponding images.|
-|AWS Account|An active [AWS account](https://aws.amazon.com/free/) with access to S3 services.|
-|Qdrant Account|A [Qdrant Cloud account](https://cloud.qdrant.io) with access to the WebUI for managing collections and running queries.|
-|Embedding Models|Use embedding models such as [OpenAI's text embedding model](https://openai.com/index/openai-api/) for text files and CLIP for images.|
-|LangChain| You will use this [popular framework](https://www.langchain.com) to tie everything together. |
+|                |                                                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Sample Data    | We’ll use a sample dataset, where each folder includes product reviews in text format along with corresponding images.   |
+| AWS Account    | An active [AWS account](https://aws.amazon.com/free/) with access to S3 services.                                        |
+| Qdrant Cloud   | A [Qdrant Cloud account](https://cloud.qdrant.io) with access to the WebUI for managing collections and running queries. |
+| LangChain      | You will use this [popular framework](https://www.langchain.com) to tie everything together.                             |
+
 
 #### Supported Document Types
 
 The documents used for ingestion can be of various types, such as PDFs, text files, or images. We will organize a structured S3 bucket with folders with the supported document types for testing and experimentation.
 
-#### Python Environment 
+#### Python Environment
 
 Ensure you have a Python environment (Python 3.9 or higher) with these libraries installed:
 
-```jsx
+```python
 boto3
 langchain-community
 langchain
@@ -60,18 +59,19 @@ python-dotenv
 unstructured
 unstructured[pdf]
 qdrant_client
+fastembed
 ```
 
 ---
 
-**Access Keys:** Store your AWS access key, S3 secret key, and Qdrant API key in a .env file for easy access. You’ll also need an **OpenAI API key**. Here’s a sample `.env` file.
+**Access Keys:** Store your AWS access key, S3 secret key, and Qdrant API key in a .env file for easy access. Here’s a sample `.env` file.
 
 ```text
 ACCESS_KEY = ""
 SECRET_ACCESS_KEY = ""
-OPENAI_API_KEY = ""
 QDRANT_KEY = ""
 ```
+
 ---
 
 <aside role="alert"> Although the code includes support for processing PDFs, the sample data currently has no PDF files included. </aside>
@@ -88,7 +88,7 @@ To connect LangChain with S3, you’ll use the `S3DirectoryLoader`, which lets y
 
 Here’s how to set up LangChain to ingest data from an S3 bucket:
 
-```jsx
+```python
 from langchain_community.document_loaders import S3DirectoryLoader
 
 # Initialize the S3 document loader
@@ -113,52 +113,8 @@ docs = loader.load()
 
 To get things rolling, we’ll use two powerful models:
 
-1. **OpenAI Embeddings** for transforming text data.
-2. **CLIP (Contrastive Language-Image Pretraining)** for image data.
-
-### Text Embeddings
-
-Here, we’re using `OpenAIEmbeddings`—a pre-trained model that turns text into embeddings, capturing its underlying meaning. With these, we’re ready to unlock powerful search and retrieval tasks.
-
-Here’s how to set up the OpenAI embedding model for text:
-
-```jsx
-from langchain_openai import OpenAIEmbeddings
-
-# Initialize the text embedding model from OpenAI
-text_embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
-```
-
----
-
-The `text-embedding-3-small` model generates high-quality text embeddings, making it easier to find documents with similar meanings—even if they don’t contain the exact same words.
-
-### Image Embeddings
-
-We’re using OpenAI’s `ClipModel`, which is designed to handle both images and text. Here, we’ll use CLIP to generate embeddings for images, allowing you to compare image content based on its semantic meaning.
-
-Here’s how to set up the CLIP model and processor::
-
-```jsx
-From transformers import CLIPProcessor, CLIPModel
-import torch
-
-# Initialize the CLIP model and processor
-clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
-clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-```
-
----
-
-The `clip-vit-base-patch32` model is specifically trained to align images and text within the same embedding space, meaning that similar images will have embeddings that are close to each other. With the models set up, you can now create a function to process documents based on their type and generate embeddings using the CLIP model, for instance, to convert image features into vectors.
-
-```jsx
-def embed_image_with_clip(image):
-    inputs = clip_processor(images=image, return_tensors="pt")
-    with torch.no_grad():
-        image_features = clip_model.get_image_features(**inputs)
-    return image_features.cpu().numpy()
-```
+1. **`sentence-transformers/all-MiniLM-L6-v2` Embeddings** for transforming text data.
+2. **`CLIP` (Contrastive Language-Image Pretraining)** for image data.
 
 ---
 
@@ -166,54 +122,35 @@ def embed_image_with_clip(image):
 
 ![data-ingestion-beginners-8.png](/documentation/examples/data-ingestion-beginners/data-ingestion-8.png)
 
-Next, we’ll create a `process_document` function that converts various file types—such as text, PDF, and image—into embeddings. This function applies different methods to extract and embed content based on the file type, making it versatile for handling multiple formats effectively.
+Next, we’ll define two functions — `process_text` and `process_image` to handle different file types in our document pipeline. The `process_text` function extracts and returns the raw content from a text-based document, while `process_image` retrieves an image from an S3 source and loads it into memory.
 
-```jsx
-def process_document(doc):
-   source = doc.metadata['source']  # Extract document source (e.g., S3 URL)
+```python
+from PIL import Image
 
-   # Processing Text Files
-   if source.endswith('.txt'):
-       text = doc.page_content  # Extract the content from the text file
-       print(f"Processing .txt file: {source}")
-       return text, text_embedding_model.embed_documents([text])  # Convert to embeddings
+def process_text(doc):
+    source = doc.metadata['source']  # Extract document source (e.g., S3 URL)
 
-   # Processing PDF Files
-   elif source.endswith('.pdf'):
-       content = doc.page_content  # Extract content from the PDF
-       print(f"Processing .pdf file: {source}")
-       return content, text_embedding_model.embed_documents([content])  # Convert to embeddings
+    text = doc.page_content  # Extract the content from the text file
+    print(f"Processing text from {source}")
+    return source, text
 
-   # Processing Image Files
-   elif source.endswith('.png'):
-       print(f"Processing .png file: {source}")
-       bucket_name, object_key = parse_s3_url(source)  # Parse the S3 URL
-       response = s3.get_object(Bucket=bucket_name, Key=object_key)  # Fetch image from S3
-       img_bytes = response['Body'].read()
+def process_image(doc):
+    source = doc.metadata['source']  # Extract document source (e.g., S3 URL)
+    print(f"Processing image from {source}")
 
-       # Load the image and convert to embeddings
-       img = Image.open(io.BytesIO(img_bytes))
-       return source, embed_image_with_clip(img)  # Convert to image embeddings
+    bucket_name, object_key = parse_s3_url(source)  # Parse the S3 URL
+    response = s3.get_object(Bucket=bucket_name, Key=object_key)  # Fetch image from S3
+    img_bytes = response['Body'].read()
+
+    img = Image.open(io.BytesIO(img_bytes))
+    return source, img
 ```
-
----
-
-Here’s the explanation of the code above:
-
-- **File Type Detection**
-
-First, the function checks the file type using the file extension (.txt, .pdf, .png) from the document's source metadata. This tells it how to process the content and which embedding model to use
-
-- **File Processing**
-    - **Text Files (.txt):** For text files, it’s straightforward—the content is extracted as plain text and passed to the OpenAIEmbeddings model. Then, the embed_documents() function transforms this text into numerical vectors, capturing its meaning in embedding form.
-    - **PDFs:** PDFs often have a lot to offer, like multi-page content. Here, we’re using LangChain’s document loader to extract the text from each page, and then converting it into embeddings with the OpenAI text embedding model. This lets you capture the full richness of the document.
-    - **Images (.png):** For images (e.g., .png files), the function fetches the image from S3 using its URL. Once loaded with the Python Imaging Library (PIL), the image is passed to the CLIP model, which generates an embedding that represents the image’s semantic features.
 
 ### Helper Functions for Document Processing
 
 To retrieve images from S3, a helper function `parse_s3_url` breaks down the S3 URL into its bucket and critical components. This is essential for fetching the image from S3 storage.
 
-```jsx
+```python
 def parse_s3_url(s3_url):
     parts = s3_url.replace("s3://", "").split("/", 1)
     bucket_name = parts[0]
@@ -235,13 +172,13 @@ In Qdrant, data is organized in collections, each representing a set of embeddin
 
 Here’s how to create a collection in Qdrant to store both text and image embeddings:
 
-```jsx
+```python
 def create_collection(collection_name):
     qdrant_client.create_collection(
         collection_name,
         vectors_config={
             "text_embedding": models.VectorParams(
-                size=1536,  # Dimension of text embeddings
+                size=384,  # Dimension of text embeddings
                 distance=models.Distance.COSINE,  # Cosine similarity is used for comparison
             ),
             "image_embedding": models.VectorParams(
@@ -256,13 +193,13 @@ create_collection("products-data")
 
 ---
 
-This function creates a collection for storing text (1536 dimensions) and image (512 dimensions) embeddings, using cosine similarity to compare embeddings within the collection.
+This function creates a collection for storing text (384 dimensions) and image (512 dimensions) embeddings, using cosine similarity to compare embeddings within the collection.
 
 Once the collection is set up, you can load the embeddings into Qdrant. This involves inserting (or updating) the embeddings and their associated metadata (payload) into the specified collection.
 
 Here’s the code for loading embeddings into Qdrant:
 
-```jsx
+```python
 def ingest_data(points):
     operation_info = qdrant_client.upsert(
         collection_name="products-data",  # Collection where data is being inserted
@@ -282,7 +219,9 @@ def ingest_data(points):
 
 Here’s how to call the function and ingest data:
 
-```jsx
+```python
+from qdrant_client import models
+
 if __name__ == "__main__":
     collection_name = "products-data"
     create_collection(collection_name)
@@ -295,36 +234,37 @@ if __name__ == "__main__":
             aws_secret_access_key=aws_secret_access_key
         )
         docs = loader.load()
-        text_embedding, image_embedding, points, text_review, product_image = [], [], [], "", ""
+        points, text_review, product_image = [], "", ""
         for idx, doc in enumerate(docs):
             source = doc.metadata['source']
-            if source.endswith(".txt"):
-                text_review, text_embedding = process_document(doc)
+            if source.endswith(".txt") or source.endswith(".pdf"):
+                _text_review_source, text_review = process_text(doc)
             elif source.endswith(".png"):
-                product_image, image_embedding = process_document(doc)
+                product_image_source, product_image = process_image(doc)
         if text_review:
-            point = PointStruct(
+            point = models.PointStruct(
                 id=idx,  # Unique identifier for each point
                 vector={
-                    "text_embedding": text_embedding[0],                      
-                    "image_embedding": image_embedding[0].tolist(), 
+                    "text_embedding": models.Document(
+                        text=text_review, model="sentence-transformers/all-MiniLM-L6-v2"
+                    ),
+                    "image_embedding": models.Image(
+                        image=product_image, model="Qdrant/clip-ViT-B-32-vision"
+                    ),
                 },
-                payload={
-                    "review": text_review,                           
-                    "product_image": product_image 
-                }
+                payload={"review": text_review, "product_image": product_image_source},
             )
             points.append(point)
     operation_info = ingest_data(points)
     print(operation_info)
 ```
 
----
-
 The `PointStruct` is instantiated with these key parameters:
 
 - **id:** A unique identifier for each embedding, typically an incremental index.
-- **vector:** A dictionary containing the text and image embeddings generated from each document.
+
+- **vector:** A dictionary holding the text and image inputs to be embedded. `qdrant-client` uses [FastEmbed](https://github.com/qdrant/fastembed) under the hood to automatically generate vector representations from these inputs locally.
+
 - **payload:** A dictionary storing additional metadata, like product reviews and image references, which is invaluable for retrieval and context during searches.
 
 The code dynamically loads folders from an S3 bucket, processes text and image files separately, and stores their embeddings and associated data in dedicated lists. It then creates a `PointStruct` for each data entry and calls the ingestion function to load it into Qdrant.
@@ -368,6 +308,6 @@ In this example, we queried **Phones with improved design**. Then, we converted 
 
 In this guide, we set up an S3 bucket, ingested various data types, and stored embeddings in Qdrant. Using LangChain, we dynamically processed text and image files, making it easy to work with each file type.
 
-Now, it’s your turn. Try experimenting with different data types, such as videos, and explore Qdrant’s advanced features to enhance your applications. To get started, [sign up](https://cloud.qdrant.io/signup) for Qdrant today. 
+Now, it’s your turn. Try experimenting with different data types, such as videos, and explore Qdrant’s advanced features to enhance your applications. To get started, [sign up](https://cloud.qdrant.io/signup) for Qdrant today.
 
 ![data-ingestion-beginners-12](/documentation/examples/data-ingestion-beginners/data-ingestion-12.png)
