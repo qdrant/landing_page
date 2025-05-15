@@ -22,14 +22,10 @@ teamMembers:
     position: Finance
     avatar: '/img/leadership/dominik-alberts.png'
   - id: 5
-    name: David Myriel
-    position: Developer Relations
-    avatar: '/img/leadership/david-myriel.png'
-  - id: 6
     name: Manuel Meyer
     position: Growth
     avatar: '/img/leadership/manuel-meyer.png'
-  - id: 7
+  - id: 6
     name: Randy Petkoff
     position: Sales
     avatar: '/img/leadership/randy-petkoff.png'    
