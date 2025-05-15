@@ -473,7 +473,9 @@ qdrant_client.upsert(
             id=idx,
             payload=metadata[idx],
             vector={
-                "film_description": models.Document(text=description, model=sparse_model_name)
+                "film_description": models.Document(
+                    text=description, model=sparse_model_name
+                )
             },
         )
         for idx, description in enumerate(descriptions)
@@ -510,7 +512,7 @@ response = qdrant_client.query_points(
     using="film_description",
     limit=1,
     with_vectors=True,
-    with_payload=True
+    with_payload=True,
 )
 print(response)
 ```
@@ -637,14 +639,14 @@ print(get_tokens_and_weights(response.points[0].vector['film_description'], toke
 ```python
 response = qdrant_client.query_points(
     collection_name="movies",
-    query=models.Document(text="A movie about music", model=sparse_model_name)
+    query=models.Document(text="A movie about music", model=sparse_model_name),
     using="film_description",
     limit=1,
     with_vectors=True,
-    with_payload=True
+    with_payload=True,
 )
 
-print(get_tokens_and_weights(response.points[0].vector['film_description'], tokenizer))
+print(get_tokens_and_weights(response.points[0].vector["film_description"], tokenizer))
 ```
 
 </details>
