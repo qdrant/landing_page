@@ -21,6 +21,11 @@
     <meta http-equiv="refresh" content="0; url={{ .Params.external_url }}" />
   {{ end }}
 
+  {{ $partition := partial "get-partition.html" (dict "page" .) }}
+  {{ if $partition }}
+    <meta name="partition" content="{{ $partition | safeHTML }}">
+  {{ end }}
+
   {{ partial "css" . }}
 
   {{ hugo.Generator }}
