@@ -7,7 +7,7 @@ preview_image: /blog/case-study-mixpeek/Social_Preview_Partnership-Mixpeek.jpg
 social_preview_image: /blog/case-study-mixpeek/Social_Preview_Partnership-Mixpeek.jpg  
 date: 2025-04-08T00:00:00Z  
 author: "Daniel Azoulai"  
-featured: true
+featured: false
 
 tags:  
 - Mixpeek  
