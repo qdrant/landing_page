@@ -1,0 +1,47 @@
+@use '../helpers/functions' as *;
+
+.testimonial-cards {
+  background-color: $neutral-94;
+  padding-top: pxToRem(64);
+  padding-bottom: pxToRem(120);
+  position: relative;
+
+  &__square-grid-overlay {
+    display: none;
+  }
+
+  &__title {
+    margin-bottom: $spacer * 2.5;
+    font-size: $spacer * 2;
+  }
+
+  &__card {
+    min-height: pxToRem(416);
+    margin-bottom: 0;
+  }
+
+  &__logo {
+    min-height: pxToRem(64);
+    margin-bottom: $spacer * 0.5;
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__square-grid-overlay {
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: pxToRem(88);
+      width: 100%;
+      height: pxToRem(480);
+      background-image: url('/img/square-grid.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    &__title {
+      font-size: $spacer * 3;
+      margin-bottom: $spacer * 4;
+    }
+  }
+}

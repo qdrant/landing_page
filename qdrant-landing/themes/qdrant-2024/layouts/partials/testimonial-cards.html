@@ -1,0 +1,33 @@
+<section class="testimonial-cards{{ if .class }}{{ .class }}{{ end }}">
+  <div class="testimonial-cards__square-grid-overlay z-0"></div>
+  <div class="container position-relative z-1">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="testimonial-cards__title">{{ .context.Params.title }}</h2>
+      </div>
+    </div>
+    <div class="row gy-2 gy-lg-4 gx-0 gx-lg-4">
+      {{ range .context.Params.testimonials }}
+        <div class="col-12 col-lg-4">
+          <div class="card customer-stories__card testimonial-cards__card">
+            <div>
+              <div class="testimonial-cards__logo">
+                <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
+              </div>
+              <p class="customer-stories__card-content">{{ .review | safeHTML }}</p>
+            </div>
+            <div class="customer-stories__card-footer">
+              <div class="customer-stories__avatar">
+                <img src="{{ .avatar.src }}" alt="{{ .avatar.alt }}" />
+              </div>
+              <div class="customer-stories__card-author">
+                <p class="customer-stories__card-author-name">{{ .name }}</p>
+                <p class="customer-stories__card-author-position">{{ .position }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
