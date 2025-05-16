@@ -6,7 +6,8 @@
   {{ partial "legal-tech-challengers" . }}
 
   {{ with (.Site.GetPage "/legal-tech/legal-tech-testimonial") }}
-    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial pb-5 pb-lg-7") }}
+
+    {{ partial "testimonial-cards" (dict "context" .) }}
   {{ end }}
 
   {{ partial "legal-tech-help" . }}
