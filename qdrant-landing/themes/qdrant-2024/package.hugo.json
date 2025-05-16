@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
-    "qdrant-page-search": "^1.0.11",
+    "qdrant-page-search": "^1.1.1",
     "@splidejs/splide": "^4.1.4",
     "clipboard": "^2.0.11",
     "anchor-js": "^5.0.0"
