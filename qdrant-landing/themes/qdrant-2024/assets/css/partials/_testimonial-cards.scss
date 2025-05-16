@@ -20,6 +20,11 @@
     margin-bottom: 0;
   }
 
+  &__logo {
+    min-height: pxToRem(64);
+    margin-bottom: $spacer * 0.5;
+  }
+
   @include media-breakpoint-up(lg) {
     &__square-grid-overlay {
       display: block;

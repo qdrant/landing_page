@@ -11,7 +11,9 @@
         <div class="col-12 col-lg-4">
           <div class="card customer-stories__card testimonial-cards__card">
             <div>
-              <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
+              <div class="testimonial-cards__logo">
+                <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
+              </div>
               <p class="customer-stories__card-content">{{ .review | safeHTML }}</p>
             </div>
             <div class="customer-stories__card-footer">
