@@ -24,7 +24,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Fifty-One](/documentation/frameworks/fifty-one/)             | Toolkit for building high-quality datasets and computer vision models.                                               |
 | [Genkit](/documentation/frameworks/genkit/)                   | Framework to build, deploy, and monitor production-ready AI-powered apps.                                            |
 | [Haystack](/documentation/frameworks/haystack/)               | LLM orchestration framework to build customizable, production-ready LLM applications.                                |
-| [HoneyHive](/documentation/frameworks/honeyhive/)               | AI observability and evaluation platform that provides tracing and monitoring tools for GenAI pipelines.                                |
+| [HoneyHive](/documentation/frameworks/honeyhive/)               | AI observability and evaluation platform that provides tracing and monitoring tools for GenAI pipelines.           |
 | [Lakechain](/documentation/frameworks/lakechain/)             | Python framework for deploying document processing pipelines on AWS using infrastructure-as-code.                    |
 | [Langchain](/documentation/frameworks/langchain/)             | Python framework for building context-aware, reasoning applications using LLMs.                                      |
 | [Langchain-Go](/documentation/frameworks/langchain-go/)       | Go framework for building context-aware, reasoning applications using LLMs.                                          |
@@ -35,6 +35,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Mirror Security](/documentation/frameworks/mirror-security/) | Python framework for vector encryption and access control.                                                           |
 | [Mem0](/documentation/frameworks/mem0/)                       | Self-improving memory layer for LLM applications, enabling personalized AI experiences.                              |
 | [Neo4j GraphRAG](/documentation/frameworks/neo4j-graphrag/)   | Package to build graph retrieval augmented generation (GraphRAG) applications using Neo4j and Python.                |
+| [NLWeb](/documentation/frameworks/nlweb/)                     | A framework to turn websites into chat-ready data using schema.org and associated data formats.                      |
 | [OpenAI Agents](/documentation/frameworks/openai-agents/)     | Python framework for managing multiple AI agents that can work together.                                             |
 | [Pandas-AI](/documentation/frameworks/pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language                        |
 | [Ragbits](/documentation/frameworks/ragbits/)                 | Python package that offers essential "bits" for building powerful Retrieval-Augmented Generation (RAG) applications. |
