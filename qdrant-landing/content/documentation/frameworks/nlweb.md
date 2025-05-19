@@ -50,7 +50,7 @@ QDRANT_API_KEY="<your-api-key-here>"
 retrieval_engine: qdrant_url
 ```
 
-Alternatively you can use an in-memory Qdrant instance for experimentation.
+Alternatively, you can use an in-memory Qdrant instance for experimentation.
 
 ```yaml
 retrieval_engine: qdrant_local
@@ -67,23 +67,22 @@ endpoints:
 
 ### Loading Data
 
-Once configured, load your content using RSS feeds or other supported formats.
+Once configured, load your content using RSS feeds.
 
 From the `code` directory:
 
 ```bash
 python -m tools.db_load https://feeds.libsyn.com/121695/rss Behind-the-Tech
-python -m tools.db_load https://feeds.megaphone.fm/recodedecode Decoder
 ```
 
 This will ingest the content into your local Qdrant instance.
 
 ### Running the Server
 
-To start your NLWeb server with Qdrant:
+To start NLWeb, from the `code` directory, run:
 
 ```bash
-python -m server.main
+python app-file.py
 ```
 
 You can now query your content via natural language using either the web UI at <http://localhost:8000/> or directly through the MCP-compatible [REST API](https://github.com/microsoft/NLWeb/blob/main/docs/RestAPI.md).
