@@ -1,5 +1,5 @@
 ---
-title: Qdrant's vector search powers various AI travel applications
+title: Qdrant's vector search powers various <br>AI travel applications
 items:
 - id: 0
   title: AI-Powered Travel Recommendations

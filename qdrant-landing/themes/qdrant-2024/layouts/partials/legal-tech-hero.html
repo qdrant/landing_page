@@ -6,7 +6,7 @@
           <img class="legal-tech-hero__tag-icon" src="{{ .Params.tag.icon.src }}" alt="{{ .Params.tag.icon.alt }}" />
           <p class="legal-tech-hero__tag-name">{{ .Params.tag.name }}</p>
         </div>
-        <h3 class="legal-tech-hero__title">{{ .Params.title }}</h3>
+        <h3 class="legal-tech-hero__title">{{ .Params.title | safeHTML }}</h3>
         <p class="legal-tech-hero__description">{{ .Params.description | safeHTML }}</p>
         <div class="legal-tech-hero__buttons">
           <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg">
