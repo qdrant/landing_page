@@ -57,8 +57,8 @@ retrieval_engine: qdrant_local
 
 endpoints:
   qdrant_local:
-    # Use local file-based storage with a specific path
-    database_path: "../data/db"
+    # Path to a local directory
+    database_path: "../data/"
     # Set the collection name to use
     index_name: nlweb_collection
     # Specify the database type
@@ -91,6 +91,6 @@ You can now query your content via natural language using either the web UI at <
 
 * [Source](https://github.com/microsoft/NLWeb)
 * [Life of a Chat Query](https://github.com/microsoft/NLWeb/tree/main/docs/LifeOfAChatQuery.md)
-* [Modifying behaviour by changing prompts](https://github.com/microsoft/NLWeb/tree/main/docs/Prompts.md)
+* [Modifying behavior by changing prompts](https://github.com/microsoft/NLWeb/tree/main/docs/Prompts.md)
 * [Modifying control flow](https://github.com/microsoft/NLWeb/tree/main/docs/ControlFlow.md)
 * [Modifying the user interface](https://github.com/microsoft/NLWeb/tree/main/docs/UserInterface.md)
