@@ -81,14 +81,16 @@ Upon crossing a limit, the server will return a client side error with the infor
 
 As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically.
 
-The `strict_mode_config` can be enabled when [creating](#create-a-collection) a collection, for instance below to active the `unindexed_filtering_retrieve` limit.
+The `strict_mode_config` can be enabled when [creating](#create-a-collection) a collection, for instance below to activate the `unindexed_filtering_retrieve` limit.
+
+Setting `unindexed_filtering_retrieve` to false prevents the usage of filtering on a non indexed payload key.
 
 ```http
 PUT /collections/{collection_name}
 {
     "strict_mode_config": {
         "enabled": true,
-        "unindexed_filtering_retrieve": true
+        "unindexed_filtering_retrieve": false
     }
 }
 ```
@@ -99,7 +101,7 @@ curl -X PUT http://localhost:6333/collections/{collection_name} \
   --data-raw '{
     "strict_mode_config": {
         "enabled":" true,
-        "unindexed_filtering_retrieve": true
+        "unindexed_filtering_retrieve": false
     }
   }'
 ```
@@ -111,7 +113,7 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
-    strict_mode_config=models.StrictModeConfig(enabled=True, unindexed_filtering_retrieve=True),
+    strict_mode_config=models.StrictModeConfig(enabled=True, unindexed_filtering_retrieve=false),
 )
 ```
 
@@ -123,7 +125,7 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 client.createCollection("{collection_name}", {
   strict_mode_config: {
     enabled: true,
-    unindexed_filtering_retrieve: true,
+    unindexed_filtering_retrieve: false,
   },
 });
 ```
@@ -137,7 +139,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 client
     .create_collection(
         CreateCollectionBuilder::new("{collection_name}")
-            .strict_config_mode(StrictModeConfigBuilder::default().enabled(true).unindexed_filtering_retrieve(true)),
+            .strict_config_mode(StrictModeConfigBuilder::default().enabled(true).unindexed_filtering_retrieve(false)),
     )
     .await?;
 ```
@@ -156,7 +158,7 @@ client
         CreateCollection.newBuilder()
             .setCollectionName("{collection_name}")
             .setStrictModeConfig(
-                StrictModeConfig.newBuilder().setEnabled(true).setUnindexedFilteringRetrieve(true).build())
+                StrictModeConfig.newBuilder().setEnabled(true).setUnindexedFilteringRetrieve(false).build())
             .build())
     .get();
 ```
@@ -169,7 +171,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
   collectionName: "{collection_name}",
-  strictModeConfig: new StrictModeConfig { enabled = true, unindexed_filtering_retrieve = true }
+  strictModeConfig: new StrictModeConfig { enabled = true, unindexed_filtering_retrieve = false }
 );
 ```
 
@@ -188,24 +190,23 @@ client, err := qdrant.NewClient(&qdrant.Config{
 client.CreateCollection(context.Background(), &qdrant.CreateCollection{
   CollectionName: "{collection_name}",
   StrictModeConfig: &qdrant.StrictModeConfig{
-        Enabled: qdrant.PtrOf(true),
-    IndexingThreshold: qdrant.PtrOf(true),
+    Enabled: qdrant.PtrOf(true),
+    IndexingThreshold: qdrant.PtrOf(false),
   },
 })
 ```
 
-Or enable it later on an existing collection through the [collection update](#update-collection-parameters) API:
+Or activate it later on an existing collection through the [collection update](#update-collection-parameters) API:
 
 ```http
 PATCH /collections/{collection_name}
 {
     "strict_mode_config": {
         "enabled": true,
-        "unindexed_filtering_retrieve": true
+        "unindexed_filtering_retrieve": false
     }
 }
 ```
-
 
 ```bash
 curl -X PATCH http://localhost:6333/collections/{collection_name} \
@@ -213,7 +214,7 @@ curl -X PATCH http://localhost:6333/collections/{collection_name} \
   --data-raw '{
     "strict_mode_config": {
         "enabled": true,
-        "unindexed_filtering_retrieve": true
+        "unindexed_filtering_retrieve": false
     }
   }'
 ```
@@ -225,7 +226,7 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.update_collection(
     collection_name="{collection_name}",
-    strict_mode_config=models.StrictModeConfig(enabled=True, unindexed_filtering_retrieve=True),
+    strict_mode_config=models.StrictModeConfig(enabled=True, unindexed_filtering_retrieve=False),
 )
 ```
 
@@ -237,7 +238,7 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 client.updateCollection("{collection_name}", {
   strict_mode_config: {
     enabled: true,
-    unindexed_filtering_retrieve: true,
+    unindexed_filtering_retrieve: false,
   },
 });
 ```
@@ -248,7 +249,7 @@ use qdrant_client::qdrant::{StrictModeConfigBuilder, UpdateCollectionBuilder};
 client
     .update_collection(
         UpdateCollectionBuilder::new("{collection_name}").strict_mode_config(
-            StrictModeConfigBuilder::default().enabled(true).unindexed_filtering_retrieve(true),
+            StrictModeConfigBuilder::default().enabled(true).unindexed_filtering_retrieve(false),
         ),
     )
     .await?;
@@ -262,7 +263,7 @@ client.updateCollectionAsync(
     UpdateCollection.newBuilder()
         .setCollectionName("{collection_name}")
         .setStrictModeConfig(
-            StrictModeConfig.newBuilder().setEnabled(true).setUnindexedFilteringRetrieve(true).build())
+            StrictModeConfig.newBuilder().setEnabled(true).setUnindexedFilteringRetrieve(false).build())
         .build());
 ```
 
@@ -274,7 +275,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.UpdateCollectionAsync(
   collectionName: "{collection_name}",
-  strictModeConfig: new StrictModeConfig { Enabled = true, UnindexedFilteringRetrieve = true }
+  strictModeConfig: new StrictModeConfig { Enabled = true, UnindexedFilteringRetrieve = false }
 );
 ```
 
@@ -293,13 +294,13 @@ client, err := qdrant.NewClient(&qdrant.Config{
 client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
   CollectionName: "{collection_name}",
   StrictModeConfig: &qdrant.StrictModeConfig{
-        Enabled: qdrant.PtrOf(true),
-    UnindexedFilteringRetrieve: qdrant.PtrOf(true),
+    Enabled: qdrant.PtrOf(true),
+    UnindexedFilteringRetrieve: qdrant.PtrOf(false),
   },
 })
 ```
 
-To disable strict mode on an existing collection use:
+To disable completely strict mode on an existing collection use:
 
 ```http
 PATCH /collections/{collection_name}
