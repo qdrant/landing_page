@@ -47,7 +47,7 @@
       position: absolute;
       left: 0;
       top: pxToRem(12);
-      content: "";
+      content: '';
       width: $spacer * 0.5;
       height: $spacer * 0.5;
       background-image: url("data:image/svg+xml,%3Csvg width='8' height='10' viewBox='0 0 8 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 0.5L0 2.75V7.25L4 9.5L8 7.25V2.75L4 0.5Z' fill='%23DC244C'/%3E%3C/svg%3E%0A");
@@ -59,14 +59,13 @@
 
   &__preview {
     position: relative;
-    margin-top: $spacer * 2.5;
     z-index: 1;
 
     img {
       display: block;
       width: 100%;
       max-width: pxToRem(540);
-      margin: 0 auto;
+      margin: $spacer * 2.5 auto 0;
     }
   }
 
@@ -95,11 +94,14 @@
       max-width: pxToRem(514);
     }
 
-    &__preview {
-      margin-top: 0;
+    &__item {
+      padding-right: $spacer * 3;
+    }
 
+    &__preview {
       img {
         margin-right: 0;
+        margin-top: 0;
       }
     }
   }

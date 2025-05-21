@@ -1,15 +1,15 @@
 <section class="{{ .class }}">
   <div class="container">
     <div class="{{ .class }}__content col-12">
-      <p>{{ .context.Params.content }}</p>
+      <p>{{ .context.Params.content | safeHTML }}</p>
       <a
         href="{{ .context.Params.contactUs.url }}"
         class="{{ .class }}__button-mobile button button_outlined button_lg"
       >
-        {{ .context.Params.contactUs.text }}
+        {{ .context.Params.contactUs.text | safeHTML }}
       </a>
       <a href="{{ .context.Params.contactUs.url }}" class="{{ .class }}__button button button_contained">
-        {{ .context.Params.contactUs.text }}
+        {{ .context.Params.contactUs.text | safeHTML }}
       </a>
     </div>
   </div>

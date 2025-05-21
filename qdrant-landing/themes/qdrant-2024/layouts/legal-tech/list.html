@@ -1,24 +1,33 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
 
-  {{ partial "legal-tech-hero" . }}
+  {{ with (.Site.GetPage "legal-tech/legal-tech-hero") }}
+    {{ partial "legal-tech-hero" . }}
+  {{ end }}
 
-  {{ partial "legal-tech-challengers" . }}
+  {{ with (.Site.GetPage "/legal-tech/legal-tech-challengers") }}
+    {{ partial "legal-tech-challengers" . }}
+  {{ end }}
 
   {{ with (.Site.GetPage "/legal-tech/legal-tech-testimonials") }}
-
     {{ partial "testimonial-cards" (dict "context" .) }}
   {{ end }}
 
-  {{ partial "legal-tech-help" . }}
+  {{ with (.Site.GetPage "legal-tech/legal-tech-help") }}
+    {{ partial "legal-tech-help" . }}
+  {{ end }}
 
   {{ with (.Site.GetPage "/legal-tech/legal-tech-get-contacted") }}
     {{ partial "get-contacted" (dict "context" . "class" "legal-tech-get-contacted") }}
   {{ end }}
 
-  {{ partial "legal-tech-features" . }}
+  {{ with (.Site.GetPage "/legal-tech/legal-tech-features") }}
+    {{ partial "legal-tech-features" . }}
+  {{ end }}
 
-  {{ partial "legal-tech-why-qdrant" . }}
+  {{ with (.Site.GetPage "legal-tech/legal-tech-why-qdrant") }}
+    {{ partial "legal-tech-why-qdrant" . }}
+  {{ end }}
 
   {{ with (.Site.GetPage "/legal-tech/legal-tech-get-started") }}
     {{ partial "get-started-small" (dict "context" . "class" "get-started-small-rocket") }}
