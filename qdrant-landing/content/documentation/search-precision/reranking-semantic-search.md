@@ -158,7 +158,7 @@ co = cohere.Client("<API-KEY>")
 
 ### Creating a Collection
 
-A collection is basically a named group of points (vectors with data) that you can search through. All the vectors in a collection need to have the same size and be compared using one distance metric. Here’s how to create one::
+A collection is basically a named group of points (vectors with data) that you can search through. All the vectors in a collection need to have the same size and be compared using one distance metric. Here’s how to create one:
 
 ```jsx
 client.create_collection(
