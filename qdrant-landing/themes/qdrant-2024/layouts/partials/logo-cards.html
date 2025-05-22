@@ -1,5 +1,5 @@
 {{ $class := .Scratch.Get "additionalLogosClasses" }}
-<section class="bg-mid-gray pt-6{{ if $class }}{{ $class }}{{ end }}">
+<section class="bg-mid-gray pt-6{{ if $class }} {{ $class }}{{ end }}">
   <div class="container">
     <div class="row g-4">
       {{ range .Params.logos }}
