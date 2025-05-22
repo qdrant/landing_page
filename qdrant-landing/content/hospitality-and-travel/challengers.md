@@ -5,7 +5,6 @@ cards:
   icon:
     src: /icons/outline/search-error.svg
     alt: Icon
-    aria-description: Search error - magnifying glass with a cross
   title: Missed Matches, Lost Bookings
   description: Keyword-based search fails to connect travelers with the right destinations and stays.
 - id: 1
