@@ -391,7 +391,7 @@ One way to object to data processing is via the settings for advertisements: [ht
 ### **5.4. Facebook**
 
 We maintain a profile on Facebook. The operator is Meta Platforms Ireland Ltd., 4 Grand Canal Square, Grand Canal Harbour, Dublin 2, Ireland. The privacy policy is available here: https://www.facebook.com/policy.php. A possibility to object to data processing arises via settings for advertisements: https://www.facebook.com/settings?tab=ads.  
-We are joint controllers for processing the data of visitors to our profile on the basis of an agreement within the meaning of Art. 26 GDPR with Facebook. Facebook explains exactly what data is processed at https://www.facebook.com/legal/terms/information\_about\_page\_insights\_data. Data subjects can exercise their rights both against us and against Facebook. However, according to our agreement with Facebook, we are obliged to forward requests to Facebook. Data subjects will therefore receive a faster response if they contact Facebook directly.
+We are joint controllers for processing the data of visitors to our profile on the basis of an agreement within the meaning of Art. 26 GDPR with Facebook. Facebook explains exactly what data is processed at [https://www.facebook.com/legal/terms/information_about_page_insights_data](https://www.facebook.com/legal/terms/information_about_page_insights_data). Data subjects can exercise their rights both against us and against Facebook. However, according to our agreement with Facebook, we are obliged to forward requests to Facebook. Data subjects will therefore receive a faster response if they contact Facebook directly.
 
 ## **6\. Changes to this privacy policy**
 
