@@ -41,5 +41,46 @@
           document.getElementById("{{- .id -}}").innerHTML = '<p class="text-white">Here should be a form but looks like it was blocked on your side. Please, check your trackers blocking policy.</p>';
         }
       })()
+
+      window.addEventListener("message", (event) => {
+        if (
+          event.data.type === "hsFormCallback" &&
+          event.data.eventName === "onFormReady"
+        ) {
+          const form = document.querySelector(`form[data-form-id="${event.data.id}"]`);
+          if (!form) {
+            console.warn("Form not found.");
+            return;
+          }
+
+          const countryField = form.querySelector('select[name="country"]');
+          const checkboxField = document.querySelector('.hs-fieldtype-booleancheckbox');
+
+          if (!countryField || !checkboxField) {
+            console.warn("Consent logic: Required element(s) not found.");
+            return;
+          }
+
+          const restrictedCountries = [
+            "Argentina", "Belgium", "Canada", "Czech Republic", "Cyprus", "Denmark", "Germany",
+            "Hungary", "Latvia", "Liechtenstein", "Luxembourg", "Netherlands", "Norway", "France",
+            "Finland", "Croatia", "Bulgaria", "Belarus", "Bosnia and Herzegovina", "Austria", "Estonia",
+            "Georgia", "Greenland", "Hong Kong", "Israel", "Italy", "Maldives", "Moldova", "Monaco",
+            "Portugal", "Russia", "Serbia", "Slovakia", "Slovenia", "Sweden", "Switzerland", "Türkiye",
+            "Ukraine", "Macedonia (FYROM)", "United Kingdom"
+          ];
+
+          function updateConsentBlocks() {
+            const selected = countryField.value;
+            const isRestricted = restrictedCountries.includes(selected);
+            const showOptIn = selected && isRestricted;
+
+            if (checkboxField) checkboxField.style.display = showOptIn ? 'block' : 'none';
+          }
+
+          updateConsentBlocks();
+          countryField.addEventListener('change', updateConsentBlocks);
+        }
+      });
    </script>
 </div>
