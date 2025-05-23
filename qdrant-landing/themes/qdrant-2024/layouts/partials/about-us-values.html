@@ -1,0 +1,25 @@
+{{ with (.Site.GetPage "/about-us/about-us-values") }}
+  <section class="about-us-values">
+    <div class="container">
+     <div class="about-us-values__container">
+       <div class="row g-4 justify-content-center about-us-values__cards">
+         {{ range .Params.values }}
+           <div class="col-12 col-md-6 col-lg-4">
+             {{ if .link }}
+             <a href="{{ .link }}" target="{{ if .target }}_blank{{ else }}_self{{ end }}" class="card about-us-values__card">
+               <img class="about-us-values__card-logo" src="{{ .icon.src }}" alt="{{ .icon.alt }}">
+               <h6 class="about-us-values__card-title">{{ .title }}</h6>
+             </a>
+             {{ else }}
+             <div class="card about-us-values__card">
+               <img class="about-us-values__card-logo" src="{{ .icon.src }}" alt="{{ .icon.alt }}">
+               <h6 class="about-us-values__card-title">{{ .title }}</h6>
+             </div>
+             {{ end }}
+           </div>
+         {{ end }}
+       </div>
+     </div>
+    </div>
+  </section>
+{{ end }}

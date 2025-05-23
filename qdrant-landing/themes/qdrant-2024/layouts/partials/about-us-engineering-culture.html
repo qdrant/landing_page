@@ -1,0 +1,16 @@
+{{ with (.Site.GetPage "/about-us/about-us-engineering-culture") }}
+  <section class="about-us-engineering-culture">
+    <div class="container">
+      <h2 class="about-us-engineering-culture__title">{{ .Params.title }}</h2>
+      <div class="about-us-engineering-culture__cards">
+        {{ range .Params.cards }}
+          <div class="card about-us-engineering-culture__card">
+            <h5 class="about-us-engineering-culture__card-name">{{ .name }}</h5>
+            <p class="about-us-engineering-culture__card-team">{{ .team }}</p>
+            <p class="about-us-engineering-culture__card-testimonial">{{ .testimonial }}</p>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

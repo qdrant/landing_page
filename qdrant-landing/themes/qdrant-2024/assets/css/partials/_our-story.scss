@@ -2,99 +2,148 @@
 
 .our-story {
   padding-top: $spacer * 4;
-  padding-bottom: $spacer * 4;
   background-color: $neutral-94;
+  position: relative;
 
-  &__row {
-    margin-bottom: $spacer * 2.5;
+  .container {
+    position: relative;
+    z-index: 1;
   }
 
   &__title {
+    margin-bottom: $spacer * 2.5;
     font-size: map-get($font-sizes, 2);
     line-height: pxToRem(67);
     text-align: center;
     color: $neutral-20;
-    margin: 0;
   }
 
   &__subtitle {
-    font-size: map-get($font-sizes, 6);
-    line-height: pxToRem(34);
-    margin-bottom: $spacer * 1.5;
-    color: $neutral-20;
-  }
-
-  &__extra-title {
-    font-size: map-get($font-sizes, 6);
-    line-height: pxToRem(34);
-    margin-bottom: $spacer * 1.5;
+    max-width: pxToRem(920);
+    margin: 0 auto $spacer * 2.5;
+    font-size: map-get($font-sizes, 5);
+    line-height: $spacer * 2.5;
+    text-align: center;
     color: $neutral-20;
   }
 
   &__content {
+    max-width: pxToRem(730);
+    margin: 0 auto $spacer * 5;
+    font-size: map-get($font-sizes-text, 'xl');
+    line-height: pxToRem(30);
+    text-align: center;
     color: $neutral-20;
-    margin-bottom: $spacer * 2;
-    font-size: map-get($font-sizes-text, 'l');
   }
 
   &__image {
-    height: 100%;
-    min-height: pxToRem(332);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+    width: 100%;
+    margin-bottom: $spacer * 5;
   }
 
-  &__date {
-    margin-bottom: $spacer * 1.5;
+  &__extra-block{
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2;
+    margin-bottom: $spacer * 4;
   }
 
-  &__date::before {
-    content: url('../../icons/outline/arrow-right.svg');
-    display: inline-block;
-    margin-right: $spacer;
+  &__extra-image {
+    max-width: pxToRem(440);
+    margin: 0 auto;
   }
 
   &__extra-content {
-    color: $neutral-20;
-    margin-bottom: $spacer * 1.5;
+    margin-bottom: 0;
     font-size: map-get($font-sizes-text, 'xl');
+    color: $neutral-20;
+  }
+
+  &__sub-content {
+    position: relative;
+    margin: 0;
+    padding: $spacer * 4 0;
+    font-size: map-get($font-sizes, 6);
+    line-height: pxToRem(34);
+    color: $neutral-20;
+    text-align: center;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: pxToRem(1);
+      background-color: $neutral-90;
+      left: 0;
+      top: 0;
+    }
+  }
+
+  &__overlay {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    height: pxToRem(500);
+    width: 100%;
+    max-width: pxToRem(1440);
+    background-image: url('../../img/mission-background-mobile.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 5;
-    padding-bottom: $spacer * 7.5;
-
-    &__row {
-      margin-bottom: $spacer * 5;
-    }
-
-    &__row--offsetted {
-      margin-bottom: $spacer * 7.5;
-    }
 
     &__title {
       font-size: pxToRem(80);
       line-height: pxToRem(96);
+      margin-bottom: $spacer * 4;
     }
 
     &__subtitle {
-      font-size: pxToRem(40);
-      line-height: pxToRem(48);
-      max-width: pxToRem(475);
-    }
-
-    &__content {
-      max-width: pxToRem(475);
-      font-size: map-get($font-sizes-text, 'xl');
+      font-size: map-get($font-sizes, 4);
+      line-height: pxToRem(50);
     }
 
     &__image {
-      min-height: pxToRem(524);
+      margin-bottom: $spacer * 7.5;
     }
 
-    &__date {
-      text-align: center;
+    &__extra-block{
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: $spacer * 6.5;
+
+      &:last-of-type {
+        flex-direction: row-reverse;
+      }
+    }
+
+    &__extra-image {
+      max-width: none;
+      width: pxToRem(400);
+      margin: 0;
+    }
+
+    &__extra-content {
+      width: pxToRem(400);
+    }
+
+    &__sub-content {
+      padding: $spacer * 5 0;
+      font-size: map-get($font-sizes, 5);
+      line-height: $spacer * 2.5;
+    }
+
+    &__overlay {
+      height: pxToRem(400);
+      background-image: url('../../img/mission-background.png');
     }
   }
 }
