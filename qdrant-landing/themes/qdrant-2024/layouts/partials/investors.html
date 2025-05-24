@@ -5,13 +5,15 @@
       <div class="row">
         <div class="col-12">
           <h2 class="investors__title mx-auto">{{ .Params.title }}</h2>
+          <div class="investors__links">
+            <a href="{{ .Params.link1.url }}" class="link link_xl">{{ .Params.link1.title }}</a>
+            <a href="{{ .Params.link2.url }}" class="link link_xl">{{ .Params.link2.title }}</a>
+          </div>
         </div>
       </div>
-      <div class="row investors__logos">
+      <div class="investors__logos">
         {{ range .Params.investors }}
-          <div class="col-12 col-xl-3">
-            <div class="investors__logo" style="background-image: url({{ .logo }})"></div>
-          </div>
+          <img class="investors__logo" src="{{ .logo }}" alt="Logo">
         {{ end }}
       </div>
     </div>

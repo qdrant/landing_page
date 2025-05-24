@@ -1,20 +1,17 @@
 {{ with (.Site.GetPage "/headless/mission") }}
   <section class="mission">
-    <div class="mission__overlay"></div>
     <div class="container">
-      <div class="mission__content">
-        {{ if .Params.link.url }}
-          <a href="{{ .Params.link.url }}" class="mission__link">
-            <span class="mission__logo"></span>
-            {{ .Params.link.text }}
-          </a>
-        {{ else }}
-          <span class="mission__link">
-            <span class="mission__logo"></span>
-            {{ .Params.link.text }}
-          </span>
-        {{ end }}
-        <h2 class="mission__title">{{ .Params.title }}</h2>
+      <div class="mission__container">
+        <div class="row g-4">
+          {{ range .Params.cards }}
+          <div class="col-12 col-lg-6">
+            <div class="card mission__card">
+              <h3 class="mission__card-title">{{ .title }}</h3>
+              <p class="mission__card-content">{{ .content }}</p>
+            </div>
+          </div>
+          {{ end }}
+        </div>
       </div>
     </div>
   </section>

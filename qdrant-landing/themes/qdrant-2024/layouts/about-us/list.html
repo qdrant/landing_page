@@ -1,10 +1,17 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
 
-  {{ partial "mission" . }}
   {{ partial "our-story" . }}
+  {{ partial "mission" . }}
+  {{ partial "about-us-values" . }}
   {{ partial "carousel" . }}
   {{ partial "leadership" . }}
   {{ partial "investors" . }}
-  {{ partial "open-roles" . }}
+  {{ with (.Site.GetPage "/about-us/about-us-get-started") }}
+    {{ partial "open-roles" . }}
+  {{ end }}
+  {{ partial "about-us-engineering-culture" . }}
+  {{ with (.Site.GetPage "/about-us/about-us-resources") }}
+    {{ partial "open-roles" . }}
+  {{ end }}
 {{ end }}

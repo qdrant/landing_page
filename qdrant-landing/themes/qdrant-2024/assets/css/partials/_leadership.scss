@@ -7,11 +7,14 @@
   &__title {
     font-size: map-get($font-sizes, 4);
     line-height: pxToRem(48);
+    text-align: center;
+    color: $neutral-20;
     margin-bottom: $spacer * 2.5;
   }
 
   &__cards {
-    row-gap: pxToRem(7);
+    max-width: pxToRem(882);
+    margin: 0 auto;
   }
 
   &__card {
@@ -25,9 +28,10 @@
 
   &__card-image {
     width: 100%;
-    aspect-ratio: 0.96;
+    aspect-ratio: 1.09;
     background-position: center;
-    background-size: contain;
+    background-size: cover;
+    background-repeat: no-repeat;
     border-radius: pxToRem(6);
   }
 
@@ -49,10 +53,9 @@
   }
 
   @include media-breakpoint-up(xl) {
-    padding-top: $spacer * 7.5;
+    padding-top: $spacer * 5;
 
     &__title {
-      text-align: center;
       font-size: map-get($font-sizes, 2);
       line-height: pxToRem(67);
       margin-bottom: $spacer * 4;

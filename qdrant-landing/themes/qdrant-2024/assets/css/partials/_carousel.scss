@@ -1,45 +1,22 @@
 @use '../helpers/functions' as *;
+@use '../mixins/marquee' as marquee;
 
 .carousel {
-  min-height: pxToRem(240);
+  padding-top: $spacer * 4;
   background-color: $neutral-94;
 
-  &__content {
-    overflow-x: scroll;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    scroll-behavior: smooth;
+  .carousel__photos {
+    @include marquee.base(240px, 460px, 10, 10, 15px, transparent, false, 50s, none);
+
+    &__item {
+      border-radius: pxToRem(4);
+      overflow: hidden;
+    }
   }
 
-  &__content::-webkit-scrollbar {
-    display: none;
-  }
-
-  &__cards {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: pxToRem(30);
-
-    width: fit-content;
-  }
-
-  &__image {
-    min-width: pxToRem(400);
-    aspect-ratio: 5 / 3;
-    height: 100%;
-    background-position: center;
-    background-size: contain;
-  }
-
-  @include media-breakpoint-up(xl) {
-    padding-bottom: $spacer * 5;
-  }
-
-  @include media-breakpoint-up(xxl) {
-    &__content {
-      max-width: pxToRem(1102);
-      margin: 0 auto;
+  @include media-breakpoint-up(md) {
+    .carousel__photos {
+      @include marquee.base(360px, 660px, 10, 10, 15px, transparent, false, 50s, none);
     }
   }
 }

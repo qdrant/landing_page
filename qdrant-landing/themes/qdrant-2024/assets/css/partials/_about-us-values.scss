@@ -1,33 +1,15 @@
 @use '../helpers/functions' as *;
 
-.mission {
+.about-us-values {
   background-color: $neutral-94;
-  position: relative;
-
-  &__card {
-    justify-content: flex-start;
-    padding: $spacer * 2 $spacer * 2.5;
-    color: $neutral-20;
-
-    &-title {
-      margin-bottom: $spacer * 2.5;
-      font-size: map-get($font-sizes, 4);
-      line-height: pxToRem(50);
-    }
-
-    &-content {
-      margin-bottom: 0;
-      font-size: map-get($font-sizes-text, 'xl');
-      line-height: pxToRem(30);
-    }
-  }
 
   &__container {
+    display: flex;
+    justify-content: center;
     position: relative;
     padding-top: $spacer * 4;
     padding-bottom: $spacer * 4;
 
-    &:before,
     &:after {
       content: "";
       display: block;
@@ -36,14 +18,24 @@
       height: pxToRem(1);
       background-color: $neutral-90;
       left: 0;
-    }
-
-    &:before {
-      top: 0;
-    }
-
-    &:after {
       bottom: 0;
+    }
+  }
+
+  &__card {
+    padding: $spacer * 1.5 $spacer * 2.5;
+
+    &-logo {
+      height: $spacer * 3;
+      width: $spacer * 3;
+      margin-bottom: $spacer;
+    }
+
+    &-title {
+      margin-bottom: 0;
+      font-size: map-get($font-sizes-text, l);
+      line-height: pxToRem(27);
+      color: $neutral-30;
     }
   }
 
@@ -51,6 +43,10 @@
     &__container {
       padding-top: $spacer * 5;
       padding-bottom: $spacer * 5;
+    }
+
+    &__cards {
+      max-width: pxToRem(914);
     }
   }
 }
