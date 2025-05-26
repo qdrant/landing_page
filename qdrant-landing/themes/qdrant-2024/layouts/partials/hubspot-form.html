@@ -42,6 +42,7 @@
         }
       })()
 
+
       window.addEventListener("message", (event) => {
         if (
           event.data.type === "hsFormCallback" &&
@@ -53,12 +54,16 @@
             return;
           }
 
+          // todo: move to function
           const countryField = form.querySelector('select[name="country"]');
-          const checkboxField = document.querySelector('.hs-fieldtype-booleancheckbox');
+          // only for legal consent checkbox
+          const checkboxField = document.querySelector('.legal-consent-container .hs-fieldtype-booleancheckbox');
+          const checkboxRelatedConsent = document.querySelector('.legal-consent-container > div:nth-child(3)');
+          const otherCountriesConsent = document.querySelector('.legal-consent-container > div:nth-child(2)');
 
           if (!countryField || !checkboxField) {
-            console.warn("Consent logic: Required element(s) not found.");
-            return;
+            console.warn("Consent logic: Required element(s) not found."); // todo: they are optional
+            return;  // todo: not here, we can have other unrelated logic below
           }
 
           const restrictedCountries = [
@@ -75,11 +80,30 @@
             const isRestricted = restrictedCountries.includes(selected);
             const showOptIn = selected && isRestricted;
 
-            if (checkboxField) checkboxField.style.display = showOptIn ? 'block' : 'none';
+            if (checkboxField) {
+              const checkbox = checkboxField ? checkboxField.querySelector('input[type="checkbox"]') : null;
+              checkboxField.style.display = showOptIn ? 'block' : 'none';
+              checkboxRelatedConsent.style.display = showOptIn ? 'block' : 'none';
+              otherCountriesConsent.style.display = showOptIn ? 'none' : 'block';
+
+              // toggle checkbox state depending on the country selection using click event
+              if (selected && !isRestricted) {
+                // Should be checked if not already
+                if (!checkbox.checked) {
+                  checkbox.click();
+                }
+              } else {
+                // Always start unchecked
+                if (checkbox.checked) {
+                  checkbox.click();
+                }
+              }
+            }
           }
 
           updateConsentBlocks();
           countryField.addEventListener('change', updateConsentBlocks);
+
         }
       });
    </script>
