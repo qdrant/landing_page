@@ -53,3 +53,27 @@ all in the correct places for you. If using Kubernetes, each node must have
 their own volume. If using Docker, each node must have their own storage mount
 or volume. If using Qdrant directly, each node must have their own storage
 directory.
+
+
+## Using python gRPC client with `multiprocessing`
+
+When using the Python gRPC client with `multiprocessing`, you may encounter an error like this:
+
+```text
+<_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "sendmsg: Socket operation on non-socket (88)"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"sendmsg: Socket operation on non-socket (88)", grpc_status:14, created_time:"....."}"
+```
+
+This error happens, because `multiprocessing` creates copies of gRPC channels, which share the same socket. When the parent process closes the channel, it closes the socket, and the child processes try to use a closed socket.
+
+To prevent this error, you can use the `forkserver` or `spawn` start methods for `multiprocessing`. 
+
+```python
+import multiprocessing
+
+multiprocessing.set_start_method("forkserver")  # or "spawn"    
+```
+
+Alternatively, you can switch to `REST` API, async client, or use built-in parallelization in the Python client - functions like `qdrant.upload_points(...)`
