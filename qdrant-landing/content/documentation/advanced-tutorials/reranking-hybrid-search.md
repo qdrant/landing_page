@@ -1,7 +1,8 @@
 ---
 title: Reranking in Hybrid Search
 weight: 2
-partition: build
+aliases:
+  - /documentation/search-precision/reranking-hybrid-search/
 ---
 
 # Reranking Hybrid Search Results with Qdrant Vector Database
