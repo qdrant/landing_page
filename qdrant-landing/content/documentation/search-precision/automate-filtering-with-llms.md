@@ -1,6 +1,8 @@
 ---
 title: Automate filtering with LLMs
-weight: 5
+weight: 2
+alias:
+    - /documentation/database-tutorials/automate-filtering-with-llms/
 ---
 
 # Automate filtering with LLMs

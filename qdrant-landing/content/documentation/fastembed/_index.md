@@ -1,7 +1,7 @@
 ---
 title: "FastEmbed"
 weight: 11
-partition: build
+partition: qdrant
 ---
 
 # What is FastEmbed?

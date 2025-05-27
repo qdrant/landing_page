@@ -7,5 +7,5 @@ sitemapExclude: True
 _build:
   publishResources: false
   render: never
-partition: build
+partition: qdrant
 --- 
