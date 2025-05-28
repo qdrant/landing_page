@@ -1,8 +1,7 @@
 @use '../helpers/functions' as *;
+@use 'sass:math';
 
 .footer {
-  padding-top: $spacer * 4;
-  padding-bottom: $spacer * 2.5;
   background-color: $neutral-10;
 
   display: flex;
@@ -11,198 +10,175 @@
   flex-direction: column;
 
   &__top {
-    display: flex;
-    justify-content: center;
-    padding-bottom: $spacer * 4;
-    border-bottom: 1px solid $neutral-20;
-  }
+    width: 100%;
+    padding: $spacer * 2.5 0;
+    border-bottom: pxToRem(1) solid $neutral-20;
 
-  &__top-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: $spacer * 3;
-  }
+    &-logo {
+      height: $spacer * 2;
+      margin-bottom: $spacer * 2;
+    }
 
-  &__logo {
-    max-width: pxToRem(118);
-    margin-bottom: $spacer * 2;
-  }
+    &-social-media-platforms {
+      display: flex;
+      gap: $spacer * 2.5;
+    }
 
-  &__social {
-    max-width: pxToRem(350);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+    &-social-media-link {
+      outline: none;
+      height: $spacer * 1.5;
 
-  &__subtitle {
-    font-size: map-get($font-sizes-text, 's');
-    line-height: pxToRem(21);
-    color: $neutral-70;
-    margin-bottom: $spacer * 2;
-  }
-
-  &__social-media-platforms {
-    display: flex;
-    gap: $spacer * 1.5;
-  }
-
-  &__social-media-link {
-    outline: none;
-    &:hover svg path {
-      fill: $neutral-70;
+      &:hover svg path {
+        fill: $neutral-70;
+      }
     }
   }
 
   &__menu {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: $spacer * 3;
-  }
+    width: 100%;
+    padding: $spacer * 4 0;
+    border-bottom: pxToRem(1) solid $neutral-20;
 
-  &__menu-section {
-    display: flex;
-    flex-direction: column;
-    min-width: pxToRem(120);
-  }
+    &-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: $spacer;
+    }
 
-  &__menu-section-title {
-    font-size: map-get($font-sizes-text, 'm');
-    line-height: pxToRem(24);
-    color: $neutral-98;
-    font-weight: bold;
-  }
+    &-section {
+      width: calc(50% - math.div($spacer, 2))
+    }
 
-  &__menu-items {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+    &-section-title {
+      font-size: map-get($font-sizes-text, 'm');
+      line-height: pxToRem(24);
+      color: $neutral-98;
+      font-weight: bold;
+    }
 
-  &__menu-item:not(:last-of-type) {
-    margin-bottom: $spacer;
-  }
+    &-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: map-get($font-sizes-text, 's');
+      line-height: pxToRem(21);
+    }
 
-  &__menu-item a {
-    color: $neutral-70;
-    font-size: map-get($font-sizes-text, 's');
-    line-height: pxToRem(21);
-    text-decoration: none;
-  }
+    &-item:not(:last-of-type) {
+      margin-bottom: pxToRem(12);
+    }
 
-  &__menu-item a:hover {
-    color: $neutral-98;
+    &-item a {
+      color: $neutral-70;
+      text-decoration: none;
+    }
+
+    &-item a:hover {
+      color: $neutral-98;
+    }
   }
 
   &__middle {
-    padding-top: $spacer * 2.5;
-    padding-bottom: $spacer * 2.5;
-    border-bottom: 1px solid $neutral-20;
-  }
+    width: 100%;
+    padding: $spacer * 2.5 0;
+    border-bottom: pxToRem(1) solid $neutral-20;
 
-  &__middle-content {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    max-width: 100%;
-    justify-content: space-between;
-  }
+    &-newsletter {
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
-  &__middle-newsletter {
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+    &-title {
+      font-size: map-get($font-sizes-text, 'xl');
+      line-height: pxToRem(30);
+      margin-bottom: $spacer * 0.5;
+      color: $neutral-98;
+    }
 
-  &__middle-title {
-    font-weight: 500;
-    font-size: map-get($font-sizes-text, 'xl');
-    line-height: pxToRem(30);
-    margin-bottom: $spacer;
-    color: $neutral-98;
-  }
-
-  &__middle-subtitle {
-    color: $neutral-70;
-    font-size: map-get($font-sizes-text, 's');
-    line-height: pxToRem(21);
-    font-weight: 500;
+    &-subtitle {
+      max-width: pxToRem(365);
+      font-size: map-get($font-sizes-text, 's');
+      line-height: pxToRem(21);
+      color: $neutral-70;
+    }
   }
 
   &__bottom {
     width: 100%;
-    padding-top: pxToRem(30);
-    padding-bottom: 0;
+    padding: $spacer * 2.5 0;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__bottom-content {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    max-width: 100%;
-    gap: $spacer * 1.5;
-    justify-content: space-between;
-  }
-
-  &__bottom-content span,
-  &__bottom-content a {
-    color: $neutral-70;
-    font-weight: 500;
-    font-size: map-get($font-sizes-text, 's');
-    line-height: pxToRem(21);
-  }
-
-  &__bottom-content a {
-    text-decoration: none;
-  }
-
-  &__bottom-links {
-    display: flex;
-    gap: $spacer * 3;
-  }
-
-  @include media-breakpoint-up(xl) {
-    padding-bottom: $spacer * 3;
-
-    &__menu {
-      min-width: pxToRem(540);
-      gap: pxToRem(54);
+    &-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: $spacer * 1.5;
     }
 
-    &__menu-section {
-      min-width: unset;
+    &-copyright {
+      font-size: map-get($font-sizes-text, 's');
+      line-height: pxToRem(21);
+      color: $neutral-70;
     }
 
-    a.footer__menu-section-title {
-      &:hover {
-        box-shadow: 0 1px 0 0 currentColor;
+    &-bages {
+      display: flex;
+      align-items: center;
+      gap: $spacer * 1.5;
+
+      img {
+        height: $spacer * 3;
+        width: $spacer * 3;
       }
     }
 
-    &__top-content {
-      padding: 0;
-      flex-direction: row;
-      gap: 0;
+    &-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: $spacer * 2.5;
+
+      a {
+        font-size: map-get($font-sizes-text, 's');
+        line-height: pxToRem(21);
+        color: $neutral-70;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__top {
+      &-logo {
+        margin-bottom: 0;
+      }
+
+      &-social-media-platforms {
+        justify-content: flex-end;
+      }
     }
 
-    &__middle-newsletter {
-      justify-content: flex-end;
-    }
+    &__menu {
+      &-content {
+        flex-wrap: nowrap;
+      }
 
+      &-section {
+        width: auto;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
     &__bottom {
-      padding-bottom: pxToRem(30);
-    }
+      &-content {
+        flex-direction: row;
+        gap: $spacer * 2.5;
+      }
 
-    &__bottom-content {
-      gap: 0;
-      flex-direction: row;
+      &-links {
+        justify-content: flex-end;
+      }
     }
   }
 }
