@@ -2,6 +2,6 @@
 title: Brand Resources
 seeOpenRoles:
   text: View Brand Resources
-  url: /#
+  url: /brand-resources
 image: /img/about-us/style-guide.svg
 ---
