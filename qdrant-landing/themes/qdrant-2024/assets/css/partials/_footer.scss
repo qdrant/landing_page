@@ -103,6 +103,16 @@
       line-height: pxToRem(21);
       color: $neutral-70;
     }
+
+    .subscribe-form {
+      .legal-consent-container {
+        a {
+          font-weight: 500;
+          color: $neutral-60;
+          border-bottom: pxToRem(1) solid $neutral-60;
+        }
+      }
+    }
   }
 
   &__bottom {
@@ -178,6 +188,17 @@
 
       &-links {
         justify-content: flex-end;
+      }
+    }
+
+    &__middle {
+      .subscribe-form {
+        max-width: pxToRem(540);
+        margin-left: auto;
+
+        .legal-consent-container {
+          max-width: none;
+        }
       }
     }
   }
