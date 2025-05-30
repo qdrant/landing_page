@@ -1,11 +1,9 @@
 {{ with (.Site.GetPage "/headless/carousel") }}
   <section class="carousel">
-    <div class="carousel__content">
-      <div class="carousel__cards">
-        {{ range $index, $element := .Params.photoCards }}
-          <div class="carousel__image" style="background-image: url(/img/carousel/carousel-{{ $index }}.png)"></div>
-        {{ end }}
-      </div>
-    </div>
+    {{ $context := slice }}
+    {{ range .Params.photoCards }}
+      {{ $context = $context | append (dict "img" .img "name" "Team") }}
+    {{ end }}
+    {{ partial "marquee.html" (dict "context" $context "marqueeClass" "carousel__photos") }}
   </section>
 {{ end }}

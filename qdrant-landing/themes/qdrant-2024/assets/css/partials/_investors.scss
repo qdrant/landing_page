@@ -2,7 +2,6 @@
 
 .investors {
   padding-top: $spacer * 4;
-  padding-bottom: $spacer * 4;
   background-color: $neutral-94;
   position: relative;
 
@@ -11,20 +10,40 @@
     line-height: pxToRem(48);
     text-align: center;
     margin-bottom: $spacer * 4;
+    color: $neutral-20;
+  }
+
+  &__links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: pxToRem(30);
+    margin-bottom: $spacer * 4;
   }
 
   &__logos {
+    display: flex;
+    flex-direction: column;
     position: relative;
     row-gap: $spacer * 4;
     z-index: 1;
   }
 
   &__logo {
-    width: 100%;
-    min-height: pxToRem(40);
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
+    height: $spacer * 2.5;
+
+    &:nth-of-type(2) {
+      height: pxToRem(38);
+    }
+
+    &:nth-of-type(3) {
+      height: pxToRem(44);
+    }
+
+    &:nth-of-type(4) {
+      height: $spacer * 2;
+    }
   }
 
   &__overlay {
@@ -32,16 +51,22 @@
   }
 
   @include media-breakpoint-up(xl) {
-    padding-top: $spacer * 7.5;
-    padding-bottom: $spacer * 7.5;
+    padding-top: $spacer * 5;
 
     &__title {
-      font-size: map-get($font-sizes, 2);
-      line-height: pxToRem(67);
+      font-size: map-get($font-sizes, 3);
+      line-height: pxToRem(58);
       margin-bottom: $spacer * 2.5;
     }
 
+    &__links {
+      flex-direction: row;
+      margin-bottom: pxToRem(-5);
+    }
+
     &__logos {
+      flex-direction: row;
+      justify-content: space-between;
       align-items: center;
       min-height: pxToRem(240);
     }
@@ -50,10 +75,13 @@
       display: block;
       position: absolute;
       left: 0;
+      right: 0;
+      margin: auto;
       width: 100%;
-      height: pxToRem(240);
-      bottom: $spacer * 7.5;
-      background-image: url('../../img/grid.png');
+      max-width: pxToRem(1440);
+      height: pxToRem(322);
+      bottom: 0;
+      background-image: url('../../img/grid.svg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
