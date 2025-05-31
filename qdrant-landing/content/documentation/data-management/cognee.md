@@ -40,6 +40,9 @@ uv sync --all-extras
 ```
 import os
 os.environ["LLM_API_KEY"] = "YOUR OPENAI_API_KEY"
+VECTOR_DB_PROVIDER="qdrant"
+VECTOR_DB_URL=https://url-to-your-qdrant-cloud-instance.cloud.qdrant.io:6333
+VECTOR_DB_KEY=your-qdrant-api-key
 
 ```
 
