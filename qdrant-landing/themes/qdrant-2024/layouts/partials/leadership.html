@@ -1,4 +1,4 @@
-{{ with (.Site.GetPage "/headless/leadership") }}
+{{ with (.Site.GetPage "/about-us/leadership") }}
   <section class="leadership">
     <div class="container">
       <div class="row">
@@ -11,7 +11,7 @@
           {{ range .Params.teamMembers }}
           <div class="col-6 col-lg-3">
             <div class="card leadership__card">
-              <div class="leadership__card-image" style="background-image: url({{ .avatar }})"></div>
+              <img class="leadership__card-image" src="{{ .avatar }}" alt="Avatar">
               <div>
                 <p class="leadership__card-name">{{ .name }}</p>
                 <p class="leadership__card-position">{{ .position }}</p>

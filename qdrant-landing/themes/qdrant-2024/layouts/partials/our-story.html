@@ -1,4 +1,4 @@
-{{ with (.Site.GetPage "/headless/our-story") }}
+{{ with (.Site.GetPage "/about-us/our-story") }}
   <section class="our-story">
     <div class="our-story__overlay"></div>
     <div class="container">
@@ -7,18 +7,36 @@
           <h2 class="our-story__title">{{ .Params.title }}</h2>
           <h4 class="our-story__subtitle">{{ .Params.subtitle }}</h4>
           <p class="our-story__content">{{ .Params.content }}</p>
-          <img class="our-story__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}">
+          <picture>
+            <source
+              srcset="{{ .Params.image.src }} 1x, {{ .Params.image.srcLarge }} 1.5x"
+              type="image/jpeg"
+            >
+            <img class="our-story__image" src="{{ .Params.image.srcLarge }}" alt="{{ .Params.image.alt }}">
+          </picture>
         </div>
       </div>
       <div class="row">
         <div class="col-12 col-lg-10 offset-lg-1">
           <div class="our-story__extra-block">
             <p class="our-story__extra-content">{{ .Params.extraContent1 | safeHTML }}</p>
-            <img class="our-story__extra-image" src="{{ .Params.extraImage1.src }}" alt="{{ .Params.extraImage1.alt }}">
+            <picture>
+              <source
+                srcset="{{ .Params.extraImage1.src }} 1x, {{ .Params.extraImage1.srcLarge }} 1.5x"
+                type="image/jpeg"
+              >
+              <img class="our-story__extra-image" src="{{ .Params.extraImage1.srcLarge }}" alt="{{ .Params.extraImage1.alt }}">
+            </picture>
           </div>
           <div class="our-story__extra-block">
             <p class="our-story__extra-content">{{ .Params.extraContent2 | safeHTML }}</p>
-            <img class="our-story__extra-image" src="{{ .Params.extraImage2.src }}" alt="{{ .Params.extraImage2.alt }}">
+            <picture>
+              <source
+                srcset="{{ .Params.extraImage2.src }} 1x, {{ .Params.extraImage2.srcLarge }} 1.5x"
+                type="image/jpeg"
+              >
+              <img class="our-story__extra-image" src="{{ .Params.extraImage2.srcLarge }}" alt="{{ .Params.extraImage2.alt }}">
+            </picture>
           </div>
         </div>
       </div>
