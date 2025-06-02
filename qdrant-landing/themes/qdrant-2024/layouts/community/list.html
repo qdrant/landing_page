@@ -3,13 +3,14 @@
 
   {{ partial "community-hero" . }}
   {{ partial "community-features" . }}
-  {{ partial "community-testimonials" . }}
 
-  {{ with (.Site.GetPage "/headless/get-started-small-database") }}
-    {{ partial "get-started-small" (dict "context" . "class" "get-started-small-database") }}
+  {{ with (.Site.GetPage "/community/community-newsletter") }}
+    {{ partial "newsletter" (dict "context" . "class" "community-newsletter") }}
   {{ end }}
 
-  {{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
+  {{ partial "community-testimonials" . }}
+
+  {{ with (.Site.GetPage "/community/community-get-contacted") }}
     {{ partial "get-contacted" (dict "context" . "class" "community-get-contacted") }}
   {{ end }}
 {{ end }}

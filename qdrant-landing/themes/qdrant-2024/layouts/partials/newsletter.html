@@ -1,13 +1,11 @@
-{{ with (.Site.GetPage "/headless/newsletter") }}
-  <section class="newsletter">
+  <section class="newsletter {{ .class }}">
     <div class="container">
       <div class="newsletter__content">
         <div class="newsletter__text">
-          <h6 class="newsletter__title">{{ .Params.title }}</h6>
-          <p class="newsletter__description">{{ .Params.description }}</p>
+          <h6 class="newsletter__title">{{ .context.Params.title }}</h6>
+          <p class="newsletter__description">{{ .context.Params.description | safeHTML }}</p>
         </div>
-        {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "subscribe-banner-form" "context" . "classes" "newsletter__form") }}
+        {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .context.Params.hubspotFormOptions "id" "subscribe-banner-form" "context" . "classes" "newsletter__form") }}
       </div>
     </div>
   </section>
-{{ end }}

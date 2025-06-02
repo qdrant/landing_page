@@ -1,9 +1,8 @@
 ---
-title: Welcome to the Qdrant Community
+title: "Join the</br>Qdrant Community"
 description: Connect with over 30,000 community members, get access to educational resources, and stay up to date on all news and discussions about Qdrant and the vector database space.
 image:
-  src: /img/community-hero.svg
-  srcMobile: /img/mobile/community-hero.svg
+  src: /img/community-hero.png
   alt: Community
 button:
   text: Join our Discord

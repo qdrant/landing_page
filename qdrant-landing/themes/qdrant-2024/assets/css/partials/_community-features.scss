@@ -50,20 +50,8 @@
   &__resources-cards {
     margin-bottom: pxToRem(30);
 
-    & > div {
-      &:first-of-type,
-      &:last-of-type {
-        img {
-          min-width: pxToRem(635);
-        }
-      }
-
-      &:nth-of-type(2),
-      &:nth-of-type(3) {
-        img {
-          min-width: pxToRem(397);
-        }
-      }
+    img {
+      min-width: pxToRem(635);
     }
   }
 

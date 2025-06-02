@@ -1,0 +1,10 @@
+@use '../helpers/functions' as *;
+
+.community-newsletter {
+  background-color: $neutral-94;
+  padding-bottom: $spacer * 4;
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 5;
+  }
+}

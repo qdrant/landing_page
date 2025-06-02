@@ -8,9 +8,10 @@
   &__title {
     font-size: $spacer * 2.5;
     line-height: $spacer * 3;
-    margin-bottom: $spacer * 2.5;
+    margin: 0 auto $spacer * 2.5;
     color: $neutral-98;
     text-align: center;
+    max-width: pxToRem(792);
   }
 
   &__cards {
@@ -28,10 +29,11 @@
   &__user {
     display: flex;
     gap: pxToRem(12);
+    margin-bottom: $spacer * 1.5;
 
     &-avatar {
-      height: $spacer * 3;
-      width: $spacer * 3;
+      height: $spacer * 2.5;
+      width: $spacer * 2.5;
       border-radius: 50%;
       overflow: hidden;
 
@@ -44,7 +46,6 @@
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      margin-bottom: $spacer * 1.5;
     }
 
     &-name {
