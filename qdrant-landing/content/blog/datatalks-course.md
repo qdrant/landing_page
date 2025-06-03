@@ -16,8 +16,6 @@ tags:
 - hybrid search
 ---
 
-**Header**
-
 Want to learn how to build an AI system that answers questions about your knowledge base? 
 
 We’re excited to announce our partnership with Alexey Grigorev and DataTalks.Club to bring you a free, hands-on, 10-week course focused on building real-life applications of LLMs. 
