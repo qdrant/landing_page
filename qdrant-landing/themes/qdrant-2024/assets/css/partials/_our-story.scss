@@ -49,6 +49,8 @@
   }
 
   &__extra-image {
+    display: block;
+    width: 100%;
     max-width: pxToRem(440);
     margin: 0 auto;
   }
