@@ -9,10 +9,10 @@
           <p class="our-story__content">{{ .Params.content }}</p>
           <picture>
             <source
-              srcset="{{ .Params.image.src }} 1x, {{ .Params.image.srcLarge }} 1.5x"
+              srcset="{{ .Params.image.src }} 1x, {{ .Params.image.srcLarge }} 2x"
               type="image/jpeg"
             >
-            <img class="our-story__image" src="{{ .Params.image.srcLarge }}" alt="{{ .Params.image.alt }}">
+            <img class="our-story__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}">
           </picture>
         </div>
       </div>
@@ -22,20 +22,20 @@
             <p class="our-story__extra-content">{{ .Params.extraContent1 | safeHTML }}</p>
             <picture>
               <source
-                srcset="{{ .Params.extraImage1.src }} 1x, {{ .Params.extraImage1.srcLarge }} 1.5x"
+                srcset="{{ .Params.extraImage1.src }} 1x, {{ .Params.extraImage1.srcLarge }} 2x"
                 type="image/jpeg"
               >
-              <img class="our-story__extra-image" src="{{ .Params.extraImage1.srcLarge }}" alt="{{ .Params.extraImage1.alt }}">
+              <img class="our-story__extra-image" src="{{ .Params.extraImage1.src }}" alt="{{ .Params.extraImage1.alt }}">
             </picture>
           </div>
           <div class="our-story__extra-block">
             <p class="our-story__extra-content">{{ .Params.extraContent2 | safeHTML }}</p>
             <picture>
               <source
-                srcset="{{ .Params.extraImage2.src }} 1x, {{ .Params.extraImage2.srcLarge }} 1.5x"
+                srcset="{{ .Params.extraImage2.src }} 1x, {{ .Params.extraImage2.srcLarge }} 2x"
                 type="image/jpeg"
               >
-              <img class="our-story__extra-image" src="{{ .Params.extraImage2.srcLarge }}" alt="{{ .Params.extraImage2.alt }}">
+              <img class="our-story__extra-image" src="{{ .Params.extraImage2.src }}" alt="{{ .Params.extraImage2.alt }}">
             </picture>
           </div>
         </div>
