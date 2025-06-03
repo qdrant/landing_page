@@ -44,6 +44,23 @@ _Underlying type:_ _string_
 _Appears in:_
 - [QdrantClusterStatus](#qdrantclusterstatus)
 
+| Field | Description |
+| --- | --- |
+| `Creating` |  |
+| `FailedToCreate` |  |
+| `Updating` |  |
+| `FailedToUpdate` |  |
+| `Scaling` |  |
+| `Upgrading` |  |
+| `Suspending` |  |
+| `Suspended` |  |
+| `FailedToSuspend` |  |
+| `Resuming` |  |
+| `FailedToResume` |  |
+| `Healthy` |  |
+| `NotReady` |  |
+| `RecoveryMode` |  |
+| `ManualMaintenance` |  |
 
 
 #### ComponentPhase
@@ -57,6 +74,12 @@ _Underlying type:_ _string_
 _Appears in:_
 - [ComponentStatus](#componentstatus)
 
+| Field | Description |
+| --- | --- |
+| `Ready` |  |
+| `NotReady` |  |
+| `Unknown` |  |
+| `NotFound` |  |
 
 
 #### ComponentReference
@@ -110,6 +133,14 @@ _Underlying type:_ _string_
 _Appears in:_
 - [QdrantEntityStatus](#qdrantentitystatus)
 
+| Field | Description |
+| --- | --- |
+| `Creating` |  |
+| `Ready` |  |
+| `Updating` |  |
+| `Failing` |  |
+| `Deleting` |  |
+| `Deleted` |  |
 
 
 #### EntityResult
@@ -123,6 +154,11 @@ EntityResult is the last result from the invocation to a manager
 _Appears in:_
 - [QdrantEntityStatusResult](#qdrantentitystatusresult)
 
+| Field | Description |
+| --- | --- |
+| `Ok` |  |
+| `Pending` |  |
+| `Error` |  |
 
 
 #### GPU
@@ -151,13 +187,18 @@ _Appears in:_
 
 _Underlying type:_ _string_
 
+GPUType specifies the type of GPU to use.
 
-
-
+_Validation:_
+- Enum: [nvidia amd]
 
 _Appears in:_
 - [GPU](#gpu)
 
+| Field | Description |
+| --- | --- |
+| `nvidia` |  |
+| `amd` |  |
 
 
 #### HelmRelease
@@ -174,7 +215,7 @@ _Appears in:_
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
 | `markedForDeletionAt` _string_ | MarkedForDeletionAt specifies the time when the helm release was marked for deletion |  |  |
-| `object` _[HelmRelease](#helmrelease)_ | Object specifies the helm release object |  | EmbeddedResource: {} <br /> |
+| `object` _[HelmRelease](#helmrelease)_ | Object specifies the helm release object |  | EmbeddedResource: \{\} <br /> |
 
 
 #### HelmRepository
@@ -191,7 +232,7 @@ _Appears in:_
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
 | `markedForDeletionAt` _string_ | MarkedForDeletionAt specifies the time when the helm repository was marked for deletion |  |  |
-| `object` _[HelmRepository](#helmrepository)_ | Object specifies the helm repository object |  | EmbeddedResource: {} <br /> |
+| `object` _[HelmRepository](#helmrepository)_ | Object specifies the helm repository object |  | EmbeddedResource: \{\} <br /> |
 
 
 #### InferenceConfig
@@ -244,6 +285,22 @@ _Underlying type:_ _string_
 _Appears in:_
 - [QdrantCloudRegionStatus](#qdrantcloudregionstatus)
 
+| Field | Description |
+| --- | --- |
+| `unknown` |  |
+| `aws` |  |
+| `gcp` |  |
+| `azure` |  |
+| `do` |  |
+| `scaleway` |  |
+| `openshift` |  |
+| `linode` |  |
+| `civo` |  |
+| `oci` |  |
+| `ovhcloud` |  |
+| `stackit` |  |
+| `vultr` |  |
+| `k3s` |  |
 
 
 #### KubernetesPod
@@ -309,6 +366,10 @@ _Underlying type:_ _string_
 _Appears in:_
 - [Monitoring](#monitoring)
 
+| Field | Description |
+| --- | --- |
+| `kubelet` |  |
+| `api` |  |
 
 
 #### Monitoring
@@ -626,7 +687,7 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `cluster-id` _string_ | Id specifies the unique identifier of the cluster |  |  |
 | `scheduleShortId` _string_ | Specifies short Id which identifies a schedule |  | MaxLength: 8 <br /> |
-| `schedule` _string_ | Cron expression for frequency of creating snapshots, see https://en.wikipedia.org/wiki/Cron.<br />The schedule is specified in UTC. |  | Pattern: `^(@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(@every (\d+(ns|us|µs|ms|s|m|h))+)|((((\d+,)+\d+|([\d\*]+(\/|-)\d+)|\d+|\*) ?){5,7})$` <br /> |
+| `schedule` _string_ | Cron expression for frequency of creating snapshots, see https://en.wikipedia.org/wiki/Cron.<br />The schedule is specified in UTC. |  | Pattern: `^(@(annually\|yearly\|monthly\|weekly\|daily\|hourly\|reboot))\|(@every (\d+(ns\|us\|µs\|ms\|s\|m\|h))+)\|((((\d+,)+\d+\|([\d\*]+(\/\|-)\d+)\|\d+\|\*) ?)\{5,7\})$` <br /> |
 | `retention` _string_ | Retention of schedule in hours |  | Pattern: `^[0-9]+h$` <br /> |
 
 
@@ -680,6 +741,12 @@ _Underlying type:_ _string_
 _Appears in:_
 - [QdrantClusterSnapshotStatus](#qdrantclustersnapshotstatus)
 
+| Field | Description |
+| --- | --- |
+| `Running` |  |
+| `Skipped` |  |
+| `Failed` |  |
+| `Succeeded` |  |
 
 
 #### QdrantClusterSnapshotSpec
@@ -738,7 +805,7 @@ _Appears in:_
 | `podDisruptionBudget` _[PodDisruptionBudgetSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#poddisruptionbudgetspec-v1-policy)_ | PodDisruptionBudget specifies the pod disruption budget for the cluster. |  |  |
 | `restartAllPodsConcurrently` _boolean_ | RestartAllPodsConcurrently specifies whether to restart all pods concurrently (also called one-shot-restart).<br />If enabled, all the pods in the cluster will be restarted concurrently in situations where multiple pods<br />need to be restarted, like when RestartedAtAnnotationKey is added/updated or the Qdrant version needs to be upgraded.<br />This helps sharded but not replicated clusters to reduce downtime to a possible minimum during restart.<br />If unset, the operator is going to restart nodes concurrently if none of the collections if replicated. |  |  |
 | `startupDelaySeconds` _integer_ | If StartupDelaySeconds is set (> 0), an additional 'sleep <value>' will be emitted to the pod startup.<br />The sleep will be added when a pod is restarted, it will not force any pod to restart.<br />This feature can be used for debugging the core, e.g. if a pod is in crash loop, it provided a way<br />to inspect the attached storage. |  |  |
-| `rebalanceStrategy` _[RebalanceStrategy](#rebalancestrategy)_ | RebalanceStrategy specifies the strategy to use for automaticially rebalancing shards the cluster.<br />Cluster-manager needs to be enabled for this feature to work. |  |  |
+| `rebalanceStrategy` _[RebalanceStrategy](#rebalancestrategy)_ | RebalanceStrategy specifies the strategy to use for automaticially rebalancing shards the cluster.<br />Cluster-manager needs to be enabled for this feature to work. |  | Enum: [by_count by_size by_count_and_size] <br /> |
 
 
 
@@ -892,7 +959,7 @@ _Appears in:_
 | `createdAt` _[MicroTime](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#microtime-v1-meta)_ | Timestamp when the entity was created. |  |  |
 | `lastUpdatedAt` _[MicroTime](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#microtime-v1-meta)_ | Timestamp when the entity was last updated. |  |  |
 | `deletedAt` _[MicroTime](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#microtime-v1-meta)_ | Timestamp when the entity was deleted (or is started to be deleting).<br />If not set the entity is not deleted |  |  |
-| `payload` _[JSON](#json)_ | Generic payload for this entity |  |  |
+| `payload` _[JSON](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#json-v1-apiextensions-k8s-io)_ | Generic payload for this entity |  |  |
 
 
 
@@ -912,7 +979,7 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `result` _[EntityResult](#entityresult)_ | The result of last reconcile of the entity |  | Enum: [Ok Pending Error] <br /> |
 | `reason` _string_ | The reason of the result (e.g. in case of an error) |  |  |
-| `payload` _[JSON](#json)_ | The optional payload of the status. |  |  |
+| `payload` _[JSON](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#json-v1-apiextensions-k8s-io)_ | The optional payload of the status. |  |  |
 
 
 #### QdrantImage
@@ -1033,13 +1100,19 @@ _Appears in:_
 
 _Underlying type:_ _string_
 
+RebalanceStrategy specifies the strategy to use for automaticially rebalancing shards the cluster.
 
-
-
+_Validation:_
+- Enum: [by_count by_size by_count_and_size]
 
 _Appears in:_
 - [QdrantClusterSpec](#qdrantclusterspec)
 
+| Field | Description |
+| --- | --- |
+| `by_count` |  |
+| `by_size` |  |
+| `by_count_and_size` |  |
 
 
 #### RegionCapabilities
@@ -1070,6 +1143,11 @@ _Underlying type:_ _string_
 _Appears in:_
 - [QdrantCloudRegionStatus](#qdrantcloudregionstatus)
 
+| Field | Description |
+| --- | --- |
+| `Ready` |  |
+| `NotReady` |  |
+| `FailedToSync` |  |
 
 
 #### ResourceRequests
@@ -1136,6 +1214,12 @@ _Underlying type:_ _string_
 _Appears in:_
 - [QdrantClusterRestoreStatus](#qdrantclusterrestorestatus)
 
+| Field | Description |
+| --- | --- |
+| `Running` |  |
+| `Skipped` |  |
+| `Failed` |  |
+| `Succeeded` |  |
 
 
 #### RestoreSource
@@ -1166,6 +1250,10 @@ _Underlying type:_ _string_
 _Appears in:_
 - [QdrantClusterScheduledSnapshotStatus](#qdrantclusterscheduledsnapshotstatus)
 
+| Field | Description |
+| --- | --- |
+| `Active` |  |
+| `Disabled` |  |
 
 
 #### StorageClass
