@@ -5,6 +5,16 @@ weight: 5
 
 # Changelog
 
+## 1.7.1 (2025-06-03)
+
+|                                |         |
+|--------------------------------|---------|
+| qdrant-kubernetes-api version  | v1.16.6 |
+| operator version               | 2.6.0   |
+| qdrant-cluster-manager version | v0.3.6  |
+
+* Performance and stability improvements
+
 ## 1.7.0 (2025-05-14)
 
 |                                |         |
