@@ -2,20 +2,21 @@
 
 .community-hero {
   position: relative;
-  padding-top: $spacer * 2.5;
+  padding-top: $spacer * 1.5;
   padding-bottom: $spacer * 5;
   background-color: $neutral-10;
   overflow: hidden;
 
   &__image {
-    display: none;
-  }
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: pxToRem(-20);
 
-  &__image-mobile {
-    position: relative;
-    width: calc(100% + 32px);
-    margin: 0 -16px;
-    z-index: 1;
+    img {
+      width: 600px;
+      margin: 0 auto;
+    }
   }
 
   &__title {
@@ -29,7 +30,7 @@
   &__description {
     font-size: pxToRem(18);
     line-height: pxToRem(27);
-    margin-bottom: $spacer * 3;
+    margin-bottom: $spacer * 1.5;
     color: $neutral-70;
     text-align: center;
   }
@@ -81,18 +82,19 @@
     pointer-events: none;
   }
 
-  @include media-breakpoint-up(lg) {
-    padding-bottom: $spacer * 7.5;
-
+  @include media-breakpoint-up(md) {
     &__image {
-      display: block;
-      width: 100%;
-      margin-bottom: $spacer * 2.5;
-    }
+      margin-bottom: pxToRem(-92);
 
-    &__image-mobile {
-      display: none;
+      img {
+        width: 100%;
+        max-width: pxToRem(1246);
+      }
     }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 8.5;
 
     &__title {
       max-width: pxToRem(680);

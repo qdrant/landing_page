@@ -1,5 +1,5 @@
 ---
-title: Love from our community
+title: What Our Community Members Are Saying
 testimonials:
 - id: 0
   name: Owen Colegrove
@@ -36,7 +36,7 @@ testimonials:
     src: /img/customers/sengpt.svg
     alt: Avatar
   text: Qdrant is awesome
-- id: 4
+- id: 5
   name: Charlie Greenman
   nickname: "@razroo_chief"
   avatar:

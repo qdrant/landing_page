@@ -9,5 +9,7 @@
     {{ partial "get-started-small" (dict "context" . "class" "get-started-blogs") }}
   {{ end }}
 
-  {{ partial "newsletter" . }}
+  {{ with (.Site.GetPage "/headless/newsletter") }}
+    {{ partial "newsletter" (dict "context" . "class" "") }}
+  {{ end }}
 {{ end }}

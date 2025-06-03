@@ -8,9 +8,10 @@
   &__title {
     font-size: $spacer * 2.5;
     line-height: $spacer * 3;
-    margin-bottom: $spacer * 2.5;
+    margin: 0 auto $spacer * 2.5;
     color: $neutral-98;
     text-align: center;
+    max-width: pxToRem(792);
   }
 
   &__cards {
