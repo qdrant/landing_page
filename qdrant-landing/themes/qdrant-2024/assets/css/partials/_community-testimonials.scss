@@ -29,11 +29,10 @@
   &__user {
     display: flex;
     gap: pxToRem(12);
-    margin-bottom: $spacer * 1.5;
 
     &-avatar {
-      height: $spacer * 2.5;
-      width: $spacer * 2.5;
+      height: $spacer * 3;
+      width: $spacer * 3;
       border-radius: 50%;
       overflow: hidden;
 
@@ -46,6 +45,7 @@
       display: flex;
       flex-direction: column;
       flex-grow: 1;
+      margin-bottom: $spacer * 1.5;
     }
 
     &-name {
