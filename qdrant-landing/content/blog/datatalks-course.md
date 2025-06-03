@@ -7,7 +7,7 @@ preview_image: /blog/datatalks-course/datatalksclub.jpg
 social_preview_image: /blog/datatalks-course/datatalksclub.jpg
 date: 2025-06-03T23:00:00Z
 author: "Qdrant"
-featured: true
+featured: false
 
 tags:
 - LLMs
