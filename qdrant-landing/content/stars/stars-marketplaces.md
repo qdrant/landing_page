@@ -1,13 +1,12 @@
 ---
-title: Join our growing community
+title: Join our Growing Community
 cards:
 - id: 0
   icon:
     src: /img/stars-marketplaces/github.svg
     alt: Github icon
-  title: Stars
-  statsToUse: githubStars
-  description: Join our GitHub community and contribute to the future of vector databases.
+  title: Contribute on GitHub
+  description: We’re open source, and always looking to build together.
   link:
     text: Start Contributing
     url: https://github.com/qdrant/qdrant
@@ -15,9 +14,8 @@ cards:
   icon:
     src: /img/stars-marketplaces/discord.svg
     alt: Discord icon
-  title: Members
-  statsToUse: discordMembers
-  description: Discover and chat on a vibrant community of developers working on the future of AI.
+  title: Problem-solve on Discord
+  description: Discover and chat with a  community of developers.
   link:
     text: Join our Conversations
     url: https://qdrant.to/discord
@@ -25,9 +23,8 @@ cards:
   icon:
     src: /img/stars-marketplaces/twitter.svg
     alt: Twitter icon
-  title: Followers
-  statsToUse: twitterFollowers
-  description: Join us on X, participate and find out about our updates and releases before anyone else.
+  title: Follow on X
+  description: Find out about our updates and releases before anyone else.
   link:
     text: Spread the Word
     url: https://qdrant.to/twitter
