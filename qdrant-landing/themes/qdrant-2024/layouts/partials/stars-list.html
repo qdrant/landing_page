@@ -4,19 +4,19 @@
       <h2 class="stars-list__title">{{ .Params.title }}</h2>
       <div class="stars-list__cards row gx-4">
         {{ range .Params.mainCards }}
-        <div class="col-12 col-lg-6">
-          <div class="stars-list__card stars-list__main-card">
-            <img class="stars-list__main-card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
-            <p class="stars-list__main-card-head">
-              {{ .headTitle }}
-              <img src="{{ .headIcon.src }}" alt="{{ .headIcon.alt }}">
-            </p>
-            <h6 class="stars-list__main-card-title">{{ .name }}</h6>
-            <p class="stars-list__main-card-subtitle">{{ .position }}</p>
-            <p class="stars-list__main-card-description">{{ .description | safeHTML }}</p>
-            <div class="stars-list__main-card-overlay"></div>
+          <div class="col-12 col-lg-6">
+            <div class="stars-list__card stars-list__main-card">
+              <img class="stars-list__main-card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              <p class="stars-list__main-card-head">
+                {{ .headTitle }}
+                <img src="{{ .headIcon.src }}" alt="{{ .headIcon.alt }}">
+              </p>
+              <h6 class="stars-list__main-card-title">{{ .name }}</h6>
+              <p class="stars-list__main-card-subtitle">{{ .position }}</p>
+              <p class="stars-list__main-card-description">{{ .description | safeHTML }}</p>
+              <div class="stars-list__main-card-overlay"></div>
+            </div>
           </div>
-        </div>
         {{ end }}
       </div>
       <div class="stars-list__cards row gx-4">
@@ -40,6 +40,5 @@
     </div>
     <div class="stars-list__overlay-top"></div>
     <div class="stars-list__overlay-bottom"></div>
-<!--    {{ partial "top-and-bottom-overlay" (dict "context" . "class" "additional-resources") }}-->
   </section>
 {{ end }}
