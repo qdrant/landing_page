@@ -74,7 +74,7 @@
       top: 0;
       width: pxToRem(124);
       height: pxToRem(124);
-      background-image: url('/img/blurred/blurred-light-15.svg');
+      background-image: url('/img/blurred/blurred-light-21.svg');
       background-position: top;
       background-size: cover;
     }
@@ -89,10 +89,9 @@
     padding: pxToRem(30);
 
     &-image {
-      position: relative;
       width: 100%;
       margin-bottom: pxToRem(30);
-      z-index: 1;
+      border-radius: pxToRem(6);
     }
 
     &-head {
@@ -128,6 +127,17 @@
       line-height: pxToRem(21);
       color: $neutral-60;
     }
+
+    &-overlay {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: pxToRem(124);
+      height: pxToRem(321);
+      background-image: url('/img/blurred/blurred-light-20.svg');
+      background-position: top;
+      background-size: cover;
+    }
   }
 
   &__link {
@@ -154,7 +164,7 @@
     bottom: 0;
     width: pxToRem(637);
     height: pxToRem(444);
-    background-image: url('/img/blurred/blurred-light-19.png');
+    background-image: url('/img/blurred/blurred-light-19.svg');
     background-position: bottom;
     background-size: cover;
   }
