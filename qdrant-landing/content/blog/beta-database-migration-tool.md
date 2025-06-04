@@ -25,12 +25,7 @@ This is especially useful if you want to change the collection configuration on 
 
 The easiest way to run the qdrant migration tool is as a container. You can run it on any machine where you have connectivity to both the source and the target Qdrant databases. Direct connectivity between both databases is not required. For optimal performance, you should run the tool on a machine with a fast network connection and minimum latency to both databases.
 
-You can also migrate from:
-- Chroma
-- Pinecone
-- Milvus
-- Weaviate
-- Redis
+You can also migrate from, Chroma, Pinecone, Milvus, Weaviate, and Redis.
 
 ## Learn more and start migrating easily
 
