@@ -12,7 +12,7 @@ In this tutorial, you'll discover how to effectively use multivector representat
 ## What are Multivector Representations?
 In most vector engines, each document results in one vector. However, this is not always effective when you have very long documents. A single document can have multiple vectors in multivector representations, leading to more precise matching between queries and parts of the document. This is particularly useful for Late Interaction models such as [ColBERT](https://qdrant.tech/documentation/fastembed/fastembed-colbert/), where each document is represented using multiple token-level vectors. 
 
-## Why token-level vectors are Useful
+## Why Token-level Vectors are Useful
 
 With token-level vectors, your system can find the exact part of a document matching your query and support Late Interaction Models with high accuracy.
 
