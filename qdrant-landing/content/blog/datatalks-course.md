@@ -25,9 +25,7 @@ Gain hands-on experience with LLMs, RAG, vector search, evaluation, monitoring, 
 ## Learn RAG and Vector Search
 In this course, you'll learn how to create an AI system that can answer questions about your own knowledge base using LLMs and RAG.
 
-Week 1 introduces the fundamentals of LLMs and RAG. You’ll implement your first RAG pipeline to answer questions using FAQ documents.
-
-Week 2 is where the vector search magic begins.
+Week 1 introduces the fundamentals of LLMs and RAG. Week 2 is where the vector search magic begins. 
 
 ## What You'll Learn from Qdrant's Experts   
 Qdrant’s team will guide you through both foundational and advanced concepts in vector and hybrid search:
@@ -52,3 +50,4 @@ Get started:
 * Save the [2025 course playlist](https://club.us19.list-manage.com/track/click?u=0d7822ab98152f5afc118c176&id=98262d0a5d&e=ef9de8fba5) on YouTube  
 * Watch all Module 1 videos  
 * Complete homework, due June 17
+* Join the [Qdrant community](https://discord.com/invite/qdrant)
