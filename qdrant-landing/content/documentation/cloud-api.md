@@ -40,7 +40,7 @@ You can create a management key in the Cloud Console UI. Go to **Access Manageme
 
 ### Samples
 
-For samples how to use the API, with a tool (like grpcurl, curl or any of the provided SDKs), please see the [Qdrant Cloud Public API](https://github.com/qdrant/qdrant-cloud-public-api) repository.
+For samples on how to use the API, with a tool like grpcurl, curl or any of the provided SDKs, please see the [Qdrant Cloud Public API](https://github.com/qdrant/qdrant-cloud-public-api) repository.
 
 ## Terraform Provider
 
