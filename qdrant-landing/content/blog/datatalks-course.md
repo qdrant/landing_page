@@ -1,11 +1,11 @@
 ---
 draft: false
 title: "Qdrant + DataTalks.Club: Free 10-Week Course on LLM Applications"
-short_description: "Gain hands-on experience with LLMs, RAG, vector search, evaluation, monitoring, and more."
-description: "Gain hands-on experience with LLMs, RAG, vector search, evaluation, monitoring, and more."
+short_description: "Gain hands-on experience with RAG, vector search, evaluation, monitoring, and more."
+description: "Gain hands-on experience with RAG, vector search, evaluation, monitoring, and more."
 preview_image: /blog/datatalks-course/datatalksclub.jpg
 social_preview_image: /blog/datatalks-course/datatalksclub.jpg
-date: 2025-06-04T23:00:00Z
+date: 2025-06-05T23:00:00Z
 author: "Qdrant"
 featured: false
 
@@ -39,15 +39,5 @@ Kacper Łukawski, Senior Developer Advocate at Qdrant
 ## How to Join  
 The course is 100% free and online, with all materials publicly available.
 
-Start today\! 
+[Start the course today!](https://github.com/DataTalksClub/llm-zoomcamp).
 
-[View the course](https://github.com/DataTalksClub/llm-zoomcamp).
-
-Get started: 
-
-* Subscribe to the [Google Calendar](https://club.us19.list-manage.com/track/click?u=0d7822ab98152f5afc118c176&id=609a460b09&e=ef9de8fba5)  
-* Check [2025 cohort folder](https://club.us19.list-manage.com/track/click?u=0d7822ab98152f5afc118c176&id=0281df4dc6&e=ef9de8fba5) to stay updated  
-* Save the [2025 course playlist](https://club.us19.list-manage.com/track/click?u=0d7822ab98152f5afc118c176&id=98262d0a5d&e=ef9de8fba5) on YouTube  
-* Watch all Module 1 videos  
-* Complete homework, due June 17
-* Join the [Qdrant community](https://discord.com/invite/qdrant)
