@@ -50,7 +50,12 @@ pip install fastembed qdrant-client
 ```
 
 ## Step-by-Step: ColBERT + Qdrant Setup
-
+Ensure that Qdrant is running and create a client:
+```python
+from qdrant_client import QdrantClient, models
+# 1. Connect to Qdrant server
+client = QdrantClient(host="localhost", port=6333)
+```
 ### 1. Load Dense and ColBERT Models
 First load the dense and ColBERT models:
 ```python
