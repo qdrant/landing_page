@@ -11,7 +11,7 @@ aliases:
 
 ## Introduction
 
-The Qdrant Cloud API lets you manage Cloud accounts and their respective Qdrant clusters. You can use this API to manage your clusters, backup schedules, authentication methods, hybrid cloud environments, and and many more.
+The Qdrant Cloud API lets you automate the Qdrant Cloud platform. You can use this API to manage your accounts, clusters, backup schedules, authentication methods, hybrid cloud environments, and more.
 
 To cater to diverse integration needs, the Qdrant Cloud API offers two primary interaction models:
 
