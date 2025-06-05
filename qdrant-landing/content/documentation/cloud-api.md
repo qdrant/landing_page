@@ -15,21 +15,22 @@ The Qdrant Cloud API lets you manage Cloud accounts and their respective Qdrant 
 
 To cater to diverse integration needs, the Qdrant Cloud API offers two primary interaction models:
 
-**gRPC API**: For high-performance, low-latency, and type-safe communication. This is the recommended way for backend services and applications requiring maximum efficiency. The API is defined using Protocol Buffers.
-**REST/JSON API**: A conventional HTTP/1.1 (and HTTP/2) interface with JSON payloads. This API is provided via a gRPC Gateway, translating RESTful calls into gRPC messages, offering ease of use for web clients, scripts, and broader tool compatibility.
+* **gRPC API**: For high-performance, low-latency, and type-safe communication. This is the recommended way for backend services and applications requiring maximum efficiency. The API is defined using Protocol Buffers.
+* **REST/JSON API**: A conventional HTTP/1.1 (and HTTP/2) interface with JSON payloads. This API is provided via a gRPC Gateway, translating RESTful calls into gRPC messages, offering ease of use for web clients, scripts, and broader tool compatibility.
 
 You can find the API definitions and generated client libraries in our Qdrant Cloud Public API [GitHub repository](https://github.com/qdrant/qdrant-cloud-public-api).
 **Note:** The API is splitted into multiple services to make it easier to use.
 
 ### Qdrant Cloud API Endpoints
 
-**gRPC Endpoint**: grpc.cloud.qdrant.io:443
-**REST/JSON Endpoint**: https://api.cloud.qdrant.io
+* **gRPC Endpoint**: grpc.cloud.qdrant.io:443
+* **REST/JSON Endpoint**: https://api.cloud.qdrant.io
 
 ### Authentication
 
 Most of the Qdrant Cloud API requests must be authenticated. Authentication is handled via API keys (so called management keys), which should be passed in the Authorization header.
 **Management Keys**: `Authorization: apikey <YOUR_MANAGEMENT_KEY>`
+
 Replace <YOUR_MANAGEMENT_KEY> with the actual API key obtained from your Qdrant Cloud dashboard or generated programmatically.
 
 You can create a Cloud API key in the Cloud Console UI. Go to **Access Management** > **Qdrant Cloud API Keys**.
@@ -47,7 +48,7 @@ Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud reso
 
 ## Deprecated OpenAPI specification
 
-We still support our deprecated OpenAPI endpoint, but this is scheduled to be removed later this year (Q4 of 2025).
+We still support our deprecated OpenAPI endpoint, but this is scheduled to be removed later this year (November 1st, 2025).
 We do _NOT_ recommend to use this endpoint anymore and use the replacement as described above.
 
 | REST API      | Documentation                                                                        |
