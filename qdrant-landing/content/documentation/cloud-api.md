@@ -7,7 +7,7 @@ aliases:
 ---
 # Qdrant Cloud API: Powerful gRPC and Flexible REST/JSON Interfaces
 
-**Note:** This is not the Qdrant REST or gPRC API of the database itself. For core product APIs & SDKs, see our list of [interfaces](/documentation/interfaces/)
+**Note:** This is not the Qdrant REST or gPRC API of the database itself. For database APIs & SDKs, see our list of [interfaces](/documentation/interfaces/)
 
 ## Introduction
 
