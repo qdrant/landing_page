@@ -114,7 +114,7 @@ This approach retrieves top results from both semantic and lexical searches and 
 
 The Qdrant node for n8n is just the beginning. You can now build advanced RAG chatbots, agents for unstructured big data analysis, and much more, all natively within n8n. If you want to see more tutorials or have specific use cases in mind, let us know in the comments or join our community discussions.
 
-We welcome your feedback, suggestions, and contributions on GitHub\! Don’t forget to star the repo and join our Discord community if you have questions or want to connect with other users.
+We welcome your feedback, suggestions, and contributions on GitHub! Don’t forget to star the repo and join our Discord community if you have questions or want to connect with other users.
 
 ## Resources:
 
