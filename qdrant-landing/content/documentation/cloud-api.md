@@ -54,37 +54,3 @@ We do _NOT_ recommend to use this endpoint anymore and use the replacement as de
 | REST API      | Documentation                                                                        |
 | -------- | ------------------------------------------------------------------------------------ |
 | v.0.1.0 | [OpenAPI Specification](https://cloud.qdrant.io/pa/v1/docs)                       |
-
-### Sample API Request (Deprecated)
-
-Here's an example of a basic request to **list all clusters** in your Qdrant Cloud account:
-
-```bash
-curl -X 'GET' \
-  'https://cloud.qdrant.io/pa/v1/accounts/<YOUR_ACCOUNT_ID>/clusters' \
-  -H 'accept: application/json' \
-  -H 'Authorization: apikey <YOUR_MANAGEMENT_KEY>'
-```
-
-This request will return a list of clusters associated with your account in JSON format.
-
-### Cluster Management (Deprecated)
-
-Use these endpoints to create and manage your Qdrant database clusters. The API supports fine-grained control over cluster resources (CPU, RAM, disk), node configurations, tolerations, and other operational characteristics across all cloud providers (AWS, GCP, Azure) and their respective regions in Qdrant Cloud, as well as Hybrid Cloud.
-
-- **Get Cluster by ID**: Retrieve detailed information about a specific cluster using the cluster ID and associated account ID.
-- **Delete Cluster**: Remove a cluster, with optional deletion of backups.
-- **Update Cluster**: Apply modifications to a cluster's configuration.
-- **List Clusters**: Get all clusters associated with a specific account, filtered by region or other criteria.
-- **Create Cluster**: Add new clusters to the account with configurable parameters such as nodes, cloud provider, and regions.
-- **Get Booking**: Manage hosting across various cloud providers (AWS, GCP, Azure) and their respective regions.
-
-### Cluster Authentication Management (Deprecated)
-
-Use these endpoints to manage your cluster API keys (the newer v2 format isn't supported).
-
-- **List API Keys**: Retrieve all API keys associated with an account.
-- **Create API Key**: Generate a new API key for programmatic access.
-- **Delete API Key**: Revoke access by deleting a specific API key.
-- **Update API Key**: Modify attributes of an existing API key.
-
