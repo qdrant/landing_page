@@ -2,10 +2,10 @@
 title: "​​Introducing the Official Qdrant Node for n8n: Native, Powerful, and Ready for Hybrid Search" 
 draft: false
 slug: n8n-node
-short_description: Qdrant now has an official, team-supported node for n8n
-description: Qdrant now has an official, team-supported node for n8n
+short_description: Qdrant now has an official, team-supported node for n8n.
+description: Qdrant now has an official, team-supported node for n8n.
 preview_image: /blog/n8n-node/n8n-node-blog-hero.jpg
-date: 2025-06-0 #Update to June 9
+date: 2025-06-07
 author: Evgeniya (Jenny) Sukhodolskaya 
 featured: false
 tags:
