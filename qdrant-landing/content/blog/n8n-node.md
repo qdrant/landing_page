@@ -116,7 +116,7 @@ The Qdrant node for n8n is just the beginning. You can now build advanced RAG ch
 
 We welcome your feedback, suggestions, and contributions on GitHub\! Don’t forget to star the repo and join our Discord community if you have questions or want to connect with other users.
 
-##Resources:
+## Resources:
 
 * [Qdrant n8n Node on npm](https://www.npmjs.com/package/n8n-nodes-qdrant)  
 * [GitHub Repo](https://github.com/qdrant/n8n-nodes-qdrant)  
