@@ -4,9 +4,8 @@ draft: false
 slug: n8n-node
 short_description: Qdrant now has an official, team-supported node for n8n
 description: Qdrant now has an official, team-supported node for n8n
-preview_image: /case-studies/iris/irisagent-qdrant.png
-
-date: 2025-06-06
+preview_image: /blog/n8n-node/n8n-node-blog-hero.jpg
+date: 2025-06-0 #Update to June 9
 author: Evgeniya (Jenny) Sukhodolskaya 
 featured: false
 tags:
@@ -17,11 +16,12 @@ tags:
 ---
 
 ## ​​Introducing the Official Qdrant Node for n8n: Native, Powerful, and Ready for Hybrid Search 
-Amazing news for n8n builders working with semantic search: Qdrant now has an official, team-supported node for n8n, available as a verified community note\!   
+
+Amazing news for n8n builders working with semantic search: Qdrant now has an official, team-supported node for n8n, available as a verified community note!   
 This new integration brings the full power of Qdrant’s vector database directly into your n8n workflows: no more wrestling with HTTP nodes or manual API calls.   
 Whether you’re building RAG systems, intelligent agents, or advanced unstructured data analysis tools, this node is designed to make your life easier and your solutions more robust.
 
-## **Why This Matters**
+## Why This Matters
 
 Previously, integrating Qdrant with n8n meant manually configuring HTTP requests for every operation, limiting access to advanced features like batch upserts, custom embeddings, and hybrid search. 
 
@@ -31,10 +31,11 @@ It supports everything Qdrant can do, including hybrid search, reranking with mu
 
 The Qdrant node is not just a wrapper; it’s a fully-featured, officially maintained integration. 
 
-**Getting Started: Installation Is a Click Away**
+##Getting Started: Installation Is a Click Away
 
 The Qdrant node is available for both cloud and self-hosted n8n instances, starting from version 1.94.0. Installing it is as simple as searching for “Qdrant” in the n8n integrations panel and clicking “Install.” You’ll be up and running in seconds.  
-**Unlocking Hybrid Search: A Step-by-Step Guide**
+
+## Unlocking Hybrid Search: A Step-by-Step Guide 
 
 One of the most exciting features of the new node is seamless hybrid search: combining the precision of keyword-based (sparse) search with the semantic power of dense embeddings. This is especially valuable in domains like legal or medical search, where both exact matches and contextual understanding are crucial.
 
@@ -111,19 +112,17 @@ json
 
 This approach retrieves top results from both semantic and lexical searches and fuses them, delivering more relevant outcomes,especially for complex, domain-specific queries.
 
-**Explore More and Get Involved**
+## Explore More and Get Involved
 
 The Qdrant node for n8n is just the beginning. You can now build advanced RAG chatbots, agents for unstructured big data analysis, and much more, all natively within n8n1. If you want to see more tutorials or have specific use cases in mind, let us know in the comments or join our community discussions.
 
 We welcome your feedback, suggestions, and contributions on GitHub\! Don’t forget to star the repo and join our Discord community if you have questions or want to connect with other users.
 
-**Resources:**
+##Resources:
 
 * [Qdrant n8n Node on npm](https://www.npmjs.com/package/n8n-nodes-qdrant)  
 * [GitHub Repo](https://github.com/qdrant/n8n-nodes-qdrant)  
 * [Video: Connecting Qdrant to n8n](https://youtu.be/fYMGpXyAsfQ?feature=shared&t=194)  
+* [Video: Introducing Qdrant's Official n8n Node: Hybrid Search Example](https://www.youtube.com/watch?v=sYP_kHWptHY)
 * [Hybrid Search Concepts](https://qdrant.tech/documentation/concepts/search/)
-
- 
-
-Add user docs link from Anush 
+* [Qdrant's n8n User Docs](https://qdrant.tech/documentation/platforms/n8n/)
