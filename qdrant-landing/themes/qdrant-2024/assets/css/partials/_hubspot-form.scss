@@ -63,11 +63,19 @@ form.hs-form {
     }
 
     // todo: this may be removed once the form is updated
+    // this hides an original HubSpot form header
     &.form-columns-0 {
       margin: 0;
       .hs-richtext {
         display: none !important;
       }
+    }
+
+    // this is a workaround for the issue with HubSpot forms
+    // where empty fields still have margin
+    // works only in modern browsers
+    &:has(> [style='display: none;']:is(:only-child)) {
+      display: none;
     }
   }
 
