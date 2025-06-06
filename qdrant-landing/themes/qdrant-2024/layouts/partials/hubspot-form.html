@@ -56,8 +56,8 @@
           const checkbox = checkboxField.querySelector('input[type="checkbox"]');
 
           checkboxField.style.display = showOptIn ? "block" : "none";
-          checkboxRelatedConsent.style.display = showOptIn ? "block" : "none";
-          otherCountriesConsent.style.display = showOptIn ? "none" : "block";
+          if (checkboxRelatedConsent) checkboxRelatedConsent.style.display = showOptIn ? "block" : "none";
+          if (otherCountriesConsent) otherCountriesConsent.style.display = showOptIn ? "none" : "block";
 
           // Toggle checkbox state depending on the country selection
           if (selected && !isRestricted) {
