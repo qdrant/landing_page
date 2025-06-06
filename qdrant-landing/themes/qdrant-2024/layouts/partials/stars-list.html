@@ -4,22 +4,22 @@
       <h2 class="stars-list__title">{{ .Params.title }}</h2>
       <div class="stars-list__cards row gx-4">
         {{ range .Params.mainCards }}
-          <div class="col-12">
+          <div class="col-12 col-lg-6">
             <div class="stars-list__card stars-list__main-card">
-             <div class="stars-list__main-card-content">
-               <p class="stars-list__main-card-head">
-                 {{ .headTitle }}
-                 <img src="{{ .headIcon.src }}" alt="{{ .headIcon.alt }}">
-               </p>
-               <h6 class="stars-list__main-card-title">{{ .name }}</h6>
-               <p class="stars-list__main-card-subtitle">{{ .position }}</p>
-               <p class="stars-list__main-card-description">{{ .description | safeHTML }}</p>
-             </div>
               <img class="stars-list__main-card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
-              <div class="stars-list__card-overlay"></div>
+              <p class="stars-list__main-card-head">
+                {{ .headTitle }}
+                <img src="{{ .headIcon.src }}" alt="{{ .headIcon.alt }}">
+              </p>
+              <h6 class="stars-list__main-card-title">{{ .name }}</h6>
+              <p class="stars-list__main-card-subtitle">{{ .position }}</p>
+              <p class="stars-list__main-card-description">{{ .description | safeHTML }}</p>
+              <div class="stars-list__main-card-overlay"></div>
             </div>
           </div>
         {{ end }}
+      </div>
+      <div class="stars-list__cards row gx-4">
         {{ range .Params.cards }}
           <div class="col-12 col-md-6 col-lg-4 col-xl-3">
             <div class="stars-list__card">
@@ -32,7 +32,13 @@
           </div>
         {{ end }}
       </div>
+      <div class="stars-list__link">
+        <a class="link link_xl" href="{{ .Params.link.url }}" target="_blank">
+          {{ .Params.link.text }}
+        </a>
+      </div>
     </div>
-    <div class="stars-list__overlay"></div>
+    <div class="stars-list__overlay-top"></div>
+    <div class="stars-list__overlay-bottom"></div>
   </section>
 {{ end }}

@@ -67,7 +67,7 @@
     }
 
     &__card {
-      height: pxToRem(306);
+      height: pxToRem(294);
     }
 
     &__square-grid-overlay {
@@ -78,7 +78,7 @@
       width: 100%;
       height: pxToRem(400);
       background-image: url('/img/square-grid.png');
-      background-size: cover;
+      background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
     }

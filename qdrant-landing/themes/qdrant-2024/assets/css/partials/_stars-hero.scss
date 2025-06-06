@@ -56,6 +56,7 @@
     }
 
     &__description {
+      max-width: pxToRem(466);
       font-size: pxToRem(20);
       line-height: pxToRem(30);
     }
