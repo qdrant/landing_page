@@ -7,7 +7,7 @@ aliases: [ ../frameworks/n8n/ ]
 
 [N8N](https://n8n.io/) is an automation platform that allows you to build flexible workflows focused on deep data integration.
 
-[Qdrant's offical node](https://www.npmjs.com/package/n8n-nodes-qdrant) for n8n enables semantic search capabilities in your workflows.
+[Qdrant's official node](https://www.npmjs.com/package/n8n-nodes-qdrant) for n8n enables semantic search capabilities in your workflows.
 
 ## Prerequisites
 
