@@ -150,7 +150,10 @@ form.hs-form {
   }
 
   .legal-consent-container {
-    p {
+    p,
+    div,
+    span,
+    .hs-form-booleancheckbox-display {
       font-size: pxToRem(12);
       line-height: pxToRem(18);
       color: $neutral-60;
@@ -187,6 +190,19 @@ form.hs-form {
         }
       }
     }
+    .hs-fieldtype-booleancheckbox {
+      // hide initially the checkbox for the legal consent
+      // to avoid flickering when the form is loaded
+      // it will be shown only for specific countries chosen in the form
+      // script handling this is
+      // in the `qdrant-landing/themes/qdrant-2024/layouts/partials/hubspot-form.htmls` file
+      display: none;
+    }
+    & > div:nth-child(3) {
+      // hide part of the legal consent text for the specific countries
+      // see the script in the `qdrant-landing/themes/qdrant-2024/layouts/partials/hubspot-form.htmls` file
+      display: none;
+    }
   }
 }
 
@@ -216,7 +232,6 @@ form.hs-form {
 }
 
 .hs_recaptcha.hs-recaptcha {
-
   .grecaptcha-badge {
     box-shadow: none !important;
   }

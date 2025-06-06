@@ -27,6 +27,47 @@
             }
           });
         };
+
+        // List of countries that require explicit consent for data processing
+        const restrictedCountries = [
+          "Argentina", "Belgium", "Canada", "Czech Republic", "Cyprus", "Denmark", "Germany",
+          "Hungary", "Latvia", "Liechtenstein", "Luxembourg", "Netherlands", "Norway", "France",
+          "Finland", "Croatia", "Bulgaria", "Belarus", "Bosnia and Herzegovina", "Austria", "Estonia",
+          "Georgia", "Greenland", "Hong Kong", "Israel", "Italy", "Maldives", "Moldova", "Monaco",
+          "Portugal", "Russia", "Serbia", "Slovakia", "Slovenia", "Sweden", "Switzerland", "Türkiye",
+          "Ukraine", "Macedonia (FYROM)", "United Kingdom"
+        ];
+
+        // consent block should show additional checkbox for restricted countries
+        function updateConsentBlocks(form) {
+          const countryField = form.querySelector('select[name="country"]');
+          const checkboxField = form.querySelector('.legal-consent-container .hs-fieldtype-booleancheckbox');
+          const checkboxRelatedConsent = form.querySelector('.legal-consent-container > div:nth-child(3)');
+          const otherCountriesConsent = form.querySelector('.legal-consent-container > div:nth-child(2)');
+
+          if (!countryField || !checkboxField) {
+            // If there is no country field or checkbox field, exit early
+            return;
+          }
+
+          const selected = countryField.value;
+          const isRestricted = restrictedCountries.includes(selected);
+          const showOptIn = selected && isRestricted;
+          const checkbox = checkboxField.querySelector('input[type="checkbox"]');
+
+          checkboxField.style.display = showOptIn ? "block" : "none";
+          if (checkboxRelatedConsent) checkboxRelatedConsent.style.display = showOptIn ? "block" : "none";
+          if (otherCountriesConsent) otherCountriesConsent.style.display = showOptIn ? "none" : "block";
+
+          // Toggle checkbox state depending on the country selection
+          if (selected && !isRestricted) {
+            if (!checkbox.checked) checkbox.click();
+          } else {
+            if (checkbox.checked) checkbox.click();
+          }
+        }
+
+
         try {
           hbspt.forms.create({
             ...options,
@@ -34,12 +75,24 @@
             pageId: "{{- .context.Permalink -}}",
             target: "#{{- .id -}}",
             onFormReady: function($form) {
+              if (!$form) {
+                console.warn("Form not found.");
+                return;
+              }
+
               initHoneypot($form);
+
+              updateConsentBlocks($form);
+              const countryField = $form.querySelector('select[name="country"]');
+              if (countryField) {
+                countryField.addEventListener("change", () => updateConsentBlocks($form));
+              }
+
             },
           });
         } catch (e) {
           document.getElementById("{{- .id -}}").innerHTML = '<p class="text-white">Here should be a form but looks like it was blocked on your side. Please, check your trackers blocking policy.</p>';
         }
       })()
-   </script>
+</script>
 </div>
