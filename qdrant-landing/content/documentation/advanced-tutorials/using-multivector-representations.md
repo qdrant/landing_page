@@ -33,7 +33,7 @@ In multivector representations (such as those used by Late Interaction models li
 - High RAM usage
 - Slow insert times due to the complexity of maintaining the HNSW graph
 
-However, because multivector search is typically used in the reranking stage (after a first-pass retrieval using dense vectors), there's often no need to index these token-level vectors with HNSW.
+Because multivector search is usually part of reranking rather than initial retrieval, indexing token-level vectors with HNSW is often redundant.
 
 Instead, they can be stored as multi-vector fields (without HNSW indexing) and used at query-time for reranking, which reduces resource overhead and improves performance.
 
