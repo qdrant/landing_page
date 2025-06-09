@@ -13,18 +13,20 @@ In this tutorial, you'll discover how to effectively use multivector representat
 In most vector engines, each document is represented by a single vector - an approach that works well for short texts but often struggles with longer documents. Single vector representations perform pooling of the token-level embeddings, which obviously leads to losing some information.
 
 Multivector representations offer a more fine-grained alternative where a single document is represented using multiple vectors, often at the token or phrase level. This enables more precise matching between specific query terms and relevant parts of the document. Matching is especially effective in Late Interaction models like [ColBERT](https://qdrant.tech/documentation/fastembed/fastembed-colbert/), which retain token-level embeddings and perform interaction during query time leading to relevance scoring.
-
+![Multivector Representations](images/image.png)
 As you will see later in the tutorial, Qdrant supports multivectors and thus late interaction models natively. 
 
 ## Why Token-level Vectors are Useful
 
 With token-level vectors, models like ColBERT can match specific query tokens to the most relevant parts of a document, enabling high-accuracy retrieval through Late Interaction.
 
-Each document is converted into multiple token-level vectors instead of a single vector in Late Interaction. The query is also tokenized and embedded into various vectors. Then, the query and document vectors are matched using a similarity function. In traditional retrieval, the query and document are converted into single embeddings, after which similarity is computed. This is an early interaction because the information is compressed before retrieval. 
+In late interaction, each document is converted into multiple token-level vectors instead of a single vector. The query is also tokenized and embedded into various vectors. Then, the query and document vectors are matched using a different similarity function: MaxSim. 
+
+In traditional retrieval, the query and document are converted into single embeddings, after which similarity is computed. This is an early interaction because the information is compressed before retrieval.
 
 ## What is Rescoring, and Why is it Used?
 Rescoring is two-fold:
-- Retrieve relevant documents using a fast dense model. 
+- Retrieve relevant documents using a fast model. 
 - Rerank them using a more accurate but slower model such as ColBERT.
 
 ## Why Indexing Every Vector by Default is a Problem
