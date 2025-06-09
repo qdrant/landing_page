@@ -113,7 +113,8 @@ client.create_collection(
             distance=models.Distance.COSINE,
             multivector_config=models.MultiVectorConfig(
                 comparator=models.MultiVectorComparator.MAX_SIM,
-            )
+            ),
+            hnsw_config=models.HnswConfigDiff(m=0)  #  Disable HNSW for reranking
         ),
     },
     sparse_vectors_config={
@@ -128,8 +129,8 @@ client.create_collection(
 What’s happening here? We’re creating a collection called "hybrid-search", and we’re configuring it to handle:
 
 - **Dense embeddings** from the model all-MiniLM-L6-v2 using cosine distance for comparisons.
-- **Late interaction embeddings** from colbertv2.0, also using cosine distance, but with a multivector configuration to use the maximum similarity comparator.
-- **Sparse embeddings** from BM25 for keyword-based searches. They use dot_product for similarity calculation.
+- **Late interaction embeddings** from colbertv2.0, also using cosine distance, but with a multivector configuration to use the maximum similarity comparator. Note that we set `m=0` in the `colbertv2.0` vector to prevent indexing since it's not needed for reranking. 
+- **Sparse embeddings** from BM25 for keyword-based searches. They use `dot_product` for similarity calculation.
 
 This setup ensures that all the different types of vectors are stored and compared correctly for your hybrid search.
 
