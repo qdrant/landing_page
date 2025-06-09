@@ -17,7 +17,7 @@ tags:
 
 ## ​​Introducing the Official Qdrant Node for n8n
 
-Amazing news for n8n builders working with semantic search: Qdrant now has an official, team-supported node for n8n, available as a verified community note!
+Amazing news for n8n builders working with semantic search: Qdrant now has an official, team-supported node for n8n, available as a verified community node!
 This new integration brings the full power of Qdrant’s vector database directly into your n8n workflows: no more wrestling with HTTP nodes.
 Whether you’re building RAG systems, intelligent agents, or advanced unstructured data analysis tools, this node is designed to make your life easier and your solutions more robust.
 
@@ -35,7 +35,7 @@ The Qdrant node is available for both cloud and self-hosted n8n instances, start
 
 One exciting feature of the new node is seamless hybrid search: combining the precision of keyword-based (sparse) search with the semantic power of dense embeddings. This is especially valuable in domains like legal or medical search, where both exact matches and contextual understanding are crucial. Watch this video for a walkthrough. 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/sYP_kHWptHY?si=t4GTxVCfTNiXEE4S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/sYP_kHWptHY?si=t4GTxVCfTNiXEE4S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
 
 ## Explore More and Get Involved
 
