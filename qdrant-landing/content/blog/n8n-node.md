@@ -47,7 +47,7 @@ Naturally, you don't have to stop at a simple example! Everything we suggested i
 
 This example is just the beginning. You can now build Qdrant-based solutions, from advanced RAG to complicated agentic systems, all natively within n8n. If you want to see more tutorials or have specific use cases in mind, let us know in the comments on the video or join our community discussions.
 
-We welcome your feedback, suggestions, and contributions on GitHub! Don’t forget to star the [new node's repo]((https://github.com/qdrant/n8n-nodes-qdrant) and join our [Discord community]((https://discord.gg/njJFNKXj)) if you have questions or want to connect with other users.
+We welcome your feedback, suggestions, and contributions on GitHub! Don’t forget to star the [new node's repo](https://github.com/qdrant/n8n-nodes-qdrant) and join our [Discord community](https://discord.gg/njJFNKXj) if you have questions or want to connect with other users.
 
 ## Resources
 
