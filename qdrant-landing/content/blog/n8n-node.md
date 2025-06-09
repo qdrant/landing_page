@@ -35,83 +35,9 @@ The Qdrant node is available for both cloud and self-hosted n8n instances, start
 
 One exciting feature of the new node is seamless hybrid search: combining the precision of keyword-based (sparse) search with the semantic power of dense embeddings. This is especially valuable in domains like legal or medical search, where both exact matches and contextual understanding are crucial.
 
+## Video example: How to install & use the node for hybrid search 
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/sYP_kHWptHY?si=t4GTxVCfTNiXEE4S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-Here’s a quick walkthrough:  
-
-1. Create a Hybrid Collection
-
-* Use Qdrant Cloud’s free tier for experimentation.  
-* Create a collection that supports both dense (semantic) and sparse (lexical) vectors. For example:
-
-```json  
-{  
-  "semantic": {  
-    "size": 4,  
-    "distance": "Cosine"  
-  },  
-  "lexical": {}  
-}
-```
-
-Dense vectors are for semantic search; sparse vectors handle keyword searches. The sparse vector configuration is simple—just specify the name, as the size is dynamic.
-
-2. Insert Data Points
-
-* Insert points with both dense and sparse vectors. Here’s a sample payload:
-
-```json  
-[  
-  {  
-    "id": "209ed309-bb5e-47fd-8af6-a54eea28e0e7",  
-    "payload": {},  
-    "vector": {  
-      "semantic": [0.3, 0.1, 0.4, 0.2],  
-      "lexical": {"indices":[1, 2], "values": [0.2, -0.5]}  
-    }  
-  },  
-  {  
-    "id": "f7e8316e-91da-4b97-9ae9-7503e6cdbd7b",  
-    "payload": {},  
-    "vector": {  
-      "semantic": [0.4, 0.0, -0.4, 0.2],  
-      "lexical": {"indices":[54], "values": \[-0.9]}  
-    }  
-  }  
-]
-```
-
-Batch upserts are now supported natively, making large-scale data ingestion fast and simple.
-
-3. Run a Hybrid Search
-
-* Use the query_points operation to perform hybrid searches. For example:
-
-```json
-[  
-  {  
-    "query": [0.0, 0.6, 0.7, 0.9],  
-    "using": "semantic",  
-    "limit": 2  
-  },  
-  {  
-    "query": {  
-      "indices": [55, 2],  
-      "values": [0.6, 0.7]  
-    },  
-    "using": "lexical",  
-    "limit": 2  
-  }  
-]
-```
-
-* Merge results using reciprocal rank fusion (RRF):
-
-```json
-{"fusion": "rrf"}
-```
-
-This approach retrieves top results from both semantic and lexical searches and fuses them, delivering more relevant outcomes, especially for complex, domain-specific queries.
 
 ## Explore More and Get Involved
 
