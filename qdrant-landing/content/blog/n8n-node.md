@@ -7,7 +7,7 @@ description: Qdrant now has an official, team-supported node for n8n.
 preview_image: /blog/n8n-node/n8n-node-blog-hero.jpg
 date: 2025-06-09
 author: Maddie Duhon & Evgeniya Sukhodolskaya
-featured: false
+featured: true
 tags:
   - news
   - blog
@@ -35,6 +35,7 @@ The Qdrant node is available for **both cloud and self-hosted n8n instances**, s
 ## Start Using it Now: How to Install & Use the Node for Hybrid Search
 
 We filmed a short demo for you on how to use this new node for **hybrid search** in Qdrant, as we thought it would be super handy for you to know how to combine the precision of keyword-based (sparse) search with the semantic power of dense embeddings in your n8n solutions.  
+
 It's especially valuable in domains like legal or medical, where both exact matches and contextual understanding are crucial, so we love that you now have access to a method that delivers relevant results for complex, domain-specific queries!
 
 This toy example walks you through fusing dense and lexical hybrid search results using Reciprocal Rank Fusion (RRF).
