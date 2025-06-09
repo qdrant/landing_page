@@ -6,7 +6,7 @@ preview_dir: /articles_data/how-to-choose-an-embedding-model/preview
 social_preview_image: /articles_data/how-to-choose-an-embedding-model/social-preview.png
 author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
-date: 2025-05-07T00:00:00.000Z
+date: 2025-06-07T00:00:00.000Z
 category: vector-search-manuals
 ---
 
@@ -20,7 +20,7 @@ constraints.
 
 <aside role="status">
 Although this article focuses mostly on the dense text embedding models, most of the considerations are also valid for 
-sparse and multivector representations, but also different modalities.
+sparse and multivector representations, as well as different modalities.
 </aside>
 
 Selecting the best embedding model is a multi-objective optimization problem and there is no one-size-fits-all solution,
@@ -56,10 +56,10 @@ contradicting sentences are actually perfect matches in your search.
 
 ![Tokenization: The weather today is so 🌧️ vs The weather today is so 🌞](/articles_data/how-to-choose-an-embedding-model/tokenization-contradictions.png)
 
-The same may go for accented letters, different alphabets, etc. However, in that case you shouldn't be using such 
-a model in the first place, as it does not support the target language either way. Tokenization has a bigger impact on
-the quality of the embeddings than many people think. If you want to understand what the effects of tokenization are,
-we recommend you take the course on [Retrieval Optimization: From Tokenization to Vector 
+The same may go for accented letters, different alphabets, etc., that dominate in your target language. However, in that 
+case, you shouldn't be using such a model in the first place, as it does not support your language either way. 
+Tokenization has a bigger impact on the quality of the embeddings than many people think. If you want to understand what
+the effects of tokenization are, we recommend you take the course on [Retrieval Optimization: From Tokenization to Vector 
 Quantization](https://www.deeplearning.ai/short-courses/retrieval-optimization-from-tokenization-to-vector-quantization/)
 we recorded together with DeepLearning.AI.
 
@@ -68,11 +68,15 @@ we recorded together with DeepLearning.AI.
 </div>
 <br>
 
+You may find the course especially interesting if you still wonder why your semantic search engine can't handle 
+numerical data, such as prices or dates, and what you can do about it. 
+
 How do you know if the tokenizer supports the target language? That's pretty easy for the Open Source models, as you 
 can just run the tokenizer without the model and see how the yielded tokens look like. For the commercial models that 
-might be slightly harder, but companies like OpenAI and Cohere are transparent about it and open source their 
-tokenizers. In the worst case, you can just modify some of the suspected tokens and see how the model reacts in terms
-of the similarity between the original and modified text.
+might be slightly harder, but companies like [OpenAI](https://github.com/openai/tiktoken) and 
+[Cohere](https://huggingface.co/Cohere/multilingual-22-12) are transparent about it and open source their tokenizers. 
+In the worst case, you can just modify some of the suspected tokens and see how the model reacts in terms of the 
+similarity between the original and modified text.
 
 ### Checklist of things to consider
 
@@ -83,7 +87,8 @@ except you, can tell what's the nature of the problem you are trying to solve. T
 to consider when choosing the right embedding model:
 
 - **Sequence length** - embedding models have a limited input size they can process at a time. Check how long your 
-  documents are and how many tokens they contain.
+  documents are and how many tokens they contain. If you use Open Source models, you can check the maximum sequence 
+  length in the model card on Hugging Face Hub. For commercial models, it's better to ask the provider directly.
 - **Model size** - larger models have more parameters and require more memory. Inference time also depends on model 
   architecture and your hardware. Some models run effectively only on GPUs, while others can run on CPUs as well.
 - **Optimization support** - not all models are compatible with every optimization technique. For example, Binary 
@@ -116,11 +121,11 @@ For semantic similarity tasks, your dataset might look like this:
 ]
 ```
 
-Most typically, Qdrant users build some retrieval systems which they use alone, or combined with Large Language Models
-to build Retrieval Augmented Generation. That means we need a slightly different structure of the golden dataset. The
-problem of retrieval is to find the `K` most relevant documents for a given query. Therefore, we need a set of queries
-and a set of documents that we would expect to receive for each of them. There are also three different ways of how to
-define the relevancy (sorted from the least to the most strict):
+Most typically, Qdrant users build retrieval systems that they use alone, or combine them with Large Language Models
+to build Retrieval Augmented Generation. When we do retrieval, we need a slightly different structure of the golden 
+dataset than for semantic similarity. The problem of retrieval is to find the `K` most relevant documents for a given 
+query. Therefore, we need a set of queries and a set of documents that we would expect to receive for each of them. 
+There are also three different ways of how to define the relevancy at different granularity levels:
 
 1. **Binary relevancy** - a document is either relevant or not.
 2. **Ordinal relevancy** - a document can be more or less relevant (ranking).
@@ -158,17 +163,17 @@ define the relevancy (sorted from the least to the most strict):
 
 Once you have the dataset, you can start evaluating the models using one of the evaluation metrics, such as 
 `precision@k`, `MRR`, or `NDCG`. There are existing libraries, such as [ranx](https://amenra.github.io/ranx/) that can 
-help you with that. Running the evaluation process on various models is a good way to get a sense of how they perform
-on your data. You can test even proprietary models that way. However, it's not the only thing you should consider when 
-choosing the best model.
+help you with that. [Running the evaluation process](/rag/rag-evaluation-guide/) on various models is a good way to get 
+a sense of how they perform on your data. You can test even proprietary models that way. However, it's not the only 
+thing you should consider when choosing the best model.
 
 Please do not be afraid of building your evaluation dataset. It’s not as complicated as it might seem, and it's a 
 critical step! You don’t need millions of samples to get a good idea of how the model performs. A few hundred 
-well-curated samples are usually enough. Even dozens of samples are better than nothing!
+well-curated examples might be a good starting point. Even dozens are better than nothing!
 
 ## Compute resource constraints
 
-Even if you found the most precise embedding model for your domain, that doesn't mean you can use it. Software projects 
+Even if you found the best performing embedding model for your domain, that doesn't mean you can use it. Software projects 
 do not live in isolation, and you have to consider the bigger picture. For example, you might have budget constraints 
 that limit your choices. It's also about being pragmatic. If you have a model that is 1% more precise, but it's 10 times 
 slower and consumes 10 times more resources, is it really worth it?
@@ -217,9 +222,9 @@ smaller model will do the job just fine.
 ![Fast, precise, cheap - pick two](/articles_data/how-to-choose-an-embedding-model/pyramid.png)
 
 Remember that this doesn't have to be a one-time decision. As your application evolves, you might need to revisit your 
-choice of embedding model. Qdrant's architecture makes it relatively easy to migrate to a different model if needed, or
-to extend the system with multiple models and switch between them based on the query, or build a hybrid search that
-takes advantage of different models or more complex search pipelines.
+choice of embedding model. Qdrant's architecture makes it relatively easy to migrate to a different model if needed,
+create the system with multiple models and switch between them based on the query, or build a 
+[hybrid search](/articles/hybrid-search/) that takes advantage of different models or more complex search pipelines.
 
 An important decision to make is also where to host the embedding model. Maybe you prefer not to deal with the 
 infrastructure management and send the data you process in its original form? Qdrant now has something for you!
