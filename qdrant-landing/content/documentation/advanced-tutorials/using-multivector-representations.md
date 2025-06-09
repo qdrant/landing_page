@@ -4,15 +4,15 @@ weight: 2
 aliases:
   - /documentation/search-precision/multivector-representations-with-Qdrant/
 ---
-# How to Use Multivector Representations with Qdrant Effectively
+# How to Effectively Use Multivector Representations in Qdrant for Reranking
 Multivector Representations are one of the most powerful features of Qdrant. However, most people don't use them effectively, resulting in massive RAM overhead, slow inserts, and wasted compute. 
 
 In this tutorial, you'll discover how to effectively use multivector representations in Qrant. 
 
 ## What are Multivector Representations?
-In most vector engines, each document is represented by a single vector — an approach that works well for short texts but often struggles with longer documents. To mitigate this, it's common practice to split documents into smaller chunks (e.g., paragraphs or sentences) and embed each chunk individually. While this chunking strategy improves retrieval granularity, it can miss broader context across chunks.
+In most vector engines, each document is represented by a single vector - an approach that works well for short texts but often struggles with longer documents. To mitigate this, it's common practice to split documents into smaller chunks (e.g., paragraphs or sentences) and embed each chunk individually. While this chunking strategy improves retrieval granularity, it can miss broader context across chunks.
 
-Multivector representations offer a more fine-grained alternative: instead of chunking, a single document is represented using multiple vectors, often at the token or phrase level. This enables more precise matching between specific query terms and relevant parts of the document. This is especially effective in Late Interaction models like [ColBERT](https://qdrant.tech/documentation/fastembed/fastembed-colbert/), which retain token-level embeddings and perform interaction during query time to boost retrieval precision.
+Multivector representations offer a more fine-grained alternative: instead of chunking, a single document is represented using multiple vectors, often at the token or phrase level. This enables more precise matching between specific query terms and relevant parts of the document. Matching is especially effective in Late Interaction models like [ColBERT](https://qdrant.tech/documentation/fastembed/fastembed-colbert/), which retain token-level embeddings and perform interaction during query time leading to relevance scoring.
 
 As you will see later in the tutorial, Qdrant supports multivectors and late interaction models natively. 
 
@@ -28,7 +28,7 @@ Rescoring is two-fold:
 - Rerank them using a more accurate but slower model such as ColBERT.
 
 ## Why Indexing Every Vector by Default is a Problem
-In multivector representations (such as those used by Late Interaction models like ColBERT), a single logical document — say, a PDF or full article — can result in hundreds of token-level vectors. Indexing each of these vectors individually with HNSW in Qdrant can lead to:
+In multivector representations (such as those used by Late Interaction models like ColBERT), a single  document - say, a PDF or full article - can result in hundreds of token-level vectors. Indexing each of these vectors individually with HNSW in Qdrant can lead to:
 
 - High RAM usage
 - Slow insert times due to the complexity of maintaining the HNSW graph
