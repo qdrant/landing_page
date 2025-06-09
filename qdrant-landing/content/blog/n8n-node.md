@@ -1,11 +1,11 @@
 ---
-title: "​​Introducing the Official Qdrant Node for n8n: Native, Powerful, and Ready for Hybrid Search" 
+title: "​​Introducing the Official Qdrant Node for n8n" 
 draft: false
 slug: n8n-node
 short_description: Qdrant now has an official, team-supported node for n8n.
 description: Qdrant now has an official, team-supported node for n8n.
 preview_image: /blog/n8n-node/n8n-node-blog-hero.jpg
-date: 2025-06-07
+date: 2025-06-09
 author: Evgeniya (Jenny) Sukhodolskaya 
 featured: false
 tags:
@@ -15,10 +15,10 @@ tags:
 
 ---
 
-## ​​Introducing the Official Qdrant Node for n8n: Native, Powerful, and Ready for Hybrid Search
+## ​​Introducing the Official Qdrant Node for n8n
 
 Amazing news for n8n builders working with semantic search: Qdrant now has an official, team-supported node for n8n, available as a verified community note!
-This new integration brings the full power of Qdrant’s vector database directly into your n8n workflows: no more wrestling with HTTP nodes or manual API calls.
+This new integration brings the full power of Qdrant’s vector database directly into your n8n workflows: no more wrestling with HTTP nodes.
 Whether you’re building RAG systems, intelligent agents, or advanced unstructured data analysis tools, this node is designed to make your life easier and your solutions more robust.
 
 ## Why This Matters
@@ -29,13 +29,11 @@ The new Qdrant node changes that.
 
 It supports everything Qdrant can do, including hybrid search, reranking with multivectors, batch upserts and updates, sophisticated filtering, and compatibility with the latest [Qdrant 1.14.0](https://qdrant.tech/blog/qdrant-1.14.x/) release.
 
-The Qdrant node is not just a wrapper; it’s a fully-featured, officially maintained integration.
-
 The Qdrant node is available for both cloud and self-hosted n8n instances, starting from version 1.94.0. Installing it is as simple as searching for “Qdrant” in the n8n integrations panel and clicking “Install.” You’ll be up and running in seconds.  
 
-## Unlocking Hybrid Search: A Step-by-Step Guide
+## Step-by-Step Example of Hybrid Search 
 
-One of the most exciting features of the new node is seamless hybrid search: combining the precision of keyword-based (sparse) search with the semantic power of dense embeddings. This is especially valuable in domains like legal or medical search, where both exact matches and contextual understanding are crucial.
+One exciting feature of the new node is seamless hybrid search: combining the precision of keyword-based (sparse) search with the semantic power of dense embeddings. This is especially valuable in domains like legal or medical search, where both exact matches and contextual understanding are crucial.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/sYP_kHWptHY?si=t4GTxVCfTNiXEE4S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
@@ -113,7 +111,7 @@ Batch upserts are now supported natively, making large-scale data ingestion fast
 {"fusion": "rrf"}
 ```
 
-This approach retrieves top results from both semantic and lexical searches and fuses them, delivering more relevant outcomes,especially for complex, domain-specific queries.
+This approach retrieves top results from both semantic and lexical searches and fuses them, delivering more relevant outcomes, especially for complex, domain-specific queries.
 
 ## Explore More and Get Involved
 
