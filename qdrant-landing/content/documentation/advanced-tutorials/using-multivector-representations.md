@@ -7,14 +7,14 @@ aliases:
 # How to Effectively Use Multivector Representations in Qdrant for Reranking
 Multivector Representations are one of the most powerful features of Qdrant. However, most people don't use them effectively, resulting in massive RAM overhead, slow inserts, and wasted compute. 
 
-In this tutorial, you'll discover how to effectively use multivector representations in Qrant. 
+In this tutorial, you'll discover how to effectively use multivector representations in Qdrant. 
 
 ## What are Multivector Representations?
-In most vector engines, each document is represented by a single vector - an approach that works well for short texts but often struggles with longer documents. To mitigate this, it's common practice to split documents into smaller chunks (e.g., paragraphs or sentences) and embed each chunk individually. While this chunking strategy improves retrieval granularity, it can miss broader context across chunks.
+In most vector engines, each document is represented by a single vector - an approach that works well for short texts but often struggles with longer documents. Single vector representations perform pooling of the token-level embeddings, which obviously leads to losing some information.
 
-Multivector representations offer a more fine-grained alternative: instead of chunking, a single document is represented using multiple vectors, often at the token or phrase level. This enables more precise matching between specific query terms and relevant parts of the document. Matching is especially effective in Late Interaction models like [ColBERT](https://qdrant.tech/documentation/fastembed/fastembed-colbert/), which retain token-level embeddings and perform interaction during query time leading to relevance scoring.
+Multivector representations offer a more fine-grained alternative where a single document is represented using multiple vectors, often at the token or phrase level. This enables more precise matching between specific query terms and relevant parts of the document. Matching is especially effective in Late Interaction models like [ColBERT](https://qdrant.tech/documentation/fastembed/fastembed-colbert/), which retain token-level embeddings and perform interaction during query time leading to relevance scoring.
 
-As you will see later in the tutorial, Qdrant supports multivectors and late interaction models natively. 
+As you will see later in the tutorial, Qdrant supports multivectors and thus late interaction models natively. 
 
 ## Why Token-level Vectors are Useful
 
@@ -28,12 +28,12 @@ Rescoring is two-fold:
 - Rerank them using a more accurate but slower model such as ColBERT.
 
 ## Why Indexing Every Vector by Default is a Problem
-In multivector representations (such as those used by Late Interaction models like ColBERT), a single  document - say, a PDF or full article - can result in hundreds of token-level vectors. Indexing each of these vectors individually with HNSW in Qdrant can lead to:
+In multivector representations (such as those used by Late Interaction models like ColBERT), a single logical document results in hundreds of token-level vectors. Indexing each of these vectors individually with HNSW in Qdrant can lead to:
 
 - High RAM usage
 - Slow insert times due to the complexity of maintaining the HNSW graph
 
-Because multivector search is usually part of reranking rather than initial retrieval, indexing token-level vectors with HNSW is often redundant.
+However, because multivectors are typically used in the reranking stage (after a first-pass retrieval using dense vectors), there's often no need to index these token-level vectors with HNSW.
 
 Instead, they can be stored as multi-vector fields (without HNSW indexing) and used at query-time for reranking, which reduces resource overhead and improves performance.
 
@@ -41,13 +41,32 @@ For more on this, check out Qdrant's detailed breakdown in our [Scaling PDF Retr
 
 With Qdrant, you have full control of how indexing works. You can disable indexing by setting the HNSW `m` parameter to `0`:
 ```python
-hnsw_config=models.HnswConfigDiff(m=0)
+from qdrant_client import QdrantClient, models
+client = QdrantClient("http://localhost:6333")
+collection_name = "dense_multivector_demo"
+client.create_collection(
+    collection_name=collection_name,
+    vectors_config={
+        "dense": models.VectorParams(
+            size=384,
+            distance=models.Distance.COSINE
+            # Leave HNSW indexing ON for dense
+        ),
+        "colbert": models.VectorParams(
+            size=128,
+            distance=models.Distance.COSINE,
+            multivector_config=models.MultiVectorConfig(
+                comparator=models.MultiVectorComparator.MAX_SIM
+            ),
+            hnsw_config=models.HnswConfigDiff(m=0)  # Disable HNSW for reranking
+        )
+    }
+)
 ```
 By disabling HNSW on multivectors, you:
 - Save compute. 
 - Reduce memory usage.
 - Speed up vector uploads. 
-- Focus the resources on reranking, where they are needed most. 
 
 ## How to Generate Multivectors Using FastEmbed
 Let's demonstrate how to effectively use multivectors using [FastEmbed](https://github.com/qdrant/fastembed), which wraps ColBERT into a simple API. 
@@ -63,20 +82,12 @@ Ensure that Qdrant is running and create a client:
 ```python
 from qdrant_client import QdrantClient, models
 # 1. Connect to Qdrant server
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("http://localhost:6333")
 ```
-### 1. Load Dense and ColBERT Models
-First load the dense and ColBERT models:
+## 1. Encode Documents
+Next, encode your documents: 
 ```python
 from fastembed import TextEmbedding, LateInteractionTextEmbedding
-
-dense_model = TextEmbedding("BAAI/bge-small-en")
-colbert_model = LateInteractionTextEmbedding("colbert-ir/colbertv2.0")
-```
-
-## 2. Encode Documents
-Next, encode the documents: 
-```python
 # Example documents and query
 documents = [
     "Artificial intelligence is used in hospitals for cancer diagnosis and treatment.",
@@ -85,16 +96,21 @@ documents = [
 ]
 query_text = "How does AI help in medicine?"
 
-# Generate embeddings
-dense_doc_vectors = list(dense_model.embed(documents))
-dense_query_vector = list(dense_model.embed([query_text]))[0]
+dense_doc_vectors = [
+    models.Document(text=doc, model="BAAI/bge-small-en")
+    for doc in documents
+]
+dense_query_vector = models.Document(text=query_text, model="BAAI/bge-small-en")
 
-colbert_doc_vectors = list(colbert_model.embed(documents))
-colbert_query_vector = list(colbert_model.embed([query_text]))[0]
+colbert_doc_vectors = [
+    models.Document(text=doc, model="colbert-ir/colbertv2.0")
+    for doc in documents
+]
+colbert_query_vector = models.Document(text=query_text, model="colbert-ir/colbertv2.0")
 
 ```
 
-### 3. Create a Qdrant collection
+### 2. Create a Qdrant collection
 Then create a Qdrant collection with both vector types. Note that we leave indexing on for the `dense` vector but turn it off for the  `colbert` vector that will be used for reranking.
 ```python
 collection_name = "dense_multivector_demo"
@@ -119,7 +135,7 @@ client.create_collection(
 
 ```
 
-### 4. Upload Documents (Dense + Multivector)
+### 3. Upload Documents (Dense + Multivector)
 Now upload the vectors: 
 ```python
 points = [
