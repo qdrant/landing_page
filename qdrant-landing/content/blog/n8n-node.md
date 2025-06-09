@@ -31,11 +31,9 @@ It supports everything Qdrant can do, including hybrid search, reranking with mu
 
 The Qdrant node is available for both cloud and self-hosted n8n instances, starting from version 1.94.0. Installing it is as simple as searching for “Qdrant” in the n8n integrations panel and clicking “Install.” You’ll be up and running in seconds.  
 
-## Step-by-Step Example of Hybrid Search 
+## Video example: How to install & use the node for hybrid search
 
-One exciting feature of the new node is seamless hybrid search: combining the precision of keyword-based (sparse) search with the semantic power of dense embeddings. This is especially valuable in domains like legal or medical search, where both exact matches and contextual understanding are crucial.
-
-## Video example: How to install & use the node for hybrid search 
+One exciting feature of the new node is seamless hybrid search: combining the precision of keyword-based (sparse) search with the semantic power of dense embeddings. This is especially valuable in domains like legal or medical search, where both exact matches and contextual understanding are crucial. Watch this video for a walkthrough. 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/sYP_kHWptHY?si=t4GTxVCfTNiXEE4S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
