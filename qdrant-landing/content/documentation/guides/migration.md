@@ -62,7 +62,7 @@ docker run --rm -it \
 
 Let’s now walk through an example of migrating from Pinecone to Qdrant. Assuming your Pinecone index looks like this:  
 
-![Pinecone Dashboard](images/image1.png)
+![Pinecone Dashboard](/documentation/guides/image1.png)
 
 The information you need from Pinecone is: 
 
@@ -86,7 +86,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 ``` 
 When the migration is complete, you will see the new collection on Qdrant with all the vectors.  
 
-![Migration](images/video.gif)
+![Migration](/documentation/guides/video.gif)
 
 ## Tips & Best Practices
 
