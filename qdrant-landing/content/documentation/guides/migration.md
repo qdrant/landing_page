@@ -1,12 +1,13 @@
 ---
-title: Migration
-weight: 10
-aliases:
-  - ../migration
+title: Migration to Qdrant
+weight: 180
 ---
 
+# Migration
 
-Migrating data between vector databases, especially across regions, platforms, or deployment types, can be a hassle. That’s where the **Qdrant Migration Tool** comes in. The tool supports all your migration needs, including moving from a self-hosted instance to Qdrant and switching cloud providers.  
+Migrating data between vector databases, especially across regions, platforms, or deployment types, can be a hassle. That’s where the [Qdrant Migration Tool](https://github.com/qdrant/migration) comes in. The tool supports all your migration needs, including moving from a self-hosted instance to Qdrant Cloud and switching cloud providers. The tool also works with self-hosted OSS Qdrant. You can also use the tool to migrate data between Qdrant instances, which is especially useful when migrating from Qdrant OSS to Qdrant Cloud.
+
+You can run the migration tool on any machine where you have connectivity to both the source and the target Qdrant databases. Direct connectivity between both databases is not required. For optimal performance, you should run the tool on a machine with a fast network connection and minimum latency to both databases.
 
 In this tutorial, we will learn how to use the migration tool and walk through a practical example of migrating from other vector databases to Qdrant. 
 
@@ -16,11 +17,11 @@ We recently released the **Qdrant Migration Tool (beta)** to make the process of
 
 * Streams vectors in batches from a source Qdrant collection to a target Qdrant collection.  
 * Works across cloud regions, providers, or deployment types.  
-* Supports migration of vectors from other providers into Qdrant. 
+* Supports migration of vectors from other providers and other Qdrant instances into Qdrant. 
 
 ## Why use this instead of Qdrant’s Native Snapshotting?
 
-Qdrant supports [snapshot-based backups](https://qdrant.tech/documentation/concepts/snapshots/), low-level disk operations built for the same cluster recovery or local backups. These snapshots:
+Qdrant supports [snapshot-based backups](https://qdrant.tech/documentation/concepts/snapshots/), low-level disk operations built for  same cluster recovery or local backups. These snapshots:
 
 * Require snapshot consistency across nodes.   
 * Can be hard to port across machines or cloud zones. 
@@ -40,11 +41,10 @@ You can run the tool via Docker.
 Installation:
 
 ```shell
-
 docker pull registry.cloud.qdrant.io/library/qdrant-migration
 ```
 
- Run migration:
+Here is an example of how to perform a Qdrant to Qdrant migration:
 
 ```bash  
 docker run --rm -it \
@@ -85,8 +85,6 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ``` 
 When the migration is complete, you will see the new collection on Qdrant with all the vectors.  
-
-![Migration](/documentation/guides/qdrant-migration.gif)
 
 ## Conclusion
 
