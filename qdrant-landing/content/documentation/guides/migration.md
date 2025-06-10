@@ -88,14 +88,6 @@ When the migration is complete, you will see the new collection on Qdrant with a
 
 ![Migration](/documentation/guides/qdrant-migration.gif)
 
-## Tips & Best Practices
-
-Here are some best practices to keep in mind when using the Qdrant migration tool:
-
-* Run the tool **close to both source and target** to minimize latency.  
-* The vector size and distance function must match.  
-* Always test with a small collection first to validate the setup. 
-
 ## Conclusion
 
 The **Qdrant Migration Tool** makes data transfer across vector database instances effortless. Whether you're moving between cloud regions, upgrading from self-hosted to Qdrant Cloud, or switching from other databases such as Pinecone, this tool saves you hours of manual effort. [Try it today](https://github.com/qdrant/migration). 
