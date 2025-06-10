@@ -34,5 +34,3 @@ Access the [Qdrant Migration Tool](https://github.com/qdrant/migration)
 Watch this video to learn how to use it for moving data between Qdrant instances:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/FU39926M0m4?si=qhrlDibev9We_gLo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-Note: This project is in beta. The API may change in future releases.
