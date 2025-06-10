@@ -22,7 +22,7 @@ As you will see later in the tutorial, Qdrant supports multivectors and thus lat
 
 With token-level vectors, models like ColBERT can match specific query tokens to the most relevant parts of a document, enabling high-accuracy retrieval through Late Interaction.
 
-In late interaction, each document is converted into multiple token-level vectors instead of a single vector. The query is also tokenized and embedded into various vectors. Then, the query and document vectors are matched using a different similarity function: MaxSim. 
+In late interaction, each document is converted into multiple token-level vectors instead of a single vector. The query is also tokenized and embedded into various vectors. Then, the query and document vectors are matched using a similarity function: MaxSim. You can see how it is calculated [here](https://qdrant.tech/documentation/concepts/vectors/#multivectors). 
 
 In traditional retrieval, the query and document are converted into single embeddings, after which similarity is computed. This is an early interaction because the information is compressed before retrieval.
 
@@ -78,7 +78,7 @@ Let's demonstrate how to effectively use multivectors using [FastEmbed](https://
 Install FastEmbed and Qdrant:
 
 ```bash
-pip install fastembed qdrant-client
+pip install qdrant-client[fastembed]>=1.14.2
 ```
 
 ## Step-by-Step: ColBERT + Qdrant Setup
@@ -165,19 +165,18 @@ results = client.query_points(
     prefetch=models.Prefetch(
         query=dense_query_vector,
         using="dense",
-        limit=100
     ),
     query=colbert_query_vector,
     using="colbert",
-    limit=10,
+    limit=3,
     with_payload=True
 )
 
 ```
 
-- The dense vector retrieves the top 100 candidates quickly.
+- The dense vector retrieves the top candidates quickly.
 - The Colbert multivector reranks them using token-level `MaxSim` with fine-grained precision.
-- Returns the top 10 results. 
+- Returns the top 3 results. 
 
 ## Conclusion
 Multivector search is one of the most powerful features of a vector database when used correctly. With this functionality in Qdrant, you can: 
