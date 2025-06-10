@@ -22,11 +22,11 @@ tags:
 
 ## LegalTech Builder's Guide: Navigating Strategic Decisions with Vector Search
 
-### 1\. Introduction and Context
+### LegalTech is AI on hard-mode
 
 LegalTech applications, more than most other application types, demand accuracy due to complex document structures, high regulatory stakes, and compliance requirements. Traditional keyword searches often fall short, failing to grasp semantic nuances essential for precise legal queries. [Qdrant](https://qdrant.tech/) addresses these challenges by providing robust vector search solutions tailored for the complexities inherent in LegalTech applications.
 
-### 2\. Getting Started: Choosing Your Search Infrastructure
+### Getting Started: Choosing Your Search Infrastructure
 
 #### Deployment Flexibility
 
@@ -40,7 +40,7 @@ We’re very responsive on our [Qdrant Discord channel](https://qdrant.tech/comm
 
 The [Qdrant Web UI](https://qdrant.tech/documentation/web-ui/) provides interactive experimentation, HTTP-based calls, and visual debugging, semantic similarity visualizations, and facilitating rapid prototyping.
 
-### 3\. Achieving High Accuracy
+### Achieving High Accuracy
 
 When high accuracy at scale is paramount, the following Qdrant features can help reach the application’s performance goals.
 
@@ -157,7 +157,7 @@ POST /collections/legal-docs/points/query
 }
 ```
 
-### 4\. Ensuring Scalability and High Performance
+### Ensuring Scalability and High Performance
 
 Scalability and performance become increasingly critical post-accuracy validation. Qdrant’s advanced capabilities address these needs effectively.
 
@@ -173,7 +173,7 @@ Qdrant’s enterprise-ready features, including RBAC, SSO, Database API Keys (do
 
 Qdrant is also SOC II Type II and HIPAA compliant ([link](https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9)).
 
-### 6\. Conclusion
+### Conclusion
 
 Successfully navigating LegalTech challenges requires careful balance across accuracy, compliance, scalability, and cost. Qdrant provides a comprehensive, flexible, and powerful vector search stack, empowering LegalTech to build robust and reliable AI applications. 
 
