@@ -86,6 +86,7 @@ pip install qdrant-client[fastembed]>=1.14.2
 Ensure that Qdrant is running and create a client:
 ```python
 from qdrant_client import QdrantClient, models
+
 # 1. Connect to Qdrant server
 client = QdrantClient("http://localhost:6333")
 ```
