@@ -96,7 +96,8 @@ from fastembed import TextEmbedding, LateInteractionTextEmbedding
 documents = [
     "Artificial intelligence is used in hospitals for cancer diagnosis and treatment.",
     "Self-driving cars use AI to detect obstacles and make driving decisions.",
-    "AI is transforming customer service through chatbots and automation."
+    "AI is transforming customer service through chatbots and automation.",
+    # ...
 ]
 query_text = "How does AI help in medicine?"
 
