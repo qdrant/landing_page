@@ -62,7 +62,7 @@ docker run --rm -it \
 
 Let’s now walk through an example of migrating from Pinecone to Qdrant. Assuming your Pinecone index looks like this:  
 
-![Pinecone Dashboard](/documentation/guides/pinecone-index.png)
+![Pinecone Dashboard showing index details](/documentation/guides/pinecone-index.png)
 
 The information you need from Pinecone is: 
 
