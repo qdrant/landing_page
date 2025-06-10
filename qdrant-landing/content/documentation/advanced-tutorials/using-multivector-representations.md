@@ -103,17 +103,17 @@ documents = [
 ]
 query_text = "How does AI help in medicine?"
 
-dense_doc_vectors = [
+dense_documents = [
     models.Document(text=doc, model="BAAI/bge-small-en")
     for doc in documents
 ]
-dense_query_vector = models.Document(text=query_text, model="BAAI/bge-small-en")
+dense_query = models.Document(text=query_text, model="BAAI/bge-small-en")
 
-colbert_doc_vectors = [
+colbert_documents = [
     models.Document(text=doc, model="colbert-ir/colbertv2.0")
     for doc in documents
 ]
-colbert_query_vector = models.Document(text=query_text, model="colbert-ir/colbertv2.0")
+colbert_query = models.Document(text=query_text, model="colbert-ir/colbertv2.0")
 
 ```
 
@@ -149,8 +149,8 @@ points = [
     models.PointStruct(
         id=i,
         vector={
-            "dense": dense_vectors[i],
-            "colbert": colbert_vectors[i]
+            "dense": dense_documents[i],
+            "colbert": colbert_documents[i]
         },
         payload={"text": documents[i]}
     ) for i in range(len(documents))
@@ -166,10 +166,10 @@ Now let’s run a search:
 results = client.query_points(
     collection_name="dense_multivector_demo",
     prefetch=models.Prefetch(
-        query=dense_query_vector,
+        query=dense_query,
         using="dense",
     ),
-    query=colbert_query_vector,
+    query=colbert_query,
     using="colbert",
     limit=3,
     with_payload=True
