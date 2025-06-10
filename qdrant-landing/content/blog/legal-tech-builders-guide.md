@@ -3,11 +3,11 @@ draft: false
 title: "LegalTech Builder's Guide: Navigating Strategic Decisions with Vector Search"
 short_description: "Balancing precision, performance, and cost for LegalTech."
 description: "This guide explores critical architectural decisions for LegalTech builders using Qdrant, covering accuracy, hybrid search, reranking, score boosting, quantization, and enterprise scaling needs."
-preview_image: /blog/legal-tech-builders-guide/legal-tech-builders-guide-preview-v2.png
-social_preview_image: /blog/legal-tech-builders-guide/legal-tech-builders-guide-preview-v2.png
+preview_image: /blog/legal-tech-builders-guide/legal-tech-builders-guide-preview-v3.png
+social_preview_image: /blog/legal-tech-builders-guide/legal-tech-builders-guide-preview-v3.png
 date: 2025-06-10
 author: "Daniel Azoulai"
-featured: true
+featured: false
 
 tags:
 - LegalTech
@@ -26,27 +26,13 @@ tags:
 
 LegalTech applications, more than most other application types, demand accuracy due to complex document structures, high regulatory stakes, and compliance requirements. Traditional keyword searches often fall short, failing to grasp semantic nuances essential for precise legal queries. [Qdrant](https://qdrant.tech/) addresses these challenges by providing robust vector search solutions tailored for the complexities inherent in LegalTech applications.
 
-### Getting Started: Choosing Your Search Infrastructure
-
-#### Deployment Flexibility
-
-Qdrant supports flexible deployment strategies, including [managed cloud](https://qdrant.tech/cloud/) and [hybrid cloud](https://qdrant.tech/hybrid-cloud/), along with open-source solutions via [Docker](https://qdrant.tech/documentation/quick-start/), enabling easy scaling and secure management of legal data.
-
-#### Support and Ease of Use
-
-We’re very responsive on our [Qdrant Discord channel](https://qdrant.tech/community/), have a free [Qdrant Cloud tier](https://cloud.qdrant.io/signup), are committed to open-source, and have great [documentation](https://qdrant.tech/documentation/). Also, check out embedding workflows via our [FastEmbed integration](https://qdrant.tech/documentation/fastembed/) to simplify the inference process. 
-
-#### Exploratory & Interactive Development
-
-The [Qdrant Web UI](https://qdrant.tech/documentation/web-ui/) provides interactive experimentation, HTTP-based calls, and visual debugging, semantic similarity visualizations, and facilitating rapid prototyping.
-
-### Achieving High Accuracy
+### Methods of achieving high accuracy
 
 When high accuracy at scale is paramount, the following Qdrant features can help reach the application’s performance goals.
 
 #### Filterable Hierarchical Navigable Small World (HNSW)
 
-[Filterable HNSW](https://qdrant.tech/articles/vector-search-filtering/) indexing improves speed, precision, and cost efficiency. The filterable vector index is Qdrant’s solves pre and post-filtering problems by adding specialized links to the search graph. It maintains speed advantages of vector search while allowing for precise filtering, addressing the inefficiencies that can occur when applying filters after the vector search. The [Garden Intel case study](https://qdrant.tech/case-studies/) exemplifies how its used in practice for a LegalTech use case.
+[Filterable HNSW](https://qdrant.tech/articles/vector-search-filtering/) indexing improves speed, precision, and cost efficiency by applying filters before the search. It maintains speed advantages of vector search while allowing for precise filtering, addressing the inefficiencies that can occur when applying filters after the vector search. The [Garden Intel case study](https://qdrant.tech/case-studies/) exemplifies how its used in practice for a LegalTech use case.
 
 ![pre-filtering vectors](/blog/legal-tech-builders-guide/filterable-hnsw.png)
 
@@ -166,6 +152,20 @@ Scalability and performance become increasingly critical post-accuracy validatio
 * [GPU indexing](https://qdrant.tech/blog/qdrant-1.13.x/) accelerates indexing by up to 10x compared to CPU methods, offering vendor-agnostic compatibility with modern GPUs via Vulkan API.
 
 * [Vector quantization](https://qdrant.tech/documentation/guides/quantization/) compresses embeddings, significantly reducing memory and operational costs. It results in lower accuracy, so carefully consider this option. For example, [LawMe](http://qdrant.tech/blog/case-study-lawme), a Qdrant user, uses Binary Quantization to cost-effectively add more data for its AI Legal Assistants. 
+
+### Getting Started: Choosing Your Search Infrastructure
+
+#### Deployment Flexibility
+
+Qdrant supports flexible deployment strategies, including [managed cloud](https://qdrant.tech/cloud/) and [hybrid cloud](https://qdrant.tech/hybrid-cloud/), along with open-source solutions via [Docker](https://qdrant.tech/documentation/quick-start/), enabling easy scaling and secure management of legal data.
+
+#### Support and Ease of Use
+
+We’re very responsive on our [Qdrant Discord channel](https://qdrant.tech/community/), have a free [Qdrant Cloud tier](https://cloud.qdrant.io/signup), are committed to open-source, and have great [documentation](https://qdrant.tech/documentation/). Also, check out embedding workflows via our [FastEmbed integration](https://qdrant.tech/documentation/fastembed/) to simplify the inference process. 
+
+#### Exploratory & Interactive Development
+
+The [Qdrant Web UI](https://qdrant.tech/documentation/web-ui/) provides interactive experimentation, HTTP-based calls, and visual debugging, semantic similarity visualizations, and facilitating rapid prototyping.
 
 #### Enterprise-Grade Capabilities
 
