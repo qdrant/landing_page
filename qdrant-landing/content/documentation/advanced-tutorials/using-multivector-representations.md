@@ -182,7 +182,7 @@ results = client.query_points(
 Multivector search is one of the most powerful features of a vector database when used correctly. With this functionality in Qdrant, you can: 
 - Store token-level embeddings natively. 
 - Disable indexing to reduce overhead. 
-- Run fast and accurate search in one API call. 
+- Run fast retrieval and accurate reranking in one API call. 
 - Efficiently scale late interaction.
 
 Combining FastEmbed and Qdrant leads to a production-ready pipeline for ColBERT-style reranking without wasting resources. You can do this locally or use Qdrant Cloud. Qdrant offers an easy-to-use API to get started with your search engine, so if you’re ready to dive in, sign up for free at [Qdrant Cloud](https://qdrant.tech/cloud/) and start building.
