@@ -46,6 +46,7 @@ For more on this, check out Qdrant's detailed breakdown in our [Scaling PDF Retr
 With Qdrant, you have full control of how indexing works. You can disable indexing by setting the HNSW `m` parameter to `0`:
 ```python
 from qdrant_client import QdrantClient, models
+
 client = QdrantClient("http://localhost:6333")
 collection_name = "dense_multivector_demo"
 client.create_collection(
