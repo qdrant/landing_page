@@ -5,7 +5,7 @@ short_description: "ConvoSearch achieves dramatic revenue lifts for e-commerce b
 description: "Discover how ConvoSearch leveraged Qdrant to significantly improve recommendation accuracy, reduce latency, and boost customer revenue dramatically."
 preview_image: /blog/case-study-convosearch/social_preview_partnership-convosearch.jpg
 social_preview_image: /blog/case-study-convosearch/social_preview_partnership-convosearch.jpg
-date: 2025-05-10T00:00:00Z
+date: 2025-06-10T00:00:00Z
 author: "Daniel Azoulai"
 featured: true
 
@@ -24,7 +24,7 @@ tags:
 
 ### Driving E-commerce Success Through Enhanced Search
 
-E-commerce retailers face intense competition and constant pressure to increase conversion rates. ConvoSearch, an AI-powered recommendation engine tailored for direct-to-consumer (D2C) e-commerce brands, addresses these challenges by delivering hyper-personalized search and recommendations. With customers like The Closet Lover and Uncle Reco achieving dramatic revenue increases, ConvoSearch relies heavily on high-speed vector search to ensure relevance and accuracy at scale.
+E-commerce retailers face intense competition and constant pressure to increase conversion rates. [ConvoSearch](https://convosearch.com/) , an AI-powered recommendation engine tailored for direct-to-consumer (D2C) e-commerce brands, addresses these challenges by delivering hyper-personalized search and recommendations. With customers like The Closet Lover and Uncle Reco achieving dramatic revenue increases, ConvoSearch relies heavily on high-speed vector search to ensure relevance and accuracy at scale.
 
 ### Overcoming Latency and Customization Limits
 
@@ -34,7 +34,7 @@ Shardul Aggarwal, CEO of ConvoSearch, highlighted, “Latency and customizabilit
 
 ### Implementing a Powerful Vector Search Infrastructure
 
-ConvoSearch transitioned to Qdrant for its powerful vector search capabilities, including low-latency queries, expansive metadata storage, and advanced customizability. With Qdrant, queries returned in just 10ms—significantly faster than the previous solution. Qdrant’s robust metadata handling allowed ConvoSearch to incorporate extensive product data and user interactions seamlessly, dramatically improving recommendation accuracy.
+ConvoSearch transitioned to Qdrant for its powerful vector search capabilities, including low-latency queries, expansive metadata storage, and advanced customizability. With Qdrant, queries returned in just 10ms—significantly faster than the previous solution. Qdrant’s [robust metadata handling](https://qdrant.tech/articles/vector-search-filtering/) allowed ConvoSearch to incorporate extensive product data and user interactions seamlessly, dramatically improving recommendation accuracy.
 
 The transition to Qdrant enabled ConvoSearch to host its infrastructure on dedicated servers, leveraging NVIDIA GPUs for computationally intensive re-ranking tasks. This provided significant cost savings, better resource optimization, and exceptional speed.
 
@@ -42,9 +42,9 @@ The transition to Qdrant enabled ConvoSearch to host its infrastructure on dedic
 
 ConvoSearch's approach involves multiple layers. It uses advanced AI models for deep product understanding, extracting semantic context from product data, images, and user interactions. These insights feed into sophisticated re-ranking pipelines, ensuring hyper-personalized and highly relevant search results and recommendations. By continuously optimizing the relevancy of recommendations in real-time, ConvoSearch significantly boosts customer engagement and conversions.
 
-![standard-vs-convosearch](/blog/case-study-standard-vs-convosearch.png)
+![standard-vs-convosearch](/blog/case-study-convosearch/case-study-standard-vs-convosearch.png)
 
-*Caption: Eliminating the no results dilemma: Standard search vs. ConvoSearch*
+*Eliminating the no results dilemma: Standard search vs. ConvoSearch*
 
 ### Immediate and Significant Revenue Impact
 
