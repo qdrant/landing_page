@@ -276,3 +276,10 @@ curl -X POST 'https://node-2.my-cluster.com:6333/collections/test_collection_imp
 
 
 **Important:** We selected `priority=snapshot` to make sure that the snapshot is preferred over the data stored on the node. You can read mode about the priority in the [documentation](/documentation/concepts/snapshots/#snapshot-priority).
+
+Apart from Snapshots, Qdrant also provides the [Qdrant Migration Tool](https://github.com/qdrant/migration) that supports: 
+- Migration between Qdrant Cloud instances. 
+- Migrating vectors from other providers into Qdrant.
+- Migrating from Qdrant OSS to Qdrant Cloud.
+
+Follow our [migration guide](/documentation/guides/migration/) to learn how to effectively use the Qdrant Migration tool. 

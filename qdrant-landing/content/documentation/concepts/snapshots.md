@@ -235,3 +235,10 @@ storage:
       # Can be specified either here or in the `QDRANT__STORAGE__SNAPSHOTS_CONFIG__S3_CONFIG__ENDPOINT_URL` environment variable.
       endpoint_url: your_url_here
 ```
+
+Apart from Snapshots, Qdrant also provides the [Qdrant Migration Tool](https://github.com/qdrant/migration) that supports: 
+- Migration between Qdrant Cloud instances. 
+- Migrating vectors from other providers into Qdrant.
+- Migrating from Qdrant OSS to Qdrant Cloud.
+
+Follow our [migration guide](/documentation/guides/migration/) to learn how to effectively use the Qdrant Migration tool. 
