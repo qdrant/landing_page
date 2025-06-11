@@ -1,7 +1,7 @@
 ---
 draft: false
-title: "How Lawme Scaled AI Legal Assistants and Cut Costs by 75% with Qdrant"
-short_description: "Lawme deployed secure, high-performance vector search with Qdrant to power its AI legal assistants—reducing costs by 75%."
+title: "How Lawme Scaled AI Legal Assistants and Significantly Cut Costs with Qdrant"
+short_description: "Lawme deployed secure, high-performance vector search with Qdrant to power its AI legal assistants—reducing."
 description: "Discover how Lawme accelerated legal automation and improved compliance by moving to Qdrant's hybrid vector search solution."
 preview_image: /blog/case-study-lawme/social_preview_partnership-lawme.jpg
 social_preview_image: /blog/case-study-lawme/social_preview_partnership-lawme.jpg
