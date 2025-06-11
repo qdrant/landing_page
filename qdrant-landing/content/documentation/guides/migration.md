@@ -11,13 +11,6 @@ You can run the migration tool on any machine where you have connectivity to bot
 
 In this tutorial, we will learn how to use the migration tool and walk through a practical example of migrating from other vector databases to Qdrant. 
 
-## What is the Qdrant Migration Tool?
-
-We recently released the **Qdrant Migration Tool (beta)** to make the process of migrating data between vector databases seamless. The tool:
-
-* Streams vectors in batches from a source Qdrant collection to a target Qdrant collection.  
-* Works across cloud regions, providers, or deployment types.  
-* Supports migration of vectors from other providers and other Qdrant instances into Qdrant. 
 
 ## Why use this instead of Qdrant’s Native Snapshotting?
 
