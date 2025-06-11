@@ -18,3 +18,4 @@ partition: qdrant
 | [Backup and Restore Qdrant Collections Using Snapshots](/documentation/database-tutorials/create-snapshot/) |
 | [Load and Search Hugging Face Datasets with Qdrant](/documentation/database-tutorials/huggingface-datasets/)                       | 
 | [Using Qdrant’s Async API for Efficient Python Applications](/documentation/database-tutorials/async-api/)            | 
+| [Qdrant Migration Guide](/documentation/database-tutorials/migration/)            | 
