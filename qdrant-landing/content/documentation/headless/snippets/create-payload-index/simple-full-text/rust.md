@@ -20,6 +20,7 @@ client
                 min_token_len: Some(2),
                 max_token_len: Some(10),
                 lowercase: Some(true),
+                phrase_matching: Some(true),
             })),
         }),
     )
