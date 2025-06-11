@@ -64,7 +64,9 @@ Available tokenizers are:
 * `word` - splits the string into words, separated by spaces, punctuation marks, and special characters.
 * `whitespace` - splits the string into words, separated by spaces.
 * `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
-* `multilingual` - special type of tokenizer based on [charabia](https://github.com/meilisearch/charabia) package. It allows proper tokenization and lemmatization for multiple languages, including those with non-latin alphabets and non-space delimiters. See [charabia documentation](https://github.com/meilisearch/charabia) for full list of supported languages supported normalization options. In the default build configuration, qdrant does not include support for all languages, due to the increasing size of the resulting binary. Chinese, Japanese and Korean languages are not enabled by default, but can be enabled by building qdrant from source with `--features multiling-chinese,multiling-japanese,multiling-korean` flags. 
+* `multilingual` - special type of tokenizer based on [charabia](https://github.com/meilisearch/charabia) package. It allows proper tokenization and lemmatization for multiple languages, including those with non-latin alphabets and non-space delimiters. See [charabia documentation](https://github.com/meilisearch/charabia) for full list of supported languages supported normalization options. In the default build configuration, qdrant does not include support for all languages, due to the increasing size of the resulting binary. Chinese, Japanese and Korean languages are not enabled by default, but can be enabled by building qdrant from source with `--features multiling-chinese,multiling-japanese,multiling-korean` flags.
+
+Additionally, if you want to be able to perform exact phrase matching, you need to set up the index with `phrase_matching` enabled. This is so that the index includes the positions of each token, and considers these during [phrase matching](/documentation/concepts/filtering/#phrase-match).
 
 See [Full Text match](/documentation/concepts/filtering/#full-text-match) for examples of querying with full-text index.
 
@@ -138,7 +140,7 @@ The list will be extended in future versions.
 
 *Available as of v1.11.0*
 
-Many vector search use-cases require multitenancy. In a multi-tenant scenario the collection is expected to contain multiple subsets of data, where each subset belongs to a different tenant. 
+Many vector search use-cases require multitenancy. In a multi-tenant scenario the collection is expected to contain multiple subsets of data, where each subset belongs to a different tenant.
 
 Qdrant supports efficient multi-tenant search by enabling [special configuration](/documentation/guides/multiple-partitions/) vector index, which disables global search and only builds sub-indexes for each tenant.
 
@@ -240,7 +242,7 @@ To configure a sparse vector index, create a collection with the following param
 
 The following parameters may affect performance:
 
-- `on_disk: true` - The index is stored on disk, which lets you save memory. This may slow down search performance. 
+- `on_disk: true` - The index is stored on disk, which lets you save memory. This may slow down search performance.
 - `on_disk: false` - The index is still persisted on disk, but it is also loaded into memory for faster search.
 
 Unlike a dense vector index, a sparse vector index does not require a pre-defined vector size. It automatically adjusts to the size of the vectors added to the collection.
@@ -252,7 +254,7 @@ Unlike a dense vector index, a sparse vector index does not require a pre-define
 *Available as of v1.10.0*
 
 For many search algorithms, it is important to consider how often an item occurs in a collection.
-Intuitively speaking, the less frequently an item appears in a collection, the more important it is in a search. 
+Intuitively speaking, the less frequently an item appears in a collection, the more important it is in a search.
 
 This is also known as the Inverse Document Frequency (IDF). It is used in text search engines to rank search results based on the rarity of a word in a collection.
 

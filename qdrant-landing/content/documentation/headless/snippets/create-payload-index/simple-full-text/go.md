@@ -20,6 +20,7 @@ client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection
 			MinTokenLen: qdrant.PtrOf(uint64(2)),
 			MaxTokenLen: qdrant.PtrOf(uint64(10)),
 			Lowercase:   qdrant.PtrOf(true),
+			PhraseMatching: qdrant.PtrOf(true),
 		}),
 })
 ```

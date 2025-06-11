@@ -12,6 +12,7 @@ client.create_payload_index(
         min_token_len=2,
         max_token_len=15,
         lowercase=True,
+        phrase_matching=True,
     ),
 )
 ```
