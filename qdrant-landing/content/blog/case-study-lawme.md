@@ -69,4 +69,3 @@ The successful adoption of Qdrant has positioned Lawme for substantial growth; i
 In an industry notorious for its demanding compliance, security, and accuracy standards, Lawme’s experience highlights Qdrant’s potential as foundational infrastructure. This case underscores how cutting-edge AI applications in regulated industries can thrive on flexible, cost-efficient, and high-performance platforms.
 
 Lawme.ai is now ideally equipped to continue innovating in legal automation, empowered by infrastructure capable of matching their ambition, growth trajectory, and client expectations. Additionally, Lawme is exploring late interaction models such as ColPali to simplify their data ingestion and processing pipeline further, reinforcing their commitment to continuous improvement and innovation.
-
