@@ -55,10 +55,13 @@ A new strategy introduced in v1.6, is called `best_score`. It is based on the id
 The way it works is that each candidate is measured against every example, then we select the best positive and best negative scores. The final score is chosen with this step formula:
 
 ```rust
+// Sigmoid function to normalize the score between 0 and 1
+let sigmoid = |x| 0.5 * (1.0 + (x / (1.0 + x.abs())));
+
 let score = if best_positive_score > best_negative_score {
-    best_positive_score
+    sigmoid(best_positive_score)
 } else {
-    -(best_negative_score * best_negative_score)
+    -sigmoid(best_negative_score)
 };
 ```
 
