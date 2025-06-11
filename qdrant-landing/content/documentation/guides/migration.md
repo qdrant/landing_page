@@ -5,7 +5,7 @@ weight: 180
 
 # Migration
 
-Migrating data between vector databases, especially across regions, platforms, or deployment types, can be a hassle. That’s where the [Qdrant Migration Tool](https://github.com/qdrant/migration) comes in. The tool supports all your migration needs, including moving from a self-hosted instance to Qdrant Cloud and switching cloud providers. The tool also works with self-hosted OSS Qdrant. You can also use the tool to migrate data between Qdrant instances, which is especially useful when migrating from Qdrant OSS to Qdrant Cloud.
+Migrating data between vector databases, especially across regions, platforms, or deployment types, can be a hassle. That’s where the [Qdrant Migration Tool](https://github.com/qdrant/migration) comes in. It supports a wide range of migration needs, including transferring data between Qdrant instances and migrating from other vector database providers to Qdrant.
 
 You can run the migration tool on any machine where you have connectivity to both the source and the target Qdrant databases. Direct connectivity between both databases is not required. For optimal performance, you should run the tool on a machine with a fast network connection and minimum latency to both databases.
 
