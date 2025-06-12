@@ -158,10 +158,11 @@ form.hs-form {
   }
 
   .legal-consent-container {
-    p {
+    p, & div {
       font-size: pxToRem(12);
       line-height: pxToRem(18);
       color: $neutral-60;
+      margin-bottom: pxToRem(8);
 
       a {
         color: $neutral-80;
@@ -194,6 +195,9 @@ form.hs-form {
           border: 1px solid $neutral-100;
         }
       }
+    }
+    &:last-child {
+        margin-bottom: pxToRem(20);
     }
   }
 }
