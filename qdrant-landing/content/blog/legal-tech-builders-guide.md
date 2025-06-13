@@ -32,8 +32,7 @@ Legal applications often operate in a high-stakes environment where false positi
 
 #### Filterable Hierarchical Navigable Small World (HNSW)
 
-When your dataset contains millions of legal vectors, every unnecessary comparison wastes time and compute. Pre-filtering cuts through the noise by narrowing the search space before retrieval even begins.
-
+When your dataset contains millions (or billions) of legal vectors, every unnecessary comparison wastes time and compute. Pre-filtering cuts through the noise by narrowing the search space before retrieval even begins.
 
 [Filterable HNSW](https://qdrant.tech/articles/vector-search-filtering/) indexing improves speed, precision, and cost efficiency by applying filters before the search. It maintains speed advantages of vector search while allowing for precise filtering, addressing the inefficiencies that can occur when applying filters after the vector search. The [Garden Intel case study](https://qdrant.tech/case-studies/) exemplifies how its used in practice for a LegalTech use case.
 
@@ -43,7 +42,9 @@ When your dataset contains millions of legal vectors, every unnecessary comparis
 
 #### Blend structured filters with semantic search for better case insights
 
-Legal documents require a dual lens: exact matches for citations or statute references, and semantic understanding of legal reasoning. Hybrid search brings both into one query path. This is ideal for legal documents where exact citations and nuanced conceptual similarities coexist. [Minicoil](https://qdrant.tech/articles/minicoil/), a sparse neural retriever, enriches lexical accuracy by understanding contextual token meanings. For instance, [Aracor](https://qdrant.tech/blog/case-study-aracor/) leverages hybrid search to precisely retrieve relevant clauses across extensive legal document repositories. Below is a pseudocode example:
+Legal documents require a dual lens: exact matches for citations or statute references, and semantic understanding of legal reasoning. Hybrid search brings both into one query path. This is ideal for legal documents where exact citations and nuanced conceptual similarities coexist. 
+
+[Minicoil](https://qdrant.tech/articles/minicoil/), a sparse neural retriever, enriches lexical accuracy by understanding contextual token meanings. For instance, [Aracor](https://qdrant.tech/blog/case-study-aracor/) leverages hybrid search to precisely retrieve relevant clauses across extensive legal document repositories. Below is a pseudocode example:
 
 ```json
 POST /collections/{collection_name}/points/query
@@ -82,15 +83,15 @@ POST /collections/{collection_name}/points/query
 
 Leveraging Late-Interaction Models for Rich Documents
 
-Traditional pipelines lose structure and layout fidelity during OCR and preprocessing—both essential for interpreting complex legal documents. Late-interaction models retain these elements and boost retrieval depth.
+Traditional OCR pipelines can add complexity and create accuracy challenges. But late-interaction models simplify the ingestion pipeline by running at the reranking stage.
 
 Models like ([ColPali](https://qdrant.tech/blog/qdrant-colpali/) and ColQwen) bypass traditional OCR pipelines, directly processing images of complex documents. They enhance accuracy by maintaining original layouts and contextual integrity, simplifying your retrieval pipelines. The tradeoff is a heavier application, but these challenges can be addressed with further [optimization](https://qdrant.tech/documentation/guides/optimize/)*.*
 
 #### Enabling highly granular accuracy for complex legal searches
 
-Legal relevance lives at the token level. Distinguishing between, for example, “shall” and “may”, becomes important.
+Legal relevance is critical down to the token level. Distinguishing between, for example, “shall” and “may”, becomes important.
 
-Utilize [ColBERT](https://qdrant.tech/articles/late-interaction-models/) for high-accuracy reranking, allowing highly granular, token-level similarity estimation with high accuracy results, which is critical for nuanced legal searches. It is also faster than traditional cross-encoders for reranking. Since Qdrant supports multivectors natively, this is easy to integrate into your search application.  
+Utilize [ColBERT](https://qdrant.tech/articles/late-interaction-models/) for high-accuracy reranking, allowing highly granular, token-level similarity estimation with high accuracy results. It is also faster than traditional cross-encoders for reranking. Since Qdrant supports multivectors natively, this is easy to integrate into your search application.  
 
 ```python
 # Step 1: Retrieve hybrid results using dense and sparse queries
@@ -122,7 +123,7 @@ final_results = reranked[:5]
 
 #### Prioritize the legal logic that matters most in search rankings
 
-Not every clause is created equal. Legal professionals often care more about specific provisions, jurisdictions, or case types.
+Not every clause is created equal. Legal professionals often care more about specific provisions, jurisdictions, or case types, for example.
 
 Qdrant's [Score Boosting Reranker](https://qdrant.tech/documentation/concepts/hybrid-queries/#score-boosting) lets you integrate domain-specific logic (e.g., jurisdiction or recent cases) directly into search rankings, ensuring results align precisely with legal business rules.
 
@@ -154,7 +155,7 @@ POST /collections/legal-docs/points/query
 
 ### Ensuring Scalability and High Performance
 
-Even the most accurate system can fail if it can’t handle load or stay cost-effective. Once your LegalTech product reaches real usage, indexing speed and operational efficiency start to matter just as much as relevance. Qdrant’s advanced capabilities address these needs effectively.
+Even the most accurate system can fail if it can’t handle load or stay cost-effective. Once your LegalTech product reaches significant usage, indexing speed and operational efficiency start to matter just as much as relevance. Qdrant’s capabilities can also address the challenges.
 
 #### Efficient Indexing and Retrieval Techniques 
 
@@ -172,7 +173,7 @@ No matter your stage—prototype or production—your stack will have to meet bo
 
 #### Build and iterate quickly with responsive support and built-in tooling
 
-Legal AI projects can get stuck in tooling quicksand. Qdrant’s open-source commitment, FastEmbed integration, and responsive team help unblock your path to value.
+Complex Legal AI applications may need extra support. Qdrant’s open-source commitment, FastEmbed integration, and responsive team help unblock your path to value. 
 
 We’re very responsive on our [Qdrant Discord channel](https://qdrant.tech/community/), have a free [Qdrant Cloud tier](https://cloud.qdrant.io/signup), are committed to open-source, and have great [documentation](https://qdrant.tech/documentation/). Also, check out embedding workflows via our [FastEmbed integration](https://qdrant.tech/documentation/fastembed/) to simplify the inference process. 
 
@@ -184,7 +185,7 @@ Legal search often requires iteration—tweaking prompts, reranking weights, or 
 
 From law firms to global SaaS providers, enterprise LegalTech builders need auditability, control, and compliance. Qdrant comes equipped with the features that keep security teams happy.
 
-Qdrant’s enterprise-ready features, including RBAC, SSO, Database API Keys (down to the vector level), comprehensive monitoring, and observability, ensure secure, compliant, and manageable deployments at scale. 
+Qdrant’s enterprise-ready features, including RBAC (including on Cloud), SSO, Database API Keys (down to the vector level), comprehensive monitoring, and observability, ensure secure, compliant, and manageable deployments at scale. 
 
 Qdrant is also SOC II Type II and HIPAA compliant ([link](https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9)).
 
