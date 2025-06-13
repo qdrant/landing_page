@@ -119,7 +119,7 @@ You can use Gemini Embedding Models with [Binary Quantization](/articles/binary-
 
 In this table, you can see the results of the search with the `models/embedding-001` model with Binary Quantization in comparison with the original model:
 
-At an oversampling of 3 and a limit of 100, we've a 95% recall against the exact nearest neighbors with rescore enabled.
+At an oversampling of 3 and a limit of 100, we've a 95% recall against the exact nearest neighbors with rescore enabled. The way to read the table below is to multiply the limit with the oversampling rate. If for instance, the limit is a 100 and the oversampling rate is 3, a total of 300 documents will be fetched. They will then be rescored and the top 100 will be accepted into the context. With this configuration, a 95.6\% recall is achieved. 
 
 | Oversampling |         | 1        | 1        | 2        | 2        | 3        | 3        |
 |--------------|---------|----------|----------|----------|----------|----------|----------|
