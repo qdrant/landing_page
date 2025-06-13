@@ -140,6 +140,14 @@ We have a legitimate interest in using sufficient storage and delivery capacity 
 
 Legal basis of the transfer to a country outside the EEA are standard contractual clauses. The security of the data transferred to the third country (i.e. a country outside the EEA) is guaranteed by standard data protection clauses (Art. 46 para. 2 lit. c GDPR) adopted by the EU Commission in accordance with the examination procedure under Art. 93 para. 2 of the GDPR, which we have agreed to with the provider.
 
+#### 3.3.1. Cloud Providers:
+
+Depending on the operating environment of our solution, we store information about the cloud provider used in the log files:
+
+- **Managed Cloud:** If our solution is operated in a cloud environment managed by us, we store which cloud provider (e.g., AWS, GCP, Azure) the cluster is running on.
+- **Hybrid Cloud:** In a hybrid cloud environment on the customer's infrastructure, we also store which cloud provider is detected (e.g., AWS, GCP, Azure, DigitalOcean, and others).
+- **Private Cloud:** If the operation takes place in a customer's private cloud, we do not store any data in this context regarding the cloud provider.
+
 ### **3.4. Contact form**
 
 When contacting us via the contact forms on our website, we store the data requested there and the content of the message.  
@@ -282,7 +290,7 @@ When the Qdrant Cloud Service is called up, so-called log files are stored on th
 * Customer ID, Region  
 * Account created/deleted  
 * Cluster status (created/deleted/amount of cluster)  
-* Cloud provider (AWS, GCP, Azure, private)  
+* Cloud provider
 * Authentication type  
 * Payment information ID  
 * RAM (booked amount and its changes, paid or free)  
