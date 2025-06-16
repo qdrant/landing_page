@@ -35,7 +35,7 @@ collection_name = "collection_name"
 rm = QdrantRM(
     qdrant_collection_name=collection_name, 
     qdrant_client=client, 
-    vector_name="dense",                 # <-- MATCHES your vector field in upsert
+    vector_name="dense",                 # <-- MATCHES your vector name
     document_field="passage_text",        # <-- MATCHES your payload field
     k=20)
 
