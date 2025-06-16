@@ -29,7 +29,7 @@ The easiest way to run the qdrant migration tool is as a container. You can run 
 
 Access the [Qdrant Migration Tool](https://github.com/qdrant/migration) 
 
-[Check out a tutorial](https://qdrant.tech/documentation/guides/migration/)
+[Check out a tutorial](https://qdrant.tech/documentation/database-tutorials/migration/)
 
 Watch this video to learn how to use it for moving data between Qdrant instances:
 
