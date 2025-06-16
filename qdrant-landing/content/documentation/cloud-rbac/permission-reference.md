@@ -36,9 +36,9 @@ Permissions for API Keys, backups, clusters, and backup schedules.
 ### **API Keys**
 | Permission | Description |
 |------------|------------|
-| `read:api_keys` | View Database API Keys for managed clusters. |
-| `write:api_keys` | Create new Database API Keys. |
-| `delete:api_keys` | Remove Database API Keys. |
+| `read:api_keys` | View Database API Keys for Managed Cloud clusters. |
+| `write:api_keys` | Create new Database API Keys for Managed Cloud clusters. |
+| `delete:api_keys` | Remove Database API Keys for Managed Cloud clusters. |
 
 ### **Backups**
 | Permission | Description |
@@ -51,8 +51,8 @@ Permissions for API Keys, backups, clusters, and backup schedules.
 | Permission | Description |
 |------------|------------|
 | `read:clusters` | View cluster details. |
-| `write:clusters` | Modify cluster settings in the Cluster details page. |
-| `delete:clusters` | Delete a cluster from the **Danger Zone** in the Clusters page. |
+| `write:clusters` | Modify cluster settings. |
+| `delete:clusters` | Delete clusters. |
 
 ### **Backup Schedules**
 | Permission | Description |
@@ -64,13 +64,13 @@ Permissions for API Keys, backups, clusters, and backup schedules.
 ---
 
 ## **Hybrid Cloud**
-Permissions for hybrid cloud environments.
+Permissions for Hybrid Cloud environments.
 
 | Permission | Description |
 |------------|------------|
-| `read:hybrid_cloud_environments` | View hybrid cloud details. |
-| `write:hybrid_cloud_environments` | Modify hybrid cloud settings. |
-| `delete:hybrid_cloud_environments` | Remove a hybrid cloud cluster. |
+| `read:hybrid_cloud_environments` | View Hybrid Cloud environment details. |
+| `write:hybrid_cloud_environments` | Modify Hybrid Cloud environment settings. |
+| `delete:hybrid_cloud_environments` | Delete Hybrid Cloud environments. |
 
 ---
 
