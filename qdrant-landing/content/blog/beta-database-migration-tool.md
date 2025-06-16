@@ -6,7 +6,7 @@ description: "Migrate data across clusters, regions, from open source to cloud, 
 preview_image: /blog/beta-database-migration-tool/tool-beta.jpg
 social_preview_image: /blog/beta-database-migration-tool/tool-beta.jpg
 title_preview_image: /blog/beta-database-migration-tool/tool-beta.jpg
-date: 2025-06-11T00:02:00Z # year, month, date
+date: 2025-06-16T00:02:00Z # year, month, date
 author: Qdrant
 featured: false
 tags:
