@@ -17,23 +17,29 @@ Qdrant can be used as a retrieval mechanism in the DSPy flow.
 
 For the Qdrant retrieval integration, include `dspy-ai` with the `qdrant` extra:
 ```bash
-pip install dspy-ai dspy-qdrant
+pip install dspy-ai dspy-qdrant fastembed
 ```
 
 ## Usage
 
 We can configure `DSPy` settings to use the Qdrant retriever model like so:
 ```python
+import os
 import dspy
 from dspy_qdrant import QdrantRM
-
 from qdrant_client import QdrantClient
 
-turbo = dspy.OpenAI(model="gpt-3.5-turbo")
-qdrant_client = QdrantClient()  # Defaults to a local instance at http://localhost:6333/
-qdrant_retriever_model = QdrantRM("collection-name", qdrant_client, k=3)
+lm = dspy.LM("gpt-4o-mini", max_tokens=512,api_key=os.environ.get("OPENAI_API_KEY"))
+client = QdrantClient(url=os.environ.get("QDRANT_CLOUD_URL"), api_key=os.environ.get("QDRANT_API_KEY"))
+collection_name = "collection_name"
+rm = QdrantRM(
+    qdrant_collection_name=collection_name, 
+    qdrant_client=client, 
+    vector_name="dense",                 # <-- MATCHES your vector name
+    document_field="passage_text",        # <-- MATCHES your payload field
+    k=20)
 
-dspy.settings.configure(lm=turbo, rm=qdrant_retriever_model)
+dspy.settings.configure(lm=lm, rm=rm)
 ```
 Using the retriever is pretty simple. The `dspy.Retrieve(k)` module will search for the top-k passages that match a given query.
 
