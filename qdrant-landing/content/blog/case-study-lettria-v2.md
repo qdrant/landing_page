@@ -20,7 +20,7 @@ tags:
 - case study
 ---
 
-# Scaled Vector \+ Graph Retrieval: How Lettria Unlocked 20 %+ Accuracy Gains with Qdrant \+ Neo4j
+# Scaled Vector & Graph Retrieval: How Lettria Unlocked 20 %+ Accuracy Gains with Qdrant & Neo4j
 
 ![Lettria increases accuracy by 20% by blending Qdrant's vector search and Neo4j's knowledge graphs](/blog/case-study-lettria/lettria-bento-dark.jpg)
 
@@ -36,20 +36,11 @@ Enterprises in regulated sectors deal with extensive, complex documentation feat
 
 ## Why Qdrant stood out as a vector database 
 
-One component of the build was the vector database. Lettria evaluated Weaviate, Milvus, and Qdrant based on:
+One component of the build was the vector database. Lettria evaluated Weaviate, Milvus, and Qdrant based on their hybrid search capability, deployment simplicity (Docker, Kubernetes), and search performance (latency, RAM usage).
 
-* Hybrid search capability  
-* Deployment simplicity (Docker, Kubernetes)  
-* Search performance (latency, RAM usage)
+Ultimately, Lettria chose Qdrant. First, it had a simple Kubernetes deployment, superior latency and lower memory footprint in competitive benchmarks. Additionally, there were unique features, such as the grouping API and detailed payload indexing, that made Qdrant stand out. 
 
-Ultimately, Lettria selected Qdrant due to:
-
-* Ease of Kubernetes deployment  
-* Superior latency and lower memory footprint in competitive benchmarks  
-* Unique features, such as the Grouping API   
-* Detailed payload indexing
-
-## Building the document understanding and extraction pipeline:
+## Building the document understanding and extraction pipeline
 
 The core of Lettria's high accuracy solution lies in merging vector embeddings (stored in Qdrant) with graph-based semantic understanding (Neo4j). Here’s an overview of their pipeline:
 
@@ -73,7 +64,7 @@ To ensure atomicity between Qdrant (non-transactional) and Neo4j (transactional)
 
 The challenge arises in concurrent environments where multiple ingest processes may interact with the same data points. To handle this, Lettria implemented a **conflict resolution function** that compares three states for each point: the original snapshot, the changes proposed by the current process, and the current state in Qdrant. If a conflict is detected—such as another process modifying the point in the meantime—the resolver merges changes intelligently to preserve valid updates while rolling back only the failed batch. This strategy, combined with small batch sizes, minimizes the risk window and ensures high reliability even at scale.
 
-*Pseudocode example: ingest\_graph\_attempt*
+*Pseudocode example: ingest_graph_attempt*
 
 ```py
 def ingest_graph_attempt(graph_data, qdrant, neo4j):
@@ -110,11 +101,11 @@ def ingest_graph_attempt(graph_data, qdrant, neo4j):
 
 To ensure consistent query behavior and indexing performance across both Qdrant and Neo4j, Lettria adopted a **payload flattening strategy**. While Qdrant supports nested JSON-like structures in its payloads, Neo4j requires flat key–value pairs for properties on nodes and relationships. This structural mismatch made it difficult to apply consistent filters or indexing logic across both databases. Lettria resolved this by flattening all nested fields during ingestion—for example, converting `{ "author": { "name": "Jane" } }` to `{ "author_name": "Jane" }`. This approach allowed seamless reuse of the same metadata structure in Neo4j, simplifying hybrid search and enforcing schema compatibility across their dual-database architecture.
 
-## Scaling to \>100M vectors at \<200ms P95 retrieval
+## Scaling to >100M vectors at \<200ms P95 retrieval
 
-Lettria scaled its Qdrant deployment to over 100 million vectors while maintaining 95th percentile retrieval latency under 200ms, even in production-like load tests. This performance was made possible through a combination of careful payload index design and disk-based cache collections for infrequently accessed vectors. Initially, lack of indexing led to full collection scans, which significantly degraded performance. After adding indexes on frequently filtered payload fields (e.g. doc\_type, client\_id, chunk\_source), latency dropped sharply and stabilized. To further reduce memory pressure, Lettria separated hot and cold data—keeping active chunks in memory and offloading less-used vectors to on-disk storage, allowing for finer memory tuning without sacrificing accuracy. This approach provided both speed and cost control at scale, supporting hybrid retrieval across dense and sparse modalities without excessive resource overhead.
+Lettria scaled its Qdrant deployment to over 100 million vectors while maintaining 95th percentile retrieval latency under 200ms, even in production-like load tests. This performance was made possible through a combination of careful payload index design and disk-based cache collections for infrequently accessed vectors. Initially, lack of indexing led to full collection scans, which significantly degraded performance. After adding indexes on frequently filtered payload fields (e.g. doc_type, client_id, chunk_source), latency dropped sharply and stabilized. To further reduce memory pressure, Lettria separated hot and cold data—keeping active chunks in memory and offloading less-used vectors to on-disk storage, allowing for finer memory tuning without sacrificing accuracy. This approach provided both speed and cost control at scale, supporting hybrid retrieval across dense and sparse modalities without excessive resource overhead.
 
-## Outcome: \>20% accuracy improvement 
+## Outcome: >20% accuracy improvement 
 
 Lettria's graph-enhanced RAG system achieved a substantial accuracy improvement over pure vector solutions:
 
@@ -122,7 +113,7 @@ Lettria's graph-enhanced RAG system achieved a substantial accuracy improvement 
 * Enhanced explainability and lineage tracking from document ingestion to query response.  
 * Robust, audit-grade accuracy accepted by clients with manageable latency (1-2 seconds per query).
 
-## Beating traditional RAG
+## Ultimately, Lettria beat the accuracy of traditional RAG
 
 Being the first production-ready GraphRAG platform has helped Lettria stand out from competition vs. traditional RAG players. Creating agents has become easier with GraphRAG, helping Lettria build new document intelligence features quickly (e.g. gap analysis between multiple documents). This has led to them securing high-value contracts in sectors demanding high accuracy, and increasing customer trust due to transparent, auditable outputs.
 
@@ -130,7 +121,7 @@ Being the first production-ready GraphRAG platform has helped Lettria stand out 
 
 *— Jérémie Basso, Engineering Lead, Lettria*
 
-## Appendix and further reading
+## Further reading
 
 ### Ingest transaction mechanism
 
@@ -139,19 +130,19 @@ To prevent this, Lettria uses a transaction mechanism where the Neo4J commit act
 
 #### Transaction mechanism
 
-The process, outlined in the ingest\_graph\_attempt pseudocode, can be summarized as follows:
+The process, outlined in the ingest_graph_attempt pseudocode, can be summarized as follows:
 
 1. **Neo4J Transaction & Tentative Write**:  
-   1. An explicit Neo4J transaction begins (neo4j.begin\_transaction()).  
+   1. An explicit Neo4J transaction begins (neo4j.begin_transaction()).  
    2. Data is prepared and upserted into Neo4J within this transaction (neo4j.upsert(points)). These changes are not yet permanent.  
 2. **Qdrant Snapshot & Update**:  
    1. Before altering Qdrant, a snapshot of the relevant points' current state is taken (qdrant.get(...)).  
    2. Qdrant is then updated with the new data (qdrant.upsert(points)).  
 3. **Neo4J Commit (Decisive Point)**:  
    1. The system attempts to commit the Neo4J transaction (neo4j.commit()).  
-4. **On Success (TRANSACTION\_SUCCESS):** Neo4J changes are permanent. Qdrant was already updated, so both systems are consistent
+4. **On Success (TRANSACTION_SUCCESS):** Neo4J changes are permanent. Qdrant was already updated, so both systems are consistent
 
-5. **On Failure (TRANSACTION\_ROLLBACK)**:  
+5. **On Failure (TRANSACTION_ROLLBACK)**:  
    1. Neo4J automatically rolls back its pending changes.  
    2. To restore consistency, Qdrant is rolled back.
 
@@ -159,11 +150,11 @@ The process, outlined in the ingest\_graph\_attempt pseudocode, can be summarize
 
 When a Neo4j commit fails, and they need to roll back Qdrant, a simple revert to the snapshot might not be sufficient or correct due to concurrent operations. Another ingestion process might have successfully updated some of the same points in Qdrant after a current (failing) transaction took its snapshot but before the current transaction attempts to roll back.
 
-The resolve\_conflicts function aims to make an intelligent decision about what each point's state in Qdrant should be after the rollback. It considers three states for each point involved:
+The resolve_conflicts function aims to make an intelligent decision about what each point's state in Qdrant should be after the rollback. It considers three states for each point involved:
 
 1. snapshot: state of the point before the current update  
 2. points: updates of the current state  
-3. current\_points: current state of the points in qdrant
+3. current_points: current state of the points in qdrant
 
 Here is a minimal example:
 
@@ -229,12 +220,12 @@ def ingest_graph_attempt(graph_data, qdrant, neo4j):
 
 #### Known limits
 
-Lettria might revert changes from another transaction if they are strictly identical to the current one. There's a very brief window of vulnerability during the Qdrant rollback process. It occurs after Lettria has read the current qdrant points (to decide how to roll back) but before they execute the actual rollback upsert (qdrant.upsert(resolved\_snapshot)). If another concurrent transaction successfully updates a point in Qdrant within this tiny window, their subsequent rollback operation might unintentionally overwrite that very recent, legitimate update.
+Lettria might revert changes from another transaction if they are strictly identical to the current one. There's a very brief window of vulnerability during the Qdrant rollback process. It occurs after Lettria has read the current qdrant points (to decide how to roll back) but before they execute the actual rollback upsert (qdrant.upsert(resolved_snapshot)). If another concurrent transaction successfully updates a point in Qdrant within this tiny window, their subsequent rollback operation might unintentionally overwrite that very recent, legitimate update.
 
 Mitigation – Small, Iterative Batches:
 
 - They mitigate this risk by processing data ingestion (and any potential rollbacks) in small, iterative batches.  
-- By doing so, the time duration between fetching current\_qdrant\_point and performing the rollback upsert for any given point is minimized.  
+- By doing so, the time duration between fetching current_qdrant_point and performing the rollback upsert for any given point is minimized.  
 - A shorter window significantly reduces the probability that a conflicting concurrent update to the same points will occur precisely within that critical, narrow timeframe. While not a perfect guarantee, it makes such an event statistically less likely.
 
 #### Payload Flattening
@@ -336,7 +327,7 @@ An example two column document with title, text, table, image and footnotes.
 
 They isolate components on the page.
 
-![Layout] (/blog/case-study-lettria/layout.png)
+![Layout](/blog/case-study-lettria/layout.png)
 
 #### Extraction and structuration
 
@@ -352,4 +343,4 @@ They remove some components (footnotes, pages, etc.) and clean the content (fix 
 
 ### Inference Process Overview
 
-![Inference] (/blog/case-study-lettria/inference.png)
+![Inference](/blog/case-study-lettria/inference.png)
