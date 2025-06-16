@@ -36,7 +36,7 @@ rm = QdrantRM(
     qdrant_collection_name=collection_name, 
     qdrant_client=client, 
     vector_name="dense",                 # <-- MATCHES your vector field in upsert
-    document_field="passage_text",        # <-- MATCHES your payload field in upsert
+    document_field="passage_text",        # <-- MATCHES your payload field
     k=20)
 
 dspy.settings.configure(lm=lm, rm=rm)
