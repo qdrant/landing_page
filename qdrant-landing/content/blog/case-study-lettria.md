@@ -22,6 +22,8 @@ tags:
 
 # Scaled Vector \+ Graph Retrieval: How Lettria Unlocked 20 %+ Accuracy Gains with Qdrant \+ Neo4j
 
+![Lettria increases accuracy by 20% by blending Qdrant's vector search and Neo4j's knowledge graphs](/blog/case-study-lettria/lettria-bento-dark.jpg)
+
 ## Why Complex Document Intelligence Needs More Than Just Vector Search
 
 In regulated industries—where precision, auditability, and accuracy are paramount—leveraging Large Language Models (LLMs) effectively often requires going beyond traditional Retrieval-Augmented Generation (RAG). [Lettria](https://www.lettria.com/), a leader in document intelligence platforms, recognized that complex, highly regulated data sets like pharmaceutical research, legal compliance, and aerospace documentation demanded superior accuracy and more explainable outputs than vector-only RAG systems could provide. To achieve the expected level of performance, the team has focused its effort on building a very robust document parsing engine designed for complex pdf (with tables, diagrams, charts etc.), an automatic ontology builder and an ingestion pipeline covering vectors and graph enrichment
@@ -53,7 +55,7 @@ The core of Lettria's high accuracy solution lies in merging vector embeddings (
 
 1. **Ingestion**: Complex PDFs are parsed, and data is transformed into dual representations: **dense vector embeddings** and **semantic triples** (stored in Neo4j and indexed in Qdrant). As shown in the diagram below, the ingestion pipeline extracts layout and content structure, splits text into meaningful chunks, and routes them into both vector and graph representations. Each chunk maintains **lineage metadata**, linking it back to its exact position in the source document—critical for traceability.
 
-![][image1]
+(/blog/case-study-lettria/ingestion-tracking-mechanism.png)
 
 *Diagram: Ingestion Transaction Mechanism*
 
@@ -328,26 +330,26 @@ POST /collections/{collection_name}/points/scroll
 
 An example two column document with title, text, table, image and footnotes.
 
-![][image2]
+![Source Document](/blog/case-study-lettria/source-document.png)
 
 #### Layout
 
 They isolate components on the page.
 
-![][image3]
+![Layout] (/blog/case-study-lettria/layout.png)
 
 #### Extraction and structuration
 
 They extract content of each component and structure the content based on the computed reading order.
 
-![][image4]
+![Enrichment](/blog/case-study-lettria/enrichment.png)
 
 #### Enrichment
 
 They remove some components (footnotes, pages, etc.) and clean the content (fix numbered and bullet point lists, merge multipage tables, textualize images etc.)
 
-![][image5]
+![Extraction](/blog/case-study-lettria/extraction.png)
 
 ### Inference Process Overview
 
-![][image6]
+![Inference] (/blog/case-study-lettria/inference.png)
