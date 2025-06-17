@@ -185,7 +185,7 @@ resolved = {
 }
 ```
 
-Pseudocode
+Pseudocode example:
 
 ```py
 def ingest_graph_attempt(graph_data, qdrant, neo4j):
