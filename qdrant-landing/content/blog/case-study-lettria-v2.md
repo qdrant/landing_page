@@ -26,7 +26,7 @@ tags:
 
 ## Why Complex Document Intelligence Needs More Than Just Vector Search
 
-In regulated industries—where precision, auditability, and accuracy are paramount—leveraging Large Language Models (LLMs) effectively often requires going beyond traditional Retrieval-Augmented Generation (RAG). [Lettria](https://www.lettria.com/), a leader in document intelligence platforms, recognized that complex, highly regulated data sets like pharmaceutical research, legal compliance, and aerospace documentation demanded superior accuracy and more explainable outputs than vector-only RAG systems could provide. To achieve the expected level of performance, the team has focused its effort on building a very robust document parsing engine designed for complex pdf (with tables, diagrams, charts etc.), an automatic ontology builder and an ingestion pipeline covering vectors and graph enrichment
+In regulated industries where precision, auditability, and accuracy are paramount, leveraging Large Language Models (LLMs) effectively often requires going beyond traditional Retrieval-Augmented Generation (RAG). [Lettria](https://www.lettria.com/), a leader in document intelligence platforms, recognized that complex, highly regulated data sets like pharmaceutical research, legal compliance, and aerospace documentation demanded superior accuracy and more explainable outputs than vector-only RAG systems could provide. To achieve the expected level of performance, the team has focused its effort on building a very robust document parsing engine designed for complex pdf (with tables, diagrams, charts etc.), an automatic ontology builder and an ingestion pipeline covering vectors and graph enrichment
 
 By integrating vector search capabilities from Qdrant with knowledge graphs powered by Neo4j, Lettria created a hybrid graph RAG system that significantly boosted accuracy and enriched the context provided to LLMs. This case study explores Lettria's innovative solution, technical challenges overcome, and measurable results achieved.
 
@@ -38,7 +38,7 @@ Enterprises in regulated sectors deal with extensive, complex documentation feat
 
 One component of the build was the vector database. Lettria evaluated Weaviate, Milvus, and Qdrant based on their hybrid search capability, deployment simplicity (Docker, Kubernetes), and search performance (latency, RAM usage).
 
-Ultimately, Lettria chose Qdrant. First, it had a simple Kubernetes deployment, superior latency and lower memory footprint in competitive benchmarks. Additionally, there were unique features, such as the grouping API and detailed payload indexing, that made Qdrant stand out. 
+Ultimately, Lettria chose Qdrant. First, it had a simple Kubernetes deployment, superior latency and lower memory footprint in competitive benchmarks. Additionally, there were unique features, such as the grouping API and detailed [payload indexing](https://qdrant.tech/documentation/concepts/payload/), that made Qdrant stand out. 
 
 ## Building the document understanding and extraction pipeline
 
@@ -56,11 +56,11 @@ The core of Lettria's high accuracy solution lies in merging vector embeddings (
 
 ## The ingest transaction mechanism: keeping Neo4j and Qdrant in sync
 
-Keeping Qdrant and Neo4j in sync is challenging, as they take fundamentally different approaches to data operations. Neo4j is a transactional database, meaning it can group changes into atomic units that are either fully committed or entirely rolled back. In contrast, Qdrant is a vector search engine designed to processes each update immediately without transactional semantics. This distinction is important: transactional support is typical for databases, while search engines like Qdrant prioritize low-latency ingestion and retrieval over rollback capabilities.
+Keeping Qdrant and Neo4j in sync is challenging, as they take fundamentally different approaches to data operations. Neo4j is a transactional database, meaning it can group changes into atomic units that are either fully committed or entirely rolled back. In contrast, [Qdrant](https://qdrant.tech/qdrant-vector-database/) is a vector search engine designed to processes each update immediately without transactional semantics. This distinction is important: transactional support is typical for databases, while search engines like Qdrant prioritize low-latency ingestion and retrieval over rollback capabilities.
 
 This fundamental mismatch creates complexity. So if a transaction in Neo4j fails after data has already been written to Qdrant, the two databases can quickly fall out of alignment. 
 
-To ensure atomicity between Qdrant (non-transactional) and Neo4j (transactional), Lettria built a custom ingest mechanism that guarantees consistent writes across both systems. The process begins by preparing the write as a transactional batch in Neo4j—if Neo4j accepts the changes, they’re committed and saved. Before updating Qdrant, a **snapshot** of each affected point is taken. Then, Qdrant is updated optimistically. If the Neo4j commit succeeds, the operation completes. But if it fails, Lettria’s system uses the earlier snapshot to **rollback Qdrant** to its previous state—ensuring no partial writes remain in either database.
+To ensure atomicity between Qdrant (non-transactional) and Neo4j (transactional), Lettria built a custom ingest mechanism that guarantees consistent writes across both systems. The process begins by preparing the write as a transactional batch in Neo4j—if Neo4j accepts the changes, they’re committed and saved. Before updating Qdrant, a **snapshot** of each affected point is taken. Then, Qdrant is updated optimistically. If the Neo4j commit succeeds, the operation completes. But if it fails, Lettria’s system uses the earlier snapshot to **rollback Qdrant** to its previous state, ensuring no partial writes remain in either database.
 
 The challenge arises in concurrent environments where multiple ingest processes may interact with the same data points. To handle this, Lettria implemented a **conflict resolution function** that compares three states for each point: the original snapshot, the changes proposed by the current process, and the current state in Qdrant. If a conflict is detected—such as another process modifying the point in the meantime—the resolver merges changes intelligently to preserve valid updates while rolling back only the failed batch. This strategy, combined with small batch sizes, minimizes the risk window and ensures high reliability even at scale.
 
@@ -185,7 +185,7 @@ resolved = {
 }
 ```
 
-Pseudocode
+Pseudocode example:
 
 ```py
 def ingest_graph_attempt(graph_data, qdrant, neo4j):
