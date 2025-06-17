@@ -3,7 +3,7 @@ draft: false
 title: "Qdrant Achieves SOC 2 Type II and HIPAA Certifications"
 short_description: "Qdrant achieves SOC 2 Type II and HIPAA certifications."
 description: "Qdrant achieves SOC 2 Type II and HIPAA certifications."
-preview_image: /blog/soc-2-type-II-hipaa/social-preview.jpg
+preview_image: /blog/soc-2-type-II-hipaa/socii-type-2-hipaa.png
 social_preview_image: /blog/soc-2-type-II-hipaa/socii-type-2-hipaa.png
 date: 2025-06-10T00:00:00Z
 author: "Daniel Azoulai"
