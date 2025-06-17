@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "Scaled Vector & Graph Retrieval: How Lettria Unlocked 20% Accuracy Gains with Qdrant and Neo4j"
+title: "GraphRAG: How Lettria Unlocked 20% Accuracy Gains with Qdrant and Neo4j"
 short_description: "Lettria sees 20% accuracy increase by blending Qdrant's vector search and Neo4j's knowledge graphs."
 description: "Discover how Lettria combined Qdrant and Neo4j to overcome the accuracy limitations of traditional vector-only RAG systems, significantly boosting precision, explainability, and performance in regulated industries like pharma, legal, and aerospace."
 preview_image: /blog/case-study-lettria/social_preview_partnership-lettria.jpg
@@ -20,7 +20,7 @@ tags:
 - case study
 ---
 
-# Scaled Vector & Graph Retrieval: How Lettria Unlocked 20 %+ Accuracy Gains with Qdrant & Neo4j
+# Scaled Vector & Graph Retrieval: How Lettria Unlocked 20% Accuracy Gains with Qdrant & Neo4j
 
 ![Lettria increases accuracy by 20% by blending Qdrant's vector search and Neo4j's knowledge graphs](/blog/case-study-lettria/lettria-bento-dark.jpg)
 
@@ -46,7 +46,7 @@ The core of Lettria's high accuracy solution lies in merging vector embeddings (
 
 1. **Ingestion**: Complex PDFs are parsed, and data is transformed into dual representations: **dense vector embeddings** and **semantic triples** (stored in Neo4j and indexed in Qdrant). As shown in the diagram below, the ingestion pipeline extracts layout and content structure, splits text into meaningful chunks, and routes them into both vector and graph representations. Each chunk maintains **lineage metadata**, linking it back to its exact position in the source document—critical for traceability.
 
-(/blog/case-study-lettria/ingestion-tracking-mechanism.png)
+![Ingestion tracking mechanism](/blog/case-study-lettria/ingestion-tracking-mechanism.png)
 
 *Diagram: Ingestion Transaction Mechanism*
 
