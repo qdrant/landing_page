@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "Scaled Vector + Graph Retrieval: How Lettria Unlocked 20% Accuracy Gains with Qdrant and Neo4j"
+title: "Scaled Vector & Graph Retrieval: How Lettria Unlocked 20% Accuracy Gains with Qdrant and Neo4j"
 short_description: "Lettria sees 20% accuracy increase by blending Qdrant's vector search and Neo4j's knowledge graphs."
 description: "Discover how Lettria combined Qdrant and Neo4j to overcome the accuracy limitations of traditional vector-only RAG systems, significantly boosting precision, explainability, and performance in regulated industries like pharma, legal, and aerospace."
 preview_image: /blog/case-study-lettria/social_preview_partnership-lettria.jpg
@@ -67,7 +67,7 @@ The challenge arises in concurrent environments where multiple ingest processes 
 *Pseudocode example: ingest_graph_attempt*
 
 ```py
-def ingest_graph_attempt(graph_data, qdrant, neo4j):
+def ing est_graph_attempt(graph_data, qdrant, neo4j):
     """
     Attempts to ingest graph data into Qdrant and Neo4j consistently.
     If Neo4j write fails, Qdrant changes are rolled back.
