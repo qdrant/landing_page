@@ -14,13 +14,13 @@ which represent an entire input with a single vector. By producing more granular
 ColBERT becomes a strong retriever. However, this advantage comes at the cost of increased resource consumption compared to 
 traditional dense embedding models, both in terms of speed and memory.
 
-Despite ColBERT being a powerful retriever, it's speed limitation might make it less suitable for large-scale retrieval.
+Despite ColBERT being a powerful retriever, its speed limitation might make it less suitable for large-scale retrieval.
 Therefore, we generally recommend using ColBERT for reranking a small set of already retrieved examples, rather than for first-stage retrieval. 
 A simple dense retriever can initially retrieve around 100-500 candidates, which can then be reranked with ColBERT to bring the most relevant results 
 to the top.
 
 ColBERT is a considerable alternative of a reranking model to [cross-encoders](https://sbert.net/examples/applications/cross-encoder/README.html), since
-It tends to be faster on inference time due to its `late interaction` mechanism.
+it tends to be faster on inference time due to its `late interaction` mechanism.
 
 How does `late interaction` work? Cross-encoders ingest a query and a document glued together as one input. 
 A cross-encoder model divides this input into meaningful (for the model) parts and checks how these parts relate. 
