@@ -49,35 +49,34 @@ To enable high-quality retrieval, we will embed each medical passage with two mo
 * **ColBERT Multivectors**: These provide more fine-grained representations, enabling precise ranking of results. 
 
 ```python  
-dense_documents = [  
-    models.Document(text=doc, model="BAAI/bge-small-en")  
-    for doc in ds['passage_text']  
+dense_documents = [
+    models.Document(text=doc, model="BAAI/bge-small-en") for doc in ds["passage_text"]
 ]
 
-colbert_documents = [  
-    models.Document(text=doc, model="colbert-ir/colbertv2.0")  
-    for doc in ds['passage_text']  
+colbert_documents = [
+    models.Document(text=doc, model="colbert-ir/colbertv2.0")
+    for doc in ds["passage_text"]
 ]
 
 collection_name = "miriad"
 
-# Create collection  
-if not client.collection_exists(collection_name):  
-    client.create_collection(  
-        collection_name=collection_name,  
-        vectors_config={  
-            "dense": models.VectorParams(size=384, 
-            distance=models.Distance.COSINE),  
-            "colbert": models.VectorParams(  
-                size=128,  
-                distance=models.Distance.COSINE,  
-                multivector_config=models.MultiVectorConfig(  
-                    comparator=models.MultiVectorComparator.MAX_SIM  
-                ),  
-                hnsw_config=models.HnswConfigDiff(m=0)  # reranker: no indexing  
-            )  
-        }  
-    )  
+# Create collection
+if not client.collection_exists(collection_name):
+    client.create_collection(
+        collection_name=collection_name,
+        vectors_config={
+            "dense": models.VectorParams(size=384, distance=models.Distance.COSINE),
+            "colbert": models.VectorParams(
+                size=128,
+                distance=models.Distance.COSINE,
+                multivector_config=models.MultiVectorConfig(
+                    comparator=models.MultiVectorComparator.MAX_SIM
+                ),
+                hnsw_config=models.HnswConfigDiff(m=0),  # reranker: no indexing
+            ),
+        },
+    )
+
 ```  
 We disable indexing for the ColBERT multivector since it will only be used for reranking. To learn more about this, check out the [How to Effectively Use Multivector Representations in Qdrant for Reranking](https://qdrant.tech/documentation/advanced-tutorials/using-multivector-representations/) article. 
 
@@ -90,34 +89,31 @@ To avoid hitting API limits, we upload the data in batches, each batch containin
 * `year` and `specialty` metadata fields. 
 
 ```python  
-BATCH_SIZE = 3  
+BATCH_SIZE = 3
 points_batch = []
 
-for i in range(len(ds['passage_text'])):  
-    point = models.PointStruct(  
-        id=i,  
-        vector={  
-            "dense": dense_documents[i],  
-            "colbert": colbert_documents[i]  
-        },  
-        payload={  
-        "passage_text": ds['passage_text'][i],  
-         "year": ds['year'][i],  
-         "specialty": ds['specialty'][i],  
-         }  
-    )  
+for i in range(len(ds["passage_text"])):
+    point = models.PointStruct(
+        id=i,
+        vector={"dense": dense_documents[i], "colbert": colbert_documents[i]},
+        payload={
+            "passage_text": ds["passage_text"][i],
+            "year": ds["year"][i],
+            "specialty": ds["specialty"][i],
+        },
+    )
     points_batch.append(point)
 
-    if len(points_batch) == BATCH_SIZE:  
-        client.upsert(collection_name=collection_name,   
-points=points_batch)  
-        print(f"Uploaded batch ending at index {i}")  
+    if len(points_batch) == BATCH_SIZE:
+        client.upsert(collection_name=collection_name, points=points_batch)
+        print(f"Uploaded batch ending at index {i}")
         points_batch = []
 
-# Final flush  
-if points_batch:  
-    client.upsert(collection_name=collection_name, points=points_batch)  
-    print("Uploaded final batch.")  
+# Final flush
+if points_batch:
+    client.upsert(collection_name=collection_name, points=points_batch)
+    print("Uploaded final batch.")
+
 ```
 
 ## Retrieval-Augmented Generation (RAG) Pipeline
@@ -133,47 +129,44 @@ At the heart of the application is the Qdrant vector database that provides the 
 * DSPy uses these passages to guide the language model through a chain-of-thought reasoning to generate the most accurate answer. 
 
 ```python  
-def rerank_with_colbert(query_text, min_year, max_year, specialty):  
+def rerank_with_colbert(query_text, min_year, max_year, specialty):
     from fastembed import TextEmbedding, LateInteractionTextEmbedding
 
-    # Encode query once with both models  
-    dense_model = TextEmbedding("BAAI/bge-small-en")  
+    # Encode query once with both models
+    dense_model = TextEmbedding("BAAI/bge-small-en")
     colbert_model = LateInteractionTextEmbedding("colbert-ir/colbertv2.0")
 
-    dense_query = list(dense_model.embed(query_text))[0]  
+    dense_query = list(dense_model.embed(query_text))[0]
     colbert_query = list(colbert_model.embed(query_text))[0]
 
-    # Combined query: retrieve with dense,   
-    # rerank with ColBERT  
-    results = client.query_points(  
-        collection_name=collection_name,  
-        prefetch=models.Prefetch(  
-            query=dense_query,  
-            using="dense"  
-        ),  
-        query=colbert_query,  
-        using="colbert",  
-        limit=5,  
-        with_payload=True,  
-        query_filter=Filter(  
-            must=[  
-                FieldCondition(key="specialty", 
-                match=MatchValue(value=specialty)),  
-                FieldCondition(key="year",  
-range=models.Range(gt=None,gte=min_year,  
-lt=None,lte=max_year))  
+    # Combined query: retrieve with dense,
+    # rerank with ColBERT
+    results = client.query_points(
+        collection_name=collection_name,
+        prefetch=models.Prefetch(query=dense_query, using="dense"),
+        query=colbert_query,
+        using="colbert",
+        limit=5,
+        with_payload=True,
+        query_filter=Filter(
+            must=[
+                FieldCondition(key="specialty", match=MatchValue(value=specialty)),
+                FieldCondition(
+                    key="year",
+                    range=models.Range(gt=None, gte=min_year, lt=None, lte=max_year),
+                ),
             ]
+        ),
+    )
 
-        )  
-    )  
-      
-    points = results.points  
+    points = results.points
     docs = []
 
-    for point in points:  
-        docs.append(point.payload['passage_text'])
+    for point in points:
+        docs.append(point.payload["passage_text"])
 
-    return docs  
+    return docs
+  
 ```
 
 The pipeline ensures that each response is grounded in real and recent medical literature and is aligned with the user's needs. 
@@ -185,25 +178,25 @@ Since this is a medical chatbot, we can introduce a simple guardrail to ensure i
 The chatbot checks if every question is medical-related before attempting to answer it. This is achieved by a DSPy module that classifies each incoming query as medical or not. If the question is not medical-related, the chatbot declines to answer, reducing the risk of misinformation or inappropriate responses. 
 
 ```python  
-class MedicalGuardrail(dspy.Module):  
-    def forward(self, question):  
-        prompt = (  
-            "Is the following question a medical  
- question? Answer with 'Yes' or 'No'.n"  
-            f"Question: {question}n"  
-            "Answer:"  
-        )  
-        response = dspy.settings.lm(prompt)  
-        answer = response[0].strip().lower()  
+class MedicalGuardrail(dspy.Module):
+    def forward(self, question):
+        prompt = (
+            "Is the following question a medical question? Answer with 'Yes' or 'No'.n"
+            f"Question: {question}n"
+            "Answer:"
+        )
+        response = dspy.settings.lm(prompt)
+        answer = response[0].strip().lower()
         return answer.startswith("yes")
 
-if not self.guardrail.forward(question):  
-            class DummyResult:  
-                final_answer = "Sorry,   
-I can only answer medical questions.   
-Please ask a question related to medicine   
-or healthcare."  
-            return DummyResult()  
+
+if not self.guardrail.forward(question):
+
+    class DummyResult:
+        final_answer = "Sorry, I can only answer medical questions. Please ask a question related to medicine or healthcare"
+
+    return DummyResult()
+
 ```  
 By combining this guardrail with specialty and year filtering, we ensure that the chatbot: 
 
