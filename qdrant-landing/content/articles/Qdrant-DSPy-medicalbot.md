@@ -181,9 +181,12 @@ The chatbot checks if every question is medical-related before attempting to ans
 class MedicalGuardrail(dspy.Module):
     def forward(self, question):
         prompt = (
-            "Is the following question a medical question? Answer with 'Yes' or 'No'.n"
+            """
+            Is the following question a medical question?
+            Answer with 'Yes' or 'No'.n"
             f"Question: {question}n"
-            "Answer:"
+            "Answer:
+            """
         )
         response = dspy.settings.lm(prompt)
         answer = response[0].strip().lower()
@@ -193,7 +196,10 @@ class MedicalGuardrail(dspy.Module):
 if not self.guardrail.forward(question):
 
     class DummyResult:
-        final_answer = "Sorry, I can only answer medical questions. Please ask a question related to medicine or healthcare"
+        final_answer = """
+        Sorry, I can only answer medical questions.
+         Please ask a question related to medicine or healthcare
+         """
 
     return DummyResult()
 
