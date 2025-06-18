@@ -1,7 +1,7 @@
 ---
 draft: false
-title: "Database Migration Tool: One-Command Cluster-to-Cluster Transfers"
-short_description: "Qdrant’s migration tool (beta) lets you move data across clusters or regions with one command—no snapshots needed. Try it now."
+title: "Introducing Qdrant’s Vector Data Migration Tool"
+short_description: "This vector database migration tool (beta) lets you move data across clusters or regions with one command—no snapshots needed. Try it now."
 description: "Migrate data across clusters, regions, from open source to cloud, and more with just one command."
 preview_image: /blog/beta-database-migration-tool/tool-beta.jpg
 social_preview_image: /blog/beta-database-migration-tool/tool-beta.jpg
