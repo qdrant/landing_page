@@ -1,7 +1,7 @@
 ---
 draft: false
-title: "Database Migration Tool: One-Command Cluster-to-Cluster Transfers"
-short_description: "Qdrant’s migration tool (beta) lets you move data across clusters or regions with one command—no snapshots needed. Try it now."
+title: "Vector Data Migration Tool"
+short_description: "Qdrant’s vector data migration tool (beta) lets you move data across clusters or regions with one command—no snapshots needed. Try it now."
 description: "Migrate data across clusters, regions, from open source to cloud, and more with just one command."
 preview_image: /blog/beta-database-migration-tool/tool-beta.jpg
 social_preview_image: /blog/beta-database-migration-tool/tool-beta.jpg
@@ -15,7 +15,7 @@ tags:
 
 ## Migrating your data just got easier
 
-We’ve launched the **beta** of our Qdrant Migration Tool, designed to simplify moving data between different instances, whether you're migrating between Qdrant deployments or switching from other vector database providers.
+We’ve launched the **beta** of our Qdrant **Vector Data Migration Tool**, designed to simplify moving data between different instances, whether you're migrating between Qdrant deployments or switching from other vector database providers.
 
 This powerful tool streams all vectors from a source collection to a target Qdrant instance in live batches. It supports migrations from one Qdrant deployment to another, including from open source to Qdrant Cloud or between cloud regions. But that's not all. You can also migrate your data from other vector databases directly into Qdrant. All with a single command.
 
