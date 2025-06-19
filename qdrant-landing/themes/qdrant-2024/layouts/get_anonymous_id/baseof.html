@@ -27,8 +27,9 @@
       window.addEventListener('message', (event) => {
         analytics.ready(() => {
           if (event.data === 'getAnonymousId') {
+            const { firstVisitAttribution } = analytics.user().traits();
             const anonymousId = analytics.user().anonymousId();
-            event.source.postMessage(anonymousId, event.origin);
+            event.source.postMessage({ anonymousId, firstVisitAttribution }, event.origin);
           }
         });
       });
