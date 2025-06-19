@@ -105,7 +105,7 @@ export function addGA4Properties(properties) {
   properties.ga_client_id = getCookie('_ga')?.replace('GA1.1.','');
 }
 
-export function addUTMToLinks() {
+export function getUTMParams() {
   const urlParams = new URLSearchParams(window.location.search);
 
   // Gather all GTM related params
@@ -121,6 +121,12 @@ export function addUTMToLinks() {
       campaign: urlParams.get('utm_campaign'),
       content: urlParams.get('utm_content')
   };
+
+  return [utmIds, utmParams];
+}
+
+export function addUTMToLinks() {
+  const [utmIds, utmParams] = getUTMParams();
 
   // Create new params string for outbound links and store in sessionStorage
   let newParams = '';
