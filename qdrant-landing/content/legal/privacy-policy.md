@@ -206,7 +206,7 @@ These payment processors are:
 
 ### **3.10. Third parties**
 
-#### **3.8.11. ​HubSpot​**
+#### **3.10.1. ​HubSpot​**
 
 We use HubSpot to manage leads, for landing pages, marketing automations, forms on the website, and for analytics. The provider is HubSpot, Inc., 25 1st Street Cambridge, MA 0214, USA. The provider processes usage data (e.g. web pages visited, interest in content, access times), content data (e.g. entries in online forms), and meta/communication data (e.g. device information, IP addresses) in the EU.
 
@@ -232,7 +232,7 @@ The legal basis of the processing is Art. 6 para. 1 s. 1 lit. f GDPR. We have a 
 
 As the data is masked after collection, there is no possibility to identify website visitors. Further information is available in the privacy policy of the provider at [https://heydata.eu/en/privacy-policy](https://heydata.eu/datenschutzerklaerung).
 
-#### **3.7.15. ​Google Analytics​**
+#### **3.10.4. ​Google Analytics​**
 
 We use Google Analytics for analytics. The provider is Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Dublin, Ireland. The provider processes usage data (e.g. web pages visited, interest in content, access times) and meta/communication data (e.g. device information, IP addresses) in the USA.
 
@@ -242,7 +242,7 @@ The legal basis for the transfer to a country outside the EEA are standard contr
 
 The data will be deleted when the purpose for which it was collected no longer applies and there is no obligation to retain it. Further information is available in the provider's privacy policy at [https://policies.google.com/privacy?hl=en-US](https://policies.google.com/privacy?hl=en-US).
 
-#### **3.11.6. ​Google Tag Manager​**
+#### **3.10.5. ​Google Tag Manager​**
 
 We use Google Tag Manager for analytics and for advertisement. The provider is Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland. The provider processes usage data (e.g. web pages visited, interest in content, access times) in the USA.
 
@@ -252,7 +252,7 @@ The legal basis for the transfer to a country outside the EEA are adequacy decis
 
 We delete the data when the purpose for which it was collected no longer applies. Further information is available in the provider's privacy policy at https://policies.google.com/privacy?hl=en-US.
 
-#### **2.11.5. ​Mixpanel​**
+#### **3.10.6. ​Mixpanel​**
 
 We use Mixpanel for analytics. The provider is Mixpanel, Inc., One Front Street, Floor 28, San Francisco, CA 94111, USA. The provider processes contact data (e.g. e-mail addresses, telephone numbers), meta/communication data (e.g. device information, IP addresses), and master data (e.g. names, addresses) in the USA.
 
@@ -262,7 +262,7 @@ The legal basis for the transfer to a country outside the EEA are adequacy decis
 
 The data will be deleted when the purpose for which it was collected no longer applies and there is no obligation to retain it. Further information is available in the provider's privacy policy at [https://mixpanel.com/legal/privacy-policy/](https://mixpanel.com/legal/privacy-policy/).
 
-#### **2.11.6. ​OneTrust​**
+#### **3.10.7. ​OneTrust​**
 
 We use OneTrust to manage consents. The provider is OneTrust Technology Limited, Atlanta, GA, 1200 Abernathy Rd NE, Building 600, Atlanta, GA 30328, USA. The provider processes meta/communication data (e.g. device information, IP addresses) in the USA.
 
