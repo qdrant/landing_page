@@ -1,4 +1,4 @@
-import { addGA4Properties, addUTMToLinks, getCookie, tagCloudUILinksWithAnonymousId } from './helpers';
+import { addGA4Properties, addUTMToLinks, getCookie, getUTMParams, tagCloudUILinksWithAnonymousId } from './helpers';
 import { registerAndCall } from './onetrust-helpers';
 
 const PAGES_SESSION_STORAGE_KEY = 'segmentPages';
@@ -96,7 +96,8 @@ const trackPageView = () => {
   const category = 'Qdrant.tech';
   const name = nameMapper(window.location.href);
   
-  const properties = {};
+  const isFirstPageView = localStorage.getItem('isFirstPageView');
+  const properties = { isFirstPageView };
   addGA4Properties(properties);
 
   window.analytics.page(category, name, properties);
@@ -143,6 +144,19 @@ export function handleSegmentReady() {
   addUTMToLinks();
 
   analytics.ready(() => {
+    const [utmIds, utmParams] = getUTMParams();
+    const isFirstPageView = localStorage.getItem('isFirstPageView');
+
+    if (isFirstPageView === 'true') {
+      analytics.identify({
+        firstVisitAttribution: {
+          referrer: document.referrer,
+          ...utmParams,
+          ...utmIds
+        }
+      });
+    }
+
     registerAndCall();
     tagCloudUILinksWithAnonymousId();
     tagAllAnchors();
