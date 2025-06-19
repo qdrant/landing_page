@@ -1,21 +1,6 @@
 ---
-title: "Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy"
-short_description: "How to build a medical chatbot grounded in medical literature with Qdrant and DSPy."
-description: "Discover how to use a vector database such Qdrant when building medical chatbot to ensure factual and up-to-date information."
-social_preview_image: /articles_data/Qdrant-DSPy-medicalbot/preview/social_preview.jpg
-preview_dir: /articles_data/Qdrant-DSPy-medicalbot/preview
-weight: -170
-author: Derrick Mwiti
-date: 2025-06-17T00:00:00+03:00
-draft: false
-keywords:
-    - rag
-    - dspy
-    - feedback
-    - semantic search 
-    - search
-    - informational retrieval
-category: machine-learning
+title: Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy
+weight: 18
 ---
 # Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy
 
