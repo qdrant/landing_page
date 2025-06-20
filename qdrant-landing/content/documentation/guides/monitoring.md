@@ -63,7 +63,7 @@ Each Qdrant server will expose the following metrics.
 | memory_metadata_bytes               | gauge   | Total number of bytes dedicated to allocator metadata. [Reference](https://jemalloc.net/jemalloc.3.html#stats.metadata)            |
 | memory_resident_bytes               | gauge   | Maximum number of bytes in physically resident data pages mapped. [Reference](https://jemalloc.net/jemalloc.3.html#stats.resident) |
 | memory_retained_bytes               | gauge   | Total number of bytes in virtual memory mappings. [Reference](https://jemalloc.net/jemalloc.3.html#stats.retained)                 |
-| collection_hardware_metric_cpu      | gauge   | CPU measurements of a collection                                                                                                   |
+| collection_hardware_metric_cpu      | gauge   | CPU measurements of a collection (Experimental)                                                                                    |
 
 **Cluster-related metrics**
 
