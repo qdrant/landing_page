@@ -283,10 +283,12 @@ def search(self, text: str):
         ),
         prefetch=[
             models.Prefetch(
-                query=models.Document(text=text, model=self.DENSE_MODEL)
+                query=models.Document(text=text, model=self.DENSE_MODEL),
+                using=dense_vector_name,
             ),
             models.Prefetch(
-                query=models.Document(text=text, model=self.SPARSE_MODEL)
+                query=models.Document(text=text, model=self.SPARSE_MODEL),
+                using=sparse_vector_name,
             ),
         ],
         query_filter=None,  # If you don't want any filters for now
