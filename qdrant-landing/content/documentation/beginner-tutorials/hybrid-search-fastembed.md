@@ -288,7 +288,7 @@ def search(self, text: str):
             ),
             models.Prefetch(
                 query=models.Document(text=text, model=self.SPARSE_MODEL),
-                 using="sparse",
+                using=sparse_vector_name,
             ),
         ],
         query_filter=None,  # If you don't want any filters for now
