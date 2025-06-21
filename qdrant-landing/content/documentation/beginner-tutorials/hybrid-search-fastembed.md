@@ -284,7 +284,7 @@ def search(self, text: str):
         prefetch=[
             models.Prefetch(
                 query=models.Document(text=text, model=self.DENSE_MODEL),
-                using="dense",
+                using=dense_vector_name,
             ),
             models.Prefetch(
                 query=models.Document(text=text, model=self.SPARSE_MODEL),
