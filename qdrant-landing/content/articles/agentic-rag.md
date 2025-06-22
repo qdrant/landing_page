@@ -3,7 +3,7 @@ title: "What is Agentic RAG? Building Agents with Qdrant"
 short_description: "Will agentic RAG replace linear RAG? Learn how to build agents with Qdrant and which framework is best for your use case."
 description: "Agents are a new paradigm in AI, and they are changing how we build RAG systems. Learn how to build agents with Qdrant and which framework to choose."
 preview_dir: /articles_data/agentic-rag/preview
-social_preview_image: /articles_data/agentic-rag/social-preview.png
+social_preview_image: /articles_data/agentic-rag/preview/social_preview.jpg
 weight: -150
 author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
