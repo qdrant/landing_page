@@ -3,7 +3,7 @@ title: Food Discovery Demo
 short_description: Feeling hungry? Find the perfect meal with Qdrant's multimodal semantic search.
 description: Feeling hungry? Find the perfect meal with Qdrant's multimodal semantic search.
 preview_dir: /articles_data/food-discovery-demo/preview
-social_preview_image: /articles_data/food-discovery-demo/preview/social_preview.png
+social_preview_image: /articles_data/food-discovery-demo/preview/social_preview.jpg
 small_preview_image: /articles_data/food-discovery-demo/icon.svg
 weight: -30
 author: Kacper Łukawski
