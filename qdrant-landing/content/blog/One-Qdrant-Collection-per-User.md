@@ -50,50 +50,52 @@ Due to these limitations, we recommend employing multitenancy via payloads.
 
 ## Multitenancy Done Right
 
-Instead of creating separate collections for each user, Qdrant recommends creating a single collection and separate access using payloads. Each Qdrant point can have a payload as metadata. For multitenancy, you can include a \`user\_id\` or \`tenant\_id\` for each point. 
+Instead of creating separate collections for each user, Qdrant recommends creating a single collection and separate access using payloads. Each Qdrant point can have a payload as metadata. For multitenancy, you can include a `user_id` or `tenant_id` for each point. 
 
+```json
 {
 
-  "id": "vec\_812",
+  "id": "vec_812",
 
-  "vector": \[ ... \],
+  "vector": [ ...],
 
   "payload": {
 
-    "user\_id": "1234",
+    "user_id": "1234",
 
-    "doc\_type": "medical\_summary"
+    "doc_type": "medical_summary"
 
   }
 
 }
-
+```
 Here is an example of a filter:
 
+```json
 {
 
   "filter": {
 
-    "must": \[
+    "must": [
 
       {
 
-        "key": "user\_id",
+        "key": "user_id",
 
         "match": { "value": "1234" }
 
       }
 
-    \]
+    ]
 
   },
 
   "top": 10,
 
-  "vector": \[ ... \]
+  "vector": [ ... ]
 
 }
-
+```
 Using the above structure, you can store all your points in a single collection and filter them using the payload values. 
 
 Compared to creating a collection for each user, this approach is beneficial because: 
