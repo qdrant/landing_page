@@ -5,7 +5,7 @@ slug: binary-quantization
 short_description: Understanding Why You Shouldn’t Create One Qdrant Collection per User.
 description: This blog will explore why one collection per user is a scalability trap and provide a better alternative, multi-tenancy with payload indexing. 
 preview_image: /blog/One-Qdrant-Collection-per-User/preview.png
-date: 2025-23-06T10:30:10.952Z
+date: 2025-06-23T10:30:10.952Z
 author: Derrick Mwiti
 slug: one-qdrant-collection-per-user
 featured: false
