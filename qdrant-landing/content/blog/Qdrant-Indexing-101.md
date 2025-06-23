@@ -17,7 +17,7 @@ tags:
 ---
 # Qdrant Indexing 101: Why You Should Create Payload Indexes *Before* Uploading Data
 
-## Avoid rebuilding costs and boost query performance with this simple indexing best practice.
+### Avoid rebuilding costs and boost query performance with this simple indexing best practice.
 
 Small configuration choices can significantly impact performance when working with vector search engines such as Qdrant. One of the most common questions new users ask is:
 
@@ -60,7 +60,7 @@ So while defining payload indexes is fully supported, it is not recommended beca
 
 There are valid use cases for late indexing. For example, you can configure a new filter logic after launch. Still, it’s essential to be aware of the forthcoming performance cost. 
 
-##  You should always index first if you know your filters upfront. If you need to index another payload later, you can still do it, but be aware of the performance hit. 
+You should always index first if you know your filters upfront. If you need to index another payload later, you can still do it, but be aware of the performance hit. 
 
 ## Conclusion
 
