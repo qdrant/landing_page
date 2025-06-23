@@ -7,7 +7,7 @@ description: This blog will explore why one collection per user is a scalability
 preview_image: /blog/One-Qdrant-Collection-per-User/preview.png
 date: 2025-23-06T10:30:10.952Z
 author: Derrick Mwiti
-slug: one-Qdrant-collection-per-user
+slug: one-qdrant-collection-per-user
 featured: false
 tags:
   - Qdrant indexing
