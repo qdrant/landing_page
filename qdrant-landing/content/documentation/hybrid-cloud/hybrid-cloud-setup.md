@@ -20,15 +20,15 @@ To learn how Hybrid Cloud works, [read the overview document](/documentation/hyb
 <aside role="status">Network storage systems like NFS or object storage systems such as S3 are not supported.</aside>
 
 - **Kubernetes nodes:** You need enough CPU and memory capacity for the Qdrant database clusters that you create. A small amount of resources is also needed for the Hybrid Cloud control plane components. Qdrant Hybrid Cloud supports x86_64 and ARM64 architectures.
-- **Permissions:** To install the Qdrant Kubernetes Operator you need to have `cluster-admin` access in your Kubernetes cluster.
-- **Connection:** The Qdrant Kubernetes Agent in your cluster needs to be able to connect to Qdrant Cloud. It will create an outgoing connection to `grpc.cloud.qdrant.io` on port `443`.
-- **Locations:** By default, the Qdrant Cloud Agent and Operator pulls Helm charts and container images from `registry.cloud.qdrant.io`. The Qdrant database container image is pulled from `docker.io`.
+- **Permissions:** To install the Qdrant Cloud Agent you need to have `cluster-admin` access in your Kubernetes cluster.
+- **Connection:** The Qdrant Cloud Agent in your cluster needs to be able to connect to Qdrant Cloud. It will create an outgoing connection to `grpc.cloud.qdrant.io` on port `443`.
+- **Locations:** By default, the Qdrant services (like Qdrant Cloud Agent, Operator and Cluster-Manager) pulls Helm charts and container images from `registry.cloud.qdrant.io`. The Qdrant database container image is pulled from `docker.io`. For a complete list see [Mirroring images and charts](#mirroring-images-and-charts).
 
 > **Note:** You can also mirror these images and charts into your own registry and pull them from there.
 
 ### CLI tools
 
-During the onboarding, you will need to deploy the Qdrant Kubernetes Operator and Agent using Helm. Make sure you have the following tools installed:
+During the onboarding, you will need to deploy the Qdrant Cloud Agent using Helm. Make sure you have the following tools installed:
 
 * [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 * [helm](https://helm.sh/docs/intro/install/)
@@ -46,7 +46,7 @@ You will need to have access to the Kubernetes cluster with `kubectl` and `helm`
 3. Now you can specify the following:
 
 - **Name:** A name for the Hybrid Cloud Environment
-- **Kubernetes Namespace:** The Kubernetes namespace for the operator and agent. Once you select a namespace, you can't change it.
+- **Kubernetes Namespace:** The Kubernetes namespace for the services (like agent and operator). Once you select a namespace, you can't change it.
 
 You can also configure the StorageClass and VolumeSnapshotClass to use for the Qdrant databases, if you want to deviate from the default settings of your cluster.
 
@@ -57,11 +57,11 @@ You can also configure the StorageClass and VolumeSnapshotClass to use for the Q
 5. (Optional) If you have special requirements for any of the following, activate the **Show advanced configuration** option:
 
 - If you use a proxy to connect from your infrastructure to the Qdrant Cloud API, you can specify the proxy URL, credentials and cetificates.
-- Container registry URL for Qdrant Operator and Agent images. The default is <https://registry.cloud.qdrant.io/qdrant/>.
-- Helm chart repository URL for the Qdrant Operator and Agent. The default is <oci://registry.cloud.qdrant.io/qdrant-charts>.
+- Container registry URL for Qdrant services (like Agent, Operator, Cluster-manager and monitoring stack) images. The default is <https://registry.cloud.qdrant.io/qdrant/>.
+- Helm chart repository URL for the Qdrant services. The default is <oci://registry.cloud.qdrant.io/qdrant-charts>.
 - An optional secret with credentials to access your own container registry.
-- Log level for the operator and agent
-- Node selectors and tolerations for the operater, agent and monitoring stack
+- Log level for the operator and agent.
+- Node selectors and tolerations for the operater, agent, cluster-manager and monitoring stack.
 
 ![Create Hybrid Cloud Environment - Advanced Configuration](/documentation/cloud/hybrid_cloud_advanced_configuration.png)
 
