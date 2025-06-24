@@ -137,7 +137,7 @@ We only guarantee compatibility if you update between consecutive versions. You 
 
 ### Should I create payload indexes before or after uploading? 
 
-Create payload indexes before uploaing to avoid index rebuilding. However, there are scenarios where defining idexes after uploading is okay. For example, you can configure a new filter logic after launch. 
+Create payload indexes before uploading to avoid index rebuilding. However, there are scenarios where defining idexes after uploading is okay. For example, you can configure a new filter logic after launch. 
 
 You should always index first if you know your filters upfront. If you need to index another payload later, you can still do it, but be aware of the performance hit.
 
