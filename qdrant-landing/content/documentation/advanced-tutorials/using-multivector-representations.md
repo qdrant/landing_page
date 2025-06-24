@@ -143,7 +143,7 @@ client.create_collection(
 ```
 
 ### 3. Upload Documents (Dense + Multivector)
-Now upload the vectors: 
+Now upload the vectors, with `batch_size=8`. We do not have many documents, but batching is always recommended. 
 ```python
 points = [
     models.PointStruct(
@@ -155,8 +155,11 @@ points = [
         payload={"text": documents[i]}
     ) for i in range(len(documents))
 ]
-client.upsert(collection_name="dense_multivector_demo", points=points)
-
+client.upload_points(
+    collection_name="dense_multivector_demo", 
+    points=points, 
+    batch_size=8
+)
 ```
 
 ### Query with Retrieval + Reranking in One Call
