@@ -28,7 +28,8 @@
         analytics.ready(() => {
           if (event.data === 'getAnonymousId') {
             const anonymousId = analytics.user().anonymousId();
-            event.source.postMessage(anonymousId, event.origin);
+            const { firstVisitAttribution } = analytics.user().traits();
+            event.source.postMessage({ anonymousId, firstVisitAttribution }, event.origin);
           }
         });
       });
