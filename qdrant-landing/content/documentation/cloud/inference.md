@@ -339,3 +339,7 @@ func main() {
 ```
 
 Usage examples, specific to each cluster and model can also be found in the Inference tab of the Cluster Detail page in the Qdrant Cloud Console.
+
+Note that, each model has a context window, which is the maximum number of tokens that can be processed by the model in a single request. If the input text exceeds the context window, it will be truncated to fit within the limit. The context window size is displayed in the Inference tab of the Cluster Detail page.
+
+For dense vector models, you also have to ensure that the vector size configured in the collection matches the output size of the model. If the vector size does not match, the upsert will fail with an error.
