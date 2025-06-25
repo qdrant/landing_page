@@ -13,6 +13,8 @@ Snapshots are `tar` archive files that contain data and configuration of a speci
 
 This feature can be used to archive data or easily replicate an existing deployment. For disaster recovery, Qdrant Cloud users may prefer to use [Backups](/documentation/cloud/backups/) instead, which are physical disk-level copies of your data.
 
+A collection level snapshot only contains data within that collection, including the collection configuration, all points and payloads. Collection aliases are not included and can be migrated or recovered [separately](/documentation/concepts/collections/#collection-aliases).
+
 For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials/create-snapshot/).
 
 ## Create snapshot
