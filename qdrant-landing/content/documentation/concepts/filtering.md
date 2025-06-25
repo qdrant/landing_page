@@ -331,9 +331,6 @@ For example, the text `"quick brown fox"` will be matched by the query `"brown f
 <aside role="status">
     The index must be configured with <code>phrase_matching</code> parameter set to <code>true</code>. If the index has phrase matching disabled, phrase conditions won't match anything.
 </aside>
-<aside role="warn">
-    Additionally, phrase matching does not work with <code>prefix</code> tokenizer at the moment.
-</aside>
 
 If there is no full-text index for the field, the condition will work as exact substring match.
 
