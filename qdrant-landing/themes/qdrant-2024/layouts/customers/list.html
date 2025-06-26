@@ -6,6 +6,14 @@
 
   <section class="bg-mid-gray pt-6">
     <div class="container">
+      {{ with (.Site.GetPage "/customers/case-study-tripadvisor") }}
+        {{ partial "case-study" . }}
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="bg-mid-gray pt-6">
+    <div class="container">
       {{ with (.Site.GetPage "/customers/case-study-hubspot") }}
         {{ partial "case-study" . }}
       {{ end }}
