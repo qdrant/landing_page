@@ -73,5 +73,5 @@ Note: You cannot provide both `QDRANT_URL` and `QDRANT_LOCAL_PATH` at the same t
 ## How to get started with the Qdrant MCP Server
 |                 | 
 |--------------------------------------------|
-| [Working With LlamaIndex](/documentation/Qdrant-MCP-Server/working-with-llamaIndex/)        | 
+| [Working With LlamaIndex](/documentation/qdrant-mcp-server/mcp-llamaindex/)        | 
 
