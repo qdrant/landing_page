@@ -21,7 +21,7 @@ To learn how Hybrid Cloud works, [read the overview document](/documentation/hyb
 
 - **Kubernetes nodes:** You need enough CPU and memory capacity for the Qdrant database clusters that you create. A small amount of resources is also needed for the Hybrid Cloud control plane components. Qdrant Hybrid Cloud supports x86_64 and ARM64 architectures.
 - **Permissions:** To install the Qdrant Cloud Agent you need to have `cluster-admin` access in your Kubernetes cluster.
-- **Connection:** The Qdrant Cloud Agent in your cluster needs to be able to connect to Qdrant Cloud. It will create an outgoing connection to `grpc.cloud.qdrant.io` on port `443`.
+- **Connection:** The Qdrant Cloud Agent in your cluster needs to be able to connect to Qdrant Cloud. It will create an outgoing connection to `grpc.cloud.qdrant.io` and `api.cloud.qdrant.io` on port `443`.
 - **Locations:** By default, the Qdrant services (like Qdrant Cloud Agent, Operator and Cluster-Manager) pulls Helm charts and container images from `registry.cloud.qdrant.io`. The Qdrant database container image is pulled from `docker.io`. For a complete list see [Mirroring images and charts](#mirroring-images-and-charts).
 
 > **Note:** You can also mirror these images and charts into your own registry and pull them from there.
