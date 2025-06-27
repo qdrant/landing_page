@@ -4,10 +4,10 @@ partition: qdrant
 weight: 13
 ---
 # Qdrant MCP Server 
-An official [Model Context Protocol server](https://modelcontextprotocol.io/introduction) for keeping and retrieving memories in the Qdrant vector search engine. It acts as a semantic memory layer on top of the Qdrant database.
+The [Qdrant MCP Server](https://github.com/qdrant/mcp-server-qdrant) is an official [Model Context Protocol server](https://modelcontextprotocol.io/introduction) for keeping and retrieving memories in the Qdrant vector search engine. It acts as a semantic memory layer on top of the Qdrant database.
 
 ## Components 
-The Qdrant MCP Server is made up of the following tools:
+The [Qdrant MCP Server](https://github.com/qdrant/mcp-server-qdrant) is made up of the following tools:
 
 1. `qdrant-store`
    - Store some information in the Qdrant database
@@ -28,7 +28,6 @@ The Qdrant MCP Server is made up of the following tools:
 
 ## Quickstart
 ### Using uvx
-
 When using [`uvx`](https://docs.astral.sh/uv/guides/tools/#running-tools) no specific installation is needed to directly run *mcp-server-qdrant*.
 
 ```shell
@@ -39,9 +38,7 @@ uvx mcp-server-qdrant
 ```
 
 ### Using Docker
-
-A Dockerfile is available for building and running the MCP server:
-
+A Dockerfile is available for building and running the [MCP server](https://github.com/qdrant/mcp-server-qdrant):
 ```bash
 # Build the container
 docker build -t mcp-server-qdrant .
@@ -55,12 +52,9 @@ docker run -p 8000:8000 \
   mcp-server-qdrant
 ```
 
-> [!TIP]
-> Please note that we set `FASTMCP_HOST="0.0.0.0"` to make the server listen on all network interfaces. This is
-> necessary when running the server in a Docker container.
+We set `FASTMCP_HOST="0.0.0.0"` to make the server listen on all network interfaces. This is necessary when running the server in a Docker container.
 
 ## Environment Variables
-
 The configuration of the server is done using environment variables:
 
 | Name                     | Description                                                         | Default Value                                                     |
@@ -75,9 +69,6 @@ The configuration of the server is done using environment variables:
 | `TOOL_FIND_DESCRIPTION`  | Custom description for the find tool                                | See default in [`settings.py`](src/mcp_server_qdrant/settings.py) |
 
 Note: You cannot provide both `QDRANT_URL` and `QDRANT_LOCAL_PATH` at the same time.
-
-> [!IMPORTANT]
-> Command-line arguments are not supported anymore! Please use environment variables for all configuration.
 
 ## How to get started with mcp-server-qdrant 
 |                 | 

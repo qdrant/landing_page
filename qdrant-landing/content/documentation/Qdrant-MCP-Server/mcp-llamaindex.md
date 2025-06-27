@@ -35,6 +35,7 @@ async def main():
         
 await main()
 ```
+You will see the following tools:
 ```markdown
 - qdrant-store: Keep the memory for later use, when you are asked to remember something.
 - qdrant-find: Look up memories in Qdrant. Use this tool when you need to: 
