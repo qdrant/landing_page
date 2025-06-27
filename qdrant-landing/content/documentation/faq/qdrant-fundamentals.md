@@ -144,7 +144,7 @@ You should always index first if you know your filters upfront. If you need to i
 ## Should I create one Qdrant collection per user? 
 No. Creating one collection per user is more resource intensive. 
 
-Instead of creating separate collections for each user, we recommend creating a single collection and separate access using payloads. Each Qdrant point can have a payload as metadata. For multitenancy, you can include a `user_id` or `tenant_id` for each point.
+Instead of creating separate collections for each user, we recommend creating a single collection and separate access using payloads. Each Qdrant point can have a payload as metadata. For multitenancy, you can include a `user_id` or `tenant_id` for each point. To optimize storage further, you can enable [tenant indexing](https://qdrant.tech/documentation/concepts/indexing/#tenant-index) for payload fields.
 
 ## Cloud
 
