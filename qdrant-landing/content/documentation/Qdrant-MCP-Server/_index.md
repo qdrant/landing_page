@@ -1,10 +1,14 @@
 ---
 title: Qdrant MCP Server
 partition: qdrant
-weight: 1
+weight: 13
 ---
-# MCP Server Tutorials 
+# Qdrant MCP Server 
 
+
+
+## Tutorials 
 |                 | 
 |--------------------------------------------|
 | [Working With LlamaIndex](/documentation/Qdrant-MCP-Server/working-with-llamaIndex/)        | 
+
