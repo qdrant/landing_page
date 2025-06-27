@@ -79,7 +79,7 @@ Define the LLM:
 ```python
 from llama_index.core.settings import Settings
 
-# 1️⃣ Set the global LLM 
+# Set the global LLM 
 Settings.llm = OpenAI(model="gpt-4.1", temperature=0)
 from llama_index.llms.openai import OpenAI
 ```
