@@ -70,7 +70,7 @@ The configuration of the server is done using environment variables:
 
 Note: You cannot provide both `QDRANT_URL` and `QDRANT_LOCAL_PATH` at the same time.
 
-## How to get started with mcp-server-qdrant 
+## How to get started with the [Qdrant MCP Server](https://github.com/qdrant/mcp-server-qdrant)
 |                 | 
 |--------------------------------------------|
 | [Working With LlamaIndex](/documentation/Qdrant-MCP-Server/working-with-llamaIndex/)        | 
