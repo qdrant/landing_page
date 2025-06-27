@@ -4,7 +4,7 @@ weight: 2
 ---
 
 # Working With LlamaIndex
-The Qdrant MCP Server is a Model Context Protocol server for keeping and retrieving memories in the Qdrant vector search engine. It acts as a semantic memory layer on top of the Qdrant database. LlamaIndex is an opensource framework for building applications powered by Large Language Models. 
+The [Qdrant MCP Server](https://github.com/qdrant/mcp-server-qdrant) is a Model Context Protocol server for keeping and retrieving memories in the Qdrant vector search engine. It acts as a semantic memory layer on top of the Qdrant database. LlamaIndex is an opensource framework for building applications powered by Large Language Models. 
 
 ## Requirements & Setup
 First, install the required libraries:
