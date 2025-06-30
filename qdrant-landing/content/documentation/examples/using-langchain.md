@@ -121,7 +121,7 @@ random.seed(76)
 selected_questions = random.choices(questions, k=5)
 for question in selected_questions:
     print(">", question)
-    print(qa.run(question), end="\n\n")
+    print(qa.invoke(question), end="\n\n")
 ```
 Output:
 ```text
