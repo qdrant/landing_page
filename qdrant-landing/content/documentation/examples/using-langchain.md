@@ -95,15 +95,15 @@ doc_store = Qdrant.from_texts(
 should analyze them to find the answer to a given question. The only last thing to do before using it is to put things together, also with a single function call.
 
 ```python
-from langchain import VectorDBQA, OpenAI
+from langchain import OpenAI
+from langchain.chains import RetrievalQA
 
-# There are various chain types, and `stuff` performs
-# the process described in the article.
 llm = OpenAI(openai_api_key=OPENAI_API_KEY)
-qa = VectorDBQA.from_chain_type(
+retriever = doc_store.as_retriever(search_kwargs={"k": 4})
+qa = RetrievalQA.from_chain_type(
     llm=llm,
     chain_type="stuff",
-    vectorstore=doc_store,
+    retriever=retriever,
     return_source_documents=False,
 )
 ```
