@@ -1,6 +1,6 @@
 ---
 title: Using LangChain for Question Answering with Qdrant"
-weight: 181
+weight: 35
 ---
 
 # Streamlining Question Answering: Simplifying Integration with LangChain and Qdrant
@@ -63,7 +63,7 @@ so we need an API key. The same is for OpenAI - the API key has to be obtained f
 ```python
 QDRANT_HOST=""
 QDRANT_API_KEY=""
-OPENAI_API_KEY="s"
+OPENAI_API_KEY=""
 ```
 
 ### Step 2: Building the knowledge base
