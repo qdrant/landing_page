@@ -1,24 +1,6 @@
 ---
-title: "Using LangChain for Question Answering with Qdrant"
-short_description: "Large Language Models might be developed fast with modern tool. Here is how!"
-description: "We combined LangChain, a pre-trained LLM from OpenAI, SentenceTransformers & Qdrant to create a question answering system with just a few lines of code. Learn more!"
-social_preview_image: /articles_data/langchain-integration/social_preview.png
-small_preview_image: /articles_data/langchain-integration/chain.svg
-preview_dir: /articles_data/langchain-integration/preview
-weight: 6
-author: Kacper Łukawski
-author_link: https://medium.com/@lukawskikacper
-date: 2023-01-31T10:53:20+01:00
-draft: false
-keywords:
-  - vector search
-  - langchain
-  - llm
-  - large language models
-  - question answering
-  - openai
-  - embeddings
-category: practicle-examples
+title: Using LangChain for Question Answering with Qdrant"
+weight: 181
 ---
 
 # Streamlining Question Answering: Simplifying Integration with LangChain and Qdrant
@@ -69,7 +51,7 @@ in the library nomenclature.
 Enough theory! This sounds like a pretty complex application, as it involves several systems. But with LangChain, it might be implemented in just a few lines 
 of code, thanks to the recent integration with [Qdrant](https://qdrant.tech/). We're not even going to work directly with `QdrantClient`, as everything is already done in the background
 by LangChain. If you want to get into the source code right away, all the processing is available as a 
-[Google Colab notebook](https://colab.research.google.com/drive/19RxxkZdnq_YqBH5kBV10Rt0Rax-kminD?usp=sharing).
+[Google Colab notebook](https://colab.research.google.com/drive/15O3nhaPxeO99hpqOftFuIiI2PcZnGefw?usp=sharing).
 
 ## How to Implement Question Answering with LangChain and Qdrant
 
@@ -78,7 +60,11 @@ by LangChain. If you want to get into the source code right away, all the proces
 A journey of a thousand miles begins with a single step, in our case with the configuration of all the services. We'll be using [Qdrant Cloud](https://cloud.qdrant.io),
 so we need an API key. The same is for OpenAI - the API key has to be obtained from their website.
 
-![](/articles_data/langchain-integration/code-configuration.png)
+```python
+QDRANT_HOST=""
+QDRANT_API_KEY=""
+OPENAI_API_KEY="s"
+```
 
 ### Step 2: Building the knowledge base
 
@@ -90,20 +76,53 @@ the other one for the answers.
 The answers have to be vectorized with the first of our models. The `sentence-transformers/all-mpnet-base-v2` is one of the possibilities, but there are some
 other options available. LangChain will handle that part of the process in a single function call.
 
-![](/articles_data/langchain-integration/code-qdrant.png)
+```python
+from langchain.vectorstores import Qdrant
+from langchain.embeddings import HuggingFaceEmbeddings
 
+# The variable `answers` is a simple list of strings.
+# It is our list of facts.
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-mpnet-base-v2"
+)
+doc_store = Qdrant.from_texts(
+    answers, embeddings, url=QDRANT_HOST, api_key=QDRANT_API_KEY,
+)
+```
 ### Step 3: Setting up QA with Qdrant in a loop
 
 `VectorDBQA` is a chain that performs the process described above. So it, first of all, loads some facts from Qdrant and then feeds them into OpenAI LLM which 
 should analyze them to find the answer to a given question. The only last thing to do before using it is to put things together, also with a single function call.
 
-![](/articles_data/langchain-integration/code-vectordbqa.png)
+```python
+from langchain import VectorDBQA, OpenAI
+
+# There are various chain types, and `stuff` performs
+# the process described in the article.
+llm = OpenAI(openai_api_key=OPENAI_API_KEY)
+qa = VectorDBQA.from_chain_type(
+    llm=llm,
+    chain_type="stuff",
+    vectorstore=doc_store,
+    return_source_documents=False,
+)
+```
 
 ## Step 4: Testing out the chain
 
 And that's it! We can put some queries, and LangChain will perform all the required processing to find the answer in the provided context.
 
-![](/articles_data/langchain-integration/code-answering.png)
+```python
+import random
+
+# The variable `questions` is again just a list of strings.
+# For the demo purposes we just select 5 random ones.
+random.seed(76)
+selected_questions = random.choices(questions, k=5)
+for question in selected_questions:
+    print(">", question)
+    print(qa.run(question), end="\n\n")
+```
 
 ```text
 > what kind of music is scott joplin most famous for
@@ -126,4 +145,4 @@ The great thing about such a setup is that the knowledge base might be easily ex
 sent to LLM later on. Of course, assuming their similarity to the given question will be in the top results returned by Qdrant.
 
 If you want to run the chain on your own, the simplest way to reproduce it is to open the 
-[Google Colab notebook](https://colab.research.google.com/drive/19RxxkZdnq_YqBH5kBV10Rt0Rax-kminD?usp=sharing).
+[Google Colab notebook](https://colab.research.google.com/drive/15O3nhaPxeO99hpqOftFuIiI2PcZnGefw?usp=sharing).
