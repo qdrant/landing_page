@@ -123,7 +123,7 @@ for question in selected_questions:
     print(">", question)
     print(qa.run(question), end="\n\n")
 ```
-
+Output:
 ```text
 > what kind of music is scott joplin most famous for
  Scott Joplin is most famous for composing ragtime music.
