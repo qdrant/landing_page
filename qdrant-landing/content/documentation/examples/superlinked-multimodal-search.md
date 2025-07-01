@@ -140,7 +140,7 @@ query = (
 ```
 #### Breaking Down the Query
 
-![superlinked-query](/blog/superlinked-multimodal-search/superlinked-query.svg)
+![superlinked-query](/blog/superlinked-multimodal-search/superlinked-query.png)
 
 This setup enables queries like *"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking."* to be automatically translated into:
 
