@@ -1,26 +1,10 @@
 ---
-title: "Beyond Multimodal Vectors: Hotel Search With Superlinked and Qdrant"
-draft: false
-short_description: "Combine Superlinked's multimodal embeddings with Qdrant's high-performance vector database for intelligent hotel search."
-description: "Build a scalable & smart search experience with quality embeddings and fast retrieval."
-preview_image: /blog/superlinked-multimodal-search/social_preview.png
-social_preview_image: /blog/superlinked-multimodal-search/social_preview.png
-date: 2025-04-24T00:00:00-08:00
-author: Filip Makraduli, David Myriel
-featured: false
-tags:
-  - vector search
-  - vector database
-  - multi-modal search
-  - semantic search
-  - hybrid search
-  - machine learning
-  - AI
-  - search engine
-  - technology
-  - innovation
+title: Beyond Multimodal Vectors: Hotel Search With Superlinked and Qdrant
+weight: 24
+aliases:
+  - /blog/superlinked-multimodal-search/
 ---
-
+# Beyond Multimodal Vectors: Hotel Search With Superlinked and Qdrant
 ## More Than Just Multimodal Search? 
 AI has transformed how we find products, services, and content. Now users express needs in **natural language** and expect precise, tailored results.
 
@@ -30,7 +14,7 @@ For example, you might search for hotels in Paris with specific criteria:
 
 *"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking."* This isn't just a search query—it's a complex set of interrelated preferences spanning multiple data types.
 
-> In this blog, we'll show you how we built [**The Hotel Search Demo**](https://hotel-search-recipe.superlinked.io/). 
+> In this example, we'll show you how we built [**The Hotel Search Demo**](https://hotel-search-recipe.superlinked.io/). 
 
 **Figure 1:** Superlinked generates vectors of different modalities which are indexed and served by Qdrant for fast, accurate hotel search.
 ![superlinked-hotel-search](/blog/superlinked-multimodal-search/frontend.gif)
