@@ -1,6 +1,6 @@
 ---
-title: Beyond Multimodal Vectors: Hotel Search With Superlinked and Qdrant
-weight: 24
+title: Beyond Multimodal Vectors - Hotel Search With Superlinked and Qdrant
+weight: 20
 aliases:
   - /blog/superlinked-multimodal-search/
 ---
