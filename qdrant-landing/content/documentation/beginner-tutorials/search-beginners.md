@@ -4,6 +4,7 @@ weight: 1
 aliases:
   - /documentation/tutorials/mighty.md/
   - /documentation/tutorials/search-beginners/
+  - /articles/neural-search-tutorial/
 ---
 
 # Build Your First Semantic Search Engine in 5 Minutes
@@ -19,12 +20,54 @@ If you are new to vector databases, this tutorial is for you. In 5 minutes you w
 
 Before you begin, you need to have a [recent version of Python](https://www.python.org/downloads/) installed. If you don't know how to run this code in a virtual environment, follow Python documentation for [Creating Virtual Environments](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments) first.
 
-This tutorial assumes you're in the bash shell. Use the Python documentation to activate a virtual environment, with commands such as:
+## What is neural search?
 
-```bash
-source tutorial-env/bin/activate
-``` 
+A regular full-text search, such as Google's, consists of searching for keywords inside a document.
+For this reason, the algorithm can not take into account the real meaning of the query and documents.
+Many documents that might be of interest to the user are not found because they use different wording.
 
+Neural search tries to solve exactly this problem - it attempts to enable searches not by keywords but by meaning.
+To achieve this, the search works in 2 steps.
+In the first step, a specially trained neural network encoder converts the query and the searched objects into a vector representation called embeddings.
+The encoder must be trained so that similar objects, such as texts with the same meaning or alike pictures get a close vector representation.
+
+![Encoders and embedding space](https://gist.githubusercontent.com/generall/c229cc94be8c15095286b0c55a3f19d7/raw/e52e3f1a320cd985ebc96f48955d7f355de8876c/encoders.png)
+
+Having this vector representation, it is easy to understand what the second step should be.
+To find documents similar to the query you now just need to find the nearest vectors.
+The most convenient way to determine the distance between two vectors is to calculate the cosine distance.
+The usual Euclidean distance can also be used, but it is not so efficient due to [the curse of dimensionality](https://en.wikipedia.org/wiki/Curse_of_dimensionality).
+
+## Which model could be used?
+
+It is ideal to use a model specially trained to determine the closeness of meanings.
+For example, models trained on Semantic Textual Similarity (STS) datasets.
+Current state-of-the-art models can be found on this [leaderboard](https://paperswithcode.com/sota/semantic-textual-similarity-on-sts-benchmark?p=roberta-a-robustly-optimized-bert-pretraining).
+
+However, not only specially trained models can be used.
+If the model is trained on a large enough dataset, its internal features can work as embeddings too.
+So, for instance, you can take any pre-trained on ImageNet model and cut off the last layer from it.
+In the penultimate layer of the neural network, as a rule, the highest-level features are formed, which, however, do not correspond to specific classes.
+The output of this layer can be used as an embedding.
+
+## What tasks is neural search good for?
+
+Neural search has the greatest advantage in areas where the query cannot be formulated precisely.
+Querying a table in an SQL database is not the best place for neural search.
+
+On the contrary, if the query itself is fuzzy, or it cannot be formulated as a set of conditions - neural search can help you.
+If the search query is a picture, sound file or long text, neural network search is almost the only option.
+
+If you want to build a recommendation system, the neural approach can also be useful.
+The user's actions can be encoded in vector space in the same way as a picture or text.
+And having those vectors, it is possible to find semantically similar users and determine the next probable user actions.
+
+To be able to search for our descriptions in vector space, we must get vectors first.
+We need to encode the descriptions into a vector representation.
+As the descriptions are textual data, we can use a pre-trained language model.
+As mentioned above, for the task of text search there is a whole set of pre-trained models specifically tuned for semantic similarity.
+
+## Step-by-step neural search tutorial using Qdrant
 ## 1. Installation
 
 You need to process your data so that the search engine can work with it. The [Sentence Transformers](https://www.sbert.net/) framework gives you access to common Large Language Models that turn raw data into embeddings.
