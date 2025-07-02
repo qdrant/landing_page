@@ -1,15 +1,8 @@
 ---
-draft: false
-title: "Static Embeddings: should you pay attention?"
-slug: static-embeddings
-short_description: "Static embeddings are a thing back! Is the encoding speedup worth a try? We checked that!"
-description: "Static embeddings are a thing back! Is the encoding speedup worth a try? We checked that!"
-preview_image: /blog/static-embeddings/preview.png
-date: 2025-01-17T09:13:00.000Z
-author: Kacper Łukawski
-featured: false
+title: Static Embeddings: should you pay attention?
+weight: 181
 ---
-
+# Static Embeddings: should you pay attention?
 In the world of resource-constrained computing, a quiet revolution is taking place. While transformers dominate 
 leaderboards with their impressive capabilities, static embeddings are making an unexpected comeback, offering 
 remarkable speed improvements with surprisingly small quality trade-offs. **We evaluated how Qdrant users can benefit
