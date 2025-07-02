@@ -31,7 +31,7 @@ To achieve this, the search works in 2 steps.
 In the first step, a specially trained neural network encoder converts the query and the searched objects into a vector representation called embeddings.
 The encoder must be trained so that similar objects, such as texts with the same meaning or alike pictures get a close vector representation.
 
-![Encoders and embedding space](https://gist.githubusercontent.com/generall/c229cc94be8c15095286b0c55a3f19d7/raw/e52e3f1a320cd985ebc96f48955d7f355de8876c/encoders.png)
+![Encoders and embedding space](/blog/neural-search/encoders.png)
 
 Having this vector representation, it is easy to understand what the second step should be.
 To find documents similar to the query you now just need to find the nearest vectors.
