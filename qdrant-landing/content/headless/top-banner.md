@@ -10,11 +10,11 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Learn how TripAdvisor Drives 2-3x More Revenue with Qdrant-Powered AI at Enterprise Scale"
+text: "Operationalizing GraphRAG: Lettria’s Scalable Architecture with Neo4j and Qdrant"
 link:
-  text: Read now
-  url: https://qdrant.tech/blog/case-study-tripadvisor/
-start: 2025-06-04T05:00:00.000Z
+  text: Tune in July 23
+  url: https://try.qdrant.tech/graphrag
+start: 2025-07-07T05:00:00.000Z
 sitemapExclude: true
-end: 2025-06-20T14:00:00.000Z
+end: 2025-07-23T14:00:00.000Z
 ---
