@@ -1,5 +1,5 @@
 ---
-title: Static Embeddings: should you pay attention?
+title: Static Embeddings. Should you pay attention?
 weight: 181
 ---
 # Static Embeddings: should you pay attention?
