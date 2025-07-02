@@ -1,6 +1,8 @@
 ---
 title: Question Answering as a Service with Cohere and Qdrant
 weight: 19
+aliases:
+    - /articles/qa-with-cohere-and-qdrant/
 ---
 # Question Answering as a Service with Cohere and Qdrant
 
