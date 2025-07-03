@@ -4,9 +4,9 @@ weight: 29
 partition: cloud
 ---
 
-## Cloud Tools
+## Cloud Inference
 
-| Integration                         | Description                                                                                 |
+| Tutorial                         | Description                                                                                 |
 | ----------------------------------- | ------------------------------------------------------------------------------------------- |
 | [Getting Started](/documentation/cloud-inference/getting-started/)                 | Using Cloud Inference with Qdrant for Vector Search     |
 
