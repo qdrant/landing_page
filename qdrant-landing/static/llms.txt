@@ -1,0 +1,64 @@
+# https://qdrant.tech/ llms.txt
+## Overall Summary
+> Qdrant is a cutting-edge platform focused on delivering exceptional performance and efficiency in vector similarity search. As a robust vector database, it specializes in managing, searching, and retrieving high-dimensional vector data, essential for enhancing AI applications, machine learning, and modern search engines. With a suite of powerful features such as state-of-the-art hybrid search capabilities, retrieval-augmented generation (RAG) applications, and dense and sparse vector support, Qdrant stands out as an industry leader. Its offerings include managed cloud services, enabling users to harness the robust functionality of Qdrant without the burden of maintaining infrastructure. The platform supports advanced data security measures and seamless integrations with popular platforms and frameworks, catering to diverse data handling and analytic needs. Additionally, Qdrant offers comprehensive solutions for complex searching requirements through its innovative Query API and multivector representations, allowing for precise matching and enhanced retrieval quality. With its commitment to open-source principles and continuous innovation, Qdrant tailors solutions to meet both small-scale projects and enterprise-level demands efficiently, helping organizations unlock profound insights from their unstructured data and optimize their AI capabilities.
+## Page Links
+- [Private Cloud Backups](https://qdrant.tech/documentation/private-cloud/backups): Learn how to create and manage backups in Qdrant's private cloud.
+- [Qdrant Managed Cloud](https://qdrant.tech/documentation/cloud): Explore Qdrant's Managed Cloud for efficient, scalable, and reliable database solutions.
+- [Qdrant API Interfaces](https://qdrant.tech/documentation/interfaces): Explore Qdrant's API offerings and client libraries for seamless integration.
+- [Single Node Speed Benchmark](https://qdrant.tech/benchmarks/single-node-speed-benchmark-2022): Explore 2022 single node speed benchmarks comparing Qdrant and other engines.
+- [Multivector Representations Guide](https://qdrant.tech/documentation/advanced-tutorials/using-multivector-representations): Learn to efficiently use Qdrant's multivector representations for improved document retrieval.
+- [Qdrant Cloud API](https://qdrant.tech/documentation/cloud-api): Explore Qdrant's powerful Cloud API for automation and resource management.
+- [Private Cloud Configuration](https://qdrant.tech/documentation/private-cloud/configuration): Explore Qdrant's private cloud configuration options for efficient deployment and management.
+- [Understanding Sparse Vectors](https://qdrant.tech/articles/sparse-vectors): Explore sparse vectors for efficient vector-based hybrid search with Qdrant insights.
+- [Late Interaction Models](https://qdrant.tech/articles/late-interaction-models): Explore adapting embedding models for enhanced retrieval performance with Qdrant's innovative solutions.
+- [Platform Integrations Overview](https://qdrant.tech/documentation/platforms): Explore various platform integrations to enhance your Qdrant experience and capabilities.
+- [Common Errors Guide](https://qdrant.tech/documentation/guides/common-errors): Discover solutions for common Qdrant errors to enhance your database experience.
+- [Understanding Vector Databases](https://qdrant.tech/articles/what-is-a-vector-database): Explore vector databases for unstructured data management and advanced analytics with Qdrant.
+- [Comprehensive Data Management](https://qdrant.tech/documentation/data-management): Explore Qdrant's data management integrations for streamlined data processing and transformation.
+- [Qdrant Collections Guide](https://qdrant.tech/documentation/concepts/collections): Explore Qdrant's collections for efficient vector management and search optimization.
+- [Understanding Qdrant Points](https://qdrant.tech/documentation/concepts/points): Learn how to create and manage points central to Qdrant's vector search technology.
+- [Qdrant Cloud Authentication](https://qdrant.tech/documentation/cloud/authentication): Learn how to manage API keys and secure access in Qdrant Cloud.
+- [Food Discovery Demo](https://qdrant.tech/articles/food-discovery-demo): Explore Qdrant's open-source food discovery demo for innovative image-based search solutions.
+- [Capacity Planning Guide](https://qdrant.tech/documentation/guides/capacity-planning): Optimize your Qdrant cluster with effective RAM and disk storage strategies.
+- [Machine Learning Insights](https://qdrant.tech/articles/machine-learning): Discover machine learning techniques and Qdrant's powerful vector search capabilities.
+- [Qdrant Internals Overview](https://qdrant.tech/articles/qdrant-internals): Explore Qdrant's vector search engine architecture and components for improved performance.
+- [Qdrant Operator Configuration](https://qdrant.tech/documentation/hybrid-cloud/operator-configuration): Explore advanced configuration options for the Qdrant Operator in hybrid cloud environments.
+- [Qdrant Installation Guide](https://qdrant.tech/documentation/guides/installation): Explore requirements and options for installing Qdrant efficiently and securely.
+- [Qdrant Cloud RBAC Permissions](https://qdrant.tech/documentation/cloud-rbac/permission-reference): Explore Qdrant's documentation for managing cloud permissions effectively and securely.
+- [Qdrant Snapshots Overview](https://qdrant.tech/documentation/concepts/snapshots): Learn about snapshot creation and management for data protection in Qdrant.
+- [Q&A with Similarity Learning](https://qdrant.tech/articles/faq-question-answering): Explore how Qdrant improves machine learning with efficient question-answering and similarity learning solutions.
+- [Understanding Vector Search](https://qdrant.tech/documentation/overview/vector-search): Explore how Qdrant enhances vector search for efficient information retrieval and project integration.
+- [Vector Database Benchmarks](https://qdrant.tech/benchmarks): Explore Qdrant's superior benchmarks for vector databases, ensuring efficient, fast, and accurate results.
+- [Qdrant Concepts Overview](https://qdrant.tech/documentation/concepts): Discover essential AI concepts with Qdrant's comprehensive and user-friendly documentation.
+- [Indexing with Qdrant](https://qdrant.tech/documentation/concepts/indexing): Learn effective indexing strategies for optimized vector and traditional searches in Qdrant.
+- [Practice Datasets Overview](https://qdrant.tech/documentation/datasets): Explore ready-made datasets for practical use with Qdrant's advanced embedding technology.
+- [Hybrid Search Simplified](https://qdrant.tech/articles/hybrid-search): Enhance your retrieval systems with Qdrant's new Query API for hybrid search.
+- [Local Quickstart Guide](https://qdrant.tech/documentation/quickstart): Quickly set up Qdrant locally, create collections, and manage vector data effectively.
+- [Metric Learning Insights](https://qdrant.tech/articles/metric-learning-tips): Explore essential tips and tricks for effective metric learning from Qdrant experts.
+- [Qdrant Cluster Monitoring](https://qdrant.tech/documentation/cloud/cluster-monitoring): Monitor your Qdrant Cloud clusters with metrics, logs, and alerts for optimal performance.
+- [Efficient Layer Recycling](https://qdrant.tech/articles/embedding-recycler): Discover layer recycling techniques to enhance model training speed and efficiency.
+- [Data Privacy Solutions](https://qdrant.tech/articles/data-privacy): Learn how Qdrant enhances data privacy with role-based access control and security strategies.
+- [Data Ingestion Guide](https://qdrant.tech/documentation/data-ingestion-beginners): Learn how to ingest data into Qdrant for effective semantic search solutions.
+- [Immutable Data Structures](https://qdrant.tech/articles/immutable-data-structures): Explore Qdrant's insights on immutable data structures for optimized performance.
+- [Understanding Vector Embeddings](https://qdrant.tech/articles/what-are-embeddings): Explore how vector embeddings enhance search and personalized experiences using Qdrant technology.
+- [RAG Chatbot Tutorial](https://qdrant.tech/documentation/examples/rag-chatbot-vultr-dspy-ollama): Learn to build private RAG chatbots with Qdrant and Vultr for secure data handling.
+- [RAG and GenAI Insights](https://qdrant.tech/articles/rag-and-genai): Explore RAG techniques with Qdrant for advanced AI agents and data retrieval solutions.
+- [Medical Chatbot Example](https://qdrant.tech/documentation/examples/qdrant-dspy-medicalbot): Learn to build a reliable medical chatbot using Qdrant and DSPy technologies.
+- [Framework Integrations Overview](https://qdrant.tech/documentation/frameworks): Explore Qdrant's comprehensive frameworks for developing innovative AI-powered applications.
+- [RAG Analysis Insights](https://qdrant.tech/articles/rag-is-dead): Explore the relevance of vector databases in today’s AI landscape with Qdrant.
+- [Memory Consumption Insights](https://qdrant.tech/articles/memory-consumption): Learn to accurately measure RAM needs and optimize Qdrant for efficiency.
+- [Distance-Based Exploration](https://qdrant.tech/articles/distance-based-exploration): Discover hidden data structures effortlessly with Qdrant's Distance Matrix API.
+- [GPU Support Guide](https://qdrant.tech/documentation/guides/running-with-gpu): Learn to run Qdrant with GPU support for enhanced performance and efficiency.
+- [Scaling PDF Retrieval](https://qdrant.tech/documentation/advanced-tutorials/pdf-retrieval-at-scale): Learn efficient PDF retrieval using Qdrant and Vision Large Language Models.
+- [FastEmbed Semantic Search Guide](https://qdrant.tech/documentation/fastembed/fastembed-semantic-search): Learn to implement FastEmbed with Qdrant for efficient vector searches.
+- [Multitenancy & Partitioning](https://qdrant.tech/documentation/guides/multiple-partitions): Learn how to configure multitenancy and partitioning with Qdrant for efficiency.
+- [Qdrant's Seed Funding News](https://qdrant.tech/articles/seed-round): Discover Qdrant's innovative vector databases and their recent $7.5M seed funding success.
+- [Vector Search Concepts](https://qdrant.tech/documentation/concepts/search): Explore Qdrant's powerful vector search capabilities, including similarity and query APIs.
+- [Hybrid Cloud Cluster Creation](https://qdrant.tech/documentation/hybrid-cloud/hybrid-cloud-cluster-creation): Learn to create and configure a Qdrant cluster in your hybrid cloud environment.
+- [Enhancing Semantic Search](https://qdrant.tech/documentation/beginner-tutorials/retrieval-quality): Learn to measure and improve retrieval quality in Qdrant's semantic search.
+- [Advanced Filtering Techniques](https://qdrant.tech/documentation/concepts/filtering): Explore Qdrant's powerful filtering features for precise vector searches and retrieval.
+- [Create Qdrant Snapshots](https://qdrant.tech/documentation/database-tutorials/create-snapshot): Learn to create and restore snapshots for efficient data management in Qdrant.
+- [Qdrant Storage Overview](https://qdrant.tech/documentation/concepts/storage): Discover how Qdrant manages data storage segments for efficient vector handling.
+- [Qdrant 0.11 Release](https://qdrant.tech/articles/qdrant-0-11-release): Discover key features and improvements in Qdrant v0.11 for enhanced performance.
+- [AI Customer Support Guide](https://qdrant.tech/documentation/examples/rag-customer-support-cohere-airbyte-aws): Setup private AI for customer support using Qdrant, Cohere, and Airbyte seamlessly.
+- [Explore Qdrant APIs](https://qdrant.tech/documentation/concepts/explore): Discover Qdrant's powerful APIs for innovative data exploration and recommendation.
