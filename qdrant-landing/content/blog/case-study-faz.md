@@ -6,7 +6,7 @@ description: "Discover how Frankfurter Allgemeine Zeitung (FAZ) used Qdrant to b
 preview_image: /blog/case-study-faz/social_preview_partnership-faz.jpg
 social_preview_image: /blog/case-study-faz/social_preview_partnership-faz.jpg
 date: 2025-06-26
-author: "Daniel Azoulai"
+author: "Manuel Meyer"
 featured: true
 
 tags:
