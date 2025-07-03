@@ -46,7 +46,7 @@ Qdrant checked all the boxes. Its [hybrid cloud deployment model](https://qdrant
 
 The developer experience was another major win. As Jens Peter Kutz explained, "The documentation is structured, clear, and immensely helpful \- especially when ramping up on an entirely new stack."
 
-## **Metadata: The Backbone of Intelligent Search**
+## Metadata: The Backbone of Intelligent Search
 
 One of Qdrant’s most powerful features for FAZ is its ability to handle rich metadata payloads. Each embedded paragraph is associated with fields like:
 
