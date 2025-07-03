@@ -20,7 +20,7 @@ client = QdrantClient(
 )  
 ```
 ## Create a collection
-Qdrant stores vectors and associated metadata in collections. Collection requires vector parameters to be set during creation. In this case, let's setup a collection using BM25 for sparse vectors and `all-minilm-l6-v2` for sparse vectors. 
+Qdrant stores vectors and associated metadata in collections. Collection requires vector parameters to be set during creation. In this case, let's setup a collection using BM25 for sparse vectors and `all-minilm-l6-v2` for dense vectors. 
 ```python
 from qdrant_client import models
 
@@ -43,18 +43,18 @@ if not client.collection_exists(collection_name=collection_name):
 )
 ```
 ## Add data
-Now you can add sample documents, their associated metadata, and a point id for each. Qdrant client requires wrapping your data in models, like `models.Document` (or `models.Image` if you’re working with images)
+Now you can add sample documents, their associated metadata, and a point id for each.
 
 ```python
 from qdrant_client.http.models import PointStruct, Document
 from datasets import load_dataset
 import uuid
 
-transformers_model_name = "sentence-transformers/all-minilm-l6-v2"
+dense_model = "sentence-transformers/all-minilm-l6-v2"
 bm25_model = "qdrant/bm25"
 
 # Load the dataset
-ds = load_dataset("mwitiderrick/miriad-1k", split="train")
+ds = load_dataset("miriad/miriad-4.4M", split="train[0:100]")
 
 points = []
 
@@ -67,7 +67,7 @@ for idx, item in enumerate(ds):
         vector={
             "dense": Document(
                 text=passage,
-                model=transformers_model_name
+                model=dense_model
             ),
             "bm25_sparse_vector": Document(
                 text=passage,
@@ -92,13 +92,12 @@ client.upload_points(
 # Set up input query
 Create a sample query:
 ```python
-# Set up input query
 query_text = "What is relapsing polychondritis?"
 
 # Use Qdrant Document interface for both dense and sparse
 dense_doc = Document(
     text=query_text,
-    model=transformers_model_name
+    model=dense_model
 )
 
 sparse_doc = Document(
