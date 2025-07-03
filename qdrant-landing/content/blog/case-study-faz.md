@@ -17,7 +17,7 @@ tags:
 - case study
 ---
 
-# **How FAZ Built a Hybrid Search Engine with Qdrant to Unlock 75 Years of Journalism**
+# How FAZ Built a Hybrid Search Engine with Qdrant to Unlock 75 Years of Journalism
 
 [Frankfurter Allgemeine Zeitung (FAZ)](https://www.frankfurterallgemeine.de/die-faz), a major national newspaper in Germany, has spent decades building a rich archive of journalistic content, stretching back to 1949\. The FAZ archive has long built expertise in making its extensive collection of over 75 years accessible and searchable for both internal and external customers through keyword- and index-based search engines. New AI-powered search technologies were therefore immediately recognized as an opportunity to unlock the potential of the comprehensive archive in entirely new ways and to systematically address the limitations of traditional search methods. The solution they arrived at involved a thoughtful orchestration of technologies \- with Qdrant at the heart.
 
@@ -27,13 +27,13 @@ This undertaking was driven by a cross-functional team:
 * **Hans Peter Troetscher**, Department Head of Data Management and Applications, oversaw the system architecture and overall vision.  
 * **René Weber**, IT Systems Administrator, focused on the challenges of deployment and orchestration within FAZ’s Azure environment.
 
-## **The Challenge: Turning an Archive into a Research Engine**
+## The Challenge: Turning an Archive into a Research Engine
 
 FAZ’s archive includes tens of millions of articles \- from modern digital content to OCR-scanned historical documents. Editors and researchers needed a way to move beyond simple keyword matching and unlock deeper insights from their archive. A new search experience would need to understand meaning, support structured filters, and operate within strict infrastructure constraints.
 
 The team set out to build a semantic search platform as a first step. Early experiments embedded article paragraphs using Azure OpenAI’s text-embedding-3-large model, resulting in high-dimensional vector representations of content. Embedding was performed on a paragraph-by-paragraph basis to ensure relevance and granularity. The team also tested how the system performed with retro-digitized content containing OCR errors from scanned sources.
 
-## **Why Qdrant Was the Right Fit**
+## Why Qdrant Was the Right Fit
 
 From the outset, FAZ had specific technical and organizational needs:
 
@@ -63,7 +63,7 @@ Qdrant's ability to handle over 60 payload fields and frequent updates is crucia
 
 Additionally, FAZ enriches the user experience by retrieving adjacent context vectors, such as preceding and following paragraphs, to generate fluent and explainable answers. This context stitching is dynamically computed during query time.
 
-## **Performance at Scale**
+## Performance at Scale
 
 The current system indexes over 14 million vectors across several decades, with a target of 40-50 million vectors covering the full archive. Ingest operations occur daily, as new publications are embedded and indexed. FAZ uses quantization to optimize memory usage and maximize throughput across search and update pipelines.
 
@@ -71,13 +71,13 @@ Benchmarking results during internal testing showed that Qdrant consistently del
 
 Custom ingestion scripts in Python integrate with OpenAI’s embedding service and Qdrant’s API, handling everything from embedding to payload assembly and indexing.
 
-## **A Foundation for AI-Driven Journalism**
+## A Foundation for AI-Driven Journalism
 
 FAZ has built a powerful search system that makes over seven decades of journalism accessible and relevant for modern editorial workflows. By combining Azure OpenAI’s semantic embeddings with Qdrant’s metadata-aware vector search, they’ve developed a hybrid solution that understands both language and structure. The system delivers fast, relevant results with highlighted context and similarity scores, enabling journalists to explore their archive more intuitively than ever before.
 
 With millions of vectors already indexed and ongoing plans to scale across the full archive, FAZ is not only setting a new benchmark for archival search, but also laying the groundwork for next-generation capabilities that will further enhance precision, flexibility, and editorial control.
 
-## **What’s Next: Building Toward Hybrid Search**
+## What’s Next: Building Toward Hybrid Search
 
 The initial system focuses on dense vector similarity to support natural language queries. A user might ask, “Why is inflation rising?” and receive answer passages pulled from semantically relevant articles across decades of FAZ journalism. This semantic-first approach was intentional. The FAZ team chose to first build a search engine in its purest semantic form to better understand its capabilities, advantages, and limits. 
 
