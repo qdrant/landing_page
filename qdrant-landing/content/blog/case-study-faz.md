@@ -5,7 +5,7 @@ short_description: "FAZ built a high-performance hybrid search engine with Qdran
 description: "Discover how Frankfurter Allgemeine Zeitung (FAZ) used Qdrant to build a metadata-rich semantic search engine that transforms archival journalism into an AI-powered research tool—with sub-second latency and over 60 fields of structured filtering."
 preview_image: /blog/case-study-faz/social_preview_partnership-faz.jpg
 social_preview_image: /blog/case-study-faz/social_preview_partnership-faz.jpg
-date: 2025-06-26
+date: 2025-07-03
 author: "Manuel Meyer"
 featured: true
 
