@@ -1,0 +1,1 @@
+This code snippet performs a search in a collection configured for miniCOIL sparse vectors using the Qdrant and FastEmbed integration. It infers a sparse miniCOIL vector for the query and retrieves the most relevant document (limit=1) based on the miniCOIL scoring. The response includes the top-matching document’s ID, score, and payload.
