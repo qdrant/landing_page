@@ -22,27 +22,37 @@
             <span>{{ .name }}</span>
           {{ end }}
 
-          {{ if .subMenuItems }}
-            <ul class="main-menu__submenu">
-              {{ if .url }}
-                <li class="main-menu__section-link">
-                  <a class="link link_neutral link_sm" href="{{ .url }}">
-                    {{ .name }}
-                  </a>
-                </li>
+          {{ if .mainMenuItems }}
+            <div class="main-menu__items">
+              {{ range .mainMenuItems }}
+                <ul class="main-menu__submenu">
+                  {{ if .name }}
+                    <li class="main-menu__section-link">
+                      {{ if .url }}
+                        <a class="link link_neutral link_sm" href="{{ .url }}">
+                          {{ .name }}
+                        </a>
+                      {{ else }}
+                        <p>{{ .name }}</p>
+                      {{ end }}
+                    </li>
+                  {{ end }}
+                  {{ range .subMenuItems }}
+                    <li class="main-menu__submenu-item">
+                      <a
+                        href="{{ .url }}"
+                        {{ if strings.HasPrefix .url "http" }}
+                          target="_blank" rel="noopener noreferrer nofollow"
+                        {{ end }}
+                      >
+                        <img src="/img/menu/{{ .icon }}" draggable="false" />
+                        <span>{{ .name }}</span>
+                      </a>
+                    </li>
+                  {{ end }}
+                </ul>
               {{ end }}
-              {{ range .subMenuItems }}
-                <li class="main-menu__submenu-item">
-                  <a
-                    href="{{ .url }}"
-                    {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer nofollow"{{ end }}
-                  >
-                    <img src="/img/menu/{{ .icon }}" draggable="false" />
-                    <span>{{ .name }}</span>
-                  </a>
-                </li>
-              {{ end }}
-            </ul>
+            </div>
           {{ end }}
         </li>
       {{ end }}
@@ -52,7 +62,9 @@
         {{ partial "theme-switch" . }}
       {{ end }}
       <a data-metric-loc="nav" href="{{ .Params.logIn.url }}" class="menu-link mx-3">{{ .Params.logIn.text }}</a>
-      <a data-metric-loc="nav" href="{{ .Params.startFree.url }}" class="button button_contained button_sm">{{ .Params.startFree.text }}</a>
+      <a data-metric-loc="nav" href="{{ .Params.startFree.url }}" class="button button_contained button_sm">
+        {{ .Params.startFree.text }}
+      </a>
     </div>
   </div>
 {{ end }}
