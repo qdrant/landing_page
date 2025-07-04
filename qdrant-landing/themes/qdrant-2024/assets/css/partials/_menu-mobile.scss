@@ -142,7 +142,14 @@
     padding-bottom: 0.5rem;
     margin-bottom: pxToRem(4);
     text-transform: uppercase;
+
     a {
+      line-height: $font-size-s;
+    }
+
+    p {
+      margin: 0;
+      font-size: $font-size-s;
       line-height: $font-size-s;
     }
   }

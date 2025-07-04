@@ -16,37 +16,49 @@
               {{ .name }}
             {{ end }}
 
-            {{ if .subMenuItems }}
+            {{ if .mainMenuItems }}
               <button type="button" class="menu-mobile__expand">{{ partial "svg" "arrow-sm-down.svg" }}</button>
             {{ end }}
           </div>
-          {{ if .subMenuItems }}
-            <ul class="menu-mobile__subitems">
-              {{ if .url }}
-                <li class="menu-mobile__section-link">
-                  <a class="link link_neutral link_sm" href="{{ .url }}">
-                    {{ .name }}
-                  </a>
-                </li>
-              {{ end }}
-              {{ range .subMenuItems }}
-                <a href="{{ .url }}">
-                  <li class="menu-mobile__subitem">
-                    <span style="background-image: url(/img/menu/{{ .icon }})"> </span>
-                    {{ .name }}
+          {{ if .mainMenuItems }}
+            {{ range .mainMenuItems }}
+              <ul class="menu-mobile__subitems">
+                {{ if .name }}
+                  <li class="menu-mobile__section-link">
+                    {{ if .url }}
+                      <a class="link link_neutral link_sm" href="{{ .url }}">
+                        {{ .name }}
+                      </a>
+                    {{ else }}
+                      <p>{{ .name }}</p>
+                    {{ end }}
                   </li>
-                </a>
-              {{ end }}
-            </ul>
+                {{ end }}
+                {{ range .subMenuItems }}
+                  <a href="{{ .url }}">
+                    <li class="menu-mobile__subitem">
+                      <span style="background-image: url(/img/menu/{{ .icon }})"></span>
+                      {{ .name }}
+                    </li>
+                  </a>
+                {{ end }}
+              </ul>
+            {{ end }}
           {{ end }}
         </li>
       {{ end }}
     </ul>
     <div class="menu-mobile__controls">
-      <a data-metric-loc="mobile_nav" href="{{ .Params.logIn.url }}" class="button button_outlined button_lg menu-mobile__login"
-        >{{ .Params.logIn.text }}</a
+      <a
+        data-metric-loc="mobile_nav"
+        href="{{ .Params.logIn.url }}"
+        class="button button_outlined button_lg menu-mobile__login"
       >
-      <a data-metric-loc="mobile_nav" href="{{ .Params.startFree.url }}" class="button button_contained button_lg">{{ .Params.startFree.text }}</a>
+        {{ .Params.logIn.text }}
+      </a>
+      <a data-metric-loc="mobile_nav" href="{{ .Params.startFree.url }}" class="button button_contained button_lg">
+        {{ .Params.startFree.text }}
+      </a>
     </div>
   </div>
 {{ end }}
