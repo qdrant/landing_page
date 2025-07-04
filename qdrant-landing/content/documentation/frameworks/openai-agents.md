@@ -1,7 +1,10 @@
 ---
 title: OpenAI Agents
-aliases: [ /documentation/frameworks/swarm/ ]
+aliases:
+  - /documentation/frameworks/swarm/
+  - /articles/chatgpt-plugin/
 ---
+
 
 # OpenAI Agents
 
