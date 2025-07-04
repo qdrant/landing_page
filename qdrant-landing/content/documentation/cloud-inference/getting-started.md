@@ -10,7 +10,7 @@ pip install qdrant-client
 ## Initialize the client
 Initialize the Qdrant client after creating a [Qdrant Cloud account](https://qdrant.tech/cloud/). 
 You will need to create a paid cluster to use cloud inference. 
-```
+```python
 from qdrant_client import QdrantClient
 client = QdrantClient(
     url="https://YOUR_URL.eastus-0.azure.cloud.qdrant.io:6333/",
@@ -107,7 +107,7 @@ sparse_doc = Document(
 ```
 ## Run vector search
 Here, you will ask a question that will allow you to retrieve semantically relevant results.
-```markdown
+```python
 # Run hybrid search using prefetch + RRF fusion
 results = client.query_points(
     collection_name=collection_name,  # Replace with your collection
