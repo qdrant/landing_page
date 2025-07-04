@@ -108,15 +108,23 @@ sparse_doc = Document(
 ## Run vector search
 Here, you will ask a question that will allow you to retrieve semantically relevant results.
 ```markdown
+# Run hybrid search using prefetch + RRF fusion
 results = client.query_points(
-    collection_name=collection_name,
-    prefetch=models.Prefetch(
-        query=dense_doc,
-        using="dense",
-    ),
-    query=sparse_doc,
-    using="bm25_sparse_vector",
-    limit=3,
+    collection_name=collection_name,  # Replace with your collection
+    prefetch=[
+        models.Prefetch(
+            query=dense_doc,
+            using="dense",
+            limit=5
+        ),
+        models.Prefetch(
+            query=sparse_doc,
+            using="bm25_sparse_vector",
+            limit=5
+        )
+    ],
+    query=models.FusionQuery(fusion=models.Fusion.RRF),
+    limit=5,
     with_payload=True
 )
 print(results.points)
