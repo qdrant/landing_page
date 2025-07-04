@@ -131,5 +131,8 @@ print(results.points)
 ```
 The semantic search engine will retrieve the most similar result in order of relevance.
 ```markdown
-[ScoredPoint(id='9968a760-fbb5-4d91-8549-ffbaeb3ebdba', version=0, score=14.545895, payload={'text': "Relapsing Polychondritis is a rare...'}, vector=None, shard_key=None, order_value=None)]
+[ScoredPoint(id='9968a760-fbb5-4d91-8549-ffbaeb3ebdba', 
+version=0, score=14.545895, 
+payload={'text': "Relapsing Polychondritis is a rare...'}, 
+vector=None, shard_key=None, order_value=None)]
 ```
