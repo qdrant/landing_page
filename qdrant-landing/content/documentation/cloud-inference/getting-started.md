@@ -82,7 +82,7 @@ for idx, item in enumerate(ds):
 ## Upload documents to the collection
 Upload the data: 
 ```python
-# Upsert to Qdrant
+# Upload to Qdrant
 client.upload_points(
     collection_name=collection_name, 
     points=points, 
