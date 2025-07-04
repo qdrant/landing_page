@@ -35,7 +35,7 @@ menuItems:
     name: Solutions
     mainMenuItems:
       - id: mainMenu-1-0
-        name: USE CASES
+        name: Use Cases
         url: /use-cases/
         subMenuItems:
         - id: subMenu-1-0
@@ -63,7 +63,7 @@ menuItems:
 #         icon: qdrant-for-startups.svg
 #         url: /qdrant-for-startups/
       - id: mainMenu-1-1
-        name: INDUSTRIES
+        name: Industries
         subMenuItems:
           - id: subMenu-1-5
             name: E-commerce
