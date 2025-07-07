@@ -1,14 +1,11 @@
 ```http
 POST /collections/{collection_name}/points/query
 {
-  "prefetch": {
-    "query": [0.01, 0.45, 0.67, ...], // <-- search vector
-    "limit": 100
-  },
   "query": {
+    "nearest": [0.01, 0.45, 0.67, ...], // search vector
     "mmr": {
-      "vector": [0.01, 0.45, 0.67, ...], // <-- same vector
-      "lambda": 0.5
+      "lambda": 0.5, // 0.0 - diversity; 1.0 - relevance
+      "candidate_limit": 100 // num of candidates to preselect
     }
   }
 }

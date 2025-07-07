@@ -94,13 +94,11 @@ _Available as of v1.15.0_
 
 A useful algorithm to improve the diversity of the results is [Maximal Marginal Relevance (MMR)](https://www.cs.cmu.edu/~jgc/publication/The_Use_MMR_Diversity_Based_LTMIR_1998.pdf).
 
-MMR selects candidates iteratively, starting with the most relevant point (higher similarity to the query). For each subsequent point, it selects the one that hasn't been chosen yet which has the best combination of relevance and higher separation from the already selected points. It excels when the dataset has many related points for a query.
+MMR selects candidates iteratively, starting with the most relevant point (higher similarity to the query). For each next point, it selects the one that hasn't been chosen yet which has the best combination of relevance and higher separation to the already selected points. It excels when the dataset has many related points for a query.
 
-This is implemented in Qdrant as a rescoring query, in which you define a query vector, and a lambda parameter which controls the balance between relevance and diversity.
+This is implemented in Qdrant as a parameter of a nearest neighbors query. You define the vector to get the top candidates, and a lambda parameter which controls the balance between relevance (1.0) and diversity (0.0).
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-mmr/" >}}
-
-Moreover, since MMR is calculated on the original vectors, it is possible to skip rescoring within the prefetch by using `"params": { "quantization": { "rescore": false } }` in the prefetch itself. MMR will still rescore with full precision, while taking diversification into account.
 
 ## Score boosting
 

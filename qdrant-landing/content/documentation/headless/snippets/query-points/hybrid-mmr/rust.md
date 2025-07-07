@@ -6,13 +6,12 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client.query(
     QueryPointsBuilder::new("{collection_name}")
-        .add_prefetch(PrefetchQueryBuilder::default()
-            .query(Query::new_nearest(vec![0.01, 0.45, 0.67])) // <-- search vector
-            .limit(100u64)
-        )
-        .query(Query::new_mmr(
-            vec![0.01, 0.45, 0.67], // <-- same vector
-            0.5, // lambda
+        .query(Query::new_nearest_with_mmr(
+            vec![0.01, 0.45, 0.67], // search vector
+            MmrBuilder::empty()
+                .lambda(0.5) // 0.0 - diversity, 1.0 - relevance
+                .candidate_limit(100) // num of candidates to preselect
         ))
+        .limit(10)
 ).await?;
 ```

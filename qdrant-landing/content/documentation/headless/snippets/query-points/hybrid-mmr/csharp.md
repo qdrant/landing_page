@@ -6,14 +6,12 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(
   collectionName: "{collection_name}",
-  prefetch: new List<PrefetchQuery> {
-    new() {
-      Query = new float[] { 0.01f, 0.45f, 0.67f }, // <-- search vector
-      Limit = 100
+  query: new NearestInputWithMmr {
+    Nearest = new float[] { 0.01f, 0.45f, 0.67f }, // search vector
+    Mmr = new Mmr {
+      Lambda = 0.5f, // 0.0 - diversity; 1.0 - relevance
+      CandidateLimit = 100 // num of candidates to preselect
     }
   },
-  query: new MmrInput {
-    Vector = new float[] { 0.01f, 0.45f, 0.67f }, // <-- same vector
-    Lambda = 0.5f
-  }
+  limit: 10,
 );```
