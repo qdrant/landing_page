@@ -7,7 +7,7 @@ weight: 81
 
 Inference is the process of creating vector embeddings from text, images, or other data types using a machine learning model.
 
-Qdrant Managed Cloud allows you to do the inference directly in the cloud, without the need to set up and maintain your own inference infrastructure.
+Qdrant Managed Cloud allows you to use inference directly in the cloud, without the need to set up and maintain your own inference infrastructure.
 
 <aside role="alert">
     Inference is currently only available in US regions for paid clusters. Support for inference in other regions is coming soon.
@@ -17,7 +17,7 @@ Qdrant Managed Cloud allows you to do the inference directly in the cloud, witho
 
 ## Supported Models
 
-You can see the list of supported models in the Inference tabof the Cluster Detail page in the Qdrant Cloud Console. The list includes models for text, both to produce dense and sparse vectors, as well as multi-modal models for images.
+You can see the list of supported models in the Inference tab of the Cluster Detail page in the Qdrant Cloud Console. The list includes models for text, both to produce dense and sparse vectors, as well as multi-modal models for images.
 
 ## Enabling/Disabling Inference
 
@@ -338,8 +338,8 @@ func main() {
 })
 ```
 
-Usage examples, specific to each cluster and model can also be found in the Inference tab of the Cluster Detail page in the Qdrant Cloud Console.
+Usage examples, specific to each cluster and model, can also be found in the Inference tab of the Cluster Detail page in the Qdrant Cloud Console.
 
-Note that, each model has a context window, which is the maximum number of tokens that can be processed by the model in a single request. If the input text exceeds the context window, it will be truncated to fit within the limit. The context window size is displayed in the Inference tab of the Cluster Detail page.
+Note that each model has a context window, which is the maximum number of tokens that can be processed by the model in a single request. If the input text exceeds the context window, it will be truncated to fit within the limit. The context window size is displayed in the Inference tab of the Cluster Detail page.
 
 For dense vector models, you also have to ensure that the vector size configured in the collection matches the output size of the model. If the vector size does not match, the upsert will fail with an error.
