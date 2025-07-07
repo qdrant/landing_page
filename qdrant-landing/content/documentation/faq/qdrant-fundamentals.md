@@ -14,7 +14,7 @@ aliases:
 
 ### What is the maximum vector dimension supported by Qdrant?
 
-Qdrant supports up to 65,535 dimensions by default, but this can be configured to support higher dimensions.
+Qdrant supports up to 65,535 dimensions.
 
 ### What is the maximum size of vector metadata that can be stored?
 
