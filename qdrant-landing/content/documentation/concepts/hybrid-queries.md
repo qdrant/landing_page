@@ -92,9 +92,9 @@ It is possible to combine all the above techniques in a single query:
 
 _Available as of v1.15.0_
 
-A useful algorithm to improve the diversity of the results is [Maximal Marginal Relevance (MMR)](https://www.cs.cmu.edu/~jgc/publication/The_Use_MMR_Diversity_Based_LTMIR_1998.pdf).
+A useful algorithm to improve the diversity of the results is [Maximal Marginal Relevance (MMR)](https://www.cs.cmu.edu/~jgc/publication/The_Use_MMR_Diversity_Based_LTMIR_1998.pdf). It excels when the dataset has many redundant or very similar points for a query.
 
-MMR selects candidates iteratively, starting with the most relevant point (higher similarity to the query). For each next point, it selects the one that hasn't been chosen yet which has the best combination of relevance and higher separation to the already selected points. It excels when the dataset has many related points for a query.
+MMR selects candidates iteratively, starting with the most relevant point (higher similarity to the query). For each next point, it selects the one that hasn't been chosen yet which has the best combination of relevance and higher separation to the already selected points.
 
 This is implemented in Qdrant as a parameter of a nearest neighbors query. You define the vector to get the top candidates, and a lambda parameter which controls the balance between relevance (1.0) and diversity (0.0).
 

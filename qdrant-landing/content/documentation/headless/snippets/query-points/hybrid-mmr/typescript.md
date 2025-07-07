@@ -10,6 +10,7 @@ client.query("{collection_name}", {
       lambda: 0.5, // 0.0 - diversity; 1.0 - relevance
       candidate_limit: 100 // num of candidates to preselect
     }
-  }
+  },
+  limit: 10,
 });
 ```
