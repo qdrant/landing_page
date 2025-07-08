@@ -1,14 +1,12 @@
 ---
 title: "The Hitchicker’s Guide to Vector Search"
 draft: false
-slug: hitchhikers-guide # Change this slug to your page slug if needed
-short_description:  This is a blog post # Change this
-description: This is a blog post # Change this
-preview_image: /blog/Article-Image.png # Change this
-
-# social_preview_image: /blog/Article-Image.png # Optional image used for link previews
-# title_preview_image: /blog/Article-Image.png # Optional image used for blog post title
-# small_preview_image: /blog/Article-Image.png # Optional image used for small preview in the list of blog posts
+slug: hitchhikers-guide
+short_description: A Qdrant Star shares her hard-won lessons from her extensive open-source building
+description: A Qdrant Star shares her hard-won lessons from her extensive open-source building 
+preview_image: /blog/hitchhikers-guide/preview/preview.jpg 
+social_preview_image: /blog/hitchhikers-guide/preview/social_preview.jpg # Optional image used for link previews
+title_preview_image: /blog/hitchhikers-guide/preview/title.jpg # Optional image used for blog post title
 
 date: 2025-07-08T13:50:57+02:00
 author: Clelia Astra Bertelli & Evgeniya Sukhodolskaya
