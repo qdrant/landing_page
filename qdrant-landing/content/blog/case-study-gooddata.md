@@ -5,7 +5,7 @@ short_description: "GoodData built a real-time AI assistant for enterprise BI us
 description: "Discover how GoodData replaced brittle LLM prompts with a scalable RAG pipeline powered by Qdrant, reducing latency and enabling real-time AI analytics."
 preview_image: /blog/case-study-gooddata/social_preview_partnership-gooddata.jpg
 social_preview_image: /blog/case-study-gooddata/social_preview_partnership-gooddata.jpg
-date: 2025-06-25
+date: 2025-07-08
 author: "Daniel Azoulai"
 featured: true
 
@@ -40,7 +40,7 @@ GoodData transitioned to a Retrieval-Augmented Generation (RAG) strategy, requir
 
 GoodData leveraged Qdrant’s official Helm chart, deploying smoothly in Kubernetes and efficiently managing near-real-time embedding updates, crucial for multilingual semantic layers.
 
-![Old Approach][/blog/case-study-gooddata-diagram-1]
+![Old Approach][/blog/case-study-gooddata-diagram-1.png]
 
 ### Real-Time Performance and Scalability Gains
 
@@ -67,7 +67,7 @@ This shift positions GoodData not just as a dashboard provider, but as a foundat
 
 Qdrant provides GoodData a stable, scalable foundation for expanding into document-based semantic search and ontology management. With Qdrant, GoodData confidently supports complex, real-time AI use cases, enhancing end-user accessibility and productivity.
 
-![New Approach][/blog/case-study-gooddata-diagram-2]
+![New Approach][/blog/case-study-gooddata-diagram-2.png]
 
 ***Architecture to enable real-time monitoring and AI-driven search capabilities in Kubernetes environment.***
 
