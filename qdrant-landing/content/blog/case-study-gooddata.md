@@ -40,7 +40,7 @@ GoodData transitioned to a Retrieval-Augmented Generation (RAG) strategy, requir
 
 GoodData leveraged Qdrant’s official Helm chart, deploying smoothly in Kubernetes and efficiently managing near-real-time embedding updates, crucial for multilingual semantic layers.
 
-![Old Approach](/blog/case-study-gooddata/diagram-1.png)
+![Old Approach](/blog/case-study-gooddata/gooddata-diagram-1.png)
 
 ### Real-Time Performance and Scalability Gains
 
@@ -67,7 +67,7 @@ This shift positions GoodData not just as a dashboard provider, but as a foundat
 
 Qdrant provides GoodData a stable, scalable foundation for expanding into document-based semantic search and ontology management. With Qdrant, GoodData confidently supports complex, real-time AI use cases, enhancing end-user accessibility and productivity.
 
-![New Approach](/blog/case-study-gooddata/diagram-2.png)
+![New Approach](/blog/case-study-gooddata/gooddata-diagram-2.png)
 
 ***Architecture to enable real-time monitoring and AI-driven search capabilities in Kubernetes environment.***
 
