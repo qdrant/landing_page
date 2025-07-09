@@ -41,17 +41,14 @@ Asymmetric quantization enhances accuracy while maintaining binary quantization'
 
 Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing.
 
-### **Stopword Filtering**
 Stopwords like “the”, “is”, or “of” can clutter your index without adding value to search. Qdrant can now automatically ignore these during indexing and search, helping reduce noise and improve precision.
 
-###  **Stemming Support**
 Stemming allows different forms of the same word to be matched together. For example:
 
 - “run”, “runs”, and “running” will all map to the root “run”
 
 This improves recall in keyword-based queries and hybrid search scenarios.
 
-### **Phrase Matching**
 With [phrase matching](https://qdrant.tech/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase comparisons, allowing you to search for a specific phrase within a text field.  For example, the phrase “machine time” will be matched exactly in that order within the “summary” field:
 
 ```python
