@@ -41,13 +41,19 @@ Asymmetric quantization enhances accuracy while maintaining binary quantization'
 
 ## **Changes in Text Index**
 
-In 1.15, we have added:
+Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing.
 
-* Multilingual tokenizer support  
-* Stopword filtering   
-* Stemming support   
-* [Phrase matching](https://qdrant.tech/documentation/concepts/filtering/#phrase-match) 
+### **Stopword Filtering**
+Stopwords like “the”, “is”, or “of” can clutter your index without adding value to search. Qdrant can now automatically ignore these during indexing and search, helping reduce noise and improve precision.
 
+###  **Stemming Support**
+Stemming allows different forms of the same word to be matched together. For example:
+
+- “run”, “runs”, and “running” will all map to the root “run”
+
+This improves recall in keyword-based queries and hybrid search scenarios.
+
+### **Phrase Matching**
 With [phrase matching](https://qdrant.tech/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase comparisons, allowing you to search for a specific phrase within a text field.  For example, the phrase “machine time” will be matched exactly in that order within the “summary” field:
 
 ```python
@@ -79,7 +85,7 @@ We introduce [Maximal Marginal Relevance (MMR)](http://www.qdrant.tech/documenta
 
 It prevents your top-k results from being redundant and helps surface varied but relevant answers, particularly in dense datasets with overlapping entries.  
 
-### Diversifying Search Results with MMR
+### **Diversifying Search Results with MMR**
 
 Let’s say you’re building a knowledge assistant or semantic document explorer in which a single query can return multiple highly similar queries. For instance, searching “climate change” in a scientific paper database might return several similar paragraphs. 
 
@@ -144,6 +150,6 @@ Figure: Updating to the latest software version from the Qdrant Cloud dashboard.
 
 **ADD SCREENSHOT**
 
-## Conclusion 
+## **Conclusion** 
 
 We would love to hear your thoughts on this release. If you have any questions or feedback, join our [Discord](https://discord.gg/qdrant) or create an issue on [GitHub](https://github.com/qdrant/qdrant/issues). 
