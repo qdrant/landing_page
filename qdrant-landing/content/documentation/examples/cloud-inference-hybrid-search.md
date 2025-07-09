@@ -8,8 +8,7 @@ weight: 35
 pip install qdrant-client
 ```
 ## Initialize the Client
-Initialize the Qdrant client after creating a [Qdrant Cloud account](https://qdrant.tech/cloud/). 
-You will need to create a paid cluster to use cloud inference. 
+Initialize the Qdrant client after creating a [Qdrant Cloud account](/documentation/cloud/) and a [dedicated paid cluster](/documentation/cloud/create-cluster/). 
 ```python
 from qdrant_client import QdrantClient
 client = QdrantClient(
