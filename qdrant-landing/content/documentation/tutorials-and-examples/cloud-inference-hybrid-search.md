@@ -3,6 +3,10 @@ title: Using Cloud Inference with Qdrant for Vector Search
 weight: 35
 ---
 # Using Cloud Inference with Qdrant for Vector Search
+In this tutorial, we'll walkthrough building a **hybrid semantic search engine** using Qdrant's Cloud's built-in inference capabilities. You'll learn how to:
+- Automatically embed your data using cloud Inference without needing to run local models,
+- Combine dense semantic embeddings with [sparse BM25 keywords](https://qdrant.tech/documentation/advanced-tutorials/reranking-hybrid-search/),  and
+- Perform hybrid search using  [Reciprocal Rank Fusion (RRF)](https://qdrant.tech/documentation/concepts/hybrid-queries/) to retrieve the most relevant results.
 ## Install Qdrant Client
 ```bash
 pip install qdrant-client datasets
