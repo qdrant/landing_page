@@ -1,6 +1,8 @@
 ---
 title: Static Embeddings. Should you pay attention?
 weight: 181
+aliases:
+  - /blog/static-embeddings/
 ---
 # Static Embeddings: should you pay attention?
 In the world of resource-constrained computing, a quiet revolution is taking place. While transformers dominate 
