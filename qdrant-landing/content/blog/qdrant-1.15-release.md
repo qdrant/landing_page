@@ -29,7 +29,7 @@ Qdrant 1.15.0 is out! Let’s look at the main features for this version:
 We are expanding the Qdrant quantization toolkit with: 
 
 * **1.5-bit and 2-bit quantization** for better tradeoffs between compression and accuracy.   
-* **Asymmetric quantizatio**n to combine binary storage with scalar queries for smarter memory use. 
+* **Asymmetric quantization** to combine binary storage with scalar queries for smarter memory use. 
 
 We introduce a new **binary quantization** storage that uses **2 and 1.5 bits** per dimension, improving precision for smaller vectors. Previous one-bit compression resulted in significant data loss and precision drops for vectors smaller than a thousand dimensions, often requiring expensive rescoring. 2-bit quantization offers 16X compression compared to 32X with one bit, improving performance for smaller vector dimensions. The 1.5-bit quantization compression offers 24X compression and intermediate accuracy. 
 
