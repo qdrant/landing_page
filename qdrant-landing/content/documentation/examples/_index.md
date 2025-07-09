@@ -19,7 +19,7 @@ partition: build
 | [Movie Recommendation System](/documentation/examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |
 | [GraphRAG Agent](/documentation/examples/graphrag-qdrant-neo4j/)                                 | Build a GraphRAG Agent with Neo4J and Qdrant               | Qdrant, Neo4j |
 | [Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy](/documentation/examples/Qdrant-DSPy-medicalbot/)                                 | How to build a medical chatbot grounded in medical literature with Qdrant and DSPy.              | Qdrant, DSPy |
-| [Using Cloud Inference with Qdrant for Vector Search](/documentation/examples/hybrid-cloud-inference/)                                                                                                                          | Hybrid search with cloud inference                                           |Qdrant, Cloud Inference  |
+
 
 
 ## Notebooks
