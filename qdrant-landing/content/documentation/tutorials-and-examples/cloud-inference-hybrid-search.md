@@ -8,7 +8,7 @@ weight: 35
 pip install qdrant-client datasets
 ```
 ## Initialize the Client
-Initialize the Qdrant client after creating a [Qdrant Cloud account](/documentation/cloud/) and a [dedicated paid cluster](/documentation/cloud/create-cluster/). 
+Initialize the Qdrant client after creating a [Qdrant Cloud account](/documentation/cloud/) and a [dedicated paid cluster](/documentation/cloud/create-cluster/). Set `cloud_inference` to `True` to enable cloud inference. 
 ```python
 from qdrant_client import QdrantClient
 client = QdrantClient(
