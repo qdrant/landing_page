@@ -75,7 +75,7 @@ We introduce [Maximal Marginal Relevance (MMR)](http://www.qdrant.tech/documenta
 
 It prevents your top-k results from being redundant and helps surface varied but relevant answers, particularly in dense datasets with overlapping entries.  
 
-### Idea 1: Diversifying Search Results with MMR
+### Diversifying Search Results with MMR
 
 Let’s say you’re building a knowledge assistant or semantic document explorer in which a single query can return multiple highly similar queries. For instance, searching “climate change” in a scientific paper database might return several similar paragraphs. 
 
