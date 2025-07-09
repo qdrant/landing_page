@@ -3,9 +3,9 @@ draft: false
 title: "How GoodData turbocharged AI analytics with Qdrant"
 short_description: "GoodData built a real-time AI assistant for enterprise BI using Qdrant’s blazing-fast vector search."
 description: "Discover how GoodData replaced brittle LLM prompts with a scalable RAG pipeline powered by Qdrant, reducing latency and enabling real-time AI analytics."
-preview_image: /blog/case-study-gooddata/social_preview_partnership-gooddata.jpg
-social_preview_image: /blog/case-study-gooddata/social_preview_partnership-gooddata.jpg
-date: 2025-07-08
+preview_image: /blog/case-study-gooddata/gooddata-social_preview.jpg
+social_preview_image: /blog/case-study-gooddata/gooddata-social_preview.jpg
+date: 2025-07-09
 author: "Daniel Azoulai"
 featured: true
 
@@ -18,6 +18,7 @@ tags:
 - case study
 ---
 
+![Gooddata Overview](/blog/case-study-gooddata/gooddata-bento-box-dark.jpg)
 ### GoodData's Evolution into AI-Powered Analytics
 
 AI is redefining how people interact with data, pushing analytics platforms beyond static dashboards toward intelligent, conversational experiences. While traditionally recognized as a powerful BI platform, GoodData is laser-focused on accelerating both 'time to insight' and 'time to solution' by enhancing productivity for analysts and business users alike. 
