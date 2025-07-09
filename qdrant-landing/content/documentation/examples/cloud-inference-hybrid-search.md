@@ -19,7 +19,7 @@ client = QdrantClient(
     timeout=30.0
 )  
 ```
-## Create a collection
+## Create a Collection
 Qdrant stores vectors and associated metadata in collections. Collection requires vector parameters to be set during creation. In this case, let's setup a collection using BM25 for sparse vectors and `all-minilm-l6-v2` for dense vectors. 
 ```python
 from qdrant_client import models
