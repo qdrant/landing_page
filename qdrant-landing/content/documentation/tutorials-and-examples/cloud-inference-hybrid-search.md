@@ -78,14 +78,14 @@ for idx, item in enumerate(ds):
 
 ```
 Here's a sample of the data:
-```markdown
+
 | qa_id              | paper_id | question                                              | year | venue                                | specialty    | passage_text                                          |
 |--------------------|----------|-------------------------------------------------------|------|--------------------------------------|--------------|--------------------------------------------------------|
 | 38_77498699_0_1    | 77498699 | What are the clinical features of relapsing polychondritis? | 2006 | Internet Journal of Otorhinolaryngology | Rheumatology | A 45-year-old man presented with painful swelling...  |
 | 38_77498699_0_2    | 77498699 | What treatments are available for relapsing polychondritis? | 2006 | Internet Journal of Otorhinolaryngology | Rheumatology | Patient showed improvement after treatment with...     |
 | 38_88124321_0_3    | 88124321 | How is Takayasu arteritis diagnosed?                  | 2015 | Journal of Autoimmune Diseases        | Rheumatology | A 32-year-old woman with fatigue and limb pain...      |
 
-```
+
 ## Upload Documents to the Collection
 Upload the data: 
 ```python
