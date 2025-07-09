@@ -42,7 +42,7 @@ if not client.collection_exists(collection_name=collection_name):
     }
 )
 ```
-## Add data
+## Add Data
 Now you can add sample documents, their associated metadata, and a point id for each.
 
 ```python
