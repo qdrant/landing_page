@@ -79,11 +79,10 @@ The ability to boost specific items within a vector search query has proven part
 
 Multi-tenancy played a critical role in Alhena’s ability to scale while keeping operations lean. Instead of spinning up a separate collection for each customer, Alhena isolated data within shared collections, preserving tenant-level boundaries without introducing additional infrastructure complexity. This model dramatically reduced collection sprawl, simplified version control, and allowed the team to support hundreds of thousands of end customers while maintaining just a few collections.
 
-**Supporting quote:**
-
 *“Multitenancy is a feature we find highly beneficial. It allows us to scale to hundreds of thousands of customers while managing only a few collections, thereby avoiding challenges in collection management. Additionally, we benefit from searching within their own search space. For each company, we implemented a delicate version control to ensure zero downtime after a new training finishes.”*  
  — Kang-Chi Ho, Founding AI Engineer, Alhena AI
 
+![Architecture Diagram](/blog/case-study-alhena/diagram-alhena.png)
 *Alhena’s retrieval and agentic stack. Qdrant powers vector search and filtering.*
 
 ## Simplifying global deployment through Qdrant Cloud
