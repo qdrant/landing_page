@@ -44,22 +44,20 @@ In 1.15, we have added:
 * Stemming support   
 * [Phrase matching](https://qdrant.tech/documentation/concepts/filtering/#phrase-match) 
 
-With [phrase matching](https://qdrant.tech/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase comparisons, allowing you to search for a specific phrase within a text field.  For example, the phrase “power outage” will be matched exactly in that order within the “summary” field: 
+With [phrase matching](https://qdrant.tech/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase comparisons, allowing you to search for a specific phrase within a text field.  For example, the phrase “machine time” will be matched exactly in that order within the “summary” field:
 
-```python  
-models.FieldCondition(  
-    key="summary",  
-    match=models.MatchPhrase(text="power outage"),  
-)  
-```  
-The above will match: 
+```python
+models.FieldCondition(
+    key="summary",
+    match=models.MatchPhrase(text="machine time"),
+)
+```
+The above will match:
 
-* A massive power outage was reported in downtown areas. 
-
-
-But not: 
-
-* A power line failure caused an outage.
+|  | text |
+| -- | --
+| ✅ | "The **machine time** is local, rather than global in distributed systems." |
+| ❌ | "Dr. Brown retrofitted a DeLorean into a **time machine**." |
 
 
   
