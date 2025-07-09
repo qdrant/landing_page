@@ -47,8 +47,6 @@ Stemming allows different forms of the same word to be matched together. For exa
 
 - “run”, “runs”, and “running” will all map to the root “run”
 
-This improves recall in keyword-based queries and hybrid search scenarios.
-
 With [phrase matching](https://qdrant.tech/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase comparisons, allowing you to search for a specific phrase within a text field.  For example, the phrase “machine time” will be matched exactly in that order within the “summary” field:
 
 ```python
