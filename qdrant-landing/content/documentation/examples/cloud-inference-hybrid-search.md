@@ -105,7 +105,7 @@ sparse_doc = Document(
     model=bm25_model
 )
 ```
-## Run vector search
+## Run Vector Search
 Here, you will ask a question that will allow you to retrieve semantically relevant results.
 ```python
 # Run hybrid search using prefetch + RRF fusion
