@@ -79,7 +79,7 @@ for idx, item in enumerate(ds):
 
 ```
 
-## Upload documents to the collection
+## Upload Documents to the Collection
 Upload the data: 
 ```python
 # Upload to Qdrant
