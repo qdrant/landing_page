@@ -3,7 +3,7 @@ title: Using Cloud Inference with Qdrant for Vector Search
 weight: 35
 ---
 # Using Cloud Inference with Qdrant for Vector Search
-## Install Qdrant
+## Install Qdrant Client
 ```bash
 pip install qdrant-client
 ```
