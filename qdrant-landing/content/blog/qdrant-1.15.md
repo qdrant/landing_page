@@ -33,7 +33,11 @@ We are expanding the Qdrant quantization toolkit with:
 
 We introduce a new **binary quantization** storage that uses **2 and 1.5 bits** per dimension, improving precision for smaller vectors. Previous one-bit compression resulted in significant data loss and precision drops for vectors smaller than a thousand dimensions, often requiring expensive rescoring. 2-bit quantization offers 16X compression compared to 32X with one bit, improving performance for smaller vector dimensions. The 1.5-bit quantization compression offers 24X compression and intermediate accuracy. 
 
+![binary-quantization](/blog/qdrant-1.15.x/binary-quantization.png)
+
 Asymmetric quantization enhances accuracy while maintaining binary quantization's storage benefits. In **asymmetric quantization** the queries use a different algorithm, specifically scalar quantization. This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or the bottleneck is disk I/O rather than CPU. This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output. 
+
+![asymetric-quantization](/blog/qdrant-1.15.x/asymetric-quantization.png)
 
 ## **Changes in Text Index**
 
@@ -122,7 +126,9 @@ We now use Gridstore for all payload indices, such as mutable and immutable ones
 
 With Qdrant 1.15, you can create new collections on the UI with a guided process to simplify configuration. This allows you to select options like global search or multi-tenancy and different embedding types, such as simple and hybrid. 
 
-**ADD SCREENSHOT**
+
+![create-collection01](/blog/qdrant-1.15.x/create-collection01.png)
+![create-collection01](/blog/qdrant-1.15.x/create-collection02.png)
 
 This new UI update is helpful for:
 
