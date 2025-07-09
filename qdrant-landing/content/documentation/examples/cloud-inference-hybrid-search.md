@@ -89,7 +89,7 @@ client.upload_points(
     batch_size=8
 )
 ```
-# Set up input query
+# Set Up Input Query
 Create a sample query:
 ```python
 query_text = "What is relapsing polychondritis?"
