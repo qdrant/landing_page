@@ -5,7 +5,7 @@ weight: 35
 # Using Cloud Inference with Qdrant for Vector Search
 ## Install Qdrant Client
 ```bash
-pip install qdrant-client
+pip install qdrant-client datasets
 ```
 ## Initialize the Client
 Initialize the Qdrant client after creating a [Qdrant Cloud account](/documentation/cloud/) and a [dedicated paid cluster](/documentation/cloud/create-cluster/). 
@@ -25,11 +25,11 @@ from qdrant_client import models
 
 collection_name = "my_collection_name"
 if not client.collection_exists(collection_name=collection_name):
-# Create collection with multi-vector config: "bm25_sparse_vector" for BM25, "dense" for MiniLM
+# Create collection with multi-vector config: "bm25_sparse_vector" for BM25, "dense_vector" for MiniLM
     client.create_collection(
     collection_name=collection_name,
     vectors_config={
-        "dense": models.VectorParams(
+        "dense_vector": models.VectorParams(
             size=384,
             distance=models.Distance.COSINE
         )
@@ -61,7 +61,7 @@ for idx, item in enumerate(ds):
     passage = item["passage_text"]
     
     point = PointStruct(
-        id=str(uuid.uuid4()),  # use unique string ID
+        id=uuid.uuid4().hex,  # use unique string ID
         payload={"text": passage},
         vector={
             "dense": Document(
@@ -77,7 +77,15 @@ for idx, item in enumerate(ds):
     points.append(point)
 
 ```
+Here's a sample of the data:
+```markdown
+| qa_id              | paper_id | question                                              | year | venue                                | specialty    | passage_text                                          |
+|--------------------|----------|-------------------------------------------------------|------|--------------------------------------|--------------|--------------------------------------------------------|
+| 38_77498699_0_1    | 77498699 | What are the clinical features of relapsing polychondritis? | 2006 | Internet Journal of Otorhinolaryngology | Rheumatology | A 45-year-old man presented with painful swelling...  |
+| 38_77498699_0_2    | 77498699 | What treatments are available for relapsing polychondritis? | 2006 | Internet Journal of Otorhinolaryngology | Rheumatology | Patient showed improvement after treatment with...     |
+| 38_88124321_0_3    | 88124321 | How is Takayasu arteritis diagnosed?                  | 2015 | Journal of Autoimmune Diseases        | Rheumatology | A 32-year-old woman with fatigue and limb pain...      |
 
+```
 ## Upload Documents to the Collection
 Upload the data: 
 ```python
@@ -88,7 +96,7 @@ client.upload_points(
     batch_size=8
 )
 ```
-# Set Up Input Query
+## Set Up Input Query
 Create a sample query:
 ```python
 query_text = "What is relapsing polychondritis?"
@@ -113,7 +121,7 @@ results = client.query_points(
     prefetch=[
         models.Prefetch(
             query=dense_doc,
-            using="dense",
+            using="dense_vector",
             limit=5
         ),
         models.Prefetch(
@@ -132,6 +140,6 @@ The semantic search engine will retrieve the most similar result in order of rel
 ```markdown
 [ScoredPoint(id='9968a760-fbb5-4d91-8549-ffbaeb3ebdba', 
 version=0, score=14.545895, 
-payload={'text': "Relapsing Polychondritis is a rare...'}, 
+payload={'text': "Relapsing Polychondritis is a rare..."}, 
 vector=None, shard_key=None, order_value=None)]
 ```
