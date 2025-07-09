@@ -8,7 +8,7 @@ preview_image: /blog/hitchhikers-guide/preview/preview.jpg
 social_preview_image: /blog/hitchhikers-guide/preview/social_preview.jpg # Optional image used for link previews
 title_preview_image: /blog/hitchhikers-guide/preview/title.jpg # Optional image used for blog post title
 
-date: 2025-07-08T13:50:57+02:00
+date: 2025-07-09T00:00:00+02:00
 author: Clelia Astra Bertelli & Evgeniya Sukhodolskaya
 featured: false 
 tags:
@@ -17,7 +17,8 @@ tags:
   - blog
 ---
 
-> From lecture halls to production pipelines, [Qdrant Stars](https://qdrant.tech/stars/) -- founders, mentors and open-source contributors -- share how they’re building with vectors in the wild. In this post, Clelia distils tips from her talk at the [“Bavaria, Advancements in SEarch Development” meetup](https://lu.ma/based_meetup), where she covered hard-won lessons from her extensive open-source building.
+> From lecture halls to production pipelines, [Qdrant Stars](https://qdrant.tech/stars/) -- founders, mentors and open-source contributors -- share how they’re building with vectors in the wild.  
+> In this post, Clelia distils tips from her talk at the [“Bavaria, Advancements in SEarch Development” meetup](https://lu.ma/based_meetup), where she covered hard-won lessons from her extensive open-source building.
 
 *Hey there, vector space astronauts!*  
 
@@ -43,6 +44,8 @@ When the user asks a question, context will be *retrieved* from the database and
 
 ## Text Extraction: Your Best Friend and Worst Enemy
 
+![text-extraction](/blog/hitchhikers-guide/sep_1.png)
+
 Text extraction is a crucial step: having clean, well-structured raw text can be game-changing for all the downstream steps of your RAG, especially to make the retrieved context easily “understandable” for the LLM.
 
 You can perform text extraction in various ways, for example:  
@@ -59,6 +62,8 @@ If you want a real-world example of how good vs bad text extraction makes the di
 It allows you to use LlamaParse or simple parsing with PyPDF to extract text from your papers and chat with them.
 
 ## Chunking Is All You Need
+
+![chunking](/blog/hitchhikers-guide/sep_2.png)
 
 Chunking might really make the difference between a successful and a failing RAG pipeline.
 
@@ -80,6 +85,8 @@ You can also check out how **abstract syntax trees can be used to parse and chun
 
 ## Embeddings: Catch ‘em All!
 
+![embeddings](/blog/hitchhikers-guide/sep_3.png)
+
 Embedding text equals generating a numerical representation of it. For example, as a target representation, you could choose *dense* or *sparse* vectors. The difference is in what they capture: dense embeddings are the best at broadly catching the semantic nuances of the text, while sparse embeddings precisely pick up its keywords.
 
 The good news is you don't have to pick one with a [hybrid search](https://qdrant.tech/articles/hybrid-search/). Hybrid search combines results from both a dense (semantic) search and a sparse (keyword) search.
@@ -97,6 +104,8 @@ If you want a quick start on a hybrid search, check out [Pokemon-Bot](https://gi
 
 ## Search Boosting 101
 
+![search-boosting](/blog/hitchhikers-guide/sep_4.png)
+
 Search boosting is something everybody wants: less compute, reduced latency and, overall, faster and more efficient pipelines that can make the UX way smoother. I’ll mention two of them.
 
 ### Semantic caching
@@ -111,7 +120,7 @@ Then, before running the whole RAG pipeline, you perform a quick search within y
 
 Binary quantization is also something that can help you, especially if you have tons of documents (we’re talking millions). A large dataset is a performance challenge and a memory problem: embeddings from providers like OpenAI can have 1536 dimensions, meaning almost 6 kB per full-precision embedding!
 
-*And here it comes:* taking the vector as a list of float32 numbers, binary quantization converts it to a list of 0s and 1s based on mathematical rounding. Such a representation significantly reduces the memory footprint and makes it easier for your search algorithm to compare vector representations.
+*And here it comes:* taking the vector as a list of floating point numbers, binary quantization converts it to a list of 0s and 1s based on mathematical rounding. Such a representation significantly reduces the memory footprint and makes it easier for your search algorithm to compare vector representations.
 
 Using binary quantization comes with the natural question: *“Are the search results as good as if I were using the non-quantized vectors?”* Generally, they aren’t *as* good, which is why they should be combined with the other techniques discussed above, such as rescoring.
 
@@ -120,6 +129,8 @@ Using binary quantization comes with the natural question: *“Are the search re
 Do you want to build a production-ready system with semantic caching and quantization? Then, you might want to look at [PhiQwenSTEM](https://github.com/AstraBert/PhiQwenSTEM), a learning assistant with access to 15,000+ documents to reply to your STEM questions!
 
 ## Querying Makes the Difference
+
+![querying](/blog/hitchhikers-guide/sep_5.png)
 
 A common error in RAG pipelines is that you curate every detail, but you do not take into account one key aspect: **queries**.
 
@@ -140,6 +151,8 @@ How to assign a query type?
 Well, you can build an agentic system for automated choice of query transformation, like in my [RAGcoon](https://github.com/AstraBert/RAGcoon). There, a query agent tries various retrieval techniques to get the best information for startup founders.
 
 ## Don’t Drown in Evals
+
+![evalustion](/blog/hitchhikers-guide/sep_6.png)
 
 Ideas turned into implementations are cool, yet only eval metrics can tell whether your project delivers real value and has a go-to-market potential.
 
