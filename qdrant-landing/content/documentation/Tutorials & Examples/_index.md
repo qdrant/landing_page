@@ -1,5 +1,5 @@
 ---
-title: Cloud Tutorials & Examples
-weight: 30
+title: Tutorials & Examples
+weight: 40
 partition: cloud
 ---
