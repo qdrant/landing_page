@@ -7,7 +7,7 @@ client.query("{collection_name}", {
   query: {
     nearest: [0.01, 0.45, 0.67, ...], // search vector
     mmr: {
-      lambda: 0.5, // 0.0 - diversity; 1.0 - relevance
+      diversity: 0.5, // 0.0 - relevance; 1.0 - diversity
       candidate_limit: 100 // num of candidates to preselect
     }
   },

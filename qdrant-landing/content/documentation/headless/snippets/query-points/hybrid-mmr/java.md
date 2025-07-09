@@ -17,7 +17,7 @@ client.queryAsync(
       .setQuery(nearest_with_mmr(
           List.of(0.01f, 0.45f, 0.67f), // <-- search vector
           Mmr.newBuilder()
-              .setLambda(0.5f) // 0.0 - diversity; 1.0 - relevance
+              .setDiversity(0.5f) // 0.0 - relevance; 1.0 - diversity
               .setCandidateLimit(100))) // num of candidates to preselect
       .setLimit(10)
       .build())

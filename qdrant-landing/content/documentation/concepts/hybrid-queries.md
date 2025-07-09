@@ -96,9 +96,11 @@ A useful algorithm to improve the diversity of the results is [Maximal Marginal 
 
 MMR selects candidates iteratively, starting with the most relevant point (higher similarity to the query). For each next point, it selects the one that hasn't been chosen yet which has the best combination of relevance and higher separation to the already selected points.
 
-This is implemented in Qdrant as a parameter of a nearest neighbors query. You define the vector to get the top candidates, and a lambda parameter which controls the balance between relevance (1.0) and diversity (0.0).
+This is implemented in Qdrant as a parameter of a nearest neighbors query. You define the vector to get the nearest candidates, and a `diversity` parameter which controls the balance between relevance (0.0) and diversity (1.0).
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-mmr/" >}}
+
+**Caveat:** Since MMR ranks one point at a time, the scores produced by MMR in Qdrant refer to the similarity to the query vector. This means that the response will not be ordered by score, but rather by the order of selection of MMR. Also, this score is not postprocessed, like it does for euclidean distance, so it may be negative (and that's ok).
 
 ## Score boosting
 

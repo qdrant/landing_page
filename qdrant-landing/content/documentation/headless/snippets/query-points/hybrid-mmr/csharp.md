@@ -9,7 +9,7 @@ await client.QueryAsync(
   query: new NearestInputWithMmr {
     Nearest = new float[] { 0.01f, 0.45f, 0.67f }, // search vector
     Mmr = new Mmr {
-      Lambda = 0.5f, // 0.0 - diversity; 1.0 - relevance
+      Diversity = 0.5f, // 0.0 - relevance; 1.0 - diversity
       CandidateLimit = 100 // num of candidates to preselect
     }
   },
