@@ -80,7 +80,7 @@ client.create_payload_index(
 Stemming improves text processing by converting words to their root form. For example “run”, “runs”, and “running” will all map to the root “run”. By using
 stemming you only store the root words, reducing the size of the index and increasing retrieval accuracy. It also leads to faster processing time for large volumes of text.
 
-You can configure the stemmer as shown below:
+Here is an example showing how to configure the collection to use the [Snowball stemmer](https://www.nltk.org/api/nltk.stem.SnowballStemmer.html): 
 ```python
 client.create_payload_index(
     collection_name="{collection_name}",
@@ -171,7 +171,7 @@ When we started building Qdrant, we picked RocksDB as our embedded key-value sto
 > For more insights on the performance of Gridstore compared to RocksDB checkout our [**Introducing Gridstore**](https://qdrant.tech/articles/gridstore-key-value-storage/#end-to-end-benchmarking) article. 
 
 ## Optimizations
-![Optimaztion](/blog/qdrant-1.15.x/optimizations.jpg)
+![Optimaztions](/blog/qdrant-1.15.x/optimizations.jpg)
 Qdrant 1.15 introduces HNSW healing. When points are removed from an existing [graph](https://qdrant.tech/documentation/concepts/indexing/#vector-index), new links are added to prevent isolation in the graph, and avoid decreasing search quality.
 
 > Our [**Optimizing Qdrant Performance**](/documentation/guides/optimize/) guide covers different optimization strategies. 
