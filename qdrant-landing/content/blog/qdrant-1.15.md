@@ -20,7 +20,7 @@ tags:
 
 **New quantizations:** Asymmetric quantization allows vectors and queries to have different quantization algorithms - new 1.5 and 2-bit quantizations for improved accuracy. 
 
-**HNSW healing**: Allows HNSW indexes to reuse the old graph even if some vectors are updated or deleted, improving resource utilization during frequent index updates. 
+**HNSW healing**: Allows HNSW indexes to reuse the old graph without a complete rebuild, even if some vectors are updated or deleted, improving resource utilization during frequent index updates. 
 
 **Changes in text index**: Introduction of a new multilingual tokenizer, stopwords support, stemming, and phrase matching. 
 
