@@ -52,7 +52,8 @@ representation](/articles/late-interaction-models/#understanding-embedding-model
 One of the effects of such inner workings is that the model can only understand what its tokenizer was trained on ([yes, 
 tokenizers are also trainable components](https://huggingface.co/learn/llm-course/chapter2/4#tokenizers)). As a result, 
 any characters it hasn't seen during the training will be replaced with a special `UNK` token. If you analyze social 
-media data, then you might be surprised that two contradicting sentences are actually perfect matches in your search.
+media data, then you might be surprised that two contradicting sentences are actually perfect matches in your search,
+as presented in the following example:
 
 ![Tokenization: The weather today is so 🌧️ vs The weather today is so 🌞](/articles_data/how-to-choose-an-embedding-model/tokenization-contradictions.png)
 
