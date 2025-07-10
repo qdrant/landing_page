@@ -167,7 +167,7 @@ Qdrant 1.15 introduces HNSW healing. When points are removed from an existing [g
 > Our [**Optimizing Qdrant Performance**](/documentation/guides/optimize/) guide covers different optimization strategies. 
 
 ## **Changes in Web UI**
-With Qdrant 1.15, you can create new collections from the UI with a guided process to simplify configuration. This allows you to select options like global search or multi-tenancy and different embedding types, such as simple and hybrid. 
+With Qdrant 1.15, you can create new collections from the UI with a guided process to simplify configuration. The new UI covers the most typical configurations, so it helps you set up your collection correctly, even if you're just starting.
 
 
 ![create-collection01](/blog/qdrant-1.15.x/create-collection01.png)
