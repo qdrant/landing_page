@@ -135,29 +135,24 @@ It prevents your top-k results from being redundant and helps surface varied but
 
 Let’s say you’re building a knowledge assistant or semantic document explorer in which a single query can return multiple highly similar queries. For instance, searching “climate change” in a scientific paper database might return several similar paragraphs. 
 
-You can diversify the results with Maximal Marginal Relevance (MMR).
+You can diversify the results with [Maximal Marginal Relevance (MMR)](/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr).
 
 Instead of returning the top-k results based on pure similarity, MMR helps select a diverse subset of high-quality results. This gives more coverage and avoids redundant results, which is helpful in dense content domains such as academic papers, product catalogs, or search assistants. 
 
 For example, you have vectorized paragraphs from hundreds of documents and stored them in Qdrant. Instead of showing only five nearly identical answers, you want your chatbot to respond with diverse answers. Here’s how to do it:
 
-```python  
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.query_points(  
-    collection_name="{collection_name}",  
-    query=models.NearestQuery(  
-        nearest=[0.01, 0.45, 0.67], # search vector  
-        mmr=models.Mmr(  
-            lambda_=0.5, # 0.0 - diversity; 1.0 - relevance  
-            candidate_limit=100, # num of candidates to preselect  
-        )  
-    ),  
-    limit=10,  
-)
-
+```markdown  
+POST /collections/{collection_name}/points/query
+{
+  "query": {
+    "nearest": [0.01, 0.45, 0.67, ...], // search vector
+    "mmr": {
+      "diversity": 0.5, // 0.0 - relevance; 1.0 - diversity
+      "candidate_limit": 100 // num of candidates to preselect
+    }
+  },
+  "limit": 10
+}
 ```
 
 ## Migration to Gridstore
