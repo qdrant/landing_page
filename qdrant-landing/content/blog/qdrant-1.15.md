@@ -6,7 +6,7 @@ short_description: "Smarter Quantization, Healing Indexes, and Multilingual Text
 description: "New access control options for RBAC, a much faster shard transfer procedure, and direct support for byte embeddings. " 
 preview_image: /blog/qdrant-1.15.x/social_preview.png
 social_preview_image: /blog/qdrant-1.15.x/social_preview.png
-date: 2025-07-08T00:00:00-08:00
+date: 2025-07-15T00:00:00-08:00
 author: Derrick Mwiti
 featured: false 
 tags:
