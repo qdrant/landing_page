@@ -16,7 +16,7 @@ tags:
 ---
 # Qdrant 1.15 - Smarter Quantization, Healing Indexes, and Multilingual Text Filtering
 
-[**Qdrant 1.15.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.15.0) is out! Let’s look at the main features for this version: 
+[**Qdrant 1.15.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.15.0) Let’s look at the main features for this version: 
 
 **New quantizations:** Asymmetric quantization allows vectors and queries to have different quantization algorithms - new 1.5 and 2-bit quantizations for improved accuracy. 
 
