@@ -25,7 +25,7 @@ Qdrant 1.15.0 is out! Let’s look at the main features for this version:
 **Changes in text index**: Introduction of a new multilingual tokenizer, including stopwords, a stemmer, and phrase matching. 
 
 ## **New Quantization Modes**
-
+![Quantization](/blog/qdrant-1.15.x/quantization.png)
 We are expanding the Qdrant quantization toolkit with: 
 
 * **1.5-bit and 2-bit quantization** for better tradeoffs between compression and accuracy.   
@@ -38,7 +38,7 @@ Asymmetric quantization enhances accuracy while maintaining binary quantization'
 ![asymetric-quantization](/blog/qdrant-1.15.x/asymetric-quantization.png)
 
 ## **Changes in Text Index**
-
+![Text index](/blog/qdrant-1.15.x/index.png)
 Building multilingual systems is challenging because languages have very different structures, complex morphology, and large variations in word usage. Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing. This means that your system can now natively account for different alphabets, grammatical structures, and idiomatic expressions. With multilingual tokenization, your system will perform well across various tasks by accurately representing the structure and meaning of text in different languages.
 
 Here is how to configure the multilingual tokenizer:
@@ -114,7 +114,7 @@ The above will match:
 | ❌ | "Dr. Brown retrofitted a DeLorean into a **time machine**." |
 
 ## **MMR Rescoring**
-
+![MMR](/blog/qdrant-1.15.x/mmr.png)
 We introduce [Maximal Marginal Relevance (MMR)](http://www.qdrant.tech/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr) rescoring to balance relevance and diversity.  MMR works by selecting the results iteratively, by picking the item with the best combination of similarity to the query and dissimilarity to the already selected items. 
 
 It prevents your top-k results from being redundant and helps surface varied but relevant answers, particularly in dense datasets with overlapping entries.  
@@ -149,19 +149,18 @@ client.query_points(
 ```
 
 ## **Migration to Gridstore**
+![Gridstore](/blog/qdrant-1.15.x/gridstore.png)
 When we started building Qdrant, we picked RocksDB as our embedded key-value store. However, due to it's architecture we ran into issues such as random latency spikes. [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) is our custom solution to this and other challenges we faced when building with RocksDB. Qdrant 1.15 continues our transition from RocksDB to [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) as the default storage backend for new deployments, leading to:
 
 * Faster ingestion speeds.   
 * Fast lookups and space management.  
 * Crash resilience with lazy updates and WAL recovery
 
-
 ## **Optimizations**
-
+![Optimaztion](/blog/qdrant-1.15.x/optimizations.jpg)
 Qdrant 1.15 introduces HNSW healing, where we remove points from an existing graph and add new links to prevent isolation in the graph, and avoid decreasing search quality.
 
 ## **Changes in Web UI**
-
 With Qdrant 1.15, you can create new collections on the UI with a guided process to simplify configuration. This allows you to select options like global search or multi-tenancy and different embedding types, such as simple and hybrid. 
 
 
