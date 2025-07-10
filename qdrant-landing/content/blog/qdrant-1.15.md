@@ -48,7 +48,7 @@ For example, when building a document retrieval system, you can use scalar quant
 Let's discover the new features in text indexing. 
 
 ### Multilingual Tokenization
-Building multilingual systems is challenging because languages have very different structures, complex morphology, and large variations in word usage. Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing. This means that your system can now natively account for different alphabets, grammatical structures, and idiomatic expressions. With multilingual tokenization, your system will perform well across various tasks by accurately representing the structure and meaning of text in different languages.
+Building multilingual systems is challenging because languages have very different structures, complex morphology, and large variations in word usage. Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing. This means that your system can now natively account for different alphabets, and grammatical structures. With multilingual tokenization, your system will perform well across various tasks by accurately representing the structure and meaning of text in different languages.
 
 Here is how to configure the multilingual tokenizer:
 
@@ -179,14 +179,11 @@ Qdrant 1.15 introduces HNSW healing. When points are removed from an existing [g
 ## Changes in Web UI
 With Qdrant 1.15, you can create new collections from the UI with a guided process to simplify configuration. The new UI covers the most typical configurations, so it helps you set up your collection correctly, even if you're just starting.
 
-
-![create-collection01](/blog/qdrant-1.15.x/create-collection01.png)
 ![create-collection01](/blog/qdrant-1.15.x/create-collection02.png)
 
 This new UI update is helpful for:
 
 * Experimenting interactively without writing JSON by hand.   
-* Testing new setups or comparing index configurations.   
 * Spinning a proof-of-concept without opening an IDE. 
 
 ## Upgrading to Version 1.15
