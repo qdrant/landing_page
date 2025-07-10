@@ -67,9 +67,8 @@ client.create_payload_index(
     ),
 )
 ```
-Stemming allows different forms of the same word to be matched together. For example:
-
-- “run”, “runs”, and “running” will all map to the root “run”
+Stemming improves text processing by converting words to their root form. For example “run”, “runs”, and “running” will all map to the root “run”. By using
+stemming you only store the root words, reducing the size of the index and increasing retrieval accuracy. It also leads to faster processing time for large volumes of text.
 
 You can configure the stemmer as shown below:
 ```python
