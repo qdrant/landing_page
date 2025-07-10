@@ -11,12 +11,11 @@ category: vector-search-manuals
 ---
 
 No matter if you are just beginning your journey in the world of vector search, or you are a seasoned practitioner, you 
-have probably wondered how to choose the right embedding model to achieve the best search precision. There are some
+have probably wondered how to choose the right embedding model to achieve the best search quality. There are some
 public benchmarks, such as [MTEB](https://huggingface.co/spaces/mteb/leaderboard), that can help you narrow down the 
 options, but datasets used in those benchmarks will rarely be representative of your domain-specific data. Moreover, 
-search precision is not the only requirement you could have. For example, some of the best models might have amazing 
-quality for retrieval, but you can't afford to run them, e.g., due to high resource usage and/or your budget 
-constraints.
+search quality is not the only requirement you could have. For example, some of the best models might be amazingly 
+accurate for retrieval, but you can't afford to run them, e.g., due to high resource usage or your budget constraints.
 
 <aside role="status">
 Although this article focuses mostly on the dense text embedding models, most of the considerations are also valid for 
@@ -44,15 +43,16 @@ so it's not a good choice if you have data in other languages.
 [![all-MiniLM-L6-v2 on Hugging Face Hub](/articles_data/how-to-choose-an-embedding-model/hf-model-card.png)](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 
 However, it's not only about the language, but also about how the model treats the input data. Surprisingly, this is 
-often overlooked. Text embedding models use a specific tokenizer to chunk the input data into pieces, and then starts 
-all the Transformer magic with assigning each token a specific input vector representation. 
+often overlooked. Text embedding models use a specific tokenizer to chunk the input data into pieces, and then [starts 
+all the Transformer magic with assigning each token a specific input vector 
+representation](/articles/late-interaction-models/#understanding-embedding-models). 
 
 ![An example of tokenization with WordPiece tokenizer](/articles_data/how-to-choose-an-embedding-model/tokenization-example.png)
 
-One of the effects of such inner workings is that the model can only understand what its tokenizer was trained on (yes, 
-tokenizers are also trainable components). As a result, any characters it hasn't seen during the training will be 
-replaced with a special `UNK` token. If you analyze social media data, then you might be surprised that two 
-contradicting sentences are actually perfect matches in your search.
+One of the effects of such inner workings is that the model can only understand what its tokenizer was trained on ([yes, 
+tokenizers are also trainable components](https://huggingface.co/learn/llm-course/chapter2/4#tokenizers)). As a result, 
+any characters it hasn't seen during the training will be replaced with a special `UNK` token. If you analyze social 
+media data, then you might be surprised that two contradicting sentences are actually perfect matches in your search.
 
 ![Tokenization: The weather today is so 🌧️ vs The weather today is so 🌞](/articles_data/how-to-choose-an-embedding-model/tokenization-contradictions.png)
 
