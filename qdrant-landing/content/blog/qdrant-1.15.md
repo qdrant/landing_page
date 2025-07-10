@@ -160,6 +160,8 @@ When we started building Qdrant, we picked RocksDB as our embedded key-value sto
 * Fast lookups and space management.  
 * Crash resilience with lazy updates and WAL recovery
 
+> For more insights on the performance of Gridstore compared to RocksDB checkout our [**Introducing Gridstore**](https://qdrant.tech/articles/gridstore-key-value-storage/#end-to-end-benchmarking) article. 
+
 ## **Optimizations**
 ![Optimaztion](/blog/qdrant-1.15.x/optimizations.jpg)
 Qdrant 1.15 introduces HNSW healing. When points are removed from an existing graph, new links are added to prevent isolation in the graph, and avoid decreasing search quality.
