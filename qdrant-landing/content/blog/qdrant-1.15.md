@@ -39,7 +39,9 @@ Asymmetric quantization enhances accuracy while maintaining binary quantization'
 
 ## **Changes in Text Index**
 
-Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing. Here is how to configure the multilingual tokenizer:
+Building multilingual systems is challenging because languages have very different structures, complex morphology, and large variations in word usage. Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing. This means that your system can now natively account for different alphabets, grammatical structures, and idiomatic expressions. With multilingual tokenization, your system will perform well across various tasks by accurately representing the structure and meaning of text in different languages.
+
+Here is how to configure the multilingual tokenizer:
 
 ```python
 client.create_payload_index(
