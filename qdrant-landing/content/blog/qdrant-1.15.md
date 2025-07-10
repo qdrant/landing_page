@@ -185,10 +185,13 @@ This new UI update is helpful for:
 
 In Qdrant Cloud, simply go to your Cluster Details screen and select Version 1.15 from the dropdown. The upgrade may take a few moments.
 
+> Upgrading from earlier versions is straightforward — no major API or index-breaking changes.
+
 Figure: Updating to the latest software version from the Qdrant Cloud dashboard.
 
 **ADD SCREENSHOT**
 
+**Documentation**: For detailed usage examples, configuration options, and implementation guides, including quantization, MMR rescoring, multilingual text indexing, and more, refer to the official [Qdrant documentation](https://qdrant.tech/documentation) and [API reference](https://api.qdrant.tech). You'll find full code samples, integration walkthroughs, and best practices for building high-performance vector search applications.
 ## **Conclusion** 
 
 We would love to hear your thoughts on this release. If you have any questions or feedback, join our [Discord](https://discord.gg/qdrant) or create an issue on [GitHub](https://github.com/qdrant/qdrant/issues). 
