@@ -24,7 +24,7 @@ tags:
 
 **Changes in text index**: Introduction of a new multilingual tokenizer, stopwords support, stemming, and phrase matching. 
 
-## **New Quantization Modes**
+## New Quantization Modes
 ![Quantization](/blog/qdrant-1.15.x/quantization.jpg)
 We are expanding the Qdrant quantization toolkit with: 
 
@@ -39,7 +39,7 @@ For example, when building a document retrieval system, you can use scalar quant
 
 >  Quantization enables efficient storage and search of high-dimensional vectors. Learn more about this from our [**quantization**](/documentation/guides/quantization/) docs. 
 
-## **Changes in Text Index**
+## Changes in Text Index
 ![Text index](/blog/qdrant-1.15.x/index.jpg)
 Building multilingual systems is challenging because languages have very different structures, complex morphology, and large variations in word usage. Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing. This means that your system can now natively account for different alphabets, grammatical structures, and idiomatic expressions. With multilingual tokenization, your system will perform well across various tasks by accurately representing the structure and meaning of text in different languages.
 
@@ -115,13 +115,13 @@ The above will match:
 | ✅ | "The **machine time** is local, rather than global in distributed systems." |
 | ❌ | "Dr. Brown retrofitted a DeLorean into a **time machine**." |
 
-## **MMR Rescoring**
+## MMR Rescoring
 ![MMR](/blog/qdrant-1.15.x/mmr.jpg)
 We introduce [Maximal Marginal Relevance (MMR)](/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr) rescoring to balance relevance and diversity.  MMR works by selecting the results iteratively, by picking the item with the best combination of similarity to the query and dissimilarity to the already selected items. 
 
 It prevents your top-k results from being redundant and helps surface varied but relevant answers, particularly in dense datasets with overlapping entries.  
 
-### **Diversifying Search Results with MMR**
+### Diversifying Search Results with MMR
 
 Let’s say you’re building a knowledge assistant or semantic document explorer in which a single query can return multiple highly similar queries. For instance, searching “climate change” in a scientific paper database might return several similar paragraphs. 
 
@@ -150,7 +150,7 @@ client.query_points(
 
 ```
 
-## **Migration to Gridstore**
+## Migration to Gridstore
 ![Gridstore](/blog/qdrant-1.15.x/gridstore.jpg)
 When we started building Qdrant, we picked RocksDB as our embedded key-value store. However, due to it's architecture we ran into issues such as random latency spikes. [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) is our custom solution to this and other challenges we faced when building with RocksDB. Qdrant 1.15 continues our transition from RocksDB to [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) as the default storage backend for new deployments, leading to:
 
@@ -160,13 +160,13 @@ When we started building Qdrant, we picked RocksDB as our embedded key-value sto
 
 > For more insights on the performance of Gridstore compared to RocksDB checkout our [**Introducing Gridstore**](https://qdrant.tech/articles/gridstore-key-value-storage/#end-to-end-benchmarking) article. 
 
-## **Optimizations**
+## Optimizations
 ![Optimaztion](/blog/qdrant-1.15.x/optimizations.jpg)
 Qdrant 1.15 introduces HNSW healing. When points are removed from an existing [graph](https://qdrant.tech/documentation/concepts/indexing/#vector-index), new links are added to prevent isolation in the graph, and avoid decreasing search quality.
 
 > Our [**Optimizing Qdrant Performance**](/documentation/guides/optimize/) guide covers different optimization strategies. 
 
-## **Changes in Web UI**
+## Changes in Web UI
 With Qdrant 1.15, you can create new collections from the UI with a guided process to simplify configuration. The new UI covers the most typical configurations, so it helps you set up your collection correctly, even if you're just starting.
 
 
@@ -179,7 +179,7 @@ This new UI update is helpful for:
 * Testing new setups or comparing index configurations.   
 * Spinning a proof-of-concept without opening an IDE. 
 
-## **Upgrading to Version 1.15**
+## Upgrading to Version 1.15
 
 In Qdrant Cloud, simply go to your Cluster Details screen and select Version 1.15 from the dropdown. The upgrade may take a few moments.
 
@@ -190,6 +190,6 @@ In Qdrant Cloud, simply go to your Cluster Details screen and select Version 1.1
 **ADD SCREENSHOT**
 
 **Documentation**: For detailed usage examples, configuration options, and implementation guides, including quantization, MMR rescoring, multilingual text indexing, and more, refer to the official [Qdrant documentation](https://qdrant.tech/documentation) and [API reference](https://api.qdrant.tech). You'll find full code samples, integration walkthroughs, and best practices for building high-performance vector search applications.
-## **Conclusion** 
+## Conclusion
 
 We would love to hear your thoughts on this release. If you have any questions or feedback, join our [Discord](https://discord.gg/qdrant) or create an issue on [GitHub](https://github.com/qdrant/qdrant/issues). 
