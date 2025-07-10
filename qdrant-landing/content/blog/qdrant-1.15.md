@@ -39,7 +39,7 @@ For example, when building a document retrieval system, you can use scalar quant
 
 ![asymetric-quantization](/blog/qdrant-1.15.x/asymetric-quantization.png)
 
->  Quantization enables efficient storage and search of high-dimensional vectors. Learn more about this from our[**quantization**](/documentation/guides/quantization/) docs. 
+>  Quantization enables efficient storage and search of high-dimensional vectors. Learn more about this from our [**quantization**](/documentation/guides/quantization/) docs. 
 
 ## **Changes in Text Index**
 ![Text index](/blog/qdrant-1.15.x/index.jpg)
