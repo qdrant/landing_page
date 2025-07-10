@@ -149,18 +149,16 @@ client.query_points(
 ```
 
 ## **Migration to Gridstore**
-
-Qdrant 1.15 continues our transition from RocksDB to [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) as the default storage backend for new deployments, leading to:
+When we started building Qdrant, we picked RocksDB as our embedded key-value store. However, due to it's architecture we ran into issues such as random latency spikes. [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) is our custom solution to this and other challenges we faced when building with RocksDB. Qdrant 1.15 continues our transition from RocksDB to [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) as the default storage backend for new deployments, leading to:
 
 * Faster ingestion speeds.   
 * Fast lookups and space management.  
 * Crash resilience with lazy updates and WAL recovery
 
-We now use Gridstore for all payload indices, such as mutable and immutable ones..  
 
 ## **Optimizations**
 
-1.15 introduces HNSW healing, where we remove points from an existing graph and add new links to prevent isolation in the graph, and avoid decreasing search quality.
+Qdrant 1.15 introduces HNSW healing, where we remove points from an existing graph and add new links to prevent isolation in the graph, and avoid decreasing search quality.
 
 ## **Changes in Web UI**
 
