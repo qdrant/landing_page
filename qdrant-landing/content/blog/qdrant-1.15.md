@@ -54,7 +54,7 @@ client.create_payload_index(
 )
 ```
 
-Stopwords like “the”, “is”, or “of” can clutter your index without adding value to search. Qdrant can now automatically ignore these during indexing and search, helping reduce noise and improve precision.
+Stop words make extracting meaningful information from your data more challenging. Articles like "a", conjunctions like "and", prepostions like "with", pronouns like "he" and common verbs such as "be", can clutter your index without adding value to search. You can remove them manually by creating a stop words list. To make this process even more efficient Qdrant can now automatically ignore these during indexing and search, helping reduce noise and improve precision.
 
 Here is how to configure stopwords:
 ```python
