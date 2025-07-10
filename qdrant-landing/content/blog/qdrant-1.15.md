@@ -18,7 +18,7 @@ tags:
 
 [**Qdrant 1.15.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.15.0) Let’s look at the main features for this version: 
 
-**New quantizations:** Asymmetric quantization allows vectors and queries to have different quantization algorithms - new 1.5 and 2-bit quantizations for improved accuracy. 
+**New quantizations:** We introduce asymmetric quantization and 1.5 and 2-bit quantizations. Asymmetric quantization allows vectors and queries to have different quantization algorithms. 1.5 and 2-bit quantizations allow for improved accuracy. 
 
 **HNSW healing**: Allows HNSW indexes to reuse the old graph without a complete rebuild, even if some vectors are updated or deleted, improving resource utilization during frequent index updates. 
 
