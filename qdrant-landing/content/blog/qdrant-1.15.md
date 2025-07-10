@@ -33,7 +33,7 @@ We are expanding the Qdrant quantization toolkit with:
 
 We introduce a new **binary quantization** storage that uses **2 and 1.5 bits** per dimension, improving precision for smaller vectors. Previous one-bit compression resulted in significant data loss and precision drops for vectors smaller than a thousand dimensions, often requiring expensive rescoring. 2-bit quantization offers 16X compression compared to 32X with one bit, improving performance for smaller vector dimensions. The 1.5-bit quantization compression offers 24X compression and intermediate accuracy. 
 
-Asymmetric quantization enhances accuracy while maintaining binary quantization's storage benefits. In **asymmetric quantization** the queries use a different algorithm, specifically scalar quantization. This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or the bottleneck is disk I/O rather than CPU. This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output. 
+Asymmetric quantization enhances accuracy while maintaining binary quantization's storage benefits. In **asymmetric quantization** the queries use a different algorithm, specifically scalar quantization. This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU. This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output. 
 
 ![asymetric-quantization](/blog/qdrant-1.15.x/asymetric-quantization.png)
 
@@ -54,7 +54,7 @@ client.create_payload_index(
 )
 ```
 
-Stop words make extracting meaningful information from your data more challenging. Articles like "a", conjunctions like "and", prepostions like "with", pronouns like "he" and common verbs such as "be", can clutter your index without adding value to search. You can remove them manually by creating a stop words list. To make this process even more efficient Qdrant can now automatically ignore these during indexing and search, helping reduce noise and improve precision.
+Stop words make extracting meaningful information from your data more challenging. Articles like "a", conjunctions like "and", prepostions like "with", pronouns like "he" and common verbs such as "be", can clutter your index without adding value to search. You can remove them manually by creating a stop words list. To make this process even more efficient, Qdrant can now automatically ignore these during indexing and search, helping reduce noise and improve precision.
 
 Here is how to configure stopwords:
 ```python
@@ -158,10 +158,10 @@ When we started building Qdrant, we picked RocksDB as our embedded key-value sto
 
 ## **Optimizations**
 ![Optimaztion](/blog/qdrant-1.15.x/optimizations.jpg)
-Qdrant 1.15 introduces HNSW healing, where we remove points from an existing graph and add new links to prevent isolation in the graph, and avoid decreasing search quality.
+Qdrant 1.15 introduces HNSW healing. When points are removed from an existing graph, new links are added to prevent isolation in the graph, and avoid decreasing search quality.
 
 ## **Changes in Web UI**
-With Qdrant 1.15, you can create new collections on the UI with a guided process to simplify configuration. This allows you to select options like global search or multi-tenancy and different embedding types, such as simple and hybrid. 
+With Qdrant 1.15, you can create new collections from the UI with a guided process to simplify configuration. This allows you to select options like global search or multi-tenancy and different embedding types, such as simple and hybrid. 
 
 
 ![create-collection01](/blog/qdrant-1.15.x/create-collection01.png)
