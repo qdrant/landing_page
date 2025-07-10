@@ -80,7 +80,7 @@ client.create_payload_index(
 Stemming improves text processing by converting words to their root form. For example “run”, “runs”, and “running” will all map to the root “run”. By using
 stemming you only store the root words, reducing the size of the index and increasing retrieval accuracy. It also leads to faster processing time for large volumes of text.
 
-Here is an example showing how to configure the collection to use the [Snowball stemmer](https://www.nltk.org/api/nltk.stem.SnowballStemmer.html): 
+Here is an example showing how to configure the collection to use the [Snowball stemmer](https://snowballstem.org/): 
 ```python
 client.create_payload_index(
     collection_name="{collection_name}",
