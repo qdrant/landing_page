@@ -166,6 +166,8 @@ When we started building Qdrant, we picked RocksDB as our embedded key-value sto
 ![Optimaztion](/blog/qdrant-1.15.x/optimizations.jpg)
 Qdrant 1.15 introduces HNSW healing. When points are removed from an existing graph, new links are added to prevent isolation in the graph, and avoid decreasing search quality.
 
+> Our [**Optimizing Qdrant Performance**](/documentation/guides/optimize/) guide covers different optimization strategies. 
+
 ## **Changes in Web UI**
 With Qdrant 1.15, you can create new collections from the UI with a guided process to simplify configuration. This allows you to select options like global search or multi-tenancy and different embedding types, such as simple and hybrid. 
 
