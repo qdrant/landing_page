@@ -238,7 +238,8 @@ infrastructure management and send the data you process in its original form? Qd
 Wouldn't it be great to run your selected embedding model as close to your search engine as possible? Network latency 
 might be one of the biggest enemies, and transferring millions of vectors over the network may take longer if done from
 a distant location. Moreover, some of the cloud providers will charge you for the data transfer, so it's not only about
-the latency, but also about the cost.
+the latency, but also about the cost. Finally, running an embedding model on-premises requires some expertise and 
+resources, and if you want to focus on your core business, you might prefer to avoid that.
 
 **Qdrant's Cloud Inference** solves these problems by allowing you to run the embedding model next to the cluster where 
 your vector database is running. It's a perfect solution for those who want not to worry about the model inference and 
