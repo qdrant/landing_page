@@ -82,9 +82,6 @@ Multi-tenancy played a critical role in Alhena’s ability to scale while keepin
 *“Multitenancy is a feature we find highly beneficial. It allows us to scale to hundreds of thousands of customers while managing only a few collections, thereby avoiding challenges in collection management. Additionally, we benefit from searching within their own search space. For each company, we implemented a delicate version control to ensure zero downtime after a new training finishes.”*  
  — Kang-Chi Ho, Founding AI Engineer, Alhena AI
 
-![Architecture Diagram](/blog/case-study-alhena/diagram-alhena.png)
-*Alhena’s retrieval and agentic stack. Qdrant powers vector search and filtering.*
-
 ## Simplifying global deployment through Qdrant Cloud
 
 Alhena serves customers in both the US and EU, and data residency is a growing concern. Before Qdrant, hosting and scaling regional instances with FAISS or Pinecone required custom Kubernetes deployments and persistent storage management. Now, with Qdrant Cloud, the team can spin up managed clusters in any region with a few clicks.
