@@ -113,16 +113,6 @@ The above will match:
 | ✅ | "The **machine time** is local, rather than global in distributed systems." |
 | ❌ | "Dr. Brown retrofitted a DeLorean into a **time machine**." |
 
-
-  
-Text fields in vector search often get overlooked, but they are crucial for hybrid and RAG workflows. The new tokenizer understands language structure better: 
-
-* “Running” and “run” now map together.   
-* Common words such as “the” and “is” get ignored. 
-
-
-The result is a much cleaner and leaner index with precise matches, enabling use cases such as semantic document retrieval with keyword fallback. 
-
 ## **MMR Rescoring**
 
 We introduce [Maximal Marginal Relevance (MMR)](http://www.qdrant.tech/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr) rescoring to balance relevance and diversity.  MMR works by selecting the results iteratively, by picking the item with the best combination of similarity to the query and dissimilarity to the already selected items. 
