@@ -5,7 +5,7 @@ short_description: "Alhena AI migrated from FAISS and Pinecone to Qdrant Cloud t
 description: "Discover how Alhena AI replaced multiple vector backends with Qdrant to deliver fast, accurate responses in customer-facing AI agents—and why hybrid search, filtering, and boosting were critical to success."
 preview_image: /blog/case-study-alhena/social-preview-alhena.jpg
 social_preview_image: /blog/case-study-alhena/social-preview-alhena.jpg
-date: 2025-07-05
+date: 2025-07-10
 author: "Daniel Azoulai"
 featured: true
 
