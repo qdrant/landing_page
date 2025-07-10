@@ -6,7 +6,7 @@ preview_dir: /articles_data/how-to-choose-an-embedding-model/preview
 social_preview_image: /articles_data/how-to-choose-an-embedding-model/social-preview.png
 author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
-date: 2025-06-07T00:00:00.000Z
+date: 2025-07-15T00:00:00.000Z
 category: vector-search-manuals
 ---
 
