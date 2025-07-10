@@ -39,15 +39,65 @@ Asymmetric quantization enhances accuracy while maintaining binary quantization'
 
 ## **Changes in Text Index**
 
-Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing.
+Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing. Here is how to configure the multilingual tokenizer:
+
+```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="name_of_the_field_to_index",
+    field_schema=models.TextIndexParams(
+        type="text",
+        tokenizer=models.TokenizerType.MULTILINGUAL,
+    ),
+)
+```
 
 Stopwords like “the”, “is”, or “of” can clutter your index without adding value to search. Qdrant can now automatically ignore these during indexing and search, helping reduce noise and improve precision.
 
+Here is how to configure stopwords:
+```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="name_of_the_field_to_index",
+    field_schema=models.TextIndexParams(
+        type="text",
+        stopwords="english"
+    ),
+)
+```
 Stemming allows different forms of the same word to be matched together. For example:
 
 - “run”, “runs”, and “running” will all map to the root “run”
 
-With [phrase matching](https://qdrant.tech/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase comparisons, allowing you to search for a specific phrase within a text field.  For example, the phrase “machine time” will be matched exactly in that order within the “summary” field:
+You can configure the stemmer as shown below:
+```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="name_of_the_field_to_index",
+    field_schema=models.TextIndexParams(
+        type="text",
+        stemmer=models.SnowballParams(
+            type="snowball",
+            language="english"
+        )
+    ),
+)
+```
+With [phrase matching](https://qdrant.tech/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase comparisons, allowing you to search for a specific phrase within a text field. You can configure your collection to support phrase matching as shown below:
+
+```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="name_of_the_field_to_index",
+    field_schema=models.TextIndexParams(
+        type="text",
+        phrase_matching=True
+    ),
+)
+```
+
+
+For example, the phrase “machine time” will be matched exactly in that order within the “summary” field:
 
 ```python
 models.FieldCondition(
