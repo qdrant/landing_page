@@ -37,8 +37,6 @@ Asymmetric quantization enhances accuracy while maintaining binary quantization'
 
 For example, when building a document retrieval system, you can use scalar quantization for the queries and binary quantization for the stored vectors. 
 
-![asymetric-quantization](/blog/qdrant-1.15.x/asymetric-quantization.png)
-
 >  Quantization enables efficient storage and search of high-dimensional vectors. Learn more about this from our [**quantization**](/documentation/guides/quantization/) docs. 
 
 ## **Changes in Text Index**
@@ -187,7 +185,7 @@ In Qdrant Cloud, simply go to your Cluster Details screen and select Version 1.1
 
 > Upgrading from earlier versions is straightforward - no major API or index-breaking changes.
 
-Figure: Updating to the latest software version from the Qdrant Cloud dashboard.
+**Figure**: Updating to the latest software version from the Qdrant Cloud dashboard.
 
 **ADD SCREENSHOT**
 
