@@ -1,5 +1,5 @@
 ---
-title: "The Hitchicker’s Guide to Vector Search"
+title: "The Hitchhiker's Guide to Vector Search"
 draft: false
 slug: hitchhikers-guide
 short_description: A Qdrant Star shares her hard-won lessons from her extensive open-source building
