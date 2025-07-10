@@ -31,9 +31,12 @@ We are expanding the Qdrant quantization toolkit with:
 * **1.5-bit and 2-bit quantization** for better tradeoffs between compression and accuracy.   
 * **Asymmetric quantization** to combine binary storage with scalar queries for smarter memory use. 
 
+### 1.5-Bit and 2-Bit Quantization
 We introduce a new **binary quantization** storage that uses **2 and 1.5 bits** per dimension, improving precision for smaller vectors. Previous one-bit compression resulted in significant data loss and precision drops for vectors smaller than a thousand dimensions, often requiring expensive rescoring. 2-bit quantization offers 16X compression compared to 32X with one bit, improving performance for smaller vector dimensions. The 1.5-bit quantization compression offers 24X compression and intermediate accuracy. 
 ![Quantization](/blog/qdrant-1.15.x/binary-quantization.png)
-Asymmetric quantization enhances accuracy while maintaining binary quantization's storage benefits. In **asymmetric quantization** the queries use a different algorithm, specifically scalar quantization. This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU. This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output. 
+
+### Asymmetric Quantization
+Asymmetric quantization enhances accuracy while maintaining binary quantization's storage benefits. In **asymmetric Quantization** the queries use a different algorithm, specifically scalar quantization. This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU. This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output. 
 
 For example, when building a document retrieval system, you can use scalar quantization for the queries and binary quantization for the stored vectors. 
 
@@ -41,6 +44,10 @@ For example, when building a document retrieval system, you can use scalar quant
 
 ## Changes in Text Index
 ![Text index](/blog/qdrant-1.15.x/index.jpg)
+
+Let's discover the new features in text indexing. 
+
+### Multilingual Tokenization
 Building multilingual systems is challenging because languages have very different structures, complex morphology, and large variations in word usage. Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing. This means that your system can now natively account for different alphabets, grammatical structures, and idiomatic expressions. With multilingual tokenization, your system will perform well across various tasks by accurately representing the structure and meaning of text in different languages.
 
 Here is how to configure the multilingual tokenizer:
@@ -55,7 +62,7 @@ client.create_payload_index(
     ),
 )
 ```
-
+### Stop Words
 Stop words make extracting meaningful information from your data more challenging. Articles like "a", conjunctions like "and", prepostions like "with", pronouns like "he" and common verbs such as "be", can clutter your index without adding value to search. You can remove them manually by creating a stop words list. To make this process even more efficient, Qdrant can now automatically ignore these during indexing and search, helping reduce noise and improve precision.
 
 Here is how to configure stopwords:
@@ -69,6 +76,7 @@ client.create_payload_index(
     ),
 )
 ```
+### Stemming
 Stemming improves text processing by converting words to their root form. For example “run”, “runs”, and “running” will all map to the root “run”. By using
 stemming you only store the root words, reducing the size of the index and increasing retrieval accuracy. It also leads to faster processing time for large volumes of text.
 
@@ -86,6 +94,7 @@ client.create_payload_index(
     ),
 )
 ```
+### Phrase Matching
 With [phrase matching](https://qdrant.tech/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase comparisons, allowing you to search for a specific phrase within a text field. You can configure your collection to support phrase matching as shown below:
 
 ```python
@@ -117,6 +126,7 @@ The above will match:
 
 ## MMR Rescoring
 ![MMR](/blog/qdrant-1.15.x/mmr.jpg)
+
 We introduce [Maximal Marginal Relevance (MMR)](/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr) rescoring to balance relevance and diversity.  MMR works by selecting the results iteratively, by picking the item with the best combination of similarity to the query and dissimilarity to the already selected items. 
 
 It prevents your top-k results from being redundant and helps surface varied but relevant answers, particularly in dense datasets with overlapping entries.  
@@ -183,7 +193,7 @@ This new UI update is helpful for:
 
 In Qdrant Cloud, simply go to your Cluster Details screen and select Version 1.15 from the dropdown. The upgrade may take a few moments.
 
-> Upgrading from earlier versions is straightforward - no major API or index-breaking changes.
+> Upgrading from earlier versions is straightforward - no major API or index-breaking changes. We recommend upgrading versions one by one for example, 1.13 ->1.14->1.15. 
 
 **Figure**: Updating to the latest software version from the Qdrant Cloud dashboard.
 
