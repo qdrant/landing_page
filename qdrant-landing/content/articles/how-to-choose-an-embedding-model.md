@@ -77,6 +77,11 @@ might be slightly harder, but companies like [OpenAI](https://github.com/openai/
 In the worst case, you can just modify some of the suspected tokens and see how the model reacts in terms of the 
 similarity between the original and modified text.
 
+![Creating vectors for accented and non-accented letters](/articles_data/how-to-choose-an-embedding-model/accented-letters.png)
+
+If the created representations are really far from each other in the vector space, it may indicate that some 
+non-supported characters are replaced with `UNK` tokens and thus the model can't properly embed the input data.
+
 ### Checklist of things to consider
 
 Nevertheless, the evaluation does not focus on the input tokens only. First and foremost, we should measure how well
