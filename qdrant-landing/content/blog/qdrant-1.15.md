@@ -52,70 +52,79 @@ Building multilingual systems is challenging because languages have very differe
 
 Here is how to configure the multilingual tokenizer:
 
-```python
-client.create_payload_index(
-    collection_name="{collection_name}",
-    field_name="name_of_the_field_to_index",
-    field_schema=models.TextIndexParams(
-        type="text",
-        tokenizer=models.TokenizerType.MULTILINGUAL,
-    ),
-)
+```markdown
+PUT /collections/{collection_name}/index
+{
+  "field_name": "description",
+  "field_index_params": {
+    "type": "text",
+    "tokenizer": "multilingual"
+  }
+}
 ```
 ### Stop Words
 Stop words make extracting meaningful information from your data more challenging. Articles like "a", conjunctions like "and", prepostions like "with", pronouns like "he" and common verbs such as "be", can clutter your index without adding value to search. You can remove them manually by creating a stop words list. To make this process even more efficient, Qdrant can now automatically ignore these during indexing and search, helping reduce noise and improve precision.
 
 Here is how to configure stopwords:
-```python
-client.create_payload_index(
-    collection_name="{collection_name}",
-    field_name="name_of_the_field_to_index",
-    field_schema=models.TextIndexParams(
-        type="text",
-        stopwords="english"
-    ),
-)
+```markdown
+PUT /collections/{collection_name}/index
+{
+  "field_name": "title",
+  "field_index_params": {
+    "type": "text",
+    "tokenizer": "multilingual"
+  }
+}
 ```
 ### Stemming
 Stemming improves text processing by converting words to their root form. For example “run”, “runs”, and “running” will all map to the root “run”. By using
 stemming you only store the root words, reducing the size of the index and increasing retrieval accuracy. It also leads to faster processing time for large volumes of text.
 
 Here is an example showing how to configure the collection to use the [Snowball stemmer](https://snowballstem.org/): 
-```python
-client.create_payload_index(
-    collection_name="{collection_name}",
-    field_name="name_of_the_field_to_index",
-    field_schema=models.TextIndexParams(
-        type="text",
-        stemmer=models.SnowballParams(
-            type="snowball",
-            language="english"
-        )
-    ),
-)
+```markdown
+PUT /collections/{collection_name}/index
+{
+  "field_name": "body",
+  "field_index_params": {
+    "type": "text",
+    "stemmer": {
+      "type": "snowball",
+      "language": "english"
+    }
+  }
+}
 ```
 ### Phrase Matching
 With [phrase matching](https://qdrant.tech/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase comparisons, allowing you to search for a specific phrase within a text field. You can configure your collection to support phrase matching as shown below:
 
-```python
-client.create_payload_index(
-    collection_name="{collection_name}",
-    field_name="name_of_the_field_to_index",
-    field_schema=models.TextIndexParams(
-        type="text",
-        phrase_matching=True
-    ),
-)
+```markdown
+PUT /collections/{collection_name}/index
+{
+  "field_name": "headline",
+  "field_index_params": {
+    "type": "text",
+    "phrase_matching": true
+  }
+}
 ```
 
 
 For example, the phrase “machine time” will be matched exactly in that order within the “summary” field:
 
-```python
-models.FieldCondition(
-    key="summary",
-    match=models.MatchPhrase(text="machine time"),
-)
+```markdown
+POST /collections/{collection_name}/points/query
+{
+  "vector": [0.01, 0.45, 0.67, 0.12],
+  "filter": {
+    "must": {
+      "key": "summary",
+      "match": {
+        "phrase": "machine time"
+      }
+    }
+  },
+  "limit": 10
+}
 ```
 The above will match:
 
