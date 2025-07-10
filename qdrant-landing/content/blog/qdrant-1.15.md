@@ -164,7 +164,7 @@ When we started building Qdrant, we picked RocksDB as our embedded key-value sto
 
 ## **Optimizations**
 ![Optimaztion](/blog/qdrant-1.15.x/optimizations.jpg)
-Qdrant 1.15 introduces HNSW healing. When points are removed from an existing graph, new links are added to prevent isolation in the graph, and avoid decreasing search quality.
+Qdrant 1.15 introduces HNSW healing. When points are removed from an existing [graph](https://qdrant.tech/documentation/concepts/indexing/#vector-index), new links are added to prevent isolation in the graph, and avoid decreasing search quality.
 
 > Our [**Optimizing Qdrant Performance**](/documentation/guides/optimize/) guide covers different optimization strategies. 
 
