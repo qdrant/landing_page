@@ -22,7 +22,7 @@ tags:
 
 **HNSW healing**: Allows HNSW indexes to reuse the old graph even if some vectors are updated or deleted, improving resource utilization during frequent index updates. 
 
-**Changes in text index**: Introduction of a new multilingual tokenizer, including stopwords, a stemmer, and phrase matching. 
+**Changes in text index**: Introduction of a new multilingual tokenizer, stopwords support, stemming, and phrase matching. 
 
 ## **New Quantization Modes**
 ![Quantization](/blog/qdrant-1.15.x/quantization.jpg)
