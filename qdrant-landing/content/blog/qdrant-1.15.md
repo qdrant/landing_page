@@ -117,7 +117,7 @@ The above will match:
 
 ## **MMR Rescoring**
 ![MMR](/blog/qdrant-1.15.x/mmr.jpg)
-We introduce [Maximal Marginal Relevance (MMR)](http://www.qdrant.tech/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr) rescoring to balance relevance and diversity.  MMR works by selecting the results iteratively, by picking the item with the best combination of similarity to the query and dissimilarity to the already selected items. 
+We introduce [Maximal Marginal Relevance (MMR)](/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr) rescoring to balance relevance and diversity.  MMR works by selecting the results iteratively, by picking the item with the best combination of similarity to the query and dissimilarity to the already selected items. 
 
 It prevents your top-k results from being redundant and helps surface varied but relevant answers, particularly in dense datasets with overlapping entries.  
 
