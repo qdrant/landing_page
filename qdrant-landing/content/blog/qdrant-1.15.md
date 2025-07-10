@@ -185,7 +185,7 @@ This new UI update is helpful for:
 
 In Qdrant Cloud, simply go to your Cluster Details screen and select Version 1.15 from the dropdown. The upgrade may take a few moments.
 
-> Upgrading from earlier versions is straightforward — no major API or index-breaking changes.
+> Upgrading from earlier versions is straightforward - no major API or index-breaking changes.
 
 Figure: Updating to the latest software version from the Qdrant Cloud dashboard.
 
