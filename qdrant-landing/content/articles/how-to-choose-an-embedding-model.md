@@ -6,7 +6,7 @@ preview_dir: /articles_data/how-to-choose-an-embedding-model/preview
 social_preview_image: /articles_data/how-to-choose-an-embedding-model/social-preview.png
 author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
-date: 2025-07-15T00:00:00.000Z
+date: 2025-07-10T00:00:00.000Z
 category: vector-search-manuals
 ---
 
@@ -63,10 +63,9 @@ the effects of tokenization are, we recommend you take the course on [Retrieval 
 Quantization](https://www.deeplearning.ai/short-courses/retrieval-optimization-from-tokenization-to-vector-quantization/)
 we recorded together with DeepLearning.AI.
 
-<div style="text-align: center;">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/AE8i69Kcodc?si=IdTEKlUHVbGzgJD-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<div style="position: relative; width: 100%; max-width: 640px; margin: 0 auto; padding-bottom: 46.25%; height: 0; overflow: hidden;">
+<iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; max-height: 360px;" src="https://www.youtube.com/embed/AE8i69Kcodc?si=IdTEKlUHVbGzgJD-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
-<br>
 
 You may find the course especially interesting if you still wonder why your semantic search engine can't handle 
 numerical data, such as prices or dates, and what you can do about it. 
