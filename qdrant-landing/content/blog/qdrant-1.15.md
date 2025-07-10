@@ -35,6 +35,8 @@ We introduce a new **binary quantization** storage that uses **2 and 1.5 bits** 
 
 Asymmetric quantization enhances accuracy while maintaining binary quantization's storage benefits. In **asymmetric quantization** the queries use a different algorithm, specifically scalar quantization. This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU. This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output. 
 
+For example, when building a document retrieval system, you can use scalar quantization for the queries and binary quantization for the stored vectors. 
+
 ![asymetric-quantization](/blog/qdrant-1.15.x/asymetric-quantization.png)
 
 ## **Changes in Text Index**
