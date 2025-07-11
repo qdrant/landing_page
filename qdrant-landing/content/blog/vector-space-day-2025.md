@@ -46,6 +46,9 @@ We’re intentionally keeping things broad. If you work on any of the following,
 
 Stay tuned: we’ll be announcing the full agenda, speaker lineup, and event partners in the coming weeks. Expect a mix of industry leaders, deep technical sessions, and emerging voices from the vector search and GenAI community.
 
+### After Party
+The day doesn’t end when the last session wraps. Your ticket includes access to the After Party. Unwind, connect with fellow attendees, and keep the conversations going over drinks, music, and light bites. Whether you're debriefing a lightning talk or sketching out your next RAG experiment on a napkin, it's the perfect way to close out the day.
+
 ### Call for Speakers
 
 We’ve locked in a strong lineup but we’re saving a few select slots for standout talks from the community. If you’re building something novel in vector search, AI memory, context engineering, or retrieval infra, we want to hear from you.
