@@ -16,7 +16,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 		Nearest: qdrant.NewVectorInput(0.01, 0.45, 0.67), // search vector
 		Mmr: &qdrant.Mmr{
 			Diversity: 0.5, // 0.0 - relevance; 1.0 - diversity
-			CandidateLimit: qdrant.PtrOf(uint64(100)) // num of candidates to preselect
+			CandidatesLimit: qdrant.PtrOf(uint64(100)) // num of candidates to preselect
 		},
 	}),
 	Limit: qdrant.PtrOf(uint64(10))

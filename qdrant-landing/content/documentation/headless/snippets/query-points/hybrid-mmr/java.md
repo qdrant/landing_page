@@ -18,7 +18,7 @@ client.queryAsync(
           List.of(0.01f, 0.45f, 0.67f), // <-- search vector
           Mmr.newBuilder()
               .setDiversity(0.5f) // 0.0 - relevance; 1.0 - diversity
-              .setCandidateLimit(100))) // num of candidates to preselect
+              .setCandidatesLimit(100))) // num of candidates to preselect
       .setLimit(10)
       .build())
   .get();

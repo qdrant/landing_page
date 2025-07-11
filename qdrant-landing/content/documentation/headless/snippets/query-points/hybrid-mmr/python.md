@@ -9,7 +9,7 @@ client.query_points(
         nearest=[0.01, 0.45, 0.67], # search vector
         mmr=models.Mmr(
             diversity=0.5, # 0.0 - relevance; 1.0 - diversity
-            candidate_limit=100, # num of candidates to preselect
+            candidates_limit=100, # num of candidates to preselect
         )
     ),
     limit=10,
