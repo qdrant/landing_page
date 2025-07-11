@@ -27,7 +27,7 @@ The Vector Space Day will bring together engineers, researchers, and AI builders
 ### Why You Should Attend
 
 * **Deep-dives & lightning talks**: Learn from the teams solving hard problems in AI infrastructure, search relevance, and semantic retrieval in production.  
-* **Panels & debate**s: Discuss the future of AI agents, multimodal memory, context-aware RAG, and vector-native developer workflows.   
+* **Panels & debates**: Discuss the future of AI agents, multimodal memory, context-aware RAG, and vector-native developer workflows.   
 * **Hands-on workshops**: Get practical with applied vector search and context construction in guided sessions, perfect whether you're building a search product or a complex RAG pipeline.  
 * **Meet the community**: This isn’t just a conference. It’s a gathering of the developers rethinking how AI systems search, retrieve, and reason at scale.
 
@@ -71,5 +71,5 @@ See you in Berlin\!
 
 ### Need your manager’s approval to attend?
 
-We’ve got you covered. Download this ready-to-send request letter to help explain why attending Vector Search Day is a valuable use of your time (and budget). It outlines what you’ll learn, how it ties into your role, and why being part of this event will help your team stay ahead of the curve in AI and search systems. [Download now](https://docs.google.com/document/d/1EivCVK47XEFXAhyoo8QaCBX0Op6uicUODAxTGXhZxrs/edit?usp=sharing). 
+We’ve got you covered. Download this ready-to-send request letter to help explain why attending Vector Search Day is a valuable use of your time (and budget). [Download now](https://docs.google.com/document/d/1EivCVK47XEFXAhyoo8QaCBX0Op6uicUODAxTGXhZxrs/edit?usp=sharing). 
 
