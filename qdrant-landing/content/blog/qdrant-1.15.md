@@ -36,7 +36,7 @@ We introduce a new **binary quantization** storage that uses **2 and 1.5 bits** 
 
 A major limitation of binary quantization is poor handling of values close to zero. 2-bit quantization addresses this by explicitly representing zeros using an efficient scoring mechanism. With 1.5-bit quantization we balance the efficiency of binary quantization with accuracy improvements of 2-bit quantization. 
 
-![Quantization](/blog/qdrant-1.15.x/binary-quantization.png)
+![Quantization](/blog/qdrant-1.15.x/1.5-2-bit-quantization.png)
 
 ### Asymmetric Quantization
 Asymmetric quantization enhances accuracy while maintaining binary quantization's storage benefits. In **asymmetric Quantization** the queries use a different algorithm, specifically scalar quantization. This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU. This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output. 
@@ -54,6 +54,8 @@ Let's discover the new features in text indexing.
 
 ### Multilingual Tokenization
 Building multilingual systems is challenging because languages have very different structures, complex morphology, and large variations in word usage. Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing. This means that your system can now natively account for different alphabets, and grammatical structures. With multilingual tokenization, your system will perform well across various tasks by accurately representing the structure and meaning of text in different languages.
+
+We previously supported 
 
 Here is how to configure the multilingual tokenizer:
 
@@ -84,6 +86,8 @@ PUT /collections/{collection_name}/index
 ### Stemming
 Stemming improves text processing by converting words to their root form. For example “run”, “runs”, and “running” will all map to the root “run”. By using
 stemming you only store the root words, reducing the size of the index and increasing retrieval accuracy. It also leads to faster processing time for large volumes of text.
+
+In Qdrant, stemming allow for better query document matching because grammar-related suffixes that don't add meaning to words get removed. We apply stemming in our full-text-search index increasing recall, because a more variety of queries match the same document. For example the queries "interesting documentation" and "interested in this document", will be normalized to ["interest", "document"] and ["interest", "in", "this", "document"], converting them to a very similar query. However, without stemming, these would become ["interesting", "documentation"] and ["interested", "in", "this", "document"], resulting in not a single word matching, despite being very similar in meaning. 
 
 Here is an example showing how to configure the collection to use the [Snowball stemmer](https://snowballstem.org/): 
 ```markdown
