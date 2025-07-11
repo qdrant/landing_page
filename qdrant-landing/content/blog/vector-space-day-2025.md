@@ -13,8 +13,8 @@ tags:
   - blog
 ---
 
-## Vector Space Day 2025: Powered by Qdrant | Call for speakers now open
-
+## Vector Space Day 2025: Powered by Qdrant 
+### Call for speakers now open
 📍 Colosseum Berlin, Germany  
 🗓️ Friday, September 26, 2025
 
