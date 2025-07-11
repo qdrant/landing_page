@@ -1,5 +1,5 @@
 ---
-title: "Announcing the Vector Space Day 2025 in Berlin"
+title: "Announcing Vector Space Day 2025 in Berlin"
 draft: false
 slug: vector-space-day-2025
 short_description: "We’re hosting our first-ever full-day in-person Vector Space Day this September in Berlin, and you’re invited."
