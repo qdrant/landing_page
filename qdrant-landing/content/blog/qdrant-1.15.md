@@ -139,7 +139,7 @@ The above will match:
 | ❌ | "Dr. Brown retrofitted a DeLorean into a **time machine**." |
 
 ## MMR Rescoring
-![MMR](/blog/qdrant-1.15.x/mmr.jpg)
+![MMR](/blog/qdrant-1.15.x/MMR.jpg)
 
 We introduce [Maximal Marginal Relevance (MMR)](/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr) rescoring to balance relevance and diversity.  MMR works by selecting the results iteratively, by picking the item with the best combination of similarity to the query and dissimilarity to the already selected items. 
 
@@ -180,7 +180,6 @@ When we started building Qdrant, we picked RocksDB as our embedded key-value sto
 > For more insights on the performance of Gridstore compared to RocksDB checkout our [**Introducing Gridstore**](https://qdrant.tech/articles/gridstore-key-value-storage/#end-to-end-benchmarking) article. 
 
 ## Optimizations
-![Optimaztions](/blog/qdrant-1.15.x/optimizations.jpg)
 Qdrant 1.15 introduces HNSW healing. When points are removed from an existing [graph](https://qdrant.tech/documentation/concepts/indexing/#vector-index), new links are added to prevent isolation in the graph, and avoid decreasing search quality.
 
 > Our [**Optimizing Qdrant Performance**](/documentation/guides/optimize/) guide covers different optimization strategies. 
