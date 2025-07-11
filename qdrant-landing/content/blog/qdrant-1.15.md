@@ -166,7 +166,7 @@ POST /collections/{collection_name}/points/query
     "nearest": [0.01, 0.45, 0.67, ...], // search vector
     "mmr": {
       "diversity": 0.5, // 0.0 - relevance; 1.0 - diversity
-      "candidate_limit": 100 // num of candidates to preselect
+      "candidates_limit": 100 // num of candidates to preselect
     }
   },
   "limit": 10
@@ -211,4 +211,4 @@ In Qdrant Cloud, simply go to your Cluster Details screen and select Version 1.1
 **Documentation**: For detailed usage examples, configuration options, and implementation guides, including quantization, MMR rescoring, multilingual text indexing, and more, refer to the official [Qdrant documentation](https://qdrant.tech/documentation) and [API reference](https://api.qdrant.tech). You'll find full code samples, integration walkthroughs, and best practices for building high-performance vector search applications.
 ## Conclusion
 
-We would love to hear your thoughts on this release. If you have any questions or feedback, join our [Discord](https://discord.gg/qdrant) or create an issue on [GitHub](https://github.com/qdrant/qdrant/issues). 
+We would love to hear your thoughts on this release. If you have any questions or feedback, join our [Discord](https://discord.gg/qdrant) or create an issue on [GitHub](https://github.com/qdrant/qdrant/issues).
