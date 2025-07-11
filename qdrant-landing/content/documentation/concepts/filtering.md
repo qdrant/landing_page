@@ -319,6 +319,23 @@ If there is no full-text index for the field, the condition will work as exact s
 
 If the query has several words, then the condition will be satisfied only if all of them are present in the text.
 
+### Phrase Match
+
+*Available as of v1.15.0*
+
+A match `phrase` condition also leverages [full-text index](/documentation/concepts/indexing/#full-text-index), to perform exact phrase comparisons.
+It allows you to search for a specific token phrase within the text field.
+
+For example, the text `"quick brown fox"` will be matched by the query `"brown fox"`, but not by `"fox brown"`.
+
+<aside role="status">
+    The index must be configured with <code>phrase_matching</code> parameter set to <code>true</code>. If the index has phrase matching disabled, phrase conditions won't match anything.
+</aside>
+
+If there is no full-text index for the field, the condition will work as exact substring match.
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/phrase-match/" >}}
+
 ### Range
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/range/" >}}
@@ -337,7 +354,7 @@ Can be applied to [float](/documentation/concepts/payload/#float) and [integer](
 
 ### Datetime Range
 
-The datetime range is a unique range condition, used for [datetime](/documentation/concepts/payload/#datetime) payloads, which supports RFC 3339 formats. 
+The datetime range is a unique range condition, used for [datetime](/documentation/concepts/payload/#datetime) payloads, which supports RFC 3339 formats.
 You do not need to convert dates to UNIX timestaps. During comparison, timestamps are parsed and converted to UTC.
 
 _Available as of v1.8.0_
@@ -371,9 +388,9 @@ If several values are stored, at least one of them should match the condition.
 These conditions can only be applied to payloads that match the [geo-data format](/documentation/concepts/payload/#geo).
 
 #### Geo Polygon
-Geo Polygons search is useful for when you want to find points inside an irregularly shaped area, for example a country boundary or a forest boundary. A polygon always has an exterior ring and may optionally include interior rings. A lake with an island would be an example of an interior ring. If you wanted to find points in the water but not on the island, you would make an interior ring for the island. 
+Geo Polygons search is useful for when you want to find points inside an irregularly shaped area, for example a country boundary or a forest boundary. A polygon always has an exterior ring and may optionally include interior rings. A lake with an island would be an example of an interior ring. If you wanted to find points in the water but not on the island, you would make an interior ring for the island.
 
-When defining a ring, you must pick either a clockwise or counterclockwise ordering for your points.  The first and last point of the polygon must be the same. 
+When defining a ring, you must pick either a clockwise or counterclockwise ordering for your points.  The first and last point of the polygon must be the same.
 
 Currently, we only support unprojected global coordinates (decimal degrees longitude and latitude) and we are datum agnostic.
 
@@ -381,7 +398,7 @@ Currently, we only support unprojected global coordinates (decimal degrees longi
 
 A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
 
-If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset. 
+If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset.
 These conditions can only be applied to payloads that match the [geo-data format](/documentation/concepts/payload/#geo).
 
 ### Values count
@@ -422,7 +439,7 @@ This condition will match all records where the field `reports` either does not 
 
 ### Is Null
 
-It is not possible to test for `NULL` values with the <b>match</b> condition. 
+It is not possible to test for `NULL` values with the <b>match</b> condition.
 We have to use `IsNull` condition instead:
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/is-null/" >}}
