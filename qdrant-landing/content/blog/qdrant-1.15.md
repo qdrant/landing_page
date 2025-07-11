@@ -55,7 +55,7 @@ Let's discover the new features in text indexing.
 ### Multilingual Tokenization
 Building multilingual systems is challenging because languages have very different structures, complex morphology, and large variations in word usage. Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing. This means that your system can now natively account for different alphabets, and grammatical structures. 
 
-We previously supported multilingual tokenization but made it optional due to the large binary size. Recent changes in certina languages have made the the binary size smaller and we have enabled multilingual tokenization by default in Qdrant 1.15. With this update you can use a variety of languages in our full-text search index for filters. This means that languages that don't have clear word boundaries and aren't separated by space such as Japanase and Chinese are now natively supported. Previosuly, only languages with spaces were supported, and you had to compile Qdrant yourself. 
+We previously supported multilingual tokenization but made it optional due to the large binary size. Recent changes have made the the binary size smaller and we have enabled multilingual tokenization by default in Qdrant 1.15. With this update you can use a variety of languages in our full-text search index for filters. This means that languages that don't have clear word boundaries and aren't separated by space such as Japanase and Chinese are now natively supported. Previosuly, only languages with spaces were supported, and you had to compile Qdrant yourself. 
 
 Here is how to configure the multilingual tokenizer:
 
