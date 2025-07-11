@@ -53,7 +53,7 @@ The day doesn’t end when the last session wraps. Your ticket includes access t
 
 We’ve locked in a strong lineup but we’re saving a few select slots for standout talks from the community. If you’re building something novel in vector search, AI memory, context engineering, or retrieval infra, we want to hear from you.
 
-[**Submit a proposal**](https://docs.google.com/forms/d/e/1FAIpQLSeGvmWISVImELQid1AjMv2Dvm2AXNuOqyZKqrQlFk07CnY_cw/viewform) **by Thursday, July 31st, 2025\.** 
+[**Submit a proposal**](https://docs.google.com/forms/d/e/1FAIpQLSeGvmWISVImELQid1AjMv2Dvm2AXNuOqyZKqrQlFk07CnY_cw/viewform) **by Friday, August 8th, 2025\.** 
 
 ### Get Your Ticket
 
