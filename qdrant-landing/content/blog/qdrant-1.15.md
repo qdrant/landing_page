@@ -79,7 +79,7 @@ PUT /collections/{collection_name}/index
   "field_name": "title",
   "field_index_params": {
     "type": "text",
-    "tokenizer": "multilingual"
+    "stopwords": "english"
   }
 }
 ```
