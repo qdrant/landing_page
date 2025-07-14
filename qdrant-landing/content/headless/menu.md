@@ -16,25 +16,25 @@ menuItems:
           icon: qdrant-vector-database.svg
           url: /qdrant-vector-database/
         - id: subMenu-0-1
-          name: Qdrant Enterprise Solutions
-          icon: qdrant-enterprise-solutions.svg
-          url: /enterprise-solutions/
-        - id: subMenu-0-2
           name: Qdrant Cloud
           icon: qdrant-cloud.svg
           url: /cloud/
-        - id: subMenu-0-3
-          name: Private Cloud
-          icon: private-cloud.svg
-          url: /private-cloud/
-        - id: subMenu-0-4
-          name: Hybrid Cloud
+        - id: subMenu-0-2
+          name: Qdrant Hybrid Cloud
           icon: hybrid-cloud.svg
           url: /hybrid-cloud/
-        - id: subMenu-0-5
+        - id: subMenu-0-3
+          name: Qdrant Enterprise Solutions
+          icon: qdrant-enterprise-solutions.svg
+          url: /enterprise-solutions/
+        - id: subMenu-0-4
           name: Qdrant Cloud Inference
           icon: cloud-inference.svg
           url: /cloud-inference/
+#       - id: subMenu-0-4
+#         name: Private Cloud
+#         icon: private-cloud.svg
+#         url: /private-cloud/
   - id: menu-1
     name: Solutions
     mainMenuItems:
