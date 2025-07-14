@@ -18,7 +18,7 @@ for idx, item in enumerate(ds):
         id=uuid.uuid4().hex,  # use unique string ID
         payload={"text": passage},
         vector={
-            "dense": Document(
+            "dense_vector": Document(
                 text=passage,
                 model=dense_model
             ),
