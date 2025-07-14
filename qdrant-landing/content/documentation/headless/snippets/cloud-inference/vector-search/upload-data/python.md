@@ -16,7 +16,7 @@ for idx, item in enumerate(ds):
     
     point = PointStruct(
         id=uuid.uuid4().hex,  # use unique string ID
-        payload={"text": passage},
+        payload=item,
         vector={
             "dense_vector": Document(
                 text=passage,
