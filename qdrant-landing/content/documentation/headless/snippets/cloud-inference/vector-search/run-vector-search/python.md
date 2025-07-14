@@ -1,14 +1,20 @@
 ```python
 results = client.query_points(
-    collection_name=collection_name,  # Replace with your collection
+    collection_name=collection_name,
     prefetch=[
         models.Prefetch(
-            query=dense_doc,
+            query=Document(
+                text=query_text,
+                model=dense_model
+            ),
             using="dense_vector",
             limit=5
         ),
         models.Prefetch(
-            query=sparse_doc,
+            query=Document(
+                text=query_text,
+                model=bm25_model
+            ),
             using="bm25_sparse_vector",
             limit=5
         )
