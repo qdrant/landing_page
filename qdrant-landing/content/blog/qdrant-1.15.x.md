@@ -179,14 +179,14 @@ The above will match:
 | ✅ | "The **machine time** is local, rather than global in distributed systems." |
 | ❌ | "Dr. Brown retrofitted a DeLorean into a **time machine**." |
 
-## MMR Rescoring
+## MMR Reranking
 
-We introduce [Maximal Marginal Relevance (MMR)](/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr) rescoring to balance relevance and diversity.
+We introduce [Maximal Marginal Relevance (MMR)](/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr) reranking to balance relevance and diversity.
 MMR works by selecting the results iteratively, by picking the item with the best combination of similarity to the query and dissimilarity to the already selected items.
 
 It prevents your top-k results from being redundant and helps surface varied but relevant answers, particularly in dense datasets with overlapping entries.
 
-![MMR example](/blog/qdrant-1.15.x/mmr-example.png)
+![MMR example](/blog/qdrant-1.15.x/diversity.png)
 
 ### Diversifying Search Results with MMR
 
@@ -198,7 +198,11 @@ You can diversify the results with [Maximal Marginal Relevance (MMR)](/documenta
 Instead of returning the top-k results based on pure similarity, MMR helps select a diverse subset of high-quality results.
 This gives more coverage and avoids redundant results, which is helpful in dense content domains such as academic papers, product catalogs, or search assistants.
 
-![Diversifying Search Results with MMR](/blog/qdrant-1.15.x/diversity.png)
+![Diversifying Search Results with MMR](/blog/qdrant-1.15.x/mmr-example.png)
+
+<figcaption>Without/with MMR when searching for "kebab" in <a href="https://qdrant.tech/documentation/datasets/#wolt-food">Wolt dataset</a> of text-image model</figcaption>
+
+<br>
 
 For example, you have vectorized paragraphs from hundreds of documents and stored them in Qdrant.
 Instead of showing only five nearly identical answers, you want your chatbot to respond with diverse answers. Here’s how to do it:
