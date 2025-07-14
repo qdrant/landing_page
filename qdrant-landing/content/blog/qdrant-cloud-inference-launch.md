@@ -67,4 +67,5 @@ We'll show you how to:
   <li style="margin-bottom: 0;">Reduce network egress fees and simplify your AI stack</li>
 </ul>
 
-[**Save your spot**](https://try.qdrant.tech/cloud-inference).
+
+### [**Save your spot**](https://try.qdrant.tech/cloud-inference).
