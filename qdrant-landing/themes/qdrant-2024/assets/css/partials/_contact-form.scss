@@ -49,6 +49,10 @@
     }
 
     fieldset {
+      .input .hs-input {
+        width: 100%;
+      }
+
       &.form-columns-1:has(> .legal-consent-container) {
         width: auto;
         margin-bottom: 0;
@@ -95,5 +99,18 @@
 
   @include media-breakpoint-up(xl) {
     padding: $spacer * 3 $spacer * 2.5;
+  }
+
+  .input ul {
+    padding-left: 0;
+    li {
+      list-style: none;
+    }
+  }
+
+  #Legit-interest-text-legal-disclaimer,
+  #explicit-text-legal-disclaimer {
+    font-size: pxToRem(12);
+    line-height: pxToRem(18);
   }
 }
