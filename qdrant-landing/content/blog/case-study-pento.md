@@ -3,11 +3,11 @@ draft: false
 title: "How Pento modeled aesthetic taste with Qdrant"
 short_description: "Pento built a multivector recommendation engine to connect people through shared taste, not popularity."
 description: "Discover how Pento used Qdrant’s recommendation API and multivector support to model aesthetic preferences and power a taste-based discovery engine."
-preview_image: /blog/case-study-pento/social_preview_partnership-pento.jpg
-social_preview_image: /blog/case-study-pento/social_preview_partnership-pento.jpg
-date: 2025-07-08
+preview_image: /blog/case-study-pento/pento-social_preview.jpg
+social_preview_image: /blog/case-study-pento/pento-social_preview.jpg
+date: 2025-07-14
 author: "Daniel Azoulai"
-featured: true
+featured: false
 
 tags:
 - Pento
@@ -20,7 +20,7 @@ tags:
 
 # Bringing People Together Through Qdrant
 
-![][image1]
+![pento-cover-image](/blog/case-study-pento/pento-cover-image.png)
 
 ## *Taste in art isn’t just a preference — it’s a fingerprint.*
 
@@ -58,7 +58,7 @@ If users systematically choose the upper end of the scale we simply raise  to ke
 At the heart of this system is the ability to understand art, not through keywords or categories, but through the image itself. Each piece of art is transformed into a vector using an image encoder that captures not just form and color, but style, visual tone, and composition. The image encoder can be a pre-trained encoder for visual tasks or, even better, a fine-tuned model that captures painting styles.
 
 The result is a high-dimensional embedding that places artworks into a semantic space where similar pieces, whether in style, subject, period, or color palette, are positioned close to one another, even across stylistic boundaries. These embeddings become the foundational layer for everything that follows: clustering, scoring, and ultimately, artist recommendation.  
-![][image2]
+![pento painting encoder](/blog/case-study-pento/pento-painting-encoder.png)
 
 ### Interaction Clustering with HDBSCAN
 
@@ -72,7 +72,8 @@ We split interactions into two sets:
 * ***Negative interactions***: interactions with wi\<0 (in red)
 
 Each set is clustered independently using HDBSCAN. This results in multiple localized regions in embedding space that reflect coherent aesthetic themes.  
-![][image3]  
+![HDBSCAN][/blog/case-study-pento/pento-hdbscan.png]
+
 Each cluster is represented by its medoid, the most central, representative embedding in that group. These medoids become the core building blocks of the user’s taste profile.  
 We use medoids instead of centroids because centroids are the mean of all embeddings in the cluster, which may not correspond to any actual sample and can be influenced by outliers or non-linear distances in the embedding space. In contrast, the medoid is an actual data point that best represents the cluster while preserving the true structure of the original space, especially important when working with non-euclidean distances like cosine similarity.
 
@@ -83,7 +84,7 @@ Let us clarify that clearly we don't have to use the entire user history, we can
 Not all tastes carry the same weight, especially over time. A cluster of artworks a user connected with months ago may no longer reflect their current preferences. To account for this, we assign a recency-aware score to each cluster, emphasizing freshness without discarding history.
 
 Each cluster is scored based on the timestamps of the interactions it contains, using an exponential decay function:  
-         ![][image4]  
+         ![][/blog/case-study-pento/exponential-decay-function.png]  
 Where:
 
 * wi is the normalized rating calculated before  
@@ -97,7 +98,7 @@ This scoring method captures two dimensions at once:
 * ***Recency:*** Newer preferences rise to the top  
 * ***Strength:*** Clusters with more activity gain importance
 
-![][image5]
+![medoid scoring][/blog/case-study-pento/pento-medoid-scoring.png]
 
 The result is a dynamic prioritization of tastes. Clusters representing fleeting interests fade naturally. Those tied to long-term engagement remain prominent.
 
@@ -115,12 +116,15 @@ This gives us two sets of vectors per user:
 * ***Negative multivector:*** clusters of rejected content
 
 Together, these sets describe not just what the user resonates with, but also what they tend to reject. It’s a more nuanced, contrastive view of preference and one that’s especially powerful when used with Qdrant’s vector search.  
-![][image6]
+
+![user representation][/blog/case-study-pento/pento-user-representation.png]
 
 #### Retrieval via Qdrant’s Recommendation API
 
 With each user represented by a set of positive and negative clusters condensed into multivectors, we can now move from modeling to discovery.  
-![][image7]  
+
+![multivector][/blog/case-study-pento/pento-multivector.png]  
+
 To recommend artists who might align with the users current aesthetic we turn to Qdrant Recommendation API. Unlike a standard vector search, this Qdrant’s functionality lets us provide both what we are looking for, represented by the positive multivector, and what we want to avoid, represented by the negative multivector.
 
 The logic is simple: find artists whose positive taste profile strongly overlaps with the target user’s preferences, while minimizing similarity to the clusters they tend to reject.
@@ -144,7 +148,7 @@ This behavior makes intuitive sense for our use case. Two artists don’t need t
 
 To compare multivectors themselves Qdrant uses the MaxSim function. This calculates the similarity between two multivectors by summing the maximum similarity between each vector in one matrix and the best-matching vector in the other:
 
-![][image8]
+![maxsim][/blog/case-study-pento/pento-max-sim-function.png]
 
 ### Addressing the cold start problem
 
