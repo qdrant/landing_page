@@ -40,7 +40,7 @@ Create a sample query:
 {{< code-snippet path="/documentation/headless/snippets/cloud-inference/vector-search/create-sample-query/" >}}
 
 ## Run Vector Search
-Here, you will ask a question that will allow you to retrieve semantically relevant results.
+Here, you will ask a question that will allow you to retrieve semantically relevant results. The final results are obtained by reranking using [Reciprocal Rank Fusion](https://qdrant.tech/documentation/concepts/hybrid-queries/#hybrid-search).
 
 {{< code-snippet path="/documentation/headless/snippets/cloud-inference/vector-search/run-vector-search/" >}}
 
