@@ -5,7 +5,7 @@ short_description: "Run inferencing natively in Qdrant Cloud"
 description: "Learn how to generate embeddings natively in Qdrant Cloud"
 preview_image: /blog/qdrant-cloud-inference/inference-social-preview.jpg
 social_preview_image: /blog/qdrant-cloud-inference/inference-social-preview.jpg
-date: 2025-07-14T00:00:00Z
+date: 2025-07-15T00:00:00Z
 author: Daniel Azoulai
 featured: true
 tags:
