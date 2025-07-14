@@ -7,13 +7,12 @@ preview_image: /blog/qdrant-cloud-inference/inference-how-it-works.png
 social_preview_image: /blog/qdrant-cloud-inference/inference-how-it-works.png
 date: 2025-07-14T00:00:00Z
 author: Daniel Azoulai
-featured: false
+featured: true
 tags:
 - vector search
-- enterprise
-- monitoring
-- RBAC
-- observability
+- inference
+- multimodal search
+- hybrid search
 ---
 
 # Introducing Qdrant Cloud Inference
@@ -30,7 +29,7 @@ Traditionally, building application data pipelines means juggling separate embed
 
 ## Supported Models for Multimodal and Hybrid Search Applications
 
-At launch, Qdrant Cloud Inference includes six curated models to start with. Choose from dense models like `all-MiniLM-L6-v2` for fast semantic matching, `mxbai/embed-large-v1` for richer understanding, or sparse models like `splade-pp-en-v1` and `bm25`. For multimodal workloads, Qdrant uniquely supports `OpenAI CLIP`\-style models for both text and images. 
+At launch, Qdrant Cloud Inference includes six curated models to start with. Choose from dense models like `all-MiniLM-L6-v2` for fast semantic matching, `mxbai/embed-large-v1` for richer understanding, or sparse models like `splade-pp-en-v1` and `bm25`. For multimodal workloads, Qdrant uniquely supports `OpenAI CLIP`-style models for both text and images. 
 
 *Want to request a different model to integrate? You can do this at [https://support.qdrant.io/](https://support.qdrant.io/).*
 
@@ -48,9 +47,9 @@ Getting started is easy. Inference is automatically enabled for any new paid clu
 
 ## Start Embedding Today
 
-You can get started\* now by logging into [Qdrant Cloud](https://cloud.qdrant.io/), selecting a model, and embedding your data directly. No extra APIs. No new tools. Just faster, simpler AI application development.
+You can get started now by logging into [Qdrant Cloud](https://cloud.qdrant.io/), selecting a model, and embedding your data directly. No extra APIs. No new tools. Just faster, simpler AI application development.
 
-*\*Available for paid cloud users. Available on AWS, Azure, and GCP for US regions only. Additional regions will be added soon.* 
+*Available for paid cloud users. Available on AWS, Azure, and GCP for US regions only. Additional regions will be added soon.* 
 
 ## Join us live for an inferencing webinar on July 31
 
