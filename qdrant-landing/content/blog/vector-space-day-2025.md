@@ -4,8 +4,8 @@ draft: false
 slug: vector-space-day-2025
 short_description: "We’re hosting our first-ever full-day in-person Vector Space Day this September in Berlin, and you’re invited."
 description: "From building scalable RAG pipelines to enabling real-time AI memory and next-gen context engineering, we’re covering the full spectrum of modern vector-native search."
-preview_image: /blog/vector-space-day-2025/partybanner.png
-date: 2025-07-11
+preview_image: /blog/vector-space-day-2025/Vector-Space-Day-Hero.jpg
+date: 2025-07-14
 author: Qdrant
 featured: false
 tags:
