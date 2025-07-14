@@ -221,8 +221,8 @@ smaller model will do the job just fine.
 ![Fast, precise, cheap - pick two](/articles_data/how-to-choose-an-embedding-model/pyramid.png)
 
 Remember that this doesn't have to be a one-time decision. As your application evolves, you might need to revisit your 
-choice of embedding model. Qdrant's architecture makes it relatively easy to migrate to a different model if needed,
-create the system with multiple models and switch between them based on the query, or build a 
+choice of the embedding model. Qdrant's architecture makes it relatively easy to migrate to a different model if needed.
+Named vectors help to create a system with multiple models and switch between them based on the query, or build a 
 [hybrid search](/articles/hybrid-search/) that takes advantage of different models or more complex search pipelines.
 
 An important decision to make is also where to host the embedding model. Maybe you prefer not to deal with the 
@@ -239,6 +239,4 @@ resources, and if you want to focus on your core business, you might prefer to a
 **Qdrant's Cloud Inference** solves these problems by allowing you to run the embedding model next to the cluster where 
 your vector database is running. It's a perfect solution for those who want not to worry about the model inference and 
 just use search that works on the data they have. Check out the [Cloud Inference 
-documentation](/#cloud-inference-documentation) to learn more.
-
-[//]: # (TODO: add a correct link to the documentation above)
+documentation](/documentation/cloud/inference/) to learn more.
