@@ -1,0 +1,1 @@
+This code snippet demonstrates how to use cloud inference in Qdrant Cloud to automatically create vector embeddings from text or image documents during upseart and query operations.
