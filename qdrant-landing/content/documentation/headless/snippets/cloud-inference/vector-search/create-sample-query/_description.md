@@ -1,1 +1,1 @@
-This code snippet creates sample query for hybrid search using Qdrant's cloud inference/ 
+This code snippet creates sample query for hybrid search using Qdrant's cloud inference.

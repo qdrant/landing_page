@@ -1,0 +1,1 @@
+This code snippet initializes Qdrant Client with cloud inference set to true. With this you can embed your data using cloud Inference without needing to run local models.
