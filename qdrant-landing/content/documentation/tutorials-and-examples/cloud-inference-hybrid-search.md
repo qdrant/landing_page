@@ -3,8 +3,8 @@ title: Using Cloud Inference with Qdrant for Vector Search
 weight: 35
 ---
 # Using Cloud Inference with Qdrant for Vector Search
-In this tutorial, we'll walkthrough building a **hybrid semantic search engine** using Qdrant Cloud's built-in inference capabilities. You'll learn how to:
-- Automatically embed your data using cloud Inference without needing to run local models,
+In this tutorial, we'll walkthrough building a **hybrid semantic search engine** using Qdrant Cloud's built-in [inference](/documentation/cloud/inference/) capabilities. You'll learn how to:
+- Automatically embed your data using [cloud Inference](/documentation/cloud/inference/) without needing to run local models,
 - Combine dense semantic embeddings with [sparse BM25 keywords](https://qdrant.tech/documentation/advanced-tutorials/reranking-hybrid-search/),  and
 - Perform hybrid search using  [Reciprocal Rank Fusion (RRF)](https://qdrant.tech/documentation/concepts/hybrid-queries/) to retrieve the most relevant results.
 ## Install Qdrant Client
@@ -12,7 +12,7 @@ In this tutorial, we'll walkthrough building a **hybrid semantic search engine**
 pip install qdrant-client datasets
 ```
 ## Initialize the Client
-Initialize the Qdrant client after creating a [Qdrant Cloud account](/documentation/cloud/) and a [dedicated paid cluster](/documentation/cloud/create-cluster/). Set `cloud_inference` to `True` to enable cloud inference. 
+Initialize the Qdrant client after creating a [Qdrant Cloud account](/documentation/cloud/) and a [dedicated paid cluster](/documentation/cloud/create-cluster/). Set `cloud_inference` to `True` to enable [cloud inference](/documentation/cloud/inference/). 
 ```python
 from qdrant_client import QdrantClient
 client = QdrantClient(
