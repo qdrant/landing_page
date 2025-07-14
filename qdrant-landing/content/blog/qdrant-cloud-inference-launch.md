@@ -17,7 +17,7 @@ tags:
 
 # Introducing Qdrant Cloud Inference
 
-Today, we’re announcing the launch of Qdrant Cloud Inference. With Qdrant Cloud Inference, users can generate, store and index embeddings in a single API call, turning unstructured text and images into search-ready vectors in a single environment. Directly integrating model inference into Qdrant Cloud removes the need for separate inference infrastructure, manual pipelines, and redundant data transfers. 
+Today, we’re announcing the launch of Qdrant Cloud Inference [get started in your cluster](https://cloud.qdrant.io/). With Qdrant Cloud Inference, users can generate, store and index embeddings in a single API call, turning unstructured text and images into search-ready vectors in a single environment. Directly integrating model inference into Qdrant Cloud removes the need for separate inference infrastructure, manual pipelines, and redundant data transfers. 
 
 This simplifies workflows, accelerates development cycles, and eliminates unnecessary network hops for developers. With a single API call, you can now embed, store, and index your data more quickly and more simply. This speeds up application development for RAG, Multimodal, Hybrid search, and more. 
 
@@ -35,7 +35,7 @@ At launch, Qdrant Cloud Inference includes six curated models to start with. Cho
 
 ![architecture](/blog/qdrant-cloud-inference/inference-ui.jpg)
 
-## Get up to 5M free tokens per model per month
+## Get up to 5M free tokens per model per month, and unlimited BM25 tokens
 
 To make onboarding even easier, we’re offering 5 million free tokens per text model, 1 million for our image model, and unlimited for `bm25` to all paid Qdrant Cloud users. These token allowances renew monthly so long as you have a paid Qdrant Cloud cluster. These free monthly tokens are perfect for development, staging, or even running initial production workloads without added cost. 
 
@@ -43,7 +43,7 @@ To make onboarding even easier, we’re offering 5 million free tokens per text 
 
 Getting started is easy. Inference is automatically enabled for any new paid clusters with version 1.14.0 or higher. It can be activated for existing clusters with a click on the inference tab on the Cluster Detail page in the Qdrant Cloud console. You will see examples of how to use inference with our different Qdrant SDKs.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/nJIX0zhrBL4?si=s5hd6iaT7F8dj7M-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen\>\</iframe\>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nJIX0zhrBL4?si=s5hd6iaT7F8dj7M-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Start Embedding Today
 
