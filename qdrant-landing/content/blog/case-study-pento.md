@@ -85,7 +85,7 @@ Let us clarify that clearly we don't have to use the entire user history, we can
 Not all tastes carry the same weight, especially over time. A cluster of artworks a user connected with months ago may no longer reflect their current preferences. To account for this, we assign a recency-aware score to each cluster, emphasizing freshness without discarding history.
 
 Each cluster is scored based on the timestamps of the interactions it contains, using an exponential decay function:  
-         ![exponential decay function](/blog/case-study-pento/exponential-decay-function.png)  
+![exponential decay function](/blog/case-study-pento/exponential-decay-function.png)  
 Where:
 
 * wi is the normalized rating calculated before  
