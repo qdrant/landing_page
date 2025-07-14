@@ -3,7 +3,7 @@ title: "Qdrant 1.15 - Smarter Quantization & better Text Filtering"
 draft: false
 slug: qdrant-1.15.x
 short_description: "Smarter Quantization, Healing Indexes, and Multilingual Text Filtering"
-description: "New access control options for RBAC, a much faster shard transfer procedure, and direct support for byte embeddings. "
+description: "Qdrant v1.15 release presents new Quantization Features, advanced Full-Text filtering and a bunch of performance optimizations"
 date: 2025-01-15T00:00:00-08:00
 author: Derrick Mwiti
 featured: false
