@@ -1,6 +1,6 @@
 ```python
 models.FieldCondition(
     key="description",
-    match=models.MatchPhrase(text="brown fox"),
+    match=models.MatchPhrase(phrase="brown fox"),
 )
 ```
