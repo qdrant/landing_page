@@ -12,7 +12,7 @@ It is much more efficient to apply changes in batches than perform each change i
 Storage optimization in Qdrant occurs at the segment level (see [storage](/documentation/concepts/storage/)).
 In this case, the segment to be optimized remains readable for the time of the rebuild.
 
-![Segment optimization](/docs/optimization.svg)
+![Segment optimization](/docs/optimization.png)
 
 The availability is achieved by wrapping the segment into a proxy that transparently handles data changes.
 Changed data is placed in the copy-on-write segment, which has priority for retrieval and subsequent updates.
