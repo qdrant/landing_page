@@ -4,7 +4,7 @@ using Qdrant.Client.Grpc;
 using Value = Qdrant.Client.Grpc.Value;
 
 var client = new QdrantClient(
-  host: "xyz-example.cloud-region.cloud-provider.cloud.qdrant.io",
+  host: "xyz-example.qdrant.io",
   port: 6334,
   https: true,
   apiKey: "<paste-your-api-key-here>"
@@ -16,9 +16,8 @@ await client.UpsertAsync(
     new() {
       Id = 1,
         Vectors = new Document() {
-          Text =
-            "Recipe for baking chocolate chip cookies requires flour, sugar, eggs, and chocolate chips.",
-            Model = "<the-model-to-use>",
+          Text = "Recipe for baking chocolate chip cookies",
+          Model = "<the-model-to-use>",
         },
         Payload = {
           ["topic"] = "cooking",
@@ -31,7 +30,8 @@ await client.UpsertAsync(
 var points = await client.QueryAsync(
   collectionName: "<your-collection>",
   query: new Document() {
-    Text = "Recipe for baking chocolate chip cookies", Model = "<the-model-to-use>"
+    Text = "How to bake cookies?",
+    Model = "<the-model-to-use>"
   }
 );
 

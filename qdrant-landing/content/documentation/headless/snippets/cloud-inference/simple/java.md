@@ -14,10 +14,11 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class Main {
-  public static void main(String[] args) throws ExecutionException, InterruptedException {
+  public static void main(String[] args)
+      throws ExecutionException, InterruptedException {
     QdrantClient client =
       new QdrantClient(
-        QdrantGrpcClient.newBuilder("xyz-example.cloud-region.cloud-provider.cloud.qdrant.io", 6334, true)
+        QdrantGrpcClient.newBuilder("xyz-example.qdrant.io", 6334, true)
         .withApiKey("<paste-your-api-key-here>")
         .build());
 
@@ -30,8 +31,7 @@ public class Main {
           .setVectors(
             vectors(
               Document.newBuilder()
-              .setText(
-                "Recipe for baking chocolate chip cookies requires flour, sugar, eggs, and chocolate chips.")
+              .setText("Recipe for baking chocolate chip cookies")
               .setModel("<the-model-to-use>")
               .build()))
           .putAllPayload(Map.of("topic", value("cooking"), "type", value("dessert")))
@@ -46,7 +46,7 @@ public class Main {
         .setQuery(
           nearest(
             Document.newBuilder()
-            .setText("Recipe for baking chocolate chip cookies")
+            .setText("How to bake cookies?")
             .setModel("<the-model-to-use>")
             .build()))
         .build())

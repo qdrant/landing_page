@@ -1,9 +1,6 @@
 ```rust
-use qdrant_client::qdrant::vector;
-use qdrant_client::qdrant::vector_input;
+use qdrant_client::qdrant::Query;
 use qdrant_client::qdrant::QueryPointsBuilder;
-use qdrant_client::qdrant::Vector;
-use qdrant_client::qdrant::VectorInput;
 use qdrant_client::Payload;
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{Document};
@@ -11,40 +8,40 @@ use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
 
 #[tokio::main]
 async fn main() {
-    let client = Qdrant::from_url("https://xyz-example.cloud-region.cloud-provider.cloud.qdrant.io:6334")
+    let client = Qdrant::from_url("https://xyz-example.qdrant.io:6334")
         .api_key("<paste-your-api-key-here>")
         .build()
         .unwrap();
 
-    let mut points = Vec::new();
+    let points = vec![
+        PointStruct::new(
+            1,
+            Document::new(
+                "Recipe for baking chocolate chip cookies",
+                "<the-model-to-use>"
+            ),
+            Payload::try_from(serde_json::json!(
+                {"topic": "cooking", "type": "dessert"}
+            )).unwrap(),
+        )
+    ];
 
-    let vector = Vector {
-        vector: Some(vector::Vector::Document(Document {
-            text: "Recipe for baking chocolate chip cookies requires flour, sugar, eggs, and chocolate chips.".to_string(),
-            model: "<the-model-to-use>".to_string(),
-            options: Default::default(),
-        })),
-        ..Default::default()
-    };
+    let upsert_request = UpsertPointsBuilder::new(
+        "<your-collection>",
+        points
+    ).wait(true);
 
-    points.push(PointStruct::new(1, vector, Payload::default()));
+    let _ = client.upsert_points(upsert_request).await;
 
-    let _ = client
-        .upsert_points(UpsertPointsBuilder::new("<your-collection>", points).wait(true))
-        .await;
+    let query_document = Document::new(
+        "How to bake cookies?",
+        "<the-model-to-use>"
+    );
 
-    let document = Document {
-        text: "Recipe for baking chocolate chip cookies".to_string(),
-        model: "<the-model-to-use>".to_string(),
-        options: Default::default(),
-    };
-
-    let query = VectorInput {
-        variant: Some(vector_input::Variant::Document(document)),
-    };
-
-    let query_request = QueryPointsBuilder::new("<your-collection>").query(query);
+    let query_request = QueryPointsBuilder::new("<your-collection>")
+        .query(Query::new_nearest(query_document));
 
     let result = client.query(query_request).await.unwrap();
     println!("Result: {:?}", result);
+}
 ```
