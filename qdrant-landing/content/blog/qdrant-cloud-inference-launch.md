@@ -3,8 +3,8 @@ draft: false
 title: "Introducing Qdrant Cloud Inference"
 short_description: "Run inferencing natively in Qdrant Cloud"
 description: "Learn how to generate embeddings natively in Qdrant Cloud"
-preview_image: /blog/qdrant-cloud-inference/inference-how-it-works.png
-social_preview_image: /blog/qdrant-cloud-inference/inference-how-it-works.png
+preview_image: /blog/qdrant-cloud-inference/inference-social-preview.jpg
+social_preview_image: /blog/qdrant-cloud-inference/inference-social-preview.jpg
 date: 2025-07-14T00:00:00Z
 author: Daniel Azoulai
 featured: true
@@ -33,7 +33,7 @@ At launch, Qdrant Cloud Inference includes six curated models to start with. Cho
 
 *Want to request a different model to integrate? You can do this at [https://support.qdrant.io/](https://support.qdrant.io/).*
 
-![architecture](/blog/qdrant-cloud-inference/inference-ui.png)
+![architecture](/blog/qdrant-cloud-inference/inference-ui.jpg)
 
 ## Get up to 5M free tokens per model per month
 
