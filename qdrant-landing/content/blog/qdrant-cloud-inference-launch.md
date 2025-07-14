@@ -60,9 +60,10 @@ Kacper Łukawski, Senior Developer Advocate, is hosting a live session on Thursd
 
 We'll show you how to:
 
-* Generate embeddings for text or images using pre-integrated models  
-* Store and search embeddings in the same Qdrant Cloud environment  
-* Power multimodal (an industry first) and hybrid search with just one API  
-* Reduce network egress (for non on-prem deployments) fees and simplify your AI stack
-
+<ul style="margin: 0; padding: 0; list-style-position: inside;">
+  <li style="margin-bottom: 0;">Generate embeddings for text or images using pre-integrated models</li>
+  <li style="margin-bottom: 0;">Store and search embeddings in the same Qdrant Cloud environment</li>
+  <li style="margin-bottom: 0;">Power multimodal (an industry first) and hybrid search with just one API</li>
+  <li style="margin-bottom: 0;">Reduce network egress fees and simplify your AI stack</li>
+</ul>
 [**Save your spot**](https://try.qdrant.tech/cloud-inference).
