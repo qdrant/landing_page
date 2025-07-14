@@ -1,23 +1,10 @@
 ---
 title: Question Answering as a Service with Cohere and Qdrant
-short_description: "End-to-end Question Answering system for the biomedical data with SaaS tools: Cohere co.embed API and Qdrant"
-description: "End-to-end Question Answering system for the biomedical data with SaaS tools: Cohere co.embed API and Qdrant"
-social_preview_image: /articles_data/qa-with-cohere-and-qdrant/social_preview.png
-small_preview_image: /articles_data/qa-with-cohere-and-qdrant/q-and-a-article-icon.svg
-preview_dir: /articles_data/qa-with-cohere-and-qdrant/preview
-weight: 7
-author: Kacper Łukawski
-author_link: https://medium.com/@lukawskikacper
-date: 2022-11-29T15:45:00+01:00
-draft: false
-keywords:
-  - vector search
-  - question answering
-  - cohere
-  - co.embed
-  - embeddings
-category: practicle-examples
+weight: 19
+aliases:
+    - /articles/qa-with-cohere-and-qdrant/
 ---
+# Question Answering as a Service with Cohere and Qdrant
 
 Bi-encoders are probably the most efficient way of setting up a semantic Question Answering system. 
 This architecture relies on the same neural model that creates vector embeddings for both questions and answers. 
