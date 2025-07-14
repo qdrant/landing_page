@@ -1,5 +1,5 @@
 ---
-title: Using Cloud Inference with Qdrant for Vector Search
+title: Using Cloud Inference to Build Hybrid Search
 weight: 35
 ---
 # Using Cloud Inference with Qdrant for Vector Search
