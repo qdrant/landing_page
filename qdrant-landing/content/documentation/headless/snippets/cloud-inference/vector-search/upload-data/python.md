@@ -1,7 +1,3 @@
-from qdrant_client.http.models import PointStruct, Document
-from datasets import load_dataset
-import uuid
-
 dense_model = "sentence-transformers/all-minilm-l6-v2"
 bm25_model = "qdrant/bm25"
 
