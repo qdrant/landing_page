@@ -1,3 +1,4 @@
+```python
 results = client.query_points(
     collection_name=collection_name,  # Replace with your collection
     prefetch=[
@@ -18,3 +19,4 @@ results = client.query_points(
 )
 
 print(results.points)
+```
