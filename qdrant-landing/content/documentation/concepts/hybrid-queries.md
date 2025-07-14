@@ -8,7 +8,7 @@ hideInSidebar: false # Optional. If true, the page will not be shown in the side
 
 # Hybrid and Multi-Stage Queries
 
-*Available as of v1.10.0*
+_Available as of v1.10.0_
 
 With the introduction of [many named vectors per point](/documentation/concepts/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries,
 or by performing the search in more than one stage.
@@ -18,6 +18,7 @@ Qdrant has a flexible and universal interface to make this possible, called `Que
 The main component for making the combinations of queries possible is the `prefetch` parameter, which enables making sub-requests.
 
 Specifically, whenever a query has at least one prefetch, Qdrant will:
+
 1. Perform the prefetch query (or queries),
 2. Apply the main query over the results of its prefetch(es).
 
@@ -37,20 +38,20 @@ plus the best of matching specific words.
 Qdrant currently has two ways of combining the results from different queries:
 
 - `rrf` -
-<a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">
-Reciprocal Rank Fusion
-</a>
+  <a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">
+  Reciprocal Rank Fusion
+  </a>
 
   Considers the positions of results within each query, and boosts the ones that appear closer to the top in multiple of them.
 
 - `dbsf` -
-<a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">
-Distribution-Based Score Fusion
-</a> *(available as of v1.11.0)*
+  <a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">
+  Distribution-Based Score Fusion
+  </a> _(available as of v1.11.0)_
 
   Normalizes the scores of the points in each query, using the mean +/- the 3rd standard deviation as limits, and then sums the scores of the same point across different queries.
 
-  <aside role="status"><code>dbsf</code> is stateless and calculates the normalization limits only based on the results of each query, not on all the scores that it has seen.</aside>
+    <aside role="status"><code>dbsf</code> is stateless and calculates the normalization limits only based on the results of each query, not on all the scores that it has seen.</aside>
 
 Here is an example of Reciprocal Rank Fusion for a query containing two prefetches against different named vectors configured to respectively hold sparse and dense vectors.
 
@@ -62,14 +63,14 @@ In many cases, the usage of a larger vector representation gives more accurate s
 
 Splitting the search into two stages is a known technique:
 
-* First, use a smaller and cheaper representation to get a large list of candidates.
-* Then, re-score the candidates using the larger and more accurate representation.
+- First, use a smaller and cheaper representation to get a large list of candidates.
+- Then, re-score the candidates using the larger and more accurate representation.
 
 There are a few ways to build search architectures around this idea:
 
-* The quantized vectors as a first stage, and the full-precision vectors as a second stage.
-* Leverage Matryoshka Representation Learning (<a href=https://arxiv.org/abs/2205.13147 target="_blank">MRL</a>) to generate candidate vectors with a shorter vector, and then refine them with a longer one.
-* Use regular dense vectors to pre-fetch the candidates, and then re-score them with a multi-vector model like <a href=https://arxiv.org/abs/2112.01488 target="_blank">ColBERT</a>.
+- The quantized vectors as a first stage, and the full-precision vectors as a second stage.
+- Leverage Matryoshka Representation Learning (<a href=https://arxiv.org/abs/2205.13147 target="_blank">MRL</a>) to generate candidate vectors with a shorter vector, and then refine them with a longer one.
+- Use regular dense vectors to pre-fetch the candidates, and then re-score them with a multi-vector model like <a href=https://arxiv.org/abs/2112.01488 target="_blank">ColBERT</a>.
 
 To get the best of all worlds, Qdrant has a convenient interface to perform the queries in stages,
 such that the coarse results are fetched first, and then they are refined later with larger vectors.
@@ -96,6 +97,14 @@ A useful algorithm to improve the diversity of the results is [Maximal Marginal 
 
 MMR selects candidates iteratively, starting with the most relevant point (higher similarity to the query). For each next point, it selects the one that hasn't been chosen yet which has the best combination of relevance and higher separation to the already selected points.
 
+$$
+MMR = \arg \max_{D_i \in R\setminus S}[\lambda sim(D_i, Q) - (1 - \lambda)\max_{D_j \in S}sim(D_i, D_j)]
+$$
+
+<figcaption align="center">Where $R$ is the candidates set, $S$ is the selected set, $Q$ is the query vector, $sim$ is the similarity function, and $\lambda = 1 - diversity$.</figcaption>
+
+<br>
+    
 This is implemented in Qdrant as a parameter of a nearest neighbors query. You define the vector to get the nearest candidates, and a `diversity` parameter which controls the balance between relevance (0.0) and diversity (1.0).
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-mmr/" >}}
@@ -122,6 +131,7 @@ Pseudocode would be something like:
 `score = score + (is_title * 0.5) + (is_content * 0.25)`
 
 Query API can rescore points with custom formulas. They can be based on:
+
 - Dynamic payload values
 - Conditions
 - Scores of prefetches
@@ -132,6 +142,7 @@ Taking the documentation example, the request would look like this:
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-tags/" >}}
 
 There are multiple expressions available, check the [API docs for specific details](https://api.qdrant.tech/v-1-14-x/api-reference/search/query-points#request.body.query.Query%20Interface.Query.Formula%20Query.formula).
+
 - **constant** - A floating point number. e.g. `0.5`.
 - `"$score"` - Reference to the score of the point in the prefetch. This is the same as `"$score[0]"`.
 - `"$score[0]"`, `"$score[1]"`, `"$score[2]"`, ... - When using multiple prefetches, you can reference specific prefetch with the index within the array of prefetches.
@@ -168,6 +179,7 @@ If there is no variable, and no defined default, a default value of `0.0` is use
 </aside>
 
 ### Boost points closer to user
+
 Another example. Combine the score with how close the result is to a user.
 
 Considering each point has an associated geo location, we can calculate the distance between the point and the request's location.
@@ -182,37 +194,34 @@ In this case we use a **gauss_decay** function.
 
 For all decay functions, there are these parameters available
 
-| Parameter | Default | Description |
-| --- | --- | --- |
-| `x` | N/A | The value to decay |
-| `target` | 0.0 | The value at which the decay will be at its peak. For distances it is usually set at 0.0, but can be set to any value. |
-| `scale` | 1.0 | The value at which the decay function will be equal to `midpoint`. This is in terms of `x` units, for example, if `x` is in meters, `scale` of 5000 means 5km. Must be a non-zero positive number |
-| `midpoint` | 0.5 | Output is `midpoint` when `x` equals `scale`. Must be in the range (0.0, 1.0), exclusive |
+| Parameter  | Default | Description                                                                                                                                                                                       |
+| ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `x`        | N/A     | The value to decay                                                                                                                                                                                |
+| `target`   | 0.0     | The value at which the decay will be at its peak. For distances it is usually set at 0.0, but can be set to any value.                                                                            |
+| `scale`    | 1.0     | The value at which the decay function will be equal to `midpoint`. This is in terms of `x` units, for example, if `x` is in meters, `scale` of 5000 means 5km. Must be a non-zero positive number |
+| `midpoint` | 0.5     | Output is `midpoint` when `x` equals `scale`. Must be in the range (0.0, 1.0), exclusive                                                                                                          |
 
 The formulas for each decay function are as follows:
 
-
 <iframe src="https://www.desmos.com/calculator/idv5hknwb1?embed" width="600" height="400" style="border: 1px solid #ccc" frameborder=0 class="mx-auto d-block"></iframe>
-
 
 #### Decay functions
 
-
 **`lin_decay`** (green), range: `[0, 1]`
 
-$$ \text{lin_decay}(x) = \max\left(0,\ -\frac{\left(1-m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)+1\right) $$
+$$ \text{lin*decay}(x) = \max\left(0,\ -\frac{\left(1-m*{idpoint}\right)}{s*{cale}}\cdot {abs}\left(x-t*{arget}\right)+1\right) $$
 
 **`exp_decay`** (red), range: `(0, 1]`
 
-$$ \text{exp_decay}(x) = \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}}\cdot {abs}\left(x-t_{arget}\right)\right) $$
+$$ \text{exp*decay}(x) = \exp\left(\frac{\ln\left(m*{idpoint}\right)}{s*{cale}}\cdot {abs}\left(x-t*{arget}\right)\right) $$
 
 **`gauss_decay`** (purple), range: `(0, 1]`
 
-$$ \text{gauss_decay}(x) = \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}^{2}}\cdot \left(x-t_{arget}\right)^{2}\right) $$
+$$ \text{gauss*decay}(x) = \exp\left(\frac{\ln\left(m*{idpoint}\right)}{s*{cale}^{2}}\cdot \left(x-t*{arget}\right)^{2}\right) $$
 
 ## Grouping
 
-*Available as of v1.11.0*
+_Available as of v1.11.0_
 
 It is possible to group results by a certain field. This is useful when you have multiple points for the same item, and you want to avoid redundancy of the same item in the results.
 
