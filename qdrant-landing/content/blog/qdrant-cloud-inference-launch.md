@@ -29,7 +29,7 @@ Traditionally, building application data pipelines means juggling separate embed
 
 ## Supported Models for Multimodal and Hybrid Search Applications
 
-At launch, Qdrant Cloud Inference includes six curated models to start with. Choose from dense models like `all-MiniLM-L6-v2` for fast semantic matching, `mxbai/embed-large-v1` for richer understanding, or sparse models like `splade-pp-en-v1` and `bm25`. For multimodal workloads, Qdrant uniquely supports `OpenAI CLIP`-style models for both text and images. 
+At launch, Qdrant Cloud Inference includes six curated models to start with. Choose from dense models like `all-MiniLM-L6-v2` for fast semantic matching, `mxbai/embed-large-v1` for richer understanding, or sparse models like `splade-pp-en-v1` and `bm25` ([Check out this hybrid search tutorial to see it in action](https://qdrant.tech/documentation/tutorials-and-examples/cloud-inference-hybrid-search/)). For multimodal workloads, Qdrant uniquely supports `OpenAI CLIP`-style models for both text and images. 
 
 *Want to request a different model to integrate? You can do this at [https://support.qdrant.io/](https://support.qdrant.io/).*
 
@@ -66,4 +66,5 @@ We'll show you how to:
   <li style="margin-bottom: 0;">Power multimodal (an industry first) and hybrid search with just one API</li>
   <li style="margin-bottom: 0;">Reduce network egress fees and simplify your AI stack</li>
 </ul>
+
 [**Save your spot**](https://try.qdrant.tech/cloud-inference).
