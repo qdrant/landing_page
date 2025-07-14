@@ -6,7 +6,7 @@ preview_dir: /articles_data/how-to-choose-an-embedding-model/preview
 social_preview_image: /articles_data/how-to-choose-an-embedding-model/social-preview.png
 author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
-date: 2025-07-10T00:00:00.000Z
+date: 2025-07-15T00:00:00.000Z
 category: vector-search-manuals
 ---
 
@@ -235,6 +235,8 @@ might be one of the biggest enemies, and transferring millions of vectors over t
 a distant location. Moreover, some of the cloud providers will charge you for the data transfer, so it's not only about
 the latency, but also about the cost. Finally, running an embedding model on-premises requires some expertise and 
 resources, and if you want to focus on your core business, you might prefer to avoid that.
+
+![Architecture diagram with Qdrant Cloud Inference](/articles_data/how-to-choose-an-embedding-model/cloud-inference-diagram.jpg)
 
 **Qdrant's Cloud Inference** solves these problems by allowing you to run the embedding model next to the cluster where 
 your vector database is running. It's a perfect solution for those who want not to worry about the model inference and 
