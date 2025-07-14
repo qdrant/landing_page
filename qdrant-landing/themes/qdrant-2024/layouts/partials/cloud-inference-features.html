@@ -1,0 +1,18 @@
+{{ with (.Site.GetPage "/cloud-inference/cloud-inference-features") }}
+  <section class="cloud-inference-features">
+    <div class="container">
+      <h3 class="cloud-inference-features__title">{{ .Params.title }}</h3>
+      <div class="row g-4">
+        {{ range .Params.cards }}
+        <div class="col-12 col-lg-4">
+          <div class="card cloud-inference-features__card">
+            <img class="cloud-inference-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+            <h3 class="cloud-inference-features__card-title">{{ .title }}</h3>
+            <p class="cloud-inference-features__card-description">{{ .description }}</p>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

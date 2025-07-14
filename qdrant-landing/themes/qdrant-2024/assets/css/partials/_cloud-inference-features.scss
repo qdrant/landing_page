@@ -1,0 +1,48 @@
+@use '../helpers/functions' as *;
+
+.cloud-inference-features {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    margin-bottom: $spacer * 2.5;
+    font-size: $h5-font-size;
+    line-height: pxToRem(38);
+    color: $neutral-20;
+  }
+
+  &__card {
+    justify-content: flex-start;
+    padding: pxToRem(28);
+
+    &-icon {
+      height: $spacer * 3;
+      width: $spacer * 3;
+      margin-bottom: $spacer;
+    }
+
+    &-title {
+      margin-bottom: $spacer;
+      font-size: $h6-font-size;
+      line-height: pxToRem(34);
+      color: $neutral-20;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      color: $neutral-30;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      margin-bottom: $spacer * 4;
+      font-size: $h3-font-size;
+      line-height: pxToRem(58);
+    }
+  }
+}
