@@ -1,4 +1,5 @@
 dense_model = "sentence-transformers/all-minilm-l6-v2"
+
 bm25_model = "qdrant/bm25"
 
 ds = load_dataset("miriad/miriad-4.4M", split="train[0:100]")

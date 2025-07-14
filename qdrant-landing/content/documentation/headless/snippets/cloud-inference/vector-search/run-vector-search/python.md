@@ -16,4 +16,5 @@ results = client.query_points(
     limit=5,
     with_payload=True
 )
+
 print(results.points)
