@@ -1,1 +1,1 @@
-This code snippet demonstrates how to ask a question and retrieve semantically relevant results. This is done using the dense vector and the BM25 sparse vectors. The results are then reranked using the Reciprocal Rank Fusion strategy. 
+This code snippet demonstrates how to use the Universal Query API to prefetch results with dense and sparse vector search, and then rerank them with Reciprocal Rank Fusion. It uses Cloud Inference to create embeddings by passing document text along with the model names, instead of vectors. 
