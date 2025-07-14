@@ -5,7 +5,6 @@ import uuid
 dense_model = "sentence-transformers/all-minilm-l6-v2"
 bm25_model = "qdrant/bm25"
 
-# Load the dataset
 ds = load_dataset("miriad/miriad-4.4M", split="train[0:100]")
 
 points = []
@@ -29,7 +28,6 @@ for idx, item in enumerate(ds):
     )
     points.append(point)
 
-# Upload to Qdrant
 client.upload_points(
     collection_name=collection_name, 
     points=points, 

@@ -1,4 +1,3 @@
-from qdrant_client import models
 collection_name = "my_collection_name"
 if not client.collection_exists(collection_name=collection_name):
     client.create_collection(
