@@ -43,7 +43,7 @@ To make onboarding even easier, we’re offering 5 million free tokens per text 
 
 Getting started is easy. Inference is automatically enabled for any new paid clusters with version 1.14.0 or higher. It can be activated for existing clusters with a click on the inference tab on the Cluster Detail page in the Qdrant Cloud console. You will see examples of how to use inference with our different Qdrant SDKs.
 
-*\<iframe width="560" height="315" src="https://www.youtube.com/embed/nJIX0zhrBL4?si=s5hd6iaT7F8dj7M-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen\>\</iframe\>* 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nJIX0zhrBL4?si=s5hd6iaT7F8dj7M-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen\>\</iframe\>
 
 ## Start Embedding Today
 
