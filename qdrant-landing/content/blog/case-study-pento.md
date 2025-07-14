@@ -18,11 +18,13 @@ tags:
 - case study
 ---
 
+![pento bento box](/blog/case-study-pento/pento-bento-box-dark.jpg)
+
 # Bringing People Together Through Qdrant
 
 ![pento-cover-image](/blog/case-study-pento/pento-cover-image.png)
 
-## *Taste in art isn’t just a preference — it’s a fingerprint.*
+## *Taste in art isn’t just a preference; it’s a fingerprint.*
 
 Imagine you're an artist or art enthusiast searching not for a painting, but for people who share your unique taste, someone who resonates with surrealist colors just as deeply as you, or who finds quiet joy in minimalist lines. How would a system know who those people are? Traditional recommenders often suggest what’s trending or popular, or just can't understand the nuances of art.
 
@@ -73,7 +75,6 @@ We split interactions into two sets:
 
 Each set is clustered independently using HDBSCAN. This results in multiple localized regions in embedding space that reflect coherent aesthetic themes.  
 ![hdbscan](/blog/case-study-pento/pento-hdbscan.png)
-
 Each cluster is represented by its medoid, the most central, representative embedding in that group. These medoids become the core building blocks of the user’s taste profile.  
 We use medoids instead of centroids because centroids are the mean of all embeddings in the cluster, which may not correspond to any actual sample and can be influenced by outliers or non-linear distances in the embedding space. In contrast, the medoid is an actual data point that best represents the cluster while preserving the true structure of the original space, especially important when working with non-euclidean distances like cosine similarity.
 
@@ -84,7 +85,7 @@ Let us clarify that clearly we don't have to use the entire user history, we can
 Not all tastes carry the same weight, especially over time. A cluster of artworks a user connected with months ago may no longer reflect their current preferences. To account for this, we assign a recency-aware score to each cluster, emphasizing freshness without discarding history.
 
 Each cluster is scored based on the timestamps of the interactions it contains, using an exponential decay function:  
-         ![](/blog/case-study-pento/exponential-decay-function.png)  
+         ![exponential decay function](/blog/case-study-pento/exponential-decay-function.png)  
 Where:
 
 * wi is the normalized rating calculated before  
@@ -97,7 +98,6 @@ This scoring method captures two dimensions at once:
 
 * ***Recency:*** Newer preferences rise to the top  
 * ***Strength:*** Clusters with more activity gain importance
-
 ![medoid scoring](/blog/case-study-pento/pento-medoid-scoring.png)
 
 The result is a dynamic prioritization of tastes. Clusters representing fleeting interests fade naturally. Those tied to long-term engagement remain prominent.
@@ -116,13 +116,11 @@ This gives us two sets of vectors per user:
 * ***Negative multivector:*** clusters of rejected content
 
 Together, these sets describe not just what the user resonates with, but also what they tend to reject. It’s a more nuanced, contrastive view of preference and one that’s especially powerful when used with Qdrant’s vector search.  
-
 ![user representation](/blog/case-study-pento/pento-user-representation.png)
 
 #### Retrieval via Qdrant’s Recommendation API
 
 With each user represented by a set of positive and negative clusters condensed into multivectors, we can now move from modeling to discovery.  
-
 ![multivector](/blog/case-study-pento/pento-multivector.png)
 
 To recommend artists who might align with the users current aesthetic we turn to Qdrant Recommendation API. Unlike a standard vector search, this Qdrant’s functionality lets us provide both what we are looking for, represented by the positive multivector, and what we want to avoid, represented by the negative multivector.
