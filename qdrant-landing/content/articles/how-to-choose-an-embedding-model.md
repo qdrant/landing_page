@@ -62,14 +62,8 @@ case, you shouldn't be using such a model in the first place, as it does not sup
 Tokenization has a bigger impact on the quality of the embeddings than many people think. If you want to understand what
 the effects of tokenization are, we recommend you take the course on [Retrieval Optimization: From Tokenization to Vector 
 Quantization](https://www.deeplearning.ai/short-courses/retrieval-optimization-from-tokenization-to-vector-quantization/)
-we recorded together with DeepLearning.AI.
-
-<div style="position: relative; width: 100%; max-width: 640px; margin: 0 auto; padding-bottom: 46.25%; height: 0; overflow: hidden;">
-<iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; max-height: 360px;" src="https://www.youtube.com/embed/AE8i69Kcodc?si=IdTEKlUHVbGzgJD-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
-
-You may find the course especially interesting if you still wonder why your semantic search engine can't handle 
-numerical data, such as prices or dates, and what you can do about it. 
+we recorded together with DeepLearning.AI. You may find the course especially interesting if you still wonder why your 
+semantic search engine can't handle numerical data, such as prices or dates, and what you can do about it. 
 
 How do you know if the tokenizer supports the target language? That's pretty easy for the Open Source models, as you 
 can just run the tokenizer without the model and see how the yielded tokens look like. For the commercial models that 
