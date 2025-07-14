@@ -22,11 +22,7 @@ Qdrant stores vectors and associated metadata in collections. A collection requi
 {{< code-snippet path="/documentation/headless/snippets/cloud-inference/vector-search/create-collection/" >}}
 
 ## Add Data
-Now you can add sample documents, their associated metadata, and a point id for each.
-
-{{< code-snippet path="/documentation/headless/snippets/cloud-inference/vector-search/upload-data/" >}}
-
-Here's a sample of the data:
+Now you can add sample documents, their associated metadata, and a point id for each. Here's a sample of the [miriad/miriad-4.4M](https://huggingface.co/datasets/miriad/miriad-4.4M) dataset:
 
 | qa_id              | paper_id | question                                              | year | venue                                | specialty    | passage_text                                          |
 |--------------------|----------|-------------------------------------------------------|------|--------------------------------------|--------------|--------------------------------------------------------|
