@@ -17,7 +17,7 @@ Initialize the Qdrant client after creating a [Qdrant Cloud account](/documentat
 {{< code-snippet path="/documentation/headless/snippets/cloud-inference/vector-search/initialize-client/" >}}
 
 ## Create a Collection
-Qdrant stores vectors and associated metadata in collections. A collection requires vector parameters to be set during creation. In this case, let's setup a collection using `BM25` for sparse vectors and `all-minilm-l6-v2` for dense vectors. 
+Qdrant stores vectors and associated metadata in collections. A collection requires vector parameters to be set during creation. In this case, let's set up a collection using `BM25` for sparse vectors and `all-minilm-l6-v2` for dense vectors. BM25 uses the Inverse Document Frequency to reduce the weight of common terms that appear in many documents while boosting the importance of rare terms that are more discriminative for retrieval. Qdrant will handle the calculations of the IDF term if we enable that in the configuration of the `bm25_sparse_vector` named sparse vector.
 
 {{< code-snippet path="/documentation/headless/snippets/cloud-inference/vector-search/create-collection/" >}}
 
