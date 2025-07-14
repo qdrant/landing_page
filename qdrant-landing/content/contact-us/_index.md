@@ -22,7 +22,7 @@ form:
   hubspotFormOptions: '{
     "region": "eu1",
     "portalId": "139603372",
-    "formId": "8ac0b50d-ccc0-4d8a-b4d2-34534fcb4d30",
+    "formId": "814b303f-2f24-460a-8a81-367146d98786",
     "submitButtonClass": "button button_contained",
   }'
 aliases:
