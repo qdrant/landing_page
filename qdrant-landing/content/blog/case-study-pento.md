@@ -3,8 +3,8 @@ draft: false
 title: "How Pento modeled aesthetic taste with Qdrant"
 short_description: "Pento built a multivector recommendation engine to connect people through shared taste, not popularity."
 description: "Discover how Pento used Qdrant’s recommendation API and multivector support to model aesthetic preferences and power a taste-based discovery engine."
-preview_image: /blog/case-study-pento/pento-social_preview.jpg
-social_preview_image: /blog/case-study-pento/pento-social_preview.jpg
+preview_image: /blog/case-study-pento/pento-social-preview.jpg
+social_preview_image: /blog/case-study-pento/pento-social-preview.jpg
 date: 2025-07-14
 author: "Daniel Azoulai"
 featured: false
