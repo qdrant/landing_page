@@ -68,4 +68,4 @@ We'll show you how to:
 </ul>
 
 
-### [**Save your spot**](https://try.qdrant.tech/cloud-inference).
+### [Save your spot](https://try.qdrant.tech/cloud-inference).
