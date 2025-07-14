@@ -105,7 +105,6 @@ Create a sample query:
 ```python
 query_text = "What is relapsing polychondritis?"
 
-# Use Qdrant Document interface for both dense and sparse
 dense_doc = Document(
     text=query_text,
     model=dense_model
