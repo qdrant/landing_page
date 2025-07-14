@@ -7,6 +7,6 @@ partition: cloud
 
 | Example                         | Description                                                                                 |
 | ----------------------------------- | ------------------------------------------------------------------------------------------- |
-| [Using Cloud Inference with Qdrant for Vector Search](/documentation/tutorials-and-examples/cloud-inference-hybrid-search/)                 | Cloud inference hybrid example     |
+| [Using Cloud Inference to Build Hybrid Search](/documentation/tutorials-and-examples/cloud-inference-hybrid-search/)                 | Cloud inference hybrid example     |
 
 
