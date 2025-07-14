@@ -1,1 +1,1 @@
-This code snippet demonstrates how to question and retrieve semantically relevant results. This is done using the dense vector and the BM25 sparse vectors. The results are then reranked using the fusion query strategy. 
+This code snippet demonstrates how to ask a question and retrieve semantically relevant results. This is done using the dense vector and the BM25 sparse vectors. The results are then reranked using the fusion query strategy. 
