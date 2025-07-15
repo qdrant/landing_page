@@ -12,13 +12,12 @@ client, err := qdrant.NewClient(&qdrant.Config{
 
 client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "{collection_name}",
-	Query: qdrant.NewQueryNearestWithMmr(&qdrant.NearestInputWithMmr {
-		Nearest: qdrant.NewVectorInput(0.01, 0.45, 0.67), // search vector
-		Mmr: &qdrant.Mmr{
-			Diversity: 0.5, // 0.0 - relevance; 1.0 - diversity
-			CandidatesLimit: qdrant.PtrOf(uint64(100)) // num of candidates to preselect
-		},
-	}),
-	Limit: qdrant.PtrOf(uint64(10))
+	Query: qdrant.NewQueryMMR(
+		qdrant.NewVectorInput(0.01, 0.45, 0.67),
+		&qdrant.Mmr{
+			Diversity:       qdrant.PtrOf(float32(0.5)), // 0.0 - relevance; 1.0 - diversity
+			CandidatesLimit: qdrant.PtrOf(uint32(100)),  // num of candidates to preselect
+		}),
+	Limit: qdrant.PtrOf(uint64(10)),
 })
 ```
