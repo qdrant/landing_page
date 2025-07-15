@@ -3,9 +3,9 @@ draft: false
 title: "How AndAI scaled global legal retrieval with Qdrant"
 short_description: "AndAI uses Qdrant to enable high-accuracy patent retrieval workflows for attorneys."
 description: "Discover how AndAI scaled to over a billion vectors and 250B+ tokens using Qdrant Cloud — enabling their AI patent agent to deliver verifiable, high-value results for litigators."
-preview_image: /blog/case-study-and-ai/and-ai-bento.jpg
-social_preview_image: /blog/case-study-and-ai/and-ai-bento.jpg
-date: 2025-06-26
+preview_image: /blog/case-study-and-ai/and-ai-social-preview.jpg
+social_preview_image: /blog/case-study-and-ai/and-ai-social-preview.jpg
+date: 2025-07-15
 author: "Daniel Azoulai"
 featured: true
 tags:
@@ -17,7 +17,7 @@ tags:
 - patent law
 ---
 
-![Bento Box](qdrant-landing/static/blog/case-study-and-ai/and-ai-bento.jpg)
+![Bento Box](/blog/case-study-and-ai/and-ai-bento.jpg)
 
 ## How \&AI scaled global patent retrieval with Qdrant
 
