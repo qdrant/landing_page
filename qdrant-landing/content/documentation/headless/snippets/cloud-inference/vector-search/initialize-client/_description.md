@@ -1,0 +1,1 @@
+This code snippet connects to Qdrant Cloud with Cloud Inference enabled. This is done by setting `cloud_inference` to `True` in the initializer of the `QdrantClient` class.
