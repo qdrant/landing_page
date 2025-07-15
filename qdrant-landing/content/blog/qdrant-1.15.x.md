@@ -258,7 +258,7 @@ POST /collections/{collection_name}/points/query
 When we started building Qdrant, we picked RocksDB as our embedded key-value store. However, due to it's architecture we ran into issues such as random latency spikes. [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) is our custom solution to this and other challenges we faced when building with RocksDB. Qdrant 1.15 continues our transition from RocksDB to [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) as the default storage backend for new deployments, leading to:
 
 * Faster ingestion speeds.
-* Storage banagement without "garbage collection".
+* Storage management without "garbage collection".
 
 > For more insights on the performance of Gridstore compared to RocksDB checkout our [**Introducing Gridstore**](https://qdrant.tech/articles/gridstore-key-value-storage/#end-to-end-benchmarking) article.
 
