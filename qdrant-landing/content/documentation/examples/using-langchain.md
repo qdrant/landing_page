@@ -1,6 +1,8 @@
 ---
 title: Using LangChain for Question Answering with Qdrant"
 weight: 35
+aliases:
+  - /articles/langchain-integration/
 ---
 
 # Streamlining Question Answering: Simplifying Integration with LangChain and Qdrant
