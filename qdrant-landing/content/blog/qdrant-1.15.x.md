@@ -6,7 +6,7 @@ short_description: "Smarter Quantization, Healing Indexes, and Multilingual Text
 description: "Qdrant v1.15 release presents new Quantization Features, advanced Full-Text filtering and a bunch of performance optimizations"
 date: 2025-01-15T00:00:00-08:00
 author: Derrick Mwiti
-featured: false
+featured: true
 tags:
   - vector search
   - quantization
