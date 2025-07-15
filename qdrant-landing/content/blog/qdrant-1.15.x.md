@@ -38,6 +38,20 @@ We introduce a new **binary quantization** storage that uses **2 and 1.5 bits** 
 
 A major limitation of binary quantization is poor handling of values close to zero. 2-bit quantization addresses this by explicitly representing zeros using an efficient scoring mechanism. With 1.5-bit quantization we balance the efficiency of binary quantization with accuracy improvements of 2-bit quantization.
 
+<details>
+<summary>Benchmark Results: 2-bit vs 1-bit and Scalar Quantization</summary>
+
+We ran extensive benchmarks to compare the new 2-bit quantization with both traditional 1-bit (binary) quantization and scalar quantization (e.g., 8-bit).
+
+Dataset: Laion 1 million 512d vectors
+
+{{<figure src=/blog/qdrant-1.15.x/2bit-vs-1bit.png caption="2-bit VS 1-bit Qunatization" width=100% >}}
+
+{{<figure src=/blog/qdrant-1.15.x/2bit-vs-scalar.png caption="2-bit VS Scalar Quantization" width=100% >}}
+
+</details>
+
+
 
 ### Asymmetric Quantization
 
@@ -51,6 +65,22 @@ This approach maintains storage size and RAM usage similar to binary quantizatio
 When performing nearest vector search, the query vector is compared against quantized vectors stored in the database. If the query itself remains unquantized and a scoring method exists to evaluate it directly against the compressed vectors, this allows for more accurate results without increasing memory usage.
 
 >  Quantization enables efficient storage and search of high-dimensional vectors. Learn more about this from our [**quantization**](/documentation/guides/quantization/) docs.
+
+
+<details>
+<summary>Benchmarks result</summary>
+
+{{<figure src=/blog/qdrant-1.15.x/asymmetric-bench.png caption="Asymmetric Quantization Benchmark" width=100% >}}
+
+Blue: Asymmetric 8bit quantization
+
+Orange: Regular Binary Quantization
+
+Dataset: Laion 1 million 512d vectors
+
+
+</details>
+
 
 ## Changes in Text Index
 
