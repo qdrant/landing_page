@@ -16,7 +16,7 @@ await client.CreatePayloadIndexAsync(
 			MinTokenLen = 2,
 			MaxTokenLen = 10,
 			Lowercase = true,
-			PhraseMatching = True
+			PhraseMatching = true
 		}
 	}
 );
