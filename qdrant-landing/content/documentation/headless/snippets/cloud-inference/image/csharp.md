@@ -15,13 +15,12 @@ await client.UpsertAsync(
   points: new List <PointStruct> {
     new() {
       Id = 1,
-        Vectors = new Document() {
-          Text = "Recipe for baking chocolate chip cookies",
-          Model = "<the-model-to-use>",
+        Vectors = new Image() {
+          Image = "https://qdrant.tech/example.png",
+          Model = "qdrant/clip-vit-b-32-vision",
         },
         Payload = {
-          ["topic"] = "cooking",
-          ["type"] = "dessert"
+          ["title"] = "Example Image"
         },
     },
   }
@@ -30,8 +29,8 @@ await client.UpsertAsync(
 var points = await client.QueryAsync(
   collectionName: "<your-collection>",
   query: new Document() {
-    Text = "How to bake cookies?",
-    Model = "<the-model-to-use>"
+    Text = "Mission to Mars",
+    Model = "qdrant/clip-vit-b-32-text"
   }
 );
 

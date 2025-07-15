@@ -8,6 +8,7 @@ import static io.qdrant.client.VectorsFactory.vectors;
 
 import io.qdrant.client.grpc.Points;
 import io.qdrant.client.grpc.Points.Document;
+import io.qdrant.client.grpc.Points.Image;
 import io.qdrant.client.grpc.Points.PointStruct;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +31,11 @@ public class Main {
           .setId(id(1))
           .setVectors(
             vectors(
-              Document.newBuilder()
-              .setText("Recipe for baking chocolate chip cookies")
-              .setModel("<the-model-to-use>")
+              Image.newBuilder()
+              .setImage("https://qdrant.tech/example.png")
+              .setModel("qdrant/clip-vit-b-32-vision")
               .build()))
-          .putAllPayload(Map.of("topic", value("cooking"), "type", value("dessert")))
+          .putAllPayload(Map.of("title", value("Example Image")))
           .build()))
       .get();
 
@@ -46,8 +47,8 @@ public class Main {
         .setQuery(
           nearest(
             Document.newBuilder()
-            .setText("How to bake cookies?")
-            .setModel("<the-model-to-use>")
+            .setText("Mission to Mars")
+            .setModel("qdrant/clip-vit-b-32-text")
             .build()))
         .build())
       .get();

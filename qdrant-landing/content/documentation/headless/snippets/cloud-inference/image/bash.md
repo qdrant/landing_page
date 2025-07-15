@@ -7,10 +7,12 @@ curl -X PUT "https://xyz-example.qdrant.io:6333/collections/<your-collection>/po
     "points": [
       {
         "id": 1,
-        "payload": { "topic": "cooking", "type": "dessert" },
         "vector": {
-          "text": "Recipe for baking chocolate chip cookies",
-          "model": "<the-model-to-use>"
+          "image": "https://qdrant.tech/example.png",
+          "model": "qdrant/clip-vit-b-32-vision"
+        },
+        "payload": {
+          "title": "Example Image"
         }
       }
     ]
@@ -22,8 +24,8 @@ curl -X POST "https://xyz-example.qdrant.io:6333/collections/<your-collection>/p
   -H "api-key: <paste-your-api-key-here>" \
   -d '{
     "query": {
-      "text": "How to bake cookies?",
-      "model": "<the-model-to-use>"
+      "text": "Mission to Mars",
+      "model": "qdrant/clip-vit-b-32-text"
     }
   }'
 ```

@@ -1,6 +1,6 @@
 ```python
 from qdrant_client import QdrantClient
-from qdrant_client.models import PointStruct, Document
+from qdrant_client.models import PointStruct, Image, Document
 
 client = QdrantClient(
     url="https://xyz-example.qdrant.io:6333",
@@ -13,11 +13,13 @@ client = QdrantClient(
 points = [
     PointStruct(
         id=1,
-        payload={"topic": "cooking", "type": "dessert"},
-        vector=Document(
-            text="Recipe for baking chocolate chip cookies",
-            model="<the-model-to-use>"
-        )
+        vector=Image(
+            image="https://qdrant.tech/example.png",
+            model="qdrant/clip-vit-b-32-vision"
+        ),
+        payload={
+            "title": "Example Image"
+        }
     )
 ]
 
@@ -26,8 +28,8 @@ client.upsert(collection_name="<your-collection>", points=points)
 result = client.query_points(
     collection_name="<your-collection>",
     query=Document(
-        text="How to bake cookies?",
-        model="<the-model-to-use>"
+        text="Mission to Mars",
+        model="qdrant/clip-vit-b-32-text"
     )
 )
 

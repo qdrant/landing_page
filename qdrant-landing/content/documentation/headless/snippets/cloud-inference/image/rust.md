@@ -3,7 +3,7 @@ use qdrant_client::qdrant::Query;
 use qdrant_client::qdrant::QueryPointsBuilder;
 use qdrant_client::Payload;
 use qdrant_client::Qdrant;
-use qdrant_client::qdrant::{Document};
+use qdrant_client::qdrant::{Document, Image};
 use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
 
 #[tokio::main]
@@ -16,13 +16,13 @@ async fn main() {
     let points = vec![
         PointStruct::new(
             1,
-            Document::new(
-                "Recipe for baking chocolate chip cookies",
-                "<the-model-to-use>"
+            Image::new_from_url(
+                "https://qdrant.tech/example.png",
+                "qdrant/clip-vit-b-32-vision"
             ),
-            Payload::try_from(serde_json::json!(
-                {"topic": "cooking", "type": "dessert"}
-            )).unwrap(),
+            Payload::try_from(serde_json::json!({
+                "title": "Example Image"
+            })).unwrap(),
         )
     ];
 
@@ -34,8 +34,8 @@ async fn main() {
     let _ = client.upsert_points(upsert_request).await;
 
     let query_document = Document::new(
-        "How to bake cookies?",
-        "<the-model-to-use>"
+        "Mission to Mars",
+        "qdrant/clip-vit-b-32-text"
     );
 
     let query_request = QueryPointsBuilder::new("<your-collection>")

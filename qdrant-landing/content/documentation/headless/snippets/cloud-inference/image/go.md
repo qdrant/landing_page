@@ -29,13 +29,12 @@ func main() {
         Points: []*qdrant.PointStruct{
             {
                 Id: qdrant.NewIDNum(uint64(1)),
-                Vectors: qdrant.NewVectorsDocument(&qdrant.Document{
-                    Text:  "Recipe for baking chocolate chip cookies",
-                    Model: "<the-model-to-use>",
+                Vectors: qdrant.NewVectorsImage(&qdrant.Image{
+                    Image: "https://qdrant.tech/example.png",
+                    Model: "qdrant/clip-vit-b-32-vision",
                 }),
                 Payload: qdrant.NewValueMap(map[string]any{
-                    "topic": "cooking",
-                    "type":  "dessert",
+                    "title": "Example image",
                 }),
             },
         },
@@ -48,8 +47,8 @@ func main() {
         CollectionName: "<your-collection>",
         Query: qdrant.NewQueryNearest(
             qdrant.NewVectorInputDocument(&qdrant.Document{
-                Text:  "How to bake cookies?",
-                Model: "<the-model-to-use>",
+                Text:  "Mission to Mars",
+                Model: "qdrant/clip-vit-b-32-text",
             }),
         ),
     })
