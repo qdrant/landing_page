@@ -37,38 +37,13 @@ Available field types are:
 * `bool` - for [bool](/documentation/concepts/payload/#bool) payload, affects [Match](/documentation/concepts/filtering/#match) filtering conditions (available as of v1.4.0).
 * `geo` - for [geo](/documentation/concepts/payload/#geo) payload, affects [Geo Bounding Box](/documentation/concepts/filtering/#geo-bounding-box) and [Geo Radius](/documentation/concepts/filtering/#geo-radius) filtering conditions.
 * `datetime` - for [datetime](/documentation/concepts/payload/#datetime) payload, affects [Range](/documentation/concepts/filtering/#range) filtering conditions (available as of v1.8.0).
-* `text` - a special kind of index, available for [keyword](/documentation/concepts/payload/#keyword) / string payloads, affects [Full Text search](/documentation/concepts/filtering/#full-text-match) filtering conditions.
+* `text` - a special kind of index, available for [keyword](/documentation/concepts/payload/#keyword) / string payloads, affects [Full Text search](/documentation/concepts/filtering/#full-text-match) filtering conditions. Read more about [text index configuration](#full-text-index)
 * `uuid` - a special type of index, similar to `keyword`, but optimized for [UUID values](/documentation/concepts/payload/#uuid).
 Affects [Match](/documentation/concepts/filtering/#match) filtering conditions. (available as of v1.11.0)
 
 Payload index may occupy some additional memory, so it is recommended to only use index for those fields that are used in filtering conditions.
 If you need to filter by many fields and the memory limits does not allow to index all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
-
-### Full-text index
-
-*Available as of v0.10.0*
-
-Qdrant supports full-text search for string payload.
-Full-text index allows you to filter points by the presence of a word or a phrase in the payload field.
-
-Full-text index configuration is a bit more complex than other indexes, as you can specify the tokenization parameters.
-Tokenization is the process of splitting a string into tokens, which are then indexed in the inverted index.
-
-To create a full-text index, you can use the following:
-
-{{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-full-text/" >}}
-
-Available tokenizers are:
-
-* `word` - splits the string into words, separated by spaces, punctuation marks, and special characters.
-* `whitespace` - splits the string into words, separated by spaces.
-* `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
-* `multilingual` - special type of tokenizer based on [charabia](https://github.com/meilisearch/charabia) package. It allows proper tokenization and lemmatization for multiple languages, including those with non-latin alphabets and non-space delimiters. See [charabia documentation](https://github.com/meilisearch/charabia) for full list of supported languages supported normalization options. In the default build configuration, qdrant does not include support for all languages, due to the increasing size of the resulting binary. Chinese, Japanese and Korean languages are not enabled by default, but can be enabled by building qdrant from source with `--features multiling-chinese,multiling-japanese,multiling-korean` flags.
-
-Additionally, if you want to be able to perform exact phrase matching, you need to set up the index with `phrase_matching` enabled. This is so that the index includes the positions of each token, and considers these during [phrase matching](/documentation/concepts/filtering/#phrase-match).
-
-See [Full Text match](/documentation/concepts/filtering/#full-text-match) for examples of querying with full-text index.
 
 ### Parameterized index
 
@@ -178,6 +153,51 @@ Principal optimization is supported for following types:
 * `integer`
 * `float`
 * `datetime`
+
+
+## Full-text index
+
+Qdrant supports full-text search for string payload.
+Full-text index allows you to filter points by the presence of a word or a phrase in the payload field.
+
+Full-text index configuration is a bit more complex than other indexes, as you can specify the tokenization parameters.
+Tokenization is the process of splitting a string into tokens, which are then indexed in the inverted index.
+
+See [Full Text match](/documentation/concepts/filtering/#full-text-match) for examples of querying with full-text index.
+
+To create a full-text index, you can use the following:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-full-text/" >}}
+
+### Tokenizers
+
+Tokenizers are algorithms used to split text into smaller units called tokens, which are then indexed and searched in a full-text index.
+In the context of Qdrant, tokenizers determine how string payloads are broken down for efficient searching and filtering.
+The choice of tokenizer affects how queries match the indexed text, supporting different languages, word boundaries, and search behaviors such as prefix or phrase matching.
+
+Available tokenizers are:
+
+* `word` - splits the string into words, separated by spaces, punctuation marks, and special characters.
+* `whitespace` - splits the string into words, separated by spaces.
+* `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
+* `multilingual` - a special type of tokenizer based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization and lemmatization for multiple languages, including those with non-Latin alphabets and non-space delimiters. See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. Note: For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
+
+### Stemmer
+
+A **stemmer** is an algorithm used in text processing to reduce words to their root or base form, known as the "stem." For example, the words "running", "runner and "runs" can all be reduced to the stem "run." 
+When configuring a full-text index in Qdrant, you can specify a stemmer to be used for a particular language. This enables the index to recognize and match different inflections or derivations of a word.
+
+Qdrant provides an implementation of [Snowball stemmer](https://snowballstem.org/), a videly used and performant variant for some of the post popular languages.
+For the list of supported languages, please visit the [rust-stemmers repository](https://github.com/qdrant/rust-stemmers).
+
+Here is an example of Full-text Index configuration with Snowvall stemmer:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/stemmer-full-text/" >}}
+
+### Stopwords
+
+### Phrase Search
+
 
 
 ## Vector Index
