@@ -36,6 +36,9 @@ menuItems:
         name: Qdrant Enterprise Solutions
         url: /enterprise-solutions/
       - id: 4
+        name: Qdrant Cloud Inference
+        url: /cloud-inference/
+      - id: 5
         name: Pricing
         url: /pricing/
   - title: Use Cases
