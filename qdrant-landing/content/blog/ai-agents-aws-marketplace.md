@@ -3,8 +3,8 @@ draft: false
 title: "Qdrant joins AWS Marketplace to accelerate AI agent development"
 short_description: "Qdrant is now available in AWS Marketplace’s new AI Agents and Tools category, simplifying access to vector-native infrastructure for agentic workflows."
 description: "Discover how Qdrant’s inclusion in AWS Marketplace streamlines procurement and deployment of vector-native infrastructure for enterprise AI agents—enabling real-time reasoning, step-aware memory, and hybrid search at scale."
-preview_image: blog/ai-agents-aws-marketplace/AWS-social-preview
-social_preview_image: blog/ai-agents-aws-marketplace/AWS-social-preview
+preview_image: /blog/ai-agent-aws-marketplace/aws-ai-agents-social-preview.jpg
+social_preview_image: /blog/ai-agent-aws-marketplace/aws-ai-agents-social-preview.jpg
 date: 2025-07-16
 author: "Qdrant"
 featured: false
