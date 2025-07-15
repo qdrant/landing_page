@@ -29,18 +29,16 @@ Inference is billed based on the number of tokens processed by the model. The co
 
 ## Using Inference
 
-Inference can be easily used through the Qdrant SDKs and the REST or GRPC APIs.
-Inference is available when upserting points as well as when querying the database.
+Inference can be easily used through the Qdrant SDKs and the REST or GRPC APIs when upserting points and when querying the database.
 
-It is can be done with special *Interface Objects*, defined in Qdrant API.
-There are 
+Instead of a vector, you can use special *Interface Objects*:
 
-* **`Document`** object, used for text inference. Example:
+* **`Document`** object, used for text inference
 
-```js
+```json5
 // Document
 {
-    // Model input
+    // Text input
     text: "Your text",
     // Name of the model, to do inference with
     model: "<the-model-to-use>",
@@ -49,13 +47,13 @@ There are
 }
 ```
 
-* **`Image`** object, used for image inference. Example:
+* **`Image`** object, used for image inference
 
-```js
+```json5
 // Image
 {
     // Image input
-    image: "<url>", // Or base64 of the image
+    image: "<url>", // Or base64 encoded image
     // Name of the model, to do inference with
     model: "<the-model-to-use>",
     // Extra parameters for the model, Optional
@@ -63,10 +61,10 @@ There are
 }
 ```
 
-* **`Object`** object, reserved for all other types of input, which might be implemented in future.
+* **`Object`** object, reserved for other types of input, which might be implemented in the future.
 
 
-Qdrant API supports usage of Inference Objects in all places, where regular vectors can be used.
+The Qdrant API supports usage of these Inference Objects in all places, where regular vectors can be used.
 
 For example:
 
@@ -85,7 +83,7 @@ Can be replaced with
 POST /collections/<your-collection>/points/query
 {
   "query": {
-    "nearest":{
+    "nearest": {
       "text": "My Query Text",
       "model": "<the-model-to-use>"
     }
@@ -93,17 +91,16 @@ POST /collections/<your-collection>/points/query
 }
 ```
 
-In this case, the Qdrant server will call the inference server, automatically replace the Inference Object, and perform the search query.
-The obtained embedding will only be transferred within the low-latency network and will never be transmitted between the client and Qdrant Cloud.
+In this case, the Qdrant Cloud will use the configured embedding model to automatically create a vector from the Inference Object and then perform the search query with it. All of this happens within a low-latency network.
 
-The input used for inference will not be saved anywhere. If you need to persist it in Qdrant, make sure to explicitly include it in the payload.
+The input used for inference will not be saved anywhere. If you want to persist it in Qdrant, make sure to explicitly include it in the payload.
 
 
 ### Text Inference
 
-Let's consider a simple example of using Cloud Inference with text model.
+Let's consider an example of using Cloud Inference with a text model producing dense vectors.
 
-In this in this example we create one point and use simple search query with `Document` Inference Object.
+Here, we create one point and use a simple search query with a `Document` Inference Object.
 
 {{< code-snippet path="/documentation/headless/snippets/cloud-inference/simple/" >}}
 
@@ -115,21 +112,22 @@ For dense vector models, you also have to ensure that the vector size configured
 
 ### Image Inference
 
-Here is another simple example of using Cloud Inference with an image model.
-This time, we will use the `CLIP` model to encode an image and then use a text query to search for it.
+Here is another example of using Cloud Inference with an image model. This time, we will use the `CLIP` model to encode an image and then use a text query to search for it.
 
 Since the `CLIP` model is multimodal, we can use both image and text inputs on the same vector field.
 
 {{< code-snippet path="/documentation/headless/snippets/cloud-inference/image/" >}}
 
-The Qdrant Inference server will download images using the provided link.
+Qdrant Cloud Inference server will download the images using the provided link. Alternatively, you can upload the image as a base64 encoded string.
 
 Note that each model has limitations on the file size and extensions it can work with.
+
 Please refer to the model card for details.
 
 ### Local Inference Compatibility
 
 The Python SDK offers a unique capability: it supports both [local](/documentation/fastembed/fastembed-semantic-search/) and cloud inference through an identical interface.
+
 You can easily switch between local and cloud inference by setting the cloud_inference flag when initializing the QdrantClient. For example:
 
 ```python
@@ -141,5 +139,6 @@ client = QdrantClient(
 ```
 
 This flexibility allows you to develop and test your applications locally or in continuous integration (CI) environments without requiring access to cloud inference resources.
-When `cloud_inference` is set to `False`, inference is performed locally usign `fastembed`.
-When set to `True`, inference requests are handled by Qdrant Cloud.
+
+* When `cloud_inference` is set to `False`, inference is performed locally usign `fastembed`.
+* When set to `True`, inference requests are handled by Qdrant Cloud.

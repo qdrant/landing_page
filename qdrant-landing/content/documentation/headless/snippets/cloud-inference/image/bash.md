@@ -8,7 +8,7 @@ curl -X PUT "https://xyz-example.qdrant.io:6333/collections/<your-collection>/po
       {
         "id": 1,
         "vector": {
-          "text": "https://qdrant.tech/example.png",
+          "image": "https://qdrant.tech/example.png",
           "model": "qdrant/clip-vit-b-32-vision"
         },
         "payload": {
