@@ -15,8 +15,7 @@ await client.CreatePayloadIndexAsync(
 			Tokenizer = TokenizerType.Word,
 			MinTokenLen = 2,
 			MaxTokenLen = 10,
-			Lowercase = true,
-			PhraseMatching = true
+			Lowercase = true
 		}
 	}
 );

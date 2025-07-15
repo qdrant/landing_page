@@ -192,12 +192,25 @@ For the list of supported languages, please visit the [rust-stemmers repository]
 
 Here is an example of Full-text Index configuration with Snowvall stemmer:
 
-{{< code-snippet path="/documentation/headless/snippets/create-payload-index/stemmer-full-text/" >}}
+<!-- {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stemmer-full-text/" >}} -->
 
 ### Stopwords
 
+<!-- {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stopwords-full-text/" >}} -->
+
 ### Phrase Search
 
+Phrase search in Qdrant allows you to find documents or points where a specific sequence of words appears together, in the same order, within a text payload field.
+This is useful when you want to match exact phrases rather than individual words scattered throughout the text.
+
+When using a full-text index with phrase search enabled, you can perform phrase search by enclosing the desired phrase in double quotes in your filter query.
+For example, searching for `"machine learning"` will only return results where the words "machine" and "learning" appear together as a phrase, not just anywhere in the text.
+
+For efficient phrase seach Qdrant requires to build an additional data structure, so it needs to be configured during creation of the full-text index:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/phrase-full-text/" >}}
+
+See [Phrase Match](/documentation/concepts/filtering/#phrase-match) for examples of querying phrases with full-text index.
 
 
 ## Vector Index
