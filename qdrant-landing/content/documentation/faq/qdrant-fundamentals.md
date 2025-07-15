@@ -14,7 +14,7 @@ aliases:
 
 ### What is the maximum vector dimension supported by Qdrant?
 
-Qdrant supports up to 65,535 dimensions by default, but this can be configured to support higher dimensions.
+In dense vectors, Qdrant supports up to 65,535 dimensions.
 
 ### What is the maximum size of vector metadata that can be stored?
 
@@ -134,6 +134,17 @@ data is automatically migrated to the newer storage format. This migration is no
 ### How do I avoid issues when updating to the latest version?
 
 We only guarantee compatibility if you update between consecutive versions. You would need to upgrade versions one at a time: `1.1 -> 1.2`, then `1.2 -> 1.3`, then `1.3 -> 1.4`.
+
+### Should I create payload indexes before or after uploading? 
+
+Create payload indexes before uploading to avoid index rebuilding. However, there are scenarios where defining idexes after uploading is okay. For example, you can configure a new filter logic after launch. 
+
+You should always index first if you know your filters upfront. If you need to index another payload later, you can still do it, but be aware of the performance hit.
+
+## Should I create one Qdrant collection per user? 
+No. Creating one collection per user is more resource intensive. 
+
+Instead of creating separate collections for each user, we recommend creating a [single collection](https://qdrant.tech/documentation/guides/multiple-partitions/) and separate access using payloads. Each Qdrant point can have a payload as metadata. For multitenancy, you can include a `user_id` or `tenant_id` for each point. To optimize storage further, you can enable [tenant indexing](https://qdrant.tech/documentation/concepts/indexing/#tenant-index) for payload fields.
 
 ## Cloud
 

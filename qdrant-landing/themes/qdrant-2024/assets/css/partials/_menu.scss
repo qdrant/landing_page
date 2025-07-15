@@ -58,20 +58,15 @@
     @include mixins.transitionAll(300ms);
 
     &:hover {
-      .main-menu__submenu {
+      .main-menu__items {
         display: flex;
       }
     }
   }
 
-  &__submenu {
+  &__items {
     display: none;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    padding: pxToRem(24);
     position: absolute;
-
     border-radius: 12px;
     border: 1px solid $neutral-90;
     background: $neutral-98;
@@ -103,6 +98,13 @@
       top: -30px;
       left: 0;
     }
+  }
+
+  &__submenu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: pxToRem(24);
   }
 
   &__submenu-item {
@@ -143,8 +145,16 @@
     padding: 0.5rem;
     margin-bottom: pxToRem(4);
     text-transform: uppercase;
+
     a {
       line-height: $font-size-s;
+    }
+
+    p {
+      margin: 0;
+      font-size: $font-size-s;
+      line-height: $font-size-s;
+      color: $neutral-60;
     }
   }
 

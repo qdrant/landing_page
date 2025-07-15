@@ -19,3 +19,4 @@ partition: qdrant
 | [Load and Search Hugging Face Datasets with Qdrant](/documentation/database-tutorials/huggingface-datasets/)                       | 
 | [Using Qdrant’s Async API for Efficient Python Applications](/documentation/database-tutorials/async-api/)            | 
 | [Qdrant Migration Guide](/documentation/database-tutorials/migration/)            | 
+| [Static Embeddings. Should you pay attention?](/documentation/database-tutorials/static-embeddings/)            | 

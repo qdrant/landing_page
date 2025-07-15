@@ -80,7 +80,7 @@ The snapshot file can also be uploaded as a file and restored using the [recover
 curl -X POST 'http://{qdrant-url}:6333/collections/{collection_name}/snapshots/upload?priority=snapshot' \
     -H 'api-key: ********' \
     -H 'Content-Type:multipart/form-data' \
-    -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
+    -F 'snapshot=@/path/to/snapshot-2022-10-10.snapshot'
 ```
 
 This method is typically used to migrate data from one cluster to another, so we recommend setting the [priority](#snapshot-priority) to "snapshot" for that use-case.

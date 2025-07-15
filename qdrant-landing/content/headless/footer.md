@@ -36,6 +36,9 @@ menuItems:
         name: Qdrant Enterprise Solutions
         url: /enterprise-solutions/
       - id: 4
+        name: Qdrant Cloud Inference
+        url: /cloud-inference/
+      - id: 5
         name: Pricing
         url: /pricing/
   - title: Use Cases
@@ -55,6 +58,17 @@ menuItems:
       - id: 4
         name: AI Agents
         url: /ai-agents/
+  - title: Industries
+    items:
+      - id: 0
+        name: E-commerce
+        url: /e-commerce/
+      - id: 1
+        name: Legal Tech
+        url: /legal-tech/
+      - id: 2
+        name: Hospitality & Travel
+        url: /hospitality-and-travel/
   - title: Developers
     items:
       - id: 0

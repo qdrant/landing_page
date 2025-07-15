@@ -1,0 +1,95 @@
+@use '../helpers/functions' as *;
+
+.cloud-inference-cluster {
+  position: relative;
+  background-color: $neutral-10;
+
+  &__content {
+    position: relative;
+    padding: $spacer * 2.5 0;
+    z-index: 1;
+  }
+
+  &__title {
+    margin-bottom: $spacer;
+    font-size: $h5-font-size;
+    line-height: pxToRem(38);
+    color: $neutral-98;
+  }
+
+  &__subtitle {
+    margin-bottom: $spacer * 1.5;
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    color: $neutral-90;
+  }
+
+  &__button {
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+  }
+
+  &__image {
+    position: relative;
+    display: block;
+    align-self: center;
+    width: 100%;
+    max-width: pxToRem(736);
+    margin: $spacer * 2.5 auto 0;
+    z-index: 1;
+  }
+
+  &__overlay-top {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: pxToRem(308);
+    height: pxToRem(302);
+    background-image: url('/img/blurred/blurred-light-22.svg');
+    background-position: top;
+    background-size: cover;
+  }
+
+  &__overlay-right {
+    display: none;
+  }
+
+  @include media-breakpoint-up(xl) {
+    height: pxToRem(640);
+
+    &__content {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      height: 100%;
+      padding: 0;
+    }
+
+    &__title {
+      max-width: pxToRem(445);
+      font-size: $h3-font-size;
+      line-height: pxToRem(58);
+    }
+
+    &__image {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 55%;
+      margin: 0;
+      z-index: 1;
+    }
+
+    &__overlay-right {
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('/img/blurred/blurred-light-23.svg');
+      background-position: bottom;
+      background-size: cover;
+    }
+  }
+}

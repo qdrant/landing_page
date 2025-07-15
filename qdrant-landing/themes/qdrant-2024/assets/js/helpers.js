@@ -77,7 +77,7 @@ export function devLog(str) {
   }
 }
 
-const CROSS_SITE_URL_PARAM_KEY = 'ajs_anonymous_id';
+const CROSS_SITE_URL_PARAM_KEY = 'qdrant_tech_ajs_anonymous_id';
 export function tagCloudUILinksWithAnonymousId() {
   const targetUrl = 'https://cloud.qdrant.io/';
 
