@@ -35,7 +35,7 @@ Traditionally, this is done through outsourced search firms or attorneys running
 
 From the start, \&AI framed patent invalidation and charting as semantic retrieval problems. Using OpenAI’s embedding models, they transformed structured and unstructured patent data into dense vector representations.
 
-![/blog/case-study-and-ai/and-ai-diagram.png]
+![architecture](/blog/case-study-and-ai/and-ai-diagram.png)
  *\&AI's retrieval architecture stack*
  
 But the scale was immense. Their full corpus includes hundreds of millions of documents from international patent offices and other sources, resulting in more than 250 billion tokens. Ingesting, embedding, and searching this volume of data demanded a robust, cloud-native vector search solution.
@@ -52,8 +52,6 @@ Turner had used Qdrant in a prior startup, where he appreciated the high perform
 To support global scale, \&AI used [Reducto](https://reducto.ai), an AI-based PDF parsing service optimized for accuracy, to process patent data spanning decades and jurisdictions. The resulting structured data was transformed into dense vectors via OpenAI’s embedding API, then indexed in Qdrant.
 
 Patent formats change over time and across regions, so even cleaning and standardizing the data posed challenges. \&AI built a preprocessing pipeline that included OCR, normalization, metadata extraction, and payload structuring. 
-
-*(Placeholder: Diagram of \&AI's data preprocessing and ingestion pipeline)*
 
 They chose [scalar quantization](https://qdrant.tech/articles/scalar-quantization/) in Qdrant to speed up retrieval while maintaining high accuracy. Initial experiments with binary quantization revealed too much recall degradation, forcing \&AI to retrieve tens of thousands of candidates just to hit their quality bar. Scalar was the sweet spot.
 
