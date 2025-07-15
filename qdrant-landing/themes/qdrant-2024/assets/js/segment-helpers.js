@@ -156,7 +156,8 @@ export function handleSegmentReady() {
           referrer: document.referrer,
           ...utmParams,
           ...utmIds
-        }
+        },
+        hubspotutk: getCookie('hubspotutk'),
       });
     }
 
