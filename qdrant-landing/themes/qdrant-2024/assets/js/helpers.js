@@ -119,7 +119,8 @@ export function getUTMParams() {
       source: urlParams.get('utm_source'),
       medium: urlParams.get('utm_medium'),
       campaign: urlParams.get('utm_campaign'),
-      content: urlParams.get('utm_content')
+      content: urlParams.get('utm_content'),
+      term: urlParams.get('utm_term')
   };
 
   return [utmIds, utmParams];
