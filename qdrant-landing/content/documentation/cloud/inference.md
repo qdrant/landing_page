@@ -35,7 +35,7 @@ Instead of a vector, you can use special *Interface Objects*:
 
 * **`Document`** object, used for text inference
 
-```json5
+```js
 // Document
 {
     // Text input
@@ -49,7 +49,7 @@ Instead of a vector, you can use special *Interface Objects*:
 
 * **`Image`** object, used for image inference
 
-```json5
+```js
 // Image
 {
     // Image input
