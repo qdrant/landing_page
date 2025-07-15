@@ -30,6 +30,9 @@ Now you can add sample documents, their associated metadata, and a point id for 
 | 38_77498699_0_2    | 77498699 | What treatments are available for relapsing polychondritis? | 2006 | Internet Journal of Otorhinolaryngology | Rheumatology | Patient showed improvement after treatment with...     |
 | 38_88124321_0_3    | 88124321 | How is Takayasu arteritis diagnosed?                  | 2015 | Journal of Autoimmune Diseases        | Rheumatology | A 32-year-old woman with fatigue and limb pain...      |
 
+We won't ingest all the entries from the dataset, but for demo purposes, just take the first hundred ones:
+
+{{< code-snippet path="/documentation/headless/snippets/cloud-inference/vector-search/upload-data/" >}}
 ## Set Up Input Query
 Create a sample query:
 
