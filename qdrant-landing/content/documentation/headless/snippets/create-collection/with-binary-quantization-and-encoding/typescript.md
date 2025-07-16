@@ -10,7 +10,7 @@ client.createCollection("{collection_name}", {
   },
   quantization_config: {
     binary: {
-      encoding: "TwoBits",
+      encoding: "two_bits",
       always_ram: true,
     },
   },

@@ -10,7 +10,10 @@ await client.CreateCollectionAsync(
  quantizationConfig: new QuantizationConfig
  {
   Binary = new BinaryQuantization {
-   QueryEncoding = BinaryQuantizationQueryEncoding.Scalar8Bits,
+   QueryEncoding = new BinaryQuantizationQueryEncoding
+   {
+    Setting = BinaryQuantizationQueryEncoding.Types.Setting.Scalar8Bits,
+   },
    AlwaysRam = true
   }
  }

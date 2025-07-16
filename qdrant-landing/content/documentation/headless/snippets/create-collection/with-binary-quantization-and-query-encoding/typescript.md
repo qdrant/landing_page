@@ -10,7 +10,7 @@ client.createCollection("{collection_name}", {
   },
   quantization_config: {
     binary: {
-      query_encoding: "Scalar8Bits",
+      query_encoding: "scalar8bits",
       always_ram: true,
     },
   },

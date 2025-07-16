@@ -18,7 +18,11 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	}),
 	QuantizationConfig: qdrant.NewQuantizationBinary(
 		&qdrant.BinaryQuantization{
-			QueryEncoding: qdrant.BinaryQuantizationQueryEncoding.Scalar8Bits,
+			QueryEncoding: &qdrant.BinaryQuantizationQueryEncoding{
+				Variant: &qdrant.BinaryQuantizationQueryEncoding_Setting_{
+					Setting: qdrant.BinaryQuantizationQueryEncoding_Scalar8Bits,
+				},
+			},
 			AlwaysRam: qdrant.PtrOf(true),
 		},
 	),

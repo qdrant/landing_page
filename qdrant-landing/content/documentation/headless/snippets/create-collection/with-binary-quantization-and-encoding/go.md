@@ -18,7 +18,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	}),
 	QuantizationConfig: qdrant.NewQuantizationBinary(
 		&qdrant.BinaryQuantization{
-			Encoding: qdrant.BinaryQuantizationEncoding.TwoBits,
+			Encoding: qdrant.BinaryQuantizationEncoding_TwoBits.Enum(),
 			AlwaysRam: qdrant.PtrOf(true),
 		},
 	),

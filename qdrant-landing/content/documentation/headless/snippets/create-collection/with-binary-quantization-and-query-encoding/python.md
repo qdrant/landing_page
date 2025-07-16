@@ -8,7 +8,7 @@ client.create_collection(
     vectors_config=models.VectorParams(size=1536, distance=models.Distance.COSINE),
     quantization_config=models.BinaryQuantization(
         binary=models.BinaryQuantizationConfig(
-            encoding=models.BinaryQuantizationQueryEncoding.SCALAR8BITS,
+            query_encoding=models.BinaryQuantizationQueryEncoding.SCALAR8BITS,
             always_ram=True,
         ),
     ),
