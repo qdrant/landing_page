@@ -1,0 +1,2 @@
+This code snippet shows how to perform semantic search with recency. This is achieved by using the timestamp column and 
+a `GaussDecayExpression` to balance similarity score and recency by summing the vector similarity with the gauss decay component. 

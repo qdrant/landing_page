@@ -1,0 +1,1 @@
+This code snippets intializes a local Qdrant Client. This assumes that you have Qdrant running on http://localhost:6333.
