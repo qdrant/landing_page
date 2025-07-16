@@ -27,6 +27,10 @@ menuItems:
           name: Qdrant Enterprise Solutions
           icon: qdrant-enterprise-solutions.svg
           url: /enterprise-solutions/
+        - id: subMenu-0-4
+          name: Qdrant Cloud Inference
+          icon: cloud-inference.svg
+          url: /cloud-inference/
 #       - id: subMenu-0-4
 #         name: Private Cloud
 #         icon: private-cloud.svg
