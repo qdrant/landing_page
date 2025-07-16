@@ -77,7 +77,7 @@ export function devLog(str) {
   }
 }
 
-const CROSS_SITE_URL_PARAM_KEY = 'ajs_anonymous_id';
+const CROSS_SITE_URL_PARAM_KEY = 'qdrant_tech_ajs_anonymous_id';
 export function tagCloudUILinksWithAnonymousId() {
   const targetUrl = 'https://cloud.qdrant.io/';
 
@@ -119,7 +119,8 @@ export function getUTMParams() {
       source: urlParams.get('utm_source'),
       medium: urlParams.get('utm_medium'),
       campaign: urlParams.get('utm_campaign'),
-      content: urlParams.get('utm_content')
+      content: urlParams.get('utm_content'),
+      term: urlParams.get('utm_term')
   };
 
   return [utmIds, utmParams];

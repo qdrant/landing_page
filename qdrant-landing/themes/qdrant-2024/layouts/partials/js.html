@@ -144,7 +144,7 @@
   </script>
 {{ end }}
 
-{{ if eq .Section "qdrant-for-startups" }}
+{{ if or (eq .Section "qdrant-for-startups") (eq .Section "cloud-inference") }}
   <script>
     const accordionButtons = Array.from(document.getElementsByClassName('accordion__item-header'));
 

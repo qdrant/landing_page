@@ -97,7 +97,10 @@ const trackPageView = () => {
   const name = nameMapper(window.location.href);
   
   const isFirstPageView = localStorage.getItem('isFirstPageView');
-  const properties = { isFirstPageView };
+  const properties = {
+    isFirstPageView,
+    hubspotutk: getCookie('hubspotutk'),
+  };
   addGA4Properties(properties);
 
   window.analytics.page(category, name, properties);
@@ -153,7 +156,8 @@ export function handleSegmentReady() {
           referrer: document.referrer,
           ...utmParams,
           ...utmIds
-        }
+        },
+        hubspotutk: getCookie('hubspotutk'),
       });
     }
 
