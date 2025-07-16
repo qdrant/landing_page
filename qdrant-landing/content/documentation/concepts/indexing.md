@@ -192,7 +192,7 @@ For the list of supported languages, please visit the [rust-stemmers repository]
 
 Here is an example of Full-text Index configuration with Snowball stemmer:
 
-<!-- {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stemmer-full-text/" >}} -->
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/stemmer-full-text/" >}}
 
 ### Stopwords
 
@@ -205,7 +205,7 @@ You can configure stopwords based on pre-defined languages, as well as extend ex
 Here is an example of configuring a full-text index with custom stopwords:
 
 
-<!-- {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stopwords-full-text/" >}} -->
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/stopwords-full-text/" >}}
 
 ### Phrase Search
 
