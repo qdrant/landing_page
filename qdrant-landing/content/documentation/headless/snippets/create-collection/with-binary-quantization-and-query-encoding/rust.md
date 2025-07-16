@@ -10,9 +10,9 @@ client
     .create_collection(
         CreateCollectionBuilder::new("{collection_name}")
             .vectors_config(VectorParamsBuilder::new(1536, Distance::Cosine))
-            .quantization_config(BinaryQuantizationBuilder::new(true).query_encoding(BinaryQuantizationQueryEncoding{
-                variant: Some(binary_quantization_query_encoding::Variant::Setting(binary_quantization_query_encoding::Setting::Scalar8Bits.into()))
-            })),
+            .quantization_config(
+                BinaryQuantizationBuilder::new(true).query_encoding(BinaryQuantizationQueryEncoding::scalar8bits())
+            ),
     )
     .await?;
 ```
