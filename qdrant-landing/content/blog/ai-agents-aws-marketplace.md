@@ -1,5 +1,6 @@
 ---
 draft: false
+slug: ai-agents-aws-marketplace
 title: "Qdrant joins AI Agent category on AWS Marketplace to accelerate Agentic AI development"
 short_description: "Qdrant is now available in the new AWS Marketplace AI Agents and Tools category."
 description: "Qdrant is now available in the new AWS Marketplace AI Agents and Tools category."
@@ -33,6 +34,6 @@ With the availability of AI Agents and Tools in AWS Marketplace, customers can s
 
 Available as a fully managed SaaS and Hybrid Cloud deployment options, for private AWS deployments, Qdrant brings vector search close to where agents operate. This ensures seamless integration into AWS environments while meeting the low-latency, compliance, and scalability needs of production-grade agentic AI.
 
-To learn more about Qdrant in AWS Marketplace, visit [Qdrant AI Agent Listing on AWS](https://www.google.com/url?q=https://aws.amazon.com/marketplace/pp/prodview-rtphb42tydtzg?sr%3D0-1%26ref_%3Dbeagle%26applicationId%3DAWSMPContessa&sa=D&source=docs&ust=1752610167938968&usg=AOvVaw14r7J3Mw6673a3GHlidWL9). 
+To learn more about Qdrant in AWS Marketplace, visit [Qdrant AI Agent Listing on AWS](https://aws.amazon.com/marketplace/pp/prodview-rtphb42tydtzg?sr=0-1&ref_=beagle&applicationId=AWSMPContessa). 
 
-To learn more about the new AI Agents and Tools category in AWS Marketplace, visit [https://aws.amazon.com/marketplace/solutions/ai-agents-and-tools/](http://aws.amazon.com/marketplace/solutions/ai-agents-and-tools/).  
+To learn more about the new AI Agents and Tools category, visit [the AWS Marketplace](http://aws.amazon.com/marketplace/solutions/ai-agents-and-tools/).  
