@@ -190,11 +190,20 @@ When configuring a full-text index in Qdrant, you can specify a stemmer to be us
 Qdrant provides an implementation of [Snowball stemmer](https://snowballstem.org/), a videly used and performant variant for some of the post popular languages.
 For the list of supported languages, please visit the [rust-stemmers repository](https://github.com/qdrant/rust-stemmers).
 
-Here is an example of Full-text Index configuration with Snowvall stemmer:
+Here is an example of Full-text Index configuration with Snowball stemmer:
 
 <!-- {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stemmer-full-text/" >}} -->
 
 ### Stopwords
+
+Stopwords are common words (such as "the", "is", "at", "which", and "on") that are often filtered out during text processing because they carry little meaningful information for search and retrieval tasks.
+
+In Qdrant, you can specify a list of stopwords to be ignored during full-text indexing and search. This helps simplify search queries and improves relevance.
+
+You can configure stopwords based on pre-defined languages, as well as extend existing stopword lists with custom words.
+
+Here is an example of configuring a full-text index with custom stopwords:
+
 
 <!-- {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stopwords-full-text/" >}} -->
 
