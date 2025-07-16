@@ -1,6 +1,10 @@
 ```rust
 use qdrant_client::qdrant::{
-    BinaryQuantizationBuilder, CreateCollectionBuilder, Distance, VectorParamsBuilder, BinaryQuantizationQueryEncoding, binary_quantization_query_encoding,
+    BinaryQuantizationBuilder,
+    CreateCollectionBuilder,
+    Distance,
+    VectorParamsBuilder,
+    BinaryQuantizationQueryEncoding,
 };
 use qdrant_client::Qdrant;
 
@@ -11,7 +15,8 @@ client
         CreateCollectionBuilder::new("{collection_name}")
             .vectors_config(VectorParamsBuilder::new(1536, Distance::Cosine))
             .quantization_config(
-                BinaryQuantizationBuilder::new(true).query_encoding(BinaryQuantizationQueryEncoding::scalar8bits())
+                BinaryQuantizationBuilder::new(true)
+                    .query_encoding(BinaryQuantizationQueryEncoding::scalar8bits())
             ),
     )
     .await?;
