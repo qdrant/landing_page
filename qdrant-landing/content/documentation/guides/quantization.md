@@ -195,11 +195,11 @@ However, in some setups you might want to keep quantized vectors in RAM to speed
 
 In this case, you can set `always_ram` to `true` to store quantized vectors in RAM.
 
-To enable 2bit or 1.5bit quantization, you need to specify `encoding` parameter in the `quantization_config` section of the collection configuration. Avaliable values are `two_bits` and `one_and_half_bits`.
+To enable 2bit or 1.5bit quantization, you need to specify `encoding` parameter in the `quantization_config` section of the collection configuration. Available values are `two_bits` and `one_and_half_bits`.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization-and-encoding/" >}}
 
-To enable asymmetric quantization, you need to specify `query_encoding` parameter in the `quantization_config` section of the collection configuration. Avaliable values are:
+To enable asymmetric quantization, you need to specify `query_encoding` parameter in the `quantization_config` section of the collection configuration. Available values are:
 - `default` and `binary` - use regular binary quantization for the query.
 - `scalar8bits` - use 8bit quantization for the query.
 - `scalar4bits` - use 4bit quantization for the query.
