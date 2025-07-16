@@ -3,7 +3,7 @@ title: "How to choose an embedding model"
 short_description: "There is no one-size-fits-all solution when it comes to embedding models. Learn how to choose the right one for your use case."
 description: "Building proper search requires selecting the right embedding model for your specific use case. This guide helps you navigate the selection process based on performance, cost, and other practical considerations."
 preview_dir: /articles_data/how-to-choose-an-embedding-model/preview
-social_preview_image: /articles_data/how-to-choose-an-embedding-model/social-preview.png
+social_preview_image: /articles_data/how-to-choose-an-embedding-model/preview/social_preview.jpg
 author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
 date: 2025-07-15T00:00:00.000Z
