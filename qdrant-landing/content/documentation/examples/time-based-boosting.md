@@ -48,11 +48,21 @@ Here, you will search for some reviews without any recency filtering.
 Here's a sample output: 
 
 ```markdown
-points=[ScoredPoint(id='55eadc68-f78c-4eb5-9061-780ec62b49fa', version=335, score=0.5265173, payload={'rating': 5, 'title': 'Clean hair for hairdresser', 'text': 'Hair for hairdresser', 'asin': 'B07D487TV7', 'parent_asin': 'B07D487TV7', 'user_id': 'AFQIVYHWA34H6K3JDVAOYOXH534Q', 'timestamp': '2019-12-28 23:56:02.592', 'helpful_vote': 0, 'verified_purchase': True, 'ts': '2019-12-28T23:56:02.592000'},.... vector=None, shard_key=None, order_value=None), ScoredPoint(id='4a1c06cf-8dd8-4ed4-865b-4c3b7e07e39b', , 'asin': 'B07VGBBNTH', 'parent_asin': 'B07VGBBNTH', 'user_id': 'AG73BVBKUOH22USSFJA5ZWL7AKXA', 'timestamp': '2020-03-08 22:51:26.757', 'helpful_vote': 0, 'verified_purchase': False, 'ts': '2020-03-08T22:51:26.757000'}, vector=None, shard_key=None, order_value=None)]
+points=[ScoredPoint(id='55eadc68-f78c-4eb5-9061-780ec62b49fa', version=335, 
+score=0.5265173, payload={'rating': 5, 'title': 'Clean hair for hairdresser', 
+'text': 'Hair for hairdresser', 'asin': 'B07D487TV7', 'parent_asin': 'B07D487TV7', 
+'user_id': 'AFQIVYHWA34H6K3JDVAOYOXH534Q', 'timestamp': '2019-12-28 23:56:02.592', 
+'helpful_vote': 0, 'verified_purchase': True, 'ts': '2019-12-28T23:56:02.592000'},
+.... vector=None, shard_key=None, order_value=None), 
+ScoredPoint(id='4a1c06cf-8dd8-4ed4-865b-4c3b7e07e39b', 
+ 'asin': 'B07VGBBNTH', 'parent_asin': 'B07VGBBNTH', 'user_id': 
+ 'AG73BVBKUOH22USSFJA5ZWL7AKXA', 'timestamp': '2020-03-08 22:51:26.757', 
+ 'helpful_vote': 0, 'verified_purchase': False, 'ts': 
+ '2020-03-08T22:51:26.757000'}, vector=None, shard_key=None, order_value=None)]
 ```
 
 ## Query With Time-based Boosting 
-Now, let's search by boosting the reviews within one week of the provided center date.
+Now, let's search by boosting the reviews within one week of the provided center date using a [Score-Boosting Reranker](/documentation/concepts/hybrid-queries/#score-boosting).
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-boosting/query-with-recency/" >}}
 
@@ -60,5 +70,13 @@ The semantic search engine will retrieve the most similar results while boosting
 
 ```markdown
 
-points=[ScoredPoint(id='55eadc68-f78c-4eb5-9061-780ec62b49fa', version=335, score=0.5265173, payload={'rating': 5, 'title': 'Clean hair for hairdresser', 'text': 'Hair for hairdresser', 'asin': 'B07D487TV7', 'parent_asin': 'B07D487TV7', 'user_id': 'AFQIVYHWA34H6K3JDVAOYOXH534Q', 'timestamp': '2019-12-28 23:56:02.592', 'helpful_vote': 0, 'verified_purchase': True, 'ts': '2019-12-28T23:56:02.592000'},... , 'asin': 'B07VGBBNTH', 'parent_asin': 'B07VGBBNTH', 'user_id': 'AG73BVBKUOH22USSFJA5ZWL7AKXA', 'timestamp': '2020-03-08 22:51:26.757', 'helpful_vote': 0, 'verified_purchase': False, 'ts': '2020-03-08T22:51:26.757000'}, vector=None, shard_key=None, order_value=None)]
+points=[ScoredPoint(id='55eadc68-f78c-4eb5-9061-780ec62b49fa', version=335, 
+score=0.5265173, payload={'rating': 5, 'title': 'Clean hair for hairdresser', 
+'text': 'Hair for hairdresser', 'asin': 'B07D487TV7', 'parent_asin': 'B07D487TV7',
+ 'user_id': 'AFQIVYHWA34H6K3JDVAOYOXH534Q', 'timestamp': '2019-12-28 23:56:02.592', 
+ 'helpful_vote': 0, 'verified_purchase': True, 'ts': '2019-12-28T23:56:02.592000'},
+ ... , 'asin': 'B07VGBBNTH', 'parent_asin': 'B07VGBBNTH', 
+ 'user_id': 'AG73BVBKUOH22USSFJA5ZWL7AKXA', 'timestamp': 
+ '2020-03-08 22:51:26.757', 'helpful_vote': 0, 'verified_purchase': False,
+ 'ts': '2020-03-08T22:51:26.757000'}, vector=None, shard_key=None, order_value=None)]
 ```
