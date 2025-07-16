@@ -5,28 +5,38 @@ logo:
   logoCards:
   - id: 0
     logo:
-      src: /img/brand-resources-logos/logo.svg
-      alt: Logo Full Color
-    title: Logo Full Color
+      src: /img/brand-resources-logos/logo-red-black.svg
+      alt: Logo Red Black
+    title: Logo Red Black
     link:
-      url: /img/brand-resources-logos/logo.svg
+      url: /img/brand-resources-logos/logo-red-black.svg
       text: Download
   - id: 1
+    logo:
+      src: /img/brand-resources-logos/logo-red-white.svg
+      alt: Logo Red White
+    title: Logo Red White
+    link:
+      url:  /img/brand-resources-logos/logo-red-white.svg
+      text: Download
+    darkBackground: true
+  - id: 2
     logo:
       src: /img/brand-resources-logos/logo-black.svg
       alt: Logo Black
     title: Logo Black
     link:
-      url:  /img/brand-resources-logos/logo-black.svg
-      text: Download
-  - id: 2
+      url: /img/brand-resources-logos/logo-black.svg
+      text: Download 
+  - id: 3
     logo:
       src: /img/brand-resources-logos/logo-white.svg
       alt: Logo White
     title: Logo White
     link:
       url: /img/brand-resources-logos/logo-white.svg
-      text: Download 
+      text: Download
+    darkBackground: true
   logomarkTitle: Logomark
   logomarkCards:
   - id: 0
@@ -53,6 +63,7 @@ logo:
     link:
       url: /img/brand-resources-logos/logomark-white.svg
       text: Download 
+    darkBackground: true
 colors:
   title: Colors
   description: Our brand colors play a crucial role in maintaining a cohesive visual identity. The careful balance of these colors ensures a consistent and impactful representation of Qdrant, reinforcing our commitment to excellence and precision in every aspect of our work.
@@ -62,13 +73,13 @@ colors:
     type: HEX
     code: "DC244C"
   - id: 1
-    name: Blue
-    type: HEX
-    code: "2F6FF0"
-  - id: 2
     name: Violet
     type: HEX
     code: "8547FF"
+  - id: 2
+    name: Blue
+    type: HEX
+    code: "2F6FF0"
   - id: 3
     name: Teal
     type: HEX

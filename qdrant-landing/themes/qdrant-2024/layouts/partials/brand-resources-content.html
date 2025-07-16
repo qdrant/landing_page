@@ -6,9 +6,9 @@
         <p class="brand-resources-content__description">{{ .Params.logo.description }}</p>
         <div class="brand-resources-content__logos row g-4">
           {{ range .Params.logo.logoCards }}
-            <div class="col-12 col-lg-4">
+            <div class="col-12 col-lg-6">
               <div class="card">
-                <div class="brand-resources-content__logos-logo">
+                <div class="brand-resources-content__logos-logo{{ if .darkBackground }} brand-resources-content__logos-logo_dark-bg{{ end }}">
                   <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
                 </div>
                 <h6 class="brand-resources-content__logos-title">{{ .title }}</h6>
@@ -24,7 +24,7 @@
           {{ range .Params.logo.logomarkCards }}
             <div class="col-12 col-lg-4">
               <div class="card">
-                <div class="brand-resources-content__logos-logo">
+                <div class="brand-resources-content__logos-logo{{ if .darkBackground }} brand-resources-content__logos-logo_dark-bg{{ end }}">
                   <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
                 </div>
                 <h6 class="brand-resources-content__logos-title">{{ .title }}</h6>

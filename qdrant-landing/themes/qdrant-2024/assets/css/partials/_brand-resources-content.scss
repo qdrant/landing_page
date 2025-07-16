@@ -36,22 +36,20 @@
   }
 
   &__logos {
-    & > div:last-of-type {
-      .brand-resources-content__logos-logo {
-        background-color: $neutral-10;
-      }
-    }
-
     &-logo {
       display: flex;
       align-items: center;
       justify-content: center;
       align-self: center;
       width: 100%;
-      max-width: pxToRem(288);
       height: $spacer * 7.5;
       margin-bottom: $spacer * 2;
       border-radius: $spacer * 0.5;
+      background: $neutral-100;
+
+      &_dark-bg {
+        background-color: $neutral-10;
+      }
 
       img {
         height: $spacer * 3.5;
