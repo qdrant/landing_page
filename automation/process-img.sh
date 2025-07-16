@@ -54,7 +54,7 @@ mkdir -p $IMG_DESTINATION
 function check_file_exists_and_new() {
   local file=$1
   if [ -f "${file}" ] && [ "$ALLOW_OVERWRITE" != "true" ]; then
-    if [ $MODIFICATION_TIME -lt $(stat -c %Y "${file}") ]; then
+    if [ $MODIFICATION_TIME -le $(stat -c %Y "${file}") ]; then
       echo "$file exists and newer than the source image. Please remove it or set ALLOW_OVERWRITE=true"
       exit 0
     fi
@@ -91,8 +91,9 @@ if [ "$ADD_TO_GIT" == "true" ]; then
 fi
 
 if [ -z "$TITLE_TEXT" ] || [ -z "$SUBTITLE_TEXT" ]; then
-  echo "Please provide a title and subtitle"
-  exit 1
+  echo -e "\033[33mWarning: Social preview is generated without text\033[0m"
+  echo "Please provide a TITLE_TEXT and SUBTITLE_TEXT"
+  exit 0
 fi
 
 export TITLE_TEXT="$TITLE_TEXT"
