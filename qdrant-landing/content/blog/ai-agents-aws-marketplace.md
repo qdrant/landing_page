@@ -1,5 +1,6 @@
 ---
 draft: false
+slug: ai-agents-aws-marketplace
 title: "Qdrant joins AI Agent category on AWS Marketplace to accelerate Agentic AI development"
 short_description: "Qdrant is now available in the new AWS Marketplace AI Agents and Tools category."
 description: "Qdrant is now available in the new AWS Marketplace AI Agents and Tools category."
