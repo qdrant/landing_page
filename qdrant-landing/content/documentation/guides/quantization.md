@@ -97,6 +97,21 @@ Specifically, if original vectors contain `{-1, 1}` as possible values, then the
 As you can see, both functions are equal up to a constant factor, which makes similarity search equivalent.
 Binary quantization makes it efficient to compare vectors using this representation.
 
+### 1.5-Bit and 2-Bit Quantization
+
+*Available as of v1.15.0*
+
+**binary quantization** storage can use **2 and 1.5 bits** per dimension, improving precision for smaller vectors. One-bit compression resulted in significant data loss and precision drops for vectors smaller than a thousand dimensions, often requiring expensive rescoring. 2-bit quantization offers 16X compression compared to 32X with one bit, improving performance for smaller vector dimensions. The 1.5-bit quantization compression offers 24X compression and intermediate accuracy.
+
+### Asymmetric Quantization
+
+*Available as of v1.15.0*
+
+The **Asymmetric Quantization** technique allows qdrant to use different vector encoding algorithm for stored vectors and for queries.
+Particularly interesting combination is a Binary stored vectors and Scalar quantized queries.
+
+This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU. This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output.
+
 ## Product Quantization
 
 *Available as of v1.2.0*
@@ -177,6 +192,17 @@ When enabling binary quantization on an existing collection, use a PATCH request
 However, in some setups you might want to keep quantized vectors in RAM to speed up the search process.
 
 In this case, you can set `always_ram` to `true` to store quantized vectors in RAM.
+
+To enable 2bit or 1.5bit quantization, you need to specify `encoding` parameter in the `quantization_config` section of the collection configuration. Avaliable values are `two_bits` and `one_and_half_bits`.
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization-and-ancoding/" >}}
+
+To enable asymmetric quantization, you need to specify `query_encoding` parameter in the `quantization_config` section of the collection configuration. Avaliable values are:
+- `default` and `binary` - use regular binary quantization for the query.
+- `scalar8bits` - use 8bit quantization for the query.
+- `scalar4bits` - use 4bit quantization for the query.
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization-and-query-encoding/" >}}
 
 ### Setting up Product Quantization
 
