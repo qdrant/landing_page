@@ -29,11 +29,12 @@ Now you can add sample documents, their associated metadata, and a point id for 
 
 Here’s a sample of the [Amazon Beauty Reviews](https://huggingface.co/datasets/jhan21/amazon-beauty-reviews-dataset) dataset:
 
-| id | rating | title                                        | text                                                                 | asin       | parent_asin | user_id                           | timestamp               | helpful_vote | verified_purchase | ts                      |
-|--------|--------|----------------------------------------------|----------------------------------------------------------------------|------------|-------------|------------------------------------|--------------------------|---------------|--------------------|--------------------------|
-| 995    | 5      | Feels so refreshing!                        | These are so nice and easy to apply. You insta...                    | B07 | B07 | AEX      | 2019-09-15 01:25:31.475 | 0             | False              | 2019-09-15 01:25:31.475 |
-| 996    | 5      | VERY nice, seems to be working, and a little g... | Having used this for 2 months now I really am ...            | B00| B00 | AFB       | 2017-07-28 18:58:51.369 | 0             | True               | 2017-07-28 18:58:51.369 |
-| 997    | 5      | Truly Seamless, works well on wet and dry hair | WOW a comb that is truly smooth and seam-free,...              | B00A | B00 | AFB      | 2015-01-17 21:43:57.000 | 0             | True               | 2015-01-17 21:43:57.000 |
+| rating | title                                        | text                                                              | asin  | parent_asin | user_id                         | helpful_vote | verified_purchase | ts                      |
+|--------|----------------------------------------------|-------------------------------------------------------------------|-------|--------------|----------------------------------|---------------|--------------------|--------------------------|
+| 5      | Feels so refreshing!                        | These are so nice and easy to apply. You insta...                 | B07   | B07          | AEX                             | 0             | False              | 2019-09-15 01:25:31.475 |
+| 5      | VERY nice, seems to be working, and a little g... | Having used this for 2 months now I really am ...       | B00   | B00          | AFB                             | 0             | True               | 2017-07-28 18:58:51.369 |
+| 5      | Truly Seamless, works well on wet and dry hair | WOW a comb that is truly smooth and seam-free,...         | B00A  | B00          | AFB                             | 0             | True               | 2015-01-17 21:43:57.000 |
+
 
 We won’t ingest all the entries from the dataset, but for demo purposes, just take the first two thousand:
 
