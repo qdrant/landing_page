@@ -195,7 +195,7 @@ In this case, you can set `always_ram` to `true` to store quantized vectors in R
 
 To enable 2bit or 1.5bit quantization, you need to specify `encoding` parameter in the `quantization_config` section of the collection configuration. Avaliable values are `two_bits` and `one_and_half_bits`.
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization-and-ancoding/" >}}
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization-and-encoding/" >}}
 
 To enable asymmetric quantization, you need to specify `query_encoding` parameter in the `quantization_config` section of the collection configuration. Avaliable values are:
 - `default` and `binary` - use regular binary quantization for the query.
