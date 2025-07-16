@@ -17,7 +17,7 @@ tags:
 ---
 
 
-### Qdrant joins AI Agent category on AWS Marketplace to accelerate Agentic AI development
+### Qdrant is now available in the new AWS Marketplace AI Agents and Tools category.
 
 Customers can now use AWS Marketplace to easily discover, buy, and deploy AI agents solutions, including Qdrant’s vector search engine using their AWS accounts, accelerating AI agent and agentic workflow development.
 
