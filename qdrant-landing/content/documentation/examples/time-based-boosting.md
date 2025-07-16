@@ -29,11 +29,11 @@ Now you can add sample documents, their associated metadata, and a point id for 
 
 Here’s a sample of the [Amazon Beauty Reviews](https://huggingface.co/datasets/jhan21/amazon-beauty-reviews-dataset) dataset:
 
-| index | rating | title                                        | text                                                                 | asin       | parent_asin | user_id                           | timestamp               | helpful_vote | verified_purchase | ts                      |
+| id | rating | title                                        | text                                                                 | asin       | parent_asin | user_id                           | timestamp               | helpful_vote | verified_purchase | ts                      |
 |--------|--------|----------------------------------------------|----------------------------------------------------------------------|------------|-------------|------------------------------------|--------------------------|---------------|--------------------|--------------------------|
-| 995    | 5      | Feels so refreshing!                        | These are so nice and easy to apply. You insta...                    | B07V9MKX7H | B07V9MKX7H  | AEXGISIVX7WBUNI7UHHERVB3DF7Q       | 2019-09-15 01:25:31.475 | 0             | False              | 2019-09-15 01:25:31.475 |
-| 996    | 5      | VERY nice, seems to be working, and a little g... | Having used this for 2 months now I really am ...            | B0047V7MAY | B0047V7MAY  | AFBXVB2GIANS2DHWDK3HXISL2WEA       | 2017-07-28 18:58:51.369 | 0             | True               | 2017-07-28 18:58:51.369 |
-| 997    | 5      | Truly Seamless, works well on wet and dry hair | WOW a comb that is truly smooth and seam-free,...              | B00AXXHCLY | B00AXXHCLY  | AFBXVB2GIANS2DHWDK3HXISL2WEA       | 2015-01-17 21:43:57.000 | 0             | True               | 2015-01-17 21:43:57.000 |
+| 995    | 5      | Feels so refreshing!                        | These are so nice and easy to apply. You insta...                    | B07 | B07 | AEX      | 2019-09-15 01:25:31.475 | 0             | False              | 2019-09-15 01:25:31.475 |
+| 996    | 5      | VERY nice, seems to be working, and a little g... | Having used this for 2 months now I really am ...            | B00| B00 | AFB       | 2017-07-28 18:58:51.369 | 0             | True               | 2017-07-28 18:58:51.369 |
+| 997    | 5      | Truly Seamless, works well on wet and dry hair | WOW a comb that is truly smooth and seam-free,...              | B00A | B00 | AFB      | 2015-01-17 21:43:57.000 | 0             | True               | 2015-01-17 21:43:57.000 |
 
 We won’t ingest all the entries from the dataset, but for demo purposes, just take the first two thousand:
 
@@ -44,12 +44,14 @@ Here, you will search for some reviews without any recency filtering.
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-boosting/query-without-recency/" >}}
 
+Here's a sample output: 
+
 ```markdown
 points=[ScoredPoint(id='55eadc68-f78c-4eb5-9061-780ec62b49fa', version=335, score=0.5265173, payload={'rating': 5, 'title': 'Clean hair for hairdresser', 'text': 'Hair for hairdresser', 'asin': 'B07D487TV7', 'parent_asin': 'B07D487TV7', 'user_id': 'AFQIVYHWA34H6K3JDVAOYOXH534Q', 'timestamp': '2019-12-28 23:56:02.592', 'helpful_vote': 0, 'verified_purchase': True, 'ts': '2019-12-28T23:56:02.592000'},.... vector=None, shard_key=None, order_value=None), ScoredPoint(id='4a1c06cf-8dd8-4ed4-865b-4c3b7e07e39b', , 'asin': 'B07VGBBNTH', 'parent_asin': 'B07VGBBNTH', 'user_id': 'AG73BVBKUOH22USSFJA5ZWL7AKXA', 'timestamp': '2020-03-08 22:51:26.757', 'helpful_vote': 0, 'verified_purchase': False, 'ts': '2020-03-08T22:51:26.757000'}, vector=None, shard_key=None, order_value=None)]
 ```
 
 ## Query With Time-based Boosting 
-Now, let's look for reviews by boosting the reviews within one week of the provided center date.
+Now, let's search by boosting the reviews within one week of the provided center date.
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-boosting/query-with-recency/" >}}
 
