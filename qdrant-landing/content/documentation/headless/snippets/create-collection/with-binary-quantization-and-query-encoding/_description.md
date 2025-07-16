@@ -1,1 +1,4 @@
-This code configures a collection named `{collection_name}` with vectors of size 1536 and a distance metric of cosine. The collection is set up for binary quantization with the setting `query_encoding` set to `scalar8bits` and the setting `always_ram` set to true. To enable binary quantization for an existing collection, a PATCH request or an `update_collection` method can be used, omitting the vector configuration as it is already defined.
+This code configures a new collection with binary quantization with asymmetric quantization.
+Asymmetric quantization may have different bit depth, in this example we use 1 bit for stored vectors and 8 bits for query encoding.
+Using asymmetric quantization allows to improve precision of the search results at a slight cost of performance.
+

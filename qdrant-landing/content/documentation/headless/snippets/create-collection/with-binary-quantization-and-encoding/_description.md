@@ -1,1 +1,3 @@
-This code configures a collection named `{collection_name}` with vectors of size 1536 and a distance metric of cosine. The collection is set up for binary quantization with the setting `encoding` set to `two_bits` and the setting `always_ram` set to true. To enable binary quantization for an existing collection, a PATCH request or an `update_collection` method can be used, omitting the vector configuration as it is already defined.
+This code configures a new collection with 2-bit binary quantization.
+2-bit binary quantization allows to improve precision of the search results at a slight cost of storage size.
+There are other bit depths available: for example: `two_bits` and `one_and_half_bits`.

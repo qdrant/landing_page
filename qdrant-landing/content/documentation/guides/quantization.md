@@ -103,7 +103,20 @@ Binary quantization makes it efficient to compare vectors using this representat
 
 **Binary quantization** storage can use **2 and 1.5 bits** per dimension, improving precision for smaller vectors. One-bit compression resulted in significant data loss and precision drops for vectors smaller than a thousand dimensions, often requiring expensive rescoring. 2-bit quantization offers 16X compression compared to 32X with one bit, improving performance for smaller vector dimensions. The 1.5-bit quantization compression offers 24X compression and intermediate accuracy.
 
-A major limitation of binary quantization is poor handling of values close to zero. 2-bit quantization addresses this by explicitly representing zeros using an efficient scoring mechanism. In the case of 1.5-bit quantization, the zero-bit is shared between two values, balancing the efficiency of binary quantization with the accuracy improvements of 2-bit quantization, especially when 2-bit BQ requires too much memory.
+A major limitation of binary quantization is poor handling of values close to zero.
+2-bit quantization addresses this by explicitly representing zeros using an efficient scoring mechanism. In the case of 1.5-bit quantization, the zero-bit is shared between two values, balancing the efficiency of binary quantization with the accuracy improvements of 2-bit quantization, especially when 2-bit BQ requires too much memory.
+
+In order to build 2-bit representation, Qdrant computes values distribution and then assigns bit values to 3 possible buckets:
+
+- `-1` - 00
+- `0` - 01
+- `1` - 11
+
+1.5-bit quantization is similar, but merges buckets of pairs of elements into a binary triptets
+
+{{<figure src=/docs/2-bit-quantization.png caption="2-bit quantization" width=100% >}}
+
+See how to set up 1.5-bit and 2-bit quantization in the [following section](#set-up-bit-depth).
 
 ### Asymmetric Quantization
 
@@ -112,7 +125,12 @@ A major limitation of binary quantization is poor handling of values close to ze
 The **Asymmetric Quantization** technique allows qdrant to use different vector encoding algorithm for stored vectors and for queries.
 Particularly interesting combination is a Binary stored vectors and Scalar quantized queries.
 
-This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU. This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output.
+{{<figure src=/docs/asymmetric-quantization.png caption="Asymmetric quantization" width=100% >}}
+
+This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU.
+This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output.
+
+See how to set up Asymmetric Quantization quantization in the [following section](#set-up-asymmetric-quantization)
 
 ## Product Quantization
 
@@ -138,11 +156,17 @@ Here is a brief table of the pros and cons of each quantization method:
 |---------------------|----------|--------------|-------------|
 | Scalar              | 0.99     | up to x2     | 4           |
 | Product             | 0.7      | 0.5          | up to 64    |
-| Binary              | 0.95*    | up to x40    | 32          |
+| Binary (1 bit)      | 0.95*    | up to x40    | 32          |
+| Binary (1.5 bit)    | 0.95**   | up to x30    | 24          |
+| Binary (2 bit)      | 0.95***  | up to x20    | 16          |
 
-`*` - for compatible models
+- `*` - for compatible models with high-dimensional vectors (approx. 1536+ dimensions)
+- `**` - for compatible models with medium-dimensional vectors (approx. 1024-1536 dimensions)
+- `***` - for compatible models with low-dimensional vectors (approx. 768-1024 dimensions)
 
 - **Binary Quantization** is the fastest method and the most memory-efficient, but it requires a centered distribution of vector components. It is recommended to use with tested models only.
+  - If you are planning to use binary quantization with low or medium-dimensional vectors (approx. 512-1024 dimensions), it is recommended to use 1.5-bit or 2-bit quantization as well as asymmetric quantization feature.
+
 - **Scalar Quantization** is the most universal method, as it provides a good balance between accuracy, speed, and compression. It is recommended as default quantization if binary quantization is not applicable.
 - **Product Quantization** may provide a better compression ratio, but it has a significant loss of accuracy and is slower than scalar quantization. It is recommended if the memory footprint is the top priority and the search speed is not critical.
 
@@ -195,9 +219,14 @@ However, in some setups you might want to keep quantized vectors in RAM to speed
 
 In this case, you can set `always_ram` to `true` to store quantized vectors in RAM.
 
+#### Set up bit depth
+
 To enable 2bit or 1.5bit quantization, you need to specify `encoding` parameter in the `quantization_config` section of the collection configuration. Available values are `two_bits` and `one_and_half_bits`.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization-and-encoding/" >}}
+
+
+#### Set up asymmetric quantization
 
 To enable asymmetric quantization, you need to specify `query_encoding` parameter in the `quantization_config` section of the collection configuration. Available values are:
 - `default` and `binary` - use regular binary quantization for the query.

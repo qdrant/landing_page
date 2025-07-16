@@ -26,7 +26,11 @@ client
                     .build())
             .setQuantizationConfig(
                 QuantizationConfig.newBuilder()
-                    .setBinary(BinaryQuantization.newBuilder().setEncoding(BinaryQuantizationEncoding.TwoBits).setAlwaysRam(true).build())
+                    .setBinary(BinaryQuantization
+                        .newBuilder()
+                        .setEncoding(BinaryQuantizationEncoding.TwoBits)
+                        .setAlwaysRam(true)
+                        .build())
                     .build())
             .build())
     .get();
