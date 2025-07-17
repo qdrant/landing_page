@@ -10,7 +10,7 @@ client.createPayloadIndex("{collection_name}", {
     tokenizer: "word",
     stemmer: {
       type: "snowball",
-      language: "English"
+      language: "english"
     }
   }
 });

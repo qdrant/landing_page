@@ -18,7 +18,7 @@ client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection
 		&qdrant.TextIndexParams{
 			Tokenizer: qdrant.TokenizerType_Word,
 			Stemmer: qdrant.NewStemmingAlgorithmSnowball(&qdrant.SnowballParams{
-				Language: "English",
+				Language: "english",
 			}),
 		}),
 })

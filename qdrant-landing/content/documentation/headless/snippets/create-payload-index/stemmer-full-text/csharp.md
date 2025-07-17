@@ -17,7 +17,7 @@ await client.CreatePayloadIndexAsync(
 			{
 				Snowball = new SnowballParams
 				{
-					Language = "English"
+					Language = "english"
 				}
 			}
 		}

@@ -23,7 +23,7 @@ client
                     .setStemmer(
                         StemmingAlgorithm.newBuilder()
                             .setSnowball(
-                                SnowballParams.newBuilder().setLanguage("English").build())
+                                SnowballParams.newBuilder().setLanguage("english").build())
                             .build())
                     .build())
             .build(),

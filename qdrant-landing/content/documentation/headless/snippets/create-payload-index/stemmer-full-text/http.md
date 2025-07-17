@@ -7,7 +7,7 @@ PUT /collections/{collection_name}/index
         "tokenizer": "word",
         "stemmer": {
             "type": "snowball",
-            "language": "English"
+            "language": "english"
         }
     }
 }
