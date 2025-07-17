@@ -7,7 +7,7 @@ aliases:
 
 # Indexing
 
-A key feature of Qdrant is the effective combination of vector and traditional indexes. It is essential to have this because for vector search to work effectively with filters, having vector index only is not enough. In simpler terms, a vector index speeds up vector search, and payload indexes speed up filtering.
+A key feature of Qdrant is the effective combination of vector and traditional indexes. It is essential to have this because for vector search to work effectively with filters, having a vector index only is not enough. In simpler terms, a vector index speeds up vector search, and payload indexes speed up filtering.
 
 The indexes in the segments exist independently, but the parameters of the indexes themselves are configured for the whole collection.
 
@@ -41,8 +41,8 @@ Available field types are:
 * `uuid` - a special type of index, similar to `keyword`, but optimized for [UUID values](/documentation/concepts/payload/#uuid).
 Affects [Match](/documentation/concepts/filtering/#match) filtering conditions. (available as of v1.11.0)
 
-Payload index may occupy some additional memory, so it is recommended to only use index for those fields that are used in filtering conditions.
-If you need to filter by many fields and the memory limits does not allow to index all of them, it is recommended to choose the field that limits the search result the most.
+Payload index may occupy some additional memory, so it is recommended to only use the index for those fields that are used in filtering conditions.
+If you need to filter by many fields and the memory limits do not allow for indexing all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 
 ### Parameterized index
@@ -55,9 +55,9 @@ you to fine-tune indexing and search performance.
 Both the regular and parameterized `integer` indexes use the following flags:
 
 - `lookup`: enables support for direct lookup using
-  [Match](/documentation/concepts/filtering/#match) filters.
+ [Match](/documentation/concepts/filtering/#match) filters.
 - `range`: enables support for
-  [Range](/documentation/concepts/filtering/#range) filters.
+ [Range](/documentation/concepts/filtering/#range) filters.
 
 The regular `integer` index assumes both `lookup` and `range` are `true`. In
 contrast, to configure a parameterized index, you would set only one of these
@@ -65,10 +65,10 @@ filters to `true`:
 
 | `lookup` | `range` | Result                      |
 |----------|---------|-----------------------------|
-| `true`   | `true`  | Regular integer index       |
-| `true`   | `false` | Parameterized integer index |
-| `false`  | `true`  | Parameterized integer index |
-| `false`  | `false` | No integer index            |
+| `true` | `true` | Regular integer index       |
+| `true` | `false` | Parameterized integer index |
+| `false` | `true` | Parameterized integer index |
+| `false` | `false` | No integer index            |
 
 The parameterized index can enhance performance in collections with millions
 of points. We encourage you to try it out. If it does not enhance performance
@@ -92,14 +92,14 @@ As latency in this case is critical, it is recommended to keep hot payload index
 There are, however, cases when payload indexes are too large or rarely used. In those cases, it is possible to store payload indexes on disk.
 
 <aside role="alert">
-    On-disk payload index might affect cold requests latency, as it requires additional disk I/O operations.
+ On-disk payload index might affect cold requests latency, as it requires additional disk I/O operations.
 </aside>
 
 To configure on-disk payload index, you can use the following index parameters:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/keyword-on-disk/" >}}
 
-Payload index on-disk is supported for following types:
+Payload index on-disk is supported for the following types:
 
 * `keyword`
 * `integer`
@@ -120,7 +120,7 @@ Many vector search use-cases require multitenancy. In a multi-tenant scenario th
 Qdrant supports efficient multi-tenant search by enabling [special configuration](/documentation/guides/multiple-partitions/) vector index, which disables global search and only builds sub-indexes for each tenant.
 
 <aside role="note">
-    In Qdrant, tenants are not necessarily non-overlapping. It is possible to have subsets of data that belong to multiple tenants.
+  In Qdrant, tenants are not necessarily non-overlapping. It is possible to have subsets of data that belong to multiple tenants.
 </aside>
 
 However, knowing that the collection contains multiple tenants unlocks more opportunities for optimization.
@@ -163,7 +163,7 @@ Full-text index allows you to filter points by the presence of a word or a phras
 Full-text index configuration is a bit more complex than other indexes, as you can specify the tokenization parameters.
 Tokenization is the process of splitting a string into tokens, which are then indexed in the inverted index.
 
-See [Full Text match](/documentation/concepts/filtering/#full-text-match) for examples of querying with full-text index.
+See [Full Text match](/documentation/concepts/filtering/#full-text-match) for examples of querying with a full-text index.
 
 To create a full-text index, you can use the following:
 
@@ -173,7 +173,7 @@ To create a full-text index, you can use the following:
 
 Tokenizers are algorithms used to split text into smaller units called tokens, which are then indexed and searched in a full-text index.
 In the context of Qdrant, tokenizers determine how string payloads are broken down for efficient searching and filtering.
-The choice of tokenizer affects how queries match the indexed text, supporting different languages, word boundaries, and search behaviors such as prefix or phrase matching.
+The choice of tokenizer affects how queries match the indexed text, supporting different languages, word boundaries, and search behaviours such as prefix or phrase matching.
 
 Available tokenizers are:
 
@@ -187,10 +187,10 @@ Available tokenizers are:
 A **stemmer** is an algorithm used in text processing to reduce words to their root or base form, known as the "stem." For example, the words "running", "runner and "runs" can all be reduced to the stem "run." 
 When configuring a full-text index in Qdrant, you can specify a stemmer to be used for a particular language. This enables the index to recognize and match different inflections or derivations of a word.
 
-Qdrant provides an implementation of [Snowball stemmer](https://snowballstem.org/), a videly used and performant variant for some of the post popular languages.
+Qdrant provides an implementation of [Snowball stemmer](https://snowballstem.org/), a widely used and performant variant for some of the most popular languages.
 For the list of supported languages, please visit the [rust-stemmers repository](https://github.com/qdrant/rust-stemmers).
 
-Here is an example of Full-text Index configuration with Snowball stemmer:
+Here is an example of full-text Index configuration with Snowball stemmer:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stemmer-full-text/" >}}
 
@@ -200,7 +200,7 @@ Stopwords are common words (such as "the", "is", "at", "which", and "on") that a
 
 In Qdrant, you can specify a list of stopwords to be ignored during full-text indexing and search. This helps simplify search queries and improves relevance.
 
-You can configure stopwords based on pre-defined languages, as well as extend existing stopword lists with custom words.
+You can configure stopwords based on predefined languages, as well as extend existing stopword lists with custom words.
 
 Here is an example of configuring a full-text index with custom stopwords:
 
@@ -215,11 +215,11 @@ This is useful when you want to match exact phrases rather than individual words
 When using a full-text index with phrase search enabled, you can perform phrase search by enclosing the desired phrase in double quotes in your filter query.
 For example, searching for `"machine learning"` will only return results where the words "machine" and "learning" appear together as a phrase, not just anywhere in the text.
 
-For efficient phrase seach Qdrant requires to build an additional data structure, so it needs to be configured during creation of the full-text index:
+For efficient phrase search, Qdrant requires building an additional data structure, so it needs to be configured during the creation of the full-text index:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/phrase-full-text/" >}}
 
-See [Phrase Match](/documentation/concepts/filtering/#phrase-match) for examples of querying phrases with full-text index.
+See [Phrase Match](/documentation/concepts/filtering/#phrase-match) for examples of querying phrases with a full-text index.
 
 
 ## Vector Index
@@ -231,7 +231,7 @@ Qdrant currently only uses HNSW as a dense vector index.
 
 [HNSW](https://arxiv.org/abs/1603.09320) (Hierarchical Navigable Small World Graph) is a graph-based indexing algorithm. It builds a multi-layer navigation structure for an image according to certain rules. In this structure, the upper layers are more sparse and the distances between nodes are farther. The lower layers are denser and the distances between nodes are closer. The search starts from the uppermost layer, finds the node closest to the target in this layer, and then enters the next layer to begin another search. After multiple iterations, it can quickly approach the target position.
 
-In order to improve performance, HNSW limits the maximum degree of nodes on each layer of the graph to `m`. In addition, you can use `ef_construct` (when building index) or `ef` (when searching targets) to specify a search range.
+In order to improve performance, HNSW limits the maximum degree of nodes on each layer of the graph to `m`. In addition, you can use `ef_construct` (when building an index) or `ef` (when searching targets) to specify a search range.
 
 The corresponding parameters could be configured in the configuration file:
 
@@ -287,7 +287,7 @@ The following parameters may affect performance:
 - `on_disk: true` - The index is stored on disk, which lets you save memory. This may slow down search performance.
 - `on_disk: false` - The index is still persisted on disk, but it is also loaded into memory for faster search.
 
-Unlike a dense vector index, a sparse vector index does not require a pre-defined vector size. It automatically adjusts to the size of the vectors added to the collection.
+Unlike a dense vector index, a sparse vector index does not require a predefined vector size. It automatically adjusts to the size of the vectors added to the collection.
 
 **Note:** A sparse vector index only supports dot-product similarity searches. It does not support other distance metrics.
 
