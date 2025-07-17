@@ -13,9 +13,11 @@ await client.CreatePayloadIndexAsync(
 		TextIndexParams = new TextIndexParams
 		{
 			Tokenizer = TokenizerType.Word,
-			MinTokenLen = 2,
-			MaxTokenLen = 10,
-			Lowercase = true
+			Stopwords = new StopwordsSet
+			{
+				Languages = { "english", "spanish" },
+				Custom = { "example" }
+			}
 		}
 	}
 );

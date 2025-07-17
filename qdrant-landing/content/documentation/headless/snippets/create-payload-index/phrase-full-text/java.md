@@ -18,9 +18,8 @@ client
             .setTextIndexParams(
                 TextIndexParams.newBuilder()
                     .setTokenizer(TokenizerType.Word)
-                    .setMinTokenLen(2)
-                    .setMaxTokenLen(10)
                     .setLowercase(true)
+                    .setPhraseMatching(true)
                     .build())
             .build(),
         null,

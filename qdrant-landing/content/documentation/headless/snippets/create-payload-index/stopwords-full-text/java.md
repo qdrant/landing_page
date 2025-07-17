@@ -1,8 +1,11 @@
 ```java
+import java.util.List;
+
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.PayloadIndexParams;
 import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+import io.qdrant.client.grpc.Collections.StopwordsSet;
 import io.qdrant.client.grpc.Collections.TextIndexParams;
 import io.qdrant.client.grpc.Collections.TokenizerType;
 
@@ -18,12 +21,14 @@ client
             .setTextIndexParams(
                 TextIndexParams.newBuilder()
                     .setTokenizer(TokenizerType.Word)
-                    .setMinTokenLen(2)
-                    .setMaxTokenLen(10)
-                    .setLowercase(true)
+                    .setStopwords(
+                        StopwordsSet.newBuilder()
+                            .addAllLanguages(List.of("english", "spanish"))
+                            .addAllCustom(List.of("example"))
+                            .build())
                     .build())
             .build(),
-        null,
+        true,
         null,
         null)
     .get();

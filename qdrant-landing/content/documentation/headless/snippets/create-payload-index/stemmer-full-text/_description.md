@@ -1,0 +1,2 @@
+This code snippet demonstrates how to create a full-text index for a specified field in a collection with stemmer configuration.
+Stemmer configuration allows to apply stemming to input words, stemmer configuration contains 2 options - type of the stemmer (snowball), and desired language (english).

@@ -13,9 +13,13 @@ await client.CreatePayloadIndexAsync(
 		TextIndexParams = new TextIndexParams
 		{
 			Tokenizer = TokenizerType.Word,
-			MinTokenLen = 2,
-			MaxTokenLen = 10,
-			Lowercase = true
+			Stemmer = new StemmingAlgorithm
+			{
+				Snowball = new SnowballParams
+				{
+					Language = "english"
+				}
+			}
 		}
 	}
 );

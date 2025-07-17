@@ -3,6 +3,8 @@ import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.PayloadIndexParams;
 import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+import io.qdrant.client.grpc.Collections.SnowballParams;
+import io.qdrant.client.grpc.Collections.StemmingAlgorithm;
 import io.qdrant.client.grpc.Collections.TextIndexParams;
 import io.qdrant.client.grpc.Collections.TokenizerType;
 
@@ -18,12 +20,14 @@ client
             .setTextIndexParams(
                 TextIndexParams.newBuilder()
                     .setTokenizer(TokenizerType.Word)
-                    .setMinTokenLen(2)
-                    .setMaxTokenLen(10)
-                    .setLowercase(true)
+                    .setStemmer(
+                        StemmingAlgorithm.newBuilder()
+                            .setSnowball(
+                                SnowballParams.newBuilder().setLanguage("english").build())
+                            .build())
                     .build())
             .build(),
-        null,
+        true,
         null,
         null)
     .get();

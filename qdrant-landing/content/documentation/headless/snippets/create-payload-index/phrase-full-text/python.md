@@ -9,9 +9,8 @@ client.create_payload_index(
     field_schema=models.TextIndexParams(
         type="text",
         tokenizer=models.TokenizerType.WORD,
-        min_token_len=2,
-        max_token_len=10,
         lowercase=True,
+        phrase_matching=True,
     ),
 )
 ```
