@@ -45,7 +45,7 @@ We ran extensive benchmarks to compare the new 2-bit quantization with both trad
 
 Dataset: Laion 1 million 512d vectors
 
-{{<figure src=/blog/qdrant-1.15.x/2bit-vs-1bit.png caption="2-bit VS 1-bit Qunatization" width=100% >}}
+{{<figure src=/blog/qdrant-1.15.x/2bit-vs-1bit.png caption="2-bit VS 1-bit Quantization" width=100% >}}
 
 {{<figure src=/blog/qdrant-1.15.x/2bit-vs-scalar.png caption="2-bit VS Scalar Quantization" width=100% >}}
 
