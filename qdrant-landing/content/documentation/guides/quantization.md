@@ -114,7 +114,7 @@ In order to build 2-bit representation, Qdrant computes values distribution and 
 
 1.5-bit quantization is similar, but merges buckets of pairs of elements into a binary triptets
 
-{{<figure src=/docs/2-bit-quantization.png caption="2-bit quantization" width=100% >}}
+{{<figure src=/docs/2-bit-quantization.png caption="2-bit quantization" width=80% >}}
 
 See how to set up 1.5-bit and 2-bit quantization in the [following section](#set-up-bit-depth).
 
@@ -125,7 +125,7 @@ See how to set up 1.5-bit and 2-bit quantization in the [following section](#set
 The **Asymmetric Quantization** technique allows qdrant to use different vector encoding algorithm for stored vectors and for queries.
 Particularly interesting combination is a Binary stored vectors and Scalar quantized queries.
 
-{{<figure src=/docs/asymmetric-quantization.png caption="Asymmetric quantization" width=100% >}}
+{{<figure src=/docs/asymmetric-quantization.png caption="Asymmetric quantization" width=80% >}}
 
 This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU.
 This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output.
