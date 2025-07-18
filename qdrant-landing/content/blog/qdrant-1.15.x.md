@@ -4,7 +4,7 @@ draft: false
 slug: qdrant-1.15.x
 short_description: "Smarter Quantization, Healing Indexes, and Multilingual Text Filtering"
 description: "Qdrant v1.15 release presents new Quantization Features, advanced Full-Text filtering and a bunch of performance optimizations"
-date: 2025-01-15T00:00:00-08:00
+date: 2025-07-18T00:00:00-08:00
 author: Derrick Mwiti
 featured: true
 tags:
@@ -273,6 +273,10 @@ Qdrant 1.15 introduces HNSW healing.
 Instead of completely re-building HNSW index during optimization, Qdrant now tries to re-use information from the existing vector index to speed-up construction of the new one.
 When points are removed from an existing [HNSW graph](https://qdrant.tech/documentation/concepts/indexing/#vector-index), new links are added to prevent isolation in the graph, and avoid decreasing search quality.
 
+{{<figure src="/blog/qdrant-1.15.x/healing.png" caption="Indexing speed with healing vs full re-index" >}}
+
+
+
 This modification, in combinations with [incremental HNSW indexing](/blog/qdrant-1.14.x/#improved-resource-use-during-segment-optimization) introduced in v1.14.0, it significantly improves resource utilization in use-case with high update rates.
 
 ### HNSW Graph connectivity estimation
@@ -301,9 +305,7 @@ In Qdrant Cloud, simply go to your Cluster Details screen and select Version 1.1
 
 > Upgrading from earlier versions is straightforward - no major API or index-breaking changes. We recommend upgrading versions one by one, for example, 1.13 ->1.14->1.15.
 
-**Figure**: Updating to the latest software version from the Qdrant Cloud dashboard.
-
-**ADD SCREENSHOT**
+{{<figure src="/blog/qdrant-1.15.x/version-upgrade.png" caption="Updating to the latest software version from the Qdrant Cloud dashboard" width="100%" >}}
 
 **Documentation**: For detailed usage examples, configuration options, and implementation guides, including quantization, MMR rescoring, multilingual text indexing, and more, refer to the official [Qdrant documentation](https://qdrant.tech/documentation) and [API reference](https://api.qdrant.tech). You'll find full code samples, integration walkthroughs, and best practices for building high-performance vector search applications.
 
