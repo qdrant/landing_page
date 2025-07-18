@@ -10,15 +10,13 @@ use qdrant_client::Qdrant;
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 let text_index_params = TextIndexParamsBuilder::new(TokenizerType::Word)
-    .min_token_len(2)
-    .max_token_len(10)
-    .lowercase(true);
+    .snowball_stemmer("english".to_string());
 
 client
     .create_field_index(
         CreateFieldIndexCollectionBuilder::new(
             "{collection_name}",
-            "name_of_the_field_to_index",
+            "{field_name}",
             FieldType::Text,
         ).field_index_params(text_index_params.build()),
     )

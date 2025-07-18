@@ -5,9 +5,10 @@ PUT /collections/{collection_name}/index
     "field_schema": {
         "type": "text",
         "tokenizer": "word",
-        "min_token_len": 2,
-        "max_token_len": 10,
-        "lowercase": true
+        "stemmer": {
+            "type": "snowball",
+            "language": "english"
+        }
     }
 }
 ```

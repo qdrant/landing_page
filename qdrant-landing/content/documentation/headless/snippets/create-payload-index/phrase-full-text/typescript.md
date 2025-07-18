@@ -8,9 +8,8 @@ client.createPayloadIndex("{collection_name}", {
   field_schema: {
     type: "text",
     tokenizer: "word",
-    min_token_len: 2,
-    max_token_len: 10,
     lowercase: true,
+    phrase_matching: true,
   },
 });
 ```
