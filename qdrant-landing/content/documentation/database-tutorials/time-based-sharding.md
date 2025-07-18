@@ -51,7 +51,6 @@ Upload the streaming dataset by batching it per day and uploading each day to it
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/upload-vectors/" >}}
 
-
 ##  Perform Semantic Search for a Single Shard
 Here, you will ask a question that will allow you to retrieve semantically relevant results from a specific shard.
 
