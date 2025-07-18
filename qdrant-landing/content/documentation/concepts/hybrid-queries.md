@@ -196,6 +196,13 @@ $$ \text{exp_decay}(x) = \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}}\
 
 $$ \text{gauss_decay}(x) = \exp\left(\frac{\ln\left(m_{idpoint}\right)}{s_{cale}^{2}}\cdot \left(x-t_{arget}\right)^{2}\right) $$
 
+## Time-based boosting 
+Another example. Combine the score with how recent the results are.
+
+A good example is in ecommerce, for example, showing latest customer reviews and recently added products.  By blending vector similarity (relevance) with recency, we create a hybrid scoring model that ranks results not only by how closely they match the query, but also by how new they are.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/time-based-boosting/" >}}
+
 ## Grouping
 
 *Available as of v1.11.0*
