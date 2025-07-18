@@ -61,8 +61,11 @@ We’ve locked in a strong lineup but we’re saving a few select slots for stan
 General admission: €50
 
 **Early Bird Pricing**
+
 Now through July 31: 25% off
-Aug 1 - Aug 29: 10% off
+
+August: 10% off
+
 Sept 1 - Sept 25: full price
 
 [**Reserve your spot now.**](https://lu.ma/p7w9uqtz)
