@@ -2,7 +2,7 @@
 title: Time-based Sharding
 weight: 181
 ---
-# Time-Based Sharding in Qdrant: A Scalable Approach to Daily Data Ingestion
+# Time-Based Sharding in Qdrant
 
 When working with massive, fast-moving datasets, like social media streams or real-time analytics, it becomes critical to manage storage and retrieval efficiently. One common strategy is to **only keep the most recent N days of data indexed**, and delete older data regularly.
 
