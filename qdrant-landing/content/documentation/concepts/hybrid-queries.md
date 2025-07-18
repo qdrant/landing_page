@@ -109,7 +109,7 @@ This is implemented in Qdrant as a parameter of a nearest neighbors query. You d
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-mmr/" >}}
 
-**Caveat:** Since MMR ranks one point at a time, the scores produced by MMR in Qdrant refer to the similarity to the query vector. This means that the response will not be ordered by score, but rather by the order of selection of MMR. Also, this score is not postprocessed, like it does for euclidean distance, so it may be negative (and that's ok).
+**Caveat:** Since MMR ranks one point at a time, the scores produced by MMR in Qdrant refer to the similarity to the query vector. This means that the response will not be ordered by score, but rather by the order of selection of MMR.
 
 ## Score boosting
 
