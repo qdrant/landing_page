@@ -1,5 +1,5 @@
 ---
-title: "Qdrant 1.15 - Smarter Quantization & better Text Filtering"
+title: "Qdrant 1.15 - Smarter Quantization & Better Text Filtering"
 draft: false
 slug: qdrant-1.15.x
 short_description: "Smarter Quantization, Healing Indexes, and Multilingual Text Filtering"
@@ -13,13 +13,13 @@ tags:
   - new features
 ---
 
-[**Qdrant 1.15.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.15.0) Let’s look at the main features for this version:
+[**Qdrant 1.15.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.15.0) Let's look at the main features for this version:
 
-**New quantizations:** We introduce asymmetric quantization and 1.5 and 2-bit quantizations. Asymmetric quantization allows vectors and queries to have different quantization algorithms. 1.5 and 2-bit quantizations allow for improved accuracy.
+**New Quantizations:** We introduce asymmetric quantization and 1.5 and 2-bit quantizations. Asymmetric quantization allows vectors and queries to have different quantization algorithms. 1.5 and 2-bit quantizations allow for improved accuracy.
 
-**Changes in text index**: Introduction of a new multilingual tokenizer, stopwords support, stemming, and phrase matching.
+**Changes in Text Index**: Introduction of a new multilingual tokenizer, stopwords support, stemming, and phrase matching.
 
-Various optimizations, including **HNSW healing**, allowing HNSW indexes to reuse the old graph without a complete rebuild, and **Migration to Gridstore** unlocks faster injestion.
+Various optimizations, including **HNSW healing**, allowing HNSW indexes to reuse the old graph without a complete rebuild, and **Migration to Gridstore** unlocks faster ingestion.
 
 
 ## New Quantization Modes
@@ -55,8 +55,8 @@ Dataset: Laion 1 million 512d vectors
 
 ### Asymmetric Quantization
 
-The **Asymmetric Quantization** technique allows qdrant to use different vector encoding algorithm for stored vectors and for queries.
-Particularly interesting combination is a Binary stored vectors and Scalar quantized queries.
+The **Asymmetric Quantization** technique allows Qdrant to use different vector encoding algorithms for stored vectors and for queries.
+A particularly interesting combination is binary stored vectors and scalar quantized queries.
 
 This approach maintains storage size and RAM usage similar to binary quantization while offering improved precision. It is beneficial for memory-constrained deployments, or where the bottleneck is disk I/O rather than CPU. This is particularly useful for indexing millions of vectors as it improves precision without sacrificing much because the limitation in such scenarios is disk speed, not CPU. This approach requires less rescoring for the same quality output.
 
@@ -72,7 +72,7 @@ When performing nearest vector search, the query vector is compared against quan
 
 {{<figure src=/blog/qdrant-1.15.x/asymmetric-bench.png caption="Asymmetric Quantization Benchmark" width=100% >}}
 
-Blue: Asymmetric 8bit quantization
+Blue: Asymmetric 8-bit quantization
 
 Orange: Regular Binary Quantization
 
@@ -86,19 +86,19 @@ Dataset: Laion 1 million 512d vectors
 
 ![Section 2](/blog/qdrant-1.15.x/section-2.png)
 
-Full-text filtering in Qdrant in an efficient way to combine Vector-based scoring with exact keyword match.
-And in v1.15 full-text index recieved a number of upgrades which make vector similarity evem more useful.
+Full-text filtering in Qdrant is an efficient way to combine vector-based scoring with exact keyword matching.
+And in v1.15, the full-text index received a number of upgrades which make vector similarity even more useful.
 
 ### Multilingual Tokenization
 
-Previous versions of Qdrant relied on [charabia](https://github.com/meilisearch/charabia) package to perform multilingual tokenizetion.
-Unfortunately this package has a significant memory overhead for tokenizers in Korean and Japanese languages, so we could not enable in by default.
+Previous versions of Qdrant relied on the [charabia](https://github.com/meilisearch/charabia) package to perform multilingual tokenization.
+Unfortunately, this package has a significant memory overhead for tokenizers in Korean and Japanese languages, so we could not enable it by default.
 
-With this update you can use a variety of languages in our full-text search index for filters.
-This means that languages that don't have clear word boundaries and aren't separated by space such as Japanase and Chinese are now natively supported.
+With this update, you can use a variety of languages in our full-text search index for filters.
+This means that languages that don't have clear word boundaries and aren't separated by spaces, such as Japanese and Chinese, are now natively supported.
 Previously, only languages with spaces were supported (with `"word"` tokenization), or you had to compile Qdrant yourself.
 
-In the new v1.15 release we completely reworked which tokenizer packages are used for specific languages.
+In the new v1.15 release, we completely reworked which tokenizer packages are used for specific languages.
 It allowed us to pack everything in the main build without sacrificing performance.
 
 Qdrant now supports multilingual tokenization, meaning that search will perform more consistently in multilingual datasets without needing external preprocessing.
@@ -118,10 +118,10 @@ PUT /collections/{collection_name}/index
 
 ### Stop Words
 
-Articles like "a", conjunctions like "and", prepostions like "with", pronouns like "he" and common verbs such as "be", can clutter your index without adding value to search.
-Those meaningless works can also complicate construction of filtering condition, when previously you had to manually remove them from the query.
+Articles like "a", conjunctions like "and", prepositions like "with", pronouns like "he", and common verbs such as "be" can clutter your index without adding value to search.
+These meaningless words can also complicate construction of filtering conditions, when previously you had to manually remove them from the query.
 
-Now you can configure `stopwords` for qdrant full-text index and Qdrant will handle them automatically.
+Now you can configure `stopwords` for Qdrant's full-text index and Qdrant will handle them automatically.
 
 Here is how to configure stopwords:
 
@@ -141,12 +141,12 @@ For more information about stopwords, see the [documentation](https://qdrant.tec
 ### Stemming
 
 Stemming improves text processing by converting words to their root form.
-For example “run”, “runs”, and “running” will all map to the root “run”.
-By using stemming you only store the root words, reducing the size of the index and increasing retrieval accuracy.
+For example, "run", "runs", and "running" will all map to the root "run".
+By using stemming, you only store the root words, reducing the size of the index and increasing retrieval accuracy.
 
-In Qdrant, stemming allows for better query document matching because grammar-related suffixes that don't add meaning to words get removed.
-We apply stemming in our full-text index increasing recall, because a more variety of queries match the same document.
-For example the queries "interesting documentation" and "interested in this document", will be normalized to `["interest", "document"]` and `["interest", "in", "this", "document"]`, converting them to an overlapping sets.
+In Qdrant, stemming allows for better query-document matching because grammar-related suffixes that don't add meaning to words get removed.
+We apply stemming in our full-text index, increasing recall because a greater variety of queries match the same document.
+For example, the queries "interesting documentation" and "interested in this document" will be normalized to `["interest", "document"]` and `["interest", "in", "this", "document"]`, converting them to overlapping sets.
 However, without stemming, these would become `["interesting", "documentation"]` and `["interested", "in", "this", "document"]`, resulting in not a single word matching, despite being very similar in meaning.
 
 Here is an example showing how to configure the collection to use the [Snowball stemmer](https://snowballstem.org/):
@@ -170,7 +170,7 @@ PUT /collections/{collection_name}/index
 With [phrase matching](/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase search.
 It allows you to search for a specific phrase, words in exact order, within a text field.
 
-For efficient phrase seach Qdrant requires to build an additional data structure,
+For efficient phrase search, Qdrant requires building an additional data structure,
 so it needs to be configured during creation of the full-text index:
 
 ```http
@@ -184,7 +184,7 @@ PUT /collections/{collection_name}/index
 }
 ```
 
-For example, the phrase “machine time” will be matched exactly in that order within the “summary” field:
+For example, the phrase "machine time" will be matched exactly in that order within the "summary" field:
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -220,8 +220,8 @@ It prevents your top-k results from being redundant and helps surface varied but
 
 ### Diversifying Search Results with MMR
 
-Let’s say you’re building a knowledge assistant or semantic document explorer in which a single query can return multiple highly similar queries.
-For instance, searching “climate change” in a scientific paper database might return several similar paragraphs.
+Let's say you're building a knowledge assistant or semantic document explorer in which a single query can return multiple highly similar queries.
+For instance, searching "climate change" in a scientific paper database might return several similar paragraphs.
 
 You can diversify the results with [Maximal Marginal Relevance (MMR)](/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr).
 
@@ -230,12 +230,12 @@ This gives more coverage and avoids redundant results, which is helpful in dense
 
 ![Diversifying Search Results with MMR](/blog/qdrant-1.15.x/mmr-example.png)
 
-<figcaption>Without/with MMR when searching for "kebab" in <a href="https://qdrant.tech/documentation/datasets/#wolt-food">Wolt dataset</a> of text-image model</figcaption>
+<figcaption>Without/with MMR when searching for "kebab" in <a href="https://qdrant.tech/documentation/datasets/#wolt-food">Wolt Dataset</a> of text-image model</figcaption>
 
 <br>
 
 For example, you have vectorized paragraphs from hundreds of documents and stored them in Qdrant.
-Instead of showing only five nearly identical answers, you want your chatbot to respond with diverse answers. Here’s how to do it:
+Instead of showing only five nearly identical answers, you want your chatbot to respond with diverse answers. Here's how to do it:
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -255,47 +255,47 @@ POST /collections/{collection_name}/points/query
 
 ![Section 3](/blog/qdrant-1.15.x/section-3.png)
 
-When we started building Qdrant, we picked RocksDB as our embedded key-value store. However, due to it's architecture we ran into issues such as random latency spikes. [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) is our custom solution to this and other challenges we faced when building with RocksDB. Qdrant 1.15 continues our transition from RocksDB to [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) as the default storage backend for new deployments, leading to:
+When we started building Qdrant, we picked RocksDB as our embedded key-value store. However, due to its architecture, we ran into issues such as random latency spikes. [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) is our custom solution to this and other challenges we faced when building with RocksDB. Qdrant 1.15 continues our transition from RocksDB to [Gridstore](https://qdrant.tech/articles/gridstore-key-value-storage/) as the default storage backend for new deployments, leading to:
 
 * Faster ingestion speeds.
 * Storage management without "garbage collection".
 
-> For more insights on the performance of Gridstore compared to RocksDB checkout our [**Introducing Gridstore**](https://qdrant.tech/articles/gridstore-key-value-storage/#end-to-end-benchmarking) article.
+> For more insights on the performance of Gridstore compared to RocksDB, check out our [**Introducing Gridstore**](https://qdrant.tech/articles/gridstore-key-value-storage/#end-to-end-benchmarking) article.
 
 ## Optimizations
 
-As usual, new Qdrant release brings more performance optimization for faster and cheaper vector search at scale.
+As usual, the new Qdrant release brings more performance optimizations for faster and cheaper vector search at scale.
 
 ### HNSW Healing
 
 Qdrant 1.15 introduces HNSW healing.
 
-Instead of completely re-building HNSW index during optimization, Qdrant now tries to re-use information from the existing vector index to speed-up construction of the new one.
-When points are removed from an existing [HNSW graph](https://qdrant.tech/documentation/concepts/indexing/#vector-index), new links are added to prevent isolation in the graph, and avoid decreasing search quality.
+Instead of completely re-building the HNSW index during optimization, Qdrant now tries to re-use information from the existing vector index to speed up construction of the new one.
+When points are removed from an existing [HNSW graph](https://qdrant.tech/documentation/concepts/indexing/#vector-index), new links are added to prevent isolation in the graph and avoid decreasing search quality.
 
 {{<figure src="/blog/qdrant-1.15.x/healing.png" caption="Indexing speed with healing vs full re-index" >}}
 
 
 
-This modification, in combinations with [incremental HNSW indexing](/blog/qdrant-1.14.x/#improved-resource-use-during-segment-optimization) introduced in v1.14.0, it significantly improves resource utilization in use-case with high update rates.
+This modification, in combination with [incremental HNSW indexing](/blog/qdrant-1.14.x/#improved-resource-use-during-segment-optimization) introduced in v1.14.0, significantly improves resource utilization in use cases with high update rates.
 
-### HNSW Graph connectivity estimation
+### HNSW Graph Connectivity Estimation
 
-Qdrant builds [addtitional HNSW links](/articles/filtrable-hnsw/) to ensure that filtered searches are performed fast and accurate.
+Qdrant builds [additional HNSW links](/articles/filtrable-hnsw/) to ensure that filtered searches are performed fast and accurately.
 
 It does, however, introduce an overhead for indexing complexity, especially when the number of payload indexes is large.
-With v1.15, Qdrant introduces an optimization, which quickly estimates graph connectivity before creating additional links.
+With v1.15, Qdrant introduces an optimization which quickly estimates graph connectivity before creating additional links.
 
-Is some scenarios this optimization can reduce indexation time multiple times without sacrificing search quality.
+In some scenarios, this optimization can reduce indexation time multiple times without sacrificing search quality.
 
 ![Conclusion](/blog/qdrant-1.15.x/connectivity-estimation.png)
 
 ## Changes in Web UI
 
-Main Web-UI feature of the release is a `Create Collection` dialog.
+The main Web-UI feature of the release is a `Create Collection` dialog.
 
-This dialog is designed with an idea to guide users through the configuration process.
-Instead of listing all possible configurations, we tried to organise it into an intuitive flow that also encourages best-practices.
+This dialog is designed with the idea to guide users through the configuration process.
+Instead of listing all possible configurations, we tried to organize it into an intuitive flow that also encourages best practices.
 
 ![create-collection01](/blog/qdrant-1.15.x/create-collection.png)
 
@@ -303,7 +303,7 @@ Instead of listing all possible configurations, we tried to organise it into an 
 
 In Qdrant Cloud, simply go to your Cluster Details screen and select Version 1.15 from the dropdown. The upgrade may take a few moments.
 
-> Upgrading from earlier versions is straightforward - no major API or index-breaking changes. We recommend upgrading versions one by one, for example, 1.13 ->1.14->1.15.
+> Upgrading from earlier versions is straightforward - no major API or index-breaking changes. We recommend upgrading versions one by one, for example, 1.13 -> 1.14 -> 1.15.
 
 {{<figure src="/blog/qdrant-1.15.x/version-upgrade.png" caption="Updating to the latest software version from the Qdrant Cloud dashboard" width="100%" >}}
 
