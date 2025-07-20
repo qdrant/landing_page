@@ -27,6 +27,7 @@ docker run -p 6333:6333 -p 6334:6334 \
     -v "$(pwd)/qdrant_storage:/qdrant/storage:z" \
     qdrant/qdrant
 ```
+<aside role="status">On Windows, you may need to create a named Docker volume instead of mounting a local folder.</aside>
 
 Under the default configuration all data will be stored in the `./qdrant_storage` directory. This will also be the only directory that both the Container and the host machine can both see.
 
