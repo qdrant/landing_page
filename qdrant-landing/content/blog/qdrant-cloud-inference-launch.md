@@ -17,7 +17,7 @@ tags:
 
 # Introducing Qdrant Cloud Inference
 
-Today, we’re announcing the launch of Qdrant Cloud Inference [get started in your cluster](https://cloud.qdrant.io/). With Qdrant Cloud Inference, users can generate, store and index embeddings in a single API call, turning unstructured text and images into search-ready vectors in a single environment. Directly integrating model inference into Qdrant Cloud removes the need for separate inference infrastructure, manual pipelines, and redundant data transfers. 
+Today, we’re announcing the launch of Qdrant Cloud Inference ([get started in your cluster](https://cloud.qdrant.io/)). With Qdrant Cloud Inference, users can generate, store and index embeddings in a single API call, turning unstructured text and images into search-ready vectors in a single environment. Directly integrating model inference into Qdrant Cloud removes the need for separate inference infrastructure, manual pipelines, and redundant data transfers. 
 
 This simplifies workflows, accelerates development cycles, and eliminates unnecessary network hops for developers. With a single API call, you can now embed, store, and index your data more quickly and more simply. This speeds up application development for RAG, Multimodal, Hybrid search, and more. 
 
