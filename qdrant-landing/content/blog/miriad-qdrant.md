@@ -1,16 +1,14 @@
 ---
-title: "Qdrant for Research: Behind ETH & Stanford’s MIRIAD Dataset"
+title: "Qdrant for Research: The Story Behind ETH & Stanford’s MIRIAD Dataset"
 draft: false
 slug: miriad-qdrant
-short_description:  This is a blog post # Change this
-description: This is a blog post # Change this
-preview_image: /blog/Article-Image.png # Change this
+short_description: Discover how Qdrant contributed to ETH & Stanford researchers’ mission to advance the development of AI in medicine.
+description: Discover how Qdrant contributed to ETH & Stanford researchers’ mission to advance the development of AI in medicine.
+preview_image: /blog/miriad-qdrant/preview/preview.jpg
+social_preview_image: /blog/miriad-qdrant/preview/social_preview.jpg # Optional image used for link previews
+title_preview_image: /blog/miriad-qdrant/preview/title.jpg # Optional image used for blog post title
 
-# social_preview_image: /blog/Article-Image.png # Optional image used for link previews
-# title_preview_image: /blog/Article-Image.png # Optional image used for blog post title
-# small_preview_image: /blog/Article-Image.png # Optional image used for small preview in the list of blog posts
-
-date: 2025-07-22T15:51:47+02:00
+date: 2025-07-23T00:00:00+02:00
 author: Evgeniya Sukhodolskaya & Daniel Azoulai  
 featured: false
 tags:
