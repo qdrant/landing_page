@@ -40,7 +40,7 @@ And organize medical knowledge in a way that could support clinicians and engine
 
 ## How MIRIAD Was Created
 
-MIRIAD was built on top of the **Semantic Scholar Open Research Corpus (S2ORC)**, covering **900 thousands** out of **2.5 million** available there medical papers.
+MIRIAD was built on top of the **Semantic Scholar Open Research Corpus (S2ORC)**, currently leveraging a curated subset of **900,000** medical papers, with plans to expand a broader coverage as the dataset evolves.
 
 Question Answer pairs in the dataset were generated from fixed-size chunks using **GPT-3.5-Turbo**, followed by a **multi-stage filtering pipeline** ensuring the quality of the resulting dataset in three stages:
 - **Automated filtering** with regular expressions;
