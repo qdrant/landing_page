@@ -5,17 +5,17 @@ weight: 50
 
 # Scaling Qdrant Cloud Clusters
 
-The amount of data is always growing and at some point you might need to upgrade or downgrade the capacity of your cluster.
+The amount of data is always growing and at some point you might need to change the capacity of your cluster. You can easily scale your Qdrant cluster up or down from the Cluster detail page in the Qdrant Cloud console.
 
 ![Cluster Scaling](/documentation/cloud/cluster-scaling.png)
-
-There are different options for how it can be done.
 
 ## Vertical Scaling
 
 Vertical scaling is the process of increasing the capacity of a cluster by adding or removing CPU, storage and memory resources on each database node.
 
-You can start with a minimal cluster configuration of 2GB of RAM and resize it up to 64GB of RAM (or even more if desired) over the time step by step with the growing amount of data in your application. If your cluster consists of several nodes each node will need to be scaled to the same size. Please note that vertical cluster scaling will require a short downtime period to restart your cluster.  In order to avoid a downtime you can make use of data replication, which can be configured on the collection level.  Vertical scaling can be initiated on the cluster detail page via the button "scale".
+You can start with a minimal cluster configuration and scale it up over the time to accomodate the growing amount of data in your application. If your cluster consists of several nodes each node will need to be scaled to the same size. 
+
+Note that vertical cluster scaling will require a short downtime, if the collections in your cluster are not replicated. This is because each node of the cluster needs to be restarted to apply the CPU, memory and disk size.
 
 If you want to scale your cluster down, the new, smaller memory size must be still sufficient to store all the data in the cluster. Otherwise, the database cluster could run out of memory and crash. Therefore, the new memory size must be at least as large as the current memory usage of the database cluster including a bit of buffer. Qdrant Cloud will automatically prevent you from scaling down the Qdrant database cluster with a too small memory size.
 
@@ -27,13 +27,13 @@ Vertical scaling can be an effective way to improve the performance of a cluster
 
 In such cases, horizontal scaling may be a more effective solution.
 
-Horizontal scaling, also known as horizontal expansion, is the process of increasing the capacity of a cluster by adding more nodes and distributing the load and data among them. The horizontal scaling at Qdrant starts on the collection level. You have to choose the number of shards you want to distribute your collection around while creating the collection.  Please refer to the [sharding documentation](/documentation/guides/distributed_deployment/#sharding) section for details.
+Horizontal scaling, is the process of increasing the capacity of a cluster by adding more nodes and distributing the load and data among them. The horizontal scaling at Qdrant starts on the collection level. You have to choose the number of shards you want to distribute your collection around while creating the collection.  Please refer to the [sharding documentation](/documentation/guides/distributed_deployment/#sharding) section for details.
 
-After that, you can configure, or change the amount of Qdrant database nodes within a cluster during cluster creation, or on the cluster detail page via "Scale" button.
-
-Important: The number of shards means the maximum amount of nodes you can add to your cluster. In the beginning, all the shards can reside on one node. With the growing amount of data you can add nodes to your cluster and move shards to the dedicated nodes using the [cluster setup API](/documentation/guides/distributed_deployment/#cluster-scaling).
+When scaling up horizontally, the cloud paltform will automatically rebalance all available shards across nodes to ensure that the data is evenly distributed. See [Configuring Clusters](/documentation/cloud/configure-cluster/#shard-rebalancing) for more details.
 
 When scaling down horizontally, the cloud platform will automatically ensure that any shards that are present on the nodes to be deleted, are moved to the remaining nodes.
+
+Important: If you configure e.g. 2 shards for a collection, but then scale your cluster from 1 to 3 nodes, your cluster nodes can't be fully utilized. The cloud platform will automatically rebalance your shards, so that two nodes will have one shard each, but the third node will not have any shards at all. You can use the [resharding feature](/documentation/cloud/cluster-scaling/#resharding) to change the number of shards in an existing collection. Once the resharding is complete, the cloud platform will rebalance the shards across all nodes, ensuring that all nodes are utilized.
 
 We will be glad to consult you on an optimal strategy for scaling.
 

@@ -16,13 +16,14 @@ You can also attach your own infrastructure as a Hybrid Cloud Environment. For d
 
 ## Cluster Configuration
 
-Each database cluster comes pre-configured with the following tools, features, and support services:
+Each database cluster comes pre-configured with the following features:
 
-- Allows the creation of highly available clusters with automatic failover.
-- Supports upgrades to later versions of Qdrant as they are released.
-- Upgrades are zero-downtime on highly available clusters.
-- Includes monitoring and logging to observe the health of each cluster.
-- Horizontally and vertically scalable.
-- Available natively on AWS and GCP, and Azure. 
-- Available on your own infrastructure and other providers if you use the Hybrid Cloud.
-
+- Allows the creation of highly available clusters with automatic failover
+- Easy version upgrades, zero-downtime on highly available clusters
+- Monitoring, logging and alerting to observe the health of each cluster
+- Horizontal and vertical up and down scaling
+- Automatic shard rebalancing
+- Support for resharding
+- Backups and disaster recovery
+- Available natively on AWS and GCP, and Azure.
+- Available on your own infrastructure and other providers if you use the Hybrid Cloud

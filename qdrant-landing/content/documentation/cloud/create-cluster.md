@@ -91,6 +91,26 @@ Once provisioned, you can access your cluster on ports 443 and 6333 (REST) and 6
 
 You should now see the new cluster in the **Clusters** menu.
 
+## Creating a Production-Ready Cluster
+
+To create a production-ready cluster, you need to ensure the following:
+
+**High Availability**
+
+Your cluster should have at least 3 nodes, and each collection should have a replication factor of at least 2. This ensures that if one node fails, or is being restarted due to maintenance, version upgrades or scaling operations, the cluster remains fully operational. You can ensure this by checking the **High Availability** checkbox when creating a cluster.
+
+**Backup and Disaster Recovery**
+
+You should create a backup schedule for your cluster. This ensures that you can restore your data in case of a disaster. You can configure backups in the **Backups** section of the cluster detail page. See [**Backups**](/documentation/cloud/backups/) for more information.
+
+**Collection Sharding**
+
+To allow your cluster to scale horizontally easily, you should configure at least 2 times the shards per collection than the number of nodes in your cluster. You can configure the number of shards when creating a collection. See [**Sharding**](/documentation/guides/distributed_deployment/#sharding) for more information.
+
+If you did not configure enough shards in a collection, you can use the [**Resharding**](/documentation/cloud/cluster-scaling/#resharding) feature to change the number of shards in an existing collection.
+
+For more information on how to create a production-ready cluster, see our [**Vector Search in Production**](/articles/vector-search-production/) article.
+
 ## Deleting a Cluster
 
 You can delete a Qdrant database cluster from the cluster's detail page.
