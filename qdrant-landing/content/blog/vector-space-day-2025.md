@@ -58,7 +58,7 @@ We’ve locked in a strong lineup but we’re saving a few select slots for stan
 
 ### Partners
 
-We’ll be joined by leading organizations including AWS, Microsoft, Vultr, AMD, Aleph Alpha, LlamaIndex, DeepSet, Jina, DataTalks.Club, and the MLOps Community. 
+We’ll be joined by leading organizations including AWS, Microsoft, Vultr, LlamaIndex, DeepSet, Jina, DataTalks.Club, and the MLOps Community. 
 
 These partners represent a cross-section of the most influential players in AI infrastructure and applied research, and we’re proud to collaborate with them to bring this event to life. Their involvement underscores the growing momentum behind vector search and retrieval-augmented generation (RAG) systems—and this is just the beginning. 
 
