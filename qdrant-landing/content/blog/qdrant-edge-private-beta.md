@@ -1,8 +1,8 @@
 ---
 draft: false
-title: " Announcing Qdrant Edge (Private Beta): The Vector Search Engine for Embedded AI"
-short_description: "Qdrant Edge is a lightweight, embedded vector search engine designed to run on local hardware with limited persistent background threads, network access, or centralized coordination."
-description: "Qdrant Edge is a lightweight, embedded vector search engine designed to run on local hardware with limited persistent background threads, network access, or centralized coordination. It retains Qdrant’s core search and filtering capabilities but is re-architected to operate as a minimal, local library that integrates directly into AI workflows on edge devices."
+title: "Qdrant Edge: Vector Search for Embedded AI"
+short_description: "Private Beta launching for Qdrant Edge - lightweight, embedded vector search engine designed to run on local hardware with limited persistent background threads, network access, or centralized coordination."
+description: "Private Beta launching for Qdrant Edge - lightweight, embedded vector search engine designed to run on local hardware with limited persistent background threads, network access, or centralized coordination."
 preview_image: /blog/qdrant-edge-private-beta/Qdrant-Edge.jpg
 social_preview_image: /blog/qdrant-edge-private-beta/Qdrant-Edge.jpg
 date: 2025-07-25
@@ -15,7 +15,7 @@ tags:
   - Vector Database
 ---
 
-# Announcing Qdrant Edge (Private Beta): The Vector Search Engine for Embedded AI
+# Qdrant Edge (Private Beta): Vector Search for Embedded AI
 
 Over the past two years, vector search has become foundational infrastructure for AI applications, from retrieval-augmented generation (RAG) to agentic reasoning. But as AI systems extend beyond cloud-hosted inference into the physical world \- running on devices like robots, kiosks, home assistants, and mobile phones \- new constraints emerge. Low-latency retrieval, multimodal inputs, and bandwidth-independent operation will become first-class requirements. **Qdrant Edge** is our response to this shift.
 
