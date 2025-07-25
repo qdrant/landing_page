@@ -14,3 +14,5 @@ To update to a new version, go to the Cluster details page, choose the new versi
 If you have a multi-node cluster and if your collections have a replication factor of at least **2**, the update process will be zero-downtime and done in a rolling fashion. You will be able to use your database cluster normally. 
 
 If you have a single-node cluster or a collection with a replication factor of **1**, the update process will require a short downtime period to restart your cluster with the new version.
+
+See also [Restart Mode](/documentation/cloud/configure-cluster/#restart-mode) for more details.

@@ -135,6 +135,8 @@ For best results, first ensure your cluster is running Qdrant v1.7.4 or higher. 
 
 In the [Qdrant Cloud console](https://cloud.qdrant.io/), click "Scale Up" to increase your cluster size to >1. Qdrant Cloud configures the distributed mode settings automatically.
 
+Additionally, Qdrant Cloud also offers the ability to automatically rebalance and to reshard your collections, which is not available in self-hosted Qdrant.  See the [Resharding](/documentation/cloud/cluster-scaling/#resharding) and [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing) sections in for more details.
+
 After the scale-up process completes, you will have a new empty node running alongside your existing node(s). To replicate data into this new empty node, see the next section.
 
 ## Making use of a new distributed Qdrant cluster
@@ -143,8 +145,8 @@ When you enable distributed mode and scale up to two or more nodes, your data do
 
 * Create a new replicated collection by setting the [replication_factor](#replication-factor) to 2 or more and setting the [number of shards](#choosing-the-right-number-of-shards) to a multiple of your number of nodes.
 * If you have an existing collection which does not contain enough shards for each node, you must create a new collection as described in the previous bullet point.
-* If you already have enough shards for each node and you merely need to replicate your data, follow the directions for [creating new shard replicas](#creating-new-shard-replicas).
-* If you already have enough shards for each node and your data is already replicated, you can move data (without replicating it) onto the new node(s) by [moving shards](#moving-shards).
+* If you already have enough shards for each node, and you merely need to replicate your data, follow the directions for [creating new shard replicas](#creating-new-shard-replicas).
+* If you already have enough shards for each node, and your data is already replicated, you can move data (without replicating it) onto the new node(s) by [moving shards](#moving-shards).
 
 ## Raft
 
@@ -317,6 +319,8 @@ Please refer to the [Resharding](/documentation/cloud/cluster-scaling/#reshardin
 *Available as of v0.9.0*
 
 Qdrant allows moving shards between nodes in the cluster and removing nodes from the cluster. This functionality unlocks the ability to dynamically scale the cluster size without downtime. It also allows you to upgrade or migrate nodes without downtime.
+
+If your cluster is running in Qdrant Cloud, the shards are balanced across the cluster nodes automatically. For more information see the [Configuring Cloud Clusters](/documentation/cloud/configure-cluster/#shard-rebalancing) and [Cloud Cluster Scaling](/documentation/cloud/cluster-scaling/) documentation.
 
 Qdrant provides the information regarding the current shard distribution in the cluster with the [Collection Cluster info API](https://api.qdrant.tech/master/api-reference/distributed/collection-cluster-info).
 
