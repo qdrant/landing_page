@@ -1,11 +1,11 @@
 ---
 draft: false
 title: " Announcing Qdrant Edge (Private Beta): The Vector Search Engine for Embedded AI"
-short_description: "short descriptuon."
-description: "long descriptuon."
-preview_image: /blog/qdrant-deeplearning-ai-course/preview.jpg
-social_preview_image: /blog/qdrant-deeplearning-ai-course/preview.jpg
-date: 2025-07-24
+short_description: "Qdrant Edge is a lightweight, embedded vector search engine designed to run on local hardware with limited persistent background threads, network access, or centralized coordination."
+description: "Qdrant Edge is a lightweight, embedded vector search engine designed to run on local hardware with limited persistent background threads, network access, or centralized coordination. It retains Qdrant’s core search and filtering capabilities but is re-architected to operate as a minimal, local library that integrates directly into AI workflows on edge devices."
+preview_image: /blog/qdrant-edge-private-beta/Qdrant-Edge.jpg
+social_preview_image: /blog/qdrant-edge-private-beta/Qdrant-Edge.jpg
+date: 2025-07-25
 author: Qdrant
 featured: false
 tags:
@@ -73,7 +73,6 @@ If you’re working on robotics, edge inference, autonomous systems, or device-n
 
 Embedded AI systems bring unique constraints that require rethinking how we design infrastructure like vector databases. Qdrant Edge represents a new class of tooling \- one that treats on-device reasoning as a first-class capability. We’re excited to collaborate with forward-thinking teams building the next generation of intelligent systems.
 
-For questions, reach out to us directly or join the conversation on GitHub and Discord.
 
 ### FAQs
 
