@@ -26,7 +26,7 @@ tags:
 
 ## Building AI agents that drive both revenue and support outcomes
 
-[Alhena AI](https://alhena.ai/) is redefining the ecommerce experience through intelligent agents that assist customers before and after a purchase. On the front end, these agents help users find the perfect product based on nuanced preferences. On the back end, they resolve complex support queries without escalating to a human.
+<a href="https://alhena.ai/" target="_blank">Alhena AI</a> is redefining the ecommerce experience through intelligent agents that assist customers before and after a purchase. On the front end, these agents help users find the perfect product based on nuanced preferences. On the back end, they resolve complex support queries without escalating to a human.
 
 To deliver this experience, Alhena must combine natural language understanding, context-aware retrieval, and high-performance infrastructure. That means building agents that are not only fast and accurate, but also scalable across customers with vastly different catalogs and architectures.
 
