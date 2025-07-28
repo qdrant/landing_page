@@ -34,7 +34,7 @@ menuItems:
         - id: subMenu-0-5
           name: Qdrant Edge (Private Beta)
           icon: edge.svg
-          url: /edge-beta/
+          url: /edge/
 #       - id: subMenu-0-4
 #         name: Private Cloud
 #         icon: private-cloud.svg

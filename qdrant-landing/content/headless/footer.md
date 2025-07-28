@@ -40,7 +40,7 @@ menuItems:
         url: /cloud-inference/
       - id: 5
         name: Qdrant Edge (Private Beta)
-        url: /edge-beta/
+        url: /edge/
       - id: 6
         name: Pricing
         url: /pricing/

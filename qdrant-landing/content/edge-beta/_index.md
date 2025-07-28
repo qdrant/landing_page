@@ -1,6 +1,7 @@
 ---
 title: Edge beta
 description: Edge beta
+url: edge
 build:
   render: always
 cascade:
