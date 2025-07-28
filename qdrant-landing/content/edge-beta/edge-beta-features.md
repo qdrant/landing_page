@@ -29,7 +29,7 @@ features:
   image:
     src: /img/edge-beta-features/multitenancy-built.svg
     alt: Multitenancy Built
-  title: Multitenancy Built for Edge Scale
-  description: Supports both payload and shard-based isolation. Seamlessly promotes tenants and routes queries across devices with uneven usage patterns.
+  title: Edge-Scale Multitenancy with Native SDKs
+  description: Supports payload- and shard-based tenant isolation. Routes queries across uneven edge workloads. Native SDKs in Java (Android), Swift (Apple), and more.
 sitemapExclude: true
 ---
