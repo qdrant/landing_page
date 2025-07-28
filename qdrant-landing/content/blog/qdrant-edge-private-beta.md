@@ -5,7 +5,7 @@ short_description: "Private Beta launching for Qdrant Edge - lightweight, embedd
 description: "Private Beta launching for Qdrant Edge - lightweight, embedded vector search engine designed to run on local hardware with limited persistent background threads, network access, or centralized coordination."
 preview_image: /blog/qdrant-edge-private-beta/Qdrant-Edge.jpg
 social_preview_image: /blog/qdrant-edge-private-beta/Qdrant-Edge.jpg
-date: 2025-07-25
+date: 2025-07-29
 author: Qdrant
 featured: false
 tags:
@@ -67,7 +67,7 @@ Qdrant Edge is currently in private beta. Due to the highly targeted nature of t
 
 If you’re working on robotics, edge inference, autonomous systems, or device-native assistants, we encourage you to apply.
 
-[**Apply to Join the Qdrant Edge Beta**](https://qdrant.tech/)
+[**Apply to Join the Qdrant Edge Beta**](https://qdrant.tech/edge-beta)
 
 ## Closing Thoughts
 
@@ -86,4 +86,4 @@ What are the minimum requirements to join the beta?
 You should have a clear use case for on-device or offline vector search. Preference is given to companies working with embedded hardware or deploying agents at the edge.
 
 How do I get access?  
-Qdrant Edge is currently in private beta. If you're building edge-native or embedded AI systems and want early access, [**apply to join the beta**](https://qdrant.tech/).  
+Qdrant Edge is currently in private beta. If you're building edge-native or embedded AI systems and want early access, [**apply to join the beta**](https://qdrant.tech/edge-beta).  
