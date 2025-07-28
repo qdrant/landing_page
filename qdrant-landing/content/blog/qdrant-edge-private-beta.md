@@ -1,7 +1,7 @@
 ---
 draft: false
-slug: /qdrant-edge
 title: "Qdrant Edge: Vector Search for Embedded AI"
+slug: qdrant-edge
 short_description: "Private Beta launching for Qdrant Edge - lightweight, embedded vector search engine designed to run on local hardware with limited persistent background threads, network access, or centralized coordination."
 description: "Private Beta launching for Qdrant Edge - lightweight, embedded vector search engine designed to run on local hardware with limited persistent background threads, network access, or centralized coordination."
 preview_image: /blog/qdrant-edge-private-beta/Qdrant-Edge.jpg
