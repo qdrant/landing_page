@@ -2,6 +2,7 @@
 title: Edge beta
 description: Edge beta
 url: edge
+aliases: [edge-beta, edge-beta/]
 build:
   render: always
 cascade:
