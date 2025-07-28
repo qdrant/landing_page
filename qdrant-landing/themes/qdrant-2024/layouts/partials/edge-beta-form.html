@@ -1,0 +1,11 @@
+{{ with (.Site.GetPage "/edge-beta/edge-beta-form") }}
+  <section class="edge-beta-form" id="form">
+    <div class="edge-beta-form__overlay"></div>
+    <div class="container">
+      <h2 class="edge-beta-form__title">{{ .Params.title }}</h2>
+      <p class="edge-beta-form__description">{{ .Params.description }}</p>
+
+      {{ partial "contact-form" .Params.form }}
+    </div>
+  </section>
+{{ end }}

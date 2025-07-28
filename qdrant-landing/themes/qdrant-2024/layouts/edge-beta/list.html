@@ -1,0 +1,13 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "edge-beta-hero" . }}
+  {{ partial "edge-beta-features" . }}
+  {{ partial "edge-beta-vectors" . }}
+  {{ partial "edge-beta-form" . }}
+  {{ partial "edge-beta-faq" . }}
+
+  {{ with (.Site.GetPage "/edge-beta/edge-beta-get-started") }}
+    {{ partial "get-started-small" (dict "context" . "class" "edge-beta-get-started") }}
+  {{ end }}
+{{ end }}

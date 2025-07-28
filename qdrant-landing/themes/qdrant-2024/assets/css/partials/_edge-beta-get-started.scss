@@ -1,0 +1,14 @@
+@use '../mixins/get-started-small' as get-started-small;
+@use '../helpers/functions' as *;
+
+.edge-beta-get-started {
+  @include get-started-small.base(
+    $spacer * 5,
+    $spacer * 2.5,
+    $spacer * 7.5,
+    $spacer * 5,
+    $neutral-94,
+    $neutral-10,
+    $neutral-10
+  );
+}
