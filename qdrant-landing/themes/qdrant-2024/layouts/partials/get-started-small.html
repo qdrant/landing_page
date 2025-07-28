@@ -10,7 +10,7 @@
           <a
             href="{{ .context.Params.button.url }}"
             class="button button_contained"
-            target="{{ if eq .context.Params.button.target "self"}}_self{{ else }}_blank{{end}}"
+            target="{{ if eq .context.Params.button.target "self" }}_self{{ else }}_blank{{ end }}"
           >
             {{ .context.Params.button.text }}
           </a>

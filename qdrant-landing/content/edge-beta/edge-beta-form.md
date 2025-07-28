@@ -2,7 +2,7 @@
 title: Apply to Join the Beta
 description: Private beta available to selected teams building embedded or edge-native AI systems.
 form:
-  id: startup-program-form
+  id: edge-beta-form
   hubspotFormOptions: '{
     "region": "eu1",
     "portalId": "139603372",
