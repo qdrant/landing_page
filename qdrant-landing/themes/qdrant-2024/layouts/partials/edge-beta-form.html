@@ -5,7 +5,11 @@
       <h2 class="edge-beta-form__title">{{ .Params.title }}</h2>
       <p class="edge-beta-form__description">{{ .Params.description }}</p>
 
-      {{ partial "contact-form" .Params.form }}
+      <div class="edge-beta-form__container">
+        <div class="edge-beta-form__form-overlay"></div>
+        <script src="https://js-eu1.hsforms.net/forms/embed/developer/139603372.js" defer></script>
+        <div class="hs-form-html" data-region="eu1" data-form-id="3adfb3a8-1c4b-4670-958f-325826039f7e" data-portal-id="139603372"></div>
+      </div>
     </div>
   </section>
 {{ end }}
