@@ -180,19 +180,38 @@ The research revealed fascinating patterns in how memory impacts agent performan
 What's particularly interesting is that true learning capabilities only emerged in agents with persistent memory. Session-based agents could adapt within a conversation, but they couldn't carry those adaptations forward. It's like the difference between a student who crams for each test versus one who builds knowledge throughout the semester. Meanwhile, session memory occupied a sweet spot for many use cases, providing enough context for meaningful interactions without the overhead of full persistence.
 
 ## Qdrant Results!
-How did Qdrant do?
+How did Qdrant do? Qdrant performed similarly in terms of accuracy as the original study-but it ran much faster!
+
+The benchmark is open source so you can check it out here:
+
+### Tradeoffs in Search
+
+One of the benefits of using Qdrant in an agentic flow is the flexibility you get when looking at the end user experience. 
+
+Do you want really fast results? You can sacrifice in accuracy to get your search results out faster. One technique I'll demo in this article is Quantization. Quantization allows you to reduce the dimensionality of data. 
+
+Let's say you have a dataset of cars and their Miles per Gallon. If you wanted to speed up your search, intstead of storuing the MPG as an integer-you could create a cutoff point(or multiple) and then turn the variable into a boolean. You might for example say that anything under 25 MPG is a gas guzzler and assign it 0. Everything above 25 MPG is good gas milage.
+
+Of course, you will not lose the specificity of the MPG-but you will gain speed because the footprint of your data is smaller-and for many use cases-the extra accuracy from storing the specific MPG is not neccesary.
+
+There are also ways to imporve your search if you are willing to sacrifice on accuracy. You could for example use a multi-step query. The first step of the query will use a "dumb"  model to simply fetch many relevant results. The second step of the query will use a "smart" model to then rank these relevant results and display the best one to the user. Going back to the car example-if you searched for a car with good MPG-the first model might retreive all samples above 25. The second model will then find the cars with the best MPG for your search. 
+
+In the linked repo you can see examples of this implementation. These are just two ways you can make tradeoffs with Qdrant but take a look at our documentation to find more!
+
 
 ## Memory Architecture Analysis
 
 ### Vector-based Memory
 
-Vector databases like Qdrant fundamentally change how agents remember and retrieve information. Instead of relying on exact matches or predefined categories, vector-based memory understands meaning and context. Imagine an agent helping you plan a vacation. When you mention "somewhere warm with good food," it doesn't just search for those exact words. It understands the semantic meaning and might retrieve memories about your previous trips to Italy, your love of beach destinations, or that time you raved about the street food in Thailand.
+Vector databases like Qdrant change how agents remember and retrieve information. Instead of relying on exact matches, fuzzy search, or predefined categories, vector-based memory understands meaning and context of your PDF, image, or video! 
 
-This semantic understanding makes vector databases incredibly powerful for agent memory. They can handle the messy, unstructured nature of human communication. Whether you're storing conversation snippets, user preferences, or learned behaviors, vector databases can efficiently organize and retrieve this information based on conceptual similarity rather than rigid rules. The scalability is remarkable too - vector databases can handle millions of memories while maintaining lightning-fast retrieval speeds.
+Imagine an agent helping you plan a vacation. When you mention "somewhere warm with good food," it doesn't just search for those exact words. It understands the semantic meaning and might retrieve memories about your previous trips to Italy, your love of beach destinations, or that time you raved about the street food in Thailand.
+
+This understanding makes vector databases incredibly powerful for agent memory. They can handle the messy, unstructured nature of human communication. Whether you're storing conversation snippets, user preferences, or learned behaviors, vector databases can efficiently organize and retrieve this information based on conceptual similarity rather than rigid rules. And perhaps most importantly, Qdrant scaled really well! Qdrant can handle millions of memories while maintaining lightning-fast retrieval speeds. So as your users interact more and more with the agent, they won't find that their experience suffers due to memory bottlenecks. The first query will be just as fast as the 1000th, but the agent will have more information about the user.
 
 ### Traditional Database Memory
 
-Traditional databases bring structure and precision to agent memory. Think of them as the agent's filing cabinet, where everything has its proper place and label. When an e-commerce agent needs to remember your order history, shipping addresses, or payment preferences, a relational database excels at storing and retrieving this structured information.
+Traditional databases bring structure and precision to agent memory. Think of old school databases like a filing cabinet, where everything has its proper place and label. When an e-commerce agent needs to remember your order history, shipping addresses, or payment preferences, a relational database is good at storing and retrieving this structured information.
 
 For example, a financial advisory agent might use a traditional database to track your investment portfolio, transaction history, and risk preferences. The database's ability to perform complex queries means the agent can instantly calculate your year-to-date returns, identify tax-loss harvesting opportunities, or ensure compliance with investment restrictions. The ACID properties of these databases guarantee that your financial data remains consistent and reliable, even when multiple operations happen simultaneously.
 
@@ -201,6 +220,12 @@ For example, a financial advisory agent might use a traditional database to trac
 The real magic happens when you combine vector and traditional databases. This hybrid approach gives agents both intuition and precision. Consider a medical assistant agent that needs to understand your symptoms (vector database for natural language descriptions) while also tracking your medical history, medications, and test results (traditional database for structured records).
 
 In practice, this might look like an agent that can understand when you say "that weird tingling in my arm like last summer" (vector search through previous symptom descriptions) while simultaneously checking your medical records to see that "last summer" corresponds to a specific nerve condition diagnosis in July 2023 (structured database query). The vector database captures the nuance of how you describe your health, while the traditional database maintains the clinical accuracy needed for medical decisions.
+
+With Qdrant you can do Hybrid search out of the box! 
+
+____
+Talk about Hybrid!
+____
 
 ## Performance Optimization Strategies
 
