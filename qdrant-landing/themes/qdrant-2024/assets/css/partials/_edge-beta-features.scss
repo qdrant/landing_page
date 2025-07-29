@@ -1,0 +1,56 @@
+@use '../helpers/functions' as *;
+
+.edge-beta-features {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__title {
+    margin-bottom: $spacer * 2.5;
+    font-size: $h5-font-size;
+    line-height: pxToRem(38);
+    color: $neutral-20;
+  }
+
+  &__card {
+    justify-content: flex-start;
+    padding-bottom: 0;
+
+    &-title {
+      margin-bottom: pxToRem(12);
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      color: $neutral-20;
+    }
+
+    &-description {
+      margin-bottom: $spacer;
+      color: $neutral-40;
+    }
+
+    &-image {
+      width: 100%;
+      margin-top: auto;
+    }
+  }
+
+  &__cards {
+    & > div:first-of-type {
+      .edge-beta-features__card-image {
+        width: calc(100% + ($spacer * 3));
+        margin-left: -$spacer * 1.5;
+        margin-right: -$spacer * 1.5;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+
+    &__title {
+      margin-bottom: $spacer * 4;
+      font-size: $h3-font-size;
+      line-height: pxToRem(58);
+    }
+  }
+}

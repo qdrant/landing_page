@@ -31,6 +31,10 @@ menuItems:
           name: Qdrant Cloud Inference
           icon: cloud-inference.svg
           url: /cloud-inference/
+        - id: subMenu-0-5
+          name: Qdrant Edge (Private Beta)
+          icon: edge.svg
+          url: /edge/
 #       - id: subMenu-0-4
 #         name: Private Cloud
 #         icon: private-cloud.svg

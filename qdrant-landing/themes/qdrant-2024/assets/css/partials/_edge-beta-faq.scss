@@ -1,0 +1,26 @@
+@use '../helpers/functions' as *;
+
+.edge-beta-faq {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    margin-bottom: $spacer * 3;
+    font-size: $h4-font-size;
+    line-height: $h3-font-size;
+    color: $neutral-20;
+    text-align: center;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      margin-bottom: $spacer * 5;
+      font-size: $h2-font-size;
+      line-height: pxToRem(67);
+    }
+  }
+}

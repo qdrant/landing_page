@@ -1,0 +1,161 @@
+@use '../helpers/functions' as *;
+
+.edge-beta-form {
+  position: relative;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-10;
+  overflow: hidden;
+
+  &__title {
+    margin-bottom: $spacer * 1.5;
+    font-size: $h5-font-size;
+    line-height: pxToRem(38);
+    color: $neutral-98;
+    text-align: center;
+  }
+
+  &__description {
+    max-width: pxToRem(730);
+    margin: 0 auto $spacer * 3;
+    font-size: $font-size-xl;
+    line-height: pxToRem(30);
+    color: $neutral-70;
+    text-align: center;
+  }
+
+  &__container {
+    position: relative;
+    width: 100%;
+    max-width: pxToRem(720);
+    margin: 0 auto;
+    border-radius: $spacer * 0.5;
+    background: linear-gradient($neutral-20, #0e1424);
+
+    * {
+      font-family: $font-family-base;
+    }
+
+    [data-hsfc-id=Renderer] .hsfc-Step .hsfc-Step__Content {
+      padding: $spacer * 1.5;
+    }
+
+    .hsfc-RichText span, .hsfc-FieldLabel span, .hsfc-ProgressBar__Text {
+      font-size: $font-size-s !important;
+      line-height: $line-height-sm !important;
+      color: $neutral-98 !important;
+    }
+
+    .hsfc-FieldLabel {
+      margin-bottom: $spacer * 0.5 !important;
+    }
+
+    [data-hsfc-id=Renderer] .hsfc-TextInput, [data-hsfc-id=Renderer] .hsfc-TextareaInput {
+      display: block;
+      background-color: transparent;
+      border: pxToRem(1) solid $neutral-50;
+      margin-bottom: $spacer * 0.5;
+      padding: $spacer * 0.5 $spacer;
+      font-size: $font-size-md;
+      line-height: $spacer * 1.5;
+      color: $neutral-98;
+      border-radius: $spacer * 0.5;
+
+      &:focus, &:active {
+        box-shadow: none !important;
+      }
+
+      &::placeholder {
+        color: $neutral-70;
+      }
+    }
+
+    [data-hsfc-id=Renderer] .hsfc-ErrorAlert {
+      font-size: $font-size-xs;
+      line-height: $font-size-l;
+      color: $primary-40;
+    }
+
+    [data-hsfc-id=Renderer] .hsfc-Button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      cursor: pointer;
+      border: none;
+      border-radius: $spacer * 0.5;
+      color: $neutral-100;
+      text-decoration: none;
+
+      height: $spacer * 2.5;
+      padding: pxToRem(22);
+      font-weight: 700;
+      font-size: map-get($font-sizes-text, md);
+      z-index: 1;
+      background: linear-gradient(180deg, $primary-50, $primary-40) !important;
+      box-shadow: 0 2px 1px 0 $primary-60 inset !important;
+      transition: none !important;
+
+      &:hover {
+        background: $primary-50 !important;
+        border: none !important;
+        box-shadow: 0 2px 1px 0 $primary-70 inset !important;
+        transform: none !important;
+      }
+
+      &:active {
+        background: $primary-50 !important;
+        border: none !important;
+        box-shadow:
+          0 2px 1px 0 $primary-60 inset,
+          0 0 0 2px rgba(220, 36, 76, 0.4) !important;
+      }
+
+      &.button_disabled,
+      &:disabled {
+        background: $primary-70 !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+    }
+  }
+
+  &__form-overlay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: pxToRem(210);
+    height: pxToRem(210);
+    background-image: url('/img/blurred/blurred-light-15.svg');
+    background-position: top;
+    background-size: cover;
+    border-radius: 0 pxToRem(12) 0 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    left: 0;
+    bottom: -$spacer * 1.5;
+    width: pxToRem(637);
+    height: pxToRem(444);
+    background-image: url('/img/blurred/blurred-light-19.svg');
+    background-position: bottom;
+    background-size: cover;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(58);
+    }
+
+    &__container {
+      [data-hsfc-id=Renderer] .hsfc-Step .hsfc-Step__Content {
+        padding: $spacer * 4;
+      }
+    }
+  }
+}
