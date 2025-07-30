@@ -20,7 +20,7 @@ tags:
 
 ## **How PortfolioMind delivered real-time crypto intelligence with Qdrant**
 
-Crypto is noisy. Market shifts are instantaneous, narratives shift overnight, and wallet activities conceal subtle yet critical patterns. For PortfolioMind, a Web3-native AI research copilot, the challenge wasn't finding information; it was surfacing relevance in real-time.
+Crypto is noisy. Market shifts are instantaneous, narratives shift overnight, and wallet activities conceal subtle yet critical patterns. For [PortfolioMind](https://spoonai.io/), a Web3-native AI research copilot, the challenge wasn't finding information; it was surfacing relevance in real-time.
 
 ### Challenge: Moving beyond static insights
 
