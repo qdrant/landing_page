@@ -375,3 +375,35 @@ spec:
 
 See [Kubernetes docs on emptyDir volumes](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir) for more details,
 on how k8s node ephemeral storage is allocated and used.
+
+## Automatic Shard Rebalancing
+
+Qdrant Private Cloud supports automatic shard rebalancing. This means that when you scale up or down the number of nodes in a cluster, the operator will automatically redistribute the shards across the available nodes to ensure an even distribution of data.
+
+To enable automatic shard rebalancing, you can set the `rebalancestrategy` field in the QdrantCluster spec:
+
+```yaml
+apiVersion: qdrant.io/v1
+kind: QdrantCluster
+metadata:
+  name: qdrant-a7d8d973-0cc5-42de-8d7b-c29d14d24840
+  labels:
+    cluster-id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
+    customer-id: "acme-industries"
+spec:
+  id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
+  version: "v1.15.1"
+  size: 3
+  rebalanceStrategy: by_count_and_size
+  resources:
+    cpu: 2
+    memory: "8Gi"
+    storage: "40Gi"
+```
+
+For a list of all available rebalancing strategies, see the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/#rebalancestrategy).
+
+## Resharding
+
+In Qdrant Cloud, you can change the number of shards in your existing collections without having to recreate the collection from scratch. This feature is called resharding and allows you to scale your collections up or down as needed. For more details see [Resharding](/documentation/cloud/cluster-scaling/#resharding).
+
