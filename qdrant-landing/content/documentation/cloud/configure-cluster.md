@@ -27,18 +27,18 @@ If configured, only the chosen IP ranges will be allowed to access the cluster. 
 
 ## Restart Mode
 
-The cloud platform will automatically choose the best restart mode during version upgrades or maintenance for your cluster. If you have a multi-node cluster and one or more collections with a replication factor of at least 2, the cloud platform will use a rolling restart mode. This means that the cluster will be restarted one node at a time, ensuring that the cluster remains available during the restart process.
+The cloud platform will automatically choose the optimal restart mode during version upgrades or maintenance for your cluster. If you have a multi-node cluster and one or more collections with a replication factor of at least 2, the cloud platform will use the rolling restart mode. This means that nodes in the cluster will be restarted one at a time, ensuring that the cluster remains available during the restart process.
 
-If you have a multi-node cluster, but all collections have a replication factor of 1, the cloud platform will use a parallel restart mode. This means that the cluster will be restarted all at once, which will result in a short downtime period, but will be faster than a rolling restart.
+If you have a multi-node cluster, but all collections have a replication factor of 1, the cloud platform will use the parallel restart mode. This means that nodes in the cluster will be restarted simultaneously, which will result in a short downtime period, but will be faster than a rolling restart.
 
-However, you can override this setting if you want to use a specific restart mode.
+It is possible to override your cluster's default restart mode in the advanced configuration section of the Cluster Details page.
 
 ## Shard Rebalancing
 
-When you scale your cluster horizontally, the cloud platform will automatically rebalance the shards across the nodes to ensure that the data is evenly distributed. This is done to ensure that all nodes are utilized and that the performance of the cluster is optimal.
+When you scale your cluster horizontally, the cloud platform will automatically rebalance shards across all nodes in the cluster, ensuring that data is evenly distributed. This is done to ensure that all nodes are utilized and that the performance of the cluster is optimal.
 
 Qdrant Cloud offers three strategies for shard rebalancing:
 
-* `by_count_and_size` (default): This strategy will rebalance the shards based on the number of shards and their size. It will ensure that all nodes have the same number of shards and that the size of the shards is evenly distributed across the nodes.
-* `by_count`: This strategy will rebalance the shards based on the number of shards only. It will ensure that all nodes have the same number of shards, but the size of the shards may not be evenly distributed across the nodes.
-* `by_size`: This strategy will rebalance the shards based on their size only. It will ensure that the size of the shards is evenly distributed across the nodes, but the number of shards may not be the same on all nodes.
+* `by_count_and_size` (default): This strategy will rebalance the shards based on the number of shards and their size. It will ensure that all nodes have the same number of shards and that shard sizes are evenly distributed across nodes.
+* `by_count`: This strategy will rebalance the shards based on the number of shards only. It will ensure that all nodes have the same number of shards, but shard sizes may not be balanced evenly across nodes.
+* `by_size`: This strategy will rebalance the shards based on their size only. It will ensure that shards are evenly distributed across nodes by size, but the number of shards may not be even across all nodes.

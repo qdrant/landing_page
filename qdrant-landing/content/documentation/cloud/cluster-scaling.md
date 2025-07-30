@@ -33,7 +33,7 @@ When scaling up horizontally, the cloud platform will automatically rebalance al
 
 When scaling down horizontally, the cloud platform will automatically ensure that any shards that are present on the nodes to be deleted, are moved to the remaining nodes.
 
-Important: If you configure e.g. 2 shards for a collection, but then scale your cluster from 1 to 3 nodes, your cluster nodes can't be fully utilized. The cloud platform will automatically rebalance your shards, so that two nodes will have one shard each, but the third node will not have any shards at all. You can use the [resharding feature](/documentation/cloud/cluster-scaling/#resharding) to change the number of shards in an existing collection. Once the resharding is complete, the cloud platform will rebalance the shards across all nodes, ensuring that all nodes are utilized.
+Important: One shard can not be split across nodes. So, if you configure 2 shards for a collection, but then scale your cluster from 1 to 3 nodes, your cluster nodes can't be fully utilized. The cloud platform will automatically rebalance your shards, so that two nodes will have one shard each, but the third node will not have any shards at all. You can use the [resharding feature](/documentation/cloud/cluster-scaling/#resharding) to change the number of shards in an existing collection. Once resharding is complete, the cloud platform will rebalance the shards across all nodes, ensuring that all nodes are utilized.
 
 We will be glad to consult you on an optimal strategy for scaling.
 

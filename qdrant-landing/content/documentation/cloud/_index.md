@@ -16,7 +16,7 @@ You can also attach your own infrastructure as a Hybrid Cloud Environment. For d
 
 ## Cluster Configuration
 
-Each database cluster comes pre-configured with the following features:
+Each database cluster comes with the following features:
 
 - Allows the creation of highly available clusters with automatic failover
 - Easy version upgrades, zero-downtime on highly available clusters
