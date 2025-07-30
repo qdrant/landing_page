@@ -3,8 +3,8 @@ draft: false
 title: "How PortfolioMind Delivered Real-Time Crypto Intelligence with Qdrant"
 short_description: "PortfolioMind leverages Qdrant to transform noisy crypto research into personalized real-time intelligence."
 description: "Discover how PortfolioMind achieved significant reductions in latency and boosts in engagement by modeling real-time user intent with Qdrant."
-preview_image: /blog/case-study-portfoliomind/social_preview_partnership-portfoliomind.jpg
-social_preview_image: /blog/case-study-portfoliomind/social_preview_partnership-portfoliomind.jpg
+preview_image: /blog/case-study-portfoliomind/case-study-spoonos-preview.jpg
+social_preview_image: /blog/case-study-portfoliomind/case-study-spoonos-preview.jpg
 date: 2025-07-29
 author: "Daniel Azoulai"
 featured: false
@@ -33,6 +33,9 @@ Semantic search alone was insufficient. PortfolioMind required a platform capabl
 PortfolioMind adopted Qdrant to translate intricate user interactions into actionable insights. Every user activity, such as searching tokens, pinning wallets, reading exploits, or engaging with DeFi contracts, left semantic traces. Qdrant transformed these traces into multivector user-intent models.
 
 The system ingests diverse data including news, tokenomics, whale behaviors, portfolio histories, and interactions with DeFi/NFT dashboards, embedding each data type with rich metadata (chain, token symbol, timestamps). Using HDBSCAN clustering, PortfolioMind identifies user-specific micro-interests, creating a dynamic, multivector representation of each user's intent.
+
+![architecture](/blog/case-study-portfoliomind/spoonos-architecture.png)
+
 
 ### Why PortfolioMind chose Qdrant
 
