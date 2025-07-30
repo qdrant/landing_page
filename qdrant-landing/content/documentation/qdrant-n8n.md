@@ -1,32 +1,25 @@
 ---
-title: "Automating Business Processes with Qdrant and n8n: Use Cases Beyond Simple Similarity Search"
-draft: false
-slug: qdrant-n8n-beyond-simple-similarity-search
-short_description: "Build powerful agentic workflows for recommendations and large-scale data analysis with the combined capabilities of Qdrant and n8n."
-description: "Build powerful agentic workflows for recommendations and large-scale data analysis with the combined capabilities of Qdrant and n8n."
-title_preview_image: /blog/qdrant-n8n-2/preview/title.jpg
-social_preview_image: /blog/qdrant-n8n-2/preview/social_preview.png
-small_preview_image: /blog/qdrant-n8n-2/preview/preview.jpg
-preview_image: /blog/qdrant-n8n-2/preview/preview.jpg
-date: 2025-04-04T00:00:00+01:00
-author: Evgeniya Sukhodolskaya
-featured: false
-tags:
-  - n8n
-  - agent
-  - RAG
-  - automation
-  - recommendation
-  - anomaly
-  - classification
-  - search
+title: Automating Processes with Qdrant and n8n
+weight: 7
+partition: build
+social_preview_image: /documentation/examples/qdrant-n8n-2/preview/social_preview.png
+aliases:
+  - /blog/qdrant-n8n-beyond-simple-similarity-search/
+
 ---
 
-Low-code automation tools make it easy to turn ideas into reality quickly. As AI becomes central to modern business, having low-code platforms with built-in AI capabilities is no longer optional—it's essential. [n8n](https://n8n.io/) is a great example, combining powerful AI integrations with flexible automation.
+![n8n-qdrant](/documentation/examples/qdrant-n8n-2/cover.png)
 
-Vector search has become a key building block in modern AI systems. While it's often used as memory or a knowledge base for generative AI, its potential goes much further.
+# Automating Processes with Qdrant and n8n beyond simple RAG
 
-In this blog, we explore combining a dedicated vector search engine like Qdrant with an AI automation platform like n8n, moving beyond basic Retrieval-Augmented Generation (RAG) use cases. We'll show you how to use vector search for recommendations and big data analysis using ready-to-use n8n workflows.
+| Time: 45 min | Level: Intermediate |
+| --- | ----------- |
+
+This tutorial shows how to combine Qdrant with [n8n](https://n8n.io/) low-code automation platform to cover **use cases beyond basic Retrieval-Augmented Generation (RAG)**. You'll learn how to use vector search for **recommendations** and **unstructured big data analysis**.
+
+<aside role="status">
+  Since this tutorial was created, <a href="https://qdrant.tech/documentation/platforms/n8n/">an official Qdrant node for n8n</a> has been released. It simplifies workflows and replaces the HTTP request nodes used in the examples below. Watch <a href="https://youtu.be/sYP_kHWptHY"> a quick video introduction</a> to it.
+</aside>
 
 ## Setting Up Qdrant in n8n
 
@@ -43,7 +36,7 @@ For a walkthrough, see this [step-by-step video guide](https://youtu.be/fYMGpXyA
 
 ### Local Mode
 
-For a fully local setup, a valuable option is n8n's [Self-hosted AI Starter Kit](https://github.com/n8n-io/self-hosted-ai-starter-kit). This is an open-source Docker Compose template for local AI & low-code development environment.
+For a fully local experimnets-driven setup, a valuable option is n8n's [Self-hosted AI Starter Kit](https://github.com/n8n-io/self-hosted-ai-starter-kit). This is an open-source Docker Compose template for local AI & low-code development environment.
 
 This kit includes a [local instance of Qdrant](https://qdrant.tech/documentation/quickstart/). To get started:
 
@@ -83,19 +76,21 @@ qdrant:
 
 After saving the configuration and running the Starter Kit, use `QDRANT_API_KEY` value (e.g., `test`) as the `API Key` and `http://qdrant:6333/` as the `Qdrant URL`.
 
-## Beyond Simple Similarity Search
+## Qdrant + n8n Beyond Simple Similarity Search
 
-Vector search's ability to determine semantic similarity between objects is often used to address models' hallucinations, powering the memory of Retrieval-Augmented Generation-based applications.
+Vector search's ability to determine semantic similarity between objects is often used to address models' hallucinations, powering the memory of Retrieval-Augmented Generation-based applications. Yet there's more to vector search than just a "knowledge base" role.
 
-Yet there's more to vector search than just a "knowledge base" role. **By exploring the concept of "dissimilarity," we unlock new possibilities.** By measuring how similar data points are in a semantic vector space, we can also analyze their differences.
+The combination of similarity and dissimilarity metrics in vector space expands vector search to recommendations, discovery search, and large-scale unstructured data analysis.
 
-This combination of similarity and dissimilarity expands vector search to recommendations, discovery search, and large-scale unstructured data analysis. 
+![overview](/documentation/examples/qdrant-n8n-2/overview.png)
 
 ### Recommendations
 
 When searching for new music, films, books, or food, it can be difficult to articulate exactly what we want. Instead, we often rely on discovering new content through comparison to examples of what we like or dislike.
 
 The [Qdrant Recommendation API](https://qdrant.tech/articles/new-recommendation-api/) is built to make these discovery searches possible by using positive and negative examples as anchors. It helps find new relevant results based on your preferences.
+
+![recommendations](/documentation/examples/qdrant-n8n-2/recommendations.png)
 
 #### Movie Recommendations
 Imagine a home cinema night—you've already watched Harry Potter 666 times and crave a new series featuring young wizards. Your favorite streaming service repetitively recommends all seven parts of the millennial saga. Frustrated, you turn to n8n to create an **Agentic Movie Recommendation tool**.
@@ -108,13 +103,9 @@ Imagine a home cinema night—you've already watched Harry Potter 666 times and 
 
 A [Template Agentic Movie Recommendation Workflow](https://n8n.io/workflows/2440-building-rag-chatbot-for-movie-recommendations-with-qdrant-and-open-ai/) consists of three parts:
 
-1. **Movie Data Uploader**: Embeds movie descriptions and uploads them to Qdrant using the [Qdrant Vector Store Node](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant). In the template workflow, the dataset is fetched from GitHub, but you can use any supported storage, for example [Google Cloud Storage node](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlecloudstorage).
+1. **Movie Data Uploader**: Embeds movie descriptions and uploads them to Qdrant using the [Qdrant Vector Store Node](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant) (now this can also be done using the [official Qdrant Node for n8n](https://github.com/qdrant/n8n-nodes-qdrant)). In the template workflow, the dataset is fetched from GitHub, but you can use any supported storage, for example [Google Cloud Storage node](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlecloudstorage).
 2. **AI Agent**: Uses the [AI Agent Node](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent) to formulate Recommendation API calls based on your natural language requests. Choose an LLM as a "brain" and define a [JSON schema](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.toolworkflow/#specify-input-schema) for the recommendations tool powered by Qdrant. This schema lets the LLM map your requests to the tool input format.
-3. **Recommendations Tool**: A [subworkflow](https://docs.n8n.io/flow-logic/subworkflows/) that calls the Qdrant Recommendation API using the [HTTP Request Node](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest). The agent extracts relevant and irrelevant movie descriptions from your chat message and passes them to the tool. The tool embeds them with `text-embedding-3-small` and uses the Qdrant Recommendation API to get movie recommendations, which are passed back to the agent.
-
-<aside role="status">
-To use Qdrant's functionality beyond <a href="https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant">Qdrant Vector Store node</a> capabilities, map requests from <a href="https://api.qdrant.tech/api-reference">Qdrant API reference</a> to n8n's <a href="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/">HTTP Request nodes</a>.
-</aside>
+3. **Recommendations Tool**: A [subworkflow](https://docs.n8n.io/flow-logic/subworkflows/) that calls the Qdrant Recommendation API using the [HTTP Request Node](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest) (now this can also be done using the [official Qdrant Node for n8n](https://github.com/qdrant/n8n-nodes-qdrant)). The agent extracts relevant and irrelevant movie descriptions from your chat message and passes them to the tool. The tool embeds them with `text-embedding-3-small` and uses the Qdrant Recommendation API to get movie recommendations, which are passed back to the agent.
 
 Set it up, run a chat and ask for "*something about wizards but not Harry Potter*." 
 What results do you get?
@@ -131,7 +122,7 @@ This recommendation scenario is easily adaptable to any language or data type (i
 
 The ability to map data to a vector space that reflects items' similarity and dissimilarity relationships provides a range of mathematical tools for data analysis. 
 
-Vector search dedicated solutions are built to handle billions of data points and quickly compute distances between them, simplifying clustering, classification, dissimilarity sampling, deduplication, interpolation, and anomaly detection at scale.
+Vector search dedicated solutions are built to handle billions of data points and quickly compute distances between them, simplifying **clustering, classification, dissimilarity sampling, deduplication, interpolation**, and **anomaly detection at scale**.
 
 The combination of this vector search feature with automation tools like n8n creates production-level solutions capable of monitoring data temporal shifts, managing data drift, and discovering patterns in seemingly unstructured data.
 
@@ -141,9 +132,11 @@ To make it more interesting, this time we'll focus on image data.
 
 #### Anomaly Detection Tool
 
-One definition of "anomaly" comes intuitively after projecting vector representations of data points into a 2D space—Qdrant webUI provides this functionality. Points that don't belong to any clusters are more likely to be anomalous.
+One definition of "anomaly" comes intuitively after projecting vector representations of data points into a 2D space—[Qdrant webUI](https://qdrant.tech/documentation/web-ui/) provides this functionality. 
 
-![anomalies-on-2D](/blog/qdrant-n8n-2/anomalies-2D.png)
+Points that don't belong to any clusters are more likely to be anomalous.
+
+![anomalies-on-2D](/documentation/examples/qdrant-n8n-2/anomalies-2D.png)
 
 With that intuition comes the recipe for building an anomaly detection tool. We will demonstrate it on anomaly detection in agricultural crops. Qdrant will be used to:
 1. Store vectorized images.
@@ -151,8 +144,7 @@ With that intuition comes the recipe for building an anomaly detection tool. We 
 3. Define the borders of each cluster.
 4. Check if new images fall within these boundaries. If an image does not fit within any cluster, it is flagged as anomalous. Alternatively, you can check if an image is anomalous to a specific cluster.
 
-
-![anomaly-detection](/blog/qdrant-n8n-2/anomaly-detection.png)
+![anomaly-detection](/documentation/examples/qdrant-n8n-2/anomaly-detection.png)
 
 **Setup:**
 1. **Dataset**: We use the [Agricultural Crops Image Classification dataset](https://www.kaggle.com/datasets/mdwaquarazam/agricultural-crops-image-classification).
@@ -161,6 +153,8 @@ With that intuition comes the recipe for building an anomaly detection tool. We 
 **1. Uploading Images to Qdrant**
 
 Since the [Qdrant Vector Store node](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/) does not support embedding models outside the predefined list (which doesn't include Voyage AI), we embed and upload data to Qdrant via direct API calls in [HTTP Request nodes](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/). 
+
+With the release of the [official Qdrant node](https://github.com/qdrant/n8n-nodes-qdrant), which supports arbitrary vectorized input, the HTTP Request node can now be replaced with this native integration.
 
 **Workflow:**
 
@@ -183,8 +177,6 @@ We used two approaches (it's not an exhaustive list) to defining a cluster repre
 |----------------------|-----------------------------------------------------------------------------|
 | **Medoids**          | A point within the cluster that has the smallest total distance to all other cluster points. This approach needs labeled data for each cluster. |
 | **Perfect Representative** | A representative defined by a textual description of the ideal cluster member—the multimodality of Voyage AI embeddings allows for this trick. For example, for cherries: *"Small, glossy red fruits on a medium-sized tree with slender branches and serrated leaves."* The closest image to this description in the vector space is selected as the representative. This method requires experimentation to align descriptions with real data. |
-
-![cluster-representative](/blog/qdrant-n8n-2/cluster-representative.png)
 
 **Workflow:**
 
@@ -224,7 +216,7 @@ Anomaly detection in image data has diverse applications, including:
 - Quality control in the food industry, such as [detecting anomalies in coffee beans](https://qdrant.tech/articles/detecting-coffee-anomalies/).
 - Identifying anomalies in map tiles for tasks like automated map updates or ecological monitoring.
 
-This tool is adaptable to these use cases and, when combined with n8n integrations, has the potential to become a production-level business solution.
+This tool is easily adaptable to these use cases.
 
 #### Classification Tool
 
@@ -232,9 +224,9 @@ The anomaly detection tool can also be used for classification, but there's a si
 
 > "Show me your friends, and I will tell you who you are."
 
-![KNN-2D](/blog/qdrant-n8n-2/KNN.png)
+![KNN-2D](/documentation/examples/qdrant-n8n-2/classification.png)
 
-The KNN method labels a data point by analyzing its classified neighbors and assigning this point the majority class in the neighborhood. This approach doesn't require all data points to be labeled—a subset of labeled examples can serve as anchors to propagate labels across the dataset. Qdrant is well-suited for this task, offering fast neighbor searches with filtering capabilities.
+The KNN method labels a data point by analyzing its classified neighbors and assigning this point the majority class in the neighborhood. This approach doesn't require all data points to be labeled—a subset of labeled examples can serve as anchors to propagate labels across the dataset.
 
 Let's build a KNN-based image classification tool.
 
@@ -257,7 +249,7 @@ The [KNN-Classification Tool Template](https://n8n.io/workflows/2657-vector-data
 
 Of course, this is a simple solution, and there exist more advanced approaches with higher precision & no need for labeled data—for example, you could try [metric learning with Qdrant](https://qdrant.tech/articles/metric-learning-tips/).
 
-Though classification seems like a task that was solved in machine learning decades ago, it's not so trivial to deal with in production. Issues like data drift, shifting class definitions, mislabeled data, and fuzzy differences between classes create unexpected problems, which require continuous adjustments of classifiers. Vector Search can be an unusual but effective solution, interesting due to its scalability.
+Though classification seems like a task that was solved in machine learning decades ago, it's not so trivial to deal with in production. Issues like data drift, shifting class definitions, mislabeled data, and fuzzy differences between classes create unexpected problems, which require continuous adjustments of classifiers, and vector search can be an unusual but effective solution, due to its scalability.
 
 #### Live Walkthrough
 
@@ -265,11 +257,11 @@ To see how n8n agents use these tools in practice, and to revisit the main ideas
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_BQTnXpuH-E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-## What's Next?
+## Conclusion
 
 Vector search is not limited to similarity search or basic RAG. When combined with automation platforms like n8n, it becomes a powerful tool for building smarter systems. Think dynamic routing in customer support, content moderation based on user behavior, or AI-driven alerts in data monitoring dashboards.
 
-This blog showed how to use Qdrant and n8n for AI-backed recommendations, classification, and anomaly detection. But that's just the start—try vector search for:
+This tutorial showed how to use Qdrant and n8n for AI-backed recommendations, classification, and anomaly detection. But that's just the start—try vector search for:
 - **Deduplication**  
 - **Dissimilarity search**
 - **Diverse sampling**  
