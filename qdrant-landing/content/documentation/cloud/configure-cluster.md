@@ -5,13 +5,13 @@ weight: 55
 
 # Configure Qdrant Cloud Clusters
 
-Qdrant Cloud offers several advanced configuration options to optimizer your clusters to your specific needs. You can access these options from the Cluster details page in the Qdrant Cloud console.
+Qdrant Cloud offers several advanced configuration options to optimize clusters for your specific needs. You can access these options from the Cluster Details page in the Qdrant Cloud console.
 
 ## Collection Defaults
 
 You can set default values for the configuration of new collections in your cluster. These defaults will be used when creating a new collection, unless you override them in the collection creation request.
 
-You can configure the default *Replication Factor*, the default *Write Consistency Factor* and if vectors should be stored on disk only, instead of being cached in RAM.
+You can configure the default *Replication Factor*, the default *Write Consistency Factor*, and if vectors should be stored on disk only, instead of being cached in RAM.
 
 Refer to [Qdrant Configuration](/documentation/guides/configuration/#configuration-options) for more details.
 
@@ -23,7 +23,7 @@ See [Qdrant under the hood: io_uring](/articles/io_uring/#and-what-about-qdrant)
 
 ## Client IP Restrictions
 
-If configured, only the chosen IP ranges will be allowed to access the cluster. This is useful for securing your cluster and ensuring that only trusted clients can connect to it.
+If configured, only the chosen IP ranges will be allowed to access the cluster. This is useful for securing your cluster and ensuring that only clients coming from trusted networks can connect to it.
 
 ## Restart Mode
 

@@ -394,7 +394,7 @@ spec:
   id: "a7d8d973-0cc5-42de-8d7b-c29d14d24840"
   version: "v1.15.1"
   size: 3
-  rebalancestrategy: by_count_and_size
+  rebalanceStrategy: by_count_and_size
   resources:
     cpu: 2
     memory: "8Gi"

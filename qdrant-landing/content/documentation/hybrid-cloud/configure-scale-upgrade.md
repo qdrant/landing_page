@@ -7,7 +7,7 @@ weight: 3
 
 ## Configure Clusters
 
-Next to the Hybrid Cloud specific scheduling options, you can change various advanced configuration options for your clusters. See [Configure Clusters](/documentation/cloud/configure-cluster/) for more details.
+Alongside Hybrid Cloud specific scheduling options, you can also adjust various other advanced configuration options for your clusters. See [Configure Clusters](/documentation/cloud/configure-cluster/) for more details.
 
 ## Scale Clusters
 
@@ -15,7 +15,7 @@ Hybrid cloud clusters can be scaled up and down, horizontall and vertically, at 
 
 ### Automatic Shard Rebalancing
 
-Qdrant Cloud supports automatic shard rebalancing when you scale your cluster horizontally. This ensures that the data is evenly distributed across the nodes, optimizing performance and resource utilization. For more details see [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing).
+Qdrant Cloud supports automatic shard rebalancing when scaling your cluster horizontally. This ensures that data is evenly distributed across the nodes, optimizing performance and resource utilization. For more details see [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing).
 
 ### Resharding
 

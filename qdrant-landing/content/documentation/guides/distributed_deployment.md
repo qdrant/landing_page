@@ -320,7 +320,7 @@ Please refer to the [Resharding](/documentation/cloud/cluster-scaling/#reshardin
 
 Qdrant allows moving shards between nodes in the cluster and removing nodes from the cluster. This functionality unlocks the ability to dynamically scale the cluster size without downtime. It also allows you to upgrade or migrate nodes without downtime.
 
-If your cluster is running in Qdrant Cloud, the shards are balanced across the cluster nodes automatically. For more information see the [Configuring Cloud Clusters](/documentation/cloud/configure-cluster/#shard-rebalancing) and [Cloud Cluster Scaling](/documentation/cloud/cluster-scaling/) documentation.
+If your cluster is running in Qdrant Cloud, shards are balanced across the cluster nodes automatically. For more information see the [Configuring Cloud Clusters](/documentation/cloud/configure-cluster/#shard-rebalancing) and [Cloud Cluster Scaling](/documentation/cloud/cluster-scaling/) documentation.
 
 Qdrant provides the information regarding the current shard distribution in the cluster with the [Collection Cluster info API](https://api.qdrant.tech/master/api-reference/distributed/collection-cluster-info).
 

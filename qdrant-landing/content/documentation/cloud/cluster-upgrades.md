@@ -7,7 +7,7 @@ weight: 55
 
 As soon as a new Qdrant version is available. Qdrant Cloud will show you an update notification in the Cluster list and on the Cluster details page.
 
-To update to a new version, go to the Cluster details page, choose the new version from the version dropdown and click **Update**.
+To update to a new version, go to the Cluster Details page, choose the new version from the version dropdown and click **Update**.
 
 ![Cluster Updates](/documentation/cloud/cluster-upgrades.png)
 
