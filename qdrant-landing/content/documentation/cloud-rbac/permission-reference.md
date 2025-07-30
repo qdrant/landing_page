@@ -54,6 +54,12 @@ Permissions for API Keys, backups, clusters, and backup schedules.
 | `write:clusters` | Modify cluster settings. |
 | `delete:clusters` | Delete clusters. |
 
+### **Cluster Data**
+| Permission | Description |
+|------------|------------|
+| `read:cluster_data` | View cluster data, used for Cluster UI button. (maps to read-only JWT access) |
+| `write:cluster_data` | View and Modify cluster data, used for Cluster UI button.(maps to manage JWT access) |
+
 ### **Backup Schedules**
 | Permission | Description |
 |------------|------------|

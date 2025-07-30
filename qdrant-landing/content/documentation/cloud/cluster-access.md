@@ -9,7 +9,7 @@ Once you [created](/documentation/cloud/create-cluster/) a cluster, and set up a
 
 ## Cluster UI
 
-There is the convenient link on the cluster detail page in the Qdrant Cloud Console to access the [Cluster UI](/documentation/web-ui/).
+There is the convenient link on the cluster detail page in the Qdrant Cloud Console to access the [Cluster UI](/documentation/web-ui/). You will be automatically authenticated if you have the `read:cluster_data` or `write:cluster_data` permission. If you don't have either of these permissions, you will be prompted with a pop-up to enter an API key to access the cluster.
 
 ![Cluster Cluster UI](/documentation/cloud/cloud-db-dashboard.png)
 
