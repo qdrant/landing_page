@@ -5,7 +5,7 @@ short_description: "PortfolioMind leverages Qdrant to transform noisy crypto res
 description: "Discover how PortfolioMind achieved significant reductions in latency and boosts in engagement by modeling real-time user intent with Qdrant."
 preview_image: /blog/case-study-portfoliomind/case-study-spoonos-preview.jpg
 social_preview_image: /blog/case-study-portfoliomind/case-study-spoonos-preview.jpg
-date: 2025-07-29
+date: 2025-07-31
 author: "Daniel Azoulai"
 featured: false
 
