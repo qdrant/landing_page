@@ -51,7 +51,7 @@ You can get started now by logging into [Qdrant Cloud](https://cloud.qdrant.io/)
 
 *Available for paid cloud users. Available on AWS, Azure, and GCP for US regions only. Additional regions will be added soon.* 
 
-## How to Build a Multimodal Search Stack with One API**  
+## How to Build a Multimodal Search Stack with One API 
 **Embed, Store, Search: A Hands-On Guide to Qdrant Cloud Inference**
 
 Kacper Łukawski, Senior Developer Advocate, hosted a live session showing how to:
@@ -62,6 +62,7 @@ Kacper Łukawski, Senior Developer Advocate, hosted a live session showing how t
   <li style="margin-bottom: 0;">Power multimodal (an industry first) and hybrid search with just one API</li>
   <li style="margin-bottom: 0;">Reduce network egress fees and simplify your AI stack</li>
 </ul>
+
 
 Watch now:
 
