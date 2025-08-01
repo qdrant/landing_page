@@ -51,14 +51,10 @@ You can get started now by logging into [Qdrant Cloud](https://cloud.qdrant.io/)
 
 *Available for paid cloud users. Available on AWS, Azure, and GCP for US regions only. Additional regions will be added soon.* 
 
-## Join us live for an inferencing webinar on July 31
-
-**How to Build a Multimodal Search Stack with One API**  
+## How to Build a Multimodal Search Stack with One API**  
 **Embed, Store, Search: A Hands-On Guide to Qdrant Cloud Inference**
 
-Kacper Łukawski, Senior Developer Advocate, is hosting a live session on Thursday, July 31 at 8 a.m. PT / 11 a.m. ET / 3 p.m. GMT. 
-
-We'll show you how to:
+Kacper Łukawski, Senior Developer Advocate, hosted a live session showing how to:
 
 <ul style="margin: 0; padding: 0; list-style-position: inside;">
   <li style="margin-bottom: 0;">Generate embeddings for text or images using pre-integrated models</li>
@@ -67,5 +63,7 @@ We'll show you how to:
   <li style="margin-bottom: 0;">Reduce network egress fees and simplify your AI stack</li>
 </ul>
 
+Watch now:
 
-### [Save your spot](https://try.qdrant.tech/cloud-inference).
+<iframe width="560" height="315" src="https://www.youtube.com/embed/A8BBdGC2xKs?si=ksCDjogjNkf9HTft" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
