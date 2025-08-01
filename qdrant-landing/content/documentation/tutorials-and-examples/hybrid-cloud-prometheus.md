@@ -85,14 +85,14 @@ Once Prometheus is configured to scrape metrics from Qdrant, you can access Graf
 Get the Grafana 'admin' user password by running:
 
 ```bash
-  kubectl --namespace monitoring get secrets prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
+kubectl --namespace monitoring get secrets prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
 ```
 
 Access the Grafana dashboard by port-forwarding:
 
 ```bash
-  export POD_NAME=$(kubectl --namespace monitoring get pod -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=prometheus" -oname)
-  kubectl --namespace monitoring port-forward $POD_NAME 3000
+export POD_NAME=$(kubectl --namespace monitoring get pod -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=prometheus" -oname)
+kubectl --namespace monitoring port-forward $POD_NAME 3000
 ```
 
 Now you can open your web browser and go to `http://localhost:3000`. Log in with the username `admin` and the password you retrieved earlier.
