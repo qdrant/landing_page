@@ -19,11 +19,11 @@ There are different ways to register for a Qdrant Cloud account:
 
 Every account is tied to an email address. You can invite additional users to your account and manage their permissions.
 
-### Email registration
+### Email Registration
 
 1. Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google or GitHub credentials.
 
-## Inviting additional users to an account
+## Inviting Additional Users to an Account
 
 You can invite additional users to your account, and manage their permissions on the **Account -> Access Management** page in the Qdrant Cloud Console.
 
@@ -33,11 +33,17 @@ Invited users will receive an email with an invitation link to join Qdrant Cloud
 
 ![Accepting invitation](/documentation/cloud/accept-invitation.png)
 
-## Switching between accounts
+## Switching Between Accounts
 
 If you have access to multiple accounts, you can switch between accounts with the account switcher on the top menu bar of the Qdrant Cloud Console.
 
 ![Switching between accounts](/documentation/cloud/account-switcher.png)
+
+## Creating Additional Accounts
+
+You can create additional accounts that you also own, from the account switcher in the top menu bar. Every account has its own set of clusters, users, permissions and payment methods.
+
+![Create Account](/documentation/cloud/create-new-account.png)
 
 ## Light & Dark Mode
 
@@ -45,19 +51,19 @@ The Qdrant Cloud Console supports light and dark mode. You can switch between th
 
 ![Light & Dark Mode](/documentation/cloud/light-dark-mode.png)
 
-## Account settings
+## Account Settings
 
 You can configure your account settings in the Qdrant Cloud Console on the **Account -> Settings** page.
 
 The following functionality is available.
 
-### Renaming an account
+### Renaming an Account
 
 If you use multiple accounts for different purposes, it is a good idea to give them descriptive names, for example *Development*, *Production*, *Testing*. You can also choose which account should be the default one, when you log in.
 
 ![Account management](/documentation/cloud/account-management.png)
 
-### Deleting an account
+### Deleting an Account
 
 When you delete an account, all database clusters and associated data will be deleted.
 
