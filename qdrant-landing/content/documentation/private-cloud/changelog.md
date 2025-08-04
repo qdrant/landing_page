@@ -5,6 +5,27 @@ weight: 5
 
 # Changelog
 
+## 1.7.3 (2025-08-04)
+
+|                                |         |
+|--------------------------------|---------|
+| qdrant-kubernetes-api version  | v1.17.2 |
+| operator version               | 2.6.8   |
+| qdrant-cluster-manager version | v0.3.7  |
+
+* Configurable max_request_size_mb
+
+## 1.7.2 (2025-06-27)
+
+|                                |         |
+|--------------------------------|---------|
+| qdrant-kubernetes-api version  | v1.17.0 |
+| operator version               | 2.6.4   |
+| qdrant-cluster-manager version | v0.3.7  |
+
+* Performance and stability improvements
+* Configurable maxCollection
+
 ## 1.7.1 (2025-06-03)
 
 |                                |         |
