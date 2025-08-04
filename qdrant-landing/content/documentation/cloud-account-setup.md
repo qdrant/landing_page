@@ -41,7 +41,11 @@ If you have access to multiple accounts, you can switch between accounts with th
 
 ## Creating Additional Accounts
 
-You can create additional accounts that you also own, from the account switcher in the top menu bar. Every account has its own set of clusters, users, permissions and payment methods.
+You can create additional accounts from the account switcher in the top menu bar. Every account has its own set of clusters, permissions, and payment methods.
+
+Besides the account owner, users are not shared across accounts, and must be specifically invited to an account to access it.
+
+Multiple accounts are useful if you want to manage clusters across different teams or environments, and also if you want to apply different payment methods to different resources.
 
 ![Create Account](/documentation/cloud/create-new-account.png)
 
