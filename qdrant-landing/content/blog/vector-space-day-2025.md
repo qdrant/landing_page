@@ -5,7 +5,7 @@ slug: vector-space-day-2025
 short_description: "We’re hosting our first-ever full-day in-person Vector Space Day this September in Berlin, and you’re invited."
 description: "From building scalable RAG pipelines to enabling real-time AI memory and next-gen context engineering, we’re covering the full spectrum of modern vector-native search."
 preview_image: /blog/vector-space-day-2025/Vector-Space-Day-Hero.jpg
-social_preview_image: /blog/vector-space-day-2025/Vector-Space-Day-Hero.jpg
+social_preview_image: /blog/vector-space-day-2025/partners_6-aug.png.jpg
 date: 2025-07-14
 author: Qdrant
 featured: false
@@ -64,7 +64,7 @@ These partners represent a cross-section of the most influential players in AI i
 
 We still have a few exciting names to announce, so stay tuned.
 
-![Partners](/blog/vector-space-day-2025/VSD-partners.jpg) 
+![Partners](/blog/vector-space-day-2025/partners_6-aug.png) 
 
 ### Get Your Ticket
 
@@ -72,10 +72,8 @@ General admission: €50
 
 **Early Bird Pricing**
 
-Now through July 31: 25% off
-
+Through July 31: 25% off
 August: 10% off
-
 Sept 1 - Sept 25: full price
 
 [**Reserve your spot now.**](https://lu.ma/p7w9uqtz)
