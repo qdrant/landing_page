@@ -72,9 +72,11 @@ General admission: €50
 
 **Early Bird Pricing**
 
-Through July 31: 25% off
+<s>Through July 31: 25% off</s>
+
 August: 10% off
-Sept 1 - Sept 25: full price
+
+September: full price
 
 [**Reserve your spot now.**](https://lu.ma/p7w9uqtz)
 
