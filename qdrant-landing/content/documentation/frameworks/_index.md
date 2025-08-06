@@ -49,3 +49,4 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Testcontainers](/documentation/frameworks/testcontainers/)   | Framework for providing throwaway, lightweight instances of systems for testing                                      |
 | [txtai](/documentation/frameworks/txtai/)                     | Python library for semantic search, LLM orchestration and language model workflows.                                  |
 | [Vanna AI](/documentation/frameworks/vanna-ai/)               | Python RAG framework for SQL generation and querying.                                                                |
+| [VoltAgent](/documentation/frameworks/voltagent/)             | TypeScript framework for building AI agents with modular tools, LLM coordination, and visual monitoring dashboard.   |
