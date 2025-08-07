@@ -74,7 +74,7 @@ client.upsert(
     points=[
         {
             "id": 1,
-            "vector": [0.1, 0.2, 0.3],  # Old embedding vector
+            "vector": encode_with_old_model("Example document"),
             "payload": {"text": "Example document"}
         }
     ]
@@ -89,7 +89,7 @@ client.upsert(
     points=[
         {
             "id": 1,
-            "vector": [0.1, 0.2, 0.3, 0.4, ...],  # Old embedding vector
+            "vector": encode_with_old_model("Example document"),
             "payload": {"text": "Example document"}
         }
     ]
@@ -100,7 +100,8 @@ client.upsert(
     points=[
         {
             "id": 1,
-            "vector": [0.9, 0.8, 0.7, 0.6, ...],  # New embedding vector
+            # Use the new embedding model to encode the document
+            "vector": encode_with_new_model("Example document"),
             "payload": {"text": "Example document"}
         }
     ]
