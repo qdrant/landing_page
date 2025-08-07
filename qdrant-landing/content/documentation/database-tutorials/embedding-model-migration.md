@@ -100,7 +100,7 @@ client.upsert(
     points=[
         {
             "id": 1,
-            "vector": [0.9, 0.8, 0.7, 0.6, ...]  # New embedding vector
+            "vector": [0.9, 0.8, 0.7, 0.6, ...],  # New embedding vector
             "payload": {"text": "Example document"}
         }
     ]
@@ -220,7 +220,7 @@ If your old code looked like this:
 ```python
 results = client.query_points(
     collection_name="old_collection",
-    query=encode_with_old_model("my query"),  # Qld query vector
+    query=encode_with_old_model("my query"),  # Old query vector
     using="my-old-vector",  # Old vector name
     limit=10,
 )
