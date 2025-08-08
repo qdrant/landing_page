@@ -9,7 +9,7 @@ This tutorial will guide you through the process of setting up Prometheus and Gr
 
 ## Prerequisites
 
-This tutorial assumes that you already have a Kubernetes cluster running and a Qdrant database deployed in it, using Hybrid Cloud or Private Cloud deployment. You should also have `kubectl` and `helm` configured to interact with your cluster.
+This tutorial assumes that you already have a Kubernetes cluster running and a Qdrant database deployed in it, using either a Hybrid Cloud or Private Cloud deployment. You should also have `kubectl` and `helm` configured to interact with your cluster.
 
 ## Step 1: Install Prometheus and Grafana
 
