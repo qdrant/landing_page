@@ -15,7 +15,7 @@ This tutorial assumes that you already have a Kubernetes cluster running and a Q
 
 If you haven't installed Prometheus and Grafana yet, you can use the [kube-prometheus-stack](https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack) Helm chart to deploy them in your Kubernetes cluster.
 
-A minmal example of installing the stack:
+A minimal example of installing the stack:
   
 ```bash
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
