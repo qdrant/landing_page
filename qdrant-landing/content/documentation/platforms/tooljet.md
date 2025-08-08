@@ -13,7 +13,7 @@ title: ToolJet
 
 ## Setting Up
 
-- Search for the Qdrant plugin in the Tooljet [plugins marketplace](https://docs.tooljet.com/docs/marketplace/plugins/marketplace-plugin-qdrant).
+- Search for the Qdrant plugin in the Tooljet [plugins marketplace](https://docs.tooljet.ai/docs/marketplace/plugins/marketplace-plugin-qdrant/).
 
 - Set up the connection to Qdrant using your instance credentials.
 
@@ -48,7 +48,5 @@ You can interface with the Qdrant instance using the following Tooljet operation
 ## Further Reading
 
 - [ToolJet Documentation](https://docs.tooljet.com/docs/).
-<!---
-- [ToolJet Qdrant Plugin](https://docs.tooljet.com/docs/marketplace/plugins/marketplace-plugin-qdrant/).
--->
+- [ToolJet Qdrant Plugin](https://docs.tooljet.ai/docs/marketplace/plugins/marketplace-plugin-qdrant/).
 
