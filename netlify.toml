@@ -51,3 +51,33 @@ HUGO_PARAMS_onetrustScriptId = "0196246a-3663-7350-9a45-b65f645d6314"
     to = "https://qdrant.to/cloud-terms/"
     status = 301
     force = true
+
+[[redirects]]
+  from = "/documentation/platforms/:slug/"
+  to = "/documentation/platforms/"
+  status = 301
+  force = false
+
+[[redirects]]
+  from = "/documentation/data-management/:slug/"
+  to = "/documentation/data-management/"
+  status = 301
+  force = false
+
+[[redirects]]
+  from = "/documentation/frameworks/:slug/"
+  to = "/documentation/frameworks/"
+  status = 301
+  force = false
+
+[[redirects]]
+  from = "/documentation/embeddings/:slug/"
+  to = "/documentation/embeddings/"
+  status = 301
+  force = false
+
+[[redirects]]
+  from = "/documentation/observability/:slug/"
+  to = "/documentation/observability/"
+  status = 301
+  force = false
