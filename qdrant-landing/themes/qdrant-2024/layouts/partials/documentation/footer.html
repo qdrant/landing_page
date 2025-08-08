@@ -1,11 +1,16 @@
+{{ $currentPage := . }}
+
 {{ with (.Site.GetPage "/headless/footer") }}
   <footer class="docs-footer w-100 py-0 pt-0 pb-4 pb-xl-0">
+
+    {{ if not (eq $currentPage.Section "course") }}
     <div class="docs-footer__cta">
       <h4>{{ .Params.question }}</h4>
       <a href="{{ .Params.questionButton.url }}" class="button button_outlined button_sm" target="_blank">
         {{ .Params.questionButton.text }}
       </a>
     </div>
+    {{ end }}
 
     <div class="docs-footer__bottom">
       <div class="docs-footer__bottom-content">

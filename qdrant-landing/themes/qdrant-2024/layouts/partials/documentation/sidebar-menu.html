@@ -113,5 +113,62 @@
         </div>
       </nav>
     {{ end }}
+
+    {{ if eq $currentNode.Section "course" }}
+      <nav>
+        <div class="docs-menu__links-group">
+          {{ $subject := site.GetPage "course" }}
+
+          <p class="docs-menu__links-title">
+            {{ $subject.Params.content.sidebarTitle }}
+          </p>
+
+          {{ if not (eq $currentNode.RelPermalink "/course/") }}
+            {{ $allPages := where $subject.Pages ".Params.isLesson" true }}
+            {{ $total := len $allPages }}
+
+            {{ $currentIndex := 0 }}
+            {{ range $i, $p := $allPages }}
+              {{ if eq $p.Permalink $currentNode.Permalink }}
+                {{ $currentIndex = add $i 1 }}
+              {{ end }}
+            {{ end }}
+
+            {{ $percent := mul (div (float $currentIndex) (float $total)) 100 }}
+            {{ $percentStr := printf "%.0f" $percent }}
+
+            <div class="docs-menu__progress">
+              <div class="docs-menu__progress-container">
+                <div class="docs-menu__progress-bar" style="width: {{ $percentStr }}%;"></div>
+              </div>
+              <p class="docs-menu__progress-text">{{ $percentStr }}%</p>
+            </div>
+          {{ end }}
+
+          <div
+            class="
+                mt-3
+                docs-menu__articles-link
+                docs-menu__links-group-heading{{ if eq $currentNode.RelPermalink "/course/" }} active{{ end }}
+              "
+          >
+            <a href="{{ $subject.Params.content.menuTitle.url }}">
+              {{ $subject.Params.content.menuTitle.text }}
+            </a>
+          </div>
+
+          {{ range $subject.Pages }}
+            <div
+              class="
+                docs-menu__articles-link
+                docs-menu__links-group-heading{{ if eq .File.UniqueID $currentNode.File.UniqueID }} active{{ end }}
+              "
+            >
+              <a href="{{ .Params.url }}">{{ .Params.title }}</a>
+            </div>
+          {{ end }}
+        </div>
+      </nav>
+    {{ end }}
   </div>
 </div>
