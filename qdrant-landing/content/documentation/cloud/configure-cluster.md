@@ -42,3 +42,5 @@ Qdrant Cloud offers three strategies for shard rebalancing:
 * `by_count_and_size` (default): This strategy will rebalance the shards based on the number of shards and their size. It will ensure that all nodes have the same number of shards and that shard sizes are evenly distributed across nodes.
 * `by_count`: This strategy will rebalance the shards based on the number of shards only. It will ensure that all nodes have the same number of shards, but shard sizes may not be balanced evenly across nodes.
 * `by_size`: This strategy will rebalance the shards based on their size only. It will ensure that shards are evenly distributed across nodes by size, but the number of shards may not be even across all nodes.
+
+You can also deactivate automatic shard rebalancing by unsetting the `rebalancing_strategy` option. This is useful if you want to manually control the shard distribution across nodes.
