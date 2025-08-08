@@ -27,7 +27,7 @@ This command will install Prometheus, Grafana, and all necessary components into
 
 ## Step 2: Configure Prometheus to Scrape Qdrant Metrics
 
-To monitor Qdrant, you need to configure Prometheus to scrape metrics from the Qdrant database(s). You can do this by creating a `ServiceMonitor` resource in your Kubernetes cluster.
+To monitor Qdrant, you need to configure Prometheus to scrape metrics from the Qdrant database(s). You can do this by creating a `ServiceMonitor` resource in the host Kubernetes cluster.
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1
