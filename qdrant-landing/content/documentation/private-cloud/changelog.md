@@ -5,6 +5,17 @@ weight: 5
 
 # Changelog
 
+## 1.8.0 (2025-08-08)
+
+|                                |         |
+|--------------------------------|---------|
+| qdrant-kubernetes-api version  | v1.17.2 |
+| operator version               | 2.6.8   |
+| qdrant-cluster-manager version | v0.3.7  |
+| qdrant-cluster-exporter        | 1.7.1   |
+
+* Add qdrant-cluster-exporter to provide OpenTelemetry/Prometheus metrics for Qdrant clusters
+
 ## 1.7.3 (2025-08-04)
 
 |                                |         |
