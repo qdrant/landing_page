@@ -99,7 +99,7 @@ Now you can open your web browser and go to `http://localhost:3000`. Log in with
 
 ## Step 4: Import Qdrant Dashboard
 
-To visualize Qdrant metrics, you can import a pre-built dashboard. You can find a sample Qdrant dashboard in the [Qdrant GitHub repository](https://github.com/qdrant/qdrant-cloud-grafana-dashboard).
+Qdrant Cloud offers an example Grafana Dashboard on the [Qdrant GitHub repository](https://github.com/qdrant/qdrant-cloud-grafana-dashboard). This comes with built in views and graphs to get you started with monitoring your Qdrant Clusters.
 
 To import the dashboard:
 
