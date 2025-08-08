@@ -28,5 +28,10 @@ menuItems:
     url: https://api.qdrant.tech/api-reference
     external: true
     icon: roadmap-white.svg
+  - id: menu-5
+    name: Course
+    url: /course/
+    external: true
+#    icon: roadmap-white.svg
 sitemapExclude: true
 ---

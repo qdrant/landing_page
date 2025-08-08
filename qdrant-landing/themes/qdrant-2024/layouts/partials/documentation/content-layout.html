@@ -176,6 +176,21 @@
             {{ end }}
           {{ end }}
 
+          {{ if eq .Section "course" }}
+            <div class="documentation__article-wrapper">
+
+              {{ if not (eq .RelPermalink "/course/") }}
+                {{ partial "documentation/breadcrumbs" . }}
+              {{ end }}
+
+              <article class="documentation-article">
+                {{ partial "article-content.html" . }}
+              </article>
+            </div>
+
+            {{ partial "table-of-contents" . }}
+          {{ end }}
+
           {{ partial "documentation/footer.html" . }}
         </div>
       </div>
