@@ -1,0 +1,55 @@
+@use '../helpers/functions' as *;
+@use "sass:math";
+
+.course-card {
+  width: 100%;
+  margin: $spacer * 2.5 0 $spacer;
+  padding: $spacer * 2;
+  border: pxToRem(1) solid $neutral-20;
+  background: linear-gradient($neutral-20, #0e1424);
+  border-radius: pxToRem(12);
+
+  &__title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: $spacer;
+    margin-bottom: $spacer * 1.5;
+    font-size: $font-size-xl;
+    line-height: pxToRem(30);
+    font-weight: 500;
+    color: $neutral-98;
+  }
+
+  .course-card__title img {
+    display: block;
+    margin: 0;
+    height: pxToRem(20);
+    width: pxToRem(20);
+  }
+
+  &__content {
+    color: $neutral-70;
+
+    &.wide {
+      ul {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+        column-gap: $spacer * 6;
+        margin-bottom: -$spacer * 1.5;
+
+        li {
+          margin-bottom: $spacer * 1.5;
+        }
+      }
+    }
+  }
+
+  &__button {
+    margin-top: $spacer * 1.5;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    font-weight: 500;
+  }
+}

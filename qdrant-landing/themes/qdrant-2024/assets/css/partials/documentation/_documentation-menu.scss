@@ -101,7 +101,7 @@
       }
 
       &.active {
-        .docs-menu__links-group-heading>a {
+        &>.docs-menu__links-group-heading>a {
           font-weight: 600;
           background-color: $neutral-30;
           color: $neutral-90;
@@ -248,7 +248,7 @@
 
     &__links-group {
       &.active {
-        .docs-menu__links-group-heading>a {
+        &>.docs-menu__links-group-heading>a {
           background-color: $neutral-20;
         }
 
@@ -373,7 +373,7 @@
 
       &__links-group {
         &.active {
-          .docs-menu__links-group-heading>a {
+          &>.docs-menu__links-group-heading>a {
             color: $neutral-30;
           }
         }

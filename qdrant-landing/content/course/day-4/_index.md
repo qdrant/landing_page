@@ -2,7 +2,9 @@
 title: Day 4
 url: /course/day-4/
 isLesson: true
-weight: 4
+weight: 8
 ---
 
-Day 4
+{{< date >}} Day 4 {{< /date >}}
+
+# Day 4

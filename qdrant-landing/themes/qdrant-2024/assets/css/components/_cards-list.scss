@@ -1,0 +1,50 @@
+@use '../helpers/functions' as *;
+@use 'sass:math';
+
+.cards-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacer * 1.5 $spacer * 2;
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacer;
+    width: 100%;
+    padding: $spacer;
+    border: pxToRem(1) solid $neutral-20;
+    background: linear-gradient($neutral-20, #0e1424);
+    border-radius: pxToRem(12);
+
+    &-content {
+      margin-bottom: 0;
+      font-size: $font-size-s;
+      line-height: $line-height-sm;
+      color: $neutral-70;
+    }
+
+    &-title {
+      margin-bottom: math.div($spacer, 4);
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      color: $neutral-98;
+    }
+
+    img.cards-list__item-image {
+      flex-shrink: 0;
+      width: $spacer * 3;
+      height: auto;
+      margin: 0;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__item {
+      width: calc(50% - $spacer);
+      padding: $spacer;
+      border: pxToRem(1) solid $neutral-20;
+      background: linear-gradient($neutral-20, #0e1424);
+      border-radius: pxToRem(12);
+    }
+  }
+}
