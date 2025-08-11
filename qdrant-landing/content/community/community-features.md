@@ -1,6 +1,5 @@
 ---
 title: Discover our Programs
-resources:
 features:
 - id: 0
   icon:
