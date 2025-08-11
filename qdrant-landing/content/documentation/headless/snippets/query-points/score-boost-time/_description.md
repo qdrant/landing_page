@@ -1,0 +1,1 @@
+This code snippet applies exponential decay to boost the relevance of search results based on a datetime field in the payload. Items closer in time to a specified `target` datetime receive higher scores, with relevance decreasing exponentially and reaching a specified 0.1 `midpoint` of relevance after a defined time `scale` period of 1 week.
