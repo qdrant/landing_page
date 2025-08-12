@@ -359,4 +359,139 @@ qdrant-cluster-manager:
   tolerations: []
 
   affinity: {}
+
+qdrant-cluster-exporter:
+  image:
+    repository: registry.cloud.qdrant.io/qdrant/qdrant-cluster-exporter
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+
+  imagePullSecrets:
+    - name: qdrant-registry-creds
+
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: { }
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  rbac:
+    create: true
+
+  podAnnotations: { }
+
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534
+    fsGroup: 65534
+
+  securityContext:
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534
+
+  service:
+    enabled: true
+    type: ClusterIP
+    port: 9090
+    portName: metrics
+
+  strategy:
+    # Prevents double-scraping by terminating the old pod before creating a new one
+    # The pod scrapes a large volume of metrics with high cardinality
+    type: Recreate
+
+  resources: { }
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+  serviceMonitor:
+    enabled: false
+    honorLabels: true
+    scrapeInterval: 60s
+    scrapeTimeout: 55s
+
+  # Limit RBAC to the release namespace
+  limitRBAC: true
+
+  # Configuration regarding the watch namespaces
+  watch:
+    # If true, watches only the namespace where the exporter is deployed, otherwise watches the namespaces in watch.namespaces
+    onlyReleaseNamespace: true
+    # an empty list watches all namespaces
+    namespaces: [ ]
+
+  # Configuration for the qdrant cluster exporter
+  config:
+    # The log level for the cluster-exporter
+    # Available options: DEBUG | INFO | WARN | ERROR
+    logLevel: INFO
+    # Controller related settings
+    controller:
+      # The period a forced recync is done by the controller (if watches are missed / nothing happened)
+      forceResyncPeriod: 10h
+      # QPS indicates the maximum QPS to the master from this client.
+      # Default is 200
+      qps: 200
+      # Maximum burst for throttle.
+      # Default is 500.
+      burst: 500
+      # Maximum number of concurrent reconciling
+      maxConcurrentReconciles: 20
+      # The interval after which controller will requeue an object
+      requeueInterval: 30s
+    # The configuration related to metrics
+    metrics:
+      # The port on which the metrics are exposed
+      port: 9090
+      # The path on which the metrics are exposed
+      path: /metrics
+    # The configuration related to health check
+    healthz:
+      # The port used for the health probe
+      port: 8085
+    # The configuration related to caching qdrant telemetry and metrics
+    cache:
+      # The period after which the cache is invalidated
+      ttl: 60s
+    # The configuration related to the qdrant rest client
+    qdrant:
+      restAPI:
+        # The qdrant rest api port
+        port: 6333
+        # Time after which request to qdrant be canceled if not completed
+        timeout: 20s
+      # Path where qdrant exposes metrics
+      metricsPath: "metrics"
+      # Configuration related to telemetry
+      telemetry:
+        # Path where qdrant exposes telemetry
+        path: "telemetry"
+        # The level of details for telemetry
+        detailsLevel: 6
+        # Whether to anonymize the telemetry data
+        anonymize: true
 ```

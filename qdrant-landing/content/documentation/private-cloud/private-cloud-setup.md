@@ -40,7 +40,96 @@ Open Containers Initiative (OCI) Helm charts:
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud`
 - `registry.cloud.qdrant.io/library/qdrant-kubernetes-api`
 
-The specific versions for every private cloud version are documented in the [Private Cloud Changelog](/documentation/private-cloud/changelog/).
+- The specific versions for every private cloud version are documented in the [Private Cloud Changelog](/documentation/private-cloud/changelog/).
+
+## Installation
+
+Once you are onboarded to Qdrant Private Cloud, you will receive credentials to access the Qdrant Cloud Registry. You can use these credentials to install the Qdrant Private Cloud solution using the following commands. You can choose the Kubernetes namespace freely.
+
+1. Create the namespace for Private Cloud, e.g.
+
+```bash
+kubectl create namespace qdrant-private-cloud
+```
+
+2. Create a Kubernetes secret with your Qdrant Cloud Registry credentials, so that your Kubernetes cluster can pull the necessary container images:
+```
+kubectl create secret docker-registry qdrant-registry-creds --docker-server=registry.cloud.qdrant.io --docker-username='your-username' --docker-password='your-password' --namespace qdrant-private-cloud
+```
+
+3. Log in to the Qdrant Cloud Registry using Helm:
+
+```bash
+helm registry login 'registry.cloud.qdrant.io' --username 'your-username' --password 'your-password'
+```
+
+4. Install then Qdrant Kubernetes Operator Custom Resource Definitions (CRDs):
+
+```bash
+helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.17.2 --wait
+```
+
+5. Install the Qdrant Private Cloud:
+
+```bash
+helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.8.0
+```
+
+Ensure that the version of `qdrant-kubernetes-api` is compatible with the version of `qdrant-private-cloud` you are installing.
+
+For a list of available versions consult the [Private Cloud Changelog](/documentation/private-cloud/changelog/).
+
+Current default versions are:
+
+* qdrant-kubernetes-api v1.17.2
+* qdrant-private-cloud 1.8.0
+
+For more information also see the [Helm Install Documentation](https://helm.sh/docs/helm/helm_install/).
+
+## Configuring Private Cloud
+
+The Qdrant Private Cloud Helm chart comes with a set of default values that are suitable for most deployments. However, you can customize the configuration to fit your specific needs. See the [Private Cloud Configuration](/documentation/private-cloud/configuration/) page for all available configuration options.
+
+Especially ensure, that the default values to reference `StorageClasses` and the corresponding `VolumeSnapshotClass` are set correctly in your environment.
+
+When creating your own `values.yaml` file, as a best practice, only override the values you want to change, e.g. with this `values.yaml` file:
+
+```yaml
+operator:
+  settings:
+    features:
+      clusterManagement:
+        storageClass:
+          database: your-storage-class-name
+          snapshot: your-storage-class-name
+      backupManagement:
+        snapshots:
+          volumeSnapshotClass: your-volume-snapshot-class-name
+```
+
+You can configure Qdrant Private Cloud like this:
+
+```bash
+helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.8.0 -f values.yaml
+```
+
+## Upgrades
+
+To upgrade Qdrant Private Cloud to a new version, first upgrade the Qdrant Kubernetes Operator Custom Resource Definitions (CRDs):
+
+```bash
+helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.17.2 --wait
+```
+
+Then upgrade the Qdrant Private Cloud Helm chart using the same configuration values, e.g.:
+
+```bash
+helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.8.0 -f values.yaml
+```
+
+Note, that the image tag values are automatically derived from the chart's appVersions and should not be changed in the `values.yaml`.
+
+For more information also see the [Helm Upgrade Documentation](https://helm.sh/docs/helm/upgrade/).
 
 ### Mirroring images and charts
 
@@ -73,28 +162,36 @@ skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-cha
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api your-registry.example.com/qdrant-charts/qdrant-kubernetes-api
 ```
 
-During the installation or upgrade, you will need to adapt the repository information in the Helm chart values. See [Private Cloud Configuration](/documentation/private-cloud/configuration/) for details.
+During the installation or upgrade, you will need to adapt the image repository and imagePullSecret information in the Helm chart values, e.g.:
 
-## Installation and Upgrades
-
-Once you are onboarded to Qdrant Private Cloud, you will receive credentials to access the Qdrant Cloud Registry. You can use these credentials to install the Qdrant Private Cloud solution using the following commands. You can choose the Kubernetes namespace freely.
-
-```bash
-kubectl create namespace qdrant-private-cloud
-kubectl create secret docker-registry qdrant-registry-creds --docker-server=registry.cloud.qdrant.io --docker-username='your-username' --docker-password='your-password' --namespace qdrant-private-cloud
-helm registry login 'registry.cloud.qdrant.io' --username 'your-username' --password 'your-password'
-helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.17.2 --wait
-helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.8.0
+```yaml
+operator:
+  image:
+    repository: your-registry.example.com/qdrant/operator
+  imagePullSecrets:
+    - name: your-registry-creds
+  settings:
+    features:
+      clusterManagement:
+        qdrant:
+          image:
+            repository: your-registry.example.com/qdrant/qdrant
+            pullSecretName: your-registry-creds
+            
+qdrant-cluster-manager:
+  image:
+    repository: your-registry.example.com/qdrant/cluster-manager
+  imagePullSecrets:
+    - name: your-registry-creds
+      
+qdrant-cluster-exporter:
+  image:
+    repository: your-registry.example.com/qdrant/qdrant-cluster-exporter
+  imagePullSecrets:
+    - name: your-registry-creds
 ```
 
-For a list of available versions consult the [Private Cloud Changelog](/documentation/private-cloud/changelog/).
-
-Current default versions are:
-
-* qdrant-kubernetes-api v1.17.2
-* qdrant-private-cloud 1.8.0
-
-Especially ensure, that the default values to reference `StorageClasses` and the corresponding `VolumeSnapshotClass` are set correctly in your environment.
+See [Private Cloud Configuration](/documentation/private-cloud/configuration/) for details.
 
 ### Scope of the operator
 
