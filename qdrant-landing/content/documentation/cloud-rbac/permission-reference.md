@@ -57,8 +57,8 @@ Permissions for API Keys, backups, clusters, and backup schedules.
 ### **Cluster Data**
 | Permission | Description |
 |------------|------------|
-| `read:cluster_data` | View cluster data, used for Cluster UI button. (maps to read-only JWT access) |
-| `write:cluster_data` | View and Modify cluster data, used for Cluster UI button.(maps to manage JWT access) |
+| `read:cluster_data` | View cluster data, used for the Cluster UI button on Cluster Details. [Maps to global `read-only` JWT access for the cluster.](/documentation/guides/security/) |
+| `write:cluster_data` | View and modify cluster data, used for the Cluster UI button on Cluster Details. [Maps to global `read-write` JWT access for the cluster.](/documentation/guides/security/) |
 
 ### **Backup Schedules**
 | Permission | Description |

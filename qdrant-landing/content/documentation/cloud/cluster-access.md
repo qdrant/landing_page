@@ -9,7 +9,7 @@ Once you [created](/documentation/cloud/create-cluster/) a cluster, and set up a
 
 ## Cluster UI
 
-There is the convenient link on the cluster detail page in the Qdrant Cloud Console to access the [Cluster UI](/documentation/web-ui/). You will be automatically authenticated if you have the `read:cluster_data` or `write:cluster_data` permission. If you don't have either of these permissions, you will be prompted with a pop-up to enter an API key to access the cluster.
+You can access your [Cluster UI](/documentation/web-ui/) via the Cluster Details page in the Qdrant Cloud Console. Authentication to a cluster is automatic if your cloud user has the [`read:cluster_data` or `write:cluster_data` permission](/documentation/cloud-rbac/permission-reference/). Without the correct permissions you will be prompted to enter an [API Key](/documentation/cloud/authentication/) to access the cluster.
 
 ![Cluster Cluster UI](/documentation/cloud/cloud-db-dashboard.png)
 
