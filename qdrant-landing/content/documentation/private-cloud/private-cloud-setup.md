@@ -33,11 +33,14 @@ Container images:
 - `registry.cloud.qdrant.io/qdrant/qdrant`
 - `registry.cloud.qdrant.io/qdrant/operator`
 - `registry.cloud.qdrant.io/qdrant/cluster-manager`
+- `registry.cloud.qdrant.io/qdrant/qdrant-cluster-exporter`
 
 Open Containers Initiative (OCI) Helm charts:
 
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud`
 - `registry.cloud.qdrant.io/library/qdrant-kubernetes-api`
+
+The specific versions for every private cloud version are documented in the [Private Cloud Changelog](/documentation/private-cloud/changelog/).
 
 ### Mirroring images and charts
 
