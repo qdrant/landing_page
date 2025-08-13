@@ -75,7 +75,7 @@ helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/
 helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.8.0
 ```
 
-Ensure that the version of `qdrant-kubernetes-api` is compatible with the version of `qdrant-private-cloud` you are installing.
+Ensure that the `qdrant-kubernetes-api` version is compatible with the `qdrant-private-cloud` version you are installing.
 
 For a list of available versions consult the [Private Cloud Changelog](/documentation/private-cloud/changelog/).
 
