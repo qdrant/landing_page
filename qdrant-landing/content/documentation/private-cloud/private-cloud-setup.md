@@ -44,7 +44,7 @@ Open Containers Initiative (OCI) Helm charts:
 
 ## Installation
 
-Once you are onboarded to Qdrant Private Cloud, you will receive credentials to access the Qdrant Cloud Registry. You can use these credentials to install the Qdrant Private Cloud solution using the following commands. You can choose the Kubernetes namespace freely.
+Once onboarded to Qdrant Private Cloud, you will receive credentials to access the Qdrant Cloud Registry. You can use these credentials to install the Qdrant Private Cloud solution using the following commands:
 
 1. Create the namespace for your Private Cloud deployment. You can use any name for the namespace, but you will need to update the later steps to reflect this. E.g.
 
