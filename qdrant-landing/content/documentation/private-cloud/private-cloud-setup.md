@@ -52,7 +52,7 @@ Once you are onboarded to Qdrant Private Cloud, you will receive credentials to 
 kubectl create namespace qdrant-private-cloud
 ```
 
-2. Create a Kubernetes secret with your Qdrant Cloud Registry credentials, so that your Kubernetes cluster can pull the necessary container images:
+2. Create a Kubernetes secret with your Qdrant Cloud Registry credentials, to allow your Kubernetes cluster to pull the necessary container images:
 ```
 kubectl create secret docker-registry qdrant-registry-creds --docker-server=registry.cloud.qdrant.io --docker-username='your-username' --docker-password='your-password' --namespace qdrant-private-cloud
 ```
