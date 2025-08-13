@@ -485,7 +485,7 @@ Physical shards require a large amount of resources, so make sure your custom sh
 
 For large cardinality keys, it is recommended to use [partition by payload](/documentation/guides/multiple-partitions/#partition-by-payload) instead.
 
-Now you need to create custom shards ([API reference](https://api.qdrant.tech/api-reference/distributed/update-collection-cluster#request.body.CreateShardingKeyOperation.create_sharding_key)):
+Now you need to create custom shards ([API reference](https://api.qdrant.tech/api-reference/distributed/create-shard-key#request)):
 
 ```http
 PUT /collections/{collection_name}/shards
