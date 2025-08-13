@@ -92,7 +92,7 @@ The Qdrant Private Cloud Helm chart comes with a set of default values that are 
 
 You must ensure that the default `StorageClasses` and corresponding `VolumeSnapshotClass` are set appropriately for your environment.
 
-When creating your own `values.yaml` file, as a best practice, only override the values you want to change, e.g. with this `values.yaml` file:
+When creating your own `values.yaml` file, as a best practice, only include the values you are actually changing, e.g. with this `values.yaml` file:
 
 ```yaml
 operator:
