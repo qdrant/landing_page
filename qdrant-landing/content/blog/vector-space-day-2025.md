@@ -54,13 +54,11 @@ The day doesn’t end when the last session wraps. Your ticket includes access t
 
 We’ve locked in a strong lineup but we’re saving a few select slots for standout talks from the community. If you’re building something novel in vector search, AI memory, context engineering, or retrieval infra, we want to hear from you.
 
-[**Submit a proposal**](https://docs.google.com/forms/d/e/1FAIpQLSeGvmWISVImELQid1AjMv2Dvm2AXNuOqyZKqrQlFk07CnY_cw/viewform) **by Friday, August 8th, 2025\.** 
-
-Missed the deadline? Go ahead and send it in anyway. Proposals submitted after the deadline, without prior communication with the event organizers, will be reviewed if space becomes available.
+[Submit a proposal](https://docs.google.com/forms/d/e/1FAIpQLSeGvmWISVImELQid1AjMv2Dvm2AXNuOqyZKqrQlFk07CnY_cw/viewform). Due Friday, August 8th, 2025. Missed the deadline? Go ahead and send it in anyway. Proposals submitted after the deadline, without prior communication with the event organizers, will be reviewed if space becomes available.
 
 ### Partners
 
-We’ll be joined by leading organizations including AWS, Microsoft, Vultr, Jina, DeepSet, LlamaIndex, DataTalks.Club, and the MLOps Community, and more. 
+We’ll be joined by leading organizations including AWS, Microsoft, Vultr, Jina, DeepSet, LlamaIndex, TwelveLabs, n8n, Neo4j, MistralAI, DataTalks.Club, and the MLOps Community, and more. 
 
 These partners represent a cross-section of the most influential players in AI infrastructure and applied research, and we’re proud to collaborate with them to bring this event to life. 
 
@@ -88,12 +86,20 @@ Space is limited.
 
 See you in Berlin\!
 
-### FAQs
+### Global Hackathon Through September 16
 
-* Day: Friday, September 26, 2025  
-* Time: All day\!   
-* Location: Colosseum, Schönhauser Allee 123, 10437 Berlin, Germany   
-* Refund policy: All ticket sales are final. We do not offer refunds for any reason, including but not limited to scheduling conflicts, illness, travel issues, or changes in personal circumstances. We appreciate your understanding and look forward to seeing you at the event.
+In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a global, virtual hackathon challenging devs to reimagine what's possible with vector search. Forget the classical RAG chatbot! This is your chance to explore multi-modal applications, intelligent recommendations, and advanced vector search that go far beyond conversational interfaces.
+
+💰 Over $10k in prizes from Qdrant, Mistral AI, CrewAI, Cognee, and more
+
+🗓️ Now through Tuesday, September 16
+
+🌏 Open to participants worldwide
+
+🏆 Winners announced September 26 at Vector Space Day in Berlin
+
+[**Learn more.**](https://try.qdrant.tech/hackathon-2025)
+
 
 ### Need your manager’s approval to attend?
 
