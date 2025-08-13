@@ -101,13 +101,6 @@ In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a g
 [**Learn more.**](https://try.qdrant.tech/hackathon-2025)
 
 
-### FAQs
-
-* Day: Friday, September 26, 2025  
-* Time: All day\!   
-* Location: Colosseum, Schönhauser Allee 123, 10437 Berlin, Germany   
-* Refund policy: All ticket sales are final. We do not offer refunds for any reason, including but not limited to scheduling conflicts, illness, travel issues, or changes in personal circumstances. We appreciate your understanding and look forward to seeing you at the event.
-
 ### Need your manager’s approval to attend?
 
 We’ve got you covered. Download this ready-to-send request letter to help explain why attending Vector Search Day is a valuable use of your time (and budget). [Download now](https://docs.google.com/document/d/1EivCVK47XEFXAhyoo8QaCBX0Op6uicUODAxTGXhZxrs/edit?usp=sharing). 
