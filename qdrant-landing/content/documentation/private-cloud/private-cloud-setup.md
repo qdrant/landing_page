@@ -88,7 +88,7 @@ For more information also see the [Helm Install Documentation](https://helm.sh/d
 
 ## Configuring Private Cloud
 
-The Qdrant Private Cloud Helm chart comes with a set of default values that are suitable for most deployments. However, you can customize the configuration to fit your specific needs. See the [Private Cloud Configuration](/documentation/private-cloud/configuration/) page for all available configuration options.
+The Qdrant Private Cloud Helm chart comes with a set of default values which are suitable for most deployments. However, you are able to customize the configuration further to fit your specific needs. See the [Private Cloud Configuration](/documentation/private-cloud/configuration/) page for all available configuration options.
 
 You must ensure that the default `StorageClasses` and corresponding `VolumeSnapshotClass` are set appropriately for your environment.
 
