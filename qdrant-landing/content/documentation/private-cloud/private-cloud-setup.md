@@ -69,7 +69,7 @@ helm registry login 'registry.cloud.qdrant.io' --username 'your-username' --pass
 helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.17.2 --wait
 ```
 
-5. Install the Qdrant Private Cloud:
+5. Install Qdrant Private Cloud:
 
 ```bash
 helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.8.0
