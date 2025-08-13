@@ -397,8 +397,7 @@ client.createCollection("{collection_name}", {
 
 ```rust
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, Distance,
-    ShardingMethod, VectorParamsBuilder,
+    CreateCollectionBuilder, Distance, ShardingMethod, VectorParamsBuilder,
 };
 use qdrant_client::Qdrant;
 
@@ -486,7 +485,7 @@ Physical shards require a large amount of resources, so make sure your custom sh
 
 For large cardinality keys, it is recommended to use [partition by payload](/documentation/guides/multiple-partitions/#partition-by-payload) instead.
 
-Now you need to create custom shards:
+Now you need to create custom shards ([API reference](https://api.qdrant.tech/api-reference/distributed/update-collection-cluster#request.body.CreateShardingKeyOperation.create_sharding_key)):
 
 ```http
 PUT /collections/{collection_name}/shards
