@@ -364,7 +364,7 @@ qdrant-cluster-exporter:
   image:
     repository: registry.cloud.qdrant.io/qdrant/qdrant-cluster-exporter
     pullPolicy: Always
-    # Overrides the image tag whose default is the chart appVersion.
+    # Overrides the image tag. Defaults to the chart appVersion.
     tag: ""
 
   imagePullSecrets:
@@ -377,7 +377,7 @@ qdrant-cluster-exporter:
     # Specifies whether a service account should be created
     create: true
     # Annotations to add to the service account
-    annotations: { }
+    annotations: {}
     # The name of the service account to use.
     # If not set and create is true, a name is generated using the fullname template
     name: ""
@@ -385,7 +385,7 @@ qdrant-cluster-exporter:
   rbac:
     create: true
 
-  podAnnotations: { }
+  podAnnotations: {}
 
   podSecurityContext:
     runAsNonRoot: true
@@ -410,39 +410,39 @@ qdrant-cluster-exporter:
     # The pod scrapes a large volume of metrics with high cardinality
     type: Recreate
 
-  resources: { }
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
+  resources: {}
+    # We usually recommend not setting default resources and to leave this as a conscious
+    # choice for the user. This allows charts to run on environments with fewer
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     # limits:
     #   cpu: 100m
     #   memory: 128Mi
     # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+    #   cpu: 100m
+    #   memory: 128Mi
 
-  nodeSelector: { }
+  nodeSelector: {}
 
-  tolerations: [ ]
+  tolerations: []
 
-  affinity: { }
+  affinity: {}
 
   serviceMonitor:
-    enabled: false
+    enabled: true
     honorLabels: true
     scrapeInterval: 60s
     scrapeTimeout: 55s
 
   # Limit RBAC to the release namespace
-  limitRBAC: true
+  limitRBAC: false
 
-  # Configuration regarding the watch namespaces
+  # Watched Namespaces Configuration
   watch:
-    # If true, watches only the namespace where the exporter is deployed, otherwise watches the namespaces in watch.namespaces
-    onlyReleaseNamespace: true
+    # If true, only the namespace where the exporter is deployed is watched, otherwise it watches the namespaces defined in watch.namespaces
+    onlyReleaseNamespace: false
     # an empty list watches all namespaces
-    namespaces: [ ]
+    namespaces: []
 
   # Configuration for the qdrant cluster exporter
   config:
@@ -451,42 +451,42 @@ qdrant-cluster-exporter:
     logLevel: INFO
     # Controller related settings
     controller:
-      # The period a forced recync is done by the controller (if watches are missed / nothing happened)
+      # Schedule for the controller to do a forced resync (if watches are missed / nothing happened)
       forceResyncPeriod: 10h
-      # QPS indicates the maximum QPS to the master from this client.
+      # Indicates the maximum QPS from this client to the master
       # Default is 200
       qps: 200
       # Maximum burst for throttle.
       # Default is 500.
       burst: 500
-      # Maximum number of concurrent reconciling
+      # Maximum number of concurrent reconciliations
       maxConcurrentReconciles: 20
-      # The interval after which controller will requeue an object
+      # Controller's object requeueing interval
       requeueInterval: 30s
-    # The configuration related to metrics
+    # Exporter Metrics Configuration
     metrics:
       # The port on which the metrics are exposed
       port: 9090
       # The path on which the metrics are exposed
       path: /metrics
-    # The configuration related to health check
+    # Exporter Health Check Configuration
     healthz:
       # The port used for the health probe
       port: 8085
-    # The configuration related to caching qdrant telemetry and metrics
+    # Qdrant Telemetry and Metrics Cache Configuration
     cache:
       # The period after which the cache is invalidated
       ttl: 60s
-    # The configuration related to the qdrant rest client
+    # Qdrant Rest Client Configuration
     qdrant:
       restAPI:
         # The qdrant rest api port
         port: 6333
-        # Time after which request to qdrant be canceled if not completed
+        # Qdrant API Request Timeout after which requests to Qdrant are canceled if not completed
         timeout: 20s
       # Path where qdrant exposes metrics
       metricsPath: "metrics"
-      # Configuration related to telemetry
+      # Qdrant Telemetry Configuration
       telemetry:
         # Path where qdrant exposes telemetry
         path: "telemetry"
