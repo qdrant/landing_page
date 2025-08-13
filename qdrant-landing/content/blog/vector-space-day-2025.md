@@ -88,6 +88,18 @@ Space is limited.
 
 See you in Berlin\!
 
+### Global Hackathon Through September 16
+
+In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a global, virtual hackathon challenging devs to reimagine what's possible with vector search. Forget the classical RAG chatbot! This is your chance to explore multi-modal applications, intelligent recommendations, and advanced vector search that go far beyond conversational interfaces.
+
+💰 Over $10k in prizes from Qdrant, Mistral AI, CrewAI, Cognee, and more
+🗓️ Now through Tuesday, September 16
+🌏 Open to participants worldwide
+🏆 Winners announced September 26 at Vector Space Day in Berlin
+
+[**Learn more.**](https://try.qdrant.tech/hackathon-2025)
+
+
 ### FAQs
 
 * Day: Friday, September 26, 2025  
