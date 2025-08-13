@@ -63,7 +63,7 @@ kubectl create secret docker-registry qdrant-registry-creds --docker-server=regi
 helm registry login 'registry.cloud.qdrant.io' --username 'your-username' --password 'your-password'
 ```
 
-4. Install then Qdrant Kubernetes Operator Custom Resource Definitions (CRDs):
+4. Install the Qdrant Kubernetes Operator Custom Resource Definitions (CRDs):
 
 ```bash
 helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.17.2 --wait
