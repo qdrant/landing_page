@@ -1,0 +1,49 @@
+name: Generate llms.txt and llms-full.txt
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ '**' ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  models: read
+
+jobs:
+  generate-llms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.123.0"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip' # caching pip dependencies
+      - name: Install dependencies
+        run: |
+          pip install requests openai
+      - name: Run the generation script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python generate-llms-txt.py
+          git add qdrant-landing/static/llms.txt qdrant-landing/static/llms-full.txt
+          if [[ `git status --porcelain` ]]; then
+            # Changes
+            echo "Changes detected"
+          else
+            # No changes
+            echo "No changes detected"
+            exit 0
+          fi
+          git config --global user.name 'qdrant'
+          git config --global user.email 'qdrant@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout $GITHUB_HEAD_REF
+          git commit -am "Update llms.txt / llms-full.txt" && git push || true
