@@ -153,17 +153,16 @@ def main():
     # Change the current working directory to the Hugo content directory
     os.chdir(BASE_DIR)
 
+    # Load the current state of the llms.txt file to avoid duplicates
+    with open(os.path.join(OUTPUT_DIR, "llms.txt"), "r", encoding="utf-8") as llms_file:
+        existing_urls = {line.split("](")[1].split(")")[0] for line in llms_file if line.startswith("- [")}
+
     # Load the paths to all the published content in Hugo and process them sequentially
     # to generate the llms.txt and llms-full.txt files.
-    with (open(os.path.join(OUTPUT_DIR, "llms.txt"), "w", encoding="utf-8") as llms_file, \
+    with (open(os.path.join(OUTPUT_DIR, "llms.txt"), "a+", encoding="utf-8") as llms_file, \
          open(os.path.join(OUTPUT_DIR, "llms-full.txt"), "w", encoding="utf-8") as llms_full_file):
 
-        # Write the header for the both files
-        llms_file.write("# https://qdrant.tech/ llms.txt\n")
-        llms_file.write("## Overall Summary\n")
-        llms_file.write(f"> {GENERAL_DESCRIPTION}\n\n")
-        llms_file.write("## Page Links\n")
-
+        # Write the header for the full file
         llms_full_file.write("# https://qdrant.tech/ llms-full.txt\n")
         llms_full_file.write("## Overall Summary\n")
         llms_full_file.write(f"> {GENERAL_DESCRIPTION}\n\n")
@@ -173,9 +172,15 @@ def main():
             llms_full_file.write(f"<|page-{page_counter}-lllmstxt|>\n")
             llms_full_file.write(content.content + "\n\n")
 
-            # Write the link to the llms.txt file
+            # Skip if there is no title, as we cannot generate a link without it
             if not content.title:
                 continue
+
+            # Only append to the llms.txt file if the URL does not already exist
+            if content.absolute_url in existing_urls:
+                print(f"Skipping {content.title} ({content.absolute_url}) - already exists in llms.txt")
+                continue
+
             content_summary = summarize_content(content.content)
             llms_file.write(f"- [{content.title}]({content.absolute_url}): {content_summary}\n")
             print(f"Processed {content.title} ({content.absolute_url})")
