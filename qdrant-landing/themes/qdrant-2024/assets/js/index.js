@@ -128,4 +128,25 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = url;
     });
   });
+
+  function toggleAccordion() {
+    this.parentElement.classList.toggle('active');
+    const panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+    }
+  }
+
+  const accordionButtons = Array.from(document.getElementsByClassName('accordion__item-header'));
+  accordionButtons.forEach((el) => {
+    el.addEventListener('click', toggleAccordion);
+  });
+
+  const accordionDarkButtons = Array.from(document.getElementsByClassName('accordion-dark__item-header'));
+  accordionDarkButtons.forEach((el) => {
+    el.addEventListener('click', toggleAccordion);
+  });
+
 });
