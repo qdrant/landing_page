@@ -3,14 +3,6 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
     {{  range .Data.Pages }}
 
-        <!-- TODO: remove this once we release the course -->
-
-        {{ if eq .Section "course" }}
-                {{ continue }}
-        {{ end }}
-
-        <!-- TODO: remove this once we release the course -->
-
     {{-     if and (or (eq (isset .Params "sitemapexclude") false) (ne .Params.sitemapExclude true)) (ne .Permalink "") }}
     <url>
         <loc>{{ .Permalink }}</loc>{{ if not .Lastmod.IsZero }}
