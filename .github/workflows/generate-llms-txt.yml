@@ -30,19 +30,9 @@ jobs:
       - name: Run the generation script
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          python automation/generate-llms-txt.py
-          git add qdrant-landing/static/llms.txt qdrant-landing/static/llms-full.txt
-          if [[ `git status --porcelain` ]]; then
-            # Changes
-            echo "Changes detected"
-          else
-            # No changes
-            echo "No changes detected"
-            exit 0
-          fi
-          git config --global user.name 'qdrant'
-          git config --global user.email 'qdrant@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-          git checkout $GITHUB_HEAD_REF
-          git commit -am "Update llms.txt / llms-full.txt" && git push || true
+        run: python automation/generate-llms-txt.py
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update llms.txt and llms-full.txt"
+          commit_user_name: "GitHub Actions"
+          commit_user_email: "team@qdrant.com"
