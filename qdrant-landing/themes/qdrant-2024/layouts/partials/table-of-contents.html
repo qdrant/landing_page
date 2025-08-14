@@ -12,16 +12,16 @@
 
 
       {{ if eq .Section "course" }}
-        {{ if eq .RelPermalink "/course/" }}
-          {{ $subject := site.GetPage "course" }}
+          {{ $subject := . }}
 
+          {{ if and $subject.Params $subject.Params.content $subject.Params.content.getStarted }}
           <a
             href="{{ $subject.Params.content.getStarted.url }}"
             class="table-of-contents__button button button_contained button_sm"
-          >
-            {{ $subject.Params.content.getStarted.text }}
-          </a>
-        {{ end }}
+            >
+              {{ $subject.Params.content.getStarted.text }}
+            </a>
+          {{ end }}
       {{ else }}
         <ul class="table-of-contents__external-links">
           {{ if or (eq .Section "documentation") (eq .Section "articles") }}

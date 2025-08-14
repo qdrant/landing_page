@@ -1,6 +1,5 @@
 ---
 title: Day 0
-url: /course/day-0/
 isLesson: true
 weight: 1
 ---

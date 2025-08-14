@@ -1,6 +1,5 @@
 ---
 title: Day 9 (Bonus)
-url: /course/day-9/
 isLesson: true
 weight: 9
 ---

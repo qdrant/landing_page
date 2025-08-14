@@ -1,6 +1,5 @@
 ---
 title: Video 02
-url: /course/day-1/video-02
 weight: 5
 ---
 

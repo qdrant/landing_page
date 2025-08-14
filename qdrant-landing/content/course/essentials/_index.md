@@ -6,10 +6,10 @@ content:
   sidebarTitle: Qdrant Essentials
   menuTitle:
     text: Course Overview
-    url: /course
+    url: /course/essentials/
   getStarted:
     text: Get Started
-    url: /course/day-0/
+    url: /course/essentials/day-0/
   nextButton: Continue to Next Video
   nextDay: Complete
   title: Qdrant Essentials Course
