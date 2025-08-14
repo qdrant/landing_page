@@ -2,9 +2,7 @@
 <section class="docs documentation">
   <div class="documentation__container">
     <div class="d-flex flex-column flex-xl-row">
-      {{ $partition := partial "get-partition.html" (dict "page" .) }}
-
-      {{ partial "documentation/sidebar-menu" (dict "context" . "partition" $partition) }}
+      {{ partial "course/sidebar-menu.html" (dict "context" .) }}
 
       <div class="documentation__content">
         <div class="documentation__content-wrapper">
