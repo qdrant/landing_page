@@ -1,0 +1,12 @@
+{{ $data := .Inner | transform.Unmarshal }}
+<div class="cards-list">
+  {{ range $data }}
+    <div class="cards-list__item">
+      <img class="cards-list__item-image" src="{{ .icon }}" alt="Icon">
+      <div class="cards-list__item-content">
+        <h6 class="cards-list__item-title">{{ .title }}</h6>
+        {{ .content | markdownify }}
+      </div>
+    </div>
+  {{ end }}
+</div>

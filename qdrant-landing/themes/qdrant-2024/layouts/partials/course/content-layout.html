@@ -1,0 +1,74 @@
+<!--course content layout, dedicated layout for course pages-->
+<section class="docs documentation">
+  <div class="documentation__container">
+    <div class="d-flex flex-column flex-xl-row">
+      {{ partial "course/sidebar-menu.html" (dict "context" .) }}
+
+      <div class="documentation__content">
+        <div class="documentation__content-wrapper">
+          <div class="documentation__article-wrapper">
+
+            {{ if not (eq .RelPermalink "/course/") }}
+              {{ partial "documentation/breadcrumbs" . }}
+            {{ end }}
+
+            <article class="documentation-article">              
+              {{ partial "article-content.html" . }}
+
+              {{ $parent := .Parent }}
+              {{ if or (eq .Params.isLesson true) (eq $parent.Params.isLesson true) }}
+                <div class="d-flex justify-content-lg-end pb-3 pt-4">
+                  {{ $currentWeight := .Params.weight }}
+                  {{ $targetWeight := add $currentWeight 1 }}
+                  {{ $subject := site.GetPage "course" }}
+
+                  {{ $allLessons := where $subject.Pages ".Params.isLesson" true }}
+
+                  {{ $allVideos := slice }}
+                  {{ range $lesson := $allLessons }}
+                    {{ $allVideos = $allVideos | append $lesson.RegularPages }}
+                  {{ end }}
+
+                  {{ $allPages := $allLessons }}
+                  {{ range $p := $allVideos }}
+                    {{ $allPages = $allPages | append $p }}
+                  {{ end }}
+
+                  {{ $nextLesson := where $allPages ".Params.weight" $targetWeight }}
+
+                  {{ if gt (len $nextLesson) 0 }}
+                    {{ $currentPage := . }}
+                    {{ $siblings := $currentPage.Parent.RegularPages }}
+
+                    {{ $maxWeight := 0 }}
+                    {{ range $p := $siblings }}
+                      {{ if gt (int $p.Params.weight) $maxWeight }}
+                        {{ $maxWeight = (int $p.Params.weight) }}
+                      {{ end }}
+                    {{ end }}
+
+                    {{ $next := index $nextLesson 0 }}
+                    <a
+                      href="{{ $next.RelPermalink }}"
+                      class="button button_contained button_sm"
+                    >
+                      {{ if eq (int $currentPage.Params.weight) $maxWeight }}
+                        {{ $subject.Params.content.nextDay }} {{ .Parent.Title }}
+                      {{ else }}
+                        {{ $subject.Params.content.nextButton }}
+                      {{ end }}
+                    </a>
+                  {{ end }}
+                </div>
+              {{ end }}
+            </article>
+          </div>
+
+          {{ partial "table-of-contents" . }}
+
+          {{ partial "documentation/footer.html" . }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
