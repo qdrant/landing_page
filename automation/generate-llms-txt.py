@@ -84,7 +84,7 @@ def iter_hugo_content() -> Iterable[HugoContent]:
     List the published content in Hugo.
     :return:
     """
-    # Run os `huho list published` command and capture the output.
+    # Run os `hugo list published` command and capture the output.
     cmd = ["hugo", "list", "published"]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:

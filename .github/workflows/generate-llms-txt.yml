@@ -32,7 +32,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python generate-llms-txt.py
+          python automation/generate-llms-txt.py
           git add qdrant-landing/static/llms.txt qdrant-landing/static/llms-full.txt
           if [[ `git status --porcelain` ]]; then
             # Changes
