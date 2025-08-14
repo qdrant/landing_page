@@ -1,6 +1,8 @@
 import csv
+import glob
 import subprocess
 import os
+import re
 import openai
 from typing import Iterable
 from dataclasses import dataclass
@@ -43,8 +45,8 @@ def sort_key(line: dict) -> int:
         "documentation/concepts": 10,
         "documentation/quickstart": 9,
         "articles": 7,
-        "blog": 5,
-        "documentation": 3,
+        "documentation": 5,
+        "blog": 3,
     }
     path = line.get("path", "")
     score = sum(boost for key, boost in path_boosts.items() if key in path)
@@ -103,6 +105,20 @@ def iter_hugo_content() -> Iterable[HugoContent]:
             if not content:
                 continue
 
+        # Render the code snippets in the content.
+        # Example: {{< code-snippet path="/documentation/headless/snippets/create-collection/simple/" >}}
+        snippets_iter = re.finditer(r"{{<\s*code-snippet\s+path=\"([^\"]+)\"\s*>}}", content)
+        for snippet in snippets_iter:
+            snippet_dir = snippet.group(1)
+            snippet_files = glob.glob("content/" + snippet_dir.strip("/") + "/[a-z]*.md")
+            snippet_content = ""
+            for snippet_file in snippet_files:
+                with open(snippet_file, "r", encoding="utf-8") as f:
+                    snippet_content += f.read()
+                    snippet_content += "\n"  # Add a newline between snippets
+            # Replace the code snippet placeholder with the actual content
+            content = content.replace(snippet.group(0), snippet_content.strip())
+
         yield HugoContent(
             path=path,
             absolute_url=line.get("permalink"),
@@ -127,7 +143,7 @@ def summarize_content(content: str) -> str:
         base_url="https://models.github.ai/inference",
     )
     completions = client.chat.completions.create(
-        model="openai/gpt-4o",
+        model="gpt-4.1-2025-04-14",
         messages=[
             {
                 "role": "user",
@@ -169,6 +185,8 @@ def main():
 
         for page_counter, content in enumerate(iter_hugo_content(), start=1):
             # Write the content to the full file
+            # Honestly, I don't know why we need this kind of <|page-{page_counter}-lllmstxt|> marker,
+            # but it is used in the original llms-full.txt file, so I keep it for consistency.
             llms_full_file.write(f"<|page-{page_counter}-lllmstxt|>\n")
             llms_full_file.write(content.content + "\n\n")
 
