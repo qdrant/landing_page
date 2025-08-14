@@ -143,7 +143,7 @@ def summarize_content(content: str) -> str:
         base_url="https://models.github.ai/inference",
     )
     completions = client.chat.completions.create(
-        model="gpt-4.1-2025-04-14",
+        model="openai/gpt-4o",
         messages=[
             {
                 "role": "user",
