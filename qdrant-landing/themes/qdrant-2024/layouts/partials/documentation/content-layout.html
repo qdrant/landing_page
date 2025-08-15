@@ -10,28 +10,6 @@
       <div class="documentation__content">
         <!--        todo: update this and styles to support both types of content on the same page-->
         <div class="documentation__content-wrapper">
-          {{ if eq .Section "documentation" }}
-            {{ if .Params.content }}
-              <div class="documentation__article-wrapper">
-                <div class="docs-core documentation-article">
-                  {{ partial "documentation/custom-content.html" . }}
-                </div>
-              </div>
-            {{ else }}
-
-              <div class="documentation__article-wrapper">
-                {{ if not (eq .Params.breadcrumb false) }}
-                  {{ partial "documentation/breadcrumbs" . }}
-                {{ end }}
-
-                <article class="documentation-article">
-                  {{ partial "article-content.html" . }}
-                </article>
-                {{ partial "documentation/feedback.html" . }}
-              </div>
-              {{ partial "table-of-contents" . }}
-            {{ end }}
-          {{ end }}
 
           {{ if eq .Section "articles" }}
             {{ $subject := site.GetPage "articles" }}
@@ -174,6 +152,33 @@
               </div>
               {{ partial "table-of-contents" . }}
             {{ end }}
+
+          {{ else }}
+
+            {{ if .Params.content }}
+              <div class="documentation__article-wrapper">
+                <div class="docs-core documentation-article">
+                  {{ partial "documentation/custom-content.html" . }}
+                </div>
+              </div>
+            {{ else }}
+
+              <div class="documentation__article-wrapper">
+                {{ if not (eq .Params.breadcrumb false) }}
+                  {{ partial "documentation/breadcrumbs" . }}
+                {{ end }}
+
+                <article class="documentation-article">
+                  {{ partial "article-content.html" . }}
+                </article>
+
+                {{ if not (eq .Params.feedback false) }}
+                  {{ partial "documentation/feedback.html" . }}
+                {{ end }}
+              </div>
+              {{ partial "table-of-contents" . }}
+            {{ end }}
+
           {{ end }}
 
           {{ partial "documentation/footer.html" . }}
