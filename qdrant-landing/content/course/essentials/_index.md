@@ -26,13 +26,11 @@ From your first vector upsert to optimizing high-performance retrieval at scale,
 {{< course-card
 title="Skills you’ll gain:"
 image="/icons/outline/training-white.svg"
-type="wide-list">}}
-
+isWideList="true">}}
 - Vector search fundamentals
 - Performance optimization
 - Hybrid and similarity search
 - Portfolio project development
-
 {{< /course-card >}}
 
 ## What Is the Course?
@@ -101,9 +99,7 @@ Optional but helpful:
 title="Why Start Today"
 image="/icons/outline/rocket-white-light.svg" 
 link="/course/day-0/">}}
-
 - Seeing practical examples (e.g., hybrid search, sparse+dense vectors)
 - Learning key deployment tactics (multi-node clusters, on-disk indexing, RBAC)
 - Building a final portfolio-grade project to showcase
-
 {{< /course-card >}}
