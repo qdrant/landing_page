@@ -100,12 +100,25 @@
           text-align: center;
           z-index: 2;
 
+          h1 {
+            font-size: $spacer * 2;
+            line-height: $spacer * 2.5;
+            padding: 0;
+            margin-bottom:  math.div($spacer, 2);
+          }
+
           h3 {
             font-size: pxToRem(20);
             line-height: pxToRem(30);
             font-weight: 500;
             padding: 0;
             margin-bottom: $spacer * 1.5;
+          }
+
+          p {
+            font-size: pxToRem(18);
+            line-height: pxToRem(27);
+            margin-bottom: 0;
           }
 
           a {
@@ -207,6 +220,8 @@
             text-align: left;
 
             h3,
+            h1,
+            p,
             a {
               margin-left: $spacer * 2.5;
             }
@@ -256,8 +271,11 @@
       }
     }
     .docs-core__developing-block {
-      h3 {
+      h1, h3 {
         color: $neutral-98;
+      }
+      p {
+        color: $neutral-70;
       }
       .button_outlined {
         color: $neutral-100;

@@ -1,5 +1,5 @@
 {{ $title := .Get "title" }}
-{{ $type := .Get "type" }}
+{{ $isWideList := .Get "isWideList" }}
 {{ $image := default "/icons/outline/training-white.svg" (.Get "image") }}
 {{ $link := .Get "link" }}
 <div class="course-card">
@@ -7,7 +7,7 @@
     <img src="{{ $image }}" alt="Icon">
     {{ $title }}
   </h6>
-  <div class="course-card__content list{{ if eq $type "wide-list" }} wide{{ end }}">
+  <div class="course-card__content list{{ if eq $isWideList "true" }} list-wide{{ end }}">
     {{ .Inner | markdownify }}
   </div>
   {{ with $link }}
