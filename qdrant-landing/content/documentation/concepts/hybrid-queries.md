@@ -192,6 +192,20 @@ In this case we use a **gauss_decay** function.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-closer-to-user/" >}}
 
+### Time-based score boosting
+
+Or combine the score with how close the point's timestamp is to a target datetime (for example, the time of search).
+
+If each point has a datetime field in its payload, f.e. the time the point was uploaded or last updated, we can calculate the time difference between this value and the target (in seconds).
+
+Using an exponential decay function, we can convert this time difference into a value between 0 and 1, then add it to the original score to prioritize results closer in time to the target.
+
+`score = score + exp_decay(target_time - x_time)`
+
+In this case, we use an **exp_decay** function.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-time/" >}}
+
 For all decay functions, there are these parameters available
 
 | Parameter  | Default | Description                                                                                                                                                                                       |
