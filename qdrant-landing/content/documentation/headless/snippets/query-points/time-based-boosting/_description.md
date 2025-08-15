@@ -1,0 +1,1 @@
+This code snippet demonstrates how to perform time-based boosting. This is important when you want to boost recent results by combining the similarity score with recency. It happens by summing the vector similarity with the Gauss Decay component. 
