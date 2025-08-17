@@ -1,9 +1,23 @@
 ---
-title: Day 2
+title: Indexing and Performance
 isLesson: true
-weight: 6
+weight: 3
 ---
 
 {{< date >}} Day 2 {{< /date >}}
 
-# Day 2
+# Indexing and Performance
+
+Master HNSW indexing and practical tuning for fast retrieval.
+
+---
+
+## Today’s path
+
+1. Understanding HNSW
+2. Combining speed with filtering
+3. Collection tuning
+4. Pitstop: index performance benchmarking
+
+You’ll measure recall and latency impacts to make data‑driven tuning choices.
+
