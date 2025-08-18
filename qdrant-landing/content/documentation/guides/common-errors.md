@@ -32,6 +32,63 @@ ulimit -n 10000
 
 Please note, the command should be executed before you run Qdrant server.
 
+## Incompatible file system
+
+Qdrant have a [set of requirements](https://qdrant.tech/documentation/guides/installation/#storage) for persistent file storag.
+The most important requirement is that file system **must** be [POSIX-compatible](https://www.quobyte.com/storage-explained/posix-filesystem/).
+
+
+Starting from v1.15.0 Qdrant performs runtime check of file system compatibility on start.
+If it detects an unknown file system, you can see a warning like this:
+
+```text
+WARN qdrant: There is a potential issue with 
+the filesystem for storage path ./storage. Details:
+HFS/HFS+ filesystem support is untested
+```
+
+If runtime check fails, you might see an error message:
+
+```text
+ERROR qdrant: Filesystem check failed for storage path ./storage.
+Details: FUSE filesystems may cause data corruption due to caching issues
+```
+
+If you see an error, it is NOT safe to continue working with current configuration and your data can be lost.
+
+Most common errors you might see, if you continue using Qdrant with incompatible file system:
+
+```
+Panic occurred in file /qdrant/lib/gridstore/src/gridstore.rs at line 53: called `Result::unwrap()` on an `Err` value: OutputTooSmall { expected: 4, actual: 0 }
+```
+
+or
+
+```
+Service internal error: task XXX panicked with message "called `Result::unwrap()` on an `Err` value: OutputTooSmall { expected: 4, actual: 0 }"
+```
+
+It might be also possible that vector data will be lost (set to all zeros) after service restart.
+
+
+### How to avoid Incompatible file system?
+
+Most common used configuration of incompatible file system is usage of WSL-baced Docker containers in Windows.
+In case if you mount windows folder into Qdrant docker container, it creates a FUSE filesystem, which is not POSIX-compatible.
+
+Prefer to use docker volumes instead of bind mount:
+
+```bash
+# Create named volume
+docker volume create qdrant-storage
+
+# Use named volume with qdrant container
+docker run --rm -it \
+	-p 6333:6333 -p 6334:6334 \
+	-v qdrant-storage:/qdrant/storage qdrant/qdrant:v1.15.3
+```
+
+
 ## Can't open Collections meta Wal
 
 When starting a Qdrant instance as part of a distributed deployment, you may
