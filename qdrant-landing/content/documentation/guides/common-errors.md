@@ -58,14 +58,18 @@ If you see an error, it is NOT safe to continue working with current configurati
 
 Most common errors you might see, if you continue using Qdrant with incompatible file system:
 
-```
-Panic occurred in file /qdrant/lib/gridstore/src/gridstore.rs at line 53: called `Result::unwrap()` on an `Err` value: OutputTooSmall { expected: 4, actual: 0 }
+```text
+ERROR
+Panic occurred in file /qdrant/lib/gridstore/src/gridstore.rs at line 53:
+called `Result::unwrap()` on an `Err` value: OutputTooSmall { expected: 4, actual: 0 }
 ```
 
 or
 
-```
-Service internal error: task XXX panicked with message "called `Result::unwrap()` on an `Err` value: OutputTooSmall { expected: 4, actual: 0 }"
+```text
+ERROR
+Service internal error: task XXX panicked with message
+"called `Result::unwrap()` on an `Err` value: OutputTooSmall { expected: 4, actual: 0 }"
 ```
 
 It might be also possible that vector data will be lost (set to all zeros) after service restart.
