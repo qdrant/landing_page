@@ -32,6 +32,6 @@ menuItems:
     name: Course
     url: /course/
     external: true
-#    icon: roadmap-white.svg
+    icon: roadmap-white.svg
 sitemapExclude: true
 ---

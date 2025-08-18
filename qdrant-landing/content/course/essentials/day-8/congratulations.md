@@ -1,5 +1,5 @@
 ---
-title: Course Complete!
+title: Congratulations!
 weight: 3
 ---
 
