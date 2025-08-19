@@ -252,6 +252,13 @@ In this case, the quantized vector will be 16 times smaller than the original ve
 `always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors.
 However, in some setups you might want to keep quantized vectors in RAM to speed up the search process. Then set `always_ram` to `true`.
 
+
+### Disabling Quantization
+
+To disable quantization in an existing collection, you can do the following:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/disable-quantization/" >}}
+
 ### Searching with Quantization
 
 Once you have configured quantization for a collection, you don't need to do anything extra to search with quantization.
