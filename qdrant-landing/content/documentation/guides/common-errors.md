@@ -78,7 +78,7 @@ It might be also possible that vector data will be lost (set to all zeros) after
 ### How to avoid Incompatible file system?
 
 Most common used configuration of incompatible file system is usage of WSL-baced Docker containers in Windows.
-In case if you mount windows folder into Qdrant docker container, it creates a FUSE filesystem, which is not POSIX-compatible.
+When you mount Windows folder into Qdrant docker container, the Windows hyper visor creates a shared mount, which is not fully POSIX-compatible.
 
 Prefer to use docker volumes instead of bind mount:
 
@@ -91,6 +91,8 @@ docker run --rm -it \
 	-p 6333:6333 -p 6334:6334 \
 	-v qdrant-storage:/qdrant/storage qdrant/qdrant:v1.15.3
 ```
+
+The above keeps the volume inside the Linux container, preventing issues with a mount shared with Windows.
 
 
 ## Can't open Collections meta Wal
