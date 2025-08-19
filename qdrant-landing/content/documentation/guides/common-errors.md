@@ -34,7 +34,7 @@ Please note, the command should be executed before you run Qdrant server.
 
 ## Incompatible file system
 
-Qdrant have a [set of requirements](https://qdrant.tech/documentation/guides/installation/#storage) for persistent file storag.
+Qdrant have a [set of requirements](https://qdrant.tech/documentation/guides/installation/#storage) for persistent file storage.
 The most important requirement is that file system **must** be [POSIX-compatible](https://www.quobyte.com/storage-explained/posix-filesystem/).
 
 
