@@ -255,7 +255,7 @@ However, in some setups you might want to keep quantized vectors in RAM to speed
 
 ### Disabling Quantization
 
-To disable quantization, you can do the following:
+To disable quantization in an existing collection, you can do the following:
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/disable-quantization/" >}}
 
