@@ -18,10 +18,10 @@ time_boosted = client.query_points(
                             datetime_key="upload_time" # payload key 
                         ),
                         target=models.DatetimeExpression(
-                            datetime="2025-08-04T00:00:00Z" # target time, for example, time of the search
+                            datetime="YYYY-MM-DDT00:00:00Z" # current datetime
                         ),
-                        scale=86400, # 1 week in seconds
-                        midpoint=0.1 # 0.1 output with deviation on `scale` (1 week) from `target`
+                        scale=86400, # 1 day in seconds
+                        midpoint=0.5 # if item's "update_time" is more than 1 day apart from current datetime, relevance score is less than 0.5
                     )
                 )
             ]

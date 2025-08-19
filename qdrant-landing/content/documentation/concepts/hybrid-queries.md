@@ -194,15 +194,15 @@ In this case we use a **gauss_decay** function.
 
 ### Time-based score boosting
 
-Or combine the score with how close the point's timestamp is to a target datetime (for example, the time of search).
+Or combine the score with the information on how "fresh" the result is. It's applicable to (news) articles and in general many other different types of searches (think of the "newest" filter you use in applications).
 
-If each point has a datetime field in its payload, f.e. the time the point was uploaded or last updated, we can calculate the time difference between this value and the target (in seconds).
+To implement time-based score boosting, you'll need each point to have a datetime field in its payload, e.g., when the item was uploaded or last updated. Then we can calculate the time difference in seconds between this payload value and the current time, our `target`.
 
-Using an exponential decay function, we can convert this time difference into a value between 0 and 1, then add it to the original score to prioritize results closer in time to the target.
+With an exponential decay function, perfect for use cases with time, as freshness is a very quickly lost quality, we can convert this time difference into a value between 0 and 1, then add it to the original score to prioritise fresh results.
 
-`score = score + exp_decay(target_time - x_time)`
+`score = score + exp_decay(current_time - point_time)`
 
-In this case, we use an **exp_decay** function.
+That's how it will look for an application where, after 1 day, results start being only half-relevant (so get a score of 0.5):
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-time/" >}}
 
