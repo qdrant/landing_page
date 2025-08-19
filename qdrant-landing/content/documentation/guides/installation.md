@@ -40,6 +40,8 @@ Qdrant won't work with [Network file systems](https://en.wikipedia.org/wiki/File
 
 If you offload vectors to a local disk, we recommend you use a solid-state (SSD or NVMe) drive.
 
+<aside role="status">Warning: Using Docker/WSL on Windows with mounts is known to have file system problems causing data loss. See <a href="/documentation/guides/common-errors/#incompatible-file-system">troubleshooting</a>.</aside>
+
 ### Networking
 
 Each Qdrant instance requires three open ports:
