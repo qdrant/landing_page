@@ -54,7 +54,7 @@ ERROR qdrant: Filesystem check failed for storage path ./storage.
 Details: FUSE filesystems may cause data corruption due to caching issues
 ```
 
-If you see an error, it is NOT safe to continue working with current configuration and your data can be lost.
+If an error like this is reported, it is NOT safe to continue working with current configuration and you're at risk of losing your data.
 
 Most common errors you might see, if you continue using Qdrant with incompatible file system:
 
