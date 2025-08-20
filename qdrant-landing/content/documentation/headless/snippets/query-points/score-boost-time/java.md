@@ -1,12 +1,21 @@
 ```java
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.*;
+import io.qdrant.client.grpc.Points.DecayParamsExpression;
+import io.qdrant.client.grpc.Points.Formula;
+import io.qdrant.client.grpc.Points.PrefetchQuery;
+import io.qdrant.client.grpc.Points.QueryPoints;
+import io.qdrant.client.grpc.Points.ScoredPoint;
+import io.qdrant.client.grpc.Points.SumExpression;
 import java.util.List;
 
-import static io.qdrant.client.ExpressionFactory.*;
-import static io.qdrant.client.QueryFactory.*;
-import static io.qdrant.client.ValueFactory.*;
+import static io.qdrant.client.ExpressionFactory.datetime;
+import static io.qdrant.client.ExpressionFactory.datetimeKey;
+import static io.qdrant.client.ExpressionFactory.expDecay;
+import static io.qdrant.client.ExpressionFactory.sum;
+import static io.qdrant.client.ExpressionFactory.variable;
+import static io.qdrant.client.QueryFactory.formula;
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
   new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
