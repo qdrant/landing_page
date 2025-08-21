@@ -136,14 +136,14 @@ export function getUTMParams() {
   const urlParams = new URLSearchParams(search);
 
   return {
-      gclid: urlParams.get('gclid'), //gcl
-      gbraid: urlParams.get('gbraid'), //gbra
-      wbraid: urlParams.get('wbraid'), //wbra
-      utm_source: urlParams.get('utm_source'), //source
-      utm_medium: urlParams.get('utm_medium'), //medium
-      utm_campaign: urlParams.get('utm_campaign'), //campaign
-      utm_content: urlParams.get('utm_content'), //content
-      utm_term: urlParams.get('utm_term') //term
+      gclid: urlParams.get('gclid'),
+      gbraid: urlParams.get('gbraid'),
+      wbraid: urlParams.get('wbraid'),
+      utm_source: urlParams.get('utm_source'),
+      utm_medium: urlParams.get('utm_medium'),
+      utm_campaign: urlParams.get('utm_campaign'),
+      utm_content: urlParams.get('utm_content'),
+      utm_term: urlParams.get('utm_term')
   };
 }
 
