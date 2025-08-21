@@ -169,7 +169,6 @@ export function handleSegmentReady() {
 
     const isFirstPageView = localStorage.getItem('isFirstPageView');
 
-    console.log('isFirstPageView', isFirstPageView, cleanUtmParams)
     if (isFirstPageView === 'true') {
       analytics.identify({
         firstVisitAttribution: {
