@@ -7,7 +7,7 @@ weight: 1
 
 # Sparse Vectors
 
-Create and index sparse vector representations for keyword-based search.
+Create and index [sparse vector](/documentation/concepts/vectors/#sparse-vectors) representations for keyword-based search.
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 

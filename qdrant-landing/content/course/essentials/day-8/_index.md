@@ -8,13 +8,15 @@ weight: 9
 
 # Final Project
 
-Ship a portfolio‑ready vector search application that demonstrates everything you’ve learned.
+Ship a portfolio-ready vector search application that demonstrates everything you've learned. Build a sophisticated documentation search engine using hybrid retrieval, multivector reranking, and production-quality evaluation.
 
 ---
 
-## Today’s path
+## Today's path
 
-1. Project overview
-2. Build the final project
-3. Course completion
+1. **Project overview** - Understanding the architecture and requirements
+2. **Build and evaluate** - Implementation with systematic performance measurement  
+3. **Course completion** - Celebrating your achievement and next steps
+
+You'll synthesize 8 days of learning into a working system that showcases production-ready vector search expertise.
 

@@ -19,10 +19,9 @@ partition: course
 
 # Qdrant Essentials Course
 
-A practical, video‑first path from your first upsert to production‑grade retrieval. Each day is a short sequence of videos plus a hands‑on pitstop.
+**From first vector to production‑grade retrieval in 8 days.**
 
-- Day 0–8: fundamentals → production deployment (final project)
-- Day 9 (optional): partner integrations and ecosystem tools
+Build the vector search skills that matter: hybrid retrieval, multivector reranking, quantization, distributed deployment, and multitenancy. Ship a complete documentation search engine as your final project.
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 
@@ -61,6 +60,18 @@ A practical, video‑first path from your first upsert to production‑grade ret
 - Scaling, sharding/replication, and security
 
 {{< /course-card >}}
+
+### The Path
+
+Days 0–2: Foundations. Connect to Qdrant Cloud, understand points and payloads, measure similarity, chunk text, and tune HNSW indexes for speed and recall.
+
+Days 3–5: Advanced retrieval. Combine dense and sparse signals, implement hybrid search with server‑side fusion, master multivectors (ColBERT) and the Universal Query API, and build recommendation systems.
+
+Days 6–7: Production deployment. Scale horizontally with sharding and replication, implement JWT‑based multitenancy, configure quantization for 40× speedups, and secure production clusters.
+
+Day 8: Ship it. Wire an end‑to‑end documentation search engine with ingestion, hybrid retrieval, multivector reranking, and evaluation metrics (Recall@10, MRR, latency P50/P95).
+
+Day 9 (bonus): Ecosystem. Explore integrations with AI frameworks, search platforms, and data processing tools.
 
 ## How the course works
 
@@ -166,12 +177,7 @@ A practical, video‑first path from your first upsert to production‑grade ret
 
 ## Who it's for
 
-- Machine Learning, Backend, Data, and Search Engineers
-- Developers building RAG, semantic search, or recommendations
-
-## Prerequisites
-
-- Intermediate Python, basic CLI, APIs/SDKs, and embeddings concepts
+ML, backend, data, and search engineers building RAG, semantic search, or recommendations. Requires intermediate Python, basic CLI/APIs, and familiarity with embeddings.
 
 ## Time commitment
 

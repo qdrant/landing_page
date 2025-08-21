@@ -5,68 +5,123 @@ weight: 1
 
 {{< date >}} Day 8 {{< /date >}}
 
-# Project Overview
-
-It’s time to bring everything together. For your final project, you’ll build a documentation search engine in a single Jupyter notebook on Qdrant Cloud. The goal of this vector search engine is simple: given a user query, it should return the most relevant page and section, along with details on where to find it.
+# Final Project: Documentation Search Engine
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 
+It's time to synthesize everything you've learned into a portfolio-ready application. You'll build a sophisticated documentation search engine that demonstrates hybrid retrieval, multivector reranking, and production-quality evaluation - all in a single Jupyter notebook.
+
 <br/>
 
-## Why this project
+## Project Vision
 
-This mirrors real retrieval work. You will design chunks, choose payloads, and combine dense, sparse, and multivector signals so results are both relevant and explainable. Everything runs from one notebook, backed by Qdrant Cloud.
-## What you will build
+Your search engine will understand both semantic meaning and exact keywords, then use fine-grained reranking to surface the most relevant documentation sections. When someone searches for "how to configure HNSW parameters," your system should return the exact section with practical examples, not just a page that mentions HNSW somewhere.
 
-A notebook that ingests a docs set, stores three vector signals per point in Qdrant, and runs a two-stage search:
-- dense: a primary retrieval embedding for each chunk
-- sparse: a lexical representation (BM25/SPLADE) for hybrid matching
-- multivector: token-level late-interaction representations (e.g., ColBERT) for titles/breadcrumbs, used for second-stage reranking with MAX_SIM; disable HNSW for this role (m=0)
+This mirrors real-world retrieval challenges where users need precise answers from large documentation sets. You'll implement the complete pipeline: ingestion with smart chunking, hybrid search with dense and sparse signals, and multivector reranking for precision.
 
-Stage 1 retrieves with dense + sparse using server-side fusion (RRF or DBSF). Stage 2 reranks the candidates with the multivector and returns page, section, snippet, and score. Keep it reproducible and report a small accuracy table.
+## Technical Architecture
 
-## The plan
+Your system will use three complementary vector representations:
 
-- Connect to Qdrant Cloud and define one collection with three vector roles: a dense vector for primary retrieval, a sparse vector for lexical matching, and a multivector (multiple short dense views) for second-stage reranking. You have full freedom to choose model(s) and field names. Choose an appropriate similarity/distance metric for your dense vector. Enable sparse, and keep payloads for titles, url, anchor, path/breadcrumbs, tags, and a trimmed text field. If the multivector is only used for reranking, you can disable HNSW for it by setting m=0.
-  - Recommended models:
-    - Dense (primary retrieval): `BAAI/bge-small-en-v1.5` (fast) or `BAAI/bge-base-en-v1.5` (higher quality). For multilingual corpora, consider `intfloat/multilingual-e5-base`.
-    - Multivector (reranking): use a late-interaction model (e.g., `ColBERT`/`ColBERTv2`); do not reuse your dense model.
-    - Sparse (lexical): start with `BM25` sparse weights; optionally try a `SPLADE` encoder for stronger lexical recall (with slower indexing).
-- Load and normalize docs, preserve headings and anchors. Chunk primarily by section boundaries. Store the raw text of the previous and next sections in payload fields `prev_section_text` and `next_section_text` to aid reranking/snippet building, without mixing that context into the dense embedding.
-- Vectorize and upsert in batches: compute the dense embedding once for primary retrieval, compute token-level representations with a late-interaction model for the multivector (e.g., ColBERT) for short views like titles and breadcrumbs, compute the sparse representation, attach payloads, and write to Qdrant.
-- Search flow: Stage 1 compute a dense query embedding and a sparse query representation; retrieve hybrid results using server-side fusion (RRF or DBSF) with the Query API. Stage 2 rerank the candidate set using the multivector, then return page + section + snippet. Control the Stage 1 candidate size with an oversampling limit before reranking.
-  - Query embeddings:
-    - Dense: embed the query once with the same model used for the primary retrieval vector. If the multivector uses the same model, reuse this query embedding for reranking. If the multivector uses a different model, compute an additional query embedding with that model for reranking.
-    - Sparse: build the query’s sparse representation (BM25 or SPLADE) to match how the sparse vectors were indexed.
-    - Multivector scoring: use a late-interaction query representation (same model as the multivector, e.g., ColBERT) with a MAX_SIM comparator across token vectors.
-- Evaluate and iterate: run a small ground-truth set and report Recall@10, MRR, and P50/P95 latency. Tune ef at search time first; if you rebuild the index, adjust m and ef_construct. Adjust the fusion setup (RRF vs DBSF), sparse/dense balance, and the multivector comparator. Only consider quantization if your metrics hold.
+**Dense vectors** provide semantic understanding - they capture the meaning and context of documentation sections, enabling searches like "vector similarity concepts" to find relevant content even when exact terms don't match.
 
-## Chunking strategy
+**Sparse vectors** ensure keyword precision - they preserve exact term matching so searches for specific API names, configuration parameters, or technical terms return the right sections reliably.
 
-We recommend to chunk by sections, not by a fixed token window. Most documentation is written in self-contained sections with headings, and users often search for "how do I configure X" where the best answer aligns with a named section.
+**Multivectors** enable fine-grained reranking - token-level representations that can distinguish between sections with similar topics but different quality or relevance for the specific query.
 
-- Primary unit: one chunk per section. If a section is extremely long, split it into paragraph groups, but keep the section heading attached.
-- Adjacent context: include `prev_section_text` and `next_section_text` as payload fields. Use them for display and reranking signals, but do not concatenate them into the dense embedding. This reduces topical leakage while giving the reranker enough context to disambiguate borderline cases.
-- Titles matter: keep `section_title`, `page_title`, and breadcrumbs in payloads. Add the title texts to the multivector views so the second stage can prefer better-named sections.
-- Overlap: avoid large overlaps when using section-based chunks. If you must split a long section, keep a small paragraph-level overlap just to preserve sentence continuity.
-- Snippets: build the snippet from the chunk text and optionally append a short sentence from `prev_section_text` or `next_section_text` if it clarifies the answer.
- 
-Why this helps: section-first chunking aligns your units with how users and docs structure concepts. Keeping adjacent context in payloads gives the reranker extra evidence without diluting the embedding with unrelated text. This typically improves Recall@k at the same or lower latency compared to large sliding windows.
+## Implementation Strategy
 
-## Key choices you will make
+### Collection Design
 
-- Chunking and overlap: big enough to contain answers, small enough to stay precise. Write one sentence explaining your choice.
-- Payloads: include only fields that help display, filtering, and evaluation. Make sure section anchors are present so you can score at section level.
-- Multivector design: which views go into the multivector and how you rerank (AVERAGE vs MAX across views).
-- Fusion: prefer server-side fusion (RRF or DBSF) for dense+sparse; adjust candidate limits and weights based on your queries.
-- HNSW parameters: increase ef for better recall until latency stops being acceptable. If you recreate the index, consider m and ef_construct appropriate for your data size and hardware. Pick a reasonable oversampling size for reranking (for example 50-200 candidates) based on latency.
+Create one collection with three vector fields optimized for different roles:
 
-## The eval
+```python
+client.create_collection(
+    collection_name="docs_search",
+    vectors_config={
+        "dense": models.VectorParams(size=384, distance=models.Distance.COSINE),
+        "colbert": models.VectorParams(
+            size=128,
+            distance=models.Distance.COSINE,
+            multivector_config=models.MultiVectorConfig(
+                comparator=models.MultiVectorComparator.MAX_SIM
+            ),
+            hnsw_config=models.HnswConfigDiff(m=0)  # Reranking only
+        )
+    },
+    sparse_vectors_config={
+        "sparse": models.SparseVectorParams()
+    }
+)
+```
 
-Create 20-30 realistic queries mapped to expected urls or anchors. Aim for Recall@10 of at least 0.8 on this small set. If you are below that, change one thing at a time: ef first, then alpha, then the multivector rerank rule or oversampling size. Keep short notes on what improved and why.
+### Recommended Models
 
-## What to submit
+**Dense (Primary Retrieval)**: Use `BAAI/bge-small-en-v1.5` for speed or `BAAI/bge-base-en-v1.5` for higher quality. For multilingual documentation, consider `intfloat/multilingual-e5-base`.
 
-- A single Jupyter notebook that runs end-to-end against Qdrant Cloud: includes data loading, embedding, index/collection creation, upload/upsert, hybrid retrieval, reranking, and result display (page + section + snippet). It must be reproducible (fresh run succeeds with documented config/env variables).
-- A tiny accuracy table (Recall@10, MRR, P50/P95) and one short paragraph on your main decisions (chunking, payloads, rerank design, tuning)
-- Optional: filters (tags/path), synonym boosts, or quantization if you verified quality stayed acceptable 
+**Multivector (Reranking)**: Implement late-interaction scoring with ColBERT or ColBERTv2. This provides token-level precision for distinguishing between similar sections.
+
+**Sparse (Lexical)**: Start with BM25-style sparse weights for exact keyword matching. Optionally experiment with SPLADE encoders for stronger lexical recall.
+
+### Chunking Strategy
+
+Chunk by documentation structure, not arbitrary token windows:
+
+**Primary unit**: One chunk per section, preserving the natural boundaries of how documentation is written and how users think about topics.
+
+**Context preservation**: Store adjacent sections in payload fields (`prev_section_text`, `next_section_text`) for reranking context without diluting the primary embedding.
+
+**Metadata retention**: Capture `section_title`, `page_title`, breadcrumbs, and anchors to enable precise result attribution and user navigation.
+
+### Search Pipeline
+
+**Stage 1 - Hybrid Retrieval**: Combine dense semantic search with sparse keyword matching using server-side fusion (RRF or DBSF). Retrieve 50-200 candidates to ensure good recall.
+
+**Stage 2 - Multivector Reranking**: Apply token-level late interaction scoring to the candidate set, using MAX_SIM aggregation to find the best token alignments between query and documentation sections.
+
+**Result Assembly**: Return page title, section title, URLs, scores, and contextual snippets that help users understand why each result is relevant.
+
+## Evaluation Framework
+
+Build a rigorous evaluation system that measures real search quality:
+
+**Ground Truth**: Create 20-30 realistic queries with expected documentation URLs and anchors. Focus on queries that real users would ask.
+
+**Metrics to Track**:
+- **Recall@10**: Does the correct section appear in the top 10 results?
+- **MRR (Mean Reciprocal Rank)**: How far down is the first correct result?
+- **Latency P50/P95**: End-to-end search performance under realistic conditions
+
+**Quality Targets**: Aim for Recall@10 ≥ 0.8 on your test set. This demonstrates that your system finds the right answer in the top 10 results for 80% of queries.
+
+## Key Design Decisions
+
+You'll make several critical choices that affect system performance:
+
+**Chunking granularity**: Balance between chunks large enough to contain complete answers and small enough to maintain precision.
+
+**Payload design**: Include fields that enable result attribution, filtering, and evaluation without bloating storage.
+
+**Fusion strategy**: Choose between RRF and DBSF for combining dense and sparse results, and tune the candidate set size.
+
+**Reranking approach**: Decide which text views go into your multivector and how to aggregate token-level scores.
+
+**Performance tuning**: Optimize HNSW parameters (`ef`, `m`, `ef_construct`) and search parameters for your accuracy and latency requirements.
+
+## Success Criteria
+
+<input type="checkbox"> Complete end-to-end Jupyter notebook that runs against Qdrant Cloud  
+<input type="checkbox"> Hybrid search implementation with dense, sparse, and multivector components  
+<input type="checkbox"> Evaluation framework with realistic queries and gold standard answers  
+<input type="checkbox"> Performance metrics showing Recall@10 ≥ 0.8 and reasonable latency  
+<input type="checkbox"> Clear documentation of design decisions and their rationale  
+<input type="checkbox"> Reproducible results with documented configuration
+
+## Deliverables
+
+**Jupyter Notebook**: Complete implementation including data loading, embedding, indexing, search, and evaluation
+**Accuracy Report**: Performance metrics (Recall@10, MRR, P50/P95) with analysis
+**Design Documentation**: Explanation of key decisions (chunking, models, parameters, tuning)
+**Demo Queries**: Set of realistic test queries with expected results
+
+This project demonstrates your mastery of production vector search systems and serves as a portfolio piece that showcases your ability to build sophisticated retrieval applications with Qdrant. 

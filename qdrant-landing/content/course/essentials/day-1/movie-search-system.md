@@ -1,644 +1,276 @@
 ---
-title: Movie Search Demo
+title: Semantic Movie Search Demo
 weight: 4
 ---
 
 {{< date >}} Day 1 {{< /date >}}
 
-# Building a Movie Recommendation Engine
+# Building a Semantic Movie Search Engine
 
-Let's take everything we've learned so far and put it to work in a meaningful project: a movie recommendation system.
+Let's synthesize everything we've learned today into a practical project: a semantic search engine for science fiction movies.
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 
-**Follow along:** [Google Colab Notebook](https://colab.research.google.com/github/qdrant/examples/blob/main/movie-search-system/movie_search_demo.ipynb)
+**Follow along:** [Complete Google Colab Notebook](https://colab.research.google.com/github/qdrant/examples/blob/main/movie-search-system/semantic_movie_search.ipynb)
 
-## Project Overview: Beyond Simple Recommendations
+## Project Overview: When Search Understands Meaning
 
-When we say "recommendation system," we don't mean a complicated deep learning pipeline with user embeddings and cosine similarities swirling in a cloud of metrics. We mean something simpler—and at the same time, more foundational.
+Imagine asking a search engine: *"Show me movies about questioning reality and the nature of existence"* and getting back *The Matrix*, *Inception*, and *Ex Machina*, but not because these titles contain those exact words, but because the system understands what these films are actually about.
 
-**We're building a search engine. One that understands what a movie means.**
+**That's semantic search. And you're about to build one.**
 
-We'll take long, rich movie descriptions and split them into semantically meaningful chunks. We'll embed those chunks using a pretrained model, then store them in Qdrant along with metadata like title, director, year, and genre.
+We'll take detailed movie descriptions and apply the chunking strategies you learned earlier, embed those chunks using sentence transformers, and store them in Qdrant with rich metadata. The result is a search engine that understands themes, moods, and concepts.
 
-This mini-project demonstrates how to implement a practical recommendation system using Qdrant's core features, reinforcing all the concepts covered in our first three videos.
+This project synthesizes everything from today: points and vectors, distance metrics, payloads, chunking strategies, and embedding models. By the end, you'll have a working system that can find movies by plot, theme, or emotional resonance.
 
 ## What You'll Build
 
-By the end of this project, you'll have:
+A semantic search engine that can:
 
-- **Semantic movie search** - Find films by plot, theme, or mood
-- **Advanced filtering** - Search within specific genres, years, or ratings  
-- **Rich metadata** - Store and retrieve detailed film information
-- **Hybrid queries** - Combine vector similarity with traditional filters
-- **Real-world pipeline** - Complete data processing and search workflow
+- **Understand meaning**: Search for "time travel and family relationships" and find *Interstellar*
+- **Compare chunking strategies**: See how fixed-size, sentence-based, and semantic chunking affect search quality
+- **Filter intelligently**: Combine semantic search with metadata filters (year, genre, rating)
+- **Handle real complexity**: Process long movie descriptions that exceed embedding model limits
+- **Group results**: Avoid duplicate movies when multiple chunks match your query
 
-## Step 1: Setting Up the Movie Dataset
+## Step 1: Understanding the Challenge
 
-First, let's create a sample dataset of science fiction movies with rich descriptions:
+Our dataset consists of 13 science fiction movies with detailed, literary descriptions. Here's the challenge: each description contains 240-460 tokens, but our embedding model (all-MiniLM-L6-v2) works optimally with 256 tokens or less.
+
+**This is where chunking becomes essential.**
 
 ```python
-# Sample movie dataset
-movies_data = [
-    {
-        "id": "blade_runner_2049",
-        "title": "Blade Runner 2049",
-        "director": "Denis Villeneuve", 
-        "year": 2017,
-        "genre": ["Science Fiction", "Drama", "Thriller"],
-        "rating": 8.0,
-        "description": """Thirty years after the events of the first film, a new blade runner, 
-        LAPD Officer K, discovers a long-buried secret that has the potential to plunge what's 
-        left of society into chaos. K's discovery leads him on a quest to find Rick Deckard, 
-        a former LAPD blade runner who has been missing for 30 years. The film explores themes 
-        of humanity, identity, and what it means to be real in a world where artificial beings 
-        are nearly indistinguishable from humans. Set in a dystopian Los Angeles, the movie 
-        continues the philosophical questions about consciousness and soul."""
-    },
-    {
-        "id": "interstellar", 
-        "title": "Interstellar",
-        "director": "Christopher Nolan",
-        "year": 2014,
-        "genre": ["Science Fiction", "Drama"],
-        "rating": 8.6,
-        "description": """In the near future, Earth is becoming uninhabitable due to climate change 
-        and crop failures. A team of astronauts travels through a wormhole near Saturn in search 
-        of a new home for humanity. The film combines hard science fiction with emotional storytelling, 
-        exploring concepts of time dilation, black holes, and higher dimensions. At its core, it's 
-        a story about love transcending space and time, as Cooper struggles to reunite with his 
-        daughter Murph while trying to save the human race. The movie tackles themes of sacrifice, 
-        hope, and the power of human connection across vast distances."""
-    },
-    {
-        "id": "arrival",
-        "title": "Arrival", 
-        "director": "Denis Villeneuve",
-        "year": 2016,
-        "genre": ["Science Fiction", "Drama"],
-        "rating": 7.9,
-        "description": """When twelve mysterious alien spacecraft appear around the world, linguistics 
-        professor Louise Banks is recruited by the military to communicate with the extraterrestrial 
-        visitors. As she learns their language, she begins to experience visions that seem to show 
-        her future. The film explores how language shapes thought and perception, suggesting that 
-        learning the aliens' non-linear language allows Louise to experience time differently. 
-        It's a meditation on communication, loss, and the choices we make when we know the future. 
-        The story challenges our understanding of time and free will."""
-    },
-    {
-        "id": "ex_machina",
-        "title": "Ex Machina",
-        "director": "Alex Garland", 
-        "year": 2014,
-        "genre": ["Science Fiction", "Thriller"],
-        "rating": 7.7,
-        "description": """A young programmer named Caleb wins a contest to spend a week at the private 
-        estate of his company's CEO, Nathan. There, he's asked to administer a Turing test to an 
-        advanced AI robot named Ava to determine if she has consciousness. As Caleb interacts with 
-        Ava, he becomes increasingly convinced of her sentience and begins to question Nathan's 
-        motives. The film explores themes of artificial intelligence, consciousness, manipulation, 
-        and the nature of humanity. It raises questions about what makes someone human and whether 
-        AI can truly experience emotions or if it's simply very good at simulating them."""
-    },
-    {
-        "id": "the_matrix",
-        "title": "The Matrix",
-        "director": "The Wachowskis",
-        "year": 1999, 
-        "genre": ["Science Fiction", "Action"],
-        "rating": 8.7,
-        "description": """Neo, a computer hacker, discovers that reality as he knows it is actually 
-        a computer simulation called the Matrix, designed to subjugate humanity while machines 
-        harvest their bodies for energy. Recruited by the mysterious Morpheus and his crew of rebels, 
-        Neo must learn to manipulate the Matrix and become 'The One' prophesied to free humanity. 
-        The film explores themes of reality versus illusion, free will versus determinism, and 
-        the nature of existence. It combines philosophical depth with groundbreaking action sequences, 
-        asking whether ignorant bliss is preferable to painful truth."""
-    }
-]
+# Example: A movie description that's too long for our embedding model
+movie_example = {
+    "name": "Ex Machina",
+    "year": 2014,
+    "description": """Alex Garland's Ex Machina is a cerebral, slow-burning psychological 
+    thriller that delves into the ethics and consequences of artificial intelligence. 
+    The story begins with Caleb, a young programmer at a tech conglomerate, who wins 
+    a contest to spend a week at the secluded estate of Nathan, the reclusive CEO..."""
+    # This continues for 386 tokens - too long for optimal embedding!
+}
 ```
 
-## Step 2: Setting Up Qdrant and Dependencies
+**The complete dataset** (including *The Matrix*, *Interstellar*, *Arrival*, *Annihilation*, and more) is available in the [full notebook](https://colab.research.google.com/github/qdrant/examples/blob/main/movie-search-system/semantic_movie_search.ipynb).
+
+## Step 2: The Three-Vector Experiment
+
+Here's what makes this demo unique: we'll create three different vector spaces in a single collection, each representing a different chunking strategy. This lets us directly compare how chunking affects search quality.
 
 ```python
-import os
-from datetime import datetime
-from qdrant_client import QdrantClient
-from qdrant_client.models import (
-    Distance, VectorParams, PointStruct, 
-    Filter, FieldCondition, MatchValue, Range
-)
 from sentence_transformers import SentenceTransformer
+from qdrant_client import QdrantClient, models
 
-# Initialize Qdrant client
-client = QdrantClient(
-    url=os.getenv("QDRANT_URL", "http://localhost:6333"),
-    api_key=os.getenv("QDRANT_API_KEY"),
-)
+# Initialize components
+encoder = SentenceTransformer("all-MiniLM-L6-v2")
+client = QdrantClient(':memory:')  # In-memory for demo
 
-# Initialize embedding model
-embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
-
-print("Qdrant client and embedding model initialized successfully!")
-```
-
-## Step 3: Creating the Collection
-
-```python
-collection_name = "movie_recommendations"
-
-# Create collection with appropriate vector configuration
+# Create collection with three named vectors
 client.create_collection(
-    collection_name=collection_name,
-    vectors_config=VectorParams(
-        size=384,  # all-MiniLM-L6-v2 embedding size
-        distance=Distance.COSINE  # Best for semantic similarity
-    ),
+    collection_name='movie_search',
+    vectors_config={
+        'fixed': models.VectorParams(size=384, distance=models.Distance.COSINE),
+        'sentence': models.VectorParams(size=384, distance=models.Distance.COSINE),
+        'semantic': models.VectorParams(size=384, distance=models.Distance.COSINE),
+    },
 )
-
-print(f"Collection '{collection_name}' created successfully!")
 ```
 
-## Step 4: Chunking and Processing Movie Data
+Each vector space will store the same movie content, chunked differently:
+- **Fixed**: Raw 40-token chunks (may break mid-sentence)
+- **Sentence**: Sentence-aware chunks with overlap
+- **Semantic**: Meaning-aware chunks using embedding similarity
 
-Now let's implement our chunking strategy for movie descriptions:
+## Step 3: Implementing the Chunking Strategies
+
+Here's where the chunking concepts from earlier lessons come alive. We'll implement three different approaches and see how they perform:
 
 ```python
-def chunk_movie_description(description, max_words=100):
-    """
-    Split movie description into semantic chunks
-    For movie descriptions, we'll use sentence-based chunking
-    """
-    from nltk.tokenize import sent_tokenize
-    
-    sentences = sent_tokenize(description)
-    chunks = []
-    current_chunk = []
-    current_word_count = 0
-    
-    for sentence in sentences:
-        word_count = len(sentence.split())
-        
-        if current_word_count + word_count > max_words and current_chunk:
-            # Create chunk from current sentences
-            chunks.append(" ".join(current_chunk))
-            current_chunk = [sentence]
-            current_word_count = word_count
-        else:
-            current_chunk.append(sentence)
-            current_word_count += word_count
-    
-    # Add remaining sentences as final chunk
-    if current_chunk:
-        chunks.append(" ".join(current_chunk))
-    
-    return chunks
+from transformers import AutoTokenizer
+from llama_index.core.node_parser import SentenceSplitter, SemanticSplitterNodeParser
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 
-def process_movie_data(movie):
-    """Process a single movie into chunks with embeddings and metadata"""
-    chunks = chunk_movie_description(movie["description"])
-    points = []
+tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
+MAX_TOKENS = 40
+
+def fixed_size_chunks(text, size=MAX_TOKENS):
+    """Fixed-size chunking: splits at exact token boundaries"""
+    tokens = tokenizer.encode(text, add_special_tokens=False)
+    return [
+        tokenizer.decode(tokens[i:i+size], skip_special_tokens=True)
+        for i in range(0, len(tokens), size)
+    ]
+
+def sentence_chunks(text):
+    """Sentence-aware chunking: respects sentence boundaries"""
+    splitter = SentenceSplitter(chunk_size=MAX_TOKENS, chunk_overlap=10)
+    return splitter.split_text(text)
+
+def semantic_chunks(text):
+    """Semantic chunking: uses embedding similarity to find natural breaks"""
+    from llama_index.core import Document
     
-    for chunk_index, chunk in enumerate(chunks):
-        # Generate embedding for this chunk
-        embedding = embedding_model.encode(chunk).tolist()
-        
-        # Create rich metadata payload
-        payload = {
-            "movie_id": movie["id"],
-            "title": movie["title"],
-            "director": movie["director"],
-            "year": movie["year"],
-            "genre": movie["genre"],
-            "rating": movie["rating"],
-            "chunk_index": chunk_index,
-            "total_chunks": len(chunks),
-            "content": chunk,
-            "word_count": len(chunk.split()),
-            "created_at": datetime.utcnow().isoformat()
-        }
-        
-        # Create point with unique ID
-        point_id = f"{movie['id']}_chunk_{chunk_index}"
-        
-        points.append(PointStruct(
-            id=point_id,
-            vector=embedding,
-            payload=payload
+    semantic_splitter = SemanticSplitterNodeParser(
+        buffer_size=1,
+        breakpoint_percentile_threshold=95,
+        embed_model=HuggingFaceEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    )
+    nodes = semantic_splitter.get_nodes_from_documents([Document(text=text)])
+    return [node.text for node in nodes]
+```
+
+**The key difference**: Fixed chunking may split mid-sentence. Sentence chunking respects grammar. Semantic chunking respects meaning.
+
+## Step 4: Processing and Uploading the Data
+
+For each movie description, we apply all three chunking strategies, embed the resulting chunks, and store them with their respective vector names:
+
+```python
+points = []
+idx = 0
+
+for movie in movies_data:  # Process each movie
+    # Fixed-size chunks
+    for chunk in fixed_size_chunks(movie["description"]):
+        points.append(models.PointStruct(
+            id=idx,
+            vector={"fixed": encoder.encode(chunk).tolist()},
+            payload={**movie, "chunk": chunk, "chunking": "fixed"}
         ))
-    
-    return points
+        idx += 1
 
-# Process all movies
-all_points = []
-for movie in movies_data:
-    movie_points = process_movie_data(movie)
-    all_points.extend(movie_points)
-    print(f"Processed '{movie['title']}' - {len(movie_points)} chunks")
+    # Sentence-aware chunks  
+    for chunk in sentence_chunks(movie["description"]):
+        points.append(models.PointStruct(
+            id=idx,
+            vector={"sentence": encoder.encode(chunk).tolist()},
+            payload={**movie, "chunk": chunk, "chunking": "sentence"}
+        ))
+        idx += 1
 
-print(f"Total points to insert: {len(all_points)}")
+    # Semantic chunks
+    for chunk in semantic_chunks(movie["description"]):
+        points.append(models.PointStruct(
+            id=idx,
+            vector={"semantic": encoder.encode(chunk).tolist()},
+            payload={**movie, "chunk": chunk, "chunking": "semantic"}
+        ))
+        idx += 1
+
+client.upload_points(collection_name='movie_search', points=points)
+print(f"Uploaded {idx} vectors across three chunking strategies")
 ```
 
-## Step 5: Inserting Data into Qdrant
+## Step 5: Comparing Search Results
+
+Now comes the fascinating part: testing how different chunking strategies affect search quality. Let's create a helper function to compare results:
 
 ```python
-# Insert all points into the collection
-client.upsert(
-    collection_name=collection_name,
-    points=all_points
-)
-
-print("All movie data inserted successfully!")
-
-# Verify the data
-collection_info = client.get_collection(collection_name)
-print(f"Collection info: {collection_info}")
-```
-
-## Step 6: Implementing Search Functions
-
-Now let's create various search functions to demonstrate different query types:
-
-### Basic Semantic Search
-
-```python
-def search_movies(query, limit=5):
-    """Basic semantic search across movie descriptions"""
-    query_embedding = embedding_model.encode(query).tolist()
+def search_and_compare(query, k=3):
+    """Compare search results across all three chunking strategies"""
+    print(f"Query: '{query}'\n")
     
-    results = client.search(
-        collection_name=collection_name,
-        query_vector=query_embedding,
-        limit=limit
-    )
-    
-    print(f"Search results for: '{query}'")
-    print("-" * 50)
-    
-    for result in results:
-        payload = result.payload
-        print(f"Title: {payload['title']} ({payload['year']})")
-        print(f"Director: {payload['director']}")
-        print(f"Score: {result.score:.3f}")
-        print(f"Content: {payload['content'][:150]}...")
-        print(f"Genres: {', '.join(payload['genre'])}")
-        print("-" * 30)
-
-# Test basic search
-search_movies("artificial intelligence and consciousness")
-```
-
-### Filtered Search by Genre
-
-```python
-def search_by_genre(query, genre_filter, limit=5):
-    """Search movies within a specific genre"""
-    query_embedding = embedding_model.encode(query).tolist()
-    
-    # Create filter for specific genre
-    genre_filter_condition = Filter(
-        must=[
-            FieldCondition(
-                key="genre",
-                match=MatchValue(value=genre_filter)
-            )
-        ]
-    )
-    
-    results = client.search(
-        collection_name=collection_name,
-        query_vector=query_embedding,
-        query_filter=genre_filter_condition,
-        limit=limit
-    )
-    
-    print(f"Search results for '{query}' in {genre_filter} genre:")
-    print("-" * 50)
-    
-    for result in results:
-        payload = result.payload
-        print(f"Title: {payload['title']} ({payload['year']})")
-        print(f"Score: {result.score:.3f}")
-        print(f"Content: {payload['content'][:100]}...")
-        print("-" * 30)
-
-# Test genre-filtered search
-search_by_genre("time travel and family", "Drama")
-```
-
-### Search by Year Range
-
-```python
-def search_by_year_range(query, start_year, end_year, limit=5):
-    """Search movies within a specific year range"""
-    query_embedding = embedding_model.encode(query).tolist()
-    
-    # Create filter for year range
-    year_filter = Filter(
-        must=[
-            FieldCondition(
-                key="year",
-                range=Range(gte=start_year, lte=end_year)
-            )
-        ]
-    )
-    
-    results = client.search(
-        collection_name=collection_name,
-        query_vector=query_embedding,
-        query_filter=year_filter,
-        limit=limit
-    )
-    
-    print(f"Search results for '{query}' between {start_year}-{end_year}:")
-    print("-" * 50)
-    
-    for result in results:
-        payload = result.payload
-        print(f"Title: {payload['title']} ({payload['year']})")
-        print(f"Score: {result.score:.3f}")
-        print(f"Content: {payload['content'][:100]}...")
-        print("-" * 30)
-
-# Test year range search
-search_by_year_range("dystopian future", 2010, 2020)
-```
-
-### Advanced Multi-Filter Search
-
-```python
-def advanced_search(query, min_rating=None, genres=None, start_year=None, end_year=None, limit=5):
-    """Advanced search with multiple filters"""
-    query_embedding = embedding_model.encode(query).tolist()
-    
-    # Build filter conditions
-    filter_conditions = []
-    
-    if min_rating:
-        filter_conditions.append(
-            FieldCondition(key="rating", range=Range(gte=min_rating))
+    for strategy in ['fixed', 'sentence', 'semantic']:
+        results = client.query_points(
+            collection_name='movie_search',
+            query=encoder.encode(query).tolist(),
+            using=strategy,
+            limit=k,
         )
-    
-    if genres:
-        for genre in genres:
-            filter_conditions.append(
-                FieldCondition(key="genre", match=MatchValue(value=genre))
-            )
-    
-    if start_year and end_year:
-        filter_conditions.append(
-            FieldCondition(key="year", range=Range(gte=start_year, lte=end_year))
-        )
-    
-    # Create filter if we have conditions
-    query_filter = Filter(must=filter_conditions) if filter_conditions else None
-    
-    results = client.search(
-        collection_name=collection_name,
-        query_vector=query_embedding,
-        query_filter=query_filter,
-        limit=limit
-    )
-    
-    print(f"Advanced search results for: '{query}'")
-    if min_rating:
-        print(f"Minimum rating: {min_rating}")
-    if genres:
-        print(f"Genres: {', '.join(genres)}")
-    if start_year and end_year:
-        print(f"Years: {start_year}-{end_year}")
-    print("-" * 50)
-    
-    for result in results:
-        payload = result.payload
-        print(f"Title: {payload['title']} ({payload['year']})")
-        print(f"Director: {payload['director']}")
-        print(f"Rating: {payload['rating']}")
-        print(f"Score: {result.score:.3f}")
-        print(f"Content: {payload['content'][:120]}...")
-        print("-" * 30)
+        
+        print(f"--- {strategy.upper()} CHUNKING ---")
+        for i, point in enumerate(results.points, 1):
+            payload = point.payload
+            print(f"{i}. {payload['name']} ({payload['year']}) | Score: {point.score:.3f}")
+            print(f"   Chunk: {payload['chunk'][:100]}...")
+        print()
 
-# Test advanced search
-advanced_search(
-    query="love and sacrifice", 
-    min_rating=8.0, 
-    genres=["Science Fiction"], 
-    start_year=2010, 
-    end_year=2020
-)
+# Test with different queries
+search_and_compare("alien invasion")
+search_and_compare("questioning reality and existence")
 ```
 
-## Step 7: Recommendation Features
+**Expected output:**
+```
+Query: 'alien invasion'
 
-### Find Similar Movies
+--- FIXED CHUNKING ---
+1. E.T. the Extra-Terrestrial (1982) | Score: 0.554
+   Chunk: the film opens with a group of botanist aliens visiting earth, only to be interrupted...
 
-```python
-def find_similar_movies(movie_title, limit=3):
-    """Find movies similar to a given movie"""
-    # First, find the movie by title
-    title_filter = Filter(
-        must=[
-            FieldCondition(key="title", match=MatchValue(value=movie_title))
-        ]
-    )
-    
-    # Get the first chunk of the target movie
-    target_results = client.search(
-        collection_name=collection_name,
-        query_vector=[0] * 384,  # Dummy vector, we just want to filter
-        query_filter=title_filter,
-        limit=1
-    )
-    
-    if not target_results:
-        print(f"Movie '{movie_title}' not found")
-        return
-    
-    # Use the first chunk's vector to find similar content
-    target_vector = target_results[0].vector
-    target_movie_id = target_results[0].payload["movie_id"]
-    
-    # Search for similar content, excluding the target movie
-    exclude_filter = Filter(
-        must_not=[
-            FieldCondition(key="movie_id", match=MatchValue(value=target_movie_id))
-        ]
-    )
-    
-    similar_results = client.search(
-        collection_name=collection_name,
-        query_vector=target_vector,
-        query_filter=exclude_filter,
-        limit=limit * 2  # Get more to ensure we have different movies
-    )
-    
-    # Group by movie to avoid duplicates
-    seen_movies = set()
-    unique_results = []
-    
-    for result in similar_results:
-        movie_id = result.payload["movie_id"]
-        if movie_id not in seen_movies and len(unique_results) < limit:
-            seen_movies.add(movie_id)
-            unique_results.append(result)
-    
-    print(f"Movies similar to '{movie_title}':")
-    print("-" * 50)
-    
-    for result in unique_results:
-        payload = result.payload
-        print(f"Title: {payload['title']} ({payload['year']})")
-        print(f"Similarity Score: {result.score:.3f}")
-        print(f"Matching Content: {payload['content'][:120]}...")
-        print("-" * 30)
+--- SENTENCE CHUNKING ---  
+1. E.T. the Extra-Terrestrial (1982) | Score: 0.568
+   Chunk: The film opens with a group of botanist aliens visiting Earth, only to be interrupted...
 
-# Test similarity search
-find_similar_movies("Blade Runner 2049")
+--- SEMANTIC CHUNKING ---
+1. Annihilation (2018) | Score: 0.440
+   Chunk: Annihilation is not a traditional alien invasion story - it is a meditation on the fragility...
 ```
 
-### Theme-Based Recommendations
+## Step 6: Advanced Features
+
+### Filtering by Metadata
+
+Combine semantic search with traditional filters:
 
 ```python
-def recommend_by_theme(theme_description, limit=3):
-    """Recommend movies based on thematic content"""
-    query_embedding = embedding_model.encode(theme_description).tolist()
-    
-    results = client.search(
-        collection_name=collection_name,
-        query_vector=query_embedding,
-        limit=limit * 2  # Get more to ensure variety
-    )
-    
-    # Group by movie for unique recommendations
-    seen_movies = set()
-    unique_results = []
-    
-    for result in results:
-        movie_id = result.payload["movie_id"]
-        if movie_id not in seen_movies and len(unique_results) < limit:
-            seen_movies.add(movie_id)
-            unique_results.append(result)
-    
-    print(f"Movie recommendations for theme: '{theme_description}'")
-    print("-" * 50)
-    
-    for result in unique_results:
-        payload = result.payload
-        print(f"Title: {payload['title']} ({payload['year']})")
-        print(f"Director: {payload['director']}")
-        print(f"Relevance Score: {result.score:.3f}")
-        print(f"Why it matches: {payload['content'][:150]}...")
-        print(f"Genres: {', '.join(payload['genre'])}")
-        print("-" * 30)
-
-# Test theme-based recommendations
-recommend_by_theme("questioning reality and the nature of existence")
-```
-
-## Step 8: Testing Your Movie Search System
-
-Now let's test our complete system with various queries:
-
-```python
-# Test various search scenarios
-print("=" * 60)
-print("TESTING MOVIE RECOMMENDATION SYSTEM")
-print("=" * 60)
-
-# 1. Basic semantic search
-print("\n1. SEMANTIC SEARCH - 'time travel'")
-search_movies("time travel", limit=3)
-
-# 2. Mood-based search
-print("\n2. MOOD-BASED SEARCH - 'philosophical and thought-provoking'")
-search_movies("philosophical and thought-provoking", limit=3)
-
-# 3. Genre-specific search
-print("\n3. GENRE SEARCH - 'action' in Science Fiction")
-search_by_genre("action", "Science Fiction", limit=3)
-
-# 4. Advanced filtered search
-print("\n4. ADVANCED SEARCH - High-rated recent sci-fi about AI")
-advanced_search(
-    query="artificial intelligence", 
-    min_rating=7.5, 
-    genres=["Science Fiction"], 
-    start_year=2010, 
-    end_year=2020,
+# Find movies about AI made after 2000
+results = client.query_points(
+    collection_name='movie_search',
+    query=encoder.encode("artificial intelligence").tolist(),
+    using="semantic",
+    query_filter=models.Filter(
+        must=[models.FieldCondition(key="year", range=models.Range(gte=2000))]
+    ),
     limit=3
 )
 
-# 5. Similar movie recommendations
-print("\n5. SIMILAR MOVIES to 'The Matrix'")
-find_similar_movies("The Matrix", limit=3)
-
-# 6. Theme-based recommendations
-print("\n6. THEME RECOMMENDATIONS - 'father-daughter relationship'")
-recommend_by_theme("father-daughter relationship", limit=3)
+for point in results.points:
+    print(f"{point.payload['name']} ({point.payload['year']}) | Score: {point.score:.3f}")
 ```
 
-## Key Learning Outcomes
+### Grouping Results to Avoid Duplicates
 
-Through building this movie recommendation system, you've successfully implemented:
+When multiple chunks from the same movie match, group results by movie title:
 
-### 1. **Data Model Design**
-- Structured movie data with rich metadata
-- Semantic chunking of movie descriptions
-- Meaningful payload design for filtering and display
+```python
+# Group by movie name to get unique recommendations
+response = client.query_points_groups(
+    collection_name='movie_search',
+    query=encoder.encode("time travel and family relationships").tolist(),
+    using="semantic",
+    group_by="name",       # Group by movie title
+    limit=3,               # Number of unique movies
+    group_size=1,          # Best chunk per movie
+)
 
-### 2. **Vector Search Implementation**
-- Semantic similarity search for movie discovery
-- Multiple distance metrics understanding (cosine similarity)
-- Real-world embedding generation and storage
+for group in response.groups:
+    print(f"{group.id} | Best match score: {group.hits[0].score:.3f}")
+```
 
-### 3. **Advanced Filtering**
-- Genre-based filtering
-- Year range queries
-- Rating thresholds
-- Multi-condition filtering
+## What You've Learned
 
-### 4. **Recommendation Logic**
-- Content-based similarity recommendations
-- Theme-based movie discovery
-- Handling duplicate results across chunks
+This demo brings together every concept from Day 1:
 
-### 5. **Production Considerations**
-- Proper metadata structure for rich results
-- Efficient chunking for movie descriptions
-- Search result grouping and deduplication
+**Chunking in Action:**
+You've seen how different chunking strategies affect search quality. Fixed chunking is fast but crude, sentence chunking preserves readability, and semantic chunking captures meaning - but at computational cost.
 
-## Next Steps and Extensions
+**Embeddings and Distance:**
+The all-MiniLM-L6-v2 model converts movie descriptions into 384-dimensional vectors. Cosine similarity finds movies with similar themes, even when they use completely different words.
 
-You can extend this system by:
+**Payloads and Filtering:**
+Rich metadata enables hybrid queries: "Find movies about AI made after 2000." This combines semantic understanding with traditional database filtering.
 
-1. **Adding More Data Sources**
-   - IMDB ratings and reviews
-   - Cast and crew information
-   - Movie posters and trailers
+**Named Vectors:**
+By storing three chunking strategies in one collection, you can directly compare their performance and choose the best approach for your use case.
 
-2. **Enhanced Search Features**
-   - Fuzzy matching for movie titles
-   - Actor/director-based recommendations
-   - Mood and emotion-based search
+## Key Insights
 
-3. **User Personalization**
-   - User preference vectors
-   - Viewing history integration
-   - Collaborative filtering
+**Chunking matters**: The same query can return different movies depending on how you chunk the descriptions. Semantic chunking found *Annihilation* for "alien invasion" because it understood the thematic connection, while fixed chunking focused on literal mentions.
 
-4. **Performance Optimization**
-   - Result caching
-   - Batch processing for large datasets
-   - Index optimization
+**Context length is a real constraint**: Movie descriptions exceed embedding model limits, making chunking essential for real-world applications.
 
-## Congratulations!
+**Grouping prevents duplicates**: When multiple chunks from the same movie match your query, grouping ensures you get diverse recommendations.
 
-You've built a functional movie recommendation system that demonstrates all the core concepts from Day 1:
-
-- **Points and vectors** - Movie chunks with embeddings
-- **Distance metrics** - Cosine similarity for semantic search
-- **Payloads** - Rich metadata for filtering and display
-- **Chunking strategies** - Sentence-based processing of descriptions
-- **Embedding models** - Real semantic understanding with Sentence Transformers
-
-This foundation prepares you for more advanced topics in the coming days, including indexing optimization, hybrid search, and production deployment strategies. 
+**Continue exploring:** The [complete notebook](https://colab.research.google.com/github/qdrant/examples/blob/main/movie-search-system/semantic_movie_search.ipynb) includes additional features like similarity search, theme-based recommendations, and advanced filtering examples. 

@@ -5,530 +5,185 @@ weight: 2
 
 {{< date >}} Day 0 {{< /date >}}
 
-# Basic Vector Search Demo
+# Your First Vector Search
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 
-## What We'll Build
+Follow along as we build your first collection, insert vectors, and run similarity searches. This guided tutorial walks you through each step.
 
-In this hands-on tutorial, we'll build a complete vector search engine from scratch! By the end, you'll have:
+## Step 1: Install the Qdrant Client
 
-- ✅ **A working collection** with proper vector configuration
-- ✅ **Sample data** with vectors and rich metadata
-- ✅ **Search functionality** with similarity scoring
-- ✅ **Filtering capabilities** combining vector similarity with business logic
-- ✅ **Understanding** of core Qdrant concepts
+To interact with Qdrant, we need the Python client. This enables us to communicate with the Qdrant service, manage collections, and perform vector searches.
 
-This is your "Hello, World!" for vector databases!
+```python
+!pip install qdrant-client
+```
 
-## Prerequisites Check
+## Step 2: Import Required Libraries
 
-Before we start coding, ensure you have:
-- ✅ Qdrant Cloud cluster running (from previous section)
-- ✅ Python environment with `qdrant-client` installed
-- ✅ API credentials configured
-- ✅ Basic Python knowledge
+Import the necessary modules from the qdrant-client package. The QdrantClient class establishes connection to Qdrant, while the models module provides configurations for `Distance`, `VectorParams`, and `PointStruct`.
 
-## Step 1: Initialize Your Vector Search Engine
+```python
+from qdrant_client import QdrantClient, models
+```
 
-Let's start by connecting to Qdrant and setting up our imports:
+## Step 3: Connect to Qdrant Cloud
+
+To connect to Qdrant Cloud, you need your cluster URL and API key from your Qdrant Cloud dashboard. Replace with your actual credentials:
 
 ```python
 import os
-from qdrant_client import QdrantClient
-from qdrant_client.models import (
-    Distance, 
-    VectorParams, 
-    PointStruct,
-    Filter, 
-    FieldCondition, 
-    MatchValue
-)
+from google.colab import userdata  # If using Colab
 
-# Connect to Qdrant Cloud
 client = QdrantClient(
-    url=os.getenv("QDRANT_URL"),
-    api_key=os.getenv("QDRANT_API_KEY"),
+    "https://your-cluster-url.cloud.qdrant.io", 
+    api_key=userdata.get('api-key') 
 )
 
-print("🚀 Connected to Qdrant Cloud!")
-print("Building your first vector search engine...")
+# Alternative for local development:
+# client = QdrantClient(
+#     url=os.getenv("QDRANT_URL"),
+#     api_key=os.getenv("QDRANT_API_KEY")
+# )
 ```
 
-## Step 2: Design Your Collection
+**Note:** You can also use in-memory mode for testing: `client = QdrantClient(":memory:")`, but data won't persist after restart.
 
-A collection in Qdrant is like a table in a database, but optimized for vector operations:
+## Step 4: Create a Collection
+
+A [collection](/documentation/concepts/collections/) in Qdrant is like a table in relational databases - a container for storing vectors and their metadata. When creating a collection, specify:
+
+- **Name**: A unique identifier for the collection
+- **Vector Configuration**:
+  - **Size**: The dimensionality of the vectors
+  - **Distance Metric**: The method to measure similarity between vectors
 
 ```python
-collection_name = "simple_search_engine"
+# Define the collection name
+collection_name = "my_first_collection"
 
-# Create collection with 4-dimensional vectors
+# Create the collection with specified vector parameters
 client.create_collection(
     collection_name=collection_name,
-    vectors_config=VectorParams(
-        size=4,                    # Vector dimensions
-        distance=Distance.COSINE,  # Similarity metric
-    ),
+    vectors_config=models.VectorParams(
+        size=4,  # Dimensionality of the vectors
+        distance=models.Distance.COSINE  # Distance metric for similarity search
+    )
 )
-
-print(f"✅ Created collection: {collection_name}")
 ```
 
-### Understanding Vector Configuration
+Expected output: `True` (indicating successful creation)
 
-**Vector Size (4 dimensions):**
-- Each item will be represented as a 4-number array
-- Example: `[0.1, 0.2, 0.3, 0.4]`
-- In real applications, this might be 384, 768, or 1536 dimensions
+**Distance metrics explained** ([learn more](/documentation/concepts/collections/#distance-metrics)):
+- **Euclidean**: Measures straight-line distance between points in space
+- **Cosine**: Measures the angle between vectors, focusing on orientation rather than magnitude
+- **Dot**: Measures the dot product of vectors, capturing both magnitude and direction
 
-**Distance Metrics:**
-- **Cosine:** Best for normalized vectors (values between -1 and 1)
-- **Euclidean:** Good for spatial data and raw distances
-- **Dot Product:** Efficient for positive vectors
+## Step 5: Verify Collection Creation
 
-## Step 3: Create Your Dataset
-
-Let's build a sample dataset of products with vectors and metadata:
+Confirm that your collection was successfully created by retrieving the list of existing collections:
 
 ```python
-# Sample products for our search engine
-products = [
-    {
-        "id": 1,
-        "name": "Wireless Headphones",
-        "vector": [0.1, 0.8, 0.2, 0.6],
-        "category": "electronics",
-        "price": 99.99,
-        "rating": 4.5,
-        "brand": "TechSound"
-    },
-    {
-        "id": 2,
-        "name": "Running Shoes",
-        "vector": [0.9, 0.1, 0.7, 0.3],
-        "category": "sports",
-        "price": 129.99,
-        "rating": 4.8,
-        "brand": "RunFast"
-    },
-    {
-        "id": 3,
-        "name": "Coffee Maker",
-        "vector": [0.3, 0.4, 0.9, 0.1],
-        "category": "kitchen",
-        "price": 79.99,
-        "rating": 4.2,
-        "brand": "BrewMaster"
-    },
-    {
-        "id": 4,
-        "name": "Bluetooth Speaker",
-        "vector": [0.2, 0.9, 0.1, 0.8],
-        "category": "electronics",
-        "price": 59.99,
-        "rating": 4.3,
-        "brand": "TechSound"
-    },
-    {
-        "id": 5,
-        "name": "Yoga Mat",
-        "vector": [0.8, 0.2, 0.4, 0.9],
-        "category": "sports",
-        "price": 29.99,
-        "rating": 4.6,
-        "brand": "FitLife"
-    },
+# Retrieve and display the list of collections
+collections = client.get_collections()
+print("Existing collections:", collections)
+```
+
+The `get_collections()` method returns all collections in your Qdrant instance, useful for managing multiple collections dynamically.
+
+## Step 6: Insert Points into the Collection
+
+[Points](/documentation/concepts/points/) are the core data entities in Qdrant. Each point contains:
+
+- **ID**: A unique identifier
+- **Vector Data**: An array of numerical values representing the data point in vector space
+- **Payload (Optional)**: Additional metadata as key-value pairs for filtering and categorization
+
+```python
+# Define the vectors to be inserted
+points = [
+    models.PointStruct(
+        id=1,
+        vector=[0.1, 0.2, 0.3, 0.4],  # 4D vector
+        payload={"category": "example"}  # Metadata (optional)
+    ),
+    models.PointStruct(
+        id=2,
+        vector=[0.2, 0.3, 0.4, 0.5],
+        payload={"category": "demo"}
+    )
 ]
 
-print(f"📦 Created dataset with {len(products)} products")
-```
-
-## Step 4: Insert Data into Your Vector Database
-
-Convert our products into Qdrant points and insert them:
-
-```python
-# Convert products to Qdrant points
-points = []
-for product in products:
-    point = PointStruct(
-        id=product["id"],
-        vector=product["vector"],
-        payload={
-            "name": product["name"],
-            "category": product["category"],
-            "price": product["price"],
-            "rating": product["rating"],
-            "brand": product["brand"]
-        }
-    )
-    points.append(point)
-
-# Insert all points into the collection
+# Insert vectors into the collection
 client.upsert(
     collection_name=collection_name,
     points=points
 )
-
-print(f"✅ Inserted {len(points)} products into vector database")
 ```
 
-### Understanding Points Structure
+Expected output: `UpdateResult(operation_id=2, status=<UpdateStatus.COMPLETED: 'completed'>)`
 
-Each point contains:
-- **ID:** Unique identifier (1, 2, 3, etc.)
-- **Vector:** The mathematical representation `[0.1, 0.8, 0.2, 0.6]`
-- **Payload:** Metadata we can search and filter on
+## Step 7: Retrieve Collection Details
 
-## Step 5: Build Search Functions
-
-Now let's create functions to search our vector database:
-
-### Basic Similarity Search
+Now that we've inserted vectors, let's confirm they're stored correctly by getting collection information:
 
 ```python
-def search_products(query_vector, limit=3):
-    """Find products similar to query vector"""
-    results = client.search(
-        collection_name=collection_name,
-        query_vector=query_vector,
-        limit=limit
-    )
-    
-    print(f"🔍 Found {len(results)} similar products:")
-    print("=" * 50)
-    
-    for i, result in enumerate(results, 1):
-        print(f"{i}. {result.payload['name']}")
-        print(f"   Category: {result.payload['category']}")
-        print(f"   Price: ${result.payload['price']}")
-        print(f"   Similarity: {result.score:.3f}")
-        print("-" * 30)
-    
-    return results
-
-# Test basic search
-print("🎯 Searching for products similar to [0.2, 0.7, 0.3, 0.5]")
-query = [0.2, 0.7, 0.3, 0.5]
-search_results = search_products(query)
+collection_info = client.get_collection(collection_name)
+print("Collection info:", collection_info)
 ```
 
-### Category-Filtered Search
+Expected output: Detailed collection information showing `points_count=2`, vector configuration, and HNSW settings.
+
+## Step 8: Run Your First Similarity Search
+
+Find the most similar vector to a given query using Qdrant's search capabilities:
+
+**How Similarity Search Works:**
+- Qdrant compares the query vector to all stored vectors using the distance metric
+- The closest matches are returned, ranked by similarity
 
 ```python
-def search_by_category(query_vector, category, limit=2):
-    """Search within a specific category"""
-    category_filter = Filter(
-        must=[
-            FieldCondition(
-                key="category",
-                match=MatchValue(value=category)
-            )
-        ]
-    )
-    
-    results = client.search(
-        collection_name=collection_name,
-        query_vector=query_vector,
-        query_filter=category_filter,
-        limit=limit
-    )
-    
-    print(f"🎯 Found {len(results)} {category} products:")
-    print("=" * 50)
-    
-    for i, result in enumerate(results, 1):
-        print(f"{i}. {result.payload['name']}")
-        print(f"   Brand: {result.payload['brand']}")
-        print(f"   Rating: {result.payload['rating']} ⭐")
-        print(f"   Similarity: {result.score:.3f}")
-        print("-" * 30)
-    
-    return results
+query_vector = [0.08, 0.14, 0.33, 0.28]
 
-# Test category search
-print("\n🏷️ Searching for electronics similar to [0.1, 0.9, 0.1, 0.7]")
-electronics_query = [0.1, 0.9, 0.1, 0.7]
-electronics_results = search_by_category(electronics_query, "electronics")
-```
-
-### Advanced Multi-Filter Search
-
-```python
-def search_premium_products(query_vector, min_price=50, min_rating=4.0):
-    """Search for premium products with price and rating filters"""
-    premium_filter = Filter(
-        must=[
-            FieldCondition(
-                key="price",
-                range={"gte": min_price}  # Greater than or equal
-            ),
-            FieldCondition(
-                key="rating",
-                range={"gte": min_rating}
-            )
-        ]
-    )
-    
-    results = client.search(
-        collection_name=collection_name,
-        query_vector=query_vector,
-        query_filter=premium_filter,
-        limit=5
-    )
-    
-    print(f"💎 Found {len(results)} premium products (${min_price}+, {min_rating}+ rating):")
-    print("=" * 60)
-    
-    for i, result in enumerate(results, 1):
-        print(f"{i}. {result.payload['name']}")
-        print(f"   Price: ${result.payload['price']}")
-        print(f"   Rating: {result.payload['rating']} ⭐")
-        print(f"   Category: {result.payload['category']}")
-        print(f"   Similarity: {result.score:.3f}")
-        print("-" * 30)
-    
-    return results
-
-# Test premium search
-print("\n💎 Searching for premium products similar to [0.5, 0.5, 0.5, 0.5]")
-premium_query = [0.5, 0.5, 0.5, 0.5]
-premium_results = search_premium_products(premium_query, min_price=60, min_rating=4.3)
-```
-
-## Step 6: Explore Your Search Engine
-
-Let's try different search scenarios:
-
-### Scenario 1: Find Electronics
-
-```python
-# User is looking for electronic gadgets
-print("\n🔌 Scenario 1: Looking for electronic gadgets")
-electronics_vector = [0.1, 0.9, 0.2, 0.8]  # High on electronic features
-search_products(electronics_vector, limit=2)
-```
-
-### Scenario 2: Sports Equipment
-
-```python
-# User wants sports/fitness products  
-print("\n🏃 Scenario 2: Looking for sports equipment")
-sports_vector = [0.9, 0.1, 0.6, 0.4]  # High on sports features
-search_by_category(sports_vector, "sports", limit=2)
-```
-
-### Scenario 3: Brand-Specific Search
-
-```python
-def search_by_brand(query_vector, brand_name):
-    """Search for products from a specific brand"""
-    brand_filter = Filter(
-        must=[
-            FieldCondition(
-                key="brand",
-                match=MatchValue(value=brand_name)
-            )
-        ]
-    )
-    
-    results = client.search(
-        collection_name=collection_name,
-        query_vector=query_vector,
-        query_filter=brand_filter,
-        limit=3
-    )
-    
-    print(f"🏷️ {brand_name} products:")
-    for result in results:
-        print(f"- {result.payload['name']} (${result.payload['price']})")
-    
-    return results
-
-print("\n🏷️ Scenario 3: TechSound brand products")
-brand_vector = [0.3, 0.7, 0.3, 0.7]
-search_by_brand(brand_vector, "TechSound")
-```
-
-## Step 7: Understand Your Results
-
-### Similarity Scores Explained
-
-```python
-# Let's understand what similarity scores mean
-test_vector = [0.1, 0.8, 0.2, 0.6]  # Identical to Wireless Headphones
-
-print("\n📊 Understanding Similarity Scores")
-print("Query vector:", test_vector)
-print("=" * 50)
-
-results = client.search(
+search_results = client.query_points(
     collection_name=collection_name,
-    query_vector=test_vector,
-    limit=5
+    query=query_vector,
+    limit=1  # Return the top 1 most similar vector
 )
 
-for result in results:
-    product_vector = None
-    # Find the original vector for comparison
-    for product in products:
-        if product["id"] == result.id:
-            product_vector = product["vector"]
-            break
-    
-    print(f"Product: {result.payload['name']}")
-    print(f"Vector: {product_vector}")
-    print(f"Similarity Score: {result.score:.4f}")
-    
-    if result.score > 0.99:
-        print("🎯 Perfect match!")
-    elif result.score > 0.8:
-        print("✅ Very similar")
-    elif result.score > 0.6:
-        print("📍 Somewhat similar")
-    else:
-        print("❓ Not very similar")
-    
-    print("-" * 30)
+print("Search results:", search_results)
 ```
 
-## Step 8: Collection Statistics
+Expected output: `points=[ScoredPoint(id=1, score=0.97642946, payload={'category': 'example'})]`
 
-Let's examine our search engine's performance:
+## Step 9: Filtered Search
+
+Refine your search using metadata filters. A `must` filter ensures all specified conditions are met for a data point to be included in results.
 
 ```python
-# Get collection information
-collection_info = client.get_collection(collection_name)
+search_filter = models.Filter(
+    must=[
+        models.FieldCondition(
+            key="category",
+            match=models.MatchValue(value="example")  # Only return vectors where category="example"
+        )
+    ]
+)
 
-print("\n📈 Search Engine Statistics")
-print("=" * 40)
-print(f"Collection Name: {collection_name}")
-print(f"Vector Count: {collection_info.vectors_count}")
-print(f"Points Count: {collection_info.points_count}")
-print(f"Vector Size: {collection_info.config.params.vectors.size}")
-print(f"Distance Metric: {collection_info.config.params.vectors.distance}")
-print(f"Status: {collection_info.status}")
+filtered_results = client.query_points(
+    collection_name=collection_name,
+    query=query_vector,
+    query_filter=search_filter,
+    limit=1
+)
+
+print("Filtered search results:", filtered_results)
 ```
 
-## Complete Search Engine Code
+Expected output: Results matching both vector similarity and the category filter.
 
-Here's the complete code for your vector search engine:
-
-```python
-import os
-from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, VectorParams, PointStruct
-from qdrant_client.models import Filter, FieldCondition, MatchValue
-
-class SimpleVectorSearchEngine:
-    def __init__(self):
-        self.client = QdrantClient(
-            url=os.getenv("QDRANT_URL"),
-            api_key=os.getenv("QDRANT_API_KEY"),
-        )
-        self.collection_name = "simple_search_engine"
-        
-    def create_collection(self):
-        """Create a new collection for our search engine"""
-        self.client.create_collection(
-            collection_name=self.collection_name,
-            vectors_config=VectorParams(size=4, distance=Distance.COSINE),
-        )
-        
-    def add_products(self, products):
-        """Add products to the search engine"""
-        points = [
-            PointStruct(
-                id=p["id"],
-                vector=p["vector"],
-                payload={k: v for k, v in p.items() if k not in ["id", "vector"]}
-            )
-            for p in products
-        ]
-        self.client.upsert(collection_name=self.collection_name, points=points)
-        
-    def search(self, query_vector, limit=3, filters=None):
-        """Search for similar products"""
-        return self.client.search(
-            collection_name=self.collection_name,
-            query_vector=query_vector,
-            query_filter=filters,
-            limit=limit
-        )
-
-# Usage example
-if __name__ == "__main__":
-    search_engine = SimpleVectorSearchEngine()
-    search_engine.create_collection()
-    
-    # Add your products here
-    # search_engine.add_products(products)
-    
-    # Search for similar items
-    # results = search_engine.search([0.1, 0.8, 0.2, 0.6])
-```
-
-## What You've Accomplished
-
-Congratulations! You've just built a complete vector search engine!
-
-✅ **Created a collection** with proper vector configuration  
-✅ **Inserted products** with vectors and rich metadata  
-✅ **Implemented search functions** for different use cases  
-✅ **Applied filters** to combine similarity with business logic  
-✅ **Analyzed results** to understand similarity scoring  
-✅ **Built reusable code** for future projects  
-
-## Key Concepts Learned
-
-### 1. Vector Similarity
-- Vectors close in space represent similar items
-- Cosine similarity works well for most applications
-- Higher scores = more similar items
-
-### 2. Metadata Filtering
-- Combine vector similarity with business rules
-- Filter by category, price, rating, brand, etc.
-- Use `must`, `should`, and `must_not` conditions
-
-### 3. Search Patterns
-- **Basic search:** Find similar items
-- **Filtered search:** Narrow by criteria
-- **Multi-filter search:** Complex business logic
-
-## Real-World Applications
-
-This simple search engine can be extended for:
-
-🛒 **E-commerce:** Product recommendations  
-📚 **Content:** Article/blog similarity  
-🎵 **Media:** Music/video recommendations  
-🏠 **Real Estate:** Property matching  
-💼 **Jobs:** Job/candidate matching  
-📱 **Apps:** Feature/content discovery  
-
-## Next Steps
-
-In the upcoming sections, we'll:
-- Work on a hands-on project to reinforce these concepts
-- Explore more advanced vector operations
-- Learn about embedding models and real-world vectors
-- Build more sophisticated search applications
-
-Ready to take on your first project? Let's continue! 🚀
-
-## Troubleshooting
-
-**Issue:** Collection already exists  
-**Solution:** `client.delete_collection(collection_name)` then recreate
-
-**Issue:** Vector dimension mismatch  
-**Solution:** Ensure all vectors have exactly 4 dimensions
-
-**Issue:** No search results  
-**Solution:** Check if points were inserted and query vector is reasonable
-
-**Issue:** Connection errors  
-**Solution:** Verify Qdrant Cloud credentials and internet connection
-
-Great work building your first vector search engine! 🎯 
+**Filter types:**
+- **must**: All conditions must be met (similar to AND)
+- **should**: At least one condition must be met (similar to OR)  
+- **must_not**: Excludes items meeting the condition (similar to NOT)
+- **range**: Filters numeric values within specified thresholds

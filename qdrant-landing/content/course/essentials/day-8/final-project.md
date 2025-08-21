@@ -1,48 +1,143 @@
 ---
- title: Build and Evaluate
- weight: 2
+title: Build and Evaluate
+weight: 2
 ---
 
 {{< date >}} Day 8 {{< /date >}}
 
-# Final Project - Build and Evaluate
+# Final Project: Build and Evaluate
 
-In a single notebook, build two pipelines. Ingestion: load and normalize your docs, chunk by sections, compute vectors, and upsert into one collection. Retrieval: implement `search(q)`. Embed the query, build the sparse vector, call the Query API with dense+sparse and server‑side fusion (RRF or DBSF) using a higher `limit` (≈100) to oversample, rerank with multivectors, then return page, section, a short snippet, and a score. 
+Transform your learning into a working system. In this implementation phase, you'll build the complete documentation search engine from data ingestion through evaluation, demonstrating mastery of hybrid retrieval and multivector reranking.
 
-Use one collection: a primary dense vector for retrieval (you can keep more than one if you want, e.g., body text, titles, etc), sparse enabled for lexical, and a multivector view used only for reranking (disable its index, e.g., HNSW m=0). Choose any docs you like; for a fast start, use the Qdrant docs. Briefly justify any deviations (models, distances, payloads, filters/tags) and report Recall@10, MRR, P50, and P95.
+## Implementation Roadmap
 
-## Glossary
+### Phase 1: Data Preparation and Ingestion
 
-**Recall@k**: “Did a correct item show up in the top k?” Per query the score is 1 if yes, else 0; report the mean. Use k=10. Relevance is based on normalized URLs where the section/page equals or prefixes a gold URL. Example: hits@10 = [1, 0, 1] → R@10 = 2/3 = 0.667.
+**Load and normalize your documentation**: Choose a documentation set (Qdrant docs work well for quick start) and parse it into structured sections. Preserve the hierarchical structure that users expect.
 
-**MRR (Mean Reciprocal Rank)**: “How far do you scroll to the first correct item?” If the first correct result is at rank r, the score is 1/r; if none, 0. Report the mean across queries. Example: ranks = [1, 2, none] → scores = [1.0, 0.5, 0.0] → MRR = 0.5.
+**Implement section-based chunking**: Split by natural documentation boundaries rather than arbitrary token windows. Each chunk should represent a coherent concept or procedure that can standalone as an answer.
 
-**Latency P50/P95 (ms)**: End‑to‑end wall‑clock time of `search(q)` (embed + hybrid retrieve + rerank + format). Report the median (P50) and the 95th percentile (P95). Warm up once; measure on many queries. Example: most ~80 ms, a few ~300 ms → P50 ≈ 80, P95 ≈ 300.
+**Generate three vector representations**:
+- Dense embedding for semantic retrieval using your chosen model
+- Sparse vector for keyword matching (BM25 or SPLADE)
+- Multivector representation for token-level reranking (ColBERT)
 
-Tip: Prefer section‑level matching when anchors exist; fall back to page‑level otherwise.
+**Design your payload structure**: Include essential metadata for result attribution and user navigation:
 
-## Result contract (what to return)
+```python
+payload_structure = {
+    "page_title": "Configuration Guide",
+    "section_title": "HNSW Parameters", 
+    "page_url": "/docs/guides/configuration/",
+    "section_url": "/docs/guides/configuration/#hnsw-parameters",
+    "breadcrumbs": ["Guides", "Configuration", "HNSW Parameters"],
+    "chunk_text": "The main section content...",
+    "prev_section_text": "Previous section for context...",
+    "next_section_text": "Next section for context...",
+    "tags": ["configuration", "performance", "hnsw"]
+}
+```
 
-Return, per hit, `page_title`, `section_title`, `page_url`, `section_url` (when an anchor exists), a post‑rerank `score`, and a short `snippet` (≈360 chars). Optionally include `full_chunk_text` and a `code_snippet` if applicable. Normalize URLs (lowercase paths, strip trailing `/`, lowercase anchors) and evaluate by equality or prefix match.
+### Phase 2: Search Implementation
 
-## Hybrid search and multivector rerank
+**Build the query processing pipeline**: Convert user queries into the three vector representations needed for hybrid search.
 
-At query time compute dense embeddings for each dense view you indexed, build the sparse query vector. If you use a late‑interaction reranker (e.g., ColBERT), also encode the query with that model to produce query multivectors for MAX_SIM. Use the Query API to fuse dense and sparse with RRF or DBSF and retrieve a large candidate set (≈100 is a good start). If you store multiple dense vectors, fuse their dense scores when combining results (AVERAGE is a safe default; MAX favors strong section matches). Then rerank the candidates with the multivector using MAX_SIM and return page, section, snippet, and score.
+**Implement hybrid retrieval**: Use Qdrant's Universal Query API to combine dense and sparse search with server-side fusion:
 
-## The eval
+```python
+def search_documentation(query_text, limit=10):
+    """Complete search pipeline with hybrid retrieval and reranking"""
+    
+    # Stage 1: Hybrid retrieval with fusion
+    response = client.query_points(
+        collection_name="docs_search",
+        prefetch=[
+            models.Prefetch(
+                query=dense_query_vector,
+                using="dense", 
+                limit=100  # Oversample for reranking
+            ),
+            models.Prefetch(
+                query=sparse_query_vector,
+                using="sparse",
+                limit=100
+            )
+        ],
+        query=models.FusionQuery(
+            fusion=models.Fusion.RRF,  # or DBSF
+            query=models.NamedVector(
+                name="colbert",
+                vector=colbert_query_multivector
+            )
+        ),
+        limit=limit,
+        with_payload=True
+    )
+    
+    # Stage 2: Format results for user consumption
+    return format_search_results(response.points)
+```
 
-Create 20–30 realistic queries with gold URLs/anchors. For each query, time `search(q)` end‑to‑end, collect result URLs (prefer `section_url`, else `page_url`), normalize, and record the first rank where a candidate equals or prefixes a gold target. Aggregate Recall@1/3/10 and MRR across queries, and compute latency P50/P95 in milliseconds.
+**Create result formatting**: Transform raw search results into user-friendly responses with clear attribution and helpful snippets.
 
-## Tuning 
+### Phase 3: Evaluation and Optimization
 
-You can also experiment with HNSW index‑time parameters `m` and `ef_construct` (e.g., m≈32, ef_construct≈256) to balance memory, build time, and recall/latency.
+**Build your evaluation framework**: Create a systematic approach to measure search quality with realistic queries and gold standard answers.
 
-Increase `ef` at search time (64→128→256) until R@10 stops improving relative to latency. Compare RRF vs DBSF and adjust the candidate oversampling window (about 50–200). If you keep two dense views, try AVERAGE first, then MAX. Consider quantization only if memory is tight and quality stays acceptable. If the corpus has separable regions, enable filters by `tags` or `path` to let users scope their search.
+**Implement performance measurement**: Track both accuracy metrics (Recall@10, MRR) and performance metrics (P50/P95 latency) to ensure your system meets production standards.
 
-## Ground truth
+**Iterative optimization**: Use your evaluation results to guide optimization decisions. Test different fusion strategies, adjust oversampling parameters, and tune HNSW settings based on measured performance.
 
-Take 20–30 real queries. For each, copy the expected page URL and anchor from your docs. When anchors are missing, evaluate at the page level. Keep one primary gold and optional alternates.
+## Quality Assurance
 
-## What to submit
+### Evaluation Metrics Explained
 
-A single Jupyter notebook that runs end‑to‑end against Qdrant Cloud and includes data loading, embedding, collection creation, upload, hybrid retrieval, reranking, and result display (page + section + snippet); a tiny table with Recall@10, MRR, P50, and P95; and a short paragraph on the key decisions you made (chunking, payloads, rerank design, tuning). 
+**Recall@10** measures whether your system finds the right answer in the top 10 results. Calculate this by checking if any of your top 10 results matches the expected URL or section anchor. A score of 0.8 means your system finds the correct answer 80% of the time.
+
+**Mean Reciprocal Rank (MRR)** measures how quickly users find the right answer. If the correct result is rank 1, you get a score of 1.0. If it's rank 2, you get 0.5. If it's not in the top 10, you get 0. This metric heavily weights having the best answer at the top.
+
+**Latency P50/P95** measures real-world performance. P50 is the median response time (half of queries are faster), while P95 captures tail latency (95% of queries complete within this time). Both matter for user experience.
+
+### Ground Truth Development
+
+Create realistic test queries that represent actual user needs:
+
+```python
+ground_truth_examples = [
+    {
+        "query": "how to configure HNSW parameters for better recall",
+        "expected_urls": ["/docs/guides/configuration/#hnsw-parameters"],
+        "query_type": "how-to"
+    },
+    {
+        "query": "quantization memory reduction",
+        "expected_urls": ["/docs/guides/quantization/", "/docs/concepts/optimization/"],
+        "query_type": "concept"
+    },
+    {
+        "query": "create collection with replication factor",
+        "expected_urls": ["/docs/guides/distributed-deployment/#replication-factor"],
+        "query_type": "api-usage"
+    }
+]
+```
+
+Aim for diverse query types that test different aspects of your system: how-to questions, concept explanations, API usage examples, and troubleshooting scenarios.
+
+## Optimization Guidelines
+
+**Start with search-time parameters**: Increase `ef` from 64 to 128 to 256 until recall stops improving relative to latency cost. This is your highest-impact optimization.
+
+**Experiment with fusion strategies**: Compare RRF versus DBSF for combining dense and sparse results. Test different candidate set sizes (50, 100, 200) to find the optimal balance.
+
+**Tune reranking parameters**: Adjust the oversampling factor for multivector reranking. More candidates improve quality but increase latency.
+
+**Consider index-time optimization**: If you rebuild the collection, experiment with higher `m` (16, 32) and `ef_construct` (200, 400) values for better index quality.
+
+## Success Validation
+
+Your project succeeds when it demonstrates production-quality search with measurable performance. Focus on building something you'd be comfortable deploying in a real application, with proper evaluation and documentation of your design choices.
+
+The notebook should tell a complete story: from raw documentation to working search engine, with clear explanations of why you made specific technical decisions and how they impact system performance.
+
+This project becomes a portfolio piece that showcases your ability to build sophisticated retrieval systems using modern vector search techniques. 

@@ -54,7 +54,7 @@ client.create_collection(
 
 ## Segment Basics
 
-A collection is composed of segments — independently stored and indexed units that enable Qdrant to scale and optimize incrementally.
+A collection is composed of [segments](/documentation/concepts/storage/) - independently stored and indexed units that enable Qdrant to scale and optimize incrementally.
 
 - Many small segments can hurt recall and query performance.
 - Merging segments reduces overhead and improves index locality.
@@ -67,4 +67,4 @@ A collection is composed of segments — independently stored and indexed units 
 - Memory constrained: lower `memmap_threshold` so very large segments are mmap’ed instead of fully in RAM.
 - Bulk imports: raise `indexing_threshold` to delay indexing until segments are larger, then rebuild indexes.
 
-Read More: [Optimizer](https://qdrant.tech/documentation/concepts/optimizer/) and [Storage](https://qdrant.tech/documentation/concepts/storage/) 
+Read More: [Optimizer](/documentation/concepts/optimizer/) and [Storage](/documentation/concepts/storage/) 

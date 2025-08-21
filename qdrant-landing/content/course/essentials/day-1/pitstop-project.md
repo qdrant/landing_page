@@ -1,433 +1,330 @@
 ---
-title: Experiment with Chunking Methods
+title: Build Your Domain Search Engine
 weight: 5
 ---
 
 {{< date >}} Day 1 {{< /date >}}
 
-# Project: Chunking Strategy Experiments
+# Project: Create Your Own Semantic Search Engine
 
-Apply your knowledge by experimenting with different chunking approaches on your own text dataset.
-
-## Project Goals
-
-- Compare multiple chunking strategies
-- Analyze search quality with different approaches
-- Understand trade-offs between methods
-- Document insights and recommendations
-
-**Estimated Time:** 60 minutes
+Now that you've seen how semantic search works with movies, it's time to build your own. Choose a domain you care about and create a search engine that understands meaning, not just keywords.
 
 ## Your Mission
 
-Build a text search system that demonstrates the impact of different chunking strategies on search quality and performance.
+Build a semantic search engine for a topic of your choice. You'll discover how chunking strategy affects search quality in your specific domain.
 
-### Core Requirements
+**Estimated Time:** 120 minutes
 
-1. **Choose a text-heavy dataset** (articles, documentation, books, etc.)
-2. **Implement 3+ chunking strategies** from today's lesson
-3. **Generate real embeddings** using sentence-transformers
-4. **Compare search quality** across strategies
-5. **Document your findings** with examples and analysis
+## What You'll Build
 
-## Project Template
+A working semantic search engine that demonstrates:
+
+- **Domain expertise**: Choose content you understand so you can evaluate search quality
+- **Chunking comparison**: Test different strategies and see which works best for your content type
+- **Real semantic understanding**: Search by concept, theme, or meaning rather than exact keywords
+- **Practical insights**: Discover what makes chunking effective in your specific domain
+
+## Choose Your Domain
+
+Pick something with rich, descriptive text where semantic search would be valuable:
+
+**Books/Literature:** Search a collection of book summaries, reviews, or excerpts. Find books by theme, mood, or literary style. *Example queries: "coming of age stories with unreliable narrators", "dystopian fiction with environmental themes"*
+
+**Recipes/Cooking:** Index recipe descriptions and instructions. Search by cooking technique, flavor profile, or dietary needs. *Example queries: "comfort food for cold weather", "quick weeknight meals with Asian flavors"*
+
+**News/Articles:** Collect articles from your field of interest. Search by topic, perspective, or journalistic approach. *Example queries: "analysis of remote work trends", "climate change solutions in urban planning"*
+
+**Research Papers:** Academic abstracts or papers from your field. Search by methodology, findings, or theoretical approach. *Example queries: "machine learning applications in healthcare", "qualitative studies on user behavior"*
+
+**Product Reviews:** Customer reviews for products you know well. Search by user sentiment, use case, or product features. *Example queries: "laptops good for video editing under budget", "skincare for sensitive skin winter routine"*
+
+
+### Step 1: Set Up Your Environment
 
 ```python
-import os
 from sentence_transformers import SentenceTransformer
-from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, VectorParams, PointStruct
+from qdrant_client import QdrantClient, models
+from google.colab import userdata  # If using Colab
 
-# Initialize
+# Initialize components
+encoder = SentenceTransformer("all-MiniLM-L6-v2")
 client = QdrantClient(
-    url=os.getenv("QDRANT_URL"),
-    api_key=os.getenv("QDRANT_API_KEY"),
+    "https://your-cluster-url.cloud.qdrant.io", 
+    api_key=userdata.get('api-key')  # Your Qdrant Cloud API key
+)
+```
+
+### Step 2: Prepare Your Dataset
+
+Create a collection of 8-15 items with rich descriptions:
+
+```python
+# Example: Recipe collection
+my_dataset = [
+    {
+        "title": "Classic Beef Bourguignon",
+        "description": """A rich, wine-braised beef stew from Burgundy, France. 
+        Tender chunks of beef are slowly simmered with pearl onions, mushrooms, 
+        and bacon in a deep red wine sauce. The long, slow cooking process 
+        develops complex flavors and creates a luxurious, velvety texture. 
+        Perfect for cold winter evenings when you want something hearty and 
+        comforting. Traditionally served with crusty bread or creamy mashed 
+        potatoes to soak up the incredible sauce.""",
+        "cuisine": "French",
+        "difficulty": "Intermediate",
+        "time": "3 hours"
+    },
+    # Add 7-14 more items with similarly rich descriptions
+]
+```
+
+### Step 3: Implement Three Chunking Strategies
+
+```python
+def fixed_size_chunks(text, chunk_size=100, overlap=20):
+    """Split text into fixed-size chunks with overlap"""
+    words = text.split()
+    chunks = []
+    
+    for i in range(0, len(words), chunk_size - overlap):
+        chunk_words = words[i:i + chunk_size]
+        if chunk_words:  # Only add non-empty chunks
+            chunks.append(' '.join(chunk_words))
+    
+    return chunks
+
+def sentence_chunks(text, max_sentences=3):
+    """Group sentences into chunks"""
+    import re
+    sentences = re.split(r'[.!?]+', text)
+    sentences = [s.strip() for s in sentences if s.strip()]
+    
+    chunks = []
+    for i in range(0, len(sentences), max_sentences):
+        chunk_sentences = sentences[i:i + max_sentences]
+        if chunk_sentences:
+            chunks.append('. '.join(chunk_sentences) + '.')
+    
+    return chunks
+
+def paragraph_chunks(text):
+    """Split by paragraphs or double line breaks"""
+    chunks = [chunk.strip() for chunk in text.split('\n\n') if chunk.strip()]
+    return chunks if chunks else [text]  # Fallback to full text
+```
+
+### Step 4: Create Collections and Process Data
+
+```python
+# Create a collection with three named vectors
+client.create_collection(
+    collection_name="my_domain_search",
+    vectors_config={
+        'fixed': models.VectorParams(size=384, distance=models.Distance.COSINE),
+        'sentence': models.VectorParams(size=384, distance=models.Distance.COSINE),
+        'paragraph': models.VectorParams(size=384, distance=models.Distance.COSINE),
+    },
 )
 
-model = SentenceTransformer('all-MiniLM-L6-v2')
+# Process and upload data
+points = []
+point_id = 0
 
-class ChunkingExperiment:
-    def __init__(self, name, chunking_function):
-        self.name = name
-        self.chunking_function = chunking_function
-        self.collection_name = f"chunks_{name.lower().replace(' ', '_')}"
-        
-    def process_documents(self, documents):
-        """Process documents with this chunking strategy"""
-        all_chunks = []
-        
-        for doc_id, document in enumerate(documents):
-            chunks = self.chunking_function(document['content'])
+for item in my_dataset:
+    description = item["description"]
+    
+    # Process with each chunking strategy
+    strategies = {
+        'fixed': fixed_size_chunks(description),
+        'sentence': sentence_chunks(description),
+        'paragraph': paragraph_chunks(description)
+    }
+    
+    for strategy_name, chunks in strategies.items():
+        for chunk_idx, chunk in enumerate(chunks):
+            # Create vectors for this chunk
+            vectors = {strategy_name: encoder.encode(chunk).tolist()}
             
-            for chunk_id, chunk in enumerate(chunks):
-                all_chunks.append({
-                    'id': f"{doc_id}_{chunk_id}",
-                    'text': chunk,
-                    'doc_id': doc_id,
-                    'chunk_id': chunk_id,
-                    'doc_title': document.get('title', f'Document {doc_id}'),
-                    'chunk_size': len(chunk)
-                })
-        
-        return all_chunks
-    
-    def create_collection_and_insert(self, chunks):
-        """Create Qdrant collection and insert chunks"""
-        # Generate embeddings
-        texts = [chunk['text'] for chunk in chunks]
-        embeddings = model.encode(texts)
-        
-        # Create collection
-        client.create_collection(
-            collection_name=self.collection_name,
-            vectors_config=VectorParams(
-                size=embeddings.shape[1],
-                distance=Distance.COSINE
-            ),
-        )
-        
-        # Insert chunks
-        points = []
-        for i, chunk in enumerate(chunks):
-            point = PointStruct(
-                id=i,
-                vector=embeddings[i].tolist(),
+            points.append(models.PointStruct(
+                id=point_id,
+                vector=vectors,
                 payload={
-                    'text': chunk['text'],
-                    'doc_id': chunk['doc_id'],
-                    'doc_title': chunk['doc_title'],
-                    'chunk_id': chunk['chunk_id'],
-                    'chunk_size': chunk['chunk_size']
+                    **item,  # Include all original metadata
+                    "chunk": chunk,
+                    "chunk_strategy": strategy_name,
+                    "chunk_index": chunk_idx
                 }
-            )
-            points.append(point)
-        
-        client.upsert(collection_name=self.collection_name, points=points)
-        return len(points)
+            ))
+            point_id += 1
+
+client.upload_points(collection_name="my_domain_search", points=points)
+print(f"Uploaded {len(points)} chunks across three strategies")
+```
+
+### Step 5: Test and Compare
+
+```python
+def compare_search_results(query):
+    """Compare search results across all chunking strategies"""
+    print(f"Query: '{query}'\n")
     
-    def search(self, query, limit=5):
-        """Search within this chunking strategy"""
-        query_embedding = model.encode([query])[0]
-        
-        results = client.search(
-            collection_name=self.collection_name,
-            query_vector=query_embedding.tolist(),
-            limit=limit
+    for strategy in ['fixed', 'sentence', 'paragraph']:
+        results = client.query_points(
+            collection_name="my_domain_search",
+            query=encoder.encode(query).tolist(),
+            using=strategy,
+            limit=3
         )
         
-        return results
+        print(f"--- {strategy.upper()} CHUNKING ---")
+        for i, point in enumerate(results.points, 1):
+            print(f"{i}. {point.payload['title']}")
+            print(f"   Score: {point.score:.3f}")
+            print(f"   Chunk: {point.payload['chunk'][:80]}...")
+        print()
 
-# TODO: Add your chunking functions here
-def fixed_chunking(text, size=500, overlap=50):
-    # Implement fixed-size chunking
-    pass
-
-def sentence_chunking(text, max_sentences=5):
-    # Implement sentence-based chunking
-    pass
-
-def paragraph_chunking(text):
-    # Implement paragraph-based chunking
-    pass
-
-# TODO: Add your documents here
-documents = [
-    {
-        'title': 'Your Document Title',
-        'content': 'Your document content here...'
-    }
-    # Add more documents
-]
-
-# Create experiments
-experiments = [
-    ChunkingExperiment("Fixed Size", lambda text: fixed_chunking(text, 500, 50)),
-    ChunkingExperiment("Sentence Based", sentence_chunking),
-    ChunkingExperiment("Paragraph Based", paragraph_chunking),
-]
-
-# Run experiments
-for experiment in experiments:
-    print(f"Processing with {experiment.name} chunking...")
-    chunks = experiment.process_documents(documents)
-    num_chunks = experiment.create_collection_and_insert(chunks)
-    print(f"Created {num_chunks} chunks")
-
-# Compare results
+# Test with domain-specific queries
 test_queries = [
-    "Your test query 1",
-    "Your test query 2",
-    "Your test query 3"
+    "comfort food for winter",  # Adapt these to your domain
+    "quick and easy weeknight dinner",
+    "elegant dish for special occasions"
 ]
 
 for query in test_queries:
-    print(f"\nQuery: '{query}'")
-    print("=" * 50)
+    compare_search_results(query)
+```
+
+## Analysis Framework
+
+### Evaluate Your Results
+
+After running your tests, analyze what you discovered:
+
+```python
+def analyze_chunking_effectiveness():
+    """Analyze which chunking strategy works best for your domain"""
     
-    for experiment in experiments:
-        results = experiment.search(query, limit=3)
-        print(f"\n{experiment.name}:")
-        for i, result in enumerate(results, 1):
-            print(f"  {i}. Score: {result.score:.3f}")
-            print(f"     Text: {result.payload['text'][:100]}...")
-```
-
-## Dataset Ideas
-
-### Option 1: News Articles
-```python
-# Example: Use news articles from different categories
-documents = [
-    {
-        'title': 'Tech Innovation Report',
-        'content': '''
-        Artificial intelligence continues to transform industries...
-        [Your article content]
-        '''
-    }
-]
-```
-
-### Option 2: Technical Documentation
-```python
-# Example: API documentation or technical guides
-documents = [
-    {
-        'title': 'Getting Started Guide',
-        'content': '''
-        This guide will help you understand the basics...
-        [Your documentation content]
-        '''
-    }
-]
-```
-
-### Option 3: Academic Papers
-```python
-# Example: Research paper abstracts and content
-documents = [
-    {
-        'title': 'Machine Learning Research',
-        'content': '''
-        Abstract: This paper presents a novel approach...
-        [Your paper content]
-        '''
-    }
-]
-```
-
-## Evaluation Metrics
-
-### 1. Chunk Quality Analysis
-
-```python
-def analyze_chunk_quality(experiment):
-    """Analyze the quality of chunks produced"""
-    chunks = client.scroll(
-        collection_name=experiment.collection_name,
-        limit=100
-    )[0]
+    print("CHUNKING STRATEGY ANALYSIS")
+    print("=" * 40)
     
-    sizes = [len(chunk.payload['text']) for chunk in chunks]
-    
-    return {
-        'total_chunks': len(chunks),
-        'avg_chunk_size': sum(sizes) / len(sizes),
-        'min_chunk_size': min(sizes),
-        'max_chunk_size': max(sizes),
-        'size_variance': max(sizes) - min(sizes)
-    }
-
-# Analyze each experiment
-for experiment in experiments:
-    stats = analyze_chunk_quality(experiment)
-    print(f"\n{experiment.name} Statistics:")
-    for key, value in stats.items():
-        print(f"  {key}: {value}")
-```
-
-### 2. Search Relevance Comparison
-
-```python
-def compare_search_relevance(query, experiments):
-    """Compare search relevance across chunking strategies"""
-    print(f"\nSearching for: '{query}'")
-    print("=" * 60)
-    
-    all_results = {}
-    for experiment in experiments:
-        results = experiment.search(query, limit=5)
-        all_results[experiment.name] = results
+    # Get chunk statistics for each strategy
+    for strategy in ['fixed', 'sentence', 'paragraph']:
+        # Count chunks per strategy
+        results = client.scroll(
+            collection_name="my_domain_search",
+            scroll_filter=models.Filter(
+                must=[models.FieldCondition(key="chunk_strategy", match=models.MatchValue(value=strategy))]
+            ),
+            limit=100
+        )
         
-        print(f"\n{experiment.name}:")
-        for i, result in enumerate(results, 1):
-            print(f"  {i}. Score: {result.score:.3f} | Size: {result.payload['chunk_size']}")
-            print(f"     Doc: {result.payload['doc_title']}")
-            print(f"     Text: {result.payload['text'][:80]}...")
-    
-    return all_results
+        chunks = results[0]
+        chunk_sizes = [len(chunk.payload['chunk']) for chunk in chunks]
+        
+        print(f"\n{strategy.upper()} STRATEGY:")
+        print(f"  Total chunks: {len(chunks)}")
+        print(f"  Avg chunk size: {sum(chunk_sizes)/len(chunk_sizes):.0f} chars")
+        print(f"  Size range: {min(chunk_sizes)}-{max(chunk_sizes)} chars")
 
-# Test with your queries
-for query in test_queries:
-    compare_search_relevance(query, experiments)
+analyze_chunking_effectiveness()
 ```
 
-### 3. Performance Metrics
+### Key Questions to Answer
+
+As you test your search engine, consider:
+
+1. **Which chunking strategy gave the most relevant results?**
+2. **How did chunk size affect search quality?**
+3. **What patterns did you notice?**
+
+## Your Deliverables
+
+*Document your discoveries in a brief analysis:*
+
+**Domain Choice:**
+- What content type you chose and why
+- Why semantic search is valuable for this domain
+- Size and complexity of your dataset
+
+**Chunking Comparison Results:**
+```
+Example format:
+
+Fixed Chunking (100 words, 20 overlap):
+✓ Consistent chunk sizes, predictable performance
+✗ Broke important concepts mid-sentence
+Best for: Quick facts and specific details
+
+Sentence Chunking (3 sentences):
+✓ Preserved readability and grammar
+✗ Highly variable chunk sizes
+Best for: Balanced context and precision
+
+Paragraph Chunking:
+✓ Maintained full context and meaning
+✗ Some chunks too large, inconsistent sizes
+Best for: Complex concepts requiring context
+```
+
+**Search Quality Winner:**
+- Which strategy gave the most relevant results for your domain?
+- Specific examples of better vs. worse search results
+- Why this strategy worked best for your content type
+
+### 3. Share Your Discovery
+
+Post in our [Discord](https://discord.com/invite/qdrant) with:
+- **Domain**: "I built a semantic search for [recipes/books/articles/etc.]"
+- **Winner**: "Best chunking strategy was [X] because..."
+- **Surprise**: "Most unexpected finding was..."
+- **Demo query**: "Try searching '[your example query]' - it finds [surprising result]!"
+
+## Optional Extensions
+
+### Add Metadata Filtering
+Enhance your search with filters like we saw in the movie demo:
 
 ```python
-import time
-
-def measure_performance(experiment, queries):
-    """Measure search performance"""
-    start_time = time.time()
-    
-    for query in queries:
-        experiment.search(query, limit=5)
-    
-    end_time = time.time()
-    avg_time = (end_time - start_time) / len(queries)
-    
-    return {
-        'avg_search_time': avg_time,
-        'total_time': end_time - start_time
-    }
-
-# Performance comparison
-print("\nPerformance Comparison:")
-for experiment in experiments:
-    perf = measure_performance(experiment, test_queries)
-    print(f"{experiment.name}: {perf['avg_search_time']:.3f}s per query")
+# Example: Find Italian recipes that are quick to make
+results = client.query_points(
+    collection_name="my_domain_search",
+    query=encoder.encode("comfort food").tolist(),
+    using="sentence",
+    query_filter=models.Filter(
+        must=[
+            models.FieldCondition(key="cuisine", match=models.MatchValue(value="Italian")),
+            models.FieldCondition(key="time", match=models.MatchValue(value="30 minutes"))
+        ]
+    ),
+    limit=3
+)
 ```
 
-## Deliverables
-
-### 1. Complete Implementation
-- [ ] Working code with 3+ chunking strategies
-- [ ] Real document dataset (5+ documents)
-- [ ] Proper embedding generation
-- [ ] Search functionality for all strategies
-
-### 2. Analysis Report
-
-Create a document covering:
-
-**Dataset Description:**
-- What type of content you used
-- Why you chose this dataset
-- Number and length of documents
-
-**Chunking Strategy Results:**
-```
-Strategy: Fixed Size (500 chars, 50 overlap)
-- Total chunks: 127
-- Average chunk size: 485 characters
-- Search quality: Good for specific facts
-- Issues: Splits sentences mid-word
-
-Strategy: Sentence-based (5 sentences)
-- Total chunks: 89
-- Average chunk size: 623 characters  
-- Search quality: Better semantic coherence
-- Issues: Variable sizes, some very long
-
-Strategy: Paragraph-based
-- Total chunks: 45
-- Average chunk size: 1,247 characters
-- Search quality: Best for context
-- Issues: Some chunks too large for embedding
-```
-
-**Search Quality Analysis:**
-- Which strategy gave most relevant results?
-- Examples of good vs poor search results
-- Impact of chunk size on relevance
-
-**Performance Insights:**
-- Speed differences between strategies
-- Memory usage implications
-- Trade-offs observed
-
-### 3. Recommendations
-
-Based on your experiments, provide recommendations:
-- Best strategy for your content type
-- When to use each chunking approach
-- Optimal parameters discovered
-- Lessons learned
-
-## Advanced Challenges
-
-### Challenge 1: Hybrid Chunking
-Combine multiple strategies based on content structure:
+### Try Different Embedding Models
+Experiment with other models to see how they affect results:
 
 ```python
-def smart_chunking(text):
-    """Use different strategies based on content structure"""
-    if '\n##' in text:  # Has headers
-        return section_based_chunking(text)
-    elif len(text) > 2000:  # Long text
-        return sentence_chunking(text)
-    else:  # Short text
-        return [text]  # Keep as single chunk
-```
-
-### Challenge 2: Quality Scoring
-Implement a scoring system for chunk quality:
-
-```python
-def score_chunk_quality(chunk):
-    """Score chunk quality based on various factors"""
-    score = 100
-    
-    # Penalize very short chunks
-    if len(chunk) < 100:
-        score -= 20
-    
-    # Penalize chunks that don't end with punctuation
-    if not chunk.strip().endswith(('.', '!', '?')):
-        score -= 10
-    
-    # Bonus for complete sentences
-    if chunk.count('.') >= 1:
-        score += 5
-    
-    return max(0, score)
-```
-
-### Challenge 3: Adaptive Overlap
-Dynamically adjust overlap based on content complexity:
-
-```python
-def adaptive_overlap_chunking(text, base_size=500):
-    """Adjust overlap based on content complexity"""
-    # Measure complexity (sentence length variance, vocabulary diversity)
-    complexity = calculate_text_complexity(text)
-    
-    if complexity > 0.8:  # High complexity
-        overlap = int(base_size * 0.3)
-    elif complexity > 0.5:  # Medium complexity
-        overlap = int(base_size * 0.2)
-    else:  # Low complexity
-        overlap = int(base_size * 0.1)
-    
-    return fixed_chunking(text, base_size, overlap)
+# Compare with a different model
+encoder_large = SentenceTransformer("all-mpnet-base-v2")  # Larger, potentially better
+encoder_fast = SentenceTransformer("all-MiniLM-L12-v2")   # Different size/speed tradeoff
 ```
 
 ## What You'll Learn
 
-This project will teach you:
-- How chunking strategy impacts search quality
-- Trade-offs between different approaches
-- Real-world considerations for text processing
-- Performance implications of design choices
-- How to evaluate and compare vector search systems
+This project solidifies your understanding of:
+- **How chunking strategy impacts search relevance** in real scenarios
+- **Domain-specific considerations** for text processing
+- **The relationship between chunk size and search quality**
+- **Practical trade-offs** between different approaches
+- **How to evaluate and improve** vector search systems
 
-## Submission
+## Success Criteria
 
-Share your results in Discord with:
-- Brief description of your dataset
-- Key findings from chunking comparison
-- Most surprising insight
-- Code repository link (optional)
+You'll know you've succeeded when:
 
-Great work on completing Day 1! You now understand embeddings, distance metrics, and chunking strategies - the foundation of effective text search systems. 
+<input type="checkbox"> Your search engine finds relevant results by meaning, not just keywords  
+<input type="checkbox"> You can clearly explain which chunking strategy works best for your domain  
+<input type="checkbox"> You've discovered something surprising about how chunking affects search  
+<input type="checkbox"> You can articulate the trade-offs between different approaches
+
+**Ready for Day 2?** Tomorrow you'll learn how Qdrant makes vector search lightning-fast through HNSW indexing and how to optimize for production workloads.

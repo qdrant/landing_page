@@ -7,43 +7,41 @@ weight: 2
 
 # Distance Metrics
 
-In vector search, how we define distance determines how we define similarity. Once your data is embedded into vectors, you're working in a space where position encodes meaning. But "closeness" in that space is subjective - it depends entirely on the metric you measure it. And each metric tells a different story about similarity.
+The meaning of a data point is implicitly defined by its position in vector space. After vectors are stored, we can use their spatial properties to perform [nearest neighbor searches](/documentation/concepts/search/) that retrieve semantically similar items based on how close they are in this space.
+
+However, the way we measure similarity or distance between vectors significantly impacts search quality, recall, and precision. Different metrics emphasize different aspects of similarity. The choice of metric depends on whether the focus is on direction, absolute distance, or magnitude differences between vectors.
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 
+<br/>
 
-Let's break down the most common distance metrics: **Cosine Similarity**, **Euclidean Distance**, **Manhattan Distance**, and **Dot Product Similarity**, what they really measure, when to use them, and when to avoid them.
+### Cosine Similarity - Best for Normalized Semantic Embeddings
 
-> **Reference:** For a complete overview of distance metrics in Qdrant, see the [Collections documentation](https://qdrant.tech/documentation/concepts/collections/).
+**Best for:** NLP embeddings, text similarity, semantic search  
+**Works well when:** Magnitude is not important, only direction
 
-## 1. Cosine Similarity – Best for Semantic Similarity
-
-Cosine similarity is all about **direction**. It is defined as the cosine of the angle between two vectors:
+Cosine similarity measures angular similarity between two vectors, ignoring magnitude and focusing only on whether vectors point in the same direction. This makes it ideal for text embedding comparisons, where similar words or sentences have close orientations in vector space.
 
 **Formula:**
 ```
-cos(θ) = (A · B) / (||A|| * ||B||)
+cos(θ) = (A · B) / (||A|| ||B||)
 ```
 
-Dot product of the vectors, divided by the product of their magnitudes.
+Where A · B is the dot product of vectors A and B, and ||A|| and ||B|| are the magnitudes (norms) of the vectors.
 
-The result is the cosine of the angle between them. **The smaller the angle, the higher the score.**
+To simplify, it reflects whether the vectors have the same direction (similar) or are poles apart. Cosine similarity is commonly used with text representations to compare how similar two documents or sentences are to each other.
 
-If two vectors are aligned, even if they're different lengths, the cosine similarity will be close to 1. That makes it ideal when direction carries meaning, but magnitude doesn't. 
+**Score Interpretation:**
 
-Like in NLP, where "joyful" and "happy" might map to vectors with different lengths but still point in the same semantic direction.
+| Score | Meaning |
+|-------|---------|
+| 1 | Identical vectors (maximum similarity) |
+| 0 | Completely unrelated vectors |
+| -1 | Opposite vectors (completely dissimilar) |
 
-### When to Use Cosine Similarity
-
-**Perfect for:**
-- **Text embeddings and semantic similarity**
-- **Document comparison** where length shouldn't matter
-- **Recommendation systems** based on preferences
-- **Any scenario where direction matters more than magnitude**
-
-### When to Avoid
-
-**However, if the length of your vectors carries information, like importance, weight, or confidence, cosine will ignore that.**
+**Example use cases:**
+- Comparing documents or search queries to find similar text
+- Semantic search where text embeddings are compared based on meaning rather than word overlap
 
 ```python
 # Example: Cosine similarity in Qdrant
@@ -55,32 +53,28 @@ collection_config = VectorParams(
 )
 ```
 
-## 2. Euclidean Distance – Best for Absolute Difference
+### Euclidean Distance (L2 Distance) - Measures Absolute Distance
 
-Euclidean distance captures the **straight-line distance** between two points.
+**Best for:** Spatial data, numerical feature embeddings, clustering  
+**Works well when:** Both magnitude and position in space are important
 
-The formula is the classic Pythagorean distance:
+Euclidean distance calculates the straight-line distance between two points in multi-dimensional space. It's useful when the exact numerical difference between vectors is critical, such as finding the nearest stores, restaurants, or locations based on latitude and longitude.
 
 **Formula:**
 ```
-d(A, B) = √Σ (Aᵢ - Bᵢ)²
+d(A, B) = √Σ(A₁ - B₁)² + (A₂ - B₂)² + ... + (Aₙ - Bₙ)²
 ```
 
-It captures **absolute difference in value** across all dimensions. Useful when every dimension matters equally. Image embeddings, sensor data, spatial coordinates, anything where numerical difference is meaningful.
+It measures the straight-line distance between two points in space, ideal when absolute differences between feature values matter. However, it can be sensitive to scale, meaning it may not work well for high-dimensional embeddings without normalization.
 
-### When to Use Euclidean Distance
+**Example use cases:**
+- Image similarity search - finding visually similar images based on pixel embeddings
+- Clustering algorithms (e.g., K-Means) - assigning points to the closest cluster center
 
-**Perfect for:**
-- **Image embeddings** where pixel differences matter
-- **Spatial coordinates** (geographic locations)
-- **Sensor data** where absolute values are important
-- **Clustering algorithms** like K-Means
-
-### The Catch: Scale Sensitivity
-
-**But there's a catch: Euclidean distance is scale sensitive.** One large feature—like "salary" in dollars—can completely overwhelm a smaller one, like "age." So unless your vectors are properly scaled or normalized, the results can be misleading.
-
-**Avoid it if you're comparing semantic vectors.**
+**When you should NOT use Euclidean Distance:**
+- Text embeddings or semantic similarity (words like "happy" and "joyful" have similar meanings but may have very different numerical embeddings)
+- Vectors with different scales or magnitudes (age 1-100 vs salary 10,000-500,000)
+- When direction is more important than absolute value (recommendation systems)
 
 ```python
 # Example: Euclidean distance in Qdrant
@@ -90,54 +84,46 @@ collection_config = VectorParams(
 )
 ```
 
-## 3. Manhattan Distance – Best for Grid-Like Differences
+### Manhattan Distance - Grid-Like Similarity
 
-Euclidean Distance is similar to Manhattan Distance; however, **Manhattan Distance only allows movement along the grid lines** (horizontal and vertical).
-
-The formula sums the absolute differences across all dimensions:
+Manhattan Distance is similar to Euclidean Distance, but only allows movement along grid lines (horizontal and vertical), like moving through city blocks. If you are working with very high-dimensional data, such as text embeddings, Manhattan Distance can sometimes provide more stable similarity measurements since it is more resistant to outliers.
 
 **Formula:**
 ```
 d(A, B) = Σ |Aᵢ - Bᵢ|
 ```
 
-**Manhattan distance in particular can sometimes provide more stable similarity measurements** because large deviations in a single dimension do not dominate the overall distance as much as they do with Euclidean.
+Each dimension contributes linearly, preventing one large deviation from completely dominating the distance calculation.
 
-### When to Use Manhattan Distance
+**Best for:**
+- High-dimensional embeddings where you want noise resistance
+- Feature spaces with many independent dimensions
+- When outliers in single dimensions should be dampened
 
-**Perfect for:**
-- **High-dimensional embeddings** where you want noise resistance
-- **Feature spaces** with many independent dimensions
-- **When outliers in single dimensions should be dampened**
+**Important note:** Like Euclidean distance, it is still scale sensitive, so proper normalization is important.
 
-### Important Note
+### Dot Product Similarity - Best When Magnitude Matters
 
-However, like Euclidean distance, **it is still scale sensitive, so proper normalization is important.**
+**Best for:** Recommendation systems, ranking-based retrieval  
+**Works well when:** Both magnitude and direction matter
 
-## 4. Dot Product – Best When Magnitude Matters
-
-The dot product measures similarity **with magnitude in mind**. You multiply each dimension and sum it up:
+Unlike cosine similarity, dot product also considers the length of the vectors. This might be important when vector representations are built based on term (word) frequencies. The dot product similarity is calculated by multiplying the respective values in the two vectors and then summing those products.
 
 **Formula:**
 ```
-A · B = Σ (Aᵢ * Bᵢ)
+A · B = Σ (Aᵢ × Bᵢ)
 ```
 
-It rewards vectors that are not just aligned—**but also large**. So if two vectors point the same way, the longer one gets a higher similarity score.
+The higher the sum, the more similar the two vectors are. If you normalize the vectors (so the numbers sum to 1), the dot product similarity becomes equivalent to cosine similarity.
 
-That matters in systems where **magnitude is part of the signal**—like recommendation engines, where a large user vector might indicate strong preference, or a long document might be weighted more heavily.
+**Example use cases:**
+- Recommendation systems - if a user vector represents preferences, a larger dot product with an item vector means higher relevance
+- Language models (LLMs) and transformer-based search - many embeddings from models like OpenAI's text-embedding-3 or BERT are not normalized, meaning their length (magnitude) carries information
 
-### When to Use Dot Product
-
-**Perfect for:**
-- **Recommendation systems** where strength of preference matters
-- **Ranking systems** where magnitude indicates importance
-- **Document weighting** where longer content should rank higher
-- **Any scenario where both direction AND magnitude carry meaning**
-
-### The Issue with Dot Product
-
-**But here's the issue:** If your data varies in length without meaning to, like inconsistent document sizes or uneven feature counts, the dot product can give inflated similarity scores. In those cases, you might want to normalize, or use cosine instead.
+**When Dot Product is a poor choice:**
+- If you want to measure similarity regardless of vector magnitude (text similarity where sentence length shouldn't matter)
+- If your data is sparse or has highly varied feature magnitudes
+- If absolute distances between points matter more than alignment
 
 ```python
 # Example: Dot product in Qdrant
@@ -147,55 +133,59 @@ collection_config = VectorParams(
 )
 ```
 
-## So How Do You Choose?
+## The Impact of Metric Choice
 
-**There's no universal best.** Your choice depends on your data and what you mean by "similar."
+A practical way to understand how distance metrics affect search quality is by running the same search using different metrics and comparing the results.
 
-| Metric | What it captures | Typical Use |
-|--------|------------------|-------------|
-| **Cosine** | Direction | Semantic similarity, text embeddings |
-| **Euclidean** | Absolute distance | Images, spatial data, coordinates |
-| **Manhattan** | Absolute distance (grid-like) | High-dimensional embeddings, noise-resistant similarity |
-| **Dot Product** | Direction + magnitude | Ranking, recommendations, weighted systems |
-
-## Testing Different Metrics
-
-**If you're not sure? Test it.** Store the same data using different metrics and compare the results. Qdrant lets you set the distance metric per collection, so it's easy to experiment.
+**Step 1: Store Text Embeddings with Different Metrics**
 
 ```python
-# Create collections with different metrics for comparison
-metrics_to_test = [
-    ("cosine_collection", Distance.COSINE),
-    ("euclidean_collection", Distance.EUCLID), 
-    ("manhattan_collection", Distance.MANHATTAN),
-    ("dot_collection", Distance.DOT)
-]
+from qdrant_client import QdrantClient
+from qdrant_client.models import VectorParams, Distance
 
-for name, metric in metrics_to_test:
+client = QdrantClient("http://localhost:6333")
+
+for metric in [Distance.COSINE, Distance.EUCLID, Distance.DOT]:
     client.create_collection(
-        collection_name=name,
-        vectors_config=VectorParams(size=384, distance=metric)
+        collection_name=f"text_search_{metric.name.lower()}",
+        vectors_config=VectorParams(size=768, distance=metric)
     )
-    
-    # Insert the same data and compare search results
-    # ... (insert your data and test queries)
 ```
 
-### Practical Testing Approach
+**Step 2: Compare Search Results Using Different Metrics**
 
-1. **Create multiple collections** with the same data but different metrics
-2. **Run identical queries** across all collections
-3. **Compare the top results** - which metric returns more relevant matches?
-4. **Measure performance** - some metrics are faster than others
-5. **Choose based on your specific use case** and quality requirements
+```python
+query_vector = [0.15] * 768  # Example query embedding
+
+# Run searches across all three metrics
+for metric in ["cosine", "euclid", "dot"]:
+    result = client.query_points(
+        collection_name=f"text_search_{metric}",
+        query=query_vector,
+        limit=5
+    )
+    print(f"Top results using {metric} similarity:")
+    print(result)
+```
+
+## When to Use Each Metric
+
+| Metric | Best For | Example Use Case |
+|--------|----------|------------------|
+| **Cosine Similarity** | NLP, text search, semantic similarity | Finding similar news articles, document comparison |
+| **Euclidean Distance** | Image embeddings, spatial data | Image similarity, clustering |
+| **Manhattan Distance** | High-dimensional data, noise resistance | Text embeddings with outlier resistance |
+| **Dot Product** | Recommendation systems, ranking tasks | Product recommendations, retrieval with weighted importance |
 
 ## Key Takeaways
 
 1. **Cosine Similarity** ignores magnitude, focuses on direction - perfect for semantic search
-2. **Euclidean Distance** measures absolute differences - great for spatial and image data
+2. **Euclidean Distance** measures absolute differences - great for spatial and image data  
 3. **Manhattan Distance** provides more stable measurements in high dimensions
 4. **Dot Product** considers both direction and magnitude - ideal for ranking systems
 5. **Always test with your specific data** - the best metric depends on your use case
 6. **Qdrant makes experimentation easy** with per-collection distance metrics
 
-Understanding these fundamental differences will help you choose the right similarity measure for your vector search applications, leading to more accurate and relevant results. 
+**Final thoughts:** Choosing the right distance metric is crucial for search quality. Experiment with different metrics in Qdrant to see how they impact search results!
+
+Reference: [Distance Metrics in Qdrant Documentation](https://qdrant.tech/documentation/concepts/search/#metrics) 
