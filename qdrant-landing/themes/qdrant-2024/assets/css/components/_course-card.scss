@@ -29,20 +29,8 @@
   }
 
   &__content {
-    color: $neutral-70;
-
-    &.wide {
-      ul {
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        column-count: 2;
-        column-gap: $spacer * 6;
-        margin-bottom: -$spacer * 1.5;
-
-        li {
-          margin-bottom: $spacer * 1.5;
-        }
-      }
+    [data-theme='light'] & {
+      color: $neutral-70;
     }
   }
 
