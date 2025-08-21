@@ -1,9 +1,11 @@
 import scrollHandler from './scroll-handler';
 import { XXL_BREAKPOINT } from './constants';
-import { initGoToTopButton } from './helpers';
+import { initGoToTopButton, persistUTMParams } from './helpers';
 import { handleSegmentReady } from './segment-helpers';
 import { registerAndCall } from './onetrust-helpers';
 import TableOfContents from './table-of-content';
+
+persistUTMParams();
 
 // on document ready
 document.addEventListener('DOMContentLoaded', function () {
