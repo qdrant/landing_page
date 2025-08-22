@@ -34,7 +34,10 @@ A hybrid recommendation system that demonstrates:
 from qdrant_client import QdrantClient, models
 from datetime import datetime, timedelta
 
-client = QdrantClient("http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 collection_name = "recommendations_hybrid"
 
 if client.collection_exists(collection_name=collection_name):

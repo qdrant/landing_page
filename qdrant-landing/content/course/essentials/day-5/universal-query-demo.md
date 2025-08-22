@@ -32,7 +32,10 @@ First, let's set up a collection with three vector types - each serving a differ
 from qdrant_client import QdrantClient, models
 from datetime import datetime, timedelta
 
-client = QdrantClient("http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 collection_name = "arxiv_papers"
 
 # Clean slate

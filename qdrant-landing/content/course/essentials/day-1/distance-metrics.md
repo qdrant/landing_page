@@ -143,7 +143,10 @@ A practical way to understand how distance metrics affect search quality is by r
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance
 
-client = QdrantClient("http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 for metric in [Distance.COSINE, Distance.EUCLID, Distance.DOT]:
     client.create_collection(

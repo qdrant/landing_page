@@ -210,7 +210,10 @@ The default model is lightweight at ~67MB compared to 300MB+ for many Hugging Fa
 from qdrant_client import QdrantClient
 from qdrant_client.fastembed.text import TextEmbedding
 
-client = QdrantClient("localhost")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 embedding_model = TextEmbedding()
 vector = embedding_model("Qdrant is a vector database")
 ```

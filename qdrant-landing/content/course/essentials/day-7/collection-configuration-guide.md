@@ -127,7 +127,10 @@ Example: defining a collection with a single dense vector field:
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 client.create_collection(
     collection_name=collection_name,
@@ -154,7 +157,10 @@ Example: creating a simple collection with multivector configuration:
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 client.create_collection(
     collection_name=collection_name,
@@ -186,7 +192,10 @@ Example: creating a collection with a sparse vector field named `text_sparse`
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 client.create_collection(
     collection_name=collection_name,
@@ -214,7 +223,10 @@ Example: creating a collection with three named vector fields: `dense_text` (den
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 client.create_collection(
     collection_name=collection_name,
@@ -288,7 +300,10 @@ Global HNSW settings are defined at the collection level and apply to all vector
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import (Distance, VectorParams, HnswConfig)
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 client.create_collection(
     collection_name=collection_name,
@@ -323,7 +338,10 @@ You can override HNSW settings for specific vector fields by including an `hnsw_
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import (Distance, VectorParams, HnswConfig)
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 client.create_collection(
     collection_name=collection_name,
@@ -406,7 +424,10 @@ Set a default quantization strategy for the entire collection. This applies to a
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 client.create_collection(
     collection_name=collection_name,
@@ -431,7 +452,10 @@ Apply quantization to a specific vector field using `quantization_config` inside
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 client.create_collection(
     collection_name=collection_name,
@@ -475,7 +499,10 @@ Configure how Qdrant buffers and persists operations by tuning WAL parameters du
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 client.create_collection(
     collection_name=collection_name,
@@ -514,7 +541,10 @@ If you do not explicitly set `on_disk_payload=True` during collection creation, 
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 client.create_collection(
     collection_name=collection_name,

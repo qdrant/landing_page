@@ -36,7 +36,10 @@ The first step is to create a collection with a specified configuration — at l
 from qdrant_client import QdrantClient
 from qdrant_client.conversions.common_types import VectorParams
 
-client = QdrantClient("localhost", 6333)
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 if not client.collection_exists('test_collection'):
     client.create_collection(
         collection_name="test_collection",
