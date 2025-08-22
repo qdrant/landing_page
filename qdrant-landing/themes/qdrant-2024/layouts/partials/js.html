@@ -181,3 +181,134 @@
     }
   });
 </script>
+
+{{ if eq .Section "course" }}
+  <script>
+    document.addEventListener("scroll", () => {
+      const progressBar = document.getElementById("scroll-progress");
+      if (!progressBar) return;
+
+      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollTop = window.scrollY;
+
+      // Calculate progress percentage
+      const progressPercentage = Math.max(0, Math.min(100, (scrollTop / documentHeight) * 100));
+
+      // Update the width of the progress bar
+      progressBar.style.width = progressPercentage + '%';
+    });
+
+    // Confetti animations for course completion and bonus content
+    
+    // Course completion confetti for Day 8
+    if (window.location.pathname.includes('day-8/congratulations')) {
+      
+      function createCelebrationConfetti() {
+        const confetti = document.createElement('div');
+        confetti.textContent = '🎊';
+        confetti.style.cssText = `
+          position: fixed;
+          top: -10px;
+          left: ${Math.random() * 100}%;
+          font-size: ${Math.random() * 25 + 20}px;
+          pointer-events: none;
+          z-index: 9998;
+          animation: confettiFall 3s linear;
+        `;
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 3000);
+      }
+      
+      // Add confetti CSS animation for Day 8
+      const celebrationStyle = document.createElement('style');
+      celebrationStyle.textContent = `
+        @keyframes confettiFall {
+          to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(celebrationStyle);
+      
+      // Trigger celebration confetti burst on load
+      setTimeout(() => {
+        for (let i = 0; i < 25; i++) {
+          setTimeout(createCelebrationConfetti, i * 80);
+        }
+      }, 500);
+    }
+    
+    // Partner logo confetti for Day 9
+    if (window.location.pathname.includes('day-9')) {
+      // Add confetti effect with partner logos when entering Day 9
+      const partnerLogos = {
+        'haystack': '/courses/course-integrations/haystack.svg',
+        'jina': '/courses/course-integrations/jina.svg',
+        'tensorlake': '/courses/course-integrations/tensorlake.svg',
+        'vectorize': '/courses/course-integrations/vectorize.svg',
+        'unstructured': '/courses/course-integrations/unstructured.svg',
+        'quotient': '/courses/course-integrations/quotient.svg',
+        'superlinked': '/courses/course-integrations/superlinked.svg',
+        'twelvelabs': '/courses/course-integrations/twelveLabs.svg'
+      };
+      
+      // Detect current partner page from URL
+      const currentPath = window.location.pathname;
+      const pathParts = currentPath.split('/');
+      const partnerPage = pathParts[pathParts.length - 2]; // Get the partner directory name
+      
+      // Determine which logo to use
+      let logoToUse;
+      if (partnerLogos[partnerPage]) {
+        // On specific partner page - use only that partner's logo
+        logoToUse = partnerLogos[partnerPage];
+      } else {
+        // On main Day 9 page - use all logos randomly
+        const allLogos = Object.values(partnerLogos);
+        logoToUse = () => allLogos[Math.floor(Math.random() * allLogos.length)];
+      }
+      
+      function createConfetti() {
+        const confetti = document.createElement('img');
+        const selectedLogo = typeof logoToUse === 'function' ? logoToUse() : logoToUse;
+        confetti.src = selectedLogo;
+        confetti.style.cssText = `
+          position: fixed;
+          top: -30px;
+          left: ${Math.random() * 100}%;
+          width: ${Math.random() * 15 + 30}px;
+          height: ${Math.random() * 15 + 30}px;
+          pointer-events: none;
+          z-index: 9998;
+          animation: confettiFall 3s linear;
+          object-fit: contain;
+        `;
+        confetti.alt = 'Partner logo';
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 3000);
+      }
+      
+      // Add confetti CSS animation
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes confettiFall {
+          to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Trigger confetti burst on load
+      setTimeout(() => {
+        for (let i = 0; i < 20; i++) {
+          setTimeout(createConfetti, i * 150);
+        }
+      }, 500);
+    }
+  </script>
+{{ end }}

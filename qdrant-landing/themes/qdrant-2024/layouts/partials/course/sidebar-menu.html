@@ -36,35 +36,66 @@
         </p>
         {{ end }}
 
-        {{ if or (eq $currentNode.Params.isLesson true) (eq $currentNode.Parent.Params.isLesson true) }}
-          {{ $allLessons := where $subject.Pages ".Params.isLesson" true }}
-          {{ $total := len $allLessons }}
+        {{ $isCertification := or (strings.Contains $currentNode.RelPermalink "/course/certification") (strings.Contains $currentNode.RelPermalink "/course/essentials/certification") }}
 
-
-          {{ if $total }}
-            {{ $currentIndex := 0 }}
-            {{ range $i, $p := $allLessons }}
-              {{ if eq $currentNode.Params.isLesson true }}
-                {{ if eq $p.Permalink $currentNode.Permalink }}
-                  {{ $currentIndex = add $i 1 }}
-                {{ end }}
-              {{ else }}
-                {{ if eq $p.Permalink $currentNode.Parent.Permalink }}
-                  {{ $currentIndex = add $i 1 }}
+        {{ if not $isCertification }}
+          {{ $percentStr := "0" }}
+          {{ if or (eq $currentNode.Params.isLesson true) (and $currentNode.Parent $currentNode.Parent.Params $currentNode.Parent.Params.isLesson) }}
+            {{ $allLessons := where $subject.Pages ".Params.isLesson" true }}
+            
+            {{ $allPages := slice }}
+            {{ range $lesson := $allLessons }}
+              <!-- Exclude Day 9 (bonus content) from progress calculation -->
+              {{ if not (strings.Contains $lesson.RelPermalink "day-9") }}
+                {{ $allPages = $allPages | append $lesson }}
+                {{ range $page := $lesson.RegularPages }}
+                  {{ $allPages = $allPages | append $page }}
                 {{ end }}
               {{ end }}
             {{ end }}
+            
+            {{ $total := len $allPages }}
 
-            {{ $percent := mul (div (float $currentIndex) (float $total)) 100 }}
-            {{ $percentStr := printf "%.0f" $percent }}
+            {{ if $total }}
+              {{ $currentIndex := 0 }}
+              {{ range $i, $p := $allPages }}
+                {{ if eq $currentNode.Params.isLesson true }}
+                  {{ if eq $p.Permalink $currentNode.Permalink }}
+                    {{ $currentIndex = add $i 1 }}
+                  {{ end }}
+                {{ else }}
+                  {{ if eq $p.Permalink $currentNode.Permalink }}
+                    {{ $currentIndex = add $i 1 }}
+                  {{ end }}
+                {{ end }}
+              {{ end }}
 
-            <div class="docs-menu__progress">
-              <div class="docs-menu__progress-container">
-                <div class="docs-menu__progress-bar" style="width: {{ $percentStr }}%;"></div>
-              </div>
-              <p class="docs-menu__progress-text">{{ $percentStr }}%</p>
-            </div>
+              {{ $percent := mul (div (float $currentIndex) (float $total)) 100 }}
+              <!-- Show 100% progress when on Day 9 (bonus content) -->
+              {{ if strings.Contains $currentNode.RelPermalink "day-9" }}
+                {{ $percent = 100.0 }}
+              {{ end }}
+              {{ $percentStr = printf "%.0f" $percent }}
+            {{ end }}
           {{ end }}
+
+          <div class="docs-menu__progress">
+            <div class="docs-menu__progress-container">
+              <div class="docs-menu__progress-bar" data-progress="{{ $percentStr }}"></div>
+            </div>
+            <p class="docs-menu__progress-text">{{ $percentStr }}%</p>
+          </div>
+          <script>
+            (function(){
+              try {
+                var bars = document.querySelectorAll('.docs-menu__progress-bar[data-progress]');
+                bars.forEach(function(bar){
+                  var v = bar.getAttribute('data-progress');
+                  if (v !== null) { bar.style.width = (v + '%'); }
+                });
+              } catch(e) {}
+            })();
+          </script>
         {{ end }}
 
         {{ if and $subject $subject.Params $subject.Params.content $subject.Params.content.menuTitle }}
@@ -131,7 +162,7 @@
               class="docs-menu__links-group {{ if $fileExistsAndMatchUniqueID }}active{{ end }}"
             >
               <div class="docs-menu__links-group-heading">
-                <a href="{{ .Params.url }}">{{ .Title }}</a>
+                <a href="{{ .Permalink }}">{{ .Title }}</a>
               </div>
             </div>
           {{ end }}

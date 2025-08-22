@@ -1,13 +1,22 @@
 ---
-title: Day 0
+title: Setup and First Steps
 isLesson: true
 weight: 1
 ---
 
 {{< date >}} Day 0 {{< /date >}}
 
-# Setup, Orientation & “Hello Qdrant!”
+# Setup and First Steps
 
-Welcome to Day 0! Today we’ll lay the foundation for everything in the course. Let’s get started with setting up your environment, and creating your first collection. By the end of this, you’ll have your first similarity search running! In total, the three videos are about 20 minutes total.
+Get started with Qdrant by setting up your environment and building your first vector search application.
 
-## Video 01: Course Overview
+---
+
+## Today’s path
+
+1. Qdrant Cloud setup
+2. Your first vector search (guided)
+3. Day 0 Task (pitstop project)
+
+By the end, you’ll have a working Qdrant setup and a complete first search running.
+
