@@ -66,7 +66,7 @@ Their involvement underscores the growing momentum behind vector search and retr
 
 We might still have a few exciting names to announce, so stay tuned...
 
-![Partners](/blog/vector-space-day-2025/partners-20.08.png) 
+![Partners](/blog/vector-space-day-2025/VSD-25.08.png) 
 
 ### Get Your Ticket
 
