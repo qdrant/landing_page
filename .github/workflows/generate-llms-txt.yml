@@ -1,0 +1,40 @@
+name: Generate llms.txt and llms-full.txt
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ '**' ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  models: read
+
+jobs:
+  generate-llms:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.148.2"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install requests openai
+      - name: Run the generation script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python automation/generate-llms-txt.py
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update llms.txt and llms-full.txt"
+          commit_user_name: "GitHub Actions"
+          commit_user_email: "team@qdrant.com"
