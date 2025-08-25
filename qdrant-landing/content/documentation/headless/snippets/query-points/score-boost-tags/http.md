@@ -8,7 +8,7 @@ POST /collections/{collection_name}/points/query
     "query": {
         "formula": {
             "sum": [
-                "$score,
+                "$score",
                 { 
                     "mult": [ 
                         0.5,
