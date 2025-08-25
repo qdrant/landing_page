@@ -32,6 +32,8 @@ Access to Qdrant Cloud accounts can be configured with granular [Role-Based Acce
 
 For the Qdrant Hybrid Cloud management plane, the same security considerations as for the Managed Cloud apply. However, since the data plane is running in your own infrastructure, you are responsible for the security of the underlying infrastructure. 
 
+Hybrid Cloud was built for the most security minded organizations when "air gapped" is not a hard requirement it providers a similar developer and ops experience as Managed Cloud, while adhering to organizations overarching security protocols
+
 Please refer to our [Hybrid Cloud documentation](/documentation/hybrid-cloud/) for more details.
 
 Qdrant clusters in Hybrid Cloud are also running in hardened containers with strict network policies. The databases are completely running on your infrastructure, within your network using your own controlled storage. Qdrant does not have any access to the database, the data in it, API keys, backups or to the database logs. Telemetry data and management instructions are shared with the Qdrant Cloud management plane.
@@ -40,7 +42,9 @@ Qdrant clusters in Hybrid Cloud are also running in hardened containers with str
 
 In Qdrant Private Cloud, Qdrant clusters run completely isolated and air-gapped within your infrastucture without any connection to the Qdrant Cloud management plane. 
 
-Please refer to our [Private Cloud documentation](/documentation/private-cloud/) for more details. 
+Since no data or management instructions are shared with Qdrant, you are fully responsible for the security of the whole Qdrant Private Cloud installation. This also means that you do not benefit from all the integrated management and observability features of Qdrant Managed Cloud and Hybrid Cloud.
+
+Please refer to our [Private Cloud documentation](/documentation/private-cloud/) for more details. We encourage you to weigh your security requirements against Hybrid Cloud before inquiring about Private Cloud.
 
 Qdrant does not have any access to the database, the data in it, API keys, backups or to the database logs. No telemetry data is shared with Qdrant.
 
