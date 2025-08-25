@@ -31,7 +31,7 @@ That stepping stone is [Concierge](https://www.opentable.com/blog/concierge-ai-d
 
 ![Concierge screenshot](/blog/case-study-opentable/opentable-concierge-screenshot.png)
 
-Setting clear priorities for accuracy, domain focus, and speed 
+### Setting clear priorities for accuracy, domain focus, and speed 
 
 For Concierge to succeed, the assistant needed to respond to the vast majority of user questions and every answer had to reflect reality. Incorrect menu items or outdated offerings could erode user and restaurant trust. 
 
