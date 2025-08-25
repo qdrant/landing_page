@@ -29,7 +29,6 @@ The Vector Space Day will bring together engineers, researchers, and AI builders
 
 * **Deep-dives & lightning talks**: Learn from the teams solving hard problems in AI infrastructure, search relevance, and semantic retrieval in production.  
 * **Panels & debates**: Discuss the future of AI agents, multimodal memory, context-aware RAG, and vector-native developer workflows.   
-* **Hands-on workshops**: Get practical with applied vector search and context construction in guided sessions, perfect whether you're building a search product or a complex RAG pipeline.  
 * **Meet the community**: This isn’t just a conference. It’s a gathering of the developers rethinking how AI systems search, retrieve, and reason at scale.
 
 ### Topics We’ll Explore
@@ -54,11 +53,11 @@ The day doesn’t end when the last session wraps. Your ticket includes access t
 
 We’ve locked in a strong lineup but we’re saving a few select slots for standout talks from the community. If you’re building something novel in vector search, AI memory, context engineering, or retrieval infra, we want to hear from you.
 
-[Submit a proposal](https://docs.google.com/forms/d/e/1FAIpQLSeGvmWISVImELQid1AjMv2Dvm2AXNuOqyZKqrQlFk07CnY_cw/viewform). Due Friday, August 8th, 2025. Missed the deadline? Go ahead and send it in anyway. Proposals submitted after the deadline, without prior communication with the event organizers, will be reviewed if space becomes available.
+[Submit a proposal (deadline has passed)](https://docs.google.com/forms/d/e/1FAIpQLSeGvmWISVImELQid1AjMv2Dvm2AXNuOqyZKqrQlFk07CnY_cw/viewform). Due Friday, August 8th, 2025. Missed the deadline? Go ahead and send it in anyway. Proposals submitted after the deadline, without prior communication with the event organizers, will be reviewed if space becomes available.
 
 ### Partners
 
-We’ll be joined by leading organizations including AWS, Microsoft, Vultr, Jina, DeepSet, LlamaIndex, TwelveLabs, n8n, Neo4j, MistralAI, DataTalks.Club, and the MLOps Community, and more. 
+We’ll be joined by leading organizations including AWS, Microsoft, Vultr, Jina, DeepSet, LlamaIndex, TwelveLabs, n8n, Neo4j, Superlinked, DataTalks.Club, and the MLOps Community, and more. 
 
 These partners represent a cross-section of the most influential players in AI infrastructure and applied research, and we’re proud to collaborate with them to bring this event to life. 
 
@@ -66,7 +65,7 @@ Their involvement underscores the growing momentum behind vector search and retr
 
 We might still have a few exciting names to announce, so stay tuned...
 
-![Partners](/blog/vector-space-day-2025/partners-20.08.png) 
+![Partners](/blog/vector-space-day-2025/VSD-25.08.png) 
 
 ### Get Your Ticket
 
@@ -88,6 +87,8 @@ See you in Berlin\!
 
 ### Global Hackathon Through September 16
 
+![Hackathon](/blog/vector-space-day-2025/hackathon.jpg) 
+
 In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a global, virtual hackathon challenging devs to reimagine what's possible with vector search. Forget the classical RAG chatbot! This is your chance to explore multi-modal applications, intelligent recommendations, and advanced vector search that go far beyond conversational interfaces.
 
 💰 Over $10k in prizes from Qdrant, Mistral AI, CrewAI, Cognee, and more
@@ -96,8 +97,7 @@ In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a g
 
 🌏 Open to participants worldwide
 
-🏆 Winners announced September 26 at Vector Space Day in Berlin
-
+🏆 Winners announced September 26 at Vector Space Day in Berlin and online
 [**Learn more.**](https://try.qdrant.tech/hackathon-2025)
 
 
