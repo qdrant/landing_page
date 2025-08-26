@@ -48,7 +48,7 @@ Since no data or management instructions are shared with Qdrant, you are fully r
 
 Please refer to our [Private Cloud documentation](/documentation/private-cloud/) for more details. We encourage you to weigh your security requirements against Hybrid Cloud before inquiring about Private Cloud.
 
-Qdrant does not have any access to the database, the data in it, API keys, backups or to the database logs. No telemetry data is shared with Qdrant.
+With Private Cloud, Qdrant has no access to the database, any stored data, API keys, backups or the cluster logs. Compared to Hybrid Cloud, telemetry data is not shared with Qdrant and it is not possible to use the Qdrant Cloud Console to manage your clusters.
 
 ## Software Bill of Materials (SBOM) and Container Image Security
 
