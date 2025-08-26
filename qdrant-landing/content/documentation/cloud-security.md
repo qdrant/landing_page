@@ -46,7 +46,7 @@ In Qdrant Private Cloud, Qdrant clusters run completely isolated and air-gapped 
 
 Since no data or management instructions are shared with Qdrant, you are fully responsible for the security of the whole Qdrant Private Cloud installation. This also means that you do not benefit from all the integrated management and observability features of Qdrant Managed Cloud and Hybrid Cloud.
 
-Please refer to our [Private Cloud documentation](/documentation/private-cloud/) for more details. We encourage you to weigh your security requirements against Hybrid Cloud before inquiring about Private Cloud.
+Please refer to our [Private Cloud documentation](/documentation/private-cloud/) for more details. As Private Cloud is completely isolated from the Qdrant Cloud Console, we encourage you to assess your security requirements against Hybrid Cloud before considering Private Cloud for the best experience.
 
 With Private Cloud, Qdrant has no access to the database, any stored data, API keys, backups or the cluster logs. Compared to Hybrid Cloud, telemetry data is not shared with Qdrant and it is not possible to use the Qdrant Cloud Console to manage your clusters.
 
