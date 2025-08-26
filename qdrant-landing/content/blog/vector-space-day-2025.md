@@ -87,7 +87,7 @@ See you in Berlin\!
 
 ### Global Hackathon Through September 16
 
-![Hackathon](/blog/vector-space-day-2025/hackathon.jpg) 
+![Hackathon](/blog/vector-space-day-2025/hackathon-26aug.png) 
 
 In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a global, virtual hackathon challenging devs to reimagine what's possible with vector search. Forget the classical RAG chatbot! This is your chance to explore multi-modal applications, intelligent recommendations, and advanced vector search that go far beyond conversational interfaces.
 
