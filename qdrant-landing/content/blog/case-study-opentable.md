@@ -35,7 +35,7 @@ That stepping stone is [Concierge](https://www.opentable.com/blog/concierge-ai-d
 
 For Concierge to succeed, the assistant needed to respond to the vast majority of user questions and every answer had to reflect reality. Incorrect menu items or outdated offerings could erode user and restaurant trust. 
 
-“The primary goal was answerability. We wanted to make sure the model could answer most questions. The second most important was accuracy, so that when the model gave an answer it was correct,”  Puyuan Liu, Machine Learning Scientist, OpenTable
+“The primary goal was answerability. We wanted to make sure the model could answer most questions. The second most important was accuracy, so that when the model gave an answer it was correct.”  Puyuan Liu, Machine Learning Scientist, OpenTable
 
 Beyond the application logic, the team needed a vector database that could handle sparse embeddings for keyword expansions and fine-grained filtering. Queries often narrowed results to a single restaurant out of more than 60,000, which placed heavy demands on filtering performance. 
 
@@ -53,7 +53,7 @@ Patrick Lombardo summed it up: "Creating a Qdrant Cloud cluster was one of the e
 
 The production launch was global from the start, allowing Concierge to answer questions about restaurants in many regions without separate deployments. 
 
-Achieving stability and setting the stage for future innovation 
+### Achieving stability and setting the stage for future innovation 
 
 Concierge met its latency target and maintained high answerability without extensive post-launch tuning. Operationally, Qdrant became one of the most stable components in the stack. Ant White, Principal Software Engineer at OpenTable, explained, “Since running it in production, it is a frictionless part of the stack. ” 
 
