@@ -50,7 +50,7 @@ Qdrant does not have any access to the database, the data in it, API keys, backu
 
 ## Software Bill of Materials (SBOM) and Container Image Security
 
-We provide a Software Bill of Materials (SBOM) for the Qdrant database and Qdrant Cloud components running on your infrastructure in Qdrant Hybrid Cloud and Qdrant Private Cloud. An SBOM is attached to every released container image. You can inspect it with the tool of your choice, e.g.:
+We provide a Software Bill of Materials (SBOM) for all Qdrant clusters and Qdrant Cloud components running on your infrastructure in Qdrant Hybrid Cloud and Qdrant Private Cloud. An SBOM is attached to every released container image. You can inspect it with the tool of your choice, e.g.:
 
 ```bash
 docker buildx imagetools inspect registry.cloud.qdrant.io/qdrant/operator:latest --format "{{ json .SBOM }}"
