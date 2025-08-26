@@ -22,7 +22,7 @@ All storage volumes are encrypted at rest. [Premium customers](/documentation/cl
 
 Data in transit is protected with TLS. It is possible to restrict the [IP ranges](/cloud/configure-cluster/#client-ip-restrictions) that are allowed to access a cluster.
 
-Infrastructure access is limited and audited according to the policies laied out in our [Trust Center](https://qdrant.to/trust-center). All infrastructure componets are regularly patched and updated to ensure security.
+Infrastructure access is restricted and audited according to the policies described in our [Trust Center](https://qdrant.to/trust-center). All infrastructure components are regularly patched and updated to ensure up to date security.
 
 Access to Qdrant Cloud accounts can be configured with granular [Role-Based Access Control](/documentation/cloud-rbac/). [Premium customers](/documentation/cloud-premium/) can also enable Single Sign-On (SSO) with their identity provider.
 
