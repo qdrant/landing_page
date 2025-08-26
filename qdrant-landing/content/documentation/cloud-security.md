@@ -26,7 +26,9 @@ Infrastructure access is restricted and audited according to the policies descri
 
 Access to Qdrant Cloud accounts can be configured with granular [Role-Based Access Control](/documentation/cloud-rbac/). [Premium customers](/documentation/cloud-premium/) can also enable Single Sign-On (SSO) with their identity provider.
 
-[API keys](/cloud/authentication/) are not stored in plain text and can be rotated at any time. We recommend configuring an expiration and rotating your API keys regularly as a security best practice. They can also be configured with granular access control to limit their permissions to only the necessary operations.
+[API keys](/cloud/authentication/) can be configured with granular access controls and rotated at any time. API Keys are never stored in plaintext.
+
+We recommend configuring an expiration date and rotating your API keys regularly as a security best practice.
 
 ### Hybrid Cloud
 
