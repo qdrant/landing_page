@@ -34,7 +34,7 @@ We recommend configuring an expiration date and rotating your API keys regularly
 
 For Qdrant Hybrid Cloud, the same security considerations as Managed Cloud apply. The key difference is that since the data plane is running in your own infrastructure, you as the customer are responsible for the security of the underlying infrastructure.
 
-Hybrid Cloud was built for the most security minded organizations when "air gapped" is not a hard requirement it providers a similar developer and ops experience as Managed Cloud, while adhering to organizations overarching security protocols
+Qdrant Hybrid Cloud was built for security minded organizations where being "air gapped" is not a hard requirement, but there may be complex compliance and security controls that require you to operate your own infrastructure. It provides a similar developer and ops experience in the Qdrant Cloud Console to Managed Cloud, while allowing organizations to adhere to overarching security requirements with the data plane.
 
 Please refer to our [Hybrid Cloud documentation](/documentation/hybrid-cloud/) for more details.
 
