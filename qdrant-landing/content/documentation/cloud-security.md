@@ -38,7 +38,7 @@ Hybrid Cloud was built for the most security minded organizations when "air gapp
 
 Please refer to our [Hybrid Cloud documentation](/documentation/hybrid-cloud/) for more details.
 
-Qdrant clusters in Hybrid Cloud are also running in hardened containers with strict network policies. The databases are completely running on your infrastructure, within your network using your own controlled storage. Qdrant does not have any access to the database, the data in it, API keys, backups or to the database logs. Telemetry data and management instructions are shared with the Qdrant Cloud management plane.
+Qdrant clusters in Hybrid Cloud also run in hardened, unprivileged containers with strict network policies. Clusters run entirely on your own infrastructure, within your network, with your own controlled storage. Qdrant does not have any access to the database, any stored data, API keys, backups or database logs. Telemetry data and details such as the cluster configuration are shared with Qdrant to allow the Qdrant Cloud Console to be used for administration.
 
 ### Private Cloud
 
