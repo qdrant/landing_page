@@ -10,7 +10,7 @@ aliases:
 
 ## Compliance and Certifications
 
-Qdrant is committed to maintaining high standards of security and compliance. We are both SOC2 Type 2 and HIPAA certified, ensuring that our systems and processes meet rigorous security criteria. You can find our compliance reports [Trust Center](https://qdrant.to/trust-center). The trust center also contains our internal security policies and procedures, where you can find out manage data protection, vulnerabilities, disaster recovery, incident response, and more.
+Qdrant is committed to maintaining high standards of security and compliance. We are both SOC2 Type 2 and HIPAA certified, ensuring that our systems and processes meet rigorous security criteria. You can find our compliance reports in our [Trust Center](https://qdrant.to/trust-center). The trust center also contains our internal security policies and procedures, so you can learn how we manage data protection, vulnerabilities, disaster recovery, incident responses, and more.
 
 ## Security Considerations
 
