@@ -20,11 +20,11 @@ All Qdrant clusters running in Qdrant Managed Cloud are isolated from each other
 
 All storage volumes are encrypted at rest. [Premium customers](/documentation/cloud-premium/) can also bring their own encryption keys for storage volumes. 
 
-Data in transit is protected with TLS. It is possible to restrict the [IP ranges](/cloud/configure-cluster/#client-ip-restrictions) that are allowed to access a cluster.
+Data in transit is protected with Transport-Layer-Security (TLS). It is possible to restrict the [IP ranges](/cloud/configure-cluster/#client-ip-restrictions) that are allowed to access a cluster.
 
 Infrastructure access is restricted and audited according to the policies described in our [Trust Center](https://qdrant.to/trust-center). All infrastructure components are regularly patched and updated to ensure up to date security.
 
-Access to Qdrant Cloud accounts can be configured with granular [Role-Based Access Control](/documentation/cloud-rbac/). [Premium customers](/documentation/cloud-premium/) can also enable Single Sign-On (SSO) with their identity provider.
+Access to Qdrant Cloud accounts can be configured with granular [Role-Based Access Control](/documentation/cloud-rbac/). [Premium customers](/documentation/cloud-premium/) can also enable [Single Sign-On (SSO)](/documentation/cloud-account-setup/#enterprise-single-sign-on-sso) with their identity provider.
 
 [API keys](/cloud/authentication/) can be configured with granular access controls and rotated at any time. API Keys are never stored in plaintext.
 
