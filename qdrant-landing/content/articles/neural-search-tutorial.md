@@ -138,7 +138,7 @@ You should see output like this
 ```
 
 This means that the service is successfully launched and listening port 6333.
-To make sure you can test [http://localhost:6333/](http://localhost:6333/) in your browser and get qdrant version info.
+To make sure you can test your Qdrant Cloud cluster URL in your browser and get qdrant version info.
 
 All uploaded to Qdrant data is saved into the `./qdrant_storage` directory and will be persisted even if you recreate the container.
 
@@ -163,7 +163,10 @@ First, let's create a client object for Qdrant.
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance
 
-qdrant_client = QdrantClient(host='localhost', port=6333)
+qdrant_client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 ```
 
 Qdrant allows you to combine vectors of the same purpose into collections.
@@ -248,7 +251,10 @@ class NeuralSearcher:
         # Initialize encoder model
         self.model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
         # initialize Qdrant client
-        self.qdrant_client = QdrantClient(host='localhost', port=6333)
+        self.qdrant_client = QdrantClient(
+            url="https://your-cluster-url.cloud.qdrant.io",
+            api_key="your-api-key",
+        )
 ```
 
 The search function looks as simple as possible:

@@ -15,12 +15,27 @@
     border: pxToRem(1) solid $neutral-20;
     background: linear-gradient($neutral-20, #0e1424);
     border-radius: pxToRem(12);
+    text-decoration: none;
+    color: inherit;
+    
+    &--clickable {
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      
+      &:hover {
+        transform: translateY(-2px);
+        border-color: $primary-50;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+        color: inherit;
+      }
+    }
 
     &-content {
       margin-bottom: 0;
       font-size: $font-size-s;
       line-height: $line-height-sm;
-      color: $neutral-70;
+      color: $neutral-80; // increase contrast for legibility
     }
 
     &-title {
@@ -28,6 +43,7 @@
       font-size: $font-size-l;
       line-height: $line-height-lg;
       color: $neutral-98;
+      font-weight: 600; // improve visibility
     }
 
     img.cards-list__item-image {
