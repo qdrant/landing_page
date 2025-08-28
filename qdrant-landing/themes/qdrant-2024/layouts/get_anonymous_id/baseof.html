@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <title>Get Anonymous ID</title>
     <meta name="robots" content="noindex, nofollow" />
     <script>
       const writeKey = "{{ .Site.Params.segmentWriteKey }}";
@@ -25,18 +26,21 @@
   <body>
     <script>
       window.addEventListener('message', (event) => {
-        analytics.ready(() => {
-          if (event.data === 'getAnonymousId' || event.data.type === 'getAnonymousId') {
-            const { email } = event.data;
-            
-            if (email) {
-              try {
-                window._hsq = window._hsq || [];
-                window._hsq.push(['identify', { email }]);
-                window._hsq.push(['trackPageView']);
-              } catch { }
-            }
+        // Normalize event data
+        const msg = typeof event.data === 'string' ? { type: event.data } : (event.data || {});
 
+        // Hubspot
+        try {
+          if (msg.email) {
+            window._hsq = window._hsq || [];
+            window._hsq.push(['identify', { email: msg.email }]);
+            window._hsq.push(['trackPageView']);
+          }
+        } catch { }
+
+        // Segment
+        analytics.ready(() => {
+          if (msg.type === 'getAnonymousId') {
             const anonymousId = analytics.user().anonymousId();
             const { firstVisitAttribution } = analytics.user().traits();
             event.source.postMessage({ anonymousId, firstVisitAttribution }, event.origin);
