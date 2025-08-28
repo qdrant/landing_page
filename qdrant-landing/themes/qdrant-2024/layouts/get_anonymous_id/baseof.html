@@ -26,7 +26,17 @@
     <script>
       window.addEventListener('message', (event) => {
         analytics.ready(() => {
-          if (event.data === 'getAnonymousId') {
+          if (event.data === 'getAnonymousId' || event.data.type === 'getAnonymousId') {
+            const { email } = event.data;
+            
+            if (email) {
+              try {
+                window._hsq = window._hsq || [];
+                window._hsq.push(['identify', { email }]);
+                window._hsq.push(['trackPageView']);
+              } catch { }
+            }
+
             const anonymousId = analytics.user().anonymousId();
             const { firstVisitAttribution } = analytics.user().traits();
             event.source.postMessage({ anonymousId, firstVisitAttribution }, event.origin);
