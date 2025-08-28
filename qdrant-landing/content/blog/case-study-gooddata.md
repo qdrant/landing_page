@@ -41,7 +41,7 @@ GoodData transitioned to a Retrieval-Augmented Generation (RAG) strategy, requir
 
 GoodData leveraged Qdrant’s official Helm chart, deploying smoothly in Kubernetes and efficiently managing near-real-time embedding updates, crucial for multilingual semantic layers.
 
-![Old Approach](/blog/case-study-gooddata/gooddata-diagram-1.png)
+![Old Approach](/blog/case-study-gooddata/gooddata-diagram-1.1.png)
 
 ### Real-Time Performance and Scalability Gains
 
