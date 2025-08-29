@@ -1,9 +1,9 @@
 ---
 title: "MUVERA Embeddings"
-short_description: "Making muliti-vector retrieval more efficient by approximating it with single-vector search"
+short_description: "Making multi-vector retrieval more efficient by approximating it with single-vector search"
 description: "Multi-vector representations are superior to single-vector embeddings in many benchmarks. MUVERA embeddings aim to solve the problem of slow multi-vector search by creating a single-vector representation that approximates the multi-vector representation. This single vector can be used for fast initial retrieval using traditional vector search methods, and then the multi-vector representation can be used for reranking the top results."
 preview_dir: /articles_data/muvera-embeddings/preview
-social_preview_image: /articles_data/muvera-embeddings/social-preview.png
+social_preview_image: /articles_data/muvera-embeddings/preview/social_preview.jpg
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com
 date: 2025-08-27T00:00:00.000Z
@@ -103,22 +103,18 @@ The paper reports results from experiments with `k_sim` values of 4 and 5. Pract
 respectively. If the original token vectors have a dimensionality of 128, the resulting FDE would have a dimensionality 
 of `16 * 128 = 2048` or `32 * 128 = 4096`. However, a single SimHash projection with just 4 or 5 hyperplanes might not 
 capture enough information about the input vectors. To improve the quality of the FDEs, the authors suggest repeating
-the process multiple times with independent SimHash projections and concatenating the results. Practically, if we repeat
-the process 20 times, we would end up with FDEs of size `20 * 16 * 128 = 40960` or `20 * 32 * 128 = 81920`, which is 
+the process multiple times with independent SimHash projections and concatenating the results. Practically, with 
+`r_reps=20` repetitions, we would end up with FDEs of size `20 * 16 * 128 = 40960` or `20 * 32 * 128 = 81920`, which is 
 quite large and could slow down single-vector search significantly. For that reason, the authors suggest applying random 
 projection to reduce the dimensionality of each FDE. This involves multiplying each cluster vector by a random 
-matrix with entries from `{-1, +1}`. This matrix has a shape of `(dim, dim_proj)`, where `dim_proj` is the desired
-dimensionality of the projected vectors. The resulting FDE will then have a size of `k_sim * dim_proj`.
+matrix with entries from `{-1, +1}` and applying a scaling factor of `1/√(dim_proj)`. This matrix has a shape of 
+`(dim, dim_proj)`, where `dim_proj` is the desired dimensionality of the projected vectors. The resulting FDE will then 
+have a size of `r_reps * k_sim * dim_proj`.
 
 ![Random projection](/articles_data/muvera-embeddings/random-projection.png)
 
-### Repeating the process for robustness
-
-As mentioned earlier, a single SimHash projection might not be sufficient to capture the necessary information. To
-address this, the entire process of SimHash projection, clustering, and random projection is repeated `r_reps` times.
-Each repetition uses independent random hyperplanes and random projection matrices. The results from all repetitions
-are then concatenated to form the final FDE. This repetition helps to create a more robust representation that better 
-approximates the original multi-vector representation.
+The results from all repetitions are then concatenated to form the final FDE. This repetition helps to create a more 
+robust representation that better approximates the original multi-vector embedding.
 
 ### Final random projection
 
@@ -134,10 +130,10 @@ approach requires storing both the MUVERA embeddings and the original multi-vect
 storage requirements.
 
 Please note that the MUVERA embeddings might be way larger than the single dense vectors produced by traditional
-embedding models you might be used to. For example, using `k_sim=6`, `dim_proj=32`, and `r_reps=20` with 128-dimensional 
-token vectors results in FDEs of size `20 * 2^6 * 32 = 40960`. This is significantly larger than typical single-vector 
-embeddings, which are around a few thousand dimensions at most. The increased size of MUVERA embeddings can impact
-storage and retrieval efficiency, so it's important to consider these factors when deciding to use them.
+embedding models you might be used to. For example, using `k_sim=6` (64 clusters), `dim_proj=32`, and `r_reps=20` with 
+128-dimensional token vectors results in FDEs of size `20 * 64 * 32 = 40960`. This is significantly larger than typical 
+single-vector embeddings, which are around a few thousand dimensions at most. The increased size of MUVERA embeddings 
+can impact storage and retrieval efficiency, so it's important to consider these factors when deciding to use them.
 
 ## MUVERA in FastEmbed
 
@@ -155,7 +151,8 @@ model = LateInteractionTextEmbedding(model_name="colbert-ir/colbertv2.0")
 muvera = Muvera.from_multivector_model(
     model=model,
     k_sim=6,
-    dim_proj=32
+    dim_proj=32,
+    r_reps=20
 )
 
 # Create embeddings of the sample text and then process them with MUVERA
