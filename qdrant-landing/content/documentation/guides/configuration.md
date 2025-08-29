@@ -138,6 +138,7 @@ log_level: INFO
 #     log_level: INFO
 #     # Logging format, supports `text` and `json`
 #     format: text
+#     buffer_size_bytes: 1024
 
 storage:
   # Where to store all the data
@@ -163,7 +164,7 @@ storage:
   # It will be read from the disk every time it is requested.
   # This setting saves RAM by (slightly) increasing the response time.
   # Note: those payload values that are involved in filtering and are indexed - remain in RAM.
-  # 
+  #
   # Default: true
   on_disk_payload: true
 
@@ -189,11 +190,6 @@ storage:
   performance:
     # Number of parallel threads used for search operations. If 0 - auto selection.
     max_search_threads: 0
-
-    # Max number of threads (jobs) for running optimizations across all collections, each thread runs one job.
-    # If 0 - have no limit and choose dynamically to saturate CPU.
-    # Note: each optimization job will also use `max_indexing_threads` threads by itself for index building.
-    max_optimization_threads: 0
 
     # CPU budget, how many CPUs (threads) to allocate for an optimization job.
     # If 0 - auto selection, keep 1 or more CPUs unallocated depending on CPU size
@@ -251,20 +247,12 @@ storage:
     # If not set, will be automatically selected considering the number of available CPUs.
     max_segment_size_kb: null
 
-    # Maximum size (in KiloBytes) of vectors to store in-memory per segment.
-    # Segments larger than this threshold will be stored as read-only memmapped file.
-    # To enable memmap storage, lower the threshold
-    # Note: 1Kb = 1 vector of size 256
-    # To explicitly disable mmap optimization, set to `0`.
-    # If not set, will be disabled by default.
-    memmap_threshold_kb: null
-
     # Maximum size (in KiloBytes) of vectors allowed for plain index.
-    # Default value based on https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md
+    # Default value based on experiments and observations.
     # Note: 1Kb = 1 vector of size 256
     # To explicitly disable vector indexing, set to `0`.
     # If not set, the default value will be used.
-    indexing_threshold_kb: 20000
+    indexing_threshold_kb: 10000
 
     # Interval between forced flushes.
     flush_interval_sec: 5
@@ -282,8 +270,7 @@ storage:
   #  vacuum_min_vector_number: 1000
   #  default_segment_number: 0
   #  max_segment_size_kb: null
-  #  memmap_threshold_kb: null
-  #  indexing_threshold_kb: 20000
+  #  indexing_threshold_kb: 10000
   #  flush_interval_sec: 5
   #  max_optimization_threads: null
 
@@ -366,6 +353,10 @@ storage:
       # Max oversampling value allowed in search.
       search_max_oversampling: null
 
+  # Maximum number of collections allowed to be created
+  # If null - no limit.
+  max_collections: null
+
 service:
   # Maximum size of POST data in a single request in megabytes
   max_request_size_mb: 32
@@ -428,6 +419,8 @@ service:
   # Hardware reporting adds information to the API responses with a
   # hint on how many resources were used to execute the request.
   #
+  # Warning: experimental, this feature is still under development and is not supported yet.
+  #
   # Uncomment to enable.
   # hardware_reporting: true
 
@@ -451,6 +444,12 @@ cluster:
     # tick period may create significant network and CPU overhead.
     # We encourage you NOT to change this parameter unless you know what you are doing.
     tick_period_ms: 100
+
+    # Compact consensus operations once we have this amount of applied
+    # operations. Allows peers to join quickly with a consensus snapshot without
+    # replaying a huge amount of operations.
+    # If 0 - disable compaction
+    compact_wal_entries: 128
 
 # Set to true to prevent service from sending usage statistics to the developers.
 # Read more: https://qdrant.tech/documentation/guides/telemetry
