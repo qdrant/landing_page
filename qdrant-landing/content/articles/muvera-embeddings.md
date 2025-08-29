@@ -70,7 +70,7 @@ which side of a hyperplane the vector is on), we can interpret this binary strin
 
 Once all input vectors are assigned to clusters, we can aggregate the vectors belonging to each of the clusters. This 
 process is slightly different for documents and queries. In both cases, we'll end up with a fixed-dimensional vector
-with `k_sim * dim` dimensions, but the way we compute these vectors differs.
+with the same number of dimensions, but the way we compute these vectors differs.
 
 #### Document clustering
 
