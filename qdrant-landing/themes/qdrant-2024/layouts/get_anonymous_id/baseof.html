@@ -33,13 +33,15 @@
         // Hubspot
         try {
           if (msg.email) {
-            window._hsq = window._hsq || [];
-            window._hsq.push(['identify', { email: msg.email }]);
+            setTimeout(() => {
+              window._hsq = window._hsq || [];
+              window._hsq.push(['identify', { email: msg.email }]);
 
-            if (sessionStorage.getItem(HS_PAGEVIEWED_NAME) !== 'true') {
-              window._hsq.push(['trackPageView']);
-              sessionStorage.setItem(HS_PAGEVIEWED_NAME, 'true');
-            }
+              if (sessionStorage.getItem(HS_PAGEVIEWED_NAME) !== 'true') {
+                window._hsq.push(['trackPageView']);
+                sessionStorage.setItem(HS_PAGEVIEWED_NAME, 'true');
+              }
+            }, 2000);
           }
         } catch { }
 
