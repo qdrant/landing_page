@@ -74,9 +74,9 @@ with the same number of dimensions, but the way we compute these vectors differs
 
 #### Document clustering
 
-Once we assigned all the document token vectors to clusters, we compute the cluster centroids by averaging all vectors 
-in each cluster. This gives us a representative vector for each cluster. If a cluster ends up being empty (i.e., no 
-vectors were assigned to it), we fill it using vector from the nearest non-empty cluster. The distance between 
+Once we have assigned all the document token vectors to clusters, we compute the cluster centroids by averaging all 
+vectors in each cluster. This gives us a representative vector for each cluster. If a cluster ends up being empty (i.e., 
+no vectors were assigned to it), we fill it using vector from the nearest non-empty cluster. The distance between 
 clusters is determined by the Hamming distance between their cluster IDs.
 
 ![FDE document processing](/articles_data/muvera-embeddings/fde-document-processing.png)
