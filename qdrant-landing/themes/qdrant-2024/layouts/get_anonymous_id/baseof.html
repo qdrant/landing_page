@@ -26,27 +26,90 @@
   <body>
     <script>
       const HS_PAGEVIEWED_NAME = 'hs_pageviewed';
+      const HUBSPOTUTK_COOKIE_NAME = 'hubspotutk';
+
+      function getCookie(name) {
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const ca = decodedCookie.split(';');
+        name = name + "=";
+        for(let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+      }
+
+      async function createOrUpdateHubSpotContact(userEmail, hubspotutk, additionalProperties = {}) {
+        const hubspotPortalId = '139603372';
+        const hubspotFormId = 'a4c7d442-5dcf-4ed2-b71d-df47f99eca27';
+
+        let url = `https://api.hsforms.com/submissions/v3/integration/submit/${hubspotPortalId}/${hubspotFormId}`;
+
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fields: [
+                { name: 'email', value: userEmail },
+                ...Object.keys(additionalProperties).map(key => ({
+                  name: key,
+                  value: additionalProperties[key]
+                }))
+              ],
+              context: { hutk: hubspotutk }
+            })
+          });
+
+          if (response.ok) {
+            return response;
+          } else {
+            return false;
+          }
+        } catch (error) {
+          return false;
+        }
+      }
+
       window.addEventListener('message', (event) => {
         // Normalize event data
         const msg = typeof event.data === 'string' ? { type: event.data } : (event.data || {});
+        const email = msg.email;
 
         // Hubspot
         try {
-          if (msg.email) {
-            setTimeout(() => {
-              window._hsq = window._hsq || [];
-              window._hsq.push(['identify', { email: msg.email }]);
+          if (email) {
+            const hubspotutk = getCookie(HUBSPOTUTK_COOKIE_NAME);
+            const properties = {
+              hubspot_destination_mapping___segment: `Upsert Contact - Marketing - Frontend`
+            };
 
-              if (sessionStorage.getItem(HS_PAGEVIEWED_NAME) !== 'true') {
-                window._hsq.push(['trackPageView']);
-                sessionStorage.setItem(HS_PAGEVIEWED_NAME, 'true');
-              }
-            }, 2000);
+            createOrUpdateHubSpotContact(email, hubspotutk, properties)
+              .then((res) => {
+                window._hsq = window._hsq || [];
+                window._hsq.push(['identify', { email }]);
+
+                if (sessionStorage.getItem(HS_PAGEVIEWED_NAME) !== 'true') {
+                  window._hsq.push(['trackPageView']);
+                  sessionStorage.setItem(HS_PAGEVIEWED_NAME, 'true');
+                }
+              });
           }
         } catch { }
 
         // Segment
         analytics.ready(() => {
+          if (email) {
+            analytics.identify({
+              email,
+              [HUBSPOTUTK_COOKIE_NAME]: getCookie(HUBSPOTUTK_COOKIE_NAME),
+            });
+          }
+
           if (msg.type === 'getAnonymousId') {
             const anonymousId = analytics.user().anonymousId();
             const { firstVisitAttribution } = analytics.user().traits();
