@@ -25,6 +25,7 @@
   </head>
   <body>
     <script>
+      const HS_PAGEVIEWED_NAME = 'hs_pageviewed';
       window.addEventListener('message', (event) => {
         // Normalize event data
         const msg = typeof event.data === 'string' ? { type: event.data } : (event.data || {});
@@ -34,7 +35,11 @@
           if (msg.email) {
             window._hsq = window._hsq || [];
             window._hsq.push(['identify', { email: msg.email }]);
-            window._hsq.push(['trackPageView']);
+
+            if (sessionStorage.getItem(HS_PAGEVIEWED_NAME) !== 'true') {
+              window._hsq.push(['trackPageView']);
+              sessionStorage.setItem(HS_PAGEVIEWED_NAME, 'true');
+            }
           }
         } catch { }
 
