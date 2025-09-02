@@ -9,7 +9,7 @@ social_preview_image: /blog/decay-functions/preview/social_preview.jpg # Optiona
 title_preview_image: /blog/decay-functions/preview/title.jpg # Optional image used for blog post title
 date: 2025-09-01T14:55:45+02:00
 author: Evgeniya Sukhodolskaya 
-featured: false 
+featured: true 
 tags:
   - features
   - tech
