@@ -5,7 +5,7 @@ short_description: "OpenTable transformed restaurant search with Concierge, an A
 description: "Discover how OpenTable built Concierge, a generative AI dining assistant powered by Qdrant, achieving accurate retrieval, global scalability, and operational stability while redefining how diners discover restaurants."
 preview_image: /blog/case-study-opentable/social-preview-opentable.jpg
 social_preview_image: /blog/case-study-opentable/social-preview-opentable.jpg
-date: 2025-08-25
+date: 2025-09-02
 author: "Daniel Azoulai"
 featured: true
 
