@@ -135,11 +135,42 @@ embedding models you might be used to. For example, using `k_sim=6` (64 clusters
 single-vector embeddings, which are around a few thousand dimensions at most. The increased size of MUVERA embeddings 
 can impact storage and retrieval efficiency, so it's important to consider these factors when deciding to use them.
 
+### Impact on search performance
+
+To evaluate the effectiveness of MUVERA embeddings, we benchmarked three different approaches on the BeIR nfcorpus 
+dataset usin g the ColBERTv2 model:
+
+| Approach                    | NDCG@1 | NDCG@5 | NDCG@10 |
+|-----------------------------|--------|--------|---------|
+| Full multi-vector (ColBERT) | 0.478  | 0.387  | 0.347   |
+| MUVERA-only                 | 0.319  | 0.267  | 0.242   |
+| MUVERA + reranking          | 0.475  | 0.383  | 0.343   |
+
+The results show that MUVERA-only search trades some accuracy for speed, achieving about 70% of the full multi-vector 
+performance. However, using MUVERA for initial retrieval followed by multi-vector reranking recovers nearly all the 
+original performance while maintaining the efficiency benefits for the initial search phase.
+
+It's becoming especially interesting when you consider the search latency improvements. In our benchmarks, we observed significant speed gains:
+
+| Approach                    | Average Search Time (seconds) |
+|-----------------------------|-------------------------------|
+| Full multi-vector (ColBERT) | 1.27                          |
+| MUVERA-only                 | 0.15                          |
+| MUVERA + reranking          | 0.18                          |
+
+MUVERA-only search is approximately 8x faster than full multi-vector search, while the hybrid approach with reranking 
+still achieves about 7x speed improvement while maintaining nearly identical search quality. 
+
 ## MUVERA in FastEmbed
 
 [FastEmbed](/documentation/fastembed/) provides late interaction text (ColBERT) and multimodal (ColPali) embeddings. 
 Version 0.7.2 has introduced support for MUVERA embeddings which is compatible with any multi-vector representation,
 and available as a post-processing step.
+
+<aside role="status">
+Due to probabilistic nature of the SimHash and random projection techniques, the MUVERA embeddings created in different
+libraries won't be compatible. 
+</aside>
 
 ```python
 import numpy as np
@@ -159,3 +190,11 @@ muvera = Muvera.from_multivector_model(
 embeddings = np.array(list(model.embed(["sample text"])))
 fde = muvera.process_document(embeddings[0])
 ```
+
+If you're already using multi-vector retrieval, upgrading to FastEmbed 0.7.2+ will unlock MUVERA's 7x speed improvements 
+while maintaining nearly identical search quality. And if you've always wanted to experiment with multi-vector retrieval 
+but were held back by performance concerns or complexity, now is the perfect time to start. MUVERA removes those 
+traditional barriers, making advanced retrieval techniques accessible and practical for production use. Simply upgrade 
+your FastEmbed installation with `pip install --upgrade fastembed` and start benefiting from the power of multi-vector 
+search without the traditional speed penalties.
+
