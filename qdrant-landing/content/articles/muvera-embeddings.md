@@ -138,7 +138,8 @@ can impact storage and retrieval efficiency, so it's important to consider these
 ### Impact on search performance
 
 To evaluate the effectiveness of MUVERA embeddings, we benchmarked three different approaches on the BeIR nfcorpus 
-dataset usin g the ColBERTv2 model:
+dataset using the ColBERTv2 model. The MUVERA configuration used the following parameters: `k_sim=5`, `dim_proj=16`, 
+and `r_reps=20`:
 
 | Approach                    | NDCG@1 | NDCG@5 | NDCG@10 |
 |-----------------------------|--------|--------|---------|
@@ -150,7 +151,8 @@ The results show that MUVERA-only search trades some accuracy for speed, achievi
 performance. However, using MUVERA for initial retrieval followed by multi-vector reranking recovers nearly all the 
 original performance while maintaining the efficiency benefits for the initial search phase.
 
-It's becoming especially interesting when you consider the search latency improvements. In our benchmarks, we observed significant speed gains:
+It's becoming especially interesting when you consider the search latency improvements. In our benchmarks, we observed 
+significant speed gains:
 
 | Approach                    | Average Search Time (seconds) |
 |-----------------------------|-------------------------------|
