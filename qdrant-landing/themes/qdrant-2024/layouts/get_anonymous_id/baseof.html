@@ -43,38 +43,6 @@
         }
       }
 
-      async function createOrUpdateHubSpotContact(userEmail, hubspotutk, additionalProperties = {}) {
-        const hubspotPortalId = '139603372';
-        const hubspotFormId = 'a4c7d442-5dcf-4ed2-b71d-df47f99eca27';
-
-        let url = `https://api.hsforms.com/submissions/v3/integration/submit/${hubspotPortalId}/${hubspotFormId}`;
-
-        try {
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              fields: [
-                { name: 'email', value: userEmail },
-                ...Object.keys(additionalProperties).map(key => ({
-                  name: key,
-                  value: additionalProperties[key]
-                }))
-              ],
-              context: { hutk: hubspotutk }
-            })
-          });
-
-          if (response.ok) {
-            return response;
-          } else {
-            return false;
-          }
-        } catch (error) {
-          return false;
-        }
-      }
-
       window.addEventListener('message', (event) => {
         // Normalize event data
         const msg = typeof event.data === 'string' ? { type: event.data } : (event.data || {});
@@ -82,22 +50,14 @@
 
         // Hubspot
         try {
-          if (email) {
-            const hubspotutk = getCookie(HUBSPOTUTK_COOKIE_NAME);
-            const properties = {
-              hubspot_destination_mapping___segment: `Upsert Contact - Marketing - Frontend`
-            };
+          if (email) {            
+            window._hsq = window._hsq || [];
+            window._hsq.push(['identify', { email }]);
 
-            createOrUpdateHubSpotContact(email, hubspotutk, properties)
-              .then((res) => {
-                window._hsq = window._hsq || [];
-                window._hsq.push(['identify', { email }]);
-
-                if (sessionStorage.getItem(HS_PAGEVIEWED_NAME) !== 'true') {
-                  window._hsq.push(['trackPageView']);
-                  sessionStorage.setItem(HS_PAGEVIEWED_NAME, 'true');
-                }
-              });
+            if (sessionStorage.getItem(HS_PAGEVIEWED_NAME) !== 'true') {
+              window._hsq.push(['trackPageView']);
+              sessionStorage.setItem(HS_PAGEVIEWED_NAME, 'true');
+            }
           }
         } catch { }
 
