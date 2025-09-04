@@ -422,6 +422,166 @@ Parameters for banner shortcode:
 
 <hr>
 
+#### 🧩 Congratulations-banner
+
+![](readme-assets/shortcode-congratulations-banner.png)
+
+Example:
+```
+{{< congratulations-banner 
+title="Congratulations!" 
+description="You’ve reached the end of Day 0!" >}}
+```
+
+Parameters for congratulations-banner shortcode:
+- `title` - required
+- `description` - required
+- `image` - optional, default "/img/congratulations.svg"
+
+<hr>
+
+#### 🧩 List
+
+- List - variant 1
+
+![](readme-assets/shortcode-list-1.png)
+
+Example:
+```
+{{< list isCompleted="false" >}}
+- Set up your Qdrant Cloud account
+- Created your first Qdrant collection
+- Inserted vectors with metadata
+- Performed a similarity search
+{{< /list >}}
+```
+
+- List - variant 2
+
+![](readme-assets/shortcode-list-2.png)
+
+Example:
+```
+{{< list isCompleted="true" >}}
+- Set up your Qdrant Cloud account
+- Created your first Qdrant collection
+- Inserted vectors with metadata
+- Performed a similarity search
+{{< /list >}}
+```
+
+Parameters for list shortcode:
+- `isCompleted` - optional, default "false"
+
+<hr>
+
+#### 🧩 Course card
+
+- Course-card - variant 1
+
+![](readme-assets/shortcode-course-card-1.png)
+
+Example:
+```
+{{< course-card
+title="Skills you’ll gain:"
+image="/icons/outline/training-white.svg"
+isWideList="true">}}
+- Vector search fundamentals
+- Performance optimization
+- Hybrid and similarity search
+- Portfolio project development
+{{< /course-card >}}
+```
+
+- Course-card - variant 2
+
+![](readme-assets/shortcode-course-card-2.png)
+
+Example:
+```
+{{< course-card 
+title="Why Start Today"
+image="/icons/outline/rocket-white-light.svg" 
+link="/course/day-0/">}}
+- Seeing practical examples (e.g., hybrid search, sparse+dense vectors)
+- Learning key deployment tactics (multi-node clusters, on-disk indexing, RBAC)
+- Building a final portfolio-grade project to showcase
+{{< /course-card >}}
+```
+
+Parameters for course card shortcode:
+- `title` - required
+- `isWideList` - optional, default "false"
+- `image` - optional, default "/icons/outline/training-white.svg"
+- `link` - optional, default null
+
+<hr>
+
+#### 🧩 Date
+
+![](readme-assets/shortcode-date.png)
+
+Example:
+```
+{{< date >}} Day 1 {{< /date >}}
+```
+
+Parameters for date shortcode:
+- `image` - optional, default "/icons/outline/date-blue.svg"
+
+<hr>
+
+#### 🧩 Cards list
+
+![](readme-assets/shortcode-cards-list.png)
+
+Example:
+```
+{{< cards-list >}}
+- icon: /courses/course-integrations/quotient.svg
+  title: Quotient
+  content: Qdrant is compatible with Cohere co.embed API.
+
+- icon: /courses/course-integrations/superlinked.svg
+  title: Superlinked
+  content: Qdrant is compatible with Cohere co.embed API.
+
+- icon: /courses/course-integrations/twelveLabs.svg
+  title: TwelveLabs
+  content: Qdrant is compatible with Cohere co.embed API.
+
+- icon: /courses/course-integrations/aparavi.svg
+  title: APARAVI
+  content: Qdrant is compatible with Cohere co.embed API.
+{{< /cards-list >}}
+```
+
+<hr>
+
+#### 🧩 Accordion
+
+![](readme-assets/shortcode-accordion.png)
+
+Example:
+```
+{{< accordion >}}
+- title: "Days 0: Setup, Orientation & “Hello Qdrant!”"
+  content: |
+    - Welcome & Course Orientation
+    - Environment Setup
+    - Mini “Hello Qdrant!” Demo
+  
+- title: "Day 1: Core Qdrant Data Model & Vector Search 101"
+  content: Content
+
+- title: "Days 2: Indexing & Vector Storage Architecture"
+  content: Content
+{{< /accordion >}}
+```
+
+<hr>
+
 #### 🧩 Code Snippets Widget
 
 ![](readme-assets/shortcode-snippets.png)
