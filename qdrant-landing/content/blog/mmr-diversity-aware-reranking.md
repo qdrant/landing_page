@@ -1,6 +1,6 @@
 ---
 draft: false
-title: MMR for Diversity-Aware Reranking
+title: Balancing Relevance and Diversity with MMR Search
 slug: mmr-diversity-aware-reranking
 short_description: Discover how Qdrant's Maximum Marginal Relevance (MMR) balances relevance with diversity in fashion search to avoid echo chambers of similar results.
 description: Learn how to implement Maximum Marginal Relevance (MMR) with Qdrant to create diverse search results in fashion discovery. This guide shows how to balance relevance and diversity using the DeepFashion dataset and CLIP embeddings.
