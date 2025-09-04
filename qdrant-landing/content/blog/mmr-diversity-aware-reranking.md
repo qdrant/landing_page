@@ -23,7 +23,8 @@ tags:
 
 Variety is the spice of life! Yet often, with search engines, users find that the results are too similar to get value. You search for a black jacket on your favorite shopping site, and you get 5 black full zip bomber jackets. Search for a black dress and you get 5 strapless dresses. Traditional vector search focuses on returning the most relevant items, which creates an echo chamber of similar results.
 
-![An astronaut exploring diverse search results](/blog/mmr-diversity-aware-reranking/banner.png)
+![Similar black dresses](/blog/mmr-diversity-aware-reranking/mmr-food-diversity.webp)
+
 
 *Problem: A search for "black dress" returns only strapless dresses*
 
