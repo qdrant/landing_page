@@ -7,7 +7,7 @@ description: Learn how to implement Maximum Marginal Relevance (MMR) with Qdrant
 preview_image: /blog/mmr-diversity-aware-reranking/preview/preview.webp
 social_preview_image: /blog/mmr-diversity-aware-reranking/preview/social_preview.jpg
 title_preview_image: /blog/mmr-diversity-aware-reranking/preview/title.webp
-date: 2025-09-02
+date: 2025-09-04
 author: Thierry Damiba
 featured: true
 categories:
