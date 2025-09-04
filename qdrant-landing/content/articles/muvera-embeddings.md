@@ -1,5 +1,5 @@
 ---
-title: "MUVERA Embeddings"
+title: "MUVERA: Making multivectors more performant"
 short_description: "Making multi-vector retrieval more efficient by approximating it with single-vector search"
 description: "Multi-vector representations are superior to single-vector embeddings in many benchmarks. MUVERA embeddings aim to solve the problem of slow multi-vector search by creating a single-vector representation that approximates the multi-vector representation. This single vector can be used for fast initial retrieval using traditional vector search methods, and then the multi-vector representation can be used for reranking the top results."
 preview_dir: /articles_data/muvera-embeddings/preview
@@ -9,6 +9,8 @@ author_link: https://kacperlukawski.com
 date: 2025-08-27T00:00:00.000Z
 category: vector-search-manuals
 ---
+
+## What are MUVERA Embeddings?
 
 Multi-vector representations are superior to single-vector embeddings in many benchmarks. It might be tempting to use 
 them right away, but there is a catch: they are slower to search. Traditional vector search structures like 
@@ -192,6 +194,8 @@ muvera = Muvera.from_multivector_model(
 embeddings = np.array(list(model.embed(["sample text"])))
 fde = muvera.process_document(embeddings[0])
 ```
+
+## Try it out today
 
 If you're already using multi-vector retrieval, upgrading to FastEmbed 0.7.2+ will unlock MUVERA's 7x speed improvements 
 while maintaining nearly identical search quality. And if you've always wanted to experiment with multi-vector retrieval 
