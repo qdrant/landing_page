@@ -23,7 +23,7 @@ tags:
 
 Variety is the spice of life! Yet often, with search engines, users find that the results are too similar to get value. You search for a black jacket on your favorite shopping site, and you get 5 black full zip bomber jackets. Search for a black dress and you get 5 strapless dresses. Traditional vector search focuses on returning the most relevant items, which creates an echo chamber of similar results.
 
-![Note the diversity of food dishes on the right, with MMR](/blog/mmr-diversity-aware-reranking/mmr-food-diversity.webp)
+![An astronaut exploring diverse search results](/blog/mmr-diversity-aware-reranking/banner.png)
 
 *Problem: A search for "black dress" returns only strapless dresses*
 
@@ -31,7 +31,7 @@ Qdrant's native Maximum Marginal Relevance (MMR) fixes this by balancing similar
 
 While MMR applies to any domain and modality, today we'll explore it through fashion search using the DeepFashion dataset. This visual approach makes the diversity benefits immediately obvious, but the same principles work whether you're searching documents, building recommendation engines, or retrieving context for AI systems.
 
-For a different perspective on MMR with text-based movie recommendations, check out Tarun Jain's implementation guide.
+For a different perspective on MMR with text-based movie recommendations, check out [Tarun Jain's implementation guide](https://medium.com/@tarunjain07/maximal-marginal-relevance-to-re-rank-results-in-unsupervised-keyphrase-extraction-22d95b9f1b8b).
 
 ## What is Maximum Marginal Relevance?
 
@@ -46,9 +46,9 @@ MMR solves the redundancy problem by reranking search results based on two crite
 
 The algorithm picks the most relevant item first, then for each subsequent item, it balances relevance against similarity to already-selected results. A lambda parameter controls this balance:
 
-λ = 1.0: Pure relevance (regular vector search)
-λ = 0.5: Balanced approach
-λ = 0.0: Pure diversity
+- **λ = 1.0:** Pure relevance (regular vector search)
+- **λ = 0.5:** Balanced approach
+- **λ = 0.0:** Pure diversity
 
 *MMR is implemented in Qdrant as a parameter of a nearest neighbor query. Code examples can be found below.*
 
@@ -60,10 +60,10 @@ The algorithm picks the most relevant item first, then for each subsequent item,
 
 Fashion search is perfect for demonstrating MMR because visual similarity doesn't always match shopping intent. When someone searches for "black jacket," they might want to explore:
 
-🏃 Bomber jacket (sporty)
-👔 Blazer (professional)
-🧥 Leather jacket (edgy)
-👖 Denim jacket (casual)
+- 🏃 Bomber jacket (sporty)
+- 👔 Blazer (professional)
+- 🧥 Leather jacket (edgy)
+- 👖 Denim jacket (casual)
 
 Your typical search might show four black jackets that look nearly identical. MMR gives you one or two bombers plus diverse alternatives, helping users discover a wider variety of styles.
 
@@ -79,7 +79,7 @@ pip install datasets # For DeepFashion data access
 ```
 
 ## Exploring the DeepFashion Dataset
-The DeepFashion dataset contains over 40,000 clothing images across different categories and styles. It includes rich metadata, such as category, color, and style attributes, that make it perfect for testing diversity algorithms.
+The [DeepFashion dataset](https://huggingface.co/datasets/SaffalPoosh/deepFashion-with-masks) contains over 40,000 clothing images across different categories and styles. It includes rich metadata, such as category, color, and style attributes, that make it perfect for testing diversity algorithms.
 
 The dataset includes realistic fashion photography: items worn by models, flat lay product shots, and detailed images. The variety of items with similar names makes this dataset perfect for testing whether MMR can distinguish between visually similar items that serve different fashion purposes.
 
@@ -132,7 +132,7 @@ embeddings = list(image_model.embed([item["image"] for item in fashion_items]))
 Create the client and set up your collection
 
 ```python
-# Initialize Qdrant client, get your credentials at qdrant.tech
+# Initialize Qdrant client, get your credentials at https://qdrant.tech
 client = QdrantClient(
      host="your-qdrant url",
      api_key="<your-qdrant-api-key>")
@@ -372,10 +372,10 @@ FILTERED SEARCH (Women's Professional Attire):
 
 ## What We Achieved
 
-Visual embeddings with CLIP turned fashion images into searchable vectors
-MMR reranking eliminated duplicate-looking recommendations
-Diversity control let us tune exploration vs relevance
-Style filtering combined semantic search with structured metadata for targeted discovery
+1. **Visual embeddings with CLIP** turned fashion images into searchable vectors
+2. **MMR reranking** eliminated duplicate-looking recommendations
+3. **Diversity control** let us tune exploration vs relevance
+4. **Style filtering** combined semantic search with structured metadata for targeted discovery
 
 The result is a fashion search that actually helps users discover new styles instead of showing variations of the same item.
 
@@ -385,10 +385,10 @@ The result is a fashion search that actually helps users discover new styles ins
 
 This pipeline opens up several possibilities:
 
-Visual similarity with style diversity: Upload a photo and find similar items in different styles
-Outfit completion: Given one item, find diverse pieces that create complete outfits
-Seasonal recommendations: Balance color preferences with seasonal appropriateness
-Personal styling AI: Learn user preferences and recommend diverse items within their taste profile
+- **Visual similarity with style diversity:** Upload a photo and find similar items in different styles
+- **Outfit completion:** Given one item, find diverse pieces that create complete outfits
+- **Seasonal recommendations:** Balance color preferences with seasonal appropriateness
+- **Personal styling AI:** Learn user preferences and recommend diverse items within their taste profile
 
 ---
 
@@ -398,6 +398,6 @@ MMR transforms fashion search from "here are similar items" to "here are diverse
 
 Start with diversity=0.5 and then adjust based on whether you want more exploration (lower diversity) or precision (higher diversity).
 
-Try it with your own fashion dataset on Qdrant Cloud's free tier.
+Try it with your own fashion dataset on [Qdrant Cloud's free tier](https://cloud.qdrant.io/).
 
-If you enjoyed this article, give me a follow on LinkedIn or Twitter to stay up to date with more guides involving vector search and retrieval optimization
+If you enjoyed this article, give me a follow on [LinkedIn](https://www.linkedin.com/in/thierrydamiba/) or [Twitter](https://twitter.com/thierrydamiba) to stay up to date with more guides involving vector search and retrieval optimization.
