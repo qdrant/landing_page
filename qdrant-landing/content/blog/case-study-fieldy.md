@@ -19,13 +19,13 @@ tags:
 - case study
 ---
 
-## **Fieldy AI’s migration to Qdrant: Building a fault-tolerant AI memory platform**
+## Fieldy AI’s migration to Qdrant: Building a fault-tolerant AI memory platform
 
 ![How Fieldy AI Achieved Reliable AI Memory with Qdrant](/blog/case-study-fieldy/case-study-fieldy-bento-dark.jpg)
 
 ### Capturing and retrieving a lifetime of conversations
 
-Fieldy is a hands-free wearable AI note taker that continuously records, transcribes, and organizes real-world conversations into your personal, searchable memory. The system’s goal is simple in concept but demanding in execution: capture every relevant spoken interaction, transcribe it with high accuracy, and make it instantly retrievable. This requires a robust ingestion pipeline, a scalable [vector search](https://qdrant.tech/documentation/overview/) layer, and a retrieval process capable of handling growing volumes of multimodal data without introducing latency or errors.
+<a href="https://fieldy.ai/" target="_blank">Fieldy</a> is a hands-free wearable AI note taker that continuously records, transcribes, and organizes real-world conversations into your personal, searchable memory. The system’s goal is simple in concept but demanding in execution: capture every relevant spoken interaction, transcribe it with high accuracy, and make it instantly retrievable. This requires a robust ingestion pipeline, a scalable [vector search](https://qdrant.tech/documentation/overview/) layer, and a retrieval process capable of handling growing volumes of multimodal data without introducing latency or errors.
 
 From the start, the engineering team treated transcription reliability as the primary design constraint. If a conversation is not captured in the moment, it cannot be reconstructed later. This applies equally to Bluetooth transfer from the AI wearable pendant to the app, HTTPS uploads to the backend, speech-to-text transcription, embedding generation, and [vector database ingestion](https://qdrant.tech/documentation/database-tutorials/bulk-upload/). Every component had to meet this standard.
 
@@ -35,7 +35,7 @@ Fieldy’s multilingual, real-time transcription and instant recall make it a tr
 
 ![Product screenshot](/blog/case-study-fieldy/fieldy-device-image.jpg)
 
-*Fieldy device*
+*Fieldy's device*
 
 ### Reliability challenges with the initial vector database
 
