@@ -21,6 +21,8 @@ tags:
 
 ## **Fieldy AI’s migration to Qdrant: Building a fault-tolerant AI memory platform**
 
+![How Fieldy AI Achieved Reliable AI Memory with Qdrant](/blog/case-study-fieldy/case-study-fieldy-bento-dark.jpg)
+
 ### Capturing and retrieving a lifetime of conversations
 
 Fieldy is a hands-free wearable AI note taker that continuously records, transcribes, and organizes real-world conversations into your personal, searchable memory. The system’s goal is simple in concept but demanding in execution: capture every relevant spoken interaction, transcribe it with high accuracy, and make it instantly retrievable. This requires a robust ingestion pipeline, a scalable [vector search](https://qdrant.tech/documentation/overview/) layer, and a retrieval process capable of handling growing volumes of multimodal data without introducing latency or errors.
