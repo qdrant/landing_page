@@ -1,5 +1,5 @@
 ---
-title: "MUVERA: Making multivectors more performant"
+title: "MUVERA: Making Multivectors More Performant"
 short_description: "Making multi-vector retrieval more efficient by approximating it with single-vector search"
 description: "Multi-vector representations are superior to single-vector embeddings in many benchmarks. MUVERA embeddings aim to solve the problem of slow multi-vector search by creating a single-vector representation that approximates the multi-vector representation. This single vector can be used for fast initial retrieval using traditional vector search methods, and then the multi-vector representation can be used for reranking the top results."
 preview_dir: /articles_data/muvera-embeddings/preview
