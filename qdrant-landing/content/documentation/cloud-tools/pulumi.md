@@ -36,23 +36,9 @@ pulumi package add terraform-provider registry.terraform.io/qdrant/qdrant-cloud
 pulumi config set qdrant-cloud:apiKey "<QDRANT_CLOUD_API_KEY>" --secret
 ```
 
-- You can now import the SDK as:
-
-```python
-import pulumi_qdrant_cloud as qdrant_cloud
-```
-
-```typescript
-import * as qdrantCloud from "qdrant-cloud";
-```
-
-```java
-import com.pulumi.qdrantcloud.*;
-```
-
 ## Example Usage
 
-Please refer to the documentation (https://registry.terraformio/providers/qdrant/qdrant-cloud/latest/docs/guides/getting-started) for the available options.
+The following example creates a new Qdrant cluster in Google Cloud Platform (GCP) and returns the URL of the cluster.
 
 ```python
 import pulumi
