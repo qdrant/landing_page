@@ -8,7 +8,7 @@ aliases:
 # Configure Multitenancy
 
 <aside role="alert">
-Creating hundreds or thousands of collections is not recommended, as it will lead to resource overhead, increased costs and at some point performance degradation and instability of your cluster. In Qdrant Cloud, we limit the amount of collections per cluster to 1000.
+It is not recommended to create hundreds and thousands of collections per cluster as it increases resource overhead unsustainably. Eventually this will lead to increased costs and at some point performance degradation and cluster instability. In Qdrant Cloud, we limit the amount of collections per cluster to 1000.
 </aside>
 
 **How many collections should you create?** In most cases, a single collection per embedding model with payload-based partitioning for different tenants and use cases. This approach is called multitenancy. It is efficient for most users, but requires additional configuration. This document will show you how to set it up.
