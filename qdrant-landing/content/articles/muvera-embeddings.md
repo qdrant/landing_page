@@ -6,7 +6,7 @@ preview_dir: /articles_data/muvera-embeddings/preview
 social_preview_image: /articles_data/muvera-embeddings/preview/social_preview.jpg
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com
-date: 2025-08-27T00:00:00.000Z
+date: 2025-09-05T00:00:00.000Z
 category: vector-search-manuals
 ---
 
