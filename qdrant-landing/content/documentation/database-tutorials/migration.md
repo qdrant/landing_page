@@ -51,7 +51,7 @@ docker run --rm -it \
 ```
 
 <aside role="alert">
-    Note: Make sure that you configure the Qdrant GRPC port (default: 6334) in all Qdrant URLs.
+    Note: The migration CLI uses the Qdrant GRPC API, this means you must always configure the GRPC port for all Qdrant URLs with the Migration CLI.
 </aside>
 
 ## Example: Migrate from Pinecone to Qdrant
