@@ -52,3 +52,9 @@ Qdrant Cloud offers three strategies for shard rebalancing:
 * `by_size`: This strategy will rebalance the shards based on their size only. It will ensure that shards are evenly distributed across nodes by size, but the number of shards may not be even across all nodes.
 
 You can deactivate automatic shard rebalancing by deselecting the `rebalancing_strategy` option. This is useful if you want to manually control the shard distribution across nodes.
+
+## Rename a Cluster
+
+You can rename a Qdrant Cluster by clicking the pencil icon next to the cluster name on the Cluster Details page. 
+
+Renaming a cluster does not affect its functionality or configuration, the ID and URLs of the cluster will remain the same.
