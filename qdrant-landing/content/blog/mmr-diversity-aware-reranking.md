@@ -32,7 +32,7 @@ Qdrant's native Maximum Marginal Relevance (MMR) fixes this by balancing similar
 
 While MMR applies to any domain and modality, today we'll explore it through fashion search using the DeepFashion dataset. This visual approach makes the diversity benefits immediately obvious, but the same principles work whether you're searching documents, building recommendation engines, or retrieving context for AI systems.
 
-For a different perspective on MMR with text-based movie recommendations, check out [Tarun Jain's implementation guide](https://medium.com/@tarunjain07/maximal-marginal-relevance-to-re-rank-results-in-unsupervised-keyphrase-extraction-22d95b9f1b8b).
+For a different perspective on MMR with text-based movie recommendations, check out [Tarun Jain's implementation guide](https://python.plainenglish.io/understanding-maximal-marginal-relevance-mmr-a0a7a8df0a1a).
 
 ## What is Maximum Marginal Relevance?
 
