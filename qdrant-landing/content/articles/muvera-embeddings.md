@@ -83,7 +83,7 @@ clusters is determined by the Hamming distance between their cluster IDs.
 
 ![FDE document processing](/articles_data/muvera-embeddings/fde-document-processing.png)
 
-As a result we get `k_sim` vectors, each of them being `dim`-dimensional. 
+As a result we get `2^k_sim` vectors, each of them being `dim`-dimensional. 
 
 #### Query clustering
 
@@ -96,8 +96,8 @@ representation, as each term would contribute to the dot product multiple times.
 
 ![FDE query processing](/articles_data/muvera-embeddings/fde-query-processing.png)
 
-Again, we end up with `k_sim` vectors of size `dim`. Because we do not fill empty clusters, some of these vectors might 
-be zero vectors.
+Again, we end up with `2^k_sim` vectors of size `dim`. Because we do not fill empty clusters, some of these vectors 
+might be zero vectors.
 
 ### Dimensionality reduction through Random Projection
 
@@ -111,7 +111,7 @@ quite large and could slow down single-vector search significantly. For that rea
 projection to reduce the dimensionality of each FDE. This involves multiplying each cluster vector by a random 
 matrix with entries from `{-1, +1}` and applying a scaling factor of `1/√(dim_proj)`. This matrix has a shape of 
 `(dim, dim_proj)`, where `dim_proj` is the desired dimensionality of the projected vectors. The resulting FDE will then 
-have a size of `r_reps * k_sim * dim_proj`.
+have a size of `r_reps * 2^k_sim * dim_proj`.
 
 ![Random projection](/articles_data/muvera-embeddings/random-projection.png)
 
