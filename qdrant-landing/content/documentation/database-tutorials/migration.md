@@ -43,7 +43,7 @@ Here is an example of how to perform a Qdrant to Qdrant migration:
 docker run --rm -it \
     registry.cloud.qdrant.io/library/qdrant-migration qdrant \
     --source.url 'https://source-instance.cloud.qdrant.io:6334' \
-    --target.api-key 'qdrant-source-key' \
+    --source.api-key 'qdrant-source-key' \
     --source.collection 'benchmark' \
     --target.url 'https://target-instance.cloud.qdrant.io:6334' \
     --target.api-key 'qdrant-target-key' \
