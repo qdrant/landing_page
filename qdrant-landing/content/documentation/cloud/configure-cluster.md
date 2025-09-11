@@ -29,9 +29,9 @@ Configuring these advanced settings will have an impact on performance and relia
 
 *Optimizer CPU Budget*
 
-Configures how many CPUs (threads) to allocate for optimization jobs:
+Configures how many CPUs (threads) to allocate for optimization and indexing jobs:
 
-* If 0 or empty (default) - Qdrant auto selects and keeps 1 or more CPUs unallocated depending on CPU size
+* If 0 or empty (default) - Qdrant auto selects and keeps 1 or more CPUs unallocated depending on the amount of available CPUs and the amount of optimization jobs and traffic
 * If negative - Qdrant subtracts this number of CPUs from the available CPUs and uses them for optimizations
 * If positive - Qdrant uses this exact number of CPUs for optimizations
 
