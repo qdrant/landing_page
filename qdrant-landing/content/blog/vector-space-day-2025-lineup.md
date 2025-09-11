@@ -18,16 +18,16 @@ tags:
 
 We are just days away from [Vector Space Day](https://luma.com/p7w9uqtz) in Berlin, and the full speaker lineup is here\! This year’s program spans keynotes, deep-dive technical sessions, and lightning talks, covering everything from benchmarking search engines to scalable AI memory and multimodal embeddings. Here’s what to expect.
 
-# Opening Keynotes
+## Opening Keynotes
 
 The day begins with perspectives from across the ecosystem:
 
 * **Andre Zayarni, Andrey Vasnetsov,** and **Neil Kanungo** sharing Qdrant’s vision for the future of vector search and how devs can engage with the Qdrant Community.  
 * **Robert Eichenseer (Microsoft), Kevin Cochrane (Vultr),** and **Inaam Syed (AWS)** offering insights on how cloud, infrastructure, and developer communities are reshaping AI systems.
 
-# Breakout Sessions
+## Breakout Sessions
 
-## Track A: Milky Way \- Architectures, Infrastructure and Multimodal Retrieval
+### Track A: Milky Way \- Architectures, Infrastructure and Multimodal Retrieval
 
 * **AskNews** \- *Building a News Sleuth for the Deep Research Paradigm:* How high-performance hybrid retrieval can support investigative journalism and geopolitical risk monitoring.  
 * **Delivery Hero** \- *How to Cheat at Benchmarking Search Engines:* Lessons from building reproducible benchmarking harnesses and public leaderboards.  
@@ -38,7 +38,7 @@ The day begins with perspectives from across the ecosystem:
 * **Baseten** \- *High Throughput, Low Latency Embedding Pipelines:* Patterns and open-source tools for production-ready embedding inference.  
 * **Google** **DeepMind** \- *Vector Search with Gemini and EmbeddingGemma:* Deploying cutting-edge embeddings with the right indexing strategies.
 
-## Track B: Andromeda \- AI Workflows, Agents and Applications
+### Track B: Andromeda \- AI Workflows, Agents and Applications
 
 * **Linkup** \- *Beyond Web Search:* Infrastructure for AI-native agents that need structured, real-time web intelligence.  
 * **Cognee** \- *Building Scalable AI Memory:* Abstractions that sync graphs and vectors for durable, multi-backend AI memory.  
@@ -49,7 +49,7 @@ The day begins with perspectives from across the ecosystem:
 * **GoodData** \- *Scaling Real-Time RAG for Analytics:* Lessons from streaming BI artifacts into Qdrant for natural-language analytics.  
 * **Equal** \- *Redefining Long-Term Memory:* Streaming-driven ingestion architectures that give agents enterprise-grade responsiveness.
 
-# Lightning Talks
+## Lightning Talks
 
 The afternoon features rapid-fire sessions from innovators including:
 
@@ -59,15 +59,15 @@ The afternoon features rapid-fire sessions from innovators including:
 * **Raiva** **Technologies** \- Voice-first multimodal search with Qdrant.  
 * **Superlinked** \- Stories from the AI Search Frontier.
 
-👉 [**View Full Agenda Details**](https://try.qdrant.tech/hubfs/VSD-2025-program.pdf)
+## 👉 [**View Full Agenda Details**](https://try.qdrant.tech/hubfs/VSD-2025-program.pdf)
 
-# Hackathon Awards and After Party
+## Hackathon Awards and After Party
 
 We will celebrate the winners of the [Think Outside the Bot Hackathon](https://try.qdrant.tech/hackathon-2025), followed by closing remarks and an after party with live DJ and networking.
 
-# Don’t Miss Out
+## Don’t Miss Out
 
 Vector Space Day 2025 takes place in Berlin on September 26, 2025\. Space is limited, and registration is filling fast\!
 
-[**Register today**](https://luma.com/p7w9uqtz)
+## [**Register today**](https://luma.com/p7w9uqtz)
 
