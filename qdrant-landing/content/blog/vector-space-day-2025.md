@@ -57,27 +57,22 @@ We’ve locked in a strong lineup but we’re saving a few select slots for stan
 
 ### Partners
 
-We’ll be joined by leading organizations including AWS, Microsoft, Vultr, Jina, DeepSet, LlamaIndex, TwelveLabs, n8n, Neo4j, Superlinked, DataTalks.Club, and the MLOps Community, and more. 
+We’ll be joined by leading organizations including AWS, Microsoft, Vultr, Jina, DeepSet, LlamaIndex, TwelveLabs, n8n, Neo4j, Superlinked, Linkup, DataTalks.Club, and the MLOps Community, and more. 
 
 These partners represent a cross-section of the most influential players in AI infrastructure and applied research, and we’re proud to collaborate with them to bring this event to life. 
 
 Their involvement underscores the growing momentum behind vector search and retrieval-augmented generation (RAG) systems—and this is just the beginning. 
 
-We might still have a few exciting names to announce, so stay tuned...
-
 ![Partners](/blog/vector-space-day-2025/Vector-Space-Day-Partners_28-Aug.jpg) 
+
+​Vielen Dank an unseren Medienpartner. Thanks to our media partner.
+
+![Media](/blog/vector-space-day-2025/media-partner.png) 
+
 
 ### Get Your Ticket
 
 General admission: €50
-
-**Early Bird Pricing**
-
-<s>Through July 31: 25% off</s>
-
-August: 10% off
-
-September: full price
 
 [**Reserve your spot now.**](https://lu.ma/p7w9uqtz)
 
