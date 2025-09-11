@@ -59,7 +59,7 @@ The afternoon features rapid-fire sessions from innovators including:
 * **Raiva** **Technologies** \- Voice-first multimodal search with Qdrant.  
 * **Superlinked** \- Stories from the AI Search Frontier.
 
-## 👉 [**View Full Agenda Details**](https://try.qdrant.tech/hubfs/VSD-2025-program.pdf)
+#### 👉 [**View Full Agenda Details**](https://try.qdrant.tech/hubfs/VSD-2025-program.pdf)
 
 ## Hackathon Awards and After Party
 
@@ -69,5 +69,5 @@ We will celebrate the winners of the [Think Outside the Bot Hackathon](https://t
 
 Vector Space Day 2025 takes place in Berlin on September 26, 2025\. Space is limited, and registration is filling fast\!
 
-## [**Register today**](https://luma.com/p7w9uqtz)
+#### [**Register today**](https://luma.com/p7w9uqtz)
 
