@@ -27,7 +27,7 @@ The day begins with perspectives from across the ecosystem:
 
 ## Breakout Sessions
 
-### Track A: Milky Way \- Architectures, Infrastructure and Multimodal Retrieval
+#### Track A: Milky Way \- Architectures, Infrastructure and Multimodal Retrieval
 
 * **AskNews** \- *Building a News Sleuth for the Deep Research Paradigm:* How high-performance hybrid retrieval can support investigative journalism and geopolitical risk monitoring.  
 * **Delivery Hero** \- *How to Cheat at Benchmarking Search Engines:* Lessons from building reproducible benchmarking harnesses and public leaderboards.  
@@ -38,7 +38,7 @@ The day begins with perspectives from across the ecosystem:
 * **Baseten** \- *High Throughput, Low Latency Embedding Pipelines:* Patterns and open-source tools for production-ready embedding inference.  
 * **Google** **DeepMind** \- *Vector Search with Gemini and EmbeddingGemma:* Deploying cutting-edge embeddings with the right indexing strategies.
 
-### Track B: Andromeda \- AI Workflows, Agents and Applications
+#### Track B: Andromeda \- AI Workflows, Agents and Applications
 
 * **Linkup** \- *Beyond Web Search:* Infrastructure for AI-native agents that need structured, real-time web intelligence.  
 * **Cognee** \- *Building Scalable AI Memory:* Abstractions that sync graphs and vectors for durable, multi-backend AI memory.  
