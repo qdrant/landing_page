@@ -16,6 +16,7 @@ tags:
 - retrieval augmented generation
 - latency optimization
 - case study
+- Edge
 ---
 
 ![Tavus Overview](/blog/case-study-tavus/tavus-bento-box-dark.jpg)
