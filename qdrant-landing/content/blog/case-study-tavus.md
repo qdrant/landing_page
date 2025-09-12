@@ -22,18 +22,18 @@ tags:
 
 ## How Tavus delivered human-grade conversational AI with edge retrieval on Qdrant
 
-Tavus is a human–computer research lab building CVI, the [Conversational Video Interface](https://www.tavus.io/). CVI presents a face-to-face AI that reads tone, gesture, and on-screen context in real time, allowing for humans to interface with powerful, functional AI like never before. The team’s north star was simple to say and hard to ship: conversations should feel natural. That meant tracking conversational dynamics like utterance-to-utterance timing, back-channeling, and turn-taking while grounding replies in a customer’s private knowledge.
+Tavus is a human–computer research lab building CVI, the <a href="https://www.tavus.io/" target="_blank">Conversational Video Interface</a>. CVI presents a face-to-face AI that reads tone, gesture, and on-screen context in real time, allowing for humans to interface with powerful, functional AI like never before. The team’s north star was simple to say and hard to ship: conversations should feel natural. That meant tracking conversational dynamics like utterance-to-utterance timing, back-channeling, and turn-taking while grounding replies in a customer’s private knowledge.
 
 Early iterations of CVI focused on live conversation quality, but not retrieval. Customers who needed document grounding or recall brought their own RAG layer, which added latency and inconsistency. Tavus wanted to internalize RAG so they could guarantee performance, simplify onboarding, and keep the experience cohesive.
 
 “I read your docs, had a clear idea of what to do, implemented it, and it just worked. The simplicity and performance were there from day one.”  
- **Mert Gerdan, ML Engineer, Tavus**
+ Mert Gerdan, ML Engineer, Tavus
 
 ## Why network hops threatened subsecond conversational flow
 
 Human conversation tolerates very little lag. Literature on conversational systems shows that in highly engaging exchanges, the optimal time from one speaker finishing to the other starting is about 200ms. For CVI, even 500 to 600ms best case end to end felt tight once you include understanding, planning, text to speech, facial rendering, and streaming.
 
-Adding network hops for retrieval threatened to push utterance-to-utterance into the 800 to 900ms range. On top of that, customers needed multimodal grounding that spans video, audio, and screen share, as well as per-conversation isolation for security and correctness. The retrieval layer had to be fast, local, and simple.
+Adding network hops for retrieval threatened to push utterance-to-utterance into an unacceptable range. On top of that, customers needed multimodal grounding that spans video, audio, and screen share, as well as per-conversation isolation for security and correctness. The retrieval layer had to be fast, local, and simple.
 
 ## How per-conversation edge vector stores removed latency
 
@@ -52,7 +52,7 @@ By eliminating the network hop, Tavus reduced retrieval to roughly 20 to 25ms at
 The operational picture improved as well. Within the first three weeks, Tavus indexed about 3 to 3.5 million points, with each point representing around 1,500 characters. The launch was uneventful in a good way. Support queues stayed quiet, and customers were able to bring private knowledge into CVI without standing up their own RAG stacks. Developer velocity benefited from a smaller, clearer deployment model that was easier to reason about and extend.
 
 “We wanted companies to experience CVI’s quality without building a RAG system themselves. With Qdrant at the edge, retrieval became effectively invisible to the user.”  
- **Mert Gerdan, ML Engineer, Tavus**
+ Mert Gerdan, ML Engineer, Tavus
 
 ## What the team learned about architecture and speed
 
