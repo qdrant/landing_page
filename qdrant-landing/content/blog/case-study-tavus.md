@@ -26,7 +26,7 @@ Tavus is a human–computer research lab building CVI, the <a href="https://www.
 
 Early iterations of CVI focused on live conversation quality, but not retrieval. Customers who needed document grounding or recall brought their own RAG layer, which added latency and inconsistency. Tavus wanted to internalize RAG so they could guarantee performance, simplify onboarding, and keep the experience cohesive.
 
-“I read your docs, had a clear idea of what to do, implemented it, and it just worked. The simplicity and performance were there from day one.”  
+*“I read your docs, had a clear idea of what to do, implemented it, and it just worked. The simplicity and performance were there from day one.”*  
  Mert Gerdan, ML Engineer, Tavus
 
 ## Why network hops threatened subsecond conversational flow
@@ -51,7 +51,7 @@ By eliminating the network hop, Tavus reduced retrieval to roughly 20 to 25ms at
 
 The operational picture improved as well. Within the first three weeks, Tavus indexed about 3 to 3.5 million points, with each point representing around 1,500 characters. The launch was uneventful in a good way. Support queues stayed quiet, and customers were able to bring private knowledge into CVI without standing up their own RAG stacks. Developer velocity benefited from a smaller, clearer deployment model that was easier to reason about and extend.
 
-“We wanted companies to experience CVI’s quality without building a RAG system themselves. With Qdrant at the edge, retrieval became effectively invisible to the user.”  
+*“We wanted companies to experience CVI’s quality without building a RAG system themselves. With Qdrant at the edge, retrieval became effectively invisible to the user.”* 
  Mert Gerdan, ML Engineer, Tavus
 
 ## What the team learned about architecture and speed
