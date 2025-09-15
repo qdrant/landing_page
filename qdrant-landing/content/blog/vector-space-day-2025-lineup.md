@@ -6,7 +6,7 @@ short_description: "We are just days away from Vector Space Day in Berlin, and t
 description: "We are just days away from Vector Space Day in Berlin, and the full speaker lineup is here! This year’s program spans keynotes, deep-dive technical sessions, and lightning talks, covering everything from benchmarking search engines to scalable AI memory and multimodal embeddings."
 preview_image: /blog/vector-space-day-2025-lineup/lineup-hero.jpg
 social_preview_image: /blog/vector-space-day-2025-lineup/lineup-hero.jpg
-date: 2025-09-14
+date: 2025-09-15
 author: Qdrant
 featured: true
 tags:
