@@ -44,16 +44,12 @@ We’re intentionally keeping things broad. If you work on any of the following,
 * Real-time retrieval systems  
 * Hybrid and semantic search at scale
 
-Stay tuned: we’ll be announcing the full agenda, speaker lineup, and event partners in the coming weeks. Expect a mix of industry leaders, deep technical sessions, and emerging voices from the vector search and GenAI community.
+## [View full agenda details](https://try.qdrant.tech/hubfs/VSD-2025-program)
+
+[Read more details](https://qdrant.tech/blog/vector-space-day-lineup-2025/)
 
 ### After Party
 The day doesn’t end when the last session wraps. Your ticket includes access to the After Party. Unwind, connect with fellow attendees, and keep the conversations going over drinks, music, and light bites. Whether you're debriefing a lightning talk or sketching out your next RAG experiment on a napkin, it's the perfect way to close out the day.
-
-### Call for Speakers
-
-We’ve locked in a strong lineup but we’re saving a few select slots for standout talks from the community. If you’re building something novel in vector search, AI memory, context engineering, or retrieval infra, we want to hear from you.
-
-[Submit a proposal (deadline has passed)](https://docs.google.com/forms/d/e/1FAIpQLSeGvmWISVImELQid1AjMv2Dvm2AXNuOqyZKqrQlFk07CnY_cw/viewform). Due Friday, August 8th, 2025. Missed the deadline? Go ahead and send it in anyway. Proposals submitted after the deadline, without prior communication with the event organizers, will be reviewed if space becomes available.
 
 ### Partners
 
@@ -78,7 +74,6 @@ General admission: €50
 
 Space is limited.
 
-See you in Berlin\!
 
 ### Global Hackathon Through September 16
 
