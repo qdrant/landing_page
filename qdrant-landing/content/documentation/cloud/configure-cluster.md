@@ -25,9 +25,19 @@ Refer to [Qdrant Configuration](/documentation/guides/configuration/#configurati
 
 ## Advanced Optimizations
 
-You can change the *Optimzer CPU Budget* and the *Async Scorer* configurations for your cluster. These advanced settings will have an impact on performance and reliability. We recommend using the default values unless you are confident they are required for your use case.
+Configuring these advanced settings will have an impact on performance and reliability. We recommend using the default values unless you are confident they are required for your use case.
 
-See [Qdrant under the hood: io_uring](/articles/io_uring/#and-what-about-qdrant) and [Large Scale Search](/documentation/database-tutorials/large-scale-search/) for more details.
+*Optimizer CPU Budget*
+
+Configures how many CPUs (threads) to allocate for optimization and indexing jobs:
+
+* If 0 or empty (default) - Qdrant keeps one or more CPU cores unallocated from optimization jobs, depending on the number of available CPUs, optimization jobs, and traffic load.
+* If negative - Qdrant subtracts this number of CPUs from the available CPUs and uses them for optimizations
+* If positive - Qdrant uses this exact number of CPUs for optimizations
+
+*Async Scorer*
+
+Enables async scorer which uses io_uring when rescoring. See [Qdrant under the hood: io_uring](/articles/io_uring/#and-what-about-qdrant) and [Large Scale Search](/documentation/database-tutorials/large-scale-search/) for more details.
 
 ## Client IP Restrictions
 
