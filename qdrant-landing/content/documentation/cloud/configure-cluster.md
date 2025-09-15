@@ -31,7 +31,7 @@ Configuring these advanced settings will have an impact on performance and relia
 
 Configures how many CPUs (threads) to allocate for optimization and indexing jobs:
 
-* If 0 or empty (default) - Qdrant auto selects and keeps 1 or more CPUs unallocated depending on the amount of available CPUs and the amount of optimization jobs and traffic
+* If 0 or empty (default) - Qdrant keeps one or more CPU cores unallocated from optimization jobs, depending on the number of available CPUs, optimization jobs, and traffic load.
 * If negative - Qdrant subtracts this number of CPUs from the available CPUs and uses them for optimizations
 * If positive - Qdrant uses this exact number of CPUs for optimizations
 
