@@ -1,11 +1,11 @@
 ---
-title: Secure Production Setup
+title: "Project: Implementing a Secure Production Setup"
 weight: 5
 ---
 
 {{< date >}} Day 7 {{< /date >}}
 
-# Project: Secure Production Setup
+# Project: Implementing a Secure Production Setup
 
 Apply your security and configuration knowledge by implementing a production-ready Qdrant deployment with proper security controls, monitoring, and operational procedures. This project consolidates everything you've learned about running Qdrant safely in production.
 

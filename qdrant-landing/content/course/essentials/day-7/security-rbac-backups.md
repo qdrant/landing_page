@@ -1,11 +1,11 @@
 ---
-title: Security and Strict Mode
+title: Security, RBAC, and Strict Mode
 weight: 4
 ---
 
 {{< date >}} Day 7 {{< /date >}}
 
-# Security and Strict Mode
+# Security, RBAC, and Strict Mode
 
 Harden your Qdrant deployment with authentication, authorization, network controls, rate‑limits, and runtime safeguards. This guide covers API keys, RBAC, [JWT](https://jwt.io/) patterns, backups/snapshots, and Strict Mode with practical defaults.
 

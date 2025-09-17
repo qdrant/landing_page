@@ -1,11 +1,11 @@
 ---
-title: HNSW Performance Optimization
+title: "Demo: HNSW Performance Tuning"
 weight: 3
 ---
 
 {{< date >}} Day 2 {{< /date >}}
 
-# HNSW Performance Optimization
+# Demo: HNSW Performance Tuning
 
 Learn how to optimize vector search performance through [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) tuning and payload indexing with a real 100K dataset.
 

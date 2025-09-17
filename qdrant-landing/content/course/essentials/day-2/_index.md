@@ -1,5 +1,5 @@
 ---
-title: Indexing and Performance
+title: "Day 2: Indexing and Performance"
 isLesson: true
 weight: 3
 ---
@@ -14,10 +14,10 @@ Master [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) indexing and practic
 
 ## Today’s path
 
-1. Understanding HNSW
-2. Combining fast similarity search and filters
-3. Collection tuning
-4. Pitstop: index performance benchmarking
+1. HNSW Indexing Fundamentals
+2. Combining Vector Search and Filtering
+3. Demo: HNSW Performance Tuning
+4. Project: HNSW Performance Benchmarking
 
 You’ll measure recall and latency impacts to make data‑driven tuning choices.
 

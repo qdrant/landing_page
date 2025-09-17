@@ -1,11 +1,11 @@
 ---
-title: Keyword-Based Search with Sparse Vectors Demo
+title: "Demo: Keyword Search with Sparse Vectors"
 weight: 2
 ---
 
 {{< date >}} Day 3 {{< /date >}}
 
-# Keyword-Based Search with Sparse Vectors Demo
+# Demo: Keyword Search with Sparse Vectors
 
 See sparse vectors in action with practical examples.
 

@@ -1,5 +1,5 @@
 ---
-title: Setting Up Qdrant Cloud
+title: Qdrant Cloud Setup
 weight: 1
 ---
 

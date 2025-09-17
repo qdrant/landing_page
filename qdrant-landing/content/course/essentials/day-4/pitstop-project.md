@@ -1,5 +1,5 @@
 ---
-title: Quantization Performance Optimization
+title: "Project: Quantization Performance Optimization"
 weight: 4
 ---
 

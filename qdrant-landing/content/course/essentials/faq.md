@@ -1,9 +1,9 @@
 ---
-title: FAQ
+title: Qdrant Essentials FAQs
 url: /course/faq/
 ---
 
-# Qdrant Essentials Course FAQs
+# Qdrant Essentials FAQs
 
 ## Who is this course for?
 

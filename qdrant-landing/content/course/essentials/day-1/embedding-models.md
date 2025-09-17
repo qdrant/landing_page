@@ -1,11 +1,11 @@
 ---
-title: Points, Vectors, and Payloads
+title: Points, Vectors and Payloads
 weight: 1
 ---
 
 {{< date >}} Day 1 {{< /date >}}
 
-# Points, Vectors, and Payloads
+# Points, Vectors and Payloads
 
 Understanding Qdrant's core data model is essential for building effective vector search applications. This lesson establishes the precise technical vocabulary and concepts you'll use throughout the course.
 

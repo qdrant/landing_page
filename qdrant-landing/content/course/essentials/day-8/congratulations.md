@@ -1,11 +1,13 @@
 ---
-title: Congratulations!
+title: Course Completion and Next Steps
 weight: 3
 ---
 
 {{< date >}} Day 8 {{< /date >}}
 
-# Congratulations! You've Mastered Vector Search
+# Course Completion and Next Steps
+
+## Congratulations! You've Mastered Vector Search.
 
 You've built and shipped a complete vector search application and gained the expertise to run Qdrant in production. This achievement represents mastery of modern retrieval systems and positions you at the forefront of AI-powered search technology.
 

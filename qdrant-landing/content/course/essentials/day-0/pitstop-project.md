@@ -1,11 +1,11 @@
 ---
-title: Build Your First Vector Search System
+title: "Project: Building Your First Vector Search System"
 weight: 4
 ---
 
 {{< date >}} Day 0 {{< /date >}}
 
-# Project: Build Your First Vector Search System
+# Project: Building Your First Vector Search System
 
 Time to apply what you've learned. You'll create a complete, working vector search system from scratch.
 

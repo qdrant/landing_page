@@ -1,5 +1,5 @@
 ---
-title: Advanced APIs
+title: "Day 5: Advanced APIs:"
 isLesson: true
 weight: 6
 ---
@@ -14,9 +14,10 @@ Multi‑vector patterns and the Universal Query API.
 
 ## Today’s path
 
-1. ColBERT & Multi‑vectors - late interaction and multivector storage
-2. Universal Query API - recall, fuse, rerank, filter in one call
-3. Pitstop: recommendation system - hybrid signals + score fusion
+1. Multivectors for Late Interaction Models
+2. The Universal Query API
+3. Demo: Universal Query for Hybrid Retrieval
+4. Project: Building a Recommendation System
 
 You’ll synthesize these APIs into a practical recommendation system.
 

@@ -1,11 +1,11 @@
 ---
-title: Quotient Integration
+title: Integrating with Quotient
 weight: 10
 ---
 
 {{< date >}} Bonus Content {{< /date >}}
 
-# Quotient Integration
+# Integrating with Quotient
 
 Advanced analytics with vector data using Quotient platform.
 

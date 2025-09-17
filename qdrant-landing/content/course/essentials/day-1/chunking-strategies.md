@@ -1,11 +1,11 @@
 ---
-title: Chunking Strategies
+title: Text Chunking Strategies
 weight: 3
 ---
 
 {{< date >}} Day 1 {{< /date >}}
 
-# Embedding & Chunking Strategies
+# Text Chunking Strategies
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 

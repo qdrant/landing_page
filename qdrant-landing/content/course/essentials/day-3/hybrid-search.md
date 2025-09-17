@@ -1,11 +1,11 @@
 ---
-title: Combining Dense and Sparse Search
+title: Hybrid Search with Score Fusion
 weight: 3
 ---
 
 {{< date >}} Day 3 {{< /date >}}
 
-# Hybrid Search
+# Hybrid Search with Score Fusion
 
 Combine dense and sparse vector approaches for optimal search results.
 

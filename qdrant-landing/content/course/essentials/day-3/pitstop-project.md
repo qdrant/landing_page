@@ -1,11 +1,11 @@
 ---
-title: Create a Hybrid Search Engine
+title: "Project: Building a Hybrid Search Engine"
 weight: 5
 ---
 
 {{< date >}} Day 3 {{< /date >}}
 
-# Project: Hybrid Search System
+# Project: Project: Building a Hybrid Search Engine
 
 Build a hybrid system that combines dense and sparse vectors with Reciprocal Rank Fusion, demonstrating how to get the best of both semantic understanding and keyword precision.
 

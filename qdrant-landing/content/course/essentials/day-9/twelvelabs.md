@@ -1,11 +1,11 @@
 ---
-title: TwelveLabs Integration
+title: Integrating with TwelveLabs
 weight: 11
 ---
 
 {{< date >}} Bonus Content {{< /date >}}
 
-# TwelveLabs Integration
+# Integrating with TwelveLabs
 
 Video understanding and search with TwelveLabs and Qdrant.
 

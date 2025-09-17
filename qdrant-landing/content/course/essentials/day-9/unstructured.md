@@ -1,11 +1,11 @@
 ---
-title: Unstructured.io Integration
+title: Integrating with Unstructured.io
 weight: 6
 ---
 
 {{< date >}} Bonus Content {{< /date >}}
 
-# Unstructured.io Integration
+# Integrating with Unstructured.io
 
 Process and vectorize documents with Unstructured.io and Qdrant.
 

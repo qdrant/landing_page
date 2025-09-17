@@ -1,11 +1,11 @@
 ---
-title: "Demo: Scientific Paper Discovery with Universal Query API"
+title: "Demo: Universal Query for Hybrid Retrieval"
 weight: 3
 ---
 
 {{< date >}} Day 5 {{< /date >}}
 
-# Demo: Scientific Paper Discovery with Universal Query API
+# Demo: Universal Query for Hybrid Retrieval
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 

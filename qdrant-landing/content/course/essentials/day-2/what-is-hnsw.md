@@ -1,11 +1,11 @@
 ---
-title: Understanding HNSW
+title: HNSW Indexing Fundamentals
 weight: 1
 ---
 
 {{< date >}} Day 2 {{< /date >}}
 
-# HNSW Algorithm
+# HNSW Indexing Fundamentals
 
 At this point, you've learned how vector search retrieves the most similar vectors to a query using distance metrics like cosine similarity, dot product, or Euclidean distance. But how exactly does this work under the hood?
 

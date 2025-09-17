@@ -1,11 +1,11 @@
 ---
-title: Haystack Integration
+title: Integrating with Haystack
 weight: 3
 ---
 
 {{< date >}} Bonus Content {{< /date >}}
 
-# Haystack Integration
+# Integrating with Haystack
 
 Build end-to-end NLP pipelines with Haystack and Qdrant.
 

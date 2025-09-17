@@ -1,11 +1,11 @@
 ---
-title: Project Overview
+title: Project Architecture and Evaluation Framework
 weight: 1
 ---
 
 {{< date >}} Day 8 {{< /date >}}
 
-# Final Project: Documentation Search Engine
+# Project Architecture and Evaluation Framework
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 

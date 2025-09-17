@@ -1,11 +1,11 @@
 ---
-title: Build Your Domain Search Engine
+title: "Project: Building a Semantic Search Engine"
 weight: 5
 ---
 
 {{< date >}} Day 1 {{< /date >}}
 
-# Project: Create Your Own Semantic Search Engine
+# Project: Building a Semantic Search Engine
 
 Now that you've seen how semantic search works with movies, it's time to build your own. Choose a domain you care about and create a search engine that understands meaning, not just keywords.
 

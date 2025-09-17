@@ -1,11 +1,11 @@
 ---
-title: Introduction to Sparse Vectors
+title: Sparse Vectors and Inverted Indexes
 weight: 1
 ---
 
 {{< date >}} Day 3 {{< /date >}}
 
-# Sparse Vectors
+# Sparse Vectors and Inverted Indexes
 
 Create and index [sparse vector](/documentation/concepts/vectors/#sparse-vectors) representations for keywords-based search and recommendations.
 

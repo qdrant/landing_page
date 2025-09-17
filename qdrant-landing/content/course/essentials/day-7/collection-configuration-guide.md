@@ -1,11 +1,11 @@
 ---
-title: Collection Parameters
+title: Collection Configuration Parameters
 weight: 2
 ---
 
 {{< date >}} Day 7 {{< /date >}}
 
-# The Anatomy of a Qdrant Collection
+# Collection Configuration Parameters
 
 In Qdrant, a [collection](https://qdrant.tech/documentation/concepts/collections/) defines both the structure of your data and how that data is **indexed** and **retrieved**. Every configuration decision has system-wide impact. Settings like [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) graph parameters, quantization, on-disk storage, and optimizer thresholds directly affect retrieval **accuracy**, **latency**, **memory usage**, and **scalability** under load.
 

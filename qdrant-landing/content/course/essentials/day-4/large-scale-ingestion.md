@@ -1,11 +1,11 @@
 ---
-title: Scaling Data Ingestion
+title: High-Throughput Data Ingestion
 weight: 3
 ---
 
 {{< date >}} Day 4 {{< /date >}}
 
-# Large Scale Ingestion
+# High-Throughput Data Ingestion
 
 Efficiently ingest millions of vectors into Qdrant.
 

@@ -1,11 +1,11 @@
 ---
-title: Optimize Your Domain's Performance
+title: "Project: HNSW Performance Benchmarking"
 weight: 4
 ---
 
 {{< date >}} Day 2 {{< /date >}}
 
-# Project: Performance Optimization for Your Use Case
+# Project: HNSW Performance Benchmarking
 
 Now that you've seen how [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) parameters and payload indexes affect performance with the DBpedia dataset, it's time to optimize for your own domain and use case.
 

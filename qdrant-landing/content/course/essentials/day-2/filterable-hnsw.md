@@ -1,11 +1,11 @@
 ---
-title: Filterable HNSW
+title: Combining Vector Search and Filtering
 weight: 2
 ---
 
 {{< date >}} Day 2 {{< /date >}}
 
-# Filterable HNSW
+# Combining Vector Search and Filtering
 
 We've talked about how Qdrant uses the [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) graph to efficiently search dense vectors. But in real-world applications, you'll often want to constrain your search using filters. This creates unique challenges for graph traversal that Qdrant solves elegantly.
 

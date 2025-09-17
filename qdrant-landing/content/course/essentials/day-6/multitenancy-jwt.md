@@ -1,11 +1,11 @@
 ---
-title: Multi‑Tenancy with JWT
+title: Secure Multitenancy with JWT
 weight: 3
 ---
 
 {{< date >}} Day 6 {{< /date >}}
 
-# Multi‑Tenancy with JWT
+# Secure Multitenancy with JWT
 
 [Multitenancy](/documentation/guides/multiple-partitions/) enables you to serve multiple customers, users, or organizations from a single Qdrant cluster while maintaining complete data isolation. This guide explains how to implement secure, scalable multitenancy using payload-based partitioning and [JWT](https://jwt.io/) authentication.
 

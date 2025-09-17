@@ -1,11 +1,11 @@
 ---
-title: Universal Query API
+title: The Universal Query API
 weight: 2
 ---
 
 {{< date >}} Day 5 {{< /date >}}
 
-# Universal Query API
+# The Universal Query API
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 

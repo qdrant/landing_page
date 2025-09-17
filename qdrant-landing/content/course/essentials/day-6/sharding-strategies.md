@@ -1,13 +1,13 @@
 ---
-title: Sharding and Replication
+title: Sharding and Replication Strategies
 weight: 2
 ---
 
 {{< date >}} Day 6 {{< /date >}}
 
-# Sharding and Replication
+# Sharding and Replication Strategies
 
-[Sharding and replication](/documentation/guides/distributed_deployment/) scale Qdrant horizontally and keep it available during failures. Shards split a collection across nodes for parallelism; replicas duplicate shards for redundancy; write consistency controls the durability/latency trade‑off. This chapter explains how to design a layout that meets your SLOs and how to operate it cleanly in production.
+[Sharding and Replication Strategies](/documentation/guides/distributed_deployment/) scale Qdrant horizontally and keep it available during failures. Shards split a collection across nodes for parallelism; replicas duplicate shards for redundancy; write consistency controls the durability/latency trade‑off. This chapter explains how to design a layout that meets your SLOs and how to operate it cleanly in production.
 
 ## Cluster anatomy
 

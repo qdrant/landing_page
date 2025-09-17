@@ -1,11 +1,11 @@
 ---
-title: Build and Evaluate
+title: Implementation and Performance Evaluation
 weight: 2
 ---
 
 {{< date >}} Day 8 {{< /date >}}
 
-# Final Project: Build and Evaluate
+# Implementation and Performance Evaluation
 
 Transform your learning into a working system. In this implementation phase, you'll build the complete documentation search engine from data ingestion through evaluation, demonstrating mastery of hybrid retrieval and multivector reranking.
 

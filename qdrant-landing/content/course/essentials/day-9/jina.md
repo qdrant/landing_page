@@ -1,11 +1,11 @@
 ---
-title: Jina Integration
+title: Integrating with Jina AI
 weight: 4
 ---
 
 {{< date >}} Bonus Content {{< /date >}}
 
-# Jina Integration
+# Integrating with Jina AI
 
 Create neural search applications with Jina and Qdrant.
 

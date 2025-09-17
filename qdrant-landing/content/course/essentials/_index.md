@@ -87,7 +87,7 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
   title: Bonus day (integrations)
   content: Explore partner frameworks and tools on Day 9 
 - icon: /icons/outline/copy.svg
-  title: Pitstops (hands‑on)
+  title: Pitstop Projects (hands‑on)
   content: Small projects each day to apply the concept
 {{< /cards-list >}}
 
@@ -98,92 +98,95 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
 {{< accordion >}}
 - title: "Day 0: Setup and First Steps"
   content: |
-    - Qdrant Cloud setup
-    - Your first vector search
-    - Pitstop: Build your first vector search system
+    - Qdrant Cloud Setup
+    - Implementing a Basic Vector Search
+    - Project: Building Your First Vector Search System
     <br>
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-0/">→ Start Day 0</a></p>
 
 - title: "Day 1: Vector Fundamentals"
   content: |
-    - Points, vectors, and payloads
-    - Measuring vector similarity
-    - From raw text to search‑ready chunks
-    - Pitstop: experiment with chunking methods
+    - Points, Vectors and Payloads
+    - Vector Distance Metrics
+    - Text Chunking Strategies
+    - Demo: Semantic Movie Search
+    - Project: Building a Semantic Search Engine
     <br>
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-1/">→ Start Day 1</a></p>
 
 - title: "Day 2: Indexing and Performance"
   content: |
-    - Understanding HNSW
-    - Combining fast similarity search and filters
-    - Collection tuning
-    - Pitstop: index performance benchmarking
+    - HNSW Indexing Fundamentals
+    - Combining Vector Search and Filtering
+    - Demo: HNSW Performance Tuning
+    - Project: HNSW Performance Benchmarking
     <br>
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-2/">→ Start Day 2</a></p>
 
 - title: "Day 3: Hybrid Search"
   content: |
-    - Introduction to sparse vectors
-    - Keyword-Based Search with Sparse Vectors Demo
-    - Hybrid search concepts
-    - Pitstop: build a hybrid search engine
+    - Sparse Vectors and Inverted Indexes
+    - Demo: Keyword Search with Sparse Vectors
+    - Hybrid Search with Score Fusion
+    - Demo: Implementing a Hybrid Search System
+    - Project: Building a Hybrid Search Engine
     <br>
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-3/">→ Start Day 3</a></p>
 
 - title: "Day 4: Optimization and Scale"
   content: |
-    - Vector compression techniques
-    - Advanced optimization of quantized vector search
-    - Large‑scale ingestion
-    - Pitstop: 40× speedup with quantization
+    - Vector Quantization Methods
+    - Accuracy Recovery with Rescoring
+    - High-Throughput Data Ingestion
+    - Project: Quantization Performance Optimization
     <br>
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-4/">→ Start Day 4</a></p>
 
 - title: "Day 5: Advanced APIs"
   content: |
-    - Multi‑vector search patterns
-    - Batch operations and advanced queries (Universal Query API)
-    - Pitstop: build a recommendation system
+    - Multivectors for Late Interaction Models
+    - The Universal Query API
+    - Demo: Universal Query for Hybrid Retrieval
+    - Project: Building a Recommendation System
     <br>
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-5/">→ Start Day 5</a></p>
 
 - title: "Day 6: Production Deployment"
   content: |
-    - Vertical and horizontal scaling
-    - Sharding and replication
-    - Multi‑tenancy with JWT
-    - Pitstop: distributed deployment design
+    - Vertical and Horizontal Scaling
+    - Sharding and Replication Strategies
+    - Secure Multitenancy with JWT
+    - Project: Capacity Planning and Scaling Simulation
     <br>
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-6/">→ Start Day 6</a></p>
 
-- title: "Day 7: Advanced Configuration Parameters"
+- title: "Day 7: Advanced Configuration"
   content: |
-    - Collection parameters and configuration
-    - Optimizers and segments
-    - Security and strict mode
-    - Pitstop: secure production setup
+    - Collection Configuration Parameters
+    - Optimizers and Segment Management
+    - Security, RBAC, and Strict Mode
+    - Project: Implementing a Secure Production Setup
     <br>
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-7/">→ Start Day 7</a></p>
 
-- title: "Day 8: Final Project"
+- title: "Day 8: Final Project - Building a Production-Grade Search Engine"
   content: |
-    - Project overview
-    - Build the final project
-    - Course completion
+    - Project Architecture and Evaluation Framework
+    - Implementation and Performance Evaluation
+    - Course Summary and Next Steps
     <br>
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-8/">→ Start Day 8</a></p>
 
-- title: "Day 9: Partner Integrations (Bonus)"
+- title: "Day 9: Partner Ecosystem Integrations (Bonus)"
   content: |
     - AI & LLM Frameworks (Haystack, Jina AI, TwelveLabs)
     - Data Processing (Unstructured.io)

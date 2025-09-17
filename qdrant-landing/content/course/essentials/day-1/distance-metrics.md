@@ -1,11 +1,11 @@
 ---
-title: Distance Metrics
+title: Vector Distance Metrics
 weight: 2
 ---
 
 {{< date >}} Day 1 {{< /date >}}
 
-# Distance Metrics
+# Vector Distance Metrics
 
 The meaning of a data point is implicitly defined by its position in vector space. After vectors are stored, we can use their spatial properties to perform [nearest neighbor searches](/documentation/concepts/search/) that retrieve semantically similar items based on how close they are in this space.
 

@@ -1,12 +1,12 @@
 ---
-title: Partner Integrations (Bonus)
+title: "Day 9: Partner Ecosystem Integrations (Bonus)"
 isLesson: true
 weight: 9
 ---
 
 {{< date >}} Day 9 {{< /date >}}
 
-# Day 9: Partner Integrations (Bonus)
+# Partner Ecosystem Integrations (Bonus)
 
 Explore the Qdrant ecosystem and learn how to integrate with leading AI and data platforms.
 

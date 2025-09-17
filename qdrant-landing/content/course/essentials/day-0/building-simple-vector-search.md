@@ -1,11 +1,11 @@
 ---
-title: Basic Vector Search Demo
+title: Implementing a Basic Vector Search
 weight: 2
 ---
 
 {{< date >}} Day 0 {{< /date >}}
 
-# Your First Vector Search
+# Implementing a Basic Vector Search
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 
