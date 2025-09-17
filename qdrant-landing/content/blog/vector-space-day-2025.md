@@ -5,7 +5,7 @@ slug: vector-space-day-2025
 short_description: "We’re hosting our first-ever full-day in-person Vector Space Day this September in Berlin, and you’re invited."
 description: "From building scalable RAG pipelines to enabling real-time AI memory and next-gen context engineering, we’re covering the full spectrum of modern vector-native search."
 preview_image: /blog/vector-space-day-2025/Vector-Space-Day-Hero.jpg
-social_preview_image: /blog/vector-space-day-2025/partners_6-aug.png.jpg
+social_preview_image: /blog/vector-space-day-2025/partners-20.08.png
 date: 2025-07-14
 author: Qdrant
 featured: false
@@ -61,13 +61,17 @@ Missed the deadline? Go ahead and send it in anyway. Proposals submitted after t
 
 ### Partners
 
-We’ll be joined by leading organizations including AWS, Microsoft, Vultr, Jina, DeepSet, LlamaIndex, TwelveLabs, n8n, Neo4j, MistralAI, DataTalks.Club, and the MLOps Community, and more. 
+We’ll be joined by leading organizations including AWS, Microsoft, Vultr, Jina, DeepSet, LlamaIndex, TwelveLabs, n8n, Neo4j, Superlinked, Linkup, DataTalks.Club, and the MLOps Community, and more. 
 
 These partners represent a cross-section of the most influential players in AI infrastructure and applied research, and we’re proud to collaborate with them to bring this event to life. 
 
 Their involvement underscores the growing momentum behind vector search and retrieval-augmented generation (RAG) systems, and this is just the beginning. 
 
 ![Partners](/blog/vector-space-day-2025/Vector-Space-Day-Partners-sept17.jpg) 
+
+​Vielen Dank an unseren Medienpartner. Thanks to our media partner.
+
+![Media](/blog/vector-space-day-2025/media-partner.png) 
 
 ### Get Your Ticket
 
@@ -77,7 +81,9 @@ General admission: €50
 
 Space is limited.
 
-### Global Hackathon - Submissions Closed
+### Global Hackathon — Submissions Closed
+
+![Hackathon](/blog/vector-space-day-2025/hackathon-26aug.png) 
 
 In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a global, virtual hackathon challenging devs to reimagine what's possible with vector search. Forget the classical RAG chatbot! Explore multi-modal applications, intelligent recommendations, and advanced vector search that go far beyond conversational interfaces.
 
@@ -90,7 +96,6 @@ In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a g
 🏆 Winners announced September 26 at Vector Space Day in Berlin
 
 [**Submissions are closed but you can learn more.**](https://try.qdrant.tech/hackathon-2025)
-
 
 ### Need your manager’s approval to attend?
 

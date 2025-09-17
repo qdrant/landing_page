@@ -224,7 +224,6 @@ distributed and indexed.
     "result": {
         "status": "green",
         "optimizer_status": "ok",
-        "vectors_count": 1068786,
         "indexed_vectors_count": 1024232,
         "points_count": 1068786,
         "segments_count": 31,
@@ -303,7 +302,6 @@ It is shown next to the grey collection status on the collection info page.
 You may be interested in the count attributes:
 
 - `points_count` - total number of objects (vectors and their payloads) stored in the collection
-- `vectors_count` - total number of vectors in a collection, useful if you have multiple vectors per point
 - `indexed_vectors_count` - total number of vectors stored in the HNSW or sparse index. Qdrant does not store all the vectors in the index, but only if an index segment might be created for a given configuration.
 
 The above counts are not exact, but should be considered approximate. Depending
@@ -318,7 +316,7 @@ reasons.
 
 Updates you do are therefore not directly reflected in these numbers. If you see
 a wildly different count of points, it will likely resolve itself once a new
-round of automatic optimizations has completed.
+round of automatic optimizations is completed.
 
 To clarify: these numbers don't represent the exact amount of points or vectors
 you have inserted, nor does it represent the exact number of distinguishable
@@ -329,7 +327,7 @@ _Note: these numbers may be removed in a future version of Qdrant._
 
 ### Indexing vectors in HNSW
 
-In some cases, you might be surprised the value of `indexed_vectors_count` is lower than `vectors_count`. This is an intended behaviour and
+In some cases, you might be surprised the value of `indexed_vectors_count` is lower than you expected. This is an intended behaviour and
 depends on the [optimizer configuration](/documentation/concepts/optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the
 value of `indexing_threshold`(in kB).  If your collection is very small or the dimensionality of the vectors is low, there might be no HNSW segment
 created and `indexed_vectors_count` might be equal to `0`.

@@ -381,7 +381,6 @@ client.create_collection(
     sharding_method=models.ShardingMethod.CUSTOM,
     # ... other collection parameters
 )
-client.create_shard_key("{collection_name}", "{shard_key}")
 ```
 
 ```typescript
@@ -394,16 +393,11 @@ client.createCollection("{collection_name}", {
     sharding_method: "custom",
     // ... other collection parameters
 });
-
-client.createShardKey("{collection_name}", {
-    shard_key: "{shard_key}"
-});
 ```
 
 ```rust
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, CreateShardKeyBuilder, CreateShardKeyRequestBuilder, Distance,
-    ShardingMethod, VectorParamsBuilder,
+    CreateCollectionBuilder, Distance, ShardingMethod, VectorParamsBuilder,
 };
 use qdrant_client::Qdrant;
 
@@ -417,13 +411,6 @@ client
             .sharding_method(ShardingMethod::Custom.into()),
     )
     .await?;
-
-client
-    .create_shard_key(
-        CreateShardKeyRequestBuilder::new("{collection_name}")
-            .request(CreateShardKeyBuilder::default().shard_key("{shard_key".to_string())),
-    )
-    .await?;
 ```
 
 ```java
@@ -433,8 +420,6 @@ import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.CreateCollection;
 import io.qdrant.client.grpc.Collections.ShardingMethod;
-import io.qdrant.client.grpc.Collections.CreateShardKey;
-import io.qdrant.client.grpc.Collections.CreateShardKeyRequest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
@@ -448,13 +433,6 @@ client
             .setShardingMethod(ShardingMethod.Custom)
             .build())
     .get();
-
-client.createShardKeyAsync(CreateShardKeyRequest.newBuilder()
-                .setCollectionName("{collection_name}")
-                .setRequest(CreateShardKey.newBuilder()
-                                .setShardKey(shardKey("{shard_key}"))
-                                .build())
-                .build()).get();
 ```
 
 ```csharp
@@ -469,11 +447,6 @@ await client.CreateCollectionAsync(
 	shardNumber: 1,
 	shardingMethod: ShardingMethod.Custom
 );
-
-await client.CreateShardKeyAsync(
-    "{collection_name}",
-    new CreateShardKey { ShardKey = new ShardKey { Keyword = "{shard_key}", } }
-    );
 ```
 
 ```go
@@ -494,10 +467,6 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	ShardNumber:    qdrant.PtrOf(uint32(1)),
 	ShardingMethod: qdrant.ShardingMethod_Custom.Enum(),
 })
-
-client.CreateShardKey(context.Background(), "{collection_name}", &qdrant.CreateShardKey{
-	ShardKey: qdrant.NewShardKey("{shard_key}"),
-})
 ```
 
 In this mode, the `shard_number` means the number of shards per shard key, where points will be distributed evenly. For example, if you have 10 shard keys and a collection config with these settings:
@@ -515,6 +484,97 @@ Then you will have `1 * 10 * 2 = 20` total physical shards in the collection.
 Physical shards require a large amount of resources, so make sure your custom sharding key has a low cardinality.
 
 For large cardinality keys, it is recommended to use [partition by payload](/documentation/guides/multiple-partitions/#partition-by-payload) instead.
+
+Now you need to create custom shards ([API reference](https://api.qdrant.tech/api-reference/distributed/create-shard-key#request)):
+
+```http
+PUT /collections/{collection_name}/shards
+{
+  "shard_key": "{shard_key}"
+}
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.create_shard_key("{collection_name}", "{shard_key}")
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createShardKey("{collection_name}", {
+    shard_key: "{shard_key}"
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    CreateShardKeyBuilder, CreateShardKeyRequestBuilder
+};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .create_shard_key(
+        CreateShardKeyRequestBuilder::new("{collection_name}")
+            .request(CreateShardKeyBuilder::default().shard_key("{shard_key".to_string())),
+    )
+    .await?;
+```
+
+```java
+import static io.qdrant.client.ShardKeyFactory.shardKey;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateShardKey;
+import io.qdrant.client.grpc.Collections.CreateShardKeyRequest;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.createShardKeyAsync(CreateShardKeyRequest.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setRequest(CreateShardKey.newBuilder()
+                                .setShardKey(shardKey("{shard_key}"))
+                                .build())
+                .build()).get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateShardKeyAsync(
+    "{collection_name}",
+    new CreateShardKey { ShardKey = new ShardKey { Keyword = "{shard_key}", } }
+    );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateShardKey(context.Background(), "{collection_name}", &qdrant.CreateShardKey{
+	ShardKey: qdrant.NewShardKey("{shard_key}"),
+})
+```
 
 To specify the shard for each point, you need to provide the `shard_key` field in the upsert request:
 
@@ -549,6 +609,10 @@ client.upsert(
 ```
 
 ```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
 client.upsert("{collection_name}", {
     points: [
         {

@@ -37,42 +37,56 @@ provider "qdrant-cloud" {
   account_id = "QDRANT_ACCOUNT_ID>" // Account ID from cloud.qdrant.io/accounts/<QDRANT_ACCOUNT_ID>/ (can be overriden on resource level)
 }
 
+data "qdrant-cloud_booking_packages" "all_packages" {
+  cloud_provider = "gcp" // Required. Please refer to the documentation (https://registry.terraformio/providers/qdrant/qdrant-cloud/latest/docs/guides/getting-started) for the available options.
+  cloud_region   = "us-east4" // Required. Please refer to the documentation (https://registry.terraformio/providers/qdrant/qdrant-cloud/latest/docs/guides/getting-started) for the available options.
+}
+
+locals {
+  desired_package = [
+    for pkg in data.qdrant-cloud_booking_packages.all_packages.packages : pkg
+    if pkg.resource_configuration[0].cpu == "16000m" && pkg.resource_configuration[0].ram == "64Gi"
+  ]
+}
+
+
 resource "qdrant-cloud_accounts_cluster" "example" {
   name           = "tf-example-cluster"
-  cloud_provider = "gcp"
-  cloud_region   = "us-east4"
+  cloud_provider = data.qdrant-cloud_booking_packages.all_aws_eu_west_1_packages.cloud_provider
+  cloud_region   = data.qdrant-cloud_booking_packages.all_aws_eu_west_1_packages.cloud_region
   configuration {
     number_of_nodes = 1
+    database_configuration {
+      service {
+        jwt_rbac = true
+      }
+    }
     node_configuration {
-       package_id = "7c939d96-d671-4051-aa16-3b8b7130fa42"
+      package_id = local.desired_package[0].id
     }
   }
 }
 
+resource "qdrant-cloud_accounts_database_api_key_v2" "example" {
+  cluster_id   = qdrant-cloud_accounts_cluster.example.id
+  name         = "example-key"
+}
+
+
 output "url" {
   value = qdrant-cloud_accounts_cluster.example.url
 }
+
+output "key" {
+  value       = qdrant-cloud_accounts_database_api_key_v2.example.key
+  description = "Key is available only once, after creation."
+}
+
 ```
 
-The provider includes the following resources and data-sources to work with:
-
-## Resources
-
-- `qdrant-cloud_accounts_cluster` - Create clusters on Qdrant cloud - [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/resources/accounts_cluster.md)
-
-- `qdrant-cloud_accounts_auth_key` - Create API keys for Qdrant cloud clusters. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/resources/accounts_auth_key.md)
-
-## Data Sources
-
-- `qdrant-cloud_accounts_auth_keys` - List API keys for Qdrant clusters. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/accounts_auth_keys.md)
-
-- `qdrant-cloud_accounts_cluster` - Get Cluster Information. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/accounts_cluster.md)
-
-- `qdrant-cloud_accounts_clusters` - List Qdrant clusters. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/accounts_clusters.md)
-
-- `qdrant-cloud_booking_packages` - Get detailed information about the packages/subscriptions available. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/booking_packages.md)
-
 ## Further Reading
+
+The provider documentation contains more details on the available resources and data sources, including additional examples:
 
 - [Provider Documentation](https://registry.terraform.io/providers/qdrant/qdrant-cloud/latest/docs)
 - [Terraform Quickstart](https://developer.hashicorp.com/terraform/tutorials)
