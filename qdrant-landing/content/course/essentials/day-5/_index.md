@@ -1,5 +1,5 @@
 ---
-title: "Day 5: Advanced APIs:"
+title: "Day 5: Advanced APIs"
 isLesson: true
 weight: 6
 ---
