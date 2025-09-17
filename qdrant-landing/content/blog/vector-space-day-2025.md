@@ -67,7 +67,7 @@ These partners represent a cross-section of the most influential players in AI i
 
 Their involvement underscores the growing momentum behind vector search and retrieval-augmented generation (RAG) systems, and this is just the beginning. 
 
-![Partners](/blog/vector-space-day-2025/partners_6-aug.png) 
+![Partners](/blog/vector-space-day-2025/Vector-Space-Day-Partners-sept17.jpg) 
 
 ### Get Your Ticket
 
