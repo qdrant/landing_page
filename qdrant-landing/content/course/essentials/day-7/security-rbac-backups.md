@@ -7,7 +7,7 @@ weight: 4
 
 # Security and Strict Mode
 
-Harden your Qdrant deployment with authentication, authorization, network controls, rate‑limits, and runtime safeguards. This guide covers API keys, RBAC, JWT patterns, backups/snapshots, and Strict Mode with practical defaults.
+Harden your Qdrant deployment with authentication, authorization, network controls, rate‑limits, and runtime safeguards. This guide covers API keys, RBAC, [JWT](https://jwt.io/) patterns, backups/snapshots, and Strict Mode with practical defaults.
 
 ## API Security
 

@@ -31,7 +31,7 @@ We need a way to break this data down into manageable chunks.
 
 Storing an entire document as a single vector might seem easier, but it makes search results less precise.
 
-**Example:** Consider a multi-page Qdrant Collection Configuration Guide covering everything from HNSW to sharding and quantization.
+**Example:** Consider a multi-page Qdrant Collection Configuration Guide covering everything from [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) to sharding and quantization.
 
 If a user asks: *"What does the m parameter do?"*
 
@@ -400,10 +400,10 @@ In Qdrant, this metadata lives in the **payload** - a JSON object attached to ea
   "chunk_index": 7,
   "chunk_count": 15,
   "url": "https://qdrant.tech/documentation/concepts/collections/",
-  "tags": ["qdrant", "vector database", "point", "vector", "payload"],
+  "tags": ["qdrant", "vector search", "point", "vector", "payload"],
   "source_type": "documentation", 
   "created_at": "2025-01-15T10:00:00Z",
-  "content": "There are three key elements that define a vector in a vector database: the ID, the dimensions, and the payload. These components work together to represent a vector effectively within the system...",
+  "content": "There are three key elements that define a vector in vector search: the ID, the dimensions, and the payload. These components work together to represent a vector effectively within the system...",
   "word_count": 45,
   "char_count": 287
 }

@@ -5,7 +5,7 @@ weight: 4
 
 {{< date >}} Day 0 {{< /date >}}
 
-# Day 0 Pitstop: Build Your First Vector Search System
+# Project: Build Your First Vector Search System
 
 Time to apply what you've learned. You'll create a complete, working vector search system from scratch.
 

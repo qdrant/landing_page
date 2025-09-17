@@ -61,7 +61,7 @@ A collection is composed of [segments](/documentation/concepts/storage/) - indep
 
 - Many small segments can hurt recall and query performance.
 - Merging segments reduces overhead and improves index locality.
-- Indexing thresholds determine when HNSW is built per segment.
+- Indexing thresholds determine when [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) is built per segment.
 
 ### Best Practices
 

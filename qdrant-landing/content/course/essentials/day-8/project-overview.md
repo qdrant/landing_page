@@ -15,7 +15,7 @@ It's time to synthesize everything you've learned into a portfolio-ready applica
 
 ## Project Vision
 
-Your search engine will understand both semantic meaning and exact keywords, then use fine-grained reranking to surface the most relevant documentation sections. When someone searches for "how to configure HNSW parameters," your system should return the exact section with practical examples, not just a page that mentions HNSW somewhere.
+Your search engine will understand both semantic meaning and exact keywords, then use fine-grained reranking to surface the most relevant documentation sections. When someone searches for "how to configure HNSW parameters," your system should return the exact section with practical examples, not just a page that mentions [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) somewhere.
 
 This mirrors real-world retrieval challenges where users need precise answers from large documentation sets. You'll implement the complete pipeline: ingestion with smart chunking, hybrid search with dense and sparse signals, and multivector reranking for precision.
 

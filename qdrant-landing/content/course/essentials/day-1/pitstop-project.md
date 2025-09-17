@@ -327,4 +327,4 @@ You'll know you've succeeded when:
 <input type="checkbox"> You've discovered something surprising about how chunking affects search  
 <input type="checkbox"> You can articulate the trade-offs between different approaches
 
-**Ready for Day 2?** Tomorrow you'll learn how Qdrant makes vector search lightning-fast through HNSW indexing and how to optimize for production workloads.
+**Ready for Day 2?** Tomorrow you'll learn how Qdrant makes vector search lightning-fast through [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) indexing and how to optimize for production workloads.

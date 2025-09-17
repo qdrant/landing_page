@@ -11,7 +11,7 @@ weight: 2
 
 ## Cluster anatomy
 
-A collection is split into shards. Each shard stores and indexes a subset of points, with its own segments and HNSW graphs. Replication creates copies of each shard on other nodes. A search fans out to relevant shards in parallel, merges the partial results, and returns the top‑k. A write is applied to one or more replicas depending on your write consistency.
+A collection is split into shards. Each shard stores and indexes a subset of points, with its own segments and [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) graphs. Replication creates copies of each shard on other nodes. A search fans out to relevant shards in parallel, merges the partial results, and returns the top‑k. A write is applied to one or more replicas depending on your write consistency.
 
 <img src="/documentation/guides/collection-config-guide/shards.png" width="720" alt="Sharding fan-out and merge diagram">
 

@@ -16,7 +16,7 @@ weight: 1
   allowfullscreen>
 </iframe>
 
-Qdrant Cloud is the fastest path to a production-grade vector database. In a few minutes you'll have a managed endpoint with TLS, automatic backups, high availability options, and a simple API.
+Qdrant Cloud is the fastest path to production-grade vector search. In a few minutes you'll have a managed endpoint with TLS, automatic backups, high availability options, and a simple API.
 
 ## Create your cluster
 
@@ -39,7 +39,7 @@ Click **Cluster UI** on your cluster detail page to access the dashboard. Paste 
 
 **Console**: Run REST API calls directly in the browser. Test endpoints, inspect responses, and debug queries without writing code. Perfect for exploring Qdrant's API surface.
 
-**Collections**: Manage collections, view schemas, and upload snapshots. Create your first collection here: set a name, vector size (e.g., 1536 for OpenAI embeddings), and distance metric (Cosine is a solid default). Advanced options like named vectors, quantization, and HNSW tuning can wait.
+**Collections**: Manage collections, view schemas, and upload snapshots. Create your first collection here: set a name, vector size (e.g., 1536 for OpenAI embeddings), and distance metric (Cosine is a solid default). Advanced options like named vectors, quantization, and [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) tuning can wait.
 
 **Tutorial**: Interactive walkthrough with sample data and queries. Follow the quickstart instructions to create a collection, add vectors, and run semantic search. The output shows live results as you experiment.
 

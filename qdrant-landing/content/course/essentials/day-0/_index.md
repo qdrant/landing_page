@@ -15,8 +15,8 @@ Get started with Qdrant by setting up your environment and building your first v
 ## Today’s path
 
 1. Qdrant Cloud setup
-2. Your first vector search (guided)
-3. Day 0 Task (pitstop project)
+2. Your first vector search
+3. Pitstop: Build your first vector search system
 
 By the end, you’ll have a working Qdrant setup and a complete first search running.
 

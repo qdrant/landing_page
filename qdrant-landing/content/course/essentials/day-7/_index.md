@@ -1,12 +1,12 @@
 ---
-title: Configuration and Operations
+title: Advanced Configuration Parameters
 isLesson: true
 weight: 8
 ---
 
 {{< date >}} Day 7 {{< /date >}}
 
-# Configuration and Operations
+# Advanced Configuration Parameters
 
 Production-ready security, operations, and optimizer practices.
 

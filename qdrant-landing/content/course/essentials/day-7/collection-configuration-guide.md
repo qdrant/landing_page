@@ -7,7 +7,7 @@ weight: 2
 
 # The Anatomy of a Qdrant Collection
 
-In Qdrant, a [collection](https://qdrant.tech/documentation/concepts/collections/) defines both the structure of your data and how that data is **indexed** and **retrieved**. Every configuration decision has system-wide impact. Settings like HNSW graph parameters, quantization, on-disk storage, and optimizer thresholds directly affect retrieval **accuracy**, **latency**, **memory usage**, and **scalability** under load.
+In Qdrant, a [collection](https://qdrant.tech/documentation/concepts/collections/) defines both the structure of your data and how that data is **indexed** and **retrieved**. Every configuration decision has system-wide impact. Settings like [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) graph parameters, quantization, on-disk storage, and optimizer thresholds directly affect retrieval **accuracy**, **latency**, **memory usage**, and **scalability** under load.
 
 If you expect to deal with hybrid retrieval, multimodal inputs, large datasets, or latency-sensitive workloads, it’s worth configuring things carefully from the start. Some parameters can’t be changed later, so getting them right early helps avoid surprises down the line.
 

@@ -165,7 +165,7 @@ Validate each item from the Day 7 security checklist:
 <input type="checkbox"> HTTPS enforced; no public plain HTTP  
 <input type="checkbox"> API keys rotated; stored in secret manager  
 <input type="checkbox"> Least-privilege RBAC; environment-scoped credentials  
-<input type="checkbox"> JWT validated per request; tenant filters enforced (if applicable)  
+<input type="checkbox"> [JWT](https://jwt.io/) validated per request; tenant filters enforced (if applicable)  
 <input type="checkbox"> IP allow-lists / private networking in place  
 <input type="checkbox"> Strict Mode enabled with sensible caps  
 <input type="checkbox"> Snapshots scheduled and restore tested  

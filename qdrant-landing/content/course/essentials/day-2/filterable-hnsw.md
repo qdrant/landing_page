@@ -7,7 +7,7 @@ weight: 2
 
 # Filterable HNSW
 
-We've talked about how Qdrant uses the HNSW graph to efficiently search dense vectors. But in real-world applications, you'll often want to constrain your search using filters. This creates unique challenges for graph traversal that Qdrant solves elegantly.
+We've talked about how Qdrant uses the [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) graph to efficiently search dense vectors. But in real-world applications, you'll often want to constrain your search using filters. This creates unique challenges for graph traversal that Qdrant solves elegantly.
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 

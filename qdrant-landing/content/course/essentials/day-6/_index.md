@@ -16,7 +16,7 @@ Scale Qdrant with distributed deployments, sharding, replication, and tenancy.
 
 1. Vertical and horizontal scaling
 2. Sharding and replication
-3. Multi‑tenancy with JWT
+3. Multi‑tenancy with [JWT](https://jwt.io/)
 4. Pitstop: distributed deployment design
 
 You’ll design, document, and validate a production‑ready deployment.

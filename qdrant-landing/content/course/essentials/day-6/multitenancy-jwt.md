@@ -7,7 +7,7 @@ weight: 3
 
 # Multi‑Tenancy with JWT
 
-[Multitenancy](/documentation/guides/multiple-partitions/) enables you to serve multiple customers, users, or organizations from a single Qdrant cluster while maintaining complete data isolation. This guide explains how to implement secure, scalable multitenancy using payload-based partitioning and JWT authentication.
+[Multitenancy](/documentation/guides/multiple-partitions/) enables you to serve multiple customers, users, or organizations from a single Qdrant cluster while maintaining complete data isolation. This guide explains how to implement secure, scalable multitenancy using payload-based partitioning and [JWT](https://jwt.io/) authentication.
 
 ## Understanding Multitenancy
 
@@ -497,7 +497,7 @@ client.create_payload_index(
 
 ### Filterable HNSW Configuration
 
-For heavy filtering workloads, optimize the HNSW index:
+For heavy filtering workloads, optimize the [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) index:
 
 ```python
 client.create_collection(

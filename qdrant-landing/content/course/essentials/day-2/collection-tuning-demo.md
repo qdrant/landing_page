@@ -7,7 +7,7 @@ weight: 3
 
 # HNSW Performance Optimization
 
-Learn how to optimize vector search performance through HNSW tuning and payload indexing with a real 100K dataset.
+Learn how to optimize vector search performance through [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) tuning and payload indexing with a real 100K dataset.
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 
@@ -52,7 +52,7 @@ from dotenv import load_dotenv
 **Library purposes:**  
  
 `datasets`: Access to Hugging Face datasets, specifically our [DBpedia 100K dataset](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-100K)   
-`qdrant-client`: Official Qdrant Python client for vector database operations   
+`qdrant-client`: Official Qdrant Python client for vector search operations   
 `tqdm`: Progress bars for bulk operations (essential for 100K upload tracking)   
 `openai`: Generate query embeddings compatible with the dataset   
 `python-dotenv`: Secure environment variable management
@@ -487,7 +487,7 @@ print("="*60)
 **Additional resources:**
 - [Qdrant Documentation](https://qdrant.tech/documentation/) - Complete technical reference
 - [HNSW Paper](https://arxiv.org/abs/1603.09320) - Original algorithm research
-- [Qdrant Cloud](https://cloud.qdrant.io/) - Managed vector database service
+- [Qdrant Cloud](https://cloud.qdrant.io/) - Managed vector search service
 - [Performance Tuning Guide](https://qdrant.tech/documentation/guides/optimization/) - Advanced optimization techniques
 
 **Ready for the pitstop project?** Now it's your turn to optimize performance with your own dataset and use case. You'll apply these same techniques to your domain-specific data and measure the real-world impact of different HNSW parameters and indexing strategies. 

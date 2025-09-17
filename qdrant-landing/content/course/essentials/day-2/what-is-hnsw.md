@@ -17,7 +17,7 @@ You might wonder if Qdrant calculates the distance to every single vector in you
 
 If your collection contains millions or even billions of vectors, performing a single retrieval would mean calculating distances millions or billions of times. This makes brute force search impractical for large-scale vector search.
 
-Fortunately, Qdrant takes a smarter approach using an efficient method called **[HNSW - Hierarchical Navigable Small World](/documentation/concepts/indexing/#vector-index)**.
+Fortunately, Qdrant takes a smarter approach using an efficient method called **[HNSW - Hierarchical Navigable Small World](https://qdrant.tech/articles/filtrable-hnsw/)**.
 
 ## The Library Analogy
 

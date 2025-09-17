@@ -7,7 +7,7 @@ weight: 4
 
 # Project: Performance Optimization for Your Use Case
 
-Now that you've seen how HNSW parameters and payload indexes affect performance with the DBpedia dataset, it's time to optimize for your own domain and use case.
+Now that you've seen how [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) parameters and payload indexes affect performance with the DBpedia dataset, it's time to optimize for your own domain and use case.
 
 ## Your Mission
 
