@@ -29,7 +29,6 @@ The Vector Space Day will bring together engineers, researchers, and AI builders
 
 * **Deep-dives & lightning talks**: Learn from the teams solving hard problems in AI infrastructure, search relevance, and semantic retrieval in production.  
 * **Panels & debates**: Discuss the future of AI agents, multimodal memory, context-aware RAG, and vector-native developer workflows.   
-* **Hands-on workshops**: Get practical with applied vector search and context construction in guided sessions, perfect whether you're building a search product or a complex RAG pipeline.  
 * **Meet the community**: This isn’t just a conference. It’s a gathering of the developers rethinking how AI systems search, retrieve, and reason at scale.
 
 ### Topics We’ll Explore
@@ -45,7 +44,7 @@ We’re intentionally keeping things broad. If you work on any of the following,
 * Real-time retrieval systems  
 * Hybrid and semantic search at scale
 
-Stay tuned: we’ll be announcing the full agenda, speaker lineup, and event partners in the coming weeks. Expect a mix of industry leaders, deep technical sessions, and emerging voices from the vector search and GenAI community.
+[View the full agenda](https://qdrant.tech/blog/vector-space-day-lineup-2025/)
 
 ### After Party
 The day doesn’t end when the last session wraps. Your ticket includes access to the After Party. Unwind, connect with fellow attendees, and keep the conversations going over drinks, music, and light bites. Whether you're debriefing a lightning talk or sketching out your next RAG experiment on a napkin, it's the perfect way to close out the day.
@@ -54,7 +53,7 @@ The day doesn’t end when the last session wraps. Your ticket includes access t
 
 We’ve locked in a strong lineup but we’re saving a few select slots for standout talks from the community. If you’re building something novel in vector search, AI memory, context engineering, or retrieval infra, we want to hear from you.
 
-[Submit a proposal](https://docs.google.com/forms/d/e/1FAIpQLSeGvmWISVImELQid1AjMv2Dvm2AXNuOqyZKqrQlFk07CnY_cw/viewform). Due Friday, August 8th, 2025. Missed the deadline? Go ahead and send it in anyway. Proposals submitted after the deadline, without prior communication with the event organizers, will be reviewed if space becomes available.
+[Proposal submissions are closed.](https://docs.google.com/forms/d/e/1FAIpQLSeGvmWISVImELQid1AjMv2Dvm2AXNuOqyZKqrQlFk07CnY_cw/viewform). Due Friday, August 8th, 2025. Missed the deadline? Go ahead and send it in anyway. Proposals submitted after the deadline, without prior communication with the event organizers, will be reviewed if space becomes available.
 
 ### Partners
 
@@ -64,41 +63,26 @@ These partners represent a cross-section of the most influential players in AI i
 
 Their involvement underscores the growing momentum behind vector search and retrieval-augmented generation (RAG) systems—and this is just the beginning. 
 
-We might still have a few exciting names to announce, so stay tuned...
-
 ![Partners](/blog/vector-space-day-2025/partners_6-aug.png) 
 
 ### Get Your Ticket
 
 General admission: €50
 
-**Early Bird Pricing**
-
-<s>Through July 31: 25% off</s>
-
-August: 10% off
-
-September: full price
-
 [**Reserve your spot now.**](https://lu.ma/p7w9uqtz)
 
 Space is limited.
 
-See you in Berlin\!
+### Global Hackathon - Submissions Closed
 
-### Global Hackathon Through September 16
-
-In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a global, virtual hackathon challenging devs to reimagine what's possible with vector search. Forget the classical RAG chatbot! This is your chance to explore multi-modal applications, intelligent recommendations, and advanced vector search that go far beyond conversational interfaces.
+In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a global, virtual hackathon challenging devs to reimagine what's possible with vector search. Forget the classical RAG chatbot! Explore multi-modal applications, intelligent recommendations, and advanced vector search that go far beyond conversational interfaces.
 
 💰 Over $10k in prizes from Qdrant, Mistral AI, CrewAI, Cognee, and more
-
-🗓️ Now through Tuesday, September 16
-
-🌏 Open to participants worldwide
-
+🗓️ Through Tuesday, September 16 - Submissions Closed
+🌏 Worldwide participants
 🏆 Winners announced September 26 at Vector Space Day in Berlin
 
-[**Learn more.**](https://try.qdrant.tech/hackathon-2025)
+[**Submissions are closed but you can learn more.**](https://try.qdrant.tech/hackathon-2025)
 
 
 ### Need your manager’s approval to attend?
