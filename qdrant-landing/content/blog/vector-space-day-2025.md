@@ -44,7 +44,7 @@ We’re intentionally keeping things broad. If you work on any of the following,
 * Real-time retrieval systems  
 * Hybrid and semantic search at scale
 
-[View the full agenda](https://qdrant.tech/blog/vector-space-day-lineup-2025/)
+### [View the full agenda](https://qdrant.tech/blog/vector-space-day-lineup-2025/)
 
 ### After Party
 The day doesn’t end when the last session wraps. Your ticket includes access to the After Party. Unwind, connect with fellow attendees, and keep the conversations going over drinks, music, and light bites. Whether you're debriefing a lightning talk or sketching out your next RAG experiment on a napkin, it's the perfect way to close out the day.
@@ -53,7 +53,11 @@ The day doesn’t end when the last session wraps. Your ticket includes access t
 
 We’ve locked in a strong lineup but we’re saving a few select slots for standout talks from the community. If you’re building something novel in vector search, AI memory, context engineering, or retrieval infra, we want to hear from you.
 
-[Proposal submissions are closed.](https://docs.google.com/forms/d/e/1FAIpQLSeGvmWISVImELQid1AjMv2Dvm2AXNuOqyZKqrQlFk07CnY_cw/viewform). Due Friday, August 8th, 2025. Missed the deadline? Go ahead and send it in anyway. Proposals submitted after the deadline, without prior communication with the event organizers, will be reviewed if space becomes available.
+[Proposal submissions are closed.](https://docs.google.com/forms/d/e/1FAIpQLSeGvmWISVImELQid1AjMv2Dvm2AXNuOqyZKqrQlFk07CnY_cw/viewform) 
+
+Due Friday, August 8th, 2025. 
+
+Missed the deadline? Go ahead and send it in anyway. Proposals submitted after the deadline, without prior communication with the event organizers, will be reviewed if space becomes available.
 
 ### Partners
 
@@ -61,7 +65,7 @@ We’ll be joined by leading organizations including AWS, Microsoft, Vultr, Jina
 
 These partners represent a cross-section of the most influential players in AI infrastructure and applied research, and we’re proud to collaborate with them to bring this event to life. 
 
-Their involvement underscores the growing momentum behind vector search and retrieval-augmented generation (RAG) systems—and this is just the beginning. 
+Their involvement underscores the growing momentum behind vector search and retrieval-augmented generation (RAG) systems, and this is just the beginning. 
 
 ![Partners](/blog/vector-space-day-2025/partners_6-aug.png) 
 
@@ -78,8 +82,11 @@ Space is limited.
 In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a global, virtual hackathon challenging devs to reimagine what's possible with vector search. Forget the classical RAG chatbot! Explore multi-modal applications, intelligent recommendations, and advanced vector search that go far beyond conversational interfaces.
 
 💰 Over $10k in prizes from Qdrant, Mistral AI, CrewAI, Cognee, and more
+
 🗓️ Through Tuesday, September 16 - Submissions Closed
+
 🌏 Worldwide participants
+
 🏆 Winners announced September 26 at Vector Space Day in Berlin
 
 [**Submissions are closed but you can learn more.**](https://try.qdrant.tech/hackathon-2025)
