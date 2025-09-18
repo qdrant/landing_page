@@ -41,10 +41,7 @@ client = QdrantClient(
 )
 
 # Alternative for local development:
-# client = QdrantClient(
-#     url=os.getenv("QDRANT_URL"),
-#     api_key=os.getenv("QDRANT_API_KEY")
-# )
+# client = QdrantClient(url="http://localhost:6333")
 ```
 
 **Note:** You can also use in-memory mode for testing: `client = QdrantClient(":memory:")`, but data won't persist after restart.
@@ -139,8 +136,9 @@ Expected output: Detailed collection information showing `points_count=2`, vecto
 Find the most similar vector to a given query using Qdrant's search capabilities:
 
 **How Similarity Search Works:**
-- Qdrant compares the query vector to all stored vectors using the distance metric
-- The closest matches are returned, ranked by similarity
+- Qdrant searches the collection to find the vectors that are closest to your query vector.
+- The results are ranked by their similarity score, with the best matches appearing first.
+
 
 ```python
 query_vector = [0.08, 0.14, 0.33, 0.28]
@@ -158,14 +156,16 @@ Expected output: `points=[ScoredPoint(id=1, score=0.97642946, payload={'category
 
 ## Step 9: Filtered Search
 
-Refine your search using metadata filters. A `must` filter ensures all specified conditions are met for a data point to be included in results.
+Refine your search using metadata filters. You can combine multiple [filtering conditions](/documentation/concepts/filtering/#filtering-conditions) using logical [filter clauses](/documentation/concepts/filtering/#filtering-clauses).
+
+The most common clause is `must`, which acts like an `AND` operator: it ensures that all specified conditions are met for a point to be included in the results.
 
 ```python
 search_filter = models.Filter(
     must=[
         models.FieldCondition(
             key="category",
-            match=models.MatchValue(value="example")  # Only return vectors where category="example"
+            match=models.MatchValue(value="example")  # This condition must be true
         )
     ]
 )
@@ -182,8 +182,6 @@ print("Filtered search results:", filtered_results)
 
 Expected output: Results matching both vector similarity and the category filter.
 
-**Filter types:**
-- **must**: All conditions must be met (similar to AND)
-- **should**: At least one condition must be met (similar to OR)  
-- **must_not**: Excludes items meeting the condition (similar to NOT)
-- **range**: Filters numeric values within specified thresholds
+**Other available clauses include:**
+-   **`should`**: At least one of the conditions must be met (like `OR`).
+-   **`must_not`**: Ensures none of the specified conditions are met.
