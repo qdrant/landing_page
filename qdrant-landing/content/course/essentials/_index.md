@@ -105,10 +105,10 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-0/">→ Start Day 0</a></p>
 
-- title: "Day 1: Vector Fundamentals"
+- title: "Day 1: Vector Search Fundamentals"
   content: |
     - Points, Vectors and Payloads
-    - Vector Distance Metrics
+    - Distance Metrics
     - Text Chunking Strategies
     - Demo: Semantic Movie Search
     - Project: Building a Semantic Search Engine

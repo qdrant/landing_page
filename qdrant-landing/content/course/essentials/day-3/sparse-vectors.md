@@ -33,7 +33,7 @@ User_2: [ 0,  0,  0,  0,  4,  0,  0,  2,  0,  0 ]
 
 Comparing two sparse representations, you'd be usually interested in how much they agree on the same features/objects (e.g., the same movie rating). 
 
-The **dot product** distance metric, introduced in the **day 1** (*Vector Fundamentals/Distance Metrics*), is a perfect fit for measuring the similarity between sparse representations. 
+The **dot product** distance metric, introduced in the **day 1** (*Vector Search Fundamentals/Distance Metrics*), is a perfect fit for measuring the similarity between sparse representations. 
 It multiplies corresponding dimensions and summes the results.
 
 ```text
