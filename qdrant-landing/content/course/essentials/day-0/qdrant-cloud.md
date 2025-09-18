@@ -21,33 +21,68 @@ Qdrant Cloud is the fastest path to production-grade vector search. In a few min
 ## Create your cluster
 
 1. Register at [cloud.qdrant.io](https://cloud.qdrant.io/signup) with email, Google, or GitHub credentials.
-2. Go to **Clusters** and follow the onboarding instructions under **Create First Cluster**.
-3. Pick a region close to your users or application. The Free Tier is perfect for this course.
-4. When you create the cluster, you'll receive an API key. Copy and store it securely. It won't be displayed again. You can create new keys later from the **API Keys** tab on your cluster detail page.
+2. Go to **Clusters** and select **Create a Free Cluster**. The Free Tier is perfect for this course.
 
 ![Create cluster](/docs/gettingstarted/gui-quickstart/create-cluster.png)
 
+3. Pick a region close to your users or application. 
+4. When you create the cluster, you'll receive an API key. Copy and store it securely. It won't be displayed again. You can create new keys later from the **API Keys** tab on your cluster detail page.
+
 ![Get API key](/docs/gettingstarted/gui-quickstart/api-key.png)
+
 
 ## Access the Web UI
 
-Click **Cluster UI** on your cluster detail page to access the dashboard. Paste your API key when prompted. The key grants access to your Qdrant instance and unlocks the full cluster dashboard.
+1. Click **Cluster UI** on the top right corner of your cluster detail page to access the dashboard.
 
 ![Access dashboard](/docs/gettingstarted/gui-quickstart/access-dashboard.png)
 
 ### What you can do in the Web UI
 
-**Console**: Run REST API calls directly in the browser. Test endpoints, inspect responses, and debug queries without writing code. Perfect for exploring Qdrant's API surface.
+The Qdrant Web UI is a powerful tool for developers to manage collections, inspect data, and debug search performance.
 
-**Collections**: Manage collections, view schemas, and upload snapshots. Create your first collection here: set a name, vector size (e.g., 1536 for OpenAI embeddings), and distance metric (Cosine is a solid default). Advanced options like named vectors, quantization, and [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) tuning can wait.
+#### Main Navigation
 
-**Tutorial**: Interactive walkthrough with sample data and queries. Follow the quickstart instructions to create a collection, add vectors, and run semantic search. The output shows live results as you experiment.
+**Console**: Run REST API calls directly in the browser. Test endpoints, inspect responses, and debug queries without writing code. This is perfect for exploring Qdrant's full API surface.
+
+**Collections**: View and manage all collections in your cluster. From here, you can create new collections, upload snapshots, and get a high-level overview of their status, size, and configuration.
+
+**Tutorial**: Follow an interactive walkthrough with sample data and queries to create a collection, add vectors, and run a semantic search. The output shows live results as you experiment.
 
 ![Interactive tutorial](/docs/gettingstarted/gui-quickstart/interactive-tutorial.png)
 
-**Points**: Add individual points or bulk upload via JSONL/CSV. Start simple - paste a vector and small JSON payload to validate the pipeline. Use the Search tab to run nearest-neighbor queries, adjust top-k, and add payload filters to see hybrid filtering in action.
+**Datasets**: Bulk-load data for experimentation by importing pre-configured public datasets directly into your cluster. This is the fastest way to get started with a meaningful amount of data.
 
-**Snapshots & Access**: Create and restore backups via [Snapshots](/documentation/concepts/snapshots/). Manage API keys and IP allow-lists in Access - essential before exposing your endpoint to other services.
+#### Inside a Collection
+
+When you select a collection, 
+
+![Select collection](/docs/gettingstarted/gui-quickstart/select-collection.png)
+
+you gain access to a detailed dashboard with the following tabs:
+
+![Collection points](/docs/gettingstarted/gui-quickstart/collection-points.png)
+
+*   **Points Tab**: Inspect, search, and manage individual data points. The search bar allows you to find points by ID or filter them using key-value pairs from their payload (e.g., `colony: "Mars"`). For each point, you can:
+    *   View its payload and vector(s).
+    *   Click **Find Similar** to perform an ad-hoc similarity search.
+    *   Click **Open Graph** to jump to a visualization of its connections in the HNSW graph.
+
+*   **Info Tab**: Provides a comprehensive overview of the collection's health, configuration, and statistics. Key metrics include:
+    *   `status`: `green` indicates the collection is healthy.
+    *   `points_count`: The total number of active data points.
+    *   `indexed_vectors_count`: The number of points currently included in the HNSW index. If this lags behind `points_count`, it indicates that background indexing is in progress.
+    *   `config`: A detailed JSON view of all collection parameters, from vector configuration to optimizer settings.
+
+*   **Cluster Tab**: Visualizes the distribution of the collection's shards across the cluster nodes. This is essential for monitoring health, identifying hot spots, and verifying shard placement in a distributed deployment.
+
+*   **Search Quality Tab**: An advanced tool for evaluating and benchmarking the precision of your vector search against a ground-truth dataset. It helps you tune parameters and measure the impact on retrieval accuracy.
+
+*   **Snapshots Tab**: Manage backups for this specific collection. You can create a new [snapshot](/documentation/concepts/snapshots/) of the collection's current state, which can be restored later or migrated to another cluster.
+
+*   **Visualize Tab**: Explore the structure of your vector space with an interactive 2D projection of your data points. This tab helps you understand clusters, identify outliers, and get an intuition for how your embeddings are distributed.
+
+*   **Graph Tab**: Offers an interactive visualization of the HNSW graph structure. Starting from a specific point, you can explore its nearest neighbors and see the connections that Qdrant uses to enable fast, efficient search. It's an excellent tool for debugging and understanding how HNSW works.
 
 ## Connect from Python
 
@@ -124,9 +159,9 @@ curl -s "$QDRANT_URL/collections" -H "api-key: $QDRANT_API_KEY"
 - **Connection error**: Confirm cluster status and region URL; corporate proxies may block outbound TLS.
 - **Dimension mismatch**: The `size` in `VectorParams` must match your embedding dimensions.
 
-## What's next: Qdrant Cloud Inference
+## Qdrant Cloud Inference
 
-Beyond vector storage and search, Qdrant Cloud now offers **Cloud Inference**: managed embedding generation for text and images. Instead of running your own embedding models, you can generate vectors directly in Qdrant Cloud and seamlessly store them in your collections.
+Beyond vector storage and search, Qdrant Cloud now offers **[Cloud Inference](/cloud-inference/)**: managed embedding generation for text and images. Instead of running your own embedding models, you can generate vectors directly in Qdrant Cloud and seamlessly store them in your collections. 
 
 <iframe width="900" height="506"
   src="https://www.youtube.com/embed/nJIX0zhrBL4?rel=0"
@@ -139,4 +174,4 @@ Beyond vector storage and search, Qdrant Cloud now offers **Cloud Inference**: m
 
 Cloud Inference simplifies your pipeline: send raw text or images to Qdrant, get back vectors and search results in one API call. Perfect for prototyping and production workloads where you want to eliminate the embedding infrastructure layer.
 
-Learn more: [Qdrant Cloud Inference](/cloud-inference/) 
+Learn more: [Qdrant Cloud Inference](/documentation/cloud/inference/)
