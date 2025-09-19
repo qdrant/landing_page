@@ -100,7 +100,6 @@ A multivector of size 4:
 - Late-interaction models (e.g., ColBERT) that output vectors for each text **token** or image **patch**.
 - Any scenario requiring multiple related vectors per data point
 
-
 ### Named Vectors
 So, we learned that there are three types of vector structure in Qdrant: Dense, Sparse and Multivectors.
 
