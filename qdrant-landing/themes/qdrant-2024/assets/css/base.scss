@@ -77,6 +77,11 @@ body {
   opacity: 0;
 }
 
+.divider {
+  border-top: 1px solid $neutral-40;
+  width: 100%;
+}
+
 @import 'components';
 @import 'syntax-highlight';
 @import 'mathjax';
