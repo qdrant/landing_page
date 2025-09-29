@@ -29,7 +29,7 @@ Let’s dive into the top projects and what we liked about each of them.
 ### 🥇 1st Place: Vector Vintage (Benedict Counsell)
 
 **Bonus Prize: Best use of Neo4j**  
-**Total Prize: $5000 USD and $1000 Neo4j Credits**
+**Total Prize: `$5000 USD + $1000 Neo4j Credits`**
 
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/ZyAM6TPmmKM?si=tqZsVjJYjzRRdJI2&rel=0"
@@ -50,7 +50,7 @@ Repo: [Vector Vintage](https://github.com/kanungle/vector-vintage-public)
 
 ### 🥈 2nd Place: RoboBank (Sanya Kapoor)
 
-**Total Prize: $3000 USD**
+**Total Prize: `$3000 USD`**
 
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/lELdPxdO10Y?si=AbvbJf1xauB5WYgG&rel=0"
@@ -71,7 +71,7 @@ Repo: [Vector Vintage](https://github.com/kanungle/vector-vintage-public)
 
 ### 🥉 3rd Place: Spatio-Temporal NPCs (cortexandcode)
 
-**Total Prize: $2000 USD**
+**Total Prize: `$2000 USD`**
 
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/lELdPxdO10Y?si=AbvbJf1xauB5WYgG&rel=0"
@@ -102,7 +102,7 @@ Repo: [Vector Vintage](https://github.com/kanungle/vector-vintage-public)
 
 ### CrewAI Prize: ReMap (TatankAm Explorers)
 
-**Total Prize: 1 Year of CrewAI Enterprise**
+**Total Prize: `1 Year of CrewAI Enterprise`**
 
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/LR4ojcDxOXo?si=XiyUDkuctw60oAqE&rel=0"
@@ -121,7 +121,7 @@ A **route-aware event discovery** platform. Enter a route \+ time window, and Re
 
 ### Mistral Prize: CosmicTwin (Inferno)
 
-**Total Prize: $3000 of Mistral AI Credits**
+**Total Prize: `$3000 of Mistral AI Credits`**
 
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/MLXmNpJ4MF0?si=VMUoGgdG2G4mtwtN&rel=0"
@@ -140,7 +140,7 @@ A playful **personality-driven social platform**: take a quiz, get matched to a 
 
 ### Superlinked Prize: Bachata Vibes (Bachata Vibes team)
 
-**Total Prize: $1000 USD**
+**Total Prize: `$1000 USD`**
 
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/rPdeiVc8maE?si=J3zdgbTnkm0kX5fm&rel=0"
@@ -161,7 +161,7 @@ An **AI choreographer** that generates personalized Bachata sequences by matchin
 
 ### TwelveLabs Prize: Qlassroom (YHHA)
 
-**Total Prize: $1000 in TwelveLabs Credits**
+**Total Prize: `$1000 in TwelveLabs Credits`**
 
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/v-EywTyyU50?si=JZJ9PQnsJteBd8nU&rel=0"
