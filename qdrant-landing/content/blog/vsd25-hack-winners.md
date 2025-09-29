@@ -3,8 +3,8 @@ title: "Thinking Outside the Bot with 2025 Hackathon Winners"
 draft: false
 slug: vector-space-hackathon-winners-2025
 short_description: "Discover the winners of Qdrant’s global Think Outside the Bot hackathon, where developers built innovative vector search applications beyond chatbots — from robotics to gaming, e-commerce, and more."
-preview_image: /blog/vector-space-hack-2025/hackathon-hero.jpg
-social_preview_image: /blog/vector-space-hack-2025/hackathon-hero.jpg
+preview_image: /blog/vector-space-hackathon-2025/hackathon-hero.jpg
+social_preview_image: /blog/vector-space-hackathon-2025/hackathon-hero.jpg
 date: 2025-09-29
 author: Qdrant
 featured: true
@@ -12,8 +12,6 @@ tags:
   - news
   - blog
 ---
-
-![Hackathon Hero](blog/vector-space-hackathon-2025/hackathon-hero.jpg)
 
 # *Thinking Outside the Bot* with 2025 Hackathon Winners
 
@@ -36,7 +34,14 @@ Let’s dive into the top projects and what we liked about each of them.
 **Bonus Prize: Best use of Neo4j**  
 **Total Prize: $5000 USD + $1000 Neo4j Credits**
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ZyAM6TPmmKM&si=tqZsVjJYjzRRdJI2&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315"
+  src="https://www.youtube.com/embed/ZyAM6TPmmKM?si=tqZsVjJYjzRRdJI2&rel=0"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
 
 **What it is:** A 3D product exploration experience that turns e-commerce discovery into an explorable world. Categories become mountains; subcategories become hills; terrain height reflects result counts; and an LLM “guide” (Q-Bert) leads a curated tour.
 
@@ -64,7 +69,14 @@ Repo: [Vector Vintage](https://github.com/kanungle/vector-vintage-public)
 
 **Total Prize: $2000 USD**
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Wj7fuBs1HS0&si=IqE4NPuWc-x1KZtn&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315"
+  src="https://www.youtube.com/embed/lELdPxdO10Y?si=AbvbJf1xauB5WYgG&rel=0"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
 
 **What it is:** Non-Playable Characters (NPCs) that *remember* places, events, and interactions using spatio-temporal memory, so behavior evolves naturally instead of being scripted.
 
@@ -88,7 +100,14 @@ Repo: [Vector Vintage](https://github.com/kanungle/vector-vintage-public)
 
 **Total Prize: 1 Year of CrewAI Enterprise**
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LR4ojcDxOXo&si=XiyUDkuctw60oAqE&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315"
+  src="https://www.youtube.com/embed/LR4ojcDxOXo?si=XiyUDkuctw60oAqE&rel=0"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
 
 A **route-aware event discovery** platform. Enter a route \+ time window, and ReMap finds relevant events using **hybrid semantic search** plus **geospatial/temporal filters**, visualized on OpenStreetMap. Synthetic data today, real ingestion planned.
 
@@ -100,7 +119,14 @@ A **route-aware event discovery** platform. Enter a route \+ time window, and Re
 
 **Total Prize: $3000 of Mistral AI Credits**
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/MLXmNpJ4MF0&si=VMUoGgdG2G4mtwtN&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315"
+  src="https://www.youtube.com/embed/MLXmNpJ4MF0?si=VMUoGgdG2G4mtwtN&rel=0"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
 
 A playful **personality-driven social platform**: take a quiz, get matched to a “home planet,” and find **cosmic twinmates** via vector similarity. Built with Qdrant \+ Mistral AI \+ React Three Fiber, with global and per-planet chat.
 
@@ -112,7 +138,14 @@ A playful **personality-driven social platform**: take a quiz, get matched to a 
 
 **Total Prize: $1000 USD**
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/rPdeiVc8maE&si=J3zdgbTnkm0kX5fm&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315"
+  src="https://www.youtube.com/embed/rPdeiVc8maE?si=J3zdgbTnkm0kX5fm&rel=0"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
 
 (Note: Music is removed from above video due to copyright reasons — use your imagination a bit\!)
 
@@ -126,7 +159,14 @@ An **AI choreographer** that generates personalized Bachata sequences by matchin
 
 **Total Prize: $1000 in TwelveLabs Credits**
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/v-EywTyyU50&si=JZJ9PQnsJteBd8nU&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315"
+  src="https://www.youtube.com/embed/v-EywTyyU50?si=JZJ9PQnsJteBd8nU&rel=0"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
 
 A **multi-modal classroom assistant** that captures **speech, video, slides, images, and documents** together into a searchable knowledge memory. Uses TwelveLabs embeddings \+ Qdrant retrieval for linked, contextual recall.
 
@@ -136,7 +176,14 @@ A **multi-modal classroom assistant** that captures **speech, video, slides, ima
 
 ## 🙌 Honorable Mentions
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/REEx1Jd_Qe4&si=K-SDe9WyLK1NSTY8&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315"
+  src="https://www.youtube.com/embed/REEx1Jd_Qe4?si=K-SDe9WyLK1NSTY8&rel=0"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
 
 * **Quant Memory Palace** (*The Mondays*)  
   A **3D knowledge universe** for documents. Semantic clusters you can fly through with real-time previews and search.  
