@@ -29,7 +29,7 @@ Let’s dive into the top projects and what we liked about each of them.
 ### 🥇 1st Place: Vector Vintage (Benedict Counsell)
 
 **Bonus Prize: Best use of Neo4j**  
-**Total Prize: `$5000 USD + $1000 Neo4j Credits`**
+**Total Prize: `$5000 USD` \+ `$1000 Neo4j Credits`**
 
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/ZyAM6TPmmKM?si=tqZsVjJYjzRRdJI2&rel=0"
