@@ -74,7 +74,7 @@ Repo: [Vector Vintage](https://github.com/kanungle/vector-vintage-public)
 **Total Prize: `$2000 USD`**
 
 <iframe width="560" height="315"
-  src="https://www.youtube.com/embed/lELdPxdO10Y?si=AbvbJf1xauB5WYgG&rel=0"
+  src="https://www.youtube.com/embed/Wj7fuBs1HS0?si=AzVWWN3MgZoFFzCI&rel=0"
   title="YouTube video player"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
