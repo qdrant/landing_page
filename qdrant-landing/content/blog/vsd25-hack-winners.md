@@ -29,7 +29,7 @@ Let’s dive into the top projects and what we liked about each of them.
 ### 🥇 1st Place: Vector Vintage (Benedict Counsell)
 
 **Bonus Prize: Best use of Neo4j**  
-**Total Prize: $5000\_USD + $1000 Neo4j Credits**
+**Total Prize: $5000 USD and $1000 Neo4j Credits**
 
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/ZyAM6TPmmKM?si=tqZsVjJYjzRRdJI2&rel=0"
@@ -52,7 +52,14 @@ Repo: [Vector Vintage](https://github.com/kanungle/vector-vintage-public)
 
 **Total Prize: $3000 USD**
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/lELdPxdO10Y&si=AbvbJf1xauB5WYgG&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315"
+  src="https://www.youtube.com/embed/lELdPxdO10Y?si=AbvbJf1xauB5WYgG&rel=0"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
 
 **What it is:** An AI trajectory memory and reflex suggestion system for robots. It “banks” short sensor-action sequences as vectors, labels them by safety, and retrieves the safest neighbor to suggest the next move. Demoed in a 2D simulator, designed for real robotics.
 
