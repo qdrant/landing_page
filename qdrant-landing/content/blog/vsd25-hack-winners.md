@@ -13,7 +13,7 @@ tags:
   - blog
 ---
 
-![/blog/vector-space-hack-2025/hackathon-hero.jpg][hero-image]
+![Hackathon Hero](/blog/vector-space-hack-2025/hackathon-hero.jpg)
 
 # *Thinking Outside the Bot* with 2025 Hackathon Winners
 
@@ -23,7 +23,7 @@ Winners were announced live in Berlin on Friday, September 26, 2025 at [Vector S
 
 With numerous submissions from around the world, hackathon judges used criteria of Creativity, Technical Depth, and Qdrant Usage to evaluate each submission and determine the top projects. There was $10,000 in prizes from Qdrant as well as many additional bonus prizes for using partner tech:
 
-![/blog/vector-space-hack-2025/VSD-Prizes.png][vsd-prizes]
+![Hackathon Prizes](/blog/vector-space-hack-2025/VSD-Prizes.png)
 
 Let’s dive into the top projects and what we liked about each of them.
 
@@ -37,7 +37,7 @@ Let’s dive into the top projects and what we liked about each of them.
 **Total Prize: $5000 USD \+ $1000 Neo4j Credits**
 
 ```html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ZyAM6TPmmKM?si=tqZsVjJYjzRRdJI2?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZyAM6TPmmKM&si=tqZsVjJYjzRRdJI2&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
 **What it is:** A 3D product exploration experience that turns e-commerce discovery into an explorable world. Categories become mountains; subcategories become hills; terrain height reflects result counts; and an LLM “guide” (Q-Bert) leads a curated tour.
@@ -53,7 +53,7 @@ Repo: [Vector Vintage](https://github.com/kanungle/vector-vintage-public)
 **Total Prize: $3000 USD**
 
 ```html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/lELdPxdO10Y?si=AbvbJf1xauB5WYgG?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/lELdPxdO10Y&si=AbvbJf1xauB5WYgG&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
 **What it is:** An AI trajectory memory and reflex suggestion system for robots. It “banks” short sensor-action sequences as vectors, labels them by safety, and retrieves the safest neighbor to suggest the next move. Demoed in a 2D simulator, designed for real robotics.
@@ -69,7 +69,7 @@ Repo: [Vector Vintage](https://github.com/kanungle/vector-vintage-public)
 **Total Prize: $2000 USD**
 
 ```html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Wj7fuBs1HS0?si=IqE4NPuWc-x1KZtn?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Wj7fuBs1HS0&si=IqE4NPuWc-x1KZtn&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
 **What it is:** Non-Playable Characters (NPCs) that *remember* places, events, and interactions using spatio-temporal memory, so behavior evolves naturally instead of being scripted.
@@ -95,7 +95,7 @@ Repo: [Vector Vintage](https://github.com/kanungle/vector-vintage-public)
 **Total Prize: 1 Year of CrewAI Enterprise**
 
 ```html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LR4ojcDxOXo?si=XiyUDkuctw60oAqE?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LR4ojcDxOXo&si=XiyUDkuctw60oAqE&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
 A **route-aware event discovery** platform. Enter a route \+ time window, and ReMap finds relevant events using **hybrid semantic search** plus **geospatial/temporal filters**, visualized on OpenStreetMap. Synthetic data today, real ingestion planned.
@@ -109,7 +109,7 @@ A **route-aware event discovery** platform. Enter a route \+ time window, and Re
 **Total Prize: $3000 of Mistral AI Credits**
 
 ```html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/MLXmNpJ4MF0?si=VMUoGgdG2G4mtwtN?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MLXmNpJ4MF0&si=VMUoGgdG2G4mtwtN&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
 A playful **personality-driven social platform**: take a quiz, get matched to a “home planet,” and find **cosmic twinmates** via vector similarity. Built with Qdrant \+ Mistral AI \+ React Three Fiber, with global and per-planet chat.
@@ -123,7 +123,7 @@ A playful **personality-driven social platform**: take a quiz, get matched to a 
 **Total Prize: $1000 USD**
 
 ```html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/rPdeiVc8maE?si=J3zdgbTnkm0kX5fm?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rPdeiVc8maE&si=J3zdgbTnkm0kX5fm&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
 (Note: Music is removed from above video due to copyright reasons — use your imagination a bit\!)
@@ -139,7 +139,7 @@ An **AI choreographer** that generates personalized Bachata sequences by matchin
 **Total Prize: $1000 in TwelveLabs Credits**
 
 ```html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/v-EywTyyU50?si=JZJ9PQnsJteBd8nU?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/v-EywTyyU50&si=JZJ9PQnsJteBd8nU&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
 A **multi-modal classroom assistant** that captures **speech, video, slides, images, and documents** together into a searchable knowledge memory. Uses TwelveLabs embeddings \+ Qdrant retrieval for linked, contextual recall.
@@ -151,7 +151,7 @@ A **multi-modal classroom assistant** that captures **speech, video, slides, ima
 ## 🙌 Honorable Mentions
 
 ```html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/REEx1Jd_Qe4?si=K-SDe9WyLK1NSTY8?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/REEx1Jd_Qe4&si=K-SDe9WyLK1NSTY8&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
 * **Quant Memory Palace** (*The Mondays*)  
