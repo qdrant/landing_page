@@ -21,7 +21,7 @@ Winners were announced live in Berlin on Friday, September 26, 2025 at [Vector S
 
 With numerous submissions from around the world, hackathon judges used criteria of Creativity, Technical Depth, and Qdrant Usage to evaluate each submission and determine the top projects. There was $10,000 in prizes from Qdrant as well as many additional bonus prizes for using partner tech:
 
-![Hackathon Prizes](blog/vector-space-hackathon-2025/VSD-Prizes.png)
+![Hackathon Prizes](/blog/vector-space-hackathon-2025/VSD-Prizes.png)
 
 Let’s dive into the top projects and what we liked about each of them.
 
@@ -32,7 +32,7 @@ Let’s dive into the top projects and what we liked about each of them.
 ### 🥇 1st Place: Vector Vintage (Benedict Counsell)
 
 **Bonus Prize: Best use of Neo4j**  
-**Total Prize: $5000 USD + $1000 Neo4j Credits**
+**Total Prize: `$5000 USD` + `$1000` Neo4j Credits**
 
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/ZyAM6TPmmKM?si=tqZsVjJYjzRRdJI2&rel=0"
