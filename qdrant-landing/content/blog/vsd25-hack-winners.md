@@ -12,9 +12,6 @@ tags:
   - news
   - blog
 ---
-
-# *Thinking Outside the Bot* with 2025 Hackathon Winners
-
 Over the past several weeks, builders from around the world proved that vector search is about much more than chatbots. We challenged teams to think beyond RAG, and they delivered: robotics safety reflexes, event discovery on routes, 3D shopping, video game characters, and more.
 
 Winners were announced live in Berlin on Friday, September 26, 2025 at [Vector Space Day](https://luma.com/p7w9uqtz). Full hackathon details are here: [Hackathon page](https://try.qdrant.tech/hackathon-2025).
@@ -32,7 +29,7 @@ Let’s dive into the top projects and what we liked about each of them.
 ### 🥇 1st Place: Vector Vintage (Benedict Counsell)
 
 **Bonus Prize: Best use of Neo4j**  
-**Total Prize: `$5000 USD` + `$1000` Neo4j Credits**
+**Total Prize: $5000\_USD + $1000 Neo4j Credits**
 
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/ZyAM6TPmmKM?si=tqZsVjJYjzRRdJI2&rel=0"
