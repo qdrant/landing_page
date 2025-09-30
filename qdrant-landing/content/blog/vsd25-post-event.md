@@ -16,15 +16,13 @@ tags:
 
 [**\[See all event slides here\]**](https://drive.google.com/drive/folders/1DbRQmwmMg8U255g3-ooo7Ojt9FPgHNc9?usp=sharing)
 
-On September 26, 2025, we gathered nearly **400 developers, researchers, and engineers** at the Colosseum Theater in Berlin for our very first **Qdrant Vector Space Day**.
+On September 26, 2025, nearly **400 developers, researchers, and engineers** came together at the Colosseum Theater in Berlin for the first-ever **Qdrant Vector Space Day**.  
 
-The day started with coffee, fresh Qdrant shirts and stickers making the rounds, and conversations that immediately turned to embeddings, hybrid search, and AI agents. The swag was fun, but what really set the tone was the energy in the room \- people excited to share ideas and learn from one another.
+From the start, the day belonged to the community. Over coffee and fresh Qdrant swag, the conversations quickly moved to embeddings, hybrid search, and AI agents. Laptops flipped open, QR codes were shared, and the room filled with people eager to trade ideas and learn from one another.  
 
-For us at Qdrant, the highlight wasn’t the stage or setup, but the chance to connect face-to-face with the practitioners pushing this field forward. Vector Space Day felt less like a conference and more like a community launchpad \- a place to explore challenges, compare approaches, and imagine what’s next in AI-native search.
+What made the event special wasn’t the stage or the setup, but the chance to connect in person with the practitioners driving this technology forward. Vector Space Day felt less like a traditional conference and more like a **community launchpad** - a place to share challenges, compare approaches, and shape what comes next in AI-native search.  
 
-**Vector Space Day opened as more than just a meetup.** It felt like a launchpad for practitioners, where the community could align on the challenges of retrieval at scale, compare architectures, and see what’s next in AI-native search.
-
-And with astronaut edits popping up in photos afterwards, it was clear the community didn’t just join an event theme \- they tapped into something deeper. Vector space isn’t just the name of a day, it’s the perspective we at Qdrant bring to everything we do: exploring new dimensions of retrieval, navigating uncharted infrastructure challenges, and pushing the boundaries of AI-native search.
+That sense of ownership showed up everywhere, even after the talks. Astronaut-themed photo edits started circulating online, turning the event’s playful theme into something the community made their own.
 
 ![astronauts](/blog/vsd25-post-event/astronaut3.png)
 
@@ -32,7 +30,7 @@ And with astronaut edits popping up in photos afterwards, it was clear the commu
 
 Seeing the community make it their own \- from playful photo edits to serious technical exchanges \- showed us how alive that vision really is. 🚀
 
-We know many of you in our community would have liked to attend as well, so we wanted to give you a chance to re-live part of the event with this blog. We will share the recordings of all sessions in the next weeks as well. Let’s dive right in: 
+We know many of you in our community would have liked to attend as well, so we wanted to give you a chance to re-live part of the event with this blog. We will share the recordings of all sessions in the next weeks as well. Let’s dive right in. 
 
 <!--![vector space day](/blog/vsd25-post-event/keynote-stage.png)-->
 
@@ -45,7 +43,7 @@ Our Co-Founder and CEO [**André Zayarni**](https://www.linkedin.com/in/zayarni/
 * **Wave 2: Agentic AI (Multi-step Reasoning)** — today’s landscape, where agents plan, retrieve, and act but still struggle with memory and precision.  
 * **Wave 3: Embedded AI (On-edge \+ Physical Agents)** — the next frontier, where vector-native search underpins real-time, multimodal agents running on devices and in physical environments. Something we started to venture into with [Qdrant Edge](https://qdrant.tech/blog/qdrant-edge/).
 
-![Three Waves](/blog/vsd25-post-event/keynote-andre2.png)
+![Three Waves](/blog/vsd25-post-event/keynote-andre2.jpg)
 
 André highlighted the underlying forces driving this shift:
 
@@ -112,7 +110,7 @@ In addition, we also had inspiring sessions from many other speakers, which you 
 
 Thanks to the other speakers from **AskNews, Linkup, cognee, Neo4j, Superlinked, Arize AI, Jina AI, LlamaIndex, TwelveLabs, deepset, GoodData, Google DeepMind**.
 
-👉 [To see all speaker slides, go here](https://drive.google.com/drive/folders/1DbRQmwmMg8U255g3-ooo7Ojt9FPgHNc9?usp=sharing)
+**👉 [To see all speaker slides, go here](https://drive.google.com/drive/folders/1DbRQmwmMg8U255g3-ooo7Ojt9FPgHNc9?usp=sharing)**
 
 Special thanks to our amazing Qdrant Stars ✨ [**Clelia Astra Bertelli**](https://www.linkedin.com/in/clelia-astra-bertelli-583904297/), [**M K Pavan Kumar**](https://www.linkedin.com/in/kameshwara-pavan-kumar-mantha-91678b21/), and [**Robert Caulk**](https://www.linkedin.com/in/rcaulk/) who came from across the globe to attend our event and share their experience with our community. 🙌 
 
