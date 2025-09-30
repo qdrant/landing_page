@@ -138,7 +138,7 @@ A playful **personality-driven social platform**: take a quiz, get matched to a 
 
 ---
 
-### Superlinked Prize: Bachata Vibes (Bachata Vibes team)
+### Superlinked Prize: Bachata Vibes (Erick Rea)
 
 **Total Prize: `$1000 USD`**
 
