@@ -34,7 +34,7 @@ Seeing the community make it their own \- from playful photo edits to serious te
 
 We know many of you in our community would have liked to attend as well, so we wanted to give you a chance to re-live part of the event with this blog. We will share the recordings of all sessions in the next weeks as well. Let’s dive right in: 
 
-![vector space day](/blog/vsd25-post-event/keynote-stage.png)
+<!--![vector space day](/blog/vsd25-post-event/keynote-stage.png)-->
 
 
 ### Opening Keynotes
@@ -45,7 +45,7 @@ Our Co-Founder and CEO [**André Zayarni**](https://www.linkedin.com/in/zayarni/
 * **Wave 2: Agentic AI (Multi-step Reasoning)** — today’s landscape, where agents plan, retrieve, and act but still struggle with memory and precision.  
 * **Wave 3: Embedded AI (On-edge \+ Physical Agents)** — the next frontier, where vector-native search underpins real-time, multimodal agents running on devices and in physical environments. Something we started to venture into with [Qdrant Edge](https://qdrant.tech/blog/qdrant-edge/).
 
-![Three Waves](/blog/vsd25-post-event/keynote-andre.png)
+![Three Waves](/blog/vsd25-post-event/keynote-andre2.png)
 
 André highlighted the underlying forces driving this shift:
 
@@ -166,7 +166,7 @@ The Grand Prize was awarded to [**Benedict Counsell**](https://www.linkedin.com/
 
 ![After Party](/blog/vsd25-post-event/afterparty.jpg)
 
-The day wrapped up with an after party that felt more like an extended hallway track — except with DJs, pizza, and drinks in the Colosseum’s open atrium. Conversations didn’t stop; they just shifted tempo, with embeddings, search architectures, and vector math carrying on late into the night.
+The day wrapped up with an after party that felt lively and and upbeat with DJs, pizza, and drinks in the Colosseum’s open atrium. Conversations didn’t stop; they just shifted tempo, with embeddings, search architectures, and vector math carrying on late into the night.
 
 ### Thank you
 
