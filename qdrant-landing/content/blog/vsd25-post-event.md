@@ -16,7 +16,7 @@ tags:
 
 [**\[See all event slides here\]**](https://drive.google.com/drive/folders/1DbRQmwmMg8U255g3-ooo7Ojt9FPgHNc9?usp=sharing)
 
-On September 26, 2025, we gathered nearly **400 developers, researchers, and engineers** at the Colosseum Theater in Berlin for our very **first Qdrant Vector Space Day**.
+On September 26, 2025, we gathered nearly **400 developers, researchers, and engineers** at the Colosseum Theater in Berlin for our very first **Qdrant Vector Space Day**.
 
 The day started with coffee, fresh Qdrant shirts and stickers making the rounds, and conversations that immediately turned to embeddings, hybrid search, and AI agents. The swag was fun, but what really set the tone was the energy in the room \- people excited to share ideas and learn from one another.
 
@@ -112,11 +112,12 @@ In addition, we also had inspiring sessions from many other speakers, which you 
 
 Thanks to the other speakers from **AskNews, Linkup, cognee, Neo4j, Superlinked, Arize AI, Jina AI, LlamaIndex, TwelveLabs, deepset, GoodData, Google DeepMind**.
 
-#### 👉 [To see all speaker slides, go here](https://drive.google.com/drive/folders/1DbRQmwmMg8U255g3-ooo7Ojt9FPgHNc9?usp=sharing)
+👉 [To see all speaker slides, go here](https://drive.google.com/drive/folders/1DbRQmwmMg8U255g3-ooo7Ojt9FPgHNc9?usp=sharing)
 
 Special thanks to our amazing Qdrant Stars ✨ [**Clelia Astra Bertelli**](https://www.linkedin.com/in/clelia-astra-bertelli-583904297/), [**M K Pavan Kumar**](https://www.linkedin.com/in/kameshwara-pavan-kumar-mantha-91678b21/), and [**Robert Caulk**](https://www.linkedin.com/in/rcaulk/) who came from across the globe to attend our event and share their experience with our community. 🙌 
 
 ![Qdrant Stars](/blog/vsd25-post-event/3stars.png)
+*Qdrant Stars presenting at Vector Space Day*
 
 ### Networking
 
