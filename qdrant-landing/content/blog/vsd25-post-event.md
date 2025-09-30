@@ -58,7 +58,7 @@ We are convinced that if AI is going to evolve beyond static assistants, it need
 
 Next on stage, our Co-Founder and CTO [**Andrey Vasnetsov**](https://www.linkedin.com/in/andrey-vasnetsov-75268897/) emphazised our belief that ‘vector database’ is actually the wrong term to describe what we are building at Qdrant. **Qdrant is not “a vector database”** because vectors themselves are not data, but representations.
 
-![Not a Vector DB](/qdrant-landing/static/blog/vsd25-post-event/keynote-notvdb.png)
+![Not a Vector DB](/blog/vsd25-post-event/keynote-notvdb.png)
 
 After a short technical explanation of this distinction, Andrey shifted to what Qdrant *is*, rooted in the original vision that inspired its creation:
 
@@ -84,7 +84,7 @@ After a short break, our community had the choice between two content tracks: Mi
 
 A few highlights:
 
-![Rachel Rapp](/qdrant-landing/static/blog/vsd25-post-event/breakout-rachel.jpg)
+![Rachel Rapp](/blog/vsd25-post-event/breakout-rachel.jpg)
 *Rachel Rapp explains tradeoffs to dimensionality and quantization*
 
 * [**Rachel Rapp (Baseten)**](https://www.linkedin.com/in/rachelrapp/) **– High-Throughput, Low-Latency Embedding Pipelines**  
@@ -93,7 +93,7 @@ A few highlights:
 * [**Roman Grebennikov (Delivery Hero)**](https://www.linkedin.com/in/romangrebennikov/) **– How to Cheat at Benchmarking Search Engines**  
   Roman explained why published search benchmarks are often misleading: different datasets, different configs, and non-comparable parameters. He presented Delivery Hero’s approach to building a reproducible benchmarking harness and public leaderboard designed for fair comparisons across modern search engines.
 
-![Dat Ngo](/qdrant-landing/static/blog/vsd25-post-event/breakout-dat.jpg) 
+![Dat Ngo](/blog/vsd25-post-event/breakout-dat.jpg) 
 *Attendees raved about Dat’s talk on agentic RAG evaluations*
 
 * [**Dat Ngo (Arize AI)**](https://www.linkedin.com/in/datdarylngo/) **– Self-Improving Evaluations for Agentic RAG**  
@@ -102,7 +102,7 @@ A few highlights:
 * [**Martin O’Hanlon (Neo4j)**](https://www.linkedin.com/in/martinohanlon/) **– Hands-On GraphRAG**  
   Martin introduced GraphRAG, showing how knowledge graphs can enrich retrieval-augmented generation with structure, relationships, and provenance. His presentation included building a knowledge graph from unstructured text and integrating it into a LangChain agent for better grounding and explainability.
 
-![Marcel n8n](/qdrant-landing/static/blog/vsd25-post-event/breakout-marcel.jpg) 
+![Marcel n8n](/blog/vsd25-post-event/breakout-marcel.jpg) 
 *Marcel Claus-Ahrens shares some Dr. Pure Eval insights 😈*
 
 * [**Marcel Claus-Ahrens (n8n Ambassador)**](https://www.linkedin.com/in/geckse/) **– Evaluate Your Qdrant-RAG Agents with No-Code n8n Evaluations**  
@@ -116,18 +116,18 @@ Thanks to the other speakers from **AskNews, Linkup, cognee, Neo4j, Superlinked,
 
 Special thanks to our amazing Qdrant Stars ✨ [**Clelia Astra Bertelli**](https://www.linkedin.com/in/clelia-astra-bertelli-583904297/), [**M K Pavan Kumar**](https://www.linkedin.com/in/kameshwara-pavan-kumar-mantha-91678b21/), and [**Robert Caulk**](https://www.linkedin.com/in/rcaulk/) who came from across the globe to attend our event and share their experience with our community. 🙌 
 
-![Qdrant Stars](/qdrant-landing/static/blog/vsd25-post-event/3stars.png)
+![Qdrant Stars](/blog/vsd25-post-event/3stars.png)
 
 ### Networking
 
 Throughout the day, the Colosseum buzzed with conversations. Speakers and attendees connected between sessions, traded ideas, and asked tough technical questions. QR codes flashed as LinkedIn connections were made, laptops opened for impromptu demos, and groups gathered over coffee to debate architectures and share lessons from their own deployments.
 
-![Marcel Networking](/qdrant-landing/static/blog/vsd25-post-event/networking-marcel.jpg)
+![Marcel Networking](/blog/vsd25-post-event/networking-marcel.jpg)
 *Speakers and attendees got a chance to deep dive on special topics together*
 
 We were thrilled to feel the energy of our community in person. Vector Space Day wasn’t just a conference \- it was a chance for us and our community to learn from one another, share ideas, and connect. What stood out most to us was simply being in the same room, seeing conversations spark and relationships form.
 
-![Networking Swag](/qdrant-landing/static/blog/vsd25-post-event/networking1.jpg)
+![Networking Swag](/blog/vsd25-post-event/networking1.jpg)
 
 *The Qdrant DevRel Team hands out some free swag to attendees during networking time*
 
@@ -137,7 +137,7 @@ In the afternoon, the stage shifted to our startup community with a series of ra
 
 ### Hackathon Winners
 
-![Hackathon](/qdrant-landing/static/blog/vsd25-post-event/vsd-hack.png)
+![Hackathon](/blog/vsd25-post-event/vsd-hack.png)
 
 In the weeks leading up to Vector Space Day, the global Qdrant Community was challenged to virtually compete and “Think Outside the Bot” to create AI solutions with Vector Search beyond simple RAG chatbots ([details here](https://try.qdrant.tech/hackathon-2025)).
 
@@ -163,7 +163,7 @@ The Grand Prize was awarded to [**Benedict Counsell**](https://www.linkedin.com/
 
 ### After Party
 
-![After Party](/qdrant-landing/static/blog/vsd25-post-event/afterparty.jpg)
+![After Party](/blog/vsd25-post-event/afterparty.jpg)
 
 The day wrapped up with an after party that felt more like an extended hallway track — except with DJs, pizza, and drinks in the Colosseum’s open atrium. Conversations didn’t stop; they just shifted tempo, with embeddings, search architectures, and vector math carrying on late into the night.
 
@@ -175,4 +175,4 @@ Your energy and ideas inspire us every day. You leave us motivated to keep build
 
 – The Qdrant Team
 
-![Qdrant Crew](/qdrant-landing/static/blog/vsd25-post-event/thankyou.png)
+![Qdrant Crew](/blog/vsd25-post-event/thankyou.png)
