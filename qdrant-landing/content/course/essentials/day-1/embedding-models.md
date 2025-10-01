@@ -167,7 +167,7 @@ from qdrant_client.fastembed.text import TextEmbedding
 
 # This example uses FastEmbed's default model for embedding generation
 embedding_model = TextEmbedding()
-vector = embedding_model("Qdrant is a vector search engine")
+vector = embedding_model.embed("Qdrant is a vector search engine")
 ```
 
 **Choose FastEmbed when you need:**
