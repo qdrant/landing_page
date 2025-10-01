@@ -9,10 +9,6 @@ Inference is the process of creating vector embeddings from text, images, or oth
 
 Qdrant Managed Cloud allows you to use inference directly in the cloud, without the need to set up and maintain your own inference infrastructure.
 
-<aside role="alert">
-    Inference is currently only available in US regions for paid clusters. Support for inference in other regions is coming soon.
-</aside>
-
 ![Cluster Cluster UI](/documentation/cloud/cloud-inference.png)
 
 ## Supported Models
