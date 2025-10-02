@@ -49,8 +49,6 @@ Getting started is easy. Inference is automatically enabled for any new paid clu
 
 You can get started now by logging into [Qdrant Cloud](https://cloud.qdrant.io/), selecting a model, and embedding your data directly. No extra APIs. No new tools. Just faster, simpler AI application development.
 
-*Available for paid cloud users. Available on AWS, Azure, and GCP for US regions only. Additional regions will be added soon.* 
-
 ## How to Build a Multimodal Search Stack with One API 
 **Embed, Store, Search: A Hands-On Guide to Qdrant Cloud Inference**
 
