@@ -61,7 +61,7 @@ After you have taken the prerequisite steps, you can configure a backup with the
 
 You can manage backups from the list of **Available Backups**. You can choose to restore or delete the backups of your choice. 
 
-Backups can be restored into the same cluster. This will also revert the clusters configuration, including the cluster version back to the config when the backup was taken.
+Backups can be restored into the same cluster. This will revert the configuration, including the cluster version, back to the state when the backup was taken.
 
 Or you can restore the backup into a new cluster.
 
