@@ -20,6 +20,8 @@ Learn how to combine dense and sparse vector search methods to build powerful hy
 
 ## The Challenge: Different Users, Different Search Needs
 
+The reality is that your users exist across a spectrum: from precise keyword searchers to vague natural language describers, and forcing a single search approach means disappointing part of your audience. Rather than compromising on search quality for different user types, hybrid search allows you to meet everyone where they are.
+
 ### Dense Vectors: Semantic Understanding
 
 Dense vectors are produced by neural encoders trained in a way that associates meaning with the inputs. No matter if you ask for an **elevator** or a **lift**, your intent is to get to another floor, even though the words differ. Even an escalator, or just stairs, should not be that far away, as they serve the same purpose!
