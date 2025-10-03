@@ -1,5 +1,5 @@
 ---
-title: Quantization Performance Optimization
+title: "Project: Quantization Performance Optimization"
 weight: 4
 ---
 
@@ -494,7 +494,7 @@ This project deepens your understanding of:
 - **Real-world quantization impact** on your specific domain and data
 - **Production optimization techniques** for memory and cost efficiency
 - **Accuracy recovery strategies** using oversampling and rescoring
-- **Performance measurement methodologies** for vector database optimization
+- **Performance measurement methodologies** for vector search optimization
 - **Production deployment patterns** for quantized systems
 
 ## Success Criteria

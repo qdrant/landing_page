@@ -1,17 +1,17 @@
 ---
-title: Sharding and Replication
+title: Sharding and Replication Strategies
 weight: 2
 ---
 
 {{< date >}} Day 6 {{< /date >}}
 
-# Sharding and Replication
+# Sharding and Replication Strategies
 
-[Sharding and replication](/documentation/guides/distributed_deployment/) scale Qdrant horizontally and keep it available during failures. Shards split a collection across nodes for parallelism; replicas duplicate shards for redundancy; write consistency controls the durability/latency trade‑off. This chapter explains how to design a layout that meets your SLOs and how to operate it cleanly in production.
+[Sharding and Replication Strategies](/documentation/guides/distributed_deployment/) scale Qdrant horizontally and keep it available during failures. Shards split a collection across nodes for parallelism; replicas duplicate shards for redundancy; write consistency controls the durability/latency trade‑off. This chapter explains how to design a layout that meets your SLOs and how to operate it cleanly in production.
 
 ## Cluster anatomy
 
-A collection is split into shards. Each shard stores and indexes a subset of points, with its own segments and HNSW graphs. Replication creates copies of each shard on other nodes. A search fans out to relevant shards in parallel, merges the partial results, and returns the top‑k. A write is applied to one or more replicas depending on your write consistency.
+A collection is split into shards. Each shard stores and indexes a subset of points, with its own segments and [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) graphs. Replication creates copies of each shard on other nodes. A search fans out to relevant shards in parallel, merges the partial results, and returns the top‑k. A write is applied to one or more replicas depending on your write consistency.
 
 <img src="/documentation/guides/collection-config-guide/shards.png" width="720" alt="Sharding fan-out and merge diagram">
 

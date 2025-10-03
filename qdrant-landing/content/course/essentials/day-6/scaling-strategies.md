@@ -11,7 +11,7 @@ Scaling is matching the shape of your workload to the shape of your infrastructu
 
 ## Scale up vs. scale out
 
-There are two levers. Scaling up strengthens one node with more RAM, more CPU, and faster NVMe. It shines when a single machine can keep vectors, HNSW, and hot payloads in memory with comfortable headroom. Scaling out adds nodes and lets Qdrant split a collection with sharding and replication. It is the better tool when your working set outgrows one box or you need high availability across failure domains.
+There are two levers. Scaling up strengthens one node with more RAM, more CPU, and faster NVMe. It shines when a single machine can keep vectors, [HNSW](https://qdrant.tech/articles/filtrable-hnsw/), and hot payloads in memory with comfortable headroom. Scaling out adds nodes and lets Qdrant split a collection with sharding and replication. It is the better tool when your working set outgrows one box or you need high availability across failure domains.
 
 A practical rule: scale up until you hit a clear local ceiling (RAM for vectors and graph, CPU under higher ef or heavy filters, SSD IOPS during ingestion). When the working set no longer fits or p95 increases under normal load, introduce sharding and add replicas for resilience.
 

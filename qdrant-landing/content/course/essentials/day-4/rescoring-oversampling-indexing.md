@@ -1,11 +1,11 @@
 ---
-title: Oversampling, Rescoring, and Reranking
+title: Accuracy Recovery with Rescoring
 weight: 2
 ---
 
 {{< date >}} Day 4 {{< /date >}}
 
-# Oversampling, Rescoring, and Reranking
+# Accuracy Recovery with Rescoring
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 

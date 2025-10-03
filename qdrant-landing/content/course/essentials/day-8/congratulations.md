@@ -1,11 +1,13 @@
 ---
-title: Congratulations!
+title: Course Completion and Next Steps
 weight: 3
 ---
 
 {{< date >}} Day 8 {{< /date >}}
 
-# Congratulations! You've Mastered Vector Search
+# Course Completion and Next Steps
+
+## Congratulations! You've Mastered Vector Search.
 
 You've built and shipped a complete vector search application and gained the expertise to run Qdrant in production. This achievement represents mastery of modern retrieval systems and positions you at the forefront of AI-powered search technology.
 
@@ -13,11 +15,11 @@ You've built and shipped a complete vector search application and gained the exp
 
 You've progressed from vector search fundamentals to production-ready expertise:
 
-**Foundation Building** (Days 0-2): You mastered the core concepts of vector search, learned how similarity metrics work, and understood how HNSW indexing enables fast retrieval at scale.
+**Foundation Building** (Days 0-2): You mastered the core concepts of vector search, learned how similarity metrics work, and understood how [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) indexing enables fast retrieval at scale.
 
 **Advanced Retrieval** (Days 3-5): You implemented hybrid search combining semantic and keyword signals, explored quantization for performance optimization, and mastered the Universal Query API with multivector reranking.
 
-**Production Deployment** (Days 6-7): You learned to design distributed systems with sharding and replication, implemented secure multitenancy with JWT authentication, and built operational frameworks for monitoring and incident response.
+**Production Deployment** (Days 6-7): You learned to design distributed systems with sharding and replication, implemented secure multitenancy with [JWT](https://jwt.io/) authentication, and built operational frameworks for monitoring and incident response.
 
 **Portfolio Project** (Day 8): You synthesized everything into a working documentation search engine that demonstrates production-quality hybrid retrieval with proper evaluation and optimization.
 

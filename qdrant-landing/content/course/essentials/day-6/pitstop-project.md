@@ -1,5 +1,5 @@
 ---
-title: Capacity Planning and Scaling Simulation
+title: "Project: Capacity Planning and Scaling Simulation"
 weight: 4
 ---
 

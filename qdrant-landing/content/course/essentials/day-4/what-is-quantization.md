@@ -1,11 +1,11 @@
 ---
-title: Vector Quantization
+title: Vector Quantization Methods
 weight: 1
 ---
 
 {{< date >}} Day 4 {{< /date >}}
 
-# Vector Quantization: Methods and Tradeoffs
+# Vector Quantization Methods
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 

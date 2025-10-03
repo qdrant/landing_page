@@ -1,11 +1,11 @@
 ---
-title: Build Your Domain Search Engine
+title: "Project: Building a Semantic Search Engine"
 weight: 5
 ---
 
 {{< date >}} Day 1 {{< /date >}}
 
-# Project: Create Your Own Semantic Search Engine
+# Project: Building a Semantic Search Engine
 
 Now that you've seen how semantic search works with movies, it's time to build your own. Choose a domain you care about and create a search engine that understands meaning, not just keywords.
 
@@ -327,4 +327,4 @@ You'll know you've succeeded when:
 <input type="checkbox"> You've discovered something surprising about how chunking affects search  
 <input type="checkbox"> You can articulate the trade-offs between different approaches
 
-**Ready for Day 2?** Tomorrow you'll learn how Qdrant makes vector search lightning-fast through HNSW indexing and how to optimize for production workloads.
+**Ready for Day 2?** Tomorrow you'll learn how Qdrant makes vector search lightning-fast through [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) indexing and how to optimize for production workloads.

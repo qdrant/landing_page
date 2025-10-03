@@ -1,11 +1,11 @@
 ---
-title: Secure Production Setup
+title: "Project: Implementing a Secure Production Setup"
 weight: 5
 ---
 
 {{< date >}} Day 7 {{< /date >}}
 
-# Project: Secure Production Setup
+# Project: Implementing a Secure Production Setup
 
 Apply your security and configuration knowledge by implementing a production-ready Qdrant deployment with proper security controls, monitoring, and operational procedures. This project consolidates everything you've learned about running Qdrant safely in production.
 
@@ -165,7 +165,7 @@ Validate each item from the Day 7 security checklist:
 <input type="checkbox"> HTTPS enforced; no public plain HTTP  
 <input type="checkbox"> API keys rotated; stored in secret manager  
 <input type="checkbox"> Least-privilege RBAC; environment-scoped credentials  
-<input type="checkbox"> JWT validated per request; tenant filters enforced (if applicable)  
+<input type="checkbox"> [JWT](https://jwt.io/) validated per request; tenant filters enforced (if applicable)  
 <input type="checkbox"> IP allow-lists / private networking in place  
 <input type="checkbox"> Strict Mode enabled with sensible caps  
 <input type="checkbox"> Snapshots scheduled and restore tested  

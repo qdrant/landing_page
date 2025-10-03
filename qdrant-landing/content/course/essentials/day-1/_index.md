@@ -1,12 +1,12 @@
 ---
-title: Vector Fundamentals
+title: "Day 1: Vector Search Fundamentals"
 isLesson: true
 weight: 2
 ---
 
 {{< date >}} Day 1 {{< /date >}}
 
-# Vector Fundamentals
+# Vector Search Fundamentals
 
 Today we dive straight into Qdrant’s core data model and how vectors are compared.
 
@@ -14,10 +14,11 @@ Today we dive straight into Qdrant’s core data model and how vectors are compa
 
 ## Today’s path
 
-1. Points, vectors, and payloads
-2. Measuring vector similarity
-3. From raw text to search‑ready chunks
-4. Pitstop: experiment with chunking methods
+1. Points, Vectors and Payloads
+2. Distance Metrics
+3. Text Chunking Strategies
+4. Demo: Semantic Movie Search
+5. Project: Building a Semantic Search Engine
 
 You’ll apply these fundamentals in a focused, hands‑on build.
 

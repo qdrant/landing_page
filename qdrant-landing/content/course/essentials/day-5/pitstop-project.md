@@ -1,11 +1,11 @@
 ---
-title: Build a Recommendation System
+title: "Project: Building a Recommendation System"
 weight: 4
 ---
 
 {{< date >}} Day 5 {{< /date >}}
 
-# Project: Recommendation System
+# Project: Building a Recommendation System
 
 Bring together dense, sparse, and multivectors in one atomic Universal Query. You'll recall candidates, fuse signals, rerank with ColBERT, and apply business filters - in a single request.
 

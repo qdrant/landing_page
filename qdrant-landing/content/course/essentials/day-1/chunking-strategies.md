@@ -1,17 +1,19 @@
 ---
-title: Chunking Strategies
+title: Text Chunking Strategies
 weight: 3
 ---
 
 {{< date >}} Day 1 {{< /date >}}
 
-# Embedding & Chunking Strategies
+# Text Chunking Strategies
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 
 So far we've talked about points - what they're made of, and how Qdrant compares them for approximate nearest neighbor search using distance metrics like cosine similarity, dot product, or Euclidean distance.
 
 But none of this matters until we give Qdrant something meaningful to compare. That brings us to the real beginning of the system.
+
+**Disclaimer**: In this section, we focus on text chunking. Although other types of data (images, videos, audio and code) can also be chunked, we are covering the basics of text chunking as it is the most popular type of data.
 
 ## The Real Beginning: Data Structure
 
@@ -23,29 +25,36 @@ Our pipeline starts with the data and how we represent what we want to search. I
 
 We need a way to break this data down into manageable chunks.
 
-**Together, [embedding](/articles/what-are-embeddings/) and chunking define the data that Qdrant works with.**
+**Data preprocessing, especially chunking and [embedding](/articles/what-are-embeddings/), define the data that Qdrant works with.**
 
 ## From Raw Text to Search-Ready
 
 ### The Problem with Whole Documents
 
-Storing an entire document as a single vector might seem easier, but it makes search results less precise.
+Storing an entire document as a single vector is often ineffective because **embedding models operate with a limited context window.**
 
-**Example:** Consider a multi-page Qdrant Collection Configuration Guide covering everything from HNSW to sharding and quantization.
+Every model has a maximum number of tokens it can process at once. For example, many popular `sentence-transformer` models have a limit of 512 tokens, while OpenAI's `text-embedding-3-small` has a limit of 8,191 tokens. If a document exceeds this maximum token count, the information past that limit is simply dropped, leading to a massive loss of data.
+
+But even if a document fits within the limit, embedding a large, multi-topic text into a single vector can dilute its meaning. The model creates a "semantic average" of all the content, making it difficult for a specific query to find a precise match.
+
+This is where chunking comes in. The goal is to have chunks
+1.  small enough to be processed effectively by embedding models without truncation.
+2.  large enough to contain meaningful, coherent context.
+
+By breaking a document into focused chunks, each chunk gets its own vector that accurately represents a specific idea. This allows the search to be far more precise.
+
+**Example:** Consider a multi-page Document like the [Qdrant Collection Configuration Guide of day 7](/course/essentials/day-7/collection-configuration-guide/) covering everything from HNSW to sharding and quantization.
 
 If a user asks: *"What does the m parameter do?"*
 
-**With whole document embedding:**
-- Qdrant returns the entire guide
-- The answer is buried under unrelated content  
-- Language models must process unnecessary noise
-- Wastes tokens and compute power
+**Without Chunking:**
+- The guide is too long and gets truncated by the model, potentially losing the section about the `m` parameter entirely.
+- Even if it fits, the resulting vector is a noisy average of all topics, making it unlikely to be retrieved for such a specific query.
 
-**With proper chunking:**
-- Split the guide into smaller, topic-focused chunks
-- Embed each chunk separately
-- Qdrant returns just the relevant section about the `m` parameter
-- Clear, precise answers without noise
+**With Proper Chunking:**
+- The guide is split into topic-focused chunks (e.g., one for HNSW parameters).
+- The chunk about the `m` parameter gets its own precise vector.
+- Qdrant easily retrieves this specific chunk, providing a clear and relevant answer.
 
 ## Why Chunking Makes All the Difference
 
@@ -76,7 +85,7 @@ How you chunk affects what your embeddings capture, what your retriever can surf
 <span style="background-color: #fce4ec; color: #c2185b; padding: 4px 8px; border-radius: 4px; display: inline-block; margin: 2px;">Chunk 5: "for faster traversal during search operations."</span>
 </div>
 
-Notice how each chunk has exactly 10 words, but this breaks sentences arbitrarily.
+Notice how each chunk (except the last one) has exactly 10 words, but this breaks sentences arbitrarily.
 
 **Pros:**
 - Simple to implement
@@ -251,17 +260,28 @@ Recursive splitting uses a fallback hierarchy of separators. You try to split on
 <br><br>
 <strong>Recursive chunking (tries paragraph breaks first, then sentences, then words):</strong><br><br>
 <div style="background-color: #e8f5e8; color: #2e7d32; padding: 8px 12px; border-radius: 4px; margin: 4px 0;">
-<strong>Chunk 1:</strong> "# HNSW Overview\n\nThe HNSW algorithm builds a multi-layer graph.\nEach node represents a vector in the collection."
+<strong>Chunk 1:</strong> # HNSW Overview
 </div>
 
 <div style="background-color: #e3f2fd; color: #1565c0; padding: 8px 12px; border-radius: 4px; margin: 4px 0;">
-<strong>Chunk 2:</strong> "The algorithm creates shortcuts between layers for faster search. This hierarchical structure enables efficient approximate nearest neighbor queries."
+<strong>Chunk 2:</strong> The HNSW algorithm builds a multi-layer graph.
 </div>
 
-<div style="background-color: #fff3e0; color: #ef6c00; padding: 8px 12px; border-radius: 4px; margin: 4px 0;">
-<strong>Chunk 3:</strong> "## Performance Benefits\nHNSW provides logarithmic search complexity."
+<div style="background-color:rgb(227, 251, 253); color:rgb(21, 172, 192); padding: 8px 12px; border-radius: 4px; margin: 4px 0;">
+<strong>Chunk 3:</strong> Each node represents a vector in the collection.
 </div>
+
+<div style="background-color:rgb(255, 253, 224); color:rgb(239, 179, 0); padding: 8px 12px; border-radius: 4px; margin: 4px 0;">
+<strong>Chunk 4:</strong>The algorithm creates shortcuts between layers for faster search.
 </div>
+
+<div style="background-color:rgb(255, 224, 224); color:rgb(239, 40, 0); padding: 8px 12px; border-radius: 4px; margin: 4px 0;">
+<strong>Chunk 5:</strong>This hierarchical structure enables efficient approximate nearest neighbor queries.</div>
+
+<div style="background-color: #f3e5f5; color: #6a1b9a; padding: 8px 12px; border-radius: 4px; margin: 4px 0;">
+<strong>Chunk 6:</strong>## Performance Benefits\nHNSW provides logarithmic search complexity.</div>
+</div>
+
 
 Recursive chunking tries to preserve structure. It starts with paragraphs (separated by `\n\n`). If those are too long, it drops down to sentences. If those still overflow, it cuts at word boundaries. This fallback behavior helps keep data usable even when structure is inconsistent.
 
@@ -269,6 +289,7 @@ Recursive chunking tries to preserve structure. It starts with paragraphs (separ
 1. Large blocks (headings `\n\n`, paragraph breaks)
 2. Medium blocks (lines `\n`, sentences `.`)  
 3. Small blocks (spaces ` `, characters)
+
 
 **Implementation:**
 ```python
@@ -371,7 +392,7 @@ The trade-off is computational cost. You're embedding the full document upfront 
 
 **Best for:** Legal documents, research papers, critical applications requiring high precision
 
-## Chunking Strategy Comparison
+## Text Chunking Strategy Comparison
 
 | Method | Strength | Trade-off | Best For |
 |--------|----------|-----------|----------|
@@ -381,6 +402,8 @@ The trade-off is computational cost. You're embedding the full document upfront 
 | **Sliding Window** | Maintains full context | Redundant, compute-heavy | Reranking, high-recall retrieval |
 | **Recursive** | Flexible, handles messy input | Heuristic, sometimes brittle | Scraped web content, mixed sources |
 | **Semantic** | High-quality, meaning-aware | Slower, resource-intensive | Legal, research, critical QA |
+
+**Note**: Sometimes, it's necessary to keep the document intact. If chunking is too complicated, or the document is visually rich (diagrams, graphs etc.), you can use [VLMs](/documentation/advanced-tutorials/pdf-retrieval-at-scale/) to embed the whole page.
 
 ## Adding Meaning with Metadata
 
@@ -400,10 +423,10 @@ In Qdrant, this metadata lives in the **payload** - a JSON object attached to ea
   "chunk_index": 7,
   "chunk_count": 15,
   "url": "https://qdrant.tech/documentation/concepts/collections/",
-  "tags": ["qdrant", "vector database", "point", "vector", "payload"],
+  "tags": ["qdrant", "vector search", "point", "vector", "payload"],
   "source_type": "documentation", 
   "created_at": "2025-01-15T10:00:00Z",
-  "content": "There are three key elements that define a vector in a vector database: the ID, the dimensions, and the payload. These components work together to represent a vector effectively within the system...",
+  "content": "There are three key elements that define a vector in vector search: the ID, the dimensions, and the payload. These components work together to represent a vector effectively within the system...",
   "word_count": 45,
   "char_count": 287
 }
@@ -411,27 +434,45 @@ In Qdrant, this metadata lives in the **payload** - a JSON object attached to ea
 
 ### What Metadata Enables
 
-**1. Filtered Search**
+**Disclaimer**: For performance reasons, filterable fields must be indexed using the [Payload Index](https://qdrant.tech/documentation/concepts/indexing/#payload-index).
+
+**1. Filtered Search (Exact Match)**
+You can filter results based on exact metadata values, which is perfect for categorical data.
 ```python
-# Only show results from this article
+# Only show results from a specific article
 filter = models.Filter(
     must=[models.FieldCondition(key="document_id", match=models.MatchValue(value="collection-config-guide"))]
 )
 ```
 
-**2. Grouped Results**
+**2. Hybrid Search with Text Filtering (Full-Text Search)**
+For more powerful text-based filtering, you can combine vector search with traditional keyword search. This requires setting up a [full-text index](/documentation/concepts/indexing/#full-text-index) on a payload field.
+```python
+# Find vectors that also contain the keyword "HNSW" in their content
+filter = models.Filter(
+    must=[
+        models.FieldCondition(
+            key="content", # The field with the full-text index
+            match=models.MatchText(text="HNSW algorithm")
+        )
+    ]
+)
+```
+
+**3. Grouped Results**
 ```python
 # Top result per document - get the most relevant chunk from each source
 group_by = "document_id"
 ```
+You can read more about grouping [here](/documentation/concepts/hybrid-queries/?q=grouping#grouping).
 
-**3. Rich Result Display**
+**4. Rich Result Display**
 - Original content with source attribution
 - Section context for better understanding
 - Direct links to full documents
-- Creation timestamps for freshness
+- Creation timestamps for [freshness](/documentation/concepts/hybrid-queries/#time-based-score-boosting)
 
-**4. Permission Control**
+**5. Permission Control**
 ```python
 # Filter by user permissions
 filter = models.Filter(
@@ -439,59 +480,6 @@ filter = models.Filter(
 )
 ```
 
-## Practical Implementation
-
-### Complete Chunking Pipeline
-
-```python
-import json
-from datetime import datetime
-from qdrant_client import QdrantClient
-from qdrant_client.models import PointStruct, VectorParams, Distance
-
-def create_chunks_with_metadata(document, strategy="sentence", max_words=150):
-    """Complete chunking pipeline with metadata"""
-    
-    # Choose chunking strategy
-    if strategy == "sentence":
-        chunks = sentence_chunk(document["content"], max_words)
-    elif strategy == "paragraph":
-        chunks = paragraph_chunk(document["content"])
-    elif strategy == "sliding_window":
-        chunks = sliding_window(document["content"])
-    elif strategy == "semantic":
-        chunks = semantic_chunking(document["content"])
-    
-    # Create points with metadata
-    points = []
-    for i, chunk in enumerate(chunks):
-        # Generate embedding (using your preferred model)
-        embedding = generate_embedding(chunk)
-        
-        # Create rich metadata
-        payload = {
-            "document_id": document["id"],
-            "document_title": document["title"],
-            "section_title": document.get("section", ""),
-            "chunk_index": i,
-            "chunk_count": len(chunks),
-            "url": document.get("url", ""),
-            "tags": document.get("tags", []),
-            "source_type": document.get("type", "text"),
-            "created_at": datetime.utcnow().isoformat(),
-            "content": chunk,
-            "word_count": len(chunk.split()),
-            "char_count": len(chunk)
-        }
-        
-        points.append(PointStruct(
-            id=f"{document['id']}_chunk_{i}",
-            vector=embedding,
-            payload=payload
-        ))
-    
-    return points
-```
 
 ### Search with Metadata
 
@@ -530,19 +518,11 @@ def search_with_filters(query, document_type=None, date_range=None):
 
 ## Performance Considerations
 
-### The Chunk Size Spectrum
-
-Research and practical experience suggest optimal chunk sizes for different scenarios:
-
-- **Small chunks (128-256 tokens)**: High precision, good for specific fact retrieval
-- **Medium chunks (256-512 tokens)**: Balanced approach, suitable for most RAG applications  
-- **Large chunks (512-1024 tokens)**: More context, better for complex reasoning tasks
-
 ### Token Efficiency
 
 Consider your embedding model's token limits:
 - OpenAI text-embedding-3-small: 8,191 tokens max
-- Sentence Transformers (typical): 512 tokens optimal
+- Sentence Transformers: Varies greatly by model. Many classic models (e.g., `all-MiniLM-L6-v2`) have a maximum length of 512 tokens, but newer models can handle much more. Always check your specific model's documentation.
 - Always leave buffer space for special tokens and formatting
 
 ### Overlap Recommendations
@@ -553,15 +533,15 @@ Consider your embedding model's token limits:
 
 ## Key Takeaways
 
-1. **Chunking strategy directly impacts search quality** - choose based on your data and use case
+1. **Chunking strategy directly impacts search quality** - choose based on your text data and use case
 2. **Smaller, focused chunks provide more precise results** than whole document embeddings  
 3. **Metadata is crucial** for filtering, grouping, and result presentation
 4. **Different strategies have different trade-offs** - experiment to find what works
-5. **Consider computational costs** - semantic chunking is powerful but expensive
+5. **Consider computational costs** - semantic text chunking is powerful but expensive
 6. **Overlap helps preserve context** but increases storage requirements
 
 ## What's Next
 
-Now that you understand how to structure and prepare your data, let's put these concepts into practice. In the next section, we'll build a complete movie recommendation system that demonstrates chunking, embedding, and metadata in action.
+Now that you understand how to structure and prepare textual data, let's put these concepts into practice. In the next section, we'll build a complete movie recommendation system that demonstrates chunking, embedding, and metadata in action.
 
 Remember: **Qdrant doesn't make assumptions about what your data means. It compares vectors and gives you back what's closest. But what it sees - the structure, the semantics, the context - that's entirely up to you.** 

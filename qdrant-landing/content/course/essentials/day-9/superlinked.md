@@ -1,11 +1,11 @@
 ---
-title: Superlinked Integration
+title: Integrating with Superlinked
 weight: 8
 ---
 
 {{< date >}} Bonus Content {{< /date >}}
 
-# Superlinked Integration
+# Integrating with Superlinked
 
 Advanced feature engineering for vector search applications.
 

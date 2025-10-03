@@ -1,11 +1,11 @@
 ---
-title: Building Hybrid Search Systems
+title: "Demo: Implementing a Hybrid Search System"
 weight: 4
 ---
 
 {{< date >}} Day 3 {{< /date >}}
 
-# Hybrid Implementation
+# Demo: Implementing a Hybrid Search System
 
 Build a complete hybrid search system with hands-on examples.
 

@@ -1,11 +1,11 @@
 ---
-title: Optimizers and Segments
+title: Optimizers and Segment Management
 weight: 3
 ---
 
 {{< date >}} Day 7 {{< /date >}}
 
-# Optimizers and Segments
+# Optimizers and Segment Management
 
 The optimizer in Qdrant maintains the internal health of your collection. As data is inserted, updated, and deleted, storage can fragment and segments can grow inefficient. Optimizers merge segments, clean up deleted points, and keep indexing performant.
 
@@ -61,7 +61,7 @@ A collection is composed of [segments](/documentation/concepts/storage/) - indep
 
 - Many small segments can hurt recall and query performance.
 - Merging segments reduces overhead and improves index locality.
-- Indexing thresholds determine when HNSW is built per segment.
+- Indexing thresholds determine when [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) is built per segment.
 
 ### Best Practices
 

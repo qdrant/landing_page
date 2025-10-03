@@ -1,11 +1,11 @@
 ---
-title: Tensorlake Integration
+title: Integrating with Tensorlake
 weight: 7
 ---
 
 {{< date >}} Bonus Content {{< /date >}}
 
-# Tensorlake Integration
+# Integrating with Tensorlake
 
 Build scalable data lakes with vector search capabilities.
 

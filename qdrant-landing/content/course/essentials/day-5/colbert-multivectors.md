@@ -1,11 +1,11 @@
 ---
-title: Multivectors and Late Interaction
+title: Multivectors for Late Interaction Models
 weight: 1
 ---
 
 {{< date >}} Day 5 {{< /date >}}
 
-# ColBERT and Late Interaction
+# Multivectors for Late Interaction Models
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 

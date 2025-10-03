@@ -1,11 +1,11 @@
 ---
-title: Build and Evaluate
+title: Implementation and Performance Evaluation
 weight: 2
 ---
 
 {{< date >}} Day 8 {{< /date >}}
 
-# Final Project: Build and Evaluate
+# Implementation and Performance Evaluation
 
 Transform your learning into a working system. In this implementation phase, you'll build the complete documentation search engine from data ingestion through evaluation, demonstrating mastery of hybrid retrieval and multivector reranking.
 
@@ -86,7 +86,7 @@ def search_documentation(query_text, limit=10):
 
 **Implement performance measurement**: Track both accuracy metrics (Recall@10, MRR) and performance metrics (P50/P95 latency) to ensure your system meets production standards.
 
-**Iterative optimization**: Use your evaluation results to guide optimization decisions. Test different fusion strategies, adjust oversampling parameters, and tune HNSW settings based on measured performance.
+**Iterative optimization**: Use your evaluation results to guide optimization decisions. Test different fusion strategies, adjust oversampling parameters, and tune [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) settings based on measured performance.
 
 ## Quality Assurance
 

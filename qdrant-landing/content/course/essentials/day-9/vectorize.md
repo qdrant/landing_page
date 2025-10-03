@@ -1,11 +1,11 @@
 ---
-title: Vectorize.io Integration
+title: Integrating with Vectorize.io
 weight: 9
 ---
 
 {{< date >}} Bonus Content {{< /date >}}
 
-# Vectorize.io Integration
+# Integrating with Vectorize.io
 
 Enhanced vector processing and transformation platform integration.
 

@@ -1,11 +1,11 @@
 ---
-title: Semantic Movie Search Demo
+title: "Demo: Semantic Movie Search"
 weight: 4
 ---
 
 {{< date >}} Day 1 {{< /date >}}
 
-# Building a Semantic Movie Search Engine
+# Demo: Semantic Movie Search
 
 Let's synthesize everything we've learned today into a practical project: a semantic search engine for science fiction movies.
 

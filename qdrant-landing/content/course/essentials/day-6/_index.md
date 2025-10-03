@@ -1,5 +1,5 @@
 ---
-title: Production Deployment
+title: "Day 6: Production Deployment"
 isLesson: true
 weight: 7
 ---
@@ -14,10 +14,10 @@ Scale Qdrant with distributed deployments, sharding, replication, and tenancy.
 
 ## Today’s path
 
-1. Vertical and horizontal scaling
-2. Sharding and replication
-3. Multi‑tenancy with JWT
-4. Pitstop: distributed deployment design
+1. Vertical and Horizontal Scaling
+2. Sharding and Replication Strategies
+3. Multi‑tenancy with [JWT](https://jwt.io/)
+4. Project: Capacity Planning and Scaling Simulation
 
 You’ll design, document, and validate a production‑ready deployment.
 
