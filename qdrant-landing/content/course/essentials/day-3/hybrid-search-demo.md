@@ -18,6 +18,7 @@ Build a complete hybrid search system with hands-on examples.
 - Performance optimization techniques
 - Testing and evaluation methods
 
+[//]: # (TODO: Add link to Colab notebook)
 **Follow along:** [Complete Google Colab Notebook](#)
 
 ## What You'll Discover
