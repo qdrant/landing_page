@@ -174,7 +174,7 @@ Where:
 - `n` is the number of retrieval methods
 - `rank_i(d)` is the rank of document `d` in the i-th retrieval method
 
-The value of `k` parameter can help you increase or decrease the impact of the lower ranked documents. The smaller the parameter value, the bigger the impact of the top-ranked results.
+The value of the `k` parameter can help you increase or decrease the impact of the lower ranked documents. The smaller the parameter value, the bigger the impact of the top-ranked results.
 
 ### RRF Example: Step by Step
 

@@ -141,7 +141,7 @@ client.upsert(
             },
             payload={"text": doc},
         )
-        for i, doc in enumerate(documents)
+        for doc in documents
     ]
 )
 ```
