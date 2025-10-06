@@ -1,7 +1,7 @@
 ---
 title: Qdrant Essentials Course
 page_title: Qdrant Essentials Course
-description: The ultimate guide to production-grade vector search is here. And it’s free.
+description: The ultimate guide to production-grade vector search is here. And it's free.
 content:
   sidebarTitle: Qdrant Essentials
   menuTitle:
@@ -13,93 +13,208 @@ content:
   nextButton: Continue to Next Video
   nextDay: Complete
   title: Qdrant Essentials Course
-  description: The ultimate guide to production-grade vector search is here. And it’s free.
+  description: The ultimate guide to production-grade vector search is here. And it's free.
 partition: course
 ---
 
 # Qdrant Essentials Course
 
-The ultimate guide to production-grade vector search is here. And it’s free.
+**From first vector to production‑grade retrieval in 9 days.**
 
-From your first vector upsert to optimizing high-performance retrieval at scale, this free course takes you from zero to production-ready. Learn how to build efficient vector search, fine-tune Qdrant for maximum performance, and keep your system lightweight, even when working with billions of vectors.
+Build the vector search skills that matter: hybrid retrieval, multivector reranking, quantization, distributed deployment, and multitenancy. Ship a complete documentation search engine as your final project.
 
+{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+
+<br/>
+
+
+{{< cards-list >}}
+- icon: /icons/outline/play-white.svg
+  title: 9 days of lessons
+  content: Short, focused videos with hands‑on exercises
+- icon: /icons/outline/cloud-check-blue.svg
+  title: Shareable certificate
+  content: Earn a digital certificate upon completion
+- icon: /icons/outline/time-blue.svg
+  title: Flexible schedule
+  content: Learn at your own pace (1–2 hours/day)
+- icon: /icons/outline/plan.svg
+  title: Beginner level
+  content: No prior Qdrant experience required
+  
+{{< /cards-list >}}
+
+<br/>
+
+## What you'll learn
 {{< course-card
-title="Skills you’ll gain:"
-image="/icons/outline/training-white.svg"
-isWideList="true">}}
-- Vector search fundamentals
-- Performance optimization
-- Hybrid and similarity search
-- Portfolio project development
+ title="Skills you'll gain:"
+ image="/icons/outline/training-white.svg"
+ type="wide-list">}}
+
+- Qdrant data modeling: points, payloads, and schemas
+- Embeddings, chunking, and similarity metrics
+- Indexing and retrieval tuning ([HNSW](https://qdrant.tech/articles/filtrable-hnsw/), filters, recall/latency)
+- Hybrid search with sparse + dense vectors and re-ranking
+- Performance optimization, compression, and quantization
+- Scaling, sharding/replication, and security
+
 {{< /course-card >}}
 
-## What Is the Course?
+### The Path
 
-No matter if you're exploring vector search for the first time or fine-tuning a large-scale RAG system, this free course gives you the practical foundation and advanced skills you need.
+**Days 0–2**: Foundations. Connect to Qdrant Cloud, understand points and payloads, compute semantic similarity with vectors, chunk text, and tune HNSW indexes for speed and recall.
 
-Over 9 days (plus bonus content), you’ll build up from the fundamentals to advanced deployment strategies with Qdrant. Each module focuses on a single concept or capability, paired with a hands-on exercise to apply what you’ve learned. You will start with basics, build confidence, and gradually progress to complex topics. 
+**Days 3–5**: Advanced retrieval. Combine dense and sparse signals, implement hybrid search with server‑side fusion, master multivectors (ColBERT) and the Universal Query API, and build recommendation systems.
 
-Every day includes a hands-on exercise or mini-project, like creating a collection, uploading points, building a hybrid search pipeline, or tuning the HNSW index.
+**Days 6–7**: Production deployment. Scale horizontally with sharding and replication, implement [JWT](https://jwt.io/)‑based multitenancy, configure quantization for 40× speedups, and secure production clusters.
 
-At the end, you’ll bring everything together by building a full production-grade vector search application. You’ll graduate with a portfolio-worthy project, plus a deep understanding of how to apply Qdrant in production scenarios.
+**Day 8**: Ship it. Wire an end‑to‑end documentation search engine with ingestion, hybrid retrieval, multivector reranking, and evaluation metrics (Recall@10, MRR, latency P50/P95).
 
-## Course Overview
+**Day 9 (bonus)**: Ecosystem. Explore integrations with AI frameworks, search platforms, and data processing tools.
+
+## How the course works
+
+
+{{< cards-list >}}
+- icon: /icons/outline/training-purple.svg
+  title: Video‑first lessons
+  content: Clear, concise videos organized by our team
+- icon: /icons/outline/hacker-purple.svg
+  title: Final project
+  content: Ship a production-ready vector search app
+- icon: /icons/outline/similarity-blue.svg
+  title: Bonus day (integrations)
+  content: Explore partner frameworks and tools on Day 9 
+- icon: /icons/outline/copy.svg
+  title: Pitstop Projects (hands‑on)
+  content: Small projects each day to apply the concept
+{{< /cards-list >}}
+
+<br/>
+
+## Syllabus
 
 {{< accordion >}}
-- title: "Days 0: Setup, Orientation & “Hello Qdrant!”"
+- title: "Day 0: Setup and First Steps"
   content: |
-    - Welcome & Course Orientation
-    - Environment Setup
-    - Mini “Hello Qdrant!” Demo
-  
-- title: "Day 1: Core Qdrant Data Model & Vector Search 101"
-  content: Content
+    - Qdrant Cloud Setup
+    - Implementing a Basic Vector Search
+    - Project: Building Your First Vector Search System
+    <br>
+    <br>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-0/">→ Start Day 0</a></p>
 
-- title: "Days 2: Indexing & Vector Storage Architecture"
-  content: Content
+- title: "Day 1: Vector Search Fundamentals"
+  content: |
+    - Points, Vectors and Payloads
+    - Distance Metrics
+    - Text Chunking Strategies
+    - Demo: Semantic Movie Search
+    - Project: Building a Semantic Search Engine
+    <br>
+    <br>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-1/">→ Start Day 1</a></p>
+
+- title: "Day 2: Indexing and Performance"
+  content: |
+    - HNSW Indexing Fundamentals
+    - Combining Vector Search and Filtering
+    - Demo: HNSW Performance Tuning
+    - Project: HNSW Performance Benchmarking
+    <br>
+    <br>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-2/">→ Start Day 2</a></p>
 
 - title: "Day 3: Hybrid Search"
-  content: Content
+  content: |
+    - Sparse Vectors and Inverted Indexes
+    - Demo: Keyword Search with Sparse Vectors
+    - Hybrid Search with Score Fusion
+    - Demo: Implementing a Hybrid Search System
+    - Project: Building a Hybrid Search Engine
+    <br>
+    <br>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-3/">→ Start Day 3</a></p>
 
-- title: "Day 4: Optimizations & Query APIs"
-  content: Content
+- title: "Day 4: Optimization and Scale"
+  content: |
+    - Vector Quantization Methods
+    - Accuracy Recovery with Rescoring
+    - High-Throughput Data Ingestion
+    - Project: Quantization Performance Optimization
+    <br>
+    <br>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-4/">→ Start Day 4</a></p>
+
+- title: "Day 5: Advanced APIs"
+  content: |
+    - Multivectors for Late Interaction Models
+    - The Universal Query API
+    - Demo: Universal Query for Hybrid Retrieval
+    - Project: Building a Recommendation System
+    <br>
+    <br>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-5/">→ Start Day 5</a></p>
+
+- title: "Day 6: Production Deployment"
+  content: |
+    - Vertical and Horizontal Scaling
+    - Sharding and Replication Strategies
+    - Secure Multitenancy with JWT
+    - Project: Capacity Planning and Scaling Simulation
+    <br>
+    <br>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-6/">→ Start Day 6</a></p>
+
+- title: "Day 7: Advanced Configuration"
+  content: |
+    - Collection Configuration Parameters
+    - Optimizers and Segment Management
+    - Security, RBAC, and Strict Mode
+    - Project: Implementing a Secure Production Setup
+    <br>
+    <br>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-7/">→ Start Day 7</a></p>
+
+- title: "Day 8: Final Project - Building a Production-Grade Search Engine"
+  content: |
+    - Project Architecture and Evaluation Framework
+    - Implementation and Performance Evaluation
+    - Course Summary and Next Steps
+    <br>
+    <br>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-8/">→ Start Day 8</a></p>
+
+- title: "Day 9: Partner Ecosystem Integrations (Bonus)"
+  content: |
+    - AI & LLM Frameworks (Haystack, Jina AI, TwelveLabs)
+    - Data Processing (Unstructured.io)
+    - ML Platforms & Analytics (Tensorlake, Vectorize.io, Superlinked, Quotient)
+    <br>
+    <br>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-9/">→ Start day 9</a></p>
 {{< /accordion >}}
 
-## Certificate of Completion
+## Who it's for
 
-image
+ML, backend, data, and search engineers building RAG, semantic search, or recommendations. Requires intermediate Python, basic CLI/APIs, and familiarity with embeddings.
 
-## Who Is the Course For?
+## Time commitment
 
-You! But really, this course is great for hands-on professionals who need to build or improve applications with semantic or hybrid search capabilities, or developers exploring vector databases for the first time.
-
-If your job title includes:
-
-- Machine Learning Engineer
-- Backend Developer
-- Data Engineer
-- Search Engineer
-- MLOps Engineer
-
-you’re in the right spot.
-
-## Pre-Reqs
-
-You don’t need prior Qdrant or vector database experience, but you should be comfortable with:
-- Basic Python programming
-- Running commands in your terminal
-- Working with APIs or Python SDKs
-- Some ML background (e.g., embeddings)
-
-Optional but helpful:
-- Docker basics
-- Experience with search systems or deploying applications
+- Total: 8–12 hours over 1–2 weeks
+- Daily: 1–2 hours per day
+- Video: ~3 hours 
+- Hands‑on: 5–9 hours
+- Final project: 2–4 hours
 
 {{< course-card 
-title="Why Start Today"
-image="/icons/outline/rocket-white-light.svg" 
-link="/course/day-0/">}}
-- Seeing practical examples (e.g., hybrid search, sparse+dense vectors)
-- Learning key deployment tactics (multi-node clusters, on-disk indexing, RBAC)
-- Building a final portfolio-grade project to showcase
+ title="Ready to start your vector search journey?"
+ image="/icons/outline/rocket-white-light.svg" 
+ link="/course/essentials/day-0/">}}
+**What You'll Gain:**
+- Production‑ready vector search engine skills
+- Hands‑on experience with real projects
+- Performance optimization techniques
+- Portfolio artifacts and community support
 {{< /course-card >}}
