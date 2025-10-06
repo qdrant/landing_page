@@ -11575,11 +11575,11 @@ On this page:
 <|page-35-lllmstxt|>
 ## what-is-a-vector-database
 - [Articles](https://qdrant.tech/articles/)
-- An Introduction to Vector Databases
+- What is a Vector Database?
 
 [Back to Vector Search Manuals](https://qdrant.tech/articles/vector-search-manuals/)
 
-# An Introduction to Vector Databases
+# What is a Vector Database?
 
 Sabrina Aquino
 
@@ -11587,7 +11587,7 @@ Sabrina Aquino
 
 October 09, 2024
 
-![An Introduction to Vector Databases](https://qdrant.tech/articles_data/what-is-a-vector-database/preview/title.jpg)
+![What is a Vector Database?](https://qdrant.tech/articles_data/what-is-a-vector-database/preview/title.jpg)
 
 ## [Anchor](https://qdrant.tech/articles/what-is-a-vector-database/\#what-is-a-vector-database) What Is a Vector Database?
 
@@ -24124,7 +24124,7 @@ Learn how to get the most from Qdrant's optimization features. Discover key tric
 David Myriel\\
 \\
 February 09, 2025](https://qdrant.tech/articles/vector-search-resource-optimization/)[![Preview](https://qdrant.tech/articles_data/what-is-a-vector-database/preview/preview.jpg)\\
-**An Introduction to Vector Databases** \\
+**What is a Vector Database?** \\
 Discover what a vector database is, its core functionalities, and real-world applications.\\
 \\
 Sabrina Aquino\\
