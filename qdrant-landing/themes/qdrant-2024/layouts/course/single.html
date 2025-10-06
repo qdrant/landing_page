@@ -2,6 +2,21 @@
 <html lang="en">
   {{- partial "head.html" . -}}
   <body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-container{{ if strings.Contains .RelPermalink "day-9" }} scroll-progress-container--bonus{{ end }}">
+      <div class="scroll-progress-bar{{ if strings.Contains .RelPermalink "day-9" }} scroll-progress-bar--bonus{{ end }}" id="scroll-progress"></div>
+    </div>
+    
+    <!-- Bonus Badge for Day 9 (temporarily removed due to display issues) -->
+    {{ if strings.Contains .RelPermalink "day-9" }}
+      <!-- <div class="bonus-badge" id="bonus-badge">
+        <div class="bonus-badge__content">
+          <span class="bonus-badge__icon">🎁</span>
+          <span class="bonus-badge__text">Bonus Unlocked!</span>
+        </div>
+      </div> -->
+    {{ end }}
+    
     <main>
       {{ partial "documentation/header" . }}
       {{ partial "course/content-layout" . }}
