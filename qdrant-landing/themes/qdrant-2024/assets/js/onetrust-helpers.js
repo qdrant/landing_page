@@ -1,4 +1,4 @@
-const CONSENT_PARAM_KEY = 'ot_consent';
+const CONSENT_PARAM_KEY = 'qdrant_tech_ot_consent';
 
 export function registerAndCall() {
   const consentPreferences = window.OnetrustActiveGroups ?? '';
