@@ -51,7 +51,10 @@ PUT /collections/{collection_name}
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 
 client.create_collection(
     collection_name="{collection_name}",

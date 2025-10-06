@@ -11,12 +11,9 @@ aliases:
 
 You can manage both local and cloud Qdrant deployments through the Web UI.
 
-If you've set up a deployment locally with the Qdrant [Quickstart](/documentation/quick-start/),
-navigate to http://localhost:6333/dashboard.
+**For Qdrant Cloud:** Find your Cluster URL in your cloud dashboard at https://cloud.qdrant.io. Add `:6333/dashboard` to the end of the URL.
 
-If you've set up a deployment in a cloud cluster, find your Cluster URL in your
-cloud dashboard, at https://cloud.qdrant.io. Add `:6333/dashboard` to the end
-of the URL. 
+**For local deployments:** If you've set up a deployment locally with the Qdrant [Quickstart](/documentation/quick-start/), navigate to http://localhost:6333/dashboard. 
 
 ## Access the Web UI
 
@@ -35,5 +32,4 @@ In the Qdrant Web UI, you can:
 - Learn from our interactive tutorial
 
 You can navigate to these options directly. For example, if you used our 
-[quick start](/documentation/quick-start/) to set up a cluster on localhost,
-you can review our tutorial at http://localhost:6333/dashboard#/tutorial.
+[quick start](/documentation/quick-start/) to set up a cluster, you can review our tutorial at your cluster URL followed by `/dashboard#/tutorial`.
