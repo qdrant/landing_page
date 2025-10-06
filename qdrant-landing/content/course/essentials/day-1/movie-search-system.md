@@ -11,7 +11,10 @@ Let's synthesize everything we've learned today into a practical project: a sema
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 
-**Follow along:** [Complete Google Colab Notebook](https://github.com/qdrant/examples/blob/master/course/day_1/Semantic_Recommendation_System_for_Science_Fiction_Movies.ipynb)
+**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_1/Semantic_Recommendation_System_for_Science_Fiction_Movies.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
+</a>
+
 
 ## Project Overview: When Search Understands Meaning
 
@@ -30,12 +33,12 @@ A semantic search engine that can:
 - **Understand meaning**: Search for "time travel and family relationships" and find *Interstellar*
 - **Compare chunking strategies**: See how fixed-size, sentence-based, and semantic chunking affect search quality
 - **Filter intelligently**: Combine semantic search with metadata filters (year, genre, rating)
-- **Handle real complexity**: Process long movie descriptions that exceed embedding model limits
+- **Handle constraints**: Process long movie descriptions that exceed embedding model token limit
 - **Group results**: Avoid duplicate movies when multiple chunks match your query
 
 ## Step 1: Understanding the Challenge
 
-Our dataset consists of 13 science fiction movies with detailed, literary descriptions. Here's the challenge: each description contains 240-460 tokens, but our embedding model (all-MiniLM-L6-v2) works optimally with 256 tokens or less.
+Our dataset consists of 13 science fiction movies with detailed, literary descriptions. Here's the challenge: each description contains 240-460 tokens, but our embedding model (all-MiniLM-L6-v2) can only embed 256 tokens or less.
 
 **This is where chunking becomes essential.**
 
@@ -52,11 +55,14 @@ movie_example = {
 }
 ```
 
-**The complete dataset** (including *The Matrix*, *Interstellar*, *Arrival*, *Annihilation*, and more) is available in the [full notebook](https://colab.research.google.com/github/qdrant/examples/blob/main/movie-search-system/semantic_movie_search.ipynb).
+**The complete dataset** (including *The Matrix*, *Interstellar*, *Arrival*, *Annihilation*, and more) is available in the [full notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_1/Semantic_Recommendation_System_for_Science_Fiction_Movies.ipynb).
+
 
 ## Step 2: The Three-Vector Experiment
 
 Here's what makes this demo unique: we'll create three different vector spaces in a single collection, each representing a different chunking strategy. This lets us directly compare how chunking affects search quality.
+
+Side note: Creating three different vector spaces in a single collection is almost as expensive as having one collection per vector space. We do it here purely for comparison convenience.
 
 ```python
 from sentence_transformers import SentenceTransformer
@@ -64,7 +70,12 @@ from qdrant_client import QdrantClient, models
 
 # Initialize components
 encoder = SentenceTransformer("all-MiniLM-L6-v2")
-client = QdrantClient(':memory:')  # In-memory for demo
+
+# In-memory for demo: NO HNSW built -> queries are a full scan.
+client = QdrantClient(":memory:")
+
+# For ANN/HNSW:
+# client = QdrantClient(url="http://localhost:6333")
 
 # Create collection with three named vectors
 client.create_collection(
@@ -108,7 +119,8 @@ def sentence_chunks(text):
     return splitter.split_text(text)
 
 def semantic_chunks(text):
-    """Semantic chunking: uses embedding similarity to find natural breaks"""
+    """Semantic chunking: uses embedding similarity to find natural breaks.
+    Note: still constrained by the embed model's context window (same as retrievers)."""
     from llama_index.core import Document
     
     semantic_splitter = SemanticSplitterNodeParser(
@@ -210,6 +222,8 @@ Query: 'alien invasion'
 
 ## Step 6: Advanced Features
 
+Note: If you are familiar with Qdrant's filterable HNSW, you will know that effective filtering as well as grouping requires [payload index](/documentation/concepts/indexing/#payload-index) to be created before HNSW indexes are built. For the sake of simplicity in this tutorial, however, we use in-memory processing (see `client = QdrantClient(":memory:")`), which performs a slow full scan search without HNSW indexes. To use HNSW, connect to a live service (e.g. `url=http://localhost:6333`) and allow Qdrant to build the indexes.
+
 ### Filtering by Metadata
 
 Combine semantic search with traditional filters:
@@ -262,15 +276,12 @@ The all-MiniLM-L6-v2 model converts movie descriptions into 384-dimensional vect
 **Payloads and Filtering:**
 Rich metadata enables hybrid queries: "Find movies about AI made after 2000." This combines semantic understanding with traditional database filtering.
 
-**Named Vectors:**
-By storing three chunking strategies in one collection, you can directly compare their performance and choose the best approach for your use case.
-
 ## Key Insights
 
 **Chunking matters**: The same query can return different movies depending on how you chunk the descriptions. Semantic chunking found *Annihilation* for "alien invasion" because it understood the thematic connection, while fixed chunking focused on literal mentions.
 
 **Context length is a real constraint**: Movie descriptions exceed embedding model limits, making chunking essential for real-world applications.
 
-**Grouping prevents duplicates**: When multiple chunks from the same movie match your query, grouping ensures you get diverse recommendations.
+**Grouping ensures that the underlying document logic is captured**: Without grouping, the results would be cluttered with multiple chunks for the same top movies. With grouping, however, we can ensure that the top movies (not chunks) are returned based on the ranking of their individual top k chunks. 
 
-**Continue exploring:** The [complete notebook](https://colab.research.google.com/github/qdrant/examples/blob/main/movie-search-system/semantic_movie_search.ipynb) includes additional features like similarity search, theme-based recommendations, and advanced filtering examples. 
+**Continue exploring:** The [complete notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_1/Semantic_Recommendation_System_for_Science_Fiction_Movies.ipynb) includes additional features like similarity search, theme-based recommendations, and advanced filtering examples.
