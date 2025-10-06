@@ -33,3 +33,14 @@ export function registerAndCall() {
 
     return true;
   } // registerAndCall
+
+export function setOneTrustDataSubjectId() {
+  const analytics = window.analytics;
+  const activeGroups = window.OnetrustActiveGroups;
+  if (!analytics || !activeGroups) return;
+
+  const anonymousId = analytics.user?.()?.anonymousId?.(); 
+  if (!anonymousId) return;
+
+  window.OneTrust.setDataSubjectId(anonymousId, true, 'AnonymousID');
+}
