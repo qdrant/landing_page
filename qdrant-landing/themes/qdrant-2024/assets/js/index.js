@@ -6,7 +6,7 @@ import {
   persistUTMParams
 } from './helpers';
 import { handleSegmentReady } from './segment-helpers';
-import { registerAndCall } from './onetrust-helpers';
+import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpers';
 import TableOfContents from './table-of-content';
 
 persistUTMParams();
@@ -16,7 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
   addUTMToLinks();
   
   const handleOneTrustLoaded = () => {   // One Trust Loaded
+    addOneTrustPreferencesToLinks();
+
     window.OneTrust.OnConsentChanged(async () => { // One Trust Preference Updated
+      addOneTrustPreferencesToLinks();
       registerAndCall();
 
       await window.analytics.track('onetrust_consent_preference_updated', {
