@@ -33,3 +33,18 @@ export function registerAndCall() {
 
     return true;
   } // registerAndCall
+
+export function setOneTrustDataSubjectId() {
+  const analytics = window.analytics;
+  const activeGroups = window.OnetrustActiveGroups;
+  if (!analytics || !activeGroups) return;
+
+  const anonymousId = analytics.user?.()?.anonymousId?.(); 
+  if (!anonymousId) return;
+
+  window.OneTrust.setDataSubjectId(
+    anonymousId, 
+    'AnonymousID', // The label for the ID type
+    'ACTIVE'       // The context for the consent update (Active session)
+  );
+}

@@ -110,22 +110,27 @@ export function addGA4Properties(properties) {
 export function persistUTMParams() {
   if (!window.location.search) return;
 
-  const utmParams = getUTMParams();
+  const urlUtmParams = getUTMParams(); 
 
-  if (!Object.keys(utmParams).length) return;
+  if (!Object.keys(urlUtmParams).some(key => urlUtmParams[key])) return;
 
   let filteredParams = '';
   let ampersand = false;
 
-  for (const key in utmParams) {
-    if (utmParams[key]) {
-      ampersand = filteredParams.length;
-      filteredParams += `${ampersand ? '&' : ''}${key}=${utmParams[key]}`;
+  for (const key in urlUtmParams) {
+    if (urlUtmParams[key]) {
+      ampersand = filteredParams.length > 0;
+      filteredParams += `${ampersand ? '&' : ''}${key}=${urlUtmParams[key]}`;
     }
   }
 
-  const oneYearInSeconds = 365 * 24 * 60 * 60;
-  document.cookie = `${UTM_PARAMS_KEY}=${filteredParams}; path=/; max-age=${oneYearInSeconds}`;
+  if (filteredParams) {
+    sessionStorage.setItem(UTM_PARAMS_KEY, filteredParams);
+  }
+}
+
+export function getStoredUTMParams() {
+    return sessionStorage.getItem(UTM_PARAMS_KEY);
 }
 
 export function getUTMParams() {
@@ -148,15 +153,17 @@ export function getUTMParams() {
 }
 
 export function addUTMToLinks() {
-  const utmParams = getCookie(UTM_PARAMS_KEY);
+  const utmParams = getStoredUTMParams();
 
-  // Add url params to outbound links to product site
   if (utmParams) {
-      const links = document.querySelectorAll('a[href*="cloud.qdrant.io"]');
+      const links = document.querySelectorAll('a[href*="cloud.qdrant.io"]'); 
+      
       links.forEach(link => {
           const href = link.href;
           const separator = href.indexOf('?') === -1 ? '?' : '&';
-          link.href = `${href}${separator}${utmParams}&qdrant_ref=qdrant_tech`;
+          if (!href.includes(UTM_PARAMS_KEY)) {
+              link.href = `${href}${separator}${utmParams}&qdrant_ref=qdrant_tech`;
+          }
       });
   }
 }
