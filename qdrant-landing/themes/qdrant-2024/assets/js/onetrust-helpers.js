@@ -42,9 +42,5 @@ export function setOneTrustDataSubjectId() {
   const anonymousId = analytics.user?.()?.anonymousId?.(); 
   if (!anonymousId) return;
 
-  window.OneTrust.setDataSubjectId(
-    anonymousId, 
-    'AnonymousID', // The label for the ID type
-    'ACTIVE'       // The context for the consent update (Active session)
-  );
+  window.OneTrust.setDataSubjectId(anonymousId, true, 'AnonymousID');
 }
