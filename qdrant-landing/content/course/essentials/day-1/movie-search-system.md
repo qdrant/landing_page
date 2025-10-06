@@ -11,7 +11,7 @@ Let's synthesize everything we've learned today into a practical project: a sema
 
 {{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
 
-**Follow along:** [Complete Google Colab Notebook](https://colab.research.google.com/github/qdrant/examples/blob/main/movie-search-system/semantic_movie_search.ipynb)
+**Follow along:** [Complete Google Colab Notebook](https://github.com/qdrant/examples/blob/master/course/day_1/Semantic_Recommendation_System_for_Science_Fiction_Movies.ipynb)
 
 ## Project Overview: When Search Understands Meaning
 
