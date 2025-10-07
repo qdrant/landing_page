@@ -23,7 +23,15 @@ partition: course
 
 Build the vector search skills that matter: hybrid retrieval, multivector reranking, quantization, distributed deployment, and multitenancy. Ship a complete documentation search engine as your final project.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+
+<iframe width="900" height="506"
+  src="https://youtu.be/_04Nowi5M_Y?si=_6fljkJWjVxxt4LV"
+  style="display:block; margin:40px auto;"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
 
 <br/>
 
