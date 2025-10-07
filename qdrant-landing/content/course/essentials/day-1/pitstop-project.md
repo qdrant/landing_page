@@ -115,7 +115,7 @@ def paragraph_chunks(text):
 
 ### Step 4: Create Collections and Process Data
 
-Note: For effective filtering as well as grouping in production [payload indexes](/documentation/concepts/indexing/#payload-index) must be created before HNSW indexes are built.
+Note: If you are already familiar Qdrant's filterable HNSW, you will know that effective filtering and grouping often relies on creating a [payload index](/documentation/concepts/indexing/#payload-index) before building HNSW indexes. To keep things simple in this tutorial, we will do a basic search with filters without payload indexes and talk about proper usage of payload indexes on [day 2](/content/course/essentials/day-2/_index.md) of this course.
 
 ```python
 # Create a collection with three named vectors
@@ -126,23 +126,6 @@ client.create_collection(
         'sentence': models.VectorParams(size=384, distance=models.Distance.COSINE),
         'paragraph': models.VectorParams(size=384, distance=models.Distance.COSINE),
     },
-)
-
-
-client.create_payload_index(
-    collection_name="my_domain_search",
-    field_name="title",
-    field_schema=models.PayloadSchemaType.KEYWORD,   # for filtering / grouping by title
-)
-client.create_payload_index(
-    collection_name="my_domain_search",
-    field_name="cuisine",
-    field_schema=models.PayloadSchemaType.KEYWORD,   # string labels
-)
-client.create_payload_index(
-    collection_name="my_domain_search",
-    field_name="difficulty",
-    field_schema=models.PayloadSchemaType.KEYWORD,   # string labels
 )
 
 # Process and upload data
