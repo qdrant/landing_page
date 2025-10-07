@@ -222,7 +222,7 @@ Query: 'alien invasion'
 
 ## Step 6: Advanced Features
 
-Note: If you are familiar with Qdrant's filterable HNSW, you will know that effective filtering as well as grouping requires [payload index](/documentation/concepts/indexing/#payload-index) to be created before HNSW indexes are built. For the sake of simplicity in this tutorial, however, we use in-memory processing (see `client = QdrantClient(":memory:")`), which performs a slow full scan search without HNSW indexes. To use HNSW, connect to a live service (e.g. `url=http://localhost:6333`) and allow Qdrant to build the indexes.
+Note: If you are familiar with Qdrant's filterable HNSW, you will know that effective filtering and grouping often rely on a [payload index](/documentation/concepts/indexing/#payload-index) to be created before HNSW indexes are built. For simplicity in this tutorial though, we will perform a non optimized search with filters and talk abot payload indexes in [day 2](/content/course/essentials/day-2/_index.md).
 
 ### Filtering by Metadata
 
