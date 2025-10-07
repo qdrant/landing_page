@@ -16,8 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
   addUTMToLinks();
   
   const handleOneTrustLoaded = () => {   // One Trust Loaded
-    addOneTrustPreferencesToLinks();
-
     window.OneTrust.OnConsentChanged(async () => { // One Trust Preference Updated
       addOneTrustPreferencesToLinks();
       registerAndCall();
