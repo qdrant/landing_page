@@ -115,6 +115,8 @@ def paragraph_chunks(text):
 
 ### Step 4: Create Collections and Process Data
 
+Note: For effective filtering as well as grouping in production [payload indexes](/documentation/concepts/indexing/#payload-index) must be created before HNSW indexes are built.
+
 ```python
 # Create a collection with three named vectors
 client.create_collection(
@@ -124,6 +126,23 @@ client.create_collection(
         'sentence': models.VectorParams(size=384, distance=models.Distance.COSINE),
         'paragraph': models.VectorParams(size=384, distance=models.Distance.COSINE),
     },
+)
+
+
+client.create_payload_index(
+    collection_name="my_domain_search",
+    field_name="title",
+    field_schema=models.PayloadSchemaType.KEYWORD,   # for filtering / grouping by title
+)
+client.create_payload_index(
+    collection_name="my_domain_search",
+    field_name="cuisine",
+    field_schema=models.PayloadSchemaType.KEYWORD,   # string labels
+)
+client.create_payload_index(
+    collection_name="my_domain_search",
+    field_name="difficulty",
+    field_schema=models.PayloadSchemaType.KEYWORD,   # string labels
 )
 
 # Process and upload data
@@ -314,9 +333,7 @@ encoder_fast = SentenceTransformer("all-MiniLM-L12-v2")   # Different size/speed
 This project solidifies your understanding of:
 - **How chunking strategy impacts search relevance** in real scenarios
 - **Domain-specific considerations** for text processing
-- **The relationship between chunk size and search quality**
 - **Practical trade-offs** between different approaches
-- **How to evaluate and improve** vector search systems
 
 ## Success Criteria
 
