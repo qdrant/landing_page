@@ -7,14 +7,15 @@ weight: 1
 
 # Qdrant Cloud Setup
 
-<iframe width="900" height="506"
-  src="https://www.youtube.com/embed/3hrQP3hh69Y?rel=0"
-  style="display:block; margin:40px auto;"
+<div class="video">
+<iframe 
+  src="https://www.youtube.com/embed/PLTlJyrSkng?si=y9fNtxNS34PdcKBk"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
   allowfullscreen>
 </iframe>
+</div>
 
 Qdrant Cloud is the fastest path to production-grade vector search. In a few minutes you'll have a managed endpoint with TLS, automatic backups, high availability options, and a simple API.
 
@@ -161,16 +162,17 @@ curl -s "$QDRANT_URL/collections" -H "api-key: $QDRANT_API_KEY"
 
 ## Qdrant Cloud Inference
 
-Beyond vector storage and search, Qdrant Cloud now offers **[Cloud Inference](/cloud-inference/)**: managed embedding generation for text and images. Instead of running your own embedding models, you can generate vectors directly in Qdrant Cloud and seamlessly store them in your collections. 
+Beyond vector storage and search, Qdrant Cloud now offers **[Cloud Inference](/cloud-inference/)**: managed embedding generation for text and images. Instead of running your own embedding models, you can generate vectors directly in Qdrant Cloud and directly store them in your collections. 
 
-<iframe width="900" height="506"
+<div class="video">
+<iframe
   src="https://www.youtube.com/embed/nJIX0zhrBL4?rel=0"
-  style="display:block; margin:40px auto;"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
   allowfullscreen>
 </iframe>
+</div>
 
 Cloud Inference simplifies your pipeline: send raw text or images to Qdrant, get back vectors and search results in one API call. Perfect for prototyping and production workloads where you want to eliminate the embedding infrastructure layer.
 
