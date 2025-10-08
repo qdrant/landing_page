@@ -28,14 +28,14 @@ When teams first experiment with agentic AI, the journey often starts with a sli
 
 But as soon as those demos face enterprise requirements — constant data ingestion, compliance, thousands of users, and 24×7 uptime — the illusion breaks. Services stall at the first failure, query reliability plummets, and regulatory guardrails are nowhere to be found. What worked in a five-minute demo becomes impossible to maintain in production.
 
-This is exactly the gap TrustGraph set out to close. From day one, they designed their platform for **availability, determinism, and scale** — with Qdrant as a core piece of the architecture.
-
 ![Failure mode map — “From POC to production](/blog/case-study-trustgraph/failure-map-poc-to-production.png)
 *Failure mode map — “From POC to production.”*
 
+This is exactly the gap TrustGraph set out to close. From day one, they designed their platform for availability, determinism, and scale — with Qdrant as a core piece of the architecture.
+
 ## Building for Production, Not Demos
 
-TrustGraph’s architecture doesn’t retrofit demo code for the enterprise; it was engineered from scratch for resilience. The system is fully containerized, modular, and deployable across cloud, virtualized, or bare-metal environments.
+TrustGraph’s architecture is fully containerized, modular, and deployable across cloud, virtualized, or bare-metal environments.
 
 At its core are three pillars:
 
@@ -43,14 +43,14 @@ At its core are three pillars:
 
 * Graph-native semantics. Knowledge is modeled in RDF, with SPARQL templates guiding retrieval. This reduces dependence on brittle, model-generated queries and ensures answers are precise and auditable.
 
-* Qdrant vector search. Entities are embedded and stored in Qdrant, enabling fast, reliable similarity search that integrates seamlessly into the graph-driven workflow.
+* Qdrant vector search. Entities are embedded and stored in Qdrant, enabling fast, reliable similarity search that integrates into the graph-driven workflow.
 
 ![Architecture overview](/blog/case-study-trustgraph/architecture-overview.png)
 *Architecture overview*
 
 ## From Documents to Knowledge
 
-Instead of breaking documents into arbitrary chunks, TrustGraph extracts facts. An LLM identifies entities and relationships, assembling them into a knowledge graph. In parallel, embeddings of entities are stored in Qdrant.
+Instead of breaking documents into chunks, TrustGraph extracts facts. An LLM identifies entities and relationships, assembling them into a knowledge graph. In parallel, embeddings of entities are stored in Qdrant.
 
 This dual representation allows queries to ground themselves in both semantic similarity and graph structure. For example, asking “Tell me about Alice” retrieves the “Alice” entity via Qdrant and maps it to her connections in the graph, rather than just surfacing sentences that happen to contain her name.
 
@@ -86,14 +86,14 @@ TrustGraph’s retrieval capabilities sit within a broader agentic AI framework.
 
 * NLPR \- Natural Language Precision Retrieval (experimental), which uses ontologies to drive specialized extraction
 
-This gives enterprises the flexibility to build retrieval pipelines that integrate internal knowledge graphs with external data sources, while maintaining reliability and control.
+This enables enterprises to build retrieval pipelines that integrate internal knowledge graphs with external data sources, while maintaining reliability and control.
 
 ![Ingestion + querying process](/blog/case-study-trustgraph/ingestion-querying-process.png)
 *Ingestion & querying process*
 
 ## Outcomes That Matter in Production
 
-By combining a resilient streaming backbone, graph-native semantics, and Qdrant-powered retrieval, TrustGraph delivers outcomes that demo architectures simply can’t:
+By combining a resilient streaming backbone, graph-native semantics, and Qdrant-powered retrieval, TrustGraph delivers production-grade architectural outcomes:
 
 * Determinism — Template-driven SPARQL and Qdrant similarity search eliminate fragile query synthesis.
 
@@ -108,7 +108,7 @@ By combining a resilient streaming backbone, graph-native semantics, and Qdrant-
 
 ## From Demos to Durable Infrastructure
 
-TrustGraph shows how agentic AI can evolve from flashy demos into **mission-critical enterprise software**. By grounding retrieval in graph semantics and Qdrant’s vector engine, they push non-determinism to the edges while maintaining uptime, auditability, and sovereignty.
+TrustGraph shows how agentic AI can evolve from flashy demos into mission-critical enterprise software. By grounding retrieval in graph semantics and Qdrant’s vector engine, they push non-determinism to the edges while maintaining uptime, auditability, and sovereignty.
 
 The result is agentic AI that enterprises can actually trust.
 
