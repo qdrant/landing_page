@@ -1,7 +1,7 @@
 ---
 title: Qdrant Essentials Course
 page_title: Qdrant Essentials Course
-description: The ultimate guide to production-grade vector search is here. And it's free.
+description: Learn hybrid search, multivectors, and production deployment in 9 days. Build and ship a docs search engine.
 content:
   sidebarTitle: Qdrant Essentials
   menuTitle:
@@ -9,26 +9,29 @@ content:
     url: /course/essentials/
   nextButton: Continue to Next Video
   nextDay: Complete
-  title: Qdrant Essentials Course
-  description: The ultimate guide to production-grade vector search is here. And it's free.
+  title: Qdrant Essentials
+  description: Learn hybrid search, multivectors, and production deployment in 9 days. Build and ship a docs search engine.
 partition: course
 ---
 
-# Qdrant Essentials Course
+# Qdrant Essentials
 
-**From first vector to production‑grade retrieval in 9 days.**
+**Ship a production-ready docs search in 9 days**
 
 Build the vector search skills that matter: hybrid retrieval, multivector reranking, quantization, distributed deployment, and multitenancy. Ship a complete documentation search engine as your final project.
 
-
-<iframe width="900" height="506"
+<div class="video">
+<iframe 
   src="https://www.youtube.com/embed/_04Nowi5M_Y"
-  style="display:block; margin:40px auto;"
+  loading="lazy"
+  width="100%"
+  height="420"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
   allowfullscreen>
 </iframe>
+</div>
 
 
 <br/>
@@ -69,33 +72,33 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
 
 ### The Path
 
-**Days 0–2**: Foundations. Connect to Qdrant Cloud, understand points and payloads, compute semantic similarity with vectors, chunk text, and tune HNSW indexes for speed and recall.
+**Days 0–2**: Foundations. Connect to Qdrant Cloud, work with points and payloads, compute semantic similarity, chunk text, and tune HNSW for speed and recall.
 
-**Days 3–5**: Advanced retrieval. Combine dense and sparse signals, implement hybrid search with server‑side fusion, master multivectors (ColBERT) and the Universal Query API, and build recommendation systems.
+**Days 3–5**: Advanced retrieval. Combine dense and sparse signals, do hybrid search with server-side fusion, use multivectors (ColBERT) with the Universal Query API, and build recommendations.
 
-**Days 6–7**: Production deployment. Scale horizontally with sharding and replication, implement [JWT](https://jwt.io/)‑based multitenancy, configure quantization for 40× speedups, and secure production clusters.
+**Days 6–7**: Production. Scale with sharding and replication, use [JWT](https://jwt.io/)-based multitenancy, set quantization for up to 40× faster scans (data-dependent), and lock down clusters.
 
-**Day 8**: Ship it. Wire an end‑to‑end documentation search engine with ingestion, hybrid retrieval, multivector reranking, and evaluation metrics (Recall@10, MRR, latency P50/P95).
+**Day 8**: Ship. Wire ingestion, hybrid retrieval, multivector re-ranking, and evaluation (Recall@10, MRR, latency P50/P95).
 
-**Day 9 (bonus)**: Ecosystem. Explore integrations with AI frameworks, search platforms, and data processing tools.
+**Day 9 (bonus)**: Ecosystem. Try integrations with AI frameworks, search tools, and data pipelines.
 
 ## How the course works
 
-
 {{< cards-list >}}
+
 - icon: /icons/outline/training-purple.svg
-  title: Video‑first lessons
-  content: Clear, concise videos organized by our team
+  title: Video-first lessons
+  content: Clear, concise modules by the Qdrant team
 - icon: /icons/outline/hacker-purple.svg
   title: Final project
   content: Ship a production-ready vector search app
 - icon: /icons/outline/similarity-blue.svg
-  title: Bonus day (integrations)
-  content: Explore partner frameworks and tools on Day 9 
+  title: Bonus day
+  content: Explore partner integrations on Day 9
 - icon: /icons/outline/copy.svg
-  title: Pitstop Projects (hands‑on)
-  content: Small projects each day to apply the concept
-{{< /cards-list >}}
+  title: Pitstop projects
+  content: Small builds each day to apply the concept
+  {{< /cards-list >}}
 
 <br/>
 
@@ -202,25 +205,27 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
     <p style="margin-left: 0px;"><a href="/course/essentials/day-9/">→ Start day 9</a></p>
 {{< /accordion >}}
 
+
 ## Who it's for
 
 ML, backend, data, and search engineers building RAG, semantic search, or recommendations. Requires intermediate Python, basic CLI/APIs, and familiarity with embeddings.
 
 ## Time commitment
 
-- Total: 8–12 hours over 1–2 weeks
-- Daily: 1–2 hours per day
-- Video: ~3 hours 
-- Hands‑on: 5–9 hours
+- Duration: 8 days at 1–2 hours/day + optional bonus day
+- Video learning: ~3 hours
+- Hands-on learning: 5–9 hours
 - Final project: 2–4 hours
+- Total: 10–16 hours
+
 
 {{< course-card 
  title="Ready to start your vector search journey?"
  image="/icons/outline/rocket-white-light.svg" 
  link="/course/essentials/day-0/">}}
-**What You'll Gain:**
-- Production‑ready vector search engine skills
-- Hands‑on experience with real projects
-- Performance optimization techniques
+**What you’ll get**
+- Build a production-ready docs search engine
+- Practice with real projects
+- Learn performance tuning techniques
 - Portfolio artifacts and community support
 {{< /course-card >}}
