@@ -30,8 +30,6 @@ But as soon as those demos face enterprise requirements — constant data ingest
 
 This is exactly the gap TrustGraph set out to close. From day one, they designed their platform for **availability, determinism, and scale** — with Qdrant as a core piece of the architecture.
 
-### 
-
 ![Failure mode map — “From POC to production](/blog/case-study-trustgraph/failure-map-poc-to-production.png)
 *Failure mode map — “From POC to production.”*
 
@@ -105,7 +103,7 @@ By combining a resilient streaming backbone, graph-native semantics, and Qdrant-
 
 * **Developer Simplicity** — Qdrant’s open-source, containerized design makes scaling straightforward and reduces operational friction.
 
-“We haven’t had a reason to revisit alternatives. Qdrant checks the boxes for speed, reliability, and simplicity—and it keeps doing so.”  
+*“We haven’t had a reason to revisit alternatives. Qdrant checks the boxes for speed, reliability, and simplicity—and it keeps doing so.”*  
  — *Daniel Davis, Co-founder, TrustGraph*
 
 ## **From Demos to Durable Infrastructure**
