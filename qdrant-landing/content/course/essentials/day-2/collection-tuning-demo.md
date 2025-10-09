@@ -151,8 +151,6 @@ Set `m=0` to skip HNSW graph links during bulk upload. Switch to a normal `m` af
 
 **Warning:** Do not toggle back to `m=0` on a collection that already has an HNSW index if you care about keeping that index. Rebuilding from scratch is slow and uses more resources.
 
-By default, on Managed Cloud, strict_mode_config prohibits filtering by unindexed payload key and limits the number of payload indices. we ant to do `enabled=False` to Allow flexibility during testing. Side note: one can control collection operations for its protection in production with [strict-mode](/documentation/guides/administration/#strict-mode). Your current collection settings can be seen by doing `.get_collection`.
-
 
 ```python
 # Delete collection if it exists (for clean restart)
@@ -168,17 +166,17 @@ print(f"Creating collection: {collection_name}")
 client.create_collection(
     collection_name=collection_name,
     vectors_config=models.VectorParams(
-        size=1536,  # OpenAI text-embedding-3-large dimensions
-        distance=models.Distance.COSINE  # Best for semantic similarity
+        size=1536,                       # Matches dataset dims
+        distance=models.Distance.COSINE  # Good for normalized embeddings
     ),
     hnsw_config=models.HnswConfigDiff(
-        m=0,  # No HNSW connections during upload (faster bulk insert)
-        ef_construct=100,  # Will be relevant when we switch to m=16
-        full_scan_threshold=10000,  # Use exact search for small datasets
-        ),
-        strict_mode_config=models.StrictModeConfig(
-        enabled=False,  # Allow flexibility during testing
-        unindexed_filtering_retrieve=True  # Allow filtering without indexes
+        m=0,                 # Skip links during upload for speed
+        ef_construct=100,    # Used after we set m>0
+        full_scan_threshold=10000
+    ),
+    strict_mode_config=models.StrictModeConfig(
+        enabled=False,                         # More flexible while testing
+        unindexed_filtering_retrieve=True      # Allow filters without payload indexes
     )
 )
 
@@ -188,19 +186,21 @@ print(f"Collection '{collection_name}' created successfully!")
 collection_info = client.get_collection(collection_name)
 print(f"Vector size: {collection_info.config.params.vectors.size}")
 print(f"Distance metric: {collection_info.config.params.vectors.distance}")
-print(f"HNSW m parameter: {collection_info.config.hnsw_config.m}")
+print(f"HNSW m: {collection_info.config.hnsw_config.m}")
 ```
 
-**Configuration details:**
-- **`size=1536`**: To match the dimensions parameter we set for the OpenAI text-embedding-3-large 
-- **`distance=COSINE`**: Ideal for normalized embeddings and semantic similarity
-- **`full_scan_threshold=10000`**: Uses exact search for smaller result sets
 
-Side Note: We used 1536 dimensions of OpenAI's `text-embedding-3-large` which actually has 3072 dimensions in total. takiong a subset of the available embeddings of any embedding model (not just openais's) is a valid method to save compute and is called ____. it still works because even in a subset the vecors still contain an amount of information that is sufficient for most tasks.
+**Configuration details:**
+- **`size=1536`**: To match the dimensions parameter we set for the OpenAI `text-embedding-3-large`
+- **`distance=COSINE`**: Standart for normalized embeddings and semantic similarity
+- **`full_scan_threshold=10000`**: Uses exact search for smaller result sets
+- **`strict_mode_config`**: Managed Cloud runs in strict mode by default. We set `enabled=False` to let you experiment with unindexed payload keys during the demo.
+
+**Side note:** `text-embedding-3-large` outputs 3072 dims. Trunkating that to only 1536 dimensions cuts compute and memory, with some accuracy loss.
 
 ## Step 5: Bulk Upload with Rich Payloads
 
-We'll upload 100K vectors in 10K batches. The payload includes fields designed for filtering tests: `title`, `length`, and `has_numbers`.
+We'll upload 100K vectors in 10K batches. The payload includes `title`, `length`, and `has_numbers` for filter tests.
 
 ```python
 batch_size = 10000
@@ -247,7 +247,7 @@ print(f"Upload completed! Total points uploaded: {total_uploaded}")
 
 ## Step 6: Enable HNSW Indexing
 
-Now for the magic moment: we'll switch from `m=0` to `m=16`, which builds HNSW connections and should dramatically improve search speed:
+Now switch from `m=0` to `m=16` to build HNSW connections and improve search time.
 
 ```python
 client.update_collection(
@@ -260,23 +260,21 @@ client.update_collection(
 print("HNSW indexing enabled with m=16")
 ```
 
-**What happens now?** Qdrant builds a navigable graph where each vector connects to its 16 nearest neighbors. This creates "shortcuts" through the vector space, enabling logarithmic search time instead of linear scanning.
+**What happens now?** Qdrant builds a navigable graph so search becomes near‑logarithmic instead of linear scanning.
 
 ## Step 7: Create Query Embeddings
 
 We need to use the same model and dimensions as our dataset to ensure compatibility.
 
-If you don't have an OPENAI key, you can just use an example embedding we created for the query used in the notebook `test_query = "artificial intelligence"`
-
+If you do not have an OpenAI key, use the commented fallback below.
 
 ```python
-# if you dont have an openai api key do this instead:
+# Optional fallback without an API key:
 # import requests
 # test_query = "artificial intelligence"
 # url = "https://storage.googleapis.com/qdrant-examples/query_embedding_day_2.json"
-# response = requests.get(url)
-# data = response.json()
-# query_embedding = data["query_vector"]
+# resp = requests.get(url)
+# query_embedding = resp.json()["query_vector"]
 # print(f"Generated embedding for: '{test_query}'")
 # print(f"Embedding dimensions: {len(query_embedding)}")
 # print(f"First 5 values: {query_embedding[:5]}")
@@ -316,20 +314,13 @@ print(f"Embedding dimensions: {len(query_embedding)}")
 print(f"First 5 values: {query_embedding[:5]}")
 ```
 
-**Critical compatibility requirements:**
+**Query Embedding Compatibility:**
 - **Model**: Must use `text-embedding-3-large` (same as dataset)
 - **Dimensions**: Must be 1536 (same as dataset)
-- **API Key (optional)**: Requires valid OpenAI API key with credits
-- **Consistency**: Query and dataset embeddings must come from identical models
-
-**Troubleshooting OpenAI API (optional):**
-- **No API key**: Get one at [platform.openai.com](https://platform.openai.com/api-keys)
-- **No credits**: Add billing at [platform.openai.com/account/billing](https://platform.openai.com/account/billing)
-- **Rate limits**: Free tier has lower limits; paid accounts get higher limits
 
 ## Step 8: Baseline Performance Testing
 
-Let's measure search performance with our HNSW-enabled collection:
+Let's measure search performance on the HNSW‑enabled collection.
 
 ```python
 print("Running baseline performance test...")
@@ -338,9 +329,9 @@ print("Running baseline performance test...")
 print("Warming up caches...")
 client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
 
-# Now measure actual vector search performance
+# Measure vector search performance
 search_times = []
-for i in range(3):  # Run multiple times for reliable measurement
+for _ in range(3):  # Multiple runs for a stable average
     start_time = time.time()
     response = client.query_points(
         collection_name=collection_name,
@@ -368,14 +359,13 @@ for i, point in enumerate(response.points[:3], 1):
 ```
 
 **Performance factors:**
-- **Cache warming**: First query loads relevant index parts/vectors into into memory, subsequent queries are faster
+- **Cache warming**: First query loads relevant index parts/vectors into memory, subsequent queries are faster
 - **HNSW with m=16**: Graph-based search is much faster than full scan
-- **Multiple measurements**: Average of several queries gives reliable timing
-- **Production tip**: Always warm caches before measuring vector search performance
+- **MRepeated runs**: Average of several queries gives more reliable timing results
 
 ## Step 9: Filtering Without Payload Indexes
 
-Now let's test filtering performance without indexes. This forces Qdrant to scan through vectors and check each one against the filter:
+Now, let's test filtering performance without indexes. This forces Qdrant to scan through vectors and check each one against the filter:
 
 ```python
 print("Testing filtering without payload indexes")
@@ -407,9 +397,7 @@ print(f"Top result: {response.points[0].payload['text']} (score: {response.point
 
 ## Step 10: Create Payload Indexes
 
-Now let's create [full text indexes on our payload fields](/documentation/concepts/indexing/#full-text-index) to accelerate filtering:
-
-Warning: if we want filterable HNSW to work, these indices should have been created before HNSW index (switching on m=16). Since in real world things can go wrong, we need to diable indexing and reenable it again to build a new index.
+Create a [full‑text index](/documentation/concepts/indexing/#full-text-index) for faster filtering.
 
 ```python
 client.create_payload_index(
@@ -424,32 +412,20 @@ client.create_payload_index(
 
 print("Payload index created for 'text' field")
 
-# Fixing our error of not having payload indexes set to begin with
-client.update_collection(
-    collection_name=collection_name,
-    hnsw_config=models.HnswConfigDiff(
-        m=0  # Disable
-    )
-)
-
-client.update_collection(
-    collection_name=collection_name,
-    hnsw_config=models.HnswConfigDiff(
-        m=16  # Each node connects to 16 neighbors
-    )
-)
-
-
+# If you want filter‑aware HNSW and you built the graph before creating payload indexes,
+# rebuild the graph to attach filter data structures.
+client.update_collection(collection_name=collection_name, hnsw_config=models.HnswConfigDiff(m=0))
+client.update_collection(collection_name=collection_name, hnsw_config=models.HnswConfigDiff(m=16))
 ```
 
 ## Step 11: Filtering With Payload Indexes
 
-Let's test the same filter query with the payload index in place:
+Run the same query with the index in place.
 
 ```python
 print("Testing filtering WITH payload indexes...")
 
-# Run multiple times for reliable measurement
+# Run multiple times for more reliable measurement
 indexed_times = []
 for i in range(3):
     start_time = time.time()
@@ -476,14 +452,14 @@ else:
 
 ## Performance Analysis
 
-Compare your results and understand the impact of each optimization:
+Compare your results and see the effect of each optimization:
 
 ```python
 print("\n" + "="*60)
 print("FINAL PERFORMANCE SUMMARY")
 print("="*60)
 
-# Calculate key metrics
+# Key metrics
 if unindexed_filter_time > 0 and indexed_filter_time > 0:
     index_speedup = unindexed_filter_time / indexed_filter_time
     filter_overhead_without = unindexed_filter_time - baseline_time
@@ -496,12 +472,12 @@ else:
 print(f"Baseline search (HNSW m=16):     {baseline_time:.2f}ms")
 print(f"Filtering WITHOUT index:        {unindexed_filter_time:.2f}ms")
 print(f"Filtering WITH index:           {indexed_filter_time:.2f}ms")
-print(f"")
+print("")
 print(f"Performance improvements:")
 print(f"   • Index speedup:                {index_speedup:.1f}x faster")
 print(f"   • Filter overhead (no index):   +{filter_overhead_without:.2f}ms")
 print(f"   • Filter overhead (with index): +{filter_overhead_with:.2f}ms")
-print(f"")
+print("")
 print(f"Key insights:")
 print(f"   • HNSW (m=16) enables fast vector search")
 print(f"   • Payload indexes dramatically improve filtering")
