@@ -7,20 +7,20 @@ weight: 3
 
 # Demo: HNSW Performance Tuning
 
-Learn how to optimize vector search performance through [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) tuning and payload indexing with a real 100K dataset.
+Learn how to improve vector search speed with [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) tuning and payload indexing on a real 100K dataset.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_2/hnsw_performance_tuning.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
+</a>
 
-**Follow along:** [Complete Google Colab Notebook](https://colab.research.google.com/github/qdrant/examples/blob/main/hnsw-optimization/hnsw_performance_tuning.ipynb)
+## What You’ll Do
 
-## What You'll Discover
-
-Yesterday you learned the theory behind HNSW indexing. Today you'll see it in action with a 100,000-vector dataset, measuring real performance differences and learning optimization strategies that work in production.
+Yesterday you learned the theory behind HNSW indexing. Today you'll see it in action on a 100,000-vector dataset, measuring performance differences and applying optimization strategies that work in production.
 
 **You'll learn to:**
 - Optimize bulk upload speed with strategic HNSW configuration
-- Measure the dramatic performance impact of payload indexes
-- Tune HNSW parameters for your specific use case
+- Measure the performance impact of payload indexes
+- Tune HNSW params
 - Compare full-scan vs. HNSW search performance
 
 ## The Performance Challenge
@@ -29,7 +29,7 @@ Working with 100K high-dimensional vectors (1536 dimensions from OpenAI's text-e
 - **Upload speed**: How fast can we ingest vectors?
 - **Search speed**: How quickly can we find similar vectors?
 - **Filtering speed**: How much overhead do payload filters add?
-- **Memory efficiency**: How do different configurations affect resource usage?
+- **Memory efficiency**: How do different configurations affect RAM needs?
 
 ## Step 1: Environment Setup
 
@@ -59,36 +59,40 @@ from dotenv import load_dotenv
 
 ### Set Up API Keys
 
-You'll need an OpenAI API keys for this demo (for query embeddings):
+You'll need an OpenAI API key for query embeddings:
 
-- Visit [OpenAI's API platform](https://platform.openai.com/api-keys)
+- Visit [OpenAI's API platform](https://platform.openai.com)
 - Create an account or sign in
-- Navigate to "API Keys" and create a new key
+- Navigate to [API Keys](https://platform.openai.com/api-keys) and create a new key
 - **Important**: You'll need credits in your OpenAI account (~$1 should be sufficient for this demo)
-
 
 ### Environment Configuration
 
-Create a `.env` file in your project directory:
+Create a `.env` file your project directory or use Google Colab secrets.
 
 ```bash
 # .env file
-QDRANT_URL=https://your-cluster-id.us-east4-0.gcp.cloud.qdrant.io:6333
+QDRANT_URL=your-cluster-url
 QDRANT_API_KEY=your-qdrant-api-key-here
 OPENAI_API_KEY=sk-your-openai-api-key-here
 ```
 
-**Security Note**: Never commit API keys to version control. The `.env` file keeps them secure and out of your code.
+**Security Note**: Never commit the .env file.
 
 ## Step 2: Connect to Qdrant Cloud
 
-Unlike Day 1's in-memory database, we need Qdrant Cloud's infrastructure to handle 100K vectors effectively:
+We’ll use Qdrant Cloud for stable resources at 100K scale.
 
 ```python
 load_dotenv()
 
 QDRANT_URL = os.getenv('QDRANT_URL')
 QDRANT_API_KEY = os.getenv('QDRANT_API_KEY')
+
+# For Google Colab secrets:
+# from google.colab import userdata
+# QDRANT_URL = userdata.get('QDRANT_URL')
+# QDRANT_API_KEY = userdata.get('QDRANT_API_KEY')
 
 client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
 
@@ -102,15 +106,15 @@ except Exception as e:
     print("Check your QDRANT_URL and QDRANT_API_KEY in .env file")
 ```
 
-**Why Qdrant Cloud for this demo:**
-- **Performance**: Cloud infrastructure handles 100K vectors better than local memory
-- **Persistence**: Your data survives session restarts
+**Why Cloud:**
+- **Convenience**: No local setup hassles
+- **Free Tier**: We are well within the free tier with a 100k dataset
 - **Realistic testing**: Production-like environment for accurate benchmarks
-- **Scalability**: Easy to test with larger datasets
+- **Scalability**: Easy to scale up later
 
 ## Step 3: Load the DBpedia Dataset
 
-We're using a curated dataset of 100K Wikipedia articles with pre-computed 1536-dimensional embeddings from OpenAI's text-embedding-3-large model:
+We're using a curated dataset of 100K Wikipedia articles with pre-computed 1536-dimensional embeddings from OpenAI's `text-embedding-3-large` model:
 
 ```python
 # Load the dataset (this may take a few minutes for first download)
@@ -135,20 +139,20 @@ print(f"Embedding dimensions: {len(sample['text-embedding-3-large-1536-embedding
 
 **About this dataset:**
 - **Source**: [Hugging Face DBpedia dataset](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-100K)
-- **Size**: 100,000 Wikipedia articles
-- **Embeddings**: Pre-computed with OpenAI's `text-embedding-3-large` (1536 dimensions)
-- **Content**: Rich metadata including titles, categories, and full text
-- **Perfect for**: Testing high-dimensional vector performance and filtering capabilities
+- **Content**: Pre-computed Wikipedia article embeddings
+- **Size**: 100,000 articles
+- **Embeddings**: with OpenAI's `text-embedding-3-large` truncated to 1536 dims
+- **Metadata**: `_id`, `titles` and `text`
 
-**Dataset advantages:**
-- No need to generate embeddings (saves time and API costs)
-- Realistic data complexity and size
-- Rich metadata for filtering tests
-- High-dimensional vectors typical of production systems
 
 ## Step 4: Strategic Collection Creation
 
-Here's a key optimization strategy: start with `m=0` for fast bulk upload, then switch to HNSW for searches. This dramatically speeds up data ingestion.
+Set `m=0` to skip HNSW graph links during bulk upload. Switch to a normal `m` after ingest to build the graph. This speeds up inserts 5-10x because link creation is deferred.
+
+**Warning:** Do not toggle back to `m=0` on a collection that already has an HNSW index if you care about keeping that index. Rebuilding from scratch is slow and uses more resources.
+
+By default, on Managed Cloud, strict_mode_config prohibits filtering by unindexed payload key and limits the number of payload indices. we ant to do `enabled=False` to Allow flexibility during testing. Side note: one can control collection operations for its protection in production with [strict-mode](/documentation/guides/administration/#strict-mode). Your current collection settings can be seen by doing `.get_collection`.
+
 
 ```python
 # Delete collection if it exists (for clean restart)
@@ -170,9 +174,9 @@ client.create_collection(
     hnsw_config=models.HnswConfigDiff(
         m=0,  # No HNSW connections during upload (faster bulk insert)
         ef_construct=100,  # Will be relevant when we switch to m=16
-        full_scan_threshold=10000  # Use exact search for small datasets
-    ),
-    strict_mode_config=models.StrictModeConfig(
+        full_scan_threshold=10000,  # Use exact search for small datasets
+        ),
+        strict_mode_config=models.StrictModeConfig(
         enabled=False,  # Allow flexibility during testing
         unindexed_filtering_retrieve=True  # Allow filtering without indexes
     )
@@ -187,20 +191,16 @@ print(f"Distance metric: {collection_info.config.params.vectors.distance}")
 print(f"HNSW m parameter: {collection_info.config.hnsw_config.m}")
 ```
 
-**Why `m=0` for bulk upload?** 
-- **Speed**: Building HNSW connections during insertion is expensive
-- **Efficiency**: Bulk upload is 5-10x faster without graph construction
-- **Strategy**: Upload fast first, then build the search index
-- **Production pattern**: Common approach for large-scale data ingestion
-
 **Configuration details:**
-- **`size=1536`**: Matches OpenAI text-embedding-3-large dimensions
+- **`size=1536`**: To match the dimensions parameter we set for the OpenAI text-embedding-3-large 
 - **`distance=COSINE`**: Ideal for normalized embeddings and semantic similarity
 - **`full_scan_threshold=10000`**: Uses exact search for smaller result sets
 
+Side Note: We used 1536 dimensions of OpenAI's `text-embedding-3-large` which actually has 3072 dimensions in total. takiong a subset of the available embeddings of any embedding model (not just openais's) is a valid method to save compute and is called ____. it still works because even in a subset the vecors still contain an amount of information that is sufficient for most tasks.
+
 ## Step 5: Bulk Upload with Rich Payloads
 
-We'll upload 100K vectors in 10K batches. The payload includes fields designed for filtering tests: `category`, `length`, and `has_numbers`.
+We'll upload 100K vectors in 10K batches. The payload includes fields designed for filtering tests: `title`, `length`, and `has_numbers`.
 
 ```python
 batch_size = 10000
@@ -221,7 +221,6 @@ def upload_batch(start_idx, end_idx):
             'text': example['text'],
             'title': example['title'],
             '_id': example['_id'],
-            'category': example['title'].split()[0] if example['title'] else 'unknown', 
             'length': len(example['text']),
             'has_numbers': any(char.isdigit() for char in example['text'])
         }
@@ -265,11 +264,29 @@ print("HNSW indexing enabled with m=16")
 
 ## Step 7: Create Query Embeddings
 
-We need to use the same model and dimensions as our dataset to ensure compatibility:
+We need to use the same model and dimensions as our dataset to ensure compatibility.
+
+If you don't have an OPENAI key, you can just use an example embedding we created for the query used in the notebook `test_query = "artificial intelligence"`
+
 
 ```python
+# if you dont have an openai api key do this instead:
+# import requests
+# test_query = "artificial intelligence"
+# url = "https://storage.googleapis.com/qdrant-examples/query_embedding_day_2.json"
+# response = requests.get(url)
+# data = response.json()
+# query_embedding = data["query_vector"]
+# print(f"Generated embedding for: '{test_query}'")
+# print(f"Embedding dimensions: {len(query_embedding)}")
+# print(f"First 5 values: {query_embedding[:5]}")
+
+
 # Initialize OpenAI client
 openai_client = openai.OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+
+# for colab:
+# openai_client = openai.OpenAI(api_key=userdata.get('OPENAI_API_KEY'))
 
 def get_query_embedding(text):
     """Generate embedding using the same model as the dataset"""
@@ -292,7 +309,7 @@ def get_query_embedding(text):
 
 # Test embedding generation
 print("Generating query embedding...")
-test_query = "artificial intelligence machine learning"
+test_query = "artificial intelligence"
 query_embedding = get_query_embedding(test_query)
 print(f"Generated embedding for: '{test_query}'")
 print(f"Embedding dimensions: {len(query_embedding)}")
@@ -302,10 +319,10 @@ print(f"First 5 values: {query_embedding[:5]}")
 **Critical compatibility requirements:**
 - **Model**: Must use `text-embedding-3-large` (same as dataset)
 - **Dimensions**: Must be 1536 (same as dataset)
-- **API Key**: Requires valid OpenAI API key with credits
+- **API Key (optional)**: Requires valid OpenAI API key with credits
 - **Consistency**: Query and dataset embeddings must come from identical models
 
-**Troubleshooting OpenAI API:**
+**Troubleshooting OpenAI API (optional):**
 - **No API key**: Get one at [platform.openai.com](https://platform.openai.com/api-keys)
 - **No credits**: Add billing at [platform.openai.com/account/billing](https://platform.openai.com/account/billing)
 - **Rate limits**: Free tier has lower limits; paid accounts get higher limits
@@ -317,11 +334,11 @@ Let's measure search performance with our HNSW-enabled collection:
 ```python
 print("Running baseline performance test...")
 
-# Warm up the cache with a test query
+# Warm up the RAM index/vectors cache with a test query
 print("Warming up caches...")
 client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
 
-# Now measure actual performance
+# Now measure actual vector search performance
 search_times = []
 for i in range(3):  # Run multiple times for reliable measurement
     start_time = time.time()
@@ -351,10 +368,10 @@ for i, point in enumerate(response.points[:3], 1):
 ```
 
 **Performance factors:**
-- **Cache warming**: First query loads data into memory, subsequent queries are faster
+- **Cache warming**: First query loads relevant index parts/vectors into into memory, subsequent queries are faster
 - **HNSW with m=16**: Graph-based search is much faster than full scan
 - **Multiple measurements**: Average of several queries gives reliable timing
-- **Production tip**: Always warm caches before measuring performance
+- **Production tip**: Always warm caches before measuring vector search performance
 
 ## Step 9: Filtering Without Payload Indexes
 
@@ -368,7 +385,7 @@ text_filter = models.Filter(
     must=[
         models.FieldCondition(
             key="text",
-            match=models.MatchText(text="synthetic data")
+            match=models.MatchText(text="data")
         )
     ]
 )
@@ -385,21 +402,44 @@ unindexed_filter_time = (time.time() - start_time) * 1000
 
 print(f"Filtered search (no index): {unindexed_filter_time:.2f}ms")
 print(f"Overhead: {unindexed_filter_time - baseline_time:.2f}ms")
-print(f"Top result: {response.points[0].payload['title']} (score: {response.points[0].score:.4f})")
+print(f"Top result: {response.points[0].payload['text']} (score: {response.points[0].score:.4f})")
 ```
 
 ## Step 10: Create Payload Indexes
 
-Now let's create [indexes on our payload fields](/documentation/concepts/indexing/#payload-index) to accelerate filtering:
+Now let's create [full text indexes on our payload fields](/documentation/concepts/indexing/#full-text-index) to accelerate filtering:
+
+Warning: if we want filterable HNSW to work, these indices should have been created before HNSW index (switching on m=16). Since in real world things can go wrong, we need to diable indexing and reenable it again to build a new index.
 
 ```python
 client.create_payload_index(
     collection_name=collection_name,
     field_name="text",
-    field_schema="text"
-)
+    field_schema=models.TextIndexParams(
+        type="text",
+        tokenizer="word",
+        phrase_matching=False
+        )
+    )
 
 print("Payload index created for 'text' field")
+
+# Fixing our error of not having payload indexes set to begin with
+client.update_collection(
+    collection_name=collection_name,
+    hnsw_config=models.HnswConfigDiff(
+        m=0  # Disable
+    )
+)
+
+client.update_collection(
+    collection_name=collection_name,
+    hnsw_config=models.HnswConfigDiff(
+        m=16  # Each node connects to 16 neighbors
+    )
+)
+
+
 ```
 
 ## Step 11: Filtering With Payload Indexes
@@ -429,7 +469,7 @@ print(f"Individual times: {[f'{t:.2f}ms' for t in indexed_times]}")
 print(f"Overhead vs baseline: {indexed_filter_time - baseline_time:.2f}ms")
 print(f"Found {len(response.points)} matching results")
 if response.points:
-    print(f"Top result: '{response.points[0].payload['title']}' (score: {response.points[0].score:.4f})")
+    print(f"Top result: '{response.points[0].payload['text']}' (score: {response.points[0].score:.4f})")
 else:
     print("No results found - try a different filter term")
 ```
@@ -473,7 +513,7 @@ print("="*60)
 ## Next Steps & Resources
 
 **What you've learned:**
-- Strategic bulk upload optimization with `m=0` → `m=16` switching
+- Strategic optimization of initial bulk upload with `m=0` → `m=16` switching
 - Real-world performance measurement techniques
 - The dramatic impact of payload indexes on filtering
 - Production-ready configuration patterns
