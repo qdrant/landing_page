@@ -19,10 +19,10 @@ Build on your Day 1 search engine by adding performance optimization. You'll dis
 
 A performance-optimized version of your Day 1 search engine that demonstrates:
 
-- **Strategic upload optimization**: Fast bulk loading with `m=0` → HNSW switching
-- **HNSW parameter tuning**: Testing different `m` and `ef_construct` values for your data
-- **Payload indexing impact**: Measuring filtering performance improvements
-- **Domain-specific insights**: Understanding what works best for your content type
+- **Fast bulk load**: Load with `m=0`, then switch to HNSW
+- **HNSW parameter tuning**: Try different `m` and `ef_construct`
+- **Payload indexing impact**: Time filtering with and without indexes
+- **Domain findings**: What works best for your content
 
 ## Step-by-Step Implementation
 
@@ -60,7 +60,6 @@ configs = [
 
 for config in configs:
     collection_name = f"my_domain_{config['name']}"
-    
     client.create_collection(
         collection_name=collection_name,
         vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
@@ -70,17 +69,15 @@ for config in configs:
             full_scan_threshold=1000
         )
     )
-    
     print(f"Created collection: {collection_name}")
 ```
 
-### Step 3: Upload and Time the Process
+### Step 3: Upload and Time
 
 Measure upload performance for each configuration:
 
 ```python
 def upload_with_timing(collection_name, data, config_name):
-    start_time = time.time()
     
     points = []
     for i, item in enumerate(data):
@@ -97,12 +94,16 @@ def upload_with_timing(collection_name, data, config_name):
                                   for keyword in ["important", "key", "main"])
             }
         ))
-    
+
+    start_time = time.time()
     client.upload_points(collection_name=collection_name, points=points)
     upload_time = time.time() - start_time
     
     print(f"{config_name}: Uploaded {len(points)} points in {upload_time:.2f}s")
     return upload_time
+
+# Load your dataset here
+# your_dataset =
 
 # Upload to each collection
 upload_times = {}
@@ -119,16 +120,23 @@ Test search speed with different `ef` values:
 
 ```python
 def benchmark_search(collection_name, query_embedding, ef_values=[64, 128, 256]):
+    # Warmup
+    response = client.query_points(
+        collection_name=collection_name,
+        query=query_embedding,
+        limit=10,
+        search_params=models.SearchParams(hnsw_ef=ef)
+        )
+
     results = {}
-    
     for ef in ef_values:
         times = []
         
-        # Run multiple queries for reliable timing
+        # Run multiple queries for more reliable timing
         for _ in range(5):
             start_time = time.time()
             
-            response = client.query_points(
+            _ = client.query_points(
                 collection_name=collection_name,
                 query=query_embedding,
                 limit=10,
@@ -145,25 +153,20 @@ def benchmark_search(collection_name, query_embedding, ef_values=[64, 128, 256])
     
     return results
 
-# Test with domain-specific queries
-test_queries = [
-    "your first test query",
-    "your second test query", 
-    "your third test query"
-]
+
+test_query = "your test query"
+query_embedding = encoder.encode(test_query).tolist()
 
 performance_results = {}
 for config in configs:
-    if config["m"] > 0:  # Skip m=0 collections for search tests
+    if config["m"] > 0:  # Skip m=0 collections for search
         collection_name = f"my_domain_{config['name']}"
-        query_embedding = encoder.encode(test_queries[0]).tolist()
-        
         performance_results[config['name']] = benchmark_search(
             collection_name, query_embedding
         )
 ```
 
-### Step 5: Test Payload Indexing Impact
+### Step 5: Measure Payload Indexing Impact
 
 Measure filtering performance with and without indexes:
 
@@ -181,9 +184,9 @@ def test_filtering_performance(collection_name):
         ]
     )
     
-    # Timing without index
+    # Timing without payload index
     start_time = time.time()
-    response = client.query_points(
+    _ = client.query_points(
         collection_name=collection_name,
         query=query_embedding,
         query_filter=filter_condition,
@@ -197,10 +200,24 @@ def test_filtering_performance(collection_name):
         field_name="length",
         field_schema="integer"
     )
-    
+
+    # Rebuild HNSW to attach filter data structures. (Not advised for production)
+    suffix = collection_name.replace("my_domain_", "")
+    config = next((c for c in configs if c["name"] == suffix), None)
+
+    client.update_collection(
+        collection_name=collection_name,
+        hnsw_config=models.HnswConfigDiff(m=0)
+    )
+
+    client.update_collection(
+        collection_name=collection_name,
+        hnsw_config=models.HnswConfigDiff(m=16, ef_construct=config['ef_construct'])
+    )
+
     # Timing with index
     start_time = time.time()
-    response = client.query_points(
+    _ = client.query_points(
         collection_name=collection_name,
         query=query_embedding,
         query_filter=filter_condition,
@@ -219,9 +236,7 @@ best_collection = "my_domain_balanced"  # Choose based on your results
 filtering_results = test_filtering_performance(best_collection)
 ```
 
-## Analysis Framework
-
-### Performance Comparison
+## Performance Analysis
 
 Create a summary of your findings:
 
@@ -230,16 +245,16 @@ print("=" * 60)
 print("PERFORMANCE OPTIMIZATION RESULTS")
 print("=" * 60)
 
-print("\n1. UPLOAD PERFORMANCE:")
+print("\n1) Upload Performance:")
 for config_name, time_taken in upload_times.items():
     print(f"   {config_name}: {time_taken:.2f}s")
 
-print("\n2. SEARCH PERFORMANCE (ef=128):")
+print("\n2) Search Performance (ef=128):")
 for config_name, results in performance_results.items():
     if 128 in results:
         print(f"   {config_name}: {results[128]['avg_time']:.2f}ms")
 
-print("\n3. FILTERING IMPACT:")
+print("\n3) Filtering Impact:")
 print(f"   Without index: {filtering_results['without_index']:.2f}ms")
 print(f"   With index: {filtering_results['with_index']:.2f}ms")
 print(f"   Speedup: {filtering_results['speedup']:.1f}x")
@@ -249,34 +264,32 @@ print(f"   Speedup: {filtering_results['speedup']:.1f}x")
 
 ### 1. Performance Report
 
-Document your findings:
-
+```md
 **Domain & Dataset:**
 - Content type and size
 - Why performance optimization matters for your use case
 - Specific performance requirements (speed vs. accuracy)
 
 **Configuration Results:**
-```
-Upload Performance:
-- m=0: Fastest upload (X.Xs), enables bulk loading strategy
-- m=16: Balanced upload/search (X.Xs)
-- m=32: Slower upload (X.Xs) but potentially better accuracy
+1) Upload Performance:
+- m=0: X.Xs, fastest load, no HNSW index built, good for bulk load then build
+- m=16: X.Xs, middle ground, balanced index build/search time
+- m=32: X.Xs, slowest load, but potentially better accuracy
 
-Search Performance:
+2) Search Performance:
 - m=16: X.Xms average, good for real-time applications
-- m=32: X.Xms average, better for batch processing
-- ef tuning: ef=128 optimal for speed/accuracy balance
+- m=32: X.Xms average, higher accuracy on hard queries
+- ef: ef=X gave best speed/accuracy balance
 
-Filtering Impact:
-- Payload indexes provided XXx speedup
-- Critical for production filtering workloads
-```
+3) Filtering Impact:
+- Payload indexes gave XXx speedup
+- Needed for production filtering workloads
 
 **Recommendations:**
 - Best configuration for your specific use case
-- When to use different settings
+- When to pick different settings
 - Production deployment considerations
+```
 
 ### 2. Share Your Discovery
 
@@ -288,10 +301,10 @@ Post in [Discord](https://discord.com/invite/qdrant) with:
 
 ## Key Questions to Answer
 
-1. **Which HNSW configuration worked best for your domain?**
-2. **How did upload vs. search performance trade off?**
-3. **What was the impact of payload indexing?**
-4. **How do your results compare to the DBpedia demo?**
+1. Which HNSW configuration worked best for your domain?
+2. How did upload (index building times) vs. search performance trade off?
+3. What was the impact of payload indexing?
+4. How do your results compare to the DBpedia demo?
 
 ## Success Criteria
 
@@ -309,15 +322,7 @@ Test more granular parameters:
 
 ```python
 # Test ef_construct impact on accuracy
-# Test different distance metrics (cosine vs. dot product)
 # Measure memory usage differences
-```
-
-### Production Considerations
-```python
-# Test with larger datasets (10K+ vectors)
-# Measure concurrent query performance
-# Test index rebuild time after updates
 ```
 
 **Ready for production?** You now understand how to optimize Qdrant for your specific use case, balancing upload speed, search performance, and memory usage based on real measurements. 

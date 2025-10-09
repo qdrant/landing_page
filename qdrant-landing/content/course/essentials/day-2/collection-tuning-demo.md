@@ -72,7 +72,7 @@ Create a `.env` file your project directory or use Google Colab secrets.
 
 ```bash
 # .env file
-QDRANT_URL=your-cluster-url
+QDRANT_URL=https://your-cluster-url.cloud.qdrant.io
 QDRANT_API_KEY=your-qdrant-api-key-here
 OPENAI_API_KEY=sk-your-openai-api-key-here
 ```
