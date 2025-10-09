@@ -414,6 +414,8 @@ print("Payload index created for 'text' field")
 
 # If you want filter‑aware HNSW and you built the graph before creating payload indexes,
 # rebuild the graph to attach filter data structures.
+# Note: Reindexing takes up a lot of resources, and it is advised to set payload 
+# indexes only once, after the initial bulk was uploaded into the collection.
 client.update_collection(collection_name=collection_name, hnsw_config=models.HnswConfigDiff(m=0))
 client.update_collection(collection_name=collection_name, hnsw_config=models.HnswConfigDiff(m=16))
 ```
