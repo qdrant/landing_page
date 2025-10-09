@@ -479,7 +479,7 @@ Read More: [Quantization Documentation](https://qdrant.tech/documentation/guides
 
 For optimizer behavior and segment maintenance, see [Optimizers and Segments]({{< relref "optimizers-and-segments.md" >}}).
 
-For sharding and replication, see {{< relref "../day-6/sharding-strategies.md" >}}.
+[//]: # (For sharding and replication, see {{< relref "../day-6/sharding-strategies.md" >}}.)
 
 ## WAL (Write-Ahead Log) Configuration
 
