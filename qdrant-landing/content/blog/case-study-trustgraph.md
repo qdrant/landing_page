@@ -31,7 +31,8 @@ But as soon as those demos face enterprise requirements — constant data ingest
 ![Failure mode map — “From POC to production](/blog/case-study-trustgraph/failure-map-poc-to-production.png)
 *Failure mode map — “From POC to production.”*
 
-This is exactly the gap TrustGraph set out to close. From day one, they designed their platform for availability, determinism, and scale — with Qdrant as a core piece of the architecture.
+
+This is exactly the gap <a href="https://trustgraph.ai/" target="_blank">TrustGraph</a> set out to close. From day one, they designed their platform for availability, determinism, and scale — with [Qdrant](https://Qdrant.tech) as a core piece of the architecture.
 
 ## Building for Production, Not Demos
 
