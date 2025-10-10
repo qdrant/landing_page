@@ -70,7 +70,7 @@ The morning session continued with keynotes from our partners and team:
 
 * [**Robert Eichensheer (Microsoft)**](https://www.linkedin.com/in/roberteichenseer/) showed the transformation of NLWeb in action and how Qdrant is being applied in enterprise-scale use cases.  
 * [**Rocco Fortuna (Qdrant)**](https://www.linkedin.com/in/roccofortuna/) followed with a walkthrough of NLWeb as a managed service, highlighting how developers can run complex workloads without operational overhead.  
-  [**Manuel Meyer (Qdrant)**](https://www.linkedin.com/in/meyermanuel/) showcased the flexibility of **Qdrant Cloud**, emphasizing that Qdrant can run anywhere (**OSS, Cloud, Hybrid, or Private**) with enterprise-ready reliability.  
+* [**Manuel Meyer (Qdrant)**](https://www.linkedin.com/in/meyermanuel/) showcased the flexibility of **Qdrant Cloud**, emphasizing that Qdrant can run anywhere (**OSS, Cloud, Hybrid, or Private**) with enterprise-ready reliability.  
 * [**Kevin Cochrane (Vultr)**](http://linkedin.com/in/kevinvcochrane/) demonstrated how Qdrant powers their AI-native developer experience and how Qdrant integrates into Vultr’s global cloud infrastructure, including Kubernetes-based reference architectures for scalable inference and search.  
 * [**Neil Kanungo (Qdrant)**](https://www.linkedin.com/in/neilkanungo/) closed the keynote block with a focus on developer experience and community growth, showing how programs like **Qdrant Stars** and improvements in onboarding accelerate adoption.
 
