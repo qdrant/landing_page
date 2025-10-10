@@ -27,7 +27,8 @@ tags:
 When teams first experiment with agentic AI, the journey often starts with a slick demo: a few APIs stitched together, a large language model answering questions, and just enough smoke and mirrors to impress stakeholders.
 
 But as soon as those demos face enterprise requirements — constant data ingestion, compliance, thousands of users, and 24×7 uptime — the illusion breaks. Services stall at the first failure, query reliability plummets, and regulatory guardrails are nowhere to be found. What worked in a five-minute demo becomes impossible to maintain in production. 
-![Failure mode map — “From POC to production](/blog/case-study-trustgraph/failure-map-poc-to-production.png)
+
+![Failure mode map — “From POC to production](/blog/case-study-trustgraph/failure-map-poc-to-production-2.png)
 *Failure mode map — “From POC to production.”*
 
 This is exactly the gap <a href="https://trustgraph.ai/" target="_blank">TrustGraph</a> set out to close. From day one, they designed their platform for availability, determinism, and scale — with [Qdrant](https://Qdrant.tech) as a core piece of the architecture.
