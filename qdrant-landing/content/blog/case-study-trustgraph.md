@@ -26,8 +26,7 @@ tags:
 
 When teams first experiment with agentic AI, the journey often starts with a slick demo: a few APIs stitched together, a large language model answering questions, and just enough smoke and mirrors to impress stakeholders.
 
-But as soon as those demos face enterprise requirements — constant data ingestion, compliance, thousands of users, and 24×7 uptime — the illusion breaks. Services stall at the first failure, query reliability plummets, and regulatory guardrails are nowhere to be found. What worked in a five-minute demo becomes impossible to maintain in production.
-
+But as soon as those demos face enterprise requirements — constant data ingestion, compliance, thousands of users, and 24×7 uptime — the illusion breaks. Services stall at the first failure, query reliability plummets, and regulatory guardrails are nowhere to be found. What worked in a five-minute demo becomes impossible to maintain in production. 
 ![Failure mode map — “From POC to production](/blog/case-study-trustgraph/failure-map-poc-to-production.png)
 *Failure mode map — “From POC to production.”*
 
