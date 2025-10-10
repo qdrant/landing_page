@@ -5,7 +5,7 @@ short_description: "TrustGraph scaled secure, deterministic agentic AI with Qdra
 description: "Discover how TrustGraph combined Qdrant vector search with graph-native semantics and streaming pipelines to deliver resilient, deterministic, and scalable agentic AI built for production, not demos."
 preview_image: /blog/case-study-trustgraph/social_preview_partnership-trustgraph.jpg
 social_preview_image: /blog/case-study-trustgraph/social_preview_partnership-trustgraph.jpg
-date: 2025-10-08
+date: 2025-10-10
 author: "Daniel Azoulai"
 featured: true
 
@@ -26,12 +26,12 @@ tags:
 
 When teams first experiment with agentic AI, the journey often starts with a slick demo: a few APIs stitched together, a large language model answering questions, and just enough smoke and mirrors to impress stakeholders.
 
-But as soon as those demos face enterprise requirements — constant data ingestion, compliance, thousands of users, and 24×7 uptime — the illusion breaks. Services stall at the first failure, query reliability plummets, and regulatory guardrails are nowhere to be found. What worked in a five-minute demo becomes impossible to maintain in production. 
+But as soon as those demos face enterprise requirements (constant data ingestion, compliance, thousands of users, 24×7 uptime), the illusion breaks. Services stall at the first failure, query reliability plummets, and regulatory guardrails are nowhere to be found. What worked in a five-minute demo becomes impossible to maintain in production. 
 
 ![Failure mode map — “From POC to production](/blog/case-study-trustgraph/failure-map-poc-to-production-2.png)
-*Failure mode map — “From POC to production.”*
+*Failure mode map: “From POC to production.”*
 
-This is exactly the gap <a href="https://trustgraph.ai/" target="_blank">TrustGraph</a> set out to close. From day one, they designed their platform for availability, determinism, and scale — with [Qdrant](https://Qdrant.tech) as a core piece of the architecture.
+This is exactly the gap <a href="https://trustgraph.ai/" target="_blank">TrustGraph</a> set out to close. From day one, they designed their platform for availability, determinism, and scale with [Qdrant](https://Qdrant.tech) as a core piece of the architecture.
 
 ## Building for Production, Not Demos
 
@@ -69,7 +69,7 @@ When a query enters the system, it follows a deterministic path:
 
 4. The subgraph is passed to the LLM, which answers strictly from that curated context.
 
-This approach surpasses traditional RAG, which stops at semantically similar chunks. Graph-anchored retrieval allows TrustGraph to surface causal or related knowledge. For example, “Why did the engine fail?” doesn’t just find mentions of “engine” and “failure” — it also uncovers related causes like *metal fatigue* or *coolant leaks* through graph connections.
+This approach surpasses traditional RAG, which stops at semantically similar chunks. Graph-anchored retrieval allows TrustGraph to surface causal or related knowledge. For example, “Why did the engine fail?” doesn’t just find mentions of “engine” and “failure”, it also uncovers related causes like *metal fatigue* or *coolant leaks* through graph connections.
 
 ![Query process](/blog/case-study-trustgraph/query-process.png)
 *Query process*
