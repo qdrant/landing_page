@@ -31,7 +31,6 @@ But as soon as those demos face enterprise requirements — constant data ingest
 ![Failure mode map — “From POC to production](/blog/case-study-trustgraph/failure-map-poc-to-production.png)
 *Failure mode map — “From POC to production.”*
 
-
 This is exactly the gap <a href="https://trustgraph.ai/" target="_blank">TrustGraph</a> set out to close. From day one, they designed their platform for availability, determinism, and scale — with [Qdrant](https://Qdrant.tech) as a core piece of the architecture.
 
 ## Building for Production, Not Demos
@@ -42,7 +41,7 @@ At its core are three pillars:
 
 * A streaming spine with Apache Pulsar. Persistent queues, schema evolution, and replayability provide resilience. If a process fails, it automatically restarts and resumes without data loss.
 
-* Graph-native semantics. Knowledge is modeled in RDF, with SPARQL templates guiding retrieval. This reduces dependence on brittle, model-generated queries and ensures answers are precise and auditable.
+* Graph-native semantics. Knowledge is modeled in Resource Description Framework (RDF), with SPARQL templates guiding retrieval. This reduces dependence on brittle, model-generated queries and ensures answers are precise and auditable.
 
 * Qdrant vector search. Entities are embedded and stored in Qdrant, enabling fast, reliable similarity search that integrates into the graph-driven workflow.
 
@@ -110,6 +109,4 @@ By combining a resilient streaming backbone, graph-native semantics, and Qdrant-
 ## From Demos to Durable Infrastructure
 
 TrustGraph shows how agentic AI can evolve from flashy demos into mission-critical enterprise software. By grounding retrieval in graph semantics and Qdrant’s vector engine, they push non-determinism to the edges while maintaining uptime, auditability, and sovereignty.
-
-The result is agentic AI that enterprises can actually trust.
 
