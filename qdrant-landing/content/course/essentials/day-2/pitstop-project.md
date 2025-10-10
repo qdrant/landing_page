@@ -52,7 +52,7 @@ Test different HNSW configurations to find what works best:
 ```python
 # Test configurations
 configs = [
-    {"name": "fast_upload", "m": 0, "ef_construct": 100},
+    {"name": "fast_initial_upload", "m": 0, "ef_construct": 100},
     {"name": "balanced", "m": 16, "ef_construct": 200}, 
     {"name": "high_quality", "m": 32, "ef_construct": 400},
     {"name": "memory_optimized", "m": 8, "ef_construct": 100}
@@ -116,7 +116,7 @@ for config in configs:
 
 ### Step 4: Benchmark Search Performance
 
-Test search speed with different `ef` values:
+Test search speed with different `hnsw_ef` values:
 
 ```python
 def benchmark_search(collection_name, query_embedding, ef_values=[64, 128, 256]):
@@ -125,11 +125,11 @@ def benchmark_search(collection_name, query_embedding, ef_values=[64, 128, 256])
         collection_name=collection_name,
         query=query_embedding,
         limit=10,
-        search_params=models.SearchParams(hnsw_ef=ef)
+        search_params=models.SearchParams(hnsw_ef=hnsw_ef)
         )
 
     results = {}
-    for ef in ef_values:
+    for hnsw_ef in ef_values:
         times = []
         
         # Run multiple queries for more reliable timing
@@ -140,12 +140,12 @@ def benchmark_search(collection_name, query_embedding, ef_values=[64, 128, 256])
                 collection_name=collection_name,
                 query=query_embedding,
                 limit=10,
-                search_params=models.SearchParams(hnsw_ef=ef)
+                search_params=models.SearchParams(hnsw_ef=hnsw_ef)
             )
             
             times.append((time.time() - start_time) * 1000)
         
-        results[ef] = {
+        results[hnsw_ef] = {
             "avg_time": np.mean(times),
             "min_time": np.min(times),
             "max_time": np.max(times)
@@ -201,7 +201,8 @@ def test_filtering_performance(collection_name):
         field_schema="integer"
     )
 
-    # Rebuild HNSW to attach filter data structures. (Not advised for production)
+    # Rebuild HNSW to attach filter data structures. 
+    # Note: This is not advised for production. Better create payload index before uploading any data to avoid rebuild.
     suffix = collection_name.replace("my_domain_", "")
     config = next((c for c in configs if c["name"] == suffix), None)
 
@@ -249,7 +250,7 @@ print("\n1) Upload Performance:")
 for config_name, time_taken in upload_times.items():
     print(f"   {config_name}: {time_taken:.2f}s")
 
-print("\n2) Search Performance (ef=128):")
+print("\n2) Search Performance (hnsw_ef=128):")
 for config_name, results in performance_results.items():
     if 128 in results:
         print(f"   {config_name}: {results[128]['avg_time']:.2f}ms")
@@ -279,7 +280,7 @@ print(f"   Speedup: {filtering_results['speedup']:.1f}x")
 2) Search Performance:
 - m=16: X.Xms average, good for real-time applications
 - m=32: X.Xms average, higher accuracy on hard queries
-- ef: ef=X gave best speed/accuracy balance
+- hnsw_ef: hnsw_ef=X gave best speed/accuracy balance
 
 3) Filtering Impact:
 - Payload indexes gave XXx speedup
@@ -317,7 +318,7 @@ You'll know you've succeeded when:
 
 ## Optional Extensions
 
-### Advanced HNSW Tuning
+**Advanced HNSW Tuning**
 Test more granular parameters:
 
 ```python

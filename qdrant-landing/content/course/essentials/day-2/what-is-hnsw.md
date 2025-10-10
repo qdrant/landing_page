@@ -7,27 +7,34 @@ weight: 1
 
 # HNSW Indexing Fundamentals
 
-At this point, you've learned how vector search retrieves the most similar vectors to a query using distance metrics like cosine similarity, dot product, or Euclidean distance. But how exactly does this work under the hood?
+At this point, you've learned how vector search retrieves the nearest vectors to a query using cosine similarity, dot product, or Euclidean distance. How does this work at scale?
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+<div class="video">
+<iframe 
+  src="https://www.youtube.com/embed/-q-pLgGDYr4?si=Ln0WYymciqPxQKJl"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
 
-## The Vector Search Challenge
+## Why Vector Search Needs Indexing
+### The Vector Search Challenge
 
-You might wonder if Qdrant calculates the distance to every single vector in your collection for each query. This method, known as brute force search, technically works, but it has a major drawback: efficiency.
+You might wonder if Qdrant calculates the distance to every single vector in your collection for each query. This method, known as brute force search, technically works but with millions or billions of vectors this is too slow per query.
 
-If your collection contains millions or even billions of vectors, performing a single retrieval would mean calculating distances millions or billions of times. This makes brute force search impractical for large-scale vector search.
+Fortunately, Qdrant speeds things up with **[HNSW — Hierarchical Navigable Small World](https://qdrant.tech/articles/filtrable-hnsw/)**.
 
-Fortunately, Qdrant takes a smarter approach using an efficient method called **[HNSW - Hierarchical Navigable Small World](https://qdrant.tech/articles/filtrable-hnsw/)**.
-
-## The Library Analogy
+### The Library Analogy
 
 To understand HNSW, imagine walking into a library with millions of books, looking for a specific book based on a brief description of the content. If the books were all piled up randomly, you'd have to check every book individually to find the one that matches your description best - that's brute force. While it would eventually work, it would take forever.
 
 But libraries aren't organized like that. They're structured to naturally guide you to the right section. You walk into a library and at the top level, you choose whether your book is in the fiction or nonfiction section. Then, you narrow it down by genre - history, science, or biography. After that, you move to more specific subcategories or alphabetical order until you reach the exact shelf where your book is located.
 
-<img src="/courses/day2/library-hierarchy.png" alt="Library organization hierarchy" width="600">
-
 ## How HNSW Works
+
+### Graph Structure
 
 HNSW works similarly by building a multi-layered graph where each vector is a node. The idea is that the graph has a hierarchical structure, where the top layer contains a smaller number of nodes that are broadly connected, and each lower layer has more nodes with increasingly specific connections.
 
@@ -37,144 +44,126 @@ HNSW works similarly by building a multi-layered graph where each vector is a no
 
 When a query is performed, HNSW starts from an entry point at the top layer and navigates down through the graph, progressively moving from broader to more precise connections. At each layer, the algorithm explores the nearest neighbors of the current node to determine the best path forward. It continues this process, refining the search as it descends through the layers, until it reaches the lowest level, where it selects the final nearest neighbors.
 
-This way, Qdrant avoids brute force and efficiently narrows down the search space, making large-scale vector search fast and practical.
+This way, Qdrant avoids brute force and quickly narrows down the search space on large datasets.
 
-### Real-World Example
+## Configuring HNSW
 
-Imagine your query is the embedding of "striped blue shirt made of cotton." The search begins at the entry point in the top layer of the graph. At this level, vectors are loosely grouped by broad categories like clothing or accessories.
+We can fine-tune how our HNSW graph is built to balance search speed, accuracy, memory usage, and indexing time, depending on our use case needs. Qdrant allows you to control how the HNSW index behaves with three key parameters: `m`, `hnsw_ef`, and `ef_construct`.
 
-The algorithm searches for a neighbor that's closer to the query vector than the current node using your chosen distance metric. If it finds one, it moves to that neighbor and repeats the process. Once the current node is the best candidate at that layer, the algorithm descends to the next layer.
+### Graph Connectivity: `m`
 
-Each time the search becomes more refined, narrowing down to "shirts" first, then further by characteristics like "blue" and "striped." At the deepest layer, it hones in on the most precise match: a cotton maritime shirt.
+The `m` parameter controls the maximum number of connections per node in the graph.
 
-<img src="/courses/day2/hnsw-search-process.png" alt="HNSW search refinement process" width="700">
-
-## Tuning HNSW for Search Efficiency
-
-We can fine-tune how our HNSW graph is built to balance search speed, accuracy, memory usage, and indexing time, depending on our use case needs. Qdrant allows you to control how the HNSW index behaves with three key parameters: `m`, `ef`, and `ef_construct`.
-
-### The m Parameter: Structuring the Graph
-
-The `m` parameter controls the maximum number of connections per node in the graph. Think of it as deciding how many paths each vector should maintain to its neighbors.
-
-**Increasing m** results in a denser graph where each vector is connected to more neighbors, which improves search accuracy because the graph has more pathways to traverse, making it less likely to miss relevant vectors. However, this also increases memory usage and indexing time since more connections must be maintained.
-
-**Decreasing m** makes the graph sparser, reducing memory and speeding up insertion. However, search may become less accurate since fewer paths are available for traversal.
+- Higher `m`: results in a denser graph where each vector is connected to more neighbors, which improves search accuracy because the graph has more pathways to traverse, making it less likely to miss relevant vectors. However, this also increases memory usage and indexing time since more connections must be maintained.
+- Lower `m`: makes the graph sparser, reducing memory and speeding up insertion. However, search may become less accurate since fewer paths are available for traversal.
+- Typical values: between 8 and 64
 
 ```python
 from qdrant_client.models import HnswConfig
 
-# Different m values for different needs
-fast_config = HnswConfig(m=8)      # Faster build, less memory, lower recall
+# Example m values
+fast_config = HnswConfig(m=8)      # Lower recall, less memory, faster build
 balanced_config = HnswConfig(m=16) # Default - good balance
 accurate_config = HnswConfig(m=32) # Better recall, more memory, slower build
 ```
 
-In practice, `m` usually ranges between 8 and 64. Choosing the right value is a trade-off between accuracy and memory efficiency.
+### Build Thoroughness: `ef_construct`
 
-### The ef_construct Parameter: Building the Graph
+The `ef_construct` parameter controls how many candidates are checked while inserting a new vector.
 
-When adding a new vector to the HNSW index, the goal is to integrate it efficiently while preserving the graph's structure and performance. The `ef_construct` parameter determines how thoroughly the graph is built when adding a new vector by controlling the number of nearest neighbors considered during insertion.
+- Higher `ef_construct`: means more neighbors are evaluated, resulting in a more comprehensive and accurate graph. However, this also makes the indexing process slower and more computationally demanding.
+- Lower `ef_construct`: speeds up the insertion process, but the graph may end up with less optimal connections, which can impact search accuracy.
+- Common range: between 100 and 500. Complex data can require higher values to maintain reliable connections.
 
-**Higher ef_construct** means more neighbors are evaluated, resulting in a more comprehensive and accurate graph. However, this also makes the indexing process slower and more computationally demanding.
-
-**Lower ef_construct** speeds up the insertion process, but the graph may end up with less optimal connections, which can impact search accuracy.
 
 ```python
-# ef_construct examples
-fast_build = HnswConfig(ef_construct=100)  # Faster indexing, lower quality
-balanced_build = HnswConfig(ef_construct=200) # Default balance
-quality_build = HnswConfig(ef_construct=400)  # Slower indexing, higher quality
+# Example ef_construct values
+fast_build = HnswConfig(ef_construct=100)       # Faster indexing, lower quality
+balanced_build = HnswConfig(ef_construct=200)   # Default - good balance
+quality_build = HnswConfig(ef_construct=400)    # Slower indexing, higher quality
 ```
 
-Choosing the right `ef_construct` value balances indexing speed and graph quality. For most cases, values between 100 and 500 work well, but more complex data may need higher values to maintain reliable connections.
+### Search Thoroughness: `hnsw_ef`
 
-### The ef Parameter: Controlling Search Quality
+The `hnsw_ef` parameter determines the number of candidates evaluated during a search query.
 
-The `ef` parameter determines the number of candidate neighbors evaluated during a search query.
-
-**Higher ef values** lead to more accurate search results since the algorithm explores a larger neighborhood. However, they also increase query time because more nodes are processed.
-
-**Lower ef values** speed up the search but may reduce accuracy since fewer candidate vectors are considered.
+- Higher `hnsw_ef`: lead to more accurate search results since the algorithm explores a larger neighborhood. However, they also increase query time because more nodes are processed.
+- Lower `hnsw_ef`: speed up the search but may reduce accuracy since fewer candidate vectors are considered.
+- Typical range: 50–200+ depending on latency targets.
 
 ```python
-# ef is set at search time, not build time
 from qdrant_client.models import SearchParams
 
-# Different ef values for different needs
-fast_search = SearchParams(hnsw_ef=32)   # Very fast, lower recall
-balanced_search = SearchParams(hnsw_ef=128) # Good balance
+# hnsw_ef is set at search time, not build time
+fast_search = SearchParams(hnsw_ef=32)      # Very fast, lower recall
+balanced_search = SearchParams(hnsw_ef=128) # Default - good balance
 accurate_search = SearchParams(hnsw_ef=256) # Higher recall, slower
 ```
 
-The ideal `ef` value typically ranges from 50 to 200, depending on your use case and how much accuracy you're willing to trade for speed.
+### Parameter Summary
 
-## Parameter Summary
+| Parameter        | Purpose                      | Effect                                           |
+| ---------------- | ---------------------------- | ------------------------------------------------ |
+| **m**            | Links per node               | Up improves recall; uses more RAM and build time |
+| **ef_construct** | Candidates checked on insert | Up improves graph quality; slows indexing        |
+| **hnsw_ef**      | Candidates checked on search | Up improves recall; slows queries                |
 
-| Parameter | Description | Effect on Performance |
-|-----------|-------------|----------------------|
-| **m** | Number of connections per node | Higher m improves accuracy but increases memory usage |
-| **ef_construct** | Number of neighbors considered during index build | Higher ef_construct results in better recall but longer indexing times |
-| **ef** | Number of candidates explored during search | Higher ef improves accuracy at the cost of slower query times |
+## Choosing Settings
+### Optimizing for Different Workloads
 
-## Optimizing for Different Workloads
+- **High-speed retrieval:** lower `m` and `hnsw_ef`; set `ef_construct` just high enough for acceptable recall.
+- **Maximum recall:** raise `m`, `hnsw_ef`, and `ef_construct` and accept slower queries and builds.
+- **Tight RAM:** reduce `m`; keep `ef_construct` high enough to avoid poor links.
 
-**For high-speed retrieval:** Lower `m` and `ef`, with `ef_construct` optimized for acceptable recall.
+### Memory & Indexing Behavior
 
-**For maximum accuracy:** Increase `m` and `ef`, accepting slower query speeds.
+Some vectors can remain unindexed depending on optimizer settings e.g. when the unindexed part stays below the `indexing_threshold` (kB).
 
-**For memory-constrained systems:** Reduce `m` while balancing `ef_construct` to avoid excessive memory consumption.
+Small collections or low-dimensional vectors may not trigger HNSW indexing at all. In such cases, full-scan search (brute force) is used instead until indexing becomes beneficial
 
-## Memory & Indexing Behavior
+### Inspecting Performance and Index Use
 
-Qdrant optimizes memory by storing only indexed vectors in the HNSW graph. Some collections may contain vectors that are not yet indexed due to optimizer settings:
+Use [`get_collection`](/api-reference/collections/get-collection) to inspect your collection. It returns Current statistics and configuration of the collection like `points_count`, `indexed_vectors_count` or `hnsw_config`. It also lists `payload_schema` for payload indexes you created.
 
-- `indexed_vectors_count < vectors_count` is expected behavior if non-indexed vectors don't exceed the `indexing_threshold` (in kB)
-- Small collections or low-dimensional vectors may not trigger HNSW indexing at all
-- In such cases, full-scan search (brute force) is used instead until indexing becomes beneficial
+To see whether your data is actually indexed check vector and point counts: if `indexed_vectors_count` is far below `points_count * vectors_per_point`, a large part of your data is not in HNSW yet.
 
-## Inspecting Performance and Index Use
+If queries feel slow check:
+- whether filter fields have [payload indexes](/documentation/concepts/indexing/#payload-index).
+- if payload indexes have been set before building HNSW graph with setting `m>0`
+- if the payload indexes have been set before building the HNSW graph (HNSW graph building begins when you switch from `m = 0` to `m > 0`)
+- if `hnsw_config.full_scan_threshold` is too high.
 
-To see whether your data is actually indexed, use `get_collection`. This returns fields like `vectors_count`, `indexed_vectors_count`, and your current HNSW config. It also lists any payload indexes you created.
-
-If your queries feel slow, check whether the fields you're filtering on have indexes and confirm that filter cardinality isn't forcing an unintended brute force approach.
 
 ```python
 # Inspect collection status
 info = client.get_collection("products")
-print(f"Total vectors: {info.vectors_count}")
+
+vectors_per_point = 1 # set per your vectors_config
+vectors_count = info.points_count * vectors_per_point
+
+print(f"Total vectors: {vectors_count}")
 print(f"Indexed vectors: {info.indexed_vectors_count}")
 print(f"HNSW config: {info.config.hnsw_config}")
 
-# Check if indexing is complete
-if info.indexed_vectors_count < info.vectors_count:
-    print("Some vectors are not yet indexed - this is normal for recent uploads")
+if vectors_count:
+    proportion_unindexed = 1 - (info.indexed_vectors_count / vectors_count)
+else:
+    proportion_unindexed = 0
+
+print(f"Proportion unindexed: {proportion_unindexed:.2%}")
 ```
 
-## HNSW in Action: Why It's Fast & Scalable
+## HNSW in Action
+### Why It Is Fast and Scalable
 
-### Logarithmic Search Scaling
-Unlike brute force search (O(N)), HNSW achieves approximately O(log N) time complexity. This makes million-scale datasets searchable in milliseconds rather than minutes.
+- **Sublinear Search Scaling**: Unlike O(N) brute force search, HNSW search grows roughly logarithmically with the number of vectors. This makes million-scale datasets searchable in milliseconds rather than minutes.
 
-### Filter-Compatible
-Qdrant extends HNSW with filter-aware indexing (Filterable HNSW), allowing fast searches with structured conditions. This eliminates the need for costly full scans when filtering by metadata.
+- **Filter‑Aware**: Qdrant extends HNSW with filter-aware indexing (Filterable HNSW), allowing fast searches under structured conditions. This avoids costly full scans when filtering by metadata.
 
-### Efficient for Large-Scale Applications
-- Supports real-time updates while maintaining high recall
-- Ideal for semantic search, recommendation systems, and image retrieval
-- Scales efficiently from thousands to billions of vectors
-
-## Collection Design Best Practices
-
-### How Many Collections Should You Create?
-
-In most cases, you should use a single collection per domain. Creating multiple collections can significantly increase memory usage and operational complexity, as each collection maintains its own independent vector index and payload structures.
-
-**Multiple collections are justified only if:**
-- Your datasets use significantly different vector dimensions or distance metrics
-- You need strong isolation between datasets due to distinct usage scenarios or security requirements
-
-Otherwise, consolidating data into one collection simplifies operations and reduces overhead.
+- **Large-Scale Use**:
+  - Supports real-time updates while maintaining high recall
+  - Fits semantic search and recommendation systems
+  - Scales from thousands to billions of vectors
 
 ### Practical Configuration Examples
 
@@ -183,89 +172,96 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="https://your-cluster.cloud.qdrant.io", api_key="your-key")
 
-# Production-ready configuration
+# Production configuration
 client.create_collection(
     collection_name="production_vectors",
     vectors_config=models.VectorParams(
         size=768,
         distance=models.Distance.COSINE,
         hnsw_config=models.HnswConfig(
-            m=16,                    # Balanced connections
-            ef_construct=200,        # Good build quality
-            full_scan_threshold=10000 # Use brute force below this size
+            m=16,                       # Balanced connections (default)
+            ef_construct=200,           # Good build quality (default)
+            full_scan_threshold=10000   # Use brute force below this size (default)
         )
     )
 )
 
-# Development/testing configuration (faster builds)
+# Development / testing: faster builds
 client.create_collection(
     collection_name="dev_vectors", 
     vectors_config=models.VectorParams(
         size=384,
         distance=models.Distance.COSINE,
         hnsw_config=models.HnswConfig(
-            m=8,           # Fewer connections for speed
-            ef_construct=100 # Faster builds
+            m=8,                # Fewer connections
+            ef_construct=100    # Faster builds
         )
     )
 )
 ```
 
-## Performance Benchmarking
+### Performance Benchmarking
+
+This is a simple local benchmark, intended as a toy example, since this approach does not take into account other factors, such as network speed.
 
 ```python
 import time
+from qdrant_client import models
 
 def benchmark_search_performance(collection_name, test_queries, ef_values):
-    """Benchmark search performance across different ef values"""
-    
+    """Compare latency across hnsw_ef values"""
+
     results = {}
-    
-    for ef in ef_values:
+    for hnsw_ef in ef_values:
         start_time = time.time()
-        
         for query in test_queries:
             client.query_points(
                 collection_name=collection_name,
                 query=query,
                 limit=10,
-                search_params=models.SearchParams(hnsw_ef=ef)
+                search_params=models.SearchParams(hnsw_ef=hnsw_ef)
             )
         
         avg_time = (time.time() - start_time) / len(test_queries)
-        results[ef] = avg_time
-        print(f"ef={ef}: {avg_time:.3f}s per query")
+        results[hnsw_ef] = avg_time
+        print(f"hnsw_ef={hnsw_ef}: {avg_time:.3f}s per query")
     
     return results
 
-# Test different ef values
+# Test different hnsw_ef values
 ef_values = [32, 64, 128, 256]
 performance = benchmark_search_performance("my_collection", test_queries, ef_values)
 ```
 
-## When NOT to Use HNSW
+## When Not to Use HNSW
 
 ### Small Collections
-For collections with fewer than 10,000 vectors, brute force search is often faster and uses less memory than building an HNSW index.
+For collections with fewer than 10,000 vectors, brute force is often faster and uses less RAM than building HNSW.
 
 ### Exact Search Requirements
-HNSW is an approximate algorithm. If you need exactly perfect results every time, brute force search guarantees complete accuracy.
+HNSW is approximate. If you need exact results, use brute force.
 
 ### Extreme Memory Constraints
-HNSW uses additional memory proportional to `M × vector_count`. For very tight memory budgets, consider alternatives or reduce the `m` parameter.
+
+For very tight RAM budgets consider these solutions:
+- **Lower `m`**: HNSW uses additional memory proportional to `m × vectors_count`. 
+- **Vector quantization (VQ):** 
+  - Scalar quantization (SQ) often cuts RAM ~4×
+  - Binary quantization (BQ) compresses to 1‑bit per dimension and can cut RAM by large factors.
+- **On Disk Storage**: Set `on_disk=true` for vectors and the HNSW index to use mmap files where only the most frequently accessed vectors are cached in RAM.
+- **Disable HNSW for Reranking Embeddings:** Useful since reranking vectors such as multi‑vectors are large.
 
 ## Key Takeaways
 
-1. **HNSW transforms O(N) brute force into O(log N) graph navigation**
-2. **The `m` parameter controls graph density** - more connections improve accuracy but use more memory
-3. **`ef_construct` affects build quality** - higher values create better graphs but take longer to build
-4. **`ef` controls search thoroughness** - tune at query time for the speed/accuracy trade-off you need
-5. **Monitor `indexed_vectors_count`** to ensure your data is actually using HNSW indexing
-6. **Use single collections when possible** to reduce operational complexity
+1. **HNSW**: reduces O(N) scans to roughly O(log N) graph search
+2. **`m`**: controls graph density - more connections improve accuracy but use more memory
+3. **`ef_construct`**: affects graph quality - higher values create more granular graphs but take longer to build
+4. **`hnsw_ef`**: controls search thoroughness - tune at query time for the speed/accuracy trade-off you need
+5. **`indexed_vectors_count`**: track to confirm HNSW indexing
 
 ## What's Next
 
-Now you understand how HNSW makes vector search fast and scalable. Next, we'll learn how to combine this speed with complex filtering using Qdrant's Filterable HNSW approach.
+Now you understand how HNSW makes vector search fast and scalable. Next we'll combine fast search with complex filters using Qdrant’s filter‑aware HNSW.
 
 Ready to see how HNSW handles real-world filtering scenarios? Let's continue!
 
