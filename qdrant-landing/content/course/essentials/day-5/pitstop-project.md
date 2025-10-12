@@ -371,7 +371,7 @@ You'll know you've succeeded when:
 
 <input type="checkbox"> The collection has dense, sparse, and ColBERT vectors
 <input type="checkbox"> One call runs multi-stage search
-<input type="checkbox"> RRF fusion improves recall mix
+<input type="checkbox"> RRF fusion improves retrieval mix
 <input type="checkbox"> ColBERT reranking improves relevance
 <input type="checkbox"> Early and late business filters both work
 <input type="checkbox"> The service returns personalized results

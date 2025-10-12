@@ -17,7 +17,7 @@ In this hands-on demo, we'll build a research paper discovery system using the a
 
 Imagine you're a machine learning researcher looking for "transformer architectures for multimodal learning with attention mechanisms." You need to:
 
-1. **Recall broadly** using semantic understanding of research concepts (dense vectors)
+1. **Retrieve broadly** using semantic understanding of research concepts (dense vectors)
 2. **Match precisely** on technical terms like "transformer" and "attention" (sparse vectors) 
 3. **Rerank intelligently** using fine-grained text understanding (ColBERT)
 4. **Apply research filters** like publication date, citation count, and research domain
@@ -121,9 +121,9 @@ research_query_colbert = [
 response = client.query_points(
     collection_name=collection_name,
     
-    # Stage 1: Parallel Recall with Early Filtering
+    # Stage 1: Parallel Retrieval with Early Filtering
     prefetch=[
-        # Dense recall: semantic understanding with domain filtering
+        # Dense retrieval: semantic understanding with domain filtering
         models.Prefetch(
             query=research_query_dense,
             using="dense",
@@ -141,7 +141,7 @@ response = client.query_points(
                 ]
             )
         ),
-        # Sparse recall: exact technical term matching
+        # Sparse retrieval: exact technical term matching
         models.Prefetch(
             query=research_query_sparse,
             using="sparse", 
@@ -200,7 +200,7 @@ for i, hit in enumerate(response.points or [], 1):
 
 Let's break down this single query's execution:
 
-### Stage 1: Parallel Recall (200 candidates total)
+### Stage 1: Parallel Retrieval (200 candidates total)
 - **Dense search**: Found 100 semantically similar papers in ML/CV/NLP domains that are open access
 - **Sparse search**: Found 100 papers matching exact technical terms like "transformer," "multimodal," "attention"
 - Both searches ran **concurrently** for maximum speed

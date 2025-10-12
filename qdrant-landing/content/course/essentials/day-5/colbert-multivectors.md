@@ -50,7 +50,7 @@ client = QdrantClient(
 client.create_collection(
     collection_name="my_colbert_collection",
     vectors_config={
-        # 1. A dense vector for fast initial recall (HNSW indexed by default)
+        # 1. A dense vector for fast initial retrieval (HNSW indexed by default)
         "bge-dense": models.VectorParams(
             size=384,
             distance=models.Distance.COSINE
