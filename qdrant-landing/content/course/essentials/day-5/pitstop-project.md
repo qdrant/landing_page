@@ -7,21 +7,21 @@ weight: 4
 
 # Project: Building a Recommendation System
 
-Bring together dense, sparse, and multivectors in one atomic Universal Query. You'll recall candidates, fuse signals, rerank with ColBERT, and apply business filters - in a single request.
+Bring together dense, sparse, and multivectors in one atomic Universal Query. You'll retrieve candidates, fuse signals, rerank with ColBERT, and apply business filters - in a single request.
 
 ## Your Mission
 
-Build a complete recommendation system that demonstrates the full power of Qdrant's Universal Query API by combining multiple vector types and advanced search techniques in a single, optimized request.
+Build a complete recommendation system using Qdrant’s Universal Query API with dense, sparse, and ColBERT multivectors in one request.
 
 **Estimated Time:** 90 minutes
 
 ## What You'll Build
 
-A hybrid recommendation system that demonstrates:
+A hybrid recommendation system using:
 
 - **Multi-vector architecture** with dense, sparse, and ColBERT vectors
-- **Universal Query API** for atomic multi-stage search operations
-- **Intelligent fusion** using Reciprocal Rank Fusion (RRF)
+- **Universal Query API** for atomic multi-stage search
+- **RRF fusion (RRF)** for combining candidates
 - **ColBERT reranking** for fine-grained relevance scoring
 - **Business rule filtering** at multiple pipeline stages
 - **Production-ready patterns** for recommendation systems
@@ -32,7 +32,7 @@ A hybrid recommendation system that demonstrates:
 
 ```python
 from qdrant_client import QdrantClient, models
-from datetime import datetime, timedelta
+from datetime import datetime
 
 client = QdrantClient(
     url="https://your-cluster-url.cloud.qdrant.io",
@@ -53,14 +53,46 @@ client.create_collection(
             multivector_config=models.MultiVectorConfig(
                 comparator=models.MultiVectorComparator.MAX_SIM
             ),
-            hnsw_config=models.HnswConfigDiff(m=0),  # used only for reranking
+            hnsw_config=models.HnswConfigDiff(
+                m=0
+            ),  # Disable HNSW, used only for reranking
         ),
     },
     sparse_vectors_config={
-        "sparse": models.SparseVectorParams(index=models.SparseIndexParams(on_disk=False))
+        "sparse": models.SparseVectorParams(
+            index=models.SparseIndexParams(on_disk=False)
+        )
     },
 )
+
+client.create_payload_index(
+    collection_name=collection_name,
+    field_name="category",
+    field_schema="keyword",
+)
+client.create_payload_index(
+    collection_name=collection_name,
+    field_name="user_segment",
+    field_schema="keyword",
+)
+client.create_payload_index(
+    collection_name=collection_name,
+    field_name="release_date",
+    field_schema="datetime",
+)
+client.create_payload_index(
+    collection_name=collection_name,
+    field_name="popularity_score",
+    field_schema="float",
+)
+client.create_payload_index(
+    collection_name=collection_name,
+    field_name="rating",
+    field_schema="float",
+)
 ```
+
+Why this setup: multivectors with `MAX_SIM` for ColBERT, m=0 since it reranks only, and IDF for sparse.
 
 ### Step 2: Prepare and upload recommendation data
 
@@ -76,171 +108,253 @@ sample_data = [
         "rating": 8.7,
         "user_segment": "premium",
         "popularity_score": 0.9,
-        "release_date": "1999-03-31T00:00:00Z"
+        "release_date": "1999-03-31T00:00:00Z",
     },
     # Add more sample data...
 ]
 
+texts = [it["description"] for it in sample_data]
+
+from fastembed import TextEmbedding, SparseTextEmbedding, LateInteractionTextEmbedding
+
+# Models
+DENSE_MODEL_ID = "sentence-transformers/all-MiniLM-L6-v2"  # 384-dim
+SPARSE_MODEL_ID = "prithivida/Splade_PP_en_v1"  # SPLADE sparse
+COLBERT_MODEL_ID = "colbert-ir/colbertv2.0"  # 128-dim multivector
+
+dense_model = TextEmbedding(DENSE_MODEL_ID)
+sparse_model = SparseTextEmbedding(SPARSE_MODEL_ID)
+colbert_model = LateInteractionTextEmbedding(COLBERT_MODEL_ID)
+
+dense_embeds = list(
+    dense_model.embed(texts, parallel=0)
+)  # list[np.ndarray] shape (384,)
+sparse_embeds = list(
+    sparse_model.embed(texts, parallel=0)
+)  # list[SparseEmbedding] with .indices/.values
+colbert_multivectors = list(
+    colbert_model.embed(texts, parallel=0)
+)  # list[np.ndarray] shape (tokens, 128)
+
+
 # Generate vectors for each item
 points = []
 for i, item in enumerate(sample_data):
-    # Create dense vector (semantic understanding)
-    dense_vector = encoder.encode(item["description"]).tolist()
-    
     # Create sparse vector (keyword matching)
-    sparse_vector = create_sparse_vector(item["description"])
-    
+    sparse_vector = sparse_embeds[i].as_object()
+
+    # Create dense vector (semantic understanding)
+    dense_vector = dense_embeds[i]
+
     # Create ColBERT multivector (token-level understanding)
-    colbert_vector = create_colbert_multivector(item["description"])
-    
-    points.append(models.PointStruct(
-        id=i,
-        vector={
-            "dense": dense_vector,
-            "colbert": colbert_vector
-        },
-        sparse_vector={"sparse": sparse_vector},
-        payload=item
-    ))
+    colbert_vector = colbert_multivectors[i]
+
+    points.append(
+        models.PointStruct(
+            id=i,
+            vector={
+                "dense": dense_vector,
+                "colbert": colbert_vector,
+                "sparse": sparse_vector,
+            },
+            payload=item,
+        )
+    )
 
 client.upload_points(collection_name=collection_name, points=points)
 print(f"Uploaded {len(points)} recommendation items")
 ```
 
-### Step 3: One Universal Query: recall → fuse → rerank → filter
+### Step 3: One Universal Query: retrieve → fuse → rerank → filter
 
 ```python
-# Example user signals
-user_dense_vector = [0.12] * 384
-user_sparse_vector = models.SparseVector(indices=[1, 42, 58], values=[0.8, 0.5, 0.9])
-query_multivector = [[0.1] * 128, [0.09] * 128, [0.13] * 128]
+from datetime import timedelta
+
+# Example user intent
+user_query = "premium user likes sci-fi action movies with strong hacker themes"
+
+user_dense_vector = next(dense_model.query_embed(user_query))
+user_sparse_vector = next(sparse_model.query_embed(user_query)).as_object()
+user_multivector = next(colbert_model.query_embed(user_query))  # list of token vectors
+
+# Filters
+must_early_filter = models.Filter(
+    must=[
+        models.FieldCondition(key="category", match=models.MatchValue(value="movie")),
+        models.FieldCondition(
+            key="user_segment", match=models.MatchValue(value="premium")
+        ),
+    ]
+)
+
+must_late_filter = models.Filter(
+    must=[
+        models.FieldCondition(
+            key="release_date",
+            range=models.DatetimeRange(
+                gte=(datetime.now() - timedelta(days=365 * 30)).isoformat()
+            ),
+        ),
+        models.FieldCondition(key="popularity_score", range=models.Range(gte=0.7)),
+    ]
+)
+
+# Prefetch queries
+hybrid_query = [
+    models.Prefetch(query=user_dense_vector, using="dense", limit=100),
+    models.Prefetch(query=user_sparse_vector, using="sparse", limit=100),
+]
+
+fusion_query = models.Prefetch(
+    prefetch=hybrid_query,
+    query=models.FusionQuery(fusion=models.Fusion.RRF),
+    filter=must_early_filter,
+    limit=100,
+)
 
 response = client.query_points(
     collection_name=collection_name,
-    prefetch=[
-        models.Prefetch(
-            query=user_dense_vector,
-            using="dense",
-            limit=100,
-            filter=models.Filter(
-                must=[
-                    models.FieldCondition(key="category", match=models.MatchValue(value="movie")),
-                    models.FieldCondition(key="user_segment", match=models.MatchValue(value="premium")),
-                ]
-            ),
-        ),
-        models.Prefetch(query=user_sparse_vector, using="sparse", limit=100),
-    ],
-    query=models.FusionQuery(
-        fusion=models.Fusion.RRF,
-        query=models.NamedVector(name="colbert", vector=query_multivector),
-    ),
-    filter=models.Filter(
-        must=[
-            models.FieldCondition(
-                key="release_date",
-                range=models.DatetimeRange(gte=(datetime.now() - timedelta(days=365)).isoformat()),
-            ),
-            models.FieldCondition(key="popularity_score", range=models.Range(gte=0.7)),
-        ]
-    ),
+    prefetch=fusion_query,
+    query=user_multivector,
+    using="colbert",
+    query_filter=must_late_filter,
     limit=10,
     with_payload=True,
 )
 
-for hit in (response.points or []):
+for hit in response.points or []:
     print(hit.payload)
 ```
+
+Why this works: Fusion happens inside `Prefetch` with `RRF`, then ColBERT reranks with multivectors in the main `query`. All in one call.
+
 
 ### Step 4: Build a recommendation service
 
 ```python
-def get_recommendations(user_profile, preferences=None, limit=10):
+def get_recommendations(user_profile, user_preference=None, limit=10):
     """
     Get personalized recommendations using Universal Query API
-    
+
     Args:
-        user_profile: Dict with user preferences and history
-        preferences: Optional filters for category, genre, etc.
-        limit: Number of recommendations to return
+        user_profile: {
+            "liked_titles": list[str],      # optional
+            "preferred_genres": list[str],  # e.g. ["sci-fi","action"]
+            "segment": str,                 # e.g. "premium"
+            "query": str                    # free-text intent, e.g. "smart sci-fi with hacker vibe"
+        }
+        user_preference: {
+            "category": str | None,         # e.g. "movie"
+            "min_rating": float | None,     # e.g. 8.0
+            "released_within_days": int | None  # e.g. 365
+        }
+        limit: top-k to return
     """
-    
-    # Generate user vectors based on profile
-    user_dense = generate_user_dense_vector(user_profile)
-    user_sparse = generate_user_sparse_vector(user_profile)
-    user_colbert = generate_user_colbert_vector(user_profile)
-    
+
+    # Build a compact free-text query from profile
+    user_dense_vector = next(dense_model.query_embed(user_profile["query"]))
+    user_sparse_vector = next(
+        sparse_model.query_embed(user_profile["query"])
+    ).as_object()
+    user_multivector = next(colbert_model.query_embed(user_profile["query"]))
+
     # Build dynamic filters
-    must_conditions = []
-    if preferences:
-        if preferences.get("category"):
-            must_conditions.append(
-                models.FieldCondition(
-                    key="category", 
-                    match=models.MatchValue(value=preferences["category"])
-                )
+    must_early = []
+    if user_profile.get("segment"):
+        must_early.append(
+            models.FieldCondition(
+                key="user_segment",
+                match=models.MatchValue(value=user_profile["segment"]),
             )
-        if preferences.get("min_rating"):
-            must_conditions.append(
-                models.FieldCondition(
-                    key="rating",
-                    range=models.Range(gte=preferences["min_rating"])
-                )
+        )
+    if user_preference and user_preference.get("category"):
+        must_early.append(
+            models.FieldCondition(
+                key="category",
+                match=models.MatchValue(value=user_preference["category"]),
             )
-    
+        )
+    must_early_filter = models.Filter(must=must_early)
+
+    must_late = []
+    if user_preference and user_preference.get("min_rating") is not None:
+        must_late.append(
+            models.FieldCondition(
+                key="rating", range=models.Range(gte=user_preference["min_rating"])
+            )
+        )
+    if user_preference and user_preference.get("released_within_days"):
+        from datetime import datetime, timedelta
+
+        days = int(user_preference["released_within_days"])
+        must_late.append(
+            models.FieldCondition(
+                key="release_date",
+                range=models.DatetimeRange(
+                    gte=(datetime.utcnow() - timedelta(days=days)).isoformat()
+                ),
+            )
+        )
+    must_late_filter = models.Filter(must=must_late)
+
+    # Prefetch queries
+    hybrid_query = [
+        models.Prefetch(query=user_dense_vector, using="dense", limit=100),
+        models.Prefetch(query=user_sparse_vector, using="sparse", limit=100),
+    ]
+
+    fusion_query = models.Prefetch(
+        prefetch=hybrid_query,
+        query=models.FusionQuery(fusion=models.Fusion.RRF),
+        filter=must_early_filter,
+        limit=100,
+    )
+
     # Universal query with all stages
     response = client.query_points(
         collection_name=collection_name,
-        prefetch=[
-            models.Prefetch(
-                query=user_dense,
-                using="dense",
-                limit=100,
-                filter=models.Filter(must=must_conditions) if must_conditions else None
-            ),
-            models.Prefetch(
-                query=user_sparse,
-                using="sparse",
-                limit=100
-            ),
-        ],
-        query=models.FusionQuery(
-            fusion=models.Fusion.RRF,
-            query=models.NamedVector(name="colbert", vector=user_colbert),
-        ),
-        filter=models.Filter(
-            must=[
-                models.FieldCondition(
-                    key="popularity_score",
-                    range=models.Range(gte=0.6)
-                )
-            ]
-        ),
+        prefetch=fusion_query,
+        query=user_multivector,
+        using="colbert",
+        query_filter=must_late_filter,
         limit=limit,
         with_payload=True,
     )
-    
+
     return [
         {
             "title": hit.payload["title"],
             "description": hit.payload["description"],
             "score": hit.score,
-            "metadata": {k: v for k, v in hit.payload.items() 
-                        if k not in ["title", "description"]}
+            "metadata": {
+                k: v
+                for k, v in hit.payload.items()
+                if k not in ["title", "description"]
+            },
         }
         for hit in (response.points or [])
     ]
+```
 
+Test:
+
+```python
 # Test the recommendation service
 user_profile = {
-    "viewed_movies": ["The Matrix", "Blade Runner"],
+    "liked_titles": ["The Matrix", "Blade Runner"],
     "preferred_genres": ["sci-fi", "action"],
-    "rating_threshold": 7.0
+    "segment": "premium",
+    "query": "highly rated cyberpunk movies",
 }
 
 recommendations = get_recommendations(
-    user_profile, 
-    preferences={"category": "movie", "min_rating": 8.0}
+    user_profile,
+    user_preference={
+        "category": "movie",
+        "min_rating": 8.0,
+        "released_within_days": 365 * 30,
+    },
+    limit=10,
 )
 
 for i, rec in enumerate(recommendations, 1):
@@ -249,18 +363,18 @@ for i, rec in enumerate(recommendations, 1):
 
 ## What Happened Under the Hood
 
-Qdrant recalled 100 candidates from dense and 100 from sparse in parallel, fused them with RRF, reranked with ColBERT's MaxSim over token‑level subvectors, applied final business filters, and returned the top 10 - all in one call.
+Qdrant retrieved 100 candidates from dense and 100 from sparse in parallel, fused them with RRF, reranked with ColBERT's MaxSim over token‑level subvectors, applied final business filters, and returned the top 10 - all in one call.
 
 ## Success Criteria
 
 You'll know you've succeeded when:
 
-<input type="checkbox"> Your collection contains dense, sparse, and ColBERT vectors  
-<input type="checkbox"> You can execute complex multi-stage searches in a single API call  
-<input type="checkbox"> RRF fusion effectively combines different vector types  
-<input type="checkbox"> ColBERT reranking improves result relevance  
-<input type="checkbox"> Business filters work at both early and late stages  
-<input type="checkbox"> Your recommendation service provides personalized, high-quality results
+<input type="checkbox"> The collection has dense, sparse, and ColBERT vectors
+<input type="checkbox"> One call runs multi-stage search
+<input type="checkbox"> RRF fusion improves recall mix
+<input type="checkbox"> ColBERT reranking improves relevance
+<input type="checkbox"> Early and late business filters both work
+<input type="checkbox"> The service returns personalized results
 
 ## Optional Extensions
 
@@ -270,123 +384,126 @@ Compare RRF with Distribution-Based Score Fusion:
 
 ```python
 # Test DBSF vs RRF
-dbsf_response = client.query_points(
+# Filters and other prefetch params same as above
+
+fusion_query = models.Prefetch(
+    prefetch=hybrid_query,
+    query=models.FusionQuery(fusion=models.Fusion.DBSF),
+    filter=must_early_filter,
+    limit=100,
+)
+
+response = client.query_points(
     collection_name=collection_name,
-    prefetch=[
-        models.Prefetch(query=user_dense_vector, using="dense", limit=100),
-        models.Prefetch(query=user_sparse_vector, using="sparse", limit=100),
-    ],
-    query=models.FusionQuery(
-        fusion=models.Fusion.DBSF,  # Try DBSF instead of RRF
-        query=models.NamedVector(name="colbert", vector=query_multivector),
-    ),
+    prefetch=fusion_query,
+    query=user_multivector,
+    using="colbert",
+    query_filter=must_late_filter,
     limit=10,
     with_payload=True,
 )
+
+for hit in response.points or []:
+    print(hit.payload)
 ```
 
 ### A/B Testing Framework
 
 ```python
-def ab_test_fusion_strategies(user_profiles, test_queries):
+def ab_test_fusion_strategies(user_profiles, user_preferences):
     """Compare RRF vs DBSF performance"""
-    
+
     results = {"RRF": [], "DBSF": []}
-    
-    for profile in user_profiles:
+
+    for user_profile, user_preference in zip(user_profiles, user_preferences):
         for fusion_type in [models.Fusion.RRF, models.Fusion.DBSF]:
             # Run recommendation query
+            user_dense_vector = next(dense_model.query_embed(user_profile["query"]))
+            user_sparse_vector = next(
+                sparse_model.query_embed(user_profile["query"])
+            ).as_object()
+            user_multivector = next(colbert_model.query_embed(user_profile["query"]))
+
+            # Build dynamic filters
+            must_early = []
+            if user_profile.get("segment"):
+                must_early.append(
+                    models.FieldCondition(
+                        key="user_segment",
+                        match=models.MatchValue(value=user_profile["segment"]),
+                    )
+                )
+            if user_preference and user_preference.get("category"):
+                must_early.append(
+                    models.FieldCondition(
+                        key="category",
+                        match=models.MatchValue(value=user_preference["category"]),
+                    )
+                )
+            must_early_filter = models.Filter(must=must_early)
+
+            must_late = []
+            if user_preference and user_preference.get("min_rating") is not None:
+                must_late.append(
+                    models.FieldCondition(
+                        key="rating", range=models.Range(gte=user_preference["min_rating"])
+                    )
+                )
+            if user_preference and user_preference.get("released_within_days"):
+                from datetime import datetime, timedelta
+
+                days = int(user_preference["released_within_days"])
+                must_late.append(
+                    models.FieldCondition(
+                        key="release_date",
+                        range=models.DatetimeRange(
+                            gte=(datetime.utcnow() - timedelta(days=days)).isoformat()
+                        ),
+                    )
+                )
+            must_late_filter = models.Filter(must=must_late)
+
+            # Prefetch queries
+            hybrid_query = [
+                models.Prefetch(query=user_dense_vector, using="dense", limit=100),
+                models.Prefetch(query=user_sparse_vector, using="sparse", limit=100),
+            ]
+
+            fusion_query = models.Prefetch(
+                prefetch=hybrid_query,
+                query=models.FusionQuery(fusion=fusion_type),
+                filter=must_early_filter,
+                limit=100,
+            )
+
             response = client.query_points(
                 collection_name=collection_name,
-                prefetch=[
-                    models.Prefetch(query=profile["dense"], using="dense", limit=100),
-                    models.Prefetch(query=profile["sparse"], using="sparse", limit=100),
-                ],
-                query=models.FusionQuery(
-                    fusion=fusion_type,
-                    query=models.NamedVector(name="colbert", vector=profile["colbert"]),
-                ),
-                limit=10
+                prefetch=fusion_query,
+                query=user_multivector,
+                using="colbert",
+                query_filter=must_late_filter,
+                limit=10,
+                with_payload=True,
             )
-            
+
             strategy_name = "RRF" if fusion_type == models.Fusion.RRF else "DBSF"
-            results[strategy_name].append({
-                "user_id": profile["user_id"],
-                "recommendations": [hit.id for hit in response.points],
-                "scores": [hit.score for hit in response.points]
-            })
-    
+            results[strategy_name].append(
+                {
+                    "user_id": user_profile["user_id"],
+                    "recommendations": [hit.id for hit in response.points],
+                    "scores": [hit.score for hit in response.points],
+                }
+            )
+
     return results
-```
-
-### Advanced Filtering
-
-```python
-# Complex business logic filtering
-def advanced_recommendation_query(user_context):
-    """Recommendation with sophisticated business rules"""
-    
-    return client.query_points(
-        collection_name=collection_name,
-        prefetch=[
-            # Geographic relevance
-            models.Prefetch(
-                query=user_context["location_vector"],
-                using="dense",
-                limit=50,
-                filter=models.Filter(
-                    must=[
-                        models.FieldCondition(
-                            key="available_regions",
-                            match=models.MatchAny(any=[user_context["region"]])
-                        )
-                    ]
-                )
-            ),
-            # Content-based filtering
-            models.Prefetch(
-                query=user_context["content_vector"],
-                using="sparse",
-                limit=50,
-                filter=models.Filter(
-                    must=[
-                        models.FieldCondition(
-                            key="content_rating",
-                            match=models.MatchAny(any=user_context["allowed_ratings"])
-                        )
-                    ]
-                )
-            ),
-        ],
-        query=models.FusionQuery(
-            fusion=models.Fusion.RRF,
-            query=models.NamedVector(name="colbert", vector=user_context["colbert_vector"]),
-        ),
-        filter=models.Filter(
-            must=[
-                # Time-based relevance
-                models.FieldCondition(
-                    key="trending_score",
-                    range=models.Range(gte=0.5)
-                ),
-                # Quality threshold
-                models.FieldCondition(
-                    key="quality_score",
-                    range=models.Range(gte=user_context["quality_threshold"])
-                )
-            ]
-        ),
-        limit=10,
-        with_payload=True
-    )
 ```
 
 ## Key Questions to Answer
 
-1. **How does the Universal Query API simplify your recommendation pipeline?**
-2. **Which fusion strategy (RRF vs DBSF) works better for your use case?**
-3. **How does ColBERT reranking affect recommendation quality?**
-4. **What's the performance impact of multi-stage filtering?**
+1. How does the Universal Query API simplify your recommendation pipeline?
+2. Which fusion strategy (RRF vs DBSF) works better for your use case?
+3. How does ColBERT reranking affect recommendation quality?
+4. What's the performance impact of multi-stage filtering?
 
 ## Next Steps
 
