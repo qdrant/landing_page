@@ -11,9 +11,9 @@ weight: 1
 
 <br/>
 
-Most embedding models represent data into a single vector. That works great for most cases. But when your documents get more complex, cover multiple topics, or require context sensitivity, that one-size-fits-all compression starts to break down. You lose granularity and semantic alignment.
+Many embedding models represent data as a single vector. Transformer-based encoders achieve this by pooling the per-token vector matrix from the final layer into a single vector. That works great for most cases. But when your documents get more complex, cover multiple topics, or require context sensitivity, that one-size-fits-all compression starts to break down. You lose granularity and semantic alignment (though chunking and learned pooling mitigate this to an extent).
 
-To solve this, modern retrieval systems use a technique called late interaction, which is the core idea behind models like ColBERT. Instead of comparing one query vector to one document vector, late interaction breaks the document down into its component parts, like tokens or phrases, and compares each part to the query.
+Late-interaction models such as ColBERT retain per-token document vectors. At search time, they identify the best matches by comparing all the query tokens with all the document tokens. While this preserves local matches, it increases the size of the index and the time taken to process queries, so many systems use single-vector retrieval for candidate selection and late interaction for re-ranking.
 
 ## Late Interaction: Token-Level Precision
 
