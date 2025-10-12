@@ -369,12 +369,12 @@ Qdrant retrieved 100 candidates from dense and 100 from sparse in parallel, fuse
 
 You'll know you've succeeded when:
 
-<input type="checkbox"> The collection has dense, sparse, and ColBERT vectors
-<input type="checkbox"> One call runs multi-stage search
-<input type="checkbox"> RRF fusion improves retrieval mix
-<input type="checkbox"> ColBERT reranking improves relevance
-<input type="checkbox"> Early and late business filters both work
-<input type="checkbox"> The service returns personalized results
+<input type="checkbox"> Your collection contains dense, sparse, and ColBERT vectors  
+<input type="checkbox"> You can execute complex multi-stage searches in a single API call  
+<input type="checkbox"> RRF fusion effectively combines different vector types  
+<input type="checkbox"> ColBERT reranking improves result relevance  
+<input type="checkbox"> Business filters work at both early and late stages  
+<input type="checkbox"> Your recommendation service provides personalized, high-quality results
 
 ## Optional Extensions
 

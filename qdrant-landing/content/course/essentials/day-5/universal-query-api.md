@@ -118,7 +118,7 @@ The Universal Query API enables complex search patterns through a simple declara
 
 **Prefetch Stage**: Execute multiple searches in parallel against different vector fields. Each prefetch can have its own filters, limits, and vector types (dense, sparse, multivector).
 **Fusion Stage**: Combine results from multiple prefetches using algorithms like Reciprocal Rank Fusion (RRF) or Distribution-Based Score Fusion (DBSF).
-**Reranking Stage**: Apply a final query (often a multivector) to rerank the fused candidates using more sophisticated scoring. # TODO: Multivector reranking is often used as an alternative to fusion, so saying we rerank fused candidates might be misleading.
+**Reranking Stage**: Or rerank candidates from a single prefetch with a stronger scorer such as ColBERT. Fusion and reranking are alternative final steps in most pipelines.
 **Final Filtering**: Apply business logic and constraints to the reranked results before returning the final set.
 
 This architecture eliminates the need for multiple API calls, client-side result merging, and complex orchestration code. Everything happens server-side in a single, optimized request.
