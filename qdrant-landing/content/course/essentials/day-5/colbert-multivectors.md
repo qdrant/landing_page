@@ -17,9 +17,11 @@ To solve this, modern retrieval systems use a technique called late interaction,
 
 ## Late Interaction: Token-Level Precision
 
-Qdrant implements this powerful technique through [multivector representations](/documentation/concepts/vectors/#multivectors). A multivector field holds an ordered list of subvectors, where each subvector captures a different piece of the document. At query time, Qdrant performs the late interaction scoring. It takes every query token embedding and compares it to each document subvector. It keeps only the highest score per query token and then sums those top scores. This mechanism, called MaxSim, delivers fine-grained relevance that respects the structure of your content.
+Qdrant implements this powerful technique through [multivector representations](/documentation/concepts/vectors/#multivectors). A multivector field holds an ordered list of subvectors, where each subvector captures a different token of the document. At query time, Qdrant performs the late interaction scoring. It takes every query token embedding and compares it to each document token embedding. It keeps only the highest score per query token and then sums those top scores. This mechanism, called MaxSim, delivers fine-grained relevance that respects the structure of your content.
 
-To enable this in Qdrant, you define two vector fields when creating your collection. One is a standard dense vector for fast candidate recall, and the other is your multivector field, which we'll name colbert to reflect the model we're using.
+$$ \text{MaxSim}_{\text{norm}}(Q, D) = \frac{1}{|Q|} \sum_{i=1}^{|Q|} \max_{j=1}^{|D|} \text{sim}(q_i, d_j) $$
+
+To enable this in Qdrant, you create a collection with a dense vector that has a multivector comparator provided. More typically, you define two vector fields when creating your collection. One is a standard dense vector for fast candidate retrieval, and the other is your multivector field, which we'll name colbert to reflect the model we're using.
 
 ## Collection Configuration: Dense + Multivector
 
@@ -54,9 +56,9 @@ client.create_collection(
 )
 ```
 
-By specifying MAX_SIM, you tell Qdrant to apply the late interaction scoring at query time. Disabling HNSW indexing with m=0 means these subvectors are stored but not indexed - exactly what you want for reranking over a small candidate set, avoiding RAM bloat and slow inserts.
+By specifying `MAX_SIM`, you tell Qdrant to apply the late interaction scoring at query time. Disabling HNSW indexing with m=0 means these subvectors are stored but not indexed - exactly what you want for reranking over a small candidate set, avoiding RAM bloat and slow inserts.
 
-In practice, you pair this multivector field with a dense, HNSW-indexed field. In one API call, you first recall candidates with the dense field, then rerank those hits with your colbert multivector. Qdrant's prefetch and query parameters make this seamless.
+In practice, you pair this multivector field with a dense, HNSW-indexed field. In one API call, you first retrieve candidates with the dense field, then rerank those hits with your ColBERT multivector. Qdrant's prefetch and query parameters make this seamless.
 
 ## Generating Token-Level Embeddings
 
@@ -82,4 +84,4 @@ The visual approach eliminates traditional OCR and layout detection steps, proce
 
 Index payloads that help display and evaluation: `page_title`, `section_title`, `url`, `anchor`, `path/breadcrumbs`, `tags`, and a trimmed `text` field for snippets. Keep anchors so you can evaluate at section level.
 
-With multivectors in your toolkit, you unlock high-precision retrieval for both text and structured documents. In the next video, we'll build on this foundation with the Universal Query API, showing how to combine dense, sparse, and multivector search, apply filters at each stage, and chain recall and rerank in a single request. 
+With multivectors in your toolkit, you unlock high-precision retrieval for both text and structured documents. In the next video, we'll build on this foundation with the Universal Query API, showing how to combine dense, sparse, and multivector search, apply filters at each stage, and chain retrieval and reranking in a single request. 
