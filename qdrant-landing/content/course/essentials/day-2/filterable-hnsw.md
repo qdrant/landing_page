@@ -23,7 +23,7 @@ We've talked about how Qdrant uses the [HNSW](documentation/concepts/indexing/#f
 
 Consider retrieving items from an online store collection where you only want to show laptops priced under $1,000. That price information, along with the category 'laptop', isn't part of the vector - it lives in the [payload](/documentation/concepts/payload/).
 
-<img src="/courses/day2/vector-search-ecommerce.png" alt="To help shoppers easily find products on your website, you need to have a user-friendly search engine." width="600">
+![To help shoppers easily find products on your website, you need to have a user-friendly search engine](/courses/day2/vector-search-ecommerce.png)
 
 When you apply a filter like `price < 1000`, you're essentially restricting which points are eligible during search. This introduces challenges for graph traversal because HNSW depends on both short- and long-range edges to efficiently explore the vector space. It requires any point in the graph to be reachable. But if filtering removes a large portion of those points, the search path can break. You risk missing relevant results - not because they weren't similar, but because they were unreachable under the filter.
 
@@ -47,7 +47,7 @@ Qdrant solves this with a smarter approach. We guarantee that the HNSW graph rem
 
 So if you filter `brand = Apple`, Qdrant has already built a connected subgraph of just Apple points, and traversal works fine within that subset.
 
-<img src="/courses/day2/filterable-vector-index.png" alt="Filterable HNSW subgraph connectivity" width="700">
+![Filterable HNSW subgraph connectivity](/courses/day2/filterable-vector-index.png)
 
 ## The Query Planner: Adaptive Strategy
 

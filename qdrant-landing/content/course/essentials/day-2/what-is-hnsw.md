@@ -38,7 +38,7 @@ But libraries aren't organized like that. They're structured to naturally guide 
 
 HNSW works similarly by building a multi-layered graph where each vector is a node. The idea is that the graph has a hierarchical structure, where the top layer contains a smaller number of nodes that are broadly connected, and each lower layer has more nodes with increasingly specific connections.
 
-<img src="/courses/day2/hnsw-layers.png" alt="HNSW multi-layer structure" width="700">
+![NSW multi-layer structure](/courses/day2/hnsw-layers.png)
 
 ### The Search Process
 
