@@ -275,7 +275,12 @@ Best for: Complex concepts requiring context
 
 ### 3. Share Your Discovery
 
-Post in our [Discord](https://discord.com/invite/qdrant) with:
+**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
+  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+       alt="Post your results in Discord"
+       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
+</a> **with:**
+
 - **Domain**: "I built a semantic search for [recipes/books/articles/etc.]"
 - **Winner**: "Best chunking strategy was [X] because..."
 - **Surprise**: "Most unexpected finding was..."
