@@ -9,7 +9,18 @@ weight: 1
 
 Create and index [sparse vector](/documentation/concepts/vectors/#sparse-vectors) representations for keywords-based search and recommendations.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+
+<div class="video">
+<iframe 
+  src="https://www.youtube.com/embed/_v7ntnqsqY4?si=cBfTGZYG01KT5ymd&amp;start=195" 
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+
+<br/>
 
 ## What You'll Learn
 
@@ -123,7 +134,7 @@ Sparse vectors are not the default in Qdrant (unlike dense vectors). That's why,
 client.create_collection(
     collection_name=<COLLECTION_NAME>,
     sparse_vectors_config={
-        "<SPARSE_VECTOR_NAME>": models.SparseVectorParams()
+        <SPARSE_VECTOR_NAME>: models.SparseVectorParams()
     },
 )
 ```
@@ -141,7 +152,7 @@ Defaults are chosen to work well; tune only if you understand the trade‑offs!
 client.create_collection(
     collection_name=<COLLECTION_NAME>,
     sparse_vectors_config={
-        "<SPARSE_VECTOR_NAME>": models.SparseVectorParams(
+        <SPARSE_VECTOR_NAME>: models.SparseVectorParams(
             index=models.SparseIndexParams(
                 full_scan_threshold=0,          # compare directly below this size (index still built)
                 on_disk=False,                  # keep index in RAM (default False)
@@ -165,7 +176,7 @@ client.upsert(
     points=[
         models.PointStruct(
             id=1,
-            vector={"<SPARSE_VECTOR_NAME>": models.SparseVector(
+            vector={<SPARSE_VECTOR_NAME>: models.SparseVector(
                 indices=[1,2,3], 
                 values=[0.2,-0.2,0.2]
             )}
@@ -185,7 +196,7 @@ Specify the **named vector** to search with `using="sparse_vector"`.
 ```python
 client.query_points(
     collection_name="sparse_vectors_collection",
-    using="<SPARSE_VECTOR_NAME>",
+    using=<SPARSE_VECTOR_NAME>,
     query=models.SparseVector(indices=[1,3], values=[1,1]),
     ...
 )
