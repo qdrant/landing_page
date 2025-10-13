@@ -361,7 +361,7 @@ for i, rec in enumerate(recommendations, 1):
     print(f"{i}. {rec['title']} (Score: {rec['score']:.3f})")
 ```
 
-## What Happened Under the Hood
+### What Happened Under the Hood
 
 Qdrant retrieved 100 candidates from dense and 100 from sparse in parallel, fused them with RRF, reranked with ColBERT's MaxSim over token‑level subvectors, applied final business filters, and returned the top 10 - all in one call.
 
@@ -497,6 +497,54 @@ def ab_test_fusion_strategies(user_profiles, user_preferences):
 
     return results
 ```
+
+
+## Share Your Discovery
+
+Show your run and learn from others. 
+
+**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
+  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+       alt="Post your results in Discord"
+       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
+</a> **with this copy-paste template:**
+
+```bash
+Domain: “I built recs for [domain]”
+Data: [N items], fields: [category, user_segment, rating, date...]
+
+Query: “[user intent]”
+Early filter: category=[...], segment=[...]
+Late filter: rating≥..., release_date≥...
+
+Fusion: [RRF or DBSF], k_dense=100, k_sparse=100
+Reranker: ColBERT (MaxSim), top-k=10
+
+Top picks (rank → title → score):
+1) ...
+2) ...
+3) ...
+
+Why these won: [token match like “hacker”, genre overlap, strong rating]
+Speed: prefetch ~X ms | rerank ~Y ms | total ~Z ms
+Dropped by rules: [ids/titles and which rule]
+Surprise: “[one thing you didn’t expect]”
+Next step: “[what you’ll try next]”
+```
+
+### What to include
+
+* One line on how dense, sparse, and ColBERT each helped.
+* Early vs late filter effect (what got filtered where).
+* RRF vs DBSF quick note (which ranked better for your query).
+* A short timing snapshot (prefetch, rerank, total).
+* One decision you’d ship with today (e.g., “use RRF for cold start users”).
+
+### Bonus (optional)
+
+* Add a tiny table with `rank, id, title, dense_score, sparse_score, colbert_score`.
+* Share a before/after list showing items removed by business rules.
+
 
 ## Key Questions to Answer
 
