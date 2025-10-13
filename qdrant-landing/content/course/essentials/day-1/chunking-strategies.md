@@ -136,12 +136,14 @@ Each chunk contains complete sentences, preserving the logical flow. This method
 
 **Implementation:**
 ```python
+# ! pip install nltk
 from nltk.tokenize import sent_tokenize
+
 
 def sentence_chunk(text, max_words=150):
     sentences = sent_tokenize(text)
     chunks, buffer, length = [], [], 0
-    
+
     for sent in sentences:
         count = len(sent.split())
         if length + count > max_words:
@@ -149,7 +151,7 @@ def sentence_chunk(text, max_words=150):
             buffer, length = [], 0
         buffer.append(sent)
         length += count
-    
+
     if buffer:
         chunks.append(" ".join(buffer))
     return chunks
@@ -303,14 +305,17 @@ Recursive chunking tries to preserve structure. It starts with paragraphs (separ
 
 **Implementation:**
 ```python
+# ! pip install langchain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 splitter = RecursiveCharacterTextSplitter(
-    chunk_size=512,
-    chunk_overlap=100,
-    separators=["\n\n", "\n", ". ", " ", ""]
+    chunk_size=512, chunk_overlap=100, separators=["\n\n", "\n", ". ", " ", ""]
 )
 
+text = """
+Hello, world! More text here. another line.
+Hello, world! More text here. another line......
+"""
 chunks = splitter.split_text(text)
 ```
 
@@ -449,9 +454,15 @@ In Qdrant, this metadata lives in the **payload** - a JSON object attached to ea
 **1. Filtered Search (Exact Match)**
 You can filter results based on exact metadata values, which is perfect for categorical data.
 ```python
+from qdrant_client import models
+
 # Only show results from a specific article
 filter = models.Filter(
-    must=[models.FieldCondition(key="document_id", match=models.MatchValue(value="collection-config-guide"))]
+    must=[
+        models.FieldCondition(
+            key="document_id", match=models.MatchValue(value="collection-config-guide")
+        )
+    ]
 )
 ```
 
@@ -486,7 +497,11 @@ You can read more about grouping [here](/documentation/concepts/hybrid-queries/?
 ```python
 # Filter by user permissions
 filter = models.Filter(
-    must=[models.FieldCondition(key="access_level", match=models.MatchValue(value="public"))]
+    must=[
+        models.FieldCondition(
+            key="access_level", match=models.MatchValue(value="public")
+        )
+    ]
 )
 ```
 
@@ -496,33 +511,35 @@ filter = models.Filter(
 ```python
 def search_with_filters(query, document_type=None, date_range=None):
     """Search with metadata filtering"""
-    
+
     # Build filter conditions
     filter_conditions = []
-    
+
     if document_type:
         filter_conditions.append(
-            models.FieldCondition(key="source_type", match=models.MatchValue(value=document_type))
+            models.FieldCondition(
+                key="source_type", match=models.MatchValue(value=document_type)
+            )
         )
-    
+
     if date_range:
         filter_conditions.append(
             models.FieldCondition(
                 key="created_at",
-                range=models.Range(gte=date_range["start"], lte=date_range["end"])
+                range=models.Range(gte=date_range["start"], lte=date_range["end"]),
             )
         )
-    
+
     # Execute search
     query_filter = models.Filter(must=filter_conditions) if filter_conditions else None
-    
+
     results = client.query_points(
         collection_name="documents",
         query=generate_embedding(query),
         query_filter=query_filter,
-        limit=5
+        limit=5,
     )
-    
+
     return results
 ```
 

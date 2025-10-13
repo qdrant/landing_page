@@ -215,7 +215,7 @@ search_and_compare("questioning reality and existence")
 ```
 
 **Expected output:**
-```
+```bash
 Query: 'alien invasion'
 
 --- FIXED CHUNKING ---

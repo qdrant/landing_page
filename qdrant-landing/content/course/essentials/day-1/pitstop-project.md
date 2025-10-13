@@ -119,14 +119,20 @@ def paragraph_chunks(text):
 Note: If you are already familiar with Qdrant's filterable HNSW, you will know that effective filtering and grouping often relies on creating a [payload index](/documentation/concepts/indexing/#payload-index) before building HNSW indexes. To keep things simple in this tutorial, we will do a basic search with filters without payload indexes and talk about proper usage of payload indexes on [day 2](/content/course/essentials/day-2/_index.md) of this course.
 
 ```python
+collection_name = "my_domain_search"
+
+if client.collection_exists(collection_name=collection_name):
+    client.delete_collection(collection_name=collection_name)
+
 # Create a collection with three named vectors
 client.create_collection(
-    collection_name="my_domain_search",
+    collection_name=collection_name,
     vectors_config={
-        'fixed': models.VectorParams(size=384, distance=models.Distance.COSINE),
-        'sentence': models.VectorParams(size=384, distance=models.Distance.COSINE),
-        'paragraph': models.VectorParams(size=384, distance=models.Distance.COSINE),
+        "fixed": models.VectorParams(size=384, distance=models.Distance.COSINE),
+        "sentence": models.VectorParams(size=384, distance=models.Distance.COSINE),
+        "paragraph": models.VectorParams(size=384, distance=models.Distance.COSINE),
     },
+    strict_mode_config=models.StrictModeConfig(unindexed_filtering_retrieve=True),
 )
 
 # Process and upload data
@@ -135,32 +141,34 @@ point_id = 0
 
 for item in my_dataset:
     description = item["description"]
-    
+
     # Process with each chunking strategy
     strategies = {
-        'fixed': fixed_size_chunks(description),
-        'sentence': sentence_chunks(description),
-        'paragraph': paragraph_chunks(description)
+        "fixed": fixed_size_chunks(description),
+        "sentence": sentence_chunks(description),
+        "paragraph": paragraph_chunks(description),
     }
-    
+
     for strategy_name, chunks in strategies.items():
         for chunk_idx, chunk in enumerate(chunks):
             # Create vectors for this chunk
             vectors = {strategy_name: encoder.encode(chunk).tolist()}
-            
-            points.append(models.PointStruct(
-                id=point_id,
-                vector=vectors,
-                payload={
-                    **item,  # Include all original metadata
-                    "chunk": chunk,
-                    "chunk_strategy": strategy_name,
-                    "chunk_index": chunk_idx
-                }
-            ))
+
+            points.append(
+                models.PointStruct(
+                    id=point_id,
+                    vector=vectors,
+                    payload={
+                        **item,  # Include all original metadata
+                        "chunk": chunk,
+                        "chunk_strategy": strategy_name,
+                        "chunk_index": chunk_idx,
+                    },
+                )
+            )
             point_id += 1
 
-client.upload_points(collection_name="my_domain_search", points=points)
+client.upload_points(collection_name=collection_name, points=points)
 print(f"Uploaded {len(points)} chunks across three strategies")
 ```
 
@@ -170,15 +178,15 @@ print(f"Uploaded {len(points)} chunks across three strategies")
 def compare_search_results(query):
     """Compare search results across all chunking strategies"""
     print(f"Query: '{query}'\n")
-    
-    for strategy in ['fixed', 'sentence', 'paragraph']:
+
+    for strategy in ["fixed", "sentence", "paragraph"]:
         results = client.query_points(
-            collection_name="my_domain_search",
+            collection_name=collection_name,
             query=encoder.encode(query).tolist(),
             using=strategy,
-            limit=3
+            limit=3,
         )
-        
+
         print(f"--- {strategy.upper()} CHUNKING ---")
         for i, point in enumerate(results.points, 1):
             print(f"{i}. {point.payload['title']}")
@@ -186,11 +194,12 @@ def compare_search_results(query):
             print(f"   Chunk: {point.payload['chunk'][:80]}...")
         print()
 
+
 # Test with domain-specific queries
 test_queries = [
     "comfort food for winter",  # Adapt these to your domain
     "quick and easy weeknight dinner",
-    "elegant dish for special occasions"
+    "elegant dish for special occasions",
 ]
 
 for query in test_queries:
@@ -204,28 +213,33 @@ After running your tests, analyze what you discovered:
 ```python
 def analyze_chunking_effectiveness():
     """Analyze which chunking strategy works best for your domain"""
-    
+
     print("CHUNKING STRATEGY ANALYSIS")
     print("=" * 40)
-    
+
     # Get chunk statistics for each strategy
-    for strategy in ['fixed', 'sentence', 'paragraph']:
+    for strategy in ["fixed", "sentence", "paragraph"]:
         # Count chunks per strategy
         results = client.scroll(
-            collection_name="my_domain_search",
+            collection_name=collection_name,
             scroll_filter=models.Filter(
-                must=[models.FieldCondition(key="chunk_strategy", match=models.MatchValue(value=strategy))]
+                must=[
+                    models.FieldCondition(
+                        key="chunk_strategy", match=models.MatchValue(value=strategy)
+                    )
+                ]
             ),
-            limit=100
+            limit=100,
         )
-        
+
         chunks = results[0]
-        chunk_sizes = [len(chunk.payload['chunk']) for chunk in chunks]
-        
+        chunk_sizes = [len(chunk.payload["chunk"]) for chunk in chunks]
+
         print(f"\n{strategy.upper()} STRATEGY:")
         print(f"  Total chunks: {len(chunks)}")
         print(f"  Avg chunk size: {sum(chunk_sizes)/len(chunk_sizes):.0f} chars")
         print(f"  Size range: {min(chunk_sizes)}-{max(chunk_sizes)} chars")
+
 
 analyze_chunking_effectiveness()
 ```
