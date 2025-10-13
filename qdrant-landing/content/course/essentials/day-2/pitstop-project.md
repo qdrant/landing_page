@@ -24,7 +24,7 @@ A performance-optimized version of your Day 1 search engine that demonstrates:
 - **Payload indexing impact**: Time filtering with and without indexes
 - **Domain findings**: What works best for your content
 
-## Step-by-Step Implementation
+## Build Steps
 
 ### Step 1: Extend Your Day 1 Project
 
@@ -270,7 +270,8 @@ best_collection = "my_domain_balanced"  # Choose based on your results
 filtering_results = test_filtering_performance(best_collection)
 ```
 
-## Performance Analysis
+## Analysis Framework
+### Performance Analysis
 
 Create a summary of your findings:
 
@@ -295,8 +296,6 @@ print(f"   Speedup: {filtering_results['speedup']:.1f}x")
 ```
 
 ## Your Deliverables
-
-### 1. Performance Report
 
 ```md
 **Domain & Dataset:**
@@ -324,8 +323,23 @@ print(f"   Speedup: {filtering_results['speedup']:.1f}x")
 - When to pick different settings
 - Production deployment considerations
 ```
+## Success Criteria
 
-### 2. Share Your Discovery
+You'll know you've succeeded when:
+
+<input type="checkbox"> You've tested multiple HNSW configurations with real timing data  
+<input type="checkbox"> You can explain which settings work best for your domain and why  
+<input type="checkbox"> You've measured the concrete impact of payload indexing  
+<input type="checkbox"> You have clear recommendations for production deployment
+
+## Key Questions to Answer
+
+1. Which HNSW configuration worked best for your domain?
+2. How did upload (index building times) vs. search performance trade off?
+3. What was the impact of payload indexing?
+4. How do your results compare to the DBpedia demo?
+
+## Share Your Discovery
 
 **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
   <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
@@ -338,21 +352,6 @@ print(f"   Speedup: {filtering_results['speedup']:.1f}x")
 - **Surprise**: "Most unexpected finding was..."
 - **Impact**: "Payload indexes improved filtering by XXx"
 
-## Key Questions to Answer
-
-1. Which HNSW configuration worked best for your domain?
-2. How did upload (index building times) vs. search performance trade off?
-3. What was the impact of payload indexing?
-4. How do your results compare to the DBpedia demo?
-
-## Success Criteria
-
-You'll know you've succeeded when:
-
-<input type="checkbox"> You've tested multiple HNSW configurations with real timing data  
-<input type="checkbox"> You can explain which settings work best for your domain and why  
-<input type="checkbox"> You've measured the concrete impact of payload indexing  
-<input type="checkbox"> You have clear recommendations for production deployment
 
 ## Optional Extensions
 
