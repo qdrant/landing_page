@@ -36,15 +36,21 @@ A working search system with:
 
 ```python
 from qdrant_client import QdrantClient, models
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Connect (use your credentials)
-client = QdrantClient("https://your-cluster.cloud.qdrant.io", api_key="your-key")
+client = QdrantClient(
+    url=os.environ["QDRANT_URL"], api_key=os.environ["QDRANT_API_KEY"]
+)
 
 # Create collection
 collection_name = "my_vector_system"
 client.create_collection(
     collection_name=collection_name,
-    vectors_config=models.VectorParams(size=4, distance=models.Distance.COSINE)
+    vectors_config=models.VectorParams(size=4, distance=models.Distance.COSINE),
 )
 
 # Insert points with hand-crafted vectors
@@ -52,39 +58,50 @@ points = [
     models.PointStruct(
         id=1,
         vector=[0.8, 0.2, 0.6, 0.4],  # High on first and third dimensions
-        payload={"name": "Item A", "category": "tech", "price": 99}
+        payload={"name": "Item A", "category": "tech", "price": 99},
     ),
     models.PointStruct(
         id=2,
         vector=[0.1, 0.9, 0.3, 0.7],  # High on second and fourth dimensions
-        payload={"name": "Item B", "category": "lifestyle", "price": 45}
+        payload={"name": "Item B", "category": "lifestyle", "price": 45},
     ),
     # Add 3-8 more points...
 ]
 
 client.upsert(collection_name=collection_name, points=points)
 
+client.update_collection(
+    collection_name=collection_name,
+    optimizers_config=models.OptimizersConfigDiff(indexing_threshold=0),
+    strict_mode_config=models.StrictModeConfig(unindexed_filtering_retrieve=True),
+)
+
 # Test searches
 basic_results = client.query_points(collection_name, query=[0.7, 0.3, 0.5, 0.4])
 filtered_results = client.query_points(
-    collection_name, 
+    collection_name,
     query=[0.7, 0.3, 0.5, 0.4],
-    query_filter=models.Filter(must=[models.FieldCondition(key="category", match=models.MatchValue(value="tech"))])
+    query_filter=models.Filter(
+        must=[
+            models.FieldCondition(key="category", match=models.MatchValue(value="tech"))
+        ]
+    ),
 )
 ```
 
 ## Success Criteria
 
-- Collection created without errors
-- Search returns results ranked by similarity score
-- Filtered search works and returns appropriate subsets
-- You can explain why certain items are more similar than others
+You’ll know you’ve succeeded when:
+
+<input type="checkbox"> Collection created without errors  
+<input type="checkbox"> Search returns results ranked by similarity score  
+<input type="checkbox"> Filtered search works and returns appropriate subsets  
+<input type="checkbox"> You can explain why certain items are more similar than others  
+
 
 ## Share Your Discovery
 
-Show what you built and compare notes with others.
-
-**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
+Show what you built and compare notes with others. **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
   <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
        alt="Post your results in Discord"
        style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
@@ -139,14 +156,4 @@ Next step: “[what you’ll try tomorrow]”
 
 **Connection issues?** Verify your Qdrant Cloud credentials and ensure your cluster is running. 
 
-## What You've Accomplished
-
 **Congratulations! 🎉 You've completed Day 0!**
-
-Today, you laid the foundation for working with Qdrant by:
-
-<input type="checkbox"> **Installed and connected** to Qdrant  
-<input type="checkbox"> **Created your first collection** with proper vector configuration  
-<input type="checkbox"> **Inserted vectors** with metadata  
-<input type="checkbox"> **Performed similarity search** to find nearest neighbors  
-<input type="checkbox"> **Applied filters** using payloads to refine results  

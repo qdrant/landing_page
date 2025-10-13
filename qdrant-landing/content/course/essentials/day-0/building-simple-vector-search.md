@@ -40,16 +40,21 @@ from qdrant_client import QdrantClient, models
 To connect to Qdrant Cloud, you need your cluster URL and API key from your Qdrant Cloud dashboard. Replace with your actual credentials:
 
 ```python
-import os
 from google.colab import userdata  # If using Colab
 
 client = QdrantClient(
-    "https://your-cluster-url.cloud.qdrant.io", 
-    api_key=userdata.get('api-key') 
+    "https://your-cluster-url.cloud.qdrant.io", api_key=userdata.get("api-key")
 )
 
-# Alternative for local development:
-# client = QdrantClient(url="http://localhost:6333")
+# For managed cloud:
+# import os
+# from dotenv import load_dotenv
+# load_dotenv()
+
+# client = QdrantClient(
+#     url=os.environ["QDRANT_URL"],
+#     api_key=os.environ["QDRANT_API_KEY"],
+# )
 ```
 
 **Note:** You can also use in-memory mode for testing: `client = QdrantClient(":memory:")`, but data won't persist after restart.
@@ -173,16 +178,21 @@ search_filter = models.Filter(
     must=[
         models.FieldCondition(
             key="category",
-            match=models.MatchValue(value="example")  # This condition must be true
+            match=models.MatchValue(value="example"),  # This condition must be true
         )
     ]
+)
+
+client.update_collection(
+    collection_name=collection_name,
+    strict_mode_config=models.StrictModeConfig(unindexed_filtering_retrieve=True),
 )
 
 filtered_results = client.query_points(
     collection_name=collection_name,
     query=query_vector,
     query_filter=search_filter,
-    limit=1
+    limit=1,
 )
 
 print("Filtered search results:", filtered_results)
