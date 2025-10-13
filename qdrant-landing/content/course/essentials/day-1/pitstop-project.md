@@ -15,6 +15,13 @@ Build a semantic search engine for a topic of your choice. You'll discover how c
 
 **Estimated Time:** 120 minutes
 
+## What You'll Learn
+
+This project solidifies your understanding of:
+- **How chunking strategy impacts search relevance** in real scenarios
+- **Domain-specific considerations** for text processing
+- **Practical trade-offs** between different approaches
+
 ## What You'll Build
 
 A working semantic search engine that demonstrates:
@@ -24,7 +31,8 @@ A working semantic search engine that demonstrates:
 - **Real semantic understanding**: Search by concept, theme, or meaning rather than exact keywords
 - **Practical insights**: Discover what makes chunking effective in your specific domain
 
-## Choose Your Domain
+## Build Steps
+### Step 0: Choose Your Domain
 
 Pick something with rich, descriptive text where semantic search would be valuable:
 
@@ -115,7 +123,7 @@ def paragraph_chunks(text):
 
 ### Step 4: Create Collections and Process Data
 
-Note: If you are already familiar Qdrant's filterable HNSW, you will know that effective filtering and grouping often relies on creating a [payload index](/documentation/concepts/indexing/#payload-index) before building HNSW indexes. To keep things simple in this tutorial, we will do a basic search with filters without payload indexes and talk about proper usage of payload indexes on [day 2](/content/course/essentials/day-2/_index.md) of this course.
+Note: If you are already familiar with Qdrant's filterable HNSW, you will know that effective filtering and grouping often relies on creating a [payload index](/documentation/concepts/indexing/#payload-index) before building HNSW indexes. To keep things simple in this tutorial, we will do a basic search with filters without payload indexes and talk about proper usage of payload indexes on [day 2](/content/course/essentials/day-2/_index.md) of this course.
 
 ```python
 # Create a collection with three named vectors
@@ -231,14 +239,6 @@ def analyze_chunking_effectiveness():
 analyze_chunking_effectiveness()
 ```
 
-### Key Questions to Answer
-
-As you test your search engine, consider:
-
-1. **Which chunking strategy gave the most relevant results?**
-2. **How did chunk size affect search quality?**
-3. **What patterns did you notice?**
-
 ## Your Deliverables
 
 *Document your discoveries in a brief analysis:*
@@ -249,7 +249,7 @@ As you test your search engine, consider:
 - Size and complexity of your dataset
 
 **Chunking Comparison Results:**
-```
+```bash
 Example format:
 
 Fixed Chunking (100 words, 20 overlap):
@@ -273,7 +273,26 @@ Best for: Complex concepts requiring context
 - Specific examples of better vs. worse search results
 - Why this strategy worked best for your content type
 
-### 3. Share Your Discovery
+
+## Success Criteria
+
+You'll know you've succeeded when:
+
+<input type="checkbox"> Your search engine finds relevant results by meaning, not just keywords  
+<input type="checkbox"> You can clearly explain which chunking strategy works best for your domain  
+<input type="checkbox"> You've discovered something surprising about how chunking affects search  
+<input type="checkbox"> You can articulate the trade-offs between different approaches
+
+## Key Questions to Answer
+
+As you test your search engine, consider:
+
+1. **Which chunking strategy gave the most relevant results?**
+2. **How did chunk size affect search quality?**
+3. **What patterns did you notice?**
+
+
+## Share Your Discovery
 
 **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
   <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
@@ -316,20 +335,7 @@ encoder_large = SentenceTransformer("all-mpnet-base-v2")  # Larger, potentially 
 encoder_fast = SentenceTransformer("all-MiniLM-L12-v2")   # Different size/speed tradeoff
 ```
 
-## What You'll Learn
 
-This project solidifies your understanding of:
-- **How chunking strategy impacts search relevance** in real scenarios
-- **Domain-specific considerations** for text processing
-- **Practical trade-offs** between different approaches
-
-## Success Criteria
-
-You'll know you've succeeded when:
-
-<input type="checkbox"> Your search engine finds relevant results by meaning, not just keywords  
-<input type="checkbox"> You can clearly explain which chunking strategy works best for your domain  
-<input type="checkbox"> You've discovered something surprising about how chunking affects search  
-<input type="checkbox"> You can articulate the trade-offs between different approaches
+## Next Steps
 
 **Ready for Day 2?** Tomorrow you'll learn how Qdrant makes vector search lightning-fast through [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) indexing and how to optimize for production workloads.
