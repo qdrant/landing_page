@@ -35,12 +35,13 @@ from qdrant_client import QdrantClient, models
 from sentence_transformers import SentenceTransformer
 import time
 import numpy as np
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Initialize (use Qdrant Cloud for better performance testing)
-client = QdrantClient(
-    "https://your-cluster-url.cloud.qdrant.io", 
-    api_key="your-api-key"
-)
+client = QdrantClient(os.environ["QDRANT_URL"], api_key=os.environ["QDRANT_API_KEY"])
 
 encoder = SentenceTransformer("all-MiniLM-L6-v2")
 ```
@@ -53,21 +54,26 @@ Test different HNSW configurations to find what works best:
 # Test configurations
 configs = [
     {"name": "fast_initial_upload", "m": 0, "ef_construct": 100},
-    {"name": "balanced", "m": 16, "ef_construct": 200}, 
+    {"name": "memory_optimized", "m": 8, "ef_construct": 100},
+    {"name": "balanced", "m": 16, "ef_construct": 200},
     {"name": "high_quality", "m": 32, "ef_construct": 400},
-    {"name": "memory_optimized", "m": 8, "ef_construct": 100}
 ]
 
 for config in configs:
     collection_name = f"my_domain_{config['name']}"
+    if client.collection_exists(collection_name=collection_name):
+        client.delete_collection(collection_name=collection_name)
+
     client.create_collection(
         collection_name=collection_name,
         vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
         hnsw_config=models.HnswConfigDiff(
-            m=config["m"],
-            ef_construct=config["ef_construct"],
-            full_scan_threshold=1000
-        )
+            m=config["m"], ef_construct=config["ef_construct"], full_scan_threshold=10
+        ),
+        optimizers_config=models.OptimizersConfigDiff(indexing_threshold=0),
+        strict_mode_config=models.StrictModeConfig(
+            unindexed_filtering_retrieve=True, unindexed_filtering_update=True
+        ),
     )
     print(f"Created collection: {collection_name}")
 ```
@@ -78,40 +84,64 @@ Measure upload performance for each configuration:
 
 ```python
 def upload_with_timing(collection_name, data, config_name):
-    
+    embeddings = [encoder.encode(dat["description"]).tolist() for dat in data]
     points = []
     for i, item in enumerate(data):
-        embedding = encoder.encode(item["description"]).tolist()
-        
-        points.append(models.PointStruct(
-            id=i,
-            vector=embedding,
-            payload={
-                **item,
-                "length": len(item["description"]),
-                "word_count": len(item["description"].split()),
-                "has_keywords": any(keyword in item["description"].lower() 
-                                  for keyword in ["important", "key", "main"])
-            }
-        ))
+        embedding = embeddings[i]
+
+        points.append(
+            models.PointStruct(
+                id=i,
+                vector=embedding,
+                payload={
+                    **item,
+                    "length": len(item["description"]),
+                    "word_count": len(item["description"].split()),
+                    "has_keywords": any(
+                        keyword in item["description"].lower()
+                        for keyword in ["important", "key", "main"]
+                    ),
+                },
+            )
+        )
 
     start_time = time.time()
     client.upload_points(collection_name=collection_name, points=points)
     upload_time = time.time() - start_time
-    
+
     print(f"{config_name}: Uploaded {len(points)} points in {upload_time:.2f}s")
     return upload_time
 
+
 # Load your dataset here
-# your_dataset =
+# your_dataset = [{"description": "This is a description of a product"}, ...]
 
 # Upload to each collection
 upload_times = {}
 for config in configs:
     collection_name = f"my_domain_{config['name']}"
-    upload_times[config['name']] = upload_with_timing(
-        collection_name, your_dataset, config['name']
+    upload_times[config["name"]] = upload_with_timing(
+        collection_name, your_dataset, config["name"]
     )
+
+# Wait for index to be built
+def wait_for_index_built(collection_name, vectors_per_point=1):
+    info = client.get_collection(collection_name=collection_name)
+    count = 0
+    while info.points_count * vectors_per_point - info.indexed_vectors_count != 0 and count < 10:
+        time.sleep(1)
+        info = client.get_collection(collection_name=collection_name)
+        count += 1
+    if count == 10:
+        raise Exception(
+            f"Indexed vectors count ({info.indexed_vectors_count}) is not equal to points count ({info.points_count}). Upload enough points to trigger index rebuild."
+        )
+
+
+for config in configs:
+    collection_name = f"my_domain_{config['name']}"
+    wait_for_index_built(collection_name)
+
 ```
 
 ### Step 4: Benchmark Search Performance
@@ -121,36 +151,36 @@ Test search speed with different `hnsw_ef` values:
 ```python
 def benchmark_search(collection_name, query_embedding, ef_values=[64, 128, 256]):
     # Warmup
-    response = client.query_points(
+    _ = client.query_points(
         collection_name=collection_name,
         query=query_embedding,
         limit=10,
-        search_params=models.SearchParams(hnsw_ef=hnsw_ef)
-        )
+        search_params=models.SearchParams(hnsw_ef=ef_values[0]),
+    )
 
     results = {}
     for hnsw_ef in ef_values:
         times = []
-        
+
         # Run multiple queries for more reliable timing
         for _ in range(5):
             start_time = time.time()
-            
+
             _ = client.query_points(
                 collection_name=collection_name,
                 query=query_embedding,
                 limit=10,
-                search_params=models.SearchParams(hnsw_ef=hnsw_ef)
+                search_params=models.SearchParams(hnsw_ef=hnsw_ef),
             )
-            
+
             times.append((time.time() - start_time) * 1000)
-        
+
         results[hnsw_ef] = {
             "avg_time": np.mean(times),
             "min_time": np.min(times),
-            "max_time": np.max(times)
+            "max_time": np.max(times),
         }
-    
+
     return results
 
 
@@ -161,7 +191,7 @@ performance_results = {}
 for config in configs:
     if config["m"] > 0:  # Skip m=0 collections for search
         collection_name = f"my_domain_{config['name']}"
-        performance_results[config['name']] = benchmark_search(
+        performance_results[config["name"]] = benchmark_search(
             collection_name, query_embedding
         )
 ```
@@ -173,48 +203,50 @@ Measure filtering performance with and without indexes:
 ```python
 def test_filtering_performance(collection_name):
     query_embedding = encoder.encode("your filter test query").tolist()
-    
+
     # Test filter without index
     filter_condition = models.Filter(
-        must=[
-            models.FieldCondition(
-                key="length",
-                range=models.Range(gte=100, lte=500)
-            )
-        ]
+        must=[models.FieldCondition(key="length", range=models.Range(gte=100, lte=500))]
     )
-    
+
     # Timing without payload index
     start_time = time.time()
     _ = client.query_points(
         collection_name=collection_name,
         query=query_embedding,
         query_filter=filter_condition,
-        limit=10
+        limit=10,
     )
     time_without_index = (time.time() - start_time) * 1000
-    
+
     # Create payload index
     client.create_payload_index(
-        collection_name=collection_name,
-        field_name="length",
-        field_schema="integer"
+        collection_name=collection_name, field_name="length", field_schema="integer"
     )
 
-    # Rebuild HNSW to attach filter data structures. 
+    # Rebuild HNSW to attach filter data structures.
     # Note: This is not advised for production. Better create payload index before uploading any data to avoid rebuild.
     suffix = collection_name.replace("my_domain_", "")
     config = next((c for c in configs if c["name"] == suffix), None)
 
     client.update_collection(
-        collection_name=collection_name,
-        hnsw_config=models.HnswConfigDiff(m=0)
+        collection_name=collection_name, hnsw_config=models.HnswConfigDiff(m=0)
     )
 
     client.update_collection(
         collection_name=collection_name,
-        hnsw_config=models.HnswConfigDiff(m=16, ef_construct=config['ef_construct'])
+        hnsw_config=models.HnswConfigDiff(
+            m=16,
+            ef_construct=config["ef_construct"],
+            full_scan_threshold=10,
+            payload_m=None,
+            max_indexing_threads=1,
+        ),
+        optimizers_config=models.OptimizersConfigDiff(vacuum_min_vector_number=0),
     )
+
+    # Wait for index to be built
+    wait_for_index_built(collection_name)
 
     # Timing with index
     start_time = time.time()
@@ -222,15 +254,16 @@ def test_filtering_performance(collection_name):
         collection_name=collection_name,
         query=query_embedding,
         query_filter=filter_condition,
-        limit=10
+        limit=10,
     )
     time_with_index = (time.time() - start_time) * 1000
-    
+
     return {
         "without_index": time_without_index,
         "with_index": time_with_index,
-        "speedup": time_without_index / time_with_index
+        "speedup": time_without_index / time_with_index,
     }
+
 
 # Test on your best performing collection
 best_collection = "my_domain_balanced"  # Choose based on your results
@@ -327,3 +360,5 @@ Test more granular parameters:
 ```
 
 **Ready for production?** You now understand how to optimize Qdrant for your specific use case, balancing upload speed, search performance, and memory usage based on real measurements. 
+
+

@@ -203,38 +203,34 @@ print(f"HNSW m: {collection_info.config.hnsw_config.m}")
 We'll upload 100K vectors in 10K batches. The payload includes `title`, `length`, and `has_numbers` for filter tests.
 
 ```python
-batch_size = 10000
-total_points = len(ds['train'])
-
-print(f"Uploading {total_points} points in batches of {batch_size}")
-
 def upload_batch(start_idx, end_idx):
     points = []
     for i in range(start_idx, min(end_idx, total_points)):
-        example = ds['train'][i]
-        
+        example = ds["train"][i]
+
         # Get the pre-computed embedding
-        embedding = example['text-embedding-3-large-1536-embedding']
-        
+        embedding = example["text-embedding-3-large-1536-embedding"]
+
         # Create payload with fields for filtering tests
         payload = {
-            'text': example['text'],
-            'title': example['title'],
-            '_id': example['_id'],
-            'length': len(example['text']),
-            'has_numbers': any(char.isdigit() for char in example['text'])
+            "text": example["text"],
+            "title": example["title"],
+            "_id": example["_id"],
+            "length": len(example["text"]),
+            "has_numbers": any(char.isdigit() for char in example["text"]),
         }
-        
-        points.append(models.PointStruct(
-            id=i,
-            vector=embedding,  
-            payload=payload
-        ))
-    
+
+        points.append(models.PointStruct(id=i, vector=embedding, payload=payload))
+
     if points:
         client.upload_points(collection_name=collection_name, points=points)
         return len(points)
     return 0
+
+
+batch_size = 100
+total_points = len(ds["train"])
+print(f"Uploading {total_points} points in batches of {batch_size}")
 
 # Upload all batches with progress tracking
 total_uploaded = 0
