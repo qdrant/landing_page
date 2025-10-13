@@ -7,7 +7,15 @@ weight: 2
 
 # Implementing a Basic Vector Search
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+<div class="video">
+<iframe 
+  src="https://www.youtube.com/embed/_83L9ZIoOjM?si=ZTpn6fMXSjc_7JgL"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
 
 Follow along as we build your first collection, insert vectors, and run similarity searches. This guided tutorial walks you through each step.
 
