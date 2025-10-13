@@ -62,27 +62,77 @@ At query time, Qdrant uses a query planner to determine the appropriate strategy
 
 ```python
 from qdrant_client import QdrantClient, models
+from dotenv import load_dotenv
+import os
 
-client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+load_dotenv()
+
+collection_name = "store"
+vector_size = 768
+
+client = QdrantClient(
+    url=os.environ["QDRANT_URL"],
+    api_key=os.environ["QDRANT_API_KEY"],
+)
+
+if client.collection_exists(collection_name=collection_name):
+    client.delete_collection(collection_name=collection_name)
+
+client.create_collection(
+    collection_name=collection_name,
+    vectors_config=models.VectorParams(
+        size=vector_size,
+        distance=models.Distance.COSINE,
+    ),
+    optimizers_config=models.OptimizersConfigDiff(
+        indexing_threshold=100,
+    ),
+)
 
 # Index frequently filtered fields
 client.create_payload_index(
-    collection_name="store",
+    collection_name=collection_name,
     field_name="category",
-    field_schema=models.PayloadSchemaType.KEYWORD
+    field_schema=models.PayloadSchemaType.KEYWORD,
 )
 
 client.create_payload_index(
-    collection_name="store", 
+    collection_name=collection_name,
     field_name="price",
-    field_schema=models.PayloadSchemaType.FLOAT
+    field_schema=models.PayloadSchemaType.FLOAT,
 )
 
-# For multi-tenant applications, mark tenant fields
 client.create_payload_index(
-    collection_name="store",
-    field_name="tenant_id", 
-    field_schema=models.KeywordIndexParams(type="keyword", is_tenant=True)
+    collection_name=collection_name,
+    field_name="brand",
+    field_schema=models.PayloadSchemaType.KEYWORD,
+)
+```
+
+Add sample data:
+
+```python
+# Upload data
+import random
+
+points = []
+for i in range(1000):
+    points.append(
+        models.PointStruct(
+            id=i,
+            vector=[random.random() for _ in range(vector_size)],
+            payload={
+                "category": random.choice(["laptop", "phone", "tablet"]),
+                "price": random.randint(0, 1000),
+                "brand": random.choice(
+                    ["Apple", "Dell", "HP", "Lenovo", "Asus", "Acer", "Samsung"]
+                ),
+            },
+        )
+    )
+client.upload_points(
+    collection_name=collection_name,
+    points=points,
 )
 ```
 
@@ -102,28 +152,21 @@ The following example illustrates how filtering is carried out in practice:
 # Create filter combining multiple conditions
 filter_conditions = models.Filter(
     must=[
-        models.FieldCondition(
-            key="category", 
-            match=models.MatchValue(value="laptop")
-        ),
-        models.FieldCondition(
-            key="price", 
-            range=models.Range(lte=1000)
-        ),
-        models.FieldCondition(
-            key="brand",
-            match=models.MatchAny(any=["Apple", "Dell", "HP"])
-        )
+        models.FieldCondition(key="category", match=models.MatchValue(value="laptop")),
+        models.FieldCondition(key="price", range=models.Range(lte=1000)),
+        models.FieldCondition(key="brand", match=models.MatchAny(any=["Apple", "Dell", "HP"])),
     ]
 )
 
+query_vector = [random.random() for _ in range(vector_size)]
+
 # Execute filtered search
 results = client.query_points(
-    collection_name="store",
+    collection_name=collection_name,
     query=query_vector,
     query_filter=filter_conditions,
     limit=10,
-    search_params=models.SearchParams(hnsw_ef=128)
+    search_params=models.SearchParams(hnsw_ef=128),
 )
 ```
 
