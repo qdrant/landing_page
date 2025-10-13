@@ -15,13 +15,6 @@ Build a semantic search engine for a topic of your choice. You'll discover how c
 
 **Estimated Time:** 120 minutes
 
-## What You'll Learn
-
-This project solidifies your understanding of:
-- **How chunking strategy impacts search relevance** in real scenarios
-- **Domain-specific considerations** for text processing
-- **Practical trade-offs** between different approaches
-
 ## What You'll Build
 
 A working semantic search engine that demonstrates:
@@ -205,8 +198,6 @@ for query in test_queries:
 ```
 
 ## Analysis Framework
-
-### Evaluate Your Results
 
 After running your tests, analyze what you discovered:
 
