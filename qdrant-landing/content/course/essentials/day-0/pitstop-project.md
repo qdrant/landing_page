@@ -9,11 +9,11 @@ weight: 4
 
 Time to apply what you've learned. You'll create a complete, working vector search system from scratch.
 
-## Your mission
+## Your Mission
 
 Build a functional vector search system that demonstrates the core concepts: collections, points, similarity search, and filtering. You'll design simple 4-dimensional vectors that represent different concepts or items.
 
-## What you'll build
+## What You'll Build
 
 A working search system with:
 - One collection with 4-dimensional vectors and Cosine distance
@@ -21,7 +21,7 @@ A working search system with:
 - Basic similarity search to find nearest neighbors
 - Filtered search combining similarity with payload conditions
 
-## Example concepts to represent
+### Example Concepts to Represent
 
 <!-- **Product categories**: Create vectors where each dimension represents a feature (price, quality, popularity, innovation). Electronics might be `[0.8, 0.7, 0.9, 0.6]`, while books could be `[0.3, 0.9, 0.4, 0.8]`. -->
 **Product categories**: Create vectors where each dimension represents a feature (affordability, quality, popularity, innovation). Electronics might be `[0.8, 0.7, 0.9, 0.6]`, while books could be `[0.3, 0.9, 0.4, 0.8]`.
@@ -32,7 +32,7 @@ A working search system with:
 
 **Movie genres**: Action, drama, comedy, sci-fi intensities. Action thriller: `[0.9, 0.3, 0.1, 0.7]`, romantic comedy: `[0.1, 0.6, 0.9, 0.2]`.
 
-## Sample implementation
+## Build Steps
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -73,12 +73,53 @@ filtered_results = client.query_points(
 )
 ```
 
-## Success criteria
+## Success Criteria
 
 - Collection created without errors
 - Search returns results ranked by similarity score
 - Filtered search works and returns appropriate subsets
 - You can explain why certain items are more similar than others
+
+## Share Your Discovery
+
+Show what you built and compare notes with others.
+
+**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
+  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+       alt="Post your results in Discord"
+       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
+</a> **using this short template—copy, fill, and send:**
+
+
+```bash
+Domain: “I built a vector search for [topic]”
+Vector meaning: d1=…, d2=…, d3=…, d4=…
+Collection: my_vector_system (Cosine), points: [count]
+
+Query vector: [a, b, c, d]
+Top matches (id → score): 
+1) [id] → [score]
+2) [id] → [score]
+3) [id] → [score]
+
+Filter used: key=value (e.g., category=tech)
+Filtered result: [ids returned]
+
+Why these matched: [brief note about direction in 4D space]
+Surprise: “[one thing you didn’t expect]”
+Next step: “[what you’ll try tomorrow]”
+```
+
+### What to include
+
+* A one-line map of what each dimension means.
+* One raw query vector and the top 3 results with scores.
+* A filtered search (e.g., `category=tech`) and what changed.
+* One quick takeaway about Cosine direction (e.g., scaling didn’t change ranking).
+
+### Bonus (optional)
+
+* Add a tiny table of your points (id, name, vector, payload) or a screenshot of your query + results.
 
 ## Tips
 
