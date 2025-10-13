@@ -271,7 +271,6 @@ filtering_results = test_filtering_performance(best_collection)
 ```
 
 ## Analysis Framework
-### Performance Analysis
 
 Create a summary of your findings:
 
