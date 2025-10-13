@@ -36,6 +36,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Semantic Router](/documentation/frameworks/semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.                             |
 | [SmolAgents](/documentation/frameworks/smolagents/)           | Barebones library for agents. Agents write python code to call tools and orchestrate other agent.                    |
 | [Spring AI](/documentation/frameworks/spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design.                 |
+| [Swiftide](/documentation/frameworks/swiftide/)             | Rust library for building LLM applications. Build fast, streaming indexing and querying pipelines, and composable agents. |
 | [Sycamore](/documentation/frameworks/sycamore/)               | Document processing engine for ETL, RAG, LLM-based applications, and analytics on unstructured data.                 |
 | [Testcontainers](/documentation/frameworks/testcontainers/)   | Framework for providing throwaway, lightweight instances of systems for testing                                      |
 | [txtai](/documentation/frameworks/txtai/)                     | Python library for semantic search, LLM orchestration and language model workflows.                                  |

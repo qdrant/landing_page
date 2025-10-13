@@ -1,3 +1,5 @@
+const CONSENT_PARAM_KEY = 'qdrant_tech_ot_consent';
+
 export function registerAndCall() {
   const consentPreferences = window.OnetrustActiveGroups ?? '';
 
@@ -33,3 +35,34 @@ export function registerAndCall() {
 
     return true;
   } // registerAndCall
+
+export function setOneTrustDataSubjectId() {
+  const analytics = window.analytics;
+  const activeGroups = window.OnetrustActiveGroups;
+  if (!analytics || !activeGroups) return;
+
+  const anonymousId = analytics.user?.()?.anonymousId?.(); 
+  if (!anonymousId) return;
+
+  window.OneTrust.setDataSubjectId(anonymousId, true, 'AnonymousID');
+}
+
+export function addOneTrustPreferencesToLinks() {
+  const activeGroups = window.OnetrustActiveGroups;
+  
+  if (!activeGroups || typeof activeGroups !== 'string') return;
+  
+  const links = document.querySelectorAll('a[href*="cloud.qdrant.io"]');
+
+  links.forEach(link => {
+    let url = new URL(link.href);
+    
+    if (url.searchParams.has(CONSENT_PARAM_KEY)) {
+      url.searchParams.delete(CONSENT_PARAM_KEY);
+    }
+
+    url.searchParams.set(CONSENT_PARAM_KEY, activeGroups);
+
+    link.href = url.toString();
+  });
+}

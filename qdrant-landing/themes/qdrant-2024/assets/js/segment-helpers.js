@@ -1,5 +1,5 @@
-import { addGA4Properties, addUTMToLinks, getCookie, getUTMParams, tagCloudUILinksWithAnonymousId } from './helpers';
-import { registerAndCall } from './onetrust-helpers';
+import { addGA4Properties, getCookie, getUTMParams, tagCloudUILinksWithAnonymousId } from './helpers';
+import { registerAndCall, setOneTrustDataSubjectId } from './onetrust-helpers';
 
 const PAGES_SESSION_STORAGE_KEY = 'segmentPages';
 const INTERACTIONS_SESSION_STORAGE_KEY = 'segmentInteractions';
@@ -161,9 +161,9 @@ function cleanSegmentUtmKeys(obj) {
 /* Handle Segment Ready */
 /************************/
 export function handleSegmentReady() {
-  addUTMToLinks();
-
   analytics.ready(() => {
+    setOneTrustDataSubjectId();
+
     const utmParams = getUTMParams()
     const cleanUtmParams = cleanSegmentUtmKeys(utmParams);
 
