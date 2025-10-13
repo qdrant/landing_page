@@ -62,9 +62,9 @@ The `m` parameter controls the maximum number of connections per node in the gra
 from qdrant_client.models import HnswConfig
 
 # Example m values
-fast_config = HnswConfig(m=8)      # Lower recall, less memory, faster build
-balanced_config = HnswConfig(m=16) # Default - good balance
-accurate_config = HnswConfig(m=32) # Better recall, more memory, slower build
+fast_config = HnswConfig(m=8, ef_construct=100, full_scan_threshold=10000)      # Lower recall, less memory, faster build
+balanced_config = HnswConfig(m=16, ef_construct=100, full_scan_threshold=10000) # Default - good balance
+accurate_config = HnswConfig(m=32, ef_construct=100, full_scan_threshold=10000) # Better recall, more memory, slower build
 ```
 
 ### Build Thoroughness: `ef_construct`
@@ -78,9 +78,9 @@ The `ef_construct` parameter controls how many candidates are checked while inse
 
 ```python
 # Example ef_construct values
-fast_build = HnswConfig(ef_construct=100)       # Faster indexing, lower quality
-balanced_build = HnswConfig(ef_construct=200)   # Default - good balance
-quality_build = HnswConfig(ef_construct=400)    # Slower indexing, higher quality
+fast_build = HnswConfig(m=16, ef_construct=100, full_scan_threshold=10000)      # Default - Faster indexing, lower quality
+balanced_build = HnswConfig(m=16, ef_construct=200, full_scan_threshold=10000)  # Good balance
+quality_build = HnswConfig(m=16, ef_construct=400, full_scan_threshold=10000)   # Slower indexing, higher quality
 ```
 
 ### Search Thoroughness: `hnsw_ef`
@@ -121,37 +121,6 @@ Some vectors can remain unindexed depending on optimizer settings e.g. when the 
 
 Small collections or low-dimensional vectors may not trigger HNSW indexing at all. In such cases, full-scan search (brute force) is used instead until indexing becomes beneficial
 
-### Inspecting Performance and Index Use
-
-Use [`get_collection`](/api-reference/collections/get-collection) to inspect your collection. It returns Current statistics and configuration of the collection like `points_count`, `indexed_vectors_count` or `hnsw_config`. It also lists `payload_schema` for payload indexes you created.
-
-To see whether your data is actually indexed check vector and point counts: if `indexed_vectors_count` is far below `points_count * vectors_per_point`, a large part of your data is not in HNSW yet.
-
-If queries feel slow check:
-- whether filter fields have [payload indexes](/documentation/concepts/indexing/#payload-index).
-- if payload indexes have been set before building HNSW graph with setting `m>0`
-- if the payload indexes have been set before building the HNSW graph (HNSW graph building begins when you switch from `m = 0` to `m > 0`)
-- if `hnsw_config.full_scan_threshold` is too high.
-
-
-```python
-# Inspect collection status
-info = client.get_collection("products")
-
-vectors_per_point = 1 # set per your vectors_config
-vectors_count = info.points_count * vectors_per_point
-
-print(f"Total vectors: {vectors_count}")
-print(f"Indexed vectors: {info.indexed_vectors_count}")
-print(f"HNSW config: {info.config.hnsw_config}")
-
-if vectors_count:
-    proportion_unindexed = 1 - (info.indexed_vectors_count / vectors_count)
-else:
-    proportion_unindexed = 0
-
-print(f"Proportion unindexed: {proportion_unindexed:.2%}")
-```
 
 ## HNSW in Action
 ### Why It Is Fast and Scalable
@@ -169,8 +138,16 @@ print(f"Proportion unindexed: {proportion_unindexed:.2%}")
 
 ```python
 from qdrant_client import QdrantClient, models
+from dotenv import load_dotenv
+import os
 
-client = QdrantClient(url="https://your-cluster.cloud.qdrant.io", api_key="your-key")
+load_dotenv()
+
+client = QdrantClient(
+    url=os.environ["QDRANT_URL"],
+    api_key=os.environ["QDRANT_API_KEY"],
+)
+
 
 # Production configuration
 client.create_collection(
@@ -178,36 +155,89 @@ client.create_collection(
     vectors_config=models.VectorParams(
         size=768,
         distance=models.Distance.COSINE,
-        hnsw_config=models.HnswConfig(
-            m=16,                       # Balanced connections (default)
-            ef_construct=200,           # Good build quality (default)
-            full_scan_threshold=10000   # Use brute force below this size (default)
-        )
-    )
+        hnsw_config=models.HnswConfigDiff(
+            m=16,  # Balanced connections (default)
+            ef_construct=200,  # Good build quality (default)
+            full_scan_threshold=10000,  # Use brute force below this size (default)
+        ),
+    ),
 )
 
 # Development / testing: faster builds
 client.create_collection(
-    collection_name="dev_vectors", 
+    collection_name="dev_vectors",
     vectors_config=models.VectorParams(
         size=384,
         distance=models.Distance.COSINE,
-        hnsw_config=models.HnswConfig(
-            m=8,                # Fewer connections
-            ef_construct=100    # Faster builds
-        )
-    )
+        hnsw_config=models.HnswConfigDiff(
+            m=8,  # Fewer connections
+            ef_construct=100,  # Faster builds
+            full_scan_threshold=10000,  # Use brute force below this size (default)
+        ),
+    ),
 )
 ```
 
 ### Performance Benchmarking
 
-This is a simple local benchmark, intended as a toy example, since this approach does not take into account other factors, such as network speed.
+Let's test the performance. First we upload some toy data to a new collection:
 
 ```python
 import time
-from qdrant_client import models
+from qdrant_client import QdrantClient, models
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+
+client = QdrantClient(
+    url=os.environ["QDRANT_URL"],
+    api_key=os.environ["QDRANT_API_KEY"],
+)
+
+
+collection_name = "my_collection"
+
+if client.collection_exists(collection_name=collection_name):
+    client.delete_collection(collection_name=collection_name)
+
+
+# Development / testing: faster builds
+client.create_collection(
+    collection_name=collection_name,
+    vectors_config=models.VectorParams(
+        size=4,
+        distance=models.Distance.COSINE,
+        hnsw_config=models.HnswConfigDiff(
+            m=8,  # Fewer connections
+            ef_construct=100,  # Faster builds
+            full_scan_threshold=100,  # Use brute force below this size (default)
+        ),
+    ),
+    optimizers_config=models.OptimizersConfigDiff(
+        indexing_threshold=100,  # Use brute force below this size (default)
+    ),
+)
+
+# upload data
+import random
+
+points = []
+for i in range(20000):
+    points.append(
+        models.PointStruct(id=i, vector=[random.random() for _ in range(4)], payload={})
+    )
+client.upload_points(
+    collection_name=collection_name,
+    points=points,
+)
+```
+
+### Search Performance
+
+This simple local benchmark, intended as a toy example, since this approach does not take into account other factors, such as network speed.
+
+```python
 def benchmark_search_performance(collection_name, test_queries, ef_values):
     """Compare latency across hnsw_ef values"""
 
@@ -219,18 +249,59 @@ def benchmark_search_performance(collection_name, test_queries, ef_values):
                 collection_name=collection_name,
                 query=query,
                 limit=10,
-                search_params=models.SearchParams(hnsw_ef=hnsw_ef)
+                search_params=models.SearchParams(hnsw_ef=hnsw_ef),
             )
-        
+
         avg_time = (time.time() - start_time) / len(test_queries)
         results[hnsw_ef] = avg_time
         print(f"hnsw_ef={hnsw_ef}: {avg_time:.3f}s per query")
-    
+
     return results
 
+
 # Test different hnsw_ef values
+test_queries = [
+    [30, 60, 90, 120],
+    [150, 180, 210, 240],
+    [270, 300, 330, 360],
+    [390, 420, 450, 480],
+    [510, 540, 570, 600],
+]
+
 ef_values = [32, 64, 128, 256]
-performance = benchmark_search_performance("my_collection", test_queries, ef_values)
+performance = benchmark_search_performance(collection_name, test_queries, ef_values)
+```
+
+### Inspecting Performance and Index Use
+
+Use [`get_collection`](/api-reference/collections/get-collection) to inspect your collection. It returns Current statistics and configuration of the collection like `points_count`, `indexed_vectors_count` or `hnsw_config`. It also lists `payload_schema` for payload indexes you created.
+
+To see whether your data is actually indexed check vector and point counts: if `indexed_vectors_count` is far below `points_count * vectors_per_point`, a large part of your data is not in HNSW yet.
+
+If queries feel slow check:
+- whether filter fields have [payload indexes](/documentation/concepts/indexing/#payload-index).
+- if payload indexes have been set before building HNSW graph with setting `m>0`
+- if the payload indexes have been set before building the HNSW graph (HNSW graph building begins when you switch from `m = 0` to `m > 0`)
+- if `hnsw_config.full_scan_threshold` is too high.
+
+
+```python
+# Inspect collection status
+info = client.get_collection(collection_name)
+
+vectors_per_point = 1  # set per your vectors_config
+vectors_count = info.points_count * vectors_per_point
+
+print(f"Total vectors: {vectors_count}")
+print(f"Indexed vectors: {info.indexed_vectors_count}")
+print(f"HNSW config: {info.config.hnsw_config}")
+
+if vectors_count:
+    proportion_unindexed = 1 - (info.indexed_vectors_count / vectors_count)
+else:
+    proportion_unindexed = 0
+
+print(f"Proportion unindexed: {proportion_unindexed:.2%}")
 ```
 
 ## When Not to Use HNSW
@@ -263,6 +334,6 @@ For very tight RAM budgets consider these solutions:
 
 Now you understand how HNSW makes vector search fast and scalable. Next we'll combine fast search with complex filters using Qdrant’s filter‑aware HNSW.
 
-Ready to see how HNSW handles real-world filtering scenarios? Let's continue!
-
 Learn more: [HNSW in Qdrant Documentation](https://qdrant.tech/documentation/concepts/indexing/#vector-index) 
+
+Ready to see how HNSW handles real-world filtering scenarios? Let's continue!
