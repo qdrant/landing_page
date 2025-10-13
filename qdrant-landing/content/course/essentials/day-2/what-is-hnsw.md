@@ -178,7 +178,7 @@ client.create_collection(
 )
 ```
 
-### Performance Benchmarking
+## Performance Benchmarking
 
 Let's test the performance. First we upload some toy data to a new collection:
 
