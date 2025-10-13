@@ -327,7 +327,12 @@ print(f"   Speedup: {filtering_results['speedup']:.1f}x")
 
 ### 2. Share Your Discovery
 
-Post in [Discord](https://discord.com/invite/qdrant) with:
+**Post your results in Discord:** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
+  <img src="https://img.shields.io/badge/Post%20in%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+       alt="Post your results in Discord"
+       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
+</a>
+
 - **Domain**: "I optimized performance for [your domain]"
 - **Winner**: "Best config was m=X, ef_construct=Y because..."
 - **Surprise**: "Most unexpected finding was..."
