@@ -9,21 +9,22 @@ weight: 4
 
 Apply quantization techniques to your domain search engine and measure the real-world impact on speed, memory, and accuracy. You'll discover how different quantization methods affect your specific use case and learn to optimize the accuracy recovery pipeline.
 
-**Estimated Time:** 120 minutes
-
 ## Your Mission
 
 Transform your search engine from previous days into a production-ready system by implementing quantization optimization. You'll test different quantization methods, measure performance impacts, and tune the oversampling + rescoring pipeline for optimal results.
+
+**Estimated Time:** 120 minutes
 
 ## What You'll Build
 
 A quantization-optimized search system that demonstrates:
 
 - **Performance comparison**: Before and after quantization metrics
-- **Method evaluation**: Testing scalar, binary, and product quantization on your data
+- **Method evaluation**: Testing scalar and binary quantization on your data
 - **Accuracy recovery**: Implementing oversampling and rescoring pipeline
 - **Production deployment**: Memory-optimized storage configuration
 
+## Build Steps
 ### Step 1: Baseline Measurement
 
 Start by measuring your current system's performance without quantization:
@@ -253,8 +254,6 @@ for factor, metrics in oversampling_results.items():
 
 ## Analysis Framework
 
-### Performance Comparison
-
 Create a comprehensive analysis of your quantization experiments:
 
 ```python
@@ -286,8 +285,6 @@ print(f"  {best_factor}x oversampling: {oversampling_results[best_factor]['avg_l
 
 ## Your Deliverables
 
-### 1. Performance Report
-
 Document your quantization optimization results:
 
 **Domain & Dataset:**
@@ -296,7 +293,7 @@ Document your quantization optimization results:
 - Why quantization matters for your use case
 
 **Quantization Method Comparison:**
-```
+```bash
 Example format:
 
 Baseline (No Quantization):
@@ -326,22 +323,37 @@ Optimal Configuration:
 - Memory savings achieved with `on_disk` configuration
 - Production deployment recommendations
 
-### 2. Share Your Discovery
-
-Post in [Discord](https://discord.com/invite/qdrant) with:
-- **Domain**: "I optimized [your domain] search with quantization"
-- **Winner**: "Best method was [X] quantization with [Y]x oversampling"
-- **Performance**: "Achieved [Z]x speedup with [A]% accuracy retention"
-- **Surprise**: "Most unexpected finding was..."
 
 ## Success Criteria
 
 You'll know you've succeeded when:
 
-- <input type="checkbox"> You've tested multiple quantization methods with real performance data
-- <input type="checkbox"> You've measured concrete speed improvements (aim for 5-40x depending on method)
-- <input type="checkbox"> You've optimized oversampling to recover accuracy while maintaining speed benefits
-- <input type="checkbox"> You can explain which quantization approach works best for your domain
+<input type="checkbox"> You've achieved measurable speed improvements (5x+ for scalar, 20x+ for binary)  
+<input type="checkbox"> You've maintained acceptable accuracy through oversampling optimization  
+<input type="checkbox"> You've demonstrated significant memory savings with `on_disk` configuration  
+<input type="checkbox"> You can make informed recommendations about quantization for your domain
+
+
+## Key Questions to Answer
+
+1. **Which quantization method delivered the best speed/accuracy tradeoff for your domain?**
+2. **How did oversampling factor affect your results?**
+3. **What was the real-world memory and cost impact?**
+4. **How do your results compare to the theoretical maximums (40x speedup, 32x compression)?**
+
+
+## Share Your Discovery
+
+**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
+  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+       alt="Post your results in Discord"
+       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
+</a> **with:**
+- **Domain**: "I optimized [your domain] search with quantization"
+- **Winner**: "Best method was [X] quantization with [Y]x oversampling"
+- **Performance**: "Achieved [Z]x speedup with [A]% accuracy retention"
+- **Surprise**: "Most unexpected finding was..."
+
 
 ## Advanced Challenges
 
@@ -422,13 +434,6 @@ cost_analysis = calculate_cost_savings(
 print(f"Annual cost savings: ${cost_analysis['annual_savings']:.2f}")
 ```
 
-## Key Questions to Answer
-
-1. **Which quantization method delivered the best speed/accuracy tradeoff for your domain?**
-2. **How did oversampling factor affect your results?**
-3. **What was the real-world memory and cost impact?**
-4. **How do your results compare to the theoretical maximums (40x speedup, 32x compression)?**
-
 ## Optional Extensions
 
 ### Memory Usage Monitoring
@@ -487,23 +492,5 @@ def measure_accuracy_retention(original_collection, quantized_collection, test_q
     
     return avg_accuracy
 ```
-
-## What You'll Learn
-
-This project deepens your understanding of:
-- **Real-world quantization impact** on your specific domain and data
-- **Production optimization techniques** for memory and cost efficiency
-- **Accuracy recovery strategies** using oversampling and rescoring
-- **Performance measurement methodologies** for vector search optimization
-- **Production deployment patterns** for quantized systems
-
-## Success Criteria
-
-You'll know you've succeeded when:
-
-<input type="checkbox"> You've achieved measurable speed improvements (5x+ for scalar, 20x+ for binary)  
-<input type="checkbox"> You've maintained acceptable accuracy through oversampling optimization  
-<input type="checkbox"> You've demonstrated significant memory savings with `on_disk` configuration  
-<input type="checkbox"> You can make informed recommendations about quantization for your domain
 
 **Ready for production?** You now understand how to optimize vector search performance through quantization while maintaining the accuracy your applications require. 
