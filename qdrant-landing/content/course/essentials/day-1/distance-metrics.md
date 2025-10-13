@@ -11,7 +11,15 @@ The meaning of a data point is implicitly defined by its position in vector spac
 
 However, the way we measure similarity or distance between vectors significantly impacts search quality, recall, and precision. Different metrics emphasize different aspects of similarity. The choice of metric depends on whether the focus is on direction, absolute distance, or magnitude differences between vectors.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+<div class="video">
+<iframe 
+  src="https://www.youtube.com/embed/mUMftLNSozs?si=AYzWCtF3ukU2yNZd"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
 
 <br/>
 

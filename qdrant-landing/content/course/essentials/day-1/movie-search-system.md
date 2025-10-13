@@ -9,7 +9,18 @@ weight: 4
 
 Let's synthesize everything we've learned today into a practical project: a semantic search engine for science fiction movies.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+<div class="video">
+<iframe 
+  src="https://www.youtube.com/embed/S7FsgzYwzJs?si=SCPzfprpB6aBUPEs"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+
+<br/>
+
 
 **Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_1/Semantic_Recommendation_System_for_Science_Fiction_Movies.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>

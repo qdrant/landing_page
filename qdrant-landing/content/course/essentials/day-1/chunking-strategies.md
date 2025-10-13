@@ -7,7 +7,17 @@ weight: 3
 
 # Text Chunking Strategies
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+<div class="video">
+<iframe 
+  src="https://www.youtube.com/embed/VNyA2nXqczk?si=Gs8Nepgf8q0XV8dp" 
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+
+<br/>
 
 So far we've talked about points - what they're made of, and how Qdrant compares them for approximate nearest neighbor search using distance metrics like cosine similarity, dot product, or Euclidean distance.
 

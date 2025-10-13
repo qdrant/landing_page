@@ -9,7 +9,17 @@ weight: 1
 
 Understanding Qdrant's core data model is essential for building effective vector search applications. This lesson establishes the precise technical vocabulary and concepts you'll use throughout the course.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+<div class="video">
+<iframe 
+  src="https://www.youtube.com/embed/Q6ZalzJ8dv8?si=TtxNB0PduStsOVGl"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+
+<br/>
 
 ## Points: The Core Entity
 
