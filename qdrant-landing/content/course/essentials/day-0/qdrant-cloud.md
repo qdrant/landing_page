@@ -58,7 +58,7 @@ Use the Web UI to manage collections, inspect data, and debug search performance
 
 When you open a collection by clicking it's name,
 
-![Select collection](/courses/day0/collection-points.png)
+![Select collection](/courses/day0/select-collection.png)
 
 you’ll get a detailed view with these tabs:
 
