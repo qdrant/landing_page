@@ -199,6 +199,13 @@ cards:
     name: Mihir Inamdar
     position: AI @Sutherland
     description: Mihir Inamdar is an Open Source Developer Advocate focused on scalable AI, generative models, and vector database–powered RAG systems.
+  - id: 25
+    image:
+      src: /img/stars/mohammed-photo.jpg
+      alt: Mohammed Arbi
+    name: Mohammed Arbi
+    position: Machine Learning Engineer
+    description: Building intelligent AI systems with Generative AI, RAG, MLOps, and Qdrant. Active GDG mentor, sharing knowledge and supporting the developer community.
 link:
   text: Read the Qdrant Stars Handbook
   url: https://qdrant.github.io/qdrant-stars-handbook/

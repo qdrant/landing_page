@@ -94,7 +94,7 @@ Repo: [Vector Vintage](https://github.com/kanungle/vector-vintage-public)
 
 * **Performance:** Runs locally with \~3GB VRAM, 1-2s latency, and \<$1/day in compute.
 
-**Repo:** [Spatio-Temporal NPCs](https://github.com/kanungle/spatio-temporal-npcs)
+**Repo:** [Spatio-Temporal NPCs](https://github.com/inventwithdean/spatio-temporal-npcs)
 
 ---
 
