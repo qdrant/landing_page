@@ -27,13 +27,27 @@ Late-interaction models such as ColBERT retain per-token document vectors. At se
 
 Qdrant implements this powerful technique through [multivector representations](/documentation/concepts/vectors/#multivectors). A multivector field holds an ordered list of subvectors, each of which captures a different token of the document.
 
-At query time, Qdrant performs the late interaction scoring. It compares every query token embedding `(q_i)` with each document token embedding `(d_j)`. Only the highest score per query token is retained and these top scores are then summed. This mechanism, called MaxSim, delivers fine-grained relevance that respects the structure of your content.
+At query time, Qdrant performs the late interaction scoring. It compares every query token embedding $ q_i $ with each document token embedding $ d_j $. Only the highest score per query token is retained and these top scores are then summed. This mechanism, called MaxSim, delivers fine-grained relevance that respects the structure of your content.
 
 $$
 MaxSim_{\text{norm}}(Q, D) = \frac{1}{|Q|} \sum_{i=1}^{|Q|} \max_{j=1}^{|D|} \text{sim}(q_i, d_j)
 $$
 
 To enable this in Qdrant, you create a collection with a dense vector that has a multivector comparator provided.
+
+## Generating Token-Level Embeddings
+
+You can generate the required token-level embeddings with FastEmbed:
+
+```python
+from fastembed import LateInteractionTextEmbedding
+
+encoder = LateInteractionTextEmbedding("colbert-ir/colbertv2.0")
+doc_multivectors = list(encoder.embed(["A long document about AI in medicine."]))
+# Returns [[token_vec1, token_vec2, ...]]
+```
+
+The model `colbert-ir/colbertv2.0` outputs 128-dimensional vectors and is available through FastEmbed's optimized ONNX runtime. Use `.embed` for documents and `.query_embed` for queries.
 
 ## Collection Configuration: Dense + Multivector
 
@@ -53,7 +67,7 @@ client.create_collection(
         # 1. A dense vector for fast initial retrieval (HNSW indexed by default)
         "bge-dense": models.VectorParams(
             size=384,
-            distance=models.Distance.COSINE
+            distance=models.Distance.COSINE,
         ),
         
         # 2. A multivector for accurate, late-interaction reranking
@@ -64,7 +78,7 @@ client.create_collection(
                 comparator=models.MultiVectorComparator.MAX_SIM
             ),
             # Disable HNSW for the multivector field to save RAM
-            hnsw_config=models.HnswConfigDiff(m=0)
+            hnsw_config=models.HnswConfigDiff(m=0),
         )
     }
 )
@@ -89,28 +103,20 @@ colbert_q = next(colbert.query_embed(["what is the policy?"])).tolist()
 # 2) Query: prefetch candidates with dense, then re-score with multivector
 hits = client.query_points(
     collection_name="my_colbert_collection",
-    prefetch=[models.Prefetch(query=dense_q, using="bge-dense", limit=200)],
+    prefetch=[
+        models.Prefetch(
+            query=dense_q,
+            using="bge-dense", 
+            limit=200,
+        )
+    ],
     query=colbert_q,
     using="colbert",
     limit=20,
 )
 ```
 
-`prefetch` runs the dense search. The main `query` applies MaxSim on the multivector field over the prefetched set.
-
-## Generating Token-Level Embeddings
-
-You can generate the required token-level embeddings with FastEmbed:
-
-```python
-from fastembed import LateInteractionTextEmbedding
-
-encoder = LateInteractionTextEmbedding("colbert-ir/colbertv2.0")
-doc_multivectors = list(encoder.embed(["A long document about AI in medicine."]))
-# Returns [[token_vec1, token_vec2, ...]]
-```
-
-The model `colbert-ir/colbertv2.0` outputs 128-dimensional vectors and is available through FastEmbed's optimized ONNX runtime. Use `.embed` for documents and `.query_embed` for queries.
+Defined `prefetch` operation runs the dense search. The main `query` applies MaxSim on the multivector field over the prefetched set only.
 
 ## ColPali for Visual Documents
 
