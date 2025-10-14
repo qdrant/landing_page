@@ -17,6 +17,8 @@ weight: 1
 </iframe>
 </div>
 
+<br/>
+
 Spin up production-grade vector search in minutes. Qdrant Cloud gives you a managed endpoint with TLS, automatic backups, high-availability options, and a clean API.
 
 ## Create your cluster
