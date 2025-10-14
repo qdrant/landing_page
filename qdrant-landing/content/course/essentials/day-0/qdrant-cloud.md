@@ -56,7 +56,7 @@ Use the Web UI to manage collections, inspect data, and debug search performance
 
 #### Inside a Collection
 
-When you open a collection,
+When you open a collection by clicking it's name,
 
 ![Select collection](/docs/gettingstarted/gui-quickstart/select-collection.png)
 
