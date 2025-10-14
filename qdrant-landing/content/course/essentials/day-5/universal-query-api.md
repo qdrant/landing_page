@@ -64,9 +64,9 @@ response = client.query_points(
 
 Behind the scenes Qdrant fetches the 100 nearest points from the dense index, then for each document applies the MaxSim late-interaction score from your ColBERT subvectors, returning the ten highest-scoring results.
 
-## Early and Late Filters in One Call
+## Global and Prefetch-Specific Filters
 
-Finally, you layer in filtering wherever it makes sense. In the snippet below, the initial retrieval only considers products that are in stock and in the "jackets" category. After all reranking is done, you prune out items above $200 or released before January 1, 2023:
+Finally, you layer in filtering wherever it makes sense. In the snippet below, you specify global filters at the query level - price under $200 and release date after January 1, 2023 - which automatically propagate to all prefetches. Then, you add an additional prefetch-specific filter on the dense search to only retrieve products that are in stock and in the "jackets" category:
 
 ```python
 response = client.query_points(
@@ -88,10 +88,14 @@ response = client.query_points(
                     )
                 ]
             )
+        ),
+        models.Prefetch(
+            query=sparse_query_vector,
+            using="sparse-splade",
+            limit=100
         )
     ],
-    query=colbert_query_multivector,
-    using="colbert",
+    query=models.FusionQuery(fusion=models.Fusion.RRF),
     filter=models.Filter(
         must=[
             models.FieldCondition(
@@ -110,16 +114,16 @@ response = client.query_points(
 )
 ```
 
-Here, early filtering reduces the search space before any vector computations take place. Late filtering then applies your final business rules to the reranked list. All of this - hybrid retrieval, fusion, late-interaction reranking, and multi-stage filtering - happens in one atomic API call.
+The global filters (price and release_date) apply to both prefetches automatically. The first prefetch adds extra constraints (in_stock and category), while the second prefetch only uses the global filters. This eliminates the need to repeat common filters across every prefetch. All filtering happens efficiently during the retrieval phase - there's no separate post-processing step. The entire pipeline - hybrid retrieval, filtering, fusion, and reranking - executes in one API call.
 
 ## The Universal Query API Structure
 
 The Universal Query API enables complex search patterns through a simple declarative interface:
 
-**Prefetch Stage**: Execute multiple searches in parallel against different vector fields. Each prefetch can have its own filters, limits, and vector types (dense, sparse, multivector).
-**Fusion Stage**: Combine results from multiple prefetches using algorithms like Reciprocal Rank Fusion (RRF) or Distribution-Based Score Fusion (DBSF).
-**Reranking Stage**: Or rerank candidates from a single prefetch with a stronger scorer such as ColBERT. Fusion and reranking are alternative final steps in most pipelines.
-**Final Filtering**: Apply business logic and constraints to the reranked results before returning the final set.
+- **Prefetch Stage**: Execute multiple searches in parallel against different vector fields. Each prefetch can have its own filters, limits, and vector types used.
+- **Fusion Stage**: Combine results from multiple prefetches using algorithms like Reciprocal Rank Fusion (RRF) or Distribution-Based Score Fusion (DBSF).
+- **Reranking Stage**: Or rerank candidates from a single prefetch with a stronger scorer such as ColBERT. Fusion and reranking are alternative final steps in most pipelines.
+- **Filtering**: Apply filters globally at the query level (propagated to all prefetches) or add prefetch-specific filters for additional constraints on individual searches.
 
 This architecture eliminates the need for multiple API calls, client-side result merging, and complex orchestration code. Everything happens server-side in a single, optimized request.
 
