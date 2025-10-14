@@ -182,7 +182,11 @@ client.upload_points(
 
 ## Step 3: The Universal Query in Action
 
-Now a single query that orchestrates the entire research discovery pipeline:
+Let's build a sophisticated research discovery query step by step. We'll orchestrate dense search, sparse search, RRF fusion, and ColBERT reranking - all in a single API call.
+
+### Prepare Query Embeddings
+
+First, we encode our research query using all three embedding models:
 
 ```python
 research_query = "transformer architectures for multimodal learning"
@@ -190,7 +194,15 @@ research_query = "transformer architectures for multimodal learning"
 research_query_dense = next(dense_model.query_embed(research_query))
 research_query_sparse = next(sparse_model.query_embed(research_query)).as_object()
 research_query_colbert = next(colbert_model.query_embed(research_query))
+```
 
+We generate three different representations of the same query - each optimized for a different stage of our retrieval pipeline.
+
+### Define Global Filter with Automatic Propagation
+
+Now we define quality constraints that will apply throughout our entire search pipeline:
+
+```python
 # Define global filter - this will be propagated to ALL prefetch stages
 global_filter = models.Filter(
     must=[
@@ -221,7 +233,15 @@ global_filter = models.Filter(
         models.FieldCondition(key="citation_count", range=models.Range(gte=5)),
     ]
 )
+```
 
+**Key insight**: This filter will be automatically propagated to ALL prefetch stages. Qdrant doesn't do "late filtering" or "post-filtering" - the filters are applied at the HNSW search level for maximum efficiency. This is enabled by the payload indexes we created in Step 1.
+
+### Set Up Parallel Prefetch Queries
+
+Next, we configure our hybrid retrieval with two concurrent searches:
+
+```python
 # Prefetch queries - global filter will be automatically applied to both
 hybrid_query = [
     # Dense retrieval: semantic understanding
@@ -229,14 +249,41 @@ hybrid_query = [
     # Sparse retrieval: exact technical term matching
     models.Prefetch(query=research_query_sparse, using="sparse", limit=100),
 ]
+```
 
+These two prefetch queries run in parallel:
+
+- **Dense search**: Finds semantically similar papers based on research concepts - but only considers papers matching our global filter (ML/CV/NLP domains, open access, recent, high-impact, well-cited)
+- **Sparse search**: Matches exact technical terms like "transformer," "multimodal," "attention" - but only within the same filtered subset
+- Both searches execute concurrently for maximum speed
+- Filter propagation happens automatically - no manual coordination needed
+
+We could retrieve up to 200 candidates total (100 from each search), but many will overlap.
+
+### Add Fusion Stage
+
+Now we combine the two filtered candidate lists using Reciprocal Rank Fusion:
+
+```python
 # Fusion stage - combines dense and sparse results
 fusion_query = models.Prefetch(
     prefetch=hybrid_query,
     query=models.FusionQuery(fusion=models.Fusion.RRF),
     limit=100,
 )
+```
 
+The RRF algorithm:
+- Combines the two filtered candidate lists intelligently
+- Papers appearing high in both lists get boosted scores
+- Creates a unified ranking that balances semantic similarity with technical term relevance
+- All results still satisfy the global filter constraints
+
+### Execute the Universal Query with ColBERT Reranking
+
+Finally, we send our complete query that ties everything together:
+
+```python
 # The Universal Query: Global filter propagates through all stages
 response = client.query_points(
     collection_name=collection_name,
@@ -247,7 +294,19 @@ response = client.query_points(
     limit=10,
     with_payload=True,
 )
+```
 
+This final stage applies ColBERT reranking to the fused results:
+- Token-level late interaction scoring examines fine-grained text alignment
+- Each query token is compared against each abstract token
+- MaxSim aggregation finds the best conceptual alignments
+- Returns the top 10 papers with precise relevance scores
+
+**Why this matters**: By applying filters at every stage (not after retrieval), Qdrant maintains high accuracy while avoiding wasted computation on papers that would be filtered out anyway.
+
+### Display Results
+
+```python
 # Display results
 print("Top Research Papers:")
 for i, hit in enumerate(response.points or [], 1):
@@ -260,34 +319,7 @@ for i, hit in enumerate(response.points or [], 1):
     print(f"   Score: {hit.score:.4f}\n")
 ```
 
-## What Happened Under the Hood?
-
-Let's break down this single query's execution. **Key insight**: The global filter is propagated to ALL stages automatically - Qdrant doesn't do "late filtering" or "post-filtering."
-
-### Stage 1: Filtered Parallel Retrieval (up to 200 candidates)
-
-The global filter is applied to both searches from the start:
-
-* **Dense search**: Searches semantically similar papers, but **only considers** papers in ML/CV/NLP domains, that are open access, recent (last 6 years), high-impact (0.6+), and well-cited (5+)
-* **Sparse search**: Matches exact technical terms like "transformer," "multimodal," "attention" - but **only within** the same filtered subset
-* Both searches ran **concurrently** for maximum speed
-* Filter propagation happens automatically - no manual coordination needed
-
-### Stage 2: Reciprocal Rank Fusion
-
-* Combined the two filtered candidate lists using RRF algorithm
-* Papers appearing high in both lists got boosted scores
-* Result: A unified ranking that balances semantic similarity with technical term relevance
-* All results still satisfy the global filter constraints
-
-### Stage 3: ColBERT Reranking
-
-* Applied token-level late interaction scoring to the fused results
-* Each query token compared against each abstract token
-* MaxSim aggregation found the best conceptual alignments
-* Result: Fine-grained relevance scores, with top 10 papers returned
-
-**Why global filter propagation matters**: By applying filters at the HNSW search level (not after retrieval), Qdrant maintains high accuracy while avoiding wasted computation on papers that would be filtered out anyway. This is enabled by the payload indexes we created in Step 1.
+And there you have it - a sophisticated multi-stage research discovery system in a single declarative query!
 
 ## Real ArXiv Dataset Integration
 
