@@ -306,9 +306,82 @@ for hit in response.points or []:
 
 Now let's wrap everything into a production-ready function that handles dynamic user preferences.
 
-#### Function Definition and Setup
+#### Helper Function for Building Filters
 
-Create the recommendation function with flexible parameters:
+First, create a reusable helper function to build filters from user profiles:
+
+```python
+def build_recommendation_filter(user_profile, user_preference=None):
+    """
+    Build a global filter from user profile and preferences.
+    This filter will automatically propagate to all prefetch stages.
+
+    Args:
+        user_profile: {
+            "liked_titles": list[str],      # optional
+            "preferred_genres": list[str],  # e.g. ["sci-fi","action"]
+            "segment": str,                 # e.g. "premium"
+            "query": str                    # free-text intent, e.g. "smart sci-fi with hacker vibe"
+        }
+        user_preference: {
+            "category": str | None,         # e.g. "movie"
+            "min_rating": float | None,     # e.g. 8.0
+            "released_within_days": int | None  # e.g. 365
+        }
+
+    Returns:
+        models.Filter object or None if no conditions
+    """
+    from datetime import datetime, timedelta
+
+    filter_conditions = []
+
+    # User segment filtering
+    if user_profile.get("segment"):
+        filter_conditions.append(
+            models.FieldCondition(
+                key="user_segment",
+                match=models.MatchValue(value=user_profile["segment"]),
+            )
+        )
+
+    if user_preference:
+        # Category filtering
+        if user_preference.get("category"):
+            filter_conditions.append(
+                models.FieldCondition(
+                    key="category",
+                    match=models.MatchValue(value=user_preference["category"]),
+                )
+            )
+
+        # Rating filtering
+        if user_preference.get("min_rating") is not None:
+            filter_conditions.append(
+                models.FieldCondition(
+                    key="rating",
+                    range=models.Range(gte=user_preference["min_rating"])
+                )
+            )
+
+        # Recency filtering
+        if user_preference.get("released_within_days"):
+            days = int(user_preference["released_within_days"])
+            filter_conditions.append(
+                models.FieldCondition(
+                    key="release_date",
+                    range=models.DatetimeRange(
+                        gte=(datetime.utcnow() - timedelta(days=days)).isoformat()
+                    ),
+                )
+            )
+
+    return models.Filter(must=filter_conditions) if filter_conditions else None
+```
+
+#### Recommendation Function
+
+Now create the main recommendation function using the helper:
 
 ```python
 def get_recommendations(user_profile, user_preference=None, limit=10):
@@ -330,72 +403,23 @@ def get_recommendations(user_profile, user_preference=None, limit=10):
         limit: top-k to return
     """
 
-    # Build a compact free-text query from profile
+    # Generate query embeddings
     user_dense_vector = next(dense_model.query_embed(user_profile["query"]))
     user_sparse_vector = next(
         sparse_model.query_embed(user_profile["query"])
     ).as_object()
     user_multivector = next(colbert_model.query_embed(user_profile["query"]))
-```
 
-#### Build Dynamic Global Filter
+    # Build global filter using helper function
+    global_filter = build_recommendation_filter(user_profile, user_preference)
 
-Construct a single global filter based on user preferences:
-
-```python
-    # Build dynamic global filter - will propagate to all prefetch stages
-    filter_conditions = []
-
-    # User segment and category filtering
-    if user_profile.get("segment"):
-        filter_conditions.append(
-            models.FieldCondition(
-                key="user_segment",
-                match=models.MatchValue(value=user_profile["segment"]),
-            )
-        )
-    if user_preference and user_preference.get("category"):
-        filter_conditions.append(
-            models.FieldCondition(
-                key="category",
-                match=models.MatchValue(value=user_preference["category"]),
-            )
-        )
-
-    # Quality and recency filtering
-    if user_preference and user_preference.get("min_rating") is not None:
-        filter_conditions.append(
-            models.FieldCondition(
-                key="rating", range=models.Range(gte=user_preference["min_rating"])
-            )
-        )
-    if user_preference and user_preference.get("released_within_days"):
-        from datetime import datetime, timedelta
-
-        days = int(user_preference["released_within_days"])
-        filter_conditions.append(
-            models.FieldCondition(
-                key="release_date",
-                range=models.DatetimeRange(
-                    gte=(datetime.utcnow() - timedelta(days=days)).isoformat()
-                ),
-            )
-        )
-
-    global_filter = models.Filter(must=filter_conditions)
-```
-
-#### Execute Query and Format Results
-
-Run the Universal Query and return structured results:
-
-```python
     # Prefetch queries - global filter will propagate automatically
     hybrid_query = [
         models.Prefetch(query=user_dense_vector, using="dense", limit=100),
         models.Prefetch(query=user_sparse_vector, using="sparse", limit=100),
     ]
 
+    # Combine candidates with RRF
     fusion_query = models.Prefetch(
         prefetch=hybrid_query,
         query=models.FusionQuery(fusion=models.Fusion.RRF),
@@ -576,47 +600,16 @@ def ab_test_fusion_strategies(user_profiles, user_preferences):
             ).as_object()
             user_multivector = next(colbert_model.query_embed(user_profile["query"]))
 
-            # Build dynamic global filter
-            filter_conditions = []
-            if user_profile.get("segment"):
-                filter_conditions.append(
-                    models.FieldCondition(
-                        key="user_segment",
-                        match=models.MatchValue(value=user_profile["segment"]),
-                    )
-                )
-            if user_preference and user_preference.get("category"):
-                filter_conditions.append(
-                    models.FieldCondition(
-                        key="category",
-                        match=models.MatchValue(value=user_preference["category"]),
-                    )
-                )
-            if user_preference and user_preference.get("min_rating") is not None:
-                filter_conditions.append(
-                    models.FieldCondition(
-                        key="rating", range=models.Range(gte=user_preference["min_rating"])
-                    )
-                )
-            if user_preference and user_preference.get("released_within_days"):
-                from datetime import datetime, timedelta
-
-                days = int(user_preference["released_within_days"])
-                filter_conditions.append(
-                    models.FieldCondition(
-                        key="release_date",
-                        range=models.DatetimeRange(
-                            gte=(datetime.utcnow() - timedelta(days=days)).isoformat()
-                        ),
-                    )
-                )
-            global_filter = models.Filter(must=filter_conditions)
+            # Build global filter using helper function
+            global_filter = build_recommendation_filter(user_profile, user_preference)
+            
             # Prefetch queries - global filter will propagate automatically
             hybrid_query = [
                 models.Prefetch(query=user_dense_vector, using="dense", limit=100),
                 models.Prefetch(query=user_sparse_vector, using="sparse", limit=100),
             ]
 
+            # Combine candidates with chosen fusion strategy
             fusion_query = models.Prefetch(
                 prefetch=hybrid_query,
                 query=models.FusionQuery(fusion=fusion_type),
