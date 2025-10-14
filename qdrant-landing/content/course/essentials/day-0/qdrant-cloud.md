@@ -58,11 +58,11 @@ Use the Web UI to manage collections, inspect data, and debug search performance
 
 When you open a collection by clicking it's name,
 
-![Select collection](/docs/gettingstarted/gui-quickstart/select-collection.png)
+![Select collection](/courses/day0/collection-points.png)
 
 you’ll get a detailed view with these tabs:
 
-![Collection points](/docs/gettingstarted/gui-quickstart/collection-points.png)
+![Collection points](/courses/day0/collection-points.png)
 
 * **Points Tab**: Inspect, search, and manage individual points. Use the search bar to find by ID or filter by payload fields (e.g., `colony: "Mars"`). For each point, you can:
 
