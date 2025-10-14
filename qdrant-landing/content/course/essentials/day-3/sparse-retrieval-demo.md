@@ -9,7 +9,15 @@ weight: 2
 
 Use sparse vectors for keywords-based text retrieval.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/lp8rLJdqUg8"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
 
 ## What You'll Learn
 

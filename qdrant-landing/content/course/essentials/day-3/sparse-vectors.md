@@ -11,16 +11,14 @@ Create and index [sparse vector](/documentation/concepts/vectors/#sparse-vectors
 
 
 <div class="video">
-<iframe 
-  src="https://www.youtube.com/embed/_v7ntnqsqY4?si=cBfTGZYG01KT5ymd&amp;start=195" 
+<iframe
+  src="https://www.youtube.com/embed/_v7ntnqsqY4" 
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
   allowfullscreen>
 </iframe>
 </div>
-
-<br/>
 
 ## What You'll Learn
 
