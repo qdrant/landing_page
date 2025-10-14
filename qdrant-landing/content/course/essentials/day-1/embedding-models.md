@@ -7,8 +7,6 @@ weight: 1
 
 # Points, Vectors and Payloads
 
-Understanding Qdrant's core data model is essential for building effective vector search applications. This lesson establishes the precise technical vocabulary and concepts you'll use throughout the course.
-
 <div class="video">
 <iframe 
   src="https://www.youtube.com/embed/Q6ZalzJ8dv8?si=TtxNB0PduStsOVGl"
@@ -21,6 +19,8 @@ Understanding Qdrant's core data model is essential for building effective vecto
 
 <br/>
 
+Understanding Qdrant's core data model is essential for building effective vector search applications. This lesson establishes the precise technical vocabulary and concepts you'll use throughout the course.
+
 ## Points: The Core Entity
 
 Points are the central entity that Qdrant operates with. A point is a record consisting of three components:
@@ -29,7 +29,7 @@ Points are the central entity that Qdrant operates with. A point is a record con
 - **Vector** (dense, sparse, or multivector)
 - **Optional Payload** (metadata)
 
-![Creating an embedding](/courses/day1//point-2.png)
+![Creating an embedding](/courses/day1/point-2.png)
 
 If IDs are not provided, Qdrant Client will automatically generate them as random UUIDs.
 
