@@ -7,7 +7,15 @@ weight: 2
 
 # Accuracy Recovery with Rescoring
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+<div class="video">
+<iframe 
+  src="https://www.youtube.com/embed/ksw3Ok-XXqo"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
 
 <br/>
 When we use quantization methods like Scalar, Binary, or Product Quantization, we're compressing our vectors to save memory and improve performance. However, this compression can slightly reduce the accuracy of our similarity searches because the quantized vectors are approximations of the original data. To mitigate this loss of accuracy, you can use oversampling and rescoring, which help improve the accuracy of the final search results.
@@ -18,7 +26,7 @@ So let's say we are performing a search in a collection with Binary Quantization
 
 Since some relevant matches could be missed in the initial search, to compensate for that we will apply oversampling. Which means that you will retrieve more candidates, increasing the chances that the most relevant vectors make it into the final results.
 
-For example, if your desired number of results (limit) is 4 and you set an oversampling factor of 2, Qdrant will retrieve 8 candidates (4 × 2). More candidates mean a better chance of obtaining high-quality top-K results.
+For example, if your desired number of results (`limit`) is 4 and you set an oversampling factor of 2, Qdrant will retrieve 8 candidates (4 × 2). More candidates mean a better chance of obtaining high-quality top-K results.
 
 ## Rescoring
 
@@ -26,7 +34,7 @@ After oversampling to gather more potential matches, each candidate is re-evalua
 
 During rescoring, one of the lower-ranked candidates from oversampling might turn out to be a better match than some of the original top-K candidates. Even though rescoring uses the original, larger vectors, the process remains much faster because only a very small number of vectors are read.
 
-## Reranking
+**Reranking as a Result of Rescoring**
 
 With the new similarity scores from rescoring, reranking is where the final top-K candidates are determined based on the updated similarity scores.
 
@@ -50,7 +58,7 @@ response = client.query_points(
         hnsw_ef=128,
         quantization=models.QuantizationSearchParams(
             ignore=False,  # Use quantization for initial search
-            rescore=True,   # Enable exact rescoring
+            rescore=True,   # Enable original vectors-based rescoring
             oversampling=3.0,  # Retrieve 3x candidates for rescoring
         ),
     ),
@@ -58,4 +66,8 @@ response = client.query_points(
 )
 ```
 
+> Check out **[how to set up oversampling and rescoring](/documentation/guides/quantization/#searching-with-quantization)** in **TypeScript**, **Rust**, **Java**, **C#**, and **Go** clients.
+
 If quantization is impacting performance in an application that requires high accuracy, combining oversampling with rescoring is a great choice. However, if you need faster searches and can tolerate some loss in accuracy, you might choose to use oversampling without rescoring, or adjust the oversampling factor to a lower value. 
+
+> Check out our **[quantization tips](/documentation/guides/quantization/#quantization-tips)**
