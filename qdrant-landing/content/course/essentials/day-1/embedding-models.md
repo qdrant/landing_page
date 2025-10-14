@@ -53,7 +53,7 @@ To represent textual data, for example, an embedding will encapsulate the nuance
 
 For that reason, when comparing two similar sentences, their embeddings will turn out to be very similar, because they have similar linguistic elements.
 
-<!-- !["Similar embeddings"]("/courses/day1/embeddings.png") -->
+![Similar embeddings](/courses/day1/embeddings.png)
 
 ### Sparse Vectors
 
