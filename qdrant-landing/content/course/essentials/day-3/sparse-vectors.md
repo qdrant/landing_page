@@ -91,7 +91,7 @@ id_3: [(6, 0.3), (7, 2.0), (12, -0.5)]
 ```
 
 The proposed map could look like this:
-<img src="/courses/day3/inverted_index.png" alt="Inverted index: map from index to vectors with weights" width="720" >
+![Inverted index: map from index to vectors with weights](/courses/day3/inverted_index.png)
 
 Now, if we have a query:
 ```text

@@ -319,7 +319,7 @@ Dense retrieval might seem like the perfect solution, but in many domains **keyw
 
 Instead of assigning word weights solely based on the corpus statistics, we could use for that **machine learning models** that have shown the ability to capture a word’s **meaning in context**. 
 
-<img src="/courses/day3/sparse_neural.png" alt="The idea behind sparse neural retrieval: machine learning model assigns words weights in a sparse text representation" >
+![The idea behind sparse neural retrieval: machine learning model assigns words weights in a sparse text representation](/courses/day3/sparse_neural.png)
 
 In practice, authors of sparse neural retrievers often start from dense encoders and adapt them to produce sparse text representations: similar in shape to bag‑of‑words, but with **weights produced by a machine learning model**.
 
