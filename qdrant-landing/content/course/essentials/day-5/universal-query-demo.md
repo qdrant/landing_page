@@ -380,7 +380,7 @@ print(f"Uploaded {len(points)} research papers to collection")
 
 ## Key Takeaways
 
-- **Single Request**: Complex multi-stage research discovery in one atomic API call
+- **Single Request**: Complex multi-stage research discovery in one API call
 - **Parallel Execution**: Dense and sparse searches run concurrently
 - **Smart Filtering**: Apply research quality filters at optimal stages
 - **Real Data**: Works with actual arXiv dataset and research metadata
