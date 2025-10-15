@@ -19,9 +19,11 @@ To use the Qdrant Terraform Provider, you'll need:
 
 ## Example Usage
 
-The following example creates a new Qdrant cluster in Google Cloud Platform (GCP) and returns the URL of the cluster.
+The following example creates a new Qdrant cluster in Amazon Web Services (AWS) and returns the URL of the cluster.
 
 ```terraform
+// see: https://registry.terraform.io/providers/qdrant/qdrant-cloud/latest/docs/guides/getting-started
+// Setup Terraform, including the qdrant-cloud providers
 terraform {
   required_version = ">= 1.7.0"
   required_providers {
@@ -32,28 +34,31 @@ terraform {
   }
 }
 
+// Add the provider to specify some provider wide settings
 provider "qdrant-cloud" {
-  api_key    = "<QDRANT_CLOUD_API_KEY>"
-  account_id = "QDRANT_ACCOUNT_ID>" // Account ID from cloud.qdrant.io/accounts/<QDRANT_ACCOUNT_ID>/ (can be overriden on resource level)
+  api_key    = "<QDRANT_CLOUD_MANAGEMENT_KEY>"  // API Key generated in Qdrant Cloud (required)
+  account_id = "<QDRANT_CLOUD_ACCOUNT_ID>"      // The default account ID you want to use in Qdrant Cloud (can be overriden on resource level)
 }
 
+// Get the cluster package
+// see https://registry.terraform.io/providers/qdrant/qdrant-cloud/latest/docs/guides/getting-started#available-cloud-providers-and-regions
 data "qdrant-cloud_booking_packages" "all_packages" {
-  cloud_provider = "gcp" // Required. Please refer to the documentation (https://registry.terraformio/providers/qdrant/qdrant-cloud/latest/docs/guides/getting-started) for the available options.
-  cloud_region   = "us-east4" // Required. Please refer to the documentation (https://registry.terraformio/providers/qdrant/qdrant-cloud/latest/docs/guides/getting-started) for the available options.
+  cloud_provider = "aws"
+  cloud_region   = "us-west-2"
 }
 
 locals {
   desired_package = [
     for pkg in data.qdrant-cloud_booking_packages.all_packages.packages : pkg
-    if pkg.resource_configuration[0].cpu == "16000m" && pkg.resource_configuration[0].ram == "64Gi"
+    if pkg.resource_configuration[0].cpu == "500m" && pkg.resource_configuration[0].ram == "2Gi"
   ]
 }
 
-
+// Create a cluster (for the sake of having an ID, see below)
 resource "qdrant-cloud_accounts_cluster" "example" {
   name           = "tf-example-cluster"
-  cloud_provider = data.qdrant-cloud_booking_packages.all_aws_eu_west_1_packages.cloud_provider
-  cloud_region   = data.qdrant-cloud_booking_packages.all_aws_eu_west_1_packages.cloud_region
+  cloud_provider = data.qdrant-cloud_booking_packages.all_packages.cloud_provider
+  cloud_region   = data.qdrant-cloud_booking_packages.all_packages.cloud_region
   configuration {
     number_of_nodes = 1
     database_configuration {
@@ -67,21 +72,30 @@ resource "qdrant-cloud_accounts_cluster" "example" {
   }
 }
 
+// Create an V2 Database Key, which refers to the cluster provided above
 resource "qdrant-cloud_accounts_database_api_key_v2" "example" {
   cluster_id   = qdrant-cloud_accounts_cluster.example.id
   name         = "example-key"
 }
 
+// Output some of the cluster info
+output "cluster_id" {
+  value = qdrant-cloud_accounts_cluster.example.id
+}
+
+output "cluster_version" {
+  value = qdrant-cloud_accounts_cluster.example.version
+}
 
 output "url" {
   value = qdrant-cloud_accounts_cluster.example.url
 }
 
+// Output the Database API Key (which can be used to access the database cluster)
 output "key" {
   value       = qdrant-cloud_accounts_database_api_key_v2.example.key
   description = "Key is available only once, after creation."
 }
-
 ```
 
 ## Further Reading
