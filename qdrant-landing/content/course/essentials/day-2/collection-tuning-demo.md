@@ -228,7 +228,7 @@ def upload_batch(start_idx, end_idx):
     return 0
 
 
-batch_size = 100
+batch_size = 10000
 total_points = len(ds["train"])
 print(f"Uploading {total_points} points in batches of {batch_size}")
 
@@ -376,19 +376,29 @@ text_filter = models.Filter(
     ]
 )
 
-start_time = time.time()
-response = client.query_points(
-    collection_name=collection_name,
-    query=query_embedding,
-    limit=10,
-    search_params=models.SearchParams(hnsw_ef=100),
-    query_filter=text_filter
-)
-unindexed_filter_time = (time.time() - start_time) * 1000
+# Run multiple times for more reliable measurement
+unindexed_times = []
+for i in range(3):
+    start_time = time.time()
+    response = client.query_points(
+        collection_name=collection_name,
+        query=query_embedding,
+        limit=10,
+        search_params=models.SearchParams(hnsw_ef=100),
+        query_filter=text_filter
+    )
+    unindexed_times.append((time.time() - start_time) * 1000)
 
-print(f"Filtered search (no index): {unindexed_filter_time:.2f}ms")
-print(f"Overhead: {unindexed_filter_time - baseline_time:.2f}ms")
-print(f"Top result: {response.points[0].payload['text']} (score: {response.points[0].score:.4f})")
+unindexed_filter_time = sum(unindexed_times) / len(unindexed_times)
+
+print(f"Filtered search (WITHOUT index): {unindexed_filter_time:.2f}ms")
+print(f"Individual times: {[f'{t:.2f}ms' for t in unindexed_times]}")
+print(f"Overhead vs baseline: {unindexed_filter_time - baseline_time:.2f}ms")
+print(f"Found {len(response.points)} matching results")
+if response.points:
+    print(f"Top result: '{response.points[0].payload['text']}'\nScore: {response.points[0].score:.4f}")
+else:
+    print("No results found - try a different filter term")
 ```
 
 ## Step 10: Create Payload Indexes
@@ -399,6 +409,7 @@ Create a [full‑text index](/documentation/concepts/indexing/#full-text-index) 
 client.create_payload_index(
     collection_name=collection_name,
     field_name="text",
+    wait=True,
     field_schema=models.TextIndexParams(
         type="text",
         tokenizer="word",
@@ -411,9 +422,9 @@ print("Payload index created for 'text' field")
 # If you want filter‑aware HNSW and you built the graph before creating payload indexes,
 # rebuild the graph to attach filter data structures.
 # Note: Reindexing takes up a lot of resources, and it is advised to set payload 
-# indexes only once, after the initial bulk was uploaded into the collection.
-client.update_collection(collection_name=collection_name, hnsw_config=models.HnswConfigDiff(m=0))
-client.update_collection(collection_name=collection_name, hnsw_config=models.HnswConfigDiff(m=16))
+# indexes only once, before building HNSW.
+# client.update_collection(collection_name=collection_name, hnsw_config=models.HnswConfigDiff(m=0))
+# client.update_collection(collection_name=collection_name, hnsw_config=models.HnswConfigDiff(m=16))
 ```
 
 ## Step 11: Filtering With Payload Indexes
@@ -443,7 +454,7 @@ print(f"Individual times: {[f'{t:.2f}ms' for t in indexed_times]}")
 print(f"Overhead vs baseline: {indexed_filter_time - baseline_time:.2f}ms")
 print(f"Found {len(response.points)} matching results")
 if response.points:
-    print(f"Top result: '{response.points[0].payload['text']}' (score: {response.points[0].score:.4f})")
+    print(f"Top result: '{response.points[0].payload['text']}'\nScore: {response.points[0].score:.4f}")
 else:
     print("No results found - try a different filter term")
 ```
