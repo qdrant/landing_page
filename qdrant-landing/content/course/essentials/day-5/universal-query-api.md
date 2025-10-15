@@ -44,9 +44,45 @@ Qdrant sends both prefetches concurrently, fuses the two ranked lists by recipro
 
 ## Dense Retrieval + ColBERT Rerank
 
-Next, imagine you want to rerank a larger candidate set with a more precise model. You retrieve 100 items quickly with your dense field, then apply your ColBERT multivector to rescore those hundred and pick the very best ten:
+While the previous lesson showed how to use ColBERT directly for retrieval, **in production systems reranking is the more common pattern**. The reason is practical: ColBERT's brute-force MaxSim scoring on an entire large collection can be slow. Instead, you combine two strengths - fast approximate search to narrow candidates, then precise token-level scoring on that smaller set.
+
+You create a collection with two vector fields: a dense vector with HNSW indexing for speed, and a ColBERT multivector with HNSW disabled for precision:
 
 ```python
+client.create_collection(
+    collection_name="articles",
+    vectors_config={
+        # Fast HNSW-indexed dense retrieval
+        "bge-dense": models.VectorParams(
+            size=384,
+            distance=models.Distance.COSINE,
+        ),
+        # Precise multivector reranking (HNSW disabled to save RAM)
+        "colbert": models.VectorParams(
+            size=128,
+            distance=models.Distance.COSINE,
+            multivector_config=models.MultiVectorConfig(
+                comparator=models.MultiVectorComparator.MAX_SIM
+            ),
+            hnsw_config=models.HnswConfigDiff(m=0),
+        )
+    }
+)
+```
+
+Now you retrieve 100 candidates quickly with your HNSW-indexed dense field, then apply ColBERT's MaxSim scoring to rerank those hundred and select the very best ten:
+
+```python
+from fastembed import LateInteractionTextEmbedding, TextEmbedding
+
+# Encode with both models
+dense = TextEmbedding("BAAI/bge-small-en-v1.5")
+dense_query_vector = next(dense.query_embed(["what is the policy?"])).tolist()
+
+colbert = LateInteractionTextEmbedding("colbert-ir/colbertv2.0")
+colbert_query_multivector = next(colbert.query_embed(["what is the policy?"])).tolist()
+
+# Fast retrieval + precise reranking in one call
 response = client.query_points(
     collection_name="articles",
     prefetch=[
@@ -62,7 +98,7 @@ response = client.query_points(
 )
 ```
 
-Behind the scenes Qdrant fetches the 100 nearest points from the dense index, then for each document applies the MaxSim late-interaction score from your ColBERT subvectors, returning the ten highest-scoring results.
+Behind the scenes, Qdrant fetches the 100 nearest points from the HNSW-indexed dense field, then applies the MaxSim late-interaction score from your ColBERT multivector to only those 100 candidates, returning the ten highest-scoring results. This two-stage approach delivers ColBERT's precision while keeping query latency practical for large-scale deployments.
 
 ## Global and Prefetch-Specific Filters
 
