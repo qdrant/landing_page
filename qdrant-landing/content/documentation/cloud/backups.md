@@ -59,12 +59,13 @@ After you have taken the prerequisite steps, you can configure a backup with the
 
 ### Restore a Backup
 
-If you have a backup, it appears in the list of **Available Backups**. You can
-choose to restore or delete the backups of your choice.
+You can manage backups from the list of **Available Backups**. You can choose to restore or delete the backups of your choice. 
+
+Backups can be restored into the same cluster. This will revert the configuration, including the cluster version, back to the state when the backup was taken.
+
+Or you can restore the backup into a new cluster.
 
 ![Restore or delete a cluster backup](/documentation/cloud/restore-delete.png)
-
-<!-- I think we should move this to the Snapshot page, but I'll do it later -->
 
 ## Backups With a Snapshot
 
