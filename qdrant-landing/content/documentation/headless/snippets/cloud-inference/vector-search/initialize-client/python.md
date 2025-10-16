@@ -1,8 +1,10 @@
 ```python
-client = QdrantClient(
-    url="https://YOUR_URL.eastus-0.azure.cloud.qdrant.io:6333/",
-    api_key="YOUR_API_KEY",
+from qdrant_client import QdrantClient
+
+qdrant_client = QdrantClient(
+    "xyz-example.cloud-region.cloud-provider.cloud.qdrant.io",
+    api_key="<paste-your-api-key-here>",
     cloud_inference=True,
     timeout=30.0
-) 
+)
 ```
