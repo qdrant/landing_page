@@ -42,6 +42,14 @@ client = QdrantClient(
 def measure_search_performance(collection_name, test_queries, label="Baseline"):
     """Measure search performance across multiple queries"""
     latencies = []
+
+    # Don't forget to warm up caches!
+
+    #response = client.query_points(
+    #        collection_name=collection_name,
+    #        query=query,
+    #        limit=10
+    #    )
     
     for query in test_queries:
         start_time = time.time()
@@ -76,6 +84,8 @@ baseline_metrics = measure_search_performance(
 ### Step 2: Test Quantization Methods
 
 Create collections with different quantization methods to compare their impact:
+
+> Note: When creating several collections for educational purposes with different quantization configurations (e.g., original, binary quantized, scalar quantized, 2-bit binary quantized), make sure to monitor available resources. The original vectors are stored for each collection (on disk in this case), in addition to their quantized versions.
 
 ```python
 # Test configurations
@@ -120,7 +130,7 @@ for method_name, config_info in quantization_configs.items():
     client.create_collection(
         collection_name=collection_name,
         vectors_config=models.VectorParams(
-            size=384,  # Adjust to your embedding size
+            size=1536,  # Adjust to your embedding size
             distance=models.Distance.COSINE,
             on_disk=True,  # Store originals on disk
         ),
@@ -135,22 +145,8 @@ for method_name, config_info in quantization_configs.items():
 Upload your dataset to each quantized collection and measure the performance differences:
 
 ```python
-def upload_and_benchmark(collection_name, data, method_name):
-    """Upload data and measure quantized search performance"""
-    
-    # Upload your data (same as previous days)
-    points = []
-    for i, item in enumerate(data):
-        embedding = encoder.encode(item["description"]).tolist()
-        
-        points.append(models.PointStruct(
-            id=i,
-            vector=embedding,
-            payload=item
-        ))
-    
-    client.upload_points(collection_name=collection_name, points=points)
-    print(f"Uploaded {len(points)} points to {collection_name}")
+def benchmark(collection_name, your_test_queries, method_name):
+    """Measure quantized search performance"""
     
     # Test without oversampling/rescoring first
     no_rescoring_metrics = measure_search_performance(
@@ -195,20 +191,66 @@ def upload_and_benchmark(collection_name, data, method_name):
         "with_rescoring": {"avg": avg_rescoring, "p95": p95_rescoring}
     }
 
+
+# Upload your data (same as it was done in the previous days for a basic unquantized collection) in each collection
+
 # Test each quantization method
 quantization_results = {}
 for method_name in quantization_configs.keys():
     collection_name = f"quantized_{method_name}"
-    quantization_results[method_name] = upload_and_benchmark(
-        collection_name, your_dataset, method_name
+    quantization_results[method_name] = benchmark(
+        collection_name, your_test_queries, method_name
     )
 ```
 
 ### Step 4: Optimize Oversampling Factors
 
-Find the optimal oversampling factor for your best-performing quantization method:
+Find the optimal oversampling factor for your best-performing quantization method, based on the balance between latency and retained accuracy:
 
 ```python
+def measure_accuracy_retention(original_collection, quantized_collection, test_queries, factors=[2, 3, 5, 8, 10]):
+    """Compare search results between original and quantized collections"""
+
+    results = {}
+
+    for factor in factors:
+        accuracy_scores = []
+        
+        for query in test_queries:
+            # Get baseline results
+            baseline_results = client.query_points(
+                collection_name=original_collection,
+                query=query,
+                limit=10
+            )
+            baseline_ids = [point.id for point in baseline_results.points]
+
+            # Get quantized results with rescoring
+            quantized_results = client.query_points(
+                collection_name=quantized_collection,
+                query=query,
+                limit=10,
+                search_params=models.SearchParams(
+                    quantization=models.QuantizationSearchParams(
+                        rescore=True,
+                        oversampling=factor,
+                    )
+                ),
+            )
+            quantized_ids = [point.id for point in quantized_results.points]
+            
+            # Calculate overlap (simple accuracy measure)
+            overlap = len(set(baseline_ids) & set(quantized_ids))
+            accuracy = overlap / len(baseline_ids)
+            accuracy_scores.append(accuracy)
+        
+        results[factor] = {
+            "avg_accuracy": np.mean(accuracy_scores)
+        }
+    
+    return results
+
+
 def tune_oversampling(collection_name, test_queries, factors=[2, 3, 5, 8, 10]):
     """Find optimal oversampling factor"""
     results = {}
@@ -240,16 +282,29 @@ def tune_oversampling(collection_name, test_queries, factors=[2, 3, 5, 8, 10]):
     
     return results
 
-# Tune oversampling for your best method (likely binary or scalar)
+# Tune oversampling for your method of choice
 best_method = "binary"  # Choose based on your results
-oversampling_results = tune_oversampling(
+oversampling_factors = [2, 3, 5, 8, 10]
+
+oversampling_results_latency = tune_oversampling(
     f"quantized_{best_method}", 
-    your_test_queries
+    your_test_queries,
+    oversampling_factors
 )
 
+oversampling_results_accuracy = measure_accuracy_retention(
+    "your_domain_collection",
+    f"quantized_{best_method}", 
+    your_test_queries,
+    oversampling_factors
+)
+
+
 print("Oversampling Factor Optimization:")
-for factor, metrics in oversampling_results.items():
-    print(f"  {factor}x: {metrics['avg_latency']:.2f}ms avg, {metrics['p95_latency']:.2f}ms P95")
+for factor in oversampling_factors:
+    print(f"  {factor}x:")
+    print(f"  {oversampling_results_latency[factor]['avg_latency']:.2f}ms avg latency, {oversampling_results_latency[factor]['p95_latency']:.2f}ms P95 latency")
+    print(f"  {oversampling_results_accuracy[factor]['avg_accuracy']:.2f} avg accuracy retention")
 ```
 
 ## Analysis Framework
@@ -276,11 +331,6 @@ for method, results in quantization_results.items():
     print(f"\n{method.upper()}:")
     print(f"  Without rescoring: {no_rescoring['avg']:.2f}ms ({speedup_no_rescoring:.1f}x speedup)")
     print(f"  With rescoring: {with_rescoring['avg']:.2f}ms ({speedup_with_rescoring:.1f}x speedup)")
-
-print(f"\nOptimal Oversampling Factor:")
-best_factor = min(oversampling_results.keys(), 
-                  key=lambda x: oversampling_results[x]['avg_latency'])
-print(f"  {best_factor}x oversampling: {oversampling_results[best_factor]['avg_latency']:.2f}ms")
 ```
 
 ## Your Deliverables
@@ -309,10 +359,10 @@ Scalar Quantization:
 Binary Quantization:
 - Average latency: X.Xms (XXx speedup)
 - Memory reduction: 32x compression
-- Accuracy impact: Recovered with 3x oversampling
+- Accuracy impact: Recovered with Xx oversampling
 
 Optimal Configuration:
-- Method: [Binary/Scalar] quantization
+- Method: XX quantization
 - Oversampling factor: Xx
 - Final speedup: XXx with YY% accuracy retention
 ```
@@ -320,17 +370,15 @@ Optimal Configuration:
 **Key Insights:**
 - Which quantization method worked best for your domain and why
 - How oversampling factor affected the accuracy/speed tradeoff
-- Memory savings achieved with `on_disk` configuration
-- Production deployment recommendations
-
+- RAM savings achieved with quantization
 
 ## Success Criteria
 
 You'll know you've succeeded when:
 
-<input type="checkbox"> You've achieved measurable speed improvements (5x+ for scalar, 20x+ for binary)  
+<input type="checkbox"> You've achieved measurable search speed improvements  
 <input type="checkbox"> You've maintained acceptable accuracy through oversampling optimization  
-<input type="checkbox"> You've demonstrated significant memory savings with `on_disk` configuration  
+<input type="checkbox"> You've demonstrated significant hot memory savings with `on_disk` configuration  
 <input type="checkbox"> You can make informed recommendations about quantization for your domain
 
 
@@ -357,45 +405,14 @@ You'll know you've succeeded when:
 
 ## Advanced Challenges
 
-### Challenge 1: Multi-Vector Quantization Strategy
-
-Test selective quantization for multi-vector collections:
-
-```python
-# Create collection with quantized dense + unquantized multivector
-client.create_collection(
-    collection_name="selective_quantization",
-    vectors_config={
-        "dense": models.VectorParams(
-            size=384,
-            distance=models.Distance.COSINE,
-            on_disk=True,
-        ),
-        "multivector": models.VectorParams(
-            size=384,
-            distance=models.Distance.COSINE,
-            on_disk=False,  # Keep multivector unquantized
-        ),
-    },
-    quantization_config=models.BinaryQuantization(
-        binary=models.BinaryQuantizationConfig(
-            encoding=models.BinaryQuantizationEncoding.ONE_BIT,
-            always_ram=True,
-        )
-    ),
-)
-
-# Test search pipeline: quantized recall → multivector rerank → exact rescore
-```
-
-### Challenge 2: Dynamic Oversampling
+### Challenge 1: Dynamic Oversampling
 
 Implement adaptive oversampling based on query characteristics:
 
 ```python
 def adaptive_oversampling(query, base_factor=3.0):
     """Adjust oversampling based on query complexity"""
-    # Simple heuristic: longer queries may need more oversampling
+    # Simple heuristic: longer queries may need more oversampling (adapt to your domain/use case)
     query_length = len(query) if isinstance(query, str) else len([x for x in query if x != 0])
     
     if query_length > 1000:  # Complex query
@@ -408,7 +425,7 @@ def adaptive_oversampling(query, base_factor=3.0):
 # Test adaptive oversampling vs fixed oversampling
 ```
 
-### Challenge 3: Cost-Performance Analysis
+### Challenge 2: Cost-Performance Analysis
 
 Calculate the true cost impact of quantization:
 
@@ -447,50 +464,6 @@ print(f"Vectors count: {collection_info.points_count}")
 print(f"Memory usage: Check Qdrant Cloud metrics")
 
 # Compare RAM usage with and without on_disk configuration
-```
-
-### Accuracy Deep Dive
-
-Implement more sophisticated accuracy measurements:
-
-```python
-def measure_accuracy_retention(original_collection, quantized_collection, test_queries):
-    """Compare search results between original and quantized collections"""
-    
-    accuracy_scores = []
-    
-    for query in test_queries:
-        # Get baseline results
-        baseline_results = client.query_points(
-            collection_name=original_collection,
-            query=query,
-            limit=10
-        )
-        baseline_ids = [point.id for point in baseline_results.points]
-        
-        # Get quantized results with rescoring
-        quantized_results = client.query_points(
-            collection_name=quantized_collection,
-            query=query,
-            limit=10,
-            search_params=models.SearchParams(
-                quantization=models.QuantizationSearchParams(
-                    rescore=True,
-                    oversampling=3.0,
-                )
-            ),
-        )
-        quantized_ids = [point.id for point in quantized_results.points]
-        
-        # Calculate overlap (simple accuracy measure)
-        overlap = len(set(baseline_ids) & set(quantized_ids))
-        accuracy = overlap / len(baseline_ids)
-        accuracy_scores.append(accuracy)
-    
-    avg_accuracy = np.mean(accuracy_scores)
-    print(f"Average accuracy retention: {avg_accuracy:.3f} ({avg_accuracy*100:.1f}%)")
-    
-    return avg_accuracy
 ```
 
 **Ready for production?** You now understand how to optimize vector search performance through quantization while maintaining the accuracy your applications require. 
