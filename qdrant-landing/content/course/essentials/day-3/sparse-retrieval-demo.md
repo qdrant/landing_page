@@ -19,6 +19,8 @@ Use sparse vectors for keywords-based text retrieval.
 </iframe>
 </div>
 
+<br/>
+
 ## What You'll Learn
 
 - Connection between Sparse Vectors & keywords-based retrieval

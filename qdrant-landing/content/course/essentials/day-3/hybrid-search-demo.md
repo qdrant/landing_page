@@ -9,7 +9,17 @@ weight: 4
 
 Build a complete hybrid search system with hands-on examples.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/zaQYa7oa1a8"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+
+<br/>
 
 ## What You'll Learn
 
@@ -18,8 +28,9 @@ Build a complete hybrid search system with hands-on examples.
 - Performance optimization techniques
 - Testing and evaluation methods
 
-[//]: # (TODO: Add link to Colab notebook)
-**Follow along:** [Complete Google Colab Notebook](#)
+**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_3/hybrid_search/Introduction_to_Qdrant_Hybrid_Search_in_practice.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
+</a>
 
 ## What You'll Discover
 

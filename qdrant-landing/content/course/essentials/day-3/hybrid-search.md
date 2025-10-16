@@ -9,7 +9,17 @@ weight: 3
 
 Learn how to combine dense and sparse vector search methods to build powerful hybrid search pipelines that serve diverse user needs.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/p_IKYRGuxmM"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+
+<br/>
 
 ## What You'll Learn
 

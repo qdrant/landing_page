@@ -20,6 +20,8 @@ Create and index [sparse vector](/documentation/concepts/vectors/#sparse-vectors
 </iframe>
 </div>
 
+<br/>
+
 ## What You'll Learn
 
 - Understanding sparse vector representations
