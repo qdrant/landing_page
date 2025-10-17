@@ -30,14 +30,19 @@ A quantization-optimized search system that demonstrates:
 Start by measuring your current system's performance without quantization:
 
 ```python
-from qdrant_client import QdrantClient, models
 import time
 import numpy as np
 
-client = QdrantClient(
-    "https://your-cluster-url.cloud.qdrant.io", 
-    api_key="your-api-key"
-)
+from qdrant_client import QdrantClient, models
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+
+# For Colab:
+# from google.colab import userdata
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
 
 def measure_search_performance(collection_name, test_queries, label="Baseline"):
     """Measure search performance across multiple queries"""

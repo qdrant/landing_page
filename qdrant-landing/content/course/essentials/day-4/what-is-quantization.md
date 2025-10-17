@@ -37,11 +37,15 @@ Scalar quantization excels as the production default because it [maintains 99%+ 
 
 ```python
 from qdrant_client import QdrantClient, models
+import os
+from dotenv import load_dotenv
 
-client = QdrantClient(
-    url="https://your-cluster-url.cloud.qdrant.io",
-    api_key="your-api-key",
-)
+load_dotenv()
+client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+
+# For Colab:
+# from google.colab import userdata
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
 
 # Scalar quantization setup
 client.create_collection(
