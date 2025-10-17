@@ -138,7 +138,7 @@ def paragraph_chunks(text):
 Note: If you are already familiar with Qdrant's filterable HNSW, you will know that effective filtering and grouping often relies on creating a [payload index](/documentation/concepts/indexing/#payload-index) before building HNSW indexes. To keep things simple in this tutorial, we will do a basic search with filters without payload indexes and talk about proper usage of payload indexes on [day 2](/content/course/essentials/day-2/_index.md) of this course.
 
 ```python
-collection_name = "my_domain_search"
+collection_name = "day1_semantic_search"
 
 if client.collection_exists(collection_name=collection_name):
     client.delete_collection(collection_name=collection_name)
@@ -278,55 +278,33 @@ Now it's time to analyze your results and share what you've learned. Follow thes
 
 ### Step 1: Reflect on Your Findings
 
-Use these prompts to structure your analysis. This will help you organize your thoughts before writing your final summary.
-
-**Domain and Dataset**
-
-- What content type you chose and why
-- Why semantic search is valuable for this domain
-- Size and complexity of your dataset
-
-**Chunking Strategy Comparison**
-
-```bash
-Example format:
-
-Fixed Chunking (100 words, 20 overlap):
-✓ Consistent chunk sizes, predictable performance
-✗ Broke important concepts mid-sentence
-Best for: Quick facts and specific details
-
-Sentence Chunking (3 sentences):
-✓ Preserved readability and grammar
-✗ Highly variable chunk sizes
-Best for: Balanced context and precision
-
-Paragraph Chunking:
-✓ Maintained full context and meaning
-✗ Some chunks too large, inconsistent sizes
-Best for: Complex concepts requiring context
-```
-
-**The Winning Strategy**
-
-- Based on your comparison, which chunking strategy gave the most relevant results for your domain?
-- Provide one specific example of a query where the winning strategy performed better than another.
-- Explain why you believe this strategy was the most effective for your specific content type.
-
+* **Domain & Dataset:** What content you chose and why; dataset size/complexity.
+* **Chunking Comparison:** What you observed for fixed / sentence / paragraph.
+* **The Winner:** Which worked best and why (one clear reason).
+* **Example Query:** One query where the winner beat another strategy.
 
 ### Step 2: Post Your Results
 
-**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
-  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
-       alt="Post your results in Discord"
-       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
-</a> **using this:**
+Post this in Discord:
 
-```bash
-Domain: "I built a semantic search for [recipes/books/articles/etc.]"
-Winner: "Best chunking strategy was [fixed/sentence/paragraph] because [one reason]"
-Demo query: "Try searching '[your example query]' — it finds [short why it's interesting]!"
-Surprise: "Most unexpected finding was [one line]"
+```markdown
+**[Day 1] Building a Semantic Search Engine**
+
+**High-Level Summary**
+- **Domain:** "I built a semantic search for [recipes/books/articles/etc.]"
+- **Winner:** "Best chunking strategy was [fixed/sentence/paragraph] because [one reason]"
+
+**Project-Specific Details**
+- **Collection:** day1_semantic_search (Cosine) with vectors: fixed/sentence/paragraph
+- **Dataset:** [N items] (snapshot: YYYY-MM-DD)
+- **Chunks:** fixed=[count]/[avg chars], sentence=[count]/[avg chars], paragraph=[count]/[avg chars]
+- **Demo query:** "Try '[your example query]'" — it found [what was interesting]
+
+**Surprise**
+- "[Most unexpected finding was …]"
+
+**Next step**
+- "[What you’ll try tomorrow]"
 ```
 
 ## Optional: Go Further
@@ -336,8 +314,9 @@ Enhance your search with filters like we saw in the movie demo:
 
 ```python
 # Example: Find Italian recipes that are quick to make
+
 results = client.query_points(
-    collection_name="my_domain_search",
+    collection_name=collection_name,
     query=encoder.encode("comfort food").tolist(),
     using="sentence",
     query_filter=models.Filter(
