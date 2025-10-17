@@ -10,7 +10,7 @@ weight: 6
 Process and vectorize documents with Unstructured.io and Qdrant.
 
 {{< youtube "FRIOwOy6VZk" >}}
-
+`
 ## What You'll Learn
 
 - Document processing with Unstructured.io
@@ -18,4 +18,3 @@ Process and vectorize documents with Unstructured.io and Qdrant.
 - Structured data extraction
 - Automated vectorization pipelines
 
-*Content to be added* 
