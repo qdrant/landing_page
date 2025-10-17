@@ -61,28 +61,30 @@ client.create_collection(
 # Dense embeddings
 encoder = SentenceTransformer("all-MiniLM-L6-v2")
 
+# Global vocabulary - automatically extends as new texts are processed
+global_vocabulary = {}
+
 # Simple sparse encoding (BM25-style)
-def create_sparse_vector(text, vocabulary=None):
+def create_sparse_vector(text):
     """Create sparse vector from text using term frequency"""
     from collections import Counter
     import re
     
     # Simple tokenization
-    words = re.findall(r'\b\w+\b', text.lower())
+    words = re.findall(r"\b\w+\b", text.lower())
     word_counts = Counter(words)
     
-    # Convert to sparse vector format
-    if vocabulary is None:
-        # Create simple vocabulary from unique words
-        vocabulary = {word: i for i, word in enumerate(set(words))}
-    
+    # Convert to sparse vector format, extending vocabulary as needed
     indices = []
     values = []
     
     for word, count in word_counts.items():
-        if word in vocabulary:
-            indices.append(vocabulary[word])
-            values.append(float(count))
+        if word not in global_vocabulary:
+            # Add new word to vocabulary with next available index
+            global_vocabulary[word] = len(global_vocabulary)
+        
+        indices.append(global_vocabulary[word])
+        values.append(float(count))
     
     return models.SparseVector(indices=indices, values=values)
 
