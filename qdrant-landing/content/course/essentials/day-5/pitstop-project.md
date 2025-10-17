@@ -64,7 +64,7 @@ client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API
 # from google.colab import userdata
 # client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
 
-collection_name = "recommendations_hybrid"
+collection_name = "day5_recommendations_hybrid"
 
 # Clean state
 if client.collection_exists(collection_name=collection_name):
@@ -518,42 +518,49 @@ You'll know you've succeeded when:
 
 ### Step 1: Reflect on Your Findings
 
-1. How does the Universal Query API simplify your recommendation pipeline?
-2. Which fusion strategy (RRF vs DBSF) works better for your use case?
-3. How does ColBERT reranking affect recommendation quality?
-4. What's the performance impact of multi-stage filtering?
+1. How did the Universal Query API simplify your recommendation pipeline (fewer calls, fewer joins, less code)?
+2. Which fusion strategy (RRF vs. DBSF) ranked better for your queries?
+3. What was the effect of ColBERT reranking on recommendation quality (top-k changes, click-like signals, nDCG/MRR)?
+4. What was the latency impact of multi-stage filtering (prefetch, rerank, total)?
 
 ### Step 2: Post Your Results
 
-Show your run and learn from others. 
+**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord"> <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+    alt="Post your results in Discord"
+    style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" /> </a> **using this:**
 
-**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
-  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
-       alt="Post your results in Discord"
-       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
-</a> **with this copy-paste template:**
+```markdown
+**[Day N] Recommendations with the Universal Query API**
 
-```bash
-Domain: "I built recs for [domain]"
-Data: [N items], fields: [category, user_segment, rating, date...]
+**High-Level Summary**
+- **Domain:** "I built recommendations for [domain]"
+- **Key Result:** "Using [RRF/DBSF] + ColBERT rerank improved [metric] to [value] with total latency [Z] ms."
 
-Query: "[user intent]"
-Filters: category=[...], segment=[...], rating≥..., release_date≥...
-Filter propagation: Automatic to all prefetch stages
+**Reproducibility**
+- **Collection:** [name]
+- **Models:** dense=[id, dim], sparse=[method], colbert=[id, dim]
+- **Dataset:** [N items] (snapshot: YYYY-MM-DD)
 
-Fusion: [RRF or DBSF], k_dense=100, k_sparse=100
-Reranker: ColBERT (MaxSim), top-k=10
+**Settings (today)**
+- **Fusion:** [RRF/DBSF], k_dense=[..], k_sparse=[..]
+- **Reranker:** ColBERT (MaxSim), top-k=[..]
+- **Filters:** category=[...], segment=[...], rating≥..., release_date≥...
+- **Filter propagation:** applied to all prefetch stages
 
-Top picks (rank → title → score):
-1) ...
-2) ...
-3) ...
+**Results (demo query: "[user intent]")**
+- **Top picks (rank → title → score):**
+  1) ...
+  2) ...
+  3) ...
+- **Why these won:** [token hit like “hacker”, genre match, rating signal]
+- **Latency:** prefetch ~[X] ms | rerank ~[Y] ms | total ~[Z] ms
+- **Dropped by rules:** [ids/titles → which rule]
 
-Why these won: [token match like “hacker”, genre overlap, strong rating]
-Speed: prefetch ~X ms | rerank ~Y ms | total ~Z ms
-Dropped by rules: [ids/titles and which rule]
-Surprise: “[one thing you didn’t expect]”
-Next step: “[what you’ll try next]”
+**Surprise**
+- "[one thing you didn’t expect]"
+
+**Next step**
+- "[what you’ll try next]"
 ```
 
 ## Optional: Go Further
