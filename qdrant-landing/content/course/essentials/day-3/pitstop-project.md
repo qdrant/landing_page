@@ -25,6 +25,25 @@ A hybrid search system that demonstrates:
 - **Performance comparison** between hybrid and single-vector approaches
 - **Domain optimization** for your specific use case
 
+## Setup
+### Prerequisites
+
+* Qdrant Cloud cluster (URL + API key)
+* Python 3.9+ (or Google Colab)
+* Packages: `qdrant-client`, `sentence-transformers`
+
+### Models
+
+* Dense encoder: `sentence-transformers/all-MiniLM-L6-v2` (384-dim)
+
+### Dataset
+
+* A small domain dataset (e.g., 100–500 items) with at least:
+
+  * `title` (string)
+  * `description` (string) — used for both dense and sparse encoders
+  * Optional metadata fields for later filtering
+
 ## Build Steps
 
 ### Step 1: Set Up Hybrid Collection
@@ -193,6 +212,10 @@ for query in test_queries:
     compare_search_methods(query)
 ```
 
+### Step 5: Analyze Your Results
+
+Use the outputs from Step 4 to evaluate how hybrid compares to the single approaches. Focus on when hybrid fixes dense misses (rare keywords, exact identifiers) and when sparse misses (synonyms/semantic paraphrases). Optionally, time each method (dense/sparse/hybrid) on a few queries and note average latency.
+
 ## Success Criteria
 
 You'll know you've succeeded when:
@@ -203,16 +226,16 @@ You'll know you've succeeded when:
 <input type="checkbox"> You can demonstrate cases where hybrid search outperforms single-vector approaches  
 <input type="checkbox"> You understand the trade-offs between different search methods for your domain  
 
-## Key Questions to Answer
+## Share Your Discovery
+
+### Step 1: Reflect on Your Findings
 
 1. In which scenarios does hybrid search outperform single-vector approaches?
 2. How does RRF fusion affect the ranking compared to individual methods?
 3. What are the latency trade-offs of hybrid vs single-vector search?
 4. How does the quality of sparse encoding affect hybrid search results?
 
-## Share Your Discovery
-
-Please answer the key questions above and share your findings!
+### Step 2: Post Your Results
 
 **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
   <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
