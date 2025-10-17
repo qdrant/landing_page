@@ -192,43 +192,45 @@ Your project succeeds when it shows production-ready search with measurable perf
 
 As you test your search engine, consider:
 
-* **Chunking granularity**: Are sections large enough to answer questions but small enough for precision?
-* **Payload design**: Do fields help attribution, filtering, and evaluation without bloat?
-* **Fusion strategy**: Which is better, RRF or DBSF?
-* **Reranking approach**: What’s the right candidate limit (50/100/200) to feed the multivector stage, and whats the best approch to aggregate token-level scores?
-* **Rerank or not**: Are multivectors worth it, or does fusion alone work fine?
-* **Performance tuning**: What search and HNSW settings hit your accuracy/latency goals?
+* **Chunking granularity:** Are sections large enough to answer questions but small enough for precision?
+* **Payload design:** Do fields help attribution, filtering, and evaluation without bloat?
+* **Fusion strategy:** Which works better for you, RRF or DBSF?
+* **Reranking approach:** What’s the right candidate limit (50/100/200) to feed the multivector stage, and what’s the best approach to aggregate token-level scores?
+* **Rerank or not:** Are multivectors worth it, or is fusion alone enough?
+* **Performance tuning:** Which search and HNSW settings hit your accuracy/latency goals?
 
-  * Start with search-time parameters: raise `ef` from 64 → 128 → 256 until gains flatten.
-  * For index-time, if you rebuild: try higher `m` (16, 32) and `ef_construct` (200, 400).
+  * Search time: raise `ef` from 64 → 128 → 256 until gains flatten.
+  * Index time (if rebuilding): try higher `m` (16, 32) and `ef_construct` (200, 400).
 
 ### Step 2: Post Your Results
 
-Show your run and learn from others. **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
-  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
-       alt="Post your results in Discord"
-       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
-</a> **with the copy-paste submission template:**
+Show your run and learn from others. **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord"> <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+    alt="Post your results in Discord"
+    style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" /> </a> **using this copy-paste template:**
 
-```bash
-Notebook/App: <link>
-Repo (optional): <link>
+```markdown
+**[Day 8] Final Project: Production-Ready Documentation Search Engine**
 
-Domain: "Documentation search for <product>"
-Models: dense=<id>, sparse=<method>, colbert=<id>
-Collection: docs_search (Cosine), points=<count>
+**High-Level Summary**
+- **Domain:** "Documentation search for <product>"
+- **Key Result:** "Hybrid + multivector reranking reached Recall@10=<value> with P95=<ms>."
 
-Dataset: <N sections> from <source>
-Ground truth: <M queries> (how-to / concept / api / troubleshooting)
+**Reproducibility**
+- **Notebook/App:** <link>
+- **Repo (optional):** <link>
+- **Models:** dense=<id>, sparse=<method>, colbert=<id>
+- **Collection:** docs_search (Cosine), points=<count>
+- **Dataset:** <N sections> from <source> (snapshot: YYYY-MM-DD)
+- **Ground truth:** <M queries> (how-to / concept / api / troubleshooting)
 
-Chunking: <one section per heading | other>
-Payload fields: <page_title, section_title, section_url, breadcrumbs, tags, prev/next>
+**Settings (today)**
+- **Chunking:** <one section per heading | other>
+- **Payload fields:** <page_title, section_title, section_url, breadcrumbs, tags, prev/next>
+- **Fusion:** <RRF/DBSF>, k_dense=<100>, k_sparse=<100>
+- **Reranker:** ColBERT (MaxSim), top-k=<N>
+- **Index/Search params:** ef=<...>, m=<...>, ef_construct=<...>  # if tuned
 
-Index/search params: ef=<...>, m=<...>, ef_construct=<...>  # if tuned
-Fusion: <RRF/DBSF>, k_dense=<100>, k_sparse=<100>
-Reranker: ColBERT (MaxSim), top-k=<N>
-
-Queries (examples):
+**Queries (examples)**
 1) "<user query>"
 Top 3:
   1) <section title> → <url> → <score>
@@ -240,12 +242,17 @@ Top 3:
   2) ...
   3) ...
 
-Results:
-Recall@10: <value> | MRR: <value> | P50/P95: <ms>/<ms>
+**Evaluation**
+- Recall@10: <value> | MRR: <value> | P50: <ms> | P95: <ms>
 
-Why these matched: <one line>
-Surprise: "<…>"
-Next step: "<…>"
+**Why these matched**
+- <one line>
+
+**Surprise**
+- "<…>"
+
+**Next step**
+- "<…>"
 ```
 
 ## Optional: Go Further
