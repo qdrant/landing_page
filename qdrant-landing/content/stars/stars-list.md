@@ -206,6 +206,13 @@ cards:
     name: Mohammed Arbi
     position: Machine Learning Engineer
     description: Building intelligent AI systems with Generative AI, RAG, MLOps, and Qdrant. Active GDG mentor, sharing knowledge and supporting the developer community.
+  - id: 26
+    image:
+      src: /img/stars/vaibhava-photo.jpg
+      alt: Vaibhava Laxmi
+    name: Vaibhava Laxmi
+    position: AI Engineer
+    description: Passionate about building intelligent retrieval and reasoning systems using Knowledge Graphs, Ontologies, Vector Databases, and Large Language Models.
 link:
   text: Read the Qdrant Stars Handbook
   url: https://qdrant.github.io/qdrant-stars-handbook/
