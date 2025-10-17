@@ -371,57 +371,48 @@ You'll know you've succeeded when:
 
 ### Step 1: Reflect on Your Findings
 
-Document your results and answer these:
+1. Which quantization method gave the best balance between speed and accuracy?
+2. How did the oversampling factor change latency and accuracy?
+3. What was the real memory and cost impact?
+4. How do your results compare to the reference maximums (≈40× speed, ≈32× compression)?
 
-**Domain & Dataset:**
-- Content type and size
-- Embedding model and dimensions
-- Why quantization matters for your use case
+### Step 2: Post Your Results
 
-**Quantization Method Comparison (example format)**
+**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord"> <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+    alt="Post your results in Discord"
+    style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" /> </a> **using this:**
 
-```bash
-Example format:
+```markdown
+**[Day 4] Quantization Performance Optimization**
 
-Baseline (No Quantization):
-- Average latency: X.Xms
-- P95 latency: X.Xms
-- Memory usage: X GB RAM
+**High-Level Summary**
+- **Domain:** "I optimized [your domain] search with quantization"
+- **Key Result:** "Best was [Scalar/Binary/(2-bit Binary)] with oversampling [x]× → [Z]× faster, [A]% accuracy retained."
 
-Scalar Quantization:
-- Average latency: X.Xms (Xx speedup)
-- Memory reduction: 4x compression
-- Accuracy impact: Minimal
+**Reproducibility**
+- **Collections:** day4_baseline_collection, day4_quantized_scalar, day4_quantized_binary (and/or day4_quantized_2bit)
+- **Model:** [name, dim]
+- **Dataset:** [N items] (snapshot: YYYY-MM-DD)
+- **Search settings:** hnsw_ef=[..] (if used)
 
-Binary Quantization:
-- Average latency: X.Xms (XXx speedup)
-- Memory reduction: 32x compression
-- Accuracy impact: Recovered with Xx oversampling
+**Results**
+- **Baseline latency:** [X] ms
+- **Quantized latency (rescoring on):** [Y] ms
+- **Oversampling:** [factor]×
+- **Accuracy retention:** [..]%
+- **Memory:** [before GB] → [after GB] (**[compression]×**)
+- **(Optional) Cost:** ~$[before]/mo → ~$[after]/mo, save ~$[delta]/mo
 
-Optimal Configuration:
-- Method: XX quantization
-- Oversampling factor: Xx
-- Final speedup: XXx with YY% accuracy retention
+**Method Notes**
+- **Scalar (INT8):** [one line]
+- **Binary (1-bit / 2-bit):** [one line]
+
+**Surprise**
+- "[most unexpected finding]"
+
+**Next step**
+- "[one concrete action for tomorrow]"
 ```
-
-**Key Questions**
-1. **Which quantization method delivered the best speed/accuracy tradeoff for your domain?**
-2. **How did oversampling factor affect your results?**
-3. **What was the real-world memory and cost impact?**
-4. **How do your results compare to the theoretical maximums (40x speedup, 32x compression)?**
-
-
-### Setp 2: Post Your Results
-
-**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
-  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
-       alt="Post your results in Discord"
-       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" /></a> **with:**
-- **Domain**: "I optimized [your domain] search with quantization"
-- **Winner**: "Best method was [X] quantization with [Y]x oversampling"
-- **Performance**: "Achieved [Z]x speedup with [A]% accuracy retention"
-- **Surprise**: "Most unexpected finding was..."
-
 
 ## Optional: Go Further
 
