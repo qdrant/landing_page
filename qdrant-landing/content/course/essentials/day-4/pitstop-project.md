@@ -411,7 +411,7 @@ Optimal Configuration:
 4. **How do your results compare to the theoretical maximums (40x speedup, 32x compression)?**
 
 
-## Share Your Discovery
+### Setp 2: Post Your Results
 
 **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
   <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
