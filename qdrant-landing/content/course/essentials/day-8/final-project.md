@@ -40,8 +40,9 @@ This mirrors real-world retrieval challenges where users need precise answers fr
 ## Setup
 
 ### Prerequisites
-- **Environment**: Qdrant Cloud
-- **Secrets**: Read `QDRANT_URL` and `QDRANT_API_KEY` from environment variables.
+* Qdrant Cloud cluster (URL + API key)
+* Python 3.9+ (or Google Colab)
+* Packages: `qdrant-client`, `numpy`, `python-dotenv`
 
 ### Models
 - **Dense**: `BAAI/bge-small-en-v1.5` (384-dim) or `BAAI/bge-base-en-v1.5` (768-dim)
@@ -192,24 +193,7 @@ Your project succeeds when it shows production-ready search with measurable perf
 
 ## Share Your Discovery
 
-Show your run and learn from others. 
-
-**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
-  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
-       alt="Post your results in Discord"
-       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
-</a> **with the copy-paste submission template:**
-
-### Your Deliverables
-
-**Jupyter Notebook**: Complete implementation including data loading, embedding, indexing, search, and evaluation
-**Accuracy Report**: Performance metrics (Recall@10, MRR, P50/P95) with analysis
-**Design Documentation**: Explanation of key decisions (chunking, models, parameters, tuning)
-**Demo Queries**: Set of realistic test queries with expected results
-
-This project demonstrates your mastery of production vector search systems and serves as a portfolio piece that showcases your ability to build sophisticated retrieval applications with Qdrant. 
-
-### Key Questions to Answer
+### Step 1: Reflect on Your Findings
 
 As you test your search engine, consider:
 
@@ -223,7 +207,13 @@ As you test your search engine, consider:
   * Start with search-time parameters: raise `ef` from 64 → 128 → 256 until gains flatten.
   * For index-time, if you rebuild: try higher `m` (16, 32) and `ef_construct` (200, 400).
 
-### Submission Template
+### Step 2: Post Your Results
+
+Show your run and learn from others. **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
+  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+       alt="Post your results in Discord"
+       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
+</a> **with the copy-paste submission template:**
 
 ```bash
 Notebook/App: <link>
