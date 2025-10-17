@@ -338,7 +338,7 @@ You'll know you've succeeded when:
        style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
 </a> **with:**
 
-```md
+```bash
 **Domain & Dataset:**
 - Content type and size
 - Why performance optimization matters for your use case
