@@ -9,7 +9,7 @@ weight: 6
 
 Process and vectorize documents with Unstructured.io and Qdrant.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+{{< youtube https://youtu.be/FRIOwOy6VZk >}}
 
 ## What You'll Learn
 

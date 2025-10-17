@@ -39,10 +39,10 @@ Learn about the Qdrant ecosystem and integration strategies.
   content: Build scalable data lakes with vector capabilities
   link: tensorlake/
 
-- icon: /courses/course-integrations/vectorize.svg
-  title: Vectorize.io
-  content: Enhanced vector processing platform
-  link: vectorize/
+- icon: /courses/course-integrations/llamaindex.svg
+  title: LlamaIndex
+  content: Build agentic workflows for complex enterprise documents
+  link: llamaindex/
 
 - icon: /courses/course-integrations/unstructured.svg
   title: Unstructured.io
@@ -59,8 +59,8 @@ Learn about the Qdrant ecosystem and integration strategies.
   content: Advanced feature engineering for vectors
   link: superlinked/
 
-- icon: /courses/course-integrations/twelveLabs.svg
-  title: TwelveLabs
-  content: Video understanding and search powered by AI
-  link: twelvelabs/
+- icon: /courses/course-integrations/camel.svg
+  title: Camel AI
+  content: Agentic RAG with multi-agent systems
+  link: camel/
 {{< /cards-list >}}
