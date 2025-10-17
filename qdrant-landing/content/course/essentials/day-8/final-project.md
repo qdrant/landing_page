@@ -146,11 +146,6 @@ Transform raw results into user-friendly output: page title, section title, URLs
 
 Build a small eval set and measure quality and latency. Use results to guide tuning (fusion strategy, candidate sizes, search-time `ef`, etc.).
 
-**Ground truth**
-
-* Create 20–30 realistic queries with expected section URLs/anchors.
-* Cover how-to, concepts, API usage, and troubleshooting.
-
 **Ground Truth**:
 - Create 20–30 realistic queries with expected section URLs/anchors.
 - Aim for diverse query types that cover how-to, concepts, API usage, and troubleshooting.
