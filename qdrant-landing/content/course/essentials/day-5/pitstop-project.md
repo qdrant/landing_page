@@ -26,6 +26,11 @@ A hybrid recommendation system using:
 - **Business rule filtering** at multiple pipeline stages
 - **Production-ready patterns** for recommendation systems
 
+## Setup
+### Prerequisites
+### Models
+### Dataset
+
 ## Build Steps
 
 ### Step 1: Set Up the Hybrid Collection
@@ -497,14 +502,16 @@ You'll know you've succeeded when:
 <input type="checkbox"> Business filters propagate automatically to all prefetch stages  
 <input type="checkbox"> Your recommendation service provides personalized, high-quality results
 
-## Key Questions to Answer
+## Share Your Discovery
+
+### Step 1: Reflect on Your Findings
 
 1. How does the Universal Query API simplify your recommendation pipeline?
 2. Which fusion strategy (RRF vs DBSF) works better for your use case?
 3. How does ColBERT reranking affect recommendation quality?
 4. What's the performance impact of multi-stage filtering?
 
-## Share Your Discovery
+### Step 2: Post Your Results
 
 Show your run and learn from others. 
 
@@ -550,7 +557,7 @@ Next step: “[what you’ll try next]”
 * Add a tiny table with `rank, id, title, dense_score, sparse_score, colbert_score`.
 * Share a before/after list showing items removed by business rules.
 
-## Optional Extensions
+## Optional: Go Further
 
 ### Experiment with Fusion Strategies
 
