@@ -9,6 +9,10 @@ weight: 3
 
 In this hands-on demo, we'll build a research paper discovery system using the arXiv dataset that showcases the full power of Qdrant's Universal Query API. You'll see how to combine dense semantics, sparse keywords, and ColBERT reranking to help researchers find exactly the papers they need - all in a single query.
 
+**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_5/universal-query-demo.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
+</a>
+
 ## The Challenge: Intelligent Research Discovery
 
 Imagine you're a machine learning researcher looking for "transformer architectures for multimodal learning with attention mechanisms." You need to:
