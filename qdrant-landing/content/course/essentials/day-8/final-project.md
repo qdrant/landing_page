@@ -71,8 +71,6 @@ payload = {
 
 ### Step 1: Initialize Client
 
-**Standard init (local)**
-
 ```python
 from qdrant_client import QdrantClient, models
 import os
@@ -80,17 +78,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
-```
 
-**Colab init**
-
-```python
-from qdrant_client import QdrantClient, models
-from google.colab import userdata
-
-QDRANT_URL = userdata.get("QDRANT_URL")
-QDRANT_API_KEY = userdata.get("QDRANT_API_KEY")
-client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+# For Colab:
+# from google.colab import userdata
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
 ```
 
 ### Step 2: Collection Design
