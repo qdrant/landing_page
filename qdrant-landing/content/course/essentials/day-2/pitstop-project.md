@@ -24,6 +24,23 @@ A performance-optimized version of your Day 1 search engine that demonstrates:
 - **Payload indexing impact**: Time filtering with and without indexes
 - **Domain findings**: What works best for your content
 
+## Setup
+
+### Prerequisites
+
+* Qdrant Cloud cluster (URL + API key)
+* Python 3.9+ (or Google Colab)
+* Packages: `qdrant-client`, `sentence-transformers`, `python-dotenv`, `numpy`
+
+### Models
+
+* Embeddings: `sentence-transformers/all-MiniLM-L6-v2` (384-dim)
+
+### Dataset
+
+* Reuse your Day 1 domain data or prepare a dataset with **1,000+ items** and a rich text field (e.g., `description`).
+* Include a few numeric fields for filtering (e.g., `length`, `word_count`) so payload indexing impact can be measured.
+
 ## Build Steps
 
 ### Step 1: Extend Your Day 1 Project
@@ -272,7 +289,7 @@ best_collection = "my_domain_balanced"  # Choose based on your results
 filtering_results = test_filtering_performance(best_collection)
 ```
 
-## Analysis Framework
+### Step 6: Analyze Your Results
 
 Create a summary of your findings:
 
@@ -296,7 +313,30 @@ print(f"   With index: {filtering_results['with_index']:.2f}ms")
 print(f"   Speedup: {filtering_results['speedup']:.1f}x")
 ```
 
-## Your Deliverables
+## Success Criteria
+
+You'll know you've succeeded when:
+
+<input type="checkbox"> You've tested multiple HNSW configurations with real timing data  
+<input type="checkbox"> You can explain which settings work best for your domain and why  
+<input type="checkbox"> You've measured the concrete impact of payload indexing  
+<input type="checkbox"> You have clear recommendations for production deployment
+
+
+## Share Your Discovery
+### Step 1: Reflect on Your Findings
+1. Which HNSW configuration worked best for your domain?
+2. How did upload (index building times) vs. search performance trade off?
+3. What was the impact of payload indexing?
+4. How do your results compare to the DBpedia demo?
+
+### Step 2: Post Your Results
+
+**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
+  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+       alt="Post your results in Discord"
+       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
+</a> **with:**
 
 ```md
 **Domain & Dataset:**
@@ -324,46 +364,12 @@ print(f"   Speedup: {filtering_results['speedup']:.1f}x")
 - When to pick different settings
 - Production deployment considerations
 ```
-## Success Criteria
 
-You'll know you've succeeded when:
+## Optional: Go Further
 
-<input type="checkbox"> You've tested multiple HNSW configurations with real timing data  
-<input type="checkbox"> You can explain which settings work best for your domain and why  
-<input type="checkbox"> You've measured the concrete impact of payload indexing  
-<input type="checkbox"> You have clear recommendations for production deployment
+* Test more granular parameters:
 
-## Key Questions to Answer
-
-1. Which HNSW configuration worked best for your domain?
-2. How did upload (index building times) vs. search performance trade off?
-3. What was the impact of payload indexing?
-4. How do your results compare to the DBpedia demo?
-
-## Share Your Discovery
-
-**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
-  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
-       alt="Post your results in Discord"
-       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
-</a> **with:**
-
-- **Domain**: "I optimized performance for [your domain]"
-- **Winner**: "Best config was m=X, ef_construct=Y because..."
-- **Surprise**: "Most unexpected finding was..."
-- **Impact**: "Payload indexes improved filtering by XXx"
-
-
-## Optional Extensions
-
-**Advanced HNSW Tuning**
-Test more granular parameters:
-
-```python
-# Test ef_construct impact on accuracy
-# Measure memory usage differences
-```
-
-**Ready for production?** You now understand how to optimize Qdrant for your specific use case, balancing upload speed, search performance, and memory usage based on real measurements. 
-
-
+  * **ef_construct** impact on recall & build time
+  * **hnsw_ef** per-query tuning by complexity
+* Track memory usage differences (RAM/on-disk, payload indexes)
+* Add accuracy metrics vs. a small labeled query set to see if higher `m` truly improves quality for your domain
