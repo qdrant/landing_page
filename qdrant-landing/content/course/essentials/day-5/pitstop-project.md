@@ -35,13 +35,18 @@ A hybrid recommendation system using:
 First, connect to Qdrant and create a clean collection for our recommendation system:
 
 ```python
-from qdrant_client import QdrantClient, models
 from datetime import datetime
+from qdrant_client import QdrantClient, models
+import os
+from dotenv import load_dotenv
 
-client = QdrantClient(
-    url="https://your-cluster-url.cloud.qdrant.io",
-    api_key="your-api-key",
-)
+load_dotenv()
+client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+
+# For Colab:
+# from google.colab import userdata
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
+
 collection_name = "recommendations_hybrid"
 
 # Clean state
