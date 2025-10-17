@@ -60,9 +60,11 @@ client = QdrantClient(
     api_key="your-api-key"
 )
 
+collection_name = "day3_hybrid_search"
+
 # Create hybrid collection
 client.create_collection(
-    collection_name="hybrid_search",
+    collection_name=collection_name,
     vectors_config={
         "dense": models.VectorParams(size=384, distance=models.Distance.COSINE)
     },
@@ -120,7 +122,7 @@ for i, item in enumerate(your_dataset):
         payload=item
     ))
 
-client.upload_points(collection_name="hybrid_search", points=points)
+client.upload_points(collection_name=collection_name, points=points)
 ```
 
 ### Step 3: Implement Hybrid Search with RRF
@@ -135,7 +137,7 @@ def hybrid_search_with_rrf(query_text, limit=10):
     
     # Use Qdrant's built-in RRF
     response = client.query_points(
-        collection_name="hybrid_search",
+        collection_name=collection_name,
         prefetch=[
             models.Prefetch(
                 query=query_dense,
@@ -170,7 +172,7 @@ def compare_search_methods(query_text):
     
     # Dense-only search
     dense_results = client.query_points(
-        collection_name="hybrid_search",
+        collection_name=collection_name,
         query=encoder.encode(query_text).tolist(),
         using="dense",
         limit=5
@@ -178,7 +180,7 @@ def compare_search_methods(query_text):
     
     # Sparse-only search  
     sparse_results = client.query_points(
-        collection_name="hybrid_search",
+        collection_name=collection_name,
         query=create_sparse_vector(query_text),
         using="sparse",
         limit=5
@@ -230,24 +232,52 @@ You'll know you've succeeded when:
 
 ### Step 1: Reflect on Your Findings
 
-1. In which scenarios does hybrid search outperform single-vector approaches?
-2. How does RRF fusion affect the ranking compared to individual methods?
-3. What are the latency trade-offs of hybrid vs single-vector search?
-4. How does the quality of sparse encoding affect hybrid search results?
+1. When did hybrid search beat dense-only or sparse-only (give concrete query types)?
+2. How did RRF change the ranking vs. the individual methods?
+3. How did latency compare across dense, sparse, and hybrid (avg + P95)?
+4. How did your sparse encoding choice (e.g., TF-IDF/BM25/SPLADE) affect results?
 
 ### Step 2: Post Your Results
 
-**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
-  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
-       alt="Post your results in Discord"
-       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
-</a> **with this copy-paste template:**
+**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord"> <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+    alt="Post your results in Discord"
+    style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" /> </a> **using this:**
 
 ```markdown
-Domain: "I built hybrid search for [your domain]"
-Winner: "Hybrid/Dense/Sparse worked best because [your reason]"
-Demo query: "For '[your query]' — [what you observed]"
-Surprise: "[one unexpected finding]"
+**[Day 3] Building a Hybrid Search Engine**
+
+**High-Level Summary**
+- **Domain:** "I built hybrid search for [your domain]"
+- **Winner:** "Hybrid/Dense/Sparse worked best because [one clear reason]"
+
+**Reproducibility**
+- **Collection:** day3_hybrid_search
+- **Models:** dense=[id, dim], sparse=[method]
+- **Dataset:** [N items] (snapshot: YYYY-MM-DD)
+
+**Settings (today)**
+- **Fusion:** RRF, k_dense=[..], k_sparse=[..]
+- **Search:** hnsw_ef=[..] (if used)
+- **Sparse encoding:** [TF-IDF/BM25/SPLADE], notes: [e.g., stopwords/stemming]
+
+**Head-to-Head (demo query: "[your query]")**
+- **Dense top-3:** 1) …, 2) …, 3) …
+- **Sparse top-3:** 1) …, 2) …, 3) …
+- **Hybrid top-3:** 1) …, 2) …, 3) …
+
+**Latency**
+- **Dense:** avg=[..] ms (P95=[..] ms)
+- **Sparse:** avg=[..] ms (P95=[..] ms)
+- **Hybrid (RRF):** avg=[..] ms (P95=[..] ms)
+
+**Why these won**
+- [one line on synonyms vs exact IDs/keywords, etc.]
+
+**Surprise**
+- "[one unexpected finding]"
+
+**Next step**
+- "[one concrete action for tomorrow]"
 ```
 
 ## Optional: Go Further
@@ -259,7 +289,7 @@ Test Distribution-Based Score Fusion (DBSF) as an alternative to RRF:
 ```python
 # Compare RRF vs DBSF
 dbsf_results = client.query_points(
-    collection_name="hybrid_search",
+    collection_name=collection_name,
     prefetch=[
         models.Prefetch(query=query_dense, using="dense", limit=20),
         models.Prefetch(query=query_sparse, using="sparse", limit=20)
@@ -278,12 +308,12 @@ def benchmark_search_methods(query_text, iterations=10):
     """Benchmark different search approaches"""
     methods = {
         "dense": lambda: client.query_points(
-            collection_name="hybrid_search",
+            collection_name=collection_name,
             query=encoder.encode(query_text).tolist(),
             using="dense", limit=10
         ),
         "sparse": lambda: client.query_points(
-            collection_name="hybrid_search", 
+            collection_name=collection_name, 
             query=create_sparse_vector(query_text),
             using="sparse", limit=10
         ),
