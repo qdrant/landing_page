@@ -91,7 +91,7 @@ you’ll get a detailed view with these tabs:
 
 ## Connect from Python
 
-Store credentials in an `.env` file at the root of your working directory:
+Store credentials in an `.env` file at the root of your working directory or in colab:
 
 ```env
 QDRANT_URL=https://YOUR-CLUSTER.cloud.qdrant.io:6333
@@ -101,15 +101,16 @@ QDRANT_API_KEY=YOUR_API_KEY
 Load the credentials with `dotenv` and create a Qdrant client:
 
 ```python
-import os
-from dotenv import load_dotenv
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
+from google.colab import userdata
 
-load_dotenv()
-client = QdrantClient(
-    url=os.getenv("QDRANT_URL"),
-    api_key=os.getenv("QDRANT_API_KEY"),
-)
+client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
+
+# Standard init (local)
+# import os
+# from dotenv import load_dotenv
+# load_dotenv()
+# client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 # Quick health check
 collections = client.get_collections()

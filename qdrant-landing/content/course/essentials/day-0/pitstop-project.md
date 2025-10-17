@@ -13,6 +13,8 @@ Time to apply what you've learned. You'll create a complete, working vector sear
 
 Build a functional vector search system that demonstrates the core concepts: collections, points, similarity search, and filtering. You'll design simple 4-dimensional vectors that represent different concepts or items.
 
+**Estimated Time:** 30 minutes
+
 ## What You'll Build
 
 A working search system with:
@@ -21,39 +23,46 @@ A working search system with:
 - Basic similarity search to find nearest neighbors
 - Filtered search combining similarity with payload conditions
 
-### Example Concepts to Represent
+## Setup
+### Prerequisites
+### Models
+### Dataset
 
-<!-- **Product categories**: Create vectors where each dimension represents a feature (price, quality, popularity, innovation). Electronics might be `[0.8, 0.7, 0.9, 0.6]`, while books could be `[0.3, 0.9, 0.4, 0.8]`. -->
-**Product categories**: Create vectors where each dimension represents a feature (affordability, quality, popularity, innovation). Electronics might be `[0.8, 0.7, 0.9, 0.6]`, while books could be `[0.3, 0.9, 0.4, 0.8]`.
-
-**Color palettes**: Each dimension represents color intensity (red, green, blue, brightness). Bright red: `[0.9, 0.1, 0.1, 0.8]`, forest green: `[0.1, 0.8, 0.2, 0.5]`.
-
-**Data types**: Dimensions for structure, size, complexity, frequency. Spreadsheets: `[0.9, 0.6, 0.3, 0.7]`, images: `[0.2, 0.8, 0.5, 0.4]`.
-
-**Movie genres**: Action, drama, comedy, sci-fi intensities. Action thriller: `[0.9, 0.3, 0.1, 0.7]`, romantic comedy: `[0.1, 0.6, 0.9, 0.2]`.
+Example Concepts to Represent: 
+- **Product categories**: Create vectors where each dimension represents a feature (affordability, quality, popularity, innovation). Electronics might be `[0.8, 0.7, 0.9, 0.6]`, while books could be `[0.3, 0.9, 0.4, 0.8]`.
+- **Color palettes**: Each dimension represents color intensity (red, green, blue, brightness). Bright red: `[0.9, 0.1, 0.1, 0.8]`, forest green: `[0.1, 0.8, 0.2, 0.5]`.
+- **Data types**: Dimensions for structure, size, complexity, frequency. Spreadsheets: `[0.9, 0.6, 0.3, 0.7]`, images: `[0.2, 0.8, 0.5, 0.4]`.
+- **Movie genres**: Action, drama, comedy, sci-fi intensities. Action thriller: `[0.9, 0.3, 0.1, 0.7]`, romantic comedy: `[0.1, 0.6, 0.9, 0.2]`.
 
 ## Build Steps
-
+### Step 1: Initialize Client
 ```python
 from qdrant_client import QdrantClient, models
-from dotenv import load_dotenv
-import os
+from google.colab import userdata
 
-load_dotenv()
+client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
 
-# Connect (use your credentials)
-client = QdrantClient(
-    url=os.environ["QDRANT_URL"], api_key=os.environ["QDRANT_API_KEY"]
-)
+# Standard init (local)
+# import os
+# from dotenv import load_dotenv
+# load_dotenv()
+# client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+```
 
-# Create collection
+### Step 2: Create Collection
+```python
 collection_name = "my_vector_system"
 client.create_collection(
     collection_name=collection_name,
     vectors_config=models.VectorParams(size=4, distance=models.Distance.COSINE),
 )
+```
 
-# Insert points with hand-crafted vectors
+### Step 3: Insert Points
+
+We use dummy embeddings.
+
+```python
 points = [
     models.PointStruct(
         id=1,
