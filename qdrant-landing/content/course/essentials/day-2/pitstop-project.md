@@ -39,9 +39,11 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
-# Initialize (use Qdrant Cloud for better performance testing)
-client = QdrantClient(os.environ["QDRANT_URL"], api_key=os.environ["QDRANT_API_KEY"])
+# For Colab:
+# from google.colab import userdata
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
 
 encoder = SentenceTransformer("all-MiniLM-L6-v2")
 ```

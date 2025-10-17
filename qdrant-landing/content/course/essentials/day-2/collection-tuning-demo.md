@@ -35,19 +35,6 @@ Working with 100K high-dimensional vectors (1536 dimensions from OpenAI's text-e
 
 ### Install Required Libraries
 
-```python
-# Install required packages
-!pip install datasets qdrant-client tqdm openai python-dotenv -q
-
-# Import libraries
-from datasets import load_dataset
-from qdrant_client import QdrantClient, models
-from tqdm import tqdm
-import openai
-import time
-import os
-from dotenv import load_dotenv
-```
 
 **Library purposes:**  
  
@@ -84,17 +71,20 @@ OPENAI_API_KEY=sk-your-openai-api-key-here
 We’ll use Qdrant Cloud for stable resources at 100K scale.
 
 ```python
+from datasets import load_dataset
+from qdrant_client import QdrantClient, models
+from tqdm import tqdm
+import openai
+import time
+import os
+from dotenv import load_dotenv
+
 load_dotenv()
+client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
-QDRANT_URL = os.getenv('QDRANT_URL')
-QDRANT_API_KEY = os.getenv('QDRANT_API_KEY')
-
-# For Google Colab secrets:
+# For Colab:
 # from google.colab import userdata
-# QDRANT_URL = userdata.get('QDRANT_URL')
-# QDRANT_API_KEY = userdata.get('QDRANT_API_KEY')
-
-client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
 
 # Verify connection
 try:
