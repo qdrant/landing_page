@@ -28,8 +28,20 @@ A hybrid recommendation system using:
 
 ## Setup
 ### Prerequisites
+
+* Qdrant Cloud cluster (URL + API key)
+* Python 3.9+ (or Google Colab)
+* Packages: `qdrant-client`, `fastembed`, `python-dotenv`
+
 ### Models
+- **Dense**: `sentence-transformers/all-MiniLM-L6-v2` (384-dim)
+- **Sparse**: `prithivida/Splade_PP_en_v1` (SPLADE)
+- **Multivector**: `colbert-ir/colbertv2.0` (128-dim tokens)
+
 ### Dataset
+- **Scope**: A small set of sample items (e.g., 10-20 movies).
+- **Payload Fields**: `title`, `description`, `category`, `genre`, `year`, `rating`, `user_segment`, `popularity_score`, `release_date`.
+- **Filters Used**: `category`, `user_segment`, `release_date`, `popularity_score`.
 
 ## Build Steps
 
@@ -543,19 +555,6 @@ Dropped by rules: [ids/titles and which rule]
 Surprise: “[one thing you didn’t expect]”
 Next step: “[what you’ll try next]”
 ```
-
-### What to include
-
-* One line on how dense, sparse, and ColBERT each helped.
-* How filter propagation affected candidate retrieval at all stages.
-* RRF vs DBSF quick note (which ranked better for your query).
-* A short timing snapshot (prefetch, rerank, total).
-* One decision you’d ship with today (e.g., “use RRF for cold start users”).
-
-### Bonus (optional)
-
-* Add a tiny table with `rank, id, title, dense_score, sparse_score, colbert_score`.
-* Share a before/after list showing items removed by business rules.
 
 ## Optional: Go Further
 
