@@ -324,45 +324,54 @@ You'll know you've succeeded when:
 
 
 ## Share Your Discovery
+
 ### Step 1: Reflect on Your Findings
-1. Which HNSW configuration worked best for your domain?
-2. How did upload (index building times) vs. search performance trade off?
-3. What was the impact of payload indexing?
+
+1. Which HNSW configuration (`m`, `ef_construct`) worked best for your domain?
+2. How did the balance between upload time and search speed look?
+3. What was the impact of adding a payload index?
 4. How do your results compare to the DBpedia demo?
 
 ### Step 2: Post Your Results
 
-**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
-  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
-       alt="Post your results in Discord"
-       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
-</a> **with:**
+**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord"> <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+    alt="Post your results in Discord"
+    style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" /> </a> **using this:**
 
-```bash
-**Domain & Dataset:**
-- Content type and size
-- Why performance optimization matters for your use case
-- Specific performance requirements (speed vs. accuracy)
+```markdown
+**[Day 2] HNSW Performance Benchmarking**
 
-**Configuration Results:**
-1) Upload Performance:
-- m=0: X.Xs, fastest load, no HNSW index built, good for bulk load then build
-- m=16: X.Xs, middle ground, balanced index build/search time
-- m=32: X.Xs, slowest load, but potentially better accuracy
+**High-Level Summary**
+- **Domain:** "[your domain]"
+- **Key Result:** "m=[..], ef_construct=[..], hnsw_ef=[..] gave [X] ms search and [Y] s upload (best balance)."
 
-2) Search Performance:
-- m=16: X.Xms average, good for real-time applications
-- m=32: X.Xms average, higher accuracy on hard queries
-- hnsw_ef: hnsw_ef=X gave best speed/accuracy balance
+**Reproducibility**
+- **Collections:** ...
+- **Model:** sentence-transformers/all-MiniLM-L6-v2 (384-dim)
+- **Dataset:** [N items] (snapshot: YYYY-MM-DD)
 
-3) Filtering Impact:
-- Payload indexes gave XXx speedup
-- Needed for production filtering workloads
+**Configuration Results**
+| m  | ef_construct | Upload_s | Search_ms@ef=128 |
+|----|--------------|----------|------------------|
+| 0  | 100          | X.X      | —                |
+| 8  | 100          | Y.Y      | A.A              |
+| 16 | 200          | Z.Z      | B.B              |
+| 32 | 400          | W.W      | C.C              |
 
-**Recommendations:**
-- Best configuration for your specific use case
-- When to pick different settings
-- Production deployment considerations
+**Filtering Impact**
+- Payload index on `length`: **[speedup]×**  
+  Without index: [T1] ms → With index: [T2] ms
+
+**Recommendations**
+- Best config for this domain: [m, ef_construct, hnsw_ef]
+- When to pick another setting: [short guidance]
+- Notes for production: [one line on indexing order / filters]
+
+**Surprise**
+- "[one unexpected finding]"
+
+**Next Step**
+- "[one concrete action you’ll try next]"
 ```
 
 ## Optional: Go Further
