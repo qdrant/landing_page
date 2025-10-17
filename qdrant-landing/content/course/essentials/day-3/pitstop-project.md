@@ -25,7 +25,7 @@ A hybrid search system that demonstrates:
 - **Performance comparison** between hybrid and single-vector approaches
 - **Domain optimization** for your specific use case
 
-## Implementation Steps
+## Build Steps
 
 ### Step 1: Set Up Hybrid Collection
 
@@ -199,9 +199,33 @@ You'll know you've succeeded when:
 <input type="checkbox"> You can perform searches using dense, sparse, and hybrid approaches  
 <input type="checkbox"> RRF fusion combines results from both vector types effectively  
 <input type="checkbox"> You can demonstrate cases where hybrid search outperforms single-vector approaches  
-<input type="checkbox"> You understand the trade-offs between different search methods for your domain
+<input type="checkbox"> You understand the trade-offs between different search methods for your domain  
 
-## Optional Extensions
+## Key Questions to Answer
+
+1. In which scenarios does hybrid search outperform single-vector approaches?
+2. How does RRF fusion affect the ranking compared to individual methods?
+3. What are the latency trade-offs of hybrid vs single-vector search?
+4. How does the quality of sparse encoding affect hybrid search results?
+
+## Share Your Discovery
+
+Please answer the key questions above and share your findings!
+
+**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
+  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+       alt="Post your results in Discord"
+       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
+</a> **with this copy-paste template:**
+
+```markdown
+Domain: "I built hybrid search for [your domain]"
+Winner: "Hybrid/Dense/Sparse worked best because [your reason]"
+Demo query: "For '[your query]' — [what you observed]"
+Surprise: "[one unexpected finding]"
+```
+
+## Optional: Go Further
 
 ### Advanced Fusion Strategies
 
@@ -254,7 +278,7 @@ def benchmark_search_methods(query_text, iterations=10):
 
 ### Custom Sparse Encoding
 
-Implement more sophisticated sparse encoding:
+Implement TFIDF sparse encoding trained on your dataset:
 
 ```python
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -269,12 +293,3 @@ def create_tfidf_sparse_vector(text, vectorizer):
         values=coo_matrix.data.tolist()
     )
 ```
-
-## Key Questions to Answer
-
-1. **In which scenarios does hybrid search outperform single-vector approaches?**
-2. **How does RRF fusion affect the ranking compared to individual methods?**
-3. **What are the latency trade-offs of hybrid vs single-vector search?**
-4. **How does the quality of sparse encoding affect hybrid search results?**
-
-*Content to be added* 
