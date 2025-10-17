@@ -141,8 +141,8 @@ You’ll know you’ve succeeded when:
 
 ## Share Your Discovery
 
-### Step 1: Analyze Your Findings
-For a new concept (not the Product Categories concept) dow following:
+### Step 1: Reflect on Your Findings
+For a new concept (not the Product Categories concept) run the code above and do the following:
 - **Vector Meaning:** What did each of your four dimensions represent?
 - **Query & Results:** Pick one query vector you tried. Which items were the top matches, and why does that make sense based on your vector design?
 - **Filtering:** How did adding a filter change your results?
