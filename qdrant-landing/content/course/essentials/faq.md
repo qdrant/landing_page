@@ -19,7 +19,7 @@ Yes! But just watching the videos doesn’t quite get you there. You need to [[i
 
 ## How much time should I spend on this course?
 
-Each “Day” of this course is designed to be completed in 1 day. Day 0 is the quickest, and then there are 8 days of content. So you are looking at a minimum of 9 days, but don’t forget about the bonus content.
+Each “Day” of this course is designed to be completed in 1 day. Day 0 is the quickest, and then there are 6 days of content. So you are looking at a minimum of 7 days, but don’t forget about the bonus content.
 
 The good news is that you can take as much time as you need to complete the course since it is on-demand and at your own pace.
 

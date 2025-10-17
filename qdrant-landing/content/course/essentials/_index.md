@@ -1,7 +1,7 @@
 ---
 title: Qdrant Essentials Course
 page_title: Qdrant Essentials Course
-description: Learn hybrid search, multivectors, and production deployment in 9 days. Build and ship a docs search engine.
+description: Learn hybrid search, multivectors, and production deployment in 7 days. Build and ship a docs search engine.
 content:
   sidebarTitle: Qdrant Essentials
   menuTitle:
@@ -10,22 +10,19 @@ content:
   nextButton: Continue to Next Video
   nextDay: Complete
   title: Qdrant Essentials
-  description: Learn hybrid search, multivectors, and production deployment in 9 days. Build and ship a docs search engine.
+  description: Learn hybrid search, multivectors, and production deployment in 7 days. Build and ship a docs search engine.
 partition: course
 ---
 
 # Qdrant Essentials
 
-**Ship a production-ready docs search in 9 days**
+**Ship a production-ready docs search in 7 days**
 
 Build the vector search skills that matter: hybrid retrieval, multivector reranking, quantization, distributed deployment, and multitenancy. Ship a complete documentation search engine as your final project.
 
 <div class="video">
 <iframe 
-  src="https://www.youtube.com/embed/_04Nowi5M_Y"
-  loading="lazy"
-  width="100%"
-  height="420"
+  src="https://www.youtube.com/embed/QnRjMolv8Qk?si=uqWQLcLp_oBWt3bO"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
@@ -33,13 +30,11 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
 </iframe>
 </div>
 
-
 <br/>
-
 
 {{< cards-list >}}
 - icon: /icons/outline/play-white.svg
-  title: 9 days of lessons
+  title: 7 days of lessons
   content: Short, focused videos with hands‑on exercises
 - icon: /icons/outline/cloud-check-blue.svg
   title: Shareable certificate
@@ -76,11 +71,9 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
 
 **Days 3–5**: Advanced retrieval. Combine dense and sparse signals, do hybrid search with server-side fusion, use multivectors (ColBERT) with the Universal Query API, and build recommendations.
 
-**Days 6–7**: Production. Scale with sharding and replication, use [JWT](https://jwt.io/)-based multitenancy, set quantization for up to 40× faster scans (data-dependent), and lock down clusters.
+**Day 6**: Ship. Wire ingestion, hybrid retrieval, multivector re-ranking, and evaluation (Recall@10, MRR, latency P50/P95).
 
-**Day 8**: Ship. Wire ingestion, hybrid retrieval, multivector re-ranking, and evaluation (Recall@10, MRR, latency P50/P95).
-
-**Day 9 (bonus)**: Ecosystem. Try integrations with AI frameworks, search tools, and data pipelines.
+**Day 7 (bonus)**: Ecosystem. Try integrations with AI frameworks, search tools, and data pipelines.
 
 ## How the course works
 
@@ -94,7 +87,7 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
   content: Ship a production-ready vector search app
 - icon: /icons/outline/similarity-blue.svg
   title: Bonus day
-  content: Explore partner integrations on Day 9
+  content: Explore partner integrations on Day 7
 - icon: /icons/outline/copy.svg
   title: Pitstop projects
   content: Small builds each day to apply the concept
@@ -166,43 +159,23 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
     <br>
     <p style="margin-left: 0px;"><a href="/course/essentials/day-5/">→ Start Day 5</a></p>
 
-- title: "Day 6: Production Deployment"
-  content: |
-    - Vertical and Horizontal Scaling
-    - Sharding and Replication Strategies
-    - Secure Multitenancy with JWT
-    - Project: Capacity Planning and Scaling Simulation
-    <br>
-    <br>
-    <p style="margin-left: 0px;"><a href="/course/essentials/day-6/">→ Start Day 6</a></p>
-
-- title: "Day 7: Advanced Configuration"
-  content: |
-    - Collection Configuration Parameters
-    - Optimizers and Segment Management
-    - Security, RBAC, and Strict Mode
-    - Project: Implementing a Secure Production Setup
-    <br>
-    <br>
-    <p style="margin-left: 0px;"><a href="/course/essentials/day-7/">→ Start Day 7</a></p>
-
-- title: "Day 8: Final Project - Building a Production-Grade Search Engine"
+- title: "Day 6: Final Project - Building a Production-Grade Search Engine"
   content: |
     - Project Architecture and Evaluation Framework
     - Implementation and Performance Evaluation
     - Course Summary and Next Steps
     <br>
     <br>
-    <p style="margin-left: 0px;"><a href="/course/essentials/day-8/">→ Start Day 8</a></p>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-8/">→ Start Day 6</a></p>
 
-- title: "Day 9: Partner Ecosystem Integrations (Bonus)"
+- title: "Day 7: Partner Ecosystem Integrations (Bonus)"
   content: |
     - AI & LLM Frameworks (Haystack, Jina AI, TwelveLabs)
     - Data Processing (Unstructured.io)
     - ML Platforms & Analytics (Tensorlake, Vectorize.io, Superlinked, Quotient)
     <br>
     <br>
-    <p style="margin-left: 0px;"><a href="/course/essentials/day-9/">→ Start day 9</a></p>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-9/">→ Start day 7</a></p>
 {{< /accordion >}}
 
 
@@ -212,11 +185,11 @@ ML, backend, data, and search engineers building RAG, semantic search, or recomm
 
 ## Time commitment
 
-- Duration: 8 days at 1–2 hours/day + optional bonus day
+- Duration: 7 days at 1–2 hours/day + optional bonus day
 - Video learning: ~3 hours
-- Hands-on learning: 5–9 hours
+- Hands-on learning: 4-5 hours
 - Final project: 2–4 hours
-- Total: 10–16 hours
+- Total: 9–12 hours
 
 
 {{< course-card 
