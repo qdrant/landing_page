@@ -3,7 +3,7 @@ title: "Final Project: Production-Ready Documentation Search Engine"
 weight: 1
 ---
 
-{{< date >}} Day 8 {{< /date >}}
+{{< date >}} Day 6 {{< /date >}}
 
 # Final Project: Production-Ready Documentation Search Engine
 
@@ -209,7 +209,7 @@ Show your run and learn from others. **Post your results in** <a href="https://d
     style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" /> </a> **using this copy-paste template:**
 
 ```markdown
-**[Day 8] Final Project: Production-Ready Documentation Search Engine**
+**[Day 6] Final Project: Production-Ready Documentation Search Engine**
 
 **High-Level Summary**
 - **Domain:** "Documentation search for <product>"

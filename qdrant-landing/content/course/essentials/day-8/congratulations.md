@@ -3,7 +3,7 @@ title: Course Completion and Next Steps
 weight: 3
 ---
 
-{{< date >}} Day 8 {{< /date >}}
+{{< date >}} Day 6 {{< /date >}}
 
 # Course Completion and Next Steps
 
@@ -19,9 +19,7 @@ You've progressed from vector search fundamentals to production-ready expertise:
 
 **Advanced Retrieval** (Days 3-5): You implemented hybrid search combining semantic and keyword signals, explored quantization for performance optimization, and mastered the Universal Query API with multivector reranking.
 
-**Production Deployment** (Days 6-7): You learned to design distributed systems with sharding and replication, implemented secure multitenancy with [JWT](https://jwt.io/) authentication, and built operational frameworks for monitoring and incident response.
-
-**Portfolio Project** (Day 8): You synthesized everything into a working documentation search engine that demonstrates production-quality hybrid retrieval with proper evaluation and optimization.
+**Portfolio Project** (Day 6): You synthesized everything into a working documentation search engine that demonstrates production-quality hybrid retrieval with proper evaluation and optimization.
 
 ## Skills You've Gained
 
@@ -43,7 +41,7 @@ Your final project demonstrates several production-critical capabilities:
   title="Earn your Qdrant Essentials Certificate"
   image="/icons/outline/training-white.svg"
   link="/course/certification/" >}}
-Get recognized for completing Day 0–8 and the final project. Add it to your LinkedIn and portfolio.
+Get recognized for completing Day 0–6 and the final project. Add it to your LinkedIn and portfolio.
 {{< /course-card >}}
 
 ## What's Next?

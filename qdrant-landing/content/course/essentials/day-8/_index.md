@@ -1,10 +1,10 @@
 ---
-title: "Day 8: Final Project - Building a Production-Grade Search Engine"
+title: "Day 6: Final Project - Building a Production-Grade Search Engine"
 isLesson: true
 weight: 9
 ---
 
-{{< date >}} Day 8 {{< /date >}}
+{{< date >}} Day 6 {{< /date >}}
 
 # Final Project - Building a Production-Grade Search Engine
 
@@ -18,5 +18,5 @@ Ship a portfolio-ready vector search application that demonstrates everything yo
 2. Implementation and Performance Evaluation
 3. Course Summary and Next Steps
 
-You'll synthesize 8 days of learning into a working system that showcases production-ready vector search expertise.
+You'll synthesize 6 days of learning into a working system that showcases production-ready vector search expertise.
 
