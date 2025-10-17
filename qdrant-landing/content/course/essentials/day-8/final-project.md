@@ -9,7 +9,7 @@ weight: 1
 
 <div class="video">
 <iframe 
-  src="https://www.youtube.com/embed/CllIGw1QwLg?si=0CB64nCXEsmXJl54"
+  src="https://www.youtube.com/embed/CllIGw1QwLg?si=ruv4y9tk_nQpaDvs"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
@@ -91,10 +91,10 @@ Create `docs_search` with three vectors (dense 384, sparse, ColBERT multivector 
 *If you choose a 768-dim dense model, set `size=768` below.*
 
 ```python
-COLLECTION_NAME = "docs_search"
+collection_name = "docs_search"
 
 client.create_collection(
-    collection_name=COLLECTION_NAME,
+    collection_name=collection_name,
     vectors_config={
         "dense": models.VectorParams(size=384, distance=models.Distance.COSINE),
         "colbert": models.VectorParams(
