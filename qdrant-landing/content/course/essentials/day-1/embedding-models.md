@@ -120,11 +120,15 @@ To create a collection with Named Vectors, you need to specify a configuration f
 **Collection Creation:**
 ```python
 from qdrant_client import QdrantClient, models
+from google.colab import userdata
 
-client = QdrantClient(
-    "https://your-cluster-url.cloud.qdrant.io", 
-    api_key=userdata.get('api-key') 
-)
+client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
+
+# Standard init (local)
+# import os
+# from dotenv import load_dotenv
+# load_dotenv()
+# client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 client.create_collection(
     collection_name="{collection_name}",

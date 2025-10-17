@@ -24,36 +24,55 @@ A working semantic search engine that demonstrates:
 - **Real semantic understanding**: Search by concept, theme, or meaning rather than exact keywords
 - **Practical insights**: Discover what makes chunking effective in your specific domain
 
+
+## Setup
+
+### Prerequisites
+- Qdrant Cloud cluster (URL + API key)
+- Python 3.9+ (or Colab)
+- Packages: `qdrant-client`, `sentence-transformers`, `python-dotenv` (optional), `google.colab` (if using Colab)
+
+### Models
+- SentenceTransformer: `all-MiniLM-L6-v2` (384-dim)  
+  *(You can try others in “Optional: Go Further”.)*
+
+### Dataset
+Pick something with rich, descriptive text where semantic search adds value:
+
+- **Books/Literature:** Search a collection of book summaries, reviews, or excerpts. Find books by theme, mood, or literary style. 
+  *Example queries: "coming of age stories with unreliable narrators", "dystopian fiction with environmental themes"*
+- **Recipes/Cooking:** Index recipe descriptions and instructions. Search by cooking technique, flavor profile, or dietary needs. 
+  *Example queries: "comfort food for cold weather", "quick weeknight meals with Asian flavors"*
+- **News/Articles:** Collect articles from your field of interest. Search by topic, perspective, or journalistic approach. 
+  *Example queries: "analysis of remote work trends", "climate change solutions in urban planning"*
+- **Research Papers:** Academic abstracts or papers from your field. Search by methodology, findings, or theoretical approach. 
+  *Example queries: "machine learning applications in healthcare", "qualitative studies on user behavior"*
+- **Product Reviews:** Customer reviews for products you know well. Search by user sentiment, use case, or product features. 
+  *Example queries: "laptops good for video editing under budget", "skincare for sensitive skin winter routine"*
+
+
 ## Build Steps
-### Step 0: Choose Your Domain
 
-Pick something with rich, descriptive text where semantic search would be valuable:
+### Step 1: Initialize Client
 
-**Books/Literature:** Search a collection of book summaries, reviews, or excerpts. Find books by theme, mood, or literary style. *Example queries: "coming of age stories with unreliable narrators", "dystopian fiction with environmental themes"*
-
-**Recipes/Cooking:** Index recipe descriptions and instructions. Search by cooking technique, flavor profile, or dietary needs. *Example queries: "comfort food for cold weather", "quick weeknight meals with Asian flavors"*
-
-**News/Articles:** Collect articles from your field of interest. Search by topic, perspective, or journalistic approach. *Example queries: "analysis of remote work trends", "climate change solutions in urban planning"*
-
-**Research Papers:** Academic abstracts or papers from your field. Search by methodology, findings, or theoretical approach. *Example queries: "machine learning applications in healthcare", "qualitative studies on user behavior"*
-
-**Product Reviews:** Customer reviews for products you know well. Search by user sentiment, use case, or product features. *Example queries: "laptops good for video editing under budget", "skincare for sensitive skin winter routine"*
-
-
-### Step 1: Set Up Your Environment
+**Standard init (local)**
 
 ```python
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient, models
-from google.colab import userdata  # If using Colab
+from google.colab import userdata
 
-# Initialize components
+client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
+
+# Standard init (local)
+# import os
+# from dotenv import load_dotenv
+# load_dotenv()
+# client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+
 encoder = SentenceTransformer("all-MiniLM-L6-v2")
-client = QdrantClient(
-    "https://your-cluster-url.cloud.qdrant.io", 
-    api_key=userdata.get('api-key')  # Your Qdrant Cloud API key
-)
 ```
+
 
 ### Step 2: Prepare Your Dataset
 
@@ -206,7 +225,7 @@ for query in test_queries:
     compare_search_results(query)
 ```
 
-## Analysis Framework
+### Step 6: Analyze Your Results
 
 After running your tests, analyze what you discovered:
 
@@ -244,16 +263,31 @@ def analyze_chunking_effectiveness():
 analyze_chunking_effectiveness()
 ```
 
-## Your Deliverables
+## Success Criteria
 
-*Document your discoveries in a brief analysis:*
+You'll know you've succeeded when:
 
-**Domain Choice:**
+<input type="checkbox"> Your search engine finds relevant results by meaning, not just keywords  
+<input type="checkbox"> You can clearly explain which chunking strategy works best for your domain  
+<input type="checkbox"> You've discovered something surprising about how chunking affects search  
+<input type="checkbox"> You can articulate the trade-offs between different approaches
+
+## Share Your Discovery
+
+Now it's time to analyze your results and share what you've learned. Follow these steps to document your findings and prepare them for sharing.
+
+### Step 1: Analyze Your Findings
+
+Use these prompts to structure your analysis. This will help you organize your thoughts before writing your final summary.
+
+**Domain and Dataset**
+
 - What content type you chose and why
 - Why semantic search is valuable for this domain
 - Size and complexity of your dataset
 
-**Chunking Comparison Results:**
+**Chunking Strategy Comparison**
+
 ```bash
 Example format:
 
@@ -273,44 +307,30 @@ Paragraph Chunking:
 Best for: Complex concepts requiring context
 ```
 
-**Search Quality Winner:**
-- Which strategy gave the most relevant results for your domain?
-- Specific examples of better vs. worse search results
-- Why this strategy worked best for your content type
+**The Winning Strategy**
+
+- Based on your comparison, which chunking strategy gave the most relevant results for your domain?
+- Provide one specific example of a query where the winning strategy performed better than another.
+- Explain why you believe this strategy was the most effective for your specific content type.
 
 
-## Success Criteria
+### Step 2: Post Your Results
 
-You'll know you've succeeded when:
-
-<input type="checkbox"> Your search engine finds relevant results by meaning, not just keywords  
-<input type="checkbox"> You can clearly explain which chunking strategy works best for your domain  
-<input type="checkbox"> You've discovered something surprising about how chunking affects search  
-<input type="checkbox"> You can articulate the trade-offs between different approaches
-
-## Key Questions to Answer
-
-As you test your search engine, consider:
-
-1. **Which chunking strategy gave the most relevant results?**
-2. **How did chunk size affect search quality?**
-3. **What patterns did you notice?**
-
-
-## Share Your Discovery
 
 **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
   <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
        alt="Post your results in Discord"
        style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
-</a> **with:**
+</a> **using this:**
 
-- **Domain**: "I built a semantic search for [recipes/books/articles/etc.]"
-- **Winner**: "Best chunking strategy was [X] because..."
-- **Surprise**: "Most unexpected finding was..."
-- **Demo query**: "Try searching '[your example query]' - it finds [surprising result]!"
+```bash
+Domain: "I built a semantic search for [recipes/books/articles/etc.]"
+Winner: "Best chunking strategy was [fixed/sentence/paragraph] because [one reason]"
+Demo query: "Try searching '[your example query]' — it finds [short why it's interesting]!"
+Surprise: "Most unexpected finding was [one line]"
+```
 
-## Optional Extensions
+## Optional: Go Further
 
 ### Add Metadata Filtering
 Enhance your search with filters like we saw in the movie demo:
@@ -339,8 +359,5 @@ Experiment with other models to see how they affect results:
 encoder_large = SentenceTransformer("all-mpnet-base-v2")  # Larger, potentially better
 encoder_fast = SentenceTransformer("all-MiniLM-L12-v2")   # Different size/speed tradeoff
 ```
-
-
-## Next Steps
 
 **Ready for Day 2?** Tomorrow you'll learn how Qdrant makes vector search lightning-fast through [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) indexing and how to optimize for production workloads.
