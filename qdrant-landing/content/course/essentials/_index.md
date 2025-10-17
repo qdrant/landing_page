@@ -166,7 +166,7 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
     - Course Summary and Next Steps
     <br>
     <br>
-    <p style="margin-left: 0px;"><a href="/course/essentials/day-8/">→ Start Day 6</a></p>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-6/">→ Start Day 6</a></p>
 
 - title: "Day 7: Partner Ecosystem Integrations (Bonus)"
   content: |
@@ -175,7 +175,7 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
     - ML Platforms & Analytics (Tensorlake, Vectorize.io, Superlinked, Quotient)
     <br>
     <br>
-    <p style="margin-left: 0px;"><a href="/course/essentials/day-9/">→ Start day 7</a></p>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-7/">→ Start day 7</a></p>
 {{< /accordion >}}
 
 
