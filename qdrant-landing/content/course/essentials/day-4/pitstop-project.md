@@ -24,7 +24,26 @@ A quantization-optimized search system that demonstrates:
 - **Accuracy recovery**: Implementing oversampling and rescoring pipeline
 - **Production deployment**: Memory-optimized storage configuration
 
+### Prerequisites
+
+* Qdrant Cloud cluster (URL + API key)
+* Python 3.9+ (or Google Colab)
+* Packages: `qdrant-client`, `numpy`, `python-dotenv`
+
+### Models
+
+* Use the same embedding model and dimension as your existing collection.
+
+  * If your vectors are **1536-dim**, keep `size=1536` below.
+  * Otherwise, change the `VectorParams(size=...)` to your model’s dim.
+
+### Dataset
+
+* Reuse your Day 1/2 domain dataset (ideally **1,000+** items) with a primary text field for embeddings.
+* Include at least one numeric field (e.g., `length`, `word_count`) to measure payload index impact.
+
 ## Build Steps
+
 ### Step 1: Baseline Measurement
 
 Start by measuring your current system's performance without quantization:
@@ -312,7 +331,7 @@ for factor in oversampling_factors:
     print(f"  {oversampling_results_accuracy[factor]['avg_accuracy']:.2f} avg accuracy retention")
 ```
 
-## Analysis Framework
+### Step 5: Analyze Your Results
 
 Create a comprehensive analysis of your quantization experiments:
 
@@ -338,16 +357,29 @@ for method, results in quantization_results.items():
     print(f"  With rescoring: {with_rescoring['avg']:.2f}ms ({speedup_with_rescoring:.1f}x speedup)")
 ```
 
-## Your Deliverables
+## Success Criteria
 
-Document your quantization optimization results:
+You'll know you've succeeded when:
+
+<input type="checkbox"> You've achieved measurable search speed improvements  
+<input type="checkbox"> You've maintained acceptable accuracy through oversampling optimization  
+<input type="checkbox"> You've demonstrated significant hot memory savings with `on_disk` configuration  
+<input type="checkbox"> You can make informed recommendations about quantization for your domain
+
+
+## Share Your Discovery
+
+### Step 1: Reflect on Your Findings
+
+Document your results and answer these:
 
 **Domain & Dataset:**
 - Content type and size
 - Embedding model and dimensions
 - Why quantization matters for your use case
 
-**Quantization Method Comparison:**
+**Quantization Method Comparison (example format)**
+
 ```bash
 Example format:
 
@@ -372,23 +404,7 @@ Optimal Configuration:
 - Final speedup: XXx with YY% accuracy retention
 ```
 
-**Key Insights:**
-- Which quantization method worked best for your domain and why
-- How oversampling factor affected the accuracy/speed tradeoff
-- RAM savings achieved with quantization
-
-## Success Criteria
-
-You'll know you've succeeded when:
-
-<input type="checkbox"> You've achieved measurable search speed improvements  
-<input type="checkbox"> You've maintained acceptable accuracy through oversampling optimization  
-<input type="checkbox"> You've demonstrated significant hot memory savings with `on_disk` configuration  
-<input type="checkbox"> You can make informed recommendations about quantization for your domain
-
-
-## Key Questions to Answer
-
+**Key Questions**
 1. **Which quantization method delivered the best speed/accuracy tradeoff for your domain?**
 2. **How did oversampling factor affect your results?**
 3. **What was the real-world memory and cost impact?**
@@ -400,17 +416,16 @@ You'll know you've succeeded when:
 **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
   <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
        alt="Post your results in Discord"
-       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
-</a> **with:**
+       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" /></a> **with:**
 - **Domain**: "I optimized [your domain] search with quantization"
 - **Winner**: "Best method was [X] quantization with [Y]x oversampling"
 - **Performance**: "Achieved [Z]x speedup with [A]% accuracy retention"
 - **Surprise**: "Most unexpected finding was..."
 
 
-## Advanced Challenges
+## Optional: Go Further
 
-### Challenge 1: Dynamic Oversampling
+### Dynamic Oversampling
 
 Implement adaptive oversampling based on query characteristics:
 
@@ -430,7 +445,7 @@ def adaptive_oversampling(query, base_factor=3.0):
 # Test adaptive oversampling vs fixed oversampling
 ```
 
-### Challenge 2: Cost-Performance Analysis
+### Cost-Performance Analysis
 
 Calculate the true cost impact of quantization:
 
@@ -456,8 +471,6 @@ cost_analysis = calculate_cost_savings(
 print(f"Annual cost savings: ${cost_analysis['annual_savings']:.2f}")
 ```
 
-## Optional Extensions
-
 ### Memory Usage Monitoring
 
 Track actual memory usage changes:
@@ -471,4 +484,3 @@ print(f"Memory usage: Check Qdrant Cloud metrics")
 # Compare RAM usage with and without on_disk configuration
 ```
 
-**Ready for production?** You now understand how to optimize vector search performance through quantization while maintaining the accuracy your applications require. 
