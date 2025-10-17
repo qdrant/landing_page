@@ -479,9 +479,7 @@ for i, rec in enumerate(recommendations, 1):
     print(f"{i}. {rec['title']} (Score: {rec['score']:.3f})")
 ```
 
-## What Happened Under the Hood
-
-Qdrant retrieved 100 candidates from dense and 100 from sparse in parallel, fused them with RRF, reranked with ColBERT's MaxSim over token‑level subvectors, applied final business filters, and returned the top 10 - all in one call.
+**What happened under the hood**: Qdrant retrieved 100 candidates from dense and 100 from sparse in parallel, fused them with RRF, reranked with ColBERT's MaxSim over token‑level subvectors, applied final business filters, and returned the top 10 - all in one call.
 
 ## Success Criteria
 
