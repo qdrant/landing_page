@@ -102,15 +102,15 @@ Load the credentials with `dotenv` and create a Qdrant client:
 
 ```python
 from qdrant_client import QdrantClient, models
-from google.colab import userdata
+import os
+from dotenv import load_dotenv
 
-client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
+load_dotenv()
+client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
-# Standard init (local)
-# import os
-# from dotenv import load_dotenv
-# load_dotenv()
-# client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+# For Colab:
+# from google.colab import userdata
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
 
 # Quick health check
 collections = client.get_collections()

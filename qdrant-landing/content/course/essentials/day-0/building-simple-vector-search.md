@@ -41,15 +41,15 @@ To connect to Qdrant Cloud, you need your cluster URL and API key from your Qdra
 
 ```python
 from qdrant_client import QdrantClient, models
-from google.colab import userdata
+import os
+from dotenv import load_dotenv
 
-client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
+load_dotenv()
+client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
-# Standard init (local)
-# import os
-# from dotenv import load_dotenv
-# load_dotenv()
-# client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+# For Colab:
+# from google.colab import userdata
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
 ```
 
 **Note:** You can also use in-memory mode for testing: `client = QdrantClient(":memory:")`, but data won't persist after restart.

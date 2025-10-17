@@ -24,29 +24,41 @@ A working search system with:
 - Filtered search combining similarity with payload conditions
 
 ## Setup
-### Prerequisites
-### Models
-### Dataset
 
-Example Concepts to Represent: 
+### Prerequisites
+- Qdrant Cloud cluster (URL + API key)
+- Python 3.9+ (or Colab)
+- Required packages: `qdrant-client`, `python-dotenv`.
+
+### Models
+- None. We will create vectors by hand.
+
+### Dataset
+- None. We will create our own data points.
+
+Before creating data, decide what each of the four dimensions in your vectors will represent. This is the creative part of vector search!
+
+**Example Ideas:**
 - **Product categories**: Create vectors where each dimension represents a feature (affordability, quality, popularity, innovation). Electronics might be `[0.8, 0.7, 0.9, 0.6]`, while books could be `[0.3, 0.9, 0.4, 0.8]`.
 - **Color palettes**: Each dimension represents color intensity (red, green, blue, brightness). Bright red: `[0.9, 0.1, 0.1, 0.8]`, forest green: `[0.1, 0.8, 0.2, 0.5]`.
 - **Data types**: Dimensions for structure, size, complexity, frequency. Spreadsheets: `[0.9, 0.6, 0.3, 0.7]`, images: `[0.2, 0.8, 0.5, 0.4]`.
 - **Movie genres**: Action, drama, comedy, sci-fi intensities. Action thriller: `[0.9, 0.3, 0.1, 0.7]`, romantic comedy: `[0.1, 0.6, 0.9, 0.2]`.
 
+For this tutorial, we'll use the **Product Categories** concept.
+
 ## Build Steps
 ### Step 1: Initialize Client
 ```python
 from qdrant_client import QdrantClient, models
-from google.colab import userdata
+import os
+from dotenv import load_dotenv
 
-client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
+load_dotenv()
+client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
-# Standard init (local)
-# import os
-# from dotenv import load_dotenv
-# load_dotenv()
-# client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+# For Colab:
+# from google.colab import userdata
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
 ```
 
 ### Step 2: Create Collection
@@ -63,39 +75,58 @@ client.create_collection(
 We use dummy embeddings.
 
 ```python
-points = [
+points=[
     models.PointStruct(
         id=1,
-        vector=[0.8, 0.2, 0.6, 0.4],  # High on first and third dimensions
-        payload={"name": "Item A", "category": "tech", "price": 99},
+        vector=[0.9, 0.1, 0.1, 0.8], # High affordability, high innovation
+        payload={"name": "Budget Smartphone", "category": "electronics", "price": 299},
     ),
     models.PointStruct(
         id=2,
-        vector=[0.1, 0.9, 0.3, 0.7],  # High on second and fourth dimensions
-        payload={"name": "Item B", "category": "lifestyle", "price": 45},
+        vector=[0.2, 0.9, 0.8, 0.5], # High quality, high popularity
+        payload={"name": "Bestselling Novel", "category": "books", "price": 19},
     ),
-    # Add 3-8 more points...
+    models.PointStruct(
+        id=3,
+        vector=[0.8, 0.3, 0.2, 0.9], # High affordability, high innovation (similar to ID 1)
+        payload={"name": "Smart Home Hub", "category": "electronics", "price": 89},
+    ),
+    # Add 2-5 more points to experiment with...
 ]
 
 client.upsert(collection_name=collection_name, points=points)
+```
 
+### Step 4: Allow Unindext Filtering
+
+By default, Qdrant requires payload indexes to be enabled for filtering, since filtering is inefficient without them. However, since our data set is small, we don't need the speed that payload indexes provide and can therefore allow the use of unindexed fields.
+
+```python
 client.update_collection(
     collection_name=collection_name,
-    optimizers_config=models.OptimizersConfigDiff(indexing_threshold=0),
     strict_mode_config=models.StrictModeConfig(unindexed_filtering_retrieve=True),
 )
+```
 
-# Test searches
-basic_results = client.query_points(collection_name, query=[0.7, 0.3, 0.5, 0.4])
+### Step 5: Test Searches
+```python
+# Define a query vector for "affordable and innovative"
+query_vector = [0.85, 0.2, 0.1, 0.9]
+
+# 1. Basic similarity search
+basic_results = client.query_points(collection_name, query=query_vector)
+
+# 2. Filtered search (only find electronics)
 filtered_results = client.query_points(
     collection_name,
-    query=[0.7, 0.3, 0.5, 0.4],
+    query=query_vector,
     query_filter=models.Filter(
         must=[
             models.FieldCondition(key="category", match=models.MatchValue(value="tech"))
         ]
     ),
 )
+print("Filtered search results:", filtered_results)
 ```
 
 ## Success Criteria
@@ -109,6 +140,15 @@ You’ll know you’ve succeeded when:
 
 
 ## Share Your Discovery
+
+### Step 1: Analyze Your Findings
+For a new concept (not the Product Categories concept) dow following:
+- **Vector Meaning:** What did each of your four dimensions represent?
+- **Query & Results:** Pick one query vector you tried. Which items were the top matches, and why does that make sense based on your vector design?
+- **Filtering:** How did adding a filter change your results?
+- **Surprise:** Was there anything unexpected about the results? (e.g., "I was surprised how much a small change in one dimension affected the score.")
+
+### Step 2: Post Your Results
 
 Show what you built and compare notes with others. **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
   <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
@@ -136,24 +176,6 @@ Surprise: “[one thing you didn’t expect]”
 Next step: “[what you’ll try tomorrow]”
 ```
 
-### What to include
-
-* A one-line map of what each dimension means.
-* One raw query vector and the top 3 results with scores.
-* A filtered search (e.g., `category=tech`) and what changed.
-* One quick takeaway about Cosine direction (e.g., scaling didn’t change ranking).
-
-### Bonus (optional)
-
-* Add a tiny table of your points (id, name, vector, payload) or a screenshot of your query + results.
-
-## Tips
-
-- Decide what each dimension represents before creating points
-- Try vectors like `[1.0, 0.0, 0.0, 0.0]` vs `[0.0, 0.0, 0.0, 1.0]` to see maximum differences
-- **Note on Cosine Similarity:** When using `Cosine` distance, Qdrant automatically normalizes vectors (scales them to a length of 1.0). This means that only the *direction* of the vector matters, not its magnitude. For example, the vectors `[2, 2, 0, 0]` and `[0.5, 0.5, 0, 0]` will be treated as identical.
-- Include fields you'd actually want to filter on
-- 5 points are enough to see patterns; add more if you want to explore further
 
 ## Troubleshooting
 
