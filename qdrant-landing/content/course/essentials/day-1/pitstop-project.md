@@ -276,7 +276,7 @@ You'll know you've succeeded when:
 
 Now it's time to analyze your results and share what you've learned. Follow these steps to document your findings and prepare them for sharing.
 
-### Step 1: Analyze Your Findings
+### Step 1: Reflect on Your Findings
 
 Use these prompts to structure your analysis. This will help you organize your thoughts before writing your final summary.
 
@@ -315,7 +315,6 @@ Best for: Complex concepts requiring context
 
 
 ### Step 2: Post Your Results
-
 
 **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
   <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
