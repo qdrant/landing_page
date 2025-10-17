@@ -63,7 +63,7 @@ client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API
 
 ### Step 2: Create Collection
 ```python
-collection_name = "my_vector_system"
+collection_name = "day0_first_system"
 client.create_collection(
     collection_name=collection_name,
     vectors_config=models.VectorParams(size=4, distance=models.Distance.COSINE),
@@ -142,11 +142,13 @@ You’ll know you’ve succeeded when:
 ## Share Your Discovery
 
 ### Step 1: Reflect on Your Findings
+
 For a new concept (not the Product Categories concept) run the code above and do the following:
-- **Vector Meaning:** What did each of your four dimensions represent?
-- **Query & Results:** Pick one query vector you tried. Which items were the top matches, and why does that make sense based on your vector design?
-- **Filtering:** How did adding a filter change your results?
-- **Surprise:** Was there anything unexpected about the results? (e.g., "I was surprised how much a small change in one dimension affected the score.")
+
+* **Vector Meaning:** What did each of your four dimensions represent?
+* **Query & Results:** Pick one query vector you tried. Which items were the top matches, and why does that make sense based on your vector design?
+* **Filtering:** How did adding a filter change your results?
+* **Surprise:** Was there anything unexpected about the results? (e.g., “a small change in one dimension affected the score a lot”)
 
 ### Step 2: Post Your Results
 
@@ -157,25 +159,33 @@ Show what you built and compare notes with others. **Post your results in** <a h
 </a> **using this short template—copy, fill, and send:**
 
 
-```bash
-Domain: “I built a vector search for [topic]”
-Vector meaning: d1=…, d2=…, d3=…, d4=…
-Collection: my_vector_system (Cosine), points: [count]
+```markdown
+**[Day 0] Building Your First Vector Search System**
 
-Query vector: [a, b, c, d]
-Top matches (id → score): 
-1) [id] → [score]
-2) [id] → [score]
-3) [id] → [score]
+**High-Level Summary**
+- **Domain:** “I built a vector search for [topic]”
+- **Key Finding:** “[one sentence on what your vectors captured well]”
 
-Filter used: key=value (e.g., category=tech)
-Filtered result: [ids returned]
+**Project-Specific Details**
+- **Vector meaning:** d1=…, d2=…, d3=…, d4=…
+- **Collection:** day0_first_system (Cosine), points: [count]
+- **Query vector:** [a, b, c, d]
+- **Top matches (id → score):**
+  1) [id] → [score]
+  2) [id] → [score]
+  3) [id] → [score]
+- **Filter used:** category=electronics
+- **Filtered result:** [ids returned]
 
-Why these matched: [brief note about direction in 4D space]
-Surprise: “[one thing you didn’t expect]”
-Next step: “[what you’ll try tomorrow]”
+**Why these matched**
+- [brief note about direction in 4D space]
+
+**Surprise**
+- “[one thing you didn’t expect]”
+
+**Next step**
+- “[what you’ll try tomorrow]”
 ```
-
 
 ## Troubleshooting
 
