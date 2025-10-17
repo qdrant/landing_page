@@ -1,6 +1,6 @@
 ```python
 results = client.query_points(
-    collection_name=collection_name,
+    collection_name="{collection_name}",
     prefetch=[
         models.Prefetch(
             query=Document(

@@ -31,7 +31,7 @@ for idx, item in enumerate(ds):
     points.append(point)
 
 client.upload_points(
-    collection_name=collection_name, 
+    collection_name="{collection_name}", 
     points=points, 
     batch_size=8
 )
