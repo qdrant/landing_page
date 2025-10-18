@@ -285,7 +285,11 @@ Now it's time to analyze your results and share what you've learned. Follow thes
 
 ### Step 2: Post Your Results
 
-Post this in Discord:
+**Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
+  <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+       alt="Post your results in Discord"
+       style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />
+</a> **using this short template—copy, fill, and send:**
 
 ```markdown
 **[Day 1] Building a Semantic Search Engine**
