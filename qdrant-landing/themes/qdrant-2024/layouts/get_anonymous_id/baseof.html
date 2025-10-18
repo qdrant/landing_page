@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Get Anonymous ID</title>
     <meta name="robots" content="noindex, nofollow" />
     <script>
       const writeKey = "{{ .Site.Params.segmentWriteKey }}";
@@ -25,52 +24,9 @@
   </head>
   <body>
     <script>
-      const HS_PAGEVIEWED_NAME = 'hs_pageviewed';
-      const HUBSPOTUTK_COOKIE_NAME = 'hubspotutk';
-
-      function getCookie(name) {
-        const decodedCookie = decodeURIComponent(document.cookie);
-        const ca = decodedCookie.split(';');
-        name = name + "=";
-        for(let i = 0; i < ca.length; i++) {
-          let c = ca[i];
-          while (c.charAt(0) === ' ') {
-            c = c.substring(1);
-          }
-          if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-          }
-        }
-      }
-
       window.addEventListener('message', (event) => {
-        // Normalize event data
-        const msg = typeof event.data === 'string' ? { type: event.data } : (event.data || {});
-        const email = msg.email;
-
-        // Hubspot
-        try {
-          if (email) {            
-            window._hsq = window._hsq || [];
-            window._hsq.push(['identify', { email }]);
-
-            if (sessionStorage.getItem(HS_PAGEVIEWED_NAME) !== 'true') {
-              window._hsq.push(['trackPageView']);
-              sessionStorage.setItem(HS_PAGEVIEWED_NAME, 'true');
-            }
-          }
-        } catch { }
-
-        // Segment
         analytics.ready(() => {
-          if (email) {
-            analytics.identify({
-              email,
-              [HUBSPOTUTK_COOKIE_NAME]: getCookie(HUBSPOTUTK_COOKIE_NAME),
-            });
-          }
-
-          if (msg.type === 'getAnonymousId') {
+          if (event.data === 'getAnonymousId') {
             const anonymousId = analytics.user().anonymousId();
             const { firstVisitAttribution } = analytics.user().traits();
             event.source.postMessage({ anonymousId, firstVisitAttribution }, event.origin);
@@ -78,7 +34,5 @@
         });
       });
     </script>
-
-    <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/139603372.js"></script>
   </body>
 </html>

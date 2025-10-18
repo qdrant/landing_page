@@ -16,55 +16,81 @@
               {{ partial "article-content.html" . }}
 
               {{ $parent := .Parent }}
-              {{ if or (eq .Params.isLesson true) (eq $parent.Params.isLesson true) }}
-                <div class="d-flex justify-content-lg-end pb-3 pt-4">
-                  {{ $currentWeight := .Params.weight }}
-                  {{ $targetWeight := add $currentWeight 1 }}
+              {{ if and (or (eq .Params.isLesson true) (and $parent $parent.Params $parent.Params.isLesson)) (not (strings.Contains .RelPermalink "day-9")) }}
+                <div class="pb-3 pt-4">
                   {{ $subject := site.GetPage "course" }}
 
-                  {{ $allLessons := where $subject.Pages ".Params.isLesson" true }}
+                  {{ $section := cond .IsSection . .Parent }}
+                  {{ $siblings := $section.RegularPages.ByWeight }}
 
-                  {{ $allVideos := slice }}
-                  {{ range $lesson := $allLessons }}
-                    {{ $allVideos = $allVideos | append $lesson.RegularPages }}
-                  {{ end }}
+                  {{ if .IsSection }}
+                    {{ $first := index $siblings 0 }}
+                    {{ if $first }}
+                      {{ $segs := split (trim .RelPermalink "/") "/" }}
+                      {{ $daySeg := cond (ge (len $segs) 3) (index $segs 2) "" }}
+                      {{ $dayNum := replace $daySeg "day-" "" }}
+                      <div class="mt-3">
+                        <a href="{{ $first.RelPermalink }}" class="button button_contained">
+                          {{ with $subject.Params.content.getStarted.text }}{{ . }}{{ else }}Get Started{{ end }}{{ if $dayNum }} · Day {{ $dayNum }}{{ end }}
+                        </a>
+                      </div>
+                    {{ end }}
+                  {{ else }}
+                    {{ if not .IsSection }}
+                      {{ $currentIndex := -1 }}
+                      {{ range $i, $p := $siblings }}
+                        {{ if eq $p.Permalink $.Permalink }}
+                          {{ $currentIndex = $i }}
+                        {{ end }}
+                      {{ end }}
 
-                  {{ $allPages := $allLessons }}
-                  {{ range $p := $allVideos }}
-                    {{ $allPages = $allPages | append $p }}
-                  {{ end }}
+                      {{ $nextIndex := add $currentIndex 1 }}
+                      {{ if and (ge $currentIndex 0) (lt $nextIndex (len $siblings)) }}
+                        {{ $next := index $siblings $nextIndex }}
+                        {{ $isPitstop := and $next $next.File (eq $next.File.BaseFileName "pitstop-project") }}
+                        <div class="mt-4">
+                          <h3 class="h6 mb-2">Next up: {{ $next.Title }}</h3>
+                          <p>
+                            {{ if $isPitstop }}
+                              Time for the pitstop project. Apply today’s concepts and ship a small build. Let’s build 🚀
+                            {{ else }}
+                              Continue to the next lesson and keep building. Let’s build 🚀
+                            {{ end }}
+                          </p>
+                          <a href="{{ $next.RelPermalink }}" class="button button_contained button_sm">Continue</a>
+                        </div>
+                      {{ else }}
+                        {{ $sectionSiblings := sort (where $section.Parent.Pages "IsSection" true) "Weight" }}
+                        {{ $currentSectionIndex := -1 }}
+                        {{ range $i, $s := $sectionSiblings }}
+                          {{ if and $s.File $section.File (eq $s.File.UniqueID $section.File.UniqueID) }}
+                            {{ $currentSectionIndex = $i }}
+                          {{ end }}
+                        {{ end }}
 
-                  {{ $nextLesson := where $allPages ".Params.weight" $targetWeight }}
-
-                  {{ if gt (len $nextLesson) 0 }}
-                    {{ $currentPage := . }}
-                    {{ $siblings := $currentPage.Parent.RegularPages }}
-
-                    {{ $maxWeight := 0 }}
-                    {{ range $p := $siblings }}
-                      {{ if gt (int $p.Params.weight) $maxWeight }}
-                        {{ $maxWeight = (int $p.Params.weight) }}
+                        {{ $nextSectionIndex := add $currentSectionIndex 1 }}
+                        {{ if and (ge $currentSectionIndex 0) (lt $nextSectionIndex (len $sectionSiblings)) }}
+                          {{ $nextSection := index $sectionSiblings $nextSectionIndex }}
+                          {{ $firstOfNext := index ($nextSection.RegularPages.ByWeight) 0 }}
+                          {{ if $firstOfNext }}
+                                                      <div class="mt-4">
+                            <h3 class="h6 mb-2">Next up: {{ $nextSection.Title }}</h3>
+                            <p>Congratulations on finishing {{ $section.Title }}. Continue to the next day.</p>
+                            <a href="{{ $nextSection.RelPermalink }}" class="button button_contained button_sm">Next day</a>
+                          </div>
+                          {{ end }}
+                        {{ end }}
                       {{ end }}
                     {{ end }}
-
-                    {{ $next := index $nextLesson 0 }}
-                    <a
-                      href="{{ $next.RelPermalink }}"
-                      class="button button_contained button_sm"
-                    >
-                      {{ if eq (int $currentPage.Params.weight) $maxWeight }}
-                        {{ $subject.Params.content.nextDay }} {{ .Parent.Title }}
-                      {{ else }}
-                        {{ $subject.Params.content.nextButton }}
-                      {{ end }}
-                    </a>
                   {{ end }}
                 </div>
               {{ end }}
             </article>
           </div>
 
-          {{ partial "table-of-contents" . }}
+          {{ if not (eq .Params.isLesson true) }}
+            {{ partial "table-of-contents" . }}
+          {{ end }}
 
           {{ partial "documentation/footer.html" . }}
         </div>
