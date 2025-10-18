@@ -3,7 +3,7 @@ title: Integrating with Unstructured.io
 weight: 6
 ---
 
-{{< date >}} Bonus Content {{< /date >}}
+{{< date >}} Day 7 {{< /date >}}
 
 # Integrating with Unstructured.io
 

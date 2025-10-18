@@ -3,13 +3,13 @@ title: Integrating with Tensorlake
 weight: 7
 ---
 
-{{< date >}} Bonus Content {{< /date >}}
+{{< date >}} Day 7 {{< /date >}}
 
 # Integrating with Tensorlake
 
 Build scalable data lakes with vector search capabilities.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+{{< youtube "IVfoVS0KfPM" >}}
 
 ## What You'll Learn
 
@@ -17,5 +17,3 @@ Build scalable data lakes with vector search capabilities.
 - Large-scale data management
 - Analytics and vector search integration
 - ETL pipeline optimization
-
-*Content to be added* 

@@ -3,13 +3,13 @@ title: Integrating with Superlinked
 weight: 8
 ---
 
-{{< date >}} Bonus Content {{< /date >}}
+{{< date >}} Day 7 {{< /date >}}
 
 # Integrating with Superlinked
 
 Advanced feature engineering for vector search applications.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+{{< youtube "55iDpaHwKJo" >}}
 
 ## What You'll Learn
 
@@ -17,5 +17,3 @@ Advanced feature engineering for vector search applications.
 - Vector space optimization
 - Multi-modal data handling
 - Performance enhancement strategies
-
-*Content to be added* 

@@ -1,10 +1,10 @@
 ---
-title: "Day 9: Partner Ecosystem Integrations (Bonus)"
+title: "Day 7: Partner Ecosystem Integrations (Bonus)"
 isLesson: true
 weight: 10
 ---
 
-{{< date >}} Day 9 {{< /date >}}
+{{< date >}} Day 7 {{< /date >}}
 
 # Partner Ecosystem Integrations (Bonus)
 
@@ -13,11 +13,10 @@ Explore the Qdrant ecosystem and learn how to integrate with leading AI and data
 ---
 
 ## Partner Integrations Overview
-*Duration: 10 minutes*
 
 Learn about the Qdrant ecosystem and integration strategies.
 
-[**➡️ Partner Integrations**](partner-integrations/)
+[**➡️ Partner Integrations**](https://qdrant.tech/partners/)
 
 ---
 
@@ -28,11 +27,6 @@ Learn about the Qdrant ecosystem and integration strategies.
   title: Haystack
   content: Build end-to-end NLP pipelines with Qdrant
   link: haystack/
-
-- icon: /courses/course-integrations/jina.svg
-  title: Jina AI
-  content: Create neural search applications with ease
-  link: jina/
 
 - icon: /courses/course-integrations/tensorlake.svg
   title: Tensorlake
@@ -59,7 +53,7 @@ Learn about the Qdrant ecosystem and integration strategies.
   content: Advanced feature engineering for vectors
   link: superlinked/
 
-- icon: /courses/course-integrations/camel.svg
+- icon: /courses/course-integrations/camel-ai.svg
   title: Camel AI
   content: Agentic RAG with multi-agent systems
   link: camel/

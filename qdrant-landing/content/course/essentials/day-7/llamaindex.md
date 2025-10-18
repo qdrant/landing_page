@@ -3,13 +3,13 @@ title: Integrating with LlamaIndex
 weight: 9
 ---
 
-{{< date >}} Bonus Content {{< /date >}}
+{{< date >}} Day 7 {{< /date >}}
 
 # Integrating with LlamaIndex
 
 Data framework for building LLM applications with Qdrant.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+{{< youtube "ytWskQWsAA4" >}}
 
 ## What You'll Learn
 
@@ -17,6 +17,4 @@ Data framework for building LLM applications with Qdrant.
 - Connecting LlamaIndex to Qdrant
 - Query engines and retrieval strategies
 - Advanced RAG patterns with LlamaIndex
-
-*Content to be added* 
 

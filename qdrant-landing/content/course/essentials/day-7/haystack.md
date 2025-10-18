@@ -3,13 +3,13 @@ title: Integrating with Haystack
 weight: 3
 ---
 
-{{< date >}} Bonus Content {{< /date >}}
+{{< date >}} Day 7 {{< /date >}}
 
 # Integrating with Haystack
 
 Build end-to-end NLP pipelines with Haystack and Qdrant.
 
-{{< youtube "YOUR_YOUTUBE_VIDEO_ID_HERE" >}}
+{{< youtube "lMinhPZufTc" >}}
 
 ## What You'll Learn
 
@@ -18,4 +18,3 @@ Build end-to-end NLP pipelines with Haystack and Qdrant.
 - Question answering systems
 - Search and retrieval optimization
 
-*Content to be added* 
