@@ -5,48 +5,70 @@ aliases: [ ../integrations/Isaacus/ ]
 
 # Isaacus
 
-[Isaacus](https://isaacus.com/) provides state of the art foundational models for legal AI development. As of 20/10/2025, Isaacus' Kanon 2 Embedder is the best performing embedding model for legal retrieval, ranking top place in the [Massive Legal Embedding Benchmark](https://isaacus.com/blog/introducing-kanon-2-embedder).
+[Isaacus](https://isaacus.com/) is a foundational legal AI research company building AI models, apps, and tools for the legal tech ecosystem.
 
-There to get started with embedding documents with Kanon 2 Embedder and Qdrant, register an account with [Isaacus](https://isaacus.com/), initialise an API key and install the `isaacus` Python package.
+Isaacus' offering includes [Kanon 2 Embedder](https://isaacus.com/blog/introducing-kanon-2-embedder), the world's best legal embedding model (as measured on the [Massive Legal Embedding Benchmark](https://isaacus.com/blog/introducing-mleb)), as well as [legal zero-shot classification](https://docs.isaacus.com/models/introduction#universal-classification) and [legal extractive question answering models](https://docs.isaacus.com/models/introduction#answer-extraction).
+
+The Isaacus API is fully compatible with Qdrant, allowing for seamless integration of Isaacus' legal embeddings into Qdrant collections for efficient vector search and retrieval.
+
+This guide walks you through the process of embedding legal documents with Isaacus' state-of-the-art Kanon 2 Embedder model and indexing them in a Qdrant collection for efficient search and retrieval.
+
+## 1. Set up your Isaacus account
+
+Head to the [Isaacus Platform](https://platform.isaacus.com/accounts/signup/) to [create a new account](https://platform.isaacus.com/accounts/signup/).
+
+Once signed up, [add a payment method](https://platform.isaacus.com/billing/) to claim your free credits.
+
+After adding a payment method, [create a new API key](https://platform.isaacus.com/users/api-keys/).
+
+Make sure to keep your API key safe. You won't be able to see it again after you create it. But don't worry, you can always generate a new one.
+
+## 2. Install dependencies
+
+Now that your account is set up, install the Isaacus [Python](https://pypi.org/project/isaacus/) API client:
 
 ```bash
 pip install isaacus
 ```
 
-### Setting up the Isaacus and Qdrant clients
-Ensure you have the `isaacus` and `qdrant-client` packages installed then initialise both clients in python.
+It is assumed that you have already installed and setup Qdrant, but if not, you can follow the [Qdrant installation guide](https://qdrant.tech/documentation/quickstart/).
+
+## 3. Embed documents
+
+With the Isaacus API client installed, let's embed our first legal documents and index them in Qdrant.
+
+To start, you need to **initialize the client with your API key**. You can do this by setting the `ISAACUS_API_KEY` environment variable or by passing it directly, which is what we're doing in this example.
 
 ```python
-from isaacus import Isaacus
 import qdrant_client
 
+from isaacus import Isaacus
+
 isaacus_client = Isaacus(api_key="PASTE_YOUR_API_KEY_HERE")
-
 client = qdrant_client.QdrantClient(":memory:")
-
-
 ```
-The following example shows how to embed two terms of service documents with the `kanon 2 embdder`. This model generates sentence embeddings of size [1792](https://docs.isaacus.com/models/introduction). Documents are embedded using the `retrieval/document` task while queries are embedded using the `retrieval/query` task.
 
-### Embedding documents
+Next, let's grab some legal documents to embed. For this example, we'll use [GitHub's terms of service](https://github.com/terms) and [Apple's terms of service](https://www.apple.com/legal/internet-services/terms/site.html).
 
 ```python
-# Fetch the terms of service documents from the URLs
 terms = [isaacus_client.get(path="https://examples.isaacus.com/github-tos.md", cast_to=str), 
          isaacus_client.get(path="https://examples.isaacus.com/apple-tos.md", cast_to=str)]
+```
 
-# Use the Kanon 2 embedder model to create embeddings for the terms of services
-embedding_model = "kanon-2-embedder"
+Now let's embed our documents using the `.embeddings.create()` method of our API client. We'll also make sure to flag that we're embedding documents by setting the `task` parameter to `"retrieval/document"`. This will help our embedder produce embeddings that are optimized specifically for being retrieved. We recommend always setting the `task` parameter to either `"retrieval/document"` or `"retrieval/query"` when using Isaacus embedders for retrieval tasks, even if the text in question is not strictly a document or a query, so long as one text is being treated as something to be retrieved, and the other as something to retrieve it with.
 
-# Create embeddings for the terms of service documents
-document_response = isaacus_client.embeddings.create(
-    model=embedding_model,
-    texts=terms, # You can pass a single text or a list of texts here.
+If necessary, you can also request a lower-dimensional embedding using the optional `dimensions` parameter, which can help speed up similarity comparisons and save on vector storage costs at the cost of some diminution in accuracy. The default (and maximum) dimensionality for Kanon 2 Embedder is $$1,792$$.
+
+```python
+documents_response = client.embeddings.create(
+    model="kanon-2-embedder",
+    texts=terms,
     task="retrieval/document",
 )
 ```
 
-### Converting the model outputs to Qdrant points
+## 4. Index documents
+Now, we'll unpack the embeddings from the response and convert them into Qdrant `PointStruct` objects, which we can then insert into a Qdrant collection.
 
 ```python
 from qdrant_client.models import PointStruct
@@ -55,13 +77,13 @@ points = [
     PointStruct(
         id=idx,
         vector=data.embedding,
-        payload={"text": text[:50]}, # Store only the first 50 characters of the text for brevity
+        payload={"text": text[:50]}, # Store only the first 50 characters of the text for the sake of brevity.
     )
     for idx, (data, text) in enumerate(zip(document_response.embeddings, terms))
 ]
 ```
 
-### Creating a collection to insert the documents
+We can use the Qdrant client's `create_collection` method to create a new collection for our documents. We'll specify the vector size (1,792 for Kanon 2 Embedder) and the distance metric (COSINE) to use for similarity comparisons.
 
 ```python
 from qdrant_client.models import VectorParams, Distance
@@ -78,9 +100,8 @@ client.create_collection(
 client.upsert(collection_name, points)
 ```
 
-## Searching for documents with Qdrant
-
-Once the documents are indexed in the collection, you can search for the most relevant documents by embedding a query and using Qdrant's search capabilities. Queries are embedded using the same model but with the `retrieval/query` task.
+## 5. Search for documents
+Now that we've indexed our documents in Qdrant, we're ready to search for relevant documents! Let's use the query 'What are GitHub's billing policies?' as an example, which should hopefully show GitHub's terms of service as more relevant than Apple's. This time, we'll embed the query with the `retrieval/query` task.
 
 ```python
 query_vec = isaacus_client.embeddings.create(
