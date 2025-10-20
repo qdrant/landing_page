@@ -60,7 +60,7 @@ Now let's embed our documents using the `.embeddings.create()` method of our API
 If necessary, you can also request a lower-dimensional embedding using the optional `dimensions` parameter, which can help speed up similarity comparisons and save on vector storage costs at the cost of some diminution in accuracy. The default (and maximum) dimensionality for Kanon 2 Embedder is $$1,792$$.
 
 ```python
-documents_response = client.embeddings.create(
+documents_response = isaacus_client.embeddings.create(
     model="kanon-2-embedder",
     texts=terms,
     task="retrieval/document",
@@ -79,7 +79,7 @@ points = [
         vector=data.embedding,
         payload={"text": text[:50]}, # Store only the first 50 characters of the text for the sake of brevity.
     )
-    for idx, (data, text) in enumerate(zip(document_response.embeddings, terms))
+    for idx, (data, text) in enumerate(zip(documents_response.embeddings, terms))
 ]
 ```
 
@@ -105,7 +105,7 @@ Now that we've indexed our documents in Qdrant, we're ready to search for releva
 
 ```python
 query_vec = isaacus_client.embeddings.create(
-    model=embedding_model,
+    model="kanon-2-embedder",
     texts=["What are GitHub's billing policies?"],
     task="retrieval/query",
 ).embeddings[0].embedding
