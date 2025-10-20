@@ -31,7 +31,7 @@ Now that your account is set up, install the Isaacus [Python](https://pypi.org/p
 pip install isaacus
 ```
 
-It is assumed that you have already installed and setup Qdrant, but if not, you can follow the [Qdrant installation guide](https://qdrant.tech/documentation/quickstart/).
+It is assumed that you have already installed and set up Qdrant, but if not, you can follow the [Qdrant installation guide](https://qdrant.tech/documentation/quickstart/).
 
 ## 3. Embed documents
 
