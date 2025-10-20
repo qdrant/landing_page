@@ -130,7 +130,7 @@ The model creates a vector embedding for "biophilic design" that encapsulates th
 
 ### Integration with embedding APIs
 
-Selecting the right embedding model for your use case is crucial to your application performance. Qdrant makes it easier by offering seamless integration with the best selection of embedding APIs, including [Cohere](/documentation/embeddings/cohere/), [Gemini](/documentation/embeddings/gemini/), [Jina Embeddings](/documentation/embeddings/jina-embeddings/), [OpenAI](/documentation/embeddings/openai/), [Aleph Alpha](/documentation/embeddings/aleph-alpha/), [Fastembed](https://github.com/qdrant/fastembed), and [AWS Bedrock](/documentation/embeddings/bedrock/). 
+Selecting the right embedding model for your use case is crucial to your application performance. Qdrant makes it easier by offering seamless integration with the best selection of embedding APIs, including [Cohere](/documentation/embeddings/cohere/), [Gemini](/documentation/embeddings/gemini/), [Jina Embeddings](/documentation/embeddings/jina-embeddings/), [OpenAI](/documentation/embeddings/openai/), [Aleph Alpha](/documentation/embeddings/aleph-alpha/), [Fastembed](https://github.com/qdrant/fastembed), [AWS Bedrock](/documentation/embeddings/bedrock/) and [Isaacus](/documentation/embeddings/isaacus/). 
 
 If you’re looking for NLP and rapid prototyping, including language translation, question-answering, and text generation, OpenAI is a great choice. Gemini is ideal for image search, duplicate detection, and clustering tasks. 
 

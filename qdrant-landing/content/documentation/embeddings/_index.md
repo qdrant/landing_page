@@ -35,3 +35,4 @@ Additionally, [any open-source embeddings from HuggingFace](https://huggingface.
 | [Snowflake](/documentation/embeddings/snowflake/)     | Scalable embeddings for big data.                                |
 | [Upstage](/documentation/embeddings/upstage/)         | Embeddings for speech and language tasks.                        |
 | [Voyage AI](/documentation/embeddings/voyage/)        | Navigation and spatial understanding embeddings.                 |
+| [Isaacus](/documentation/embeddings/isaacus/) | Domain specific embeddings for legal document retrieval.                      |
