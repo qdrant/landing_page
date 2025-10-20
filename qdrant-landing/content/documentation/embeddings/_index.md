@@ -22,6 +22,7 @@ Additionally, [any open-source embeddings from HuggingFace](https://huggingface.
 | [Bedrock](/documentation/embeddings/bedrock/)         | AWS managed service for foundation models and embeddings.        |
 | [Cohere](/documentation/embeddings/cohere/)           | Language model embeddings for NLP tasks.                         |
 | [Gemini](/documentation/embeddings/gemini/)           | Google’s multimodal embeddings for text and vision.              |
+| [Isaacus](/documentation/embeddings/isaacus/)         | State-of-the-art legal embeddings.                               |
 | [Jina AI](/documentation/embeddings/jina-embeddings/) | Customizable embeddings for neural search.                       |
 | [Mistral](/documentation/embeddings/mistral/)         | Open-source, efficient language model embeddings.                |
 | [MixedBread](/documentation/embeddings/mixedbread/)   | Lightweight embeddings for constrained environments.             |
@@ -35,4 +36,3 @@ Additionally, [any open-source embeddings from HuggingFace](https://huggingface.
 | [Snowflake](/documentation/embeddings/snowflake/)     | Scalable embeddings for big data.                                |
 | [Upstage](/documentation/embeddings/upstage/)         | Embeddings for speech and language tasks.                        |
 | [Voyage AI](/documentation/embeddings/voyage/)        | Navigation and spatial understanding embeddings.                 |
-| [Isaacus](/documentation/embeddings/isaacus/)         | State-of-the-art legal embeddings.                               |
