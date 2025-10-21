@@ -1,6 +1,120 @@
 @use '../helpers/functions' as *;
 @use 'sass:math';
 
+// Scroll progress bar for course pages
+.scroll-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(143, 152, 179, 0.1);
+  z-index: 3;
+  pointer-events: none;
+  
+  // Bonus version with special styling
+  &--bonus {
+    height: 4px;
+    background: linear-gradient(90deg, 
+      rgba(255, 215, 0, 0.2), 
+      rgba(255, 165, 0, 0.2), 
+      rgba(255, 105, 180, 0.2)
+    );
+    animation: rainbowShimmer 3s ease-in-out infinite;
+  }
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #DC244C, #E73C5E);
+  transition: width 0.1s ease-out;
+  
+  // Bonus version with gold/rainbow gradient
+  &--bonus {
+    background: linear-gradient(90deg, 
+      #FFD700, 
+      #FF8C00, 
+      #FF69B4, 
+      #9400D3, 
+      #4169E1, 
+      #00CED1
+    );
+    background-size: 200% 100%;
+    animation: rainbowFlow 2s linear infinite;
+  }
+}
+
+// Bonus badge for Day 9
+.bonus-badge {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  animation: bonusBadgeEntrance 0.8s ease-out;
+  
+  &__content {
+    background: linear-gradient(135deg, #FFD700, #FF8C00);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    backdrop-filter: blur(10px);
+  }
+  
+  &__icon {
+    font-size: 16px;
+    animation: bonusIconBounce 2s ease-in-out infinite;
+  }
+  
+  &__text {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// Animations
+@keyframes rainbowShimmer {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes rainbowFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes bonusBadgeEntrance {
+  0% {
+    transform: translateX(100%) scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(-10px) scale(1.1);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bonusIconBounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(-1px);
+  }
+}
+
+// Legacy progress bar styles (keeping for compatibility)
 .progress-bar {
   display: block;
   position: sticky;
