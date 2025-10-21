@@ -16,9 +16,7 @@ category: rag-and-genai
 
 AI agents have grown from simple Q\&A chatbots into systems that can independently plan, retrieve, act, and verify tasks. As developers work to recreate real-life workflows with agents, a common starting point is to give your agent access to a search API.
 
-![Agentic vector search architecture]()
-
-*Image: a simple agentic vector search architecture*
+![Agentic vector search architecture](/articles_data/agentic-builders-guide/agentic-architecture.png)
 
 ## The Limitations of Agents
 
@@ -48,7 +46,7 @@ Reliable agentic workflows require a clear plan executed with precise tools. A v
 
 Throughout this article, we’ll use TripAdvisor’s [TripBuilder](https://www.tripadvisor.com/TripBuilder) to illustrate how each of the four concepts above is critical for building and deploying agentic search at scale.
 
-![TripBuilder Overview]()
+![TripBuilder Overview](/articles_data/agentic-builders-guide/tripbuilder-overview.png)
 
 ## The Strategic Role of Memory in AI Agents
 
@@ -72,9 +70,7 @@ Giving your agent the context to give users the right results isn’t just about
 
 You also need the ability to [re-rank candidates](https://qdrant.tech/documentation/advanced-tutorials/reranking-hybrid-search/) for diversity, user preferences, or even custom metrics. If we know our user prefers a room with a king bed, for example, we can first get the relevant results for their trip to Berlin, then re-rank them based on the ones that have availability for a king bed.
 
-![Reranker Diagram]()
-
-*Image: A re-ranker can be used to give the user the most relevant information*
+![Reranker Diagram](/articles_data/agentic-builders-guide/reranker-diagram.png)
 
 ## Context Engineering with Filtering
 
@@ -86,8 +82,7 @@ Users expect agents to remember the details of their conversation. Your agent's 
 
 To help your agent differentiate between what it needs to recall for just this conversation and what it needs to remember for continuous learning, you can use [decay functions](https://qdrant.tech/blog/decay-functions/). These functions attempt to mimic human memory by algorithmically forgetting information that isn’t relevant or is old. This helps keep your memory nimble and makes sure that your agent’s memory isn’t just a bundle of facts but an evolving system that prioritizes recent and relevant data. Think of it as “short term” memory for your agent.
 
-![Decay Functions]() 
-Image: Decay functions give “short term memory” for your agent
+![Decay Functions](/articles_data/agentic-builders-guide/decay-functions.png)
 
 ## Integration with Agentic Memory and Evaluation
 
@@ -111,7 +106,7 @@ Your agent’s ability to complete complex tasks is only as good as the context 
 
 In production agents, efficiency is one of, if not the, most important metric to track. First, in enterprise environments you must meet strict latency budgets. Evaluations also let you track the cost per task by tracking token usage and end-to-end compute time. Finally, you can track the effectiveness of your memory layer by monitoring cache hit rates for your memory banks.
 
-![Tradeoff Triangle]()
+![Tradeoff Triangle](/articles_data/agentic-builders-guide/tradeoff-triangle.png)
 
 #### [**Guardrails & Fallbacks**](https://qdrant.tech/documentation/guides/security/)
 
@@ -127,13 +122,13 @@ As your dataset and traffic grow, Qdrant Cloud offers a suite of features to ens
 
 Qdrant provides robust tools for resource and cost optimization. Vector [quantization](https://qdrant.tech/documentation/guides/quantization/) compresses your data, significantly reducing its memory footprint and speeding up search.
 
-![Quantization]()
+![Quantization](/articles_data/agentic-builders-guide/quantization.png)
 
 To further manage costs as your dataset expands, [on-disk storage](https://qdrant.tech/documentation/concepts/storage/) allows you to keep the full vectors on more affordable SSDs while the necessary index data remains in RAM. This hybrid approach enables searches over billions of vectors without the high cost of keeping all data in memory.
 
 To enhance the relevance and precision of search queries, Qdrant natively supports hybrid search, which combines traditional keyword-based search with semantic vector search. By doing so, your application can find documents that match exact terms, such as product codes or names, while also discovering documents that are semantically similar in meaning. This ensures that you can find the most relevant information, even in massive and complex datasets.
 
-![Hybrid Search]()
+![Hybrid Search](/articles_data/agentic-builders-guide/hybrid-search.png)
 
 ## Best Practices for Security in Production
 
@@ -147,7 +142,7 @@ Note: Qdrant also supports concurrent queries, so your search won’t slow down 
 
 Authorization is handled by [RBAC](https://qdrant.tech/articles/data-privacy/) and [multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/), which work hand-in-hand to define and enforce permissions specific to the agent. RBAC is a set of rules that defines the allowed permissions, including read–write, read-only, write-only, and admin controls. It asks and answers the question, “What is this agent allowed to do?” Can it search for hotels? Can it add new hotels? Can it delete hotels?
 
-![Multi-tenancy]()
+![Multi-tenancy](/articles_data/agentic-builders-guide/multi-tenancy.png)
 
 A *hotel\_scraping\_agent* might have both read–write access to first check whether you already have the hotel and, if not, add it to the dataset. A *user\_review\_agent* might only have write access so it can add new reviews to the appropriate hotel. A *hotel\_search\_agent* might only have read access since it should only retrieve relevant hotels. A *memory\_organization\_agent* might have management access to create and delete collections depending on the situation.
 
