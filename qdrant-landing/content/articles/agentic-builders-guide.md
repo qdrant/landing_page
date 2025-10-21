@@ -2,16 +2,13 @@
 title: "Building Performant, Scaled Agentic Vector Search with Qdrant"
 short_description: "Discover how to architect scalable, high-performance AI agents with vector search, real-time memory, and multimodal retrieval."
 description: "Learn how to build performant, scalable AI agents with efficient vector retrieval, hybrid dense-sparse search, real-time memory, multimodal context integration, and optimized architectures for low-latency, high-accuracy execution in production environments."
-preview_dir:
-social_preview_image:
+preview_dir: /articles_data/agentic-builders-guide/preview
+social_preview_image: /articles_data/agentic-builders-guide/preview/social_preview.jpg
 author: Thierry Damiba
-draft: true
-date: 2025-10-22
+draft: false
+date: 2025-10-22T00:00:00.000Z
 category: rag-and-genai
 ---
-
-# Building Performant, Scaled Agentic Vector Search with Qdrant 
-
 ## Overview
 
 AI agents have grown from simple Q\&A chatbots into systems that can independently plan, retrieve, act, and verify tasks. As developers work to recreate real-life workflows with agents, a common starting point is to give your agent access to a search API.
