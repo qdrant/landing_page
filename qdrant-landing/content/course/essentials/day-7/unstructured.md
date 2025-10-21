@@ -89,11 +89,11 @@ This architecture enables various enterprise use cases:
 
 ## Resources
 
-- [Unstructured Documentation](https://docs.unstructured.io/):  
-  Complete guide to processing unstructured enterprise data with Unstructured.io. Learn about VLM partitioning, smart chunking, and integration with vector databases like Qdrant.
+- [Unstructured Qdrant Destination](https://docs.unstructured.io/ui/destinations/qdrant):  
+  Official Unstructured documentation for sending processed data to Qdrant. Learn about Qdrant Cloud integration, collection setup, and workflow configuration.
 
-- [Enterprise Document Processing with Qdrant (Blog post)](https://qdrant.tech/blog/enterprise-document-processing/):  
-  Explore how to build production-ready document processing pipelines using Unstructured.io and Qdrant. This guide covers ETL optimization, metadata preservation, and enterprise deployment strategies.
+- [Qdrant & Unstructured Integration Guide](https://qdrant.tech/documentation/frameworks/unstructured/):  
+  Official Qdrant documentation for Unstructured.io integration, covering setup and best practices for document processing pipelines.
 
 ⭐ **Show your support!** Give Unstructured a star on their GitHub repository: [github.com/Unstructured-IO/unstructured](https://github.com/Unstructured-IO/unstructured)
 

@@ -36,9 +36,7 @@ Each encoder produces its own vector representation that reflects its data domai
 
 ## Resources
 
-- [Superlinked Multimodal Search with Qdrant (Blog post)](https://qdrant.tech/blog/superlinked-multimodal-search/):  
-  Dive into a detailed exploration of how Superlinked leverages Qdrant's capabilities for advanced multimodal vector search. This guide breaks down the Mixture of Encoders architecture and walks you through real-world implementation steps. You'll learn best practices for representing and searching across text, images, numeric, categorical, and temporal features, all within a unified vector database setup.
-
-This article covers different features you need to consider when choosing a vector database: [Choosing a Vector Database](https://superlinked.com/vectorhub/articles/choosing-vdb?utm_source=qdrant-course)
+- [Superlinked & Qdrant Integration Guide](https://qdrant.tech/documentation/frameworks/superlinked/):  
+  Official Qdrant documentation on integrating Superlinked with Qdrant. Learn how to build advanced vector search applications with multiple encoder types for text, images, numbers, categories, and temporal data.
 
 ⭐ **Show your support!** Give Superlinked a star on their GitHub repository: [github.com/superlinked/superlinked](https://github.com/superlinked/superlinked)

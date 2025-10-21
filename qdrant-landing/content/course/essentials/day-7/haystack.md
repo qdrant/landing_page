@@ -80,11 +80,11 @@ This architecture extends beyond movie recommendations to various domains:
 
 ## Resources
 
-- [Haystack Documentation](https://docs.haystack.deepset.ai/):  
-  Comprehensive guide to building end-to-end NLP pipelines with Haystack. Learn about document processing, retrieval strategies, and agent development for sophisticated recommendation systems.
+- [Haystack Qdrant Integration](https://haystack.deepset.ai/integrations/qdrant-document-store):  
+  Official Haystack documentation for using Qdrant as a document store. Learn about installation, usage, and connecting to Qdrant Cloud clusters.
 
-- [Sparse Vector Search with Qdrant (Blog post)](https://qdrant.tech/blog/sparse-vectors/):  
-  Explore how sparse vector search enhances recommendation systems and information retrieval. This guide covers implementation strategies, performance optimization, and real-world use cases.
+- [Qdrant & Haystack Integration Guide](https://qdrant.tech/documentation/frameworks/haystack/):  
+  Official Qdrant documentation on integrating with Haystack. Learn how to build powerful NLP pipelines with vector search capabilities.
 
 ⭐ **Show your support!** Give Haystack a star on their GitHub repository: [github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)
 

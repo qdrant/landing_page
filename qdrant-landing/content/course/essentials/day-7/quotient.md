@@ -115,10 +115,10 @@ This monitoring architecture enables various enterprise use cases:
 
 ## Resources
 
-- [Quotient AI Documentation](https://docs.quotient.ai/):  
-  Complete guide to AI application monitoring with Quotient AI. Learn about hallucination detection, document relevance scoring, and building reliable RAG systems.
+- [Optimizing RAG Through an Evaluation-Based Methodology](https://qdrant.tech/articles/rapid-rag-optimization-with-qdrant-and-quotient/):  
+  Learn how to optimize RAG systems using Qdrant and Quotient through systematic evaluation. Covers experimentation with chunking, retrieval strategies, and model selection.
 
-- [RAG Monitoring Best Practices (Blog post)](https://qdrant.tech/blog/rag-monitoring/):  
-  Explore how to build production-ready RAG systems with comprehensive monitoring. This guide covers quality assurance, performance optimization, and debugging strategies for AI applications.
+- [Building High-Quality RAG Applications with Qdrant and Quotient](https://blog.quotientai.co/building-high-quality-rag-applications-with-qdrant-and-quotient/):  
+  Comprehensive guide on building production-ready RAG applications with comprehensive monitoring using Quotient AI and Qdrant for quality assurance and performance tracking.
 
-⭐ **Show your support!** Give Quotient AI a star on their GitHub repository: [github.com/quotient-ai/quotient](https://github.com/quotient-ai/quotient)
+**Note**: Visit [quotientai.co](https://www.quotientai.co/) for more information.

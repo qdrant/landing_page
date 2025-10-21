@@ -5,9 +5,9 @@ weight: 7
 
 {{< date >}} Day 7 {{< /date >}}
 
-# Integrating with Tensorlake
+# Integrating with TensorLake
 
-Build scalable data lakes with vector search capabilities.
+Build scalable data lakes with vector search capabilities using TensorLake's advanced document parsing techniques.
 
 {{< youtube "IVfoVS0KfPM" >}}
 
@@ -107,10 +107,10 @@ This architecture enables various advanced use cases:
 
 ## Resources
 
-- [TensorLake Documentation](https://docs.tensorlake.ai/):  
-  Complete guide to document parsing and knowledge graph creation with TensorLake. Learn about structured data extraction, table summarization, and integration with vector databases like Qdrant.
+- [TensorLake Qdrant Integration](https://docs.tensorlake.ai/integrations/qdrant#qdrant):  
+  Official TensorLake documentation for integrating with Qdrant. Learn about document parsing, knowledge graph creation, and structured data extraction for enhanced RAG applications.
 
-- [Knowledge Graphs with Qdrant (Blog post)](https://qdrant.tech/blog/knowledge-graphs/):  
-  Explore how to build sophisticated knowledge graph systems using TensorLake and Qdrant. This guide covers document parsing, structured extraction, and natural language querying capabilities.
+- [Qdrant & TensorLake Integration Guide](https://www.tensorlake.ai/blog/announcing-qdrant-tensorlake):  
+  Explore how combining TensorLake's document parsing capabilities with Qdrant's vector search enhances RAG applications with structured filters and semantic search.
 
-⭐ **Show your support!** Give TensorLake a star on their GitHub repository: [github.com/tensorlake/tensorlake](https://github.com/tensorlake/tensorlake)
+**Note**: Visit [tensorlake.ai](https://www.tensorlake.ai/) for more information.

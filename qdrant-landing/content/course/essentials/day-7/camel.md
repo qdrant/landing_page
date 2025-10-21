@@ -69,11 +69,10 @@ When you query "What is Qdrant?" with a Qdrant website link, the system:
 
 ## Resources
 
-- [Multi-Agent Systems with Qdrant (Blog post)](https://qdrant.tech/blog/multi-agent-systems/):  
-  Learn about building sophisticated multi-agent systems using Qdrant as your vector search backend. This guide covers agent communication patterns, context sharing, and how to scale your agent architectures for production use.
+- [CAMEL Qdrant Integration](https://docs.camel-ai.org/cookbooks/applications/customer_service_Discord_bot_with_agentic_RAG#integrating-qdrant-for-large-files-to-build-a-more-powerful-discord-bot):  
+  Official CAMEL documentation for integrating Qdrant with Discord bots and agentic RAG. Learn about Auto-Retrieval, vector storage, and building powerful customer service bots.
 
-- [CAMEL GitHub Repository](https://github.com/camel-ai/camel):  
-  Explore the complete CAMEL framework for building multi-agent systems. The repository includes the Auto-Retrieval module for easy RAG integration with Qdrant.
-
+- [Qdrant & CAMEL Integration Guide](https://qdrant.tech/documentation/frameworks/camel/):  
+  Official Qdrant documentation on integrating with CAMEL-AI. Learn how to use Qdrant as a storage mechanism for ingesting and retrieving semantically similar data in your multi-agent systems.
 
 ⭐ **Show your support!** Give CAMEL a star on their GitHub repository: [github.com/camel-ai/camel](https://github.com/camel-ai/camel)
