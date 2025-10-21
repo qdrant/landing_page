@@ -57,4 +57,9 @@ Learn about the Qdrant ecosystem and integration strategies.
   title: Camel AI
   content: Agentic RAG with multi-agent systems
   link: camel/
+
+- icon: /courses/course-integrations/jina.svg
+  title: Jina AI
+  content: Advanced multimodal embeddings with Qdrant
+  link: jina/
 {{< /cards-list >}}
