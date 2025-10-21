@@ -1,6 +1,8 @@
 ```csharp
 var denseModel = "sentence-transformers/all-minilm-l6-v2";
 var bm25Model = "qdrant/bm25";
+// NOTE: LoadDataset is a user-defined function.
+// Implement it to handle dataset loading as needed.
 var dataset = LoadDataset("miriad/miriad-4.4M", "train[0:100]");
 var points = new List<PointStruct>();
 

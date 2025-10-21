@@ -1,6 +1,8 @@
 ```go
 denseModel := "sentence-transformers/all-minilm-l6-v2"
 bm25Model := "qdrant/bm25"
+// NOTE: loadDataset is a user-defined function.
+// Implement it to handle dataset loading as needed.
 dataset := loadDataset("miriad/miriad-4.4M", "train[0:100]")
 points := make([]*qdrant.PointStruct, 0, 100)
 

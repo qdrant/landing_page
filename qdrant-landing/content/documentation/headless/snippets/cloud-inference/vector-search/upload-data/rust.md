@@ -6,6 +6,8 @@ use qdrant_client::Payload;
 
 let dense_model = "sentence-transformers/all-minilm-l6-v2";
 let bm25_model = "qdrant/bm25";
+// NOTE: load_dataset is a user-defined function.
+// Implement it to handle dataset loading as needed.
 let dataset: Vec<_> = load_dataset("miriad/miriad-4.4M", "train[0:100]");
 
 let points: Vec<PointStruct> = dataset
