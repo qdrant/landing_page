@@ -1,6 +1,8 @@
 ---
-title: Certification
+title: Qdrant Essentials Certification
 url: /course/certification/
 ---
 
-# Certification
+# Qdrant Essentials Certification
+
+Coming soon!
