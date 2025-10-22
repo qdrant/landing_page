@@ -204,7 +204,7 @@ As you test your search engine, consider:
 
 ### Step 2: Post Your Results
 
-Show your run and learn from others. **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord"> <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+Show your run and learn from others. **Post your results in** <a href="https://discord.com/channels/907569970500743200/1429673887590776832" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord"> <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
     alt="Post your results in Discord"
     style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" /> </a> **using this copy-paste template:**
 
