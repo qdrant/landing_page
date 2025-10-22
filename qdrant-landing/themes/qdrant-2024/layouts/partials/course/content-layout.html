@@ -20,7 +20,15 @@
                 <div class="d-flex justify-content-lg-end pb-3 pt-4">
                   {{ $currentWeight := .Params.weight }}
                   {{ $targetWeight := add $currentWeight 1 }}
-                  {{ $subject := site.GetPage "course/essentials" }}
+                  
+                  {{ $subject := "" }}
+                  {{ if eq .Params.isLesson true }}
+                    {{/* Current page is a lesson (_index.md), parent is the course section */}}
+                    {{ $subject = .Parent }}
+                  {{ else }}
+                    {{/* Current page is inside a lesson, grandparent is the course section */}}
+                    {{ $subject = .Parent.Parent }}
+                  {{ end }}
 
                   {{ $allLessons := where $subject.Pages ".Params.isLesson" true }}
 
