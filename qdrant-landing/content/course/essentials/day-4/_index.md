@@ -1,7 +1,7 @@
 ---
 title: "Day 4: Optimization and Scale"
 isLesson: true
-weight: 5
+weight: 22
 ---
 
 {{< date >}} Day 4 {{< /date >}}

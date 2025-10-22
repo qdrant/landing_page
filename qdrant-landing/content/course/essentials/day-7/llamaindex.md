@@ -1,6 +1,6 @@
 ---
 title: Integrating with LlamaIndex
-weight: 9
+weight: 40
 ---
 
 {{< date >}} Day 7 {{< /date >}}

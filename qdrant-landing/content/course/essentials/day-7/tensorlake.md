@@ -1,6 +1,6 @@
 ---
 title: Integrating with Tensorlake
-weight: 7
+weight: 38
 ---
 
 {{< date >}} Day 7 {{< /date >}}

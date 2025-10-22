@@ -1,6 +1,6 @@
 ---
 title: Combining Vector Search and Filtering
-weight: 2
+weight: 13
 ---
 
 {{< date >}} Day 2 {{< /date >}}

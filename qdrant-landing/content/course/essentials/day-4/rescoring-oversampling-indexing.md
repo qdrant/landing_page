@@ -1,6 +1,6 @@
 ---
 title: Accuracy Recovery with Rescoring
-weight: 2
+weight: 24
 ---
 
 {{< date >}} Day 4 {{< /date >}}

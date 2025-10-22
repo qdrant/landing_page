@@ -1,6 +1,6 @@
 ---
 title: Text Chunking Strategies
-weight: 3
+weight: 8
 ---
 
 {{< date >}} Day 1 {{< /date >}}

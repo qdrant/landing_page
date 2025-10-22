@@ -1,6 +1,6 @@
 ---
 title: Course Completion and Next Steps
-weight: 3
+weight: 34
 ---
 
 {{< date >}} Day 6 {{< /date >}}

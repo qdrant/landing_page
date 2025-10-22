@@ -7,7 +7,7 @@ content:
   menuTitle:
     text: Course Overview
     url: /course/essentials/
-  nextButton: Continue to Next Video
+  nextButton: Continue to Next Step
   nextDay: Complete
   title: Qdrant Essentials
   description: Learn hybrid search, multivectors, and production deployment in 7 days. Build and ship a docs search engine.
