@@ -1,6 +1,6 @@
 ---
 title: Qdrant Essentials Certification
-url: /course/certification/
+weight: 100
 ---
 
 # Qdrant Essentials Certification

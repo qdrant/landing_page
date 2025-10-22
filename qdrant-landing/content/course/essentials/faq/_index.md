@@ -1,5 +1,6 @@
 ---
 title: Qdrant Essentials FAQs
+weight: 200
 ---
 
 # Qdrant Essentials FAQs
