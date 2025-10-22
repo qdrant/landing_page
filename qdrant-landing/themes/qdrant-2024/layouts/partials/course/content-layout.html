@@ -20,13 +20,15 @@
                 <div class="d-flex justify-content-lg-end pb-3 pt-4">
                   {{ $currentWeight := .Params.weight }}
                   {{ $targetWeight := add $currentWeight 1 }}
-                  {{ $subject := site.GetPage "course" }}
+                  {{ $subject := site.GetPage "course/essentials" }}
 
                   {{ $allLessons := where $subject.Pages ".Params.isLesson" true }}
 
                   {{ $allVideos := slice }}
                   {{ range $lesson := $allLessons }}
-                    {{ $allVideos = $allVideos | append $lesson.RegularPages }}
+                    {{ range $video := $lesson.RegularPages }}
+                      {{ $allVideos = $allVideos | append $video }}
+                    {{ end }}
                   {{ end }}
 
                   {{ $allPages := $allLessons }}

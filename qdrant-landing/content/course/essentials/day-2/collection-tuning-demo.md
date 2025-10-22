@@ -1,6 +1,6 @@
 ---
 title: "Demo: HNSW Performance Tuning"
-weight: 3
+weight: 14
 ---
 
 {{< date >}} Day 2 {{< /date >}}

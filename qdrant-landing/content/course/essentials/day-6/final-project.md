@@ -1,6 +1,6 @@
 ---
 title: "Final Project: Production-Ready Documentation Search Engine"
-weight: 1
+weight: 33
 ---
 
 {{< date >}} Day 6 {{< /date >}}

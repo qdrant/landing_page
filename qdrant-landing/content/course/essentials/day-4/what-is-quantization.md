@@ -1,6 +1,6 @@
 ---
 title: Vector Quantization Methods
-weight: 1
+weight: 23
 ---
 
 {{< date >}} Day 4 {{< /date >}}

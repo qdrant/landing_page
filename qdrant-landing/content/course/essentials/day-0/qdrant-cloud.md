@@ -1,6 +1,6 @@
 ---
 title: Qdrant Cloud Setup
-weight: 1
+weight: 2
 ---
 
 {{< date >}} Day 0 {{< /date >}}

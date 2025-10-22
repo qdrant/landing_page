@@ -1,6 +1,6 @@
 ---
 title: Integrating with Quotient
-weight: 10
+weight: 41
 ---
 
 {{< date >}} Day 7 {{< /date >}}
