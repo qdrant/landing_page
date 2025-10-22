@@ -58,7 +58,7 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
 
 - Qdrant data modeling: points, payloads, and schemas
 - Embeddings, chunking, and similarity metrics
-- Indexing and retrieval tuning ([HNSW](https://qdrant.tech/articles/filtrable-hnsw/), filters, recall/latency)
+- Indexing and retrieval tuning (HNSW, filters, recall/latency)
 - Hybrid search with sparse + dense vectors and re-ranking
 - Performance optimization, compression, and quantization
 - Scaling, sharding/replication, and security
@@ -185,11 +185,11 @@ ML, backend, data, and search engineers building RAG, semantic search, or recomm
 
 ## Time commitment
 
-- Duration: 7 days at 1–2 hours/day + optional bonus day
+- Duration: 6 days at 1-2 hours/day + 1 optional bonus day
 - Video learning: ~3 hours
 - Hands-on learning: 4-5 hours
-- Final project: 2–4 hours
-- Total: 9–12 hours
+- Final project: 2-4 hours
+- Total: 9-12 hours
 
 
 {{< course-card 
