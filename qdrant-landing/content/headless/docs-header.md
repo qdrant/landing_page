@@ -21,7 +21,7 @@ menuItems:
     icon: blog-white.svg
   - id: menu-3
     name: Learn
-    url: /articles/
+    url: /learn/
     icon: rocket-white.svg
   - id: menu-4
     name: API Reference
