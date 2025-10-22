@@ -18,15 +18,15 @@ Qdrant Academy has just launched in Fall of 2025 and currently offers one compre
  image="/icons/outline/rocket-white-light.svg" 
  link="/course/essentials/"
  button="Get Started">}}
-**What you’ll gain**
+**What you’ll gain:**
 - Vector Search Fundamentals
 - Indexing and Performance Basics
 - Hybrid Search Overview
 - Optimization and Scaling
 - Advanced API Introducion
 - Ecosystem Integrations (Bonus)
-
-Time to Complete: 9-12 hours
+<br><br>
+Time to Complete: 9-12 hours<br>
 Includes: videos, code notebooks, projects, walkthroughs
 {{< /course-card >}}
 
@@ -38,16 +38,16 @@ Beginner courses require no previous experience with Qdrant and are useful for b
 {{< course-card 
  title="Qdrant Fundamentals"
  image="/icons/outline/rocket-white-light.svg" 
- link="/course/essentials/"
+ link="https://forms.gle/jiBmDcXr8j9tAb5UA"
  button="Register Interest">}}
-**What you’ll gain**
+**What you’ll gain:**
 - Vector Search Concepts
 - Setting Up Qdrant
 - Creating and Managing Collections
 - Ingesting Vector Embeddings
 - Running Your First Query
-
-Time to Complete: 2 hours (TBD)
+<br><br>
+Time to Complete: 2 hours (TBD)<br>
 Includes: videos, code notebooks
 {{< /course-card >}}
 
@@ -57,32 +57,32 @@ Intermediate courses are recommended for those that have completed the Beginner 
 {{< course-card 
  title="Optimizing Performance"
  image="/icons/outline/rocket-white-light.svg" 
- link="/course/essentials/"
+ link="https://forms.gle/aDinAbwAARB7JArg8"
  button="Register Interest">}}
-**What you’ll gain**
+**What you’ll gain:**
 - Fine-tuning HNSW parameters
 - Using quantizations for memory efficiency
 - Batch insertion and parallel indexing
-- DiskANN and cost reduction
+- Disk indexing and cost reduction
 - Advanced filtering
-
-Time to Complete: 2-3 hours (TBD)
+<br><br>
+Time to Complete: 2-3 hours (TBD)<br>
 Includes: videos, walkthroughs, projects
 {{< /course-card >}}
 
 {{< course-card 
  title="Scaling and DevOps"
  image="/icons/outline/rocket-white-light.svg" 
- link="/course/essentials/"
+ link="https://forms.gle/vj1keRBjUC3Gijeo6"
  button="Register Interest">}}
-**What you’ll gain**
+**What you’ll gain:**
 - Cluster setup and replication
 - Backup, restore, and upgrade strategies
 - Deploying in Docker, K8s, or Cloud Run
 - Security and authentication
 - Observability and monitoring
-
-Time to Complete: 4-5 hours (TBD)
+<br><br>
+Time to Complete: 4-5 hours (TBD)<br>
 Includes: videos, walkthroughs, projects
 {{< /course-card >}}
 
@@ -92,33 +92,32 @@ Advanced courses are recommended for those that have completed the Beginner and 
 {{< course-card 
  title="AI Engineer"
  image="/icons/outline/rocket-white-light.svg" 
- link="/course/essentials/"
+ link="https://forms.gle/eeWbeB6tUhBKFCVJ6"
  button="Register Interest">}}
-**What you’ll gain**
+**What you’ll gain:**
 - Developing AI applications
 - Agentic vector search architectures
 - GPU indexing and optimizations
 - Real-time ingestion and streaming pipelines
 - Accuracy-cost-performance tradoffs
-
-
-Time to Complete: ~5 hours (TBD)
+<br><br>
+Time to Complete: ~5 hours (TBD)<br>
 Includes: videos, walkthroughs, projects
 {{< /course-card >}}
 
 {{< course-card 
  title="Search Engineer"
  image="/icons/outline/rocket-white-light.svg" 
- link="/course/essentials/"
+ link="https://forms.gle/VEZ6xLAqvBtZQRCa7"
  button="Register Interest">}}
-**What you’ll gain**
+**What you’ll gain:**
 - Contextual reranking and semantic filtering
 - Multivector and late interaction models
 - Advanced hybrid search
 - Multimodal embedding models
 - Accuracy-cost-performance tradoffs
-
-Time to Complete: 5-6 hours (TBD)
+<br><br>
+Time to Complete: 5-6 hours (TBD)<br>
 Includes: videos, walkthroughs, projects
 {{< /course-card >}}
 
