@@ -77,7 +77,7 @@ client.recreate_collection(
         max_segment_size=5_000_000, # Create larger segments for faster search
     ),
     hnsw_config=models.HnswConfigDiff(
-        m=6,  # Lower M to reduce memory usage
+        m=6,  # Lower m to reduce memory usage
         on_disk=False  # Keep the HNSW index graph in RAM
     ),
 )
