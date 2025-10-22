@@ -151,7 +151,13 @@ client.create_collection(
         "sentence": models.VectorParams(size=384, distance=models.Distance.COSINE),
         "paragraph": models.VectorParams(size=384, distance=models.Distance.COSINE),
     },
-    strict_mode_config=models.StrictModeConfig(unindexed_filtering_retrieve=True),
+)
+
+# Index fields for filtering (more on this on day 2)
+client.create_payload_index(
+    collection_name=collection_name,
+    field_name="chunk_strategy",
+    field_schema=models.PayloadSchemaType.KEYWORD,
 )
 
 # Process and upload data
@@ -318,6 +324,8 @@ Enhance your search with filters like we saw in the movie demo:
 
 ```python
 # Example: Find Italian recipes that are quick to make
+# Tip: You have to recreate the collection and apply create_payload_index for the 
+# new filters before uploading the data again to be able to filter on the new fields.
 
 results = client.query_points(
     collection_name=collection_name,
