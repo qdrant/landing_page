@@ -87,9 +87,13 @@ for config in configs:
         collection_name=collection_name,
         vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
         hnsw_config=models.HnswConfigDiff(
-            m=config["m"], ef_construct=config["ef_construct"], full_scan_threshold=10
+            m=config["m"],
+            ef_construct=config["ef_construct"],
+            full_scan_threshold=10,  # force HNSW instead of full scan
         ),
-        optimizers_config=models.OptimizersConfigDiff(indexing_threshold=0),
+        optimizers_config=models.OptimizersConfigDiff(
+            indexing_threshold=10
+        ),  # Force indexing even on small sets for demo
     )
     print(f"Created collection: {collection_name}")
 ```
@@ -125,7 +129,9 @@ def upload_with_timing(collection_name, data, config_name):
         )
 
     # Warmup
-    client.query_points(collection_name=collection_name, query=points[0].vector, limit=1)
+    client.query_points(
+        collection_name=collection_name, query=points[0].vector, limit=1
+    )
 
     start_time = time.time()
     client.upload_points(collection_name=collection_name, points=points)
@@ -136,7 +142,7 @@ def upload_with_timing(collection_name, data, config_name):
 
 
 # Load your dataset here
-# your_dataset = [{"description": "This is a description of a product"}, ...] 
+# your_dataset = [{"description": "This is a description of a product"}, ...]
 
 # Upload to each collection
 upload_times = {}
@@ -185,7 +191,7 @@ def benchmark_search(collection_name, query_embedding, ef_values=[64, 128, 256])
         times = []
 
         # Run multiple queries for more reliable timing
-        for _ in range(5):
+        for _ in range(25):
             start_time = time.time()
 
             _ = client.query_points(
@@ -193,6 +199,7 @@ def benchmark_search(collection_name, query_embedding, ef_values=[64, 128, 256])
                 query=query_embedding,
                 limit=10,
                 search_params=models.SearchParams(hnsw_ef=hnsw_ef),
+                with_payload=False,
             )
 
             times.append((time.time() - start_time) * 1000)
@@ -230,7 +237,7 @@ def test_filtering_performance(collection_name):
     filter_condition = models.Filter(
         must=[models.FieldCondition(key="length", range=models.Range(gte=10, lte=200))]
     )
-    
+
     # Demo only: unindexed_filtering_retrieve=True forces a scan; turn it off right after measuring.
     client.update_collection(
         collection_name=collection_name,
@@ -241,24 +248,27 @@ def test_filtering_performance(collection_name):
     client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
 
     # Timing without payload index
-    start_time = time.time()
-    _ = client.query_points(
-        collection_name=collection_name,
-        query=query_embedding,
-        query_filter=filter_condition,
-        limit=10,
-    )
-    time_without_index = (time.time() - start_time) * 1000
+    times = []
+    for _ in range(25):
+        start_time = time.time()
+        _ = client.query_points(
+            collection_name=collection_name,
+            query=query_embedding,
+            query_filter=filter_condition,
+            limit=10,
+            with_payload=False,
+        )
+        times.append((time.time() - start_time) * 1000)
+    time_without_index = np.mean(times)
 
     # Create payload index
     client.create_payload_index(
         collection_name=collection_name,
         field_name="length",
         field_schema=models.PayloadSchemaType.INTEGER,
+        wait=True,
     )
 
-    suffix = collection_name.replace("my_domain_", "")
-    config = next((c for c in configs if c["name"] == suffix), None)
     base_ef = client.get_collection(
         collection_name=collection_name
     ).config.hnsw_config.ef_construct
@@ -276,21 +286,22 @@ def test_filtering_performance(collection_name):
         ),  # Turn off scanning and use payload index instead.
     )
 
-    # Wait for index to be built
-    wait_for_index_built(collection_name)
-
     # Warmup
     client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
 
     # Timing with index
-    start_time = time.time()
-    _ = client.query_points(
-        collection_name=collection_name,
-        query=query_embedding,
-        query_filter=filter_condition,
-        limit=10,
-    )
-    time_with_index = (time.time() - start_time) * 1000
+    times = []
+    for _ in range(25):
+        start_time = time.time()
+        _ = client.query_points(
+            collection_name=collection_name,
+            query=query_embedding,
+            query_filter=filter_condition,
+            limit=10,
+            with_payload=False,
+        )
+        times.append((time.time() - start_time) * 1000)
+    time_with_index = np.mean(times)
 
     return {
         "without_index": time_without_index,

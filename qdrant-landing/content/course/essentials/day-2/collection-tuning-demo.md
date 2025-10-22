@@ -162,8 +162,11 @@ client.create_collection(
     hnsw_config=models.HnswConfigDiff(
         m=0,  # Bulk load fast: m=0 (build links after ingest).
         ef_construct=100,  # Build quality: used after we set m>0
-        full_scan_threshold=10000,
+        full_scan_threshold=10,  # force HNSW instead of full scan
     ),
+    optimizers_config=models.OptimizersConfigDiff(
+        indexing_threshold=10
+    ),  # Force indexing even on small sets for demo
     strict_mode_config=models.StrictModeConfig(
         enabled=False,
     ),  # More flexible while testing
@@ -311,12 +314,11 @@ Let's measure search performance on the HNSW‑enabled collection.
 print("Running baseline performance test...")
 
 # Warm up the RAM index/vectors cache with a test query
-print("Warming up caches...")
 client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
 
 # Measure vector search performance
 search_times = []
-for _ in range(3):  # Multiple runs for a stable average
+for _ in range(25):  # Multiple runs for a stable average
     start_time = time.time()
     response = client.query_points(
         collection_name=collection_name, query=query_embedding, limit=10
@@ -329,7 +331,9 @@ baseline_time = sum(search_times) / len(search_times)
 print(f"Average search time: {baseline_time:.2f}ms")
 print(f"Search times: {[f'{t:.2f}ms' for t in search_times]}")
 print(f"Found {len(response.points)} results")
-print(f"Top result: '{response.points[0].payload['title']}' (score: {response.points[0].score:.4f})")
+print(
+    f"Top result: '{response.points[0].payload['title']}' (score: {response.points[0].score:.4f})"
+)
 
 # Show a few more results for context
 print(f"\nTop 3 results:")
@@ -344,7 +348,7 @@ for i, point in enumerate(response.points[:3], 1):
 **Performance factors:**
 - **Cache warming**: First query loads relevant index parts/vectors into memory, subsequent queries are faster
 - **HNSW with m=16**: Graph-based search is much faster than full scan
-- **MRepeated runs**: Average of several queries gives more reliable timing results
+- **Repeated runs**: Average of several queries gives more reliable timing results
 
 ## Step 9: Filtering Without Payload Indexes
 
@@ -370,7 +374,7 @@ client.query_points(collection_name=collection_name, query=query_embedding, limi
 
 # Run multiple times for more reliable measurement
 unindexed_times = []
-for i in range(3):
+for i in range(25):
     start_time = time.time()
     response = client.query_points(
         collection_name=collection_name,
@@ -388,7 +392,9 @@ print(f"Individual times: {[f'{t:.2f}ms' for t in unindexed_times]}")
 print(f"Overhead vs baseline: {unindexed_filter_time - baseline_time:.2f}ms")
 print(f"Found {len(response.points)} matching results")
 if response.points:
-    print(f"Top result: '{response.points[0].payload['text']}'\nScore: {response.points[0].score:.4f}")
+    print(
+        f"Top result: '{response.points[0].payload['text']}'\nScore: {response.points[0].score:.4f}"
+    )
 else:
     print("No results found - try a different filter term")
 ```
@@ -432,7 +438,7 @@ client.query_points(collection_name=collection_name, query=query_embedding, limi
 
 # Run multiple times for more reliable measurement
 indexed_times = []
-for i in range(3):
+for i in range(25):
     start_time = time.time()
     response = client.query_points(
         collection_name=collection_name,
@@ -450,7 +456,9 @@ print(f"Individual times: {[f'{t:.2f}ms' for t in indexed_times]}")
 print(f"Overhead vs baseline: {indexed_filter_time - baseline_time:.2f}ms")
 print(f"Found {len(response.points)} matching results")
 if response.points:
-    print(f"Top result: '{response.points[0].payload['text']}'\nScore: {response.points[0].score:.4f}")
+    print(
+        f"Top result: '{response.points[0].payload['text']}'\nScore: {response.points[0].score:.4f}"
+    )
 else:
     print("No results found - try a different filter term")
 ```
