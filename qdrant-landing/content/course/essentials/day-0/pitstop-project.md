@@ -68,7 +68,16 @@ client.create_collection(
     collection_name=collection_name,
     vectors_config=models.VectorParams(size=4, distance=models.Distance.COSINE),
 )
+
+# Create payload index right after creating the collection and before uploading any data to enable filtering.
+# If you add it later, HNSW won't rebuild automatically—bump ef_construct (e.g., 100→101) to trigger a safe rebuild.
+client.create_payload_index(
+    collection_name=collection_name,
+    field_name="category",
+    field_schema=models.PayloadSchemaType.KEYWORD,
+)
 ```
+
 
 ### Step 3: Insert Points
 
@@ -97,17 +106,6 @@ points=[
 client.upsert(collection_name=collection_name, points=points)
 ```
 
-### Step 4: Allow Unindext Filtering
-
-By default, Qdrant requires payload indexes to be enabled for filtering, since filtering is inefficient without them. However, since our data set is small, we don't need the speed that payload indexes provide and can therefore allow the use of unindexed fields.
-
-```python
-client.update_collection(
-    collection_name=collection_name,
-    strict_mode_config=models.StrictModeConfig(unindexed_filtering_retrieve=True),
-)
-```
-
 ### Step 5: Test Searches
 ```python
 # Define a query vector for "affordable and innovative"
@@ -121,9 +119,7 @@ filtered_results = client.query_points(
     collection_name,
     query=query_vector,
     query_filter=models.Filter(
-        must=[
-            models.FieldCondition(key="category", match=models.MatchValue(value="tech"))
-        ]
+        must=[models.FieldCondition(key="category", match=models.MatchValue(value="electronics"))]
     ),
 )
 print("Filtered search results:", filtered_results)

@@ -40,7 +40,6 @@ from qdrant_client import QdrantClient, models
 To connect to Qdrant Cloud, you need your cluster URL and API key from your Qdrant Cloud dashboard. Replace with your actual credentials:
 
 ```python
-from qdrant_client import QdrantClient, models
 import os
 from dotenv import load_dotenv
 
@@ -102,7 +101,7 @@ The `get_collections()` method returns all collections in your Qdrant instance, 
 
 - **ID**: A unique identifier
 - **Vector Data**: An array of numerical values representing the data point in vector space
-- **Payload (Optional)**: Additional metadata as key-value pairs for filtering and categorization
+- **Payload (Optional)**: Additional metadata
 
 ```python
 # Define the vectors to be inserted
@@ -161,40 +160,3 @@ print("Search results:", search_results)
 ```
 
 Expected output: `points=[ScoredPoint(id=1, score=0.97642946, payload={'category': 'example'})]`
-
-## Step 9: Filtered Search
-
-Refine your search using metadata filters. You can combine multiple [filtering conditions](/documentation/concepts/filtering/#filtering-conditions) using logical [filter clauses](/documentation/concepts/filtering/#filtering-clauses).
-
-The most common clause is `must`, which acts like an `AND` operator: it ensures that all specified conditions are met for a point to be included in the results.
-
-```python
-search_filter = models.Filter(
-    must=[
-        models.FieldCondition(
-            key="category",
-            match=models.MatchValue(value="example"),  # This condition must be true
-        )
-    ]
-)
-
-client.update_collection(
-    collection_name=collection_name,
-    strict_mode_config=models.StrictModeConfig(unindexed_filtering_retrieve=True),
-)
-
-filtered_results = client.query_points(
-    collection_name=collection_name,
-    query=query_vector,
-    query_filter=search_filter,
-    limit=1,
-)
-
-print("Filtered search results:", filtered_results)
-```
-
-Expected output: Results matching both vector similarity and the category filter.
-
-**Other available clauses include:**
--   **`should`**: At least one of the conditions must be met (like `OR`).
--   **`must_not`**: Ensures none of the specified conditions are met.
