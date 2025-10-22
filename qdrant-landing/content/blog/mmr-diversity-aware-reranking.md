@@ -183,7 +183,7 @@ def fashion_search_standard(query_text, limit=5):
     
     results = client.query_points(
         collection_name=collection_name,
-        query=models.NearestQuery(nearest=query_embedding.tolist()),
+        query=query_embedding.tolist(),
         limit=limit,
         with_payload=True
     )
