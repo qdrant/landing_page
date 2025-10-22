@@ -15,7 +15,7 @@ You've built and shipped a complete vector search application and gained the exp
 
 You've progressed from vector search fundamentals to production-ready expertise:
 
-**Foundation Building** (Days 0-2): You mastered the core concepts of vector search, learned how similarity metrics work, and understood how [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) indexing enables fast retrieval at scale.
+**Foundation Building** (Days 0-2): You mastered the core concepts of vector search, learned how similarity metrics work, and understood how HNSW indexing enables fast retrieval at scale.
 
 **Advanced Retrieval** (Days 3-5): You implemented hybrid search combining semantic and keyword signals, explored quantization for performance optimization, and mastered the Universal Query API with multivector reranking.
 
