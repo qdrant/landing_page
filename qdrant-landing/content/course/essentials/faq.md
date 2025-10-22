@@ -1,6 +1,5 @@
 ---
 title: Qdrant Essentials FAQs
-url: /course/faq/
 ---
 
 # Qdrant Essentials FAQs
