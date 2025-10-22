@@ -117,10 +117,10 @@ print(f"Dataset size: {len(ds['train'])} articles")
 
 # Explore the dataset structure
 print("\nDataset structure:")
-print("Available columns:", ds['train'].column_names)
+print("Available columns:", ds["train"].column_names)
 
 # Look at a sample entry
-sample = ds['train'][0]
+sample = ds["train"][0]
 print(f"\nSample article:")
 print(f"Title: {sample['title']}")
 print(f"Text preview: {sample['text'][:200]}...")
@@ -132,7 +132,7 @@ print(f"Embedding dimensions: {len(sample['text-embedding-3-large-1536-embedding
 - **Content**: Pre-computed Wikipedia article embeddings
 - **Size**: 100,000 articles
 - **Embeddings**: with OpenAI's `text-embedding-3-large` truncated to 1536 dims
-- **Metadata**: `_id`, `titles` and `text`
+- **Metadata**: `_id`, `title` and `text`
 
 
 ## Step 4: Strategic Collection Creation
@@ -156,18 +156,17 @@ print(f"Creating collection: {collection_name}")
 client.create_collection(
     collection_name=collection_name,
     vectors_config=models.VectorParams(
-        size=1536,                       # Matches dataset dims
-        distance=models.Distance.COSINE  # Good for normalized embeddings
+        size=1536,  # Matches dataset dims
+        distance=models.Distance.COSINE,  # Good for normalized embeddings
     ),
     hnsw_config=models.HnswConfigDiff(
-        m=0,                 # Skip links during upload for speed
-        ef_construct=100,    # Used after we set m>0
-        full_scan_threshold=10000
+        m=0,  # Bulk load fast: m=0 (build links after ingest).
+        ef_construct=100,  # Build quality: used after we set m>0
+        full_scan_threshold=10000,
     ),
     strict_mode_config=models.StrictModeConfig(
-        enabled=False,                         # More flexible while testing
-        unindexed_filtering_retrieve=True      # Allow filters without payload indexes
-    )
+        enabled=False,
+    ),  # More flexible while testing
 )
 
 print(f"Collection '{collection_name}' created successfully!")
@@ -182,11 +181,11 @@ print(f"HNSW m: {collection_info.config.hnsw_config.m}")
 
 **Configuration details:**
 - **`size=1536`**: To match the dimensions parameter we set for the OpenAI `text-embedding-3-large`
-- **`distance=COSINE`**: Standart for normalized embeddings and semantic similarity
+- **`distance=COSINE`**: Standard for normalized embeddings and semantic similarity
 - **`full_scan_threshold=10000`**: Uses exact search for smaller result sets
 - **`strict_mode_config`**: Managed Cloud runs in strict mode by default. We set `enabled=False` to let you experiment with unindexed payload keys during the demo.
 
-**Side note:** `text-embedding-3-large` outputs 3072 dims. Trunkating that to only 1536 dimensions cuts compute and memory, with some accuracy loss.
+**Side note:** `text-embedding-3-large` outputs 3072 dims. Truncating that to only 1536 dimensions cuts compute and memory, with some accuracy loss.
 
 ## Step 5: Bulk Upload with Rich Payloads
 
@@ -218,7 +217,7 @@ def upload_batch(start_idx, end_idx):
     return 0
 
 
-batch_size = 10000
+batch_size = 64 * 10
 total_points = len(ds["train"])
 print(f"Uploading {total_points} points in batches of {batch_size}")
 
@@ -239,8 +238,8 @@ Now switch from `m=0` to `m=16` to build HNSW connections and improve search tim
 client.update_collection(
     collection_name=collection_name,
     hnsw_config=models.HnswConfigDiff(
-        m=16  # Each node connects to 16 neighbors
-    )
+        m=16  # Build HNSW now: m=16 after the bulk load.
+    ),
 )
 
 print("HNSW indexing enabled with m=16")
@@ -320,9 +319,7 @@ search_times = []
 for _ in range(3):  # Multiple runs for a stable average
     start_time = time.time()
     response = client.query_points(
-        collection_name=collection_name,
-        query=query_embedding,
-        limit=10
+        collection_name=collection_name, query=query_embedding, limit=10
     )
     search_time = (time.time() - start_time) * 1000
     search_times.append(search_time)
@@ -337,9 +334,9 @@ print(f"Top result: '{response.points[0].payload['title']}' (score: {response.po
 # Show a few more results for context
 print(f"\nTop 3 results:")
 for i, point in enumerate(response.points[:3], 1):
-    title = point.payload['title']
+    title = point.payload["title"]
     score = point.score
-    text_preview = point.payload['text'][:100] + "..."
+    text_preview = point.payload["text"][:100] + "..."
     print(f"   {i}. {title} (score: {score:.4f})")
     print(f"      {text_preview}")
 ```
@@ -356,15 +353,20 @@ Now, let's test filtering performance without indexes. This forces Qdrant to sca
 ```python
 print("Testing filtering without payload indexes")
 
+# Warning: We enable unindexed_filtering_retrieve only for demonstration purposes. In production, don’t use it.
+# Demo only: allow filtering without an index by scanning. Turn this off later.
+client.update_collection(
+    collection_name=collection_name,
+    strict_mode_config=models.StrictModeConfig(unindexed_filtering_retrieve=True),
+)
+
 # Create a text-based filter
 text_filter = models.Filter(
-    must=[
-        models.FieldCondition(
-            key="text",
-            match=models.MatchText(text="data")
-        )
-    ]
+    must=[models.FieldCondition(key="text", match=models.MatchText(text="data"))]
 )
+
+# Warmup
+client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
 
 # Run multiple times for more reliable measurement
 unindexed_times = []
@@ -375,7 +377,7 @@ for i in range(3):
         query=query_embedding,
         limit=10,
         search_params=models.SearchParams(hnsw_ef=100),
-        query_filter=text_filter
+        query_filter=text_filter,
     )
     unindexed_times.append((time.time() - start_time) * 1000)
 
@@ -396,25 +398,25 @@ else:
 Create a [full‑text index](/documentation/concepts/indexing/#full-text-index) for faster filtering.
 
 ```python
+# Create a payload index for 'text' so filters use an index, not a scan.
 client.create_payload_index(
     collection_name=collection_name,
     field_name="text",
     wait=True,
     field_schema=models.TextIndexParams(
-        type="text",
-        tokenizer="word",
-        phrase_matching=False
-        )
-    )
+        type="text", tokenizer="word", phrase_matching=False
+    ),
+)
+
+client.update_collection(
+    collection_name=collection_name,
+    hnsw_config=models.HnswConfigDiff(
+        ef_construct=101
+    ),  # Added payload index after HNSW; bump ef_construct (+1) to rebuild with filter data.
+    strict_mode_config=models.StrictModeConfig(unindexed_filtering_retrieve=False),
+)
 
 print("Payload index created for 'text' field")
-
-# If you want filter‑aware HNSW and you built the graph before creating payload indexes,
-# rebuild the graph to attach filter data structures.
-# Note: Reindexing takes up a lot of resources, and it is advised to set payload 
-# indexes only once, before building HNSW.
-# client.update_collection(collection_name=collection_name, hnsw_config=models.HnswConfigDiff(m=0))
-# client.update_collection(collection_name=collection_name, hnsw_config=models.HnswConfigDiff(m=16))
 ```
 
 ## Step 11: Filtering With Payload Indexes
@@ -423,6 +425,10 @@ Run the same query with the index in place.
 
 ```python
 print("Testing filtering WITH payload indexes...")
+
+
+# Warmup
+client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
 
 # Run multiple times for more reliable measurement
 indexed_times = []
@@ -433,7 +439,7 @@ for i in range(3):
         query=query_embedding,
         limit=10,
         search_params=models.SearchParams(hnsw_ef=100),
-        query_filter=text_filter
+        query_filter=text_filter,
     )
     indexed_times.append((time.time() - start_time) * 1000)
 
@@ -454,9 +460,9 @@ else:
 Compare your results and see the effect of each optimization:
 
 ```python
-print("\n" + "="*60)
+print("\n" + "=" * 60)
 print("FINAL PERFORMANCE SUMMARY")
-print("="*60)
+print("=" * 60)
 
 # Key metrics
 if unindexed_filter_time > 0 and indexed_filter_time > 0:
@@ -481,7 +487,7 @@ print(f"Key insights:")
 print(f"   • HNSW (m=16) enables fast vector search")
 print(f"   • Payload indexes dramatically improve filtering")
 print(f"   • Upload strategy (m=0→m=16) optimizes ingestion")
-print("="*60)
+print("=" * 60)
 ```
 
 
