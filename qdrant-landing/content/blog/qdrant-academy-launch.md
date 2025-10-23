@@ -33,7 +33,7 @@ But implementing it correctly takes more than just embeddings. You need to under
 * Optimize for performance at scale.  
 * Apply these concepts to real-world use cases.
 
-This helps developers by:
+This course helps developers by:
 
 * Reducing onboarding time for new team members.  
 * Improving search architecture and embedding design quality.  
@@ -100,4 +100,4 @@ A huge thank-you to everyone who helped make Qdrant Academy and Qdrant Essential
 
 A special shoutout to [Sabrina Aquino](https://www.linkedin.com/in/sabrina-aquino-4455b313b/) for spearheading the entire Essentials project, and to [Evgeniya Sukhodolskaya](https://www.linkedin.com/in/evgeniya-sukhodolskaya/) and [Kirstin Taufertshoefer](https://www.linkedin.com/in/kirstin-taufertshoefer/) for taking over the project later on. Shoutouts to the entire Qdrant DevRel Team for the content, Andrey Vasnetsov for the Academy site, and to our amazing partner contributors who made this course possible.
 
-And as always, thank you for being part of our community. Your feedback and enthusiasm continue to shape how we teach vector search to the world.
+And as always, thank you for being part of our community. Your feedback and enthusiasm continue to shape how we bring vector search to the world.
