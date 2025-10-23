@@ -7,7 +7,7 @@ weight: 36
 
 # Integrating with Haystack
 
-Build end-to-end NLP pipelines with Haystack and Qdrant.
+Build end-to-end agentic pipelines with Qdrant.
 
 {{< youtube "lMinhPZufTc" >}}
 

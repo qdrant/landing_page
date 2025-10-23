@@ -23,9 +23,9 @@ Learn about the Qdrant ecosystem and integration strategies.
 ## Choose Your Integration
 
 {{< cards-list >}}
-- icon: /courses/course-integrations/haystack.svg
+- icon: /courses/course-integrations/haystack.png
   title: Haystack
-  content: Build end-to-end NLP pipelines with Qdrant
+  content: Build end-to-end agentic pipelines with Qdrant
   link: haystack/
 
 - icon: /courses/course-integrations/tensorlake.svg

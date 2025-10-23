@@ -15,7 +15,7 @@ You've built and shipped a complete vector search application and gained the exp
 
 You've progressed from vector search fundamentals to production-ready expertise:
 
-**Foundation Building** (Days 0-2): You mastered the core concepts of vector search, learned how similarity metrics work, and understood how [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) indexing enables fast retrieval at scale.
+**Foundation Building** (Days 0-2): You mastered the core concepts of vector search, learned how similarity metrics work, and understood how HNSW indexing enables fast retrieval at scale.
 
 **Advanced Retrieval** (Days 3-5): You implemented hybrid search combining semantic and keyword signals, explored quantization for performance optimization, and mastered the Universal Query API with multivector reranking.
 
@@ -40,13 +40,13 @@ Your final project demonstrates several production-critical capabilities:
 {{< course-card
   title="Earn your Qdrant Essentials Certificate"
   image="/icons/outline/training-white.svg"
-  link="/course/certification/" >}}
+  link="/course/essentials/certification/" >}}
 Get recognized for completing Day 0–6 and the final project. Add it to your LinkedIn and portfolio.
 {{< /course-card >}}
 
 ## What's Next?
 
-**Explore Advanced Integrations**: Check out [Day 9 Partner Integrations](../../day-9/) to see how Qdrant works with leading AI frameworks and data platforms.
+**Explore Advanced Integrations**: Check out [Day 7 Partner Integrations](../../day-7/) to see how Qdrant works with leading AI frameworks and data platforms.
 
 **Join the Community**: Share your final project results and connect with other practitioners building vector search systems. The Qdrant community is always excited to see what people build.
 
