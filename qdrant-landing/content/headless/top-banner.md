@@ -10,11 +10,11 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Think Outside the Bot Hackathon | Over $10k in prizes | Submit project by Sept 16"
+text: "Learn to ship production-ready search in 7 days with Qdrant Academy | Try the Essential Course"
 link:
   text: Learn more
-  url: https://try.qdrant.tech/hackathon-2025
-start: 2025-08-13T05:00:00.000Z
+  url: https://qdrant.tech/course/essentials/
+start: 2025-10-23T05:00:00.000Z
 sitemapExclude: true
-end: 2025-09-15T14:00:00.000Z
+end: 2025-11-12T14:00:00.000Z
 ---
