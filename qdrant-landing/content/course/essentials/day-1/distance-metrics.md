@@ -1,6 +1,6 @@
 ---
 title: Distance Metrics
-weight: 7
+weight: 3
 ---
 
 {{< date >}} Day 1 {{< /date >}}

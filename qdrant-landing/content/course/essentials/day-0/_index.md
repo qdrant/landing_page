@@ -1,7 +1,7 @@
 ---
 title: "Day 0: Setup and First Steps"
 isLesson: true
-weight: 1
+weight: 10
 ---
 
 {{< date >}} Day 0 {{< /date >}}

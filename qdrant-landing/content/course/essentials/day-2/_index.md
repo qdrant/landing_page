@@ -1,7 +1,7 @@
 ---
 title: "Day 2: Indexing and Performance"
 isLesson: true
-weight: 11
+weight: 30
 ---
 
 {{< date >}} Day 2 {{< /date >}}

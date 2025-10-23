@@ -1,7 +1,7 @@
 ---
 title: "Day 5: Advanced APIs"
 isLesson: true
-weight: 27
+weight: 60
 ---
 
 {{< date >}} Day 5 {{< /date >}}
