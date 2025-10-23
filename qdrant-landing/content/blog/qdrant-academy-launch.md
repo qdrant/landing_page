@@ -46,7 +46,7 @@ We believe that learning comes in many forms, and sometimes a comprehensive end-
 
 Qdrant Essentials is designed as a hands-on learning experience that you can take at your own pace. Each module is organized into “Days” and includes videos, step-by-step guides, code examples, and exercises that build on each other.
 
-![Course Preview](qdrant-landing/static/blog/qdrant-academy-launch/essentials-screenshot.png)
+![Course Preview](/blog/qdrant-academy-launch/essentials-screenshot.png)
 
 **What You’ll Learn:**
 
@@ -98,6 +98,6 @@ Don’t see something you think is important? Email [devrel@qdrant.com](mailto:d
 
 A huge thank-you to everyone who helped make Qdrant Academy and Qdrant Essentials possible\! 
 
-A special shout out to [Sabrina Aquino](https://www.linkedin.com/in/sabrina-aquino-4455b313b/) for spearheading the entire Essentials project, and to [Evgeniya Sukhodolskaya](https://www.linkedin.com/in/evgeniya-sukhodolskaya/) and [Kirstin Taufertshoefer](https://www.linkedin.com/in/kirstin-taufertshoefer/) for taking over the project later on. Shoutouts to the entire Qdrant DevRel Team for the content and Andrey Vasnetsov for the Academy site and to our amazing partner contributors who made this course possible.
+A special shoutout to [Sabrina Aquino](https://www.linkedin.com/in/sabrina-aquino-4455b313b/) for spearheading the entire Essentials project, and to [Evgeniya Sukhodolskaya](https://www.linkedin.com/in/evgeniya-sukhodolskaya/) and [Kirstin Taufertshoefer](https://www.linkedin.com/in/kirstin-taufertshoefer/) for taking over the project later on. Shoutouts to the entire Qdrant DevRel Team for the content, Andrey Vasnetsov for the Academy site, and to our amazing partner contributors who made this course possible.
 
 And as always, thank you for being part of our community. Your feedback and enthusiasm continue to shape how we teach vector search to the world.
