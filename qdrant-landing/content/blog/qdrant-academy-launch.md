@@ -20,7 +20,7 @@ This started with a mission: to make learning more accessible, scalable, and fri
 
 With **Qdrant Essentials**, you get a free, self-paced, structured learning course that teaches the fundamentals of vector search, embeddings, and productionalizing AI systems using Qdrant. You’ll learn not just what vector search *is*, but how to build, query, and optimize search with real projects, exercises, and examples.
 
-# Why Take the Essentials Course
+## Why Take the Essentials Course
 
 Vector search has become a core part of modern AI systems, from retrieval-augmented generation (RAG) and semantic search to recommendation engines and multimodal retrieval.
 
@@ -42,7 +42,7 @@ This helps developers by:
 
 We believe that learning comes in many forms, and sometimes a comprehensive end-to-end structure is exactly what you need. The Qdrant Essentials Course seeks to do exactly that, giving you robust beginner-to-intermediate knowledge of the Qdrant platform.
 
-# About the Course
+## About the Course
 
 Qdrant Essentials is designed as a hands-on learning experience that you can take at your own pace. Each module is organized into “Days” and includes videos, step-by-step guides, code examples, and exercises that build on each other.
 
@@ -59,7 +59,7 @@ Qdrant Essentials is designed as a hands-on learning experience that you can tak
 
 Every concept is paired with video walkthroughs and real code examples so you can understand and feel vector search in action.
 
-# Ecosystem Partners
+## Ecosystem Partners
 
 We’re proud to offer a growing list of collaborative lessons from our partner ecosystems integrations. These videos have been created directly by experts from each partner organization, illustrating on how to use specific technologies with Qdrant.
 
@@ -76,7 +76,7 @@ Our current partner content tutorials include:
 
 We’re super grateful for our amazing and collaborative partners for contributing to the Qdrant Essentials Course and Qdrant Academy.
 
-# How to Get Started
+## How to Get Started
 
 Getting started with Qdrant Essentials is simple:
 
@@ -88,13 +88,13 @@ Getting started with Qdrant Essentials is simple:
 
 The only prerequisite: curiosity. Everything else, from setup to vector search, you’ll learn as you go.
 
-# And That’s Not All…
+## And That’s Not All…
 
 Qdrant Essentials is only the first step in our broader [**Qdrant Academy**](https://qdrant.tech/course/)**.** Visit the Academy site to see an overview of future courses we are planning, and register your interest in courses you think we should prioritize.
 
 Don’t see something you think is important? Email [devrel@qdrant.com](mailto:devrel@qdrant.com) and we’ll consider your request\!
 
-# Special Thanks
+## Special Thanks
 
 A huge thank-you to everyone who helped make Qdrant Academy and Qdrant Essentials possible\! 
 
