@@ -104,9 +104,7 @@ Measure upload performance for each configuration:
 
 ```python
 def upload_with_timing(collection_name, data, config_name):
-    embeddings = encoder.encode(
-        [d["description"] for d in data], show_progress_bar=True
-    ).tolist()
+    embeddings = encoder.encode([d["description"] for d in data], show_progress_bar=True).tolist()
 
     points = []
     for i, item in enumerate(data):
@@ -121,17 +119,14 @@ def upload_with_timing(collection_name, data, config_name):
                     "length": len(item["description"]),
                     "word_count": len(item["description"].split()),
                     "has_keywords": any(
-                        keyword in item["description"].lower()
-                        for keyword in ["important", "key", "main"]
+                        keyword in item["description"].lower() for keyword in ["important", "key", "main"]
                     ),
                 },
             )
         )
 
     # Warmup
-    client.query_points(
-        collection_name=collection_name, query=points[0].vector, limit=1
-    )
+    client.query_points(collection_name=collection_name, query=points[0].vector, limit=1)
 
     start_time = time.time()
     client.upload_points(collection_name=collection_name, points=points)
@@ -141,39 +136,43 @@ def upload_with_timing(collection_name, data, config_name):
     return upload_time
 
 
-# Load your dataset here
+# Load your dataset here. The larger the dataset, the more accurate the benchmark will be.
 # your_dataset = [{"description": "This is a description of a product"}, ...]
 
 # Upload to each collection
 upload_times = {}
 for config in configs:
     collection_name = f"my_domain_{config['name']}"
-    upload_times[config["name"]] = upload_with_timing(
-        collection_name, your_dataset, config["name"]
-    )
+    upload_times[config["name"]] = upload_with_timing(collection_name, your_dataset, config["name"])
 
 
-# Wait for index to be built
-def wait_for_index_built(collection_name, vectors_per_point=1):
-    info = client.get_collection(collection_name=collection_name)
-    count = 0
-    while (
-        info.points_count * vectors_per_point - info.indexed_vectors_count != 0
-        and count < 10
-    ):
-        time.sleep(1)
+def wait_for_indexing(collection_name, timeout=60, poll_interval=1):
+    print(f"Waiting for collection '{collection_name}' to be indexed...")
+    start_time = time.time()
+
+    while time.time() - start_time < timeout:
         info = client.get_collection(collection_name=collection_name)
-        count += 1
-    if count == 10:
-        raise Exception(
-            f"Indexed vectors count ({info.indexed_vectors_count}) is not equal to points count ({info.points_count}). Upload enough points to trigger index rebuild."
-        )
+
+        if info.indexed_vectors_count > 0 and info.status == models.CollectionStatus.GREEN:
+            print(f"Success! Collection '{collection_name}' is indexed and ready.")
+            print(f" - Status: {info.status.value}")
+            print(f" - Indexed vectors: {info.indexed_vectors_count}")
+            return
+
+        print(f" - Status: {info.status.value}, Indexed vectors: {info.indexed_vectors_count}. Waiting...")
+        time.sleep(poll_interval)
+
+    info = client.get_collection(collection_name=collection_name)
+    raise Exception(
+        f"Timeout reached after {timeout} seconds. Collection '{collection_name}' is not ready. "
+        f"Final status: {info.status.value}, Indexed vectors: {info.indexed_vectors_count}"
+    )
 
 
 for config in configs:
     if config["m"] > 0:  # m=0 has no HNSW to wait for
         collection_name = f"my_domain_{config['name']}"
-        wait_for_index_built(collection_name)
+        wait_for_indexing(collection_name)
 ```
 
 ### Step 4: Benchmark Search Performance
@@ -269,22 +268,22 @@ def test_filtering_performance(collection_name):
         wait=True,
     )
 
+    # HNSW was already built; adding the payload index doesn’t rebuild it.
+    # Bump ef_construct (+1) once to trigger a safe rebuild.
     base_ef = client.get_collection(
         collection_name=collection_name
     ).config.hnsw_config.ef_construct
+    new_ef_construct = base_ef + 1
 
     client.update_collection(
         collection_name=collection_name,
-        hnsw_config=models.HnswConfigDiff(
-            # HNSW was already built; adding the payload index doesn’t rebuild it.
-            # Bump ef_construct (+1) once to trigger a safe rebuild and turn off scanning.
-            ef_construct=base_ef
-            + 1,
-        ),
+        hnsw_config=models.HnswConfigDiff(ef_construct=new_ef_construct),
         strict_mode_config=models.StrictModeConfig(
             unindexed_filtering_retrieve=False
         ),  # Turn off scanning and use payload index instead.
     )
+
+    wait_for_indexing(collection_name)
 
     # Warmup
     client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
