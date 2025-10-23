@@ -1,6 +1,6 @@
 ---
 title: Integrating with Unstructured.io
-weight: 37
+weight: 3
 ---
 
 {{< date >}} Day 7 {{< /date >}}

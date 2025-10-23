@@ -1,6 +1,6 @@
 ---
 title: "Demo: Keyword Search with Sparse Vectors"
-weight: 18
+weight: 3
 ---
 
 {{< date >}} Day 3 {{< /date >}}

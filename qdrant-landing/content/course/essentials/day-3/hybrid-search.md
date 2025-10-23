@@ -1,6 +1,6 @@
 ---
 title: Hybrid Search and the Universal Query API
-weight: 19
+weight: 4
 ---
 
 {{< date >}} Day 3 {{< /date >}}

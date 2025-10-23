@@ -1,6 +1,6 @@
 ---
 title: "Project: Building a Recommendation System"
-weight: 31
+weight: 5
 ---
 
 {{< date >}} Day 5 {{< /date >}}

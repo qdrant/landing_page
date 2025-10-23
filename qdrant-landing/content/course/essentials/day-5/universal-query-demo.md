@@ -1,6 +1,6 @@
 ---
 title: "Demo: Universal Query for Hybrid Retrieval"
-weight: 30
+weight: 4
 ---
 
 {{< date >}} Day 5 {{< /date >}}

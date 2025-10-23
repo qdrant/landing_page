@@ -1,6 +1,6 @@
 ---
 title: Multivectors for Late Interaction Models
-weight: 28
+weight: 2
 ---
 
 {{< date >}} Day 5 {{< /date >}}

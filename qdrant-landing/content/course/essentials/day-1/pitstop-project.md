@@ -1,6 +1,6 @@
 ---
 title: "Project: Building a Semantic Search Engine"
-weight: 10
+weight: 6
 ---
 
 {{< date >}} Day 1 {{< /date >}}

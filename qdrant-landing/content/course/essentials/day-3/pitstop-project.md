@@ -1,6 +1,6 @@
 ---
 title: "Project: Building a Hybrid Search Engine"
-weight: 21
+weight: 6
 ---
 
 {{< date >}} Day 3 {{< /date >}}

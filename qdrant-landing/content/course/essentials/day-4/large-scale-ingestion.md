@@ -1,6 +1,6 @@
 ---
 title: Large-Scale Data Ingestion
-weight: 25
+weight: 4
 ---
 
 {{< date >}} Day 4 {{< /date >}}

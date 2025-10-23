@@ -1,6 +1,6 @@
 ---
 title: Integrating with Superlinked
-weight: 39
+weight: 5
 ---
 
 {{< date >}} Day 7 {{< /date >}}

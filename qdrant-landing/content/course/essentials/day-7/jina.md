@@ -1,6 +1,6 @@
 ---
 title: Integrating with Jina AI
-weight: 43
+weight: 9
 ---
 
 {{< date >}} Day 7 {{< /date >}}

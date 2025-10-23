@@ -1,6 +1,6 @@
 ---
 title: "Demo: Implementing a Hybrid Search System"
-weight: 20
+weight: 5
 ---
 
 {{< date >}} Day 3 {{< /date >}}

@@ -1,6 +1,6 @@
 ---
 title: "Demo: Semantic Movie Search"
-weight: 9
+weight: 5
 ---
 
 {{< date >}} Day 1 {{< /date >}}

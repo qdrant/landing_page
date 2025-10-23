@@ -1,6 +1,6 @@
 ---
 title: Points, Vectors and Payloads
-weight: 6
+weight: 2
 ---
 
 {{< date >}} Day 1 {{< /date >}}

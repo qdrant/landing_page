@@ -1,6 +1,6 @@
 ---
 title: HNSW Indexing Fundamentals
-weight: 12
+weight: 2
 ---
 
 {{< date >}} Day 2 {{< /date >}}

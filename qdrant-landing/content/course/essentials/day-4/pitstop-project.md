@@ -1,6 +1,6 @@
 ---
 title: "Project: Quantization Performance Optimization"
-weight: 26
+weight: 5
 ---
 
 {{< date >}} Day 4 {{< /date >}}

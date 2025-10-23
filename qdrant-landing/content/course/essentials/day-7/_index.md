@@ -1,7 +1,7 @@
 ---
 title: "Day 7: Partner Ecosystem Integrations (Bonus)"
 isLesson: true
-weight: 35
+weight: 80
 ---
 
 {{< date >}} Day 7 {{< /date >}}

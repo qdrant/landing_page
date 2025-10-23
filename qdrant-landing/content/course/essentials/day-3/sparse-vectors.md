@@ -1,6 +1,6 @@
 ---
 title: Sparse Vectors and Inverted Indexes
-weight: 17
+weight: 2
 ---
 
 {{< date >}} Day 3 {{< /date >}}
