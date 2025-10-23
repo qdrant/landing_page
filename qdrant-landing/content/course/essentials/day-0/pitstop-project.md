@@ -40,7 +40,7 @@ Before creating data, decide what each of the four dimensions in your vectors wi
 
 **Example Ideas:**
 - **Product categories**: Create vectors where each dimension represents a feature (affordability, quality, popularity, innovation). Electronics might be `[0.8, 0.7, 0.9, 0.6]`, while books could be `[0.3, 0.9, 0.4, 0.8]`.
-- **Color palettes**: Each dimension represents color intensity (red, green, blue, brightness). Bright red: `[0.9, 0.1, 0.1, 0.8]`, forest green: `[0.1, 0.8, 0.2, 0.5]`.
+- **Color palettes**: Each dimension represents color (red, green, blue). Bright red: `[0.9, 0.1, 0.1]`, forest green: `[0.1, 0.8, 0.2]`.
 - **Data types**: Dimensions for structure, size, complexity, frequency. Spreadsheets: `[0.9, 0.6, 0.3, 0.7]`, images: `[0.2, 0.8, 0.5, 0.4]`.
 - **Movie genres**: Action, drama, comedy, sci-fi intensities. Action thriller: `[0.9, 0.3, 0.1, 0.7]`, romantic comedy: `[0.1, 0.6, 0.9, 0.2]`.
 
@@ -148,7 +148,7 @@ For a new concept (not the Product Categories concept) run the code above and do
 
 ### Step 2: Post Your Results
 
-Show what you built and compare notes with others. **Post your results in** <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
+Show what you built and compare notes with others. **Post your results in** <a href="https://discord.com/channels/907569970500743200/1429673887590776832" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord">
   <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
        alt="Post your results in Discord"
        style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" />

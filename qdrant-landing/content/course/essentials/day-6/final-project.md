@@ -144,7 +144,7 @@ Transform raw results into user-friendly output: page title, section title, URLs
 
 ### Step 7: Analyze Your Results
 
-Build a small eval set and measure quality and latency. Use results to guide tuning (fusion strategy, candidate sizes, search-time `ef`, etc.).
+Build a small eval set and measure quality and latency. Use results to guide tuning (fusion strategy, candidate sizes, search-time `hnsw_ef`, etc.).
 
 **Ground Truth**:
 - Create 20–30 realistic queries with expected section URLs/anchors.
@@ -199,7 +199,7 @@ As you test your search engine, consider:
 * **Rerank or not:** Are multivectors worth it, or is fusion alone enough?
 * **Performance tuning:** Which search and HNSW settings hit your accuracy/latency goals?
 
-  * Search time: raise `ef` from 64 → 128 → 256 until gains flatten.
+  * Search time: raise `hnsw_ef` from 64 → 128 → 256 until gains flatten.
   * Index time (if rebuilding): try higher `m` (16, 32) and `ef_construct` (200, 400).
 
 ### Step 2: Post Your Results
@@ -228,7 +228,7 @@ Show your run and learn from others. **Post your results in** <a href="https://d
 - **Payload fields:** <page_title, section_title, section_url, breadcrumbs, tags, prev/next>
 - **Fusion:** <RRF/DBSF>, k_dense=<100>, k_sparse=<100>
 - **Reranker:** ColBERT (MaxSim), top-k=<N>
-- **Index/Search params:** ef=<...>, m=<...>, ef_construct=<...>  # if tuned
+- **Index/Search params:** hnsw_ef=<...>, m=<...>, ef_construct=<...>  # if tuned
 
 **Queries (examples)**
 1) "<user query>"

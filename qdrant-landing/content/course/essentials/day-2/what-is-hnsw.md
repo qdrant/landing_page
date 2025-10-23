@@ -274,7 +274,7 @@ performance = benchmark_search_performance(collection_name, test_queries, ef_val
 
 Use [`get_collection`](/api-reference/collections/get-collection) to inspect your collection. It returns Current statistics and configuration of the collection like `points_count`, `indexed_vectors_count` or `hnsw_config`. It also lists `payload_schema` for payload indexes you created.
 
-To see whether your data is actually indexed check vector and point counts: if `indexed_vectors_count` is far below `points_count * vectors_per_point`, a large part of your data is not in HNSW yet.
+To see whether your data is actually indexed, you need to check two things: the number of indexed vectors and the collection's status. If `indexed_vectors_count` is low, indexing may not have completed. More importantly, you should check the collection `status`. A `YELLOW` status means optimization (indexing) is still in progress, while a `GREEN` status confirms it is complete and ready for optimal performance.
 
 If queries feel slow check:
 - whether filter fields have [payload indexes](/documentation/concepts/indexing/#payload-index).
@@ -290,9 +290,9 @@ info = client.get_collection(collection_name)
 vectors_per_point = 1  # set per your vectors_config
 vectors_count = info.points_count * vectors_per_point
 
-print(f"Total vectors: {vectors_count}")
+print(f"Collection status: {info.status}") 
+print(f"Total points: {info.points_count}")
 print(f"Indexed vectors: {info.indexed_vectors_count}")
-print(f"HNSW config: {info.config.hnsw_config}")
 
 if vectors_count:
     proportion_unindexed = 1 - (info.indexed_vectors_count / vectors_count)
@@ -300,6 +300,13 @@ else:
     proportion_unindexed = 0
 
 print(f"Proportion unindexed: {proportion_unindexed:.2%}")
+
+if info.status == models.CollectionStatus.GREEN:
+    print("\n✅ Collection is indexed and ready!")
+elif info.status == models.CollectionStatus.YELLOW:
+    print("\n⚠️ Collection is still being indexed (optimizing).")
+else:
+    print(f"\n❌ Collection status is {info.status}.")
 ```
 
 ## When Not to Use HNSW
