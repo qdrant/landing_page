@@ -40,7 +40,7 @@ Before creating data, decide what each of the four dimensions in your vectors wi
 
 **Example Ideas:**
 - **Product categories**: Create vectors where each dimension represents a feature (affordability, quality, popularity, innovation). Electronics might be `[0.8, 0.7, 0.9, 0.6]`, while books could be `[0.3, 0.9, 0.4, 0.8]`.
-- **Color palettes**: Each dimension represents color intensity (red, green, blue, brightness). Bright red: `[0.9, 0.1, 0.1, 0.8]`, forest green: `[0.1, 0.8, 0.2, 0.5]`.
+- **Color palettes**: Each dimension represents color (red, green, blue). Bright red: `[0.9, 0.1, 0.1]`, forest green: `[0.1, 0.8, 0.2]`.
 - **Data types**: Dimensions for structure, size, complexity, frequency. Spreadsheets: `[0.9, 0.6, 0.3, 0.7]`, images: `[0.2, 0.8, 0.5, 0.4]`.
 - **Movie genres**: Action, drama, comedy, sci-fi intensities. Action thriller: `[0.9, 0.3, 0.1, 0.7]`, romantic comedy: `[0.1, 0.6, 0.9, 0.2]`.
 
