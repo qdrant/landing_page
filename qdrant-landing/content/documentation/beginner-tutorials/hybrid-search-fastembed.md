@@ -80,7 +80,7 @@ You should see output like this
 [2021-02-05T00:08:51Z INFO  actix_server::builder] Starting "actix-web-service-0.0.0.0:6333" service on 0.0.0.0:6333
 ```
 
-Test the service by going to [http://localhost:6333/](http://localhost:6333/). You should see the Qdrant version info in your browser.
+Test the service by going to your Qdrant Cloud cluster URL. You should see the Qdrant version info in your browser.
 
 All data uploaded to Qdrant is saved inside the `./qdrant_storage` directory and will be persisted even if you recreate the container.
 
@@ -104,7 +104,10 @@ Now you need to write a script to upload all startup data and vectors into the s
 # Import client library
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 ```
 
 
@@ -383,7 +386,7 @@ if __name__ == "__main__":
 python service.py
 ```
 
-4. Open your browser at [http://localhost:8000/docs](http://localhost:8000/docs). 
+4. Open your browser at [http://localhost:8000/docs](http://localhost:8000/docs) to access the API documentation. 
 
 You should be able to see a debug interface for your service.
 
