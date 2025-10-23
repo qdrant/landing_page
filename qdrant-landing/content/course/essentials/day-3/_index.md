@@ -1,7 +1,7 @@
 ---
 title: "Day 3: Hybrid Search"
 isLesson: true
-weight: 4
+weight: 16
 ---
 
 {{< date >}} Day 3 {{< /date >}}

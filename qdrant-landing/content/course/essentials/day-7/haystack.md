@@ -1,6 +1,6 @@
 ---
 title: Integrating with Haystack
-weight: 3
+weight: 36
 ---
 
 {{< date >}} Day 7 {{< /date >}}

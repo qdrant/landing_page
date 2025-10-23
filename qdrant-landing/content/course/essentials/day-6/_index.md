@@ -1,7 +1,7 @@
 ---
 title: "Day 6: Final Project - Building a Production-Grade Search Engine"
 isLesson: true
-weight: 9
+weight: 32
 ---
 
 {{< date >}} Day 6 {{< /date >}}

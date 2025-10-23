@@ -1,6 +1,6 @@
 ---
 title: Implementing a Basic Vector Search
-weight: 2
+weight: 3
 ---
 
 {{< date >}} Day 0 {{< /date >}}

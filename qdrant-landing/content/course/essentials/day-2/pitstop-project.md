@@ -1,6 +1,6 @@
 ---
 title: "Project: HNSW Performance Benchmarking"
-weight: 4
+weight: 15
 ---
 
 {{< date >}} Day 2 {{< /date >}}

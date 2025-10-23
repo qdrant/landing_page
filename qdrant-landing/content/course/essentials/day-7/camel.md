@@ -1,6 +1,6 @@
 ---
 title: Integrating with Camel AI
-weight: 11
+weight: 42
 ---
 
 {{< date >}} Day 7 {{< /date >}}

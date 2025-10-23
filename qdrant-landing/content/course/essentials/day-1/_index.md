@@ -1,7 +1,7 @@
 ---
 title: "Day 1: Vector Search Fundamentals"
 isLesson: true
-weight: 2
+weight: 5
 ---
 
 {{< date >}} Day 1 {{< /date >}}
