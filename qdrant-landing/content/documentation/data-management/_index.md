@@ -10,6 +10,7 @@ partition: build
 | ------------------------------- | -------------------------------------------------------------------------------------------------- |
 | [Airbyte](/documentation/data-management/airbyte/)           | Data integration platform specialising in ELT pipelines.                                           |
 | [Airflow](/documentation/data-management/airflow/)           | Platform designed for developing, scheduling, and monitoring batch-oriented workflows.             |
+| [Chonkie](/documentation/data-management/chonkie/)           | No-nonsense, ultra-light and lightning fast RAG pipelines library.                                |
 | [CocoIndex](/documentation/data-management/cocoindex/)           | High performance ETL framework to transform data for AI, with real-time incremental processing     |
 | [Cognee](/documentation/data-management/cognee/)             | AI memory frameworks that allows loading from 30+ data sources to graph and vector stores          |
 | [Connect](/documentation/data-management/redpanda/)          | Declarative data-agnostic streaming service for efficient, stateless processing.                   |
