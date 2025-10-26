@@ -181,9 +181,9 @@ def fashion_search_standard(query_text, limit=5):
     text_model = TextEmbedding(model_name="Qdrant/clip-ViT-B-32-text")
     query_embedding = list(text_model.embed([query_text]))[0]
     
-    results = client.search(
+    results = client.query_points(
         collection_name=collection_name,
-        query_vector=query_embedding.tolist(),
+        query=query_embedding.tolist(),
         limit=limit,
         with_payload=True
     )

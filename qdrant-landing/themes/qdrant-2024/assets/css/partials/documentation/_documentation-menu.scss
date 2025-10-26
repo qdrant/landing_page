@@ -327,7 +327,7 @@
         }
 
         &.active {
-          .docs-menu__links-group-heading>a {
+          &>.docs-menu__links-group-heading>a {
             color: $primary-50;
             background: $neutral-90;
           }

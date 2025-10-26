@@ -34,6 +34,11 @@ HUGO_PARAMS_onetrustScriptId = "0196246a-3663-7350-9a45-b65f645d6314"
         X-Content-Type-Options = "nosniff"
         X-Frame-Options = "DENY"
 
+[[headers]]
+    for = "/web-ui-banner.json"
+    [headers.values]
+        Access-Control-Allow-Origin = "*"
+
 [[redirects]]
     from = "/surveys/hybrid-saas"
     to = "https://hybrid-cloud.qdrant.tech/"

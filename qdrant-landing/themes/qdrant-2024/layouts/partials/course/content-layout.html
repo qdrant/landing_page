@@ -18,41 +18,64 @@
               {{ $parent := .Parent }}
               {{ if or (eq .Params.isLesson true) (eq $parent.Params.isLesson true) }}
                 <div class="d-flex justify-content-lg-end pb-3 pt-4">
-                  {{ $currentWeight := .Params.weight }}
-                  {{ $targetWeight := add $currentWeight 1 }}
-                  {{ $subject := site.GetPage "course" }}
+                  {{/* Determine the course section */}}
+                  {{ $subject := "" }}
+                  {{ if eq .Params.isLesson true }}
+                    {{/* Current page is a lesson (_index.md), parent is the course section */}}
+                    {{ $subject = .Parent }}
+                  {{ else }}
+                    {{/* Current page is inside a lesson, grandparent is the course section */}}
+                    {{ $subject = .Parent.Parent }}
+                  {{ end }}
 
-                  {{ $allLessons := where $subject.Pages ".Params.isLesson" true }}
-
-                  {{ $allVideos := slice }}
+                  {{/* Build ordered list: sort lessons by weight, then sort children within each lesson */}}
+                  {{ $allLessons := sort (where $subject.Pages ".Params.isLesson" true) ".Params.weight" }}
+                  {{ $allPages := slice }}
                   {{ range $lesson := $allLessons }}
-                    {{ $allVideos = $allVideos | append $lesson.RegularPages }}
+                    {{ $allPages = $allPages | append $lesson }}
+                    {{ $sortedChildren := sort $lesson.RegularPages ".Params.weight" }}
+                    {{ range $child := $sortedChildren }}
+                      {{ $allPages = $allPages | append $child }}
+                    {{ end }}
                   {{ end }}
 
-                  {{ $allPages := $allLessons }}
-                  {{ range $p := $allVideos }}
-                    {{ $allPages = $allPages | append $p }}
+                  {{/* Find current page position in the ordered list */}}
+                  {{ $currentPage := . }}
+                  {{ $currentIndex := -1 }}
+                  {{ range $idx, $page := $allPages }}
+                    {{ if eq $page.RelPermalink $currentPage.RelPermalink }}
+                      {{ $currentIndex = $idx }}
+                    {{ end }}
                   {{ end }}
 
-                  {{ $nextLesson := where $allPages ".Params.weight" $targetWeight }}
+                  {{/* Get next page by index */}}
+                  {{ $nextIndex := add $currentIndex 1 }}
+                  {{ if lt $nextIndex (len $allPages) }}
+                    {{ $next := index $allPages $nextIndex }}
 
-                  {{ if gt (len $nextLesson) 0 }}
-                    {{ $currentPage := . }}
+                    {{/* Determine if current page is last in its day (for button text) */}}
                     {{ $siblings := $currentPage.Parent.RegularPages }}
-
                     {{ $maxWeight := 0 }}
                     {{ range $p := $siblings }}
-                      {{ if gt (int $p.Params.weight) $maxWeight }}
-                        {{ $maxWeight = (int $p.Params.weight) }}
+                      {{ $pWeight := 0 }}
+                      {{ if $p.Params.weight }}
+                        {{ $pWeight = int $p.Params.weight }}
+                      {{ end }}
+                      {{ if gt $pWeight $maxWeight }}
+                        {{ $maxWeight = $pWeight }}
                       {{ end }}
                     {{ end }}
 
-                    {{ $next := index $nextLesson 0 }}
+                    {{ $currentWeight := 0 }}
+                    {{ if $currentPage.Params.weight }}
+                      {{ $currentWeight = int $currentPage.Params.weight }}
+                    {{ end }}
+
                     <a
                       href="{{ $next.RelPermalink }}"
                       class="button button_contained button_sm"
                     >
-                      {{ if eq (int $currentPage.Params.weight) $maxWeight }}
+                      {{ if eq $currentWeight $maxWeight }}
                         {{ $subject.Params.content.nextDay }} {{ .Parent.Title }}
                       {{ else }}
                         {{ $subject.Params.content.nextButton }}

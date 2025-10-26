@@ -1,9 +1,9 @@
 ---
-title: FAQ
-url: /course/faq/
+title: Qdrant Essentials FAQs
+weight: 200
 ---
 
-# Qdrant Essentials Course FAQs
+# Qdrant Essentials FAQs
 
 ## Who is this course for?
 
@@ -15,17 +15,17 @@ Yes, completely free. No credit card required.
 
 ## Do I get a certificate of completion? 
 
-Yes! But just watching the videos doesn’t quite get you there. You need to [[insert instructions]](/#) to obtain the certification. And, you’ll also have your project to add to your portfolio!
+Certification coming soon!
 
 ## How much time should I spend on this course?
 
-Each “Day” of this course is designed to be completed in 1 day. Day 0 is the quickest, and then there are 8 days of content. So you are looking at a minimum of 9 days, but don’t forget about the bonus content.
+Each "Day" is designed to be completed in 1 day. Day 0 is the quickest, followed by 5 more days of content. Plan for at least 6 days, plus bonus content.
 
-The good news is that you can take as much time as you need to complete the course since it is on-demand and at your own pace.
+The good news: you can take as much time as you need since the course is on-demand and self-paced.
 
 ## What tools do I need?
 
-Python, Docker, and optionally Qdrant Cloud. We walk you through setup on Day 0.
+Python and either Qdrant Cloud or Docker. We walk you through setup on Day 0.
 
 ## Can I use Qdrant locally or do I need a cloud account?
 
@@ -33,11 +33,13 @@ You can do either. We support both local (via Docker) and Qdrant Cloud setups.
 
 ## What if I get stuck or have a question?
 
-Join the Qdrant Discord. Our team and community are ready to help.
+Join the Qdrant Discord <a href="https://discord.com/invite/qdrant" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord"> <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+    alt="Post your results in Discord"
+    style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" /> </a>. Our team and community are ready to help.
 
 ## Where can I get the code for the course? 
 
-Look at each Day’s page of content. You can also find them in this repo.
+Check each Day’s page of content.
 
 {{< course-card
 title="Why Start Today"

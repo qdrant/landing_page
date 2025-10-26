@@ -1,9 +1,23 @@
 ---
-title: Day 4
+title: "Day 4: Optimization and Scale"
 isLesson: true
-weight: 8
+weight: 50
 ---
 
 {{< date >}} Day 4 {{< /date >}}
 
-# Day 4
+# Optimization and Scale
+
+Compression, advanced tuning, and high‑throughput ingestion.
+
+---
+
+## Today’s path
+
+1. Vector Quantization Methods
+2. Accuracy Recovery with Rescoring
+3. High-Throughput Data Ingestion
+4. Project: Quantization Performance Optimization
+
+You’ll compare memory footprint, recall, and throughput across configurations.
+
