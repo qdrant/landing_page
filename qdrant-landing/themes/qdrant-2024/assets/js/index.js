@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   scrollHandler.onScrollUp((position) => {
-    if (position <= mainMenuHeight) {
+    if (position <= topBannerHeight + menuOffset) {
       removeScrollStateFromPage();
     }
   });
