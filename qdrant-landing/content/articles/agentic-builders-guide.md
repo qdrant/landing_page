@@ -49,7 +49,7 @@ Throughout this article, we’ll use TripAdvisor’s [TripBuilder](https://www.t
 
 For your agent to give the end-user the best results, it needs to remember a few things. It must recall context for continuity across individual conversations, personalize results based on user history and preferences, and operate efficiently at scale.
 
-Vector search engines provide storage and retrieval by meaning, plus by keyword with hybrid search, while still allowing you to take advantage of keywords with filters. Vector search excels at taking a complex query like the one about the hotel and returning the right answer, quickly, from your unstructured text and/or multimodal data.
+Vector search engines provide storage and retrieval by meaning, plus by keywords through hybrid search, while also allowing you to apply metadata filters to narrow down results. This combination returns relevant results for complex queries like the one about the hotel. Vector search excels at understanding the subjective meaning of the query, like a "fun" hotel, while filters enforce the factual requirements, such as being "dog-friendly" and costing under $200 a day.
 
 When your agent has to design the itinerary for the trip to Berlin, TripBuilder can inspect memory to see if any similar trips have been planned. This similarity can take into account dates, user preferences, and reviews.
 
@@ -65,9 +65,15 @@ Let’s imagine that you see a 75ms retrieval performance gain with Qdrant. On i
 
 Giving your agent the context to give users the right results isn’t just about text. You need to be able to search and remember images, video, audio. This enables you to search for exactly what you’re looking for by combining any modality in the same search, and then further improve accuracy with weighted fusion.
 
-You also need the ability to [re-rank candidates](https://qdrant.tech/documentation/advanced-tutorials/reranking-hybrid-search/) for diversity, user preferences, or even custom metrics. If we know our user prefers a room with a king bed, for example, we can first get the relevant results for their trip to Berlin, then re-rank them based on the ones that have availability for a king bed.
+You also need the ability to [re-rank](https://qdrant.tech/documentation/advanced-tutorials/reranking-hybrid-search/) candidates for diversity, user preferences, or even custom metrics. 
+
+Consider search without reranking. It’s like asking a librarian for material on "climate change" and receiving a stack of a dozen books. They're all on-topic, but the pile is unsorted: a fictional story is on top, an essay is in the middle, and a scientific study is at the bottom. The information you need is there, but you have to dig for it.
+
+Reranking transforms that librarian into an expert curator. They understand you're likely looking for the most impactful scientific work first. They hand you the same set of books, but now they're intelligently ordered, with the groundbreaking study right on top. This is the difference between a simple data dump and a guided discovery, ensuring the most valuable results are always the first ones you see.
 
 ![Reranker Diagram](/articles_data/agentic-builders-guide/reranker-diagram.png)
+
+For an agent like TripBuilder, this might mean prioritizing results based on subjective qualities that go beyond simple filters like bed size. For example, if a user wants a hotel with an "exceptional breakfast", a quality often derived from user reviews, the agent can start by retrieving relevant hotels for their trip to Berlin. Then, it can re-rank the results to boost the ones with the best breakfast reviews, ensuring the user sees the most relevant hotels first.
 
 ## Context Engineering with Filtering
 
@@ -77,7 +83,11 @@ Combining semantic search, metadata, and keyword [filters](https://qdrant.tech/a
 
 Users expect agents to remember the details of their conversation. Your agent's memory must be updated every time it gets new information, not just at the start of each session. Qdrant supports [real-time upserts](https://qdrant.tech/documentation/concepts/points/#upsert-points), giving your agent access to the freshest data for short-term memory and long-term memory.
 
-To help your agent differentiate between what it needs to recall for just this conversation and what it needs to remember for continuous learning, you can use [decay functions](https://qdrant.tech/blog/decay-functions/). These functions attempt to mimic human memory by algorithmically forgetting information that isn’t relevant or is old. This helps keep your memory nimble and makes sure that your agent’s memory isn’t just a bundle of facts but an evolving system that prioritizes recent and relevant data. Think of it as “short term” memory for your agent.
+Not all information is timeless. For an agent, knowing what's recent is as important as knowing what's relevant. This is where [decay functions](https://qdrant.tech/blog/decay-functions/) come in, acting as a "recency boost" during a search.
+
+For example, in a news feed, readers expect the latest headlines to be at the top. At the moment of a search, your agent can apply a scoring bonus to items with a more recent timestamp, pushing them higher in the results.
+
+This is a reranking tool, not a memory system that "forgets" old content so the original data is never altered. Instead, your agent gains an important capability: the ability to effectively decide when "newest" means "best" for a user query."
 
 ![Decay Functions](/articles_data/agentic-builders-guide/decay-functions.png)
 
@@ -107,7 +117,7 @@ In production agents, efficiency is one of, if not the, most important metric to
 
 #### [**Guardrails & Fallbacks**](https://qdrant.tech/documentation/guides/security/)
 
-Just like humans, agents aren’t perfect. A production agentic system should expect and anticipate failures and have guardrails to handle them gracefully. You can also use a human in the loop when confidence scores are below a chosen threshold or the query touches on a high-stakes or sensitive topic. Qdrant also supports keyword search, which you can use as a fallback when semantic search doesn’t return the results your agent is looking for.
+Just like humans, agents aren’t perfect. A production agentic system should expect and anticipate failures and have guardrails to handle them gracefully. You can also use a human in the loop when confidence scores are below a chosen threshold or the query touches on a high-stakes or sensitive topic. To handle a wide range of queries, your agent should use hybrid search. Hybrid search combines the power of semantic search for understanding meaning with the precision of keyword search for exact matches, giving you the best of both worlds.
 
 ## Effectively Scaling Your Search Agent 
 
@@ -137,11 +147,11 @@ Authentication for agents is handled by [API keys](https://qdrant.tech/documenta
 
 Note: Qdrant also supports concurrent queries, so your search won’t slow down as more users are writing queries simultaneously.
 
-Authorization is handled by [RBAC](https://qdrant.tech/articles/data-privacy/) and [multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/), which work hand-in-hand to define and enforce permissions specific to the agent. RBAC is a set of rules that defines the allowed permissions, including read–write, read-only, write-only, and admin controls. It asks and answers the question, “What is this agent allowed to do?” Can it search for hotels? Can it add new hotels? Can it delete hotels?
+Authorization is handled by [RBAC](https://qdrant.tech/articles/data-privacy/) and [multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/), which work hand-in-hand to define and enforce permissions specific to the agent. RBAC is a set of rules that defines the allowed permissions inlcuding read-only, read-write, and admin controls. It answers the question, “What is this agent allowed to do?” For instance, can it only search for hotels (read-only), or can it also add, update, and delete them (read-write)?
 
 ![Multi-tenancy](/articles_data/agentic-builders-guide/multi-tenancy.png)
 
-A *hotel\_scraping\_agent* might have both read–write access to first check whether you already have the hotel and, if not, add it to the dataset. A *user\_review\_agent* might only have write access so it can add new reviews to the appropriate hotel. A *hotel\_search\_agent* might only have read access since it should only retrieve relevant hotels. A *memory\_organization\_agent* might have management access to create and delete collections depending on the situation.
+A *hotel\_search\_agent* that only retrieves information would be restricted to read-only access. In contrast, a *hotel\_update\_agent* that adds new user reviews or scrapes new hotel data would require read-write access. A *memory\_organization\_agent* might have admin access to create and delete entire collections.
 
 Multitenancy works with RBAC to find out “What specific points can this agent see?” This makes sure that there is no data leakage between users so that user\_a isn’t able to access the search history or preferences of user\_b.
 
