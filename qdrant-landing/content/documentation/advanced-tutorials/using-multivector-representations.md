@@ -47,7 +47,10 @@ With Qdrant, you have full control of how indexing works. You can disable indexi
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 collection_name = "dense_multivector_demo"
 client.create_collection(
     collection_name=collection_name,
@@ -88,7 +91,10 @@ Ensure that Qdrant is running and create a client:
 from qdrant_client import QdrantClient, models
 
 # 1. Connect to Qdrant server
-client = QdrantClient("http://localhost:6333")
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
 ```
 ## 1. Encode Documents
 Next, encode your documents: 
