@@ -33,10 +33,4 @@ Traditional embedding systems rely on a single model to handle all types of inpu
 
 Each encoder produces its own vector representation that reflects its data domain. These embeddings are then merged into a composite embedding, forming a single, context-rich representation that captures multiple dimensions of meaning.
 
-
-## Resources
-
-- [Superlinked & Qdrant Integration Guide](https://qdrant.tech/documentation/frameworks/superlinked/):  
-  Official Qdrant documentation on integrating Superlinked with Qdrant. Learn how to build advanced vector search applications with multiple encoder types for text, images, numbers, categories, and temporal data.
-
 ⭐ **Show your support!** Give Superlinked a star on their GitHub repository: [github.com/superlinked/superlinked](https://github.com/superlinked/superlinked)
