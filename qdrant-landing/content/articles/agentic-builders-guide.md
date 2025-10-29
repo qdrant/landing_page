@@ -6,7 +6,7 @@ preview_dir: /articles_data/agentic-builders-guide/preview
 social_preview_image: /articles_data/agentic-builders-guide/preview/social_preview.jpg
 author: Thierry Damiba
 draft: false
-date: 2025-10-22T00:00:00.000Z
+date: 2025-10-26T00:00:00.000Z
 category: rag-and-genai
 ---
 ## Overview
