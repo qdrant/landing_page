@@ -1,5 +1,6 @@
 ---
-title: HNSW Indexing Fundamentals
+title: "HNSW Indexing Fundamentals"
+description: Learn how HNSW indexing powers fast, scalable vector search in Qdrant. Understand parameters like m, ef_construct, and hnsw_ef to balance recall, speed, and memory efficiency. 
 weight: 2
 ---
 

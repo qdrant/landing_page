@@ -1,5 +1,6 @@
 ---
-title: Text Chunking Strategies
+title: "Text Chunking Strategies"
+description: Learn how to split text into meaningful chunks for vector search. Compare six chunking strategies and discover how metadata improves retrieval precision in Qdrant.
 weight: 4
 ---
 

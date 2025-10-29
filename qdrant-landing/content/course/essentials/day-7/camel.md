@@ -1,5 +1,6 @@
 ---
-title: Integrating with Camel AI
+title: "Integrating with Camel AI"
+description: Learn how Camel AI and Qdrant enable automated RAG pipelines with multi-agent communication, vector-based memory, and seamless integration into live environments like Discord bots. 
 weight: 8
 ---
 

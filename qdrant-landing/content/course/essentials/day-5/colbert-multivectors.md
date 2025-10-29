@@ -1,5 +1,6 @@
 ---
-title: Multivectors for Late Interaction Models
+title: "Multivectors for Late Interaction Models"
+description: Learn how Qdrant supports late interaction models like ColBERT and ColPali using multivectors for token-level precision, enabling fine-grained, context-aware text and visual document retrieval.
 weight: 2
 ---
 

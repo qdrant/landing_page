@@ -1,5 +1,6 @@
 ---
-title: Integrating with LlamaIndex
+title: "Integrating with LlamaIndex"
+description: Learn how LlamaIndex and Qdrant power intelligent RAG pipelines, function-calling agents, and cloud-synced vector search systems with structured workflows and dynamic query handling.
 weight: 6
 ---
 

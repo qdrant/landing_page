@@ -1,4 +1,7 @@
 ---
+title: "Welcome to Qdrant Academy"
+description: Master vector search and AI-powered applications with Qdrant Academy. Free, self-paced courses guide you from beginner to expert with hands-on projects, code notebooks, and certification.
+weight: 50
 ---
 
 # Welcome to Qdrant Academy
