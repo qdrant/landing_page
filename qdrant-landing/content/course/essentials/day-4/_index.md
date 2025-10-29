@@ -1,6 +1,6 @@
 ---
 title: "Day 4: Optimization and Scale"
-description: Learn Qdrant performance optimization: vector quantization, accuracy recovery with rescoring, and high-throughput data ingestion. Compare memory usage, recall, and speed to tune large-scale vector search. 
+description: Learn Qdrant performance optimization with vector quantization, accuracy recovery with rescoring, and high-throughput data ingestion. Compare memory usage, recall, and speed to tune large-scale vector search. 
 isLesson: true
 weight: 50
 ---
