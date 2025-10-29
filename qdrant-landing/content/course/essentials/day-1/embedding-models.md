@@ -1,6 +1,6 @@
 ---
 title: "Points, Vectors and Payloads"
-description: Learn Qdrant’s core data model: points, vectors, payloads, and named vectors. Compare dense, sparse, and multivectors, understand dimensionality trade-offs, and master filtering with payload indexes for precise retrieval. 
+description: Learn Qdrant’s core data model with points, vectors, payloads, and named vectors. Compare dense, sparse, and multivectors, understand dimensionality trade-offs, and master filtering with payload indexes for precise retrieval. 
 weight: 2
 ---
 
