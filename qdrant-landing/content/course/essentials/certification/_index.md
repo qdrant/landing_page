@@ -1,5 +1,6 @@
 ---
-title: Qdrant Essentials Certification
+title: "Qdrant Essentials Certification"
+description: Get officially certified by Qdrant today!
 weight: 100
 ---
 

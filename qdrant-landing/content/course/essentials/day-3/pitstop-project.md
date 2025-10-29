@@ -1,5 +1,6 @@
 ---
 title: "Project: Building a Hybrid Search Engine"
+description: Build a hybrid search engine in Qdrant combining dense and sparse vectors with Reciprocal Rank Fusion. Compare performance, optimize retrieval, and understand when hybrid search outperforms single-vector methods.
 weight: 6
 ---
 

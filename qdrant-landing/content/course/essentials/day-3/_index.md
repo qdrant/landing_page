@@ -1,5 +1,6 @@
 ---
 title: "Day 3: Hybrid Search"
+description: Learn how to combine dense and sparse vector search in Qdrant. Master hybrid search, score fusion, and keyword indexing to boost retrieval precision and recall. 
 isLesson: true
 weight: 40
 ---

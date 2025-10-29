@@ -1,5 +1,6 @@
 ---
 title: "Day 0: Setup and First Steps"
+description: Set up Qdrant and build your first vector search app. Learn how to configure Qdrant Cloud, run a basic search, and complete your first project.
 isLesson: true
 weight: 10
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Day 6: Final Project - Building a Production-Grade Search Engine"
+description: Build a production-grade documentation search engine with Qdrant—combining hybrid retrieval, multivector reranking, and evaluation to showcase real-world, portfolio-ready vector search expertise.
 isLesson: true
 weight: 70
 ---
