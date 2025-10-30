@@ -1088,9 +1088,11 @@ Before responding to the client, the peer handling the request dispatches all op
 - reads are using a partial fan-out strategy to optimize latency and availability
 - writes are executed in parallel on all active sharded replicas
 
-![Embeddings](/docs/concurrent-operations-replicas.png)
+By default, concurrent updates on one point can result in an inconsistent state. For example, if two clients simultaneously update the same point in a collection with three replicas per shard. On some replicas, the point may reflect the update from one client, while on other replicas, the point may reflect the update from the other client.
 
-However, in some cases, it is necessary to ensure additional guarantees during possible hardware instabilities, mass concurrent updates of same documents, etc.
+![Two clients updating the same point at the same time.](/docs/concurrent-operations-replicas.png)
+
+In some cases, it is necessary to ensure additional guarantees during possible hardware instabilities, mass concurrent updates of same documents, etc.
 
 Qdrant provides a few options to control consistency guarantees:
 
