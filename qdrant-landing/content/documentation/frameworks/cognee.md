@@ -1,5 +1,6 @@
 ---
-title: Cognee
+title: "Cognee"
+description: Cognee ships a Qdrant adapter and documents Qdrant as a preferred, built-in vector database option. That means you configure one URI and key, and Cognee's pipelines will read/write embeddings directly to Qdrant while building and querying the graph.
 ---
 
 # Cognee
@@ -8,7 +9,7 @@ Embeddings make it easy to retrieve similar chunks of information — but most a
 
 ## Why Qdrant For The Memory Layer
 
-At runtime, Cognee's semantic memory layer requires fast and predictable lookups to surface candidates for graph reasoning, as well as tight control over metadata to ground multi-hop traversals. Qdrant's design aligns with those needs with its:
+At runtime, [Cognee](https://www.cognee.ai/)'s semantic memory layer requires fast and predictable lookups to surface candidates for graph reasoning, as well as tight control over metadata to ground multi-hop traversals. Qdrant's design aligns with those needs with its:
 
 - Nearest-neighbor search for fast candidate recall.
 - Expressive payload filtering to constrain by factors like timestamp windows, document type, or source tags.
@@ -90,3 +91,4 @@ If you prefer not to run infrastructure, Cognee's hosted option — [cogwit](htt
 
 - [Cognee Documentation](https://docs.Cognee.ai/getting-started/introduction)
 - [Cognee Source](https://github.com/topoteretes/Cognee)
+- [Cognee Website](https://www.cognee.ai/)
