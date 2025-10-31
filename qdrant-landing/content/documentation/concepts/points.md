@@ -89,6 +89,8 @@ or record-oriented equivalent:
 
 {{< code-snippet path="/documentation/headless/snippets/insert-points/list-of-points-simple/" >}}
 
+### Python client optimizations
+
 The Python client has additional features for loading points, which include:
 
 - Parallelization
@@ -152,6 +154,8 @@ client.upload_points(
 )
 ```
 
+### Idempotence
+
 All APIs in Qdrant, including point loading, are idempotent.
 It means that executing the same method several times in a row is equivalent to a single execution.
 
@@ -159,6 +163,8 @@ In this case, it means that points with the same id will be overwritten when re-
 
 Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-ones guarantee.
 Even with such a system, Qdrant ensures data consistency.
+
+### Named vectors
 
 [_Available as of v0.10.0_](#create-vector-name)
 
@@ -176,6 +182,8 @@ When uploading a point with an existing ID, the existing point is deleted first,
 then it is inserted with just the specified vectors. In other words, the entire
 point is replaced, and any unspecified vectors are set to null. To keep existing
 vectors unchanged and only update specified vectors, see [update vectors](#update-vectors).
+
+### Sparse vectors
 
 _Available as of v1.7.0_
 
@@ -216,6 +224,16 @@ If the `indices` are not sorted, Qdrant will sort them internally so you may not
 Sparse vectors must be named and can be uploaded in the same way as dense vectors.
 
 {{< code-snippet path="/documentation/headless/snippets/insert-points/sparse-vectors/" >}}
+
+### Inference
+
+Instead of providing vectors explicitly, Qdrant can also generate vectors using a process called [inference](/documentation/inference/). Inference is the process of creating vector embeddings from text, images, or other data types using a machine learning model.
+
+You can use inference in the API wherever you can use regular vectors. For example, while upserting points, you can provide the text or image and the embedding model:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/ingest/" >}}
+
+Qdrant uses the model to generate the embeddings and store the point with the resulting vector.
 
 ## Modify points
 
