@@ -22,5 +22,6 @@ client.query("{collection_name}", {
     query: {
         fusion: 'rrf',
     },
+    limit: 10
 });
 ```
