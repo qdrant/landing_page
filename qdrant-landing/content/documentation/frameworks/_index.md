@@ -12,7 +12,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [AutoGen](/documentation/frameworks/autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.                             |
 | [Camel](/documentation/frameworks/camel/)                     | Framework to build and use LLM-based agents for real-world task solving                                              |
 | [Cheshire Cat](/documentation/frameworks/cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                                    |
-| [Cognee](/documentation/data-management/cognee/)             | AI memory frameworks that allows loading from 30+ data sources to graph and vector stores          |
+| [Cognee](/documentation/frameworks/cognee/)                   | AI memory frameworks that allows loading from 30+ data sources to graph and vector stores                            |
 | [CrewAI](/documentation/frameworks/crewai/)                   | CrewAI is a framework to build automated workflows using multiple AI agents that perform complex tasks.              |
 | [Dagster](/documentation/frameworks/dagster/)                 | Python framework for data orchestration with integrated lineage, observability.                                      |
 | [DeepEval](/documentation/frameworks/deepeval/)               | Python framework for testing large language model systems.                                                           |
