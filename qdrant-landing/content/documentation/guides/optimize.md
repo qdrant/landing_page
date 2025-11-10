@@ -60,6 +60,17 @@ Increase the `ef` and `m` parameters of the HNSW index to improve precision, eve
 **Note:** The speed of this setup depends on the disk’s IOPS (Input/Output Operations Per Second).</br>
 You can use [fio](https://gist.github.com/superboum/aaa45d305700a7873a8ebbab1abddf2b) to measure disk IOPS.
 
+### Inline Storage in HNSW Index
+
+*Available as of v1.16.0*
+
+When storing vectors and the HNSW index on disk, you can maintain decent search performance by enabling the `inline_storage` option in the `hnsw_config`.
+With inline storage, Qdrant stores copies of vectors directly within the HNSW index file.
+It makes searches faster by reducing the number of IO operations, at the cost of 3-4x increased storage usage.
+It requires quantization to be enabled.
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-inline-storage/" >}}
+
 ## 3. High Precision with High-Speed Search
 
 For scenarios requiring both high speed and high precision, keep as much data in RAM as possible. Apply quantization with re-scoring for tunable accuracy.
