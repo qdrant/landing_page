@@ -324,18 +324,20 @@ Where:
 
 Separately, a payload index and a vector index cannot solve the problem of search using the filter completely.
 
-In the case of weak filters, you can use the HNSW index as it is. In the case of stringent filters, you can use the payload index and complete rescore.
-However, for cases in the middle, this approach does not work well.
+In the case of high-selectivity (weak) filters, you can use the HNSW index as it is.
+In the case of low-selectivity (strict) filters, you can use the payload index and complete rescore.
 
-On the one hand, we cannot apply a full scan on too many vectors. On the other hand, the HNSW graph starts to fall apart when using too strict filters.
+However, for cases in the middle, this approach does not work well.
+On the one hand, we cannot apply a full scan on too many vectors.
+On the other hand, the HNSW graph starts to fall apart when using too strict filters.
 
 ![HNSW fail](/docs/precision_by_m.png)
 
-![hnsw graph](/docs/graph.gif)
+<!-- ![hnsw graph](/docs/graph.gif) -->
 
-You can find more information on why this happens in our [blog post](https://blog.vasnetsov.com/posts/categorical-hnsw/).
 Qdrant solves this problem by extending the HNSW graph with additional edges based on the stored payload values.
-
 Extra edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph.
+You can find more information on this approach in our [article](/articles/filtrable-hnsw/).
 
-This approach minimizes the overhead on condition checks since you only need to calculate the conditions for a small fraction of the points involved in the search.
+In some cases, when combining more than one strict filter, these additional edges might not be enough.
+In such cases, the [ACORN Search Algorithm](/documentation/concepts/search/#acorn-search-algorithm) could be used.

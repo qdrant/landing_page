@@ -87,6 +87,8 @@ Currently, it could be:
 * `hnsw_ef` - value that specifies `ef` parameter of the HNSW algorithm.
 * `exact` - option to not use the approximate search (ANN). If set to true, the search may run for a long as it performs a full scan to retrieve exact results.
 * `indexed_only` - With this option you can disable the search in those segments where vector index is not built yet. This may be useful if you want to minimize the impact to the search performance whilst the collection is also being updated. Using this option may lead to a partial result if the collection is not fully indexed yet, consider using it only if eventual consistency is acceptable for your use case.
+* `quantization` - parameters related to quantization. See [Searching with Quantization](/documentation/guides/quantization/#searching-with-quantization) guide.
+* `acorn` - parameters related to the [ACORN](#acorn-search-algorithm).
 
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
 See details of possible filters and their work in the [filtering](/documentation/concepts/filtering/) section.
@@ -167,6 +169,33 @@ It is possible to target nested fields using a dot notation:
 * `payload.nested_array[].sub_field` - for projecting nested fields within an array
 
 Accessing array elements by index is currently not supported.
+
+### ACORN Search Algorithm
+
+**Available as of v1.16.0**
+
+For filtered vector search, you are recommended to create a [payload index](/documentation/concepts/indexing/#payload-index) for the fields you want to filter by.
+During the search, Qdrant will use a combined [filterable index](/documentation/concepts/indexing/#filtrable-index).
+However, when combining multiple strict payload filters, this mechanism might not provide sufficient accuracy.
+In such cases, you can use the ACORN search algorithm.
+
+It is an extension to the regular HNSW search algorithm, based on the ACORN-1 algorithm described in the paper [ACORN: Performant and Predicate-Agnostic Search Over Vector Embeddings and Structured Data](https://arxiv.org/abs/2403.04871).
+During graph traversal, it explores not just direct neighbors (first hop), but also neighbors of neighbors (second hop) when direct neighbors are filtered out.
+This improves search accuracy at the cost of performance.
+
+Enable it as follows:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/with-acorn/" >}}
+
+ACORN is disabled by default.
+Once enabled via the `enable` flag, it activates conditionally when estimated filter selectivity is below the threshold.
+The optional `max_selectivity` value controls this threshold;
+`0.0` means ACORN will never be used, `1.0` means it will always be used.
+Selectivity is estimated as:
+$$ \text{Estimated filter selectivity} =
+   \frac{\text{Estimated number of points satisfying the filters}}
+        {\text{Total number of points}}
+$$
 
 ## Batch search API
 
@@ -453,5 +482,6 @@ However, the general principles are:
 * estimate the cardinality of a filtered result before selecting a strategy
 * retrieve points using payload index (see [indexing](/documentation/concepts/indexing/)) if cardinality is below threshold
 * use filterable vector index if the cardinality is above a threshold
+* use ACORN when the selectivity (ratio) is low, but the cardinality (an amount) is still high
 
 You can adjust the threshold using a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), as well as independently for each collection.
