@@ -1,3 +1,24 @@
+---
+draft: false
+title: "How Xaver scaled personalized financial advice with Qdrant"
+short_description: "Xaver built a compliant AI advisory engine with Qdrant."
+description: "Discover how Xaver used Qdrant to power its two-tier knowledge engine, enabling sub-second, compliant AI-assisted financial consultations across chat, video, and phone."
+preview_image: /blog/case-study-xaver/social_preview_partnership-xaver.jpg
+social_preview_image: /blog/case-study-xaver/social_preview_partnership-xaver.jpg
+date: 2025-11-11
+author: "Daniel Azoulai"
+featured: true
+
+tags:
+- Xaver
+- vector search
+- financial services
+- AI agents
+- knowledge engine
+- latency optimization
+- case study
+---
+
 ## Scaling Personalized Financial Advice with AI: How Xaver Built its AI Knowledge Engine with Qdrant
 
 Xaver is tackling a core challenge in the financial industry: scaling personalized financial and retirement advice. As demographic shifts increase demand for private pensions, traditional, manual consultation models are proving too slow and costly to support everyone who needs help.
