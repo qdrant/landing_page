@@ -40,15 +40,17 @@ So most search quality-boosting tools aim to adjust/align/guide these simple ret
 
 **Relevance feedback** distills signals from current search results into the next retrieval iteration to surface more relevant documents.
 
-It can be provided by a human or a model, be binary (relevant–irrelevant) or gradual – rescore top documents by their relative relevance to the query. 
+It can be provided by a human or a model, be binary (relevant–irrelevant) or granular, rescoring top documents by their relative relevance to the query. 
+
+{{< figure src="/articles_data/relevance-feedback/relevance_feedback_types.png" alt="Diagram showing a query flowing into a retrieval system, which returns top-ranked documents. These documents are then processed in three ways: pseudo-relevance feedback, binary user or classifier feedback, and model-driven re-scored feedback. Arrows illustrate how the feedback signals update document rankings" caption="Feedback types" width="80%" >}}
 
 Based on this feedback, one of the retrieval components is adjusted: the query or the scoring method between the query and documents. The next retrieval iteration is done with this aligned component.
 
-> For a detailed taxonomy with various methods in the field, check out our overview article “[Relevance Feedback in Information Retrieval](https://qdrant.tech/articles/search-feedback-loop/)”.
+> For a detailed taxonomy with various methods from the field, check out our article “[Relevance Feedback in Information Retrieval](https://qdrant.tech/articles/search-feedback-loop/)”.
 
 Relevance-feedback-based methods are a standard in full-text search, some of them proposed more than 50 years ago.
 
-Yet it feels like, when it comes to modern vector search, users have to reinvent the relevance feedback wheel due to the lack of universal interfaces: prompt an agent to rewrite queries in endless costly loops, do heuristics-based vector math and fine-tune models per request on the client side… Simply put, “struggle”.
+Yet it feels like, when it comes to modern vector search, users have to reinvent the relevance feedback wheel due to the lack of universal interfaces: prompt an agent to rewrite queries in endless, costly loops, do heuristics-based vector math and fine-tune models per request on the client side... Simply put, they have to struggle.
 
 ### Tools of a Vector Search Engine
 
@@ -58,20 +60,20 @@ So what makes a method a production-ready for vector search?
 
 #### ...Should be Cheap
 
-Since the 2+ retrieval steps already add to the search latency, we cannot afford to spend much time or money on gathering feedback. That means:
+Since additional retrieval iterations already add to the search latency, we can't afford to spend too much time or money on gathering feedback. That means:
 
-**Small context limit**  
+**Very few documents for feedback**  
 The set of documents we pass to a **feedback model** should be extremely small. It is rarely affordable to run an LLM, use a cross encoder, or fine tune a machine learning model on hundreds of documents per request.
 
 > A **feedback model** here is anything – agent, ML model, formula, … – that’s capable of providing (numerical) information on how relevant the retrieved document is to the query. 
 
-We should already improve recall with that small sample. We can’t afford having the whole dataset as a feedback context for an agent.
+We should already improve recall of the next retrieval iteration with that small sample. We can’t afford having the whole dataset as a feedback context for an agent.
 
 **Automated**  
 You might have noticed that we wrote "a feedback **model**". Humans are known to be the laziest at providing feedback, so the search feedback loop must run on its own.
 
 **No labeling required**  
-Methods which require many labels or domain expert input are hard to adopt. The feedback model should be easy to train, and data self-supervised.
+Models which require many labels or domain expert input are hard to adopt. The feedback tool should be easy to train, and data -- self-supervised.
 
 #### ...Should be Universal
 
@@ -90,7 +92,7 @@ What they can do is help define a relevance direction from the examples they hav
 
 ### Relevance Direction
 
-{{< figure src="/articles_data/relevance-feedback/lost_astronaut.png" alt="An astronaut lost in the forest" >}}
+{{< figure src="/articles_data/relevance-feedback/lost_astronaut.png" alt="An astronaut wearing a red spacesuit and backpack stands in a dense, shadowy forest with tall trees and blue-tinted light filtering through, looking toward a brighter glow in the distance." >}}
 
 Imagine a hiker lost in a forest with a weak phone signal. They still manage to send a couple of quick photos to a friend who knows orienteering. 
 
@@ -106,7 +108,7 @@ Read this as vector search.
 1. The forest is a **vector space**.   
 2. The hiker is a **retriever model.**   
 3. The brilliant friend is a **feedback model**.   
-4. The photos are the **context**, **limited** to the amount we can afford to use for feedback.
+4. The photos are the hiker's **context**, **limited** to the amount that is affordable to use for feedback.
 
 And the hiker’s new “where-should-I-go” decisions based on the acquired information are **feedback-based** (forest path) **scoring**.
 
@@ -118,25 +120,25 @@ That implies warping the notion of "closer" and "further" – the distance (or s
 
 Tweaking the relevance scoring formula based on the feedback model’s signal is nothing revolutionary. What changes is that this feedback-based scoring is used during the traversal of the **entire** dataset used by the vector search engine, not just a subset of results.
 
-### Sketch of the Approach
+### Sketch of the Method
 
-So, our idea can roughly be sketched like this:
+So, stepping away from analogies (into an even deeper forest), the algorithm should consist of:
 
-1. **Initial retrieval.** We want to optimize it because the top results could be more relevant.
+1. Initial retrieval.
 
-2. **Get feedback.** A good choice is granular judgments: pointwise scores between the query and the top retrieved documents from step one. Granular judgments are more helpful for defining **relevance direction** when results are not strictly relevant or irrelevant.
+2. Getting a small amount of feedback, within our **context limit**. A good choice, for example, is granular judgments, pointwise scores between the query and the top retrieved documents. They are more helpful when results are not strictly relevant or irrelevant.
 
 > A **context limit** is how many top documents from the initial retrieval the feedback model scores. We want to keep it as small as possible to **save time and resources**.
 
-3. Extract the signal from the feedback and propagate it into a new scoring formula.
+3. Extracting relevance signals from the feedback and propagating them into a new similarity (distance) scoring formula.
 
-4. Use this new feedback-based scoring formula in the next retrieval iteration with the same query on the whole dataset of documents (when traversing vector index in the **direction of relevance**).
+4. Using this new feedback-based formula in the next retrieval iteration on the whole dataset of documents to traverse the vector index in the **direction of more relevance**.
 
 ## Dissecting Feedback
 
-Let’s think about how a very small amount of feedback can be used the **most effectively**.
+Let’s think about how a very small amount of feedback can be used **most effectively**, and what signals we can extract from it.
 
-### Direction’s Delta 
+### Context Pairs
 
 If we show only one document to the feedback model, it is hard for it to say whether it is already a good match. Perhaps there are no relevant matches in the dataset at all.
 
@@ -144,25 +146,31 @@ With two documents, this model could already judge which one is closer to what t
 
 > A **context pair (positive, negative)** is two documents from the top context limit results of the initial retrieval. The positive received a higher relevance-to-query score from the feedback model, and the negative received a lower score.
 
-Then, if the retriever favors, by some **delta,** a document closer to the negative example, it has chosen the wrong direction in the vector space and should change it.
-
-<TBD IMAGE WITH DELTA>
+{{< figure src="/articles_data/relevance-feedback/context_pairs.png" alt="The image illustrates how context pairs are formed. On the left, a ‘retriever’ column shows stacked colored blocks representing retrieved documents, with each color indicating the feedback assigned to that document. A dotted ‘context limit’ line marks which retrieved items are used for feedback. On the right, a ‘context pairs’ column shows pairs constructed from these feedback-colored items, each pair combining one more-positive item and one more-negative item, as indicated by their colors." caption="How context pairs are formed" width="80%" >}}
 
 ### Feedback’s Confidence
 
-Two documents nearly indistinguishable from a perspective of a feedback model give far less information than a context pair with one clearly more relevant document; the latter helps to enforce a direction of relevance.
+Two documents nearly indistinguishable from a perspective of a feedback model give far less information than a context pair with one clearly more relevant document.
 
 When documents in the context pair seem different to the feedback model, it is more **confident** to guide the retriever.
 
-<TBD IMAGE WITH CONFIDENCE>
+{{< figure src="/articles_data/relevance-feedback/confidence.png" alt="The image shows several context pairs, each represented by two horizontal colored blocks stacked together. Next to each pair is a dashed double-headed arrow labeled ‘confidence.’ The color of each arrow indicates the confidence level, with stronger color showing higher confidence and lighter color showing lower confidence. Confidence reflects how different the two documents in each context pair are, as indicated by the contrast between their colors." caption="Confidence reflects how different the documents in each context pair are." width="80%">}}
+
+### Direction's Delta
+
+Then, if the retriever favors, by some **delta,** a document closer to the negative example, it has chosen the wrong direction in the vector space and should change it.
+
+{{< figure src="/articles_data/relevance-feedback/delta.png" alt="The image shows a candidate document represented as a dark dot in the center, with dashed arrows indicating its distances to a circled positive example above and a circled negative example below. A ‘|delta|’ segment on the arrow to the positive example highlights how much more the retriever currently favors the negative example. The diagram illustrates that the retriever should adjust its direction toward candidates closer to the positive example, as shown by an additional dashed arrow." caption="The retriever currently favors the negative element of a context pair by a delta, and should select a candidate closer to the positive one">}}
 
 ## Feedback-based Scoring
 
 With the context pair(s) at our expense, we can try the following feedback-based scoring:
 
-1. Let the retriever still have a say in what is relevant to the query.  
-2. Yet reward candidates that are closer to the positive element of the context pair.  
-3. Especially when the feedback model was confident in this pair.
+1. Let the retriever still have a say in what is relevant to the query, count in its **score**.  
+2. Yet reward candidates that are closer to the positive element of the context pair based on **delta**.  
+3. Especially when the feedback model had **confidence** in this pair.
+
+{{< figure src="/articles_data/relevance-feedback/relevance_feedback_scoring.png" alt="The image shows a query point and a candidate document in a vector space. A blue dashed arrow labeled ‘score’ connects the query to the candidate, representing similarity (or distance). The candidate also has dashed arrows pointing toward a circled positive example and a circled negative example, showing its distances to each. A marked ‘|delta|’ segment on the positive-direction arrow highlights how much more the retriever currently favors the negative direction. The diagram illustrates feedback-based scoring that combines the candidate’s similarity to the query with its relative distances to the positive and negative items in the context pair." caption="Feedback-based scoring based on the candidate’s distance (similarity) to the query and the context pair.">}}
 
 We need to combine signals in a reasonable, simple fashion, using as few parameters as we can.
 
@@ -193,8 +201,6 @@ $$
 It computes the score between the query and a document-candidate on the retrieval iteration after feedback. 
 
 >  Is this formula the only option? Absolutely not! We’ve tried three others in experiments, and this one was the simplest working one. In future releases we even plan to allow providing custom formulas!
-
-{{< figure src="/articles_data/relevance-feedback/rel_feedback_scoring.png" alt="All components of feedback-based scoring formula" >}}
 
 `score`
 
@@ -237,65 +243,61 @@ Since the formula has only three parameters, **the amount of training data shoul
 
 1. During training we initially retrieve the top X documents per query. X is chosen as large as affordable, given the cost of obtaining a golden ranking on these X documents from the feedback model.
 2. The feedback model provides feedback on the top Y results, with Y (context limit) much smaller than X.
-3. The remaining X minus Y documents form the training pool for reranking. The aim is to train the formula parameters so that documents the feedback model considers more relevant than those in the top Y are scored higher.
+3. The remaining X - Y documents form the training pool for reranking.
 
 ## Experiments
 
-Before building a new interface, we needed to confirm our instinct: that a relevance feedback scoring can surface documents that initial retrieval misses.
+Before building a new interface, we needed to confirm our instinct: that a relevance feedback scoring can surface relevant documents that initial retrieval misses.
 
-The experiment code is published [here](https://github.com/qdrant/relevance-feedback-experiments)<TBD merge before publishing>. 
+<TBD decide if we are including here our experiments repo> 
 
 ### Design
 
 Each triplet (retriever, feedback model, dataset) forms one experiment.
 
 **Dataset**  
-A subset of [BEIR (Informational Retrieval benchmark)](https://github.com/beir-cellar/beir): MSMARCO (8.84mln documents), SCIDOCS (25K documents), Quora (523K documents), FiQA-2018 (57K documents) and NFCorpus (3.6K documents) – documents and queries, no qrels.
+A subset of [BEIR (Informational Retrieval benchmark)](https://github.com/beir-cellar/beir): MSMARCO (8.84mln documents), SCIDOCS (25K documents), Quora (523K documents), FiQA-2018 (57K documents) and NFCorpus (3.6K documents) – documents and queries, no qrels needed.
 
 **Retriever**  
 As retrievers we chose [jina-embeddings-v2-base-en](https://huggingface.co/jinaai/jina-embeddings-v2-base-en) (768 output dimensions), [mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) (1024 output dimensions) and [Qwen3-Embedding-0.6B](https://huggingface.co/michaelfeil/Qwen3-Embedding-0.6B-auto) (1024 output dimensions).
 
 **Feedback model**  
-The cheapest feedback model that came to mind was using **embedding models with higher dimensionality than the ones for retrieval**.
+The cheapest feedback model that came to mind was using **embedding models with higher dimensionality than the ones used for retrieval**.
 
-> Yet, a feedback model can be anything: a cross encoder, a custom ranking model, an LLM, or an agent.
+> A feedback model can be anything: a bigger embedding model, a cross encoder, a custom ranking model, an LLM, or an agent.
 
-The pointwise feedback from these models is simply a cosine similarity between query and document embeddings. Based on these scores, we form context pairs of positive documents (higher cosine score) and negative documents (lower cosine score).
+The pointwise feedback from these models is simply a similarity score between query and document embeddings (so, in most cases, cosine similarity).
 
 We chose as feedback models [mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) (1024 output dimensions), [Qwen3-Embedding-0.6B](https://huggingface.co/michaelfeil/Qwen3-Embedding-0.6B-auto) (1024 output dimensions), [Qwen3-Embedding-4B](https://huggingface.co/michaelfeil/Qwen3-Embedding-4B-auto) (2560 output dimensions), and [colBERTv2.0](https://huggingface.co/colbert-ir/colbertv2.0) (multivectors of 128 dimensions each).
 
-With Qdrant and [Qdrant’s Cloud Inference](https://qdrant.tech/cloud-inference/) at our disposal, we ran embedding inference once for all datasets on both retrieval and feedback models, stored the embeddings in Qdrant, and then experimented with different formulas. This way, we could even use one model interchangeably as a retriever and a feedback model.
+With Qdrant and [Qdrant’s Cloud Inference](https://qdrant.tech/cloud-inference/) at our disposal, we ran embedding inference once for all datasets on both retrieval and feedback models, stored the embeddings in Qdrant, and then experimented with different formulas. This way, we could even use in our experiments one model interchangeably as a retriever and a feedback model.
 
 ### Metric
 
-We want to show that relevance feedback scoring increases recall of the retrieved results. That means **surfacing the documents relevant to the query that the baseline retriever missed**.  
-   
-Rescoring humongous datasets like MSMARCO on the client side (for every query, while trying different formulas and hyperparameters) would not have been fun. That is exactly the problem with many relevance feedback approaches, limiting their applicability to a subset of retrieved documents.   
-
-Our relevance feedback interface is a solution, but firstly we needed experiments to justify building it, so we’ve got ourselves a chicken-egg problem. **Hen**ce, in experiments, we also had to simulate feedback-based scoring on a limited subset of documents.
+We wanted to show that relevance feedback-based scoring increases recall of the retrieved results. That means **surfacing documents more relevant to the query than initial retrieval results**.  
 
 **What we’re measuring**  
 Does our feedback-based scoring formula pull more relevant documents up into the evaluation window N than the baseline retriever?
 
 **Set up:**
 
-* For each query, the retriever returns a ranked list from the initial retrieval. This is our limited subset of documents that simulates the full dataset.  
+* For each query, the retriever returns a ranked list from the initial retrieval.  
 * The feedback model sees only the context limit of results (say, top-X, X being 3-5). We mine our context pairs and their confidence.  
 * We set a **threshold**. It is the best relevance score between query and document within that context limit as assigned by the feedback model.
 
 Any document **outside the context limit** that **would score above the threshold** is a “we-want-to-surface-it” item.
 
-<TBD CERTAINLY NEED THE IMAGE>
+{{< figure src="/articles_data/relevance-feedback/metric_goal.png" alt="The image shows a vertical list of retrieved documents represented as colored blocks, coloured based on their relevance in shades of red, green and gray. They're under the heading ‘retriever.’ A dotted line labeled ‘context limit’ indicates which top items are used for feedback. Below this line are additional retrieved documents, including blocks in deeper green shades. Arrows point from these deeper-green blocks to text reading ‘we want to surface,’ indicating that these items are more strongly positive (greener) than the greenest documents within the context limit and therefore should be surfaced higher in the ranking." caption="\"We-want-to-surface-it\" items -- outside the context limit and more relevant than any documents within it" width="80%" >}}
 
-**Compare baseline (retriever) versus rescored (feedback-based formula) with the custom recall@N:**
+**Compare baseline retriever versus feedback-based scoring with the custom metric@N:**
 
-* Look **at the next N positions** after the top-X documents used for feedback.  
+* Look **at the next N positions (evaluation window)** after the top-X documents used for feedback (we're excluding context from evaluation).  
 * **Baseline:** count how many “we-want-to-surface-it” documents already appear there in the baseline ranking.  
-* **Rescored:** rescore and rerank the tail, meaning everything after the top X, using a trained formula. Check the first N positions of the new ranking and count again the “we-want-to-surface-it” items.
+* **Rescored:** rescore and rerank documents, excluding ones in the context, using a trained formula. Check the first N positions (evaluation window) of the new ranking and count again the “we-want-to-surface-it” items.
+
+{{< figure src="/articles_data/relevance-feedback/metric_at_N.png" alt="The image compares a baseline retriever with feedback-based scoring within a shared evaluation window. Inside a dashed rectangle labeled ‘evaluation window,’ two columns of colored blocks are shown: the left column for the retriever and the right column for feedback-based scoring. The blocks vary in color intensity, with deeper green shades indicating higher relevance. The diagram highlights how many highly relevant ‘we-want-to-surface-it’ items (shown in deeper green) appear inside the evaluation window before and after applying feedback-based scoring and reranking." caption="Measuring how many \"we-want-to-surface-it\" items are within the evaluation window of size N">}}
 
 Sum counts across all queries for baseline and for rescored and calculate the **relative gain**.
-
-<TBD CERTAINLY NEED THE IMAGE>
 
 ### Experiment Parameters
 
@@ -319,8 +321,9 @@ Queries for training are split in 50% train, 50% validation.
 
 | Parameter                                                   | Value |
 |-------------------------------------------------------------|------:|
-| Golden Ranking Limit (simulating the whole dataset)         | 100   |
-| Context Limit (to mine context pairs with the feedback model)| 5     |
+| Golden Ranking Limit (documents per query)                  | 100   |
+| Context Limit (to mine context pairs with the feedback model)| 5    |
+| Context pairs used (out of all, sorted by the confidence)   | top-1 |
 | Learning rate                                               | 0.005 |
 | Epochs with early stopping and patience 200                 | 2000  |
 
@@ -331,17 +334,21 @@ Queries for training are split in 50% train, 50% validation.
 
 | Parameter                                                   | Value |
 |-------------------------------------------------------------|------:|
-| Feedback-based scoring Limit (simulating the whole dataset) | 100   |
-| Context Limit (to mine context pairs with the feedback model)| 3     |
-| Evaluation window N (recall@10)                             | 10    |
+| Context Limit (to mine context pairs with the feedback model)| 3    |
+| Context pairs used (out of all, sorted by the confidence)   | all   |
+| Evaluation window size (metric@N)                           | 10    |
 
 </details>
 
 ### Results
 
-Out of all pairs of retriever and feedback models, we got three leaders with the following relative gain in **recall@10** compared to the baseline retriever. 
+Rescoring on the client side humongous datasets, such as MSMARCO, for every query, while trying different formulas and hyperparameters, would not have been fun. We ourselves faced the problem that limits many relevance feedback researchers and users, making them test approaches only on a subset of all documents.   
 
-We showed only **three** documents to the feedback model to get a signal for the feedback-based scoring formula.
+Our relevance feedback interface is a remedy against this limitation, but first, we needed experiment results to further justify the interface's implementation. So, this project started looking like a chicken-egg problem. **Hen**ce, in initial experiments, the results of which we report in the table below, we simulated feedback-based scoring on a limited subset of documents per query -- **100**.
+
+Out of all pairs of retriever and feedback models, we got three leaders with the following relative gain in **metric@10** compared to the baseline retriever. 
+
+Achieved results required only **three** documents shown to the feedback model to get a signal for the feedback-based scoring formula.
 
 |  | Qwen3-0.6B → colBERTv2.0 | Qwen3-0.6B → Qwen3-4B | mxbai-large-v1 → colBERTv2.0 |
 | ----- | ----- | ----- | ----- |
@@ -361,22 +368,34 @@ We showed only **three** documents to the feedback model to get a signal for the
 | **MSMARCO** | +2.57% | +2.23% | **+2.82%** |
 | **Quora** | 0.00% | −1.37% | 0.00% |
 
-A couple of takeaways:
+#### Using Entire Vector Space
+
+The results above were good enough to suggest that our relevance-feedback approach made sense, as did the interface implementation. After completing the latter, we evaluated how the naive formula rescored the entire SCIDOCS dataset using the same testing parameters.
+
+|  | Qwen3-0.6B → colBERTv2.0 | Qwen3-0.6B → Qwen3-4B | mxbai-large-v1 → colBERTv2.0 |
+| ----- | ----- | ----- | ----- |
+| **SCIDOCS** | **+50.58%** | +0.35% | +9.55% |
+
+<details>
+  <summary><b>jina-embeddings-v2-base-en</b></summary>
+
+|  | jina-v2-base → mxbai-large-v1 | jina-v2-base → Qwen3-0.6B | jina-v2-base → Qwen3-4B |
+| ----- | ----- | ----- | ----- |
+| **SCIDOCS** | +4.27% | +0.93% | +1.61% |
+
+</details>
+
+#### A couple of takeaways:
 
 * The retriever’s expressiveness limits how much it can respond to feedback. Moreover, past a certain point, making the feedback model more sophisticated will not help, because the retriever works in a lower dimensional space and often can’t capture the distinctions the feedback model is making.  
     
 * Initially we used only one context pair with the highest confidence in the feedback-based scoring formula, both when training and when applying feedback based scoring. Then we discovered that for the latter, adding signals from other pairs (for example, from 3 documents, we can mine 3 context pairs) improves results. They are added as a summand per pair: $+ \text{confidence}(\text{context\_pair}_i)^b \cdot c \cdot \text{delta}(\text{document\_candidate}, \text{context\_pair}_i)$
 
-The results show a relative gain on a subset of documents. This hints that our relevance feedback approach makes sense. After implementing the interface, we checked our theory that rescoring the whole dataset delivers even better results. 
-<TBD some numbers to calculate on the interface prototype>
-
-The feedback-driven request takes about as long as baseline retrieval, and we get more relevant results!
-
 ## Conclusion
 
 We’ve released a new relevance feedback tool in Qdrant 1.17.0 <TBD link> to increase the relevance of your vector search results. **It is built for scale, it’s cheap, customizable and universal.**
 
-**It is cheap to use**, because FeedbackQuery runs in about the same time as a vanilla retrieval, and the time and resources spent on mining feedback are minimal.
+**It is cheap to use**, because the time and resources spent on mining feedback are minimal.
 
 **It is cheap to adapt to your use case**: dataset, retriever, and feedback model. Just plug in your Qdrant collection, a small sample of queries related to the dataset, and the desired feedback model here<TBD framework link>, then save the weights for the feedback based scoring formula. No GPU or labels needed.
 
@@ -391,6 +410,8 @@ It’s a perfect tool for production.
 ​​Use the relevance feedback method once basic retrieval is in place and you are looking for extra instruments to boost result relevance, such as hybrid search, query rewriting, reranking, or score boosting. (If you are not looking for them, why not? There is no limit to perfection!)
 
 **It’s here not to replace but to complement other search relevance tools.** For example, it is a good aid for your search agents, letting you propagate their use case understanding directly to the vector search index.
+
+<TBD diff approaches on using relFeedback, as discussed with Luis>
 
 The method, like everything in Qdrant, is open source. We have provided a framework that lets you compute customized FeedbackQuery weights for your dataset, retriever, and feedback model<TBD link>.   
 If you would like additional advice on FeedbackQuery setup in production or have ideas to enhance the method, please write to us<TBD some discord channel>.
