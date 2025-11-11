@@ -186,7 +186,7 @@ Available tokenizers are:
 
 By default, full-text search in Qdrant is case-insensitive. For example, users can search for the lowercase term `tv` and find text fields containing the uppercase word `TV`. Case-insensitivity is achieved by converting both the words in the index and the query terms to lowercase.
 
-Lowercasing is enabled by default. To enable case-sensitive full-text search, configure a full-text index with `lowercase` set to `false`:
+Lowercasing is enabled by default. To use case-sensitive full-text search, configure a full-text index with `lowercase` set to `false`:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/lowercase-full-text/" >}}
 
