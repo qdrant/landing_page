@@ -10,7 +10,7 @@ hideInSidebar: false # Optional. If true, the page will not be shown in the side
 
 _Available as of v1.10.0_
 
-With the introduction of [many named vectors per point](/documentation/concepts/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries,
+With the introduction of [multiple named vectors per point](/documentation/concepts/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries,
 or by performing the search in more than one stage.
 
 Qdrant has a flexible and universal interface to make this possible, called `Query API` ([API reference](https://api.qdrant.tech/api-reference/search/query-points)).
@@ -35,27 +35,39 @@ One of the most common problems when you have different representations of the s
 For example, in text search, it is often useful to combine dense and sparse vectors get the best of semantics,
 plus the best of matching specific words.
 
-Qdrant currently has two ways of combining the results from different queries:
+Qdrant has a few ways of fusing the results from different queries: `rrf` and `dbsf`
 
-- `rrf` -
-  <a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">
-  Reciprocal Rank Fusion
-  </a>
+### Reciprocal Rank Fusion (RRF)
+<a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">
+RRF</a>
+ considers the positions of results within each query, and boosts the ones that appear closer to the top in multiple sets of results.
+ 
+The formula is simple, but needs access to the rank of each result in each query.
 
-  Considers the positions of results within each query, and boosts the ones that appear closer to the top in multiple of them.
+$$ <todo> $$
 
-- `dbsf` -
-  <a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">
-  Distribution-Based Score Fusion
-  </a> _(available as of v1.11.0)_
+Here is an example of RRF for a query containing two prefetches against different named vectors configured to respectively hold sparse and dense vectors.
 
-  Normalizes the scores of the points in each query, using the mean +/- the 3rd standard deviation as limits, and then sums the scores of the same point across different queries.
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf/" >}}
 
-    <aside role="status"><code>dbsf</code> is stateless and calculates the normalization limits only based on the results of each query, not on all the scores that it has seen.</aside>
+#### Parametrized RRF
+_Available as of v1.16.0_
 
-Here is an example of Reciprocal Rank Fusion for a query containing two prefetches against different named vectors configured to respectively hold sparse and dense vectors.
+To change the value of `k` constant in the formula, use the dedicated `rrf` query variant.
 
-{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-basic/" >}}
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf-k/" >}}
+
+
+
+### Distribution-Based Score Fusion (DBSF)
+  _Available as of v1.11.0_
+  
+<a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">
+DBSF</a> 
+normalizes the scores of the points in each query, using the mean +/- the 3rd standard deviation as limits, and then sums the scores of the same point across different queries.
+
+<aside role="status"><code>dbsf</code> is stateless and calculates the normalization limits only based on the results of each query, not on all the scores that it has seen.</aside>
+
 
 ## Multi-stage queries
 
