@@ -17,11 +17,12 @@ There are several advantages to generating embeddings with Qdrant:
 - Work with a single unified API instead of a different API per model provider.
 - No external network calls, minimizing delays or data transfer overhead.
 
-Embedding models can be hosted:
+Depending on the model you want to use, inference can be executed:
 
-- locally (only supported for the BM25 model)
-- in Qdrant Cloud (for clusters on Qdrant Managed Cloud)
-- externally (OpenAI, Cohere, and Jina AI; for clusters on Qdrant Managed Cloud)
+- on the client side, using the [FastEmbed](/documentation/fastembed/) library
+- [by the Qdrant cluster](#server-side-inference-bm25) (only supported for the BM25 model)
+- in Qdrant Cloud, using [Cloud Inference](#qdrant-cloud-inference) (for clusters on Qdrant Managed Cloud)
+- [externally](#external-embedding-model-providers) (models by OpenAI, Cohere, and Jina AI; for clusters on Qdrant Managed Cloud)
 
 ## Inference API
 
@@ -89,9 +90,9 @@ In this case, Qdrant uses the configured embedding model to automatically create
 When using inference at ingest time, the input used for inference is not stored. If you want to persist it in Qdrant, ensure that you explicitly include it in the payload.
 </aside>
 
-## Local Inference: BM25
+## Server-side Inference: BM25
 
-BM25 (Best Matching 25) is a ranking function for text search. BM25 uses sparse vectors that represent documents, where each dimension corresponds to a word. You can use inference to generate these sparse embeddings from input text.
+BM25 (Best Matching 25) is a ranking function for text search. BM25 uses sparse vectors that represent documents, where each dimension corresponds to a word. Qdrant can generate these sparse embeddings from input text directly on the server.
 
 While upserting points, provide the text and the `qdrant/bm25` embedding model:
 
@@ -182,7 +183,7 @@ Qdrant Cloud can act as a proxy for the APIs of three external embedding model p
 
 This enables you to access any of the embedding models provided by these providers through the Qdrant API.
 
-To use an external provider's embedding model, you need an API key from that provider. For example, to access OpenAI models, you need an OpenAI API key. Billing will be managed directly through the external provider, based on API key usage. Refer to each external embedding model provider's website for pricing details.
+To use an external provider's embedding model, you need an API key from that provider. For example, to access OpenAI models, you need an OpenAI API key. Billing is managed directly through the external provider, based on API key usage. Refer to each external embedding model provider's website for pricing details.
 
 <aside role="status">
 When using a model from an external provider, refer to the model's documentation for:
