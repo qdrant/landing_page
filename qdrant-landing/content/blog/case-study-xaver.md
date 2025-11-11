@@ -62,7 +62,7 @@ To meet latency goals and maintain precision, Xaver implemented a two-tier retri
 
 This architecture enables the Xaver platform to deliver knowledge for the most common conversational situations instantly, while supporting rare or complex cases through a second-tier retrieval layer. The approach minimizes computational overhead, reduces response time by two to three seconds in typical cases, and preserves conversational flow, which is crucial for voice and video experiences.
 
-![Xaver Retrieval Process][/blog/case-study-xaver/xaver-retrieval-process.jpg]
+![Xaver Retrieval Process](/blog/case-study-xaver/xaver-retrieval-process.jpg)
 
 *Figure: Xaver’s retrieval process*
 
