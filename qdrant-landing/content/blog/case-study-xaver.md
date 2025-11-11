@@ -19,6 +19,8 @@ tags:
 - case study
 ---
 
+![Xaver Overview](/blog/case-study-xaver/xaver-bento-box-dark.jpg)
+
 ## Scaling Personalized Financial Advice with AI: How Xaver Built its AI Knowledge Engine with Qdrant
 
 Xaver is tackling a core challenge in the financial industry: scaling personalized financial and retirement advice. As demographic shifts increase demand for private pensions, traditional, manual consultation models are proving too slow and costly to support everyone who needs help.
