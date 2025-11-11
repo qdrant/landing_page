@@ -319,6 +319,14 @@ If there is no full-text index for the field, the condition will work as exact s
 
 If the query has several words, then the condition will be satisfied only if all of them are present in the text.
 
+### Text Any
+
+*Available as of v1.16.0*
+
+The `text_any` full-text match condition is similar to the `text` condition, but with a key difference: while `text` only matches text fields that contain *all* the query terms, `text_any` matches fields that contain *any* of the query terms. In other words, even if a text field contains just one of the query terms, it is considered a match.
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/full-text-match-any/" >}}
+
 ### Phrase Match
 
 *Available as of v1.15.0*
