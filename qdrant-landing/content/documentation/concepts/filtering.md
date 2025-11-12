@@ -319,7 +319,7 @@ If there is no full-text index for the field, the condition will work as exact s
 
 If the query has several words, then the condition will be satisfied only if all of them are present in the text.
 
-### Text Any
+### Full Text Any
 
 *Available as of v1.16.0*
 
