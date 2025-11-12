@@ -186,7 +186,7 @@ Available tokenizers are:
 
 By default, full-text search in Qdrant is case-insensitive. For example, users can search for the lowercase term `tv` and find text fields containing the uppercase word `TV`. Case-insensitivity is achieved by converting both the words in the index and the query terms to lowercase.
 
-Lowercasing is enabled by default. To use case-sensitive full-text search, configure a full-text index with `lowercase` set to `false`:
+Lowercasing is enabled by default. To use case-sensitive full-text search, configure a full-text index with `lowercase` set to `false`.
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/lowercase-full-text/" >}}
 
@@ -198,7 +198,7 @@ When enabled, ASCII folding converts Unicode characters into their corresponding
 
 Because ASCII folding is applied to both the words in the index and the query terms, it increases recall. For example, users can search for `cafe` and also find text fields containing the word `café`.
 
-ASCII folding is not enabled by default. To enable it, configure a full-text index with `ascii_folding` set to `true`:
+ASCII folding is not enabled by default. To enable it, configure a full-text index with `ascii_folding` set to `true`.
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/asciifolding-full-text/" >}}
 
