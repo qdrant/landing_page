@@ -1,0 +1,1 @@
+This code snippet shows how to use inference at ingest time. The example ingests a single point into a collection. Instead of providing an explicit vector, the request includes `text` and a `model`. Qdrant will use the model to infer embeddings out of the provided text and store the resulting vector.
