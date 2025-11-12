@@ -325,6 +325,8 @@ If the query has several words, then the condition will be satisfied only if all
 
 The `text_any` full-text match condition is similar to the `text` condition, but with a key difference: while `text` only matches text fields that contain *all* the query terms, `text_any` matches fields that contain *any* of the query terms. In other words, even if a text field contains just one of the query terms, it is considered a match.
 
+For example, a query for `good cheap` matches `cheap hardware` as well as `good performance`.
+
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/full-text-match-any/" >}}
 
 ### Phrase Match
