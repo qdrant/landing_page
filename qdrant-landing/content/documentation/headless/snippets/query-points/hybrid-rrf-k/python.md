@@ -8,6 +8,6 @@ client.query_points(
     prefetch=[
         # 2+ prefetches here
     ],
-    query=models.FusionQuery(fusion=models.Fusion.RRF),
+    query=models.RrfQuery(rrf=models.Rrf(k=60)),
 )
 ```
