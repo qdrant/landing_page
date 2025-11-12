@@ -39,21 +39,22 @@ Qdrant has a few ways of fusing the results from different queries: `rrf` and `d
 
 ### Reciprocal Rank Fusion (RRF)
 <a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">
-RRF</a>
- considers the positions of results within each query, and boosts the ones that appear closer to the top in multiple sets of results.
+RRF</a> considers the positions of results within each query, and boosts the ones that appear closer to the top in multiple sets of results.
  
 The formula is simple, but needs access to the rank of each result in each query.
 
-$$ <todo> $$
+$$ score(d\in D) = \sum_{r_d\in R(d)} \frac{1}{k + r_d} $$
 
-Here is an example of RRF for a query containing two prefetches against different named vectors configured to respectively hold sparse and dense vectors.
+Where $D$ the set of points across all results, $R(d)$ is the set of rankings for a particular document, and $k$ is a constant (set to 2 by default).
+
+Here is an example of RRF for a query containing two prefetches against different named vectors configured to hold sparse and dense vectors, respectively.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf/" >}}
 
 #### Parametrized RRF
 _Available as of v1.16.0_
 
-To change the value of `k` constant in the formula, use the dedicated `rrf` query variant.
+To change the value of constant $k$ in the formula, use the dedicated `rrf` query variant.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf-k/" >}}
 
@@ -71,9 +72,9 @@ normalizes the scores of the points in each query, using the mean +/- the 3rd st
 
 ## Multi-stage queries
 
-In many cases, the usage of a larger vector representation gives more accurate search results, but it is also more expensive to compute.
+In general, larger vector representations give more accurate search results, but makes them more expensive to compute.
 
-Splitting the search into two stages is a known technique:
+Splitting the search into two stages is a known technique to mitigate this effect:
 
 - First, use a smaller and cheaper representation to get a large list of candidates.
 - Then, re-score the candidates using the larger and more accurate representation.
