@@ -223,6 +223,6 @@ For example, to use Jina AI's multimodal `jina-clip-v2` model, when ingesting an
 
 ## Multiple Inference Operations
 
-You can run multiple inference operations within a single request, even when models are hosted in different locations. This example generates image embeddings using `jina-clip-v2` hosted by Jina AI, text embeddings using `all-minilm-l6-v2` hosted by Qdrant Cloud, and BM25 embeddings using the `bm25` model executed locally by the Qdrant cluster:
+You can run multiple inference operations within a single request, even when models are hosted in different locations. This example generates three different named vectors for a single point: image embeddings using `jina-clip-v2` hosted by Jina AI, text embeddings using `all-minilm-l6-v2` hosted by Qdrant Cloud, and BM25 embeddings using the `bm25` model executed locally by the Qdrant cluster:
 
 {{< code-snippet path="/documentation/headless/snippets/inference/multiple/" >}}
