@@ -12,9 +12,12 @@ client, err := qdrant.NewClient(&qdrant.Config{
 
 client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "{collection_name}",
-	Prefetch: []*qdrant.PrefetchQuery{
+	Prefetch:       []*qdrant.PrefetchQuery{
 		// 2+ prefetches here
 	},
-	Query: qdrant.NewQueryRrf(qdrant.Rrf { K: 60 }), <--- TODO
+	Query: qdrant.NewQueryRRF(
+		&qdrant.Rrf{
+			K: qdrant.PtrOf(uint32(60)),
+		}),
 })
 ```
