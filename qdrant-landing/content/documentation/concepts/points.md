@@ -265,6 +265,34 @@ Alternative way to specify which points to remove is to use filter.
 
 This example removes all points with `{ "color": "red" }` from the collection.
 
+## Conditional updates
+
+Starting from Qdrant v1.16.0, all update operations (including point insertion, vector updates, payload updates, and deletions) support configurable pre-conditions based on filters.
+
+{{< code-snippet path="/documentation/headless/snippets/insert-points/with-condition/" >}}
+
+While conditional payload modification and deletion covers the use-case of mass data modification, conditional point insertion and vector updates are particularly useful for implementing optimistic concurrency control in distributed systems.
+
+Common scenario for such mechanism appears when multiple clients try to update the same point independently.
+Consider the following sequence of events:
+
+- Client A reads point P.
+- Client B reads point P.
+- Client A modifies point P and writes it back to Qdrant.
+- Client B modifies point P (based on the stale data) and writes it back to Qdrant, unintentionally overwriting changes made by Client A.
+
+To prevent such situations, Client B can use conditional updates.
+For this, we would need to introduce an additional field in the payload, e.g. `version`, which would be incremented on each update.
+
+When Client A writes back the modified point P, it would set the condition that the `version` field must be equal to the value it read initially.
+If Client B tries to write back its changes later, the condition would fail (as the `version` has been incremented by Client A), and Qdrant would reject the update, preventing accidental overwrites.
+
+Instead of `version`, applications can use timestamps (assuming synchronized clocks) or any other monotonically increasing value that fits their data model.
+
+This mechanism is especially useful in the scenarios of embedding model migration, where we need to resolve conflicts between regular application updates and background re-embedding tasks.
+
+{{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="70%" >}}
+
 ## Retrieve points
 
 There is a method for retrieving points by their ids.
