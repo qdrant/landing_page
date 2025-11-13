@@ -183,7 +183,9 @@ Qdrant Cloud can act as a proxy for the APIs of three external embedding model p
 
 This enables you to access any of the embedding models provided by these providers through the Qdrant API.
 
-To use an external provider's embedding model, you need an API key from that provider. For example, to access OpenAI models, you need an OpenAI API key. Billing is managed directly through the external provider, based on API key usage. Refer to each external embedding model provider's website for pricing details.
+To use an external provider's embedding model, you need an API key from that provider. For example, to access OpenAI models, you need an OpenAI API key. Qdrant does not store or cache your API keys; they must be provided with each inference request.
+
+When using an external embedding model, ensure that your collection has been configured for vectors with the correct dimensionality. Refer to the model's documentation for details on the output dimensions.
 
 <aside role="status">
 When using a model from an external provider, refer to the model's documentation for:
@@ -195,31 +197,49 @@ When using a model from an external provider, refer to the model's documentation
 
 ### OpenAI
 
-When you prepend a model name with `openai/`, the embedding request is automatically routed to the [OpenAI Embeddings API](https://platform.openai.com/docs/guides/embeddings). You need to provide your OpenAI API key with each request.
+When you prepend a model name with `openai/`, the embedding request is automatically routed to the [OpenAI Embeddings API](https://platform.openai.com/docs/guides/embeddings). 
 
-For example, to use OpenAI's `text-embedding-3-large` model, when ingesting and querying data, prepend the model name with `openai/` and provide your OpenAI API key in the `options` object. Any OpenAI-specific API parameters can be passed using the `options` object. This example uses the OpenAI-specific API `dimensions` parameter to reduce the dimensionality to 512:
+For example, to use OpenAI's `text-embedding-3-large` model when ingesting data, prepend the model name with `openai/` and provide your OpenAI API key in the `options` object. Any OpenAI-specific API parameters can be passed using the `options` object. This example uses the OpenAI-specific API `dimensions` parameter to reduce the dimensionality to 512:
 
-{{< code-snippet path="/documentation/headless/snippets/inference/openai/" >}}
+{{< code-snippet path="/documentation/headless/snippets/inference/openai-upsert/" >}}
+
+At query time, you can use the same model by prepending the model name with `openai/` and providing your OpenAI API key in the `options` object. This example again uses the OpenAI-specific API `dimensions` parameter to reduce the dimensionality to 512:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/openai-query/" >}}
+
+Note that, because Qdrant does not store or cache your OpenAI API key, you need to provide it with each inference request.
 
 ### Cohere
 
 <aside role="status">Qdrant only supports version 2 of the Cohere Embed API.</aside>
 
-When you prepend a model name with `cohere/`, the embedding request is automatically routed to the [Cohere Embed API](https://docs.cohere.com/reference/embed). You need to provide your Cohere API key with each request.
+When you prepend a model name with `cohere/`, the embedding request is automatically routed to the [Cohere Embed API](https://docs.cohere.com/reference/embed). 
 
-For example, to use Cohere's multimodal `embed-v4.0` model, when ingesting and querying data, prepend the model name with `cohere/` and provide your Cohere API key in the `options` object. This example uses the Cohere-specific API `output_dimension` parameter to reduce the dimensionality to 512:
+For example, to use Cohere's multimodal `embed-v4.0` model when ingesting data, prepend the model name with `cohere/` and provide your Cohere API key in the `options` object. This example uses the Cohere-specific API `output_dimension` parameter to reduce the dimensionality to 512:
 
-{{< code-snippet path="/documentation/headless/snippets/inference/cohere/" >}}
+{{< code-snippet path="/documentation/headless/snippets/inference/cohere-upsert/" >}}
 
-Note that the Cohere `embed-v4.0` model does not allow an image to be passed as a URL. You need to provide a base64-encoded image as a Data URL.
+Note that the Cohere `embed-v4.0` model does not support passing an image as a URL. You need to provide a base64-encoded image as a Data URL.
+
+At query time, you can use the same model by prepending the model name with `cohere/` and providing your Cohere API key in the `options` object. This example again uses the Cohere-specific API `output_dimension` parameter to reduce the dimensionality to 512:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/cohere-query/" >}}
+
+Note that, because Qdrant does not store or cache your Cohere API key, you need to provide it with each inference request.
 
 ### Jina AI
 
-When you prepend a model name with `jinaai/`, the embedding request is automatically routed to the [Jina AI Embedding API](https://jina.ai/embeddings/). You need to provide your Jina AI API key with each request.
+When you prepend a model name with `jinaai/`, the embedding request is automatically routed to the [Jina AI Embedding API](https://jina.ai/embeddings/).
 
-For example, to use Jina AI's multimodal `jina-clip-v2` model, when ingesting and querying data, prepend the model name with `jinaai/` and provide your Jina AI API key in the `options` object. This example uses the Jina AI-specific API `dimensions` parameter to reduce the dimensionality to 512:
+For example, to use Jina AI's multimodal `jina-clip-v2` model when ingesting data, prepend the model name with `jinaai/` and provide your Jina AI API key in the `options` object. This example uses the Jina AI-specific API `dimensions` parameter to reduce the dimensionality to 512:
 
-{{< code-snippet path="/documentation/headless/snippets/inference/jinaai/" >}}
+{{< code-snippet path="/documentation/headless/snippets/inference/jinaai-upsert/" >}}
+
+At query time, you can use the same model by prepending the model name with `jinaai/` and providing your Jina AI API key in the `options` object. This example again uses the Jina AI-specific API `dimensions` parameter to reduce the dimensionality to 512:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/jinaai-query/" >}}
+
+Note that, because Qdrant does not store or cache your Jina AI API key, you need to provide it with each inference request
 
 ## Multiple Inference Operations
 
