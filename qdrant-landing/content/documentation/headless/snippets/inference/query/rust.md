@@ -4,7 +4,7 @@ use qdrant_client::{
     qdrant::{Document, Query, QueryPointsBuilder},
 };
 
-let client = Qdrant::from_url("http://localhost:6333").build().unwrap();
+let client = Qdrant::from_url("<your-qdrant-url>").build().unwrap();
 
 client
     .query(

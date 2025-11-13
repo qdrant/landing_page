@@ -5,7 +5,7 @@ use qdrant_client::{
 };
 use std::collections::HashMap;
 
-let client = Qdrant::from_url("http://localhost:6333").build().unwrap();
+let client = Qdrant::from_url("<your-qdrant-url>").build().unwrap();
 
 let mut options = HashMap::<String, Value>::new();
 options.insert("openai-api-key".to_string(), "<YOUR_OPENAI_API_KEY>".into());

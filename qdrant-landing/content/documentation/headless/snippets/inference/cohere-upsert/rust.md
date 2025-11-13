@@ -5,7 +5,7 @@ use qdrant_client::{
 };
 use std::collections::HashMap;
 
-let client = Qdrant::from_url("http://localhost:6333").build()?;
+let client = Qdrant::from_url("<your-qdrant-url>").build()?;
 let mut options = HashMap::new();
 options.insert("cohere-api-key".to_string(), "<YOUR_COHERE_API_KEY>".into());
 options.insert("output_dimension".to_string(), 512.into());

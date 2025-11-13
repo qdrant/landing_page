@@ -5,7 +5,7 @@ use qdrant_client::{
 };
 use std::collections::HashMap;
 
-let client = Qdrant::from_url("http://localhost:6333").build()?;
+let client = Qdrant::from_url("<your-qdrant-url>").build()?;
 
 let mut jina_options = HashMap::new();
 jina_options.insert("jina-api-key".to_string(), "<YOUR_JINAAI_API_KEY>".into());

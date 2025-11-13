@@ -4,7 +4,7 @@ use qdrant_client::{
     qdrant::{Document, PointStruct, UpsertPointsBuilder},
 };
 
-let client = Qdrant::from_url("http://localhost:6333").build()?;
+let client = Qdrant::from_url("<your-qdrant-url>").build()?;
 
 client
     .upsert_points(UpsertPointsBuilder::new("<your-collection>",
