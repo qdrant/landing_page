@@ -19,5 +19,9 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 		Size:     100,
 		Distance: qdrant.Distance_Cosine,
 	}),
+	Metadata: qdrant.NewValueMap(map[string]any{
+		"my-metadata-field": "value-1",
+		"another-field":     123,
+	}),
 })
 ```
