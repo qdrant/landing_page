@@ -90,7 +90,9 @@ Or turn it off later on an existing collection through the [collection update](#
 
 ### Maximum number of payload index count
 
-(TODO)
+Setting `max_payload_index_count` caps the maximum number of payload index that can exist on a collection.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-payload-index-count/" >}}
 
 ### Maximum number of filtering conditions in a query
 
