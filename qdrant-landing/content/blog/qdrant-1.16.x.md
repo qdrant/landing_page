@@ -149,21 +149,17 @@ So, with new memory layout, instead of 32 random accesses to read neighbors' vec
 
 ... Snippet of how to use Inline Storage ...
 
-
-
 ## Full-Text index Enhancements
 
 ![Section 3](/blog/qdrant-1.15.x/section-3.png)
 
-We don't want feature parity with Elasticsearch, but we want to include full-text features that improve Vector Search use-case.
-
-Our intent is that new abilities will play in combination with vector search and extent it's usefulness, rather than be applied on their own.
-
+While Qdrant is primarily a vector search engine, many applications require a combination of vector search and traditional full-text search. For that reason, we are continuously enhancing our full-text search features. In version 1.16, we have introduced two new features to improve the full-text search experience in Qdrant.
 
 ### Match Any Condition for Text Search
 
-This is technically not something that was not possible before, but now it is much more convenient to express.
-Before it was like this:
+Prior to version 1.16, Qdrant supported two way of searching for multiple search terms in text fields: the `text` condition that searches for all search terms, and the `phrase` condition that searches for an exact phrase match. 
+
+However, there was no convenient way to search to match *at least one* of the provided query terms. You would have to tokenize a multi-term query yourself on the client side and build a complex boolean condition with multiple `match` conditions:
 
 ```json
 {
@@ -175,7 +171,9 @@ Before it was like this:
 }
 ```
 
-now you can do:
+In version 1.16, we have added a new [`text_any` condition](/documentation/concepts/filtering/#full-text-any) that simplifies this use case. Now, instead of building complex boolean conditions, Qdrant can handle the tokenization and matching internally. 
+
+The `text_any` condition matches text fields that contain any of the query terms. In other words, even if a text field contains just one of the query terms, it is considered a match.
 
 ```json
 {
@@ -185,12 +183,9 @@ now you can do:
 }
 ```
 
-When it can be used?
+A good example of using the `text_any` condition is in e-commerce applications, where users often search for products using multiple keywords. By combining a vector query with series of increasingly lenient full-text filters, you can ensure that users receive relevant results even if their initial search terms are too restrictive. 
 
-- In combination with vector search, as a pre-filtering condition, especially in batch with "Match All" conditions.
-
-
-```
+```json
 batch [
   {
     "query": {
@@ -229,26 +224,34 @@ batch [
 ]
 ```
 
-So we can fallback to less and less strict pre-filtering conditions in case of insufficient results.
-
-
 ### ASCII Folding - Improved Search for Multilingual Texts
 
-ToDO: in short explain how it works and link to full docs.
+Many Latin languages use diacritical marks (accents) to indicate different pronunciations or meanings of letters. For example, the letter "é" in French is pronounced differently than "e" and can change the meaning of a word. Users, when searching for terms with diacritics, may not always include these marks in their queries, which can lead to missed matches.
 
-Note: mention, that is was a outside contribution by community member.
+A solution to this problem is to normalize characters with diacritics to their base ASCII equivalents, a process known as ASCII folding. For example, "café" becomes "cafe" and "naïve" becomes "naive." This normalization allows for more flexible and inclusive search results, improving search recall for multilingual texts.
 
+[An open source contribution by community member eltu](https://github.com/qdrant/qdrant/pull/7408) has added [ASCII folding support](/documentation/concepts/indexing/#ascii-folding) to Qdrant's full-text search capabilities in version 1.16. When enabled, Qdrant automatically normalizes text fields and search terms, for instance by removing diacritical marks.
+
+To enable ASCII folding, set the `ascii_folding` option to `true` when creating a full-text payload index:
+
+TODO, after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/create-payload-index/asciifolding-full-text/" >
 
 ## Conditional Updates
 
 ToDo: mention idempotency, mention model migration use case.
 
 
-## WEB UI Visual Upgrade
+## Web UI Visual Upgrade
 
+[Web UI](/documentation/web-ui/) is Qdrant’s user interface for managing deployments and collections. It enables you to create and manage collections, run API calls, import sample datasets, and learn about Qdrant's API through interactive tutorials.
 
-## Qdrant Edge - Beta Release
+In version 1.16, we have revamped the Web UI with a fresh new look and improved user experience. The new design features the following enhancements:
 
+- A new welcome page that offers quick access to tutorials and reference documentation.
+- Redesigned Point, Visualize, and Graph views in the Collections manager, making it easier to work with your data by presenting them in a more compact format.
+- In the tutorials, code snippets are now executed inline, which frees up screen space for better usability.
+
+![Qdrant Web UI](/blog/qdrant-1.16.x/webui.png)
 
 ## Honorable Mentions
 
