@@ -1,0 +1,1 @@
+This code snippet set `filter_max_conditions` on the strict mode configuration to cap the maximum number of conditions filters can have.

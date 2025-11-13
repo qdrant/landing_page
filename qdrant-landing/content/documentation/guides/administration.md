@@ -112,7 +112,11 @@ Setting `max_timeout` caps the maximum value in seconds for the `timeout` parame
 
 ### Maximum number of filtering conditions in a query
 
-(TODO)
+Large number of filtering conditions are expensive to handle.
+
+Setting `filter_max_conditions` caps the maximum number of conditions filters can have.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/filter-max-conditions/" >}}
 
 ### Maximum batch size when inserting vectors
 

@@ -13,7 +13,7 @@ client
         CreateCollection.newBuilder()
             .setCollectionName("{collection_name}")
             .setStrictModeConfig(
-                StrictModeConfig.newBuilder().setEnabled(true).setMaxTimeout(10).build())
+                StrictModeConfig.newBuilder().setEnabled(true).setFilterMaxConditions(10).build())
             .build())
     .get();
 ```
