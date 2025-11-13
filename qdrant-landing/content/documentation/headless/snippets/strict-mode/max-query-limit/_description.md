@@ -1,1 +1,1 @@
-This code snippet set `max_query_limit` on the strict mode configuration to to cap the maximum number points can be retrieved in a single query.
+This code snippet set `max_query_limit` on the strict mode configuration to cap the maximum number points can be retrieved in a single query.

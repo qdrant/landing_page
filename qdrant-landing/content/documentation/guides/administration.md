@@ -102,6 +102,14 @@ Setting `max_query_limit` caps the maximum number of points that can be retrieve
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-query-limit/" >}}
 
+### Maximum `timeout` parameter
+
+Long running operations are often symptomatic of a deeper issue.
+
+Setting `max_timeout` caps the maximum value in seconds for the `timeout` parameter in all API operations.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-timeout/" >}}
+
 ### Maximum number of filtering conditions in a query
 
 (TODO)

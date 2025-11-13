@@ -1,1 +1,1 @@
-This code snippet set `max_payload_index_count` on the strict mode configuration to to cap the maximum number of payload index.
+This code snippet set `max_payload_index_count` on the strict mode configuration to cap the maximum number of payload index.
