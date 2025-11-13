@@ -13,7 +13,7 @@ client
         CreateCollection.newBuilder()
             .setCollectionName("{collection_name}")
             .setStrictModeConfig(
-                StrictModeConfig.newBuilder().setEnabled(true).setMaxCollectionVectorSizeBytes(1000000).build())
+                StrictModeConfig.newBuilder().setEnabled(true).setMaxCollectionVectorSizeBytes(1000000).setMaxCollectionPayloadSizeBytes(1000000).build())
             .build())
     .get();
 ```

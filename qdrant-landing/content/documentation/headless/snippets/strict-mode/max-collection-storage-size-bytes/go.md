@@ -15,6 +15,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
   StrictModeConfig: &qdrant.StrictModeConfig{
     Enabled: qdrant.PtrOf(true),
     MaxCollectionVectorSizeBytes: qdrant.PtrOf(uint64(1000000)),
+    MaxCollectionPayloadSizeBytes: qdrant.PtrOf(uint64(1000000)),
   },
 })
 ```
