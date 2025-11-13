@@ -14,7 +14,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
   CollectionName: "{collection_name}",
   StrictModeConfig: &qdrant.StrictModeConfig{
     Enabled: qdrant.PtrOf(true),
-    MaxPayloadIndexCount: qdrant.PtrOf(10),
+    MaxPayloadIndexCount: qdrant.PtrOf(uint64(10)),
   },
 })
 ```
