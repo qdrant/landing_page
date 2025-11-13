@@ -1,0 +1,1 @@
+This code snippet completely disable strict mode on an existing configuration.
