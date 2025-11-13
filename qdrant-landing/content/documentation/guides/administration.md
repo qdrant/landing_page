@@ -116,9 +116,19 @@ Setting `max_timeout` caps the maximum value in seconds for the `timeout` parame
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-timeout/" >}}
 
-### Maximum number of filtering conditions in a query
+### Maximum size of a filtering condition
 
-Large number of filtering conditions are expensive to evaluate.
+Large filtering conditions are expensive to evaluate.
+
+Setting `condition_max_size` caps the maximum number of element a filtering condition can have.
+
+e.g. the number of elements in `MatchAny`
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/condition-max-size/" >}}
+
+### Maximum number of conditions in a filter
+
+A large number of filtering conditions are expensive to evaluate.
 
 Setting `filter_max_conditions` caps the maximum number of conditions filters can have.
 

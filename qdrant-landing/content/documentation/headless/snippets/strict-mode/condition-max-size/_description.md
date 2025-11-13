@@ -1,0 +1,1 @@
+This code snippet set `condition_max_size` on the strict mode configuration to cap the maximum number of element a filtering condition can have.
