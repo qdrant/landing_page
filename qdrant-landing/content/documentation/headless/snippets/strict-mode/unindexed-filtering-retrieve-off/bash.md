@@ -4,7 +4,7 @@ curl -X PUT http://localhost:6333/collections/{collection_name} \
   --data-raw '{
     "strict_mode_config": {
       "enabled":" true,
-      "unindexed_filtering_retrieve": false
+      "unindexed_filtering_retrieve": true
     }
   }'
 ```

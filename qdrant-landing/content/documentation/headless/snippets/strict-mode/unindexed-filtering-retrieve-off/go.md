@@ -14,7 +14,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
   CollectionName: "{collection_name}",
   StrictModeConfig: &qdrant.StrictModeConfig{
     Enabled: qdrant.PtrOf(true),
-    UnindexedFilteringRetrieve: qdrant.PtrOf(false),
+    UnindexedFilteringRetrieve: qdrant.PtrOf(true),
   },
 })
 ```
