@@ -354,7 +354,7 @@ Note, that update operation only modifies the specified metadata fields, leaving
 
 When specified, metadata is returned as part of collection info:
 
-``````json
+``` json
 {
     "result": {
         "config": {
