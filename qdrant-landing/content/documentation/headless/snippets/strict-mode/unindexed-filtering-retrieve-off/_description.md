@@ -1,1 +1,1 @@
-This code snippet turns off `unindexed_filtering_retrieve` on the strict mode configuration to enable the usage of filtering on a non indexed payload key.
+This code snippet turns off `unindexed_filtering_retrieve` on the strict mode configuration to enable retrieving points by filtering on a non indexed payload key.

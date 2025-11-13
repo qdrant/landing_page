@@ -1,0 +1,1 @@
+This code snippet enables `unindexed_filtering_update` on the strict mode configuration to prevent updating points by filtering on a non indexed payload key.

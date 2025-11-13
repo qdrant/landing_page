@@ -78,15 +78,21 @@ To disable completely strict mode on an existing collection use:
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/disable/" >}}
 
-### Disable querying non indexed payload
+### Disable retrieving via non indexed payload
 
-Setting `unindexed_filtering_retrieve` to false prevents the usage of filtering on a non indexed payload key which can be very slow.
+Setting `unindexed_filtering_retrieve` to false prevents retrieving points by filtering on a non indexed payload key which can be very slow.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve/" >}}
 
 Or turn it off later on an existing collection through the [collection update](#update-collection-parameters) API.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve-off/" >}}
+
+### Disable updating via non indexed payload
+
+Setting `unindexed_filtering_update` to false prevents updating points by filtering on a non indexed payload key which can be very slow.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-update/" >}}
 
 ### Maximum number of payload index count
 
