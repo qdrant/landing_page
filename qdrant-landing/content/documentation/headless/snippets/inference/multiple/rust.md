@@ -31,7 +31,7 @@ client
                         Document {
                             text: "Mars, the red planet".into(),
                             model: "sentence-transformers/all-minilm-l6-v2".into(),
-                            options: HashMap::new(),
+                            ..Default::default()
                         },
                     )
                     .add_vector(
@@ -39,7 +39,7 @@ client
                         Document {
                             text: "How to bake cookies?".into(),
                             model: "qdrant/bm25".into(),
-                            options: HashMap::new(),
+                            ..Default::default()
                         },
                     ),
                 Payload::default(),

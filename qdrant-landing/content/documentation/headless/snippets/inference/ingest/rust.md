@@ -3,7 +3,6 @@ use qdrant_client::{
     Payload, Qdrant, QdrantError,
     qdrant::{Document, PointStruct, UpsertPointsBuilder},
 };
-use std::collections::HashMap;
 
 let client = Qdrant::from_url("http://localhost:6333").build()?;
 
@@ -15,7 +14,7 @@ client
                     Document {
                       text: "Recipe for baking chocolate chip cookies".into(),
                       model: "qdrant/bm25".into(),
-                      options: HashMap::new(),
+                      ..Default::default()
                       }.into())]),
                 Payload::default())
             ]))
