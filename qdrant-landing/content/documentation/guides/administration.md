@@ -94,6 +94,14 @@ Setting `max_payload_index_count` caps the maximum number of payload index that 
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-payload-index-count/" >}}
 
+### Maximum query `limit` parameter
+
+Retrieving large result set is expensive.
+
+Setting `max_query_limit` caps the maximum number of points that can be retrieved in a single query.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-query-limit/" >}}
+
 ### Maximum number of filtering conditions in a query
 
 (TODO)
