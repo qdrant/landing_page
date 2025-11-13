@@ -133,3 +133,13 @@ It is possible to set the maximum size of a collection in terms of vectors or pa
 Setting `max_collection_vector_size_bytes` caps the maximum size in bytes of a collection.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-collection-vector-size-bytes/" >}}
+
+### Rate limiting
+
+An extremely high rate of incoming requests can have a negative impact on the latency
+
+Setting `read_rate_limit` and `write_rate_limit` to cap the maximum of operations per minute per replica.
+
+The client will receive an HTTP 429 error code with a potential indication regarding the delay before a retry.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/rate-limiting/" >}}
