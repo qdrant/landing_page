@@ -62,36 +62,44 @@ message in an environment variable, such as
 
 *Available as of v1.13.0*
 
-Strict mode is a feature to restrict certain type of operations on the collection in order to protect it.
+Strict mode is a feature to restrict certain type of operations on a collection in order to protect it.
 
-The goal is to prevent inefficient usage patterns that could overload the collections.
+The goal is to prevent inefficient usage patterns that could overload the system.
 
-This configuration ensures a more predictible and responsive service when you do not have control over the queries that are being executed.
-
-Here is a non exhaustive list of operations that can be restricted using strict mode:
-
-- Preventing querying non indexed payload which can be very slow
-- Maximum number of filtering conditions in a query
-- Maximum batch size when inserting vectors
-- Maximum collection size (in terms of vectors or payload size)
-- Maximum number of payload index count
-
-See [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the `strict_mode_config` parameters.
+The strict mode ensures a more predictible and responsive service when you do not have control over the queries that are being executed.
 
 Upon crossing a limit, the server will return a client side error with the information about the limit that was crossed.
 
+The `strict_mode_config` can be enabled when [creating](#create-a-collection) a new collection, see [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the available `strict_mode_config` parameters.
+
 As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically.
-
-The `strict_mode_config` can be enabled when [creating](#create-a-collection) a collection, for instance below to activate the `unindexed_filtering_retrieve` limit.
-
-Setting `unindexed_filtering_retrieve` to false prevents the usage of filtering on a non indexed payload key.
-
-{{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve/" >}}
-
-Or turn it off later on an existing collection through the [collection update](#update-collection-parameters) API
-
-{{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve-off/" >}}
 
 To disable completely strict mode on an existing collection use:
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/disable/" >}}
+
+### Disable querying non indexed payload
+
+Setting `unindexed_filtering_retrieve` to false prevents the usage of filtering on a non indexed payload key which can be very slow.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve/" >}}
+
+Or turn it off later on an existing collection through the [collection update](#update-collection-parameters) API.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve-off/" >}}
+
+### Maximum number of payload index count
+
+(TODO)
+
+### Maximum number of filtering conditions in a query
+
+(TODO)
+
+### Maximum batch size when inserting vectors
+
+(TODO)
+
+### Maximum collection size (in terms of vectors or payload size)
+
+(TODO)
