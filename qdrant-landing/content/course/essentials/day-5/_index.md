@@ -1,5 +1,6 @@
 ---
 title: "Day 5: Advanced APIs"
+description: Learn advanced Qdrant APIs, including multivectors and the Universal Query API, to power hybrid retrieval, late interaction models, and recommendation systems with high accuracy and flexibility. 
 isLesson: true
 weight: 60
 ---

@@ -1,5 +1,6 @@
 ---
-title: Sparse Vectors and Inverted Indexes
+title: "Sparse Vectors and Inverted Indexes"
+description: Learn sparse vectors and inverted indexes in Qdrant, create named sparse vectors, store index–value pairs, run exact dot-product search, and prepare for hybrid search with dense vectors.
 weight: 2
 ---
 

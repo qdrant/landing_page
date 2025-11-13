@@ -1,5 +1,5 @@
 ---
-title: Qdrant Essentials Course
+title: "Qdrant Essentials Course"
 page_title: Qdrant Essentials Course
 description: Learn hybrid search, multivectors, and production deployment in 7 days. Build and ship a docs search engine.
 content:

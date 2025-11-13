@@ -1,5 +1,6 @@
 ---
-title: Large-Scale Data Ingestion
+title: "Large-Scale Data Ingestion"
+description: Master large-scale vector ingestion in Qdrant. Explore batching, upload_points, and upload_collection methods, on-disk storage, and parallel streaming for billion-scale AI data pipelines.
 weight: 4
 ---
 

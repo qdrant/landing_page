@@ -1,5 +1,6 @@
 ---
-title: Implementing a Basic Vector Search
+title: "Implementing a Basic Vector Search"
+description: Learn how to build a basic vector search in Qdrant. Create collections, insert vectors, and run your first similarity search step-by-step with Python. 
 weight: 3
 ---
 

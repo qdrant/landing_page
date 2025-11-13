@@ -1,5 +1,6 @@
 ---
-title: The Universal Query API
+title: "The Universal Query API"
+description: Learn how to run dense, sparse, and ColBERT multivector retrieval with Qdrant’s Universal Query API—fusing, filtering, and reranking results in a single atomic request.
 weight: 3
 ---
 

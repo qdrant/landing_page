@@ -213,11 +213,11 @@ For all decay functions, there are these parameters available
 | `x`        | N/A     | The value to decay                                                                                                                                                                                |
 | `target`   | 0.0     | The value at which the decay will be at its peak. For distances it is usually set at 0.0, but can be set to any value.                                                                            |
 | `scale`    | 1.0     | The value at which the decay function will be equal to `midpoint`. This is in terms of `x` units, for example, if `x` is in meters, `scale` of 5000 means 5km. Must be a non-zero positive number |
-| `midpoint` | 0.5     | Output is `midpoint` when `x` equals `scale`. Must be in the range (0.0, 1.0), exclusive                                                                                                          |
+| `midpoint` | 0.5     | Output is `midpoint` when `x` equals `target` ± `scale`. Must be in the range (0.0, 1.0), exclusive                                                                                                          |
 
-The formulas for each decay function are as follows:
+![Decay functions.](/docs/decay-function.png)
 
-<iframe src="https://www.desmos.com/calculator/idv5hknwb1?embed" width="600" height="400" style="border: 1px solid #ccc" frameborder=0 class="mx-auto d-block"></iframe>
+The [formulas for each decay function](https://www.desmos.com/calculator/idv5hknwb1) are as follows:
 
 <br>
     

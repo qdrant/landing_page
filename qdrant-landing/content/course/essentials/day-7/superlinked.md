@@ -1,5 +1,6 @@
 ---
-title: Integrating with Superlinked
+title: "Integrating with Superlinked"
+description: Learn how Superlinked’s Mixture of Encoders and Qdrant enable rich, multi-modal embeddings that fuse semantic, numerical, and temporal data for optimized vector retrieval.
 weight: 5
 ---
 

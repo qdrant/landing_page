@@ -1,5 +1,6 @@
 ---
 title: "Project: Quantization Performance Optimization"
+description: Apply vector quantization in Qdrant to boost search speed, reduce memory, and balance accuracy. Test scalar, binary, and 2-bit quantization with oversampling and rescoring optimization. 
 weight: 5
 ---
 
