@@ -5,7 +5,7 @@ short_description: "Xaver built a compliant AI advisory engine with Qdrant."
 description: "Discover how Xaver used Qdrant to power its two-tier knowledge engine, enabling sub-second, compliant AI-assisted financial consultations across chat, video, and phone."
 preview_image: /blog/case-study-xaver/social_preview_partnership-xaver.jpg
 social_preview_image: /blog/case-study-xaver/social_preview_partnership-xaver.jpg
-date: 2025-11-11
+date: 2025-11-13
 author: "Daniel Azoulai"
 featured: true
 
@@ -21,16 +21,16 @@ tags:
 
 ![Xaver Overview](/blog/case-study-xaver/xaver-bento-box-dark.jpg)
 
-## Scaling Personalized Financial Advice with AI: How Xaver Built its AI Knowledge Engine with Qdrant
+## How Xaver Built its AI Knowledge Engine with Qdrant
 
-Xaver is tackling a core challenge in the financial industry: scaling personalized financial and retirement advice. As demographic shifts increase demand for private pensions, traditional, manual consultation models are proving too slow and costly to support everyone who needs help.
+<a href="https://www.xaver.com/" target="_blank">Xaver</a> is tackling a core challenge in the financial industry: scaling personalized financial and retirement advice. As demographic shifts increase demand for private pensions, traditional, manual consultation models are proving too slow and costly to support everyone who needs help.
 
-To solve this, Xaver provides banks, insurers and distributors with a vertically specialized and compliant **agentic sales platform**. This technology acts as both an **AI sales assistant** for human advisors and as an **autonomous agent** to deliver compliant, personalized financial guidance to consumers via phone, video avatars, messengers and web journeys.
+To solve this, Xaver provides banks, insurers and distributors with a vertically specialized and compliant agentic sales platform. This technology acts as both an AI sales assistant for human advisors and as an autonomous agent to deliver compliant, personalized financial guidance to consumers via phone, video avatars, messengers and web journeys.
 
 One core component of the platform is a fast, flexible knowledge engine designed to provide instant, contextually accurate answers for consulting AI agents. 
 
 *“Every second of latency matters in a phone or video consultation. Qdrant gave us the performance foundation to serve knowledge in real time without sacrificing quality.”*  
-**Ole Breulmann,** Founder / CPTO**, Xaver**
+Ole Breulmann, Founder / CPTO**, Xaver**
 
 ### The challenge: Bringing scale and speed to pension consultation
 
@@ -46,9 +46,10 @@ Xaver’s goal was to empower financial institutions to meet this demand with an
 
 To make this work, Xaver needed a system that could manage knowledge retrieval and reasoning under tight latency constraints while remaining transparent, explainable, and easy to scale.
 
-### The solution: A two-layer knowledge engine powered by Qdrant
+### The solution: Semantic caching, or a two-layer knowledge engine
 
-Xaver’s AI platform includes a “knowledge engine,” an indexing and retrieval layer that feeds contextually relevant insights to both automated and human-assisted consultations. It powers two key functions:
+[Qdrant](https://qdrant.tech/documentation/overview/) was selected after extensive evaluation for several reasons:
+Xaver’s AI platform includes a “knowledge engine,” an [indexing](https://qdrant.tech/documentation/concepts/indexing/) and [retrieval](https://qdrant.tech/documentation/beginner-tutorials/retrieval-quality/) layer that feeds contextually relevant insights to both automated and human-assisted consultations. It powers two key functions:
 
 1. Automated consultation through AI-led sessions via phone, video avatar, messengers, or web chat.
 
@@ -70,11 +71,11 @@ This architecture enables the Xaver platform to deliver knowledge for the most c
 
 When designing the knowledge engine, Xaver deliberately chose to focus on its application layer instead of building core infrastructure from scratch. The team wanted to dedicate engineering effort to customer-facing innovation, not database maintenance.
 
-Qdrant was selected after extensive evaluation for several reasons:
+[Qdrant](https://qdrant.tech/documentation/overview/) was selected after extensive evaluation for several reasons:
 
-* **High performance at low latency.** Its Rust-based core allowed Xaver to meet strict real-time response thresholds for conversational use cases.
+* **High performance at low latency.** Its [Rust-based core](https://qdrant.tech/articles/why-rust/) allowed Xaver to meet strict real-time response thresholds for conversational use cases.
 
-* **Developer simplicity.** Qdrant’s intuitive API and clean operational model helped the team integrate quickly without diverting resources to maintain infrastructure.
+* **Developer simplicity.** Qdrant’s [intuitive API](https://api.qdrant.tech/api-reference) and clean operational model helped the team integrate quickly without diverting resources to maintain infrastructure.
 
 * **Flexible deployment.** The platform could run both the condensed and full knowledge bases side by side with custom confidence thresholds and filters.
 
