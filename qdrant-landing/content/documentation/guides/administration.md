@@ -134,6 +134,12 @@ Setting `max_collection_vector_size_bytes` caps the maximum size in bytes of a c
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-collection-vector-size-bytes/" >}}
 
+### Maximum points count
+
+Setting `max_points_count` caps the maximum of points for a collection.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-points-count/" >}}
+
 ### Rate limiting
 
 An extremely high rate of incoming requests can have a negative impact on the latency
