@@ -172,7 +172,7 @@ Accessing array elements by index is currently not supported.
 
 ### ACORN Search Algorithm
 
-**Available as of v1.16.0**
+*Available as of v1.16.0*
 
 For filtered vector search, you are recommended to create a [payload index](/documentation/concepts/indexing/#payload-index) for the fields you want to filter by.
 During the search, Qdrant will use a combined [filterable index](/documentation/concepts/indexing/#filtrable-index).
