@@ -112,7 +112,7 @@ Setting `max_timeout` caps the maximum value in seconds for the `timeout` parame
 
 ### Maximum number of filtering conditions in a query
 
-Large number of filtering conditions are expensive to handle.
+Large number of filtering conditions are expensive to evaluate.
 
 Setting `filter_max_conditions` caps the maximum number of conditions filters can have.
 
@@ -120,7 +120,11 @@ Setting `filter_max_conditions` caps the maximum number of conditions filters ca
 
 ### Maximum batch size when inserting vectors
 
-(TODO)
+Sending very large batch at insert time can create internal congestion.  
+
+Setting `upsert_max_batchsize` caps the maximum size in bytes of a batch during vector insert.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/upsert-max-batchsize/" >}}
 
 ### Maximum collection size (in terms of vectors or payload size)
 
