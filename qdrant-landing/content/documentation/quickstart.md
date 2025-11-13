@@ -1,18 +1,26 @@
 ---
-title: Local Quickstart
+title: Quickstart
 weight: 4
 partition: qdrant
 aliases:
   - quick_start
   - quick-start
 ---
-# How to Get Started with Qdrant Locally
+# How to Get Started with Qdrant
 
 In this short example, you will use the Python Client to create a Collection, load data into it and run a basic search query.
 
-<aside role="status">Before you start, please make sure Docker is installed and running on your system.</aside>
+We recommend using **Qdrant Cloud** for the easiest setup. Alternatively, you can run Qdrant locally using Docker.
 
-## Download and run
+## Option 1: Qdrant Cloud (Recommended)
+
+1. Sign up for a free account at [Qdrant Cloud](https://cloud.qdrant.io/)
+2. Create a new cluster
+3. Note your cluster URL and API key from the dashboard
+
+## Option 2: Local Setup with Docker
+
+<aside role="status">Before you start, please make sure Docker is installed and running on your system.</aside>
 
 First, download the latest Qdrant image from Dockerhub:
 
@@ -39,11 +47,37 @@ Qdrant is now accessible:
 
 ## Initialize the client
 
+### For Qdrant Cloud:
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(
+    url="https://your-cluster-url.cloud.qdrant.io",
+    api_key="your-api-key",
+)
+```
+
+### For Local Setup:
+
 ```python
 from qdrant_client import QdrantClient
 
 client = QdrantClient(url="http://localhost:6333")
 ```
+
+### For Qdrant Cloud:
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ 
+    url: "https://your-cluster-url.cloud.qdrant.io",
+    apiKey: "your-api-key",
+});
+```
+
+### For Local Setup:
 
 ```typescript
 import { QdrantClient } from "@qdrant/js-client-rest";
@@ -51,12 +85,40 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 ```
 
+### For Qdrant Cloud:
+
+```rust
+use qdrant_client::Qdrant;
+
+// The Rust client uses Qdrant's gRPC interface
+let client = Qdrant::from_url("https://your-cluster-url.cloud.qdrant.io:6334")
+    .api_key("your-api-key")
+    .build()?;
+```
+
+### For Local Setup:
+
 ```rust
 use qdrant_client::Qdrant;
 
 // The Rust client uses Qdrant's gRPC interface
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 ```
+
+### For Qdrant Cloud:
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+// The Java client uses Qdrant's gRPC interface
+QdrantClient client = new QdrantClient(
+    QdrantGrpcClient.newBuilder("your-cluster-url.cloud.qdrant.io", 6334, true)
+        .withApiKey("your-api-key")
+        .build());
+```
+
+### For Local Setup:
 
 ```java
 import io.qdrant.client.QdrantClient;
@@ -67,12 +129,39 @@ QdrantClient client = new QdrantClient(
     QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 ```
 
+### For Qdrant Cloud:
+
+```csharp
+using Qdrant.Client;
+
+// The C# client uses Qdrant's gRPC interface
+var client = new QdrantClient("your-cluster-url.cloud.qdrant.io", 6334, https: true, apiKey: "your-api-key");
+```
+
+### For Local Setup:
+
 ```csharp
 using Qdrant.Client;
 
 // The C# client uses Qdrant's gRPC interface
 var client = new QdrantClient("localhost", 6334);
 ```
+
+### For Qdrant Cloud:
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+// The Go client uses Qdrant's gRPC interface
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host:   "your-cluster-url.cloud.qdrant.io",
+	Port:   6334,
+	APIKey: "your-api-key",
+	UseTLS: true,
+})
+```
+
+### For Local Setup:
 
 ```go
 import "github.com/qdrant/go-client/qdrant"
