@@ -126,6 +126,10 @@ Setting `upsert_max_batchsize` caps the maximum size in bytes of a batch during 
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/upsert-max-batchsize/" >}}
 
-### Maximum collection size (in terms of vectors or payload size)
+### Maximum collection size
 
-(TODO)
+It is possible to set the maximum size of a collection in terms of vectors or payload size.
+
+Setting `max_collection_vector_size_bytes` caps the maximum size in bytes of a collection.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-collection-vector-size-bytes/" >}}
