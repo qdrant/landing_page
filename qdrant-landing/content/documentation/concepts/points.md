@@ -291,7 +291,7 @@ Instead of `version`, applications can use timestamps (assuming synchronized clo
 
 This mechanism is especially useful in the scenarios of embedding model migration, where we need to resolve conflicts between regular application updates and background re-embedding tasks.
 
-{{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="70%" >}}
+{{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >}}
 
 ## Retrieve points
 
