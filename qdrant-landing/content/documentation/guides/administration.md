@@ -158,7 +158,7 @@ Setting `max_points_count` caps the maximum number of points for a collection.
 
 ### Rate limiting
 
-An extremely high rate of incoming requests can have a negative impact on the latency
+An extremely high rate of incoming requests can have a negative impact on the latency.
 
 Setting `read_rate_limit` and/or `write_rate_limit` to cap the maximum of operations per minute per replica.
 
