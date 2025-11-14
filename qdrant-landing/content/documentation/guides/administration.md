@@ -74,7 +74,7 @@ The `strict_mode_config` can be enabled when [creating](#create-a-collection) a 
 
 As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically.
 
-To disable completely strict mode on an existing collection use:
+It is possible to raise the default limits and/or disable strict mode entirely. Though, in order to ensure a stable cluster we strongly recommend to keep strict mode enabled using its default configuration. For disabling strict mode on an existing collection use:
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/disable/" >}}
 
