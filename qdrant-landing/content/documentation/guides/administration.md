@@ -138,7 +138,7 @@ Setting `filter_max_conditions` caps the maximum number of conditions filters ca
 
 Sending very large batch upserts can create internal congestion.  
 
-Setting `upsert_max_batchsize` caps the maximum size in bytes of a batch during vector insert.
+Setting `upsert_max_batchsize` caps the maximum size in bytes of a batch during vector upserts.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/upsert-max-batchsize/" >}}
 
