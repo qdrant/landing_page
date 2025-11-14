@@ -18,7 +18,7 @@ client.Upsert(context.Background(), &qdrant.UpsertPoints{
             Vectors: qdrant.NewVectors(0.05, 0.61, 0.76, 0.74),
             Payload: qdrant.NewValueMap(map[string]any{
                 "city": "Berlin", "price": 1.99, "version": 3}),
-        }
+        },
     },
     UpdateFilter: &qdrant.Filter{
         Must: []*qdrant.Condition{
