@@ -66,7 +66,7 @@ Strict mode is a feature to restrict certain type of operations on a collection 
 
 The goal is to prevent inefficient usage patterns that could overload the system.
 
-The strict mode ensures a more predictible and responsive service when you do not have control over the queries that are being executed.
+Strict mode ensures a more predictable and responsive service when you do not have control over the queries that are being executed.
 
 Upon crossing a limit, the server will return a client side error with the information about the limit that was crossed.
 
