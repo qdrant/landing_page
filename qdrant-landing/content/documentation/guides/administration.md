@@ -152,7 +152,7 @@ Setting `max_collection_vector_size_bytes` and/or `max_collection_payload_size_b
 
 ### Maximum points count
 
-Setting `max_points_count` caps the maximum of points for a collection.
+Setting `max_points_count` caps the maximum number of points for a collection.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-points-count/" >}}
 
