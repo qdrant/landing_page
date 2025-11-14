@@ -59,9 +59,9 @@ To change the value of constant $k$ in the formula, use the dedicated `rrf` quer
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf-k/" >}}
 
 
-
 ### Distribution-Based Score Fusion (DBSF)
-  _Available as of v1.11.0_
+
+_Available as of v1.11.0_
   
 <a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">
 DBSF</a> 
