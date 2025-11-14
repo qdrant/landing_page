@@ -24,11 +24,11 @@ func main() {
     }
     defer client.Close()
 
-    _, err = client.GetPointsClient().Upsert(ctx, &qdrant.UpsertPoints{
+    _, err = client.Upsert(ctx, &qdrant.UpsertPoints{
         CollectionName: "<your-collection>",
         Points: []*qdrant.PointStruct{
             {
-                Id: qdrant.NewIDNum(uint64(1)),
+                Id: qdrant.NewIDNum(1),
                 Vectors: qdrant.NewVectorsDocument(&qdrant.Document{
                     Text:  "Recipe for baking chocolate chip cookies",
                     Model: "<the-model-to-use>",

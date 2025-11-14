@@ -24,14 +24,14 @@ func main() {
     }
     defer client.Close()
 
-    _, err = client.GetPointsClient().Upsert(ctx, &qdrant.UpsertPoints{
+    _, err = client.Upsert(ctx, &qdrant.UpsertPoints{
         CollectionName: "<your-collection>",
         Points: []*qdrant.PointStruct{
             {
-                Id: qdrant.NewIDNum(uint64(1)),
+                Id: qdrant.NewIDNum(1),
                 Vectors: qdrant.NewVectorsImage(&qdrant.Image{
-                    Image: "https://qdrant.tech/example.png",
                     Model: "qdrant/clip-vit-b-32-vision",
+                    Image: qdrant.NewValueString("https://qdrant.tech/example.png"),
                 }),
                 Payload: qdrant.NewValueMap(map[string]any{
                     "title": "Example image",
