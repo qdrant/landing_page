@@ -28,7 +28,7 @@ Qdrant Cloud offers additional metrics and telemetry that are not available in t
 
 ## Exposed metrics
 
-There are two endpoints avaliable:
+There are two endpoints available:
 
 - `/metrics` is the direct endpoint of the underlying Qdrant database node.
 
