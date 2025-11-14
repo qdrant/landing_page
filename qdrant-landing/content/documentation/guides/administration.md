@@ -162,6 +162,6 @@ An extremely high rate of incoming requests can have a negative impact on the la
 
 Setting `read_rate_limit` and/or `write_rate_limit` to cap the maximum number of operations per minute per replica.
 
-The client will receive an HTTP 429 error code with a potential indication regarding the delay before a retry.
+When exceeding the maximum number of operations, the client will receive an HTTP 429 error code with a suggested delay before retrying.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/rate-limiting/" >}}
