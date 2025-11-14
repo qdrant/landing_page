@@ -5,6 +5,21 @@ weight: 5
 
 # Changelog
 
+## 1.9.1 (2025-11-14)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.20.0 |
+| operator                | 2.8.1   |
+| qdrant-cluster-manager  | v0.3.9  |
+| qdrant-cluster-exporter | 1.7.2   |
+
+* Automated storage class migration
+* Support for max_payload_index_count in strict mode
+* Experimental support for read replica clusters
+* Enable restoring snapshots into another cluster
+* Performance and stability improvements
+
 ## 1.8.0 (2025-08-08)
 
 | Component               | Version |
