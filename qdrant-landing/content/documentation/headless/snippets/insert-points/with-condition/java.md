@@ -8,7 +8,7 @@ import static io.qdrant.client.VectorsFactory.vectors;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Common.Filter;
 import io.qdrant.client.grpc.Points.PointStruct;
 import io.qdrant.client.grpc.Points.UpsertPoints;
 
