@@ -136,7 +136,7 @@ Setting `filter_max_conditions` caps the maximum number of conditions filters ca
 
 ### Maximum batch size when inserting vectors
 
-Sending very large batch at insert time can create internal congestion.  
+Sending very large batch upserts can create internal congestion.  
 
 Setting `upsert_max_batchsize` caps the maximum size in bytes of a batch during vector insert.
 
