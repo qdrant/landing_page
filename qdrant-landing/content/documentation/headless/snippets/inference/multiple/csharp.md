@@ -16,7 +16,7 @@ await client.UpsertAsync(
             {
                 ["image"] = new Image()
                 {
-                    Model = "qdrant/bm25",
+                    Model = "jinaai/jina-clip-v2",
                     Image_ = "https://qdrant.tech/example.png",
                     Options = { ["jina-api-key"] = "<YOUR_JINAAI_API_KEY>", ["dimensions"] = 512 },
                 },
