@@ -60,19 +60,23 @@ Known limitations:
 
 ## ACORN - Filtered Vector Search Improvements
 
+![Section 2](/blog/qdrant-1.15.x/section-2.png)
+
 To enhance the scalability and speed of vector search, Qdrant employs a graph-based indexing structure known as [HNSW (Hierarchical Navigable Small World) graph-based index](/documentation/concepts/indexing/#vector-index) structure. While traditional HNSW is primarily designed for unfiltered searches, Qdrant has addressed this limitation by implementing a [filterable HSNW index](/articles/filtrable-hnsw/). This innovative approach extends the HNSW graph with additional edges that correspond to indexed payload values. The filterable HSNW index enables Qdrant to maintain search quality even with high filtering selectivity, without introducing any runtime overhead during the search process.
 
-Even with filterable HNSW graphs, there are instances where the quality of search results can deteriorate significantly. This can happen if a filter discards too many vectors, leading to the HNSW graph becoming [disconnected](/documentation/concepts/indexing/#filtrable-index), especially when you use a combination of high cardinality filters. This issue is particularly evident when using a combination of high cardinality filters. It is impractical to build additional links for every possible combination of filters in advance due to the potentially vast number of combinations. Another case where filterable HNSW may break down is in situations where the filtering criteria are not known in advance.
+Even with filterable HNSW graphs, there are instances where the quality of search results can deteriorate significantly. This can happen if a filter discards too many vectors, leading to the HNSW graph becoming [disconnected](/documentation/concepts/indexing/#filtrable-index), especially when you use a combination of high cardinality filters. It is impractical to build additional links for every possible combination of filters in advance due to the potentially vast number of combinations. Another case where filterable HNSW may break down is in situations where the filtering criteria are not known in advance.
 
 To address these situations, in version 1.16 we are introducing support for [ACORN](documentation/concepts/search/#acorn-search-algorithm), based on the ACORN-1 algorithm described in the paper [ACORN: Performant and Predicate-Agnostic Search Over Vector Embeddings and Structured Data](https://arxiv.org/abs/2403.04871). When enabled, Qdrant not only traverses direct neighbors (the first hop) in the HNSW graph but also examines neighbors of neighbors (the second hop) if the direct neighbors have been filtered out. This enhancement improves search accuracy at the expense of performance, especially when multiple low-selectivity filters are applied.
 
 You can enable ACORN on a per-query basis, via the optional query-time `acorn` parameter. This doesn't require any changes at index time.
 
+```json
 TODO, after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/query-points/with-acorn/ >
+```
 
 TODO: Benchmarks of ACORN ...
 
-### When should you use ACORN?
+### When Should You Use ACORN?
 
 Enabling ACORN allows Qdrant to explore more nodes within the HNSW graph, which results in the evaluation of a larger number of vectors. However, this does come with some runtime overhead. It should not be enabled on every query. 
 
@@ -87,62 +91,52 @@ To help you choose when to use ACORN, refer to the following decision matrix:
 
 ## Inline Storage - Disk-efficient Vector Search
 
-![Section 2](/blog/qdrant-1.15.x/section-2.png)
+![Section 3](/blog/qdrant-1.15.x/section-3.png)
 
-HSNW was designed as an in-memory index structure. Graph traversal operation invokes a lot of random accesses to memory.
+Deploying a vector search engine into Production often requires striking a balance between performance and cost. A good example of this trade-off is the decision between using RAM-based storage and disk-based storage for the HNSW index. HSNW was designed to be an in-memory index structure. Traversing the HNSW graph involves a lot of random access reads, which is fast in RAM, but slow on disk.
 
-For instance, 1M vectors with m=16 and ef=100 will require around ~1200 vector comparisons.
+For instance, querying 1 million vectors with HNSW parameters `m` set to 16 and `ef` to 100 requires approximately 1200 vector comparisons. This is fine in  RAM, but it is not acceptable on disk, where each random access read can take up to 1ms, or even longer when using HDDs instead of SSDs.
 
-For RAM is is ok-ish, but not acceptable for disk-based storage, where one random access can take up to 1ms (on SSDs, HDDs are even worse).
+However, disk-based storage has a property we can exploit to reduce the number of random access reads: paged reading. Disk devices typically read a full page (4KB or more) of data at once. Traditional tree-based data structures, such as B-trees, have used this property effectively. However, in graph-based structures like the HNSW index, grouping connected nodes into pages is not straightforward due to each node potentially having an arbitrary number of connections to other nodes.
 
-There is, however, a property of Disk-based storage, we can exploit to minimize number of random memory accesses needed - this property is paged reading (the idea is that disk always reads 1 page (4Kb or more) of data at once)
-
-Traditional Tree-based data structures already use this property since forever - see B-trees. But it is not that straightforward in graph-based structures like HNSW.
-In graphs each node can have arbitrary number of connections to other nodes, so it is not possible to group connected nodes into pages.
-
-This is unless we can duplicate data associated with nodes.
-
-That is what Inline Storage does - it stores vector data  directly inside HNSW nodes.
+That is, unless we can duplicate data associated with each node. That is what Qdrant version 1.16 supports with [inline storage](documentation/guides/optimize/#inline-storage-in-hnsw-index): storing vector data directly inside the HNSW nodes. This offers faster read access, at the cost of additional storage space.
 
 Let's do some napkin math:
 
-- HNSW graph have M0=M * 2 = 32 connections per node (by default)
-- Each vectors is around 1024 x 4 bytes = 4Kb
-- Each node would need to store M0 x 4Kb = 128Kb
-- Each page is 4Kb
+- An HNSW graph has `M0` = `M` * 2 = 32 connections per node (by default)
+- Each vector is around 1024 x 4 bytes = 4Kb
+- Each node would need to store `M0` x 4Kb = 128Kb
+- However, each page is only 4Kb
 
-So, how to take advantage of this?
+So, how can we take advantage of this? By using quantization and smaller datatypes:
 
-Answer: use quantization & smaller datatypes.
+- Use `float16` instead of `float32`: a 2x space reduction
+- Use binary quantization: a 32x space reduction
 
-- Use flaot16 instead of float32 - 2x space reduction
-- Use binary quantization - 32x space reduction
+TODO: Layout without inline storage (should be a picture)
 
-  Current memory layout (should be a picture)
+- Node -> Neighbor1_id, Neighbor2_id, ... Neighbor32_id (32 x 4 bytes = 128 bytes)
+- Vector -> 1024 x 4 bytes = 4096 bytes
+- Quantized Vector -> 1024 / 8 bits = 128 bytes (1 bit per dimension)
 
-  - Node -> Neighbor1_id, Neighbor2_id, ... Neighbor32_id (32 x 4 bytes = 128 bytes)
-  - Vector -> 1024 x 4 bytes = 4096 bytes
-  - Quantized Vector -> 1024 / 8 bits = 128 bytes (1 bit per dimension)
-
-
-New memory layout with inline storage & float16 & binary quantization (should be a picture)
+TODO: New layout with inline storage & float16 & binary quantization (should be a picture)
 
 - Node -> (neighbours_list) + (original vectors) + (neighbors' quantized vectors)
+- 128 bytes + 1024 x 2 + (32 x 128 bytes) = 6272 bytes ~ 2 pages (8Kb)
 
+When combining inline storage with `float16` data types and quantization, evaluating a node in the HNSW graph requires reading only 2 pages from disk, rather than making 32 random access reads. This represents a significant improvement over the traditional approach, at the cost of additional storage space.
 
-128 bytes + 1024 x 2 + (32 x 128 bytes) = 6272 bytes ~ 2 pages (8Kb)
+TODO: ... Benchmarks of Inline Storage ...
 
-So, with new memory layout, instead of 32 random accesses to read neighbors' vectors, we need only sequential read of 2 pages.
+Inline storage can be enabled by setting a collection's HNSW configuration `inline_storage` option to `true`.  It requires quantization to be enabled.
 
+```json
+TODO, after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/create-collection/with-inline-storage/" >
+```
 
-... Benchmarks of Inline Storage ...
+## Full-Text Search Enhancements
 
-
-... Snippet of how to use Inline Storage ...
-
-## Full-Text index Enhancements
-
-![Section 3](/blog/qdrant-1.15.x/section-3.png)
+![Section 4](/blog/qdrant-1.15.x/section-4.png)
 
 While Qdrant is primarily a vector search engine, many applications require a combination of vector search and traditional full-text search. For that reason, we are continuously enhancing our full-text search features. In version 1.16, we have introduced two new features to improve the full-text search experience in Qdrant.
 
@@ -225,14 +219,38 @@ A solution to this problem is to normalize characters with diacritics to their b
 
 To enable ASCII folding, set the `ascii_folding` option to `true` when creating a full-text payload index:
 
+```json
 TODO, after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/create-payload-index/asciifolding-full-text/" >
+```
 
 ## Conditional Updates
 
-ToDo: mention idempotency, mention model migration use case.
+![Section 5](/blog/qdrant-1.15.x/section-4.png)
 
+Point updates in Qdrant are idempotent, meaning that applying the same update multiple times has the same effect as applying it once. This can cause issues when two clients attempt to update the same point concurrently, as the last update will overwrite any previous updates. Consider the following sequence of events:
+
+1. Client A reads point P.
+2. Client B reads point P.
+3. Client A modifies point P and writes it back to Qdrant.
+4. Client B modifies point P (based on stale data) and writes it back to Qdrant, unintentionally overwriting changes made by Client A.
+
+To address this issue, Qdrant 1.16 introduces support for [conditional updates](/documentation/concepts/points/#conditional-updates). With conditional updates, you can specify a condition, in the form of an update filter, that must be met for the update to be applied. If the condition is not met, Qdrant rejects the update, preventing unintended overwrites.
+
+For example, you can add a `version` field to your points to track changes. When updating a point, you can specify a condition that the `version` field must match the expected value. If another client has modified the point in the meantime and incremented the `version`, the update is rejected: 
+
+```json
+TODO, after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/insert-points/with-condition/" >
+```
+
+Note that the name and type of the field used for conditional updates are entirely up to you. Instead of `version`, applications can use timestamps (assuming synchronized clocks) or any other monotonically increasing value that fits their data model.
+
+This mechanism is particularly useful in scenarios involving embedding model migration, where it is necessary to resolve conflicts between regular application updates and background re-embedding tasks.
+
+TODO, after it's merged, add image < figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >
 
 ## Web UI Visual Upgrade
+
+![Section 6](/blog/qdrant-1.15.x/section-4.png)
 
 [Web UI](/documentation/web-ui/) is Qdrant’s user interface for managing deployments and collections. It enables you to create and manage collections, run API calls, import sample datasets, and learn about Qdrant's API through interactive tutorials.
 
@@ -245,6 +263,8 @@ In version 1.16, we have revamped the Web UI with a fresh new look and improved 
 ![Qdrant Web UI](/blog/qdrant-1.16.x/webui.png)
 
 ## Honorable Mentions
+
+![Section 6](/blog/qdrant-1.15.x/section-4.png)
 
 All other notable improvements in a list with links to further reading.
 
