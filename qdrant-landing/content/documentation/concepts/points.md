@@ -267,7 +267,9 @@ This example removes all points with `{ "color": "red" }` from the collection.
 
 ## Conditional updates
 
-Starting from Qdrant v1.16.0, all update operations (including point insertion, vector updates, payload updates, and deletions) support configurable pre-conditions based on filters.
+_Available as of v1.16.0_
+
+All update operations (including point insertion, vector updates, payload updates, and deletions) support configurable pre-conditions based on filters.
 
 {{< code-snippet path="/documentation/headless/snippets/insert-points/with-condition/" >}}
 
