@@ -341,7 +341,6 @@ It is possible to reduce the `indexing_threshold` for an existing collection by 
 For convenience and better data organization, Qdrant allows attaching custom metadata to collections in the form of key-value pairs.
 Adding metadata is treated as a part of collection configuration and synchronized across all nodes in a cluster with consensus protocol.
 
-
 Collection metadata can be specified during collection creation:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-metadata/" >}}
