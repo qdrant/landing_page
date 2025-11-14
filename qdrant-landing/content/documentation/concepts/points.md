@@ -275,7 +275,7 @@ All update operations (including point insertion, vector updates, payload update
 
 While conditional payload modification and deletion covers the use-case of mass data modification, conditional point insertion and vector updates are particularly useful for implementing optimistic concurrency control in distributed systems.
 
-Common scenario for such mechanism appears when multiple clients try to update the same point independently.
+A common scenario for such mechanism is when multiple clients try to update the same point independently.
 Consider the following sequence of events:
 
 - Client A reads point P.
