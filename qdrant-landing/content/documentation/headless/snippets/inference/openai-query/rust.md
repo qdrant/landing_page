@@ -13,7 +13,7 @@ options.insert("dimensions".to_string(), 512.into());
 
 client
     .query(
-        QueryPointsBuilder::new("<your-collection_name>")
+        QueryPointsBuilder::new("{collection_name}")
             .query(Query::new_nearest(Document {
                 text: "How to bake cookies?".into(),
                 model: "openai/text-embedding-3-large".into(),

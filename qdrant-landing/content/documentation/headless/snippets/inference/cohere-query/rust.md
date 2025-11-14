@@ -13,7 +13,7 @@ options.insert("output_dimension".to_string(), 512.into());
 
 client
     .query(
-        QueryPointsBuilder::new("<your-collection_name>")
+        QueryPointsBuilder::new("{collection_name}")
             .query(Query::new_nearest(Document {
                 text: "a green square".into(),
                 model: "cohere/embed-v4.0".into(),

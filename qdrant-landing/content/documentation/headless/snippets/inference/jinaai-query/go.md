@@ -14,7 +14,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
 })
 
 client.Query(ctx, &qdrant.QueryPoints{
-	CollectionName: "<your-collection>",
+	CollectionName: "{collection_name}",
 	Query: qdrant.NewQueryNearest(
 		qdrant.NewVectorInputDocument(&qdrant.Document{
 			Text:  "Mission to Mars",

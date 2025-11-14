@@ -7,7 +7,7 @@ use qdrant_client::{
 let client = Qdrant::from_url("<your-qdrant-url>").build()?;
 
 client
-    .upsert_points(UpsertPointsBuilder::new("<your-collection>",
+    .upsert_points(UpsertPointsBuilder::new("{collection_name}",
         vec![
             PointStruct::new(1,
                 HashMap::from([("my-bm25-vector".to_string(),

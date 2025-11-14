@@ -11,7 +11,7 @@ options.insert("openai-api-key".to_string(), "<YOUR_OPENAI_API_KEY>".into());
 options.insert("dimensions".to_string(), 512.into());
 
 client
-    .upsert_points(UpsertPointsBuilder::new("<your-collection>",
+    .upsert_points(UpsertPointsBuilder::new("{collection_name}",
         vec![
             PointStruct::new(1,
                 Document {

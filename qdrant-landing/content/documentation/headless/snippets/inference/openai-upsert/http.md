@@ -1,5 +1,5 @@
 ```http
-PUT /collections/<your-collection_name>/points?wait=true
+PUT /collections/{collection_name}/points?wait=true
 {
   "points": [
     {

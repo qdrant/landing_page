@@ -13,7 +13,7 @@ options.insert("dimensions".to_string(), 512.into());
 
 client
     .query(
-        QueryPointsBuilder::new("<your-collection_name>")
+        QueryPointsBuilder::new("{collection_name}")
             .query(Query::new_nearest(Document {
                 text: "Mission to Mars".into(),
                 model: "jinaai/jina-clip-v2".into(),
