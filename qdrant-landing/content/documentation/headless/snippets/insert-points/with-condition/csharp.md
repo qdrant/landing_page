@@ -1,8 +1,4 @@
 ```csharp
-
-TODO!!
-
-
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 using static Qdrant.Client.Grpc.Conditions;
