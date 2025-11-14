@@ -14,7 +14,7 @@ jina_options.insert("dimensions".to_string(), 512.into());
 client
     .upsert_points(
         UpsertPointsBuilder::new(
-            "<your-collection>",
+            "{collection_name}",
             vec![PointStruct::new(
                 1,
                 NamedVectors::default()

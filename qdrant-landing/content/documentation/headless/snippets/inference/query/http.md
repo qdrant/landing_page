@@ -1,5 +1,5 @@
 ```http
-POST /collections/<your-collection_name>/points/query
+POST /collections/{collection_name}/points/query
 {
   "query": {
     "text": "How to bake cookies?",

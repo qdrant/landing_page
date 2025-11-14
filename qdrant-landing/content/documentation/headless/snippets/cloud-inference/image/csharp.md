@@ -16,7 +16,7 @@ await client.UpsertAsync(
     new() {
       Id = 1,
         Vectors = new Image() {
-          Image = "https://qdrant.tech/example.png",
+          Image_ = "https://qdrant.tech/example.png",
           Model = "qdrant/clip-vit-b-32-vision",
         },
         Payload = {

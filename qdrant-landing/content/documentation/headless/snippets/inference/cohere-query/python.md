@@ -8,7 +8,7 @@ client = QdrantClient(
 )
 
 client.query_points(
-    collection_name="<your_collection_name>",
+    collection_name="{collection_name}",
     query=models.Document(
         text="a green square", 
         model="cohere/embed-v4.0", 

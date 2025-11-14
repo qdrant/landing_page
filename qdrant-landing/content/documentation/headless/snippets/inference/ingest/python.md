@@ -8,7 +8,7 @@ client = QdrantClient(
 )
 
 client.upsert(
-    collection_name="<your-collection_name",
+    collection_name="{collection_name}",
     points=[
         models.PointStruct(
             id=1,

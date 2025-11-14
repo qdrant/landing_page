@@ -8,7 +8,7 @@ client = QdrantClient(
 )
 
 client.query_points(
-    collection_name="<your_collection_name>",
+    collection_name="{collection_name}",
     query=models.Document(
         text="Mission to Mars", 
         model="jinaai/jina-clip-v2", 

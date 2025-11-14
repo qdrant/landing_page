@@ -14,7 +14,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
 })
 
 client.Upsert(ctx, &qdrant.UpsertPoints{
-	CollectionName: "<your-collection>",
+	CollectionName: "{collection_name}",
 	Points: []*qdrant.PointStruct{
 		{
 			Id: qdrant.NewIDNum(uint64(1)),
