@@ -58,41 +58,32 @@ Known limitations:
 - Default shard-key can have only one shard-id. We will improve it in future releases to support multiple shard-ids per shard-key. 
 - tenant promotion must be triggered manually. We plan to add auto-promotion in cloud offering in future.
 
-## ACORN - filtered search improvements
+## ACORN - Filtered Vector Search Improvements
 
-When we are doing HNSW searhc with filtering, we need to be careful about how many vectors we filter-out during search.
+To enhance the scalability and speed of vector search, Qdrant employs a graph-based indexing structure known as [HNSW (Hierarchical Navigable Small World) graph-based index](/documentation/concepts/indexing/#vector-index) structure. While traditional HNSW is primarily designed for unfiltered searches, Qdrant has addressed this limitation by implementing a [filterable HSNW index](/articles/filtrable-hnsw/). This innovative approach extends the HNSW graph with additional edges that correspond to indexed payload values. The filterable HSNW index enables Qdrant to maintain search quality even with high filtering selectivity, without introducing any runtime overhead during the search process.
 
-If we filter out too many, HNSW graph can become disconnected (link to filterable HNSW article).
+Even with filterable HNSW graphs, there are instances where the quality of search results can deteriorate significantly. This can happen if a filter discards too many vectors, leading to the HNSW graph becoming [disconnected](/documentation/concepts/indexing/#filtrable-index), especially when you use a combination of high cardinality filters. This issue is particularly evident when using a combination of high cardinality filters. It is impractical to build additional links for every possible combination of filters in advance due to the potentially vast number of combinations. Another case where filterable HNSW may break down is in situations where the filtering criteria are not known in advance.
 
-Currently, Qdrant have a specialized process, which extends HNSW graph with additional links based on payload indexes.
-This process allows us to maintain search quality even with high filtering selectivity and do not introduce any runtime overhead during search.
+To address these situations, in version 1.16 we are introducing support for [ACORN](documentation/concepts/search/#acorn-search-algorithm), based on the ACORN-1 algorithm described in the paper [ACORN: Performant and Predicate-Agnostic Search Over Vector Embeddings and Structured Data](https://arxiv.org/abs/2403.04871). When enabled, Qdrant not only traverses direct neighbors (the first hop) in the HNSW graph but also examines neighbors of neighbors (the second hop) if the direct neighbors have been filtered out. This enhancement improves search accuracy at the expense of performance, especially when multiple low-selectivity filters are applied.
 
-There are, however, cases, when additional links might not be enough.
-For example, if combination of high cardinality filters is used, we can't build extra links for all combinations in advance, as there might be too many of them.
-Or, if filtering critetians are not known in advance.
+You can enable ACORN on a per-query basis, via the optional query-time `acorn` parameter. This doesn't require any changes at index time.
 
-To adresss such cases, we are introducing ACORN (link arxiv) query-time parameter. It doesn't require any index-time changes.
-ACORN allows graph traversal algorithm to "jump" over filtered-out vectors during search, improving connectivity of the graph during search with filters.
+TODO, after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/query-points/with-acorn/ >
 
-This, however, introduces runtime overhead during search, as more vectors need to be evaluated.
+TODO: Benchmarks of ACORN ...
 
+### When should you use ACORN?
 
-... Benchmarks of ACORN ...
+Enabling ACORN allows Qdrant to explore more nodes within the HNSW graph, which results in the evaluation of a larger number of vectors. However, this does come with some runtime overhead. It should not be enabled on every query. 
 
+To help you choose when to use ACORN, refer to the following decision matrix:
 
-... Decision matrix when to use ACORN ...
-
-
-- No filters = No ACORN, no overhead
-
-- Single filter = Payload index, no ACORN, no overhead
-
-- Multiple filters, high selectivity = Payload index, No overhead
-
-- Multiple filters, low selectivity = Payload index + ACORN, some overhead, better quality
-
-... Snippet of how to use ACORN ...
-
+| Use case | Use ACORN? | Effect | Impact |
+|---|---|---|---|
+| No filters  | No | HNSW |  No overhead |
+| Single filter  | No | HNSW + payload index | No overhead |
+| Multiple filters, high selectivity | No | HNSW + payload index | No overhead |
+| Multiple filters, low selectivity | Yes | HNSW + Payload index + ACORN | Some overhead, better quality |
 
 ## Inline Storage - Disk-efficient Vector Search
 
