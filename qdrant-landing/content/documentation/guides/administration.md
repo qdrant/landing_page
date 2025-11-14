@@ -62,7 +62,7 @@ message in an environment variable, such as
 
 *Available as of v1.13.0*
 
-Strict mode is a feature to restrict certain type of operations on a collection in order to protect it.
+Strict mode is a feature to restrict certain type of operations on a collection in order to protect the Qdrant cluster.
 
 The goal is to prevent inefficient usage patterns that could overload the system.
 
