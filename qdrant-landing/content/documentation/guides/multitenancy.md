@@ -4,6 +4,7 @@ weight: 12
 aliases:
   - ../tutorials/multiple-partitions
   - /tutorials/multiple-partitions/
+  - /documentation/guides/multiple-partitions/
 ---
 # Configure Multitenancy
 
