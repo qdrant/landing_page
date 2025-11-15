@@ -54,9 +54,13 @@ To implement this approach, you should:
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/with-group-id-as-tenant/" >}}
 
 `is_tenant=true` parameter is optional, but specifying it provides storage with additional information about the usage patterns the collection is going to use.
-When specified, storage structure will be organized in a way to co-locate vectors of the same tenant together, which can significantly improve performance in some cases. 
+When specified, storage structure will be organized in a way to co-locate vectors of the same tenant together, which can significantly improve performance by utilizing sequential reads during queries.
 
 
-## Limitations
+{{< figure src="/docs/defragmentation.png" alt="Tenants defragmentation with is_tenant" caption="Grouping tenants together by tenant ID, if `is_tenant=true` is used" width="80%" >}}
+
+
+
+### Limitations
 
 One downside to this approach is that global requests (without the `group_id` filter) will be slower since they will necessitate scanning all groups to identify the nearest neighbors.
