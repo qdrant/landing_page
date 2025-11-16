@@ -88,7 +88,7 @@ Currently, it could be:
 * `exact` - option to not use the approximate search (ANN). If set to true, the search may run for a long as it performs a full scan to retrieve exact results.
 * `indexed_only` - With this option you can disable the search in those segments where vector index is not built yet. This may be useful if you want to minimize the impact to the search performance whilst the collection is also being updated. Using this option may lead to a partial result if the collection is not fully indexed yet, consider using it only if eventual consistency is acceptable for your use case.
 * `quantization` - parameters related to quantization. See [Searching with Quantization](/documentation/guides/quantization/#searching-with-quantization) guide.
-* `acorn` - parameters related to the [ACORN](#acorn-search-algorithm).
+* `acorn` - parameters related to the [ACORN search algorithm](#acorn-search-algorithm).
 
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
 See details of possible filters and their work in the [filtering](/documentation/concepts/filtering/) section.
@@ -190,12 +190,13 @@ Enable it as follows:
 ACORN is disabled by default.
 Once enabled via the `enable` flag, it activates conditionally when estimated filter selectivity is below the threshold.
 The optional `max_selectivity` value controls this threshold;
-`0.0` means ACORN will never be used, `1.0` means it will always be used.
+`0.0` means ACORN will never be used, `1.0` means it will always be used. The default value is `0.4`.
 Selectivity is estimated as:
 $$ \text{Estimated filter selectivity} =
    \frac{\text{Estimated number of points satisfying the filters}}
         {\text{Total number of points}}
 $$
+Since ACORN is significantly slower (approximately 2-10x in typical scenarios) but improves recall for restrictive filters, tuning this parameter is about deciding when the accuracy improvement justifies the performance cost.
 
 ## Batch search API
 

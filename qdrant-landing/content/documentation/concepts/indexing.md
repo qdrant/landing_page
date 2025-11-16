@@ -339,5 +339,8 @@ Qdrant solves this problem by extending the HNSW graph with additional edges bas
 Extra edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph.
 You can find more information on this approach in our [article](/articles/filtrable-hnsw/).
 
-In some cases, when combining more than one strict filter, these additional edges might not be enough.
-In such cases, the [ACORN Search Algorithm](/documentation/concepts/search/#acorn-search-algorithm) could be used.
+However, in some cases, these additional edges might not be enough.
+These extra edges are added per each payload index separately, but not per each possible combination of them.
+So, a combination of two or more strict filters still might lead to disconnected graph components.
+The same may happen when having a large number of soft-deleted points in the graph.
+In such cases, the [ACORN Search Algorithm](/documentation/concepts/search/#acorn-search-algorithm) can be used.

@@ -13,8 +13,7 @@ client
             .limit(10)
             .params(
                 SearchParamsBuilder::default().acorn(
-                    AcornSearchParamsBuilder::default()
-                        .enable(true)
+                    AcornSearchParamsBuilder::new(true)
                         .max_selectivity(0.4),
                 ),
             ),

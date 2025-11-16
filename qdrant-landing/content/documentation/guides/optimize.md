@@ -64,7 +64,7 @@ You can use [fio](https://gist.github.com/superboum/aaa45d305700a7873a8ebbab1abd
 
 *Available as of v1.16.0*
 
-When storing vectors and the HNSW index on disk, you can maintain decent search performance by enabling the `inline_storage` option in the `hnsw_config`.
+When storing vectors and the HNSW index on disk, you can improve search performance by enabling the `inline_storage` option in the `hnsw_config`.
 With inline storage, Qdrant stores copies of vectors directly within the HNSW index file.
 It makes searches faster by reducing the number of IO operations, at the cost of 3-4x increased storage usage.
 It requires quantization to be enabled.
