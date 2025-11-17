@@ -112,7 +112,7 @@ For instance, querying 1 million vectors with the HNSW parameters `m` set to 16 
 
 However, disk-based storage has a property we can exploit to reduce the number of random access reads: paged reading. Disk devices typically read a full page (4KB or more) of data at once. Traditional tree-based data structures, such as B-trees, have used this property effectively. However, in graph-based structures like the HNSW index, grouping connected nodes into pages is not straightforward due to each node potentially having an arbitrary number of connections to other nodes.
 
-That is, unless we can duplicate the data associated with each node. This is now possible with a new feature in Qdrant version 1.16: [inline storage](documentation/guides/optimize/#inline-storage-in-hnsw-index), storing vector data directly inside the HNSW nodes. This offers faster read access, at the cost of additional storage space.
+With Qdrant version 1.16, you can make use of paged reading through a new feature called [inline storage](documentation/guides/optimize/#inline-storage-in-hnsw-index). Inline storage allows for storing quantized vector data directly inside the HNSW nodes. This offers faster read access, at the cost of additional storage space.
 
 <figure>
   <img src="/blog/qdrant-1.16.x/no-inline-storage.png">
@@ -133,37 +133,16 @@ Without inline storage, this results in 1+hnsw\_m disk reads.
   </figcaption>
 </figure>
 
-With the inline storage enabled, the quantized vectors are directly embedded into the HNSW graph nodes, alongside neighbor IDs.
+With inline storage enabled, the quantized vectors are directly embedded into the HNSW graph nodes, alongside neighbor IDs.
 During a single search iteration, both neighbor IDs and their quantized vectors are read from a few consecutive pages, in a single disk read.
 
 Moreover, an original non-quantized vector is also embedded into the same graph node.
 The original vector is used to perform an implicit rescoring during the search,
 eliminating the separate rescore step which is usually performed after the search.
 
-Let's do some napkin math:
+Note that quantization needs to be enabled for inline storage to work efficiently. Without quantization, the size of the original vectors would be too large to fit into HNSW nodes. An HNSW graph has `M0` = `M` * 2 = 32 connections per node (by default). If each vector were around 1024 x 4 bytes = 4Kb, each node would need to store `M0` x 4Kb = 128Kb. However, each page is only 4Kb.
 
-- An HNSW graph has `M0` = `M` * 2 = 32 connections per node (by default)
-- Each vector is around 1024 x 4 bytes = 4Kb
-- Each node would need to store `M0` x 4Kb = 128Kb
-- However, each page is only 4Kb
-
-So, how can we take advantage of this? By using quantization and smaller datatypes:
-
-- Use `float16` instead of `float32`: a 2x space reduction
-- Use binary quantization: a 32x space reduction
-
-TODO: Layout without inline storage (should be a picture)
-
-- Node -> Neighbor1_id, Neighbor2_id, ... Neighbor32_id (32 x 4 bytes = 128 bytes)
-- Vector -> 1024 x 4 bytes = 4096 bytes
-- Quantized Vector -> 1024 / 8 bits = 128 bytes (1 bit per dimension)
-
-TODO: New layout with inline storage & float16 & binary quantization (should be a picture)
-
-- Node -> (neighbours_list) + (original vectors) + (neighbors' quantized vectors)
-- 128 bytes + 1024 x 2 + (32 x 128 bytes) = 6272 bytes ~ 2 pages (8Kb)
-
-When combining inline storage with `float16` data types and quantization, evaluating a node in the HNSW graph requires reading only 2 pages from disk, rather than making 32 random access reads. This represents a significant improvement over the traditional approach, at the cost of additional storage space.
+Using a smaller data type and quantization reduces the size of each vector significantly, making it possible to store them inline. When combining inline storage with `float16` data types and quantization, evaluating a node in the HNSW graph requires reading only two pages from disk, rather than making 32 random access reads. This represents a significant improvement over the traditional approach, at the cost of additional storage space.
 
 TODO: ... Benchmarks of Inline Storage ...
 
