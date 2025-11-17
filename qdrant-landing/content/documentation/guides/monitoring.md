@@ -44,24 +44,26 @@ Counters - such as the number of created snapshots - are reset when the node is 
 
 **Collection metrics**
 
-| Name                                              | Type    | Meaning                                                                                   |
-| ------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------- |
-| collections_total                                 | gauge   | Number of collections                                                                     |
-| collection_points                                 | gauge   | Number of points, per collection (v1.16+)                                                 |
-| collection_vectors                                | gauge   | Number of vectors, per collection and vector name (v1.16+)                                |
-| collections_vector_total                          | gauge   | Number of vectors in all collections                                                      |
-| collection_indexed_only_excluded_points           | gauge   | Number of points excluded in [`indexed_only`](/documentation/concepts/search/#search-api) search, per collection and vector name (v1.16+) |
-| collection_active_replicas_min                    | gauge   | Minimum number of active replicas across all collections and shards (v1.16+)              |
-| collection_active_replicas_max                    | gauge   | Maximum number of active replicas across all collections and shards (v1.16+)              |
-| collection_dead_replicas                          | gauge   | Number of non-active replicas across all collections and shards (v1.16+)                  |
-| collection_running_optimizations                  | gauge   | Number of running optimization tasks, per collection (v1.16+)                             |
-| collection_hardware_metric_cpu                    | counter | CPU measurements of a collection, per collection (v1.13+)                                 |
-| collection_hardware_metric_payload_io_read        | counter | Payload IO read operations measurement, per collection (v1.13+)                           |
-| collection_hardware_metric_payload_io_write       | counter | Payload IO write operations measurement, per collection (v1.13+)                          |
-| collection_hardware_metric_payload_index_io_read  | counter | Payload index read operations measurement, per collection (v1.13+)                        |
-| collection_hardware_metric_payload_index_io_write | counter | Payload index write operations measurement, per collection (v1.13+)                       |
-| collection_hardware_metric_vector_io_read         | counter | Vector IO read operations measurement, per collection (v1.13+)                            |
-| collection_hardware_metric_vector_io_write        | counter | Vector IO write operations measurement, per collection (v1.13+)                           |
+| Name                                              | Type    | Meaning                                                                                    |
+| ------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------ |
+| collections_total                                 | gauge   | Number of collections                                                                      |
+| collection_points                                 | gauge   | Number of points, per collection (v1.16+)                                                  |
+| collection_vectors                                | gauge   | Number of vectors, per collection and vector name (v1.16+)                                 |
+| collections_vector_total                          | gauge   | Number of vectors in all collections                                                       |
+| collection_indexed_only_excluded_points           | gauge   | Number of points excluded in [`indexed_only`](/documentation/concepts/search/#search-api)  search, per collection and vector name (v1.16+) |
+| collection_active_replicas_min                    | gauge   | Minimum number of active replicas across all collections and shards (v1.16+)               |
+| collection_active_replicas_max                    | gauge   | Maximum number of active replicas across all collections and shards (v1.16+)               |
+| collection_dead_replicas                          | gauge   | Number of non-active replicas across all collections and shards (v1.16+)                   |
+| collection_running_optimizations                  | gauge   | Number of running optimization tasks, per collection (v1.16+)                              |
+| collection_hardware_metric_cpu                    | counter | CPU measurements of a collection, per collection (v1.13+) [^metrics-hwreporting]           |
+| collection_hardware_metric_payload_io_read        | counter | Payload IO read operations measurement, per collection (v1.13+) [^metrics-hwreporting]     |
+| collection_hardware_metric_payload_io_write       | counter | Payload IO write operations measurement, per collection (v1.13+) [^metrics-hwreporting]    |
+| collection_hardware_metric_payload_index_io_read  | counter | Payload index read operations measurement, per collection (v1.13+) [^metrics-hwreporting]  |
+| collection_hardware_metric_payload_index_io_write | counter | Payload index write operations measurement, per collection (v1.13+) [^metrics-hwreporting] |
+| collection_hardware_metric_vector_io_read         | counter | Vector IO read operations measurement, per collection (v1.13+) [^metrics-hwreporting]      |
+| collection_hardware_metric_vector_io_write        | counter | Vector IO write operations measurement, per collection (v1.13+) [^metrics-hwreporting]     |
+
+[^metrics-hwreporting]: Only reported if hardware metrics are enabled in the configuration. See `service.hardware_reporting` in the [configuration](/documentation/guides/configuration/).
 
 **Snapshot metrics**
 
@@ -110,14 +112,16 @@ Counters - such as the number of created snapshots - are reset when the node is 
 Metrics reporting the current cluster consensus state of the node. Exposed only
 when distributed mode is enabled.
 
-| Name                             | Type    | Meaning                                          |
-| -------------------------------- | ------- | ------------------------------------------------ |
-| cluster_enabled                  | gauge   | If distributed mode is enabled                   |
-| cluster_peers_total              | gauge   | Number of cluster peers                          |
-| cluster_term                     | counter | Raft consensus term                              |
-| cluster_commit                   | counter | Raft consensus commit - last committed operation |
-| cluster_pending_operations_total | gauge   | Number of pending consensus operations           |
-| cluster_voter                    | gauge   | If a consensus voter (1) or learner (0)          |
+| Name                             | Type    | Meaning                                                                 |
+| -------------------------------- | ------- | ----------------------------------------------------------------------- |
+| cluster_enabled                  | gauge   | If distributed mode is enabled [^metrics-distributed]                   |
+| cluster_peers_total              | gauge   | Number of cluster peers [^metrics-distributed]                          |
+| cluster_term                     | counter | Raft consensus term [^metrics-distributed]                              |
+| cluster_commit                   | counter | Raft consensus commit - last committed operation [^metrics-distributed] |
+| cluster_pending_operations_total | gauge   | Number of pending consensus operations [^metrics-distributed]           |
+| cluster_voter                    | gauge   | If a consensus voter (1) or learner (0) [^metrics-distributed]          |
+
+[^metrics-distributed]: Only reported if distributed mode (cluster mode) is enabled. Enabled by default in all Qdrant Cloud environments. See `cluster.enabled` in the [configuration](/documentation/guides/configuration/).
 
 ### Metrics configuration
 
