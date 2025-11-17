@@ -44,51 +44,51 @@ Counters - such as the number of created snapshots - are reset when the node is 
 
 **Collection metrics**
 
-| Name                                              | Type    | Meaning                                                                                    |
-| ------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------ |
-| collections_total                                 | gauge   | Number of collections                                                                      |
-| collection_points                                 | gauge   | Number of points, per collection (v1.16+)                                                  |
-| collection_vectors                                | gauge   | Number of vectors, per collection and vector name (v1.16+)                                 |
-| collections_vector_total                          | gauge   | Number of vectors in all collections                                                       |
-| collection_indexed_only_excluded_points           | gauge   | Number of points excluded in [`indexed_only`](/documentation/concepts/search/#search-api)  search, per collection and vector name (v1.16+) |
-| collection_active_replicas_min                    | gauge   | Minimum number of active replicas across all collections and shards (v1.16+)               |
-| collection_active_replicas_max                    | gauge   | Maximum number of active replicas across all collections and shards (v1.16+)               |
-| collection_dead_replicas                          | gauge   | Number of non-active replicas across all collections and shards (v1.16+)                   |
-| collection_running_optimizations                  | gauge   | Number of running optimization tasks, per collection (v1.16+)                              |
-| collection_hardware_metric_cpu                    | counter | CPU measurements of a collection, per collection (v1.13+) [^metrics-hwreporting]           |
-| collection_hardware_metric_payload_io_read        | counter | Payload IO read operations measurement, per collection (v1.13+) [^metrics-hwreporting]     |
-| collection_hardware_metric_payload_io_write       | counter | Payload IO write operations measurement, per collection (v1.13+) [^metrics-hwreporting]    |
-| collection_hardware_metric_payload_index_io_read  | counter | Payload index read operations measurement, per collection (v1.13+) [^metrics-hwreporting]  |
-| collection_hardware_metric_payload_index_io_write | counter | Payload index write operations measurement, per collection (v1.13+) [^metrics-hwreporting] |
-| collection_hardware_metric_vector_io_read         | counter | Vector IO read operations measurement, per collection (v1.13+) [^metrics-hwreporting]      |
-| collection_hardware_metric_vector_io_write        | counter | Vector IO write operations measurement, per collection (v1.13+) [^metrics-hwreporting]     |
+| Name                                              | Type    | Meaning                                                                                               |
+| ------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------- |
+| collections_total                                 | gauge   | Number of collections                                                                                 |
+| collection_points                                 | gauge   | Number of points, per collection <sup>(v1.16+)</sup>                                                  |
+| collection_vectors                                | gauge   | Number of vectors, per collection and vector name <sup>(v1.16+)</sup>                                 |
+| collections_vector_total                          | gauge   | Number of vectors in all collections                                                                  |
+| collection_indexed_only_excluded_points           | gauge   | Number of points excluded in [`indexed_only`](/documentation/concepts/search/#search-api)  search, per collection and vector name <sup>(v1.16+)</sup> |
+| collection_active_replicas_min                    | gauge   | Minimum number of active replicas across all collections and shards <sup>(v1.16+)</sup>               |
+| collection_active_replicas_max                    | gauge   | Maximum number of active replicas across all collections and shards <sup>(v1.16+)</sup>               |
+| collection_dead_replicas                          | gauge   | Number of non-active replicas across all collections and shards <sup>(v1.16+)</sup>                   |
+| collection_running_optimizations                  | gauge   | Number of running optimization tasks, per collection <sup>(v1.16+)</sup>                              |
+| collection_hardware_metric_cpu                    | counter | CPU measurements of a collection, per collection <sup>(v1.13+)</sup> [^metrics-hwreporting]           |
+| collection_hardware_metric_payload_io_read        | counter | Payload IO read operations measurement, per collection <sup>(v1.13+)</sup> [^metrics-hwreporting]     |
+| collection_hardware_metric_payload_io_write       | counter | Payload IO write operations measurement, per collection <sup>(v1.13+)</sup> [^metrics-hwreporting]    |
+| collection_hardware_metric_payload_index_io_read  | counter | Payload index read operations measurement, per collection <sup>(v1.13+)</sup> [^metrics-hwreporting]  |
+| collection_hardware_metric_payload_index_io_write | counter | Payload index write operations measurement, per collection <sup>(v1.13+)</sup> [^metrics-hwreporting] |
+| collection_hardware_metric_vector_io_read         | counter | Vector IO read operations measurement, per collection <sup>(v1.13+)</sup> [^metrics-hwreporting]      |
+| collection_hardware_metric_vector_io_write        | counter | Vector IO write operations measurement, per collection <sup>(v1.13+)</sup> [^metrics-hwreporting]     |
 
 [^metrics-hwreporting]: Only reported if hardware metrics are enabled in the configuration. See `service.hardware_reporting` in the [configuration](/documentation/guides/configuration/).
 
 **Snapshot metrics**
 
-| Name                                    | Type    | Meaning                                                                |
-| --------------------------------------- | ------- | ---------------------------------------------------------------------- |
-| snapshot_creation_running               | gauge   | Number of snapshots being created, per collection (v1.16+)             |
-| snapshot_recovery_running               | gauge   | Number of snapshots being recovered, per collection (v1.16+)           |
-| snapshot_created_total                  | counter | Number of created snapshots since start, per collection (v1.16+)       |
+| Name                                    | Type    | Meaning                                                                     |
+| --------------------------------------- | ------- | --------------------------------------------------------------------------- |
+| snapshot_creation_running               | gauge   | Number of snapshots being created, per collection <sup>(v1.16+)</sup>       |
+| snapshot_recovery_running               | gauge   | Number of snapshots being recovered, per collection <sup>(v1.16+)</sup>     |
+| snapshot_created_total                  | counter | Number of created snapshots since start, per collection <sup>(v1.16+)</sup> |
 
 **API response metrics**
 
-| Name                                | Type      | Meaning                                                 |
-| ----------------------------------- | --------- | ------------------------------------------------------- |
-| rest_responses_total                | counter   | Number of responses through REST API                    |
-| rest_responses_fail_total           | counter   | Number of failed responses through REST API             |
-| rest_responses_avg_duration_seconds | gauge     | Average response duration in REST API                   |
-| rest_responses_min_duration_seconds | gauge     | Minimum response duration in REST API                   |
-| rest_responses_max_duration_seconds | gauge     | Maximum response duration in REST API                   |
-| rest_responses_duration_seconds     | histogram | Histogram of response durations in the REST API (v1.8+) |
-| grpc_responses_total                | counter   | Number of responses through gRPC API                    |
-| grpc_responses_fail_total           | counter   | Number of failed responses through REST API             |
-| grpc_responses_avg_duration_seconds | gauge     | Average response duration in gRPC API                   |
-| grpc_responses_min_duration_seconds | gauge     | Minimum response duration in gRPC API                   |
-| grpc_responses_max_duration_seconds | gauge     | Maximum response duration in gRPC API                   |
-| grpc_responses_duration_seconds     | histogram | Histogram of response durations in the gRPC API (v1.8+) |
+| Name                                | Type      | Meaning                                                            |
+| ----------------------------------- | --------- | ------------------------------------------------------------------ |
+| rest_responses_total                | counter   | Number of responses through REST API                               |
+| rest_responses_fail_total           | counter   | Number of failed responses through REST API                        |
+| rest_responses_avg_duration_seconds | gauge     | Average response duration in REST API                              |
+| rest_responses_min_duration_seconds | gauge     | Minimum response duration in REST API                              |
+| rest_responses_max_duration_seconds | gauge     | Maximum response duration in REST API                              |
+| rest_responses_duration_seconds     | histogram | Histogram of response durations in the REST API <sup>(v1.8+)</sup> |
+| grpc_responses_total                | counter   | Number of responses through gRPC API                               |
+| grpc_responses_fail_total           | counter   | Number of failed responses through REST API                        |
+| grpc_responses_avg_duration_seconds | gauge     | Average response duration in gRPC API                              |
+| grpc_responses_min_duration_seconds | gauge     | Minimum response duration in gRPC API                              |
+| grpc_responses_max_duration_seconds | gauge     | Maximum response duration in gRPC API                              |
+| grpc_responses_duration_seconds     | histogram | Histogram of response durations in the gRPC API <sup>(v1.8+)</sup> |
 
 **Process metrics**
 
@@ -99,13 +99,13 @@ Counters - such as the number of created snapshots - are reset when the node is 
 | memory_metadata_bytes               | gauge   | Total number of bytes dedicated to allocator metadata ([ref](https://jemalloc.net/jemalloc.3.html#stats.metadata))            |
 | memory_resident_bytes               | gauge   | Maximum number of bytes in physically resident data pages mapped ([ref](https://jemalloc.net/jemalloc.3.html#stats.resident)) |
 | memory_retained_bytes               | gauge   | Total number of bytes in virtual memory mappings ([ref](https://jemalloc.net/jemalloc.3.html#stats.retained))                 |
-| process_threads                     | gauge   | Number of used system threads (v1.16+)                                                                                        |
-| process_open_mmaps                  | gauge   | Number of open memory maps (v1.16+)                                                                                           |
-| system_max_mmaps                    | gauge   | System wide maximum number of open memory maps (v1.16+)                                                                       |
-| process_open_fds                    | gauge   | Number of open file descriptors (v1.16+)                                                                                      |
-| process_max_fds                     | gauge   | Maximum number of open file descriptors (v1.16+)                                                                              |
-| process_minor_page_faults_total     | counter | Number of minor page faults encountered by the process (v1.16+)                                                               |
-| process_major_page_faults_total     | counter | Number of major page faults encountered by the process (v1.16+)                                                               |
+| process_threads                     | gauge   | Number of used system threads <sup>(v1.16+)</sup>                                                                             |
+| process_open_mmaps                  | gauge   | Number of open memory maps <sup>(v1.16+)</sup>                                                                                |
+| system_max_mmaps                    | gauge   | System wide maximum number of open memory maps <sup>(v1.16+)</sup>                                                            |
+| process_open_fds                    | gauge   | Number of open file descriptors <sup>(v1.16+)</sup>                                                                           |
+| process_max_fds                     | gauge   | Maximum number of open file descriptors <sup>(v1.16+)</sup>                                                                   |
+| process_minor_page_faults_total     | counter | Number of minor page faults encountered by the process <sup>(v1.16+)</sup>                                                    |
+| process_major_page_faults_total     | counter | Number of major page faults encountered by the process <sup>(v1.16+)</sup>                                                    |
 
 **Cluster metrics (consensus)**
 
