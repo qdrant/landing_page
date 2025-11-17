@@ -120,9 +120,9 @@ The routing logic will work as follows:
 - If the `target` Shard exists and active, the request will be routed to it.
 - If the `target` Shard does not exist, the request will be routed to the `fallback` Shard.
 
-Similarly, when querying points, we need to specify the Shard Key Selector and filter by `group_id`:
+Similarly, when querying points, we need to specify the Shard Key Selector and filter by `group_id`.
+Note, that filter match value should always match the `target` Shard Key.
 
-<!-- ToDo snippet -->
 
 ### Promote tenant to dedicated Shard
 
