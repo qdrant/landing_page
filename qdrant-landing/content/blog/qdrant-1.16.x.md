@@ -105,6 +105,32 @@ However, disk-based storage has a property we can exploit to reduce the number o
 
 That is, unless we can duplicate the data associated with each node. This is now possible with a new feature in Qdrant version 1.16: [inline storage](documentation/guides/optimize/#inline-storage-in-hnsw-index), storing vector data directly inside the HNSW nodes. This offers faster read access, at the cost of additional storage space.
 
+<figure>
+  <img src="/blog/qdrant-1.16.x/no-inline-storage.png">
+  <figcaption>
+    Storage layout without inline storage. Full vectors, quantized vectors, and HNSW graph are stored separately.
+    The HNSW graph nodes contain only neighbor IDs.
+  </figcaption>
+</figure>
+
+How does it work?
+During a single iteration of HNSW search, the neighbors of the current node are scored using quantized vectors in order to add them to the search queue.
+Without inline storage, this results in 1+hnsw\_m disk reads.
+
+<figure>
+  <img src="/blog/qdrant-1.16.x/inline-storage-node.png">
+  <figcaption>
+    A single HNSW graph node with inline storage enabled.
+  </figcaption>
+</figure>
+
+With the inline storage enabled, the quantized vectors are directly embedded into the HNSW graph nodes, alongside neighbor IDs.
+During a single search iteration, both neighbor IDs and their quantized vectors are read from a few consecutive pages, in a single disk read.
+
+Moreover, an original non-quantized vector is also embedded into the same graph node.
+The original vector is used to perform an implicit rescoring during the search,
+eliminating the separate rescore step which is usually performed after the search.
+
 Let's do some napkin math:
 
 - An HNSW graph has `M0` = `M` * 2 = 32 connections per node (by default)
