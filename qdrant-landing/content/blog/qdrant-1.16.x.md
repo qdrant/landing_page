@@ -284,13 +284,25 @@ In version 1.16, we have revamped the Web UI with a fresh new look and improved 
 
 ![Section 7](/blog/qdrant-1.16.x/section-7.png)
 
-TODO: All other notable improvements in a list with links to further reading.
+- The constant `k` that determines how Reciprocal Rank Fusion (RRF) fuses result sets [is now configurable](/documentation/concepts/hybrid-queries/#parametrized-rrf).
+- The Metrics API now exposes [additional metrics](/documentation/guides/monitoring/#metrics) that help monitor your deployment's health.
+- In strict mode, it is now possible to [configure the maximum number of payload indices](/documentation/guides/administration/#maximum-number-of-payload-index-count).
+- It's now possible to [attach custom metadata to collections](/documentation/concepts/collections/#collection-metadata).
 
-- RRF with configurable parameters.
-- Metrics upgrade
-- More performance improvements & bug fixes, but we will know about them after the changelog is out.
+For a full list of all changes in version 1.16, please refer to the [change log](https://github.com/qdrant/qdrant/releases/tag/v1.16.0).
 
+## Upgrading to Version 1.16
+
+![Engage](/blog/qdrant-1.16.x/section-8.png)
+
+In Qdrant Cloud, go to your Cluster Details screen and select Version 1.16 from the dropdown. The upgrade may take a few moments.
+
+We recommend upgrading versions one by one, for example, 1.14->1.15->1.16.
+
+> There are some minor API changes in version 1.16. Refer to the language client release notes for details.
 
 ## Engage
 
-![Engage](/blog/qdrant-1.16.x/section-8.png)
+![Engage](/blog/qdrant-1.16.x/section-9.png)
+
+We would love to hear your thoughts on this release. If you have any questions or feedback, join our [Discord](https://discord.gg/qdrant) or create an issue on [GitHub](https://github.com/qdrant/qdrant/issues).
