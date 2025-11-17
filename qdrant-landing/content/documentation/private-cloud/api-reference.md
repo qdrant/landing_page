@@ -785,7 +785,7 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `id` _string_ | Id specifies the unique identifier of the cluster |  |  |
 | `version` _string_ | Version specifies the version of Qdrant to deploy |  |  |
-| `size` _integer_ | Size specifies the desired number of Qdrant nodes in the cluster |  | Maximum: 30 <br />Minimum: 1 <br /> |
+| `size` _integer_ | Size specifies the desired number of Qdrant nodes in the cluster |  | Maximum: 100 <br />Minimum: 1 <br /> |
 | `servicePerNode` _boolean_ | ServicePerNode specifies whether the cluster should start a dedicated service for each node. | true |  |
 | `clusterManager` _boolean_ | ClusterManager specifies whether to use the cluster manager for this cluster.<br />The Python-operator will deploy a dedicated cluster manager instance.<br />The Go-operator will use a shared instance.<br />If not set, the default will be taken from the operator config. |  |  |
 | `suspend` _boolean_ | Suspend specifies whether to suspend the cluster.<br />If enabled, the cluster will be suspended and all related resources will be removed except the PVCs. | false |  |
@@ -801,11 +801,14 @@ _Appears in:_
 | `gpu` _[GPU](#gpu)_ | GPU specifies GPU configuration for the cluster. If this field is not set, no GPU will be used. |  |  |
 | `statefulSet` _[KubernetesStatefulSet](#kubernetesstatefulset)_ | StatefulSet specifies the configuration of the Qdrant Kubernetes StatefulSet. |  |  |
 | `storageClassNames` _[StorageClassNames](#storageclassnames)_ | StorageClassNames specifies the storage class names for db and snapshots. |  |  |
+| `storageTier` _[StorageTier](#storagetier)_ | StorageTier specifies the performance tier to use for the disk |  | Enum: [budget balanced performance] <br /> |
 | `topologySpreadConstraints` _[TopologySpreadConstraint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#topologyspreadconstraint-v1-core)_ | TopologySpreadConstraints specifies the topology spread constraints for the cluster. |  |  |
 | `podDisruptionBudget` _[PodDisruptionBudgetSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#poddisruptionbudgetspec-v1-policy)_ | PodDisruptionBudget specifies the pod disruption budget for the cluster. |  |  |
 | `restartAllPodsConcurrently` _boolean_ | RestartAllPodsConcurrently specifies whether to restart all pods concurrently (also called one-shot-restart).<br />If enabled, all the pods in the cluster will be restarted concurrently in situations where multiple pods<br />need to be restarted, like when RestartedAtAnnotationKey is added/updated or the Qdrant version needs to be upgraded.<br />This helps sharded but not replicated clusters to reduce downtime to a possible minimum during restart.<br />If unset, the operator is going to restart nodes concurrently if none of the collections if replicated. |  |  |
 | `startupDelaySeconds` _integer_ | If StartupDelaySeconds is set (> 0), an additional 'sleep <value>' will be emitted to the pod startup.<br />The sleep will be added when a pod is restarted, it will not force any pod to restart.<br />This feature can be used for debugging the core, e.g. if a pod is in crash loop, it provided a way<br />to inspect the attached storage. |  |  |
 | `rebalanceStrategy` _[RebalanceStrategy](#rebalancestrategy)_ | RebalanceStrategy specifies the strategy to use for automaticially rebalancing shards the cluster.<br />Cluster-manager needs to be enabled for this feature to work. |  | Enum: [by_count by_size by_count_and_size] <br /> |
+| `readClusters` _[ReadCluster](#readcluster) array_ | ReadClusters specifies the read clusters for this cluster to synchronize.<br />Cluster-manager needs to be enabled for this feature to work. |  |  |
+| `writeCluster` _[WriteCluster](#writecluster)_ | WriteCluster specifies the write cluster for this cluster. This configures the NetworkPolicy to allow egress to the write cluster. |  |  |
 
 
 
@@ -847,6 +850,23 @@ _Appears in:_
 | `replication_factor` _integer_ | ReplicationFactor specifies the default number of replicas of each shard |  |  |
 | `write_consistency_factor` _integer_ | WriteConsistencyFactor specifies how many replicas should apply the operation to consider it successful |  |  |
 | `vectors` _[QdrantConfigurationCollectionVectors](#qdrantconfigurationcollectionvectors)_ | Vectors specifies the default parameters for vectors |  |  |
+| `strict_mode` _[QdrantConfigurationCollectionStrictMode](#qdrantconfigurationcollectionstrictmode)_ | StrictMode specifies the strict mode configuration for the collection |  |  |
+
+
+#### QdrantConfigurationCollectionStrictMode
+
+
+
+
+
+
+
+_Appears in:_
+- [QdrantConfigurationCollection](#qdrantconfigurationcollection)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `max_payload_index_count` _integer_ | MaxPayloadIndexCount represents the maximal number of payload indexes allowed to be created.<br />It can be set for Qdrant version >= 1.16.0<br />Default to 100 if omitted and Qdrant version >= 1.16.0 |  | Minimum: 1 <br /> |
 
 
 #### QdrantConfigurationCollectionVectors
@@ -1097,6 +1117,22 @@ _Appears in:_
 | `fsGroup` _integer_ | FsGroup specifies file system group to run the Qdrant process as. |  |  |
 
 
+#### ReadCluster
+
+
+
+
+
+
+
+_Appears in:_
+- [QdrantClusterSpec](#qdrantclusterspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `id` _string_ | Id specifies the unique identifier of the read cluster |  |  |
+
+
 #### RebalanceStrategy
 
 _Underlying type:_ _string_
@@ -1202,6 +1238,7 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `name` _string_ | Name of the destination cluster |  |  |
 | `namespace` _string_ | Namespace of the destination cluster |  |  |
+| `create` _boolean_ | Create when set to true indicates that<br />a new cluster with the specified name should be created.<br />Otherwise, if set to false, the existing cluster is going to be restored<br />to the specified state. |  |  |
 
 
 #### RestorePhase
@@ -1221,6 +1258,7 @@ _Appears in:_
 | `Skipped` |  |
 | `Failed` |  |
 | `Succeeded` |  |
+| `Pending` |  |
 
 
 #### RestoreSource
@@ -1329,6 +1367,25 @@ _Appears in:_
 | `async_scorer` _boolean_ | AsyncScorer enables io_uring when rescoring |  |  |
 
 
+#### StorageTier
+
+_Underlying type:_ _string_
+
+StorageTier specifies the performance profile for the disk to use.
+
+_Validation:_
+- Enum: [budget balanced performance]
+
+_Appears in:_
+- [QdrantClusterSpec](#qdrantclusterspec)
+
+| Field | Description |
+| --- | --- |
+| `budget` |  |
+| `balanced` |  |
+| `performance` |  |
+
+
 #### TraefikConfig
 
 
@@ -1380,4 +1437,20 @@ _Appears in:_
 | `volumeName` _string_ | VolumeName is the name of the volume that was backed up |  |  |
 | `readyToUse` _boolean_ | ReadyToUse indicates if the volume snapshot is ready to use |  |  |
 | `snapshotHandle` _string_ | SnapshotHandle is the identifier of the volume snapshot in the respective cloud provider |  |  |
+
+
+#### WriteCluster
+
+
+
+
+
+
+
+_Appears in:_
+- [QdrantClusterSpec](#qdrantclusterspec)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `id` _string_ | Id specifies the unique identifier of the write cluster |  |  |
 
