@@ -1,0 +1,2 @@
+This code snippet is used to create a collection with a User Defined Sharding (aka custom sharding) configured.
+Unlike default auto-sharding, that uses hash-based sharding strategy, user-defined sharding allows to create named Shards and route requests to specific Shards based on application-level logic.

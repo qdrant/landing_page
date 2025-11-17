@@ -1,0 +1,1 @@
+This code snippet demonstrates how to insert point into Qdrant collection with custom sharding enabled. Request have an additional parameter, `shard_key`, which specifies routing information for the point being inserted.
