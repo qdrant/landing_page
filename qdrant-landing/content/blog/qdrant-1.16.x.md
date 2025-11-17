@@ -1,21 +1,21 @@
 ---
-title: "Qdrant 1.16 - Scalable Multitenancy & Disk-Efficient Vector Search"
+title: "Qdrant 1.16 - Tiered Multitenancy & Disk-Efficient Vector Search"
 draft: false
 slug: qdrant-1.16.x
-short_description: "v1.16 of Qdrant focuses on scalable multitenancy with tenant promotion and disk-efficient vector search."
-description: "v1.16 of Qdrant focuses on scalable multitenancy with tenant promotion, disk-efficient vector search with inline storage, and improved filtered vector search with ACORN."
+short_description: "v1.16 of Qdrant focuses on tiered multitenancy with tenant promotion and disk-efficient vector search."
+description: "v1.16 of Qdrant focuses on tiered multitenancy with tenant promotion, disk-efficient vector search with inline storage, and improved filtered vector search with ACORN."
 date: 2025-11-19T00:00:00-08:00
 author: Abdon Pijpelink
 featured: true
 tags:
   - vector search
   - disk-based vector search
-  - scalable multitenancy
+  - tiered multitenancy
 ---
 
 [**Qdrant 1.16.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.16.0) Let’s look at the main features for this version:
 
-**Scalable Multitenancy:** An improved approach to multitenancy that enables you to combine small and large tenants in a single collection, with the ability to promote growing tenants to dedicated shards.
+**Tiered Multitenancy:** An improved approach to multitenancy that enables you to combine small and large tenants in a single collection, with the ability to promote growing tenants to dedicated shards.
 
 **ACORN**: A new search algorithm that improves the quality of filtered vector search in cases of high filtering selectivity.
 
@@ -23,44 +23,53 @@ tags:
 
 Additionally, version 1.16 introduces a new conditional update API, facilitating easier migration of embedding models to a newer version. And, this version improved Qdrant's full-text search capabilities with a new `text_any` condition and ASCII folding support.
 
-## Scalable Multitenancy Using Tenant Promotion
+## Tiered Multitenancy Using Tenant Promotion
   
 ![Section 1](/blog/qdrant-1.15.x/section-1.png)
 
-Multitenancy is a common requirement for SaaS applications, where multiple customers (tenants) share the same database instance. In Qdrant, you may be tempted to create a separate collection for each tenant, but that is not recommended. Each collection incurs a bit of resource overhead. When you have a large number of collections, this leads to increased costs, and at some point, you may see performance degradation and cluster instability. Instead, Qdrant offers two approaches to multitenancy:
+Multitenancy is a common requirement for SaaS applications, where multiple customers (tenants) share the same database instance. In Qdrant, when an instance is shared between multiple users, you may need to partition vectors by user. This is done so that each user can only access their own vectors and can’t see the vectors of other users. To implement multitenancy in Qdrant, there are two main approaches:
 
 - [Payload-based multitenancy](/documentation/guides/multiple-partitions/), which works well when you have a large number of small tenants. This causes practically no overhead. Quite the opposite: a query with a tenant payload filter can be faster than a full search.
-- [Shard-based multitenancy](/documentation/guides/distributed_deployment/#user-defined-sharding), designed for when you have a smaller number of larger tenants. This works well when each tenant requires isolation and dedicated resources.
+- [Shard-based multitenancy](/documentation/guides/distributed_deployment/#user-defined-sharding), designed for when you have a smaller number of larger tenants. This works well when each tenant requires isolation and dedicated resources. Separating tenants by shard prevents a classic noisy neighbor problem where a single high-volume tenant can force the cluster to scale for everyone, increasing costs and reducing performance for smaller tenants.
 
 Real-world usage patterns often fall between these two use cases. It's common to have a small number of large tenants and a huge tail of smaller ones. You may even have tenants that grow over time, starting small and eventually becoming large enough to require dedicated resources.
 
-In version 1.16, Qdrant can now efficiently combine the two multitenancy approaches with a new feature called Tenant Promotion.
+In version 1.16, Qdrant can now efficiently combine the two multitenancy approaches with a new feature called [Tiered Multitenancy](documentation/guides/multitenancy/#tiered-multitenancy).
 
-The main principles behind Tenant Promotion are:
+The main principles behind Tiered Multitenancy are:
 
-- A multitenant collection can consist of a shared "fallback" shard, which is used for small tenants, and multiple dedicated shards for large tenants.
-- Each query specifies routing to a dedicated shard, as well as a tenant filter for the fallback shard. This ensures that it doesn't matter where the data resides: the query returns the correct results. In other words, the location of tenants is transparent to the application.
-- When a tenant grows beyond a certain threshold, it is now possible to "promote" it to a dedicated shard, moving all of the tenant's data from the shared shard to the new dedicated shard. This process is implemented as a background operation that maintains data consistency. It doesn't block other operations on the collection.
+- [User-defined Sharding](/documentation/guides/distributed_deployment/#user-defined-sharding) allows you to create named shards within a collection. It enables you to isolate large tenants into their own shards. A multitenant collection can consist of a shared "fallback" shard for small tenants and multiple dedicated shards for large tenants.
+- **Fallback shards** - a special routing mechanism that allows Qdrant to route a request to either a dedicated shard (if it exists) or to a shared fallback shard. This keeps requests unified, without the need to know whether a tenant is dedicated or shared.
+- **Tenant promotion** - a mechanism that makes it possible to "promote" tenants from the shared Fallback Shard to their own dedicated shard when they grow large enough. This process is based on Qdrant’s internal shard transfer mechanism, which makes promotion completely transparent for the application. Both read and write requests are supported during the promotion process.
 
-Being able to promote a tenant to its own dedicated shard prevents a classic noisy neighbor problem where a single high-volume tenant can force the cluster to scale for everyone, increasing costs and reducing performance for smaller tenants.
+{{< figure src="/docs/tenant-promotion.png" alt="Tiered multitenancy with tenant promotion" caption="Tiered multitenancy with tenant promotion" width="90%" >}}
 
-To query a collection that contains a shared fallback shard and dedicated shards, use both a tenant filter and fallback routing:
+To set up tiered multitenancy, first [set up a collection with a shared fallback shard and dedicated shards](/documentation/guides/multitenancy/#configure-tiered-multitenancy). Next, when, when inserting or querying points, provide a shard key selector. The shard key specifies the `target` name of the tenant's dedicated shard (if it exists) or the `fallback` shard for small tenants: 
 
 ```json
-TODO: One snippet that demonstrates a request to collection with "fallback" routing.
+TODO: after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/insert-points/with-tenant-group-id-and-fallback-shard-key/" >
 ```
 
 Once a tenant grows beyond a certain threshold, you can promote that tenant to its own dedicated shard:
 
 ```json
-- One snippet which demonstrates a tenant promotion request.
-Examples can be found in the integration test: https://github.com/qdrant/qdrant/blob/dev/tests/consensus_tests/test_tenant_promotion.py
+TODO: after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/create-shard/create-named-shard-for-promotion/" >
 ```
+
+Next, initiate data transfer from the fallback shard to this new dedicated shard using the `replicate_points` API:
+
+```json
+TODO: after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/shard-transfer/with-filter/" >
+```
+
+Once transfer is completed, the target shard will become `Active`, and all requests for the tenant will be routed to it automatically.
+At this point it is safe to delete the tenant's data from the shared Fallback Shard to free up space.
 
 Known limitations:
 
-- The default shard key can have only one shard ID. Future releases will support multiple shard IDs per shard key.
+- The fallback shard can have only one shard ID. That means all small tenants must fit a single peer of the cluser. This restriction will be improved in future releases.
 - Tenant promotion must be triggered manually. We plan to add auto-promotion to Qdrant Cloud in the future.
+- Similar to collections, dedicated Shards introduce some resource overhead. It is not recommended to create more than a thousand dedicated shards per cluster. The recommended threshold of promoting a tenant is the same as the indexing threshold for a single collection, which is around 20K points.
 
 ## ACORN - Filtered Vector Search Improvements
 
