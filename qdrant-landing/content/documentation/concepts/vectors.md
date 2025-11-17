@@ -166,6 +166,20 @@ To search with named vectors (available in `query` API):
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/named-vector/" >}}
 
+## Inference
+
+Instead of providing vectors explicitly when ingesting or querying data, Qdrant can also generate vectors using a process called [inference](/documentation/inference/). Inference is the process of creating vector embeddings from text, images, or other data types using a machine learning model.
+
+You can use inference in the API wherever you can use regular vectors. For example, while upserting points, you can provide the text or image and the embedding model:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/ingest/" >}}
+
+Qdrant uses the model to generate the embeddings and store the point with the resulting vector.
+
+Similarly, you can use inference at query time by providing the text or image to query with and the embedding model:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/query/" >}}
+
 ## Datatypes
 
 Newest versions of embeddings models generate vectors with very large dimentionalities.

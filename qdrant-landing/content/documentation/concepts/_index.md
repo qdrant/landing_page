@@ -39,6 +39,10 @@ A [Payload](/documentation/concepts/payload/) describes information that you can
 
 [Filtering](/documentation/concepts/filtering/) defines various database-style clauses, conditions, and more.
 
+## Inference
+
+[Inference](/documentation/concepts/inference/) is the process of generating vectors (embeddings) from text or an image.
+
 ## Optimizer
 
 [Optimizer](/documentation/concepts/optimizer/) describes options to rebuild

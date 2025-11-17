@@ -32,7 +32,7 @@ public class Main {
           .setVectors(
             vectors(
               Image.newBuilder()
-              .setImage("https://qdrant.tech/example.png")
+              .setImage(value("https://qdrant.tech/example.png"))
               .setModel("qdrant/clip-vit-b-32-vision")
               .build()))
           .putAllPayload(Map.of("title", value("Example Image")))
