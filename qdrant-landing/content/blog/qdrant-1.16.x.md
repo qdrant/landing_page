@@ -65,7 +65,41 @@ To address these limitations, in version 1.16 we are introducing support for [AC
 
 You can enable ACORN on a per-query basis, via the optional [query-time `acorn` parameter](/documentation/concepts/search/#acorn-search-algorithm). This doesn't require any changes at index time.
 
-<!-- TODO: Benchmarks of ACORN ... --->
+### Benchmarks
+
+The setup:
+a single segment of 5,000,000 vectors of dimension 96 (a subset of deep-image-96 dataset).
+Two payload fields, each with 5 possible values, uniformly distributed.
+During the search, we apply two filters on both payload fields, resulting in approximately 4% of vectors passing the filter.
+
+<table>
+  <thead>
+    <tr>
+      <th>Search Parameters
+      <th>Accuracy
+      <th>Latency
+  <tbody>
+    <tr>
+      <td>ef=64 + ACORN
+      <td><b>97.20%</b>
+      <td><b>13.86 ms</b>
+    <tr>
+      <td>ef=64
+      <td>53.34%
+      <td>1.25 ms
+    <tr>
+      <td>ef=128
+      <td>61.77%
+      <td>1.46 ms
+    <tr>
+      <td>ef=256
+      <td>67.58%
+      <td>2.27 ms
+    <tr>
+      <td>ef=512
+      <td>71.13%
+      <td>3.89 ms
+</table>
 
 ### When Should You Use ACORN?
 
@@ -122,7 +156,39 @@ Note that quantization needs to be enabled for inline storage to work efficientl
 
 Using a smaller data type and quantization reduces the size of each vector significantly, making it possible to store them inline. When combining inline storage with `float16` data types and quantization, evaluating a node in the HNSW graph requires reading only two pages from disk, rather than making 32 random access reads. This represents a significant improvement over the traditional approach, at the cost of additional storage space.
 
-<!-- TODO ... Benchmarks of Inline Storage ... --->
+Benchmark setup: 1,000,000 vectors (a subset of LAION 512d CLIP embeddings), 2-bit quantization, float16 data type.
+
+<table>
+  <thead>
+    <tr>
+      <th>Setup
+      <th>Container Memory Limit
+      <th>Total Storage Used
+      <th>QPS
+      <th>Mean Accuracy
+  <tbody>
+    <tr>
+      <td>Inline Storage, low RAM (new)
+      <td>430 MiB
+      <td>4992 MiB
+      <td><b>211</b>
+      <td><b>86.92%</b>
+    <tr>
+      <td>No Inline Storage, low RAM
+      <td>430 MiB
+      <td>1206 MiB
+      <td>20
+      <td>53.32%
+    <tr>
+      <td>No Inline Storage, index & quantized vectors in RAM
+      <td>530 MiB
+      <td>1206 MiB
+      <td>334
+      <td>53.32%
+</table>
+
+The benchmark shows that the inline storage not just improves search performance by an order of magnitude for low RAM setups, but also provides better accuracy thanks to the implicit rescoring during the search.
+The search performance is comparable to medium RAM setup which has enough memory to hold HNSW index and quantized vectors in RAM.
 
 Inline storage can be enabled by [setting a collection's HNSW configuration `inline_storage` option to `true`](/documentation/guides/optimize/#inline-storage-in-hnsw-index). It requires quantization to be enabled.
 
