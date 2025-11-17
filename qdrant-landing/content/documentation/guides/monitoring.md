@@ -44,56 +44,56 @@ Each Qdrant node will expose the following metrics.
 
 **Application metrics**
 
-| Name                                | Type    | Meaning                                                                                                                            |
-| ----------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| app_info                            | gauge   | Information about Qdrant server                                                                                                    |
-| app_status_recovery_mode            | gauge   | If Qdrant is currently started in recovery mode                                                                                    |
+| Name                                | Type    | Meaning                        |
+| ----------------------------------- | ------- | ------------------------------ |
+| app_info                            | gauge   | Qdrant server name and version |
+| app_status_recovery_mode            | gauge   | If started in recovery mode    |
 
 **Collection metrics**
 
-| Name                                              | Type    | Meaning                                                                                            |
-| ------------------------------------------------- | ------- | -------------------------------------------------------------------------------------------------- |
-| collections_total                                 | gauge   | Number of collections                                                                              |
-| collection_vectors                                | gauge   | Number of vectors, grouped by collection and vector name (v1.16+)                                  |
-| collections_vector_total                          | gauge   | Total number of vectors in all collections                                                         |
-| collection_indexed_only_excluded_points           | gauge   | Number of points excluded in `indexed_only` search, grouped by collection and vector name (v1.16+) |
-| collection_active_replicas_min                    | gauge   | Minimum number of active replicas across all collections and shards (v1.16+)                       |
-| collection_active_replicas_max                    | gauge   | Maximum number of active replicas across all collections and shards (v1.16+)                       |
-| collection_dead_replicas                          | gauge   | Number of non-active replicas across all collections and shards (v1.16+)                           |
-| collection_running_optimizations                  | gauge   | Number of running optimization tasks, grouped by collection (v1.16+)                               |
-| collection_points                                 | gauge   | Number of points, grouped by collection (v1.16+)                                                   |
-| collection_hardware_metric_cpu                    | counter | CPU measurements of a collection, grouped by collection (v1.13+)                                   |
-| collection_hardware_metric_payload_io_read        | counter | IO measurement for payload read operations, grouped by collection (v1.13+)                         |
-| collection_hardware_metric_payload_io_write       | counter | IO measurement for payload write operations, grouped by collection (v1.13+)                        |
-| collection_hardware_metric_payload_index_io_read  | counter | IO measurement for payload index read operations, grouped by collection (v1.13+)                   |
-| collection_hardware_metric_payload_index_io_write | counter | IO measurement for payload index write operations, grouped by collection (v1.13+)                  |
-| collection_hardware_metric_vector_io_read         | counter | IO measurement for vector read operations, grouped by collection (v1.13+)                          |
-| collection_hardware_metric_vector_io_write        | counter | IO measurement for vector write operations, grouped by collection (v1.13+)                         |
+| Name                                              | Type    | Meaning                                                                                   |
+| ------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------- |
+| collections_total                                 | gauge   | Number of collections                                                                     |
+| collection_points                                 | gauge   | Number of points, per collection (v1.16+)                                                 |
+| collection_vectors                                | gauge   | Number of vectors, per collection and vector name (v1.16+)                                |
+| collections_vector_total                          | gauge   | Number of vectors in all collections                                                      |
+| collection_indexed_only_excluded_points           | gauge   | Number of points excluded in [`indexed_only`](/documentation/concepts/search/#search-api) search, per collection and vector name (v1.16+) |
+| collection_active_replicas_min                    | gauge   | Minimum number of active replicas across all collections and shards (v1.16+)              |
+| collection_active_replicas_max                    | gauge   | Maximum number of active replicas across all collections and shards (v1.16+)              |
+| collection_dead_replicas                          | gauge   | Number of non-active replicas across all collections and shards (v1.16+)                  |
+| collection_running_optimizations                  | gauge   | Number of running optimization tasks, per collection (v1.16+)                             |
+| collection_hardware_metric_cpu                    | counter | CPU measurements of a collection, per collection (v1.13+)                                 |
+| collection_hardware_metric_payload_io_read        | counter | Payload IO read operations measurement, per collection (v1.13+)                           |
+| collection_hardware_metric_payload_io_write       | counter | Payload IO write operations measurement, per collection (v1.13+)                          |
+| collection_hardware_metric_payload_index_io_read  | counter | Payload index read operations measurement, per collection (v1.13+)                        |
+| collection_hardware_metric_payload_index_io_write | counter | Payload index write operations measurement, per collection (v1.13+)                       |
+| collection_hardware_metric_vector_io_read         | counter | Vector IO read operations measurement, per collection (v1.13+)                            |
+| collection_hardware_metric_vector_io_write        | counter | Vector IO write operations measurement, per collection (v1.13+)                           |
 
 **Snapshot metrics**
 
-| Name                                    | Type    | Meaning                                                                       |
-| --------------------------------------- | ------- | ----------------------------------------------------------------------------- |
-| snapshot_creation_running               | gauge   | Number of snapshots currently being created, grouped by collection (v1.16+)   |
-| snapshot_recovery_running               | gauge   | Number of snapshots currently being recovered, grouped by collection (v1.16+) |
-| snapshot_created_total                  | gauge   | Total number of created snapshots since start, grouped by collection (v1.16+) |
+| Name                                    | Type    | Meaning                                                                |
+| --------------------------------------- | ------- | ---------------------------------------------------------------------- |
+| snapshot_creation_running               | gauge   | Number of snapshots being created, per collection (v1.16+)             |
+| snapshot_recovery_running               | gauge   | Number of snapshots being recovered, per collection (v1.16+)           |
+| snapshot_created_total                  | counter | Number of created snapshots since start, per collection (v1.16+)       |
 
-**Request metrics**
+**API response metrics**
 
-| Name                                | Type      | Meaning                                                                                                                            |
-| ----------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| rest_responses_total                | counter   | Total number of responses through REST API                                                                                         |
-| rest_responses_fail_total           | counter   | Total number of failed responses through REST API                                                                                  |
-| rest_responses_avg_duration_seconds | gauge     | Average response duration in REST API                                                                                              |
-| rest_responses_min_duration_seconds | gauge     | Minimum response duration in REST API                                                                                              |
-| rest_responses_max_duration_seconds | gauge     | Maximum response duration in REST API                                                                                              |
-| rest_responses_duration_seconds     | histogram | Histogram of response durations in the REST API (v1.8+)                                                                            |
-| grpc_responses_total                | counter   | Total number of responses through gRPC API                                                                                         |
-| grpc_responses_fail_total           | counter   | Total number of failed responses through REST API                                                                                  |
-| grpc_responses_avg_duration_seconds | gauge     | Average response duration in gRPC API                                                                                              |
-| grpc_responses_min_duration_seconds | gauge     | Minimum response duration in gRPC API                                                                                              |
-| grpc_responses_max_duration_seconds | gauge     | Maximum response duration in gRPC API                                                                                              |
-| grpc_responses_duration_seconds     | histogram | Histogram of response durations in the gRPC API (v1.8+)                                                                            |
+| Name                                | Type      | Meaning                                                 |
+| ----------------------------------- | --------- | ------------------------------------------------------- |
+| rest_responses_total                | counter   | Number of responses through REST API                    |
+| rest_responses_fail_total           | counter   | Number of failed responses through REST API             |
+| rest_responses_avg_duration_seconds | gauge     | Average response duration in REST API                   |
+| rest_responses_min_duration_seconds | gauge     | Minimum response duration in REST API                   |
+| rest_responses_max_duration_seconds | gauge     | Maximum response duration in REST API                   |
+| rest_responses_duration_seconds     | histogram | Histogram of response durations in the REST API (v1.8+) |
+| grpc_responses_total                | counter   | Number of responses through gRPC API                    |
+| grpc_responses_fail_total           | counter   | Number of failed responses through REST API             |
+| grpc_responses_avg_duration_seconds | gauge     | Average response duration in gRPC API                   |
+| grpc_responses_min_duration_seconds | gauge     | Minimum response duration in gRPC API                   |
+| grpc_responses_max_duration_seconds | gauge     | Maximum response duration in gRPC API                   |
+| grpc_responses_duration_seconds     | histogram | Histogram of response durations in the gRPC API (v1.8+) |
 
 **Process metrics**
 
@@ -117,14 +117,14 @@ Each Qdrant node will expose the following metrics.
 Metrics reporting the current cluster consensus state of the node. Exposed only
 when distributed mode is enabled.
 
-| Name                             | Type    | Meaning                                                                |
-| -------------------------------- | ------- | ---------------------------------------------------------------------- |
-| cluster_enabled                  | gauge   | Whether the cluster support is enabled. 1 - YES                        |
-| cluster_peers_total              | gauge   | Total number of cluster peers                                          |
-| cluster_term                     | counter | Current cluster term                                                   |
-| cluster_commit                   | counter | Index of last committed (finalized) operation cluster peer is aware of |
-| cluster_pending_operations_total | gauge   | Total number of pending operations for cluster peer                    |
-| cluster_voter                    | gauge   | Whether the cluster peer is a voter or learner. 1 - VOTER              |
+| Name                             | Type    | Meaning                                          |
+| -------------------------------- | ------- | ------------------------------------------------ |
+| cluster_enabled                  | gauge   | If distributed mode is enabled                   |
+| cluster_peers_total              | gauge   | Number of cluster peers                          |
+| cluster_term                     | counter | Raft consensus term                              |
+| cluster_commit                   | counter | Raft consensus commit - last committed operation |
+| cluster_pending_operations_total | gauge   | Number of pending consensus operations           |
+| cluster_voter                    | gauge   | If a consensus voter (1) or learner (0)          |
 
 ## Telemetry endpoint
 
