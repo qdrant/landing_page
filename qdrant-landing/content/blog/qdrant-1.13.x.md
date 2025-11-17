@@ -323,7 +323,7 @@ import java.util.List;
 import static io.qdrant.client.ConditionFactory.hasVector;
 import static io.qdrant.client.PointIdFactory.id;
 
-import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Common.Filter;
 import io.qdrant.client.grpc.Points.ScrollPoints;
 
 client

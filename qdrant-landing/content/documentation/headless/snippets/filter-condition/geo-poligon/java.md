@@ -1,8 +1,8 @@
 ```java
 import static io.qdrant.client.ConditionFactory.geoPolygon;
 
-import io.qdrant.client.grpc.Points.GeoLineString;
-import io.qdrant.client.grpc.Points.GeoPoint;
+import io.qdrant.client.grpc.Common.GeoPoint;
+import io.qdrant.client.grpc.Common.GeoLineString;
 
 geoPolygon(
     "location",

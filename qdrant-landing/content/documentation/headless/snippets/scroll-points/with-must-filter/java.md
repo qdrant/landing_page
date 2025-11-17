@@ -5,7 +5,7 @@ import static io.qdrant.client.ConditionFactory.matchKeyword;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Common.Filter;
 import io.qdrant.client.grpc.Points.ScrollPoints;
 
 QdrantClient client =

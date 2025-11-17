@@ -2,7 +2,7 @@
 import static io.qdrant.client.ConditionFactory.matchKeyword;
 import static io.qdrant.client.WithPayloadSelectorFactory.enable;
 
-import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Common.Filter;
 import io.qdrant.client.grpc.Points.ScrollPoints;
 
 client

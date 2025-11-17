@@ -10,10 +10,10 @@ import static io.qdrant.client.ValueFactory.value;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Common.GeoPoint;
 import io.qdrant.client.grpc.Points.DecayParamsExpression;
 import io.qdrant.client.grpc.Points.Formula;
 import io.qdrant.client.grpc.Points.GeoDistance;
-import io.qdrant.client.grpc.Points.GeoPoint;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SumExpression;
