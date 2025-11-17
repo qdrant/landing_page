@@ -5,7 +5,14 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-TODO!
-
-
+await client.UpdateCollectionClusterSetupAsync(new()
+{
+    CollectionName = "{collection_name}",
+	ReplicatePoints = new()
+    {
+        FromShardKey = "default",
+		ToShardKey = "user_1",
+		Filter = MatchKeyword("group_id", "user_1")
+    }
+});
 ```

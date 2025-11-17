@@ -10,5 +10,15 @@ client, err := qdrant.NewClient(&qdrant.Config{
 	Port: 6334,
 })
 
-TODO!
+client.UpdateClusterCollectionSetup(ctx, qdrant.NewUpdateCollectionClusterReplicatePoints(
+	"{collection_name}", &qdrant.ReplicatePoints{
+		FromShardKey: qdrant.NewShardKey("default"),
+		ToShardKey:   qdrant.NewShardKey("user_1"),
+		Filter: &qdrant.Filter{
+			Must: []*qdrant.Condition{
+				qdrant.NewMatch("group_id", "user_1"),
+			},
+		},
+	},
+))
 ```
