@@ -33,6 +33,8 @@ Note that `/metrics` only reports metrics for the peer connected to. It is there
 
 Each Qdrant node will expose the following metrics.
 
+Counters - such as the number of created snapshots - are reset when the node is restarted.
+
 **Application metrics**
 
 | Name                                | Type    | Meaning                        |
@@ -116,6 +118,22 @@ when distributed mode is enabled.
 | cluster_commit                   | counter | Raft consensus commit - last committed operation |
 | cluster_pending_operations_total | gauge   | Number of pending consensus operations           |
 | cluster_voter                    | gauge   | If a consensus voter (1) or learner (0)          |
+
+### Metrics configuration
+
+*Available as of v1.16.0*
+
+In self-hosted environments you have further configuration options for metrics.
+
+By default, all Qdrant metrics have no application namespace prefix. You may set
+a prefix with `service.metrics_prefix` in the
+[configuration](/documentation/guides/configuration/).
+
+To achieve this you may use the following environment variable for example:
+
+```bash
+QDRANT__SERVICE__METRICS_PREFIX="qdrant_"
+```
 
 ## Telemetry endpoint
 
