@@ -69,7 +69,7 @@ One downside to this approach is that global requests (without the `group_id` fi
 ## Tiered multitenancy
 
 In some real-world applications, tenants might not be equally distributed. For example, a SaaS application might have a few large customers and many small ones.
-Large tenancts might require extended resources and isolation, while small tenants should not create too much overhead.
+Large tenants might require extended resources and isolation, while small tenants should not create too much overhead.
 
 One solution to this problem might be to introduce application-level logic to separate tenants into different collections based on their size or resource requirements.
 There is, however, a downside to this approach: we might not know in advance which tenants will be large and which stay small.
