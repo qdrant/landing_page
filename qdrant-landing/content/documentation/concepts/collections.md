@@ -334,6 +334,42 @@ created and `indexed_vectors_count` might be equal to `0`.
 
 It is possible to reduce the `indexing_threshold` for an existing collection by [updating collection parameters](#update-collection-parameters).
 
+### Collection metadata
+
+*Available as of v1.16.0*
+
+For convenience and better data organization, Qdrant allows attaching custom metadata to collections in the form of key-value pairs.
+Adding metadata is treated as a part of collection configuration and synchronized across all nodes in a cluster with consensus protocol.
+
+Collection metadata can be specified during collection creation:
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-metadata/" >}}
+
+as well as updated later:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/with-metadata/" >}}
+
+Note, that update operation only modifies the specified metadata fields, leaving other fields unchanged.
+
+When specified, metadata is returned as part of collection info:
+
+``` json
+{
+    "result": {
+        "config": {
+            "metadata": {
+                "my-metadata-field": {
+                    "key-a": "value-a",
+                    "key-b": 42
+                },
+                "another-field": 123
+            }
+        }
+    }
+}
+```
+
+
 ## Collection aliases
 
 In a production environment, it is sometimes necessary to switch different versions of vectors seamlessly.
@@ -372,3 +408,4 @@ For example, you can switch underlying collection with the following command:
 ### List all collections
 
 {{< code-snippet path="/documentation/headless/snippets/list-all-collections/simple/" >}}
+

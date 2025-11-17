@@ -1,0 +1,1 @@
+This code snippet is used to create a collection with a specific vector configuration and additional metadata. The metadata is provided as a JSON object, allowing you to store custom information about the collection. In this example, we add two metadata fields.

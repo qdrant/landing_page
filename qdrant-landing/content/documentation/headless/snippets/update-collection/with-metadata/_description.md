@@ -1,0 +1,1 @@
+Update collection metadata. This example demonstrates how to overwrite a specific field in the collection's metadata while leaving other fields unchanged. Collection metadata can be any JSON object that provides additional information about the collection.
