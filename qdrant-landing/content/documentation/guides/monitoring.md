@@ -26,27 +26,44 @@ each node individually instead of using a load-balanced URL. Otherwise, your met
 
 Qdrant Cloud offers additional metrics and telemetry that are not available in the open-source version. For more information, see [Qdrant Cloud Monitoring](/documentation/cloud/cluster-monitoring/).
 
-## Exposed metrics
+## Metrics
 
-There are two endpoints available:
+Qdrant exposes various metrics in Prometheus/OpenMetrics format, commonly used together with Grafana for monitoring.
 
-- `/metrics` is the direct endpoint of the underlying Qdrant database node.
+Two endpoints are available:
 
-- `/sys_metrics` is a Qdrant cloud-only endpoint that provides additional operational and infrastructure metrics about your cluster, like CPU, memory and disk utilisation, collection metrics and load balancer telemetry. For more information, see [Qdrant Cloud Monitoring](/documentation/cloud/cluster-monitoring/).
+- `/metrics` for metrics of a Qdrant node/peer, see [all metrics](#node-metrics-metrics).
+
+- `/sys_metrics` (Qdrant Cloud only) for metrics about your cluster, like CPU, memory, disk utilisation, collection metrics and load balancer telemetry. For more information, see [Qdrant Cloud Monitoring](/documentation/cloud/cluster-monitoring/).
+
+Note that `/metrics` only reports metrics for the peer connected to. It is therefore recommended to scrape from each peer individually, even if a load balancer is involved.
 
 
 ### Node metrics `/metrics`
 
-Each Qdrant server will expose the following metrics.
+Each Qdrant node will expose the following metrics.
+
+**Application metrics**
 
 | Name                                | Type    | Meaning                                                                                                                            |
 | ----------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | app_info                            | gauge   | Information about Qdrant server                                                                                                    |
 | app_status_recovery_mode            | gauge   | If Qdrant is currently started in recovery mode                                                                                    |
+
+**Collection metrics**
+
+| Name                                | Type    | Meaning                                                                                                                            |
+| ----------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | collections_total                   | gauge   | Number of collections                                                                                                              |
 | collections_vector_total            | gauge   | Total number of vectors in all collections                                                                                         |
 | collections_full_total              | gauge   | Number of full collections                                                                                                         |
 | collections_aggregated_total        | gauge   | Number of aggregated collections                                                                                                   |
+| collection_hardware_metric_cpu      | gauge   | CPU measurements of a collection (Experimental)                                                                                    |
+
+**Request metrics**
+
+| Name                                | Type    | Meaning                                                                                                                            |
+| ----------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | rest_responses_total                | counter | Total number of responses through REST API                                                                                         |
 | rest_responses_fail_total           | counter | Total number of failed responses through REST API                                                                                  |
 | rest_responses_avg_duration_seconds | gauge   | Average response duration in REST API                                                                                              |
@@ -57,20 +74,25 @@ Each Qdrant server will expose the following metrics.
 | grpc_responses_avg_duration_seconds | gauge   | Average response duration in gRPC API                                                                                              |
 | grpc_responses_min_duration_seconds | gauge   | Minimum response duration in gRPC API                                                                                              |
 | grpc_responses_max_duration_seconds | gauge   | Maximum response duration in gRPC API                                                                                              |
-| cluster_enabled                     | gauge   | Whether the cluster support is enabled. 1 - YES                                                                                    |
+
+**Process metrics**
+
+| Name                                | Type    | Meaning                                                                                                                            |
+| ----------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | memory_active_bytes                 | gauge   | Total number of bytes in active pages allocated by the application. [Reference](https://jemalloc.net/jemalloc.3.html#stats.active) |
 | memory_allocated_bytes              | gauge   | Total number of bytes allocated by the application. [Reference](https://jemalloc.net/jemalloc.3.html#stats.allocated)              |
 | memory_metadata_bytes               | gauge   | Total number of bytes dedicated to allocator metadata. [Reference](https://jemalloc.net/jemalloc.3.html#stats.metadata)            |
 | memory_resident_bytes               | gauge   | Maximum number of bytes in physically resident data pages mapped. [Reference](https://jemalloc.net/jemalloc.3.html#stats.resident) |
 | memory_retained_bytes               | gauge   | Total number of bytes in virtual memory mappings. [Reference](https://jemalloc.net/jemalloc.3.html#stats.retained)                 |
-| collection_hardware_metric_cpu      | gauge   | CPU measurements of a collection (Experimental)                                                                                    |
 
-**Cluster-related metrics**
+**Cluster metrics (consensus)**
 
-There are also some metrics which are exposed in distributed mode only.
+Metrics reporting the current cluster consensus state of the node. Exposed only
+when distributed mode is enabled.
 
 | Name                             | Type    | Meaning                                                                |
 | -------------------------------- | ------- | ---------------------------------------------------------------------- |
+| cluster_enabled                  | gauge   | Whether the cluster support is enabled. 1 - YES                        |
 | cluster_peers_total              | gauge   | Total number of cluster peers                                          |
 | cluster_term                     | counter | Current cluster term                                                   |
 | cluster_commit                   | counter | Index of last committed (finalized) operation cluster peer is aware of |
