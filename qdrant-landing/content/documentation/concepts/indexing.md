@@ -182,6 +182,26 @@ Available tokenizers are:
 * `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
 * `multilingual` - a special type of tokenizer based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization and lemmatization for multiple languages, including those with non-Latin alphabets and non-space delimiters. See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. Note: For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
 
+### Lowercasing
+
+By default, full-text search in Qdrant is case-insensitive. For example, users can search for the lowercase term `tv` and find text fields containing the uppercase word `TV`. Case-insensitivity is achieved by converting both the words in the index and the query terms to lowercase.
+
+Lowercasing is enabled by default. To use case-sensitive full-text search, configure a full-text index with `lowercase` set to `false`.
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/lowercase-full-text/" >}}
+
+### ASCII Folding
+
+*Available as of v1.16.0*
+
+When enabled, ASCII folding converts Unicode characters into their corresponding ASCII equivalents, for example, by removing diacritics. For instance, the character `ã` is changed into `a`, `ç` becomes `c`, and `é` is converted to `e`.
+
+Because ASCII folding is applied to both the words in the index and the query terms, it increases recall. For example, users can search for `cafe` and also find text fields containing the word `café`.
+
+ASCII folding is not enabled by default. To enable it, configure a full-text index with `ascii_folding` set to `true`.
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/asciifolding-full-text/" >}}
+
 ### Stemmer
 
 A **stemmer** is an algorithm used in text processing to reduce words to their root or base form, known as the "stem." For example, the words "running", "runner and "runs" can all be reduced to the stem "run." 
@@ -324,18 +344,23 @@ Where:
 
 Separately, a payload index and a vector index cannot solve the problem of search using the filter completely.
 
-In the case of weak filters, you can use the HNSW index as it is. In the case of stringent filters, you can use the payload index and complete rescore.
-However, for cases in the middle, this approach does not work well.
+In the case of high-selectivity (weak) filters, you can use the HNSW index as it is.
+In the case of low-selectivity (strict) filters, you can use the payload index and complete rescore.
 
-On the one hand, we cannot apply a full scan on too many vectors. On the other hand, the HNSW graph starts to fall apart when using too strict filters.
+However, for cases in the middle, this approach does not work well.
+On the one hand, we cannot apply a full scan on too many vectors.
+On the other hand, the HNSW graph starts to fall apart when using too strict filters.
 
 ![HNSW fail](/docs/precision_by_m.png)
 
-![hnsw graph](/docs/graph.gif)
+<!-- ![hnsw graph](/docs/graph.gif) -->
 
-You can find more information on why this happens in our [blog post](https://blog.vasnetsov.com/posts/categorical-hnsw/).
 Qdrant solves this problem by extending the HNSW graph with additional edges based on the stored payload values.
-
 Extra edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph.
+You can find more information on this approach in our [article](/articles/filtrable-hnsw/).
 
-This approach minimizes the overhead on condition checks since you only need to calculate the conditions for a small fraction of the points involved in the search.
+However, in some cases, these additional edges might not be enough.
+These extra edges are added per each payload index separately, but not per each possible combination of them.
+So, a combination of two or more strict filters still might lead to disconnected graph components.
+The same may happen when having a large number of soft-deleted points in the graph.
+In such cases, the [ACORN Search Algorithm](/documentation/concepts/search/#acorn-search-algorithm) can be used.

@@ -1,9 +1,8 @@
 ```java
-import static io.qdrant.client.QueryFactory.nearest;
-
 import java.util.List;
 
 import static io.qdrant.client.QueryFactory.fusion;
+import static io.qdrant.client.QueryFactory.nearest;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;

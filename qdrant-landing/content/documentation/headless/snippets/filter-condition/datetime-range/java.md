@@ -2,7 +2,7 @@
 import static io.qdrant.client.ConditionFactory.datetimeRange;
 
 import com.google.protobuf.Timestamp;
-import io.qdrant.client.grpc.Points.DatetimeRange;
+import io.qdrant.client.grpc.Common.DatetimeRange;
 import java.time.Instant;
 
 long gt = Instant.parse("2023-02-08T10:49:00Z").getEpochSecond();

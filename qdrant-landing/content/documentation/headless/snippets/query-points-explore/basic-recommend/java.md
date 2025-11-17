@@ -6,7 +6,7 @@ import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.RecommendInput;
 import io.qdrant.client.grpc.Points.RecommendStrategy;
-import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Common.Filter;
 
 import static io.qdrant.client.ConditionFactory.matchKeyword;
 import static io.qdrant.client.VectorInputFactory.vectorInput;
