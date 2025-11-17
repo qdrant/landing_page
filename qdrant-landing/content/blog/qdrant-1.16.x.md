@@ -25,7 +25,7 @@ Additionally, version 1.16 introduces a new conditional update API, facilitating
 
 ## Tiered Multitenancy Using Tenant Promotion
   
-![Section 1](/blog/qdrant-1.15.x/section-1.png)
+![Section 1](/blog/qdrant-1.16.x/section-1.png)
 
 Multitenancy is a common requirement for SaaS applications, where multiple customers (tenants) share the same database instance. In Qdrant, when an instance is shared between multiple users, you may need to partition vectors by user. This is done so that each user can only access their own vectors and can’t see the vectors of other users. To implement multitenancy in Qdrant, there are two main approaches:
 
@@ -73,7 +73,7 @@ Known limitations:
 
 ## ACORN - Filtered Vector Search Improvements
 
-![Section 2](/blog/qdrant-1.15.x/section-2.png)
+![Section 2](/blog/qdrant-1.16.x/section-2.png)
 
 To enhance the scalability and speed of vector search, Qdrant employs a graph-based index structure known as [HNSW (Hierarchical Navigable Small World)](/documentation/concepts/indexing/#vector-index). While traditional HNSW is primarily designed for unfiltered searches, Qdrant has addressed this limitation by implementing a [filterable HSNW index](/articles/filtrable-hnsw/). This innovative approach extends the HNSW graph with additional edges that correspond to indexed payload values. This enables Qdrant to maintain search quality even with high filtering selectivity, without introducing any runtime overhead during the search process.
 
@@ -104,7 +104,7 @@ To help you choose when to use ACORN, refer to the following decision matrix:
 
 ## Inline Storage - Disk-efficient Vector Search
 
-![Section 3](/blog/qdrant-1.15.x/section-3.png)
+![Section 3](/blog/qdrant-1.16.x/section-3.png)
 
 Deploying a vector search engine into Production often requires striking a balance between performance and cost. A good example of this trade-off is the decision between RAM-based storage and disk-based storage for the HNSW index. HNSW was designed to be an in-memory index structure. Traversing the HNSW graph involves a lot of random access reads, which is fast in RAM, but slow on disk.
 
@@ -154,7 +154,7 @@ TODO, after it's merged, add code snippet < code-snippet path="/documentation/he
 
 ## Full-Text Search Enhancements
 
-![Section 4](/blog/qdrant-1.15.x/section-4.png)
+![Section 4](/blog/qdrant-1.16.x/section-4.png)
 
 While Qdrant is primarily a vector search engine, many applications require a combination of vector search and traditional full-text search. For that reason, we are continuously enhancing our full-text search capabilities. In version 1.16, we have introduced two new features to improve the full-text search experience in Qdrant.
 
@@ -243,7 +243,7 @@ TODO, after it's merged, add code snippet < code-snippet path="/documentation/he
 
 ## Conditional Updates
 
-![Section 5](/blog/qdrant-1.15.x/section-4.png)
+![Section 5](/blog/qdrant-1.16.x/section-5.png)
 
 Point updates in Qdrant are idempotent, meaning that applying the same update multiple times has the same effect as applying it once. This can cause issues when two clients attempt to update the same point concurrently, as the last update will overwrite any previous updates. Consider the following sequence of events:
 
@@ -268,7 +268,7 @@ TODO, after it's merged, add image < figure src="/docs/embedding-model-migration
 
 ## Web UI Visual Upgrade
 
-![Section 6](/blog/qdrant-1.15.x/section-4.png)
+![Section 6](/blog/qdrant-1.16.x/section-6.png)
 
 [Web UI](/documentation/web-ui/) is Qdrant’s user interface for managing deployments and collections. It enables you to create and manage collections, run API calls, import sample datasets, and learn about Qdrant's API through interactive tutorials.
 
@@ -282,7 +282,7 @@ In version 1.16, we have revamped the Web UI with a fresh new look and improved 
 
 ## Honorable Mentions
 
-![Section 6](/blog/qdrant-1.15.x/section-4.png)
+![Section 7](/blog/qdrant-1.16.x/section-7.png)
 
 TODO: All other notable improvements in a list with links to further reading.
 
@@ -293,4 +293,4 @@ TODO: All other notable improvements in a list with links to further reading.
 
 ## Engage
 
-![Engage](/blog/qdrant-1.15.x/section-4.png)
+![Engage](/blog/qdrant-1.16.x/section-8.png)
