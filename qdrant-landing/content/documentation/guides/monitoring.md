@@ -92,20 +92,20 @@ Counters - such as the number of created snapshots - are reset when the node is 
 
 **Process metrics**
 
-| Name                                | Type    | Meaning                                                                                                                            |
-| ----------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| memory_active_bytes                 | gauge   | Total number of bytes in active pages allocated by the application. [Reference](https://jemalloc.net/jemalloc.3.html#stats.active) |
-| memory_allocated_bytes              | gauge   | Total number of bytes allocated by the application. [Reference](https://jemalloc.net/jemalloc.3.html#stats.allocated)              |
-| memory_metadata_bytes               | gauge   | Total number of bytes dedicated to allocator metadata. [Reference](https://jemalloc.net/jemalloc.3.html#stats.metadata)            |
-| memory_resident_bytes               | gauge   | Maximum number of bytes in physically resident data pages mapped. [Reference](https://jemalloc.net/jemalloc.3.html#stats.resident) |
-| memory_retained_bytes               | gauge   | Total number of bytes in virtual memory mappings. [Reference](https://jemalloc.net/jemalloc.3.html#stats.retained)                 |
-| process_threads                     | gauge   | Number of used system threads (v1.16+)                                                                                             |
-| process_open_mmaps                  | gauge   | Number of open memory maps (v1.16+)                                                                                                |
-| system_max_mmaps                    | gauge   | System wide maximum number of open memory maps (v1.16+)                                                                            |
-| process_open_fds                    | gauge   | Number of open file descriptors (v1.16+)                                                                                           |
-| process_max_fds                     | gauge   | Maximum number of open file descriptors (v1.16+)                                                                                   |
-| process_minor_page_faults_total     | counter | Number of minor page faults encountered by the process (v1.16+)                                                                    |
-| process_major_page_faults_total     | counter | Number of major page faults encountered by the process (v1.16+)                                                                    |
+| Name                                | Type    | Meaning                                                                                                                       |
+| ----------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| memory_active_bytes                 | gauge   | Total number of bytes in active pages allocated by the application ([ref](https://jemalloc.net/jemalloc.3.html#stats.active)) |
+| memory_allocated_bytes              | gauge   | Total number of bytes allocated by the application ([ref](https://jemalloc.net/jemalloc.3.html#stats.allocated))              |
+| memory_metadata_bytes               | gauge   | Total number of bytes dedicated to allocator metadata ([ref](https://jemalloc.net/jemalloc.3.html#stats.metadata))            |
+| memory_resident_bytes               | gauge   | Maximum number of bytes in physically resident data pages mapped ([ref](https://jemalloc.net/jemalloc.3.html#stats.resident)) |
+| memory_retained_bytes               | gauge   | Total number of bytes in virtual memory mappings ([ref](https://jemalloc.net/jemalloc.3.html#stats.retained))                 |
+| process_threads                     | gauge   | Number of used system threads (v1.16+)                                                                                        |
+| process_open_mmaps                  | gauge   | Number of open memory maps (v1.16+)                                                                                           |
+| system_max_mmaps                    | gauge   | System wide maximum number of open memory maps (v1.16+)                                                                       |
+| process_open_fds                    | gauge   | Number of open file descriptors (v1.16+)                                                                                      |
+| process_max_fds                     | gauge   | Maximum number of open file descriptors (v1.16+)                                                                              |
+| process_minor_page_faults_total     | counter | Number of minor page faults encountered by the process (v1.16+)                                                               |
+| process_major_page_faults_total     | counter | Number of major page faults encountered by the process (v1.16+)                                                               |
 
 **Cluster metrics (consensus)**
 
@@ -119,7 +119,7 @@ when distributed mode is enabled.
 | cluster_term                     | counter | Raft consensus term [^metrics-distributed]                              |
 | cluster_commit                   | counter | Raft consensus commit - last committed operation [^metrics-distributed] |
 | cluster_pending_operations_total | gauge   | Number of pending consensus operations [^metrics-distributed]           |
-| cluster_voter                    | gauge   | If a consensus voter (1) or learner (0) [^metrics-distributed]          |
+| cluster_voter                    | gauge   | If a consensus voter (`1`) or learner (`0`) [^metrics-distributed]      |
 
 [^metrics-distributed]: Only reported if distributed mode (cluster mode) is enabled. Enabled by default in all Qdrant Cloud environments. See `cluster.enabled` in the [configuration](/documentation/guides/configuration/).
 
