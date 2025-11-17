@@ -34,33 +34,27 @@ Multitenancy is a common requirement for SaaS applications, where multiple custo
 
 Real-world usage patterns often fall between these two use cases. It's common to have a small number of large tenants and a huge tail of smaller ones. You may even have tenants that grow over time, starting small and eventually becoming large enough to require dedicated resources.
 
-In version 1.16, Qdrant can now efficiently combine the two multitenancy approaches with a new feature called [Tiered Multitenancy](documentation/guides/multitenancy/#tiered-multitenancy).
+In version 1.16, Qdrant can now efficiently combine the two multitenancy approaches with a new feature called [Tiered Multitenancy](/documentation/guides/multitenancy/#tiered-multitenancy).
 
 The main principles behind Tiered Multitenancy are:
 
 - [User-defined Sharding](/documentation/guides/distributed_deployment/#user-defined-sharding) allows you to create named shards within a collection. It enables you to isolate large tenants into their own shards. A multitenant collection can consist of a shared "fallback" shard for small tenants and multiple dedicated shards for large tenants.
 - **Fallback shards** - a special routing mechanism that allows Qdrant to route a request to either a dedicated shard (if it exists) or to a shared fallback shard. This keeps requests unified, without the need to know whether a tenant is dedicated or shared.
-- **Tenant promotion** - a mechanism that makes it possible to "promote" tenants from the shared Fallback Shard to their own dedicated shard when they grow large enough. This process is based on Qdrant’s internal shard transfer mechanism, which makes promotion completely transparent for the application. Both read and write requests are supported during the promotion process.
+- [Tenant promotion](/documentation/guides/multitenancy/#promote-tenant-to-dedicated-shard) - a mechanism that makes it possible to "promote" tenants from the shared Fallback Shard to their own dedicated shard when they grow large enough. This process is based on Qdrant’s internal shard transfer mechanism, which makes promotion completely transparent for the application. Both read and write requests are supported during the promotion process.
 
 {{< figure src="/docs/tenant-promotion.png" alt="Tiered multitenancy with tenant promotion" caption="Tiered multitenancy with tenant promotion" width="90%" >}}
 
 To set up tiered multitenancy, first [set up a collection with a shared fallback shard and dedicated shards](/documentation/guides/multitenancy/#configure-tiered-multitenancy). Next, when, when inserting or querying points, provide a shard key selector. The shard key specifies the `target` name of the tenant's dedicated shard (if it exists) or the `fallback` shard for small tenants: 
 
-```json
-TODO: after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/insert-points/with-tenant-group-id-and-fallback-shard-key/" >
-```
+{{< code-snippet path="/documentation/headless/snippets/insert-points/with-tenant-group-id-and-fallback-shard-key/" >}}
 
 Once a tenant grows beyond a certain threshold, you can promote that tenant to its own dedicated shard:
 
-```json
-TODO: after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/create-shard/create-named-shard-for-promotion/" >
-```
+{{< code-snippet path="/documentation/headless/snippets/create-shard/create-named-shard-for-promotion/" >}}
 
 Next, initiate data transfer from the fallback shard to this new dedicated shard using the `replicate_points` API:
 
-```json
-TODO: after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/shard-transfer/with-filter/" >
-```
+{{< code-snippet path="/documentation/headless/snippets/shard-transfer/with-filter/" >}}
 
 Once transfer is completed, the target shard will become `Active`, and all requests for the tenant will be routed to it automatically.
 At this point it is safe to delete the tenant's data from the shared Fallback Shard to free up space.
@@ -79,15 +73,13 @@ To enhance the scalability and speed of vector search, Qdrant employs a graph-ba
 
 Even with filterable HNSW graphs, there are instances where the quality of search results can deteriorate significantly. This can happen if a filter discards too many vectors, leading to the HNSW graph becoming [disconnected](/documentation/concepts/indexing/#filtrable-index), especially when you use a combination of high cardinality filters. It is impractical to build additional links for every possible combination of filters in advance due to the potentially vast number of combinations. Another case where filterable HNSW may break down is in situations where filtering criteria are not known in advance.
 
-To address these limitations, in version 1.16 we are introducing support for [ACORN](documentation/concepts/search/#acorn-search-algorithm), based on the ACORN-1 algorithm described in the paper [ACORN: Performant and Predicate-Agnostic Search Over Vector Embeddings and Structured Data](https://arxiv.org/abs/2403.04871). With ACORN enabled, Qdrant not only traverses direct neighbors (the first hop) in the HNSW graph but also examines neighbors of neighbors (the second hop) if the direct neighbors have been filtered out. This enhancement improves search accuracy at the expense of performance, especially when multiple low-selectivity filters are applied.
+To address these limitations, in version 1.16 we are introducing support for [ACORN](/documentation/concepts/search/#acorn-search-algorithm), based on the ACORN-1 algorithm described in the paper [ACORN: Performant and Predicate-Agnostic Search Over Vector Embeddings and Structured Data](https://arxiv.org/abs/2403.04871). With ACORN enabled, Qdrant not only traverses direct neighbors (the first hop) in the HNSW graph but also examines neighbors of neighbors (the second hop) if the direct neighbors have been filtered out. This enhancement improves search accuracy at the expense of performance, especially when multiple low-selectivity filters are applied.
 
 You can enable ACORN on a per-query basis, via the optional query-time `acorn` parameter. This doesn't require any changes at index time.
 
-```json
-TODO, after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/query-points/with-acorn/ >
-```
+{{< code-snippet path="/documentation/headless/snippets/query-points/with-acorn/" >}}
 
-TODO: Benchmarks of ACORN ...
+<!-- TODO: Benchmarks of ACORN ... --->
 
 ### When Should You Use ACORN?
 
@@ -112,7 +104,7 @@ For instance, querying 1 million vectors with the HNSW parameters `m` set to 16 
 
 However, disk-based storage has a property we can exploit to reduce the number of random access reads: paged reading. Disk devices typically read a full page (4KB or more) of data at once. Traditional tree-based data structures, such as B-trees, have used this property effectively. However, in graph-based structures like the HNSW index, grouping connected nodes into pages is not straightforward due to each node potentially having an arbitrary number of connections to other nodes.
 
-With Qdrant version 1.16, you can make use of paged reading through a new feature called [inline storage](documentation/guides/optimize/#inline-storage-in-hnsw-index). Inline storage allows for storing quantized vector data directly inside the HNSW nodes. This offers faster read access, at the cost of additional storage space.
+With Qdrant version 1.16, you can make use of paged reading through a new feature called [inline storage](/documentation/guides/optimize/#inline-storage-in-hnsw-index). Inline storage allows for storing quantized vector data directly inside the HNSW nodes. This offers faster read access, at the cost of additional storage space.
 
 <figure>
   <img src="/blog/qdrant-1.16.x/no-inline-storage.png">
@@ -144,13 +136,11 @@ Note that quantization needs to be enabled for inline storage to work efficientl
 
 Using a smaller data type and quantization reduces the size of each vector significantly, making it possible to store them inline. When combining inline storage with `float16` data types and quantization, evaluating a node in the HNSW graph requires reading only two pages from disk, rather than making 32 random access reads. This represents a significant improvement over the traditional approach, at the cost of additional storage space.
 
-TODO: ... Benchmarks of Inline Storage ...
+<!-- TODO ... Benchmarks of Inline Storage ... --->
 
 Inline storage can be enabled by setting a collection's HNSW configuration `inline_storage` option to `true`.  It requires quantization to be enabled.
 
-```json
-TODO, after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/create-collection/with-inline-storage/" >
-```
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-inline-storage/" >}}
 
 ## Full-Text Search Enhancements
 
@@ -237,9 +227,7 @@ A solution to this problem is to normalize characters with diacritics to their b
 
 To enable ASCII folding, set the `ascii_folding` option to `true` when creating a full-text payload index:
 
-```json
-TODO, after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/create-payload-index/asciifolding-full-text/" >
-```
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/asciifolding-full-text/" >}}
 
 ## Conditional Updates
 
@@ -256,15 +244,13 @@ To address this issue, Qdrant 1.16 introduces support for [conditional updates](
 
 For example, you can add a `version` field to your points to track changes. When updating a point, you can specify a condition that the `version` field must match the expected value. If another client has modified the point in the meantime and incremented the `version`, the update is rejected: 
 
-```json
-TODO, after it's merged, add code snippet < code-snippet path="/documentation/headless/snippets/insert-points/with-condition/" >
-```
+{{< code-snippet path="/documentation/headless/snippets/insert-points/with-condition/" >}}
 
 Note that the name and type of the field used for conditional updates are entirely up to you. Instead of `version`, applications can use timestamps (assuming synchronized clocks) or any other monotonically increasing value that fits their data model.
 
 This mechanism is particularly useful in scenarios involving embedding model migration, where it is necessary to resolve conflicts between regular application updates and background re-embedding tasks.
 
-TODO, after it's merged, add image < figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >
+{{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >}}
 
 ## Web UI Visual Upgrade
 
