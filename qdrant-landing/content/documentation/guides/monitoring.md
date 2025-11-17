@@ -17,15 +17,6 @@ The integration with Qdrant is easy to
 [configure](https://prometheus.io/docs/prometheus/latest/getting_started/#configure-prometheus-to-monitor-the-sample-targets)
 with Prometheus and Grafana.
 
-## Monitoring multi-node clusters
-
-When scraping metrics from multi-node Qdrant clusters, it is important to scrape from
-each node individually instead of using a load-balanced URL. Otherwise, your metrics will appear inconsistent after each scrape.
-
-## Monitoring in Qdrant Cloud
-
-Qdrant Cloud offers additional metrics and telemetry that are not available in the open-source version. For more information, see [Qdrant Cloud Monitoring](/documentation/cloud/cluster-monitoring/).
-
 ## Metrics
 
 Qdrant exposes various metrics in Prometheus/OpenMetrics format, commonly used together with Grafana for monitoring.
@@ -36,7 +27,7 @@ Two endpoints are available:
 
 - `/sys_metrics` (Qdrant Cloud only) for metrics about your cluster, like CPU, memory, disk utilisation, collection metrics and load balancer telemetry. For more information, see [Qdrant Cloud Monitoring](/documentation/cloud/cluster-monitoring/).
 
-Note that `/metrics` only reports metrics for the peer connected to. It is therefore recommended to scrape from each peer individually, even if a load balancer is involved.
+Note that `/metrics` only reports metrics for the peer connected to. It is therefore important to scrape from each peer individually, even if a load balancer is involved.
 
 ### Node metrics `/metrics`
 
