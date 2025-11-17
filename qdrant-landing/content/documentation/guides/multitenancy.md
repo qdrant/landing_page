@@ -85,7 +85,7 @@ There are 3 components in Qdrant, that allows you to implement tiered multitenan
 - **Tenant promotion** - a mechanism that allows to move tenants from the shared Fallback Shard to their own dedicated Shard when they grow large enough. This process is based on Qdrant's internal shard transfer mechanism, which makes promotion completely transparent for the application. Both read and write requests are supported during the promotion process.
 
 
-{{< figure src="/docs/tenant-promotion.png" alt="Teired multitenancy with tenant promotion" caption="Teired multitenancy with tenant promotion" width="90%" >}}
+{{< figure src="/docs/tenant-promotion.png" alt="Tiered multitenancy with tenant promotion" caption="Tiered multitenancy with tenant promotion" width="90%" >}}
 
 ### Configure tiered multitenancy
 
