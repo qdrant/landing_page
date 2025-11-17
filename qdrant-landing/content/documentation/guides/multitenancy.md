@@ -144,5 +144,5 @@ At this point it is safe to delete the tenant's data from the shared Fallback Sh
 ### Limitations
 
 - Currently, `fallback` Shard may only contain a single shard ID on its own. That means all small tenants must fit a single peer of the cluser. This restriction will be improved in future releases.
-- Similar to collections, dedicated Shards introduce some resource overhead. It is not recommended to create more than a thousand dedicated Shards per cluster. Recommended threshold of promoting a tenant is the same as indeing threshold for a single collection, which is around 20K points.
+- Similar to collections, dedicated Shards introduce some resource overhead. It is not recommended to create more than a thousand dedicated Shards per cluster. Recommended threshold of promoting a tenant is the same as the indexing threshold for a single collection, which is around 20K points.
 
