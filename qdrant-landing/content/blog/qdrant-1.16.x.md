@@ -17,7 +17,7 @@ tags:
 
 **Tiered Multitenancy:** An improved approach to multitenancy that enables you to combine small and large tenants in a single collection, with the ability to promote growing tenants to dedicated shards.
 
-**ACORN**: A new search algorithm that improves the quality of filtered vector search in cases of high filtering selectivity.
+**ACORN**: A new search algorithm that improves the quality of filtered vector search in cases of multiple filters with weak selectivity.
 
 **Inline Storage**: A new HNSW index storage mode that stores vector data directly inside HNSW nodes, enabling efficient disk-based vector search.
 
