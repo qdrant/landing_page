@@ -126,6 +126,8 @@ However, disk-based storage has a property we can exploit to reduce the number o
 
 With Qdrant version 1.16, you can make use of paged reading through a new feature called [inline storage](/documentation/guides/optimize/#inline-storage-in-hnsw-index). Inline storage allows for storing quantized vector data directly inside the HNSW nodes. This offers faster read access, at the cost of additional storage space.
 
+Inline storage can be enabled by [setting a collection's HNSW configuration `inline_storage` option to `true`](/documentation/guides/optimize/#inline-storage-in-hnsw-index). It requires quantization to be enabled.
+
 <figure>
   <img src="/blog/qdrant-1.16.x/no-inline-storage.png">
   <figcaption>
@@ -155,6 +157,8 @@ eliminating the separate rescore step which is usually performed after the searc
 Note that quantization needs to be enabled for inline storage to work efficiently. Without quantization, the size of the original vectors would be too large to fit into HNSW nodes. An HNSW graph has `M0` = `M` * 2 = 32 connections per node (by default). If each vector were around 1024 x 4 bytes = 4Kb, each node would need to store `M0` x 4Kb = 128Kb. However, each page is only 4Kb.
 
 Using a smaller data type and quantization reduces the size of each vector significantly, making it possible to store them inline. When combining inline storage with `float16` data types and quantization, evaluating a node in the HNSW graph requires reading only two pages from disk, rather than making 32 random access reads. This represents a significant improvement over the traditional approach, at the cost of additional storage space.
+
+### Benchmarks
 
 Benchmark setup: 1,000,000 vectors (a subset of LAION 512d CLIP embeddings), 2-bit quantization, float16 data type.
 
@@ -189,8 +193,6 @@ Benchmark setup: 1,000,000 vectors (a subset of LAION 512d CLIP embeddings), 2-b
 
 The benchmark shows that the inline storage not just improves search performance by an order of magnitude for low RAM setups, but also provides better accuracy thanks to the implicit rescoring during the search.
 The search performance is comparable to medium RAM setup which has enough memory to hold HNSW index and quantized vectors in RAM.
-
-Inline storage can be enabled by [setting a collection's HNSW configuration `inline_storage` option to `true`](/documentation/guides/optimize/#inline-storage-in-hnsw-index). It requires quantization to be enabled.
 
 ## Full-Text Search Enhancements
 
