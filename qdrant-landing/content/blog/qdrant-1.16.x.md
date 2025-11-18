@@ -24,7 +24,7 @@ tags:
 Additionally, version 1.16 introduces a new conditional update API, facilitating easier migration of embedding models to a newer version. And, this version improved Qdrant's full-text search capabilities with a new `text_any` condition and ASCII folding support.
 
 ## Tiered Multitenancy Using Tenant Promotion
-  
+
 ![Section 1](/blog/qdrant-1.16.x/section-1.png)
 
 Multitenancy is a common requirement for SaaS applications, where multiple customers (tenants) share the same database instance. In Qdrant, when an instance is shared between multiple users, you may need to partition vectors by user. This is done so that each user can only access their own vectors and can’t see the vectors of other users. To implement multitenancy in Qdrant, there are two main approaches:
