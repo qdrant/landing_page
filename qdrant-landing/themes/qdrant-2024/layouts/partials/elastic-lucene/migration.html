@@ -1,0 +1,33 @@
+  {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-migration") }}
+  <section class="outlined-card-group grey-bg py-5">
+    <div class="container">
+      <div class="outlined-card-group__cards row gy-0">
+        <div class="col-12 p-0">
+          <div class="card outlined-card-group__header-card">
+            <h4 class="outlined-card-group__header-title text-center mb-0">
+              {{ $title := .Params.headerTitle | strings.TrimSpace }}{{ $title | replaceRE "\n" "<br>" | safeHTML }}
+            </h4>
+          </div>
+        </div>
+        <div class="col-12 p-0">
+          <div class="card outlined-card-group__card outlined-card-group__card--jumbo">
+            <div class="outlined-card-group__content outlined-card-group__content--jumbo">
+              <div class="outlined-card-group__illustration">
+                <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+              </div>
+              <div class="outlined-card-group__text">
+                <h3 class="outlined-card-group__title outlined-card-group__title--large">{{ .Params.title }}</h3>
+                <p class="outlined-card-group__subtitle">{{ .Params.subtitle }}</p>
+                <p class="outlined-card-group__description outlined-card-group__description--small">{{ .Params.description }}</p>
+                <p class="outlined-card-group__description outlined-card-group__description--small">{{ .Params.descriptionSecond }}</p>
+                <a href="{{ .Params.button.url }}" class="button button_contained button_lg outlined-card-group__button">
+                  {{ .Params.button.text }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {{ end }}

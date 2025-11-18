@@ -1,0 +1,9 @@
+<div class="callout" style="--bg-image: url('{{ .Params.image.src }}');">
+  <div class="callout__content">
+    <h5 class="callout__title">{{ .Params.title | safeHTML }}</h5>
+    <p class="callout__description">{{ .Params.description | safeHTML }}</p>
+  </div>
+  <div class="callout__image">
+    <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+  </div>
+</div>

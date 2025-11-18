@@ -1,0 +1,44 @@
+  {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-lessons") }}
+  <section class="outlined-card-group grey-bg py-5">
+    <div class="container">
+      <div class="outlined-card-group__cards row gy-0">
+        <div class="col-12 p-0">
+          <div class="card outlined-card-group__header-card">
+            <h4 class="outlined-card-group__header-title text-center mb-0">
+              {{ .Params.title | replaceRE "\n" "<br>" | safeHTML }}
+            </h4>
+          </div>
+        </div>
+          <div class="col-12 p-0 d-flex flex-column flex-lg-row justify-content-between gap-3">
+        {{ range .Params.lessons }}
+            <div class="card outlined-card-group__card">
+            <div class="og-card__images-row">
+            <div>
+              <img src="{{ .imageLeft.src }}" width="100%" alt="{{ .imageLeft.alt }}" />
+            </div>
+            <div>
+              <a href="{{ .link.url }}">
+                <img src="{{ .imageMiddle.src }}" width="100%" alt="{{ .imageMiddle.alt }}" />
+              </a>
+            </div>
+            <div>
+              <img src="{{ .imageRight.src }}" width="100%" alt="{{ .imageRight.alt }}" />
+              </div>
+            </div>
+
+            <div class="outlined-card-group__content">
+              <div class="outlined-card-group__text">
+                <h6 class="outlined-card-group__title">{{ .title | replaceRE "\n" "<br>" | safeHTML }}</h6>
+                <p class="outlined-card-group__description">{{ .description | safeHTML }}</p>
+              </div>
+              <a href="{{ .link.url }}" class="link outlined-card-group__link">
+                {{ .link.text }}
+              </a>
+            </div>
+        </div>
+        {{ end }}
+          </div>
+      </div>
+    </div>
+  </section>
+  {{ end }}

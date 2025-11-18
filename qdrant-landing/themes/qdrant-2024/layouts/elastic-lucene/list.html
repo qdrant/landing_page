@@ -1,0 +1,300 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+  {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-hero") }}
+    {{ partial "elastic-lucene/hero" . }}
+  {{ end }}
+
+
+  {{ $class := "rag-use-cases" }}
+  <section class="grey-bg py-5">
+    <div class="container">
+      {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-callout.md") }}
+        {{ partial "callout" . }}
+      {{ end }}
+    </div>
+  </section>
+
+{{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-optimization") }}
+  <section class="grey-bg py-5">
+    <div class="container">
+      <div class="use-cases-vector-features__header row">
+        <h3 class="use-cases-vector-features__title text-center col-12">{{ .Params.title }}</h3>
+      </div>
+      <div class="row g-4 gy-md-3">
+        {{ range .Params.features }}
+          <div class="col-12 col-md-6 col-xl-3">
+            <div class="card use-cases-vector-features__card">
+              <img class="use-cases-vector-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h6 class="use-cases-vector-features__card-title">{{ .title }}</h6>
+              <p class="use-cases-vector-features__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+
+  {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-features") }}
+  <section class="grey-bg py-5">
+    <div class="container">
+      <h3 class="text-center mb-5">{{ .Params.title }}</h3>
+      <div class="row g-4">
+        {{ range .Params.features }}
+          <div class="col-12 col-md-6 col-xl-4">
+            <a href="{{ .link.url }}" class="card d-flex flex-column gap-3">
+              <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" width="24" height="24" />
+              <p class="mb-0 text-dark">{{ .description }}</p>
+              <p class="m-0">
+                <span class="link link_md">{{ .link.text }}</span>
+              </p>
+            </a>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+  {{ end }}
+
+  {{ with (.Site.GetPage "/elastic-lucene/why-qdrant") }}
+  <section class="py-5 grey-bg">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12 col-lg-6">
+          <h3 class="mb-4">{{ .Params.title }}</h3>
+          <p class="mb-3">{{ .Params.description }}</p>
+          <p>{{ .Params.descriptionSecond }}</p>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="card elastic-lucene-why-qdrant__testimonial-card">
+            <div class="elastic-lucene-why-qdrant__logo-container">
+              <img class="elastic-lucene-why-qdrant__logo" src="{{ .Params.testimonial.logo.src }}" alt="{{ .Params.testimonial.logo.alt }}" />
+            </div>
+            <p class="elastic-lucene-why-qdrant__testimonial-text">{{ .Params.testimonial.text }}</p>
+            <div class="elastic-lucene-why-qdrant__link-wrapper">
+              <a class="link link_md elastic-lucene-why-qdrant__link" href="{{ .Params.testimonial.link.url }}">{{ .Params.testimonial.link.text }}</a>
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 9L9 2M9 2H2M9 2V9" stroke="#dc244c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {{ end }}
+
+
+{{ partial "elastic-lucene/migration" . }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <section class="retrieval-augmented-generation-guide py-5">
+    <div class="container">
+      <div class="row position-relative">
+        <div class="retrieval-augmented-generation-guide__content col-12 col-lg-6 position-absolute">
+        <img src="/img/elastic-lucene/astronaut-holding-cube.png" width="150%" height="auto" class="z-index-0" draggable="false" alt="Astronaut holding a cube" />
+        </div>
+
+        <div class="retrieval-augmented-generation-guide__preview col-12 col-lg-6 offset-6">
+
+          <h2 class="h4 text-white mb-4">We’ll Help You Benchmark</h2>
+           <p>If you have a production use case, run a side-by-side benchmark on your own index to measure latency, RAM footprint, and throughput before you decide. </p>
+           <p>Our team of Solution Architects will help you test feasibility, latency, and cost.</p>
+           <p class="mb-4">No strings attached, no commitment. Performance that speaks for itself. </p>
+  <div id="qdrant-contact-form"></div>
+        </div>
+      </div>
+    </div>
+    {{ partial "top-and-bottom-overlay" (dict "context" . "class" "retrieval-augmented-generation-guide") }}
+  </section>
+
+
+
+
+  {{ partial "elastic-lucene/lessons" . }}
+
+  {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-get-started") }}
+    {{ partial "get-started-small" (dict "context" . "class" "elastic-lucene-get-started") }}
+  {{ end }}
+  
+
+
+
+  <script>
+    hbspt.forms.create({
+      portalId: "139603372",
+      formId: "814b303f-2f24-460a-8a81-367146d98786",
+      region: "eu1",
+      sfdcCampaignId: "701fI00000M2FnuQAF",
+      target: '#qdrant-contact-form',
+  
+      onFormReady: function ($form) {
+        // Normalize to a plain DOM element
+        var formEl;
+        if ($form && $form.nodeType === 1) {
+          formEl = $form;
+        } else if ($form && $form[0] && $form[0].nodeType === 1) {
+          formEl = $form[0];
+        }
+        if (!formEl) return;
+  
+        /* ──────────────────────────────
+           Hidden field: last_conversion_campaign_name
+        ───────────────────────────────*/
+        var hidden = document.createElement('input');
+        hidden.type = 'hidden';
+        hidden.name = 'last_conversion_campaign_name';
+        hidden.value = '2025.Q4_Website_Contact Us Form_Elastic_LP';
+        formEl.appendChild(hidden);
+  
+        /* ──────────────────────────────
+           Progressive steps logic
+        ───────────────────────────────*/
+  
+        // Helper: get the .hs-form-field wrapper for a given input/select/textarea
+        function wrapperForField(selector) {
+          var field = formEl.querySelector(selector);
+          return field && field.closest('.hs-form-field');
+        }
+  
+        // Step 0: email (only visible on load)
+        var step0 = [
+          wrapperForField('input[name="email"]')
+        ];
+  
+        // Step 1: first/last/company/jobtitle
+        var step1 = [
+          wrapperForField('input[name="firstname"]'),
+          wrapperForField('input[name="lastname"]'),
+          wrapperForField('input[name="company"]'),
+          wrapperForField('input[name="jobtitle"]')
+        ];
+  
+        // Step 2: number_of_vectors + message
+        var step2 = [
+          wrapperForField('input[name="number_of_vectors"]'),
+          wrapperForField('textarea[name="message"]')
+        ];
+  
+        // Step 3: country
+        var step3 = [
+          wrapperForField('select[name="country"]')
+        ];
+  
+        // Clean out any null entries
+        var steps = [step0, step1, step2, step3].map(function (group) {
+          return group.filter(function (el) { return !!el; });
+        });
+  
+        // Submit button wrapper (HubSpot’s markup varies a bit, so be lenient)
+        var submitGroup = formEl.querySelector('.hs-submit, .hs_submit, .actions');
+        if (submitGroup) submitGroup.style.display = 'none';
+  
+        // Hide all steps except the first (email)
+        steps.forEach(function (group, index) {
+          if (index === 0) return; // keep email visible
+          group.forEach(function (el) {
+            el.style.display = 'none';
+          });
+        });
+  
+        // REQUIRED fields that gate each step
+        // 0: email
+        // 1: firstname, lastname, company (jobtitle optional)
+        // 2: message (number_of_vectors optional)
+        // 3: no additional requirement – we only show it when step 2 is done
+        var requiredSelectorsByStep = [
+          ['input[name="email"]'],
+          ['input[name="firstname"]', 'input[name="lastname"]', 'input[name="company"]'],
+          ['textarea[name="message"]'],
+          []
+        ];
+  
+        function isStepFilled(stepIndex) {
+          var selectors = requiredSelectorsByStep[stepIndex] || [];
+          for (var i = 0; i < selectors.length; i++) {
+            var field = formEl.querySelector(selectors[i]);
+            if (!field) continue; // don’t block if missing
+            var val = field.value;
+            if (!val || !val.trim()) {
+              return false;
+            }
+          }
+          return true;
+        }
+  
+        function showGroup(group) {
+          group.forEach(function (el) {
+            el.style.display = '';
+          });
+        }
+  
+        function maybeShowNext(stepIndex) {
+          if (!isStepFilled(stepIndex)) return;
+  
+          var nextIndex = stepIndex + 1;
+          var nextStep = steps[nextIndex];
+  
+          if (nextStep) {
+            // Reveal the next step
+            showGroup(nextStep);
+  
+            // If this is the last step (country), also reveal the submit button
+            if (nextIndex === steps.length - 1 && submitGroup) {
+              submitGroup.style.display = '';
+            }
+          }
+        }
+  
+        function attach(stepIndex, selectors) {
+          selectors.forEach(function (sel) {
+            var field = formEl.querySelector(sel);
+            if (!field) return;
+  
+            ['input', 'change', 'blur'].forEach(function (evt) {
+              field.addEventListener(evt, function () {
+                maybeShowNext(stepIndex);
+              });
+            });
+          });
+        }
+  
+        // Attach listeners:
+  
+        // After email → show first/last/company/jobtitle
+        attach(0, ['input[name="email"]']);
+  
+        // After first/last/company → show message + vectors
+        attach(1, [
+          'input[name="firstname"]',
+          'input[name="lastname"]',
+          'input[name="company"]',
+          'input[name="jobtitle"]'
+        ]);
+  
+        // After message (vectors optional) → show country + submit
+        attach(2, [
+          'input[name="number_of_vectors"]',
+          'textarea[name="message"]'
+        ]);
+  
+        // Step 3 (country) doesn’t gate anything right now, but we could attach here if needed:
+        // attach(3, ['select[name="country"]']);
+      }
+    });
+  </script>
+
+
+{{ end }}

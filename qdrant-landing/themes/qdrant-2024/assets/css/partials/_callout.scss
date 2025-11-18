@@ -1,0 +1,117 @@
+@use '../helpers/functions' as *;
+
+.callout {
+  display: flex;
+  padding: 80px;
+  background-color: $neutral-10;
+  border-radius: $spacer;
+  overflow: hidden;
+  position: relative;
+
+  // Texture background
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('/img/texture.png');
+    background-size: 931px 931px;
+    background-position: top left;
+    background-repeat: repeat;
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  // Square grid background
+  &::after {
+    content: "";
+    position: absolute;
+    right: -330px;
+    top: 50%;
+    transform: translateY(-50%) rotate(270deg);
+    width: 467px;
+    height: 1110px;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 58.204px, #161e33 58.204px, #161e33 58.204px),
+      repeating-linear-gradient(90deg, transparent, transparent 58.204px, #161e33 58.204px, #161e33 58.204px);
+    background-size: 100% 58.204px, 58.204px 100%;
+    pointer-events: none;
+  }
+
+  &__content {
+    position: relative;
+    padding: $spacer * 2.5 $spacer * 1.5;
+    max-width: pxToRem(520);
+    z-index: 1;
+  }
+
+  // Blurred lights background
+  &__image {
+    position: relative;
+    z-index: 1;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: 290.408px;
+      height: 413.487px;
+      pointer-events: none;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    &::before {
+      right: 169.75px;
+      top: 284.8px;
+      transform: translate(50%, -50%) rotate(232.585deg);
+      background-image: url('/img/blurred/blurred-light-1.svg');
+    }
+
+    &::after {
+      left: -259.49px;
+      top: -326.74px;
+      transform: rotate(354.459deg);
+      background-image: url('/img/blurred/blurred-light-2.svg');
+    }
+  }
+
+  // Third blurred light using content pseudo-element
+  &__content::after {
+    content: "";
+    position: absolute;
+    left: -226.71px;
+    bottom: -415.61px;
+    width: 290.408px;
+    height: 413.487px;
+    transform: rotate(276.432deg);
+    background-image: url('/img/blurred/blurred-light-3.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &__title {
+    color: $neutral-98;
+    margin-bottom: $spacer * 1.5;
+    // todo: use styles from Figma
+    b {
+      color: $primary-50;
+    }
+  }
+
+  &__description {
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
+    color: $neutral-70;
+    margin-bottom: $spacer * 1.5;
+    // todo: use styles from Figma
+    b {
+      color: $neutral-98;
+    }
+  }
+
+}
