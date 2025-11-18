@@ -5,7 +5,7 @@ logo:
   logoCards:
   - id: 0
     logo:
-      src: /img/brand-resources-logos/logo-red-black.svg
+      src: /img/brand-resources-logos/qdrant-logo-red-black.svg
       alt: Logo Red Black
     title: Logo Red Black
     link:
@@ -17,7 +17,7 @@ logo:
         text: Download png
   - id: 1
     logo:
-      src: /img/brand-resources-logos/logo-red-white.svg
+      src: /img/brand-resources-logos/qdrant-logo-red-white.svg
       alt: Logo Red White
     title: Logo Red White
     link:
@@ -30,7 +30,7 @@ logo:
     darkBackground: true
   - id: 2
     logo:
-      src: /img/brand-resources-logos/logo-black.svg
+      src: /img/brand-resources-logos/qdrant-logo-black.svg
       alt: Logo Black
     title: Logo Black
     link:
@@ -42,7 +42,7 @@ logo:
         text: Download png
   - id: 3
     logo:
-      src: /img/brand-resources-logos/logo-white.svg
+      src: /img/brand-resources-logos/qdrant-logo-white.svg
       alt: Logo White
     title: Logo White
     link:
@@ -57,7 +57,7 @@ logo:
   logomarkCards:
   - id: 0
     logo:
-      src: /img/brand-resources-logos/logomark.svg
+      src: /img/brand-resources-logos/qdrant-brandmark-red.svg
       alt: Logomark Full Color
     title: Logomark Full Color
     link:
@@ -69,7 +69,7 @@ logo:
         text: Download png
   - id: 1
     logo:
-      src: /img/brand-resources-logos/logomark-black.svg
+      src: /img/brand-resources-logos/qdrant-brandmark-black.svg
       alt: Logomark Black
     title: Logomark Black
     link:
@@ -81,7 +81,7 @@ logo:
         text: Download png
   - id: 2
     logo:
-      src: /img/brand-resources-logos/logomark-white.svg
+      src: /img/brand-resources-logos/qdrant-brandmark-white.svg
       alt: Logomark White
     title: Logomark White
     link:
