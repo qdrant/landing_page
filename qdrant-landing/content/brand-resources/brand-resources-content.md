@@ -9,16 +9,24 @@ logo:
       alt: Logo Red Black
     title: Logo Red Black
     link:
-      url: /img/brand-resources-logos/logo-red-black.svg
-      text: Download
+      svg:
+        url: /img/brand-resources-logos/qdrant-logo-red-black.svg
+        text: Download svg
+      png:
+        url: /img/brand-resources-logos/qdrant-logo-red-black.png
+        text: Download png
   - id: 1
     logo:
       src: /img/brand-resources-logos/logo-red-white.svg
       alt: Logo Red White
     title: Logo Red White
     link:
-      url:  /img/brand-resources-logos/logo-red-white.svg
-      text: Download
+      svg:
+        url: /img/brand-resources-logos/qdrant-logo-red-white.svg
+        text: Download svg
+      png:
+        url: /img/brand-resources-logos/qdrant-logo-red-white.png
+        text: Download png
     darkBackground: true
   - id: 2
     logo:
@@ -26,16 +34,24 @@ logo:
       alt: Logo Black
     title: Logo Black
     link:
-      url: /img/brand-resources-logos/logo-black.svg
-      text: Download 
+      svg:
+        url: /img/brand-resources-logos/qdrant-logo-black.svg
+        text: Download svg
+      png:
+        url: /img/brand-resources-logos/qdrant-logo-black.png
+        text: Download png
   - id: 3
     logo:
       src: /img/brand-resources-logos/logo-white.svg
       alt: Logo White
     title: Logo White
     link:
-      url: /img/brand-resources-logos/logo-white.svg
-      text: Download
+      svg:
+        url: /img/brand-resources-logos/qdrant-logo-white.svg
+        text: Download svg
+      png:
+        url: /img/brand-resources-logos/qdrant-logo-white.png
+        text: Download png
     darkBackground: true
   logomarkTitle: Logomark
   logomarkCards:
@@ -45,24 +61,36 @@ logo:
       alt: Logomark Full Color
     title: Logomark Full Color
     link:
-      url: /img/brand-resources-logos/logomark.svg
-      text: Download
+      svg:
+        url: /img/brand-resources-logos/qdrant-brandmark-red.svg
+        text: Download svg
+      png:
+        url: /img/brand-resources-logos/qdrant-brandmark-red.png
+        text: Download png
   - id: 1
     logo:
       src: /img/brand-resources-logos/logomark-black.svg
       alt: Logomark Black
     title: Logomark Black
     link:
-      url: /img/brand-resources-logos/logomark-black.svg
-      text: Download
+      svg:
+        url: /img/brand-resources-logos/qdrant-brandmark-black.svg
+        text: Download svg
+      png:
+        url: /img/brand-resources-logos/qdrant-brandmark-black.png
+        text: Download png
   - id: 2
     logo:
       src: /img/brand-resources-logos/logomark-white.svg
       alt: Logomark White
     title: Logomark White
     link:
-      url: /img/brand-resources-logos/logomark-white.svg
-      text: Download 
+      svg:
+        url: /img/brand-resources-logos/qdrant-brandmark-white.svg
+        text: Download svg
+      png:
+        url: /img/brand-resources-logos/qdrant-brandmark-white.png
+        text: Download png
     darkBackground: true
 colors:
   title: Colors
