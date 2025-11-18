@@ -162,41 +162,34 @@ The `text_any` condition matches text fields that contain any of the query terms
 
 A good example of using the `text_any` condition is in e-commerce applications, where users often search for products using multiple keywords. By combining a vector query with a series of increasingly lenient full-text filters, you can ensure that users receive relevant results even if their initial search terms are too restrictive. 
 
-```json
-batch [
+```python
+QUERY = {
+  "text": "best smartphone ever",
+  "model": "sentence-transformers/all-MiniLM-L6-v2"
+}
+
+batch_query = [
   {
-    "query": {
-      "text": "best smartphone ever",
-      "model": "sentence-transformers/all-MiniLM-L6-v2"
-    },
+    "query": QUERY,
     "filter": {
       "must": {
         "key": "description",
-        "match": {
-          "text": "5G 5000mAh OLED"
-        }
+        "match": { "text": "5G 5000mAh OLED" }
       }
     }
   },
-  {
-    "query": {
-      "text": "best smartphone ever",
-      "model": "sentence-transformers/all-MiniLM-L6-v2"
-    },
+  { # fallback to at least one token
+    "query": QUERY,
     "filter": {
       "must": {
         "key": "description",
-        "match": {
-          "text_any": "5G 5000mAh OLED"
-        }
+        "match": { "text_any": "5G 5000mAh OLED" }
       }
     }
   },
-  {
-    "query": {
-      "text": "best smartphone ever",
-      "model": "sentence-transformers/all-MiniLM-L6-v2"
-    }
+  { # fallback to just similarity
+    "query": QUERY,
+    "filter": null
   }
 ]
 ```
