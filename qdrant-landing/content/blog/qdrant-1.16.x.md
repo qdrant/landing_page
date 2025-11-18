@@ -30,7 +30,7 @@ Additionally, version 1.16 introduces a new conditional update API, facilitating
 Multitenancy is a common requirement for SaaS applications, where multiple customers (tenants) share the same database instance. In Qdrant, when an instance is shared between multiple users, you may need to partition vectors by user. This is done so that each user can only access their own vectors and can’t see the vectors of other users. To implement multitenancy in Qdrant, there are two main approaches:
 
 - [Payload-based multitenancy](/documentation/guides/multiple-partitions/), which works well when you have a large number of small tenants. This causes practically no overhead. Quite the opposite: a query with a tenant payload filter can be faster than a full search.
-- [Shard-based multitenancy](/documentation/guides/distributed_deployment/#user-defined-sharding), designed for when you have a smaller number of larger tenants. This works well when each tenant requires isolation and dedicated resources. Separating tenants by shard prevents a classic noisy neighbor problem where a single high-volume tenant can force the cluster to scale for everyone, increasing costs and reducing performance for smaller tenants.
+- [Shard-based multitenancy](/documentation/guides/distributed_deployment/#user-defined-sharding), designed for when you have a smaller number of larger tenants. This works well when each tenant requires isolation and dedicated resources. Separating tenants by shard prevents a classic noisy neighbor problem where a single high-volume tenant can force the cluster to scale for everyone, increasing costs and reducing performance for smaller tenants. However, shard-based multitenancy is not a good solution for when you have a large number of small tenants, as each shard comes with a bit of overhead.
 
 Real-world usage patterns often fall between these two use cases. It's common to have a small number of large tenants and a huge tail of smaller ones. You may even have tenants that grow over time, starting small and eventually becoming large enough to require dedicated resources.
 
@@ -44,26 +44,7 @@ The main principles behind Tiered Multitenancy are:
 
 {{< figure src="/docs/tenant-promotion.png" alt="Tiered multitenancy with tenant promotion" caption="Tiered multitenancy with tenant promotion" width="90%" >}}
 
-To set up tiered multitenancy, first [set up a collection with a shared fallback shard and dedicated shards](/documentation/guides/multitenancy/#configure-tiered-multitenancy). Next, when, when inserting or querying points, provide a shard key selector. The shard key specifies the `target` name of the tenant's dedicated shard (if it exists) or the `fallback` shard for small tenants: 
-
-{{< code-snippet path="/documentation/headless/snippets/insert-points/with-tenant-group-id-and-fallback-shard-key/" >}}
-
-Once a tenant grows beyond a certain threshold, you can promote that tenant to its own dedicated shard:
-
-{{< code-snippet path="/documentation/headless/snippets/create-shard/create-named-shard-for-promotion/" >}}
-
-Next, initiate data transfer from the fallback shard to this new dedicated shard using the `replicate_points` API:
-
-{{< code-snippet path="/documentation/headless/snippets/shard-transfer/with-filter/" >}}
-
-Once transfer is completed, the target shard will become `Active`, and all requests for the tenant will be routed to it automatically.
-At this point it is safe to delete the tenant's data from the shared Fallback Shard to free up space.
-
-Known limitations:
-
-- The fallback shard can have only one shard ID. That means all small tenants must fit a single peer of the cluser. This restriction will be improved in future releases.
-- Tenant promotion must be triggered manually. We plan to add auto-promotion to Qdrant Cloud in the future.
-- Similar to collections, dedicated Shards introduce some resource overhead. It is not recommended to create more than a thousand dedicated shards per cluster. The recommended threshold of promoting a tenant is the same as the indexing threshold for a single collection, which is around 20K points.
+To use Tiered Multitenancy, after [setting up a collection with a shared fallback shard and dedicated shards](/documentation/guides/multitenancy/#configure-tiered-multitenancy), when inserting or querying points, [provide a shard key selector](/documentation/guides/multitenancy/#query-tiered-multitenant-collection).
 
 ## ACORN - Filtered Vector Search Improvements
 
@@ -71,13 +52,18 @@ Known limitations:
 
 To enhance the scalability and speed of vector search, Qdrant employs a graph-based index structure known as [HNSW (Hierarchical Navigable Small World)](/documentation/concepts/indexing/#vector-index). While traditional HNSW is primarily designed for unfiltered searches, Qdrant has addressed this limitation by implementing a [filterable HSNW index](/articles/filtrable-hnsw/). This innovative approach extends the HNSW graph with additional edges that correspond to indexed payload values. This enables Qdrant to maintain search quality even with high filtering selectivity, without introducing any runtime overhead during the search process.
 
-Even with filterable HNSW graphs, there are instances where the quality of search results can deteriorate significantly. This can happen if a filter discards too many vectors, leading to the HNSW graph becoming [disconnected](/documentation/concepts/indexing/#filtrable-index), especially when you use a combination of high cardinality filters. It is impractical to build additional links for every possible combination of filters in advance due to the potentially vast number of combinations. Another case where filterable HNSW may break down is in situations where filtering criteria are not known in advance.
+Even with filterable HNSW graphs, there are instances where the quality of search results can deteriorate significantly. This can happen when you use a combination of high cardinality filters. This can lead to the HNSW graph becoming [disconnected](/documentation/concepts/indexing/#filtrable-index). It is impractical to build additional links for every possible combination of filters in advance due to the potentially vast number of combinations. Another case where filterable HNSW may break down is in situations where filtering criteria are not known in advance.
 
 To address these limitations, in version 1.16 we are introducing support for [ACORN](/documentation/concepts/search/#acorn-search-algorithm), based on the ACORN-1 algorithm described in the paper [ACORN: Performant and Predicate-Agnostic Search Over Vector Embeddings and Structured Data](https://arxiv.org/abs/2403.04871). With ACORN enabled, Qdrant not only traverses direct neighbors (the first hop) in the HNSW graph but also examines neighbors of neighbors (the second hop) if the direct neighbors have been filtered out. This enhancement improves search accuracy at the expense of performance, especially when multiple low-selectivity filters are applied.
 
-You can enable ACORN on a per-query basis, via the optional query-time `acorn` parameter. This doesn't require any changes at index time.
+<figure>
+  <img src="/blog/qdrant-1.16.x/hnsw-acorn.png">
+  <figcaption>
+    Filtering and the HNSW graph without ACORN (left) and with ACORN (right).
+  </figcaption>
+</figure>
 
-{{< code-snippet path="/documentation/headless/snippets/query-points/with-acorn/" >}}
+You can enable ACORN on a per-query basis, via the optional [query-time `acorn` parameter](/documentation/concepts/search/#acorn-search-algorithm). This doesn't require any changes at index time.
 
 <!-- TODO: Benchmarks of ACORN ... --->
 
@@ -138,9 +124,7 @@ Using a smaller data type and quantization reduces the size of each vector signi
 
 <!-- TODO ... Benchmarks of Inline Storage ... --->
 
-Inline storage can be enabled by setting a collection's HNSW configuration `inline_storage` option to `true`.  It requires quantization to be enabled.
-
-{{< code-snippet path="/documentation/headless/snippets/create-collection/with-inline-storage/" >}}
+Inline storage can be enabled by [setting a collection's HNSW configuration `inline_storage` option to `true`](/documentation/guides/optimize/#inline-storage-in-hnsw-index). It requires quantization to be enabled.
 
 ## Full-Text Search Enhancements
 
@@ -225,9 +209,7 @@ A solution to this problem is to normalize characters with diacritics to their b
 
 [An open source contribution by community member eltu](https://github.com/qdrant/qdrant/pull/7408) has added [ASCII folding support](/documentation/concepts/indexing/#ascii-folding) to Qdrant's full-text search capabilities in version 1.16. When enabled, Qdrant automatically normalizes text fields and search terms, for instance by removing diacritical marks.
 
-To enable ASCII folding, set the `ascii_folding` option to `true` when creating a full-text payload index:
-
-{{< code-snippet path="/documentation/headless/snippets/create-payload-index/asciifolding-full-text/" >}}
+To enable ASCII folding, [set the `ascii_folding` option to `true` when creating a full-text payload index](/documentation/concepts/indexing/#ascii-folding).
 
 ## Conditional Updates
 
