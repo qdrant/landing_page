@@ -19,7 +19,7 @@ tags:
 - case study
 ---
 
-**How Cosmos delivered editorial-grade visual search with Qdrant** 
+How Cosmos delivered editorial-grade visual search with Qdrant
 
 ![How Cosmos powered text, color, and hybrid search with Qdrant](/blog/case-study-cosmos/bento-box-dark.jpg)
 
@@ -27,7 +27,7 @@ Cosmos is redefining how people find inspiration online. It’s a visual search 
 
 Behind this front end sits a complex technical problem: powering text, color, and hybrid visual search for millions of users in real time. For Cosmos, the solution came from Qdrant Cloud. 
 
-### **The challenge: Creative discovery that feels human**
+### The challenge: Creative discovery that feels human
 
 Cosmos serves a community of creatives who expect precision, clarity, and beauty. The platform hosts millions of “elements” — images, videos, text snippets, social embeds, and other creative artifacts a person uploads. 
 
@@ -52,7 +52,7 @@ Early prototypes relied on Postgres with pgvector, but scalability and performan
 
 Cosmos also needed a managed deployment to avoid maintaining reindexing, scaling, or balancing logic manually. The engineering team wanted to focus on product innovation, not infrastructure tuning.
 
-### **The solution: Qdrant Cloud as the retrieval layer**
+### The solution: Qdrant Cloud as the retrieval layer
 
 Cosmos migrated to Qdrant Cloud, using it as the foundation for all search and recommendations across the platform. Qdrant now powers: 
 
@@ -61,13 +61,13 @@ Cosmos migrated to Qdrant Cloud, using it as the foundation for all search and r
 * Candidate generation for Cosmos’ in-house ranker  
 * Element processing pipelines for deduplication
 
-*\[VISUAL: High-level architecture diagram showing Cosmos front end → embedding pipeline → Qdrant Cloud → re-ranking and recommendation services\]*
+![Cosmos Retrieval Architecture](/blog/case-study-cosmos/architecture-cosmos.png)
 
 “Qdrant powers our text search, color search, hybrid search, and similar-elements view,” said Miller. “It lets us move fast on candidate generation while applying our own editorial and engagement logic on top.” 
 
 The team chose Qdrant Cloud’s fully managed deployment, citing its strong filtering, named vectors, and operational stability. “We didn’t want to manage our own reindexing or optimizations,” Miller explained. “Qdrant handled that automatically, and we’ve seen features like resharding and CPU budgets evolve right alongside our needs.” 
 
-### **Engineering precision: Named vectors and exact color search**
+### Engineering precision: Named vectors and exact color search
 
 A key innovation at Cosmos is its exact color search system running in production at scale. People can input a color (for example, \#FFFFFF white), and Qdrant retrieves images with perceptually matching tones. 
 
@@ -77,7 +77,7 @@ When a user searches by color, Cosmos converts the hex value to CIELAB, retrieve
 
 Qdrant’s named vector capability made this design straightforward and efficient. Each element stores multiple embeddings (CLIP, CNN, pHash, and color vectors) in a single collection, allowing Cosmos to handle multimodal retrieval without cross-joins or maintaining separate indexes. 
 
-### **Hybrid search, but with an editorial twist**
+### Hybrid search, but with an editorial twist
 
 Cosmos experimented with Qdrant’s built-in hybrid search via reciprocal rank fusion. It worked well for standard semantic retrieval, but for color-critical workflows, even slight approximations were noticeable. 
 
@@ -87,7 +87,7 @@ That balance of relevance and aesthetics is core to how Cosmos approaches discov
 
 As Miller put it: “We want relevance, engagement, and beauty. That’s the triangle we’re always optimizing.” 
 
-### **Results: Sub-second retrieval and faster pipelines**
+### Results: Sub-second retrieval and faster pipelines
 
 Today, Cosmos’s retrieval and recommendation stack on Qdrant Cloud delivers: 
 
@@ -97,7 +97,7 @@ Today, Cosmos’s retrieval and recommendation stack on Qdrant Cloud delivers:
 
 These improvements keep search responsive while ensuring the infrastructure scales smoothly with user growth. 
 
-### **Building toward the next release**
+### Building toward the next release
 
 Cosmos is continuing to expand its AI capabilities. The team is refining multi-color search and preparing a major relaunch of its iOS and web apps, both built on the latest Qdrant configuration. 
 
