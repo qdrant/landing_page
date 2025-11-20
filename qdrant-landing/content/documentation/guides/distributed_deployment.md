@@ -302,7 +302,12 @@ We recommend creating at least 2 shards per node to allow future expansion witho
 
 If you anticipate a lot of growth, we recommend 12 shards since you can expand from 1 node up to 2, 3, 6, and 12 nodes without having to re-shard. Having more than 12 shards in a small cluster may not be worth the performance overhead.
 
-Shards are evenly distributed across all existing nodes when a collection is first created, but Qdrant does not automatically rebalance shards if your cluster size or replication factor changes (since this is an expensive operation on large clusters). See the next section for how to move shards after scaling operations.
+Shards are evenly distributed across all existing nodes when a collection is first created.
+
+When you add or remove nodes from the cluster, rebalancing of existing shards accross the nodes depends on how you've deployed the cluster:
+
+- In Qdrant Cloud, shards are [balanced across the nodes automatically](/documentation/cloud/configure-cluster/#shard-rebalancing).
+- If your cluster is not runnning in Qdrant Cloud, you need to [manually balance shards](#moving-shards).
 
 ### Resharding
 
