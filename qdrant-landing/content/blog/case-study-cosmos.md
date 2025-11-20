@@ -5,9 +5,9 @@ short_description: "Cosmos built fast, multimodal visual search with exact color
 description: "Discover how Cosmos powered text, color, and hybrid search with sub-second latency and 79% faster processing by adopting Qdrant Cloud as its retrieval layer."
 preview_image: /blog/case-study-cosmos/social_preview_partnership-cosmos.jpg
 social_preview_image: /blog/case-study-cosmos/social_preview_partnership-cosmos.jpg
-date: 2025-11-19
+date: 2025-11-21
 author: "Daniel Azoulai"
-featured: true
+featured: false
 
 tags:
 - Cosmos
@@ -19,11 +19,9 @@ tags:
 - case study
 ---
 
-How Cosmos delivered editorial-grade visual search with Qdrant
-
 ![How Cosmos powered text, color, and hybrid search with Qdrant](/blog/case-study-cosmos/bento-box-dark.jpg)
 
-Cosmos is redefining how people find inspiration online. It’s a visual search app built for creative professionals and everyday users who want a clean, meditative, ad-free place to collect and curate ideas. In contrast to feeds dominated by doomscrolling, ads, and generative “AI slop,” Cosmos focuses on high-quality, human-made content. AI-powered search and captions connect each image to its creator, making visual discovery richer, more accurate, and easier to navigate. 
+<a href="https://cosmos.so/" target="_blank">Cosmos</a> is redefining how people find inspiration online. It’s a visual search app built for creative professionals and everyday users who want a clean, meditative, ad-free place to collect and curate ideas. In contrast to feeds dominated by doomscrolling, ads, and generative “AI slop,” Cosmos focuses on high-quality, human-made content. AI-powered search and captions connect each image to its creator, making visual discovery richer, more accurate, and easier to navigate. 
 
 Behind this front end sits a complex technical problem: powering text, color, and hybrid visual search for millions of users in real time. For Cosmos, the solution came from Qdrant Cloud. 
 
@@ -48,7 +46,7 @@ Early prototypes relied on Postgres with pgvector, but scalability and performan
 
 *“We wanted a vector search engine that could handle our color and text embeddings together while letting us filter by dozens of metadata dimensions.”* 
 
-- *Griffin Miller, AI/ML & Product*
+-*Griffin Miller, AI/ML & Product*
 
 Cosmos also needed a managed deployment to avoid maintaining reindexing, scaling, or balancing logic manually. The engineering team wanted to focus on product innovation, not infrastructure tuning.
 
@@ -106,5 +104,5 @@ Miller highlighted the partnership: “Qdrant’s customer engineering team has 
 As Cosmos moves toward its next release, its search stack now reflects its design philosophy: fast, thoughtful, and exact.
 
 *“Our users are artists. They can tell the difference between ‘almost right’ and perfect. Qdrant helps us achieve this level of precision.”*  
- — Griffin Miller, AI/ML & Product, Cosmos
+ -*Griffin Miller, AI/ML & Product, Cosmos*
 
