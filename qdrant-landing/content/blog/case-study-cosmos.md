@@ -5,7 +5,7 @@ short_description: "Cosmos built fast, multimodal visual search with exact color
 description: "Discover how Cosmos powered text, color, and hybrid search with sub-second latency and 79% faster processing by adopting Qdrant Cloud as its retrieval layer."
 preview_image: /blog/case-study-cosmos/social_preview_partnership-cosmos.jpg
 social_preview_image: /blog/case-study-cosmos/social_preview_partnership-cosmos.jpg
-date: 2025-11-21
+date: 2025-11-20
 author: "Daniel Azoulai"
 featured: false
 
