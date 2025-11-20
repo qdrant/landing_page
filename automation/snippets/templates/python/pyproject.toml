@@ -1,0 +1,15 @@
+[project]
+name = "snippets-amalgamation"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "qdrant-client",
+]
+
+[tool.uv.sources]
+qdrant-client = { git = "https://github.com/qdrant/qdrant-client", tag = "v1.16.0" }
+
+[dependency-groups]
+dev = [
+    "mypy>=1.18.2",
+]

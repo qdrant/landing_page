@@ -1,0 +1,12 @@
+[project]
+name = "snippet-checker"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.32.5",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.18.2",
+]
