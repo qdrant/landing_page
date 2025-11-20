@@ -21,7 +21,7 @@ tags:
 
 ![How Cosmos powered text, color, and hybrid search with Qdrant](/blog/case-study-cosmos/bento-box-dark.jpg)
 
-<a href="https://cosmos.so/" target="_blank">Cosmos</a> is redefining how people find inspiration online. It’s a visual search app built for creative professionals and everyday users who want a clean, meditative, ad-free place to collect and curate ideas. In contrast to feeds dominated by doomscrolling, ads, and generative “AI slop,” Cosmos focuses on high-quality, human-made content. AI-powered search and captions connect each image to its creator, making visual discovery richer, more accurate, and easier to navigate. 
+<a href="https://www.cosmos.so/" target="_blank">Cosmos</a> is redefining how people find inspiration online. It’s a visual search app built for creative professionals and everyday users who want a clean, meditative, ad-free place to collect and curate ideas. In contrast to feeds dominated by doomscrolling, ads, and generative “AI slop,” Cosmos focuses on high-quality, human-made content. AI-powered search and captions connect each image to its creator, making visual discovery richer, more accurate, and easier to navigate. 
 
 Behind this front end sits a complex technical problem: powering text, color, and hybrid visual search for millions of users in real time. For Cosmos, the solution came from Qdrant Cloud. 
 
