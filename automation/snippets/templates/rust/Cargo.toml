@@ -1,0 +1,9 @@
+[package]
+name = "snippets-amalgamation"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.100"
+qdrant-client = { git = "https://github.com/qdrant/rust-client", branch = "master" }
+tokio = { version = "1.48.0", features = ["rt-multi-thread", "macros"] }
