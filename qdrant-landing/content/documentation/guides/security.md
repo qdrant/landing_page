@@ -431,8 +431,6 @@ This is also applicable to using api keys instead of tokens. In that case, `api_
 | readyz, healthz, livez | ✅ | ✅ | ✅ | ✅ | ✅ |
 | telemetry | ✅ | ✅ | ❌ | ❌ | ❌ |
 | metrics | ✅ | ✅ | ❌ | ❌ | ❌ |
-| update locks | ✅ | ❌ | ❌ | ❌ | ❌ |
-| get locks | ✅ | ✅ | ❌ | ❌ | ❌ |
 
 ## TLS
 
