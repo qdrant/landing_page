@@ -71,7 +71,7 @@ If you use multiple accounts for different purposes, it is a good idea to give t
 
 Every account has one owner. The owner is granted full admin permissions for the account as well as futher unique permissions allowing them to either delete the account or transfer account ownership.
 
-To change the owner, go to the *Access Management* page, and select *Make Account Owner* from the actions menu of the user you want to make the new owner of the account.
+To transfer ownership of an account, as the owner, visit the *Access Management* page. In the actions menu of the user you wish to transfer to, you will find the option 'Make Account Owner' which begins the transfer.
 
 ### Deleting an Account
 
