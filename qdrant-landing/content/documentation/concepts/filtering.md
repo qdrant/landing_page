@@ -386,7 +386,7 @@ Functionally, it will work with `keyword` and `uuid` indexes exactly the same, b
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-bounding-box/" >}}
 
-It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `bottom_right` and the coordinates of the lower right corner in `top_left`.
+It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `top_left` and the coordinates of the lower right corner in `bottom_right`.
 
 #### Geo Radius
 
