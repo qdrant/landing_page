@@ -1,10 +1,21 @@
 <section class="elastic-lucene-hero" style="--bg-image: url('{{ .Params.image.src }}');">
+  <div class="elastic-lucene-hero__illustration"></div>
   <div class="container">
     <div class="row align-items-lg-center">
-      <div class="elastic-lucene-hero__content col-12 col-lg-6">
+      <div class="elastic-lucene-hero__content col-12 col-lg-8">
         <h1 class="elastic-lucene-hero__title">{{ .Params.title }}</h1>
         <p class="elastic-lucene-hero__description">{{ .Params.description }}</p>
-        
+        <div class="elastic-lucene-hero__quotes">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1" height="85" viewBox="0 0 1 85" fill="none" class="elastic-lucene-hero__quotes-line">
+            <path d="M0.5 0.5V84.5" stroke="#8F98B3" stroke-linecap="round"/>
+          </svg>
+          <div class="elastic-lucene-hero__quotes-list">
+            {{ range .Params.quotes }}
+              <p>{{ . }}</p>
+            {{ end }}
+          </div>
+        </div>
+        <p class="elastic-lucene-hero__closing">{{ .Params.closingText }}</p>
       </div>
 
     </div>

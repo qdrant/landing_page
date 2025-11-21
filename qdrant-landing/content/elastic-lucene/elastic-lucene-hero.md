@@ -6,6 +6,7 @@ quotes:
   - Endless indexing jobs
   - Overspending on over-provisioned memory
   - Brittle hybrid search
+closingText: Lucene-based architectures just aren't built for scaling vector search.
 startFree:
   text: Get Started
   url: https://cloud.qdrant.io/signup
