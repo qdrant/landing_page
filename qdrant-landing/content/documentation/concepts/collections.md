@@ -59,21 +59,6 @@ will enable the use of
 [memmaps](/documentation/concepts/storage/#configuring-memmap-storage),
 which is suitable for ingesting a large amount of data.
 
-### Create collection from another collection
-
-*Available as of v1.0.0*
-
-It is possible to initialize a collection from another existing collection.
-
-This might be useful for experimenting quickly with different configurations for the same data set.
-
-<aside role="alert"> Usage of the <code>init_from</code> can create unpredictable load on the qdrant cluster. It is not recommended to use <code>init_from</code> in performance-sensitive environments.</aside>
-
-Make sure the vectors have the same `size` and `distance` function when setting up the vectors configuration in the new collection. If you used the previous sample
-code, `"size": 300` and `"distance": "Cosine"`.
-
-
-{{< code-snippet path="/documentation/headless/snippets/create-collection/init-from/" >}}
 
 ### Collection with multiple vectors
 
@@ -143,17 +128,33 @@ The distance function for sparse vectors is always `Dot` and does not need to be
 
 However, there are optional parameters to tune the underlying [sparse vector index](/documentation/concepts/indexing/#sparse-vector-index).
 
-### Check collection existence
+### Create collection from another collection
+
+To create a collection from another collection, use the [Migration Tool](https://github.com/qdrant/migration/). You can use it to either copy a collection within the same Qdrant instance or to copy a collection to another instance.
+
+For example, to copy a collection from a local instance to a Qdrant Cloud instance, run the following command:
+
+```bash
+docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration qdrant \
+    --source.url 'http://localhost:6334' \
+    --source.collection 'source-collection' \
+    --target.url 'https://example.cloud-region.cloud-provider.cloud.qdrant.io:6334' \
+    --target.api-key 'qdrant-key' \
+    --target.collection 'target-collection' \
+    --migration.batch-size 64
+```
+
+## Check collection existence
 
 *Available as of v1.8.0*
 
 {{< code-snippet path="/documentation/headless/snippets/check-collection-exists/simple/" >}}
 
-### Delete collection
+## Delete collection
 
 {{< code-snippet path="/documentation/headless/snippets/delete-collection/simple/" >}}
 
-### Update collection parameters
+## Update collection parameters
 
 Dynamic parameter updates may be helpful, for example, for more efficient initial loading of vectors.
 For example, you can disable indexing during the upload process, and enable it immediately after the upload is finished.
