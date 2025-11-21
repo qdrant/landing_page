@@ -1,0 +1,47 @@
+.elastic-lucene-form {
+    padding-top: pxToRem(96);
+    padding-bottom: pxToRem(96);
+    background-color: $neutral-10;
+    overflow: hidden;
+    position: relative;
+    min-height: pxToRem(283);
+    padding-bottom: pxToRem(324);
+
+    @include media-breakpoint-up(lg) {
+        padding-bottom: 0;
+    }
+
+    &__overlay-bottom {
+        background-image: url('/img/blurred/blurred-light-4.png');
+    transform: scale(-1, -1);
+    background-position: bottom right;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 63rem;
+  height: 17rem;
+    }
+
+    &__illustration {
+        position: absolute;
+        height: pxToRem(300);
+        left: 0;
+        width: 100%;
+        bottom: 0;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center bottom;
+    
+        @include media-breakpoint-up(lg) {
+            height: 100%;
+        top: 0;
+        width: 48%;
+        background-position: right bottom;
+        }
+
+    }
+
+    &__content {
+    // todo: use styles from Figma
+    }
+
+}

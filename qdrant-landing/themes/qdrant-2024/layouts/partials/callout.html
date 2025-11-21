@@ -1,9 +1,9 @@
-<div class="callout" style="--bg-image: url('{{ .Params.image.src }}');">
+<div class="callout">
+    <div class="callout__square-grid-overlay"></div>
+    <div class="callout__illustration" style="background-image: url('{{ .Params.image.src }}');"></div>
+    <div class="callout__lights-overlay"></div>
   <div class="callout__content">
     <h5 class="callout__title">{{ .Params.title | safeHTML }}</h5>
-    <p class="callout__description">{{ .Params.description | safeHTML }}</p>
-  </div>
-  <div class="callout__image">
-    <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+    <div class="callout__description">{{ .Params.description | safeHTML }}</div>
   </div>
 </div>

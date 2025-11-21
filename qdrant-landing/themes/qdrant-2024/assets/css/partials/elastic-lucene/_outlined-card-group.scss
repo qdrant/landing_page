@@ -20,7 +20,7 @@
   }
 
   &__card {
-    padding: pxToRem(24) 0 pxToRem(24);
+    padding: pxToRem(24);
     border-radius: pxToRem(16);
     display: flex;
     flex-direction: column;
@@ -33,11 +33,14 @@
     }
   }
 
+  &__cards .row > [class*="col-"] > &__card {
+    height: 100%;
+  }
+
   &__content {
     display: flex;
     flex-direction: column;
     gap: $spacer * 1.5;
-    margin-top: pxToRem(40);
     padding-left: $spacer * 1.5;
     padding-right: $spacer * 1.5;
 
@@ -68,12 +71,21 @@
     gap: $spacer;
   }
 
+  &__icon {
+    width: pxToRem(24);
+    height: pxToRem(24);
+  }
+
   &__title {
     font-size: pxToRem(24);
     line-height: pxToRem(34);
     font-weight: 700;
     color: $neutral-20;
     margin-bottom: 0;
+
+    &--small {
+      font-size: pxToRem(20);
+    }
 
     &--large {
       font-size: pxToRem(40);
@@ -141,6 +153,7 @@
       margin-top: pxToRem(32);
       margin-left: -$spacer * 1.5;
       margin-right: -$spacer * 1.5;
+      margin-bottom: pxToRem(40);
 
           img {
             width: 100%;

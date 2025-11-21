@@ -9,7 +9,7 @@ button:
   text: Try Now
   target: blank
 image:
-  src: http://localhost:3845/assets/f3ca4382cd114ab179add91e8e2f1dd917c168bf.png
+  src: /img/database.svg
   alt: Qdrant Cloud
 sitemapExclude: true
 ---

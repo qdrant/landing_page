@@ -4,7 +4,6 @@
     {{ partial "elastic-lucene/hero" . }}
   {{ end }}
 
-
   {{ $class := "rag-use-cases" }}
   <section class="grey-bg py-5">
     <div class="container">
@@ -14,119 +13,20 @@
     </div>
   </section>
 
-{{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-optimization") }}
-  <section class="grey-bg py-5">
-    <div class="container">
-      <div class="use-cases-vector-features__header row">
-        <h3 class="use-cases-vector-features__title text-center col-12">{{ .Params.title }}</h3>
-      </div>
-      <div class="row g-4 gy-md-3">
-        {{ range .Params.features }}
-          <div class="col-12 col-md-6 col-xl-3">
-            <div class="card use-cases-vector-features__card">
-              <img class="use-cases-vector-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
-              <h6 class="use-cases-vector-features__card-title">{{ .title }}</h6>
-              <p class="use-cases-vector-features__card-description">{{ .description }}</p>
-            </div>
-          </div>
-        {{ end }}
-      </div>
-    </div>
-  </section>
-{{ end }}
+  {{ partial "elastic-lucene/optimization" . }}
 
+  {{ partial "elastic-lucene/features" . }}
 
-  {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-features") }}
-  <section class="grey-bg py-5">
-    <div class="container">
-      <h3 class="text-center mb-5">{{ .Params.title }}</h3>
-      <div class="row g-4">
-        {{ range .Params.features }}
-          <div class="col-12 col-md-6 col-xl-4">
-            <a href="{{ .link.url }}" class="card d-flex flex-column gap-3">
-              <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" width="24" height="24" />
-              <p class="mb-0 text-dark">{{ .description }}</p>
-              <p class="m-0">
-                <span class="link link_md">{{ .link.text }}</span>
-              </p>
-            </a>
-          </div>
-        {{ end }}
-      </div>
-    </div>
-  </section>
-  {{ end }}
+  {{ partial "elastic-lucene/why" . }}
 
-  {{ with (.Site.GetPage "/elastic-lucene/why-qdrant") }}
-  <section class="py-5 grey-bg">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-12 col-lg-6">
-          <h3 class="mb-4">{{ .Params.title }}</h3>
-          <p class="mb-3">{{ .Params.description }}</p>
-          <p>{{ .Params.descriptionSecond }}</p>
-        </div>
-        <div class="col-12 col-lg-6">
-          <div class="card elastic-lucene-why-qdrant__testimonial-card">
-            <div class="elastic-lucene-why-qdrant__logo-container">
-              <img class="elastic-lucene-why-qdrant__logo" src="{{ .Params.testimonial.logo.src }}" alt="{{ .Params.testimonial.logo.alt }}" />
-            </div>
-            <p class="elastic-lucene-why-qdrant__testimonial-text">{{ .Params.testimonial.text }}</p>
-            <div class="elastic-lucene-why-qdrant__link-wrapper">
-              <a class="link link_md elastic-lucene-why-qdrant__link" href="{{ .Params.testimonial.link.url }}">{{ .Params.testimonial.link.text }}</a>
-              <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2 9L9 2M9 2H2M9 2V9" stroke="#dc244c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  {{ end }}
+  {{ partial "elastic-lucene/migration" . }}
 
-
-{{ partial "elastic-lucene/migration" . }}
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <section class="retrieval-augmented-generation-guide py-5">
-    <div class="container">
-      <div class="row position-relative">
-        <div class="retrieval-augmented-generation-guide__content col-12 col-lg-6 position-absolute">
-        <img src="/img/elastic-lucene/astronaut-holding-cube.png" width="150%" height="auto" class="z-index-0" draggable="false" alt="Astronaut holding a cube" />
-        </div>
-
-        <div class="retrieval-augmented-generation-guide__preview col-12 col-lg-6 offset-6">
-
-          <h2 class="h4 text-white mb-4">We’ll Help You Benchmark</h2>
-           <p>If you have a production use case, run a side-by-side benchmark on your own index to measure latency, RAM footprint, and throughput before you decide. </p>
-           <p>Our team of Solution Architects will help you test feasibility, latency, and cost.</p>
-           <p class="mb-4">No strings attached, no commitment. Performance that speaks for itself. </p>
-  <div id="qdrant-contact-form"></div>
-        </div>
-      </div>
-    </div>
-    {{ partial "top-and-bottom-overlay" (dict "context" . "class" "retrieval-augmented-generation-guide") }}
-  </section>
-
-
-
+  {{ partial "elastic-lucene/form" . }}
 
   {{ partial "elastic-lucene/lessons" . }}
 
   {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-get-started") }}
-    {{ partial "get-started-small" (dict "context" . "class" "elastic-lucene-get-started") }}
+    {{ partial "get-started-small" (dict "context" . "class" "get-started-small-database") }}
   {{ end }}
   
 

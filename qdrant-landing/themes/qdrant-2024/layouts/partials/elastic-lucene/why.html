@@ -1,0 +1,28 @@
+{{ with (.Site.GetPage "/elastic-lucene/why-qdrant") }}
+<section class="py-5 grey-bg">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                <div class="split-section__content">
+                    <h3 class="split-section__title">{{ .Params.title }}</h3>
+                    <div class="split-section__description">
+                        <p>{{ .Params.description }}</p>
+                        <p>{{ .Params.descriptionSecond }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="card split-section__testimonial-card width-auto">
+                    <div class="split-section__logo-container">
+                        <img class="split-section__logo" src="{{ .Params.testimonial.logo.src }}" alt="{{ .Params.testimonial.logo.alt }}" />
+                    </div>
+                    <p class="split-section__testimonial-text">{{ .Params.testimonial.text }}</p>
+                    <div class="split-section__link-wrapper">
+                        <a class="link link_md" href="{{ .Params.testimonial.link.url }}">{{ .Params.testimonial.link.text }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}

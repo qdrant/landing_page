@@ -1,0 +1,16 @@
+{{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-form") }}
+  <section class="elastic-lucene-form">
+    <div class="elastic-lucene-form__illustration" style="background-image: url('{{ .Params.image.src }}');"></div>
+    <div class="container">
+      <div class="row position-relative">
+        <div class="col-12 col-lg-6 offset-0 offset-lg-6 elastic-lucene-form__content">
+          <h2 class="h4 text-white mb-4">{{ .Params.title }}</h2>
+          {{ .Params.content | safeHTML }}
+          <div id="qdrant-contact-form"></div>
+        </div>
+      </div>
+    </div>
+    {{ partial "top-and-bottom-overlay" (dict "context" . "class" "elastic-lucene-form") }}
+  </section>
+{{ end }}
+
