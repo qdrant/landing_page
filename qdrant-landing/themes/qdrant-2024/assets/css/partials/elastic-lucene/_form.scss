@@ -1,24 +1,22 @@
 .elastic-lucene-form {
     padding-top: pxToRem(96);
-    padding-bottom: pxToRem(96);
+    padding-bottom: pxToRem(340);
     background-color: $neutral-10;
     overflow: hidden;
     position: relative;
-    min-height: pxToRem(283);
-    padding-bottom: pxToRem(324);
 
     @include media-breakpoint-up(lg) {
-        padding-bottom: 0;
+        padding-bottom: pxToRem(96);
     }
 
     &__overlay-bottom {
         background-image: url('/img/blurred/blurred-light-4.png');
-    transform: scale(-1, -1);
-    background-position: bottom right;
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 63rem;
-  height: 17rem;
+        transform: scale(-1, -1);
+        background-position: bottom right;
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 63rem;
+        height: 17rem;
     }
 
     &__illustration {
@@ -41,7 +39,29 @@
     }
 
     &__content {
-    // todo: use styles from Figma
+        display: flex;
+        flex-direction: column;
+        gap: $spacer * 2.5;
     }
+
+        &__title {
+            font-size: $h4-font-size;
+            line-height: pxToRem(50);
+            font-weight: 700;
+            color: $neutral-98;
+            margin-bottom: 0;
+        }
+
+        &__description p {
+            font-size: $font-size-md;
+            line-height: pxToRem(24);
+            font-weight: 500;
+            color: $neutral-70;
+            margin-bottom: $spacer * 0.5;
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
 
 }
