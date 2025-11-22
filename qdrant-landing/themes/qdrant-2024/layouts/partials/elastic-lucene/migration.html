@@ -1,4 +1,4 @@
-  {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-migration") }}
+{{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-migration") }}
   <section class="outlined-card-group grey-bg pt-5 pb-6">
     <div class="container">
       <div class="outlined-card-group__cards row gy-0">
@@ -18,9 +18,16 @@
               <div class="outlined-card-group__text">
                 <h3 class="outlined-card-group__title outlined-card-group__title--large">{{ .Params.title }}</h3>
                 <p class="outlined-card-group__subtitle">{{ .Params.subtitle }}</p>
-                <p class="outlined-card-group__description outlined-card-group__description--small">{{ .Params.description }}</p>
-                <p class="outlined-card-group__description outlined-card-group__description--small">{{ .Params.descriptionSecond }}</p>
-                <a href="{{ .Params.button.url }}" class="button button_contained button_lg outlined-card-group__button">
+                <p class="outlined-card-group__description outlined-card-group__description--small">
+                  {{ .Params.description }}
+                </p>
+                <p class="outlined-card-group__description outlined-card-group__description--small">
+                  {{ .Params.descriptionSecond }}
+                </p>
+                <a
+                  href="{{ .Params.button.url }}"
+                  class="button button_contained button_lg outlined-card-group__button"
+                >
                   {{ .Params.button.text }}
                 </a>
               </div>
@@ -30,4 +37,4 @@
       </div>
     </div>
   </section>
-  {{ end }}
+{{ end }}

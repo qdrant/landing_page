@@ -1,5 +1,4 @@
 .outlined-card-group {
-
   &__cards {
     border: 1px solid $neutral-90;
     border-radius: pxToRem(32);
@@ -33,7 +32,7 @@
     }
   }
 
-  &__cards .row > [class*="col-"] > &__card {
+  &__cards .row > [class*='col-'] > &__card {
     height: 100%;
   }
 
@@ -145,50 +144,52 @@
 }
 
 .og-card {
-    &__images-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-top: pxToRem(32);
-      margin-left: -$spacer * 1.5;
-      margin-right: -$spacer * 1.5;
-      margin-bottom: pxToRem(40);
+  &__images-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: pxToRem(32);
+    margin-left: -$spacer * 1.5;
+    margin-right: -$spacer * 1.5;
+    margin-bottom: pxToRem(40);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    & > div:first-child {
+      width: 16.9%;
+    }
+    & > div:nth-child(2) {
+      width: 60%;
+      aspect-ratio: 103/58;
+      overflow: hidden;
+      border-radius: pxToRem(8);
+
+      a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        transition:
+          transform 0.3s ease,
+          opacity 0.3s ease;
+
+        &:hover {
+          opacity: 0.9;
 
           img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.3s ease;
-          }
-
-      & > div:first-child {
-        width: 16.9%;
-      }
-      & > div:nth-child(2) {
-        width: 60%;
-        aspect-ratio: 103/58;
-        overflow: hidden;
-        border-radius: pxToRem(8);
-
-        a {
-          display: block;
-          width: 100%;
-          height: 100%;
-          transition: transform 0.3s ease, opacity 0.3s ease;
-
-          &:hover {
-            opacity: 0.9;
-
-            img {
-              transform: scale(1.02);
-            }
+            transform: scale(1.02);
           }
         }
       }
-      & > div:last-child {
-        width: 16.9%;
-      }
     }
+    & > div:last-child {
+      width: 16.9%;
+    }
+  }
 }
