@@ -5,7 +5,7 @@
         <div class="col-12 p-0">
           <div class="card outlined-card-group__header-card">
             <h4 class="outlined-card-group__header-title text-center mb-0">
-              {{ .Params.title | replaceRE "\n" "<br>" | safeHTML }}
+              {{ .Params.title | safeHTML }}
             </h4>
           </div>
         </div>
@@ -28,7 +28,7 @@
 
               <div class="outlined-card-group__content px-0">
                 <div class="outlined-card-group__text">
-                  <h6 class="outlined-card-group__title">{{ .title | replaceRE "\n" "<br>" | safeHTML }}</h6>
+                  <h6 class="outlined-card-group__title">{{ .title | safeHTML }}</h6>
                   <p class="outlined-card-group__description">{{ .description | safeHTML }}</p>
                 </div>
                 <a href="{{ .link.url }}" class="link outlined-card-group__link">
