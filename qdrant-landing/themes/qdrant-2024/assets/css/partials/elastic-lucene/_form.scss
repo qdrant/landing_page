@@ -31,7 +31,7 @@
 
     @include media-breakpoint-up(lg) {
       height: 100%;
-      top: 0;
+      max-height: pxToRem(600);
       width: 48%;
       background-position: right bottom;
     }
@@ -61,5 +61,22 @@
     &:last-of-type {
       margin-bottom: 0;
     }
+  }
+}
+
+.luceneForm {
+  label {
+    color: $neutral-98;
+  }
+
+  select[name='country'] {
+    width: 100% !important;
+    margin-right: 0;
+  }
+  .hs-form-checkbox {
+    list-style: none;
+  }
+  .hs-error-msg {
+    color: $error-50;
   }
 }

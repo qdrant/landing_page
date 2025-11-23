@@ -138,7 +138,7 @@
 
   &__link {
     width: auto;
-    flex-grow: 0;
+    align-self: flex-start;
     font-size: pxToRem(16);
   }
 }
