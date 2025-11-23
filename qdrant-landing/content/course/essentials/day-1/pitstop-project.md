@@ -31,7 +31,7 @@ A working semantic search engine that demonstrates:
 ### Prerequisites
 - Qdrant Cloud cluster (URL + API key)
 - Python 3.9+ (or Colab)
-- Packages: `qdrant-client`, `sentence-transformers`, `python-dotenv` (optional), `google.colab` (if using Colab)
+- Packages: `qdrant-client`, `sentence-transformers`, `google.colab` (if using Colab)
 
 ### Models
 - SentenceTransformer: `all-MiniLM-L6-v2` (384-dim)  
@@ -62,9 +62,7 @@ Pick something with rich, descriptive text where semantic search adds value:
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient, models
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 # For Colab:

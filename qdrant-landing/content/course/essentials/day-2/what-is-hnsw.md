@@ -140,9 +140,7 @@ Small collections or low-dimensional vectors may not trigger HNSW indexing at al
 ```python
 from qdrant_client import QdrantClient, models
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 # For Colab:
@@ -186,9 +184,7 @@ Let's test the performance. First we upload some toy data to a new collection:
 import time
 from qdrant_client import QdrantClient, models
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 # For Colab:

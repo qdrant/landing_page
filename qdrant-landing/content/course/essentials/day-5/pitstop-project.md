@@ -32,7 +32,7 @@ A hybrid recommendation system using:
 
 * Qdrant Cloud cluster (URL + API key)
 * Python 3.9+ (or Google Colab)
-* Packages: `qdrant-client`, `fastembed`, `python-dotenv`
+* Packages: `qdrant-client`, `fastembed`
 
 ### Models
 - **Dense**: `sentence-transformers/all-MiniLM-L6-v2` (384-dim)
@@ -56,9 +56,7 @@ First, connect to Qdrant and create a clean collection for our recommendation sy
 from datetime import datetime
 from qdrant_client import QdrantClient, models
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 # For Colab:

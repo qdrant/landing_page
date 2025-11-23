@@ -31,7 +31,7 @@ A performance-optimized version of your Day 1 search engine that demonstrates:
 
 * Qdrant Cloud cluster (URL + API key)
 * Python 3.9+ (or Google Colab)
-* Packages: `qdrant-client`, `sentence-transformers`, `python-dotenv`, `numpy`
+* Packages: `qdrant-client`, `sentence-transformers`, `numpy`
 
 ### Models
 
@@ -54,9 +54,7 @@ from sentence_transformers import SentenceTransformer
 import time
 import numpy as np
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 # For Colab:

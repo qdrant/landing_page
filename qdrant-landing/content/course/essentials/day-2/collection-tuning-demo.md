@@ -43,7 +43,6 @@ Working with 100K high-dimensional vectors (1536 dimensions from OpenAI's text-e
 `qdrant-client`: Official Qdrant Python client for vector search operations   
 `tqdm`: Progress bars for bulk operations (essential for 100K upload tracking)   
 `openai`: Generate query embeddings compatible with the dataset   
-`python-dotenv`: Secure environment variable management
 
 ### Set Up API Keys
 
@@ -78,9 +77,7 @@ from tqdm import tqdm
 import openai
 import time
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 # For Colab:
