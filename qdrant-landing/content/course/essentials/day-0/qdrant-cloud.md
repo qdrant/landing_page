@@ -99,14 +99,12 @@ QDRANT_URL=https://YOUR-CLUSTER.cloud.qdrant.io:6333
 QDRANT_API_KEY=YOUR_API_KEY
 ```
 
-Load the credentials with `dotenv` and create a Qdrant client:
+Load the credentials from the environment and create a Qdrant client:
 
 ```python
 from qdrant_client import QdrantClient, models
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 # For Colab:

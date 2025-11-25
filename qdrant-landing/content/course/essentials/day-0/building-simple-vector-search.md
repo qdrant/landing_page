@@ -42,9 +42,7 @@ To connect to Qdrant Cloud, you need your cluster URL and API key from your Qdra
 
 ```python
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 # For Colab:

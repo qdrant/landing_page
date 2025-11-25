@@ -29,7 +29,7 @@ A quantization-optimized search system that demonstrates:
 
 * Qdrant Cloud cluster (URL + API key)
 * Python 3.9+ (or Google Colab)
-* Packages: `qdrant-client`, `numpy`, `python-dotenv`
+* Packages: `qdrant-client`, `numpy`
 
 ### Models
 
@@ -55,9 +55,7 @@ import numpy as np
 
 from qdrant_client import QdrantClient, models
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 # For Colab:

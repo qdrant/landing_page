@@ -29,7 +29,7 @@ A working search system with:
 ### Prerequisites
 - Qdrant Cloud cluster (URL + API key)
 - Python 3.9+ (or Colab)
-- Required packages: `qdrant-client`, `python-dotenv`.
+- Required packages: `qdrant-client`.
 
 ### Models
 - None. We will create vectors by hand.
@@ -52,9 +52,7 @@ For this tutorial, we'll use the **Product Categories** concept.
 ```python
 from qdrant_client import QdrantClient, models
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
 
 # For Colab:
