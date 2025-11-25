@@ -47,9 +47,8 @@ The rest of this page is most useful when you train your **own embedding model**
 Cosine similarity measures the angular similarity between two vectors. It focuses on whether vectors point in the same direction rather than on their length. This aligns well with many text embeddings, where the angle encodes meaning and the length is less important.
 
 **Formula:**
-```
-cos(θ) = (A · B) / (||A|| ||B||)
-```
+
+$$\cos(\theta) = \frac{A \cdot B}{\|A\| \|B\|}$$
 
 Where `A · B` is the dot product of vectors `A` and `B`, and `||A||` and `||B||` are their magnitudes (norms).
 
@@ -82,9 +81,8 @@ vectors_config = VectorParams(
 Dot product similarity is calculated by multiplying the respective values in the two vectors and then summing those products. Unlike Cosine, this metric considers vector length.
 
 **Formula:**
-```
-A · B = Σ (Aᵢ × Bᵢ)
-```
+
+$$A \cdot B = \sum_{i=1}^{n} A_i B_i$$
 
 **Key Nuance:**
 For vectors with controlled norms (e.g., constrained by the model), a higher dot product indicates greater similarity. **If you normalize vectors to unit length (norm = 1), the dot product becomes mathematically identical to cosine similarity.**
@@ -109,9 +107,8 @@ vectors_config = VectorParams(
 Euclidean distance calculates the straight-line distance between two points in multi-dimensional space. It is often used when the exact numeric difference between vectors matters, such as in clustering algorithms (e.g., K-Means).
 
 **Formula:**
-```
-d(A, B) = √Σ(A₁ - B₁)² + (A₂ - B₂)² + ... + (Aₙ - Bₙ)²
-```
+
+$$d(A, B) = \sqrt{\sum_{i=1}^{n} (A_i - B_i)^2}$$
 
 **Key Nuance:**
 Euclidean distance is sensitive to scale. If one feature ranges from 1–100 and another from 10,000–500,000, the larger-range feature will dominate the distance calculation. It is usually necessary to standardize or normalize features before using Euclidean distance.
@@ -132,9 +129,8 @@ vectors_config = VectorParams(
 Manhattan Distance is similar to Euclidean Distance but calculates distance as if moving along grid lines (horizontal and vertical).
 
 **Formula:**
-```
-d(A, B) = Σ |Aᵢ - Bᵢ|
-```
+
+$$d(A, B) = \sum_{i=1}^{n} |A_i - B_i|$$
 
 **Key Nuance:**
 Each dimension contributes linearly to the distance. A large deviation in a single dimension increases the distance linearly, rather than quadratically (as in Euclidean). This makes Manhattan distance less sensitive to extreme outliers in single dimensions.
@@ -167,6 +163,6 @@ If you are training your own model or designing custom features, use these guide
     *   **Euclidean** measures straight-line distance (sensitive to scale).
     *   **Manhattan** measures grid distance (robust to outliers).
     *   **Dot product** accounts for magnitude and direction.
-4.  **Experiment:** Qdrant allows you to set distance metrics per collection, making it easy to A/B test different metrics on your specific data.
+4.  **Experiment:** Qdrant allows you to set distance metrics per named vector, making it easy to A/B test different metrics on your specific data.
 
 Reference: [Distance Metrics in Qdrant Documentation](https://qdrant.tech/documentation/concepts/search/#metrics) 
