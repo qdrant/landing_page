@@ -289,9 +289,9 @@ multi-vector embeddings. The recommended approach combines MUVERA with Qdrant's 
 1. **Fast retrieval**: Use MUVERA embeddings with `prefetch` to retrieve candidate documents
 2. **Precise reranking**: Qdrant automatically rescores candidates with ColBERT multi-vectors
 
-This hybrid pattern achieves sublinear speed improvements while maintaining nearly identical search quality compared to 
-pure multi-vector search. The trade-off is increased storage, as you need to maintain both representations in your 
-collection.
+This hybrid pattern scales efficiently to large collections by limiting expensive multi-vector computations to only the
+candidate set retrieved by MUVERA, while maintaining nearly identical search quality compared to pure multi-vector search.
+The trade-off is increased storage, as you need to maintain both representations in your collection.
 
 MUVERA is particularly valuable for production systems with large document collections where multi-vector search would 
 otherwise be too slow for first-stage retrieval. The combination of FastEmbed's MUVERA postprocessing and Qdrant's 
