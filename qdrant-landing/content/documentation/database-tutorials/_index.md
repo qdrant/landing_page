@@ -20,3 +20,4 @@ partition: qdrant
 | [Using Qdrant’s Async API for Efficient Python Applications](/documentation/database-tutorials/async-api/)            | 
 | [Qdrant Migration Guide](/documentation/database-tutorials/migration/)            | 
 | [Static Embeddings. Should you pay attention?](/documentation/database-tutorials/static-embeddings/)            | 
+| [Time-based Sharding](/documentation/database-tutorials/time-based-sharding/)            | 
