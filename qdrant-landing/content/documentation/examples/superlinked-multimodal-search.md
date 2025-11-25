@@ -1,50 +1,34 @@
 ---
-title: "Beyond Multimodal Vectors: Hotel Search With Superlinked and Qdrant"
-draft: false
-short_description: "Combine Superlinked's multimodal embeddings with Qdrant's high-performance vector database for intelligent hotel search."
-description: "Build a scalable & smart search experience with quality embeddings and fast retrieval."
-preview_image: /blog/superlinked-multimodal-search/social_preview.png
-social_preview_image: /blog/superlinked-multimodal-search/social_preview.png
-date: 2025-04-24T00:00:00-08:00
-author: Filip Makraduli, David Myriel
-featured: false
-tags:
-  - vector search
-  - vector database
-  - multi-modal search
-  - semantic search
-  - hybrid search
-  - machine learning
-  - AI
-  - search engine
-  - technology
-  - innovation
+title: Beyond Multimodal Vectors - Hotel Search With Superlinked and Qdrant
+weight: 20
+aliases:
+  - /blog/superlinked-multimodal-search/
 ---
-
+# Beyond Multimodal Vectors: Hotel Search With Superlinked and Qdrant
 ## More Than Just Multimodal Search? 
 AI has transformed how we find products, services, and content. Now users express needs in **natural language** and expect precise, tailored results.
 
 For example, you might search for hotels in Paris with specific criteria:
 
-![superlinked-search](/blog/superlinked-multimodal-search/superlinked-search.png)
+![superlinked-search](/articles_data/superlinked-multimodal-search/superlinked-search.png)
 
 *"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking."* This isn't just a search query—it's a complex set of interrelated preferences spanning multiple data types.
 
-> In this blog, we'll show you how we built [**The Hotel Search Demo**](https://hotel-search-recipe.superlinked.io/). 
+> In this example, we'll show you how we built [**The Hotel Search Demo**](https://hotel-search-recipe.superlinked.io/). 
 
 **Figure 1:** Superlinked generates vectors of different modalities which are indexed and served by Qdrant for fast, accurate hotel search.
-![superlinked-hotel-search](/blog/superlinked-multimodal-search/frontend.gif)
+![superlinked-hotel-search](/articles_data/superlinked-multimodal-search/frontend.gif)
 
 What makes this app particularly powerful is how it breaks down your natural language query into precise parameters. As you type your question at the top, you can observe the query parameters dynamically update in the left sidebar.
 
-In this blog, we'll show you how Qdrant and Superlinked combine **textual understanding**, **numerical reasoning**, and **categorical filtering** to create a seamless search experience that meets modern user expectations.
+In this example, we'll show you how Qdrant and Superlinked combine **textual understanding**, **numerical reasoning**, and **categorical filtering** to create a seamless search experience that meets modern user expectations.
 
 
 ## Core Components
 
 **Figure 2:** In a typical search or RAG app, the embedding framework (Superlinked) combines your data and its metadata into vectors. They are ingested into a Qdrant collection and indexed. 
 
-![superlinked-architecture](/blog/superlinked-multimodal-search/superlinked-architecture.png)
+![superlinked-architecture](/articles_data/superlinked-multimodal-search/superlinked-architecture.png)
 
 Superlinked makes search smarter by embedding data into specialized "spaces" designed for each type of attribute, rather than using a single embedding method for everything.
 
@@ -62,7 +46,7 @@ This flexibility with weights allows users to rapidly iterate, experiment, and i
 **OpenAI API Key:** For natural language queries and generating the weights you will need an OpenAI API key
 
 ### 1. Vector Spaces: The Building Blocks of Intelligent Search
-![superlinked-hotel-1](/blog/superlinked-multimodal-search/superlinked-hotel-1.jpg)
+![superlinked-hotel-1](/articles_data/superlinked-multimodal-search/superlinked-hotel-1.jpg)
 
 At the heart of Superlinked's innovation are [**Spaces**](https://docs.superlinked.com/concepts/overview) - specialized vector embedding environments designed for different data types. Unlike conventional approaches that force all data into a single embedding format, these spaces respect the inherent characteristics of different data types.
 
@@ -156,7 +140,7 @@ query = (
 ```
 #### Breaking Down the Query
 
-![superlinked-query](/blog/superlinked-multimodal-search/superlinked-query.svg)
+![superlinked-query](/articles_data/superlinked-multimodal-search/superlinked-query.png)
 
 This setup enables queries like *"Affordable luxury hotels near Eiffel Tower with lots of good reviews and free parking."* to be automatically translated into:
 
@@ -230,11 +214,11 @@ Please wait until the ingestion is finished. You will see the message.
 
 Once your Superlinked vectors are ingested, log in to the Qdrant Cloud dashboard to navigate to **Collections** and select your `default` hotel collection.
 
-![default-collection](/blog/superlinked-multimodal-search/default-collection.png)
+![default-collection](/articles_data/superlinked-multimodal-search/default-collection.png)
 
 You can browse individual points under the **Data** tab to view payload metadata (price, rating, amenities) alongside their raw vector embeddings.
 
-![collection-information](/blog/superlinked-multimodal-search/collection-information.png)
+![collection-information](/articles_data/superlinked-multimodal-search/collection-information.png)
 
 In the **Collection Information** section, you can use the **Search** tab to apply metadata filters or search by vector. In the **Search Quality** section, you can also monitor performance metrics (throughput, latency).
 
@@ -252,7 +236,7 @@ python -m streamlit run app/frontend/main.py
 
 The Frontend UI will be available at [localhost:8501](http://localhost:8501).
 
-![superlinked-hotel-search](/blog/superlinked-multimodal-search/superlinked-hotel-search.png)
+![superlinked-hotel-search](/articles_data/superlinked-multimodal-search/superlinked-hotel-search.png)
 
 #### Superlinked CLI 
 
