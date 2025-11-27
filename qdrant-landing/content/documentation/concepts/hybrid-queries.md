@@ -32,8 +32,7 @@ One of the most common problems when you have different representations of the s
 
 {{< figure  src="/docs/fusion-idea.png" caption="Fusing results from multiple queries" width="80%" >}}
 
-For example, in text search, it is often useful to combine dense and sparse vectors get the best of semantics,
-plus the best of matching specific words.
+For example, in text search, it is often useful to combine dense and sparse vectors to get the best of both worlds: semantic understanding from dense vectors and precise word matching from sparse vectors.
 
 Qdrant has a few ways of fusing the results from different queries: `rrf` and `dbsf`
 
