@@ -1,6 +1,7 @@
 {
   "name": "snippets-amalgamation",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "1.js",
   "scripts": {
@@ -9,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^24.10.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
