@@ -1,0 +1,121 @@
+.elastic-lucene-hero {
+  background-color: $neutral-10;
+  padding: pxToRem(80) 0 pxToRem(440);
+  position: relative;
+  overflow: hidden;
+
+  @include media-breakpoint-up(md) {
+    padding-bottom: pxToRem(120);
+  }
+
+  &__illustration {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: pxToRem(400);
+    background-image: var(--bg-image), url('/img/elastic-lucene/astronaut-light.png');
+    background-position:
+      bottom center,
+      bottom center;
+    background-repeat: no-repeat, no-repeat;
+    background-size: contain, contain;
+    z-index: 1;
+
+    @include media-breakpoint-up(md) {
+      display: block;
+      left: 50%;
+      right: pxToRem(-144);
+      background-position:
+        bottom left,
+        bottom left;
+      height: pxToRem(532);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2;
+    z-index: 4;
+  }
+
+  &__title {
+    font-size: $h3-font-size;
+    line-height: pxToRem(58);
+    font-weight: 700;
+    color: $neutral-98;
+    margin-bottom: 0;
+  }
+
+  &__description {
+    font-size: $font-size-l;
+    line-height: pxToRem(27);
+    font-weight: 500;
+    color: $neutral-70;
+    margin-bottom: 0;
+
+    @include media-breakpoint-up(md) {
+      padding-right: pxToRem(144);
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding-right: 0;
+    }
+  }
+
+  &__quotes {
+    position: relative;
+    padding-left: $spacer * 2;
+
+    &-line {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: pxToRem(85);
+      width: pxToRem(1);
+    }
+
+    &-list {
+      font-size: $font-size-s;
+      line-height: pxToRem(21);
+      font-weight: 400;
+      color: $neutral-70;
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__closing {
+    font-size: $font-size-l;
+    line-height: pxToRem(27);
+    font-weight: 500;
+    color: $neutral-70;
+    margin-bottom: 0;
+
+    @include media-breakpoint-up(md) {
+      padding-right: pxToRem(160);
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding-right: 0;
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 300px;
+    background-image: url('/img/elastic-lucene/lights.svg');
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: cover;
+    filter: blur(6px);
+    z-index: 3;
+  }
+}

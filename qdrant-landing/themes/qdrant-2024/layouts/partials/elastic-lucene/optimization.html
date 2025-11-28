@@ -1,0 +1,24 @@
+{{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-optimization") }}
+  <section class="outlined-card-group grey-bg py-5">
+    <div class="container">
+      <div class="row">
+        <h3 class="text-center col-12 mb-5">{{ .Params.title }}</h3>
+      </div>
+      <div class="outlined-card-group__cards">
+        <div class="row g-3">
+          {{ range .Params.features }}
+            <div class="col-12 col-md-6 col-xl-3 d-flex">
+              <div class="card outlined-card-group__card w-100">
+                <div class="d-flex flex-column gap-3">
+                  <img class="outlined-card-group__icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+                  <h6 class="outlined-card-group__title outlined-card-group__title--small">{{ .title }}</h6>
+                  <p class="outlined-card-group__description">{{ .description }}</p>
+                </div>
+              </div>
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

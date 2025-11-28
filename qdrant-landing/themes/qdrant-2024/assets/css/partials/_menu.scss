@@ -24,7 +24,7 @@
   padding-left: pxToRem(20);
   padding-right: pxToRem(20);
   background: linear-gradient(180deg, #090d19, rgba(9, 13, 25, 0));
-  z-index: 1;
+  z-index: 10;
 
   &__trigger {
     outline: none;
