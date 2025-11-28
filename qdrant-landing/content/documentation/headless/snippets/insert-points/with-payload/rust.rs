@@ -1,5 +1,5 @@
 use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
-use qdrant_client::{Payload, Qdrant, QdrantError};
+use qdrant_client::{Payload, Qdrant};
 use serde_json::json;
 
 pub async fn main() -> anyhow::Result<()> {

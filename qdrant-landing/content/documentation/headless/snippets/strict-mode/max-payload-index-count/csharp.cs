@@ -9,7 +9,7 @@ public class Snippet
 
 		await client.CreateCollectionAsync(
 		  collectionName: "{collection_name}",
-		  strictModeConfig: new StrictModeConfig { enabled = true, max_payload_index_count = 10 }
+		  strictModeConfig: new StrictModeConfig { Enabled = true, MaxPayloadIndexCount = 10 }
 		);
 	}
 }

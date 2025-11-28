@@ -12,6 +12,8 @@ func Main() {
 		Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.Count(context.Background(), &qdrant.CountPoints{
 		CollectionName: "midlib",
 		Filter: &qdrant.Filter{

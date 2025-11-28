@@ -25,10 +25,10 @@ public class Snippet {
 
                 List<ScoredPoint> time_boosted = client.queryAsync(
                     QueryPoints.newBuilder()
-                        .setCollectionName({collection_name})
+                        .setCollectionName("{collection_name}")
                         .addPrefetch(
                             PrefetchQuery.newBuilder()
-                                .setQuery(nearest(0.2f, 0.8f, .., ..))  // <-- dense vector
+                                .setQuery(nearest(0.1f, 0.45f, 0.67f))  // <-- dense vector
                                 .setLimit(50)
                                 .build())
                         .setQuery(

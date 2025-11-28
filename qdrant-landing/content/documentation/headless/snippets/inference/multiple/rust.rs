@@ -1,6 +1,6 @@
 use qdrant_client::{
-    Payload, Qdrant, QdrantError,
-    qdrant::{Document, PointStruct, UpsertPointsBuilder, Vectors},
+    Payload, Qdrant,
+    qdrant::{Document, Image, NamedVectors, PointStruct, UpsertPointsBuilder},
 };
 use std::collections::HashMap;
 

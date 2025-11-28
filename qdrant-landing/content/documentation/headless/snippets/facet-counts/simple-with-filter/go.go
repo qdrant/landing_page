@@ -12,7 +12,9 @@ func Main() {
 	    Port: 6334,
 	})
 
-	res, err := client.Facet(ctx, &qdrant.FacetCounts{
+	if err != nil { panic(err) } // @hide
+
+	res, err := client.Facet(context.Background(), &qdrant.FacetCounts{
 	    CollectionName: "{collection_name}",
 	    Key:            "size",
 	        Filter: &qdrant.Filter{
@@ -21,4 +23,7 @@ func Main() {
 	        },
 	    },
 	})
+
+	if err != nil { panic(err) } // @hide
+	_ = res // @hide
 }

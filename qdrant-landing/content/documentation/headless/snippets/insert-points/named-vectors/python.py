@@ -1,3 +1,4 @@
+# mypy: disable-error-code="dict-item"
 from qdrant_client import QdrantClient, models  # @hide
 
 client = QdrantClient(url="http://localhost:6333")  # @hide

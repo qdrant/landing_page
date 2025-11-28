@@ -12,6 +12,7 @@ import io.qdrant.client.grpc.Points.PointsUpdateOperation.ClearPayload;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.DeletePayload;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.DeletePoints;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.DeleteVectors;
+import io.qdrant.client.grpc.Points.PointsUpdateOperation.OverwritePayload;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.PointStructList;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.SetPayload;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.UpdateVectors;
@@ -22,6 +23,11 @@ import java.util.Map;
 
 public class Snippet {
         public static void run() throws Exception {
+                // @hide-start
+                io.qdrant.client.QdrantClient client =
+                    new io.qdrant.client.QdrantClient(io.qdrant.client.QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+                // @hide-end
+
                 client
                     .batchUpdateAsync(
                         "{collection_name}",
@@ -58,7 +64,7 @@ public class Snippet {
                                 .build(),
                             PointsUpdateOperation.newBuilder()
                                 .setOverwritePayload(
-                                    SetPayload.newBuilder()
+                                    OverwritePayload.newBuilder()
                                         .setPointsSelector(
                                             PointsSelector.newBuilder()
                                                 .setPoints(PointsIdsList.newBuilder().addIds(id(1)).build())

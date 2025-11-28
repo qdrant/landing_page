@@ -12,6 +12,8 @@ func Main() {
 		Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 		CollectionName: "{collection_name}",
 		OptimizersConfig: &qdrant.OptimizersConfigDiff{

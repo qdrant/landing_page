@@ -12,6 +12,8 @@ func Main() {
 	    Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	    CollectionName: "{collection_name}",
 	    VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
@@ -20,7 +22,7 @@ func Main() {
 	    }),
 	    QuantizationConfig: qdrant.NewQuantizationBinary(
 	        &qdrant.BinaryQuantization{
-	            QueryEncoding: qdrant.NewBinaryQuantizationQueryEncodingSetting(BinaryQuantizationQueryEncoding_Scalar8Bits),
+	            QueryEncoding: qdrant.NewBinaryQuantizationQueryEncodingSetting(qdrant.BinaryQuantizationQueryEncoding_Scalar8Bits),
 	            AlwaysRam: qdrant.PtrOf(true),
 	        },
 	    ),

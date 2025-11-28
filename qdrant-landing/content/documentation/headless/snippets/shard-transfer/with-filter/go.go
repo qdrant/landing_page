@@ -12,7 +12,9 @@ func Main() {
 		Port: 6334,
 	})
 
-	client.UpdateClusterCollectionSetup(ctx, qdrant.NewUpdateCollectionClusterReplicatePoints(
+	if err != nil { panic(err) } // @hide
+
+	client.UpdateClusterCollectionSetup(context.Background(), qdrant.NewUpdateCollectionClusterReplicatePoints(
 		"{collection_name}", &qdrant.ReplicatePoints{
 			FromShardKey: qdrant.NewShardKey("default"),
 			ToShardKey:   qdrant.NewShardKey("user_1"),

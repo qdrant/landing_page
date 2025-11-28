@@ -4,6 +4,7 @@ import static io.qdrant.client.ConditionFactory.geoPolygon;
 
 import io.qdrant.client.grpc.Common.GeoLineString;
 import io.qdrant.client.grpc.Common.GeoPoint;
+import java.util.List;
 
 public class Snippet {
         public static void run() throws Exception {

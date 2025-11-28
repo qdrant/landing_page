@@ -12,11 +12,13 @@ func Main() {
 	  Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	  CollectionName: "{collection_name}",
 	  StrictModeConfig: &qdrant.StrictModeConfig{
 	    Enabled: qdrant.PtrOf(true),
-	    MaxQueryLimit: qdrant.PtrOf(uint64(10)),
+	    MaxQueryLimit: qdrant.PtrOf(uint32(10)),
 	  },
 	})
 }

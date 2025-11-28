@@ -1,5 +1,5 @@
 use qdrant_client::{
-    Qdrant, QdrantError,
+    Qdrant,
     qdrant::{Document, Query, QueryPointsBuilder},
 };
 

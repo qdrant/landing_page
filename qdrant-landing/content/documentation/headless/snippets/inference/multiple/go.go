@@ -2,7 +2,6 @@ package snippet
 
 import (
 	"context"
-	"time"
 
 	"github.com/qdrant/go-client/qdrant"
 )
@@ -15,7 +14,9 @@ func Main() {
 		UseTLS: true,
 	})
 
-	client.Upsert(ctx, &qdrant.UpsertPoints{
+	if err != nil { panic(err) } // @hide
+
+	client.Upsert(context.Background(), &qdrant.UpsertPoints{
 		CollectionName: "{collection_name}",
 		Points: []*qdrant.PointStruct{
 			{

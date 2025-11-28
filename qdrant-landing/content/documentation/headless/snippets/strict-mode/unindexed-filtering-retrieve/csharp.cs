@@ -9,7 +9,7 @@ public class Snippet
 
 		await client.CreateCollectionAsync(
 		  collectionName: "{collection_name}",
-		  strictModeConfig: new StrictModeConfig { enabled = true, unindexed_filtering_retrieve = false }
+		  strictModeConfig: new StrictModeConfig { Enabled = true, UnindexedFilteringRetrieve = false }
 		);
 	}
 }

@@ -12,6 +12,8 @@ func Main() {
 	    Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.DeletePayload(context.Background(), &qdrant.DeletePayloadPoints{
 	    CollectionName: "{collection_name}",
 	    Keys:           []string{"color", "price"},

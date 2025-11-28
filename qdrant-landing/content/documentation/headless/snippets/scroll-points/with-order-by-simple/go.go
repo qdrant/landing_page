@@ -12,6 +12,8 @@ func Main() {
 		Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.Scroll(context.Background(), &qdrant.ScrollPoints{
 		CollectionName: "{collection_name}",
 		Limit:          qdrant.PtrOf(uint32(15)),

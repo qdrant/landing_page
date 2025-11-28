@@ -6,7 +6,7 @@ client.create_payload_index(
     collection_name="{collection_name}",
     field_name="group_id",
     field_schema=models.KeywordIndexParams(
-        type="keyword",
+        type=models.KeywordIndexType.KEYWORD,
         is_tenant=True,
     ),
 )

@@ -1,3 +1,4 @@
+# type: ignore # error: Argument "query" to "Prefetch" has incompatible type "list[int]"; expected "list[float] | SparseVector | list[list[float]] | int | str | <13 more items> | None"  [arg-type] # @hide
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")

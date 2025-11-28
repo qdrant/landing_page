@@ -8,9 +8,15 @@ import io.qdrant.client.grpc.Collections.SparseVectorParams;
 import io.qdrant.client.grpc.Collections.VectorParams;
 import io.qdrant.client.grpc.Collections.VectorParamsMap;
 import io.qdrant.client.grpc.Collections.VectorsConfig;
+import java.util.Map;
 
 public class Snippet {
         public static void run() throws Exception {
+                // @hide-start
+                io.qdrant.client.QdrantClient client =
+                    new io.qdrant.client.QdrantClient(io.qdrant.client.QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+                // @hide-end
+
                 client
                     .createCollectionAsync(
                         CreateCollection.newBuilder()
@@ -26,13 +32,14 @@ public class Snippet {
                                                         .setSize(384)
                                                         .setDistance(Distance.Cosine)
                                                         .build())))
-                                    .setSparseVectorsConfig(
-                                        SparseVectorConfig.newBuilder()
-                                            .putMap(
-                                                "bm25_sparse_vector",
-                                                SparseVectorParams.newBuilder()
-                                                    .setModifier(Modifier.Idf)
-                                                    .build())))
+                                    .build())
+                            .setSparseVectorsConfig(
+                                SparseVectorConfig.newBuilder()
+                                    .putMap(
+                                        "bm25_sparse_vector",
+                                        SparseVectorParams.newBuilder()
+                                            .setModifier(Modifier.Idf)
+                                            .build()))
                             .build())
                     .get();
         }

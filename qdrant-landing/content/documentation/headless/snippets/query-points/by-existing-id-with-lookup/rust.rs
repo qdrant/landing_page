@@ -1,5 +1,5 @@
 use qdrant_client::Qdrant;
-use qdrant_client::qdrant::{LookupLocationBuilder, PointId, Query, QueryPointsBuilder};
+use qdrant_client::qdrant::{LookupLocationBuilder, Query, QueryPointsBuilder};
 
 pub async fn main() -> anyhow::Result<()> {
     let client = Qdrant::from_url("http://localhost:6334").build()?;

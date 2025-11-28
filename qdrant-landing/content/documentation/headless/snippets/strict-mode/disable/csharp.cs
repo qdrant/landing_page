@@ -9,7 +9,7 @@ public class Snippet
 
 		await client.CreateCollectionAsync(
 		  collectionName: "{collection_name}",
-		  strictModeConfig: new StrictModeConfig { enabled = false }
+		  strictModeConfig: new StrictModeConfig { Enabled = false }
 		);
 	}
 }

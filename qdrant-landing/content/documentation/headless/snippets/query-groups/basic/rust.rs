@@ -1,6 +1,8 @@
 use qdrant_client::qdrant::QueryPointGroupsBuilder;
 
 pub async fn main() -> anyhow::Result<()> {
+    let client = qdrant_client::Qdrant::from_url("http://localhost:6334").build()?; // @hide
+
     client
         .query_groups(
             QueryPointGroupsBuilder::new("{collection_name}", "document_id")

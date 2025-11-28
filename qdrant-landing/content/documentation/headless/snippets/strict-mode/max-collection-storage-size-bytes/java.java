@@ -3,7 +3,7 @@ package com.example.snippets_amalgamation;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.CreateCollection;
-import io.qdrant.client.grpc.Collections.StrictModeCOnfig;
+import io.qdrant.client.grpc.Collections.StrictModeConfig;
 
 public class Snippet {
         public static void run() throws Exception {

@@ -1,5 +1,5 @@
 use qdrant_client::{
-    Payload, Qdrant, QdrantError,
+    Payload, Qdrant,
     qdrant::{Document, PointStruct, UpsertPointsBuilder},
 };
 use std::collections::HashMap;

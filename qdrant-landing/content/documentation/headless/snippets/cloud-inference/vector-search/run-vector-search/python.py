@@ -1,12 +1,17 @@
-from qdrant_client import QdrantClient, models  # @hide
+# @hide-start
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")  # @hide
+client = QdrantClient(url="http://localhost:6333")
+query_text = "{query_text}"
+dense_model = "{dense_model_name}"
+bm25_model = "{bm25_model_name}"
+# @hide-end
 
 results = client.query_points(
     collection_name="{collection_name}",
     prefetch=[
         models.Prefetch(
-            query=Document(
+            query=models.Document(
                 text=query_text,
                 model=dense_model
             ),
@@ -14,7 +19,7 @@ results = client.query_points(
             limit=5
         ),
         models.Prefetch(
-            query=Document(
+            query=models.Document(
                 text=query_text,
                 model=bm25_model
             ),

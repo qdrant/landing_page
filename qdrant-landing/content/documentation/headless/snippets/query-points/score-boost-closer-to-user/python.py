@@ -1,12 +1,11 @@
-client = QdrantClient(url="http://localhost:6333")  # @hide
-
 from qdrant_client import QdrantClient, models
 
+client = QdrantClient(url="http://localhost:6333")  # @hide
 
 geo_boosted = client.query_points(
     collection_name="{collection_name}",
     prefetch=models.Prefetch(
-        query=[0.2, 0.8, ...],  # <-- dense vector
+        query=[0.1, 0.45, 0.67],  # <-- dense vector
         limit=50
     ),
     query=models.FormulaQuery(

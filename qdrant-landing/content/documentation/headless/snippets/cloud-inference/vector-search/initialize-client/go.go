@@ -1,10 +1,6 @@
 package snippet
 
-import (
-    "context"
-
-    "github.com/qdrant/go-client/qdrant"
-)
+import "github.com/qdrant/go-client/qdrant"
 
 func Main() {
 	client, err := qdrant.NewClient(&qdrant.Config{
@@ -13,4 +9,7 @@ func Main() {
 		APIKey: "<paste-your-api-key-here>",
 		UseTLS: true,
 	})
+
+	if err != nil { panic(err) } // @hide
+	_ = client // @hide
 }

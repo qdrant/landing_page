@@ -18,6 +18,7 @@ import io.qdrant.client.grpc.Points.GeoDistance;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SumExpression;
+import java.util.Map;
 
 public class Snippet {
         public static void run() throws Exception {

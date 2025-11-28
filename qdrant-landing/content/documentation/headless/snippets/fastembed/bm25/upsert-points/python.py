@@ -2,6 +2,8 @@ from qdrant_client import QdrantClient, models  # @hide
 
 client = QdrantClient(url="http://localhost:6333")  # @hide
 
+documents: list[str] = [] # @hide
+
 #Estimating the average length of the documents in the corpus
 avg_documents_length = sum(len(document.split()) for document in documents) / len(documents)
 

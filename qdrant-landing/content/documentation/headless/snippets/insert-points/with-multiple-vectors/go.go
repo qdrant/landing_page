@@ -12,6 +12,8 @@ func Main() {
 		Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.Upsert(context.Background(), &qdrant.UpsertPoints{
 		CollectionName: "{collection_name}",
 		Points: []*qdrant.PointStruct{

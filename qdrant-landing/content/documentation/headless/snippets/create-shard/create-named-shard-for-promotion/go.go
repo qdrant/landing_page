@@ -12,12 +12,14 @@ func Main() {
 		Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.CreateShardKey(
 		context.Background(),
 		"{collection_name}",
 		&qdrant.CreateShardKey{
 			ShardKey: qdrant.NewShardKey("default"),
-			InitialState: qdrant.ReplicaState_PARTIAL,
-		}
+			InitialState: qdrant.PtrOf(qdrant.ReplicaState_Partial),
+		},
 	)
 }

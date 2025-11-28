@@ -10,6 +10,14 @@ import io.qdrant.client.grpc.Points.QueryPoints;
 
 public class Snippet {
         public static void run() throws Exception {
+                // @hide-start
+                io.qdrant.client.QdrantClient client =
+                    new io.qdrant.client.QdrantClient(io.qdrant.client.QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+                String queryText = "{query_text}";
+                String denseModel = "{dense_model_name}";
+                String bm25Model = "{bm25_model_name}";
+                // @hide-end
+
                 PrefetchQuery densePrefetch =
                     PrefetchQuery.newBuilder()
                         .setQuery(

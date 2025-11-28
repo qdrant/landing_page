@@ -2,7 +2,7 @@ package com.example.snippets_amalgamation;
 
 import static io.qdrant.client.ConditionFactory.range;
 
-import io.qdrant.client.grpc.Points.Range;
+import io.qdrant.client.grpc.Common.Range;
 
 public class Snippet {
         public static void run() throws Exception {

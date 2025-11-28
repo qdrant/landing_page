@@ -1,5 +1,5 @@
 use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder, Vector};
-use qdrant_client::Qdrant;
+use qdrant_client::{Payload, Qdrant};
 
 pub async fn main() -> anyhow::Result<()> {
     let client = Qdrant::from_url("http://localhost:6334").build()?;

@@ -1,5 +1,5 @@
 use qdrant_client::Qdrant;
-use qdrant_client::qdrant::{PrefetchQueryBuilder, Query, QueryPointsBuilder};
+use qdrant_client::qdrant::{MmrBuilder, Query, QueryPointsBuilder};
 
 pub async fn main() -> anyhow::Result<()> {
     let client = Qdrant::from_url("http://localhost:6334").build()?;

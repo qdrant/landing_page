@@ -7,7 +7,7 @@ pub async fn main() -> anyhow::Result<()> {
     client
         .create_collection(
             CreateCollectionBuilder::new("{collection_name}")
-                .strict_config_mode(StrictModeConfigBuilder::default().enabled(true).upsert_max_batchsize(1000)),
+                .strict_mode_config(StrictModeConfigBuilder::default().enabled(true).upsert_max_batchsize(1000)),
         )
         .await?;
 

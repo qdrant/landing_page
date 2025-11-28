@@ -9,7 +9,7 @@ public class Snippet
 
 		await client.CreateCollectionAsync(
 		  collectionName: "{collection_name}",
-		  strictModeConfig: new StrictModeConfig { enabled = true, max_collection_vector_size_bytes = 1000000, max_collection_payload_size_bytes = 1000000 }
+		  strictModeConfig: new StrictModeConfig { Enabled = true, MaxCollectionVectorSizeBytes = 1000000, MaxCollectionPayloadSizeBytes = 1000000 }
 		);
 	}
 }

@@ -12,5 +12,7 @@ func Main() {
 		Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.CreateSnapshot(context.Background(), "{collection_name}")
 }

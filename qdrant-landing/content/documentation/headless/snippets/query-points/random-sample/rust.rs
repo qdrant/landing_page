@@ -1,5 +1,5 @@
 use qdrant_client::Qdrant;
-use qdrant_client::qdrant::{Query, QueryPointsBuilder};
+use qdrant_client::qdrant::{Query, QueryPointsBuilder, Sample};
 
 pub async fn main() -> anyhow::Result<()> {
     let client = Qdrant::from_url("http://localhost:6334").build()?;
@@ -11,5 +11,6 @@ pub async fn main() -> anyhow::Result<()> {
         )
         .await?;
 
+    _ = sampled; // @hide
     Ok(())
 }

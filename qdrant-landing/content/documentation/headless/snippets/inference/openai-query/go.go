@@ -2,7 +2,6 @@ package snippet
 
 import (
 	"context"
-	"time"
 
 	"github.com/qdrant/go-client/qdrant"
 )
@@ -15,7 +14,9 @@ func Main() {
 		UseTLS: true,
 	})
 
-	client.Query(ctx, &qdrant.QueryPoints{
+	if err != nil { panic(err) } // @hide
+
+	client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: "{collection_name}",
 		Query: qdrant.NewQueryNearest(
 			qdrant.NewVectorInputDocument(&qdrant.Document{

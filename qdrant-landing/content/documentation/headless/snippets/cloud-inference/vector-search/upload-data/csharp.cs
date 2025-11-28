@@ -1,13 +1,22 @@
-
+using Qdrant.Client; // @hide
+using Qdrant.Client.Grpc; // @hide
 
 public class Snippet
 {
 	public static async Task Run()
 	{
+		var client = new QdrantClient("localhost", 6334); // @hide
+
 		var denseModel = "sentence-transformers/all-minilm-l6-v2";
 		var bm25Model = "qdrant/bm25";
 		// NOTE: LoadDataset is a user-defined function.
 		// Implement it to handle dataset loading as needed.
+		// @hide-start
+		List<Dictionary<string, object>> LoadDataset(string path, string slice)
+		{
+		    return new List<Dictionary<string, object>> {};
+		}
+		// @hide-end
 		var dataset = LoadDataset("miriad/miriad-4.4M", "train[0:100]");
 		var points = new List<PointStruct>();
 

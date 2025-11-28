@@ -1,11 +1,15 @@
 package com.example.snippets_amalgamation;
 
+import static io.qdrant.client.PointIdFactory.id;
 import static io.qdrant.client.ShardKeyFactory.shardKey;
+import static io.qdrant.client.ValueFactory.value;
+import static io.qdrant.client.VectorsFactory.vectors;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.PointStruct;
 import io.qdrant.client.grpc.Points.ShardKeySelector;
+import io.qdrant.client.grpc.Points.UpsertPoints;
 import java.util.List;
 import java.util.Map;
 

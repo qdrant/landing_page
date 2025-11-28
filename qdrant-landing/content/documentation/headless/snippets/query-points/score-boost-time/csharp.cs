@@ -11,7 +11,10 @@ public class Snippet
 		    collectionName: "{collection_name}",
 		    prefetch:
 		    [
-		        new PrefetchQuery { Query = new float[] { 0.2f, 0.8f, ..., .. }, Limit = 50 }, // <-- dense vector
+		        new PrefetchQuery {
+		            Query = new float[] { 0.1f, 0.45f, 0.67f }, // <-- dense vector
+		            Limit = 50
+		        },
 		    ],
 		    query: new Formula
 		     {

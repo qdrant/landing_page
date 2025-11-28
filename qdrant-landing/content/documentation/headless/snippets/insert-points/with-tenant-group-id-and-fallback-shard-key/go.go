@@ -12,6 +12,8 @@ func Main() {
 		Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.Upsert(context.Background(), &qdrant.UpsertPoints{
 		CollectionName: "{collection_name}",
 		Points: []*qdrant.PointStruct{
@@ -19,7 +21,7 @@ func Main() {
 				Id:      qdrant.NewIDNum(1),
 				Vectors: qdrant.NewVectors(0.9, 0.1, 0.1),
 				Payload: qdrant.NewValueMap(map[string]any{"group_id": "user_1"}),
-			}
+			},
 		},
 		ShardKeySelector: &qdrant.ShardKeySelector{
 			ShardKeys: []*qdrant.ShardKey{

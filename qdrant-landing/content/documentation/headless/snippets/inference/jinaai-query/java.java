@@ -6,6 +6,7 @@ import static io.qdrant.client.ValueFactory.value;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.Document;
+import io.qdrant.client.grpc.Points.QueryPoints;
 import java.util.Map;
 
 public class Snippet {
@@ -17,7 +18,7 @@ public class Snippet {
                             .build());
                 client
                     .queryAsync(
-                        Points.QueryPoints.newBuilder()
+                        QueryPoints.newBuilder()
                             .setCollectionName("{collection_name}")
                             .setQuery(
                                 nearest(

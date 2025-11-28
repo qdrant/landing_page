@@ -15,5 +15,6 @@ pub async fn main() -> anyhow::Result<()> {
             ))
     ).await?;
 
+    _ = res; // @hide
     Ok(())
 }

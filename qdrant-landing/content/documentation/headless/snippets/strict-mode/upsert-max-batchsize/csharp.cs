@@ -9,7 +9,7 @@ public class Snippet
 
 		await client.CreateCollectionAsync(
 		  collectionName: "{collection_name}",
-		  strictModeConfig: new StrictModeConfig { enabled = true, upsert_max_batchsize = 1000 }
+		  strictModeConfig: new StrictModeConfig { Enabled = true, UpsertMaxBatchsize = 1000 }
 		);
 	}
 }

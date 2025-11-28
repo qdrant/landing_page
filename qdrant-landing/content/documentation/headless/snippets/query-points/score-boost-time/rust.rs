@@ -10,7 +10,7 @@ pub async fn main() -> anyhow::Result<()> {
         QueryPointsBuilder::new("{collection_name}")
                 .add_prefetch(
                     PrefetchQueryBuilder::default()
-                        .query(vec![0.2, 0.8, .., ..]) // <-- dense vector
+                        .query(vec![0.1, 0.45, 0.67]) // <-- dense vector
                         .limit(50u64),
                 )
                 .query(

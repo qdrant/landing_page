@@ -1,9 +1,11 @@
 use std::collections::HashMap;
 
-use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder, Vector};
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
 use qdrant_client::Payload;
 
 pub async fn main() -> anyhow::Result<()> {
+    let client = qdrant_client::Qdrant::from_url("http://localhost:6334").build()?; // @hide
+
     client
         .upsert_points(
             UpsertPointsBuilder::new(

@@ -1,3 +1,4 @@
+# mypy: disable-error-code="arg-type"
 from qdrant_client import models  # @hide
 
 models.FieldCondition(

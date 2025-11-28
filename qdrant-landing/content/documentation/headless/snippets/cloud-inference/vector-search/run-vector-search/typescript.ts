@@ -1,8 +1,14 @@
-import { QdrantClient } from "@qdrant/js-client-rest"; // @hide
+// @hide-start
+import { QdrantClient } from "@qdrant/js-client-rest";
 
-const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
+const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-const results = await client.query(collectionName, {
+const queryText = "{query_text}";
+const denseModel = "{dense_model_name}";
+const bm25Model = "{bm25_model_name}";
+// @hide-end
+
+const results = await client.query("{collection_name}", {
     prefetch: [
         {
             query: {

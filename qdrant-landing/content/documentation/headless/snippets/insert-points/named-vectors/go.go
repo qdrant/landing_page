@@ -7,6 +7,14 @@ import (
 )
 
 func Main() {
+	// @hide-start
+	client, err := qdrant.NewClient(&qdrant.Config{
+	    Host: "localhost",
+	    Port: 6334,
+	})
+	if err != nil { panic(err) }
+	// @hide-end
+
 	client.Upsert(context.Background(), &qdrant.UpsertPoints{
 		CollectionName: "{collection_name}",
 		Points: []*qdrant.PointStruct{

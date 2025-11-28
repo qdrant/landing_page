@@ -14,7 +14,7 @@ client.upsert("{collection_name}", {
       },
     }
   ],
-  updateFilter: {
+  update_filter: {
     must: [
       {
         key: "version",

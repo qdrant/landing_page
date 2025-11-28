@@ -12,6 +12,8 @@ func Main() {
 		Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.Delete(context.Background(), &qdrant.DeletePoints{
 		CollectionName: "{collection_name}",
 		Points: qdrant.NewPointsSelectorFilter(

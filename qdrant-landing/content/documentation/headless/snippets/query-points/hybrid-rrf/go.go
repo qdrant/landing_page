@@ -12,6 +12,8 @@ func Main() {
 		Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: "{collection_name}",
 		Prefetch: []*qdrant.PrefetchQuery{

@@ -12,6 +12,8 @@ func Main() {
 	    Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	filter := qdrant.Filter{
 	    Must: []*qdrant.Condition{
 	        qdrant.NewMatch("city", "London"),

@@ -12,9 +12,11 @@ func Main() {
 	    Port: 6334,
 	})
 
+	if err != nil { panic(err) } // @hide
+
 	sample := uint64(10)
 	limit := uint64(2)
-	res, err := client.SearchMatrixPairs(ctx, &qdrant.SearchMatrixPoints{
+	res, err := client.SearchMatrixPairs(context.Background(), &qdrant.SearchMatrixPoints{
 	    CollectionName: "{collection_name}",
 	    Sample:         &sample,
 	    Limit:          &limit,
@@ -24,4 +26,7 @@ func Main() {
 	        },
 	    },
 	})
+
+	if err != nil { panic(err) } // @hide
+	_ = res // @hide
 }
