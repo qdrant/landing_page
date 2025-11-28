@@ -34,8 +34,9 @@ def main() -> None:
             log(f"Skipping unknown language file: {md_file}")
             continue
 
-        lines = md_file.read_text().rstrip().splitlines()
+        lines = md_file.read_text().strip().splitlines()
         if not lines[0].startswith("```") or lines[-1] != "```":
+            log(f"Can't parse snippet file: {md_file}, skipping")
             continue
         content = "\n".join(lines[1:-1]) + "\n"
         content = lang.unshorten(content)

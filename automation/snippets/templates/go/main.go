@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	_ "github.com/google/uuid"
 	_ "github.com/qdrant/go-client/qdrant"
 	"os"
 	// %imports%

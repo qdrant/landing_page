@@ -1,12 +1,12 @@
 package com.example.snippets_amalgamation;
 
+import static io.qdrant.client.QueryFactory.nearest;
+
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.AcornSearchParams;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SearchParams;
-
-import static io.qdrant.client.QueryFactory.nearest;
 
 public class Snippet {
         public static void run() throws Exception {

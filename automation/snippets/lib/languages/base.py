@@ -81,7 +81,7 @@ def template(
     target_fname.write_text("".join(result))
 
 
-_RE_COMMENT = re.compile(r".*\s(?://|#)\s*(@.*)$")
+_RE_COMMENT = re.compile(r"^(.*\s|)(?://|#)\s*(@.*)$")
 
 
 def generic_shorten(text: str) -> str:
@@ -90,14 +90,36 @@ def generic_shorten(text: str) -> str:
     Removes comments with @hide annotation and trims excessive newlines.
     """
     result = []
+    hide_mode = False
     for line in text.splitlines():
-        if (m := _RE_COMMENT.match(line)) is not None:
-            if m[1] == "@hide":
-                continue
-            else:
-                msg = f"Unknown annotation: {m[1]}"
-                raise ValueError(msg)
-        result.append(line + "\n")
+        if (m := _RE_COMMENT.match(line)) is None:
+            if not hide_mode:
+                result.append(line + "\n")
+            continue
+
+        has_code = m[1].strip() != ""
+        annotation = m[2]
+        if annotation == "@hide":
+            if not has_code:
+                raise ValueError("Hiding empty line is not allowed")
+            if hide_mode:
+                raise ValueError("@hide inside @hide-start/@hide-end is not allowed")
+        elif annotation == "@hide-start":
+            if has_code:
+                raise ValueError("@hide-start should be on its own line")
+            if hide_mode:
+                raise ValueError("Nesting @hide-start is not allowed")
+            hide_mode = True
+        elif annotation == "@hide-end":
+            if has_code:
+                raise ValueError("@hide-end should be on its own line")
+            if not hide_mode:
+                raise ValueError("@hide-end without matching @hide-start")
+            hide_mode = False
+        else:
+            raise ValueError(f"Unknown annotation: {m[1]}")
+    if hide_mode:
+        raise ValueError("Unclosed @hide-start")
     text = "".join(result)
     text = text.lstrip("\n").rstrip("\n")
     text = re.sub(r"\n{3,}", "\n\n", text)

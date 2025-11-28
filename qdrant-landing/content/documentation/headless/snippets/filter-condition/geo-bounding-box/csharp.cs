@@ -1,0 +1,9 @@
+using static Qdrant.Client.Grpc.Conditions;
+
+public class Snippet
+{
+	public static async Task Run()
+	{
+		GeoBoundingBox("location", 52.520711, 13.403683, 52.495862, 13.455868);
+	}
+}

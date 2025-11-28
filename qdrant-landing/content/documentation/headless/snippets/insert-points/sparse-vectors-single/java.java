@@ -1,0 +1,31 @@
+package com.example.snippets_amalgamation;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorFactory.vector;
+import static io.qdrant.client.VectorsFactory.namedVectors;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.PointStruct;
+import java.util.List;
+import java.util.Map;
+
+public class Snippet {
+        public static void run() throws Exception {
+                QdrantClient client =
+                  new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+                client
+                  .upsertAsync(
+                    "{collection_name}",
+                    List.of(
+                      PointStruct.newBuilder()
+                      .setId(id(1))
+                      .setVectors(
+                        namedVectors(Map.of(
+                          "text", vector(List.of(1.0f, 2.0f), List.of(6, 7))))
+                      )
+                      .build()))
+                  .get();
+        }
+}

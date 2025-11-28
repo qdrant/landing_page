@@ -3,6 +3,7 @@ name = "snippets-amalgamation"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
+    "datasets>=4.4.1",
     "qdrant-client",
 ]
 
@@ -13,3 +14,7 @@ qdrant-client = { git = "https://github.com/qdrant/qdrant-client", tag = "v1.16.
 dev = [
     "mypy>=1.18.2",
 ]
+
+[[tool.mypy.overrides]]
+module = ["datasets"]
+ignore_missing_imports = true
