@@ -11,6 +11,7 @@ import io.qdrant.client.grpc.Points.PointsUpdateOperation.ClearPayload;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.DeletePayload;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.DeletePoints;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.DeleteVectors;
+import io.qdrant.client.grpc.Points.PointsUpdateOperation.OverwritePayload;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.PointStructList;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.SetPayload;
 import io.qdrant.client.grpc.Points.PointsUpdateOperation.UpdateVectors;
@@ -55,7 +56,7 @@ client
                 .build(),
             PointsUpdateOperation.newBuilder()
                 .setOverwritePayload(
-                    SetPayload.newBuilder()
+                    OverwritePayload.newBuilder()
                         .setPointsSelector(
                             PointsSelector.newBuilder()
                                 .setPoints(PointsIdsList.newBuilder().addIds(id(1)).build())

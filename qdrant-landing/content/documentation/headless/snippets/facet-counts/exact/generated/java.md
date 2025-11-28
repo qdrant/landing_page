@@ -1,8 +1,10 @@
 ```java
+import io.qdrant.client.grpc.Points.FacetCounts;
+
 client
       .facetAsync(
-          Points.FacetCounts.newBuilder()
-              .setCollectionName(collection_name)
+          FacetCounts.newBuilder()
+              .setCollectionName("{collection_name}")
               .setKey("foo")
               .setExact(true)
               .build())

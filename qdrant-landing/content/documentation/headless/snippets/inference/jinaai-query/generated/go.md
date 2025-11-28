@@ -1,7 +1,6 @@
 ```go
 import (
 	"context"
-	"time"
 
 	"github.com/qdrant/go-client/qdrant"
 )
@@ -13,7 +12,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
     UseTLS: true,
 })
 
-client.Query(ctx, &qdrant.QueryPoints{
+client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "{collection_name}",
 	Query: qdrant.NewQueryNearest(
 		qdrant.NewVectorInputDocument(&qdrant.Document{

@@ -18,7 +18,7 @@ client
     .upsertAsync(
         UpsertPoints.newBuilder()
             .setCollectionName("{collectionName}")
-            .addPoint(
+            .addPoints(
                 PointStruct.newBuilder()
                     .setId(id(1))
                     .setVectors(vectors(0.05f, 0.61f, 0.76f, 0.74f))

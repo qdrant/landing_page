@@ -1,6 +1,5 @@
 ```rust
 use qdrant_client::qdrant::{Condition, Filter, QueryPointsBuilder, SearchParamsBuilder};
-use qdrant_client::Qdrant;
 
 client
     .query(

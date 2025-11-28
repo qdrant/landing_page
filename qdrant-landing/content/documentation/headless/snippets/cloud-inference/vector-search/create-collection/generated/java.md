@@ -7,6 +7,7 @@ import io.qdrant.client.grpc.Collections.SparseVectorParams;
 import io.qdrant.client.grpc.Collections.VectorParams;
 import io.qdrant.client.grpc.Collections.VectorParamsMap;
 import io.qdrant.client.grpc.Collections.VectorsConfig;
+import java.util.Map;
 
 client
     .createCollectionAsync(
@@ -23,13 +24,14 @@ client
                                         .setSize(384)
                                         .setDistance(Distance.Cosine)
                                         .build())))
-                    .setSparseVectorsConfig(
-                        SparseVectorConfig.newBuilder()
-                            .putMap(
-                                "bm25_sparse_vector",
-                                SparseVectorParams.newBuilder()
-                                    .setModifier(Modifier.Idf)
-                                    .build())))
+                    .build())
+            .setSparseVectorsConfig(
+                SparseVectorConfig.newBuilder()
+                    .putMap(
+                        "bm25_sparse_vector",
+                        SparseVectorParams.newBuilder()
+                            .setModifier(Modifier.Idf)
+                            .build()))
             .build())
     .get();
 ```

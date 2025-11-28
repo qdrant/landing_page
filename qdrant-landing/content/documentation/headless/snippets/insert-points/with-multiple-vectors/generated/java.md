@@ -27,9 +27,9 @@ client
                     namedVectors(
                         Map.of(
                             "image",
-                            List.of(0.2f, 0.1f, 0.3f, 0.9f),
+                            vector(List.of(0.2f, 0.1f, 0.3f, 0.9f)),
                             "text",
-                            List.of(0.5f, 0.2f, 0.7f, 0.4f, 0.7f, 0.2f, 0.3f, 0.9f))))
+                            vector(List.of(0.5f, 0.2f, 0.7f, 0.4f, 0.7f, 0.2f, 0.3f, 0.9f)))))
                 .build()))
     .get();
 ```

@@ -10,7 +10,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
     Port: 6334,
 })
 
-res, err := client.Facet(ctx, &qdrant.FacetCounts{
+res, err := client.Facet(context.Background(), &qdrant.FacetCounts{
     CollectionName: "{collection_name}",
     Key:            "size",
         Filter: &qdrant.Filter{

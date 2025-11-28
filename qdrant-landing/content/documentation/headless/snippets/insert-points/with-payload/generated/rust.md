@@ -1,6 +1,6 @@
 ```rust
 use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
-use qdrant_client::{Payload, Qdrant, QdrantError};
+use qdrant_client::{Payload, Qdrant};
 use serde_json::json;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;

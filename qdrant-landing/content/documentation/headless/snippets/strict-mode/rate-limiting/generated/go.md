@@ -14,8 +14,8 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
   CollectionName: "{collection_name}",
   StrictModeConfig: &qdrant.StrictModeConfig{
     Enabled: qdrant.PtrOf(true),
-    ReadRateLimit: qdrant.PtrOf(uint64(1000)),
-    WriteRateLimit: qdrant.PtrOf(uint64(100)),
+    ReadRateLimit: qdrant.PtrOf(uint32(1000)),
+    WriteRateLimit: qdrant.PtrOf(uint32(100)),
   },
 })
 ```

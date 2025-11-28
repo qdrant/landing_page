@@ -17,7 +17,7 @@ client.Upsert(context.Background(), &qdrant.UpsertPoints{
 			Id:      qdrant.NewIDNum(1),
 			Vectors: qdrant.NewVectors(0.9, 0.1, 0.1),
 			Payload: qdrant.NewValueMap(map[string]any{"group_id": "user_1"}),
-		}
+		},
 	},
 	ShardKeySelector: &qdrant.ShardKeySelector{
 		ShardKeys: []*qdrant.ShardKey{

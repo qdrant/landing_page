@@ -1,6 +1,5 @@
 ```rust
 use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, QueryPointsBuilder};
-use qdrant_client::Qdrant;
 
 client
     .query(

@@ -6,6 +6,6 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
   collectionName: "{collection_name}",
-  strictModeConfig: new StrictModeConfig { enabled = true, condition_max_size = 10 }
+  strictModeConfig: new StrictModeConfig { Enabled = true, ConditionMaxSize = 10 }
 );
 ```

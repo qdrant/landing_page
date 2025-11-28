@@ -6,6 +6,7 @@ import static io.qdrant.client.VectorsFactory.namedVectors;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.Image;
 import io.qdrant.client.grpc.Points.PointStruct;
 import java.util.List;

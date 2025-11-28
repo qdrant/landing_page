@@ -11,7 +11,7 @@ let bm25_prefetch = PrefetchQueryBuilder::default()
     .using("bm25_sparse_vector")
     .build();
 
-let query_request = QueryPointsBuilder::new(collection_name)
+let query_request = QueryPointsBuilder::new("{collection_name}")
     .add_prefetch(dense_prefetch)
     .add_prefetch(bm25_prefetch)
     .query(Query::new_fusion(Fusion::Rrf))

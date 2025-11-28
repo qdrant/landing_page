@@ -3,6 +3,7 @@ use qdrant_client::qdrant::{
     Document, NamedVectors, PointStruct, UpsertPointsBuilder,
 };
 use qdrant_client::Payload;
+use uuid::Uuid;
 
 let dense_model = "sentence-transformers/all-minilm-l6-v2";
 let bm25_model = "qdrant/bm25";
@@ -29,6 +30,6 @@ let points: Vec<PointStruct> = dataset
     .collect();
 
 client
-    .upsert_points(UpsertPointsBuilder::new(collection_name, points))
+    .upsert_points(UpsertPointsBuilder::new("{collection_name}", points))
     .await?;
 ```

@@ -17,6 +17,7 @@ import io.qdrant.client.grpc.Points.GeoDistance;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SumExpression;
+import java.util.Map;
 
 QdrantClient client =
   new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());

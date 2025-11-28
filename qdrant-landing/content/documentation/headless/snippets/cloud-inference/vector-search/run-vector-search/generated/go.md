@@ -16,7 +16,7 @@ prefetch := []*qdrant.PrefetchQuery{
 	},
 }
 
-client.Query(ctx, &qdrant.QueryPoints{
+client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "{collection_name}",
 	Prefetch:       prefetch,
 	Query:          qdrant.NewQueryFusion(qdrant.Fusion_RRF),

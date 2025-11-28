@@ -2,7 +2,7 @@
 use qdrant_client::qdrant::{
     PointsIdsList, SetPayloadPointsBuilder,
 };
-use qdrant_client::Payload,;
+use qdrant_client::Payload;
 use serde_json::json;
 
 client

@@ -1,5 +1,6 @@
 ```csharp
 using Qdrant.Client;
+using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 

@@ -1,4 +1,7 @@
 ```java
+import static io.qdrant.client.QueryFactory.nearest;
+
+import io.qdrant.client.grpc.Points.QueryPointGroups;
 import io.qdrant.client.grpc.Points.SearchPointGroups;
 import java.util.List;
 

@@ -14,7 +14,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
   CollectionName: "{collection_name}",
   StrictModeConfig: &qdrant.StrictModeConfig{
     Enabled: qdrant.PtrOf(true),
-    MaxTimeout: qdrant.PtrOf(uint64(10)),
+    MaxTimeout: qdrant.PtrOf(uint32(10)),
   },
 })
 ```

@@ -2,7 +2,7 @@
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.CreateCollection;
-import io.qdrant.client.grpc.Collections.StrictModeCOnfig;
+import io.qdrant.client.grpc.Collections.StrictModeConfig;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());

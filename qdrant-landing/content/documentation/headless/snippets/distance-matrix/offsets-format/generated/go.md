@@ -12,7 +12,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
 
 sample := uint64(10)
 limit := uint64(2)
-res, err := client.SearchMatrixOffsets(ctx, &qdrant.SearchMatrixPoints{
+res, err := client.SearchMatrixOffsets(context.Background(), &qdrant.SearchMatrixPoints{
     CollectionName: "{collection_name}",
     Sample:         &sample,
     Limit:          &limit,

@@ -1,6 +1,6 @@
 ```rust
 use qdrant_client::{
-    Payload, Qdrant, QdrantError,
+    Payload, Qdrant,
     qdrant::{Image, PointStruct, UpsertPointsBuilder},
 };
 use std::collections::HashMap;

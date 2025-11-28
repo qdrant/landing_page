@@ -3,9 +3,9 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-const time_boosted = await client.query(collectionName, {
+const time_boosted = await client.query('collectionName', {
   prefetch: {
-    query: [0.2, 0.8, ...], // <-- dense vector
+    query: [0.1, 0.45, 0.67], // <-- dense vector
     limit: 50
   },
    query: {

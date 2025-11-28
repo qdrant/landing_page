@@ -1,7 +1,7 @@
 ```java
 import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorFactory.vector;
 import static io.qdrant.client.VectorsFactory.namedVectors;
-import static io.qdrant.client.VectorsFactory.vectors;
 
 import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.PointStruct;
@@ -26,10 +26,10 @@ for (Map<String, String> item : dataset) {
               namedVectors(
                   Map.of(
                       "dense_vector",
-                      vectors(
+                      vector(
                           Document.newBuilder().setText(passage).setModel(denseModel).build()),
                       "bm25_sparse_vector",
-                      vectors(
+                      vector(
                           Document.newBuilder().setText(passage).setModel(bm25Model).build()))))
           .build();
   points.add(point);

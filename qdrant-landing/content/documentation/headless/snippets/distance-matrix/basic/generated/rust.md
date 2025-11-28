@@ -1,6 +1,5 @@
 ```rust
 use qdrant_client::qdrant::{Condition, Filter, SearchMatrixPointsBuilder};
-use qdrant_client::Qdrant;
 
 client
     .search_matrix_pairs(

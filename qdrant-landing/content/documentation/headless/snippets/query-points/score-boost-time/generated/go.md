@@ -14,7 +14,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
     CollectionName: "{collection_name}",
     Prefetch: []*qdrant.PrefetchQuery{
         {
-            Query: qdrant.NewQuery(0.2, 0.8, .., ...), // <-- dense vector
+            Query: qdrant.NewQuery(0.1, 0.45, 0.67), // <-- dense vector
             Limit: qdrant.PtrOf(uint64(50)),
         },
     },

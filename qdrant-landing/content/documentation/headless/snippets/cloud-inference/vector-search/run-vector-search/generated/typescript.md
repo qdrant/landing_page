@@ -1,5 +1,5 @@
 ```typescript
-const results = await client.query(collectionName, {
+const results = await client.query("{collection_name}", {
     prefetch: [
         {
             query: {

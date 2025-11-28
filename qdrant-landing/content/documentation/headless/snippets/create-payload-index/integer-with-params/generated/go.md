@@ -16,8 +16,8 @@ client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection
 	FieldType:      qdrant.FieldType_FieldTypeInteger.Enum(),
 	FieldIndexParams: qdrant.NewPayloadIndexParamsInt(
 		&qdrant.IntegerIndexParams{
-			Lookup: false,
-			Range:  true,
+			Lookup: qdrant.PtrOf(false),
+			Range:  qdrant.PtrOf(true),
 		}),
 })
 ```

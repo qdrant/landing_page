@@ -2,6 +2,7 @@
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.IntegerIndexParams;
+import io.qdrant.client.grpc.Collections.KeywordIndexParams;
 import io.qdrant.client.grpc.Collections.PayloadIndexParams;
 import io.qdrant.client.grpc.Collections.PayloadSchemaType;
 
@@ -15,8 +16,8 @@ client
         PayloadSchemaType.Integer,
         PayloadIndexParams.newBuilder()
             .setIntegerIndexParams(
-                KeywordIndexParams.newBuilder()
-                    .setIsPrincipa(true)
+                IntegerIndexParams.newBuilder()
+                    .setIsPrincipal(true)
                     .build())
             .build(),
         null,

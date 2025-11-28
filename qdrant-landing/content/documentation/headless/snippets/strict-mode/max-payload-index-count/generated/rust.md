@@ -7,7 +7,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 client
     .create_collection(
         CreateCollectionBuilder::new("{collection_name}")
-            .strict_config_mode(StrictModeConfigBuilder::default().enabled(true).max_payload_index_count(10)),
+            .strict_mode_config(StrictModeConfigBuilder::default().enabled(true).max_payload_index_count(10)),
     )
     .await?;
 ```

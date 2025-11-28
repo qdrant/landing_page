@@ -27,10 +27,7 @@ await client.UpsertAsync(
             Payload =
             {
                 ["city"] = new[] { "Berlin", "Moscow" },
-                ["price"] = new Value
-                {
-                    ListValue = new ListValue { Values = { new Value[] { 1.99, 2.99 } } }
-                }
+                ["price"] = new Value[] { 1.99, 2.99 }
             }
         }
     }

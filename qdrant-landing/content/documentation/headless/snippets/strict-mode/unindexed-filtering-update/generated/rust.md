@@ -7,7 +7,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 client
     .create_collection(
         CreateCollectionBuilder::new("{collection_name}")
-            .strict_config_mode(StrictModeConfigBuilder::default().enabled(true).unindexed_filtering_update(false)),
+            .strict_mode_config(StrictModeConfigBuilder::default().enabled(true).unindexed_filtering_update(false)),
     )
     .await?;
 ```

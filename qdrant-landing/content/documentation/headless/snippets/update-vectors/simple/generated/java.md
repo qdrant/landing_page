@@ -3,6 +3,7 @@ import static io.qdrant.client.PointIdFactory.id;
 import static io.qdrant.client.VectorFactory.vector;
 import static io.qdrant.client.VectorsFactory.namedVectors;
 
+import io.qdrant.client.grpc.Points.PointVectors;
 import java.util.List;
 import java.util.Map;
 

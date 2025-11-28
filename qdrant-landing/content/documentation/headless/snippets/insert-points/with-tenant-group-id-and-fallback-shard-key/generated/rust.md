@@ -1,6 +1,6 @@
 ```rust
-use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
 use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{PointStruct, ShardKeySelectorBuilder, UpsertPointsBuilder};
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 

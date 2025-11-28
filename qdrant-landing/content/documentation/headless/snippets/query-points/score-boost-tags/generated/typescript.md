@@ -3,7 +3,7 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-const tag_boosted = await client.query(collectionName, {
+const tag_boosted = await client.query("{collection_name}", {
   prefetch: {
     query: [0.2, 0.8, 0.1, 0.9],
     limit: 50

@@ -1,5 +1,6 @@
 ```java
 import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.list;
 import static io.qdrant.client.ValueFactory.value;
 import static io.qdrant.client.VectorsFactory.vectors;
 

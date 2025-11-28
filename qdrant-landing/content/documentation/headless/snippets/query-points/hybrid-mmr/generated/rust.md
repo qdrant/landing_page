@@ -1,6 +1,6 @@
 ```rust
 use qdrant_client::Qdrant;
-use qdrant_client::qdrant::{PrefetchQueryBuilder, Query, QueryPointsBuilder};
+use qdrant_client::qdrant::{MmrBuilder, Query, QueryPointsBuilder};
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 

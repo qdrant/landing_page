@@ -15,7 +15,7 @@ client.CreateShardKey(
 	"{collection_name}",
 	&qdrant.CreateShardKey{
 		ShardKey: qdrant.NewShardKey("default"),
-		InitialState: qdrant.ReplicaState_PARTIAL,
-	}
+		InitialState: qdrant.PtrOf(qdrant.ReplicaState_Partial),
+	},
 )
 ```

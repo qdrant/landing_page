@@ -23,8 +23,8 @@ for _, item := range dataset {
 	}
 	points = append(points, point)
 }
-_, err = client.Upsert(ctx, &qdrant.UpsertPoints{
-	CollectionName: "{collection_name},
+_, err = client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
 	Points:         points,
 })
 ```

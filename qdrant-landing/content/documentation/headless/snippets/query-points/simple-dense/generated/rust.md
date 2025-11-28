@@ -1,6 +1,6 @@
 ```rust
 use qdrant_client::Qdrant;
-use qdrant_client::qdrant::{Condition, Filter, Query, QueryPointsBuilder};
+use qdrant_client::qdrant::{Query, QueryPointsBuilder};
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 

@@ -1,7 +1,7 @@
 ```go
-res, err := client.Facet(ctx, &qdrant.FacetCounts{
+res, err := client.Facet(context.Background(), &qdrant.FacetCounts{
     CollectionName: "{collection_name}",
     Key:            "key",
-    Exact:          true,
+    Exact:          qdrant.PtrOf(true),
 })
 ```

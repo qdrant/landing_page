@@ -11,7 +11,7 @@ QdrantClient client =
 
 client
     .searchMatrixPairsAsync(
-        Points.SearchMatrixPoints.newBuilder()
+        SearchMatrixPoints.newBuilder()
             .setCollectionName("{collection_name}")
             .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
             .setSample(10)

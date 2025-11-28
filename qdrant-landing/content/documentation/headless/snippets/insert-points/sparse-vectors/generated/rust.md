@@ -1,7 +1,7 @@
 ```rust
 use std::collections::HashMap;
 
-use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder, Vector};
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
 use qdrant_client::Payload;
 
 client

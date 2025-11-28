@@ -4,7 +4,7 @@ use qdrant_client::qdrant::{
     KeywordIndexParamsBuilder,
     FieldType
 };
-use qdrant_client::{Qdrant, QdrantError};
+use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
@@ -18,5 +18,5 @@ client.create_field_index(
         KeywordIndexParamsBuilder::default()
             .on_disk(true),
     ),
-);
+).await?;
 ```

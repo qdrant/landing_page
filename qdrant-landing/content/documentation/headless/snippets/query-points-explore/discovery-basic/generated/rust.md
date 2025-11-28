@@ -1,6 +1,5 @@
 ```rust
 use qdrant_client::qdrant::{ContextInputBuilder, DiscoverInputBuilder, QueryPointsBuilder};
-use qdrant_client::Qdrant;
 
 client
     .query(

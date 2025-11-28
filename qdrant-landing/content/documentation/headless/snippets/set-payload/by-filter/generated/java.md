@@ -2,6 +2,7 @@
 import static io.qdrant.client.ConditionFactory.matchKeyword;
 import static io.qdrant.client.ValueFactory.value;
 
+import io.qdrant.client.grpc.Common.Filter;
 import java.util.Map;
 
 client

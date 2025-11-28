@@ -2,7 +2,7 @@
 import static io.qdrant.client.ConditionFactory.range;
 
 import io.qdrant.client.grpc.Common.Filter;
-import io.qdrant.client.grpc.Points.Range;
+import io.qdrant.client.grpc.Common.Range;
 import io.qdrant.client.grpc.Points.ScrollPoints;
 
 client

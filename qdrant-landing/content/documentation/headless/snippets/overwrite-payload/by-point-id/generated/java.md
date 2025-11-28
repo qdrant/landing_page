@@ -3,6 +3,7 @@ import static io.qdrant.client.PointIdFactory.id;
 import static io.qdrant.client.ValueFactory.value;
 
 import java.util.List;
+import java.util.Map;
 
 client
     .overwritePayloadAsync(

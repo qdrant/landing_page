@@ -1,3 +1,3 @@
 ```csharp
-var queryText = "What is relapsing polychondritis?"
+var queryText = "What is relapsing polychondritis?";
 ```

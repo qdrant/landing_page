@@ -3,6 +3,7 @@ import static io.qdrant.client.ConditionFactory.geoPolygon;
 
 import io.qdrant.client.grpc.Common.GeoLineString;
 import io.qdrant.client.grpc.Common.GeoPoint;
+import java.util.List;
 
 geoPolygon(
     "location",
