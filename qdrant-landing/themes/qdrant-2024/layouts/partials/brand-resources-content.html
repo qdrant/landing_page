@@ -12,9 +12,16 @@
                   <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
                 </div>
                 <h6 class="brand-resources-content__logos-title">{{ .title }}</h6>
-                <a class="brand-resources-content__logos-link link link_md" href="{{ .link.url }}"
-                   {{ if eq .link.text "Download" }}download{{ end }}
-                >{{ .link.text }}</a>
+                <div class="d-flex gap-3">
+                  {{ $svgText := lower .link.svg.text }}
+                  {{ $pngText := lower .link.png.text }}
+                  <a class="brand-resources-content__logos-link link link_md" href="{{ .link.svg.url }}"
+                     {{ if in $svgText "download" }}download{{ end }}
+                  >{{ .link.svg.text }}</a>
+                  <a class="brand-resources-content__logos-link link link_md" href="{{ .link.png.url }}"
+                     {{ if in $pngText "download" }}download{{ end }}
+                  >{{ .link.png.text }}</a>
+                </div>
               </div>
             </div>
           {{ end }}
@@ -28,9 +35,16 @@
                   <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
                 </div>
                 <h6 class="brand-resources-content__logos-title">{{ .title }}</h6>
-                <a class="brand-resources-content__logos-link link link_md" href="{{ .link.url }}"
-                   {{ if eq .link.text "Download" }}download{{ end }}
-                >{{ .link.text }}</a>
+                <div class="d-flex flex-column flex-xl-row gap-2 gap-xl-3">
+                  {{ $svgText := lower .link.svg.text }}
+                  {{ $pngText := lower .link.png.text }}
+                  <a class="brand-resources-content__logos-link link link_md" href="{{ .link.svg.url }}"
+                     {{ if in $svgText "download" }}download{{ end }}
+                  >{{ .link.svg.text }}</a>
+                  <a class="brand-resources-content__logos-link link link_md" href="{{ .link.png.url }}"
+                     {{ if in $pngText "download" }}download{{ end }}
+                  >{{ .link.png.text }}</a>
+                </div>
               </div>
             </div>
           {{ end }}
