@@ -13,14 +13,15 @@ FastEmbed easily integrates with Qdrant for a variety of multimodal search purpo
 
 ## Using FastEmbed
 
-| Type | Guide | What you'll learn |
-|---|-------|--------------------|
-| **Beginner** | [Generate Text Embeddings](/documentation/fastembed/fastembed-quickstart/) | Install FastEmbed and generate dense text embeddings |
-| | [Dense Embeddings + Qdrant](/documentation/fastembed/fastembed-semantic-search/) | Generate and index dense embeddings for semantic similarity search |
-| **Advanced** | [miniCOIL Sparse Embeddings + Qdrant](/documentation/fastembed/fastembed-minicoil/) | Use Qdrant's sparse neural retriever for exact text search |
-| | [SPLADE Sparse Embeddings + Qdrant](/documentation/fastembed/fastembed-splade/) | Generate sparse neural embeddings for exact text search |
-| | [ColBERT Multivector Embeddings + Qdrant](/documentation/fastembed/fastembed-colbert/) | Generate and index multi-vector representations; **ideal for rescoring, or small-scale retrieval** |
-| | [Reranking with FastEmbed](/documentation/fastembed/fastembed-rerankers/) | Re-rank top-K results using FastEmbed cross-encoders |
+| Type         | Guide                                                                                  | What you'll learn                                                                                  |
+|--------------|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| **Beginner** | [Generate Text Embeddings](/documentation/fastembed/fastembed-quickstart/)             | Install FastEmbed and generate dense text embeddings                                               |
+|              | [Dense Embeddings + Qdrant](/documentation/fastembed/fastembed-semantic-search/)       | Generate and index dense embeddings for semantic similarity search                                 |
+| **Advanced** | [miniCOIL Sparse Embeddings + Qdrant](/documentation/fastembed/fastembed-minicoil/)    | Use Qdrant's sparse neural retriever for exact text search                                         |
+|              | [SPLADE Sparse Embeddings + Qdrant](/documentation/fastembed/fastembed-splade/)        | Generate sparse neural embeddings for exact text search                                            |
+|              | [ColBERT Multivector Embeddings + Qdrant](/documentation/fastembed/fastembed-colbert/) | Generate and index multi-vector representations; **ideal for rescoring, or small-scale retrieval** |
+|              | [Reranking with FastEmbed](/documentation/fastembed/fastembed-rerankers/)              | Re-rank top-K results using FastEmbed cross-encoders                                               |
+|              | [Postprocessing](/documentation/fastembed/fastembed-postprocessing/)                   | Apply postprocessing techniques to embeddings after generation                                     |
 
 ## Why is FastEmbed useful?
 
