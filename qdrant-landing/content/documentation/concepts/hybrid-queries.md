@@ -239,6 +239,13 @@ The [formulas for each decay function](https://www.desmos.com/calculator/idv5hkn
 | **`exp_decay`** | red | `(0, 1]` | $\text{exp_decay}(x) = \exp\left(\frac{\ln(m_{idpoint})}{s_{cale}}\cdot {abs}(x-t_{arget})\right)$ | 
 | **`gauss_decay`** | purple | `(0, 1]` | $\text{gauss_decay}(x) = \exp\left(\frac{\ln(m_{idpoint})}{s_{cale}^{2}}\cdot (x-t_{arget})^{2}\right)$ |
 
+## Time-based boosting 
+Another example. Combine the score with how recent the results are.
+
+A good example is in ecommerce, for example, showing latest customer reviews and recently added products.  By blending vector similarity (relevance) with recency, we create a hybrid scoring model that ranks results not only by how closely they match the query, but also by how new they are.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/time-based-boosting/" >}}
+
 ## Grouping
 
 _Available as of v1.11.0_
