@@ -26,7 +26,7 @@ Depending on the model you want to use, inference can be executed:
 
 ## Inference API
 
-You can use inference in the API wherever you can use regular vectors. Instead of a vector, you can use special *Interface Objects*:
+You can use inference in the API wherever you can use regular vectors. Instead of a vector, you can use special *Inference Objects*:
 
 * **`Document`** object, used for text inference 
 
