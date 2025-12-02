@@ -246,3 +246,19 @@ Note that, because Qdrant does not store or cache your Jina AI API key, you need
 You can run multiple inference operations within a single request, even when models are hosted in different locations. This example generates three different named vectors for a single point: image embeddings using `jina-clip-v2` hosted by Jina AI, text embeddings using `all-minilm-l6-v2` hosted by Qdrant Cloud, and BM25 embeddings using the `bm25` model executed locally by the Qdrant cluster:
 
 {{< code-snippet path="/documentation/headless/snippets/inference/multiple/" >}}
+
+When specifying multiple identical inference objects in a single request, the inference proxy executes inference only once and reuses the resulting embeddings. This optimization is particularly beneficial when working with external model providers, as it reduces both latency and cost.
+
+## Reduce Vector Dimensionality with Matryoshka Models
+
+[Matryoshka Representation Learning](https://arxiv.org/abs/2205.13147) (MRL) is a technique used to train embedding models to produce vectors that can be reduced in size with minimal loss of information. On Qdrant Cloud, for supported models, you can specify the `mrl` parameter in the `options` object to reduce the vector size to the desired dimension. For example:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/mrl/" >}}
+
+By using the `mrl` option, vectors are reduced in size by the Qdrant Cloud inference proxy. This is beneficial when you are using an external model provider and need multiple vector sizes. Instead of making separate requests to the external API for each vector size, the proxy makes a single request for the original full-sized vector and then reduces it to the requested smaller size, reducing latency and cost.
+
+A good use case for MRL is [prefetching](https://qdrant.tech/documentation/concepts/hybrid-queries/#multi-stage-queries) with smaller vectors, followed by re-scoring with original-sized vectors, effectively balancing speed and accuracy. For example:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/mrl-multi-stage/" >}}
+
+This example first prefetches 1000 candidates using a 64-dimensional reduced vector called `small` and then re-scores them using the original full-size vector called `large` to return the top 10 most relevant results.
