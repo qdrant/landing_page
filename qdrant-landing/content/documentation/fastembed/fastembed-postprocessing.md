@@ -1,9 +1,9 @@
 ---
-title: Postprocessing
+title: Multi-Vector Postprocessing
 weight: 9
 ---
 
-# Postprocessing
+# Multi-Vector Postprocessing
 
 FastEmbed's postprocessing module provides techniques for transforming and optimizing embeddings after generation. These 
 postprocessing methods can improve search performance, reduce storage requirements, or adapt embeddings for specific use 
