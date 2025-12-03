@@ -84,7 +84,7 @@ different configurations based on your accuracy and storage requirements.
 We'll use a toy movie description dataset to demonstrate MUVERA.
 
 <details>
-<summary> <span style="background-color: gray; color: black;"> Movie description dataset </span> </summary>
+<summary> Movie description dataset </summary>
 
 ```python
 descriptions = [
