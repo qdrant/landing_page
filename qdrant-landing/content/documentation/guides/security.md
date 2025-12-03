@@ -342,28 +342,6 @@ These are the available options, or **claims** in the JWT lingo. You can use the
   }
   ```
 
-  You can also specify which subset of the collection the user is able to access by specifying a `payload` restriction that the points must have.
-
-  ```json
-  {
-    "access": [
-      {
-        "collection": "my_collection",
-        "access": "r",
-        "payload": {
-          "user_id": "user_123456"
-        }
-      }
-    ]
-  }
-  ```
-
-  This `payload` claim will be used to implicitly filter the points in the collection. It will be equivalent to appending this filter to each request:
-
-  ```json
-  { "filter": { "must": [{ "key": "user_id", "match": { "value": "user_123456" } }] } }
-  ```
-
 ### Table of access
 
 Check out this table to see which actions are allowed or denied based on the access level.
