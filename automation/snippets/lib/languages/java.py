@@ -65,6 +65,7 @@ class LanguageJava(Language):
         package\s[a-zA-Z0-9_.]+;\n
         (?P<imports> .*? )
         \s*public\ class\ Snippet\ \{\n
+        (?P<methods> .*? )
         \s*public\ static\ void\ run\(\)\ throws\ Exception\ \{\n
         (?P<body> .*? )
         \s*\}\s*}\s*
@@ -80,6 +81,10 @@ class LanguageJava(Language):
         import io.qdrant.client.QdrantClient;
 
         public class Snippet {
+            static void additionalMethod() {
+                // Some additional method (optional)
+            }
+
             public static void run() throws Exception {
                 // Your code here
             }
@@ -94,7 +99,11 @@ class LanguageJava(Language):
             msg = "Invalid snippet format"
             raise ValueError(msg)
         return generic_shorten(
-            m["imports"].strip() + "\n\n" + textwrap.dedent(m["body"]).strip()
+            m["imports"].strip()
+            + "\n\n"
+            + textwrap.dedent(m["methods"]).strip()
+            + "\n\n"
+            + textwrap.dedent(m["body"]).strip()
         )
 
     RE_RENDERED = re.compile(

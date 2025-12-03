@@ -1,8 +1,8 @@
 ```java
-import io.qdrant.client.grpc.Collections.Distance;
-import io.qdrant.client.grpc.Collections.VectorParams;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
 
 QdrantClient client = new QdrantClient(
     QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
