@@ -247,18 +247,20 @@ You can run multiple inference operations within a single request, even when mod
 
 {{< code-snippet path="/documentation/headless/snippets/inference/multiple/" >}}
 
-When specifying multiple identical inference objects in a single request, the inference proxy executes inference only once and reuses the resulting embeddings. This optimization is particularly beneficial when working with external model providers, as it reduces both latency and cost.
+When specifying multiple identical inference objects in a single request, the inference proxy generates embeddings only once and reuses the resulting vectors. This optimization is particularly beneficial when working with external model providers, as it reduces both latency and cost.
 
 ## Reduce Vector Dimensionality with Matryoshka Models
 
 [Matryoshka Representation Learning](https://arxiv.org/abs/2205.13147) (MRL) is a technique used to train embedding models to produce vectors that can be reduced in size with minimal loss of information. On Qdrant Cloud, for supported models, you can specify the `mrl` parameter in the `options` object to reduce the vector size to the desired dimension.
 
-By using the `mrl` option, vectors are reduced in size by the Qdrant Cloud inference proxy. This is beneficial when you are using an external model provider and need multiple vector sizes. External model APIs also offer options to reduce vector size, but to request multiple sizes, you would need to make several requests to the external API, incurring cost and latency. However, with the `mrl` option, the proxy only makes a single external API request for the original full-sized vector and then reduces it to the requested smaller size, minimizing cost and latency.
+MRL on Qdrant Cloud helps minimize costs and latency when you need multiple sizes of the same vector. Instead of making several inference requests for each vector size, the inference proxy only generates embeddings for the full-sized vector and then reduces the vector to each requested smaller size.
 
-The following example demonstrates how to insert a point into a collection with both the original full-size vector (`large`) and a reduced-size vector (`small`). Even though the request contains two inference objects, Qdrant Cloud's inference proxy only makes one request to the OpenAI API:
+The following example demonstrates how to insert a point into a collection with both the original full-size vector (`large`) and a reduced-size vector (`small`):
 
 {{< code-snippet path="/documentation/headless/snippets/inference/mrl/" >}}
 
-A good use case for MRL is [prefetching](https://qdrant.tech/documentation/concepts/hybrid-queries/#multi-stage-queries) with smaller vectors, followed by re-scoring with original-sized vectors, effectively balancing speed and accuracy. This example first prefetches 1000 candidates using a 64-dimensional reduced vector (`small`) and then re-scores them using the original full-size vector (`large`) to return the top 10 most relevant results:
+Note that, even though the request contains two inference objects, Qdrant Cloud's inference proxy only makes one inference request to the OpenAI API, saving one round trip and reducing costs.
+
+A good use case for MRL is [prefetching](https://qdrant.tech/documentation/concepts/hybrid-queries/#multi-stage-queries) with smaller vectors, followed by re-scoring with the original-sized vectors, effectively balancing speed and accuracy. This example first prefetches 1000 candidates using a 64-dimensional reduced vector (`small`) and then re-scores them using the original full-size vector (`large`) to return the top 10 most relevant results:
 
 {{< code-snippet path="/documentation/headless/snippets/inference/mrl-multi-stage/" >}}
