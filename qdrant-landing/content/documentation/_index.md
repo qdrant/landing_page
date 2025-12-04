@@ -27,6 +27,62 @@ content:
         src: /img/rocket.svg
         alt: Rocket
   - partial: documentation/sections/cards-section
+    title: Quickstart
+    description: Quickly get up and running with your favorite tooling.
+    button:
+      text: All APIs and SDKs
+      url: /documentation/interfaces/
+    cardsPartial: /documentation/cards/frameworks-cards
+    cards:
+      - id: 1
+        image:
+          src: /icons/outline/nextjs.svg
+          alt: Next.js
+        title: Next.js
+      - id: 2
+        image:
+          src: /icons/outline/react.svg 
+          alt: React
+        title: React
+      - id: 3
+        image:
+          src: /icons/outline/python-color.svg 
+          alt: Python
+        title: Python
+      - id: 4
+        image:
+          src: /icons/outline/rust.svg 
+          alt: Rust
+        title: Rust
+  - partial: documentation/sections/cards-section
+    title: Migrate
+    description: Ready to migrate? Read our in-depth migration guides to brind your vectors to Qdrant.
+    button:
+      text: Why migrate?
+      url: /documentation/interfaces/
+    cardsPartial: /documentation/cards/frameworks-cards
+    cards:
+      - id: 1
+        image:
+          src: /icons/outline/elastic-icon.svg
+          alt: Elasticsearch
+        title: Elasticsearch
+      - id: 2
+        image:
+          src: /icons/outline/milvus.svg 
+          alt: Milvus
+        title: Milvus
+      - id: 3
+        image:
+          src: /icons/outline/postgres.svg 
+          alt: pgvector
+        title: pgvector
+      - id: 4
+        image:
+          src: /icons/outline/turbopuffer.svg 
+          alt: Turbopuffer
+        title: Turbopuffer
+  - partial: documentation/sections/cards-section
     title: Optimize Qdrant's performance
     description: Boost search speed, reduce latency, and improve the accuracy and memory usage of your Qdrant deployment.
     button:
@@ -79,7 +135,7 @@ Qdrant is an AI-native vector database and a semantic search engine. You can use
 |[Cloud Quickstart](/documentation/quickstart-cloud/)|[Local Quickstart](/documentation/quick-start/)|
 
 
-## Ready to start developing? 
+## Ready to start developing?
 
 ***<p style="text-align: center;">Qdrant is open-source and can be self-hosted. However, the quickest way to get started is with our [free tier](https://qdrant.to/cloud) on Qdrant Cloud. It scales easily and provides an UI where you can interact with data.</p>***
 

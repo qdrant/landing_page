@@ -1,0 +1,20 @@
+{{ $cardsPerRow := .cardsPerRow }}
+{{ $cardsPerRow = $cardsPerRow | int }}
+{{ $cardsPerRow = div 12 $cardsPerRow }}
+{{ $cardsPerRow = print $cardsPerRow }}
+{{ $cardsPerRow = printf "col-12 col-lg-%s" $cardsPerRow }}
+{{ $cardsPerRow = print $cardsPerRow }}
+
+
+<div class="{{- $cardsPerRow -}}">
+  <a
+    href="{{ .card.link.url }}"
+    {{ if strings.HasPrefix .card.link.url "https://" }}target="_blank"{{ end }}
+    class="frameworks-card"
+  >
+    {{ if .card.image }}
+      <img class="frameworks-card__image" src="{{ .card.image.src }}" alt="{{ .card.image.alt }}" />
+    {{ end }}
+    <h3 class="frameworks-card__title">{{ .card.title }}</h3>
+  </a>
+</div>

@@ -1,0 +1,65 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.frameworks-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: pxToRem(12);
+  height: 100%;
+  width: 100%;
+  max-width: pxToRem(456);
+  margin: 0 auto;
+  padding: $spacer * 1.5;
+  border: pxToRem(1) solid $neutral-20;
+  background: linear-gradient(180deg, $neutral-20 0%, rgba(14, 20, 36, 0.1) 100%);
+  border-radius: pxToRem(12);
+  overflow: hidden;
+  color: $neutral-70;
+
+  img.frameworks-card__image {
+    height: pxToRem(60);
+    margin: 0;
+  }
+
+  &__title,
+  h3.frameworks-card__title {
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    color: $neutral-98;
+    margin: 0;
+    padding: 0;
+  }
+
+  a.docs__card-link {
+    margin: 0 0 $spacer * 2 $spacer * 1.5;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:hover {
+    background: linear-gradient(180deg, $neutral-20 0%, #0e1424 100%);
+  }
+
+  @include media-breakpoint-up(lg) {
+    max-width: none;
+  }
+
+  [data-theme='light'] & {
+    background: $neutral-98;
+    border-color: $neutral-90;
+    color: $neutral-10;
+
+    .frameworks-card__title {
+      color: $neutral-10;
+    }
+    &:hover {
+      .frameworks-card__title {
+        color: $primary-50;
+      }
+    }
+  }
+}
