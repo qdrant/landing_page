@@ -15,7 +15,7 @@ The position of a vector in embedding space only reflects meaning as far as the 
 
 <div class="video">
 <iframe 
-  src="https://www.youtube.com/embed/mUMftLNSozs?si=AYzWCtF3ukU2yNZd"
+  src="https://www.youtube.com/embed/P_vsVPsCgTQ?si=dvMvCSnT3M1MfRQT"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
