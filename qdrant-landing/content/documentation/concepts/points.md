@@ -161,7 +161,7 @@ It means that executing the same method several times in a row is equivalent to 
 
 In this case, it means that points with the same id will be overwritten when re-uploaded.
 
-Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-ones guarantee.
+Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-once guarantee.
 Even with such a system, Qdrant ensures data consistency.
 
 ### Named vectors
