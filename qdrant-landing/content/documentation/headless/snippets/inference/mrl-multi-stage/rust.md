@@ -25,7 +25,7 @@ client
                         ]),
                     }))
                     .using("small")
-                    .limit(10_u64),
+                    .limit(1000_u64),
             )
             .query(Query::new_nearest(Document {
                 text: "How to bake cookies?".into(),

@@ -29,8 +29,8 @@ client
                     .add_vector(
                         "small",
                         Document {
-                            text: "Mars, the red planet".into(),
-                            model: "sentence-transformers/all-minilm-l6-v2".into(),
+                            text: "Recipe for baking chocolate chip cookies".into(),
+                            model: "openai/text-embedding-3-small".into(),
                             options: HashMap::<String, Value>::from_iter(vec![
                                 (
                                     "openai-api-key".into(),
