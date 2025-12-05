@@ -177,7 +177,7 @@ The choice of tokenizer affects how queries match the indexed text, supporting d
 
 Available tokenizers are:
 
-* `word` - splits the string into words, separated by spaces, punctuation marks, and special characters.
+* `word` (default) - splits the string into words, separated by spaces, punctuation marks, and special characters.
 * `whitespace` - splits the string into words, separated by spaces.
 * `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
 * `multilingual` - a special type of tokenizer based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization and lemmatization for multiple languages, including those with non-Latin alphabets and non-space delimiters. See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. Note: For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
