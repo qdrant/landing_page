@@ -399,7 +399,7 @@ The response contains three separate result sets. You can return the first non-e
 
 Full-text search is similar to full-text filtering, with the key difference being that full-text queries are used for ranking. For each document that matches the search terms, Qdrant calculates a relevance score based on how well the document matches the search terms. That score is used to rank the results. Qdrant supports several full-text search scoring algorithms.
 
-Full-text search in Qdrant is powered by [sparse vectors](/articles/sparse-vectors/). Why sparse vectors? Because they are an efficient way to represent text data for search purposes. Each dimension in a sparse vector corresponds to a specific term in the vocabulary, and the value in that dimension represents the weight of that term in the document. Weights can be calculated using document statistics for use with the [BM25](#bm25) ranking algorithm, or you can use transformer-based models that can capture semantic meaning, like [SPLADE++](#splade), and [miniCOIL](#minicoil).
+Full-text search in Qdrant is powered by [sparse vectors](/articles/sparse-vectors/). Why sparse vectors? Because they are a flexible way to represent data for search purposes, from classic BM25-based search, to semantic search, and [collaborative filtering](/documentation/advanced-tutorials/collaborative-filtering/). Each dimension in a sparse vector corresponds to a specific term in the vocabulary, and the value in that dimension represents the weight of that term in the document. Weights can be calculated using document statistics for use with the [BM25](#bm25) ranking algorithm, or you can use transformer-based models that can capture semantic meaning, like [SPLADE++](#splade), and [miniCOIL](#minicoil).
 
 ### BM25
 
