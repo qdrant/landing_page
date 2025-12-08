@@ -52,11 +52,11 @@ def main() -> None:
                     snippet_dir / f"{lang.NAME}.md",
                 )
                 handwritten = (snippet_dir / f"{lang.NAME}.md").read_text()
-                if handwritten != generated:
+                if handwritten.rstrip("\n") != generated.rstrip("\n"):
                     print_and_colorize_diff(
                         difflib.unified_diff(
-                            handwritten.splitlines(keepends=True),
-                            generated.splitlines(keepends=True),
+                            handwritten.rstrip("\n").splitlines(keepends=True),
+                            generated.rstrip("\n").splitlines(keepends=True),
                             fromfile=str(handwritten_fname),
                             tofile=str(generated_fname),
                         ),

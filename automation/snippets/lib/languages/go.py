@@ -92,7 +92,12 @@ class LanguageGo(Language):
 
     RE_RENDERED = re.compile(
         r"""
-        (?P<imports> (?:import\s*\([^)]+\)\n|\n)* )
+        (?P<imports>
+            (?: import\s*\([^)]+\)\n
+              | import\s+"[^"]+"\n
+              | \n
+            )*
+        )
         (?P<body> .* )
         $
         """,

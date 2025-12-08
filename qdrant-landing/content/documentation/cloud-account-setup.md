@@ -67,6 +67,12 @@ If you use multiple accounts for different purposes, it is a good idea to give t
 
 ![Account management](/documentation/cloud/account-management.png)
 
+### Changing the Account Owner
+
+Every account has one owner. The owner is granted full admin permissions for the account as well as futher unique permissions allowing them to either delete the account or transfer account ownership.
+
+To transfer ownership of an account, as the owner, visit the *Access Management* page. In the actions menu of the user you wish to transfer to, you will find the option 'Make Account Owner' which begins the transfer.
+
 ### Deleting an Account
 
 When you delete an account, all database clusters and associated data will be deleted.

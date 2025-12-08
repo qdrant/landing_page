@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>snippets-amalgamation</AssemblyName>
+    <NoWarn>CS1998<!--
+      disable warning for async method without 'await',
+      since all our Snippet.Run() methods are async
+    --></NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

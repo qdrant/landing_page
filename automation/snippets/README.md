@@ -114,3 +114,12 @@ Each supported language has:
     This directory is gitignored.
   - For Go, Rust, Python it updates the lockfile in the [`templates/`](./templates) directory.
     These lockfiles are checked in this repo.
+
+
+## Quirks
+
+Sometimes `mypy` (python typechecker) complains at valid code.
+Place this comment at the top of the file to silence it:
+```python
+# mypy: disable-error-code="arg-type"
+```

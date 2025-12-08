@@ -1,0 +1,30 @@
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, Modifier, SparseVectorParamsBuilder,
+    SparseVectorsConfigBuilder, VectorParamsBuilder, VectorsConfigBuilder,
+};
+
+pub async fn main() -> anyhow::Result<()> {
+    let client = qdrant_client::Qdrant::from_url("http://localhost:6334").build()?; // @hide
+
+    let mut vector_config = VectorsConfigBuilder::default();
+    vector_config.add_named_vector_params(
+        "dense_vector",
+        VectorParamsBuilder::new(384, Distance::Cosine),
+    );
+
+    let mut sparse_vectors_config = SparseVectorsConfigBuilder::default();
+    sparse_vectors_config.add_named_vector_params(
+        "bm25_sparse_vector",
+        SparseVectorParamsBuilder::default().modifier(Modifier::Idf), // Enable Inverse Document Frequency
+    );
+
+    client
+        .create_collection(
+            CreateCollectionBuilder::new("{collection_name}")
+                .vectors_config(vector_config)
+                .sparse_vectors_config(sparse_vectors_config),
+        )
+        .await?;
+
+    Ok(())
+}
