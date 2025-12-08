@@ -5,7 +5,7 @@ aliases:
   - /documentation/search-precision/reranking-hybrid-search/
 ---
 
-# Reranking Hybrid Search Results with Qdrant Vector Database
+# Reranking Hybrid Search Results with Qdrant
 
 Hybrid search combines dense and sparse retrieval to deliver precise and comprehensive results. By adding reranking with ColBERT, you can further refine search outputs for maximum relevance. 
 
@@ -17,7 +17,7 @@ Let’s start by breaking down the architecture:
 
 ![image3.png](/documentation/examples/reranking-hybrid-search/image3.png)
 
-Processing Dense, Sparse, and Late Interaction Embeddings in Vector Databases (VDB)
+Processing Dense, Sparse, and Late Interaction Embeddings in Vector Search Engines.
 
 ### Ingestion Stage
 
@@ -27,7 +27,7 @@ Here’s how we’re going to set up the advanced hybrid search. The process is 
 2. **Dense Embeddings**: We’ll generate dense embeddings for each document, just like in the basic search. These embeddings capture the deeper, semantic meanings behind the text.
 3. **Sparse Embeddings**: This is where it gets interesting. Alongside dense embeddings, we’ll create sparse embeddings using more traditional, keyword-based methods. Specifically, we’ll use BM25, a probabilistic retrieval model. BM25 ranks documents based on how relevant their terms are to a given query, taking into account how often terms appear, document length, and how common the term is across all documents. It’s perfect for keyword-heavy searches.
 4. **Late Interaction Embeddings**: Now, we add the magic of ColBERT. ColBERT uses a two-stage approach. First, it generates contextualized embeddings for both queries and documents using BERT, and then it performs late interaction—matching those embeddings efficiently using a dot product to fine-tune relevance. This step allows for deeper, contextual understanding, making sure you get the most precise results.
-5. **Vector Database**: All of these embeddings—dense, sparse, and late interaction—are stored in a vector database like Qdrant. This allows you to efficiently search, retrieve, and rerank your documents based on multiple layers of relevance.
+5. **Vector Search Engine**: All of these embeddings—dense, sparse, and late interaction—are stored in a vector search engine like Qdrant. This allows you to efficiently search, retrieve, and rerank your documents based on multiple layers of relevance.
 
 ![image2.png](/documentation/examples/reranking-hybrid-search/image2.png)
 
