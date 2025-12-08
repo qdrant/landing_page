@@ -16,13 +16,13 @@ client.upsert(
                 "large": models.Document(
                     text="Recipe for baking chocolate chip cookies",
                     model="openai/text-embedding-3-small",
-                    options={"openai-api-key": "<YOUR_OPENAI_API_KEY"}
+                    options={"openai-api-key": "<YOUR_OPENAI_API_KEY>"}
                 ),
                 "small": models.Document(
                     text="Recipe for baking chocolate chip cookies",
                     model="openai/text-embedding-3-small",
                     options={
-                        "openai-api-key": "<YOUR_OPENAI_API_KEY",
+                        "openai-api-key": "<YOUR_OPENAI_API_KEY>",
                         "mrl": 64
                     },
                 )

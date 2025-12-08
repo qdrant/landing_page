@@ -12,7 +12,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
 	UseTLS: true,
 })
 
-client.Upsert(ctx, &qdrant.UpsertPoints{
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
 	CollectionName: "{collection_name}",
 	Points: []*qdrant.PointStruct{
 		{

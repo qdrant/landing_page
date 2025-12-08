@@ -1,4 +1,3 @@
-```python
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(
@@ -29,4 +28,3 @@ client.query_points(
         limit=1000,
     )
 )
-```

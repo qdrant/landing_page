@@ -12,7 +12,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
 	UseTLS: true,
 })
 
-client.Query(ctx, &qdrant.QueryPoints{
+client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "{collection_name}",
 	Prefetch: []*qdrant.PrefetchQuery{
 		{
