@@ -130,7 +130,7 @@ helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdran
 
 Note, that the image tag values are automatically derived from the chart's appVersions and should not be overridden in the `values.yaml`.
 
-For more information also see the [Helm Upgrade Documentation](https://helm.sh/docs/helm/upgrade/).
+For more information also see the [Helm Upgrade Documentation](https://helm.sh/docs/helm/helm_upgrade/).
 
 ### Mirroring images and charts
 

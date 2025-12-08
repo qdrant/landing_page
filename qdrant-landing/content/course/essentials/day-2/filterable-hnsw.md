@@ -8,7 +8,7 @@ weight: 3
 
 # Combining Vector Search and Filtering
 
-We've talked about how Qdrant uses the [HNSW](documentation/concepts/indexing/#filtrable-index) graph to efficiently search dense vectors. But in real-world applications, you'll often want to constrain your search using filters. This creates unique challenges for graph traversal that Qdrant solves elegantly.
+We've talked about how Qdrant uses the [HNSW](/documentation/concepts/indexing/#filtrable-index) graph to efficiently search dense vectors. But in real-world applications, you'll often want to constrain your search using filters. This creates unique challenges for graph traversal that Qdrant solves elegantly.
 
 <div class="video">
 <iframe 
