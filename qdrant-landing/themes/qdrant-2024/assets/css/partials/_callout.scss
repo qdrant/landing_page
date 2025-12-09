@@ -7,10 +7,11 @@
   border-radius: $spacer;
   overflow: hidden;
   position: relative;
-    background-image: url('/img/texture.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  background-image: url('/img/texture.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
 
   &__lights-overlay {
     position: absolute;
