@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use qdrant_client::{
-    Payload, Qdrant, QdrantError,
+    Payload, Qdrant,
     qdrant::{Document, NamedVectors, PointStruct, UpsertPointsBuilder, Value},
 };
 

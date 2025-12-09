@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use qdrant_client::{
-    Qdrant, QdrantError,
+    Qdrant,
     qdrant::{Document, PrefetchQueryBuilder, Query, QueryPointsBuilder, Value},
 };
 
