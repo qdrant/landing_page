@@ -197,8 +197,7 @@ from fastembed import TextEmbedding
 
 collection_name: str = 'test'
 embed_model_name: str = 'snowflake/snowflake-arctic-embed-s'
-```
-```python
+
 # Step 0: create qdrant_collection
 create_qdrant_collection(collection_name=collection_name, embed_model=embed_model_name)
 
