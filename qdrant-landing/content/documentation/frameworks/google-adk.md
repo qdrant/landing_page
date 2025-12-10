@@ -6,7 +6,7 @@ title: Google ADK
 
 [Agent Development Kit (ADK)](https://github.com/google/adk-python) is an open-source, code-first Python framework from Google for building, evaluating, and deploying sophisticated AI agents. While optimized for Gemini, ADK is model-agnostic and compatible with other frameworks.
 
-You can connect ADK agents to Qdrant using the [Qdrant MCP Server](/documentation/qdrant-mcp-server/), giving your agent the ability to store and retrieve information using semantic search.
+You can connect ADK agents to Qdrant using the [Qdrant MCP Server](https://github.com/qdrant/mcp-server-qdrant/), giving your agent the ability to store and retrieve information using semantic search.
 
 ## Installation
 
@@ -47,7 +47,7 @@ root_agent = Agent(
 )
 ```
 
-For available tools and configuration options, see the [Qdrant MCP Server documentation](/documentation/qdrant-mcp-server/).
+For available tools and configuration options, see the [Qdrant MCP Server documentation](https://github.com/qdrant/mcp-server-qdrant/).
 
 ## Further reading
 
