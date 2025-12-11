@@ -210,7 +210,7 @@ When configuring a full-text index in Qdrant, you can specify a stemmer to be us
 Qdrant provides an implementation of [Snowball stemmer](https://snowballstem.org/), a widely used and performant variant for some of the most popular languages.
 For the list of supported languages, please visit the [rust-stemmers repository](https://github.com/qdrant/rust-stemmers).
 
-Here is an example of full-text Index configuration with Snowball stemmer:
+For full-text indices, stemming is not enabled by default. To enable it, configure the `snowball` stemmer with the desired language:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stemmer-full-text/" >}}
 
@@ -222,8 +222,7 @@ In Qdrant, you can specify a list of stopwords to be ignored during full-text in
 
 You can configure stopwords based on predefined languages, as well as extend existing stopword lists with custom words.
 
-Here is an example of configuring a full-text index with custom stopwords:
-
+For full-text indices, stopword removal is not enabled by default. To enable it, configure the `stopwords` parameter with the desired languages and any custom stopwords:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stopwords-full-text/" >}}
 
