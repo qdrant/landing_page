@@ -188,24 +188,6 @@ With the above configuration, you can add the following values to the advanced s
 
 If your registry requires authentication, you can create and reference the secret the same way as described above.
 
-### Rate limits at `docker.io`
-
-By default, the Qdrant database image will be fetched from Docker Hub, which is the main source of truth. Docker Hub has rate limits for anonymous users. If you have larger setups and also fetch other images from their, you may run into these limits. To solve this, you can provide authentication information for Docker Hub.
-
-First, create a secret with your Docker Hub credentials into your `the-qdrant-namespace` namespace:
-
-```shell
-kubectl create secret docker-registry dockerhub-registry-secret --namespace the-qdrant-namespace --docker-server=https://index.docker.io/v1/ --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
-```
-
-Then, you can reference this secret by adding the following configuration in the operator configuration YAML editor in the advanced section of the Hybrid Cloud Environment:
-
-```yaml
-qdrant:
-  image:
-    pull_secret: "dockerhub-registry-secret"
-```
-
 ## Rotating Secrets
 
 If you need to rotate the secrets to pull container images and charts from the Qdrant registry and to authenticate at the Qdrant Cloud API, you can do so by following these steps:
