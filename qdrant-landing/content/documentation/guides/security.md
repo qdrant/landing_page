@@ -274,6 +274,16 @@ Here is an example of libraries that can be used to generate JWT tokens:
 - Python: [PyJWT](https://pyjwt.readthedocs.io/en/stable/)
 - JavaScript: [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 - Rust: [jsonwebtoken](https://crates.io/crates/jsonwebtoken)
+- CLI: [jwt-cli](https://github.com/mike-engel/jwt-cli)
+
+Here is an example using `jwt-cli`:
+
+```bash
+jwt encode --payload '{
+  "access": "r",
+  "exp": 1766055305
+}' --secret 'your-api-key'
+```
 
 #### JWT Configuration
 
