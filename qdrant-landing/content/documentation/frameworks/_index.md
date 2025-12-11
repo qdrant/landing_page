@@ -21,6 +21,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Feast](/documentation/frameworks/feast/)                     | Open-source feature store to operate production ML systems at scale as a set of features.                            |
 | [Fifty-One](/documentation/frameworks/fifty-one/)             | Toolkit for building high-quality datasets and computer vision models.                                               |
 | [Genkit](/documentation/frameworks/genkit/)                   | Framework to build, deploy, and monitor production-ready AI-powered apps.                                            |
+| [Google ADK](/documentation/frameworks/google-adk/)           | Open-source Python framework from Google for building, evaluating, and deploying AI agents.                          |
 | [Haystack](/documentation/frameworks/haystack/)               | LLM orchestration framework to build customizable, production-ready LLM applications.                                |
 | [HoneyHive](/documentation/frameworks/honeyhive/)               | AI observability and evaluation platform that provides tracing and monitoring tools for GenAI pipelines.           |
 | [Lakechain](/documentation/frameworks/lakechain/)             | Python framework for deploying document processing pipelines on AWS using infrastructure-as-code.                    |
