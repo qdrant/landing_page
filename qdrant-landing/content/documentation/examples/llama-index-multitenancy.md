@@ -38,7 +38,7 @@ as the documents may contain sensitive information.
 
 ### Creating vector store
 
-[QdrantVectorStore](https://docs.llamaindex.ai/en/stable/examples/vector_stores/QdrantIndexDemo.html) is a 
+[QdrantVectorStore](https://developers.llamaindex.ai/python/examples/vector_stores/qdrantindexdemo/) is a 
 wrapper around Qdrant that provides all the necessary methods to work with your vector database in LlamaIndex. 
 Let's create a vector store for our collection. It requires setting a collection name and passing an instance 
 of `QdrantClient`.

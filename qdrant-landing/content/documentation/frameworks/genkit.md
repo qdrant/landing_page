@@ -67,7 +67,7 @@ addition, there are a few optional parameters:
   dataTypePayloadKey: '_datatype';
   ```
 
-- `collectionCreateOptions`: [Additional options](<(https://qdrant.tech/documentation/concepts/collections/#create-a-collection)>) when creating the Qdrant collection.
+- `collectionCreateOptions`: [Additional options](/documentation/concepts/collections/#create-a-collection) when creating the Qdrant collection.
 
 ## Usage
 

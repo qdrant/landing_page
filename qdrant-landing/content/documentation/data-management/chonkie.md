@@ -96,6 +96,6 @@ docs = (Pipeline()
 
 - Chonkie [GitHub Repository](https://github.com/chonkie-inc/chonkie)
 - Chonkie [Documentation](https://chonkie.ai)
-- QdrantHandshake [API Reference](https://chonkie.ai/oss/handshakes/qdrant-handshake)
-- Chonkie [Chunking Strategies](https://chonkie.ai/oss/chunkers/overview)
+- QdrantHandshake [API Reference](https://docs.chonkie.ai/oss/handshakes/qdrant-handshake)
+- Chonkie [Chunking Strategies](https://docs.chonkie.ai/oss/chunkers/overview)
 - Qdrant Python Client [Documentation](https://python-client.qdrant.tech/)
