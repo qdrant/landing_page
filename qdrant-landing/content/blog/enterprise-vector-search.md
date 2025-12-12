@@ -94,4 +94,4 @@ With this combination, you can simplify infrastructure management, implement sec
 
 ## Come Build with Us\!
 
-[Contact Sales](https://qdrant.tech/contact-us/) to enable enterprise features for your team, or [start prototyping with a free Qdrant cluster](https://cloud.qdrant.io/).
+[Contact Us](https://qdrant.tech/contact-us/) to enable enterprise features for your team, or [start prototyping with a free Qdrant cluster](https://cloud.qdrant.io/).

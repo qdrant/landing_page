@@ -39,12 +39,12 @@ cards:
 - id: 1
   popular: false
   title: Hybrid Cloud
-  price: $0.014
-  description: Starting price per hour.
+  price: Custom
+  description: Price on request.
   button:
-    text: Get Started
-    url: https://cloud.qdrant.io
-    contained: true
+    text: Contact Us
+    url: /contact-us/
+    contained: false
   featureDescription: Bring your own cluster from any cloud provider, on-premise infrastructure, or edge locations and connect them to the managed cloud.
   features:
   - id: 0
@@ -62,7 +62,7 @@ cards:
   price: Custom
   description: Price on request.
   button:
-    text: Contact Sales
+    text: Contact Us
     url: /contact-us/
     contained: false
   featureDescription: Deploy Qdrant fully on premise for maximum control and data sovereignty.
