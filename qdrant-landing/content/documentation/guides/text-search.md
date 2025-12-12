@@ -333,7 +333,47 @@ POST /collections/books/points/query
 }
 ```
 
-To filter on phrases, use a `phrase` condition. This requires enabling [phrase searching](/documentation/concepts/indexing/#phrase-search) when creating the full-text index.
+Qdrant also supports phrase filtering, enabling you to search for multiple words in the exact order they appear in the original text, with no other words in between. For example, a phrase filter for "time machine" matches against the title "The Time Machine" but would not match "The Time Travel Machine" (there's a word between "time" and "machine") nor "Machine Time" (the word order is incorrect).
+
+The difference between phrase filtering and keyword filtering is that phrase filtering applies text processing and, as a result, is case-insensitive, while keyword filtering is case-sensitive and only matches the exact string. Additionally, keyword filtering has to match the entire string, whereas phrase filtering can match part of a larger string. So a keyword filter for "Time Machine" would not match "The Time Machine" because it doesn't match "The," but a phrase filter for "Time Machine" would.
+
+To filter on phrases, use a `phrase` condition. This requires enabling [phrase searching](/documentation/concepts/indexing/#phrase-search) when creating the full-text index:
+
+```json
+PUT /collections/books/index?wait=true
+{
+  "field_name": "title",
+  "field_schema": {
+    "type": "text",
+    "ascii_folding": true,
+    "phrase_matching": true
+  }
+}
+```
+
+Next, you can use a `phrase` condition to filter for titles that contain the exact phrase "time machine":
+
+```json
+POST /collections/books/points/query?wait=true
+{
+  "query": {
+    "text": "time travel",
+    "model": "sentence-transformers/all-minilm-l6-v2"
+  },
+  "using": "description-dense",
+  "with_payload": true,
+  "filter": {
+    "must": [
+      {
+        "key": "title",
+        "match": {
+          "phrase": "time machine"
+        }
+      }
+    ]
+  }
+}
+```
 
 ### Progressive Filtering with the Batch Search API
 
