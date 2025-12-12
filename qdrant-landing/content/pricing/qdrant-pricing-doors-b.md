@@ -42,7 +42,7 @@ cards:
   price: Custom
   description: Price on request.
   button:
-    text: Contact Sales
+    text: Contact Us
     url: /contact-us/
     contained: false
   featureDescription: Bring your own cluster from any cloud provider, on-premise infrastructure, or edge locations and connect them to the managed cloud.
@@ -62,7 +62,7 @@ cards:
   price: Custom
   description: Price on request.
   button:
-    text: Contact Sales
+    text: Contact Us
     url: /contact-us/
     contained: false
   featureDescription: Deploy Qdrant fully on premise for maximum control and data sovereignty.
