@@ -5,7 +5,7 @@ short_description: "Free course on advanced image retrieval using multi-vector t
 description: "Join Qdrant and DeepLearning.AI for a free course on multi-vector image retrieval, featuring ColPali, ColBERT, and MUVERA for production-ready visual RAG systems."
 preview_image: /blog/qdrant-deeplearning-ai-multi-vector-image-retrieval/preview.png
 social_preview_image: /blog/qdrant-deeplearning-ai-multi-vector-image-retrieval/preview.png
-date: 2025-12-10T17:00:00Z
+date: 2025-12-11T17:00:00Z
 author: Kacper Łukawski
 featured: true
 tags:
