@@ -747,9 +747,13 @@ POST /collections/books/points/query
 }
 ```
 
-This specific query searches for an ISBN, for which only the lexical search returns a result, which is then returned to the user. If a user had searched for "time travel", only the semantic search would return results, and those would be returned to the user. If a user would search for a term that matched both the semantic and lexical vectors, the results from both searches would be combined to provide a more comprehensive set of results. 
+This query searches for an ISBN, for which only the lexical search returns a result, which is then returned to the user. If a user had searched for "time travel", only the semantic search would return results, and those would be returned to the user. If a user would search for a term that matched both the semantic and lexical vectors, the results from both searches would be combined to provide a more comprehensive set of results. 
 
-You're not limited to prefetching two queries. For example, you could run multiple lexical queries across the `title`, `author`, and `isbn` fields alongside a semantic query to achieve a comprehensive search across all data.
+You are not limited to prefetching just two queries. Examples include, but are not limited to:
+
+- Fuse multiple lexical queries across the `title`, `author`, and `isbn` fields alongside a semantic query to achieve a comprehensive search across all data.
+- Prefetch using sparse or dense vectors and/or filters, and [rescore with dense vectors](/documentation/concepts/hybrid-queries/#multi-stage-queries).
+- [Prefetch with dense and sparse vectors, and rerank using late interaction embeddings](/documentation/advanced-tutorials/reranking-hybrid-search/?q=late+interaction).
 
 ## Conclusion
 
