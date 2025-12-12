@@ -1,6 +1,6 @@
 ---
 title: "Module 0: Setting Up Dependencies"
-description: Set up your development environment for multi-vector search. Install required dependencies and prepare your workspace for the course.
+description: "Set up your development environment for multi-vector search. Install required dependencies and prepare your workspace for the course."
 isLesson: true
 weight: 10
 ---
@@ -15,9 +15,7 @@ Get your environment ready for exploring multi-vector search with Qdrant.
 
 ## Today's path
 
-1. Python Environment Setup
-2. Installing Qdrant and FastEmbed
-3. Preparing Your Workspace
-4. Verifying Your Installation
+1. Qdrant Setup
+2. Installing Dependencies
 
 By the end, you'll have a working development environment ready for multi-vector search experiments.

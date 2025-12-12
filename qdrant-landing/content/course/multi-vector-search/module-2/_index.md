@@ -1,6 +1,6 @@
 ---
 title: "Module 2: Multi-Vector Representations for Multi-Modal Data"
-description: Explore multi-modal multi-vector search with ColPali. Learn how to search across images and text, and configure Qdrant for multi-vector embeddings.
+description: "Explore multi-modal multi-vector search with ColPali. Learn how to search across images and text, and configure Qdrant for multi-vector embeddings."
 isLesson: true
 weight: 30
 ---
@@ -15,9 +15,9 @@ Extend multi-vector representations beyond text to unlock powerful multi-modal s
 
 ## Today's path
 
-1. ColPali Family Overview
-2. How ColPali Models Work
+1. How ColPali Models Work
+2. ColPali Family Overview
 3. Visual Interpretability of ColPali
-4. Configuring Qdrant for Multi-Vector Embeddings
+4. Multi-Vector Embeddings in Qdrant
 
 You'll learn to build multi-modal search systems that understand both images and text.
