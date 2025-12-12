@@ -4,17 +4,18 @@ This document is a proposal for another Qdrant course. I suggest covering both t
 
 # Outline
 
-1. **Module 1:** Multi-vector representations for textual data  
+1. **Module 0:** Setting up dependencies
+2. **Module 1:** Multi-vector representations for textual data  
    * ColBERT basics  
    * Comparison to regular dense embedding models  
    * Examples when multi-vectors may work better than single vectors  
    * MaxSim distance  
-2. **Module 2:** Multi-vector representations for multi-modal data (image \+ text)  
+3. **Module 2:** Multi-vector representations for multi-modal data (image \+ text)  
    * ColPali family  
    * Inner workings of the ColPali models  
    * Visual interpretability of ColPali representations  
    * Setting up Qdrant for multi-vector embeddings  
-3. **Module 3:** Scalability issues caused by multi-vector representations  
+4. **Module 3:** Scalability issues caused by multi-vector representations  
    * The implications of high memory usage and ways to solve it  
      * Vector quantization: scalar, binary, \+1.5/2-bit  
      * Pooling techniques: row/column pooling, hierarchical token pooling  
