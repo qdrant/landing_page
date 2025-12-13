@@ -12,7 +12,9 @@ func Main() {
 		Port: 6334,
 	})
 
-	if err != nil { panic(err) } // @hide
+	if err != nil {
+		panic(err)
+	} // @hide
 
 	client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 		CollectionName: "{collection_name}",
@@ -21,7 +23,7 @@ func Main() {
 			Distance: qdrant.Distance_Cosine,
 		}),
 		OptimizersConfig: &qdrant.OptimizersConfigDiff{
-			MaxSegmentSize: qdrant.PtrOf(uint64(20000)),
+			IndexingThreshold: qdrant.PtrOf(uint64(20000)),
 		},
 	})
 }
