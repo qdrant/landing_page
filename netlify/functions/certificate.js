@@ -1,4 +1,5 @@
 const Jimp = require('jimp');
+const Airtable = require('airtable');
 
 // Helper function to convert hex color to Jimp color integer
 function hexToInt(hex) {
@@ -30,6 +31,11 @@ function applyTextColor(image, x, y, width, height, color) {
   });
 }
 
+// Initialize Airtable
+const base = new Airtable({
+  apiKey: process.env.AIRTABLE_APIKEY
+}).base('apps18Ovyv8vrAXQ1');
+
 // Handler function
 exports.handler = async (event, context) => {
   // Only allow GET requests
@@ -41,19 +47,84 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    // Get name from query parameters, fallback to default
-    const name = event.queryStringParameters?.name || 'John Doe';
+    // Get Certification ID from query parameters or path
+    let certificationId = event.queryStringParameters?.id || 
+                        event.queryStringParameters?.certificationId;
     
-    // Mock certificate data
-    const mockData = {
-      name: name,
-      course: 'Introduction to Vector Search',
-      date: 'January 15, 2024',
-      certificateNumber: 'CERT-2024-001'
+    // If not in query params, try to extract from path
+    if (!certificationId && event.path) {
+      const pathParts = event.path.split('/').filter(Boolean);
+      certificationId = pathParts[pathParts.length - 1];
+    }
+
+    if (!certificationId || certificationId === 'certificate') {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ 
+          error: 'Certification ID is required. Usage: ?id=CERTIFICATION_ID or /certificate/CERTIFICATION_ID' 
+        })
+      };
+    }
+
+    // Fetch record from Airtable
+    const tableName = 'tblSPihAjgmIVAtDL'; // Table ID from URL
+    
+    // Try to parse as number first (Certification ID might be numeric)
+    const certIdNum = parseInt(certificationId, 10);
+    const isNumeric = !isNaN(certIdNum);
+    
+    // Build filter formula - handle both numeric and text IDs
+    const filterFormula = isNumeric 
+      ? `{Certification ID} = ${certIdNum}`
+      : `{Certification ID} = "${certificationId}"`;
+    
+    const records = await base(tableName).select({
+      filterByFormula: filterFormula,
+      maxRecords: 1
+    }).firstPage();
+
+    if (records.length === 0) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ error: 'Certificate not found' })
+      };
+    }
+
+    const record = records[0];
+    const fields = record.fields;
+
+    // Extract certificate data from Airtable
+    // Field names might have BOM character, so try both
+    const userName = fields['User Name'] || fields['﻿User Name'] || '';
+    const courseName = fields['Course Name'] || fields['﻿Course Name'] || '';
+    const certId = fields['Certification ID'] || fields['﻿Certification ID'] || certificationId;
+    const dateCompleted = fields['Date Completed'] || '';
+
+    // Format date if available
+    let formattedDate = '';
+    if (dateCompleted) {
+      try {
+        const date = new Date(dateCompleted);
+        formattedDate = date.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+      } catch (e) {
+        formattedDate = dateCompleted;
+      }
+    }
+
+    // Prepare certificate data
+    const certificateData = {
+      name: userName,
+      course: courseName,
+      date: formattedDate,
+      certificateNumber: certId
     };
 
     // Render certificate image
-    const imageBuffer = await renderCertificate(mockData);
+    const imageBuffer = await renderCertificate(certificateData);
 
     // Return image as response
     return {
@@ -67,6 +138,14 @@ exports.handler = async (event, context) => {
     };
   } catch (error) {
     console.error('Error generating certificate:', error);
+
+    // Handle Airtable-specific errors
+    if (error.error === 'NOT_FOUND' || error.statusCode === 404) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ error: 'Certificate not found' })
+      };
+    }
 
     return {
       statusCode: 500,

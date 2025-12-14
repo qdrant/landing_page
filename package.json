@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Qdrant landing page with Netlify functions",
   "dependencies": {
-    "jimp": "^0.22.10"
+    "jimp": "^0.22.10",
+    "airtable": "^0.12.2"
   }
 }
 
