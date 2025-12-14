@@ -1,4 +1,34 @@
-const { createCanvas } = require('canvas');
+const Jimp = require('jimp');
+
+// Helper function to convert hex color to Jimp color integer
+function hexToInt(hex) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return Jimp.rgbaToInt(r, g, b, 255);
+}
+
+// Helper to apply color to text area (only dark pixels, which are the text)
+function applyTextColor(image, x, y, width, height, color) {
+  image.scan(x, y, width, height, function (x, y, idx) {
+    const r = this.bitmap.data[idx];
+    const g = this.bitmap.data[idx + 1];
+    const b = this.bitmap.data[idx + 2];
+    const alpha = this.bitmap.data[idx + 3];
+    
+    // Only apply color to dark pixels (text pixels), not light background pixels
+    // Check if pixel is dark (text) - sum of RGB is less than a threshold
+    const brightness = r + g + b;
+    if (alpha > 0 && brightness < 200) { // Dark pixels are text
+      const newR = (color >> 24) & 0xFF;
+      const newG = (color >> 16) & 0xFF;
+      const newB = (color >> 8) & 0xFF;
+      this.bitmap.data[idx] = newR;
+      this.bitmap.data[idx + 1] = newG;
+      this.bitmap.data[idx + 2] = newB;
+    }
+  });
+}
 
 // Handler function
 exports.handler = async (event, context) => {
@@ -50,86 +80,150 @@ exports.handler = async (event, context) => {
 
 // Function to render certificate image
 async function renderCertificate({ name, course, date, certificateNumber }) {
-  // Certificate dimensions (adjust as needed)
+  // Certificate dimensions
   const width = 1200;
   const height = 800;
 
-  // Create canvas
-  const canvas = createCanvas(width, height);
-  const ctx = canvas.getContext('2d');
+  // Create image with gradient background
+  const image = new Jimp(width, height, '#E8F4F8');
+  
+  // Create gradient effect
+  for (let y = 0; y < height; y++) {
+    const ratio = y / height;
+    const r = Math.floor(232 + (255 - 232) * ratio);
+    const g = Math.floor(244 + (255 - 244) * ratio);
+    const b = Math.floor(248 + (255 - 248) * ratio);
+    const color = Jimp.rgbaToInt(r, g, b, 255);
+    
+    for (let x = 0; x < width; x++) {
+      image.setPixelColor(color, x, y);
+    }
+  }
 
-  // Set background color (light blue/white gradient)
-  const gradient = ctx.createLinearGradient(0, 0, width, height);
-  gradient.addColorStop(0, '#E8F4F8');
-  gradient.addColorStop(1, '#FFFFFF');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, width, height);
+  // Draw outer border (8px)
+  const borderColor = hexToInt('#2C5282');
+  for (let i = 0; i < 8; i++) {
+    const offset = 40 + i;
+    // Top and bottom
+    for (let x = offset; x < width - offset; x++) {
+      image.setPixelColor(borderColor, x, offset);
+      image.setPixelColor(borderColor, x, height - offset);
+    }
+    // Left and right
+    for (let y = offset; y < height - offset; y++) {
+      image.setPixelColor(borderColor, offset, y);
+      image.setPixelColor(borderColor, width - offset, y);
+    }
+  }
 
-  // Add decorative border
-  ctx.strokeStyle = '#2C5282';
-  ctx.lineWidth = 8;
-  ctx.strokeRect(40, 40, width - 80, height - 80);
+  // Draw inner border (2px)
+  const innerBorderColor = hexToInt('#4299E1');
+  for (let i = 0; i < 2; i++) {
+    const offset = 60 + i;
+    // Top and bottom
+    for (let x = offset; x < width - offset; x++) {
+      image.setPixelColor(innerBorderColor, x, offset);
+      image.setPixelColor(innerBorderColor, x, height - offset);
+    }
+    // Left and right
+    for (let y = offset; y < height - offset; y++) {
+      image.setPixelColor(innerBorderColor, offset, y);
+      image.setPixelColor(innerBorderColor, width - offset, y);
+    }
+  }
 
-  // Add inner border
-  ctx.strokeStyle = '#4299E1';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(60, 60, width - 120, height - 120);
+  // Load fonts
+  const fontTitle = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
+  const fontSubtitle = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+  const fontName = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
+  const fontCourse = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+  const fontDate = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+  const fontCertNum = await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
 
-  // Title - use simple font specification that works with node-canvas
-  ctx.fillStyle = '#1A365D';
-  ctx.font = 'bold 48px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('CERTIFICATE OF COMPLETION', width / 2, 150);
+  // Title
+  const titleY = 100;
+  image.print(fontTitle, 0, titleY, {
+    text: 'CERTIFICATE OF COMPLETION',
+    alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+    alignmentY: Jimp.VERTICAL_ALIGN_TOP
+  }, width);
+  applyTextColor(image, 0, titleY, width, 50, hexToInt('#1A365D'));
 
   // Subtitle
-  ctx.fillStyle = '#2D3748';
-  ctx.font = '32px sans-serif';
-  ctx.fillText('This is to certify that', width / 2, 220);
+  const subtitleY = 200;
+  image.print(fontSubtitle, 0, subtitleY, {
+    text: 'This is to certify that',
+    alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+    alignmentY: Jimp.VERTICAL_ALIGN_TOP
+  }, width);
+  applyTextColor(image, 0, subtitleY, width, 40, hexToInt('#2D3748'));
 
   // Name
-  ctx.fillStyle = '#1A365D';
-  ctx.font = 'bold 56px sans-serif';
-  ctx.fillText(name, width / 2, 320);
+  const nameY = 280;
+  image.print(fontName, 0, nameY, {
+    text: name,
+    alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+    alignmentY: Jimp.VERTICAL_ALIGN_TOP
+  }, width);
+  applyTextColor(image, 0, nameY, width, 60, hexToInt('#1A365D'));
 
-  // Course
-  ctx.fillStyle = '#2D3748';
-  ctx.font = '36px sans-serif';
-  ctx.fillText(`has successfully completed`, width / 2, 400);
-  ctx.fillText(course, width / 2, 460);
+  // Course text
+  const courseY1 = 380;
+  image.print(fontCourse, 0, courseY1, {
+    text: 'has successfully completed',
+    alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+    alignmentY: Jimp.VERTICAL_ALIGN_TOP
+  }, width);
+  
+  const courseY2 = 440;
+  image.print(fontCourse, 0, courseY2, {
+    text: course,
+    alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+    alignmentY: Jimp.VERTICAL_ALIGN_TOP
+  }, width);
+  applyTextColor(image, 0, courseY1, width, 100, hexToInt('#2D3748'));
 
   // Date
   if (date) {
-    ctx.fillStyle = '#4A5568';
-    ctx.font = '28px sans-serif';
-    ctx.fillText(`Date: ${date}`, width / 2, 550);
+    const dateY = 530;
+    image.print(fontDate, 0, dateY, {
+      text: `Date: ${date}`,
+      alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+      alignmentY: Jimp.VERTICAL_ALIGN_TOP
+    }, width);
+    applyTextColor(image, 0, dateY, width, 30, hexToInt('#4A5568'));
   }
 
   // Certificate Number
   if (certificateNumber) {
-    ctx.fillStyle = '#718096';
-    ctx.font = '20px sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText(`Certificate #${certificateNumber}`, width - 100, height - 80);
+    const certText = `Certificate #${certificateNumber}`;
+    const textWidth = Jimp.measureText(fontCertNum, certText);
+    const certX = width - 100;
+    const certY = height - 80;
+    image.print(fontCertNum, certX - textWidth, certY, {
+      text: certText,
+      alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT,
+      alignmentY: Jimp.VERTICAL_ALIGN_TOP
+    });
+    applyTextColor(image, certX - textWidth, certY, textWidth, 30, hexToInt('#718096'));
   }
 
-  // Add decorative elements (optional)
-  // Left corner decoration
-  ctx.strokeStyle = '#4299E1';
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(100, 100);
-  ctx.lineTo(150, 100);
-  ctx.lineTo(100, 150);
-  ctx.stroke();
+  // Add decorative corner elements
+  const decorColor = hexToInt('#4299E1');
+  // Left corner (L-shape)
+  for (let i = 0; i < 50; i++) {
+    image.setPixelColor(decorColor, 100 + i, 100);
+    image.setPixelColor(decorColor, 100, 100 + i);
+  }
+  // Right corner (mirrored L-shape)
+  for (let i = 0; i < 50; i++) {
+    image.setPixelColor(decorColor, width - 100 - i, 100);
+    image.setPixelColor(decorColor, width - 100, 100 + i);
+  }
 
-  // Right corner decoration
-  ctx.beginPath();
-  ctx.moveTo(width - 100, 100);
-  ctx.lineTo(width - 150, 100);
-  ctx.lineTo(width - 100, 150);
-  ctx.stroke();
-
-  // Convert canvas to buffer
-  return canvas.toBuffer('image/png');
+  // Convert to buffer
+  return await image.getBufferAsync(Jimp.MIME_PNG);
 }
 
+// Export renderCertificate for testing
+module.exports.renderCertificate = renderCertificate;
