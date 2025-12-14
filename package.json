@@ -1,0 +1,9 @@
+{
+  "name": "qdrant-landing-page",
+  "version": "1.0.0",
+  "description": "Qdrant landing page with Netlify functions",
+  "dependencies": {
+    "canvas": "^2.11.2"
+  }
+}
+

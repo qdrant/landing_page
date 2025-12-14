@@ -5,6 +5,10 @@ DEPLOY_PRIME_URL=${DEPLOY_PRIME_URL:-"https://qdrant.com"}
 
 CURRENT_DIR=$(pwd)
 
+# Install root-level dependencies (for Netlify functions)
+# This ensures canvas is available for the certificate function
+npm install
+
 curl -LJO https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz && \
     md5sum dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz && \
     tar -xf dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz && \
