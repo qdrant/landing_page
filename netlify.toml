@@ -87,3 +87,16 @@ HUGO_PARAMS_onetrustScriptId = "0196246a-3663-7350-9a45-b65f645d6314"
   to = "/documentation/observability/"
   status = 301
   force = false
+
+# Certificate function - map custom path to Netlify function
+[[redirects]]
+  from = "/certificate"
+  to = "/.netlify/functions/certificate"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/certificate/*"
+  to = "/.netlify/functions/certificate"
+  status = 200
+  force = false

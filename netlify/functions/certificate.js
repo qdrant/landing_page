@@ -11,9 +11,12 @@ exports.handler = async (event, context) => {
   }
 
   try {
+    // Get name from query parameters, fallback to default
+    const name = event.queryStringParameters?.name || 'John Doe';
+    
     // Mock certificate data
     const mockData = {
-      name: 'John Doe',
+      name: name,
       course: 'Introduction to Vector Search',
       date: 'January 15, 2024',
       certificateNumber: 'CERT-2024-001'
@@ -72,39 +75,39 @@ async function renderCertificate({ name, course, date, certificateNumber }) {
   ctx.lineWidth = 2;
   ctx.strokeRect(60, 60, width - 120, height - 120);
 
-  // Title
+  // Title - use simple font specification that works with node-canvas
   ctx.fillStyle = '#1A365D';
-  ctx.font = 'bold 48px Arial';
+  ctx.font = 'bold 48px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('CERTIFICATE OF COMPLETION', width / 2, 150);
 
   // Subtitle
   ctx.fillStyle = '#2D3748';
-  ctx.font = '32px Arial';
+  ctx.font = '32px sans-serif';
   ctx.fillText('This is to certify that', width / 2, 220);
 
   // Name
   ctx.fillStyle = '#1A365D';
-  ctx.font = 'bold 56px Arial';
+  ctx.font = 'bold 56px sans-serif';
   ctx.fillText(name, width / 2, 320);
 
   // Course
   ctx.fillStyle = '#2D3748';
-  ctx.font = '36px Arial';
+  ctx.font = '36px sans-serif';
   ctx.fillText(`has successfully completed`, width / 2, 400);
   ctx.fillText(course, width / 2, 460);
 
   // Date
   if (date) {
     ctx.fillStyle = '#4A5568';
-    ctx.font = '28px Arial';
+    ctx.font = '28px sans-serif';
     ctx.fillText(`Date: ${date}`, width / 2, 550);
   }
 
   // Certificate Number
   if (certificateNumber) {
     ctx.fillStyle = '#718096';
-    ctx.font = '20px Arial';
+    ctx.font = '20px sans-serif';
     ctx.textAlign = 'right';
     ctx.fillText(`Certificate #${certificateNumber}`, width - 100, height - 80);
   }
