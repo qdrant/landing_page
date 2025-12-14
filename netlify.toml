@@ -1,6 +1,7 @@
 [build]
 publish = "qdrant-landing/public"
 command = "bash -x ./install-and-build.sh"
+functions = "netlify/functions"
 
 [build.environment]
 HUGO_VERSION = "0.141.0"
