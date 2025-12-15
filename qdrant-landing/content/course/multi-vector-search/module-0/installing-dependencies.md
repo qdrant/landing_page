@@ -14,7 +14,15 @@ We'll set up a clean Python environment and install everything you need to start
 
 ---
 
-TBD
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
 
 ---
 

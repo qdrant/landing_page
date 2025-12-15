@@ -14,7 +14,15 @@ The good news: Module 3 covers optimization techniques that address many of thes
 
 ---
 
-TBD
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
 
 ---
 

@@ -14,7 +14,15 @@ By the end, you'll have a working multi-modal search system powered by ColPali a
 
 ---
 
-TBD
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
 
 ---
 

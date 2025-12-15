@@ -14,6 +14,18 @@ Multi-vector search requires specific collection configurations that differ from
 
 ---
 
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+
+---
+
 ## Qdrant Cloud Setup
 
 <!-- TODO: Add instructions for setting up Qdrant Cloud account -->

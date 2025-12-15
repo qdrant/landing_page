@@ -14,7 +14,15 @@ This transparency is invaluable for building trust in multi-modal search systems
 
 ---
 
-TBD
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
 
 ---
 
