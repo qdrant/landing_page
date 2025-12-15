@@ -1,7 +1,7 @@
 @use 'sass:math';
 @use 'helpers/functions' as *;
-@import 'fonts/satoshi-font';
-@import 'fonts/source-code-pro';
+@import 'fonts/mona-sans-font';
+@import 'fonts/geist-mono-font';
 @import 'fonts/overpass-mono';
 @import 'bootstrap-custom';
 
@@ -62,6 +62,10 @@ body {
   &.no-scroll {
     overflow: hidden;
   }
+  
+  // Apply Mona Sans width variation setting globally
+  // This ensures all text using Mona Sans (via font-family-base) uses width axis at 100
+  font-variation-settings: 'wdth' 100;
 }
 
 .weh {
