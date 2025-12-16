@@ -128,7 +128,7 @@ If you registry requires authentication, you have to create your own secrets wit
 
 Example:
 
-```shell
+```bash
 kubectl --namespace the-qdrant-namespace create secret docker-registry my-creds --docker-server='your-registry.example.com' --docker-username='your-username' --docker-password='your-password'
 ```
 
@@ -140,25 +140,25 @@ This example uses Skopeo.
 
 You can find your personal credentials for the Qdrant Cloud registry in the onboarding command, or you can fetch them with `kubectl`:
 
-```shell
+```bash
 kubectl get secrets qdrant-registry-creds --namespace the-qdrant-namespace -o jsonpath='{.data.\.dockerconfigjson}' | base64 --decode | jq -r '.'
 ```
 
 First login to the source registry:
 
-```shell
+```bash
 skopeo login registry.cloud.qdrant.io
 ```
 
 Then login to your own registry:
 
-```shell
+```bash
 skopeo login your-registry.example.com
 ```
 
 To sync all container images:
 
-```shell
+```bash
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/operator your-registry.example.com/qdrant/operator
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/qdrant-cloud-agent your-registry.example.com/qdrant/qdrant-cloud-agent
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/prometheus your-registry.example.com/qdrant/prometheus
@@ -194,7 +194,7 @@ By default, the Qdrant database image will be fetched from Docker Hub, which is 
 
 First, create a secret with your Docker Hub credentials into your `the-qdrant-namespace` namespace:
 
-```shell
+```bash
 kubectl create secret docker-registry dockerhub-registry-secret --namespace the-qdrant-namespace --docker-server=https://index.docker.io/v1/ --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
 ```
 
@@ -231,6 +231,6 @@ To clean up your Kubernetes cluster, after deleting the Hybrid Cloud Environment
 
 Run the following command while being connected to your Kubernetes cluster. The script requires `kubectl` and `helm` to be installed.
 
-```shell
+```bash
 ./hybrid-cloud-cleanup.sh your-qdrant-namespace
 ```
