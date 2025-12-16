@@ -15,55 +15,15 @@ Semantic search is a search technique that focuses on the meaning of the text ra
 
 For example, to search through a collection of books, you could use a model like the `all-MiniLM-L6-v2` sentence transformer model. First, create a collection and configure a dense vector for the book descriptions:
 
-```json
-PUT /collections/books
-{
-  "vectors": {
-    "description-dense": {
-      "size": 384,
-      "distance": "Cosine"
-    }
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/create-description-dense-collection/" >}}
 
 Next, you can ingest data:
 
-```json
-PUT /collections/books/points?wait=true
-{
-  "points": [
-    {
-      "id": 1,
-      "vector": {
-        "description-dense": {
-          "text": "A Victorian scientist builds a device to travel far into the future and observes the dim trajectories of humanity. He discovers evolutionary divergence and the consequences of class division. Wells's novella established time travel as a vehicle for social commentary.",
-          "model": "sentence-transformers/all-minilm-l6-v2"
-        }
-      },
-      "payload": {
-        "title": "The Time Machine",
-        "author": "H.G. Wells",
-        "isbn": "9780553213515"
-      }
-    }
-  ]
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/ingest-description-dense-point/" >}}
 
 To find books related to "time travel", use the following query:
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "time travel",
-    "model": "sentence-transformers/all-minilm-l6-v2"
-  },
-  "using": "description-dense",
-  "with_payload": true
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-description-dense/" >}}
 
 Note that these examples do not provide explicit vectors. Instead, the requests use [inference](/documentation/concepts/inference) to let Qdrant generate vectors from the `text` provided in the request using the specified `model`. Alternatively, you can generate explicit vectors on the client side using a library like [FastEmbed](/documentation/fastembed/).
 
@@ -107,149 +67,31 @@ Filtering on a field without an index is not possible on collections that run in
 
 For example, to filter books by author name, create a keyword index on the "author" field:
 
-```json
-PUT /collections/books/index?wait=true
-{
-    "field_name": "author",
-    "field_schema": "keyword"
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/create-author-keyword-index/" >}}
 
 Next, when querying the data, you also add a filter clause to the request. The following example searches for books related to "time travel" but only returns books written by H.G. Wells:
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "time travel",
-    "model": "sentence-transformers/all-minilm-l6-v2"
-  },
-  "using": "description-dense",
-  "with_payload": true,
-  "filter": {
-    "must": [
-      {
-        "key": "author",
-        "match": {
-          "value": "H.G. Wells"
-        }
-      }
-    ]
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-filter-author/" >}}
 
 The ranking of the results of this request is based on the vector similarity of the query. The filter only narrows down the results to those points where the `author` field exactly matches `H.G. Wells`. Furthermore, the filter is case-sensitive. Filtering for the lowercase value `h.g. wells` would not return any results.
 
 The previous example only returns points that match the filter value. If you want the opposite: exclude points with a specific value, use a `must_not` clause instead of `must`. The following example only returns books *not* written by H.G. Wells:
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "time travel",
-    "model": "sentence-transformers/all-minilm-l6-v2"
-  },
-  "using": "description-dense",
-  "with_payload": true,
-  "filter": {
-    "must_not": [
-      {
-        "key": "author",
-        "match": {
-          "value": "H.G. Wells"
-        }
-      }
-    ]
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-filter-author-exclude/" >}}
 
 ### Filtering on Multiple Exact Strings
 
 You can provide multiple filter clauses. For example, to find all books co-authored by Larry Niven and Jerry Pournelle, use the following filter:
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "space opera",
-    "model": "sentence-transformers/all-minilm-l6-v2"
-  },
-  "using": "description-dense",
-  "with_payload": true,
-  "filter": {
-    "must": [
-      {
-        "key": "author",
-        "match": {
-          "value": "Larry Niven"
-        }
-      },
-      {
-        "key": "author",
-        "match": {
-          "value": "Jerry Pournelle"
-        }
-      }
-    ]
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-filter-authors-and/" >}}
 
 Note that both filter clauses must be true for a point to be included in the results, because a `must` clause operates like a logical `AND`. If you want to find books written by either author (as well as both), use a `should` clause, which operates like a logical `OR`:
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "space opera",
-    "model": "sentence-transformers/all-minilm-l6-v2"
-  },
-  "using": "description-dense",
-  "with_payload": true,
-  "filter": {
-    "should": [
-      {
-        "key": "author",
-        "match": {
-          "value": "Larry Niven"
-        }
-      },
-      {
-        "key": "author",
-        "match": {
-          "value": "Jerry Pournelle"
-        }
-      }
-    ]
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-filter-authors-or/" >}}
 
 Alternatively, when you want to filter on one or more values of a single key, you can use the `any` condition:
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "space opera",
-    "model": "sentence-transformers/all-minilm-l6-v2"
-  },
-  "using": "description-dense",
-  "with_payload": true,
-  "filter": {
-    "must": [
-      {
-        "key": "author",
-        "match": {
-          "any": ["Larry Niven", "Jerry Pournelle"]
-        }
-      }
-    ]
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-filter-author-any/" >}}
 
 ### Full-Text Filtering
 
@@ -272,66 +114,17 @@ The following text processing steps are applied to text strings:
 
 These text processing steps can be configured when creating a [full-text index](documentation/concepts/indexing/#full-text-index). For example, to create a text index on the `title` field with ASCII folding enabled:
 
-```json
-PUT /collections/books/index?wait=true
-{
-  "field_name": "title",
-  "field_schema": {
-    "type": "text",
-    "ascii_folding": true
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/create-title-text-index/" >}}
 
 ### Filter on Text Strings
 
 To filter on text values in a payload field, first create a [full-text index](/documentation/concepts/indexing/#full-text-index) for that field. Next, you can use a `text` condition to query the collection with a filter for titles that contain the word "space":
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "space opera",
-    "model": "sentence-transformers/all-minilm-l6-v2"
-  },
-  "using": "description-dense",
-  "with_payload": true,
-  "filter": {
-    "must": [
-      {
-        "key": "title",
-        "match": {
-          "text": "space"
-        }
-      }
-    ]
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/filter-title-text/" >}}
 
 When filtering on more than one term, a `text` filter only matches fields that contain *all* the specified terms (logical `AND`). To match fields that contain *any* of the specified terms (logical `OR`), use the `text_any` condition:
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "space opera",
-    "model": "sentence-transformers/all-minilm-l6-v2"
-  },
-  "using": "description-dense",
-  "with_payload": true,
-  "filter": {
-    "must": [
-      {
-        "key": "title",
-        "match": {
-          "text_any": "space war"
-        }
-      }
-    ]
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/filter-title-text-any/" >}}
 
 Qdrant also supports phrase filtering, enabling you to search for multiple words in the exact order they appear in the original text, with no other words in between. For example, a phrase filter for "time machine" matches against the title "The Time Machine" but would not match "The Time Travel Machine" (there's a word between "time" and "machine") nor "Machine Time" (the word order is incorrect).
 
@@ -339,41 +132,11 @@ The difference between phrase filtering and keyword filtering is that phrase fil
 
 To filter on phrases, use a `phrase` condition. This requires enabling [phrase searching](/documentation/concepts/indexing/#phrase-search) when creating the full-text index:
 
-```json
-PUT /collections/books/index?wait=true
-{
-  "field_name": "title",
-  "field_schema": {
-    "type": "text",
-    "ascii_folding": true,
-    "phrase_matching": true
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/create-title-phrase-index/" >}}
 
 Next, you can use a `phrase` condition to filter for titles that contain the exact phrase "time machine":
 
-```json
-POST /collections/books/points/query?wait=true
-{
-  "query": {
-    "text": "time travel",
-    "model": "sentence-transformers/all-minilm-l6-v2"
-  },
-  "using": "description-dense",
-  "with_payload": true,
-  "filter": {
-    "must": [
-      {
-        "key": "title",
-        "match": {
-          "phrase": "time machine"
-        }
-      }
-    ]
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/filter-title-phrase/" >}}
 
 ### Progressive Filtering with the Batch Search API
 
@@ -381,57 +144,7 @@ Even though filters are not used to rank results, you can use the [batch search 
 
 For example, the following batch search request first tries to find books that match all search terms in the title. The second search request relaxes the filter to match any of the search terms. The third search request removes the filter altogether:
 
-```json
-POST /collections/books/points/query/batch
-{
-  "searches": [
-    {
-      "query": {
-        "text": "time travel",
-        "model": "sentence-transformers/all-minilm-l6-v2"
-      },
-      "using": "description-dense",
-      "with_payload": true,
-      "filter": {
-        "must": [
-          {
-            "key": "title",
-            "match": {
-              "text": "time travel"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "query": {
-        "text": "time travel",
-        "model": "sentence-transformers/all-minilm-l6-v2"
-      },
-      "using": "description-dense",
-      "with_payload": true,
-      "filter": {
-        "must": [
-          {
-            "key": "title",
-            "match": {
-              "text_any": "time travel"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "query": {
-        "text": "time travel",
-        "model": "sentence-transformers/all-minilm-l6-v2"
-      },
-      "using": "description-dense",
-      "with_payload": true
-    }
-  ]
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/batch-progressive-filter/" >}}
 
 The response contains three separate result sets. You can return the first non-empty result set to the user, or you can use the three sets to assemble a single ranked list.
 
@@ -454,57 +167,17 @@ The BM25 model supports the same [text processing](#text-processing) options as 
 
 To use BM25, configure a sparse vector when creating a collection:
 
-```json
-PUT /collections/books?wait=true
-{
-  "sparse_vectors": {
-    "title-bm25": {
-      "modifier": "idf"
-    }
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/create-bm25-collection/" >}}
 
 Note the [IDF modifier](/documentation/concepts/indexing/#idf-modifier), which configures the sparse vector for queries that use the inverse document frequency (IDF).
 
 Now you can ingest data. The following example ingests a book with its title represented as a sparse vector generated by the BM25 model:
 
-```json
-PUT /collections/books/points?wait=true
-{
-  "points": [
-    {
-      "id": 1,
-      "vector": {
-        "title-bm25": {
-          "text": "The Time Machine",
-          "model": "qdrant/bm25"
-        }
-      },
-      "payload": {
-        "title": "The Time Machine",
-        "author": "H.G. Wells",
-        "isbn": "9780553213515"
-      }
-    }
-  ]
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/ingest-bm25-point/" >}}
 
 After ingesting data, you can query the sparse vector. The following example searches for books with "time travel" in the title using the BM25 model:
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "time travel",
-    "model": "qdrant/bm25"
-  },
-  "using": "title-bm25",
-  "limit": 10,
-  "with_payload": true
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25/" >}}
 
 #### Language-specific Settings
 
@@ -524,48 +197,11 @@ To configure stemming and stopword removal, use the following options:
 
 For example, to use Spanish stemming and stopwords during data ingestion, use:
 
-```json
-PUT /collections/books/points?wait=true
-{
-  "points": [
-    {
-      "id": 1,
-      "vector": {
-        "title-bm25": {
-          "text": "La Máquina del Tiempo",
-          "model": "qdrant/bm25",
-          "options": {
-            "language": "spanish"
-          }
-        }
-      },
-      "payload": {
-        "title": "La Máquina del Tiempo",
-        "author": "H.G. Wells",
-        "isbn": "9788411486880"
-      }
-    }
-  ]
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/ingest-bm25-spanish/" >}}
 
 At query time, use the exact same parameters to ensure consistent text processing:
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "tiempo",
-    "model": "qdrant/bm25",
-    "options": {
-      "language": "spanish"
-    }
-  },
-  "using": "title-bm25",
-  "limit": 10,
-  "with_payload": true
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-spanish/" >}}
 
 To configure only a stemmer or a stopword set, rather than both, set `language` to `none` and specify the configuration for the desired stemmer or stopwords.
 
@@ -575,41 +211,13 @@ ASCII folding is the process of removing diacritics (accents) from characters. B
 
 To enable ASCII folding, set the `ascii_folding` option to `true` at both ingest and query time:
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "Mieville",
-    "model": "qdrant/bm25",
-    "options": {
-      "ascii_folding": true
-    }
-  },
-  "using": "author-bm25",
-  "limit": 10,
-  "with_payload": true
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-ascii-folding/" >}}
 
 **Tokenizer**
 
 The tokenizer breaks down text into individual tokens (words). By default, the BM25 model uses the `word` tokenizer, which splits text based on word boundaries like whitespace and punctuation. This method is effective for Latin-based languages but may not work well for languages with non-Latin alphabets or languages that do not use spaces to separate words. For those languages, use the `multilingual` tokenizer. This tokenizer supports multiple languages, including those with non-Latin alphabets and non-space delimiters.
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "村上春樹",
-    "model": "qdrant/bm25",
-    "options": {
-      "tokenizer": "multilingual"
-    }
-  },
-  "using": "author-bm25",
-  "limit": 10,
-  "with_payload": true
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-multilingual-tokenizer/" >}}
 
 **Language-neutral Text Processing**
 
@@ -620,23 +228,7 @@ To disable language-specific processing, set the following options:
 - `tokenizer`: set to `multilingual` for multilingual tokenization and lemmatization.
 - Optionally, set `ascii_folding` to `true` to enable ASCII folding and ignore diacritics.
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "Mieville",
-    "model": "qdrant/bm25",
-    "options": {
-      "language": "none",
-      "tokenizer": "multilingual",
-      "ascii_folding": true
-    }
-  },
-  "using": "author-bm25",
-  "limit": 10,
-  "with_payload": true
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-language-neutral/" >}}
 
 #### Configuring BM25 Parameters
 
@@ -648,21 +240,7 @@ The BM25 [ranking function](https://en.wikipedia.org/wiki/Okapi_BM25#The_ranking
 
 For instance, book titles are generally shorter than 256 words. To achieve more accurate scoring when searching for book titles, you could calculate or estimate the average title length and set the `avg_len` parameter accordingly:
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "time travel",
-    "model": "qdrant/bm25",
-    "options": {
-      "avg_len": 5.0
-    }
-  },
-  "using": "title-bm25",
-  "limit": 10,
-  "with_payload": true
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-avglen/" >}}
 
 ### SPLADE++
 
@@ -672,18 +250,7 @@ The advantage of using SPLADE models is that they [perform better](/articles/spa
 
 On [Qdrant Cloud](/documentation/concepts/inference/#qdrant-cloud-inference), you can use the SPLADE++ model with inference. Alternatively, you can generate vectors on the client side using the [FastEmbed](/documentation/fastembed/) library.
 
-```json
-POST /collections/books/points/query
-{
-  "query": {
-    "text": "time travel",
-    "model": "prithivida/splade_pp_en_v1"
-  },
-  "using": "title-splade",
-  "limit": 10,
-  "with_payload": true
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-splade/" >}}
 
 For a tutorial on using SPLADE++ with FastEmbed, refer to [How to Generate Sparse Vectors with SPLADE](/documentation/fastembed/fastembed-splade/).
 
@@ -699,53 +266,11 @@ miniCOIL can be [used with the FastEmbed library](/documentation/fastembed/faste
 
 Hybrid queries make use of Qdrant's ability to store [multiple named vectors](/documentation/concepts/vectors/#named-vectors) in a single point. For example, you can store a dense vector for semantic search and a sparse vector for lexical search in the same point. To do so, first create a collection with both a dense vector and a sparse vector:
 
-```json
-PUT /collections/books?wait=true
-{
-  "vectors": {
-    "description-dense": {
-      "size": 384,
-      "distance": "Cosine"
-    }
-  },
-  "sparse_vectors": {
-    "isbn-bm25": {
-      "modifier": "idf"
-    }
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/create-hybrid-collection/" >}}
 
 After ingesting data with both vectors, you can use the prefetch feature to run both semantic and lexical queries in a single request. The results of both queries are then combined using a fusion method like Reciprocal Rank Fusion (RRF).
 
-```json
-POST /collections/books/points/query
-{
-  "prefetch": [
-    {
-      "query": {
-        "text": "9780553213515",
-        "model": "sentence-transformers/all-minilm-l6-v2"
-      },
-      "using": "description-dense",
-      "score_threshold": 0.5
-    },
-    {
-      "query": {
-        "text": "9780553213515",
-        "model": "Qdrant/bm25"
-      },
-      "using": "isbn-bm25",
-      "with_payload": true
-    }
-  ],
-  "query": {
-    "fusion": "rrf"
-  },
-  "limit": 10,
-  "with_payload": true
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/text-search/hybrid-prefetch-rrf/" >}}
 
 This query searches for an ISBN, for which only the lexical search returns a result, which is then returned to the user. If a user had searched for "time travel", only the semantic search would return results, and those would be returned to the user. If a user would search for a term that matched both the semantic and lexical vectors, the results from both searches would be combined to provide a more comprehensive set of results. 
 

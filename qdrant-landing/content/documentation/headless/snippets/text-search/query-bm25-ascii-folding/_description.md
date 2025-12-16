@@ -1,0 +1,1 @@
+Runs a BM25 query with ASCII folding enabled so searches ignore diacritics (for example, matches "Mieville" and "Miéville").

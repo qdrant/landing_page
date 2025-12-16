@@ -1,0 +1,1 @@
+Creates a keyword payload index on the `author` field to enable fast exact-match filtering.

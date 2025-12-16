@@ -1,0 +1,1 @@
+Uses a BM25 query using the multilingual tokenizer to handle non-Latin scripts or languages without whitespace separation.
