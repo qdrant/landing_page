@@ -27,10 +27,10 @@ Directory.
 > **Note:** In this tutorial, we are going to build a solid foundation for such a system. However, it is up to your organization's setup to implement the entire solution.
 
 - **Dataset** - a collection of documents, using different formats, such as PDF or DOCx, scraped from internet
-- **Asymmetric semantic embeddings** - [Aleph Alpha embedding](https://docs.aleph-alpha.com/api/pharia-inference/semantic-embed/) to 
+- **Asymmetric semantic embeddings** - [Aleph Alpha embedding](https://docs.aleph-alpha.com/products/apis/pharia-inference/semantic-embed/) to 
   convert the queries and the documents into vectors
 - **Large Language Model** - the [Luminous-extended-control 
-  model](https://docs.aleph-alpha.com/api/pharia-inference/available-models/), but you can play with a different one from the 
+  model](https://docs.aleph-alpha.com/products/apis/pharia-inference/available-models/), but you can play with a different one from the 
   Luminous family
 - **Qdrant Hybrid Cloud** - a knowledge base to store the vectors and search over the documents
 - **STACKIT** - a [German business cloud](https://www.stackit.de) to run the Qdrant Hybrid Cloud and the application 

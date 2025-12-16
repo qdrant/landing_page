@@ -1,0 +1,19 @@
+{
+  "name": "snippets-amalgamation",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@qdrant/js-client-rest": "file:../../clients/typescript/packages/js-client-rest"
+  }
+}

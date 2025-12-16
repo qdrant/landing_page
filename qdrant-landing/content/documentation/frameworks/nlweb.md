@@ -4,7 +4,7 @@ title: Microsoft NLWeb
 
 # NLWeb
 
-Microsoft's [NLWeb](https://github.com/microsoft/NLWeb) is a proposed framework that enables natural language interfaces for websites, using Schema.org, formats like RSS and the emerging [MCP protocol](https://github.com/microsoft/NLWeb/blob/main/docs/RestAPI.md).
+Microsoft's [NLWeb](https://github.com/nlweb-ai/NLWeb) is a proposed framework that enables natural language interfaces for websites, using Schema.org, formats like RSS and the emerging [MCP protocol](https://github.com/nlweb-ai/NLWeb/blob/main/docs/nlweb-rest-api.md).
 
 Qdrant is supported as a vector store backend within NLWeb for embedding storage and context retrieval.
 
@@ -85,12 +85,12 @@ To start NLWeb, from the `code` directory, run:
 python app-file.py
 ```
 
-You can now query your content via natural language using either the web UI at <http://localhost:8000/> or directly through the MCP-compatible [REST API](https://github.com/microsoft/NLWeb/blob/main/docs/RestAPI.md).
+You can now query your content via natural language using either the web UI at <http://localhost:8000/> or directly through the MCP-compatible [REST API](https://github.com/nlweb-ai/NLWeb/blob/main/docs/nlweb-rest-api.md).
 
 ## Further Reading
 
 * [Source](https://github.com/microsoft/NLWeb)
-* [Life of a Chat Query](https://github.com/microsoft/NLWeb/tree/main/docs/LifeOfAChatQuery.md)
-* [Modifying behavior by changing prompts](https://github.com/microsoft/NLWeb/tree/main/docs/Prompts.md)
-* [Modifying control flow](https://github.com/microsoft/NLWeb/tree/main/docs/ControlFlow.md)
-* [Modifying the user interface](https://github.com/microsoft/NLWeb/tree/main/docs/UserInterface.md)
+* [Life of a Chat Query](https://github.com/nlweb-ai/NLWeb/blob/main/docs/life-of-a-chat-query.md)
+* [Modifying behavior by changing prompts](https://github.com/nlweb-ai/NLWeb/blob/main/docs/nlweb-prompts.md)
+* [Modifying control flow](https://github.com/nlweb-ai/NLWeb/blob/main/docs/nlweb-control-flow.md)
+* [Modifying the user interface](https://github.com/nlweb-ai/NLWeb/blob/main/docs/nlweb-user-interface.md)

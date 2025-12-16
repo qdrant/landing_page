@@ -45,12 +45,3 @@ For samples on how to use the API, with a tool like grpcurl, curl or any of the 
 ## Terraform Provider
 
 Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud resources. [Learn more](/documentation/infrastructure/terraform/).
-
-## Deprecated OpenAPI specification
-
-We still support our deprecated OpenAPI endpoint, but this is scheduled to be removed later this year (November 1st, 2025).
-We do _NOT_ recommend to use this endpoint anymore and use the replacement as described above.
-
-| REST API      | Documentation                                                                        |
-| -------- | ------------------------------------------------------------------------------------ |
-| v.0.1.0 | [OpenAPI Specification](https://cloud.qdrant.io/pa/v1/docs)                       |

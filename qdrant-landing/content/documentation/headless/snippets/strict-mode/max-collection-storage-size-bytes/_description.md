@@ -1,0 +1,1 @@
+This code snippet set `max_collection_vector_size_bytes` and `max_collection_payload_size_bytes` on the strict mode configuration to cap the maximum size in bytes of a collection.

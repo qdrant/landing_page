@@ -5,44 +5,81 @@ weight: 5
 
 # Changelog
 
+## 1.9.2 (2025-11-18)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.20.0 |
+| operator                | 2.8.3   |
+| qdrant-cluster-manager  | v0.3.9  |
+| qdrant-cluster-exporter | 1.7.2   |
+
+* Qdrant 1.16 improvements
+
+## 1.9.1 (2025-11-14)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.20.0 |
+| operator                | 2.8.1   |
+| qdrant-cluster-manager  | v0.3.9  |
+| qdrant-cluster-exporter | 1.7.2   |
+
+* Automated storage class migration
+* Support for max_payload_index_count in strict mode
+* Experimental support for read replica clusters
+* Enable restoring snapshots into another cluster
+* Performance and stability improvements
+
+## 1.8.0 (2025-08-08)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.17.2 |
+| operator                | 2.6.8   |
+| qdrant-cluster-manager  | v0.3.7  |
+| qdrant-cluster-exporter | 1.7.1   |
+
+* Add qdrant-cluster-exporter to provide OpenTelemetry/Prometheus metrics for Qdrant clusters
+
 ## 1.7.3 (2025-08-04)
 
-|                                |         |
-|--------------------------------|---------|
-| qdrant-kubernetes-api version  | v1.17.2 |
-| operator version               | 2.6.8   |
-| qdrant-cluster-manager version | v0.3.7  |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.17.2 |
+| operator               | 2.6.8   |
+| qdrant-cluster-manager | v0.3.7  |
 
 * Configurable max_request_size_mb
 
 ## 1.7.2 (2025-06-27)
 
-|                                |         |
-|--------------------------------|---------|
-| qdrant-kubernetes-api version  | v1.17.0 |
-| operator version               | 2.6.4   |
-| qdrant-cluster-manager version | v0.3.7  |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.17.0 |
+| operator               | 2.6.4   |
+| qdrant-cluster-manager | v0.3.7  |
 
 * Performance and stability improvements
 * Configurable maxCollection
 
 ## 1.7.1 (2025-06-03)
 
-|                                |         |
-|--------------------------------|---------|
-| qdrant-kubernetes-api version  | v1.16.6 |
-| operator version               | 2.6.0   |
-| qdrant-cluster-manager version | v0.3.6  |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.16.6 |
+| operator               | 2.6.0   |
+| qdrant-cluster-manager | v0.3.6  |
 
 * Performance and stability improvements
 
 ## 1.7.0 (2025-05-14)
 
-|                                |         |
-|--------------------------------|---------|
-| qdrant-kubernetes-api version  | v1.16.3 |
-| operator version               | 2.4.2   |
-| qdrant-cluster-manager version | v0.3.5  |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.16.3 |
+| operator               | 2.4.2   |
+| qdrant-cluster-manager | v0.3.5  |
 
 * Add optional automatic shard balancing
 * Set strict mode by default for new clusters to only allow queries with payload filters on fields that are indexed
@@ -50,63 +87,63 @@ weight: 5
 
 ## 1.6.4 (2025-04-17)
 
-|                                |         |
-|--------------------------------|---------|
-| qdrant-kubernetes-api version  | v1.15.5 |
-| operator version               | 2.3.4   |
-| qdrant-cluster-manager version | v0.3.4  |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.15.5 |
+| operator               | 2.3.4   |
+| qdrant-cluster-manager | v0.3.4  |
 
 * Fix bug in operator Helm chart that caused role binding generation to fail when using `watch.namespaces`
 
 ## 1.6.3 (2025-03-28)
 
-|                                |         |
-|--------------------------------|---------|
-| qdrant-kubernetes-api version  | v1.15.0 |
-| operator version               | 2.3.3   |
-| qdrant-cluster-manager version | v0.3.4  |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.15.0 |
+| operator               | 2.3.3   |
+| qdrant-cluster-manager | v0.3.4  |
 
 * Performance and stability improvements for collection re-sharding
 
 ## 1.6.2 (2025-03-21)
 
-|                                |         |
-|--------------------------------|---------|
-| qdrant-kubernetes-api version  | v1.15.0 |
-| operator version               | 2.3.2   |
-| qdrant-cluster-manager version | v0.3.3  |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.15.0 |
+| operator               | 2.3.2   |
+| qdrant-cluster-manager | v0.3.3  |
 
 * Allow disabling NetworkPolicy management in Qdrant Cluster operator
 
 ## 1.6.1 (2025-03-14)
 
-|                                |         |
-|--------------------------------|---------|
-| qdrant-kubernetes-api version  | v1.14.2 |
-| operator version               | 2.3.2   |
-| qdrant-cluster-manager version | v0.3.3  |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.14.2 |
+| operator               | 2.3.2   |
+| qdrant-cluster-manager | v0.3.3  |
 
 * Add support for GPU instances
 * Experimental support for automatic shard balancing
 
 ## 1.5.1 (2025-03-04)
 
-|                                |         |
-|--------------------------------|---------|
-| qdrant-kubernetes-api version  | v1.12.0 |
-| operator version               | 2.1.26  |
-| qdrant-cluster-manager version | v0.3.2  |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.12.0 |
+| operator               | 2.1.26  |
+| qdrant-cluster-manager | v0.3.2  |
 
 * Fix scaling down clusters that have TLS with self-signed certificates configured
 * Various performance improvements and stability fixes
 
 ## 1.5.0 (2025-02-21)
 
-|                                |         |
-|--------------------------------|---------|
-| qdrant-kubernetes-api version  | v1.12.0 |
-| operator version               | 2.1.26  |
-| qdrant-cluster-manager version | v0.3.0  |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.12.0 |
+| operator               | 2.1.26  |
+| qdrant-cluster-manager | v0.3.0  |
 
 * Added support for P2P TLS configuration
 * Faster node removal on scale down
@@ -114,49 +151,51 @@ weight: 5
 
 ## 1.4.0 (2025-01-23)
 
-|                                |        |
-|--------------------------------|--------|
-| qdrant-kubernetes-api version  | v1.8.0 |
-| operator version               | 2.1.26 |
-| qdrant-cluster-manager version | v0.3.0 |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.8.0  |
+| operator               | 2.1.26  |
+| qdrant-cluster-manager | v0.3.0  |
 
 * Support deleting peers on horizontal scale down, even if they are already offline
 * Support removing partially deleted peers
 
 ## 1.3.0 (2025-01-17)
 
-|                                |         |
-|--------------------------------|---------|
-| qdrant-kubernetes-api version  | v1.8.0  |
-| operator version               | 2.1.21  |
-| qdrant-cluster-manager version | v0.2.10 |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.8.0  |
+| operator               | 2.1.21  |
+| qdrant-cluster-manager | v0.2.10 |
 
 * Support for re-sharding with Qdrant >= 1.13.0
 
 ## 1.2.0 (2025-01-16)
 
-|                                |        |
-|--------------------------------|--------|
-| qdrant-kubernetes-api version  | v1.8.0 |
-| operator version               | 2.1.20 |
-| qdrant-cluster-manager version | v0.2.9 |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.8.0  |
+| operator               | 2.1.20  |
+| qdrant-cluster-manager | v0.2.9  |
 
 * Performance and stability improvements
 
 ## 1.1.0 (2024-12-03)
 
-| qdrant-kubernetes-api version | v1.6.4 |
-| operator version | 2.1.10 |
-| qdrant-cluster-manager version | v0.2.6 |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.6.4  |
+| operator               | 2.1.10  |
+| qdrant-cluster-manager | v0.2.6  |
 
 * Activate cluster-manager for automatic shard replication
 
 ## 1.0.0 (2024-11-11)
 
-|                                |        |
-|--------------------------------|--------|
-| qdrant-kubernetes-api version  | v1.2.7 |
-| operator version               | 0.1.3  |
-| qdrant-cluster-manager version | v0.2.4 |
+| Component              | Version |
+|------------------------|---------|
+| qdrant-kubernetes-api  | v1.2.7  |
+| operator               | 0.1.3   |
+| qdrant-cluster-manager | v0.2.4  |
 
 * Initial release

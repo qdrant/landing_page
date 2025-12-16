@@ -178,6 +178,41 @@ cards:
     name: Roan Weigert
     position: DevRel AI Engineer @ APARAVI
     description: AI creator spotlighting San Francisco’s tech scene through interviews with leading founders, investors, and experts. Shares videos on AI innovation AI innovation with Qdrant as the vector DB.
+  - id: 22
+    image:
+      src: /img/stars/faraz-photo.jpg
+      alt: Faraz Gurramkonda Photo
+    name: Faraz Gurramkonda
+    position: AI Software Engineer @ Great Lakes Civil Services 
+    description: A software engineer focused on scalable AI, automation, and developer tools. Founder of Xautomation and creator of VRTestSniffer (ASE 2025).
+  - id: 23
+    image:
+      src: /img/stars/pavan-photo.jpg
+      alt: Pavan Vemuri Photo
+    name: Pavan Vemuri
+    position: Director of Product Engineering @ SDVerse
+    description: AI strategist and MLOps expert with 15+ years of experience in software-defined vehicles and scalable systems. Specialized in Gen AI, digital transformation, and vector database solutions.
+  - id: 24
+    image:
+      src: /img/stars/mihir-photo.jpg
+      alt: Mihir Inamdar Photo
+    name: Mihir Inamdar
+    position: AI @Sutherland
+    description: Mihir Inamdar is an Open Source Developer Advocate focused on scalable AI, generative models, and vector database–powered RAG systems.
+  - id: 25
+    image:
+      src: /img/stars/mohammed-photo.jpg
+      alt: Mohammed Arbi
+    name: Mohammed Arbi
+    position: Machine Learning Engineer
+    description: Building intelligent AI systems with Generative AI, RAG, MLOps, and Qdrant. Active GDG mentor, sharing knowledge and supporting the developer community.
+  - id: 26
+    image:
+      src: /img/stars/vaibhava-photo.jpg
+      alt: Vaibhava Laxmi
+    name: Vaibhava Laxmi
+    position: AI Engineer
+    description: Passionate about building intelligent retrieval and reasoning systems using Knowledge Graphs, Ontologies, Vector Databases, and Large Language Models.
 link:
   text: Read the Qdrant Stars Handbook
   url: https://qdrant.github.io/qdrant-stars-handbook/

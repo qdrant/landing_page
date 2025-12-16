@@ -302,7 +302,12 @@ We recommend creating at least 2 shards per node to allow future expansion witho
 
 If you anticipate a lot of growth, we recommend 12 shards since you can expand from 1 node up to 2, 3, 6, and 12 nodes without having to re-shard. Having more than 12 shards in a small cluster may not be worth the performance overhead.
 
-Shards are evenly distributed across all existing nodes when a collection is first created, but Qdrant does not automatically rebalance shards if your cluster size or replication factor changes (since this is an expensive operation on large clusters). See the next section for how to move shards after scaling operations.
+Shards are evenly distributed across all existing nodes when a collection is first created.
+
+When you add or remove nodes from the cluster, rebalancing of existing shards accross the nodes depends on how you've deployed the cluster:
+
+- In Qdrant Cloud, shards are [balanced across the nodes automatically](/documentation/cloud/configure-cluster/#shard-rebalancing).
+- If your cluster is not runnning in Qdrant Cloud, you need to [manually balance shards](#moving-shards).
 
 ### Resharding
 
@@ -361,144 +366,7 @@ A clear use-case for this feature is managing a multi-tenant collection, where e
 
 To enable user-defined sharding, set `sharding_method` to `custom` during collection creation:
 
-```http
-PUT /collections/{collection_name}
-{
-    "shard_number": 1,
-    "sharding_method": "custom"
-    // ... other collection parameters
-}
-```
-
-```python
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.create_collection(
-    collection_name="{collection_name}",
-    shard_number=1,
-    sharding_method=models.ShardingMethod.CUSTOM,
-    # ... other collection parameters
-)
-client.create_shard_key("{collection_name}", "{shard_key}")
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.createCollection("{collection_name}", {
-    shard_number: 1,
-    sharding_method: "custom",
-    // ... other collection parameters
-});
-
-client.createShardKey("{collection_name}", {
-    shard_key: "{shard_key}"
-});
-```
-
-```rust
-use qdrant_client::qdrant::{
-    CreateCollectionBuilder, CreateShardKeyBuilder, CreateShardKeyRequestBuilder, Distance,
-    ShardingMethod, VectorParamsBuilder,
-};
-use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
-client
-    .create_collection(
-        CreateCollectionBuilder::new("{collection_name}")
-            .vectors_config(VectorParamsBuilder::new(300, Distance::Cosine))
-            .shard_number(1)
-            .sharding_method(ShardingMethod::Custom.into()),
-    )
-    .await?;
-
-client
-    .create_shard_key(
-        CreateShardKeyRequestBuilder::new("{collection_name}")
-            .request(CreateShardKeyBuilder::default().shard_key("{shard_key".to_string())),
-    )
-    .await?;
-```
-
-```java
-import static io.qdrant.client.ShardKeyFactory.shardKey;
-
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Collections.CreateCollection;
-import io.qdrant.client.grpc.Collections.ShardingMethod;
-import io.qdrant.client.grpc.Collections.CreateShardKey;
-import io.qdrant.client.grpc.Collections.CreateShardKeyRequest;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
-client
-    .createCollectionAsync(
-        CreateCollection.newBuilder()
-            .setCollectionName("{collection_name}")
-            // ... other collection parameters
-            .setShardNumber(1)
-            .setShardingMethod(ShardingMethod.Custom)
-            .build())
-    .get();
-
-client.createShardKeyAsync(CreateShardKeyRequest.newBuilder()
-                .setCollectionName("{collection_name}")
-                .setRequest(CreateShardKey.newBuilder()
-                                .setShardKey(shardKey("{shard_key}"))
-                                .build())
-                .build()).get();
-```
-
-```csharp
-using Qdrant.Client;
-using Qdrant.Client.Grpc;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.CreateCollectionAsync(
-	collectionName: "{collection_name}",
-	// ... other collection parameters
-	shardNumber: 1,
-	shardingMethod: ShardingMethod.Custom
-);
-
-await client.CreateShardKeyAsync(
-    "{collection_name}",
-    new CreateShardKey { ShardKey = new ShardKey { Keyword = "{shard_key}", } }
-    );
-```
-
-```go
-import (
-	"context"
-
-	"github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
-client.CreateCollection(context.Background(), &qdrant.CreateCollection{
-	CollectionName: "{collection_name}",
-	// ... other collection parameters
-	ShardNumber:    qdrant.PtrOf(uint32(1)),
-	ShardingMethod: qdrant.ShardingMethod_Custom.Enum(),
-})
-
-client.CreateShardKey(context.Background(), "{collection_name}", &qdrant.CreateShardKey{
-	ShardKey: qdrant.NewShardKey("{shard_key}"),
-})
-```
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-custom-sharding/" >}}
 
 In this mode, the `shard_number` means the number of shards per shard key, where points will be distributed evenly. For example, if you have 10 shard keys and a collection config with these settings:
 
@@ -516,142 +384,13 @@ Physical shards require a large amount of resources, so make sure your custom sh
 
 For large cardinality keys, it is recommended to use [partition by payload](/documentation/guides/multiple-partitions/#partition-by-payload) instead.
 
+Now you need to create custom shards ([API reference](https://api.qdrant.tech/api-reference/distributed/create-shard-key#request)):
+
+{{< code-snippet path="/documentation/headless/snippets/create-shard/create-named-shard/" >}}
+
 To specify the shard for each point, you need to provide the `shard_key` field in the upsert request:
 
-```http
-PUT /collections/{collection_name}/points
-{
-    "points": [
-        {
-            "id": 1111,
-            "vector": [0.1, 0.2, 0.3]
-        },
-    ]
-    "shard_key": "user_1"
-}
-```
-
-```python
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.upsert(
-    collection_name="{collection_name}",
-    points=[
-        models.PointStruct(
-            id=1111,
-            vector=[0.1, 0.2, 0.3],
-        ),
-    ],
-    shard_key_selector="user_1",
-)
-```
-
-```typescript
-client.upsert("{collection_name}", {
-    points: [
-        {
-            id: 1111,
-            vector: [0.1, 0.2, 0.3],
-        },
-    ],
-    shard_key: "user_1",
-});
-```
-
-```rust
-use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
-use qdrant_client::Payload;
-
-client
-    .upsert_points(
-        UpsertPointsBuilder::new(
-            "{collection_name}",
-            vec![PointStruct::new(
-                111,
-                vec![0.1, 0.2, 0.3],
-                Payload::default(),
-            )],
-        )
-        .shard_key_selector("user_1".to_string()),
-    )
-    .await?;
-```
-
-```java
-import java.util.List;
-
-import static io.qdrant.client.PointIdFactory.id;
-import static io.qdrant.client.ShardKeySelectorFactory.shardKeySelector;
-import static io.qdrant.client.VectorsFactory.vectors;
-
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.PointStruct;
-import io.qdrant.client.grpc.Points.UpsertPoints;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
-client
-    .upsertAsync(
-        UpsertPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllPoints(
-                List.of(
-                    PointStruct.newBuilder()
-                        .setId(id(111))
-                        .setVectors(vectors(0.1f, 0.2f, 0.3f))
-                        .build()))
-            .setShardKeySelector(shardKeySelector("user_1"))
-            .build())
-    .get();
-```
-
-```csharp
-using Qdrant.Client;
-using Qdrant.Client.Grpc;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.UpsertAsync(
-	collectionName: "{collection_name}",
-	points: new List<PointStruct>
-	{
-		new() { Id = 111, Vectors = new[] { 0.1f, 0.2f, 0.3f } }
-	},
-	shardKeySelector: new ShardKeySelector { ShardKeys = { new List<ShardKey> { "user_1" } } }
-);
-```
-
-```go
-import (
-	"context"
-
-	"github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
-})
-
-client.Upsert(context.Background(), &qdrant.UpsertPoints{
-	CollectionName: "{collection_name}",
-	Points: []*qdrant.PointStruct{
-		{
-			Id:      qdrant.NewIDNum(111),
-			Vectors: qdrant.NewVectors(0.1, 0.2, 0.3),
-		},
-	},
-	ShardKeySelector: &qdrant.ShardKeySelector{
-		ShardKeys: []*qdrant.ShardKey{
-			qdrant.NewShardKey("user_1"),
-		},
-	},
-})
-```
+{{< code-snippet path="/documentation/headless/snippets/insert-points/with-custom-shard/" >}}
 
 <aside role="alert">
 Using the same point ID across multiple shard keys is <strong>not supported<sup>*</sup></strong> and should be avoided.
@@ -1024,9 +763,11 @@ Before responding to the client, the peer handling the request dispatches all op
 - reads are using a partial fan-out strategy to optimize latency and availability
 - writes are executed in parallel on all active sharded replicas
 
-![Embeddings](/docs/concurrent-operations-replicas.png)
+By default, concurrent updates on one point can result in an inconsistent state. For example, if two clients simultaneously update the same point in a collection with three replicas per shard. On some replicas, the point may reflect the update from one client, while on other replicas, the point may reflect the update from the other client.
 
-However, in some cases, it is necessary to ensure additional guarantees during possible hardware instabilities, mass concurrent updates of same documents, etc.
+![Two clients updating the same point at the same time.](/docs/concurrent-operations-replicas.png)
+
+In some cases, it is necessary to ensure additional guarantees during possible hardware instabilities, mass concurrent updates of same documents, etc.
 
 Qdrant provides a few options to control consistency guarantees:
 
@@ -1287,7 +1028,7 @@ client
 ```java
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Common.Filter;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.ReadConsistency;
 import io.qdrant.client.grpc.Points.ReadConsistencyType;

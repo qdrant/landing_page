@@ -1,0 +1,1 @@
+This code snippet illustrates how to reduce the dimensionality of embeddings using Matryoshka Representation Learning (MRL) when using inference. It demonstrates how to insert a point into a Qdrant collection with a reduced-size vector by specifying the `mrl` parameter in the `options` object.

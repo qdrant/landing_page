@@ -1,0 +1,20 @@
+{{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-features") }}
+  <section class="grey-bg py-5">
+    <div class="container">
+      <h3 class="text-center mb-5">{{ .Params.title }}</h3>
+      <div class="row g-4">
+        {{ range $index, $feature := .Params.features }}
+          <div class="col-12 {{ if eq $index 0 }}col-md-12{{ else }}col-md-6{{ end }} col-xl-4">
+            <a href="{{ $feature.link.url }}" class="card d-flex flex-column gap-3">
+              <img src="{{ $feature.icon.src }}" alt="{{ $feature.icon.alt }}" width="24" height="24" />
+              <p class="mb-0 text-dark">{{ $feature.description }}</p>
+              <p class="m-0">
+                <span class="link link_md">{{ $feature.link.text }}</span>
+              </p>
+            </a>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

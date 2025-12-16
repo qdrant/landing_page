@@ -118,7 +118,7 @@ There are several different options (claims) you can use in the JWT payload that
 
 **value_exists**: This claim validates the token against a specific key-value stored in a collection. By using this claim, you can revoke access by simply changing a value without having to invalidate the API key.
 
-**access**: This claim defines the access level of the token. The access level can be global read (r) or manage (m). It can also be specific to a collection, or even a subset of a collection, using read (r) and read-write (rw).
+**access**: This claim defines the access level of the token. The access level can be global read (r) or manage (m). It can also be specific to a collection, using read (r) and read-write (rw).
 
 Let’s look at a few example JWT payload configurations.
 
@@ -157,25 +157,6 @@ Suppose you have a ‘users’ collection and have defined specific roles for ea
 
 Now, if you ever want to revoke access for a user, simply change the value of their role. All future requests will be invalid using a token payload of the above type.
 
-**Scenario 3: 1-hour expiry time, and read-write access to a subset of a collection**
-
-You can even specify access levels specific to subsets of a collection. This can be especially useful when you are leveraging [multitenancy](/documentation/guides/multiple-partitions/), and want to segregate access.
-```json
-{
-  "exp": 1690995200,
-  "access": [
-    {
-      "collection": "demo_collection",
-      "access": "r",
-      "payload": {
-        "user_id": "user_123456"
-      }
-    }
-  ]
-}
-```
-
-
 By combining the claims, you can fully customize the access level that a user or a role has within the vector store.
 
 ### Creating Role-Based Access Control (RBAC) Using JWT
@@ -190,8 +171,6 @@ In a typical enterprise application, you will have a segregation of users based 
 4. **Data Scientist or Analyst:** with read-only access to specific collections.
 5. **Developer:** with read-write access to development- or testing-specific collections, but limited access to production data.
 6. **Guest:** with limited read-only access to publicly available collections.
-
-In addition, you can create access levels within sections of a collection. In a multi-tenant application, where you have used payload-based partitioning, you can create read-only access for specific user roles for a subset of the collection that belongs to that user.
 
 Your application requirements will eventually help you decide the roles and access levels you should create. For example, in an application managing customer data, you could create additional roles such as:
 
@@ -211,10 +190,7 @@ In such an application, an example JWT payload for a customer support representa
   "access": [
     {
       "collection": "customer_data",
-      "access": "rw",
-      "payload": {
-        "department": "support"
-      }
+      "access": "rw"
     }
   ],
   "value_exists": {

@@ -1,0 +1,8 @@
+{
+  "banner": {
+    "message": "Qdrant 1.16 is out! Tiered Multitenancy & Disk-Efficient Vector Search.",
+    "link": "https://qdrant.tech/blog/qdrant-1.16.x/",
+    "link_text": "Qdrant 1.16 Release Blog"
+  },
+  "latest_version": "1.16.0"
+}

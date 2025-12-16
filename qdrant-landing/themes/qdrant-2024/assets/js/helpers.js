@@ -1,3 +1,5 @@
+const UTM_PARAMS_KEY = 'utm_params';
+
 export function isElementInViewport(el) {
   var rect = el.getBoundingClientRect();
 
@@ -105,54 +107,63 @@ export function addGA4Properties(properties) {
   properties.ga_client_id = getCookie('_ga')?.replace('GA1.1.','');
 }
 
+export function persistUTMParams() {
+  if (!window.location.search) return;
+
+  const urlUtmParams = getUTMParams(); 
+
+  if (!Object.keys(urlUtmParams).some(key => urlUtmParams[key])) return;
+
+  let filteredParams = '';
+  let ampersand = false;
+
+  for (const key in urlUtmParams) {
+    if (urlUtmParams[key]) {
+      ampersand = filteredParams.length > 0;
+      filteredParams += `${ampersand ? '&' : ''}${key}=${urlUtmParams[key]}`;
+    }
+  }
+
+  if (filteredParams) {
+    sessionStorage.setItem(UTM_PARAMS_KEY, filteredParams);
+  }
+}
+
+export function getStoredUTMParams() {
+    return sessionStorage.getItem(UTM_PARAMS_KEY);
+}
+
 export function getUTMParams() {
-  const urlParams = new URLSearchParams(window.location.search);
+  const search = window.location.search;
+  
+  if (!search) return {};
 
-  // Gather all GTM related params
-  const utmIds = {
-      gcl: urlParams.get('gclid'),
-      gbra: urlParams.get('gbraid'),
-      wbra: urlParams.get('wbraid'),
+  const urlParams = new URLSearchParams(search);
+
+  return {
+      gclid: urlParams.get('gclid'),
+      gbraid: urlParams.get('gbraid'),
+      wbraid: urlParams.get('wbraid'),
+      utm_source: urlParams.get('utm_source'),
+      utm_medium: urlParams.get('utm_medium'),
+      utm_campaign: urlParams.get('utm_campaign'),
+      utm_content: urlParams.get('utm_content'),
+      utm_term: urlParams.get('utm_term')
   };
-
-  const utmParams = {
-      source: urlParams.get('utm_source'),
-      medium: urlParams.get('utm_medium'),
-      campaign: urlParams.get('utm_campaign'),
-      content: urlParams.get('utm_content'),
-      term: urlParams.get('utm_term')
-  };
-
-  return [utmIds, utmParams];
 }
 
 export function addUTMToLinks() {
-  const [utmIds, utmParams] = getUTMParams();
+  const utmParams = getStoredUTMParams();
 
-  // Create new params string for outbound links and store in sessionStorage
-  let newParams = '';
-  for (const key in utmIds) {
-      if (utmIds[key]) {
-          sessionStorage.setItem(`${key}id`, utmIds[key]);
-          newParams += `${key}id=${utmIds[key]}&`;
-      }
-  }
-  for (const key in utmParams) {
-      if (utmParams[key]) {
-          sessionStorage.setItem(`utm_${key}`, utmParams[key]);
-          newParams += `utm_${key}=${utmParams[key]}&`;
-      }
-  }
-
-  // Add url params to outbound links to product site
-  if (newParams.length > 0) {
-      newParams = newParams.replace(/[&|?]$/, ''); // remove trailing & or ?
-
-      const links = document.querySelectorAll('a[href*="cloud.qdrant.io"]');
+  if (utmParams) {
+      const links = document.querySelectorAll('a[href*="cloud.qdrant.io"]'); 
+      
       links.forEach(link => {
           const href = link.href;
           const separator = href.indexOf('?') === -1 ? '?' : '&';
-          link.href = `${href}${separator}${newParams}`;
+          if (!href.includes(UTM_PARAMS_KEY)) {
+              link.href = `${href}${separator}${utmParams}&qdrant_ref=qdrant_tech`;
+          }
       });
   }
 }

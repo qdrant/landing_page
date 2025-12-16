@@ -1,5 +1,5 @@
-import { addGA4Properties, addUTMToLinks, getCookie, getUTMParams, tagCloudUILinksWithAnonymousId } from './helpers';
-import { registerAndCall } from './onetrust-helpers';
+import { addGA4Properties, getCookie, getUTMParams, tagCloudUILinksWithAnonymousId } from './helpers';
+import { registerAndCall, setOneTrustDataSubjectId } from './onetrust-helpers';
 
 const PAGES_SESSION_STORAGE_KEY = 'segmentPages';
 const INTERACTIONS_SESSION_STORAGE_KEY = 'segmentInteractions';
@@ -140,22 +140,40 @@ const trackInteractionEvent = (properties = {}) => {
   )
 }
 
+function cleanSegmentUtmKeys(obj) {
+  const cleanedObject = {};
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      // Remove "id" from the end
+      let cleanedKey = key.replace(/id$/, '');
+
+      // Remove "utm_" from the beginning
+      cleanedKey = cleanedKey.replace(/^utm_/, '');
+
+      cleanedObject[cleanedKey] = obj[key];
+    }
+  }
+  return cleanedObject;
+}
+
+
 /************************/
 /* Handle Segment Ready */
 /************************/
 export function handleSegmentReady() {
-  addUTMToLinks();
-
   analytics.ready(() => {
-    const [utmIds, utmParams] = getUTMParams();
+    setOneTrustDataSubjectId();
+
+    const utmParams = getUTMParams()
+    const cleanUtmParams = cleanSegmentUtmKeys(utmParams);
+
     const isFirstPageView = localStorage.getItem('isFirstPageView');
 
     if (isFirstPageView === 'true') {
       analytics.identify({
         firstVisitAttribution: {
           referrer: document.referrer,
-          ...utmParams,
-          ...utmIds
+          ...cleanUtmParams
         },
         hubspotutk: getCookie('hubspotutk'),
       });

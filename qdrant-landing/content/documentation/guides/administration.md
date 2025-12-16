@@ -9,31 +9,6 @@ aliases:
 
 Qdrant exposes administration tools which enable to modify at runtime the behavior of a qdrant instance without changing its configuration manually.
 
-## Locking
-
-A locking API enables users to restrict the possible operations on a qdrant process.
-It is important to mention that:
-
-- The configuration is not persistent therefore it is necessary to lock again following a restart.
-- Locking applies to a single node only. It is necessary to call lock on all the desired nodes in a distributed deployment setup.
-
-Lock request sample:
-
-```http
-POST /locks
-{
-    "error_message": "write is forbidden",
-    "write": true
-}
-```
-
-Write flags enables/disables write lock.
-If the write lock is set to true, qdrant doesn't allow creating new collections or adding new data to the existing storage.
-However, deletion operations or updates are not forbidden under the write lock.
-This feature enables administrators to prevent a qdrant process from using more disk space while permitting users to search and delete unnecessary data.
-
-You can optionally provide the error message that should be used for error responses to users.
-
 ## Recovery mode
 
 *Available as of v1.2.0*
@@ -62,340 +37,106 @@ message in an environment variable, such as
 
 *Available as of v1.13.0*
 
-Strict mode is a feature to restrict certain type of operations on the collection in order to protect it.
+Strict mode is a feature to restrict certain type of operations on a collection in order to protect the Qdrant cluster.
 
-The goal is to prevent inefficient usage patterns that could overload the collections.
+The goal is to prevent inefficient usage patterns that could overload the system.
 
-This configuration ensures a more predictible and responsive service when you do not have control over the queries that are being executed.
-
-Here is a non exhaustive list of operations that can be restricted using strict mode:
-
-- Preventing querying non indexed payload which can be very slow
-- Maximum number of filtering conditions in a query
-- Maximum batch size when inserting vectors
-- Maximum collection size (in terms of vectors or payload size)
-
-See [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the `strict_mode_config` parameters.
+Strict mode ensures a more predictable and responsive service when you do not have control over the queries that are being executed.
 
 Upon crossing a limit, the server will return a client side error with the information about the limit that was crossed.
 
+The `strict_mode_config` can be enabled when [creating](#create-a-collection) a new collection, see [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the available `strict_mode_config` parameters.
+
 As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically.
 
-The `strict_mode_config` can be enabled when [creating](#create-a-collection) a collection, for instance below to activate the `unindexed_filtering_retrieve` limit.
+It is possible to raise the default limits and/or disable strict mode entirely. Though, in order to ensure a stable cluster we strongly recommend to keep strict mode enabled using its default configuration. For disabling strict mode on an existing collection use:
 
-Setting `unindexed_filtering_retrieve` to false prevents the usage of filtering on a non indexed payload key.
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/disable/" >}}
 
-```http
-PUT /collections/{collection_name}
-{
-    "strict_mode_config": {
-        "enabled": true,
-        "unindexed_filtering_retrieve": false
-    }
-}
-```
+### Disable retrieving via non indexed payload
 
-```bash
-curl -X PUT http://localhost:6333/collections/{collection_name} \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "strict_mode_config": {
-        "enabled":" true,
-        "unindexed_filtering_retrieve": false
-    }
-  }'
-```
+Setting `unindexed_filtering_retrieve` to false prevents retrieving points by filtering on a non indexed payload key which can be very slow.
 
-```python
-from qdrant_client import QdrantClient, models
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve/" >}}
 
-client = QdrantClient(url="http://localhost:6333")
+Or turn it off later on an existing collection through the [collection update](#update-collection-parameters) API.
 
-client.create_collection(
-    collection_name="{collection_name}",
-    strict_mode_config=models.StrictModeConfig(enabled=True, unindexed_filtering_retrieve=false),
-)
-```
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve-off/" >}}
 
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
+### Disable updating via non indexed payload
 
-const client = new QdrantClient({ host: "localhost", port: 6333 });
+Setting `unindexed_filtering_update` to false prevents updating points by filtering on a non indexed payload key which can be very slow.
 
-client.createCollection("{collection_name}", {
-  strict_mode_config: {
-    enabled: true,
-    unindexed_filtering_retrieve: false,
-  },
-});
-```
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-update/" >}}
 
-```rust
-use qdrant_client::Qdrant;
-use qdrant_client::qdrant::{CreateCollectionBuilder, StrictModeConfigBuilder};
+### Maximum number of payload index count
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
+Setting `max_payload_index_count` caps the maximum number of payload index that can exist on a collection.
 
-client
-    .create_collection(
-        CreateCollectionBuilder::new("{collection_name}")
-            .strict_config_mode(StrictModeConfigBuilder::default().enabled(true).unindexed_filtering_retrieve(false)),
-    )
-    .await?;
-```
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-payload-index-count/" >}}
 
-```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Collections.CreateCollection;
-import io.qdrant.client.grpc.Collections.StrictModeCOnfig;
+### Maximum query `limit` parameter
 
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+Retrieving large result set is expensive.
 
-client
-    .createCollectionAsync(
-        CreateCollection.newBuilder()
-            .setCollectionName("{collection_name}")
-            .setStrictModeConfig(
-                StrictModeConfig.newBuilder().setEnabled(true).setUnindexedFilteringRetrieve(false).build())
-            .build())
-    .get();
-```
+Setting `max_query_limit` caps the maximum number of points that can be retrieved in a single query.
 
-```csharp
-using Qdrant.Client;
-using Qdrant.Client.Grpc;
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-query-limit/" >}}
 
-var client = new QdrantClient("localhost", 6334);
+### Maximum `timeout` parameter
 
-await client.CreateCollectionAsync(
-  collectionName: "{collection_name}",
-  strictModeConfig: new StrictModeConfig { enabled = true, unindexed_filtering_retrieve = false }
-);
-```
+Long running operations are often symptomatic of a deeper issue.
 
-```go
-import (
-  "context"
+Setting `max_timeout` caps the maximum value in seconds for the `timeout` parameter in all API operations.
 
-  "github.com/qdrant/go-client/qdrant"
-)
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-timeout/" >}}
 
-client, err := qdrant.NewClient(&qdrant.Config{
-  Host: "localhost",
-  Port: 6334,
-})
+### Maximum size of a filtering condition
 
-client.CreateCollection(context.Background(), &qdrant.CreateCollection{
-  CollectionName: "{collection_name}",
-  StrictModeConfig: &qdrant.StrictModeConfig{
-    Enabled: qdrant.PtrOf(true),
-    IndexingThreshold: qdrant.PtrOf(false),
-  },
-})
-```
+Large filtering conditions are expensive to evaluate.
 
-Or activate it later on an existing collection through the [collection update](#update-collection-parameters) API:
+Setting `condition_max_size` caps the maximum number of element a filtering condition can have.
 
-```http
-PATCH /collections/{collection_name}
-{
-    "strict_mode_config": {
-        "enabled": true,
-        "unindexed_filtering_retrieve": false
-    }
-}
-```
+e.g. the number of elements in `MatchAny`
 
-```bash
-curl -X PATCH http://localhost:6333/collections/{collection_name} \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "strict_mode_config": {
-        "enabled": true,
-        "unindexed_filtering_retrieve": false
-    }
-  }'
-```
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/condition-max-size/" >}}
 
-```python
-from qdrant_client import QdrantClient, models
+### Maximum number of conditions in a filter
 
-client = QdrantClient(url="http://localhost:6333")
+A large number of filtering conditions are expensive to evaluate.
 
-client.update_collection(
-    collection_name="{collection_name}",
-    strict_mode_config=models.StrictModeConfig(enabled=True, unindexed_filtering_retrieve=False),
-)
-```
+Setting `filter_max_conditions` caps the maximum number of conditions filters can have.
 
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/filter-max-conditions/" >}}
 
-const client = new QdrantClient({ host: "localhost", port: 6333 });
+### Maximum batch size when inserting vectors
 
-client.updateCollection("{collection_name}", {
-  strict_mode_config: {
-    enabled: true,
-    unindexed_filtering_retrieve: false,
-  },
-});
-```
+Sending very large batch upserts can create internal congestion.  
 
-```rust
-use qdrant_client::qdrant::{StrictModeConfigBuilder, UpdateCollectionBuilder};
+Setting `upsert_max_batchsize` caps the maximum size in bytes of a batch during vector upserts.
 
-client
-    .update_collection(
-        UpdateCollectionBuilder::new("{collection_name}").strict_mode_config(
-            StrictModeConfigBuilder::default().enabled(true).unindexed_filtering_retrieve(false),
-        ),
-    )
-    .await?;
-```
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/upsert-max-batchsize/" >}}
 
-```java
-import io.qdrant.client.grpc.Collections.StrictModeConfigBuilder;
-import io.qdrant.client.grpc.Collections.UpdateCollection;
+### Maximum collection storage size
 
-client.updateCollectionAsync(
-    UpdateCollection.newBuilder()
-        .setCollectionName("{collection_name}")
-        .setStrictModeConfig(
-            StrictModeConfig.newBuilder().setEnabled(true).setUnindexedFilteringRetrieve(false).build())
-        .build());
-```
+It is possible to set the maximum size of a collection in terms of vectors and/or payload storage size.
 
-```csharp
-using Qdrant.Client;
-using Qdrant.Client.Grpc;
+Setting `max_collection_vector_size_bytes` and/or `max_collection_payload_size_bytes` caps the maximum byte size of a collection.
 
-var client = new QdrantClient("localhost", 6334);
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-collection-storage-size-bytes/" >}}
 
-await client.UpdateCollectionAsync(
-  collectionName: "{collection_name}",
-  strictModeConfig: new StrictModeConfig { Enabled = true, UnindexedFilteringRetrieve = false }
-);
-```
+### Maximum points count
 
-```go
-import (
-  "context"
+Setting `max_points_count` caps the maximum number of points for a collection.
 
-  "github.com/qdrant/go-client/qdrant"
-)
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-points-count/" >}}
 
-client, err := qdrant.NewClient(&qdrant.Config{
-  Host: "localhost",
-  Port: 6334,
-})
+### Rate limiting
 
-client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
-  CollectionName: "{collection_name}",
-  StrictModeConfig: &qdrant.StrictModeConfig{
-    Enabled: qdrant.PtrOf(true),
-    UnindexedFilteringRetrieve: qdrant.PtrOf(false),
-  },
-})
-```
+An extremely high rate of incoming requests can have a negative impact on the latency.
 
-To disable completely strict mode on an existing collection use:
+Setting `read_rate_limit` and/or `write_rate_limit` to cap the maximum number of operations per minute per replica.
 
-```http
-PATCH /collections/{collection_name}
-{
-    "strict_mode_config": {
-        "enabled": false
-    }
-}
-```
+When exceeding the maximum number of operations, the client will receive an HTTP 429 error code with a suggested delay before retrying.
 
-```bash
-curl -X PATCH http://localhost:6333/collections/{collection_name} \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "strict_mode_config": {
-        "enabled": false,
-    }
-  }'
-```
-
-```python
-from qdrant_client import QdrantClient, models
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.update_collection(
-    collection_name="{collection_name}",
-    strict_mode_config=models.StrictModeConfig(enabled=False),
-)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.updateCollection("{collection_name}", {
-  strict_mode_config: {
-    enabled: false,
-  },
-});
-```
-
-```rust
-use qdrant_client::qdrant::{StrictModeConfigBuilder, UpdateCollectionBuilder};
-
-client
-    .update_collection(
-        UpdateCollectionBuilder::new("{collection_name}").strict_mode_config(
-            StrictModeConfigBuilder::default().enabled(false),
-        ),
-    )
-    .await?;
-```
-
-```java
-import io.qdrant.client.grpc.Collections.StrictModeConfigBuilder;
-import io.qdrant.client.grpc.Collections.UpdateCollection;
-
-client.updateCollectionAsync(
-    UpdateCollection.newBuilder()
-        .setCollectionName("{collection_name}")
-        .setStrictModeConfig(
-            StrictModeConfig.newBuilder().setEnabled(false).build())
-        .build());
-```
-
-```csharp
-using Qdrant.Client;
-using Qdrant.Client.Grpc;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.UpdateCollectionAsync(
-  collectionName: "{collection_name}",
-  strictModeConfig: new StrictModeConfig { Enabled = false }
-);
-```
-
-```go
-import (
-  "context"
-
-  "github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-  Host: "localhost",
-  Port: 6334,
-})
-
-client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
-  CollectionName: "{collection_name}",
-  StrictModeConfig: &qdrant.StrictModeConfig{
-        Enabled: qdrant.PtrOf(false),
-  },
-})
-```
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/rate-limiting/" >}}

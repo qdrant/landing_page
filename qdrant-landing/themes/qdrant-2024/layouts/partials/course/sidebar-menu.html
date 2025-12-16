@@ -1,0 +1,142 @@
+{{ $currentNode := .context }}
+
+<div class="docs-menu">
+  <div id="sidebar" class="docs-menu__content">
+    <nav>
+      <div class="docs-menu__links-group">
+
+        
+        <!-- 
+          If page is top-level, like /course we want to show sidebar with sub-pages of /course
+          If page is not top-level, like /course/essentials we want to show sidebar with sub-pages of /course/essentials
+          If page is any deeper that that, we want to show sidebar to one level higher than the current page
+        -->
+
+        {{ $pathSegments := split (trim $currentNode.RelPermalink "/") "/" }}
+        {{ $numLevels := len $pathSegments }}
+
+        {{ $subject := $currentNode }}
+
+        {{ if eq $numLevels 1 }}
+          {{ $subject = $currentNode }} <!-- top-level, `/course` -->
+        {{ else if eq $numLevels 2 }}
+          {{ $subject = $currentNode }} <!-- not top-level, `/course/essentials` -->
+        {{ else if eq $numLevels 3 }}
+          {{ $subject = $currentNode.Parent }} <!-- not top-level, `/course/essentials/day-0` -->
+        {{ else if eq $numLevels 4 }}
+          {{ $subject = $currentNode.Parent.Parent }} <!-- not top-level, `/course/essentials/day-0/introduction` -->
+        {{ else }}
+          {{ $subject = $currentNode.Parent.Parent.Parent }} <!-- not top-level, `/course/essentials/day-0/introduction/overview` -->
+        {{ end }}
+        
+        
+        {{ if and $subject $subject.Params $subject.Params.content $subject.Params.content.sidebarTitle }}
+        <p class="docs-menu__links-title">
+          {{ $subject.Params.content.sidebarTitle }}
+        </p>
+        {{ end }}
+
+        {{ if or (eq $currentNode.Params.isLesson true) (eq $currentNode.Parent.Params.isLesson true) }}
+          {{ $allLessons := where $subject.Pages ".Params.isLesson" true }}
+          {{ $total := len $allLessons }}
+
+
+          {{ if $total }}
+            {{ $currentIndex := 0 }}
+            {{ range $i, $p := $allLessons }}
+              {{ if eq $currentNode.Params.isLesson true }}
+                {{ if eq $p.Permalink $currentNode.Permalink }}
+                  {{ $currentIndex = add $i 1 }}
+                {{ end }}
+              {{ else }}
+                {{ if eq $p.Permalink $currentNode.Parent.Permalink }}
+                  {{ $currentIndex = add $i 1 }}
+                {{ end }}
+              {{ end }}
+            {{ end }}
+
+            {{ $percent := mul (div (float $currentIndex) (float $total)) 100 }}
+            {{ $percentStr := printf "%.0f" $percent }}
+
+            <div class="docs-menu__progress">
+              <div class="docs-menu__progress-container">
+                <div class="docs-menu__progress-bar" style="width: {{ $percentStr }}%;"></div>
+              </div>
+              <p class="docs-menu__progress-text">{{ $percentStr }}%</p>
+            </div>
+          {{ end }}
+        {{ end }}
+
+        {{ if and $subject $subject.Params $subject.Params.content $subject.Params.content.menuTitle }}
+          <div
+            class="
+              mt-3
+              docs-menu__articles-link
+              docs-menu__links-group-heading{{ if eq $currentNode.RelPermalink $subject.Params.content.menuTitle.url }} active{{ end }}
+            "
+          >
+            <a href="{{ $subject.Params.content.menuTitle.url }}">
+              {{ $subject.Params.content.menuTitle.text }}
+            </a>
+          </div>
+        {{ end }}
+
+        {{ range $subject.Pages }}
+          {{ if .IsSection }}
+            {{ $isActive := false }}
+            {{ $fileExistsAndMatchUniqueID := and .File $currentNode.File (eq .File.UniqueID $currentNode.File.UniqueID) }}
+
+            {{ range .RegularPages }}
+              {{ $fileExistsAndMatchUniqueIDSub := and .File $currentNode.File (eq .File.UniqueID $currentNode.File.UniqueID) }}
+              {{ if $fileExistsAndMatchUniqueIDSub }}
+                {{ $isActive = true }}
+              {{ end }}
+            {{ end }}
+
+            {{ if $fileExistsAndMatchUniqueID }}
+                {{ $isActive = true }}
+            {{ end }}
+
+            {{ $sectionLink := .Permalink }}
+
+            {{ if .Params.is_empty }}
+              {{ $sectionLink = (index (.RegularPages) 0).Permalink }}
+            {{ end }}
+
+            <details
+              class="docs-menu__links-group link-group {{ if $fileExistsAndMatchUniqueID }}active{{ end }}"
+              {{ if $isActive }}open{{ end }}
+            >
+              <summary class="docs-menu__links-group-heading">
+                <a href="{{ $sectionLink }}">{{ .Title }}</a>
+              </summary>
+              <nav>
+                <ul class="docs-menu__links-submenu">
+                  {{ range .Pages }}
+                    {{ $fileExistsAndMatchUniqueIDSub := and .File $currentNode.File (eq .File.UniqueID $currentNode.File.UniqueID) }}
+                    <div
+                      class="docs-menu__links-group {{ if $fileExistsAndMatchUniqueIDSub }}active{{ end }}"
+                    >
+                      <div class="docs-menu__links-group-heading">
+                        <a href="{{ .Permalink }}">{{ .Title }}</a>
+                      </div>
+                    </div>
+                  {{ end }}
+                </ul>
+              </nav>
+            </details>
+          {{ else }}
+            {{ $fileExistsAndMatchUniqueID := and .File $currentNode.File (eq .File.UniqueID $currentNode.File.UniqueID) }}
+            <div
+              class="docs-menu__links-group {{ if $fileExistsAndMatchUniqueID }}active{{ end }}"
+            >
+              <div class="docs-menu__links-group-heading">
+                <a href="{{ .Params.url }}">{{ .Title }}</a>
+              </div>
+            </div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </nav>
+  </div>
+</div>

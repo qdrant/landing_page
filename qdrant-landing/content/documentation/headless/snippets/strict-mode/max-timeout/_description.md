@@ -1,0 +1,1 @@
+This code snippet set `max_timeout` on the strict mode configuration to cap the maximum value in seconds for the `timeout` parameters for all API operations.

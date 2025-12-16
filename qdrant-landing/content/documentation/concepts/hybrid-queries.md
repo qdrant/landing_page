@@ -10,7 +10,7 @@ hideInSidebar: false # Optional. If true, the page will not be shown in the side
 
 _Available as of v1.10.0_
 
-With the introduction of [many named vectors per point](/documentation/concepts/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries,
+With the introduction of [multiple named vectors per point](/documentation/concepts/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries,
 or by performing the search in more than one stage.
 
 Qdrant has a flexible and universal interface to make this possible, called `Query API` ([API reference](https://api.qdrant.tech/api-reference/search/query-points)).
@@ -32,36 +32,48 @@ One of the most common problems when you have different representations of the s
 
 {{< figure  src="/docs/fusion-idea.png" caption="Fusing results from multiple queries" width="80%" >}}
 
-For example, in text search, it is often useful to combine dense and sparse vectors get the best of semantics,
-plus the best of matching specific words.
+For example, in text search, it is often useful to combine dense and sparse vectors to get the best of both worlds: semantic understanding from dense vectors and precise word matching from sparse vectors.
 
-Qdrant currently has two ways of combining the results from different queries:
+Qdrant has a few ways of fusing the results from different queries: `rrf` and `dbsf`
 
-- `rrf` -
-  <a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">
-  Reciprocal Rank Fusion
-  </a>
+### Reciprocal Rank Fusion (RRF)
+<a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">
+RRF</a> considers the positions of results within each query, and boosts the ones that appear closer to the top in multiple sets of results.
+ 
+The formula is simple, but needs access to the rank of each result in each query.
 
-  Considers the positions of results within each query, and boosts the ones that appear closer to the top in multiple of them.
+$$ score(d\in D) = \sum_{r_d\in R(d)} \frac{1}{k + r_d} $$
 
-- `dbsf` -
-  <a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">
-  Distribution-Based Score Fusion
-  </a> _(available as of v1.11.0)_
+Where $D$ the set of points across all results, $R(d)$ is the set of rankings for a particular document, and $k$ is a constant (set to 2 by default).
 
-  Normalizes the scores of the points in each query, using the mean +/- the 3rd standard deviation as limits, and then sums the scores of the same point across different queries.
+Here is an example of RRF for a query containing two prefetches against different named vectors configured to hold sparse and dense vectors, respectively.
 
-    <aside role="status"><code>dbsf</code> is stateless and calculates the normalization limits only based on the results of each query, not on all the scores that it has seen.</aside>
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf/" >}}
 
-Here is an example of Reciprocal Rank Fusion for a query containing two prefetches against different named vectors configured to respectively hold sparse and dense vectors.
+#### Parametrized RRF
+_Available as of v1.16.0_
 
-{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-basic/" >}}
+To change the value of constant $k$ in the formula, use the dedicated `rrf` query variant.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf-k/" >}}
+
+
+### Distribution-Based Score Fusion (DBSF)
+
+_Available as of v1.11.0_
+  
+<a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">
+DBSF</a> 
+normalizes the scores of the points in each query, using the mean +/- the 3rd standard deviation as limits, and then sums the scores of the same point across different queries.
+
+<aside role="status"><code>dbsf</code> is stateless and calculates the normalization limits only based on the results of each query, not on all the scores that it has seen.</aside>
+
 
 ## Multi-stage queries
 
-In many cases, the usage of a larger vector representation gives more accurate search results, but it is also more expensive to compute.
+In general, larger vector representations give more accurate search results, but makes them more expensive to compute.
 
-Splitting the search into two stages is a known technique:
+Splitting the search into two stages is a known technique to mitigate this effect:
 
 - First, use a smaller and cheaper representation to get a large list of candidates.
 - Then, re-score the candidates using the larger and more accurate representation.
@@ -192,6 +204,20 @@ In this case we use a **gauss_decay** function.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-closer-to-user/" >}}
 
+### Time-based score boosting
+
+Or combine the score with the information on how "fresh" the result is. It's applicable to (news) articles and in general many other different types of searches (think of the "newest" filter you use in applications).
+
+To implement time-based score boosting, you'll need each point to have a datetime field in its payload, e.g., when the item was uploaded or last updated. Then we can calculate the time difference in seconds between this payload value and the current time, our `target`.
+
+With an exponential decay function, perfect for use cases with time, as freshness is a very quickly lost quality, we can convert this time difference into a value between 0 and 1, then add it to the original score to prioritise fresh results.
+
+`score = score + exp_decay(current_time - point_time)`
+
+That's how it will look for an application where, after 1 day, results start being only half-relevant (so get a score of 0.5):
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-time/" >}}
+
 For all decay functions, there are these parameters available
 
 | Parameter  | Default | Description                                                                                                                                                                                       |
@@ -199,11 +225,11 @@ For all decay functions, there are these parameters available
 | `x`        | N/A     | The value to decay                                                                                                                                                                                |
 | `target`   | 0.0     | The value at which the decay will be at its peak. For distances it is usually set at 0.0, but can be set to any value.                                                                            |
 | `scale`    | 1.0     | The value at which the decay function will be equal to `midpoint`. This is in terms of `x` units, for example, if `x` is in meters, `scale` of 5000 means 5km. Must be a non-zero positive number |
-| `midpoint` | 0.5     | Output is `midpoint` when `x` equals `scale`. Must be in the range (0.0, 1.0), exclusive                                                                                                          |
+| `midpoint` | 0.5     | Output is `midpoint` when `x` equals `target` ± `scale`. Must be in the range (0.0, 1.0), exclusive                                                                                                          |
 
-The formulas for each decay function are as follows:
+![Decay functions.](/docs/decay-function.png)
 
-<iframe src="https://www.desmos.com/calculator/idv5hknwb1?embed" width="600" height="400" style="border: 1px solid #ccc" frameborder=0 class="mx-auto d-block"></iframe>
+The [formulas for each decay function](https://www.desmos.com/calculator/idv5hknwb1) are as follows:
 
 <br>
     

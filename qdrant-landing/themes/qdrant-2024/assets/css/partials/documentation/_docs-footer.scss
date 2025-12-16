@@ -8,8 +8,7 @@
     justify-content: center;
     align-items: center;
     padding: $spacer * 2.5 0;
-    border-top: 1px solid $neutral-20;
-    border-bottom: 1px solid $neutral-20;
+    border-top: pxToRem(1) solid $neutral-20;
     color: $neutral-98;
 
     h4 {
@@ -22,6 +21,7 @@
   }
 
   &__bottom {
+    border-top: pxToRem(1) solid $neutral-20;
     @extend .footer__bottom;
   }
 

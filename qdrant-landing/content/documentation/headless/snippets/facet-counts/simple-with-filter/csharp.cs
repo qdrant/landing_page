@@ -1,0 +1,16 @@
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+public class Snippet
+{
+	public static async Task Run()
+	{
+		var client = new QdrantClient("localhost", 6334);
+
+		await client.FacetAsync(
+		    "{collection_name}",
+		    key: "size",
+		    filter: MatchKeyword("color", "red")
+		);
+	}
+}

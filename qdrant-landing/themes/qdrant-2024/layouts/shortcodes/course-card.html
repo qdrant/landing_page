@@ -1,0 +1,17 @@
+{{ $title := .Get "title" }}
+{{ $isWideList := .Get "isWideList" }}
+{{ $image := default "/icons/outline/training-white.svg" (.Get "image") }}
+{{ $link := .Get "link" }}
+{{ $button := default "Get Started" (.Get "button") }}
+<div class="course-card">
+  <h6 class="course-card__title">
+    <img src="{{ $image }}" alt="Icon">
+    {{ $title }}
+  </h6>
+  <div class="course-card__content list{{ if eq $isWideList "true" }} list-wide{{ end }}">
+    {{ .Inner | markdownify }}
+  </div>
+  {{ with $link }}
+    <a href="{{ $link }}" class="course-card__button button button_contained button_sm">{{ $button }}</a>
+  {{ end }}
+</div>

@@ -10,11 +10,11 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Natively embed text, image, and sparse vectors with Qdrant Cloud Inference. Now live."
+text: "Qdrant 1.16 now live. Tiered multitenancy, ACORN, full text search upgrades, and more"
 link:
-  text: Learn more
-  url: https://qdrant.tech/blog/qdrant-cloud-inference-launch/
-start: 2025-07-15T05:00:00.000Z
+  text: Read the blog
+  url: http://qdrant.tech/blog/qdrant-1.16.x/
+start: 2025-11-20T20:00:00.000Z
 sitemapExclude: true
-end: 2025-07-31T14:00:00.000Z
+end: 2025-12-09T20:00:00.000Z
 ---

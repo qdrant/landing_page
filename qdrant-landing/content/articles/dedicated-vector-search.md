@@ -202,7 +202,7 @@ In addition to that, we continuously look for improvements in:
 
 | | |
 |----------------------------------|-------------|
-| **Memory Efficiency & Compression** | Techniques such as [**quantization**](documentation/guides/quantization/) and [**HNSW compression**](/blog/qdrant-1.13.x/#hnsw-graph-compression) to reduce storage requirements |
+| **Memory Efficiency & Compression** | Techniques such as [**quantization**](/documentation/guides/quantization/) and [**HNSW compression**](/blog/qdrant-1.13.x/#hnsw-graph-compression) to reduce storage requirements |
 | **Retrieval Algorithms**         | Support for the latest retrieval algorithms, including [**sparse neural retrieval**](/articles/modern-sparse-neural-retrieval/), [**hybrid search**](/documentation/concepts/hybrid-queries/) methods, and [**re-rankers**](/documentation/fastembed/fastembed-rerankers/). |
 | **Vector Data Analysis & Visualization** | Tools like the [**distance matrix API**](/blog/qdrant-1.12.x/#distance-matrix-api-for-data-insights) provide insights into vectorized data, and a [**Web UI**](/blog/qdrant-1.11.x/#web-ui-search-quality-tool) allows for intuitive exploration of data. |
 | **Search Speed & Scalability**   | Includes optimizations for [**multi-tenant environments**](/articles/multitenancy/) to ensure efficient and scalable search. |

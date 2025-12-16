@@ -1,0 +1,408 @@
+---
+title: "Project: HNSW Performance Benchmarking"
+description: Optimize vector search with Qdrant. Test multiple HNSW configurations, time uploads and queries, and evaluate filtering with and without payload indexes to find the best settings for your domain.
+weight: 5
+---
+
+{{< date >}} Day 2 {{< /date >}}
+
+# Project: HNSW Performance Benchmarking
+
+Now that you've seen how [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) parameters and payload indexes affect performance with the DBpedia dataset, it's time to optimize for your own domain and use case.
+
+## Your Mission
+
+Build on your Day 1 search engine by adding performance optimization. You'll discover which HNSW settings work best for your specific data and queries, and measure the real impact of payload indexing.
+
+**Estimated Time:** 90 minutes
+
+## What You'll Build
+
+A performance-optimized version of your Day 1 search engine that demonstrates:
+
+- **Fast bulk load**: Load with `m=0`, then switch to HNSW
+- **HNSW parameter tuning**: Try different `m` and `ef_construct`
+- **Payload indexing impact**: Time filtering with and without indexes
+- **Domain findings**: What works best for your content
+
+## Setup
+
+### Prerequisites
+
+* Qdrant Cloud cluster (URL + API key)
+* Python 3.9+ (or Google Colab)
+* Packages: `qdrant-client`, `sentence-transformers`, `numpy`
+
+### Models
+
+* Embeddings: `sentence-transformers/all-MiniLM-L6-v2` (384-dim)
+
+### Dataset
+
+* Reuse your Day 1 domain data or prepare a dataset with **1,000+ items** and a rich text field (e.g., `description`).
+* Include a few numeric fields for filtering (e.g., `length`, `word_count`) so payload indexing impact can be measured.
+
+## Build Steps
+
+### Step 1: Extend Your Day 1 Project
+
+Start with your domain search engine from Day 1, or create a new one with 1000+ items:
+
+```python
+from qdrant_client import QdrantClient, models
+from sentence_transformers import SentenceTransformer
+import time
+import numpy as np
+import os
+
+client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+
+# For Colab:
+# from google.colab import userdata
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
+
+encoder = SentenceTransformer("all-MiniLM-L6-v2")
+```
+
+### Step 2: Create Multiple Test Collections
+
+Test different HNSW configurations to find what works best:
+
+```python
+# Test configurations
+configs = [
+    {"name": "fast_initial_upload", "m": 0, "ef_construct": 100},  # m=0 = ingest-only
+    {"name": "memory_optimized", "m": 8, "ef_construct": 100},  # m=8 = lower RAM
+    {"name": "balanced", "m": 16, "ef_construct": 200},  # m=16 = balanced
+    {"name": "high_quality", "m": 32, "ef_construct": 400},  # m=32 = higher recall, slower build
+]
+
+for config in configs:
+    collection_name = f"my_domain_{config['name']}"
+    if client.collection_exists(collection_name=collection_name):
+        client.delete_collection(collection_name=collection_name)
+
+    client.create_collection(
+        collection_name=collection_name,
+        vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
+        hnsw_config=models.HnswConfigDiff(
+            m=config["m"],
+            ef_construct=config["ef_construct"],
+            full_scan_threshold=10,  # force HNSW instead of full scan
+        ),
+        optimizers_config=models.OptimizersConfigDiff(
+            indexing_threshold=10
+        ),  # Force indexing even on small sets for demo
+    )
+    print(f"Created collection: {collection_name}")
+```
+
+### Step 3: Upload and Time
+
+Measure upload performance for each configuration:
+
+```python
+def upload_with_timing(collection_name, data, config_name):
+    embeddings = encoder.encode([d["description"] for d in data], show_progress_bar=True).tolist()
+
+    points = []
+    for i, item in enumerate(data):
+        embedding = embeddings[i]
+
+        points.append(
+            models.PointStruct(
+                id=i,
+                vector=embedding,
+                payload={
+                    **item,
+                    "length": len(item["description"]),
+                    "word_count": len(item["description"].split()),
+                    "has_keywords": any(
+                        keyword in item["description"].lower() for keyword in ["important", "key", "main"]
+                    ),
+                },
+            )
+        )
+
+    # Warmup
+    client.query_points(collection_name=collection_name, query=points[0].vector, limit=1)
+
+    start_time = time.time()
+    client.upload_points(collection_name=collection_name, points=points)
+    upload_time = time.time() - start_time
+
+    print(f"{config_name}: Uploaded {len(points)} points in {upload_time:.2f}s")
+    return upload_time
+
+
+# Load your dataset here. The larger the dataset, the more accurate the benchmark will be.
+# your_dataset = [{"description": "This is a description of a product"}, ...]
+
+# Upload to each collection
+upload_times = {}
+for config in configs:
+    collection_name = f"my_domain_{config['name']}"
+    upload_times[config["name"]] = upload_with_timing(collection_name, your_dataset, config["name"])
+
+
+def wait_for_indexing(collection_name, timeout=60, poll_interval=1):
+    print(f"Waiting for collection '{collection_name}' to be indexed...")
+    start_time = time.time()
+
+    while time.time() - start_time < timeout:
+        info = client.get_collection(collection_name=collection_name)
+
+        if info.indexed_vectors_count > 0 and info.status == models.CollectionStatus.GREEN:
+            print(f"Success! Collection '{collection_name}' is indexed and ready.")
+            print(f" - Status: {info.status.value}")
+            print(f" - Indexed vectors: {info.indexed_vectors_count}")
+            return
+
+        print(f" - Status: {info.status.value}, Indexed vectors: {info.indexed_vectors_count}. Waiting...")
+        time.sleep(poll_interval)
+
+    info = client.get_collection(collection_name=collection_name)
+    raise Exception(
+        f"Timeout reached after {timeout} seconds. Collection '{collection_name}' is not ready. "
+        f"Final status: {info.status.value}, Indexed vectors: {info.indexed_vectors_count}"
+    )
+
+
+for config in configs:
+    if config["m"] > 0:  # m=0 has no HNSW to wait for
+        collection_name = f"my_domain_{config['name']}"
+        wait_for_indexing(collection_name)
+```
+
+### Step 4: Benchmark Search Performance
+
+Test search speed with different `hnsw_ef` values:
+
+```python
+def benchmark_search(collection_name, query_embedding, ef_values=[64, 128, 256]):
+    # Warmup
+    client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
+
+    # hnsw_ef: higher = better recall, but slower. Tune per your latency goal.
+    results = {}
+    for hnsw_ef in ef_values:
+        times = []
+
+        # Run multiple queries for more reliable timing
+        for _ in range(25):
+            start_time = time.time()
+
+            _ = client.query_points(
+                collection_name=collection_name,
+                query=query_embedding,
+                limit=10,
+                search_params=models.SearchParams(hnsw_ef=hnsw_ef),
+                with_payload=False,
+            )
+
+            times.append((time.time() - start_time) * 1000)
+
+        results[hnsw_ef] = {
+            "avg_time": np.mean(times),
+            "min_time": np.min(times),
+            "max_time": np.max(times),
+        }
+
+    return results
+
+
+test_query = "your test query"
+query_embedding = encoder.encode(test_query).tolist()
+
+performance_results = {}
+for config in configs:
+    if config["m"] > 0:  # Skip m=0 collections for search
+        collection_name = f"my_domain_{config['name']}"
+        performance_results[config["name"]] = benchmark_search(
+            collection_name, query_embedding
+        )
+```
+
+### Step 5: Measure Payload Indexing Impact
+
+Measure filtering performance with and without indexes:
+
+```python
+def test_filtering_performance(collection_name):
+    query_embedding = encoder.encode("your filter test query").tolist()
+
+    # Test filter without index
+    filter_condition = models.Filter(
+        must=[models.FieldCondition(key="length", range=models.Range(gte=10, lte=200))]
+    )
+
+    # Demo only: unindexed_filtering_retrieve=True forces a scan; turn it off right after measuring.
+    client.update_collection(
+        collection_name=collection_name,
+        strict_mode_config=models.StrictModeConfig(unindexed_filtering_retrieve=True),
+    )
+
+    # Warmup
+    client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
+
+    # Timing without payload index
+    times = []
+    for _ in range(25):
+        start_time = time.time()
+        _ = client.query_points(
+            collection_name=collection_name,
+            query=query_embedding,
+            query_filter=filter_condition,
+            limit=10,
+            with_payload=False,
+        )
+        times.append((time.time() - start_time) * 1000)
+    time_without_index = np.mean(times)
+
+    # Create payload index
+    client.create_payload_index(
+        collection_name=collection_name,
+        field_name="length",
+        field_schema=models.PayloadSchemaType.INTEGER,
+        wait=True,
+    )
+
+    # HNSW was already built; adding the payload index doesn’t rebuild it.
+    # Bump ef_construct (+1) once to trigger a safe rebuild.
+    base_ef = client.get_collection(
+        collection_name=collection_name
+    ).config.hnsw_config.ef_construct
+    new_ef_construct = base_ef + 1
+
+    client.update_collection(
+        collection_name=collection_name,
+        hnsw_config=models.HnswConfigDiff(ef_construct=new_ef_construct),
+        strict_mode_config=models.StrictModeConfig(
+            unindexed_filtering_retrieve=False
+        ),  # Turn off scanning and use payload index instead.
+    )
+
+    wait_for_indexing(collection_name)
+
+    # Warmup
+    client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
+
+    # Timing with index
+    times = []
+    for _ in range(25):
+        start_time = time.time()
+        _ = client.query_points(
+            collection_name=collection_name,
+            query=query_embedding,
+            query_filter=filter_condition,
+            limit=10,
+            with_payload=False,
+        )
+        times.append((time.time() - start_time) * 1000)
+    time_with_index = np.mean(times)
+
+    return {
+        "without_index": time_without_index,
+        "with_index": time_with_index,
+        "speedup": time_without_index / time_with_index,
+    }
+
+
+# Test on your best performing collection
+best_collection = "my_domain_balanced"  # Choose based on your results
+filtering_results = test_filtering_performance(best_collection)
+```
+
+### Step 6: Analyze Your Results
+
+Create a summary of your findings:
+
+```python
+print("=" * 60)
+print("PERFORMANCE OPTIMIZATION RESULTS")
+print("=" * 60)
+
+print("\n1) Upload Performance:")
+for config_name, time_taken in upload_times.items():
+    print(f"   {config_name}: {time_taken:.2f}s")
+
+print("\n2) Search Performance (hnsw_ef=128):")
+for config_name, results in performance_results.items():
+    if 128 in results:
+        print(f"   {config_name}: {results[128]['avg_time']:.2f}ms")
+
+print("\n3) Filtering Impact:")
+print(f"   Without index: {filtering_results['without_index']:.2f}ms")
+print(f"   With index: {filtering_results['with_index']:.2f}ms")
+print(f"   Speedup: {filtering_results['speedup']:.1f}x")
+```
+
+## Success Criteria
+
+You'll know you've succeeded when:
+
+<input type="checkbox"> You've tested multiple HNSW configurations with real timing data  
+<input type="checkbox"> You can explain which settings work best for your domain and why  
+<input type="checkbox"> You've measured the concrete impact of payload indexing  
+<input type="checkbox"> You have clear recommendations for production deployment
+
+
+## Share Your Discovery
+
+### Step 1: Reflect on Your Findings
+
+1. Which HNSW configuration (`m`, `ef_construct`) worked best for your domain?
+2. How did the balance between upload time and search speed look?
+3. What was the impact of adding a payload index?
+4. How do your results compare to the DBpedia demo?
+
+### Step 2: Post Your Results
+
+**Post your results in** <a href="https://discord.com/channels/907569970500743200/1429673887590776832" target="_blank" rel="noopener noreferrer" aria-label="Qdrant Discord"> <img src="https://img.shields.io/badge/Qdrant%20Discord-5865F2?style=flat&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2"
+    alt="Post your results in Discord"
+    style="display:inline; margin:0; vertical-align:middle; border-radius:9999px;" /> </a> **using this:**
+
+```markdown
+**[Day 2] HNSW Performance Benchmarking**
+
+**High-Level Summary**
+- **Domain:** "[your domain]"
+- **Key Result:** "m=[..], ef_construct=[..], hnsw_ef=[..] gave [X] ms search and [Y] s upload (best balance)."
+
+**Reproducibility**
+- **Collections:** ...
+- **Model:** sentence-transformers/all-MiniLM-L6-v2 (384-dim)
+- **Dataset:** [N items] (snapshot: YYYY-MM-DD)
+
+**Configuration Results**
+| m  | ef_construct | Upload_s | Search_ms@ef=128 |
+|----|--------------|----------|------------------|
+| 0  | 100          | X.X      | —                |
+| 8  | 100          | Y.Y      | A.A              |
+| 16 | 200          | Z.Z      | B.B              |
+| 32 | 400          | W.W      | C.C              |
+
+**Filtering Impact**
+- Payload index on `length`: **[speedup]×**  
+  Without index: [T1] ms → With index: [T2] ms
+
+**Recommendations**
+- Best config for this domain: [m, ef_construct, hnsw_ef]
+- When to pick another setting: [short guidance]
+- Notes for production: [one line on indexing order / filters]
+
+**Surprise**
+- "[one unexpected finding]"
+
+**Next Step**
+- "[one concrete action you’ll try next]"
+```
+
+## Optional: Go Further
+
+* Test more granular parameters:
+
+  * **ef_construct** impact on recall & build time
+  * **hnsw_ef** per-query tuning by complexity
+* Track memory usage differences (RAM/on-disk, payload indexes)
+* Add accuracy metrics vs. a small labeled query set to see if higher `m` truly improves quality for your domain

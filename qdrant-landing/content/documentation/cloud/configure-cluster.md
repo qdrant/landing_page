@@ -7,6 +7,15 @@ weight: 55
 
 Qdrant Cloud offers several advanced configuration options to optimize clusters for your specific needs. You can access these options from the Cluster Details page in the Qdrant Cloud console.
 
+The cloud platform does not expose all [configuration options](/documentation/guides/configuration/) available in Qdrant. We have selected the relevant options that are explained in detail below.
+
+In adition the cloud platform automatically configures the following settings for your cluster to ensure optimal performance and reliability:
+
+* The maximum number of collections in a cluster is set to 1000. Larger numbers of collections lead to performance degradation. For more information see [Multitenancy](/documentation/guides/multiple-partitions/).
+* Strict mode is activated by default for new collections enforcing that all filters being used in retrieve and udpate queries are indexed. This improves performance and reliability. You can disable this individually for each collection. For more information see [Strict Mode](/documentation/guides/administration/#strict-mode).
+* The cluster mode is automatically enabled to allow distributed deployments and horizontal scaling.
+* The maximum amount of payload indexes per collection is set to 100. Larger numbers of payload indexes lead to performance degradation (starting with Qdrant v1.16.0).
+
 ## Collection Defaults
 
 You can set default values for the configuration of new collections in your cluster. These defaults will be used when creating a new collection, unless you override them in the collection creation request.
@@ -17,9 +26,19 @@ Refer to [Qdrant Configuration](/documentation/guides/configuration/#configurati
 
 ## Advanced Optimizations
 
-You can change the *Optimzer CPU Budget* and the *Async Scorer* configurations for your cluster. These advanced settings will have an impact on performance and reliability. We recommend using the default values unless you are confident they are required for your use case.
+Configuring these advanced settings will have an impact on performance and reliability. We recommend using the default values unless you are confident they are required for your use case.
 
-See [Qdrant under the hood: io_uring](/articles/io_uring/#and-what-about-qdrant) and [Large Scale Search](/documentation/database-tutorials/large-scale-search/) for more details.
+*Optimizer CPU Budget*
+
+Configures how many CPUs (threads) to allocate for optimization and indexing jobs:
+
+* If 0 or empty (default) - Qdrant keeps one or more CPU cores unallocated from optimization jobs, depending on the number of available CPUs, optimization jobs, and traffic load.
+* If negative - Qdrant subtracts this number of CPUs from the available CPUs and uses them for optimizations
+* If positive - Qdrant uses this exact number of CPUs for optimizations
+
+*Async Scorer*
+
+Enables async scorer which uses io_uring when rescoring. See [Qdrant under the hood: io_uring](/articles/io_uring/#and-what-about-qdrant) and [Large Scale Search](/documentation/database-tutorials/large-scale-search/) for more details.
 
 ## Client IP Restrictions
 
@@ -42,3 +61,11 @@ Qdrant Cloud offers three strategies for shard rebalancing:
 * `by_count_and_size` (default): This strategy will rebalance the shards based on the number of shards and their size. It will ensure that all nodes have the same number of shards and that shard sizes are evenly distributed across nodes.
 * `by_count`: This strategy will rebalance the shards based on the number of shards only. It will ensure that all nodes have the same number of shards, but shard sizes may not be balanced evenly across nodes.
 * `by_size`: This strategy will rebalance the shards based on their size only. It will ensure that shards are evenly distributed across nodes by size, but the number of shards may not be even across all nodes.
+
+You can deactivate automatic shard rebalancing by deselecting the `rebalancing_strategy` option. This is useful if you want to manually control the shard distribution across nodes.
+
+## Rename a Cluster
+
+You can rename a Qdrant Cluster by clicking the pencil icon next to the cluster name on the Cluster Details page. 
+
+Renaming a cluster does not affect its functionality or configuration. The cluster's unique ID and cluster URLs will remain the same.

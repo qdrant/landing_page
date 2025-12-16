@@ -24,26 +24,23 @@ To use this plugin, specify it when you call `configureGenkit()`:
 
 ```js
 import { qdrant } from 'genkitx-qdrant';
-import { textEmbeddingGecko } from '@genkit-ai/vertexai';
 
-export default configureGenkit({
-  plugins: [
-    qdrant([
-      {
-        clientParams: {
-          host: 'localhost',
-          port: 6333,
-        },
-        collectionName: 'some-collection',
-        embedder: textEmbeddingGecko,
-      },
-    ]),
-  ],
-  // ...
+const ai = genkit({
+    plugins: [
+        qdrant([
+            {
+                embedder: googleAI.embedder('text-embedding-004'),
+                collectionName: 'collectionName',
+                clientParams: {
+                    url: 'http://localhost:6333',
+                }
+            }
+        ]),
+    ],
 });
 ```
 
-You'll need to specify a collection name, the embedding model you want to use and the Qdrant client parameters. In
+You'll need to specify a collection name, the embedding model you want to use and the Qdrant client parameters. In
 addition, there are a few optional parameters:
 
 - `embedderOptions`: Additional options to pass options to the embedder:
@@ -64,7 +61,13 @@ addition, there are a few optional parameters:
   metadataPayloadKey: 'metadata';
   ```
 
-- `collectionCreateOptions`: [Additional options](/documentation/concepts/collections/#create-a-collection/) when creating the Qdrant collection.
+- `dataTypePayloadKey`: Name of the payload filed with the document datatype. Defaults to "_content_type".
+
+  ```js
+  dataTypePayloadKey: '_datatype';
+  ```
+
+- `collectionCreateOptions`: [Additional options](/documentation/concepts/collections/#create-a-collection) when creating the Qdrant collection.
 
 ## Usage
 
@@ -72,36 +75,25 @@ Import retriever and indexer references like so:
 
 ```js
 import { qdrantIndexerRef, qdrantRetrieverRef } from 'genkitx-qdrant';
-import { Document, index, retrieve } from '@genkit-ai/ai/retriever';
 ```
 
-Then, pass the references to `retrieve()` and `index()`:
+Then, pass their references to `retrieve()` and `index()`:
 
 ```js
-// To specify an indexer:
-export const qdrantIndexer = qdrantIndexerRef({
-  collectionName: 'some-collection',
-  displayName: 'Some Collection indexer',
-});
-
-await index({ indexer: qdrantIndexer, documents });
+// To export an indexer reference:
+export const qdrantIndexer = qdrantIndexerRef('collectionName', 'displayName');
 ```
 
 ```js
-// To specify a retriever:
-export const qdrantRetriever = qdrantRetrieverRef({
-  collectionName: 'some-collection',
-  displayName: 'Some Collection Retriever',
-});
-
-let docs = await retrieve({ retriever: qdrantRetriever, query });
+// To export a retriever reference:
+export const qdrantRetriever = qdrantRetrieverRef('collectionName', 'displayName');
 ```
 
-You can refer to [Retrieval-augmented generation](https://firebase.google.com/docs/genkit/rag) for a general
+You can refer to [Retrieval-augmented generation](https://genkit.dev/docs/rag/) for a general
 discussion on indexers and retrievers.
 
 ## Further Reading
 
-- [Introduction to Genkit](https://firebase.google.com/docs/genkit)
-- [Genkit Documentation](https://firebase.google.com/docs/genkit/get-started)
+- [Introduction to Genkit](https://genkit.dev/)
+- [Genkit Documentation](https://genkit.dev/docs/get-started/)
 - [Source Code](https://github.com/qdrant/qdrant-genkit)

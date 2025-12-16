@@ -59,21 +59,6 @@ will enable the use of
 [memmaps](/documentation/concepts/storage/#configuring-memmap-storage),
 which is suitable for ingesting a large amount of data.
 
-### Create collection from another collection
-
-*Available as of v1.0.0*
-
-It is possible to initialize a collection from another existing collection.
-
-This might be useful for experimenting quickly with different configurations for the same data set.
-
-<aside role="alert"> Usage of the <code>init_from</code> can create unpredictable load on the qdrant cluster. It is not recommended to use <code>init_from</code> in performance-sensitive environments.</aside>
-
-Make sure the vectors have the same `size` and `distance` function when setting up the vectors configuration in the new collection. If you used the previous sample
-code, `"size": 300` and `"distance": "Cosine"`.
-
-
-{{< code-snippet path="/documentation/headless/snippets/create-collection/init-from/" >}}
 
 ### Collection with multiple vectors
 
@@ -143,17 +128,33 @@ The distance function for sparse vectors is always `Dot` and does not need to be
 
 However, there are optional parameters to tune the underlying [sparse vector index](/documentation/concepts/indexing/#sparse-vector-index).
 
-### Check collection existence
+### Create collection from another collection
+
+To create a collection from another collection, use the [Migration Tool](https://github.com/qdrant/migration/). You can use it to either copy a collection within the same Qdrant instance or to copy a collection to another instance.
+
+For example, to copy a collection from a local instance to a Qdrant Cloud instance, run the following command:
+
+```bash
+docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration qdrant \
+    --source.url 'http://localhost:6334' \
+    --source.collection 'source-collection' \
+    --target.url 'https://example.cloud-region.cloud-provider.cloud.qdrant.io:6334' \
+    --target.api-key 'qdrant-key' \
+    --target.collection 'target-collection' \
+    --migration.batch-size 64
+```
+
+## Check collection existence
 
 *Available as of v1.8.0*
 
 {{< code-snippet path="/documentation/headless/snippets/check-collection-exists/simple/" >}}
 
-### Delete collection
+## Delete collection
 
 {{< code-snippet path="/documentation/headless/snippets/delete-collection/simple/" >}}
 
-### Update collection parameters
+## Update collection parameters
 
 Dynamic parameter updates may be helpful, for example, for more efficient initial loading of vectors.
 For example, you can disable indexing during the upload process, and enable it immediately after the upload is finished.
@@ -224,7 +225,6 @@ distributed and indexed.
     "result": {
         "status": "green",
         "optimizer_status": "ok",
-        "vectors_count": 1068786,
         "indexed_vectors_count": 1024232,
         "points_count": 1068786,
         "segments_count": 31,
@@ -303,7 +303,6 @@ It is shown next to the grey collection status on the collection info page.
 You may be interested in the count attributes:
 
 - `points_count` - total number of objects (vectors and their payloads) stored in the collection
-- `vectors_count` - total number of vectors in a collection, useful if you have multiple vectors per point
 - `indexed_vectors_count` - total number of vectors stored in the HNSW or sparse index. Qdrant does not store all the vectors in the index, but only if an index segment might be created for a given configuration.
 
 The above counts are not exact, but should be considered approximate. Depending
@@ -318,7 +317,7 @@ reasons.
 
 Updates you do are therefore not directly reflected in these numbers. If you see
 a wildly different count of points, it will likely resolve itself once a new
-round of automatic optimizations has completed.
+round of automatic optimizations is completed.
 
 To clarify: these numbers don't represent the exact amount of points or vectors
 you have inserted, nor does it represent the exact number of distinguishable
@@ -329,12 +328,48 @@ _Note: these numbers may be removed in a future version of Qdrant._
 
 ### Indexing vectors in HNSW
 
-In some cases, you might be surprised the value of `indexed_vectors_count` is lower than `vectors_count`. This is an intended behaviour and
+In some cases, you might be surprised the value of `indexed_vectors_count` is lower than you expected. This is an intended behaviour and
 depends on the [optimizer configuration](/documentation/concepts/optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the
 value of `indexing_threshold`(in kB).  If your collection is very small or the dimensionality of the vectors is low, there might be no HNSW segment
 created and `indexed_vectors_count` might be equal to `0`.
 
 It is possible to reduce the `indexing_threshold` for an existing collection by [updating collection parameters](#update-collection-parameters).
+
+### Collection metadata
+
+*Available as of v1.16.0*
+
+For convenience and better data organization, Qdrant allows attaching custom metadata to collections in the form of key-value pairs.
+Adding metadata is treated as a part of collection configuration and synchronized across all nodes in a cluster with consensus protocol.
+
+Collection metadata can be specified during collection creation:
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-metadata/" >}}
+
+as well as updated later:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/with-metadata/" >}}
+
+Note, that update operation only modifies the specified metadata fields, leaving other fields unchanged.
+
+When specified, metadata is returned as part of collection info:
+
+``` json
+{
+    "result": {
+        "config": {
+            "metadata": {
+                "my-metadata-field": {
+                    "key-a": "value-a",
+                    "key-b": 42
+                },
+                "another-field": 123
+            }
+        }
+    }
+}
+```
+
 
 ## Collection aliases
 
@@ -374,3 +409,4 @@ For example, you can switch underlying collection with the following command:
 ### List all collections
 
 {{< code-snippet path="/documentation/headless/snippets/list-all-collections/simple/" >}}
+

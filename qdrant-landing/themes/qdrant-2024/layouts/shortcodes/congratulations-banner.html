@@ -1,0 +1,15 @@
+{{ $title := .Get "title" }}
+{{ $description := .Get "description" }}
+{{ $image := default "/img/congratulations.svg" (.Get "image") }}
+<div class="docs-core__developing-block mb-4">
+  <div class="row align-items-center">
+    <div class="docs-core__developing-block-text col-12 col-lg-7">
+      <h1 class="docs-core__developing-bloc-title">{{ $title }}</h1>
+      <p class="docs-core__developing-bloc-description">{{ $description }}</p>
+    </div>
+    <div class="docs-core__developing-block-image col-12 col-lg-5">
+      <img src="{{ $image }}" alt="" />
+    </div>
+    <div class="docs-core__overlay"></div>
+  </div>
+</div>
