@@ -37,7 +37,7 @@ In response, our 2025 roadmap centered on four tightly connected capability area
 
 • Advanced Retrieval to move beyond basic vector similarity   
 • Performance & Resource Optimization to control cost without sacrificing speed     
-• Enterprise Scaling & Isolation to support shared, mission-critical infrastructure
+• Enterprise Scaling & Isolation to support shared, mission-critical infrastructure  
 • Deployment Flexibility to run in cloud, hybrid, or even edge environments
 
 
@@ -92,8 +92,6 @@ Our customers validated our direction as we invested in more capable retrieval f
 
 ![Logos](/blog/2025-recap/customer-logos.png)
 
-Read from some popular case studies:
-
 • [Tripadvisor](https://qdrant.tech/blog/case-study-tripadvisor/) activated a dataset of over one billion reviews to power its AI Trip Planner, driving 2-3x more revenue from users engaged with the new generative experience.      
 • [OpenTable](https://qdrant.tech/blog/case-study-opentable/) reinvented dining discovery by building its AI Concierge on Qdrant, utilizing sparse embeddings to precisely filter over 60,000 restaurants for natural language queries.     
 • [HubSpot](https://qdrant.tech/blog/case-study-hubspot/) selected Qdrant to scale Breeze AI, its flagship intelligent assistant, ensuring highly personalized, context-aware responses without compromising on speed or reliability.
@@ -123,6 +121,8 @@ The scale of community engagement in 2025 reflects accelerating adoption and col
 • [Discord](https://discord.com/invite/qdrant) grew to **8,000+ members**, serving as both a support hub and a place to share projects and wins  
 • On [LinkedIn](https://www.linkedin.com/company/qdrant/posts/?feedView=all), Qdrant appears in over **50 technical deep dives per day**  
 • Sponsored or supported **50+ AI and data events** worldwide, including ODSC West and /function1  
+
+![Awards](/blog/2025-recap/2025-award.png)
 
 ### Looking Ahead: The 2026 Roadmap
 
