@@ -3,8 +3,8 @@ draft: false
 title: "Qdrant in 2025: A year of product velocity, enterprise adoption, and real-world AI"
 short_description: "A 2025 recap of Qdrant’s biggest product launches, customer wins, and technical milestones."
 description: "A comprehensive recap of Qdrant’s 2025 highlights, including major product releases, enterprise deployments, AI workloads at scale, and the teams building with Qdrant in production."
-preview_image: /blog/2025-recap/social_preview_2025_recap.jpg
-social_preview_image: /blog/2025-recap/social_preview_2025_recap.jpg
+preview_image: /blog/2025-recap/2025-infographic.png
+social_preview_image: /blog/2025-recap/2025-infographic.png
 date: 2025-12-17
 author: "Daniel Azoulai"
 featured: true
