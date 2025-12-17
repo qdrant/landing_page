@@ -19,8 +19,6 @@ tags:
 - 2025
 ---
 
-# Qdrant 2025 Recap: Powering the Agentic Era
-
 ![Infographic](/blog/2025-recap/2025-infographic.png)
 
 This year was a defining year for Qdrant. Not because of a single feature or launch, but because of a clear shift in what the platform enables. As AI systems moved from static assistants to autonomous, multi-step agents, the demands placed on retrieval changed fundamentally. Speed alone was no longer enough. Production systems now require precise relevance control, predictable performance at scale, and the flexibility to run wherever data and users live.
@@ -105,7 +103,7 @@ In 2025, the Qdrant community achieved high-velocity. Our ecosystem grew from a 
 
 Working with our community, we were able to create spaces together where practitioners could learn, share, and build.
 
-**Vector Space Day 2025** marked our first global Qdrant conference. Hosted at the Colosseum Theater in Berlin, the event brought together more than 400 in-person attendees, alongside hundreds more participating in a virtual hackathon. Talks and discussions spanned RAG, agentic memory, and distributed systems, with speakers from LlamaIndex, Vultr, and Google DeepMind.
+[Vector Space Day 2025](https://qdrant.tech/blog/vector-space-day-2025-recap/) marked our first global Qdrant conference. Hosted at the Colosseum Theater in Berlin, the event brought together more than 400 in-person attendees, alongside hundreds more participating in a virtual hackathon. Talks and discussions spanned RAG, agentic memory, and distributed systems, with speakers from LlamaIndex, Vultr, and Google DeepMind.
 
 To help developers bridge the gap between “Hello World” and production, we launched [Qdrant Essentials](https://qdrant.tech/course/essentials/). This comprehensive educational program covers vector search fundamentals, quantization strategies, and hybrid retrieval best practices. Thousands of developers have already learned from the course.
 
