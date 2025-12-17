@@ -19,8 +19,6 @@ tags:
 - 2025
 ---
 
-# Qdrant 2025 Recap: Powering the Agentic Era
-
 ![Infographic](/blog/2025-recap/2025-infographic.png)
 
 This year was a defining year for Qdrant. Not because of a single feature or launch, but because of a clear shift in what the platform enables. As AI systems moved from static assistants to autonomous, multi-step agents, the demands placed on retrieval changed fundamentally. Speed alone was no longer enough. Production systems now require precise relevance control, predictable performance at scale, and the flexibility to run wherever data and users live.
