@@ -19,13 +19,13 @@ tags:
 - 2025
 ---
 
-# **Qdrant 2025 Recap: Powering the Agentic Era**
+# Qdrant 2025 Recap: Powering the Agentic Era
 
 ![Hero](/blog/2025-recap/2025-hero-image.png)
 
 ![Infographic](/blog/2025-recap/2025-infographic.png)
 
-**A year of architectural progress, production readiness, and retrieval at scale.**
+A year of architectural progress, production readiness, and retrieval at scale.
 
 This year was a defining year for Qdrant. Not because of a single feature or launch, but because of a clear shift in what the platform enables. As AI systems moved from static assistants to autonomous, multi-step agents, the demands placed on retrieval changed fundamentally. Speed alone was no longer enough. Production systems now require precise relevance control, predictable performance at scale, and the flexibility to run wherever data and users live.
 
@@ -33,18 +33,16 @@ We focused on meeting those requirements head-on. Rather than shipping disconnec
 
 Keep reading for a rundown.
 
-## **Product Focus: Built for Production, Designed for Agents**
+## Product Focus: Built for Production, Designed for Agents
 
 Across customers, partners, and open-source users, the same patterns kept surfacing: relevance breaks down under complex queries, costs explode at scale, multi-tenancy becomes fragile, and deployment constraints slow teams down.
 
 In response, our 2025 roadmap centered on four tightly connected capability areas:
 
-<ul>
-  <li><strong>Advanced Retrieval</strong> to move beyond basic vector similarity</li>
-  <li><strong>Performance & Resource Optimization</strong> to control cost without sacrificing speed</li>
-  <li><strong>Enterprise Scaling & Isolation</strong> to support shared, mission-critical infrastructure</li>
-  <li><strong>Deployment Flexibility</strong> to run in cloud, hybrid, or even edge environments</li>
-</ul>
+• Advanced Retrieval to move beyond basic vector similarity
+• Performance & Resource Optimization to control cost without sacrificing speed
+• Enterprise Scaling & Isolation to support shared, mission-critical infrastructure
+• Deployment Flexibility to run in cloud, hybrid, or even edge environments
 
 
 ![Features](/blog/2025-recap/2025-features.png)
@@ -55,11 +53,11 @@ In 2025, we focused on giving teams explicit control over retrieval quality as a
 
 **Related enhancements:**
 
-* Score-Boosting Reranking allowing the blending of vector similarity with business signals  
-* Full-Text Filtering which brought native multilingual tokenization, stemming, and phrase matching  
-* ACORN algorithm for higher-quality filtered HNSW queries  
-* Maximal Marginal Relevance (MMR) to balance relevance and diversity  
-* ASCII folding for improved multilingual recall
+• Score-Boosting Reranking allowing the blending of vector similarity with business signals  
+• Full-Text Filtering which brought native multilingual tokenization, stemming, and phrase matching  
+• ACORN algorithm for higher-quality filtered HNSW queries  
+• Maximal Marginal Relevance (MMR) to balance relevance and diversity  
+• ASCII folding for improved multilingual recall
 
 ### Performance & Resource Optimization 
 
@@ -67,12 +65,12 @@ To support large, cost-sensitive workloads, we targeted the biggest performance 
 
 **Related enhancements:**
 
-* GPU-Accelerated HNSW Indexing unlocks up to an order-of-magnitude faster ingestion  
-* Inline Storage embedded quantized vectors directly into the graph to dramatically improve disk-based search performance  
-* Custom storage engine optimized for predictable low-latency access  
-* Incremental HNSW indexing for upsert-heavy workloads  
-* HNSW graph compression to reduce memory footprint  
-* Expanded quantization options, including 1.5-bit, 2-bit, and asymmetric quantization
+• GPU-Accelerated HNSW Indexing unlocks up to an order-of-magnitude faster ingestion  
+• Inline Storage embedded quantized vectors directly into the graph to dramatically improve disk-based search performance  
+• Custom storage engine optimized for predictable low-latency access  
+• Incremental HNSW indexing for upsert-heavy workloads  
+• HNSW graph compression to reduce memory footprint  
+• Expanded quantization options, including 1.5-bit, 2-bit, and asymmetric quantization
 
 ### Enterprise Scaling & Isolation
 
@@ -80,22 +78,22 @@ As Qdrant became shared infrastructure inside larger organizations, we focused o
 
 **Related enhancements:**
 
-* Tiered Multitenancy enables efficient support for both small and large tenants within a single system  
-* Single Sign-On (SSO) and role-based access control (RBAC)  
-* Granular database API keys  
-* Terraform-enabled Cloud API for automation and governance  
-* Conditional updates for safe concurrent workflows and embedding migrations
+• Tiered Multitenancy enables efficient support for both small and large tenants within a single system  
+• Single Sign-On (SSO) and role-based access control (RBAC)  
+• Granular database API keys  
+• Terraform-enabled Cloud API for automation and governance  
+• Conditional updates for safe concurrent workflows and embedding migrations
 
 ### Deployment Flexibility & New Frontiers
 
 We also expanded where and how Qdrant can run to match modern AI architectures. **Qdrant Cloud Inference** unified embedding generation and vector search into a single managed workflow, simplifying hybrid and multimodal pipelines. **Qdrant Edge** extended retrieval directly onto devices, enabling low-latency, deterministic search without a server dependency.
 
 
-* Native support for dense, sparse, and image embeddings  
-* Hybrid retrieval pipelines without external inference infrastructure  
-* Consistent APIs across cloud, hybrid, and edge deployments
+• Native support for dense, sparse, and image embeddings  
+• Hybrid retrieval pipelines without external inference infrastructure  
+• Consistent APIs across cloud, hybrid, and edge deployments
 
-## **Enabling Retrieval for the AI Era**
+## Enabling Retrieval for the AI Era
 
 Our customers validated our direction as we invested in more capable retrieval for AI. Below are just some of the companies that are use Qdrant.
 
@@ -108,7 +106,7 @@ Read from some popular case studies:
 • [HubSpot](https://qdrant.tech/blog/case-study-hubspot/) selected Qdrant to scale Breeze AI, its flagship intelligent assistant, ensuring highly personalized, context-aware responses without compromising on speed or reliability.
 
 
-## **A Thriving Community**
+## A Thriving Community
 
 In 2025, the Qdrant community achieved high-velocity. Our ecosystem grew from a strong base of early adopters into a global community of tens of thousands of engineers, researchers, and builders shaping the future of AI retrieval together.
 
@@ -133,13 +131,13 @@ The scale of community engagement in 2025 reflects accelerating adoption and col
 * On LinkedIn, Qdrant appears in over **50 technical deep dives per day**  
 * Sponsored or supported **50+ AI and data events** worldwide, including ODSC West and /function1  
 
-**Looking Ahead: The 2026 Roadmap**
+Looking Ahead: The 2026 Roadmap
 
 Maybe: The progress in 2025 was shaped by real feedback and real use cases from the community. Building on that momentum, our 2026 roadmap doubles down on efficiency, agent-native retrieval, and enterprise-scale operability.
 
-* **Efficiency & Scale**: 4-bit quantization, read-write segregation, block storage integration  
-* **Advanced Agent Retrieval**: relevance feedback, expanded inference capabilities  
-* **Robust Enterprise Deployment**: fully scalable multitenancy, faster horizontal scaling, read-only replicas
+• **Efficiency & Scale**: 4-bit quantization, read-write segregation, block storage integration  
+• **Advanced Agent Retrieval**: relevance feedback, expanded inference capabilities  
+• **Robust Enterprise Deployment**: fully scalable multitenancy, faster horizontal scaling, read-only replicas
 
 If you’re building the next generation of intelligent applications, or the infrastructure that supports them, Qdrant is ready. [Explore open roles](https://join.com/companies/qdrant) on our team or [start a free instance on Qdrant Cloud](https://login.cloud.qdrant.io/u/signup/) today. 
 
