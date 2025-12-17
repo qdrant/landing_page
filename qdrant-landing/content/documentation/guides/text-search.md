@@ -132,7 +132,7 @@ Qdrant also supports phrase filtering, enabling you to search for multiple words
 
 The difference between phrase filtering and keyword filtering is that phrase filtering applies text processing and, as a result, is case-insensitive, while keyword filtering is case-sensitive and only matches the exact string. Additionally, keyword filtering has to match the entire string, whereas phrase filtering can match part of a larger string. So a keyword filter for "Space War" would not match "The Space War" because it doesn't match "The," but a phrase filter for "Space War" would.
 
-Summarizing the differences between the four filtering methods for a multi-term filter on "space war":
+Summarizing the differences between the four filtering methods for a multi-term filter on "Space War":
 
 | Method | Actual⠀query⠀⠀⠀ | Matches `Space War`? | Matches `The Space War`? | Matches `War in Space`? | Matches `War of the Worlds`? |
 |---|---|---|---|---|---|
