@@ -109,12 +109,14 @@ The following text processing steps are applied to text strings:
 - By default, each word is then [converted to lowercase](/documentation/concepts/indexing/#lowercasing). Lowercasing the tokens allows Qdrant to ignore capitalization, making full-text filters case-insensitive.
 - Optionally, Qdrant can remove diacritics (accents) from characters using a process called [ASCII folding](/documentation/concepts/indexing/#ascii-folding). This ensures that diacritics are ignored. As a result, filtering for the word "cafe" matches "café".
 - Optionally, tokens can be reduced to their root form using a [stemmer](/documentation/concepts/indexing/#stemmer). This ensures that filtering for "running" also matches "run" and "ran". Because stemming is language-specific, if enabled, it must be configured for a specific language.
-- Certain words like "the", "is", and "and" are very common in text and do not contribute much to the meaning of text. These words are called [stopwords](/documentation/concepts/indexing/#stopwords) and can optionally be removed during indexing.
+- Certain words like "the", "is", and "and" are very common in text and do not contribute much to the meaning of text. These words are called [stopwords](/documentation/concepts/indexing/#stopwords) and can optionally be removed during indexing. Like stemming, stopword removal is language-specific. You can configure specific languages for stopword removal and/or provide a custom list of stopwords to remove.
 - Optionally, you can enable [phrase matching](/documentation/concepts/indexing/#phrase-search) to allow filtering for multiple words in the exact same order as they appear in the original text.
 
 These text processing steps can be configured when creating a [full-text index](documentation/concepts/indexing/#full-text-index). For example, to create a text index on the `title` field with ASCII folding enabled:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/create-title-text-index/" >}}
+
+When querying using this index, Qdrant automatically applies the same text processing steps to the filter string before matching it against the indexed tokens.
 
 ### Filter on Text Strings
 
@@ -128,7 +130,17 @@ When filtering on more than one term, a `text` filter only matches fields that c
 
 Qdrant also supports phrase filtering, enabling you to search for multiple words in the exact order they appear in the original text, with no other words in between. For example, a phrase filter for "time machine" matches against the title "The Time Machine" but would not match "The Time Travel Machine" (there's a word between "time" and "machine") nor "Machine Time" (the word order is incorrect).
 
-The difference between phrase filtering and keyword filtering is that phrase filtering applies text processing and, as a result, is case-insensitive, while keyword filtering is case-sensitive and only matches the exact string. Additionally, keyword filtering has to match the entire string, whereas phrase filtering can match part of a larger string. So a keyword filter for "Time Machine" would not match "The Time Machine" because it doesn't match "The," but a phrase filter for "Time Machine" would.
+The difference between phrase filtering and keyword filtering is that phrase filtering applies text processing and, as a result, is case-insensitive, while keyword filtering is case-sensitive and only matches the exact string. Additionally, keyword filtering has to match the entire string, whereas phrase filtering can match part of a larger string. So a keyword filter for "Space War" would not match "The Space War" because it doesn't match "The," but a phrase filter for "Space War" would.
+
+Summarizing the differences between the four filtering methods for a multi-term filter on "space war":
+
+| Method | Actual⠀query⠀⠀⠀ | Matches `Space War`? | Matches `The Space War`? | Matches `War in Space`? | Matches `War of the Worlds`? |
+|---|---|---|---|---|---|
+| text_any | `space` OR `war`  | Yes               | Yes                     | Yes                   | Yes                          |
+| text     | `space` AND `war` | Yes               | Yes                     | Yes                   | No                          |
+| phrase   | `"space war"`     | Yes               | Yes                      | No                    | No                          |
+| keyword  | `"Space War"`     | Yes               | No                      | No                    | No                          |
+
 
 To filter on phrases, use a `phrase` condition. This requires enabling [phrase searching](/documentation/concepts/indexing/#phrase-search) when creating the full-text index:
 
@@ -179,6 +191,18 @@ After ingesting data, you can query the sparse vector. The following example sea
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25/" >}}
 
+#### Configuring BM25 Parameters
+
+The BM25 [ranking function](https://en.wikipedia.org/wiki/Okapi_BM25#The_ranking_function) includes three adjustable parameters that you can set to optimize search results for your specific use case:
+
+- `k`. Controls term frequency saturation. Higher values increase the influence of term frequency. Defaults to 1.2.
+- `b`. Controls document length normalization. Ranges from 0 (no normalization) to 1 (full normalization). A higher value means longer documents have less impact. Defaults to 0.75.
+- `avg_len`. Average number of words in the field being queried. Defaults to 256.
+
+For instance, book titles are generally shorter than 256 words. To achieve more accurate scoring when searching for book titles, you could calculate or estimate the average title length and set the `avg_len` parameter accordingly:
+
+{{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-avglen/" >}}
+
 #### Language-specific Settings
 
 By default, BM25 uses English-specific settings for tokenization, stemming, and stopword removal. Words are reduced to their English root form, and common English stopwords are removed. If your data is not in English, this leads to suboptimal search results. To achieve optimal results for other languages, configure language-specific BM25 settings.
@@ -192,7 +216,7 @@ If you set any of the options discussed in this section, ensure that you apply t
 To configure stemming and stopword removal, use the following options:
 
 - `language`: sets the language for stemming and stopword removal. Defaults to `english`. To disable stemming and stopword removal, set `language` to `none`.
-- `stemmer`: defaults to the [Snowball stemmer](https://github.com/qdrant/rust-stemmers) for `language` (if set), but can be configured independently.
+- `stemmer`: defaults to stemming for `language` (if set), but can be configured independently.
 - `stopwords`: defaults to a set of stopwords for `language` (if set) but can be configured independently. You can configure a specific `language` and/or configure an explicit set of stopwords that will be merged with the stopword set of the configured language.
 
 For example, to use Spanish stemming and stopwords during data ingestion, use:
@@ -230,18 +254,6 @@ To disable language-specific processing, set the following options:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-language-neutral/" >}}
 
-#### Configuring BM25 Parameters
-
-The BM25 [ranking function](https://en.wikipedia.org/wiki/Okapi_BM25#The_ranking_function) includes three adjustable parameters that you can set to optimize search results for your specific use case:
-
-- `k`. Controls term frequency saturation. Higher values increase the influence of term frequency. Defaults to 1.2.
-- `b`. Controls document length normalization. Ranges from 0 (no normalization) to 1 (full normalization). A higher value means longer documents have less impact. Defaults to 0.75.
-- `avg_len`. Average number of words in the field being queried. Defaults to 256.
-
-For instance, book titles are generally shorter than 256 words. To achieve more accurate scoring when searching for book titles, you could calculate or estimate the average title length and set the `avg_len` parameter accordingly:
-
-{{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-avglen/" >}}
-
 ### SPLADE++
 
 The SPLADE (Sparse Lexical and Dense) family of models are transformer-based models that generate sparse vectors out of text. These models combine the benefits of traditional lexical search with the power of transformer-based models by accounting for homonyms and synonyms. SPLADE models achieve this by expanding the vocabulary of the input text using contextual embeddings from the transformer model. For example, when processing the input text "time travel", a SPLADE model may expand the input to include related terms like "temporal", "journey", and "chronology". This expansion allows SPLADE models to capture the semantic meaning of the text while still leveraging the strengths of lexical search.
@@ -256,7 +268,7 @@ For a tutorial on using SPLADE++ with FastEmbed, refer to [How to Generate Spars
 
 ### miniCOIL
 
-[miniCOIL](/articles/minicoil/) strikes a balance between the flexibility of BM25 and the performance of SPLADE++. Like SPLADE++, miniCOIL is a transformer-based model that generates sparse vectors for text. However, unlike SPLADE++, miniCOIL does not use a fixed vocabulary, making it an effective model for lexical search that ranks results based on the contextual meaning of keywords.
+[miniCOIL](/articles/minicoil/) strikes a balance between the flexibility of BM25 and the performance of SPLADE++. Like SPLADE++, miniCOIL is a transformer-based model that generates sparse vectors for text. Instead of using word expansion to capture the context and meaning of terms, the model generates a four-dimensional vector for each term. miniCOIL does not use a fixed vocabulary, making it an effective model for lexical search that ranks results based on the contextual meaning of keywords.
 
 miniCOIL can be [used with the FastEmbed library](/documentation/fastembed/fastembed-minicoil/).
 
@@ -272,7 +284,7 @@ After ingesting data with both vectors, you can use the prefetch feature to run 
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/hybrid-prefetch-rrf/" >}}
 
-This query searches for an ISBN, for which only the lexical search returns a result, which is then returned to the user. If a user had searched for "time travel", only the semantic search would return results, and those would be returned to the user. If a user would search for a term that matched both the semantic and lexical vectors, the results from both searches would be combined to provide a more comprehensive set of results. 
+This query searches for an ISBN, for which only the lexical search returns a result. The `score_threshold` for the semantic query prevents low-scoring results to be returned. So in this case, only the lexical result is returned to the user. If a user had searched for "time travel", only the semantic search would return results, and those would be returned to the user. If a user would search for a term that matched both the semantic and lexical vectors, the results from both searches would be combined to provide a more comprehensive set of results. 
 
 You are not limited to prefetching just two queries. Examples include, but are not limited to:
 
