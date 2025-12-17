@@ -103,8 +103,8 @@ Our customers validated our direction as we invested in more capable retrieval f
 
 Read from some popular case studies:
 
-• [Tripadvisor](https://qdrant.tech/blog/case-study-tripadvisor/)** activated a dataset of over one billion reviews to power its AI Trip Planner, driving 2-3x more revenue from users engaged with the new generative experience.
-• [OpenTable](https://qdrant.tech/blog/case-study-opentable/) reinvented dining discovery by building its AI Concierge on Qdrant, utilizing sparse embeddings to precisely filter over 60,000 restaurants for natural language queries.
+• [Tripadvisor](https://qdrant.tech/blog/case-study-tripadvisor/) activated a dataset of over one billion reviews to power its AI Trip Planner, driving 2-3x more revenue from users engaged with the new generative experience.      
+• [OpenTable](https://qdrant.tech/blog/case-study-opentable/) reinvented dining discovery by building its AI Concierge on Qdrant, utilizing sparse embeddings to precisely filter over 60,000 restaurants for natural language queries.     
 • [HubSpot](https://qdrant.tech/blog/case-study-hubspot/) selected Qdrant to scale Breeze AI, its flagship intelligent assistant, ensuring highly personalized, context-aware responses without compromising on speed or reliability.
 
 
