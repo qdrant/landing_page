@@ -81,7 +81,7 @@ from agno.vectordb.qdrant import Qdrant
 
 collection_name = "thai-recipe-index"
 
-vector_db = Qdrant( collection=collection_name, url="http://localhost:6333")
+vector_db = Qdrant(collection=collection_name, url="http://localhost:6333")
 
 knowledge_base = Knowledge(
     vector_db=vector_db,
