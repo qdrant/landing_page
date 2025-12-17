@@ -1,9 +1,9 @@
 ---
-title: Migrate to a Different Embedding Model
+title: Migrate to a New Embedding Model
 weight: 191
 ---
 
-# How to migrate to a different embedding model with zero-downtime?
+# Migrate to a New Embedding Model With Zero Downtime
 
 When building a semantic search application, you need to [choose an embedding 
 model](/articles/how-to-choose-an-embedding-model/). Over time, you may want to switch to a different model for better 
@@ -12,23 +12,23 @@ disrupting users. Switching models requires re-embedding all vectors in your col
 data doesn't change, you can re-embed everything and switch to the new embeddings. However, in systems with frequent 
 updates, stopping the search service to re-embed is not an option.
 
-## The solution
+This tutorial will guide you step by step through the process of migrating to a new model, including the changes you have to make in your project. The examples will be all using the Python SDK, but the same principles apply to other languages as well.
+
+## The Solution
 
 Switching the embedding model with zero downtime is possible by using two collections in Qdrant: The first one
 contains the old embeddings, and the second one is used to store the new embeddings. During the migration, you will
 keep both collections available for the search, and then switch the search to use the new collection once all the
 vectors are re-embedded. **That operation requires some changes in your application code, and cannot be done using
-the Qdrant APIs only.** This tutorial will guide you step by step through the process of migrating to a new model,
-including the changes you have to make in your project. Our examples will be all using the Python SDK, but the same 
-principles apply to other languages as well.
+the Qdrant APIs only.**
 
 There is an important assumption that we make in this tutorial: **your payloads contain all the information you need to
 re-embed the vectors**. This is usually the case, as the payload often contains the text or other data that was used to
 generate the embeddings.
 
-### Step 1: Create a new collection
+### Step 1: Create a New Collection
 
-That's the easiest part. You just need to create a new collection in Qdrant that will be used to store the new 
+The first step is to create a new collection in Qdrant that will be used to store the new 
 embeddings, compatible with the new model in terms of the vector size and similarity function.
 
 ```python
@@ -42,13 +42,11 @@ client.create_collection(
             size=768,  # Size of the new embedding vectors
             distance=models.Distance.EUCLID  # Similarity function for the new model
         )
-    },
-    # You can also specify other parameters here, like custom sharding,
-    # replication factor, etc. In production, that's not uncommon to have
-    # different parameters for the new collection, as switching the model
-    # might be a good opportunity to improve the performance of your search.
+    }
 )
 ```
+
+Now is also a good moment to consider changing any other settings for the collection, like custom sharding, replication factor, etc. Switching the model may be a good opportunity to improve the performance of your search.
 
 The newly created collection is empty and ready to be used for storing the new embeddings.
 
@@ -61,7 +59,7 @@ embedding model used for encoding the vectors, but it simplifies the process of 
 collection.
 </aside>
 
-### Step 2: Enable dual-write mode in your application
+### Step 2: Enable Dual-Write Mode in Your Application
 
 To ensure that both collections are kept up-to-date, you need to modify your application code to write to both 
 collections simultaneously during the transition period. Somewhere in your code, where you handle the embedding of the
@@ -145,7 +143,7 @@ After making these changes, your application will be in a **dual-write mode**, w
 collections. This allows you to keep both collections up-to-date during the migration process, so the ongoing changes
 to your data are reflected in both collections.
 
-### Step 3: Migrate the existing points into a new collection
+### Step 3: Migrate the Existing Points Into a New Collection
 
 The dual-write should slowly start filling the new collection with the newly created points, but you also need to 
 migrate the existing ones from the old collection to the new one. This can be done in a separate process, which can run
@@ -205,7 +203,7 @@ This kind of migration process can take some time, and **the offset should be st
 resume the migration process in case of a failure**. You can use a database, a file, or any other persistent storage
 to keep track of the last offset.
 
-### Step 4: Switch the search to the new collection
+### Step 4: Switch the Search to the New Collection
 
 Once the migration process is complete, and all the points from the old collection are re-embedded and stored in
 the new collection, you can switch the search to use the new collection. This is the point where you need to change
