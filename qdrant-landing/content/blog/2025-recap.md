@@ -39,10 +39,12 @@ Across customers, partners, and open-source users, the same patterns kept surfac
 
 In response, our 2025 roadmap centered on four tightly connected capability areas:
 
-- **Advanced Retrieval** to move beyond basic vector similarity
-- **Performance & Resource Optimization** to control cost without sacrificing speed
-- **Enterprise Scaling & Isolation** to support shared, mission-critical infrastructure
-- **Deployment Flexibility** to run in cloud, hybrid, or even edge environments
+-  **Advanced Retrieval** to move beyond basic vector similarity
+-  **Performance & Resource Optimization** to control cost without sacrificing speed
+-  **Enterprise Scaling & Isolation** to support shared, mission-critical infrastructure
+-  **Deployment Flexibility** to run in cloud, hybrid, or even edge environments
+
+
 
 ![Features](/blog/2025-recap/2025-features.png)
 
