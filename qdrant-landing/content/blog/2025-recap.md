@@ -44,7 +44,7 @@ In response, our 2025 roadmap centered on four tightly connected capability area
 * **Enterprise Scaling & Isolation** to support shared, mission-critical infrastructure  
 * **Deployment Flexibility** to run in cloud, hybrid, or even edge environments
 
-[Features](/blog/2025-recap/2025-features.png)
+![Features](/blog/2025-recap/2025-features.png)
 
 ### Advanced Retrieval
 
@@ -95,7 +95,7 @@ We also expanded where and how Qdrant can run to match modern AI architectures. 
 
 Our customers validated our direction as we invested in more capable retrieval for AI. Below are just some of the companies that are use Qdrant.
 
-## ![Logos](/blog/2025-recap/2025-logos.png)
+![Logos](/blog/2025-recap/2025-logos.png)
 
 Read from some popular case studies:
 
@@ -127,7 +127,6 @@ The scale of community engagement in 2025 reflects accelerating adoption and col
 * Discord grew to **8,000+ members**, serving as both a support hub and a place to share projects and wins  
 * On LinkedIn, Qdrant appears in over **50 technical deep dives per day**  
 * Sponsored or supported **50+ AI and data events** worldwide, including ODSC West and /function1  
-  ![][image5]
 
 **Looking Ahead: The 2026 Roadmap**
 
