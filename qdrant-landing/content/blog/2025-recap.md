@@ -23,7 +23,7 @@ In response, our 2025 roadmap centered on four tightly connected capability area
 * **Enterprise Scaling & Isolation** to support shared, mission-critical infrastructure  
 * **Deployment Flexibility** to run in cloud, hybrid, or even edge environments
 
-[Hero][/blog/2025-recap/2025-infographic.png]
+[Features][/blog/2025-recap/2025-features.png]
 
 ### Advanced Retrieval
 
@@ -74,7 +74,7 @@ We also expanded where and how Qdrant can run to match modern AI architectures. 
 
 Our customers validated our direction as we invested in more capable retrieval for AI. Below are just some of the companies that are use Qdrant.
 
-## *![][image4]*
+## [Logos][/blog/2025-recap/2025-logos.png]
 
 Read from some popular case studies:
 
@@ -118,6 +118,6 @@ Maybe: The progress in 2025 was shaped by real feedback and real use cases from 
 
 If you’re building the next generation of intelligent applications, or the infrastructure that supports them, Qdrant is ready. [Explore open roles](https://join.com/companies/qdrant) on our team or [start a free instance on Qdrant Cloud](https://login.cloud.qdrant.io/u/signup/) today. 
 
-![][image6]
+[team][/blog/2025-recap/2025-team.png]
 
 Thanks for joining our mission\!
