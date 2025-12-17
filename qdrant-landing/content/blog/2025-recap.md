@@ -46,7 +46,7 @@ In response, our 2025 roadmap centered on four tightly connected capability area
 In 2025, we focused on giving teams explicit control over retrieval quality as applications moved beyond basic semantic search. Our new capabilities make relevance more explainable, tunable, and aligned with real user intent, especially in agentic and hybrid search workflows.
 
 **Related enhancements:**         
-• [Score-Boosting Reranking](https://qdrant.tech/documentation/search-precision/reranking-semantic-search/) allowing the blending of vector similarity with business signals  
+• [Score-Boosting Reranking](https://qdrant.tech/documentation/concepts/hybrid-queries/#score-boosting) allowing the blending of vector similarity with business signals  
 • [Full-Text Filtering](https://qdrant.tech/documentation/concepts/filtering/) which brought native multilingual tokenization, stemming, and phrase matching  
 • [ACORN algorithm](https://qdrant.tech/documentation/concepts/search/#acorn-search-algorithm) for higher-quality filtered HNSW queries  
 • [Maximal Marginal Relevance (MMR)](https://qdrant.tech/blog/mmr-diversity-aware-reranking/) to balance relevance and diversity  
