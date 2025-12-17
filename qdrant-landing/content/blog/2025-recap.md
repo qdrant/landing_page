@@ -39,10 +39,10 @@ Across customers, partners, and open-source users, the same patterns kept surfac
 
 In response, our 2025 roadmap centered on four tightly connected capability areas:
 
-* **Advanced Retrieval** to move beyond basic vector similarity  
-* **Performance & Resource Optimization** to control cost without sacrificing speed  
-* **Enterprise Scaling & Isolation** to support shared, mission-critical infrastructure  
-* **Deployment Flexibility** to run in cloud, hybrid, or even edge environments
+- **Advanced Retrieval** to move beyond basic vector similarity
+- **Performance & Resource Optimization** to control cost without sacrificing speed
+- **Enterprise Scaling & Isolation** to support shared, mission-critical infrastructure
+- **Deployment Flexibility** to run in cloud, hybrid, or even edge environments
 
 ![Features](/blog/2025-recap/2025-features.png)
 
@@ -87,6 +87,7 @@ As Qdrant became shared infrastructure inside larger organizations, we focused o
 
 We also expanded where and how Qdrant can run to match modern AI architectures. **Qdrant Cloud Inference** unified embedding generation and vector search into a single managed workflow, simplifying hybrid and multimodal pipelines. **Qdrant Edge** extended retrieval directly onto devices, enabling low-latency, deterministic search without a server dependency.
 
+
 * Native support for dense, sparse, and image embeddings  
 * Hybrid retrieval pipelines without external inference infrastructure  
 * Consistent APIs across cloud, hybrid, and edge deployments
@@ -95,7 +96,7 @@ We also expanded where and how Qdrant can run to match modern AI architectures. 
 
 Our customers validated our direction as we invested in more capable retrieval for AI. Below are just some of the companies that are use Qdrant.
 
-![Logos](/blog/2025-recap/2025-logos.png)
+![Logos](/blog/2025-recap/customer-logos.png)
 
 Read from some popular case studies:
 
@@ -138,6 +139,6 @@ Maybe: The progress in 2025 was shaped by real feedback and real use cases from 
 
 If you’re building the next generation of intelligent applications, or the infrastructure that supports them, Qdrant is ready. [Explore open roles](https://join.com/companies/qdrant) on our team or [start a free instance on Qdrant Cloud](https://login.cloud.qdrant.io/u/signup/) today. 
 
-[team](/blog/2025-recap/2025-team.png)
+![team](/blog/2025-recap/2025-team.png)
 
 Thanks for joining our mission\!
