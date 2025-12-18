@@ -61,7 +61,11 @@ collection.
 
 ## Step 2: Enable Dual-Write Mode in Your Application
 
-To ensure that both collections are kept up-to-date, you need to modify your application code to write to both 
+To ensure that both collections are kept up-to-date during the migration, you need to write to both collections simultaneously. This way, any new data or updates to existing data are reflected in both collections.
+
+Ideally, the data in Qdrant is updated by an update service reading from an update queue. In this case, deploy a second service that updates the new collection in parallel with the existing one.
+
+In the case of a monolithic application, you need to modify your application code to write to both 
 collections simultaneously during the transition period. Somewhere in your code, where you handle the embedding of the
 documents, you should add the logic to write to both collections. For example, if you are using the Python SDK, your
 current code might look like this:
@@ -201,7 +205,7 @@ while not reached_end:
     )
     
     # Check if we reached the end of the collection
-    reached_end = len(records) < batch_size   
+    reached_end = (last_offset == None)  
 ```
 
 This kind of migration process can take some time, and **the offset should be stored in a persistent way, so you can resume the migration process in case of a failure**. You can use a database, a file, or any other persistent storage to keep track of the last offset. Having said that, because the conditional upserts would not overwrite any points in the new collection, you could safely restart the migration process from the beginning if needed.
@@ -209,8 +213,7 @@ This kind of migration process can take some time, and **the offset should be st
 ## Step 4: Switch the Search to the New Collection
 
 Once the migration process is complete, and all the points from the old collection are re-embedded and stored in
-the new collection, you can switch the search to use the new collection. This is the point where you need to change
-your application code again. You need to modify the code that performs the search to use the new collection instead
+the new collection, you can roll out a new instance of backend application pointing to a new collection. You need to modify the code that performs the search to use the new collection instead
 of the old one. There are three key changes you have to make:
 
 1. **The collection name**, if you're not using an alias, so you don't search in the old collection anymore.
