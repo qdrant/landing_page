@@ -114,8 +114,6 @@ print("All dependencies installed successfully!")
 If you set up Qdrant in the previous lesson, verify you can connect:
 
 ```python
-from qdrant_client import QdrantClient
-
 # For Qdrant Cloud
 client = QdrantClient(
     url="https://your-cluster-url.cloud.qdrant.io",
