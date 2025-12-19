@@ -1,0 +1,102 @@
+@use '../helpers/functions' as *;
+
+.edge-beta-vectors {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    max-width: pxToRem(920);
+    margin: 0 auto $spacer * 4;
+    font-size: $h4-font-size;
+    line-height: $h3-font-size;
+    color: $neutral-20;
+  }
+
+  &__card {
+    &-info {
+      padding-bottom: $spacer * 2;
+    }
+
+    &-icon {
+      height: $spacer * 3.5;
+      width: $spacer * 3.5;
+      margin-bottom: $spacer;
+    }
+
+    &-title {
+      font-size: $h5-font-size;
+      line-height: $h4-font-size;
+      margin-bottom: $spacer;
+      color: $neutral-20;
+    }
+
+    &-description {
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      margin-bottom: 0;
+      color: $neutral-30;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(58);
+      text-align: center;
+    }
+
+    &__card {
+      position: relative;
+
+      &:nth-of-type(2),
+      &:nth-of-type(4) {
+        & > div {
+          &:before {
+            content: "";
+            display: block;
+            height: 100%;
+            width: pxToRem(1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: $neutral-80;
+          }
+        }
+      }
+
+      &:nth-of-type(1),
+      &:nth-of-type(2) {
+        & > div {
+          &:after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: pxToRem(1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: $neutral-80;
+          }
+        }
+      }
+
+      &-info {
+        max-width: pxToRem(400);
+        margin: auto;
+        padding: $spacer * 3.5 0;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__card {
+      &-info {
+        max-width: pxToRem(443);
+      }
+    }
+  }
+}

@@ -11575,11 +11575,11 @@ On this page:
 <|page-35-lllmstxt|>
 ## what-is-a-vector-database
 - [Articles](https://qdrant.tech/articles/)
-- An Introduction to Vector Databases
+- What is a Vector Database?
 
 [Back to Vector Search Manuals](https://qdrant.tech/articles/vector-search-manuals/)
 
-# An Introduction to Vector Databases
+# What is a Vector Database?
 
 Sabrina Aquino
 
@@ -11587,7 +11587,7 @@ Sabrina Aquino
 
 October 09, 2024
 
-![An Introduction to Vector Databases](https://qdrant.tech/articles_data/what-is-a-vector-database/preview/title.jpg)
+![What is a Vector Database?](https://qdrant.tech/articles_data/what-is-a-vector-database/preview/title.jpg)
 
 ## [Anchor](https://qdrant.tech/articles/what-is-a-vector-database/\#what-is-a-vector-database) What Is a Vector Database?
 
@@ -12512,9 +12512,11 @@ storage:
     # Number of neighbours to consider during the index building. Larger the value - more accurate the search, more time required to build index.
     ef_construct: 100
 
-    # Minimal size (in KiloBytes) of vectors for additional payload-based indexing.
-    # If payload chunk is smaller than `full_scan_threshold_kb` additional indexing won't be used -
-    # in this case full-scan search should be preferred by query planner and additional indexing is not required.
+    # Minimal size threshold (in KiloBytes) below which full-scan is preferred over HNSW search.
+    # This measures the total size of vectors being queried against.
+    # When the maximum estimated amount of points that a condition satisfies is smaller than
+    # `full_scan_threshold_kb`, the query planner will use full-scan search instead of HNSW index
+    # traversal for better performance.
     # Note: 1Kb = 1 vector of size 256
     full_scan_threshold_kb: 10000
 
@@ -24122,7 +24124,7 @@ Learn how to get the most from Qdrant's optimization features. Discover key tric
 David Myriel\\
 \\
 February 09, 2025](https://qdrant.tech/articles/vector-search-resource-optimization/)[![Preview](https://qdrant.tech/articles_data/what-is-a-vector-database/preview/preview.jpg)\\
-**An Introduction to Vector Databases** \\
+**What is a Vector Database?** \\
 Discover what a vector database is, its core functionalities, and real-world applications.\\
 \\
 Sabrina Aquino\\
@@ -28810,9 +28812,11 @@ storage:
     # Number of neighbours to consider during the index building.
     # Larger the value - more accurate the search, more time required to build index.
     ef_construct: 100
-    # Minimal size (in KiloBytes) of vectors for additional payload-based indexing.
-    # If payload chunk is smaller than `full_scan_threshold_kb` additional indexing won't be used -
-    # in this case full-scan search should be preferred by query planner and additional indexing is not required.
+    # Minimal size threshold (in KiloBytes) below which full-scan is preferred over HNSW search.
+    # This measures the total size of vectors being queried against.
+    # When the maximum estimated amount of points that a condition satisfies is smaller than
+    # `full_scan_threshold_kb`, the query planner will use full-scan search instead of HNSW index
+    # traversal for better performance.
     # Note: 1Kb = 1 vector of size 256
     full_scan_threshold: 10000
 
@@ -34510,13 +34514,14 @@ POST /collections/{collection_name}/points/query
     "query": {
         "formula": {
             "sum": [\
-                "$score,\
+                "$score",\
                 {\
                     "mult": [\
                         0.5,\
                         {\
                             "key": "tag",\
-                            "match": { "any": ["h1", "h2", "h3", "h4"] } }\
+                            "match": { "any": ["h1", "h2", "h3", "h4"] }\
+                        }\
                     ]\
                 },\
                 {\

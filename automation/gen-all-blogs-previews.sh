@@ -51,7 +51,18 @@ function process_blog() {
 
     IMAGE_KEY="preview_image" # ToDo: change to generic image key
 
+    SOCIAL_PREVIEW_KEY="social_preview_image"
+
     SOURCE_IMAGE_PATH=$(get_value_from_md "${IMAGE_KEY}" "$1")
+
+    SOCIAL_PREVIEW_PATH=$(get_value_from_md "${SOCIAL_PREVIEW_KEY}" "$1")
+
+    # If social preview path is set and exists, we don't need to generate the preview image
+    if [ -n "$SOCIAL_PREVIEW_PATH" ] && [ -f "${STATIC_FOLDER}/${SOCIAL_PREVIEW_PATH}" ]; then
+        echo "Social preview image already exists. Skipping"
+        return
+    fi
+
 
     if [ -z "$SOURCE_IMAGE_PATH" ]; then
         echo "No preview image for $1"

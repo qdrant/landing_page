@@ -1,0 +1,45 @@
+package snippet
+
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+func Main() {
+	client, err := qdrant.NewClient(&qdrant.Config{
+		Host:   "xyz-example.qdrant.io",
+		Port:   6334,
+		APIKey: "<paste-your-api-key-here>",
+		UseTLS: true,
+	})
+
+	if err != nil { panic(err) } // @hide
+
+	client.Upsert(context.Background(), &qdrant.UpsertPoints{
+		CollectionName: "{collection_name}",
+		Points: []*qdrant.PointStruct{
+			{
+				Id: qdrant.NewIDNum(uint64(1)),
+				Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+					"image": qdrant.NewVectorImage(&qdrant.Image{
+						Model: "jinaai/jina-clip-v2",
+						Image: qdrant.NewValueString("https://qdrant.tech/example.png"),
+						Options: qdrant.NewValueMap(map[string]any{
+							"jina-api-key": "<YOUR_JINAAI_API_KEY>",
+							"dimensions":   512,
+						}),
+					}),
+					"text": qdrant.NewVectorDocument(&qdrant.Document{
+						Model: "sentence-transformers/all-minilm-l6-v2",
+						Text:  "Mars, the red planet",
+					}),
+					"my-bm25-vector": qdrant.NewVectorDocument(&qdrant.Document{
+						Model: "qdrant/bm25",
+						Text:  "Recipe for baking chocolate chip cookies",
+					}),
+				}),
+			},
+		},
+	})
+}

@@ -65,8 +65,6 @@ aliases: # There is no need to add aliases for future new tags and categories!
   - /tags/embedding
   - /tags/corporate-news
   - /tags/nvidia
-  - /tags/docarray
-  - /tags/jina-integration
   - /categories
   - /categories/news
   - /categories/vector-search

@@ -107,6 +107,13 @@
     }
   }
 
+  &__button {
+    width: 100%;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-100;
+  }
+
   @include media-breakpoint-up(xl) {
     max-height: calc(100vh - 80px);
     width: pxToRem(232);
@@ -134,7 +141,7 @@
       color: $neutral-98;
     }
 
-    a {
+    a:not(.table-of-contents__button) {
       color: $neutral-70;
       transition: all 0.3s;
       &:hover {

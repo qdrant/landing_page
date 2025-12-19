@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "cloud-inference-hero" . }}
+  {{ partial "cloud-inference-features" . }}
+  {{ partial "cloud-inference-cluster" . }}
+
+  {{ with (.Site.GetPage "/cloud-inference/cloud-inference-read-doc") }}
+    {{ partial "get-started-small" (dict "context" . "class" "cloud-inference-read-doc") }}
+  {{ end }}
+
+  {{ partial "cloud-inference-faq" . }}
+
+  {{ with (.Site.GetPage "/cloud-inference/cloud-inference-get-started") }}
+    {{ partial "get-started-small" (dict "context" . "class" "cloud-inference-get-started") }}
+  {{ end }}
+{{ end }}

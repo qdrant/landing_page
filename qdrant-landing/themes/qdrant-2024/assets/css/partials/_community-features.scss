@@ -14,47 +14,6 @@
     text-align: center;
   }
 
-  &__resources-card {
-    padding-bottom: 0;
-    overflow: hidden;
-
-    &-title {
-      font-size: $spacer * 1.5;
-      line-height: pxToRem(34);
-      color: $neutral-20;
-      margin-bottom: pxToRem(12);
-    }
-
-    &-description {
-      color: $neutral-40;
-      margin-bottom: pxToRem(12);
-    }
-
-    &-link {
-      @include mixins.link-color($neutral-20);
-    }
-
-    &-image {
-      width: 100%;
-      align-self: center;
-      margin-top: $spacer * 1.5;
-    }
-
-    &:hover {
-      .community-features__resources-card-title {
-        color: $primary-50;
-      }
-    }
-  }
-
-  &__resources-cards {
-    margin-bottom: pxToRem(30);
-
-    img {
-      min-width: pxToRem(635);
-    }
-  }
-
   &__card {
     &-icon {
       height: $spacer * 1.5;
@@ -94,18 +53,6 @@
       font-size: $spacer * 3.5;
       line-height: pxToRem(67);
       margin-bottom: $spacer * 5;
-    }
-
-    &__resources-card {
-      justify-content: flex-start;
-
-      &-link {
-        margin-bottom: $spacer;
-      }
-
-      &-image {
-        margin-top: auto;
-      }
     }
 
     &__card {

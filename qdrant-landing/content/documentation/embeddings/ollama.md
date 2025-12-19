@@ -16,7 +16,7 @@ pip install ollama qdrant-client
 
 ## Integration Example
 
-The following code assumes Ollama is accessible at port `11434` and Qdrant at port `6334`.
+The following code assumes Ollama is accessible at port `11434` and Qdrant at port `6333`.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -34,7 +34,7 @@ qclient = QdrantClient(host="localhost", port=6333)
 text = "Ollama excels in niche applications with specific embeddings"
 
 # Generate embeddings
-response = oclient.embeddings(model="llama3.2", prompt=text)
+response = oclient.embeddings(model="qwen3-embedding", prompt=text)
 embeddings = response["embedding"]
 
 # Create a collection if it doesn't already exist

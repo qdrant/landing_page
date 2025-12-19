@@ -101,7 +101,7 @@
       }
 
       &.active {
-        .docs-menu__links-group-heading>a {
+        &>.docs-menu__links-group-heading>a {
           font-weight: 600;
           background-color: $neutral-30;
           color: $neutral-90;
@@ -177,6 +177,34 @@
     }
   }
 
+  &__progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0  math.div($spacer, 2);
+
+    &-container {
+      width: pxToRem(168);
+      height: pxToRem(10);
+      background-color: $neutral-20;
+      border-radius: $spacer;
+      overflow: hidden;
+    }
+
+    &-bar {
+      height: 100%;
+      border-radius: $spacer;
+      background-color: $primary-50;
+    }
+
+    &-text {
+      margin-bottom: 0;
+      font-size: $font-size-xs;
+      line-height: $font-size-l;
+      color: $neutral-70;
+    }
+  }
+
   @include media-breakpoint-up(xl) {
     display: block;
     height: calc(100vh - 80px);
@@ -220,7 +248,7 @@
 
     &__links-group {
       &.active {
-        .docs-menu__links-group-heading>a {
+        &>.docs-menu__links-group-heading>a {
           background-color: $neutral-20;
         }
 
@@ -299,7 +327,7 @@
         }
 
         &.active {
-          .docs-menu__links-group-heading>a {
+          &>.docs-menu__links-group-heading>a {
             color: $primary-50;
             background: $neutral-90;
           }
@@ -345,7 +373,7 @@
 
       &__links-group {
         &.active {
-          .docs-menu__links-group-heading>a {
+          &>.docs-menu__links-group-heading>a {
             color: $neutral-30;
           }
         }

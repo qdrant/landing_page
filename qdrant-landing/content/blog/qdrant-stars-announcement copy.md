@@ -166,13 +166,13 @@ Are you interested in becoming a Qdrant Star?
 
 We're on the lookout for individuals who are passionate about vector search technology and looking to make an impact in the AI community. 
 
-If you have a strong understanding of vector search technologies, enjoy creating content, speaking at conferences, and actively engage with our community. If this sounds like you, don't hesitate to apply. We look forward to potentially welcoming you as our next Qdrant Star. [Apply here!](https://forms.gle/q4fkwudDsy16xAZk8)
+If you have a strong understanding of vector search technologies, enjoy creating content, speaking at conferences, and actively engage with our community. If this sounds like you, don't hesitate to apply. We look forward to potentially welcoming you as our next Qdrant Star. [Apply here!](https://forms.gle/vTuy8Fe9RFdt4SiB9)
 
 Share your journey with vector search technologies and how you plan to contribute further.
 
 #### Nominate a Qdrant Star
 
-Do you know someone who could be our next Qdrant Star? Please submit your nomination through our [nomination form](https://forms.gle/n4zv7JRkvnp28qv17), explaining why they're a great fit. Your recommendation could help us find the next standout ambassador.
+Do you know someone who could be our next Qdrant Star? Please submit your nomination through our [nomination form](hhttps://forms.gle/jsEJ9zjdaxqk7F5b9), explaining why they're a great fit. Your recommendation could help us find the next standout ambassador.
 
 #### Learn More
 

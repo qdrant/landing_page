@@ -1,3 +1,4 @@
 .idea
+__pycache__
 qdrant-landing/.DS_Store
 .DS_Store

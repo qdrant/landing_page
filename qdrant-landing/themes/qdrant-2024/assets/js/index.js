@@ -1,14 +1,23 @@
 import scrollHandler from './scroll-handler';
 import { XXL_BREAKPOINT } from './constants';
-import { initGoToTopButton } from './helpers';
+import {
+  addUTMToLinks,
+  initGoToTopButton,
+  persistUTMParams
+} from './helpers';
 import { handleSegmentReady } from './segment-helpers';
-import { registerAndCall } from './onetrust-helpers';
+import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpers';
 import TableOfContents from './table-of-content';
+
+persistUTMParams();
 
 // on document ready
 document.addEventListener('DOMContentLoaded', function () {
+  addUTMToLinks();
+  
   const handleOneTrustLoaded = () => {   // One Trust Loaded
     window.OneTrust.OnConsentChanged(async () => { // One Trust Preference Updated
+      addOneTrustPreferencesToLinks();
       registerAndCall();
 
       await window.analytics.track('onetrust_consent_preference_updated', {
@@ -74,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   scrollHandler.onScrollUp((position) => {
-    if (position <= mainMenuHeight) {
+    if (position <= topBannerHeight + menuOffset) {
       removeScrollStateFromPage();
     }
   });
@@ -128,4 +137,25 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = url;
     });
   });
+
+  function toggleAccordion() {
+    this.parentElement.classList.toggle('active');
+    const panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+    }
+  }
+
+  const accordionButtons = Array.from(document.getElementsByClassName('accordion__item-header'));
+  accordionButtons.forEach((el) => {
+    el.addEventListener('click', toggleAccordion);
+  });
+
+  const accordionDarkButtons = Array.from(document.getElementsByClassName('accordion-dark__item-header'));
+  accordionDarkButtons.forEach((el) => {
+    el.addEventListener('click', toggleAccordion);
+  });
+
 });

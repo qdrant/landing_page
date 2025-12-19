@@ -1,0 +1,17 @@
+@use '../helpers/functions' as *;
+@use "sass:math";
+
+.date {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: math.div($spacer, 2);
+  margin-bottom: math.div($spacer, 2);
+  color: $secondary-blue-50;
+
+  &-icon {
+    width: $spacer !important;
+    height: $spacer !important;
+    margin: 0 !important;
+  }
+}

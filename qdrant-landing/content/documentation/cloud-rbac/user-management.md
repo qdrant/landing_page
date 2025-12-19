@@ -13,6 +13,10 @@ Users can be invited via the **User Management** section, where they are assigne
 
 ![image.png](/documentation/cloud/role-based-access-control/user-invitation.png)
 
+### Accepting an Invitation
+
+After inviting a user, they will receive an email prompting them to join the account. After clicking the link in the email, they are directed to the Qdrant Cloud portal, where a banner at the top of the page enables them to accept or decline the invitation.
+
 ### Inviting Users from a Role
 
 Users can be invited attached to a specific role by inviting them through the **Role Details** page - just click on the Users tab and follow the prompts.

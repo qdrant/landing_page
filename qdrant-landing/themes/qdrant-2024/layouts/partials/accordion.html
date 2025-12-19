@@ -1,0 +1,12 @@
+<div class="accordion">
+  {{ range $index, $element := .Params.questions }}
+    <div class="accordion__item">
+      <h6 class="accordion__item-header">{{ .question }}</h6>
+      <div class="accordion__item-body">
+        <div class="accordion__item-body-content">
+          {{ .answer | safeHTML }}
+        </div>
+      </div>
+    </div>
+  {{ end }}
+</div>

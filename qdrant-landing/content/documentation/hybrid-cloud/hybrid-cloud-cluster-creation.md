@@ -5,7 +5,9 @@ weight: 2
 
 # Creating a Qdrant Cluster in Hybrid Cloud
 
-Once you have created a Hybrid Cloud Environment, you can create a Qdrant cluster in that enviroment. Use the same process to [Create a cluster](/documentation/cloud/create-cluster/). Make sure to select your Hybrid Cloud Environment as the target.
+Once a Hybrid Cloud Environment has been created you can follow the normal process to [create a Qdrant cluster](/documentation/cloud/create-cluster/) in that environment. This page also contains additional information on how to create a [production-ready cluster](/documentation/cloud/create-cluster/#creating-a-production-ready-cluster).
+
+Make sure to select your Hybrid Cloud Environment as the target.
 
 ![Create Hybrid Cloud Cluster](/documentation/cloud/hybrid_cloud_create_cluster.png)
 
@@ -26,7 +28,7 @@ When creating or editing a cluster, you can configure how the database Pods get 
 
 ### Authentication to your Qdrant Clusters
 
-<aside role="alert">By default, clusters in Hybrid Cloud are only exposed through a Kubernetes ClusterIP Service inside of the Kubernetes network and not accessible to the outside, and no API key is configured. If you choose to expose the database internally or externally, you must configure an API key.</aside>
+<aside role="alert">By default, clusters in Hybrid Cloud are only exposed through a Kubernetes ClusterIP Service inside the Kubernetes network and not accessible to the outside, and no API key is configured. If you choose to expose the database internally or externally, you must configure an API key.</aside>
 
 In Hybrid Cloud the authentication information is provided by Kubernetes secrets.
 
@@ -60,6 +62,8 @@ If you want to retrieve the secret again, you can also use `kubectl`:
 ```shell
 kubectl get secret qdrant-api-key -o jsonpath="{.data.api-key}" --namespace the-qdrant-namespace | base64 --decode
 ```
+
+After configuring the API key secret, you can create JWTs with granular access control in the Qdrant Cluster UI. Please refer to the [Granular access control with JWT](/documentation/guides/security/#granular-access-control-with-jwt) documentation for more details.
 
 #### Watch the Video
 

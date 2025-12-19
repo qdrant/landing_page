@@ -11,39 +11,52 @@
       {{ .Fragments.ToHTML $tocStartLevel $tocEndLevel $tocOrdered | safeHTML }}
 
 
-      <ul class="table-of-contents__external-links">
-        {{ if or (eq .Section "documentation") (eq .Section "articles") }}
-          <li class="table-of-contents__link">
-            <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
-              {{ partial "svg" "github.svg" }}
-              Edit on Github
-            </a>
-          </li>
-          <li class="table-of-contents__link">
-            <a href="{{ .Site.Params.githubIssueLink }}" target="_blank">
-              {{ partial "svg" "bug.svg" }}
-              Create an issue
-            </a>
-          </li>
-        {{ end }}
+      {{ if eq .Section "course" }}
+          {{ $subject := . }}
 
-        {{ if eq .Section "blog" }}
-          {{ $link := urlquery .Permalink }}
-          {{ $title := .Title }}
-          {{ with (.Site.GetPage "/headless/share-buttons") }}
-            {{ range .Params.buttons }}
-              {{ $url := .url | replaceRE "\\{\\{\\s*\\$link\\s*\\}\\}" $link | replaceRE "\\{\\{\\s*\\$title\\s*\\}\\}" $title }}
-              <li class="table-of-contents__link">
-                <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" title="{{ .title }}">
-                  {{ .icon | safeHTML }}
-                  {{ .subtitle }}
-                </a>
-              </li>
-            {{ end }}
+          {{ if and $subject.Params $subject.Params.content $subject.Params.content.getStarted }}
+          <a
+            href="{{ $subject.Params.content.getStarted.url }}"
+            class="table-of-contents__button button button_contained button_sm"
+            >
+              {{ $subject.Params.content.getStarted.text }}
+            </a>
+          {{ end }}
+      {{ else }}
+        <ul class="table-of-contents__external-links">
+          {{ if or (eq .Section "documentation") (eq .Section "articles") }}
+            <li class="table-of-contents__link">
+              <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
+                {{ partial "svg" "github.svg" }}
+                Edit on Github
+              </a>
+            </li>
+            <li class="table-of-contents__link">
+              <a href="{{ .Site.Params.githubIssueLink }}" target="_blank">
+                {{ partial "svg" "bug.svg" }}
+                Create an issue
+              </a>
+            </li>
           {{ end }}
 
-        {{ end }}
-      </ul>
+          {{ if eq .Section "blog" }}
+            {{ $link := urlquery .Permalink }}
+            {{ $title := .Title }}
+            {{ with (.Site.GetPage "/headless/share-buttons") }}
+              {{ range .Params.buttons }}
+                {{ $url := .url | replaceRE "\\{\\{\\s*\\$link\\s*\\}\\}" $link | replaceRE "\\{\\{\\s*\\$title\\s*\\}\\}" $title }}
+                <li class="table-of-contents__link">
+                  <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" title="{{ .title }}">
+                    {{ .icon | safeHTML }}
+                    {{ .subtitle }}
+                  </a>
+                </li>
+              {{ end }}
+            {{ end }}
+
+          {{ end }}
+        </ul>
+      {{ end }}
     </div>
   {{ end }}
 {{ end }}

@@ -1,0 +1,1 @@
+This code snippet set `upsert_max_batchsize` on the strict mode configuration to cap the maximum size in bytes of a batch during vector insert.

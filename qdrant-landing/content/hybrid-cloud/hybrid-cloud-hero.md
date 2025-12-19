@@ -18,11 +18,11 @@ features:
     alt: Minimum Cost
 description: Seamlessly deploy and manage the vector database across diverse environments, ensuring performance, security, and cost efficiency for AI-driven applications.
 startFree:
-  text: Get Started
-  url: https://cloud.qdrant.io/signup
-contactUs:
   text: Talk to sales
   url: /contact-us/
+contactUs:
+  text: Documentation
+  url: /documentation/hybrid-cloud/
 image:
   src: /img/hybrid-cloud-graphic.svg
   alt: Enterprise-solutions

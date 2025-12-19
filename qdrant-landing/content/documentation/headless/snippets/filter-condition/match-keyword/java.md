@@ -1,3 +1,0 @@
-```java
-matchKeyword("color", "red");
-```

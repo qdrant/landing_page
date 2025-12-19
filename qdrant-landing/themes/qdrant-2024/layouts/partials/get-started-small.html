@@ -7,7 +7,11 @@
           {{ if .context.Params.description }}
             <p class="{{ .class }}__description">{{ .context.Params.description }}</p>
           {{ end }}
-          <a href="{{ .context.Params.button.url }}" class="button button_contained" target="_blank">
+          <a
+            href="{{ .context.Params.button.url }}"
+            class="button button_contained"
+            target="{{ if eq .context.Params.button.target "self" }}_self{{ else }}_blank{{ end }}"
+          >
             {{ .context.Params.button.text }}
           </a>
         </div>

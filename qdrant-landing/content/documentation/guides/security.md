@@ -274,6 +274,16 @@ Here is an example of libraries that can be used to generate JWT tokens:
 - Python: [PyJWT](https://pyjwt.readthedocs.io/en/stable/)
 - JavaScript: [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 - Rust: [jsonwebtoken](https://crates.io/crates/jsonwebtoken)
+- CLI: [jwt-cli](https://github.com/mike-engel/jwt-cli)
+
+Here is an example using `jwt-cli`:
+
+```bash
+jwt encode --payload '{
+  "access": "r",
+  "exp": 1766055305
+}' --secret 'your-api-key'
+```
 
 #### JWT Configuration
 
@@ -342,28 +352,6 @@ These are the available options, or **claims** in the JWT lingo. You can use the
   }
   ```
 
-  You can also specify which subset of the collection the user is able to access by specifying a `payload` restriction that the points must have.
-
-  ```json
-  {
-    "access": [
-      {
-        "collection": "my_collection",
-        "access": "r",
-        "payload": {
-          "user_id": "user_123456"
-        }
-      }
-    ]
-  }
-  ```
-
-  This `payload` claim will be used to implicitly filter the points in the collection. It will be equivalent to appending this filter to each request:
-
-  ```json
-  { "filter": { "must": [{ "key": "user_id", "match": { "value": "user_123456" } }] } }
-  ```
-
 ### Table of access
 
 Check out this table to see which actions are allowed or denied based on the access level.
@@ -372,67 +360,65 @@ This is also applicable to using api keys instead of tokens. In that case, `api_
 
 <div style="text-align: right"> <strong>Symbols:</strong> ✅ Allowed | ❌ Denied | 🟡 Allowed, but filtered </div>
 
-| Action | manage | read-only | collection read-write | collection read-only | collection with payload claim (r / rw) |
-|--------|--------|-----------|----------------------|-----------------------|------------------------------------|
-| list collections | ✅ | ✅ | 🟡 | 🟡 | 🟡 |
-| get collection info | ✅ | ✅ | ✅ | ✅ | ❌ |
-| create collection | ✅ | ❌ | ❌ | ❌ | ❌ |
-| delete collection | ✅ | ❌ | ❌ | ❌ | ❌ |
-| update collection params | ✅ | ❌ | ❌ | ❌ | ❌ |
-| get collection cluster info | ✅ | ✅ | ✅ | ✅ | ❌ |
-| collection exists | ✅ | ✅ | ✅ | ✅ | ✅ |
-| update collection cluster setup | ✅ | ❌ | ❌ | ❌ | ❌ |
-| update aliases | ✅ | ❌ | ❌ | ❌ | ❌ |
-| list collection aliases | ✅ | ✅ | 🟡 | 🟡 | 🟡 |
-| list aliases | ✅ | ✅ | 🟡 | 🟡 | 🟡 |
-| create shard key | ✅ | ❌ | ❌ | ❌ | ❌ |
-| delete shard key | ✅ | ❌ | ❌ | ❌ | ❌ |
-| create payload index | ✅ | ❌ | ✅ | ❌ | ❌ |
-| delete payload index | ✅ | ❌ | ✅ | ❌ | ❌ |
-| list collection snapshots | ✅ | ✅ | ✅ | ✅ | ❌ |
-| create collection snapshot | ✅ | ❌ | ✅ | ❌ | ❌ |
-| delete collection snapshot | ✅ | ❌ | ✅ | ❌ | ❌ |
-| download collection snapshot | ✅ | ✅ | ✅ | ✅ | ❌ |
-| upload collection snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
-| recover collection snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
-| list shard snapshots | ✅ | ✅ | ✅ | ✅ | ❌ |
-| create shard snapshot | ✅ | ❌ | ✅ | ❌ | ❌ |
-| delete shard snapshot | ✅ | ❌ | ✅ | ❌ | ❌ |
-| download shard snapshot | ✅ | ✅ | ✅ | ✅ | ❌ |
-| upload shard snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
-| recover shard snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
-| list full snapshots | ✅ | ✅ | ❌ | ❌ | ❌ |
-| create full snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
-| delete full snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
-| download full snapshot | ✅ | ✅ | ❌ | ❌ | ❌ |
-| get cluster info | ✅ | ✅ | ❌ | ❌ | ❌ |
-| recover raft state | ✅ | ❌ | ❌ | ❌ | ❌ |
-| delete peer | ✅ | ❌ | ❌ | ❌ | ❌ |
-| get point | ✅ | ✅ | ✅ | ✅ | ❌ |
-| get points | ✅ | ✅ | ✅ | ✅ | ❌ |
-| upsert points | ✅ | ❌ | ✅ | ❌ | ❌ |
-| update points batch | ✅ | ❌ | ✅ | ❌ | ❌ |
-| delete points | ✅ | ❌ | ✅ | ❌ | ❌ / 🟡 |
-| update vectors | ✅ | ❌ | ✅ | ❌ | ❌ |
-| delete vectors | ✅ | ❌ | ✅ | ❌ | ❌ / 🟡 |
-| set payload | ✅ | ❌ | ✅ | ❌ | ❌ |
-| overwrite payload | ✅ | ❌ | ✅ | ❌ | ❌ |
-| delete payload | ✅ | ❌ | ✅ | ❌ | ❌ |
-| clear payload | ✅ | ❌ | ✅ | ❌ | ❌ |
-| scroll points | ✅ | ✅ | ✅ | ✅ | 🟡 |
-| query points | ✅ | ✅ | ✅ | ✅ | 🟡 |
-| search points | ✅ | ✅ | ✅ | ✅ | 🟡 |
-| search groups | ✅ | ✅ | ✅ | ✅ | 🟡 |
-| recommend points | ✅ | ✅ | ✅ | ✅ | ❌ |
-| recommend groups | ✅ | ✅ | ✅ | ✅ | ❌ |
-| discover points | ✅ | ✅ | ✅ | ✅ | ❌ |
-| count points | ✅ | ✅ | ✅ | ✅ | 🟡 |
-| version | ✅ | ✅ | ✅ | ✅ | ✅ |
-| readyz, healthz, livez | ✅ | ✅ | ✅ | ✅ | ✅ |
-| telemetry | ✅ | ✅ | ❌ | ❌ | ❌ |
-| metrics | ✅ | ✅ | ❌ | ❌ | ❌ |
-| update locks | ✅ | ❌ | ❌ | ❌ | ❌ |
-| get locks | ✅ | ✅ | ❌ | ❌ | ❌ |
+| Action | manage | read-only | collection read-write | collection read-only |
+|--------|--------|-----------|----------------------|-----------------------|
+| list collections | ✅ | ✅ | 🟡 | 🟡 |
+| get collection info | ✅ | ✅ | ✅ | ✅ |
+| create collection | ✅ | ❌ | ❌ | ❌ |
+| delete collection | ✅ | ❌ | ❌ | ❌ |
+| update collection params | ✅ | ❌ | ❌ | ❌ |
+| get collection cluster info | ✅ | ✅ | ✅ | ✅ |
+| collection exists | ✅ | ✅ | ✅ | ✅ |
+| update collection cluster setup | ✅ | ❌ | ❌ | ❌ |
+| update aliases | ✅ | ❌ | ❌ | ❌ |
+| list collection aliases | ✅ | ✅ | 🟡 | 🟡 |
+| list aliases | ✅ | ✅ | 🟡 | 🟡 |
+| create shard key | ✅ | ❌ | ❌ | ❌ |
+| delete shard key | ✅ | ❌ | ❌ | ❌ |
+| create payload index | ✅ | ❌ | ✅ | ❌ |
+| delete payload index | ✅ | ❌ | ✅ | ❌ |
+| list collection snapshots | ✅ | ✅ | ✅ | ✅ |
+| create collection snapshot | ✅ | ❌ | ✅ | ❌ |
+| delete collection snapshot | ✅ | ❌ | ✅ | ❌ |
+| download collection snapshot | ✅ | ✅ | ✅ | ✅ |
+| upload collection snapshot | ✅ | ❌ | ❌ | ❌ |
+| recover collection snapshot | ✅ | ❌ | ❌ | ❌ |
+| list shard snapshots | ✅ | ✅ | ✅ | ✅ |
+| create shard snapshot | ✅ | ❌ | ✅ | ❌ |
+| delete shard snapshot | ✅ | ❌ | ✅ | ❌ |
+| download shard snapshot | ✅ | ✅ | ✅ | ✅ |
+| upload shard snapshot | ✅ | ❌ | ❌ | ❌ |
+| recover shard snapshot | ✅ | ❌ | ❌ | ❌ |
+| list full snapshots | ✅ | ✅ | ❌ | ❌ |
+| create full snapshot | ✅ | ❌ | ❌ | ❌ |
+| delete full snapshot | ✅ | ❌ | ❌ | ❌ |
+| download full snapshot | ✅ | ✅ | ❌ | ❌ |
+| get cluster info | ✅ | ✅ | ❌ | ❌ |
+| recover raft state | ✅ | ❌ | ❌ | ❌ |
+| delete peer | ✅ | ❌ | ❌ | ❌ |
+| get point | ✅ | ✅ | ✅ | ✅ |
+| get points | ✅ | ✅ | ✅ | ✅ |
+| upsert points | ✅ | ❌ | ✅ | ❌ |
+| update points batch | ✅ | ❌ | ✅ | ❌ |
+| delete points | ✅ | ❌ | ✅ | ❌ | ❌ /
+| update vectors | ✅ | ❌ | ✅ | ❌ |
+| delete vectors | ✅ | ❌ | ✅ | ❌ | ❌ /
+| set payload | ✅ | ❌ | ✅ | ❌ |
+| overwrite payload | ✅ | ❌ | ✅ | ❌ |
+| delete payload | ✅ | ❌ | ✅ | ❌ |
+| clear payload | ✅ | ❌ | ✅ | ❌ |
+| scroll points | ✅ | ✅ | ✅ | ✅ |
+| query points | ✅ | ✅ | ✅ | ✅ |
+| search points | ✅ | ✅ | ✅ | ✅ |
+| search groups | ✅ | ✅ | ✅ | ✅ |
+| recommend points | ✅ | ✅ | ✅ | ✅ |
+| recommend groups | ✅ | ✅ | ✅ | ✅ |
+| discover points | ✅ | ✅ | ✅ | ✅ |
+| count points | ✅ | ✅ | ✅ | ✅ |
+| version | ✅ | ✅ | ✅ | ✅ |
+| readyz, healthz, livez | ✅ | ✅ | ✅ | ✅ |
+| telemetry | ✅ | ✅ | ❌ | ❌ |
+| metrics | ✅ | ✅ | ❌ | ❌ |
 
 ## TLS
 

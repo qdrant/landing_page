@@ -47,6 +47,10 @@ fi
 
 TITLE_TEXT=$(cat $PATH_TO_DOC | grep "title:" | head -n 1 | sed 's/title: //g' | sed 's/"//g')
 
+# Remove everything after `#` in the title and subtitle
+TITLE_TEXT=$(echo $TITLE_TEXT | sed 's/#.*//')
+SUBTITLE_TEXT=$(echo $SUBTITLE_TEXT | sed 's/#.*//')
+
 echo $SUBTITLE_TEXT
 echo $TITLE_TEXT
 

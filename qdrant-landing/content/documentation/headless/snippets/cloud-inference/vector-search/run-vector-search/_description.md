@@ -1,0 +1,1 @@
+This code snippet demonstrates how to use the Universal Query API to prefetch results with dense and sparse vector search, and then rerank them with Reciprocal Rank Fusion. It uses Cloud Inference to create embeddings by passing document text along with the model names, instead of vectors. 

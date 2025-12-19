@@ -1,0 +1,28 @@
+package snippet
+
+import (
+    "context"
+
+    "github.com/qdrant/go-client/qdrant"
+)
+
+func Main() {
+	client, err := qdrant.NewClient(&qdrant.Config{
+	    Host: "localhost",
+	    Port: 6334,
+	})
+
+	if err != nil { panic(err) } // @hide
+
+	client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+	    CollectionName: "{collection_name}",
+	    FieldName:      "name_of_the_field_to_index",
+	    FieldType:      qdrant.FieldType_FieldTypeText.Enum(),
+	    FieldIndexParams: qdrant.NewPayloadIndexParamsText(
+	        &qdrant.TextIndexParams{
+	            Tokenizer:   qdrant.TokenizerType_Whitespace,
+	            Lowercase:   qdrant.PtrOf(true),
+	            PhraseMatching: qdrant.PtrOf(true),
+	        }),
+	})
+}

@@ -21,6 +21,10 @@ article code:not([class]) {
   margin: 0;
   padding: 1rem;
   border-radius: $code-snippet-border-radius;
+
+  code {
+    color: $neutral-94;
+  }
 }
 /* PreWrapper */
 .chroma {

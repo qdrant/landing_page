@@ -41,7 +41,7 @@ databases (as seen in the image above), data is organized in rows and columns (a
 called **Tables**), and queries are performed based on the values in those columns. However, 
 in certain applications including image recognition, natural language processing, and recommendation 
 systems, data is often represented as vectors in a high-dimensional space, and these vectors, plus 
-an id and a payload, are the elements we store in something called a **Collection** within a vector 
+an id and a payload we call a point. These points are the elements we store in something called a **Collection** within a vector 
 database like Qdrant.
 
 A vector in this context is a mathematical representation of an object or data point, where elements of 

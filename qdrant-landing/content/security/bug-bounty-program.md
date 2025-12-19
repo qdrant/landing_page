@@ -58,7 +58,7 @@ We always exclude the following areas:
 - We aim to reward similar vulnerabilities with comparable compensation; however, we also consider factors such as the time and effort required to discover the issue. Keep in mind that we may not match previous compensations for future reports.
 
 ## Disclosure Policy
-Contact us at [security@qdrant.com](mailto:security@qdrant.com) to report vulnerabilities. Our security team will provide an initial response within 5 business days and triage the issue within 5-7 business days. We vary fix implementation timelines based on severity, and we process bounty payments after verifying the fix.
+Contact us at our [Bug Bounty Program Support Portal](https://get.support.qdrant.io/servicedesk/customer/portal/35) to report vulnerabilities. Our security team will provide an initial response within 5 business days and triage the issue within 5-7 business days. We vary fix implementation timelines based on severity, and we process bounty payments after verifying the fix.
 
 Follow these guidelines when disclosing vulnerabilities to us:
 - Report any potential security vulnerabilities immediately upon discovery, as we commit to resolving issues swiftly.
@@ -69,5 +69,6 @@ Follow these guidelines when disclosing vulnerabilities to us:
 
 ### Contact
 For questions about the program or to report security issues, contact:
+- Web Portal: [Bug Bounty Program Support Portal](https://get.support.qdrant.io/servicedesk/customer/portal/35)
 - Email: [security@qdrant.com](mailto:security@qdrant.com)
 - PGP Key Fingerprint: [07E3 6646 E0D0 A3BF 0AFC B302 26C5 016B 97EB 804B](/misc/qdrant-security-public-key.asc)

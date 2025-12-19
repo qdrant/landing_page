@@ -73,7 +73,7 @@ Quotient AI is another platform designed to streamline the evaluation of RAG sys
 
 ### Arize Phoenix: Visually Deconstructing Response Generation
 
-[Arize Phoenix](https://docs.arize.com/phoenix) is an open-source tool that helps improve the performance of RAG systems by tracking how a response is built step-by-step. You can see these steps visually in Phoenix, which helps identify slowdowns and errors. You can define "[evaluators](https://docs.arize.com/phoenix/evaluation/concepts-evals/evaluation)" that use LLMs to assess the quality of outputs, detect hallucinations, and check answer accuracy. Phoenix also calculates key metrics like latency, token usage, and errors, giving you an idea of how efficiently your RAG system is working.
+[Arize Phoenix](https://docs.arize.com/phoenix) is an open-source tool that helps improve the performance of RAG systems by tracking how a response is built step-by-step. You can see these steps visually in Phoenix, which helps identify slowdowns and errors. You can define "[evaluators](https://arize.com/docs/phoenix/evaluation/concepts-evals/evaluators)" that use LLMs to assess the quality of outputs, detect hallucinations, and check answer accuracy. Phoenix also calculates key metrics like latency, token usage, and errors, giving you an idea of how efficiently your RAG system is working.
 
 **Figure 3:** *The Arize Phoenix tool is intuitive to use and shows the entire process architecture as well as the steps that take place inside of retrieval, context and generation.*
 

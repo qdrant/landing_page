@@ -59,4 +59,4 @@ feature_values = feature_store.retrieve_online_documents(
 ## 📚 Further Reading
 
 - [Feast Documentation](http://docs.feast.dev/)
-- [Source](https://github.com/feast-dev/feast/tree/master/sdk/python/feast/infra/online_stores/)
+- [Source](https://github.com/feast-dev/feast/tree/master/sdk/python/feast/infra/online_stores/qdrant_online_store)

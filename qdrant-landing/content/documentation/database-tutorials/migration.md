@@ -41,15 +41,18 @@ Here is an example of how to perform a Qdrant to Qdrant migration:
 
 ```bash  
 docker run --rm -it \
-    -e SOURCE_API_KEY='your-source-key' \
-    -e TARGET_API_KEY='your-target-key' \
     registry.cloud.qdrant.io/library/qdrant-migration qdrant \
-    --source-url 'https://source-instance.cloud.qdrant.io' \
-    --source-collection 'benchmark' \
-    --target-url 'https://target-instance.cloud.qdrant.io' \
-    --target-collection 'benchmark'
-
+    --source.url 'https://source-instance.cloud.qdrant.io:6334' \
+    --source.api-key 'qdrant-source-key' \
+    --source.collection 'benchmark' \
+    --target.url 'https://target-instance.cloud.qdrant.io:6334' \
+    --target.api-key 'qdrant-target-key' \
+    --target.collection 'benchmark'
 ```
+
+<aside role="alert">
+    Note: The migration CLI uses the Qdrant GRPC API, this means you must always configure the GRPC port for Qdrant URLs with the Migration CLI (default: 6334).
+</aside>
 
 ## Example: Migrate from Pinecone to Qdrant
 

@@ -181,5 +181,5 @@ for point in results.points:
 
 ## Further Reading
 
-- [Mirror Security Docs](https://docs.mirrorsecurity.io/introduction)
+- [Mirror Security Docs](https://docs.mirrorsecurity.io/docs/getting-started/introduction)
 - [Mirror Security Blog](https://mirrorsecurity.io/blog)

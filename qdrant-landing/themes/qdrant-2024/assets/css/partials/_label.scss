@@ -1,0 +1,23 @@
+@use 'sass:math';
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacer * 0.5;
+  padding: math.div($spacer, 4) $spacer;
+  border-radius: $spacer;
+  background-color: $neutral-20;
+
+  &_icon {
+    width: $spacer;
+    height: $spacer;
+  }
+
+  &_title {
+    margin-bottom: 0;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    font-weight: 400;
+    color: $neutral-90;
+  }
+}

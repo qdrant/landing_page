@@ -24,7 +24,7 @@ Qdrant's Web UI is an intuitive and efficient graphic interface for your Qdrant 
 
 In the **Console**, you may use the REST API to interact with Qdrant, while in **Collections**, you can manage all the collections and upload Snapshots. 
 
-![Qdrant Web UI](/articles_data/qdrant-1.3.x/web-ui.png)
+![Qdrant Web UI](/docs/gettingstarted/web-ui.png)
 
 ### Qdrant Web UI features
 

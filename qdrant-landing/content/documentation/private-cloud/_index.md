@@ -18,4 +18,12 @@ On top of the open source Qdrant database, it allows
 * Extended telemetry
 * Qdrant Enterprise Support Services
 
+Since there is no communication or connection with Qdrant, you are fully responsible for the entire security of the Qdrant Private Cloud installation. This also means that you do not benefit from all the integrated management and observability features of Qdrant Managed Cloud and Hybrid Cloud, such as:
+
+* A central management UI and API
+* Integrated monitoring and alerting
+* Configuration recommendations
+
+ We encourage you to weigh your security requirements against Hybrid Cloud before inquiring about Private Cloud.
+
 If you are interested in using Qdrant Private Cloud, please [contact us](/contact-us/) for more information.

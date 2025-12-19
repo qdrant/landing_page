@@ -51,34 +51,37 @@
 
 
 <!-- Read all files from the given path -->
-{{ $files := slice }}
+{{ $files := dict }}
 
-{{ range (readDir (printf "content/%s" $path)) }}
-  <!--- Skip files starting with `_` -->
-  {{ if strings.HasPrefix .Name "_" }}
+{{ range $dir := slice (printf "content/%s" $path) (printf "content/%s/generated" $path) }}
+  {{ if not (fileExists $dir) }}
     {{ continue }}
   {{ end }}
-
-  {{ if strings.HasSuffix .Name ".md" }}
-    {{ $filePath := printf "content/%s/%s" $path .Name }}
+  {{ range (readDir $dir) }}
+    <!--- Skip files starting with `_` and non-markdown files --->
+    {{ if or (strings.HasPrefix .Name "_") (not (strings.HasSuffix .Name ".md")) }}
+      {{ continue }}
+    {{ end }}
+  
+    {{ $filePath := printf "%s/%s" $dir .Name }}
     {{ $content := readFile $filePath | markdownify }}
-    {{ $files = $files | append (dict "name" (strings.TrimSuffix ".md" .Name) "content" $content) }}
+    {{ $files = merge $files (dict (strings.TrimSuffix ".md" .Name) $content) }}
   {{ end }}
 {{ end }}
 
 
 <!-- Render snippets in the specified order first -->
 {{ range $order }}
-  {{ $snippet := index (where $files "name" .) 0 }}
+  {{ $snippet := index $files . }}
   {{ if $snippet }}
-    {{ $snippet.content | markdownify }}
+    {{ $snippet | markdownify }}
   {{ end }}
 {{ end }}
 
 
 <!-- Render remaining files that were not in the order list -->
-{{ range $files }}
-  {{ if not (in $order .name) }}
-    {{ .content | markdownify }}
+{{ range $name, $content := $files }}
+  {{ if not (in $order $name) }}
+    {{ $content | markdownify }}
   {{ end }}
 {{ end }}

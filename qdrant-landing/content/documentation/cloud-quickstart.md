@@ -115,7 +115,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
 
 1. Open the interactive **Tutorial**. Here, you can test basic Qdrant API requests.
 2. Using the **Quickstart** instructions, create a collection, add vectors and run a search.
-3. The output on the right will show you some basic semantic search results.
+3. The output will show you some basic semantic search results.
 
 ![interactive-tutorial](/docs/gettingstarted/gui-quickstart/interactive-tutorial.png)
 

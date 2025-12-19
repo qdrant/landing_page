@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/cloud-inference/cloud-inference-faq") }}
+  <section class="cloud-inference-faq">
+    <div class="container">
+      <h2 class="cloud-inference-faq__title">{{ .Params.title }}</h2>
+      {{ partial "accordion" . }}
+    </div>
+  </section>
+{{ end }}

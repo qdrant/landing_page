@@ -1,0 +1,18 @@
+{{ with (.Site.GetPage "/edge-beta/edge-beta-features") }}
+  <section class="edge-beta-features">
+    <div class="container">
+      <h2 class="edge-beta-features__title">{{ .Params.title }}</h2>
+      <div class="edge-beta-features__cards row g-4">
+        {{ range $index, $element := .Params.features }}
+        <div class="col-12 {{ if eq $index 0 }}col-lg-8{{ else }}col-lg-4 {{ end }}">
+         <div class="card edge-beta-features__card">
+           <h6 class="edge-beta-features__card-title">{{ .title }}</h6>
+           <p class="edge-beta-features__card-description">{{ .description }}</p>
+           <img class="edge-beta-features__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+         </div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

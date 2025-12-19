@@ -6,7 +6,7 @@ PUT /collections/{collection_name}/index
         "type": "text",
         "tokenizer": "word",
         "min_token_len": 2,
-        "max_token_len": 20,
+        "max_token_len": 10,
         "lowercase": true
     }
 }

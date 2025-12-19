@@ -19,7 +19,7 @@ partition: build
 | [Movie Recommendation System](/documentation/examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |
 | [GraphRAG Agent](/documentation/examples/graphrag-qdrant-neo4j/)                                 | Build a GraphRAG Agent with Neo4J and Qdrant               | Qdrant, Neo4j |
 | [Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy](/documentation/examples/Qdrant-DSPy-medicalbot/)                                 | How to build a medical chatbot grounded in medical literature with Qdrant and DSPy.              | Qdrant, DSPy |
- 
+
 
 
 ## Notebooks
@@ -36,3 +36,4 @@ Our Notebooks offer complex instructions that are supported with a throrough exp
 | [Extractive QA System](https://githubtocolab.com/qdrant/examples/blob/master/extractive_qa/extractive-question-answering.ipynb)                                                                                                       | Extract answers directly from context to generate highly relevant answers.                      | Qdrant                     | 
 | [Ecommerce Reverse Image Search](https://githubtocolab.com/qdrant/examples/blob/master/ecommerce_reverse_image_search/ecommerce-reverse-image-search.ipynb)                                                                           | Accept images as search queries to receive semantically appropriate answers.                    | Qdrant                     | 
 | [Basic RAG](https://githubtocolab.com/qdrant/examples/blob/master/rag-openai-qdrant/rag-openai-qdrant.ipynb)                                                                                                                          | Basic RAG pipeline with Qdrant and OpenAI SDKs.                                                  | OpenAI, Qdrant, FastEmbed  |
+

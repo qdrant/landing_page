@@ -40,6 +40,8 @@ Qdrant won't work with [Network file systems](https://en.wikipedia.org/wiki/File
 
 If you offload vectors to a local disk, we recommend you use a solid-state (SSD or NVMe) drive.
 
+<aside role="status">Using Docker/WSL on Windows with mounts is known to have file system problems causing data loss. See <a href="/documentation/guides/common-errors/#incompatible-file-system">troubleshooting</a>.</aside>
+
 ### Networking
 
 Each Qdrant instance requires three open ports:
@@ -210,7 +212,7 @@ configs:
       log_level: INFO
 ```
 
-<aside role="status">Proving the inline <code>content</code> in the <a href="https://docs.docker.com/compose/compose-file/08-configs/">configs top-level element</a> requires <a href="https://docs.docker.com/compose/release-notes/#2231">Docker Compose v2.23.1</a> or above. This functionality is supported starting <a href="https://docs.docker.com/engine/release-notes/25.0/#2500">Docker Engine v25.0.0</a> and <a href="https://docs.docker.com/desktop/release-notes/#4260">Docker Desktop v4.26.0</a> onwards.</aside>
+<aside role="status">Providing the inline <code>content</code> in the <a href="https://docs.docker.com/compose/compose-file/08-configs/">configs top-level element</a> requires <a href="https://docs.docker.com/compose/release-notes/#2231">Docker Compose v2.23.1</a> or above. This functionality is supported starting <a href="https://docs.docker.com/engine/release-notes/25.0/#2500">Docker Engine v25.0.0</a> and <a href="https://docs.docker.com/desktop/release-notes/#4260">Docker Desktop v4.26.0</a> onwards.</aside>
 
 ### From source
 

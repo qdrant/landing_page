@@ -19,4 +19,8 @@ import 'qdrant-page-search/dist/js/search.min.js';
   if (/blog/.test(window.location?.pathname)) {
     window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: 'blog', partition: partition });
   }
+
+  if (/course/.test(window.location?.pathname)) {
+    window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: 'course', partition: partition });
+  }
 })();

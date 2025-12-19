@@ -81,7 +81,7 @@ The model files will be fetched and downloaded, with progress showing.
 We will vectorize a toy movie description dataset with ColBERT:
 
 <details>
-<summary> <span style="background-color: gray; color: black;"> Movie description dataset </span> </summary>
+<summary> Movie description dataset </summary>
 
 ```python
 descriptions = ["In 1431, Jeanne d'Arc is placed on trial on charges of heresy. The ecclesiastical jurists attempt to force Jeanne to recant her claims of holy visions.",
@@ -166,7 +166,7 @@ qdrant_client.create_collection(
 To make this collection human-readable, let's save movie metadata (name, description in text form and movie's length) together with an embedded description.
 
 <details>
-<summary> <span style="background-color: gray; color: black;"> Movie metadata </span> </summary>
+<summary> Movie metadata </summary>
 
 ```python
 metadata = [{"movie_name": "The Passion of Joan of Arc", "movie_watch_time_min": 114, "movie_description": "In 1431, Jeanne d'Arc is placed on trial on charges of heresy. The ecclesiastical jurists attempt to force Jeanne to recant her claims of holy visions."},

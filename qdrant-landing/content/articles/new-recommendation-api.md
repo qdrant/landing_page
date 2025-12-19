@@ -129,11 +129,14 @@ directly, we check if it’s closer to positives or negatives. The following for
 potential point:
 
 ```rust
-if best_positive_score > best_negative_score {
-    score = best_positive_score
+// Sigmoid function to normalize the score between 0 and 1
+let sigmoid = |x| 0.5 * (1.0 + (x / (1.0 + x.abs())));
+
+let score = if best_positive_score > best_negative_score {
+    sigmoid(best_positive_score)
 } else {
-    score = -(best_negative_score * best_negative_score)
-}
+    -sigmoid(best_negative_score)
+};
 ```
 
 If the point is closer to the negatives, we penalize it by taking the negative squared value of the best negative score. For a 

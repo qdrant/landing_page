@@ -12,12 +12,6 @@
   );
 
   @include media-breakpoint-up(lg) {
-    &__title,
-    &__description,
-    .button {
-      margin-left: $spacer * 4;
-    }
-
     &__text {
       padding-top: $spacer * 2.5;
       padding-bottom: $spacer * 2.5;

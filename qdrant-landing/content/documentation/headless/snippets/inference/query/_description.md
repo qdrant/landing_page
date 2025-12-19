@@ -1,0 +1,1 @@
+This code snippet shows how to use inference at query time. The example queries a collection. Instead of providing an explicit query vector, the request includes `text` and a `model`. Qdrant will use the model to infer embeddings out of the provided text and search with the resulting vector.

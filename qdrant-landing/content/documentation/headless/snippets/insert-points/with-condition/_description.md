@@ -1,0 +1,1 @@
+This code snippet demonstrates how to insert a point with conditionally. Update condition is represented by a filter, if the filter matches existing points, the point will be updated. If condition doesn't match the point, the upsert operation will be ignored. If the point doesn't exist, it will be inserted as a new point.

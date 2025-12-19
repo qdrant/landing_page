@@ -1,0 +1,13 @@
+{{ $data := .Inner | transform.Unmarshal }}
+<div class="accordion-dark">
+  {{ range $data }}
+    <div class="accordion-dark__item">
+      <h6 class="accordion-dark__item-header">{{ .title }}</h6>
+      <div class="accordion-dark__item-body">
+        <div class="accordion-dark__item-body-content list">
+          {{ .content | markdownify }}
+        </div>
+      </div>
+    </div>
+  {{ end }}
+</div>

@@ -1,0 +1,32 @@
+@use '../mixins/get-started-small' as get-started-small;
+@use '../helpers/functions' as *;
+
+.cloud-inference-read-doc {
+  @include get-started-small.base(
+    $spacer * 7.5,
+    $spacer * 4,
+    $spacer * 5,
+    $spacer * 2.5,
+    $neutral-94,
+    $neutral-10,
+    $neutral-10
+  );
+}
+
+.cloud-inference-get-started {
+  @include get-started-small.base(
+    $spacer * 5,
+    $spacer * 2.5,
+    $spacer * 10,
+    $spacer * 5,
+    $neutral-94,
+    $neutral-10,
+    $neutral-10
+  );
+
+  @include media-breakpoint-up(lg) {
+    &__title {
+      max-width: pxToRem(380);
+    }
+  }
+}

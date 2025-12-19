@@ -9,13 +9,13 @@ weight: 55
 
 ![Cluster Metrics](/documentation/cloud/cluster-metrics.png)
 
-Qdrant Cloud provides you with a set of metrics to monitor the health of your database cluster. You can access these metrics in the Qdrant Cloud Console in the **Metrics** and **Request** sections of the cluster details page.
+Qdrant Cloud provides you with a set of metrics to monitor the health of your database cluster. You can access these metrics in the Qdrant Cloud Console in the **Metrics** and **Request** sections of the Cluster Details page.
 
 ## Logs
 
 ![Cluster Logs](/documentation/cloud/cluster-logs.png)
 
-Logs of the database cluster are available in the Qdrant Cloud Console in the **Logs** section of the cluster details page.
+Logs of the database cluster are available in the Qdrant Cloud Console in the **Logs** section of the Cluster Details page.
 
 ## Alerts
 

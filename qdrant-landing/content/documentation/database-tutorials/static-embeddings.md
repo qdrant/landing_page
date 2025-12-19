@@ -19,7 +19,7 @@ quality of the older methods, such as word2vec or GloVe, which could only create
 word. As a result, the word "bank" would have identical representation in the context of "river bank" and "financial 
 institution".
 
-![Static embeddings](/articles_data/static-embeddings/financial-river-bank.png)
+![Static embeddings](/documentation/tutorials/static-embeddings/financial-river-bank.png)
 
 Transformer-based models would represent the word "bank" differently in each of the contexts. However, transformers come 
 with a cost. They are computationally expensive and usually require a lot of memory, although the embeddings models 

@@ -41,7 +41,7 @@ To understand the impact, consider the construction of an [**HNSW index**](/arti
 - **Vectors per page:** ~700 (ColQwen) or ~1,000 (ColPali)
 - **[ef_construct](/documentation/concepts/indexing/#vector-index):** 100 (default)
 
-The lower bound estimation for the number of vector comparisions comparisons would be:
+The lower bound estimation for the number of vector comparisons would be:
 
 $$
 700 \times 700 \times 100 = 49 \ \text{millions}

@@ -1,0 +1,35 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+  {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-hero") }}
+    {{ partial "elastic-lucene/hero" . }}
+  {{ end }}
+
+  {{ $class := "rag-use-cases" }}
+  <section class="grey-bg pt-6 pb-5">
+    <div class="container">
+      {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-callout.md") }}
+        {{ partial "callout" . }}
+      {{ end }}
+    </div>
+  </section>
+
+  {{ partial "elastic-lucene/optimization" . }}
+
+  {{ partial "elastic-lucene/features" . }}
+
+  {{ partial "elastic-lucene/why" . }}
+
+  {{ partial "elastic-lucene/migration" . }}
+
+  {{ partial "elastic-lucene/form" . }}
+
+  {{ partial "elastic-lucene/lessons" . }}
+
+  {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-get-started") }}
+    {{ partial "get-started-small" (dict "context" . "class" "get-started-small-database") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-form") }}
+    {{ partial "elastic-lucene/form-script" . }}
+  {{ end }}
+{{ end }}

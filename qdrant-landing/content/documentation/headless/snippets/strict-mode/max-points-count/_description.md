@@ -1,0 +1,1 @@
+This code snippet set `max_points_count` on the strict mode configuration to cap the maximum number of points for a collection.

@@ -359,4 +359,139 @@ qdrant-cluster-manager:
   tolerations: []
 
   affinity: {}
+
+qdrant-cluster-exporter:
+  image:
+    repository: registry.cloud.qdrant.io/qdrant/qdrant-cluster-exporter
+    pullPolicy: Always
+    # Overrides the image tag. Defaults to the chart appVersion.
+    tag: ""
+
+  imagePullSecrets:
+    - name: qdrant-registry-creds
+
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  rbac:
+    create: true
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534
+    fsGroup: 65534
+
+  securityContext:
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534
+
+  service:
+    enabled: true
+    type: ClusterIP
+    port: 9090
+    portName: metrics
+
+  strategy:
+    # Prevents double-scraping by terminating the old pod before creating a new one
+    # The pod scrapes a large volume of metrics with high cardinality
+    type: Recreate
+
+  resources: {}
+    # We usually recommend not setting default resources and to leave this as a conscious
+    # choice for the user. This allows charts to run on environments with fewer
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  serviceMonitor:
+    enabled: true
+    honorLabels: true
+    scrapeInterval: 60s
+    scrapeTimeout: 55s
+
+  # Limit RBAC to the release namespace
+  limitRBAC: false
+
+  # Watched Namespaces Configuration
+  watch:
+    # If true, only the namespace where the exporter is deployed is watched, otherwise it watches the namespaces defined in watch.namespaces
+    onlyReleaseNamespace: false
+    # an empty list watches all namespaces
+    namespaces: []
+
+  # Configuration for the qdrant cluster exporter
+  config:
+    # The log level for the cluster-exporter
+    # Available options: DEBUG | INFO | WARN | ERROR
+    logLevel: INFO
+    # Controller related settings
+    controller:
+      # Schedule for the controller to do a forced resync (if watches are missed / nothing happened)
+      forceResyncPeriod: 10h
+      # Indicates the maximum QPS from this client to the master
+      # Default is 200
+      qps: 200
+      # Maximum burst for throttle.
+      # Default is 500.
+      burst: 500
+      # Maximum number of concurrent reconciliations
+      maxConcurrentReconciles: 20
+      # Controller's object requeueing interval
+      requeueInterval: 30s
+    # Exporter Metrics Configuration
+    metrics:
+      # The port on which the metrics are exposed
+      port: 9090
+      # The path on which the metrics are exposed
+      path: /metrics
+    # Exporter Health Check Configuration
+    healthz:
+      # The port used for the health probe
+      port: 8085
+    # Qdrant Telemetry and Metrics Cache Configuration
+    cache:
+      # The period after which the cache is invalidated
+      ttl: 60s
+    # Qdrant Rest Client Configuration
+    qdrant:
+      restAPI:
+        # The qdrant rest api port
+        port: 6333
+        # Qdrant API Request Timeout after which requests to Qdrant are canceled if not completed
+        timeout: 20s
+      # Path where qdrant exposes metrics
+      metricsPath: "metrics"
+      # Qdrant Telemetry Configuration
+      telemetry:
+        # Path where qdrant exposes telemetry
+        path: "telemetry"
+        # The level of details for telemetry
+        detailsLevel: 6
+        # Whether to anonymize the telemetry data
+        anonymize: true
 ```

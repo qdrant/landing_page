@@ -1,0 +1,107 @@
+@use '../helpers/functions' as *;
+
+.callout {
+  display: flex;
+  padding: pxToRem(80);
+  background-color: $neutral-10;
+  border-radius: $spacer;
+  overflow: hidden;
+  position: relative;
+  background-image: url('/img/texture.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+
+  &__lights-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: pxToRem(376);
+    background-image: url('/img/blurred/blurred-light-24.png'),
+                      url('/img/blurred/blurred-light-25.png'),
+                      url('/img/blurred/blurred-light-26.png');
+    background-position: top left, bottom left, bottom right;
+    background-size: contain, contain, contain;
+    background-repeat: no-repeat;
+    z-index: 1;
+  }
+
+  &__square-grid-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: -20%;
+    bottom: -9px;
+    display: flex;
+    background-image: linear-gradient(270deg, rgba(11, 15, 25, 0.00) 26.48%, #0B0F19 87.55%), url('/img/square-grid-black.svg');
+    background-size: cover, contain;
+    background-position: center right, center right;
+    background-repeat: no-repeat, no-repeat;
+    z-index: 0;
+  }
+
+  &__illustration {
+    display: none;
+    position: absolute;
+    right: -20%;
+    top: pxToRem(34);
+    bottom: pxToRem(17);
+    width: 100%;
+    background-size: contain;
+    background-position: center right;
+    background-repeat: no-repeat;
+
+    @include media-breakpoint-up(lg) {
+      display: block;
+    }
+
+    @include media-breakpoint-up(xl) {
+    right: 0;
+    }
+  }
+
+  &__content {
+    position: relative;
+    padding: 0;
+    max-width: 100%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(32);
+    
+    @include media-breakpoint-up(lg) {
+      max-width: pxToRem(560);
+    }
+  }
+
+  &__title {
+    font-size: pxToRem(40);
+    line-height: pxToRem(50);
+    font-weight: 700;
+    color: $neutral-98;
+    margin-bottom: 0;
+    b {
+      color: $primary-50;
+    }
+  }
+
+  &__description {
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    font-weight: 500;
+    color: $neutral-70;
+    margin-bottom: 0;
+    b {
+      color: $neutral-98;
+    }
+    p {
+      margin-bottom: pxToRem(32);
+    }
+    p:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}

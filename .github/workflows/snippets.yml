@@ -1,0 +1,45 @@
+name: Check Snippets
+on:
+  pull_request:
+    paths:
+      - 'automation/snippets/**'
+      - 'qdrant-landing/content/documentation/headless/snippets/**'
+      - '!qdrant-landing/content/documentation/headless/snippets/**/*.md'
+
+jobs:
+  convert-snippets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Convert runnable snippets to markdown files
+        run: automation/snippets/generate-md.py
+
+      - name: Check for uncommitted changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git status
+            echo
+            echo "Please run automation/snippets/generate-md.py and commit the results."
+            exit 1
+          fi
+
+  typecheck-snippets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build snippet-checker Docker image
+        run: docker build -t snippet-checker automation/snippets/docker
+
+      - name: Fetch C# client
+        run: automation/snippets/docker.sh ./sync-clients.py fetch --csharp
+
+      - name: Fetch Java client
+        run: automation/snippets/docker.sh ./sync-clients.py fetch --java
+
+      - name: Fetch TypeScript client
+        run: automation/snippets/docker.sh ./sync-clients.py fetch --typescript
+
+      - name: Typecheck snippets
+        run: automation/snippets/docker.sh ./check.py build

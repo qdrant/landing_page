@@ -1,0 +1,1 @@
+This code snippet set `read_rate_limit` & `write_rate_limit` on the strict mode configuration to cap the maximum of operations per minute per replica..

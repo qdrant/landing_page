@@ -50,6 +50,8 @@ You will need to have access to the Kubernetes cluster with `kubectl` and `helm`
 
 You can also configure the StorageClass and VolumeSnapshotClass to use for the Qdrant databases, if you want to deviate from the default settings of your cluster.
 
+By default, Qdrant Cloud will provision two volumes per Qdrant Pod: One for the data stored within Qdrant, and one for [collection snapshots](/documentation/concepts/snapshots). By default, the same StorageClass will be used for both volumes. You can also configure a different StorageClass in the advanced configuration options of your Hybrid Cloud environment. If you want to disable the snapshot volume, you can configure `emptyDir` as a Snapshot StorageClass.
+
 ![Create Hybrid Cloud Environment](/documentation/cloud/hybrid_cloud_env_create.png)
 
 4. You can then enter the YAML configuration for your Kubernetes operator. Qdrant supports a specific list of configuration options, as described in the [Qdrant Operator configuration](/documentation/hybrid-cloud/operator-configuration/) section.

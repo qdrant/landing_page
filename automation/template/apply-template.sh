@@ -28,7 +28,7 @@ BACKGROUND_PATH=${BACKGROUND_PATH:-""}
 
 if [ -z "$BACKGROUND_PATH" ]; then
 
-    BACKGROUNDS=(a b c d e f g h i j k)
+    BACKGROUNDS=(a b)
 
     RANDOM_BACKGROUND=${BACKGROUNDS[$RANDOM % ${#BACKGROUNDS[@]} ]}
 
@@ -48,6 +48,9 @@ if [ -z "$BACKGROUND_PATH" ]; then
         -geometry '+64+280' \
         -composite \
         $OUTPUT_PATH
+
+    pngquant $OUTPUT_PATH --force -o $OUTPUT_PATH
+    
 else
     TEMPLATE_PATH="$SCRIPT_DIR/backgrounds/empty.png"
 
@@ -69,6 +72,8 @@ else
         $OUTPUT_PATH
 
     convert $BACKGROUND_PATH $OUTPUT_PATH -gravity center -resize '1280x640' -composite $OUTPUT_PATH
+
+    pngquant $OUTPUT_PATH --force -o $OUTPUT_PATH
 fi
 
 

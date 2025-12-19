@@ -2,22 +2,6 @@
   <section class="community-features">
     <div class="container">
       <h2 class="community-features__title">{{ .Params.title }}</h2>
-
-      <div class="community-features__resources-cards row g-4">
-        {{ range $index, $element := .Params.resources }}
-          <div class="col-12 col-lg-6">
-            <a href="{{ .link.url }}" class="card community-features__resources-card">
-              <h6 class="community-features__resources-card-title">{{ .title }}</h6>
-              <p class="community-features__resources-card-description">{{ .description }}</p>
-              <span class="community-features__resources-card-link link link_md align-self-start">
-                {{ .link.text }}
-              </span>
-              <img class="community-features__resources-card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
-            </a>
-          </div>
-        {{ end }}
-      </div>
-
       <div class="row g-4 gy-lg-3">
         {{ range $index, $element := .Params.features }}
           <div class="col-12 col-lg-4">

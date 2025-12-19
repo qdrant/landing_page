@@ -26,7 +26,7 @@ tags:
 
 ## Building AI agents that drive both revenue and support outcomes
 
-[Alhena AI](https://alhena.ai/) is redefining the ecommerce experience through intelligent agents that assist customers before and after a purchase. On the front end, these agents help users find the perfect product based on nuanced preferences. On the back end, they resolve complex support queries without escalating to a human.
+<a href="https://alhena.ai/" target="_blank">Alhena AI</a> is redefining the ecommerce experience through intelligent agents that assist customers before and after a purchase. On the front end, these agents help users find the perfect product based on nuanced preferences. On the back end, they resolve complex support queries without escalating to a human.
 
 To deliver this experience, Alhena must combine natural language understanding, context-aware retrieval, and high-performance infrastructure. That means building agents that are not only fast and accurate, but also scalable across customers with vastly different catalogs and architectures.
 
@@ -60,9 +60,9 @@ With Qdrant handling retrieval, Alhena no longer needed to customize infrastruct
 
 ## Hitting production-grade performance targets
 
-Latency was a critical metric for Alhena. With FAISS, vector search on catalogs with 100,000+ items often took three seconds or more. That delayed the start of agent response streaming, making the AI feel sluggish and hurting the user experience. Pinecone helped on large indexes, but introduced latency on small ones, and couldn’t handle hybrid filtering needs.
+Latency was a critical metric for Alhena. With FAISS, vector search on catalogs with 100,000+ items went far above their latency budget. That delayed the start of agent response streaming, making the AI feel sluggish and hurting the user experience. Pinecone helped on large indexes, but introduced latency on small ones, and couldn’t handle hybrid filtering needs.
 
-Qdrant reduced retrieval latency on the same datasets to approximately 300 milliseconds. That enabled Alhena to meet its internal P95 SLA of 3.5 seconds from query to first token, even after accounting for hallucination detection, policy enforcement, and contextual rewriting.
+Qdrant reduced retrieval latency by up to 90% on the same datasets. That enabled Alhena to meet its internal P95 SLA from query to first token, even after accounting for hallucination detection, policy enforcement, and contextual rewriting.
 
 *“We track every millisecond. Qdrant helped us cut vector retrieval time by 90 percent at scale. That’s what made it possible to stay under our latency SLA.”*  
  — Kang-Chi Ho

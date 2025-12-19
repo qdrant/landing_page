@@ -16,22 +16,49 @@ All Qdrant Cloud users are welcome to join our [Discord community](https://qdran
 
 ## Qdrant Cloud Support
 
-Paying customers have access to our Support team. Links to the support portal are available in the Qdrant Cloud Console. 
+Paying customers have access to our Support team. Links to the support portal are available in the Qdrant Cloud Console.
 
 ![Support Portal](/documentation/cloud/support-portal.png)
 
-When creating a support ticket, please provide as much information as possible to help us understand your issue.
+Support is handled via **Jira Service Management (JSM)**. When creating a support ticket, you will be asked to select a request type and provide information to help us understand and prioritize your issue.
+
+### Request Type
+
+The form allows you to specify what your ticket is about:
+
+- **Information** – Questions, analysis, or troubleshooting
+- **Incidents** – Reporting bugs or disruptions in service
+- **Billing** – Issues or questions related to charges, invoices, or payment
+- **Features** – Suggestions or requests for product enhancements
+
+### Ticket Information
+
+Please provide as much detail as possible when submitting your request. This helps us help you faster.
 
 This includes but is not limited to:
 
-* The ID of your Qdrant Cloud cluster, if it's not filled out by the UI automatically. You can find the ID on your cluster's detail page.
-* Which collection(s) are affected
-* Code examples on how you are interacting with the Qdrant API
-* Logs or error messages from your application
-* Relevant telemetry from your application
+- The ID of your Qdrant Cloud cluster (auto-filled if possible)
+- Which collection(s) are affected
+- Code examples showing how you're interacting with the Qdrant API
+- Logs or error messages from your application
+- Relevant telemetry or traces from your system
 
-You can also choose a severity, when creating a ticket. This helps us prioritize your issue correctly. Please refer to the [Qdrant Cloud SLA](https://qdrant.to/sla/) for a definition of these severity levels and their corresponding response time SLA for your respective [support tier](/documentation/cloud/premium/).
+If you're submitting a ticket for a **Hybrid Cloud** or **Private Cloud** environment, we may also ask for:
 
-If you are opening a ticket for a Hybrid Cloud or Private Cloud environment, we may ask for additional information about your environment, such as detailed logs of the Qdrant databases or operator and the state of your Kubernetes cluster.
+- Logs from Qdrant components (database, operator)
+- Kubernetes environment state (e.g., node/resource usage, pod status)
 
-We have prepared a support bundle script that can help you with collecting all this information. A support bundle will not contain any user data or sensitive information like api keys. It will contain the names and configuration of Qdrant collections though. For more information see the [support bundle documentation](https://github.com/qdrant/qdrant-cloud-support-tools/tree/main/support-bundle). We recommend creating one and attaching it to your support ticket, so that we can help you faster.
+To streamline this, we recommend using our [support bundle script](https://github.com/qdrant/qdrant-cloud-support-tools/tree/main/support-bundle). It collects environment metadata (but **no user data or API keys**) and helps us troubleshoot more efficiently. The bundle includes collection names and configuration details.
+
+Please attach it to your ticket if applicable.
+
+### Priority & SLA
+
+You will also be asked to select a **severity level**, which determines how your ticket is prioritized. The severity should reflect the impact on your system or customers.
+
+- **Severity 1** – Critical impact: full service outage or data loss
+- **Severity 2** – Major impact: degraded performance or partial outage
+- **Severity 3** – Moderate impact: bugs with workarounds or degraded UX
+- **Severity 4** – Minor issues: cosmetic bugs, general questions
+
+> Please refer to the [Qdrant Cloud SLA](https://qdrant.to/sla/) for full definitions of severity levels and guaranteed response times per your [support tier](/documentation/cloud/premium/).

@@ -21,12 +21,17 @@ menuItems:
     icon: blog-white.svg
   - id: menu-3
     name: Learn
-    url: /articles/
+    url: /learn/
     icon: rocket-white.svg
   - id: menu-4
     name: API Reference
     url: https://api.qdrant.tech/api-reference
     external: true
     icon: roadmap-white.svg
+  # - id: menu-5
+  #   name: Course
+  #   url: /course/
+  #   external: true
+#    icon: roadmap-white.svg
 sitemapExclude: true
 ---

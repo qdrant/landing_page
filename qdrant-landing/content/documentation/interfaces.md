@@ -30,7 +30,7 @@ All interaction with Qdrant takes place via the REST API. We recommend using RES
 | API      | Documentation                                                                        |
 | -------- | ------------------------------------------------------------------------------------ |
 | REST API | [OpenAPI Specification](https://api.qdrant.tech/api-reference)                       |
-| gRPC API | [gRPC Documentation](https://github.com/qdrant/qdrant/blob/master/docs/grpc/docs.md) |
+| gRPC API | [gRPC protobuf definitions](https://github.com/qdrant/qdrant/tree/master/lib/api/src/grpc/proto) |
 
 ### gRPC Interface
 

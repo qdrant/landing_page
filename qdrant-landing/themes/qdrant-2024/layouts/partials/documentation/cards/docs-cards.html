@@ -27,10 +27,25 @@
     {{ end }}
     <h3 class="docs-card__title">{{ .card.title }}</h3>
     <p class="docs-card__description">{{ .card.description }}</p>
+
+    <!-- Optional list, separated by a delimiter. Only rendered if the card has a list. -->
+    {{ if .card.list }}
+        <div class="divider mt-2"></div>
+        {{ if .card.list.title }}
+          <p class="docs-card__description docs-card__list-title">{{ .card.list.title }}</p>
+        {{ end }}
+        <ul class="docs-card__description docs-card__list-element mb-2">
+          {{ range .card.list.elements }}
+            <li>{{ . }}</li>
+          {{ end }}
+        </ul>
+    {{ end }}
+
     {{ if .card.link.text }}
       <span class="docs-card__link link link_sm">{{ .card.link.text }}</span>
     {{ else }}
       <div class="docs-card__arrow"></div>
     {{ end }}
+
   </a>
 </div>

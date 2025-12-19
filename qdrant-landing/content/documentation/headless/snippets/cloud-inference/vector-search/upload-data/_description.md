@@ -1,0 +1,1 @@
+This code snipet shows how to load a dataset and upload dense and sparse vectors to Qdrant. While uploading the vectors we also include a payload known as text. 

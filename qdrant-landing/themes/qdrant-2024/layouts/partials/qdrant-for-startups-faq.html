@@ -2,18 +2,7 @@
   <section class="qdrant-for-startups-faq">
     <div class="container">
       <h2 class="qdrant-for-startups-faq__title">{{ .Params.title }}</h2>
-      <div class="accordion">
-        {{ range $index, $element := .Params.questions }}
-          <div class="accordion__item">
-            <h6 class="accordion__item-header">{{ .question }}</h6>
-            <div class="accordion__item-body">
-              <div class="accordion__item-body-content">
-                {{ .answer | safeHTML }}
-              </div>
-            </div>
-          </div>
-        {{ end }}
-      </div>
+      {{ partial "accordion" . }}
 
       <div class="qdrant-for-startups-faq__button">
         <a class="button button_contained button_lg" href="{{ .Params.button.url }}">

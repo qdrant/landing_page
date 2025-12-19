@@ -26,7 +26,7 @@ Sparse vectors are like the Marie Kondo of data—keeping only what sparks joy (
 
 Consider a simplified example of 2 documents, each with 200 words. A dense vector would have several hundred non-zero values, whereas a sparse vector could have, much fewer, say only 20 non-zero values.
 
-In this example: We assume it selects only 2 words or tokens from each document. The rest of the values are zero. This is why it's called a sparse vector.
+In this example: We assume it selects only 2 words or tokens from each document.
 
 ```python
 dense = [0.2, 0.3, 0.5, 0.7, ...]  # several hundred floats
