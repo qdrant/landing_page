@@ -1,0 +1,1 @@
+Batch search that progressively relaxes title filters: exact `text`, then `text_any`, then no filter to return the first non-empty result set.

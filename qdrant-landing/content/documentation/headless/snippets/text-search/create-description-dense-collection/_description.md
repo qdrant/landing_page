@@ -1,0 +1,1 @@
+Creates the `books` collection with a dense `description-dense` vector (384 dimensions, cosine distance).

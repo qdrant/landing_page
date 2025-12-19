@@ -1,0 +1,1 @@
+Creates the `books` collection configured with a sparse vector `title-bm25` using the IDF modifier for BM25 queries.

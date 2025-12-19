@@ -1,0 +1,1 @@
+Creates a hybrid collection combining a dense `description-dense` vector with a sparse `isbn-bm25` vector for semantic + lexical search.
