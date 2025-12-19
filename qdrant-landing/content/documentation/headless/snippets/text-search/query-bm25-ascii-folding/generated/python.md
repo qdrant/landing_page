@@ -1,0 +1,13 @@
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="books",
+    query=models.Document(text="Mieville", model="qdrant/bm25", options={"ascii_folding": True}),
+    using="author-bm25",
+    limit=10,
+    with_payload=True,
+)
+```

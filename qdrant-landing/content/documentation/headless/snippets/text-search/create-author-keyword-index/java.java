@@ -5,8 +5,8 @@ import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.PayloadSchemaType;
 import io.qdrant.client.grpc.Collections.PayloadIndexParams;
 
-public class Snippet { // @hide
-    public static void run() throws Exception { // @hide
+public class Snippet {
+    public static void run() throws Exception {
         QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build()); // @hide
 
         client.createPayloadIndexAsync(
@@ -18,5 +18,5 @@ public class Snippet { // @hide
             null,
             null
         ).get();
-    } // @hide
-} // @hide
+    }
+}

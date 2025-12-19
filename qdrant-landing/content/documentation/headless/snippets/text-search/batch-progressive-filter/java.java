@@ -15,8 +15,8 @@ import io.qdrant.client.grpc.Points.*;
 import java.util.*;
 import io.qdrant.client.grpc.Common.Filter;
 
-public class Snippet { // @hide
-    public static void run() throws Exception { // @hide
+public class Snippet {
+    public static void run() throws Exception {
         QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build()); // @hide
 
         QueryPoints searchStrict = QueryPoints.newBuilder()
@@ -43,5 +43,5 @@ public class Snippet { // @hide
             .build();
 
         client.queryBatchAsync("books", List.of(searchStrict, searchRelaxed, searchVectorOnly)).get();
-    } // @hide
-} // @hide
+    }
+}

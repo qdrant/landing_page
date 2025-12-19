@@ -5,10 +5,10 @@ using Qdrant.Client;
 using Qdrant.Client.Grpc;
 using static Qdrant.Client.Grpc.Conditions;
 
-public class Snippet // @hide
-{ // @hide
-    public static async Task Run() // @hide
-    { // @hide
+public class Snippet
+{
+    public static async Task Run()
+    {
         var client = new QdrantClient("localhost", 6334); // @hide
 
 
@@ -24,5 +24,5 @@ public class Snippet // @hide
             }
         );
 
-    } // @hide
-} // @hide
+    }
+}

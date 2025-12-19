@@ -1,8 +1,8 @@
 use qdrant_client::qdrant::{CreateFieldIndexCollectionBuilder, FieldType, TextIndexParamsBuilder, TokenizerType};
 use qdrant_client::Qdrant;
 
-pub async fn main() -> anyhow::Result<()> { // @hide
-    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
+pub async fn main() -> anyhow::Result<()> {
+    let client = Qdrant::from_url("http://localhost:6334").build()?;
 
     let params = TextIndexParamsBuilder::new(TokenizerType::Word)
         .ascii_folding(true)
@@ -18,4 +18,4 @@ pub async fn main() -> anyhow::Result<()> { // @hide
         .await?;
 
     Ok(())
-} // @hide
+}
