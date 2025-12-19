@@ -1,6 +1,5 @@
 ---
 title: Agno
-aliases: [ ../integrations/Agno/ ]
 ---
 
 # Agno
