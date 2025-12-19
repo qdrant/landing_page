@@ -8,7 +8,7 @@ weight: 1
 
 # Late Interaction Basics
 
-When building a search system, one fundamental question emerges: **when should a query and document interact?** The answer to this question profoundly affects both the quality of search results and the system's scalability.
+When building a search system, one fundamental question emerges: **when should a query and document interact?** The answer to this question may affect both the quality of search results and the system's scalability.
 
 This lesson introduces the late interaction paradigm - the foundation of multi-vector search - and explores how it compares to other approaches.
 
@@ -26,7 +26,7 @@ This lesson introduces the late interaction paradigm - the foundation of multi-v
 
 ---
 
-**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course/multi-vector-search/module-1/late-interaction-basics.ipynb">
+**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course-multi-vector-search/module-1/late-interaction-basics.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
 </a>
 
@@ -117,7 +117,7 @@ The core innovation: maintaining bags of contextualized embeddings and delaying 
 # TODO: implement the code snippet
 ```
 
-**Key observation:** Unlike single-vector search, each document is represented by **multiple vectors** (typically 32-512 depending on document length). The similarity computation (MaxSim) happens at search time, comparing each query token against all document tokens.
+**Key observation:** Unlike single-vector search, each document is represented by **multiple vectors**. At search time, we compare each query token against all document tokens to compute a relevance score.
 
 ## Why This Matters for Multi-Vector Search
 
@@ -127,7 +127,7 @@ Late interaction isn't just a technical optimization - it represents a fundament
 
 **Enables scale:** Pre-computed multi-vector representations mean you can build practical search systems over large document collections. The computational cost grows with collection size, not quadratically with query-document pairs.
 
-**Foundation for this course:** Everything we'll explore in subsequent lessons builds on this paradigm - from the MaxSim distance metric to multi-modal extensions like ColPali to optimization techniques for production deployment.
+**Foundation for this course:** Everything we'll explore in subsequent lessons builds on this paradigm - from the distance metrics that enable multi-vector comparison to multi-modal extensions like ColPali to optimization techniques for production deployment.
 
 **Beyond text:** The late interaction paradigm extends naturally to other modalities. Module 2 explores how ColPali applies these same principles to visual documents, enabling semantic search over images and PDFs.
 
