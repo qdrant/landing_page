@@ -2,8 +2,6 @@
 use qdrant_client::qdrant::{Document, Query, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 client
     .query(
         QueryPointsBuilder::new("books")

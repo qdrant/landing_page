@@ -2,7 +2,7 @@ use qdrant_client::qdrant::{Document, Fusion, PrefetchQueryBuilder, Query, Query
 use qdrant_client::Qdrant;
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     let dense_prefetch = PrefetchQueryBuilder::default()
         .query(Query::new_nearest(Document {

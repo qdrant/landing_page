@@ -2,8 +2,6 @@
 use qdrant_client::qdrant::{Document, Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 let dense_prefetch = PrefetchQueryBuilder::default()
     .query(Query::new_nearest(Document {
         text: "9780553213515".into(),

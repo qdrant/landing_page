@@ -2,7 +2,7 @@ use qdrant_client::qdrant::{Condition, Document, Filter, Query, QueryBatchPoints
 use qdrant_client::Qdrant;
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     let strict_filter = Filter::must([Condition::matches("title", "time travel".to_string())]);
     let relaxed_filter = Filter::must([Condition::matches("title", "time travel".to_string())]);

@@ -2,8 +2,6 @@
 use qdrant_client::qdrant::{Condition, Document, Filter, Query, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 let filter = Filter::should([
     Condition::matches("author", "Larry Niven".to_string()),
     Condition::matches("author", "Jerry Pournelle".to_string()),

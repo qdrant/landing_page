@@ -2,7 +2,7 @@ use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuild
 use qdrant_client::Qdrant;
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     let mut vectors_config = VectorsConfigBuilder::default();
     vectors_config.add_named_vector_params("description-dense", VectorParamsBuilder::new(384, Distance::Cosine));

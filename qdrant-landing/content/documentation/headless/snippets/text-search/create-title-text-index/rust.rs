@@ -2,7 +2,7 @@ use qdrant_client::qdrant::{CreateFieldIndexCollectionBuilder, FieldType, TextIn
 use qdrant_client::Qdrant;
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     let params = TextIndexParamsBuilder::new(TokenizerType::Word)
         .ascii_folding(true)

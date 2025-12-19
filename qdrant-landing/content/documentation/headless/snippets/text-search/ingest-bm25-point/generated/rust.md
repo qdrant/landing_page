@@ -5,8 +5,6 @@ use qdrant_client::qdrant::{Document, PointStruct, UpsertPointsBuilder};
 use qdrant_client::{Payload, Qdrant};
 use serde_json::json;
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 let point = PointStruct::new(
     1,
     HashMap::from([(

@@ -5,7 +5,7 @@ use qdrant_client::{Payload, Qdrant};
 use serde_json::json;
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     let point = PointStruct::new(
         1,
