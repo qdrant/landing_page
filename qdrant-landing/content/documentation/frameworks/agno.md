@@ -4,7 +4,7 @@ title: Agno
 
 # Agno
 
-[Agno](https://github.com/agno-oss/agno) is an incredibly fast multi-agent framework, runtime and UI. It enables you to build multi-agent systems with memory, knowledge, human-in-the-loop capabilities, and Model Context Protocol (MCP) support.
+[Agno](https://github.com/agno-agi/agno) is an incredibly fast multi-agent framework, runtime and UI. It enables you to build multi-agent systems with memory, knowledge, human-in-the-loop capabilities, and Model Context Protocol (MCP) support.
 
 You can orchestrate agents as multi-agent teams (providing more autonomy) or step-based agentic workflows (offering more control). Agno works seamlessly with Qdrant as a vector database for knowledge bases, enabling efficient storage and retrieval of information for your AI agents.
 
@@ -42,7 +42,7 @@ vector_db = Qdrant(
     collection=COLLECTION_NAME,
     url=qdrant_url,
     # or you can just url="http://localhost:6333"
-    api_key=api_key, #(optional)
+    api_key=api_key, # (optional)
 )
 
 # Create a knowledge base with Qdrant
@@ -65,51 +65,9 @@ agent = Agent(
 response = agent.print_response("What information do you have?")
 ```
 
-## Interactive Agent Example
-
-Here's a complete example of an interactive agent with Qdrant knowledge:
-
-```python
-import os
-import typer
-from rich.prompt import Prompt
-
-from agno.agent import Agent
-from agno.knowledge.knowledge import Knowledge
-from agno.vectordb.qdrant import Qdrant
-
-collection_name = "thai-recipe-index"
-
-vector_db = Qdrant(collection=collection_name, url="http://localhost:6333")
-
-knowledge_base = Knowledge(
-    vector_db=vector_db,
-)
-
-def qdrant_agent(user: str = "user"):
-    agent = Agent(
-        knowledge=knowledge_base,
-        debug_mode=True,
-    )
-
-    while True:
-        message = Prompt.ask(f"[bold] :sunglasses: {user} [/bold]")
-        if message in ("exit", "bye"):
-            break
-        agent.print_response(message)
-
-if __name__ == "__main__":
-    knowledge_base.add_content(
-        url="https://agno-public.s3.amazonaws.com/recipes/ThaiRecipes.pdf"
-    )
-
-    typer.run(qdrant_agent)
-```
-
-
 ## Further Reading
 
-- [Agno Documentation](https://docs.agno.dev/)
-- [Agno Cookbook (Sync)](https://docs.agno.dev/cookbook)
+- [Agno Documentation](https://docs.agno.com/introduction)
+- [Qdrant integration with Agno](https://docs.agno.com/integrations/vectordb/qdrant/overview)
 - [Qdrant Asynchronous](https://docs.agno.com/integrations/vectordb/qdrant/usage/async-qdrant-db)
-- [Agno GitHub Repository](https://github.com/agno-oss/agno)
+- [Agno GitHub Repository](https://github.com/agno-agi/agno)

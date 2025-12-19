@@ -9,6 +9,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 
 | Framework                                                     | Description                                                                                                          |
 | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [Agno](/documentation/frameworks/agno/)                       | Agno is a fast multi-agent framework, runtime and control plane.                                            |
 | [AutoGen](/documentation/frameworks/autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.                             |
 | [Camel](/documentation/frameworks/camel/)                     | Framework to build and use LLM-based agents for real-world task solving                                              |
 | [Cheshire Cat](/documentation/frameworks/cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                                    |
