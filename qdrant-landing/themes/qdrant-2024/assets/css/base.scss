@@ -68,6 +68,11 @@ body {
   font-variation-settings: 'wdth' 100;
 }
 
+/* Fix thick underlines in Mona Sans font */
+* {
+  text-decoration-thickness: 1px !important;
+}
+
 .weh {
   position: absolute;
   left: 0;
