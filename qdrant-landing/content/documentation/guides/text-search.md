@@ -268,7 +268,7 @@ For a tutorial on using SPLADE++ with FastEmbed, refer to [How to Generate Spars
 
 ### miniCOIL
 
-[miniCOIL](/articles/minicoil/) strikes a balance between the flexibility of BM25 and the performance of SPLADE++. Like SPLADE++, miniCOIL is a transformer-based model that generates sparse vectors for text. Instead of using word expansion to capture the context and meaning of terms, the model generates a four-dimensional vector for each term. miniCOIL does not use a fixed vocabulary, making it an effective model for lexical search that ranks results based on the contextual meaning of keywords.
+[miniCOIL](/articles/minicoil/) strikes a balance between the flexibility of BM25 and the performance of SPLADE++. miniCOIL is a transformer-based model that generates sparse vectors for text. Unlike SPLADE++, it doesn't use a vocabulary expansion mechanism. To capture the context and meaning of terms, the model generates a four-dimensional vector for each term. miniCOIL does not use a fixed vocabulary, making it an effective model for lexical search that ranks results based on the contextual meaning of keywords.
 
 miniCOIL can be [used with the FastEmbed library](/documentation/fastembed/fastembed-minicoil/).
 
@@ -284,7 +284,7 @@ After ingesting data with both vectors, you can use the prefetch feature to run 
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/hybrid-prefetch-rrf/" >}}
 
-This query searches for an ISBN, for which only the lexical search returns a result. The `score_threshold` for the semantic query prevents low-scoring results to be returned. So in this case, only the lexical result is returned to the user. If a user had searched for "time travel", only the semantic search would return results, and those would be returned to the user. If a user would search for a term that matched both the semantic and lexical vectors, the results from both searches would be combined to provide a more comprehensive set of results. 
+This query searches for an ISBN, for which only the lexical search returns a result. The `score_threshold` for the semantic query prevents low-scoring results to be returned (0.5 is just an example threshold; you need to tune what a good threshold is for your data and model). So in this case, only the lexical result is returned to the user. If a user had searched for "time travel", only the semantic search would return results, and those would be returned to the user. If a user would search for a term that matched both the semantic and lexical vectors, the results from both searches would be combined to provide a more comprehensive set of results. 
 
 You are not limited to prefetching just two queries. Examples include, but are not limited to:
 
