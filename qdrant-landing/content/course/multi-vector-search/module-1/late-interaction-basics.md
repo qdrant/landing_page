@@ -44,18 +44,66 @@ We can categorize approaches based on when this interaction occurs:
 - **Early interaction:** Query and document are encoded together, with each word attending to the other during the encoding process. Maximum interaction, but no pre-computation.
 - **Late interaction:** Query and document are encoded independently (like no interaction), but we preserve fine-grained representations that interact during scoring (late in the process).
 
-Let's examine each paradigm to understand the trade-offs.
+Let's examine each paradigm to understand the trade-offs. A simple example will illustrate the differences between all the methods.
+
+```python
+# Example documents and query we'll use throughout this lesson
+documents = [
+    "Qdrant is an AI-native vector database and a semantic search engine",
+    "Relational databases are not well-suited for search",
+]
+query = "What is Qdrant?"
+```
+
 
 ### Single-Vector Embeddings (No Interaction)
 
 The most common approach encodes each document and query into a single dense vector, then compares them using similarity (most often cosine similarity).
 
-**The appeal:** This method is simple, fast, and scales well. Document vectors can be pre-computed and stored, making search efficient even across billions of documents.
+**The strength:** This method is simple, fast, and scales well. Document vectors can be pre-computed and stored, making search efficient even across billions of documents.
 
 **The limitation:** Compressing an entire document into a single vector means losing fine-grained details. Think of it like summarizing a book in one sentence - you capture the general theme but miss the nuances that might be relevant to a specific query.
 
+Let's load a dense embedding model and generate vector representations for our documents.
+
 ```python
-# TODO: implement the code snippet
+from fastembed import TextEmbedding
+
+# Load the BAAI/bge-small-en-v1.5 model
+dense_model = TextEmbedding("BAAI/bge-small-en-v1.5")
+# Pass the documents through the model. The .passage_embed
+# method returns a generator we can iterate over and is
+# supposed to be used for the documents only.
+dense_generator = dense_model.passage_embed(documents)
+# Running next on the generator yields one vector at
+# the time, representing a single document.
+dense_vector = next(dense_generator)
+```
+
+We also need to generate a vector for the query using the same model.
+
+```python
+# Generate a dense vector for the query as well, using
+# the .query_embed method this time.
+dense_query_vector = next(dense_model.query_embed(query))
+```
+
+Now we can calculate the similarity between the query and each document using the dot product.
+
+```python
+import numpy as np
+
+# Calculate the dot product between the query
+# and the first document vector
+np.dot(dense_query_vector, dense_vector)
+```
+
+Let's calculate the similarity with the second document as well.
+
+```python
+# Calculate the dot product between the same query
+# and the second document vectors
+np.dot(dense_query_vector, next(dense_generator))
 ```
 
 Notice how each document and query produces exactly **one vector** of 384 dimensions.
@@ -70,8 +118,18 @@ At the other extreme, cross-encoders process the query and document together thr
 
 Cross-encoders excel at re-ranking a small candidate set but don't scale for searching large collections.
 
+Let's see how cross-encoders work differently by processing the query and documents together.
+
 ```python
-# TODO: implement the code snippet
+from fastembed.rerank.cross_encoder import TextCrossEncoder
+
+# Load the Xenova/ms-marco-MiniLM-L-6-v2 cross encoder model
+cross_encoder = TextCrossEncoder("Xenova/ms-marco-MiniLM-L-6-v2")
+# Run .rerank method on the query and all the documents.
+# It does not create any vector representations, but gives
+# the score indicating the relevance of the document for
+# the provided query.
+cross_encoder.rerank(query, documents)
 ```
 
 The key difference: cross-encoders **cannot pre-compute** document representations. Each query requires fresh computation for every candidate, making them impractical for initial retrieval over large collections.
@@ -113,8 +171,24 @@ The canonical implementation of late interaction is **ColBERT** (Contextualized 
 
 The core innovation: maintaining bags of contextualized embeddings and delaying the interaction computation until the final stage.
 
+Let's load a ColBERT model and generate multi-vector representations for our documents.
+
 ```python
-# TODO: implement the code snippet
+from fastembed import LateInteractionTextEmbedding
+
+# Load the colbert-ir/colbertv2.0 model
+colbert_model = LateInteractionTextEmbedding("colbert-ir/colbertv2.0")
+# Run .passage_embed on all the documents and create
+# a generator of the multi-vector representations
+colbert_generator = colbert_model.passage_embed(documents)
+colbert_vector = next(colbert_generator)
+```
+
+Similarly, we create a multi-vector representation for the query.
+
+```python
+# Create multi-vector representation for the query
+colbert_query_vector = next(colbert_model.query_embed(query))
 ```
 
 **Key observation:** Unlike single-vector search, each document is represented by **multiple vectors**. At search time, we compare each query token against all document tokens to compute a relevance score.
