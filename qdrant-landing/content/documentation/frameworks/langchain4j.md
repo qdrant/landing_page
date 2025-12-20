@@ -1,12 +1,12 @@
 ---
-title: Langchain4J
+title: LangChain4j
 ---
 
 # LangChain for Java
 
 LangChain for Java, also known as [Langchain4J](https://github.com/langchain4j/langchain4j), is a community port of [Langchain](https://www.langchain.com/) for building context-aware AI applications in Java
 
-You can use Qdrant as a vector store in Langchain4J through the [`langchain4j-qdrant`](https://central.sonatype.com/artifact/dev.langchain4j/langchain4j-qdrant) module.
+You can use Qdrant as a vector store in LangChain4j through the [`langchain4j-qdrant`](https://central.sonatype.com/artifact/dev.langchain4j/langchain4j-qdrant) module.
 
 ## Setup
 
@@ -47,9 +47,9 @@ EmbeddingStore<TextSegment> embeddingStore =
         .build();
 ```
 
-`QdrantEmbeddingStore` supports all the semantic features of Langchain4J. 
+`QdrantEmbeddingStore` supports all the semantic features of LangChain4j. 
 
 ## Further Reading
 
-- You can refer to the [Langchain4J examples](https://github.com/langchain4j/langchain4j-examples/) to get started.
+- You can refer to the [LangChain4j examples](https://github.com/langchain4j/langchain4j-examples/) to get started.
 - [Source Code](https://github.com/langchain4j/langchain4j/tree/main/langchain4j-qdrant)

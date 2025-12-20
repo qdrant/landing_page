@@ -26,8 +26,8 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Haystack](/documentation/frameworks/haystack/)               | LLM orchestration framework to build customizable, production-ready LLM applications.                                |
 | [HoneyHive](/documentation/frameworks/honeyhive/)               | AI observability and evaluation platform that provides tracing and monitoring tools for GenAI pipelines.           |
 | [Lakechain](/documentation/frameworks/lakechain/)             | Python framework for deploying document processing pipelines on AWS using infrastructure-as-code.                    |
-| [Langchain](/documentation/frameworks/langchain/)             | Python framework for building context-aware, reasoning applications using LLMs.                                      |
-| [Langchain4j](/documentation/frameworks/langchain4j/)         | Java framework for building context-aware, reasoning applications using LLMs.                                        |
+| [LangChain](/documentation/frameworks/langchain/)             | Python framework for building context-aware, reasoning applications using LLMs.                                      |
+| [LangChain4j](/documentation/frameworks/langchain4j/)         | Java framework for building context-aware, reasoning applications using LLMs.                                        |
 | [LangGraph](/documentation/frameworks/langgraph/)             | Python, Javascript libraries for building stateful, multi-actor applications.                                        |
 | [LlamaIndex](/documentation/frameworks/llama-index/)          | A data framework for building LLM applications with modular integrations.                                            |
 | [Mastra](/documentation/frameworks/mastra/)                   | Typescript framework to build AI applications and features quickly.                                                  |
