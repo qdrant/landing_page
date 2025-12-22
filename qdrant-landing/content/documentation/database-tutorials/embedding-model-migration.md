@@ -108,8 +108,7 @@ client.upsert(
 )
 ```
 
-A good practice is to always make sure both operations succeed, and if one of them fails, you should handle the
-error appropriately, for example, by retrying the operation.
+A good practice is to always ensure that both operations succeed. Any errors need to be handled on the client side. You could store errors in a log or "dead letter queue" for later processing. Transient errors can be retried at a later time. Other errors need to be analyzed and addressed accordingly.
 
 <aside role="status">
 This example is an overly simplified version of the code, but it illustrates the idea. Practically, it makes a lot
