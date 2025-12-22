@@ -29,7 +29,7 @@ To find books related to "time travel", use the following query:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-description-dense/" >}}
 
-In these examples, Qdrant uses [inference](/documentation/concepts/inference) to generate vectors from the `text` provided in the request using the specified `model`. Alternatively, you can generate explicitß vectors on the client side with a library like [FastEmbed](/documentation/fastembed/).
+In these examples, Qdrant uses [inference](/documentation/concepts/inference) to generate vectors from the `text` provided in the request using the specified `model`. Alternatively, you can generate explicit vectors on the client side with a library like [FastEmbed](/documentation/fastembed/).
 
 ### Lexical Search
 
