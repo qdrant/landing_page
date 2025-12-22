@@ -44,6 +44,8 @@ We can categorize approaches based on when this interaction occurs:
 - **Early interaction:** Query and document are encoded together, with each word attending to the other during the encoding process. Maximum interaction, but no pre-computation.
 - **Late interaction:** Query and document are encoded independently (like no interaction), but we preserve fine-grained representations that interact during scoring (late in the process).
 
+![Side-by-side comparison showing no interaction vs early interaction vs late interaction](/courses/multi-vector-search/module-1/interaction-comparison.png)
+
 Let's examine each paradigm to understand the trade-offs. A simple example will illustrate the differences between all the methods.
 
 ```python
@@ -54,7 +56,6 @@ documents = [
 ]
 query = "What is Qdrant?"
 ```
-
 
 ### Single-Vector Embeddings (No Interaction)
 
@@ -106,7 +107,9 @@ Let's calculate the similarity with the second document as well.
 np.dot(dense_query_vector, next(dense_generator))
 ```
 
-Notice how each document and query produces exactly **one vector** of 384 dimensions.
+Notice how each document and query produces exactly **one vector** of 384 dimensions. To achieve this compression, the model internally generates embeddings for each token, then uses **pooling** (typically mean pooling or a special [CLS] token) to aggregate them into a single fixed-size representation.
+
+![Single vector compresses all details, multi-vector maintains token-level granularity](/courses/multi-vector-search/module-1/single-vector-process.png)
 
 ### Cross-Encoders (Early Interaction)
 
@@ -144,14 +147,16 @@ Late interaction solves this challenge through a simple but powerful idea: **enc
 
 ### How It Works
 
-Instead of compressing a document into a single vector, late interaction represents it as a collection of contextualized token embeddings:
+Instead of compressing a document into a single vector, late interaction represents it as a collection of contextualized token embeddings
 
-1. **Encode independently:** Pass the document through an encoder (like BERT) to generate one embedding vector per token
-2. **Store multi-vector representations:** Keep all token vectors rather than aggregating them into a single vector
+1. **Encode:** Pass the document through an encoder (like ColBERT) to generate one embedding vector per token
+2. **Store multi-vector representations:** Keep all token vectors instead of aggregating them into a single vector
 3. **Defer comparison:** At search time, compare query token vectors against document token vectors
 4. **Late interaction:** The actual "interaction" between query and document happens late - only when computing relevance scores
 
-This is fundamentally different from both single-vector and cross-encoder approaches:
+![Indexing and search pipelines](/courses/multi-vector-search/module-1/indexing-and-search.png)
+
+This isn't that much fundamentally different from both single-vector and cross-encoder approaches, yet there are some differences:
 - Unlike single-vector: We preserve fine-grained, token-level information
 - Unlike cross-encoders: We encode documents independently, enabling pre-computation
 
@@ -162,6 +167,8 @@ This is fundamentally different from both single-vector and cross-encoder approa
 **Fine-grained matching:** Different query terms can match different parts of the document. A query about "apple computer" can distinguish contextual meaning from "apple fruit" based on which document tokens match strongly.
 
 **Contextual understanding:** Token embeddings are contextualized by the surrounding text. The word "bank" has different embeddings in "river bank" versus "financial bank."
+
+![River vs financial bank](/courses/multi-vector-search/module-1/river-vs-financial-bank.png)
 
 **Scalability:** While requiring more storage than single vectors, the deferred comparison enables searching large collections efficiently.
 
