@@ -1,9 +1,9 @@
 ---
-title: Autogen
+title: AutoGen
 aliases: [ ../integrations/autogen/ ]
 ---
 
-# Microsoft Autogen
+# Microsoft AutoGen
 
 [AutoGen](https://github.com/microsoft/autogen/tree/0.2)  is an open-source programming framework for building AI agents and facilitating cooperation among multiple agents to solve tasks.
 
@@ -13,7 +13,7 @@ aliases: [ ../integrations/autogen/ ]
 
 - Human participation: AutoGen allows human participation. This means that humans can provide input and feedback to the agents as needed.
 
-With the [Autogen-Qdrant integration](https://microsoft.github.io/autogen/0.2/docs/reference/agentchat/contrib/vectordb/qdrant/), you build Autogen workflows backed by Qdrant't performant retrievals.
+With the [AutoGen-Qdrant integration](https://microsoft.github.io/autogen/0.2/docs/reference/agentchat/contrib/vectordb/qdrant/), you build AutoGen workflows backed by Qdrant's performant retrievals.
 
 ## Installation
 
@@ -100,5 +100,5 @@ chat_results = ragproxyagent.initiate_chat(assistant, message=ragproxyagent.mess
 ## Next steps
 
 - AutoGen [documentation](https://microsoft.github.io/autogen/0.2)
-- Autogen [examples](https://microsoft.github.io/autogen/0.2/docs/Examples)
+- AutoGen [examples](https://microsoft.github.io/autogen/0.2/docs/Examples)
 - [Source Code](https://github.com/microsoft/autogen/blob/0.2/autogen/agentchat/contrib/vectordb/qdrant.py)
