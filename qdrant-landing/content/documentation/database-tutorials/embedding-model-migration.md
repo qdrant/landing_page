@@ -247,9 +247,8 @@ to have it dynamic, now it's time to enjoy the benefits of that effort. It might
 new version of the service that uses the new model and then switching the traffic to the new service.
 </aside>
 
-Please do not forget the dual-write mode you implemented in Step 2. Once your application is switched to the new
-collection, you should disable it completely, so the application only writes to the new collection.
+## Step 5: Wrapping Up
 
-At this point, your application is fully switched to the new collection, and all the searches will be performed
-using the new embeddings. You can now safely remove the old collection if you no longer need it, but keeping at least
-a snapshot of it is a good idea.
+Once your application has switched to the new collection, disable the dual-write mode you implemented in Step 2. From now on, the application should only write to the new collection.
+
+All searches are now performed using the new embeddings. If the old collection is no longer needed, you can safely delete it. To ensure you can roll back if necessary, keep a snapshot of the old collection.
