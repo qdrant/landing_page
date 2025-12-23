@@ -4,6 +4,7 @@ weight: 1
 aliases:
   - /documentation/tutorials/mighty.md/
   - /documentation/tutorials/search-beginners/
+  - /documentation/beginner-tutorials/search-beginners/
 ---
 
 # Build Your First Semantic Search Engine in 5 Minutes

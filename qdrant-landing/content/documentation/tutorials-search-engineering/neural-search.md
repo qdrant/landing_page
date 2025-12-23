@@ -2,6 +2,7 @@
 title: Build a Neural Search Service
 aliases:
   - /documentation/tutorials/neural-search/
+  - /documentation/beginner-tutorials/neural-search/
 weight: 2
 ---
 
