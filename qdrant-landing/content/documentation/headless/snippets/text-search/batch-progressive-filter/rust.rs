@@ -1,4 +1,4 @@
-use qdrant_client::qdrant::{Condition, DocumentBuilder, Filter, Query, QueryBatchPointsBuilder, QueryPointsBuilder};
+use qdrant_client::qdrant::{Condition, Document, Filter, Query, QueryBatchPointsBuilder, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 pub async fn main() -> anyhow::Result<()> {
@@ -9,28 +9,28 @@ pub async fn main() -> anyhow::Result<()> {
 
     let searches = vec![
         QueryPointsBuilder::new("books")
-            .query(Query::new_nearest(
-                DocumentBuilder::new("time travel", "sentence-transformers/all-minilm-l6-v2")
-                    .build(),
-            ))
+            .query(Query::new_nearest(Document::new(
+                "time travel",
+                "sentence-transformers/all-minilm-l6-v2",
+            )))
             .using("description-dense")
             .filter(strict_filter)
             .with_payload(true)
             .build(),
         QueryPointsBuilder::new("books")
-            .query(Query::new_nearest(
-                DocumentBuilder::new("time travel", "sentence-transformers/all-minilm-l6-v2")
-                    .build(),
-            ))
+            .query(Query::new_nearest(Document::new(
+                "time travel",
+                "sentence-transformers/all-minilm-l6-v2",
+            )))
             .using("description-dense")
             .filter(relaxed_filter)
             .with_payload(true)
             .build(),
         QueryPointsBuilder::new("books")
-            .query(Query::new_nearest(
-                DocumentBuilder::new("time travel", "sentence-transformers/all-minilm-l6-v2")
-                    .build(),
-            ))
+            .query(Query::new_nearest(Document::new(
+                "time travel",
+                "sentence-transformers/all-minilm-l6-v2",
+            )))
             .using("description-dense")
             .with_payload(true)
             .build(),

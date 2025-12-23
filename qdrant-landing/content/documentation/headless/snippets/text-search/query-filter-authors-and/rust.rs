@@ -1,4 +1,4 @@
-use qdrant_client::qdrant::{Condition, DocumentBuilder, Filter, Query, QueryPointsBuilder};
+use qdrant_client::qdrant::{Condition, Document, Filter, Query, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 pub async fn main() -> anyhow::Result<()> {
@@ -12,10 +12,10 @@ pub async fn main() -> anyhow::Result<()> {
     client
         .query(
             QueryPointsBuilder::new("books")
-                .query(Query::new_nearest(
-                    DocumentBuilder::new("space opera", "sentence-transformers/all-minilm-l6-v2")
-                        .build(),
-                ))
+                .query(Query::new_nearest(Document::new(
+                    "space opera",
+                    "sentence-transformers/all-minilm-l6-v2",
+                )))
                 .using("description-dense")
                 .filter(filter)
                 .with_payload(true)

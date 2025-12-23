@@ -1,5 +1,5 @@
 ```rust
-use qdrant_client::qdrant::{Condition, DocumentBuilder, Filter, Query, QueryPointsBuilder};
+use qdrant_client::qdrant::{Condition, Document, Filter, Query, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 let filter = Filter::should([
@@ -10,10 +10,10 @@ let filter = Filter::should([
 client
     .query(
         QueryPointsBuilder::new("books")
-            .query(Query::new_nearest(
-                DocumentBuilder::new("space opera", "sentence-transformers/all-minilm-l6-v2")
-                    .build(),
-            ))
+            .query(Query::new_nearest(Document::new(
+                "space opera",
+                "sentence-transformers/all-minilm-l6-v2",
+            )))
             .using("description-dense")
             .filter(filter)
             .with_payload(true)

@@ -1,4 +1,4 @@
-use qdrant_client::qdrant::{DocumentBuilder, Query, QueryPointsBuilder};
+use qdrant_client::qdrant::{Document, Query, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 pub async fn main() -> anyhow::Result<()> {
@@ -7,9 +7,7 @@ pub async fn main() -> anyhow::Result<()> {
     client
         .query(
             QueryPointsBuilder::new("books")
-                .query(Query::new_nearest(
-                    DocumentBuilder::new("time travel", "qdrant/bm25").build(),
-                ))
+                .query(Query::new_nearest(Document::new("time travel", "qdrant/bm25")))
                 .using("title-bm25")
                 .limit(10)
                 .with_payload(true)
