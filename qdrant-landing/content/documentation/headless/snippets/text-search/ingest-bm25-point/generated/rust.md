@@ -1,7 +1,7 @@
 ```rust
 use std::collections::HashMap;
 
-use qdrant_client::qdrant::{Document, PointStruct, UpsertPointsBuilder};
+use qdrant_client::qdrant::{DocumentBuilder, PointStruct, UpsertPointsBuilder};
 use qdrant_client::{Payload, Qdrant};
 use serde_json::json;
 
@@ -9,11 +9,7 @@ let point = PointStruct::new(
     1,
     HashMap::from([(
         "title-bm25".to_string(),
-        Document {
-            text: "The Time Machine".into(),
-            model: "qdrant/bm25".into(),
-            ..Default::default()
-        },
+        DocumentBuilder::new("The Time Machine", "qdrant/bm25").build(),
     )]),
     Payload::try_from(json!({
         "title": "The Time Machine",

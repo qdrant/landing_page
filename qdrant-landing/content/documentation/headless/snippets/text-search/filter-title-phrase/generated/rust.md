@@ -1,5 +1,5 @@
 ```rust
-use qdrant_client::qdrant::{Condition, Document, Filter, Query, QueryPointsBuilder};
+use qdrant_client::qdrant::{Condition, DocumentBuilder, Filter, Query, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 let filter = Filter::must([Condition::matches("title", "time machine".to_string())]);
@@ -7,11 +7,10 @@ let filter = Filter::must([Condition::matches("title", "time machine".to_string(
 client
     .query(
         QueryPointsBuilder::new("books")
-            .query(Query::new_nearest(Document {
-                text: "time travel".into(),
-                model: "sentence-transformers/all-minilm-l6-v2".into(),
-                ..Default::default()
-            }))
+            .query(Query::new_nearest(
+                DocumentBuilder::new("time travel", "sentence-transformers/all-minilm-l6-v2")
+                    .build(),
+            ))
             .using("description-dense")
             .filter(filter)
             .with_payload(true)

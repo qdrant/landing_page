@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use qdrant_client::qdrant::{Document, Query, QueryPointsBuilder, Value};
+use qdrant_client::qdrant::{DocumentBuilder, Query, QueryPointsBuilder, Value};
 use qdrant_client::Qdrant;
 
 pub async fn main() -> anyhow::Result<()> {
@@ -14,11 +14,11 @@ pub async fn main() -> anyhow::Result<()> {
     client
         .query(
             QueryPointsBuilder::new("books")
-                .query(Query::new_nearest(Document {
-                    text: "Mieville".into(),
-                    model: "qdrant/bm25".into(),
-                    options,
-                }))
+                .query(Query::new_nearest(
+                    DocumentBuilder::new("Mieville", "qdrant/bm25")
+                        .options(options)
+                        .build(),
+                ))
                 .using("author-bm25")
                 .limit(10)
                 .with_payload(true)
