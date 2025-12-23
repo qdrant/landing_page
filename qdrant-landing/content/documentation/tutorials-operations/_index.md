@@ -13,6 +13,7 @@ partition: qdrant
 
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
+| [Embedding Migration](/documentation/tutorials-operations/migration/) | Move dense and sparse embeddings to Qdrant. | CLI | 30m | Intermediate |
 | [Bulk Data Uploads](/documentation/tutorials-operations/bulk-upload/) | High-scale ingestion tricks for power users. | Python | 20m | Intermediate |
 | [Snapshot & Backup](/documentation/tutorials-operations/create-snapshot/) | Create and restore collection snapshots. | Python | 20m | Beginner |
 | [Billion-Scale Search](/documentation/tutorials-operations/large-scale-search/) | Cost-efficient search for LAION-400M datasets. | None | 2 days | Advanced |

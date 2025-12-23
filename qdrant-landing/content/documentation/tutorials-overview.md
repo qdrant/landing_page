@@ -1,7 +1,6 @@
 ---
 title: Overview
 weight: 16
-is_empty: false
 aliases:
   - how-to
   - tutorials
@@ -56,7 +55,6 @@ partition: qdrant
 
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
-| [Embedding Migration](/documentation/tutorials-ecosystem/migration/) | Move dense and sparse embeddings to Qdrant. | CLI | 30m | Intermediate |
 | [S3 Ingestion with LangChain](/documentation/data-ingestion-beginners/) | Stream data from AWS S3 to vector store. | LangChain | 30m | Beginner |
 | [Hugging Face Datasets](/documentation/tutorials-ecosystem/huggingface-datasets/) | Load and search public ML datasets. | Python | 15m | Beginner |
 | [Databricks Integration](/documentation/send-data/databricks/) | Vectorize datasets using FastEmbed on Databricks. | Databricks | 30m | Intermediate |
@@ -71,6 +69,7 @@ partition: qdrant
 
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
+| [Embedding Migration](/documentation/tutorials-operations/migration/) | Move dense and sparse embeddings to Qdrant. | CLI | 30m | Intermediate |
 | [Bulk Data Uploads](/documentation/tutorials-operations/bulk-upload/) | High-scale ingestion tricks for power users. | Python | 20m | Intermediate |
 | [Snapshot & Backup](/documentation/tutorials-operations/create-snapshot/) | Create and restore collection snapshots. | Python | 20m | Beginner |
 | [Billion-Scale Search](/documentation/tutorials-operations/large-scale-search/) | Cost-efficient search for LAION-400M datasets. | None | 2 days | Advanced |

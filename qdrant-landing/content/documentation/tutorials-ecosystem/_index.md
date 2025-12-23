@@ -13,7 +13,6 @@ partition: qdrant
 
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
-| [Embedding Migration](/documentation/tutorials-ecosystem/migration/) | Move dense and sparse embeddings to Qdrant. | CLI | 30m | Intermediate |
 | [S3 Ingestion with LangChain](/documentation/data-ingestion-beginners/) | Stream data from AWS S3 to vector store. | LangChain | 30m | Beginner |
 | [Hugging Face Datasets](/documentation/tutorials-ecosystem/huggingface-datasets/) | Load and search public ML datasets. | Python | 15m | Beginner |
 | [Databricks Integration](/documentation/send-data/databricks/) | Vectorize datasets using FastEmbed on Databricks. | Databricks | 30m | Intermediate |
