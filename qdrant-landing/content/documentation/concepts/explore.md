@@ -155,6 +155,56 @@ The result of this API contains one array per recommendation requests.
 }
 ```
 
+## Relevance feedback
+
+*Available as of 1.17*
+
+Relevance feedback tries to distill signals from one search result to apply them into a second iteration of search.
+
+In Qdrant it is possible to do one kind of relevance feedback which, in short, needs two things:
+
+1. A collection of vectors to search through.
+2. An oracle to determine relevance of results.
+
+First part is regular nearest neighbors search, let's call this ___retriever___. Second part is anything that can assign a relevance score to the top 3-5 results, let's call this ___feedback___. By analyzing the feedback scores for the top results, it is possible to know if the feedback model thinks the retriever did a good job, or results can be improved.
+
+Imagine the following set of results:
+
+| Point ID | Retriever Similarity | Relevance Feedback
+| --- | --- | --- |
+| 111 | 0.89 | 0.68 |
+| 222 | 0.81 | 0.72 | 
+| 333 | 0.77 | 0.61 |
+
+In this case, feedback model considers the second result to be the most relevant of the three.
+
+To solve this, and to leverage the entire collection, Qdrant has a special kind of query that can take this information as input, and modify search traversal to consider this discrepancies. For interface, it needs:
+
+1. The original query
+2. A short list of previous results, and their relevance score.
+
+Internally, it will convert the list into pairs of points, depending on their relevance scores, and then use them as part of a formula that considers the similarity of candidates to the query, and to each feedback item.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points-explore/relevance-feedback-naive/" >}}
+
+For now, the `naive` strategy is the only one available. For the curious ones, this is what it does:
+
+$$
+score = a * sim(query, candidate) + \sum_{pair \in pairs}{(confidence_{pair})^b * c * delta_{pair}} \\\\
+$$
+\begin{align}
+\text{where} \\\\
+confidence_{pair} &= relevance_{positive} - relevance_{negative} \\\\
+delta_{pair} &= sim(positive, candidate) - sim(negative, candidate) \\\\
+\end{align}
+
+The `a`, `b`, and `c` parameters need to be trained for each triplet of retriever, feedback model, and dataset. For example, for scidocs dataset, qwen-small retriever, and colbert feedback, these are the weights we found best: `{ "a": 0.0816, "b": 0.3992, "c": 0.0322 }`.
+
+For a more detailed description of how it works, and how to train it with your own models and data, visit the [Relevance Feedback](todo: insert link here) article.
+
+
+
+
 ## Discovery API
 
 *Available as of v1.7*
