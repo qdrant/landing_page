@@ -7,8 +7,33 @@ aliases:
 
 # Security
 
-Please read this page carefully. Although there are various ways to secure your Qdrant instances, **they are unsecured by default**.
-You need to enable security measures before production use. Otherwise, they are completely open to anyone
+Qdrant supports various security features to help you secure your instance. Most
+of these must to be explicitly configured to make your instance production
+ready. Please read the following section carefully.
+
+## Secure your instance
+
+<aside role="alert">Custom deployments are <b>not</b> secure by default and are <b>not</b> production ready. Qdrant Cloud deployments are always secure and production ready.</aside>
+
+By default, all self deployed Qdrant instances are not secure. They are open to
+all network interfaces and do not have any kind of authentication configured. It
+may be open to everybody on the internet without any restrictions. You must
+therefore take security measures to make your instance production ready.
+Please read through this section carefully with instructions on how to secure
+your instance.
+
+Instances deployed via Qdrant Cloud are always secure by default. Refer to
+[Authentication](/documentation/cloud/authentication/) and [Client IP
+Restrictions](/documentation/cloud/configure-cluster/#client-ip-restrictions).
+
+To properly secure your own instance we strongly recommend to take the following steps:
+
+1. [Authentication](#authentication): set up an API key to prevent unauthorized access.  
+   The most important step to prevent unauthenticated actors from accessing your data.
+2. [Network Bind](#network-bind): bind to a specific network interface or IP address.  
+   When developing locally, bind to `127.0.0.1` to prevent all external access.
+   When deploying to production, bind to a private network interface or IP.
+3. [TLS](#tls): enable encrypted traffic everywhere using TLS.
 
 ## Authentication
 
