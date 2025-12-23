@@ -1,5 +1,7 @@
 ---
 title: Migration to Qdrant
+aliases:
+    - /documentation/database-tutorials/migration/
 weight: 180
 ---
 

@@ -2,6 +2,7 @@
 title: Build With Async API
 aliases:
   - /documentation/tutorials/async-api/
+  - /documentation/database-tutorials/async-api/
 weight: 4
 ---
 

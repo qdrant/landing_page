@@ -2,6 +2,7 @@
 title: Create & Restore Snapshots
 aliases:
   - /documentation/tutorials/create-snapshot/
+  - /documentation/database-tutorials/create-snapshot/
 weight: 2
 ---
 

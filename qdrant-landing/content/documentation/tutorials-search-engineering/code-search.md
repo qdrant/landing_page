@@ -2,6 +2,7 @@
 title: Search Through Your Codebase
 aliases:
   - /documentation/tutorials/code-search/
+  - /documentation/advanced-tutorials/code-search/
 weight: 2
 ---
 

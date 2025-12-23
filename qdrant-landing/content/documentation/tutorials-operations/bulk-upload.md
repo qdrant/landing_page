@@ -2,6 +2,7 @@
 title: Bulk Upload Vectors
 aliases:
   - /documentation/tutorials/bulk-upload/
+  - /documentation/database-tutorials/bulk-upload/
 weight: 1
 ---
 

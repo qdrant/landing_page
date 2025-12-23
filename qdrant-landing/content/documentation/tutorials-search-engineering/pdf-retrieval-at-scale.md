@@ -2,6 +2,7 @@
 title: Scaling PDF Retrieval with Qdrant
 aliases:
   - /documentation/tutorials/pdf-retrieval-at-scale/
+  - /documentation/advanced-tutorials/pdf-retrieval-at-scale/
 short_description: "Optimizing PDF retrieval at scale with Qdrant and Vision Large Language Models (VLLMs) such as ColPali and ColQwen."
 description: "Optimizing PDF retrieval at scale with Qdrant and Vision Large Language Models (VLLMs) such as ColPali and ColQwen. Two-stage retrieval with multivector representations mean pooling."
 weight: 4

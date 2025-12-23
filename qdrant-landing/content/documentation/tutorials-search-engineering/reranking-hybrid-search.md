@@ -3,6 +3,7 @@ title: Reranking in Hybrid Search
 weight: 2
 aliases:
   - /documentation/search-precision/reranking-hybrid-search/
+  - /documentation/advanced-tutorials/reranking-hybrid-search/
 ---
 
 # Reranking Hybrid Search Results with Qdrant Vector Database
