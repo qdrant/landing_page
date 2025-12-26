@@ -9,33 +9,34 @@ import (
 
 // @hide-end
 func Main() {
-//@hide-start
+	//@hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{
 		Host: "localhost",
 		Port: 6334,
 	})
 
-	if err != nil { panic(err) }
-// @hide-end
+	if err != nil {
+		panic(err)
+	}
+	// @hide-end
 
+	excludeFilter := qdrant.Filter{
+		MustNot: []*qdrant.Condition{
+			qdrant.NewMatch("author", "H.G. Wells"),
+		},
+	}
 
-excludeFilter := qdrant.Filter{
-	MustNot: []*qdrant.Condition{
-		qdrant.NewMatch("author", "H.G. Wells"),
-	},
-}
-
-client.Query(context.Background(), &qdrant.QueryPoints{
-	CollectionName: "books",
-	Query: qdrant.NewQueryNearest(
-		qdrant.NewVectorInputDocument(&qdrant.Document{
-			Model: "sentence-transformers/all-minilm-l6-v2",
-			Text:  "time travel",
-		}),
-	),
-	Using:       qdrant.PtrOf("description-dense"),
-	WithPayload: qdrant.NewWithPayload(true),
-	Filter:      &excludeFilter,
-})
+	client.Query(context.Background(), &qdrant.QueryPoints{
+		CollectionName: "books",
+		Query: qdrant.NewQueryNearest(
+			qdrant.NewVectorInputDocument(&qdrant.Document{
+				Model: "sentence-transformers/all-minilm-l6-v2",
+				Text:  "time travel",
+			}),
+		),
+		Using:       qdrant.PtrOf("description-dense"),
+		WithPayload: qdrant.NewWithPayload(true),
+		Filter:      &excludeFilter,
+	})
 
 }

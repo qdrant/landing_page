@@ -11,9 +11,9 @@ client.Upsert(context.Background(), &qdrant.UpsertPoints{
 				}),
 			}),
 			Payload: qdrant.NewValueMap(map[string]any{
-				"title": "La Máquina del Tiempo",
+				"title":  "La Máquina del Tiempo",
 				"author": "H.G. Wells",
-				"isbn": "9788411486880",
+				"isbn":   "9788411486880",
 			}),
 		},
 	},

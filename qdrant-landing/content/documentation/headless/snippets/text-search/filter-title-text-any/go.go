@@ -9,29 +9,30 @@ import (
 
 // @hide-end
 func Main() {
-//@hide-start
+	//@hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{
 		Host: "localhost",
 		Port: 6334,
 	})
 
-	if err != nil { panic(err) }
-// @hide-end
+	if err != nil {
+		panic(err)
+	}
+	// @hide-end
 
-
-client.Query(context.Background(), &qdrant.QueryPoints{
-	CollectionName: "books",
-	Query: qdrant.NewQueryNearest(
-		qdrant.NewVectorInputDocument(&qdrant.Document{
-			Model: "sentence-transformers/all-minilm-l6-v2",
-			Text:  "space opera",
-		}),
-	),
-	Using:       qdrant.PtrOf("description-dense"),
-	WithPayload: qdrant.NewWithPayload(true),
-	Filter: &qdrant.Filter{
-		Must: []*qdrant.Condition{ qdrant.NewExpressionCondition(qdrant.NewMatchTextAny("title", "space war")) },
-	},
-})
+	client.Query(context.Background(), &qdrant.QueryPoints{
+		CollectionName: "books",
+		Query: qdrant.NewQueryNearest(
+			qdrant.NewVectorInputDocument(&qdrant.Document{
+				Model: "sentence-transformers/all-minilm-l6-v2",
+				Text:  "space opera",
+			}),
+		),
+		Using:       qdrant.PtrOf("description-dense"),
+		WithPayload: qdrant.NewWithPayload(true),
+		Filter: &qdrant.Filter{
+			Must: []*qdrant.Condition{qdrant.NewMatchTextAny("title", "space war")},
+		},
+	})
 
 }

@@ -10,7 +10,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 	Using:       qdrant.PtrOf("description-dense"),
 	WithPayload: qdrant.NewWithPayload(true),
 	Filter: &qdrant.Filter{
-		Must: []*qdrant.Condition{ qdrant.NewExpressionCondition(qdrant.NewMatchText("title", "space")) },
+		Must: []*qdrant.Condition{qdrant.NewMatchText("title", "space")},
 	},
 })
 ```

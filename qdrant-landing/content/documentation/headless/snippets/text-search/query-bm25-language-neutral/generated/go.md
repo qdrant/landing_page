@@ -3,9 +3,9 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 	CollectionName: "books",
 	Query: qdrant.NewQueryNearest(
 		qdrant.NewVectorInputDocument(&qdrant.Document{
-			Model: "qdrant/bm25",
-			Text:  "Mieville",
-			Options: qdrant.NewValueMap(map[string]any{ "language": "none", "tokenizer": "multilingual", "ascii_folding": true }),
+			Model:   "qdrant/bm25",
+			Text:    "Mieville",
+			Options: qdrant.NewValueMap(map[string]any{"language": "none", "tokenizer": "multilingual", "ascii_folding": true}),
 		}),
 	),
 	Using:       qdrant.PtrOf("author-bm25"),

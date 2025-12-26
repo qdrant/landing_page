@@ -11,9 +11,9 @@ client.Upsert(context.Background(), &qdrant.UpsertPoints{
 				}),
 			}),
 			Payload: qdrant.NewValueMap(map[string]any{
-				"title": "The Time Machine",
+				"title":  "The Time Machine",
 				"author": "H.G. Wells",
-				"isbn": "9780553213515",
+				"isbn":   "9780553213515",
 			}),
 		},
 	},

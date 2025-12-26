@@ -5,7 +5,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 		qdrant.NewVectorInputDocument(&qdrant.Document{
 			Model:   "qdrant/bm25",
 			Text:    "tiempo",
-			Options: qdrant.NewValueMap(map[string]any{ "language": "spanish" }),
+			Options: qdrant.NewValueMap(map[string]any{"language": "spanish"}),
 		}),
 	),
 	Using:       qdrant.PtrOf("title-bm25"),
