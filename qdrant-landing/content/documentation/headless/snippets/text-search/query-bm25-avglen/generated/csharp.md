@@ -1,9 +1,6 @@
 ```csharp
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
-using static Qdrant.Client.Grpc.Conditions;
 
 await client.QueryAsync(
     collectionName: "books",
@@ -11,7 +8,7 @@ await client.QueryAsync(
     {
         Text = "time travel",
         Model = "qdrant/bm25",
-        Options = { ["avg_len"] = 5.0 }
+        Options = { ["avg_len"] = 5.0 },
     },
     usingVector: "title-bm25",
     payloadSelector: true,

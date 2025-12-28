@@ -1,9 +1,6 @@
 ```csharp
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
-using static Qdrant.Client.Grpc.Conditions;
 
 await client.QueryAsync(
     collectionName: "books",
@@ -12,14 +9,18 @@ await client.QueryAsync(
         new()
         {
             Using = "description-dense",
-            Query = new Document { Text = "9780553213515", Model = "sentence-transformers/all-minilm-l6-v2" },
-            ScoreThreshold = 0.5f
+            Query = new Document
+            {
+                Text = "9780553213515",
+                Model = "sentence-transformers/all-minilm-l6-v2",
+            },
+            ScoreThreshold = 0.5f,
         },
         new()
         {
             Using = "isbn-bm25",
-            Query = new Document { Text = "9780553213515", Model = "Qdrant/bm25" }
-        }
+            Query = new Document { Text = "9780553213515", Model = "Qdrant/bm25" },
+        },
     },
     query: Fusion.Rrf,
     payloadSelector: true,

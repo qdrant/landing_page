@@ -1,9 +1,6 @@
 ```csharp
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
-using static Qdrant.Client.Grpc.Conditions;
 
 await client.UpsertAsync(
     collectionName: "books",
@@ -18,16 +15,16 @@ await client.UpsertAsync(
                 ["title-bm25"] = new Document
                 {
                     Text = "La Máquina del Tiempo",
-                    Model = "qdrant/bm25"
-                }
+                    Model = "qdrant/bm25",
+                },
             },
             Payload =
             {
                 ["title"] = "La Máquina del Tiempo",
                 ["author"] = "H.G. Wells",
-                ["isbn"] = "9788411486880"
-            }
-        }
+                ["isbn"] = "9788411486880",
+            },
+        },
     }
 );
 ```

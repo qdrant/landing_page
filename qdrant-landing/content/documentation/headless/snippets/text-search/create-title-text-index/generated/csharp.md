@@ -1,9 +1,6 @@
 ```csharp
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
-using static Qdrant.Client.Grpc.Conditions;
 
 await client.CreatePayloadIndexAsync(
     collectionName: "books",
@@ -15,8 +12,8 @@ await client.CreatePayloadIndexAsync(
         {
             Tokenizer = TokenizerType.Word,
             AsciiFolding = true,
-            Lowercase = true
-        }
+            Lowercase = true,
+        },
     }
 );
 ```

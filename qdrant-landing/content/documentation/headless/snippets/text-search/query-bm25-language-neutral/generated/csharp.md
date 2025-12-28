@@ -1,9 +1,6 @@
 ```csharp
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
-using static Qdrant.Client.Grpc.Conditions;
 
 await client.QueryAsync(
     collectionName: "books",
@@ -15,8 +12,8 @@ await client.QueryAsync(
         {
             ["language"] = "none",
             ["tokenizer"] = "multilingual",
-            ["ascii_folding"] = true
-        }
+            ["ascii_folding"] = true,
+        },
     },
     usingVector: "author-bm25",
     payloadSelector: true,
