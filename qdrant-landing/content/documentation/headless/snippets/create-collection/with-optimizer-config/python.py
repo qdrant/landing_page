@@ -5,5 +5,5 @@ client = QdrantClient(url="http://localhost:6333")
 client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-    optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
+    optimizers_config=models.OptimizersConfigDiff(indexing_threshold=20000),
 )

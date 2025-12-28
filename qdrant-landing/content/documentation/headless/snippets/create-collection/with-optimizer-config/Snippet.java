@@ -26,7 +26,7 @@ public class Snippet {
                                             .build())
                                     .build())
                             .setOptimizersConfig(
-                                OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
+                                OptimizersConfigDiff.newBuilder().setIndexingThreshold(20000).build())
                             .build())
                     .get();
         }
