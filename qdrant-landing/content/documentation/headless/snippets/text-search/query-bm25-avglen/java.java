@@ -1,6 +1,7 @@
 package com.example.snippets_amalgamation;
 
 import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.ValueFactory.value;
 import static io.qdrant.client.WithPayloadSelectorFactory.enable;
 
 import io.qdrant.client.QdrantClient;
@@ -21,6 +22,7 @@ public class Snippet {
                         Document.newBuilder()
                             .setText("time travel")
                             .setModel("qdrant/bm25")
+                            .putOptions("avg_len", value(5.0))
                             .build()))
                 .setUsing("title-bm25")
                 .setLimit(10)
