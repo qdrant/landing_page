@@ -15,11 +15,10 @@ Tackle the memory and performance challenges of production-scale multi-vector se
 
 ## Today's path
 
-1. Memory Usage Implications and Solutions
+1. Multi-Stage Retrieval with Universal Query API
 2. Vector Quantization Techniques
 3. Pooling Techniques
 4. MUVERA
-5. Multi-Stage Retrieval with Universal Query API
-6. Evaluating Search Pipelines
+5. Evaluating Search Pipelines
 
 You'll master the optimization strategies needed to deploy multi-vector search at scale.

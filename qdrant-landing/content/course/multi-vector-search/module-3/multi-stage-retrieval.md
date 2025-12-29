@@ -1,7 +1,7 @@
 ---
 title: "Multi-Stage Retrieval with Universal Query API"
 description: Combine multiple optimization techniques in multi-stage retrieval pipelines using Qdrant's Universal Query API.
-weight: 5
+weight: 1
 ---
 
 {{< date >}} Module 3 {{< /date >}}
