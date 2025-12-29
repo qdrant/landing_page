@@ -1,7 +1,7 @@
 ---
 title: "Multi-Vector Embeddings in Qdrant"
 description: Configure Qdrant collections for multi-vector embeddings and learn how to index and query multi-vector data.
-weight: 4
+weight: 5
 ---
 
 {{< date >}} Module 2 {{< /date >}}
