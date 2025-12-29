@@ -40,23 +40,6 @@ Single-vector embeddings compress entire documents and queries into single point
 
 This distinction is crucial. With single-vector search, a document that mentions Python and databases will likely get a moderate similarity score, even if it never discusses the specific combination you're looking for. With multi-vector search, **every query token must find a strong match** for the overall score to be high. This is token-level verification, not just topical matching.
 
-<!-- TODO: Add diagram illustrating fine-grained matching concept
-
-Visual elements:
-- Left panel: Single-vector approach
-  - Show query and document as single averaged embeddings (blobs in embedding space)
-  - Label: "Lossy compression - all details averaged into one representation"
-  - Similarity: single cosine distance
-
-- Right panel: Multi-vector approach
-  - Show query and document as sequences of token embeddings
-  - Label: "Token-level preservation - each concept has its own representation"
-  - Show token-to-token similarity computations with MaxSim aggregation
-  - Highlight: "Each query token finds its best match independently"
-
-Use contrasting colors to emphasize the difference in granularity.
--->
-
 ## A Concrete Demonstration
 
 Let's move from theory to practice with a real-world example that shows exactly when multi-vector search makes a difference.
