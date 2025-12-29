@@ -58,35 +58,75 @@ Let's make this concrete with an example. Consider:
 - **Query**: "apple computer"
 - **Document**: "Apple makes the MacBook laptop"
 
-<!-- TODO: Add detailed diagram of MaxSim computation for "apple computer" query
-This is the MAIN example diagram to use throughout the lesson.
+MaxSim formula will choose the strongest connection from the query tokens to document tokens and sum the strengths of each connection for all the query tokens.
 
-Show:
-- Query: "apple computer" with 2 token embeddings [q₁="apple", q₂="computer"]
-- Document: "Apple makes the MacBook laptop" with 5 token embeddings [d₁="Apple", d₂="makes", d₃="the", d₄="MacBook", d₅="laptop"]
-
-Step-by-step visualization:
-1. For q₁ ("apple"):
-   - Show similarity scores: sim(q₁,d₁)=0.92, sim(q₁,d₂)=0.15, sim(q₁,d₃)=0.08, sim(q₁,d₄)=0.31, sim(q₁,d₅)=0.19
-   - Highlight MAX = 0.92 (matches "Apple" company name)
-
-2. For q₂ ("computer"):
-   - Show similarity scores: sim(q₂,d₁)=0.41, sim(q₂,d₂)=0.11, sim(q₂,d₃)=0.06, sim(q₂,d₄)=0.87, sim(q₂,d₅)=0.73
-   - Highlight MAX = 0.87 (matches "MacBook")
-
-3. Final MaxSim score: 0.92 + 0.87 = 1.79
-
-Use color coding:
-- Highlight maximum values in green
-- Show arrows from query tokens to their best matching document tokens
-- Display similarity matrix as a heatmap (2×5 grid)
--->
+![MaxSim(Q, D)](/courses/multi-vector-search/module-1/maxsim-q-d.png)
 
 The key insight here: **each query token finds its best match in the document**. This enables **fine-grained semantic matching** - instead of comparing holistic document representations, we're allowing each part of the query to independently find its most relevant counterpart.
 
+Let's walk through this with a concrete example:
+
 ```python
-# TODO: implement the code snippet
+query = "apple computer"
+document = "Apple makes the MacBook laptop"
 ```
+
+Next, we load the ColBERT model to generate multi-vector representations for both the query and document:
+
+```python
+from fastembed import LateInteractionTextEmbedding
+
+# Load the colbert-ir/colbertv2.0 model
+colbert_model = LateInteractionTextEmbedding("colbert-ir/colbertv2.0")
+
+# Create multi-vector representations of the query and document
+query_vector = next(colbert_model.query_embed(query))
+document_vector = next(colbert_model.passage_embed(document))
+```
+
+### Understanding Tokenization
+
+Before we compute MaxSim, let's understand how ColBERT tokenizes our query and document. This tokenization is crucial because each token gets its own embedding vector.
+
+```python
+query_tokenization = colbert_model.model.tokenize([query])[0]
+query_tokenization.tokens
+```
+
+This shows how the query tokenizes into individual tokens including special tokens like `[CLS]` and `[SEP]`.
+
+```python
+document_tokenization = colbert_model.model.tokenize([document])[0]
+document_tokenization.tokens
+```
+
+Similarly, the document is tokenized. Notice that words like 'MacBook' may be split into subword tokens using WordPiece tokenization (e.g., 'mac' and '##book'). Each token will get its own embedding vector.
+
+Now let's compute MaxSim step-by-step. For each query token, we'll find its maximum similarity score across all document tokens, then sum these maxima:
+
+```python
+import numpy as np
+
+similarity = 0.0
+for qt, qt_vector in zip(query_tokenization.tokens,
+                         query_vector):
+    max_idx, max_sim = 0, np.dot(qt_vector, document_vector[0])
+    for i, dt_vector in enumerate(document_vector[1:], start=1):
+        distance = np.dot(qt_vector, dt_vector)
+        if distance > max_sim:
+            max_idx, max_sim = i, distance
+
+    print(qt, max_idx, max_sim)
+    similarity += max_sim
+```
+
+The code iterates through each query token, computes its dot product similarity with every document token, and keeps track of the maximum. The `print` statement shows which document position each query token matched best with and the similarity score. Each query token independently seeks its strongest counterpart in the document.
+
+```python
+print("MaxSim(Q, D) =", similarity)
+```
+
+The final MaxSim(Q, D) score is the sum of all these maximum similarities.
 
 ### The Intuition Behind MaxSim
 
@@ -103,30 +143,38 @@ There's a significant challenge related to MaxSim when it comes to indexing thes
 - We **iterate over query tokens** - each query token contributes to the final sum
 - Documents are **what we search within** - we take the maximum similarity from document tokens for each query token
 
-This non-symmetrical structure means `MaxSim(Q, D) ≠ MaxSim(D, Q)`. When you swap the parameters, you change which tokens contribute to the sum. 
+This non-symmetrical structure means `MaxSim(Q, D) ≠ MaxSim(D, Q)`. When you swap the parameters, you change which tokens contribute to the sum.
 
-<!-- TODO: Add diagram showing parameter asymmetry
-Use the "apple computer" example again to show the asymmetry:
+![MaxSim(D, Q)](/courses/multi-vector-search/module-1/maxsim-d-q.png)
 
-Side-by-side comparison:
+To illustrate this asymmetry concretely, let's compute MaxSim in reverse - iterating over document tokens instead of query tokens:
 
-Left: MaxSim(Query, Document)
-- Iterate over 2 query tokens [q₁, q₂]
-- Each finds max from 5 document tokens
-- Sum = 0.92 + 0.87 = 1.79
+```python
+similarity = 0.0
+for dt, dt_vector in zip(document_tokenization.tokens,
+                         document_vector):
+    max_idx, max_sim = 0, np.dot(dt_vector, query_vector[0])
+    for i, qt_vector in enumerate(query_vector[1:], start=1):
+        distance = np.dot(dt_vector, qt_vector)
+        if distance > max_sim:
+            max_idx, max_sim = i, distance
 
-Right: MaxSim(Document, Query)  [if we swap parameters]
-- Iterate over 5 document tokens [d₁, d₂, d₃, d₄, d₅]
-- Each finds max from only 2 query tokens
-- Sum = max(d₁→q) + max(d₂→q) + max(d₃→q) + max(d₄→q) + max(d₅→q)
-- Different result because we sum over different number of tokens
+    print(dt, max_idx, max_sim)
+    similarity += max_sim
+```
 
-Visually show:
-- Different iteration paths (arrows)
-- Different number of contributions to the sum
-- Highlight that Q and D have fundamentally different roles (not interchangeable)
--->
+Now the iteration is different: we loop over document tokens instead of query tokens. Since the document has more tokens than the query, we're summing over more terms, which fundamentally changes the computation.
 
+```python
+print("MaxSim(D, Q) =", similarity)
+```
+
+The `MaxSim(D, Q)` score will be different from `MaxSim(Q, D)` because we iterated over a different number of tokens. This asymmetry occurs because:
+- We summed over document tokens instead of query tokens (different number of terms)
+- The iteration direction changed the fundamental computation
+- Query and document play fundamentally different roles in the formula
+
+This non-symmetry is why HNSW indexing becomes problematic for MaxSim - nearest neighbor relationships change depending on which direction you query.
 
 A document's nearest neighbors are query-dependent and change based on which query you're processing, making it impossible to build the static proximity graph that HNSW requires. The practical reality is you must compute MaxSim against every document at query time with brute force comparison. For large collections, this becomes slow, or even impossible.
 
