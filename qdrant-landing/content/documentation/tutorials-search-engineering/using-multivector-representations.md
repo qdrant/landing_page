@@ -3,6 +3,7 @@ title: How to Use Multivector Representations with Qdrant Effectively
 weight: 2
 aliases:
   - /documentation/search-precision/multivector-representations-with-Qdrant/
+  - /documentation/advanced-tutorials/using-multivector-representations/
 ---
 # How to Effectively Use Multivector Representations in Qdrant for Reranking
 Multivector Representations are one of the most powerful features of Qdrant. However, most people don't use them effectively, resulting in massive RAM overhead, slow inserts, and wasted compute. 
