@@ -32,7 +32,7 @@ Let's explore what the options are and which model to choose depending on the da
 
 ---
 
-The ColPali family includes several model variants. When selecting a model for your application, you'll need to consider factors like model size, supported languages, computational requirements, and licensing constraints—each variant offers different trade-offs along these dimensions.
+The ColPali family includes several model variants. When selecting a model for your application, you'll need to consider factors like model size, supported languages, computational requirements, and licensing constraints - each variant offers different trade-offs along these dimensions.
 
 ## Model Size
 
@@ -64,7 +64,44 @@ For commercial applications, **[Nomic AI's ColNomic-Embed-Multimodal-7B](https:/
 
 As of the end of 2025, the use of bidirectional attention seems to be a promising approach to multi-vector representations for multi-modal data.
 
-TODO: write about one-directional attention (typical to LLMs/VLMs, as they predict a token based on the past), and bi-directional which is better suited for embeddings, as it can look forward the sequence (see: https://arxiv.org/html/2510.01149v3)
+The choice between **unidirectional** and **bidirectional** attention mechanisms significantly impacts model performance for embedding tasks. Understanding this distinction helps explain why certain architectures excel at retrieval while others are optimized for generation.
+
+### Unidirectional Attention: Designed for Generation
+
+Most large language models (LLMs) and vision-language models (VLMs) like GPT, Llama, and the base models of [ColPali](https://huggingface.co/vidore/colpali) use **unidirectional (causal) attention**. In this approach, each token can only attend to tokens that came before it in the sequence - the model looks backward but never forward.
+
+This design makes perfect sense for generative tasks: when predicting the next token, the model should only use past context, not future information it hasn't generated yet. However, this constraint creates limitations for embedding tasks. Word representations encode only information from previous context, missing the valuable signal from tokens that appear later in the sequence.
+
+<!-- TODO: Add diagram comparing unidirectional vs bidirectional attention
+
+Show side-by-side comparison:
+- Left panel: Unidirectional Attention
+  - Sequence of tokens (T1, T2, T3, T4, T5)
+  - Show that T3 can only attend to T1, T2, T3 (backwards arrows)
+  - Label: "For generation (predicting next token)"
+  - Gray out future tokens to show they're not accessible
+
+- Right panel: Bidirectional Attention
+  - Same sequence of tokens (T1, T2, T3, T4, T5)
+  - Show that T3 can attend to ALL tokens (arrows in both directions)
+  - Label: "For embeddings (understanding full context)"
+  - All tokens highlighted to show full context
+
+- Use color coding:
+  - Blue arrows for backward attention
+  - Green arrows for forward attention
+  - Darker highlight on current token being processed
+
+- Add annotation: "Bidirectional models capture richer semantic representations by seeing the entire sequence"
+-->
+
+### Bidirectional Attention: Optimized for Embeddings
+
+**Bidirectional attention**, as used in encoder models like BERT, allows each token to attend to the entire input sequence - both past and future tokens. This creates richer, more contextually informed representations since each token's embedding incorporates information from the complete surrounding context.
+
+For multi-vector retrieval tasks, this architectural choice proves crucial. Research has shown that [bidirectional encoder models are often the best option when training visual retrievers](https://arxiv.org/html/2510.01149). The [**ColModernVBERT**](https://huggingface.co/ModernVBERT/colmodernvbert) model demonstrates this advantage: despite having over 10 times fewer parameters than ColPali, it achieves performance only 0.6 nDCG@5 points lower on the ViDoRe benchmark.
+
+The ModernVBERT architecture leverages bidirectional attention to create compact yet powerful visual document retrievers. By allowing full context flow in both directions, these models generate embeddings that capture nuanced semantic relationships - critical for accurate multi-modal retrieval where visual and textual information must be jointly understood.
 
 ## Benchmark Results
 
