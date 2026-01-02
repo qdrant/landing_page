@@ -8,9 +8,9 @@ weight: 2
 
 # ColPali Family Overview
 
-The ColPali family includes several models optimized for different use cases, from general document retrieval to specialized domain applications. Choosing the right model depends on your accuracy requirements, performance constraints, and document types.
+The ColPali is not only the name of a model. Still, it is also often used to refer to an entire family of models that convert images and text into multi-vector representations, based on Vision Language Models. 
 
-Let's explore what each model offers and when to use it.
+Let's explore what the options are and which model to choose depending on the data you work with.
 
 ---
 
@@ -25,5 +25,69 @@ Let's explore what each model offers and when to use it.
 </div>
 
 ---
+
+**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course-multi-vector-search/module-2/colpali-family.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
+</a>
+
+---
+
+The ColPali family includes several model variants. When selecting a model for your application, you'll need to consider factors like model size, supported languages, computational requirements, and licensing constraints—each variant offers different trade-offs along these dimensions.
+
+## Model Size
+
+While the original ColPali model delivers good performance, its multi-billion parameter size can be challenging for resource-constrained environments, demos, or CPU-only deployments. Fortunately, smaller alternatives maintain competitive performance while dramatically reducing computational requirements.
+
+### ColSmol: Efficient Small-Scale Models
+
+The **[ColSmol](https://huggingface.co/vidore/colSmol-256M)** family offers compact variants built on SmolVLM, available in [256M](https://huggingface.co/vidore/colSmol-256M) and [500M](https://huggingface.co/vidore/colSmol-500M) parameter sizes that achieve 80.1 and 82.3 nDCG@5 respectively on the ViDoRe benchmark. These Apache 2.0 licensed models generate ColBERT-style multi-vector representations while being small enough for browser-based applications, edge computing, and resource-constrained environments.
+
+### ColFlor: Ultra-Compact Retrieval
+
+**[ColFlor](https://huggingface.co/ahmed-masry/ColFlor)** pushes efficiency even further with only 174 million parameters, achieving performance 17× smaller and up to 9.8× faster than ColPali with only a 1.8% drop in accuracy on text-rich English documents. Built on Florence-2's architecture, ColFlor is particularly attractive for demo environments, educational purposes, and scenarios where computational efficiency outweighs marginal performance differences.
+
+## Supported Languages
+
+Original ColPali model primarily focuses on English documents, but several multilingual alternatives have emerged that extend multi-vector capabilities across different languages.
+
+### NVIDIA Multilingual Models
+
+The **[NVIDIA Llama-NeMoRetriever-ColEmbed-3B-v1](https://huggingface.co/nvidia/llama-nemoretriever-colembed-3b-v1)** was among the leading multilingual visual document retrieval models when it was released. Built on top of Google's SigLIP-2 vision encoder and Meta's Llama 3.2-3B language model, this late interaction embedding model demonstrated strong performance on multilingual retrieval benchmarks including ViDoRe and MIRACL-VISION.
+
+However, **potential users should be aware of licensing restrictions**. The model is available **for non-commercial and research use only** due to multiple overlapping licenses: NVIDIA's Non-Commercial License, Apache 2.0 for the SigLIP-2 component, and Meta's Llama 3.2 Community License Agreement. Organizations requiring commercial deployment should carefully review these license terms or consider alternatives.
+
+### Open-Source Multilingual Alternative
+
+For commercial applications, **[Nomic AI's ColNomic-Embed-Multimodal-7B](https://huggingface.co/nomic-ai/colnomic-embed-multimodal-7b)** offers a compelling fully open-source alternative. Released in early 2025, this model demonstrated competitive performance on multilingual retrieval benchmarks. The model is available under an open-source license that permits commercial use, making it suitable for production deployments without licensing concerns. Nomic AI released a complete suite including both multi-vector (ColNomic) and single-vector variants in 3B and 7B parameter sizes, giving developers flexibility in choosing the right trade-off between performance and resource requirements.
+
+## An Impact of the Bidirectional Attention
+
+As of the end of 2025, the use of bidirectional attention seems to be a promising approach to multi-vector representations for multi-modal data.
+
+TODO: write about one-directional attention (typical to LLMs/VLMs, as they predict a token based on the past), and bi-directional which is better suited for embeddings, as it can look forward the sequence (see: https://arxiv.org/html/2510.01149v3)
+
+## Benchmark Results
+
+The **ViDoRe (Visual Document Retrieval) Benchmark** is a comprehensive evaluation framework designed to measure the performance of visual retrieval models on document understanding tasks. It evaluates models across multiple domains, languages (English, French, Spanish, and German), and realistic retrieval scenarios including cross-document and long-form queries.
+
+TODO: mention the leaderboard https://huggingface.co/spaces/vidore/vidore-leaderboard
+
+The benchmark uses **nDCG@5** (Normalized Discounted Cumulative Gain at 5) as its primary metric and includes challenging datasets spanning various domains - from biomedical research papers to insurance documents and ESG reports. Unlike earlier benchmarks, ViDoRe V2 emphasizes real-world complexity through blind contextual querying and human-in-the-loop evaluation, ensuring that models are tested on truly challenging retrieval tasks that mirror actual user behavior.
+
+![Benchmark results on ViDoRe](/courses/multi-vector-search/module-2/benchmark-results.png)
+
+***Source:** Teiletche, P., Macé, Q., Conti, M., Loison, A., Viaud, G., Colombo, P., & Faysse, M. (2025). *ModernVBERT: Towards Smaller Visual Document Retrievers*. arXiv preprint arXiv:2510.01149. https://arxiv.org/abs/2510.01149*
+
+The chart above shows the performance of various models on the ViDoRe benchmark. Models using bidirectional attention, particularly those in the ColPali and ColQwen families, consistently demonstrate superior performance on visual document retrieval tasks.
+
+It's important to note that **ColModernVBERT achieves competitive results with only ~250 million parameters** - significantly smaller than ColPali and ColQwen models which contain billions of parameters. This makes ModernVBERT particularly attractive for resource-constrained environments or CPU-only deployments, where the slight performance trade-off is worthwhile for the substantial efficiency gains.
+
+## Future of Multi-Vector Representations
+
+TODO: focus on video retrieval of https://huggingface.co/TomoroAI/tomoro-colqwen3-embed-8b 
+
+## What's next
+
+TODO: summarize the lesson quickly and introduce the next part
 
 Now that you know which model to use, let's learn how to interpret what ColPali "sees" in your documents.
