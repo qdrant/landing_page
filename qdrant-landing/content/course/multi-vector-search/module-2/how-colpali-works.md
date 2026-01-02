@@ -16,7 +16,7 @@ Understanding ColPali's architecture helps you leverage its full potential for m
 
 <div class="video">
 <iframe
-  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  src="https://www.youtube.com/embed/xK9mV7zR4pL"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
@@ -92,7 +92,7 @@ For text inputs, there isn't any additional preprocessing step, but it is tokeni
 
 Vision transformers, the foundation of ColPali, don't process entire images at once. Instead, they divide images into a grid of fixed-size patches - think of it like a checkerboard overlaid on your document.
 
-ColPali pipeline starts with a document. It is usually a screenshot of a single PDF page, or anything you want to encode. While you might convert a PDF page to a high-resolution screenshot to preserve visual details during conversion, **the ColPali preprocessing itself resizes images to a fixed resolution** of **448×448 pixels** before processing.
+The ColPali pipeline starts with a document. It is usually a screenshot of a single PDF page, or anything you want to encode. While you might convert a PDF page to a high-resolution screenshot to preserve visual details during conversion, **the ColPali preprocessing itself resizes images to a fixed resolution** of **448×448 pixels** before processing.
 
 This fixed-size input is then divided into patches:
 - **Patch size**: 14×14 pixels per patch
