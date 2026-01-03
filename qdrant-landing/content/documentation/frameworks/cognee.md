@@ -51,6 +51,7 @@ async def main():
     config.set_relational_db_config({"db_provider": "sqlite"})
     config.set_vector_db_config({
         "vector_db_provider": "qdrant",
+        "vector_dataset_database_handler": "qdrant",
         "vector_db_url": os.getenv("QDRANT_API_URL", "http://localhost:6333"),
         "vector_db_key": os.getenv("QDRANT_API_KEY", ""),
     })
@@ -66,6 +67,22 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+```
+
+> Note: You can specify vector_dataset_database_handler in the config if it is not defined in the .env file.
+
+```bash
+VECTOR_DATASET_DATABASE_HANDLER=qdrant
+```
+
+> Example .env usage file for Cognee with Qdrant adapter
+
+```bash
+LLM_API_KEY=your-openai-api-key
+VECTOR_DB_PROVIDER=qdrant
+VECTOR_DB_URL=http://localhost:6333
+VECTOR_DB_KEY=
+VECTOR_DATASET_DATABASE_HANDLER=qdrant
 ```
 
 ## How It Works
