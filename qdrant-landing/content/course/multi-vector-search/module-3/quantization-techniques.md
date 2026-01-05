@@ -61,13 +61,6 @@ $$
 
 **Multi-vector representations use ~170x more memory** than single-vector models for the same number of documents. This is where quantization becomes essential.
 
-<!-- TODO: Add comparison diagram showing memory footprint
-- Side-by-side bar chart: Single-vector (3 KB) vs Multi-vector (512 KB) per document
-- Scale visualization showing 1M documents: 3 GB vs 512 GB
-- Color code: Green for single-vector, Orange/Red for multi-vector to emphasize the difference
-- Add annotation showing "170x memory increase"
--->
-
 ## Quantization: Compressing Without Losing Quality
 
 **Vector quantization** reduces memory by representing vectors with fewer bits while preserving the relative distances between them. Qdrant supports several quantization methods optimized for different scenarios.
@@ -150,16 +143,6 @@ $$
 - **2-bit**: Frequently used with 768-1024 dimensions
 
 For ColModernVBERT's **128 dimensions**, binary quantization presents unique challenges. With such low dimensionality, each bit of precision has a larger impact on the representation. The choice between scalar and binary quantization - and which binary variant to use - depends on your specific use case and quality requirements. We'll explore how to evaluate these trade-offs systematically in the final lesson of this module.
-
-<!-- TODO: Add binary quantization comparison diagram
-- Three-column comparison showing 1-bit, 1.5-bit, and 2-bit
-- For each: show example vector component quantization
-- Display memory savings: 32x, 24x, 16x respectively
-- Include dimension recommendations for each
-- Use color coding: 1-bit (red/blue binary), 1.5-bit (3 colors), 2-bit (4 colors)
-- Add note that ColModernVBERT's 128 dims is below recommended range for binary quantization
-- Highlight that scalar quantization is preferred for low-dimensional vectors
--->
 
 ### Real-World Impact for ColPali Collections
 
