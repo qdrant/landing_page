@@ -21,4 +21,4 @@ Tackle the memory and performance challenges of production-scale multi-vector se
 4. MUVERA
 5. Evaluating Search Pipelines
 
-You'll master the optimization strategies needed to deploy multi-vector search at scale.
+You'll master the optimization strategies needed to deploy multi-vector search at scale. Eventually, you will utilize all the learned skills to build a real-world project implementing multi-vector search for multi-modal data.
