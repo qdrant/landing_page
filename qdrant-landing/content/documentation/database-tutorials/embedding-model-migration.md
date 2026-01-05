@@ -24,6 +24,8 @@ keep both collections available for the search and then switch the search to use
 vectors are re-embedded. **That operation requires some changes in your application code and cannot be done using
 the Qdrant APIs only.**
 
+{{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >}}
+
 Re-embedding requires access to the original data used to create the embeddings. This data can come from a primary database, or it may be stored in the payloads of the points in Qdrant. This tutorial assumes that the necessary data is stored in the payloads. This is usually the case, as the payload often contains the text or other data that was used to generate the embeddings.
 
 ## Step 1: Create a New Collection
@@ -78,7 +80,9 @@ client.upsert(
             id=1,
             vector=encode(text="Example document", model_name=OLD_MODEL),
             payload={"text": "Example document"}
-        ),
+        )
+    ]
+)
 ```
 
 You need to modify it to write to both collections:
@@ -144,18 +148,12 @@ After making these changes, your application will be in a **dual-write mode**, w
 collections. This allows you to keep both collections up-to-date during the migration process, so the ongoing changes
 to your data are reflected in both collections.
 
-## Step 3: Migrate the Existing Points Into a New Collection
+## Step 3: Migrate the Existing Points into the New Collection
 
-The dual-write should slowly start filling the new collection with the newly created points, but you also need to 
-migrate the existing ones from the old collection to the new one. This can be done in a separate process, which can run
-in parallel with your application. The migration process reads the points from the old collection, re-embeds them using the new model, and writes them to the new collection. 
+With the regular upsert services now writing to both collections, it is time to migrate the existing points from the old collection to the new one. This can be done in a separate process that runs
+in parallel with the regular upsert services. 
 
-
-As the migration process writes re-embedded points to the new collection, it can use conditional upserts to avoid overwriting any points that may have been updated by the dual-write process in the meantime. In this example, the filter condition checks if the point already exists in the new collection, and only inserts it if it does not exist. You could also use more sophisticated conditions based on timestamps or versioning, depending on your application's requirements.
-
-{{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >}}
-
-Qdrant's Scroll API enables you to read points from the old collection in batches. Here is how to scroll through the points in the old collection until you reach the end of the collection and write re-embedded points to the new collection:
+The migration process reads the points from the old collection, re-embeds them using the new model, and writes them to the new collection. Here's an example of what the code for such a migration process could look like:
 
 ```python
 last_offset = None
@@ -176,25 +174,26 @@ while not reached_end:
 
     # Re-embed the points using the new model
     upsert_operations = [
-      models.UpsertOperation(
-        upsert=models.PointsList(
-            points=[models.PointStruct(
-              # Keep the original ID to ensure consistency
-              id=record.id,
-              # Use the new embedding model to encode the text from the payload,
-              # assuming that was the original source of the embedding
-              vector=encode(record.payload.get("text"), model_name=NEW_MODEL),
-              # Keep the original payload
-              payload=record.payload
-            )],
-            update_filter=models.Filter(
-              must_not=[
-                      models.HasIdCondition(has_id=[record.id]),
-              ],
-          )
+        models.UpsertOperation(
+            upsert=models.PointsList(
+                points=[models.PointStruct(
+                    # Keep the original ID to ensure consistency
+                    id=record.id,
+                    # Use the new embedding model to encode the text from the payload,
+                    # assuming that was the original source of the embedding
+                    vector=encode(record.payload.get("text"), model_name=NEW_MODEL),
+                    # Keep the original payload
+                    payload=record.payload
+                )],
+                # Only insert the point if a point with this ID does not already exist.
+                update_filter=models.Filter(
+                    must_not=[
+                            models.HasIdCondition(has_id=[record.id]),
+                    ],
+                )
+            )
         )
-      )
-      for record in records
+        for record in records
     ]
 
     # Upsert the re-embedded points into the new collection
@@ -202,12 +201,19 @@ while not reached_end:
         collection_name=NEW_COLLECTION,
         update_operations=upsert_operations
     )
-    
+
     # Check if we reached the end of the collection
-    reached_end = (last_offset == None)  
+    reached_end = (last_offset == None)
 ```
 
-This kind of migration process can take some time, and **the offset should be stored in a persistent way, so you can resume the migration process in case of a failure**. You can use a database, a file, or any other persistent storage to keep track of the last offset. Having said that, because the conditional upserts would not overwrite any points in the new collection, you could safely restart the migration process from the beginning if needed.
+Let's break down this code step by step:
+
+- The [Scroll API](/documentation/concepts/points/#scroll-points) is used to read points from the old collection in batches of 100 points. The `last_offset` variable keeps track of the position in the collection.
+- For each batch of points, the process re-embeds the vectors using the new embedding model. It assumes that the original text used for embedding is stored in the payload under the key `text`.
+- With the re-embedded vectors, it prepares [conditional upsert operations](/documentation/concepts/points/#conditional-updates) for the new collection, keeping the original IDs and payloads. The conditional upserts use a filter condition to ensure that the point is only inserted if it does not already exist in the new collection. The filter checks whether a point with the given ID already exists. A point is only upserted if the ID does not exist in the new collection. This prevents overwriting newer updates from the regular update service.
+- Finally, the process uses the `batch_update_points` method to upsert the re-embedded points into the new collection. Note that it uses `batch_update_points` instead of `upsert`, because `batch_update_points` allows you to specify an update condition per upsert operation.
+
+This kind of migration process can take some time, and the offset can be stored in a persistent way, so you can resume the migration process in case of a failure. You can use a database, a file, or any other persistent storage to keep track of the last offset. Having said that, because the conditional upserts would not overwrite any points in the new collection, you could safely restart the migration process from the beginning if needed.
 
 ## Step 4: Switch the Search to the New Collection
 
