@@ -26,4 +26,10 @@ This transparency is invaluable for building trust in multi-modal search systems
 
 ---
 
+TODO: Colab link
+
+---
+
+TODO: write the lesson content
+
 With a solid understanding of ColPali, let's start building a real application in Module 3.
