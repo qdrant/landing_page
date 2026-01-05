@@ -72,6 +72,16 @@ $$
 
 **Vector quantization** reduces memory by representing vectors with fewer bits while preserving the relative distances between them. Qdrant supports several quantization methods optimized for different scenarios.
 
+**Important: What Quantization Does (and Doesn't) Do**
+
+Quantization is a **memory optimization technique**, not an indexing solution:
+- ✅ **Reduces memory footprint** by 4-32x for storing multi-vector representations
+- ✅ **Reduces infrastructure costs** by requiring less RAM
+- ✅ **Provides speed improvements** through SIMD operations and smaller data transfers
+- ❌ **Does NOT enable HNSW indexing** for multi-vector search - brute force scan is still required
+
+Multi-vector search with MaxSim fundamentally requires comparing query tokens against all document tokens. HNSW and other graph-based indexes cannot efficiently navigate this token-level comparison space. Quantization makes the brute force search faster and cheaper, but the search strategy remains exhaustive.
+
 The key insight: **you don't need perfect precision to find the right matches**. If document A is closer to a query than document B in full precision, it usually remains closer after quantization.
 
 ### Scalar Quantization: The Reliable Default
@@ -91,7 +101,8 @@ $$
 
 **Benefits:**
 - **4x memory reduction** with <1% accuracy loss
-- **Up to 2x faster search** via SIMD optimization
+- **Up to 2x faster brute force search** via SIMD optimization (still exhaustive, but more efficient)
+- **Lower infrastructure costs** by reducing RAM requirements
 - Works universally across all vector types and dimensions
 
 **Configuration parameter:**
@@ -154,13 +165,17 @@ For ColModernVBERT's **128 dimensions**, binary quantization presents unique cha
 
 Let's compare all options for a **1 million document** ColModernVBERT collection:
 
-| Method               | Memory  | Compression   | Speed Boost |
-|----------------------|---------|---------------|-------------|
-| **No quantization**  | 512 GB  | 1x (baseline) | 1x          |
-| **Scalar (int8)**    | 128 GB  | 4x            | ~2x         |
-| **Binary (2-bit)**   | 32 GB   | 16x           | ~20x        |
-| **Binary (1.5-bit)** | 21.3 GB | 24x           | ~30x        |
-| **Binary (1-bit)**   | 16 GB   | 32x           | ~40x        |
+| Method               | Memory  | Compression   | Brute Force Speed Boost |
+|----------------------|---------|---------------|-------------------------|
+| **No quantization**  | 512 GB  | 1x (baseline) | 1x                      |
+| **Scalar (int8)**    | 128 GB  | 4x            | ~2x                     |
+| **Binary (2-bit)**   | 32 GB   | 16x           | ~20x                    |
+| **Binary (1.5-bit)** | 21.3 GB | 24x           | ~30x                    |
+| **Binary (1-bit)**   | 16 GB   | 32x           | ~40x                    |
+
+<aside role="status">
+<b>Note:</b> The "Speed Boost" column refers to improvements in brute force search performance. Quantization does not enable HNSW or other graph-based indexing for multi-vector search - all documents are still scanned exhaustively. The speed improvements come from faster distance computations and reduced memory bandwidth requirements during the brute force scan.
+</aside>
 
 The table above shows the theoretical memory savings and search performance characteristics for each quantization method. The actual impact on retrieval quality is **not included** because it varies significantly based on your specific documents, queries, and quality requirements.
 
@@ -234,10 +249,12 @@ This is why the final lesson in this module focuses entirely on **evaluating mul
 
 ## What's Next
 
-In this lesson, you learned how quantization dramatically reduces memory usage for multi-vector representations. You saw concrete examples showing:
+In this lesson, you learned how quantization dramatically reduces memory usage and improves brute force search performance for multi-vector representations. Key takeaways:
 - ColModernVBERT's memory footprint: **512 KB per document** without quantization
-- Scalar quantization reduces this to **128 KB** (4x compression)
-- Binary quantization can achieve **16-32 GB** total memory for 1 million documents (vs 512 GB uncompressed)
+- Scalar quantization reduces this to **128 KB** (4x compression) with ~2x faster brute force search
+- Binary quantization can achieve **16-32 GB** total memory for 1 million documents (vs 512 GB uncompressed) with up to 40x faster brute force search
+- **Quantization is a memory and speed optimization**, not an indexing solution - HNSW remains incompatible with multi-vector search
+- The search strategy remains exhaustive (brute force), but becomes significantly cheaper and faster
 
 Crucially, **quantization can be enabled on existing collections** without modifying your ingestion or inference code, making it straightforward to experiment with different approaches.
 
