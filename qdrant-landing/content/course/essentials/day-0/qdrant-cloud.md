@@ -1,5 +1,5 @@
 ---
-title: "Qdrant Cloud Setup"
+title: "Qdrant Setup"
 description: Set up your Qdrant Cloud cluster in minutes. Learn to create collections, manage data, access the Web UI, and connect securely from Python.
 weight: 2
 ---
@@ -10,7 +10,7 @@ weight: 2
 
 <div class="video">
 <iframe 
-  src="https://www.youtube.com/embed/PLTlJyrSkng?si=y9fNtxNS34PdcKBk"
+  src="https://www.youtube.com/embed/xvWIssi_cjQ?si=CLhFrUDpQlNog9mz&rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"

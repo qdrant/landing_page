@@ -11,7 +11,7 @@ aliases:
 ---
 # How to Get Started With Qdrant Cloud
 
-<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/3hrQP3hh69Y?si=hypr-vyKywhjoOTQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/xvWIssi_cjQ?si=CLhFrUDpQlNog9mz?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
 <p style="text-align: center;">You can try vector search on Qdrant Cloud in three steps. 
 </br> Instructions are below, but the video is faster:</p>
 
