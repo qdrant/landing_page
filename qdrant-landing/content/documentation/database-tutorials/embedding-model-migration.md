@@ -206,12 +206,12 @@ while not reached_end:
     reached_end = (last_offset == None)
 ```
 
-Let's break down this code step by step:
+Breaking down this code step by step:
 
-- The [Scroll API](/documentation/concepts/points/#scroll-points) is used to read points from the old collection in batches of 100 points. The `last_offset` variable keeps track of the position in the collection.
+- Data is read from the old collection in batches of 100 points using a [scroll](/documentation/concepts/points/#scroll-points). The `last_offset` variable keeps track of the scroll position in the collection.
 - For each batch of points, the process re-embeds the vectors using the new embedding model. It assumes that the original text used for embedding is stored in the payload under the key `text`.
 - With the re-embedded vectors, it prepares [conditional upsert operations](/documentation/concepts/points/#conditional-updates) for the new collection, keeping the original IDs and payloads. The conditional upserts use a filter condition to ensure that the point is only inserted if it does not already exist in the new collection. The filter checks whether a point with the given ID already exists. A point is only upserted if the ID does not exist in the new collection. This prevents overwriting newer updates from the regular update service.
-- Finally, the process uses the `batch_update_points` method to upsert the re-embedded points into the new collection. Note that it uses `batch_update_points` instead of `upsert`, because `batch_update_points` allows you to specify an update condition per upsert operation.
+- Finally, the process uses a [batch update](/documentation/concepts/points/#batch-update) to upsert the re-embedded points into the new collection. Note that it uses `batch_update_points` instead of `upsert`, because `batch_update_points` allows you to specify an update condition per upsert operation.
 
 This kind of migration process can take some time, and the offset can be stored in a persistent way, so you can resume the migration process in case of a failure. You can use a database, a file, or any other persistent storage to keep track of the last offset. Having said that, because the conditional upserts would not overwrite any points in the new collection, you could safely restart the migration process from the beginning if needed.
 
