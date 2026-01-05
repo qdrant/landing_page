@@ -6,11 +6,11 @@ weight: 2
 
 {{< date >}} Day 0 {{< /date >}}
 
-# Qdrant Cloud Setup
+# Qdrant Setup
 
 <div class="video">
 <iframe 
-  src="https://www.youtube.com/embed/xvWIssi_cjQ?si=CLhFrUDpQlNog9mz&rel=0"
+  src="https://www.youtube.com/embed/9JBlgNBQoOY?si=7t3LAvMsUUtlUMN7&rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
