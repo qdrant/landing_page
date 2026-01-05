@@ -82,7 +82,7 @@ content:
       description: Start with our beginner-friendly articles on vector embeddings and basic concepts.
       link:
         text: Start Learning
-        url: /documentation/tutorials-quickstart/
+        url: /documentation/tutorials-basics/
     - id: 2
       icon:
         src: /icons/outline/hacker-purple.svg

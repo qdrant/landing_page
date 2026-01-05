@@ -1,6 +1,6 @@
 ---
 title: Operations & Scale
-weight: 21
+weight: 20
 is_empty: false
 aliases:
   - how-to
@@ -13,11 +13,9 @@ partition: qdrant
 
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
-| [Embedding Migration](/documentation/tutorials-operations/migration/) | Move dense and sparse embeddings to Qdrant. | CLI | 30m | Intermediate |
-| [Bulk Data Uploads](/documentation/tutorials-operations/bulk-upload/) | High-scale ingestion tricks for power users. | Python | 20m | Intermediate |
-| [Snapshot & Backup](/documentation/tutorials-operations/create-snapshot/) | Create and restore collection snapshots. | Python | 20m | Beginner |
-| [Billion-Scale Search](/documentation/tutorials-operations/large-scale-search/) | Cost-efficient search for LAION-400M datasets. | None | 2 days | Advanced |
-| [Python Async API](/documentation/tutorials-operations/async-api/) | Use Asynchronous programming for efficiency. | Python | 25m | Intermediate |
-| [Cloud Inference Search](/documentation/tutorials-and-examples/cloud-inference-hybrid-search/) | Hybrid search using Qdrant's built-in inference. | Any | 20m | Beginner |
-| [Monitor Managed Cloud](/documentation/tutorials-and-examples/managed-cloud-prometheus/) | Observability with Prometheus and Grafana. | Prometheus | 30m | Intermediate |
-| [Monitor Private Cloud](/documentation/tutorials-and-examples/hybrid-cloud-prometheus/) | Observability for hybrid/private cloud setups. | Prometheus | 30m | Intermediate |
+| [Snapshot & Backup](/documentation/tutorials-operations/create-snapshot/) | Create and restore collection snapshots. | <span class="pill">Python</span> | 20m | <span class="text-green">Beginner</span> |
+| [Cloud Inference Search](/documentation/tutorials-and-examples/cloud-inference-hybrid-search/) | Hybrid search using Qdrant's built-in inference. | <span class="pill">Any</span> | 20m | <span class="text-green">Beginner</span> |
+| [Embedding Migration](/documentation/tutorials-operations/migration/) | Move dense and sparse embeddings to Qdrant. | <span class="pill">CLI</span> | 30m | <span class="text-yellow">Intermediate</span> |
+| [Monitor Managed Cloud](/documentation/tutorials-and-examples/managed-cloud-prometheus/) | Observability with Prometheus and Grafana. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
+| [Monitor Private Cloud](/documentation/tutorials-and-examples/hybrid-cloud-prometheus/) | Observability for hybrid/private cloud setups. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
+| [Billion-Scale Search](/documentation/tutorials-operations/large-scale-search/) | Cost-efficient search for LAION-400M datasets. | <span class="pill">None</span> | 2 days | <span class="text-red">Advanced</span> |

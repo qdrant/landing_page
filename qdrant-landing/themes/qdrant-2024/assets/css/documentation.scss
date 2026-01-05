@@ -14,3 +14,68 @@
 @import 'partials/documentation/docs-footer';
 @import 'partials/video';
 @import 'search/dark-theme';
+
+// Table Custom Styling
+.documentation {
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        
+        th {
+            text-align: left;
+            padding: 8px 10px;
+        }
+
+        td {
+            padding: 8px 10px;
+            vertical-align: middle;
+            line-height: 1.4;
+
+            // Link styling
+            a {
+                color: #DC244C; 
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        tr {
+            // transition for the background color change
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                // hover color highlight
+                background-color: rgba(59, 130, 246, 0.05); 
+                
+                // make the link slightly more prominent on hover
+                td a {
+                    color: darken(#ef4444, 10%);
+                }
+            }
+        }
+        
+        // Ensure the header row doesn't highlight on hover
+        thead tr:hover {
+            background-color: transparent;
+        }
+    }
+
+    // Stack Pill Styling
+    .pill {
+        display: inline-block;
+        padding: 1px 8px;
+        border-radius: 12px;
+        border: 1px solid #DC244C;
+        color: #DC244C;
+        //background-color: rgba(59, 130, 246, 0.1);
+        font-size: 0.85rem;
+    }
+
+    // Level Color-Coding
+    .text-green { color: #10b981 }
+    .text-yellow { color: #f59e0b }
+    .text-red { color: #ef4444 }
+}
