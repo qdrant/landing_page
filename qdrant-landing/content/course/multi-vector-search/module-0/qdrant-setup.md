@@ -22,7 +22,7 @@ Qdrant Cloud is the fastest way to get started with multi-vector search. It prov
 
 1. Sign up at [cloud.qdrant.io](https://cloud.qdrant.io/signup) using your email, Google, or GitHub account.
 
-2. Navigate to **Clusters** → **Create a Free Cluster**. The Free Tier provides sufficient resources for this course.
+2. Navigate to **Clusters** -> **Create a Free Cluster**. The Free Tier provides sufficient resources for this course.
 
    ![Create cluster](/docs/gettingstarted/gui-quickstart/create-cluster.png)
 
