@@ -21,6 +21,8 @@ Vector search is a transformative information retrieval technique that goes beyo
 
 While dense vectors excel at capturing context, they can sometimes miss specific technical terms or unique identifiers. To bridge this gap, Qdrant also utilizes **sparse vectors** designed to capture precise **lexical matches** for specific keywords. Learn more in [this guide](https://qdrant.tech/documentation/guides/text-search/). 
 
+The process of generating embeddings from unstructured data is called [inference](/documentation/concepts/inference/). On Qdrant Cloud, you can use [Cloud Inference](/documentation/cloud/inference/) to let Qdrant generate embeddings on the server side. Alternatively, you can use a library like [FastEmbed](/documentation/fastembed/) to generate embeddings on the client side.
+
 The search process itself revolves into the concept of **Top-K** retrieval. When a user submits a request, it is instantly transformed into a **query vector**. The engine then calculates the similarity between this query vector and document vectors, returning the "Top-K" closest matches, where K is a user-defined number representing the desired volume of results. This allows developers to fine-tune the balance between the breadth of the search and the precision of the answers.
 
 ![Retrieval Process](/docs/gettingstarted/Orientation-Guide-Diagram-2.png)
