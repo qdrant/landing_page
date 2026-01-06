@@ -1,8 +1,10 @@
 ---
 title: Simple Agentic RAG System
 weight: 2
-partition: build
+#partition: build
 social_preview_image: /documentation/examples/agentic-rag-crewai-zoom/social_preview.png
+aliases:
+  - /documentation/agentic-rag-crewai-zoom/
 ---
 ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-1.png)
 

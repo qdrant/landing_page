@@ -1,7 +1,7 @@
 ---
 #Delimiter files are used to separate the list of documentation pages into sections.
 type: reference
-reference: /documentation/tutorials-rag-and-agents
+reference: /documentation/tutorials-lp-rag-and-agents
 weight: 313
 sitemapExclude: True
 _build:

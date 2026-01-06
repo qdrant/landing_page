@@ -1,8 +1,7 @@
 ---
 title: Develop & Implement
-weight: 35
-is_empty: true
-hideInSidebar: true
+weight: 21
+is_empty: false
 partition: qdrant
 ---
 

@@ -1,8 +1,7 @@
 ---
 title: RAG & AI Agents
-weight: 33
-is_empty: true
-hideInSidebar: true
+weight: 19
+is_empty: false
 aliases:
   - how-to
   - tutorials

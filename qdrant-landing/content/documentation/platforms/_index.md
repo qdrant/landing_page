@@ -1,6 +1,6 @@
 ---
 title: Platforms
-weight: 23
+weight: 22
 partition: build
 ---
 

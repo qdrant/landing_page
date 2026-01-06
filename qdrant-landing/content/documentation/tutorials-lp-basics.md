@@ -1,8 +1,7 @@
 ---
 title: Basics
-weight: 31
-is_empty: true
-hideInSidebar: true
+weight: 17
+is_empty: false
 aliases:
   - how-to
   - tutorials

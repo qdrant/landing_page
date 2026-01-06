@@ -1,8 +1,10 @@
 ---
 title: Data Ingestion for Beginners
 weight: 2
-partition: build
+#partition: build
 social_preview_image: /documentation/examples/data-ingestion-beginners/social_preview.png
+aliases:
+  - /documentation/data-ingestion-beginners/
 ---
 ![data-ingestion-beginners-7](/documentation/examples/data-ingestion-beginners/data-ingestion-7.png)
 

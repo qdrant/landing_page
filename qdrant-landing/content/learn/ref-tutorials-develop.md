@@ -1,7 +1,7 @@
 ---
 #Delimiter files are used to separate the list of documentation pages into sections.
 type: reference
-reference: /documentation/tutorials-develop
+reference: /documentation/tutorials-lp-develop
 weight: 315
 sitemapExclude: True
 _build:

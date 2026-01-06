@@ -1,10 +1,11 @@
 ---
 title: Automating Processes with Qdrant and n8n
 weight: 7
-partition: build
+#partition: build
 social_preview_image: /documentation/examples/qdrant-n8n-2/preview/social_preview.png
 aliases:
   - /blog/qdrant-n8n-beyond-simple-similarity-search/
+  - /documentation/qdrant-n8n/
 
 ---
 

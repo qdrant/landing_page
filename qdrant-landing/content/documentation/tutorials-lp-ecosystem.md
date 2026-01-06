@@ -1,8 +1,7 @@
 ---
 title: Ecosystem & Integrations
-weight: 36
-is_empty: true
-hideInSidebar: true
+weight: 22
+is_empty: false
 aliases:
   - how-to
   - tutorials

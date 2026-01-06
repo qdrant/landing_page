@@ -1,8 +1,7 @@
 ---
 title: Operations & Scale
-weight: 34
-is_empty: true
-hideInSidebar: true
+weight: 20
+is_empty: false
 aliases:
   - how-to
   - tutorials

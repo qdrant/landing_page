@@ -66,7 +66,7 @@ content:
             - "Ecosystem and Integrations"
       
       link:
-        url: /documentation/tutorials-overview/
+        url: /documentation/tutorials-lp-overview
         text: Explore Tutorials
   - partial: documentation/sections/cards-section
     title: Quickstart
@@ -79,18 +79,18 @@ content:
         src: /icons/outline/rocket-blue.svg
         alt: Rocket icon
       title: New to Vector Search?
-      description: Start with our beginner-friendly articles on vector embeddings and basic concepts.
+      description: Start with our beginner-friendly exercises on vector embeddings and basic concepts.
       link:
         text: Start Learning
-        url: /documentation/tutorials-basics/
+        url: /documentation/tutorials-lp-basics
     - id: 2
       icon:
         src: /icons/outline/hacker-purple.svg
         alt: Hacker icon
       title: Ready to Build?
-      description: Jump into practical examples and integration guides to implement Qdrant in your projects.
+      description: Build out practical projects using our example prototypes and integration guides.
       link:
         text: View Examples
-        url: /documentation/tutorials-search-engineer/
+        url: /documentation/examples/
 ---
 

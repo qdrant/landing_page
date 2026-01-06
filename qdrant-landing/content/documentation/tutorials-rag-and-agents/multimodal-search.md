@@ -1,11 +1,12 @@
 ---
 title: Multilingual & Multimodal RAG with LlamaIndex
 weight: 5
-partition: build
+#partition: build
 social_preview_image: /documentation/examples/multimodal-search/social_preview.png
 aliases:
   - /documentation/tutorials/multimodal-search-fastembed/
   - /documentation/advanced-tutorials/multimodal-search-fastembed/
+  - /documentation/multimodal-search/
 ---
 
 # Multilingual & Multimodal Search with LlamaIndex

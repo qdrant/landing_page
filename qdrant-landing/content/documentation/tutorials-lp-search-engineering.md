@@ -1,8 +1,7 @@
 ---
 title: Search Engineering
-weight: 32
-is_empty: true
-hideInSidebar: true
+weight: 18
+is_empty: false
 aliases:
   - how-to
   - tutorials

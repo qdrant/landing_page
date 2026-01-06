@@ -1,6 +1,6 @@
 ---
 title: Observability
-weight: 22
+weight: 21
 partition: build
 ---
 
