@@ -19,7 +19,7 @@ Vector search is a transformative information retrieval technique that goes beyo
 
 ![Workflow Overview](/docs/gettingstarted/Orientation-Guide-Diagram-1.png)
 
-While dense vectors excel at capturing context, they can sometimes miss specific technical terms or unique identifiers. To bridge this gap, Qdrant also utilizes **sparse vectors** designed to capture precise **lexical matches** for specific keywords. Learn more in [this guide](https://qdrant.tech/documentation/guides/text-search/). 
+While dense vectors excel at capturing context, they can sometimes miss specific technical terms or unique identifiers. To bridge this gap, Qdrant also utilizes **sparse vectors** designed to capture precise **lexical matches** for specific keywords. Learn more in [this guide](/documentation/guides/text-search/). 
 
 The process of generating embeddings from unstructured data is called [inference](/documentation/concepts/inference/). On Qdrant Cloud, you can use [Cloud Inference](/documentation/cloud/inference/) to let Qdrant generate embeddings on the server side. Alternatively, you can use a library like [FastEmbed](/documentation/fastembed/) to generate embeddings on the client side.
 
@@ -27,11 +27,11 @@ The search process itself revolves into the concept of **Top-K** retrieval. When
 
 ![Retrieval Process](/docs/gettingstarted/Orientation-Guide-Diagram-2.png)
 
-To deliver the most robust search experience, Qdrant enables **Hybrid Retrieval** with semantic and lexical search, which you can learn more about [here](https://qdrant.tech/documentation/concepts/hybrid-queries/). 
+To deliver the most robust search experience, Qdrant enables **Hybrid Retrieval** with semantic and lexical search, which you can learn more about [here](/documentation/concepts/hybrid-queries/). 
 
 ## Architecture {#architecture}
 
-Qdrants operates in a client-server architecture, providing official [client libraries](https://qdrant.tech/documentation/interfaces/#client-libraries) for Python, JavaScript/TypeScript, Rust, Go, .NET, and Java. However, Qdrant exposes HTTP and gRPC [interfaces](https://qdrant.tech/documentation/interfaces/#client-libraries) to facilitate integration with virtually any programming language.
+Qdrants operates in a client-server architecture, providing official [client libraries](/documentation/interfaces/#client-libraries) for Python, JavaScript/TypeScript, Rust, Go, .NET, and Java. However, Qdrant exposes HTTP and gRPC [interfaces](/documentation/interfaces/#client-libraries) to facilitate integration with virtually any programming language.
 
 ## Data Structure {#data-structure}
 
@@ -39,18 +39,18 @@ Qdrants operates in a client-server architecture, providing official [client lib
 
 Qdrant collections are designed for horizontal and vertical scaling. You can learn about the details in the above diagram from links below:
 
-* [Collections](https://qdrant.tech/documentation/concepts/collections/)  
-* [Points](https://qdrant.tech/documentation/concepts/points/)  
-* [Indexing](https://qdrant.tech/documentation/concepts/indexing/)  
-* [Storage](https://qdrant.tech/documentation/concepts/storage/)  
-* [Distributed Deployment](https://qdrant.tech/documentation/guides/distributed_deployment/)  
-* [Strict Mode](https://qdrant.tech/documentation/guides/administration/#strict-mode)
+* [Collections](/documentation/concepts/collections/)  
+* [Points](/documentation/concepts/points/)  
+* [Indexing](/documentation/concepts/indexing/)  
+* [Storage](/documentation/concepts/storage/)  
+* [Distributed Deployment](/documentation/guides/distributed_deployment/)  
+* [Strict Mode](/documentation/guides/administration/#strict-mode)
 
 ## Deployments {#deployments}
 
-Qdrant supports multiple deployment models to match different infrastructure and operational needs. The right option depends on your security constraints and operational model: Qdrant-managed infrastructure ([Managed Cloud](https://qdrant.tech/documentation/cloud/)), shared responsibility with your own clusters ([Hybrid Cloud](https://qdrant.tech/documentation/hybrid-cloud/)), or full ownership and independence ([Private Cloud](https://qdrant.tech/documentation/private-cloud/) or [Open Source](https://github.com/qdrant/qdrant)).
+Qdrant supports multiple deployment models to match different infrastructure and operational needs. The right option depends on your security constraints and operational model: Qdrant-managed infrastructure ([Managed Cloud](/documentation/cloud/)), shared responsibility with your own clusters ([Hybrid Cloud](/documentation/hybrid-cloud/)), or full ownership and independence ([Private Cloud](/documentation/private-cloud/) or [Open Source](https://github.com/qdrant/qdrant)).
 
-| Feature | Benefits | Self-Hosted | Managed | Hybrid | Private |
+| Feature | Benefits | OSS | Managed | Hybrid | Private |
 | :---- | :---- | :---: | :---: | :---: | :---: |
 | Deployment | Choose how and where to deploy your Qdrant vector database based on your infrastructure needs. | ✅ | ✅ | ✅ | ✅ |
 | High Availability | Automatic failover and replication to ensure your vector search is always available. | ❌ | ✅ | ✅ | ✅ |
@@ -92,10 +92,10 @@ A unique aspect of the payload index is that it extends the HNSW graph, allowing
 The fact that a payload index extends the HNSW graph means it’s more efficient to create it before indexing the data, as the optimizer will need to build the graph once. However, in some cases, you may already have a collection with a lot of vectors and recognize a need to filter by a specific attribute. In such cases, you can still create a payload index, yet **it won't immediately affect the HNSW graph**. 
 
 <aside role="status">
-The HNSW graph will only get created once the optimizer will run the segment reconstruction, and it might be triggered by modifying the parameters of HNSW, such as temporarily setting up m=0 and then back to the original value (m=16 by default).
+The HNSW graph will only get created once the optimizer will run the segment reconstruction, and it might be triggered by  <a href="/documentation/concepts/collections/#update-collection-parameters">modifying the parameters of HNSW</a>, such as temporarily setting up m=0 and then back to the original value (m=16 by default).
 </aside>
 
-[ACORN](https://qdrant.tech/documentation/concepts/search/#acorn-search-algorithm) is an additional mechanism that can improve the search accuracy if you have multiple high cardinality filters in your search operations.
+[ACORN](/documentation/concepts/search/#acorn-search-algorithm) is an additional mechanism that can improve the search accuracy if you have multiple high cardinality filters in your search operations.
 
 ### Scaling {#scaling}
 
@@ -105,7 +105,7 @@ Vertical scaling has natural limits \- eventually, you'll hit the maximum capaci
 
 Qdrant uses sharding to split collections across multiple nodes, where each shard is an independent store of points. A common recommendation is to start with 12 shards, which provides flexibility to scale from 1 node up to 2, 3, 6, or 12 nodes without resharding. However, this approach can limit throughput on small clusters since each node manages multiple shards.
 
-For optimal throughput, set `shard_number` equal to your node count (read more here).If you want to have better control over sharding, Qdrant supports [custom shards](https://qdrant.tech/documentation/guides/distributed_deployment/#user-defined-sharding).
+For optimal throughput, set `shard_number` equal to your node count (read more here). If you want to have better control over sharding, Qdrant supports [custom shards](/documentation/guides/distributed_deployment/#user-defined-sharding).
 
 #### Replication {#replication}
 
@@ -115,7 +115,7 @@ The replication factor determines how many copies of each shard exist. **For pro
 
 #### Segment Configuration {#segment-configuration}
 
-Fewer segments create larger segments with better search throughput, as larger HNSW indexes require fewer comparisons. However, larger segments take longer to build and recreate, slowing writes and optimization. More segments mean faster indexing but lower search performance since queries scan more segments. Read more on segment configuration.
+Each shard stores data in multiple [segments](/documentation/concepts/storage/). A segment stores all the data structures of a subset of the points in a shard. Fewer segments create larger segments with better search throughput, as larger HNSW indexes require fewer comparisons. However, larger segments take longer to build and recreate, slowing writes and optimization. More segments mean faster indexing but lower search performance since queries scan more segments. Read more on segment configuration.
 
 <aside role="status">
 In Qdrant Cloud, replication factor changes are applied automatically, and shard rebalancing is available. In self-hosted deployments, you must manually create or drop replicas and move shards between nodes as you scale.
@@ -123,7 +123,7 @@ In Qdrant Cloud, replication factor changes are applied automatically, and shard
 
 ### Safety {#safety}
 
-Some of the collection-level operations may degrade performance of the Qdrant cluster. Qdrant's [strict mode](https://qdrant.tech/documentation/guides/administration/#strict-mode) prevents inefficient usage patterns through multiple controls: it may block filtering and updates on non-indexed payload fields, limit query result sizes and timeout durations, restrict the complexity and number of filter conditions, cap payload index counts, constrain batch upsert sizes, enforce maximum collection storage limits (for vectors, payloads, and point counts), and implement rate limiting for read and write operations to prevent system overload. 
+Some of the collection-level operations may degrade performance of the Qdrant cluster. Qdrant's [strict mode](/documentation/guides/administration/#strict-mode) prevents inefficient usage patterns through multiple controls: it may block filtering and updates on non-indexed payload fields, limit query result sizes and timeout durations, restrict the complexity and number of filter conditions, cap payload index counts, constrain batch upsert sizes, enforce maximum collection storage limits (for vectors, payloads, and point counts), and implement rate limiting for read and write operations to prevent system overload. 
 
 <aside role="status">
 Qdrant Cloud disables filtering and updating by a non-indexed payload attribute by default, and also restricts the maximum number of payload indexes to 100\. You may consider disabling it temporarily if you want to execute some one-time queries on unindexed payload attributes, but in general you should need to do that.
