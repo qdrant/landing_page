@@ -145,10 +145,12 @@ Qdrant also provides a `/telemetry` endpoint, which provides information about t
 
 ## Cluster-wide telemetry
 
+*Available as of v1.17.0*
+
 The `/telemetry` endpoint reports from the point of view of the peer being queried. But Qdrant also provides a `/cluster/telemetry` endpoint, which aggregates telemetries from all peers. 
 
 This includes less information than `/telemetry`, but includes information like shard transfer progress more reliably.
-You can find a full documentation of this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/cluster-telemetry).
+You can find full documentation of this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/cluster-telemetry).
 
 ## Kubernetes health endpoints
 
