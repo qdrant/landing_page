@@ -1,16 +1,20 @@
-use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder, VectorsConfigBuilder};
 use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, VectorParamsBuilder, VectorsConfigBuilder,
+};
 
+#[tokio::main]
 pub async fn main() -> anyhow::Result<()> {
     let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     let mut vectors_config = VectorsConfigBuilder::default();
-    vectors_config.add_named_vector_params("description-dense", VectorParamsBuilder::new(384, Distance::Cosine));
+    vectors_config.add_named_vector_params(
+        "description-dense",
+        VectorParamsBuilder::new(384, Distance::Cosine),
+    );
 
     client
-        .create_collection(
-            CreateCollectionBuilder::new("books").vectors_config(vectors_config),
-        )
+        .create_collection(CreateCollectionBuilder::new("books").vectors_config(vectors_config))
         .await?;
 
     Ok(())
