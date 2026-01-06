@@ -77,7 +77,7 @@ import polars as pl
 from qdrant_client.models import PointStruct
 from tqdm import tqdm
 
-df = pl.read_parquet('hf://datasets/nleroy917/hm_ecommerce_products/hm_ecommerce_products_enriched.parquet')
+df = pl.read_parquet('hf://datasets/Qdrant/hm_ecommerce_products/hm_ecommerce_products_enriched.parquet')
 
 dense_embeddings = df['dense_embedding'].to_list()
 
