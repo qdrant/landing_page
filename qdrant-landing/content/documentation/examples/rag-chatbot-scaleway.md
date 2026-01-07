@@ -28,7 +28,7 @@ A notebook for this tutorial is available on [GitHub](https://github.com/qdrant/
 
 ![Architecture diagram](/documentation/examples/rag-chatbot-scaleway/architecture-diagram.png)
 
-> Langchain [supports a wide range of LLMs](https://python.langchain.com/docs/integrations/chat/), and GPT-4o is used as the main generator in this tutorial. You can easily swap it out for your preferred model that might be launched on your premises to complete the fully private setup. For the sake of simplicity, we used the OpenAI APIs, but LangChain makes the transition seamless.
+> LangChain [supports a wide range of LLMs](https://python.langchain.com/docs/integrations/chat/), and GPT-4o is used as the main generator in this tutorial. You can easily swap it out for your preferred model that might be launched on your premises to complete the fully private setup. For the sake of simplicity, we used the OpenAI APIs, but LangChain makes the transition seamless.
 
 ## Deploying Qdrant Hybrid Cloud on Scaleway
 
@@ -134,7 +134,7 @@ The `format_docs` function formats the retrieved documents into a single string,
 
 This chain of operations demonstrates a sophisticated approach to information retrieval and content generation, leveraging both the semantic understanding capabilities of vector search and the generative prowess of large language models.
 
-Now, retrieve and generate data using relevant snippets from the blogL
+Now, retrieve and generate data using relevant snippets from the blog:
 
 ```python
 retriever = vectorstore.as_retriever()

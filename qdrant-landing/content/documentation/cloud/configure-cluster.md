@@ -16,6 +16,8 @@ In adition the cloud platform automatically configures the following settings fo
 * The cluster mode is automatically enabled to allow distributed deployments and horizontal scaling.
 * The maximum amount of payload indexes per collection is set to 100. Larger numbers of payload indexes lead to performance degradation (starting with Qdrant v1.16.0).
 
+![Cluster node endpoints](/documentation/cloud/cloud-advanced-configuration.png)
+
 ## Collection Defaults
 
 You can set default values for the configuration of new collections in your cluster. These defaults will be used when creating a new collection, unless you override them in the collection creation request.
@@ -44,6 +46,8 @@ Enables async scorer which uses io_uring when rescoring. See [Qdrant under the h
 
 If configured, only the chosen IP ranges will be allowed to access the cluster. This is useful for securing your cluster and ensuring that only clients coming from trusted networks can connect to it.
 
+![Cluster node endpoints](/documentation/cloud/cloud-ip-restrictions.png)
+
 ## Restart Mode
 
 The cloud platform will automatically choose the optimal restart mode during version upgrades or maintenance for your cluster. If you have a multi-node cluster and one or more collections with a replication factor of at least 2, the cloud platform will use the rolling restart mode. This means that nodes in the cluster will be restarted one at a time, ensuring that the cluster remains available during the restart process.
@@ -51,6 +55,8 @@ The cloud platform will automatically choose the optimal restart mode during ver
 If you have a multi-node cluster, but all collections have a replication factor of 1, the cloud platform will use the parallel restart mode. This means that nodes in the cluster will be restarted simultaneously, which will result in a short downtime period, but will be faster than a rolling restart.
 
 It is possible to override your cluster's default restart mode in the advanced configuration section of the Cluster Details page.
+
+![Cluster node endpoints](/documentation/cloud/cloud-restart-mode.png)
 
 ## Shard Rebalancing
 
@@ -64,8 +70,13 @@ Qdrant Cloud offers three strategies for shard rebalancing:
 
 You can deactivate automatic shard rebalancing by deselecting the `rebalancing_strategy` option. This is useful if you want to manually control the shard distribution across nodes.
 
+![Cluster node endpoints](/documentation/cloud/cloud-shard-rebalancing.png)
+
+
 ## Rename a Cluster
 
 You can rename a Qdrant Cluster by clicking the pencil icon next to the cluster name on the Cluster Details page. 
 
 Renaming a cluster does not affect its functionality or configuration. The cluster's unique ID and cluster URLs will remain the same.
+
+![Cluster node endpoints](/documentation/cloud/cloud-rename-cluster.png)

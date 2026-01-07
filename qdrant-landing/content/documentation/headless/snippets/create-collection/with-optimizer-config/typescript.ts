@@ -8,6 +8,6 @@ client.createCollection("{collection_name}", {
     distance: "Cosine",
   },
   optimizers_config: {
-    memmap_threshold: 20000,
+    indexing_threshold: 20000,
   },
 });

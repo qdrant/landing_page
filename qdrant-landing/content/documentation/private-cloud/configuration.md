@@ -20,7 +20,6 @@ operator:
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
 
-  # Optional image pull secrets
   imagePullSecrets:
     - name: qdrant-registry-creds
 
@@ -32,6 +31,9 @@ operator:
     create: true
     annotations: {}
 
+  ## Additional labels to add to all resources
+  customLabels: {}
+  
   # Additional pod annotations
   podAnnotations: {}
 
@@ -127,6 +129,16 @@ operator:
           # The StorageClass used to make snapshot PVCs.
           # Default is nil, meaning the default storage class of Kubernetes.
           #snapshot:
+        #volumeAttributesClass:
+        #  driverName: ebs.csi.aws.com
+        #  default:
+        #    name: balanced
+        #    parameters:
+        #      iops: 3000
+        #      throughput: 125
+        #  template:
+        #    prefix: qdrant-vac
+        #    parameters: {}
         # Qdrant config contains settings specific for the database
         qdrant:
           # The config where to find the image for qdrant
@@ -188,6 +200,12 @@ operator:
               - ports:
                   - protocol: UDP
                     port: 53
+          # the settings for cloud inference proxy
+          inference:
+            # inference proxy endpoint
+            # when set, the value is passed to Qdrant cluster config as `inference.address` config param
+            # if QdrantCluster instance has `.spec.config.inference.enabled` field set
+            address: ~
         # Scheduling config contains the settings specific for scheduling
         scheduling:
           # Default topology spread constraints (list from type corev1.TopologySpreadConstraint)
@@ -207,9 +225,15 @@ operator:
           # InvocationInterval is the interval between calls (started after the previous call is retured)
           # Default is 10 seconds
           invocationInterval: 10s
+          # SyncClustersInterval is the interval between sync-clusters calls (started after the previous call is retured)
+          # Default is 10 seconds
+          syncClustersInterval: 10s
           # Timeout is the duration a single call to the cluster manager is allowed to take.
           # Default is 30 seconds
           timeout: 30s
+          # syncClustersTimeout is the duration a single call to the cluster manager to sync clusters is allowed to take.
+          # Default is 10 seconds
+          syncClustersTimeout: 10s
           # Specifies overrides for the manage rules
           manageRulesOverrides:
             #dry_run:
@@ -217,6 +241,11 @@ operator:
             #max_transfers_per_collection:
             #rebalance:
             #replicate:
+          # Specifies overrides for the manage rules
+          syncClustersRulesOverrides:
+            #dry_run:
+            #max_downtime_sec:
+            #sync_interval_sec:
         # Ingress config contains the settings specific for ingress
         ingress:
           # Whether or not the Ingress feature is enabled.
@@ -242,6 +271,9 @@ operator:
             # Enable body validator plugin and matching ingressroute rules
             # Default is false
             enableBodyValidatorPlugin: false
+            # EntryPoints is the list of traefik entry points to use for the ingress route
+            # Default is ["web"] or ["websecure"] depending on the TLS setting
+            entryPoints: []
           # The specific settings when the Provider is KubernetesIngress
           kubernetesIngress:
             # Name of the ingress class
@@ -385,6 +417,9 @@ qdrant-cluster-exporter:
   rbac:
     create: true
 
+  ## Additional labels to add to all resources
+  customLabels: {}
+  
   podAnnotations: {}
 
   podSecurityContext:
@@ -429,18 +464,18 @@ qdrant-cluster-exporter:
   affinity: {}
 
   serviceMonitor:
-    enabled: true
+    enabled: false
     honorLabels: true
     scrapeInterval: 60s
     scrapeTimeout: 55s
 
   # Limit RBAC to the release namespace
-  limitRBAC: false
+  limitRBAC: true
 
   # Watched Namespaces Configuration
   watch:
     # If true, only the namespace where the exporter is deployed is watched, otherwise it watches the namespaces defined in watch.namespaces
-    onlyReleaseNamespace: false
+    onlyReleaseNamespace: true
     # an empty list watches all namespaces
     namespaces: []
 

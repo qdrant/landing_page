@@ -1,6 +1,6 @@
 ---
 title: LangGraph
-aliases: [ ../integrations/autogen/ ]
+aliases: [ ../integrations/langgraph/ ]
 ---
 
 # LangGraph
@@ -106,4 +106,4 @@ const graph = workflow.compile();
 ## Further Reading
 
 - [LangGraph Documentation](https://langchain-ai.github.io/langgraph/)
-- [LangGraph End-to-End Guides](https://langchain-ai.github.io/langgraph/tutorials/)
+- [LangGraph Tutorial build basic chatbot](https://langchain-ai.github.io/langgraph/tutorials/get-started/1-build-basic-chatbot/)

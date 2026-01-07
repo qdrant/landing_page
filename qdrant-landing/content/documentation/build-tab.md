@@ -31,7 +31,7 @@ content:
         src: /img/dev-portal-build/rag.png
         alt: RAG
       title: RAG
-      description: Build end-to-end prototype chatbots. Learn how Qdrant integrates with popular RAG frameworks like LangChain and Llamaindex.
+      description: Build end-to-end prototype chatbots. Learn how Qdrant integrates with popular RAG frameworks like LangChain and LlamaIndex.
       link:
         url: /documentation/frameworks/langchain/
         text: Read More

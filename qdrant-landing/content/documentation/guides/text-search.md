@@ -1,6 +1,6 @@
 ---
 title: Text Search
-weight: 180
+weight: 130
 aliases:
   - ../text-search
 ---
@@ -12,6 +12,10 @@ Qdrant is a vector search engine, making it a great tool for [semantic search](#
 ### Semantic Search
 
 Semantic search is a search technique that focuses on the meaning of the text rather than just matching on keywords. This is achieved by converting text into [vectors](/documentation/concepts/vectors/) (embeddings) using machine learning models. These vectors capture the semantic meaning of the text, enabling you to find similar text even if it doesn't share exact keywords.
+
+<aside role="status">
+The examples in this guide use <a href="/documentation/concepts/inference">inference</a> to let Qdrant generate the vectors. Inference is only available on <a href="/documentation/concepts/inference/#qdrant-cloud-inference">Qdrant Cloud</a>, with the exception of the BM25 model. If you are not running on Qdrant Cloud, you can use a library like <a href="/documentation/fastembed/">FastEmbed</a> to generate vectors on the client side.
+</aside>
 
 For example, to search through a collection of books, you could use a model like the `all-MiniLM-L6-v2` sentence transformer model. First, create a collection and configure a dense vector for the book descriptions:
 
@@ -25,7 +29,7 @@ To find books related to "time travel", use the following query:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-description-dense/" >}}
 
-Note that these examples do not provide explicit vectors. Instead, the requests use [inference](/documentation/concepts/inference) to let Qdrant generate vectors from the `text` provided in the request using the specified `model`. Alternatively, you can generate explicit vectors on the client side using a library like [FastEmbed](/documentation/fastembed/).
+In these examples, Qdrant uses [inference](/documentation/concepts/inference) to generate vectors from the `text` provided in the request using the specified `model`. Alternatively, you can generate explicit vectors on the client side with a library like [FastEmbed](/documentation/fastembed/).
 
 ### Lexical Search
 

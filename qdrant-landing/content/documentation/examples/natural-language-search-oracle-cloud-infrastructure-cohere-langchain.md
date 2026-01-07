@@ -26,7 +26,7 @@ are working with confidential or sensitive data.
 
 ## Building up the application
 
-Our application will consist of two main processes: indexing and searching. Langchain will glue everything together, 
+Our application will consist of two main processes: indexing and searching. LangChain will glue everything together, 
 as we will use a few components, including Cohere and Qdrant, as well as some OCI services. Here is a high-level
 overview of the architecture:
 
@@ -38,7 +38,7 @@ Before we dive into the implementation, make sure to set up all the necessary ac
 
 #### Libraries
 
-We are going to use a few Python libraries. Of course, Langchain will be our main framework, but the Cohere models on
+We are going to use a few Python libraries. Of course, LangChain will be our main framework, but the Cohere models on
 OCI are accessible via the [OCI SDK](https://docs.oracle.com/en-us/iaas/tools/python/2.125.1/). Let's install all the
 necessary libraries:
 
@@ -125,7 +125,7 @@ client.create_collection(
 ### Indexing process
 
 We have all the necessary tools set up, so let's start with the indexing process. We will use the Cohere Embedding 
-models to convert the text into vectors, and then store them in Qdrant. Langchain is integrated with OCI Generative AI
+models to convert the text into vectors, and then store them in Qdrant. LangChain is integrated with OCI Generative AI
 Service, so we can easily access the models. 
 
 Our dataset will be fairly simple, as it will consist of the questions and answers from the [Oracle Cloud Free Tier
@@ -284,7 +284,7 @@ source documents used to generate the response. This might be useful for debuggi
 #### Other experiments
 
 Asking the basic questions is just the beginning. What you want to avoid is a hallucination, where the model generates
-an answer that is not based on the actual content. The default prompt of Langchain should already prevent this, but you
+an answer that is not based on the actual content. The default prompt of LangChain should already prevent this, but you
 might still want to check it. Let's ask a question that is not directly answered on the FAQ page:
 
 ```python
@@ -306,6 +306,6 @@ not hallucinating in that case.
 ## Wrapping up
 
 This tutorial has shown how to integrate Cohere's language models with Qdrant to enable natural language search on your
-website. We have used Langchain as an orchestrator, and everything was hosted on Oracle Cloud Infrastructure (OCI).
+website. We have used LangChain as an orchestrator, and everything was hosted on Oracle Cloud Infrastructure (OCI).
 Real world would require integrating this mechanism into your organization's systems, but we built a solid foundation
 that can be further developed.
