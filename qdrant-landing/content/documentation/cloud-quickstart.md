@@ -68,6 +68,12 @@ const client = new QdrantClient({
 });
 ```
 
+```bash
+# test the connection
+curl -X GET \
+  'http://<your-qdrant-host>:6333/collections' \
+  --header 'api-key: <api-key-value>'
+```
 
 ## 4. Create a Collection
 
@@ -78,12 +84,12 @@ Specify the **vector size** (matching your embedding model) and the **distance m
 ```python
 from qdrant_client.models import Distance, VectorParams
 
-# create a collection with 384-dimensional vectors
-collection_name = "products"
+# create a collection with 768-dimensional vectors
+collection_name = "movies"
 client.create_collection(
     collection_name=collection_name,
     vectors_config=VectorParams(
-        size=384,
+        size=768,
         distance=Distance.COSINE
     )
 )
@@ -93,183 +99,69 @@ client.create_collection(
 use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder, ScalarQuantizationBuilder};
 
 // -- snip --
-let collection_name = "products";
+let collection_name = "movies";
 client
   .create_collection(
       CreateCollectionBuilder::new(collection_name)
-          .vectors_config(VectorParamsBuilder::new(384, Distance::Cosine))
+          .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
           .quantization_config(ScalarQuantizationBuilder::default()),
   )
   .await?;
 ```
 
 ```typescript
-const collectionName = "products";
+const collectionName = "movies";
 await client.collections.createCollection(collectionName, {
   vectors: {
-    size: 384,
+    size: 768,
     distance: "Cosine",
-  },
+  },    
 });
+```
+
+```bash
+curl -X PUT \
+  'http://<your-qdrant-host>:6333/collections/movies' \
+  --header 'api-key: <api-key-value>' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+        "size": 768,
+        "distance": "Cosine"
+    }
+}'
 ```
 
 ## 5. Load and Insert Vectors
 
-We'll use a real dataset from HuggingFace containing H&M e-commerce products with pre-computed embeddings.
+We'll use a sample qdrant snapshot to quickly load data. It is a dataset of IMDB movies embedded with the `jinaai/jina-embeddings-v2-base-en` model.
 
 ```python
-import polars as pl
-
-from qdrant_client.models import PointStruct
-from tqdm import tqdm
-
-df = pl.read_parquet('hf://datasets/Qdrant/hm_ecommerce_products/hm_ecommerce_products_enriched.parquet')
-
-dense_embeddings = df['dense_embedding'].to_list()
-
-# upload in batches
-BATCH_SIZE = 100
-
-def generate_points_in_batches(batch_size=BATCH_SIZE):
-    for i in range(0, len(df), batch_size):
-        batch = df[i:i + batch_size]
-        points = [
-            PointStruct(
-                id=idx,
-                vector=dense_embeddings[idx],
-                payload={
-                    "product_code": row.get("product_code"),
-                    "prod_name": row.get("prod_name"),
-                    "product_group_name": row.get("product_group_name"),
-                    "colour_group_name": row.get("colour_group_name"),
-                    "department_name": row.get("department_name"),
-                    "section_name": row.get("section_name"),
-                    "garment_group_name": row.get("garment_group_name"),
-                    "detail_desc": row.get("detail_desc"),
-                    "image_url": row.get("image_url"),
-                }
-            )
-            for idx, row in enumerate(batch.iter_rows(named=True), start=i)
-        ]
-        yield points
-
-total_batches = (len(df) + BATCH_SIZE - 1) // BATCH_SIZE
-for batch in tqdm(generate_points_in_batches(), total=total_batches, desc="Uploading points"):
-    client.upload_points(
-        collection_name="products",
-        points=batch
-    )
+client.recover_snapshot(
+    collection_name="products",
+    snapshot_url="snapshots.qdrant.io/imdb-1000-jina.snapshot"
+)
 ```
 
 ```rust
-use polars::prelude::*;
-use qdrant_client::qdrant::{PointStruct, Value};
-use std::collections::HashMap;
-
-// read parquet file from HuggingFace
-let url = "https://huggingface.co/datasets/Qdrant/hm_ecommerce_products/resolve/main/hm_ecommerce_products_enriched.parquet";
-let df = LazyFrame::scan_parquet(url, Default::default())?
-    .collect()?;
-
-// extract dense embeddings
-let dense_embeddings = df.column("dense_embedding")?
-    .list()?
-    .into_iter()
-    .map(|series| {
-        series.unwrap().f32()?.into_iter()
-            .map(|v| v.unwrap())
-            .collect::<Vec<f32>>()
-    })
-    .collect::<Vec<Vec<f32>>>();
-
-// upload in batches
-const BATCH_SIZE: usize = 100;
-
-let total_rows = df.height();
-let total_batches = (total_rows + BATCH_SIZE - 1) / BATCH_SIZE;
-
-for batch_start in (0..total_rows).step_by(BATCH_SIZE) {
-    let batch_end = (batch_start + BATCH_SIZE).min(total_rows);
-    let mut points = Vec::new();
-
-    for idx in batch_start..batch_end {
-        let mut payload = HashMap::new();
-        payload.insert("product_code".to_string(),
-            Value::from(df.column("product_code")?.str()?.get(idx).unwrap_or("")));
-        payload.insert("prod_name".to_string(),
-            Value::from(df.column("prod_name")?.str()?.get(idx).unwrap_or("")));
-        payload.insert("product_group_name".to_string(),
-            Value::from(df.column("product_group_name")?.str()?.get(idx).unwrap_or("")));
-        payload.insert("colour_group_name".to_string(),
-            Value::from(df.column("colour_group_name")?.str()?.get(idx).unwrap_or("")));
-        payload.insert("department_name".to_string(),
-            Value::from(df.column("department_name")?.str()?.get(idx).unwrap_or("")));
-        payload.insert("section_name".to_string(),
-            Value::from(df.column("section_name")?.str()?.get(idx).unwrap_or("")));
-        payload.insert("garment_group_name".to_string(),
-            Value::from(df.column("garment_group_name")?.str()?.get(idx).unwrap_or("")));
-        payload.insert("detail_desc".to_string(),
-            Value::from(df.column("detail_desc")?.str()?.get(idx).unwrap_or("")));
-        payload.insert("image_url".to_string(),
-            Value::from(df.column("image_url")?.str()?.get(idx).unwrap_or("")));
-
-        points.push(PointStruct::new(
-            idx as u64,
-            dense_embeddings[idx].clone(),
-            payload,
-        ));
-    }
-
-    client.upsert_points("products", points, None).await?;
-}
+// recovering from snapshot is not yet supported in Rust client
+// please use bash/cURL to restore from the snapshot manually
 ```
 
 ```typescript
-import * as pl from 'nodejs-polars';
-import { PointStruct } from '@qdrant/js-client-rest';
+await client.collections.recoverSnapshot("products", {
+  snapshotUrl: "snapshots.qdrant.io/imdb-1000-jina.snapshot",
+});
+```
 
-// read parquet file from HuggingFace
-const url = 'https://huggingface.co/datasets/Qdrant/hm_ecommerce_products/resolve/main/hm_ecommerce_products_enriched.parquet';
-const df = await pl.readParquet(url);
-
-// extract dense embeddings
-const denseEmbeddings = df.getColumn('dense_embedding').toArray();
-
-// upload in batches
-const BATCH_SIZE = 100;
-const totalRows = df.height;
-const totalBatches = Math.ceil(totalRows / BATCH_SIZE);
-
-for (let batchStart = 0; batchStart < totalRows; batchStart += BATCH_SIZE) {
-  const batchEnd = Math.min(batchStart + BATCH_SIZE, totalRows);
-  const points: PointStruct[] = [];
-
-  for (let idx = batchStart; idx < batchEnd; idx++) {
-    const row = df.row(idx);
-
-    points.push({
-      id: idx,
-      vector: denseEmbeddings[idx],
-      payload: {
-        product_code: row.product_code,
-        prod_name: row.prod_name,
-        product_group_name: row.product_group_name,
-        colour_group_name: row.colour_group_name,
-        department_name: row.department_name,
-        section_name: row.section_name,
-        garment_group_name: row.garment_group_name,
-        detail_desc: row.detail_desc,
-        image_url: row.image_url,
-      },
-    });
-  }
-
-  await client.upsert(collectionName, {
-    wait: true,
-    points: points,
-  });
-
-}
+```curl
+curl -X PUT \
+  'http://<your-qdrant-host>:6333/collections/collection_name/snapshots/recover' \
+  --header 'api-key: <api-key-value>' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+    "location": "snapshots.qdrant.io/imdb-1000-jina.snapshot"
+}'
 ```
 
 ## 6. Search Vectors
@@ -280,22 +172,22 @@ Perform semantic search by passing a query text. Qdrant returns the most similar
 from fastembed import TextEmbedding
 
 # load the embedding model
-model = TextEmbedding('BAAI/bge-small-en-v1.5')
+model = TextEmbedding('jinaai/jina-embeddings-v2-base-en')
 
 # generate query embedding
-query_text = "blue jeans"
+query_text = "alien invasion movie"
 query_vector = next(iter(model.embed(query_text)))
 
 # search for similar products
 results = client.query_points(
-    collection_name="products",
+    collection_name="movies",
     query_vector=query_vector,
     limit=5
 )
 
 # print results
 for result in results.hits:
-    print(f"Product: {result.payload['prod_name']}")
+    print(f"Movie: {result.payload['prod_name']}")
     print(f"Score: {result.score}")
     print(f"Description: {result.payload.get('detail_desc', 'N/A')}")
     print("---")
@@ -311,14 +203,14 @@ let model = TextEmbedding::try_new(InitOptions {
 })?;
 
 // generate query embedding
-let query_text = "blue jeans";
+let query_text = "alien invasion movie";
 let query_embeddings = model.embed(vec![query_text], None)?;
 let query_vector = query_embeddings[0].clone();
 
 // search for similar products
 let results = client
     .query(
-        QueryPointsBuilder::new("products")
+        QueryPointsBuilder::new("movies")
             .query(query_vector)
             .limit(5),
     )
@@ -341,11 +233,11 @@ import { TextEmbedding, EmbeddingModel } from 'fastembed';
 
 // load the embedding model
 const model = await TextEmbedding.init({
-  model: EmbeddingModel.BGESmallENV15,
+  model: EmbeddingModel.JinaEmbeddingsV2BaseEn,
 });
 
 // generate query embedding
-const queryText = "blue jeans";
+const queryText = "alien invasion movie";
 const queryEmbeddings = await model.embed([queryText]);
 const queryVector = Array.from(queryEmbeddings[0]);
 
@@ -366,7 +258,7 @@ for (const result of results.points) {
 
 ## That's Vector Search!
 
-You've just performed semantic search on real e-commerce data. The query "blue jeans" returned similar products based on meaning, not just keyword matching.
+You've just performed semantic search on real movie data. The query "alien invasion movie" returned similar movies based on meaning, not just keyword matching.
 
 ## What's Next?
 
