@@ -1,6 +1,8 @@
 ```rust
-use qdrant_client::qdrant::{CreateFieldIndexCollectionBuilder, FieldType, TextIndexParamsBuilder, TokenizerType};
 use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{
+    CreateFieldIndexCollectionBuilder, FieldType, TextIndexParamsBuilder, TokenizerType,
+};
 
 let params = TextIndexParamsBuilder::new(TokenizerType::Word)
     .ascii_folding(true)

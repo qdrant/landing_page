@@ -1,6 +1,8 @@
 ```rust
-use qdrant_client::qdrant::{Condition, Document, Filter, Query, QueryBatchPointsBuilder, QueryPointsBuilder};
 use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{
+    Condition, Document, Filter, Query, QueryBatchPointsBuilder, QueryPointsBuilder,
+};
 
 let strict_filter = Filter::must([Condition::matches("title", "time travel".to_string())]);
 let relaxed_filter = Filter::must([Condition::matches("title", "time travel".to_string())]);

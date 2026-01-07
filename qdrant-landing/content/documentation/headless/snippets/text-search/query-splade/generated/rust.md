@@ -1,6 +1,6 @@
 ```rust
-use qdrant_client::qdrant::{Document, Query, QueryPointsBuilder};
 use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Document, Query, QueryPointsBuilder};
 
 client
     .query(

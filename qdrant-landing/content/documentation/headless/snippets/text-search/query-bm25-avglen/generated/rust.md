@@ -1,8 +1,8 @@
 ```rust
 use std::collections::HashMap;
 
-use qdrant_client::qdrant::{DocumentBuilder, Query, QueryPointsBuilder, Value};
 use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{DocumentBuilder, Query, QueryPointsBuilder, Value};
 
 let mut options = HashMap::new();
 options.insert("avg_len".to_string(), Value::from(5.0));

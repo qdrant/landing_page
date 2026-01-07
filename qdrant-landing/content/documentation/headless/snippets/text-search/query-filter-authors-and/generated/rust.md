@@ -1,6 +1,6 @@
 ```rust
-use qdrant_client::qdrant::{Condition, Document, Filter, Query, QueryPointsBuilder};
 use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Condition, Document, Filter, Query, QueryPointsBuilder};
 
 let filter = Filter::must([
     Condition::matches("author", "Larry Niven".to_string()),

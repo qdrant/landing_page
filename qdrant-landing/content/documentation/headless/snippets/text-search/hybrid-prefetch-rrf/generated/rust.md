@@ -1,6 +1,6 @@
 ```rust
-use qdrant_client::qdrant::{Document, Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
 use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Document, Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
 
 let dense_prefetch = PrefetchQueryBuilder::default()
     .query(Query::new_nearest(Document::new(
