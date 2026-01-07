@@ -10,6 +10,9 @@ client, err := qdrant.NewClient(&qdrant.Config{
 	Port: 6334,
 })
 
+if err != nil {
+	panic(err)
+
 client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	CollectionName: "{collection_name}",
 	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
