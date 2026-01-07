@@ -3,7 +3,6 @@ use std::collections::HashMap;
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{DocumentBuilder, Query, QueryPointsBuilder, Value};
 
-#[tokio::main]
 pub async fn main() -> anyhow::Result<()> {
     let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
