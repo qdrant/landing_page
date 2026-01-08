@@ -69,13 +69,9 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-> Note: You can specify vector_dataset_database_handler in the config if it is not defined in the .env file.
+> Note: You can specify `vector_dataset_database_handler` in the config if it is not defined in the `.env` file.
 
-```bash
-VECTOR_DATASET_DATABASE_HANDLER=qdrant
-```
-
-> Example .env usage file for Cognee with Qdrant adapter
+Example `.env` usage file for Cognee with Qdrant adapter
 
 ```bash
 LLM_API_KEY=your-openai-api-key
