@@ -5,7 +5,7 @@ aliases:
 weight: 191
 ---
 
-# Migrate to a New Embedding Model With Zero Downtime
+# Migrate to a New Embedding Model with Zero Downtime
 
 When building a semantic search application, you need to [choose an embedding 
 model](/articles/how-to-choose-an-embedding-model/). Over time, you may want to switch to a different model for better 
@@ -18,15 +18,13 @@ This tutorial will guide you step-by-step through the process of migrating to a 
 
 ## The Solution
 
-Switching the embedding model with zero downtime is possible by using a blue-green deployment with two collections. The first collection
-contains the old embeddings, and the second one is used to store the new embeddings. During the migration, you will
-keep both collections available for the search and then switch the search to use the new collection once all the
-vectors are re-embedded. **That operation requires some changes in your application code and cannot be done using
-the Qdrant APIs only.**
+Switching the embedding model with zero downtime is possible by using a blue-green deployment with two collections. The first collection contains the old embeddings, and the second one is used to store the new embeddings. A migration process copies the data from the old collection to the new one, re-embedding vectors using the new model. During the migration, you keep searching the old collection while writing any data updates to both collections. Once all vectors are re-embedded, switch the search to use the new collection.
 
 {{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >}}
 
 Re-embedding requires access to the original data used to create the embeddings. This data can come from a primary database, or it may be stored in the payloads of the points in Qdrant. This tutorial assumes that the necessary data is stored in the payloads. This is usually the case, as the payload often contains the text or other data that was used to generate the embeddings.
+
+The solution outlined in this tutorial only works for upsert operations. If you use deletes or partial updates, it is necessary to pause those operations during the migration or implement additional logic to handle them.
 
 ## Step 1: Create a New Collection
 
@@ -52,25 +50,12 @@ Now is also a good moment to consider changing any other settings for the collec
 
 The newly created collection is empty and ready to be used for storing the new embeddings.
 
-<aside role="status">
-Qdrant supports <a href="/documentation/concepts/collections/#collection-aliases">collection aliases</a>, which act as 
-symbolic links to collections. If you use aliases, you can simply fill the new collection with the new embeddings 
-and then switch the alias to point to the new collection. This way, you can avoid changing the collection name in 
-your application code. This approach may still require some changes in the code, as you also need to change the
-embedding model used for encoding the vectors, but it simplifies the process of switching the search to the new 
-collection.
-</aside>
 
-## Step 2: Enable Dual-Write Mode in Your Application
+## Step 2: Enable Dual Writes
 
-To ensure that both collections are kept up-to-date during the migration, you need to write to both collections simultaneously. This way, any new data or updates to existing data are reflected in both collections.
+To ensure that both collections are kept up-to-date during the migration, you need to write any changes to both collections simultaneously. This way, any new data or updates to existing data are reflected in both collections.
 
-Ideally, the data in Qdrant is updated by an update service reading from an update queue. In this case, deploy a second service that updates the new collection in parallel with the existing one.
-
-In the case of a monolithic application, you need to modify your application code to write to both 
-collections simultaneously during the transition period. Somewhere in your code, where you handle the embedding of the
-documents, you should add the logic to write to both collections. For example, if you are using the Python SDK, your
-current code might look like this:
+Ideally, the data in Qdrant is updated by an update service reading from an update queue. This service is responsible for embedding the documents and writing them to Qdrant. It uses code similar to this:
 
 ```python
 client.upsert(
@@ -85,20 +70,9 @@ client.upsert(
 )
 ```
 
-You need to modify it to write to both collections:
+To update the new collection, deploy a second service that updates the new collection in parallel with the existing one. This service uses the new embedding model to encode the documents and writes them to the new collection:
 
 ```python
-client.upsert(
-    collection_name=OLD_COLLECTION,
-    points=[
-        models.PointStruct(
-            id=1,
-            vector=encode(text="Example document", model_name=OLD_MODEL),
-            payload={"text": "Example document"}
-        )
-    ]
-)
-
 client.upsert(
     collection_name=NEW_COLLECTION,
     points=[
@@ -114,22 +88,10 @@ client.upsert(
 
 A good practice is to always ensure that both operations succeed. Any errors need to be handled on the client side. You could store errors in a log or "dead letter queue" for later processing. Transient errors can be retried at a later time. Other errors need to be analyzed and addressed accordingly.
 
-<aside role="status">
-This example is an overly simplified version of the code, but it illustrates the idea. Practically, it makes a lot
-of sense to make this process controllable from the outside, so you can choose which models and corresponding collections to 
-use for each operation that modifies points in the collection. By making this effort now, you will save yourself a lot 
-of trouble later, as you will be able to dynamically switch the model in the future without changing the application 
-code again. 
-</aside> 
+If instead of update services, you have a monolithic application, you need to modify your application code to write to both collections simultaneously during the transition period. In your code, where you handle the embedding of the documents, you should add the logic to write to both collections.
 
-Please make sure to cover all the operations that can modify the data in your collections, **including updates and
-deletes**. Here are all the methods you have to modify in your application code to ensure you cover all the
-operations that can modify the data in your collections:
+Note that the method outlined in this tutorial only works for `upsert` operations. For example, a `delete` operation would fail on the new collection if a point does not exist yet, and that point would later be erroneously added by the migration process. If you use one of the following methods to modify points in your collection, you will need to pause those operations during the migration or implement additional logic to handle them:
 
-- `.upsert` - inserting/updating specified points
-- `.upload_points` - uploading points in batches (*method specific to Python SDK*)
-- `.upload_records` - uploading records in batches (*method specific to Python SDK*)
-- `.upload_collection` - uploading collection entries (*method specific to Python SDK*)
 - `.delete` - removing specified points from the collection
 - `.update_vectors` - updating specified vectors on points
 - `.delete_vectors` - deleting specified vectors from points
@@ -140,20 +102,16 @@ operations that can modify the data in your collections:
 - `.batch_update_points` - making batch updates to points, including their respective vectors and payloads
 
 Please refer to the [documentation of the SDK you are using](/documentation/interfaces/), or the 
-[HTTP](https://api.qdrant.tech/api-reference)/[gRPC](https://api.qdrant.tech/api-reference) definitions, for the exact 
-method names, as they may vary between languages. You are likely not using all these methods, so you only need to
-modify the ones that are relevant to your application.
+[HTTP](https://api.qdrant.tech/api-reference)/[gRPC](https://api.qdrant.tech/api-reference) definitions, for the exact method names, as they may vary between languages.
 
-After making these changes, your application will be in a **dual-write mode**, where it writes to both the old and new
-collections. This allows you to keep both collections up-to-date during the migration process, so the ongoing changes
-to your data are reflected in both collections.
+After making these changes, you will be in a **dual-write mode**, where any change is written to both the old and new collection. This allows you to keep both collections up-to-date during the migration process.
 
 ## Step 3: Migrate the Existing Points into the New Collection
 
-With the regular upsert services now writing to both collections, it is time to migrate the existing points from the old collection to the new one. This can be done in a separate process that runs
+Now that you're in dual-write mode, it is time to migrate the existing points from the old collection to the new one. This can be done in a separate process that runs
 in parallel with the regular upsert services. 
 
-The migration process reads the points from the old collection, re-embeds them using the new model, and writes them to the new collection. Here's an example of what the code for such a migration process could look like:
+The migration process reads the points from the old collection, re-embeds them using the new model, and writes them to the new collection, making sure not to overwrite existing points inserted by the update service. Here's an example of what the code for such a migration process could look like:
 
 ```python
 last_offset = None
@@ -210,22 +168,19 @@ Breaking down this code step by step:
 
 - Data is read from the old collection in batches of 100 points using a [scroll](/documentation/concepts/points/#scroll-points). The `last_offset` variable keeps track of the scroll position in the collection.
 - For each batch of points, the process re-embeds the vectors using the new embedding model. It assumes that the original text used for embedding is stored in the payload under the key `text`.
-- With the re-embedded vectors, it prepares [conditional upsert operations](/documentation/concepts/points/#conditional-updates) for the new collection, keeping the original IDs and payloads. The conditional upserts use a filter condition to ensure that the point is only inserted if it does not already exist in the new collection. The filter checks whether a point with the given ID already exists. A point is only upserted if the ID does not exist in the new collection. This prevents overwriting newer updates from the regular update service.
+- With the re-embedded vectors, it prepares [conditional upsert operations](/documentation/concepts/points/#conditional-updates) for the new collection, keeping the original IDs and payloads. The conditional upserts use a filter condition to ensure that a point is only inserted if it does not already exist in the new collection. The filter checks whether a point with the given ID already exists. A point is only upserted if the ID does not exist in the new collection. This prevents overwriting newer updates from the regular update service.
 - Finally, the process uses a [batch update](/documentation/concepts/points/#batch-update) to upsert the re-embedded points into the new collection. Note that it uses `batch_update_points` instead of `upsert`, because `batch_update_points` allows you to specify an update condition per upsert operation.
 
 This kind of migration process can take some time, and the offset can be stored in a persistent way, so you can resume the migration process in case of a failure. You can use a database, a file, or any other persistent storage to keep track of the last offset. Having said that, because the conditional upserts would not overwrite any points in the new collection, you could safely restart the migration process from the beginning if needed.
 
-## Step 4: Switch the Search to the New Collection
+## Step 4: Change the Collection and Embedding Model for Searches
 
-Once the migration process is complete, and all the points from the old collection are re-embedded and stored in
-the new collection, you can roll out a new instance of backend application pointing to a new collection. You need to modify the code that performs the search to use the new collection instead
-of the old one. There are three key changes you have to make:
+Once the migration process is complete, and all the points from the old collection are re-embedded and stored in the new collection, you can roll out a configuration change of the backend application. There are two key changes you have to make:
 
-1. **The collection name**, if you're not using an alias, so you don't search in the old collection anymore.
-2. **The vector name**, if you use named vectors and the name of the vector has changed.
-3. **The embedding model** that transforms the query into a vector.
+1. **The collection name**. Switch this from the old collection to the new collection. If you're using a [collection alias](/documentation/concepts/collections/#collection-aliases), switch the alias to point to the new collection.
+2. **The embedding model**. Switch this from the old embedding model to the new embedding model.
 
-If your old code looked like this:
+If these values are hardcoded in your application, you will need to change them directly in the code and deploy a new version of your application. For example, if your current search code looks like this:
 
 ```python
 results = client.query_points(
@@ -244,13 +199,6 @@ results = client.query_points(
     limit=10,
 )
 ```
-
-<aside role="status">
-Ideally, controlling the embedding model used for encoding the query is a part of the application logic you can 
-control from outside, so you can switch the model without changing the application code. If you went the extra mile
-to have it dynamic, now it's time to enjoy the benefits of that effort. It might also be achieved by spinning up a
-new version of the service that uses the new model and then switching the traffic to the new service.
-</aside>
 
 ## Step 5: Wrapping Up
 
