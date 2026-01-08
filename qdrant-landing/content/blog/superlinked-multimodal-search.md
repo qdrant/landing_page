@@ -33,7 +33,7 @@ For example, you might search for hotels in Paris with specific criteria:
 > In this blog, we'll show you how we built [**The Hotel Search Demo**](https://hotel-search-recipe.superlinked.io/). 
 
 **Figure 1:** Superlinked generates vectors of different modalities which are indexed and served by Qdrant for fast, accurate hotel search.
-![superlinked-hotel-search](/blog/superlinked-multimodal-search/frontend.gif)
+![superlinked-hotel-search](https://storage.googleapis.com/qdrant-landing/files/blog/frontend.gif)
 
 What makes this app particularly powerful is how it breaks down your natural language query into precise parameters. As you type your question at the top, you can observe the query parameters dynamically update in the left sidebar.
 
