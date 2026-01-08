@@ -14,21 +14,9 @@ aliases:
 
 <p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/xvWIssi_cjQ?si=CLhFrUDpQlNog9mz&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
 
-Learn how to set up Qdrant Cloud, create a collection, insert vectors, and perform your first semantic search in just a few minutes.
+Learn how to set up Qdrant Cloud and perform your first semantic search in just a few minutes. We'll use a sample dataset of 1,000 IMDB movies pre-embedded with the `jinaai/jina-embeddings-v2-base-en` model to get you started quickly.
 
-## 1. Install the Qdrant Client
-
-The fastest way to get started is to use the `qdrant-client` Python library which provides a convenient interface for working with Qdrant.
-
-Install it using pip in your terminal or virtual environment:
-
-```bash
-pip install qdrant-client polars fastembed tqdm         # for Python projects
-# cargo add qdrant-client[fastembed] polars             # for Rust projects 
-# npm install @qdrant/js-client-rest polars fastembed   # for Node.js projects
-```
-
-## 2. Create a Cloud Cluster
+## 1. Create a Cloud Cluster
 
 1. Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google or Github credentials.
 2. Go to **Clusters** and click **Create First Cluster**.
@@ -36,9 +24,19 @@ pip install qdrant-client polars fastembed tqdm         # for Python projects
 
 For detailed cluster setup instructions, see the [Cloud documentation](/documentation/cloud-intro/).
 
+## 2. Install the Qdrant Client
+
+Once you have a cluster, the fastest way to get started is to use our official SDKs which provide a convenient interface for working with Qdrant in your preferred programming language.
+
+```bash
+pip install qdrant-client fastembed         # for Python projects
+# cargo add qdrant-client[fastembed]             # for Rust projects 
+# npm install @qdrant/js-client-rest fastembed   # for Node.js projects
+```
+
 ## 3. Connect to Qdrant Cloud
 
-Import the `QdrantClient` and create a connection to your Qdrant Cloud cluster using your cluster URL and API key.
+Import the qdrant client and create a connection to your Qdrant Cloud cluster using your cluster URL and API key.
 
 ```python
 from qdrant_client import QdrantClient
@@ -75,70 +73,13 @@ curl -X GET \
   --header 'api-key: <api-key-value>'
 ```
 
-## 4. Create a Collection
+## 4. Load the Sample Dataset
 
-Collections are the primary unit of data organization in Qdrant. Each collection stores vectors of the same dimensionality.
-
-Specify the **vector size** (matching your embedding model) and the **distance metric** (Cosine, Euclidean, or Dot Product).
-
-```python
-from qdrant_client.models import Distance, VectorParams
-
-# create a collection with 768-dimensional vectors
-collection_name = "movies"
-client.create_collection(
-    collection_name=collection_name,
-    vectors_config=VectorParams(
-        size=768,
-        distance=Distance.COSINE
-    )
-)
-```
-
-```rust
-use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder, ScalarQuantizationBuilder};
-
-// -- snip --
-let collection_name = "movies";
-client
-  .create_collection(
-      CreateCollectionBuilder::new(collection_name)
-          .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
-          .quantization_config(ScalarQuantizationBuilder::default()),
-  )
-  .await?;
-```
-
-```typescript
-const collectionName = "movies";
-await client.collections.createCollection(collectionName, {
-  vectors: {
-    size: 768,
-    distance: "Cosine",
-  },    
-});
-```
-
-```bash
-curl -X PUT \
-  'http://<your-qdrant-host>:6333/collections/movies' \
-  --header 'api-key: <api-key-value>' \
-  --header 'Content-Type: application/json' \
-  --data-raw '{
-    "vectors": {
-        "size": 768,
-        "distance": "Cosine"
-    }
-}'
-```
-
-## 5. Load and Insert Vectors
-
-We'll use a sample qdrant snapshot to quickly load data. It is a dataset of IMDB movies embedded with the `jinaai/jina-embeddings-v2-base-en` model.
+We'll load a pre-embedded dataset of 1,000 IMDB movies using a [Qdrant snapshot](https://qdrant.tech/documentation/concepts/snapshots/). This snapshot contains vectors created with the `jinaai/jina-embeddings-v2-base-en` model (768 dimensions) and will automatically create the collection for you.
 
 ```python
 client.recover_snapshot(
-    collection_name="products",
+    collection_name="movies",
     snapshot_url="snapshots.qdrant.io/imdb-1000-jina.snapshot"
 )
 ```
@@ -149,7 +90,7 @@ client.recover_snapshot(
 ```
 
 ```typescript
-await client.collections.recoverSnapshot("products", {
+await client.collections.recoverSnapshot("movies", {
   snapshotUrl: "snapshots.qdrant.io/imdb-1000-jina.snapshot",
 });
 ```
@@ -164,9 +105,9 @@ curl -X PUT \
 }'
 ```
 
-## 6. Search Vectors
+## 5. Search the Movies
 
-Perform semantic search by passing a query text. Qdrant returns the most similar vectors based on your chosen distance metric.
+Now we can search the movie dataset! We'll use the same `jinaai/jina-embeddings-v2-base-en` model to embed our query text, then find similar movies in the collection.
 
 ```python
 from fastembed import TextEmbedding
@@ -178,7 +119,7 @@ model = TextEmbedding('jinaai/jina-embeddings-v2-base-en')
 query_text = "alien invasion movie"
 query_vector = next(iter(model.embed(query_text)))
 
-# search for similar products
+# search for similar movies
 results = client.query_points(
     collection_name="movies",
     query_vector=query_vector,
@@ -207,7 +148,7 @@ let query_text = "alien invasion movie";
 let query_embeddings = model.embed(vec![query_text], None)?;
 let query_vector = query_embeddings[0].clone();
 
-// search for similar products
+// search for similar movies
 let results = client
     .query(
         QueryPointsBuilder::new("movies")
@@ -219,7 +160,7 @@ let results = client
 // print results
 for result in results.result {
     let payload = result.payload;
-    println!("Product: {}", payload.get("prod_name")
+    println!("Movie: {}", payload.get("prod_name")
         .and_then(|v| v.as_str()).unwrap_or("N/A"));
     println!("Score: {}", result.score);
     println!("Description: {}", payload.get("detail_desc")
@@ -241,7 +182,7 @@ const queryText = "alien invasion movie";
 const queryEmbeddings = await model.embed([queryText]);
 const queryVector = Array.from(queryEmbeddings[0]);
 
-// search for similar products
+// search for similar movies
 const results = await client.query(collectionName, {
   query: queryVector,
   limit: 5,
@@ -249,7 +190,7 @@ const results = await client.query(collectionName, {
 
 // print results
 for (const result of results.points) {
-  console.log(`Product: ${result.payload?.prod_name || 'N/A'}`);
+  console.log(`Movie: ${result.payload?.prod_name || 'N/A'}`);
   console.log(`Score: ${result.score}`);
   console.log(`Description: ${result.payload?.detail_desc || 'N/A'}`);
   console.log('---');
