@@ -29,9 +29,9 @@ For detailed cluster setup instructions, see the [Cloud documentation](/document
 Once you have a cluster, the fastest way to get started is to use our official SDKs which provide a convenient interface for working with Qdrant in your preferred programming language.
 
 ```bash
-pip install qdrant-client fastembed         # for Python projects
-# cargo add qdrant-client[fastembed]             # for Rust projects 
-# npm install @qdrant/js-client-rest fastembed   # for Node.js projects
+pip install qdrant-client fastembed             # for Python projects
+# cargo add qdrant-client fastembed             # for Rust projects 
+# npm install @qdrant/js-client-rest fastembed  # for Node.js projects
 ```
 
 ## 3. Connect to Qdrant Cloud
@@ -41,7 +41,7 @@ Import the qdrant client and create a connection to your Qdrant Cloud cluster us
 ```python
 from qdrant_client import QdrantClient
 
-# Connect to Qdrant Cloud
+# connect to Qdrant Cloud
 client = QdrantClient(
     url="https://xyz-example.eu-central.aws.cloud.qdrant.io",
     api_key="your-api-key",
@@ -52,7 +52,7 @@ client = QdrantClient(
 use qdrant_client::Qdrant;
 
 // Connect to Qdrant Cloud
-let client = Qdrant::from_url("https://xyz-example.eu-central.aws.cloud.qdrant.io")
+let client = Qdrant::from_url("https://xyz-example.eu-central.aws.cloud.qdrant.io:6334")
     .api_key("your-api-key")
     .build()?;
 ```
@@ -78,10 +78,7 @@ curl -X GET \
 We'll load a pre-embedded dataset of 1,000 IMDB movies using a [Qdrant snapshot](https://qdrant.tech/documentation/concepts/snapshots/). This snapshot contains vectors created with the `jinaai/jina-embeddings-v2-base-en` model (768 dimensions) and will automatically create the collection for you.
 
 ```python
-client.recover_snapshot(
-    collection_name="movies",
-    snapshot_url="snapshots.qdrant.io/imdb-1000-jina.snapshot"
-)
+client.recover_snapshot("movies", "https://snapshots.qdrant.io/imdb-1000-jina.snapshot")
 ```
 
 ```rust
@@ -91,17 +88,17 @@ client.recover_snapshot(
 
 ```typescript
 await client.collections.recoverSnapshot("movies", {
-  snapshotUrl: "snapshots.qdrant.io/imdb-1000-jina.snapshot",
+  snapshotUrl: "https://snapshots.qdrant.io/imdb-1000-jina.snapshot",
 });
 ```
 
 ```curl
 curl -X PUT \
-  'http://<your-qdrant-host>:6333/collections/collection_name/snapshots/recover' \
+  'http://<your-qdrant-host>:6333/collections/movies/snapshots/recover' \
   --header 'api-key: <api-key-value>' \
   --header 'Content-Type: application/json' \
   --data-raw '{
-    "location": "snapshots.qdrant.io/imdb-1000-jina.snapshot"
+    "location": "https://snapshots.qdrant.io/imdb-1000-jina.snapshot"
 }'
 ```
 
@@ -116,55 +113,59 @@ from fastembed import TextEmbedding
 model = TextEmbedding('jinaai/jina-embeddings-v2-base-en')
 
 # generate query embedding
-query_text = "alien invasion movie"
+query_text = "world war II drama"
 query_vector = next(iter(model.embed(query_text)))
 
 # search for similar movies
 results = client.query_points(
     collection_name="movies",
-    query_vector=query_vector,
+    query=query_vector,
     limit=5
 )
 
 # print results
-for result in results.hits:
-    print(f"Movie: {result.payload['prod_name']}")
+for result in results.points:
+    print(f"Movie: {result.payload.get('movie_name', 'N/A')}")
     print(f"Score: {result.score}")
-    print(f"Description: {result.payload.get('detail_desc', 'N/A')}")
+    print(f"Description: {result.payload['description'][:50]}...")
     print("---")
 ```
 
 ```rust
-use fastembed::{TextEmbedding, InitOptions, EmbeddingModel};
+use fastembed::{EmbeddingModel, InitOptions, TextEmbedding};
 
 // load the embedding model
-let model = TextEmbedding::try_new(InitOptions {
-    model_name: EmbeddingModel::BGESmallENV15,
-    ..Default::default()
-})?;
+let mut model = TextEmbedding::try_new(
+    InitOptions::new(EmbeddingModel::JinaEmbeddingsV2BaseEN)
+        .with_show_download_progress(true),
+)
+.expect("Failed to load embedding model");
 
 // generate query embedding
-let query_text = "alien invasion movie";
-let query_embeddings = model.embed(vec![query_text], None)?;
+let query_text = "world war II drama";
+let query_embeddings = model
+    .embed(vec![query_text], None)
+    .expect("Failed to generate embeddings");
 let query_vector = query_embeddings[0].clone();
 
-// search for similar movies
 let results = client
     .query(
         QueryPointsBuilder::new("movies")
             .query(query_vector)
+            .with_payload(true)
             .limit(5),
     )
-    .await?;
+    .await
+    .expect("Query failed");
 
-// print results
+let na_str = "N/A".to_string();
 for result in results.result {
     let payload = result.payload;
-    println!("Movie: {}", payload.get("prod_name")
-        .and_then(|v| v.as_str()).unwrap_or("N/A"));
+    println!("Movie: {}", payload.get("movie_title")
+        .and_then(|v| v.as_str()).unwrap_or(&na_str));
     println!("Score: {}", result.score);
-    println!("Description: {}", payload.get("detail_desc")
-        .and_then(|v| v.as_str()).unwrap_or("N/A"));
+    println!("Description: {}", payload.get("description")
+        .and_then(|v| v.as_str()).unwrap_or(&na_str));
     println!("---");
 }
 ```
