@@ -54,7 +54,7 @@ There are multiple expressions available. Check the [API docs for specific detai
 - **ln** - Natural logarithm of an expression.
 - **exp** - Exponential function of an expression (`e^x`).
 - **geo distance** - Haversine distance between two geographic points. Values need to be `{ "lat": 0.0, "lon": 0.0 }` objects.
-- **decay** - Apply a decay function to an expression, which clamps the output between 0 and 1. Available decay functions are **linear**, **exponential**, and **gaussian**. [See more](#boost-points-closer-to-user).
+- **decay** - Apply a decay function to an expression, which clamps the output between 0 and 1. Available decay functions are **linear**, **exponential**, and **gaussian**. [See more](#decay-functions).
 - **datetime** - Parse a datetime string (see formats [here](/documentation/concepts/payload/#datetime)), and use it as a POSIX timestamp in seconds.
 - **datetime key** - Specify that a payload key contains a datetime string to be parsed into POSIX seconds.
 
@@ -74,9 +74,32 @@ If there is no variable and no defined default, a default value of `0.0` is used
 - Payload variables used within the formula also benefit from having payload indices. Please try to always have a payload index set up for the variables used in the formula for better performance.
 </aside>
 
-### Boost Points Closer to User
+### Decay Functions
 
-Another example: combine the score with how close the result is to a user.
+Decay functions enable you to modify the score based on how far a value is from a target using a linear, exponential, or Gaussian decay function. For all decay functions, these are the available parameters:
+
+| Parameter  | Default | Description                                                                                                                                                                                       |
+| ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `x`        | N/A     | The value to decay                                                                                                                                                                                |
+| `target`   | 0.0     | The value at which the decay will be at its peak. For distances, it is usually set at 0.0, but can be set to any value.                                                                            |
+| `scale`    | 1.0     | The value at which the decay function will be equal to `midpoint`. This is in terms of `x` units. For example, if `x` is in meters, `scale` of 5000 means 5km. Must be a non-zero positive number. |
+| `midpoint` | 0.5     | Output is `midpoint` when `x` equals `target` ± `scale`. Must be in the range (0.0, 1.0), exclusive.                                                                                                          |
+
+![Decay functions.](/docs/decay-function.png)
+
+The [formula for each decay function](https://www.desmos.com/calculator/idv5hknwb1) is as follows:
+
+<br>
+    
+| Decay Function | Range | Formula |
+|----------------|-------|-------|---------|
+| **`lin_decay`** | `[0, 1]` | $\text{lin_decay}(x) = \max\left(0,\ -\frac{(1-m_{idpoint})}{s_{cale}}\cdot {abs}(x-t_{arget})+1\right)$ |
+| **`exp_decay`** | `(0, 1]` | $\text{exp_decay}(x) = \exp\left(\frac{\ln(m_{idpoint})}{s_{cale}}\cdot {abs}(x-t_{arget})\right)$ | 
+| **`gauss_decay`** | `(0, 1]` | $\text{gauss_decay}(x) = \exp\left(\frac{\ln(m_{idpoint})}{s_{cale}^{2}}\cdot (x-t_{arget})^{2}\right)$ |
+
+#### Boost Points Closer to User
+
+An example of decay functions is to combine the score with how close a result is to a user.
 
 Considering each point has an associated geo location, we can calculate the distance between the point and the request's location.
 
@@ -88,7 +111,7 @@ In this case, we use a **gauss_decay** function.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-closer-to-user/" >}}
 
-### Time-Based Score Boosting
+#### Time-Based Score Boosting
 
 Or combine the score with the information on how "fresh" the result is. It's applicable to (news) articles and, in general, many other different types of searches (think of the "newest" filter you use in applications).
 
@@ -101,27 +124,6 @@ With an exponential decay function, perfect for use cases with time, as freshnes
 That's how it will look for an application where, after 1 day, results start being only half-relevant (so get a score of 0.5):
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-time/" >}}
-
-For all decay functions, these are the available parameters:
-
-| Parameter  | Default | Description                                                                                                                                                                                       |
-| ---------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `x`        | N/A     | The value to decay                                                                                                                                                                                |
-| `target`   | 0.0     | The value at which the decay will be at its peak. For distances, it is usually set at 0.0, but can be set to any value.                                                                            |
-| `scale`    | 1.0     | The value at which the decay function will be equal to `midpoint`. This is in terms of `x` units. For example, if `x` is in meters, `scale` of 5000 means 5km. Must be a non-zero positive number. |
-| `midpoint` | 0.5     | Output is `midpoint` when `x` equals `target` ± `scale`. Must be in the range (0.0, 1.0), exclusive.                                                                                                          |
-
-![Decay functions.](/docs/decay-function.png)
-
-The [formulas for each decay function](https://www.desmos.com/calculator/idv5hknwb1) are as follows:
-
-<br>
-    
-| Decay Function | Color | Range | Formula |
-|----------------|-------|-------|---------|
-| **`lin_decay`** | green | `[0, 1]` | $\text{lin_decay}(x) = \max\left(0,\ -\frac{(1-m_{idpoint})}{s_{cale}}\cdot {abs}(x-t_{arget})+1\right)$ |
-| **`exp_decay`** | red | `(0, 1]` | $\text{exp_decay}(x) = \exp\left(\frac{\ln(m_{idpoint})}{s_{cale}}\cdot {abs}(x-t_{arget})\right)$ | 
-| **`gauss_decay`** | purple | `(0, 1]` | $\text{gauss_decay}(x) = \exp\left(\frac{\ln(m_{idpoint})}{s_{cale}^{2}}\cdot (x-t_{arget})^{2}\right)$ |
 
 ## Maximal Marginal Relevance (MMR)
 
