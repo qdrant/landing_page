@@ -87,8 +87,8 @@ client.recover_snapshot("movies", "https://snapshots.qdrant.io/imdb-1000-jina.sn
 ```
 
 ```typescript
-await client.collections.recoverSnapshot("movies", {
-  snapshotUrl: "https://snapshots.qdrant.io/imdb-1000-jina.snapshot",
+await client.recoverSnapshot("movies", {
+  location: "https://snapshots.qdrant.io/imdb-1000-jina.snapshot",
 });
 ```
 
@@ -179,7 +179,7 @@ const model = await TextEmbedding.init({
 });
 
 // generate query embedding
-const queryText = "alien invasion movie";
+const queryText = "world war II drama";
 const queryEmbeddings = await model.embed([queryText]);
 const queryVector = Array.from(queryEmbeddings[0]);
 
@@ -191,9 +191,9 @@ const results = await client.query(collectionName, {
 
 // print results
 for (const result of results.points) {
-  console.log(`Movie: ${result.payload?.prod_name || 'N/A'}`);
+  console.log(`Movie: ${result.payload?.movie_title || 'N/A'}`);
   console.log(`Score: ${result.score}`);
-  console.log(`Description: ${result.payload?.detail_desc || 'N/A'}`);
+  console.log(`Description: ${result.payload?.description || 'N/A'}`);
   console.log('---');
 }
 ```
