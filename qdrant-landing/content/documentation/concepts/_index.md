@@ -29,7 +29,7 @@ A [Payload](/documentation/concepts/payload/) describes information that you can
 
 ## Search Relevance
 
-[Search Relevance](/documentation/concepts/search-relevance/) describes techniques to improve the ranking of search results by considering additional factors beyond vector similarity scores.
+[Search Relevance](/documentation/concepts/search-relevance/) describes techniques to improve the ranking of search results by considering factors beyond vector similarity scores.
 
 ## Explore
 
