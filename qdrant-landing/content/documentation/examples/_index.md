@@ -1,11 +1,15 @@
 ---
 title: Build Prototypes
-weight: 26
+weight: 25
 partition: build 
 ---
-# Examples
+# Build Prototypes
 
-| End-to-End Code Samples                                                                   | Description                                                       | Stack                                       |   
+## End-to-End Code Samples
+
+The following guided samples help you get started with real-world projects using Qdrant and other ecosystem tools.
+
+| Guided Sample                                                                  | Description                                                       | Stack                                       |   
 |---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
 | [Multitenancy with LlamaIndex](/documentation/examples/llama-index-multitenancy/)          | Handle data coming from multiple users in LlamaIndex.             | Qdrant, Python, LlamaIndex                  |
 | [Implement custom connector for Cohere RAG](/documentation/examples/cohere-rag-connector/) | Bring data stored in Qdrant to Cohere RAG                         | Qdrant, Cohere, FastAPI                     |
@@ -22,7 +26,7 @@ partition: build
 
 
 
-## Notebooks
+## Example Notebooks
 
 Our Notebooks offer complex instructions that are supported with a throrough explanation. Follow along by trying out the code and get the most out of each example.
 
