@@ -7,6 +7,11 @@ aliases:
 partition: qdrant
 ---
 
+<aside role="status">
+  Qdrant offers a bi-weekly "Getting Started" live webinar with experts. 
+  Register for an upcoming session <a href="https://tinyurl.com/qdrant-onboarding" target="_blank" rel="noopener noreferrer">here</a>!
+</aside>
+
 # Qdrant Overview
 
 ## Welcome! {#welcome}
@@ -27,7 +32,7 @@ The search process itself revolves into the concept of **Top-K** retrieval. When
 
 ![Retrieval Process](/docs/gettingstarted/Orientation-Guide-Diagram-2.png)
 
-To deliver the most robust search experience, Qdrant enables **Hybrid Retrieval** with semantic and lexical search, which you can learn more about [here](/documentation/concepts/hybrid-queries/). 
+To deliver the most robust search experience, Qdrant enables **Hybrid Retrieval** with semantic and lexical search, which you can learn more about [here](/documentation/concepts/hybrid-queries/).
 
 ## Architecture {#architecture}
 
