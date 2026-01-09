@@ -3,8 +3,8 @@ draft: false
 title: "How Flipkart built real-time multimodal fraud detection with Qdrant"
 short_description: "Flipkart’s Trust & Safety team reduced fraud detection time from hours to minutes by moving from batch-based similarity search to real-time multimodal retrieval with Qdrant."
 description: "Discover how Flipkart’s Trust & Safety team uses Qdrant to power real-time multimodal similarity search for fraud detection, address clustering, and internal RAG workloads—cutting detection time from 9 hours to under a minute."
-preview_image: /blog/case-study-flipkart-trust-safety/social_preview_partnership-flipkart-trust-safety.jpg
-social_preview_image: /blog/case-study-flipkart-trust-safety/social_preview_partnership-flipkart-trust-safety.jpg
+preview_image: /blog/case-study-flipkart/social_preview_partnership-flipkart.png
+social_preview_image: /blog/case-study/social_preview_partnership-flipkart.png
 date: 2026-01-09
 author: "Daniel Azoulai"
 featured: true
@@ -73,7 +73,7 @@ The Trust & Safety team continues to broaden its capabilities. Upcoming projects
 
 • Standardizing on a Kubernetes-based Qdrant deployment as the embedding store across different groups at Flipkart 
 
- Exploring integrations with agentic AI frameworks to further automate detection and prevention workflows  
+• Exploring integrations with agentic AI frameworks to further automate detection and prevention workflows  
 
 *“We see vector databases becoming a key part of modern AI infrastructure. It’s not only for fraud detection, but also as a foundation for new AI systems we’re experimenting with.”* 
 
