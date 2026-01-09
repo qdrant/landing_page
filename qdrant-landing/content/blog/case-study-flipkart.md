@@ -1,8 +1,8 @@
 ---
 draft: false
-title: "How Flipkart built real-time multimodal fraud detection with Qdrant"
-short_description: "Flipkart’s Trust & Safety team reduced fraud detection time from hours to minutes by moving from batch-based similarity search to real-time multimodal retrieval with Qdrant."
-description: "Discover how Flipkart’s Trust & Safety team uses Qdrant to power real-time multimodal similarity search for fraud detection, address clustering, and internal RAG workloads—cutting detection time from 9 hours to under a minute."
+title: "Building real-time multimodal similarity search in Flipkart Trust & Safety with Qdrant"
+short_description: "Tackling fraud and abuse with scalable similarity search."
+description: "Tackling fraud and abuse with scalable similarity search."
 preview_image: /blog/case-study-flipkart/social_preview_partnership-flipkart.png
 social_preview_image: /blog/case-study/social_preview_partnership-flipkart.png
 date: 2026-01-09
@@ -18,8 +18,6 @@ tags:
 - trust and safety
 - case study
 ---
-
-## Building real-time multimodal similarity search in Flipkart Trust & Safety with Qdrant 
 
 ### Tackling fraud and abuse with scalable similarity search 
 
