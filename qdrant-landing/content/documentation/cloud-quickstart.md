@@ -75,10 +75,10 @@ curl -X GET \
 
 ## 4. Load the Sample Dataset
 
-We'll load a pre-embedded dataset of 1,000 IMDB movies using a [Qdrant snapshot](https://qdrant.tech/documentation/concepts/snapshots/). This snapshot contains vectors created with the `jinaai/jina-embeddings-v2-base-en` model (768 dimensions) and will automatically create the collection for you.
+We'll load a pre-embedded dataset of 1,000 H&M products using a [Qdrant snapshot](https://qdrant.tech/documentation/concepts/snapshots/). This snapshot contains vectors created with the `BAAI/bge-small-en-v1.5` model (384 dimensions) and will automatically create the collection for you.
 
 ```python
-client.recover_snapshot("movies", "https://snapshots.qdrant.io/imdb-1000-jina.snapshot")
+client.recover_snapshot("products", "https://snapshots.qdrant.io/hm_ecommerce_bge_small_v1.5_en.snapshot")
 ```
 
 ```rust
@@ -87,47 +87,46 @@ client.recover_snapshot("movies", "https://snapshots.qdrant.io/imdb-1000-jina.sn
 ```
 
 ```typescript
-await client.recoverSnapshot("movies", {
-  location: "https://snapshots.qdrant.io/imdb-1000-jina.snapshot",
+await client.recoverSnapshot("products", {
+  location: "https://snapshots.qdrant.io/hm_ecommerce_bge_small_v1.5_en.snapshot",
 });
 ```
 
 ```curl
 curl -X PUT \
-  'http://<your-qdrant-host>:6333/collections/movies/snapshots/recover' \
+  'http://<your-qdrant-host>:6333/collections/products/snapshots/recover' \
   --header 'api-key: <api-key-value>' \
   --header 'Content-Type: application/json' \
   --data-raw '{
-    "location": "https://snapshots.qdrant.io/imdb-1000-jina.snapshot"
+    "location": "https://snapshots.qdrant.io/hm_ecommerce_bge_small_v1.5_en.snapshot"
 }'
 ```
 
-## 5. Search the Movies
-
-Now we can search the movie dataset! We'll use the same `jinaai/jina-embeddings-v2-base-en` model to embed our query text, then find similar movies in the collection.
+## 5. Search the Products
+Now we can search the product dataset! We'll use the same `BAAI/bge-small-en-v1.5` model to embed our query text, then find similar products in the collection.
 
 ```python
 from fastembed import TextEmbedding
 
 # load the embedding model
-model = TextEmbedding('jinaai/jina-embeddings-v2-base-en')
+model = TextEmbedding('BAAI/bge-small-en-v1.5')
 
 # generate query embedding
-query_text = "world war II drama"
+query_text = "womens graphic tee shirt"
 query_vector = next(iter(model.embed(query_text)))
 
-# search for similar movies
+# search for similar products
 results = client.query_points(
-    collection_name="movies",
+    collection_name="products",
     query=query_vector,
     limit=5
 )
 
 # print results
 for result in results.points:
-    print(f"Movie: {result.payload.get('movie_name', 'N/A')}")
+    print(f"Product: {result.payload.get('prod_name', 'N/A')}")
     print(f"Score: {result.score}")
-    print(f"Description: {result.payload['description'][:50]}...")
+    print(f"Description: {result.payload['detail_desc'][:50]}...")
     print("---")
 ```
 
@@ -142,7 +141,7 @@ let mut model = TextEmbedding::try_new(
 .expect("Failed to load embedding model");
 
 // generate query embedding
-let query_text = "world war II drama";
+let query_text = "womens graphic tee shirt";
 let query_embeddings = model
     .embed(vec![query_text], None)
     .expect("Failed to generate embeddings");
@@ -150,7 +149,7 @@ let query_vector = query_embeddings[0].clone();
 
 let results = client
     .query(
-        QueryPointsBuilder::new("movies")
+        QueryPointsBuilder::new("products")
             .query(query_vector)
             .with_payload(true)
             .limit(5),
@@ -161,10 +160,10 @@ let results = client
 let na_str = "N/A".to_string();
 for result in results.result {
     let payload = result.payload;
-    println!("Movie: {}", payload.get("movie_title")
+    println!("Product: {}", payload.get("prod_name")
         .and_then(|v| v.as_str()).unwrap_or(&na_str));
     println!("Score: {}", result.score);
-    println!("Description: {}", payload.get("description")
+    println!("Description: {}", payload.get("detail_desc")
         .and_then(|v| v.as_str()).unwrap_or(&na_str));
     println!("---");
 }
@@ -175,32 +174,32 @@ import { TextEmbedding, EmbeddingModel } from 'fastembed';
 
 // load the embedding model
 const model = await TextEmbedding.init({
-  model: EmbeddingModel.JinaEmbeddingsV2BaseEn,
+  model: EmbeddingModel.BgaSmallEnV15,
 });
 
 // generate query embedding
-const queryText = "world war II drama";
+const queryText = "womens graphic tee shirt";
 const queryEmbeddings = await model.embed([queryText]);
 const queryVector = Array.from(queryEmbeddings[0]);
 
-// search for similar movies
-const results = await client.query(collectionName, {
+// search for similar products
+const results = await client.query("products", {
   query: queryVector,
   limit: 5,
 });
 
 // print results
 for (const result of results.points) {
-  console.log(`Movie: ${result.payload?.movie_title || 'N/A'}`);
+  console.log(`Product: ${result.payload?.prod_name || 'N/A'}`);
   console.log(`Score: ${result.score}`);
-  console.log(`Description: ${result.payload?.description || 'N/A'}`);
+  console.log(`Description: ${result.payload?.detail_desc || 'N/A'}`);
   console.log('---');
 }
 ```
 
 ## That's Vector Search!
 
-You've just performed semantic search on real movie data. The query "alien invasion movie" returned similar movies based on meaning, not just keyword matching.
+You've just performed semantic search on real product data. The query "womens graphic tee shirt" returned similar products based on meaning, not just keyword matching.
 
 ## What's Next?
 
