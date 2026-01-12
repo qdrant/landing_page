@@ -118,7 +118,9 @@ query_vector = next(iter(model.embed(query_text)))
 # search for similar products
 results = client.query_points(
     collection_name="products",
+    using="dense",
     query=query_vector,
+    with_payload=True,
     limit=5
 )
 
@@ -135,13 +137,13 @@ use fastembed::{EmbeddingModel, InitOptions, TextEmbedding};
 
 // load the embedding model
 let mut model = TextEmbedding::try_new(
-    InitOptions::new(EmbeddingModel::JinaEmbeddingsV2BaseEN)
+    InitOptions::new(EmbeddingModel::BGESmallENV15)
         .with_show_download_progress(true),
 )
 .expect("Failed to load embedding model");
 
 // generate query embedding
-let query_text = "womens graphic tee shirt";
+let query_text = "womens graphic t shirt";
 let query_embeddings = model
     .embed(vec![query_text], None)
     .expect("Failed to generate embeddings");
@@ -151,6 +153,7 @@ let results = client
     .query(
         QueryPointsBuilder::new("products")
             .query(query_vector)
+            .using("dense")
             .with_payload(true)
             .limit(5),
     )
@@ -158,6 +161,7 @@ let results = client
     .expect("Query failed");
 
 let na_str = "N/A".to_string();
+
 for result in results.result {
     let payload = result.payload;
     println!("Product: {}", payload.get("prod_name")
@@ -173,22 +177,23 @@ for result in results.result {
 import { TextEmbedding, EmbeddingModel } from 'fastembed';
 
 // load the embedding model
-const model = await TextEmbedding.init({
-  model: EmbeddingModel.BgaSmallEnV15,
+const model = await FlagEmbedding.init({
+  model: EmbeddingModel.BGESmallENV15,
 });
 
-// generate query embedding
-const queryText = "womens graphic tee shirt";
-const queryEmbeddings = await model.embed([queryText]);
-const queryVector = Array.from(queryEmbeddings[0]);
+// // generate query embedding
+const queryText = "womens graphic t shirt";
+const queryEmbedding = (await model.embed([queryText]).next()).value!
 
-// search for similar products
+// // search for similar movies
 const results = await client.query("products", {
-  query: queryVector,
+  query: Array.from(queryEmbedding[0]),
+  using: "dense",
+  with_payload: true,
   limit: 5,
 });
 
-// print results
+// // print results
 for (const result of results.points) {
   console.log(`Product: ${result.payload?.prod_name || 'N/A'}`);
   console.log(`Score: ${result.score}`);
