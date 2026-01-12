@@ -1,4 +1,3 @@
-```python
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(
@@ -16,6 +15,7 @@ client.upsert(
                 "title-bm25": models.Document(
                     text="The Time Machine",
                     model="qdrant/bm25",
+                    options={"avg_len": 5.0}
                 )
             },
             payload={
@@ -26,4 +26,3 @@ client.upsert(
         )
     ],
 )
-```

@@ -14,7 +14,7 @@ Qdrant is a vector search engine, making it a great tool for [semantic search](#
 Semantic search is a search technique that focuses on the meaning of the text rather than just matching on keywords. This is achieved by converting text into [vectors](/documentation/concepts/vectors/) (embeddings) using machine learning models. These vectors capture the semantic meaning of the text, enabling you to find similar text even if it doesn't share exact keywords.
 
 <aside role="status">
-The examples in this guide use <a href="/documentation/concepts/inference">inference</a> to let Qdrant generate the vectors. Inference is only available on <a href="/documentation/concepts/inference/#qdrant-cloud-inference">Qdrant Cloud</a>, with the exception of the BM25 model. If you are not running on Qdrant Cloud, you can use a library like <a href="/documentation/fastembed/">FastEmbed</a> to generate vectors on the client side.
+The examples in this guide use <a href="/documentation/concepts/inference">inference</a> to let Qdrant generate the vectors. Inference is only available on <a href="/documentation/concepts/inference/#qdrant-cloud-inference">Qdrant Cloud</a>, with the exception of the BM25 model. If you are not running on Qdrant Cloud, you can use a library like <a href="/documentation/fastembed/">FastEmbed</a> to generate vectors on the client side. When using FastEmbed, refer to the documentation, as its API may differ from that of server-side inference.
 </aside>
 
 For example, to search through a collection of books, you could use a model like the `all-MiniLM-L6-v2` sentence transformer model. First, create a collection and configure a dense vector for the book descriptions:
@@ -197,7 +197,7 @@ After ingesting data, you can query the sparse vector. The following example sea
 
 #### Configuring BM25 Parameters
 
-The BM25 [ranking function](https://en.wikipedia.org/wiki/Okapi_BM25#The_ranking_function) includes three adjustable parameters that you can set to optimize search results for your specific use case:
+The BM25 [ranking function](https://en.wikipedia.org/wiki/Okapi_BM25#The_ranking_function) includes three adjustable parameters that you can set at ingest time to optimize search results for your specific use case:
 
 - `k`. Controls term frequency saturation. Higher values increase the influence of term frequency. Defaults to 1.2.
 - `b`. Controls document length normalization. Ranges from 0 (no normalization) to 1 (full normalization). A higher value means longer documents have less impact. Defaults to 0.75.
@@ -205,7 +205,7 @@ The BM25 [ranking function](https://en.wikipedia.org/wiki/Okapi_BM25#The_ranking
 
 For instance, book titles are generally shorter than 256 words. To achieve more accurate scoring when searching for book titles, you could calculate or estimate the average title length and set the `avg_len` parameter accordingly:
 
-{{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-avglen/" >}}
+{{< code-snippet path="/documentation/headless/snippets/text-search/ingest-bm25-avglen/" >}}
 
 #### Language-specific Settings
 
