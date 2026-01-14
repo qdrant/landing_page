@@ -14,7 +14,7 @@ aliases:
 
 <p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/xvWIssi_cjQ?si=CLhFrUDpQlNog9mz&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
 
-Learn how to set up Qdrant Cloud and perform your first semantic search in just a few minutes. We'll use a sample dataset of 1,000 IMDB movies pre-embedded with the `BAAI/bge-small-en-v1.5` model.
+Learn how to set up Qdrant Cloud and perform your first semantic search in just a few minutes. We'll use a sample dataset of menu items pre-embedded with the `BAAI/bge-small-en-v1.5` model.
 
 ## 1. Create a Cloud Cluster
 
@@ -170,10 +170,10 @@ for i, embedding in enumerate(embeddings):
         id=i,
         vector=vector,
         payload={
-            "item_name": item[0],
-            "description": item[1],
-            "price": item[2],
-            "category": item[3],
+            "item_name": menu_items[i][0],
+            "description": menu_items[i][1],
+            "price": menu_items[i][2],
+            "category": menu_items[i][3],
         }
     )
     points.append(point)
@@ -615,8 +615,8 @@ for await (const embedding of embeddings) {
     id: idx,
     vector: Array.from(embedding[0]),
     payload: {
-      prod_name: menuItems[idx][0],
-      detail_desc: menuItems[idx][1],
+      item_name: menuItems[idx][0],
+      description: menuItems[idx][1],
       price: menuItems[idx][2],
       category: menuItems[idx][3],
     },
@@ -628,15 +628,15 @@ for await (const embedding of embeddings) {
 await client.upsert("items", { points });
 ```
 
-## 6. Search the Products
-Now we can search the product dataset! We'll use the same `BAAI/bge-small-en-v1.5` model to embed our query text, then find the best dishes matching that embedding.
+## 6. Search the Menu Items
+Now we can search the menu item dataset! We'll use the same `BAAI/bge-small-en-v1.5` model to embed our query text, then find the best dishes matching that embedding.
 
 ```python
 # generate query embedding
 query_text = "vegetarian dishes"
 query_vector = next(iter(model.embed(query_text)))
 
-# search for similar products
+# search for similar menu items
 results = client.query_points(
     collection_name="items",
     query=query_vector,
@@ -710,7 +710,7 @@ for (const result of results.points) {
 
 ## That's Vector Search!
 
-You've just performed semantic search on real product data. The query "vegetarian dishes" returned similar products based on meaning, not just keyword matching.
+You've just performed semantic search on real menu item data. The query "vegetarian dishes" returned similar menu items based on meaning, not just keyword matching.
 
 ## What's Next?
 
