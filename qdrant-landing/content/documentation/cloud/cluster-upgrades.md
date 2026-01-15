@@ -9,7 +9,7 @@ As soon as a new Qdrant version is available. Qdrant Cloud will show you an upda
 
 To update to a new version, go to the Cluster Details page, choose the new version from the version dropdown and click **Update**.
 
-If you are several versions behind, multiple updates might be required to reach the latest version. In this case, Qdrant Cloud will automatically perform the required intermediate updates to ensure a supported updated path. You should still ensure that your client applications and used SKDs are compatible with the target version.
+If you are several versions behind, multiple updates might be required to reach the latest version. In this case, Qdrant Cloud will automatically perform the required intermediate updates to ensure a supported update path. You should still ensure that your client applications and used SKDs are compatible with the target version.
 
 ![Cluster Updates](/documentation/cloud/cluster-upgrades.png)
 
