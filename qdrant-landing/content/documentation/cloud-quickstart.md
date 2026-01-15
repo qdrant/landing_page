@@ -105,7 +105,7 @@ await client.createCollection("items", {
 });
 ```
 
-```curl
+```bash
 curl -X PUT \
   'http://<your-qdrant-host>:6333/collections/items' \
   --header 'api-key: <api-key-value>' \
