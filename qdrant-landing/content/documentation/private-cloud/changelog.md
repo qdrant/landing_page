@@ -17,6 +17,7 @@ weight: 5
 Latest validated Qdrant version: 1.16.3
 
 * Configurable labels support for cluster-manager
+* Limit RBAC for cluster-exporter to release namespace
 
 ## 1.9.3 (2025-12-22)
 
