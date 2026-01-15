@@ -68,7 +68,7 @@ Many users configure complex filters but may not be aware of the need to create 
 
 > As a result, every query scans thousands of vectors and their bare payloads before discarding the majority that failed the filter condition. This leads to soaring CPU usage and long response times, especially under higher traffic loads.
 
-Filtering after retrieving thousands of vectors can get expensive. If you don't filter with your queries, then Qdrant will evaluate more vectors than you need. This will make the entire system slower and more resource intensive. Because of this,  we have developed out own version of HNSW - [**The Filterable Vector Index**](https://qdrant.tech/articles/filtrable-hnsw/).
+Filtering after retrieving thousands of vectors can get expensive. If you don't filter with your queries, then Qdrant will evaluate more vectors than you need. This will make the entire system slower and more resource intensive. Because of this,  we have developed out own version of HNSW - [**The Filterable Vector Index**](https://qdrant.tech/articles/filterable-hnsw/).
 
 Unlike some other engines, Qdrant lets you make the optimal choice of which fields to index for your use case rather than creating indexes for every field by default.
 

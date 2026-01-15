@@ -39,7 +39,7 @@ features:
   description: Qdrant’s real-time, advanced vector search enables AI agents to act instantly on live data, which is crucial for time-sensitive, autonomous decision-making.
   link:
     text: HNSW
-    url: /articles/filtrable-hnsw/
+    url: /articles/filterable-hnsw/
 - id: 3
   icon:
     src: /icons/outline/server-rack-blue.svg

@@ -339,7 +339,7 @@ Where:
 - `N` is the total number of documents in the collection.
 - `n` is the number of documents containing non-zero values for the given vector element.
 
-## Filtrable Index
+## Filterable Index
 
 Separately, a payload index and a vector index cannot solve the problem of search using the filter completely.
 
@@ -356,7 +356,7 @@ On the other hand, the HNSW graph starts to fall apart when using too strict fil
 
 Qdrant solves this problem by extending the HNSW graph with additional edges based on the stored payload values.
 Extra edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph.
-You can find more information on this approach in our [article](/articles/filtrable-hnsw/).
+You can find more information on this approach in our [article](/articles/filterable-hnsw/).
 
 However, in some cases, these additional edges might not be enough.
 These extra edges are added per each payload index separately, but not per each possible combination of them.

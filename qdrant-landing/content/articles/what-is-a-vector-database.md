@@ -184,7 +184,7 @@ In Qdrant, indexing is modular. You can configure indexes for **both vectors and
 
 <img src="/articles_data/what-is-a-vector-database/hnsw-search.png" alt="Searching Data with the HNSW algorithm" width="300">
 
-You need to build the payload index for **each field** you'd like to search. The magic here is in the combination: HNSW finds similar vectors, and the payload index makes sure only the ones that fit your criteria come through. Learn more about Qdrant's [Filtrable HNSW](https://qdrant.tech/articles/filtrable-hnsw/) and why it was built like this.
+You need to build the payload index for **each field** you'd like to search. The magic here is in the combination: HNSW finds similar vectors, and the payload index makes sure only the ones that fit your criteria come through. Learn more about Qdrant's [Filterable HNSW](https://qdrant.tech/articles/filterable-hnsw/) and why it was built like this.
 
 > Combining [full-text search](https://qdrant.tech/documentation/concepts/indexing/#full-text-index) with vector-based search gives you even more versatility. You can simultaneously search for conceptually similar documents while ensuring specific keywords are present, all within the same query.
 

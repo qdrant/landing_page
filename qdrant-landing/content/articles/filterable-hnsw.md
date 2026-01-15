@@ -1,17 +1,17 @@
 ---
-title: Filtrable HNSW
+title: Filterable HNSW
 short_description: How to make ANN search with custom filtering?
 description: How to make ANN search with custom filtering? Search in selected subsets without loosing the results.
 # external_link: https://blog.vasnetsov.com/posts/categorical-hnsw/
-social_preview_image: /articles_data/filtrable-hnsw/social_preview.jpg
-preview_dir: /articles_data/filtrable-hnsw/preview
-small_preview_image: /articles_data/filtrable-hnsw/global-network.svg
+social_preview_image: /articles_data/filterable-hnsw/social_preview.jpg
+preview_dir: /articles_data/filterable-hnsw/preview
+small_preview_image: /articles_data/filterable-hnsw/global-network.svg
 weight: 60
 date: 2019-11-24T22:44:08+03:00
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
 category: qdrant-internals
-# aliases: [ /articles/filtrable-hnsw/ ]
+aliases: [ /articles/filtrable-hnsw/ ]
 ---
 
 If you need to find some similar objects in vector space, provided e.g. by embeddings or matching NN, you can choose among a variety of libraries: Annoy, FAISS or NMSLib.
@@ -37,7 +37,7 @@ We need to build a navigation graph among all indexed points so that the greedy 
 This graph is constructed by sequentially adding points that are connected by a fixed number of edges to previously added points.
 In the resulting graph, the number of edges at each point does not exceed a given threshold $m$ and always contains the nearest considered points.
 
-![NSW](/articles_data/filtrable-hnsw/NSW.png)
+![NSW](/articles_data/filterable-hnsw/NSW.png)
 
 ### How can we modify it?
 
@@ -55,9 +55,9 @@ Therefore, the theoretical conclusions obtained in the [Percolation theory](http
 
 This statement also confirmed by experiments:
 
-{{< figure src=/articles_data/filtrable-hnsw/exp_connectivity_glove_m0.png caption="Dependency of connectivity to the number of edges" >}}
+{{< figure src=/articles_data/filterable-hnsw/exp_connectivity_glove_m0.png caption="Dependency of connectivity to the number of edges" >}}
 
-{{< figure src=/articles_data/filtrable-hnsw/exp_connectivity_glove_num_elements.png caption="Dependency of connectivity to the number of point (no dependency)." >}}
+{{< figure src=/articles_data/filterable-hnsw/exp_connectivity_glove_num_elements.png caption="Dependency of connectivity to the number of point (no dependency)." >}}
 
 
 There is a clear threshold when the search begins to fail.
@@ -79,13 +79,13 @@ In this case, the total number of edges will increase by no more than 2 times, r
 
 Second case is a little harder. A connection may be lost between two categories if they lie in different clusters.
 
-![category clusters](/articles_data/filtrable-hnsw/hnsw_graph_category.png)
+![category clusters](/articles_data/filterable-hnsw/hnsw_graph_category.png)
 
 The idea here is to build same navigation graph but not between nodes, but between categories.
 Distance between two categories might be defined as distance between category entry points (or, for precision, as the average distance between a random sample). Now we can estimate expected graph connectivity by number of excluded categories, not nodes. 
 It still does not guarantee that two random categories will be connected, but allows us to switch to multiple searches in each category if  connectivity threshold passed. In some cases, multiple searches can be even faster if you take advantage of parallel processing.
 
-{{< figure src=/articles_data/filtrable-hnsw/exp_random_groups.png caption="Dependency of connectivity to the random categories included in search" >}}
+{{< figure src=/articles_data/filterable-hnsw/exp_random_groups.png caption="Dependency of connectivity to the random categories included in search" >}}
 
 Third case might be resolved in a same way it is resolved in classical databases.
 Depending on labeled subsets size ration we can go for one of the following scenarios:
@@ -100,7 +100,7 @@ Next we also connect neighboring buckets to achieve graph connectivity. We still
 Geographical case is a lot like a numerical one. 
 Usual geographical search involves [geohash](https://en.wikipedia.org/wiki/Geohash), which matches any geo-point to a fixes length identifier.
 
-![Geohash example](/articles_data/filtrable-hnsw/geohash.png)
+![Geohash example](/articles_data/filterable-hnsw/geohash.png)
 
 We can use this identifiers as categories and additionally make connections between neighboring geohashes.
 It will ensure that any selected geographical region will also contain connected HNSW graph.
