@@ -190,10 +190,10 @@ bash -x automation/process-article-img.sh <path-to-image> <alias-for-the-article
 For example:
 
 ```bash
-bash -x automation/process-article-img.sh ~/Pictures/my_preview.jpg filtrable-hnsw 
+bash -x automation/process-article-img.sh ~/Pictures/my_preview.jpg filterable-hnsw 
 ```
 
-This command will create a directory `preview` in `static/article_data/filtrable-hnsw` and generate preview images in it. If the directory `static/article_data/filtrable-hnsw` doesn't exist, it will be created. If it exists, only files in the children `preview` directory will be affected. In this case, preview images will be overwritten. Your original image will not be affected.
+This command will create a directory `preview` in `static/article_data/filterable-hnsw` and generate preview images in it. If the directory `static/article_data/filterable-hnsw` doesn't exist, it will be created. If it exists, only files in the children `preview` directory will be affected. In this case, preview images will be overwritten. Your original image will not be affected.
 
 For **macOS** you'll have to make 2 adjustements to `process-img.sh` script which is run by `process-article-img.sh` script:
 
