@@ -14,9 +14,9 @@ Qdrant Edge does not run as a separate process. Instead, it runs inside an appli
 
 ## Qdrant Edge Shard
 
-Qdrant Edge is built around the concept of a **shard**: a self-contained storage unit that can operate independently on edge devices. Each shard manages its own data, including vector and payload storage, and can perform local search and retrieval operations.
+Qdrant Edge is built around the concept of an **Edge Shard**: a self-contained storage unit that can operate independently on edge devices. Each Edge Shard manages its own data, including vector and payload storage, and can perform local search and retrieval operations.
 
-To work with a Qdrant Edge shard from a Python application, use the [Python Bindings for Qdrant Edge](https://pypi.org/project/qdrant-edge-py/) package. This package provides a `Shard` class with methods to manage data, query it, and restore snapshots:
+To work with a Qdrant Edge Shard from a Python application, use the [Python Bindings for Qdrant Edge](https://pypi.org/project/qdrant-edge-py/) package. This package provides an `EdgeShard` class with methods to manage data, query it, and restore snapshots:
 
 - `update`: Updates the data.
 - `query`: Queries the data.

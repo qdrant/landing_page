@@ -5,35 +5,32 @@ weight: 20
 
 # Synchronizing Qdrant Edge with a Server
 
-A Qdrant Edge shard can be synchronized with a collection from an external Qdrant server to support use cases like:
+A Qdrant Edge Shard can be synchronized with a collection from an external Qdrant server to support use cases like:
 
-- **Offload indexing**: Indexing is a computationally expensive operation. By synchronizing an Edge shard with a server collection, you can offload the indexing process to a more powerful server instance. The indexed data can then be synchronized back to the Edge shard.
-- **Back up and Restore**: Regularly back up your Edge shard data to a central Qdrant instance to prevent data loss. In case of hardware failure or data corruption on the Edge device, you can restore the data from the central instance.
-- **Data Aggregation**: Collect data from multiple Edge shards deployed in different locations and aggregate it into a central Qdrant instance for comprehensive analysis and reporting.
-
+- **Offload indexing**: Indexing is a computationally expensive operation. By synchronizing an Edge Shard with a server collection, you can offload the indexing process to a more powerful server instance. The indexed data can then be synchronized back to the Edge Shard.
+- **Back up and Restore**: Regularly back up your Edge Shard data to a central Qdrant instance to prevent data loss. In case of hardware failure or data corruption on the edge device, you can restore the data from the central instance.
+- **Data Aggregation**: Collect data from multiple Edge Shards deployed in different locations and aggregate it into a central Qdrant instance for comprehensive analysis and reporting.
 For an example implementation of the patterns described in this guide, refer to the [Qdrant Edge Demo GitHub repository](https://github.com/qdrant/qdrant-edge-demo).
 
 ## Update a Server Collection from an Edge Shard
 
-To synchronize data from an Edge shard to a server collection, implement a dual-write mechanism in your application. When you add or update a point in the Edge shard, simultaneously store it in a server collection using the Qdrant client.
+To synchronize data from an Edge Shard to a server collection, implement a dual-write mechanism in your application. When you add or update a point in the Edge Shard, simultaneously store it in a server collection using the Qdrant client.
 
-Instead of writing to the server collection directly, you may want to set up a background job or a message queue that handles the synchronization asynchronously. The device running the Edge shard may not always have a stable internet connection, so queuing updates ensures that data is eventually synchronized when connectivity is restored.
+Instead of writing to the server collection directly, you may want to set up a background job or a message queue that handles the synchronization asynchronously. The device running the Edge Shard may not always have a stable internet connection, so queuing updates ensures that data is eventually synchronized when connectivity is restored.
 
-First, initialize an Edge shard and a Qdrant server connection.
-
+First, initialize an Edge Shard and a Qdrant server connection.
 <details>
 <summary> <span style="background-color: gray; color: black;">Details</span></summary>
 
-Initialize an Edge shard:
-
+Initialize an Edge Shard:
 ```python
 from pathlib import Path
 from qdrant_edge import (
     Distance,
+    EdgeShard,
     PayloadStorageType,
     PlainIndexConfig,
     SegmentConfig,
-    Shard,
     VectorDataConfig,
     VectorStorageType
 )
@@ -60,7 +57,7 @@ config = SegmentConfig(
     payload_storage_type=PayloadStorageType.InRamMmap,
 )
 
-shard = Shard(STORAGE_DIRECTORY, config)
+edge_shard = EdgeShard(STORAGE_DIRECTORY, config)
 ```
 
 Initialize a Qdrant client connection to the server and create the target collection if it does not exist:
@@ -89,7 +86,7 @@ from queue import Empty, Queue
 upload_queue = Queue()
 ```
 
-When adding or updating points in the Edge shard, also enqueue the point for synchronization with the server.
+When adding or updating points in the Edge Shard, also enqueue the point for synchronization with the server.
 
 ```python
 from qdrant_edge import ( Point, UpdateOperation )
@@ -105,7 +102,7 @@ point = Point(
     payload={"color": "red"}
 )
 
-shard.update(UpdateOperation.upsert_points([point]))
+edge_shard.update(UpdateOperation.upsert_points([point]))
 
 rest_point = models.PointStruct(id=id, vector={VECTOR_NAME: vector}, payload=payload)
 
@@ -131,7 +128,7 @@ if points_to_upload:
 
 ## Update an Edge Shard from a Server Collection
 
-To synchronize data from a server collection to an Edge shard, you can use the snapshot functionality provided by Qdrant Edge. This approach is particularly useful for initial data loading or periodic full updates of indexed data.
+To synchronize data from a server collection to an Edge Shard, you can use the snapshot functionality provided by Qdrant Edge. This approach is particularly useful for initial data loading or periodic full updates of indexed data.
 
 First, create a snapshot on the server:
 
@@ -165,7 +162,7 @@ def download_snapshot(url: str, target_path: Path):
                 f.write(chunk)
 ```
 
-Finally, you can use this function to download the snapshot to the local disk and use the snapshot's data to initialize a new Edge shard:
+Finally, you can use this function to download the snapshot to the local disk and use the snapshot's data to initialize a new Edge Shard:
 
 ```python
 import tempfile
@@ -181,15 +178,15 @@ with tempfile.TemporaryDirectory(dir=data_dir.parent) as restore_dir:
 
     download_snapshot(snapshot_url, snapshot_path)
 
-    shard = None
+    edge_shard = None
     if data_dir.exists():
         shutil.rmtree(data_dir)
     data_dir.mkdir(parents=True, exist_ok=True)
 
-    Shard.unpack_snapshot(str(snapshot_path), str(data_dir))
-    shard = Shard(str(data_dir), None)
+    EdgeShard.unpack_snapshot(str(snapshot_path), str(data_dir))
+    edge_shard = EdgeShard(str(data_dir), None)
 ```
 
-This code first downloads the snapshot to a temporary directory. Next, the current instance of `Shard` is destroyed by setting it to `None` and deleting its data directory. Finally, `Shard.unpack_snapshot` unpacks the downloaded snapshot into the data directory, and a new instance of `Shard` is created using the unpacked snapshot's data and configuration.
+This code first downloads the snapshot to a temporary directory. Next, the current instance of `EdgeShard` is destroyed by setting it to `None` and deleting its data directory. Finally, `EdgeShard.unpack_snapshot` unpacks the downloaded snapshot into the data directory, and a new instance of `EdgeShard` is created using the unpacked snapshot's data and configuration.
 
-While restoring a snapshot, you may want to pause and buffer any ongoing data updates on the Edge shard. Before taking the snapshot, ensure all queued data has been written to the server. After the restoration is complete, you can resume normal operations. Refer to the [Qdrant Edge Demo GitHub repository](https://github.com/qdrant/qdrant-edge-demo) for an example implementation.
+While restoring a snapshot, you may want to pause and buffer any ongoing data updates on the Edge Shard. Before taking the snapshot, ensure all queued data has been written to the server. After the restoration is complete, you can resume normal operations. Refer to the [Qdrant Edge Demo GitHub repository](https://github.com/qdrant/qdrant-edge-demo) for an example implementation.

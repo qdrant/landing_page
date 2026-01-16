@@ -25,9 +25,9 @@ STORAGE_DIRECTORY = "edge-storage"
 Path(STORAGE_DIRECTORY).mkdir(parents=True, exist_ok=True)
 ```
 
-## Configure the Shard
+## Configure the Edge Shard
 
-An Edge Shard is configured with a definition of the dense and sparse vectors that can be stored in the shard, similar to how you would configure a Qdrant collection. Set up a configuration by creating an instance of `SegmentConfig`:
+An Edge Shard is configured with a definition of the dense and sparse vectors that can be stored in the Edge Shard, similar to how you would configure a Qdrant collection. Set up a configuration by creating an instance of `SegmentConfig`:
 
 ```python
 from qdrant_edge import ( 
@@ -59,14 +59,14 @@ config = SegmentConfig(
 )
 ```
 
-## Initialize the Shard
+## Initialize the Edge Shard
 
-Now you can create an instance of `Shard` with the storage directory and the configuration:
+Now you can create an instance of `EdgeShard` with the storage directory and the configuration:
 
 ```python
-from qdrant_edge import Shard
+from qdrant_edge import EdgeShard
 
-shard = Shard(STORAGE_DIRECTORY, config)
+edge_shard = EdgeShard(STORAGE_DIRECTORY, config)
 ```
 
 ## Work with Points
@@ -82,13 +82,13 @@ point = Point(
     payload={"color": "red"}
 )
 
-shard.update(UpdateOperation.upsert_points([point]))
+edge_shard.update(UpdateOperation.upsert_points([point]))
 ```
 
 To retrieve a point by ID, use the `retrieve` method:
 
 ```python
-point = shard.retrieve(
+point = edge_shard.retrieve(
     point_ids=[1], 
     with_payload=True, 
     with_vector=False
@@ -97,12 +97,12 @@ point = shard.retrieve(
 
 ## Query Points
 
-To query points in the shard, use the `query` method:
+To query points in the Edge Shard, use the `query` method:
 
 ```python
 from qdrant_edge import Query, QueryRequest
 
-results = shard.query(
+results = edge_shard.query(
     QueryRequest(
         query=Query.Nearest([0.2, 0.1, 0.9, 0.7], using=VECTOR_NAME),
         limit=10,
@@ -112,18 +112,18 @@ results = shard.query(
 )
 ```
 
-## Close the Shard
+## Close the Edge Shard
 
-When shutting down your application, close the shard to ensure all data is flushed to disk. The data is persisted on disk and can be used to create another shard.
+When shutting down your application, close the Edge Shard to ensure all data is flushed to disk. The data is persisted on disk and can be used to reopen the Edge Shard.
 
 ```python
-shard.close()
+edge_shard.close()
 ```
 
-## Load Existing Shard from Disk
+## Load Existing Edge Shard from Disk
 
-After closing a shard, you can reopen it by loading its data and configuration from disk. Create a new `Shard` instance with the storage directory and provide `None` for the configuration:
+After closing an Edge Shard, you can reopen it by loading its data and configuration from disk. Create a new `EdgeShard` instance with the storage directory and provide `None` for the configuration:
 
 ```python
-shard = Shard(STORAGE_DIRECTORY, None)
+edge_shard = EdgeShard(STORAGE_DIRECTORY, None)
 ```
