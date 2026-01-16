@@ -120,9 +120,9 @@ When shutting down your application, close the shard to ensure all data is flush
 shard.close()
 ```
 
-## Create a Shard from Existing Data
+## Load Existing Shard from Disk
 
-To create a new shard from existing data and configuration from disk, create a new `Shard` instance with the storage directory and provide `None` for the configuration:
+After closing a shard, you can reopen it by loading its data and configuration from disk. Create a new `Shard` instance with the storage directory and provide `None` for the configuration:
 
 ```python
 shard = Shard(STORAGE_DIRECTORY, None)
