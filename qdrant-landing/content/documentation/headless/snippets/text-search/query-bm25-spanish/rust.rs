@@ -1,0 +1,28 @@
+use std::collections::HashMap;
+
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{DocumentBuilder, Query, QueryPointsBuilder, Value};
+
+pub async fn main() -> anyhow::Result<()> {
+    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
+
+    let mut options = HashMap::new();
+    options.insert("language".to_string(), Value::from("spanish"));
+
+    client
+        .query(
+            QueryPointsBuilder::new("books")
+                .query(Query::new_nearest(
+                    DocumentBuilder::new("tiempo", "qdrant/bm25")
+                        .options(options)
+                        .build(),
+                ))
+                .using("title-bm25")
+                .limit(10)
+                .with_payload(true)
+                .build(),
+        )
+        .await?;
+
+    Ok(())
+}
