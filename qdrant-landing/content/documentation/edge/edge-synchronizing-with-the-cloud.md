@@ -20,7 +20,7 @@ Instead of writing to the server collection directly, you may want to set up a b
 
 First, initialize an Edge Shard and a Qdrant server connection.
 <details>
-<summary> <span style="background-color: gray; color: black;">Details</span></summary>
+<summary>Details</summary>
 
 Initialize an Edge Shard:
 ```python
