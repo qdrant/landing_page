@@ -317,6 +317,16 @@ The same can happen when there are a large number of soft-deleted points in the 
 In such cases, use the [ACORN Search Algorithm](/documentation/concepts/search/#acorn-search-algorithm).
 When using ACORN, during graph traversal, it explores not just direct neighbors (first hop), but also neighbors of neighbors (second hop) when direct neighbors are filtered out. This improves search accuracy at the cost of performance.
 
+#### Disable the Creation of Extra Edges for Payload Fields
+
+*Available as of v1.17.0*
+
+Not all payload indices may be intended for use with dense vector search. For example, when a collection contains both dense and sparse vectors, some payload fields may only be used to filter sparse vector searches. Since sparse vector search does not use the HNSW index, it is unnecessary to build extra edges in the HNSW graph for these fields. Creating extra edges adds indexing latency and increases the size of the HNSW graph, which consumes memory as well as disk space, so you may want to disable it for fields that do not require it. 
+
+You can disable the creation of extra edges for an indexed payload field by setting `enable_hnsw` to `false` when configuring a payload index:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/disable-hnsw/" >}}
+
 ## Sparse Vector Index
 
 *Available as of v1.7.0*
