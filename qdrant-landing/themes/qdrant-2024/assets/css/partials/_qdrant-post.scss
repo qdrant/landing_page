@@ -88,6 +88,12 @@
       margin-bottom: $spacer;
     }
 
+    h5 {
+      font-size: pxToRem(16);
+      line-height: pxToRem(24);
+      margin-bottom: $spacer;
+    }
+
     @include content-image($font-size-sm, $neutral-50, $spacer * 2);
 
     iframe {
