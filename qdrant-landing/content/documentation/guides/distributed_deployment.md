@@ -388,6 +388,10 @@ Now you need to create custom shards ([API reference](https://api.qdrant.tech/ap
 
 {{< code-snippet path="/documentation/headless/snippets/create-shard/create-named-shard/" >}}
 
+You can list all custom shard keys in a collection:
+
+{{< code-snippet path="/documentation/headless/snippets/list-shard-keys/" >}}
+
 To specify the shard for each point, you need to provide the `shard_key` field in the upsert request:
 
 {{< code-snippet path="/documentation/headless/snippets/insert-points/with-custom-shard/" >}}
