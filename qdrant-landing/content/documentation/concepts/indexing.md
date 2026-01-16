@@ -288,6 +288,35 @@ The HNSW parameters can also be configured on a collection and named vector
 level by setting [`hnsw_config`](/documentation/concepts/indexing/#vector-index) to fine-tune search
 performance.
 
+### Filterable HNSW Index
+
+Separately, a payload index and a vector index cannot completely address the challenges of filtered search.
+
+In the case of high-selectivity (weak) filters, you can use the HNSW index as it is.
+In the case of low-selectivity (strict) filters, you can use the payload index and do a complete rescore.
+However, for cases in the middle, this approach does not work well.
+On one hand, we cannot apply a full scan on too many vectors.
+On the other hand, the HNSW graph starts to fall apart when using filters that are too strict.
+
+![HNSW fail](/docs/precision_by_m.png)
+
+<!-- ![hnsw graph](/docs/graph.gif) -->
+
+Qdrant solves this problem by extending the HNSW graph with additional edges based on indexed payload values.
+Extra edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph.
+You can find more information on this approach in our [article](/articles/filterable-hnsw/).
+
+#### The ACORN Search Algorithm
+
+*Available as of v1.16.0*
+
+In some cases, the additional edges built for Qdrant's filterable HNSW may not be sufficient.
+These extra edges are added for each payload index separately, but not for every possible combination of payload indices.
+As a result, a combination of two or more strict filters might still lead to disconnected graph components.
+The same can happen when there are a large number of soft-deleted points in the graph.
+In such cases, use the [ACORN Search Algorithm](/documentation/concepts/search/#acorn-search-algorithm).
+When using ACORN, during graph traversal, it explores not just direct neighbors (first hop), but also neighbors of neighbors (second hop) when direct neighbors are filtered out. This improves search accuracy at the cost of performance.
+
 ## Sparse Vector Index
 
 *Available as of v1.7.0*
@@ -340,28 +369,3 @@ Where:
 
 - `N` is the total number of documents in the collection.
 - `n` is the number of documents containing non-zero values for the given vector element.
-
-## Filterable Index
-
-Separately, a payload index and a vector index cannot solve the problem of search using the filter completely.
-
-In the case of high-selectivity (weak) filters, you can use the HNSW index as it is.
-In the case of low-selectivity (strict) filters, you can use the payload index and complete rescore.
-
-However, for cases in the middle, this approach does not work well.
-On the one hand, we cannot apply a full scan on too many vectors.
-On the other hand, the HNSW graph starts to fall apart when using too strict filters.
-
-![HNSW fail](/docs/precision_by_m.png)
-
-<!-- ![hnsw graph](/docs/graph.gif) -->
-
-Qdrant solves this problem by extending the HNSW graph with additional edges based on the stored payload values.
-Extra edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph.
-You can find more information on this approach in our [article](/articles/filterable-hnsw/).
-
-However, in some cases, these additional edges might not be enough.
-These extra edges are added per each payload index separately, but not per each possible combination of them.
-So, a combination of two or more strict filters still might lead to disconnected graph components.
-The same may happen when having a large number of soft-deleted points in the graph.
-In such cases, the [ACORN Search Algorithm](/documentation/concepts/search/#acorn-search-algorithm) can be used.
