@@ -35,7 +35,7 @@ To work with a Qdrant Edge Shard from a Python application, use the [Python Bind
 To get started with Qdrant Edge, refer to the [Qdrant Edge Quickstart Guide](/documentation/edge/edge-quickstart/).
 
 
-## More Exmamples
+## More Examples
 
 For more examples and advanced usage of Qdrant Edge API can be found in [GitHub repository](https://github.com/qdrant/qdrant/tree/master/lib/edge/python/examples).
 
