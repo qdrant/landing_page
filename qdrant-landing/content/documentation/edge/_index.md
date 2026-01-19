@@ -37,5 +37,5 @@ To get started with Qdrant Edge, refer to the [Qdrant Edge Quickstart Guide](/do
 
 ## More Examples
 
-For more examples and advanced usage of Qdrant Edge API can be found in [GitHub repository](https://github.com/qdrant/qdrant/tree/master/lib/edge/python/examples).
+More examples and advanced usage of Qdrant Edge API can be found in the [GitHub repository](https://github.com/qdrant/qdrant/tree/master/lib/edge/python/examples).
 
