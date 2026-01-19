@@ -121,7 +121,7 @@ After closing an Edge Shard, you can reopen it by loading its data and configura
 edge_shard = EdgeShard(SHARD_DIRECTORY)
 ```
 
-## More Exmamples
+## More Examples
 
-For more examples and advanced usage of Qdrant Edge API can be found in [GitHub repository](https://github.com/qdrant/qdrant/tree/master/lib/edge/python/examples).
+More examples and advanced usage of Qdrant Edge API can be found in the [GitHub repository](https://github.com/qdrant/qdrant/tree/master/lib/edge/python/examples).
 
