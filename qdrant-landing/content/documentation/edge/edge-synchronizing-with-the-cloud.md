@@ -186,5 +186,11 @@ if points_to_upload:
     server_client.upsert(
         collection_name=COLLECTION_NAME, points=points_to_upload
     )
-    # For production use cases consider handling failed uploads and retries
 ```
+
+Make sure to properly handle errors and retries in case of network issues or server unavailability.
+
+## Support
+
+For explicit support in implementing Qdrant Edge in your project, please contact [Qdrant Sales](https://qdrant.tech/contact-us/).
+
