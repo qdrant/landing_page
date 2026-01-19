@@ -20,21 +20,21 @@ A Qdrant Edge Shard stores its data in a local directory on disk. Create the dir
 ```python
 from pathlib import Path
 
-STORAGE_DIRECTORY = "edge-storage"
+SHARD_DIRECTORY = "./qdrant-edge-directory"
 
-Path(STORAGE_DIRECTORY).mkdir(parents=True, exist_ok=True)
+Path(SHARD_DIRECTORY).mkdir(parents=True, exist_ok=True)
 ```
 
 ## Configure the Edge Shard
 
-An Edge Shard is configured with a definition of the dense and sparse vectors that can be stored in the Edge Shard, similar to how you would configure a Qdrant collection. Set up a configuration by creating an instance of `SegmentConfig`:
+An Edge Shard is configured with a definition of the dense and sparse vectors that can be stored in the Edge Shard, similar to how you would configure a Qdrant collection. Set up a configuration by creating an instance of `EdgeConfig`:
 
 ```python
 from qdrant_edge import ( 
     Distance, 
     PayloadStorageType, 
     PlainIndexConfig, 
-    SegmentConfig,  
+    EdgeConfig,  
     VectorDataConfig, 
     VectorStorageType 
 )
@@ -42,20 +42,13 @@ from qdrant_edge import (
 VECTOR_NAME="my-vector"
 VECTOR_DIMENSION=4
 
-config = SegmentConfig(
+config = EdgeConfig(
     vector_data={
         VECTOR_NAME: VectorDataConfig(
             size=VECTOR_DIMENSION,
             distance=Distance.Cosine,
-            storage_type=VectorStorageType.ChunkedMmap,
-            index=PlainIndexConfig(),
-            quantization_config=None,
-            multivector_config=None,
-            datatype=None,
         )
-    },
-    sparse_vector_data={},
-    payload_storage_type=PayloadStorageType.InRamMmap,
+    }
 )
 ```
 
@@ -66,7 +59,7 @@ Now you can create an instance of `EdgeShard` with the storage directory and the
 ```python
 from qdrant_edge import EdgeShard
 
-edge_shard = EdgeShard(STORAGE_DIRECTORY, config)
+edge_shard = EdgeShard(SHARD_DIRECTORY, config)
 ```
 
 ## Work with Points
@@ -125,5 +118,5 @@ edge_shard.close()
 After closing an Edge Shard, you can reopen it by loading its data and configuration from disk. Create a new `EdgeShard` instance with the storage directory and provide `None` for the configuration:
 
 ```python
-edge_shard = EdgeShard(STORAGE_DIRECTORY, None)
+edge_shard = EdgeShard(SHARD_DIRECTORY)
 ```
