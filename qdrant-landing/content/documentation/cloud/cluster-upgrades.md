@@ -18,3 +18,5 @@ If you have a multi-node cluster and if your collections have a replication fact
 If you have a single-node cluster or a collection with a replication factor of **1**, the update process will require a short downtime period to restart your cluster with the new version.
 
 See also [Restart Mode](/documentation/cloud/configure-cluster/#restart-mode) for more details.
+
+We advise taking a [backup](documentation/cloud/backups/) before updating to allow for rollbacks.
