@@ -45,6 +45,8 @@ These techniques compress variable-length sequences of token embeddings into fix
 
 With multi-vector representations, we face a similar but more nuanced challenge. Instead of reducing tokens to a single vector upfront, we maintain multiple vectors per document to preserve richer semantic information. However, as you learned in the previous lessons, this creates memory and performance challenges. **Pooling techniques for multi-vector search** let you strategically reduce the number of vectors while retaining the benefits of late interaction.
 
+**Important:** Pooling is typically applied only to **document embeddings**, not queries. Why? Queries are usually short (a few tokens), so there's little memory to save. More importantly, we want to preserve full query resolution - every query token should have the opportunity to find its best match among document tokens. The memory savings come from compressing the large document collection, not the ephemeral query vectors.
+
 ## Pooling for Multi-Vector Representations
 
 ### Image-Specific Methods
@@ -71,13 +73,13 @@ This also produces 32 vectors, but captures vertical content relationships inste
 
 ![Row/column pooling](/courses/multi-vector-search/module-3/row-column-pooling.png)
 
-**Memory savings** are substantial:
+**Memory savings** are substantial. FastEmbed returns embeddings in float16 format by default, which already halves the memory compared to float32:
 
-| Representation | Vectors | Memory per Document |
-|----------------|---------|---------------------|
-| Full patches   | 1024    | 512 KB              |
-| Row pooling    | 32      | 16 KB               |
-| Column pooling | 32      | 16 KB               |
+| Representation | Vectors | Memory (float16) | Memory (float32) |
+|----------------|---------|------------------|------------------|
+| Full patches   | 1024    | 256 KB           | 512 KB           |
+| Row pooling    | 32      | 8 KB             | 16 KB            |
+| Column pooling | 32      | 8 KB             | 16 KB            |
 
 That's a **32× reduction** in vector count and memory footprint.
 
@@ -89,11 +91,38 @@ That's a **32× reduction** in vector count and memory footprint.
 - You can combine both (64 vectors) for a balanced approach
 
 ```python
-# TODO: implement the code snippet
-# - Reshape 1024 embeddings to 32×32 grid: embeddings.reshape(32, 32, 128)
-# - Apply row pooling: embeddings.reshape(32, 32, 128).mean(axis=1) -> shape (32, 128)
-# - Apply column pooling: embeddings.reshape(32, 32, 128).mean(axis=0) -> shape (32, 128)
-# - Compare memory before/after
+import numpy as np
+from fastembed import LateInteractionMultimodalEmbedding
+
+# Load ColModernVBERT model
+model = LateInteractionMultimodalEmbedding(model_name="Qdrant/colmodernvbert")
+
+# Embed a document image (returns ~1030 vectors × 128 dimensions)
+image_path = "images/financial-report.png"  # Your document image
+embeddings = list(model.embed_image([image_path]))[0]
+print(f"Original shape: {embeddings.shape}")  # (1030, 128)
+
+# Reshape to spatial grid: (rows, columns, embedding_dim
+# Get only the last 1024 embeddings, as instruction tokens do
+# not represent images
+grid = embeddings[:1024].reshape(32, 32, 128)
+
+# Row pooling: average across columns (axis=1)
+row_pooled = grid.mean(axis=1)  # Shape: (32, 128)
+
+# Column pooling: average across rows (axis=0)
+col_pooled = grid.mean(axis=0)  # Shape: (32, 128)
+
+# Combined approach (optional): concatenate row and column pooled
+combined = np.vstack([row_pooled, col_pooled])  # Shape: (64, 128)
+
+# Memory comparison (FastEmbed uses float16 by default)
+original_memory = embeddings.nbytes  # 1030 × 128 × 2 = 263,680 bytes
+pooled_memory = row_pooled.nbytes    # 32 × 128 × 2 = 8,192 bytes
+
+print(f"Original: {original_memory:,} bytes ({original_memory // 1024} KB)")
+print(f"Row pooled: {pooled_memory:,} bytes ({pooled_memory // 1024} KB)")
+print(f"Reduction: {original_memory // pooled_memory}×")
 ```
 
 ### Generic Methods
@@ -110,8 +139,8 @@ This approach adapts to the content itself. For a document with dense text and s
 
 **Key parameters:**
 
-- **Number of clusters ($k$)**: Controls the compression ratio. $k=32$ gives similar compression to row pooling; $k=64$ preserves more detail
-- **Clustering algorithm**: k-means is fast and effective; hierarchical clustering can capture nested semantic structures but adds overhead
+- **Number of clusters ($k$)**: Controls the compression ratio. $k=32$ gives similar compression to row pooling, while $k=64$ preserves more detail
+- **Clustering algorithm**: k-means is fast and effective. Although hierarchical clustering can capture nested semantic structures but adds overhead
 
 **Comparison: Row/Column vs. Hierarchical Pooling**
 
@@ -131,11 +160,29 @@ This approach adapts to the content itself. For a document with dense text and s
 - **Hyperparameter sensitivity**: The choice of $k$ affects retrieval quality and must be tuned
 
 ```python
-# TODO: implement the code snippet
-# - Apply k-means clustering to embeddings: kmeans = KMeans(n_clusters=k).fit(embeddings)
-# - Get cluster assignments: labels = kmeans.labels_
-# - Pool within clusters: pooled = [embeddings[labels == i].mean(axis=0) for i in range(k)]
-# - Compare retrieval quality across different k values
+from scipy.cluster.vq import kmeans2
+
+# Embed a document image
+image_path = "images/financial-report.png"
+embeddings = list(model.embed_images([image_path]))[0]
+
+def hierarchical_pool(embeddings: np.ndarray, k: int) -> np.ndarray:
+    """Pool embeddings using k-means clustering."""
+    # Cluster embeddings into k groups
+    centroids, labels = kmeans2(embeddings, k, minit='++')
+
+    # Pool within each cluster using mean
+    pooled = np.array([
+        embeddings[labels == i].mean(axis=0)
+        for i in range(k)
+    ])
+    return pooled
+
+# Compare different compression levels
+for k in [16, 32, 64, 128]:
+    pooled = hierarchical_pool(embeddings, k)
+    reduction = len(embeddings) / k
+    print(f"k={k:3d}: {len(embeddings)} → {k} vectors ({reduction:.0f}× reduction)")
 ```
 
 ## What's Next
