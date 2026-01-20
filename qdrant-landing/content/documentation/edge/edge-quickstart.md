@@ -32,11 +32,8 @@ An Edge Shard is configured with a definition of the dense and sparse vectors th
 ```python
 from qdrant_edge import ( 
     Distance, 
-    PayloadStorageType, 
-    PlainIndexConfig, 
     EdgeConfig,  
     VectorDataConfig, 
-    VectorStorageType 
 )
 
 VECTOR_NAME="my-vector"

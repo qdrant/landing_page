@@ -91,14 +91,10 @@ First, initialize:
 Initialize an Edge Shard:
 ```python
 from pathlib import Path
-from qdrant_edge import (
-    Distance,
-    EdgeShard,
-    PayloadStorageType,
-    PlainIndexConfig,
-    EdgeConfig,
-    VectorDataConfig,
-    VectorStorageType
+from qdrant_edge import ( 
+    Distance, 
+    EdgeConfig,  
+    VectorDataConfig, 
 )
 
 SHARD_DIRECTORY = "./qdrant-edge-directory"
@@ -157,9 +153,9 @@ vector=[0.1, 0.2, 0.3, 0.4]
 payload={"color": "red"}
 
 point = Point(
-    id=1,
+    id=id,
     vector={VECTOR_NAME: vector},
-    payload={"color": "red"}
+    payload=payload
 )
 
 edge_shard.update(UpdateOperation.upsert_points([point]))
