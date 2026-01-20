@@ -10,5 +10,5 @@ client, err := qdrant.NewClient(&qdrant.Config{
 	Port: 6334,
 })
 
-keys, err := client.ListShardKeys(context.Background(), "{collection_name}")
+client.ListShardKeys(context.Background(), "{collection_name}")
 ```

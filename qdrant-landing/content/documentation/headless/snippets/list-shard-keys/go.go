@@ -18,5 +18,5 @@ func Main() {
 	}
 	// @hide-end
 
-	keys, err := client.ListShardKeys(context.Background(), "{collection_name}")
+	client.ListShardKeys(context.Background(), "{collection_name}")
 }
