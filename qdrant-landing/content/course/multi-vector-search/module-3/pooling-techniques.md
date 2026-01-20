@@ -84,8 +84,8 @@ That's a **32× reduction** in vector count and memory footprint.
 **Trade-offs to consider:**
 
 - **Loss of fine-grained resolution**: Small details that span partial rows may blend together
-- **Row pooling** works well for Western text documents where reading flows horizontally
-- **Column pooling** better captures vertical structures like tables, sidebars, or Asian language text
+- **Row pooling** may work better for horizontally-oriented content, like text
+- **Column pooling** may better capture vertical structures like tables, sidebars, or vertically-oriented text
 - You can combine both (64 vectors) for a balanced approach
 
 ```python
@@ -142,7 +142,7 @@ This approach adapts to the content itself. For a document with dense text and s
 
 You've learned two complementary strategies for reducing the number of vectors per document:
 
-- **Row/column pooling**: Exploits spatial structure in image embeddings for a fixed 32× reduction
+- **Row/column pooling**: Exploits spatial structure in image embeddings for a fixed reduction (32x for ColPali)
 - **Hierarchical pooling**: Content-adaptive clustering that works for any multi-vector representation
 
 Combined with quantization from the previous lesson, you can achieve dramatic memory savings:
