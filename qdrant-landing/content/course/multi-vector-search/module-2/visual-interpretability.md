@@ -356,13 +356,6 @@ visualize_maxsim_contribution(
 
 ![MaxSim contribution visualization](/courses/multi-vector-search/module-2/maxsim-contribution.png)
 
-<!-- TODO: Add visualization showing aggregated MaxSim contribution
-- Original image on left
-- Heatmap overlay on right showing which patches contribute most
-- Highlight that high-contribution patches are where query tokens found their best matches
-- Use a clear color scale (red=high contribution, blue=low)
--->
-
 This aggregated view is particularly useful for:
 - **Understanding document-level relevance**: See which regions make this document match the query
 - **Identifying key content**: Highlights the most semantically important patches
@@ -370,7 +363,7 @@ This aggregated view is particularly useful for:
 
 ## A Note on Newer Architectures
 
-The interpretability techniques we've covered work directly with ColPali because of its simple spatial mapping: 448×448 pixels → 32×32 patches → 1024 embeddings. Each patch index maps directly to a spatial location.
+The interpretability techniques we've covered work directly with ColPali because of its simple spatial mapping: 448×448 pixels -> 32×32 patches -> 1024 embeddings. Each patch index maps directly to a spatial location.
 
 However, **newer architectures use more complex image processing** that makes precise visualization more challenging.
 
@@ -388,16 +381,6 @@ This means tokens arrive in **sub-patch-sequential order** rather than row-major
 1. Exclude the global patch tokens (they lack spatial correspondence to specific regions)
 2. Rearrange tokens from sub-patch order back to a 2D spatial grid
 3. Account for varying image dimensions (different images produce different numbers of sub-patches)
-
-The [colpali-engine](https://github.com/illuin-tech/colpali) library is developing interpretability support for these architectures, with methods like `get_similarity_maps_from_embeddings()` that handle the complex token rearrangement automatically.
-
-### Practical Implications
-
-For production systems using newer models:
-
-- **ColPali v1.x**: Use the manual visualization techniques from this lesson - they work directly
-- **ColModernVBERT, ColIdefics3**: Consider using library-provided interpretability tools as they mature, or accept that precise spatial visualization requires additional complexity
-- **Debugging approach**: Even without pixel-perfect heatmaps, you can still analyze per-token similarity scores to understand which query terms contribute most to matches
 
 The core insight remains: **multi-vector representations enable interpretability** because each embedding has semantic meaning. The mapping from embedding to image location just becomes more involved with advanced architectures.
 
