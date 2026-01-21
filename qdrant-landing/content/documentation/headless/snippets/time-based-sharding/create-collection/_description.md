@@ -1,0 +1,1 @@
+This code snippet creates a Qdrant collection with 8 shards and a shard key called `day`. A shard is an independent store of points which is able to perform all operations provided by collections. 

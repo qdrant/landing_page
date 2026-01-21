@@ -1,0 +1,1 @@
+This code snippet shows how to perform semantic search on a single shard. This is done by specifying the shard key using the `shard_key_selector`.  

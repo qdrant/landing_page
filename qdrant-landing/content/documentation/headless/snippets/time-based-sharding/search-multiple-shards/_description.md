@@ -1,0 +1,1 @@
+This code snippet shows how to perform semantic search on a multiple shards. This is done by specifying the shard keys using the `shard_key_selector`.  
