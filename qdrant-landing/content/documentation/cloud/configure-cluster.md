@@ -75,8 +75,17 @@ You can deactivate automatic shard rebalancing by deselecting the `rebalancing_s
 
 ## Rename a Cluster
 
-You can rename a Qdrant Cluster by clicking the pencil icon next to the cluster name on the Cluster Details page. 
+You can rename a Qdrant Cluster from the cluster's detail page. 
+
+![Cluster Actions](/documentation/cloud/cloud-cluster-actions.png)
 
 Renaming a cluster does not affect its functionality or configuration. The cluster's unique ID and cluster URLs will remain the same.
 
-![Cluster node endpoints](/documentation/cloud/cloud-rename-cluster.png)
+![Rename Cluster Dialog](/documentation/cloud/cloud-rename-cluster.png)
+
+## Adding Labels to a Cluster
+
+You can add labels to a Qdrant Cluster from the cluster's detail page. Labels are key-value pairs that help you organize and manage your clusters.
+
+![Cluster Labels](/documentation/cloud/cloud-cluster-labels.png)
+
