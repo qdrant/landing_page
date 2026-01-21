@@ -8,7 +8,7 @@ weight: 2
 
 # Vector Quantization Techniques
 
-Vector quantization compresses vectors by reducing the precision of each component. Qdrant supports several quantization methods that can reduce memory usage by 4-32x with minimal quality loss.
+Vector quantization compresses vectors by reducing the precision of each component. Qdrant supports several quantization methods that can reduce memory usage by 4-64x, sometimes with minimal quality loss.
 
 Choosing the right quantization method depends on your quality requirements and memory constraints.
 
@@ -26,7 +26,7 @@ Choosing the right quantization method depends on your quality requirements and 
 
 ---
 
-**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course-multi-vector-search/module-3/multi-stage-retrieval.ipynb">
+**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course-multi-vector-search/module-3/quantization-techniques.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
 </a>
 
@@ -37,7 +37,7 @@ Choosing the right quantization method depends on your quality requirements and 
 By default, embedding models produce vectors with **float32 precision** - each component uses 32 bits (4 bytes) of memory. For single-vector embeddings, this is manageable. But multi-vector models like **ColModernVBERT** change the equation dramatically.
 
 Consider a typical ColPali scenario using **ColModernVBERT**:
-- **1024 vectors per document** (one per visual patch)
+- **~1024 vectors per document** (one per visual patch)
 - **128 dimensions per vector** (model embedding size)
 - **float32 precision** (4 bytes per component)
 
@@ -170,15 +170,53 @@ One of Qdrant's powerful features: **you can enable quantization on an existing 
 
 
 ```python
-# TODO: implement the code snippet
-# Create collection with scalar quantization for ColModernVBERT
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient("http://localhost:6333")
+
+client.create_collection(
+    collection_name="colpali-scalar",
+    vectors_config={
+        "colmodernvbert": models.VectorParams(
+            size=128,
+            distance=models.Distance.DOT,
+            multivector_config=models.MultiVectorConfig(
+                comparator=models.MultiVectorComparator.MAX_SIM,
+            ),
+            hnsw_config=models.HnswConfigDiff(m=0),  # Disable HNSW for multi-vector
+        ),
+    },
+    quantization_config=models.ScalarQuantization(
+        scalar=models.ScalarQuantizationConfig(
+            type=models.ScalarType.INT8,
+            quantile=0.99,  # Exclude 1% outliers for better scaling
+            always_ram=True,
+        ),
+    ),
+)
 ```
 
 Enabling a different type of quantization requires setting a different quantization configuration.
 
 ```python
-# TODO: implement the code snippet
-# Configure binary quantization for ColModernVBERT
+client.create_collection(
+    collection_name="colpali-binary",
+    vectors_config={
+        "colmodernvbert": models.VectorParams(
+            size=128,
+            distance=models.Distance.DOT,
+            multivector_config=models.MultiVectorConfig(
+                comparator=models.MultiVectorComparator.MAX_SIM,
+            ),
+            hnsw_config=models.HnswConfigDiff(m=0),
+        ),
+    },
+    quantization_config=models.BinaryQuantization(
+        binary=models.BinaryQuantizationConfig(
+            always_ram=True,
+        ),
+    ),
+)
 ```
 
 <!-- TODO: Add flow diagram showing quantization workflow
@@ -201,8 +239,19 @@ Qdrant provides **automatic rescoring**: the quantized index quickly finds candi
 For ColPali searches:
 
 ```python
-# TODO: implement the code snippet
-# Search with quantization and rescoring for optimal quality
+results = client.query_points(
+    collection_name="colpali-scalar",
+    query=query_vectors,  # Multi-vector query embeddings
+    using="colmodernvbert",
+    limit=10,
+    search_params=models.SearchParams(
+        quantization=models.QuantizationSearchParams(
+            ignore=False,
+            rescore=True,  # Re-rank with original float32 vectors
+            oversampling=2.0,  # Fetch 2x candidates before rescoring
+        ),
+    ),
+)
 ```
 
 The rescoring step is **critical for multi-vector search** because MaxSim aggregates many token-level similarities - small quantization errors can compound. Rescoring with original vectors ensures your final results maintain high quality.
