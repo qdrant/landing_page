@@ -12,8 +12,6 @@ Qdrant Edge can be synchronized with a collection from an external Qdrant server
 - **Data Aggregation**: Collect data from multiple Edge Shards deployed in different locations and aggregate it into a central Qdrant instance for comprehensive analysis and reporting.
 - **Synchronization between devices**: Keep data consistent across multiple edge devices by synchronizing their Edge Shards with a central Qdrant instance.
 
-For an example implementation of the patterns described in this guide, refer to the [Qdrant Edge Demo GitHub repository](https://github.com/qdrant/qdrant-edge-demo).
-
 ## Synchronizing Qdrant Edge with a Server
 
 To support having local updates from the device as well as updates from a server, you can implement a setup with two Edge Shards:
@@ -23,7 +21,11 @@ To support having local updates from the device as well as updates from a server
 
 When querying data, merge results from both Edge Shards to provide a unified view. This way, new points added on the device are available for search alongside the data synchronized from the server.
 
+![Qdrant Edge Shards can be synchronized with a central server](/documentation/edge/qdrant-edge-sync-with-server.png)
+
 Implementing a dual-write mechanism that writes data to both the mutable Edge Shard and the server collection ensures that data is indexed on the server and synchronized back to the immutable Edge Shard, benefitting search performance.
+
+For an example implementation of the patterns described in this guide, refer to the [Qdrant Edge Demo GitHub repository](https://github.com/qdrant/qdrant-edge-demo).
 
 ### 1. Initialize a Mutable Edge Shard
 
