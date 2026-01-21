@@ -61,7 +61,7 @@ mutable_shard = EdgeShard(MUTABLE_SHARD_DIR, config)
 
 ### 2. Initialize an Immutable Edge Shard from a Server Snapshot
 
-Next, create the immutable Edge Shard from a snapshot on the server, as outlined in [Initialize Edge Shard from existing Qdrant Collection](#initialize-edge-shard-from-existing-qdrant-collection):
+Next, create the immutable Edge Shard from a snapshot on the server, as outlined in [Initialize Edge Shard from existing Qdrant Collection](/documentation/edge/edge-data-synchronization-patterns/#initialize-edge-shard-from-existing-qdrant-collection):
 
 ```python
 import requests
@@ -95,7 +95,7 @@ immutable_shard = EdgeShard(IMMUTABLE_SHARD_DIR)
 
 ### 3. Implement a Dual-Write Mechanism
 
-With both Edge Shards initialized, you can implement a dual-write mechanism in your application as outlined in [Update a Server Collection from an Edge Shard](#update-a-server-collection-from-an-edge-shard). When adding or updating a point, write it to the mutable Edge Shard and enqueue it for writing to the server collection.
+With both Edge Shards initialized, you can implement a dual-write mechanism in your application as outlined in [Update a Server Collection from an Edge Shard](/documentation/edge/edge-data-synchronization-patterns/#update-a-server-collection-from-an-edge-shard). When adding or updating a point, write it to the mutable Edge Shard and enqueue it for writing to the server collection.
 
 ```python
 from qdrant_edge import ( Point, UpdateOperation )
@@ -128,7 +128,7 @@ Each point's payload should include a timestamp field (`SYNC_TIMESTAMP_KEY` in t
 
 ### 4. Periodically Update the Immutable Edge Shard
 
-You can periodically update the immutable Edge Shard with changes from the server using partial snapshots, as described in [Update Qdrant Edge with Server-Side Changes](#update-qdrant-edge-with-server-side-changes).
+You can periodically update the immutable Edge Shard with changes from the server using partial snapshots, as described in [Update Qdrant Edge with Server-Side Changes](/documentation/edge/edge-data-synchronization-patterns/#update-qdrant-edge-with-server-side-changes).
 
 While restoring a snapshot, you may want to pause and buffer any ongoing data updates on the mutable Edge Shard. Before taking the snapshot, ensure all queued data has been written to the server. After the restoration is complete, you can resume normal operations. Refer to the [Qdrant Edge Demo GitHub repository](https://github.com/qdrant/qdrant-edge-demo) for an example implementation.
 

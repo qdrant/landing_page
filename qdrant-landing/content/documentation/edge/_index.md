@@ -10,7 +10,7 @@ partition: qdrant
 
 Qdrant Edge is a lightweight, embedded vector search engine for AI on devices like robots, kiosks, home assistants, and mobile phones. Designed for real-time vector search on edge devices with limited computational resources, Qdrant Edge allows applications to use Qdrant's functionality even with intermittent or no internet connectivity.
 
-Qdrant Edge does not run as a separate process. Instead, it runs inside an application process. Data is stored and queried locally on the device, ensuring low-latency access and enhanced privacy since data does not need to be transmitted to an external server. That said, Qdrant Edge provides APIs to [synchronize data with a Qdrant server](/documentation/edge/edge-synchronizing-with-the-cloud/). This enables you to offload heavy computations such as indexing to more powerful server instances, back up and restore data, and centrally aggregate data from multiple edge devices. 
+Qdrant Edge does not run as a separate process. Instead, it runs inside an application process. Data is stored and queried locally on the device, ensuring low-latency access and enhanced privacy since data does not need to be transmitted to an external server. That said, Qdrant Edge provides APIs to [synchronize data with a Qdrant server](/documentation/edge/edge-data-synchronization-patterns/). This enables you to offload heavy computations such as indexing to more powerful server instances, back up and restore data, and centrally aggregate data from multiple edge devices. 
 
 ## Qdrant Edge Shard
 
