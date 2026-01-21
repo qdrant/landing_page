@@ -101,14 +101,6 @@ $$
 **Configuration parameter:**
 - `quantile`: Excludes outliers (e.g., 0.99 excludes 1% of extreme values for better scaling)
 
-<!-- TODO: Add diagram showing scalar quantization process
-- Show a sample vector component range: [-0.85, 1.23]
-- Visual mapping to uint8 range [0, 255]
-- Show example values being mapped: -0.85 -> 0, 0.0 -> 140, 1.23 -> 255
-- Include formula: quantized = (value - min) / (max - min) * 255
-- Color gradient from blue (low values) to red (high values)
--->
-
 ### Binary Quantization: Maximum Compression
 
 **Binary quantization** represents each component as a single bit (positive/negative), achieving **32x compression**. Qdrant also supports **1.5-bit** and **2-bit** variants for better accuracy with moderate compression.
@@ -148,13 +140,13 @@ For ColModernVBERT's **128 dimensions**, binary quantization presents unique cha
 
 Let's compare all options for a **1 million document** ColModernVBERT collection:
 
-| Method               | Memory  | Compression   | Brute Force Speed Boost |
-|----------------------|---------|---------------|-------------------------|
-| **No quantization**  | 512 GB  | 1x (baseline) | 1x                      |
-| **Scalar (int8)**    | 128 GB  | 4x            | ~2x                     |
-| **Binary (2-bit)**   | 32 GB   | 16x           | ~20x                    |
-| **Binary (1.5-bit)** | 21.3 GB | 24x           | ~30x                    |
-| **Binary (1-bit)**   | 16 GB   | 32x           | ~40x                    |
+| Method               | Memory  | Compression   | Speed Boost |
+|----------------------|---------|---------------|-------------|
+| **No quantization**  | 512 GB  | 1x (baseline) | 1x          |
+| **Scalar (int8)**    | 128 GB  | 4x            | ~2x         |
+| **Binary (2-bit)**   | 32 GB   | 16x           | ~20x        |
+| **Binary (1.5-bit)** | 21.3 GB | 24x           | ~30x        |
+| **Binary (1-bit)**   | 16 GB   | 32x           | ~40x        |
 
 <aside role="status">
 <b>Note:</b> The "Speed Boost" column refers to improvements in brute force search performance. Quantization does not enable HNSW or other graph-based indexing for multi-vector search - all documents are still scanned exhaustively. The speed improvements come from faster distance computations and reduced memory bandwidth requirements during the brute force scan.
@@ -219,15 +211,6 @@ client.create_collection(
 )
 ```
 
-<!-- TODO: Add flow diagram showing quantization workflow
-- Show document ingestion: Images -> ColModernVBERT -> 1024 vectors × 128 dims
-- Storage layer: Original float32 (512 KB) + Quantized representation (16-128 KB depending on method)
-- Search flow: Query -> Quantized index -> Candidates -> Rescore with originals
-- Highlight "No change to inference pipeline" with annotation
-- Use arrows to show data flow
-- Color code: Blue for data, Green for quantized operations, Orange for rescoring
--->
-
 ## Search-Time Control with Rescoring
 
 Qdrant provides **automatic rescoring**: the quantized index quickly finds candidates, then re-ranks them using the original float32 vectors for accuracy.
@@ -255,14 +238,6 @@ results = client.query_points(
 ```
 
 The rescoring step is **critical for multi-vector search** because MaxSim aggregates many token-level similarities - small quantization errors can compound. Rescoring with original vectors ensures your final results maintain high quality.
-
-<!-- TODO: Add rescoring process diagram
-- Show candidate selection: Quantized index -> 100 candidates (fast)
-- Rescoring phase: Original vectors -> Re-rank top 10 (accurate)
-- Timeline showing: 95% time in quantized search, 5% in rescoring
-- Quality comparison: Quantized-only vs With rescoring (show accuracy boost)
-- Annotate "Best of both worlds: Speed + Accuracy"
--->
 
 ## Quantization Impact on Search Quality
 
