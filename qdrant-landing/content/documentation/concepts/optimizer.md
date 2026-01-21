@@ -19,19 +19,11 @@ Changed data is placed in the copy-on-write segment, which has priority for retr
 
 ## Vacuum Optimizer
 
-The simplest example of a case where you need to rebuild a segment repository is to remove points.
-Like many other databases, Qdrant does not delete entries immediately after a query.
-Instead, it marks records as deleted and ignores them for future queries.
+The **Vacuum Optimizer** in Qdrant helps manage storage by handling deleted records. When a record is deleted, it isn’t removed right away but marked as deleted to avoid slow disk operations during queries. While this improves performance, over time, these marked records can build up, wasting memory and slowing down the system.
 
-This strategy allows us to minimize disk access - one of the slowest operations.
-However, a side effect of this strategy is that, over time, deleted records accumulate, occupy memory and slow down the system.
+The Vacuum Optimizer solves this problem by permanently removing marked records and reorganizing storage. This cleanup saves memory and keeps the system running smoothly, especially when large amounts of deleted data build up in the database.
 
-To avoid these adverse effects, Vacuum Optimizer is used.
-It is used if the segment has accumulated too many deleted records.
-
-The criteria for starting the optimizer are defined in the configuration file.
-
-Here is an example of parameter values:
+The Optimizer is not triggered arbitrarily. You need define triggers in the [Qdrant configuration file](/documentation/guides/configuration/). Two key parameters control its behavior: 
 
 ```yaml
 storage:
@@ -42,27 +34,23 @@ storage:
     vacuum_min_vector_number: 1000
 ```
 
+- `deleted_threshold` sets the minimum fraction of deleted records in a segment required to initiate optimization. For example, a value of 0.2 means that 20% of a segment’s records must be marked as deleted for the optimizer to consider running. 
+
+- `vacuum_min_vector_number`, specifies the minimum number of vectors a segment must contain to qualify for optimization. For instance, a value of 1000 ensures that only segments with at least 1,000 vectors are optimized.
+
+When these criteria are met, the Optimizer processes the segment by removing deleted records and reorganizing the data to improve efficiency. This process not only enhances the database’s query performance but also reduces memory usage by eliminating redundant data. 
+
 ## Merge Optimizer
 
-The service may require the creation of temporary segments.
-Such segments, for example, are created as copy-on-write segments during optimization itself.
+Qdrant uses the **Merge Optimizer** to manage the number and size of segments in its storage system, ensuring efficient data organization and query performance. Temporary segments may be created during processes like optimization, such as copy-on-write segments, which help facilitate operations.
 
-It is also essential to have at least one small segment that Qdrant will use to store frequently updated data.
-On the other hand, too many small segments lead to suboptimal search performance.
+Qdrant requires at least one small segment to handle frequently updated data efficiently. However, having too many small segments can harm search performance. To address this, the Merge Optimizer works to reduce the number of segments when there are more than optimal. 
 
-The merge optimizer constantly tries to reduce the number of segments if there
-currently are too many. The desired number of segments is specified
-with `default_segment_number` and defaults to the number of CPUs. The optimizer
-may takes at least the three smallest segments and merges them into one.
+The target number of segments is specified by the `default_segment_number` parameter, which typically defaults to the number of CPUs. During optimization, the optimizer may merge the three smallest segments into one, aiming to balance segment size and system performance.
 
-Segments will not be merged if they'll exceed the maximum configured segment
-size with `max_segment_size_kb`. It prevents creating segments that are too
-large to efficiently index. Increasing this number may help to reduce the number
-of segments if you have a lot of data, and can potentially improve search performance.
+To prevent oversized segments that could slow down indexing, the `max_segment_size_kb` parameter sets a limit on segment size. Larger segments may improve search performance but can take longer to index. Adjusting this parameter helps strike a balance between indexing speed and search efficiency, especially when dealing with large datasets.
 
-The criteria for starting the optimizer are defined in the configuration file.
-
-Here is an example of parameter values:
+You need to define the Optimizer’s behavior in the [Qdrant configuration file](/documentation/guides/configuration/). Below is an example configuration:
 
 ```yaml
 storage:
@@ -87,6 +75,10 @@ storage:
     # If not set, will be automatically selected considering the number of available CPUs.
     max_segment_size_kb: null
 ```
+- `default_segment_number` ensures that segments align with the system’s thread count, enabling even distribution of processing across threads. 
+
+- `max_segment_size_kb` controls segment size to optimize both indexing and search performance, depending on system priorities. 
+Proper configuration of these parameters allows Qdrant to maintain an efficient and responsive storage system.
 
 ## Indexing Optimizer
 
