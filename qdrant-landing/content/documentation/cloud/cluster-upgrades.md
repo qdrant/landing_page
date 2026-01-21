@@ -19,4 +19,4 @@ If you have a single-node cluster or a collection with a replication factor of *
 
 See also [Restart Mode](/documentation/cloud/configure-cluster/#restart-mode) for more details.
 
-We advise taking a [backup](documentation/cloud/backups/) before updating to allow for rollbacks.
+We advise taking a [backup](/documentation/cloud/backups/) before updating to allow for rollbacks.
