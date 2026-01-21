@@ -6,7 +6,7 @@ questions:
   answer: Teams building AI systems that need fast, local vector search on embedded or resource-constrained devices, such as robots, mobile apps, or IoT hardware.
 - id: 1
   question: Is this available to all Qdrant users?
-  answer: Not yet. Qdrant Edge is in private beta. We're selecting a limited number of partners based on technical fit and active edge deployment scenarios.
+  answer: Yes. Read the Quick Start guide, and view the demo in GitHub.
 - id: 2
   question: What are the minimum requirements to join the beta?
   answer: You should have a clear use case for on-device or offline vector search. Preference is given to companies working with embedded hardware or deploying agents at the edge.
