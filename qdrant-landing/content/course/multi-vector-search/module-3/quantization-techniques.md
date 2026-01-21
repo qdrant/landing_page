@@ -161,6 +161,37 @@ The table above shows the theoretical memory savings and search performance char
 One of Qdrant's powerful features: **you can enable quantization on an existing collection** without changing your inference or ingestion pipelines. The quantization happens transparently during indexing.
 
 
+First, let's load the ColPali model and prepare some sample documents:
+
+```python
+from fastembed import LateInteractionMultimodalEmbedding
+
+# Load ColPali model for generating multi-vector embeddings
+model = LateInteractionMultimodalEmbedding(
+    model_name="Qdrant/colpali-v1.3-fp16"
+)
+
+# Sample document images and metadata
+image_paths = [
+    "images/financial-report.png",
+    "images/titanic-newspaper.jpg",
+    "images/moon-landing.jpg",
+    "images/einstein-newspaper.jpg",
+]
+
+documents = [
+    {"title": "Financial Report", "type": "report", "topic": "finance"},
+    {"title": "Titanic Sinking", "type": "newspaper", "topic": "history"},
+    {"title": "Moon Landing", "type": "newspaper", "topic": "space"},
+    {"title": "Einstein Theory", "type": "newspaper", "topic": "science"},
+]
+
+# Generate embeddings for all images
+image_embeddings = list(model.embed_image(image_paths))
+```
+
+Now create a collection with scalar quantization:
+
 ```python
 from qdrant_client import QdrantClient, models
 
@@ -169,7 +200,7 @@ client = QdrantClient("http://localhost:6333")
 client.create_collection(
     collection_name="colpali-scalar",
     vectors_config={
-        "colmodernvbert": models.VectorParams(
+        "colpali": models.VectorParams(
             size=128,
             distance=models.Distance.DOT,
             multivector_config=models.MultiVectorConfig(
@@ -188,13 +219,29 @@ client.create_collection(
 )
 ```
 
+Ingest the documents into the scalar-quantized collection:
+
+```python
+client.upsert(
+    collection_name="colpali-scalar",
+    points=[
+        models.PointStruct(
+            id=i,
+            vector={"colpali": embedding.tolist()},
+            payload=documents[i],
+        )
+        for i, embedding in enumerate(image_embeddings)
+    ],
+)
+```
+
 Enabling a different type of quantization requires setting a different quantization configuration.
 
 ```python
 client.create_collection(
     collection_name="colpali-binary",
     vectors_config={
-        "colmodernvbert": models.VectorParams(
+        "colpali": models.VectorParams(
             size=128,
             distance=models.Distance.DOT,
             multivector_config=models.MultiVectorConfig(
@@ -209,6 +256,19 @@ client.create_collection(
         ),
     ),
 )
+
+# Ingest the same data into the binary-quantized collection
+client.upsert(
+    collection_name="colpali-binary",
+    points=[
+        models.PointStruct(
+            id=i,
+            vector={"colpali": embedding.tolist()},
+            payload=documents[i],
+        )
+        for i, embedding in enumerate(image_embeddings)
+    ],
+)
 ```
 
 ## Search-Time Control with Rescoring
@@ -222,16 +282,21 @@ Qdrant provides **automatic rescoring**: the quantized index quickly finds candi
 For ColPali searches:
 
 ```python
+# Generate query embeddings from a text query
+query = "financial quarterly results revenue"
+query_embeddings = list(model.embed_text([query]))[0]
+
+# Search with rescoring enabled
 results = client.query_points(
     collection_name="colpali-scalar",
-    query=query_vectors,  # Multi-vector query embeddings
-    using="colmodernvbert",
+    query=query_embeddings.tolist(),
+    using="colpali",
     limit=10,
     search_params=models.SearchParams(
         quantization=models.QuantizationSearchParams(
-            ignore=False,
-            rescore=True,  # Re-rank with original float32 vectors
-            oversampling=2.0,  # Fetch 2x candidates before rescoring
+            ignore=False,       # Use quantized vectors for initial search
+            rescore=True,       # Re-rank with original float32 vectors
+            oversampling=2.0,   # Fetch 2x candidates before rescoring
         ),
     ),
 )
