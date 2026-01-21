@@ -94,22 +94,105 @@ Qdrant's Universal Query API makes multi-stage retrieval straightforward using t
 
 Let's say you want to search for documents about "quantum computing applications" and return the top 10 results.
 
+First, create a collection with both single-vector and multi-vector representations. We'll also add sparse vectors for BM25 to enable hybrid search later:
+
 ```python
-# TODO: implement the code snippet showing multi-stage retrieval setup
-# - Create a collection with both single-vector and multi-vector representations
-# - Show named vectors configuration for both embedding types
-# - Include sample data structure
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient("http://localhost:6333")
+
+# Create collection with both single-vector and multi-vector representations
+client.create_collection(
+    collection_name="hybrid-search",
+    vectors_config={
+        # Fast single-vector for prefetch stage
+        "bge-small-en-v1.5": models.VectorParams(
+            size=384,
+            distance=models.Distance.COSINE,
+        ),
+        # High-quality multi-vector for reranking stage
+        "colbert": models.VectorParams(
+            size=128,
+            distance=models.Distance.DOT,
+            multivector_config=models.MultiVectorConfig(
+                comparator=models.MultiVectorComparator.MAX_SIM,
+            ),
+            hnsw_config=models.HnswConfigDiff(m=0),
+        ),
+    },
+    sparse_vectors_config={
+        "bm25": models.SparseVectorParams(
+            modifier=models.Modifier.IDF,
+        ),
+    },
+)
 ```
 
-Here's how you structure the multi-stage query:
+Next, ingest your documents. Using `models.Document`, Qdrant handles the embedding automatically on the server side:
 
 ```python
-# TODO: implement the multi-stage query example
-# - Prefetch using single-vector embeddings (retrieve 500 candidates)
-# - Main query uses ColBERT multi-vector to rerank those 500
-# - Return top 10 final results
-# - Include query vector encoding for both single and multi-vector models
-# - Show the complete query structure with prefetch parameter
+documents = [
+    ("research", "Quantum computing applications are emerging in cryptography..."),
+    ("research", "Researchers are exploring quantum computing applications in drug discovery..."),
+    ("finance", "Quantum computing applications in finance include portfolio optimization..."),
+    # ... more documents
+]
+
+# Ingest data to the collection - Qdrant embeds automatically
+client.upsert(
+    collection_name="hybrid-search",
+    points=[
+        models.PointStruct(
+            id=i,
+            vector={
+                "bge-small-en-v1.5": models.Document(
+                    text=doc,
+                    model="BAAI/bge-small-en-v1.5",
+                ),
+                "colbert": models.Document(
+                    text=doc,
+                    model="colbert-ir/colbertv2.0",
+                ),
+                "bm25": models.Document(
+                    text=doc,
+                    model="Qdrant/bm25",
+                ),
+            },
+            payload={
+                "text": doc,
+                "category": category,
+            },
+        )
+        for i, (category, doc) in enumerate(documents)
+    ]
+)
+```
+
+Now, here's how you structure the multi-stage query. Notice that we use `models.Document` for the query as well - Qdrant embeds it server-side using the appropriate model for each stage:
+
+```python
+query = "quantum computing applications"
+
+# Multi-stage query: prefetch with single-vector, rerank with ColBERT
+results = client.query_points(
+    collection_name="hybrid-search",
+    prefetch=[
+        models.Prefetch(
+            query=models.Document(
+                text=query,
+                model="BAAI/bge-small-en-v1.5",
+            ),
+            using="bge-small-en-v1.5",
+            limit=500,  # Retrieve 500 candidates for reranking
+        ),
+    ],
+    query=models.Document(
+        text=query,
+        model="colbert-ir/colbertv2.0",
+    ),
+    using="colbert",
+    limit=10,  # Return top 10 after reranking
+)
 ```
 
 ### Understanding the Query Structure
@@ -117,14 +200,18 @@ Here's how you structure the multi-stage query:
 The key parts of a multi-stage query:
 
 - **`prefetch`**: Defines the first stage search
-  - Uses single-vector named vector (e.g., `"bge-small-en-v1.5"`)
+  - Uses `models.Document` to specify the text and embedding model
+  - The `using` parameter specifies which named vector to search
   - Has its own `limit` parameter (this is your oversampling size)
   - Quickly narrows down the candidate set
 
 - **Main query**: Defines the reranking stage
-  - Uses multi-vector named vector (e.g., `"colbert"`)
+  - Uses `models.Document` with the ColBERT model for multi-vector embedding
+  - The `using` parameter specifies the multi-vector named vector (e.g., `"colbert"`)
   - Its `limit` parameter determines final result count
   - Only runs on the candidates from prefetch
+
+Using `models.Document` lets Qdrant handle all embedding with FastEmbed, simplifying your client code and ensuring consistency between indexing and querying.
 
 ## Advanced Multi-Stage Patterns
 
@@ -134,24 +221,74 @@ Multi-stage retrieval isn't limited to just two stages. You can chain multiple p
 
 You can also use multiple retrieval methods in the prefetch stage. For example, you might combine both dense and sparse vectors using query fusion to create a stronger initial candidate set, then rerank with ColBERT.
 
-This hybrid approach in the prefetch stage can improve recall - ensuring that the candidate pool contains relevant documents that might be missed by either dense or sparse search alone.
+This hybrid approach in the prefetch stage can improve recall - ensuring that the candidate pool contains relevant documents that might be missed by either dense or sparse search alone. Since we configured BM25 sparse vectors when creating the collection, we can use them directly in the prefetch:
 
 ```python
-# TODO: implement multi-stage query with hybrid prefetch
-# - Prefetch stage uses query fusion combining dense and sparse vectors
-# - Show how to structure multiple prefetch queries that get combined
-# - Main query reranks the fused results with ColBERT
-# - Include example with both text-embedding and BM25/SPLADE sparse vectors
+# Multi-stage with hybrid prefetch: combine dense and sparse retrieval
+results = client.query_points(
+    collection_name="hybrid-search",
+    prefetch=[
+        # Dense retrieval using single-vector embeddings
+        models.Prefetch(
+            query=models.Document(
+                text=query,
+                model="BAAI/bge-small-en-v1.5",
+            ),
+            using="bge-small-en-v1.5",
+            limit=500,
+        ),
+        # Sparse retrieval using BM25
+        models.Prefetch(
+            query=models.Document(
+                text=query,
+                model="Qdrant/bm25",
+            ),
+            using="bm25",
+            limit=500,
+        ),
+    ],
+    # Results from both prefetch queries are combined, then reranked
+    query=models.Document(
+        text=query,
+        model="colbert-ir/colbertv2.0",
+    ),
+    using="colbert",
+    limit=10,
+)
 ```
 
 Multi-stage retrieval works seamlessly with filters. An important behavior to understand: **filters in the main query are automatically propagated to all prefetch stages**. This means when you add a filter to your main query, it applies to the entire multi-stage pipeline. This is efficient because it narrows the candidate pool early in the prefetch stage, reducing computational cost throughout.
 
 ```python
-# TODO: implement multi-stage query with filters
-# - Show a multi-stage query with a filter in the main query
-# - Demonstrate how the filter applies to both prefetch and reranking stages
-# - Example: filtering by document type or date range
-# - Include comments explaining the propagation behavior
+# Filters in the main query automatically propagate to prefetch stages
+results = client.query_points(
+    collection_name="hybrid-search",
+    prefetch=[
+        models.Prefetch(
+            query=models.Document(
+                text=query,
+                model="BAAI/bge-small-en-v1.5",
+            ),
+            using="bge-small-en-v1.5",
+            limit=500,
+        ),
+    ],
+    query=models.Document(
+        text=query,
+        model="colbert-ir/colbertv2.0",
+    ),
+    using="colbert",
+    limit=10,
+    # This filter applies to BOTH prefetch and reranking stages
+    query_filter=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="category",
+                match=models.MatchValue(value="research"),
+            ),
+        ],
+    ),
+)
 ```
 
 ## When to Use Multi-Stage Retrieval
