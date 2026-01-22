@@ -1,7 +1,7 @@
 ---
 title: "Evaluating Search Pipelines"
 description: Learn how to evaluate different search configurations in terms of cost, latency, and retrieval quality using ground truth datasets and standardized metrics.
-weight: 6
+weight: 5
 ---
 
 {{< date >}} Module 3 {{< /date >}}

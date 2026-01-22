@@ -164,7 +164,7 @@ from scipy.cluster.vq import kmeans2
 
 # Embed a document image
 image_path = "images/financial-report.png"
-embeddings = list(model.embed_images([image_path]))[0]
+embeddings = list(model.embed_image([image_path]))[0]
 
 def hierarchical_pool(embeddings: np.ndarray, k: int) -> np.ndarray:
     """Pool embeddings using k-means clustering."""
@@ -187,7 +187,7 @@ for k in [16, 32, 64, 128]:
 
 ## What's Next
 
-You've learned two complementary strategies for reducing the number of vectors per document:
+This lesson covered two complementary strategies for reducing the number of vectors per document:
 
 - **Row/column pooling**: Exploits spatial structure in image embeddings for a fixed reduction (32x for ColPali)
 - **Hierarchical pooling**: Content-adaptive clustering that works for any multi-vector representation
