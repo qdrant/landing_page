@@ -9,7 +9,7 @@ aliases:
 
 Inference is the process of using a machine learning model to create vector embeddings from text, images, or other data types. While you can create embeddings on the client side, you can also let Qdrant generate them while storing or querying data.
 
-![Inference.](/docs/inference.png)
+![Inference](/docs/inference.png)
 
 There are several advantages to generating embeddings with Qdrant:
 
@@ -183,6 +183,8 @@ Qdrant Cloud can act as a proxy for the APIs of external embedding model provide
 - OpenRouter
 
 This enables you to access any of the embedding models provided by these providers through the Qdrant API.
+
+![Inference with an external embedding model provider](/docs/inference-external-provider.png)
 
 To use an external provider's embedding model, you need an API key from that provider. For example, to access OpenAI models, you need an OpenAI API key. Qdrant does not store or cache your API keys; they must be provided with each inference request.
 
