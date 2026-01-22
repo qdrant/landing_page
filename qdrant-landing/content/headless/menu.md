@@ -32,7 +32,7 @@ menuItems:
           icon: cloud-inference.svg
           url: /cloud-inference/
         - id: subMenu-0-5
-          name: Qdrant Edge (Private Beta)
+          name: Qdrant Edge (Beta)
           icon: edge.svg
           url: /edge/
 #       - id: subMenu-0-4
