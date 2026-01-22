@@ -1,111 +1,138 @@
 ---
-title: "Final Project: Multi-Modal Document Search with ColPali"
-description: Build a production-ready multi-modal search system using ColPali embeddings, MUVERA optimization, and multi-stage retrieval to search across PDFs, images, and text with visual understanding.
+title: "Final Project: Build Your Own Multi-Vector Search System"
+description: Apply everything you've learned to build a multi-vector search system that solves a real problem of your choosing.
 weight: 7
 ---
 
 {{< date >}} Module 3 {{< /date >}}
 
-# Final Project: Multi-Modal Document Search with ColPali
-
-<div class="video">
-<iframe
-  src="https://www.youtube.com/embed/xK9mV7zR4pL"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen>
-</iframe>
-</div>
-
----
-
-**Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course-multi-vector-search/module-3/final-project.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>
-</a>
+# Final Project: Build Your Own Multi-Vector Search System
 
 ---
 
 ## Your Mission
 
-It's time to bring together everything you've learned about multi-vector search, multi-modal embeddings, and production optimization. You'll build a sophisticated document retrieval system that can search across PDFs, images, and text using visual understanding - not just text extraction.
+It's time to bring together everything you've learned about multi-vector search, late interaction models, and production optimization. You'll build a sophisticated document retrieval system that leverages late interaction's token-level matching for superior search quality.
 
-Your search engine will understand document layouts, visual elements, tables, charts, and formatting. When someone searches for "bar chart showing quarterly revenue," your system should find the exact page with that visualization, even if the words "quarterly revenue" never appear in the OCR text.
+Your search engine will understand the nuanced relationships between query terms and document content. When someone searches for "machine learning applications in healthcare," your system will find documents that discuss relevant concepts even when they use different terminology, thanks to late interaction's fine-grained matching.
 
-This mirrors real-world challenges in enterprise search, research libraries, and knowledge management where documents contain critical information in visual form. You'll implement the complete pipeline: multi-modal embedding with ColPali, memory-efficient storage with quantization or pooling, and optimized retrieval with multi-stage search.
+This mirrors real-world challenges in enterprise search, research libraries, and knowledge management. You'll implement the complete pipeline: multi-vector embedding using **ColModernVBERT** or **ColPali**, memory-efficient storage with quantization or pooling, and optimized retrieval with multi-stage search.
 
-**Estimated Time:** 4 hours
+---
 
 ## What You'll Build
 
-- A multi-modal search system using ColPali embeddings (or variant)
-- Memory optimization using quantization, pooling, and/or MUVERA indexing
-- Multi-stage retrieval pipeline with candidate generation and late-interaction reranking
-- Evaluation framework measuring recall, precision, and latency
-- Production-ready implementation with documented design decisions
+A working multi-vector search system that:
 
-## Setup
+- Indexes real documents using late interaction embeddings
+- Applies optimization techniques to manage memory and latency
+- Retrieves relevant results with measurable quality
+- Documents your design decisions and trade-offs
 
-### Prerequisites
-* Qdrant Cloud cluster (URL + API key) or local Qdrant instance
-* Python 3.9+ (or Google Colab)
-* GPU recommended for embedding generation (Colab provides free T4)
-* Packages: `qdrant-client`, `fastembed`
+Both ColModernVBERT and ColPali work well for visual document understanding - choose based on your preference or experiment with both.
 
-### Models
+The specific dataset, optimization strategy, and retrieval configuration are up to you.
 
-Choose based on your use case and memory constraints.
+---
 
-TODO: list FastEmbed available models
+## Choose Your Challenge
 
-### Dataset
+This is your project. Pick a problem that matters to you.
 
-**Document Types:** Mix of PDFs, images, scanned documents, presentations, or screenshots
+### Use Your Own Data
 
-**Suggested Sources:**
-- Research papers with figures and tables (ArXiv PDFs)
-- Product documentation with diagrams
-- Financial reports with charts
-- Slide decks with visual layouts
-- Infographics and data visualizations
-- Scanned paper documents
+The most valuable learning comes from working with documents you actually care about:
 
-**Dataset Size:** 100-500 documents for meaningful evaluation (adjust based on memory)
+- **Technical documentation** you reference frequently
+- **Research papers** in your field of interest
+- **Internal documents** (reports, manuals, wikis) from your work
+- **Personal collection** of PDFs, articles, or notes
 
-**Fields to Track:**
-- `document_id`: Unique identifier
-- `page_number`: Page or slide number
-- `file_path` or `source_url`: Original location
-- `metadata`: Author, date, category, tags
-- `thumbnail_path`: (optional) Visual preview for results display
+Aim for **at least 50 documents** to have enough variety for meaningful evaluation. More is better for seeing how your system scales.
 
-**Payload Example:**
-```python
-payload = {
-    "document_id": "arxiv_2305_12345",
-    "page_number": 7,
-    "source_url": "https://arxiv.org/pdf/2305.12345.pdf",
-    "metadata": {
-        "title": "Multi-Vector Representations for Document Retrieval",
-        "authors": ["Smith, J.", "Doe, A."],
-        "category": "machine_learning",
-        "tags": ["transformers", "retrieval", "embeddings"],
-    },
-    "thumbnail_path": "/thumbnails/arxiv_2305_12345_p7.jpg"
-}
-```
+### Public Datasets (If You Prefer)
 
-## Build Steps
+If you don't have a suitable personal dataset:
 
-TODO: write the project plan
+- **ArXiv papers** on a topic you're curious about
+- **Wikipedia articles** from a category you'd like to explore
+- **Open-source documentation** from projects you use
+- **News articles** from a domain you follow
+
+The key is picking something where you can judge search quality intuitively. You'll need to create evaluation queries, and that's easier when you understand the content.
+
+---
+
+## Project Requirements
+
+Your project should demonstrate:
+
+### 1. Working Multi-Vector Search
+
+**Use ColModernVBERT** to index your documents and retrieve results using MaxSim scoring. The system should return relevant documents for natural language queries. Alternatively, consider **ColPali**.
+
+### 2. At Least One Optimization Technique
+
+Apply something you learned in this module:
+
+- Binary or scalar quantization
+- Token pooling (clustering, attention-based, or hierarchical)
+- MUVERA indexing
+- Multi-stage retrieval pipeline
+
+Measure the impact of your chosen technique on memory, latency, or search quality.
+
+### 3. Evaluation with Ground Truth
+
+Create a test set of queries with known relevant documents. This doesn't need to be exhaustive - 10-20 queries with 3-5 relevant documents each is enough to see meaningful patterns. Measure at least one retrieval metric (precision@k, recall@k, or MRR).
+
+### 4. Brief Write-Up
+
+Document your decisions:
+
+- Why you chose your dataset
+- Whether you used ColModernVBERT or ColPali, and why
+- What optimization technique(s) you applied and why
+- What worked well and what surprised you
+- Key metrics from your evaluation
+
+---
+
+## Suggested Approach
+
+These hints are optional. Feel free to chart your own path.
+
+**Start simple.** Get a basic multi-vector search working before adding optimizations. It's easier to measure the impact of changes when you have a baseline.
+
+**Create ground truth early.** Before optimizing, write your evaluation queries and identify relevant documents. This lets you measure whether changes improve or hurt quality.
+
+**Compare configurations.** Try at least two different setups (e.g., with and without quantization, or different pooling strategies). The comparison will teach you more than a single configuration.
+
+**Keep notes as you go.** Document what you try and what happens. Your future self will thank you, and it makes the write-up easier.
+
+---
+
+## Share Your Results
+
+We'd love to see what you build. Share your project on the [Qdrant Discord](https://discord.gg/qdrant) in the `#courses` channel.
+
+Tell us about:
+
+- **Your dataset** and why you chose it
+- **Your model choice** (ColModernVBERT or ColPali, and why)
+- **Your collection configuration** (quantization, pooling, indexing)
+- **Your retrieval metrics** (precision@10, recall, latency)
+- **What you learned** and what surprised you
+
+Seeing how others approached the same challenge is one of the best ways to deepen your understanding.
 
 ---
 
 ## What You've Accomplished
 
-By completing this project, you've built a production-ready multi-modal search system that:
+By completing this project, you've built a production-ready multi-vector search system that:
 
-* **Understands visual content** beyond just text extraction
+* **Leverages late interaction** for superior search quality through token-level matching
 * **Scales efficiently** using quantization, pooling, or optimized indexing
 * **Delivers fast results** through multi-stage retrieval and HNSW optimization
 * **Measures quality** with comprehensive evaluation metrics
@@ -113,4 +140,6 @@ By completing this project, you've built a production-ready multi-modal search s
 
 You've mastered the full pipeline from multi-vector embeddings to production optimization - skills directly applicable to enterprise search, document management, research platforms, and AI-powered knowledge systems.
 
-**Next:** Continue your learning journey by exploring advanced topics like fine-tuning ColPali models for domain-specific documents, or building Retrieval Augmented Generation with Vision Language Models to derive insights from your scanned documents without even parsing them to text.
+**Congratulations on completing the Multi-Vector Search course.**
+
+Continue your learning journey by exploring advanced topics like fine-tuning late interaction models for domain-specific documents, or building Retrieval Augmented Generation pipelines to derive insights from your retrieved documents.
