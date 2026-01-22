@@ -64,6 +64,7 @@ By default, Qdrant Cloud will provision two volumes per Qdrant Pod: One for the 
 - An optional secret with credentials to access your own container registry.
 - Log level for the operator and agent.
 - Node selectors and tolerations for the operater, agent, cluster-manager and monitoring stack.
+- Control Plane Labels that will be added to all Kubernetes resources of the Hybrid Cloud control-plane components.
 
 ![Create Hybrid Cloud Environment - Advanced Configuration](/documentation/cloud/hybrid_cloud_advanced_configuration.png)
 

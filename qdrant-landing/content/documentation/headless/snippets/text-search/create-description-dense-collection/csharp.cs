@@ -1,0 +1,25 @@
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+public class Snippet
+{
+    public static async Task Run()
+    {
+        var client = new QdrantClient("localhost", 6334); // @hide
+
+        await client.CreateCollectionAsync(
+            collectionName: "books",
+            vectorsConfig: new VectorParamsMap
+            {
+                Map =
+                {
+                    ["description-dense"] = new VectorParams
+                    {
+                        Size = 384,
+                        Distance = Distance.Cosine,
+                    },
+                },
+            }
+        );
+    }
+}

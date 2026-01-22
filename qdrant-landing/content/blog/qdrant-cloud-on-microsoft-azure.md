@@ -30,5 +30,5 @@ What this means for you:
 
 Get started by [signing up for a Qdrant Cloud account](https://cloud.qdrant.io). And learn more about Qdrant Cloud in our [docs](/documentation/cloud/).
 
-<video autoplay="true" loop="true" width="100%" controls><source src="/blog/qdrant-cloud-on-azure/azure-cluster-deployment-short.mp4" type="video/mp4"></video>
+<video autoplay="true" loop="true" width="100%" controls><source src="https://storage.googleapis.com/qdrant-landing/files/blog/azure-cluster-deployment-short.mp4" type="video/mp4"></video>
 

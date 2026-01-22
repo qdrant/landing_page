@@ -49,10 +49,10 @@ const handleClickInteraction = (event) => {
   }
 };
 
-// Gather all <a> elements that have been tagged 
+// Gather all <a> and <button> elements that have been tagged
 // for tracking via 'data-metric-loc' attribute
 function tagAllAnchors() {
-  const allMetricsAnchors= document.querySelectorAll('a[data-metric-loc]');
+  const allMetricsAnchors= document.querySelectorAll('a[data-metric-loc], button[data-metric-loc]');
 
   if (allMetricsAnchors) {
     allMetricsAnchors.forEach(anchor => {

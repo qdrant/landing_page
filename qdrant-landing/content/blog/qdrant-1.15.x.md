@@ -281,7 +281,7 @@ This modification, in combinations with [incremental HNSW indexing](/blog/qdrant
 
 ### HNSW Graph connectivity estimation
 
-Qdrant builds [addtitional HNSW links](/articles/filtrable-hnsw/) to ensure that filtered searches are performed fast and accurate.
+Qdrant builds [addtitional HNSW links](/articles/filterable-hnsw/) to ensure that filtered searches are performed fast and accurate.
 
 It does, however, introduce an overhead for indexing complexity, especially when the number of payload indexes is large.
 With v1.15, Qdrant introduces an optimization, which quickly estimates graph connectivity before creating additional links.
