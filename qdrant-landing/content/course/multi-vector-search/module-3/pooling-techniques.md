@@ -94,16 +94,16 @@ That's a **32× reduction** in vector count and memory footprint.
 import numpy as np
 from fastembed import LateInteractionMultimodalEmbedding
 
-# Load ColModernVBERT model
-model = LateInteractionMultimodalEmbedding(model_name="Qdrant/colmodernvbert")
+# Load ColPali model
+model = LateInteractionMultimodalEmbedding(model_name="Qdrant/colpali-v1.3-fp16")
 
 # Embed a document image (returns ~1030 vectors × 128 dimensions)
 image_path = "images/financial-report.png"  # Your document image
 embeddings = list(model.embed_image([image_path]))[0]
 print(f"Original shape: {embeddings.shape}")  # (1030, 128)
 
-# Reshape to spatial grid: (rows, columns, embedding_dim
-# Get only the last 1024 embeddings, as instruction tokens do
+# Reshape to spatial grid: (rows, columns, embedding_dim)
+# Get only the first 1024 embeddings, as instruction tokens do
 # not represent images
 grid = embeddings[:1024].reshape(32, 32, 128)
 
