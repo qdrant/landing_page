@@ -21,7 +21,7 @@ client.Upsert(context.Background(), &qdrant.UpsertPoints{
 				Model: "openrouter/mistralai/mistral-embed-2312",
 				Text:  "Recipe for baking chocolate chip cookies",
 				Options: qdrant.NewValueMap(map[string]any{
-					"openrouter-api-key": "<YOUR_OPENROUTER_API_KEY>"
+					"openrouter-api-key": "<YOUR_OPENROUTER_API_KEY>",
 				}),
 			}),
 		},
