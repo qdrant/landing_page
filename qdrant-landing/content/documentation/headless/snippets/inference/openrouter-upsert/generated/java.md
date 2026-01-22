@@ -30,7 +30,7 @@ client
                             .putAllOptions(
                                 Map.of(
                                     "openrouter-api-key",
-                                    value("<YOUR_OPENROUTER_API_KEY>")
+                                    value("<YOUR_OPENROUTER_API_KEY>")))
                             .build()))
                 .build()))
     .get();
