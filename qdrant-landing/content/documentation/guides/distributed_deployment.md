@@ -751,6 +751,18 @@ Here is how differently-configured Qdrant clusters respond:
 * 2-node clusters where all shards ARE replicated to both nodes: All requests except for operations on collections continue to work during the outage.
 * 3+-node clusters where all shards are replicated to at least 2 nodes: All requests continue to work during the outage.
 
+## Delayed Fan-Outs
+
+*Available as of v1.17.0*
+
+By default, a search operation queries a single replica of each shard in a collection. If a replica responds slowly due to load or network issues, overall search latency can increase. This phenomenon, where a single slow replica increases the 95th or 99th percentile latency of the entire system, is known as "tail latency." High tail latency can noticeably degrade the user experience.
+
+To reduce tail latency for read operations, Qdrant supports delayed fan-outs. With delayed fan-outs, if the initial request to a replica exceeds a specified latency threshold, an additional read request is sent to another replica. Qdrant will then use the first available response.
+
+You can enable delayed fan-outs per collection by [setting](/documentation/concepts/collections/#update-collection-parameters) the `read_fan_out_delay_ms` parameter to the number of milliseconds to wait before attempting to read from another replica. To disable delayed fan-outs after enabling, set this parameter to `0` (default).
+
+Alternatively, to always read from multiple replicas, regardless of latency, use the `read_fan_out_factor` parameter. Set this to the number of additional replicas to always read from.  Be aware that this increases the load on the cluster and is generally not recommended, as `read_fan_out_delay_ms` can achieve similar tail latency improvements with a much lower additional load on the system.
+
 ## Consistency guarantees
 
 By default, Qdrant focuses on availability and maximum throughput of search operations.
