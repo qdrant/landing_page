@@ -175,11 +175,12 @@ This flexibility allows you to develop and test your applications locally or in 
 
 ## External Embedding Model Providers
 
-Qdrant Cloud can act as a proxy for the APIs of three external embedding model providers:
+Qdrant Cloud can act as a proxy for the APIs of external embedding model providers:
 
 - OpenAI
 - Cohere
 - Jina AI
+- OpenRouter
 
 This enables you to access any of the embedding models provided by these providers through the Qdrant API.
 
@@ -240,6 +241,20 @@ At query time, you can use the same model by prepending the model name with `jin
 {{< code-snippet path="/documentation/headless/snippets/inference/jinaai-query/" >}}
 
 Note that, because Qdrant does not store or cache your Jina AI API key, you need to provide it with each inference request
+
+### OpenRouter
+
+OpenRouter is a platform that provides [several embedding models](https://openrouter.ai/models?fmt=cards&output_modalities=embeddings). To use one of the models provided by the [OpenRouter Embeddings API](https://openrouter.ai/docs/api/reference/embeddings), prepend the model name with `openrouter/`. 
+
+For example, to use the `mistralai/mistral-embed-2312` model when ingesting data, prepend the model name with `openrouter/` and provide your OpenRouter API key in the `options` object.
+
+{{< code-snippet path="/documentation/headless/snippets/inference/openrouter-upsert/" >}}
+
+At query time, you can use the same model by prepending the model name with `openrouter/` and providing your OpenRouter API key in the `options` object:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/openrouter-query/" >}}
+
+Note that, because Qdrant does not store or cache your OpenRouter API key, you need to provide it with each inference request.
 
 ## Multiple Inference Operations
 
