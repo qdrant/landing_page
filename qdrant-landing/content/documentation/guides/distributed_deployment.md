@@ -761,7 +761,9 @@ To reduce tail latency for read operations, Qdrant supports delayed fan-outs. Wi
 
 You can enable delayed fan-outs per collection by [setting](/documentation/concepts/collections/#update-collection-parameters) the `read_fan_out_delay_ms` parameter to the number of milliseconds to wait before attempting to read from another replica. To disable delayed fan-outs after enabling, set this parameter to `0` (default).
 
-Alternatively, to always read from multiple replicas, regardless of latency, use the `read_fan_out_factor` parameter. Set this to the number of additional replicas to always read from.  Be aware that this increases the load on the cluster and is generally not recommended, as `read_fan_out_delay_ms` can achieve similar tail latency improvements with a much lower additional load on the system.
+<aside role="alert">Do not set the latency threshold to a very low value (for example, the 5th percentile of the read latency). This would cause almost every request to trigger additional read requests, significantly increasing the load on the cluster without much benefit. A good starting point is to set it to the 95th percentile of the read latency. This limits the additional load to approximately 5% while substantially shortening the latency tail.</aside>
+
+An alternative approach to fanning out reads is to always read from multiple replicas, regardless of latency. To enable this, set the `read_fan_out_factor` parameter to the number of additional replicas to read from. Be aware that this increases the load on the cluster and is generally not recommended, as `read_fan_out_delay_ms` can achieve similar tail latency improvements with a much lower additional load on the system.
 
 ## Consistency guarantees
 
