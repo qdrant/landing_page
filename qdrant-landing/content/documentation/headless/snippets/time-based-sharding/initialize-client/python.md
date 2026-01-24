@@ -1,6 +1,6 @@
 ```python
 from qdrant_client import QdrantClient
+from google.colab import userdata
 
-client = QdrantClient(url="YOUR_URLcloud.qdrant.io:6333/", api_key="YOUR_API_KEY")
-
+client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"), cloud_inference=True)
 ```

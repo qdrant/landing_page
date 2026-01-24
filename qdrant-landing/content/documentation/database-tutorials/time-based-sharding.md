@@ -4,67 +4,89 @@ weight: 181
 ---
 # Time-Based Sharding in Qdrant
 
-When working with massive, fast-moving datasets, like social media streams or real-time analytics, it becomes critical to manage storage and retrieval efficiently. One common strategy is to **only keep the most recent N days of data indexed**, and delete older data regularly.
+When working with massive, fast-moving datasets, like social media streams or real-time analytics, it becomes critical to manage storage and retrieval efficiently. 
+In many cases, you are only interested in the most recent data, while older data can be archived or deleted. For example, for sentiment analysis on social media posts, you might only need the last 7 days of data to capture current trends, with most queries focusing on the last 24 hours.
 
-But here’s the catch: if you store everything in a regular Qdrant collection, deleting old points or ingesting new ones can trigger **expensive re-indexing** across the whole dataset.
+If you store everything in a regular Qdrant collection, deleting old points can trigger expensive re-indexing across the whole dataset, impacting performance. A better solution is to use **time-based sharding**, where data is routed to a specific [shard](/documentation/guides/distributed_deployment/?q=shard#sharding) based on its timestamp. Breaking up data based on age enables easy data retention and efficient querying of recent data.
 
-To fix that, this tutorial walks you through a **time-based [custom sharding](/documentation/guides/distributed_deployment/?q=shard#sharding) setup**, where each day’s data is routed to its own [shard](/documentation/guides/distributed_deployment/?q=shard#sharding). This allows:
+For instance, with daily shards, today's data is stored by today's shard, yesterday's data by yesterday's shard, and so on. Queries can target specific shards (today's shard, for example) or multiple shards to cover a date range.
 
-* Fast and clean deletion of outdated data
-* Efficient writes that don’t interfere with existing segments
-* Targeted queries against only the most relevant time slices
+<figure>
+  <img src="/documentation/tutorials/time-based-sharding/time-based-sharding.png">
+  <figcaption>
+    Time-based sharding routes data to different shards based on timestamp. In a typical scenario, all writes go to the newest shard, while queries can target one or more recent shards. Older shards can be pruned in the background without impacting performance.
+  </figcaption>
+</figure>
 
-We’ll walk through Python code that:
+Note that daily sharding is just one example. Depending on your data volume and retention needs, you could shard by hour, week, month, or any other time interval that fits your use case.
 
-* Creates a Qdrant collection with `CUSTOM` sharding
-* Automatically assigns new data to daily shard keys
-* Queries only recent shards
-* And prunes older ones in the background
+This tutorial walks you through implementing time-based sharding. Using Python code snippets, you'll learn how to:
+
+* Create a Qdrant collection with user-defined sharding
+* Automatically assign new data to daily shard keys
+* Query one or more shards
+* Prune older shards
+
+This code is also available as a [Google Colab Notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/time-based-sharding/time-based-sharding.ipynb).
 
 ## Install Qdrant Client
-```bash
-pip install qdrant-client datasets
-```
-## Configure Cluster 
-Create a [Qdrant Cluster](/documentation/guides/distributed_deployment/) with at least two nodes. 
 
-## Initialize Client 
-Initialize the Qdrant client after creating a [Qdrant Cloud account](/documentation/cloud/) and a [dedicated paid cluster](/documentation/cloud/create-cluster/). 
+First, install the Qdrant client:
+
+```bash
+!pip install qdrant-client
+```
+
+## Initialize Client
+
+Next, initialize the client: 
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/initialize-client/" >}}
 
-## Create Collection 
-Qdrant organizes [vectors](/documentation/concepts/vectors/) and their metadata into [collections](/documentation/concepts/collections/). When creating a collection, you must specify the vector parameters. Create a collection with custom [sharding](/documentation/guides/distributed_deployment/?q=shard#sharding) for time-based routing:
+## Create Collection
+
+Create a collection with [user-defined sharding](/documentation/guides/distributed_deployment/#user-defined-sharding) (`ShardingMethod.CUSTOM`). The collection will have up to 8 shards: one for today's data, and up to 7 for each day of the past week:
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/create-collection/" >}}
 
-## Upload Vectors Per Shard 
-To upload the [vectors](/documentation/concepts/vectors/) in different shards based on time, your dataset should have a date field. Here is a sample from a [Multi-Language Social Media Dataset](https://huggingface.co/datasets/Exorde/exorde-social-media-one-month-2024):  
+## Ingest Historical Data
 
-| date                | original_text                                              | primary_theme   | english_keywords                                               | sentiment | main_emotion |
-|---------------------|------------------------------------------------------------|------------------|----------------------------------------------------------------|-----------|---------------|
-| 2024-11-22T01:48:31Z | Esos gobiernos europeos, lacayos de USA, quie...          | Politics         | global war, harakiri, consequences, worse, con...             | -0.75     | neutral       |
-| 2024-12-04T17:45:02Z | Dinner time Azerbaijan                                     | Social           | dinner time, azerbaijan, time, dinner, time az...             | 0.17      | neutral       |
-| 2024-11-30T06:56:48Z | i hate incest jokes with such a passion                   | Entertainment    | hate incest, hate, incest, jokes, incest jokes...             | -0.46     | anger         |
+Time series data often arrives in streams, with new data points continuously being added. Each data point may include a timestamp indicating when it was created. You can use this timestamp to determine which shard the data point belongs to. If your data does not have timestamps, you can assign the current time when ingesting.
 
-Upload the streaming dataset by batching it per day and uploading each day to its own shard:
+This tutorial uses a [sample dataset of social media posts](https://github.com/qdrant/examples/blob/master/time-based-sharding/social-media-posts.csv) with timestamps. We'll assume today is January 7th, 2026. You'll start by ingesting some historical data from this week (January 1-7). Here are a few sample rows from the dataset:
+
+| datetime                | text
+|---|---|
+| 2026-01-01T07:43:12 | Starting the year with a fresh cup of coffee and a positive mindset. |
+| 2026-01-01T09:18:47 | New year, new goals, same excitement for small wins. |
+| 2026-01-01T10:56:03 | January mornings just feel full of possibility. |
+
+Upload the dataset by batching it per day and uploading each day to its own shard:
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/upload-vectors/" >}}
 
-##  Perform Semantic Search for a Single Shard
-Here, you will ask a question that will allow you to retrieve semantically relevant results from a specific shard.
+## Query Today's Data
+
+Now you can run a semantic search for "coffee" on today's posts. Setting `shard_key_selector="2026-01-07"`  (assuming today is January 7th, 2026) limits the query to the shard that stores today's data:
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/search-single-shard/" >}}
 
-##  Perform a Global Search on all the Shards
-Here is how you can search accross all the shards: 
+## Query the Full Dataset
+
+To query the entire dataset (all shards), omit the `shard_key_selector` parameter:
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/search-multiple-shards/" >}}
 
-## Pruning Shards 
-You can pune the shards by creating an administrative task that runs on schedule, for example via a cron job. Here is how deleting previous shards looks like:  
+## Pruning Shards
+
+Every night at midnight, create a new shard for new data that will be ingested today. Delete the oldest shard so we only retain 7 days of data. In a real setup, you could automate this, for example, with a cron job.
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/pruning-shards/" >}}
 
-## Conclusion
-Time-based sharding in Qdrant brings structure and scalability to high-velocity vector data. Whether you're ingesting millions of documents daily, cleaning up expired data, or running real-time queries over recent time slices, this approach helps you keep your collections efficient and responsive, without the overhead of manual cleanup or reindexing. Create a free [Qdrant Cloud account](https://qdrant.tech/cloud/) today and try it. 
+## Ingest New Data
+
+When ingesting new data, set the `shard_key_selector` to today's date so the data goes to the correct shard:
+
+{{< code-snippet path="/documentation/headless/snippets/time-based-sharding/ingest-new-data/" >}}
+
+Finally, you can rerun the earlier queries to see how you can still query the whole dataset or just a subset.

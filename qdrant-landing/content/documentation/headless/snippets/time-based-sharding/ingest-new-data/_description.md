@@ -1,0 +1,1 @@
+This code snippet shows how to ingest new data into a time-sharded Qdrant collection.

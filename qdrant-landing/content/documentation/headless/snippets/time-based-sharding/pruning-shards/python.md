@@ -1,13 +1,7 @@
 ```python
-cutoff = datetime.now(UTC) - timedelta(days=30)
+today = "2026-01-08"
+oldest_shard_key = (date.fromisoformat(today) - timedelta(days=7)).isoformat()
 
-for i in range(60):
-    day = cutoff - timedelta(days=i)
-    key = day.strftime("day_%Y_%m_%d")
-    try:
-        client.delete_shard_key(collection_name, key)
-        print("Deleted:", key)
-    except Exception:
-        pass
-
+client.create_shard_key(collection_name, today)
+client.delete_shard_key(collection_name, oldest_shard_key)
 ```
