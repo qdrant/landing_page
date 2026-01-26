@@ -45,6 +45,8 @@ Payload index may occupy some additional memory, so it is recommended to only us
 If you need to filter by many fields and the memory limits do not allow for indexing all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 
+<aside role="alert">It's highly recommended to create all payload indices immediately after collection creation. Creating them later may block updates for some time. HNSW graphs will also only benefit from <a href="#filterable-index">additional optimizations</a> (extra edges) when they are generated after payload index creation.</aside>
+
 ### Parameterized index
 
 *Available as of v1.8.0*
