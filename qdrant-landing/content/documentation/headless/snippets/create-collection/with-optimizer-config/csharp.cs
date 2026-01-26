@@ -10,7 +10,7 @@ public class Snippet
 		await client.CreateCollectionAsync(
 			collectionName: "{collection_name}",
 			vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
-			optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 }
+			optimizersConfig: new OptimizersConfigDiff { IndexingThreshold = 20000 }
 		);
 	}
 }

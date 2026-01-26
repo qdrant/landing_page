@@ -8,7 +8,7 @@ weight: 4
 
 # Demo: HNSW Performance Tuning
 
-Learn how to improve vector search speed with [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) tuning and payload indexing on a real 100K dataset.
+Learn how to improve vector search speed with [HNSW](https://qdrant.tech/articles/filterable-hnsw/) tuning and payload indexing on a real 100K dataset.
 
 **Follow along in Colab:** <a href="https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_2/hnsw_performance_tuning.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" style="display:inline; margin:0;" alt="Open In Colab"/>

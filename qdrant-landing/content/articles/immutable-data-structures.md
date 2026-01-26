@@ -102,7 +102,7 @@ Let's take a look at a non-exhaustive list of data structures and potential impr
 | Tenant Isolation | Vector Storage | Defragmented Vector Storage | Faster access to on-disk data |
 
 
-For more info on payload-aware connections in HNSW, read our [previous article](/articles/filtrable-hnsw/).
+For more info on payload-aware connections in HNSW, read our [previous article](/articles/filterable-hnsw/).
 
 This time around, we will focus on the latest additions to Qdrant: 
 - **the immutable hash map with perfect hashing** 

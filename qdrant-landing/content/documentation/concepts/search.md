@@ -175,7 +175,7 @@ Accessing array elements by index is currently not supported.
 *Available as of v1.16.0*
 
 For filtered vector search, you are recommended to create a [payload index](/documentation/concepts/indexing/#payload-index) for the fields you want to filter by.
-During the search, Qdrant will use a combined [filterable index](/documentation/concepts/indexing/#filtrable-index).
+During the search, Qdrant will use a combined [filterable index](/documentation/concepts/indexing/#filterable-index).
 However, when combining multiple strict payload filters, this mechanism might not provide sufficient accuracy.
 In such cases, you can use the ACORN search algorithm.
 

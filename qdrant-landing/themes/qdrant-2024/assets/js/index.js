@@ -110,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.querySelectorAll('.menu-mobile__item').forEach((item) => {
     item.addEventListener('click', () => {
-      console.log(item.dataset.path);
       toggleMenu(item.dataset.path);
     });
   });

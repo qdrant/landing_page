@@ -135,7 +135,7 @@ collection_info = client.get_collection(collection_name)
 print("Collection info:", collection_info)
 ```
 
-Expected output: Detailed collection information showing `points_count=2`, vector configuration, and [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) settings.
+Expected output: Detailed collection information showing `points_count=2`, vector configuration, and [HNSW](https://qdrant.tech/articles/filterable-hnsw/) settings.
 
 ## Step 8: Run Your First Similarity Search
 
