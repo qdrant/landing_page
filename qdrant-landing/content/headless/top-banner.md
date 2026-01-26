@@ -16,6 +16,6 @@ link:
   url: https://try.qdrant.tech/modernize-legacy-search
 start: 2026-01-09T11:00:00.000Z
 sitemapExclude: true
-end: 2026-01-28T03:00:00.000Z
+end: 2026-01-25T03:00:00.000Z
 
 ---
