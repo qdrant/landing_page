@@ -492,7 +492,7 @@ You can read more about grouping [here](/documentation/concepts/hybrid-queries/?
 - Original content with source attribution
 - Section context for better understanding
 - Direct links to full documents
-- Creation timestamps for [freshness](/documentation/concepts/hybrid-queries/#time-based-score-boosting)
+- Creation timestamps for [freshness](/documentation/concepts/search-relevance/#time-based-score-boosting)
 
 **5. Permission Control**
 ```python
