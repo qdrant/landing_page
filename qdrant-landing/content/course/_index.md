@@ -12,7 +12,7 @@ Qdrant Academy is your step-by-step learning hub for mastering vector search, hy
 
 Whether you’re new to Qdrant or building production-grade systems, our guided courses help you go from beginner to expert, one module at a time.
 
-Qdrant Academy has just launched in Fall of 2025 and currently offers one comprehensive course, but more are on the way! Register your interest in each upcoming below.
+Qdrant Academy currently offers one comprehensive course, but more are on the way! Register your interest for upcoming courses below, or take the available course and [get certified](https://train.qdrant.dev)!
 
 ## Available Now
 
