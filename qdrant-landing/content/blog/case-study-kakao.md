@@ -20,7 +20,7 @@ tags:
 
 <a href="https://www.kakaocorp.com/" target="_blank">Kakao</a>  is one of South Korea's leading technology companies, best known for KakaoTalk, the country's dominant messaging platform with over 48 million monthly active users. Beyond messaging, Kakao operates a broad ecosystem of services including maps, mobility, fintech, and enterprise solutions.
 
-### Helping employees find answers faster without sacrificing precision or control
+## Helping employees find answers faster without sacrificing precision or control
 
 Kakao’s Connectivity Platform team set out to solve a familiar internal problem: employees across the organization needed a faster, more reliable way to get answers about internal systems, APIs, and operational procedures. The result was **Service Desk Agent**, an AI-powered internal service desk designed to answer questions in natural language using Kakao’s internal documentation and historical inquiry data.
 
@@ -32,10 +32,10 @@ From the beginning, the team faced a search problem that couldn’t be solved wi
 
 Service Desk Agent needed to work across two very different types of data:
 
-* Long-form technical documentation, including project guides and API specifications, where understanding context matters. But, exact system names and proper nouns still need to be matched.  
-* Historical Q\&A and incident data, which often includes precise error messages, commands, and configuration details.
+1. Long-form technical documentation, including project guides and API specifications, where understanding context matters. But, exact system names and proper nouns still need to be matched.  
+2.  Historical Q\&A and incident data, which often includes precise error messages, commands, and configuration details.
 
-Pure keyword search struggled with conceptual questions. Pure vector search struggled with exact terms and proper nouns. Neither approach alone was sufficient.
+Pure keyword search struggled with semantic questions. Pure vector search struggled with exact terms and proper nouns. Neither approach alone was sufficient.
 
 At the same time, Kakao had strict infrastructure and operational requirements. All data needed to remain within internal infrastructure, the system had to be deployable on Kubernetes, and the solution needed a permissive open-source license with strong official documentation for operations like upgrades, backup, and recovery.
 
