@@ -92,4 +92,4 @@ Before Service Desk Agent, employees searched across multiple internal knowledge
 
 Kakao plans to continue expanding Service Desk Agent by indexing more of its internal knowledge base. The team is also exploring deeper GraphRAG integration, potential multimodal search capabilities, and sharding strategies to support future scale and performance needs.
 
-Within the Connectivity Platform team, Qdrant has become the foundation for RAG-based internal AI services—providing the hybrid search, flexibility, and operational stability required to support AI-driven knowledge access at scale.
+Within the Connectivity Platform team, Qdrant has become the foundation for RAG-based internal AI services. It provides the hybrid search, flexibility, and operational stability required to support AI-driven knowledge access at scale.
