@@ -1,6 +1,6 @@
 ---
-title: Edge beta
-description: Edge beta
+title: Qdrant Edge | Embedded and Edge AI Systems
+description: Qdrant Edge | Embedded and Edge AI Systems
 url: edge
 aliases: [edge-beta, edge-beta/]
 build:
