@@ -72,7 +72,7 @@ The entire system runs on Kakao’s internal Kubernetes cluster, using a replica
 
 ![indexing-pipeline](/blog/case-study-kakao/indexing-pipeline.png)
 
-![search-pipeline](/blog/case-study-kakao/indexing-pipeline.png)
+![search-pipeline-diagram](/blog/case-study-kakao/indexing-pipeline.png)
 
 ## The result: faster answers, lower support load
 
