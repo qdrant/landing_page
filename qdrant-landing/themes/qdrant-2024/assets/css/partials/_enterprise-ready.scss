@@ -1,0 +1,320 @@
+@use '../helpers/functions' as *;
+
+.enterprise-ready {
+  background-color: $neutral-98;
+  padding-top: pxToRem(80);
+  padding-bottom: pxToRem(80);
+
+  .container {
+    max-width: pxToRem(1110);
+  }
+
+  // Header
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: $spacer;
+    margin-bottom: pxToRem(64);
+  }
+
+  &__title {
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+    margin: 0;
+
+    @include media-breakpoint-up(xl) {
+      font-size: pxToRem(48);
+    }
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'l');
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    color: $neutral-30;
+    margin: 0;
+    max-width: pxToRem(728);
+
+    @include media-breakpoint-up(xl) {
+      font-size: map-get($font-sizes-text, 'xl');
+    }
+  }
+
+  // Content wrapper
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(30);
+  }
+
+  // Row containers
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: pxToRem(30);
+  }
+
+  &__row--large {
+    @include media-breakpoint-up(xl) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__row--small {
+    @include media-breakpoint-up(xl) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  // Cards base
+  &__card {
+    background-color: $neutral-98;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(8);
+    overflow: hidden;
+  }
+
+  // Large cards
+  &__card--large {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-decoration: none;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+    @include media-breakpoint-up(md) {
+      width: calc((100% - 30px) / 2);
+    }
+
+    @include media-breakpoint-up(xl) {
+      width: pxToRem(350);
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      border-color: $neutral-80;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &__card-visual {
+    position: relative;
+    height: pxToRem(144);
+    background-color: $neutral-98;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__visual-circles {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: pxToRem(350);
+    height: pxToRem(144);
+  }
+
+  // Compliance badges
+  &__badge {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: pxToRem(80);
+    height: pxToRem(80);
+
+    &--left {
+      left: calc(50% - 60px);
+      transform: translate(-50%, -50%);
+    }
+
+    &--right {
+      left: calc(50% + 60px);
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  // Monitoring icons
+  &__monitor-icon {
+    position: absolute;
+    width: pxToRem(64);
+    height: pxToRem(64);
+
+    &--prometheus {
+      left: calc(50% - 96px);
+      top: calc(50% + 24px);
+      transform: translate(-50%, -50%);
+    }
+
+    &--grafana {
+      left: 50%;
+      top: calc(50% - 16px);
+      transform: translate(-50%, -50%);
+    }
+
+    &--datadog {
+      left: calc(50% + 96px);
+      top: calc(50% + 24px);
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  // SSO icons
+  &__sso-icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--okta {
+      width: pxToRem(48);
+      height: pxToRem(48);
+      left: calc(50% - 103px);
+      top: calc(50% - 16px);
+      transform: translate(-50%, -50%);
+    }
+
+    &--google {
+      width: pxToRem(48);
+      height: pxToRem(48);
+      left: calc(50% - 33px);
+      top: calc(50% + 28px);
+      transform: translate(-50%, -50%);
+      background: $neutral-98;
+      border: 0.625px solid $neutral-90;
+      border-radius: 50%;
+      padding: pxToRem(10);
+      box-shadow:
+        0.625px 0.625px 1.875px 0 rgba(0, 0, 0, 0.1),
+        2.5px 2.5px 3.75px 0 rgba(0, 0, 0, 0.09);
+
+      img {
+        width: pxToRem(24);
+        height: pxToRem(24);
+      }
+    }
+
+    &--azure {
+      width: pxToRem(48);
+      height: pxToRem(48);
+      left: calc(50% + 41px);
+      top: calc(50% - 16px);
+      transform: translate(-50%, -50%);
+      background: $neutral-98;
+      border: 0.625px solid $neutral-90;
+      border-radius: 50%;
+      padding: pxToRem(10);
+      box-shadow:
+        0.625px 0.625px 1.875px 0 rgba(0, 0, 0, 0.1),
+        2.5px 2.5px 3.75px 0 rgba(0, 0, 0, 0.09);
+
+      img {
+        width: pxToRem(26);
+        height: pxToRem(26);
+      }
+    }
+
+    &--openid {
+      width: pxToRem(48);
+      height: pxToRem(48);
+      left: calc(50% + 111px);
+      top: calc(50% + 28px);
+      transform: translate(-50%, -50%);
+      background: $neutral-98;
+      border: 0.625px solid $neutral-90;
+      border-radius: 50%;
+      padding: pxToRem(10);
+      box-shadow:
+        0.625px 0.625px 1.875px 0 rgba(0, 0, 0, 0.1),
+        2.5px 2.5px 3.75px 0 rgba(0, 0, 0, 0.09);
+
+      img {
+        width: pxToRem(28);
+        height: pxToRem(28);
+      }
+    }
+  }
+
+  &__card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: pxToRem(24);
+  }
+
+  &__card-title {
+    font-size: map-get($font-sizes-text, 'l');
+    font-weight: 500;
+    line-height: 1.5;
+    color: $neutral-20;
+  }
+
+  &__card-arrow {
+    display: flex;
+    align-items: center;
+    padding-top: pxToRem(2);
+    transition: transform 0.2s ease;
+
+    img {
+      width: pxToRem(16);
+      height: pxToRem(16);
+    }
+  }
+
+  &__card--large:hover &__card-arrow {
+    transform: translateX(4px);
+  }
+
+  // Small cards
+  &__card--small {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: pxToRem(160);
+    padding: pxToRem(24);
+
+    @include media-breakpoint-up(sm) {
+      width: calc((100% - 30px) / 2);
+    }
+
+    @include media-breakpoint-up(md) {
+      width: calc((100% - 60px) / 3);
+    }
+
+    @include media-breakpoint-up(xl) {
+      width: pxToRem(198);
+      flex-shrink: 0;
+    }
+  }
+
+  &__card-icon {
+    width: pxToRem(24);
+    height: pxToRem(24);
+
+    svg,
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__icon-svg {
+    display: block;
+    width: pxToRem(24);
+    height: pxToRem(24);
+  }
+
+  &__card-label {
+    font-size: map-get($font-sizes-text, 'md');
+    font-weight: 500;
+    line-height: 1.5;
+    color: $neutral-20;
+  }
+}

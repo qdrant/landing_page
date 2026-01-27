@@ -1,0 +1,109 @@
+{{ with (.Site.GetPage "/headless/main/enterprise-ready") }}
+  <section class="enterprise-ready">
+    <div class="container">
+      <div class="enterprise-ready__header">
+        <h2 class="enterprise-ready__title">{{ .Params.title }}</h2>
+        <p class="enterprise-ready__subtitle">{{ .Params.subtitle }}</p>
+      </div>
+      <div class="enterprise-ready__content">
+        {{/* Large cards row */}}
+        <div class="enterprise-ready__row enterprise-ready__row--large">
+          {{ range .Params.largeCards }}
+            <a href="{{ .link.url }}" class="enterprise-ready__card enterprise-ready__card--large">
+              <div class="enterprise-ready__card-visual enterprise-ready__card-visual--{{ .visual }}">
+                {{ if eq .visual "compliance" }}
+                  <img src="http://localhost:3845/assets/1c595e3992ac045590a191d772a0dc29e401c8fe.svg" alt="" class="enterprise-ready__visual-circles" />
+                  <img src="http://localhost:3845/assets/e435b691487c74fcd197a9571ae9d0c2a869d3db.svg" alt="SOC 2" class="enterprise-ready__badge enterprise-ready__badge--left" />
+                  <img src="http://localhost:3845/assets/832012f63a7fad5d6c2e8356f925eece421d011f.svg" alt="GDPR" class="enterprise-ready__badge enterprise-ready__badge--right" />
+                {{ else if eq .visual "monitoring" }}
+                  <img src="http://localhost:3845/assets/5443860df130ef258234f4edbeb18ec03bf169ad.svg" alt="" class="enterprise-ready__visual-circles" />
+                  <img src="http://localhost:3845/assets/6691f56a43b2977f1b12a59d02519557c55d4e68.svg" alt="Prometheus" class="enterprise-ready__monitor-icon enterprise-ready__monitor-icon--prometheus" />
+                  <img src="http://localhost:3845/assets/01d8b91f591c2aa9cbf9081a807e6cbef8b6314f.svg" alt="Grafana" class="enterprise-ready__monitor-icon enterprise-ready__monitor-icon--grafana" />
+                  <img src="http://localhost:3845/assets/e59be40d0afc6a6de4d893096373884cf8767931.svg" alt="Datadog" class="enterprise-ready__monitor-icon enterprise-ready__monitor-icon--datadog" />
+                {{ else if eq .visual "sso" }}
+                  <img src="http://localhost:3845/assets/1c595e3992ac045590a191d772a0dc29e401c8fe.svg" alt="" class="enterprise-ready__visual-circles" />
+                  <img src="http://localhost:3845/assets/91ab65afe0e2cd62dc49ec71b5b16a99e48a76f0.svg" alt="Okta" class="enterprise-ready__sso-icon enterprise-ready__sso-icon--okta" />
+                  <div class="enterprise-ready__sso-icon enterprise-ready__sso-icon--google">
+                    <img src="http://localhost:3845/assets/fb714b6c6af1c2ba9aa4c8e4bceb0bd3fb1132b6.svg" alt="Google" />
+                  </div>
+                  <div class="enterprise-ready__sso-icon enterprise-ready__sso-icon--azure">
+                    <img src="http://localhost:3845/assets/cce49abb45aece090db259b58525c20856ab97f5.png" alt="Azure AD" />
+                  </div>
+                  <div class="enterprise-ready__sso-icon enterprise-ready__sso-icon--openid">
+                    <img src="http://localhost:3845/assets/cd7f89d74137eeb715ac54cfc7f58d6741845a43.png" alt="OpenID" />
+                  </div>
+                {{ end }}
+              </div>
+              <div class="enterprise-ready__card-footer">
+                <span class="enterprise-ready__card-title">{{ .title }}</span>
+                <div class="enterprise-ready__card-arrow">
+                  <img src="http://localhost:3845/assets/4c665f69ba050b201baf8ef9aae8036dcb25f0b2.svg" alt="" />
+                </div>
+              </div>
+            </a>
+          {{ end }}
+        </div>
+
+        {{/* Small cards row */}}
+        <div class="enterprise-ready__row enterprise-ready__row--small">
+          {{ range .Params.smallCards }}
+            <div class="enterprise-ready__card enterprise-ready__card--small">
+              <div class="enterprise-ready__card-icon">
+                {{ if eq .icon "multitenancy" }}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 1V23" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M12 1L8 5" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M12 1L16 5" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M12 23L8 19" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M12 23L16 19" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M1 12H5" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M19 12H23" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="6" cy="12" r="3" stroke="#2F6FF0" stroke-width="1.5"/>
+                    <circle cx="18" cy="12" r="3" stroke="#2F6FF0" stroke-width="1.5"/>
+                  </svg>
+                {{ else if eq .icon "networking" }}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.5 2 2 6 2 14" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M22 14C22 6 17.5 2 12 2" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M12 15V18" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M12 18L5 21" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M12 18L19 21" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <rect x="2" y="18" width="6" height="4" rx="1" stroke="#2F6FF0" stroke-width="1.5"/>
+                    <rect x="16" y="18" width="6" height="4" rx="1" stroke="#2F6FF0" stroke-width="1.5"/>
+                    <circle cx="12" cy="12" r="3" stroke="#2F6FF0" stroke-width="1.5"/>
+                  </svg>
+                {{ else if eq .icon "downtime" }}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#2F6FF0" stroke-width="1.5"/>
+                    <path d="M12 7V12L15 14" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4 4L2 2" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M20 4L22 2" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                {{ else if eq .icon "backups" }}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="#2F6FF0" stroke-width="1.5"/>
+                    <path d="M8 12H16" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M8 8H16" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M8 16H12" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M16 14L18 16L16 18" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                {{ else if eq .icon "api-keys" }}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 4L10 8L6 12" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 17L6 13L10 9" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18 4L14 8L18 12" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 17L18 13L14 9" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="5" r="2" stroke="#2F6FF0" stroke-width="1.5"/>
+                    <circle cx="12" cy="19" r="2" stroke="#2F6FF0" stroke-width="1.5"/>
+                    <path d="M12 7V17" stroke="#2F6FF0" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                {{ end }}
+              </div>
+              <span class="enterprise-ready__card-label">{{ .title }}</span>
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
