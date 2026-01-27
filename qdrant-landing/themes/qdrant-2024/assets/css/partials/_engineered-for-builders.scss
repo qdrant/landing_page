@@ -1,0 +1,181 @@
+@use '../helpers/functions' as *;
+
+.engineered-for-builders {
+  background-color: $neutral-10;
+  padding-top: pxToRem(120);
+  padding-bottom: pxToRem(120);
+  position: relative;
+  overflow: hidden;
+
+  .container {
+    max-width: pxToRem(1110);
+    position: relative;
+    z-index: 1;
+  }
+
+  // Background decoration
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(87, 0, 201, 0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  // Header
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: pxToRem(8);
+    margin-bottom: pxToRem(64);
+    max-width: pxToRem(920);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__title {
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: $neutral-90;
+    margin: 0;
+
+    @include media-breakpoint-up(xl) {
+      font-size: pxToRem(48);
+    }
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'l');
+    font-weight: 400;
+    line-height: 1.5;
+    color: $neutral-70;
+    margin: 0;
+  }
+
+  // Illustration
+  &__illustration {
+    position: relative;
+    margin-bottom: pxToRem(40);
+
+    img {
+      width: 100%;
+      max-width: pxToRem(1026);
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: pxToRem(16);
+    }
+
+    // Gradient overlay at bottom
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: pxToRem(1026);
+      height: pxToRem(112);
+      background: linear-gradient(180deg, rgba(9, 14, 26, 0) 0%, rgb(9, 14, 26) 100%);
+      pointer-events: none;
+    }
+  }
+
+  // Placeholder for development
+  &__image-placeholder {
+    width: 100%;
+    max-width: pxToRem(1026);
+    height: pxToRem(558);
+    background-color: $neutral-20;
+    border: 1px solid $neutral-60;
+    border-radius: pxToRem(16);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacer;
+    color: $neutral-70;
+    font-weight: 600;
+    font-size: pxToRem(24);
+  }
+
+  &__image-note {
+    font-size: pxToRem(14);
+    font-weight: 400;
+    opacity: 0.7;
+  }
+
+  // Features
+  &__features {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(48);
+    padding-top: pxToRem(40);
+
+    @include media-breakpoint-up(md) {
+      flex-direction: row;
+    }
+  }
+
+  &__feature {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+  }
+
+  &__feature-title {
+    font-size: pxToRem(18);
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    color: $neutral-90;
+    margin: 0;
+
+    @include media-breakpoint-up(xl) {
+      font-size: pxToRem(20);
+    }
+  }
+
+  &__feature-description {
+    font-size: map-get($font-sizes-text, 'md');
+    font-weight: 400;
+    line-height: 1.5;
+    color: $neutral-70;
+    margin: 0;
+  }
+
+  &__feature-link {
+    display: inline-flex;
+    align-items: center;
+    gap: pxToRem(2);
+    font-size: map-get($font-sizes-text, 'md');
+    font-weight: 500;
+    line-height: 1.5;
+    color: $neutral-98;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    svg {
+      width: pxToRem(16);
+      height: pxToRem(16);
+      margin-top: pxToRem(2);
+      transition: transform 0.2s ease;
+    }
+
+    &:hover svg {
+      transform: translateX(4px);
+    }
+  }
+}

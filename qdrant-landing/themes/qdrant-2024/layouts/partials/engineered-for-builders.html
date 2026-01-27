@@ -1,0 +1,32 @@
+{{ with (.Site.GetPage "/headless/main/engineered-for-builders") }}
+  <section class="engineered-for-builders">
+    <div class="engineered-for-builders__background"></div>
+    <div class="container">
+      <div class="engineered-for-builders__header">
+        <h2 class="engineered-for-builders__title">{{ .Params.title }}</h2>
+        <p class="engineered-for-builders__subtitle">{{ .Params.subtitle }}</p>
+      </div>
+      <div class="engineered-for-builders__illustration">
+        {{/* TODO: Export Web UI illustration from Figma and save to /static/images/homepage/engineered-for-builders.png */}}
+        <div class="engineered-for-builders__image-placeholder">
+          <span>Web UI Illustration</span>
+          <span class="engineered-for-builders__image-note">Export from Figma</span>
+        </div>
+      </div>
+      <div class="engineered-for-builders__features">
+        {{ range .Params.features }}
+          <div class="engineered-for-builders__feature">
+            <h3 class="engineered-for-builders__feature-title">{{ .title }}</h3>
+            <p class="engineered-for-builders__feature-description">{{ .description }}</p>
+            <a href="{{ .link.url }}" class="engineered-for-builders__feature-link">
+              {{ .link.text }}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.33 8H12.67M12.67 8L8.67 4M12.67 8L8.67 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

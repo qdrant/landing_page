@@ -1,0 +1,167 @@
+@use '../helpers/functions' as *;
+
+.performance-by-design {
+  background-color: $neutral-98;
+  padding-top: pxToRem(80);
+  padding-bottom: pxToRem(80);
+
+  .container {
+    max-width: pxToRem(1110);
+  }
+
+  // Header
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: $spacer;
+    margin-bottom: pxToRem(64);
+    max-width: pxToRem(920);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__tagline {
+    font-family: 'Geist Mono', monospace;
+    font-size: pxToRem(14);
+    font-weight: 500;
+    line-height: pxToRem(21);
+    letter-spacing: 2px;
+    color: $neutral-30;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+    margin: 0;
+
+    @include media-breakpoint-up(xl) {
+      font-size: pxToRem(48);
+    }
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'l');
+    font-weight: 400;
+    line-height: 1.5;
+    color: $neutral-30;
+    margin: 0;
+
+    @include media-breakpoint-up(xl) {
+      font-size: map-get($font-sizes-text, 'l');
+    }
+  }
+
+  // Content layout
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(48);
+    align-items: center;
+
+    @include media-breakpoint-up(xl) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: pxToRem(106);
+    }
+  }
+
+  // Features list
+  &__features {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    @include media-breakpoint-up(xl) {
+      width: pxToRem(444);
+      flex-shrink: 0;
+    }
+  }
+
+  &__feature {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+    padding: pxToRem(24) 0;
+    border-bottom: 1px solid $neutral-90;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &--active {
+      border-bottom-color: $primary-50;
+    }
+  }
+
+  &__feature-title {
+    font-size: pxToRem(20);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: $neutral-50;
+    margin: 0;
+    transition: color 0.2s ease;
+
+    @include media-breakpoint-up(xl) {
+      font-size: pxToRem(24);
+    }
+
+    .performance-by-design__feature--active & {
+      color: $neutral-20;
+    }
+  }
+
+  &__feature-description {
+    font-size: map-get($font-sizes-text, 'md');
+    font-weight: 400;
+    line-height: 1.5;
+    color: $neutral-40;
+    margin: 0;
+  }
+
+  // Image
+  &__image {
+    width: 100%;
+    max-width: pxToRem(560);
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: pxToRem(8);
+      display: block;
+    }
+  }
+
+  // Placeholder for development
+  &__image-placeholder {
+    width: pxToRem(560);
+    height: pxToRem(540);
+    background-color: #89a9ff;
+    border-radius: pxToRem(8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacer;
+    color: white;
+    font-weight: 600;
+    font-size: pxToRem(24);
+  }
+
+  &__image-note {
+    font-size: pxToRem(14);
+    font-weight: 400;
+    opacity: 0.8;
+  }
+}
+

@@ -1,0 +1,30 @@
+{{ with (.Site.GetPage "/headless/main/performance-by-design") }}
+  <section class="performance-by-design">
+    <div class="container">
+      <div class="performance-by-design__header">
+        <span class="performance-by-design__tagline">{{ .Params.tagline }}</span>
+        <h2 class="performance-by-design__title">{{ .Params.title }}</h2>
+        <p class="performance-by-design__subtitle">{{ .Params.subtitle }}</p>
+      </div>
+      <div class="performance-by-design__content">
+        <div class="performance-by-design__features">
+          {{ range .Params.features }}
+            <div class="performance-by-design__feature {{ if .active }}performance-by-design__feature--active{{ end }}">
+              <h3 class="performance-by-design__feature-title">{{ .title }}</h3>
+              {{ if .active }}
+                <p class="performance-by-design__feature-description">{{ .description }}</p>
+              {{ end }}
+            </div>
+          {{ end }}
+        </div>
+        <div class="performance-by-design__image">
+          {{/* TODO: Export PerformanceImage from Figma and save to /static/images/homepage/performance-image.png */}}
+          <div class="performance-by-design__image-placeholder">
+            <span>PerformanceImage</span>
+            <span class="performance-by-design__image-note">Export from Figma</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
