@@ -24,7 +24,7 @@ tags:
 
 Kakao’s Connectivity Platform team set out to solve a familiar internal problem: employees across the organization needed a faster, more reliable way to get answers about internal systems, APIs, and operational procedures. The result was **Service Desk Agent**, an AI-powered internal service desk designed to answer questions in natural language using Kakao’s internal documentation and historical inquiry data.
 
-Built as a Retrieval-Augmented Generation (RAG) system on top of LangGraph, Service Desk Agent acts as a conversational interface to Kakao’s internal knowledge. This helps employees resolve issues quickly, while reducing repetitive work for support staff.
+Built as a Retrieval-Augmented Generation (RAG) system on top of LangGraph, Service Desk Agent acts as a conversational interface to Kakao’s internal knowledge. This helps employees resolve issues quickly, while reducing repetitive work for their support staff.
 
 ## The challenge: searching complex internal knowledge at scale
 
