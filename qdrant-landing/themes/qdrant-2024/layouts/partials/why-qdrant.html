@@ -1,0 +1,150 @@
+{{ with (.Site.GetPage "/headless/main/why-qdrant") }}
+  <section class="why-qdrant">
+    <div class="container">
+      <div class="why-qdrant__header">
+        <span class="why-qdrant__pill">{{ .Params.pill }}</span>
+        <h2 class="why-qdrant__title">{{ .Params.title }}</h2>
+        <p class="why-qdrant__subtitle">{{ .Params.subtitle }}</p>
+      </div>
+      <div class="why-qdrant__grid">
+        {{ range .Params.featureCards }}
+          <div class="why-qdrant__card why-qdrant__card--{{ .size }}" data-card-id="{{ .id }}">
+            <div class="why-qdrant__card-visual why-qdrant__card-visual--{{ .id }}">
+              {{ if eq .id "metadata-filters" }}
+                <div class="why-qdrant__code-editor">
+                  <div class="why-qdrant__code-editor-header">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 0.5C6 0.5 5 0.5 5 1.5V10.5C5 11.5 6 11.5 6 11.5C6 11.5 7 11.5 7 10.5V1.5C7 0.5 6 0.5 6 0.5Z" fill="#8547FF"/>
+                      <path d="M6 3.5C3.5 3.5 1 4.5 1 6C1 7.5 3.5 8.5 6 8.5C8.5 8.5 11 7.5 11 6C11 4.5 8.5 3.5 6 3.5Z" stroke="#8547FF" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="why-qdrant__code-breadcrumb">
+                      <span class="why-qdrant__code-breadcrumb-item">collections</span>
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.5 3L7.5 6L4.5 9" stroke="#8547FF" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <span class="why-qdrant__code-breadcrumb-item why-qdrant__code-breadcrumb-item--active">star_charts</span>
+                    </span>
+                  </div>
+                  <div class="why-qdrant__code-content">
+                    <code class="why-qdrant__code-line"><span class="code-gray">POST/collections/products/points/search</span></code>
+                    <code class="why-qdrant__code-line"><span class="code-purple">{</span></code>
+                    <code class="why-qdrant__code-line"> <span class="code-gray">"vector":</span> <span class="code-purple">[</span><span class="code-red">0.12</span><span class="code-purple">,</span> <span class="code-red">-0.42</span><span class="code-purple">,</span> <span class="code-gray">...</span><span class="code-purple">],</span></code>
+                    <code class="why-qdrant__code-line"> <span class="code-gray">"filter":</span> <span class="code-purple">{</span></code>
+                    <code class="why-qdrant__code-line">   <span class="code-gray">"must":</span> <span class="code-purple">[</span></code>
+                    <code class="why-qdrant__code-line">     <span class="code-purple">{</span><span class="code-gray">"key":</span> <span class="code-blue">"category"</span><span class="code-gray">, "match":</span> <span class="code-purple">{</span><span class="code-gray">"value":</span> <span class="code-blue">"electronics"</span><span class="code-purple">}},</span></code>
+                    <code class="why-qdrant__code-line">     <span class="code-purple">{</span><span class="code-gray">"key":</span> <span class="code-blue">"price"</span><span class="code-gray">, "range":</span> <span class="code-purple">{</span><span class="code-blue">"lte":500</span><span class="code-purple">}},</span></code>
+                    <code class="why-qdrant__code-line">     <span class="code-purple">{</span><span class="code-gray">"geo_radius":</span> <span class="code-purple">{</span><span class="code-gray">"key":</span> <span class="code-blue">"store_location"</span><span class="code-gray">, "radius"</span><span class="code-purple">}}</span></code>
+                    <code class="why-qdrant__code-line">   <span class="code-purple">]</span></code>
+                    <code class="why-qdrant__code-line"> <span class="code-purple">},</span></code>
+                    <code class="why-qdrant__code-line"> <span class="code-gray">"keyword":</span> <span class="code-blue">"wireless noise cancelling"</span><span class="code-purple">,</span></code>
+                    <code class="why-qdrant__code-line"> <span class="code-gray">"limit":</span> <span class="code-red">10</span><span class="code-purple">,</span></code>
+                    <code class="why-qdrant__code-line"> <span class="code-gray">"with_payload":</span> <span class="code-red">true</span></code>
+                    <code class="why-qdrant__code-line"><span class="code-purple">}</span></code>
+                  </div>
+                </div>
+              {{ else if eq .id "hybrid-search" }}
+                <div class="why-qdrant__hybrid-visual">
+                  <div class="why-qdrant__hybrid-label why-qdrant__hybrid-label--minicoli">miniCOIL</div>
+                  <div class="why-qdrant__hybrid-label why-qdrant__hybrid-label--splade">SPLADE++</div>
+                  <div class="why-qdrant__hybrid-center">
+                    <span>HYBRID</span>
+                    <span>SEARCH</span>
+                  </div>
+                  <div class="why-qdrant__hybrid-label why-qdrant__hybrid-label--bm25">BM25</div>
+                  <div class="why-qdrant__hybrid-dense">
+                    <div class="why-qdrant__hybrid-vector why-qdrant__hybrid-vector--dense"></div>
+                    <div class="why-qdrant__hybrid-vector why-qdrant__hybrid-vector--dense"></div>
+                    <div class="why-qdrant__hybrid-vector why-qdrant__hybrid-vector--dense"></div>
+                  </div>
+                  <div class="why-qdrant__hybrid-sparse">
+                    <div class="why-qdrant__hybrid-vector why-qdrant__hybrid-vector--sparse"></div>
+                    <div class="why-qdrant__hybrid-vector why-qdrant__hybrid-vector--sparse"></div>
+                    <div class="why-qdrant__hybrid-vector why-qdrant__hybrid-vector--sparse"></div>
+                  </div>
+                </div>
+              {{ else if eq .id "multivector" }}
+                <div class="why-qdrant__multivector-visual">
+                  <div class="why-qdrant__multivector-icon why-qdrant__multivector-icon--audio">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M11 4.667V11.333C11 12.438 9.657 13.333 8 13.333C6.343 13.333 5 12.438 5 11.333C5 10.229 6.343 9.333 8 9.333C8.729 9.333 9.395 9.51 9.913 9.813V6.36L6.333 7.36V12.333C6.333 13.438 4.99 14.333 3.333 14.333C1.676 14.333 0.333 13.438 0.333 12.333C0.333 11.229 1.676 10.333 3.333 10.333C4.063 10.333 4.729 10.51 5.247 10.813V5C5.247 4.631 5.495 4.307 5.853 4.213L10.52 2.88C10.993 2.753 11.48 3.107 11.48 3.6V4.667H11Z" stroke="#B99AFF" stroke-width="1.2"/>
+                    </svg>
+                    <span>AUDIO</span>
+                  </div>
+                  <div class="why-qdrant__multivector-icon why-qdrant__multivector-icon--image">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="1" y="2" width="14" height="12" rx="2" stroke="#89A9FF" stroke-width="1.2"/>
+                      <circle cx="5" cy="5.5" r="1.5" stroke="#89A9FF" stroke-width="1.2"/>
+                      <path d="M1 11L4.5 7.5L7 10L10.5 6.5L15 11" stroke="#89A9FF" stroke-width="1.2"/>
+                    </svg>
+                    <span>IMAGE</span>
+                  </div>
+                  <div class="why-qdrant__multivector-icon why-qdrant__multivector-icon--text">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M2 3H14M2 6H14M2 9H10M2 12H8" stroke="#89A9FF" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                    <span>TEXT</span>
+                  </div>
+                  <div class="why-qdrant__multivector-cube">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M24 4L42 14V34L24 44L6 34V14L24 4Z" stroke="#D4D9E6" stroke-width="1.5"/>
+                      <path d="M24 4L42 14L24 24L6 14L24 4Z" fill="#F0F3FA" stroke="#D4D9E6" stroke-width="1.5"/>
+                      <path d="M24 24V44" stroke="#D4D9E6" stroke-width="1.5"/>
+                    </svg>
+                  </div>
+                </div>
+              {{ else if eq .id "one-stage-filtering" }}
+                <div class="why-qdrant__filtering-visual">
+                  <div class="why-qdrant__filtering-layers">
+                    <div class="why-qdrant__filtering-layer why-qdrant__filtering-layer--1"></div>
+                    <div class="why-qdrant__filtering-layer why-qdrant__filtering-layer--2"></div>
+                    <div class="why-qdrant__filtering-layer why-qdrant__filtering-layer--3"></div>
+                  </div>
+                  <div class="why-qdrant__filtering-dots">
+                    {{ range seq 12 }}
+                      <div class="why-qdrant__filtering-dot"></div>
+                    {{ end }}
+                  </div>
+                </div>
+              {{ else if eq .id "reranking" }}
+                <div class="why-qdrant__reranking-visual">
+                  <div class="why-qdrant__reranking-input">
+                    <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--red">D2</span>
+                    <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--red">D2</span>
+                    <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--red">DN</span>
+                  </div>
+                  <div class="why-qdrant__reranking-label">RERANKING</div>
+                  <div class="why-qdrant__reranking-output">
+                    <div class="why-qdrant__reranking-group why-qdrant__reranking-group--green">
+                      <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--green">D1</span>
+                      <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--green">D2</span>
+                      <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--green">D3</span>
+                      <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--green">D4</span>
+                      <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--green">DN</span>
+                    </div>
+                    <div class="why-qdrant__reranking-group why-qdrant__reranking-group--blue">
+                      <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--blue">D1</span>
+                      <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--blue">D2</span>
+                      <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--blue">D3</span>
+                      <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--blue">D4</span>
+                      <span class="why-qdrant__reranking-vector why-qdrant__reranking-vector--blue">DN</span>
+                    </div>
+                  </div>
+                </div>
+              {{ end }}
+            </div>
+            <div class="why-qdrant__card-content">
+              <h3 class="why-qdrant__card-title">{{ .title }}</h3>
+              <p class="why-qdrant__card-description">{{ .description | safeHTML }}</p>
+              <a href="{{ .link.url }}" class="why-qdrant__card-link">
+                {{ .link.text }}
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

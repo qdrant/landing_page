@@ -1,0 +1,111 @@
+{{ with (.Site.GetPage "/headless/main/case-studies") }}
+  <section class="case-studies">
+    <div class="container">
+      <div class="case-studies__header">
+        <h2 class="case-studies__title">{{ .Params.title }}</h2>
+        <div class="case-studies__controls">
+          <button type="button" class="case-studies__arrow case-studies__arrow--prev" aria-label="Previous slide">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button type="button" class="case-studies__arrow case-studies__arrow--next" aria-label="Next slide">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="case-studies__carousel">
+        <div class="case-studies__track">
+          {{ range .Params.caseStudies }}
+            <div class="case-studies__slide">
+              <div class="case-studies__card">
+                <p class="case-studies__card-text">
+                  {{ .text }}
+                  {{ if .highlight }}
+                    <span class="case-studies__highlight">{{ .highlight }}</span>
+                  {{ end }}
+                  {{ if .textAfter }}
+                    {{ .textAfter }}
+                  {{ end }}
+                  {{ if .highlight2 }}
+                    <span class="case-studies__highlight">{{ .highlight2 }}</span>
+                  {{ end }}
+                  {{ if .textAfter2 }}
+                    {{ .textAfter2 }}
+                  {{ end }}
+                </p>
+                <div class="case-studies__card-logo">
+                  <img src="{{ .logo }}" alt="{{ .logoAlt }}" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    (function() {
+      const track = document.querySelector('.case-studies__track');
+      const prevBtn = document.querySelector('.case-studies__arrow--prev');
+      const nextBtn = document.querySelector('.case-studies__arrow--next');
+      
+      if (!track || !prevBtn || !nextBtn) return;
+      
+      const slides = track.querySelectorAll('.case-studies__slide');
+      const slideWidth = 280;
+      const gap = 30;
+      let currentIndex = 0;
+      
+      function getVisibleSlides() {
+        const width = window.innerWidth;
+        if (width >= 1200) return 4;
+        if (width >= 992) return 3;
+        if (width >= 576) return 2;
+        return 1;
+      }
+      
+      function getMaxIndex() {
+        return Math.max(0, slides.length - getVisibleSlides());
+      }
+      
+      function updateTrack() {
+        const offset = currentIndex * (slideWidth + gap);
+        track.style.transform = `translateX(-${offset}px)`;
+      }
+      
+      function updateButtons() {
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= getMaxIndex();
+      }
+      
+      prevBtn.addEventListener('click', function() {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateTrack();
+          updateButtons();
+        }
+      });
+      
+      nextBtn.addEventListener('click', function() {
+        if (currentIndex < getMaxIndex()) {
+          currentIndex++;
+          updateTrack();
+          updateButtons();
+        }
+      });
+      
+      window.addEventListener('resize', function() {
+        if (currentIndex > getMaxIndex()) {
+          currentIndex = getMaxIndex();
+        }
+        updateTrack();
+        updateButtons();
+      });
+      
+      updateButtons();
+    })();
+  </script>
+{{ end }}

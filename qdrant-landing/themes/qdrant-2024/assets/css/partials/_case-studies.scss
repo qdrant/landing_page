@@ -1,0 +1,151 @@
+@use '../helpers/functions' as *;
+
+.case-studies {
+  background-color: $neutral-94;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+  }
+
+  // Header
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 1.5;
+    margin-bottom: $spacer * 3;
+
+    @include media-breakpoint-up(lg) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: $spacer * 4;
+    }
+  }
+
+  &__title {
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+    margin: 0;
+
+    @include media-breakpoint-up(xl) {
+      font-size: pxToRem(40);
+    }
+  }
+
+  // Controls
+  &__controls {
+    display: flex;
+    gap: $spacer * 2;
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: $neutral-20;
+    transition: color 0.2s ease, opacity 0.2s ease;
+
+    &:hover:not(:disabled) {
+      color: $primary-50;
+    }
+
+    &:disabled {
+      color: $neutral-80;
+      cursor: not-allowed;
+    }
+
+    svg {
+      width: pxToRem(24);
+      height: pxToRem(24);
+    }
+  }
+
+  // Carousel
+  &__carousel {
+    overflow: hidden;
+    margin: pxToRem(-20);
+    padding: pxToRem(20);
+  }
+
+  &__track {
+    display: flex;
+    gap: pxToRem(30);
+    transition: transform 0.3s ease;
+    padding-bottom: pxToRem(80);
+    margin-bottom: pxToRem(-80);
+  }
+
+  &__slide {
+    flex-shrink: 0;
+  }
+
+  // Card
+  &__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: pxToRem(280);
+    height: pxToRem(280);
+    padding: $spacer * 2;
+    background-color: $neutral-98;
+    border: 1px solid rgba($neutral-80, 0.2);
+    border-radius: pxToRem(16);
+    box-shadow:
+      3px 3px 10px 0 rgba(155, 162, 184, 0.1),
+      13px 13px 18px 0 rgba(155, 162, 184, 0.09),
+      28px 28px 24px 0 rgba(155, 162, 184, 0.05),
+      50px 50px 29px 0 rgba(155, 162, 184, 0.01),
+      79px 79px 31px 0 rgba(155, 162, 184, 0);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        3px 3px 10px 0 rgba(155, 162, 184, 0.15),
+        13px 13px 18px 0 rgba(155, 162, 184, 0.12),
+        28px 28px 24px 0 rgba(155, 162, 184, 0.08),
+        50px 50px 29px 0 rgba(155, 162, 184, 0.03),
+        79px 79px 31px 0 rgba(155, 162, 184, 0.01);
+    }
+  }
+
+  &__card-text {
+    font-size: map-get($font-sizes-text, 'l');
+    font-weight: 400;
+    line-height: 1.5;
+    color: $neutral-30;
+    margin: 0;
+  }
+
+  &__highlight {
+    font-weight: 600;
+    color: $primary-50;
+  }
+
+  &__card-logo {
+    height: pxToRem(48);
+    display: flex;
+    align-items: flex-end;
+
+    img {
+      max-width: pxToRem(120);
+      max-height: pxToRem(48);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: brightness(0) saturate(100%);
+    }
+  }
+}
