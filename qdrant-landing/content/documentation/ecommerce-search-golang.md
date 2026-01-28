@@ -5,14 +5,12 @@ partition: build
 social_preview_image: /documentation/examples/ecommerce-search-golang/social_preview.png
 ---
 
-![ecommerce-search-golang](/documentation/examples/ecommerce-search-golang/header.png)
-
 # Build an E-commerce Search Engine with Go and Qdrant
 
 | Time: 20 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/tree/master/ecommerce-search-golang) |
 | --- | ----------- | ----------- |
 
-E-commerce search needs to handle high throughput, low latencies, and capture user intent beyond simple keyword matching. This tutorial shows you how to build a high-performance product search API using **Go**, **Qdrant**, and **Qdrant Cloud Inference**.
+E-commerce search needs to handle high throughput, low latencies, and capture user intent beyond simple keyword matching. This tutorial shows you how to build a high-performance product search API using **Go**, **Qdrant**, and [**Qdrant Cloud Inference**](https://qdrant.tech/cloud-inference/).
 
 You'll create a backend service that lets users search through 105,000 H&M fashion products using natural language queries like "comfortable summer dress" or "warm winter jacket for hiking."
 
@@ -28,13 +26,13 @@ In this tutorial, you will:
 
 #### Architecture:
 
-![architecture](/documentation/examples/ecommerce-search-golang/architecture.png)
+![architecture](/documentation/examples/ecommerce-search-golang/architecture.svg)
 
 The system has two main components:
 
-**Data Ingestion**: DuckDB streams parquet data directly from Hugging Face over HTTP. Products are batched and upserted into Qdrant, with embeddings generated via OpenAI through Qdrant's inference proxy.
+**Data Ingestion (top)**: DuckDB streams parquet data directly from Hugging Face over HTTP. Products are batched and upserted into Qdrant, with embeddings generated via OpenAI through Qdrant's inference proxy.
 
-**Search API**: A Gin HTTP server accepts search queries, uses the same OpenAI model via Qdrant to embed the query text, and returns matching products.
+**Search API (bottom)**: A Gin HTTP server accepts search queries, uses the same OpenAI model via Qdrant to embed the query text, and returns matching products.
 
 ---
 
@@ -51,7 +49,7 @@ Before starting, ensure you have:
 Create a free cluster at [cloud.qdrant.io](https://cloud.qdrant.io). Once your cluster is ready, note down:
 
 - **Cluster URL**: `xyz-example.region.cloud.qdrant.io`
-- **API Key**: Found in the cluster dashboard under "API Keys"
+- **API Key**: Generated when creating the cluster
 
 Qdrant Cloud can proxy requests to external embedding providers like OpenAI. This means you can send text directly to Qdrant, and it will handle the embedding generation using your OpenAI API key. No separate embedding service required.
 
@@ -70,7 +68,7 @@ We'll use the [Qdrant/hm_ecommerce_products](https://huggingface.co/datasets/Qdr
 
 ## Project Structure
 
-Create a new directory for your project:
+We provide a complete example on [GitHub](https://github.com/qdrant/examples/tree/master/ecommerce-search-golang). Here's how to set up your Go project.
 
 ```bash
 mkdir ecommerce-search && cd ecommerce-search
