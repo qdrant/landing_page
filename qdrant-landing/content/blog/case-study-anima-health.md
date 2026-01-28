@@ -3,8 +3,8 @@ draft: false
 title: "How Anima Health scaled clinical document intelligence with Qdrant"
 short_description: "Anima Health scaled privacy-first clinical intelligence with Qdrant."
 description: "Discover how Anima Health used Qdrant to power vector search for clinical document coding, privacy-first retrieval, and agentic workflows in UK primary care."
-preview_image: /blog/case-study-anima-health/social_preview_partnership-anima-health.jpg
-social_preview_image: /blog/case-study-anima-health/social_preview_partnership-anima-health.jpg
+preview_image: /blog/case-study-anima-health/social_preview_partnership-anima-health.png
+social_preview_image: /blog/case-study-anima-health/social_preview_partnership-anima-health.png
 date: 2026-01-28
 author: "Daniel Azoulai"
 featured: true
@@ -19,6 +19,8 @@ tags:
 - privacy
 - case study
 ---
+
+![Anima Health scaled privacy-first clinical intelligence with Qdrant](/blog/case-study-anima-health/anima-bento.png)
 
 Primary care systems across the UK are under intense strain. General practitioners (GPs) face overwhelming patient demand, chronic understaffing, and a growing administrative burden that limits the time they can spend delivering care. <a href="https://animahealth.com/" target="_blank">Anima Health</a> set out to address this challenge by building a clinical operating system designed to make primary care more efficient, more informed, and more humane for both clinicians and patients.
 
