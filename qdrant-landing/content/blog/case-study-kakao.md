@@ -6,7 +6,7 @@ description: "Discover how Kakao’s Connectivity Platform team built an AI-powe
 preview_image: /blog/case-study-kakao/social_preview_partnership-kakao.png
 social_preview_image: /blog/case-study-kakao/social_preview_partnership-kakao.png
 date: 2026-01-27
-author: "Daniel Azoulai"
+author: "David Koh - Kakao Connectivity Platform"
 featured: true
 
 tags:
@@ -93,3 +93,5 @@ Before Service Desk Agent, employees searched across multiple internal knowledge
 Kakao plans to continue expanding Service Desk Agent by indexing more of its internal knowledge base. The team is also exploring deeper GraphRAG integration, potential multimodal search capabilities, and sharding strategies to support future scale and performance needs.
 
 Within the Connectivity Platform team, Qdrant has become the foundation for RAG-based internal AI services. It provides the hybrid search, flexibility, and operational stability required to support AI-driven knowledge access at scale.
+
+*This post authored by David Koh — Kakao Connectivity Platform*
