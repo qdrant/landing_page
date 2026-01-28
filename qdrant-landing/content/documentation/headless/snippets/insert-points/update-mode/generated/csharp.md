@@ -4,7 +4,7 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await _client.UpsertAsync(
+await client.UpsertAsync(
 	new()
 	{
 		CollectionName = "{collection_name}",
