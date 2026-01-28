@@ -1,0 +1,105 @@
+@use 'sass:math';
+@use '../helpers/functions' as *;
+@use '../mixins/marquee' as marquee;
+
+$integrations-logos-bg: #090e1a;
+$integrations-logos-border: #161e33;
+$integrations-logos-text: #8f98b2;
+
+.integrations-logos {
+  padding: pxToRem(80) 0;
+  background-color: $integrations-logos-bg;
+
+  &__title {
+    margin: 0 0 pxToRem(48);
+    font-family: 'Geist Mono', monospace;
+    font-size: pxToRem(14);
+    font-weight: 500;
+    line-height: pxToRem(21);
+    letter-spacing: pxToRem(2);
+    text-transform: uppercase;
+    text-align: center;
+    color: $integrations-logos-text;
+  }
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: pxToRem(1);
+  }
+
+  &__cards {
+    @include marquee.base(80px, 240px, 16, 8, 0, $integrations-logos-bg, false, 40s, none);
+
+    &__container {
+      margin-bottom: pxToRem(-1);
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: pxToRem(240);
+      height: pxToRem(80);
+      border: 1px solid $integrations-logos-border;
+      margin-right: pxToRem(-1);
+
+      img {
+        max-width: pxToRem(140);
+        max-height: pxToRem(32);
+        height: auto;
+        width: auto;
+      }
+    }
+  }
+
+  &__gradient-left,
+  &__gradient-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: pxToRem(80);
+    z-index: 1;
+    pointer-events: none;
+
+    @include media-breakpoint-up(lg) {
+      width: pxToRem(165);
+    }
+  }
+
+  &__gradient-left {
+    left: 0;
+    background: linear-gradient(90deg, $integrations-logos-bg 0.5%, $integrations-logos-bg 38.79%, rgba(9, 14, 26, 0) 100%);
+  }
+
+  &__gradient-right {
+    right: 0;
+    background: linear-gradient(270deg, $integrations-logos-bg 38.79%, rgba(9, 14, 26, 0) 100%);
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: pxToRem(48) 0;
+
+    &__title {
+      margin-bottom: pxToRem(32);
+      font-size: pxToRem(12);
+      line-height: pxToRem(18);
+      padding: 0 pxToRem(16);
+    }
+
+    &__cards {
+      @include marquee.base(64px, 180px, 16, 6, 0, $integrations-logos-bg, false, 35s, none);
+
+      &__item {
+        width: pxToRem(180);
+        height: pxToRem(64);
+
+        img {
+          max-width: pxToRem(100);
+          max-height: pxToRem(24);
+        }
+      }
+    }
+  }
+}

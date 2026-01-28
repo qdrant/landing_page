@@ -1,0 +1,41 @@
+{{ with (.Site.GetPage "/headless/main/integrations-logos") }}
+  {{ $logosFirstRow := .Params.logosFirstRow }}
+  {{ $logosSecondRow := .Params.logosSecondRow }}
+
+  <section class="integrations-logos">
+    <div class="container">
+      <p class="integrations-logos__title">{{ .Params.title }}</p>
+    </div>
+
+    <div class="integrations-logos__content">
+      <div class="integrations-logos__cards__container">
+        <div class="integrations-logos__cards__block">
+          <div class="integrations-logos__cards__inner integrations-logos__cards__inner_to-left">
+            <span>
+              {{ partial "integrations-logos-cards" (dict "context" $logosFirstRow) }}
+            </span>
+            <span>
+              {{ partial "integrations-logos-cards" (dict "context" $logosFirstRow) }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="integrations-logos__cards__container">
+        <div class="integrations-logos__cards__block">
+          <div class="integrations-logos__cards__inner integrations-logos__cards__inner_to-right">
+            <span>
+              {{ partial "integrations-logos-cards" (dict "context" $logosSecondRow) }}
+            </span>
+            <span>
+              {{ partial "integrations-logos-cards" (dict "context" $logosSecondRow) }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="integrations-logos__gradient-left"></div>
+      <div class="integrations-logos__gradient-right"></div>
+    </div>
+  </section>
+{{ end }}
