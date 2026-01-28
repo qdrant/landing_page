@@ -1,7 +1,7 @@
 ---
 title: "Two Approaches to Helping AI Agents Use Your API (And Why You Need Both)"
 short_description: "Mintlify's skill.md and Armin Ronacher's REPL-first MCP solve different failure modes. Together, they define how agents should interact with developer tools."
-description: "An analysis of two emerging patterns for agent-assisted development: static knowledge files (skill.md) and dynamic tool access (REPL-first MCP). We explore how they complement each other using Qdrant's Python SDK as a case study."
+description: "Two emerging patterns for agent-assisted development: static knowledge files and dynamic tool access. How they complement each other using Qdrant as a case study."
 preview_dir: /articles_data/skill-md-meets-repl/preview
 social_preview_image: /articles_data/skill-md-meets-repl/preview/social_preview.jpg
 author: Thierry Damiba
