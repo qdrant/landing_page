@@ -6,7 +6,7 @@ preview_dir: /articles_data/skill-md-meets-repl/preview
 social_preview_image: /articles_data/skill-md-meets-repl/preview/social_preview.jpg
 author: Thierry Damiba
 draft: false
-date: 2025-01-28T00:00:00-08:00
+date: 2026-01-28T00:00:00-08:00
 weight: -200
 category: rag-and-genai
 ---
