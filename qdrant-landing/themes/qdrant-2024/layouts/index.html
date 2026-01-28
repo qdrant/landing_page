@@ -12,17 +12,4 @@
   {{ partial "integrations-logos" . }}
   {{ partial "solutions" . }}
   {{ partial "cta-banner" . }}
-  {{ partial "core-features" . }}
-  {{ partial "customer-stories" . }}
-  {{ partial "integrations" . }}
-
-  {{ with (.Site.GetPage "/headless/main/docker-deploy") }}
-    {{ partial "docker-deploy" (dict "context" . "class" "") }}
-  {{ end }}
-
-  {{ with (.Site.GetPage "/headless/main/vectors") }}
-    {{ partial "vectors" . }}
-  {{ end }}
-
-  {{ partial "get-started" . }}
 {{ end }}
