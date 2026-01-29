@@ -21,11 +21,11 @@ When an agent writes code against your API, it can fail because:
 
 2. **It can't discover what exists.** The agent doesn't know what collections exist, what the payload schema looks like, or what data is actually in the system. This is the "unknown unknowns" problem: things specific to the user's environment that no amount of documentation covers.
 
-Most agent failures trace back to one of these. Mintlify's skill.md addresses the first. Armin Ronacher's REPL-first MCP addresses the second.
+Most agent failures trace back to one of these. Mintlify's SKILL.md aproach addresses the first. Armin Ronacher's REPL-first MCP addresses the second.
 
 ## What skill.md Gives You
 
-[Michael Ryaboy](https://www.linkedin.com/in/michael-ryaboy-software-engineer) and the team at [Mintlify](https://mintlify.com) introduced [skill.md](https://mintlify.com/blog/skill-md): a static file that ships knowledge to the agent before it writes code. It's not documentation. It's a briefing. Decision tables, not tutorials. Gotchas, not explanations.
+[SKILL.md](https://github.com/AgenticSkills/skills) is an emerging open standard for shipping knowledge to agents before they write code. The idea has roots in the [Cloudflare RFC](https://blog.cloudflare.com/ai-agents-open-standard), the [agentskills proposal](https://agentskills.org), and Vercel's skills CLI. [Mintlify's blog post](https://mintlify.com/blog/skill-md) by [Michael Ryaboy](https://www.linkedin.com/in/michael-ryaboy-software-engineer) showed how to apply it in practice. Decision tables for component selection, explicit gotchas sections, and auto-generating skill files from existing docs. A skill.md isn't documentation. It's a briefing. Decision tables, not tutorials. Gotchas, not explanations.
 
 For Qdrant, a skill.md might include:
 
@@ -67,7 +67,7 @@ For Qdrant, a skill.md might include:
   </div>
 </div>
 
-This prevents the agent from using `client.search()` (deprecated), creating a collection per user (anti-pattern), or misconfiguring sparse vectors (common mistake). These are known failure modes that documentation alone doesn't prevent. Agents don't read docs the way humans do.
+This prevents the agent from using `client.search()` (deprecated), creating a collection per user (anti-pattern), or misconfiguring sparse vectors (common mistake). The guidance for all of these exists across Qdrant's tutorials, docs, and community discussions. However, finding it requires existing Qdrant context because you need to already know enough to ask the right questions. Skills package that accumulated product intuition so agents don't need to build it from scratch.
 
 ## What REPL-First MCP Gives You
 
@@ -160,23 +160,23 @@ Adding skill.md and a REPL doesn't mean agents suddenly work flawlessly. They st
 
 What these tools do is eliminate *unnecessary* failures. The agent won't fail because it used a deprecated method. That's a solved problem with skill.md. It won't fail because it guessed a collection name. The REPL lets it check. But it can still fail because it misunderstood what you meant by "similar products" or because the embedding model you're using doesn't capture the semantics you care about.
 
-You might ask: why not just pull context from docs automatically? Tools that generate context from documentation solve a real problem, but they solve a different one. Auto-generated context gives you API surface area. A skill.md gives you judgment. "Don't create one collection per user" isn't in any API reference. "BM25 is broken without Modifier.IDF" isn't in any tutorial. Those lessons come from production pain, not documentation. The two approaches aren't in competition. Use both.
+You might ask: why not just pull context from docs automatically? Tools like [mcp-code-snippets](https://github.com/qdrant/mcp-code-snippets), Qdrant's MCP server for searching documentation and code examples, solve a real problem, but they solve a different one. Auto-generated context gives you API surface area. A SKILL.md gives you judgment. "Don't create one collection per user" isn't obvious from any API reference. "BM25 needs Modifier.IDF" is documented, but you have to know to look for it. Those lessons come from product intuition built over time - the kind of understanding that develops from building with a tool, not just reading about it. Skills distill that intuition into a format agents can use immediately. The two approaches aren't in competition. Use both.
 
 The goal isn't perfect agents. The goal is agents that fail for interesting reasons instead of boring ones. Deprecated API calls are boring failures. Wrong collection names are boring failures. Skill.md and REPL handle the boring stuff so you can focus on the hard problems.
 
 ## Try It
 
-The [Qdrant skill.md](https://github.com/thierrypdamiba/skill-md) is 94 lines. It's a minimal example you can use, update, and configure for your own setup.
+The [Qdrant Python skill](https://github.com/qdrant/skills/tree/main/skills/qdrant-python) is just 94 lines, and there's also a [Rust skill](https://github.com/qdrant/skills/tree/main/skills/qdrant-rust) for the gRPC client. Both are minimal, adaptable examples for your own setup. The repo also includes the `AGENTS.md` format alongside `SKILL.md` for flexible configuration.
 
 Drop it into your project:
 
 ```bash
 mkdir -p .claude/skills/qdrant
-curl -o .claude/skills/qdrant/skill.md \
-  https://raw.githubusercontent.com/thierrypdamiba/skill-md/main/README.md
+curl -o .claude/skills/qdrant/SKILL.md \
+  https://raw.githubusercontent.com/qdrant/skills/main/skills/qdrant-python/SKILL.md
 ```
 
-For the REPL side, configure the [Qdrant MCP server with REPL](https://github.com/thierrypdamiba/mcp-server-qdrant-repl). It's a fork of the official MCP server that adds a `qdrant-repl` tool giving agents a stateful Python shell with a pre-configured `QdrantClient`. The agent gets both the briefing and the toolkit.
+For the REPL side, configure the [Qdrant MCP server with REPL](https://github.com/thierrypdamiba/mcp-server-qdrant-repl). It's a fork of the official [Qdrant MCP server](https://github.com/qdrant/mcp-server-qdrant) that adds a `qdrant-repl` tool giving agents a stateful Python shell with a pre-configured `QdrantClient`. For docs lookup, [mcp-code-snippets](https://github.com/qdrant/mcp-code-snippets) gives agents semantic search over Qdrant documentation and code examples. The REPL fork layers exploratory access on top. The agent gets the briefing, the docs, and the toolkit.
 
 Your agents will stop using deprecated methods. They'll stop guessing collection names. They'll write correct queries on the first attempt. Not because they got smarter, but because they got the right information at the right time.
 
