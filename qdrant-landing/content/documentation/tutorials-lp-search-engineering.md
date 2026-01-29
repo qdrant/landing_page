@@ -13,8 +13,8 @@ partition: qdrant
 
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
+| [Semantic Search Intro](/documentation/tutorials-search-engineering/neural-search/) | Deploy a search service for company descriptions. | <span class="pill">FastAPI</span> | 30m | <span class="text-green">Beginner</span> |
 | [Hybrid Search with FastEmbed](/documentation/tutorials-search-engineering/hybrid-search-fastembed/) | Combine dense and sparse search. | <span class="pill">FastAPI</span> | 20m | <span class="text-green">Beginner</span> |
-| [Semantic Search Basics](/documentation/tutorials-search-engineering/neural-search/) | Deploy a search service for company descriptions. | <span class="pill">FastAPI</span> | 30m | <span class="text-green">Beginner</span> |
 | [Collaborative Filtering](/documentation/tutorials-search-engineering/collaborative-filtering/) | Collaborative filtering using sparse embeddings. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Multivector Document Retrieval](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) | PDF RAG using ColPali and embedding pooling. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Retrieval Quality Evaluation](/documentation/tutorials-search-engineering/retrieval-quality/) | Measure quality and tune HNSW parameters. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
