@@ -229,7 +229,7 @@ Pending escalations are flushed during the next baseline sync cycle.
 
 ## What's Next
 
-In <span style="color: #888;">**Part 3: Scoring, Governance, and Deployment** (coming soon)</span>, we'll cover incident formation from raw scores, baseline governance to prevent poisoning, unified retrieval across cameras, evaluation results on UCF-Crime, and deployment on Vultr Cloud GPUs.
+In **[Part 3: Scoring, Governance, and Deployment](/articles/video-anomaly-edge-part-3/)**, we'll cover incident formation from raw scores, baseline governance to prevent poisoning, unified retrieval across cameras, evaluation results on UCF-Crime, and deployment on Vultr Cloud GPUs.
 
 ---
 

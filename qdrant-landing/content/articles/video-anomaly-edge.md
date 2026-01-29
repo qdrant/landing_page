@@ -543,9 +543,9 @@ services:
 
 ## What's Next
 
-In <span style="color: #888;">**Part 2: Edge-to-Cloud Pipeline** (coming soon)</span>, we'll implement the two-shard Qdrant Edge architecture, edge triage scoring, escalation flow with ensemble scoring, and offline resilience.
+In **[Part 2: Edge-to-Cloud Pipeline](/articles/video-anomaly-edge-part-2/)**, we'll implement the two-shard Qdrant Edge architecture, edge triage scoring, escalation flow with ensemble scoring, and offline resilience.
 
-In <span style="color: #888;">**Part 3: Scoring, Governance, and Deployment** (coming soon)</span>, we'll cover incident formation, baseline governance, unified retrieval, results on UCF-Crime, and deployment on Vultr Cloud GPUs.
+In **[Part 3: Scoring, Governance, and Deployment](/articles/video-anomaly-edge-part-3/)**, we'll cover incident formation, baseline governance, unified retrieval, results on UCF-Crime, and deployment on Vultr Cloud GPUs.
 
 ---
 
