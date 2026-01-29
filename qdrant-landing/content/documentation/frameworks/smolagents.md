@@ -75,7 +75,7 @@ class QdrantQueryTool(Tool):
 We can now set up `CodeAgent` to use our `QdrantQueryTool`.
 
 ```python
-from smolagents import CodeAgent, HfApiModel, LogLevel
+from smolagents import CodeAgent, InferenceClientModel, LogLevel
 import os
 
 # HuggingFace Access Token
@@ -83,7 +83,7 @@ import os
 os.environ["HF_TOKEN"] = "----------"
 
 agent = CodeAgent(
-    tools=[QdrantQueryTool()], model=HfApiModel(), max_steps=4, verbosity_level=LogLevel.DEBUG
+    tools=[QdrantQueryTool()], model=InferenceClientModel(), max_steps=4, verbosity_level=LogLevel.DEBUG
 )
 ```
 
