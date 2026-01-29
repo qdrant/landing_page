@@ -10,7 +10,7 @@ date: 2026-01-28T00:00:00.000Z
 category: practical-examples
 ---
 
-*This is Part 3 of a 3-part series on building real-time video anomaly detection from edge to cloud. In [Part 1](/articles/video-anomaly-edge/), we covered the architecture and integrations. In [Part 2](/articles/video-anomaly-edge-part-2/), we built the edge-to-cloud pipeline. Now we turn raw scores into incidents, protect the baseline, and deploy.*
+*This is Part 3 of a 3-part series on building real-time video anomaly detection from edge to cloud. In [Part 1](/articles/video-anomaly-edge/), we covered the architecture, Twelve Labs integration, and NVIDIA VSS. In [Part 2](/articles/video-anomaly-edge-part-2/), we built the two-shard Qdrant Edge architecture and the edge-to-cloud escalation pipeline. Now we turn raw scores into incidents, protect the baseline, and deploy.*
 
 ---
 
