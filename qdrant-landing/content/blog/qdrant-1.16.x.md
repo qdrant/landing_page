@@ -4,8 +4,8 @@ draft: false
 slug: qdrant-1.16.x
 short_description: "v1.16 of Qdrant focuses on tiered multitenancy with tenant promotion and disk-efficient vector search."
 description: "v1.16 of Qdrant focuses on tiered multitenancy with tenant promotion, disk-efficient vector search with inline storage, and improved filtered vector search with ACORN."
-preview_image: /blog/qdrant-1.16.x/social_preview.png
-social_preview_image: /blog/qdrant-1.16.x/social_preview.png
+preview_image: /blog/qdrant-1.16.x/social_preview.jpg
+social_preview_image: /blog/qdrant-1.16.x/social_preview.jpg
 date: 2025-11-19T00:00:00-08:00
 author: Abdon Pijpelink
 featured: true
