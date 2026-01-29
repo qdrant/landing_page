@@ -59,17 +59,17 @@ content:
       title: Tutorials
       description: Step-by-step guides and video content for hands-on learning with practical examples and real-world applications.
       list:
-        title: "Tutorial levels:"
+        title: "Tutorial categories:"
         elements:
-            - "Vector Search Basics"
-            - "Advanced Retrieval"
-            - "Using the Database"
+            - "Search Engineering"
+            - "Operations and Scale"
+            - "Develop and Implement"
       
       link:
-        url: /documentation/database-tutorials/
+        url: /documentation/tutorials-lp-overview
         text: Explore Tutorials
   - partial: documentation/sections/cards-section
-    title: Quick Start
+    title: Quickstart
     description: 
     cardsPartial: documentation/cards/docs-cards
     cardsPerRow: 2
@@ -79,18 +79,18 @@ content:
         src: /icons/outline/rocket-blue.svg
         alt: Rocket icon
       title: New to Vector Search?
-      description: Start with our beginner-friendly articles on vector embeddings and basic concepts.
+      description: Start with our beginner-friendly exercises on vector embeddings and basic concepts.
       link:
         text: Start Learning
-        url: /documentation/beginner-tutorials/
+        url: /documentation/tutorials-lp-basics
     - id: 2
       icon:
         src: /icons/outline/hacker-purple.svg
         alt: Hacker icon
       title: Ready to Build?
-      description: Jump into practical examples and integration guides to implement Qdrant in your projects.
+      description: Build out practical projects using our example prototypes and integration guides.
       link:
         text: View Examples
-        url: /documentation/advanced-tutorials/
+        url: /documentation/examples/
 ---
 

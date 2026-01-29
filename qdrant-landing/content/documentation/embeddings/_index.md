@@ -1,6 +1,6 @@
 ---
 title: Embeddings
-weight: 19
+weight: 12
 partition: build
 ---
 

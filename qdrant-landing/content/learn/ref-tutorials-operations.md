@@ -1,11 +1,11 @@
 ---
 #Delimiter files are used to separate the list of documentation pages into sections.
-title: "Integrations"
-type: delimiter
-weight: 10 # Change this weight to change order of sections
+type: reference
+reference: /documentation/tutorials-lp-operations
+weight: 314
 sitemapExclude: True
 _build:
   publishResources: false
   render: never
-partition: build
+partition: learn
 ---
