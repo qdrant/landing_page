@@ -1,6 +1,7 @@
 ---
 title: How to Setup Seamless Data Streaming with Kafka and Qdrant
 weight: 49
+hideInSidebar: true
 aliases:
   - /examples/data-streaming-kafka-qdrant/
 ---

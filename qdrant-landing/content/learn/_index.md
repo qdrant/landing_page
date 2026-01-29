@@ -62,8 +62,8 @@ content:
         title: "Tutorial categories:"
         elements:
             - "Search Engineering"
-            - "RAG and Agents"
-            - "Ecosystem and Integrations"
+            - "Operations and Scale"
+            - "Develop and Implement"
       
       link:
         url: /documentation/tutorials-lp-overview

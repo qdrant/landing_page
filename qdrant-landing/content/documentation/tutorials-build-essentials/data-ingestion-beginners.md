@@ -1,7 +1,8 @@
 ---
 title: Data Ingestion for Beginners
 weight: 2
-#partition: build
+partition: build
+hideInSidebar: true
 social_preview_image: /documentation/examples/data-ingestion-beginners/social_preview.png
 aliases:
   - /documentation/data-ingestion-beginners/

@@ -1,6 +1,7 @@
 ---
 title: Qdrant on Databricks
 weight: 36
+hideInSidebar: true
 aliases:
   - /documentation/examples/databricks/
 ---
