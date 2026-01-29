@@ -83,7 +83,7 @@ import os
 os.environ["HF_TOKEN"] = "----------"
 
 agent = CodeAgent(
-    tools=[QdrantQueryTool()], model=HfApiModel(), max_steps=4, verbosity_level=LogLevel.DEDUG
+    tools=[QdrantQueryTool()], model=HfApiModel(), max_steps=4, verbosity_level=LogLevel.DEBUG
 )
 ```
 
