@@ -92,6 +92,9 @@ menuItems:
       - id: 5
         name: Status Page
         url: https://status.qdrant.io/
+      - id: 6
+        name: Certification
+        url: http://train.qdrant.dev/
   - title: Resources
     items:
       - id: 0
