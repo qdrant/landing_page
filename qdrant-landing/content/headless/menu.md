@@ -110,6 +110,10 @@ menuItems:
             name: Change Log
             icon: changelog.svg
             url: https://github.com/qdrant/qdrant/releases
+          - id: subMenu-2-5
+            name: Certification
+            icon: certificate.svg
+            url: http://train.qdrant.dev/
   - id: menu-3
     name: Resources
     mainMenuItems:
