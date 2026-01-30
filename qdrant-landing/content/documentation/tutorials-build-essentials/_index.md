@@ -13,6 +13,7 @@ partition: build
 | [Discord RAG Bot](/documentation/tutorials-build-essentials/agentic-rag-camelai-discord/) | Develop a functional bot with CAMEL-AI. | <span class="pill">OpenAI</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Agentic RAG with CrewAI](/documentation/tutorials-build-essentials/agentic-rag-crewai-zoom/) | Step-by-step multi-agent RAG system. | <span class="pill">CrewAI</span> | 45m | <span class="text-green">Beginner</span> |
 | [n8n Workflow Automation](/documentation/tutorials-build-essentials/qdrant-n8n/) | Combine Qdrant with low-code n8n workflows. | <span class="pill">n8n</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Video Anomaly Detection (3-part)](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/) | Edge-to-cloud anomaly detection with Twelve Labs and NVIDIA VSS. | <span class="pill">Twelve Labs</span> <span class="pill">NVIDIA VSS</span> | 90m | <span class="text-red">Advanced</span> |
 
 
 
