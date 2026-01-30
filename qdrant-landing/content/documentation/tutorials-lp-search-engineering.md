@@ -22,3 +22,4 @@ partition: qdrant
 | [Semantic Search for Code](/documentation/tutorials-search-engineering/code-search/) | Navigate codebases using vector similarity. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Multivectors and Late Interaction](/documentation/advanced-tutorials/using-multivector-representations/) | Effective use of multivector representations. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Static Embeddings](/documentation/tutorials-search-engineering/static-embeddings/) | Evaluate the utility of static embeddings. | <span class="pill">Python</span> | 20m | <span class="text-yellow">Intermediate</span> |
+| [E-commerce search in Go](/documentation/tutorials-search-engineering/ecommerce-search-golang) | Build a high-performance e-commerce search engine using Go. | <span class="pill">Go</span> | 30m | <span class="text-yellow">Intermediate</span> |
