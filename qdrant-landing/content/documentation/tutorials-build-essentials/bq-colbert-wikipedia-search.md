@@ -1,31 +1,10 @@
 ---
-title: "Build a Multi-Source AI Agent with Qdrant, ColBERT Reranking, and Live Web Search"
-draft: false
-slug: bq-colbert-wikipedia-search
-short_description: Build an AI agent that combines Qdrant vector search, ColBERT reranking, and live web search to connect any two topics.
-description: Learn how to build Wiki Connect, an AI agent that searches 35 million Wikipedia vectors with Binary Quantization, reranks with ColBERT, falls back to live web search via Linkup, and generates grounded articles with Gemini. Step-by-step tutorial with streaming, personalization, and a GPU ingestion pipeline.
-preview_dir: /articles_data/binary-quantization-openai/preview
+title: Multi-Source AI Agent with BQ, ColBERT Reranking, and Live Web Search
+weight: 8
 social_preview_image: /articles_data/binary-quantization-openai/preview/social_preview.jpg
-small_preview_image: /articles_data/binary-quantization-openai/icon.svg
-
-date: 2026-01-15T00:00:00-00:00
-author: Thierry Damiba
-author_link: https://github.com/thierrypdamiba
-
-featured: false
-tags:
-  - binary quantization
-  - ColBERT
-  - late interaction
-  - reranking
-  - agents
-  - web search
-  - embeddings
-  - multi-vector
-  - RAG
-weight: -160
-
-category: vector-search-manuals
+aliases:
+  - /documentation/bq-colbert-wikipedia-search/
+  - /articles/bq-colbert-wikipedia-search/
 ---
 
 Most RAG tutorials stop at "retrieve documents, stuff them into a prompt." Real applications need more: multiple knowledge sources, intelligent routing, user personalization, caching, and graceful fallbacks when your primary source doesn't have the answer.
@@ -42,7 +21,7 @@ Here's what you'll wire together:
 
 <aside role="status">If you're new to Binary Quantization, check out our <a href="/articles/binary-quantization/">introduction to BQ in Qdrant</a> first. For background on late interaction models, see <a href="/articles/late-interaction-models/">our guide to ColBERT and late interaction</a>.</aside>
 
-The full source code is available on [GitHub](https://github.com/thierrypdamiba/adkqdrant).
+The full source code is available on [GitHub](https://github.com/thierrypdamiba/bq-colbert-wiki-agent).
 
 ## What you'll need
 
@@ -195,7 +174,7 @@ for i in range(0, len(ds), batch_size):
     )
 ```
 
-Each article also gets 50+ metadata fields extracted with fast regex heuristics: topic classification, quality scores, temporal data, reading level. These power in-graph filtered search at query time. The full `extract_rich_metadata` function is in the [source repo](https://github.com/thierrypdamiba/adkqdrant/blob/main/modal_wiki_ingest.py).
+Each article also gets 50+ metadata fields extracted with fast regex heuristics: topic classification, quality scores, temporal data, reading level. These power in-graph filtered search at query time. The full `extract_rich_metadata` function is in the [source repo](https://github.com/thierrypdamiba/bq-colbert-wiki-agent/blob/main/modal_wiki_ingest.py).
 
 After all data is loaded, rebuild the HNSW index:
 
@@ -611,4 +590,4 @@ Let's review what you built:
 
 6. **Exact-match caching**: generated articles cached with keyword filters on topic pairs. No vector similarity needed for cache lookups. Qdrant's scroll API handles it.
 
-The full source code is on [GitHub](https://github.com/thierrypdamiba/adkqdrant), including the Modal GPU ingestion pipeline with 8 embedding configurations. Join the [Qdrant Discord](https://qdrant.to/discord) if you have questions.
+The full source code is on [GitHub](https://github.com/thierrypdamiba/bq-colbert-wiki-agent), including the Modal GPU ingestion pipeline with 8 embedding configurations. Join the [Qdrant Discord](https://qdrant.to/discord) if you have questions.
