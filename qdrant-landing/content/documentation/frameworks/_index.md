@@ -1,6 +1,6 @@
 ---
 title: Frameworks 
-weight: 20
+weight: 13
 partition: build
 aliases: ["/documentation/frameworks/memgpt/"]
 ---

@@ -1,6 +1,7 @@
 ---
 title: Semantic Querying with Airflow and Astronomer
 weight: 36
+hideInSidebar: true
 aliases:
   - /documentation/examples/qdrant-airflow-astronomer/
 ---
