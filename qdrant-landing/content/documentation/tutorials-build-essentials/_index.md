@@ -13,6 +13,7 @@ partition: build
 | [Discord RAG Bot](/documentation/tutorials-build-essentials/agentic-rag-camelai-discord/) | Develop a functional bot with CAMEL-AI. | <span class="pill">OpenAI</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Agentic RAG with CrewAI](/documentation/tutorials-build-essentials/agentic-rag-crewai-zoom/) | Step-by-step multi-agent RAG system. | <span class="pill">CrewAI</span> | 45m | <span class="text-green">Beginner</span> |
 | [n8n Workflow Automation](/documentation/tutorials-build-essentials/qdrant-n8n/) | Combine Qdrant with low-code n8n workflows. | <span class="pill">n8n</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Multi-Source AI Agent](/documentation/tutorials-build-essentials/bq-colbert-wikipedia-search/) | BQ search, ColBERT reranking, and live web fallback. | <span class="pill">Google ADK</span> <span class="pill">Linkup</span> | 60m | <span class="text-yellow">Intermediate</span> |
 
 
 
