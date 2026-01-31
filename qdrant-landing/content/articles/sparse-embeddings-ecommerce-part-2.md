@@ -3,7 +3,7 @@ title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 2: Training S
 short_description: "Train a SPLADE model on Amazon's ESCI dataset using Modal's serverless GPUs and Sentence Transformers."
 description: "Part 2 of a 4-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Build a training pipeline on Modal with persistent checkpoints, SpladeLoss, and hyperparameter sweeps."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-2/preview
-social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-2/preview/social_preview.png
+social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-2/preview/social_preview.jpg
 weight: -199
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
@@ -18,6 +18,7 @@ category: practicle-examples
 - Part 2: Training SPLADE on Modal (here)
 - [Part 3: Evaluation & Hard Negatives](/articles/sparse-embeddings-ecommerce-part-3/)
 - [Part 4: Specialization vs Generalization](/articles/sparse-embeddings-ecommerce-part-4/)
+- [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/)
 
 ---
 

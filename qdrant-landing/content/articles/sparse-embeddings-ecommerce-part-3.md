@@ -3,7 +3,7 @@ title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 3: Evaluation
 short_description: "Evaluate fine-tuned SPLADE with Qdrant and boost results with hard negative mining."
 description: "Part 3 of a 4-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Index products in Qdrant, run retrieval benchmarks, and implement ANCE hard negative mining for a 28% improvement over BM25."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-3/preview
-social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-3/preview/social_preview.png
+social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-3/preview/social_preview.jpg
 weight: -198
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
@@ -18,6 +18,7 @@ category: practicle-examples
 - [Part 2: Training SPLADE on Modal](/articles/sparse-embeddings-ecommerce-part-2/)
 - Part 3: Evaluation & Hard Negatives (here)
 - [Part 4: Specialization vs Generalization](/articles/sparse-embeddings-ecommerce-part-4/)
+- [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/)
 
 ---
 

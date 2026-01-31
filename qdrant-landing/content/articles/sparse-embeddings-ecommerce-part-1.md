@@ -3,7 +3,7 @@ title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 1: Why Sparse
 short_description: "Dense embeddings blur exact matches. Sparse embeddings keep the details that matter in e-commerce search."
 description: "Part 1 of a 4-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Learn why sparse embeddings outperform BM25 and dense models for product search, how SPLADE works, and why Qdrant's native sparse vector support matters."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-1/preview
-social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-1/preview/social_preview.png
+social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-1/preview/social_preview.jpg
 weight: -200
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
@@ -18,6 +18,7 @@ category: practicle-examples
 - [Part 2: Training on Modal](/articles/sparse-embeddings-ecommerce-part-2/)
 - [Part 3: Evaluation & Hard Negatives](/articles/sparse-embeddings-ecommerce-part-3/)
 - [Part 4: Specialization vs Generalization](/articles/sparse-embeddings-ecommerce-part-4/)
+- [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/)
 
 ---
 

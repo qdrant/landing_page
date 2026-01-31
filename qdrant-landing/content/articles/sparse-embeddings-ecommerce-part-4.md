@@ -3,7 +3,7 @@ title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 4: Specializa
 short_description: "When to fine-tune sparse embeddings and how far to specialize before generalization suffers."
 description: "Part 4 of a 4-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Test cross-domain generalization, train a multi-domain model, and decide when to specialize vs generalize."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-4/preview
-social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-4/preview/social_preview.png
+social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-4/preview/social_preview.jpg
 weight: -197
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
@@ -18,6 +18,7 @@ category: practicle-examples
 - [Part 2: Training SPLADE on Modal](/articles/sparse-embeddings-ecommerce-part-2/)
 - [Part 3: Evaluation & Hard Negatives](/articles/sparse-embeddings-ecommerce-part-3/)
 - Part 4: Specialization vs Generalization (here)
+- [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/)
 
 ---
 
@@ -164,6 +165,8 @@ Extensions worth exploring:
 
 The [code is open source](https://github.com/thierrypdamiba/finetune-ecommerce-search). The [pre-trained models are on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci) (including a [multi-domain variant](https://huggingface.co/thierrydamiba/splade-ecommerce-multidomain)). Training runs on Modal for under $1. Qdrant handles the sparse vectors, indexing, and retrieval out of the box. The barrier to building better e-commerce search has never been lower.
 
+We also packaged this entire pipeline into an open-source toolkit with a CLI and web dashboard. See [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/) for how to fine-tune a SPLADE model on your own catalog with a single command.
+
 ---
 
 ## Series Summary
@@ -172,3 +175,4 @@ The [code is open source](https://github.com/thierrypdamiba/finetune-ecommerce-s
 - **[Part 2: Training pipeline on Modal](/articles/sparse-embeddings-ecommerce-part-2/)** - 6 min training, <$1, persistent checkpoints
 - **[Part 3: Evaluation and hard negatives](/articles/sparse-embeddings-ecommerce-part-3/)** - +28% vs BM25, +19% vs off-the-shelf SPLADE
 - **[Part 4: Specialization vs generalization](/articles/sparse-embeddings-ecommerce-part-4/)** - Domain-specific wins for single retailers; multi-domain for platforms
+- **[Part 5: From research to product](/articles/sparse-embeddings-ecommerce-part-5/)** - CLI + dashboard that runs the full pipeline
