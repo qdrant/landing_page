@@ -346,6 +346,91 @@ Pending escalations are flushed during the next baseline sync cycle.
 
 ---
 
+## Mutable Shard Retention
+
+The mutable shard grows with every clip the edge processes. Between syncs, all those points are searched via brute-force (no HNSW index), so query latency degrades as the shard gets larger. If the cloud is unreachable for hours, the shard grows unchecked.
+
+The project supports three configurable retention strategies via the `RETENTION_STRATEGY` environment variable. Choose based on your deployment constraints.
+
+### Option A: Sync-Only Eviction (`none`)
+
+```env
+RETENTION_STRATEGY=none
+```
+
+The default and safest option. Points are only removed from the mutable shard after a successful sync confirms they exist in the cloud. The shard grows during outages, but no data is ever lost.
+
+**Trade-off:** If the camera is offline for 24 hours at 10-second clips, that's 8,640 points in the mutable shard. On a Jetson with 8GB RAM, this is still manageable for brute-force scan, but query latency will increase.
+
+**Best for:** Deployments where missing an anomaly is more costly than slower queries.
+
+### Option B: Time-Windowed Eviction (`time_window`)
+
+```env
+RETENTION_STRATEGY=time_window
+RETENTION_SECONDS=1800   # 30 minutes
+```
+
+A background worker runs every `RETENTION_CHECK_INTERVAL_S` seconds and deletes points older than `RETENTION_SECONDS` from the mutable shard. Evicted points are removed from local search but remain in the SQLite-backed upload queue for cloud sync.
+
+```python
+def _evict_by_time(self) -> None:
+    cutoff = time.time() - RETENTION_SECONDS
+    self._mutable_shard.update(
+        UpdateOperation.delete_points_by_filter(
+            Filter(must=[FieldCondition(
+                key="sync_timestamp",
+                range=RangeFloat(lte=cutoff),
+            )])
+        )
+    )
+```
+
+**Trade-off:** Clips older than the retention window can't be used for local kNN scoring. If a burst of incidents happens during an outage, the edge loses the ability to cross-reference them locally after the window expires. The cloud will still receive them via the upload queue and can re-score with higher accuracy.
+
+**Best for:** Memory-constrained devices where bounded query latency matters more than local scoring completeness.
+
+### Option C: Score-Priority Eviction (`score_priority`)
+
+```env
+RETENTION_STRATEGY=score_priority
+RETENTION_MAX_POINTS=2000
+```
+
+Caps the mutable shard at `RETENTION_MAX_POINTS`. Unsynced points with anomaly scores above the escalation threshold are **pinned** and never evicted until synced. Remaining slots are filled by recency, oldest normal clips evicted first.
+
+```python
+def _evict_by_score_priority(self) -> None:
+    all_points = list(self._mutable_shard.scroll(with_payload=True, with_vectors=False))
+    if len(all_points) <= RETENTION_MAX_POINTS:
+        return
+
+    pinned = []
+    evictable = []
+    for pt in all_points:
+        score = pt.payload.get("anomaly_score", 0.0)
+        synced = pt.payload.get("synced", False)
+        if not synced and score > ESCALATION_THRESHOLD:
+            pinned.append(pt)
+        else:
+            evictable.append(pt)
+
+    evictable.sort(key=lambda p: p.payload.get("sync_timestamp", 0))
+    keep_count = max(0, RETENTION_MAX_POINTS - len(pinned))
+    to_evict = evictable[:max(0, len(evictable) - keep_count)]
+
+    if to_evict:
+        self._mutable_shard.update(
+            UpdateOperation.delete_points([pt.id for pt in to_evict])
+        )
+```
+
+**Trade-off:** Normal clips are evicted first, which slightly reduces baseline coverage for local scoring. But the most important data (unsynced anomalies) is preserved regardless of connectivity or shard size.
+
+**Best for:** Deployments where offline incidents are common and you need the edge to retain anomalous clips for local cross-referencing until connectivity returns.
+
+---
+
 ## Recap
 
 In Part 2, you built Qdrant Edge's two-shard architecture (immutable baseline + mutable live context), implemented edge triage that reduces cloud processing by ~6x, wired the escalation pipeline with ensemble scoring and temporal boosting, and added offline resilience. The edge is running. Now we need to turn raw scores into actionable incidents.
