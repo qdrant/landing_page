@@ -2,7 +2,7 @@
   {{ partial "site-header" . }}
 
   {{ with (.Site.GetPage "hr-tech/hero") }}
-    {{ partial "hr-tech-hero" . }}
+    {{ partial "hr-tech/hr-tech-hero" . }}
   {{ end }}
 
   {{ with (.Site.GetPage "/hr-tech/testimonial-light") }}
@@ -10,19 +10,19 @@
   {{ end }}
 
   {{ with (.Site.GetPage "/hr-tech/help") }}
-    {{ partial "hr-tech-help" . }}
+    {{ partial "hr-tech/hr-tech-help" . }}
   {{ end }}
 
   {{ with (.Site.GetPage "/hr-tech/features") }}
-    {{ partial "hr-tech-features" . }}
+    {{ partial "hr-tech/hr-tech-features" . }}
   {{ end }}
 
   {{ with (.Site.GetPage "/hr-tech/why-qdrant") }}
-    {{ partial "hr-tech-why-qdrant" . }}
+    {{ partial "hr-tech/hr-tech-why-qdrant" . }}
   {{ end }}
 
   {{ with (.Site.GetPage "/hr-tech/get-contacted") }}
-    {{ partial "hr-tech-cta" . }}
+    {{ partial "hr-tech/hr-tech-cta" . }}
   {{ end }}
 
 {{ end }}
