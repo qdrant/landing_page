@@ -26,10 +26,6 @@
     pointer-events: none;
   }
 
-  &__globe {
-    display: none;
-  }
-
   &__content {
     position: relative;
     padding: $spacer * 2.5 $spacer * 3;
@@ -63,30 +59,13 @@
     margin-top: $spacer * 0.5;
   }
 
-  &__rocket {
+  &__illustration {
     display: none;
   }
 
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 7.5;
     padding-bottom: $spacer * 7.5;
-
-    &__globe {
-      display: block;
-      position: absolute;
-      right: -5%;
-      bottom: -30%;
-      width: pxToRem(700);
-      height: pxToRem(500);
-      pointer-events: none;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        opacity: 0.9;
-      }
-    }
 
     &__content {
       padding: $spacer * 2.5 $spacer * 5;
@@ -104,18 +83,18 @@
       line-height: pxToRem(48);
     }
 
-    &__rocket {
+    &__illustration {
       display: block;
       position: absolute;
-      right: $spacer * 6;
-      top: 50%;
-      transform: translateY(-60%);
-      z-index: 2;
+      right: 0;
+      top: 0;
+      bottom: 0;
       pointer-events: none;
 
       img {
-        max-width: pxToRem(380);
-        height: auto;
+        display: block;
+        height: 100%;
+        width: auto;
       }
     }
   }

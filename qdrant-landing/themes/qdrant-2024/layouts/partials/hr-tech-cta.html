@@ -4,11 +4,6 @@
       {{ if .Params.background }}
         <div class="hr-tech-cta__background" style="background-image: url('{{ .Params.background.src }}');"></div>
       {{ end }}
-      {{ if .Params.globe }}
-        <div class="hr-tech-cta__globe">
-          <img src="{{ .Params.globe.src }}" alt="{{ .Params.globe.alt }}" />
-        </div>
-      {{ end }}
       <div class="hr-tech-cta__content">
         <div class="hr-tech-cta__text">
           <h2 class="hr-tech-cta__title">{{ .Params.title }}</h2>
@@ -19,9 +14,9 @@
             {{ .Params.button.text }}
           </a>
         </div>
-        {{ if .Params.rocket }}
-          <div class="hr-tech-cta__rocket">
-            <img src="{{ .Params.rocket.src }}" alt="{{ .Params.rocket.alt }}" />
+        {{ if .Params.illustration }}
+          <div class="hr-tech-cta__illustration">
+            <img src="{{ .Params.illustration.src }}" alt="{{ .Params.illustration.alt }}" />
           </div>
         {{ end }}
       </div>

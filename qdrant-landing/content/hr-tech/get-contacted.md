@@ -4,12 +4,9 @@ description: Get guidance on scaling search, matching, and recommendations beyon
 button:
   text: Contact Us
   url: /contact-us/
-rocket:
-  src: /img/hr-tech/rocket-cta.png
-  alt: Rocket illustration
-globe:
-  src: /img/hr-tech/globe.png
-  alt: Globe illustration
+illustration:
+  src: /img/hr-tech/cta-illustration.png
+  alt: Rocket flying over globe illustration
 background:
   src: /img/hr-tech/space-background.svg
   alt: Space background
