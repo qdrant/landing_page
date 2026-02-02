@@ -64,14 +64,8 @@
     justify-content: center;
     position: relative;
     margin-top: $spacer * 2.5;
-    z-index: 0;
-
-    &-square-grid {
-      display: none;
-    }
 
     img {
-      position: relative;
       display: block;
       width: 100%;
       max-width: pxToRem(560);
@@ -91,32 +85,8 @@
       justify-content: flex-end;
       margin-top: 0;
 
-      &-square-grid {
-        display: block;
-        position: absolute;
-        width: pxToRem(686);
-        height: pxToRem(480);
-        right: -24%;
-        top: -3%;
-        background-image: url('/img/legal-tech-hero-grid.svg');
-        background-size: 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-        z-index: 0;
-      }
-
       img {
         width: 110%;
-      }
-    }
-  }
-
-  @include media-breakpoint-up(xl) {
-    &__preview {
-      &-square-grid {
-        width: pxToRem(800);
-        height: pxToRem(560);
-        top: -5%;
       }
     }
   }

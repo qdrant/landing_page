@@ -1,24 +1,24 @@
 ---
-title: <span class="text-nowrap">Precision Hiring at Scale:</span> <span class="text-nowrap">Vector Search + Filters for</span> HR Marketplaces
+title: "Precision Hiring at Scale: Vector Search + Filters for HR Marketplaces"
 description: Upgrade classic keyword job search, power resume-based recommendations, and deliver "similar jobs" experiences using a Vector + Filter architecture designed for real-world constraints.
 values:
   - icon:
-      src: /icons/outline/filter-blue.svg
+      src: /img/hr-tech/filter-blue.svg
       alt: Filter icon
-    text: Advanced filtering capabilities
+    text: Advanced filters for precision hiring
   - icon:
-      src: /icons/outline/rocket.svg
+      src: /img/hr-tech/rocket-violet.svg
       alt: Rocket icon
-    text: Lightning-fast performance
+    text: Real-time matching speed
   - icon:
-      src: /icons/outline/growth-red.svg
+      src: /img/hr-tech/badge-dollar-teal.svg
       alt: Cost icon
-    text: Cost-effective scaling
+    text: Scale without the cost spike
 startFree:
-  text: Get Started
-  url: https://cloud.qdrant.io/signup
+  text: Talk to an Expert
+  url: /contact-sales/
 image:
-  src: ""
+  src: /img/hr-tech/Med-Tech-Key-Visual.png
   alt: HR Tech illustration with hiring dashboard and candidate matching
 sitemapExclude: true
 ---

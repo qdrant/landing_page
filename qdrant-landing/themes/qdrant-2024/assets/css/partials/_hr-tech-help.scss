@@ -1,124 +1,68 @@
 @use 'sass:math';
 @use '../helpers/functions' as *;
 
-.hr-tech-help {
-  position: relative;
-  overflow: hidden;
-  padding-top: $spacer * 4;
-  padding-bottom: $spacer * 4;
-  background-color: $neutral-10;
+.hr-tech-problem {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__content {
+    margin-bottom: $spacer * 3;
+  }
 
   &__title {
-    position: relative;
-    margin: 0 auto $spacer * 2.5;
+    margin: 0 0 $spacer * 1.5;
     font-size: $spacer * 2;
-    line-height: pxToRem(38);
-    color: $neutral-98;
-    text-align: center;
-    z-index: 1;
-  }
+    line-height: 1.2;
+    color: $neutral-20;
+    letter-spacing: -0.5px;
 
-  &__paragraph {
-    position: relative;
-    max-width: pxToRem(800);
-    margin: 0 auto $spacer * 3;
-    font-size: pxToRem(18);
-    line-height: pxToRem(27);
-    color: $neutral-70;
-    text-align: center;
-    z-index: 1;
-  }
-
-  &__items {
-    display: flex;
-    flex-direction: column;
-    gap: $spacer * 2;
-  }
-
-  &__item {
-    position: relative;
-    padding-left: $spacer * 1.5;
-
-    &-title {
-      margin-bottom: math.div($spacer, 4);
-      font-size: $spacer * 1.5;
-      line-height: pxToRem(34);
-      color: $neutral-98;
+    .text-accent {
+      color: $primary-50;
     }
+  }
 
-    &-description {
-      margin-bottom: 0;
+  &__text {
+    p {
+      margin: 0 0 $spacer;
       font-size: pxToRem(18);
-      line-height: pxToRem(27);
-      color: $neutral-70;
-    }
+      line-height: 1.5;
+      color: $neutral-20;
 
-    &:before {
-      display: block;
-      position: absolute;
-      left: 0;
-      top: pxToRem(12);
-      content: '';
-      width: $spacer * 0.5;
-      height: $spacer * 0.5;
-      background-image: url("data:image/svg+xml,%3Csvg width='8' height='10' viewBox='0 0 8 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 0.5L0 2.75V7.25L4 9.5L8 7.25V2.75L4 0.5Z' fill='%23DC244C'/%3E%3C/svg%3E%0A");
-      background-position: center;
-      background-size: contain;
-      background-repeat: no-repeat;
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 
-  &__preview {
-    position: relative;
-    z-index: 1;
+  &__visual {
+    display: flex;
+    justify-content: center;
 
     img {
       display: block;
       width: 100%;
       max-width: pxToRem(540);
-      margin: $spacer * 2.5 auto 0;
+      height: auto;
     }
-  }
-
-  .overlay-top {
-    right: auto;
-    left: 0;
-    transform: scaleX(-1);
-  }
-
-  .overlay-bottom {
-    left: auto;
-    right: 0;
-    transform: scaleX(-1);
   }
 
   @include media-breakpoint-up(lg) {
-    padding-top: $spacer * 7.5;
-    padding-bottom: $spacer * 7.5;
+    padding-top: $spacer * 10;
+    padding-bottom: $spacer * 10;
 
-    &__title {
-      font-size: $spacer * 3;
-      line-height: pxToRem(58);
-      margin-bottom: $spacer * 1.5;
-    }
-
-    &__paragraph {
-      margin-bottom: $spacer * 5;
-    }
-
-    &__items {
-      max-width: pxToRem(514);
-    }
-
-    &__item {
+    &__content {
+      margin-bottom: 0;
       padding-right: $spacer * 3;
     }
 
-    &__preview {
-      img {
-        margin-right: 0;
-        margin-top: 0;
-      }
+    &__title {
+      font-size: pxToRem(40);
+      max-width: pxToRem(506);
+    }
+
+    &__text {
+      max-width: pxToRem(505);
     }
   }
 }

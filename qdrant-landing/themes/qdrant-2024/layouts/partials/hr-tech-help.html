@@ -1,22 +1,17 @@
-<section class="hr-tech-help">
+<section class="hr-tech-problem">
   <div class="container">
-    <h2 class="hr-tech-help__title">{{ .Params.title | safeHTML }}</h2>
-    {{ if .Params.paragraph }}
-      <p class="hr-tech-help__paragraph">{{ .Params.paragraph | safeHTML }}</p>
-    {{ end }}
-    <div class="row justify-content-lg-between align-items-lg-center">
-      <div class="col-12 col-lg-6 hr-tech-help__items">
-        {{ range .Params.items }}
-          <div class="hr-tech-help__item">
-            <h3 class="hr-tech-help__item-title">{{ .title }}</h3>
-            <p class="hr-tech-help__item-description">{{ .description }}</p>
-          </div>
-        {{ end }}
+    <div class="row align-items-center">
+      <div class="col-12 col-lg-6 hr-tech-problem__content">
+        <h2 class="hr-tech-problem__title">{{ .Params.title | safeHTML }}</h2>
+        <div class="hr-tech-problem__text">
+          {{ range .Params.paragraphs }}
+            <p>{{ . }}</p>
+          {{ end }}
+        </div>
       </div>
-      <div class="col-12 col-lg-6 hr-tech-help__preview">
-        <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+      <div class="col-12 col-lg-6 hr-tech-problem__visual">
+        <img src="/img/hr-tech/Visual.png" alt="Diagram showing recruitment data vs hiring constraints mismatch" />
       </div>
     </div>
   </div>
-  {{ partial "top-and-bottom-overlay" (dict "context" . "class" "hr-tech-help") }}
 </section>

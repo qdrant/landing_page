@@ -1,16 +1,25 @@
 <section class="hr-tech-features">
   <div class="container">
     <h2 class="hr-tech-features__title">{{ .Params.title }}</h2>
-    <div class="hr-tech-features__items">
-      {{ range .Params.items }}
-        <div class="hr-tech-features__item">
-          <div class="hr-tech-features__item-marker"></div>
-          <div class="hr-tech-features__item-content">
-            <h3 class="hr-tech-features__item-title">{{ .title }}</h3>
-            <p class="hr-tech-features__item-description">{{ .description }}</p>
+    <div class="row align-items-center">
+      <div class="col-12 col-lg-6 hr-tech-features__visual">
+        <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+      </div>
+      <div class="col-12 col-lg-6 hr-tech-features__use-cases">
+        {{ range .Params.useCases }}
+          <div class="hr-tech-features__use-case">
+            <div class="hr-tech-features__use-case-header">
+              <span class="hr-tech-features__use-case-marker"></span>
+              <h3 class="hr-tech-features__use-case-title">{{ .title }}</h3>
+            </div>
+            <div class="hr-tech-features__use-case-content">
+              {{ range .paragraphs }}
+                <p>{{ . }}</p>
+              {{ end }}
+            </div>
           </div>
-        </div>
-      {{ end }}
+        {{ end }}
+      </div>
     </div>
   </div>
 </section>
