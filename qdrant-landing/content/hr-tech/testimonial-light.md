@@ -6,6 +6,6 @@ avatar:
   src: /img/hr-tech/image.svg
   alt: Elvis Moraa Avatar
 logo:
-  src: /img/hr-tech/Pariti.svg
+  src: /img/hr-tech/pariti.svg
   alt: Pariti Logo
 ---

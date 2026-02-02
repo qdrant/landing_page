@@ -5,13 +5,13 @@ button:
   text: Contact Us
   url: /contact-us/
 rocket:
-  src: /img/hr-tech/Rocket-cta.png
+  src: /img/hr-tech/rocket-cta.png
   alt: Rocket illustration
 globe:
-  src: /img/hr-tech/Globe.png
+  src: /img/hr-tech/globe.png
   alt: Globe illustration
 background:
-  src: /img/hr-tech/Space-Background.svg
+  src: /img/hr-tech/space-background.svg
   alt: Space background
 sitemapExclude: true
 ---

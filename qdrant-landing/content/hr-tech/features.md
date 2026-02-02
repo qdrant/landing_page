@@ -1,7 +1,7 @@
 ---
 title: What you can build with Qdrant
 image:
-  src: /img/hr-tech/Diagram.png
+  src: /img/hr-tech/diagram.png
   alt: Flow chart showing parse, search, rank, and match process
 useCases:
 - id: 0

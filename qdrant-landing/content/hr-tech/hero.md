@@ -18,7 +18,7 @@ startFree:
   text: Talk to an Expert
   url: /contact-sales/
 image:
-  src: /img/hr-tech/Med-Tech-Key-Visual.png
+  src: /img/hr-tech/med-tech-key-visual.png
   alt: HR Tech illustration with hiring dashboard and candidate matching
 sitemapExclude: true
 ---
