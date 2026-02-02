@@ -1,0 +1,77 @@
+@use 'sass:math';
+@use '../helpers/functions' as *;
+
+.hr-tech-features {
+  position: relative;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-10;
+
+  &__title {
+    margin: 0 auto $spacer * 3;
+    font-size: $spacer * 2;
+    line-height: pxToRem(38);
+    color: $neutral-98;
+    text-align: center;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2;
+    max-width: pxToRem(900);
+    margin: 0 auto;
+  }
+
+  &__item {
+    display: flex;
+    gap: $spacer * 1.5;
+    position: relative;
+
+    &-marker {
+      flex-shrink: 0;
+      width: $spacer * 0.5;
+      height: $spacer * 0.5;
+      margin-top: pxToRem(14);
+      background-image: url("data:image/svg+xml,%3Csvg width='8' height='10' viewBox='0 0 8 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 0.5L0 2.75V7.25L4 9.5L8 7.25V2.75L4 0.5Z' fill='%23DC244C'/%3E%3C/svg%3E%0A");
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    &-content {
+      flex: 1;
+    }
+
+    &-title {
+      margin-bottom: math.div($spacer, 4);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
+      color: $neutral-98;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
+      color: $neutral-70;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: pxToRem(58);
+      margin-bottom: $spacer * 5;
+    }
+
+    &__items {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: $spacer * 3 $spacer * 5;
+    }
+  }
+}

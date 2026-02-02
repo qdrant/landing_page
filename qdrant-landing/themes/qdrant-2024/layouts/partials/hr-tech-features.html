@@ -1,0 +1,16 @@
+<section class="hr-tech-features">
+  <div class="container">
+    <h2 class="hr-tech-features__title">{{ .Params.title }}</h2>
+    <div class="hr-tech-features__items">
+      {{ range .Params.items }}
+        <div class="hr-tech-features__item">
+          <div class="hr-tech-features__item-marker"></div>
+          <div class="hr-tech-features__item-content">
+            <h3 class="hr-tech-features__item-title">{{ .title }}</h3>
+            <p class="hr-tech-features__item-description">{{ .description }}</p>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</section>

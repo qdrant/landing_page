@@ -1,0 +1,28 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ with (.Site.GetPage "hr-tech/hero") }}
+    {{ partial "hr-tech-hero" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/hr-tech/testimonial-light") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial pb-5 pb-lg-7") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/hr-tech/help") }}
+    {{ partial "hr-tech-help" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/hr-tech/features") }}
+    {{ partial "hr-tech-features" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/hr-tech/why-qdrant") }}
+    {{ partial "hr-tech-why-qdrant" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/hr-tech/get-contacted") }}
+    {{ partial "hr-tech-cta" . }}
+  {{ end }}
+
+{{ end }}

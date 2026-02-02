@@ -1,0 +1,79 @@
+@use 'sass:math';
+@use '../helpers/functions' as *;
+
+.hr-tech-cta {
+  position: relative;
+  overflow: hidden;
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background: linear-gradient($neutral-20, #0e1424);
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacer * 2;
+    max-width: pxToRem(800);
+    margin: 0 auto;
+    padding: $spacer * 3;
+    text-align: center;
+    z-index: 1;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $spacer * 2;
+    line-height: pxToRem(38);
+    color: $neutral-98;
+  }
+
+  &__description {
+    margin: 0;
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    color: $neutral-70;
+  }
+
+  &__button {
+    white-space: nowrap;
+  }
+
+  &__stars-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/stars-background.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__content {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: $spacer * 4;
+      text-align: left;
+    }
+
+    &__title {
+      font-size: $spacer * 2.5;
+      line-height: pxToRem(48);
+    }
+  }
+}

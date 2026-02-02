@@ -1,0 +1,16 @@
+<section class="hr-tech-cta">
+  <div class="container">
+    <div class="hr-tech-cta__content">
+      <div class="hr-tech-cta__text">
+        <h2 class="hr-tech-cta__title">{{ .Params.title }}</h2>
+        {{ if .Params.description }}
+          <p class="hr-tech-cta__description">{{ .Params.description }}</p>
+        {{ end }}
+      </div>
+      <a href="{{ .Params.button.url }}" class="button button_contained button_lg hr-tech-cta__button">
+        {{ .Params.button.text }}
+      </a>
+    </div>
+  </div>
+  <div class="hr-tech-cta__stars-background"></div>
+</section>
