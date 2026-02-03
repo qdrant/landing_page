@@ -69,6 +69,7 @@
       margin: 0 0 $spacer * 0.5;
       font-size: pxToRem(16);
       line-height: 1.5;
+      font-weight: 400;
       color: $neutral-70;
 
       &:last-child {
@@ -79,7 +80,7 @@
 
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 7.5;
-    padding-bottom: $spacer * 9;
+    padding-bottom: $spacer * 7.5;
 
     &__title {
       font-size: pxToRem(40);

@@ -16,7 +16,7 @@ values:
     text: Scale without the cost spike
 startFree:
   text: Talk to an Expert
-  url: /contact-sales/
+  url: /contact-us/
 image:
   src: /img/hr-tech/med-tech-key-visual.png
   alt: HR Tech illustration with hiring dashboard and candidate matching

@@ -1,7 +1,7 @@
 ---
 names: Elvis Moraa
 positions: Engineering Lead, Pariti
-review: "Qdrant has transformed how we match talent with opportunities. The vector search capabilities allow us to understand candidate profiles at a deeper level, going beyond keywords to truly understand skills, experience, and potential fit. We've seen significant improvements in match quality and candidate engagement since implementing Qdrant."
+review: "Pariti used Qdrant's vector search capabilities to rank candidates, increasing the hiring fill rate from 20% to 48%, and decreasing candidate vetting time from 4 minutes to 1 minute, a 70% time-savings.<br><br>\"Qdrant is the last thing I worry about breaking.\""
 avatar:
   src: /img/hr-tech/image.svg
   alt: Elvis Moraa Avatar

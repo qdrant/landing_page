@@ -14,7 +14,7 @@
 
   &__title {
     margin-top: 0;
-    margin-bottom: $spacer * 1.5;
+    margin-bottom: $spacer * 2;
     font-size: $spacer * 2;
     line-height: pxToRem(38);
     color: $neutral-20;
@@ -24,6 +24,7 @@
     margin-bottom: $spacer * 2;
     font-size: pxToRem(20);
     line-height: pxToRem(30);
+    font-weight: 400;
     color: $neutral-30;
   }
 
@@ -38,9 +39,9 @@
     display: inline-flex;
     align-items: center;
     gap: $spacer * 0.5;
-    padding: math.div($spacer, 4) $spacer;
-    background-color: $neutral-98;
-    border-radius: pxToRem(100);
+    padding: math.div($spacer, 4) $spacer * 0.5;
+    background-color: $white;
+    border-radius: pxToRem(2);
 
     &-icon {
       height: pxToRem(20);
@@ -50,7 +51,8 @@
     &-text {
       font-size: pxToRem(14);
       line-height: pxToRem(21);
-      color: $neutral-60;
+      font-weight: 400;
+      color: $neutral-30;
     }
   }
 
@@ -73,12 +75,12 @@
   }
 
   @include media-breakpoint-up(lg) {
-    padding-top: $spacer * 5;
-    padding-bottom: $spacer * 5;
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
 
     &__title {
-      font-size: $spacer * 3;
-      line-height: pxToRem(58);
+      font-size: pxToRem(45);
+      line-height: pxToRem(50);
     }
 
     &__preview {

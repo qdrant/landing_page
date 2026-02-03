@@ -27,6 +27,7 @@
       margin: 0 0 $spacer;
       font-size: pxToRem(18);
       line-height: 1.5;
+      font-weight: 400;
       color: $neutral-20;
 
       &:last-child {
@@ -48,8 +49,8 @@
   }
 
   @include media-breakpoint-up(lg) {
-    padding-top: $spacer * 10;
-    padding-bottom: $spacer * 10;
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
 
     &__content {
       margin-bottom: 0;

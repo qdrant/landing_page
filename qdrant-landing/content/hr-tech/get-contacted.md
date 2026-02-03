@@ -2,7 +2,7 @@
 title: Talk to an expert about HR marketplace retrieval.
 description: Get guidance on scaling search, matching, and recommendations beyond 20M vectors.
 button:
-  text: Contact Us
+  text: Talk to Sales
   url: /contact-us/
 illustration:
   src: /img/hr-tech/cta-illustration.png
