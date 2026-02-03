@@ -34,7 +34,7 @@ Let’s dive into the top projects and what we liked about each of them.
 **Total Prize: `$1500 USD Cash & 500 Gift Card` \+ `$10000 Gemini API Credits`**
 
 <iframe width="560" height="315"
-  src="https://www.youtube.com/watch?v=IwCNnaGZLuM"
+  src="https://www.youtube.com/embed/IwCNnaGZLuM?rel=0"
   title="YouTube video player"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -55,7 +55,7 @@ Repo: [Prometheus](https://github.com/resilienthike/Prometheus)
 **Total Prize: `$500 Cash & 300 Gift Card`**
 
 <iframe width="560" height="315"
-  src="https://www.loom.com/share/b1568b443acb4c1db7f3a2af903e2d14"
+  src="https://www.loom.com/embed/b1568b443acb4c1db7f3a2af903e2d14"
   title="YouTube video player"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -79,7 +79,7 @@ We use vanity as a force for good. Built with Gemini Vision, Qdrant semantic sea
 **Total Prize: `$250 Cash & 150 Gift Card` \+ `$10,000 Gemini API Credits`**
 
 <iframe width="560" height="315"
-  src="https://youtu.be/giOQIApFRzE"
+  src="https://www.youtube.com/embed/giOQIApFRzE?rel=0"
   title="YouTube video player"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
