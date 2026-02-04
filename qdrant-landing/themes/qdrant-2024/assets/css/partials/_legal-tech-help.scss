@@ -87,7 +87,6 @@
       position: absolute;
       width: 100%;
       top: 0;
-      // right: -20%;
     }
   }
 
@@ -100,6 +99,7 @@
     right: auto;
     left: 0;
   }
+
   @include media-breakpoint-up(md) {
     &__preview {
       min-height: pxToRem(462);
@@ -122,7 +122,6 @@
   }
 
   @include media-breakpoint-up(xl) {
-
     &__content {
       max-width: pxToRem(560);
       padding-top: $spacer * 7.5;
