@@ -4,104 +4,143 @@
 .legal-tech-help {
   position: relative;
   overflow: hidden;
-  padding-top: $spacer * 4;
-  padding-bottom: $spacer * 4;
   background-color: $neutral-10;
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacer * 2;
+    z-index: 1;
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer * 0.5;
+    padding: pxToRem(4) $spacer;
+    background-color: $neutral-20;
+    border-radius: pxToRem(100);
+    font-size: pxToRem(14);
+    font-weight: 500;
+    line-height: 1.5;
+    color: $neutral-90;
+
+    &-icon {
+      width: $spacer;
+      height: $spacer;
+    }
+  }
 
   &__title {
     position: relative;
-    margin: 0 auto $spacer * 5;
-    font-size: $spacer * 2.5;
-    line-height: $spacer * 3;
+    margin: 0;
+    font-size: pxToRem(24);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
     color: $neutral-98;
-    text-align: center;
     z-index: 1;
   }
 
-  &__items {
-    display: flex;
-    flex-direction: column;
-    gap: $spacer * 2;
+  &__description {
+    margin: 0;
+    font-size: pxToRem(18);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    color: $neutral-70;
   }
 
-  &__item {
-    position: relative;
-    padding-left: $spacer * 1.5;
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: pxToRem(36);
+    padding: $spacer * 0.5 pxToRem(20);
+    background: linear-gradient(180deg, $primary-50 0%, $primary-30 100%);
+    border-radius: $spacer * 0.5;
+    font-size: $spacer;
+    font-weight: 600;
+    line-height: 1.5;
+    color: $neutral-100;
+    text-decoration: none;
+    box-shadow: inset 0 pxToRem(2) pxToRem(1) 0 #ff516b;
+    transition: opacity 0.2s ease;
 
-    &-title {
-      margin-bottom: math.div($spacer, 4);
-      font-size: $spacer * 1.5;
-      line-height: pxToRem(34);
-      color: $neutral-98;
-    }
-
-    &-description {
-      margin-bottom: 0;
-      font-size: pxToRem(18);
-      line-height: pxToRem(27);
-      color: $neutral-70;
-    }
-
-    &:before {
-      display: block;
-      position: absolute;
-      left: 0;
-      top: pxToRem(12);
-      content: '';
-      width: $spacer * 0.5;
-      height: $spacer * 0.5;
-      background-image: url("data:image/svg+xml,%3Csvg width='8' height='10' viewBox='0 0 8 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 0.5L0 2.75V7.25L4 9.5L8 7.25V2.75L4 0.5Z' fill='%23DC244C'/%3E%3C/svg%3E%0A");
-      background-position: center;
-      background-size: contain;
-      background-repeat: no-repeat;
+    &:hover {
+      opacity: 0.9;
+      color: $neutral-100;
+      text-decoration: none;
     }
   }
 
   &__preview {
     position: relative;
     z-index: 1;
+    height: 100%;
 
     img {
-      display: block;
+      position: absolute;
       width: 100%;
-      max-width: pxToRem(540);
-      margin: $spacer * 2.5 auto 0;
+      top: 0;
+      // right: -20%;
     }
   }
 
   .overlay-top {
-    right: auto;
-    left: 0;
-    transform: scaleX(-1);
+    left: auto;
+    right: 0;
   }
 
   .overlay-bottom {
-    left: auto;
-    right: 0;
-    transform: scaleX(-1);
+    right: auto;
+    left: 0;
+  }
+  @include media-breakpoint-up(md) {
+    &__preview {
+      min-height: pxToRem(462);
+      img {
+        margin-top: -pxToRem(42);
+        width: auto;
+        left: 25%;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__preview {
+      img {
+        width: pxToRem(502);
+        top: 70px;
+        left: 0;
+      }
+    }
   }
 
   @include media-breakpoint-up(xl) {
-    padding-top: $spacer * 7.5;
-    padding-bottom: $spacer * 9;
+
+    &__content {
+      max-width: pxToRem(560);
+      padding-top: $spacer * 7.5;
+      padding-bottom: $spacer * 9;
+    }
 
     &__title {
-      font-size: $spacer * 3;
-      line-height: pxToRem(58);
+      font-size: pxToRem(40);
     }
 
-    &__items {
-      max-width: pxToRem(514);
-    }
-
-    &__item {
-      padding-right: $spacer * 3;
+    &__description {
+      font-size: pxToRem(20);
     }
 
     &__preview {
       img {
-        margin-right: 0;
-        margin-top: 0;
+        width: pxToRem(772);
+        top: -42px;
       }
     }
   }
