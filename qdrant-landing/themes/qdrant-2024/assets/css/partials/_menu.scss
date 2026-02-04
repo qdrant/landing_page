@@ -148,13 +148,15 @@
 
     a {
       line-height: $font-size-s;
+      font-weight: $font-weight-medium;
     }
 
     p {
-      margin: 0;
+      margin: pxToRem(6) 0 0;
       font-size: $font-size-s;
       line-height: $font-size-s;
       color: $neutral-60;
+      font-weight: $font-weight-medium;
     }
   }
 

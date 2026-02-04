@@ -132,7 +132,15 @@ $font-sizes-text: (
 $font-size-sm: $font-size-s;
 $font-size-lg: $font-size-l;
 
-$font-weight-base: 300;
+$font-weight-lighter:         lighter !default;
+$font-weight-light:           300 !default;
+$font-weight-normal:          350 !default;
+$font-weight-medium:          500 !default;
+$font-weight-semibold:        600 !default;
+$font-weight-bold:            700 !default;
+$font-weight-bolder:          bolder !default;
+
+$font-weight-base:            $font-weight-normal !default;
 
 $line-height-sm: pxToRem(21);
 $line-height-lg: pxToRem(27);
