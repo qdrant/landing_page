@@ -132,14 +132,18 @@ Each peer in a cluster provides a `/collections/{collection_name}/optimizations`
   - the segments involved
   - its progress
 
-Optionally, you can use the `with` query parameter with one or more of the following values to retrieve additional information:
+Optionally, you can use the `with` query parameter with one or more of the following comma-separated values to retrieve additional information:
 - `queued`, to return a list of queued optimizations
 - `completed`, to return a list of completed optimizations
 - `idle_segments`, to return a list of idle segments
 
+For example:
+
+{{< code-snippet path="/documentation/headless/snippets/optimizations/" >}}
+
 ### Web UI
 
-The same information is also accessible via the **Optimizations** tab within the **Collections** interface in [the Web UI](/documentation/web-ui/). This tab provides an overview of the current optimization status as well as a timeline of current and past optimization cycles:
+The same information is also accessible via the **Optimizations** tab within the **Collections** interface in [the Web UI](/documentation/web-ui/). For a specific collection on a specific peer in the cluster, this tab provides an overview of the current optimization status and a timeline of current and past optimization cycles:
 
 ![The Optimizations tab in Web UI shows progress and a timeline of optimization cycles](/docs/web-ui-optimizations-progress-timeline.png)
 
