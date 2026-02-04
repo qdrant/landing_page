@@ -1,0 +1,1 @@
+Finds books related to "space opera" where both `author` filters must match: Larry Niven and Jerry Pournelle.

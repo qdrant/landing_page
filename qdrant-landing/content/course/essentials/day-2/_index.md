@@ -9,7 +9,7 @@ weight: 30
 
 # Indexing and Performance
 
-Master [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) indexing and practical tuning for fast retrieval.
+Master [HNSW](https://qdrant.tech/articles/filterable-hnsw/) indexing and practical tuning for fast retrieval.
 
 ---
 

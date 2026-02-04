@@ -45,6 +45,8 @@ Payload index may occupy some additional memory, so it is recommended to only us
 If you need to filter by many fields and the memory limits do not allow for indexing all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 
+<aside role="alert">It's highly recommended to create all payload indices immediately after collection creation. Creating them later may block updates for some time. HNSW graphs will also only benefit from <a href="#filterable-index">additional optimizations</a> (extra edges) when they are generated after payload index creation.</aside>
+
 ### Parameterized index
 
 *Available as of v1.8.0*
@@ -177,7 +179,7 @@ The choice of tokenizer affects how queries match the indexed text, supporting d
 
 Available tokenizers are:
 
-* `word` - splits the string into words, separated by spaces, punctuation marks, and special characters.
+* `word` (default) - splits the string into words, separated by spaces, punctuation marks, and special characters.
 * `whitespace` - splits the string into words, separated by spaces.
 * `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
 * `multilingual` - a special type of tokenizer based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization and lemmatization for multiple languages, including those with non-Latin alphabets and non-space delimiters. See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. Note: For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
@@ -210,7 +212,7 @@ When configuring a full-text index in Qdrant, you can specify a stemmer to be us
 Qdrant provides an implementation of [Snowball stemmer](https://snowballstem.org/), a widely used and performant variant for some of the most popular languages.
 For the list of supported languages, please visit the [rust-stemmers repository](https://github.com/qdrant/rust-stemmers).
 
-Here is an example of full-text Index configuration with Snowball stemmer:
+For full-text indices, stemming is not enabled by default. To enable it, configure the `snowball` stemmer with the desired language:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stemmer-full-text/" >}}
 
@@ -222,8 +224,7 @@ In Qdrant, you can specify a list of stopwords to be ignored during full-text in
 
 You can configure stopwords based on predefined languages, as well as extend existing stopword lists with custom words.
 
-Here is an example of configuring a full-text index with custom stopwords:
-
+For full-text indices, stopword removal is not enabled by default. To enable it, configure the `stopwords` parameter with the desired languages and any custom stopwords:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stopwords-full-text/" >}}
 
@@ -340,7 +341,7 @@ Where:
 - `N` is the total number of documents in the collection.
 - `n` is the number of documents containing non-zero values for the given vector element.
 
-## Filtrable Index
+## Filterable Index
 
 Separately, a payload index and a vector index cannot solve the problem of search using the filter completely.
 
@@ -357,7 +358,7 @@ On the other hand, the HNSW graph starts to fall apart when using too strict fil
 
 Qdrant solves this problem by extending the HNSW graph with additional edges based on the stored payload values.
 Extra edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph.
-You can find more information on this approach in our [article](/articles/filtrable-hnsw/).
+You can find more information on this approach in our [article](/articles/filterable-hnsw/).
 
 However, in some cases, these additional edges might not be enough.
 These extra edges are added per each payload index separately, but not per each possible combination of them.

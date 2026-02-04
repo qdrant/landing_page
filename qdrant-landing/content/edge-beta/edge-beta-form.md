@@ -1,6 +1,6 @@
 ---
 title: Apply to Join the Beta
-description: Private beta available to selected teams building embedded or edge-native AI systems.
+description: Beta available to selected teams building embedded or edge-native AI systems.
 form:
   id: edge-beta-form
   hubspotFormOptions: '{

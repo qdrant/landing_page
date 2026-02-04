@@ -10,7 +10,7 @@ pub async fn main() -> anyhow::Result<()> {
         .create_collection(
             CreateCollectionBuilder::new("{collection_name}")
                 .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
-                .optimizers_config(OptimizersConfigDiffBuilder::default().memmap_threshold(20000)),
+                .optimizers_config(OptimizersConfigDiffBuilder::default().indexing_threshold(20000)),
         )
         .await?;
 

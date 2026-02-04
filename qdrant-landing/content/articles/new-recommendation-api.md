@@ -61,7 +61,7 @@ negative examples.
 
 ## HNSW ANN example and strategy
 
-Let’s start with an example to help you understand the [HNSW graph](/articles/filtrable-hnsw/). Assume you want 
+Let’s start with an example to help you understand the [HNSW graph](/articles/filterable-hnsw/). Assume you want 
 to travel to a small city on another continent:
 
 1. You start from your hometown and take a bus to the local airport.
@@ -145,7 +145,7 @@ significantly lower. However, if the best negative score is higher than the best
 further away from the negatives. That procedure effectively **pulls the traversal procedure away from the negative examples**.
 
 If you want to know more about the internals of HNSW, you can check out the article about the 
-[Filtrable HNSW](/articles/filtrable-hnsw/) that covers the topic thoroughly.
+[Filterable HNSW](/articles/filterable-hnsw/) that covers the topic thoroughly.
 
 ## Food Discovery demo
 

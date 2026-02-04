@@ -1,0 +1,1 @@
+Uses `text_any` to match titles containing either "space" or "war" (logical OR) while running a semantic query.

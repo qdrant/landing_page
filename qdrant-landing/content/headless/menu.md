@@ -32,7 +32,7 @@ menuItems:
           icon: cloud-inference.svg
           url: /cloud-inference/
         - id: subMenu-0-5
-          name: Qdrant Edge (Private Beta)
+          name: Qdrant Edge (Beta)
           icon: edge.svg
           url: /edge/
 #       - id: subMenu-0-4
@@ -110,6 +110,10 @@ menuItems:
             name: Change Log
             icon: changelog.svg
             url: https://github.com/qdrant/qdrant/releases
+          - id: subMenu-2-5
+            name: Certification
+            icon: certificate.svg
+            url: http://train.qdrant.dev/
   - id: menu-3
     name: Resources
     mainMenuItems:

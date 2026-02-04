@@ -6,7 +6,7 @@
   background-color: $neutral-94;
 
   .carousel__photos {
-    @include marquee.base(240px, 460px, 10, 10, 15px, transparent, false, 50s, none);
+    @include marquee.base(240px, 460px, 18, 18, 15px, transparent, false, 80s, none);
 
     &__item {
       border-radius: pxToRem(4);
@@ -16,7 +16,7 @@
 
   @include media-breakpoint-up(md) {
     .carousel__photos {
-      @include marquee.base(360px, 660px, 10, 10, 15px, transparent, false, 50s, none);
+      @include marquee.base(360px, 660px, 18, 18, 15px, transparent, false, 80s, none);
     }
   }
 }

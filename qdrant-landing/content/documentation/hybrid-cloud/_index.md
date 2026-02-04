@@ -22,17 +22,23 @@ Qdrant Hybrid Cloud ensures data privacy, deployment flexibility, low latency, a
 
 ## Hybrid Cloud architecture
 
-The Hybrid Cloud onboarding will install a Kubernetes Operator and Cloud Agent into your Kubernetes cluster. 
+The Hybrid Cloud onboarding will install a Kubernetes Operator, a Cloud Agent and a Prometheus Agent into your Kubernetes cluster.
 
-The Cloud Agent will establish an outgoing connection to `cloud.qdrant.io` on port `443` to transport telemetry and receive management instructions. It will also interact with the Kubernetes API through a ServiceAccount to create, read, update and delete the necessary Qdrant CRs (Custom Resources) based on the configuration setup in the Qdrant Cloud Console.
+and do not include any user data or sensitive information.
+
+Both the Cloud Agent will establish an outgoing connection to `cloud.qdrant.io` on port `443` to transport telemetry and receive management instructions. It will also interact with the Kubernetes API through a ServiceAccount to create, read, update and delete the necessary Qdrant CRs (Custom Resources) based on the configuration setup in the Qdrant Cloud Console.
 
 The Qdrant Kubernetes Operator will manage the Qdrant databases within your Kubernetes cluster. Based on the Qdrant CRs, it will interact with the Kubernetes API through a ServiceAccount to create and manage the necessary resources to deploy and run Qdrant databases, such as Pods, Services, ConfigMaps, and Secrets.
 
-Both component's access is limited to the Kubernetes namespace that you chose during the onboarding process.
+The Prometheus Agent will collect metrics from the Qdrant databases and the Qdrant control plane components and also forward them to the Qdrant Cloud platform for monitoring and alerting purposes
 
-The Cloud Agent only sends telemetry data and status information to the Qdrant Cloud platform. It does not send any user data or sensitive information. The telemetry data includes:
+All component's access is limited to the Kubernetes namespace that you chose during the onboarding process.
 
-* The health status and resource (CPU, memory, disk and network) usage of the Qdrant databases and Qdrant control plane components.
+The Cloud Agent and the Prometheus Agent only send telemetry data, metrics and status information to the Qdrant Cloud platform. They do not send any user data or sensitive information. The data includes:
+
+* The health status and resource usage (CPU, memory, disk and network) of the Qdrant databases and Qdrant control plane components.
+* Metrics exposed by the Qdrant databases and Qdrant control plane components.
+* Metrics about the configuration of the Kubernetes cluster, such as the number and capacity of nodes, available StorageClasses and VolumeSnapshotClasses, and the Kubernetes distribution and version.
 * Information about the Qdrant databases, such as the number, name and configuration of collections, the number of vectors, the number of queries, and the number of indexing operations.
 * Telemetry and notification data from the Qdrant databases.
 * Kubernetes operations and scheduling events reported for the Qdrant databases and Qdrant control plane components.

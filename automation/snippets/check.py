@@ -161,13 +161,13 @@ def build_and_run(
                             errors.append(f"Teardown for {snippet_fname} failed")
                             traceback.print_exc()
 
-        if errors:
-            log("Errors encountered:")
-            for err in errors:
-                log(f"· {err}")
-            sys.exit(1)
-        elif mode == "test":
-            log("All tests passed successfully.")
+    if errors:
+        log("Errors encountered:")
+        for err in errors:
+            log(f"· {err}")
+        sys.exit(1)
+    else:
+        log("All done without errors.")
 
 
 if __name__ == "__main__":

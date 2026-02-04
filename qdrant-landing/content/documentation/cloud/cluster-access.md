@@ -32,3 +32,7 @@ Next to the cluster endpoint which loadbalances requests across all healthy Qdra
 You can finde the node specific endpoints on the cluster detail page in the Qdrant Cloud Console.
 
 ![Cluster node endpoints](/documentation/cloud/cloud-node-endpoints.png)
+
+## Restricting Cluster Access by IP Range
+
+You can restrict access to your cluster by specifying allowed IP ranges. This ensures that only clients connecting from the specified IP ranges can access the cluster. For more information, see [Client IP Restrictions](/documentation/cloud/configure-cluster/#client-ip-restrictions).

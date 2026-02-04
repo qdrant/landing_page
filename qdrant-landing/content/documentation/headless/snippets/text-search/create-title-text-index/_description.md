@@ -1,0 +1,1 @@
+Creates a full-text index on the `title` field with ASCII folding enabled for case-insensitive, accent-insensitive matching.

@@ -25,7 +25,7 @@ At this point, you've learned how vector search retrieves the nearest vectors to
 
 You might wonder if Qdrant calculates the distance to every single vector in your collection for each query. This method, known as brute force search, technically works but with millions or billions of vectors this is too slow per query.
 
-Fortunately, Qdrant speeds things up with **[HNSW — Hierarchical Navigable Small World](https://qdrant.tech/articles/filtrable-hnsw/)**.
+Fortunately, Qdrant speeds things up with **[HNSW — Hierarchical Navigable Small World](https://qdrant.tech/articles/filterable-hnsw/)**.
 
 ### The Library Analogy
 

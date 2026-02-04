@@ -69,12 +69,30 @@
   h2,
   h3,
   h4 {
-    font-size: $spacer * 1.5;
     font-weight: 500;
-    line-height: pxToRem(34);
     color: $neutral-98;
     margin-bottom: $spacer;
     padding-top: $spacer * 0.5;
+  }
+
+  h2 {
+    font-size: $spacer * 1.75;
+    line-height: pxToRem(34);
+  }
+
+  h3 {
+    font-size: $spacer * 1.5;
+    line-height: pxToRem(30);
+  }
+
+  h4 {
+    font-size: $spacer * 1.25;
+    line-height: pxToRem(26);
+  }
+
+  h5 {
+    font-size: $spacer;
+    line-height: pxToRem(22);
   }
 
   p,

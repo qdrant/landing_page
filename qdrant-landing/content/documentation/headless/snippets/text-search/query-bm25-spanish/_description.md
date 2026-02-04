@@ -1,0 +1,1 @@
+Uses a BM25 query with Spanish language options to match the ingest configuration for consistent tokenization, stemming, and stopwords.

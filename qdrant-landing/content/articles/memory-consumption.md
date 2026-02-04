@@ -214,7 +214,7 @@ But let's first see how much RAM we need to serve 1 million vectors and then we 
 
 ### Vectors and HNSW graph stored using MMAP
 
-In the third experiment, we tested how well our system performs when vectors and [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) graph are stored using the memory-mapped files.
+In the third experiment, we tested how well our system performs when vectors and [HNSW](https://qdrant.tech/articles/filterable-hnsw/) graph are stored using the memory-mapped files.
 Create collection with:
 
 ```http

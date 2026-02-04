@@ -1,0 +1,1 @@
+Creates a full-text index on `title` with phrase matching and ASCII folding enabled.

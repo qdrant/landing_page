@@ -1,0 +1,1 @@
+Semantic search for "time travel" that excludes points where the `author` payload equals `H.G. Wells`.

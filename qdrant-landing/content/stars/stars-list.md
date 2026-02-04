@@ -23,6 +23,17 @@ mainCards:
   name: Robert Caulk
   position: Founder of Emergent Methods
   description: Robert is working with a team on AskNews.app to adaptively enrich, index, and report on over 1 million news articles per day
+- id: 2
+  headTitle: Distinguished Ambassador
+  headIcon:
+    src: /icons/fill/sparks-purple.svg
+    alt: Sparks
+  image:
+    src: /img/stars/tarun-jain.jpg
+    alt: Tarun Jain Photo
+  name: Tarun Jain
+  position: Founding Engineer at Stealth and YouTube @AiwithTarun 
+  description: Google Developer Expert in AI and two-time Google Summer of Code contributor (Red Hen Lab and caMicroscope). Creates educational AI content on YouTube and regularly speaks at tech events.
 cards:
   - id: 0
     image:
@@ -138,75 +149,68 @@ cards:
     description: Tech leader with 14+ years of experience in AI and GenAI, helping global clients drive innovation through strategy, architecture, and data.
   - id: 16
     image:
-      src: /img/stars/tarun-jain.jpg
-      alt: Tarun Jain Photo
-    name: Tarun Jain
-    position: Super Agent @ AI Planet
-    description: Google Developer Expert in AI and two-time Google Summer of Code contributor (Red Hen Lab and caMicroscope). Creates educational AI content on YouTube and regularly speaks at tech events.
-  - id: 17
-    image:
       src: /img/stars/athos-g.jpg
       alt: Athos Georgiou Photo
     name: Athos Georgiou
     position: R&D Technical AI Lead @ CGI
     description: R&D Technical AI Lead with 10+ years across AI, finance, academia, and energy. Open-source contributor and a track record in AI product development, training.
-  - id: 18
+  - id: 17
     image:
       src: /img/stars/deepak-chawla.jpg
       alt: Deepak Chawla Photo
     name: Deepak Chawla
     position: Founder @ HiDevs
     description: Founder of HiDevs with 10+ years of experience in AI, ML, and GenAI. Has mentored over 3,000 students, led 50+ webinars and workshops, teaching vector search and RAG using Qdrant.
-  - id: 19
+  - id: 18
     image:
       src: /img/stars/saurabh-rai.jpg
       alt: Saurabh Rai Photo
     name: Saurabh Rai
     position: Lead Engineer @ Resume Matcher
     description: Creator of Resume Matcher, an open-source tool trusted by 30K+ users worldwide to optimize resumes for ATS and real-world roles, powered by Qdrant.
-  - id: 20
+  - id: 19
     image:
       src: /img/stars/samir-akarioh.jpg
       alt: Samir Akarioh Photo
     name: Samir Akarioh
     position: Developer Advocate @ Gatling
     description: DevOps and AI educator, speaking globally. Former Qdrant support engineer, now creating educational content that often features real-world use of vector search.
-  - id: 21
+  - id: 20
     image:
       src: /img/stars/roan-weigert.jpg
       alt: Roan Weigert Photo
     name: Roan Weigert
     position: DevRel AI Engineer @ APARAVI
     description: AI creator spotlighting San Francisco’s tech scene through interviews with leading founders, investors, and experts. Shares videos on AI innovation AI innovation with Qdrant as the vector DB.
-  - id: 22
+  - id: 21
     image:
       src: /img/stars/faraz-photo.jpg
       alt: Faraz Gurramkonda Photo
     name: Faraz Gurramkonda
     position: AI Software Engineer @ Great Lakes Civil Services 
     description: A software engineer focused on scalable AI, automation, and developer tools. Founder of Xautomation and creator of VRTestSniffer (ASE 2025).
-  - id: 23
+  - id: 22
     image:
       src: /img/stars/pavan-photo.jpg
       alt: Pavan Vemuri Photo
     name: Pavan Vemuri
     position: Director of Product Engineering @ SDVerse
     description: AI strategist and MLOps expert with 15+ years of experience in software-defined vehicles and scalable systems. Specialized in Gen AI, digital transformation, and vector database solutions.
-  - id: 24
+  - id: 23
     image:
       src: /img/stars/mihir-photo.jpg
       alt: Mihir Inamdar Photo
     name: Mihir Inamdar
     position: AI @Sutherland
     description: Mihir Inamdar is an Open Source Developer Advocate focused on scalable AI, generative models, and vector database–powered RAG systems.
-  - id: 25
+  - id: 24
     image:
       src: /img/stars/mohammed-photo.jpg
       alt: Mohammed Arbi
     name: Mohammed Arbi
     position: Machine Learning Engineer
     description: Building intelligent AI systems with Generative AI, RAG, MLOps, and Qdrant. Active GDG mentor, sharing knowledge and supporting the developer community.
-  - id: 26
+  - id: 25
     image:
       src: /img/stars/vaibhava-photo.jpg
       alt: Vaibhava Laxmi

@@ -1,0 +1,1 @@
+Runs a BM25 sparse-vector query for "time travel" against the `title-bm25` vector.

@@ -1,0 +1,1 @@
+Ingests a point using the BM25 model with Spanish stemming and stopwords.

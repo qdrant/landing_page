@@ -4,6 +4,8 @@ draft: false
 slug: qdrant-1.15.x
 short_description: "Smarter Quantization, Healing Indexes, and Multilingual Text Filtering"
 description: "Qdrant v1.15 release presents new Quantization Features, advanced Full-Text filtering and a bunch of performance optimizations"
+preview_image: /blog/qdrant-1.15.x/social_preview.jpg
+social_preview_image: /blog/qdrant-1.15.x/social_preview.jpg
 date: 2025-07-18T00:00:00-08:00
 author: Derrick Mwiti
 featured: true
@@ -281,7 +283,7 @@ This modification, in combinations with [incremental HNSW indexing](/blog/qdrant
 
 ### HNSW Graph connectivity estimation
 
-Qdrant builds [addtitional HNSW links](/articles/filtrable-hnsw/) to ensure that filtered searches are performed fast and accurate.
+Qdrant builds [addtitional HNSW links](/articles/filterable-hnsw/) to ensure that filtered searches are performed fast and accurate.
 
 It does, however, introduce an overhead for indexing complexity, especially when the number of payload indexes is large.
 With v1.15, Qdrant introduces an optimization, which quickly estimates graph connectivity before creating additional links.

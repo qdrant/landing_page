@@ -1,4 +1,5 @@
 @use '../../helpers/functions' as *;
+@use 'sass:color';
 
 .documentation {
   background-color: $neutral-10;
@@ -18,6 +19,68 @@
     display: flex;
     flex-wrap: wrap;
   }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+
+    th {
+      text-align: left;
+      padding: 8px 10px;
+    }
+
+    td {
+      padding: 8px 10px;
+      vertical-align: middle;
+      line-height: 1.4;
+
+      // Link styling
+      a {
+        color: $primary-50;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    tr {
+      // transition for the background color change
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        // hover color highlight
+        background-color: $neutral-20;
+
+        // make the link slightly more prominent on hover
+        td a {
+          color: darken($primary-60, 10%);
+        }
+      }
+    }
+
+    // Ensure the header row doesn't highlight on hover
+    thead tr:hover {
+      background-color: transparent;
+    }
+  }
+
+  // Stack Pill Styling
+  .pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    background-color: $neutral-30;
+    color: $neutral-94;
+    border: 0;
+  }
+
+  // Level Color-Coding
+  .text-green { color: $success-80; }
+  .text-yellow { color: $warning-80; }
+  .text-red { color: $error-50; }
 
   @include media-breakpoint-up(xl) {
     &__container {
@@ -52,5 +115,21 @@
         box-shadow: 0 0 0 2px $neutral-70;
       }
     }
+
+    table {
+      tr:hover {
+        background-color: $neutral-98;
+      }
+    }
+
+    .pill {
+      background-color: $neutral-70;
+      border: 0;
+      color: $neutral-100;
+    }
+
+    .text-green { color: color.adjust($success-50, $saturation: 5%, $lightness: 8%); }
+    .text-yellow { color: color.adjust($warning-50, $saturation: 5%, $lightness: 8%); }
+    .text-red { color: color.adjust($error-50, $lightness: 3%); }
   }
 }

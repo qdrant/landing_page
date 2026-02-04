@@ -20,5 +20,21 @@ photoCards:
     img: /img/carousel/qdrant-people-9.jpg
   - id: 3
     img: /img/carousel/qdrant-people-10.jpg
+  - id: 4
+    img: /img/carousel/qdrant-people-11.jpg
+  - id: 5
+    img: /img/carousel/qdrant-people-12.jpg
+  - id: 6
+    img: /img/carousel/qdrant-people-13.jpg
+  - id: 7
+    img: /img/carousel/qdrant-people-14.jpg
+  - id: 8
+    img: /img/carousel/qdrant-people-15.jpg
+  - id: 9
+    img: /img/carousel/qdrant-people-16.jpg
+  - id: 10
+    img: /img/carousel/qdrant-people-17.jpg
+  - id: 11
+    img: /img/carousel/qdrant-people-18.jpg
 sitemapExclude: true
 ---
