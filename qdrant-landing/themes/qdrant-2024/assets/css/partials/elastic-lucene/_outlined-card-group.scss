@@ -110,7 +110,7 @@
     &--small {
       font-size: pxToRem(14);
       line-height: pxToRem(21);
-      font-weight: 400;
+      font-weight:  $font-weight-base;
     }
   }
 
