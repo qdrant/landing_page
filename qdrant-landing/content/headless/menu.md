@@ -85,6 +85,10 @@ menuItems:
             name: Hospitality & Travel
             icon: hospitality.svg
             url: /hospitality-and-travel/
+          - id: subMenu-1-8
+            name: HR Tech
+            icon: careers.svg
+            url: /hr-tech/
   - id: menu-2
     name: Developers
     mainMenuItems: 
