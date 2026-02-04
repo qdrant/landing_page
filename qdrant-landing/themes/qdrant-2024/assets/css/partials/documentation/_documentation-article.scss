@@ -3,7 +3,7 @@
 
 .documentation-article {
   padding-bottom: $spacer * 1.5;
-  font-weight: 400;
+  font-weight: $font-weight-base;
 
   &__header {
     margin-bottom: $spacer * 2;

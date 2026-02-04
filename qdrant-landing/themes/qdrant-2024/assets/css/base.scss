@@ -66,6 +66,8 @@ body {
   // Apply Mona Sans width variation setting globally
   // This ensures all text using Mona Sans (via font-family-base) uses width axis at 100
   font-variation-settings: 'wdth' 100;
+  font-feature-settings: "ss05" on;
+  font-weight: 350;
 }
 
 /* Fix thick underlines in Mona Sans font */
