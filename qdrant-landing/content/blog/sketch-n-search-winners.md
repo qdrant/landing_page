@@ -2,11 +2,11 @@
 title: "Sketch & Search: Google Deepmind x Qdrant x Freepik Hackathon Winners"
 draft: false
 slug: sketch-n-search-winners
-short_description: "Discover the winners of Qdrant’s Sketch & Search Hackathon in collaboration with Google Deepmind and Freepik, where developers built innovative vector search applications beyond chatbots — from robotics to gaming, e-commerce, and more."
-preview_image: blog/sketch-n-search-2025/sketch-n-search-hero.png
-social_preview_image: blog/sketch-n-search-2025/sketch-n-search-hero.png
+short_description: "Discover the winners of Qdrant’s Sketch & Search Hackathon in collaboration with Google Deepmind and Freepik, where developers built innovative vector search applications beyond chatbots - from robotics to gaming, e-commerce, and more."
+preview_image: blog/sketch-n-search-2025/sketch.png
+social_preview_image: blog/sketch-n-search-2025/sketch.png
 date: 2026-02-03
-author: Qdrant
+author: Manas Chopra
 featured: true
 tags:
   - news
@@ -63,8 +63,8 @@ Repo: [Prometheus](https://github.com/resilienthike/Prometheus)
   allowfullscreen>
 </iframe>
 
-**What it is:** "Roast My Snack transforms snack photos into 4-panel comics where Dr. Hawley — a Gen-Z molar with Adult Swim energy — roasts your snack's ""aesthetic threat level"" to your smile. The insight: Telling teens ""sugar causes cavities"" doesn't work. But ""that snack is gonna turn your smile yellow""? That lands.
-We use vanity as a force for good. Built with Gemini Vision, Qdrant semantic search, and clinic-validated dental science from Poppy Kids Pediatric Dentistry. Age-adaptive roasts (Spicy for tweens, Savage for teens), transparent risk scoring, and Instagram-ready exports. Dental education kids actually want to share."
+**What it is:** Roast My Snack transforms snack photos into 4-panel comics where Dr. Hawley - a Gen-Z molar with Adult Swim energy - roasts your snack's "aesthetic threat level" to your smile. The insight: Telling teens "sugar causes cavities" doesn't work. But "that snack is gonna turn your smile yellow"? That lands.
+We use vanity as a force for good. Built with Gemini Vision, Qdrant semantic search, and clinic-validated dental science from Poppy Kids Pediatric Dentistry. Age-adaptive roasts (Spicy for tweens, Savage for teens), transparent risk scoring, and Instagram-ready exports. Dental education kids actually want to share.
 
 **Stack:** Gemini/Flash, Nano Banana, Qdrant, Freepik
 
@@ -97,13 +97,12 @@ We use vanity as a force for good. Built with Gemini Vision, Qdrant semantic sea
 
 ## Why These Projects Matter
 
-These projects show what happens when developers apply vector retrieval to creative, scientific, and real-world workflows:
-- Molecular structures transformed into cinematic, reusable scientific storytelling.
-- Educational experiences that use humor, memory, and personalization to change behavior.
-- Image-to-design pipelines that turn a single photo into production-ready plans.
-- Creative systems that learn what works and build long-term visual memory.
-- Search-driven reuse of styles, prompts, and assets across domains.
-- Practical applications where embeddings connect data, visuals, and human intent.
+These winners stand out because they treat retrieval as an engineering primitive - not a bolt-on feature. Instead of generating “one-off” outputs, they build systems that can *remember*, *reuse*, and *stay grounded* as inputs and requirements change:
+- Prometheus turns structured scientific data (PDB + Mol* renders) into a repeatable video pipeline, and uses similarity search to reuse proven camera/prompt templates across targets.
+- Roast My Snack couples vision + semantic search with an explicit scoring layer (age-adaptive tone, transparent risk signals) so the output is controllable and consistent - not just funny.
+- AutoScape anchors image-to-design generation in a curated plant/material catalog with retrieval, so designs come with real constraints (availability, pricing) and can be iterated, shared, and audited.
+
+Across all three, Qdrant enables the “long-term memory” layer: storing embeddings of past assets, prompts, and outcomes so future runs can start from what already worked - faster iteration, better consistency, and less prompt thrash.
 
 As with any hackathon, there were tons of amazing submissions, and we wish we could showcase them all, but we hope this sample showcases the strong power of the Qdrant Community when tasked with new challenges and creative approaches.
 
