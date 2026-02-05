@@ -1,11 +1,14 @@
 ---
-title: Migration to Qdrant
+title: Data Migration
 aliases:
     - /documentation/database-tutorials/migration/
 weight: 180
 ---
 
-# Migration
+# Migrate Your Embeddings to Qdrant
+
+| Time: Varies | Level: Intermediate |
+| --- | ----------- |
 
 Migrating data between vector databases, especially across regions, platforms, or deployment types, can be a hassle. That’s where the [Qdrant Migration Tool](https://github.com/qdrant/migration) comes in. It supports a wide range of migration needs, including transferring data between Qdrant instances and migrating from other vector database providers to Qdrant.
 

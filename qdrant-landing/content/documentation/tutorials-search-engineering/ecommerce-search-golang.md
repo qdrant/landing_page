@@ -1,5 +1,5 @@
 ---
-title: E-commerce Search with Go and Qdrant
+title: E-commerce Search with Go
 weight: 7
 partition: build
 social_preview_image: /documentation/examples/ecommerce-search-golang/social_preview.png

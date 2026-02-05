@@ -1,11 +1,15 @@
 ---
-title: Static Embeddings. Should you pay attention?
+title: Static Embeddings
 weight: 181
 aliases:
   - /blog/static-embeddings/
   - /documentation/database-tutorials/static-embeddings/
 ---
-# Static Embeddings: should you pay attention?
+# Static Embeddings in Practice
+
+| Time: 20 min | Level: Intermediate |
+| --- | ----------- |
+
 In the world of resource-constrained computing, a quiet revolution is taking place. While transformers dominate 
 leaderboards with their impressive capabilities, static embeddings are making an unexpected comeback, offering 
 remarkable speed improvements with surprisingly small quality trade-offs. **We evaluated how Qdrant users can benefit
