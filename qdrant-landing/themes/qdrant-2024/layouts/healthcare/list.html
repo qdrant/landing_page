@@ -1,0 +1,28 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ with (.Site.GetPage "healthcare/hero") }}
+    {{ partial "healthcare/healthcare-hero" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/healthcare/testimonial-light") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial pb-5 pb-lg-7") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/healthcare/problem") }}
+    {{ partial "healthcare/healthcare-problem" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/healthcare/solutions") }}
+    {{ partial "healthcare/healthcare-solutions" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/healthcare/why-qdrant") }}
+    {{ partial "healthcare/healthcare-why-qdrant" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/healthcare/get-contacted") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+
+{{ end }}

@@ -1,0 +1,95 @@
+@use 'sass:math';
+@use '../../helpers/functions' as *;
+
+.healthcare-solutions {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__title {
+    margin: 0 0 $spacer * 4;
+    font-size: pxToRem(36);
+    line-height: 1.1;
+    color: $neutral-20;
+    text-align: center;
+    letter-spacing: -0.5px;
+  }
+
+  &__bento {
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(24);
+    padding: $spacer * 1.5;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacer;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $neutral-98;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(16);
+    overflow: hidden;
+    padding-bottom: $spacer * 1.5;
+  }
+
+  &__card-visual {
+    width: 100%;
+    height: pxToRem(263);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: $neutral-98;
+
+    img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  &__card-text {
+    margin: 0;
+    padding: 0 $spacer * 1.5;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    font-weight: 500;
+    color: $neutral-20;
+    text-align: center;
+    max-width: pxToRem(295);
+  }
+
+  @include media-breakpoint-up(md) {
+    &__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: $spacer;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: pxToRem(48);
+      margin-bottom: $spacer * 4;
+    }
+
+    &__bento {
+      padding: $spacer * 1.5;
+    }
+
+    &__card-text {
+      font-size: pxToRem(18);
+    }
+  }
+}

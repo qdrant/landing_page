@@ -1,0 +1,116 @@
+@use 'sass:math';
+@use '../../helpers/functions' as *;
+
+.healthcare-hero {
+  overflow: hidden;
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer * 0.5;
+    padding: math.div($spacer, 4) $spacer * 0.75;
+    margin-bottom: $spacer * 1.5;
+    background-color: $white;
+    border-radius: pxToRem(4);
+    border: 1px solid $neutral-90;
+  }
+
+  &__label-icon {
+    width: pxToRem(20);
+    height: pxToRem(20);
+  }
+
+  &__label-text {
+    font-size: pxToRem(14);
+    line-height: pxToRem(21);
+    font-weight: 500;
+    color: $neutral-30;
+  }
+
+  &__title {
+    margin-top: 0;
+    margin-bottom: $spacer * 1.5;
+    font-size: $spacer * 2;
+    line-height: pxToRem(38);
+    color: $neutral-20;
+  }
+
+  &__description {
+    margin-bottom: $spacer * 2;
+    font-size: pxToRem(18);
+    line-height: pxToRem(28);
+    font-weight: 400;
+    color: $neutral-30;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer;
+  }
+
+  &__button {
+    white-space: nowrap;
+
+    &--secondary {
+      background-color: transparent;
+      border-color: $neutral-60;
+      color: $neutral-20;
+
+      &:hover {
+        background-color: $neutral-90;
+      }
+    }
+  }
+
+  &__preview {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: $spacer * 2.5;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    max-width: pxToRem(560);
+    height: auto;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__buttons {
+      gap: $spacer * 1.5;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: pxToRem(45);
+      line-height: pxToRem(50);
+    }
+
+    &__preview {
+      justify-content: flex-end;
+      margin-top: 0;
+    }
+
+    &__image {
+      width: 110%;
+      max-width: none;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+<section class="healthcare-why-qdrant">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-xl-6 healthcare-why-qdrant__content">
+        <h2 class="healthcare-why-qdrant__title">{{ .Params.title }}</h2>
+        <div class="healthcare-why-qdrant__items">
+          {{ range .Params.items }}
+            <div class="healthcare-why-qdrant__item">
+              <div class="healthcare-why-qdrant__item-icon">
+                <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              </div>
+              <div class="healthcare-why-qdrant__item-content">
+                <h3 class="healthcare-why-qdrant__item-title">{{ .title }}</h3>
+                <p class="healthcare-why-qdrant__item-description">{{ .description | safeHTML }}</p>
+                {{ with .link }}
+                  <a href="{{ .url }}" class="healthcare-why-qdrant__item-link">
+                    {{ .text }}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                {{ end }}
+              </div>
+            </div>
+          {{ end }}
+        </div>
+        {{ with .Params.badges }}
+          <div class="healthcare-why-qdrant__badges">
+            {{ range . }}
+              <img src="{{ .src }}" alt="{{ .alt }}" class="healthcare-why-qdrant__badge" />
+            {{ end }}
+          </div>
+        {{ end }}
+      </div>
+      <div class="col-12 col-xl-6 healthcare-why-qdrant__visual">
+        {{ with .Params.image }}
+          <img src="{{ .src }}" alt="{{ .alt }}" class="healthcare-why-qdrant__image" />
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>

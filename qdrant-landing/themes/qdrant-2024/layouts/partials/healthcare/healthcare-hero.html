@@ -1,0 +1,33 @@
+<section class="healthcare-hero">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-xl-6 healthcare-hero__content">
+        {{ with .Params.label }}
+          <div class="healthcare-hero__label">
+            <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" class="healthcare-hero__label-icon" />
+            <span class="healthcare-hero__label-text">{{ .text }}</span>
+          </div>
+        {{ end }}
+        <h1 class="healthcare-hero__title">{{ .Params.title | safeHTML }}</h1>
+        <p class="healthcare-hero__description">{{ .Params.description }}</p>
+        <div class="healthcare-hero__buttons">
+          {{ with .Params.startFree }}
+            <a href="{{ .url }}" class="button button_contained button_lg healthcare-hero__button">
+              {{ .text }}
+            </a>
+          {{ end }}
+          {{ with .Params.newsletter }}
+            <a href="{{ .url }}" class="button button_outlined button_lg healthcare-hero__button healthcare-hero__button--secondary">
+              {{ .text }}
+            </a>
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-12 col-xl-6 healthcare-hero__preview">
+        {{ with .Params.image }}
+          <img src="{{ .src }}" alt="{{ .alt }}" class="healthcare-hero__image" />
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>

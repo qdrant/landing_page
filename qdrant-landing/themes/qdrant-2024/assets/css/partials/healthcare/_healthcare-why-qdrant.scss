@@ -1,0 +1,158 @@
+@use 'sass:math';
+@use '../../helpers/functions' as *;
+
+.healthcare-why-qdrant {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__content {
+    margin-bottom: $spacer * 3;
+  }
+
+  &__title {
+    margin: 0 0 $spacer * 3;
+    font-size: $spacer * 2;
+    line-height: 1.2;
+    color: $neutral-20;
+    letter-spacing: -0.5px;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2.5;
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacer * 1.25;
+  }
+
+  &__item-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(48);
+    height: pxToRem(48);
+    background-color: $white;
+    border-radius: pxToRem(6);
+    border: 1px solid $neutral-90;
+
+    img {
+      width: pxToRem(24);
+      height: pxToRem(24);
+    }
+  }
+
+  &__item-content {
+    flex: 1;
+  }
+
+  &__item-title {
+    margin: 0 0 $spacer * 0.5;
+    font-size: pxToRem(18);
+    line-height: 1.3;
+    font-weight: 600;
+    color: $neutral-20;
+  }
+
+  &__item-description {
+    margin: 0;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    color: $neutral-40;
+  }
+
+  &__item-link {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer * 0.25;
+    margin-top: $spacer * 0.5;
+    font-size: pxToRem(14);
+    font-weight: 500;
+    color: $primary-50;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $primary-40;
+    }
+
+    svg {
+      transition: transform 0.2s ease;
+    }
+
+    &:hover svg {
+      transform: translateX(2px);
+    }
+  }
+
+  &__badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacer * 1.5;
+    margin-top: $spacer * 3;
+    padding-top: $spacer * 3;
+    border-top: 1px solid $neutral-90;
+  }
+
+  &__badge {
+    height: pxToRem(40);
+    width: auto;
+  }
+
+  &__visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    max-width: pxToRem(500);
+    height: auto;
+    border-radius: pxToRem(12);
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__title {
+      font-size: pxToRem(32);
+    }
+
+    &__item-title {
+      font-size: pxToRem(20);
+    }
+
+    &__badges {
+      gap: $spacer * 2;
+    }
+
+    &__badge {
+      height: pxToRem(48);
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__content {
+      margin-bottom: 0;
+      padding-right: $spacer * 3;
+    }
+
+    &__title {
+      font-size: pxToRem(40);
+      margin-bottom: $spacer * 4;
+    }
+
+    &__items {
+      gap: $spacer * 3;
+    }
+  }
+}
