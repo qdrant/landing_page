@@ -12,7 +12,7 @@ useCases:
     title: "Patient-data solutions: AI scribes with speech-to-text + retrieval"
     gradient: "linear-gradient(112deg, #E2D3FF 8.74%, #6B99F5 98.12%)"
     visual:
-      src: /img/healthcare/medical-img-analyses.png
+      src: /img/healthcare/slide-0.png
       alt: Patient data AI illustration
     values:
       - label: "Build:"
@@ -25,7 +25,7 @@ useCases:
     title: "Operational AI for General Practitioners"
     gradient: "linear-gradient(112deg, #D3E8FF 8.74%, #8B5CF6 98.12%)"
     visual:
-      src: /img/healthcare/medical-img-analyses.png
+      src: /img/healthcare/slide-1.png
       alt: Operations AI illustration
     values:
       - label: "Build:"
@@ -38,7 +38,7 @@ useCases:
     title: "Medical imaging analysis"
     gradient: "linear-gradient(112deg, #E2D3FF 8.74%, #6B99F5 98.12%)"
     visual:
-      src: /img/healthcare/medical-img-analyses.png
+      src: /img/healthcare/slide-2.png
       alt: Medical imaging analysis illustration
     values:
       - label: "Build:"
