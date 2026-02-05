@@ -17,6 +17,10 @@
     {{ partial "healthcare/healthcare-solutions" . }}
   {{ end }}
 
+  {{ with (.Site.GetPage "/healthcare/use-cases") }}
+    {{ partial "healthcare/healthcare-use-cases" . }}
+  {{ end }}
+
   {{ with (.Site.GetPage "/healthcare/why-qdrant") }}
     {{ partial "healthcare/healthcare-why-qdrant" . }}
   {{ end }}

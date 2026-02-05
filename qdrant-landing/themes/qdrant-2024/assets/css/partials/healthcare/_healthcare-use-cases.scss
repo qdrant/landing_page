@@ -1,0 +1,288 @@
+@use 'sass:math';
+@use '../../helpers/functions' as *;
+
+.healthcare-use-cases {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__title {
+    margin: 0 0 $spacer * 4;
+    font-size: pxToRem(36);
+    line-height: 1.1;
+    color: $neutral-20;
+    text-align: center;
+    letter-spacing: -0.5px;
+  }
+
+  &__tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: $neutral-98;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(12);
+    padding: pxToRem(4);
+    margin: 0 auto $spacer * 4;
+    width: fit-content;
+    overflow: hidden;
+  }
+
+  &__tab {
+    position: relative;
+    z-index: 2;
+    padding: pxToRem(10) pxToRem(28);
+    font-size: pxToRem(16);
+    font-weight: 500;
+    line-height: 1.5;
+    color: $neutral-70;
+    background: none;
+    border: none;
+    border-radius: pxToRem(8);
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    white-space: nowrap;
+
+    &:hover {
+      color: $neutral-40;
+    }
+
+    &--active {
+      color: $neutral-10;
+      font-weight: 600;
+      background-color: $white;
+      box-shadow: 0 pxToRem(2) pxToRem(8) rgba($neutral-20, 0.1);
+    }
+  }
+
+  &__slider {
+    position: relative;
+    margin-bottom: $spacer * 4;
+    min-height: pxToRem(560);
+    overflow: hidden;
+  }
+
+  &__slide {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    pointer-events: none;
+
+    &--active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+
+  &__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: pxToRem(16);
+    overflow: hidden;
+    min-height: pxToRem(480);
+
+    @include media-breakpoint-up(lg) {
+      flex-direction: row;
+      align-items: flex-end;
+      min-height: pxToRem(480);
+      padding-left: pxToRem(80);
+      padding-right: pxToRem(40);
+      padding-top: pxToRem(80);
+    }
+  }
+
+  &__card-visual {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacer * 2;
+    min-height: pxToRem(220);
+
+    @include media-breakpoint-up(lg) {
+      position: absolute;
+      left: pxToRem(60);
+      top: 50%;
+      transform: translateY(-45%);
+      width: pxToRem(320);
+      height: auto;
+      padding: 0;
+    }
+  }
+
+  &__card-visual-img {
+    max-width: 100%;
+    max-height: pxToRem(280);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+
+    @include media-breakpoint-up(lg) {
+      max-width: pxToRem(300);
+      max-height: pxToRem(400);
+    }
+  }
+
+  &__card-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2;
+    padding: $spacer * 2;
+    background-color: $neutral-98;
+    border: 1px solid $neutral-80;
+    border-radius: pxToRem(16) pxToRem(16) 0 0;
+    border-bottom: none;
+
+    @include media-breakpoint-up(lg) {
+      margin-left: auto;
+      padding: $spacer * 2;
+      border-radius: pxToRem(16) pxToRem(16) 0 0;
+      max-width: pxToRem(620);
+      min-width: pxToRem(500);
+    }
+  }
+
+  &__card-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/healthcare/use-case-texture.png');
+    background-size: pxToRem(819) pxToRem(819);
+    mix-blend-mode: overlay;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &__card-title {
+    margin: 0;
+    font-size: pxToRem(24);
+    line-height: 1.3;
+    font-weight: 600;
+    color: $neutral-20;
+    letter-spacing: -0.5px;
+
+    @include media-breakpoint-up(lg) {
+      font-size: pxToRem(32);
+    }
+  }
+
+  &__values {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+  }
+
+  &__value-card {
+    background-color: $white;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(8);
+    padding: $spacer;
+    border-left: pxToRem(3) solid $primary-50;
+  }
+
+  &__value-text {
+    margin: 0;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    color: $neutral-40;
+
+    @include media-breakpoint-up(lg) {
+      font-size: pxToRem(18);
+    }
+  }
+
+  &__value-label {
+    font-weight: 600;
+    color: $neutral-20;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacer * 5;
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(36);
+    height: pxToRem(36);
+    background: none;
+    border: none;
+    border-radius: pxToRem(8);
+    color: $neutral-80;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+
+    &:hover {
+      color: $neutral-40;
+      background-color: rgba($neutral-90, 0.5);
+    }
+
+    svg {
+      width: pxToRem(18);
+      height: pxToRem(18);
+    }
+  }
+
+  &__dots {
+    display: flex;
+    align-items: center;
+    gap: $spacer * 2.5;
+  }
+
+  &__dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(24);
+    height: pxToRem(24);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    span {
+      display: block;
+      width: pxToRem(6);
+      height: pxToRem(6);
+      background-color: $neutral-80;
+      border-radius: 50%;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    &:hover span {
+      background-color: $neutral-60;
+    }
+
+    &--active span {
+      background-color: $neutral-20;
+      transform: scale(1.2);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 2.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: pxToRem(48);
+    }
+  }
+}

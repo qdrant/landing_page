@@ -1,0 +1,114 @@
+<section class="healthcare-use-cases">
+  <div class="container">
+    <h2 class="healthcare-use-cases__title">{{ .Params.title }}</h2>
+    
+    <div class="healthcare-use-cases__tabs">
+      {{ range $index, $tab := .Params.tabs }}
+        <button 
+          type="button" 
+          class="healthcare-use-cases__tab{{ if eq $index 0 }} healthcare-use-cases__tab--active{{ end }}"
+          data-use-case-tab="{{ $tab.id }}"
+          data-slide-index="{{ $index }}"
+        >
+          {{ $tab.label }}
+        </button>
+      {{ end }}
+    </div>
+
+    <div class="healthcare-use-cases__slider">
+      {{ range $index, $useCase := .Params.useCases }}
+        <div class="healthcare-use-cases__slide{{ if eq $index 0 }} healthcare-use-cases__slide--active{{ end }}" data-slide="{{ $index }}">
+          <div class="healthcare-use-cases__card" style="background: {{ $useCase.gradient | safeCSS }};">
+            <div class="healthcare-use-cases__card-visual">
+              <img src="{{ $useCase.visual.src }}" alt="{{ $useCase.visual.alt }}" class="healthcare-use-cases__card-visual-img" />
+            </div>
+            <div class="healthcare-use-cases__card-content">
+              <h3 class="healthcare-use-cases__card-title">{{ $useCase.title }}</h3>
+              <div class="healthcare-use-cases__values">
+                {{ range $useCase.values }}
+                  <div class="healthcare-use-cases__value-card">
+                    <p class="healthcare-use-cases__value-text">
+                      <span class="healthcare-use-cases__value-label">{{ .label }}</span>
+                      {{ .text }}
+                    </p>
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+            <div class="healthcare-use-cases__card-texture"></div>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+
+    <div class="healthcare-use-cases__controls">
+      <button type="button" class="healthcare-use-cases__arrow healthcare-use-cases__arrow--prev" id="healthcare-use-cases-prev">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.25 13.5L6.75 9L11.25 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="healthcare-use-cases__dots">
+        {{ range $index, $tab := .Params.tabs }}
+          <button 
+            type="button" 
+            class="healthcare-use-cases__dot{{ if eq $index 0 }} healthcare-use-cases__dot--active{{ end }}"
+            data-slide-index="{{ $index }}"
+          >
+            <span></span>
+          </button>
+        {{ end }}
+      </div>
+      <button type="button" class="healthcare-use-cases__arrow healthcare-use-cases__arrow--next" id="healthcare-use-cases-next">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const section = document.querySelector('.healthcare-use-cases');
+  if (!section) return;
+
+  const tabs = section.querySelectorAll('.healthcare-use-cases__tab');
+  const dots = section.querySelectorAll('.healthcare-use-cases__dot');
+  const slides = section.querySelectorAll('.healthcare-use-cases__slide');
+  const prevBtn = section.querySelector('.healthcare-use-cases__arrow--prev');
+  const nextBtn = section.querySelector('.healthcare-use-cases__arrow--next');
+  
+  let currentIndex = 0;
+  const totalSlides = slides.length;
+
+  function goToSlide(index) {
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+    
+    currentIndex = index;
+
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('healthcare-use-cases__slide--active', i === index);
+    });
+
+    tabs.forEach((tab, i) => {
+      tab.classList.toggle('healthcare-use-cases__tab--active', i === index);
+    });
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('healthcare-use-cases__dot--active', i === index);
+    });
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => goToSlide(i));
+  });
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goToSlide(i));
+  });
+
+  prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+  nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+})();
+</script>
