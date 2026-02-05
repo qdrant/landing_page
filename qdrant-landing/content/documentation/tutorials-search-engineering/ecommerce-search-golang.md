@@ -1,7 +1,6 @@
 ---
 title: E-commerce Search with Go
-weight: 7
-partition: build
+weight: 190
 social_preview_image: /documentation/examples/ecommerce-search-golang/social_preview.png
 ---
 

@@ -2,7 +2,7 @@
 title: Data Migration
 aliases:
     - /documentation/database-tutorials/migration/
-weight: 180
+weight: 20
 ---
 
 # Migrate Your Embeddings to Qdrant

@@ -2,7 +2,7 @@
 title: Migrate to a New Embedding Model
 aliases:
   - /documentation/tutorials/embedding-model-migration/
-weight: 191
+weight: 30
 ---
 
 # Migrate to a New Embedding Model with Zero Downtime in Qdrant

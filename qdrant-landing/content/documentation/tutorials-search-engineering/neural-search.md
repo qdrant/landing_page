@@ -6,7 +6,7 @@ aliases:
 weight: 2
 ---
 
-# Semantic Search Basics for Qdrant
+# Semantic Search Basics with Qdrant
 
 | Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/tree/sentense-transformers) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)   |
 | --- | ----------- | ----------- |----------- |

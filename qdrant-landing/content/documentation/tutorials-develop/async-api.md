@@ -6,7 +6,7 @@ aliases:
 weight: 4
 ---
 
-# Build High-Throughput Applications with Qdrant Async API
+# Build High-Throughput Applications with Qdrant's Async API
 
 | Time: 25 min | Level: Intermediate |
 | --- | ----------- |

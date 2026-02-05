@@ -2,7 +2,7 @@
 title: Large-Scale Search
 aliases:
     - /documentation/database-tutorials/large-scale-search/
-weight: 2
+weight: 40
 ---
 
 
