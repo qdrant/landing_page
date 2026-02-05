@@ -187,11 +187,33 @@
   }
 
   &__value-card {
+    position: relative;
     background-color: $white;
     border: 1px solid $neutral-90;
     border-radius: pxToRem(8);
-    padding: $spacer;
-    border-left: pxToRem(3) solid $primary-50;
+    padding: $spacer $spacer $spacer ($spacer * 2);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: $spacer;
+      top: $spacer;
+      bottom: $spacer;
+      width: pxToRem(4);
+      border-radius: pxToRem(2);
+    }
+
+    &:nth-child(1)::before {
+      background-color: $primary-50;
+    }
+
+    &:nth-child(2)::before {
+      background-color: $secondary-violet-50;
+    }
+
+    &:nth-child(3)::before {
+      background-color: $secondary-blue-50;
+    }
   }
 
   &__value-text {
