@@ -1,16 +1,3 @@
----
-title: Search Engineering
-weight: 18
-is_empty: false
-aliases:
-  - how-to
-  - tutorials
-partition: qdrant
----
-
-### Search Engineering Tutorials
-*Master vector search modalities, reranking, and retrieval quality.*
-
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
 | [Semantic Search Intro](/documentation/tutorials-search-engineering/neural-search/) | Deploy a search service for company descriptions. | <span class="pill">FastAPI</span> | 30m | <span class="text-green">Beginner</span> |

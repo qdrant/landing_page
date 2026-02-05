@@ -1,13 +1,13 @@
 ---
 title: Semantic Search 101
-weight: 1
+weight: 4
 aliases:
   - /documentation/tutorials/mighty.md/
   - /documentation/tutorials/search-beginners/
   - /documentation/beginner-tutorials/search-beginners/
 ---
 
-# Build Your First Semantic Search Engine in 5 Minutes
+# Build a Semantic Search Engine in 5 Minutes
 
 | Time: 5 - 15 min | Level: Beginner |  |   |
 | --- | ----------- | ----------- |----------- |

@@ -82,7 +82,7 @@ content:
       description: Start with our beginner-friendly exercises on vector embeddings and basic concepts.
       link:
         text: Start Learning
-        url: /documentation/tutorials-lp-basics
+        url: /documentation/tutorials-basics
     - id: 2
       icon:
         src: /icons/outline/hacker-purple.svg

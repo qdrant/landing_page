@@ -1,12 +1,12 @@
 ---
-title: Build a Neural Search Service
+title: Semantic Search Basics
 aliases:
   - /documentation/tutorials/neural-search/
   - /documentation/beginner-tutorials/neural-search/
 weight: 2
 ---
 
-# Build a Neural Search Service with Sentence Transformers and Qdrant
+# Semantic Search Basics with Qdrant
 
 | Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/tree/sentense-transformers) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)   |
 | --- | ----------- | ----------- |----------- |

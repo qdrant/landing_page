@@ -1,12 +1,15 @@
 ---
-title: Agentic RAG With LangGraph 
+title: Agentic RAG with LangGraph
 weight: 3
 partition: build
 hideInSidebar: true
 aliases:
   - /documentation/agentic-rag-langgraph/
 ---
-# Agentic RAG With LangGraph and Qdrant
+# Agentic RAG with LangGraph and Qdrant
+
+| Time: 45 min | Level: Intermediate |
+| --- | ----------- |
 
 Traditional Retrieval-Augmented Generation (RAG) systems follow a straightforward path: query → retrieve → generate. Sure, this works well for many scenarios. But let’s face it—this linear approach often struggles when you're dealing with complex queries that demand multiple steps or pulling together diverse types of information.
 

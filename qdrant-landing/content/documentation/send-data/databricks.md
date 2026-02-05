@@ -1,12 +1,12 @@
 ---
-title: Qdrant on Databricks
+title: Databricks Ingestion
 weight: 36
 hideInSidebar: true
 aliases:
   - /documentation/examples/databricks/
 ---
 
-# Qdrant on Databricks
+# Ingest Databricks Data into Qdrant
 
 | Time: 30 min | Level: Intermediate | [Complete Notebook](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/4750876096379825/93425612168199/6949977306828869/latest.html) |
 | ------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

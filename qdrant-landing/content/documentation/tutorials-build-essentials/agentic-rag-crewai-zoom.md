@@ -1,14 +1,14 @@
 ---
-title: Simple Agentic RAG System
+title: Agentic RAG with CrewAI
 weight: 2
 partition: build
 social_preview_image: /documentation/examples/agentic-rag-crewai-zoom/social_preview.png
 aliases:
   - /documentation/agentic-rag-crewai-zoom/
 ---
-![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-1.png)
+<!-- ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-1.png) -->
 
-# Agentic RAG With CrewAI & Qdrant Vector Database
+# Qdrant Agentic RAG System with CrewAI
 
 | Time: 45 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/tree/master/agentic_rag_zoom_crewai) |
 | --- | ----------- | ----------- |----------- |
@@ -86,7 +86,7 @@ The system is built on three main components:
 
 ## Getting Started
 
-![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-2.png)
+<!--  ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-2.png) -->
 
 1. **Get API Credentials for Qdrant**:
    - Sign up for an account at [Qdrant Cloud](https://cloud.qdrant.io/signup).
@@ -352,7 +352,7 @@ This combination of features creates an interface that's both powerful and appro
 ---
 ## Conclusion
 
-![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-3.png)
+<!-- ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-3.png) -->
 
 This tutorial has demonstrated how to build a sophisticated meeting analysis system that combines vector search with AI agents. Let's recap the key components we've covered:
 
@@ -384,5 +384,3 @@ This foundation can be extended in many ways, such as:
 - Integrating with other data sources
 
 The code is available in the [repository](https://github.com/qdrant/examples/tree/master/agentic_rag_zoom_crewai), and we encourage you to experiment with your own modifications and improvements.
-
----
