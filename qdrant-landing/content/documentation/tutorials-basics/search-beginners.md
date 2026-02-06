@@ -9,204 +9,77 @@ aliases:
 
 # Build a Semantic Search Engine in 5 Minutes
 
-| Time: 5 - 15 min | Level: Beginner |  |   |
+| Time: 5 - 15 min | Level: Beginner |  | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/semantic-search-in-5-minutes/semantic_search_in_5_minutes.ipynb)   |
 | --- | ----------- | ----------- |----------- |
 
-<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/AASiqmtKo54" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>
+> There are two versions of this tutorial:
+>
+> - The version on this page uses Qdrant Cloud. You'll deploy a cluster and generate vector embedding in the cloud using Qdrant Cloud's **forever free** tier (no credit card required). 
+> - Alternatively, you can run Qdrant on your own machine. This requires you to manage your own cluster and vector embedding infrastructure. If you prefer this option, check out the [local deployment version of this tutorial](/documentation/tutorials-basics/search-beginners-local/).
 
 ## Overview
 
-If you are new to vector databases, this tutorial is for you. In 5 minutes you will build a semantic search engine for science fiction books. After you set it up, you will ask the engine about an impending alien threat. Your creation will recommend books as preparation for a potential space attack.
+If you are new to vector search engines, this tutorial is for you. In 5 minutes you will build a semantic search engine for science fiction books. After you set it up, you will ask the engine about an impending alien threat. Your creation will recommend books as preparation for a potential space attack.
 
-Before you begin, you need to have a [recent version of Python](https://www.python.org/downloads/) installed. If you don't know how to run this code in a virtual environment, follow Python documentation for [Creating Virtual Environments](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments) first.
+Before you begin, you need to have a [recent version of Python](https://www.python.org/downloads/) installed. If you don't know how to run this code in a virtual environment, follow the Python documentation for [creating virtual environments](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments) first. Alternatively, you can use [this Google Colab notebook](https://githubtocolab.com/qdrant/examples/blob/master/semantic-search-in-5-minutes/semantic_search_in_5_minutes.ipynb).
 
-This tutorial assumes you're in the bash shell. Use the Python documentation to activate a virtual environment, with commands such as:
+## 1. Create a Qdrant Cluster
+
+If you do not already have a Qdrant cluster, follow these steps to create one:
+
+1. Register for a [Qdrant Cloud account](https://cloud.qdrant.io) using your email, Google, or Github credentials.
+1. Under **Create a Free Cluster**, enter a cluster name and select your preferred cloud provider and region.
+1. Click **Create Free Cluster**.
+1. Copy the **API key** when prompted and store it somewhere safe as it won’t be displayed again.
+1. Copy the **Cluster Endpoint**. It should look something like `https://xxx.cloud.qdrant.io`.
+
+
+## 2. Set up a Client Connection
+
+First, install the Qdrant Client for Python. This library allows you to interact with Qdrant from Python code.
 
 ```bash
-source tutorial-env/bin/activate
-``` 
-
-## 1. Installation
-
-You need to process your data so that the search engine can work with it. The [Sentence Transformers](https://www.sbert.net/) framework gives you access to common Large Language Models that turn raw data into embeddings.
-
-```bash
-pip install -U sentence-transformers
+pip install qdrant-client
 ```
 
-Once encoded, this data needs to be kept somewhere. Qdrant lets you store data as embeddings. You can also use Qdrant to run search queries against this data. This means that you can ask the engine to give you relevant answers that go way beyond keyword matching.
+Next, create a client connection to your Qdrant cluster using the endpoint and API key.
 
-```bash
-pip install -U qdrant-client
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/client-connection/" >}}
 
-<aside role="status">
-This tutorial requires qdrant-client version 1.7.1 or higher.
-</aside>
+Replace `QDRANT_URL` and `QDRANT_API_KEY` with the cluster endpoint and API key you obtained in the previous step. The `cloud_inference=True` parameter enables Qdrant Cloud's [inference](/documentation/concepts/inference/) capabilities, allowing the cluster to generate vector embeddings without the need to manage your own embedding infrastructure. 
 
-### Import the models 
+## 3. Create a Collection
 
-Once the two main frameworks are defined, you need to specify the exact models this engine will use.
+All data in Qdrant is organized within [collections](/documentation/concepts/collections/). Since you're storing books, let's create a collection named `my_books`.
 
-```python
-from qdrant_client import models, QdrantClient
-from sentence_transformers import SentenceTransformer
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/create-collection/" >}}
 
-The [Sentence Transformers](https://www.sbert.net/index.html) framework contains many embedding models. We'll take [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) as it has a good balance between speed and embedding quality for this tutorial.
+- The `size` parameter defines the dimensionality of the vectors for the collection. 384 corresponds to the output dimensionality of the embedding model used in this tutorial.
+- The `distance` parameter specifies the function used to measure the distance between two points.
 
-```python
-encoder = SentenceTransformer("all-MiniLM-L6-v2")
-```
+## 4. Upload Data to the Cluster
 
-## 2. Add the dataset
+The dataset consists of a list of science fiction books. Each entry has a name, author, publication year, and short description. 
 
-[all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) will encode the data you provide. Here you will list all the science fiction books in your library. Each book has metadata, a name, author, publication year and a short description. 
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/upload-data/" >}}
 
-```python
-documents = [
-    {
-        "name": "The Time Machine",
-        "description": "A man travels through time and witnesses the evolution of humanity.",
-        "author": "H.G. Wells",
-        "year": 1895,
-    },
-    {
-        "name": "Ender's Game",
-        "description": "A young boy is trained to become a military leader in a war against an alien race.",
-        "author": "Orson Scott Card",
-        "year": 1985,
-    },
-    {
-        "name": "Brave New World",
-        "description": "A dystopian society where people are genetically engineered and conditioned to conform to a strict social hierarchy.",
-        "author": "Aldous Huxley",
-        "year": 1932,
-    },
-    {
-        "name": "The Hitchhiker's Guide to the Galaxy",
-        "description": "A comedic science fiction series following the misadventures of an unwitting human and his alien friend.",
-        "author": "Douglas Adams",
-        "year": 1979,
-    },
-    {
-        "name": "Dune",
-        "description": "A desert planet is the site of political intrigue and power struggles.",
-        "author": "Frank Herbert",
-        "year": 1965,
-    },
-    {
-        "name": "Foundation",
-        "description": "A mathematician develops a science to predict the future of humanity and works to save civilization from collapse.",
-        "author": "Isaac Asimov",
-        "year": 1951,
-    },
-    {
-        "name": "Snow Crash",
-        "description": "A futuristic world where the internet has evolved into a virtual reality metaverse.",
-        "author": "Neal Stephenson",
-        "year": 1992,
-    },
-    {
-        "name": "Neuromancer",
-        "description": "A hacker is hired to pull off a near-impossible hack and gets pulled into a web of intrigue.",
-        "author": "William Gibson",
-        "year": 1984,
-    },
-    {
-        "name": "The War of the Worlds",
-        "description": "A Martian invasion of Earth throws humanity into chaos.",
-        "author": "H.G. Wells",
-        "year": 1898,
-    },
-    {
-        "name": "The Hunger Games",
-        "description": "A dystopian society where teenagers are forced to fight to the death in a televised spectacle.",
-        "author": "Suzanne Collins",
-        "year": 2008,
-    },
-    {
-        "name": "The Andromeda Strain",
-        "description": "A deadly virus from outer space threatens to wipe out humanity.",
-        "author": "Michael Crichton",
-        "year": 1969,
-    },
-    {
-        "name": "The Left Hand of Darkness",
-        "description": "A human ambassador is sent to a planet where the inhabitants are genderless and can change gender at will.",
-        "author": "Ursula K. Le Guin",
-        "year": 1969,
-    },
-    {
-        "name": "The Three-Body Problem",
-        "description": "Humans encounter an alien civilization that lives in a dying system.",
-        "author": "Liu Cixin",
-        "year": 2008,
-    },
-]
-```
+Store each book as a [point](/documentation/concepts/points/) in the `my_books` collection, with each point consisting of a [unique ID](/documentation/concepts/points/#point-ids), a [vector](/documentation/concepts/vectors/) generated from the description, and a [payload](/documentation/concepts/payload/) containing the book's metadata:
 
-## 3. Define storage location
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/upload-points/" >}}
 
-You need to tell Qdrant where to store embeddings. This is a basic demo, so your local computer will use its memory as temporary storage.
+This code tells Qdrant Cloud to use the `sentence-transformers/all-minilm-l6-v2` embedding model to generate vector embeddings from the book descriptions. This is one of the free models available on Qdrant Cloud. For a list of the available free and paid models, refer to the Inference tab of the Cluster Detail page in the Qdrant Cloud Console.
 
-```python
-client = QdrantClient(":memory:")
-```
+## 5. Query the Engine
 
-## 4. Create a collection
+Now that the data is stored in Qdrant, you can query it and receive semantically relevant results.
 
-All data in Qdrant is organized by collections. In this case, you are storing books, so we are calling it `my_books`.
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/query-engine/" >}}
 
-```python
-client.create_collection(
-    collection_name="my_books",
-    vectors_config=models.VectorParams(
-        size=encoder.get_sentence_embedding_dimension(),  # Vector size is defined by used model
-        distance=models.Distance.COSINE,
-    ),
-)
-```
-
-- The `vector_size` parameter defines the size of the vectors for a specific collection. If their size is different, it is impossible to calculate the distance between them. 384 is the encoder output dimensionality. You can also use model.get_sentence_embedding_dimension() to get the dimensionality of the model you are using.
-
-- The `distance` parameter lets you specify the function used to measure the distance between two points.
-
-
-## 5. Upload data to collection
-
-Tell the database to upload `documents` to the `my_books` collection. This will give each record an id and a payload. The payload is just the metadata from the dataset.
-
-```python
-client.upload_points(
-    collection_name="my_books",
-    points=[
-        models.PointStruct(
-            id=idx, vector=encoder.encode(doc["description"]).tolist(), payload=doc
-        )
-        for idx, doc in enumerate(documents)
-    ],
-)
-```
-
-## 6.  Ask the engine a question
-
-Now that the data is stored in Qdrant, you can ask it questions and receive semantically relevant results.
-
-```python
-hits = client.query_points(
-    collection_name="my_books",
-    query=encoder.encode("alien invasion").tolist(),
-    limit=3,
-).points
-
-for hit in hits:
-    print(hit.payload, "score:", hit.score)
-```
+This query uses the same embedding model to generate a vector for the query "alien invasion". The search engine then looks for the three most similar vectors in the collection and returns their payloads and similarity scores.
 
 **Response:**
 
-The search engine shows three of the most likely responses that have to do with the alien invasion. Each of the responses is assigned a score to show how close the response is to the original inquiry.
+The search engine returns the three most relevant books related to an alien invasion. Each is assigned a score indicating its similarity to the query:
 
 ```text
 {'name': 'The War of the Worlds', 'description': 'A Martian invasion of Earth throws humanity into chaos.', 'author': 'H.G. Wells', 'year': 1898} score: 0.570093257022374
@@ -214,27 +87,23 @@ The search engine shows three of the most likely responses that have to do with 
 {'name': 'The Three-Body Problem', 'description': 'Humans encounter an alien civilization that lives in a dying system.', 'author': 'Liu Cixin', 'year': 2008} score: 0.45902943411768216
 ```
 
-### Narrow down the query
+### Narrow down the Query
 
-How about the most recent book from the early 2000s?
+How about the most recent book from the early 2000s? Qdrant allows you to narrow down query results by applying a [filter](/documentation/concepts/filtering/). To filter for books published after the year 2000, you can filter on the `year` field in the payload.
 
-```python
-hits = client.query_points(
-    collection_name="my_books",
-    query=encoder.encode("alien invasion").tolist(),
-    query_filter=models.Filter(
-        must=[models.FieldCondition(key="year", range=models.Range(gte=2000))]
-    ),
-    limit=1,
-).points
+Before filtering on a payload field, create a [payload index](/documentation/concepts/indexing/#payload-index) for that field:
 
-for hit in hits:
-    print(hit.payload, "score:", hit.score)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/create-payload-index/" >}}
+
+In a production environment, create payload indexes before uploading data to get the maximum benefit from indexing.
+
+Now you can apply a filter to the query:
+
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/query-with-filter/" >}}
 
 **Response:**
 
-The query has been narrowed down to one result from 2008. 
+The results have been narrowed down to one result from 2008:
 
 ```text
 {'name': 'The Three-Body Problem', 'description': 'Humans encounter an alien civilization that lives in a dying system.', 'author': 'Liu Cixin', 'year': 2008} score: 0.45902943411768216
@@ -242,4 +111,4 @@ The query has been narrowed down to one result from 2008.
 
 ## Next Steps
 
-Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial you should try building an actual [Neural Search Service with a complete API and a dataset](/documentation/tutorials/neural-search/).
+Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial, try [building your own hybrid search service](/documentation/tutorials-search-engineering/hybrid-search-fastembed/) or take the free [Qdrant Essentials course](/course/essentials/).

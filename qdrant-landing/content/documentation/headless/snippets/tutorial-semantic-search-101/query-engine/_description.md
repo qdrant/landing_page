@@ -1,0 +1,1 @@
+This code snippet shows how to query a collection using inference at query time. Instead of providing an explicit query vector, the example uses a `Document` object with query text and a model name. Qdrant generates embeddings from the text and performs a semantic search to find the three most similar books, returning their payloads and similarity scores.
