@@ -20,7 +20,7 @@ Qdrant Hybrid Cloud ensures data privacy, deployment flexibility, low latency, a
 
 **Setup instructions:** To begin using Qdrant Hybrid Cloud, [read our installation guide](/documentation/hybrid-cloud/hybrid-cloud-setup/).
 
-## Hybrid Cloud architecture
+## Hybrid Cloud Architecture
 
 The Hybrid Cloud onboarding will install a Kubernetes Operator, a Cloud Agent and a Prometheus Agent into your Kubernetes cluster.
 
@@ -48,3 +48,7 @@ After the initial onboarding, the lifecycle of these components will be controll
 You don't need to expose your Kubernetes Cluster to the Qdrant Cloud platform, you don't need to open any ports for incoming traffic, and you don't need to provide any Kubernetes or cloud provider credentials to the Qdrant Cloud platform.
 
 ![hybrid-cloud-architecture](/blog/hybrid-cloud/hybrid-cloud-architecture.png)
+
+## Getting Access to Hybrid Cloud
+
+Qdrant Hybrid Cloud is available as part of our Enterprise plan. To get access to Qdrant Hybrid Cloud, please [contact us](/contact-us/).
