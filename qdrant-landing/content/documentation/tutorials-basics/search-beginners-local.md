@@ -12,13 +12,16 @@ aliases:
 | Time: 5 - 15 min | Level: Beginner |  |   |
 | --- | ----------- | ----------- |----------- |
 
-> In this tutorial, you'll deploy Qdrant locally. Alternatively, you can use Qdrant Cloud. The Qdrant Cloud free tier offers a convenient way to get started with vector search and embeddings at no cost (no credit card required). If you prefer to use Qdrant Cloud, check out the [Qdrant Cloud version of this tutorial](/documentation/tutorials-basics/search-beginners/).
+> There are two versions of this tutorial:
+>
+> - With the version on this page, you'll run Qdrant on your own machine. This requires you to manage your own cluster and vector embedding infrastructure.
+> - Alternatively, you can use Qdrant Cloud to deploy a cluster and generate vector embeddings using Qdrant Cloud's **forever free** tier (no credit card required). If you prefer this option, check out the [Qdrant Cloud version of this tutorial](/documentation/tutorials-basics/search-beginners/).
 
 <p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/AASiqmtKo54" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>
 
 ## Overview
 
-If you are new to vector databases, this tutorial is for you. In 5 minutes you will build a semantic search engine for science fiction books. After you set it up, you will ask the engine about an impending alien threat. Your creation will recommend books as preparation for a potential space attack.
+If you are new to vector search engines, this tutorial is for you. In 5 minutes you will build a semantic search engine for science fiction books. After you set it up, you will ask the engine about an impending alien threat. Your creation will recommend books as preparation for a potential space attack.
 
 Before you begin, you need to have a [recent version of Python](https://www.python.org/downloads/) installed. If you don't know how to run this code in a virtual environment, follow Python documentation for [Creating Virtual Environments](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments) first.
 
@@ -46,7 +49,7 @@ pip install -U qdrant-client
 This tutorial requires qdrant-client version 1.7.1 or higher.
 </aside>
 
-### Import the models 
+### Import the Models
 
 Once the two main frameworks are defined, you need to specify the exact models this engine will use.
 
@@ -61,7 +64,7 @@ The [Sentence Transformers](https://www.sbert.net/index.html) framework contains
 encoder = SentenceTransformer("all-MiniLM-L6-v2")
 ```
 
-## 2. Add the dataset
+## 2. Add the Dataset
 
 [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) will encode the data you provide. Here you will list all the science fiction books in your library. Each book has metadata, a name, author, publication year and a short description. 
 
@@ -148,7 +151,7 @@ documents = [
 ]
 ```
 
-## 3. Define storage location
+## 3. Define Storage Location
 
 You need to tell Qdrant where to store embeddings. This is a basic demo, so your local computer will use its memory as temporary storage.
 
@@ -156,7 +159,7 @@ You need to tell Qdrant where to store embeddings. This is a basic demo, so your
 client = QdrantClient(":memory:")
 ```
 
-## 4. Create a collection
+## 4. Create a Collection
 
 All data in Qdrant is organized by collections. In this case, you are storing books, so we are calling it `my_books`.
 
@@ -175,7 +178,7 @@ client.create_collection(
 - The `distance` parameter lets you specify the function used to measure the distance between two points.
 
 
-## 5. Upload data to collection
+## 5. Upload Data to Collection
 
 Tell the database to upload `documents` to the `my_books` collection. This will give each record an id and a payload. The payload is just the metadata from the dataset.
 
@@ -191,7 +194,7 @@ client.upload_points(
 )
 ```
 
-## 6.  Ask the engine a question
+## 6. Ask the Engine a Question
 
 Now that the data is stored in Qdrant, you can ask it questions and receive semantically relevant results.
 
@@ -216,7 +219,7 @@ The search engine shows three of the most likely responses that have to do with 
 {'name': 'The Three-Body Problem', 'description': 'Humans encounter an alien civilization that lives in a dying system.', 'author': 'Liu Cixin', 'year': 2008} score: 0.45902943411768216
 ```
 
-### Narrow down the query
+### Narrow Down the Query
 
 How about the most recent book from the early 2000s?
 
@@ -244,4 +247,4 @@ The query has been narrowed down to one result from 2008.
 
 ## Next Steps
 
-Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial you should try building an actual [Neural Search Service with a complete API and a dataset](/documentation/tutorials/neural-search/).
+Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial, try [building your own hybrid search service](/documentation/tutorials-search-engineering/hybrid-search-fastembed/) or take the free [Qdrant Essentials course](/course/essentials/).

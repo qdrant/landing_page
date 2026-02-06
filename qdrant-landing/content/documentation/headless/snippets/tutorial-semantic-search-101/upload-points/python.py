@@ -18,6 +18,7 @@ documents = documents = [
     }]
 # @hide-end
 
+# Define the embedding model used by Cloud Inference
 EMBEDDING_MODEL="sentence-transformers/all-minilm-l6-v2"
 
 client.upload_points(
@@ -27,7 +28,7 @@ client.upload_points(
             id=idx,
             vector=models.Document(
                 text=doc["description"],
-                model=EMBEDDING_MODEL
+                model=EMBEDDING_MODEL # Cloud Inference generates embeddings with this model
             ),
             payload=doc
         )
