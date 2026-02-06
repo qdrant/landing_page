@@ -72,6 +72,9 @@ menuItems:
       - id: 2
         name: Hospitality & Travel
         url: /hospitality-and-travel/
+      - id: 3
+        name: HR Tech
+        url: /hr-tech/
   - title: Developers
     items:
       - id: 0

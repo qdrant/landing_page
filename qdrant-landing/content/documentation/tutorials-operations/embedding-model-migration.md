@@ -2,10 +2,13 @@
 title: Migrate to a New Embedding Model
 aliases:
   - /documentation/tutorials/embedding-model-migration/
-weight: 191
+weight: 30
 ---
 
-# Migrate to a New Embedding Model with Zero Downtime
+# Migrate to a New Embedding Model with Zero Downtime in Qdrant
+
+| Time: 40 min | Level: Intermediate |
+| --- | ----------- |
 
 When building a semantic search application, you need to [choose an embedding 
 model](/articles/how-to-choose-an-embedding-model/). Over time, you may want to switch to a different model for better 

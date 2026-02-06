@@ -1,5 +1,5 @@
 ---
-title: Bulk Upload Vectors
+title: Bulk Operations
 aliases:
   - /documentation/tutorials/bulk-upload/
   - /documentation/database-tutorials/bulk-upload/
@@ -7,6 +7,9 @@ weight: 1
 ---
 
 # Bulk Upload Vectors to a Qdrant Collection
+
+| Time: 20 min | Level: Intermediate |
+| --- | ----------- |
 
 Uploading a large-scale dataset fast might be a challenge, but Qdrant has a few tricks to help you with that.
 

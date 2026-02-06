@@ -1,12 +1,13 @@
 ---
-title: Load a HuggingFace Dataset
+title: Hugging Face Dataset Ingestion
+hideInSidebar: true
 aliases:
   - /documentation/tutorials/huggingface-datasets/
   - /documentation/database-tutorials/huggingface-datasets/
 weight: 3
 ---
 
-# Load and Search Hugging Face Datasets with Qdrant
+# Load Hugging Face Datasets into Qdrant
 
 [Hugging Face](https://huggingface.co/) provides a platform for sharing and using ML models and
 datasets. [Qdrant](https://huggingface.co/Qdrant) also publishes datasets along with the

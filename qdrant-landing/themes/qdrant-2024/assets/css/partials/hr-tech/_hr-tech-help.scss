@@ -1,0 +1,68 @@
+@use 'sass:math';
+@use '../../helpers/functions' as *;
+
+.hr-tech-problem {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__content {
+    margin-bottom: $spacer * 3;
+  }
+
+  &__title {
+    margin: 0 0 $spacer * 1.5;
+    font-size: $spacer * 2;
+    line-height: 1.2;
+    color: $neutral-20;
+    letter-spacing: -0.5px;
+
+    .text-accent {
+      color: $primary-50;
+    }
+  }
+
+  &__text {
+    p {
+      margin: 0 0 $spacer;
+      font-size: pxToRem(18);
+      line-height: 1.5;
+      color: $neutral-20;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__visual {
+    display: flex;
+    justify-content: center;
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(540);
+      height: auto;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__content {
+      margin-bottom: 0;
+      padding-right: $spacer * 3;
+    }
+
+    &__title {
+      font-size: pxToRem(40);
+      max-width: pxToRem(506);
+    }
+
+    &__text {
+      max-width: pxToRem(505);
+    }
+  }
+}

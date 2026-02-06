@@ -1,5 +1,5 @@
 ---
-title: Scaling PDF Retrieval with Qdrant
+title: Multivector Document Retrieval
 aliases:
   - /documentation/tutorials/pdf-retrieval-at-scale/
   - /documentation/advanced-tutorials/pdf-retrieval-at-scale/
@@ -10,7 +10,7 @@ preview_image: /documentation/tutorials/pdf-retrieval-at-scale/social_preview.pn
 social_preview_image: /documentation/tutorials/pdf-retrieval-at-scale/social_preview.png
 ---
 
-# Scaling PDF Retrieval with Qdrant
+# Qdrant Multivector Document Retrieval with ColPali/ColQwen
 
 ![scaling-pdf-retrieval-qdrant](/documentation/tutorials/pdf-retrieval-at-scale/image1.png)
 

@@ -1,9 +1,11 @@
 ---
-title: Monitoring Hybrid/Private Cloud with Prometheus and Grafana
+title: Self-Hosted Prometheus Monitoring
 weight: 37
 ---
 
 # Monitoring Hybrid/Private Cloud with Prometheus and Grafana
+| Time: 30 min | Level: Intermediate |
+| --- | ----------- |
 
 This tutorial will guide you through the process of setting up Prometheus and Grafana to monitor Qdrant databases running in a Kubernetes cluster used for Hybrid or Private Cloud.
 

@@ -1,5 +1,5 @@
 ---
-title: Build a Recommendation System with Collaborative Filtering
+title: Collaborative Filtering
 aliases:
   - /documentation/tutorials/collaborative-filtering/
   - /documentation/advanced-tutorials/collaborative-filtering/
@@ -10,7 +10,7 @@ social_preview_image: /blog/collaborative-filtering/social_preview.png
 weight: 3
 ---
 
-# Use Collaborative Filtering to Build a Movie Recommendation System with Qdrant
+# Build a Recommendation System with Collaborative Filtering using Qdrant
 
 | Time: 45 min | Level: Intermediate | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/collaborative-filtering/collaborative-filtering.ipynb) |    |
 |--------------|---------------------|--|----|
