@@ -1,3 +1,16 @@
+# @hide-start
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(
+    url="",
+    api_key="",
+    cloud_inference=True
+)
+
+COLLECTION_NAME=""
+EMBEDDING_MODEL=""
+# @hide-end
+
 hits = client.query_points(
     collection_name=COLLECTION_NAME,
     query=models.Document(
