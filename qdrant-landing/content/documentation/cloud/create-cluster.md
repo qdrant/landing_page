@@ -69,7 +69,7 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 1. Select a provider. Currently, you can deploy to:
 
    - Amazon Web Services (AWS)
-   - Google Cloud Platform (GCluP)
+   - Google Cloud Platform (GCP)
    - Microsoft Azure 
    - Your own [Hybrid Cloud](/documentation/hybrid-cloud/) Infrastructure
 
