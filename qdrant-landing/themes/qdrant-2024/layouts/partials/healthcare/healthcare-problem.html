@@ -3,18 +3,7 @@
     <div class="row align-items-center">
       <div class="col-12 col-xl-6 healthcare-problem__left">
         <div class="healthcare-problem__visual">
-          <div class="healthcare-problem__circles">
-            {{ range .Params.visual.circular }}
-              <img src="{{ .src }}" alt="{{ .alt }}" class="healthcare-problem__{{ .class }}" />
-            {{ end }}
-          </div>
-          <div class="healthcare-problem__floating-icons">
-            {{ range .Params.visual.floatingIcons }}
-              <div class="healthcare-problem__floating-icon healthcare-problem__{{ .class }}">
-                <img src="{{ .src }}" alt="{{ .alt }}" />
-              </div>
-            {{ end }}
-          </div>
+          <img src="{{ .Params.visual.src }}" alt="{{ .Params.visual.alt }}" class="healthcare-problem__visual-img" />
         </div>
         <div class="healthcare-problem__header">
           <h2 class="healthcare-problem__title">{{ .Params.title }}</h2>

@@ -14,105 +14,14 @@
   }
 
   &__visual {
-    position: relative;
-    width: pxToRem(540);
-    height: pxToRem(240);
-    max-width: 100%;
+    max-width: pxToRem(540);
     margin-bottom: $spacer * 2;
   }
 
-  &__circles {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: pxToRem(540);
-    height: pxToRem(240);
-    overflow: hidden;
-  }
-
-  &__circular-1 {
-    position: absolute;
-    top: 0;
-    left: pxToRem(3.5);
-    width: pxToRem(533);
-    height: pxToRem(533);
-  }
-
-  &__circular-2 {
-    position: absolute;
-    top: pxToRem(72.47);
-    left: pxToRem(75.97);
-    width: pxToRem(388);
-    height: pxToRem(388);
-  }
-
-  &__circular-3 {
-    position: absolute;
-    top: pxToRem(144.94);
-    left: pxToRem(148.44);
-    width: pxToRem(243);
-    height: pxToRem(243);
-  }
-
-  &__floating-icons {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: pxToRem(540);
-    height: pxToRem(240);
-    pointer-events: none;
-  }
-
-  &__floating-icon {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: $neutral-98;
-    border-radius: pxToRem(9);
-    box-shadow: 0 pxToRem(4.675) pxToRem(40.325) rgba($neutral-70, 0.25);
-
-    img {
-      width: 60%;
-      height: 60%;
-    }
-  }
-
-  &__icon-alert {
-    top: pxToRem(107.54);
-    left: pxToRem(232.6);
-    width: pxToRem(75);
-    height: pxToRem(75);
-  }
-
-  &__icon-file {
-    top: pxToRem(144.94);
-    left: pxToRem(88.83);
-    width: pxToRem(47);
-    height: pxToRem(47);
-  }
-
-  &__icon-image {
-    top: pxToRem(53.77);
-    left: pxToRem(129.74);
-    width: pxToRem(37);
-    height: pxToRem(37);
-  }
-
-  &__icon-speech {
-    top: pxToRem(80.65);
-    left: pxToRem(384.55);
-    width: pxToRem(37);
-    height: pxToRem(37);
-  }
-
-  &__icon-hourglass {
-    top: pxToRem(156.63);
-    left: pxToRem(421.95);
-    width: pxToRem(47);
-    height: pxToRem(47);
+  &__visual-img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   &__header {

@@ -8,5 +8,14 @@ avatar:
 logo:
   src: /img/healthcare/anima-logo.svg
   alt: Anima Health Logo
+partners:
+  title: "We work with the best in the healthcare industry:"
+  logos:
+    - src: /img/healthcare/logo-johnson-johnson.svg
+      alt: Johnson & Johnson Logo
+    - src: /img/healthcare/logo-merck.svg
+      alt: Merck Logo
+    - src: /img/healthcare/logo-bayer.svg
+      alt: Bayer Logo
 sitemapExclude: true
 ---

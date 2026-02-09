@@ -246,15 +246,15 @@
     width: pxToRem(36);
     height: pxToRem(36);
     background: none;
-    border: none;
+    border: pxToRem(1) solid $neutral-80;
     border-radius: pxToRem(8);
-    color: $neutral-80;
+    color: $neutral-40;
     cursor: pointer;
-    transition: color 0.2s ease, background-color 0.2s ease;
+    transition: color 0.2s ease, border-color 0.2s ease;
 
     &:hover {
-      color: $neutral-40;
-      background-color: rgba($neutral-90, 0.5);
+      color: $neutral-20;
+      border-color: $neutral-60;
     }
 
     svg {
@@ -295,7 +295,6 @@
 
     &--active span {
       background-color: $neutral-20;
-      transform: scale(1.2);
     }
   }
 

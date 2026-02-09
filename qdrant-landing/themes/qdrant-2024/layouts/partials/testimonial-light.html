@@ -1,6 +1,18 @@
 {{ $class := .class }}
 <section class="testimonial-light {{ $class }}">
   <div class="container">
+    {{ with .context.Params.partners }}
+    <div class="testimonial-light__partners">
+      <p class="testimonial-light__partners-title">{{ .title }}</p>
+      <div class="testimonial-light__partners-logos">
+        {{ range .logos }}
+        <div class="testimonial-light__partners-card">
+          <img src="{{ .src }}" alt="{{ .alt }}" />
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
     <div class="row gy-4 gx-3">
       <div class="col-12 col-xl-9">
         <div class="testimonial-light__content">
