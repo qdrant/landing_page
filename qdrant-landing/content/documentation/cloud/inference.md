@@ -35,7 +35,7 @@ Inference is billed based on the number of tokens processed by the model. The co
 
 ## Use External Models
 
-Qdrant Cloud can act as a proxy for the APIs of these external embedding model providers:
+Qdrant Cloud can act as a proxy for the following external embedding providers:
 
 - OpenAI
 - Cohere
