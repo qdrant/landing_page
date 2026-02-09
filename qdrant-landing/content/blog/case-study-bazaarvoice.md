@@ -5,7 +5,7 @@ short_description: "Bazaarvoice scaled AI product insights across billions of re
 description: "Discover how Bazaarvoice reduced vector storage by ~100x and unlocked new AI-powered shopping and insights experiences with Qdrant."
 preview_image: /blog/case-study-bazaarvoice//bazaarvoice-case-study-preview.png
 social_preview_image: /blog/case-study-bazaarvoice//bazaarvoice-case-study-preview.png
-date: 2026-01-30
+date: 2026-02-10
 author: "Daniel Azoulai"
 featured: true
 
@@ -102,7 +102,7 @@ With Qdrant’s flexible indexing, cross-product and cross-category queries now 
 
 By solving storage, cost, and operational complexity in one move, Qdrant unlocked entirely new product development at Bazaarvoice.
 
-Within a single year, the team shipped two new AI-powered products on top of the same vector infrastructure. The AI Shopping Assistant went live on January 30, 2026, allowing shoppers to ask natural language questions directly on product pages. AI Insights, currently in prerelease, enables brands to explore sentiment and themes across entire product lines using conversational queries.
+Within a single year, the team shipped two new AI-powered products on top of the same vector infrastructure. The AI Shopping Assistant went live in 2026, allowing shoppers to ask natural language questions directly on product pages. AI Insights, currently in prerelease, enables brands to explore sentiment and themes across entire product lines using conversational queries.
 
 >“We’re shipping the AI products we actually bought this for now. And we’re doing it from a single place.”  
 — Lou Kratz, Senior Principal Engineer, Bazaarvoice
