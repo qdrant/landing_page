@@ -33,6 +33,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Mastra](/documentation/frameworks/mastra/)                   | Typescript framework to build AI applications and features quickly.                                                  |
 | [Mirror Security](/documentation/frameworks/mirror-security/) | Python framework for vector encryption and access control.                                                           |
 | [Mem0](/documentation/frameworks/mem0/)                       | Self-improving memory layer for LLM applications, enabling personalized AI experiences.                              |
+| [Microsoft GraphRAG](/documentation/frameworks/microsoft-graphrag/) | Python library for building knowledge graphs from unstructured text.                                           |
 | [Neo4j GraphRAG](/documentation/frameworks/neo4j-graphrag/)   | Package to build graph retrieval augmented generation (GraphRAG) applications using Neo4j and Python.                |
 | [NLWeb](/documentation/frameworks/nlweb/)                     | A framework to turn websites into chat-ready data using schema.org and associated data formats.                      |
 | [Rig-rs](/documentation/frameworks/rig-rs/)                   | Rust library for building scalable, modular, and ergonomic LLM-powered applications.                                 |
