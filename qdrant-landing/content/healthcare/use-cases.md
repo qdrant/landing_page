@@ -23,7 +23,7 @@ useCases:
         text: "Keeps generation grounded, reduces hallucination risk, improves clinician trust."
   - id: operations-gps
     title: "Operational AI for General Practitioners"
-    gradient: "linear-gradient(112deg, #D3E8FF 8.74%, #8B5CF6 98.12%)"
+    gradient: "linear-gradient(112deg, #E2D3FF 8.74%, #6B99F5 98.12%)"
     visual:
       src: /img/healthcare/slide-1.png
       alt: Operations AI illustration

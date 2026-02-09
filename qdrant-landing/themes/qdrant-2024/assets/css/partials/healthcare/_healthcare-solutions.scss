@@ -71,7 +71,8 @@
   @include media-breakpoint-up(md) {
     &__grid {
       grid-template-columns: repeat(3, 1fr);
-      gap: $spacer;
+      row-gap: pxToRem(20);
+      column-gap: $spacer;
     }
   }
 

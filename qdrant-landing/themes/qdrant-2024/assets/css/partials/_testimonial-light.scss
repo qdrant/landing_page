@@ -14,8 +14,9 @@
   &__review {
     margin-bottom: $spacer * 2.5;
     font-size: pxToRem(20);
-    line-height: pxToRem(30);
+    line-height: 1.5;
     color: $neutral-20;
+    letter-spacing: pxToRem(-0.2);
   }
 
   &__employees {

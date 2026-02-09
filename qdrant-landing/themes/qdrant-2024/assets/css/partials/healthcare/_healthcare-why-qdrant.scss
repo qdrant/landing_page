@@ -27,7 +27,7 @@
   &__item {
     display: flex;
     align-items: flex-start;
-    gap: $spacer * 1.25;
+    gap: $spacer;
   }
 
   &__item-icon {
@@ -95,9 +95,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: $spacer * 1.5;
-    margin-top: $spacer * 3;
-    padding-top: $spacer * 3;
-    border-top: 1px solid $neutral-90;
+    margin-top: $spacer * 2.5;
   }
 
   &__badge {
@@ -129,7 +127,7 @@
     }
 
     &__badges {
-      gap: $spacer * 2;
+      gap: $spacer * 1.5;
     }
 
     &__badge {
@@ -148,11 +146,11 @@
 
     &__title {
       font-size: pxToRem(40);
-      margin-bottom: $spacer * 4;
+      margin-bottom: $spacer * 2.5;
     }
 
     &__items {
-      gap: $spacer * 3;
+      gap: $spacer * 2.5;
     }
   }
 }

@@ -111,8 +111,7 @@
     @include media-breakpoint-up(lg) {
       position: absolute;
       left: pxToRem(60);
-      top: 50%;
-      transform: translateY(-45%);
+      top: pxToRem(80);
       width: pxToRem(320);
       height: auto;
       padding: 0;
@@ -243,8 +242,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: pxToRem(36);
-    height: pxToRem(36);
+    width: pxToRem(40);
+    height: pxToRem(40);
+    padding: 0;
     background: none;
     border: pxToRem(1) solid $neutral-80;
     border-radius: pxToRem(8);
@@ -258,8 +258,8 @@
     }
 
     svg {
-      width: pxToRem(18);
-      height: pxToRem(18);
+      width: pxToRem(20);
+      height: pxToRem(20);
     }
   }
 

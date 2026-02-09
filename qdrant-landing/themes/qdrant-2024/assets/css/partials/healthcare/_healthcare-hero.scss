@@ -16,23 +16,22 @@
     display: inline-flex;
     align-items: center;
     gap: $spacer * 0.5;
-    padding: math.div($spacer, 4) $spacer * 0.75;
+    padding: math.div($spacer, 4) $spacer;
     margin-bottom: $spacer * 1.5;
     background-color: $white;
     border-radius: pxToRem(4);
-    border: 1px solid $neutral-90;
   }
 
   &__label-icon {
-    width: pxToRem(20);
-    height: pxToRem(20);
+    width: pxToRem(16);
+    height: pxToRem(16);
   }
 
   &__label-text {
     font-size: pxToRem(14);
-    line-height: pxToRem(21);
+    line-height: 1.5;
     font-weight: 500;
-    color: $neutral-30;
+    color: $neutral-60;
   }
 
   &__title {
@@ -46,9 +45,10 @@
   &__description {
     margin-bottom: $spacer * 2;
     font-size: pxToRem(18);
-    line-height: pxToRem(28);
+    line-height: 1.5;
     font-weight: 400;
     color: $neutral-30;
+    letter-spacing: pxToRem(-0.2);
   }
 
   &__buttons {
@@ -62,8 +62,8 @@
 
     &--secondary {
       background-color: transparent;
-      border-color: $neutral-60;
-      color: $neutral-20;
+      border-color: $neutral-70;
+      color: $neutral-30;
 
       &:hover {
         background-color: $neutral-90;
@@ -99,8 +99,14 @@
     padding-bottom: $spacer * 7.5;
 
     &__title {
-      font-size: pxToRem(45);
-      line-height: pxToRem(50);
+      font-size: pxToRem(48);
+      line-height: 1.1;
+      max-width: pxToRem(560);
+    }
+
+    &__description {
+      font-size: pxToRem(20);
+      max-width: pxToRem(560);
     }
 
     &__preview {
@@ -109,8 +115,8 @@
     }
 
     &__image {
-      width: 110%;
-      max-width: none;
+      width: 100%;
+      max-width: pxToRem(466);
     }
   }
 }
