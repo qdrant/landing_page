@@ -83,7 +83,7 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 1. Select additional disk space for your deployment.
    > Depending on your collection configuration, you may need more disk space per RAM. For example, if you configure `on_disk: true` and only use RAM for caching. 
 1. Choose the speed tier for your disk. (AWS only)
-  > Higher speed tiers provide better performance, especially for write-heavy workloads, or configurations with a low RAM cache ratio.
+   > Higher speed tiers provide better performance, especially for write-heavy workloads, or configurations with a low RAM cache ratio.
 1. Review your cluster configuration and pricing.
 1. When you're ready, select **Create**. It takes some time to provision your cluster.
 
