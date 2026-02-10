@@ -83,7 +83,7 @@ The most immediate impact came from storage and infrastructure efficiency.
 Bazaarvoice reduced its vector storage footprint by approximately 100x, compressing what previously required 4 to 5 terabytes in PostgreSQL down to a few hundred gigabytes in Qdrant. Quantization made it possible to keep billions of vectors accessible without the RAM requirements that full-resolution embeddings would have imposed.
 
 >“Everyone talks about speed and accuracy. Storage is the story nobody talks about, and it’s the most important one at this scale.”  
-— Lou Kratz, Senior Principal Engineer, Bazaarvoice
+— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
 
 Performance improved at the same time. Even during migration, with disk-based collections, the system consistently delivered sub-100 millisecond query latency while maintaining approximately 98 percent nearest neighbor accuracy. That balance allowed Bazaarvoice to dramatically lower infrastructure costs without sacrificing user experience.
 
