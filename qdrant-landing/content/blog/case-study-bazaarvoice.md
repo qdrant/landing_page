@@ -38,7 +38,7 @@ This created two fundamental constraints: First, the system had to scale to bill
 To move quickly, Bazaarvoice initially implemented vector search using PostgreSQL with the pgvector extension. While this allowed the team to ship early versions of AI-powered features, it was never intended as a long-term solution.
 
 >“We only did Postgres to get a product out the door quickly. We knew when we did it, it was not the right long-term choice.”  
-— Lou Kratz, Senior Principal Engineer, Bazaarvoice
+— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
 
 As usage grew, the drawbacks became unavoidable. Every new client or product required manual partition creation. Cross-product queries forced Postgres to iterate across thousands of partitions, causing query latency to spike. At the same time, storage and RAM requirements climbed into the multi-terabyte range.
 
@@ -51,7 +51,7 @@ The team evaluated several approaches, including traditional search engines and 
 With over a billion vectors, post-filtering meant searching far more data than necessary.
 
 >“Why would we search a billion vectors when we only need to search ten thousand?”  
-— Lou Kratz, Senior Principal Engineer, Bazaarvoice
+— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
 
 Qdrant stood out for a few key reasons:
 
@@ -92,7 +92,7 @@ Just as important, Qdrant removed a major source of engineering friction. Under 
 With Qdrant’s flexible indexing, cross-product and cross-category queries now work at query time without performance degradation.
 
 >“In Postgres, you’d end up iterating over ten thousand partitions and the query would just go kaput. That simply doesn’t happen anymore.”  
-— Lou Kratz, Senior Principal Engineer, Bazaarvoice
+— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
 
 ## Unlocking New Product Development
 
@@ -101,12 +101,12 @@ By solving storage, cost, and operational complexity in one move, Qdrant unlocke
 Within a single year, the team shipped two new AI-powered products on top of the same vector infrastructure. The AI Shopping Assistant went live in 2026, allowing shoppers to ask natural language questions directly on product pages. AI Insights, currently in prerelease, enables brands to explore sentiment and themes across entire product lines using conversational queries.
 
 >“We’re shipping the AI products we actually bought this for now. And we’re doing it from a single place.”  
-— Lou Kratz, Senior Principal Engineer, Bazaarvoice
+— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
 
 From a developer perspective, the experience remained consistent across environments. The open-source container made local development and CI/CD straightforward, while the hybrid cloud deployment satisfied security and compliance requirements.
 
 >“It does one thing and it does it really well. It feels simple, even though I know it’s not.”  
-— Lou Kratz, Senior Principal Engineer, Bazaarvoice
+— Dr. Lou Kratz, Senior Principal Engineer, Bazaarvoice
 
 ## What’s next for Bazaarvoice
 
