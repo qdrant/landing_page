@@ -25,7 +25,7 @@ tags:
 
 Bazaarvoice powers ratings and reviews across the global ecommerce ecosystem, connecting brands, retailers, and consumers through authentic product feedback. From brand-owned storefronts to major retailers, Bazaarvoice sources, verifies, and amplifies reviews at a scale few companies ever reach.
 
-As large language models (LLMs) became production-ready, Bazaarvoice saw an opportunity to enhance the experiences of their clients' shoppers. The company wanted to help shoppers ask natural language questions directly on product detail pages and help brands extract meaningful insights from vast volumes of unstructured customer feedback.
+As large language models (LLMs) became production-ready, Bazaarvoice saw an opportunity to enhance the experiences of their clients' shoppers. The company wanted to help shoppers ask questions directly on product detail pages using natural language and help brands extract meaningful insights from vast volumes of unstructured customer feedback.
 
 Delivering those experiences required a new foundation. Bazaarvoice needed vector search that could scale to billions of embeddings, support strict tenant isolation, and enable flexible query patterns. That requirement ultimately led the team to Qdrant.
 
@@ -35,9 +35,8 @@ Bazaarvoice’s core data set is dominated by text reviews, with some images and
 
 This created two fundamental constraints.
 
-First, the system had to scale to billions of vectors while remaining cost-efficient.
+This created two fundamental constraints: First, the system had to scale to billions of vectors while remaining cost-efficient. Second, queries had to be scoped dynamically. Most searches are limited to a specific client, product, or category. Searching the entire corpus every time would waste compute, memory, and time.
 
-Second, queries had to be scoped dynamically. Most searches are limited to a specific client, product, or category. Searching the entire corpus every time would waste compute, memory, and time.
 
 To move quickly, Bazaarvoice initially implemented vector search using PostgreSQL with the pgvector extension. While this allowed the team to ship early versions of AI-powered features, it was never intended as a long-term solution.
 
