@@ -2,6 +2,8 @@
 @use '../../helpers/functions' as *;
 
 .healthcare-use-cases {
+  position: relative;
+  z-index: 1;
   padding-top: $spacer * 2.5;
   padding-bottom: $spacer * 5;
   background-color: $neutral-94;

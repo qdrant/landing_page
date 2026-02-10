@@ -75,6 +75,9 @@ menuItems:
       - id: 3
         name: HR Tech
         url: /hr-tech/
+      - id: subMenu-1-9
+        name: Healthcare Tech
+        url: /healthcare/
   - title: Developers
     items:
       - id: 0
