@@ -45,12 +45,14 @@ $success-10: #00210f;
 $success-30: #00522f;
 $success-50: #008a53;
 $success-70: #50bf83;
+$success-80: #7de2ad;
 $success-90: #befad6;
 
 $warning-10: #311300;
 $warning-30: #733501;
 $warning-50: #e0700d;
 $warning-70: #ff8d39;
+$warning-80: #ffb400;
 $warning-90: #ffdbc7;
 
 $error-10: #410002;
@@ -105,12 +107,12 @@ $table-border-color: $neutral-90;
 $table-striped-color: $table-color;
 $table-striped-bg: $neutral-94;
 
-$font-family-sans-serif: 'Satoshi', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,
+$font-family-sans-serif: 'Mona Sans', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,
   'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-$font-family-monospace: 'Source Code Pro', 'Overpass Mono', SFMono-Regular, 'Droid Sans Mono', Menlo, Monaco, Consolas,  'Lucida Console', 'Monaco', monospace;
-$font-family-base: 'Satoshi', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',
+$font-family-monospace: 'Geist Mono', 'Overpass Mono', SFMono-Regular, 'Droid Sans Mono', Menlo, Monaco, Consolas,  'Lucida Console', 'Monaco', monospace;
+$font-family-base: 'Mona Sans', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-$font-family-code: 'Source Code Pro', 'Overpass Mono', SFMono-Regular, 'Droid Sans Mono', Menlo, Monaco, Consolas,  'Lucida Console', 'Monaco', monospace;
+$font-family-code: 'Geist Mono', 'Overpass Mono', SFMono-Regular, 'Droid Sans Mono', Menlo, Monaco, Consolas,  'Lucida Console', 'Monaco', monospace;
 
 $font-size-xs: pxToRem(12);
 $font-size-s: pxToRem(14);
@@ -130,7 +132,15 @@ $font-sizes-text: (
 $font-size-sm: $font-size-s;
 $font-size-lg: $font-size-l;
 
-$font-weight-base: $font-weight-medium;
+$font-weight-lighter:         lighter !default;
+$font-weight-light:           300 !default;
+$font-weight-normal:          350 !default;
+$font-weight-medium:          500 !default;
+$font-weight-semibold:        600 !default;
+$font-weight-bold:            700 !default;
+$font-weight-bolder:          bolder !default;
+
+$font-weight-base:            $font-weight-normal !default;
 
 $line-height-sm: pxToRem(21);
 $line-height-lg: pxToRem(27);
@@ -151,7 +161,7 @@ $font-sizes: (
   6: pxToRem(24),
 );
 
-$headings-font-weight: 700;
+$headings-font-weight: 600;
 $headings-line-height: 1.2;
 
 $display-font-sizes: (
@@ -163,7 +173,7 @@ $display-font-sizes: (
   //6: 2.5rem
 );
 
-$display-font-weight: 700;
+$display-font-weight: 600;
 
 $container-max-widths: (
   sm: 540px,

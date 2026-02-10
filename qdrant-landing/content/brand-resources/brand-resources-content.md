@@ -122,11 +122,11 @@ colors:
     code: "FFFFFF"
 typography:
   title: Typography
-  description: Main typography is Satoshi, this is employed for both UI and marketing purposes. Headlines are set in Bold (600), while text is rendered in Medium (500).
+  description: Our main typography is Mona Sans, this is employed for both UI and marketing purposes. Headlines are set in Semibold (500), while text is rendered in Regular (400).
   example: AaBb
   specimen: "ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 !@#$%^&*()"
   link:
-    url: https://api.fontshare.com/v2/fonts/download/satoshi
+    url: https://fonts.google.com/specimen/Mona+Sans
     text: Download 
 trademarks:
   title: Trademarks

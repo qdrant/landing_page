@@ -106,7 +106,7 @@ article code:not([class]) {
   font-optical-sizing: auto;
   font-size: 16px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: $font-weight-base;
   line-height: 16px;
   display: flex;
   &:not(:last-of-type) {

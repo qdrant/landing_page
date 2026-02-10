@@ -1,0 +1,16 @@
+<section class="hr-tech-why-qdrant">
+  <div class="container">
+    <h2 class="hr-tech-why-qdrant__title">{{ .Params.title }}</h2>
+    <div class="hr-tech-why-qdrant__grid">
+      {{ range .Params.items }}
+        <div class="hr-tech-why-qdrant__item">
+          <div class="hr-tech-why-qdrant__item-icon">
+            <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+          </div>
+          <h3 class="hr-tech-why-qdrant__item-title">{{ .title }}</h3>
+          <p class="hr-tech-why-qdrant__item-description">{{ .description | safeHTML }}</p>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</section>

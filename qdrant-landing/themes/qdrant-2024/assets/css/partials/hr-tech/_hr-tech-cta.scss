@@ -1,0 +1,101 @@
+@use 'sass:math';
+@use '../../helpers/functions' as *;
+
+.hr-tech-cta {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__banner {
+    position: relative;
+    overflow: hidden;
+    border-radius: pxToRem(16);
+    background: linear-gradient(to bottom, $neutral-20, #0e1424);
+  }
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &__content {
+    position: relative;
+    padding: $spacer * 2.5 $spacer * 3;
+    z-index: 1;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacer * 0.75;
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $spacer * 2;
+    line-height: pxToRem(38);
+    color: $neutral-98;
+  }
+
+  &__description {
+    margin: 0;
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    color: $neutral-70;
+  }
+
+  &__button {
+    white-space: nowrap;
+    margin-top: $spacer * 0.5;
+  }
+
+  &__illustration {
+    display: none;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__content {
+      padding: $spacer * 2.5 $spacer * 5;
+    }
+
+    &__text {
+      align-items: flex-start;
+      text-align: left;
+      max-width: pxToRem(500);
+      gap: $spacer * 0.5;
+    }
+
+    &__title {
+      font-size: $spacer * 2.5;
+      line-height: pxToRem(48);
+    }
+
+    &__illustration {
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      pointer-events: none;
+
+      img {
+        display: block;
+        height: 100%;
+        width: auto;
+      }
+    }
+  }
+}

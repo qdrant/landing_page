@@ -4,6 +4,8 @@ draft: false
 slug: qdrant-1.15.x
 short_description: "Smarter Quantization, Healing Indexes, and Multilingual Text Filtering"
 description: "Qdrant v1.15 release presents new Quantization Features, advanced Full-Text filtering and a bunch of performance optimizations"
+preview_image: /blog/qdrant-1.15.x/social_preview.jpg
+social_preview_image: /blog/qdrant-1.15.x/social_preview.jpg
 date: 2025-07-18T00:00:00-08:00
 author: Derrick Mwiti
 featured: true

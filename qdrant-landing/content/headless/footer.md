@@ -39,7 +39,7 @@ menuItems:
         name: Qdrant Cloud Inference
         url: /cloud-inference/
       - id: 5
-        name: Qdrant Edge (Private Beta)
+        name: Qdrant Edge (Beta)
         url: /edge/
       - id: 6
         name: Pricing
@@ -72,6 +72,9 @@ menuItems:
       - id: 2
         name: Hospitality & Travel
         url: /hospitality-and-travel/
+      - id: 3
+        name: HR Tech
+        url: /hr-tech/
   - title: Developers
     items:
       - id: 0
@@ -92,6 +95,9 @@ menuItems:
       - id: 5
         name: Status Page
         url: https://status.qdrant.io/
+      - id: 6
+        name: Certification
+        url: http://train.qdrant.dev/
   - title: Resources
     items:
       - id: 0

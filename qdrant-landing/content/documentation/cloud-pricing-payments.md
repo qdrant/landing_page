@@ -24,6 +24,8 @@ E.g. if you create a Qdrant Cluster that costs \\$85 in a month, 8,500 Resource 
 
 Note: Even if you pay using a marketplace subscription, your database clusters will still be deployed into Qdrant-owned infrastructure. The setup and management of Qdrant database clusters will also still be done via the Qdrant Cloud Console UI.
 
+Note: If you choose to pay for your Qdrant Cloud clusters through a cloud provider marketplace, Qdrant Cluster creation is limited to paid clusters in regions of this cloud provider only. This is due to compliance requirements of the cloud provider. If you wish to run clusters in other regions or on other cloud providers, you can create additional accounts using a different payment method.
+
 If you wish to deploy Qdrant database clusters into your own environment from Qdrant Cloud then we recommend our [Hybrid Cloud](/documentation/hybrid-cloud/) solution.
 
 ![Payment Options](/documentation/cloud/payment-options.png)

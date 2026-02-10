@@ -29,10 +29,13 @@ const nameMapper = (url) => { // Mapping names based on pathname for Segment
 /* DOM helpers */
 /***************/
 const handleClickInteraction = (event) => {
+  const rawLabel = event.target.getAttribute('data-metric-label') ?? event.target.innerText;
+  const cleanedLabel = rawLabel ? rawLabel.replace(/\s+/g, ' ').trim() : '';
+
   const payload = {
     ...PAYLOAD_BOILERPLATE,
     location: event.target.getAttribute('data-metric-loc') ?? '',
-    label: event.target.getAttribute('data-metric-label') ?? event.target.innerText,
+    label: cleanedLabel,
     action: 'clicked'
   };
 

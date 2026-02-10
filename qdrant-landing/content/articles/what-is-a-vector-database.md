@@ -98,7 +98,7 @@ For that reason, when comparing two similar sentences, their embeddings will tur
 
 <img src="/articles_data/what-is-a-vector-database/two-similar-vectors.png" alt="Comparison of the embeddings of 2 similar sentences" width="500">
 
-That’s the beauty of embeddings. Tthe complexity of the data is distilled into something that can be compared across a multi-dimensional space.
+That’s the beauty of embeddings. The complexity of the data is distilled into something that can be compared across a multi-dimensional space.
 
 ### 3. The Payload: Adding Context with Metadata
 
@@ -112,7 +112,7 @@ For example, if you’re searching for a picture of a dog, the vector helps the 
 
 <img src="/articles_data/what-is-a-vector-database/filtering-example.png" alt="Filtering Example" width="500">
 
-The payload can help you narrow down those results by ignoring vectors that doesn't match your query vector filtering criteria. If you want the full picture of how filtering works in Qdrant, check out our [Complete Guide to Filtering.](https://qdrant.tech/articles/vector-search-filtering/)
+The payload can help you narrow down those results by ignoring vectors that don't match your query vector filtering criteria. If you want the full picture of how filtering works in Qdrant, check out our [Complete Guide to Filtering.](https://qdrant.tech/articles/vector-search-filtering/)
 
 ## The Architecture of a Vector Database
 
@@ -290,7 +290,7 @@ Sparse vectors are ideal for tasks like **keyword search** or **metadata filteri
 
 Sometimes context alone isn’t enough. Sometimes you need precision, too. Dense vectors are fantastic when you need to retrieve results based on the context or meaning behind the data. Sparse vectors are useful when you also need **keyword or specific attribute matching**.
 
-> With hybrid search you don’t have to choose one over the othe and use both to get searches that are more **relevant** and **filtered**. 
+> With hybrid search you don’t have to choose one over the other and use both to get searches that are more **relevant** and **filtered**. 
 
 To achieve this balance, Qdrant uses **normalization** and **fusion** techniques to blend results from multiple search methods. One common approach is **Reciprocal Rank Fusion (RRF)**, where results from different methods are merged, giving higher importance to items ranked highly by both methods. This ensures that the best candidates, whether identified through dense or sparse vectors, appear at the top of the results.
 
@@ -324,9 +324,9 @@ This is just a simple example and there's so much more you can do with it. See o
 
 ![vector-database-architecture](/articles_data/what-is-a-vector-database/vector-database-2.jpeg)
 
-As your vector dataset grow larger, so do the computational demands of searching through it. 
+As your vector dataset grows larger, so do the computational demands of searching through it. 
 
-Quantized vectors are much smaller and easier to compare. With methods like [**Binary Quantization**](https://qdrant.tech/articles/binary-quantization/), you can see **search speeds improve by up to 40x while memory usage decreases by 32x**. Improvements that can be decicive when dealing with large datasets or needing low-latency results.
+Quantized vectors are much smaller and easier to compare. With methods like [**Binary Quantization**](https://qdrant.tech/articles/binary-quantization/), you can see **search speeds improve by up to 40x while memory usage decreases by 32x**. Improvements that can be decisive when dealing with large datasets or needing low-latency results.
 
 It works by converting high-dimensional vectors, which typically use `4 bytes` per dimension, into binary representations, using just `1 bit` per dimension. Values above zero become "1", and everything else becomes "0".
 
@@ -473,7 +473,7 @@ In more advanced setups, Qdrant uses **JWT (JSON Web Tokens)** to enforce **Role
 
 RBAC defines roles and assigns permissions, while JWT securely encodes these roles into tokens. Each request is validated against the user's JWT, ensuring they can only access or modify data based on their assigned permissions. 
 
-You can easily setup you access tokens and secure access to sensitive data through the **Qdrant Web UI:**
+You can easily setup your access tokens and secure access to sensitive data through the **Qdrant Web UI:**
 
 <img src="/articles_data/what-is-a-vector-database/jwt-web-ui.png" alt="Qdrant Web UI for generating a new access token." width="1000">
 
