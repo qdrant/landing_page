@@ -11,5 +11,7 @@
   {{ partial "engineered-for-builders" . }}
   {{ partial "integrations-logos" . }}
   {{ partial "solutions" . }}
-  {{ partial "cta-banner" . }}
+  {{ with (.Site.GetPage "/headless/main/cta-banner") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
 {{ end }}

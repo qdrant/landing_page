@@ -17,17 +17,11 @@ $solutions-button-border: #717c99;
 .solutions {
   position: relative;
   padding: pxToRem(120) 0;
-  background-color: $solutions-bg-dark;
+  background: radial-gradient(104.31% 111.56% at 50% 0%, rgba(67, 37, 174, 0) 0%, rgba(67, 37, 174, 0) 80%, rgba(67, 37, 174, 0.8) 90%, rgba(97, 67, 224, 0.9) 100%), $solutions-bg-dark;
   overflow: hidden;
 
   &__background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: pxToRem(300);
-    background: radial-gradient(ellipse 80% 100% at center top, rgba(97, 67, 224, 0.5) 0%, rgba(67, 37, 174, 0.3) 40%, rgba(9, 14, 26, 0) 70%);
-    pointer-events: none;
+    display: none;
   }
 
   &__header {
@@ -64,6 +58,11 @@ $solutions-button-border: #717c99;
     color: $solutions-text-subtitle;
   }
 
+  // Tabs
+  &__tabs-wrapper {
+    text-align: center;
+  }
+
   &__tabs {
     position: relative;
     display: inline-flex;
@@ -82,10 +81,6 @@ $solutions-button-border: #717c99;
     &::-webkit-scrollbar {
       display: none;
     }
-  }
-
-  &__tabs-wrapper {
-    text-align: center;
   }
 
   &__tab {
@@ -127,23 +122,100 @@ $solutions-button-border: #717c99;
     transition: left 0.3s ease, width 0.3s ease;
   }
 
-  &__content {
+  // Slider
+  &__slider {
     position: relative;
     min-height: pxToRem(400);
     padding-bottom: pxToRem(40);
   }
 
-  &__panel {
-    display: none;
+  &__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    pointer-events: none;
 
     &--active {
-      display: block;
+      position: relative;
       opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
     }
   }
 
+  // Controls
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: pxToRem(40);
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    padding: 0;
+    background: none;
+    border: 1px solid $solutions-tab-border;
+    border-radius: pxToRem(8);
+    color: $solutions-tab-text;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      color: $solutions-tab-text-active;
+      border-color: $solutions-button-border;
+    }
+
+    svg {
+      width: pxToRem(20);
+      height: pxToRem(20);
+    }
+  }
+
+  &__dots {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(20);
+  }
+
+  &__dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(24);
+    height: pxToRem(24);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    span {
+      display: block;
+      width: pxToRem(6);
+      height: pxToRem(6);
+      background-color: $solutions-tab-border;
+      border-radius: 50%;
+      transition: background-color 0.2s ease;
+    }
+
+    &:hover span {
+      background-color: $solutions-tab-text;
+    }
+
+    &--active span {
+      background-color: $solutions-tab-text-active;
+    }
+  }
+
+  // Panel content
   &__panel-content {
     display: flex;
     flex-direction: column;
@@ -261,7 +333,7 @@ $solutions-button-border: #717c99;
       height: pxToRem(36);
     }
 
-    &__content {
+    &__slider {
       min-height: auto;
     }
 
@@ -281,7 +353,7 @@ $solutions-button-border: #717c99;
 
     &__panel-illustration {
       min-height: pxToRem(300);
-      
+
       img {
         max-height: pxToRem(300);
       }

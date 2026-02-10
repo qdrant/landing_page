@@ -1,7 +1,7 @@
 @use '../helpers/functions' as *;
 
 .enterprise-ready {
-  background-color: $neutral-98;
+  background-color: $neutral-94;
   padding-top: pxToRem(80);
   padding-bottom: pxToRem(80);
 
@@ -110,135 +110,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 
-  &__visual-circles {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: pxToRem(350);
-    height: pxToRem(144);
-  }
-
-  // Compliance badges
-  &__badge {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: pxToRem(80);
-    height: pxToRem(80);
-
-    &--left {
-      left: calc(50% - 60px);
-      transform: translate(-50%, -50%);
-    }
-
-    &--right {
-      left: calc(50% + 60px);
-      transform: translate(-50%, -50%);
-    }
-  }
-
-  // Monitoring icons
-  &__monitor-icon {
-    position: absolute;
-    width: pxToRem(64);
-    height: pxToRem(64);
-
-    &--prometheus {
-      left: calc(50% - 96px);
-      top: calc(50% + 24px);
-      transform: translate(-50%, -50%);
-    }
-
-    &--grafana {
-      left: 50%;
-      top: calc(50% - 16px);
-      transform: translate(-50%, -50%);
-    }
-
-    &--datadog {
-      left: calc(50% + 96px);
-      top: calc(50% + 24px);
-      transform: translate(-50%, -50%);
-    }
-  }
-
-  // SSO icons
-  &__sso-icon {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &--okta {
-      width: pxToRem(48);
-      height: pxToRem(48);
-      left: calc(50% - 103px);
-      top: calc(50% - 16px);
-      transform: translate(-50%, -50%);
-    }
-
-    &--google {
-      width: pxToRem(48);
-      height: pxToRem(48);
-      left: calc(50% - 33px);
-      top: calc(50% + 28px);
-      transform: translate(-50%, -50%);
-      background: $neutral-98;
-      border: 0.625px solid $neutral-90;
-      border-radius: 50%;
-      padding: pxToRem(10);
-      box-shadow:
-        0.625px 0.625px 1.875px 0 rgba(0, 0, 0, 0.1),
-        2.5px 2.5px 3.75px 0 rgba(0, 0, 0, 0.09);
-
-      img {
-        width: pxToRem(24);
-        height: pxToRem(24);
-      }
-    }
-
-    &--azure {
-      width: pxToRem(48);
-      height: pxToRem(48);
-      left: calc(50% + 41px);
-      top: calc(50% - 16px);
-      transform: translate(-50%, -50%);
-      background: $neutral-98;
-      border: 0.625px solid $neutral-90;
-      border-radius: 50%;
-      padding: pxToRem(10);
-      box-shadow:
-        0.625px 0.625px 1.875px 0 rgba(0, 0, 0, 0.1),
-        2.5px 2.5px 3.75px 0 rgba(0, 0, 0, 0.09);
-
-      img {
-        width: pxToRem(26);
-        height: pxToRem(26);
-      }
-    }
-
-    &--openid {
-      width: pxToRem(48);
-      height: pxToRem(48);
-      left: calc(50% + 111px);
-      top: calc(50% + 28px);
-      transform: translate(-50%, -50%);
-      background: $neutral-98;
-      border: 0.625px solid $neutral-90;
-      border-radius: 50%;
-      padding: pxToRem(10);
-      box-shadow:
-        0.625px 0.625px 1.875px 0 rgba(0, 0, 0, 0.1),
-        2.5px 2.5px 3.75px 0 rgba(0, 0, 0, 0.09);
-
-      img {
-        width: pxToRem(28);
-        height: pxToRem(28);
-      }
-    }
+  &__card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   &__card-footer {
@@ -260,8 +139,9 @@
     align-items: center;
     padding-top: pxToRem(2);
     transition: transform 0.2s ease;
+    color: $neutral-40;
 
-    img {
+    svg {
       width: pxToRem(16);
       height: pxToRem(16);
     }

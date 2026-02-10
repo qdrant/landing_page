@@ -4,59 +4,32 @@
   position: relative;
   background: $neutral-10;
   padding-top: pxToRem(120);
-  padding-bottom: pxToRem(80);
+  padding-bottom: pxToRem(300);
   overflow: hidden;
 
-  // Background elements
+  // Background elements — globe confined to lower half so cards sit above it
   &__background {
     position: absolute;
-    inset: 0;
+    top: 50%;
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
     pointer-events: none;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
   }
 
-  &__globe-light {
-    position: absolute;
-    bottom: pxToRem(-400);
-    left: 50%;
-    transform: translateX(-50%);
-    width: pxToRem(1400);
-    height: auto;
-    opacity: 0.8;
-  }
-
-  &__globe-vector {
-    position: absolute;
-    bottom: pxToRem(-400);
-    left: 50%;
-    transform: translateX(-50%);
-    width: pxToRem(1400);
-    height: auto;
-    opacity: 0.6;
-  }
-
-  &__globe-lines {
-    position: absolute;
-    bottom: pxToRem(-350);
-    left: 50%;
-    transform: translateX(-50%);
-    width: pxToRem(1443);
-    height: auto;
-    opacity: 0.8;
-  }
-
-  &__overlay {
+  &__globe {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    min-width: pxToRem(1920);
-    height: pxToRem(240);
-    object-fit: cover;
+    min-width: pxToRem(1440);
+    height: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+    display: block;
   }
 
   // Content
@@ -133,7 +106,8 @@
     border: 1px solid transparent;
     border-top-color: $neutral-40;
     border-radius: pxToRem(8);
-    overflow: hidden;
+    overflow: visible;
+    position: relative;
 
     @include media-breakpoint-up(xl) {
       &--left,
@@ -145,6 +119,22 @@
       &--center-right {
         margin-top: 0;
       }
+    }
+  }
+
+  &__connector {
+    display: none;
+
+    @include media-breakpoint-up(xl) {
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: pxToRem(36);
+      height: pxToRem(200);
+      pointer-events: none;
+      z-index: -1;
     }
   }
 

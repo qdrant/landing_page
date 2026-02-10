@@ -11,33 +11,16 @@
           {{ range .Params.largeCards }}
             <a href="{{ .link.url }}" class="enterprise-ready__card enterprise-ready__card--large">
               <div class="enterprise-ready__card-visual enterprise-ready__card-visual--{{ .visual }}">
-                {{ if eq .visual "compliance" }}
-                  <img src="http://localhost:3845/assets/1c595e3992ac045590a191d772a0dc29e401c8fe.svg" alt="" class="enterprise-ready__visual-circles" />
-                  <img src="http://localhost:3845/assets/e435b691487c74fcd197a9571ae9d0c2a869d3db.svg" alt="SOC 2" class="enterprise-ready__badge enterprise-ready__badge--left" />
-                  <img src="http://localhost:3845/assets/832012f63a7fad5d6c2e8356f925eece421d011f.svg" alt="GDPR" class="enterprise-ready__badge enterprise-ready__badge--right" />
-                {{ else if eq .visual "monitoring" }}
-                  <img src="http://localhost:3845/assets/5443860df130ef258234f4edbeb18ec03bf169ad.svg" alt="" class="enterprise-ready__visual-circles" />
-                  <img src="http://localhost:3845/assets/6691f56a43b2977f1b12a59d02519557c55d4e68.svg" alt="Prometheus" class="enterprise-ready__monitor-icon enterprise-ready__monitor-icon--prometheus" />
-                  <img src="http://localhost:3845/assets/01d8b91f591c2aa9cbf9081a807e6cbef8b6314f.svg" alt="Grafana" class="enterprise-ready__monitor-icon enterprise-ready__monitor-icon--grafana" />
-                  <img src="http://localhost:3845/assets/e59be40d0afc6a6de4d893096373884cf8767931.svg" alt="Datadog" class="enterprise-ready__monitor-icon enterprise-ready__monitor-icon--datadog" />
-                {{ else if eq .visual "sso" }}
-                  <img src="http://localhost:3845/assets/1c595e3992ac045590a191d772a0dc29e401c8fe.svg" alt="" class="enterprise-ready__visual-circles" />
-                  <img src="http://localhost:3845/assets/91ab65afe0e2cd62dc49ec71b5b16a99e48a76f0.svg" alt="Okta" class="enterprise-ready__sso-icon enterprise-ready__sso-icon--okta" />
-                  <div class="enterprise-ready__sso-icon enterprise-ready__sso-icon--google">
-                    <img src="http://localhost:3845/assets/fb714b6c6af1c2ba9aa4c8e4bceb0bd3fb1132b6.svg" alt="Google" />
-                  </div>
-                  <div class="enterprise-ready__sso-icon enterprise-ready__sso-icon--azure">
-                    <img src="http://localhost:3845/assets/cce49abb45aece090db259b58525c20856ab97f5.png" alt="Azure AD" />
-                  </div>
-                  <div class="enterprise-ready__sso-icon enterprise-ready__sso-icon--openid">
-                    <img src="http://localhost:3845/assets/cd7f89d74137eeb715ac54cfc7f58d6741845a43.png" alt="OpenID" />
-                  </div>
+                {{ if .image }}
+                  <img src="{{ .image.src }}" alt="{{ .image.alt }}" class="enterprise-ready__card-img" />
                 {{ end }}
               </div>
               <div class="enterprise-ready__card-footer">
                 <span class="enterprise-ready__card-title">{{ .title }}</span>
                 <div class="enterprise-ready__card-arrow">
-                  <img src="http://localhost:3845/assets/4c665f69ba050b201baf8ef9aae8036dcb25f0b2.svg" alt="" />
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.33 8H12.67M12.67 8L8.67 4M12.67 8L8.67 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </div>
               </div>
             </a>

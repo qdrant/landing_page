@@ -1,25 +1,11 @@
 {{ with (.Site.GetPage "/headless/main/enterprise-capabilities") }}
   <section class="enterprise-capabilities">
     <div class="enterprise-capabilities__background">
-      <img 
-        src="http://localhost:3845/assets/50d8c1213bac7630df62465b48f3b014c9ccbeb7.svg" 
-        alt="" 
-        class="enterprise-capabilities__globe-light"
-      />
-      <img 
-        src="http://localhost:3845/assets/5d35519e514387519043ed2347267368a9d82736.svg" 
-        alt="" 
-        class="enterprise-capabilities__globe-vector"
-      />
-      <img 
-        src="http://localhost:3845/assets/8df180291ab7b45453bbf6bbba01f2804079ee2e.svg" 
-        alt="" 
-        class="enterprise-capabilities__globe-lines"
-      />
-      <img 
-        src="http://localhost:3845/assets/f9803cee6cb9b82ddc84ffa45925631f67ab9254.png" 
-        alt="" 
-        class="enterprise-capabilities__overlay"
+      <img
+        src="/img/home/globe.png"
+        srcset="/img/home/globe.png 1x, /img/home/globe-2x.png 2x"
+        alt=""
+        class="enterprise-capabilities__globe"
       />
     </div>
     <div class="container">
@@ -31,6 +17,9 @@
         <div class="enterprise-capabilities__cards">
           {{ range .Params.deploymentOptions }}
             <div class="enterprise-capabilities__card enterprise-capabilities__card--{{ .position }}">
+              {{ if .connector }}
+                <img src="{{ .connector }}" alt="" class="enterprise-capabilities__connector" />
+              {{ end }}
               <div class="enterprise-capabilities__card-icon enterprise-capabilities__card-icon--{{ .iconColor }}">
                 {{ if eq .iconColor "primary" }}
                   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

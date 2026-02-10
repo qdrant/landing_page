@@ -1,7 +1,7 @@
 @use '../helpers/functions' as *;
 
 .performance-by-design {
-  background-color: $neutral-98;
+  background-color: $neutral-94;
   padding-top: pxToRem(80);
   padding-bottom: pxToRem(80);
 
@@ -67,12 +67,12 @@
     @include media-breakpoint-up(xl) {
       flex-direction: row;
       justify-content: space-between;
-      align-items: center;
-      gap: pxToRem(106);
+      align-items: flex-start;
+      gap: pxToRem(80);
     }
   }
 
-  // Features list
+  // Features list (vertical slider nav)
   &__features {
     display: flex;
     flex-direction: column;
@@ -87,18 +87,14 @@
   &__feature {
     display: flex;
     flex-direction: column;
-    gap: $spacer;
     padding: pxToRem(24) 0;
-    border-bottom: 1px solid $neutral-90;
+    border-bottom: pxToRem(2) solid $neutral-90;
     cursor: pointer;
     transition: border-color 0.2s ease;
+    overflow: hidden;
 
     &:first-child {
       padding-top: 0;
-    }
-
-    &--active {
-      border-bottom-color: $primary-50;
     }
   }
 
@@ -118,6 +114,24 @@
     .performance-by-design__feature--active & {
       color: $neutral-20;
     }
+
+    .performance-by-design__feature:hover & {
+      color: $neutral-30;
+    }
+  }
+
+  &__feature-body {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+    margin-top: 0;
+
+    .performance-by-design__feature--active & {
+      max-height: pxToRem(200);
+      opacity: 1;
+      margin-top: $spacer;
+    }
   }
 
   &__feature-description {
@@ -128,11 +142,39 @@
     margin: 0;
   }
 
-  // Image
-  &__image {
+  &__feature--active {
+    border-bottom-color: $primary-50;
+  }
+
+  // Visual / Image area
+  &__visual {
+    position: relative;
     width: 100%;
     max-width: pxToRem(560);
+    min-height: pxToRem(400);
     flex-shrink: 0;
+
+    @include media-breakpoint-up(xl) {
+      min-height: pxToRem(540);
+    }
+  }
+
+  &__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    pointer-events: none;
+
+    &--active {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
 
     img {
       width: 100%;
@@ -142,26 +184,10 @@
     }
   }
 
-  // Placeholder for development
-  &__image-placeholder {
-    width: pxToRem(560);
-    height: pxToRem(540);
-    background-color: #89a9ff;
-    border-radius: pxToRem(8);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: $spacer;
-    color: white;
-    font-weight: 600;
-    font-size: pxToRem(24);
-  }
-
-  &__image-note {
-    font-size: pxToRem(14);
-    font-weight: 400;
-    opacity: 0.8;
+  @include media-breakpoint-down(xl) {
+    &__visual {
+      min-height: pxToRem(300);
+      max-width: 100%;
+    }
   }
 }
-

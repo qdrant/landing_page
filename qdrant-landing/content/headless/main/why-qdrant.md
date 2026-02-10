@@ -6,6 +6,9 @@ featureCards:
   - id: metadata-filters
     title: Expansive Metadata Filters
     description: "Store metadata in JSON and use advanced filters, such as <code>nested</code>, <code>text</code>, <code>geo</code>, <code>has_vector</code>, and more."
+    image:
+      src: /img/home/metadata-filters.svg
+      alt: Metadata filters code illustration
     link:
       text: Learn About Metadata Filters
       url: /documentation/concepts/payload/
@@ -13,6 +16,9 @@ featureCards:
   - id: hybrid-search
     title: Native Hybrid Search (Dense + Sparse)
     description: Blend keyword and vector search in one query – use dense or sparse vectors. Supports BM25, SPLADE++, and miniCOIL.
+    image:
+      src: /img/home/native-hybrid-search.svg
+      alt: Native hybrid search illustration
     link:
       text: Explore Hybrid Search
       url: /documentation/concepts/hybrid-queries/
@@ -20,6 +26,9 @@ featureCards:
   - id: multivector
     title: Built-in Multivector
     description: Set new standards for relevance; make the retrieval layer more expressive, flexible, and multimodal with multiple vectors per object.
+    image:
+      src: /img/home/multivector.svg
+      alt: Multivector illustration
     link:
       text: See Documentation
       url: /documentation/advanced-tutorials/using-multivector-representations/
@@ -27,6 +36,9 @@ featureCards:
   - id: one-stage-filtering
     title: Efficient, One-Stage Filtering
     description: Filters are applied during HNSW traversal — no pre- or post-filtering. High recall with low latency, even under complex conditions.
+    image:
+      src: /img/home/one-stage-filtering.svg
+      alt: One-stage filtering illustration
     link:
       text: See Documentation
       url: /documentation/concepts/filtering/
@@ -34,6 +46,9 @@ featureCards:
   - id: reranking
     title: Full-Spectrum Reranking
     description: Infuse business logic with score boosting, achieve token-level precision with late interaction models (e.g. ColBERT), diversify results with Maximum Marginal Relevance (MMR)
+    image:
+      src: /img/home/reranking.svg
+      alt: Reranking illustration
     link:
       text: See Documentation
       url: /documentation/search-precision/reranking-semantic-search/
