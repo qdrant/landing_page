@@ -16,7 +16,7 @@ To learn how Hybrid Cloud works, [read the overview document](/documentation/hyb
 
 Qdrant Hybrid Cloud is available as part of our Enterprise plan. To get access to Qdrant Hybrid Cloud, please [contact us](/contact-us/).
 
-- **Kubernetes cluster:** To create a Hybrid Cloud Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
+- **Kubernetes Cluster:** To create a Hybrid Cloud Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud (e.g. EKS), on-premise (e.g. vSphere), or edge environment (e.g. vSphere).  See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
 - **Storage:** For storage, you need to set up the Kubernetes cluster with a Container Storage Interface (CSI) driver that provides block storage. For vertical scaling, the CSI driver needs to support volume expansion. The `StorageClass` needs to be created beforehand. For backups and restores, the driver needs to support CSI snapshots and restores. The `VolumeSnapshotClass` needs to be created beforehand. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
 
 <aside role="status">Network storage systems like NFS or object storage systems such as S3 are not supported.</aside>
