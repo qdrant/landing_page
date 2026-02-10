@@ -25,7 +25,7 @@ These settings can also be changed after the cluster is created on the cluster d
 
 ### Scheduling Configuration
 
-When creating or editing a cluster, you can configure how the database Pods get scheduled in your Kubernetes cluster. This can be useful to ensure that the Qdrant databases will run on dedicated nodes. You can configure the necessary nodeSelectors and tolerations and topologySpreadConstraints in the "Kubernetes Configuration" section during cluster creation, or on the cluster detail page. For more information see [Scheduling Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/).
+When creating or editing a cluster, you can configure Pod node scheduling for your Kubernetes cluster. This can be useful to ensure that the Qdrant databases will run on dedicated nodes. You can configure the necessary nodeSelectors and tolerations and topologySpreadConstraints in the "Kubernetes Configuration" section during cluster creation, or on the cluster detail page. For more information see [Scheduling Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/).
 
 ### Authentication to your Qdrant Clusters
 
