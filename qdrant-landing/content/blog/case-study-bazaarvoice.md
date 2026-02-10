@@ -33,10 +33,7 @@ Delivering those experiences required a new foundation. Bazaarvoice needed vecto
 
 Bazaarvoice’s core data set is dominated by text reviews, with some images and videos layered in. What makes this data uniquely challenging is not only its size, but its structure. Reviews are syndicated across brands and retailers, meaning a single product can accumulate feedback from many different sources.
 
-This created two fundamental constraints.
-
 This created two fundamental constraints: First, the system had to scale to billions of vectors while remaining cost-efficient. Second, queries had to be scoped dynamically. Most searches are limited to a specific client, product, or category. Searching the entire corpus every time would waste compute, memory, and time.
-
 
 To move quickly, Bazaarvoice initially implemented vector search using PostgreSQL with the pgvector extension. While this allowed the team to ship early versions of AI-powered features, it was never intended as a long-term solution.
 
@@ -77,20 +74,20 @@ During the migration, all data was disk-backed to avoid exhausting RAM. Despite 
 >“Even with everything on disk, the feedback was that it was pretty fast compared to where we were earlier.”  
 — Abhijeet Dhupia, Senior Machine Learning Engineer, Bazaarvoice
 
-Today, Bazaarvoice runs **2.7 billion review vectors** in Qdrant and continues to tune the system as usage grows.
+Today, Bazaarvoice runs 2.7 billion review vectors in Qdrant and continues to tune the system as usage grows.
 
 ## Results: \~99% lower vector storage footprint with fast, accurate queries
 
 The most immediate impact came from storage and infrastructure efficiency.
 
-Bazaarvoice reduced its vector storage footprint by **approximately 100x**, compressing what previously required 4 to 5 terabytes in PostgreSQL down to a few hundred gigabytes in Qdrant. Quantization made it possible to keep billions of vectors accessible without the RAM requirements that full-resolution embeddings would have imposed.
+Bazaarvoice reduced its vector storage footprint by approximately 100x, compressing what previously required 4 to 5 terabytes in PostgreSQL down to a few hundred gigabytes in Qdrant. Quantization made it possible to keep billions of vectors accessible without the RAM requirements that full-resolution embeddings would have imposed.
 
 >“Everyone talks about speed and accuracy. Storage is the story nobody talks about, and it’s the most important one at this scale.”  
 — Lou Kratz, Senior Principal Engineer, Bazaarvoice
 
-Performance improved at the same time. Even during migration, with disk-based collections, the system consistently delivered **sub-100 millisecond query latency** while maintaining approximately **98 percent nearest neighbor accuracy**. That balance allowed Bazaarvoice to dramatically lower infrastructure costs without sacrificing user experience.
+Performance improved at the same time. Even during migration, with disk-based collections, the system consistently delivered sub-100 millisecond query latency while maintaining approximately 98 percent nearest neighbor accuracy. That balance allowed Bazaarvoice to dramatically lower infrastructure costs without sacrificing user experience.
 
-Just as important, Qdrant removed a major source of engineering friction. Under the previous architecture, every new client or product would have required new Postgres partitions. At full scale, this would have meant maintaining close to **one million partitions**.
+Just as important, Qdrant removed a major source of engineering friction. Under the previous architecture, every new client or product would have required new Postgres partitions. At full scale, this would have meant maintaining close to one million partitions.
 
 With Qdrant’s flexible indexing, cross-product and cross-category queries now work at query time without performance degradation.
 
