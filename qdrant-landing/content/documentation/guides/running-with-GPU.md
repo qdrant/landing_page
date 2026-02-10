@@ -1,6 +1,6 @@
 ---
 title: Running with GPU
-weight: 10
+weight: 30
 ---
 
 # Running Qdrant with GPU Support
