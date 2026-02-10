@@ -1,0 +1,1 @@
+Shows how to set the update mode when upserting points into a collection. Update mode is set to `insert_only` in this example, which means that only new points will be inserted; existing points with the same IDs will be ignored. Other valid values for `update_mode` are `upsert` (default) and `update_only`.
