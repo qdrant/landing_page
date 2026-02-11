@@ -4,6 +4,8 @@
     {{ partial "elastic-lucene/hero" . }}
   {{ end }}
 
+  {{ partial "elastic-lucene/why" . }}
+
   {{ $class := "rag-use-cases" }}
   <section class="grey-bg pt-6 pb-5">
     <div class="container">
@@ -17,11 +19,9 @@
 
   {{ partial "elastic-lucene/features" . }}
 
-  {{ partial "elastic-lucene/why" . }}
-
   {{ partial "elastic-lucene/migration" . }}
 
-  {{ partial "elastic-lucene/form" . }}
+  {{ partial "elastic-lucene/cta-section.html" . }}
 
   {{ partial "elastic-lucene/lessons" . }}
 
@@ -29,7 +29,4 @@
     {{ partial "get-started-small" (dict "context" . "class" "get-started-small-database") }}
   {{ end }}
 
-  {{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-form") }}
-    {{ partial "elastic-lucene/form-script" . }}
-  {{ end }}
 {{ end }}
