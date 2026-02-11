@@ -1,0 +1,74 @@
+@use '../helpers/functions' as *;
+
+.edge-beta-demo {
+  position: relative;
+  overflow: hidden;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background: radial-gradient(
+    ellipse 120% 80% at 0% 0%,
+    rgba(231, 29, 95, 0.12) 0%,
+    rgba(133, 71, 255, 0.06) 40%,
+    transparent 70%
+  ), $neutral-10;
+
+  &__lights-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: pxToRem(200);
+    background-image: url('/img/elastic-lucene/lights.svg');
+    background-repeat: repeat-x;
+    background-position: center top;
+    background-size: cover;
+    transform: scaleY(-1);
+    filter: blur(6px);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  &__title {
+    margin: 0 0 $spacer * 2;
+    font-size: $h4-font-size;
+    line-height: 1.2;
+    font-weight: 600;
+    color: $neutral-100;
+  }
+
+  &__description {
+    margin-bottom: $spacer * 1.5;
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    color: $neutral-98;
+
+    &--secondary {
+      margin-bottom: $spacer * 2;
+    }
+  }
+
+  &__button {
+    border-radius: 12px;
+  }
+
+  &__image {
+    width: 100%;
+    max-width: pxToRem(540);
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $h2-font-size;
+      line-height: pxToRem(67);
+      margin-bottom: $spacer * 2.5;
+    }
+
+    &__description {
+      max-width: pxToRem(540);
+    }
+  }
+}

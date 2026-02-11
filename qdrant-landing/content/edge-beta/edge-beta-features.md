@@ -6,30 +6,30 @@ features:
     src: /img/edge-beta-features/native-vector.svg
     alt: Native Vector Search
   title: Native Vector Search for Embedded & Edge AI
-  description: Runs as a lightweight, in-process library. No background threads, no services - ideal for mobile, robotic, and embedded environments.
+  description: Run in-memory, disk-backed, and hybrid vector search on the edge. Deploy on mobile devices, IoT gateways, industrial PCs, drones, and more.
 - id: 1
   image:
     src: /img/edge-beta-features/optimized-for-low-memory.svg
     alt: Low-Memory
-  title: Optimized for Low-Memory, Low-Compute Devices
-  description: Dramatically Designed for resource-constrained hardware. No idle overhead, no runtime daemons. Fits into tightly scoped edge deployments. memory usage with built-in compression options and offload data to disk.
+  title: Optimized for Low Memory & Low Compute Devices
+  description: Optimized for resource-constrained environments with a small memory footprint and efficient CPU/GPU utilization to ensure smooth performance on edge devices.
 - id: 2
   image:
     src: /img/edge-beta-features/local-by-default.svg
     alt: Local by Default
-  title: Local by Default, Cloud-Connected When Needed
-  description: Retrieval runs fully offline. Sync with Qdrant Cloud only when required - for data transfer, tenant promotion, or coordination at scale.
+  title: Local-first, Cloud-Connected When Needed
+  description: Perform vector search locally with fallback to cloud for more complex queries or when more compute is needed to train your AI model.
 - id: 3
   image:
     src: /img/edge-beta-features/hybrid-and-multimodal-search.svg
     alt: Hybrid & Multimodal Search
-  title: Hybrid & Multimodal Search On-Device
-  description: Supports dense and multimodal vectors with structured filtering. Enables real-time retrieval from text, image, audio, or sensor-derived embeddings.
+  title: Hybrid & Multi-modal Search On Device
+  description: Support for various data types, including text, images, audio, and more. Combine multiple modalities for more accurate and context-aware results.
 - id: 4
   image:
     src: /img/edge-beta-features/multitenancy-built.svg
     alt: Multitenancy Built
-  title: Edge-Scale Multitenancy with Native SDKs
-  description: Supports payload- and shard-based tenant isolation. Routes queries across uneven edge workloads. Native SDKs in Java (Android), Swift (Apple), and more.
+  title: Multitenancy Built for Edge Scale
+  description: Designed to manage multiple tenants, users, or applications on a single edge device. Isolate data and control access for secure and scalable deployments.
 sitemapExclude: true
 ---
