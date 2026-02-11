@@ -1,9 +1,9 @@
 ---
-title: "Qdrant 1.17 - Relevance Feedback & Faster Search"
+title: "Qdrant 1.17 - Relevance Feedback & Search Latency Improvements"
 draft: false
 slug: qdrant-1.17.x
-short_description: "v1.17 of Qdrant features a new Relevance Feedback Query and faster search."
-description: "v1.17 of Qdrant features a new Relevance Feedback Query, faster search, and improved operational observability."
+short_description: "Version 1.17 of Qdrant features a new Relevance Feedback Query and search latency improvements."
+description: "Version 1.17 of Qdrant features a new Relevance Feedback Query, search latency improvements, and better operational observability."
 preview_image: /blog/qdrant-1.17.x/social_preview.jpg
 social_preview_image: /blog/qdrant-1.17.x/social_preview.jpg
 date: 2026-02-20T00:00:00-08:00
@@ -20,7 +20,7 @@ tags:
 
 **Relevance Feedback Query:** Improve the quality of search results by incorporating positive and negative signals.
 
-**Faster Search:** Two features that make search faster: a change to improve search latency under high write loads, and delayed fan-outs to reduce tail latency.
+**Search Latency Improvements:** Two search latency improvements: a change to improve search latency under high write loads, and delayed fan-outs to reduce tail latency.
 
 **Greater Operational Observability:** Improved insights into operational metrics and faster troubleshooting with a new cluster-wide telemetry API and segment optimization monitoring.
 
@@ -39,7 +39,7 @@ This method works by collecting lightweight feedback on just a few top results, 
   </figcaption>
 </figure>
 
-## Faster Search
+## Search Latency Improvements
 
 This release includes several changes that reduce search latency. To improve query response times in environments with high write loads, Qdrant can now be configured to avoid creating large unoptimized segments. Additionally, delayed fan-outs help reduce tail latency by querying a second replica if the first does not respond within a configurable latency threshold.
 
