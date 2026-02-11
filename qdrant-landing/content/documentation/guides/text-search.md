@@ -1,6 +1,6 @@
 ---
 title: Text Search
-weight: 130
+weight: 100
 aliases:
   - ../text-search
 ---

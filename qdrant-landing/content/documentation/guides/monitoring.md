@@ -1,6 +1,6 @@
 ---
 title: Monitoring & Telemetry
-weight: 155
+weight: 110
 aliases:
   - ../monitoring
 ---
