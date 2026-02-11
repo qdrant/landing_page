@@ -121,7 +121,7 @@
 
 
 <!-- Preview Image -->
-{{ $image := index (.Site.Params.preview_images | shuffle ) 0 }}
+{{ $image := .Site.Params.preview_image }}
 
 {{ if .Params.preview_image }}
   {{ $image := .Params.preview_image }}
