@@ -8,6 +8,8 @@ import {
 import { handleSegmentReady } from './segment-helpers';
 import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpers';
 import TableOfContents from './table-of-content';
+import { DOCS_HEADER_OFFSET } from './constants';
+import { scrollIntoViewWithOffset } from './helpers';
 
 persistUTMParams();
 
@@ -155,6 +157,24 @@ document.addEventListener('DOMContentLoaded', function () {
   const accordionDarkButtons = Array.from(document.getElementsByClassName('accordion-dark__item-header'));
   accordionDarkButtons.forEach((el) => {
     el.addEventListener('click', toggleAccordion);
+  });
+
+  // scroll to anchors:
+  let offset = DOCS_HEADER_OFFSET;
+
+  if (window.location.hash) {
+    scrollIntoViewWithOffset(window.location.hash.replace('#', ''), offset);
+  }
+
+  let allLinks = document.querySelectorAll('a[href^="#"]');
+
+  allLinks.forEach((anchor) => {
+    const target = anchor.getAttribute('href');
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      history.pushState(null, null, target);
+      scrollIntoViewWithOffset(target.replace('#', ''), offset);
+    });
   });
 
 });
