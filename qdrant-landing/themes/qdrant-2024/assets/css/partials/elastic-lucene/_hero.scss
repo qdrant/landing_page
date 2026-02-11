@@ -43,16 +43,18 @@
 
   &__title {
     font-size: $h3-font-size;
-    line-height: pxToRem(58);
-    font-weight: 700;
-    color: $neutral-98;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    font-weight: 600;
+    color: $neutral-100;
     margin-bottom: 0;
   }
 
   &__description {
-    font-size: $font-size-l;
-    line-height: pxToRem(27);
-    font-weight: 500;
+    font-size: pxToRem(20);
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    font-weight: 400;
     color: $neutral-70;
     margin-bottom: 0;
 
@@ -62,6 +64,22 @@
 
     @include media-breakpoint-up(lg) {
       padding-right: 0;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer * 1.5;
+  }
+
+  &__button-outlined {
+    color: $neutral-100;
+    box-shadow: 0 0 0 1px $neutral-70;
+
+    &:hover {
+      box-shadow: 0 0 0 2px $neutral-80;
+      color: $neutral-100;
     }
   }
 
