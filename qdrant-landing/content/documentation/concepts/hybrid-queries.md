@@ -37,26 +37,44 @@ For example, in text search, it is often useful to combine dense and sparse vect
 Qdrant has a few ways of fusing the results from different queries: `rrf` and `dbsf`
 
 ### Reciprocal Rank Fusion (RRF)
+
 <a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">
-RRF</a> considers the positions of results within each query, and boosts the ones that appear closer to the top in multiple sets of results.
- 
-The formula is simple, but needs access to the rank of each result in each query.
+RRF</a> considers the positions of results within each query and boosts those that appear closer to the top in multiple sets of results. The score of a document is calculated using its rank in each result set:
+
+$$ score(d\in D) = \sum_{r_d\in R(d)} \frac{1}{k + \frac{r_d + 1}{w_r} - 1} $$
+
+Where:
+- $D$ the set of points across all results
+- $R(d)$ is the set of rankings for a particular document
+- $k$ is a constant (set to 2 by default)
+- $r_d$ is the rank of document d in ranking r
+- $w_r$ is the weight of ranking r (set to 1 by default)
+
+Because $w_r$ defaults to 1, without setting explicit weights, the formula can be simplified to:
 
 $$ score(d\in D) = \sum_{r_d\in R(d)} \frac{1}{k + r_d} $$
-
-Where $D$ the set of points across all results, $R(d)$ is the set of rankings for a particular document, and $k$ is a constant (set to 2 by default).
 
 Here is an example of RRF for a query containing two prefetches against different named vectors configured to hold sparse and dense vectors, respectively.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf/" >}}
 
-#### Parametrized RRF
+#### Setting RRF Constant k
 _Available as of v1.16.0_
 
-To change the value of constant $k$ in the formula, use the dedicated `rrf` query variant.
+To change the value of constant $k$ in the formula, use the dedicated `rrf` query.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf-k/" >}}
 
+#### Weighted RRF
+_Available as of v1.17.0_
+
+By default, each query is assigned an equal weight. In reality, some queries are stronger, more discriminative, or more domain-specific than others. For example, a semantic search model understands meaning better than a simple keyword matcher. Assigning equal weight to both can cause the weaker model to negatively influence results, leading to a suboptimal search experience. To address this, you can assign greater weight to rankers that perform well.
+
+The `rrf` query allows you to configure relative weights for each of the prefetches. For example, if you have two prefetches and assign a weight of 3.0 to the first and 1.0 to the second, a document ranked third in the first query will score the same as a document ranked first in the second query.
+
+Weights should be provided as an array of numbers, where each weight is applied to the corresponding prefetch in the order they are defined. The number of weights must match the number of prefetches.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf-weights/" >}}
 
 ### Distribution-Based Score Fusion (DBSF)
 

@@ -1,0 +1,35 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "automation", "automation", "{BE4A8008-4A00-8C08-26C2-BD576741EBBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "snippets", "snippets", "{3FD2FAAF-E846-9DBE-C0FE-2BE5005C909F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{BB00D99D-04B2-B929-1DF2-D683E10B3CE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csharp", "automation\snippets\templates\csharp\csharp.csproj", "{48444BE1-CAA3-36EC-CFDF-B7F05DD56218}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48444BE1-CAA3-36EC-CFDF-B7F05DD56218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48444BE1-CAA3-36EC-CFDF-B7F05DD56218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48444BE1-CAA3-36EC-CFDF-B7F05DD56218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48444BE1-CAA3-36EC-CFDF-B7F05DD56218}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3FD2FAAF-E846-9DBE-C0FE-2BE5005C909F} = {BE4A8008-4A00-8C08-26C2-BD576741EBBE}
+		{BB00D99D-04B2-B929-1DF2-D683E10B3CE4} = {3FD2FAAF-E846-9DBE-C0FE-2BE5005C909F}
+		{48444BE1-CAA3-36EC-CFDF-B7F05DD56218} = {BB00D99D-04B2-B929-1DF2-D683E10B3CE4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {372EEA1D-9A42-429F-9D4C-656775725038}
+	EndGlobalSection
+EndGlobal
