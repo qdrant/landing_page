@@ -1,0 +1,56 @@
+<svg version="1.1" baseProfile="full" width="940" height="419" viewbox="0 0 940 419" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" style="font:bold  12pt Helvetica, Helvetica, sans-serif;;stroke-linejoin:round;stroke-linecap:round">
+  <desc >[&lt;database&gt;Collection|
+	[register] -&gt; owns [segment 1|
+    	[vector storage] - [vector index]
+        [payload] - [payload index]
+    ]
+    
+    [register] -&gt; owns [optimized segement|
+    	[Old segment] &lt;- reads [&lt;reference&gt;Optimized segment] 
+        [Old segment] - write [Copy-on-write segment] 
+    ]
+]</desc>
+  <rect x="0" y="0" height="419" width="940" style="stroke:none; fill:transparent;"></rect>
+  <rect x="28.5" y="36.5" height="351" width="884" data-name="Collection" style="stroke:none; fill:#eee8d5;"></rect>
+  <path d="M28.5 36.5 L28.5 383.5" data-name="Collection" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M912.5 36.5 L912.5 383.5" data-name="Collection" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <ellipse cx="470.5" cy="36.5" rx="442" ry="6" data-name="Collection" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></ellipse>
+  <path d="M912.5 383.5 L912 383.8 L910.3 384.1 L907.6 384.4 L903.7 384.7 L898.8 385 L892.9 385.3 L885.8 385.6 L877.8 385.8 L868.7 386.1 L858.7 386.4 L847.7 386.6 L835.7 386.9 L822.8 387.1 L809.1 387.4 L794.5 387.6 L779.1 387.8 L763 388 L746.1 388.2 L728.5 388.4 L710.3 388.5 L691.5 388.7 L672.1 388.8 L652.3 389 L632 389.1 L611.3 389.2 L590.2 389.3 L568.9 389.3 L547.3 389.4 L525.5 389.5 L503.5 389.5 L481.5 389.5 L459.5 389.5 L437.5 389.5 L415.5 389.5 L393.7 389.4 L372.1 389.3 L350.8 389.3 L329.7 389.2 L309 389.1 L288.7 389 L268.9 388.8 L249.5 388.7 L230.7 388.5 L212.5 388.4 L194.9 388.2 L178 388 L161.9 387.8 L146.5 387.6 L131.9 387.4 L118.2 387.1 L105.3 386.9 L93.3 386.6 L82.3 386.4 L72.3 386.1 L63.2 385.8 L55.2 385.6 L48.1 385.3 L42.2 385 L37.3 384.7 L33.4 384.4 L30.7 384.1 L29 383.8 L28.5 383.5" data-name="Collection" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M28.5 67.5 L38.2 68.7 L66.7 69.9 L112.9 71 L174.7 72 L249.5 72.7 L333.9 73.2 L424.3 73.5 L516.7 73.5 L607.1 73.2 L691.5 72.7 L766.3 72 L828.1 71 L874.3 69.9 L902.8 68.7 L912.5 67.5" data-name="Collection" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <text x="470.5" y="62" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="Collection">Collection</text>
+  <text x="175.8" y="162.5" style="fill: #33322E;font:normal  12pt Helvetica, Helvetica, sans-serif;" data-name="Collection">owns</text>
+  <path d="M404 121.1 L224.5 150.5 L224.5 163.8 L224.5 163.8 " data-name="Collection" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M219.2 157.2 L224.5 163.8 L229.8 157.2 L224.5 170.5 Z" data-name="Collection" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <text x="666.5" y="162.5" style="fill: #33322E;font:normal  12pt Helvetica, Helvetica, sans-serif;" data-name="Collection">owns</text>
+  <path d="M479 121.1 L658.5 150.5 L658.5 163.8 L658.5 163.8 " data-name="Collection" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M653.2 157.2 L658.5 163.8 L663.8 157.2 L658.5 170.5 Z" data-name="Collection" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <rect x="56.5" y="170.5" height="189" width="336" data-name="segment 1" style="stroke:#33322E;fill:#fdf6e3;stroke-dasharray:none;stroke-width:3;"></rect>
+  <path d="M56.5 201.5 L392.5 201.5" data-name="segment 1" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <text x="224.5" y="192" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="segment 1">segment 1</text>
+  <path d="M147.5 260.5 L147.5 280.5 L147.5 300.5 L147.5 300.5 " data-name="segment 1" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M303.5 260.5 L303.5 280.5 L303.5 300.5 L303.5 300.5 " data-name="segment 1" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <rect x="84.5" y="229.5" height="31" width="126" data-name="vector storage" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="147.5" y="251" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="vector storage">vector storage</text>
+  <rect x="92.5" y="300.5" height="31" width="110" data-name="vector index" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="147.5" y="322" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="vector index">vector index</text>
+  <rect x="265.5" y="229.5" height="31" width="76" data-name="payload" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="303.5" y="251" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="payload">payload</text>
+  <rect x="242.5" y="300.5" height="31" width="122" data-name="payload index" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="303.5" y="322" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="payload index">payload index</text>
+  <rect x="432.5" y="170.5" height="189" width="452" data-name="optimized segement" style="stroke:#33322E;fill:#fdf6e3;stroke-dasharray:none;stroke-width:3;"></rect>
+  <path d="M432.5 201.5 L884.5 201.5" data-name="optimized segement" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <text x="658.5" y="192" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="optimized segement">optimized segement</text>
+  <text x="491.2" y="292.5" style="fill: #33322E;font:normal  12pt Helvetica, Helvetica, sans-serif;" data-name="optimized segement">reads</text>
+  <path d="M597.1 262.6 L542 280.5 L542 300.5 L542 300.5 " data-name="optimized segement" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M592.4 269.7 L597.1 262.6 L589.1 259.6 L603.4 260.5 Z" data-name="optimized segement" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <text x="768" y="292.5" style="fill: #33322E;font:normal  12pt Helvetica, Helvetica, sans-serif;" data-name="optimized segement">write</text>
+  <path d="M698.6 260.5 L760 280.5 L760 300.5 L760 300.5 " data-name="optimized segement" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <rect x="594.5" y="229.5" height="31" width="113" data-name="Old segment" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="651" y="251" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="Old segment">Old segment</text>
+  <rect x="460.5" y="300.5" height="31" width="163" data-name="Optimized segment" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:6 6;stroke-width:3;"></rect>
+  <text x="542" y="322" style="fill: #33322E;font:normal  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="Optimized segment">Optimized segment</text>
+  <rect x="663.5" y="300.5" height="31" width="193" data-name="Copy-on-write segment" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="760" y="322" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="Copy-on-write segment">Copy-on-write segment</text>
+  <rect x="404.5" y="99.5" height="31" width="75" data-name="register" style="stroke:#33322E;fill:#fdf6e3;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="442" y="121" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="register">register</text>
+</svg>
