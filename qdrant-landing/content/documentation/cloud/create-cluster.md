@@ -82,6 +82,8 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
    > Each node is automatically attached with a disk, that has enough space to store data with Qdrant's default collection configuration.
 1. Select additional disk space for your deployment.
    > Depending on your collection configuration, you may need more disk space per RAM. For example, if you configure `on_disk: true` and only use RAM for caching. 
+1. Choose the speed tier for your disk. (AWS only)
+   > Higher speed tiers provide better performance, especially for write-heavy workloads, or configurations with a low RAM cache ratio.
 1. Review your cluster configuration and pricing.
 1. When you're ready, select **Create**. It takes some time to provision your cluster.
 
@@ -98,6 +100,10 @@ To create a production-ready cluster, you need to ensure the following:
 **High Availability**
 
 Your cluster should have at least 3 nodes, and each collection should have a replication factor of at least 2. This ensures that is one node fails, or is restarted due to maintenance, a version upgrade, or a scaling operation, that the cluster remains fully operational. You can ensure this by checking the **High Availability** checkbox when creating a cluster.
+
+**Disk Speed (AWS only)**
+
+We recommend the **Balanced** tier for disks >= 32 GiB, and the **Performance** tier for disks >= 256 GiB.
 
 **Backup and Disaster Recovery**
 
