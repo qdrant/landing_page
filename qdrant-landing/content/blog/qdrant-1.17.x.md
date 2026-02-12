@@ -6,7 +6,7 @@ short_description: "Version 1.17 of Qdrant features a new Relevance Feedback Que
 description: "Version 1.17 of Qdrant features a new Relevance Feedback Query, search latency improvements, and better operational observability."
 preview_image: /blog/qdrant-1.17.x/social_preview.jpg
 social_preview_image: /blog/qdrant-1.17.x/social_preview.jpg
-date: 2026-02-20T00:00:00-08:00
+date: 2026-02-12T00:00:00-08:00
 author: Abdon Pijpelink
 featured: true
 tags:
@@ -26,6 +26,8 @@ tags:
 
 ## Relevance Feedback Query
 
+![Section 1](/blog/qdrant-1.17.x/section-1.png)
+
 Writing queries is hard: users often struggle to precisely formulate search queries. At the same time, judging the relevance of a given search result is often much easier. Retrieval systems can leverage this [relevance feedback](/articles/search-feedback-loop/) to iteratively refine results toward user intent.
 
 This release introduces a new [Relevance Feedback Query](/documentation/concepts/search-relevance/#relevance-feedback) as a scalable, vector‑native approach to incorporating relevance feedback. The Relevance Feedback Query uses a small amount of model‑generated feedback to guide the retriever through the entire vector space, effectively nudging search toward “more relevant” results without requiring expensive loops, large models, or human labeling. This enables the engine to traverse billions of vectors with improved recall without having to retrain models.
@@ -40,6 +42,8 @@ This method works by collecting lightweight feedback on just a few top results, 
 </figure>
 
 ## Search Latency Improvements
+
+![Section 2](/blog/qdrant-1.17.x/section-2.png)
 
 This release includes several changes that reduce search latency. To improve query response times in environments with high write loads, Qdrant can now be configured to avoid creating large unoptimized segments. Additionally, delayed fan-outs help reduce tail latency by querying a second replica if the first does not respond within a configurable latency threshold.
 
@@ -66,6 +70,8 @@ To mitigate tail latency for read operations, this release introduces a new [del
 
 ## Greater Operational Observability
 
+![Section 3](/blog/qdrant-1.17.x/section-3.png)
+
 We are continuously working to enhance the operational observability of Qdrant clusters. In this release, we introduce two new features: a new cluster-wide telemetry API and segment optimization monitoring.
 
 ### Cluster-Wide Telemetry
@@ -89,6 +95,8 @@ A new `/collections/{collection_name}/optimizations` API endpoint provides the c
 
 ## Honorable Mentions
 
+![Section 5](/blog/qdrant-1.17.x/section-5.png)
+
 As an open source project, we welcome contributions from the Qdrant community. This release features two contributions from community members:
 
 - Not all payload field indexes are used in combination with dense vector queries. With this release, you can [specify whether individual payload field indexes should be reflected in the HNSW index](/documentation/concepts/indexing/#disable-the-creation-of-extra-edges-for-payload-fields).
@@ -106,9 +114,13 @@ For a full list of all changes in version 1.17, please refer to the [change log]
 
 ## Upgrading to Version 1.17
 
+![Section 6](/blog/qdrant-1.17.x/section-6.png)
+
 In Qdrant Cloud, navigate to the Cluster Details screen and select Version 1.17 from the dropdown menu. The upgrade process may take a few moments.
 We recommend upgrading versions one by one, for example, 1.15->1.16->1.17. On Qdrant Cloud, the required intermediate updates are automatically performed to ensure a supported upgrade path.
 
 ## Engage
+
+![Section 7](/blog/qdrant-1.17.x/section-7.png)
 
 We would love to hear your thoughts on this release. If you have any questions or feedback, join our [Discord](https://discord.gg/qdrant) or create an issue on [GitHub](https://github.com/qdrant/qdrant/issues).
