@@ -93,6 +93,21 @@ A new `/collections/{collection_name}/optimizations` API endpoint provides the c
   </figcaption>
 </figure>
 
+## Redesigned Web UI Point Search
+
+![Section 5](/blog/qdrant-1.17.x/section-4.png)
+
+[Web UI](/documentation/web-ui/) is Qdrant’s user interface for managing deployments and collections. It enables you to create and manage collections, run API calls, import sample datasets, and learn about Qdrant's API through interactive tutorials.
+
+In this release, we have redesigned the point search interface in the Web UI to make exploring your data and discovering relevant points easier and more intuitive. The new two-field layout enables searching for points similar to another point, filtering by payload values, and finding points by ID. 
+
+<figure>
+  <img src="/blog/qdrant-1.17.x/web-ui-search.png">
+  <figcaption>
+    The redesigned point search interface in the Web UI provides a way to find points similar to another point and filter on payload values.
+  </figcaption>
+</figure>
+
 ## Honorable Mentions
 
 ![Section 5](/blog/qdrant-1.17.x/section-5.png)
