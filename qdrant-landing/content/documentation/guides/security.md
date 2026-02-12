@@ -445,6 +445,26 @@ This is also applicable to using api keys instead of tokens. In that case, `api_
 | telemetry | ✅ | ✅ | ❌ | ❌ |
 | metrics | ✅ | ✅ | ❌ | ❌ |
 
+## Audit Logging
+
+*Available as of v1.17.0. Not yet available on Qdrant Cloud.* 
+
+Audit logging records all API operations that require authentication or authorization, and writes them to a log file in JSON format.
+
+Audit logging is not enabled by default. To enable it, use the following configuration options:
+
+```yaml
+audit:
+  enabled: false
+  dir: ./storage/audit
+  rotation: daily
+  max_log_files: 7
+```
+
+By default, audit logs are rotated daily, and the seven most recent log files are kept. To configure hourly rotation, set `rotation` to `hourly`. When the number of log files exceeds `max_log_files`, the oldest log file is deleted.
+
+<aside role="alert">Audit logging is verbose and audit logs can grow in size rapidly. Ensure that you have sufficient disk space.</aside>
+
 ## Network bind
 
 By default, a custom Qdrant deployment binds to all network interfaces. Your
