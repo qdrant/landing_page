@@ -1,0 +1,18 @@
+{{ with (.Site.GetPage "edge/edge-vectors") }}
+  <section class="edge-vectors">
+    <div class="container">
+      <h2 class="edge-vectors__title">{{ .Params.title }}</h2>
+      <div class="edge-vectors__cards row g-4 g-lg-0">
+        {{ range $index, $element := .Params.cards }}
+        <div class="edge-vectors__card col-12 col-lg-6">
+          <div class="edge-vectors__card-info">
+            <img class="edge-vectors__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+            <h5 class="edge-vectors__card-title">{{ .title }}</h5>
+            <p class="edge-vectors__card-description">{{ .description }}</p>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
