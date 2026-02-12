@@ -1,0 +1,18 @@
+{{ with (.Site.GetPage "/edge/edge-features") }}
+  <section class="edge-features">
+    <div class="container">
+      <h2 class="edge-features__title">{{ .Params.title }}</h2>
+      <div class="edge-features__cards row g-4">
+        {{ range $index, $element := .Params.features }}
+        <div class="col-12 {{ if eq $index 0 }}col-lg-8{{ else }}col-lg-4 {{ end }}">
+         <div class="card edge-features__card">
+           <h6 class="edge-features__card-title">{{ .title }}</h6>
+           <p class="edge-features__card-description">{{ .description }}</p>
+           <img class="edge-features__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+         </div>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

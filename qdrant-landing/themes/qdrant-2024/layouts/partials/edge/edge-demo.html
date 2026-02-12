@@ -1,0 +1,26 @@
+{{ with (.Site.GetPage "/edge/edge-demo") }}
+  <section class="edge-demo">
+    <div class="edge-demo__lights-overlay"></div>
+    <div class="container">
+      <div class="row align-items-lg-center g-5 g-lg-0">
+        <div class="col-12 col-lg-6 z-1">
+          <h2 class="edge-demo__title">
+            {{ .Params.label.title }}: {{ .Params.title }}
+          </h2>
+          <p class="edge-demo__description">{{ .Params.description }}</p>
+          {{ with .Params.description2 }}
+            <p class="edge-demo__description edge-demo__description--secondary">{{ . }}</p>
+          {{ end }}
+          <div class="edge-demo__buttons">
+            <a href="{{ .Params.cta.url }}" class="button button_contained button_lg edge-demo__button" target="{{ .Params.cta.target }}">
+              {{ .Params.cta.text }}
+            </a>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 d-flex justify-content-center z-1">
+          <img class="edge-demo__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
