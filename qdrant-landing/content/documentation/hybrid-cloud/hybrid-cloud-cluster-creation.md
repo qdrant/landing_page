@@ -86,7 +86,7 @@ This endpoint is also visible on the cluster detail page.
 
 If you want to access the database from your local developer machine, you can use `kubectl port-forward` to forward the service port to your local machine:
 
-```
+```shell
 kubectl --namespace your-qdrant-namespace port-forward service/qdrant-9a9f48c7-bb90-4fb2-816f-418a46a74b24 6333:6333
 ```
 
