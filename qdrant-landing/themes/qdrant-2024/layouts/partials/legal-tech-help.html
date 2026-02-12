@@ -1,17 +1,32 @@
 <section class="legal-tech-help">
   <div class="container">
-    <h3 class="legal-tech-help__title">{{ .Params.title | safeHTML }}</h3>
     <div class="row justify-content-lg-between align-items-lg-center">
-      <div class="col-12 col-lg-6 legal-tech-help__items">
-        {{ range .Params.items }}
-          <div class="legal-tech-help__item">
-            <h3 class="legal-tech-help__item-title">{{ .title }}</h3>
-            <p class="legal-tech-help__item-description">{{ .description }}</p>
+      <div class="col-12 col-lg-7 legal-tech-help__content">
+        {{ if .Params.badge }}
+          <div class="legal-tech-help__badge">
+            {{ if .Params.badgeIcon }}
+              <img src="{{ .Params.badgeIcon }}" alt="" class="legal-tech-help__badge-icon" />
+            {{ end }}
+            <span>{{ .Params.badge }}</span>
           </div>
         {{ end }}
+        <h2 class="legal-tech-help__title">{{ .Params.title | safeHTML }}</h2>
+        {{ if .Params.description }}
+          <p class="legal-tech-help__description">{{ .Params.description | safeHTML }}</p>
+        {{ end }}
+        {{ if .Params.buttonText }}
+          <a href="{{ .Params.buttonLink | default "#" }}" class="legal-tech-help__button">
+            {{ .Params.buttonText }}
+          </a>
+        {{ end }}
       </div>
-      <div class="col-12 col-lg-6 legal-tech-help__preview">
-        <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+      <div class="col-12 col-lg-5 legal-tech-help__preview">
+        <img
+          src="{{ .Params.image.src }}"
+          srcset="{{ .Params.image.src }} 1x{{ with .Params.image.src2x }}, {{ . }} 2x{{ end }}"
+          alt="{{ .Params.image.alt }}"
+          loading="lazy"
+        />
       </div>
     </div>
   </div>
