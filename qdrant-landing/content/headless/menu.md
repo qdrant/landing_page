@@ -89,6 +89,10 @@ menuItems:
             name: HR Tech
             icon: careers.svg
             url: /hr-tech/
+          - id: subMenu-1-9
+            name: Healthcare Tech
+            icon: healthcare.svg
+            url: /healthcare/
   - id: menu-2
     name: Developers
     mainMenuItems: 

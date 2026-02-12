@@ -14,8 +14,9 @@
   &__review {
     margin-bottom: $spacer * 2.5;
     font-size: pxToRem(20);
-    line-height: pxToRem(30);
+    line-height: 1.5;
     color: $neutral-20;
+    letter-spacing: pxToRem(-0.2);
   }
 
   &__employees {
@@ -62,6 +63,44 @@
     }
   }
 
+  &__partners {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 1.5;
+    padding-bottom: $spacer * 1.875;
+  }
+
+  &__partners-title {
+    margin: 0;
+    font-size: pxToRem(20);
+    font-weight: 600;
+    line-height: 1.3;
+    color: $neutral-20;
+    letter-spacing: -0.5px;
+  }
+
+  &__partners-logos {
+    display: flex;
+    gap: $spacer;
+    flex-wrap: wrap;
+  }
+
+  &__partners-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 $spacer * 1.25;
+    background: $neutral-98;
+    border: pxToRem(1) solid $neutral-90;
+    border-radius: pxToRem(12);
+
+    img {
+      width: pxToRem(120);
+      height: pxToRem(64);
+      object-fit: contain;
+    }
+  }
+
   &.reversed div.row {
     flex-direction: column-reverse;
   }
@@ -80,6 +119,18 @@
 
     &__logo {
       height: 100%;
+    }
+
+    &__partners {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0;
+    }
+
+    &__partners-title {
+      font-size: pxToRem(24);
+      max-width: pxToRem(445);
     }
 
     &.reversed div.row {

@@ -1,0 +1,25 @@
+<section class="cta-banner">
+  <div class="container">
+    <div class="cta-banner__banner">
+      {{ if .Params.background }}
+        <div class="cta-banner__background" style="background-image: url('{{ .Params.background.src }}');"></div>
+      {{ end }}
+      <div class="cta-banner__content">
+        <div class="cta-banner__text">
+          <h2 class="cta-banner__title">{{ .Params.title }}</h2>
+          {{ if .Params.description }}
+            <p class="cta-banner__description">{{ .Params.description }}</p>
+          {{ end }}
+          <a href="{{ .Params.button.url }}" class="button button_contained button_lg cta-banner__button">
+            {{ .Params.button.text }}
+          </a>
+        </div>
+        {{ if .Params.illustration }}
+          <div class="cta-banner__illustration">
+            <img src="{{ .Params.illustration.src }}" alt="{{ .Params.illustration.alt }}" />
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>
