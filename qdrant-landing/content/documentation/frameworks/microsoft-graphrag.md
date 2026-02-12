@@ -74,6 +74,8 @@ class QdrantVectorStore(VectorStore):
             )
             for hit in results
         ]
+
+     # ...other graphrag_vectors.VectorStore methods
 ```
 
 ## Usage
