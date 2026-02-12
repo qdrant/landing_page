@@ -123,6 +123,7 @@ Additionally, this release adds the following features:
 - To speed up the recovery of the replicas after they’ve been down, shards will [increase the size of their write-ahead log](https://github.com/qdrant/qdrant/pull/7834) when they detect that one of their remote replicas is unavailable.
 - Reciprocal Rank Fusion (RRF) combines multiple query results into one list, but its default equal weighting can let weaker rankers dilute stronger ones. [Weighted RRF](/documentation/concepts/hybrid-queries/#reciprocal-rank-fusion-rrf) in Qdrant 1.17 addresses this by letting you assign weights to individual queries.
 - A new [user interface in the Web UI enables resharding collections](https://github.com/qdrant/qdrant-web-ui/pull/341) on Qdrant Cloud.
+- Qdrant now supports [audit logging](/documentation/guides/security/#audit-logging) to track all API operations that require authentication or authorization.
 - [External provider API keys for inference requests](/documentation/concepts/inference/#external-embedding-model-providers) can now be provided in the request header.
 
 For a full list of all changes in version 1.17, please refer to the [change log](https://github.com/qdrant/qdrant/releases/tag/v1.17.0).
