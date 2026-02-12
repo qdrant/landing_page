@@ -2,7 +2,7 @@
 POST /collections/{collection_name}/points/query
 {
     "prefetch": [
-        // 2 prefetches here
+        // Prefetches here
     ],
     "query": {
         "rrf": {
