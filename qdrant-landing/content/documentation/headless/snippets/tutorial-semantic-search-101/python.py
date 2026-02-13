@@ -1,3 +1,31 @@
+# @hide-start
+# mypy: disable-error-code="arg-type"
+QDRANT_URL=""
+QDRANT_API_KEY=""
+# @hide-end
+# @block-start client-connection
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(
+    url=QDRANT_URL,
+    api_key=QDRANT_API_KEY,
+    cloud_inference=True
+)
+# @block-end client-connection
+
+# @block-start create-collection
+COLLECTION_NAME="my_books"
+
+client.create_collection(
+    collection_name=COLLECTION_NAME,
+    vectors_config=models.VectorParams(
+        size=384,  # Vector size is defined by used model
+        distance=models.Distance.COSINE,
+    ),
+)
+# @block-end create-collection
+
+# @block-start upload-data
 documents = [
     {
         "name": "The Time Machine",
@@ -78,3 +106,62 @@ documents = [
         "year": 2008,
     },
 ]
+# @block-end upload-data
+
+# @block-start upload-points
+EMBEDDING_MODEL="sentence-transformers/all-minilm-l6-v2"
+
+client.upload_points(
+    collection_name=COLLECTION_NAME,
+    points=[
+        models.PointStruct(
+            id=idx,
+            vector=models.Document(
+                text=doc["description"],
+                model=EMBEDDING_MODEL
+            ),
+            payload=doc
+        )
+        for idx, doc in enumerate(documents)
+    ],
+)
+# @block-end upload-points
+
+# @block-start query-engine
+hits = client.query_points(
+    collection_name=COLLECTION_NAME,
+    query=models.Document(
+        text="alien invasion",
+        model=EMBEDDING_MODEL
+    ),
+    limit=3,
+).points
+
+for hit in hits:
+    print(hit.payload, "score:", hit.score)
+# @block-end query-engine
+
+# @block-start create-payload-index
+client.create_payload_index(
+    collection_name=COLLECTION_NAME,
+    field_name="year",
+    field_schema="integer",
+)
+# @block-end create-payload-index
+
+# @block-start query-with-filter
+hits = client.query_points(
+    collection_name=COLLECTION_NAME,
+    query=models.Document(
+        text="alien invasion",
+        model=EMBEDDING_MODEL
+    ),
+    query_filter=models.Filter(
+        must=[models.FieldCondition(key="year", range=models.Range(gte=2000))]
+    ),
+    limit=1,
+).points
+
+for hit in hits:
+    print(hit.payload, "score:", hit.score)
+# @block-end query-with-filter

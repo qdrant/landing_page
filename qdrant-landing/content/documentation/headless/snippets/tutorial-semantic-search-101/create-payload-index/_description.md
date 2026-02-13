@@ -1,1 +1,0 @@
-This code snippet shows how to create a payload index on a specific field. The example creates an index on the `year` field of type integer, which enables efficient filtering on this field in subsequent queries.
