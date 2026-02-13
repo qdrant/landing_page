@@ -1,1 +1,0 @@
-This code snippet demonstrates how to query a collection with a filter. The example uses inference to generate query embeddings and applies a filter to return only books published after the year 2000, limiting the results to the single most relevant match.

@@ -587,7 +587,7 @@ Example:
 ![](readme-assets/shortcode-snippets.png)
 
 This shortcode renders a code snippets widget from a specified path.
-Use it when you want to manage code examples as a collection of separate Markdown files.
+Use it when you want to manage code examples as a collection of separate Markdown files. The following parapghs refer to hand-written snippets. It's recommended to write code snippets as testable code instead. Refer to [automation/snippets/README.md](automation/snippets/README.md) for details.
 
 ##### 📁 Directory Structure
 Place all code snippets for a single widget into one directory. Each file should be named after the programming language it represents:
