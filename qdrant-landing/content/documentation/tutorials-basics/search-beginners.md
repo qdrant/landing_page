@@ -21,7 +21,7 @@ aliases:
 
 If you are new to vector search engines, this tutorial is for you. In 5 minutes you will build a semantic search engine for science fiction books. After you set it up, you will ask the engine about an impending alien threat. Your creation will recommend books as preparation for a potential space attack.
 
-Before you begin, you need to have a [recent version of Python](https://www.python.org/downloads/) installed. If you don't know how to run this code in a virtual environment, follow the Python documentation for [creating virtual environments](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments) first. Alternatively, you can use [this Google Colab notebook](https://githubtocolab.com/qdrant/examples/blob/master/semantic-search-in-5-minutes/semantic_search_in_5_minutes.ipynb).
+If you are using Python, you can use [this Google Colab notebook](https://githubtocolab.com/qdrant/examples/blob/master/semantic-search-in-5-minutes/semantic_search_in_5_minutes.ipynb).
 
 ## 1. Create a Qdrant Cluster
 
