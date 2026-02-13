@@ -26,7 +26,7 @@ class Language:
         raise NotImplementedError
 
     @classmethod
-    def shorten(cls, contents: str) -> str:
+    def shorten(cls, contents: str) -> dict[str, str]:
         """Shorten the snippet contents into a form suitable for inclusion in
         documentation.
 
@@ -81,20 +81,22 @@ def template(
     target_fname.write_text("".join(result))
 
 
-_RE_COMMENT = re.compile(r"^(.*\s|)(?://|#)\s*(@.*)$")
+_RE_COMMENT = re.compile(r"^(.*\s|)(?://|#)\s*(@\S+)(\s+.*)?$")
 
 
-def generic_shorten(text: str) -> str:
+def generic_shorten(text: str) -> dict[str, str]:
     """Generic implementation of Language.shorten().
 
     Removes comments with @hide annotation and trims excessive newlines.
     """
-    result = []
+    blocks = {"": []} # empty string is the default block (does not live in a subdirectory)
+    current_blocks = [""]
     hide_mode = False
     for line in text.splitlines():
         if (m := _RE_COMMENT.match(line)) is None:
             if not hide_mode:
-                result.append(line + "\n")
+                for block in current_blocks:
+                    blocks[block].append(line + "\n")
             continue
 
         has_code = m[1].strip() != ""
@@ -116,16 +118,37 @@ def generic_shorten(text: str) -> str:
             if not hide_mode:
                 raise ValueError("@hide-end without matching @hide-start")
             hide_mode = False
+        elif annotation == "@block-start":
+            if has_code:
+                raise ValueError("@block-start should be on its own line")
+            if m[3] and m[3].strip() != "":
+                block = m[3].strip()
+                current_blocks.append(block)
+                blocks[block] = []
+            else:
+                raise ValueError("@block-start should be followed by block name")
+        elif annotation == "@block-end":
+            if has_code:
+                raise ValueError("@block-end should be on its own line")
+            if m[3] and m[3].strip() != "":
+                block = m[3].strip()
+                current_blocks.remove(block)
+            else:
+                raise ValueError("@block-end should be followed by block name")
         else:
-            raise ValueError(f"Unknown annotation: {m[1]}")
+            raise ValueError(f"Unknown annotation: {annotation}")
     if hide_mode:
         raise ValueError("Unclosed @hide-start")
-    text = "".join(result)
-    text = text.lstrip("\n").rstrip("\n")
-    text = re.sub(r"\n{3,}", "\n\n", text)
-    if text:
-        text += "\n"
-    return text
+
+    snippets = {}
+    for key in blocks.keys():
+        text = "".join(blocks[key])
+        text = text.lstrip("\n").rstrip("\n")
+        text = re.sub(r"\n{3,}", "\n\n", text)
+        if text:
+            text += "\n"
+        snippets[key] = text
+    return snippets
 
 
 def trim_commonpath(fnames: list[Path]) -> dict[Path, Path]:

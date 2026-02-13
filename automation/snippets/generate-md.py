@@ -13,6 +13,7 @@ The reverse is `./migrate-snippet.py`.
 import difflib
 import shutil
 import sys
+import textwrap
 import traceback
 import typing
 
@@ -26,11 +27,12 @@ def main() -> None:
     issues = 0
 
     for snippet_dir, snippets2 in snippets.items():
+
         generated_dir = snippet_dir / "generated"
 
         shutil.rmtree(generated_dir, ignore_errors=True)
         generated_dir.mkdir()
-
+        
         for lang, snippet_fname in snippets2.items():
             try:
                 shortened = lang.shorten(snippet_fname.read_text())
@@ -39,29 +41,33 @@ def main() -> None:
                 print(f"Warning: failed to shorten snippet {snippet_fname}: {e}")
                 traceback.print_exc()
                 continue
-            generated = f"```{lang.NAME}\n{shortened}```\n"
 
-            generated_fname = generated_dir / f"{lang.NAME}.md"
-            handwritten_fname = snippet_dir / f"{lang.NAME}.md"
-            generated_fname.write_text(generated)
+            for key in shortened.keys():
+                generated = f"```{lang.NAME}\n{textwrap.dedent(shortened[key])}```\n"
 
-            if handwritten_fname.exists():
-                issues += 1
-                print(
-                    "Warning: both snippet and generated file exist:",
-                    snippet_dir / f"{lang.NAME}.md",
-                )
-                handwritten = (snippet_dir / f"{lang.NAME}.md").read_text()
-                if handwritten.rstrip("\n") != generated.rstrip("\n"):
-                    print_and_colorize_diff(
-                        difflib.unified_diff(
-                            handwritten.rstrip("\n").splitlines(keepends=True),
-                            generated.rstrip("\n").splitlines(keepends=True),
-                            fromfile=str(handwritten_fname),
-                            tofile=str(generated_fname),
-                        ),
+                generated_dir = snippet_dir / "generated" / key
+                generated_dir.mkdir(exist_ok=True)
+                generated_fname = generated_dir / f"{lang.NAME}.md"
+                handwritten_fname = snippet_dir / f"{lang.NAME}.md"
+                generated_fname.write_text(generated)
+
+                if handwritten_fname.exists():
+                    issues += 1
+                    print(
+                        "Warning: both snippet and generated file exist:",
+                        snippet_dir / f"{lang.NAME}.md",
                     )
-                    print()
+                    handwritten = (snippet_dir / f"{lang.NAME}.md").read_text()
+                    if handwritten.rstrip("\n") != generated.rstrip("\n"):
+                        print_and_colorize_diff(
+                            difflib.unified_diff(
+                                handwritten.rstrip("\n").splitlines(keepends=True),
+                                generated.rstrip("\n").splitlines(keepends=True),
+                                fromfile=str(handwritten_fname),
+                                tofile=str(generated_fname),
+                            ),
+                        )
+                        print()
 
     if issues:
         print(f"Total issues found: {issues}")
