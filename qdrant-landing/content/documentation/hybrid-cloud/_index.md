@@ -20,13 +20,11 @@ Qdrant Hybrid Cloud ensures data privacy, deployment flexibility, low latency, a
 
 **Setup instructions:** To begin using Qdrant Hybrid Cloud, [read our installation guide](/documentation/hybrid-cloud/hybrid-cloud-setup/).
 
-## Hybrid Cloud architecture
+## Hybrid Cloud Architecture
 
 The Hybrid Cloud onboarding will install a Kubernetes Operator, a Cloud Agent and a Prometheus Agent into your Kubernetes cluster.
 
-and do not include any user data or sensitive information.
-
-Both the Cloud Agent will establish an outgoing connection to `cloud.qdrant.io` on port `443` to transport telemetry and receive management instructions. It will also interact with the Kubernetes API through a ServiceAccount to create, read, update and delete the necessary Qdrant CRs (Custom Resources) based on the configuration setup in the Qdrant Cloud Console.
+Both the Cloud Agent and the Prometheus Agent will establish an outgoing connection to `cloud.qdrant.io` on port `443` to transport telemetry and receive management instructions. It will also interact with the Kubernetes API through a ServiceAccount to create, read, update and delete the necessary Qdrant CRs (Custom Resources) based on the configuration setup in the Qdrant Cloud Console.
 
 The Qdrant Kubernetes Operator will manage the Qdrant databases within your Kubernetes cluster. Based on the Qdrant CRs, it will interact with the Kubernetes API through a ServiceAccount to create and manage the necessary resources to deploy and run Qdrant databases, such as Pods, Services, ConfigMaps, and Secrets.
 
@@ -48,3 +46,7 @@ After the initial onboarding, the lifecycle of these components will be controll
 You don't need to expose your Kubernetes Cluster to the Qdrant Cloud platform, you don't need to open any ports for incoming traffic, and you don't need to provide any Kubernetes or cloud provider credentials to the Qdrant Cloud platform.
 
 ![hybrid-cloud-architecture](/blog/hybrid-cloud/hybrid-cloud-architecture.png)
+
+## Getting Access to Hybrid Cloud
+
+Qdrant Hybrid Cloud is available as part of our Enterprise plan. To get access to Qdrant Hybrid Cloud, please [contact us](/contact-us/).
