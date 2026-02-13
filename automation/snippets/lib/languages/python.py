@@ -55,7 +55,7 @@ class LanguagePython(Language):
         return result
 
     @classmethod
-    def shorten(cls, contents: str) -> str:
+    def shorten(cls, contents: str) -> dict[str, str]:
         lines = [
             line
             for line in contents.splitlines(keepends=True)
