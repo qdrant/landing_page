@@ -3,8 +3,15 @@
   <div class="container">
     <div class="row align-items-lg-center">
       <div class="elastic-lucene-hero__content col-12 col-lg-8">
-        <h1 class="elastic-lucene-hero__title">{{ .Params.title }}</h1>
+        <h1 class="elastic-lucene-hero__title">{{ .Params.title | safeHTML }}</h1>
         <p class="elastic-lucene-hero__description">{{ .Params.description }}</p>
+        {{ if and .Params.startFree .Params.learnMore }}
+        <div class="elastic-lucene-hero__buttons">
+          <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg">{{ .Params.startFree.text }}</a>
+          <a href="{{ .Params.learnMore.url }}" class="button button_outlined button_lg elastic-lucene-hero__button-outlined">{{ .Params.learnMore.text }}</a>
+        </div>
+        {{ end }}
+        {{ if .Params.quotes }}
         <div class="elastic-lucene-hero__quotes">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +29,10 @@
             {{ end }}
           </div>
         </div>
-        <p class="elastic-lucene-hero__closing">{{ .Params.closingText }}</p>
+        {{ end }}
+        {{ if .Params.closingText }}
+          <p class="elastic-lucene-hero__closing">{{ .Params.closingText }}</p>
+        {{ end }}
       </div>
     </div>
   </div>
