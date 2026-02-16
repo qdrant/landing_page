@@ -17,7 +17,7 @@ QdrantClient client =
 client
     .upsertAsync(
         UpsertPoints.newBuilder()
-            .setCollectionName("collection_name}")
+            .setCollectionName("{collection_name}")
             .addAllPoints(
                 List.of(
                     PointStruct.newBuilder()
