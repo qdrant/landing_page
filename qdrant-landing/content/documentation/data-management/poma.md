@@ -7,8 +7,7 @@ title: POMA
 # POMA + Qdrant: Structure-Preserving Retrieval
 
 | Time: 15 min | Level: Beginner/Intermediate | [Complete Notebook](https://colab.research.google.com/github/poma-ai/.github/blob/main/notebooks/qdrant/poma_meets_qdrant.ipynb) | [Notebook Source](https://github.com/poma-ai/.github/blob/main/notebooks/qdrant/poma_meets_qdrant.ipynb) |
-| ------------ | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------
--------------------------------------------------------------- |
+| ------------ | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 
 ## Overview
 
