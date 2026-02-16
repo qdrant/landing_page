@@ -2,47 +2,18 @@
 title: POMA
 ---
 
-<p style="text-align: left;">
-  <img
-    src="https://raw.githubusercontent.com/poma-ai/.github/main/assets/POMA_AI_Logo_Pink.svg"
-    alt="POMA AI Logo"
-    height="40"
-    style="vertical-align: middle;"
-  />
-  <span style="display: inline-block; margin: 0 18px; font-size: 42px; font-weight: 800; line-height: 1; transform: scale(1.5) translateY(-2px); vertical-align: middle;">×</span>
-  <img
-    src="https://qdrant.tech/img/qdrant-logo.svg"
-    alt="Qdrant Logo"
-    height="40"
-    style="vertical-align: middle;"
-  />
-</p>
+![POMA Logo](https://raw.githubusercontent.com/poma-ai/.github/main/assets/POMA_AI_Logo_Pink.svg)
 
 # POMA + Qdrant: Structure-Preserving Retrieval
 
-<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; width: 100%; gap: 8px; margin: 0;">
-  <span style="text-align: center;"><strong>Time:</strong> 15 min</span>
-  <span style="text-align: center;"><strong>Level:</strong> Beginner/Intermediate</span>
-  <span style="text-align: center;">
-    <a href="https://colab.research.google.com/github/poma-ai/.github/blob/main/notebooks/qdrant/poma_meets_qdrant.ipynb">
-      <img
-        src="https://colab.research.google.com/assets/colab-badge.svg"
-        alt="Open in Colab"
-        style="height: 20px; vertical-align: middle;"
-      />
-    </a>
-  </span>
-  <span style="text-align: center;">
-    <a href="https://github.com/poma-ai/.github/blob/main/notebooks/qdrant/poma_meets_qdrant.ipynb"><strong>Notebook Source</strong></a>
-  </span>
-</div>
-
----
+| Time: 15 min | Level: Beginner/Intermediate | [Complete Notebook](https://colab.research.google.com/github/poma-ai/.github/blob/main/notebooks/qdrant/poma_meets_qdrant.ipynb) | [Notebook Source](https://github.com/poma-ai/.github/blob/main/notebooks/qdrant/poma_meets_qdrant.ipynb) |
+| ------------ | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------
+-------------------------------------------------------------- |
 
 ## Overview
 
-- **Qdrant** as *vector search engine* stores and searches dense/sparse vectors at production scale, with flexible deployment and vast options, like [Managed Cloud](https://qdrant.tech/documentation/cloud/), [Cloud Inference](https://qdrant.tech/documentation/cloud/inference/) (managed embeddings in Qdrant Cloud), or local [FastEmbed](https://qdrant.tech/documentation/fastembed/) with [Local / self-hosted Qdrant](https://qdrant.tech/documentation/quick-start/), as well as for online collections.
 - **POMA**, as *document chunking engine*, is built around simplicity for operators: process files into structure-aware chunksets and send them to Qdrant with minimal boilerplate and a patented chunking approach.
+- **Qdrant** as your preferred  *vector search engine*.
 
 Together, they combine individual simplicity into one streamlined workflow.
 
@@ -50,23 +21,12 @@ This guide walks through the current [POMA AI](https://www.poma-ai.com/) for Qdr
 
 ---
 
-## Why POMA?
-
-POMA positions itself as a GenAI-native context engine focused on **smarter chunking for better retrieval**. In practice, that means combining ingestion + chunking as one system so retrieval quality and token efficiency are optimized together, not separately.
-
-Short version of why teams use it:
+## Short version of why teams use it:
 
 - Better context retention: hierarchical chunksets keep section lineage attached to the source document.
 - Token efficiency: retrieval is designed for high signal-per-token instead of large overlapping windows.
 - Great fit for real documents: multi-format ingestion with structure-aware processing (PDFs, Office documents, scanned documents, and [much more](https://github.com/poma-ai/.github/blob/main/profile/README.md#supported-formats)).
 
-How file processing works in POMA (conceptually):
-
-1. Multi-format ingestion: text files are processed directly; complex files like PDFs/scans are parsed with vision-language support.
-2. Text fidelity checks: the original wording is preserved (no summarization/paraphrasing), while non-text elements are kept as structured assets.
-3. Structural organization: POMA builds a hierarchical document representation (POMA Tree) that reflects semantic sections and relationships.
-4. Structure-aware chunking: lines are grouped into semantically coherent chunksets to retain context better than fixed-size chunking.
-5. Portable output artifact: results are packaged into a [`.poma`](https://app.poma-ai.com/poma-extension) archive containing chunks, chunksets, and related assets, with validation across steps.
 
 Further details:
 
@@ -103,21 +63,7 @@ If you need a cluster first, use Qdrant Cloud: https://cloud.qdrant.io/
 
 1. Open https://app.poma-ai.com/
 2. Register or sign in.
-    ><figure style="margin: 8px 0 0 0;">
-    >  <img
-    >    src="https://github.com/poma-ai/.github/blob/main/assets/qdrant/Poma_01.png?raw=1"
-    >    alt="POMA Register Screenshot"
-    >    style="max-width: 680px; width: 100%; height: auto; border-radius: 8px; display: block;"
-    >  />
-    ></figure>
 3. Open **API Keys** in the left navigation.
-    ><figure style="margin: 8px 0 0 0;">
-    >  <img
-    >    src="https://github.com/poma-ai/.github/blob/main/assets/qdrant/Poma_02.png?raw=1"
-    >    alt="POMA API Key Screenshot"
-    >    style="max-width: 680px; width: 100%; height: auto; border-radius: 8px; display: block;"
-    >  />
-    ></figure>
 4. Copy your key and export it as `POMA_API_KEY`.
 
 ### Qdrant cluster API key
