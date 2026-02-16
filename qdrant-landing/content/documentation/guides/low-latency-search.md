@@ -39,9 +39,9 @@ An alternative approach to fanning out reads is to always read from multiple rep
 Shards store their data in [segments](/documentation/concepts/storage/). Write operations go through several stages before the changes are fully indexed and searchable:
 
 1. First, each incoming write request is written to the shard's write-ahead log (WAL). At this stage, the data is not yet searchable, but the write request is persisted and will eventually be applied.
-1. An update queue tracks entries from the WAL that still need to be applied. The update queue can track up to one million pending updates. When the queue is full, clients experience back pressure: new write requests stall until the queue has capacity.
-1. Next, a batch of updates is taken from the queue and applied to one or more (unoptimized) segments. At this stage, the data is searchable, but not yet indexed, so searching over this data may be slower.
-1. Finally, the indexing optimizer creates indexes for unoptimized segments. Once the indexing process is complete, the data is fully indexed, and search performance is optimal. Indexing is a relatively slow operation, so there can be a delay between when data is written and when it is fully indexed, especially under heavy write load.
+1. An update queue tracks entries from the WAL that still need to be applied. The update queue can track up to one million pending updates per shard. When the queue is full, clients experience back pressure: new write requests stall until the queue has capacity.
+1. Next, updates are taken from the queue and applied to one or more (unoptimized) segments. At this stage, the data is searchable, but not yet indexed, so searching over this data may be slower.
+1. Finally, the indexing optimizer creates a [vector index](/documentation/concepts/indexing/#vector-index) (HNSW graph) for unoptimized segments. Once the indexing process is complete, the data is fully indexed, and search performance is optimal. Indexing is a relatively slow operation, so there can be a delay between when data is written and when it is fully indexed, especially under heavy write load.
 
 Search latency can vary depending on where the data is in this process. Querying large amounts of unindexed data can lead to increased latency. This can occur under heavy write load, for example, during nightly batch updates or when processing a large backlog of updates after a period of downtime.
 
