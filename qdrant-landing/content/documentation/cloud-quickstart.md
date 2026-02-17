@@ -32,6 +32,7 @@ Once you have a cluster, the fastest way to get started is to use our official S
 pip install qdrant-client fastembed             # for Python projects
 # cargo add qdrant-client fastembed             # for Rust projects 
 # npm install @qdrant/js-client-rest fastembed  # for Node.js projects
+# 
 ```
 
 ## 3. Connect to Qdrant Cloud
@@ -64,6 +65,57 @@ const client = new QdrantClient({
   url: "https://xyz-example.eu-central.aws.cloud.qdrant.io",
   apiKey: "your-api-key",
 });
+```
+
+```java
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.value;
+import static io.qdrant.client.VectorFactory.vector;
+import static io.qdrant.client.VectorsFactory.namedVectors;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Document;
+import io.qdrant.client.grpc.Points.Image;
+import io.qdrant.client.grpc.Points.PointStruct;
+import java.util.List;
+import java.util.Map;
+
+
+QdrantClient client =
+    new QdrantClient(
+        QdrantGrpcClient.newBuilder("xyz-example.qdrant.io", 6334, true)
+            .withApiKey("<your-api-key>")
+            .build());
+```
+
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient(
+    host: "xyz-example.qdrant.io",
+    port: 6334,
+    https: true,
+    apiKey: "<your-api-key>"
+);
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+    Host:   "xyz-example.qdrant.io",
+    Port:   6334,
+    APIKey: "<paste-your-api-key-here>",
+    UseTLS: true,
+})
+
 ```
 
 ```bash
@@ -105,6 +157,28 @@ await client.createCollection("items", {
 });
 ```
 
+```java
+client.createCollectionAsync("items",
+        VectorParams.newBuilder().setDistance(Distance.Cosine).setSize(384).build()).get();
+```
+
+```csharp
+await client.CreateCollectionAsync(
+	collectionName: "items",
+	vectorsConfig: new VectorParams { Size = 384, Distance = Distance.Cosine }
+);
+```
+
+```go
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "items",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     384,
+		Distance: qdrant.Distance_Cosine,
+	}),
+})
+```
+
 ```bash
 curl -X PUT \
   'http://<your-qdrant-host>:6333/collections/items' \
@@ -122,11 +196,7 @@ curl -X PUT \
 Next, we will populate the collection with menu items. Each item will be represented as a point in the collection, with its vector embedding and associated metadata.
 
 ```python
-from qdrant_client.models import PointStruct
-from fastembed import TextEmbedding
-
-# load the embedding model
-model = TextEmbedding('BAAI/bge-small-en-v1.5')
+from qdrant_client.models import PointStruct, Document
 
 menu_items = [
     ("Pad Thai with Tofu", "Stir-fried rice noodles with tofu bean sprouts scallions and crushed peanuts in traditional tamarind sauce", "$13.95", "Noodles"),
@@ -161,14 +231,15 @@ menu_items = [
     ("Coconut Shrimp", "Jumbo shrimp breaded in shredded coconut served with sweet chili sauce", "$14.25", "Seafood Appetizers")
 ]
 
-# embedding generator
+# points generator
 points = []
-embeddings = model.embed([f"{item[0]} {item[1]}" for item in menu_items])
-for i, embedding in enumerate(embeddings):
-    vector = embedding.tolist()
+for i, menu_item in enumerate(menu_items):
     point = PointStruct(
         id=i,
-        vector=vector,
+        vector=Document(
+            text=f"{menu_item[0]} {menu_item[1]}",
+            model="sentence-transformers/all-MiniLM-L6-v2"
+        )
         payload={
             "item_name": menu_items[i][0],
             "description": menu_items[i][1],
@@ -186,16 +257,11 @@ client.upsert(
 ```
 
 ```rust
-use fastembed::{EmbeddingModel, InitOptions, TextEmbedding};
-use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
+use std::collections::HashMap;
+
+use qdrant_client::qdrant::{PointStruct, DocumentBuilder, UpsertPointsBuilder};
 use qdrant_client::{Qdrant, Payload};
 use serde_json::json;
-
-// load the embedding model
-let mut model = TextEmbedding::try_new(
-    InitOptions::new(EmbeddingModel::BGESmallENV15).with_show_download_progress(true),
-)
-.expect("Failed to load embedding model");
 
 // generate embeddings and prepare points
 let menu_items = vec![
@@ -381,23 +447,20 @@ let menu_items = vec![
     ),
 ];
 
-let embeddings = model
-    .embed(
-        menu_items
-            .iter()
-            .map(|item| format!("{} {}", item.0, item.1))
-            .collect::<Vec<_>>(),
-        None,
-    )
-    .expect("Failed to generate embeddings");
-
-let points = embeddings
+let points = menu_items
     .into_iter()
     .enumerate()
-    .map(|(idx, embedding)| {
+    .map(|(idx, menu_item)| {
         PointStruct::new(
             idx as u64,
-            embedding,
+            HashMap::from([(
+                "text".to_string(),
+                DocumentBuilder::new(
+                    format!("{} {}", menu_item.0, menu_item.1),
+                    "sentence-transformers/all-MiniLM-L6-v2"
+                    )
+                    .build(),
+            )])
             Payload::try_from(json!({
                 "item_name": menu_items[idx].0,
                 "description": menu_items[idx].1,
@@ -415,13 +478,6 @@ let _ = client
 ```
 
 ```typescript
-import { TextEmbedding, EmbeddingModel } from 'fastembed';
-
-// load the embedding model
-const model = await FlagEmbedding.init({
-  model: EmbeddingModel.BGESmallENV15,
-});
-
 let menuItems = [
     [
         "Pad Thai with Tofu",
@@ -609,11 +665,13 @@ let menuItems = [
 const points: any[] = [];
 let idx = 0;
 
-const embeddings = model.embed(menuItems.map(item => `${item[0]} ${item[1]}`));
-for await (const embedding of embeddings) {
+for (const menuItem of menuItems) {
   points.push({
     id: idx,
-    vector: Array.from(embedding[0]),
+    vector: {
+        text: `${menuItem[0]} ${menuItem[1]}`,
+        model: "sentence-transformers/all-MiniLM-L6-v2",
+    },
     payload: {
       item_name: menuItems[idx][0],
       description: menuItems[idx][1],
@@ -627,6 +685,23 @@ for await (const embedding of embeddings) {
 // upsert points to collection
 await client.upsert("items", { points });
 ```
+
+```java
+client
+    .upsertAsync(
+        "items",
+        List.of(
+            PointStruct::newBuilder()
+            .setId(id(0))
+            .setVectors(
+                namedVectors(
+                    Map.of(
+                        "
+                    )
+                )
+            )
+        )
+    )
 
 ## 6. Search the Menu Items
 Now we can search the menu item dataset! We'll use the same `BAAI/bge-small-en-v1.5` model to embed our query text, then find the best dishes matching that embedding.
