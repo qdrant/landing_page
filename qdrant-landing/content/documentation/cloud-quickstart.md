@@ -41,6 +41,7 @@ Import the qdrant client and create a connection to your Qdrant Cloud cluster us
 
 ```python
 from qdrant_client import QdrantClient
+from qdrant_client.models import Distance, VectorParams, PointStruct, Document
 
 # connect to Qdrant Cloud
 client = QdrantClient(
@@ -50,7 +51,12 @@ client = QdrantClient(
 ```
 
 ```rust
+use std::collections::HashMap;
+
 use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder, PointStruct, DocumentBuilder, UpsertPointsBuilder, Payload};
+
+use serde_json::json;
 
 // Connect to Qdrant Cloud
 let client = Qdrant::from_url("https://xyz-example.eu-central.aws.cloud.qdrant.io:6334")
@@ -131,8 +137,6 @@ We will use some sample menu items to demonstrate how to create a collection and
 
 
 ```python
-from qdrant_client.models import Distance, VectorParams
-
 # create collection
 client.create_collection(
     collection_name="items",
@@ -141,8 +145,6 @@ client.create_collection(
 ```
 
 ```rust
-use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder};
-
 // create collection
 client.create_collection(
   CreateCollectionBuilder::new("items")
@@ -196,8 +198,6 @@ curl -X PUT \
 Next, we will populate the collection with menu items. Each item will be represented as a point in the collection, with its vector embedding and associated metadata.
 
 ```python
-from qdrant_client.models import PointStruct, Document
-
 menu_items = [
     ("Pad Thai with Tofu", "Stir-fried rice noodles with tofu bean sprouts scallions and crushed peanuts in traditional tamarind sauce", "$13.95", "Noodles"),
     ("Grilled Salmon Fillet", "Wild-caught Atlantic salmon grilled with lemon butter and fresh herbs served with seasonal vegetables", "$24.50", "Seafood Entrees"),
@@ -257,12 +257,6 @@ client.upsert(
 ```
 
 ```rust
-use std::collections::HashMap;
-
-use qdrant_client::qdrant::{PointStruct, DocumentBuilder, UpsertPointsBuilder};
-use qdrant_client::{Qdrant, Payload};
-use serde_json::json;
-
 // generate embeddings and prepare points
 let menu_items = vec![
     (
@@ -702,6 +696,7 @@ client
             )
         )
     )
+```
 
 ## 6. Search the Menu Items
 Now we can search the menu item dataset! We'll use the same `BAAI/bge-small-en-v1.5` model to embed our query text, then find the best dishes matching that embedding.
