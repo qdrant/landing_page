@@ -14,7 +14,7 @@ aliases:
 
 <p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/xvWIssi_cjQ?si=CLhFrUDpQlNog9mz&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
 
-Learn how to set up Qdrant Cloud and perform your first semantic search in just a few minutes. We'll use a sample dataset of menu items pre-embedded with the `BAAI/bge-small-en-v1.5` model.
+Learn how to set up Qdrant Cloud and perform your first semantic search in just a few minutes. We'll use a sample dataset of menu items embedded with the `sentence-transformers/all-MiniLM-L6-v2` model via [Cloud Inference](/documentation/concepts/inference/).
 
 ## 1. Create a Cloud Cluster
 
@@ -29,10 +29,11 @@ For detailed cluster setup instructions, see the [Cloud documentation](/document
 Once you have a cluster, the fastest way to get started is to use our official SDKs which provide a convenient interface for working with Qdrant in your preferred programming language.
 
 ```bash
-pip install qdrant-client fastembed             # for Python projects
-# cargo add qdrant-client fastembed             # for Rust projects 
-# npm install @qdrant/js-client-rest fastembed  # for Node.js projects
-# 
+pip install qdrant-client                       # for Python projects
+# cargo add qdrant-client                       # for Rust projects
+# npm install @qdrant/js-client-rest            # for Node.js projects
+# dotnet add package Qdrant.Client              # for .NET projects
+# go get github.com/qdrant/go-client            # for Go projects
 ```
 
 ## 3. Connect to Qdrant Cloud
@@ -203,7 +204,7 @@ curl -X PUT \
 ```
 
 ## 5. Populate the collection
-Next, we will populate the collection with menu items. Each item will be represented as a point in the collection, with its vector embedding and associated metadata.
+Next, we will populate the collection with menu items. Each item will be represented as a point in the collection with its associated metadata. Instead of generating embeddings locally, we pass a `Document` object with the text and model name — Qdrant Cloud Inference handles the embedding automatically.
 
 ```python
 menu_items = [
