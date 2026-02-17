@@ -239,7 +239,7 @@ for i, menu_item in enumerate(menu_items):
         vector=Document(
             text=f"{menu_item[0]} {menu_item[1]}",
             model="sentence-transformers/all-MiniLM-L6-v2"
-        )
+        ),
         payload={
             "item_name": menu_items[i][0],
             "description": menu_items[i][1],
@@ -699,17 +699,16 @@ client
 ```
 
 ## 6. Search the Menu Items
-Now we can search the menu item dataset! We'll use the same `BAAI/bge-small-en-v1.5` model to embed our query text, then find the best dishes matching that embedding.
+Now we can search the menu item dataset! We'll use the same `sentence-transformers/all-MiniLM-L6-v2` model in Cloud Inference to embed our query text, then find the best dishes matching that embedding.
 
 ```python
 # generate query embedding
 query_text = "vegetarian dishes"
-query_vector = next(iter(model.embed(query_text)))
 
 # search for similar menu items
 results = client.query_points(
     collection_name="items",
-    query=query_vector,
+    query=Document(text=query_text, model="sentence-transformers/all-MiniLM-L6-v2"),
     with_payload=True,
     limit=5
 )
