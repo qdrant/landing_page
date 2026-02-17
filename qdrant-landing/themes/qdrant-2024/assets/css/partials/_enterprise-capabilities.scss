@@ -2,34 +2,69 @@
 
 .enterprise-capabilities {
   position: relative;
-  background: $neutral-10;
+  background:
+    radial-gradient(
+      ellipse 200% 120% at 50% 95%,
+      transparent 0%,
+      transparent 45%,
+      rgba(67, 37, 174, 0.1) 65%,
+      rgba(97, 67, 224, 0.18) 80%,
+      rgba(97, 67, 224, 0.22) 100%
+    ),
+    $neutral-10;
   padding-top: pxToRem(120);
-  padding-bottom: pxToRem(300);
+  padding-bottom: pxToRem(450);
   overflow: hidden;
+  isolation: isolate;
 
-  // Background elements — globe confined to lower half so cards sit above it
-  &__background {
+  // Star background — covers the upper portion of the section
+  &__stars {
     position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    pointer-events: none;
-  }
-
-  &__globe {
-    position: absolute;
-    bottom: 0;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 100%;
-    min-width: pxToRem(1440);
-    height: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    object-position: center bottom;
-    display: block;
+    width: pxToRem(1440);
+    height: pxToRem(800);
+    pointer-events: none;
+    z-index: 1;
+    background-image: url('/img/home/stars-bg.svg');
+    background-size: 1440px 800px;
+    background-position: center top;
+    background-repeat: no-repeat;
+  }
+
+  // Background elements — globe with visible glow (all CSS backgrounds)
+  &__background {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+
+    // Light layer (large soft glow, normal blend)
+    background: url('/img/home/globe/light.png') center bottom / pxToRem(2130) auto no-repeat;
+    // filter: blur(120px); todo: this have to apply to the light.png only
+
+    // White-light glow (plus-lighter blend)
+    &::before {
+      // todo: reapit this background thee times
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('/img/home/globe/white-light.png') center bottom / pxToRem(1330) auto no-repeat;
+      mix-blend-mode: plus-lighter;
+      filter: blur(40px);
+    }
+
+    // Globe wireframe
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('/img/home/globe.png');
+      background-size: pxToRem(1600) auto;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+    }
   }
 
   // Content
@@ -94,6 +129,7 @@
     @include media-breakpoint-up(xl) {
       grid-template-columns: repeat(4, 1fr);
       gap: pxToRem(30);
+      align-items: start;
     }
   }
 
@@ -188,26 +224,7 @@
   }
 
   &__card-link {
-    display: inline-flex;
-    align-items: center;
-    gap: pxToRem(2);
-    font-size: map-get($font-sizes-text, 'md');
     font-weight: 500;
     line-height: 1.5;
-    color: $neutral-98;
-    text-decoration: none;
-    transition: color 0.2s ease;
-
-    svg {
-      transition: transform 0.2s ease;
-    }
-
-    &:hover {
-      color: $primary-50;
-
-      svg {
-        transform: translateX(4px);
-      }
-    }
   }
 }
