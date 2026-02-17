@@ -126,6 +126,10 @@ client, err := qdrant.NewClient(&qdrant.Config{
     UseTLS: true,
 })
 
+if err != nil {
+    fmt.Printf("Failed to create client: %v\n", err)
+    return
+}
 ```
 
 ```bash
