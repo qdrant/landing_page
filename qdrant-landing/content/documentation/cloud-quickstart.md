@@ -73,15 +73,20 @@ const client = new QdrantClient({
 
 ```java
 import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.QueryFactory.nearest;
 import static io.qdrant.client.ValueFactory.value;
-import static io.qdrant.client.VectorFactory.vector;
-import static io.qdrant.client.VectorsFactory.namedVectors;
+import static io.qdrant.client.VectorsFactory.vectors;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.Document;
-import io.qdrant.client.grpc.Points.Image;
 import io.qdrant.client.grpc.Points.PointStruct;
+import io.qdrant.client.grpc.Points.QueryPoints;
+import io.qdrant.client.grpc.Points.ScoredPoint;
+import io.qdrant.client.grpc.Points.WithPayloadSelector;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +114,7 @@ var client = new QdrantClient(
 ```go
 import (
 	"context"
+	"fmt"
 
 	"github.com/qdrant/go-client/qdrant"
 )
@@ -239,10 +245,10 @@ for i, menu_item in enumerate(menu_items):
             model="sentence-transformers/all-MiniLM-L6-v2"
         ),
         payload={
-            "item_name": menu_items[i][0],
-            "description": menu_items[i][1],
-            "price": menu_items[i][2],
-            "category": menu_items[i][3],
+            "item_name": menu_item[0],
+            "description": menu_item[1],
+            "price": menu_item[2],
+            "category": menu_item[3],
         }
     )
     points.append(point)
@@ -676,21 +682,179 @@ await client.upsert("items", { points });
 ```
 
 ```java
-client
-    .upsertAsync(
-        "items",
-        List.of(
-            PointStruct::newBuilder()
-            .setId(id(0))
-            .setVectors(
-                namedVectors(
-                    Map.of(
-                        "
-                    )
-                )
-            )
-        )
-    )
+String[][] menuItems = {
+    {"Pad Thai with Tofu", "Stir-fried rice noodles with tofu bean sprouts scallions and crushed peanuts in traditional tamarind sauce", "$13.95", "Noodles"},
+    {"Grilled Salmon Fillet", "Wild-caught Atlantic salmon grilled with lemon butter and fresh herbs served with seasonal vegetables", "$24.50", "Seafood Entrees"},
+    {"Mushroom Risotto", "Creamy arborio rice with mixed mushrooms parmesan truffle oil and fresh thyme", "$16.75", "Vegetarian"},
+    {"Bibimbap Bowl", "Korean rice bowl with seasoned vegetables fried egg gochujang sauce and choice of protein", "$14.50", "Korean Bowls"},
+    {"Falafel Wrap", "Crispy chickpea fritters with hummus tahini cucumber tomato and pickled vegetables in warm pita", "$11.25", "Mediterranean"},
+    {"Shrimp Tacos", "Three soft tacos with grilled shrimp cabbage slaw chipotle aioli and fresh lime", "$13.00", "Tacos"},
+    {"Vegetable Curry", "Mixed vegetables in aromatic coconut curry sauce with jasmine rice and naan bread", "$12.95", "Indian Curries"},
+    {"Tuna Poke Bowl", "Fresh ahi tuna with avocado edamame cucumber seaweed salad over sushi rice with spicy mayo", "$16.50", "Poke Bowls"},
+    {"Margherita Pizza", "Fresh mozzarella san marzano tomatoes basil and extra virgin olive oil on wood-fired crust", "$14.00", "Pizza"},
+    {"Chicken Tikka Masala", "Tandoori chicken in creamy tomato sauce with aromatic spices served with basmati rice", "$15.95", "Indian Entrees"},
+    {"Greek Salad", "Romaine lettuce tomatoes cucumbers kalamata olives feta cheese red onion with lemon oregano dressing", "$10.50", "Salads"},
+    {"Lobster Roll", "Fresh Maine lobster meat with light mayo on toasted buttery roll served with chips", "$22.00", "Seafood Sandwiches"},
+    {"Quinoa Buddha Bowl", "Organic quinoa with roasted chickpeas kale sweet potato tahini dressing and hemp seeds", "$13.50", "Healthy Bowls"},
+    {"Beef Pho", "Traditional Vietnamese beef noodle soup with rice noodles fresh herbs bean sprouts and lime", "$12.75", "Noodle Soups"},
+    {"Eggplant Parmesan", "Breaded eggplant layered with marinara mozzarella and parmesan served with pasta", "$15.25", "Italian Entrees"},
+    {"Crab Cakes", "Maryland-style lump crab cakes with remoulade sauce and mixed greens", "$18.50", "Seafood Appetizers"},
+    {"Tofu Stir Fry", "Crispy tofu with broccoli bell peppers snap peas in garlic ginger sauce over steamed rice", "$12.50", "Vegetarian Entrees"},
+    {"Salmon Sushi Platter", "12 pieces of fresh salmon nigiri and sashimi with wasabi pickled ginger and soy sauce", "$19.95", "Sushi"},
+    {"Caprese Sandwich", "Fresh mozzarella tomatoes basil pesto balsamic glaze on ciabatta bread", "$11.75", "Sandwiches"},
+    {"Tom Yum Soup", "Spicy and sour Thai soup with shrimp lemongrass galangal mushrooms and kaffir lime leaves", "$11.50", "Soups"},
+    {"Lentil Dal", "Red lentils simmered with turmeric cumin coriander served with rice and naan", "$11.95", "Vegan Entrees"},
+    {"Fish and Chips", "Beer-battered cod with crispy fries malt vinegar and tartar sauce", "$16.00", "British Classics"},
+    {"Veggie Burger", "House-made black bean and quinoa patty with avocado sprouts tomato on brioche bun", "$13.25", "Burgers"},
+    {"Miso Ramen", "Rich miso broth with ramen noodles soft-boiled egg bamboo shoots nori and scallions", "$14.50", "Ramen"},
+    {"Stuffed Bell Peppers", "Roasted bell peppers filled with rice vegetables herbs and melted cheese", "$13.75", "Vegetarian Entrees"},
+    {"Scallop Risotto", "Pan-seared sea scallops over creamy parmesan risotto with white wine and lemon", "$26.50", "Seafood Specials"},
+    {"Spring Rolls", "Fresh rice paper rolls with vegetables tofu rice noodles herbs and peanut dipping sauce", "$8.95", "Appetizers"},
+    {"Oyster Po Boy", "Fried oysters with lettuce tomato pickles and remoulade on french bread", "$15.50", "Sandwiches"},
+    {"Portobello Mushroom Steak", "Grilled portobello cap marinated in balsamic with roasted vegetables and quinoa", "$14.95", "Vegan Entrees"},
+    {"Coconut Shrimp", "Jumbo shrimp breaded in shredded coconut served with sweet chili sauce", "$14.25", "Seafood Appetizers"},
+};
+
+List<PointStruct> points = new ArrayList<>();
+for (int i = 0; i < menuItems.length; i++) {
+    points.add(
+        PointStruct.newBuilder()
+            .setId(id(i))
+            .setVectors(vectors(
+                Document.newBuilder()
+                    .setText(menuItems[i][0] + " " + menuItems[i][1])
+                    .setModel("sentence-transformers/all-MiniLM-L6-v2")
+                    .build()))
+            .putAllPayload(Map.of(
+                "item_name", value(menuItems[i][0]),
+                "description", value(menuItems[i][1]),
+                "price", value(menuItems[i][2]),
+                "category", value(menuItems[i][3])))
+            .build()
+    );
+}
+
+client.upsertAsync("items", points).get();
+```
+
+```csharp
+var menuItems = new[] {
+    ("Pad Thai with Tofu", "Stir-fried rice noodles with tofu bean sprouts scallions and crushed peanuts in traditional tamarind sauce", "$13.95", "Noodles"),
+    ("Grilled Salmon Fillet", "Wild-caught Atlantic salmon grilled with lemon butter and fresh herbs served with seasonal vegetables", "$24.50", "Seafood Entrees"),
+    ("Mushroom Risotto", "Creamy arborio rice with mixed mushrooms parmesan truffle oil and fresh thyme", "$16.75", "Vegetarian"),
+    ("Bibimbap Bowl", "Korean rice bowl with seasoned vegetables fried egg gochujang sauce and choice of protein", "$14.50", "Korean Bowls"),
+    ("Falafel Wrap", "Crispy chickpea fritters with hummus tahini cucumber tomato and pickled vegetables in warm pita", "$11.25", "Mediterranean"),
+    ("Shrimp Tacos", "Three soft tacos with grilled shrimp cabbage slaw chipotle aioli and fresh lime", "$13.00", "Tacos"),
+    ("Vegetable Curry", "Mixed vegetables in aromatic coconut curry sauce with jasmine rice and naan bread", "$12.95", "Indian Curries"),
+    ("Tuna Poke Bowl", "Fresh ahi tuna with avocado edamame cucumber seaweed salad over sushi rice with spicy mayo", "$16.50", "Poke Bowls"),
+    ("Margherita Pizza", "Fresh mozzarella san marzano tomatoes basil and extra virgin olive oil on wood-fired crust", "$14.00", "Pizza"),
+    ("Chicken Tikka Masala", "Tandoori chicken in creamy tomato sauce with aromatic spices served with basmati rice", "$15.95", "Indian Entrees"),
+    ("Greek Salad", "Romaine lettuce tomatoes cucumbers kalamata olives feta cheese red onion with lemon oregano dressing", "$10.50", "Salads"),
+    ("Lobster Roll", "Fresh Maine lobster meat with light mayo on toasted buttery roll served with chips", "$22.00", "Seafood Sandwiches"),
+    ("Quinoa Buddha Bowl", "Organic quinoa with roasted chickpeas kale sweet potato tahini dressing and hemp seeds", "$13.50", "Healthy Bowls"),
+    ("Beef Pho", "Traditional Vietnamese beef noodle soup with rice noodles fresh herbs bean sprouts and lime", "$12.75", "Noodle Soups"),
+    ("Eggplant Parmesan", "Breaded eggplant layered with marinara mozzarella and parmesan served with pasta", "$15.25", "Italian Entrees"),
+    ("Crab Cakes", "Maryland-style lump crab cakes with remoulade sauce and mixed greens", "$18.50", "Seafood Appetizers"),
+    ("Tofu Stir Fry", "Crispy tofu with broccoli bell peppers snap peas in garlic ginger sauce over steamed rice", "$12.50", "Vegetarian Entrees"),
+    ("Salmon Sushi Platter", "12 pieces of fresh salmon nigiri and sashimi with wasabi pickled ginger and soy sauce", "$19.95", "Sushi"),
+    ("Caprese Sandwich", "Fresh mozzarella tomatoes basil pesto balsamic glaze on ciabatta bread", "$11.75", "Sandwiches"),
+    ("Tom Yum Soup", "Spicy and sour Thai soup with shrimp lemongrass galangal mushrooms and kaffir lime leaves", "$11.50", "Soups"),
+    ("Lentil Dal", "Red lentils simmered with turmeric cumin coriander served with rice and naan", "$11.95", "Vegan Entrees"),
+    ("Fish and Chips", "Beer-battered cod with crispy fries malt vinegar and tartar sauce", "$16.00", "British Classics"),
+    ("Veggie Burger", "House-made black bean and quinoa patty with avocado sprouts tomato on brioche bun", "$13.25", "Burgers"),
+    ("Miso Ramen", "Rich miso broth with ramen noodles soft-boiled egg bamboo shoots nori and scallions", "$14.50", "Ramen"),
+    ("Stuffed Bell Peppers", "Roasted bell peppers filled with rice vegetables herbs and melted cheese", "$13.75", "Vegetarian Entrees"),
+    ("Scallop Risotto", "Pan-seared sea scallops over creamy parmesan risotto with white wine and lemon", "$26.50", "Seafood Specials"),
+    ("Spring Rolls", "Fresh rice paper rolls with vegetables tofu rice noodles herbs and peanut dipping sauce", "$8.95", "Appetizers"),
+    ("Oyster Po Boy", "Fried oysters with lettuce tomato pickles and remoulade on french bread", "$15.50", "Sandwiches"),
+    ("Portobello Mushroom Steak", "Grilled portobello cap marinated in balsamic with roasted vegetables and quinoa", "$14.95", "Vegan Entrees"),
+    ("Coconut Shrimp", "Jumbo shrimp breaded in shredded coconut served with sweet chili sauce", "$14.25", "Seafood Appetizers"),
+};
+
+var points = new List<PointStruct>();
+for (int i = 0; i < menuItems.Length; i++)
+{
+    var item = menuItems[i];
+    points.Add(new PointStruct
+    {
+        Id = (ulong)i,
+        Vectors = new Document
+        {
+            Text = $"{item.Item1} {item.Item2}",
+            Model = "sentence-transformers/all-MiniLM-L6-v2",
+        },
+        Payload =
+        {
+            ["item_name"] = item.Item1,
+            ["description"] = item.Item2,
+            ["price"] = item.Item3,
+            ["category"] = item.Item4,
+        },
+    });
+}
+
+await client.UpsertAsync("items", points);
+```
+
+```go
+type MenuItem struct {
+	Name, Description, Price, Category string
+}
+
+menuItems := []MenuItem{
+	{"Pad Thai with Tofu", "Stir-fried rice noodles with tofu bean sprouts scallions and crushed peanuts in traditional tamarind sauce", "$13.95", "Noodles"},
+	{"Grilled Salmon Fillet", "Wild-caught Atlantic salmon grilled with lemon butter and fresh herbs served with seasonal vegetables", "$24.50", "Seafood Entrees"},
+	{"Mushroom Risotto", "Creamy arborio rice with mixed mushrooms parmesan truffle oil and fresh thyme", "$16.75", "Vegetarian"},
+	{"Bibimbap Bowl", "Korean rice bowl with seasoned vegetables fried egg gochujang sauce and choice of protein", "$14.50", "Korean Bowls"},
+	{"Falafel Wrap", "Crispy chickpea fritters with hummus tahini cucumber tomato and pickled vegetables in warm pita", "$11.25", "Mediterranean"},
+	{"Shrimp Tacos", "Three soft tacos with grilled shrimp cabbage slaw chipotle aioli and fresh lime", "$13.00", "Tacos"},
+	{"Vegetable Curry", "Mixed vegetables in aromatic coconut curry sauce with jasmine rice and naan bread", "$12.95", "Indian Curries"},
+	{"Tuna Poke Bowl", "Fresh ahi tuna with avocado edamame cucumber seaweed salad over sushi rice with spicy mayo", "$16.50", "Poke Bowls"},
+	{"Margherita Pizza", "Fresh mozzarella san marzano tomatoes basil and extra virgin olive oil on wood-fired crust", "$14.00", "Pizza"},
+	{"Chicken Tikka Masala", "Tandoori chicken in creamy tomato sauce with aromatic spices served with basmati rice", "$15.95", "Indian Entrees"},
+	{"Greek Salad", "Romaine lettuce tomatoes cucumbers kalamata olives feta cheese red onion with lemon oregano dressing", "$10.50", "Salads"},
+	{"Lobster Roll", "Fresh Maine lobster meat with light mayo on toasted buttery roll served with chips", "$22.00", "Seafood Sandwiches"},
+	{"Quinoa Buddha Bowl", "Organic quinoa with roasted chickpeas kale sweet potato tahini dressing and hemp seeds", "$13.50", "Healthy Bowls"},
+	{"Beef Pho", "Traditional Vietnamese beef noodle soup with rice noodles fresh herbs bean sprouts and lime", "$12.75", "Noodle Soups"},
+	{"Eggplant Parmesan", "Breaded eggplant layered with marinara mozzarella and parmesan served with pasta", "$15.25", "Italian Entrees"},
+	{"Crab Cakes", "Maryland-style lump crab cakes with remoulade sauce and mixed greens", "$18.50", "Seafood Appetizers"},
+	{"Tofu Stir Fry", "Crispy tofu with broccoli bell peppers snap peas in garlic ginger sauce over steamed rice", "$12.50", "Vegetarian Entrees"},
+	{"Salmon Sushi Platter", "12 pieces of fresh salmon nigiri and sashimi with wasabi pickled ginger and soy sauce", "$19.95", "Sushi"},
+	{"Caprese Sandwich", "Fresh mozzarella tomatoes basil pesto balsamic glaze on ciabatta bread", "$11.75", "Sandwiches"},
+	{"Tom Yum Soup", "Spicy and sour Thai soup with shrimp lemongrass galangal mushrooms and kaffir lime leaves", "$11.50", "Soups"},
+	{"Lentil Dal", "Red lentils simmered with turmeric cumin coriander served with rice and naan", "$11.95", "Vegan Entrees"},
+	{"Fish and Chips", "Beer-battered cod with crispy fries malt vinegar and tartar sauce", "$16.00", "British Classics"},
+	{"Veggie Burger", "House-made black bean and quinoa patty with avocado sprouts tomato on brioche bun", "$13.25", "Burgers"},
+	{"Miso Ramen", "Rich miso broth with ramen noodles soft-boiled egg bamboo shoots nori and scallions", "$14.50", "Ramen"},
+	{"Stuffed Bell Peppers", "Roasted bell peppers filled with rice vegetables herbs and melted cheese", "$13.75", "Vegetarian Entrees"},
+	{"Scallop Risotto", "Pan-seared sea scallops over creamy parmesan risotto with white wine and lemon", "$26.50", "Seafood Specials"},
+	{"Spring Rolls", "Fresh rice paper rolls with vegetables tofu rice noodles herbs and peanut dipping sauce", "$8.95", "Appetizers"},
+	{"Oyster Po Boy", "Fried oysters with lettuce tomato pickles and remoulade on french bread", "$15.50", "Sandwiches"},
+	{"Portobello Mushroom Steak", "Grilled portobello cap marinated in balsamic with roasted vegetables and quinoa", "$14.95", "Vegan Entrees"},
+	{"Coconut Shrimp", "Jumbo shrimp breaded in shredded coconut served with sweet chili sauce", "$14.25", "Seafood Appetizers"},
+}
+
+points := make([]*qdrant.PointStruct, len(menuItems))
+for i, item := range menuItems {
+	points[i] = &qdrant.PointStruct{
+		Id: qdrant.NewIDNum(uint64(i)),
+		Vectors: qdrant.NewVectorsDocument(&qdrant.Document{
+			Text:  item.Name + " " + item.Description,
+			Model: "sentence-transformers/all-MiniLM-L6-v2",
+		}),
+		Payload: qdrant.NewValueMap(map[string]any{
+			"item_name":    item.Name,
+			"description":  item.Description,
+			"price":        item.Price,
+			"category":     item.Category,
+		}),
+	}
+}
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "items",
+	Points:         points,
+})
 ```
 
 ## 6. Search the Menu Items
@@ -773,6 +937,90 @@ for (const result of results.points) {
   console.log(`Description: ${result.payload?.description || 'N/A'}`);
   console.log(`Price: ${result.payload?.price || 'N/A'}`);
   console.log('---');
+}
+```
+
+```java
+// generate query embedding
+String queryText = "vegetarian dishes";
+
+// search for similar menu items
+List<ScoredPoint> results = client
+    .queryAsync(
+        QueryPoints.newBuilder()
+            .setCollectionName("items")
+            .setQuery(nearest(
+                Document.newBuilder()
+                    .setText(queryText)
+                    .setModel("sentence-transformers/all-MiniLM-L6-v2")
+                    .build()))
+            .setWithPayload(
+                WithPayloadSelector.newBuilder().setEnable(true).build())
+            .setLimit(5)
+            .build())
+    .get();
+
+// print results
+for (ScoredPoint result : results) {
+    System.out.println("Item: " + result.getPayloadMap().get("item_name").getStringValue());
+    System.out.println("Score: " + result.getScore());
+    System.out.println("Description: " + result.getPayloadMap().get("description").getStringValue());
+    System.out.println("Price: " + result.getPayloadMap().get("price").getStringValue());
+    System.out.println("---");
+}
+```
+
+```csharp
+// generate query embedding
+var queryText = "vegetarian dishes";
+
+// search for similar menu items
+var results = await client.QueryAsync(
+    collectionName: "items",
+    query: new Document
+    {
+        Text = queryText,
+        Model = "sentence-transformers/all-MiniLM-L6-v2",
+    },
+    payloadSelector: true,
+    limit: 5
+);
+
+// print results
+foreach (var result in results)
+{
+    Console.WriteLine($"Item: {result.Payload["item_name"].StringValue}");
+    Console.WriteLine($"Score: {result.Score}");
+    Console.WriteLine($"Description: {result.Payload["description"].StringValue}");
+    Console.WriteLine($"Price: {result.Payload["price"].StringValue}");
+    Console.WriteLine("---");
+}
+```
+
+```go
+// generate query embedding
+queryText := "vegetarian dishes"
+
+// search for similar menu items
+results, err := client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "items",
+	Query: qdrant.NewQueryNearest(
+		qdrant.NewVectorInputDocument(&qdrant.Document{
+			Text:  queryText,
+			Model: "sentence-transformers/all-MiniLM-L6-v2",
+		}),
+	),
+	WithPayload: qdrant.NewWithPayload(true),
+	Limit:       qdrant.PtrOf(uint64(5)),
+})
+
+// print results
+for _, result := range results {
+	fmt.Printf("Item: %s\n", result.Payload["item_name"].GetStringValue())
+	fmt.Printf("Score: %f\n", result.Score)
+	fmt.Printf("Description: %s\n", result.Payload["description"].GetStringValue())
+	fmt.Printf("Price: %s\n", result.Payload["price"].GetStringValue())
+	fmt.Println("---")
 }
 ```
 
