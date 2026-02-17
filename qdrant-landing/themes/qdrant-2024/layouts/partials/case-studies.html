@@ -1,6 +1,6 @@
 {{ with (.Site.GetPage "/headless/main/case-studies") }}
   <section class="case-studies">
-    <div class="container">
+    <div class="container case-studies__container">
       <div class="case-studies__header">
         <h2 class="case-studies__title">{{ .Params.title }}</h2>
         <div class="case-studies__controls">
@@ -16,8 +16,7 @@
           </button>
         </div>
       </div>
-    </div>
-    <div class="case-studies__carousel-outer">
+      <div class="case-studies__carousel-outer">
       <div class="case-studies__carousel">
         <div class="case-studies__track">
           {{ range .Params.caseStudies }}
@@ -55,62 +54,85 @@
           {{ end }}
         </div>
       </div>
+      </div>
     </div>
   </section>
   <script>
     (function() {
+      const container = document.querySelector('.case-studies__container');
       const carousel = document.querySelector('.case-studies__carousel');
       const track = document.querySelector('.case-studies__track');
       const prevBtn = document.querySelector('.case-studies__arrow--prev');
       const nextBtn = document.querySelector('.case-studies__arrow--next');
       
-      if (!carousel || !track || !prevBtn || !nextBtn) return;
+      if (!container || !carousel || !track || !prevBtn || !nextBtn) return;
       
       const slides = track.querySelectorAll('.case-studies__slide');
-      const slideWidth = 280;
       const gap = 30;
+      const visibleCount = 4;
       let currentOffset = 0;
-      
-      function getMaxOffset() {
-        const trackWidth = slides.length * slideWidth + (slides.length - 1) * gap;
-        const style = getComputedStyle(carousel);
+
+      function getContainerContentWidth() {
+        const style = getComputedStyle(container);
         const paddingLeft = parseFloat(style.paddingLeft) || 0;
         const paddingRight = parseFloat(style.paddingRight) || 0;
-        const carouselContentWidth = carousel.offsetWidth - paddingLeft - paddingRight;
-        return Math.max(0, trackWidth - carouselContentWidth);
+        return container.offsetWidth - paddingLeft - paddingRight;
       }
-      
+
+      function getSlideWidth() {
+        const contentWidth = getContainerContentWidth();
+        const count = Math.min(visibleCount, slides.length);
+        const gaps = Math.max(0, count - 1) * gap;
+        return (contentWidth - gaps) / count;
+      }
+
+      function applySlideWidth() {
+        const slideWidth = getSlideWidth();
+        carousel.style.setProperty('--case-studies-slide-width', slideWidth + 'px');
+      }
+
+      function getMaxOffset() {
+        applySlideWidth();
+        const slideWidth = getSlideWidth();
+        const trackWidth = slides.length * slideWidth + (slides.length - 1) * gap;
+        const contentWidth = getContainerContentWidth();
+        return Math.max(0, trackWidth - contentWidth);
+      }
+
       function updateTrack() {
         const maxOffset = getMaxOffset();
         currentOffset = Math.min(Math.max(0, currentOffset), maxOffset);
         track.style.transform = `translateX(-${currentOffset}px)`;
       }
-      
+
       function updateButtons() {
         const maxOffset = getMaxOffset();
         prevBtn.disabled = currentOffset <= 0;
         nextBtn.disabled = currentOffset >= maxOffset;
       }
-      
+
       prevBtn.addEventListener('click', function() {
-        const maxOffset = getMaxOffset();
+        const slideWidth = getSlideWidth();
         currentOffset = Math.max(0, currentOffset - (slideWidth + gap));
         updateTrack();
         updateButtons();
       });
-      
+
       nextBtn.addEventListener('click', function() {
         const maxOffset = getMaxOffset();
+        const slideWidth = getSlideWidth();
         currentOffset = Math.min(maxOffset, currentOffset + (slideWidth + gap));
         updateTrack();
         updateButtons();
       });
-      
+
       window.addEventListener('resize', function() {
+        applySlideWidth();
         updateTrack();
         updateButtons();
       });
-      
+
+      applySlideWidth();
       updateTrack();
       updateButtons();
     })();

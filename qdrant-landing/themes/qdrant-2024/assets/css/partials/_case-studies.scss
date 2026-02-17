@@ -72,28 +72,15 @@
     }
   }
 
-  // Full-bleed carousel: extends to viewport edges, not cut by container
+  // Carousel constrained to container width
   &__carousel-outer {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
     overflow: hidden;
+    margin-bottom: pxToRem(-60); // negative margin so card shadow not clipped below
   }
 
-  // Carousel — extra bottom padding so card shadow is not clipped
   &__carousel {
     overflow: hidden;
-    padding: pxToRem(20);
     padding-bottom: pxToRem(80);
-    padding-left: $container-padding-x;
-
-    @include media-breakpoint-up(xl) {
-      $container-xl: map-get($container-max-widths, xl);
-      padding-left: calc((100vw - #{$container-xl}) / 2 + #{$container-padding-x});
-    }
   }
 
   &__track {
@@ -104,6 +91,7 @@
 
   &__slide {
     flex-shrink: 0;
+    width: var(--case-studies-slide-width, pxToRem(280));
   }
 
   &__card-link {
@@ -122,7 +110,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: pxToRem(280);
+    width: 100%;
+    min-width: 0;
     height: pxToRem(280);
     padding: $spacer * 2;
     background-color: $neutral-98;

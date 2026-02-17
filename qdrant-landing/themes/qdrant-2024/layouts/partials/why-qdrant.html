@@ -17,12 +17,7 @@
             <div class="why-qdrant__card-content">
               <h3 class="why-qdrant__card-title">{{ .title }}</h3>
               <p class="why-qdrant__card-description">{{ .description | safeHTML }}</p>
-              <a href="{{ .link.url }}" class="why-qdrant__card-link">
-                {{ .link.text }}
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
+              <a href="{{ .link.url }}" class="link link_md why-qdrant__card-link">{{ .link.text }}</a>
             </div>
           </div>
         {{ end }}

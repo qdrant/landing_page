@@ -167,26 +167,7 @@
   }
 
   &__card-link {
-    display: inline-flex;
-    align-items: center;
-    gap: pxToRem(2);
-    font-size: map-get($font-sizes-text, 'md');
     font-weight: 500;
     line-height: 1.5;
-    color: $primary-50;
-    text-decoration: none;
-    transition: color 0.2s ease;
-
-    svg {
-      transition: transform 0.2s ease;
-    }
-
-    &:hover {
-      color: $primary-60;
-
-      svg {
-        transform: translateX(4px);
-      }
-    }
   }
 }
