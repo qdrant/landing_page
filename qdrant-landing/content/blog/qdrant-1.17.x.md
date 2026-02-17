@@ -18,7 +18,7 @@ tags:
 
 [**Qdrant 1.17.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.17.0) Let’s look at the main features for this version:
 
-**Relevance Feedback Query:** Improve the quality of search results by incorporating positive and negative signals.
+**Relevance Feedback Query:** Improve the quality of search results by incorporating information about their relevance.
 
 **Search Latency Improvements:** Two search latency improvements: a change to improve search latency under high write loads, and delayed fan-outs to reduce tail latency.
 
@@ -28,9 +28,9 @@ tags:
 
 ![Section 1](/blog/qdrant-1.17.x/section-1.png)
 
-Writing queries is hard: users often struggle to precisely formulate search queries. At the same time, judging the relevance of a given search result is often much easier. Retrieval systems can leverage this [relevance feedback](/articles/search-feedback-loop/) to iteratively refine results toward user intent.
+Crafting queries is hard: users often struggle to precisely formulate search queries. At the same time, judging the relevance of a given search result is often much easier. Retrieval systems can leverage this [relevance feedback](/articles/search-feedback-loop/) to iteratively refine results toward user intent.
 
-This release introduces a new [Relevance Feedback Query](/documentation/concepts/search-relevance/#relevance-feedback) as a scalable, vector‑native approach to incorporating relevance feedback. The Relevance Feedback Query uses a small amount of model‑generated feedback to guide the retriever through the entire vector space, effectively nudging search toward “more relevant” results without requiring expensive loops, large models, or human labeling. This enables the engine to traverse billions of vectors with improved recall without having to retrain models.
+This release introduces a new [Relevance Feedback Query](/documentation/concepts/search-relevance/#relevance-feedback) as a scalable, vector‑native approach to incorporating relevance feedback. The Relevance Feedback Query uses a small amount of model‑generated feedback to guide the retriever through the entire vector space, effectively nudging search toward “more relevant” results without requiring expensive loops, expensive retrievers, or human labeling. This enables the engine to traverse billions of vectors with improved recall without having to retrain models.
 
 This method works by collecting lightweight feedback on just a few top results, creating “context pairs” of more‑ and less‑relevant examples. These pairs define a signal that adjusts the scoring function during the next retrieval pass. Instead of rewriting queries or rescoring large batches of documents, Qdrant modifies how similarity is computed. [Experiments](/articles/relevance-feedback) demonstrate substantial gains, especially when pairing expressive retrievers with strong feedback models.
 
