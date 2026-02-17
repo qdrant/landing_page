@@ -51,14 +51,12 @@ client = QdrantClient(
 ```
 
 ```rust
-use std::collections::HashMap;
-
-use qdrant_client::Qdrant;
-use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder, PointStruct, DocumentBuilder, UpsertPointsBuilder, Payload};
+use qdrant_client::{Qdrant, Payload};
+use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder, PointStruct, DocumentBuilder, UpsertPointsBuilder, QueryPointsBuilder, Query};
 
 use serde_json::json;
 
-// Connect to Qdrant Cloud
+// connect to Qdrant Cloud
 let client = Qdrant::from_url("https://xyz-example.eu-central.aws.cloud.qdrant.io:6334")
     .api_key("your-api-key")
     .build()?;
@@ -447,19 +445,16 @@ let points = menu_items
     .map(|(idx, menu_item)| {
         PointStruct::new(
             idx as u64,
-            HashMap::from([(
-                "text".to_string(),
-                DocumentBuilder::new(
-                    format!("{} {}", menu_item.0, menu_item.1),
-                    "sentence-transformers/all-MiniLM-L6-v2"
-                    )
-                    .build(),
-            )])
+            DocumentBuilder::new(
+                format!("{} {}", menu_item.0, menu_item.1),
+                "sentence-transformers/all-MiniLM-L6-v2"
+                )
+                .build(),
             Payload::try_from(json!({
-                "item_name": menu_items[idx].0,
-                "description": menu_items[idx].1,
-                "price": menu_items[idx].2,
-                "category": menu_items[idx].3,
+                "item_name": menu_item.0,
+                "description": menu_item.1,
+                "price": menu_item.2,
+                "category": menu_item.3,
             }))
             .unwrap(),
         )
@@ -725,15 +720,17 @@ for result in results.points:
 ```rust
 // generate query embedding
 let query_text = "vegetarian dishes";
-let query_embeddings = model
-    .embed(vec![query_text], None)
-    .expect("Failed to generate embeddings");
-let query_vector = query_embeddings[0].clone();
 
 let results = client
     .query(
         QueryPointsBuilder::new("items")
-            .query(query_vector)
+            .query(Query::new_nearest(
+                DocumentBuilder::new(
+                    query_text,
+                    "sentence-transformers/all-MiniLM-L6-v2"
+                )
+                .build(),
+            ))
             .with_payload(true)
             .limit(5),
     )
