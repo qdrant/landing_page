@@ -36,11 +36,11 @@ If you do not already have a Qdrant cluster, follow these steps to create one:
 
 ## 2. Set up a Client Connection
 
-First, install the Qdrant Client for Python. This library allows you to interact with Qdrant from Python code.
+First, install the Qdrant Client for your preferred programming language:
 
-```bash
-pip install qdrant-client
-```
+{{< code-snippet path="/documentation/headless/snippets/install-client/" >}}
+
+This library allows you to interact with Qdrant from code.
 
 Next, create a client connection to your Qdrant cluster using the endpoint and API key.
 
