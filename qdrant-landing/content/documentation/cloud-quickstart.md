@@ -662,10 +662,10 @@ for (const menuItem of menuItems) {
         model: "sentence-transformers/all-MiniLM-L6-v2",
     },
     payload: {
-      item_name: menuItems[idx][0],
-      description: menuItems[idx][1],
-      price: menuItems[idx][2],
-      category: menuItems[idx][3],
+      item_name: menuItem[0],
+      description: menuItem[1],
+      price: menuItem[2],
+      category: menuItem[3],
     },
   });
   idx++;
@@ -755,11 +755,13 @@ for result in results.result {
 ```typescript
 // generate query embedding
 const queryText = "vegetarian dishes";
-const queryEmbedding = (await model.embed([queryText]).next()).value!
 
 // search for similar items
 const results = await client.query("items", {
-  query: Array.from(queryEmbedding[0]),
+  query: {
+    text: queryText,
+    model: "sentence-transformers/all-MiniLM-L6-v2",
+  },
   with_payload: true,
   limit: 5,
 });
