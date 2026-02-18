@@ -19,7 +19,7 @@ Learn how to set up Qdrant Cloud and perform your first semantic search in just 
 ## 1. Create a Cloud Cluster
 
 1. Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google or Github credentials.
-2. Go to **Clusters** and click **Create First Cluster**.
+2. Under **Create a Free Cluster**, enter a cluster name and select your preferred cloud provider and region. Click **Create Free Cluster**.
 3. Copy your **API key** when prompted - you'll need it to connect. Store it somewhere safe as it won't be displayed again.
 
 For detailed cluster setup instructions, see the [Cloud documentation](/documentation/cloud-intro/).
