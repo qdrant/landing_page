@@ -48,6 +48,7 @@ from qdrant_client.models import Distance, VectorParams, PointStruct, Document
 client = QdrantClient(
     url="https://xyz-example.eu-central.aws.cloud.qdrant.io",
     api_key="your-api-key",
+    cloud_inference=True
 )
 ```
 
