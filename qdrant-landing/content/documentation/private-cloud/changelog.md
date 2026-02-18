@@ -5,6 +5,23 @@ weight: 5
 
 # Changelog
 
+## 1.9.5 (2026-02-18)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.23.0 |
+| operator                | 2.14.0  |
+| qdrant-cluster-manager  | v0.3.17 |
+| qdrant-cluster-exporter | 1.7.6   |
+
+Latest validated Qdrant version: 1.16.3
+
+* Performance and stability improvements
+* Extended status information in QdrantCluster status
+* Support for VolumeAttributeClasses for storage volumes
+* Qdrant Pod zone added to QdrantCluster status
+* Metrics are additionally exposed on a separate port to allow more granular access control through NetworkPolicies
+
 ## 1.9.4 (2026-01-15)
 
 | Component               | Version |
