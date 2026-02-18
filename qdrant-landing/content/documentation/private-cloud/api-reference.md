@@ -95,10 +95,7 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `lastResponseTime` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#time-v1-meta)_ | The last time the cluster-manager responded in UTC |  |  |
-| `executed_actions` _[RawMessage](#rawmessage)_ | ExecutedActions are the actions that have been executed by the cluster-manager |  |  |
-| `required_actions` _[RawMessage](#rawmessage)_ | RequiredActions are the actions that are required to be executed by the operator as instructed by cluster-manager |  |  |
-| `suggested_actions` _[RawMessage](#rawmessage)_ | SuggestedActions are suggested but not required actions to be executed by the operator as instructed by cluster-manager |  |  |
+| `description` _string_ | Description contains additional information about the last response |  |  |
 
 
 #### ClusterPhase
@@ -577,6 +574,7 @@ _Appears in:_
 | `state` _object (keys:[PodConditionType](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#podconditiontype-v1-core), values:[ConditionStatus](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#conditionstatus-v1-core))_ | States specifies the condition states of the node |  |  |
 | `version` _string_ | Version specifies the version of Qdrant running on the node |  |  |
 | `liveness` _boolean_ | Reports if qdrant node responded to liveness request (before readiness).<br />This is needed to beter report recovery process to the user. |  |  |
+| `zone` _string_ | The availibility zone the node is running in. |  |  |
 | `podPhase` _[PodPhase](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#podphase-v1-core)_ | Status phase of the Pod of the node |  |  |
 | `podConditions` _[PodCondition](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#podcondition-v1-core) array_ | Conditions of the Pod of the node |  |  |
 | `podMessage` _string_ | Status message of the Pod of the node |  |  |
