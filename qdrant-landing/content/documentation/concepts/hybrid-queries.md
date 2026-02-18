@@ -47,9 +47,9 @@ Where:
 - $D$ the set of points across all results
 - $R(d)$ is the set of rankings for a particular document
 - $k$ is a constant (set to 2 by default)
-- $r$ is an ordered set of results from one source.
+- $r$ is an ordered set of results from one source
 - $r_d$ is the rank of document $d$ in ranking $r$
-- $w_r$ is the weight of ranking $r$ (set to 1 by default).
+- $w_r$ is the weight of ranking $r$ (set to 1 by default)
 
 Because $w_r$ defaults to 1, without setting explicit weights, the formula can be simplified to the original RRF function:
 
@@ -71,7 +71,7 @@ _Available as of v1.17.0_
 
 By default, each query is assigned an equal weight. In reality, some queries are stronger, more discriminative, or more domain-specific than others. For example, a semantic search model understands meaning better than a simple keyword matcher. Assigning equal weight to both can cause the weaker model to negatively influence results, leading to a suboptimal search experience. To address this, you can assign greater weight to rankers that perform well.
 
-The `rrf` query allows you to configure relative weights for each of the prefetches. For example, if you have two prefetches and assign a weight of 3.0 to the first and 1.0 to the second, a document ranked third in the first query will score the same as a document ranked first in the second query.
+The `rrf` query allows you to configure relative weights for each of the prefetches. For example, if you have two prefetches and assign a weight of 3.0 to the first and 1.0 to the second, a document ranked third in the first query scores the same as a document ranked first in the second query. In the case of non-overlapping result sets, these weights return three results from the first set for every one result from the second set.
 
 Weights should be provided as an array of numbers, where each weight is applied to the corresponding prefetch in the order they are defined. The number of weights must match the number of prefetches.
 
