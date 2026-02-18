@@ -19,7 +19,7 @@ Latest validated Qdrant version: 1.16.3
 * Performance and stability improvements
 * Extended status information in QdrantCluster status
 * Support for VolumeAttributeClasses for storage volumes
-* Report Qdrant Pod zone in QdrantCluster status
+* Qdrant Pod zone added to QdrantCluster status
 * Metrics are additionally exposed on a separate port to allow more granular access control through NetworkPolicies
 
 ## 1.9.4 (2026-01-15)
