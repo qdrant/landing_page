@@ -47,10 +47,11 @@ Where:
 - $D$ the set of points across all results
 - $R(d)$ is the set of rankings for a particular document
 - $k$ is a constant (set to 2 by default)
-- $r_d$ is the rank of document d in ranking r
-- $w_r$ is the weight of ranking r (set to 1 by default)
+- $r$ is an ordered set of results from one source.
+- $r_d$ is the rank of document $d$ in ranking $r$
+- $w_r$ is the weight of ranking $r$ (set to 1 by default).
 
-Because $w_r$ defaults to 1, without setting explicit weights, the formula can be simplified to:
+Because $w_r$ defaults to 1, without setting explicit weights, the formula can be simplified to the original RRF function:
 
 $$ score(d\in D) = \sum_{r_d\in R(d)} \frac{1}{k + r_d} $$
 
