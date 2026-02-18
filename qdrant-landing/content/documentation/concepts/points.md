@@ -182,6 +182,8 @@ For example, to use `insert_only` mode:
 
 {{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >}}
 
+`update_only` mode is useful with [conditional updates](#conditional-updates). Because upserts default to inserts for non-existing points, a conditional update without an explicit `update_mode` will insert a new point even if the condition is not met, which is not the intended behavior in most cases.
+
 ### Named vectors
 
 _Available as of v0.10.0_
@@ -308,6 +310,8 @@ _Available as of v1.16.0_
 All update operations (including point insertion, vector updates, payload updates, and deletions) support configurable pre-conditions based on filters.
 
 {{< code-snippet path="/documentation/headless/snippets/insert-points/with-condition/" >}}
+
+<aside role="alert">By default, a conditional update on a non-existent point behaves as a regular upsert, inserting the point regardless of the filter. This is undesirable in most cases. To ensure that only existing points that meet the condition are updated, <a href="#update-mode">set <code>update_mode</code></a> to <code>update_only</code>.</aside>
 
 While conditional payload modification and deletion covers the use-case of mass data modification, conditional point insertion and vector updates are particularly useful for implementing optimistic concurrency control in distributed systems.
 
