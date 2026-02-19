@@ -12,6 +12,7 @@ func Main() {
 		Host: "localhost",
 		Port: 6334,
 	})
+
 	if err != nil {
 		panic(err)
 	}
