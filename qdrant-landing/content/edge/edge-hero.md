@@ -10,6 +10,9 @@ description: Qdrant Edge is a lightweight, in-process vector search engine desig
 startFree:
   text: Read Quick Start Docs
   url: /documentation/edge/edge-quickstart/
+contactUs:
+  text: Contact Us
+  url: "#form"
 image:
   src: /img/qdrant-edge-scheme.svg
   alt: Qdrant edge scheme

@@ -27,6 +27,11 @@
     color: $neutral-70;
   }
 
+  &__buttons {
+    display: flex;
+    gap: 1.5rem;
+  }
+
   &__image {
     width: 100%;
     max-width: pxToRem(540);
