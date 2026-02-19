@@ -2,22 +2,12 @@
 
 .enterprise-capabilities {
   position: relative;
-  background:
-    radial-gradient(
-      ellipse 200% 120% at 50% 95%,
-      transparent 0%,
-      transparent 45%,
-      rgba(67, 37, 174, 0.1) 65%,
-      rgba(97, 67, 224, 0.18) 80%,
-      rgba(97, 67, 224, 0.22) 100%
-    ),
-    $neutral-10;
+  background: radial-gradient(107.37% 114.83% at 50% 94.96%, rgba(67, 37, 174, 0.00) 0%, rgba(67, 37, 174, 0.00) 75%, rgba(67, 37, 174, 0.80) 90%, #6143E0 100%), #090E1A;
   padding-top: pxToRem(120);
-  padding-bottom: pxToRem(450);
+  padding-bottom: 31rem;
   overflow: hidden;
   isolation: isolate;
 
-  // Star background — covers the upper portion of the section
   &__stars {
     position: absolute;
     top: 0;
@@ -33,62 +23,54 @@
     background-repeat: no-repeat;
   }
 
-  // Background elements — globe with visible glow (all CSS backgrounds)
-  // Layer order: light → white-light x3 → light → globe
   &__background {
     position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 0;
 
-    // Bottom light layer (blurred, normal blend)
     &::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: url('/img/home/globe/light.png') center bottom / pxToRem(2130) auto no-repeat;
-      filter: blur(120px);
+      background: url('/img/home/globe/globe-light.png') center bottom / pxToRem(1600) auto no-repeat;
+      filter: blur(20px);
+      background-blend-mode: color-dodge;
+      mix-blend-mode: plus-lighter;
     }
 
-    // White-light x3 (plus-lighter blend, slight blur)
     &::after {
       content: '';
       position: absolute;
       inset: 0;
-      background:
-        url('/img/home/globe/white-light.png') center bottom / pxToRem(1330) auto no-repeat,
-        url('/img/home/globe/white-light.png') center bottom / pxToRem(1330) auto no-repeat,
-        url('/img/home/globe/white-light.png') center bottom / pxToRem(1330) auto no-repeat;
+      background: url('/img/home/globe/globe-light.png') center bottom / pxToRem(1600) auto no-repeat;
+
+      filter: blur(20px);
       mix-blend-mode: plus-lighter;
-      filter: blur(40px);
-      z-index: 1;
     }
   }
 
-  // Top light + globe (needs separate element so parent filter doesn't affect globe)
   &__globe-front {
     position: absolute;
     inset: 0;
     z-index: 2;
 
-    // Top light layer (blurred, normal blend)
     &::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: url('/img/home/globe/light.png') center bottom / pxToRem(2130) auto no-repeat;
-      filter: blur(120px);
+      background-image: url('/img/home/globe/globe.png');
+      background-size: pxToRem(1600) auto;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      z-index: 1;
     }
-
-    // Globe wireframe (sharp, no blur)
     &::after {
       content: '';
       position: absolute;
       inset: 0;
-      background-image: url('/img/home/globe.png');
-      background-image: -webkit-image-set(url('/img/home/globe.png') 1x, url('/img/home/globe-2x.png') 2x);
-      background-image: image-set(url('/img/home/globe.png') 1x, url('/img/home/globe-2x.png') 2x);
-      background-size: pxToRem(1600) auto;
+      background: url('/img/home/globe/dark-overlay.png');
+      background-size: contain;
       background-position: center bottom;
       background-repeat: no-repeat;
       z-index: 1;
