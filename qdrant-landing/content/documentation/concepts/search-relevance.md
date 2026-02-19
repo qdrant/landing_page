@@ -201,7 +201,7 @@ The `a`, `b`, and `c` parameters of the [`naive` strategy](#naive-strategy) need
 
 For now, `naive` is the only available strategy.
 <details>
-<summary> <span style="background-color: gray; color: black;"> Naive Strategy </span> </summary> 
+<summary>Naive Strategy</summary> 
 
 $$
 score = a * sim(query, candidate) + \sum_{pair \in pairs}{(confidence_{pair})^b * c * delta_{pair}} \\\\
