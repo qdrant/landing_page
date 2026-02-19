@@ -54,7 +54,7 @@ This is where chunking comes in. The goal is to have chunks
 
 By breaking a document into focused chunks, each chunk gets its own vector that accurately represents a specific idea. This allows the search to be far more precise.
 
-**Example:** Consider a multi-page Document like the [Qdrant Collection Configuration Guide of day 7](/course/essentials/day-7/collection-configuration-guide/) covering everything from HNSW to sharding and quantization.
+**Example:** Consider a multi-page Document like the [Qdrant Collection Configuration Guide of Day 7](/course/essentials/day-7/collection-configuration-guide/) covering everything from HNSW to sharding and quantization.
 
 If a user asks: *"What does the m parameter do?"*
 
