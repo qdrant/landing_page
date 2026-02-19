@@ -11,7 +11,7 @@ Qdrant supports various security features to help you secure your instance. Most
 of these must to be explicitly configured to make your instance production
 ready. Please read the following section carefully.
 
-## Secure your instance
+## Secure Your Instance
 
 <aside role="alert">Custom deployments are <b>not</b> secure by default and are <b>not</b> production ready. Qdrant Cloud deployments are always secure and production ready.</aside>
 
@@ -148,7 +148,7 @@ client, err := qdrant.NewClient(&qdrant.Config{
 
 <aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key nor bearer tokens. Internal gRPC uses port 6335 by default if running in distributed mode. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, this setting is disabled for Qdrant Cloud and the Qdrant Helm chart.</aside>
 
-### Read-only API key
+### Read-Only API Key
 
 *Available as of v1.7.0*
 
@@ -168,7 +168,7 @@ export QDRANT__SERVICE__READ_ONLY_API_KEY=your_secret_read_only_api_key_here
 
 Both API keys can be used simultaneously.
 
-### Granular access control with JWT
+### Granular Access Control with JWT
 
 *Available as of v1.9.0*
 
@@ -377,7 +377,7 @@ These are the available options, or **claims** in the JWT lingo. You can use the
   }
   ```
 
-### Table of access
+### Table of Access
 
 Check out this table to see which actions are allowed or denied based on the access level.
 
@@ -445,7 +445,27 @@ This is also applicable to using api keys instead of tokens. In that case, `api_
 | telemetry | ✅ | ✅ | ❌ | ❌ |
 | metrics | ✅ | ✅ | ❌ | ❌ |
 
-## Network bind
+## Audit Logging
+
+*Available as of v1.17.0* 
+
+Audit logging records all API operations that require authentication or authorization, and writes them to a log file in JSON format.
+
+Audit logging is not enabled by default. To enable it, use the following configuration options:
+
+```yaml
+audit:
+  enabled: false
+  dir: ./storage/audit
+  rotation: daily
+  max_log_files: 7
+```
+
+By default, audit logs are rotated daily, and the seven most recent log files are kept. To configure hourly rotation, set `rotation` to `hourly`. When the number of log files exceeds `max_log_files`, the oldest log file is deleted.
+
+<aside role="alert">Audit logging is verbose and audit logs can grow in size rapidly. Ensure that you have sufficient disk space.</aside>
+
+## Network Bind
 
 By default, a custom Qdrant deployment binds to all network interfaces. Your
 instance may be open to everybody on the internet. On a local development
