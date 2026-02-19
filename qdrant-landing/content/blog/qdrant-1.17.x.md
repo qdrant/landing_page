@@ -32,10 +32,10 @@ Crafting queries is hard: users often struggle to precisely formulate search que
 
 This release introduces a new [Relevance Feedback Query](/documentation/concepts/search-relevance/#relevance-feedback) as a scalable, vector‑native approach to incorporating relevance feedback. The Relevance Feedback Query uses a small amount of model‑generated feedback to guide the retriever through the entire vector space, effectively nudging search toward “more relevant” results without requiring expensive loops, expensive retrievers, or human labeling. This enables the engine to traverse billions of vectors with improved recall without having to retrain models.
 
-This method works by collecting lightweight feedback on just a few top results, creating “context pairs” of more‑ and less‑relevant examples. These pairs define a signal that adjusts the scoring function during the next retrieval pass. Instead of rewriting queries or rescoring large batches of documents, Qdrant modifies how similarity is computed. [Experiments](/articles/relevance-feedback) demonstrate substantial gains, especially when pairing expressive retrievers with strong feedback models.
+This method works by collecting lightweight feedback on just a few top results, creating “context pairs” of more‑ and less‑relevant examples. These pairs define a signal that adjusts the scoring function during the next retrieval pass. Instead of rewriting queries or rescoring large batches of documents, Qdrant modifies how similarity is computed. Experiments demonstrate substantial gains, especially when pairing expressive retrievers with strong feedback models. For the methodology and experiments behind this feature, see our article [Relevance Feedback in Qdrant](/articles/relevance-feedback). To get started, refer to the [documentation](/documentation/concepts/search-relevance/#relevance-feedback).
 
 <figure>
-  <img width="75%" src="/blog/qdrant-1.17.x/relevance_feedback_scoring.png">
+  <img src="/blog/qdrant-1.17.x/relevance-feedback-overview.png">
   <figcaption>
     Feedback-based scoring combines a candidate’s similarity to a query with its relative distances (delta) to the positive and negative items in context pairs.
   </figcaption>
