@@ -6,7 +6,7 @@ short_description: "Version 1.17 of Qdrant features a new Relevance Feedback Que
 description: "Version 1.17 of Qdrant features a new Relevance Feedback Query, search latency improvements, and better operational observability."
 preview_image: /blog/qdrant-1.17.x/social_preview.jpg
 social_preview_image: /blog/qdrant-1.17.x/social_preview.jpg
-date: 2026-02-12T00:00:00-08:00
+date: 2026-02-20T00:00:00-08:00
 author: Abdon Pijpelink
 featured: true
 tags:
