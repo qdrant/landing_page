@@ -20,9 +20,9 @@ tags:
 
 **Relevance Feedback Query:** Improve the quality of search results by incorporating information about their relevance.
 
-**Search Latency Improvements:** Two search latency improvements: a change to improve search latency under high write loads, and delayed fan-outs to reduce tail latency.
+**Search Latency Improvements:** Manage search latency with new tools, such as an update queue and delayed fan-outs, as well as many internal search performance improvements.
 
-**Greater Operational Observability:** Improved insights into operational metrics and faster troubleshooting with a new cluster-wide telemetry API and segment optimization monitoring.
+**Greater Operational Observability:** Better insights into operational metrics and faster troubleshooting with a new cluster-wide telemetry API and segment optimization monitoring.
 
 ## Relevance Feedback Query
 
@@ -47,9 +47,9 @@ This method works by collecting lightweight feedback on just a few top results, 
 
 This release includes several changes that reduce search latency. To improve query response times in environments with high write loads, Qdrant can now be configured to avoid creating large unoptimized segments. Additionally, delayed fan-outs help reduce tail latency by querying a second replica if the first does not respond within a configurable latency threshold.
 
-### Improved Search Performance Under High Write Loads
+### Search Latency Under Write Load
 
-A common pattern with search engines like Qdrant involves periodically refreshing data from an external source of truth, for example, using nightly batch updates. Newly ingested data needs to be indexed, which is a resource-intensive operation. When the data ingestion rate exceeds the indexing rate, this can lead to issues such as:
+A common pattern with vector search engines like Qdrant involves bulk uploads. For example, periodically refreshing data from an external source of truth using nightly batch updates. Newly ingested data needs to be indexed, which is a resource-intensive operation. When the data ingestion rate exceeds the indexing rate, this can lead to issues such as:
 
 - Back-pressure and rejected update operations due to a full update queue.
 - Slow queries over data that has not yet been indexed.
@@ -84,12 +84,12 @@ In version 1.17, we’re introducing a new [`/cluster/telemetry` endpoint](/docu
 
 Optimization is a background process where Qdrant removes data marked for deletion, merges segments, and creates indexes. To improve visibility into this process, this release introduces [segment optimization monitoring capabilities](/documentation/concepts/optimizer/#optimization-monitoring).
 
-A new `/collections/{collection_name}/optimizations` API endpoint provides the current optimization status, as well as detailed information for current and past optimization operations. Because the output of the API can be verbose, we’ve added a new Optimizations tab to the Collections interface in the Web UI that makes it easier to analyze the data. Here, you can find an overview of the current optimization status, a timeline of current and past optimization operations, and a breakdown of the tasks in a specific cycle and their durations.
+A new `/collections/{collection_name}/optimizations` API endpoint provides cluster-wide information about the current optimization status, as well as detailed information for current and past optimization operations. Because the output of the API can be verbose, we’ve added a new Optimizations tab to the Collections interface in the Web UI that makes it easier to analyze the data. Here, you can find an overview of the current optimization status, a timeline of current and past optimization operations, and a breakdown of the tasks in a specific cycle and their durations.
 
 <figure>
   <img width="75%" src="/blog/qdrant-1.17.x/optimizer-web-ui.png">
   <figcaption>
-    The new user interface in the Web UI provides an overview of the current optimization status and a timeline of current and past optimization cycles.
+    The new user interface in the Web UI provides an overview of the current cluster-wide optimization status and a timeline of current and past optimization cycles.
   </figcaption>
 </figure>
 
@@ -99,7 +99,7 @@ A new `/collections/{collection_name}/optimizations` API endpoint provides the c
 
 [Web UI](/documentation/web-ui/) is Qdrant’s user interface for managing deployments and collections. It enables you to create and manage collections, run API calls, import sample datasets, and learn about Qdrant's API through interactive tutorials.
 
-In this release, we have redesigned the point search interface in the Web UI to make exploring your data and discovering relevant points easier and more intuitive. The new two-field layout enables searching for points similar to another point, filtering by payload values, and finding points by ID. 
+Many people have been asking about point filtering in web UI. And now it's back, better than ever. In this release, we have redesigned the point search interface in the Web UI to make exploring your data and discovering relevant points easier and more intuitive. The new two-field layout enables searching for points similar to another point, filtering by payload values, and finding points by ID. 
 
 <figure>
   <img src="/blog/qdrant-1.17.x/web-ui-search.png">
@@ -132,8 +132,9 @@ For a full list of all changes in version 1.17, please refer to the [change log]
 
 ![Section 6](/blog/qdrant-1.17.x/section-6.png)
 
-In Qdrant Cloud, navigate to the Cluster Details screen and select Version 1.17 from the dropdown menu. The upgrade process may take a few moments.
-We recommend upgrading versions one by one, for example, 1.15->1.16->1.17. On Qdrant Cloud, the required intermediate updates are automatically performed to ensure a supported upgrade path.
+On Qdrant Cloud, navigate to the Cluster Details screen and select Version 1.17 from the dropdown menu. The upgrade process may take a few moments.
+
+We recommend upgrading versions one by one. On Qdrant Cloud, this is done automatically when you select the target version. If you are self-hosting, upgrade to the latest patch version of each intermediate minor version first, for example 1.15.5->1.16.3->1.17.0.
 
 ## Engage
 
