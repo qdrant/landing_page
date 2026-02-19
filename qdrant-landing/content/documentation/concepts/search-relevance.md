@@ -193,7 +193,7 @@ To leverage the feedback in search across the entire collection, Qdrant provides
 
 <aside role="alert"> The "a", "b", and "c" parameters of the naive strategy need to be customized for each triplet of retriever, feedback model, and collection. To get these 3 weights adapted to your setup, use [our open source Python package](TO DO: insert link here).</aside>
 
-Internally, Qdrant combines the feedback list into pairs, based on the relevance scores, and then uses these pairs in a formula that modifies vector space traversal during retrieval (changes the strategy of retrieval). This relevance feedback-based retrieval considers not only the similarity of candidates to the query but also to each feedback pair. For a more detailed description of how it works, check out the [Relevance Feedback](TO DO: insert link here) article.
+Internally, Qdrant combines the feedback list into pairs, based on the relevance scores, and then uses these pairs in a formula that modifies vector space traversal during retrieval (changes the strategy of retrieval). This relevance feedback-based retrieval considers not only the similarity of candidates to the query but also to each feedback pair. For a more detailed description of how it works, refer to the article [Relevance Feedback in Qdrant](/articles/relevance-feedback).
 
 When using point IDs for `target` or `example`, these points are excluded from the search results. To include them, convert them to raw vectors first and use the raw vectors in the query.
 
@@ -214,4 +214,4 @@ delta_{pair} &= sim(positive, candidate) - sim(negative, candidate) \\\\
 
 </details>
 
-The `a`, `b`, and `c` parameters of the `naive` strategy need to be obtained for each triplet of retriever, feedback model, and collection. To get these 3 weights adapted to your setup, use [our open source Python package](TO DO: insert link here). 
+The `a`, `b`, and `c` parameters of the `naive` strategy need to be obtained for each triplet of retriever, feedback model, and collection. To get these 3 weights adapted to your setup, use [our open source Python package](https://github.com/qdrant/relevance-feedback). 
