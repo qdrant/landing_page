@@ -447,7 +447,7 @@ This is also applicable to using api keys instead of tokens. In that case, `api_
 
 ## Audit Logging
 
-*Available as of v1.17.0. Not yet available on Qdrant Cloud.* 
+*Available as of v1.17.0* 
 
 Audit logging records all API operations that require authentication or authorization, and writes them to a log file in JSON format.
 
