@@ -34,36 +34,64 @@
   }
 
   // Background elements — globe with visible glow (all CSS backgrounds)
+  // Layer order: light → white-light x3 → light → globe
   &__background {
     position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 0;
 
-    // Light layer (large soft glow, normal blend)
-    background: url('/img/home/globe/light.png') center bottom / pxToRem(2130) auto no-repeat;
-    // filter: blur(120px); todo: this have to apply to the light.png only
-
-    // White-light glow (plus-lighter blend)
+    // Bottom light layer (blurred, normal blend)
     &::before {
-      // todo: reapit this background thee times
       content: '';
       position: absolute;
       inset: 0;
-      background: url('/img/home/globe/white-light.png') center bottom / pxToRem(1330) auto no-repeat;
-      mix-blend-mode: plus-lighter;
-      filter: blur(40px);
+      background: url('/img/home/globe/light.png') center bottom / pxToRem(2130) auto no-repeat;
+      filter: blur(120px);
     }
 
-    // Globe wireframe
+    // White-light x3 (plus-lighter blend, slight blur)
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        url('/img/home/globe/white-light.png') center bottom / pxToRem(1330) auto no-repeat,
+        url('/img/home/globe/white-light.png') center bottom / pxToRem(1330) auto no-repeat,
+        url('/img/home/globe/white-light.png') center bottom / pxToRem(1330) auto no-repeat;
+      mix-blend-mode: plus-lighter;
+      filter: blur(40px);
+      z-index: 1;
+    }
+  }
+
+  // Top light + globe (needs separate element so parent filter doesn't affect globe)
+  &__globe-front {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    // Top light layer (blurred, normal blend)
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('/img/home/globe/light.png') center bottom / pxToRem(2130) auto no-repeat;
+      filter: blur(120px);
+    }
+
+    // Globe wireframe (sharp, no blur)
     &::after {
       content: '';
       position: absolute;
       inset: 0;
       background-image: url('/img/home/globe.png');
+      background-image: -webkit-image-set(url('/img/home/globe.png') 1x, url('/img/home/globe-2x.png') 2x);
+      background-image: image-set(url('/img/home/globe.png') 1x, url('/img/home/globe-2x.png') 2x);
       background-size: pxToRem(1600) auto;
       background-position: center bottom;
       background-repeat: no-repeat;
+      z-index: 1;
     }
   }
 
