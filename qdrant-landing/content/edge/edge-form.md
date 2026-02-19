@@ -1,6 +1,6 @@
 ---
-title: Apply to Join the Beta
-description: Beta available to selected teams building embedded or edge-native AI systems.
+title: Submit Your Interest or Project
+description: Fill out the form to stay updated about Qdrant Edge news, or let us know about your project.
 form:
   id: edge-beta-form
   hubspotFormOptions: '{

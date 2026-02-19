@@ -9,9 +9,6 @@ questions:
   answer: Yes. Read the <a href="https://qdrant.tech/documentation/edge/edge-quickstart/">Quick Start guide</a>,
     and view the <a href="https://github.com/qdrant/qdrant-edge-demo">demo</a> on GitHub.
 - id: 2
-  question: What are the minimum requirements to join the beta?
-  answer: You should have a clear use case for on-device or offline vector search. Preference is given to companies working with embedded hardware or deploying agents at the edge.
-- id: 3
   question: How do I get access?
   answer: If you're building edge-native or embedded AI systems, apply to join the beta. Or, read the <a href="https://qdrant.tech/documentation/edge/edge-quickstart/">Quick Start guide</a>, and view the <a href="https://github.com/qdrant/qdrant-edge-demo">demo</a> on GitHub
 sitemapExclude: true
