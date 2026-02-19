@@ -124,7 +124,7 @@ Dynamic parameter updates may be useful, for example, for more efficient initial
 
 *Available as of v1.17.0*
 
-Each peer in a cluster provides a `/collections/{collection_name}/optimizations` API endpoint. For a specific collection, this endpoint returns information about the optimizations on that peer, including:
+The `/collections/{collection_name}/optimizations` API endpoint returns information about the optimization of a specific collection, including:
 - A summary of optimization activity, with the number of queued optimizations, queued segments, queued points, and idle segments (segments that need no optimization).
 - Details about any currently running optimization, including:
   - the specific optimizer
@@ -143,7 +143,7 @@ For example:
 
 ### Web UI
 
-The same information is also accessible via the **Optimizations** tab within the **Collections** interface in [the Web UI](/documentation/web-ui/). For a specific collection on a specific peer in the cluster, this tab provides an overview of the current optimization status and a timeline of current and past optimization cycles:
+The same information is also accessible via the **Optimizations** tab within the **Collections** interface in [the Web UI](/documentation/web-ui/). For a specific collection, this tab provides an overview of the current optimization status and a timeline of current and past optimization cycles:
 
 ![The Optimizations tab in Web UI shows progress and a timeline of optimization cycles](/docs/web-ui-optimizations-progress-timeline.png)
 
