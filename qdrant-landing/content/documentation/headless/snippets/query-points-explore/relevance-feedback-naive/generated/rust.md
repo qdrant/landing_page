@@ -5,8 +5,6 @@ use qdrant_client::qdrant::{
 };
 use qdrant_client::Qdrant;
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 let _points = client.query(
     QueryPointsBuilder::new("{collection_name}")
         .query(Query::new_relevance_feedback(
