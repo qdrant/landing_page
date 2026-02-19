@@ -1,6 +1,6 @@
 ---
 title: Submit Your Interest or Project
-description: Help us build the best Qdrant Edge! Tell us about your project or use case.
+description: Fill out the form to stay updated about Qdrant Edge news, or let us know about your project.
 form:
   id: edge-beta-form
   hubspotFormOptions: '{

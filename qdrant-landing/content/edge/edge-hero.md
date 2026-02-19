@@ -1,15 +1,15 @@
 ---
 title: Qdrant Edge
 label:
-  title: Introducing Qdrant Edge
+  title: Edge AI Infrastructure
   icon:
     src: /icons/fill/edge-blue.svg
     alt: Qdrant edge
-subtitle: Run Vector Search Inside Embedded and Edge AI Systems.
-description: Qdrant Edge is a high-performance vector search engine designed to run on embedded devices, autonomous vehicles, and other resource-constrained edge environments. It empowers you to deploy advanced AI capabilities closer to the data source without relying on constant cloud connectivity.
+subtitle: Run Vector Search Inside Embedded and Edge AI Systems
+description: Qdrant Edge is a lightweight, in-process vector search engine designed for embedded devices, autonomous systems, and mobile agents. It enables on-device retrieval with minimal memory footprint, no background services, and optional synchronization with Qdrant Cloud.
 startFree:
-  text: Download Qdrant Edge
-  url: "#form"
+  text: Read Quick Start Docs
+  url: /documentation/edge/edge-quickstart/
 image:
   src: /img/qdrant-edge-scheme.svg
   alt: Qdrant edge scheme
