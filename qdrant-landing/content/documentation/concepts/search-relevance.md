@@ -183,10 +183,10 @@ The feedback model considers the second result with ID 222 to be the most releva
 
 To leverage the feedback in search across the entire collection, Qdrant provides a query interface that requires:
 
-1. The original query (`target`).
+1. The original query (`target`), which can be a point ID, an inference object, or a raw vector.
 2. A short list of initial retrieval results and their relevance score (`feedback`). Each feedback item consists of:
-   - `example`, which can be a Point ID, an inference object, or a raw vector used by the retriever.
-   - `score` -- Feedback Score.
+   - `example`, which can be point ID, an inference object, or a raw vector used by the retriever.
+   - `score`, the feedback score.
 3. A definition of the formula that modifies retrieval based on the feedback (`strategy`).
 
 {{< code-snippet path="/documentation/headless/snippets/query-points-explore/relevance-feedback-naive/" >}}
@@ -194,6 +194,8 @@ To leverage the feedback in search across the entire collection, Qdrant provides
 <aside role="alert"> The "a", "b", and "c" parameters of the naive strategy need to be customized for each triplet of retriever, feedback model, and collection. To get these 3 weights adapted to your setup, use [our open source Python package](TO DO: insert link here).</aside>
 
 Internally, Qdrant combines the feedback list into pairs, based on the relevance scores, and then uses these pairs in a formula that modifies vector space traversal during retrieval (changes the strategy of retrieval). This relevance feedback-based retrieval considers not only the similarity of candidates to the query but also to each feedback pair. For a more detailed description of how it works, check out the [Relevance Feedback](TO DO: insert link here) article.
+
+When using point IDs for `target` or `example`, these points are excluded from the search results. To include them, convert them to raw vectors first and use the raw vectors in the query.
 
 ### Naive Strategy
 
