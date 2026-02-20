@@ -13,7 +13,7 @@ points = []
 
 for idx, item in enumerate(ds):
     passage = item["passage_text"]
-    
+
     point = PointStruct(
         id=uuid.uuid4().hex,  # use unique string ID
         payload=item,

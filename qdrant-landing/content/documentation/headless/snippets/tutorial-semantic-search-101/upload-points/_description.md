@@ -1,1 +1,0 @@
-This code snippet demonstrates how to upload points to a collection using inference at ingest time. Instead of providing explicit vectors, the example uses a `Document` object with the book description and a model name. Qdrant generates embeddings from the text using the specified model and stores the resulting vectors along with the book's metadata as payload.

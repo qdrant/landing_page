@@ -21,7 +21,7 @@ aliases:
 
 If you are new to vector search engines, this tutorial is for you. In 5 minutes you will build a semantic search engine for science fiction books. After you set it up, you will ask the engine about an impending alien threat. Your creation will recommend books as preparation for a potential space attack.
 
-Before you begin, you need to have a [recent version of Python](https://www.python.org/downloads/) installed. If you don't know how to run this code in a virtual environment, follow the Python documentation for [creating virtual environments](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments) first. Alternatively, you can use [this Google Colab notebook](https://githubtocolab.com/qdrant/examples/blob/master/semantic-search-in-5-minutes/semantic_search_in_5_minutes.ipynb).
+If you are using Python, you can use [this Google Colab notebook](https://githubtocolab.com/qdrant/examples/blob/master/semantic-search-in-5-minutes/semantic_search_in_5_minutes.ipynb).
 
 ## 1. Create a Qdrant Cluster
 
@@ -36,15 +36,15 @@ If you do not already have a Qdrant cluster, follow these steps to create one:
 
 ## 2. Set up a Client Connection
 
-First, install the Qdrant Client for Python. This library allows you to interact with Qdrant from Python code.
+First, install the Qdrant Client for your preferred programming language:
 
-```bash
-pip install qdrant-client
-```
+{{< code-snippet path="/documentation/headless/snippets/install-client/" >}}
+
+This library allows you to interact with Qdrant from code.
 
 Next, create a client connection to your Qdrant cluster using the endpoint and API key.
 
-{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/client-connection/" >}}
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="client-connection" >}}
 
 Replace `QDRANT_URL` and `QDRANT_API_KEY` with the cluster endpoint and API key you obtained in the previous step. The `cloud_inference=True` parameter enables Qdrant Cloud's [inference](/documentation/concepts/inference/) capabilities, allowing the cluster to generate vector embeddings without the need to manage your own embedding infrastructure. 
 
@@ -52,7 +52,7 @@ Replace `QDRANT_URL` and `QDRANT_API_KEY` with the cluster endpoint and API key 
 
 All data in Qdrant is organized within [collections](/documentation/concepts/collections/). Since you're storing books, let's create a collection named `my_books`.
 
-{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/create-collection/" >}}
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="create-collection" >}}
 
 - The `size` parameter defines the dimensionality of the vectors for the collection. 384 corresponds to the output dimensionality of the embedding model used in this tutorial.
 - The `distance` parameter specifies the function used to measure the distance between two points.
@@ -61,11 +61,11 @@ All data in Qdrant is organized within [collections](/documentation/concepts/col
 
 The dataset consists of a list of science fiction books. Each entry has a name, author, publication year, and short description. 
 
-{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/upload-data/" >}}
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="upload-data" >}}
 
 Store each book as a [point](/documentation/concepts/points/) in the `my_books` collection, with each point consisting of a [unique ID](/documentation/concepts/points/#point-ids), a [vector](/documentation/concepts/vectors/) generated from the description, and a [payload](/documentation/concepts/payload/) containing the book's metadata:
 
-{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/upload-points/" >}}
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="upload-points" >}}
 
 This code tells Qdrant Cloud to use the `sentence-transformers/all-minilm-l6-v2` embedding model to generate vector embeddings from the book descriptions. This is one of the free models available on Qdrant Cloud. For a list of the available free and paid models, refer to the Inference tab of the Cluster Detail page in the Qdrant Cloud Console.
 
@@ -73,7 +73,7 @@ This code tells Qdrant Cloud to use the `sentence-transformers/all-minilm-l6-v2`
 
 Now that the data is stored in Qdrant, you can query it and receive semantically relevant results.
 
-{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/query-engine/" >}}
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="query-engine" >}}
 
 This query uses the same embedding model to generate a vector for the query "alien invasion". The search engine then looks for the three most similar vectors in the collection and returns their payloads and similarity scores.
 
@@ -93,13 +93,13 @@ How about the most recent book from the early 2000s? Qdrant allows you to narrow
 
 Before filtering on a payload field, create a [payload index](/documentation/concepts/indexing/#payload-index) for that field:
 
-{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/create-payload-index/" >}}
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="create-payload-index" >}}
 
 In a production environment, create payload indexes before uploading data to get the maximum benefit from indexing.
 
 Now you can apply a filter to the query:
 
-{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/query-with-filter/" >}}
+{{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="query-with-filter" >}}
 
 **Response:**
 
