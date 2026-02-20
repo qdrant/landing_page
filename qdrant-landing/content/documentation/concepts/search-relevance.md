@@ -191,9 +191,9 @@ To leverage the feedback in search across the entire collection, Qdrant provides
 
 {{< code-snippet path="/documentation/headless/snippets/query-points-explore/relevance-feedback-naive/" >}}
 
-Internally, Qdrant combines the feedback list into pairs, based on the relevance scores, and then uses these pairs in a formula that modifies vector space traversal during retrieval (changes the strategy of retrieval). This relevance feedback-based retrieval considers not only the similarity of candidates to the query but also to each feedback pair.
+Internally, Qdrant combines the feedback list into pairs, based on the relevance scores, and then uses these pairs in a formula that modifies vector space traversal during retrieval (changes the strategy of retrieval). This relevance feedback-based retrieval considers not only the similarity of candidates to the query but also to each feedback pair. For a more detailed description of how it works, refer to the article [Relevance Feedback in Qdrant](/articles/relevance-feedback).
 
-The `a`, `b`, and `c` parameters of the [`naive` strategy](#naive-strategy) need to be customized for each triplet of retriever, feedback model, and collection. We'll soon publish a Python framework that you can use to adapt these 3 weights to your setup.
+The `a`, `b`, and `c` parameters of the [`naive` strategy](#naive-strategy) need to be customized for each triplet of retriever, feedback model, and collection. To get these 3 weights adapted to your setup, use [our open source Python package](https://github.com/qdrant/relevance-feedback).
 
 <aside role="alert">When using point IDs for <code>target</code> or <code>example</code>, these points are excluded from the search results. To include them, convert them to raw vectors first and use the raw vectors in the query.</aside>
 
