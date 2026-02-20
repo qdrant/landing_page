@@ -24,13 +24,9 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 					Score:   0.61,
 				},
 			},
-			Strategy: &qdrant.FeedbackStrategy{
-				Variant: &qdrant.FeedbackStrategy_Naive{
-					Naive: &qdrant.NaiveFeedbackStrategy{
-						A: 0.12, B: 0.43, C: 0.16,
-					},
-				},
-			},
+			Strategy: qdrant.NewFeedbackStrategyNaive(&qdrant.NaiveFeedbackStrategy{
+				A: 0.12, B: 0.43, C: 0.16,
+			}),
 		},
 	),
 })
