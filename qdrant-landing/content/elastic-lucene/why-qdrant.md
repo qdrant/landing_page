@@ -1,7 +1,7 @@
 ---
-title: Why Teams Build Qdrant Alongside Elastic
-description: You don't have to rip anything out.
-descriptionSecond: Most teams start by adding Qdrant next to their existing stack to handle new dense or hybrid workloads … the ones Elastic can't keep up with.
+title: Why Teams Replace Legacy Tools With Qdrant
+description: Most teams find that the ongoing cost of Elastic (or other legacy tools) is hard to justify. It's expensive, hard to scale, and often requires specialized DevOps knowledge to manage.
+descriptionSecond: Teams choose Qdrant because it allows them to build more performant vector search with less cost and complexity. You can leverage the same team you use for Postgres and easily migrate without rebuilding.
 testimonial:
   logo:
     src: /img/elastic-lucene/sprinklr.svg

@@ -75,6 +75,9 @@ menuItems:
       - id: 3
         name: HR Tech
         url: /hr-tech/
+      - id: subMenu-1-9
+        name: Healthcare Tech
+        url: /healthcare/
   - title: Developers
     items:
       - id: 0
@@ -110,15 +113,12 @@ menuItems:
         name: Articles
         url: /articles/
       - id: 3
-        name: Events
-        url: https://try.qdrant.tech/events
-      - id: 4
         name: Startup Program
         url: /qdrant-for-startups/
-      - id: 5
+      - id: 4
         name: Demos
         url: /demo/
-      - id: 6
+      - id: 5
         name: Bug Bounty
         url: /security/bug-bounty-program/
   - title: Company

@@ -1,0 +1,17 @@
+<section class="healthcare-solutions">
+  <div class="container">
+    <h2 class="healthcare-solutions__title">{{ .Params.title }}</h2>
+    <div class="healthcare-solutions__bento">
+      <div class="healthcare-solutions__grid">
+        {{ range .Params.solutions }}
+          <div class="healthcare-solutions__card">
+            <div class="healthcare-solutions__card-visual">
+              <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+            </div>
+            <p class="healthcare-solutions__card-text">{{ .text }}</p>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>

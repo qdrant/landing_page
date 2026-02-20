@@ -1,0 +1,1 @@
+This code snippet defines a dataset of science fiction books. Each book entry contains a name, description, author, and publication year. This dataset will be uploaded to the Qdrant collection for semantic search.

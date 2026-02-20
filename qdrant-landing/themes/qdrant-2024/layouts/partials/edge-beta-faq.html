@@ -1,8 +1,0 @@
-{{ with (.Site.GetPage "/edge-beta/edge-beta-faq") }}
-  <section class="edge-beta-faq">
-    <div class="container">
-      <h2 class="edge-beta-faq__title">{{ .Params.title }}</h2>
-      {{ partial "accordion" . }}
-    </div>
-  </section>
-{{ end }}

@@ -1,0 +1,17 @@
+{{ with (.Site.GetPage "/elastic-lucene/elastic-lucene-cta") }}
+  <section class="elastic-lucene-cta" id="cta">
+    <div class="elastic-lucene-cta__illustration" style="background-image: url('{{ .Params.image.src }}');"></div>
+    <div class="container">
+      <div class="row position-relative">
+        <div class="col-12 col-lg-6 offset-0 offset-lg-6 elastic-lucene-cta__content">
+          <h2 class="elastic-lucene-cta__title text-white mb-4">{{ .Params.title }}</h2>
+          <div class="elastic-lucene-cta__description">
+            {{ .Params.content | safeHTML }}
+          </div>
+          <a href="{{ .Params.button.link }}" class="elastic-lucene-cta__button button button_contained button_lg">{{ .Params.button.text }}</a>
+        </div>
+      </div>
+    </div>
+    {{ partial "top-and-bottom-overlay" (dict "context" . "class" "elastic-lucene-cta") }}
+  </section>
+{{ end }}
