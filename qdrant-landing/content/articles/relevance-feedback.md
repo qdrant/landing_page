@@ -58,7 +58,7 @@ The goal is to fill this gap and let search end-users (doesn't matter if humans 
 
 So what makes a method a production-ready for vector search?
 
-#### ...Should be Cheap
+#### ...Should Be Cheap
 
 Since additional retrieval iterations already add to the search latency, we can't afford to spend too much time or money on gathering feedback. That means:
 
@@ -75,7 +75,7 @@ You might have noticed that we wrote "a feedback **model**". Humans are known to
 **No labeling required**  
 Models which require many labels or domain expert input are hard to adopt. The feedback tool should be easy to train, and data -- self-supervised.
 
-#### ...Should be Universal
+#### ...Should Be Universal
 
 **For every type of data**  
 Vector search is attractive because it is agnostic to the data type: images, video, audio, molecules… Not only text. Vector search native tools should be the same, operating on vectors without minding their nature. That is why query rewriting as reformulating text won’t suffice.
@@ -128,9 +128,9 @@ So, stepping away from analogies (into an even deeper forest), the algorithm sho
 
 2. Getting a small amount of feedback (within the **context limit**) on the results of this initial retrieval.  
 
-> A **context limit** is how many top documents from the initial retrieval the feedback model scores. We want to keep it as small as possible to **save time and resources**.
+    > A **context limit** is how many top documents from the initial retrieval the feedback model scores. We want to keep it as small as possible to **save time and resources**.
   
-A good choice for feedback format is granular judgments, aka pointwise relevance scores, between the query and the retrieved documents. They are more helpful when the retrieved documents are not strictly relevant or irrelevant.
+    A good choice for feedback format is granular judgments, aka pointwise relevance scores, between the query and the retrieved documents. They are more helpful when the retrieved documents are not strictly relevant or irrelevant.
 
 3. Extracting relevance signals from this feedback and propagating them into a new similarity (distance) scoring formula.
 
@@ -153,9 +153,9 @@ With two documents, this model could already judge which one is closer to what t
 
 ### Context Pair's Confidence
 
-Two documents nearly indistinguishable from a perspective of a feedback model give far less information than a context pair with one clearly more relevant document.
+Two documents nearly indistinguishable from the perspective of a feedback model give far less information than a context pair with one clearly more relevant document.
 
-When documents in the context pair seem different to the feedback model, it is more **confident** to guide the retriever.
+When documents in the context pair seem different to the feedback model, it is more **confident** in guiding the retriever.
 
 {{< figure src="/articles_data/relevance-feedback/confidence_of_context_pair.png" alt="Diagram titled Re-score with Feedback Model showing five documents labeled Doc 1 to Doc 5, each with two horizontal bars for Retriever Score in blue and Feedback Score in green. Doc 2 has the highest feedback score and Doc 5 has the lowest feedback score. Doc 2 and Doc 4 show higher feedback scores than retriever scores, while Doc 3 and Doc 5 show lower feedback scores. On the right, a Context Pair section shows Doc 2 labeled Positive and Doc 5 labeled Negative, with curved arrows linking these examples back to the document list" caption="Context pair's confidence">}}
 
@@ -165,7 +165,7 @@ Then, if the retriever favors a document closer to the negative example by some 
 
 {{< figure src="/articles_data/relevance-feedback/delta_as_distance.png" alt="The image shows a candidate document represented as a dark dot in the center, with dashed arrows indicating its distances to a circled positive example above and a circled negative example below. A ‘-delta’ segment on the arrow to the positive example highlights how much more the retriever currently favors the negative example. The diagram illustrates that the retriever should adjust its direction toward candidates closer to the positive example, as shown by an additional dashed arrow." caption="The point in vector space is closer (more similar) to the negative element of a context pair by a delta." width="80%">}}
 
-## Feedback-based Scoring
+## Feedback-Based Scoring
 
 With the context pair(s) at our expense, we can try the following feedback-based scoring during retrieval:
 
@@ -445,7 +445,7 @@ Additionally, the [Relevance Feedback Parameters package](https://pypi.org/proje
 
 With this module you can immediately check the potential benefit of adding Relevance Feedback-based retrieval to your pipelines (or reproduce the benchmarks above).
 
-If you don't see any **relative gain** on your test queries, this particular "feedback model, retriever, dataset" triplet might just not work together; for example, if feedback model fully agrees with the retriever's ranking in all the cases, making the relevance feedback signal redundant.  
+If you don't see any **relative gain** on your test queries, this particular "feedback model, retriever, dataset" triplet might just not work together; for example, if the feedback model fully agrees with the retriever's ranking in all the cases, making the relevance feedback signal redundant.  
 
 If you're unsure which feedback model to try next or have questions about Relevance Feedback Query in general, reach out in our [Discord community](https://qdrant.to/discord).
 
