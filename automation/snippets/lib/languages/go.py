@@ -47,7 +47,11 @@ class LanguageGo(Language):
             },
         )
 
-        subprocess.run(["go", "build", "-buildvcs=false", "-o", "tester", "."], cwd=tmpdir, check=True)
+        subprocess.run(
+            ["go", "build", "-buildvcs=false", "-o", "tester", "."],
+            cwd=tmpdir,
+            check=True,
+        )
 
         return result
 
