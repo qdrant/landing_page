@@ -21,6 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
     position: relative;
     background-color: $neutral-98;
     border: 1px solid $neutral-90;
@@ -28,7 +29,13 @@
     padding: pxToRem(4);
     margin: 0 auto $spacer * 4;
     width: fit-content;
+    max-width: 100%;
     overflow: hidden;
+
+    @media (max-width: 767px) {
+      flex-direction: column;
+      width: 100%;
+    }
   }
 
   &__tab {
@@ -45,6 +52,7 @@
     cursor: pointer;
     transition: color 0.3s ease, background-color 0.3s ease;
     white-space: nowrap;
+    text-align: center;
 
     &:hover {
       color: $neutral-40;
@@ -56,6 +64,11 @@
       background-color: $white;
       box-shadow: 0 pxToRem(2) pxToRem(8) rgba($neutral-20, 0.1);
     }
+
+    @media (max-width: 767px) {
+      width: 100%;
+      text-align: left;
+    }
   }
 
   &__slider {
@@ -63,14 +76,17 @@
     margin-bottom: $spacer * 4;
     min-height: pxToRem(560);
     overflow: hidden;
+
+    @media (max-width: 991px) {
+      min-height: pxToRem(800);
+    }
   }
 
   &__slide {
     position: absolute;
-    top: 50%;
+    top: 0;
     left: 0;
     width: 100%;
-    transform: translateY(-50%);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease;
@@ -80,6 +96,11 @@
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
+    }
+
+    @include media-breakpoint-up(lg) {
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 
@@ -98,6 +119,12 @@
       padding-left: pxToRem(80);
       padding-right: pxToRem(40);
       padding-top: pxToRem(80);
+    }
+
+    @media (min-width: 992px) and (max-width: 1199px) {
+      padding-left: pxToRem(40);
+      padding-right: pxToRem(24);
+      padding-top: pxToRem(48);
     }
   }
 
@@ -118,6 +145,13 @@
       height: auto;
       padding: 0;
     }
+
+    @media (min-width: 992px) and (max-width: 1199px) {
+      left: pxToRem(24);
+      top: 50%;
+      transform: translateY(-50%);
+      width: pxToRem(220);
+    }
   }
 
   &__card-visual-img {
@@ -130,6 +164,11 @@
     @include media-breakpoint-up(lg) {
       max-width: pxToRem(300);
       max-height: pxToRem(400);
+    }
+
+    @media (min-width: 992px) and (max-width: 1199px) {
+      max-width: pxToRem(200);
+      max-height: pxToRem(280);
     }
   }
 
@@ -151,6 +190,13 @@
       border-radius: pxToRem(16) pxToRem(16) 0 0;
       max-width: pxToRem(620);
       min-width: pxToRem(500);
+    }
+
+    @media (min-width: 992px) and (max-width: 1199px) {
+      margin-left: pxToRem(244);
+      min-width: 0;
+      max-width: none;
+      flex: 1;
     }
   }
 
