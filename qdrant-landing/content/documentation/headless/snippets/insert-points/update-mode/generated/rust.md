@@ -1,5 +1,5 @@
 ```rust
-use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
+use qdrant_client::qdrant::{PointStruct, UpdateMode, UpsertPointsBuilder};
 
 client
     .upsert_points(
@@ -11,7 +11,7 @@ client
                 PointStruct::new(3, vec![0.1, 0.1, 0.9], [("color", "blue".into())]),
             ],
         )
-        .wait(true),
+        .update_mode(UpdateMode::InsertOnly),
     )
     .await?;
 ```

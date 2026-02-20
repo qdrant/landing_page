@@ -1,4 +1,4 @@
-use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
+use qdrant_client::qdrant::{PointStruct, UpdateMode, UpsertPointsBuilder};
 
 pub async fn main() -> anyhow::Result<()> {
     let client = qdrant_client::Qdrant::from_url("http://localhost:6334").build()?; // @hide
@@ -13,7 +13,7 @@ pub async fn main() -> anyhow::Result<()> {
                     PointStruct::new(3, vec![0.1, 0.1, 0.9], [("color", "blue".into())]),
                 ],
             )
-            .wait(true),
+            .update_mode(UpdateMode::InsertOnly),
         )
         .await?;
 
