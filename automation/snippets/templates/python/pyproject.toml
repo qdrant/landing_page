@@ -8,7 +8,7 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-qdrant-client = { git = "https://github.com/qdrant/qdrant-client", tag = "v1.16.0" }
+qdrant-client = { git = "https://github.com/qdrant/qdrant-client", tag = "v1.17.0" }
 
 [dependency-groups]
 dev = [
