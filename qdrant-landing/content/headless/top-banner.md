@@ -10,9 +10,9 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Qdrant 1.17 Released: Better relevance feedback, performance under high write loads, & tail latency"
+text: "Qdrant 1.17 Released: Relevance feedback, performance under high write loads, & tail latency"
 link:
-  text: Read more
+  text: Read More
   url: http://qdrant.tech/blog/qdrant-1.17.x
 start: 2026-02-20T16:00:00.000Z
 sitemapExclude: true
