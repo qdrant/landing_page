@@ -1,6 +1,6 @@
 ---
 title: Optimize Performance
-weight: 11
+weight: 50
 aliases:
   - ../tutorials/optimize
 ---

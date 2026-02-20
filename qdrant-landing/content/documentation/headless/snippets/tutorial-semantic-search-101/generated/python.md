@@ -130,7 +130,7 @@ for hit in hits:
 client.create_payload_index(
     collection_name=COLLECTION_NAME,
     field_name="year",
-    field_schema="integer",
+    field_schema=models.PayloadSchemaType.INTEGER,
 )
 
 hits = client.query_points(

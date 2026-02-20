@@ -2,7 +2,8 @@ version = 1
 revision = 3
 requires-python = ">=3.12"
 resolution-markers = [
-    "python_full_version >= '3.13'",
+    "python_full_version >= '3.14'",
+    "python_full_version == '3.13.*'",
     "python_full_version < '3.13'",
 ]
 
@@ -1161,8 +1162,8 @@ wheels = [
 
 [[package]]
 name = "qdrant-client"
-version = "1.16.0"
-source = { git = "https://github.com/qdrant/qdrant-client?tag=v1.16.0#93af1b845759d8b0e2c862e42c10521fdc96ab07" }
+version = "1.17.0"
+source = { git = "https://github.com/qdrant/qdrant-client?tag=v1.17.0#e7101dc5baf4d3ce7d6321e1500311619aa95a99" }
 dependencies = [
     { name = "grpcio" },
     { name = "httpx", extra = ["http2"] },
@@ -1232,7 +1233,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "datasets", specifier = ">=4.4.1" },
-    { name = "qdrant-client", git = "https://github.com/qdrant/qdrant-client?tag=v1.16.0" },
+    { name = "qdrant-client", git = "https://github.com/qdrant/qdrant-client?tag=v1.17.0" },
 ]
 
 [package.metadata.requires-dev]
