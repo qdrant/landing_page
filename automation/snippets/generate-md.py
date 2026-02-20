@@ -27,12 +27,11 @@ def main() -> None:
     issues = 0
 
     for snippet_dir, snippets2 in snippets.items():
-
         generated_dir = snippet_dir / "generated"
 
         shutil.rmtree(generated_dir, ignore_errors=True)
         generated_dir.mkdir()
-        
+
         for lang, snippet_fname in snippets2.items():
             try:
                 shortened = lang.shorten(snippet_fname.read_text())

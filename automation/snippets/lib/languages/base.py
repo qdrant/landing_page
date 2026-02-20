@@ -28,9 +28,10 @@ class Language:
     @classmethod
     def shorten(cls, contents: str) -> dict[str, str]:
         """Shorten the snippet contents into a form suitable for inclusion in
-        documentation.
+        documentation. Also splits the snippet into blocks.
 
         Removes boilerplate code, e.g. class wrappers, main functions, etc.
+        Returns mapping `block_name` -> `block_contents`.
         """
         return generic_shorten(contents)
 
@@ -81,15 +82,30 @@ def template(
     target_fname.write_text("".join(result))
 
 
-_RE_COMMENT = re.compile(r"^(.*\s|)(?://|#)\s*(@\S+)(\s+.*)?$")
+_RE_COMMENT = re.compile(
+    r"""
+    ^
+    (?P<code> .*\s | )       # code before comment
+    (?: // | \# )            # comment start
+    \s*
+    (?P<annotation> @\S+ )
+    (?P<param> \s+ .* )?
+    $
+    """,
+    re.VERBOSE,
+)
 
 
 def generic_shorten(text: str) -> dict[str, str]:
     """Generic implementation of Language.shorten().
 
-    Removes comments with @hide annotation and trims excessive newlines.
+    Processes annotation comments (@hide, @block-start, etc.), trims excessive
+    newlines, and splits into blocks.
     """
-    blocks = {"": []} # empty string is the default block (does not live in a subdirectory)
+    blocks = {
+        # empty string is the default block (does not live in a subdirectory)
+        "": []
+    }
     current_blocks = [""]
     hide_mode = False
     for line in text.splitlines():
@@ -99,40 +115,45 @@ def generic_shorten(text: str) -> dict[str, str]:
                     blocks[block].append(line + "\n")
             continue
 
-        has_code = m[1].strip() != ""
-        annotation = m[2]
+        has_code = m["code"].strip() != ""
+        annotation = m["annotation"]
+        param = m["param"].strip() if m["param"] is not None else ""
         if annotation == "@hide":
             if not has_code:
                 raise ValueError("Hiding empty line is not allowed")
             if hide_mode:
                 raise ValueError("@hide inside @hide-start/@hide-end is not allowed")
+            if param:
+                raise ValueError("@hide should not be followed by any parameters")
         elif annotation == "@hide-start":
             if has_code:
                 raise ValueError("@hide-start should be on its own line")
             if hide_mode:
                 raise ValueError("Nesting @hide-start is not allowed")
+            if param:
+                raise ValueError("@hide-start should not be followed by any parameters")
             hide_mode = True
         elif annotation == "@hide-end":
             if has_code:
                 raise ValueError("@hide-end should be on its own line")
             if not hide_mode:
                 raise ValueError("@hide-end without matching @hide-start")
+            if param:
+                raise ValueError("@hide-end should not be followed by any parameters")
             hide_mode = False
         elif annotation == "@block-start":
             if has_code:
                 raise ValueError("@block-start should be on its own line")
-            if m[3] and m[3].strip() != "":
-                block = m[3].strip()
-                current_blocks.append(block)
-                blocks[block] = []
+            if param:
+                current_blocks.append(param)
+                blocks[param] = []
             else:
                 raise ValueError("@block-start should be followed by block name")
         elif annotation == "@block-end":
             if has_code:
                 raise ValueError("@block-end should be on its own line")
-            if m[3] and m[3].strip() != "":
-                block = m[3].strip()
-                current_blocks.remove(block)
+            if param:
+                current_blocks.remove(param)
             else:
                 raise ValueError("@block-end should be followed by block name")
         else:
