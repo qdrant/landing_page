@@ -419,7 +419,7 @@ For example, Relevance Feedback Query can be a great aid for search agents, lett
 
 ### How to Use It
 
-For ease of use, as one shouldn't need a machine learning degree to use a new feature, we published a [Python package that customizes Naive Formula weights for your dataset, retriever, and feedback model](https://github.com/qdrant/relevance-feedback).
+For ease of use, as one shouldn't need a machine learning degree to use a new feature, we published a [Python package that customizes Naive Formula weights for your dataset, retriever, and feedback model](https://pypi.org/project/qdrant-relevance-feedback/).
 
 What you need is a Qdrant collection, an idea of which feedback model you'd like to use to guide your retriever, and, optionally, a small set of use case-specific queries (50–300).
 
@@ -438,7 +438,7 @@ Once you've obtained the weights, simply plug them into your [Qdrant Client of c
 
 ### Evaluating Your Gains
 
-Additionally, the [Relevance Feedback Parameters package](https://github.com/qdrant/relevance-feedback) provides an `Evaluator` module with two metrics: **relative gain** based on the **abovethreshold@N** metric from the "Experiments" section above, and a metric more recognizable to people in search -- **Discounted Cumulative Gain (DCG) Win Rate**.
+Additionally, the [Relevance Feedback Parameters package](https://pypi.org/project/qdrant-relevance-feedback/) provides an `Evaluator` module with two metrics: **relative gain** based on the **abovethreshold@N** metric from the "Experiments" section above, and a metric more recognizable to people in search -- **Discounted Cumulative Gain (DCG) Win Rate**.
 
 - **Discounted Cumulative Gain (DCG) Win Rate**  
     For each query, we compute DCG@N for both compared methods (vanilla and relevance feedback-based retrieval) against ground truth relevancy scores from a feedback model. The method with the higher DCG@N gets a "win".
