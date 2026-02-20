@@ -1,13 +1,12 @@
 package com.example.snippets_amalgamation;
 
-import io.qdrant.client.grpc.Points.RelevanceFeedbackInput;
+import static io.qdrant.client.QueryFactory.relevanceFeedback;
 import static io.qdrant.client.VectorInputFactory.vectorInput;
 
 import io.qdrant.client.grpc.Points.FeedbackItem;
 import io.qdrant.client.grpc.Points.FeedbackStrategy;
 import io.qdrant.client.grpc.Points.NaiveFeedbackStrategy;
 import io.qdrant.client.grpc.Points.QueryPoints;
-import io.qdrant.client.grpc.Points.RecommendInput;
 import io.qdrant.client.grpc.Points.RelevanceFeedbackInput;
 
 import java.util.List;
