@@ -6,7 +6,7 @@ social_preview_image: /articles_data/relevance-feedback/preview/social_preview.j
 preview_dir: /articles_data/relevance-feedback/preview
 weight: -170
 author: Evgeniya Sukhodolskaya
-date: 2026-02-10T00:00:00+03:00
+date: 2026-02-20T00:00:00+03:00
 draft: false
 keywords:
   - search relevance
@@ -244,9 +244,9 @@ Since the formula has only three parameters, **the amount of training data neede
 For each query, **the goal is for the feedback-based scoring formula to rank documents as well as the feedback model would**.
 Hence, to form a training dataset:
 
-1. We retrieve the top X documents per query. 
+1. We retrieve the top X (`limit`) documents per query. 
     X is chosen as large as affordable, given the cost of obtaining a golden ranking on these X documents from the feedback model.
-2. We use feedback from the top K results to mine context pairs for the formula, with K (context limit) being much smaller than X.
+2. We use feedback from the top K (`context limit`) results to mine context pairs for the formula, with K being much smaller than X.
 3. The remaining X − K documents form the training pool, on which our naive formula learns to rank better (similarly to how the feedback model would).
 
 ## Experiments
@@ -316,7 +316,7 @@ Any document in the list **outside the top-K** whose feedback model score **exce
 On the next retrieval iteration, can our feedback-based formula pull more relevant documents into the top N than the vanilla retriever did?  
 *Relevance is judged by the feedback model's ground-truth scores.*
 
-For that, we came up with the **abovethreshold@N** metric.
+For that, we came up with the **abovethreshold@K** metric.
 
 #### Abovethreshold@N
 
@@ -400,73 +400,67 @@ Out of all retriever–feedback model pairs, three leaders emerged with the foll
 
 #### Takeaways
 
-* The retriever's expressiveness limits how much it can benefit from feedback. The retriever operates in a lower-dimensional space and can't capture all the distinctions the feedback model makes. Past a certain point, a more sophisticated feedback model won't help.
-
 * Relevance feedback scoring is most effective when the feedback model (reasonably) disagrees with the retriever's ordering within the top-K (context limit). "Reasonably" meaning the feedback aligns with the user's actual notion of relevance.
+
+* The retriever's expressiveness limits how much it can benefit from feedback. The retriever operates in a lower-dimensional space and can't capture all the distinctions the feedback model makes. Past a certain point, a more sophisticated feedback model won't help.
 
 * Initially we used only the single highest-confidence context pair in the feedback-based scoring formula, both during training and at inference. We then discovered that at inference time, incorporating signals from additional (all) context pairs improves results.
 
 ## Relevance Feedback Query
 
-The results above were convincing enough for us to justify Relevance Feedback Query implementation. 
+The results were convincing enough to justify implementing Relevance Feedback Query. And [here it is](https://qdrant.tech/documentation/concepts/search-relevance/#relevance-feedback), ready for your retrieval pipelines!
 
-### How to Use Relevance Feedback Query
+### When to Use It
 
-The method, like everything in Qdrant, is open source. We did a python package that computes for you customized Naive Formula weights for your dataset, retriever, and feedback model <TBD link to PyPi>.
+Use Relevance Feedback Query once a basic retrieval pipeline is in place and you're looking for additional techniques to boost result relevance, such as [Maximal Marginal Relevance (MMR)](https://qdrant.tech/documentation/concepts/search-relevance/#maximal-marginal-relevance-mmr), [Reranking](https://qdrant.tech/documentation/concepts/hybrid-queries/#multi-stage-queries), or [Score Boosting](https://qdrant.tech/documentation/concepts/search-relevance/#score-boosting).  
+**It's here not to replace but to complement other search relevance tools.**
 
-What you need is a Qdrant collection, an idea of which feedback model would you like to use with your retriever and, optionally, a set of collection-specific queries.
+For example, Relevance Feedback Query can be a great aid for search agents, letting you propagate the agent's understanding of your use case directly to the vector search index.
 
-> A feedback model can be anything: a bi-encoder, a cross-encoder or an LLM.
+### How to Use It
 
-After you've obtained the weights, simply plug them in and [run Relevance Feedback Query with your favourite Qdrant client](https://qdrant.tech/documentation/concepts/search-relevance/#relevance-feedback).
+For ease of use, as one shouldn't need a machine learning degree to use a new feature, we published a [Python package that customizes Naive Formula weights for your dataset, retriever, and feedback model](https://pypi.org/project/relevance-feedback/).
 
-### Evaluation
+What you need is a Qdrant collection, an idea of which feedback model you'd like to use to guide your retriever, and, optionally, a small set of use case-specific queries (50–300).
 
-Additionally, framework provides you with an evaluation module, implementing two metrics: **relative gain** based on the **abovethreshold@N** metric from experiments and, additionally, we've a metric which is less custom & more recognizeable for people in search & more related to ranking **Discounted cumulative gain (DCG) Win Rate**.
+We provide `QdrantRetriever` (using our [Free and Paid Tier Cloud Inference](https://qdrant.tech/documentation/cloud/inference/) or [FastEmbed](https://qdrant.tech/documentation/fastembed/) locally) and `FastembedFeedback` with bi-encoders, late interaction models, and cross-encoders as feedback model options.  
 
-We checked how our naive formula rescores the **entire** SCIDOCS dataset using the identical testing parameters.
+That said, you can define your own retrievers and feedback models, whatever works best for your data modality and use case.
 
-|  | Qwen3-0.6B → colBERTv2.0 | Qwen3-0.6B → Qwen3-4B | mxbai-large-v1 → colBERTv2.0 |
-| ----- | ----- | ----- | ----- |
-| **SCIDOCS** | **+50.58%** | +0.35% | +9.55% |
+> A feedback model can be anything: a bi-encoder, a late interaction model, a cross-encoder, or an LLM.
 
-<details>
-  <summary><b>jina-embeddings-v2-base-en</b></summary>
+If no training queries are supplied, the package will train the formula directly on documents sampled from your Qdrant collection.
 
-|  | jina-v2-base → mxbai-large-v1 | jina-v2-base → Qwen3-0.6B | jina-v2-base → Qwen3-4B |
-| ----- | ----- | ----- | ----- |
-| **SCIDOCS** | +4.27% | +0.93% | +1.61% |
+> **Warning:** If your use case doesn't involve document-to-document semantic similarity search, training on sampled documents alone may completely cancel the effect of relevance feedback scoring on real data.  
+> It's far more effective to use real queries.
 
-</details>
+Once you've obtained the weights, simply plug them into your [Qdrant Client of choice](https://qdrant.tech/documentation/concepts/search-relevance/#relevance-feedback).
 
-**Discounted cumulative gain (DCG) Win Rate**
+### Evaluating Your Gains
 
-This metric measures the percentage of queries where one retrieval method outperforms another in terms of the Discounted Cumulative Gain (DCG) of the retrieved responses.
-The relevance of responses is determined by the feedback model scores.
+Additionally, the [Relevance Feedback Parameters package](https://pypi.org/project/relevance-feedback/) provides an `Evaluator` module with two metrics: **relative gain** based on the **abovethreshold@N** metric from the "Experiments" section above, and a metric more recognizable to people in search -- **Discounted Cumulative Gain (DCG) Win Rate**.
 
-For each query, we compute DCG@N for both methods. The method with the higher DCG gets a "win".
-If DCG values are equal, it is counted as a "tie".
+- **Discounted Cumulative Gain (DCG) Win Rate**  
+    For each query, we compute DCG@N for both compared methods (vanilla and relevance feedback-based retrieval) against ground truth relevancy scores from a feedback model. The method with the higher DCG@N gets a "win".
+
+With this module you can immediately check the potential benefit of adding Relevance Feedback-based retrieval to your pipelines (or reproduce the benchmarks above).
+
+If you don't see any **relative gain** on your test queries, this particular "feedback model, retriever, dataset" triplet might just not work together; for example, if feedback model fully agrees with the retriever's ranking in all the cases, making the relevance feedback signal redundant.  
+
+If you're unsure which feedback model to try next or have questions about Relevance Feedback Query in general, reach out in our [Discord community](https://qdrant.to/discord).
 
 ## Conclusion
 
-We’ve released [a new relevance feedback tool in Qdrant 1.17.0](https://qdrant.tech/blog/qdrant-1.17.x/#relevance-feedback-query) to help increasing the relevance of vector search results. **It is built for scale, it’s cheap, customizable and universal.**
+We've released [a new relevance feedback tool in Qdrant 1.17.0](https://qdrant.tech/blog/qdrant-1.17.x/#relevance-feedback-query) to help increase the relevance of vector search results. **It is built for scale, cheap, customizable, and universal.**
 
-**It is cheap to use**, because the time and resources spent on getting relevance feedback are minimal.
+**It is cheap to use**, as the time and resources spent on obtaining relevance feedback are minimal.
 
-**It is cheap to adapt to your use case**: dataset, retriever, and feedback model. Just plug in your Qdrant collection, a small sample of queries related to the dataset, and the desired feedback model here<TBD framework link>, to get the weights of the naive formula. No GPU or labels needed.
+**It is easy to adapt** to your use case: dataset, retriever, and feedback model (any, from a bi-encoder to an LLM).
 
-**It is universal**, since it is data type agnostic and works directly on any vectors with all types of retrievers and feedback models, from a dense encoder to an agent. 
+**It is universal** -- data type agnostic (texts, images, code, molecules, you name it), as it works directly on embeddings.
 
-It uses **the whole vector space of documents** to search for more relevant results.
+**It applies to the whole vector space**, not just a subset of documents, a key distinction from approaches limited to reranking retrieved results.
 
-It’s a tool for production.
+It's a tool for production.
 
-### When to Use Relevance Feedback
-
-​​Use the relevance feedback method once basic retrieval is in place and you are looking for extra instruments to boost result relevance, such as hybrid search, query rewriting, reranking, or score boosting. (If you are not looking for them, why not? There is no limit to perfection!)
-
-**It’s here not to replace but to complement other search relevance tools.** For example, it is a good aid for your search agents, letting you propagate their use case understanding directly to the vector search index.
-
-If you would like additional advice on FeedbackQuery setup in production or have ideas to enhance the method, talk to us [Office Hours, for example].
-
-
+*If you'd like advice on Relevance Feedback Query usage or have ideas on how to enhance the method, reach out in our [Discord community](https://qdrant.to/discord). Follow [our LinkedIn](https://www.linkedin.com/company/qdrant/) for upcoming tutorials on various applications of Relevance Feedback Query.*
