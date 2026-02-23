@@ -14,6 +14,7 @@ weight: 2
 Users can be invited via the **User Management** section, where they are assigned the **Base role** by default. To streamline this process, the interface features a smart autosuggest feature. As you begin typing an email address into the input field, a dropdown will automatically suggest matching users already associated with the account. If the email doesn't match an existing user, the UI provides an option to send a new invitation. For either action, you can assign the appropriate permissions by selecting a role from the dropdown just to the right of the input field. If no alternative is chosen, new users are assigned the **Base role** by default.
 
 ![image.png](/documentation/cloud/role-based-access-control/user-invitation.png)
+![image.png](/documentation/cloud/role-based-access-control/user-addition.png)
 
 ### Accepting an Invitation
 
