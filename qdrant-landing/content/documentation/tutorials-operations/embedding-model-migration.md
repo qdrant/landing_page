@@ -88,8 +88,7 @@ Breaking down this code step by step:
 
 - Data is read from the old collection in batches of 100 points using a [scroll](/documentation/concepts/points/#scroll-points). The `last_offset` variable keeps track of the scroll position in the collection.
 - For each batch of points, the process re-embeds the vectors using the new embedding model. It assumes that the original text used for embedding is stored in the payload under the key `text`.
-- With the re-embedded vectors, it prepares upsert operations for the new collection, keeping the original IDs and payloads. The upserts use [insert-only mode](/documentation/concepts/points/#update-mode) to ensure that a point is only inserted if it does not already exist in the new collection. This prevents overwriting newer updates from the regular update service.
-- Finally, the process uses a [batch update](/documentation/concepts/points/#batch-update) to upsert the re-embedded points into the new collection. Note that it uses `batch_update_points` instead of `upsert`, because `batch_update_points` allows you to specify an update condition per upsert operation.
+- With the re-embedded vectors, it upserts the points into the new collection, keeping the original IDs and payloads. The upserts use [insert-only mode](/documentation/concepts/points/#update-mode) to ensure that a point is only inserted if it does not already exist in the new collection. This prevents overwriting newer updates from the regular update service.
 
 This kind of migration process can take some time, and the offset can be stored in a persistent way, so you can resume the migration process in case of a failure. You can use a database, a file, or any other persistent storage to keep track of the last offset. Having said that, because the conditional upserts would not overwrite any points in the new collection, you could safely restart the migration process from the beginning if needed.
 

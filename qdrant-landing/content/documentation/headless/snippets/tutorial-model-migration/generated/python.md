@@ -57,32 +57,28 @@ while not reached_end:
     )
 
     # Re-embed the points using the new model
-    upsert_operations = [
-        models.UpsertOperation(
-            upsert=models.PointsList(
-                points=[models.PointStruct(
-                    # Keep the original ID to ensure consistency
-                    id=record.id,
-                    # Use the new embedding model to encode the text from the payload,
-                    # assuming that was the original source of the embedding
-                    vector=models.Document(
-                        text=(record.payload or {}).get("text", ""),
-                        model=NEW_MODEL,
-                    ),
-                    # Keep the original payload
-                    payload=record.payload
-                )],
-                # Only insert the point if a point with this ID does not already exist.
-                update_mode=models.UpdateMode.INSERT_ONLY
-            )
+    points = [
+        models.PointStruct(
+            # Keep the original ID to ensure consistency
+            id=record.id,
+            # Use the new embedding model to encode the text from the payload,
+            # assuming that was the original source of the embedding
+            vector=models.Document(
+                text=(record.payload or {}).get("text", ""),
+                model=NEW_MODEL,
+            ),
+            # Keep the original payload
+            payload=record.payload
         )
         for record in records
     ]
 
     # Upsert the re-embedded points into the new collection
-    client.batch_update_points(
+    client.upsert(
         collection_name=NEW_COLLECTION,
-        update_operations=upsert_operations
+        points=points,
+        # Only insert the point if a point with this ID does not already exist.
+        update_mode=models.UpdateMode.INSERT_ONLY
     )
 
     # Check if we reached the end of the collection
