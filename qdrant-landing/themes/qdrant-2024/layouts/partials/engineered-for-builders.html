@@ -1,17 +1,14 @@
 {{ with (.Site.GetPage "/headless/main/engineered-for-builders") }}
   <section class="engineered-for-builders">
-    <div class="engineered-for-builders__background"></div>
+    <div class="engineered-for-builders__background" aria-hidden="true"></div>
+    <div class="engineered-for-builders__background-texture" aria-hidden="true"></div>
     <div class="container">
       <div class="engineered-for-builders__header">
         <h2 class="engineered-for-builders__title">{{ .Params.title }}</h2>
         <p class="engineered-for-builders__subtitle">{{ .Params.subtitle }}</p>
       </div>
       <div class="engineered-for-builders__illustration">
-        {{/* TODO: Export Web UI illustration from Figma and save to /static/images/homepage/engineered-for-builders.png */}}
-        <div class="engineered-for-builders__image-placeholder">
-          <span>Web UI Illustration</span>
-          <span class="engineered-for-builders__image-note">Export from Figma</span>
-        </div>
+      <img src="/img/home/web-ui.png" alt="Engineered for Builders" class="engineered-for-builders__illustration-image">
       </div>
       <div class="engineered-for-builders__features">
         {{ range .Params.features }}
