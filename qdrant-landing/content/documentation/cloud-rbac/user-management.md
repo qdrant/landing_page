@@ -11,7 +11,7 @@ weight: 2
 
 
 
-Users can be invited via the **User Management** section, where they are assigned the **Base role** by default. To streamline this process, the interface features a smart autosuggest feature. As you begin typing an email address into the input field, a dropdown will automatically suggest matching users already associated with the account. If the email doesn't match an existing user, the UI provides an option to send a new invitation. For either action, you can assign the appropriate permissions by selecting a role from the dropdown just to the right of the input field. If no alternative is chosen, new users are assigned the **Base role** by default.
+Users in your account can be managed via the **User Management** section. Start by selecting a role from the dropdown and then type the name of the user you wish to manage. For users who are not in your account you will have the option to invite them. For users already in your account you can add them to the role, or see if the role has already been assigned to them.
 
 ![image.png](/documentation/cloud/role-based-access-control/user-invitation.png)
 ![image.png](/documentation/cloud/role-based-access-control/user-addition.png)
