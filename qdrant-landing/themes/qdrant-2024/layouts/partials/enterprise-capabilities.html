@@ -1,4 +1,5 @@
 {{ with (.Site.GetPage "/headless/main/enterprise-capabilities") }}
+  {{ $iconsPath := "static/img/components/icons/" }}
   <section class="enterprise-capabilities">
     <div class="enterprise-capabilities__stars" aria-hidden="true"></div>
     <div class="enterprise-capabilities__background" aria-hidden="true">
@@ -16,33 +17,8 @@
               {{ if .connector }}
                 <img src="{{ .connector }}" alt="" class="enterprise-capabilities__connector" />
               {{ end }}
-              <div class="enterprise-capabilities__card-icon enterprise-capabilities__card-icon--{{ .iconColor }}">
-                {{ if eq .iconColor "primary" }}
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M26.667 13.333c0-5.891-4.776-10.666-10.667-10.666S5.333 7.442 5.333 13.333c0 4.27 2.51 7.953 6.134 9.661v2.339H10A1.333 1.333 0 008.667 26.667v2.666A1.333 1.333 0 0010 30.667h12a1.333 1.333 0 001.333-1.334v-2.666A1.333 1.333 0 0022 25.333h-1.467v-2.339c3.624-1.708 6.134-5.391 6.134-9.661z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M16 13.333v4M16 21.333v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  </svg>
-                {{ else if eq .iconColor "teal" }}
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 12a4 4 0 100-8 4 4 0 000 8zM24 12a4 4 0 100-8 4 4 0 000 8zM16 28a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2"/>
-                    <path d="M8 12v4a4 4 0 004 4h8a4 4 0 004-4v-4M16 20v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  </svg>
-                {{ else if eq .iconColor "blue" }}
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 2.667l12 6.666v13.334l-12 6.666-12-6.666V9.333l12-6.666z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M16 16v13.333M16 16l12-6.667M16 16L4 9.333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="16" cy="16" r="3" stroke="currentColor" stroke-width="2"/>
-                  </svg>
-                {{ else if eq .iconColor "violet" }}
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="16" cy="16" r="4" stroke="currentColor" stroke-width="2"/>
-                    <circle cx="6" cy="8" r="3" stroke="currentColor" stroke-width="2"/>
-                    <circle cx="26" cy="8" r="3" stroke="currentColor" stroke-width="2"/>
-                    <circle cx="6" cy="24" r="3" stroke="currentColor" stroke-width="2"/>
-                    <circle cx="26" cy="24" r="3" stroke="currentColor" stroke-width="2"/>
-                    <path d="M8.5 10l4.5 3.5M19 13.5l4.5-3.5M8.5 22l4.5-3.5M19 18.5l4.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  </svg>
-                {{ end }}
+              <div class="enterprise-capabilities__card-icon">
+                {{ partial "svg" (dict "icon" .icon "path" $iconsPath "color" .iconColor ) }}
               </div>
               <div class="enterprise-capabilities__card-content">
                 <h3 class="enterprise-capabilities__card-title">{{ .title }}</h3>
