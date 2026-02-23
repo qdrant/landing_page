@@ -11,7 +11,7 @@ weight: 2
 
 
 
-Users in your account can be managed via the **User Management** section. Start by selecting a role from the dropdown and then type the name of the user you wish to manage. For users who are not in your account you will have the option to invite them. For users already in your account you can add them to the role, or see if the role has already been assigned to them.
+Account users can be managed via the **User Management** section. Start by selecting a role from the dropdown and then type the name of the user you wish to manage. For users who are not in your account you will have the option to invite them. For users already in your account you can add them to the role, or see if the role has already been assigned to them.
 
 ![image.png](/documentation/cloud/role-based-access-control/user-invitation.png)
 ![image.png](/documentation/cloud/role-based-access-control/user-addition.png)
