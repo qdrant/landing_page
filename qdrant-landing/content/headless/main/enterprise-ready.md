@@ -29,18 +29,28 @@ largeCards:
 smallCards:
   - id: multitenancy
     title: Multitenancy & Granular RBAC
-    icon: multitenancy
+    icon:
+      name: multitenancy
+      color: blue
   - id: networking
     title: Private Networking/VPC Peering
-    icon: networking
+    icon:
+      name: cloud-system
+      color: blue
   - id: downtime
     title: Zero-downtime upgrades
-    icon: downtime
+    icon:
+      name: downtime
+      fill: blue
   - id: backups
     title: Backups & Point-in-time restore
-    icon: backups
+    icon:
+      name: backups
+      color: blue
   - id: api-keys
     title: Vector-scoped API Keys
-    icon: api-keys
+    icon:
+      name: vectors
+      color: blue
 sitemapExclude: true
 ---

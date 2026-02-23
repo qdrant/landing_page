@@ -49,16 +49,16 @@
 {{ $svg := readFile (printf "%s%s" $path $filename) }}
 {{ if $stroke }}
   {{ $strokeVal := $stroke }}
-  {{ if and (ne (strings.HasPrefix $stroke "#") true) (ne (strings.HasPrefix $stroke "var(") true) (ne $stroke "currentColor") (ne $stroke "none") }}
-    {{ $strokeVal = "currentColor" }}
+  {{ if and (ne (strings.HasPrefix $stroke "#") true) (ne (strings.HasPrefix $stroke "var(") true) (ne $stroke "currentColor") (ne $stroke "inherit") (ne $stroke "none") }}
+    {{ $strokeVal = printf "var(--bs-%s)" $stroke }}
   {{ end }}
   {{ $svg = replaceRE `stroke="[^"]*"` (printf `stroke="%s"` $strokeVal) $svg }}
   {{ $svg = replaceRE `stroke='[^']*'` (printf `stroke="%s"` $strokeVal) $svg }}
 {{ end }}
 {{ if $fill }}
   {{ $fillVal := $fill }}
-  {{ if and (ne (strings.HasPrefix $fill "#") true) (ne (strings.HasPrefix $fill "var(") true) (ne $fill "currentColor") (ne $fill "none") }}
-    {{ $fillVal = "currentColor" }}
+  {{ if and (ne (strings.HasPrefix $fill "#") true) (ne (strings.HasPrefix $fill "var(") true) (ne $fill "currentColor") (ne $fill "inherit") (ne $fill "none") }}
+    {{ $fillVal = printf "var(--bs-%s)" $fill }}
   {{ end }}
   {{ $svg = replaceRE `fill="[^"]*"` (printf `fill="%s"` $fillVal) $svg }}
   {{ $svg = replaceRE `fill='[^']*'` (printf `fill="%s"` $fillVal) $svg }}
