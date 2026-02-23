@@ -44,7 +44,7 @@ Authorized users can give or take away roles from users in **User Management**.
 
 ## Making a User the Owner of an Account
 
-Account Owners have the exclusive permission to promote other users to the Account Owner role. This can be done in the **User Management** page using User Actions
+Only account owners are allowed to transfer ownership of an account, this can be done via the **User Management** page. There can only be one account owner per account.
 
 ![image.png](/documentation/cloud/role-based-access-control/make-account-owner.png)
 
