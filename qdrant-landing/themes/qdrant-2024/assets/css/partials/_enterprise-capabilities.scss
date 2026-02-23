@@ -28,26 +28,47 @@
     inset: 0;
     pointer-events: none;
     z-index: 0;
+  }
 
-    &::before {
+  &__white-light {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    aspect-ratio: 1/1;
+    max-width: pxToRem(1600);
+
+    &:before {
       content: '';
+      display: none;
       position: absolute;
       inset: 0;
-      background: url('/img/home/globe/globe-light.png') center bottom / pxToRem(1600) auto no-repeat;
-      filter: blur(20px);
+      filter: blur(5px);
+      mix-blend-mode: plus-lighter;
+      background: radial-gradient(49.61% 49.61% at 50% 50%, transparent 0%, transparent 35.59%, #D6D6D6 71.07%, transparent 100%) center bottom / pxToRem(1800) auto no-repeat;
       background-blend-mode: color-dodge;
-      mix-blend-mode: plus-lighter;
-    }
+      transform: translateY(120%);
+      margin-right: -100px;
+      margin-left: -100px;
 
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('/img/home/globe/globe-light.png') center bottom / pxToRem(1600) auto no-repeat;
-
-      filter: blur(20px);
-      mix-blend-mode: plus-lighter;
+      @include media-breakpoint-up(lg) {
+        display: block;
+        transform: translateY(90%);
+      }
     }
+  }
+
+
+  &__globe-blue-light {
+    content: '';
+    position: absolute;
+    inset: 0;
+    //background: $secondary-blue-30;
+    background: url(/img/home/globe/globe-light.svg) center bottom / pxToRem(1800) auto no-repeat;
+    mix-blend-mode: plus-lighter;
+    filter: blur(40px);
+    margin-right: -100px;
+    margin-left: -100px;
   }
 
   &__globe-front {
@@ -68,9 +89,11 @@
     &::after {
       content: '';
       position: absolute;
-      inset: 0;
-      background: url('/img/home/globe/dark-overlay.png');
-      background-size: contain;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 240px;
+      background: linear-gradient(180deg, rgba(9, 14, 26, 0.00) 4.25%, #090E1A 88.85%);
       background-position: center bottom;
       background-repeat: no-repeat;
       z-index: 1;
