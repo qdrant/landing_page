@@ -38,7 +38,7 @@ spec:
   retention: 1h
 ```
 
-To resture from a backup, create a `QdrantClusterRestore` resource:
+To restore from a backup, create a `QdrantClusterRestore` resource:
 
 ```yaml
 apiVersion: qdrant.io/v1
