@@ -9,7 +9,9 @@ weight: 2
 
 ## Inviting Users to an Account
 
-Users can be invited via the **User Management** section, where they are assigned the **Base role** by default. Additionally, users have the option to select a specific role when inviting another user. The **Base role** is a predefined role with minimal permissions, granting users access to the platform while restricting them to viewing only their own profile.
+
+
+Users can be invited via the **User Management** section, where they are assigned the **Base role** by default. To streamline this process, the interface features a smart autosuggest feature. As you begin typing an email address into the input field, a dropdown will automatically suggest matching users already associated with the account. If the email doesn't match an existing user, the UI provides an option to send a new invitation. For either action, you can assign the appropriate permissions by selecting a role from the dropdown just to the right of the input field. If no alternative is chosen, new users are assigned the **Base role** by default.
 
 ![image.png](/documentation/cloud/role-based-access-control/user-invitation.png)
 
@@ -38,6 +40,12 @@ Authorized users can give or take away roles from users in **User Management**.
 ![image.png](/documentation/cloud/role-based-access-control/update-user-role.png)
 
 ![image.png](/documentation/cloud/role-based-access-control/update-user-role-edit-dialog.png)
+
+## Making a User the Owner of an Account
+
+Account Owners have the exclusive permission to promote other users to the Account Owner role. This can be done in the **User Management** page using User Actions
+
+![image.png](/documentation/cloud/role-based-access-control/make-account-owner.png)
 
 ## Removing a User from an Account
 
