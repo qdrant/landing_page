@@ -58,7 +58,7 @@ After embeddings are created, we can measure the distances between them.
 
 Assume we want to search for something other than a single bed in «Single beds» category.
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/similarity_search.png caption="Similarity search" >}}
+{{< figure src=/articles_data/dataset-quality/similarity_search.png caption="Similarity search" >}}
 
 One of the possible pipelines would look like this:
 - Take the name of the category as an anchor and calculate the anchor embedding.
@@ -68,11 +68,11 @@ One of the possible pipelines would look like this:
 
 For instance, we can do it with the [CLIP](https://huggingface.co/sentence-transformers/clip-ViT-B-32-multilingual-v1) model.
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/category_vs_image_transparent.png caption="Category vs. Image" >}}
+{{< figure src=/articles_data/dataset-quality/category_vs_image_transparent.png caption="Category vs. Image" >}}
 
 We can also calculate embeddings for titles instead of images, or even for both of them to find more errors.
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/category_vs_name_and_image_transparent.png caption="Category vs. Title and Image" >}}
+{{< figure src=/articles_data/dataset-quality/category_vs_name_and_image_transparent.png caption="Category vs. Title and Image" >}}
 
 As you can see, different approaches can find new errors or the same ones. 
 Stacking several techniques or even the same techniques with different models may provide better coverage. 
@@ -105,7 +105,7 @@ Diversity:
 5. Get a distance vector for the new point
 6. Find the furthest point from all of already fetched points 
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/diversity_transparent.png caption="Diversity search" >}}
+{{< figure src=/articles_data/dataset-quality/diversity_transparent.png caption="Diversity search" >}}
 
 Diversity search utilizes the very same embeddings, and you can reuse them.
 If your data is huge and does not fit into memory, vector search engines like [Qdrant](https://github.com/qdrant/qdrant) might be helpful.
