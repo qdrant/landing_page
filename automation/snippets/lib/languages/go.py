@@ -82,7 +82,7 @@ class LanguageGo(Language):
     assert RE_CODE.match(EXAMPLE_CODE) is not None
 
     @classmethod
-    def shorten(cls, contents: str) -> str:
+    def shorten(cls, contents: str) -> dict[str, str]:
         if (m := LanguageGo.RE_CODE.match(contents)) is None:
             msg = "Invalid snippet format"
             raise ValueError(msg)

@@ -8,6 +8,89 @@ This is a tool to work with code snippets.
    Also, it supports testing snippets against unreleased versions of clients (from git branches/PRs).
 
 
+## TL;DR
+
+```bash
+cd automation/snippets
+
+# Fetch the latest clients
+./docker.sh ./sync-clients.py fetch --csharp --java --typescript
+
+# Test whether the snippets compile
+./docker.sh ./check.py build snippets/path/to/snippets/* 
+
+# Generate the Markdown files
+./docker.sh ./generate-md.py 
+```
+
+## Usage
+
+Use this tooling to write snippets as runnable code, test their validity, and generate Markdown files from them. 
+
+Place your snippets as code files (for example, `python.py`) in the `qdrant-landing/content/documentation/headless/snippets/` directory. You can organize them in subdirectories. Some languages (like Java) require boilerplate code. This boilerplate code is automatically hidden in the generated Markdown files. Refer to existing snippets for examples.
+
+After running `generate-md.py`, the generated Markdown files will be placed in the `generated/` subdirectory next to the code files. You can then include these generated Markdown files in your documentation using the `code-snippet` shortcode:
+
+```
+{{< code-snippet path="/documentation/headless/snippets/example/" >}}
+```
+
+Your code may need some boilerplate code that you don't want to show in the generated Markdown files. You can hide such code by placing `// @hide` (or `# @hide` for Python) at the end of the line. Entire blocks of code can be hidden by placing `// @hide-start` and `// @hide-end` around the block. 
+
+You can generate multiple code snippets from one source file by defining "blocks" inside the code. This is useful for tutorials, where later code depends on classes and variables defined in earlier code. Each block becomes its own Markdown snippet, and a Markdown snippet is also generated for the entire file. Use `// @block-start block-name` and `// @block-end block-name` to define a block. 
+
+Include a block in your documentation using the `code-snippet` shortcode with the `block` parameter:
+
+```
+{{< code-snippet path="/documentation/headless/snippets/example/" block="block-name" >}}
+```
+
+# Example
+
+The following Python code:
+
+```python
+some_boilerplate_initialization_code() # @hide
+
+print("Hello")
+
+# @block-start world
+print("World")
+# @block-end world
+
+# @hide-start
+some_boilerplate_cleanup_code()
+# @hide-end
+```
+
+Results in the following directory structure:
+
+```.
+├── generated
+│   └── python.md
+│   └── world
+│       └── python.md
+├── python.py
+```
+
+with `generated/python.md` containing:
+
+````
+```python
+print("Hello")
+
+print("World")
+```
+````
+
+and `generated/world/python.md` containing:
+
+````
+```python
+print("World")
+```
+````
+
 ## Dependencies
 
 To convert runnable snippets into markdown ([`generate-md.py`](./generate-md.py)) you need only python with no extra dependencies.
