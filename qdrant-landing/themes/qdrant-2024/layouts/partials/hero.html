@@ -1,48 +1,61 @@
 {{ with (.Site.GetPage "/headless/main/hero") }}
   <section class="hero">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div class="hero__content">
-            <h1 class="hero__title">{{ .Params.title }}</h1>
-            <p class="hero__subtitle">{{ .Params.subtitle }}</p>
-            <div class="hero__buttons">
-              <a data-metric-loc="hero" href="{{ .Params.startFree.url }}" class="button button_contained button_lg"
-                >{{ .Params.startFree.text }}</a
-              >
-              <a data-metric-loc="hero" href="{{ .Params.learnMore.url }}" class="button button_outlined button_lg"
-                >{{ .Params.learnMore.text }}</a
-              >
-            </div>
-          </div>
+    <div class="hero__container">
+      <div class="hero__grid"></div>
+      <div class="hero__content">
+        <div class="hero__heading">
+          <h1 class="hero__title">{{ .Params.title }}</h1>
+          <p class="hero__subtitle">{{ .Params.subtitle }}</p>
+        </div>
+        <div class="hero__buttons">
+          <a data-metric-loc="hero" href="{{ .Params.startFree.url }}" class="button button_contained button_lg"
+            >{{ .Params.startFree.text }}</a
+          >
+          <a data-metric-loc="hero" href="{{ .Params.learnMore.url }}" class="button button_outlined button_lg"
+            >{{ .Params.learnMore.text }}</a
+          >
         </div>
       </div>
-      <a href="{{ .Params.githubStars.actionUrl }}" type="button" class="hero__stars" target="_blank">
-        {{ .Params.githubStars.logo | safeHTML }}
-        <span class="hero__stars-text">{{ .Params.githubStars.actionText }}</span>
-        <span class="hero__stars-count">
-          {{ .Params.githubStars.starIcon | safeHTML }}
-          {{ with (.Site.GetPage "/headless/stats") }}
-            {{ .Params.stats.githubStars }}
+
+      <div class="hero__planet">
+        <img class="hero__planet-blur" src="/img/hero/blur.svg" alt="" />
+        <img class="hero__planet-blur hero__planet-blur--alt" src="/img/hero/blur2.svg" alt="" />
+        <img class="hero__planet-sphere" src="/img/hero/planet.svg" alt="" />
+        <img class="hero__planet-texture" src="/img/hero/planet-texture.png" alt="" />
+      </div>
+
+      <img class="hero__blue-haze" src="/img/hero/blue-haze.svg" alt="" />
+
+      <div class="hero__astronauts">
+        <img src="/img/hero/astronauts.png" alt="Qdrant astronauts exploring a planetary landscape" draggable="false" />
+      </div>
+
+      <div class="hero__fade-top"></div>
+      <div class="hero__fade-bottom"></div>
+      <div class="hero__fade-left"></div>
+      <div class="hero__fade-right"></div>
+
+      {{ if .Params.valueBadges }}
+        <div class="hero__badges">
+          {{ range .Params.valueBadges }}
+            <div class="hero__badge">
+              <img src="{{ .icon }}" alt="" class="hero__badge-icon" />
+              <span class="hero__badge-text">{{ .text }}</span>
+            </div>
           {{ end }}
-        </span>
-      </a>
+        </div>
+      {{ end }}
     </div>
-    <div class="hero__image">
-      <picture>
-        {{ range .Params.heroImageSources }}
-          <source
-            {{ if
-              .minWidth
-            }}
-              media="(min-width: {{ .minWidth }})"
-            {{ end }}
-            srcset="{{ .srcset }}"
-            type="{{ .type }}"
-          />
+
+    <a href="{{ .Params.githubStars.actionUrl }}" type="button" class="hero__stars" target="_blank">
+      {{ .Params.githubStars.logo | safeHTML }}
+      <span class="hero__stars-text">{{ .Params.githubStars.actionText }}</span>
+      <span class="hero__stars-count">
+        {{ .Params.githubStars.starIcon | safeHTML }}
+        {{ with (.Site.GetPage "/headless/stats") }}
+          {{ .Params.stats.githubStars }}
         {{ end }}
-        <img src="{{ .Params.fallbackHeroImage.src }}" alt="{{ .Params.fallbackHeroImage.alt }}" draggable="false" />
-      </picture>
-    </div>
+      </span>
+    </a>
   </section>
 {{ end }}
