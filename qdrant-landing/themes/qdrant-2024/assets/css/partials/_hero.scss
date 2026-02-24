@@ -3,13 +3,19 @@
 
 .hero {
   position: relative;
+  z-index: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: url('/img/hero/hero-bg-pattern.png') repeat $neutral-10;
   background-size: 400px 400px;
-  padding: 0 $spacer * 2.5;
+  padding: 0;
   padding-bottom: $spacer * 2;
+
+  @include media-breakpoint-up(md) {
+    padding-left: $spacer * 2.5;
+    padding-right: $spacer * 2.5;
+  }
 
   &__container {
     position: relative;
@@ -25,11 +31,17 @@
         rgba(28, 58, 130, 1) 64%,
         rgba(34, 71, 152, 1) 100%
       );
-    min-height: pxToRem(600);
+    min-height: pxToRem(800);
+    padding-bottom: pxToRem(138);
+
+    @include media-breakpoint-up(md) {
+      padding-bottom: pxToRem(108);
+    }
 
     @include media-breakpoint-up(xl) {
       border-radius: pxToRem(40);
       min-height: pxToRem(940);
+      padding-bottom: 0;
     }
   }
 
@@ -125,7 +137,7 @@
     height: pxToRem(480);
     left: 50%;
     transform: translateX(-50%);
-    top: pxToRem(300);
+    top: pxToRem(420);
     z-index: 2;
 
     @include media-breakpoint-up(xl) {
@@ -231,13 +243,14 @@
   &__fade-right {
     display: none;
 
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       display: block;
       position: absolute;
       top: 0;
       bottom: 0;
       width: pxToRem(80);
       z-index: 4;
+      pointer-events: none;
     }
   }
 
@@ -253,12 +266,14 @@
 
   &__badges {
     position: absolute;
-    bottom: pxToRem(16);
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     gap: pxToRem(12);
     z-index: 5;
     padding: 0 pxToRem(16);
