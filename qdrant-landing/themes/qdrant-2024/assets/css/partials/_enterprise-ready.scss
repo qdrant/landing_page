@@ -121,32 +121,12 @@
   &__card-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: pxToRem(24);
   }
 
-  &__card-title {
-    font-size: map-get($font-sizes-text, 'l');
+  &__card-link {
+    align-self: flex-start;
     font-weight: 500;
-    line-height: 1.5;
-    color: $neutral-20;
-  }
-
-  &__card-arrow {
-    display: flex;
-    align-items: center;
-    padding-top: pxToRem(2);
-    transition: transform 0.2s ease;
-    color: $neutral-40;
-
-    svg {
-      width: pxToRem(16);
-      height: pxToRem(16);
-    }
-  }
-
-  &__card--large:hover &__card-arrow {
-    transform: translateX(4px);
   }
 
   // Small cards — flex to fill container width at all breakpoints
