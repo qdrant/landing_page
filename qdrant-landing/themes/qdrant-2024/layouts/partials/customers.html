@@ -1,15 +1,15 @@
 {{ with (.Site.GetPage "/headless/main/customers") }}
   <section class="customers">
-    <div class="customers__grid">
+    <div class="container">
+      <div class="customers__grid">
       {{ range .Params.logoRows }}
-        <div class="customers__row">
-          {{ range .logos }}
-            <div class="customers__logo">
-              {{ partial "svg.html" (dict "icon" .src "path" "static" "fill" "#B4BACC") }}
-            </div>
-          {{ end }}
-        </div>
+        {{ range .logos }}
+          <div class="customers__logo">
+            {{ partial "svg.html" (dict "icon" .src "path" "static" "fill" "#B4BACC") }}
+          </div>
+        {{ end }}
       {{ end }}
+      </div>
     </div>
   </section>
 {{ end }}

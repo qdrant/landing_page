@@ -7,35 +7,38 @@
   padding: pxToRem(64) pxToRem(20) pxToRem(80);
   background: $neutral-10;
 
-  &__grid {
-    display: flex;
-    flex-direction: column;
-    gap: pxToRem(24);
+  .container {
     width: 100%;
     max-width: pxToRem(1110);
+    padding-left: 0;
+    padding-right: 0;
   }
 
-  &__row {
+  &__grid {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    gap: pxToRem(8);
-    overflow: hidden;
+    gap: pxToRem(24) pxToRem(8);
+    width: 100%;
   }
 
   &__logo {
-    flex: 1 0 0;
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: pxToRem(103); // (1110 - 9*8)/10 so 10 logos fit per row on 2 lines
     height: pxToRem(56);
-    min-width: 0;
     padding: 0 pxToRem(10);
 
     svg {
       display: block;
       max-width: 100%;
-      height: auto;
+      max-height: 100%;
       width: auto;
+      height: auto;
+      object-fit: contain;
     }
   }
 }
