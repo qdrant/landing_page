@@ -61,12 +61,14 @@
   }
 
   &__row--large {
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       flex-wrap: nowrap;
     }
   }
 
   &__row--small {
+    gap: pxToRem(30);
+
     @include media-breakpoint-up(xl) {
       flex-wrap: nowrap;
     }
@@ -85,16 +87,12 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    min-width: 0;
     text-decoration: none;
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
 
     @include media-breakpoint-up(md) {
-      width: calc((100% - 30px) / 2);
-    }
-
-    @include media-breakpoint-up(xl) {
-      width: pxToRem(350);
-      flex-shrink: 0;
+      flex: 1 1 0;
     }
 
     &:hover {
@@ -116,7 +114,7 @@
   &__card-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
   }
 
@@ -151,26 +149,22 @@
     transform: translateX(4px);
   }
 
-  // Small cards
+  // Small cards — flex to fill container width at all breakpoints
   &__card--small {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
+    min-width: 0;
     height: pxToRem(160);
     padding: pxToRem(24);
 
     @include media-breakpoint-up(sm) {
-      width: calc((100% - 30px) / 2);
-    }
-
-    @include media-breakpoint-up(md) {
-      width: calc((100% - 60px) / 3);
+      flex: 1 1 calc((100% - 60px) / 3);
     }
 
     @include media-breakpoint-up(xl) {
-      width: pxToRem(198);
-      flex-shrink: 0;
+      flex: 1 1 0;
     }
   }
 

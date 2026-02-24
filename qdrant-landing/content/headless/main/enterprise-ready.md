@@ -6,7 +6,7 @@ largeCards:
     title: SOC 2 · GDPR-aligned Options
     visual: compliance
     image:
-      src: /img/home/soc-2-and-gdpr-compliance.png
+      src: /img/home/soc-2-and-gdpr-compliance.svg
       alt: SOC 2 and GDPR compliance badges
     link:
       url: https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9
@@ -14,7 +14,7 @@ largeCards:
     title: Prometheus · Grafana · Datadog
     visual: monitoring
     image:
-      src: /img/home/monitoring-and-observability.png
+      src: /img/home/monitoring-and-observability.svg
       alt: Monitoring and observability integrations
     link:
       url: /documentation/guides/monitoring/
@@ -22,7 +22,7 @@ largeCards:
     title: SSO (SAML/OIDC)
     visual: sso
     image:
-      src: /img/home/enterprise-sso-integration.png
+      src: /img/home/enterprise-sso-integration.svg
       alt: Enterprise SSO integration options
     link:
       url: /documentation/cloud-account-setup/
