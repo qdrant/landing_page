@@ -40,7 +40,7 @@
     color: $neutral-20;
     margin: 0;
 
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       font-size: pxToRem(48);
     }
   }
@@ -52,19 +52,95 @@
     color: $neutral-30;
     margin: 0;
 
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       font-size: map-get($font-sizes-text, 'l');
     }
   }
 
-  // Content layout
+  // Slider: visible from md up (big screens)
+  &__slider {
+    display: none;
+
+    @include media-breakpoint-up(md) {
+      display: block;
+    }
+  }
+
+  // Card grid: visible below md. 1 col on xs, 2 per row from sm.
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: pxToRem(30);
+
+    @include media-breakpoint-up(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+
+  // Card (why-qdrant--large style)
+  &__card {
+    background-color: $neutral-98;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(8);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: pxToRem(400);
+  }
+
+  &__card-visual {
+    position: relative;
+    overflow: hidden;
+    min-height: pxToRem(200);
+    background: linear-gradient(180deg, $neutral-98 0%, rgba($neutral-94, 0.3) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  &__card-content {
+    padding: pxToRem(24);
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+  }
+
+  &__card-title {
+    font-size: pxToRem(20);
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    color: $neutral-20;
+    margin: 0;
+  }
+
+  &__card-description {
+    font-size: map-get($font-sizes-text, 'md');
+    font-weight: 400;
+    line-height: 1.5;
+    color: $neutral-40;
+    margin: 0;
+  }
+
+  // Content layout (slider, visible from md up)
   &__content {
     display: flex;
     flex-direction: column;
     gap: pxToRem(48);
     align-items: center;
 
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-start;
@@ -78,7 +154,7 @@
     flex-direction: column;
     width: 100%;
 
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       width: pxToRem(444);
       flex-shrink: 0;
     }
@@ -107,7 +183,7 @@
     margin: 0;
     transition: color 0.2s ease;
 
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       font-size: pxToRem(24);
     }
 
@@ -146,15 +222,15 @@
     border-bottom-color: $primary-50;
   }
 
-  // Visual / Image area
+  // Visual / Image area (slider, visible from md up)
   &__visual {
     position: relative;
     width: 100%;
-    max-width: pxToRem(560);
-    min-height: pxToRem(400);
-    flex-shrink: 0;
+    min-height: pxToRem(300);
 
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
+      flex: 1 1 0%;
+      min-width: 0;
       min-height: pxToRem(540);
     }
   }
@@ -184,10 +260,4 @@
     }
   }
 
-  @include media-breakpoint-down(xl) {
-    &__visual {
-      min-height: pxToRem(300);
-      max-width: 100%;
-    }
-  }
 }

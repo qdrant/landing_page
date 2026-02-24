@@ -6,26 +6,47 @@
         <h2 class="performance-by-design__title">{{ .Params.title }}</h2>
         <p class="performance-by-design__subtitle">{{ .Params.subtitle }}</p>
       </div>
-      <div class="performance-by-design__content">
-        <div class="performance-by-design__features">
-          {{ range $index, $feature := .Params.features }}
-            <div class="performance-by-design__feature{{ if eq $index 0 }} performance-by-design__feature--active{{ end }}" data-feature-index="{{ $index }}">
-              <h3 class="performance-by-design__feature-title">{{ $feature.title }}</h3>
-              <div class="performance-by-design__feature-body">
-                <p class="performance-by-design__feature-description">{{ $feature.description }}</p>
+
+      {{/* Slider layout: visible only below md */}}
+      <div class="performance-by-design__slider">
+        <div class="performance-by-design__content">
+          <div class="performance-by-design__features">
+            {{ range $index, $feature := .Params.features }}
+              <div class="performance-by-design__feature{{ if eq $index 0 }} performance-by-design__feature--active{{ end }}" data-feature-index="{{ $index }}">
+                <h3 class="performance-by-design__feature-title">{{ $feature.title }}</h3>
+                <div class="performance-by-design__feature-body">
+                  <p class="performance-by-design__feature-description">{{ $feature.description }}</p>
+                </div>
               </div>
-            </div>
-          {{ end }}
+            {{ end }}
+          </div>
+          <div class="performance-by-design__visual">
+            {{ range $index, $feature := .Params.features }}
+              <div class="performance-by-design__image{{ if eq $index 0 }} performance-by-design__image--active{{ end }}" data-image-index="{{ $index }}">
+                {{ if $feature.image }}
+                  <img src="{{ $feature.image.src }}" alt="{{ $feature.image.alt }}" />
+                {{ end }}
+              </div>
+            {{ end }}
+          </div>
         </div>
-        <div class="performance-by-design__visual">
-          {{ range $index, $feature := .Params.features }}
-            <div class="performance-by-design__image{{ if eq $index 0 }} performance-by-design__image--active{{ end }}" data-image-index="{{ $index }}">
-              {{ if $feature.image }}
-                <img src="{{ $feature.image.src }}" alt="{{ $feature.image.alt }}" />
-              {{ end }}
+      </div>
+
+      {{/* Card grid: visible from md up, 2 cards per row */}}
+      <div class="performance-by-design__grid">
+        {{ range .Params.features }}
+          <div class="performance-by-design__card">
+            {{ if .image }}
+              <div class="performance-by-design__card-visual">
+                <img src="{{ .image.src }}" alt="{{ .image.alt }}" class="performance-by-design__card-image" />
+              </div>
+            {{ end }}
+            <div class="performance-by-design__card-content">
+              <h3 class="performance-by-design__card-title">{{ .title }}</h3>
+              <p class="performance-by-design__card-description">{{ .description }}</p>
             </div>
-          {{ end }}
-        </div>
+          </div>
+        {{ end }}
       </div>
     </div>
   </section>
@@ -37,6 +58,8 @@
 
     var features = section.querySelectorAll('.performance-by-design__feature');
     var images = section.querySelectorAll('.performance-by-design__image');
+    if (!features.length) return;
+
     var currentIndex = 0;
     var autoplayInterval = null;
     var AUTOPLAY_DELAY = 5000;

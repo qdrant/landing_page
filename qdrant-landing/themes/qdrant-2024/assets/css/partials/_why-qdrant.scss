@@ -1,11 +1,11 @@
 @use '../helpers/functions' as *;
 
+// Mobile-first: base styles (no min-width), then enhance from xxl only
 .why-qdrant {
   background-color: $neutral-94;
   padding-top: $spacer * 5;
   padding-bottom: $spacer * 5;
 
-  // Header
   &__header {
     display: flex;
     flex-direction: column;
@@ -33,10 +33,6 @@
     color: $neutral-20;
     margin: 0;
     max-width: pxToRem(838);
-
-    @include media-breakpoint-up(xl) {
-      font-size: pxToRem(48);
-    }
   }
 
   &__subtitle {
@@ -48,21 +44,12 @@
     max-width: pxToRem(780);
   }
 
-  // Grid - 6 column system for bento layout
   &__grid {
     display: flex;
     flex-direction: column;
     gap: $spacer * 2;
-
-    @include media-breakpoint-up(xl) {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      grid-template-rows: auto auto;
-      gap: pxToRem(30);
-    }
   }
 
-  // Cards
   &__card {
     background-color: $neutral-98;
     border: 1px solid $neutral-90;
@@ -71,40 +58,8 @@
     display: flex;
     flex-direction: column;
     min-height: pxToRem(400);
-
-    @include media-breakpoint-up(xl) {
-      min-height: pxToRem(440);
-    }
-
-    &--large {
-      @include media-breakpoint-up(xl) {
-        grid-column: span 3;
-      }
-    }
-
-    &--small {
-      @include media-breakpoint-up(xl) {
-        grid-column: span 2;
-
-        &:nth-child(3) {
-          grid-column: 1 / span 2;
-          grid-row: 2;
-        }
-
-        &:nth-child(4) {
-          grid-column: 3 / span 2;
-          grid-row: 2;
-        }
-
-        &:nth-child(5) {
-          grid-column: 5 / span 2;
-          grid-row: 2;
-        }
-      }
-    }
   }
 
-  // Card Visual Area
   &__card-visual {
     flex: 1;
     position: relative;
@@ -114,26 +69,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    @include media-breakpoint-up(xl) {
-      min-height: pxToRem(266);
-    }
-
-    .why-qdrant__card--small & {
-      @include media-breakpoint-up(xl) {
-        min-height: pxToRem(218);
-      }
-    }
   }
 
   &__card-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
   }
 
-  // Card Content Area
   &__card-content {
     padding: pxToRem(24);
     display: flex;
@@ -167,7 +111,56 @@
   }
 
   &__card-link {
+    align-self: flex-start;
     font-weight: 500;
     line-height: 1.5;
+  }
+
+  @include media-breakpoint-up(md) {
+    &__title {
+      font-size: pxToRem(48);
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: auto auto;
+      gap: pxToRem(30);
+    }
+
+    &__card {
+      min-height: pxToRem(440);
+
+      &--large {
+        grid-column: span 3;
+      }
+
+      &--small {
+        grid-column: span 2;
+
+        &:nth-child(3) {
+          grid-column: 1 / span 2;
+          grid-row: 2;
+        }
+
+        &:nth-child(4) {
+          grid-column: 3 / span 2;
+          grid-row: 2;
+        }
+
+        &:nth-child(5) {
+          grid-column: 5 / span 2;
+          grid-row: 2;
+        }
+      }
+    }
+
+    &__card-visual {
+      min-height: pxToRem(266);
+
+      .why-qdrant__card--small & {
+        min-height: pxToRem(218);
+      }
+    }
   }
 }
