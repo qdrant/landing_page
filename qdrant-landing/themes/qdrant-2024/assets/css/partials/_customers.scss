@@ -1,52 +1,41 @@
 @use '../helpers/functions' as *;
-@use '../mixins/marquee' as marquee;
 
 .customers {
   display: flex;
   justify-content: center;
-  flex-direction: column;
   align-items: center;
-  gap: $spacer * 3;
-  padding-top: $spacer * 4;
-  padding-bottom: $spacer * 4;
+  padding: pxToRem(64) pxToRem(20) pxToRem(80);
   background: $neutral-10;
 
-  &__title {
-    color: $neutral-70;
-    text-align: center;
-    font-size: map-get($font-sizes-text, 'l');
-    margin: 0 auto calc($spacer / 2);
-  }
-
-  &__description {
+  &__grid {
     display: flex;
-    width: 100%;
     flex-direction: column;
+    gap: pxToRem(24);
+    width: 100%;
+    max-width: pxToRem(1110);
+  }
+
+  &__row {
+    display: flex;
     align-items: center;
-    padding-left: pxToRem(20);
-    padding-right: pxToRem(20);
+    gap: pxToRem(8);
+    overflow: hidden;
   }
 
-  &__link {
-    color: $primary-60;
-    font-size: map-get($font-sizes-text, 'l');
-    text-decoration: none;
-  }
+  &__logo {
+    flex: 1 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: pxToRem(56);
+    min-width: 0;
+    padding: 0 pxToRem(10);
 
-  .customers__logos {
-    @include marquee.base(64px, 224px, 24, 24, 52px, $neutral-10, false, 50s, block);
-  }
-
-  @include media-breakpoint-up(xl) {
-    &__title {
-      margin: 0;
-    }
-
-    &__description {
-      flex-direction: row;
-      justify-content: center;
-      padding: 0;
-      gap: calc($spacer / 2);
+    svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      width: auto;
     }
   }
 }
