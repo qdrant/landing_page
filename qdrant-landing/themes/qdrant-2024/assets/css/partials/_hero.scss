@@ -264,6 +264,13 @@
     background: linear-gradient(to left, $neutral-10 0%, rgba($neutral-10, 0.6) 40%, transparent 100%);
   }
 
+  @include media-breakpoint-up(xxl) {
+    &__fade-left,
+    &__fade-right {
+      width: pxToRem(120);
+    }
+  }
+
   &__badges {
     position: absolute;
     bottom: 0;
@@ -282,6 +289,10 @@
       gap: pxToRem(40);
       bottom: pxToRem(24);
       flex-wrap: nowrap;
+    }
+
+    @media (min-width: 576px) and (max-width: 1899px) {
+      bottom: pxToRem(100);
     }
   }
 
@@ -373,6 +384,77 @@
         & > svg path {
           fill: $neutral-20;
         }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__badges {
+      bottom: 0;
+    }
+  }
+
+  @include media-breakpoint-up(xxl) {
+    padding-left: $spacer * 4;
+    padding-right: $spacer * 4;
+
+    &__grid {
+      mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 70%);
+      -webkit-mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 70%);
+      mask-size: 100% 100%;
+      -webkit-mask-size: 100% 100%;
+    }
+
+    &__container {
+      max-width: none;
+      width: 100%;
+      border-radius: 0;
+      min-height: max(#{pxToRem(1000)}, 45vw);
+    }
+
+    &__planet {
+      width: 37.2%;
+      height: auto;
+      aspect-ratio: 506 / 480;
+    }
+
+    &__blue-haze {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 1;
+    }
+
+    &__astronauts {
+      max-width: none;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1360 / 482;
+
+      img {
+        object-fit: contain;
+      }
+    }
+
+    &__fade-bottom {
+      height: 25vh;
+      min-height: pxToRem(220);
+      background: linear-gradient(
+        to top,
+        $neutral-10 0%,
+        rgba($neutral-10, 0.98) 35%,
+        rgba($neutral-10, 0.7) 65%,
+        rgba($neutral-10, 0.2) 90%,
+        transparent 100%
+      );
+    }
+
+    &__badges {
+      bottom: pxToRem(160);
+    }
+
+    @media (max-width: 2600px) {
+      &__badges {
+        bottom: pxToRem(100);
       }
     }
   }
