@@ -78,11 +78,29 @@
   // Carousel constrained to container width
   &__carousel-outer {
     overflow: hidden;
+    margin-top: pxToRem(-12);
     margin-bottom: pxToRem(-60); // negative margin so card shadow not clipped below
+    margin-right: pxToRem(-24);
+    padding-top: pxToRem(12);
+    padding-right: pxToRem(24);
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: pxToRem(20);
+      background: linear-gradient(to left, rgba($neutral-94, 0.3), transparent);
+      pointer-events: none;
+    }
   }
 
   &__carousel {
     overflow: hidden;
+    margin-right: pxToRem(-24);
+    padding-right: pxToRem(24);
     padding-bottom: pxToRem(80);
   }
 
@@ -121,20 +139,20 @@
     border: 1px solid rgba($neutral-80, 0.2);
     border-radius: pxToRem(16);
     box-shadow:
-      3px 3px 10px 0 rgba(155, 162, 184, 0.1),
-      13px 13px 18px 0 rgba(155, 162, 184, 0.09),
-      28px 28px 24px 0 rgba(155, 162, 184, 0.05),
-      50px 50px 29px 0 rgba(155, 162, 184, 0.01),
-      79px 79px 31px 0 rgba(155, 162, 184, 0);
+      2px 2px 8px 0 rgba(155, 162, 184, 0.1),
+      8px 8px 14px 0 rgba(155, 162, 184, 0.09),
+      18px 18px 18px 0 rgba(155, 162, 184, 0.05),
+      32px 32px 22px 0 rgba(155, 162, 184, 0.01),
+      48px 48px 24px 0 rgba(155, 162, 184, 0);
     transition: box-shadow 0.2s ease;
 
     &:hover {
       box-shadow:
-        5px 2px 11px 0 rgba(22, 30, 51, 0.1),
-        19px 9px 21px 0 rgba(22, 30, 51, 0.09),
-        42px 21px 28px 0 rgba(22, 30, 51, 0.05),
-        74px 37px 33px 0 rgba(22, 30, 51, 0.01),
-        116px 57px 36px 0 rgba(22, 30, 51, 0);
+        3px 2px 9px 0 rgba(22, 30, 51, 0.1),
+        12px 6px 16px 0 rgba(22, 30, 51, 0.09),
+        28px 14px 22px 0 rgba(22, 30, 51, 0.05),
+        48px 24px 26px 0 rgba(22, 30, 51, 0.01),
+        72px 36px 28px 0 rgba(22, 30, 51, 0);
     }
   }
 
