@@ -12,11 +12,6 @@
   padding: 0;
   padding-bottom: $spacer * 2;
 
-  @include media-breakpoint-up(md) {
-    padding-left: $spacer * 2.5;
-    padding-right: $spacer * 2.5;
-  }
-
   &__container {
     position: relative;
     width: 100%;
@@ -33,16 +28,6 @@
       );
     min-height: pxToRem(800);
     padding-bottom: pxToRem(138);
-
-    @include media-breakpoint-up(md) {
-      padding-bottom: pxToRem(108);
-    }
-
-    @include media-breakpoint-up(xl) {
-      border-radius: pxToRem(40);
-      min-height: pxToRem(940);
-      padding-bottom: 0;
-    }
   }
 
   &__grid {
@@ -63,11 +48,6 @@
     align-items: center;
     gap: pxToRem(24);
     padding: pxToRem(48) pxToRem(20) 0;
-
-    @include media-breakpoint-up(xl) {
-      gap: pxToRem(32);
-      padding: pxToRem(64) pxToRem(125) 0;
-    }
   }
 
   &__heading {
@@ -77,10 +57,6 @@
     gap: pxToRem(12);
     max-width: pxToRem(730);
     text-align: center;
-
-    @include media-breakpoint-up(xl) {
-      gap: pxToRem(16);
-    }
   }
 
   &__title {
@@ -90,12 +66,6 @@
     font-weight: 600;
     letter-spacing: -0.5px;
     width: 100%;
-
-    @include media-breakpoint-up(xl) {
-      font-size: pxToRem(64);
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-    }
   }
 
   &__subtitle {
@@ -103,11 +73,6 @@
     font-size: pxToRem(16);
     line-height: 1.5;
     width: 100%;
-
-    @include media-breakpoint-up(xl) {
-      font-size: pxToRem(20);
-      letter-spacing: -0.2px;
-    }
   }
 
   &__buttons {
@@ -116,19 +81,10 @@
     justify-content: center;
     align-items: center;
     gap: pxToRem(16);
-
-    @include media-breakpoint-up(md) {
-      flex-direction: row;
-      gap: pxToRem(24);
-    }
   }
 
   &__buttons a {
     min-width: pxToRem(180);
-
-    @include media-breakpoint-up(md) {
-      min-width: auto;
-    }
   }
 
   &__planet {
@@ -139,10 +95,6 @@
     transform: translateX(-50%);
     top: pxToRem(420);
     z-index: 2;
-
-    @include media-breakpoint-up(xl) {
-      top: pxToRem(440);
-    }
   }
 
   &__planet-blur {
@@ -186,12 +138,6 @@
     mix-blend-mode: lighten;
     z-index: 2;
     pointer-events: none;
-
-    @include media-breakpoint-up(xl) {
-      width: pxToRem(800);
-      height: pxToRem(200);
-      bottom: pxToRem(200);
-    }
   }
 
   &__astronauts {
@@ -203,10 +149,6 @@
     max-width: pxToRem(1360);
     height: pxToRem(360);
     z-index: 3;
-
-    @include media-breakpoint-up(xl) {
-      height: pxToRem(482);
-    }
 
     img {
       position: absolute;
@@ -242,16 +184,6 @@
   &__fade-left,
   &__fade-right {
     display: none;
-
-    @include media-breakpoint-up(md) {
-      display: block;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: pxToRem(80);
-      z-index: 4;
-      pointer-events: none;
-    }
   }
 
   &__fade-left {
@@ -262,13 +194,6 @@
   &__fade-right {
     right: 0;
     background: linear-gradient(to left, $neutral-10 0%, rgba($neutral-10, 0.6) 40%, transparent 100%);
-  }
-
-  @include media-breakpoint-up(xxl) {
-    &__fade-left,
-    &__fade-right {
-      width: pxToRem(120);
-    }
   }
 
   &__badges {
@@ -284,12 +209,6 @@
     gap: pxToRem(12);
     z-index: 5;
     padding: 0 pxToRem(16);
-
-    @include media-breakpoint-up(xl) {
-      gap: pxToRem(40);
-      bottom: pxToRem(24);
-      flex-wrap: nowrap;
-    }
 
     @media (min-width: 576px) and (max-width: 1899px) {
       bottom: pxToRem(100);
@@ -364,9 +283,86 @@
     line-height: pxToRem(21);
   }
 
+  // --- md and up ---
+  @include media-breakpoint-up(md) {
+    padding-left: $spacer * 2.5;
+    padding-right: $spacer * 2.5;
+
+    &__container {
+      padding-bottom: pxToRem(108);
+    }
+
+    &__buttons {
+      flex-direction: row;
+      gap: pxToRem(24);
+    }
+
+    &__buttons a {
+      min-width: auto;
+    }
+
+    &__fade-left,
+    &__fade-right {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: pxToRem(80);
+      z-index: 4;
+      pointer-events: none;
+    }
+  }
+
+  // --- xl and up ---
   @include media-breakpoint-up(xl) {
     padding: 0 $spacer * 2.5;
     padding-bottom: 0;
+
+    &__container {
+      border-radius: pxToRem(40);
+      min-height: pxToRem(940);
+      padding-bottom: 0;
+    }
+
+    &__content {
+      gap: pxToRem(32);
+      padding: pxToRem(64) pxToRem(125) 0;
+    }
+
+    &__heading {
+      gap: pxToRem(16);
+    }
+
+    &__title {
+      font-size: pxToRem(64);
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+    }
+
+    &__subtitle {
+      font-size: pxToRem(20);
+      letter-spacing: -0.2px;
+    }
+
+    &__planet {
+      top: pxToRem(440);
+    }
+
+    &__blue-haze {
+      width: pxToRem(800);
+      height: pxToRem(200);
+      bottom: pxToRem(200);
+    }
+
+    &__astronauts {
+      height: pxToRem(482);
+    }
+
+    &__badges {
+      gap: pxToRem(40);
+      bottom: 0;
+      flex-wrap: nowrap;
+    }
 
     &__stars {
       position: fixed;
@@ -388,12 +384,7 @@
     }
   }
 
-  @include media-breakpoint-up(xl) {
-    &__badges {
-      bottom: 0;
-    }
-  }
-
+  // --- xxl and up ---
   @include media-breakpoint-up(xxl) {
     padding-left: $spacer * 4;
     padding-right: $spacer * 4;
@@ -410,6 +401,11 @@
       width: 100%;
       border-radius: 0;
       min-height: max(#{pxToRem(1000)}, 45vw);
+    }
+
+    &__fade-left,
+    &__fade-right {
+      width: pxToRem(120);
     }
 
     &__planet {
