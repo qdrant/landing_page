@@ -13,19 +13,20 @@
   // Header
   &__header {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
     gap: $spacer * 1.5;
     margin-bottom: $spacer * 3;
 
-    @include media-breakpoint-up(lg) {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
+    @include media-breakpoint-up(xl) {
       margin-bottom: $spacer * 4;
     }
   }
 
   &__title {
+    flex: 1 1 auto;
+    min-width: 0;
     font-size: pxToRem(32);
     font-weight: 600;
     line-height: 1.2;
@@ -40,6 +41,8 @@
 
   // Controls
   &__controls {
+    flex-shrink: 0;
+    margin-left: auto;
     display: flex;
     gap: $spacer * 2;
   }

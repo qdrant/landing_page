@@ -69,8 +69,16 @@
       
       const slides = track.querySelectorAll('.case-studies__slide');
       const gap = 30;
-      const visibleCount = 4;
+      const breakpoints = { sm: 576, md: 768, xl: 1200 };
       let currentOffset = 0;
+
+      function getVisibleCount() {
+        const w = window.innerWidth;
+        if (w < breakpoints.sm) return 1;
+        if (w < breakpoints.md) return 2;
+        if (w < breakpoints.xl) return 3;
+        return 4;
+      }
 
       function getContainerContentWidth() {
         const style = getComputedStyle(container);
@@ -81,9 +89,9 @@
 
       function getSlideWidth() {
         const contentWidth = getContainerContentWidth();
-        const count = Math.min(visibleCount, slides.length);
+        const count = Math.min(getVisibleCount(), slides.length);
         const gaps = Math.max(0, count - 1) * gap;
-        return (contentWidth - gaps) / count;
+        return Math.floor((contentWidth - gaps) / count);
       }
 
       function applySlideWidth() {
@@ -126,10 +134,18 @@
         updateButtons();
       });
 
-      window.addEventListener('resize', function() {
+      function onResize() {
         applySlideWidth();
         updateTrack();
         updateButtons();
+      }
+
+      let resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          requestAnimationFrame(onResize);
+        }, 100);
       });
 
       applySlideWidth();
