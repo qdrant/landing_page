@@ -34,17 +34,16 @@
       <div class="hero__fade-bottom"></div>
       <div class="hero__fade-left"></div>
       <div class="hero__fade-right"></div>
-
-      {{ if .Params.valueBadges }}
-        <div class="hero__badges">
-          {{ range .Params.valueBadges }}
-            <div class="hero__badge">
-              <img src="{{ .icon }}" alt="" class="hero__badge-icon" />
-              <span class="hero__badge-text">{{ .text }}</span>
-            </div>
-          {{ end }}
-        </div>
-      {{ end }}
     </div>
+    {{ if .Params.valueBadges }}
+      <div class="hero__badges">
+        {{ range .Params.valueBadges }}
+          <div class="hero__badge">
+            <img src="{{ .icon }}" alt="" class="hero__badge-icon" />
+            <span class="hero__badge-text">{{ .text }}</span>
+          </div>
+        {{ end }}
+      </div>
+    {{ end }}
   </section>
 {{ end }}

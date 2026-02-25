@@ -10,22 +10,20 @@
   background: url('/img/hero/hero-bg-pattern.png') repeat $neutral-10;
   background-size: 400px 400px;
   padding: 0;
-  padding-bottom: $spacer * 2;
+  padding-bottom: 6rem;
 
   &__container {
     position: relative;
     width: 100%;
     max-width: pxToRem(1360);
-    border-radius: pxToRem(24);
     overflow: hidden;
-    background:
-      radial-gradient(
-        ellipse at center top,
-        rgba(1, 17, 54, 0) 10%,
-        rgba(7, 28, 78, 0.1) 40%,
-        rgba(28, 58, 130, 1) 64%,
-        rgba(34, 71, 152, 1) 100%
-      );
+    background: radial-gradient(
+      ellipse at center top,
+      rgba(1, 17, 54, 0) 10%,
+      rgba(7, 28, 78, 0.1) 40%,
+      rgba(28, 58, 130, 1) 64%,
+      rgba(34, 71, 152, 1) 100%
+    );
     min-height: pxToRem(800);
     padding-bottom: pxToRem(138);
   }
@@ -166,7 +164,13 @@
     left: 0;
     right: 0;
     height: pxToRem(500);
-    background: linear-gradient(to bottom, $neutral-10 0%, rgba($neutral-10, 0.7) 30%, rgba($neutral-10, 0.3) 60%, transparent 100%);
+    background: linear-gradient(
+      to bottom,
+      $neutral-10 0%,
+      rgba($neutral-10, 0.7) 30%,
+      rgba($neutral-10, 0.3) 60%,
+      transparent 100%
+    );
     z-index: 4;
     pointer-events: none;
   }
@@ -176,9 +180,17 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: pxToRem(120);
-    background: linear-gradient(to top, $neutral-10 0%, transparent 100%);
     z-index: 4;
+    height: 5vh;
+    min-height: pxToRem(20);
+    background: linear-gradient(
+      to top,
+      $neutral-10 0%,
+      rgba($neutral-10, 0.98) 35%,
+      rgba($neutral-10, 0.7) 50%,
+      rgba($neutral-10, 0.2) 90%,
+      transparent 100%
+    );
   }
 
   &__fade-left,
@@ -209,10 +221,6 @@
     gap: pxToRem(12);
     z-index: 5;
     padding: 0 pxToRem(16);
-
-    @media (min-width: 576px) and (max-width: 1899px) {
-      bottom: pxToRem(100);
-    }
   }
 
   &__badge {
@@ -283,7 +291,10 @@
     line-height: pxToRem(21);
   }
 
-  // --- md and up ---
+  @include media-breakpoint-up(xs) {
+    padding-bottom: $spacer * 2;
+  }
+
   @include media-breakpoint-up(md) {
     padding-left: $spacer * 2.5;
     padding-right: $spacer * 2.5;
@@ -313,13 +324,17 @@
     }
   }
 
-  // --- xl and up ---
+  @include media-breakpoint-up(lg) {
+    &__badges {
+      bottom: pxToRem(60);
+    }
+  }
+
   @include media-breakpoint-up(xl) {
     padding: 0 $spacer * 2.5;
     padding-bottom: 0;
 
     &__container {
-      border-radius: pxToRem(40);
       min-height: pxToRem(940);
       padding-bottom: 0;
     }
@@ -358,9 +373,21 @@
       height: pxToRem(482);
     }
 
+    &__fade-bottom {
+      height: 5vh;
+      background: linear-gradient(
+        to top,
+        $neutral-10 0%,
+        rgba($neutral-10, 0.98) 40%,
+        rgba($neutral-10, 0.7) 50%,
+        rgba($neutral-10, 0.2) 90%,
+        transparent 100%
+      );
+    }
+
     &__badges {
       gap: pxToRem(40);
-      bottom: 0;
+      bottom: pxToRem(40);
       flex-wrap: nowrap;
     }
 
@@ -384,10 +411,9 @@
     }
   }
 
-  // --- xxl and up ---
   @include media-breakpoint-up(xxl) {
-    padding-left: $spacer * 4;
-    padding-right: $spacer * 4;
+    padding-left: $spacer * 6;
+    padding-right: $spacer * 6;
 
     &__grid {
       mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 70%);
@@ -399,8 +425,7 @@
     &__container {
       max-width: none;
       width: 100%;
-      border-radius: 0;
-      min-height: max(#{pxToRem(1000)}, 45vw);
+      min-height: max(#{pxToRem(1000)}, 42vw);
     }
 
     &__fade-left,
@@ -412,6 +437,7 @@
       width: 37.2%;
       height: auto;
       aspect-ratio: 506 / 480;
+      top: pxToRem(216);
     }
 
     &__blue-haze {
@@ -432,26 +458,38 @@
     }
 
     &__fade-bottom {
-      height: 25vh;
-      min-height: pxToRem(220);
+      height: 12vh;
+      min-height: pxToRem(100);
       background: linear-gradient(
         to top,
         $neutral-10 0%,
-        rgba($neutral-10, 0.98) 35%,
-        rgba($neutral-10, 0.7) 65%,
+        rgba($neutral-10, 0.98) 40%,
+        rgba($neutral-10, 0.7) 50%,
         rgba($neutral-10, 0.2) 90%,
         transparent 100%
       );
     }
-
     &__badges {
-      bottom: pxToRem(160);
+      bottom: pxToRem(100);
     }
+  }
 
-    @media (max-width: 2600px) {
-      &__badges {
-        bottom: pxToRem(100);
-      }
+  @media (min-width: 2600px) {
+    padding-left: $spacer * 12;
+    padding-right: $spacer * 12;
+
+    &__container {
+      min-height: max(#{pxToRem(1000)}, 36vw);
+    }
+    &__planet {
+      top: pxToRem(50);
+    }
+    &__fade-bottom {
+      height: 15vh;
+      min-height: pxToRem(150);
+    }
+    &__badges {
+      bottom: pxToRem(120);
     }
   }
 }
