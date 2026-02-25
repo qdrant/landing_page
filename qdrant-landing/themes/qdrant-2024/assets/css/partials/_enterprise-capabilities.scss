@@ -170,6 +170,7 @@
     display: flex;
     flex-direction: column;
     gap: $spacer;
+    min-width: 0;
     padding: $spacer * 1.5 pxToRem(20);
     background: linear-gradient(180deg, rgba(22, 30, 51, 0.95) 0%, rgba(14, 20, 36, 0.95) 100%);
     border: 1px solid transparent;
@@ -242,8 +243,13 @@
 
   &__card-link {
     align-self: flex-start;
+    font-size: pxToRem(14);
     font-weight: 500;
     line-height: 1.5;
     white-space: nowrap;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

@@ -38,10 +38,10 @@
     {{ if .Params.valueBadges }}
       <div class="hero__badges">
         {{ range .Params.valueBadges }}
-          <div class="hero__badge">
+          <a href="{{ .url }}" class="hero__badge">
             <img src="{{ .icon }}" alt="" class="hero__badge-icon" />
             <span class="hero__badge-text">{{ .text }}</span>
-          </div>
+          </a>
         {{ end }}
       </div>
     {{ end }}

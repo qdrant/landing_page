@@ -45,11 +45,11 @@ $integrations-logos-text: #8f98b2;
       border: 1px solid $integrations-logos-border;
       margin-right: pxToRem(-1);
 
-      img {
-        max-width: pxToRem(140);
-        max-height: pxToRem(32);
-        height: auto;
+      svg {
+        height: pxToRem(56);
         width: auto;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
       }
     }
   }
@@ -95,9 +95,11 @@ $integrations-logos-text: #8f98b2;
         width: pxToRem(180);
         height: pxToRem(64);
 
-        img {
-          max-width: pxToRem(100);
-          max-height: pxToRem(24);
+        svg {
+          height: pxToRem(40);
+          width: auto;
+          object-fit: contain;
+          filter: brightness(0) invert(1);
         }
       }
     }

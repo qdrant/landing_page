@@ -39,8 +39,8 @@
                     {{ end }}
                   </p>
                   <div class="case-studies__card-footer">
-                    <div class="case-studies__card-logo">
-                      <img src="{{ .logo }}" alt="{{ .logoAlt }}" loading="lazy" />
+                    <div class="case-studies__card-logo" role="img" aria-label="{{ .logoAlt }}">
+                      {{ partial "svg" (dict "icon" .logoIcon "path" "themes/qdrant-2024/static/img/customer-logo/") }}
                     </div>
                     <div class="case-studies__card-arrow">
                       <svg width="24" height="14" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg">

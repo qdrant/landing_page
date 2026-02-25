@@ -232,6 +232,17 @@
     background-color: rgba(17, 24, 36, 0.8);
     border-radius: pxToRem(4);
     white-space: nowrap;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(17, 24, 36, 1);
+
+      .hero__badge-text {
+        color: $neutral-98;
+      }
+    }
   }
 
   &__badge-icon {
@@ -245,6 +256,7 @@
     font-size: pxToRem(14);
     line-height: 1.5;
     font-weight: 500;
+    transition: color 0.2s ease;
   }
 
   &__stars {

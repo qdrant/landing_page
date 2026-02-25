@@ -10,12 +10,16 @@ learnMore:
 valueBadges:
   - icon: /img/hero/github-icon.svg
     text: 25k+ GitHub Stars
+    url: https://github.com/qdrant/qdrant
   - icon: /img/hero/users-icon.svg
     text: 60k+ Community Members
+    url: /
   - icon: /img/hero/rust-icon.svg
     text: Rust Powered
+    url: /
   - icon: /img/hero/cross-icon.svg
     text: SOC2 & HIPAA compliant
+    url: /
 heroImageSources:
   - minWidth: 2881px
     srcset: /img/hero-home-illustration-x3.webp

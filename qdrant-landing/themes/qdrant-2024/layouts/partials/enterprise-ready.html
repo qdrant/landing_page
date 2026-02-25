@@ -26,14 +26,14 @@
         {{ $iconsPath := "static/img/components/icons/" }}
         <div class="enterprise-ready__row enterprise-ready__row--small">
           {{ range .Params.smallCards }}
-            <div class="enterprise-ready__card enterprise-ready__card--small">
+            <a href="{{ .link.url }}" class="enterprise-ready__card enterprise-ready__card--small">
               <div class="enterprise-ready__card-icon">
                 {{ if .icon }}
                   {{ partial "svg" (dict "icon" .icon.name "path" $iconsPath "color" .icon.color "stroke" .icon.stroke "fill" .icon.fill) }}
                 {{ end }}
               </div>
               <span class="enterprise-ready__card-label">{{ .title }}</span>
-            </div>
+            </a>
           {{ end }}
         </div>
       </div>

@@ -181,8 +181,7 @@
     display: flex;
     align-items: flex-end;
 
-    img {
-      max-width: pxToRem(120);
+    svg {
       max-height: pxToRem(48);
       width: auto;
       height: auto;
