@@ -30,7 +30,7 @@ $integrations-logos-text: #8f98b2;
   }
 
   &__cards {
-    @include marquee.base(80px, 240px, 16, 8, 0, $integrations-logos-bg, false, 40s, none);
+    @include marquee.base(80px, 240px, 8, 8, 0, $integrations-logos-bg, false, 40s, none);
 
     &__container {
       margin-bottom: pxToRem(-1);
@@ -40,10 +40,12 @@ $integrations-logos-text: #8f98b2;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-sizing: border-box;
       width: pxToRem(240);
       height: pxToRem(80);
-      border: 1px solid $integrations-logos-border;
-      margin-right: pxToRem(-1);
+      border-top: 1px solid $integrations-logos-border;
+      border-right: 1px solid $integrations-logos-border;
+      border-bottom: 1px solid $integrations-logos-border;
 
       svg {
         height: pxToRem(56);
@@ -51,6 +53,10 @@ $integrations-logos-text: #8f98b2;
         object-fit: contain;
         filter: brightness(0) invert(1);
       }
+    }
+
+    &__inner > span:first-child > &__item:first-child {
+      border-left: 1px solid $integrations-logos-border;
     }
   }
 
@@ -89,7 +95,7 @@ $integrations-logos-text: #8f98b2;
     }
 
     &__cards {
-      @include marquee.base(64px, 180px, 16, 6, 0, $integrations-logos-bg, false, 35s, none);
+      @include marquee.base(64px, 180px, 8, 6, 0, $integrations-logos-bg, false, 35s, none);
 
       &__item {
         width: pxToRem(180);

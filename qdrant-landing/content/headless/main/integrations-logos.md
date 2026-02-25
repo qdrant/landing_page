@@ -63,16 +63,21 @@ logosSecondRow:
       icon: neo4j
       alt: Neo4j logo
   - id: 4
+    name: CamelAI
+    logo:
+      icon: camelai
+      alt: CamelAI logo
+  - id: 5
     name: Mistral AI
     logo:
       icon: mistralai
       alt: Mistral AI logo
-  - id: 5
+  - id: 6
     name: Superlinked
     logo:
       icon: superlinked
       alt: Superlinked logo
-  - id: 6
+  - id: 7
     name: Deepset
     logo:
       icon: deepset

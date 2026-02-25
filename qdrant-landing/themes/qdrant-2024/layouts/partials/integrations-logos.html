@@ -8,9 +8,10 @@
     </div>
 
     <div class="integrations-logos__content">
-      <div class="integrations-logos__cards__container">
-        <div class="integrations-logos__cards__block">
-          <div class="integrations-logos__cards__inner integrations-logos__cards__inner_to-left">
+      <div class="integrations-logos__cards">
+        <div class="integrations-logos__cards__container">
+          <div class="integrations-logos__cards__block">
+            <div class="integrations-logos__cards__inner integrations-logos__cards__inner_to-left">
             <span>
               {{ partial "integrations-logos-cards" (dict "context" $logosFirstRow) }}
             </span>
@@ -20,10 +21,12 @@
           </div>
         </div>
       </div>
+      </div>
 
-      <div class="integrations-logos__cards__container">
-        <div class="integrations-logos__cards__block">
-          <div class="integrations-logos__cards__inner integrations-logos__cards__inner_to-right">
+      <div class="integrations-logos__cards">
+        <div class="integrations-logos__cards__container">
+          <div class="integrations-logos__cards__block">
+            <div class="integrations-logos__cards__inner integrations-logos__cards__inner_to-right">
             <span>
               {{ partial "integrations-logos-cards" (dict "context" $logosSecondRow) }}
             </span>
@@ -32,6 +35,7 @@
             </span>
           </div>
         </div>
+      </div>
       </div>
 
       <div class="integrations-logos__gradient-left"></div>
