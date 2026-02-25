@@ -3,8 +3,8 @@ draft: false
 title: "How My AskAI Built Self-Improving Support Agents with Qdrant"
 short_description: "My AskAI scaled reliable support agents on Qdrant Cloud."
 description: "Discover how My AskAI built a self-improving customer support agent platform with Qdrant Cloud, enabling scalable retrieval, hybrid search iteration, and faster operations."
-preview_image: /blog/case-study-my-askai/social_preview_partnership-my-askai.jpg
-social_preview_image: /blog/case-study-my-askai/social_preview_partnership-my-askai.jpg
+preview_image: /blog/case-study-my-askai/social_preview_partnership-my-askai.png
+social_preview_image: /blog/case-study-my-askai/social_preview_partnership-my-askai.png
 date: 2026-02-25
 author: "Daniel Azoulai"
 featured: true
@@ -18,6 +18,8 @@ tags:
 - llm agents
 - case study
 ---
+
+![My AskAI overview](/blog/ase-study-my-askai/my-askai-bento-box.png)
 
 [My AskAI](https://myaskai.com) built a managed platform for AI customer support agents that plug directly into existing helpdesk tools like [Intercom](https://myaskai.com/ai-agent-integration/intercom) and [Zendesk](https://myaskai.com/ai-agent-integration/zendesk-tickets). The goal was to make AI behave like a reliable coworker, not a brittle chatbot. In production, My AskAI's agents are designed to resolve a large portion of inbound support requests automatically, then hand over to a human when the agent cannot answer confidently. My AskAI positions this as [deflecting around 75 percent of support requests](https://myaskai.com/blog/my-askai-edel-optics-case-study-2026) and sustaining a resolution rate in the low to mid 70s, depending on the time window and workload mix.
 
