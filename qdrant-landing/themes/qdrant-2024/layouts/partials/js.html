@@ -7,7 +7,12 @@
 
 <!-- OneTrust Cookies Consent Notice start for local.qdrant.tech -->
 {{ if .Site.Params.onetrustScriptID }}
-  <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="{{ .Site.Params.onetrustScriptID }}" ></script>
+  <script
+    src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
+    type="text/javascript"
+    charset="UTF-8"
+    data-domain-script="{{ .Site.Params.onetrustScriptID }}"
+  ></script>
   <script async type="text/javascript">
     function OptanonWrapper() {
       const onetrustAnalyticsChoice = new CustomEvent('onetrust_loaded');
@@ -36,6 +41,7 @@
   </script>
 {{ end }}
 
+
 <!--Google Measurement ID-->
 {{ $googleJs := resources.Get "js/google-setup.js" | js.Build (dict "params" (dict "gaMeasurementId" .Site.Config.Services.GoogleAnalytics.ID)) | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $googleJs.RelPermalink }}"></script>
@@ -44,6 +50,9 @@
 <script src="{{ $indexJs.RelPermalink }}"></script>
 
 {{ if .IsHome }}
+  {{ $homeAnimationsJs := resources.Get "/js/home-animations.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $homeAnimationsJs.RelPermalink }}"></script>
+
   <!--splide.js carousel-->
   {{ $splideJs := resources.Get "/js/vendor/splide.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $splideJs.RelPermalink }}"></script>
@@ -153,27 +162,22 @@
 
 {{ if and (eq .Section "blog") (.IsPage) }}
   <script>
-    document.addEventListener("scroll", () => {
-      const article = document.getElementById("article");
-      const progress = document.getElementById("progress");
+    document.addEventListener('scroll', () => {
+      const article = document.getElementById('article');
+      const progress = document.getElementById('progress');
 
       const articleHeight = article.scrollHeight - window.innerHeight;
       const scrollTop = window.scrollY - article.offsetTop;
 
-      progress.value = Math.min(
-        Math.max((scrollTop / articleHeight) * 100, 0),
-        100
-      );
+      progress.value = Math.min(Math.max((scrollTop / articleHeight) * 100, 0), 100);
     });
   </script>
 {{ end }}
 
+
 <script>
-  window.addEventListener("message", event => {
-    if (
-            event.data.type === "hsFormCallback" &&
-            event.data.eventName === "onFormReady"
-    ) {
+  window.addEventListener('message', (event) => {
+    if (event.data.type === 'hsFormCallback' && event.data.eventName === 'onFormReady') {
       const formEl = document.querySelector(`form[data-form-id="${event.data.id}"]`);
       if (formEl) {
         const hiddenCurrentUrl = formEl.querySelector('[name="last_form_fill_url"]');
