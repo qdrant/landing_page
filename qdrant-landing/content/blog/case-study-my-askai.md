@@ -19,7 +19,7 @@ tags:
 - case study
 ---
 
-![My AskAI overview](/blog/ase-study-my-askai/my-askai-bento-box.png)
+![My AskAI overview](/blog/case-study-my-askai/my-askai-bento-box.png)
 
 [My AskAI](https://myaskai.com) built a managed platform for AI customer support agents that plug directly into existing helpdesk tools like [Intercom](https://myaskai.com/ai-agent-integration/intercom) and [Zendesk](https://myaskai.com/ai-agent-integration/zendesk-tickets). The goal was to make AI behave like a reliable coworker, not a brittle chatbot. In production, My AskAI's agents are designed to resolve a large portion of inbound support requests automatically, then hand over to a human when the agent cannot answer confidently. My AskAI positions this as [deflecting around 75 percent of support requests](https://myaskai.com/blog/my-askai-edel-optics-case-study-2026) and sustaining a resolution rate in the low to mid 70s, depending on the time window and workload mix.
 
