@@ -12,7 +12,12 @@
         <div class="performance-by-design__content">
           <div class="performance-by-design__features">
             {{ range $index, $feature := .Params.features }}
-              <div class="performance-by-design__feature{{ if eq $index 0 }} performance-by-design__feature--active{{ end }}" data-feature-index="{{ $index }}">
+              <div
+                class="performance-by-design__feature{{ if eq $index 0 }}
+                  performance-by-design__feature--active
+                {{ end }}"
+                data-feature-index="{{ $index }}"
+              >
                 <h3 class="performance-by-design__feature-title">{{ $feature.title }}</h3>
                 <div class="performance-by-design__feature-body">
                   <p class="performance-by-design__feature-description">{{ $feature.description }}</p>
@@ -22,7 +27,10 @@
           </div>
           <div class="performance-by-design__visual">
             {{ range $index, $feature := .Params.features }}
-              <div class="performance-by-design__image{{ if eq $index 0 }} performance-by-design__image--active{{ end }}" data-image-index="{{ $index }}">
+              <div
+                class="performance-by-design__image{{ if eq $index 0 }} performance-by-design__image--active{{ end }}"
+                data-image-index="{{ $index }}"
+              >
                 {{ if $feature.image }}
                   <img src="{{ $feature.image.src }}" alt="{{ $feature.image.alt }}" />
                 {{ end }}
@@ -52,55 +60,59 @@
   </section>
 
   <script>
-  (function() {
-    var section = document.querySelector('.performance-by-design');
-    if (!section) return;
+    (function () {
+      var section = document.querySelector('.performance-by-design');
+      if (!section) return;
 
-    var features = section.querySelectorAll('.performance-by-design__feature');
-    var images = section.querySelectorAll('.performance-by-design__image');
-    if (!features.length) return;
+      var features = section.querySelectorAll('.performance-by-design__feature');
+      var images = section.querySelectorAll('.performance-by-design__image');
+      if (!features.length) return;
 
-    var currentIndex = 0;
-    var autoplayInterval = null;
-    var AUTOPLAY_DELAY = 5000;
+      var currentIndex = 0;
+      var autoplayInterval = null;
+      var AUTOPLAY_DELAY = 5000;
 
-    function goToFeature(index) {
-      if (index < 0 || index >= features.length) return;
+      function goToFeature(index) {
+        if (index < 0 || index >= features.length) return;
 
-      features.forEach(function(f) { f.classList.remove('performance-by-design__feature--active'); });
-      images.forEach(function(img) { img.classList.remove('performance-by-design__image--active'); });
+        features.forEach(function (f) {
+          f.classList.remove('performance-by-design__feature--active');
+        });
+        images.forEach(function (img) {
+          img.classList.remove('performance-by-design__image--active');
+        });
 
-      features[index].classList.add('performance-by-design__feature--active');
-      if (images[index]) images[index].classList.add('performance-by-design__image--active');
+        features[index].classList.add('performance-by-design__feature--active');
+        if (images[index]) images[index].classList.add('performance-by-design__image--active');
 
-      currentIndex = index;
-    }
-
-    function nextFeature() {
-      var next = (currentIndex + 1) % features.length;
-      goToFeature(next);
-    }
-
-    function startAutoplay() {
-      stopAutoplay();
-      autoplayInterval = setInterval(nextFeature, AUTOPLAY_DELAY);
-    }
-
-    function stopAutoplay() {
-      if (autoplayInterval) {
-        clearInterval(autoplayInterval);
-        autoplayInterval = null;
+        currentIndex = index;
       }
-    }
 
-    features.forEach(function(feature, i) {
-      feature.addEventListener('click', function() {
-        goToFeature(i);
-        startAutoplay();
+      function nextFeature() {
+        var next = (currentIndex + 1) % features.length;
+        goToFeature(next);
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayInterval = setInterval(nextFeature, AUTOPLAY_DELAY);
+      }
+
+      function stopAutoplay() {
+        if (autoplayInterval) {
+          clearInterval(autoplayInterval);
+          autoplayInterval = null;
+        }
+      }
+
+      features.forEach(function (feature, i) {
+        feature.addEventListener('click', function () {
+          goToFeature(i);
+          startAutoplay();
+        });
       });
-    });
 
-    startAutoplay();
-  })();
+      startAutoplay();
+    })();
   </script>
 {{ end }}
