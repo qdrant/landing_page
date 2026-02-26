@@ -8,7 +8,7 @@
         <p class="engineered-for-builders__subtitle">{{ .Params.subtitle }}</p>
       </div>
       <div class="engineered-for-builders__illustration">
-      <img src="/img/home/web-ui.png" alt="Engineered for Builders" class="engineered-for-builders__illustration-image">
+      {{ partial "picture" (dict "src" "/img/home/web-ui.jpg" "alt" "Engineered for Builders" "class" "engineered-for-builders__illustration-image" "loading" "lazy" "decoding" "async" "width" "1110" "height" "558") }}
       </div>
       <div class="engineered-for-builders__features">
         {{ range .Params.features }}

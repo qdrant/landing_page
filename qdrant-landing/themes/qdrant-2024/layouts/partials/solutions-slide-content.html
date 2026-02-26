@@ -12,7 +12,7 @@
   <div class="col-12 col-lg-7">
     <div class="solutions__panel-illustration">
       {{ if $item.image }}
-        <img src="{{ $item.image.src }}" alt="{{ $item.image.alt }}" />
+        {{ partial "picture" (dict "src" $item.image.src "alt" $item.image.alt "loading" "lazy" "decoding" "async") }}
       {{ else }}
         <div class="solutions__panel-placeholder" data-label="{{ $item.title }}"></div>
       {{ end }}

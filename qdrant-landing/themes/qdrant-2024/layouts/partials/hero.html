@@ -18,16 +18,41 @@
       </div>
 
       <div class="hero__planet">
-        <img class="hero__planet-blur" src="/img/home/hero/blur.svg" alt="" />
-        <img class="hero__planet-blur hero__planet-blur--alt" src="/img/home/hero/blur2.svg" alt="" />
-        <img class="hero__planet-sphere" src="/img/home/hero/planet.svg" alt="" />
-        <img class="hero__planet-texture" src="/img/home/hero/planet-texture.png" alt="" />
+        <img class="hero__planet-blur" src="/img/home/hero/blur.svg" alt="" width="570" height="544" decoding="async" />
+        <img class="hero__planet-blur hero__planet-blur--alt" src="/img/home/hero/blur2.svg" alt="" width="570" height="544" decoding="async" />
+        <img class="hero__planet-sphere" src="/img/home/hero/planet.svg" alt="" width="514" height="488" decoding="async" />
+        <picture>
+          <source srcset="/img/home/hero/planet-texture.webp" type="image/webp" />
+          <img class="hero__planet-texture" src="/img/home/hero/planet-texture.png" alt="" width="1012" height="960" loading="eager" decoding="async" />
+        </picture>
       </div>
 
-      <img class="hero__blue-haze" src="/img/home/hero/blue-haze.svg" alt="" />
+      <img class="hero__blue-haze" src="/img/home/hero/blue-haze.svg" alt="" width="1200" height="600" decoding="async" />
 
       <div class="hero__astronauts">
-        <img src="/img/home/hero/astronauts.png" alt="Qdrant astronauts exploring a planetary landscape" draggable="false" />
+        <picture>
+          <source
+            type="image/webp"
+            srcset="/img/home/hero/astronauts-960.webp 960w,
+                    /img/home/hero/astronauts-1920.webp 1920w,
+                    /img/home/hero/astronauts.webp 3840w"
+            sizes="100vw"
+          />
+          <img
+            src="/img/home/hero/astronauts.png"
+            srcset="/img/home/hero/astronauts-960.png 960w,
+                    /img/home/hero/astronauts-1920.png 1920w,
+                    /img/home/hero/astronauts.png 3840w"
+            sizes="100vw"
+            alt="Qdrant astronauts exploring a planetary landscape"
+            width="3840"
+            height="1169"
+            draggable="false"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </picture>
       </div>
 
       <div class="hero__fade-top"></div>
@@ -39,7 +64,7 @@
       <div class="hero__badges">
         {{ range .Params.valueBadges }}
           <a href="{{ .url }}" class="hero__badge">
-            <img src="{{ .icon }}" alt="" class="hero__badge-icon" />
+            <img src="{{ .icon }}" alt="" class="hero__badge-icon" width="16" height="16" decoding="async" />
             <span class="hero__badge-text">{{ .text }}</span>
           </a>
         {{ end }}

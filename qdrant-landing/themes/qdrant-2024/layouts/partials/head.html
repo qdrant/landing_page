@@ -29,6 +29,15 @@
 
   {{ partial "css" . }}
 
+  {{ if .IsHome }}
+    <link rel="preload" as="image" type="image/webp" fetchpriority="high"
+      imagesrcset="/img/home/hero/astronauts-960.webp 960w,
+                   /img/home/hero/astronauts-1920.webp 1920w,
+                   /img/home/hero/astronauts.webp 3840w"
+      imagesizes="100vw"
+    />
+  {{ end }}
+
   {{ hugo.Generator }}
 
   {{ with .OutputFormats.Get "RSS" }}

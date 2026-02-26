@@ -12,7 +12,7 @@
             <a href="{{ .link.url }}" class="enterprise-ready__card enterprise-ready__card--large">
               <div class="enterprise-ready__card-visual enterprise-ready__card-visual--{{ .visual }}">
                 {{ if .image }}
-                  <img src="{{ .image.src }}" alt="{{ .image.alt }}" class="enterprise-ready__card-img" />
+                  {{ partial "picture" (dict "src" .image.src "alt" .image.alt "class" "enterprise-ready__card-img" "loading" "lazy" "decoding" "async") }}
                 {{ end }}
               </div>
               <div class="enterprise-ready__card-footer">

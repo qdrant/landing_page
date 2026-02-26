@@ -16,7 +16,7 @@
         </div>
         {{ if .Params.illustration }}
           <div class="cta-banner__illustration">
-            <img src="{{ .Params.illustration.src }}" alt="{{ .Params.illustration.alt }}" />
+            {{ partial "picture" (dict "src" .Params.illustration.src "alt" .Params.illustration.alt "loading" "lazy" "decoding" "async") }}
           </div>
         {{ end }}
       </div>

@@ -32,7 +32,7 @@
                 data-image-index="{{ $index }}"
               >
                 {{ if $feature.image }}
-                  <img src="{{ $feature.image.src }}" alt="{{ $feature.image.alt }}" />
+                  {{ partial "picture" (dict "src" $feature.image.src "alt" $feature.image.alt "loading" "lazy" "decoding" "async") }}
                 {{ end }}
               </div>
             {{ end }}
@@ -46,7 +46,7 @@
           <div class="performance-by-design__card">
             {{ if .image }}
               <div class="performance-by-design__card-visual">
-                <img src="{{ .image.src }}" alt="{{ .image.alt }}" class="performance-by-design__card-image" />
+                {{ partial "picture" (dict "src" .image.src "alt" .image.alt "class" "performance-by-design__card-image" "loading" "lazy" "decoding" "async") }}
               </div>
             {{ end }}
             <div class="performance-by-design__card-content">

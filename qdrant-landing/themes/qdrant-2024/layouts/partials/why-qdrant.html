@@ -11,7 +11,7 @@
           <div class="why-qdrant__card why-qdrant__card--{{ .size }}" data-card-id="{{ .id }}">
             <div class="why-qdrant__card-visual why-qdrant__card-visual--{{ .id }}">
               {{ if .image }}
-                <img src="{{ .image.src }}" alt="{{ .image.alt }}" class="why-qdrant__card-image" />
+                {{ partial "picture" (dict "src" .image.src "alt" .image.alt "class" "why-qdrant__card-image" "loading" "lazy" "decoding" "async") }}
               {{ end }}
             </div>
             <div class="why-qdrant__card-content">
