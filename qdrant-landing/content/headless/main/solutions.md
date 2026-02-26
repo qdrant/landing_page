@@ -9,7 +9,7 @@ tabs:
     title: "RAG & GenAI"
     description: "Deliver context-rich answers with hybrid dense – sparse retrieval, metadata filters, and fresh updates."
     image:
-      src: /img/home/horizontal-slider/rag.svg
+      src: /img/home/horizontal-slider/rag.png
       alt: RAG and GenAI illustration
     link:
       text: "Learn More"
@@ -20,7 +20,7 @@ tabs:
     title: "AI Agents"
     description: "Build intelligent agents with persistent memory and fast similarity search for context-aware interactions."
     image:
-      src: /img/home/horizontal-slider/qdrant-use-caseai-agents.svg
+      src: /img/home/horizontal-slider/qdrant-use-caseai-agents.png
       alt: AI Agents illustration
     link:
       text: "Learn More"
@@ -31,7 +31,7 @@ tabs:
     title: "Semantic Search"
     description: "Go beyond keywords with neural search that understands intent and delivers relevant results."
     image:
-      src: /img/home/horizontal-slider/advanced-search.svg
+      src: /img/home/horizontal-slider/advanced-search.png
       alt: Semantic Search illustration
     link:
       text: "Learn More"
@@ -42,7 +42,7 @@ tabs:
     title: "Recommendation Systems"
     description: "Power personalized recommendations with real-time similarity matching across millions of items."
     image:
-      src: /img/home/horizontal-slider/recommendation-systems.svg
+      src: /img/home/horizontal-slider/recommendation-systems.png
       alt: Recommendation Systems illustration
     link:
       text: "Learn More"
@@ -53,7 +53,7 @@ tabs:
     title: "Data Analysis & Anomaly Detection"
     description: "Detect outliers and anomalies by finding patterns that deviate from normal behavior in your data."
     image:
-      src: /img/home/horizontal-slider/anomaly-detection.svg
+      src: /img/home/horizontal-slider/anomaly-detection.png
       alt: Data Analysis and Anomaly Detection illustration
     link:
       text: "Learn More"
