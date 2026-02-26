@@ -197,6 +197,8 @@ The `a`, `b`, and `c` parameters of the [`naive` strategy](#naive-strategy) need
 
 <aside role="alert">When using point IDs for <code>target</code> or <code>example</code>, these points are excluded from the search results. To include them, convert them to raw vectors first and use the raw vectors in the query.</aside>
 
+For a hands-on tutorial on determining the parameters, using them with the Relevance Feedback Query, and evaluating the results, check out [Relevance Feedback in Qdrant](/documentation/tutorials-search-engineering/using-relevance-feedback/).
+
 ### Naive Strategy
 
 For now, `naive` is the only available strategy.
