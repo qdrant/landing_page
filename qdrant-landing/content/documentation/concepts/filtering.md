@@ -40,6 +40,9 @@ Suppose we have a set of points with the following payload:
 
 ### Must
 
+When using `must`, the clause becomes `true` only if every condition listed inside `must` is satisfied.
+In this sense, `must` is equivalent to the operator `AND`.
+
 Example:
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-must-filter/" >}}
@@ -50,10 +53,10 @@ Filtered points would be:
 [{ "id": 2, "city": "London", "color": "red" }]
 ```
 
-When using `must`, the clause becomes `true` only if every condition listed inside `must` is satisfied.
-In this sense, `must` is equivalent to the operator `AND`.
-
 ### Should
+
+When using `should`, the clause becomes `true` if at least one condition listed inside `should` is satisfied.
+In this sense, `should` is equivalent to the operator `OR`.
 
 Example:
 
@@ -70,10 +73,10 @@ Filtered points would be:
 ]
 ```
 
-When using `should`, the clause becomes `true` if at least one condition listed inside `should` is satisfied.
-In this sense, `should` is equivalent to the operator `OR`.
-
 ### Must Not
+
+When using `must_not`, the clause becomes `true` if none of the conditions listed inside `must_not` is satisfied.
+In this sense, `must_not` is equivalent to the expression `(NOT A) AND (NOT B) AND (NOT C)`.
 
 Example:
 
@@ -87,9 +90,6 @@ Filtered points would be:
   { "id": 6, "city": "Moscow", "color": "blue" }
 ]
 ```
-
-When using `must_not`, the clause becomes `true` if none of the conditions listed inside `must_not` is satisfied.
-In this sense, `must_not` is equivalent to the expression `(NOT A) AND (NOT B) AND (NOT C)`.
 
 ### Clauses combination
 
