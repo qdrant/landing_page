@@ -1,6 +1,6 @@
 @use 'sass:math';
-@use '../helpers/functions' as *;
-@use '../mixins/marquee' as marquee;
+@use '../../helpers/functions' as *;
+@use '../../mixins/marquee' as marquee;
 
 $integrations-logos-bg: #090e1a;
 $integrations-logos-border: #161e33;
