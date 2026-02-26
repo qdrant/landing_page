@@ -7,9 +7,11 @@
         <h2 class="engineered-for-builders__title">{{ .Params.title }}</h2>
         <p class="engineered-for-builders__subtitle">{{ .Params.subtitle }}</p>
       </div>
-      <div class="engineered-for-builders__illustration">
-      {{ partial "picture" (dict "src" "/img/home/web-ui.jpg" "alt" "Engineered for Builders" "class" "engineered-for-builders__illustration-image" "loading" "lazy" "decoding" "async" "width" "1110" "height" "558") }}
-      </div>
+      {{ with .Params.illustration }}
+        <div class="engineered-for-builders__illustration">
+          {{ partial "picture" (dict "src" .src "alt" .alt "class" "engineered-for-builders__illustration-image" "loading" "lazy" "decoding" "async" "width" .width "height" .height) }}
+        </div>
+      {{ end }}
       <div class="engineered-for-builders__features">
         {{ range .Params.features }}
           <div class="engineered-for-builders__feature">

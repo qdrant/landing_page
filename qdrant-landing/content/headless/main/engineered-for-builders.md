@@ -1,6 +1,11 @@
 ---
 title: Engineered for Builders
 subtitle: Intuitive APIs and built-in tools — crafted for developers who demand more.
+illustration:
+  src: /img/home/web-ui.jpg
+  alt: Engineered for Builders
+  width: 1110
+  height: 558
 features:
   - id: apis
     title: Developer friendly APIs
