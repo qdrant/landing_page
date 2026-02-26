@@ -1,16 +1,16 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
-  {{ partial "hero" . }}
-  {{ partial "customers" . }}
+  {{ partial "home/hero" . }}
+  {{ partial "home/customers" . }}
 
-  {{ partial "why-qdrant" . }}
-  {{ partial "case-studies" . }}
-  {{ partial "enterprise-capabilities" . }}
-  {{ partial "enterprise-ready" . }}
-  {{ partial "performance-by-design" . }}
-  {{ partial "engineered-for-builders" . }}
-  {{ partial "integrations-logos" . }}
-  {{ partial "solutions" . }}
+  {{ partial "home/why-qdrant" . }}
+  {{ partial "home/case-studies" . }}
+  {{ partial "home/enterprise-capabilities" . }}
+  {{ partial "home/enterprise-ready" . }}
+  {{ partial "home/performance-by-design" . }}
+  {{ partial "home/engineered-for-builders" . }}
+  {{ partial "home/integrations-logos" . }}
+  {{ partial "home/solutions" . }}
   {{ with (.Site.GetPage "/headless/main/cta-banner") }}
     {{ partial "cta-banner" . }}
   {{ end }}
