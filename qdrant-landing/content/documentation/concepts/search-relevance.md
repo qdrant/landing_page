@@ -7,6 +7,19 @@ weight: 52
 
 By default, Qdrant ranks search results based on vector similarity scores. However, you may wish to consider additional factors when ranking results. Qdrant offers several tools to help you accomplish this.
 
+
+## Re-Ranking
+
+Instead of ranking results by vector similarity score, you can rank them by the values of a payload field, such as price or date. The Order By query enables you to order the results of one or more prefetches by the values of a specified payload field.
+
+For example:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-reranking/" >}}
+
+This example first fetches 10 points with the color "red" and then 10 points with the color "green". Next, the combined results are ordered by the price field. This approach ensures an even sampling of both colors in the results while listing the cheapest items first.
+
+By default, the Order By query ranks results in ascending order. To rank in descending order, use the `direction` parameter. Additionally, you can specify a `start_from` offset to only return results starting from a specific payload value.
+
 ## Score Boosting
 
 _Available as of v1.14.0_

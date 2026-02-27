@@ -30,7 +30,7 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 | [Discovery Search](/documentation/concepts/explore/#discovery-api) | Guide the search using context as a one-shot training set |
 | [Scroll](/documentation/concepts/points/#scroll-points) | Get all points with optional filtering |
 | [Grouping](/documentation/concepts/search/#grouping-api) | Group results by a certain field |
-| [Order By](/documentation/concepts/hybrid-queries/#re-ranking-with-stored-values) | Order points by payload key |
+| [Order By](/documentation/concepts/search-relevance/#re-ranking) | Order points by payload key |
 | [Hybrid Search](/documentation/concepts/hybrid-queries/#hybrid-search) | Combine multiple queries to get better results |
 | [Multi-Stage Search](/documentation/concepts/hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
 | [Random Sampling](#random-sampling) | Get random points from the collection |
