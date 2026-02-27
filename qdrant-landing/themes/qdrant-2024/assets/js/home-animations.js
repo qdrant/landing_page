@@ -1,6 +1,7 @@
 /**
  * Hero parallax for home page.
  * Only runs when on home page (script loaded conditionally).
+ * Uses translate3d for Safari GPU acceleration and smooth rendering.
  */
 
 function initHeroParallax() {
@@ -20,8 +21,10 @@ function initHeroParallax() {
   function updateParallax() {
     const scrollY = window.scrollY;
     layers.forEach(({ el, factor, centered }) => {
-      const y = scrollY * factor;
-      el.style.transform = centered ? `translate(-50%, ${y}px)` : `translateY(${y}px)`;
+      const y = Math.round(scrollY * factor * 10) / 10;
+      el.style.transform = centered
+        ? `translate3d(-50%, ${y}px, 0)`
+        : `translate3d(0, ${y}px, 0)`;
     });
     ticking = false;
   }

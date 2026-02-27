@@ -36,6 +36,8 @@
     opacity: 0.5;
     mix-blend-mode: overlay;
     background: url('/img/home/hero/grid.svg') center top / cover no-repeat;
+    will-change: transform;
+    transition: transform 0.1s linear;
   }
 
   &__content {
@@ -90,9 +92,11 @@
     width: pxToRem(506);
     height: pxToRem(480);
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
     top: pxToRem(420);
     z-index: 2;
+    will-change: transform;
+    transition: transform 0.1s linear;
   }
 
   &__planet-blur {
@@ -131,22 +135,26 @@
     width: pxToRem(1200);
     height: pxToRem(600);
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
     bottom: pxToRem(80);
     mix-blend-mode: lighten;
     z-index: 2;
     pointer-events: none;
+    will-change: transform;
+    transition: transform 0.1s linear;
   }
 
   &__astronauts {
     position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
     width: 100%;
     max-width: pxToRem(1360);
     height: pxToRem(360);
     z-index: 3;
+    will-change: transform;
+    transition: transform 0.1s linear;
 
     img {
       position: absolute;
