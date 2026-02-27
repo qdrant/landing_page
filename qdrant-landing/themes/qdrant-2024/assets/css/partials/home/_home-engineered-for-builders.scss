@@ -78,6 +78,10 @@
     right: 0;
     bottom: 0;
     background: url('/img/home/engineered-texture.png');
+    background: image-set(
+      url('/img/home/engineered-texture.webp') type('image/webp'),
+      url('/img/home/engineered-texture.png') type('image/png')
+    );
     background-size: cover;
     background-position: 50% 69%;
     background-repeat: no-repeat;
