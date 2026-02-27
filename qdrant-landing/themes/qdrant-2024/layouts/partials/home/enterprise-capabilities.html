@@ -16,11 +16,11 @@
       </div>
     <div class="container">
       <div class="enterprise-capabilities__content">
-        <div class="enterprise-capabilities__header">
+        <div class="enterprise-capabilities__header" data-reveal>
           <h2 class="enterprise-capabilities__title">{{ .Params.title }}</h2>
           <p class="enterprise-capabilities__subtitle">{{ .Params.subtitle }}</p>
         </div>
-        <div class="enterprise-capabilities__cards">
+        <div class="enterprise-capabilities__cards" data-reveal>
           {{ range .Params.deploymentOptions }}
             <div class="enterprise-capabilities__card enterprise-capabilities__card--{{ .position }}">
               {{ if .connector }}

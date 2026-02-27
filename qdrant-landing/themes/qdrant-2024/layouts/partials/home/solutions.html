@@ -2,19 +2,21 @@
   <section class="solutions">
     <div class="solutions__background"></div>
     <div class="container">
-      <div class="solutions__header">
+      <div class="solutions__header" data-reveal>
         <span class="solutions__label">{{ .Params.label }}</span>
         <h2 class="solutions__title">{{ .Params.title }}</h2>
         <p class="solutions__subtitle">{{ .Params.subtitle }}</p>
       </div>
 
-      {{ partial "tab-slider" (dict
-        "sectionClass" "solutions"
-        "tabs" .Params.tabs
-        "items" .Params.tabs
-        "slidePartial" "solutions-slide-content"
-        "showControls" true
-      ) }}
+      <div data-reveal>
+        {{ partial "tab-slider" (dict
+          "sectionClass" "solutions"
+          "tabs" .Params.tabs
+          "items" .Params.tabs
+          "slidePartial" "solutions-slide-content"
+          "showControls" true
+        ) }}
+      </div>
     </div>
   </section>
 {{ end }}

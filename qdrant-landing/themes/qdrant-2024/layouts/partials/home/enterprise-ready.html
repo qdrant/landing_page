@@ -1,11 +1,11 @@
 {{ with (.Site.GetPage "/headless/main/enterprise-ready") }}
   <section class="enterprise-ready">
     <div class="container">
-      <div class="enterprise-ready__header">
+      <div class="enterprise-ready__header" data-reveal>
         <h2 class="enterprise-ready__title">{{ .Params.title }}</h2>
         <p class="enterprise-ready__subtitle">{{ .Params.subtitle }}</p>
       </div>
-      <div class="enterprise-ready__content">
+      <div class="enterprise-ready__content" data-reveal>
         {{/* Large cards row */}}
         <div class="enterprise-ready__row enterprise-ready__row--large">
           {{ range .Params.largeCards }}

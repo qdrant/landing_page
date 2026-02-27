@@ -53,6 +53,9 @@
   {{ $homeAnimationsJs := resources.Get "/js/home-animations.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $homeAnimationsJs.RelPermalink }}"></script>
 
+  {{ $scrollRevealJs := resources.Get "/js/scroll-reveal.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $scrollRevealJs.RelPermalink }}"></script>
+
   <!--splide.js carousel-->
   {{ $splideJs := resources.Get "/js/vendor/splide.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $splideJs.RelPermalink }}"></script>

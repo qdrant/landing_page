@@ -3,16 +3,16 @@
     <div class="engineered-for-builders__background" aria-hidden="true"></div>
     <div class="engineered-for-builders__background-texture" aria-hidden="true"></div>
     <div class="container">
-      <div class="engineered-for-builders__header">
+      <div class="engineered-for-builders__header" data-reveal>
         <h2 class="engineered-for-builders__title">{{ .Params.title }}</h2>
         <p class="engineered-for-builders__subtitle">{{ .Params.subtitle }}</p>
       </div>
       {{ with .Params.illustration }}
-        <div class="engineered-for-builders__illustration">
+        <div class="engineered-for-builders__illustration" data-reveal>
           {{ partial "picture" (dict "src" .src "alt" .alt "class" "engineered-for-builders__illustration-image" "loading" "lazy" "decoding" "async" "width" .width "height" .height) }}
         </div>
       {{ end }}
-      <div class="engineered-for-builders__features">
+      <div class="engineered-for-builders__features" data-reveal>
         {{ range .Params.features }}
           <div class="engineered-for-builders__feature">
             <h3 class="engineered-for-builders__feature-title">{{ .title }}</h3>

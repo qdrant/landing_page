@@ -1,14 +1,14 @@
 {{ with (.Site.GetPage "/headless/main/performance-by-design") }}
   <section class="performance-by-design">
     <div class="container">
-      <div class="performance-by-design__header">
+      <div class="performance-by-design__header" data-reveal>
         <span class="performance-by-design__tagline">{{ .Params.tagline }}</span>
         <h2 class="performance-by-design__title">{{ .Params.title }}</h2>
         <p class="performance-by-design__subtitle">{{ .Params.subtitle }}</p>
       </div>
 
       {{/* Slider layout: visible only below md */}}
-      <div class="performance-by-design__slider">
+      <div class="performance-by-design__slider" data-reveal>
         <div class="performance-by-design__content">
           <div class="performance-by-design__features">
             {{ range $index, $feature := .Params.features }}
@@ -41,7 +41,7 @@
       </div>
 
       {{/* Card grid: visible from md up, 2 cards per row */}}
-      <div class="performance-by-design__grid">
+      <div class="performance-by-design__grid" data-reveal>
         {{ range .Params.features }}
           <div class="performance-by-design__card">
             {{ if .image }}
