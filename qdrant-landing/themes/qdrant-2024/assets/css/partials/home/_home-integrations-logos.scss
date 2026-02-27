@@ -76,7 +76,12 @@ $integrations-logos-text: #8f98b2;
 
   &__gradient-left {
     left: 0;
-    background: linear-gradient(90deg, $integrations-logos-bg 0.5%, $integrations-logos-bg 38.79%, rgba(9, 14, 26, 0) 100%);
+    background: linear-gradient(
+      90deg,
+      $integrations-logos-bg 0.5%,
+      $integrations-logos-bg 38.79%,
+      rgba(9, 14, 26, 0) 100%
+    );
   }
 
   &__gradient-right {

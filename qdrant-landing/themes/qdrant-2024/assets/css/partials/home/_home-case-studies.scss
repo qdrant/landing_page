@@ -58,7 +58,9 @@
     border: none;
     cursor: pointer;
     color: $neutral-20;
-    transition: color 0.2s ease, opacity 0.2s ease;
+    transition:
+      color 0.2s ease,
+      opacity 0.2s ease;
 
     &:hover:not(:disabled) {
       color: $primary-50;

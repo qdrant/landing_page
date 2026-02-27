@@ -2,6 +2,7 @@
   {{ $logosFirstRow := .Params.logosFirstRow }}
   {{ $logosSecondRow := .Params.logosSecondRow }}
 
+
   <section class="integrations-logos">
     <div class="container">
       <p class="integrations-logos__title" data-reveal>{{ .Params.title }}</p>
@@ -12,30 +13,30 @@
         <div class="integrations-logos__cards__container">
           <div class="integrations-logos__cards__block">
             <div class="integrations-logos__cards__inner integrations-logos__cards__inner_to-left">
-            <span>
-              {{ partial "integrations-logos-cards" (dict "context" $logosFirstRow) }}
-            </span>
-            <span>
-              {{ partial "integrations-logos-cards" (dict "context" $logosFirstRow) }}
-            </span>
+              <span>
+                {{ partial "integrations-logos-cards" (dict "context" $logosFirstRow) }}
+              </span>
+              <span>
+                {{ partial "integrations-logos-cards" (dict "context" $logosFirstRow) }}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <div class="integrations-logos__cards">
         <div class="integrations-logos__cards__container">
           <div class="integrations-logos__cards__block">
             <div class="integrations-logos__cards__inner integrations-logos__cards__inner_to-right">
-            <span>
-              {{ partial "integrations-logos-cards" (dict "context" $logosSecondRow) }}
-            </span>
-            <span>
-              {{ partial "integrations-logos-cards" (dict "context" $logosSecondRow) }}
-            </span>
+              <span>
+                {{ partial "integrations-logos-cards" (dict "context" $logosSecondRow) }}
+              </span>
+              <span>
+                {{ partial "integrations-logos-cards" (dict "context" $logosSecondRow) }}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <div class="integrations-logos__gradient-left"></div>

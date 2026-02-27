@@ -20,12 +20,27 @@
       <div class="hero__planet">
         {{ with .Params.planet }}
           <img class="hero__planet-blur" src="{{ .blur }}" alt="" width="570" height="544" decoding="async" />
-          <img class="hero__planet-blur hero__planet-blur--alt" src="{{ .blur2 }}" alt="" width="570" height="544" decoding="async" />
+          <img
+            class="hero__planet-blur hero__planet-blur--alt"
+            src="{{ .blur2 }}"
+            alt=""
+            width="570"
+            height="544"
+            decoding="async"
+          />
           <img class="hero__planet-sphere" src="{{ .sphere }}" alt="" width="514" height="488" decoding="async" />
           {{ with .texture }}
             <picture>
               <source srcset="{{ .webp }}" type="image/webp" />
-              <img class="hero__planet-texture" src="{{ .png }}" alt="" width="1012" height="960" loading="eager" decoding="async" />
+              <img
+                class="hero__planet-texture"
+                src="{{ .png }}"
+                alt=""
+                width="1012"
+                height="960"
+                loading="eager"
+                decoding="async"
+              />
             </picture>
           {{ end }}
         {{ end }}
@@ -34,6 +49,7 @@
       {{ with .Params.blueHaze }}
         <img class="hero__blue-haze" src="{{ . }}" alt="" width="1200" height="600" decoding="async" />
       {{ end }}
+
 
       <div class="hero__astronauts">
         {{ with .Params.astronauts }}

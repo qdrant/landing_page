@@ -1,13 +1,15 @@
-<!-- {{/*
-  svg.html partial
+<!-- {{/* svg.html partial
   -----------------
   This partial renders SVG icons dynamically with Hugo templating.
 
   - Usage:
-      {{ partial "svg.html" (dict "icon" "icon-filename" "stroke" "color" "fill" "path" "custom/path/") }}
+  {{ partial "svg.html" (dict "icon" "icon-filename" "stroke" "color" "fill" "path" "custom/path/")
+}}
+
 
     OR just:
       {{ partial "svg.html" "icon-filename" }}
+
 
   - Parameters:
       - icon / filename: Name of SVG file (without or with .svg extension).

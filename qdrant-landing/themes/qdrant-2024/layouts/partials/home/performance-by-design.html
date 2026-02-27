@@ -12,12 +12,7 @@
         <div class="performance-by-design__content">
           <div class="performance-by-design__features">
             {{ range $index, $feature := .Params.features }}
-              <div
-                class="performance-by-design__feature{{ if eq $index 0 }}
-                  performance-by-design__feature--active
-                {{ end }}"
-                data-feature-index="{{ $index }}"
-              >
+              <div class="performance-by-design__feature{{ if eq $index 0 }} performance-by-design__feature--active{{ end }}" data-feature-index="{{ $index }}">
                 <h3 class="performance-by-design__feature-title">{{ $feature.title }}</h3>
                 <div class="performance-by-design__feature-body">
                   <p class="performance-by-design__feature-description">{{ $feature.description }}</p>
@@ -27,10 +22,7 @@
           </div>
           <div class="performance-by-design__visual">
             {{ range $index, $feature := .Params.features }}
-              <div
-                class="performance-by-design__image{{ if eq $index 0 }} performance-by-design__image--active{{ end }}"
-                data-image-index="{{ $index }}"
-              >
+              <div class="performance-by-design__image{{ if eq $index 0 }} performance-by-design__image--active{{ end }}" data-image-index="{{ $index }}">
                 {{ if $feature.image }}
                   {{ partial "picture" (dict "src" $feature.image.src "alt" $feature.image.alt "loading" "lazy" "decoding" "async") }}
                 {{ end }}

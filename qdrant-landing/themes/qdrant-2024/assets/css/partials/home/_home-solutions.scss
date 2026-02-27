@@ -18,7 +18,14 @@ $solutions-button-border: #717c99;
   position: relative;
   z-index: 0;
   padding: pxToRem(60) 0;
-  background: radial-gradient(104.31% 111.56% at 50% 0%, rgba(67, 37, 174, 0) 0%, rgba(67, 37, 174, 0) 80%, rgba(67, 37, 174, 0.8) 90%, rgba(97, 67, 224, 0.9) 100%), $solutions-bg-dark;
+  background: radial-gradient(
+      104.31% 111.56% at 50% 0%,
+      rgba(67, 37, 174, 0) 0%,
+      rgba(67, 37, 174, 0) 80%,
+      rgba(67, 37, 174, 0.8) 90%,
+      rgba(97, 67, 224, 0.9) 100%
+    ),
+    $solutions-bg-dark;
   overflow: hidden;
 
   &__background {
@@ -130,7 +137,9 @@ $solutions-button-border: #717c99;
     width: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
+    transition:
+      opacity 0.4s ease,
+      visibility 0.4s ease;
     pointer-events: none;
 
     &--active {
@@ -161,7 +170,9 @@ $solutions-button-border: #717c99;
     border-radius: pxToRem(8);
     color: $solutions-tab-text;
     cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
 
     &:hover {
       color: $solutions-tab-text-active;
@@ -252,7 +263,9 @@ $solutions-button-border: #717c99;
     background: transparent;
     border: 1px solid $solutions-button-border;
     border-radius: pxToRem(8);
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
@@ -374,7 +387,9 @@ $solutions-button-border: #717c99;
       height: pxToRem(36);
       background-color: $solutions-tab-active-bg;
       border-radius: pxToRem(8);
-      transition: left 0.3s ease, width 0.3s ease;
+      transition:
+        left 0.3s ease,
+        width 0.3s ease;
     }
   }
 

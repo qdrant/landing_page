@@ -2,13 +2,13 @@
   <section class="customers">
     <div class="container">
       <div class="customers__grid" data-reveal>
-      {{ range .Params.logoRows }}
-        {{ range .logos }}
-          <div class="customers__logo">
-            {{ partial "svg.html" (dict "icon" .src "path" "static" "fill" "#B4BACC") }}
-          </div>
+        {{ range .Params.logoRows }}
+          {{ range .logos }}
+            <div class="customers__logo">
+              {{ partial "svg.html" (dict "icon" .src "path" "static" "fill" "#B4BACC") }}
+            </div>
+          {{ end }}
         {{ end }}
-      {{ end }}
       </div>
     </div>
   </section>

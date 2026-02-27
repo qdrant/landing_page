@@ -22,9 +22,7 @@ function initHeroParallax() {
     const scrollY = window.scrollY;
     layers.forEach(({ el, factor, centered }) => {
       const y = Math.round(scrollY * factor * 10) / 10;
-      el.style.transform = centered
-        ? `translate3d(-50%, ${y}px, 0)`
-        : `translate3d(0, ${y}px, 0)`;
+      el.style.transform = centered ? `translate3d(-50%, ${y}px, 0)` : `translate3d(0, ${y}px, 0)`;
     });
     ticking = false;
   }
