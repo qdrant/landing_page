@@ -9,17 +9,21 @@ weight: 2
 
 In Qdrant 1.17 we introduced a new [Relevance Feedback Query](/documentation/concepts/search-relevance/#relevance-feedback), our scalable, first ever vector index-native approach to [incorporating relevance feedback](/articles/search-feedback-loop/) in retrieval.
 
-In this tutorial, you'll see how to customize the Relevance Feedback Query for your Qdrant collection and feedback model, add it to your search pipeline, and evaluate the gains it brings.
+In this tutorial, you'll see how to: 
+1. Customize Relevance Feedback Query for your Qdrant collection, retriever and feedback model.
+2. Add customized Relevance Feedback Query to your search pipeline.
+3. Evaluate the gains it brings to this pipeline.
 
 ## Relevance Feedback
 
 > Relevance feedback distills signals about the relevance of current search results into the next retrieval iteration, surfacing better results over time.
 
-The Relevance Feedback Query uses a small amount of model-generated feedback on the search results to guide the retriever through the entire vector space on the next retrieval iteration, nudging search toward more relevant results. A detailed description of how it works can be found in the article [Relevance Feedback in Qdrant](/articles/relevance-feedback/).
+The Relevance Feedback Query uses a small amount of model-generated feedback on the search results to guide the retriever through the entire vector space on the next retrieval iteration, nudging search toward more relevant results.  
+A detailed description of how it works can be found in the article [Relevance Feedback in Qdrant](/articles/relevance-feedback/).
 
 ![Overview of Relevance Feedback](/blog/qdrant-1.17.x/relevance-feedback-overview.png)
 
-### Relevance Feedback Strategy
+### Strategy
 
 To use the feedback for guiding a retriever in the vector space, there are several possible strategies. For now, only the **naive strategy** is available -- [a simple 3-parameter formula](https://qdrant.tech/documentation/concepts/search-relevance/#naive-strategy) which adjusts similarity scoring based on the feedback.
 
@@ -28,7 +32,9 @@ For convenience, we provide you with a [`qdrant-relevance-feedback` Python packa
 
 This tutorial will demonstrate how to use it together with the Relevance Feedback Query API.
 
-## Setup
+## Customizing for Your Use Case
+
+### Setup
 
 Install the aforementioned package (it will automatically install the Qdrant Client as its dependency):
 
@@ -50,7 +56,7 @@ client = QdrantClient(
 )
 ```
 
-### Dataset
+#### Dataset
 
 We'll use one of the datasets available in the Qdrant Cluster UI.
 
@@ -68,7 +74,7 @@ Now we have a collection to work with and optimize semantic search in.
 COLLECTION_NAME = "documentation"
 ```
 
-### Retriever
+#### Retriever
 
 The **retriever** is an embedding model that converts your raw data into vectors for semantic similarity search. The Relevance Feedback Query will help you optimize your retriever's ability to find relevant results in your data.
 
@@ -104,7 +110,7 @@ PAYLOAD_KEY = "text"
 
 *If your raw data is stored elsewhere outside of Qdrant, you can redefine the `payload_retrieval` part in `qdrant-relevance-feedback`.*
 
-### Feedback Model
+#### Feedback Model
 
 The **feedback model** looks at the results your retriever provides and scores how relevant they are. The retriever then uses this feedback, via the Relevance Feedback Query interface, to orient itself better in the vector space and surface more relevant documents.
 
@@ -127,7 +133,7 @@ feedback = FastembedFeedback("mixedbread-ai/mxbai-embed-large-v1")
 
 > We provide FastembedFeedback with all the FastEmbed models. However, you can define and provide your custom feedback model, too. It can be anything: bi-encoder, late interaction model, cross-encoder or LLM.
 
-## Customizing the Collection, Retriever, and Feedback Model
+#### Plugging in Collection, Retriever and Feedback Model
 
 Now we have everything in place: retriever, collection, feedback model.
 
@@ -146,9 +152,12 @@ relevance_feedback = RelevanceFeedback(
 
 We can run a small training process, which will collect data and adjust the Relevance Feedback Query parameters (`naive strategy`) for this triplet.
 
-### Training Data
+### Training 
 
-How well the relevance feedback formula fits your data depends on the amount and quality of the training data (how realistic it is for your use case). However, in general, we need **a very little amount** of it (50-300 queries will suffice), as we only need to train 3 parameters.
+#### Training Data
+
+How well the relevance feedback formula fits your data depends on the amount and **quality** of the training data (how realistic it is for your use case).  
+In general, we need **a very little amount** of it (50-300 queries will suffice), as we only need to train 3 parameters.
 
 We've generated 50 queries with Claude Code, using the prompt *"Generate 50 short search queries (3-10 words each) that a developer might type when browsing Qdrant's website."*.
 
@@ -220,9 +229,9 @@ TRAIN_LIMIT = 25
 
 The bigger the `TRAIN_LIMIT`, the more training data our formula gets, but the more expensive and slow the training becomes.
 
-*For training, we need our feedback model to provide ground truth relevancy scores, so it rescores #queries * `TRAIN_LIMIT`, here 25 * 50 = 1250 query-document pairs. Adjust based on your training budget.*
+*For training, we need our feedback model to provide ground truth relevancy scores, so it rescores #queries * TRAIN_LIMIT, here 50 * 25 = 1250 query-document pairs. Adjust based on your training budget.*
 
-### Customization
+#### Training Process
 
 Now we can run the training:
 
@@ -240,7 +249,7 @@ Additionally, the framework will provide you with a sensibility check, something
 On 22.00% of training queries the feedback model strongly disagreed with the retriever model.
 ```
 
-> If the feedback model agrees with your retriever in all cases (if percentage is 0.00), there's little point in using the current setup for relevance feedback-based retrieval.
+> If the feedback model agrees with your retriever in all cases (if percentage is 0.00), there's little point in using the chosen setup for relevance feedback-based retrieval, consider changing the setup.
 
 Then after a blazingly fast training, you'll get your parameters, something like:
 
@@ -252,11 +261,11 @@ These are the parameters customized to our `documentation` collection, `all-Mini
 
 Now we can use them for relevance feedback-based retrieval with any client of your choice.
 
-## Using the Relevance Feedback Query
+## Adding Relevance Feedback Query to a Search Pipeline
 
 Let's see how introducing the Relevance Feedback Query to a retrieval pipeline could work on this use case.
 
-Let's say you're powering documentation search with `all-MiniLM-L6-v2`, as it's very cheap and fast, but often it doesn't provide relevant enough results and you know there are more relevant parts of documentation than what `all-MiniLM-L6-v2` gets you.
+**Reason:** Let's say you're powering documentation search with `all-MiniLM-L6-v2`, as it's very cheap and fast, but often it doesn't provide relevant enough results and you know there are more relevant parts of documentation than what `all-MiniLM-L6-v2` gets you.
 
 For example, let's look at this query:
 
@@ -264,7 +273,7 @@ For example, let's look at this query:
 query = "recommendations API how to use"
 ```
 
-### Vanilla Initial Retrieval
+### 1. Vanilla Initial Retrieval
 
 We run simple semantic similarity search with our retriever, as we'd normally do in our search application.
 
@@ -306,7 +315,7 @@ We'll get something like:
 
 Works, but perhaps there's something else in our collection that would answer the query better -- the retriever is just too weak to pick it up.
 
-### Getting Feedback on Initial Retrieval
+### 2. Getting Feedback on Initial Retrieval
 
 Now we get feedback from our `mxbai-embed-large-v1` feedback model on the top 3 results for the query *"recommendations API how to use"*.
 
@@ -316,7 +325,7 @@ The feedback model rescores them according to its own judgement of semantic simi
 feedback_model_scores = feedback.score(query, responses_raw)
 ```
 
-### Relevance Feedback-based Retrieval
+### 3. Relevance Feedback-based Retrieval
 
 Now we can strengthen our `all-MiniLM-L6-v2` retriever with the given feedback on 3 initial retrieved responses.
 
@@ -368,20 +377,21 @@ It should return something like this:
   [3] Deliver Better Recommendations with Qdrant's new API
 ```
 
-### Combining
+### 4. Combining all the Steps
 
 Now you can use Relevance Feedback Query results in different ways:
 
-- **Combine with initial retrieval**, for example rerank the union of both result sets with a feedback model.
+- **Combine with initial retrieval**, for example, rerank the union of both result sets with the feedback model.
 - **Use as your main results**, aka rely on the Relevance Feedback Query as the primary source of search results.
 
-Approach is tied to what you're passing to the `example` field in `FeedbackItem` (or analogues in other clients): raw retriever-produced embeddings or point IDs from your collection.
+*Approach is tied to what you're passing to the `example` field in `FeedbackItem` (or analogues in other clients): raw retriever-produced embeddings or point IDs from your collection.*
 
 > If you're passing point IDs as `example`s, these points are automatically excluded from the results. To include them among other points, pass the raw vectors (see commented `responses_vectors`) instead of point IDs.
 
-Empirically, the results on this query looked relevant. Yet what if you want to justify adding additional complexity to your pipeline? The framework we released also provides an evaluation block.
-
 ## Evaluation
+
+Empirically, Relevance Feedback Query results on the query above looked relevant. Yet we can imagine that might not be enough to justify adding additional complexity to your pipeline.  
+The framework we released also provides an evaluation block.
 
 Analogously, we've generated a test set of queries.
 
