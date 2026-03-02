@@ -4,7 +4,9 @@ version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
     "datasets>=4.4.1",
+    "fastembed",
     "qdrant-client",
+    "qdrant-edge-py"
 ]
 
 [tool.uv.sources]
@@ -16,5 +18,5 @@ dev = [
 ]
 
 [[tool.mypy.overrides]]
-module = ["datasets"]
+module = ["datasets", "qdrant_edge"]
 ignore_missing_imports = true
