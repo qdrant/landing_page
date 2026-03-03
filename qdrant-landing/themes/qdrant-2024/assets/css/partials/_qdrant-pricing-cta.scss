@@ -1,0 +1,130 @@
+@use '../helpers/functions' as *;
+
+.qdrant-pricing-cta {
+  position: relative;
+  padding: $spacer * 7.5 0 $spacer * 7;
+  background-color: $neutral-10;
+  overflow: hidden;
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+
+  &__stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/img/backgrounds/stars-bg.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.6;
+  }
+
+  &__globe {
+    position: absolute;
+    top: pxToRem(-50);
+    right: pxToRem(-200);
+    width: pxToRem(800);
+    height: pxToRem(800);
+    background-image: url('/img/backgrounds/globe-grid.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.4;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    max-width: pxToRem(500);
+  }
+
+  &__title {
+    margin-bottom: $spacer;
+    font-size: pxToRem(40);
+    font-weight: 600;
+    line-height: 1.2;
+    color: $neutral-100;
+  }
+
+  &__subtitle {
+    margin-bottom: $spacer * 2;
+    font-size: pxToRem(18);
+    line-height: 1.5;
+    color: $neutral-80;
+  }
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer * 0.5;
+
+    svg {
+      transition: transform 0.2s ease;
+    }
+
+    &:hover svg {
+      transform: translateX(4px);
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding: $spacer * 5 0;
+
+    &__title {
+      font-size: pxToRem(32);
+    }
+
+    &__subtitle {
+      font-size: pxToRem(16);
+    }
+
+    &__globe {
+      right: pxToRem(-300);
+      width: pxToRem(600);
+      height: pxToRem(600);
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: $spacer * 5 0 $spacer * 3;
+    text-align: center;
+
+    &__content {
+      max-width: 100%;
+    }
+
+    &__title {
+      font-size: pxToRem(36);
+      line-height: 1.15;
+    }
+
+    &__subtitle {
+      font-size: pxToRem(16);
+      margin-bottom: $spacer * 1.5;
+    }
+
+    &__button {
+      width: 100%;
+      justify-content: center;
+    }
+
+    &__globe {
+      position: relative;
+      top: auto;
+      right: auto;
+      width: 100%;
+      height: pxToRem(300);
+      margin-top: $spacer * 3;
+      opacity: 0.3;
+    }
+  }
+}

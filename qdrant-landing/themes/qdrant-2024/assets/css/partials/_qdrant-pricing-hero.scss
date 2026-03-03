@@ -1,46 +1,148 @@
 @use '../helpers/functions' as *;
 
 .qdrant-pricing-hero {
-  padding-top: $spacer * 2.5;
-  background-color: $neutral-10;
-  color: $neutral-98;
+  position: relative;
+  padding: $spacer * 5 0 $spacer * 4;
+  background-color: $neutral-94;
   text-align: center;
+  overflow: hidden;
 
-  &__title {
-    font-size: $spacer * 2;
-    line-height: pxToRem(38);
-    margin-bottom: $spacer;
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
   }
 
-  &__subtitle {
-    font-size: $spacer * 1.5;
-    line-height: pxToRem(34);
+  &__grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    display: grid;
+    grid-template-columns: repeat(18, 80px);
+    grid-template-rows: repeat(5, 80px);
+    justify-content: center;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(to right, $neutral-90 1px, transparent 1px),
+        linear-gradient(to bottom, $neutral-90 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        linear-gradient(to bottom, rgba($neutral-94, 0) 0%, $neutral-94 100%),
+        linear-gradient(to right, $neutral-94 0%, transparent 15%, transparent 85%, $neutral-94 100%);
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    max-width: pxToRem(730);
+    margin: 0 auto;
+    padding: 0 $spacer;
+    background: linear-gradient(to right, rgba($neutral-94, 0) 8%, $neutral-94 50%, rgba($neutral-94, 0) 92%);
+  }
+
+  &__title {
+    font-size: pxToRem(56);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
     margin-bottom: $spacer;
+    color: $neutral-20;
   }
 
   &__description {
-    margin-bottom: 0;
-    color: $neutral-70;
+    margin-bottom: $spacer;
+    font-size: pxToRem(18);
+    line-height: 1.5;
+    color: $neutral-30;
   }
 
-  @include media-breakpoint-up(xl) {
-    padding-top: $spacer * 5;
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacer * 1.5;
+    flex-wrap: wrap;
+  }
 
-    &__title {
-      font-size: $spacer * 3;
-      line-height: pxToRem(57);
-      margin-bottom: $spacer * 1.5;
+  &__button {
+    min-width: pxToRem(166);
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer * 0.25;
+    font-size: pxToRem(16);
+    font-weight: 500;
+    color: $primary-50;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    svg {
+      transition: transform 0.2s ease;
     }
 
-    &__subtitle {
-      font-size: $spacer * 2;
-      line-height: pxToRem(38);
-      margin-bottom: $spacer * 1.5;
+    &:hover {
+      color: $primary-60;
+
+      svg {
+        transform: translateX(2px);
+      }
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding: $spacer * 3 0 $spacer * 2.5;
+
+    &__title {
+      font-size: pxToRem(40);
     }
 
     &__description {
-      font-size: pxToRem(18);
-      line-height: pxToRem(27);
+      font-size: pxToRem(16);
+    }
+
+    &__actions {
+      flex-direction: column;
+      gap: $spacer;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: $spacer * 2.5 0 $spacer * 2;
+
+    &__grid {
+      display: none;
+    }
+
+    &__content {
+      background: none;
+    }
+
+    &__title {
+      font-size: pxToRem(36);
     }
   }
 }

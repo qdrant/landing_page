@@ -1,11 +1,26 @@
 {{ with (.Site.GetPage "/pricing/qdrant-pricing-hero") }}
   <section class="qdrant-pricing-hero">
+    <div class="qdrant-pricing-hero__background">
+      <div class="qdrant-pricing-hero__grid"></div>
+    </div>
     <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h3 class="qdrant-pricing-hero__title">{{ .Params.title }}</h3>
-          <h5 class="qdrant-pricing-hero__subtitle">{{ .Params.subtitle }}</h5>
-          <div class="qdrant-pricing-hero__description">{{ .Params.description }}</div>
+      <div class="qdrant-pricing-hero__content">
+        <h1 class="qdrant-pricing-hero__title">{{ .Params.title }}</h1>
+        <div class="qdrant-pricing-hero__description">{{ .Params.description }}</div>
+        <div class="qdrant-pricing-hero__actions">
+          {{ with .Params.button }}
+            <a href="{{ .url }}" class="button button_contained button_md qdrant-pricing-hero__button">
+              {{ .text }}
+            </a>
+          {{ end }}
+          {{ with .Params.link }}
+            <a href="{{ .url }}" class="qdrant-pricing-hero__link">
+              {{ .text }}
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.16669 7H12.8334M12.8334 7L7.00002 1.16666M12.8334 7L7.00002 12.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          {{ end }}
         </div>
       </div>
     </div>

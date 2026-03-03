@@ -4,29 +4,22 @@
 
 {{ partial "qdrant-pricing-hero" . }}
 
-<!--{{ with (.Site.GetPage "/pricing/qdrant-pricing-doors-a") }}-->
-<!--  {{ partial "qdrant-pricing-doors" (dict "context" . "class" "qdrant-pricing-doors-a") }}-->
-<!--{{ end }}-->
-
 {{ with (.Site.GetPage "/pricing/qdrant-pricing-doors-b") }}
 {{ partial "qdrant-pricing-doors" (dict "context" . "class" "qdrant-pricing-doors-b") }}
 {{ end }}
 
 {{ partial "qdrant-pricing-calculator" . }}
 
-{{ with (.Site.GetPage "/headless/get-started-small-database") }}
-{{ partial "get-started-small" (dict "context" . "class" "get-started-small-database") }}
+{{ with (.Site.GetPage "/pricing/qdrant-pricing-features") }}
+{{ partial "qdrant-pricing-features" . }}
 {{ end }}
 
-{{ with (.Site.GetPage "/headless/marketplaces") }}
-{{ partial "marketplaces" (dict "context" . "class" "qdrant-pricing-marketplaces") }}
+{{ with (.Site.GetPage "/pricing/qdrant-pricing-faq") }}
+{{ partial "qdrant-pricing-faq" . }}
 {{ end }}
 
-{{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
-{{ partial "get-contacted" (dict "context" . "class" "qdrant-pricing-get-contacted") }}
+{{ with (.Site.GetPage "/pricing/qdrant-pricing-cta") }}
+{{ partial "qdrant-pricing-cta" . }}
 {{ end }}
 
-{{ with (.Site.GetPage "/headless/main/docker-deploy") }}
-{{ partial "docker-deploy" (dict "context" . "class" " qdrant-pricing-docker-deploy")}}
-{{ end }}
 {{ end }}
