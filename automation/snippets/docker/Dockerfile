@@ -7,6 +7,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # for rust client
     gcc \
     libc6-dev \
+    pkg-config \
+    libssl-dev \
+    # TODO: remove when no longer needed
+    protobuf-compiler \
+    libprotobuf-dev \
     # for go client
     golang \
     # for java client
