@@ -25,7 +25,7 @@ When querying data, merge results from both Edge Shards to provide a unified vie
 
 Implementing a dual-write mechanism that writes data to both the mutable Edge Shard and the server collection ensures that data is indexed on the server and synchronized back to the immutable Edge Shard, benefitting search performance.
 
-For an example implementation of the patterns described in this guide, refer to the [Qdrant Edge Demo GitHub repository](https://github.com/qdrant/qdrant-edge-demo).
+For a Python example implementation of the patterns described in this guide, refer to the [Qdrant Edge Demo GitHub repository](https://github.com/qdrant/qdrant-edge-demo).
 
 ### 1. Initialize a Mutable Edge Shard
 
@@ -51,7 +51,7 @@ Each point's payload should include a timestamp field (`SYNC_TIMESTAMP_KEY` in t
 
 You can periodically update the immutable Edge Shard with changes from the server using partial snapshots, as described in [Update Qdrant Edge with Server-Side Changes](/documentation/edge/edge-data-synchronization-patterns/#update-qdrant-edge-with-server-side-changes).
 
-While restoring a snapshot, you may want to pause and buffer any ongoing data updates on the mutable Edge Shard. Before taking the snapshot, ensure all queued data has been written to the server. After the restoration is complete, you can resume normal operations. Refer to the [Qdrant Edge Demo GitHub repository](https://github.com/qdrant/qdrant-edge-demo) for an example implementation.
+While restoring a snapshot, you may want to pause and buffer any ongoing data updates on the mutable Edge Shard. Before taking the snapshot, ensure all queued data has been written to the server. After the restoration is complete, you can resume normal operations. Refer to the [Qdrant Edge Demo GitHub repository](https://github.com/qdrant/qdrant-edge-demo) for an example implementation in Python.
 
 {{< code-snippet path="/documentation/headless/snippets/edge/synchronization-guide/" block="update-immutable-shard" >}}
 

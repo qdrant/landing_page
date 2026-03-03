@@ -7,11 +7,7 @@ weight: 10
 
 ## Install Qdrant Edge
 
-First, install the [Python Bindings for Qdrant Edge](https://pypi.org/project/qdrant-edge-py/):
-
-```python
-pip install qdrant-edge-py
-```
+First, install the [Python Bindings for Qdrant Edge](https://pypi.org/project/qdrant-edge-py/) or the [Rust crate](https://crates.io/crates/qdrant-edge).
 
 ## Create a Storage Directory
 
@@ -61,5 +57,4 @@ After closing an Edge Shard, you can reopen it by loading its data and configura
 
 ## More Examples
 
-More examples and advanced usage of Qdrant Edge API can be found in the [GitHub repository](https://github.com/qdrant/qdrant/tree/master/lib/edge/python/examples).
-
+The Qdrant GitHub repository contains examples of using the Qdrant Edge API in [Python](https://github.com/qdrant/qdrant/tree/master/lib/edge/python/examples) and [Rust](https://github.com/qdrant/qdrant/tree/master/lib/edge/examples).
