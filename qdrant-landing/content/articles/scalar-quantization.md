@@ -293,3 +293,52 @@ expensive setup if you can agree to a small decrease in the search precision.
 Qdrant documentation on [Scalar Quantization](/documentation/quantization/#setting-up-quantization-in-qdrant)
 is a great resource describing different scenarios and strategies to achieve up to 4x 
 lower memory footprint and even up to 2x performance increase.
+
+
+## Implementation Examples
+
+You can enable Scalar Quantization when creating a collection. Here is how to do it using the Python and Java SDKs:
+
+=== "Python"
+    ```python
+    from qdrant_client import QdrantClient, models
+
+    client = QdrantClient("localhost", port=6333)
+
+    client.create_collection(
+        collection_name="{collection_name}",
+        vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
+        quantization_config=models.ScalarQuantization(
+            scalar=models.ScalarQuantizationConfig(
+                type=models.ScalarType.INT8,
+                quantile=0.99,
+                always_ram=True,
+            ),
+        ),
+    )
+    ```
+
+=== "Java"
+    ```java
+    import io.qdrant.client.QdrantClient;
+    import io.qdrant.client.QdrantHost;
+    import io.qdrant.client.grpc.Collections.Distance;
+    import io.qdrant.client.grpc.Collections.VectorParams;
+    import io.qdrant.client.grpc.Collections.QuantizationConfig;
+    import io.qdrant.client.grpc.Collections.ScalarQuantization;
+    import io.qdrant.client.grpc.Collections.ScalarType;
+
+    QdrantClient client = new QdrantClient(QdrantHost.newBuilder("localhost", 6334).build());
+
+    client.createCollectionAsync("{collection_name}", 
+        VectorParams.newBuilder().setSize(768).setDistance(Distance.Cosine).build(),
+        null, null, null, null,
+        QuantizationConfig.newBuilder()
+            .setScalar(ScalarQuantization.newBuilder()
+                .setType(ScalarType.Int8)
+                .setQuantile(0.99f)
+                .setAlwaysRam(true)
+                .build())
+            .build()
+    ).get();
+    ```
