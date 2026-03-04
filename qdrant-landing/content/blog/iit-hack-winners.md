@@ -34,6 +34,10 @@ Let’s dive into the top projects and what we liked about each of them.
 
 Repo: [Masthishq Repo](https://github.com/krishk2/Masthishq/)
 
+### 📸 Project Showcase
+
+![Masthishq Patient Interface](/blog/iit-hack-2026/ss-1.png)
+
 ---
 
 ### 🥈 2nd Place: SignalWeave - A Temporal AI Memory System for Emerging Trendsk (T Mohamed Yaser)
@@ -48,6 +52,10 @@ Qdrant serves as the system’s persistent vector memory layer. It stores signal
 
 **Repo:** [SignalWeave Repo](https://github.com/Yaser-123/signalweave)
 
+### 📸 Project Showcase
+
+![SignalWeave Trend Detection](/blog/iit-hack-2026/ss-2.png)
+
 ---
 
 ### 🥉 3rd Place: Demeter (Debarghya Das)
@@ -59,6 +67,10 @@ Qdrant serves as the system’s persistent vector memory layer. It stores signal
 Qdrant acts as the system’s persistent cognitive backbone, storing fused plant states, agronomic knowledge for RAG, and plant biography histories. Specialized agents (Water, Atmospheric, Doctor, Supervisor) retrieve historical cases, similar environmental states, and scientific references from Qdrant to make grounded decisions. A Contextual Bandit then selects the safest optimal strategy, while feedback from a Judge agent updates Qdrant with outcome data - allowing Demeter to continuously learn which interventions work best over time.
 
 **Repo:** [Demeter Repo](https://github.com/Deb044/Demeter)
+
+### 📸 Project Showcase
+
+![Demeter Dashboard](/blog/iit-hack-2026/ss-3.png)
 
 ---
 
