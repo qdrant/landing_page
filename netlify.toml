@@ -39,10 +39,6 @@ HUGO_PARAMS_onetrustScriptId = "0196246a-3663-7350-9a45-b65f645d6314"
     [headers.values]
         Access-Control-Allow-Origin = "*"
 
-[[edge_functions]]
-  path = "/*"
-  function = "content-negotiation"
-
 [[redirects]]
     from = "/surveys/hybrid-saas"
     to = "https://hybrid-cloud.qdrant.tech/"
