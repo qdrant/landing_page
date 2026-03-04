@@ -3,8 +3,8 @@ draft: false
 title: "How GlassDollar improved high-recall sourcing by migrating from Elasticsearch to Qdrant"
 short_description: "GlassDollar migrated from Elasticsearch to Qdrant to scale semantic retrieval, cut costs, and improve end-to-end RAG accuracy."
 description: "Discover how GlassDollar reduced infrastructure costs by ~40% and increased user engagement 3x by improving end-to-end accuracy with Qdrant."
-preview_image: /blog/case-study-glassdollar/social_preview_partnership-glassdollar.png
-social_preview_image: /blog/case-study-glassdollar/social_preview_partnership-glassdollar.png
+preview_image: /blog/case-study-glassdollar/social_preview_partnership-glassdollar.jpg
+social_preview_image: /blog/case-study-glassdollar/social_preview_partnership-glassdollar.jpg
 date: 2026-03-04
 author: "Daniel Azoulai"
 featured: true
