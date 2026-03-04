@@ -1,6 +1,7 @@
 ---
 title: User Management
 weight: 2
+partition: deploy
 ---
 
 # User Management

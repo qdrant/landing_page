@@ -4,6 +4,7 @@ aliases:
   - /documentation/tutorials/code-search/
   - /documentation/advanced-tutorials/code-search/
 weight: 2
+partition: develop
 ---
 
 # Semantic Search for Code with Qdrant

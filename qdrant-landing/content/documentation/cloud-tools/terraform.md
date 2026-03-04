@@ -1,7 +1,9 @@
 ---
 title: Terraform
 aliases:
+  - /documentation/cloud-tools/terraform/
   - /documentation/infrastructure/terraform/
+partition: deploy
 ---
 
 ![Terraform Logo](/documentation/platforms/terraform/terraform.png)

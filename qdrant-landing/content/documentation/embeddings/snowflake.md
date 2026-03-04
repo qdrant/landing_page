@@ -1,5 +1,6 @@
 ---
 title: Snowflake Models
+partition: ecosystem
 ---
 
 # Snowflake

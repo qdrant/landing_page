@@ -3,6 +3,7 @@ title: Jina Embeddings
 aliases:
   - /documentation/embeddings/jina-embeddings/
   - /documentation/integrations/jina-embeddings/
+partition: ecosystem
 ---
 
 # Jina Embeddings

@@ -1,6 +1,7 @@
 ---
 title: Apache Airflow
 aliases: [ ../frameworks/airflow/ ]
+partition: ecosystem
 ---
 
 # Apache Airflow

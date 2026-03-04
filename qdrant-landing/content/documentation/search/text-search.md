@@ -2,7 +2,9 @@
 title: Text Search
 weight: 100
 aliases:
+  - /documentation/guides/text-search/
   - ../text-search
+partition: develop
 ---
 
 ## Text Search

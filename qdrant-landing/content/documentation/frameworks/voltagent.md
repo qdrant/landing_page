@@ -1,5 +1,6 @@
 ---
 title: VoltAgent
+partition: ecosystem
 ---
 
 # VoltAgent

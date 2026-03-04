@@ -1,6 +1,7 @@
 ---
 title: N8N
 aliases: [ ../frameworks/n8n/ ]
+partition: ecosystem
 ---
 
 # N8N

@@ -1,5 +1,6 @@
 ---
 title: Salesforce Mulesoft
+partition: ecosystem
 ---
 
 # Salesforce Mulesoft

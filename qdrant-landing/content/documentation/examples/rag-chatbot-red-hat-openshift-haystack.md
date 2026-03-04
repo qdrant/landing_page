@@ -4,6 +4,7 @@ weight: 23
 social_preview_image: /blog/hybrid-cloud-red-hat-openshift/hybrid-cloud-red-hat-openshift-tutorial.png
 aliases:
   - /documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/
+partition: ecosystem
 ---
 
 # Private Chatbot for Interactive Learning

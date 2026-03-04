@@ -1,5 +1,6 @@
 ---
 title: Voyage AI
+partition: ecosystem
 ---
 
 # Voyage AI

@@ -2,7 +2,9 @@
 title: Payload
 weight: 45
 aliases:
+  - /documentation/concepts/payload/
   - ../payload
+partition: develop
 ---
 
 # Payload

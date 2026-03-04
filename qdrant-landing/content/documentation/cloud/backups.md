@@ -1,6 +1,7 @@
 ---
 title: Backup Clusters
 weight: 61
+partition: deploy
 ---
 
 # Backing up Qdrant Cloud Clusters

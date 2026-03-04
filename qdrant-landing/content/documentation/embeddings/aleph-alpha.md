@@ -3,7 +3,8 @@ title: Aleph Alpha
 aliases:
   - /documentation/examples/aleph-alpha-search/
   - /documentation/tutorials/aleph-alpha-search/
-  - /documentation/integrations/aleph-alpha/ 
+  - /documentation/integrations/aleph-alpha/
+partition: ecosystem
 ---
 
 # Using Aleph Alpha Embeddings with Qdrant 

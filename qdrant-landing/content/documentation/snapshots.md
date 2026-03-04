@@ -1,8 +1,11 @@
 ---
 title: Snapshots
-weight: 110
+weight: 10
 aliases:
+  - /documentation/open-source/snapshots/
+  - /documentation/concepts/snapshots/
   - ../snapshots
+partition: deploy
 ---
 
 # Snapshots

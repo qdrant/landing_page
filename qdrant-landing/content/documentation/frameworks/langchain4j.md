@@ -1,5 +1,6 @@
 ---
 title: LangChain4j
+partition: ecosystem
 ---
 
 # LangChain for Java

@@ -1,6 +1,7 @@
 ---
 title: Cheshire Cat
 aliases: [ ../integrations/cheshire-cat/ ]
+partition: ecosystem
 ---
 
 # Cheshire Cat

@@ -8,6 +8,7 @@ description: "Build an effective movie recommendation system using collaborative
 preview_image: /blog/collaborative-filtering/social_preview.png
 social_preview_image: /blog/collaborative-filtering/social_preview.png
 weight: 3
+partition: develop
 ---
 
 # Build a Recommendation System with Collaborative Filtering using Qdrant

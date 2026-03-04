@@ -1,5 +1,6 @@
 ---
 title: Datadog
+partition: ecosystem
 ---
 
 ![Datadog Cover](/documentation/observability/datadog/datadog-cover.jpg)

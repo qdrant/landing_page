@@ -2,7 +2,10 @@
 title: Monitoring & Telemetry
 weight: 110
 aliases:
+  - /documentation/open-source/monitoring/
+  - /documentation/guides/monitoring/
   - ../monitoring
+partition: deploy
 ---
 
 # Monitoring & Telemetry

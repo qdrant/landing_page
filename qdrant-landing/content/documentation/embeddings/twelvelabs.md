@@ -1,5 +1,6 @@
 ---
 title: Twelve Labs
+partition: ecosystem
 ---
 
 # Twelve Labs

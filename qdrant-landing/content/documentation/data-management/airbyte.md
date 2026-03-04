@@ -1,6 +1,7 @@
 ---
 title: Airbyte
 aliases: [ ../integrations/airbyte/, ../frameworks/airbyte/ ]
+partition: ecosystem
 ---
 
 # Airbyte

@@ -1,6 +1,7 @@
 ---
 title: Create a Cluster
 weight: 20
+partition: deploy
 ---
 
 # Creating a Qdrant Cloud Cluster

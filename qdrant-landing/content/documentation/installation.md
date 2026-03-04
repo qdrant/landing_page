@@ -2,9 +2,12 @@
 title: Installation
 weight: 10
 aliases:
+  - /documentation/open-source/installation/
+  - /documentation/guides/installation/
   - ../install
   - ../installation
   - ../guides
+partition: deploy
 ---
 
 # Installation requirements

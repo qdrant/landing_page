@@ -1,6 +1,7 @@
 ---
 title: Confluent Kafka
 aliases: [ ../frameworks/confluent/ ]
+partition: ecosystem
 ---
 
 ![Confluent Logo](/documentation/frameworks/confluent/confluent-logo.png)

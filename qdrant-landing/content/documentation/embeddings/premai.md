@@ -1,5 +1,6 @@
 ---
 title: Prem AI
+partition: ecosystem
 ---
 
 # Prem AI

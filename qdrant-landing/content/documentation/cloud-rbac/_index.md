@@ -1,7 +1,7 @@
 ---
 title: Cloud RBAC
-weight: 14
-partition: cloud
+weight: 13
+partition: deploy
 ---
 
 # Cloud RBAC

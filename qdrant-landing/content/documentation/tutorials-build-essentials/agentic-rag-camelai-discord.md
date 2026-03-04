@@ -1,7 +1,7 @@
 ---
 title: Discord RAG Bot
 weight: 4
-#partition: build
+#partition: ecosystem
 social_preview_image: /documentation/examples/agentic-rag-camelai-discord/social-preview.png
 aliases:
   - /documentation/agentic-rag-camelai-discord/

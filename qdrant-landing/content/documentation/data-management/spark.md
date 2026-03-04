@@ -1,6 +1,7 @@
 ---
 title: Apache Spark
 aliases: [ ../integrations/spark/, ../frameworks/spark/ ]
+partition: ecosystem
 ---
 
 # Apache Spark

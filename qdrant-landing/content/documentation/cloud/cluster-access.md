@@ -1,6 +1,7 @@
 ---
 title: Cluster Access
 weight: 35
+partition: deploy
 ---
 
 # Accessing Qdrant Cloud Clusters

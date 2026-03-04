@@ -3,6 +3,7 @@ title: LlamaIndex
 aliases:
   - ../integrations/llama-index/
   - /documentation/overview/integrations/llama-index/
+partition: ecosystem
 ---
 
 # LlamaIndex

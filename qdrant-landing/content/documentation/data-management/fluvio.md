@@ -1,5 +1,6 @@
 ---
 title: InfinyOn Fluvio
+partition: ecosystem
 ---
 
 ![Fluvio Logo](/documentation/data-management/fluvio/fluvio-logo.png)

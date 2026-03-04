@@ -1,7 +1,7 @@
 ---
 title: Private Cloud
-weight: 17
-partition: cloud
+weight: 16
+partition: deploy
 ---
 
 # Qdrant Private Cloud

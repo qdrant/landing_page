@@ -1,6 +1,7 @@
 ---
 title: Logging & Monitoring
 weight: 4
+partition: deploy
 ---
 
 # Configuring Logging & Monitoring in Qdrant Private Cloud

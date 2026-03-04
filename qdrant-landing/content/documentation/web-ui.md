@@ -1,7 +1,7 @@
 ---
 title: Qdrant Web UI
-weight: 6
-partition: qdrant
+weight: 13
+partition: develop
 aliases:
   - /documentation/web-ui/
   - /documentation/interfaces/web-ui/

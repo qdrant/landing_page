@@ -1,5 +1,6 @@
 ---
 title: VectaX - Mirror Security
+partition: ecosystem
 ---
 
 ![VectaX Logo](/documentation/frameworks/mirror-security/vectax-logo.png)

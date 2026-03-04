@@ -2,6 +2,7 @@
 title: Cloud Inference Hybrid Search
 hideInSidebar: true
 weight: 35
+partition: deploy
 ---
 # Hybrid Search Using Qdrant Cloud Inference
 

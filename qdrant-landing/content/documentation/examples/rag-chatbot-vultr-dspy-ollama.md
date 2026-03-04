@@ -4,6 +4,7 @@ weight: 32
 social_preview_image: /blog/hybrid-cloud-vultr/hybrid-cloud-vultr-tutorial.png
 aliases:
   - /documentation/tutorials/rag-chatbot-vultr-dspy-ollama/
+partition: ecosystem
 ---
 
 # Private RAG Information Extraction Engine

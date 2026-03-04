@@ -1,5 +1,6 @@
 ---
 title: Mem0
+partition: ecosystem
 ---
 
 ![Mem0 Logo](/documentation/frameworks/mem0/mem0-banner.png)

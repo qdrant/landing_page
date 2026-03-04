@@ -8,6 +8,7 @@ description: "Optimizing PDF retrieval at scale with Qdrant and Vision Large Lan
 weight: 4
 preview_image: /documentation/tutorials/pdf-retrieval-at-scale/social_preview.png
 social_preview_image: /documentation/tutorials/pdf-retrieval-at-scale/social_preview.png
+partition: develop
 ---
 
 # Qdrant Multivector Document Retrieval with ColPali/ColQwen

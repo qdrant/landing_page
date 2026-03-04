@@ -1,6 +1,7 @@
 ---
 title: Scale Clusters
 weight: 50
+partition: deploy
 ---
 
 # Scaling Qdrant Cloud Clusters

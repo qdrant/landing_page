@@ -65,7 +65,7 @@ content:
         link:
           url: /articles/what-is-vector-quantization/
           text: Read More
-partition: qdrant
+partition: develop
 ---
 
 THIS CONTENT IS GOING TO BE IGNORED FOR NOW

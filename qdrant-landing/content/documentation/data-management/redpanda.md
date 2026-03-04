@@ -1,5 +1,6 @@
 ---
 title: Redpanda Connect
+partition: ecosystem
 ---
 
 ![Redpanda Cover](/documentation/data-management/redpanda/redpanda-cover.png)

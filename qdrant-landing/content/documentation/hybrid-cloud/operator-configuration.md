@@ -1,6 +1,7 @@
 ---
 title: Configure the Qdrant Operator 
 weight: 4
+partition: deploy
 ---
 
 # Configuring Qdrant Operator: Advanced Options

@@ -1,7 +1,7 @@
 ---
 title: "Qdrant Edge"
-weight: 13
-partition: qdrant
+weight: 6
+partition: ecosystem
 ---
 
 <aside role="status">Qdrant Edge is in beta. The API and functionality may change in future releases.</aside>

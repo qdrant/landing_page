@@ -13,6 +13,7 @@ keywords:
   - mighty
   - rust
   - semantic search
+partition: ecosystem
 ---
 
 # Semantic Search with Mighty and Qdrant

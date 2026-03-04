@@ -4,6 +4,7 @@ weight: 2
 aliases:
   - /documentation/search-precision/reranking-hybrid-search/
   - /documentation/advanced-tutorials/reranking-hybrid-search/
+partition: develop
 ---
 
 # Qdrant Hybrid Search with Reranking

@@ -1,6 +1,7 @@
 ---
 title: LangGraph
 aliases: [ ../integrations/langgraph/ ]
+partition: ecosystem
 ---
 
 # LangGraph

@@ -1,6 +1,7 @@
 ---
 title: PrivateGPT
 aliases: [ ../integrations/privategpt/, ../frameworks/privategpt/ ]
+partition: ecosystem
 ---
 
 # PrivateGPT

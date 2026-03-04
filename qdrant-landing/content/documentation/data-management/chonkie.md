@@ -1,5 +1,6 @@
 ---
 title: Chonkie
+partition: ecosystem
 ---
 
 # Chonkie

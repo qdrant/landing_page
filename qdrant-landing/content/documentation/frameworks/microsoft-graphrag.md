@@ -1,5 +1,6 @@
 ---
 title: Microsoft GraphRAG
+partition: ecosystem
 ---
 
 # Microsoft GraphRAG

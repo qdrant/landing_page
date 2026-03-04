@@ -1,5 +1,6 @@
 ---
 title: Google ADK
+partition: ecosystem
 ---
 
 # Google ADK

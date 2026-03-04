@@ -1,5 +1,6 @@
 ---
 title: Upstage
+partition: ecosystem
 ---
 
 # Upstage

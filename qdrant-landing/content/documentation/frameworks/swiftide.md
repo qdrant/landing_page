@@ -1,5 +1,6 @@
 ---
 title: Swiftide
+partition: ecosystem
 ---
 
 

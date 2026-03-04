@@ -1,7 +1,7 @@
 ---
 title: 5-Minute RAG with DeepSeek
 weight: 6
-partition: build
+partition: ecosystem
 social_preview_image: /documentation/examples/rag-deepseek/social_preview.png
 aliases:
     - /documentation/rag-deepseek/

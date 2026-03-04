@@ -1,6 +1,7 @@
 ---
 title: Deployment Platforms
 weight: 5
+partition: deploy
 ---
 
 # Qdrant Hybrid Cloud: Hosting Platforms & Deployment Options

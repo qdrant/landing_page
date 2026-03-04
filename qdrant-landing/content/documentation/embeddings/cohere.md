@@ -1,6 +1,7 @@
 ---
 title: Cohere
 aliases: [ ../integrations/cohere/ ]
+partition: ecosystem
 ---
 
 # Cohere

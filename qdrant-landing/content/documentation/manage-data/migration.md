@@ -1,8 +1,10 @@
 ---
 title: Data Migration
 aliases:
+  - /documentation/tutorials-operations/migration/
     - /documentation/database-tutorials/migration/
 weight: 20
+partition: develop
 ---
 
 # Migrate Your Embeddings to Qdrant

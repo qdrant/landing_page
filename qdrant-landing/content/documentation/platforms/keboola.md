@@ -1,5 +1,6 @@
 ---
 title: Keboola
+partition: ecosystem
 ---
 
 # Keboola

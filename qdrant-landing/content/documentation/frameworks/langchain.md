@@ -3,6 +3,7 @@ title: LangChain
 aliases:
   - ../integrations/langchain/
   - /documentation/overview/integrations/langchain/
+partition: ecosystem
 ---
 
 # LangChain

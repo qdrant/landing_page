@@ -1,8 +1,10 @@
 ---
 title: Inference
-weight: 65
+weight: 11
 aliases:
+  - /documentation/concepts/inference/
   - ../inference
+partition: develop
 ---
 
 # Inference

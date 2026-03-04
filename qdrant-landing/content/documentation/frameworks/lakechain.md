@@ -1,5 +1,6 @@
 ---
 title: AWS Lakechain
+partition: ecosystem
 ---
 
 # AWS Lakechain

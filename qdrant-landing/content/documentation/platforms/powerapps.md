@@ -1,5 +1,6 @@
 ---
 title: Power Apps
+partition: ecosystem
 ---
 
 # Power Apps

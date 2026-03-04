@@ -4,6 +4,7 @@ aliases:
   - /documentation/tutorials/create-snapshot/
   - /documentation/database-tutorials/create-snapshot/
 weight: 10
+partition: develop
 ---
 
 # Backup & Restore Qdrant with Snapshots

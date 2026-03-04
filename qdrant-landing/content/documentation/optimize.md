@@ -2,7 +2,10 @@
 title: Optimize Performance
 weight: 50
 aliases:
+  - /documentation/configuration/optimize/
+  - /documentation/guides/optimize/
   - ../tutorials/optimize
+partition: deploy
 ---
 
 # Optimizing Qdrant Performance: Three Scenarios

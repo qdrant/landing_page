@@ -2,7 +2,9 @@
 title: Explore
 weight: 55
 aliases:
+  - /documentation/concepts/explore/
   - ../explore
+partition: develop
 ---
 
 # Explore the data

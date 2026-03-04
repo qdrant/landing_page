@@ -2,7 +2,9 @@
 title: Indexing
 weight: 90
 aliases:
+  - /documentation/concepts/indexing/
   - ../indexing
+partition: develop
 ---
 
 # Indexing

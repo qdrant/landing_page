@@ -1,6 +1,7 @@
 ---
 title: Networking, Logging & Monitoring
 weight: 4
+partition: deploy
 ---
 # Configuring Networking, Logging & Monitoring in Qdrant Hybrid Cloud
 

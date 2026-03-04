@@ -1,5 +1,6 @@
 ---
 title: "Nomic"
+partition: ecosystem
 ---
 
 # Nomic

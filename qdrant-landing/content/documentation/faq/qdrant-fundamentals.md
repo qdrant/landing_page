@@ -3,6 +3,7 @@ title: Qdrant Fundamentals
 weight: 1
 aliases:
   - ../faq
+partition: develop
 ---
 
 # Frequently Asked Questions: General Topics

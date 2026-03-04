@@ -1,5 +1,6 @@
 ---
 title: Dynamiq
+partition: ecosystem
 ---
 
 

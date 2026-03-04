@@ -6,7 +6,7 @@ hideInSidebar: true
 aliases:
   - how-to
   - tutorials
-partition: build
+partition: ecosystem
 ---
 <!-- Migrate Integration Tutorials here, gradually -->
 

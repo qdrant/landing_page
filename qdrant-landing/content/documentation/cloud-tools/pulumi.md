@@ -1,7 +1,9 @@
 ---
 title: Pulumi
 aliases:
+  - /documentation/cloud-tools/pulumi/
   - /documentation/infrastructure/pulumi/
+partition: deploy
 ---
 
 ![Pulumi Logo](/documentation/platforms/pulumi/pulumi-logo.png)

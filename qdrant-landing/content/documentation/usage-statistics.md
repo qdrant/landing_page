@@ -2,8 +2,11 @@
 title: Usage Statistics
 weight: 140
 aliases:
+  - /documentation/open-source/usage-statistics/
+  - /documentation/guides/usage-statistics/
   - ../telemetry
   - /documentation/guides/telemetry
+partition: deploy
 ---
 
 # Usage statistics

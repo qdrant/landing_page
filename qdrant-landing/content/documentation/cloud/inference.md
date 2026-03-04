@@ -1,6 +1,7 @@
 ---
 title: Inference
 weight: 81
+partition: deploy
 ---
 
 # Inference in Qdrant Managed Cloud

@@ -1,9 +1,11 @@
 ---
 title: Bulk Operations
 aliases:
+  - /documentation/tutorials-develop/bulk-upload/
   - /documentation/tutorials/bulk-upload/
   - /documentation/database-tutorials/bulk-upload/
 weight: 1
+partition: develop
 ---
 
 # Bulk Upload Vectors to a Qdrant Collection

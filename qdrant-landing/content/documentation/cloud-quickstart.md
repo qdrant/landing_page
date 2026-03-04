@@ -1,7 +1,7 @@
 ---
 title: Cloud Quickstart
-weight: 4
-partition: cloud
+weight: 5
+partition: develop
 aliases:
   - ../cloud-quick-start
   - cloud-quick-start

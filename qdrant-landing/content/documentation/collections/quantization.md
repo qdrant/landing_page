@@ -2,9 +2,11 @@
 title: Quantization
 weight: 90
 aliases:
+  - /documentation/guides/quantization/
   - ../quantization
   - /articles/dedicated-service/documentation/guides/quantization/
   - /guides/quantization/
+partition: develop
 ---
 
 # Quantization

@@ -1,6 +1,10 @@
 ---
 title: Running with GPU
 weight: 30
+partition: deploy
+aliases:
+  - /documentation/configuration/running-with-GPU/
+  - /documentation/guides/running-with-GPU/
 ---
 
 # Running Qdrant with GPU Support

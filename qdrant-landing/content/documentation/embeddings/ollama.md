@@ -1,5 +1,6 @@
 ---
 title: Ollama
+partition: ecosystem
 ---
 
 # Using Ollama with Qdrant

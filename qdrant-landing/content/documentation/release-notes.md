@@ -1,10 +1,12 @@
 ---
 title: Release Notes
-weight: 32
-partition: qdrant
+weight: 27
+partition: develop
 type: external-link
 external_url: https://github.com/qdrant/qdrant/releases
 sitemapExclude: True
+aliases:
+  - /documentation/release-notes/
 ---
 
 

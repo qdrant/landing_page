@@ -1,7 +1,7 @@
 ---
 title: S3 Ingestion with LangChain
 weight: 2
-partition: build
+partition: ecosystem
 hideInSidebar: true
 social_preview_image: /documentation/examples/data-ingestion-beginners/social_preview.png
 aliases:

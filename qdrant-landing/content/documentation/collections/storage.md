@@ -2,7 +2,9 @@
 title: Storage
 weight: 80
 aliases:
+  - /documentation/concepts/storage/
   - ../storage
+partition: develop
 ---
 
 # Storage

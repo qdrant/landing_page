@@ -1,6 +1,7 @@
 ---
 title: Authentication
 weight: 30
+partition: deploy
 ---
 
 # Database Authentication in Qdrant Managed Cloud

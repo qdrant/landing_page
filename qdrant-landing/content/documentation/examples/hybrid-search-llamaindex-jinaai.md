@@ -4,6 +4,7 @@ weight: 27
 social_preview_image: /blog/hybrid-cloud-llamaindex/hybrid-cloud-llamaindex-tutorial.png
 aliases:
   - /documentation/tutorials/hybrid-search-llamaindex-jinaai/
+partition: ecosystem
 ---
 
 # Chat With Product PDF Manuals Using Hybrid Search 

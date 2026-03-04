@@ -2,7 +2,7 @@
 title: Multimodal and Multilingual RAG
 weight: 5
 hideInSidebar: true
-partition: build
+partition: ecosystem
 social_preview_image: /documentation/examples/multimodal-search/social_preview.png
 aliases:
   - /documentation/tutorials/multimodal-search-fastembed/

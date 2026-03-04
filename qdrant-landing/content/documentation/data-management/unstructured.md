@@ -1,6 +1,7 @@
 ---
 title: Unstructured
 aliases: [ ../frameworks/unstructured/ ]
+partition: ecosystem
 ---
 
 # Unstructured

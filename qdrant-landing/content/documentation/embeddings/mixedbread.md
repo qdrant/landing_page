@@ -1,5 +1,6 @@
 ---
 title: MixedBread
+partition: ecosystem
 ---
 
 # Using MixedBread with Qdrant 

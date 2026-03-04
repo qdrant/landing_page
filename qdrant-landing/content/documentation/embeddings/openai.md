@@ -1,6 +1,7 @@
 ---
 title: OpenAI 
 aliases: [ ../integrations/openai/ ]
+partition: ecosystem
 ---
 
 # OpenAI

@@ -1,6 +1,7 @@
 ---
 title: Reranking with FastEmbed
 weight: 8
+partition: ecosystem
 ---
 
 # How to use rerankers with FastEmbed

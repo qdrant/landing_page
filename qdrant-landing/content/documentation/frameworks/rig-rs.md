@@ -1,5 +1,6 @@
 ---
 title: Rig-rs
+partition: ecosystem
 ---
 
 # Rig-rs

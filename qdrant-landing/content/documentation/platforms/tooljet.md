@@ -1,5 +1,6 @@
 ---
 title: ToolJet
+partition: ecosystem
 ---
 
 # ToolJet

@@ -2,7 +2,9 @@
 title: Points
 weight: 40
 aliases:
+  - /documentation/concepts/points/
   - ../points
+partition: develop
 ---
 
 # Points

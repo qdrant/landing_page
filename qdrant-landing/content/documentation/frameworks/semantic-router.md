@@ -1,5 +1,6 @@
 ---
 title: Semantic-Router
+partition: ecosystem
 ---
 
 # Semantic-Router

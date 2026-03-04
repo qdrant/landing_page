@@ -2,7 +2,9 @@
 title: Search
 weight: 50
 aliases:
+  - /documentation/concepts/search/
   - ../search
+partition: develop
 ---
 
 # Similarity search

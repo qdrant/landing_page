@@ -4,7 +4,7 @@ weight: 3
 aliases:
   - overview
   - orientation
-partition: qdrant
+partition: develop
 ---
 
 <aside role="status">

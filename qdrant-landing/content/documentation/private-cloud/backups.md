@@ -1,6 +1,7 @@
 ---
 title: Backups
 weight: 4
+partition: deploy
 ---
 
 # Backups

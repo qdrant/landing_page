@@ -1,6 +1,7 @@
 ---
 title: Role Management
 weight: 1
+partition: deploy
 ---
 
 # Role Management

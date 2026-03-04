@@ -4,6 +4,7 @@ aliases:
   - /documentation/tutorials/hybrid-search-fastembed/
   - /documentation/beginner-tutorials/hybrid-search-fastembed/
 weight: 3
+partition: develop
 ---
 
 # Hybrid Search with Qdrant's FastEmbed

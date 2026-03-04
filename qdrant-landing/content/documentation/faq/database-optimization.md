@@ -1,6 +1,7 @@
 ---
 title: Database Optimization
 weight: 2
+partition: develop
 ---
 
 # Frequently Asked Questions: Database Optimization 

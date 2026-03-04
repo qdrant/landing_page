@@ -1,5 +1,6 @@
 ---
 title: AWS Bedrock
+partition: ecosystem
 ---
 
 # Bedrock Embeddings

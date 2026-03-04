@@ -1,6 +1,7 @@
 ---
 title: Update Clusters
 weight: 55
+partition: deploy
 ---
 
 # Updating Qdrant Cloud Clusters

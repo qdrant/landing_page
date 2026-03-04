@@ -2,7 +2,9 @@
 title: Filtering
 weight: 60
 aliases:
+  - /documentation/concepts/filtering/
   - ../filtering
+partition: develop
 ---
 
 # Filtering

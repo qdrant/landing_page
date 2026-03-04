@@ -1,6 +1,7 @@
 ---
 title: DLT
 aliases: [ ../integrations/dlt/, ../frameworks/dlt/ ]
+partition: ecosystem
 ---
 
 # DLT(Data Load Tool)

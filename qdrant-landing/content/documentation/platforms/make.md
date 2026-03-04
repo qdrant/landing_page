@@ -1,6 +1,7 @@
 ---
 title: Make.com
 aliases: [ ../frameworks/make/ ]
+partition: ecosystem
 ---
 
 # Make.com

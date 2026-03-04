@@ -1,5 +1,6 @@
 ---
 title: Mastra
+partition: ecosystem
 ---
 
 # Mastra

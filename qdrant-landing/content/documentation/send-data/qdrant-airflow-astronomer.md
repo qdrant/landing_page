@@ -4,6 +4,7 @@ weight: 36
 hideInSidebar: true
 aliases:
   - /documentation/examples/qdrant-airflow-astronomer/
+partition: ecosystem
 ---
 
 # Qdrant Semantic Querying with Airflow and Astronomer

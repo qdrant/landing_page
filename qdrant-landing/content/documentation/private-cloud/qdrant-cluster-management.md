@@ -1,6 +1,7 @@
 ---
 title: Managing a Cluster
 weight: 3
+partition: deploy
 ---
 
 # Managing a Qdrant Cluster

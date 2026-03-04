@@ -1,6 +1,7 @@
 ---
 title: "FastEmbed & Qdrant"
 weight: 3
+partition: ecosystem
 ---
 
 # Using FastEmbed with Qdrant for Vector Search

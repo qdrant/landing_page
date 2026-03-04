@@ -1,7 +1,7 @@
 ---
 title: n8n Workflow Automation
 weight: 7
-#partition: build
+#partition: ecosystem
 social_preview_image: /documentation/examples/qdrant-n8n-2/preview/social_preview.png
 aliases:
   - /blog/qdrant-n8n-beyond-simple-similarity-search/

@@ -1,6 +1,7 @@
 ---
 title: Stanford DSPy
 aliases: [ ../integrations/dspy/ ]
+partition: ecosystem
 ---
 
 # Stanford DSPy

@@ -2,7 +2,10 @@
 title: Administration
 weight: 20
 aliases:
+  - /documentation/guides/administration/
   - ../administration
+partition: develop
+hideInSidebar: true
 ---
 
 # Administration

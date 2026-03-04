@@ -1,6 +1,7 @@
 ---
 title: Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy
 weight: 18
+partition: ecosystem
 ---
 # Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy
 

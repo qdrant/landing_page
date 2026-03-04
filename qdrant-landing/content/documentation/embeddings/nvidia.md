@@ -1,5 +1,6 @@
 ---
 title: Nvidia
+partition: ecosystem
 ---
 
 # Nvidia

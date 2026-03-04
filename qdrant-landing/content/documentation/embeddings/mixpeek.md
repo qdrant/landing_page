@@ -1,5 +1,6 @@
 ---
 title: Mixpeek
+partition: ecosystem
 ---
 
 # Mixpeek Video Embeddings

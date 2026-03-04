@@ -2,6 +2,7 @@
 title: Aleph Alpha Search
 weight: 16
 draft: true
+partition: ecosystem
 ---
 
 # Multimodal Semantic Search with Aleph Alpha

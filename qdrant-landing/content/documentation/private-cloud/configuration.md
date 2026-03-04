@@ -1,6 +1,7 @@
 ---
 title: Configuration
 weight: 2
+partition: deploy
 ---
 
 # Private Cloud Configuration

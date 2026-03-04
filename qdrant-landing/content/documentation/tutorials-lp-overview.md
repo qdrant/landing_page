@@ -3,9 +3,10 @@ title: Overview
 weight: 16
 is_empty: false
 aliases:
+  - /documentation/tutorials-lp-overview/
   - how-to
   - tutorials
-partition: qdrant
+partition: develop
 ---
 
 # Qdrant Tutorial Repository

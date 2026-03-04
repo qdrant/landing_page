@@ -4,6 +4,7 @@ weight: 26
 social_preview_image: /blog/hybrid-cloud-airbyte/hybrid-cloud-airbyte-tutorial.png
 aliases:
   - /documentation/tutorials/rag-customer-support-cohere-airbyte-aws/
+partition: ecosystem
 ---
 
 # Question-Answering System for AI Customer Support

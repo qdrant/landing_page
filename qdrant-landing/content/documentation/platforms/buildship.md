@@ -1,6 +1,7 @@
 ---
 title: BuildShip
 aliases: [ ../frameworks/buildship/ ]
+partition: ecosystem
 ---
 
 # BuildShip

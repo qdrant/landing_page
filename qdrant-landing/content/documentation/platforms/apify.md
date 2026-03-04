@@ -1,6 +1,7 @@
 ---
 title: Apify 
 aliases: [ ../frameworks/apify/ ]
+partition: ecosystem
 ---
 
 # Apify

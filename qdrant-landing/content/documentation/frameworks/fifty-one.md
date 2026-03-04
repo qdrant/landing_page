@@ -1,6 +1,7 @@
 ---
 title: FiftyOne
 aliases: [ ../integrations/fifty-one ]
+partition: ecosystem
 ---
 
 # FiftyOne

@@ -2,9 +2,11 @@
 title: Collections
 weight: 30
 aliases:
+  - /documentation/concepts/collections/
   - ../collections
   - /concepts/collections/
   - /documentation/frameworks/fondant/documentation/concepts/collections/
+partition: develop
 ---
 
 # Collections

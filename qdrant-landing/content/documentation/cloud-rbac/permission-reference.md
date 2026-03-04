@@ -1,6 +1,7 @@
 ---
 title: Permission Reference
 weight: 3
+partition: deploy
 ---
 
 # **Permission Reference**

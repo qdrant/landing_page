@@ -1,5 +1,6 @@
 ---
 title: CamelAI
+partition: ecosystem
 ---
 
 # Camel

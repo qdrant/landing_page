@@ -1,7 +1,7 @@
 ---
 title: Data Management
 weight: 11
-partition: build
+partition: ecosystem
 ---
 
 ## Data Management Integrations

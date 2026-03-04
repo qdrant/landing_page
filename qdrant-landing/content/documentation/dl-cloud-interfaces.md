@@ -7,5 +7,6 @@ sitemapExclude: True
 _build:
   publishResources: false
   render: never
-partition: cloud 
+partition: deploy
+hideInSidebar: true
 ---

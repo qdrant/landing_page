@@ -1,8 +1,8 @@
 ---
 title: Develop & Implement
-weight: 21
+weight: 20
 is_empty: false
-partition: qdrant
+partition: develop
 ---
 
 ### Develop & Implement Tutorials

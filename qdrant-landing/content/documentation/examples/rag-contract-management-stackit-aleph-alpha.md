@@ -4,6 +4,7 @@ weight: 28
 social_preview_image: /blog/hybrid-cloud-aleph-alpha/hybrid-cloud-aleph-alpha-tutorial.png
 aliases:
   - /documentation/tutorials/rag-contract-management-stackit-aleph-alpha/
+partition: ecosystem
 ---
 
 # Region-Specific Contract Management System

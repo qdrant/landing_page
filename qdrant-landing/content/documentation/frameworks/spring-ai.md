@@ -1,5 +1,6 @@
 ---
 title: Spring AI
+partition: ecosystem
 ---
 
 # Spring AI

@@ -1,6 +1,7 @@
 ---
 title: "Quickstart" 
 weight: 10
+partition: ecosystem
 ---
 
 # Qdrant Edge Quickstart

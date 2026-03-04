@@ -1,7 +1,7 @@
 ---
 title: "FastEmbed"
-weight: 11
-partition: qdrant
+weight: 7
+partition: ecosystem
 ---
 
 # What is FastEmbed?

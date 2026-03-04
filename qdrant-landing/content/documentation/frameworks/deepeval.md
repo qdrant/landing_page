@@ -1,5 +1,6 @@
 ---
 title: DeepEval
+partition: ecosystem
 ---
 
 # DeepEval

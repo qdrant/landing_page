@@ -1,6 +1,7 @@
 ---
 title: Configure Clusters
 weight: 55
+partition: deploy
 ---
 
 # Configure Qdrant Cloud Clusters

@@ -2,8 +2,11 @@
 title: Distributed Deployment
 weight: 80
 aliases:
+  - /documentation/configuration/distributed_deployment/
+  - /documentation/guides/distributed_deployment/
   - ../distributed_deployment
   - /guides/distributed_deployment
+partition: deploy
 ---
 
 # Distributed deployment

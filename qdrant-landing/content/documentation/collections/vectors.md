@@ -2,7 +2,9 @@
 title: Vectors
 weight: 41
 aliases:
+  - /documentation/concepts/vectors/
   - /vectors
+partition: develop
 ---
 
 

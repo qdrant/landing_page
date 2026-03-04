@@ -1,6 +1,7 @@
 ---
 title: Create a Cluster
 weight: 2
+partition: deploy
 ---
 
 # Creating a Qdrant Cluster in Hybrid Cloud

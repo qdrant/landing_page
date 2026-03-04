@@ -1,7 +1,7 @@
 ---
 title: Agentic RAG with LangGraph
 weight: 3
-partition: build
+partition: ecosystem
 hideInSidebar: true
 aliases:
   - /documentation/agentic-rag-langgraph/

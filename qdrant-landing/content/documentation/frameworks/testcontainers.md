@@ -1,6 +1,7 @@
 ---
 title: Testcontainers
 aliases: [ ../infrastructure/testcontainers/ ]
+partition: ecosystem
 ---
 
 # Testcontainers

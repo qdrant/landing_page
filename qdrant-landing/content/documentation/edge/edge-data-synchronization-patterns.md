@@ -1,6 +1,7 @@
 ---
 title: "Data Synchronization Patterns" 
 weight: 20
+partition: ecosystem
 ---
 
 # Data Synchronization Patterns

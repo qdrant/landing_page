@@ -4,6 +4,7 @@ aliases:
   - /documentation/tutorials/neural-search/
   - /documentation/beginner-tutorials/neural-search/
 weight: 2
+partition: develop
 ---
 
 # Semantic Search Basics with Qdrant

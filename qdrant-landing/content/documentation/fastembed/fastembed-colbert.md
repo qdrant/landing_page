@@ -1,6 +1,7 @@
 ---
 title: Working with ColBERT 
 weight: 6
+partition: ecosystem
 ---
 
 # How to Generate ColBERT Multivectors with FastEmbed

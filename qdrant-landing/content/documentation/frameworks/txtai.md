@@ -1,6 +1,7 @@
 ---
 title: txtai
 aliases: [ ../integrations/txtai/ ]
+partition: ecosystem
 ---
 
 # txtai

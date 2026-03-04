@@ -1,6 +1,7 @@
 ---
 title: Working with miniCOIL
 weight: 4
+partition: ecosystem
 ---
 
 # How to use miniCOIL, Qdrant's Sparse Neural Retriever

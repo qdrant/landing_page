@@ -4,6 +4,7 @@ weight: 49
 hideInSidebar: true
 aliases:
   - /examples/data-streaming-kafka-qdrant/
+partition: ecosystem
 ---
 
 # Stream Real-Time Data into Qdrant with Kafka and Confluent

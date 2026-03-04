@@ -1,7 +1,7 @@
 ---
 title: Essential Examples
-weight: 21
-partition: build 
+weight: 22
+partition: ecosystem 
 ---
 # Integration Examples
 

@@ -2,8 +2,10 @@
 title: Troubleshooting
 weight: 150
 aliases:
+  - /documentation/guides/common-errors/
   - ../tutorials/common-errors
   - /documentation/troubleshooting/
+partition: develop
 ---
 
 # Solving common errors

@@ -2,8 +2,11 @@
 title: Configuration
 weight: 120
 aliases:
+  - /documentation/configuration/configuration/
+  - /documentation/guides/configuration/
   - ../configuration
   - /guides/configuration/
+partition: deploy
 ---
 
 # Configuration

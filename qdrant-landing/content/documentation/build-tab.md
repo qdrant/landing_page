@@ -1,49 +1,83 @@
 ---
-title: Build World-Class Applications
-slug: build
+title: Ecosystem
+slug: ecosystem
 breadcrumb: false
+aliases:
+  - /documentation/build/
 content:
   - partial: documentation/banners/banner-c
-    title: Build World-Class Applications
-    description: Dev-portal Build
+    title: Ecosystem
+    description: Tools, integrations, and guides for building with Qdrant.
     image:
       src: /img/dev-portal-build/spanish-ai-app-hero.png
-      alt: Spanish AI app.png
+      alt: Qdrant Ecosystem
     startedButton:
       text: Get Started
       url: https://qdrant.to/cloud
   - partial: documentation/sections/cards-section
-    title: Start Building
-    description: Deploy and manage high-performance vector search clusters across cloud environments. Easily scale with fully managed cloud solutions, integrate seamlessly across hybrid setups, or maintain complete control with private cloud deployments in Kubernetes.
+    title: Qdrant Tools
+    description: First-party tools to simplify embedding generation, edge deployments, and external integrations.
     cardsPartial: documentation/cards/docs-cards
     cards:
     - id: 1
       image:
         src: /img/dev-portal-build/search.png
-        alt: Search
-      title: Search
-      description: Build a simple neural search service with Qdrant and FastEmbed. Learn how to upload data, create indexes, and run search queries.
+        alt: FastEmbed
+      title: FastEmbed
+      description: A lightweight Python library for fast, local embedding generation. Runs locally without a GPU.
       link:
-        url: /documentation/beginner-tutorials/hybrid-search-fastembed/
+        url: /documentation/fastembed/
         text: Read More
     - id: 2
       image:
         src: /img/dev-portal-build/rag.png
-        alt: RAG
-      title: RAG
-      description: Build end-to-end prototype chatbots. Learn how Qdrant integrates with popular RAG frameworks like LangChain and LlamaIndex.
+        alt: Qdrant Edge
+      title: Qdrant Edge
+      description: Run Qdrant on edge devices and synchronize data with a central Qdrant cluster.
       link:
-        url: /documentation/frameworks/langchain/
+        url: /documentation/edge/
         text: Read More
     - id: 3
       image:
         src: /img/dev-portal-build/pipelines.png
-        alt: Pipelines
-      title: Pipelines
-      description: Integrate Qdrant into your data infrastructure by connecting with popular data engineering tools.
+        alt: MCP Server
+      title: MCP Server
+      description: Connect Claude and other AI assistants directly to your Qdrant collections via the Model Context Protocol.
       link:
-        url: /documentation/send-data/
+        url: /documentation/qdrant-mcp-server/
         text: Read More
-partition: build
+  - partial: documentation/sections/cards-section
+    title: Integrations
+    description: Connect Qdrant with your existing data pipelines, embedding models, AI frameworks, and observability tools.
+    cardsPartial: documentation/cards/docs-cards
+    cards:
+    - id: 1
+      image:
+        src: /img/dev-portal-build/search.png
+        alt: Frameworks
+      title: Frameworks
+      description: Use Qdrant with LangChain, LlamaIndex, Haystack, and many more AI application frameworks.
+      link:
+        url: /documentation/frameworks/
+        text: Read More
+    - id: 2
+      image:
+        src: /img/dev-portal-build/rag.png
+        alt: Embeddings
+      title: Embeddings
+      description: Generate embeddings with OpenAI, Cohere, Voyage, Mistral, and other leading embedding providers.
+      link:
+        url: /documentation/embeddings/
+        text: Read More
+    - id: 3
+      image:
+        src: /img/dev-portal-build/pipelines.png
+        alt: Data Management
+      title: Data Management
+      description: Stream, transform, and load data into Qdrant using Airbyte, Kafka, dbt, Spark, and more.
+      link:
+        url: /documentation/data-management/
+        text: Read More
+partition: ecosystem
 hideInSidebar: true
 ---

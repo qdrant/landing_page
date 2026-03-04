@@ -4,6 +4,7 @@ aliases:
   - /documentation/tutorials/retrieval-quality/
   - /documentation/beginner-tutorials/retrieval-quality/
 weight: 4
+partition: develop
 ---
 
 # Evaluate Retrieval Quality with Qdrant

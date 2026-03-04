@@ -4,6 +4,7 @@ weight: 35
 social_preview_image: /blog/hybrid-cloud-scaleway/hybrid-cloud-scaleway-tutorial.png
 aliases:
   - /documentation/tutorials/rag-chatbot-scaleway/
+partition: ecosystem
 ---
 
 # Blog-Reading Chatbot with GPT-4o

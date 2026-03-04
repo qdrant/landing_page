@@ -1,8 +1,9 @@
 ---
 title: Qdrant Cloud API
 weight: 27
-partition: cloud
+partition: deploy
 aliases:
+  - /documentation/cloud-api/
   - /documentation/qdrant-cloud-api/
 ---
 # Qdrant Cloud API: Powerful gRPC and Flexible REST/JSON Interfaces

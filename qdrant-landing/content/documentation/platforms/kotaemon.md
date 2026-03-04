@@ -1,5 +1,6 @@
 ---
 title: Kotaemon
+partition: ecosystem
 ---
 
 # Kotaemon

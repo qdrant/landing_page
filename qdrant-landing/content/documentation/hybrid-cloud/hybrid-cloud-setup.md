@@ -1,6 +1,7 @@
 ---
 title: Setup Hybrid Cloud
 weight: 1
+partition: deploy
 ---
 
 # Creating a Hybrid Cloud Environment

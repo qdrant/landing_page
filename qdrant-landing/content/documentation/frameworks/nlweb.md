@@ -1,5 +1,6 @@
 ---
 title: Microsoft NLWeb
+partition: ecosystem
 ---
 
 # NLWeb

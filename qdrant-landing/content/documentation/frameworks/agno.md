@@ -1,5 +1,6 @@
 ---
 title: Agno
+partition: ecosystem
 ---
 
 # Agno

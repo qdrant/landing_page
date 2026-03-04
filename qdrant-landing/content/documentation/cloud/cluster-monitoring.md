@@ -1,6 +1,7 @@
 ---
 title: Monitor Clusters
 weight: 55
+partition: deploy
 ---
 
 # Monitoring Qdrant Cloud Clusters

@@ -1,7 +1,7 @@
 ---
 title: API & SDKs
-weight: 5
-partition: qdrant
+weight: 14
+partition: develop
 ---
 
 # Interfaces

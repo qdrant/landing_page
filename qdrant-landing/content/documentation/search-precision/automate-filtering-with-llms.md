@@ -3,6 +3,7 @@ title: LLM-Powered Filter Automation
 weight: 2
 alias:
     - /documentation/database-tutorials/automate-filtering-with-llms/
+partition: ecosystem
 ---
 
 # LLM-Powered Filter Automation with Qdrant

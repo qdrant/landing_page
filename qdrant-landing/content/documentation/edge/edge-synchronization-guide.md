@@ -1,6 +1,7 @@
 ---
 title: "Synchronize with a Server" 
 weight: 30
+partition: ecosystem
 ---
 
 # Synchronize Qdrant Edge with a Server

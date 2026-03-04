@@ -1,5 +1,6 @@
 ---
 title: Sycamore
+partition: ecosystem
 ---
 
 ## Sycamore

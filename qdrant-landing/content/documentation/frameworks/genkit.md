@@ -1,5 +1,6 @@
 ---
 title: Firebase Genkit
+partition: ecosystem
 ---
 
 # Firebase Genkit

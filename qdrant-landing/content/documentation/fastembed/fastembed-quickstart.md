@@ -1,6 +1,7 @@
 ---
 title: "Quickstart" 
 weight: 2
+partition: ecosystem
 ---
 
 # How to Generate Text Embedings with FastEmbed

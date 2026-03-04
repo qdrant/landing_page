@@ -5,6 +5,7 @@ aliases:
   - /documentation/tutorials/huggingface-datasets/
   - /documentation/database-tutorials/huggingface-datasets/
 weight: 3
+partition: develop
 ---
 
 # Load Hugging Face Datasets into Qdrant

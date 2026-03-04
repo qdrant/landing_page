@@ -4,6 +4,7 @@ weight: 36
 hideInSidebar: true
 aliases:
   - /documentation/examples/databricks/
+partition: ecosystem
 ---
 
 # Ingest Databricks Data into Qdrant

@@ -1,6 +1,7 @@
 ---
 title: API Reference
 weight: 5
+partition: deploy
 ---
 
 # API Reference

@@ -1,6 +1,7 @@
 ---
 title: Configure, Scale & Update Clusters
 weight: 3
+partition: deploy
 ---
 
 # Configure, Scale & Update Qdrant Hybrid Cloud Clusters

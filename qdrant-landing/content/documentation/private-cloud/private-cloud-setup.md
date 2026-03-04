@@ -1,6 +1,7 @@
 ---
 title: Setup Private Cloud
 weight: 1
+partition: deploy
 ---
 
 # Qdrant Private Cloud Setup

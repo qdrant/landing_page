@@ -1,5 +1,6 @@
 ---
 title: Vectorize.io
+partition: ecosystem
 ---
 
 # Vectorize.io

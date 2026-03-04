@@ -3,6 +3,7 @@ title: Haystack
 aliases:
   - ../integrations/haystack/
   - /documentation/overview/integrations/haystack/
+partition: ecosystem
 ---
 
 # Haystack

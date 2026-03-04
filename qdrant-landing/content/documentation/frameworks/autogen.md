@@ -1,6 +1,7 @@
 ---
 title: AutoGen
 aliases: [ ../integrations/autogen/ ]
+partition: ecosystem
 ---
 
 # Microsoft AutoGen

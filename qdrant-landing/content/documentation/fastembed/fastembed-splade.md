@@ -1,6 +1,7 @@
 ---
 title: Working with SPLADE 
 weight: 5
+partition: ecosystem
 ---
 
 # How to Generate Sparse Vectors with SPLADE

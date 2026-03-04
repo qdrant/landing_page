@@ -1,6 +1,7 @@
 ---
 title: Pipedream
 aliases: [ ../frameworks/pipedream/ ]
+partition: ecosystem
 ---
 
 # Pipedream

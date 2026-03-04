@@ -1,5 +1,6 @@
 ---
 title: Vanna.AI
+partition: ecosystem
 ---
 
 # Vanna.AI

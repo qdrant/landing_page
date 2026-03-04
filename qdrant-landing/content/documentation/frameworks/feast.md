@@ -1,5 +1,6 @@
 ---
 title: Feast
+partition: ecosystem
 ---
 
 ## Feast

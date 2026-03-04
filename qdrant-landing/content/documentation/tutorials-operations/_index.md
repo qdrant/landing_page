@@ -1,11 +1,11 @@
 ---
 title: Operations & Scale
-weight: 20
+weight: 19
 is_empty: false
 aliases:
   - how-to
   - tutorials
-partition: qdrant
+partition: develop
 ---
 
 ### Operations & Scale Tutorials

@@ -1,5 +1,6 @@
 ---
 title: CrewAI
+partition: ecosystem
 ---
 
 # CrewAI

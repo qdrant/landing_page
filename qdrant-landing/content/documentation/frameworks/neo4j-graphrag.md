@@ -1,5 +1,6 @@
 ---
 title: Neo4j GraphRAG
+partition: ecosystem
 ---
 
 # Neo4j GraphRAG

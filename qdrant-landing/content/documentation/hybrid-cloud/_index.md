@@ -1,7 +1,7 @@
 ---
 title: Hybrid Cloud
-weight: 16
-partition: cloud
+weight: 15
+partition: deploy
 ---
 
 # Qdrant Hybrid Cloud

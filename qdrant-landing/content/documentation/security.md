@@ -2,7 +2,10 @@
 title: Security
 weight: 130
 aliases:
+  - /documentation/open-source/security/
+  - /documentation/guides/security/
   - ../security
+partition: deploy
 ---
 
 # Security
