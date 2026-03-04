@@ -116,6 +116,20 @@ disableKinds = ["taxonomy", "term"]
     environment = '{production}'
     path = '{**.skip,**.skip/*}'
 
+[mediaTypes."text/markdown"]
+  suffixes = ["md"]
+
+[outputFormats.Markdown]
+  mediaType = "text/markdown"
+  isPlainText = true
+  isHTML = false
+  rel = "alternate"
+
+[outputs]
+  page = ["HTML", "Markdown"]
+  section = ["HTML", "RSS", "Markdown"]
+  home = ["HTML", "RSS"]
+
 [services]
   [services.googleAnalytics]
     id = 'G-NZYW2651NE'
