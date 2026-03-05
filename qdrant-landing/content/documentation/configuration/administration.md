@@ -1,8 +1,9 @@
 ---
 title: Administration
-weight: 207
-partition: develop
+weight: 20
+partition: deploy
 aliases:
+  - /documentation/administration/
   - /documentation/guides/administration/
 ---
 

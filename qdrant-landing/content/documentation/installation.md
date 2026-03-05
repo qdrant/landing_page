@@ -1,6 +1,6 @@
 ---
 title: Installation
-weight: 101
+weight: 105
 aliases:
   - /documentation/open-source/installation/
   - /documentation/guides/installation/

@@ -15,8 +15,8 @@ content:
       text: Get Started Free
       url: https://qdrant.to/cloud
   - partial: documentation/sections/cards-section
-    title: Open Source
-    description: Self-host Qdrant on any infrastructure. Install with Docker, scale with distributed deployments, and configure to your exact requirements.
+    title: Operations
+    description: Install, configure, scale, and monitor your Qdrant deployment. From initial setup to distributed clusters, security, and performance optimization.
     cardsPartial: documentation/cards/docs-cards
     cards:
     - id: 1

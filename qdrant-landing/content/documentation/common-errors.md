@@ -1,11 +1,11 @@
 ---
 title: Troubleshooting
-weight: 401
+weight: 145
 aliases:
   - /documentation/guides/common-errors/
   - ../tutorials/common-errors
   - /documentation/troubleshooting/
-partition: develop
+partition: deploy
 ---
 
 # Solving common errors

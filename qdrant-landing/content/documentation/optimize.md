@@ -1,6 +1,6 @@
 ---
 title: Optimize Performance
-weight: 302
+weight: 135
 aliases:
   - /documentation/configuration/optimize/
   - /documentation/guides/optimize/

@@ -1,6 +1,6 @@
 ---
 title: Security
-weight: 103
+weight: 120
 aliases:
   - /documentation/open-source/security/
   - /documentation/guides/security/

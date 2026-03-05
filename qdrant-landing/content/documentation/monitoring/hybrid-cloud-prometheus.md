@@ -1,18 +1,21 @@
 ---
-title: Managed Cloud Prometheus Monitoring
-weight: 401
+title: Self-Hosted Prometheus Monitoring
+weight: 30
 partition: deploy
 aliases:
-  - /documentation/tutorials-and-examples/managed-cloud-prometheus/
+  - /documentation/tutorials-and-examples/hybrid-cloud-prometheus/
+  - /documentation/hybrid-cloud-prometheus/
 ---
 
-# Monitoring Managed Cloud with Prometheus and Grafana
+# Monitoring Hybrid/Private Cloud with Prometheus and Grafana
+| Time: 30 min | Level: Intermediate |
+| --- | ----------- |
 
-This tutorial will guide you through the process of setting up Prometheus and Grafana to monitor Qdrant databases running in Qdrant Managed Cloud.
+This tutorial will guide you through the process of setting up Prometheus and Grafana to monitor Qdrant databases running in a Kubernetes cluster used for Hybrid or Private Cloud.
 
 ## Prerequisites
 
-This tutorial assumes that you already have a Kubernetes cluster running where you want to deploy your monitoring stack, and a Qdrant database created in Qdrant Managed Cloud. You should also have `kubectl` and `helm` configured to interact with your cluster.
+This tutorial assumes that you already have a Kubernetes cluster running and a Qdrant database deployed in it, using either a Hybrid Cloud or Private Cloud deployment. You should also have `kubectl` and `helm` configured to interact with your cluster.
 
 ## Step 1: Install Prometheus and Grafana
 
@@ -30,42 +33,56 @@ This command will install Prometheus, Grafana, and all necessary components into
 
 ## Step 2: Configure Prometheus to Scrape Qdrant Metrics
 
-To monitor Qdrant, you need to configure Prometheus to scrape metrics from the Qdrant database. You can do this by creating a `ScrapeConfig` resource in your Kubernetes cluster. The API key to authenticate at your Qdrant database should be stored in a Kubernetes Secret. A read-only API key is sufficient for monitoring purposes.
+To monitor Qdrant, you need to configure Prometheus to scrape metrics from the Qdrant database(s). You can do this by creating a `ServiceMonitor` resource in the host Kubernetes cluster.
 
 ```yaml
-apiVersion: v1
-kind: Secret
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
 metadata:
-  name: qdrant-cluster-api-key
-  namespace: monitoring
+  name: qdrant-cluster-exporter
+  namespace: qdrant
   labels:
-    app: qdrant-cluster
-stringData:
-  apiKey: "a-read-only-api-key"
----
-apiVersion: monitoring.coreos.com/v1alpha1
-kind: ScrapeConfig
-metadata:
-  name: qdrant-cluster
-  namespace: monitoring
-  labels:
-    app: qdrant-cluster
     release: prometheus
 spec:
-  metricsPath: /sys_metrics
-  scrapeInterval: 30s
-  scheme: HTTPS
-  authorization:
-    type: Bearer
-    credentials:
-      name: qdrant-cluster-api-key
-      key: apiKey    
-  staticConfigs:
-    - labels:
-        job: prometheus
-      targets:
-        - your-cluster.europe-west3-0.gcp.cloud.qdrant.io:443
+  endpoints:
+  - honorLabels: true
+    interval: 30s
+    port: metrics
+    scheme: http
+    scrapeTimeout: 55s
+  jobLabel: app.kubernetes.io/name
+  namespaceSelector:
+    matchNames:
+    - qdrant
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: qdrant-cluster-exporter
+      app.kubernetes.io/name: qdrant-cluster-exporter
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: qdrant-operator
+  namespace: qdrant
+  labels:
+    release: prometheus
+spec:
+  endpoints:
+  - honorLabels: true
+    interval: 30s
+    port: metrics
+    scheme: http
+    scrapeTimeout: 55s
+  jobLabel: app.kubernetes.io/name
+  namespaceSelector:
+    matchNames:
+    - qdrant
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: operator
 ```
+
+The example aboves assumes that your Qdrant database and the cloud platform exporter are deployed in the `qdrant` namespace. Adjust the `namespaceSelector` and `namespace` fields according to your deployment.
 
 ## Step 3: Access Grafana
 

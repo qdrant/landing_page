@@ -1,6 +1,6 @@
 ---
 #Delimiter files are used to separate the list of documentation pages into sections.
-title: "Open Source"
+title: "Operations"
 type: delimiter
 weight: 100
 sitemapExclude: True
