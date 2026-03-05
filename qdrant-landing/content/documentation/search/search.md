@@ -1,6 +1,6 @@
 ---
 title: Search
-weight: 1
+weight: 10
 aliases:
   - /documentation/concepts/search/
   - ../search

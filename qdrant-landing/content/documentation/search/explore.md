@@ -1,6 +1,6 @@
 ---
 title: Explore
-weight: 4
+weight: 40
 aliases:
   - /documentation/concepts/explore/
   - ../explore
