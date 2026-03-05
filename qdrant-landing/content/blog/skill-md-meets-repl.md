@@ -1,14 +1,17 @@
 ---
 title: "Two Approaches to Helping AI Agents Use Your API (And Why You Need Both)"
-short_description: "Mintlify's skill.md and Armin Ronacher's REPL-first MCP solve different failure modes. Together, they define how agents should interact with developer tools."
-description: "Two emerging patterns for agent-assisted development: static knowledge files and dynamic tool access. How they complement each other using Qdrant as a case study."
-preview_dir: /articles_data/skill-md-meets-repl/preview
-social_preview_image: /articles_data/skill-md-meets-repl/preview/social_preview.jpg
-author: Thierry Damiba
 draft: false
+slug: skill-md-meet-repl
+description: "Two emerging patterns for agent-assisted development: static knowledge files and dynamic tool access. How they complement each other using Qdrant as a case study."
+short_description: "Mintlify's skill.md and Armin Ronacher's REPL-first MCP solve different failure modes. Together, they define how agents should interact with developer tools."
+preview_image: /blog/skill-md-meets-repl/repl-skill.png
+social_preview_image: /blog/skill-md-meets-repl/repl-skill.png
 date: 2026-01-28T00:00:00-08:00
-weight: -200
-category: rag-and-genai
+author: Thierry Damiba
+featured: true
+tags:
+  - agents
+  - blog
 ---
 
 AI coding agents fail in predictable ways when working with APIs. Two recent approaches from Mintlify and Armin Ronacher attack different failure modes. Understanding both reveals something useful about how agents should interact with developer tools.
