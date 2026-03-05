@@ -4,7 +4,7 @@
     {{/* Navigation Tabs */}}
     <div class="{{ $class }}__tabs">
       {{ range .context.Params.tabs }}
-        <button class="{{ $class }}__tab{{ if .active }}{{ $class }}__tab--active{{ end }}" data-tab="{{ .id }}">
+        <button class="{{ $class }}__tab{{ if .active }} {{ $class }}__tab--active{{ end }}" data-tab="{{ .id }}">
           {{ .label }}
         </button>
       {{ end }}
@@ -13,7 +13,7 @@
     {{/* Per-tab pricing tiers */}}
     {{ range .context.Params.tabs }}
       <div
-        class="{{ $class }}__doors{{ if not .active }}{{ $class }}__doors--hidden{{ end }}"
+        class="{{ $class }}__doors{{ if not .active }} {{ $class }}__doors--hidden{{ end }}"
         data-doors-tab="{{ .id }}"
       >
         {{ range .tiers }}
