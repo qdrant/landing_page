@@ -15,8 +15,8 @@ content:
       text: Get Started
       url: https://qdrant.to/cloud
   - partial: documentation/sections/cards-section
-    title: Qdrant Tools
-    description: First-party tools to simplify embedding generation, edge deployments, and external integrations.
+    title: Qdrant Native
+    description: First-party libraries and integrations built and maintained by Qdrant.
     cardsPartial: documentation/cards/docs-cards
     cards:
     - id: 1
@@ -48,21 +48,22 @@ content:
         text: Read More
   - partial: documentation/sections/cards-section
     title: Integrations
-    description: Connect Qdrant with your existing data pipelines, embedding models, AI frameworks, and observability tools.
+    description: Connect Qdrant with your existing data pipelines, embedding models, AI frameworks, and observability stack.
     cardsPartial: documentation/cards/docs-cards
+    cardsPerRow: 3
     cards:
     - id: 1
       image:
-        src: /img/dev-portal-build/search.png
-        alt: Frameworks
-      title: Frameworks
-      description: Use Qdrant with LangChain, LlamaIndex, Haystack, and many more AI application frameworks.
+        src: /img/dev-portal-build/pipelines.png
+        alt: Data Management
+      title: Data Management
+      description: Stream, transform, and load data into Qdrant using Airbyte, Kafka, dbt, Spark, and more.
       link:
-        url: /documentation/frameworks/
+        url: /documentation/data-management/
         text: Read More
     - id: 2
       image:
-        src: /img/dev-portal-build/rag.png
+        src: /img/dev-portal-build/search.png
         alt: Embeddings
       title: Embeddings
       description: Generate embeddings with OpenAI, Cohere, Voyage, Mistral, and other leading embedding providers.
@@ -71,12 +72,30 @@ content:
         text: Read More
     - id: 3
       image:
-        src: /img/dev-portal-build/pipelines.png
-        alt: Data Management
-      title: Data Management
-      description: Stream, transform, and load data into Qdrant using Airbyte, Kafka, dbt, Spark, and more.
+        src: /img/dev-portal-build/rag.png
+        alt: Frameworks
+      title: Frameworks
+      description: Use Qdrant with LangChain, LlamaIndex, Haystack, and many more AI application frameworks.
       link:
-        url: /documentation/data-management/
+        url: /documentation/frameworks/
+        text: Read More
+    - id: 4
+      image:
+        src: /img/dev-portal-build/search.png
+        alt: Platforms
+      title: Platforms
+      description: Deploy and integrate Qdrant across cloud platforms and infrastructure providers.
+      link:
+        url: /documentation/platforms/
+        text: Read More
+    - id: 5
+      image:
+        src: /img/dev-portal-build/rag.png
+        alt: Observability
+      title: Observability
+      description: Monitor and trace Qdrant operations with OpenTelemetry, Prometheus, and other observability tools.
+      link:
+        url: /documentation/observability/
         text: Read More
 partition: ecosystem
 hideInSidebar: true
