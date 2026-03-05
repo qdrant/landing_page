@@ -4,8 +4,6 @@
 
 .pricing-table {
   &__table {
-    // border: 0.5px solid $neutral-80;
-    // border-radius: pxToRem(8);
     overflow: hidden;
   }
 
@@ -153,9 +151,6 @@
   &__table-footer {
     display: flex;
 
-    // .pricing-table__table-cell--feature {
-    //   border-right: 0.5px solid $neutral-80;
-    // }
     .pricing-table__table-cell {
       &:first-child {
         border-right: 0;
@@ -222,7 +217,7 @@
       padding: pxToRem(4);
       margin-bottom: $spacer * 1.5;
       background-color: $neutral-98;
-      border: 1px solid $neutral-90;
+      border: 0.5px solid $neutral-90;
       border-radius: pxToRem(8);
       width: 100%;
     }
