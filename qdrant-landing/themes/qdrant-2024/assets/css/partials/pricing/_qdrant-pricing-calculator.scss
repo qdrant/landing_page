@@ -44,18 +44,18 @@
     align-items: center;
     justify-content: center;
     gap: $spacer * 1.5;
-    padding: $spacer * 1.5 $spacer * 3.5;
+    padding: $spacer * 1.5 $spacer * 3.5 $spacer * 1.5 $spacer * 3;
     background-color: $neutral-98;
     border: 1px solid $neutral-90;
     border-radius: pxToRem(8);
-    max-width: pxToRem(600);
     margin: 0 auto;
+    width: fit-content;
   }
 
   &__icon {
     flex-shrink: 0;
-    width: 76px;
-    height: 64px;
+    height: pxToRem(100);
+    margin-bottom: -$spacer * 1.5;
 
     img {
       display: block;
@@ -68,7 +68,6 @@
   &__content {
     display: flex;
     flex-direction: column;
-    gap: $spacer * 0.5;
   }
 
   &__title {
@@ -78,6 +77,7 @@
     letter-spacing: -0.5px;
     margin: 0;
     color: $neutral-20;
+    white-space: nowrap;
   }
 
   &__link-wrapper {
@@ -95,25 +95,7 @@
   }
 
   &__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-    font-weight: 500;
-    color: $primary-50;
-    text-decoration: none;
-    transition: color 0.2s ease;
-
-    svg {
-      transition: transform 0.2s ease;
-    }
-
-    &:hover {
-      color: $primary-60;
-
-      svg {
-        transform: translateX(2px);
-      }
-    }
+    font-size: inherit;
   }
 
   @include media-breakpoint-down(md) {
@@ -121,23 +103,37 @@
 
     &__container {
       flex-direction: column;
+      align-items: center;
       text-align: center;
+      width: 100%;
       padding: $spacer * 1.5 $spacer * 1.25;
+      gap: $spacer * 1.5;
     }
 
     &__icon {
-      width: 76px;
-      height: 64px;
-      margin: 0 auto;
+      width: pxToRem(100);
+      height: pxToRem(84);
+      margin: 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
     }
 
     &__content {
       align-items: center;
+      gap: $spacer * 0.5;
     }
 
     &__title {
       font-size: pxToRem(20);
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.5px;
       text-align: center;
+      white-space: normal;
     }
 
     &__link-wrapper {

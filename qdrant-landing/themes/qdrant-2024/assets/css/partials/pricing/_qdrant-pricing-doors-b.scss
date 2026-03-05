@@ -43,8 +43,16 @@
     }
   }
 
-  &__doors {
+  &__doors-wrapper {
     display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__doors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto 1fr auto;
     width: 100%;
     max-width: pxToRem(1110);
     margin: 0 auto;
@@ -52,13 +60,26 @@
     &--hidden {
       display: none;
     }
+
+    &[data-doors-tab='on-premise'] {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto auto 1fr 1fr auto;
+      max-width: pxToRem(1300);
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   &__door {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 4;
     background-color: $neutral-98;
+
+    [data-doors-tab='on-premise'] & {
+      grid-row: span 5;
+      grid-template-rows: subgrid;
+    }
     border: 1px solid $neutral-90;
     border-right: none;
 
@@ -163,6 +184,10 @@
     padding: $spacer $spacer * 2;
     border-bottom: 0.5px solid $neutral-80;
     min-height: pxToRem(168);
+
+    [data-doors-tab='on-premise'] & {
+      min-height: auto;
+    }
   }
 
   &__feature-group-label {
@@ -199,7 +224,7 @@
   &__check-icon {
     flex-shrink: 0;
     margin-top: 3px;
-    color: $neutral-30;
+    color: $primary-50;
   }
 
   &__marketplace {
@@ -304,12 +329,27 @@
   @include media-breakpoint-down(lg) {
     padding: 0 0 $spacer * 2;
 
+    &__doors-wrapper {
+      width: 100%;
+    }
+
     &__doors {
+      display: flex;
       flex-direction: column;
+      grid-template-columns: unset;
+      grid-template-rows: unset;
       gap: $spacer * 1.5;
+
+      &--hidden {
+        display: none;
+      }
     }
 
     &__door {
+      display: flex;
+      flex-direction: column;
+      grid-row: unset;
+      grid-template-rows: unset;
       border-radius: pxToRem(8);
       border: 1px solid $neutral-90;
       border-right: 1px solid $neutral-90;
@@ -332,7 +372,7 @@
     padding: 0 $spacer * 1.25 $spacer * 2;
 
     &__tabs {
-      width: 100%;
+      width: fit-content;
     }
   }
 }

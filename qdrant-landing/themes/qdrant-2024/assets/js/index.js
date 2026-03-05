@@ -169,11 +169,34 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Pricing features tabs (Managed / On-Premise)
+  function expandFeaturesTableSections(wrapper) {
+    if (!wrapper || wrapper.classList.contains('qdrant-pricing-features__table-wrapper--hidden')) return;
+    wrapper.querySelectorAll('.pricing-table__table-section').forEach((section) => {
+      const rows = section.querySelector('.pricing-table__table-section-rows');
+      if (!rows) return;
+      section.classList.remove('qdrant-pricing-features__table-section--collapsed');
+      rows.style.maxHeight = rows.scrollHeight + 'px';
+    });
+  }
+
   const featuresTabs = document.querySelectorAll('.qdrant-pricing-features__tab');
+  const featuresTableWrappers = document.querySelectorAll('[data-features-tab]');
   featuresTabs.forEach((tab) => {
     tab.addEventListener('click', () => {
       featuresTabs.forEach((t) => t.classList.remove('qdrant-pricing-features__tab--active'));
       tab.classList.add('qdrant-pricing-features__tab--active');
+      const targetTab = tab.dataset.tab;
+      featuresTableWrappers.forEach((wrapper) => {
+        wrapper.classList.toggle(
+          'qdrant-pricing-features__table-wrapper--hidden',
+          wrapper.dataset.featuresTab !== targetTab
+        );
+      });
+      // Expand sections in the newly visible table (they get maxHeight:0 when hidden)
+      const visibleWrapper = document.querySelector(`[data-features-tab="${targetTab}"]`);
+      requestAnimationFrame(() => {
+        expandFeaturesTableSections(visibleWrapper);
+      });
     });
   });
 
@@ -181,51 +204,55 @@ document.addEventListener('DOMContentLoaded', function () {
   function updateMobileTierColumns(activeTier) {
     const allTierCols = document.querySelectorAll('[data-tier-col]');
     allTierCols.forEach((col) => {
-      col.classList.remove('qdrant-pricing-features__table-cell--mobile-active');
+      col.classList.remove('pricing-table__table-cell--mobile-active');
     });
     const activeCols = document.querySelectorAll(`[data-tier-col="${activeTier}"]`);
     activeCols.forEach((col) => {
-      col.classList.add('qdrant-pricing-features__table-cell--mobile-active');
+      col.classList.add('pricing-table__table-cell--mobile-active');
     });
   }
 
-  const tierTabs = document.querySelectorAll('.qdrant-pricing-features__tier-tab');
+  const tierTabs = document.querySelectorAll('.pricing-table__tier-tab');
   if (tierTabs.length) {
     updateMobileTierColumns(tierTabs[0].dataset.tier);
     tierTabs.forEach((tab) => {
       tab.addEventListener('click', () => {
-        tierTabs.forEach((t) => t.classList.remove('qdrant-pricing-features__tier-tab--active'));
-        tab.classList.add('qdrant-pricing-features__tier-tab--active');
+        tierTabs.forEach((t) => t.classList.remove('pricing-table__tier-tab--active'));
+        tab.classList.add('pricing-table__tier-tab--active');
         updateMobileTierColumns(tab.dataset.tier);
       });
     });
   }
 
   // Pricing features section collapse/expand
-  document.querySelectorAll('.qdrant-pricing-features__table-section').forEach((section) => {
-    const header = section.querySelector('.qdrant-pricing-features__table-section-header');
+  document.querySelectorAll('.pricing-table__table-section').forEach((section) => {
+    const header = section.querySelector('.pricing-table__table-section-header');
     const rows = section.querySelector('.qdrant-pricing-features__table-section-rows');
     if (!header || !rows) return;
 
-    rows.style.maxHeight = rows.scrollHeight + 'px';
+    // Only set maxHeight for visible sections (hidden table has scrollHeight 0)
+    const wrapper = section.closest('[data-features-tab]');
+    if (!wrapper?.classList.contains('qdrant-pricing-features__table-wrapper--hidden')) {
+      rows.style.maxHeight = rows.scrollHeight + 'px';
+    }
 
     header.addEventListener('click', () => {
-      const isCollapsed = section.classList.contains('qdrant-pricing-features__table-section--collapsed');
+      const isCollapsed = section.classList.contains('pricing-table__table-section--collapsed');
 
       if (isCollapsed) {
         rows.style.maxHeight = rows.scrollHeight + 'px';
-        section.classList.remove('qdrant-pricing-features__table-section--collapsed');
+        section.classList.remove('pricing-table__table-section--collapsed');
       } else {
         rows.style.maxHeight = rows.scrollHeight + 'px';
         requestAnimationFrame(() => {
           rows.style.maxHeight = '0px';
-          section.classList.add('qdrant-pricing-features__table-section--collapsed');
+          section.classList.add('pricing-table__table-section--collapsed');
         });
       }
     });
 
     rows.addEventListener('transitionend', () => {
-      if (!section.classList.contains('qdrant-pricing-features__table-section--collapsed')) {
+      if (!section.classList.contains('pricing-table__table-section--collapsed')) {
         rows.style.maxHeight = 'none';
       }
     });
@@ -249,51 +276,51 @@ document.addEventListener('DOMContentLoaded', function () {
   function updateComparisonMobileTierColumns(activeTier) {
     const allTierCols = document.querySelectorAll('.qdrant-pricing-comparison [data-tier-col]');
     allTierCols.forEach((col) => {
-      col.classList.remove('qdrant-pricing-comparison__table-cell--mobile-active');
+      col.classList.remove('pricing-table__table-cell--mobile-active');
     });
     const activeCols = document.querySelectorAll(`.qdrant-pricing-comparison [data-tier-col="${activeTier}"]`);
     activeCols.forEach((col) => {
-      col.classList.add('qdrant-pricing-comparison__table-cell--mobile-active');
+      col.classList.add('pricing-table__table-cell--mobile-active');
     });
   }
 
-  const comparisonTierTabs = document.querySelectorAll('.qdrant-pricing-comparison__tier-tab');
+  const comparisonTierTabs = document.querySelectorAll('.qdrant-pricing-comparison .pricing-table__tier-tab');
   if (comparisonTierTabs.length) {
     updateComparisonMobileTierColumns(comparisonTierTabs[0].dataset.tier);
     comparisonTierTabs.forEach((tab) => {
       tab.addEventListener('click', () => {
-        comparisonTierTabs.forEach((t) => t.classList.remove('qdrant-pricing-comparison__tier-tab--active'));
-        tab.classList.add('qdrant-pricing-comparison__tier-tab--active');
+        comparisonTierTabs.forEach((t) => t.classList.remove('pricing-table__tier-tab--active'));
+        tab.classList.add('pricing-table__tier-tab--active');
         updateComparisonMobileTierColumns(tab.dataset.tier);
       });
     });
   }
 
   // Pricing comparison section collapse/expand
-  document.querySelectorAll('.qdrant-pricing-comparison__table-section').forEach((section) => {
-    const header = section.querySelector('.qdrant-pricing-comparison__table-section-header');
-    const rows = section.querySelector('.qdrant-pricing-comparison__table-section-rows');
+  document.querySelectorAll('.qdrant-pricing-comparison .pricing-table__table-section').forEach((section) => {
+    const header = section.querySelector('.pricing-table__table-section-header');
+    const rows = section.querySelector('.pricing-table__table-section-rows');
     if (!header || !rows) return;
 
     rows.style.maxHeight = rows.scrollHeight + 'px';
 
     header.addEventListener('click', () => {
-      const isCollapsed = section.classList.contains('qdrant-pricing-comparison__table-section--collapsed');
+      const isCollapsed = section.classList.contains('pricing-table__table-section--collapsed');
 
       if (isCollapsed) {
         rows.style.maxHeight = rows.scrollHeight + 'px';
-        section.classList.remove('qdrant-pricing-comparison__table-section--collapsed');
+        section.classList.remove('pricing-table__table-section--collapsed');
       } else {
         rows.style.maxHeight = rows.scrollHeight + 'px';
         requestAnimationFrame(() => {
           rows.style.maxHeight = '0px';
-          section.classList.add('qdrant-pricing-comparison__table-section--collapsed');
+          section.classList.add('pricing-table__table-section--collapsed');
         });
       }
     });
 
     rows.addEventListener('transitionend', () => {
-      if (!section.classList.contains('qdrant-pricing-comparison__table-section--collapsed')) {
+      if (!section.classList.contains('pricing-table__table-section--collapsed')) {
         rows.style.maxHeight = 'none';
       }
     });

@@ -1,0 +1,255 @@
+{{ $tiers := .tiers }}
+{{ $sections := .sections }}
+{{ $ctas := .ctas }}
+{{ $tierCols := slice "oss" "free-tier" "paid-tier" "premium-tier" }}
+
+<div class="pricing-table">
+{{/* Mobile tier tabs */}}
+<div class="pricing-table__tier-tabs">
+  {{ range $index, $tier := $tiers }}
+    <button
+      class="pricing-table__tier-tab{{ if eq $index 0 }}
+        pricing-table__tier-tab--active
+      {{ end }}"
+      data-tier="{{ $tier.name | urlize }}"
+    >
+      {{ $tier.name }}
+    </button>
+  {{ end }}
+</div>
+
+<div class="pricing-table__table">
+  <div class="pricing-table__table-header">
+    <div class="pricing-table__table-cell pricing-table__table-cell--feature"></div>
+    {{ range $tiers }}
+      <div
+        class="pricing-table__table-cell pricing-table__table-cell--tier{{ if .highlight }}
+          pricing-table__table-cell--highlight
+        {{ end }}"
+        data-tier-col="{{ .name | urlize }}"
+      >
+        {{ .name }}
+      </div>
+    {{ end }}
+  </div>
+
+  <div class="pricing-table__table-body">
+    {{ range $sections }}
+      <div class="pricing-table__table-section">
+        <div class="pricing-table__table-section-header">
+          <span class="pricing-table__table-section-title">{{ .name }}</span>
+          <svg
+            class="pricing-table__chevron"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 12.5L10 7.5L15 12.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <div class="pricing-table__table-section-rows">
+          {{ range .features }}
+            <div class="pricing-table__table-row">
+              <div class="pricing-table__table-cell pricing-table__table-cell--feature">
+                {{ .name }}
+              </div>
+              <div class="pricing-table__table-cell" data-tier-col="oss">
+                {{ if eq .oss true }}
+                  <svg
+                    class="pricing-table__check"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.6667 5L7.50001 14.1667L3.33334 10"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                {{ else if eq .oss false }}
+                  <svg
+                    class="pricing-table__x"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 5L5 15M5 5L15 15"
+                      stroke="#717C99"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                {{ else }}
+                  <span class="pricing-table__text">{{ .oss }}</span>
+                {{ end }}
+              </div>
+              <div class="pricing-table__table-cell" data-tier-col="free-tier">
+                {{ if eq .free true }}
+                  <svg
+                    class="pricing-table__check"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.6667 5L7.50001 14.1667L3.33334 10"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                {{ else if eq .free false }}
+                  <svg
+                    class="pricing-table__x"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 5L5 15M5 5L15 15"
+                      stroke="#717C99"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                {{ else }}
+                  <span class="pricing-table__text">{{ .free }}</span>
+                {{ end }}
+              </div>
+              <div
+                class="pricing-table__table-cell pricing-table__table-cell--highlight"
+                data-tier-col="paid-tier"
+              >
+                {{ if eq .paid true }}
+                  <svg
+                    class="pricing-table__check"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.6667 5L7.50001 14.1667L3.33334 10"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                {{ else if eq .paid false }}
+                  <svg
+                    class="pricing-table__x"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 5L5 15M5 5L15 15"
+                      stroke="#717C99"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                {{ else }}
+                  <span class="pricing-table__text pricing-table__text--bold">{{ .paid }}</span>
+                {{ end }}
+              </div>
+              <div class="pricing-table__table-cell" data-tier-col="premium-tier">
+                {{ if eq .premium true }}
+                  <svg
+                    class="pricing-table__check"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.6667 5L7.50001 14.1667L3.33334 10"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                {{ else if eq .premium false }}
+                  <svg
+                    class="pricing-table__x"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 5L5 15M5 5L15 15"
+                      stroke="#717C99"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                {{ else }}
+                  <span class="pricing-table__text pricing-table__text--bold"
+                    >{{ .premium }}</span
+                  >
+                {{ end }}
+              </div>
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    {{ end }}
+  </div>
+
+  <div class="pricing-table__table-footer">
+    <div class="pricing-table__table-cell pricing-table__table-cell--feature"></div>
+    {{ range $index, $cta := $ctas }}
+      <div
+        class="pricing-table__table-cell pricing-table__table-cell--cta{{ if eq $index 2 }}
+          pricing-table__table-cell--highlight
+        {{ end }}"
+        data-tier-col="{{ index $tierCols $index }}"
+      >
+        <a
+          href="{{ $cta.url }}"
+          class="button {{ if $cta.contained }}
+            button_contained
+          {{ else }}
+            button_outlined
+          {{ end }}"
+        >
+          {{ $cta.text }}
+        </a>
+      </div>
+    {{ end }}
+  </div>
+</div>
+</div>

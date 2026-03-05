@@ -17,7 +17,7 @@
   transition:
     all 0.3s ease-in-out,
     color 0.1s linear;
-  padding-right: $icon-width;
+  padding-right: calc($icon-width + 6px);
 
   &:before {
     display: block;
@@ -52,7 +52,6 @@
   }
 
   &:hover {
-    padding-right: calc($icon-width + 6px);
     &:after {
       animation: dash 0.3s ease-in-out forwards;
     }
