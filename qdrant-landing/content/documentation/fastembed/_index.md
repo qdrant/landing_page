@@ -1,6 +1,6 @@
 ---
 title: "FastEmbed"
-weight: 7
+weight: 102
 partition: ecosystem
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Multivectors and Late Interaction
-weight: 2
+weight: 4
 aliases:
   - /documentation/search-precision/multivector-representations-with-Qdrant/
   - /documentation/advanced-tutorials/using-multivector-representations/

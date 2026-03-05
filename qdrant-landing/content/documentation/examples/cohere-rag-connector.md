@@ -1,6 +1,6 @@
 ---
 title: Implement Cohere RAG connector
-weight: 24
+weight: 7
 aliases:
   - /documentation/tutorials/cohere-rag-connector/
 partition: ecosystem

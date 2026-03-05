@@ -1,6 +1,6 @@
 ---
 title: Multi-Vector Postprocessing
-weight: 9
+weight: 7
 partition: ecosystem
 ---
 

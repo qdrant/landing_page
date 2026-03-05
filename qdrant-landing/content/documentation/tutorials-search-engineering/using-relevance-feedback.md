@@ -1,6 +1,6 @@
 ---
 title: Relevance Feedback Retrieval in Qdrant
-weight: 2
+weight: 5
 ---
 # Relevance Feedback in Qdrant
 

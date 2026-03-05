@@ -1,6 +1,6 @@
 ---
 title: Working with miniCOIL
-weight: 4
+weight: 3
 partition: ecosystem
 ---
 

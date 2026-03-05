@@ -1,6 +1,6 @@
 ---
 title: Kafka Streaming into Qdrant
-weight: 49
+weight: 3
 hideInSidebar: true
 aliases:
   - /examples/data-streaming-kafka-qdrant/

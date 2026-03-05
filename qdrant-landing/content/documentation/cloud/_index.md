@@ -1,6 +1,6 @@
 ---
 title: Managed Cloud
-weight: 14
+weight: 204
 aliases:
   - /documentation/overview/qdrant-alternatives/documentation/cloud/
 partition: deploy

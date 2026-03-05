@@ -3,7 +3,7 @@ title: Data Migration
 aliases:
   - /documentation/tutorials-operations/migration/
     - /documentation/database-tutorials/migration/
-weight: 20
+weight: 4
 partition: develop
 ---
 

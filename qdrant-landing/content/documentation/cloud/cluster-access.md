@@ -1,6 +1,6 @@
 ---
 title: Cluster Access
-weight: 35
+weight: 4
 partition: deploy
 ---
 

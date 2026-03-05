@@ -2,7 +2,7 @@
 #Delimiter files are used to separate the list of documentation pages into sections.
 title: "Interfaces & Tools"
 type: delimiter
-weight: 25 # Change this weight to change order of sections
+weight: 9300 # Change this weight to change order of sections
 sitemapExclude: True
 _build:
   publishResources: false

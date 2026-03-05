@@ -1,6 +1,6 @@
 ---
 title: Tutorials & Examples
-weight: 21
+weight: 9500
 partition: deploy
 hideInSidebar: true
 ---

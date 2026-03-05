@@ -1,6 +1,6 @@
 ---
 title: Private Chatbot for Interactive Learning
-weight: 23 
+weight: 6 
 social_preview_image: /blog/hybrid-cloud-red-hat-openshift/hybrid-cloud-red-hat-openshift-tutorial.png
 aliases:
   - /documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/

@@ -1,6 +1,6 @@
 ---
 title: Inference
-weight: 11
+weight: 204
 aliases:
   - /documentation/concepts/inference/
   - ../inference

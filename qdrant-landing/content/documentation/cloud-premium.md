@@ -1,6 +1,6 @@
 ---
 title: Premium Tier
-weight: 19
+weight: 209
 partition: deploy
 aliases:
   - /documentation/cloud/premium/

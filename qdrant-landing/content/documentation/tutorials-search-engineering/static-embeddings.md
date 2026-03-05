@@ -1,6 +1,6 @@
 ---
 title: Static Embeddings
-weight: 181
+weight: 10
 aliases:
   - /blog/static-embeddings/
   - /documentation/database-tutorials/static-embeddings/

@@ -1,6 +1,6 @@
 ---
 title: Running with GPU
-weight: 30
+weight: 301
 partition: deploy
 aliases:
   - /documentation/configuration/running-with-GPU/

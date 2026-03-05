@@ -1,6 +1,6 @@
 ---
 title: Deployment Platforms
-weight: 5
+weight: 6
 partition: deploy
 ---
 

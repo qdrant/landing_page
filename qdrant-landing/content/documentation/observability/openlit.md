@@ -1,6 +1,6 @@
 ---
 title: OpenLIT
-weight: 3100
+weight: 2
 aliases: [ ../frameworks/openlit/ ]
 partition: ecosystem
 ---

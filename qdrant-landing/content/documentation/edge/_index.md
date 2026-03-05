@@ -1,6 +1,6 @@
 ---
 title: "Qdrant Edge"
-weight: 6
+weight: 101
 partition: ecosystem
 ---
 

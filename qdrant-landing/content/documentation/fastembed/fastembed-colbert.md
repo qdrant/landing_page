@@ -1,6 +1,6 @@
 ---
 title: Working with ColBERT 
-weight: 6
+weight: 5
 partition: ecosystem
 ---
 

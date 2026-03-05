@@ -1,6 +1,6 @@
 ---
 title: Storage
-weight: 80
+weight: 4
 aliases:
   - /documentation/concepts/storage/
   - ../storage

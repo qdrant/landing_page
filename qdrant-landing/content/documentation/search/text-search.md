@@ -1,6 +1,6 @@
 ---
 title: Text Search
-weight: 100
+weight: 6
 aliases:
   - /documentation/guides/text-search/
   - ../text-search

@@ -1,6 +1,6 @@
 ---
 title: Qdrant Cloud API
-weight: 27
+weight: 3
 partition: deploy
 aliases:
   - /documentation/cloud-api/

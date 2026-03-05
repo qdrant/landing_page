@@ -3,7 +3,7 @@ title: Snapshots
 aliases:
   - /documentation/tutorials/create-snapshot/
   - /documentation/database-tutorials/create-snapshot/
-weight: 10
+weight: 1
 partition: develop
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Configure Clusters
-weight: 55
+weight: 8
 partition: deploy
 ---
 

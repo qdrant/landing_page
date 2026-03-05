@@ -1,11 +1,10 @@
 ---
 title: Administration
-weight: 20
+weight: 305
+partition: deploy
 aliases:
   - /documentation/guides/administration/
-  - ../administration
-partition: develop
-hideInSidebar: true
+  - /documentation/triage/administration/
 ---
 
 # Administration

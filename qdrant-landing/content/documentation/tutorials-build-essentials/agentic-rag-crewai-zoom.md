@@ -1,6 +1,6 @@
 ---
 title: Agentic RAG with CrewAI
-weight: 2
+weight: 1
 partition: ecosystem
 social_preview_image: /documentation/examples/agentic-rag-crewai-zoom/social_preview.png
 aliases:

@@ -2,7 +2,7 @@
 #Delimiter files are used to separate the list of documentation pages into sections.
 title: "Tutorials"
 type: delimiter
-weight: 29
+weight: 400
 sitemapExclude: True
 _build:
   publishResources: false

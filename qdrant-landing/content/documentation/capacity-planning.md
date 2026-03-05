@@ -1,6 +1,6 @@
 ---
 title: Capacity Planning
-weight: 40
+weight: 502
 aliases:
   - /documentation/guides/capacity-planning/
   - capacity

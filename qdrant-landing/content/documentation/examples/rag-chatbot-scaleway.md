@@ -1,6 +1,6 @@
 ---
 title: Blog-Reading Chatbot with GPT-4o 
-weight: 35
+weight: 14
 social_preview_image: /blog/hybrid-cloud-scaleway/hybrid-cloud-scaleway-tutorial.png
 aliases:
   - /documentation/tutorials/rag-chatbot-scaleway/

@@ -1,6 +1,6 @@
 ---
 title: Authentication
-weight: 30
+weight: 2
 partition: deploy
 ---
 

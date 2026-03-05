@@ -1,6 +1,6 @@
 ---
 title: Billing & Payments
-weight: 18
+weight: 208
 partition: deploy
 aliases:
   - aws-marketplace

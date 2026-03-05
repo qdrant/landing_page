@@ -3,7 +3,7 @@ title: Semantic Search for Code
 aliases:
   - /documentation/tutorials/code-search/
   - /documentation/advanced-tutorials/code-search/
-weight: 2
+weight: 1
 partition: develop
 ---
 

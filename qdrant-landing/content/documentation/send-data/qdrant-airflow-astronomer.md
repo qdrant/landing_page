@@ -1,6 +1,6 @@
 ---
 title: Querying with Airflow
-weight: 36
+weight: 2
 hideInSidebar: true
 aliases:
   - /documentation/examples/qdrant-airflow-astronomer/

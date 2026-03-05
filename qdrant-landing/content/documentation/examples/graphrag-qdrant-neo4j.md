@@ -4,7 +4,7 @@ aliases:
   - /documentation/advanced-tutorials/graphrag-qdrant-neo4j/
 short_description: "Integrating Qdrant and Neo4j for Graph Retrieval-Augmented Generation (GraphRAG) with structured and unstructured data."
 description: "A step-by-step guide on implementing GraphRAG with Qdrant and Neo4j, combining vector search with knowledge graphs for enhanced retrieval."
-weight: 5
+weight: 1
 preview_image: /documentation/examples/graphrag-qdrant-neo4j/social_preview.png
 social_preview_image: /documentation/examples/graphrag-qdrant-neo4j/social_preview.png
 partition: ecosystem

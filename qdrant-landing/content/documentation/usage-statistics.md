@@ -1,6 +1,6 @@
 ---
 title: Usage Statistics
-weight: 140
+weight: 105
 aliases:
   - /documentation/open-source/usage-statistics/
   - /documentation/guides/usage-statistics/

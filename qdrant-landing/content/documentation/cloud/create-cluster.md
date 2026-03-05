@@ -1,6 +1,6 @@
 ---
 title: Create a Cluster
-weight: 20
+weight: 1
 partition: deploy
 ---
 

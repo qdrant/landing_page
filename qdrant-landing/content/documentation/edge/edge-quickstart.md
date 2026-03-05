@@ -1,6 +1,6 @@
 ---
 title: "Quickstart" 
-weight: 10
+weight: 1
 partition: ecosystem
 ---
 

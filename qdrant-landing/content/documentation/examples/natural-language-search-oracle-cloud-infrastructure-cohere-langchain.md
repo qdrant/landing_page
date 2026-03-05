@@ -1,6 +1,6 @@
 ---
 title: RAG System for Employee Onboarding
-weight: 30
+weight: 11
 social_preview_image: /blog/hybrid-cloud-oracle-cloud-infrastructure/hybrid-cloud-oracle-cloud-infrastructure-tutorial.png
 aliases:
   - /documentation/tutorials/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/

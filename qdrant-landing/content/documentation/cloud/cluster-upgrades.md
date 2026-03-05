@@ -1,6 +1,6 @@
 ---
 title: Update Clusters
-weight: 55
+weight: 7
 partition: deploy
 ---
 

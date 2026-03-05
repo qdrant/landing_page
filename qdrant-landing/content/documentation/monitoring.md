@@ -1,6 +1,6 @@
 ---
 title: Monitoring & Telemetry
-weight: 110
+weight: 102
 aliases:
   - /documentation/open-source/monitoring/
   - /documentation/guides/monitoring/

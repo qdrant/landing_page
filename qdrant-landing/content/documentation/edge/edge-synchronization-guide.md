@@ -1,6 +1,6 @@
 ---
 title: "Synchronize with a Server" 
-weight: 30
+weight: 4
 partition: ecosystem
 ---
 

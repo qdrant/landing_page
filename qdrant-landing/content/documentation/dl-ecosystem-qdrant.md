@@ -2,7 +2,7 @@
 #Delimiter files are used to separate the list of documentation pages into sections.
 title: "Qdrant"
 type: delimiter
-weight: 5
+weight: 100
 sitemapExclude: True
 _build:
   publishResources: false

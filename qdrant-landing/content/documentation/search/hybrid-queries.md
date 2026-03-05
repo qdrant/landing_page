@@ -1,6 +1,6 @@
 ---
 title: Hybrid Queries #required
-weight: 57 # This is the order of the page in the sidebar. The lower the number, the higher the page will be in the sidebar.
+weight: 3 # This is the order of the page in the sidebar. The lower the number, the higher the page will be in the sidebar.
 aliases:
   - /documentation/concepts/hybrid-queries/
   - ../hybrid-queries

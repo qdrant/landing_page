@@ -1,6 +1,6 @@
 ---
 title: Points
-weight: 40
+weight: 1
 aliases:
   - /documentation/concepts/points/
   - ../points

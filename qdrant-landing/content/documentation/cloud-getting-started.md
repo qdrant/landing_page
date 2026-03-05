@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-weight: 11
+weight: 201
 partition: deploy
 aliases:
   - /documentation/cloud/getting-started/

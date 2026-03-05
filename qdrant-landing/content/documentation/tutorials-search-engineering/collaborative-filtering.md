@@ -7,7 +7,7 @@ short_description: "Build an effective movie recommendation system using collabo
 description: "Build an effective movie recommendation system using collaborative filtering and Qdrant's similarity search." 
 preview_image: /blog/collaborative-filtering/social_preview.png
 social_preview_image: /blog/collaborative-filtering/social_preview.png
-weight: 3
+weight: 6
 partition: develop
 ---
 

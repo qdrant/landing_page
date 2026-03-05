@@ -4,7 +4,7 @@ aliases:
   - /documentation/tutorials-develop/bulk-upload/
   - /documentation/tutorials/bulk-upload/
   - /documentation/database-tutorials/bulk-upload/
-weight: 1
+weight: 3
 partition: develop
 ---
 

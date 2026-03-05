@@ -3,7 +3,7 @@ title: Hybrid Search with FastEmbed
 aliases:
   - /documentation/tutorials/hybrid-search-fastembed/
   - /documentation/beginner-tutorials/hybrid-search-fastembed/
-weight: 3
+weight: 7
 partition: develop
 ---
 

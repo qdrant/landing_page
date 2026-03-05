@@ -1,6 +1,6 @@
 ---
 title: "FastEmbed & Qdrant"
-weight: 3
+weight: 2
 partition: ecosystem
 ---
 

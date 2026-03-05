@@ -1,6 +1,6 @@
 ---
 title: Question-Answering System for AI Customer Support
-weight: 26
+weight: 8
 social_preview_image: /blog/hybrid-cloud-airbyte/hybrid-cloud-airbyte-tutorial.png
 aliases:
   - /documentation/tutorials/rag-customer-support-cohere-airbyte-aws/

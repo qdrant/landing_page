@@ -1,6 +1,6 @@
 ---
 title: Send Data to Qdrant
-weight: 25
+weight: 206
 partition: ecosystem
 hideInSidebar: true
 ---

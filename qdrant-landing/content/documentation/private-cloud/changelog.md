@@ -1,6 +1,6 @@
 ---
 title: Changelog
-weight: 5
+weight: 7
 partition: deploy
 ---
 

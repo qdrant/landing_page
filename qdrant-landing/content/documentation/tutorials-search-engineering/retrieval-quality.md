@@ -3,7 +3,7 @@ title: Retrieval Quality Evaluation
 aliases:
   - /documentation/tutorials/retrieval-quality/
   - /documentation/beginner-tutorials/retrieval-quality/
-weight: 4
+weight: 9
 partition: develop
 ---
 

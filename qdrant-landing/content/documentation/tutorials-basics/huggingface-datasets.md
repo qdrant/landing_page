@@ -4,7 +4,7 @@ hideInSidebar: true
 aliases:
   - /documentation/tutorials/huggingface-datasets/
   - /documentation/database-tutorials/huggingface-datasets/
-weight: 3
+weight: 1
 partition: develop
 ---
 

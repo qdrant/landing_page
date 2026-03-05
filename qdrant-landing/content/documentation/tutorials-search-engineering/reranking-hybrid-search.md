@@ -1,6 +1,6 @@
 ---
 title: Hybrid Search with Reranking
-weight: 2
+weight: 3
 aliases:
   - /documentation/search-precision/reranking-hybrid-search/
   - /documentation/advanced-tutorials/reranking-hybrid-search/

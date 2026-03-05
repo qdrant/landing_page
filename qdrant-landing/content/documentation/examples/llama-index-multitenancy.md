@@ -1,6 +1,6 @@
 ---
 title: Multitenancy with LlamaIndex
-weight: 18
+weight: 5
 aliases:
   - /documentation/tutorials/llama-index-multitenancy/
 partition: ecosystem

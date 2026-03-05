@@ -2,7 +2,7 @@
 title: Migrate to a New Embedding Model
 aliases:
   - /documentation/tutorials/embedding-model-migration/
-weight: 30
+weight: 2
 partition: develop
 ---
 

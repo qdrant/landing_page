@@ -1,6 +1,6 @@
 ---
 title: Local Quickstart
-weight: 4
+weight: 102
 partition: develop
 aliases:
   - quick_start

@@ -1,6 +1,6 @@
 ---
 title: Private Cloud
-weight: 16
+weight: 206
 partition: deploy
 ---
 

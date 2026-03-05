@@ -1,6 +1,6 @@
 ---
 title: Logging & Monitoring
-weight: 4
+weight: 5
 partition: deploy
 ---
 

@@ -1,6 +1,9 @@
 ---
 title: Search Relevance
-weight: 52
+weight: 5
+partition: develop
+aliases:
+  - /documentation/concepts/search-relevance/
 ---
 
 # Search Relevance

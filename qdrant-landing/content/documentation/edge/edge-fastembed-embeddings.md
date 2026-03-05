@@ -1,6 +1,6 @@
 ---
 title: "On-Device Embeddings" 
-weight: 15
+weight: 2
 partition: ecosystem
 ---
 

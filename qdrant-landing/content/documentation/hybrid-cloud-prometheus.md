@@ -1,6 +1,6 @@
 ---
 title: Self-Hosted Prometheus Monitoring
-weight: 31
+weight: 402
 partition: deploy
 aliases:
   - /documentation/tutorials-and-examples/hybrid-cloud-prometheus/

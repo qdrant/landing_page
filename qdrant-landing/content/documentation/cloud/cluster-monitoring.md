@@ -1,6 +1,6 @@
 ---
 title: Monitor Clusters
-weight: 55
+weight: 6
 partition: deploy
 ---
 

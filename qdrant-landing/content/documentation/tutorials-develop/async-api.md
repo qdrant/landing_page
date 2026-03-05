@@ -3,7 +3,7 @@ title: Async API
 aliases:
   - /documentation/tutorials/async-api/
   - /documentation/database-tutorials/async-api/
-weight: 4
+weight: 1
 partition: develop
 ---
 

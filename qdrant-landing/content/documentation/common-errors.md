@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting
-weight: 150
+weight: 401
 aliases:
   - /documentation/guides/common-errors/
   - ../tutorials/common-errors

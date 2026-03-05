@@ -1,6 +1,6 @@
 ---
 title: Security
-weight: 20
+weight: 210
 partition: deploy
 aliases:
     - /documentation/cloud/security/

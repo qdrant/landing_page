@@ -1,6 +1,6 @@
 ---
 title: Managed Cloud Prometheus Monitoring
-weight: 30
+weight: 401
 partition: deploy
 aliases:
   - /documentation/tutorials-and-examples/managed-cloud-prometheus/

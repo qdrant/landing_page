@@ -1,6 +1,6 @@
 ---
 title: Configure the Qdrant Operator 
-weight: 4
+weight: 5
 partition: deploy
 ---
 
