@@ -157,17 +157,6 @@ document.addEventListener('DOMContentLoaded', function () {
     el.addEventListener('click', toggleAccordion);
   });
 
-  // Pricing FAQ accordion
-  const pricingFaqItems = document.querySelectorAll('.qdrant-pricing-faq__item');
-  pricingFaqItems.forEach((item) => {
-    const question = item.querySelector('.qdrant-pricing-faq__question');
-    if (question) {
-      question.addEventListener('click', () => {
-        item.classList.toggle('qdrant-pricing-faq__item--active');
-      });
-    }
-  });
-
   // Pricing features tabs (Managed / On-Premise)
   function expandFeaturesTableSections(wrapper) {
     if (!wrapper || wrapper.classList.contains('qdrant-pricing-features__table-wrapper--hidden')) return;

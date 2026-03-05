@@ -2,44 +2,32 @@
 
 
 <section class="qdrant-pricing-comparison-hero">
-  <div class="qdrant-pricing-comparison-hero__background">
-    <div class="qdrant-pricing-comparison-hero__grid"></div>
-  </div>
+  <div class="qdrant-pricing-comparison-hero__background"></div>
   <div class="container">
     <div class="qdrant-pricing-comparison-hero__content">
       {{ with .Params.badge }}
         <div class="qdrant-pricing-comparison-hero__badge">
-          <svg width="22" height="14" viewBox="0 0 22 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M15.4 8.4C15.4 8.4 14.8 8.6 14.2 8.6C13.6 8.6 13 8.4 13 8.4V10.2C13 10.2 13.6 10.4 14.2 10.4C14.8 10.4 15.4 10.2 15.4 10.2V8.4Z"
-              fill="#326CE5"
-            />
-            <path
-              d="M11 1C5.477 1 1 5.477 1 11C1 11.34 1.02 11.675 1.058 12.005C1.27 13.135 2.49 14 4 14H18C19.51 14 20.73 13.135 20.942 12.005C20.98 11.675 21 11.34 21 11C21 5.477 16.523 1 11 1Z"
-              stroke="#326CE5"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M11 4V7L8.5 9.5"
-              stroke="#326CE5"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+          <svg width="22" height="14" viewBox="0 0 21.7954 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21.7954 10.0172C21.7954 12.1827 20.0228 13.9499 17.8508 13.9499C17.8008 13.9499 17.5012 13.9499 15.1295 13.9499C13.4817 13.9499 10.8603 13.9499 6.69091 13.9499H4.71859C2.07219 14.0246 0 11.9089 0 9.39497C0 6.85614 2.09715 4.74045 4.76852 4.84001C7.04044 -2.27866 17.4763 -1.28304 18.375 6.10943C20.2974 6.38322 21.7954 8.02599 21.7954 10.0172Z" fill="url(#cloud-grad-a)"/>
+            <path d="M11.4356 14C15.3101 14 18.4511 10.8686 18.4511 7.00578C18.4511 3.14298 15.3101 0.011557 11.4356 0.011557C7.56105 0.011557 4.42012 3.14298 4.42012 7.00578C4.42012 10.8686 7.56105 14 11.4356 14Z" fill="url(#cloud-grad-b)"/>
+            <path d="M17.8503 13.95C20.0289 13.95 21.795 12.1893 21.795 10.0173C21.795 7.84534 20.0289 6.08461 17.8503 6.08461C15.6717 6.08461 13.9057 7.84534 13.9057 10.0173C13.9057 12.1893 15.6717 13.95 17.8503 13.95Z" fill="url(#cloud-grad-c)"/>
+            <defs>
+              <linearGradient id="cloud-grad-a" x1="7.64211" y1="-3.36684" x2="10.134" y2="10.1487" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#D9E2FE"/><stop offset="0.485" stop-color="#89A9FF"/><stop offset="1" stop-color="#2F6FF0"/>
+              </linearGradient>
+              <linearGradient id="cloud-grad-b" x1="10.019" y1="-3.61682" x2="12.207" y2="9.82415" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#D9E2FE"/><stop offset="0.485" stop-color="#89A9FF"/><stop offset="1" stop-color="#2F6FF0"/>
+              </linearGradient>
+              <linearGradient id="cloud-grad-c" x1="15.7689" y1="-0.178481" x2="15.7064" y2="9.63656" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#D9E2FE"/><stop offset="0.404572" stop-color="#89A9FF"/><stop offset="1" stop-color="#2F6FF0"/>
+              </linearGradient>
+            </defs>
           </svg>
           <span>{{ .text }}</span>
           <a href="{{ .url }}" class="qdrant-pricing-comparison-hero__badge-link">
             {{ .linkText }}
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M3.33337 8H12.6667M12.6667 8L8.00004 3.33334M12.6667 8L8.00004 12.6667"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
+              <path d="M5.66667 3.33333L10.3333 8L5.66667 12.6667" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </a>
         </div>

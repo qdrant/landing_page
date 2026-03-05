@@ -16,15 +16,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-  }
-
-  &__grid {
-    position: absolute;
-    inset: 0;
-    background-image: linear-gradient(to right, rgba(180, 186, 204, 0.3) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(180, 186, 204, 0.3) 1px, transparent 1px);
-    background-size: 80px 80px;
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%);
+    background: url('/img/prices-background.svg') top center / 100% auto no-repeat;
   }
 
   &__content {

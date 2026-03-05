@@ -150,9 +150,14 @@
 
   &__table-footer {
     display: flex;
+    justify-content: end;
 
     .pricing-table__table-cell {
+      flex: 1;
+      max-width: 12.53rem;
+
       &:first-child {
+        max-width: 18.74rem;
         border-right: 0;
       }
       &:not(:first-child) {

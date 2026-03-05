@@ -19,99 +19,12 @@
     margin: 0 auto;
   }
 
-  &__item {
-    border-bottom: 1px solid $neutral-80;
-
-    &:first-child {
-      border-top: 1px solid $neutral-80;
-    }
-
-    &--active {
-      .qdrant-pricing-faq__answer {
-        display: block;
-      }
-
-      .qdrant-pricing-faq__icon-plus {
-        display: none;
-      }
-
-      .qdrant-pricing-faq__icon-minus {
-        display: block;
-      }
-    }
-  }
-
-  &__question {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: $spacer * 1.5;
-    padding: $spacer * 2 $spacer * 2.5;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: $neutral-98;
-    }
-  }
-
-  &__question-text {
-    flex: 1;
-    margin: 0;
-    font-size: pxToRem(24);
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: -0.5px;
-    color: $neutral-20;
-  }
-
-  &__icon {
-    flex-shrink: 0;
-    color: $neutral-20;
-  }
-
-  &__icon-plus {
-    display: block;
-  }
-
-  &__icon-minus {
-    display: none;
-  }
-
-  &__answer {
-    display: none;
-    padding: 0 $spacer * 2.5 $spacer * 2.5 $spacer * 2.5;
-  }
-
-  &__answer-text {
-    margin: 0;
-    font-size: pxToRem(18);
-    line-height: 1.5;
-    color: $neutral-40;
-  }
-
   @include media-breakpoint-down(lg) {
     padding: $spacer * 4 0 $spacer * 2;
 
     &__title {
       margin-bottom: $spacer * 3;
       font-size: pxToRem(40);
-    }
-
-    &__question {
-      padding: $spacer * 1.5 $spacer * 1.5;
-    }
-
-    &__question-text {
-      font-size: pxToRem(18);
-    }
-
-    &__answer {
-      padding: 0 $spacer * 1.5 $spacer * 1.5 $spacer * 1.5;
-    }
-
-    &__answer-text {
-      font-size: pxToRem(16);
     }
   }
 
@@ -126,22 +39,6 @@
 
     &__questions {
       margin: 0 $spacer * 1.25;
-    }
-
-    &__question {
-      padding: $spacer * 1.5 0;
-    }
-
-    &__question-text {
-      font-size: pxToRem(16);
-    }
-
-    &__answer {
-      padding: 0 0 $spacer * 1.5 0;
-    }
-
-    &__answer-text {
-      font-size: pxToRem(14);
     }
   }
 }
