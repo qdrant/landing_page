@@ -6,11 +6,12 @@
   padding-top: $spacer * 4;
   padding-bottom: $spacer * 4;
   background: radial-gradient(
-    ellipse 120% 80% at 0% 0%,
-    rgba(231, 29, 95, 0.12) 0%,
-    rgba(133, 71, 255, 0.06) 40%,
-    transparent 70%
-  ), $neutral-10;
+      ellipse 120% 80% at 0% 0%,
+      rgba(231, 29, 95, 0.12) 0%,
+      rgba(133, 71, 255, 0.06) 40%,
+      transparent 70%
+    ),
+    $neutral-10;
 
   &__lights-overlay {
     position: absolute;

@@ -50,7 +50,9 @@
     border: none;
     border-radius: pxToRem(8);
     cursor: pointer;
-    transition: color 0.3s ease, background-color 0.3s ease;
+    transition:
+      color 0.3s ease,
+      background-color 0.3s ease;
     white-space: nowrap;
     text-align: center;
 
@@ -89,7 +91,9 @@
     width: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
+    transition:
+      opacity 0.4s ease,
+      visibility 0.4s ease;
     pointer-events: none;
 
     &--active {
@@ -298,7 +302,9 @@
     border-radius: pxToRem(8);
     color: $neutral-40;
     cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
 
     &:hover {
       color: $neutral-20;
@@ -334,7 +340,9 @@
       height: pxToRem(6);
       background-color: $neutral-80;
       border-radius: 50%;
-      transition: background-color 0.2s ease, transform 0.2s ease;
+      transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
     }
 
     &:hover span {

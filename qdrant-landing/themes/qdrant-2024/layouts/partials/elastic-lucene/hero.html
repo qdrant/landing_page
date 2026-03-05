@@ -6,29 +6,35 @@
         <h1 class="elastic-lucene-hero__title">{{ .Params.title | safeHTML }}</h1>
         <p class="elastic-lucene-hero__description">{{ .Params.description }}</p>
         {{ if and .Params.startFree .Params.learnMore }}
-        <div class="elastic-lucene-hero__buttons">
-          <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg">{{ .Params.startFree.text }}</a>
-          <a href="{{ .Params.learnMore.url }}" class="button button_outlined button_lg elastic-lucene-hero__button-outlined">{{ .Params.learnMore.text }}</a>
-        </div>
+          <div class="elastic-lucene-hero__buttons">
+            <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg"
+              >{{ .Params.startFree.text }}</a
+            >
+            <a
+              href="{{ .Params.learnMore.url }}"
+              class="button button_outlined button_lg elastic-lucene-hero__button-outlined"
+              >{{ .Params.learnMore.text }}</a
+            >
+          </div>
         {{ end }}
         {{ if .Params.quotes }}
-        <div class="elastic-lucene-hero__quotes">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="1"
-            height="85"
-            viewBox="0 0 1 85"
-            fill="none"
-            class="elastic-lucene-hero__quotes-line"
-          >
-            <path d="M0.5 0.5V84.5" stroke="#8F98B3" stroke-linecap="round" />
-          </svg>
-          <div class="elastic-lucene-hero__quotes-list">
-            {{ range .Params.quotes }}
-              <p>{{ . }}</p>
-            {{ end }}
+          <div class="elastic-lucene-hero__quotes">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="1"
+              height="85"
+              viewBox="0 0 1 85"
+              fill="none"
+              class="elastic-lucene-hero__quotes-line"
+            >
+              <path d="M0.5 0.5V84.5" stroke="#8F98B3" stroke-linecap="round" />
+            </svg>
+            <div class="elastic-lucene-hero__quotes-list">
+              {{ range .Params.quotes }}
+                <p>{{ . }}</p>
+              {{ end }}
+            </div>
           </div>
-        </div>
         {{ end }}
         {{ if .Params.closingText }}
           <p class="elastic-lucene-hero__closing">{{ .Params.closingText }}</p>

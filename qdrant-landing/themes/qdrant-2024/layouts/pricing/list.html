@@ -1,25 +1,24 @@
 {{ define "main" }}
+  {{ partial "site-header" . }}
 
-{{ partial "site-header" . }}
+  {{ partial "pricing/qdrant-pricing-hero" . }}
 
-{{ partial "qdrant-pricing-hero" . }}
+  {{ with (.Site.GetPage "/pricing/qdrant-pricing-doors-b") }}
+    {{ partial "pricing/qdrant-pricing-doors" (dict "context" . "class" "qdrant-pricing-doors-b") }}
+  {{ end }}
 
-{{ with (.Site.GetPage "/pricing/qdrant-pricing-doors-b") }}
-{{ partial "qdrant-pricing-doors" (dict "context" . "class" "qdrant-pricing-doors-b") }}
-{{ end }}
+  {{ partial "pricing/qdrant-pricing-calculator" . }}
 
-{{ partial "qdrant-pricing-calculator" . }}
+  {{ with (.Site.GetPage "/pricing/qdrant-pricing-features") }}
+    {{ partial "pricing/qdrant-pricing-features" . }}
+  {{ end }}
 
-{{ with (.Site.GetPage "/pricing/qdrant-pricing-features") }}
-{{ partial "qdrant-pricing-features" . }}
-{{ end }}
+  {{ with (.Site.GetPage "/pricing/qdrant-pricing-faq") }}
+    {{ partial "pricing/qdrant-pricing-faq" . }}
+  {{ end }}
 
-{{ with (.Site.GetPage "/pricing/qdrant-pricing-faq") }}
-{{ partial "qdrant-pricing-faq" . }}
-{{ end }}
-
-{{ with (.Site.GetPage "/pricing/qdrant-pricing-cta") }}
-{{ partial "qdrant-pricing-cta" . }}
-{{ end }}
+  {{ with (.Site.GetPage "/pricing/qdrant-pricing-cta") }}
+    {{ partial "pricing/qdrant-pricing-cta" . }}
+  {{ end }}
 
 {{ end }}

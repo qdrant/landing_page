@@ -1,10 +1,15 @@
-@use '../helpers/functions' as *;
+@use '../../helpers/functions' as *;
 
 .qdrant-pricing-comparison-hero {
   position: relative;
   padding: $spacer * 5 0 $spacer * 3.5;
   background-color: $neutral-94;
-  background-image: linear-gradient(180deg, rgba(225, 229, 240, 0) 8.3%, #e1e5f0 52.24%, rgba(225, 229, 240, 0) 112.78%);
+  background-image: linear-gradient(
+    180deg,
+    rgba(225, 229, 240, 0) 8.3%,
+    #e1e5f0 52.24%,
+    rgba(225, 229, 240, 0) 112.78%
+  );
   overflow: hidden;
 
   &__background {
@@ -16,11 +21,10 @@
   &__grid {
     position: absolute;
     inset: 0;
-    background-image:
-      linear-gradient(to right, rgba(180, 186, 204, 0.3) 1px, transparent 1px),
+    background-image: linear-gradient(to right, rgba(180, 186, 204, 0.3) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(180, 186, 204, 0.3) 1px, transparent 1px);
     background-size: 80px 80px;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%);
   }
 
   &__content {

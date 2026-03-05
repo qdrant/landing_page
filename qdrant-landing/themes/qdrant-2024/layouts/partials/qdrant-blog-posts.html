@@ -3,15 +3,19 @@
     <div class="qdrant-blog-posts__articles row gx-5">
       {{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
 
+
       <!-- Remove first 4 featured posts from $all -->
       {{ $featured := where $all ".Params.featured" true }}
       {{ $notFeatured := where $all ".Params.featured" false }}
 
+
       <!-- All but first 4 featured posts -->
       {{ $oldFeatured := after 4 $featured }}
 
+
       <!-- Concatenate old featured post with all non-featured -->
       {{ $allBut4Featured := $oldFeatured | append $notFeatured }}
+
 
       <!-- Sort by publish date again -->
       {{ $allBut4Featured := $allBut4Featured.ByPublishDate.Reverse }}
@@ -24,6 +28,7 @@
         {{ if .Params.external_link }}
           {{ $link = .Params.external_link }}
         {{ end }}
+
 
         <article class="qdrant-blog-posts__article post col-12 col-lg-4">
           <a class="post-link" href="{{ .RelPermalink }}">
@@ -40,7 +45,6 @@
             </div>
           </a>
         </article>
-
       {{ end }}
     </div>
 

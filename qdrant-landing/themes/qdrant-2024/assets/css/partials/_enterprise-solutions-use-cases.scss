@@ -119,7 +119,8 @@
           }
         }
 
-        &-title, &-description {
+        &-title,
+        &-description {
           margin-bottom: $spacer * 1.5;
         }
       }
@@ -132,7 +133,8 @@
         padding: 0 $spacer * 4 0 $spacer * 3;
       }
 
-      &-title, &-description {
+      &-title,
+      &-description {
         margin-bottom: pxToRem(12);
       }
 

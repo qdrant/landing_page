@@ -4,15 +4,16 @@
     <div class="d-flex flex-column flex-xl-row">
       {{ partial "course/sidebar-menu.html" (dict "context" .) }}
 
+
       <div class="documentation__content">
         <div class="documentation__content-wrapper">
           <div class="documentation__article-wrapper">
-
             {{ if not (eq .RelPermalink "/course/") }}
               {{ partial "documentation/breadcrumbs" . }}
             {{ end }}
 
-            <article class="documentation-article">              
+
+            <article class="documentation-article">
               {{ partial "article-content.html" . }}
 
               {{ $parent := .Parent }}
@@ -71,12 +72,11 @@
                       {{ $currentWeight = int $currentPage.Params.weight }}
                     {{ end }}
 
-                    <a
-                      href="{{ $next.RelPermalink }}"
-                      class="button button_contained button_sm"
-                    >
+
+                    <a href="{{ $next.RelPermalink }}" class="button button_contained button_sm">
                       {{ if eq $currentWeight $maxWeight }}
-                        {{ $subject.Params.content.nextDay }} {{ .Parent.Title }}
+                        {{ $subject.Params.content.nextDay }}
+                        {{ .Parent.Title }}
                       {{ else }}
                         {{ $subject.Params.content.nextButton }}
                       {{ end }}

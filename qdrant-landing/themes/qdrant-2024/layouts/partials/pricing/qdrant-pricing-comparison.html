@@ -1,0 +1,324 @@
+{{ $context := . }}
+
+
+<section class="qdrant-pricing-comparison-hero">
+  <div class="qdrant-pricing-comparison-hero__background">
+    <div class="qdrant-pricing-comparison-hero__grid"></div>
+  </div>
+  <div class="container">
+    <div class="qdrant-pricing-comparison-hero__content">
+      {{ with .Params.badge }}
+        <div class="qdrant-pricing-comparison-hero__badge">
+          <svg width="22" height="14" viewBox="0 0 22 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M15.4 8.4C15.4 8.4 14.8 8.6 14.2 8.6C13.6 8.6 13 8.4 13 8.4V10.2C13 10.2 13.6 10.4 14.2 10.4C14.8 10.4 15.4 10.2 15.4 10.2V8.4Z"
+              fill="#326CE5"
+            />
+            <path
+              d="M11 1C5.477 1 1 5.477 1 11C1 11.34 1.02 11.675 1.058 12.005C1.27 13.135 2.49 14 4 14H18C19.51 14 20.73 13.135 20.942 12.005C20.98 11.675 21 11.34 21 11C21 5.477 16.523 1 11 1Z"
+              stroke="#326CE5"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M11 4V7L8.5 9.5"
+              stroke="#326CE5"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span>{{ .text }}</span>
+          <a href="{{ .url }}" class="qdrant-pricing-comparison-hero__badge-link">
+            {{ .linkText }}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M3.33337 8H12.6667M12.6667 8L8.00004 3.33334M12.6667 8L8.00004 12.6667"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+        </div>
+      {{ end }}
+      <h1 class="qdrant-pricing-comparison-hero__title">{{ .Params.title }}</h1>
+      <p class="qdrant-pricing-comparison-hero__description">{{ .Params.description }}</p>
+      <div class="qdrant-pricing-comparison-hero__actions">
+        {{ with .Params.button }}
+          <a href="{{ .url }}" class="button button_contained button_md">{{ .text }}</a>
+        {{ end }}
+        {{ with .Params.link }}
+          <a href="{{ .url }}" class="qdrant-pricing-comparison-hero__link">
+            {{ .text }}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M3.33337 8H12.6667M12.6667 8L8.00004 3.33334M12.6667 8L8.00004 12.6667"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="qdrant-pricing-comparison">
+  <div class="container">
+    <div class="qdrant-pricing-comparison__tier-tabs">
+      {{ range $index, $tier := .Params.tiers }}
+        <button
+          class="qdrant-pricing-comparison__tier-tab{{ if eq $index 0 }}
+            qdrant-pricing-comparison__tier-tab--active
+          {{ end }}"
+          data-tier="{{ $tier.name | urlize }}"
+        >
+          {{ $tier.name }}
+        </button>
+      {{ end }}
+    </div>
+
+    <div class="qdrant-pricing-comparison__table">
+      <div class="qdrant-pricing-comparison__table-header">
+        <div class="qdrant-pricing-comparison__table-cell qdrant-pricing-comparison__table-cell--feature"></div>
+        {{ range .Params.tiers }}
+          <div
+            class="qdrant-pricing-comparison__table-cell qdrant-pricing-comparison__table-cell--tier{{ if .highlight }}
+              qdrant-pricing-comparison__table-cell--highlight
+            {{ end }}"
+            data-tier-col="{{ .name | urlize }}"
+          >
+            {{ .name }}
+          </div>
+        {{ end }}
+      </div>
+
+      <div class="qdrant-pricing-comparison__table-body">
+        {{ range .Params.sections }}
+          <div class="qdrant-pricing-comparison__table-section">
+            <div class="qdrant-pricing-comparison__table-section-header">
+              <span class="qdrant-pricing-comparison__table-section-title">{{ .name }}</span>
+              <svg
+                class="qdrant-pricing-comparison__chevron"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12.5L10 7.5L15 12.5"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="qdrant-pricing-comparison__table-section-rows">
+              {{ range .features }}
+                <div class="qdrant-pricing-comparison__table-row">
+                  <div class="qdrant-pricing-comparison__table-cell qdrant-pricing-comparison__table-cell--feature">
+                    {{ .name }}
+                  </div>
+                  <div class="qdrant-pricing-comparison__table-cell" data-tier-col="oss">
+                    {{ if eq .oss true }}
+                      <svg
+                        class="qdrant-pricing-comparison__check"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M16.6667 5L7.50001 14.1667L3.33334 10"
+                          stroke="#2F6FF0"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    {{ else if eq .oss false }}
+                      <svg
+                        class="qdrant-pricing-comparison__x"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M15 5L5 15M5 5L15 15"
+                          stroke="#717C99"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    {{ else }}
+                      <span class="qdrant-pricing-comparison__text">{{ .oss }}</span>
+                    {{ end }}
+                  </div>
+                  <div class="qdrant-pricing-comparison__table-cell" data-tier-col="free-tier">
+                    {{ if eq .free true }}
+                      <svg
+                        class="qdrant-pricing-comparison__check"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M16.6667 5L7.50001 14.1667L3.33334 10"
+                          stroke="#2F6FF0"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    {{ else if eq .free false }}
+                      <svg
+                        class="qdrant-pricing-comparison__x"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M15 5L5 15M5 5L15 15"
+                          stroke="#717C99"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    {{ else }}
+                      <span class="qdrant-pricing-comparison__text">{{ .free }}</span>
+                    {{ end }}
+                  </div>
+                  <div
+                    class="qdrant-pricing-comparison__table-cell qdrant-pricing-comparison__table-cell--highlight"
+                    data-tier-col="paid-tier"
+                  >
+                    {{ if eq .paid true }}
+                      <svg
+                        class="qdrant-pricing-comparison__check"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M16.6667 5L7.50001 14.1667L3.33334 10"
+                          stroke="#2F6FF0"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    {{ else if eq .paid false }}
+                      <svg
+                        class="qdrant-pricing-comparison__x"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M15 5L5 15M5 5L15 15"
+                          stroke="#717C99"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    {{ else }}
+                      <span class="qdrant-pricing-comparison__text qdrant-pricing-comparison__text--bold"
+                        >{{ .paid }}</span
+                      >
+                    {{ end }}
+                  </div>
+                  <div class="qdrant-pricing-comparison__table-cell" data-tier-col="premium-tier">
+                    {{ if eq .premium true }}
+                      <svg
+                        class="qdrant-pricing-comparison__check"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M16.6667 5L7.50001 14.1667L3.33334 10"
+                          stroke="#2F6FF0"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    {{ else if eq .premium false }}
+                      <svg
+                        class="qdrant-pricing-comparison__x"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M15 5L5 15M5 5L15 15"
+                          stroke="#717C99"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    {{ else }}
+                      <span class="qdrant-pricing-comparison__text qdrant-pricing-comparison__text--bold"
+                        >{{ .premium }}</span
+                      >
+                    {{ end }}
+                  </div>
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        {{ end }}
+      </div>
+
+      <div class="qdrant-pricing-comparison__table-footer">
+        <div class="qdrant-pricing-comparison__table-cell qdrant-pricing-comparison__table-cell--feature"></div>
+        {{ range $index, $cta := .Params.ctas }}
+          <div
+            class="qdrant-pricing-comparison__table-cell qdrant-pricing-comparison__table-cell--cta{{ if eq $index 2 }}
+              qdrant-pricing-comparison__table-cell--highlight
+            {{ end }}"
+            data-tier-col="{{ index (slice "oss" "free-tier" "paid-tier" "premium-tier") $index }}"
+          >
+            <a
+              href="{{ $cta.url }}"
+              class="button {{ if $cta.contained }}
+                button_contained
+              {{ else }}
+                button_outlined
+              {{ end }}"
+            >
+              {{ $cta.text }}
+            </a>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>

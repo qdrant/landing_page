@@ -1,4 +1,4 @@
-@use '../helpers/functions' as *;
+@use '../../helpers/functions' as *;
 
 .qdrant-pricing-doors-b {
   padding: 0 0 $spacer * 2;
@@ -291,9 +291,9 @@
 
     &--contained {
       color: $neutral-100;
-      background: linear-gradient(180deg, $primary-50 0%, #BE003A 100%);
+      background: linear-gradient(180deg, $primary-50 0%, #be003a 100%);
       border: none;
-      box-shadow: inset 0px 2px 1px 0px #FF516B;
+      box-shadow: inset 0px 2px 1px 0px #ff516b;
 
       &:hover {
         filter: brightness(1.05);

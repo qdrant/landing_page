@@ -36,7 +36,8 @@
       line-height: pxToRem(27);
       color: $neutral-40;
 
-      strong, b {
+      strong,
+      b {
         font-weight: 600;
         color: $neutral-20;
       }

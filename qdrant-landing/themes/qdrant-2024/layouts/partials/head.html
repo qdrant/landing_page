@@ -24,7 +24,7 @@
 
   {{ $partition := partial "get-partition.html" (dict "page" .) }}
   {{ if $partition }}
-    <meta name="partition" content="{{ $partition | safeHTML }}">
+    <meta name="partition" content="{{ $partition | safeHTML }}" />
   {{ end }}
 
   {{ partial "css" . }}

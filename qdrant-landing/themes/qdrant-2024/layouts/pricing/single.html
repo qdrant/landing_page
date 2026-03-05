@@ -1,17 +1,16 @@
 {{ define "main" }}
+  {{ partial "site-header" . }}
 
-{{ partial "site-header" . }}
+  {{ partial "pricing/qdrant-pricing-comparison" . }}
 
-{{ partial "qdrant-pricing-comparison" . }}
+  {{ partial "pricing/qdrant-pricing-calculator" . }}
 
-{{ partial "qdrant-pricing-calculator" . }}
+  {{ with (.Site.GetPage "/pricing/qdrant-pricing-faq") }}
+    {{ partial "pricing/qdrant-pricing-faq" . }}
+  {{ end }}
 
-{{ with (.Site.GetPage "/pricing/qdrant-pricing-faq") }}
-{{ partial "qdrant-pricing-faq" . }}
-{{ end }}
-
-{{ with (.Site.GetPage "/pricing/qdrant-pricing-cta") }}
-{{ partial "qdrant-pricing-cta" . }}
-{{ end }}
+  {{ with (.Site.GetPage "/pricing/qdrant-pricing-cta") }}
+    {{ partial "pricing/qdrant-pricing-cta" . }}
+  {{ end }}
 
 {{ end }}
