@@ -1,6 +1,6 @@
 ---
 title: Filtering
-weight: 4
+weight: 6
 aliases:
   - /documentation/concepts/filtering/
   - ../filtering

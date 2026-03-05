@@ -1,6 +1,6 @@
 ---
 title: Low-Latency Search
-weight: 7
+weight: 3
 partition: develop
 aliases:
   - /documentation/guides/low-latency-search/
