@@ -49,6 +49,11 @@
 {{ $indexJs := resources.Get "/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $indexJs.RelPermalink }}"></script>
 
+{{ if eq .Section "pricing" }}
+  {{ $pricingTableJs := resources.Get "/js/pricing-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pricingTableJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if .IsHome }}
   {{ $homeAnimationsJs := resources.Get "/js/home-animations.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $homeAnimationsJs.RelPermalink }}"></script>
