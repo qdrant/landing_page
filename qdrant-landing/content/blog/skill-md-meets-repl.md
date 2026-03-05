@@ -26,7 +26,7 @@ When an agent writes code against your API, it can fail because:
 
 Most agent failures trace back to one of these. Mintlify's SKILL.md aproach addresses the first. Armin Ronacher's REPL-first MCP addresses the second.
 
-## What skill.md Gives You
+## What SKILL.md Gives You
 
 [SKILL.md](https://github.com/AgenticSkills/skills) is an emerging open standard for shipping knowledge to agents before they write code. The idea has roots in the [Cloudflare RFC](https://blog.cloudflare.com/ai-agents-open-standard), the [agentskills proposal](https://agentskills.org), and Vercel's skills CLI. [Mintlify's blog post](https://mintlify.com/blog/skill-md) by [Michael Ryaboy](https://www.linkedin.com/in/michael-ryaboy-software-engineer) showed how to apply it in practice. Decision tables for component selection, explicit gotchas sections, and auto-generating skill files from existing docs. A skill.md isn't documentation. It's a briefing. Decision tables, not tutorials. Gotchas, not explanations.
 
