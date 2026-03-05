@@ -1,6 +1,6 @@
 ---
 title: Indexing
-weight: 5
+weight: 60
 aliases:
   - /documentation/concepts/indexing/
   - ../indexing

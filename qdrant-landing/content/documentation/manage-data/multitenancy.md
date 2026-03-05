@@ -1,6 +1,6 @@
 ---
 title: Multitenancy
-weight: 3
+weight: 80
 aliases:
   - /documentation/guides/multitenancy/
   - ../tutorials/multiple-partitions

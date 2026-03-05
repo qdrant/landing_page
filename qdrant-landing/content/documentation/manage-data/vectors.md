@@ -1,6 +1,6 @@
 ---
 title: Vectors
-weight: 2
+weight: 20
 aliases:
   - /documentation/concepts/vectors/
   - /vectors

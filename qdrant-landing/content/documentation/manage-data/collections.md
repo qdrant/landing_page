@@ -1,6 +1,6 @@
 ---
 title: Collections
-weight: 1
+weight: 40
 aliases:
   - /documentation/concepts/collections/
   - ../collections
