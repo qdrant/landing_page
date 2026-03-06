@@ -5,7 +5,7 @@ tag:
     src: /icons/outline/plan.svg
     alt: Airplane taking off
 title: <span class="text-nowrap">AI-Driven Vector Search</span> <span class="text-nowrap">for Personalized Travel &</span> Booking Experiences
-description: Build hyper-personalized travel experiences with Qdrant’s intelligent vector database—helping travelers find the perfect destination, stay, or itinerary with AI-powered vector search.
+description: Build hyper-personalized travel experiences with Qdrant’s intelligent vector search—helping travelers find the perfect destination, stay, or itinerary with AI-powered vector search.
 startFree:
   text: Get Started
   url: https://cloud.qdrant.io/signup

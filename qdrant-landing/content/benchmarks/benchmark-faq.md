@@ -9,7 +9,7 @@ weight: 10
 
 ## Are we biased?
 
-Probably, yes. Even if we try to be objective, we are not experts in using all the existing vector databases.
+Probably, yes. Even if we try to be objective, we are not experts in using all the existing vector search engines.
 We build Qdrant and know the most about it.
 Due to that, we could have missed some important tweaks in different vector search engines.
 
@@ -22,7 +22,7 @@ There are several factors considered while deciding on which database to use.
 Of course, some of them support a different subset of functionalities, and those might be a key factor to make the decision.
 But in general, we all care about the search precision, speed, and resources required to achieve it.
 
-There is one important thing - **the speed of the vector databases should to be compared only if they achieve the same precision**. Otherwise, they could maximize the speed factors by providing inaccurate results, which everybody would rather avoid. Thus, our benchmark results are compared only at a specific search precision threshold.
+There is one important thing - **the speed of the vector search engines should to be compared only if they achieve the same precision**. Otherwise, they could maximize the speed factors by providing inaccurate results, which everybody would rather avoid. Thus, our benchmark results are compared only at a specific search precision threshold.
 
 ## How we select hardware?
 
@@ -58,8 +58,8 @@ Those may use some different protocols under the hood, but at the end of the day
 
 ## What about closed-source SaaS platforms?
 
-There are some vector databases available as SaaS only so that we couldn’t test them on the same machine as the rest of the systems.
-That makes the comparison unfair. That’s why we purely focused on testing the Open Source vector databases, so everybody may reproduce the benchmarks easily.
+There are some vector search engines available as SaaS only so that we couldn’t test them on the same machine as the rest of the systems.
+That makes the comparison unfair. That’s why we purely focused on testing the Open Source vector search engines, so everybody may reproduce the benchmarks easily.
 
 This is not the final list, and we’ll continue benchmarking as many different engines as possible.
 

@@ -1,5 +1,5 @@
 ---
-title: "Vector Databases and AI can solve many of the Legal industry's biggest challenges:"
+title: "Vector Search and AI can solve many of the Legal industry's biggest challenges:"
 cards:
 - id: 0
   icon:

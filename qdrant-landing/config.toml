@@ -1,6 +1,6 @@
 baseURL = "https://qdrant.tech"
 languageCode = "en-us"
-title = "Qdrant - Vector Database"
+title = "Qdrant - Vector Search Engine"
 theme = "qdrant-2024"
 
 enableRobotsTXT = true
@@ -11,7 +11,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
 disableKinds = ["taxonomy", "term"]
 
 [params]
-  description = "Qdrant is an Open-Source Vector Database and Vector Search Engine written in Rust. It provides fast and scalable vector similarity search service with convenient API."
+  description = "Qdrant is an Open-Source Vector Search Engine written in Rust. It provides fast and scalable vector similarity search service with convenient API."
   keywords = ["vector search engine", "neural network", "matching", "SaaS",
     "approximate nearest neighbor search", "image search", "recommender system", "vectors",
     "knn algorithm", "hnsw", "vector search", "embeddings", "similarity", "simaes networks",

@@ -25,8 +25,8 @@ caseStudy:
   logo:
     src: /img/recommendations-use-cases/customer-logo.svg
     alt: Logo
-  title: Recommendation Engine with Qdrant Vector Database
-  description: Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Database.
+  title: Recommendation Engine with Qdrant Vector Search
+  description: Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Search.
   link:
     text: Read Case Study
     url: /blog/case-study-dailymotion/
