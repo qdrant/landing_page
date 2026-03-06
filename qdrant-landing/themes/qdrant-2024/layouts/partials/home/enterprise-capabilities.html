@@ -16,13 +16,13 @@
     </div>
     <div class="container">
       <div class="enterprise-capabilities__content">
-        <div class="enterprise-capabilities__header" data-reveal>
+        <div class="enterprise-capabilities__header">
           <h2 class="enterprise-capabilities__title">{{ .Params.title }}</h2>
           <p class="enterprise-capabilities__subtitle">{{ .Params.subtitle }}</p>
         </div>
-        <div class="enterprise-capabilities__cards" data-reveal>
+        <div class="enterprise-capabilities__cards">
           {{ range .Params.deploymentOptions }}
-            <div class="enterprise-capabilities__card enterprise-capabilities__card--{{ .position }}">
+            <a href="{{ .link.url }}" class="enterprise-capabilities__card enterprise-capabilities__card--{{ .position }}">
               {{ if .connector }}
                 <img src="{{ .connector }}" alt="" class="enterprise-capabilities__connector" />
               {{ end }}
@@ -33,10 +33,10 @@
                 <h3 class="enterprise-capabilities__card-title">{{ .title }}</h3>
                 <p class="enterprise-capabilities__card-description">{{ .description }}</p>
               </div>
-              <a href="{{ .link.url }}" class="link link_white link_md enterprise-capabilities__card-link"
-                >{{ .link.text }}</a
+              <span class="link link_white link_md enterprise-capabilities__card-link"
+                >{{ .link.text }}</span
               >
-            </div>
+            </a>
           {{ end }}
         </div>
       </div>

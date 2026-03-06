@@ -148,7 +148,7 @@
 
   &__subtitle {
     font-size: map-get($font-sizes-text, 'l');
-    font-weight: 400;
+    font-weight: 350;
     line-height: 1.5;
     letter-spacing: -0.2px;
     color: $neutral-70;
@@ -192,6 +192,14 @@
     border-radius: pxToRem(8);
     overflow: visible;
     position: relative;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(180deg, rgba(28, 38, 64, 0.98) 0%, rgba(20, 28, 48, 0.98) 100%);
+    }
 
     @include media-breakpoint-up(xl) {
       &--left {
@@ -261,7 +269,7 @@
 
   &__card-description {
     font-size: map-get($font-sizes-text, 'md');
-    font-weight: 400;
+    font-weight: 350;
     line-height: 1.5;
     color: $neutral-70;
     margin: 0;
@@ -277,5 +285,14 @@
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  &__card:hover &__card-link {
+    padding-right: calc(#{pxToRem(20)} + 6px);
+
+    &::before,
+    &::after {
+      animation: dash 0.3s ease-in-out forwards;
+    }
   }
 }

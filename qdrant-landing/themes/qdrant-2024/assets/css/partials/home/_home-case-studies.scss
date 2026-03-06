@@ -170,10 +170,14 @@
 
   &__card-text {
     font-size: map-get($font-sizes-text, 'l');
-    font-weight: 400;
+    font-weight: 350;
     line-height: 1.5;
     color: $neutral-30;
     margin: 0;
+  }
+
+  &__phrase--no-break {
+    white-space: nowrap; // Keeps last word + period together to avoid orphan punctuation
   }
 
   &__highlight {

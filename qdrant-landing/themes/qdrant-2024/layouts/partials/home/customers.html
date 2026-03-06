@@ -1,7 +1,7 @@
 {{ with (.Site.GetPage "/headless/main/customers") }}
   <section class="customers">
     <div class="container">
-      <div class="customers__grid" data-reveal>
+      <div class="customers__grid">
         {{ range .Params.logoRows }}
           {{ range .logos }}
             <div class="customers__logo">

@@ -117,7 +117,7 @@
 
   &__subtitle {
     font-size: map-get($font-sizes-text, 'l');
-    font-weight: 400;
+    font-weight: 350;
     line-height: 1.5;
     color: $neutral-70;
     margin: 0;
@@ -154,7 +154,7 @@
 
   &__image-note {
     font-size: pxToRem(14);
-    font-weight: 400;
+    font-weight: 350;
     opacity: 0.7;
   }
 
@@ -192,7 +192,7 @@
 
   &__feature-description {
     font-size: map-get($font-sizes-text, 'md');
-    font-weight: 400;
+    font-weight: 350;
     line-height: 1.5;
     color: $neutral-70;
     margin: 0;
