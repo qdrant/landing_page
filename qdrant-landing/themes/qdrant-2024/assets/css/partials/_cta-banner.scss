@@ -19,6 +19,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -36,27 +37,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: $spacer * 0.75;
     text-align: center;
   }
 
   &__title {
-    margin: 0;
+    margin: 0 0 0.75rem;
     font-size: $spacer * 2;
     line-height: pxToRem(38);
     color: $neutral-98;
   }
 
   &__description {
-    margin: 0;
+    margin: 0 0 1.5rem;
     font-size: pxToRem(18);
-    line-height: pxToRem(28);
+    line-height: 1;
     color: $neutral-70;
   }
 
   &__button {
     white-space: nowrap;
-    margin-top: $spacer * 0.5;
   }
 
   &__illustration {
@@ -75,7 +74,6 @@
       align-items: flex-start;
       text-align: left;
       max-width: pxToRem(500);
-      gap: $spacer * 0.5;
     }
 
     &__title {

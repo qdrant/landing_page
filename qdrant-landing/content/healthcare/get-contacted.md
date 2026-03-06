@@ -5,7 +5,7 @@ button:
   text: Talk to Sales
   url: /contact-us/
 illustration:
-  src: /img/hr-tech/cta-illustration.png
+  src: /img/cta-illustration.png
   alt: Rocket flying over globe illustration
 background:
   src: /img/hr-tech/space-background.svg
