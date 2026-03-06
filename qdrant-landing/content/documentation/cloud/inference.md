@@ -10,7 +10,7 @@ weight: 81
 Qdrant Managed Cloud allows you to use inference directly in the cloud, without the need to set up and maintain your own inference infrastructure. You can use [embedding models hosted on Qdrant Cloud](#cloud-inference), or use [externally hosted models](#use-external-models).
 
 <aside role="alert">
-    Inference is currently executed within a US region, even if the Qdrant Cloud cluster is hosted in another region.
+    Inference is executed within the EU for Qdrant clusters in EU regions and in the US for Qdrant Clusters in all other regions.
 </aside>
 
 ![Cluster Cluster UI](/documentation/cloud/cloud-inference.png)
