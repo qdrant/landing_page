@@ -445,7 +445,7 @@
     &__container {
       max-width: none;
       width: 100%;
-      min-height: max(#{pxToRem(1000)}, 42vw);
+      min-height: max(#{pxToRem(1000)}, 43vw);
     }
 
     &__fade-left,
@@ -457,7 +457,7 @@
       width: 37.2%;
       height: auto;
       aspect-ratio: 506 / 480;
-      top: pxToRem(216);
+      top: pxToRem(430);
     }
 
     &__blue-haze {
@@ -499,10 +499,10 @@
     padding-right: $spacer * 12;
 
     &__container {
-      min-height: max(#{pxToRem(1000)}, 36vw);
+      min-height: max(#{pxToRem(1000)}, 38vw);
     }
     &__planet {
-      top: pxToRem(50);
+      top: pxToRem(420);
     }
     &__fade-bottom {
       height: 15vh;
