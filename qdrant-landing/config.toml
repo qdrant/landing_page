@@ -125,10 +125,52 @@ disableKinds = ["taxonomy", "term"]
   isHTML = false
   rel = "alternate"
 
+[outputFormats.MarkdownPython]
+  mediaType = "text/markdown"
+  isPlainText = true
+  isHTML = false
+  baseName = "python"
+  rel = "alternate"
+
+[outputFormats.MarkdownHttp]
+  mediaType = "text/markdown"
+  isPlainText = true
+  isHTML = false
+  baseName = "http"
+  rel = "alternate"
+
+[outputFormats.MarkdownTypescript]
+  mediaType = "text/markdown"
+  isPlainText = true
+  isHTML = false
+  baseName = "typescript"
+  rel = "alternate"
+
+[outputFormats.MarkdownRust]
+  mediaType = "text/markdown"
+  isPlainText = true
+  isHTML = false
+  baseName = "rust"
+  rel = "alternate"
+
+[outputFormats.MarkdownCsharp]
+  mediaType = "text/markdown"
+  isPlainText = true
+  isHTML = false
+  baseName = "csharp"
+  rel = "alternate"
+
+[outputFormats.MarkdownGo]
+  mediaType = "text/markdown"
+  isPlainText = true
+  isHTML = false
+  baseName = "go"
+  rel = "alternate"
+
 [outputs]
-  page = ["HTML", "Markdown"]
-  section = ["HTML", "RSS", "Markdown"]
-  home = ["HTML", "RSS"]
+  page    = ["HTML", "Markdown", "MarkdownPython", "MarkdownHttp", "MarkdownTypescript", "MarkdownRust", "MarkdownCsharp", "MarkdownGo"]
+  section = ["HTML", "RSS", "Markdown", "MarkdownPython", "MarkdownHttp", "MarkdownTypescript", "MarkdownRust", "MarkdownCsharp", "MarkdownGo"]
+  home    = ["HTML", "RSS"]
 
 [services]
   [services.googleAnalytics]
