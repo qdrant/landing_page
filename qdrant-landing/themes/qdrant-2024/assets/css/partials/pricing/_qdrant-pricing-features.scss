@@ -72,16 +72,16 @@
     }
   }
 
-  @include media-breakpoint-down(xl) {
-    &__header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: $spacer * 2;
-    }
-  }
-
   @include media-breakpoint-down(lg) {
     padding: $spacer * 2.5 0 $spacer * 4;
+
+    &__tabs {
+      width: 100%;
+    }
+
+    &__tab {
+      flex: 1;
+    }
 
     &__header {
       flex-direction: column;
@@ -91,6 +91,22 @@
 
     &__title {
       font-size: pxToRem(32);
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: $spacer * 2.5 0 $spacer * 4;
+
+    &__header {
+      margin-bottom: $spacer * 2.5;
+      gap: $spacer;
+    }
+
+    &__title {
+      font-size: pxToRem(40);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
     }
   }
 }

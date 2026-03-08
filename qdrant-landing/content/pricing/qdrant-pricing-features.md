@@ -96,7 +96,7 @@ onPremiseTiers:
 onPremiseSections:
 - name: Features
   features:
-  - name: Cloud Inference (on-premise)
+  - name: Cloud Inference
     oss: false
     free: Only external models
     paid: true

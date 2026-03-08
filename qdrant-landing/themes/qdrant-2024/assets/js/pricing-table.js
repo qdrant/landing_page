@@ -57,27 +57,25 @@ document.addEventListener('DOMContentLoaded', function () {
       const rows = section.querySelector('.pricing-table__table-section-rows');
       if (!header || !rows) return;
 
-      if (!isInHiddenWrapper) {
-        rows.style.maxHeight = rows.scrollHeight + 'px';
-      }
-
       header.addEventListener('click', () => {
         const isCollapsed = section.classList.contains('pricing-table__table-section--collapsed');
         if (isCollapsed) {
+          rows.style.overflow = 'hidden';
           rows.style.maxHeight = rows.scrollHeight + 'px';
           section.classList.remove('pricing-table__table-section--collapsed');
         } else {
+          rows.style.overflow = 'hidden';
           rows.style.maxHeight = rows.scrollHeight + 'px';
-          requestAnimationFrame(() => {
-            rows.style.maxHeight = '0px';
-            section.classList.add('pricing-table__table-section--collapsed');
-          });
+          rows.offsetHeight;
+          rows.style.maxHeight = '0px';
+          section.classList.add('pricing-table__table-section--collapsed');
         }
       });
 
       rows.addEventListener('transitionend', () => {
         if (!section.classList.contains('pricing-table__table-section--collapsed')) {
-          rows.style.maxHeight = 'none';
+          rows.style.removeProperty('max-height');
+          rows.style.removeProperty('overflow');
         }
       });
     });

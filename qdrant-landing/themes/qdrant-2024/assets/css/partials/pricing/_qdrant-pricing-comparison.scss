@@ -51,21 +51,13 @@
   }
 
   &__badge-link {
-    display: flex;
-    align-items: center;
-    gap: pxToRem(2);
+    align-self: flex-start;
+    width: fit-content;
     font-size: pxToRem(16);
-    font-weight: 500;
-    line-height: 1.5;
-    color: $primary-50;
-    text-decoration: none;
 
-    &:hover {
-      text-decoration: underline;
-    }
-
-    svg {
-      margin-top: pxToRem(2);
+    &::before,
+    &::after {
+      height: calc(1ex + 3px);
     }
   }
 
@@ -92,6 +84,8 @@
   }
 
   &__link {
+    align-self: flex-start;
+    width: fit-content;
     display: flex;
     align-items: center;
     gap: pxToRem(2);
@@ -108,10 +102,6 @@
 
     &:hover {
       color: $primary-50;
-    }
-
-    svg {
-      margin-top: pxToRem(2);
     }
   }
 
@@ -133,13 +123,37 @@
   }
 
   @include media-breakpoint-down(md) {
+    padding: $spacer * 2.5 0 $spacer * 2;
+    background-image: none;
+
+    &__background {
+      display: none;
+    }
+
     &__badge {
+      max-width: pxToRem(280);
       flex-wrap: wrap;
       justify-content: center;
+      margin-bottom: $spacer;
     }
 
     &__title {
-      font-size: pxToRem(32);
+      margin: 0 0 $spacer;
+      font-size: pxToRem(40);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+
+    &__description {
+      margin: 0 0 $spacer;
+      font-size: pxToRem(16);
+      line-height: 1.5;
+    }
+
+    &__actions {
+      flex-direction: column;
+      gap: $spacer * 1.5;
     }
   }
 }

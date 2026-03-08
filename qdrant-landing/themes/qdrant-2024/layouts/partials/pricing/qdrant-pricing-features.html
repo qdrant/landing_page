@@ -2,7 +2,7 @@
   <div class="container">
     <div class="qdrant-pricing-features__header">
       <h2 class="qdrant-pricing-features__title">{{ .Params.title }}</h2>
-      <div class="qdrant-pricing-features__tabs">
+      <div class="qdrant-pricing-features__tabs" data-tab-sync="pricing-deployment">
         <button class="qdrant-pricing-features__tab qdrant-pricing-features__tab--active" data-tab="managed">
           Managed
         </button>
@@ -11,15 +11,13 @@
     </div>
 
     {{/* Managed table */}}
-    <div
-      class="qdrant-pricing-features__table-wrapper"
-      data-features-tab="managed"
-    >
+    <div class="qdrant-pricing-features__table-wrapper" data-features-tab="managed">
       {{ partial "pricing/qdrant-pricing-features-table" (dict
         "tiers" .Params.tiers
         "sections" .Params.sections
         "ctas" .Params.ctas
-      ) }}
+        )
+      }}
     </div>
 
     {{/* On-Premise table */}}
@@ -32,7 +30,8 @@
         "sections" .Params.onPremiseSections
         "ctas" .Params.onPremiseCtas
         "classPrefix" "qdrant-pricing-features"
-      ) }}
+        )
+      }}
     </div>
 
     {{ with .Params.compareButton }}

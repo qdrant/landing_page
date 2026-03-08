@@ -78,6 +78,7 @@
   }
 
   &__link {
+    width: fit-content;
     display: inline-flex;
     align-items: center;
     gap: $spacer * 0.25;
@@ -112,6 +113,10 @@
   @include media-breakpoint-down(md) {
     padding: $spacer * 2.5 0 $spacer * 2;
 
+    &__background {
+      display: none;
+    }
+
     &__grid {
       display: none;
     }
@@ -121,7 +126,15 @@
     }
 
     &__title {
-      font-size: pxToRem(36);
+      font-size: pxToRem(40);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+
+    &__description {
+      font-size: pxToRem(16);
+      line-height: 1.5;
     }
   }
 }

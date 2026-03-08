@@ -1,4 +1,5 @@
 import scrollHandler from './scroll-handler';
+import { initTabSync } from './tab-sync';
 import { XXL_BREAKPOINT } from './constants';
 import { addUTMToLinks, initGoToTopButton, persistUTMParams } from './helpers';
 import { handleSegmentReady } from './segment-helpers';
@@ -122,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   initGoToTopButton('#scrollToTopBtn');
+  initTabSync();
 
   if (document.getElementById('TableOfContents') && document.querySelector('.qdrant-post__body')) {
     new TableOfContents('#TableOfContents', '.qdrant-post__body');

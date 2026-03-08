@@ -11,7 +11,7 @@
     padding: 4px;
     margin-bottom: $spacer * 2;
     background-color: $neutral-98;
-    border: 1px solid $neutral-90;
+    border: 0.5px solid $neutral-80;
     border-radius: pxToRem(8);
     width: fit-content;
     margin-left: auto;
@@ -80,7 +80,7 @@
       grid-row: span 5;
       grid-template-rows: subgrid;
     }
-    border: 1px solid $neutral-90;
+    border: 0.5px solid $neutral-80;
     border-right: none;
 
     &:first-child {
@@ -88,12 +88,13 @@
     }
 
     &:last-child {
-      border-right: 1px solid $neutral-90;
+      border-right: 0.5px solid $neutral-80;
       border-radius: 0 pxToRem(8) pxToRem(8) 0;
     }
 
     &--paid {
-      border: 1px solid $neutral-90;
+      /* Don't add full border - it doubles with neighbors; use background for emphasis */
+      background-color: #f5f8ff;
     }
   }
 
@@ -128,7 +129,7 @@
     gap: pxToRem(6);
     padding: pxToRem(4) $spacer * 0.5;
     background-color: $neutral-94;
-    border: 1px solid $neutral-90;
+    border: 0.5px solid $neutral-80;
     border-radius: pxToRem(8);
     flex-shrink: 0;
 
@@ -252,7 +253,7 @@
     justify-content: center;
     width: pxToRem(32);
     height: pxToRem(32);
-    border: 0.667px solid rgba(0, 0, 0, 0.12);
+    border: 0.5px solid $neutral-80;
     border-radius: pxToRem(3);
     background-color: $neutral-100;
 
@@ -262,27 +263,9 @@
   }
 
   &__contact-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-    font-size: pxToRem(14);
-    font-weight: 500;
-    line-height: 1.5;
-    color: $primary-50;
-    text-decoration: none;
-    transition: color 0.2s ease;
-
-    svg {
-      transition: transform 0.2s ease;
-    }
-
-    &:hover {
-      color: $primary-60;
-
-      svg {
-        transform: translateX(2px);
-      }
-    }
+    align-self: flex-start;
+    width: fit-content;
+    font-size: pxToRem(16);
   }
 
   &__cta {
@@ -329,6 +312,15 @@
   @include media-breakpoint-down(lg) {
     padding: 0 0 $spacer * 2;
 
+    &__tabs {
+      width: 100%;
+    }
+
+    &__tab {
+      flex: 1;
+      min-width: 0;
+    }
+
     &__doors-wrapper {
       width: 100%;
     }
@@ -351,13 +343,13 @@
       grid-row: unset;
       grid-template-rows: unset;
       border-radius: pxToRem(8);
-      border: 1px solid $neutral-90;
-      border-right: 1px solid $neutral-90;
+      border: 0.5px solid $neutral-80;
+      border-right: 0.5px solid $neutral-80;
 
       &:first-child,
       &:last-child {
         border-radius: pxToRem(8);
-        border-right: 1px solid $neutral-90;
+        border-right: 0.5px solid $neutral-80;
       }
     }
 
@@ -369,10 +361,6 @@
   }
 
   @include media-breakpoint-down(md) {
-    padding: 0 $spacer * 1.25 $spacer * 2;
-
-    &__tabs {
-      width: fit-content;
-    }
+    padding: 0 0 $spacer * 2;
   }
 }
