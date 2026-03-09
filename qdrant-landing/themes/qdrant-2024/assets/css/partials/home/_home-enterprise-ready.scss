@@ -97,7 +97,7 @@
       flex: 1 1 0;
     }
 
-    &:hover {
+    &#{&}__card--link:hover {
       border-color: $neutral-80;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
@@ -131,7 +131,7 @@
     font-weight: 500;
   }
 
-  &__card--large:hover &__card-link {
+  &__card--large#{&}__card--link:hover &__card-link {
     $icon-width: pxToRem(20);
     color: $primary-50;
     padding-right: calc($icon-width + 6px);
@@ -178,7 +178,7 @@
       flex: 1 1 0;
     }
 
-    &:hover {
+    &#{&}__card--link:hover {
       border-color: $neutral-80;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 

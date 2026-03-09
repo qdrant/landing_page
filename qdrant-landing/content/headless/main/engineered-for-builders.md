@@ -4,8 +4,10 @@ subtitle: Intuitive APIs and built-in tools — crafted for developers who deman
 illustration:
   src: /img/home/web-ui.png
   alt: Engineered for Builders
-  width: 1110
-  height: 558
+  width: 2220
+  height: 1340
+  srcset: "/img/home/web-ui-1x.png 1x, /img/home/web-ui.png 2x"
+  webpSrcset: "/img/home/web-ui-1x.webp 1x, /img/home/web-ui.webp 2x"
 features:
   - id: apis
     title: Developer friendly APIs

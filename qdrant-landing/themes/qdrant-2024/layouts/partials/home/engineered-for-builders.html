@@ -9,7 +9,23 @@
       </div>
       {{ with .Params.illustration }}
         <div class="engineered-for-builders__illustration">
-          {{ partial "picture" (dict "src" .src "alt" .alt "class" "engineered-for-builders__illustration-image" "loading" "lazy" "decoding" "async" "width" .width "height" .height) }}
+          {{ if .srcset }}
+            <picture>
+              {{ with .webpSrcset }}<source type="image/webp" srcset="{{ . }}" />{{ end }}
+              <img
+                src="{{ .src }}"
+                srcset="{{ .srcset }}"
+                alt="{{ .alt }}"
+                class="engineered-for-builders__illustration-image"
+                width="{{ .width }}"
+                height="{{ .height }}"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+          {{ else }}
+            {{ partial "picture" (dict "src" .src "alt" .alt "class" "engineered-for-builders__illustration-image" "loading" "lazy" "decoding" "async" "width" .width "height" .height) }}
+          {{ end }}
         </div>
       {{ end }}
       <div class="engineered-for-builders__features">

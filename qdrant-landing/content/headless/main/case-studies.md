@@ -38,12 +38,5 @@ caseStudies:
     logoIcon: lyzr
     logoAlt: Lyzr
     link: /blog/case-study-lyzr/
-  - id: bosch
-    text: "Built a multimodal GenAI platform with"
-    highlight: "enterprise-scale"
-    textAfter: "vector search capabilities."
-    logoIcon: bosch-digital
-    logoAlt: Bosch
-    link: /customers/
 sitemapExclude: true
 ---

@@ -9,7 +9,7 @@ largeCards:
       src: /img/home/soc-2-and-gdpr-compliance.svg
       alt: SOC 2 and GDPR compliance badges
     link:
-      url: https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9
+      url: https://qdrant.to/trust-center
   - id: monitoring
     title: Prometheus · Grafana · Datadog
     visual: monitoring
@@ -29,36 +29,28 @@ largeCards:
 smallCards:
   - id: multitenancy
     title: Multitenancy & Granular RBAC
-    link:
-      url: /
     icon:
       name: multitenancy
       color: blue
   - id: networking
-    title: Private Networking/VPC Peering
-    link:
-      url: /
+    title: Private Networking #/VPC Peering
     icon:
       name: cloud-system
       color: blue
+#    link:
+#      url: /
   - id: downtime
     title: Zero-downtime upgrades
-    link:
-      url: /
     icon:
       name: downtime
       fill: blue
   - id: backups
     title: Backups & Point-in-time restore
-    link:
-      url: /
     icon:
       name: backups
       color: blue
   - id: api-keys
     title: Vector-scoped API Keys
-    link:
-      url: /
     icon:
       name: vectors
       color: blue

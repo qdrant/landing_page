@@ -9,7 +9,11 @@
         {{/* Large cards row */}}
         <div class="enterprise-ready__row enterprise-ready__row--large">
           {{ range .Params.largeCards }}
-            <a href="{{ .link.url }}" class="enterprise-ready__card enterprise-ready__card--large">
+            {{ if and .link .link.url }}
+            <a href="{{ .link.url }}" class="enterprise-ready__card enterprise-ready__card--large enterprise-ready__card--link"{{ if or (hasPrefix .link.url "http://") (hasPrefix .link.url "https://") }} target="_blank" rel="noopener noreferrer"{{ end }}>
+            {{ else }}
+            <div class="enterprise-ready__card enterprise-ready__card--large">
+            {{ end }}
               <div class="enterprise-ready__card-visual enterprise-ready__card-visual--{{ .visual }}">
                 {{ if .image }}
                   {{ partial "picture" (dict "src" .image.src "alt" .image.alt "class" "enterprise-ready__card-img" "loading" "lazy" "decoding" "async") }}
@@ -18,7 +22,7 @@
               <div class="enterprise-ready__card-footer">
                 <span class="link link_dark link_md enterprise-ready__card-link">{{ .title }}</span>
               </div>
-            </a>
+            {{ if and .link .link.url }}</a>{{ else }}</div>{{ end }}
           {{ end }}
         </div>
 
@@ -26,14 +30,18 @@
         {{ $iconsPath := "static/img/components/icons/" }}
         <div class="enterprise-ready__row enterprise-ready__row--small">
           {{ range .Params.smallCards }}
-            <a href="{{ .link.url }}" class="enterprise-ready__card enterprise-ready__card--small">
+            {{ if and .link .link.url }}
+            <a href="{{ .link.url }}" class="enterprise-ready__card enterprise-ready__card--small enterprise-ready__card--link"{{ if or (hasPrefix .link.url "http://") (hasPrefix .link.url "https://") }} target="_blank" rel="noopener noreferrer"{{ end }}>
+            {{ else }}
+            <div class="enterprise-ready__card enterprise-ready__card--small">
+            {{ end }}
               <div class="enterprise-ready__card-icon">
                 {{ if .icon }}
                   {{ partial "svg" (dict "icon" .icon.name "path" $iconsPath "color" .icon.color "stroke" .icon.stroke "fill" .icon.fill) }}
                 {{ end }}
               </div>
               <span class="enterprise-ready__card-label">{{ .title }}</span>
-            </a>
+            {{ if and .link .link.url }}</a>{{ else }}</div>{{ end }}
           {{ end }}
         </div>
       </div>

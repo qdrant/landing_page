@@ -244,7 +244,7 @@
     color: inherit;
     transition: background-color 0.2s ease;
 
-    &:hover {
+    &--link:hover {
       background-color: rgba(17, 24, 36, 1);
 
       .hero__badge-text {

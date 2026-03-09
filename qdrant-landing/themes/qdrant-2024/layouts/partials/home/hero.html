@@ -77,10 +77,17 @@
     {{ if .Params.valueBadges }}
       <div class="hero__badges">
         {{ range .Params.valueBadges }}
-          <a href="{{ .url }}" class="hero__badge"{{ if or (hasPrefix .url "http://") (hasPrefix .url "https://") }} target="_blank" rel="noopener noreferrer"{{ end }}>
-            <img src="{{ .icon }}" alt="" class="hero__badge-icon" width="16" height="16" decoding="async" />
-            <span class="hero__badge-text">{{ .text }}</span>
-          </a>
+          {{ if .url }}
+            <a href="{{ .url }}" class="hero__badge hero__badge--link"{{ if or (hasPrefix .url "http://") (hasPrefix .url "https://") }} target="_blank" rel="noopener noreferrer"{{ end }}>
+              <img src="{{ .icon }}" alt="" class="hero__badge-icon" width="16" height="16" decoding="async" />
+              <span class="hero__badge-text">{{ .text }}</span>
+            </a>
+          {{ else }}
+            <span class="hero__badge">
+              <img src="{{ .icon }}" alt="" class="hero__badge-icon" width="16" height="16" decoding="async" />
+              <span class="hero__badge-text">{{ .text }}</span>
+            </span>
+          {{ end }}
         {{ end }}
       </div>
     {{ end }}
