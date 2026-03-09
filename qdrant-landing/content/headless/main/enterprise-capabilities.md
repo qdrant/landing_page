@@ -33,7 +33,7 @@ deploymentOptions:
       url: /private-cloud/
     position: center-right
   - id: edge
-    title: Qdrant Edge (Private Beta) #todo
+    title: Qdrant Edge (Beta)
     description: Lightweight, low-latency vector search close to where data is generated.
     icon: cloud-connections
     iconColor: violet

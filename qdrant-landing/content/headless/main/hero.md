@@ -13,13 +13,13 @@ valueBadges:
     url: https://github.com/qdrant/qdrant
   - icon: /img/home/hero/users-icon.svg
     text: 60k+ Community Members
-    url: /
+    url: /community/
   - icon: /img/home/hero/rust-icon.svg
     text: Rust Powered
     url: /
   - icon: /img/home/hero/cross-icon.svg
     text: SOC2 & HIPAA compliant
-    url: /
+    url: https://app.drata.com/trust/9cbbb75b-0c38-11ee-865f-029d78a187d9
 planet:
   blur: /img/home/hero/blur.svg
   blur2: /img/home/hero/blur2.svg

@@ -9,11 +9,9 @@
         </div>
         <div class="hero__buttons">
           <a data-metric-loc="hero" href="{{ .Params.startFree.url }}" class="button button_contained button_lg"
-            >{{ .Params.startFree.text }}</a
-          >
+            data-metric-loc="hero">{{ .Params.startFree.text }}</a>
           <a data-metric-loc="hero" href="{{ .Params.learnMore.url }}" class="button button_outlined button_lg"
-            >{{ .Params.learnMore.text }}</a
-          >
+             data-metric-loc="hero">{{ .Params.learnMore.text }}</a>
         </div>
       </div>
 
@@ -79,7 +77,7 @@
     {{ if .Params.valueBadges }}
       <div class="hero__badges">
         {{ range .Params.valueBadges }}
-          <a href="{{ .url }}" class="hero__badge">
+          <a href="{{ .url }}" class="hero__badge"{{ if or (hasPrefix .url "http://") (hasPrefix .url "https://") }} target="_blank" rel="noopener noreferrer"{{ end }}>
             <img src="{{ .icon }}" alt="" class="hero__badge-icon" width="16" height="16" decoding="async" />
             <span class="hero__badge-text">{{ .text }}</span>
           </a>
