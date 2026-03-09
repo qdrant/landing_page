@@ -28,7 +28,7 @@ caseStudies:
     textAfter: "data sources."
     logoIcon: dust
     logoAlt: Dust
-    link: /blog/case-study-dust/
+    link: /blog/case-study-dust-v2/
   - id: lyzr
     text: "Powers Lyzr's AI agents, reducing latency by"
     highlight: "90%"
