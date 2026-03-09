@@ -7,6 +7,9 @@
   {{ partial "home/case-studies" . }}
   {{ partial "home/enterprise-capabilities" . }}
   {{ partial "home/enterprise-ready" . }}
+  {{ with (.Site.GetPage "/headless/main/canva") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial pb-5 pb-lg-7") }}
+  {{ end }}
   {{ partial "home/performance-by-design" . }}
   {{ partial "home/engineered-for-builders" . }}
   {{ partial "home/integrations-logos" . }}

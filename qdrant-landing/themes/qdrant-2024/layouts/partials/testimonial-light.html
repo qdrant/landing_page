@@ -1,7 +1,11 @@
 {{ $class := .class }}
-<section class="testimonial-light {{ $class }}">
+{{ $ctx := .context }}
+{{ $hasReview := and $ctx.Params.review (ne (strings.TrimSpace $ctx.Params.review) "") }}
+{{ $hasEmployees := and $ctx.Params.avatar $ctx.Params.avatar.src }}
+{{ $hasContent := or $hasReview $hasEmployees }}
+<section class="testimonial-light {{ $class }}{{ if $ctx.Params.gradient }} testimonial-light--gradient-layout{{ end }}">
   <div class="container">
-    {{ with .context.Params.partners }}
+    {{ with $ctx.Params.partners }}
     <div class="testimonial-light__partners">
       <p class="testimonial-light__partners-title">{{ .title }}</p>
       <div class="testimonial-light__partners-logos">
@@ -14,25 +18,35 @@
     </div>
     {{ end }}
     <div class="row gy-4 gx-3">
+      {{ if $hasContent }}
       <div class="col-12 col-xl-9">
         <div class="testimonial-light__content">
-          <p class="testimonial-light__review">{{ .context.Params.review | safeHTML }}</p>
+          {{ if $hasReview }}
+          <p class="testimonial-light__review">{{ $ctx.Params.review | safeHTML }}</p>
+          {{ end }}
+          {{ with $ctx.Params.avatar }}
+          {{ if .src }}
           <div class="testimonial-light__employees">
             <div class="testimonial-light__employees-avatar">
-              <img src="{{ .context.Params.avatar.src }}" alt="{{ .context.Params.avatar.alt }}" />
+              <img src="{{ .src }}" alt="{{ .alt }}" />
             </div>
             <div class="testimonial-light__employees-position">
-              <p>{{ .context.Params.names }}</p>
-              <p>{{ .context.Params.positions }}</p>
+              {{ with $ctx.Params.names }}<p>{{ . }}</p>{{ end }}
+              {{ with $ctx.Params.positions }}<p>{{ . }}</p>{{ end }}
             </div>
           </div>
+          {{ end }}
+          {{ end }}
         </div>
       </div>
-      <div class="col-12 col-xl-3">
-        <div class="testimonial-light__logo">
-          <img src="{{ .context.Params.logo.src }}" alt="{{ .context.Params.logo.alt }}" />
+      {{ end }}
+      {{ with $ctx.Params.logo }}
+      <div class="col-12 {{ if $hasContent }}col-xl-3{{ else }}col-12{{ end }}">
+        <div class="testimonial-light__logo{{ if $ctx.Params.gradient }} testimonial-light__logo--gradient{{ end }}">
+          <img src="{{ .src }}" alt="{{ .alt }}" />
         </div>
       </div>
+      {{ end }}
     </div>
   </div>
 </section>
