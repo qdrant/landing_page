@@ -118,7 +118,7 @@ client.upsert("{collection_name}", points)
 await client.upsert("{collection_name}", { points });
 ```
 
-## Searching for documents with Qdrant
+### Searching for documents
 
 Once the documents are indexed, you can search for the most relevant documents using the same model with the `RETRIEVAL_QUERY` task type:
 
@@ -182,7 +182,7 @@ await geminiClient.models.embedContent({
 
 ## Supported task types
 
-You can specify the `task_type` parameter to the API call. This parameter designates the intended purpose for the embeddings, helping optimize them for the intended relationships.
+You can specify the `task_type` parameter in the API call. This parameter designates the intended purpose for the embeddings, helping optimize them for the intended relationships.
 
 The Embedding Model API supports various task types, including:
 
