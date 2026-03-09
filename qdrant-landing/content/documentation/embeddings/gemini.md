@@ -2,68 +2,67 @@
 title: Gemini
 ---
 
-| Time: 10 min | Level: Beginner | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/gemini-getting-started/gemini-getting-started/gemini-getting-started.ipynb)   |
-| --- | ----------- | ----------- |
-
 # Gemini
 
-Qdrant is compatible with Gemini Embedding Model API and its official Python SDK that can be installed as any other package:
+[Google Gemini](https://ai.google.dev/) provides text embedding models that generate vector embeddings for words, phrases, sentences, and code. These embeddings enable tasks like semantic search, classification, and clustering, delivering more accurate and context-aware results compared to traditional keyword-based methods.
 
-Gemini is a new family of Google PaLM models, released in December 2023. The new embedding models succeed the previous Gecko Embedding Model. 
-
-In the latest models, an additional parameter, `task_type`, can be passed to the API call. This parameter serves to designate the intended purpose for the embeddings utilized.
-
-The Embedding Model API supports various task types, outlined as follows:
-
-1. `retrieval_query`: query in a search/retrieval setting
-2. `retrieval_document`: document from the corpus being searched
-3. `semantic_similarity`: semantic text similarity
-4. `classification`: embeddings to be used for text classification
-5. `clustering`: the generated embeddings will be used for clustering
-6. `task_type_unspecified`: Unset value, which will default to one of the other values.
-
-
-If you're building a semantic search application, such as RAG, you should use `task_type="retrieval_document"` for the indexed documents and `task_type="retrieval_query"` for the search queries. 
-
-The following example shows how to do this with Qdrant:
+The following example shows how to integrate Gemini embeddings with Qdrant:
 
 ## Setup
 
-```bash
-pip install google-generativeai
+```python
+# Install the packages from PyPI
+# pip install google-genai qdrant-client
 ```
 
-Let's see how to use the Embedding Model API to embed a document for retrieval. 
+```typescript
+// Install the packages from npm
+// npm install @google/genai @qdrant/js-client-rest
+```
 
-The following example shows how to embed a document with the `models/embedding-001` with the `retrieval_document` task type:
+Let's see how to use the Embedding Model API to embed documents for retrieval.
+
+The following example shows how to embed multiple documents with the `<TODO-NEW-MODEL-NAME>` model using the `RETRIEVAL_DOCUMENT` [task type](#supported-task-types):
 
 ## Embedding a document
 
 ```python
-import google.generativeai as gemini_client
+from google.genai import Client, types
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
 
-collection_name = "example_collection"
-
-GEMINI_API_KEY = "YOUR GEMINI API KEY"  # add your key here
-
+gemini_client = Client()  # Needs the GEMINI_API_KEY env to be set
 client = QdrantClient(url="http://localhost:6333")
-gemini_client.configure(api_key=GEMINI_API_KEY)
+
 texts = [
     "Qdrant is a vector database that is compatible with Gemini.",
-    "Gemini is a new family of Google PaLM models, released in December 2023.",
+    "Gemini is a family of natively multimodal, large language models (LLMs).",
 ]
 
-results = [
-    gemini_client.embed_content(
-        model="models/embedding-001",
-        content=sentence,
-        task_type="retrieval_document",
-        title="Qdrant x Gemini",
-    )
-    for sentence in texts
-]
+result = gemini_client.models.embed_content(
+    model="<TODO-NEW-MODEL-NAME>",
+    contents=texts,
+    config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT"),
+)
+```
+
+```typescript
+import { GoogleGenAI } from "@google/genai";
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const geminiClient = new GoogleGenAI(); // Needs the GEMINI_API_KEY env to be set
+const client = new QdrantClient({ url: "http://localhost:6333" });
+
+const texts = [
+  "Qdrant is a vector database that is compatible with Gemini.",
+  "Gemini is a family of natively multimodal, large language models (LLMs).",
+];
+
+const result = await geminiClient.models.embedContent({
+  model: "<TODO-NEW-MODEL-NAME>",
+  contents: texts,
+  config: { taskType: "RETRIEVAL_DOCUMENT" },
+});
 ```
 
 ## Creating Qdrant Points and Indexing documents with Qdrant
@@ -74,60 +73,129 @@ results = [
 points = [
     PointStruct(
         id=idx,
-        vector=response['embedding'],
+        vector=embedding.values,
         payload={"text": text},
     )
-    for idx, (response, text) in enumerate(zip(results, texts))
+    for idx, (embedding, text) in enumerate(zip(result.embeddings, texts))
 ]
+```
+
+```typescript
+const points = texts.map((text, idx) => ({
+  id: idx,
+  vector: result.embeddings[idx].values,
+  payload: { text },
+}));
 ```
 
 ### Create Collection
 
+By default, `<TODO-NEW-MODEL-NAME>` outputs a 3072-dimensional embedding vector. You can reduce it to a smaller size (e.g., 768 or 1536) using the `output_dimensionality` configuration to save storage space. In this example, we keep the default 3072 dimensions.
+
 ```python
-client.create_collection(collection_name, vectors_config=
-    VectorParams(
-        size=768,
+client.create_collection(
+    collection_name="{collection_name}", 
+    vectors_config=VectorParams(
+        size=3072,
         distance=Distance.COSINE,
     )
 )
 ```
 
+```typescript
+await client.createCollection("{collection_name}", {
+  vectors: { size: 3072, distance: "Cosine" },
+});
+```
+
 ### Add these into the collection
 
 ```python
-client.upsert(collection_name, points)
+client.upsert("{collection_name}", points)
+```
+
+```typescript
+await client.upsert("{collection_name}", { points });
 ```
 
 ## Searching for documents with Qdrant
 
-Once the documents are indexed, you can search for the most relevant documents using the same model with the `retrieval_query` task type:
+Once the documents are indexed, you can search for the most relevant documents using the same model with the `RETRIEVAL_QUERY` task type:
 
 ```python
-client.search(
-    collection_name=collection_name,
-    query_vector=gemini_client.embed_content(
-        model="models/embedding-001",
-        content="Is Qdrant compatible with Gemini?",
-        task_type="retrieval_query",
-    )["embedding"],
+query_result = gemini_client.models.embed_content(
+    model="<TODO-NEW-MODEL-NAME>",
+    contents="Is Qdrant compatible with Gemini?",
+    config=types.EmbedContentConfig(task_type="RETRIEVAL_QUERY"),
+)
+
+client.query_points(
+    collection_name="{collection_name}",
+    query=query_result.embeddings[0].values,
 )
 ```
 
-## Using Gemini Embedding Models with Binary Quantization
+```typescript
+const queryResult = await geminiClient.models.embedContent({
+  model: "<TODO-NEW-MODEL-NAME>",
+  contents: "Is Qdrant compatible with Gemini?",
+  config: { taskType: "RETRIEVAL_QUERY" },
+});
 
-You can use Gemini Embedding Models with [Binary Quantization](/articles/binary-quantization/) - a technique that allows you to reduce the size of the embeddings by 32 times without losing the quality of the search results too much. 
+const searchResult = await client.query("{collection_name}", {
+  query: queryResult.embeddings[0].values,
+});
+```
 
-In this table, you can see the results of the search with the `models/embedding-001` model with Binary Quantization in comparison with the original model:
+## Embedding files
 
-At an oversampling of 3 and a limit of 100, we've a 95% recall against the exact nearest neighbors with rescore enabled.
+You can also embed files such as PDFs directly:
 
-| Oversampling |         | 1        | 1        | 2        | 2        | 3        | 3        |
-|--------------|---------|----------|----------|----------|----------|----------|----------|
-|              | **Rescore** | False    | True     | False    | True     | False    | True     |
-| **Limit**    |         |          |          |          |          |          |          |
-| 10           |         | 0.523333 | 0.831111 | 0.523333 | 0.915556 | 0.523333 | 0.950000 |
-| 20           |         | 0.510000 | 0.836667 | 0.510000 | 0.912222 | 0.510000 | 0.937778 |
-| 50           |         | 0.489111 | 0.841556 | 0.489111 | 0.913333 | 0.488444 | 0.947111 |
-| 100          |         | 0.485778 | 0.846556 | 0.485556 | 0.929000 | 0.486000 | **0.956333** |
+```python
+with open("filename.pdf", "rb") as f:
+    pdf_bytes = f.read()
 
-That's it! You can now use Gemini Embedding Models with Qdrant!
+pdf_part = types.Part.from_bytes(
+    data=pdf_bytes,
+    mime_type='application/pdf',
+)
+
+gemini_client.models.embed_content(
+    model="<TODO-NEW-MODEL-NAME>",
+    contents=[pdf_part],
+)
+```
+
+```typescript
+import { readFileSync } from "fs";
+
+const pdfBytes = readFileSync("filename.pdf");
+const base64 = pdfBytes.toString("base64");
+
+await geminiClient.models.embedContent({
+  model: "<TODO-NEW-MODEL-NAME>",
+  contents: [{
+    parts: [{ inlineData: { mimeType: "application/pdf", data: base64 } }],
+  }],
+});
+```
+
+## Supported task types
+
+You can specify the `task_type` parameter to the API call. This parameter designates the intended purpose for the embeddings, helping optimize them for the intended relationships.
+
+The Embedding Model API supports various task types, including:
+
+- `RETRIEVAL_DOCUMENT`: Embeddings optimized for document search. Indexing articles, books, or web pages for search.
+- `RETRIEVAL_QUERY`: Embeddings optimized for general search queries. Use `RETRIEVAL_QUERY` for queries; `RETRIEVAL_DOCUMENT` for documents to be retrieved.
+- `SEMANTIC_SIMILARITY`: Embeddings optimized to assess text similarity.
+- `CLASSIFICATION`: Embeddings optimized to classify texts according to preset labels.
+- `CLUSTERING`: Embeddings optimized to cluster texts based on their similarities.
+- `CODE_RETRIEVAL_QUERY`: Embeddings optimized for retrieval of code blocks based on natural language queries.
+- `QUESTION_ANSWERING`: Embeddings for questions in a question-answering system.
+- `FACT_VERIFICATION`: Embeddings for statements that need to be verified.
+
+### Further Reading
+
+- [Gemini API Quickstart](https://ai.google.dev/gemini-api/docs)
+- [Gemini Embeddings Documentation](https://ai.google.dev/gemini-api/docs/embeddings)
