@@ -18,7 +18,7 @@ tiers:
   highlight: false
 - name: Free Tier
   highlight: false
-- name: Paid Tier
+- name: Standard Tier
   highlight: true
 - name: Premium Tier
   highlight: false
@@ -62,7 +62,7 @@ sections:
     premium: false
   - name: Cloud Inference
     oss: false
-    free: Only external models
+    free: Only free models
     paid: true
     premium: true
 - name: Data Modeling & Storage
@@ -75,7 +75,7 @@ sections:
 - name: Deployment & Enterprise
   features:
   - name: Cloud providers
-    oss: Depends on customer infra
+    oss: Depends on chosen infrastructure
     free: AWS, Azure, GCP
     paid: AWS, Azure, GCP
     premium: AWS, Azure, GCP
@@ -104,84 +104,69 @@ sections:
 - name: Querying / Ranking
   features:
   - name: Advanced payload filtering (incl. Geo and full-text)
-    oss: false
+    oss: true
     free: true
     paid: true
     premium: true
   - name: Complex payload support
-    oss: false
+    oss: true
     free: true
     paid: true
     premium: true
   - name: Multi-Staged Queries
-    oss: false
+    oss: true
     free: true
     paid: true
     premium: true
   - name: Score Boosting
-    oss: false
+    oss: true
     free: true
     paid: true
     premium: true
 - name: Scalability & Operations
   features:
-  - name: Vertical Up-Scaling
+  - name: Vertical Up & Down Scaling
+    oss: No resource usage safe guards
+    free: false
+    paid: true
+    premium: true
+  - name: Horizontal Up & Down Scaling
+    oss: No automated shard rebalancing
+    free: false
+    paid: true
+    premium: true
+  - name: Highly Availabe Setup
     oss: true
     free: false
     paid: true
     premium: true
-  - name: Vertical Down-Scaling
-    oss: true
+  - name: Disk Performance Tiers
+    oss: Depends on chosen infrastructure
+    free: false
+    paid: (AWS only)
+    premium: (AWS only)    
+  - name: Shard Splitting
+    oss: false
     free: false
     paid: true
-    premium: true
-  - name: Vertical Disk Up-Scaling
-    oss: Complex, manual process
-    free: false
-    paid: true
-    premium: true
-  - name: Horizontal Scaling
-    oss: true
-    free: false
-    paid: true
-    premium: true
-  - name: Read Replicas (HA)
-    oss: true
-    free: false
-    paid: true
-    premium: true
+    premium: true      
   - name: Zero Downtime Upgrades
-    oss: false
+    oss: Custom automation
     free: false
     paid: true
     premium: true
-  - name: Auto Suspend
+  - name: Optimized Cluster Restarts
     oss: false
-    free: true
+    free: false
     paid: true
-    premium: true
-  - name: Monitoring & Metrics
+    premium: true    
+  - name: Monitoring & Alerting
     oss: Manual setup
     free: true
     paid: true
     premium: true
-  - name: Backups
-    oss: Manual setup
-    free: Daily
-    paid: Daily
-    premium: Hourly
-  - name: Point in Time Recovery
-    oss: false
-    free: false
-    paid: false
-    premium: true
-  - name: Multi-Region / Geo Replication
-    oss: false
-    free: false
-    paid: false
-    premium: true
-  - name: Zero Downtime Migration
-    oss: false
+  - name: Backups & Disaster Recovery
+    oss: Custom automation
     free: false
     paid: true
     premium: true
@@ -190,41 +175,16 @@ sections:
     free: false
     paid: false
     premium: true
-  - name: Pause Clusters
+  - name: Collection Snapshots
     oss: true
-    free: false
-    paid: true
-    premium: true
-  - name: Snapshots / Versioning
-    oss: true
-    free: true
-    paid: true
-    premium: true
-  - name: Alerting
-    oss: false
     free: true
     paid: true
     premium: true
 - name: Security & Compliance
   features:
   - name: Create new Clusters from Backups
-    oss: true
+    oss: Custom automation
     free: false
-    paid: true
-    premium: true
-  - name: Dedicated LoadBalancer
-    oss: true
-    free: false
-    paid: false
-    premium: true
-  - name: TLS
-    oss: true
-    free: true
-    paid: true
-    premium: true
-  - name: API Key Auth
-    oss: true
-    free: true
     paid: true
     premium: true
   - name: JWT based RBAC
@@ -232,27 +192,32 @@ sections:
     free: true
     paid: true
     premium: true
-  - name: mTLS Peer Authentication
+  - name: Built-in API key revocation
     oss: false
-    free: false
-    paid: false
+    free: true
+    paid: true
     premium: true
   - name: SOC2 Type 2
     oss: false
     free: true
     paid: true
     premium: true
+  - name: Encryption at Rest and in Transit
+    oss: Depends on chosen infrastructure
+    free: true
+    paid: true
+    premium: true       
   - name: Disk Encryption with custom key
-    oss: Depends on customer infra
+    oss: Depends on chosen infrastructure
     free: false
     paid: false
     premium: (AWS only)
-  - name: Enterprise authentication (SSO in Cloud)
+  - name: Enterprise SSO authentication
     oss: false
     free: false
     paid: false
     premium: true
-  - name: Private Links (AWS Private Link, Azure Private Link, GCP PSC)
+  - name: Private VPC Links
     oss: false
     free: false
     paid: false
