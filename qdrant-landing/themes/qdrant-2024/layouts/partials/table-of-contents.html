@@ -26,6 +26,12 @@
         <ul class="table-of-contents__external-links">
           {{ if or (eq .Section "documentation") (eq .Section "articles") }}
             <li class="table-of-contents__link">
+              <a href="{{ .Permalink }}index.md" target="_blank">
+                {{ partial "svg" "markdown.svg" }}
+                View as Markdown
+              </a>
+            </li>
+            <li class="table-of-contents__link">
               <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
                 {{ partial "svg" "github.svg" }}
                 Edit on Github

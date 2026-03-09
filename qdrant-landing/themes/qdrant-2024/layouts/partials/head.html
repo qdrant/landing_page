@@ -36,6 +36,10 @@
     <link href="{{ .RelPermalink }}" rel="feed" type="{{ .MediaType.Type }}" title="{{ $.Site.Title }}" />
   {{ end }}
 
+  {{ with .OutputFormats.Get "Markdown" }}
+    <link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Page.Title }}" />
+  {{ end }}
+
   {{ partial "seo_schema" . }}
   {{ partial "js-head" . }}
 </head>
