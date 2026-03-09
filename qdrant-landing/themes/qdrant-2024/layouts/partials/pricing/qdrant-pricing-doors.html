@@ -2,7 +2,7 @@
 <section class="{{ $class }}">
   <div class="container">
     {{/* Navigation Tabs – data-tab-sync groups tab switching across sections */}}
-    <div class="{{ $class }}__tabs" data-tab-sync="pricing-deployment">
+    <div class="{{ $class }}__tabs" data-tab-sync="pricing-deployment" data-tab-sync-direction="down-only">
       {{ range .context.Params.tabs }}
         <button class="{{ $class }}__tab{{ if .active }}{{ " " }}{{ $class }}__tab--active{{ end }}" data-tab="{{ .id }}">
           {{ .label }}
