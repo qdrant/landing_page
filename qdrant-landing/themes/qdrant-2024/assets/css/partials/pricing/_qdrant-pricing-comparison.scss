@@ -4,29 +4,52 @@
   position: relative;
   padding: $spacer * 5 0 $spacer * 3.5;
   background-color: $neutral-94;
-  background-image: linear-gradient(
-    180deg,
-    rgba(225, 229, 240, 0) 8.3%,
-    #e1e5f0 52.24%,
-    rgba(225, 229, 240, 0) 112.78%
-  );
   overflow: hidden;
 
   &__background {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     pointer-events: none;
     background: url('/img/prices-background.svg') top center / 100% auto no-repeat;
   }
 
+  &__grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    display: grid;
+    grid-template-columns: repeat(18, 80px);
+    grid-template-rows: repeat(5, 80px);
+    justify-content: center;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba($neutral-94, 0) 0%, $neutral-94 100%),
+        linear-gradient(to right, $neutral-94 0%, transparent 15%, transparent 85%, $neutral-94 100%);
+    }
+  }
+
   &__content {
     position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     max-width: pxToRem(730);
     margin: 0 auto;
+    padding: 0 $spacer;
+    background: linear-gradient(to right, rgba($neutral-94, 0) 8%, $neutral-94 50%, rgba($neutral-94, 0) 92%);
   }
 
   &__badge {
@@ -84,7 +107,6 @@
   }
 
   &__link {
-    align-self: flex-start;
     width: fit-content;
     display: flex;
     align-items: center;
@@ -124,10 +146,17 @@
 
   @include media-breakpoint-down(md) {
     padding: $spacer * 2.5 0 $spacer * 2;
-    background-image: none;
 
     &__background {
       display: none;
+    }
+
+    &__grid {
+      display: none;
+    }
+
+    &__content {
+      background: none;
     }
 
     &__badge {
