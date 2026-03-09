@@ -1,38 +1,39 @@
+{{ $tables := .Params.tables | default slice }}
+{{ $showTabs := gt (len $tables) 1 }}
+
 <section class="qdrant-pricing-features">
   <div class="container">
     <div class="qdrant-pricing-features__header">
       <h2 class="qdrant-pricing-features__title">{{ .Params.title }}</h2>
-      <div class="qdrant-pricing-features__tabs" data-tab-sync="pricing-deployment">
-        <button class="qdrant-pricing-features__tab qdrant-pricing-features__tab--active" data-tab="managed">
-          Managed
-        </button>
-        <button class="qdrant-pricing-features__tab" data-tab="on-premise">On-Premise</button>
-      </div>
+      {{ if $showTabs }}
+        <div class="qdrant-pricing-features__tabs" data-tab-sync="pricing-deployment">
+          {{ range $index, $table := $tables }}
+            <button
+              class="qdrant-pricing-features__tab{{ if eq $index 0 }} qdrant-pricing-features__tab--active{{ end }}"
+              data-tab="{{ $table.id }}"
+            >
+              {{ $table.label }}
+            </button>
+          {{ end }}
+        </div>
+      {{ end }}
     </div>
 
-    {{/* Managed table */}}
-    <div class="qdrant-pricing-features__table-wrapper" data-features-tab="managed">
-      {{ partial "pricing/qdrant-pricing-features-table" (dict
-        "tiers" .Params.tiers
-        "sections" .Params.sections
-        "ctas" .Params.ctas
-        )
-      }}
-    </div>
-
-    {{/* On-Premise table */}}
-    <div
-      class="qdrant-pricing-features__table-wrapper qdrant-pricing-features__table-wrapper--hidden"
-      data-features-tab="on-premise"
-    >
-      {{ partial "pricing/qdrant-pricing-features-table" (dict
-        "tiers" .Params.onPremiseTiers
-        "sections" .Params.onPremiseSections
-        "ctas" .Params.onPremiseCtas
-        "classPrefix" "qdrant-pricing-features"
-        )
-      }}
-    </div>
+    {{ range $index, $table := $tables }}
+      {{ if and $table.tiers $table.sections }}
+        <div
+          class="qdrant-pricing-features__table-wrapper{{ if and $showTabs (gt $index 0) }} qdrant-pricing-features__table-wrapper--hidden{{ end }}"
+          data-features-tab="{{ $table.id }}"
+        >
+          {{ partial "pricing/qdrant-pricing-features-table" (dict
+            "tiers" $table.tiers
+            "sections" $table.sections
+            "ctas" $table.ctas
+            )
+          }}
+        </div>
+      {{ end }}
+    {{ end }}
 
     {{ with .Params.compareButton }}
       <div class="qdrant-pricing-features__compare">
