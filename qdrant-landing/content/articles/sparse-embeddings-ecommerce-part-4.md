@@ -1,17 +1,17 @@
 ---
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 4: Specialization vs Generalization"
 short_description: "When to fine-tune sparse embeddings and how far to specialize before generalization suffers."
-description: "Part 4 of a 4-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Test cross-domain generalization, train a multi-domain model, and decide when to specialize vs generalize."
+description: "Part 4 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Test cross-domain generalization, train a multi-domain model, and decide when to specialize vs generalize."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-4/preview
 social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-4/preview/social_preview.jpg
 weight: -197
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
-date: 2025-01-31T00:00:00.000Z
+date: 2026-03-09T00:00:00.000Z
 category: practicle-examples
 ---
 
-*This is Part 4 of a 4-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 3](/articles/sparse-embeddings-ecommerce-part-3/), we evaluated our model and implemented hard negative mining. Now we test how well it generalizes.*
+*This is Part 4 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 3](/articles/sparse-embeddings-ecommerce-part-3/), we evaluated our model and implemented hard negative mining. Now we test how well it generalizes.*
 
 **Series:**
 - [Part 1: Why Sparse Embeddings Beat BM25](/articles/sparse-embeddings-ecommerce-part-1/)
@@ -27,6 +27,8 @@ We've built a SPLADE model that beats BM25 by 28% on Amazon ESCI. But here's the
 In this final article, we test cross-domain generalization, train a multi-domain model, and lay out a decision framework for when to specialize vs generalize.
 
 ## Cross-Domain Evaluation
+
+![Cross-domain nDCG comparison across datasets](/articles_data/sparse-embeddings-ecommerce-part-4/cross-domain-ndcg.png)
 
 We took our Amazon ESCI-trained model and tested it on three additional datasets:
 
@@ -53,6 +55,8 @@ Three patterns emerge:
 
 ## Why Generalization Degrades
 
+![Transfer decay curve showing performance drop across domains](/articles_data/sparse-embeddings-ecommerce-part-4/transfer-decay-curve.png)
+
 The cross-domain results reveal a fundamental tradeoff. Fine-tuning teaches the model:
 
 - **Amazon-specific query patterns:** short, product-focused queries with brand names and model numbers
@@ -64,6 +68,8 @@ Wayfair customers search differently ("mid-century modern coffee table" vs "coff
 MS MARCO is the extreme case. Web search queries like "what is the capital of France" or "how to tie a tie" are nothing like e-commerce queries. The model's learned biases actively hurt.
 
 ## Multi-Domain Training
+
+![Domain coverage Venn diagram showing overlap between e-commerce datasets](/articles_data/sparse-embeddings-ecommerce-part-4/domain-coverage-venn.png)
 
 To address the generalization problem, we trained a **multi-domain SPLADE model** on combined data from ESCI, WANDS, and Home Depot: roughly 50K training pairs from each dataset, 150K total.
 
@@ -106,6 +112,8 @@ datasets:
 Label normalization is the key challenge. ESCI uses character labels (E, S, C, I), WANDS uses numeric scores (0, 1, 2), and Home Depot uses relevance ratings. The multi-domain loader maps everything to a common format: positive (relevant) and negative (irrelevant) pairs for contrastive training.
 
 ## Decision Framework
+
+![When to use specialist vs generalist models](/articles_data/sparse-embeddings-ecommerce-part-4/specialist-vs-generalist.png)
 
 After running all these experiments, here's when to use each approach:
 
@@ -163,7 +171,7 @@ Extensions worth exploring:
 - **Full dataset training**: We used 100K samples from ESCI. The full 1.2M with multiple epochs would likely improve results further.
 - **Curriculum learning**: Start with general data, gradually specialize to your domain. This can mitigate catastrophic forgetting while still achieving strong in-domain performance.
 
-The [code is open source](https://github.com/thierrypdamiba/finetune-ecommerce-search). The [pre-trained models are on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci) (including a [multi-domain variant](https://huggingface.co/thierrydamiba/splade-ecommerce-multidomain)). Training runs on Modal for under $1. Qdrant handles the sparse vectors, indexing, and retrieval out of the box. The barrier to building better e-commerce search has never been lower.
+The [code is open source](https://github.com/thierrypdamiba/finetune-ecommerce-search). The [pre-trained models are on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci) (including a [multi-domain variant](https://huggingface.co/thierrydamiba/splade-ecommerce-multidomain)). Training runs on Modal for under $1. Qdrant handles the [sparse vectors](https://qdrant.tech/articles/sparse-vectors/), indexing, and retrieval out of the box. The barrier to building better e-commerce search has never been lower.
 
 We also packaged this entire pipeline into an open-source toolkit with a CLI and web dashboard. See [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/) for how to fine-tune a SPLADE model on your own catalog with a single command.
 

@@ -1,17 +1,17 @@
 ---
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 2: Training SPLADE on Modal"
 short_description: "Train a SPLADE model on Amazon's ESCI dataset using Modal's serverless GPUs and Sentence Transformers."
-description: "Part 2 of a 4-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Build a training pipeline on Modal with persistent checkpoints, SpladeLoss, and hyperparameter sweeps."
+description: "Part 2 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Build a training pipeline on Modal with persistent checkpoints, SpladeLoss, and hyperparameter sweeps."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-2/preview
 social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-2/preview/social_preview.jpg
 weight: -199
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
-date: 2025-01-29T00:00:00.000Z
+date: 2026-03-09T00:00:00.000Z
 category: practicle-examples
 ---
 
-*This is Part 2 of a 4-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 1](/articles/sparse-embeddings-ecommerce-part-1/), we covered why sparse embeddings beat BM25 for e-commerce. Now we build the training pipeline.*
+*This is Part 2 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 1](/articles/sparse-embeddings-ecommerce-part-1/), we covered why sparse embeddings beat BM25 for e-commerce. Now we build the training pipeline.*
 
 **Series:**
 - [Part 1: Why Sparse Embeddings Beat BM25](/articles/sparse-embeddings-ecommerce-part-1/)
@@ -32,14 +32,9 @@ We use Amazon's [ESCI dataset](https://github.com/amazon-science/esci-data) (Sho
 - **Four relevance grades**: Exact (E), Substitute (S), Complement (C), Irrelevant (I)
 - **Rich product metadata**: titles, descriptions, bullet points, brands
 
-The graded relevance is what makes ESCI interesting. A search for "iPhone charger" might return:
+The graded relevance is what makes ESCI interesting:
 
-| Product | Label | Score |
-|---|---|---|
-| Apple 20W USB-C Power Adapter | Exact (E) | 1.0 |
-| Anker USB-C to Lightning Cable | Substitute (S) | 0.7 |
-| iPhone 15 Clear Case | Complement (C) | 0.5 |
-| Samsung Galaxy S24 Case | Irrelevant (I) | 0.0 |
+![ESCI relevance gradient from Exact to Irrelevant](/articles_data/sparse-embeddings-ecommerce-part-2/esci-relevance-gradient.png)
 
 For training, we use Exact and Substitute pairs as positives. This teaches the model that both the exact product and reasonable alternatives are relevant, matching how real shoppers think.
 
@@ -104,6 +99,8 @@ def build_product_text(title, brand="", description="", bullets=None, max_length
 ```
 
 The bracket notation for brands, pipe separators between sections, and character limits are deliberate. They preserve lexical signals that SPLADE can learn from: brand names, product attributes, and key features remain as distinct tokens rather than blurring into a wall of text.
+
+![Training stack: Modal for GPU compute, Sentence Transformers for training, Qdrant for evaluation](/articles_data/sparse-embeddings-ecommerce-part-2/training-stack.png)
 
 ## Setting Up the Modal App
 
@@ -344,6 +341,8 @@ That's 6x worse without contextual encoding.
 The static embedding completely failed because e-commerce queries are highly contextual. "Apple" means different things in "apple iphone" vs "apple fruit". The static embedding can't disambiguate. It looks up "apple" and returns the same vector regardless of context.
 
 The transformer is the bottleneck at ~15ms per query, but 15ms is perfectly acceptable for search. Don't prematurely optimize away the component that makes the model work.
+
+![Modal detached training with persistent volumes](/articles_data/sparse-embeddings-ecommerce-part-2/modal-detached-training.png)
 
 ## Running Training
 

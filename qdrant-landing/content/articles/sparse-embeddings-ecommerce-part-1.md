@@ -1,17 +1,17 @@
 ---
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 1: Why Sparse Embeddings Beat BM25"
 short_description: "Dense embeddings blur exact matches. Sparse embeddings keep the details that matter in e-commerce search."
-description: "Part 1 of a 4-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Learn why sparse embeddings outperform BM25 and dense models for product search, how SPLADE works, and why Qdrant's native sparse vector support matters."
+description: "Part 1 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Learn how sparse embeddings outperform BM25 and dense models for product search, how SPLADE works, and why Qdrant's native sparse vector support matters."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-1/preview
 social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-1/preview/social_preview.jpg
 weight: -200
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
-date: 2025-01-28T00:00:00.000Z
+date: 2026-03-09T00:00:00.000Z
 category: practicle-examples
 ---
 
-*This is Part 1 of a 4-part series on fine-tuning sparse embeddings for e-commerce search. We'll go from "why bother?" to a production system that beats BM25 by 29%.*
+*This is Part 1 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. We'll go from "why bother?" to a production system that beats BM25 by 29%.*
 
 **Series:**
 - Part 1: Why Sparse Embeddings Beat BM25 (here)
@@ -24,33 +24,37 @@ category: practicle-examples
 
 Search "iPhone 15 Pro Max 256GB" on a dense embedding system and it happily returns the 128GB model. The semantic similarity is high - it's the same phone! But the customer specified 256GB for a reason. In e-commerce, the details aren't noise. They're the whole point.
 
+![Dense embedding search returns the wrong iPhone storage variant](/articles_data/sparse-embeddings-ecommerce-part-1/wrong-iphone-result.png)
+
 This is the gap that sparse embeddings fill. And with fine-tuning, they fill it dramatically well - we achieved a **29% improvement over BM25** on Amazon's ESCI dataset, one of the largest public e-commerce search benchmarks.
 
-In this series, we'll build the entire system: data loading, GPU training on Modal, evaluation with Qdrant, and hard negative mining. The [full code is on GitHub](https://github.com/thierrypdamiba/finetune-ecommerce-search) and the [fine-tuned models are on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci). But first, let's understand why sparse embeddings are the right tool for this job.
+In this series, we'll build the entire system: data loading, GPU training on Modal, evaluation with Qdrant, and hard negative mining. The [full code is on GitHub](https://github.com/thierrypdamiba/finetune-ecommerce-search) and the [fine-tuned models are on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci). But first, let's understand why sparse embeddings are the right tool for e-commerce search.
 
 ## The Problem with Dense Embeddings in E-Commerce
 
-Dense embeddings (the kind you get from OpenAI, Cohere, or a fine-tuned sentence transformer) compress text into a fixed-size vector - typically 384 to 1024 dimensions, all non-zero. They're excellent at capturing semantic meaning. "Running shoes" and "jogging sneakers" land close together in the embedding space.
+Dense embeddings (the kind you get from [OpenAI](https://platform.openai.com/docs/guides/embeddings), [Cohere](https://docs.cohere.com/docs/embeddings), or a fine-tuned [sentence transformer](https://www.sbert.net/)) compress text into a fixed-size vector, typically 384 to 1536 dimensions, all non-zero. They're excellent at capturing semantic meaning. "Running shoes" and "jogging sneakers" land close together in the embedding space.
 
 But this strength becomes a weakness in e-commerce:
 
-**Exact matches get blurred.** When every dimension is active, the model prioritizes broad semantic similarity over exact term matching. SKU numbers, model names, specific sizes - these critical differentiators get averaged into the same neighborhood as similar-but-wrong products.
+**Exact matches get blurred.** When every dimension carries a non-zero value, the model prioritizes broad semantic similarity over exact term matching. SKU numbers, model names, specific sizes - these critical differentiators get averaged into the same neighborhood as similar-but-wrong products.
 
-**Retrieval is approximate.** Dense vectors require Approximate Nearest Neighbor (ANN) indexes like HNSW. The "approximate" part means you're trading recall for speed. For search, where missing a relevant product means a lost sale, this tradeoff hurts.
+**Retrieval is approximate.** At scale, dense vectors require Approximate Nearest Neighbor (ANN) indexes like HNSW. The "approximate" part means you're trading recall for speed. For search, where missing a relevant product means a lost sale, this tradeoff hurts.
 
 **Results are opaque.** Why did product X rank above product Y? With dense embeddings, you can't say. The 768-dimensional vector offers no interpretability. When a merchandising team asks why a product isn't showing up, you're stuck.
 
 ## Enter Sparse Embeddings
 
-Sparse embeddings take a fundamentally different approach. Instead of compressing text into a small, dense vector, they project it onto a large vocabulary space - typically 30,000+ dimensions (one per token in the vocabulary). But only 100-300 of those dimensions are non-zero.
+[Sparse embeddings](https://qdrant.tech/articles/sparse-vectors/) take a fundamentally different approach. Instead of compressing text into a small, dense vector, they project it onto a large vocabulary space - typically 30,000+ dimensions (one per token in the vocabulary). But only 100-300 of those dimensions are non-zero.
 
 |  | Dense | Sparse |
 |---|---|---|
-| **Vector size** | 384-1024 dims | ~30,000 dims |
-| **Non-zero values** | All active | 100-300 terms |
+| **Vector size** | 384-1536 dims | ~30,000 dims |
+| **Non-zero values** | All dimensions carry a value | 100-300 terms |
 | **Index type** | ANN (HNSW) | Inverted index |
 | **Exact matching** | Weak | Strong |
-| **Interpretability** | Black box | Transparent |
+| **Interpretability** | Black box | Per-term weights |
+
+![Visualization comparing dense and sparse vector representations](/articles_data/sparse-embeddings-ecommerce-part-1/dense-vs-sparse-viz.png)
 
 Both approaches encode text into vectors, but sparse embeddings preserve individual term signals that dense models compress away.
 
@@ -58,7 +62,7 @@ The key difference: each dimension in a sparse vector corresponds to an actual w
 
 ## SPLADE: Learned Sparse Representations
 
-SPLADE (Sparse Lexical and Expansion) is the model architecture that makes this work. It passes text through a transformer with a masked language model (MLM) head, then applies max pooling and log saturation to produce sparse weights:
+SPLADE (Sparse Lexical and Expansion) is the model architecture that makes this work. It passes text through a transformer with a [masked language model](https://huggingface.co/docs/transformers/tasks/masked_language_modeling) (MLM) head, then applies max pooling and log saturation to produce sparse weights:
 
 For an input like `"noise canceling headphones"`, SPLADE encodes it in four steps:
 
@@ -66,6 +70,8 @@ For an input like `"noise canceling headphones"`, SPLADE encodes it in four step
 2. **Max pool** across all token positions to get a single score per vocabulary term
 3. **Apply log saturation** — `log(1 + ReLU(x))` — a learned version of BM25's saturation curve that prevents any single term from dominating
 4. **Output a sparse vector** with ~200 non-zero values out of 30,522 vocabulary dimensions
+
+![The SPLADE encoding pipeline from input text to sparse vector](/articles_data/sparse-embeddings-ecommerce-part-1/splade-pipeline.png)
 
 | Token | Weight |
 |---|---|
@@ -112,7 +118,7 @@ sparse_vectors_config={
 }
 ```
 
-**Hybrid in one request.** Combine sparse precision with dense semantics via native RRF/prefetch - no external reranker:
+**Hybrid in one request.** Combine sparse precision with dense semantics via native [RRF/prefetch](https://qdrant.tech/documentation/concepts/hybrid-queries/) - no external reranker:
 
 ```python
 client.query_points(
@@ -126,9 +132,9 @@ client.query_points(
 )
 ```
 
-**Production-ready scaling.** Rust + SIMD inverted index with an on-disk option keeps RAM low even with 200+ active terms per doc across millions of products.
+**Production-ready scaling.** Rust + [SIMD-optimized inverted index](https://qdrant.tech/articles/sparse-vectors/) with an on-disk option keeps RAM low even with 200+ active terms per doc across millions of products.
 
-**No ANN approximation.** Sparse retrieval uses an inverted index, the same data structure powering BM25. Results are exact - no recall tradeoffs from approximate nearest neighbor search.
+**No ANN approximation.** Sparse retrieval uses an [inverted index](https://qdrant.tech/articles/sparse-vectors/), the same data structure powering BM25. Results are exact - no recall tradeoffs from approximate nearest neighbor search.
 
 ## The Stack
 
@@ -153,13 +159,15 @@ Modal gives us serverless A100 GPUs - no idle hardware, no queue management. Sen
 
 ## What We'll Build
 
-Over the next three articles, we'll walk through the full pipeline:
+Over the next four articles, we'll walk through the full pipeline:
 
 - [**Part 2: Training on Modal**](/articles/sparse-embeddings-ecommerce-part-2/) - Loading the Amazon ESCI dataset, creating the SPLADE model, configuring loss functions with sparsity regularization, and running GPU training with persistent checkpoints.
 
 - [**Part 3: Evaluation and Hard Negative Mining**](/articles/sparse-embeddings-ecommerce-part-3/) - Indexing products in Qdrant, running retrieval benchmarks (nDCG, MRR, Recall), implementing ANCE hard negative mining loops, and analyzing what fine-tuning actually changes in the model.
 
 - [**Part 4: Specialization vs Generalization**](/articles/sparse-embeddings-ecommerce-part-4/) - Cross-domain evaluation on Wayfair and Home Depot data, multi-domain training, when to specialize vs generalize, and production deployment guidance.
+
+- [**Part 5: From Research to Product**](/articles/sparse-embeddings-ecommerce-part-5/) - An open-source CLI and web dashboard that runs the entire fine-tuning pipeline with a single command.
 
 The end result: a fine-tuned SPLADE model that achieves **nDCG@10 of 0.388** on Amazon ESCI, compared to **0.301** for BM25 and **0.324** for off-the-shelf SPLADE. That 29% improvement over BM25 translates to meaningfully better search results for real e-commerce queries. You can try the models directly from HuggingFace: [splade-ecommerce-esci](https://huggingface.co/thierrydamiba/splade-ecommerce-esci) (best in-domain) and [splade-ecommerce-multidomain](https://huggingface.co/thierrydamiba/splade-ecommerce-multidomain) (better generalization).
 

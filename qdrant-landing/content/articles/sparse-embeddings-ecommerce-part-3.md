@@ -1,17 +1,17 @@
 ---
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 3: Evaluation and Hard Negatives"
 short_description: "Evaluate fine-tuned SPLADE with Qdrant and boost results with hard negative mining."
-description: "Part 3 of a 4-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Index products in Qdrant, run retrieval benchmarks, and implement ANCE hard negative mining for a 28% improvement over BM25."
+description: "Part 3 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Index products in Qdrant, run retrieval benchmarks, and implement ANCE hard negative mining for a 28% improvement over BM25."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-3/preview
 social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-3/preview/social_preview.jpg
 weight: -198
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
-date: 2025-01-30T00:00:00.000Z
+date: 2026-03-09T00:00:00.000Z
 category: practicle-examples
 ---
 
-*This is Part 3 of a 4-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 2](/articles/sparse-embeddings-ecommerce-part-2/), we trained a SPLADE model on Modal. Now we evaluate it and push further with hard negative mining.*
+*This is Part 3 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 2](/articles/sparse-embeddings-ecommerce-part-2/), we trained a SPLADE model on Modal. Now we evaluate it and push further with hard negative mining.*
 
 **Series:**
 - [Part 1: Why Sparse Embeddings Beat BM25](/articles/sparse-embeddings-ecommerce-part-1/)
@@ -135,6 +135,8 @@ The fine-tuned model beats BM25 by nearly 28%. More telling: it beats the off-th
 
 ### What About Hybrid Search?
 
+![Hybrid search fusion combining sparse and dense retrieval](/articles_data/sparse-embeddings-ecommerce-part-3/hybrid-search-fusion.png)
+
 A natural question: can we combine sparse and dense vectors for even better results? We tested this with Qdrant's native Reciprocal Rank Fusion:
 
 ```python
@@ -157,9 +159,11 @@ This is a useful finding. Hybrid search isn't always better. It depends on the r
 
 ## Hard Negative Mining with ANCE
 
+![The ANCE hard negative mining loop](/articles_data/sparse-embeddings-ecommerce-part-3/ance-loop.png)
+
 The training in Part 2 used in-batch negatives: other products in the same batch serve as negatives for a given query. This works but has a limitation: random products are easy negatives. The model doesn't learn to distinguish between genuinely confusable products.
 
-ANCE (Approximate Nearest Neighbor Negative Contrastive Estimation) fixes this by mining hard negatives from the current model's own retrieval results:
+[ANCE](https://www.sbert.net/examples/training/quora_duplicate_questions/README.html) (Approximate Nearest Neighbor Negative Contrastive Estimation) fixes this by mining hard negatives from the current model's own retrieval results:
 
 1. **Index** products into Qdrant with the current model
 2. **Retrieve** top-K products for each query
@@ -234,7 +238,7 @@ A common concern: isn't running a transformer on every query slow?
 | Sparse retrieval (Qdrant) | <1ms | Negligible |
 | **Total** | **10-20ms** | Real-time |
 
-The retrieval itself is negligible. Qdrant's Rust + SIMD inverted index scans millions of posting lists in sub-millisecond time. All the latency is in the encoder, which runs once per query regardless of catalog size.
+The retrieval itself is negligible. Qdrant's Rust + [SIMD-optimized inverted index](https://qdrant.tech/articles/sparse-vectors/) scans millions of posting lists in sub-millisecond time. All the latency is in the encoder, which runs once per query regardless of catalog size.
 
 Optimization strategies if 15ms isn't fast enough:
 - **Batch queries**: Encode multiple queries together (autocomplete, related searches)

@@ -7,7 +7,7 @@ social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-5/preview/
 weight: -196
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
-date: 2025-02-01T00:00:00.000Z
+date: 2026-03-09T00:00:00.000Z
 category: practicle-examples
 ---
 
@@ -29,6 +29,8 @@ Using it required reading four articles, cloning a repo, understanding the train
 So we packaged everything into [`qdrant-sparse-finetune`](https://github.com/thierrypdamiba/qdrant-sparse-finetune): an open-source CLI and web dashboard that runs the entire pipeline (synthetic query generation, SPLADE training with ANCE, evaluation, and HuggingFace publishing) with a single command.
 
 ## The Problem We're Solving
+
+![From research repo to production CLI](/articles_data/sparse-embeddings-ecommerce-part-5/research-to-production-pipeline.png)
 
 The series repo ([finetune-ecommerce-search](https://github.com/thierrypdamiba/finetune-ecommerce-search)) is research code. It demonstrates how sparse embedding fine-tuning works. Actually using it on your data means you need to:
 
@@ -98,7 +100,7 @@ This launches a web dashboard with tabs for each stage of the pipeline:
 
 **Evaluate.** Point at a trained model and test queries. Get metric cards for nDCG@10, MRR@10, Recall, and Precision.
 
-**Collections.** Browse your Qdrant collections, check point counts, and run test searches against indexed products. Useful for sanity-checking that indexing worked before evaluation.
+**[Collections](https://qdrant.tech/documentation/concepts/collections/).** Browse your Qdrant collections, check point counts, and run test searches against indexed products. Useful for sanity-checking that indexing worked before evaluation.
 
 **Publish.** Enter a model path and HuggingFace repo name. Click publish.
 
@@ -109,6 +111,8 @@ This launches a web dashboard with tabs for each stage of the pipeline:
 The dashboard is the recommended starting point. You can see everything the tool can do without reading documentation, and the job history gives you a record of every experiment.
 
 ## What Changed From the Series Code
+
+![Production architecture: CLI, dashboard, and GPU backends](/articles_data/sparse-embeddings-ecommerce-part-5/production-architecture.png)
 
 The pipeline from Parts 2-4 is the same underneath. The toolkit wraps it with:
 
