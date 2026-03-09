@@ -21,7 +21,7 @@ Additionally, [any open-source embeddings from HuggingFace](https://huggingface.
 | [Aleph Alpha](/documentation/embeddings/aleph-alpha/) | Multilingual embeddings focused on European languages.           |
 | [Bedrock](/documentation/embeddings/bedrock/)         | AWS managed service for foundation models and embeddings.        |
 | [Cohere](/documentation/embeddings/cohere/)           | Language model embeddings for NLP tasks.                         |
-| [Gemini](/documentation/embeddings/gemini/)           | Google’s multimodal embeddings for text and vision.              |
+| [Gemini](/documentation/embeddings/gemini/)           | Google Gemini embeddings for semantic search, classification...  |
 | [Jina AI](/documentation/embeddings/jina-embeddings/) | Customizable embeddings for neural search.                       |
 | [Mistral](/documentation/embeddings/mistral/)         | Open-source, efficient language model embeddings.                |
 | [MixedBread](/documentation/embeddings/mixedbread/)   | Lightweight embeddings for constrained environments.             |
