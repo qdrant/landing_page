@@ -4,7 +4,7 @@ title: Gemini
 
 # Gemini
 
-[Google Gemini](https://ai.google.dev/) provides text embedding models that generate vector embeddings for words, phrases, sentences, and code. These embeddings enable tasks like semantic search, classification, and clustering, delivering more accurate and context-aware results compared to traditional keyword-based methods.
+[Google Gemini](https://ai.google.dev/) provides embedding models that are capable of mapping text, image, video, audio, and PDFs and their interleaved combinations thereof into a single, unified vector space. Built on the Gemini architecture, it supports 100+ languages.
 
 The following example shows how to integrate Gemini embeddings with Qdrant:
 
@@ -22,7 +22,7 @@ The following example shows how to integrate Gemini embeddings with Qdrant:
 
 Let's see how to use the Embedding Model API to embed documents for retrieval.
 
-The following example shows how to embed multiple documents with the `<TODO-NEW-MODEL-NAME>` model using the `RETRIEVAL_DOCUMENT` [task type](#supported-task-types):
+The following example shows how to embed multiple documents with the `gemini-embedding-2-preview` model using the `RETRIEVAL_DOCUMENT` [task type](#supported-task-types):
 
 ## Embedding a document
 
@@ -40,7 +40,7 @@ texts = [
 ]
 
 result = gemini_client.models.embed_content(
-    model="<TODO-NEW-MODEL-NAME>",
+    model="gemini-embedding-2-preview",
     contents=texts,
     config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT"),
 )
@@ -59,7 +59,7 @@ const texts = [
 ];
 
 const result = await geminiClient.models.embedContent({
-  model: "<TODO-NEW-MODEL-NAME>",
+  model: "gemini-embedding-2-preview",
   contents: texts,
   config: { taskType: "RETRIEVAL_DOCUMENT" },
 });
@@ -90,7 +90,7 @@ const points = texts.map((text, idx) => ({
 
 ### Create Collection
 
-By default, `<TODO-NEW-MODEL-NAME>` outputs a 3072-dimensional embedding vector. You can reduce it to a smaller size (e.g., 768 or 1536) using the `output_dimensionality` configuration to save storage space. In this example, we keep the default 3072 dimensions.
+By default, `gemini-embedding-2-preview` outputs a 3072-dimensional embedding vector. You can reduce it to a smaller size (e.g., 768 or 1536) using the `output_dimensionality` configuration to save storage space. In this example, we keep the default 3072 dimensions.
 
 ```python
 client.create_collection(
@@ -124,7 +124,7 @@ Once the documents are indexed, you can search for the most relevant documents u
 
 ```python
 query_result = gemini_client.models.embed_content(
-    model="<TODO-NEW-MODEL-NAME>",
+    model="gemini-embedding-2-preview",
     contents="Is Qdrant compatible with Gemini?",
     config=types.EmbedContentConfig(task_type="RETRIEVAL_QUERY"),
 )
@@ -137,7 +137,7 @@ client.query_points(
 
 ```typescript
 const queryResult = await geminiClient.models.embedContent({
-  model: "<TODO-NEW-MODEL-NAME>",
+  model: "gemini-embedding-2-preview",
   contents: "Is Qdrant compatible with Gemini?",
   config: { taskType: "RETRIEVAL_QUERY" },
 });
@@ -149,7 +149,7 @@ const searchResult = await client.query("{collection_name}", {
 
 ## Embedding files
 
-You can also embed files such as PDFs directly:
+You can embed files such as PDFs directly:
 
 ```python
 with open("filename.pdf", "rb") as f:
@@ -161,7 +161,7 @@ pdf_part = types.Part.from_bytes(
 )
 
 gemini_client.models.embed_content(
-    model="<TODO-NEW-MODEL-NAME>",
+    model="gemini-embedding-2-preview",
     contents=[pdf_part],
 )
 ```
@@ -173,7 +173,7 @@ const pdfBytes = readFileSync("filename.pdf");
 const base64 = pdfBytes.toString("base64");
 
 await geminiClient.models.embedContent({
-  model: "<TODO-NEW-MODEL-NAME>",
+  model: "gemini-embedding-2-preview",
   contents: [{
     parts: [{ inlineData: { mimeType: "application/pdf", data: base64 } }],
   }],
