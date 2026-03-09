@@ -4,7 +4,7 @@ title: Gemini
 
 # Gemini
 
-[Google Gemini](https://ai.google.dev/) provides embedding models that are capable of mapping text, image, video, audio, and PDFs and their interleaved combinations thereof into a single, unified vector space. Built on the Gemini architecture, it supports 100+ languages.
+[Google Gemini](https://ai.google.dev/gemini-api/docs/embeddings) provides embedding models that are capable of mapping text, image, video, audio, and PDFs and their interleaved combinations thereof into a single, unified vector space. Built on the Gemini architecture, it supports 100+ languages.
 
 The following example shows how to integrate Gemini embeddings with Qdrant:
 
@@ -197,5 +197,6 @@ The Embedding Model API supports various task types, including:
 
 ### Further Reading
 
-- [Gemini API Quickstart](https://ai.google.dev/gemini-api/docs)
+- [Gemini Embeddings Quickstart](https://github.com/google-gemini/cookbook/blob/main/quickstarts/Embeddings.ipynb)
 - [Gemini Embeddings Documentation](https://ai.google.dev/gemini-api/docs/embeddings)
+- [Gemini API Documentation](https://ai.google.dev/gemini-api/docs)
