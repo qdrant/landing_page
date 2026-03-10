@@ -63,4 +63,4 @@ Qdrant's enables you to use Gemini Embedding 2 today. Check out the full documen
 
 Gemini Embedding 2 is compatible with both Cloud and Open Source deployments. To get started with Qdrant Cloud, [sign up for a free tier today](https://cloud.qdrant.io/signup). 
 
-Multimodal search just got a lot simpler. With Gemini Embedding 2 handling the embeddings and Qdrant handling the storage and retrieval, you can build with the next wave of embedding model and vector search capabilities today.
+Multimodal search just got a lot simpler. With Gemini Embedding 2 handling the embeddings and Qdrant handling the storage and retrieval, you can build with the next wave of embedding models and vector search capabilities today.
