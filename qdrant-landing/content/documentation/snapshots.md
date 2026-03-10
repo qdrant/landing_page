@@ -1,6 +1,6 @@
 ---
 title: Snapshots
-weight: 125
+weight: 130
 aliases:
   - /documentation/open-source/snapshots/
   - /documentation/concepts/snapshots/

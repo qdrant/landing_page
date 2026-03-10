@@ -1,7 +1,8 @@
 ---
 title: Optimize Performance
-weight: 135
+weight: 10
 aliases:
+  - /documentation/optimize/
   - /documentation/configuration/optimize/
   - /documentation/guides/optimize/
   - ../tutorials/optimize
@@ -10,7 +11,7 @@ partition: deploy
 
 # Optimizing Qdrant Performance: Three Scenarios
 
-Different use cases require different balances between memory usage, search speed, and precision. Qdrant is designed to be flexible and customizable so you can tune it to your specific needs. 
+Different use cases require different balances between memory usage, search speed, and precision. Qdrant is designed to be flexible and customizable so you can tune it to your specific needs.
 
 This guide will walk you three main optimization strategies:
 
@@ -60,7 +61,7 @@ Increase the `ef` and `m` parameters of the HNSW index to improve precision, eve
 ...
 ```
 
-**Note:** The speed of this setup depends on the disk’s IOPS (Input/Output Operations Per Second).</br>
+**Note:** The speed of this setup depends on the disk's IOPS (Input/Output Operations Per Second).</br>
 You can use [fio](https://gist.github.com/superboum/aaa45d305700a7873a8ebbab1abddf2b) to measure disk IOPS.
 
 ### Inline Storage in HNSW Index
@@ -103,7 +104,7 @@ The following optimization approaches are not mutually exclusive, but in some ca
 ### Minimizing Latency
 
 To minimize latency, you can set up Qdrant to use as many cores as possible for a single request.
-You can do this by setting the number of segments in the collection to be equal to the number of cores in the system. 
+You can do this by setting the number of segments in the collection to be equal to the number of cores in the system.
 
 In this case, each segment will be processed in parallel, and the final result will be obtained faster.
 
@@ -126,4 +127,4 @@ By adjusting configurations like vector storage, quantization, and search parame
 - **High Precision + High Speed:** Keep data in RAM, use quantization with re-scoring.
 - **Latency vs. Throughput:** Adjust segment numbers based on the priority.
 
-Choose the strategy that best fits your use case to get the most out of Qdrant’s performance capabilities.
+Choose the strategy that best fits your use case to get the most out of Qdrant's performance capabilities.

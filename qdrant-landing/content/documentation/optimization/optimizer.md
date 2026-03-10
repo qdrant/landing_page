@@ -1,7 +1,8 @@
 ---
 title: Optimizer
-weight: 140
+weight: 20
 aliases:
+  - /documentation/optimizer/
   - /documentation/concepts/optimizer/
   - ../optimizer
 partition: deploy
