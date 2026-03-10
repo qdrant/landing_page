@@ -22,7 +22,7 @@ category: practicle-examples
 
 ---
 
-We've built a SPLADE model that beats BM25 by 28% on Amazon ESCI. But here's the question that determines whether this is a lab result or a production strategy: does it work on data it wasn't trained on? Full code is on [GitHub](https://github.com/thierrypdamiba/finetune-ecommerce-search) and you can try the [fine-tuned models on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci).
+We've built a SPLADE model that beats BM25 by 28% on Amazon ESCI. But here's the question that determines whether this is a lab result or a production strategy: does it work on data it wasn't trained on? Full code is on [GitHub](https://github.com/thierrypdamiba/finetune-ecommerce-search), you can try the [fine-tuned models on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci), or fine-tune on your own catalog with the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI.
 
 In this final article, we test cross-domain generalization, train a multi-domain model, and lay out a decision framework for when to specialize vs generalize.
 

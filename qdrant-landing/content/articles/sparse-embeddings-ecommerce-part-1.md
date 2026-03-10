@@ -28,7 +28,7 @@ Search "iPhone 15 Pro Max 256GB" on a dense embedding system and it happily retu
 
 This is the gap that sparse embeddings fill. And with fine-tuning, they fill it dramatically well - we achieved a **29% improvement over BM25** on Amazon's ESCI dataset, one of the largest public e-commerce search benchmarks.
 
-In this series, we'll build the entire system: data loading, GPU training on Modal, evaluation with Qdrant, and hard negative mining. The [full code is on GitHub](https://github.com/thierrypdamiba/finetune-ecommerce-search) and the [fine-tuned models are on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci). But first, let's understand why sparse embeddings are the right tool for e-commerce search.
+In this series, we'll build the entire system: data loading, GPU training on Modal, evaluation with Qdrant, and hard negative mining. The [full code is on GitHub](https://github.com/thierrypdamiba/finetune-ecommerce-search) and the [fine-tuned models are on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci). If you want to skip the walkthrough and fine-tune on your own data, the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI runs the entire pipeline with one command. But first, let's understand why sparse embeddings are the right tool for e-commerce search.
 
 ## The Problem with Dense Embeddings in E-Commerce
 

@@ -22,7 +22,7 @@ category: practicle-examples
 
 ---
 
-In the last article we made the case for sparse embeddings in e-commerce search. Now we write the code. All source code is available in the [GitHub repo](https://github.com/thierrypdamiba/finetune-ecommerce-search), and you can try the [fine-tuned models on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci). By the end of this piece, you'll have a SPLADE model trained on Amazon's ESCI dataset, running on Modal's serverless GPUs, with checkpoints saved to persistent storage.
+In the last article we made the case for sparse embeddings in e-commerce search. Now we write the code. All source code is available in the [GitHub repo](https://github.com/thierrypdamiba/finetune-ecommerce-search), and you can try the [fine-tuned models on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci). Want to skip straight to fine-tuning on your own data? See the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI. By the end of this piece, you'll have a SPLADE model trained on Amazon's ESCI dataset, running on Modal's serverless GPUs, with checkpoints saved to persistent storage.
 
 ## The Dataset: Amazon ESCI
 
