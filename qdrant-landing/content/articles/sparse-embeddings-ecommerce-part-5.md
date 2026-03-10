@@ -26,7 +26,7 @@ In Parts 1 through 4, we built a SPLADE fine-tuning pipeline piece by piece: dat
 
 Using it required reading four articles, cloning a repo, understanding the training loop internals, wiring up Modal volumes, and configuring Qdrant connections manually. That's fine for a series walkthrough. It's not fine for someone who has a product catalog and wants a better search model by end of day.
 
-So we packaged everything into [`qdrant-sparse-finetune`](https://github.com/thierrypdamiba/qdrant-sparse-finetune): an open-source CLI and web dashboard that runs the entire pipeline (synthetic query generation, SPLADE training with ANCE, evaluation, and HuggingFace publishing) with a single command.
+So we packaged everything into [`qdrant-sparse-finetune`](https://github.com/qdrant/sparse-finetune): an open-source CLI and web dashboard that runs the entire pipeline (synthetic query generation, SPLADE training with ANCE, evaluation, and HuggingFace publishing) with a single command.
 
 ## The Problem We're Solving
 
@@ -47,7 +47,7 @@ Each step has its own configuration, its own failure modes, and its own set of a
 `qdrant-sparse-finetune` handles all of that:
 
 ```bash
-pip install qdrant-sparse-finetune
+pip install git+https://github.com/qdrant/sparse-finetune.git
 qdrant-finetune setup
 qdrant-finetune pipeline --data products.csv --gpu modal
 ```
@@ -179,8 +179,8 @@ Same ANCE loop from Part 3, same evaluation metrics. The `Trainer` class wraps t
 ## Getting Started
 
 ```bash
-# Install
-pip install qdrant-sparse-finetune
+# Install from GitHub
+pip install git+https://github.com/qdrant/sparse-finetune.git
 
 # Configure (interactive wizard)
 qdrant-finetune setup
@@ -197,7 +197,7 @@ Or skip the CLI and launch the dashboard:
 qdrant-finetune studio
 ```
 
-The [source code is on GitHub](https://github.com/thierrypdamiba/qdrant-sparse-finetune). File issues, submit PRs, or fork it for your own use case.
+The [source code is on GitHub](https://github.com/qdrant/sparse-finetune). File issues, submit PRs, or fork it for your own use case.
 
 ## What's Actually Different
 
