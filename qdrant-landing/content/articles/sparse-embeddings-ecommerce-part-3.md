@@ -22,7 +22,7 @@ category: practicle-examples
 
 ---
 
-We have a trained SPLADE model sitting on a Modal volume (or grab it from [HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci)). Now comes the question that matters: is it actually better? In this article, we'll index products into Qdrant, run retrieval benchmarks, implement hard negative mining, and dig into what the model learned. Full evaluation code is in the [GitHub repo](https://github.com/thierrypdamiba/finetune-ecommerce-search).
+We have a trained SPLADE model sitting on a Modal volume (or grab it from [HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci)). Now comes the question that matters: is it actually better? In this article, we'll index products into Qdrant, run retrieval benchmarks, implement hard negative mining, and dig into what the model learned. Full evaluation code is in the [GitHub repo](https://github.com/thierrypdamiba/finetune-ecommerce-search). To run this entire pipeline on your own data, see the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI.
 
 ## Indexing Products in Qdrant
 
