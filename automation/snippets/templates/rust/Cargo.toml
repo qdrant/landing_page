@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.100"
-edge = { package = "qdrant-edge", version = "0.0.0" }
+edge = { git = "https://github.com/qdrant/qdrant.git", branch = "dev" }
 fs-err = "3"
 ordered-float = "5"
 qdrant-client = { git = "https://github.com/qdrant/rust-client", branch = "master" }
