@@ -3,8 +3,8 @@ draft: false
 title: "We Raised $50M to Build Composable Vector Search as Core Infrastructure for Production AI"
 short_description: "Qdrant raises $50M in Series B funding to scale composable vector search from edge devices to supercomputers."
 description: "Qdrant announces $50M in Series B funding led by AVP to build composable vector search as foundational infrastructure for production AI — from agentic workflows to edge devices."
-preview_image: /blog/series-b-announcement/social_preview_series-b.jpg
-social_preview_image: /blog/series-b-announcement/social_preview_series-b.jpg
+preview_image: /blog/series-b-announcement/series-b-funding.jpg
+social_preview_image: /blog/series-b-announcement/series-b-funding.jpg
 date: 2026-03-12
 author: "Andre Zayarni"
 featured: true
