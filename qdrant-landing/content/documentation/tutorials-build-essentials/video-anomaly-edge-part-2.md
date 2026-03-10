@@ -7,6 +7,11 @@ aliases:
   - /articles/video-anomaly-edge-part-2/
 ---
 
+# Video Anomaly Detection: Edge-to-Cloud Pipeline
+
+| Time: 90 min | Level: Advanced | Stack: Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA VSS, Vultr | Output: [GitHub](https://github.com/qdrant/examples/tree/master/video-anomaly-edge) |
+| --- | ----------- | ----------- | ----------- |
+
 *This is Part II of a 3-part series on building real-time video anomaly detection from edge to cloud.*
 
 **Series:**
@@ -452,7 +457,7 @@ In **[Part III | Scoring, Governance, and Deployment](/documentation/tutorials-b
 
 Check out the resources:
 
-- **Project Repository**: [thierrydamiba/edge-video-anomaly](https://github.com/thierrydamiba/edge-video-anomaly)
+- **Project Repository**: [qdrant/examples/video-anomaly-edge](https://github.com/qdrant/examples/tree/master/video-anomaly-edge)
 - **Part I**: [Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
 - **Qdrant Edge Documentation**: [qdrant.tech/documentation/edge](/documentation/edge/)
 - **Twelve Labs Documentation**: [docs.twelvelabs.io](https://docs.twelvelabs.io/)
