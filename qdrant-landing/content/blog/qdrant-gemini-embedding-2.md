@@ -59,7 +59,7 @@ The combination of a truly multimodal embedding model and a high-performance vec
 
 ### Start Building Today
 
-Qdrant's enables you to use Gemini Embedding 2 today. Check out the full documentation with working examples in Python and JavaScript at our [**Gemini integration guide**](https://qdrant.tech/documentation/embeddings/gemini/)**.**
+Qdrant's enables you to use Gemini Embedding 2 today. Check out the full documentation with working examples in Python and JavaScript at our [**Gemini integration guide**](/documentation/embeddings/gemini/)**.**
 
 Gemini Embedding 2 is compatible with both Cloud and Open Source deployments. To get started with Qdrant Cloud, [sign up for a free tier today](https://cloud.qdrant.io/signup). 
 
