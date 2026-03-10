@@ -1,6 +1,6 @@
 ---
 title: Working with miniCOIL
-weight: 4
+weight: 40
 ---
 
 # How to use miniCOIL, Qdrant's Sparse Neural Retriever

@@ -1,6 +1,6 @@
 ---
 title: "FastEmbed & Qdrant"
-weight: 3
+weight: 20
 ---
 
 # Using FastEmbed with Qdrant for Vector Search

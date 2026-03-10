@@ -1,6 +1,6 @@
 ---
 title: Working with ColBERT 
-weight: 6
+weight: 60
 ---
 
 # How to Generate ColBERT Multivectors with FastEmbed
