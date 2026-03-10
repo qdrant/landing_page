@@ -8,6 +8,11 @@ aliases:
   - /articles/video-anomaly-edge-part-1/
 ---
 
+# Video Anomaly Detection: Architecture, Twelve Labs, and NVIDIA VSS
+
+| Time: 120 min | Level: Advanced | Stack: Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA VSS, Vultr | Output: [GitHub](https://github.com/qdrant/examples/tree/master/video-anomaly-edge) |
+| --- | ----------- | ----------- | ----------- |
+
 *This is Part I of a 3-part series on building real-time video anomaly detection from edge to cloud. We'll go from architecture and integrations to a production-grade detection pipeline.*
 
 **Series:**
@@ -41,7 +46,7 @@ Specifically, you will build a platform that transforms live surveillance stream
 
 **Edge-to-Cloud Escalation**: Lightweight edge triage on NVIDIA Jetson reduces cloud processing volume by ~6x while catching ~95% of true anomalies.
 
->The concepts and technology demonstrated here apply beyond surveillance. You can use this same architecture for manufacturing safety, retail analytics, traffic monitoring, or anything you need anomaly detection for. Just swap out the baseline data and adjust the detection threshold to fit your new domain.
+<aside role="status">The concepts and technology demonstrated here apply beyond surveillance. You can use this same architecture for manufacturing safety, retail analytics, traffic monitoring, or anything you need anomaly detection for. Just swap out the baseline data and adjust the detection threshold to fit your new domain.</aside>
 
 ---
 
@@ -49,9 +54,11 @@ Specifically, you will build a platform that transforms live surveillance stream
 
 Before we begin coding, check out the project repository and live demo to get familiarized with what we'll be building.
 
-**GitHub**: [thierrydamiba/edge-video-anomaly](https://github.com/thierrydamiba/edge-video-anomaly)
+**GitHub**: [qdrant/examples/video-anomaly-edge](https://github.com/qdrant/examples/tree/master/video-anomaly-edge)
 
 **Live Demo**: [avenue-demo.vercel.app](https://avenue-demo.vercel.app/)
+
+![Sentinel dashboard screenshot](/articles_data/video-anomaly-edge/sentinel-screenshot.png)
 
 ---
 
@@ -92,8 +99,8 @@ In this series you will:
 **1.** Clone the repository into your local environment.
 
 ```bash
-git clone https://github.com/thierrydamiba/edge-video-anomaly
-cd video-anomaly
+git clone https://github.com/qdrant/examples.git
+cd examples/video-anomaly-edge
 ```
 
 **2.** Install dependencies with uv.
@@ -545,7 +552,7 @@ In **[Part III | Scoring, Governance, and Deployment](/documentation/tutorials-b
 
 Check out the resources:
 
-- **Project Repository**: [thierrydamiba/edge-video-anomaly](https://github.com/thierrydamiba/edge-video-anomaly)
+- **Project Repository**: [qdrant/examples/video-anomaly-edge](https://github.com/qdrant/examples/tree/master/video-anomaly-edge)
 - **NVIDIA VSS Twelve Labs Integration**: [james-le-twelve-labs/nvidia-vss](https://github.com/james-le-twelve-labs/nvidia-vss)
 - **Twelve Labs Documentation**: [docs.twelvelabs.io](https://docs.twelvelabs.io/)
 - **Qdrant Documentation**: [qdrant.tech/documentation](https://qdrant.tech/documentation/)

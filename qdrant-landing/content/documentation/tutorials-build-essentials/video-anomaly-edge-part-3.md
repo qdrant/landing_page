@@ -7,6 +7,11 @@ aliases:
   - /articles/video-anomaly-edge-part-3/
 ---
 
+# Video Anomaly Detection: Scoring, Governance, and Deployment
+
+| Time: 60 min | Level: Advanced | Stack: Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA VSS, Vultr | Output: [GitHub](https://github.com/qdrant/examples/tree/master/video-anomaly-edge) |
+| --- | ----------- | ----------- | ----------- |
+
 *This is Part III of a 3-part series on building real-time video anomaly detection from edge to cloud.*
 
 **Series:**
@@ -222,12 +227,12 @@ This ensures the system degrades gracefully under load rather than queuing unbou
 
 ---
 
-## Getting Started
+## Deployment
 
 ```bash
 # Clone and install
-git clone https://github.com/thierrydamiba/edge-video-anomaly
-cd video-anomaly
+git clone https://github.com/qdrant/examples.git
+cd examples/video-anomaly-edge
 uv sync
 
 # Configure
@@ -267,7 +272,7 @@ Check out the full series and resources:
 
 - **Part I**: [Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
 - **Part II**: [Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
-- **Project Repository**: [thierrydamiba/edge-video-anomaly](https://github.com/thierrydamiba/edge-video-anomaly)
+- **Project Repository**: [qdrant/examples/video-anomaly-edge](https://github.com/qdrant/examples/tree/master/video-anomaly-edge)
 - **Live Demo**: [avenue-demo.vercel.app](https://avenue-demo.vercel.app/)
 - **NVIDIA VSS Twelve Labs Integration**: [james-le-twelve-labs/nvidia-vss](https://github.com/james-le-twelve-labs/nvidia-vss)
 - **Reference: Manufacturing Automation Tutorial**: [nathanchess/twelvelabs-nvidia-vss-sample](https://github.com/nathanchess/twelvelabs-nvidia-vss-sample)
