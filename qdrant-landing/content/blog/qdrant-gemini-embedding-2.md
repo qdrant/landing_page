@@ -2,7 +2,7 @@
 title: "Qdrant Meets Google Gemini Embedding 2"
 draft: false
 slug: qdrant-gemini-embedding-2
-short_description: "Gemini Embedding 2 maps text, images, video, audio, and PDFs into one vector space. See how Qdrant makes multimodal semantic search and RAG simple with code examples in Python and JavaScript."
+short_description: "Qdrant with Gemini Embedding 2 enables multimodal search across text, images, video, audio, and PDFs all in one vector space. Read more to learn how to get started."
 preview_image: /blog/qdrant-gemini-embedding-2/gemini-2-hero.png
 social_preview_image: /blog/qdrant-gemini-embedding-2/gemini-2-hero.png
 date: 2026-03-10
@@ -13,13 +13,11 @@ tags:
 - Embeddings
 ---
 
-**Search across text, images, video, audio, and PDFs in one vector space, stored and queried in Qdrant.**
-
-Until now, building a search system that understands both what a document says *and* what its images, videos, or audio convey was complex and limited. It meant stitching together multiple embedding models and writing code to reconcile results across modalities. That pipeline complexity may have been the single biggest barrier to production-grade multimodal retrieval.
+Until now, building a search system that understands both what a document says *and* what its images, videos, or audio convey could be complex and limited. It meant stitching together multiple embedding models and writing code to reconcile results across modalities. That pipeline complexity may have been the single biggest barrier to production-grade multimodal retrieval.
 
 Today, Google launched [**Gemini Embedding 2**](https://ai.google.dev/gemini-api/docs/embeddings) in Public Preview, the first fully multimodal embedding model in the Gemini family, and Qdrant supports it from day one. This post explains what the model offers, why Qdrant is a natural fit, and how to get started.
 
-### What Is Gemini Embedding 2?
+### What is Gemini Embedding 2?
 
 Gemini Embedding 2 is Google's first embedding model capable of mapping **text, images, video, audio, *and* PDF documents** (including interleaved combinations of these) into a single, unified vector space. Built on the Gemini architecture with support for over 100 languages, it's now available through the Gemini API.
 
@@ -59,7 +57,7 @@ The combination of a truly multimodal embedding model and a high-performance vec
 
 ### Start Building Today
 
-Qdrant's enables you to use Gemini Embedding 2 today. Check out the full documentation with working examples in Python and JavaScript at our [**Gemini integration guide**](/documentation/embeddings/gemini/)**.**
+Qdrant enables you to use Gemini Embedding 2 today. Check out the full documentation with working examples in Python and JavaScript at our [**Gemini integration guide**](/documentation/embeddings/gemini/).
 
 Gemini Embedding 2 is compatible with both Cloud and Open Source deployments. To get started with Qdrant Cloud, [sign up for a free tier today](https://cloud.qdrant.io/signup). 
 
