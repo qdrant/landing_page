@@ -21,7 +21,7 @@ tags:
 --- 
 
 Today we're announcing $50 million in Series B funding, led by AVP, with participation from Bosch Ventures, Unusual Ventures, Spark Capital, and 42CAP.
-## Retrieval Is on the Critical Path of Every AI System
+### Retrieval Is on the Critical Path of Every AI System
 
 Every serious AI workload — RAG, agents, multimodal search — depends on retrieving the right information, at the right time, under real constraints. Teams prototype with whatever is convenient, then hit walls in production: indexes that stall under writes, filtering applied after search instead of during it, tail latencies that spike under load. These aren't configuration problems. They're architectural ones. And they're why we started Qdrant.
 
@@ -31,19 +31,19 @@ We’re proud of the enterprises running Qdrant in production, including Canva, 
 
 "Qdrant's technical architecture and performance capabilities have proven to be exactly what we need as we scale our AI-powered features across the platform," said Colin Chauvet,  Director of Engineering at Canva. "They are an ideal partner as we standardize our vector search infrastructure to serve millions of users worldwide."
 
-## Fixed Pipelines Break. Composable Primitives Don't.
+### Fixed Pipelines Break. Composable Primitives Don't.
 
 Most search systems give you a fixed pipeline. Data goes in, queries come out, and the system decides how retrieval happens. Composable vector search inverts that. Features such as dense vectors, sparse vectors, metadata filters, multi-vector representations, and custom scoring are primitives you combine at query time, not features hidden behind an opaque API.
 
 This matters because different workloads need fundamentally different retrieval. A [multimodal system at Tripadvisor](https://qdrant.tech/blog/case-study-tripadvisor/) retrieving across billions of signals looks nothing like an [agentic workflow at Lyzr](https://qdrant.tech/blog/case-study-lyzr/) working with 100s of agents operating at low latency. A composable engine adapts to the problem. A fixed pipeline forces the problem to adapt to the tool.
 
-## Agents and Edge Devices Need the Same Thing: Fast, Flexible Retrieval Everywhere
+### Agents and Edge Devices Need the Same Thing: Fast, Flexible Retrieval Everywhere
 
 Agentic AI can turn retrieval into a tight inner loop; imagine thousands of steps per workflow, where latency compounds and an occasional slow result cascades through the entire chain. Agents can't declare their retrieval strategy upfront. They shift from dense to hybrid search, tighten filters, and re-weight scores based on what prior steps returned. This is composability at query time, not configuration time.
 
 Meanwhile, AI is moving to where decisions are made. Not everything can round-trip to the cloud: on-device assistants, field diagnostics, and industrial systems running semi-offline. [Qdrant Edge](https://qdrant.tech/documentation/edge/) will bring the full composable retrieval stack to resource-constrained devices with efficient cloud sync. One retrieval architecture from the data center to the device.
 
-## Thanks to Our Community and the Engineers Who Shape This Engine
+### Thanks to Our Community and the Engineers Who Shape This Engine
 
 Qdrant is shaped by engineers running it under real pressure, and we want to thank them directly. The over 29,000 GitHub stars reflect reach, but it is the code contributions from production systems that move our engine forward. In v1.16, [@eltu added ASCII folding to improve multilingual full-text retrieval without upstream preprocessing](https://github.com/qdrant/qdrant/pull/7408). More recently, [@TY0909 contributed field-level control over HNSW graph construction](https://github.com/qdrant/qdrant/pull/7887), reducing indexing cost and memory overhead in large hybrid deployments. These contributions come from real operational pressure and directly shape how Qdrant behaves under load.
 
