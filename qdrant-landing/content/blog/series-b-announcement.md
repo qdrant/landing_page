@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "We Raised $50M to Build Composable Vector Search as Core Infrastructure for Production AI"
+title: "We Raised $50M to Build Composable Vector Search as Core Infrastructure"
 short_description: "Qdrant raises $50M in Series B funding to scale composable vector search from edge devices to supercomputers."
 description: "Qdrant announces $50M in Series B funding led by AVP to build composable vector search as foundational infrastructure for production AI — from agentic workflows to edge devices."
 preview_image: /blog/series-b-announcement/series-b-funding.jpg
@@ -21,7 +21,6 @@ tags:
 --- 
 
 Today we're announcing $50 million in Series B funding, led by AVP, with participation from Bosch Ventures, Unusual Ventures, Spark Capital, and 42CAP.
-
 ## Retrieval Is on the Critical Path of Every AI System
 
 Every serious AI workload — RAG, agents, multimodal search — depends on retrieving the right information, at the right time, under real constraints. Teams prototype with whatever is convenient, then hit walls in production: indexes that stall under writes, filtering applied after search instead of during it, tail latencies that spike under load. These aren't configuration problems. They're architectural ones. And they're why we started Qdrant.
