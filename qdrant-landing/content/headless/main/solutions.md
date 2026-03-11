@@ -13,7 +13,7 @@ tabs:
       alt: RAG and GenAI illustration
     link:
       text: "Learn More"
-      url: "/solutions/retrieval-augmented-generation/"
+      url: "/rag/"
   - id: "ai-agents"
     name: "AI Agents"
     label: "AI Agents"
@@ -24,7 +24,7 @@ tabs:
       alt: AI Agents illustration
     link:
       text: "Learn More"
-      url: "/solutions/ai-agents/"
+      url: "/ai-agents/"
   - id: "semantic-search"
     name: "Semantic Search"
     label: "Semantic Search"
@@ -35,7 +35,7 @@ tabs:
       alt: Semantic Search illustration
     link:
       text: "Learn More"
-      url: "/solutions/advanced-search/"
+      url: "/advanced-search/"
   - id: "recommendations"
     name: "Recommendation Systems"
     label: "Recommendation Systems"
@@ -46,7 +46,7 @@ tabs:
       alt: Recommendation Systems illustration
     link:
       text: "Learn More"
-      url: "/solutions/recommendations/"
+      url: "/recommendations/"
   - id: "anomaly-detection"
     name: "Data Analysis & Anomaly Detection"
     label: "Data Analysis & Anomaly Detection"
@@ -57,6 +57,6 @@ tabs:
       alt: Data Analysis and Anomaly Detection illustration
     link:
       text: "Learn More"
-      url: "/solutions/data-analysis/"
+      url: "/data-analysis-anomaly-detection/"
 sitemapExclude: true
 ---
