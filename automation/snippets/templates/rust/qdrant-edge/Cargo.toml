@@ -1,0 +1,9 @@
+[package]
+name = "qdrant-edge"
+version = "0.0.0"
+edition = "2024"
+
+[dependencies]
+edge = { git = "https://github.com/qdrant/qdrant.git", branch = "dev" }
+segment = { git = "https://github.com/qdrant/qdrant.git", branch = "dev", package = "segment" }
+shard = { git = "https://github.com/qdrant/qdrant.git", branch = "dev", package = "shard" }

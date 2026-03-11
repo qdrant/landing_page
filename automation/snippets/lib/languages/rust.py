@@ -25,6 +25,7 @@ class LanguageRust(Language):
         (tmpdir / "src").mkdir()
         shutil.copyfile("templates/rust/Cargo.toml", f"{tmpdir}/Cargo.toml")
         shutil.copyfile("templates/rust/Cargo.lock", f"{tmpdir}/Cargo.lock")
+        shutil.copytree("templates/rust/qdrant-edge", f"{tmpdir}/qdrant-edge")
 
         src_mods = []
         src_cases = []

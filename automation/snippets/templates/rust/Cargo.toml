@@ -5,12 +5,16 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.100"
-edge = { git = "https://github.com/qdrant/qdrant.git", branch = "dev" }
+qdrant-edge = { path = "qdrant-edge" }
 fs-err = "3"
 ordered-float = "5"
-qdrant-client = { git = "https://github.com/qdrant/rust-client", branch = "master" }
-reqwest = { version = "0.12", features = ["json"] }
+qdrant-client = { git = "https://github.com/qdrant/rust-client", branch = "dev" }
 serde_json = "1.0.145"
 tempfile = "3"
 tokio = { version = "1.48.0", features = ["rt-multi-thread", "macros"] }
+ureq = { version = "3", features = ["json"] }
 uuid = { version = "1.18.1", features = ["v4"] }
+
+[patch.crates-io]
+tonic = { git = "https://github.com/qdrant/tonic", branch = "v0.11.0-qdrant" }
+hyper = { git = "https://github.com/qdrant/hyper", branch = "v0.14.26-qdrant" }
