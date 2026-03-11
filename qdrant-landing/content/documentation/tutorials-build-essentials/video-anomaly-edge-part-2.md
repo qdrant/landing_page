@@ -1,5 +1,5 @@
 ---
-title: "Video Anomaly Detection Part II | Edge-to-Cloud Pipeline"
+title: "Video Anomaly Detection Part 2 | Edge-to-Cloud Pipeline"
 weight: 10
 partition: build
 social_preview_image: /articles_data/video-anomaly-edge/preview/social_preview.jpg
@@ -12,12 +12,12 @@ aliases:
 | Time: 90 min | Level: Advanced | Stack: Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA VSS, Vultr | Output: [GitHub](https://github.com/qdrant/examples/tree/master/video-anomaly-edge) |
 | --- | ----------- | ----------- | ----------- |
 
-*This is Part II of a 3-part series on building real-time video anomaly detection from edge to cloud.*
+*This is Part 2 of a 3-part series on building real-time video anomaly detection from edge to cloud.*
 
 **Series:**
-- [Part I | Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
-- Part II | Edge-to-Cloud Pipeline (here)
-- [Part III | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
+- [Part 1 | Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
+- Part 2 | Edge-to-Cloud Pipeline (here)
+- [Part 3 | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
 
 ---
 
@@ -447,18 +447,18 @@ def _evict_by_score_priority(self) -> None:
 
 ## Recap
 
-In Part II, you built Qdrant Edge's two-shard architecture (immutable baseline + mutable live context), implemented edge triage that reduces cloud processing by ~6x, wired the escalation pipeline with ensemble scoring and temporal boosting, and added offline resilience. The edge is running. Now we need to turn raw scores into actionable incidents.
+In Part 2, you built Qdrant Edge's two-shard architecture (immutable baseline + mutable live context), implemented edge triage that reduces cloud processing by ~6x, wired the escalation pipeline with ensemble scoring and temporal boosting, and added offline resilience. The edge is running. Now we need to turn raw scores into actionable incidents.
 
 ## What's Next
 
-In **[Part III | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)**, we'll cover incident formation from raw scores, baseline governance to prevent poisoning, unified retrieval across cameras, evaluation results on UCF-Crime, and deployment on Vultr Cloud GPUs.
+In **[Part 3 | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)**, we'll cover incident formation from raw scores, baseline governance to prevent poisoning, unified retrieval across cameras, evaluation results on UCF-Crime, and deployment on Vultr Cloud GPUs.
 
 ---
 
-Check out the resources:
+Additional Resources:
 
 - **Project Repository**: [qdrant/examples/video-anomaly-edge](https://github.com/qdrant/examples/tree/master/video-anomaly-edge)
-- **Part I**: [Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
+- **Part 1**: [Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
 - **Qdrant Edge Documentation**: [qdrant.tech/documentation/edge](/documentation/edge/)
 - **Twelve Labs Documentation**: [docs.twelvelabs.io](https://docs.twelvelabs.io/)
 - **Vultr Cloud GPUs**: [vultr.com/products/cloud-gpu](https://www.vultr.com/products/cloud-gpu/)
