@@ -40,7 +40,7 @@ tables:
             free: false
             paid: true
             premium: true
-          - name: Horizontal Up & Down-Scaling
+          - name: Horizontal Up & Downscaling
             oss: No automated shard rebalancing
             free: false
             paid: true
