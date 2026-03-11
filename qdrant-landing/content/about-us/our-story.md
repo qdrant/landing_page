@@ -11,11 +11,11 @@ extraImage1:
   alt: Team
   src: /img/about-us/team2-1x.jpg
   srcLarge: /img/about-us/team2-2x.jpg
-extraContent2: As the project gained traction, the decision was made to formally establish Qdrant and continue developing the vector search engine into its current form.<br/><br/>Today, Qdrant is the backbone of the most ambitious AI applications, powering everything from groundbreaking startups to enterprise-scale deployments with the best open-source vector database and enterprise-ready solutions.
+extraContent2: As the project gained traction, the decision was made to formally establish Qdrant and continue developing the vector search engine into its current form.<br/><br/>Today, Qdrant powers retrieval for production AI at every scale, from early-stage startups to household brands like Canva, Tripadvisor, and Bosch. Backed by a new round of funding, the team continues to build the most efficient open-source vector search engine on the market.
 extraImage2:
   alt: Team
   src: /img/about-us/team3-1x.jpg
   srcLarge: /img/about-us/team3-2x.jpg
-subContent: "Our team has grown to 75+ experts across 20+ countries, but our mission remains unchanged: building the most scalable, high-performance vector search engine to fuel the future of AI and machine learning."
+subContent: "Our team has grown to 100+ experts across 20+ countries, but our mission remains unchanged: building the most scalable, high-performance vector search engine to fuel the future of AI and machine learning."
 sitemapExclude: true
 ---

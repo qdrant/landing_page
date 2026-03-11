@@ -25,7 +25,7 @@ values:
     alt: discord-logo
   link: /community
 - id: 4
-  title: 75+ employees
+  title: 100+ employees
   icon:
     src: /img/about-us/sparks-logo.svg
     alt: sparks-logo
