@@ -6,7 +6,7 @@ partition: cloud
 
 # Qdrant Hybrid Cloud
 
-Seamlessly deploy and manage your vector database across diverse environments, ensuring performance, security, and cost efficiency for AI-driven applications.
+Seamlessly deploy and manage your vector search across diverse environments, ensuring performance, security, and cost efficiency for AI-driven applications.
 
 [Qdrant Hybrid Cloud](/hybrid-cloud/) integrates Kubernetes clusters from any setting - cloud, on-premises, or edge - into a unified, enterprise-grade managed service.
 
