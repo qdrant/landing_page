@@ -41,7 +41,7 @@ featureCards:
       alt: One-stage filtering illustration
     link:
       text: See Documentation
-      url: /documentation/concepts/filtering/
+      url: /articles/filterable-hnsw/
     size: small
   - id: reranking
     title: Full-Spectrum Reranking
@@ -51,7 +51,7 @@ featureCards:
       alt: Reranking illustration
     link:
       text: See Documentation
-      url: /documentation/search-precision/reranking-semantic-search/
+      url: /documentation/tutorials-search-engineering/reranking-hybrid-search/
     size: small
 sitemapExclude: true
 ---
