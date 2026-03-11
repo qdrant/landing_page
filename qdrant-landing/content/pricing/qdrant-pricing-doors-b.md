@@ -8,11 +8,11 @@ tabs:
     title: Free Tier
     pricing: Free forever
     pricingNote: (No credit card required)
-    target: For development, testing, and prototypes
+    target: For testing, and prototypes
     features:
     - 1GB RAM/ 4 GB Disk.
     - 1 Node / 0.5 vCPU
-    - Free Cloud Inference with selected models
+    - Free Cloud Inference With Selected Models
     cta:
       text: Start Free
       url: https://cloud.qdrant.io
@@ -45,7 +45,7 @@ tabs:
     title: Premium Tier
     pricing: (minimum spend requirement)
     pricingNote: Committed Usage
-    target: For production workloads and scaling applications
+    target: For enterprises with strict security and compliance needs
     features:
     - SSO
     - Private VPC Links
@@ -69,14 +69,14 @@ tabs:
     featureGroups:
     - label: "Best for:"
       items:
-      - Data residency
-      - Regulated workloads
-      - Zero-ops in your own cloud
+      - Data Residency
+      - Regulated Workloads
+      - Zero-Ops in Your Own Cloud
     - label: "Benefits:"
       items:
-      - Data stays in your VPC
-      - Fully managed through Qdrant Cloud
-      - Production-grade uptime
+      - Data Stays in Your VPC
+      - Fully Managed Through Qdrant Cloud
+      - Production-Grade Uptime
     cta:
       text: Talk to Our Engineers
       url: /contact-us/
@@ -88,13 +88,13 @@ tabs:
     featureGroups:
     - label: "Best for:"
       items:
-      - Large enterprises
-      - Sensitive workloads
-      - Air-gapped setups
+      - Large Enterprises
+      - Sensitive Workloads
+      - Air-Gapped Setups
     - label: "Benefits:"
       items:
-      - "Custom SLAs & security"
-      - Full isolation
+      - Custom SLAs
+      - Full Isolation
     cta:
       text: Talk to Our Engineers
       url: /contact-us/
