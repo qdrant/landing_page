@@ -4,7 +4,7 @@ questions:
 - question: What happens if I exceed Free Tier limits?
   answer: Inference is only available on paid Qdrant Cloud clusters.
 - question: How Qdrant Cloud Pricing Works
-  answer: Qdrant Cloud pricing is based on usage. You only pay for what you use. The free tier includes 1GB RAM and 4GB disk storage. When you upgrade to a paid tier, you get dedicated clusters with usage-based pricing.
+  answer: Qdrant Cloud pricing is based on resource usage, if you have a bigger cluster, you pay for more. The free tier includes 1GB RAM and 4GB disk storage, upgrading will get you a dedicated cluster.
 - question: Can I migrate from OSS to Qdrant Cloud?
   answer: Yes, you can easily migrate your existing Qdrant OSS deployment to Qdrant Cloud. We provide migration tools and documentation to help you transition smoothly.
 - question: How does autoscaling work?
