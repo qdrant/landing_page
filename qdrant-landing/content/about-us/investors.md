@@ -2,7 +2,7 @@
 title: Our Investors
 links:
   - title: We're Celebrating Series B
-    url: /blog/series-b-funding/
+    url: /blog/series-b-announcement/
   - title: Read Our Series A Story
     url: /blog/series-a-funding-round/
   - title: Read About Our Seed Funding
