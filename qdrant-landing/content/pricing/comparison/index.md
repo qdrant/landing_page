@@ -125,7 +125,7 @@ sections:
     premium: true
 - name: Scalability & Operations
   features:
-  - name: Vertical Up & Down Scaling
+  - name: Vertical Up & Downscaling
     oss: No resource usage safe guards
     free: false
     paid: true
