@@ -11,9 +11,9 @@ link3:
   url: /articles/seed-round/
 investors:
 - id: 0
-  logo: '/img/investors/avp.svg'
+  logo: '/img/investors/avpx4.svg'
 - id: 1
-  logo: '/img/investors/bosch.svg'
+  logo: '/img/investors/bosch-ventures.svg'
 - id: 2
   logo: '/img/investors/spark-capital.svg'
 - id: 3
