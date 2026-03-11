@@ -83,6 +83,9 @@ $theme-colors: (
   'light': $neutral-98,
   'mid-gray': $neutral-94,
   'dark': $neutral-20,
+  'teal': $secondary-teal-50,
+  'violet': $secondary-violet-50,
+  'blue': $secondary-blue-50,
 );
 
 $body-bg: $neutral-98;
@@ -109,10 +112,12 @@ $table-striped-bg: $neutral-94;
 
 $font-family-sans-serif: 'Mona Sans', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,
   'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-$font-family-monospace: 'Geist Mono', 'Overpass Mono', SFMono-Regular, 'Droid Sans Mono', Menlo, Monaco, Consolas,  'Lucida Console', 'Monaco', monospace;
+$font-family-monospace: 'Geist Mono', 'Overpass Mono', SFMono-Regular, 'Droid Sans Mono', Menlo, Monaco, Consolas,
+  'Lucida Console', 'Monaco', monospace;
 $font-family-base: 'Mona Sans', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-$font-family-code: 'Geist Mono', 'Overpass Mono', SFMono-Regular, 'Droid Sans Mono', Menlo, Monaco, Consolas,  'Lucida Console', 'Monaco', monospace;
+$font-family-code: 'Geist Mono', 'Overpass Mono', SFMono-Regular, 'Droid Sans Mono', Menlo, Monaco, Consolas,
+  'Lucida Console', 'Monaco', monospace;
 
 $font-size-xs: pxToRem(12);
 $font-size-s: pxToRem(14);
@@ -210,3 +215,15 @@ $spacers: (
 $code-snippet-border-radius: $border-radius * 2;
 
 $post-content-width: pxToRem(920);
+
+$grid-breakpoints: (
+  xxs: 0,
+  xs: 375px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1900px,
+);
+@include _assert-ascending($grid-breakpoints, '$grid-breakpoints');
+@include _assert-starts-at-zero($grid-breakpoints, '$grid-breakpoints');

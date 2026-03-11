@@ -1,0 +1,152 @@
+{{ with (.Site.GetPage "/headless/main/case-studies") }}
+  <section class="case-studies">
+    <div class="container case-studies__container">
+      <div class="case-studies__header">
+        <h2 class="case-studies__title">{{ .Params.title }}</h2>
+        <div class="case-studies__controls">
+          <button type="button" class="case-studies__arrow case-studies__arrow--prev" aria-label="Previous slide">
+            <svg width="24" height="14" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.5 1L1.5 5L5.5 9M1.5 5H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button type="button" class="case-studies__arrow case-studies__arrow--next" aria-label="Next slide">
+            <svg width="24" height="14" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.5 1L15.5 5M15.5 5L11.5 9M15.5 5H1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="case-studies__carousel-outer">
+      <div class="case-studies__carousel">
+        <div class="case-studies__track">
+          {{ range .Params.caseStudies }}
+            <div class="case-studies__slide">
+              {{ if .link }}<a href="{{ .link }}" class="case-studies__card-link">{{ end }}
+                <div class="case-studies__card">
+                  <p class="case-studies__card-text">
+                    {{ .text }}
+                    {{ if .highlight }}
+                      <span class="case-studies__phrase{{ if eq (trim .textAfter " ") "." }} case-studies__phrase--no-break{{ end }}"><span class="case-studies__highlight">{{ .highlight }}</span>{{ if ne (trim .textAfter " ") "." }} {{ end }}{{ .textAfter }}</span>
+                    {{ end }}
+                    {{ if and (not .highlight) .textAfter }}{{ .textAfter }}{{ end }}
+                    {{ if .highlight2 }}
+                      <span class="case-studies__phrase{{ if eq (trim .textAfter2 " ") "." }} case-studies__phrase--no-break{{ end }}"><span class="case-studies__highlight">{{ .highlight2 }}</span>{{ if ne (trim .textAfter2 " ") "." }} {{ end }}{{ .textAfter2 }}</span>
+                    {{ end }}
+                    {{ if and (not .highlight2) .textAfter2 }}{{ .textAfter2 }}{{ end }}
+                  </p>
+                  <div class="case-studies__card-footer">
+                    <div class="case-studies__card-logo" role="img" aria-label="{{ .logoAlt }}">
+                      {{ partial "svg" (dict "icon" .logoIcon "path" "themes/qdrant-2024/static/img/customer-logo/") }}
+                    </div>
+                    <div class="case-studies__card-arrow">
+                      <svg width="24" height="14" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.5 1L15.5 5M15.5 5L11.5 9M15.5 5H1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              {{ if .link }}</a>{{ end }}
+            </div>
+          {{ end }}
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    (function() {
+      const container = document.querySelector('.case-studies__container');
+      const carousel = document.querySelector('.case-studies__carousel');
+      const track = document.querySelector('.case-studies__track');
+      const prevBtn = document.querySelector('.case-studies__arrow--prev');
+      const nextBtn = document.querySelector('.case-studies__arrow--next');
+      
+      if (!container || !carousel || !track || !prevBtn || !nextBtn) return;
+      
+      const slides = track.querySelectorAll('.case-studies__slide');
+      const gap = 30;
+      const breakpoints = { sm: 576, md: 768, xl: 1200 };
+      let currentOffset = 0;
+
+      function getVisibleCount() {
+        const w = window.innerWidth;
+        if (w < breakpoints.sm) return 1;
+        if (w < breakpoints.md) return 2;
+        if (w < breakpoints.xl) return 3;
+        return 4;
+      }
+
+      function getContainerContentWidth() {
+        const style = getComputedStyle(container);
+        const paddingLeft = parseFloat(style.paddingLeft) || 0;
+        const paddingRight = parseFloat(style.paddingRight) || 0;
+        return container.offsetWidth - paddingLeft - paddingRight;
+      }
+
+      function getSlideWidth() {
+        const contentWidth = getContainerContentWidth();
+        const count = Math.min(getVisibleCount(), slides.length);
+        const gaps = Math.max(0, count - 1) * gap;
+        return Math.floor((contentWidth - gaps) / count);
+      }
+
+      function applySlideWidth() {
+        const slideWidth = getSlideWidth();
+        carousel.style.setProperty('--case-studies-slide-width', slideWidth + 'px');
+      }
+
+      function getMaxOffset() {
+        applySlideWidth();
+        const slideWidth = getSlideWidth();
+        const trackWidth = slides.length * slideWidth + (slides.length - 1) * gap;
+        const contentWidth = getContainerContentWidth();
+        return Math.max(0, trackWidth - contentWidth);
+      }
+
+      function updateTrack() {
+        const maxOffset = getMaxOffset();
+        currentOffset = Math.min(Math.max(0, currentOffset), maxOffset);
+        track.style.transform = `translateX(-${currentOffset}px)`;
+      }
+
+      function updateButtons() {
+        const maxOffset = getMaxOffset();
+        prevBtn.disabled = currentOffset <= 0;
+        nextBtn.disabled = currentOffset >= maxOffset;
+      }
+
+      prevBtn.addEventListener('click', function() {
+        const slideWidth = getSlideWidth();
+        currentOffset = Math.max(0, currentOffset - (slideWidth + gap));
+        updateTrack();
+        updateButtons();
+      });
+
+      nextBtn.addEventListener('click', function() {
+        const maxOffset = getMaxOffset();
+        const slideWidth = getSlideWidth();
+        currentOffset = Math.min(maxOffset, currentOffset + (slideWidth + gap));
+        updateTrack();
+        updateButtons();
+      });
+
+      function onResize() {
+        applySlideWidth();
+        updateTrack();
+        updateButtons();
+      }
+
+      let resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          requestAnimationFrame(onResize);
+        }, 100);
+      });
+
+      applySlideWidth();
+      updateTrack();
+      updateButtons();
+    })();
+  </script>
+{{ end }}

@@ -1,0 +1,267 @@
+@use '../../helpers/functions' as *;
+
+.performance-by-design {
+  background-color: $neutral-94;
+  padding-top: pxToRem(80);
+  padding-bottom: pxToRem(80);
+
+  .container {
+    max-width: pxToRem(1110);
+  }
+
+  // Header
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: $spacer;
+    margin-bottom: pxToRem(64);
+    max-width: pxToRem(920);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__tagline {
+    font-family: 'Geist Mono', monospace;
+    font-size: pxToRem(14);
+    font-weight: 500;
+    line-height: pxToRem(21);
+    letter-spacing: 2px;
+    color: $neutral-30;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+    margin: 0;
+
+    @include media-breakpoint-up(md) {
+      font-size: pxToRem(48);
+    }
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'l');
+    font-weight: 350;
+    line-height: 1.5;
+    color: $neutral-30;
+    margin: 0;
+
+    @include media-breakpoint-up(md) {
+      font-size: map-get($font-sizes-text, 'l');
+    }
+  }
+
+  // Slider: visible from md up (big screens)
+  &__slider {
+    display: none;
+
+    @include media-breakpoint-up(md) {
+      display: block;
+    }
+  }
+
+  // Card grid: visible below md. 1 col on xs, 2 per row from sm.
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: pxToRem(30);
+
+    @include media-breakpoint-up(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+
+  // Card (why-qdrant--large style)
+  &__card {
+    background-color: $neutral-98;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(8);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: pxToRem(400);
+  }
+
+  &__card-visual {
+    position: relative;
+    overflow: hidden;
+    min-height: pxToRem(200);
+    background: linear-gradient(180deg, $neutral-98 0%, rgba($neutral-94, 0.3) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  &__card-content {
+    padding: pxToRem(24);
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+  }
+
+  &__card-title {
+    font-size: pxToRem(20);
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    color: $neutral-20;
+    margin: 0;
+  }
+
+  &__card-description {
+    font-size: map-get($font-sizes-text, 'md');
+    font-weight: 350;
+    line-height: 1.5;
+    color: $neutral-40;
+    margin: 0;
+  }
+
+  // Content layout (slider, visible from md up)
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(48);
+    align-items: center;
+
+    @include media-breakpoint-up(md) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: pxToRem(80);
+    }
+  }
+
+  // Features list (vertical slider nav)
+  &__features {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    @include media-breakpoint-up(md) {
+      width: pxToRem(444);
+      flex-shrink: 0;
+    }
+  }
+
+  &__feature {
+    display: flex;
+    flex-direction: column;
+    padding: pxToRem(24) 0;
+    border-bottom: pxToRem(2) solid $neutral-90;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    overflow: hidden;
+
+    &:first-child {
+      padding-top: 0;
+    }
+  }
+
+  &__feature-title {
+    font-size: pxToRem(20);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: $neutral-50;
+    margin: 0;
+    transition: color 0.2s ease;
+
+    @include media-breakpoint-up(md) {
+      font-size: pxToRem(24);
+    }
+
+    .performance-by-design__feature--active & {
+      color: $neutral-20;
+    }
+
+    .performance-by-design__feature:hover & {
+      color: $neutral-30;
+    }
+  }
+
+  &__feature-body {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition:
+      max-height 0.4s ease,
+      opacity 0.3s ease,
+      margin 0.3s ease;
+    margin-top: 0;
+
+    .performance-by-design__feature--active & {
+      max-height: pxToRem(200);
+      opacity: 1;
+      margin-top: $spacer;
+    }
+  }
+
+  &__feature-description {
+    font-size: map-get($font-sizes-text, 'md');
+    font-weight: 350;
+    line-height: 1.5;
+    color: $neutral-40;
+    margin: 0;
+  }
+
+  &__feature--active {
+    border-bottom-color: $primary-50;
+  }
+
+  // Visual / Image area (slider, visible from md up)
+  &__visual {
+    position: relative;
+    width: 100%;
+    min-height: pxToRem(300);
+
+    @include media-breakpoint-up(md) {
+      flex: 1 1 0%;
+      min-width: 0;
+      min-height: pxToRem(540);
+    }
+  }
+
+  &__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.4s ease,
+      visibility 0.4s ease;
+    pointer-events: none;
+
+    &--active {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: pxToRem(8);
+      display: block;
+    }
+  }
+}

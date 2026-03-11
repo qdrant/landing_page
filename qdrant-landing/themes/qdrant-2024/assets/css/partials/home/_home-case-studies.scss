@@ -1,0 +1,229 @@
+@use '../../helpers/functions' as *;
+
+.case-studies {
+  background-color: $neutral-94;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+  }
+
+  // Header
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacer * 1.5;
+    margin-bottom: $spacer * 3;
+
+    @include media-breakpoint-up(xl) {
+      margin-bottom: $spacer * 4;
+    }
+  }
+
+  &__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+    margin: 0;
+
+    @include media-breakpoint-up(xl) {
+      font-size: pxToRem(40);
+    }
+  }
+
+  // Controls
+  &__controls {
+    flex-shrink: 0;
+    margin-left: auto;
+    display: flex;
+    gap: $spacer * 2;
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: $neutral-20;
+    transition:
+      color 0.2s ease,
+      opacity 0.2s ease;
+
+    &:hover:not(:disabled) {
+      color: $primary-50;
+    }
+
+    &:disabled {
+      color: $neutral-80;
+      cursor: not-allowed;
+    }
+
+    svg {
+      width: pxToRem(24);
+      height: pxToRem(14);
+    }
+  }
+
+  // Carousel constrained to container width
+  &__carousel-outer {
+    overflow: hidden;
+    margin-top: pxToRem(-12);
+    margin-bottom: pxToRem(-60); // negative margin so card shadow not clipped below
+    padding-top: pxToRem(12);
+    position: relative;
+
+    @include media-breakpoint-up(sm) {
+      margin-right: pxToRem(-24);
+      padding-right: pxToRem(24);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: pxToRem(20);
+      background: linear-gradient(to left, rgba($neutral-94, 0.3), transparent);
+      pointer-events: none;
+
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+    }
+  }
+
+  &__carousel {
+    overflow: hidden;
+    padding-bottom: pxToRem(80);
+
+    @include media-breakpoint-up(sm) {
+      margin-right: pxToRem(-24);
+      padding-right: pxToRem(24);
+    }
+  }
+
+  &__track {
+    display: flex;
+    gap: pxToRem(30);
+    transition: transform 0.3s ease;
+  }
+
+  &__slide {
+    flex-shrink: 0;
+    width: var(--case-studies-slide-width, pxToRem(280));
+  }
+
+  &__card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  // Card
+  &__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 0;
+    height: pxToRem(280);
+    padding: $spacer * 2;
+    background-color: $neutral-98;
+    border: 1px solid rgba($neutral-80, 0.2);
+    border-radius: pxToRem(16);
+    box-shadow:
+      2px 2px 8px 0 rgba(155, 162, 184, 0.1),
+      8px 8px 14px 0 rgba(155, 162, 184, 0.09),
+      18px 18px 18px 0 rgba(155, 162, 184, 0.05),
+      32px 32px 22px 0 rgba(155, 162, 184, 0.01),
+      48px 48px 24px 0 rgba(155, 162, 184, 0);
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow:
+        3px 2px 9px 0 rgba(22, 30, 51, 0.1),
+        12px 6px 16px 0 rgba(22, 30, 51, 0.09),
+        28px 14px 22px 0 rgba(22, 30, 51, 0.05),
+        48px 24px 26px 0 rgba(22, 30, 51, 0.01),
+        72px 36px 28px 0 rgba(22, 30, 51, 0);
+    }
+  }
+
+  &__card-text {
+    font-size: map-get($font-sizes-text, 'l');
+    font-weight: 350;
+    line-height: 1.5;
+    color: $neutral-30;
+    margin: 0;
+  }
+
+  &__phrase--no-break {
+    white-space: nowrap; // Keeps last word + period together to avoid orphan punctuation
+  }
+
+  &__highlight {
+    font-weight: 600;
+    color: $primary-50;
+  }
+
+  &__card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: pxToRem(16);
+  }
+
+  &__card-logo {
+    height: pxToRem(48);
+    display: flex;
+    align-items: flex-end;
+
+    svg {
+      max-height: pxToRem(48);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: brightness(0) saturate(100%);
+    }
+  }
+
+  &__card-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(28);
+    height: pxToRem(28);
+    flex-shrink: 0;
+    color: $neutral-20;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    .case-studies__card:hover & {
+      opacity: 1;
+    }
+
+    svg {
+      width: pxToRem(24);
+      height: pxToRem(14);
+    }
+  }
+}

@@ -1,0 +1,133 @@
+{{/*
+  Reusable Tab-Slider Partial
+  
+  Params (passed via dict):
+    - sectionClass: CSS class prefix for the section (e.g., "solutions", "healthcare-use-cases")
+    - tabs: array of tab objects with at least .id and .label (or .name)
+    - items: array of slide items to render
+    - slidePartial: name of the partial to render each slide's content
+    - showControls: (optional) whether to show arrow/dot controls (default: true)
+*/}}
+
+{{ $sectionClass := .sectionClass }}
+{{ $tabs := .tabs }}
+{{ $items := .items }}
+{{ $slidePartial := .slidePartial }}
+{{ $showControls := true }}
+{{ if isset . "showControls" }}
+  {{ $showControls = .showControls }}
+{{ end }}
+
+<div class="{{ $sectionClass }}__tabs-wrapper">
+  <div class="{{ $sectionClass }}__tabs">
+    {{ range $index, $tab := $tabs }}
+      <button
+        type="button"
+        class="{{ $sectionClass }}__tab{{ if eq $index 0 }} {{ $sectionClass }}__tab--active{{ end }}"
+        data-tab-index="{{ $index }}"
+      >
+        {{ with $tab.label }}{{ . }}{{ else }}{{ $tab.name }}{{ end }}
+      </button>
+    {{ end }}
+    <div class="{{ $sectionClass }}__tab-indicator"></div>
+  </div>
+</div>
+
+<div class="{{ $sectionClass }}__slider">
+  {{ range $index, $item := $items }}
+    <div class="{{ $sectionClass }}__slide{{ if eq $index 0 }} {{ $sectionClass }}__slide--active{{ end }}" data-slide="{{ $index }}">
+      {{ partial $slidePartial (dict "item" $item "index" $index "sectionClass" $sectionClass) }}
+    </div>
+  {{ end }}
+</div>
+
+{{ if $showControls }}
+  <div class="{{ $sectionClass }}__controls">
+    <button type="button" class="{{ $sectionClass }}__arrow {{ $sectionClass }}__arrow--prev" aria-label="Previous slide">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="{{ $sectionClass }}__dots">
+      {{ range $index, $tab := $tabs }}
+        <button
+          type="button"
+          class="{{ $sectionClass }}__dot{{ if eq $index 0 }} {{ $sectionClass }}__dot--active{{ end }}"
+          data-slide-index="{{ $index }}"
+          aria-label="Go to slide {{ add $index 1 }}"
+        >
+          <span></span>
+        </button>
+      {{ end }}
+    </div>
+    <button type="button" class="{{ $sectionClass }}__arrow {{ $sectionClass }}__arrow--next" aria-label="Next slide">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+{{ end }}
+
+<script>
+(function() {
+  var section = document.querySelector('.{{ $sectionClass }}');
+  if (!section) return;
+
+  var tabs = section.querySelectorAll('.{{ $sectionClass }}__tab');
+  var dots = section.querySelectorAll('.{{ $sectionClass }}__dot');
+  var slides = section.querySelectorAll('.{{ $sectionClass }}__slide');
+  var prevBtn = section.querySelector('.{{ $sectionClass }}__arrow--prev');
+  var nextBtn = section.querySelector('.{{ $sectionClass }}__arrow--next');
+  var indicator = section.querySelector('.{{ $sectionClass }}__tab-indicator');
+
+  var currentIndex = 0;
+  var totalSlides = slides.length;
+
+  function updateIndicator(activeTab) {
+    if (indicator && activeTab) {
+      indicator.style.width = activeTab.offsetWidth + 'px';
+      indicator.style.left = activeTab.offsetLeft + 'px';
+    }
+  }
+
+  function goToSlide(index) {
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+
+    currentIndex = index;
+
+    slides.forEach(function(slide, i) {
+      slide.classList.toggle('{{ $sectionClass }}__slide--active', i === index);
+    });
+
+    tabs.forEach(function(tab, i) {
+      tab.classList.toggle('{{ $sectionClass }}__tab--active', i === index);
+      if (i === index) updateIndicator(tab);
+    });
+
+    dots.forEach(function(dot, i) {
+      dot.classList.toggle('{{ $sectionClass }}__dot--active', i === index);
+    });
+  }
+
+  tabs.forEach(function(tab, i) {
+    tab.addEventListener('click', function() { goToSlide(i); });
+  });
+
+  dots.forEach(function(dot, i) {
+    dot.addEventListener('click', function() { goToSlide(i); });
+  });
+
+  if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(currentIndex - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { goToSlide(currentIndex + 1); });
+
+  // Initialize indicator
+  var activeTab = section.querySelector('.{{ $sectionClass }}__tab--active');
+  if (activeTab) updateIndicator(activeTab);
+
+  window.addEventListener('resize', function() {
+    var activeTab = section.querySelector('.{{ $sectionClass }}__tab--active');
+    if (activeTab) updateIndicator(activeTab);
+  });
+})();
+</script>

@@ -29,6 +29,17 @@
 
   {{ partial "css" . }}
 
+  {{ if .IsHome }}
+    {{ with .Site.GetPage "/headless/main/hero" }}
+      {{ with .Params.astronauts }}
+        <link rel="preload" as="image" type="image/webp" fetchpriority="high"
+          imagesrcset="{{ .webpSrcset }}"
+          imagesizes="100vw"
+        />
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
   {{ hugo.Generator }}
 
   {{ with .OutputFormats.Get "RSS" }}

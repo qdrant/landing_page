@@ -1,1 +1,77 @@
-{{ $path := "static/icons/outline/" }} {{ $filename := . }} {{ readFile (printf "%s%s" $path $filename) | safeHTML }}
+<!-- {{/* svg.html partial
+  -----------------
+  This partial renders SVG icons dynamically with Hugo templating.
+
+  - Usage:
+  {{ partial "svg.html" (dict "icon" "icon-filename" "stroke" "color" "fill" "path" "custom/path/")
+}}
+
+
+    OR just:
+      {{ partial "svg.html" "icon-filename" }}
+
+
+  - Parameters:
+      - icon / filename: Name of SVG file (without or with .svg extension).
+      - path (optional): Folder path (default: static/icons/outline/).
+      - stroke, fill, color (optional): Override respective SVG attributes, using CSS variables (e.g. "primary", "teal", etc).
+        * For Bootstrap color variables, use just the color name (e.g., "primary", "violet"), which becomes: var(--bs-primary).
+        * You can also use "currentColor" to inherit from CSS context.
+        * HEX values are supported as well.
+
+  - How it works:
+      - Loads the SVG file as text.
+      - Replaces stroke/fill/color attributes if provided.
+      - Allows color to be controlled via style or CSS variables.
+      - Safe for direct HTML inclusion.
+
+  - Typical use:
+    For icons in cards, buttons, menus, etc.
+
+  Maintainers: Update this file if icon assets or color conventions change.
+*/}} -->
+
+{{ $path := "static/icons/outline/" }}
+{{ $filename := "" }}
+{{ $stroke := "" }}
+{{ $fill := "" }}
+{{ $color := "" }}
+{{ if reflect.IsMap . }}
+  {{ $path = default $path .path }}
+  {{ $filename = default .filename .icon }}
+  {{ $stroke = .stroke }}
+  {{ $fill = .fill }}
+  {{ $color = .color }}
+{{ else }}
+  {{ $filename = . }}
+{{ end }}
+{{ if not (strings.HasSuffix $filename ".svg") }}
+  {{ $filename = printf "%s.svg" $filename }}
+{{ end }}
+{{ $svg := readFile (printf "%s%s" $path $filename) }}
+{{ if $stroke }}
+  {{ $strokeVal := $stroke }}
+  {{ if and (ne (strings.HasPrefix $stroke "#") true) (ne (strings.HasPrefix $stroke "var(") true) (ne $stroke "currentColor") (ne $stroke "inherit") (ne $stroke "none") }}
+    {{ $strokeVal = printf "var(--bs-%s)" $stroke }}
+  {{ end }}
+  {{ $svg = replaceRE `stroke="[^"]*"` (printf `stroke="%s"` $strokeVal) $svg }}
+  {{ $svg = replaceRE `stroke='[^']*'` (printf `stroke="%s"` $strokeVal) $svg }}
+{{ end }}
+{{ if $fill }}
+  {{ $fillVal := $fill }}
+  {{ if and (ne (strings.HasPrefix $fill "#") true) (ne (strings.HasPrefix $fill "var(") true) (ne $fill "currentColor") (ne $fill "inherit") (ne $fill "none") }}
+    {{ $fillVal = printf "var(--bs-%s)" $fill }}
+  {{ end }}
+  {{ $svg = replaceRE `fill="[^"]*"` (printf `fill="%s"` $fillVal) $svg }}
+  {{ $svg = replaceRE `fill='[^']*'` (printf `fill="%s"` $fillVal) $svg }}
+{{ end }}
+{{ if $color }}
+  {{ $colorVal := $color }}
+  {{ if and (ne (strings.HasPrefix $color "#") true) (ne (strings.HasPrefix $color "var(") true) (ne $color "currentColor") (ne $color "inherit") (ne $color "none") }}
+    {{ $colorVal = printf "var(--bs-%s)" $color }}
+  {{ end }}
+  {{ $svg = replaceRE `(<svg)(\s)` (printf `$1 style="color:%s"$2` $colorVal) $svg }}
+  {{ $svg = replaceRE `stroke="[^"]*"` `stroke="currentColor"` $svg }}
+  {{ $svg = replaceRE `stroke='[^']*'` `stroke="currentColor"` $svg }}
+{{ end }}
+{{ $svg | safeHTML }}

@@ -1,0 +1,469 @@
+@use 'sass:math';
+@use '../../helpers/functions' as *;
+
+$solutions-bg-dark: #090e1a;
+$solutions-text-label: #8f98b2;
+$solutions-text-title: #d4d9e6;
+$solutions-text-subtitle: #8f98b2;
+$solutions-tab-bg: #161e33;
+$solutions-tab-border: #28324d;
+$solutions-tab-active-bg: #3d4866;
+$solutions-tab-text: #8f98b2;
+$solutions-tab-text-active: #f0f3fa;
+$solutions-panel-title: #e1e5f0;
+$solutions-panel-text: #8f98b2;
+$solutions-button-border: #717c99;
+
+.solutions {
+  position: relative;
+  z-index: 0;
+  padding: pxToRem(60) 0;
+  background: radial-gradient(
+      104.31% 111.56% at 50% 0%,
+      rgba(67, 37, 174, 0) 0%,
+      rgba(67, 37, 174, 0) 80%,
+      rgba(67, 37, 174, 0.8) 90%,
+      rgba(97, 67, 224, 0.9) 100%
+    ),
+    $solutions-bg-dark;
+  overflow: hidden;
+
+  &__background {
+    display: none;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: pxToRem(40);
+  }
+
+  &__label {
+    display: inline-block;
+    margin-bottom: pxToRem(16);
+    font-family: 'Geist Mono', monospace;
+    font-size: pxToRem(14);
+    font-weight: 500;
+    line-height: pxToRem(21);
+    letter-spacing: pxToRem(2);
+    text-transform: uppercase;
+    color: $solutions-text-label;
+  }
+
+  &__title {
+    margin: 0 auto pxToRem(16);
+    font-size: pxToRem(28);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: pxToRem(-0.5);
+    color: $solutions-text-title;
+  }
+
+  &__subtitle {
+    max-width: pxToRem(730);
+    margin: 0 auto;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    color: $solutions-text-subtitle;
+  }
+
+  // Tabs
+  &__tabs-wrapper {
+    text-align: center;
+  }
+
+  &__tabs {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: pxToRem(4);
+    margin: 0 auto pxToRem(40);
+    background-color: $solutions-tab-bg;
+    border: 1px solid $solutions-tab-border;
+    border-radius: pxToRem(12);
+    overflow: hidden;
+    width: 100%;
+  }
+
+  &__tab {
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+    width: 100%;
+    height: pxToRem(36);
+    padding: 0 pxToRem(16);
+    font-family: inherit;
+    font-size: pxToRem(16);
+    font-weight: 500;
+    line-height: pxToRem(36);
+    color: $solutions-tab-text;
+    background: transparent;
+    border: none;
+    border-radius: pxToRem(8);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+    text-align: left;
+
+    &:hover {
+      color: $solutions-tab-text-active;
+    }
+
+    &--active {
+      color: $solutions-tab-text-active;
+      font-weight: 600;
+      background-color: $solutions-tab-active-bg;
+    }
+  }
+
+  &__tab-indicator {
+    display: none;
+  }
+
+  // Slider
+  &__slider {
+    position: relative;
+    min-height: pxToRem(250);
+    padding-bottom: pxToRem(40);
+  }
+
+  &__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.4s ease,
+      visibility 0.4s ease;
+    pointer-events: none;
+
+    &--active {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+
+  // Controls
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: pxToRem(40);
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    padding: 0;
+    background: none;
+    border: 1px solid $solutions-tab-border;
+    border-radius: pxToRem(8);
+    color: $solutions-tab-text;
+    cursor: pointer;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease;
+
+    &:hover {
+      color: $solutions-tab-text-active;
+      border-color: $solutions-button-border;
+    }
+
+    svg {
+      width: pxToRem(20);
+      height: pxToRem(20);
+    }
+  }
+
+  &__dots {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(20);
+  }
+
+  &__dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(24);
+    height: pxToRem(24);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    span {
+      display: block;
+      width: pxToRem(6);
+      height: pxToRem(6);
+      background-color: $solutions-tab-border;
+      border-radius: 50%;
+      transition: background-color 0.2s ease;
+    }
+
+    &:hover span {
+      background-color: $solutions-tab-text;
+    }
+
+    &--active span {
+      background-color: $solutions-tab-text-active;
+    }
+  }
+
+  // Panel content
+  &__panel-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding-top: 0;
+    margin-bottom: pxToRem(32);
+    text-align: center;
+  }
+
+  &__panel-title {
+    margin: 0 0 pxToRem(24);
+    font-size: pxToRem(24);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: pxToRem(-0.5);
+    color: $solutions-panel-title;
+  }
+
+  &__panel-description {
+    margin: 0 0 pxToRem(24);
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    letter-spacing: pxToRem(-0.2);
+    color: $solutions-panel-text;
+  }
+
+  &__panel-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: pxToRem(12);
+    height: pxToRem(48);
+    padding: 0 pxToRem(28);
+    font-size: pxToRem(18);
+    font-weight: 600;
+    line-height: 1.5;
+    color: #fff;
+    text-decoration: none;
+    background: transparent;
+    border: 1px solid $solutions-button-border;
+    border-radius: pxToRem(8);
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: #fff;
+      color: #fff;
+    }
+  }
+
+  &__panel-illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: pxToRem(250);
+    padding: pxToRem(10);
+
+    img {
+      max-width: 100%;
+      max-height: pxToRem(250);
+      height: auto;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  &__panel-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: pxToRem(250);
+    background: linear-gradient(135deg, rgba(22, 30, 51, 0.8) 0%, rgba(13, 19, 36, 0.9) 100%);
+    border: 1px dashed rgba(143, 152, 178, 0.3);
+    border-radius: pxToRem(16);
+
+    &::after {
+      content: attr(data-label) ' illustration';
+      font-family: 'Geist Mono', monospace;
+      font-size: pxToRem(12);
+      color: rgba(143, 152, 178, 0.5);
+      text-transform: uppercase;
+      letter-spacing: pxToRem(2);
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    padding: pxToRem(80) 0;
+
+    &__header {
+      margin-bottom: pxToRem(40);
+    }
+
+    &__title {
+      font-size: pxToRem(36);
+    }
+
+    &__subtitle {
+      font-size: pxToRem(16);
+    }
+
+    &__slider {
+      min-height: auto;
+    }
+
+    &__panel-content {
+      padding-top: 0;
+      margin-bottom: pxToRem(32);
+      text-align: center;
+    }
+
+    &__panel-title {
+      font-size: pxToRem(24);
+    }
+
+    &__panel-description {
+      font-size: pxToRem(16);
+    }
+
+    &__panel-illustration {
+      min-height: pxToRem(300);
+
+      img {
+        max-height: pxToRem(300);
+      }
+    }
+
+    &__panel-placeholder {
+      height: pxToRem(300);
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__tabs {
+      flex-direction: row;
+      display: inline-flex;
+      width: fit-content;
+      max-width: 100%;
+      margin-bottom: pxToRem(40);
+    }
+
+    &__tab {
+      width: auto;
+      text-align: center;
+      padding: 0 pxToRem(8);
+      font-size: pxToRem(12);
+      height: pxToRem(36);
+      line-height: pxToRem(36);
+    }
+
+    &__tab--active {
+      background-color: transparent;
+    }
+
+    &__tab-indicator {
+      display: block;
+      position: absolute;
+      z-index: 1;
+      top: pxToRem(4);
+      left: pxToRem(4);
+      height: pxToRem(36);
+      background-color: $solutions-tab-active-bg;
+      border-radius: pxToRem(8);
+      transition:
+        left 0.3s ease,
+        width 0.3s ease;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__tab {
+      font-size: pxToRem(14);
+      padding: 0 pxToRem(20);
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding: pxToRem(120) 0;
+
+    &__header {
+      margin-bottom: pxToRem(64);
+    }
+
+    &__title {
+      font-size: pxToRem(48);
+    }
+
+    &__subtitle {
+      font-size: pxToRem(18);
+    }
+
+    &__tabs {
+      margin-bottom: pxToRem(64);
+    }
+
+    &__tab {
+      font-size: pxToRem(16);
+      height: pxToRem(40);
+      line-height: pxToRem(40);
+    }
+
+    &__tab-indicator {
+      top: pxToRem(4);
+      left: pxToRem(4);
+      height: pxToRem(40);
+    }
+
+    &__slider {
+      min-height: pxToRem(400);
+    }
+
+    &__panel-content {
+      padding-top: pxToRem(40);
+      margin-bottom: 0;
+      text-align: left;
+    }
+
+    &__panel-title {
+      font-size: pxToRem(32);
+    }
+
+    &__panel-description {
+      font-size: pxToRem(20);
+    }
+
+    &__panel-illustration {
+      min-height: pxToRem(400);
+      padding: pxToRem(20);
+
+      img {
+        max-height: pxToRem(400);
+      }
+    }
+
+    &__panel-placeholder {
+      height: pxToRem(400);
+
+      &::after {
+        font-size: pxToRem(14);
+      }
+    }
+  }
+}

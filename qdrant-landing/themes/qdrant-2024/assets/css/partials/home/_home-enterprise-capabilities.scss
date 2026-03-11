@@ -1,0 +1,298 @@
+@use '../../helpers/functions' as *;
+
+.enterprise-capabilities {
+  position: relative;
+  background: radial-gradient(
+      107.37% 114.83% at 50% 94.96%,
+      rgba(67, 37, 174, 0) 0%,
+      rgba(67, 37, 174, 0) 75%,
+      rgba(67, 37, 174, 0.8) 90%,
+      #6143e0 100%
+    ),
+    #090e1a;
+  padding-top: pxToRem(120);
+  padding-bottom: 31rem;
+  overflow: hidden;
+  isolation: isolate;
+
+  &__stars {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: pxToRem(1440);
+    height: pxToRem(800);
+    pointer-events: none;
+    z-index: 1;
+    background-image: url('/img/home/stars-bg.svg');
+    background-size: 1440px 800px;
+    background-position: center top;
+    background-repeat: no-repeat;
+  }
+
+  &__background {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &__white-light {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    aspect-ratio: 1/1;
+    max-width: pxToRem(1600);
+
+    &:before {
+      content: '';
+      display: none;
+      position: absolute;
+      inset: 0;
+      filter: blur(5px);
+      mix-blend-mode: plus-lighter;
+      background: radial-gradient(
+          49.61% 49.61% at 50% 50%,
+          transparent 0%,
+          transparent 35.59%,
+          #d6d6d6 71.07%,
+          transparent 100%
+        )
+        center bottom / pxToRem(1800) auto no-repeat;
+      background-blend-mode: color-dodge;
+      transform: translateY(120%);
+      margin-right: -100px;
+      margin-left: -100px;
+
+      @include media-breakpoint-up(lg) {
+        display: block;
+        transform: translateY(90%);
+      }
+    }
+  }
+
+  &__globe-blue-light {
+    content: '';
+    position: absolute;
+    inset: 0;
+    //background: $secondary-blue-30;
+    background: url(/img/home/globe/globe-light.svg) center bottom / pxToRem(1800) auto no-repeat;
+    mix-blend-mode: plus-lighter;
+    filter: blur(40px);
+    margin-right: -100px;
+    margin-left: -100px;
+  }
+
+  &__globe-front {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('/img/home/globe/globe.png');
+      background-size: pxToRem(1600) auto;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      z-index: 1;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 240px;
+      background: linear-gradient(180deg, rgba(9, 14, 26, 0) 4.25%, #090e1a 88.85%);
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      z-index: 1;
+    }
+  }
+
+  // Content
+  &__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacer * 4;
+  }
+
+  // Header
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: $spacer;
+    max-width: pxToRem(920);
+  }
+
+  &__title {
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: $neutral-98;
+    margin: 0;
+
+    @include media-breakpoint-up(xl) {
+      font-size: pxToRem(48);
+    }
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'l');
+    font-weight: 350;
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    color: $neutral-70;
+    margin: 0;
+    max-width: pxToRem(730);
+
+    @include media-breakpoint-up(xl) {
+      font-size: map-get($font-sizes-text, 'xl');
+    }
+  }
+
+  // Cards
+  &__cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacer * 2;
+    width: 100%;
+    max-width: pxToRem(1114);
+
+    @include media-breakpoint-up(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include media-breakpoint-up(xl) {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto auto;
+      gap: pxToRem(30);
+      align-items: stretch;
+    }
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+    min-width: 0;
+    padding: $spacer * 1.5 pxToRem(20);
+    background: linear-gradient(180deg, rgba(22, 30, 51, 0.95) 0%, rgba(14, 20, 36, 0.95) 100%);
+    border: 1px solid transparent;
+    border-top-color: $neutral-40;
+    border-radius: pxToRem(8);
+    overflow: visible;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(180deg, rgba(28, 38, 64, 0.98) 0%, rgba(20, 28, 48, 0.98) 100%);
+    }
+
+    @include media-breakpoint-up(xl) {
+      &--left {
+        grid-column: 1;
+        grid-row: 1 / 3;
+        align-self: end;
+      }
+
+      &--center-left {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      &--center-right {
+        grid-column: 3;
+        grid-row: 1;
+      }
+
+      &--right {
+        grid-column: 4;
+        grid-row: 1 / 3;
+        align-self: end;
+      }
+    }
+  }
+
+  &__connector {
+    display: none;
+
+    @include media-breakpoint-up(xl) {
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: pxToRem(36);
+      height: pxToRem(200);
+      pointer-events: none;
+      z-index: -1;
+    }
+  }
+
+  &__card-icon {
+    width: pxToRem(32);
+    height: pxToRem(32);
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__card-content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 0.5;
+    flex: 1;
+  }
+
+  &__card-title {
+    font-size: map-get($font-sizes-text, 'md');
+    font-weight: 600;
+    line-height: 1.5;
+    color: $neutral-98;
+    margin: 0;
+  }
+
+  &__card-description {
+    font-size: map-get($font-sizes-text, 'md');
+    font-weight: 350;
+    line-height: 1.5;
+    color: $neutral-70;
+    margin: 0;
+  }
+
+  &__card-link {
+    align-self: flex-start;
+    font-size: pxToRem(14);
+    font-weight: 500;
+    line-height: 1.5;
+    white-space: nowrap;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__card:hover &__card-link {
+    padding-right: calc(#{pxToRem(20)} + 6px);
+
+    &::before,
+    &::after {
+      animation: dash 0.3s ease-in-out forwards;
+    }
+  }
+}
