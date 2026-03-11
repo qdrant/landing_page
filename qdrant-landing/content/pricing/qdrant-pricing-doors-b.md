@@ -10,8 +10,8 @@ tabs:
     pricingNote: (No credit card required)
     target: For testing, and prototypes
     features:
-    - 1GB RAM/ 4 GB Disk.
-    - 1 Node / 0.5 vCPU
+    - Single Node Cluster
+    - 0.5 vCPU / 1GB RAM/ 4 GB Disk.
     - Free Cloud Inference With Selected Models
     cta:
       text: Start Free
