@@ -1,6 +1,6 @@
 {{ $class := .class }}
 {{ $ctx := .context }}
-{{ $hasReview := and $ctx.Params.review (ne (strings.TrimSpace $ctx.Params.review) "") }}
+{{ $hasReview := and $ctx.Params.review (ne (trim (string $ctx.Params.review) " \t\n\r") "") }}
 {{ $hasEmployees := and $ctx.Params.avatar $ctx.Params.avatar.src }}
 {{ $hasContent := or $hasReview $hasEmployees }}
 <section class="testimonial-light {{ $class }}{{ if $ctx.Params.gradient }} testimonial-light--gradient-layout{{ end }}">
