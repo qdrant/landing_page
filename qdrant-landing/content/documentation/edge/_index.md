@@ -22,11 +22,13 @@ To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](http
 
 - `update`: Updates the data.
 - `query`: Queries the data.
+- `facet`: Returns the top N distinct values of a payload field, sorted by the number of points that have each value.
 - `scroll`: Returns all points.
 - `count`: Returns the number of points.
 - `retrieve`: Retrieves points with the given IDs.
 - `flush`: Flushes the data to ensure that all writes have been persisted to disk.
 - `close`: Cleanly destroys the shard instance, ensuring the data is flushed (Python). The data is persisted on disk and can be used to create another shard. In Rust, use the `Drop` trait to ensure the shard is closed when it goes out of scope.
+- `optimize`: Optimizes the Edge Shard by removing data marked for deletion, merging segments, and creating indexes.
 - `info`: Returns metadata information about the shard.
 - `unpack_snapshot`: Unpacks a snapshot on disk.
 - `snapshot_manifest`: Returns the current shard’s snapshot manifest.

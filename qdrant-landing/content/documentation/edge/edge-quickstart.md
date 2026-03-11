@@ -17,7 +17,9 @@ A Qdrant Edge Shard stores its data in a local directory on disk. Create the dir
 
 ## Configure the Edge Shard
 
-An Edge Shard is configured with a definition of the dense and sparse vectors that can be stored in the Edge Shard, similar to how you would configure a Qdrant collection. Set up a configuration by creating an instance of `EdgeConfig`:
+An Edge Shard is configured with a definition of the dense and sparse vectors that can be stored in the Edge Shard, similar to how you would configure a Qdrant collection.
+
+Set up a configuration by creating an instance of `EdgeConfig` in Python or `EdgeShardConfig` in Rust. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="configure-edge-shard" >}}
 
@@ -37,11 +39,39 @@ To retrieve a point by ID, use the `retrieve` method:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="retrieve-point" >}}
 
+## Create a Payload Index
+
+To optimize operations like [filtering](#filtering) and [faceting](#faceting) on payload fields, first create a payload index on the fields you plan to use with these operations:
+
+{{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="create-payload-index" >}}
+
 ## Query Points
 
 To query points in the Edge Shard, use the `query` method:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="query-points" >}}
+
+## Filter points
+
+You can also filter points based on payload fields:
+
+{{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="filter" >}}
+
+## Create Facets
+
+To create facets on a payload field, use the `facet` method.
+
+{{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="facet" >}}
+
+## Optimize the Edge Shard
+
+Optimization is the process of removing data marked for deletion, merging segments, and creating indexes. Qdrant Edge does not have a background optimizer. Instead, an application can call the `optimize` method to synchronously run optimization at a suitable time, such as during low-traffic periods or after a batch of updates.
+
+{{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="optimize" >}}
+
+The optimizer can be configured using the `optimizers` parameter of `EdgeConfig` (Python) or `EdgeShardConfig` (Rust) when initializing the Edge Shard. For example:
+
+{{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="configure-optimizer" >}}
 
 ## Close the Edge Shard
 
