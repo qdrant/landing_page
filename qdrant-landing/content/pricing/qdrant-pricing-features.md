@@ -20,7 +20,7 @@ tables:
             free: Only free and external models
             paid: true
             premium: true
-          - name: Cloud providers
+          - name: Cloud Providers
             oss: Depends on chosen infrastructure
             free: AWS, Azure, GCP
             paid: AWS, Azure, GCP
@@ -60,7 +60,7 @@ tables:
             free: Community
             paid: Standard
             premium: Premium
-          - name: Support Response times
+          - name: Support Response Times
             oss: false
             free: Best effort
             paid: 10x5
@@ -70,7 +70,7 @@ tables:
             free: true
             paid: true
             premium: true          
-          - name: Disk Encryption with custom key
+          - name: Disk Encryption with Custom Key
             oss: Depends on chosen infrastructure
             free: false
             paid: false
@@ -80,7 +80,7 @@ tables:
             free: false
             paid: false
             premium: true          
-          - name: Enterprise SSO authentication
+          - name: Enterprise SSO Authentication
             oss: false
             free: false
             paid: false

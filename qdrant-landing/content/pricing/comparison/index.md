@@ -55,7 +55,7 @@ sections:
     free: true
     paid: true
     premium: true
-  - name: GPU indexing
+  - name: GPU Indexing
     oss: true
     free: false
     paid: false
@@ -74,7 +74,7 @@ sections:
     premium: true
 - name: Deployment & Enterprise
   features:
-  - name: Cloud providers
+  - name: Cloud Providers
     oss: Depends on chosen infrastructure
     free: AWS, Azure, GCP
     paid: AWS, Azure, GCP
@@ -103,12 +103,12 @@ sections:
     premium: API, Terraform, Pulumi
 - name: Querying / Ranking
   features:
-  - name: Advanced payload filtering (incl. Geo and full-text)
+  - name: Advanced Payload Filtering (Incl. Geo and Full-Text)
     oss: true
     free: true
     paid: true
     premium: true
-  - name: Complex payload support
+  - name: Complex Payload Support
     oss: true
     free: true
     paid: true
@@ -170,7 +170,7 @@ sections:
     free: false
     paid: true
     premium: true
-  - name: Dedicated Engineering Support during Migration
+  - name: Dedicated Engineering Support During Migration
     oss: false
     free: false
     paid: false
@@ -182,17 +182,17 @@ sections:
     premium: true
 - name: Security & Compliance
   features:
-  - name: Create new Clusters from Backups
+  - name: Create New Clusters from Backups
     oss: Custom automation
     free: false
     paid: true
     premium: true
-  - name: JWT based RBAC
+  - name: JWT Based RBAC
     oss: true
     free: true
     paid: true
     premium: true
-  - name: Built-in API key revocation
+  - name: Built-in API Key Revocation
     oss: false
     free: true
     paid: true
@@ -202,17 +202,22 @@ sections:
     free: true
     paid: true
     premium: true
+  - name: HIPAA
+    oss: false
+    free: false
+    paid: true
+    premium: true    
   - name: Encryption at Rest and in Transit
     oss: Depends on chosen infrastructure
     free: true
     paid: true
     premium: true       
-  - name: Disk Encryption with custom key
+  - name: Disk Encryption with Custom Key
     oss: Depends on chosen infrastructure
     free: false
     paid: false
     premium: (AWS only)
-  - name: Enterprise SSO authentication
+  - name: Enterprise SSO Authentication
     oss: false
     free: false
     paid: false
@@ -227,7 +232,7 @@ sections:
     free: Community
     paid: Standard
     premium: Premium
-  - name: Support Response times
+  - name: Support Response Times
     oss: false
     free: Best effort
     paid: 10x5
