@@ -1,6 +1,8 @@
-{{- $path := .Get "path" -}}
-{{- $order := .Get "order" -}}
-{{- $block := .Get "block" -}}
+{{- $ctx := .ctx -}}
+{{- $filterLang := .lang -}}
+{{- $path := $ctx.Get "path" -}}
+{{- $order := $ctx.Get "order" -}}
+{{- $block := $ctx.Get "block" -}}
 
 {{- if $order -}}
   {{- $order = split $order " " -}}
@@ -12,7 +14,7 @@
   {{- range seq $numParts -}}
     {{- $index := sub $numParts . -}}
     {{- $currentPath = delimit (first (add $index 1) $currentPathParts) "/" -}}
-    {{- $sectionPage := $.Site.GetPage "section" $currentPath -}}
+    {{- $sectionPage := site.GetPage "section" $currentPath -}}
     {{- if and $sectionPage $sectionPage.Params.snippetsOrder -}}
       {{- $order = $sectionPage.Params.snippetsOrder -}}
       {{- break -}}
@@ -35,15 +37,21 @@
   {{- end -}}
 {{- end -}}
 
-{{- range $order -}}
-  {{- $snippet := index $files . -}}
+{{- if $filterLang -}}
+  {{- $snippet := index $files $filterLang -}}
   {{- if $snippet }}
-{{ $snippet }}
+{{ $snippet | safeHTML }}
   {{- end -}}
-{{- end -}}
-
-{{- range $name, $content := $files -}}
-  {{- if not (in $order $name) }}
-{{ $content }}
+{{- else -}}
+  {{- range $order -}}
+    {{- $snippet := index $files . -}}
+    {{- if $snippet }}
+{{ $snippet | safeHTML }}
+    {{- end -}}
+  {{- end -}}
+  {{- range $name, $content := $files -}}
+    {{- if not (in $order $name) }}
+{{ $content | safeHTML }}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
