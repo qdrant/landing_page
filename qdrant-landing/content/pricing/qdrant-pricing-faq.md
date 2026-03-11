@@ -11,7 +11,7 @@ questions:
   answer: Autoscaling automatically adjusts your cluster resources based on demand. When traffic increases, additional resources are provisioned. When demand decreases, resources scale down to optimize costs.
 - question: How do I choose between Free Tier and Paid Tier?
   answer: The Free Tier is ideal for development, testing, and prototypes with 1GB RAM and 4GB disk. Choose the Paid Tier for production workloads that require dedicated clusters, higher availability, and advanced features.
-- question: What's the difference between Cloud, Hybrid, and Private?
+- question: What's the difference between Managed, Hybrid, and Private Cloud?
   answer: Managed Cloud is fully managed by Qdrant. Hybrid Cloud lets you bring your own infrastructure while using Qdrant's management plane. Private Cloud gives you complete control with on-premise deployment.
 - question: Do you support multi-region redundancy?
   answer: Yes, Premium Tier customers can configure multi-region redundancy for high availability and disaster recovery across different geographic locations.
