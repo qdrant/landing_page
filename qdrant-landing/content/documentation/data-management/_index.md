@@ -16,5 +16,6 @@ partition: build
 | [Confluent](/documentation/data-management/confluent/)       | Fully-managed data streaming platform with a cloud-native Apache Kafka engine.                     |
 | [DLT](/documentation/data-management/dlt/)                   | Python library to simplify data loading processes between several sources and destinations.        |
 | [Fluvio](/documentation/data-management/fluvio/)             | Rust-based platform for high speed, real-time data processing.                                     |
+| [POMA](/documentation/data-management/poma/)                 | Python library for data ingestion, and structured chunking from various sources.                      |
 | [Spark](/documentation/data-management/spark/)               | A unified analytics engine for large-scale data processing.                                        |
 | [Unstructured](/documentation/data-management/unstructured/) | Python library with components for ingesting and pre-processing data from numerous sources.        |
