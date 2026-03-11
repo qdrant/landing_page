@@ -2,22 +2,21 @@
 use std::collections::HashMap;
 use std::path::Path;
 
-use edge::EdgeShard;
 use qdrant_client::qdrant::{
     CreateCollectionBuilder, Distance, PointStruct, UpsertPointsBuilder, VectorParamsBuilder,
 };
 use qdrant_client::Qdrant;
-use edge::segment::data_types::vectors::{VectorInternal, VectorStructInternal};
-use edge::segment::types::{
-    ExtendedPointId, Payload, PayloadStorageType, SegmentConfig, VectorDataConfig,
-    VectorStorageType,
-};
+use qdrant_edge::EdgeShard;
+use qdrant_edge::config::shard::EdgeShardConfig;
+use qdrant_edge::config::vectors::EdgeVectorParams;
+use qdrant_edge::segment::data_types::vectors::{VectorInternal, VectorStructInternal};
+use qdrant_edge::segment::types::{ExtendedPointId, Payload};
+use qdrant_edge::shard::operations::CollectionUpdateOperations::PointOperation;
+use qdrant_edge::shard::operations::point_ops::PointInsertOperationsInternal::PointsList;
+use qdrant_edge::shard::operations::point_ops::PointOperations::UpsertPoints;
+use qdrant_edge::shard::operations::point_ops::PointStructPersisted;
+use qdrant_edge::shard::snapshots::snapshot_manifest::SnapshotManifest;
 use serde_json::{Value, json};
-use edge::shard::operations::CollectionUpdateOperations::PointOperation;
-use edge::shard::operations::point_ops::PointInsertOperationsInternal::PointsList;
-use edge::shard::operations::point_ops::PointOperations::UpsertPoints;
-use edge::shard::operations::point_ops::PointStructPersisted;
-use edge::shard::snapshots::snapshot_manifest::SnapshotManifest;
 
 const COLLECTION_NAME: &str = "edge-collection";
 
@@ -31,14 +30,15 @@ let restore_dir =
     tempfile::Builder::new().tempdir_in(data_dir.parent().unwrap_or(Path::new(".")))?;
 let snapshot_path = restore_dir.path().join("shard.snapshot");
 
-let bytes = reqwest::Client::new()
-    .get(&snapshot_url)
-    .header("api-key", QDRANT_API_KEY)
-    .send()
-    .await?
-    .error_for_status()?
-    .bytes()
-    .await?;
+let mut bytes = Vec::new();
+std::io::copy(
+    &mut ureq::get(&snapshot_url)
+        .header("api-key", QDRANT_API_KEY)
+        .call()?
+        .into_body()
+        .into_reader(),
+    &mut bytes,
+)?;
 fs_err::write(&snapshot_path, &bytes)?;
 
 if data_dir.exists() {
@@ -59,15 +59,15 @@ let update_url = format!(
 let temp_dir = tempfile::tempdir_in(data_dir)?;
 let partial_snapshot_path = temp_dir.path().join("partial.snapshot");
 
-let bytes = reqwest::Client::new()
-    .post(&update_url)
-    .header("api-key", QDRANT_API_KEY)
-    .json(&current_manifest)
-    .send()
-    .await?
-    .error_for_status()?
-    .bytes()
-    .await?;
+let mut bytes = Vec::new();
+std::io::copy(
+    &mut ureq::post(&update_url)
+        .header("api-key", QDRANT_API_KEY)
+        .send_json(&current_manifest)?
+        .into_body()
+        .into_reader(),
+    &mut bytes,
+)?;
 fs_err::write(&partial_snapshot_path, &bytes)?;
 
 let unpacked_dir = tempfile::tempdir_in(data_dir)?;
@@ -85,25 +85,24 @@ const VECTOR_DIMENSION: usize = 4;
 const VECTOR_NAME: &str = "my-vector";
 
 fs_err::create_dir_all(SHARD_DIRECTORY)?;
-let config = SegmentConfig {
-    vector_data: {
-        let mut m = HashMap::new();
-        m.insert(
-            VECTOR_NAME.to_string(),
-            VectorDataConfig {
-                size: VECTOR_DIMENSION,
-                distance: edge::segment::types::Distance::Cosine,
-                storage_type: VectorStorageType::ChunkedMmap,
-                index: Default::default(),
-                quantization_config: None,
-                multivector_config: None,
-                datatype: None,
-            },
-        );
-        m
-    },
-    sparse_vector_data: HashMap::new(),
-    payload_storage_type: PayloadStorageType::Mmap,
+let config = EdgeShardConfig {
+    on_disk_payload: true,
+    vectors: HashMap::from([(
+        VECTOR_NAME.to_string(),
+        EdgeVectorParams {
+            size: VECTOR_DIMENSION,
+            distance: qdrant_edge::segment::types::Distance::Cosine,
+            on_disk: Some(true),
+            quantization_config: None,
+            multivector_config: None,
+            datatype: None,
+            hnsw_config: None,
+        },
+    )]),
+    sparse_vectors: HashMap::new(),
+    hnsw_config: Default::default(),
+    quantization_config: None,
+    optimizers: Default::default(),
 };
 
 let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), Some(config))?;

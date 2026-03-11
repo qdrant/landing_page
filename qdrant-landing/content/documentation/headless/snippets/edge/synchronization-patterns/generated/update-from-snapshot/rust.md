@@ -8,15 +8,15 @@ let update_url = format!(
 let temp_dir = tempfile::tempdir_in(data_dir)?;
 let partial_snapshot_path = temp_dir.path().join("partial.snapshot");
 
-let bytes = reqwest::Client::new()
-    .post(&update_url)
-    .header("api-key", QDRANT_API_KEY)
-    .json(&current_manifest)
-    .send()
-    .await?
-    .error_for_status()?
-    .bytes()
-    .await?;
+let mut bytes = Vec::new();
+std::io::copy(
+    &mut ureq::post(&update_url)
+        .header("api-key", QDRANT_API_KEY)
+        .send_json(&current_manifest)?
+        .into_body()
+        .into_reader(),
+    &mut bytes,
+)?;
 fs_err::write(&partial_snapshot_path, &bytes)?;
 
 let unpacked_dir = tempfile::tempdir_in(data_dir)?;

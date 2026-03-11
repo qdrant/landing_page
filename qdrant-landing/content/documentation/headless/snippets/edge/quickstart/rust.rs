@@ -1,19 +1,20 @@
 use std::collections::HashMap;
 use std::path::Path;
 
-use edge::EdgeShard;
-use edge::segment::data_types::vectors::{NamedQuery, VectorInternal, VectorStructInternal};
-use edge::segment::types::{
-    Distance, ExtendedPointId, Payload, PayloadStorageType, SegmentConfig, VectorDataConfig,
-    VectorStorageType, WithPayloadInterface, WithVector,
+use qdrant_edge::EdgeShard;
+use qdrant_edge::config::shard::EdgeShardConfig;
+use qdrant_edge::config::vectors::EdgeVectorParams;
+use qdrant_edge::segment::data_types::vectors::{NamedQuery, VectorInternal, VectorStructInternal};
+use qdrant_edge::segment::types::{
+    Distance, ExtendedPointId, Payload, WithPayloadInterface, WithVector,
 };
+use qdrant_edge::shard::operations::CollectionUpdateOperations::PointOperation;
+use qdrant_edge::shard::operations::point_ops::PointInsertOperationsInternal::PointsList;
+use qdrant_edge::shard::operations::point_ops::PointOperations::UpsertPoints;
+use qdrant_edge::shard::operations::point_ops::PointStructPersisted;
+use qdrant_edge::shard::query::query_enum::QueryEnum;
+use qdrant_edge::shard::query::{ScoringQuery, ShardQueryRequest};
 use serde_json::{Value, json};
-use edge::shard::operations::CollectionUpdateOperations::PointOperation;
-use edge::shard::operations::point_ops::PointInsertOperationsInternal::PointsList;
-use edge::shard::operations::point_ops::PointOperations::UpsertPoints;
-use edge::shard::operations::point_ops::PointStructPersisted;
-use edge::shard::query::query_enum::QueryEnum;
-use edge::shard::query::{ScoringQuery, ShardQueryRequest};
 
 pub async fn main() -> anyhow::Result<()> {
     // @block-start create-storage-directory
@@ -26,25 +27,24 @@ pub async fn main() -> anyhow::Result<()> {
     const VECTOR_NAME: &str = "my-vector";
     const VECTOR_DIMENSION: usize = 4;
 
-    let config = SegmentConfig {
-        vector_data: {
-            let mut m = HashMap::new();
-            m.insert(
-                VECTOR_NAME.to_string(),
-                VectorDataConfig {
-                    size: VECTOR_DIMENSION,
-                    distance: Distance::Cosine,
-                    storage_type: VectorStorageType::ChunkedMmap,
-                    index: Default::default(),
-                    quantization_config: None,
-                    multivector_config: None,
-                    datatype: None,
-                },
-            );
-            m
-        },
-        sparse_vector_data: HashMap::new(),
-        payload_storage_type: PayloadStorageType::Mmap,
+    let config = EdgeShardConfig {
+        on_disk_payload: true,
+        vectors: HashMap::from([(
+            VECTOR_NAME.to_string(),
+            EdgeVectorParams {
+                size: VECTOR_DIMENSION,
+                distance: Distance::Cosine,
+                on_disk: Some(true),
+                quantization_config: None,
+                multivector_config: None,
+                datatype: None,
+                hnsw_config: None,
+            },
+        )]),
+        sparse_vectors: HashMap::new(),
+        hnsw_config: Default::default(),
+        quantization_config: None,
+        optimizers: Default::default(),
     };
     // @block-end configure-edge-shard
 

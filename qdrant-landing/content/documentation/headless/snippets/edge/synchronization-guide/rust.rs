@@ -2,23 +2,25 @@ use std::collections::HashMap;
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use edge::EdgeShard;
 use ordered_float::OrderedFloat;
 use qdrant_client::qdrant::PointStruct;
-use edge::segment::data_types::vectors::{NamedQuery, VectorInternal, VectorStructInternal};
-use edge::segment::json_path::JsonPath;
-use edge::segment::types::{
-    Condition, Distance, ExtendedPointId, FieldCondition, Filter, Payload, PayloadStorageType,
-    Range, SegmentConfig, VectorDataConfig, VectorStorageType, WithPayloadInterface, WithVector,
+use qdrant_edge::EdgeShard;
+use qdrant_edge::config::shard::EdgeShardConfig;
+use qdrant_edge::config::vectors::EdgeVectorParams;
+use qdrant_edge::segment::data_types::vectors::{NamedQuery, VectorInternal, VectorStructInternal};
+use qdrant_edge::segment::json_path::JsonPath;
+use qdrant_edge::segment::types::{
+    Condition, Distance, ExtendedPointId, FieldCondition, Filter, Payload, Range,
+    WithPayloadInterface, WithVector,
 };
+use qdrant_edge::shard::operations::CollectionUpdateOperations::PointOperation;
+use qdrant_edge::shard::operations::point_ops::PointInsertOperationsInternal::PointsList;
+use qdrant_edge::shard::operations::point_ops::PointOperations::{DeletePointsByFilter, UpsertPoints};
+use qdrant_edge::shard::operations::point_ops::PointStructPersisted;
+use qdrant_edge::shard::query::query_enum::QueryEnum;
+use qdrant_edge::shard::query::{ScoringQuery, ShardQueryRequest};
+use qdrant_edge::shard::snapshots::snapshot_manifest::SnapshotManifest;
 use serde_json::{Value, json};
-use edge::shard::operations::CollectionUpdateOperations::PointOperation;
-use edge::shard::operations::point_ops::PointInsertOperationsInternal::PointsList;
-use edge::shard::operations::point_ops::PointOperations::{DeletePointsByFilter, UpsertPoints};
-use edge::shard::operations::point_ops::PointStructPersisted;
-use edge::shard::query::query_enum::QueryEnum;
-use edge::shard::query::{ScoringQuery, ShardQueryRequest};
-use edge::shard::snapshots::snapshot_manifest::SnapshotManifest;
 
 pub async fn main() -> anyhow::Result<()> {
     // @hide-start
@@ -34,25 +36,24 @@ pub async fn main() -> anyhow::Result<()> {
     const VECTOR_NAME: &str = "my-vector";
 
     fs_err::create_dir_all(MUTABLE_SHARD_DIR)?;
-    let config = SegmentConfig {
-        vector_data: {
-            let mut m = HashMap::new();
-            m.insert(
-                VECTOR_NAME.to_string(),
-                VectorDataConfig {
-                    size: VECTOR_DIMENSION,
-                    distance: Distance::Cosine,
-                    storage_type: VectorStorageType::ChunkedMmap,
-                    index: Default::default(),
-                    quantization_config: None,
-                    multivector_config: None,
-                    datatype: None,
-                },
-            );
-            m
-        },
-        sparse_vector_data: HashMap::new(),
-        payload_storage_type: PayloadStorageType::Mmap,
+    let config = EdgeShardConfig {
+        on_disk_payload: true,
+        vectors: HashMap::from([(
+            VECTOR_NAME.to_string(),
+            EdgeVectorParams {
+                size: VECTOR_DIMENSION,
+                distance: Distance::Cosine,
+                on_disk: Some(true),
+                quantization_config: None,
+                multivector_config: None,
+                datatype: None,
+                hnsw_config: None,
+            },
+        )]),
+        sparse_vectors: HashMap::new(),
+        hnsw_config: Default::default(),
+        quantization_config: None,
+        optimizers: Default::default(),
     };
 
     let mutable_shard = EdgeShard::load(Path::new(MUTABLE_SHARD_DIR), Some(config))?;
@@ -70,14 +71,15 @@ pub async fn main() -> anyhow::Result<()> {
         tempfile::Builder::new().tempdir_in(data_dir.parent().unwrap_or(Path::new(".")))?;
     let snapshot_path = restore_dir.path().join("shard.snapshot");
 
-    let bytes = reqwest::Client::new()
-        .get(&snapshot_url)
-        .header("api-key", QDRANT_API_KEY)
-        .send()
-        .await?
-        .error_for_status()?
-        .bytes()
-        .await?;
+    let mut bytes = Vec::new();
+    std::io::copy(
+        &mut ureq::get(&snapshot_url)
+            .header("api-key", QDRANT_API_KEY)
+            .call()?
+            .into_body()
+            .into_reader(),
+        &mut bytes,
+    )?;
     fs_err::write(&snapshot_path, &bytes)?;
 
     if data_dir.exists() {
@@ -154,15 +156,15 @@ pub async fn main() -> anyhow::Result<()> {
     let temp_dir = tempfile::tempdir_in(data_dir)?;
     let partial_snapshot_path = temp_dir.path().join("partial.snapshot");
 
-    let bytes = reqwest::Client::new()
-        .post(&update_url)
-        .header("api-key", QDRANT_API_KEY)
-        .json(&current_manifest)
-        .send()
-        .await?
-        .error_for_status()?
-        .bytes()
-        .await?;
+    let mut bytes = Vec::new();
+    std::io::copy(
+        &mut ureq::post(&update_url)
+            .header("api-key", QDRANT_API_KEY)
+            .send_json(&current_manifest)?
+            .into_body()
+            .into_reader(),
+        &mut bytes,
+    )?;
     fs_err::write(&partial_snapshot_path, &bytes)?;
 
     let unpacked_dir = tempfile::tempdir_in(data_dir)?;

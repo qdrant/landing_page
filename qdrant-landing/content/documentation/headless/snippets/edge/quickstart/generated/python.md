@@ -8,15 +8,15 @@ Path(SHARD_DIRECTORY).mkdir(parents=True, exist_ok=True)
 from qdrant_edge import (
     Distance,
     EdgeConfig,
-    VectorDataConfig,
+    EdgeVectorParams,
 )
 
 VECTOR_NAME="my-vector"
 VECTOR_DIMENSION=4
 
 config = EdgeConfig(
-    vector_data={
-        VECTOR_NAME: VectorDataConfig(
+    vectors={
+        VECTOR_NAME: EdgeVectorParams(
             size=VECTOR_DIMENSION,
             distance=Distance.Cosine,
         )
@@ -37,7 +37,7 @@ point = Point(
 
 edge_shard.update(UpdateOperation.upsert_points([point]))
 
-point = edge_shard.retrieve(
+records = edge_shard.retrieve(
     point_ids=[1],
     with_payload=True,
     with_vector=False

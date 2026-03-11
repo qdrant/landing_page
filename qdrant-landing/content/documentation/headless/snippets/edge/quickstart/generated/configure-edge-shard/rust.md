@@ -2,24 +2,23 @@
 const VECTOR_NAME: &str = "my-vector";
 const VECTOR_DIMENSION: usize = 4;
 
-let config = SegmentConfig {
-    vector_data: {
-        let mut m = HashMap::new();
-        m.insert(
-            VECTOR_NAME.to_string(),
-            VectorDataConfig {
-                size: VECTOR_DIMENSION,
-                distance: Distance::Cosine,
-                storage_type: VectorStorageType::ChunkedMmap,
-                index: Default::default(),
-                quantization_config: None,
-                multivector_config: None,
-                datatype: None,
-            },
-        );
-        m
-    },
-    sparse_vector_data: HashMap::new(),
-    payload_storage_type: PayloadStorageType::Mmap,
+let config = EdgeShardConfig {
+    on_disk_payload: true,
+    vectors: HashMap::from([(
+        VECTOR_NAME.to_string(),
+        EdgeVectorParams {
+            size: VECTOR_DIMENSION,
+            distance: Distance::Cosine,
+            on_disk: Some(true),
+            quantization_config: None,
+            multivector_config: None,
+            datatype: None,
+            hnsw_config: None,
+        },
+    )]),
+    sparse_vectors: HashMap::new(),
+    hnsw_config: Default::default(),
+    quantization_config: None,
+    optimizers: Default::default(),
 };
 ```
