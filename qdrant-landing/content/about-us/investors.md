@@ -1,18 +1,24 @@
 ---
 title: Our Investors
 links:
+  - title: We're Celebrating Series B
+    url: /blog/series-b-funding/
   - title: Read Our Series A Story
     url: /blog/series-a-funding-round/
   - title: Read About Our Seed Funding
     url: /articles/seed-round/
 investors:
 - id: 0
-  logo: '/img/investors/spark-capital.svg'
+  logo: '/img/investors/avp.svg'
 - id: 1
-  logo: '/img/investors/unusual-ventures.svg'
+  logo: '/img/investors/bosch-ventures.svg'
 - id: 2
-  logo: '/img/investors/42cap.svg'
+  logo: '/img/investors/spark-capital.svg'
 - id: 3
+  logo: '/img/investors/unusual-ventures.svg'
+- id: 4
   logo: '/img/investors/ibb-ventures.svg'
+- id: 5
+  logo: '/img/investors/42cap.svg'
 sitemapExclude: true
 ---
