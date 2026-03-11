@@ -45,7 +45,7 @@ tabs:
     title: Premium Tier
     pricing: (minimum spend requirement)
     pricingNote: Committed Usage
-    target: For enterprises with strict security and compliance needs
+    target: For enterprises with additional security and compliance needs
     features:
     - SSO
     - Private VPC Links
@@ -69,12 +69,12 @@ tabs:
     featureGroups:
     - label: "Best for:"
       items:
-      - Data Residency
+      - Local Data Residency
       - Regulated Workloads
-      - Zero-Ops in Your Own Cloud
+      - Easy Operations in Your Own Cloud
     - label: "Benefits:"
       items:
-      - Data Stays in Your VPC
+      - Data Stays in Your Network
       - Fully Managed Through Qdrant Cloud
       - Production-Grade Uptime
     cta:
@@ -84,7 +84,7 @@ tabs:
   - id: private-cloud
     title: Private Cloud
     badge: true
-    target: "Dedicated, isolated deployment. Fully customized environment for strict security, compliance, or performance needs."
+    target: "Dedicated, isolated deployment for strict security or compliance needs."
     featureGroups:
     - label: "Best for:"
       items:
