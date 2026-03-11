@@ -1,11 +1,10 @@
 ---
 title: Our Investors
-link1: 
-  title: Read Our Series A Story
-  url: /blog/series-a-funding-round/
-link2: 
-  title: Read About Our Seed Funding
-  url: /articles/seed-round/
+links:
+  - title: Read Our Series A Story
+    url: /blog/series-a-funding-round/
+  - title: Read About Our Seed Funding
+    url: /articles/seed-round/
 investors:
 - id: 0
   logo: '/img/investors/spark-capital.svg'
