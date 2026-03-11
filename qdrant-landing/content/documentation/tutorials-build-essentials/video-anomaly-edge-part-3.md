@@ -1,5 +1,5 @@
 ---
-title: "Video Anomaly Detection Part III | Scoring, Governance, and Deployment"
+title: "Video Anomaly Detection Part 3 | Scoring, Governance, and Deployment"
 weight: 11
 partition: build
 social_preview_image: /articles_data/video-anomaly-edge/preview/social_preview.jpg
@@ -12,16 +12,16 @@ aliases:
 | Time: 60 min | Level: Advanced | Stack: Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA VSS, Vultr | Output: [GitHub](https://github.com/qdrant/examples/tree/master/video-anomaly-edge) |
 | --- | ----------- | ----------- | ----------- |
 
-*This is Part III of a 3-part series on building real-time video anomaly detection from edge to cloud.*
+*This is Part 3 of a 3-part series on building real-time video anomaly detection from edge to cloud.*
 
 **Series:**
-- [Part I | Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
-- [Part II | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
-- Part III | Scoring, Governance, and Deployment (here)
+- [Part 1 | Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
+- [Part 2 | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
+- Part 3 | Scoring, Governance, and Deployment (here)
 
 ---
 
-In [Part I](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/), we set up the architecture, Twelve Labs integration, and NVIDIA VSS connection. In [Part II](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/), we built Qdrant Edge's two-shard architecture and the escalation pipeline. Now we turn raw scores into incidents, protect the baseline, and deploy.
+In [Part 1](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/), we set up the architecture, Twelve Labs integration, and NVIDIA VSS connection. In [Part 2](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/), we built Qdrant Edge's two-shard architecture and the escalation pipeline. Now we turn raw scores into incidents, protect the baseline, and deploy.
 
 ## Anomaly Scoring and Incident Formation
 
@@ -268,10 +268,10 @@ The key takeaways:
 
 ---
 
-Check out the full series and resources:
+Check out the full series and additional resources:
 
-- **Part I**: [Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
-- **Part II**: [Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
+- **Part 1**: [Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
+- **Part 2**: [Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
 - **Project Repository**: [qdrant/examples/video-anomaly-edge](https://github.com/qdrant/examples/tree/master/video-anomaly-edge)
 - **Live Demo**: [avenue-demo.vercel.app](https://avenue-demo.vercel.app/)
 - **NVIDIA VSS Twelve Labs Integration**: [james-le-twelve-labs/nvidia-vss](https://github.com/james-le-twelve-labs/nvidia-vss)

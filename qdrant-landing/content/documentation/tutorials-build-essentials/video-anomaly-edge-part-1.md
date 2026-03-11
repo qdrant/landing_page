@@ -1,5 +1,5 @@
 ---
-title: "Video Anomaly Detection Part I | Architecture, Twelve Labs, and NVIDIA VSS"
+title: "Video Anomaly Detection Part 1 | Architecture, Twelve Labs, and NVIDIA VSS"
 weight: 9
 partition: build
 social_preview_image: /articles_data/video-anomaly-edge/preview/social_preview.jpg
@@ -10,15 +10,15 @@ aliases:
 
 # Video Anomaly Detection: Architecture, Twelve Labs, and NVIDIA VSS
 
-| Time: 120 min | Level: Advanced | Stack: Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA VSS, Vultr | Output: [GitHub](https://github.com/qdrant/examples/tree/master/video-anomaly-edge) |
+| Time: 60 min | Level: Advanced | Stack: Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA VSS, Vultr | Output: [GitHub](https://github.com/qdrant/examples/tree/master/video-anomaly-edge) |
 | --- | ----------- | ----------- | ----------- |
 
-*This is Part I of a 3-part series on building real-time video anomaly detection from edge to cloud. We'll go from architecture and integrations to a production-grade detection pipeline.*
+*This is Part 1 of a 3-part series on building real-time video anomaly detection from edge to cloud. We'll go from architecture and integrations to a production-grade detection pipeline.*
 
 **Series:**
-- Part I | Architecture, Twelve Labs, and NVIDIA VSS (here)
-- [Part II | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
-- [Part III | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
+- Part 1 | Architecture, Twelve Labs, and NVIDIA VSS (here)
+- [Part 2 | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
+- [Part 3 | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
 
 ---
 
@@ -36,15 +36,15 @@ In this tutorial you'll learn how this is all possible by not only deploying the
 
 Specifically, you will build a platform that transforms live surveillance streams into:
 
-**Anomaly Detection**: Automatically scored clips using kNN distance from a normal baseline in Qdrant, with no anomaly labels required.
+- **Anomaly Detection**: Automatically scored clips using kNN distance from a normal baseline in Qdrant, with no anomaly labels required.
 
-**Incident Reports**: Multi-signal incident formation using Twelve Labs embeddings, VLM captions, and audio transcription from NVIDIA VSS.
+- **Incident Reports**: Multi-signal incident formation using Twelve Labs embeddings, VLM captions, and audio transcription from NVIDIA VSS.
 
-**Semantic Video Search**: Natural-language queries across all cameras and time periods. "Find clips similar to this incident" or "show me unusual activity at the north entrance last week."
+- **Semantic Video Search**: Natural-language queries across all cameras and time periods. "Find clips similar to this incident" or "show me unusual activity at the north entrance last week."
 
-**Interactive Q&A**: Ask questions about detected events and get answers grounded in actual video content via Twelve Labs Pegasus.
+- **Interactive Q&A**: Ask questions about detected events and get answers grounded in actual video content via Twelve Labs Pegasus.
 
-**Edge-to-Cloud Escalation**: Lightweight edge triage on NVIDIA Jetson reduces cloud processing volume by ~6x while catching ~95% of true anomalies.
+- **Edge-to-Cloud Escalation**: Lightweight edge triage on NVIDIA Jetson reduces cloud processing volume by ~6x while catching ~95% of true anomalies.
 
 <aside role="status">The concepts and technology demonstrated here apply beyond surveillance. You can use this same architecture for manufacturing safety, retail analytics, traffic monitoring, or anything you need anomaly detection for. Just swap out the baseline data and adjust the detection threshold to fit your new domain.</aside>
 
@@ -322,7 +322,7 @@ def upload_video(file_path: str | Path, index_type: str = "both") -> dict:
     return result
 ```
 
-*Notice*: Uploading to Twelve Labs handles all the heavy lifting (chunking, embedding, indexing) in a single API call. No local GPU required for the cloud tier.
+<aside role="status">Uploading to Twelve Labs handles all the heavy lifting (chunking, embedding, indexing) in a single API call. No local GPU required for the cloud tier.</aside>
 
 ### Semantic Search with Marengo
 
@@ -381,7 +381,7 @@ def analyze_video(video_id: str, prompt: str) -> AnalysisResult:
     )
 ```
 
-Factory owners, security teams, or compliance officers can ask questions like "What safety violations are visible in this clip?" or "Describe the sequence of events leading up to the incident" and get detailed, video-grounded answers immediately. Think of this as RAG over video.
+Factory owners, security teams, or compliance officers can ask questions like "What safety violations are visible in this clip?" or "Describe the sequence of events leading up to the incident" and get detailed, video-grounded answers immediately. **Think of this as RAG over video.**
 
 ---
 
@@ -540,17 +540,17 @@ services:
 
 ## Recap
 
-In Part I, you set up the project, learned why kNN anomaly detection in Qdrant outperforms traditional classifiers for open-world surveillance, integrated Twelve Labs Marengo and Pegasus for video embeddings and Q&A, and connected NVIDIA VSS for GPU-accelerated ingestion. The architecture is in place. Now we need to build the edge.
+In Part 1, you set up the project, learned why kNN anomaly detection in Qdrant outperforms traditional classifiers for open-world surveillance, integrated Twelve Labs Marengo and Pegasus for video embeddings and Q&A, and connected NVIDIA VSS for GPU-accelerated ingestion. The architecture is in place. Now we need to build the edge.
 
 ## What's Next
 
-In **[Part II | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)**, we'll implement the two-shard Qdrant Edge architecture, edge triage scoring, escalation flow with ensemble scoring, and offline resilience.
+In **[Part 2 | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)**, we'll implement the two-shard Qdrant Edge architecture, edge triage scoring, escalation flow with ensemble scoring, and offline resilience.
 
-In **[Part III | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)**, we'll cover incident formation, baseline governance, unified retrieval, results on UCF-Crime, and deployment on Vultr Cloud GPUs.
+In **[Part 3 | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)**, we'll cover incident formation, baseline governance, unified retrieval, results on UCF-Crime, and deployment on Vultr Cloud GPUs.
 
 ---
 
-Check out the resources:
+Additional Resources:
 
 - **Project Repository**: [qdrant/examples/video-anomaly-edge](https://github.com/qdrant/examples/tree/master/video-anomaly-edge)
 - **NVIDIA VSS Twelve Labs Integration**: [james-le-twelve-labs/nvidia-vss](https://github.com/james-le-twelve-labs/nvidia-vss)
