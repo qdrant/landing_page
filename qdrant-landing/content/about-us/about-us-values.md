@@ -1,12 +1,12 @@
 ---
 values:
 - id: 0
-  title: 10 Million Downloads
+  title: 250+ Million Downloads
   icon:
     src: /img/about-us/rocket-logo.svg
     alt: Rocket logo
 - id: 1
-  title: 23K GitHub Stars
+  title: 29K GitHub Stars
   icon:
     src: /img/about-us/github-logo.svg
     alt: github-logo
