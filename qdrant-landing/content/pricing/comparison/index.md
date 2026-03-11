@@ -28,214 +28,214 @@ sections:
   - name: Vector Similarity Search
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Recommendations & Discovery
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Quantization
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Hybrid Search
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Multi Vector Support
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Sparse Vector Support
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: GPU Indexing
     oss: true
     free: false
-    paid: false
+    standard: false
     premium: false
   - name: Cloud Inference
     oss: false
     free: Only free models
-    paid: true
+    standard: true
     premium: true
 - name: Data Modeling & Storage
   features:
   - name: Multi-Tenancy
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
 - name: Deployment & Enterprise
   features:
   - name: Cloud Providers
     oss: Depends on chosen infrastructure
     free: AWS, Azure, GCP
-    paid: AWS, Azure, GCP
+    standard: AWS, Azure, GCP
     premium: AWS, Azure, GCP
   - name: Uptime SLA
     oss: false
     free: false
-    paid: "99.5"
+    standard: "99.5"
     premium: "99.9"
 - name: Developer Experience
   features:
   - name: Database Web UI
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Multi-Cluster Management UI
     oss: false
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Automation
     oss: false
     free: API, Terraform, Pulumi
-    paid: API, Terraform, Pulumi
+    standard: API, Terraform, Pulumi
     premium: API, Terraform, Pulumi
 - name: Querying / Ranking
   features:
   - name: Advanced Payload Filtering (Incl. Geo and Full-Text)
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Complex Payload Support
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Multi-Staged Queries
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Score Boosting
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
 - name: Scalability & Operations
   features:
   - name: Vertical Up & Downscaling
     oss: No resource usage safe guards
     free: false
-    paid: true
+    standard: true
     premium: true
   - name: Horizontal Up & Downscaling
     oss: No automated shard rebalancing
     free: false
-    paid: true
+    standard: true
     premium: true
   - name: Highly Availabe Setup
     oss: true
     free: false
-    paid: true
+    standard: true
     premium: true
   - name: Disk Performance Tiers
     oss: Depends on chosen infrastructure
     free: false
-    paid: (AWS only)
+    standard: (AWS only)
     premium: (AWS only)    
   - name: Shard Splitting
     oss: false
     free: false
-    paid: true
+    standard: true
     premium: true      
   - name: Zero Downtime Upgrades
     oss: Custom automation
     free: false
-    paid: true
+    standard: true
     premium: true
   - name: Optimized Cluster Restarts
     oss: false
     free: false
-    paid: true
+    standard: true
     premium: true    
   - name: Monitoring & Alerting
     oss: Manual setup
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Backups & Disaster Recovery
     oss: Custom automation
     free: false
-    paid: true
+    standard: true
     premium: true
   - name: Dedicated Engineering Support During Migration
     oss: false
     free: false
-    paid: false
+    standard: false
     premium: true
   - name: Collection Snapshots
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
 - name: Security & Compliance
   features:
   - name: Create New Clusters from Backups
     oss: Custom automation
     free: false
-    paid: true
+    standard: true
     premium: true
   - name: JWT Based RBAC
     oss: true
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: Built-in API Key Revocation
     oss: false
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: SOC2 Type 2
     oss: false
     free: true
-    paid: true
+    standard: true
     premium: true
   - name: HIPAA
     oss: false
     free: false
-    paid: true
+    standard: true
     premium: true    
   - name: Encryption at Rest and in Transit
     oss: Depends on chosen infrastructure
     free: true
-    paid: true
+    standard: true
     premium: true       
   - name: Disk Encryption with Custom Key
     oss: Depends on chosen infrastructure
     free: false
-    paid: false
+    standard: false
     premium: (AWS only)
   - name: Enterprise SSO Authentication
     oss: false
     free: false
-    paid: false
+    standard: false
     premium: true
   - name: Private VPC Links
     oss: false
     free: false
-    paid: false
+    standard: false
     premium: true
   - name: Support Level
     oss: Community
     free: Community
-    paid: Standard
+    standard: Standard
     premium: Premium
   - name: Support Response Times
     oss: false
     free: Best effort
-    paid: 10x5
+    standard: 10x5
     premium: 24x7
 ctas:
 - tier: oss
@@ -246,7 +246,7 @@ ctas:
   text: Start Free
   url: https://cloud.qdrant.io
   contained: false
-- tier: paid
+- tier: standard
   text: Deploy on Cloud
   url: https://cloud.qdrant.io
   contained: true

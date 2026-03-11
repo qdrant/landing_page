@@ -18,72 +18,72 @@ tables:
           - name: Cloud Inference
             oss: false
             free: Only free and external models
-            paid: true
+            standard: true
             premium: true
           - name: Cloud Providers
             oss: Depends on chosen infrastructure
             free: AWS, Azure, GCP
-            paid: AWS, Azure, GCP
+            standard: AWS, Azure, GCP
             premium: AWS, Azure, GCP
           - name: Uptime SLA
             oss: false
             free: false
-            paid: "99.5"
+            standard: "99.5"
             premium: "99.9"
           - name: Automation
             oss: false
             free: API, Terraform, Pulumi
-            paid: API, Terraform, Pulumi
+            standard: API, Terraform, Pulumi
             premium: API, Terraform, Pulumi
           - name: Vertical Up & Downscaling
             oss: No resource usage safe guards
             free: false
-            paid: true
+            standard: true
             premium: true
           - name: Horizontal Up & Downscaling
             oss: No automated shard rebalancing
             free: false
-            paid: true
+            standard: true
             premium: true
           - name: Backup & Disaster Recovery
             oss: Custom automation
             free: false
-            paid: true
+            standard: true
             premium: true  
           - name: Shard Splitting
             oss: false
             free: false
-            paid: true
+            standard: true
             premium: true                
           - name: Support Level
             oss: Community
             free: Community
-            paid: Standard
+            standard: Standard
             premium: Premium
           - name: Support Response Times
             oss: false
             free: Best effort
-            paid: 10x5
+            standard: 10x5
             premium: 24x7
           - name: Encryption at Rest and in Transit
             oss: Depends on chosen infrastructure
             free: true
-            paid: true
+            standard: true
             premium: true          
           - name: Disk Encryption with Custom Key
             oss: Depends on chosen infrastructure
             free: false
-            paid: false
+            standard: false
             premium: (AWS only)
           - name: Private VPC Links
             oss: N/A
             free: false
-            paid: false
+            standard: false
             premium: true          
           - name: Enterprise SSO Authentication
             oss: false
             free: false
-            paid: false
+            standard: false
             premium: true
     ctas:
       - tier: oss
@@ -94,7 +94,7 @@ tables:
         text: Start Free
         url: https://cloud.qdrant.io
         contained: false
-      - tier: paid
+      - tier: standard
         text: Deploy on Cloud
         url: https://cloud.qdrant.io
         contained: true
