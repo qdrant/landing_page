@@ -47,7 +47,7 @@ Meanwhile, AI is moving to where decisions are made. Not everything can round-tr
 
 Qdrant is shaped by engineers running it under real pressure, and we want to thank them directly. The over 29,000 GitHub stars reflect reach, but it is the code contributions from production systems that move our engine forward. In v1.16, [@eltu added ASCII folding to improve multilingual full-text retrieval without upstream preprocessing](https://github.com/qdrant/qdrant/pull/7408). More recently, [@TY0909 contributed field-level control over HNSW graph construction](https://github.com/qdrant/qdrant/pull/7887), reducing indexing cost and memory overhead in large hybrid deployments. These contributions come from real operational pressure and directly shape how Qdrant behaves under load.
 
-Models get the attention, but retrieval is what makes them useful in production. We believe vector search will be as fundamental to AI systems as relational databases were to the internet era. And we're building Qdrant to be the engine that lasts.
+Models get the attention, but retrieval is what makes them useful in production. We believe retrieval will become core infrastructure for AI, not a feature bolted onto something else. And we're building Qdrant to be the engine that lasts.
 
 If you're building with Qdrant or contributing back: thank you. And if you want to work on fundamental infrastructure for AI, [we're hiring](https://join.com/companies/qdrant).
 
