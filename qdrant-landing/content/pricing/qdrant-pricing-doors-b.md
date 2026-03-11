@@ -43,7 +43,7 @@ tabs:
       style: contained
   - id: premium
     title: Premium Tier
-    pricing: (minimum spend requirement)
+    pricing: Minimum spend required
     pricingNote: Committed Usage
     target: For enterprises with additional security and compliance needs
     features:
@@ -51,9 +51,6 @@ tabs:
     - Private VPC Links
     - 99.9% Uptime SLA
     - Extra Support
-    contactLink:
-      text: Contact Sales
-      url: /contact-us/
     cta:
       text: Talk to Our Engineers
       url: /contact-us/
