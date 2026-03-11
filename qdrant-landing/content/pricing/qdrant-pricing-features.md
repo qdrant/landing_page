@@ -35,7 +35,7 @@ tables:
             free: API, Terraform, Pulumi
             paid: API, Terraform, Pulumi
             premium: API, Terraform, Pulumi
-          - name: Vertical Up & Down Scaling
+          - name: Vertical Up & Downscaling
             oss: No resource usage safe guards
             free: false
             paid: true
