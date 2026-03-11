@@ -2,8 +2,6 @@
 title: POMA
 ---
 
-![POMA Logo](https://raw.githubusercontent.com/poma-ai/.github/main/assets/POMA_AI_Logo_Pink.svg)
-
 # POMA + Qdrant: Structure-Preserving Retrieval
 
 | Time: 15 min | Level: Beginner/Intermediate | [Complete Notebook](https://colab.research.google.com/github/poma-ai/.github/blob/main/notebooks/qdrant/poma_meets_qdrant.ipynb) | [Notebook Source](https://github.com/poma-ai/.github/blob/main/notebooks/qdrant/poma_meets_qdrant.ipynb) |
@@ -17,20 +15,6 @@ title: POMA
 Together, they combine individual simplicity into one streamlined workflow.
 
 This guide walks through the current [POMA AI](https://www.poma-ai.com/) for Qdrant SDK flow: process documents, upsert chunksets, retrieve structure-preserving cheatsheets, and understand where convenience defaults end and advanced knobs begin.
-
----
-
-## Short version of why teams use it:
-
-- Better context retention: hierarchical chunksets keep section lineage attached to the source document.
-- Token efficiency: retrieval is designed for high signal-per-token instead of large overlapping windows.
-- Great fit for real documents: multi-format ingestion with structure-aware processing (PDFs, Office documents, scanned documents, and [much more](https://github.com/poma-ai/.github/blob/main/profile/README.md#supported-formats)).
-
-
-Further details:
-
-- [POMA docs hub](https://www.poma-ai.com/docs/)
-- [POMA on GitHub](https://github.com/poma-ai)
 
 ---
 
@@ -227,21 +211,7 @@ Your feedback will help us expand this section into a valuable reference for eve
 
 ---
 
-## Notes
+## Further details:
 
-- `PomaQdrant` is a `QdrantClient` subclass, so existing Qdrant workflows still apply.
-- Whith convenience defaults for faster setup, we provide preconfigured parameters that the integration applies automatically, so you can start quickly without setting every parameter manually in later steps:
-  - one dense vector field (`dense`, configurable via `dense_name`)
-  - one optional sparse vector field (`sparse`, configurable via `sparse_name`)
-  - automatic hybrid retrieval (`query="..."`) with dense + sparse prefetch and RRF when `sparse_model` is enabled
-- Collection convenience:
-  - set `auto_create_collection=True` to create the collection automatically
-  - when auto-create is enabled, `dense_size` is required
-- Full control via passthrough `kwargs`:
-  - `upsert_poma_points(..., **kwargs)` forwards to `upsert(...)`
-  - `get_cheatsheets(..., **kwargs)` forwards to `query_points(...)`
-  - when the same key is set in both convenience args and `kwargs`, `kwargs` wins
-- Full query orchestration:
-  - use `get_cheatsheets(query_obj=..., prefetch=...)` for explicit Qdrant query composition
-  - or run raw methods (`create_collection`, `upsert`/`upload_points`, `query_points`, etc.) and convert with `get_cheatsheets(results=...)`
-- For self-hosted/local Qdrant, use `location=":memory:"` or `path="./.qdrant_data"` and omit `api_key`.
+- [POMA docs hub](https://www.poma-ai.com/docs/)
+- [POMA on GitHub](https://github.com/poma-ai)
