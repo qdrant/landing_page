@@ -5,7 +5,12 @@
   />
   <meta charset="UTF-8" />
 
-  <title>{{ .Title }} - Qdrant</title>
+  <!-- If the title contains "qdrant", don't add the - Qdrant suffix -->
+  {{ if findRE `(?i)qdrant` .Title }}
+    <title>{{ .Title }}</title>
+  {{ else }}
+    <title>{{ .Title }} - Qdrant</title>
+  {{ end }}
 
   <link rel="icon" href="/favicon/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
