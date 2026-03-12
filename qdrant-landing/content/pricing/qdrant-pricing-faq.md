@@ -12,6 +12,6 @@ questions:
 - question: What's the Difference Between Managed, Hybrid, and Private Cloud?
   answer: Managed Cloud is fully managed by Qdrant. Hybrid Cloud lets you bring your own infrastructure while using Qdrant's management plane. Private Cloud gives you complete control with on-premise deployment.
 - question: How Is Billing Calculated Month-to-Month?
-  answer: Billing is calculated based on actual resource usage during the billing period. You're charged for compute (vCPU), memory (GB), and storage (GB) consumed by your clusters, storage (GB) consumed by backups, and used inference tokens of paid models. Usage is billed hourly, and you can monitor it through the Qdrant Cloud dashboard.
+  answer: Billing is calculated based on actual resource usage during the billing period. You're charged for compute (vCPU), memory (GB), storage (GB) consumed by your clusters, storage (GB) consumed by backups, and used inference tokens of paid models. Usage is billed hourly, and you can monitor it through the Qdrant Cloud dashboard.
 sitemapExclude: true
 ---
