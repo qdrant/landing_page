@@ -16,6 +16,6 @@ link:
   url: http://qdrant.tech/blog/series-b-announcement
 start: 2026-03-12T11:50:00.000Z
 sitemapExclude: true
-end: 2026--03-31T21:00:00.000Z
+end: 2026-03-31T21:00:00.000Z
 
 ---
