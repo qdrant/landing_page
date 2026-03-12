@@ -34,10 +34,6 @@ A retrieval pipeline that:
 - A POMA API key
 - A Qdrant cluster URL + API key (for cloud)
 
-If you need a cluster first, use Qdrant Cloud: https://cloud.qdrant.io/
-
-[**Detailed Qdrant Cluster Setup**](https://qdrant.tech/documentation/cloud/create-cluster/#create-a-cluster)
-
 ---
 
 ## 1. Get API Keys
