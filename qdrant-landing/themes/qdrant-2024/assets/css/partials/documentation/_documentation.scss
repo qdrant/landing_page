@@ -78,9 +78,15 @@
   }
 
   // Level Color-Coding
-  .text-green { color: $success-80; }
-  .text-yellow { color: $warning-80; }
-  .text-red { color: $error-50; }
+  .text-green {
+    color: $success-80;
+  }
+  .text-yellow {
+    color: $warning-80;
+  }
+  .text-red {
+    color: $error-50;
+  }
 
   @include media-breakpoint-up(xl) {
     &__container {
@@ -128,8 +134,14 @@
       color: $neutral-100;
     }
 
-    .text-green { color: color.adjust($success-50, $saturation: 5%, $lightness: 8%); }
-    .text-yellow { color: color.adjust($warning-50, $saturation: 5%, $lightness: 8%); }
-    .text-red { color: color.adjust($error-50, $lightness: 3%); }
+    .text-green {
+      color: color.adjust($success-50, $saturation: 5%, $lightness: 8%);
+    }
+    .text-yellow {
+      color: color.adjust($warning-50, $saturation: 5%, $lightness: 8%);
+    }
+    .text-red {
+      color: color.adjust($error-50, $lightness: 3%);
+    }
   }
 }

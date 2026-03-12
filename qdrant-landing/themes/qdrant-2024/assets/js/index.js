@@ -1,4 +1,5 @@
 import scrollHandler from './scroll-handler';
+import { initTabSync } from './tab-sync';
 import { XXL_BREAKPOINT } from './constants';
 import { addUTMToLinks, initGoToTopButton, persistUTMParams } from './helpers';
 import { handleSegmentReady } from './segment-helpers';
@@ -122,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   initGoToTopButton('#scrollToTopBtn');
+  initTabSync();
 
   if (document.getElementById('TableOfContents') && document.querySelector('.qdrant-post__body')) {
     new TableOfContents('#TableOfContents', '.qdrant-post__body');
@@ -155,6 +157,20 @@ document.addEventListener('DOMContentLoaded', function () {
   const accordionDarkButtons = Array.from(document.getElementsByClassName('accordion-dark__item-header'));
   accordionDarkButtons.forEach((el) => {
     el.addEventListener('click', toggleAccordion);
+  });
+
+  // Pricing doors tabs
+  const pricingDoorsTabs = document.querySelectorAll('.qdrant-pricing-doors-b__tab');
+  const pricingDoorsContainers = document.querySelectorAll('[data-doors-tab]');
+  pricingDoorsTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      pricingDoorsTabs.forEach((t) => t.classList.remove('qdrant-pricing-doors-b__tab--active'));
+      tab.classList.add('qdrant-pricing-doors-b__tab--active');
+      const targetTab = tab.dataset.tab;
+      pricingDoorsContainers.forEach((container) => {
+        container.classList.toggle('qdrant-pricing-doors-b__doors--hidden', container.dataset.doorsTab !== targetTab);
+      });
+    });
   });
 
   // scroll to anchors:

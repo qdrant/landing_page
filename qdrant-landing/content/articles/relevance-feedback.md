@@ -423,7 +423,7 @@ For ease of use, as one shouldn't need a machine learning degree to use a new fe
 
 What you need is a Qdrant collection, an idea of which feedback model you'd like to use to guide your retriever, and, optionally, a small set of use case-specific queries (50–300).
 
-We provide `QdrantRetriever` (using our [Free and Paid Tier Cloud Inference](https://qdrant.tech/documentation/cloud/inference/) or [FastEmbed](https://qdrant.tech/documentation/fastembed/) locally) and `FastembedFeedback` with bi-encoders, late interaction models, and cross-encoders as feedback model options.  
+We provide `QdrantRetriever` (using our [Cloud Inference](https://qdrant.tech/documentation/cloud/inference/) or [FastEmbed](https://qdrant.tech/documentation/fastembed/) locally) and `FastembedFeedback` with bi-encoders, late interaction models, and cross-encoders as feedback model options.  
 
 That said, you can define your own retrievers and feedback models, whatever works best for your data modality and use case.
 

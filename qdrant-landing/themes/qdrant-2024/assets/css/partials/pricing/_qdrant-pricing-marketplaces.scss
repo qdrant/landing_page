@@ -1,5 +1,5 @@
-@use '../helpers/functions' as *;
-@use '../mixins/marketplaces' as marketplaces;
+@use '../../helpers/functions' as *;
+@use '../../mixins/marketplaces' as marketplaces;
 
 .qdrant-pricing-marketplaces {
   @include marketplaces.base(

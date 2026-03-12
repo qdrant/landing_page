@@ -1,0 +1,25 @@
+{{ with (.Site.GetPage "/pricing/qdrant-pricing-hero") }}
+  <section class="qdrant-pricing-hero">
+    <div class="qdrant-pricing-hero__background">
+      <div class="qdrant-pricing-hero__grid"></div>
+    </div>
+    <div class="container">
+      <div class="qdrant-pricing-hero__content">
+        <h1 class="qdrant-pricing-hero__title">{{ .Params.title }}</h1>
+        <div class="qdrant-pricing-hero__description">{{ .Params.description }}</div>
+        <div class="qdrant-pricing-hero__actions">
+          {{ with .Params.button }}
+            <a href="{{ .url }}" class="button button_contained button_md qdrant-pricing-hero__button">
+              {{ .text }}
+            </a>
+          {{ end }}
+          {{ with .Params.link }}
+            <a href="{{ .url }}" class="link qdrant-pricing-hero__link">
+              {{ .text }}
+            </a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

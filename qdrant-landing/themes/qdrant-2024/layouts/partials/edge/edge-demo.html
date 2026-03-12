@@ -5,14 +5,19 @@
       <div class="row align-items-lg-center g-5 g-lg-0">
         <div class="col-12 col-lg-6 z-1">
           <h2 class="edge-demo__title">
-            {{ .Params.label.title }}: {{ .Params.title }}
+            {{ .Params.label.title }}:
+            {{ .Params.title }}
           </h2>
           <p class="edge-demo__description">{{ .Params.description }}</p>
           {{ with .Params.description2 }}
             <p class="edge-demo__description edge-demo__description--secondary">{{ . }}</p>
           {{ end }}
           <div class="edge-demo__buttons">
-            <a href="{{ .Params.cta.url }}" class="button button_contained button_lg edge-demo__button" target="{{ .Params.cta.target }}">
+            <a
+              href="{{ .Params.cta.url }}"
+              class="button button_contained button_lg edge-demo__button"
+              target="{{ .Params.cta.target }}"
+            >
               {{ .Params.cta.text }}
             </a>
           </div>
