@@ -198,15 +198,6 @@ cheatsheets = poma_qdrant.get_cheatsheets(
 
 ---
 
-## FAQ
-
-If you have a question, suggestion, or found something unclear in this readme, please reach out to us:  
-**sdk@poma-ai.com**
-
-Your feedback will help us expand this section into a valuable reference for everyone.
-
----
-
 ## Further details:
 
 - [POMA docs hub](https://www.poma-ai.com/docs/)
