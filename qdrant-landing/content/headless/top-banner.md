@@ -10,12 +10,12 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Qdrant 1.17 Released: Relevance feedback, performance under high write loads, & tail latency"
+text: "We raised $50M to keep building the vector search engine that AI demands"
 link:
   text: Read More
-  url: http://qdrant.tech/blog/qdrant-1.17.x
-start: 2026-02-20T16:00:00.000Z
+  url: http://qdrant.tech/blog/series-b-announcement
+start: 2026-03-12T11:50:00.000Z
 sitemapExclude: true
-end: 2026-03-10T03:00:00.000Z
+end: 2026-03-31T21:00:00.000Z
 
 ---
