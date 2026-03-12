@@ -18,16 +18,6 @@ This guide walks through the current [POMA AI](https://www.poma-ai.com/) for Qdr
 
 ---
 
-## What You Will Build
-
-A retrieval pipeline that:
-
-1. Chunks a file with the `Poma` client.
-2. Upserts chunksets into Qdrant with `PomaQdrant.upsert_poma_points(...)`.
-3. Retrieves structure-preserving cheatsheets with `PomaQdrant.get_cheatsheets(...)`.
-
----
-
 ## Prerequisites
 
 - Python 3.10+
