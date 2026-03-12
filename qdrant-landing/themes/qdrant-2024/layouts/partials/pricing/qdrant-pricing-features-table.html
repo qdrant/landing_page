@@ -1,7 +1,7 @@
 {{ $tiers := .tiers }}
 {{ $sections := .sections }}
 {{ $ctas := .ctas }}
-{{ $tierCols := slice "oss" "free-tier" "standard-tier" "premium-tier" }}
+{{ $featureKeys := slice "oss" "free" "standard" "premium" }}
 
 
 <div class="pricing-table">
@@ -12,7 +12,7 @@
         class="pricing-table__tier-tab{{ if eq $index 0 }}
           pricing-table__tier-tab--active
         {{ end }}"
-        data-tier="{{ $tier.name | urlize }}"
+        data-tier="{{ $tier.id }}"
       >
         {{ $tier.name }}
       </button>
@@ -27,7 +27,7 @@
           class="pricing-table__table-cell pricing-table__table-cell--tier{{ if .highlight }}
             pricing-table__table-cell--highlight
           {{ end }}"
-          data-tier-col="{{ .name | urlize }}"
+          data-tier-col="{{ .id }}"
         >
           {{ .name }}
         </div>
@@ -58,12 +58,19 @@
           </div>
           <div class="pricing-table__table-section-rows">
             {{ range .features }}
+              {{ $feature := . }}
               <div class="pricing-table__table-row">
                 <div class="pricing-table__table-cell pricing-table__table-cell--feature">
                   {{ .name }}
                 </div>
-                <div class="pricing-table__table-cell" data-tier-col="oss">
-                  {{ if eq .oss true }}
+                {{ range $i, $tier := $tiers }}
+                  {{ $key := index $featureKeys $i }}
+                  {{ $val := index $feature $key }}
+                  <div
+                    class="pricing-table__table-cell{{ if $tier.highlight }} pricing-table__table-cell--highlight{{ end }}"
+                    data-tier-col="{{ $tier.id }}"
+                  >
+                  {{ if eq $val true }}
                     <svg
                       class="pricing-table__check"
                       width="20"
@@ -80,7 +87,7 @@
                         stroke-linejoin="round"
                       />
                     </svg>
-                  {{ else if eq .oss false }}
+                  {{ else if eq $val false }}
                     <svg
                       class="pricing-table__x"
                       width="20"
@@ -98,126 +105,10 @@
                       />
                     </svg>
                   {{ else }}
-                    <span class="pricing-table__text">{{ .oss }}</span>
+                    <span class="pricing-table__text{{ if $tier.bold }} pricing-table__text--bold{{ end }}">{{ $val }}</span>
                   {{ end }}
-                </div>
-                <div class="pricing-table__table-cell" data-tier-col="free-tier">
-                  {{ if eq .free true }}
-                    <svg
-                      class="pricing-table__check"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16.6667 5L7.50001 14.1667L3.33334 10"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  {{ else if eq .free false }}
-                    <svg
-                      class="pricing-table__x"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M15 5L5 15M5 5L15 15"
-                        stroke="#717C99"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  {{ else }}
-                    <span class="pricing-table__text">{{ .free }}</span>
-                  {{ end }}
-                </div>
-                <div class="pricing-table__table-cell pricing-table__table-cell--highlight" data-tier-col="standard-tier">
-                  {{ if eq .standard true }}
-                    <svg
-                      class="pricing-table__check"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16.6667 5L7.50001 14.1667L3.33334 10"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  {{ else if eq .standard false }}
-                    <svg
-                      class="pricing-table__x"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M15 5L5 15M5 5L15 15"
-                        stroke="#717C99"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  {{ else }}
-                    <span class="pricing-table__text pricing-table__text--bold">{{ .standard }}</span>
-                  {{ end }}
-                </div>
-                <div class="pricing-table__table-cell" data-tier-col="premium-tier">
-                  {{ if eq .premium true }}
-                    <svg
-                      class="pricing-table__check"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16.6667 5L7.50001 14.1667L3.33334 10"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  {{ else if eq .premium false }}
-                    <svg
-                      class="pricing-table__x"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M15 5L5 15M5 5L15 15"
-                        stroke="#717C99"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  {{ else }}
-                    <span class="pricing-table__text pricing-table__text--bold">{{ .premium }}</span>
-                  {{ end }}
-                </div>
+                  </div>
+                {{ end }}
               </div>
             {{ end }}
           </div>
@@ -228,11 +119,12 @@
     <div class="pricing-table__table-footer">
       <div class="pricing-table__table-cell pricing-table__table-cell--feature"></div>
       {{ range $index, $cta := $ctas }}
+        {{ $tier := index $tiers $index }}
         <div
-          class="pricing-table__table-cell pricing-table__table-cell--cta{{ if eq $index 2 }}
+          class="pricing-table__table-cell pricing-table__table-cell--cta{{ if $tier.highlight }}
             pricing-table__table-cell--highlight
           {{ end }}"
-          data-tier-col="{{ index $tierCols $index }}"
+          data-tier-col="{{ $tier.id }}"
         >
           <a
             href="{{ $cta.url }}"

@@ -14,14 +14,22 @@ link:
   text: Try our Pricing Calculator
   url: /pricing/#calculator
 tiers:
-- name: OSS
+- id: oss
+  name: OSS
   highlight: false
-- name: Free Tier
+  bold: false
+- id: free
+  name: Free Tier
   highlight: false
-- name: Standard Tier
+  bold: false
+- id: standard
+  name: Standard Tier
   highlight: true
-- name: Premium Tier
+  bold: true
+- id: premium
+  name: Premium Tier
   highlight: false
+  bold: true
 sections:
 - name: Core Vector Search Capabilities
   features:
