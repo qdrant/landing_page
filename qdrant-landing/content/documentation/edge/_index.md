@@ -8,13 +8,13 @@ partition: qdrant
 
 # What Is Qdrant Edge?
 
-Qdrant Edge is a lightweight, embedded vector search engine for AI on devices like robots, kiosks, home assistants, and mobile phones. Designed for real-time vector search on edge devices with limited computational resources, Qdrant Edge allows applications to use Qdrant's functionality even with intermittent or no internet connectivity.
+Qdrant Edge is a lightweight, embedded vector search engine for in-process retrieval with a minimal memory footprint and no background services. Qdrant Edge is designed for applications requiring low-latency vector search in environments with limited or intermittent connectivity, such as robots, kiosks, home assistants, and mobile phones.
 
-Qdrant Edge does not run as a separate process. Instead, it runs inside an application process. Data is stored and queried locally on the device, ensuring low-latency access and enhanced privacy since data does not need to be transmitted to an external server. That said, Qdrant Edge provides APIs to [synchronize data with a Qdrant server](/documentation/edge/edge-data-synchronization-patterns/). This enables you to offload heavy computations such as indexing to more powerful server instances, back up and restore data, and centrally aggregate data from multiple edge devices. 
+Unlike Qdrant Server, which uses a client-server architecture, Qdrant Edge runs inside the application process. Think of it as SQLite, but for vector search. Data is stored and queried locally, ensuring low-latency access and enhanced privacy since data does not need to be transmitted to an external server. That said, Qdrant Edge provides APIs to [synchronize data with a Qdrant server](/documentation/edge/edge-data-synchronization-patterns/). This enables you to offload heavy computations such as indexing to more powerful server instances, back up and restore data, and centrally aggregate data from multiple edge devices. 
 
 ## Qdrant Edge Shard
 
-Qdrant Edge is built around the concept of an **Edge Shard**: a self-contained storage unit that can operate independently on edge devices. Each Edge Shard manages its own data, including vector and payload storage, and can perform local search and retrieval operations.
+Qdrant Edge is built around the concept of an **Edge Shard**: a self-contained storage unit that can operate independently. Each Edge Shard manages its own data, including vector and payload storage, and can perform local search and retrieval operations.
 
 ![Qdrant Edge Shards operate on edge devices](/documentation/edge/qdrant-edge.png)
 

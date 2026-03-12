@@ -39,7 +39,7 @@ To keep an Edge Shard updated with new data from a server collection, you can pe
 
 To synchronize data from an Edge Shard to a server collection, implement a dual-write mechanism in your application. When you add or update a point in the Edge Shard, simultaneously store it in a server collection using the Qdrant client.
 
-Instead of writing to the server collection directly, you may want to set up a background job or a message queue that handles the synchronization asynchronously. The device running the Edge Shard may not always have a stable internet connection, so queuing updates ensures that data is eventually synchronized when connectivity is restored.
+Instead of writing to the server collection directly, you may want to set up a background job or a message queue that handles the synchronization asynchronously. The application may not always have a stable internet connection, so queuing updates ensures that data is eventually synchronized when connectivity is restored.
 
 First, initialize:
 - an Edge Shard from scratch or from server-side snapshot 

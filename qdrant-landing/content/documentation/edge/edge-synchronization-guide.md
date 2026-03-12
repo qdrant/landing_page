@@ -8,18 +8,18 @@ weight: 30
 Qdrant Edge can be synchronized with a collection from an external Qdrant server to support use cases like:
 
 - **Offload indexing**: Indexing is a computationally expensive operation. By synchronizing an Edge Shard with a server collection, you can offload the indexing process to a more powerful server instance. The indexed data can then be synchronized back to the Edge Shard.
-- **Back up and Restore**: Regularly back up your Edge Shard data to a central Qdrant instance to prevent data loss. In case of hardware failure or data corruption on the edge device, you can restore the data from the central instance.
+- **Back up and Restore**: Regularly back up your Edge Shard data to a central Qdrant instance to prevent data loss. In case of hardware failure or data corruption, you can restore the data from the central instance.
 - **Data Aggregation**: Collect data from multiple Edge Shards deployed in different locations and aggregate it into a central Qdrant instance for comprehensive analysis and reporting.
 - **Synchronization between devices**: Keep data consistent across multiple edge devices by synchronizing their Edge Shards with a central Qdrant instance.
 
 ## Synchronizing Qdrant Edge with a Server
 
-To support having local updates from the device as well as updates from a server, you can implement a setup with two Edge Shards:
+To support having local updates as well as updates from a centralized server, implement a setup with two Edge Shards:
 
 - A **mutable** Edge Shard that handles local data updates.
 - An **immutable** Edge Shard that mirrors a shard from a collection on a server using partial snapshots.
 
-When querying data, merge results from both Edge Shards to provide a unified view. This way, new points added on the device are available for search alongside the data synchronized from the server.
+When querying data, merge results from both Edge Shards to provide a unified view. This way, new points added locally are available for search alongside the data synchronized from the server.
 
 ![Qdrant Edge Shards can be synchronized with a central server](/documentation/edge/qdrant-edge-sync-with-server.png)
 
