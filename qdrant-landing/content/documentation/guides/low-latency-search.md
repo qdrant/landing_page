@@ -49,4 +49,4 @@ If your application requires a consistently low search latency, set the [search 
 
 Enabling `indexed_only` can cause recently updated data to temporarily disappear from search results until it is indexed again. To mitigate this, set the `prevent_unoptimized` optimizer setting to `true` when [creating or updating a collection](/documentation/concepts/collections/#update-collection-parameters), or globally in the [configuration file](/documentation/concepts/optimizer/). This prevents the creation of large unoptimized segments by throttling updates from the update queue to match the indexing rate.
 
-<aside role="alert"><code>prevent_unoptimized</code> is an experimental feature; its behavior may change in future releases and it is not recommended for production use.</aside>
+<aside role="alert"><code>prevent_unoptimized</code> is an experimental feature; its behavior may change in future releases and it is not recommended for production use yet.</aside>
