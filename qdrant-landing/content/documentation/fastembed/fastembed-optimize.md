@@ -22,19 +22,17 @@ To configure FastEmbed for parallel processing, use the following parameters:
   - `local_inference_batch_size`: Qdrant Client parameter for batch processing. Defaults to `8`.
 - `lazy_load`: set to `True` to avoid loading the embedding model until it's needed for inference. Enabling lazy loading prevents loading the model in the main process when using multiple workers, which saves memory and reduces startup time.
 
-Furthermore, when [using GPUs](https://qdrant.github.io/fastembed/examples/FastEmbed_GPU/), configure `device_ids` with a list of GPU device IDs to assign workers to. For example, `device_ids=[0, 1]` assigns workers to GPUs 0 and 1. If not specified, FastEmbed will assign all workers to the default GPU device.
-
 ## Parallelize FastEmbed with the Qdrant Client
 
 When using FastEmbed with Qdrant Client, specify the `local_inference_batch_size` parameter when initializing the client to configure the batch size. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/fastembed/optimize/qdrant-client/" block="client-connection" >}}
 
-Next, enable lazy loading of the embedding model to avoid loading it in the main process:
+Next, when creating points, set `lazy_load` to `True` in the inference object to avoid loading the embedding model in the main process:
 
 {{< code-snippet path="/documentation/headless/snippets/fastembed/optimize/qdrant-client/" block="lazy-load" >}}
 
-When using GPUs, also specify the `device_ids` parameter to assign workers to specific GPU devices:
+When using [`fastembed-gpu`](https://qdrant.github.io/fastembed/examples/FastEmbed_GPU/), also set `cuda` to `True` to enable GPU acceleration:
 
 {{< code-snippet path="/documentation/headless/snippets/fastembed/optimize/qdrant-client/" block="lazy-load-gpu" >}}
 
@@ -48,7 +46,10 @@ When using FastEmbed as a standalone library, first enable lazy loading of the e
 
 {{< code-snippet path="/documentation/headless/snippets/fastembed/optimize/standalone/" block="lazy-load" >}}
 
-If you're using GPUs, also specify the `device_ids` parameter to assign workers to specific GPU devices:
+FastEmbed supports [distributing the workload across multiple GPU devices](https://qdrant.github.io/fastembed/examples/FastEmbed_GPU/). To enable this:
+-  Install `fastembed-gpu`.
+- Set `cuda` to `True` to enable GPU acceleration.
+- Configure `device_ids` with a list of GPU device IDs to assign workers to. For example, `device_ids=[0, 1]` assigns workers to GPUs 0 and 1. If not specified, FastEmbed will assign all workers to the default GPU device.
 
 {{< code-snippet path="/documentation/headless/snippets/fastembed/optimize/standalone/" block="lazy-load-gpu" >}}
 

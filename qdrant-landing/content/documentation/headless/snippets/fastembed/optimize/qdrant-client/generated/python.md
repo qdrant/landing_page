@@ -7,16 +7,27 @@ client = QdrantClient(
     local_inference_batch_size=256,  # FastEmbed batch size
 )
 
-client.set_model(
-    "BAAI/bge-small-en-v1.5",
-    lazy_load=True,       # don't load the model until first embed call
+point = models.PointStruct(
+    id=1,
+    vector=models.Document(
+        text="The text to embed",
+        model="BAAI/bge-small-en-v1.5",
+        options={
+            "lazy_load": True,
+        },
+    )
 )
 
-client.set_model(
-    "BAAI/bge-small-en-v1.5",
-    lazy_load=True,       # don't load the model until first embed call
-    cuda=True,            # enable GPU acceleration
-    device_ids=[0, 1],    # spread workers across GPUs 0 and 1
+point = models.PointStruct(
+    id=1,
+    vector=models.Document(
+        text="The text to embed",
+        model="BAAI/bge-small-en-v1.5",
+        options={
+            "lazy_load": True,
+            "cuda": True,
+        },
+    )
 )
 
 client.upload_points(
