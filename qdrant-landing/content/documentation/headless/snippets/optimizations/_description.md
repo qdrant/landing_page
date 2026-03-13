@@ -1,0 +1,1 @@
+This code snippet demonstrates how to monitor optimization activities for a specific collection on a specific node. By specifying the `with` query parameter, you can retrieve additional details about the optimization status. In this example, the request will return additional information about queued and completed optimizations for the specified collection.

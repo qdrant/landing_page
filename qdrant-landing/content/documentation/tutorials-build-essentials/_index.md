@@ -3,7 +3,7 @@ title: Essential Examples
 weight: 21
 partition: build 
 ---
-# Essential Examples
+# Integration Examples
 
 *Step-by-step guides for connecting Qdrant to the broader AI ecosystem and data stacks.*
 

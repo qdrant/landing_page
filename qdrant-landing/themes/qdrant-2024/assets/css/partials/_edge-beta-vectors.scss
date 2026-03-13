@@ -56,7 +56,7 @@
       &:nth-of-type(4) {
         & > div {
           &:before {
-            content: "";
+            content: '';
             display: block;
             height: 100%;
             width: pxToRem(1);
@@ -72,7 +72,7 @@
       &:nth-of-type(2) {
         & > div {
           &:after {
-            content: "";
+            content: '';
             display: block;
             width: 100%;
             height: pxToRem(1);

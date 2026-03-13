@@ -41,7 +41,7 @@
     margin-bottom: $spacer * 5;
   }
 
-  &__extra-block{
+  &__extra-block {
     display: flex;
     flex-direction: column;
     gap: $spacer * 2;
@@ -71,7 +71,7 @@
     text-align: center;
 
     &:before {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       width: 100%;
@@ -116,7 +116,7 @@
       margin-bottom: $spacer * 7.5;
     }
 
-    &__extra-block{
+    &__extra-block {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;

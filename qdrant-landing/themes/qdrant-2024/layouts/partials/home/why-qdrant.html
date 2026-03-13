@@ -1,0 +1,27 @@
+{{ with (.Site.GetPage "/headless/main/why-qdrant") }}
+  <section class="why-qdrant">
+    <div class="container">
+      <div class="why-qdrant__header">
+        <span class="why-qdrant__pill">{{ .Params.pill }}</span>
+        <h2 class="why-qdrant__title">{{ .Params.title }}</h2>
+        <p class="why-qdrant__subtitle">{{ .Params.subtitle }}</p>
+      </div>
+      <div class="why-qdrant__grid">
+        {{ range .Params.featureCards }}
+          <div class="why-qdrant__card why-qdrant__card--{{ .size }}" data-card-id="{{ .id }}">
+            <div class="why-qdrant__card-visual why-qdrant__card-visual--{{ .id }}">
+              {{ if .image }}
+                {{ partial "picture" (dict "src" .image.src "alt" .image.alt "class" "why-qdrant__card-image" "loading" "lazy" "decoding" "async") }}
+              {{ end }}
+            </div>
+            <div class="why-qdrant__card-content">
+              <h3 class="why-qdrant__card-title">{{ .title }}</h3>
+              <p class="why-qdrant__card-description">{{ .description | safeHTML }}</p>
+              <a href="{{ .link.url }}" class="link link_md why-qdrant__card-link">{{ .link.text }}</a>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

@@ -12,6 +12,7 @@
 <!-- Extract shortcode parameters -->
 {{ $path := .Get "path" }}
 {{ $order := .Get "order" }}
+{{ $block := .Get "block" }}
 
 
 <!-- Convert order string to a slice if provided -->
@@ -53,7 +54,7 @@
 <!-- Read all files from the given path -->
 {{ $files := dict }}
 
-{{ range $dir := slice (printf "content/%s" $path) (printf "content/%s/generated" $path) }}
+{{ range $dir := slice (printf "content/%s" $path) (printf "content/%s/generated/%s" $path $block) }}
   {{ if not (fileExists $dir) }}
     {{ continue }}
   {{ end }}

@@ -13,4 +13,3 @@
   {{ $documentationJs := resources.Get "/js/documentation.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $documentationJs.RelPermalink }}"></script>
 {{ end }}
-

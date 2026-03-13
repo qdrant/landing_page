@@ -1,5 +1,5 @@
 ---
-title: 5 Minute RAG with Qdrant and DeepSeek
+title: 5-Minute RAG with DeepSeek
 weight: 6
 partition: build
 social_preview_image: /documentation/examples/rag-deepseek/social_preview.png
@@ -7,9 +7,9 @@ aliases:
     - /documentation/rag-deepseek/
 ---
 
-![deepseek-rag-qdrant](/documentation/examples/rag-deepseek/deepseek.png)
+<!-- ![deepseek-rag-qdrant](/documentation/examples/rag-deepseek/deepseek.png) -->
 
-# 5 Minute RAG with Qdrant and DeepSeek
+# RAG in 5 Minutes with DeepSeek and Qdrant
 
 | Time: 5 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/blob/master/rag-with-qdrant-deepseek/deepseek-qdrant.ipynb) |
 | --- | ----------- | ----------- |----------- |

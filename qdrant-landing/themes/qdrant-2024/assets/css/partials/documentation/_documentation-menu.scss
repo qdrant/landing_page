@@ -101,7 +101,7 @@
       }
 
       &.active {
-        &>.docs-menu__links-group-heading>a {
+        & > .docs-menu__links-group-heading > a {
           font-weight: 600;
           background-color: $neutral-30;
           color: $neutral-90;
@@ -181,7 +181,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0  math.div($spacer, 2);
+    padding: 0 math.div($spacer, 2);
 
     &-container {
       width: pxToRem(168);
@@ -232,7 +232,7 @@
         }
       }
 
-      &> :last-child {
+      & > :last-child {
         padding-bottom: $spacer;
         border-bottom: pxToRem(1) solid $neutral-20;
       }
@@ -245,10 +245,9 @@
       }
     }
 
-
     &__links-group {
       &.active {
-        &>.docs-menu__links-group-heading>a {
+        & > .docs-menu__links-group-heading > a {
           background-color: $neutral-20;
         }
 
@@ -327,7 +326,7 @@
         }
 
         &.active {
-          &>.docs-menu__links-group-heading>a {
+          & > .docs-menu__links-group-heading > a {
             color: $primary-50;
             background: $neutral-90;
           }
@@ -363,7 +362,7 @@
       }
     }
 
-    &__links> :last-child,
+    &__links > :last-child,
     &__links-title:not(:nth-of-type(1)) {
       border-color: $neutral-80;
     }
@@ -373,7 +372,7 @@
 
       &__links-group {
         &.active {
-          &>.docs-menu__links-group-heading>a {
+          & > .docs-menu__links-group-heading > a {
             color: $neutral-30;
           }
         }

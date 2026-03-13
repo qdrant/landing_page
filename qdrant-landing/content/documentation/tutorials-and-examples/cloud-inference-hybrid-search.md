@@ -1,9 +1,13 @@
 ---
-title: Using Cloud Inference to Build Hybrid Search
+title: Cloud Inference Hybrid Search
 hideInSidebar: true
 weight: 35
 ---
-# Using Cloud Inference with Qdrant for Vector Search
+# Hybrid Search Using Qdrant Cloud Inference
+
+| Time: 30 min | Level: Intermediate |
+| --- | ----------- |
+
 In this tutorial, we'll walkthrough building a **hybrid semantic search engine** using Qdrant Cloud's built-in [inference](/documentation/cloud/inference/) capabilities. You'll learn how to:
 - Automatically embed your data using [cloud Inference](/documentation/cloud/inference/) without needing to run local models,
 - Combine dense semantic embeddings with [sparse BM25 keywords](https://qdrant.tech/documentation/advanced-tutorials/reranking-hybrid-search/),  and

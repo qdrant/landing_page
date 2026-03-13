@@ -1,0 +1,44 @@
+{{ $tables := .Params.tables | default slice }}
+{{ $showTabs := gt (len $tables) 1 }}
+
+<section class="qdrant-pricing-features">
+  <div class="container">
+    <div class="qdrant-pricing-features__header">
+      <h2 class="qdrant-pricing-features__title">{{ .Params.title }}</h2>
+      {{ if $showTabs }}
+        <div class="qdrant-pricing-features__tabs" data-tab-sync="pricing-deployment">
+          {{ range $index, $table := $tables }}
+            <button
+              class="qdrant-pricing-features__tab{{ if eq $index 0 }} qdrant-pricing-features__tab--active{{ end }}"
+              data-tab="{{ $table.id }}"
+            >
+              {{ $table.label }}
+            </button>
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+
+    {{ range $index, $table := $tables }}
+      {{ if and $table.tiers $table.sections }}
+        <div
+          class="qdrant-pricing-features__table-wrapper{{ if and $showTabs (gt $index 0) }} qdrant-pricing-features__table-wrapper--hidden{{ end }}"
+          data-features-tab="{{ $table.id }}"
+        >
+          {{ partial "pricing/qdrant-pricing-features-table" (dict
+            "tiers" $table.tiers
+            "sections" $table.sections
+            "ctas" $table.ctas
+            )
+          }}
+        </div>
+      {{ end }}
+    {{ end }}
+
+    {{ with .Params.compareButton }}
+      <div class="qdrant-pricing-features__compare">
+        <a href="{{ .url }}" class="button button_outlined">{{ .text }}</a>
+      </div>
+    {{ end }}
+  </div>
+</section>

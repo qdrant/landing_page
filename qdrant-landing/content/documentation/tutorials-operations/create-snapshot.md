@@ -1,12 +1,12 @@
 ---
-title: Create & Restore Snapshots
+title: Snapshots
 aliases:
   - /documentation/tutorials/create-snapshot/
   - /documentation/database-tutorials/create-snapshot/
-weight: 2
+weight: 10
 ---
 
-# Backup and Restore Qdrant Collections Using Snapshots
+# Backup & Restore Qdrant with Snapshots
 
 | Time: 20 min | Level: Beginner |  |    |
 |--------------|-----------------|--|----|

@@ -1,12 +1,12 @@
 ---
-title: How to Setup Seamless Data Streaming with Kafka and Qdrant
+title: Kafka Streaming into Qdrant
 weight: 49
 hideInSidebar: true
 aliases:
   - /examples/data-streaming-kafka-qdrant/
 ---
 
-# Setup Data Streaming with Kafka via Confluent
+# Stream Real-Time Data into Qdrant with Kafka and Confluent
 
 **Author:** [M K Pavan Kumar](https://www.linkedin.com/in/kameshwara-pavan-kumar-mantha-91678b21/) , research scholar at [IIITDM, Kurnool](https://iiitk.ac.in). Specialist in hallucination mitigation techniques and RAG methodologies. 
 • [GitHub](https://github.com/pavanjava) • [Medium](https://medium.com/@manthapavankumar11)  

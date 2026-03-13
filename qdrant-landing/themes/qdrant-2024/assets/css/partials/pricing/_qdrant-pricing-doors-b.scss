@@ -1,0 +1,366 @@
+@use '../../helpers/functions' as *;
+
+.qdrant-pricing-doors-b {
+  padding: 0 0 $spacer * 2;
+  background-color: $neutral-94;
+
+  &__tabs {
+    display: flex;
+    justify-content: center;
+    gap: $spacer * 0.5;
+    padding: 4px;
+    margin-bottom: $spacer * 2;
+    background-color: $neutral-98;
+    border: 0.5px solid $neutral-80;
+    border-radius: pxToRem(8);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__tab {
+    padding: $spacer * 0.5 $spacer * 1.5;
+    min-width: pxToRem(160);
+    height: pxToRem(40);
+    font-size: pxToRem(16);
+    font-weight: 400;
+    line-height: 1.5;
+    color: $neutral-30;
+    background: transparent;
+    border: none;
+    border-radius: pxToRem(8);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: rgba($neutral-94, 0.5);
+    }
+
+    &--active {
+      font-weight: 600;
+      color: $neutral-20;
+      background-color: $neutral-94;
+    }
+  }
+
+  &__doors-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__doors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto 1fr auto;
+    width: 100%;
+    max-width: pxToRem(1110);
+    margin: 0 auto;
+
+    &--hidden {
+      display: none;
+    }
+
+    &[data-doors-tab='on-premise'] {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto auto 1fr 1fr auto;
+      max-width: pxToRem(1300);
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &__door {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 4;
+    background-color: $neutral-98;
+
+    [data-doors-tab='on-premise'] & {
+      grid-row: span 5;
+      grid-template-rows: subgrid;
+    }
+    border: 0.5px solid $neutral-80;
+    border-right: none;
+
+    &:first-child {
+      border-radius: pxToRem(8) 0 0 pxToRem(8);
+    }
+
+    &:last-child {
+      border-right: 0.5px solid $neutral-80;
+      border-radius: 0 pxToRem(8) pxToRem(8) 0;
+    }
+
+    &--paid {
+      /* Don't add full border - it doubles with neighbors; use background for emphasis */
+      background-color: #f5f8ff;
+    }
+  }
+
+  &__heading {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 0.5;
+    padding: $spacer * 1.5 $spacer * 2;
+    border-bottom: 0.5px solid $neutral-80;
+    min-height: pxToRem(135);
+
+    &:has(.qdrant-pricing-doors-b__badge) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      min-height: auto;
+    }
+  }
+
+  &__title {
+    font-size: pxToRem(24);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+    margin: 0;
+  }
+
+  &__badge {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(6);
+    padding: pxToRem(4) $spacer * 0.5;
+    background-color: $neutral-94;
+    border: 0.5px solid $neutral-80;
+    border-radius: pxToRem(8);
+    flex-shrink: 0;
+
+    span {
+      font-size: pxToRem(14);
+      font-weight: 400;
+      line-height: 1.5;
+      color: $neutral-30;
+    }
+
+    svg {
+      display: block;
+      width: pxToRem(20);
+      height: pxToRem(20);
+    }
+  }
+
+  &__pricing {
+    display: flex;
+    flex-direction: column;
+    font-size: pxToRem(16);
+    font-weight: 500;
+    line-height: 1.5;
+    color: $neutral-30;
+  }
+
+  &__pricing-main {
+    display: block;
+  }
+
+  &__pricing-note {
+    display: block;
+  }
+
+  &__target {
+    padding: $spacer $spacer * 2;
+    border-bottom: 0.5px solid $neutral-80;
+    min-height: pxToRem(80);
+
+    p {
+      margin: 0;
+      font-size: pxToRem(16);
+      font-weight: 400;
+      line-height: 1.5;
+      color: $neutral-30;
+    }
+  }
+
+  &__features {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 0.5;
+    padding: $spacer $spacer * 2;
+    border-bottom: 0.5px solid $neutral-80;
+    min-height: pxToRem(168);
+
+    [data-doors-tab='on-premise'] & {
+      min-height: auto;
+    }
+  }
+
+  &__feature-group-label {
+    margin: 0;
+    font-size: pxToRem(16);
+    font-weight: 500;
+    line-height: 1.5;
+    color: $neutral-20;
+  }
+
+  &__feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 0.5;
+  }
+
+  &__feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacer * 0.5;
+    font-size: pxToRem(14);
+    font-weight: 400;
+    line-height: 1.5;
+    color: $neutral-30;
+
+    span {
+      flex: 1;
+    }
+  }
+
+  &__check-icon {
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: $neutral-30;
+  }
+
+  &__marketplace {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 0.5;
+  }
+
+  &__marketplace-label {
+    font-size: pxToRem(14);
+    font-weight: 500;
+    line-height: 1.5;
+    color: $neutral-30;
+    margin: 0;
+  }
+
+  &__marketplace-logos {
+    display: flex;
+    gap: $spacer * 0.5;
+  }
+
+  &__marketplace-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(32);
+    height: pxToRem(32);
+    border: 0.5px solid $neutral-80;
+    border-radius: pxToRem(3);
+    background-color: $neutral-100;
+
+    svg {
+      display: block;
+    }
+  }
+
+  &__contact-link {
+    align-self: flex-start;
+    width: fit-content;
+    font-size: pxToRem(16);
+  }
+
+  &__cta {
+    padding: $spacer * 1.5 $spacer * 2;
+    margin-top: auto;
+  }
+
+  &__cta-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: pxToRem(40);
+    padding: $spacer * 0.5 $spacer * 1.375;
+    font-size: pxToRem(16);
+    font-weight: 600;
+    line-height: 1.5;
+    text-decoration: none;
+    border-radius: pxToRem(8);
+    transition: all 0.2s ease;
+
+    &--outlined {
+      color: $neutral-20;
+      background-color: transparent;
+      border: 1px solid $neutral-60;
+
+      &:hover {
+        background-color: rgba($neutral-90, 0.5);
+      }
+    }
+
+    &--contained {
+      color: $neutral-100;
+      background: linear-gradient(180deg, $primary-50 0%, #be003a 100%);
+      border: none;
+      box-shadow: inset 0px 2px 1px 0px #ff516b;
+
+      &:hover {
+        filter: brightness(1.05);
+      }
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding: 0 0 $spacer * 2;
+
+    &__tabs {
+      width: 100%;
+    }
+
+    &__tab {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &__doors-wrapper {
+      width: 100%;
+    }
+
+    &__doors {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: unset;
+      grid-template-rows: unset;
+      gap: $spacer * 1.5;
+
+      &--hidden {
+        display: none;
+      }
+    }
+
+    &__door {
+      display: flex;
+      flex-direction: column;
+      grid-row: unset;
+      grid-template-rows: unset;
+      border-radius: pxToRem(8);
+      border: 0.5px solid $neutral-80;
+      border-right: 0.5px solid $neutral-80;
+
+      &:first-child,
+      &:last-child {
+        border-radius: pxToRem(8);
+        border-right: 0.5px solid $neutral-80;
+      }
+    }
+
+    &__heading,
+    &__target,
+    &__features {
+      min-height: auto;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: 0 0 $spacer * 2;
+  }
+}

@@ -5,7 +5,7 @@ tag:
     src: /icons/outline/cart-teal.svg
     alt: Shopping Cart
 title: AI-Powered Vector Search for Smarter <span class="text-nowrap">Shopping & Personalized</span> E-Commerce
-description: Drive conversions with AI-powered vector search that delivers hyper-relevant product discovery, personalized recommendations, and fraud detection—all powered by Qdrant’s enterprise-grade vector database.
+description: Drive conversions with AI-powered vector search that delivers hyper-relevant product discovery, personalized recommendations, and fraud detection—all powered by Qdrant’s enterprise-grade vector search.
 startFree:
   text: Get Started
   url: https://cloud.qdrant.io/signup

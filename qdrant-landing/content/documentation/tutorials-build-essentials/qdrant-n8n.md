@@ -1,5 +1,5 @@
 ---
-title: Automating Processes with Qdrant and n8n
+title: n8n Workflow Automation
 weight: 7
 #partition: build
 social_preview_image: /documentation/examples/qdrant-n8n-2/preview/social_preview.png
@@ -9,9 +9,9 @@ aliases:
 
 ---
 
-![n8n-qdrant](/documentation/examples/qdrant-n8n-2/cover.png)
+<!-- ![n8n-qdrant](/documentation/examples/qdrant-n8n-2/cover.png) -->
 
-# Automating Processes with Qdrant and n8n beyond simple RAG
+# Automate Qdrant Workflows with n8n
 
 | Time: 45 min | Level: Intermediate |
 | --- | ----------- |

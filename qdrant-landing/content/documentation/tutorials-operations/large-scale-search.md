@@ -1,12 +1,12 @@
 ---
-title: Large Scale Search
+title: Large-Scale Search
 aliases:
     - /documentation/database-tutorials/large-scale-search/
-weight: 2
+weight: 40
 ---
 
 
-# Upload and Search Large collections cost-efficiently
+# Large-Scale Search in Qdrant
 
 | Time: 2 days | Level: Advanced |  |    |
 |--------------|-----------------|--|----|

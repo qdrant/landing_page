@@ -47,7 +47,7 @@
     }
 
     &-section {
-      width: calc(50% - math.div($spacer, 2))
+      width: calc(50% - math.div($spacer, 2));
     }
 
     &-section-title {

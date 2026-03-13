@@ -1,0 +1,44 @@
+@use '../../helpers/functions' as *;
+
+.customers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: pxToRem(64) pxToRem(20) pxToRem(80);
+  background: $neutral-10;
+
+  .container {
+    width: 100%;
+    max-width: pxToRem(1110);
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: pxToRem(24) pxToRem(8);
+    width: 100%;
+  }
+
+  &__logo {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(103); // (1110 - 9*8)/10 so 10 logos fit per row on 2 lines
+    height: pxToRem(56);
+    padding: 0 pxToRem(10);
+
+    svg {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+}

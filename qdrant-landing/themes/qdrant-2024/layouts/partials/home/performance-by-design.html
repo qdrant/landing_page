@@ -1,0 +1,110 @@
+{{ with (.Site.GetPage "/headless/main/performance-by-design") }}
+  <section class="performance-by-design">
+    <div class="container">
+      <div class="performance-by-design__header">
+        <span class="performance-by-design__tagline">{{ .Params.tagline }}</span>
+        <h2 class="performance-by-design__title">{{ .Params.title }}</h2>
+        <p class="performance-by-design__subtitle">{{ .Params.subtitle }}</p>
+      </div>
+
+      {{/* Slider layout: visible only below md */}}
+      <div class="performance-by-design__slider">
+        <div class="performance-by-design__content">
+          <div class="performance-by-design__features">
+            {{ range $index, $feature := .Params.features }}
+              <div class="performance-by-design__feature{{ if eq $index 0 }} performance-by-design__feature--active{{ end }}" data-feature-index="{{ $index }}">
+                <h3 class="performance-by-design__feature-title">{{ $feature.title }}</h3>
+                <div class="performance-by-design__feature-body">
+                  <p class="performance-by-design__feature-description">{{ $feature.description }}</p>
+                </div>
+              </div>
+            {{ end }}
+          </div>
+          <div class="performance-by-design__visual">
+            {{ range $index, $feature := .Params.features }}
+              <div class="performance-by-design__image{{ if eq $index 0 }} performance-by-design__image--active{{ end }}" data-image-index="{{ $index }}">
+                {{ if $feature.image }}
+                  {{ partial "picture" (dict "src" $feature.image.src "alt" $feature.image.alt "loading" "lazy" "decoding" "async") }}
+                {{ end }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+
+      {{/* Card grid: visible from md up, 2 cards per row */}}
+      <div class="performance-by-design__grid">
+        {{ range .Params.features }}
+          <div class="performance-by-design__card">
+            {{ if .image }}
+              <div class="performance-by-design__card-visual">
+                {{ partial "picture" (dict "src" .image.src "alt" .image.alt "class" "performance-by-design__card-image" "loading" "lazy" "decoding" "async") }}
+              </div>
+            {{ end }}
+            <div class="performance-by-design__card-content">
+              <h3 class="performance-by-design__card-title">{{ .title }}</h3>
+              <p class="performance-by-design__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var section = document.querySelector('.performance-by-design');
+      if (!section) return;
+
+      var features = section.querySelectorAll('.performance-by-design__feature');
+      var images = section.querySelectorAll('.performance-by-design__image');
+      if (!features.length) return;
+
+      var currentIndex = 0;
+      var autoplayInterval = null;
+      var AUTOPLAY_DELAY = 5000;
+
+      function goToFeature(index) {
+        if (index < 0 || index >= features.length) return;
+
+        features.forEach(function (f) {
+          f.classList.remove('performance-by-design__feature--active');
+        });
+        images.forEach(function (img) {
+          img.classList.remove('performance-by-design__image--active');
+        });
+
+        features[index].classList.add('performance-by-design__feature--active');
+        if (images[index]) images[index].classList.add('performance-by-design__image--active');
+
+        currentIndex = index;
+      }
+
+      function nextFeature() {
+        var next = (currentIndex + 1) % features.length;
+        goToFeature(next);
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayInterval = setInterval(nextFeature, AUTOPLAY_DELAY);
+      }
+
+      function stopAutoplay() {
+        if (autoplayInterval) {
+          clearInterval(autoplayInterval);
+          autoplayInterval = null;
+        }
+      }
+
+      features.forEach(function (feature, i) {
+        feature.addEventListener('click', function () {
+          goToFeature(i);
+          startAutoplay();
+        });
+      });
+
+      startAutoplay();
+    })();
+  </script>
+{{ end }}

@@ -234,7 +234,7 @@ Query: 'alien invasion'
 
 ## Step 6: Advanced Features
 
-Note: If you are already familiar Qdrant's filterable HNSW, you will know that effective filtering and grouping often relies on creating a [payload index](/documentation/concepts/indexing/#payload-index) before building HNSW indexes. To keep things simple in this tutorial, we will do a basic search with filters without payload indexes and talk about proper usage of payload indexes on [day 2](/content/course/essentials/day-2/_index.md) of this course.
+Note: If you are already familiar Qdrant's filterable HNSW, you will know that effective filtering and grouping often relies on creating a [payload index](/documentation/concepts/indexing/#payload-index) before building HNSW indexes. To keep things simple in this tutorial, we will do a basic search with filters without payload indexes and talk about proper usage of payload indexes on [Day 2](/content/course/essentials/day-2/_index.md) of this course.
 
 
 ### Filtering by Metadata

@@ -170,7 +170,7 @@ The following parameters can be updated:
 * `hnsw_config` - see [indexing](/documentation/concepts/indexing/#vector-index) for details.
 * `quantization_config` - see [quantization](/documentation/guides/quantization/#setting-up-quantization-in-qdrant) for details.
 * `vectors_config` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
-* `params` - other collection parameters, including `write_consistency_factor` and `on_disk_payload`. 
+* `params` - other collection parameters, including `read_fan_out_delay_ms`, `write_consistency_factor` and `on_disk_payload`. 
 * `strict_mode_config` - see [strict mode](/documentation/guides/administration/#strict-mode) for details.
 
 Full API specification is available in [schema definitions](https://api.qdrant.tech/api-reference/collections/update-collection).

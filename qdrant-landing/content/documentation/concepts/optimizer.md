@@ -119,3 +119,34 @@ storage:
 In addition to the configuration file, you can also set optimizer parameters separately for each [collection](/documentation/concepts/collections/).
 
 Dynamic parameter updates may be useful, for example, for more efficient initial loading of points. You can disable indexing during the upload process with these settings and enable it immediately after it is finished. As a result, you will not waste extra computation resources on rebuilding the index.
+
+## Optimization Monitoring
+
+*Available as of v1.17.0*
+
+The `/collections/{collection_name}/optimizations` API endpoint returns information about the optimization of a specific collection, including:
+- A summary of optimization activity, with the number of queued optimizations, queued segments, queued points, and idle segments (segments that need no optimization).
+- Details about any currently running optimization, including:
+  - the specific optimizer
+  - its status
+  - the segments involved
+  - its progress
+
+Optionally, you can use the `with` query parameter with one or more of the following comma-separated values to retrieve additional information:
+- `queued`, to return a list of queued optimizations
+- `completed`, to return a list of completed optimizations
+- `idle_segments`, to return a list of idle segments
+
+For example:
+
+{{< code-snippet path="/documentation/headless/snippets/optimizations/" >}}
+
+### Web UI
+
+The same information is also accessible via the **Optimizations** tab within the **Collections** interface in [the Web UI](/documentation/web-ui/). For a specific collection, this tab provides an overview of the current optimization status and a timeline of current and past optimization cycles:
+
+![The Optimizations tab in Web UI shows progress and a timeline of optimization cycles](/docs/web-ui-optimizations-progress-timeline.png)
+
+Selecting a specific optimization cycle from the timeline provides detailed information about the tasks performed during that cycle, including their durations:
+
+![The Optimizations tab in Web UI provides access to detailed information about optimization tasks and their durations](/docs/web-ui-optimizations-tree.png)

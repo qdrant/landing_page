@@ -1,5 +1,5 @@
 ---
-title: Data Ingestion for Beginners
+title: S3 Ingestion with LangChain
 weight: 2
 partition: build
 hideInSidebar: true
@@ -7,9 +7,9 @@ social_preview_image: /documentation/examples/data-ingestion-beginners/social_pr
 aliases:
   - /documentation/data-ingestion-beginners/
 ---
-![data-ingestion-beginners-7](/documentation/examples/data-ingestion-beginners/data-ingestion-7.png)
+<!-- ![data-ingestion-beginners-7](/documentation/examples/data-ingestion-beginners/data-ingestion-7.png) -->
 
-# Send S3 Data to Qdrant Vector Store with LangChain
+# S3 Ingestion with LangChain and Qdrant
 
 | Time: 30 min | Level: Beginner |  |    |
 | --- | ----------- | ----------- |----------- |

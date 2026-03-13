@@ -1,0 +1,159 @@
+@use 'sass:math';
+@use '../helpers/functions' as *;
+
+.cta-banner {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__banner {
+    position: relative;
+    overflow: hidden;
+    border-radius: pxToRem(16);
+    background: linear-gradient(to bottom, $neutral-20, #0e1424);
+  }
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &__content {
+    position: relative;
+    padding: $spacer * 2.5 $spacer * 3;
+    padding-bottom: pxToRem(450);
+    z-index: 1;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0 0 $spacer;
+    font-size: $spacer * 2;
+    line-height: pxToRem(38);
+    letter-spacing: -0.5px;
+    color: $neutral-98;
+  }
+
+  &__description {
+    margin: 0 0 $spacer * 2;
+    font-size: pxToRem(18);
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    color: $neutral-90;
+  }
+
+  &__illustration {
+    display: block;
+    position: absolute;
+    left: auto;
+    right: -10%;
+    bottom: 0;
+    pointer-events: none;
+
+    img {
+      height: 100%;
+      width: auto;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__content {
+      padding: $spacer * 5 $spacer * 1.25;
+      padding-bottom: pxToRem(400);
+    }
+
+    &__title {
+      margin: 0 0 $spacer;
+      font-size: pxToRem(40);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+
+    &__description {
+      margin: 0 0 $spacer * 2;
+      font-size: pxToRem(20);
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: -0.2px;
+    }
+  }
+
+  &__button {
+    white-space: nowrap;
+  }
+
+  &__illustration {
+    display: block;
+    right: 0;
+    &::before {
+      display: block;
+      content: '';
+      height: 50px;
+      background: linear-gradient(to bottom, #0c1220, 30%, transparent);
+      position: absolute;
+      left: 0;
+      right: 0;
+      z-index: 1;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__content {
+      padding: $spacer * 3 $spacer * 4;
+    }
+
+    &__text {
+      align-items: flex-start;
+      text-align: left;
+      max-width: pxToRem(500);
+    }
+
+    &__title {
+      font-size: $spacer * 2.5;
+      line-height: pxToRem(48);
+    }
+
+    &__description {
+      font-size: pxToRem(20);
+      line-height: 1.5;
+    }
+
+    &__illustration {
+      &::before {
+        display: none;
+      }
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      pointer-events: none;
+
+      img {
+        height: 100%;
+        width: auto;
+      }
+    }
+  }
+}

@@ -6,7 +6,7 @@ breadcrumb: false
 content:
   - partial: "documentation/banners/banner-a"
     title: Qdrant Documentation
-    description: Qdrant is an AI-native vector database and a semantic search engine. You can use it to extract meaningful information from unstructured data.
+    description: Qdrant is an AI-native vector search and a semantic search engine. You can use it to extract meaningful information from unstructured data.
     linkDescription: <a href="https://github.com/qdrant/qdrant_demo/" target="_blank">Clone this repo now</a> and build a search engine in five minutes.
     cloudButton:
       text: Cloud Quickstart
@@ -72,7 +72,7 @@ THIS CONTENT IS GOING TO BE IGNORED FOR NOW
 
 # Documentation
 
-Qdrant is an AI-native vector database and a semantic search engine. You can use it to extract meaningful information from unstructured data. Want to see how it works? [Clone this repo now](https://github.com/qdrant/qdrant_demo/) and build a search engine in five minutes.
+Qdrant is an AI-native vector search and a semantic search engine. You can use it to extract meaningful information from unstructured data. Want to see how it works? [Clone this repo now](https://github.com/qdrant/qdrant_demo/) and build a search engine in five minutes.
 
 |||
 |-:|:-|

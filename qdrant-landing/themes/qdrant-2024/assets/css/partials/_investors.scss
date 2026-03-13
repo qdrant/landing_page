@@ -1,90 +1,119 @@
 @use '../helpers/functions' as *;
 
 .investors {
-  padding-top: $spacer * 4;
   background-color: $neutral-94;
+  padding: pxToRem(64) 0 pxToRem(80);
   position: relative;
 
-  &__title {
-    font-size: map-get($font-sizes, 4);
-    line-height: pxToRem(48);
-    text-align: center;
-    margin-bottom: $spacer * 4;
-    color: $neutral-20;
+  &__container {
+    position: relative;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background-color: $neutral-90;
+      left: 0;
+      top: pxToRem(-64);
+    }
   }
 
-  &__links {
+  &__title {
+    font-size: $h3-font-size;
+    font-weight: $font-weight-semibold;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    text-align: center;
+    color: $neutral-20;
+    margin: 0 0 pxToRem(48);
+  }
+
+  &__content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: pxToRem(30);
-    margin-bottom: $spacer * 4;
+    gap: pxToRem(32);
   }
 
   &__logos {
+    order: 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: pxToRem(16);
+    justify-items: stretch;
+  }
+
+  &__card {
+    background-color: $neutral-98;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(8);
+    height: pxToRem(80);
     display: flex;
-    flex-direction: column;
-    position: relative;
-    row-gap: $spacer * 4;
-    z-index: 1;
+    align-items: center;
+    justify-content: center;
+    padding: pxToRem(24) $spacer * 2;
   }
 
   &__logo {
-    height: $spacer * 2.5;
-
-    &:nth-of-type(2) {
-      height: pxToRem(38);
-    }
-
-    &:nth-of-type(3) {
-      height: pxToRem(44);
-    }
-
-    &:nth-of-type(4) {
-      height: $spacer * 2;
-    }
+    max-height: pxToRem(44);
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
   }
 
-  &__overlay {
-    display: none;
+  &__links {
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
-  @include media-breakpoint-up(xl) {
-    padding-top: $spacer * 5;
+  &__link-outer {
+    width: 100%;
+    padding: pxToRem(30) 0;
+    border-top: 1px solid $neutral-90;
+  }
 
-    &__title {
-      font-size: map-get($font-sizes, 3);
-      line-height: pxToRem(58);
-      margin-bottom: $spacer * 2.5;
-    }
+  &__link-outer:last-child {
+    border-bottom: 1px solid $neutral-90;
+  }
 
-    &__links {
+  &__link {
+    font-weight: 350;
+    padding-right: pxToRem(20);
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__content {
       flex-direction: row;
-      margin-bottom: pxToRem(-5);
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: pxToRem(48);
     }
 
     &__logos {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      min-height: pxToRem(240);
+      order: 1;
+      flex: 1 1 0;
+      min-width: 0;
     }
 
-    &__overlay {
-      display: block;
-      position: absolute;
-      left: 0;
-      right: 0;
-      margin: auto;
+    &__links {
+      order: 2;
+      flex: 0 0 35%;
+      align-items: flex-start;
+    }
+
+    &__link-outer {
       width: 100%;
-      max-width: pxToRem(1440);
-      height: pxToRem(322);
-      bottom: 0;
-      background-image: url('../../img/grid.svg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+
+      &:last-child {
+        border-bottom: none;
+      }
     }
   }
 }

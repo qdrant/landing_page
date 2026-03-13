@@ -1,0 +1,1 @@
+This code snippet lists all custom shard keys in a collection.

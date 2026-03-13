@@ -5,7 +5,12 @@
   />
   <meta charset="UTF-8" />
 
-  <title>{{ .Title }} - Qdrant</title>
+  <!-- If the title contains "qdrant", don't add the - Qdrant suffix -->
+  {{ if findRE `(?i)qdrant` .Title }}
+    <title>{{ .Title }}</title>
+  {{ else }}
+    <title>{{ .Title }} - Qdrant</title>
+  {{ end }}
 
   <link rel="icon" href="/favicon/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
@@ -24,10 +29,21 @@
 
   {{ $partition := partial "get-partition.html" (dict "page" .) }}
   {{ if $partition }}
-    <meta name="partition" content="{{ $partition | safeHTML }}">
+    <meta name="partition" content="{{ $partition | safeHTML }}" />
   {{ end }}
 
   {{ partial "css" . }}
+
+  {{ if .IsHome }}
+    {{ with .Site.GetPage "/headless/main/hero" }}
+      {{ with .Params.astronauts }}
+        <link rel="preload" as="image" type="image/webp" fetchpriority="high"
+          imagesrcset="{{ .webpSrcset }}"
+          imagesizes="100vw"
+        />
+      {{ end }}
+    {{ end }}
+  {{ end }}
 
   {{ hugo.Generator }}
 

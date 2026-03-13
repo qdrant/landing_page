@@ -1,5 +1,5 @@
 ---
-title: Agentic RAG Discord Bot with CAMEL-AI
+title: Discord RAG Bot
 weight: 4
 #partition: build
 social_preview_image: /documentation/examples/agentic-rag-camelai-discord/social-preview.png
@@ -7,9 +7,9 @@ aliases:
   - /documentation/agentic-rag-camelai-discord/
 ---
 
-![agentic-rag-camelai-astronaut](/documentation/examples/agentic-rag-camelai-discord/astronaut-main.png)
+<!--  ![agentic-rag-camelai-astronaut](/documentation/examples/agentic-rag-camelai-discord/astronaut-main.png) -->
 
-# Agentic RAG Discord ChatBot with Qdrant, CAMEL-AI, & OpenAI
+# Qdrant Agentic RAG Discord Bot with CAMEL-AI and OpenAI
 
 | Time: 45 min | Level: Intermediate | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Ymqzm6ySoyVOekY7fteQBCFCXYiYyHxw#scrollTo=QQZXwzqmNfaS) |
 | --- | ----------- | ----------- |----------- |

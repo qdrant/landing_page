@@ -1,12 +1,12 @@
 ---
-title: Measure Search Quality
+title: Retrieval Quality Evaluation
 aliases:
   - /documentation/tutorials/retrieval-quality/
   - /documentation/beginner-tutorials/retrieval-quality/
 weight: 4
 ---
 
-# Measure and Improve Retrieval Quality in Semantic Search
+# Evaluate Retrieval Quality with Qdrant
 
 | Time: 30 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|

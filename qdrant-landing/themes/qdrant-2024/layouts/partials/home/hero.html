@@ -1,0 +1,95 @@
+{{ with (.Site.GetPage "/headless/main/hero") }}
+  <section class="hero">
+    <div class="hero__container">
+      <div class="hero__grid"></div>
+      <div class="hero__content">
+        <div class="hero__heading">
+          <h1 class="hero__title">{{ .Params.title }}</h1>
+          <p class="hero__subtitle">{{ .Params.subtitle }}</p>
+        </div>
+        <div class="hero__buttons">
+          <a data-metric-loc="hero" href="{{ .Params.startFree.url }}" class="button button_contained button_lg"
+            data-metric-loc="hero">{{ .Params.startFree.text }}</a>
+          <a data-metric-loc="hero" href="{{ .Params.learnMore.url }}" class="button button_outlined button_lg"
+             data-metric-loc="hero">{{ .Params.learnMore.text }}</a>
+        </div>
+      </div>
+
+      <div class="hero__planet">
+        {{ with .Params.planet }}
+          <img class="hero__planet-blur" src="{{ .blur }}" alt="" width="570" height="544" decoding="async" />
+          <img
+            class="hero__planet-blur hero__planet-blur--alt"
+            src="{{ .blur2 }}"
+            alt=""
+            width="570"
+            height="544"
+            decoding="async"
+          />
+          <img class="hero__planet-sphere" src="{{ .sphere }}" alt="" width="514" height="488" decoding="async" />
+          {{ with .texture }}
+            <picture>
+              <source srcset="{{ .webp }}" type="image/webp" />
+              <img
+                class="hero__planet-texture"
+                src="{{ .png }}"
+                alt=""
+                width="1012"
+                height="960"
+                loading="eager"
+                decoding="async"
+              />
+            </picture>
+          {{ end }}
+        {{ end }}
+      </div>
+
+      {{ with .Params.blueHaze }}
+        <img class="hero__blue-haze" src="{{ . }}" alt="" width="1200" height="600" decoding="async" />
+      {{ end }}
+
+
+      <div class="hero__astronauts">
+        {{ with .Params.astronauts }}
+          <picture>
+            <source type="image/webp" srcset="{{ .webpSrcset }}" sizes="100vw" />
+            <img
+              src="{{ .fallbackSrc }}"
+              srcset="{{ .pngSrcset }}"
+              sizes="100vw"
+              alt="{{ .alt }}"
+              width="{{ .width }}"
+              height="{{ .height }}"
+              draggable="false"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </picture>
+        {{ end }}
+      </div>
+
+      <div class="hero__fade-top"></div>
+      <div class="hero__fade-bottom"></div>
+      <div class="hero__fade-left"></div>
+      <div class="hero__fade-right"></div>
+    </div>
+    {{ if .Params.valueBadges }}
+      <div class="hero__badges">
+        {{ range .Params.valueBadges }}
+          {{ if .url }}
+            <a href="{{ .url }}" class="hero__badge hero__badge--link"{{ if or (hasPrefix .url "http://") (hasPrefix .url "https://") }} target="_blank" rel="noopener noreferrer"{{ end }}>
+              <img src="{{ .icon }}" alt="" class="hero__badge-icon" width="16" height="16" decoding="async" />
+              <span class="hero__badge-text">{{ .text }}</span>
+            </a>
+          {{ else }}
+            <span class="hero__badge">
+              <img src="{{ .icon }}" alt="" class="hero__badge-icon" width="16" height="16" decoding="async" />
+              <span class="hero__badge-text">{{ .text }}</span>
+            </span>
+          {{ end }}
+        {{ end }}
+      </div>
+    {{ end }}
+  </section>
+{{ end }}

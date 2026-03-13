@@ -1,6 +1,6 @@
 ---
-titleFirstPart: Not sure which plan is right for you?
-titleSecondPart: Check out our pricing calculator.
+title: Not sure how large your cluster needs to be?
+linkPrefix: Try our
 link: 
   url: https://cloud.qdrant.io/calculator
   text: Pricing Calculator

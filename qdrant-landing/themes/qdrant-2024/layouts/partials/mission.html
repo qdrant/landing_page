@@ -4,12 +4,12 @@
       <div class="mission__container">
         <div class="row g-4">
           {{ range .Params.cards }}
-          <div class="col-12 col-lg-6">
-            <div class="card mission__card">
-              <h3 class="mission__card-title">{{ .title }}</h3>
-              <p class="mission__card-content">{{ .content }}</p>
+            <div class="col-12 col-lg-6">
+              <div class="card mission__card">
+                <h3 class="mission__card-title">{{ .title }}</h3>
+                <p class="mission__card-content">{{ .content }}</p>
+              </div>
             </div>
-          </div>
           {{ end }}
         </div>
       </div>

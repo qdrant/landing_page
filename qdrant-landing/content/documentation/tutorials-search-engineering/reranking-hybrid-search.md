@@ -1,12 +1,15 @@
 ---
-title: Reranking in Hybrid Search
+title: Hybrid Search with Reranking
 weight: 2
 aliases:
   - /documentation/search-precision/reranking-hybrid-search/
   - /documentation/advanced-tutorials/reranking-hybrid-search/
 ---
 
-# Reranking Hybrid Search Results with Qdrant Vector Database
+# Qdrant Hybrid Search with Reranking
+
+| Time: 40 min | Level: Intermediate |
+| --- | ----------- |
 
 Hybrid search combines dense and sparse retrieval to deliver precise and comprehensive results. By adding reranking with ColBERT, you can further refine search outputs for maximum relevance. 
 

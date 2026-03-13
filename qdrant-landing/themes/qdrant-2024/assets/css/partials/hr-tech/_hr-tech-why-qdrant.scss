@@ -1,0 +1,104 @@
+@use 'sass:math';
+@use '../../helpers/functions' as *;
+
+.hr-tech-why-qdrant {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__title {
+    margin: 0 0 $spacer * 3;
+    font-size: $spacer * 2.5;
+    line-height: 1.1;
+    color: $neutral-20;
+    text-align: center;
+    letter-spacing: -0.5px;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacer * 3;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+  }
+
+  &__item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(56);
+    height: pxToRem(56);
+    background-color: white;
+    border-radius: pxToRem(6);
+
+    img {
+      width: pxToRem(34);
+      height: pxToRem(34);
+    }
+  }
+
+  &__item-title {
+    margin: 0;
+    font-size: pxToRem(24);
+    line-height: 1.3;
+    color: $neutral-20;
+    letter-spacing: -0.5px;
+  }
+
+  &__item-description {
+    margin: 0;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    color: $neutral-30;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: pxToRem(56);
+      margin-bottom: $spacer * 5;
+    }
+
+    &__grid {
+      position: relative;
+      grid-template-columns: 1fr 1fr;
+      gap: $spacer * 7.5;
+      padding: $spacer * 1.5 0;
+
+      // Vertical divider line
+      &::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background-color: $neutral-90;
+        transform: translateX(-50%);
+      }
+
+      // Horizontal divider line
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: $neutral-90;
+        transform: translateY(-50%);
+      }
+    }
+
+    &__item-title {
+      font-size: pxToRem(32);
+    }
+  }
+}

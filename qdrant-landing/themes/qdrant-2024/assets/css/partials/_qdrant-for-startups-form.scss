@@ -72,7 +72,7 @@
   }
 
   form {
-    &.hs-form>fieldset {
+    &.hs-form > fieldset {
       margin-bottom: 0;
     }
 
@@ -86,13 +86,13 @@
       margin-top: pxToRem(12);
       margin-bottom: $spacer * 2.5;
 
-      input[type=submit] {
+      input[type='submit'] {
         width: 100%;
       }
     }
 
-    &.hs-form>fieldset.form-columns-2 {
-      gap: 0
+    &.hs-form > fieldset.form-columns-2 {
+      gap: 0;
     }
 
     fieldset:last-of-type {

@@ -164,9 +164,29 @@ In this case, it means that points with the same id will be overwritten when re-
 Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-once guarantee.
 Even with such a system, Qdrant ensures data consistency.
 
+### Update Mode
+
+_Available as of v1.17.0_
+
+By default, an upsert operation inserts a point if it does not exist, or updates it if it does. To change this behavior, use the `update_mode` parameter:
+
+- `upsert` (default): Insert a point if it does not exist, or update it if it does.
+- `insert_only`: Insert a point only if it does not already exist. If a point with the same ID exists, the operation is ignored.
+- `update_only`: Update a point only if it already exists. Points that do not exist are not inserted.
+
+For example, to use `insert_only` mode:
+
+{{< code-snippet path="/documentation/headless/snippets/insert-points/update-mode/" >}}
+
+`insert_only` mode is especially useful when [migrating from one embedding model to another](/documentation/database-tutorials/embedding-model-migration/), where conflicts between regular updates and background re-embedding tasks need to be resolved.
+
+{{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >}}
+
+`update_only` mode is useful with [conditional updates](#conditional-updates). Because upserts default to inserts for non-existing points, a conditional update without an explicit `update_mode` will insert a new point even if the condition is not met, which is not the intended behavior in most cases.
+
 ### Named vectors
 
-[_Available as of v0.10.0_](#create-vector-name)
+_Available as of v0.10.0_
 
 If the collection was created with multiple vectors, each vector data can be provided using the vector's name:
 
@@ -291,6 +311,8 @@ All update operations (including point insertion, vector updates, payload update
 
 {{< code-snippet path="/documentation/headless/snippets/insert-points/with-condition/" >}}
 
+<aside role="alert">By default, a conditional update on a non-existent point behaves as a regular upsert, inserting the point regardless of the filter. This is undesirable in most cases. To ensure that only existing points that meet the condition are updated, <a href="#update-mode">set <code>update_mode</code></a> to <code>update_only</code>.</aside>
+
 While conditional payload modification and deletion covers the use-case of mass data modification, conditional point insertion and vector updates are particularly useful for implementing optimistic concurrency control in distributed systems.
 
 A common scenario for such mechanism is when multiple clients try to update the same point independently.
@@ -308,10 +330,6 @@ When Client A writes back the modified point P, it would set the condition that 
 If Client B tries to write back its changes later, the condition would fail (as the `version` has been incremented by Client A), and Qdrant would reject the update, preventing accidental overwrites.
 
 Instead of `version`, applications can use timestamps (assuming synchronized clocks) or any other monotonically increasing value that fits their data model.
-
-This mechanism is especially useful in the scenarios of embedding model migration, where we need to resolve conflicts between regular application updates and background re-embedding tasks.
-
-{{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >}}
 
 ## Retrieve points
 

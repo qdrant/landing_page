@@ -1,0 +1,23 @@
+{{ $background := default (dict "src" "/img/cta-banner-stars.png" "webp" "/img/cta-banner-stars.webp") .Params.background }}
+{{ $illustration := default (dict "src" "/img/cta-illustration.png" "alt" "Rocket flying over globe illustration") .Params.illustration }}
+<section class="cta-banner">
+  <div class="container">
+    <div class="cta-banner__banner">
+      <div class="cta-banner__background" style="background-image: url('{{ $background.src }}');{{ if $background.webp }} background-image: image-set(url('{{ $background.webp }}') type('image/webp'), url('{{ $background.src }}') type('image/png'));{{ end }}"></div>
+      <div class="cta-banner__content">
+        <div class="cta-banner__text">
+          <h2 class="cta-banner__title">{{ .Params.title }}</h2>
+          {{ if .Params.description }}
+            <p class="cta-banner__description">{{ .Params.description }}</p>
+          {{ end }}
+          <a href="{{ .Params.button.url }}" class="button button_contained button_lg cta-banner__button">
+            {{ .Params.button.text }}
+          </a>
+        </div>
+        <div class="cta-banner__illustration">
+          {{ partial "picture" (dict "src" $illustration.src "alt" $illustration.alt "loading" "lazy" "decoding" "async") }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

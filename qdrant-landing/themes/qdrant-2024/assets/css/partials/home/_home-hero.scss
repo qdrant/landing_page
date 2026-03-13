@@ -1,0 +1,515 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.hero {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: url('/img/home/hero/hero-bg-pattern.png') repeat $neutral-10;
+  background-size: 400px 400px;
+  padding: 0;
+  padding-bottom: 6rem;
+
+  &__container {
+    position: relative;
+    width: 100%;
+    max-width: pxToRem(1360);
+    overflow: hidden;
+    background: radial-gradient(
+      ellipse at center top,
+      rgba(1, 17, 54, 0) 10%,
+      rgba(7, 28, 78, 0.1) 40%,
+      rgba(28, 58, 130, 1) 64%,
+      rgba(34, 71, 152, 1) 100%
+    );
+    min-height: pxToRem(800);
+    padding-bottom: pxToRem(138);
+  }
+
+  &__grid {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background: url('/img/home/hero/grid.svg') center top / cover no-repeat;
+    will-change: transform;
+    transition: transform 0.1s linear;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: pxToRem(24);
+    padding: pxToRem(48) pxToRem(20) 0;
+  }
+
+  &__heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: pxToRem(12);
+    max-width: pxToRem(730);
+    text-align: center;
+  }
+
+  &__title {
+    color: $neutral-98;
+    font-size: map-get($font-sizes, 4);
+    line-height: pxToRem(48);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    width: 100%;
+  }
+
+  &__subtitle {
+    color: $neutral-80;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    width: 100%;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: pxToRem(16);
+  }
+
+  &__buttons a {
+    min-width: pxToRem(180);
+  }
+
+  &__planet {
+    position: absolute;
+    width: pxToRem(506);
+    height: pxToRem(480);
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    top: pxToRem(420);
+    z-index: 2;
+    will-change: transform;
+    transition: transform 0.1s linear;
+  }
+
+  &__planet-blur {
+    position: absolute;
+    width: calc(100% + 12%);
+    height: calc(100% + 13%);
+    top: -6.67%;
+    left: -6.32%;
+    mix-blend-mode: plus-lighter;
+  }
+
+  &__planet-blur--alt {
+    mix-blend-mode: plus-lighter;
+  }
+
+  &__planet-sphere {
+    position: absolute;
+    width: calc(100% + 1.58%);
+    height: calc(100% + 1.67%);
+    top: 0;
+    left: -0.79%;
+  }
+
+  &__planet-texture {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    mix-blend-mode: overlay;
+    object-fit: cover;
+  }
+
+  &__blue-haze {
+    position: absolute;
+    width: pxToRem(1200);
+    height: pxToRem(600);
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    bottom: pxToRem(80);
+    mix-blend-mode: lighten;
+    z-index: 2;
+    pointer-events: none;
+    will-change: transform;
+    transition: transform 0.1s linear;
+  }
+
+  &__astronauts {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    width: 100%;
+    max-width: pxToRem(1360);
+    height: pxToRem(360);
+    z-index: 3;
+    will-change: transform;
+    transition: transform 0.1s linear;
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+  }
+
+  &__fade-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: pxToRem(500);
+    background: linear-gradient(
+      to bottom,
+      $neutral-10 0%,
+      rgba($neutral-10, 0.7) 30%,
+      rgba($neutral-10, 0.3) 60%,
+      transparent 100%
+    );
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  &__fade-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    height: 5vh;
+    min-height: pxToRem(20);
+    background: linear-gradient(
+      to top,
+      $neutral-10 0%,
+      rgba($neutral-10, 0.98) 35%,
+      rgba($neutral-10, 0.7) 50%,
+      rgba($neutral-10, 0.2) 90%,
+      transparent 100%
+    );
+  }
+
+  &__fade-left,
+  &__fade-right {
+    display: none;
+  }
+
+  &__fade-left {
+    left: 0;
+    background: linear-gradient(to right, $neutral-10 0%, rgba($neutral-10, 0.6) 40%, transparent 100%);
+  }
+
+  &__fade-right {
+    right: 0;
+    background: linear-gradient(to left, $neutral-10 0%, rgba($neutral-10, 0.6) 40%, transparent 100%);
+  }
+
+  &__badges {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: pxToRem(12);
+    z-index: 5;
+    padding: 0 pxToRem(16);
+  }
+
+  &__badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: pxToRem(8);
+    padding: pxToRem(4) pxToRem(10);
+    background-color: rgba(17, 24, 36, 0.8);
+    border-radius: pxToRem(4);
+    white-space: nowrap;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s ease;
+
+    &--link:hover {
+      background-color: rgba(17, 24, 36, 1);
+
+      .hero__badge-text {
+        color: $neutral-98;
+      }
+    }
+  }
+
+  &__badge-icon {
+    width: pxToRem(16);
+    height: pxToRem(16);
+    flex-shrink: 0;
+  }
+
+  &__badge-text {
+    color: $neutral-90;
+    font-size: pxToRem(14);
+    line-height: 1.5;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  &__stars {
+    position: absolute;
+    right: $spacer;
+    bottom: $spacer;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc($spacer / 2) pxToRem(20);
+    background-color: $neutral-10;
+    transition: bottom 1s ease-in-out;
+  }
+
+  &__stars svg {
+    max-width: pxToRem(24);
+    max-height: pxToRem(24);
+  }
+
+  &__stars-text {
+    color: $neutral-98;
+    margin-right: calc($spacer / 2);
+    margin-left: calc($spacer / 2);
+    font-size: map-get($font-sizes-text, 's');
+    line-height: pxToRem(21);
+    font-weight: 500;
+  }
+
+  &__stars-count {
+    border-radius: 6px;
+    border: 1px solid $neutral-30;
+    color: $neutral-98;
+    padding-left: calc($spacer / 2);
+    padding-right: calc($spacer / 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc($spacer / 4);
+    height: pxToRem(25);
+    font-size: map-get($font-sizes-text, 's');
+    line-height: pxToRem(21);
+  }
+
+  @include media-breakpoint-up(xs) {
+    padding-bottom: $spacer * 2;
+  }
+
+  @include media-breakpoint-up(md) {
+    padding-left: $spacer * 2.5;
+    padding-right: $spacer * 2.5;
+
+    &__container {
+      padding-bottom: pxToRem(108);
+    }
+
+    &__buttons {
+      flex-direction: row;
+      gap: pxToRem(24);
+    }
+
+    &__buttons a {
+      min-width: auto;
+    }
+
+    &__fade-left,
+    &__fade-right {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: pxToRem(80);
+      z-index: 4;
+      pointer-events: none;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__badges {
+      bottom: pxToRem(60);
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding: 0 $spacer * 2.5;
+    padding-bottom: 0;
+
+    &__container {
+      min-height: pxToRem(940);
+      padding-bottom: 0;
+    }
+
+    &__content {
+      gap: pxToRem(32);
+      padding: pxToRem(64) pxToRem(125) 0;
+    }
+
+    &__heading {
+      gap: pxToRem(16);
+    }
+
+    &__title {
+      font-size: pxToRem(64);
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+    }
+
+    &__subtitle {
+      font-size: pxToRem(20);
+      letter-spacing: -0.2px;
+    }
+
+    &__planet {
+      top: pxToRem(440);
+    }
+
+    &__blue-haze {
+      width: pxToRem(800);
+      height: pxToRem(200);
+      bottom: pxToRem(200);
+    }
+
+    &__astronauts {
+      height: pxToRem(482);
+    }
+
+    &__fade-bottom {
+      height: 5vh;
+      background: linear-gradient(
+        to top,
+        $neutral-10 0%,
+        rgba($neutral-10, 0.98) 40%,
+        rgba($neutral-10, 0.7) 50%,
+        rgba($neutral-10, 0.2) 90%,
+        transparent 100%
+      );
+    }
+
+    &__badges {
+      gap: pxToRem(40);
+      bottom: pxToRem(40);
+      flex-wrap: nowrap;
+    }
+
+    &__stars {
+      position: fixed;
+      right: $spacer * 1.5;
+      bottom: $spacer * 1.5;
+      transition: background-color 0.2s;
+      z-index: 2;
+
+      &:hover {
+        background-color: $neutral-100;
+        .hero__stars-text,
+        .hero__stars-count {
+          color: $neutral-20;
+        }
+        & > svg path {
+          fill: $neutral-20;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xxl) {
+    padding-left: $spacer * 6;
+    padding-right: $spacer * 6;
+
+    &__grid {
+      mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 70%);
+      -webkit-mask-image: linear-gradient(to bottom, black 0%, black 45%, transparent 70%);
+      mask-size: 100% 100%;
+      -webkit-mask-size: 100% 100%;
+    }
+
+    &__container {
+      max-width: none;
+      width: 100%;
+      min-height: max(#{pxToRem(1000)}, 43vw);
+    }
+
+    &__fade-left,
+    &__fade-right {
+      width: pxToRem(120);
+    }
+
+    &__planet {
+      width: 37.2%;
+      height: auto;
+      aspect-ratio: 506 / 480;
+      top: pxToRem(430);
+    }
+
+    &__blue-haze {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 1;
+    }
+
+    &__astronauts {
+      max-width: none;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1360 / 482;
+
+      img {
+        object-fit: contain;
+      }
+    }
+
+    &__fade-bottom {
+      height: 12vh;
+      min-height: pxToRem(100);
+      background: linear-gradient(
+        to top,
+        $neutral-10 0%,
+        rgba($neutral-10, 0.98) 40%,
+        rgba($neutral-10, 0.7) 50%,
+        rgba($neutral-10, 0.2) 90%,
+        transparent 100%
+      );
+    }
+    &__badges {
+      bottom: pxToRem(100);
+    }
+  }
+
+  @media (min-width: 2600px) {
+    padding-left: $spacer * 12;
+    padding-right: $spacer * 12;
+
+    &__container {
+      min-height: max(#{pxToRem(1000)}, 38vw);
+    }
+    &__planet {
+      top: pxToRem(420);
+    }
+    &__fade-bottom {
+      height: 15vh;
+      min-height: pxToRem(150);
+    }
+    &__badges {
+      bottom: pxToRem(120);
+    }
+  }
+}

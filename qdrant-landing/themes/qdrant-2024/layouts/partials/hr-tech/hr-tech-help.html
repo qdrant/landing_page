@@ -1,0 +1,17 @@
+<section class="hr-tech-problem">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-lg-6 hr-tech-problem__content">
+        <h2 class="hr-tech-problem__title">{{ .Params.title | safeHTML }}</h2>
+        <div class="hr-tech-problem__text">
+          {{ range .Params.paragraphs }}
+            <p>{{ . }}</p>
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 hr-tech-problem__visual">
+        <img src="/img/hr-tech/visual.png" alt="Diagram showing recruitment data vs hiring constraints mismatch" />
+      </div>
+    </div>
+  </div>
+</section>
