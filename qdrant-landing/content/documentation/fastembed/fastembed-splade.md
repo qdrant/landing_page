@@ -1,6 +1,6 @@
 ---
 title: Working with SPLADE 
-weight: 5
+weight: 50
 ---
 
 # How to Generate Sparse Vectors with SPLADE

@@ -1,6 +1,6 @@
 ---
 title: "Quickstart" 
-weight: 2
+weight: 10
 ---
 
 # How to Generate Text Embedings with FastEmbed
