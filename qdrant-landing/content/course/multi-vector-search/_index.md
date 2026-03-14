@@ -146,7 +146,7 @@ ML, backend, and search engineers who want to go beyond single-vector embeddings
 
 ## Time commitment
 
-- Duration: 3 modules at 1 hour/module
+- Duration: 4 modules at 1 hour/module
 - Video learning: 1.5 hours
 - Hands-on notebooks: 1.5 hours
 - Final project: 1-3 hours
