@@ -35,14 +35,15 @@
   {{ partial "css" . }}
 
   {{ if .IsHome }}
-    {{ with .Site.GetPage "/headless/main/hero" }}
-      {{ with .Params.astronauts }}
-        <link rel="preload" as="image" type="image/webp" fetchpriority="high"
-          imagesrcset="{{ .webpSrcset }}"
-          imagesizes="100vw"
-        />
-      {{ end }}
-    {{ end }}
+    {{ $srcset := slice
+      (printf "%s 960w" (absURL "/img/home/hero/astronauts-960.webp"))
+      (printf "%s 1920w" (absURL "/img/home/hero/astronauts-1920.webp"))
+      (printf "%s 3840w" (absURL "/img/home/hero/astronauts.webp"))
+    }}
+    <link rel="preload" as="image" type="image/webp" fetchpriority="high"
+      imagesrcset="{{ delimit $srcset ", " }}"
+      imagesizes="100vw"
+    />
   {{ end }}
 
   {{ hugo.Generator }}
