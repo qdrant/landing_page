@@ -13,20 +13,8 @@
     right: 0;
     bottom: 0;
     pointer-events: none;
-    background: url('/img/prices-background.svg') top center / 100% auto no-repeat;
-  }
-
-  &__grid {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 400px;
-    display: grid;
-    grid-template-columns: repeat(18, 80px);
-    grid-template-rows: repeat(5, 80px);
-    justify-content: center;
-
+    background: url('/img/prices-background.svg') center center no-repeat;
+    background-size: cover;
     &::after {
       content: '';
       position: absolute;
