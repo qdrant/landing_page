@@ -14,7 +14,7 @@ While quantization reduces the size of each vector, pooling reduces the number o
 
 <div class="video">
 <iframe
-  src="https://www.youtube.com/embed/xK9mV7zR4pL"
+  src="https://www.youtube-nocookie.com/embed/idDXBOrIuik?rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"

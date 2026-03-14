@@ -16,7 +16,7 @@ Understanding MUVERA is key to scaling multi-vector search to millions of docume
 
 <div class="video">
 <iframe
-  src="https://www.youtube.com/embed/xK9mV7zR4pL"
+  src="https://www.youtube-nocookie.com/embed/-r0Apuy0c8k?rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"

@@ -18,7 +18,7 @@ By the end, you'll understand the key configuration parameters, know when to use
 
 <div class="video">
 <iframe
-  src="https://www.youtube.com/embed/xK9mV7zR4pL"
+  src="https://www.youtube-nocookie.com/embed/THZE2O4kMDg?rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"

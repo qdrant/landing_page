@@ -114,7 +114,7 @@ These hints are optional. Feel free to chart your own path.
 
 ## Share Your Results
 
-We'd love to see what you build. Share your project on the [Qdrant Discord](https://discord.gg/qdrant) in the `#courses` channel.
+We'd love to see what you build. Share your project on the [Qdrant Discord](https://discord.gg/qdrant) in the [#course-submissions](https://discord.com/channels/907569970500743200/1429673887590776832) channel.
 
 Tell us about:
 

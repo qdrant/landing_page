@@ -16,7 +16,7 @@ Understanding ColPali's architecture helps you leverage its full potential for m
 
 <div class="video">
 <iframe
-  src="https://www.youtube.com/embed/xK9mV7zR4pL"
+  src="https://www.youtube-nocookie.com/embed/Fai9aY1PMCA?rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"

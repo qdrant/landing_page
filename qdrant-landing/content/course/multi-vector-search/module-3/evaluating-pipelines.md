@@ -18,7 +18,7 @@ The answer lies in systematic evaluation across three dimensions: **cost** (memo
 
 <div class="video">
 <iframe
-  src="https://www.youtube.com/embed/xK9mV7zR4pL"
+  src="https://www.youtube-nocookie.com/embed/1gHbp9c01iE?rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
