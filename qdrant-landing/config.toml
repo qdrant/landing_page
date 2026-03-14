@@ -1,6 +1,6 @@
 baseURL = "https://qdrant.tech"
 languageCode = "en-us"
-title = "Qdrant - Vector Database"
+title = "Qdrant - Vector Search Engine"
 theme = "qdrant-2024"
 
 enableRobotsTXT = true
@@ -11,7 +11,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
 disableKinds = ["taxonomy", "term"]
 
 [params]
-  description = "Qdrant is an Open-Source Vector Database and Vector Search Engine written in Rust. It provides fast and scalable vector similarity search service with convenient API."
+  description = "Qdrant is an Open-Source Vector Search Engine written in Rust. It provides fast and scalable vector similarity search service with convenient API."
   keywords = ["vector search engine", "neural network", "matching", "SaaS",
     "approximate nearest neighbor search", "image search", "recommender system", "vectors",
     "knn algorithm", "hnsw", "vector search", "embeddings", "similarity", "simaes networks",
@@ -27,24 +27,24 @@ disableKinds = ["taxonomy", "term"]
   logo_width = "192"
   preview_image = "/images/social_preview.png"
 
-  preview_images = [
-    "/images/previews/social-preview-A.png",
-    "/images/previews/social-preview-B.png",
-    "/images/previews/social-preview-C.png",
-    "/images/previews/social-preview-D.png",
-    "/images/previews/social-preview-E.png",
-    "/images/previews/social-preview-F.png",
-    "/images/previews/social-preview-G.png",
-    "/images/previews/social-preview-H.png",
-    "/images/previews/social-preview-I.png",
-    "/images/previews/social-preview-J.png",
-    "/images/previews/social-preview-K.png",
-    "/images/previews/social-preview-L.png",
-    "/images/previews/social-preview-M.png",
-    "/images/previews/social-preview-N.png",
-    "/images/previews/social-preview-O.png",
-    "/images/previews/social-preview-P.png"
-  ]
+#  preview_images = [
+#    "/images/previews/social-preview-A.png",
+#    "/images/previews/social-preview-B.png",
+#    "/images/previews/social-preview-C.png",
+#    "/images/previews/social-preview-D.png",
+#    "/images/previews/social-preview-E.png",
+#    "/images/previews/social-preview-F.png",
+#    "/images/previews/social-preview-G.png",
+#    "/images/previews/social-preview-H.png",
+#    "/images/previews/social-preview-I.png",
+#    "/images/previews/social-preview-J.png",
+#    "/images/previews/social-preview-K.png",
+#    "/images/previews/social-preview-L.png",
+#    "/images/previews/social-preview-M.png",
+#    "/images/previews/social-preview-N.png",
+#    "/images/previews/social-preview-O.png",
+#    "/images/previews/social-preview-P.png"
+#  ]
 
 
   github = "https://github.com/qdrant/qdrant"
@@ -115,6 +115,20 @@ disableKinds = ["taxonomy", "term"]
   [cascade._target]
     environment = '{production}'
     path = '{**.skip,**.skip/*}'
+
+[mediaTypes."text/markdown"]
+  suffixes = ["md"]
+
+[outputFormats.Markdown]
+  mediaType = "text/markdown"
+  isPlainText = true
+  isHTML = false
+  rel = "alternate"
+
+[outputs]
+  page = ["HTML", "Markdown"]
+  section = ["HTML", "RSS", "Markdown"]
+  home = ["HTML", "RSS"]
 
 [services]
   [services.googleAnalytics]

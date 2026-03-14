@@ -1,6 +1,6 @@
 ---
 title: Frameworks 
-weight: 20
+weight: 13
 partition: build
 aliases: ["/documentation/frameworks/memgpt/"]
 ---
@@ -9,6 +9,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 
 | Framework                                                     | Description                                                                                                          |
 | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [Agno](/documentation/frameworks/agno/)                       | Agno is a fast multi-agent framework, runtime and control plane.                                            |
 | [AutoGen](/documentation/frameworks/autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.                             |
 | [Camel](/documentation/frameworks/camel/)                     | Framework to build and use LLM-based agents for real-world task solving                                              |
 | [Cheshire Cat](/documentation/frameworks/cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                                    |
@@ -25,13 +26,14 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Haystack](/documentation/frameworks/haystack/)               | LLM orchestration framework to build customizable, production-ready LLM applications.                                |
 | [HoneyHive](/documentation/frameworks/honeyhive/)               | AI observability and evaluation platform that provides tracing and monitoring tools for GenAI pipelines.           |
 | [Lakechain](/documentation/frameworks/lakechain/)             | Python framework for deploying document processing pipelines on AWS using infrastructure-as-code.                    |
-| [Langchain](/documentation/frameworks/langchain/)             | Python framework for building context-aware, reasoning applications using LLMs.                                      |
-| [Langchain4j](/documentation/frameworks/langchain4j/)         | Java framework for building context-aware, reasoning applications using LLMs.                                        |
+| [LangChain](/documentation/frameworks/langchain/)             | Python framework for building context-aware, reasoning applications using LLMs.                                      |
+| [LangChain4j](/documentation/frameworks/langchain4j/)         | Java framework for building context-aware, reasoning applications using LLMs.                                        |
 | [LangGraph](/documentation/frameworks/langgraph/)             | Python, Javascript libraries for building stateful, multi-actor applications.                                        |
 | [LlamaIndex](/documentation/frameworks/llama-index/)          | A data framework for building LLM applications with modular integrations.                                            |
 | [Mastra](/documentation/frameworks/mastra/)                   | Typescript framework to build AI applications and features quickly.                                                  |
 | [Mirror Security](/documentation/frameworks/mirror-security/) | Python framework for vector encryption and access control.                                                           |
 | [Mem0](/documentation/frameworks/mem0/)                       | Self-improving memory layer for LLM applications, enabling personalized AI experiences.                              |
+| [Microsoft GraphRAG](/documentation/frameworks/microsoft-graphrag/) | Python library for building knowledge graphs from unstructured data.                                           |
 | [Neo4j GraphRAG](/documentation/frameworks/neo4j-graphrag/)   | Package to build graph retrieval augmented generation (GraphRAG) applications using Neo4j and Python.                |
 | [NLWeb](/documentation/frameworks/nlweb/)                     | A framework to turn websites into chat-ready data using schema.org and associated data formats.                      |
 | [Rig-rs](/documentation/frameworks/rig-rs/)                   | Rust library for building scalable, modular, and ergonomic LLM-powered applications.                                 |

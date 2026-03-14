@@ -16,7 +16,7 @@ pip install ollama qdrant-client
 
 ## Integration Example
 
-The following code assumes Ollama is accessible at port `11434` and Qdrant at port `6334`.
+The following code assumes Ollama is accessible at port `11434` and Qdrant at port `6333`.
 
 ```python
 from qdrant_client import QdrantClient, models

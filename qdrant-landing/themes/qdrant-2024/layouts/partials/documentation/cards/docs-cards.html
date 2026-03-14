@@ -30,15 +30,15 @@
 
     <!-- Optional list, separated by a delimiter. Only rendered if the card has a list. -->
     {{ if .card.list }}
-        <div class="divider mt-2"></div>
-        {{ if .card.list.title }}
-          <p class="docs-card__description docs-card__list-title">{{ .card.list.title }}</p>
+      <div class="divider mt-2"></div>
+      {{ if .card.list.title }}
+        <p class="docs-card__description docs-card__list-title">{{ .card.list.title }}</p>
+      {{ end }}
+      <ul class="docs-card__description docs-card__list-element mb-2">
+        {{ range .card.list.elements }}
+          <li>{{ . }}</li>
         {{ end }}
-        <ul class="docs-card__description docs-card__list-element mb-2">
-          {{ range .card.list.elements }}
-            <li>{{ . }}</li>
-          {{ end }}
-        </ul>
+      </ul>
     {{ end }}
 
     {{ if .card.link.text }}

@@ -4,6 +4,8 @@ draft: false
 slug: qdrant-1.15.x
 short_description: "Smarter Quantization, Healing Indexes, and Multilingual Text Filtering"
 description: "Qdrant v1.15 release presents new Quantization Features, advanced Full-Text filtering and a bunch of performance optimizations"
+preview_image: /blog/qdrant-1.15.x/social_preview.jpg
+social_preview_image: /blog/qdrant-1.15.x/social_preview.jpg
 date: 2025-07-18T00:00:00-08:00
 author: Derrick Mwiti
 featured: true
@@ -211,7 +213,7 @@ The above will match:
 
 ## MMR Reranking
 
-We introduce [Maximal Marginal Relevance (MMR)](/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr) reranking to balance relevance and diversity.
+We introduce [Maximal Marginal Relevance (MMR)](/documentation/concepts/search-relevance/#maximal-marginal-relevance-mmr) reranking to balance relevance and diversity.
 MMR works by selecting the results iteratively, by picking the item with the best combination of similarity to the query and dissimilarity to the already selected items.
 
 It prevents your top-k results from being redundant and helps surface varied but relevant answers, particularly in dense datasets with overlapping entries.
@@ -223,7 +225,7 @@ It prevents your top-k results from being redundant and helps surface varied but
 Let’s say you’re building a knowledge assistant or semantic document explorer in which a single query can return multiple highly similar queries.
 For instance, searching “climate change” in a scientific paper database might return several similar paragraphs.
 
-You can diversify the results with [Maximal Marginal Relevance (MMR)](/documentation/concepts/hybrid-queries/#maximal-marginal-relevance-mmr).
+You can diversify the results with [Maximal Marginal Relevance (MMR)](/documentation/concepts/search-relevance/#maximal-marginal-relevance-mmr).
 
 Instead of returning the top-k results based on pure similarity, MMR helps select a diverse subset of high-quality results.
 This gives more coverage and avoids redundant results, which is helpful in dense content domains such as academic papers, product catalogs, or search assistants.
@@ -281,7 +283,7 @@ This modification, in combinations with [incremental HNSW indexing](/blog/qdrant
 
 ### HNSW Graph connectivity estimation
 
-Qdrant builds [addtitional HNSW links](/articles/filtrable-hnsw/) to ensure that filtered searches are performed fast and accurate.
+Qdrant builds [addtitional HNSW links](/articles/filterable-hnsw/) to ensure that filtered searches are performed fast and accurate.
 
 It does, however, introduce an overhead for indexing complexity, especially when the number of payload indexes is large.
 With v1.15, Qdrant introduces an optimization, which quickly estimates graph connectivity before creating additional links.

@@ -1,0 +1,1 @@
+Ingests a book point using inference to embed the description text with the `sentence-transformers/all-minilm-l6-v2` model and stores title, author, and ISBN payload.

@@ -1,8 +1,8 @@
 {
   "banner": {
-    "message": "Qdrant 1.16 is out! Tiered Multitenancy & Disk-Efficient Vector Search.",
-    "link": "https://qdrant.tech/blog/qdrant-1.16.x/",
-    "link_text": "Qdrant 1.16 Release Blog"
+    "message": "Qdrant 1.17 Released: relevance feedback, performance under high write loads, & tail latency",
+    "link": "https://qdrant.tech/blog/qdrant-1.17.x/",
+    "link_text": "Read More"
   },
-  "latest_version": "1.16.0"
+  "latest_version": "1.17.0"
 }

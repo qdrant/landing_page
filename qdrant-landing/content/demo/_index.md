@@ -26,7 +26,7 @@ cards:
     title: Categorization Demo -<br> E-Commerce Products
     paragraphs:
       - id: 0
-        content: Discover the power of vector databases in e-commerce through our demo. Simply input a product name and watch as our multi-language model intelligently categorizes it. The dots you see represent product clusters, highlighting our system's efficient categorization.
+        content: Discover the power of vector search in e-commerce through our demo. Simply input a product name and watch as our multi-language model intelligently categorizes it. The dots you see represent product clusters, highlighting our system's efficient categorization.
     link:
       text: View Demo
       url: https://qdrant.to/extreme-classification-demo

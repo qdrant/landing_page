@@ -349,4 +349,4 @@ encoder_large = SentenceTransformer("all-mpnet-base-v2")  # Larger, potentially 
 encoder_fast = SentenceTransformer("all-MiniLM-L12-v2")   # Different size/speed tradeoff
 ```
 
-**Ready for Day 2?** Tomorrow you'll learn how Qdrant makes vector search lightning-fast through [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) indexing and how to optimize for production workloads.
+**Ready for Day 2?** Tomorrow you'll learn how Qdrant makes vector search lightning-fast through [HNSW](https://qdrant.tech/articles/filterable-hnsw/) indexing and how to optimize for production workloads.

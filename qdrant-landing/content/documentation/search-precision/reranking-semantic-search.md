@@ -1,12 +1,12 @@
 ---
-title: Reranking in Semantic Search
+title: Reranking for Better Search
 weight: 1
 partition: build
 aliases:
   - ../search-precision
 ---
 
-# Reranking in RAG with Qdrant Vector Database
+# Improve Semantic Search with Reranking using Qdrant
 
 In Retrieval-Augmented Generation (RAG) systems, irrelevant or missing information can throw off your model's ability to produce accurate, meaningful outputs. One of the best ways to ensure you're feeding your language model the most relevant, context-rich documents is through reranking. It’s a game-changer.
 

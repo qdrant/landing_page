@@ -37,7 +37,7 @@ features:
   description: Qdrant enhances search speeds and control and context understanding through filtering on any nested entry in our payload. Unique architecture allows Qdrant to avoid expensive pre-filtering and post-filtering stages, making search faster and accurate.
   link:
     text: Learn More
-    url: /articles/filtrable-hnsw/
+    url: /articles/filterable-hnsw/
 sitemapExclude: true
 ---
 

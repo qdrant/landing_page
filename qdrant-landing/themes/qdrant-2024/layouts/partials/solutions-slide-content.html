@@ -1,0 +1,21 @@
+{{ $item := .item }}
+<div class="row align-items-center">
+  <div class="col-12 col-lg-5">
+    <div class="solutions__panel-content">
+      <h3 class="solutions__panel-title">{{ $item.title }}</h3>
+      <p class="solutions__panel-description">{{ $item.description }}</p>
+      <a href="{{ $item.link.url }}" class="solutions__panel-link">
+        {{ $item.link.text }}
+      </a>
+    </div>
+  </div>
+  <div class="col-12 col-lg-7">
+    <div class="solutions__panel-illustration">
+      {{ if $item.image }}
+        {{ partial "picture" (dict "src" $item.image.src "alt" $item.image.alt "loading" "lazy" "decoding" "async") }}
+      {{ else }}
+        <div class="solutions__panel-placeholder" data-label="{{ $item.title }}"></div>
+      {{ end }}
+    </div>
+  </div>
+</div>

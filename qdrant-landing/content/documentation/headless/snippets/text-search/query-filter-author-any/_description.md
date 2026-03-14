@@ -1,0 +1,1 @@
+Uses the `any` condition to filter semantic "space opera" results to points whose `author` is either Larry Niven or Jerry Pournelle (or both).

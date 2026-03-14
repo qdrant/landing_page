@@ -1,0 +1,1 @@
+Queries with the SPLADE++ sparse model `prithivida/splade_pp_en_v1` against the `title-splade` vector.

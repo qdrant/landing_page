@@ -11,9 +11,12 @@
   $background-color: #090e1a,
   $pauseOnHover: false,
   $speed: 25s,
-  $pseudoElementDisplay: block
+  $pseudoElementDisplay: block,
+  $keyframePrefix: ''
 ) {
   $inner-width: math.div($total-marquee-items, $visible-marquee-items) * 2 * 100%;
+  $leftKeyframe: if($keyframePrefix != '', #{$keyframePrefix}marqueeLeft, marqueeLeft);
+  $rightKeyframe: if($keyframePrefix != '', #{$keyframePrefix}marqueeRight, marqueeRight);
 
   max-width: 100%;
   text-align: center;
@@ -68,11 +71,11 @@
     }
 
     &_to-left {
-      animation: marqueeLeft $speed linear infinite;
+      animation: $leftKeyframe $speed linear infinite;
     }
 
     &_to-right {
-      animation: marqueeRight $speed linear infinite;
+      animation: $rightKeyframe $speed linear infinite;
     }
   }
 
@@ -91,7 +94,7 @@
     }
   }
 
-  @keyframes marqueeLeft {
+  @keyframes #{$leftKeyframe} {
     0% {
       left: 0;
     }
@@ -99,7 +102,7 @@
       left: $inner-width * 0.5 * -1;
     }
   }
-  @keyframes marqueeRight {
+  @keyframes #{$rightKeyframe} {
     0% {
       left: $inner-width * 0.5 * -1;
     }

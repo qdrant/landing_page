@@ -7,7 +7,7 @@ features:
     src: /icons/outline/speedometer-blue.svg
     alt: Speedometer
   title: Highest RPS
-  description: Qdrant leads with top requests-per-second, outperforming alternative vector databases in various datasets by up to 4x.
+  description: Qdrant leads with top requests-per-second, outperforming alternative vector search in various datasets by up to 4x.
 - id: 1
   icon:
     src: /icons/outline/time-blue.svg

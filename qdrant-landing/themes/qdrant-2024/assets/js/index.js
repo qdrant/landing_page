@@ -1,22 +1,23 @@
 import scrollHandler from './scroll-handler';
+import { initTabSync } from './tab-sync';
 import { XXL_BREAKPOINT } from './constants';
-import {
-  addUTMToLinks,
-  initGoToTopButton,
-  persistUTMParams
-} from './helpers';
+import { addUTMToLinks, initGoToTopButton, persistUTMParams } from './helpers';
 import { handleSegmentReady } from './segment-helpers';
 import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpers';
 import TableOfContents from './table-of-content';
+import { DOCS_HEADER_OFFSET } from './constants';
+import { scrollIntoViewWithOffset } from './helpers';
 
 persistUTMParams();
 
 // on document ready
 document.addEventListener('DOMContentLoaded', function () {
   addUTMToLinks();
-  
-  const handleOneTrustLoaded = () => {   // One Trust Loaded
-    window.OneTrust.OnConsentChanged(async () => { // One Trust Preference Updated
+
+  const handleOneTrustLoaded = () => {
+    // One Trust Loaded
+    window.OneTrust.OnConsentChanged(async () => {
+      // One Trust Preference Updated
       addOneTrustPreferencesToLinks();
       registerAndCall();
 
@@ -110,7 +111,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.querySelectorAll('.menu-mobile__item').forEach((item) => {
     item.addEventListener('click', () => {
-      console.log(item.dataset.path);
       toggleMenu(item.dataset.path);
     });
   });
@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   initGoToTopButton('#scrollToTopBtn');
+  initTabSync();
 
   if (document.getElementById('TableOfContents') && document.querySelector('.qdrant-post__body')) {
     new TableOfContents('#TableOfContents', '.qdrant-post__body');
@@ -158,4 +159,35 @@ document.addEventListener('DOMContentLoaded', function () {
     el.addEventListener('click', toggleAccordion);
   });
 
+  // Pricing doors tabs
+  const pricingDoorsTabs = document.querySelectorAll('.qdrant-pricing-doors-b__tab');
+  const pricingDoorsContainers = document.querySelectorAll('[data-doors-tab]');
+  pricingDoorsTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      pricingDoorsTabs.forEach((t) => t.classList.remove('qdrant-pricing-doors-b__tab--active'));
+      tab.classList.add('qdrant-pricing-doors-b__tab--active');
+      const targetTab = tab.dataset.tab;
+      pricingDoorsContainers.forEach((container) => {
+        container.classList.toggle('qdrant-pricing-doors-b__doors--hidden', container.dataset.doorsTab !== targetTab);
+      });
+    });
+  });
+
+  // scroll to anchors:
+  let offset = DOCS_HEADER_OFFSET;
+
+  if (window.location.hash) {
+    scrollIntoViewWithOffset(window.location.hash.replace('#', ''), offset);
+  }
+
+  let allLinks = document.querySelectorAll('a[href^="#"]');
+
+  allLinks.forEach((anchor) => {
+    const target = anchor.getAttribute('href');
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      history.pushState(null, null, target);
+      scrollIntoViewWithOffset(target.replace('#', ''), offset);
+    });
+  });
 });

@@ -1,0 +1,16 @@
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, VectorParamsBuilder, VectorsConfigBuilder,
+};
+
+let mut vectors_config = VectorsConfigBuilder::default();
+vectors_config.add_named_vector_params(
+    "description-dense",
+    VectorParamsBuilder::new(384, Distance::Cosine),
+);
+
+client
+    .create_collection(CreateCollectionBuilder::new("books").vectors_config(vectors_config))
+    .await?;
+```

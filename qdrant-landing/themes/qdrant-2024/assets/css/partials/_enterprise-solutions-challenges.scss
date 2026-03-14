@@ -60,7 +60,7 @@
           margin-left: auto;
 
           &:before {
-            content: "";
+            content: '';
             display: block;
             height: 100%;
             width: pxToRem(1);
@@ -76,7 +76,7 @@
       &:nth-of-type(2) {
         & > div {
           &:after {
-            content: "";
+            content: '';
             display: block;
             width: calc(100% - pxToRem(32));
             height: pxToRem(1);

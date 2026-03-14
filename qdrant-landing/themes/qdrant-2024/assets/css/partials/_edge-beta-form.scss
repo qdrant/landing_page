@@ -36,11 +36,13 @@
       font-family: $font-family-base;
     }
 
-    [data-hsfc-id=Renderer] .hsfc-Step .hsfc-Step__Content {
+    [data-hsfc-id='Renderer'] .hsfc-Step .hsfc-Step__Content {
       padding: $spacer * 1.5;
     }
 
-    .hsfc-RichText span, .hsfc-FieldLabel span, .hsfc-ProgressBar__Text {
+    .hsfc-RichText span,
+    .hsfc-FieldLabel span,
+    .hsfc-ProgressBar__Text {
       font-size: $font-size-s !important;
       line-height: $line-height-sm !important;
       color: $neutral-98 !important;
@@ -50,7 +52,8 @@
       margin-bottom: $spacer * 0.5 !important;
     }
 
-    [data-hsfc-id=Renderer] .hsfc-TextInput, [data-hsfc-id=Renderer] .hsfc-TextareaInput {
+    [data-hsfc-id='Renderer'] .hsfc-TextInput,
+    [data-hsfc-id='Renderer'] .hsfc-TextareaInput {
       display: block;
       background-color: transparent;
       border: pxToRem(1) solid $neutral-50;
@@ -61,7 +64,8 @@
       color: $neutral-98;
       border-radius: $spacer * 0.5;
 
-      &:focus, &:active {
+      &:focus,
+      &:active {
         box-shadow: none !important;
       }
 
@@ -70,13 +74,13 @@
       }
     }
 
-    [data-hsfc-id=Renderer] .hsfc-ErrorAlert {
+    [data-hsfc-id='Renderer'] .hsfc-ErrorAlert {
       font-size: $font-size-xs;
       line-height: $font-size-l;
       color: $primary-40;
     }
 
-    [data-hsfc-id=Renderer] .hsfc-Button {
+    [data-hsfc-id='Renderer'] .hsfc-Button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -153,7 +157,7 @@
     }
 
     &__container {
-      [data-hsfc-id=Renderer] .hsfc-Step .hsfc-Step__Content {
+      [data-hsfc-id='Renderer'] .hsfc-Step .hsfc-Step__Content {
         padding: $spacer * 4;
       }
     }

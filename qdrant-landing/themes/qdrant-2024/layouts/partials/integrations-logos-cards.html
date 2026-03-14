@@ -1,0 +1,10 @@
+{{ range .context }}
+  <div class="integrations-logos__cards__item" role="img" aria-label="{{ .logo.alt }}">
+    {{ partial "svg" (dict "icon" .logo.icon "path" "themes/qdrant-2024/static/img/customer-logo/") }}
+  </div>
+{{ end }}
+{{ range .context }}
+  <div class="integrations-logos__cards__item" role="img" aria-label="{{ .logo.alt }}">
+    {{ partial "svg" (dict "icon" .logo.icon "path" "themes/qdrant-2024/static/img/customer-logo/") }}
+  </div>
+{{ end }}

@@ -1,0 +1,15 @@
+{{ with (.Site.GetPage "/headless/main/customers") }}
+  <section class="customers">
+    <div class="container">
+      <div class="customers__grid">
+        {{ range .Params.logoRows }}
+          {{ range .logos }}
+            <div class="customers__logo">
+              {{ partial "svg.html" (dict "icon" .src "path" "static" "fill" "#B4BACC") }}
+            </div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

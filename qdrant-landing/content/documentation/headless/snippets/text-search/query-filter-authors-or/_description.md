@@ -1,0 +1,1 @@
+Searches for "space opera" while returning matches where either `author` is Larry Niven or Jerry Pournelle (logical OR via `should`).

@@ -1,1 +1,16 @@
-{{ define "main" }}{{ end }}
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ partial "pricing/qdrant-pricing-comparison" . }}
+
+  {{ partial "pricing/qdrant-pricing-calculator" . }}
+
+  {{ with (.Site.GetPage "/pricing/qdrant-pricing-faq") }}
+    {{ partial "pricing/qdrant-pricing-faq" . }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/pricing/qdrant-pricing-cta") }}
+    {{ partial "cta-banner" . }}
+  {{ end }}
+
+{{ end }}

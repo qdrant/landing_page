@@ -1,16 +1,16 @@
 ---
-title: Langchain
+title: LangChain
 aliases:
   - ../integrations/langchain/
   - /documentation/overview/integrations/langchain/
 ---
 
-# Langchain
+# LangChain
 
-Langchain is a library that makes developing Large Language Model-based applications much easier. It unifies the interfaces
-to different libraries, including major embedding providers and Qdrant. Using Langchain, you can focus on the business value instead of writing the boilerplate.
+LangChain is a library that makes developing Large Language Model-based applications much easier. It unifies the interfaces
+to different libraries, including major embedding providers and Qdrant. Using LangChain, you can focus on the business value instead of writing the boilerplate.
 
-Langchain distributes the Qdrant integration as a partner package.
+LangChain distributes the Qdrant integration as a partner package.
 
 It might be installed with pip:
 
@@ -184,8 +184,8 @@ Note that if you've added documents with HYBRID mode, you can switch to any retr
 
 ## Next steps
 
-If you'd like to know more about running Qdrant in a Langchain-based application, please read our article
-[Question Answering with Langchain and Qdrant without boilerplate](/articles/langchain-integration/). Some more information
-might also be found in the [Langchain documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant).
+If you'd like to know more about running Qdrant in a LangChain-based application, please read our article
+[Question Answering with LangChain and Qdrant without boilerplate](/articles/langchain-integration/). Some more information
+might also be found in the [LangChain documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant).
 
 - [Source Code](https://github.com/langchain-ai/langchain/tree/master/libs%2Fpartners%2Fqdrant)

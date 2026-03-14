@@ -3,8 +3,6 @@
 {{ $currentNode := .context }}
 <div class="docs-menu">
   <div id="sidebar" class="docs-menu__content">
-
-
     {{ if eq $currentNode.Section "articles" }}
       <h3 class="docs-menu__links-title">Articles</h3>
       <nav>
@@ -15,7 +13,7 @@
             {{ if .Params.isCategoryPage }}
               <div
                 class="docs-menu__articles-link docs-menu__links-group-heading
-                {{ if eq .File.UniqueID $currentNode.File.UniqueID }} active{{ end }}"
+                {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active{{ end }}"
               >
                 <a href="{{ .Params.url }}">{{ .Params.title }}</a>
               </div>
@@ -30,17 +28,23 @@
 
       {{ $subject := $currentNode }}
 
-      {{ if eq $numLevels 1 }}  
-        {{ $subject = $currentNode }} <!-- top-level, `/documentation` -->
+      {{ if eq $numLevels 1 }}
+        {{ $subject = $currentNode }}
+        <!-- top-level, `/documentation` -->
       {{ else if eq $numLevels 2 }}
-        {{ $subject = $currentNode.Parent }} <!-- not top-level, `/documentation/essentials` -->
+        {{ $subject = $currentNode.Parent }}
+        <!-- not top-level, `/documentation/essentials` -->
       {{ else if eq $numLevels 3 }}
-        {{ $subject = $currentNode.Parent.Parent }} <!-- not top-level, `/documentation/essentials/day-0` -->
+        {{ $subject = $currentNode.Parent.Parent }}
+        <!-- not top-level, `/documentation/essentials/day-0` -->
       {{ else if eq $numLevels 4 }}
-        {{ $subject = $currentNode.Parent.Parent.Parent }} <!-- not top-level, `/documentation/essentials/day-0/introduction` -->
+        {{ $subject = $currentNode.Parent.Parent.Parent }}
+        <!-- not top-level, `/documentation/essentials/day-0/introduction` -->
       {{ else }}
-        {{ $subject = $currentNode.Parent.Parent.Parent }} <!-- not top-level, `/documentation/essentials/day-0/introduction/overview` -->
+        {{ $subject = $currentNode.Parent.Parent.Parent }}
+        <!-- not top-level, `/documentation/essentials/day-0/introduction/overview` -->
       {{ end }}
+
 
       <nav class="docs-menu__links">
         {{ range $subject.Pages }}
@@ -49,6 +53,7 @@
               <h3 class="docs-menu__links-title">{{ .Title }}</h3>
             {{ else if eq .Params.type "reference" }}
               {{ $page := site.GetPage .Params.reference }}
+
 
               <div
                 class="docs-menu__links-group {{ if eq $page.File.UniqueID $currentNode.File.UniqueID }}active{{ end }}
@@ -67,10 +72,7 @@
                   </a>
                 </div>
               </div>
-
-
             {{ else }}
-
               {{ if and (.IsPage) (not .Params.hideInSidebar) }}
                 <div
                   class="docs-menu__links-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active{{ end }}
@@ -151,7 +153,6 @@
         {{ end }}
       </nav>
     {{ end }}
-
 
   </div>
 </div>

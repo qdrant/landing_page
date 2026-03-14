@@ -8,7 +8,7 @@ weight: 3
 
 # Combining Vector Search and Filtering
 
-We've talked about how Qdrant uses the [HNSW](/documentation/concepts/indexing/#filtrable-index) graph to efficiently search dense vectors. But in real-world applications, you'll often want to constrain your search using filters. This creates unique challenges for graph traversal that Qdrant solves elegantly.
+We've talked about how Qdrant uses the [HNSW](/documentation/concepts/indexing/#filterable-index) graph to efficiently search dense vectors. But in real-world applications, you'll often want to constrain your search using filters. This creates unique challenges for graph traversal that Qdrant solves elegantly.
 
 <div class="video">
 <iframe 
@@ -199,4 +199,4 @@ See more in [the docs](/documentation/concepts/filtering/).
 
 In the next section, we'll define a collection with structured payloads, configure payload indexing, and evaluate how different HNSW parameters impact filtered search performance.
 
-Learn more: [Filterable HNSW Article](https://qdrant.tech/articles/filtrable-hnsw/) 
+Learn more: [Filterable HNSW Article](https://qdrant.tech/articles/filterable-hnsw/) 

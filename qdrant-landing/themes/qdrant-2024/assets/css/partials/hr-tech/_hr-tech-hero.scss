@@ -1,0 +1,95 @@
+@use 'sass:math';
+@use '../../helpers/functions' as *;
+
+.hr-tech-hero {
+  overflow: hidden;
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__title {
+    margin-top: 0;
+    margin-bottom: $spacer * 2;
+    font-size: $spacer * 2;
+    line-height: pxToRem(38);
+    color: $neutral-20;
+  }
+
+  &__description {
+    margin-bottom: $spacer * 2;
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    font-weight: 400;
+    color: $neutral-30;
+  }
+
+  &__values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer * 0.5;
+    margin-bottom: $spacer * 2;
+  }
+
+  &__value {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer * 0.5;
+    padding: math.div($spacer, 4) $spacer * 0.5;
+    background-color: $white;
+    border-radius: pxToRem(2);
+
+    &-icon {
+      height: pxToRem(20);
+      width: pxToRem(20);
+    }
+
+    &-text {
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
+      font-weight: 400;
+      color: $neutral-30;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: $spacer * 1.5;
+  }
+
+  &__preview {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: $spacer * 2.5;
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(560);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: pxToRem(45);
+      line-height: pxToRem(50);
+    }
+
+    &__preview {
+      justify-content: flex-end;
+      margin-top: 0;
+
+      img {
+        width: 110%;
+      }
+    }
+  }
+}

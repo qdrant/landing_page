@@ -1,6 +1,6 @@
 ---
 title: Usage Statistics
-weight: 166
+weight: 140
 aliases:
   - ../telemetry
   - /documentation/guides/telemetry

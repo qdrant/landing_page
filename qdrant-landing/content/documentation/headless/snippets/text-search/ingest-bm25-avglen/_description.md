@@ -1,0 +1,1 @@
+Tunes BM25 by setting `avg_len` to 5.0 for title fields, improving length normalization for scoring.

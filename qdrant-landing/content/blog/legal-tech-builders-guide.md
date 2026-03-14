@@ -125,7 +125,7 @@ final_results = reranked[:5]
 
 Not every clause is created equal. Legal professionals often care more about specific provisions, jurisdictions, or case types, for example.
 
-Qdrant's [Score Boosting Reranker](https://qdrant.tech/documentation/concepts/hybrid-queries/#score-boosting) lets you integrate domain-specific logic (e.g., jurisdiction or recent cases) directly into search rankings, ensuring results align precisely with legal business rules.
+Qdrant's [Score Boosting Reranker](/documentation/concepts/search-relevance/#score-boosting) lets you integrate domain-specific logic (e.g., jurisdiction or recent cases) directly into search rankings, ensuring results align precisely with legal business rules.
 
 ```json
 POST /collections/legal-docs/points/query

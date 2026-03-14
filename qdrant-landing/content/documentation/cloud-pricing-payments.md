@@ -19,9 +19,12 @@ You can pay for your Qdrant Cloud database clusters either with a credit card or
 
 Your payment method is charged at the beginning of each month for the previous month's usage. There is no difference in pricing between the different payment methods.
 
-If you choose to pay through a marketplace, the Qdrant Cloud usage costs are added as $0.01 Resource Usage Units to your existing billing for your cloud provider services. E.g. if you create a Qdrant Cluster that costs $85 in a month, 8,500 Resource Usage Units for Qdrant Cloud will be added to your cloud provider bill.  A detailed breakdown of your usage is available in the Qdrant Cloud Console.
+If you choose to pay through a marketplace, the Qdrant Cloud usage costs are added as \\$0.01 Resource Usage Units to your existing billing for your cloud provider services.
+E.g. if you create a Qdrant Cluster that costs \\$85 in a month, 8,500 Resource Usage Units for Qdrant Cloud will be added to your cloud provider bill.  A detailed breakdown of your usage is available in the Qdrant Cloud Console.
 
 Note: Even if you pay using a marketplace subscription, your database clusters will still be deployed into Qdrant-owned infrastructure. The setup and management of Qdrant database clusters will also still be done via the Qdrant Cloud Console UI.
+
+Note: If you choose to pay for your Qdrant Cloud clusters through a cloud provider marketplace, Qdrant Cluster creation is limited to paid clusters in regions of this cloud provider only. This is due to compliance requirements of the cloud provider. If you wish to run clusters in other regions or on other cloud providers, you can create additional accounts using a different payment method.
 
 If you wish to deploy Qdrant database clusters into your own environment from Qdrant Cloud then we recommend our [Hybrid Cloud](/documentation/hybrid-cloud/) solution.
 

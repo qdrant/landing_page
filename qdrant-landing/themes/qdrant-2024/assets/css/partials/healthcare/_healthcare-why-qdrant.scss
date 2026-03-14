@@ -1,0 +1,125 @@
+@use 'sass:math';
+@use '../../helpers/functions' as *;
+
+.healthcare-why-qdrant {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__content {
+    margin-bottom: $spacer * 3;
+  }
+
+  &__title {
+    margin: 0 0 $spacer * 3;
+    font-size: $spacer * 2;
+    line-height: 1.2;
+    color: $neutral-20;
+    letter-spacing: -0.5px;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2.5;
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacer;
+  }
+
+  &__item-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    background-color: $white;
+    border-radius: pxToRem(4);
+
+    img {
+      width: pxToRem(24);
+      height: pxToRem(24);
+    }
+  }
+
+  &__item-text {
+    flex: 1;
+    margin: 0;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    color: $neutral-30;
+
+    strong {
+      font-weight: 600;
+    }
+
+    a {
+      color: $neutral-20;
+      text-decoration: underline;
+    }
+  }
+
+  &__badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacer * 1.5;
+    margin-top: $spacer * 2.5;
+  }
+
+  &__badge {
+    height: pxToRem(40);
+    width: auto;
+  }
+
+  &__visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    max-width: pxToRem(500);
+    height: auto;
+    border-radius: pxToRem(12);
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__title {
+      font-size: pxToRem(32);
+    }
+
+    &__badges {
+      gap: $spacer * 1.5;
+    }
+
+    &__badge {
+      height: pxToRem(48);
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__content {
+      margin-bottom: 0;
+      padding-right: $spacer * 3;
+    }
+
+    &__title {
+      font-size: pxToRem(40);
+      margin-bottom: $spacer * 2.5;
+    }
+
+    &__items {
+      gap: $spacer * 2.5;
+    }
+  }
+}

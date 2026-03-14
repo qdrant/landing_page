@@ -1,0 +1,215 @@
+@use '../../helpers/functions' as *;
+
+.enterprise-ready {
+  background-color: $neutral-94;
+  padding-top: pxToRem(80);
+  padding-bottom: pxToRem(80);
+
+  .container {
+    max-width: pxToRem(1110);
+  }
+
+  // Header
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: $spacer;
+    margin-bottom: pxToRem(64);
+  }
+
+  &__title {
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+    margin: 0;
+
+    @include media-breakpoint-up(xl) {
+      font-size: pxToRem(48);
+    }
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'l');
+    font-weight: 350;
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    color: $neutral-30;
+    margin: 0;
+    max-width: pxToRem(728);
+
+    @include media-breakpoint-up(xl) {
+      font-size: map-get($font-sizes-text, 'xl');
+    }
+  }
+
+  // Content wrapper
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(30);
+  }
+
+  // Row containers
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: pxToRem(30);
+  }
+
+  &__row--large {
+    @include media-breakpoint-up(md) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__row--small {
+    gap: pxToRem(30);
+
+    @include media-breakpoint-up(xl) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  // Cards base
+  &__card {
+    background-color: $neutral-98;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(8);
+    overflow: hidden;
+  }
+
+  // Large cards
+  &__card--large {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    text-decoration: none;
+    transition:
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+
+    @include media-breakpoint-up(md) {
+      flex: 1 1 0;
+    }
+
+    &#{&}__card--link:hover {
+      border-color: $neutral-80;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &__card-visual {
+    position: relative;
+    height: pxToRem(144);
+    background-color: $neutral-98;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  &__card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  &__card-footer {
+    display: flex;
+    align-items: center;
+    padding: pxToRem(24);
+  }
+
+  &__card-link {
+    align-self: flex-start;
+    font-weight: 500;
+  }
+
+  &__card--large#{&}__card--link:hover &__card-link {
+    $icon-width: pxToRem(20);
+    color: $primary-50;
+    padding-right: calc($icon-width + 6px);
+
+    &::before {
+      background: linear-gradient(to right, $primary-50 50%, transparent 50%);
+      background-size: 200% 100%;
+      background-position: 0 0;
+      animation: link-dash 0.3s ease-in-out forwards;
+    }
+
+    &::after {
+      background: $primary-50;
+      animation: link-dash 0.3s ease-in-out forwards;
+    }
+  }
+
+  @keyframes link-dash {
+    to {
+      background-position: 0 0;
+    }
+  }
+
+  // Small cards — flex to fill container width at all breakpoints
+  &__card--small {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 0;
+    height: pxToRem(160);
+    padding: pxToRem(24);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+
+    @include media-breakpoint-up(sm) {
+      flex: 1 1 calc((100% - 60px) / 3);
+    }
+
+    @include media-breakpoint-up(xl) {
+      flex: 1 1 0;
+    }
+
+    &#{&}__card--link:hover {
+      border-color: $neutral-80;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+      .enterprise-ready__card-label {
+        color: $primary-50;
+      }
+    }
+  }
+
+  &__card-icon {
+    width: pxToRem(24);
+    height: pxToRem(24);
+
+    svg,
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__icon-svg {
+    display: block;
+    width: pxToRem(24);
+    height: pxToRem(24);
+  }
+
+  &__card-label {
+    font-size: map-get($font-sizes-text, 'md');
+    font-weight: 500;
+    line-height: 1.5;
+    color: $neutral-20;
+    transition: color 0.2s ease;
+  }
+}

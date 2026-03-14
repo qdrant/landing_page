@@ -30,7 +30,7 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 | [Discovery Search](/documentation/concepts/explore/#discovery-api) | Guide the search using context as a one-shot training set |
 | [Scroll](/documentation/concepts/points/#scroll-points) | Get all points with optional filtering |
 | [Grouping](/documentation/concepts/search/#grouping-api) | Group results by a certain field |
-| [Order By](/documentation/concepts/hybrid-queries/#re-ranking-with-stored-values) | Order points by payload key |
+| [Order By](/documentation/concepts/points/#order-points-by-payload-key) | Order points by payload key |
 | [Hybrid Search](/documentation/concepts/hybrid-queries/#hybrid-search) | Combine multiple queries to get better results |
 | [Multi-Stage Search](/documentation/concepts/hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
 | [Random Sampling](#random-sampling) | Get random points from the collection |
@@ -175,7 +175,7 @@ Accessing array elements by index is currently not supported.
 *Available as of v1.16.0*
 
 For filtered vector search, you are recommended to create a [payload index](/documentation/concepts/indexing/#payload-index) for the fields you want to filter by.
-During the search, Qdrant will use a combined [filterable index](/documentation/concepts/indexing/#filtrable-index).
+During the search, Qdrant will use a combined [filterable index](/documentation/concepts/indexing/#filterable-index).
 However, when combining multiple strict payload filters, this mechanism might not provide sufficient accuracy.
 In such cases, you can use the ACORN search algorithm.
 

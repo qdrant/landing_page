@@ -10,7 +10,7 @@ weight: 81
 Qdrant Managed Cloud allows you to use inference directly in the cloud, without the need to set up and maintain your own inference infrastructure. You can use [embedding models hosted on Qdrant Cloud](#cloud-inference), or use [externally hosted models](#use-external-models).
 
 <aside role="alert">
-    Inference is currently executed within a US region, even if the Qdrant Cloud cluster is hosted in another region.
+    Inference is executed within the EU for Qdrant clusters in EU regions and in the US for Qdrant Clusters in all other regions. Free models are hosted on US region only.
 </aside>
 
 ![Cluster Cluster UI](/documentation/cloud/cloud-inference.png)
@@ -29,17 +29,22 @@ Clusters on Qdrant Managed Cloud can access embedding models that are hosted on 
 
 You can see the list of supported models in the Inference tab of the Cluster Detail page in the Qdrant Cloud Console. The list includes models for text, both to produce dense and sparse vectors, as well as multi-modal models for images.
 
+### Free Embedding Models
+
+Several embedding models can be used for free with Qdrant Cloud Inference, also in combination with clusters on the Qdrant Cloud free tier. Free models are identified by the "Cost: Free" label in the Inference tab of the Cluster Detail page.
+
 ### Billing
 
-Inference is billed based on the number of tokens processed by the model. The cost is calculated per 1,000,000 tokens. The price depends on the model and is displayed on the Inference tab of the Cluster Detail page. You also can see the current usage of each model there.
+Usage of non-free embedding models is billed based on the number of tokens processed by the model. The cost is calculated per 1,000,000 tokens. The price depends on the model and is displayed on the Inference tab of the Cluster Detail page. You also can see the current usage of each model there.
 
 ## Use External Models
 
-Qdrant Cloud can act as a proxy for the APIs of three external embedding model providers:
+Qdrant Cloud can act as a proxy for the following external embedding providers:
 
 - OpenAI
 - Cohere
 - Jina AI
+- OpenRouter
 
 This enables you to access any of the embedding models provided by these providers through the Qdrant API.
 

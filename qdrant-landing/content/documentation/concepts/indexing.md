@@ -45,6 +45,8 @@ Payload index may occupy some additional memory, so it is recommended to only us
 If you need to filter by many fields and the memory limits do not allow for indexing all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 
+<aside role="alert">It's highly recommended to create all payload indices immediately after collection creation. Creating them later may block updates for some time. HNSW graphs will also only benefit from <a href="#filterable-index">additional optimizations</a> (extra edges) when they are generated after payload index creation.</aside>
+
 ### Parameterized index
 
 *Available as of v1.8.0*
@@ -177,7 +179,7 @@ The choice of tokenizer affects how queries match the indexed text, supporting d
 
 Available tokenizers are:
 
-* `word` - splits the string into words, separated by spaces, punctuation marks, and special characters.
+* `word` (default) - splits the string into words, separated by spaces, punctuation marks, and special characters.
 * `whitespace` - splits the string into words, separated by spaces.
 * `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
 * `multilingual` - a special type of tokenizer based on multiple packages like [charabia](https://github.com/meilisearch/charabia) and [vaporetto](https://github.com/daac-tools/vaporetto) to deliver fast and accurate tokenization for a large variety of languages. It allows proper tokenization and lemmatization for multiple languages, including those with non-Latin alphabets and non-space delimiters. See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. Note: For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
@@ -210,7 +212,7 @@ When configuring a full-text index in Qdrant, you can specify a stemmer to be us
 Qdrant provides an implementation of [Snowball stemmer](https://snowballstem.org/), a widely used and performant variant for some of the most popular languages.
 For the list of supported languages, please visit the [rust-stemmers repository](https://github.com/qdrant/rust-stemmers).
 
-Here is an example of full-text Index configuration with Snowball stemmer:
+For full-text indices, stemming is not enabled by default. To enable it, configure the `snowball` stemmer with the desired language:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stemmer-full-text/" >}}
 
@@ -222,8 +224,7 @@ In Qdrant, you can specify a list of stopwords to be ignored during full-text in
 
 You can configure stopwords based on predefined languages, as well as extend existing stopword lists with custom words.
 
-Here is an example of configuring a full-text index with custom stopwords:
-
+For full-text indices, stopword removal is not enabled by default. To enable it, configure the `stopwords` parameter with the desired languages and any custom stopwords:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/stopwords-full-text/" >}}
 
@@ -287,6 +288,45 @@ The HNSW parameters can also be configured on a collection and named vector
 level by setting [`hnsw_config`](/documentation/concepts/indexing/#vector-index) to fine-tune search
 performance.
 
+### Filterable HNSW Index
+
+Separately, a payload index and a vector index cannot completely address the challenges of filtered search.
+
+In the case of high-selectivity (weak) filters, you can use the HNSW index as it is.
+In the case of low-selectivity (strict) filters, you can use the payload index and do a complete rescore.
+However, for cases in the middle, this approach does not work well.
+On one hand, we cannot apply a full scan on too many vectors.
+On the other hand, the HNSW graph starts to fall apart when using filters that are too strict.
+
+![HNSW fail](/docs/precision_by_m.png)
+
+<!-- ![hnsw graph](/docs/graph.gif) -->
+
+Qdrant solves this problem by extending the HNSW graph with additional edges based on indexed payload values.
+Extra edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph.
+You can find more information on this approach in our [article](/articles/filterable-hnsw/).
+
+#### The ACORN Search Algorithm
+
+*Available as of v1.16.0*
+
+In some cases, the additional edges built for Qdrant's filterable HNSW may not be sufficient.
+These extra edges are added for each payload index separately, but not for every possible combination of payload indices.
+As a result, a combination of two or more strict filters might still lead to disconnected graph components.
+The same can happen when there are a large number of soft-deleted points in the graph.
+In such cases, use the [ACORN Search Algorithm](/documentation/concepts/search/#acorn-search-algorithm).
+When using ACORN, during graph traversal, it explores not just direct neighbors (first hop), but also neighbors of neighbors (second hop) when direct neighbors are filtered out. This improves search accuracy at the cost of performance.
+
+#### Disable the Creation of Extra Edges for Payload Fields
+
+*Available as of v1.17.0*
+
+Not all payload indices may be intended for use with dense vector search. For example, when a collection contains both dense and sparse vectors, some payload fields may only be used to filter sparse vector searches. Since sparse vector search does not use the HNSW index, it is unnecessary to build extra edges in the HNSW graph for these fields. Creating extra edges adds indexing latency and increases the size of the HNSW graph, which consumes memory as well as disk space, so you may want to disable it for fields that do not require it. 
+
+You can disable the creation of extra edges for an indexed payload field by setting `enable_hnsw` to `false` when configuring a payload index:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/disable-hnsw/" >}}
+
 ## Sparse Vector Index
 
 *Available as of v1.7.0*
@@ -339,28 +379,3 @@ Where:
 
 - `N` is the total number of documents in the collection.
 - `n` is the number of documents containing non-zero values for the given vector element.
-
-## Filtrable Index
-
-Separately, a payload index and a vector index cannot solve the problem of search using the filter completely.
-
-In the case of high-selectivity (weak) filters, you can use the HNSW index as it is.
-In the case of low-selectivity (strict) filters, you can use the payload index and complete rescore.
-
-However, for cases in the middle, this approach does not work well.
-On the one hand, we cannot apply a full scan on too many vectors.
-On the other hand, the HNSW graph starts to fall apart when using too strict filters.
-
-![HNSW fail](/docs/precision_by_m.png)
-
-<!-- ![hnsw graph](/docs/graph.gif) -->
-
-Qdrant solves this problem by extending the HNSW graph with additional edges based on the stored payload values.
-Extra edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph.
-You can find more information on this approach in our [article](/articles/filtrable-hnsw/).
-
-However, in some cases, these additional edges might not be enough.
-These extra edges are added per each payload index separately, but not per each possible combination of them.
-So, a combination of two or more strict filters still might lead to disconnected graph components.
-The same may happen when having a large number of soft-deleted points in the graph.
-In such cases, the [ACORN Search Algorithm](/documentation/concepts/search/#acorn-search-algorithm) can be used.

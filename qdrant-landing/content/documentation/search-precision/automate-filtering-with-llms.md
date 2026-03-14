@@ -1,11 +1,11 @@
 ---
-title: Automate filtering with LLMs
+title: LLM-Powered Filter Automation
 weight: 2
 alias:
     - /documentation/database-tutorials/automate-filtering-with-llms/
 ---
 
-# Automate filtering with LLMs
+# LLM-Powered Filter Automation with Qdrant
 
 Our [complete guide to filtering in vector search](/articles/vector-search-filtering/) describes why filtering is
 important, and how to implement it with Qdrant. However, applying filters is easier when you build an application

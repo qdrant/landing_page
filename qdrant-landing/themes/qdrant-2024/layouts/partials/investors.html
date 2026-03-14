@@ -1,20 +1,23 @@
 {{ with (.Site.GetPage "/about-us/investors") }}
   <section class="investors">
-    <div class="investors__overlay"></div>
     <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h2 class="investors__title mx-auto">{{ .Params.title }}</h2>
-          <div class="investors__links">
-            <a href="{{ .Params.link1.url }}" class="link link_xl">{{ .Params.link1.title }}</a>
-            <a href="{{ .Params.link2.url }}" class="link link_xl">{{ .Params.link2.title }}</a>
-          </div>
+      <div class="investors__container">
+      <h2 class="investors__title">{{ .Params.title }}</h2>
+      <div class="investors__content">
+        <div class="investors__logos">
+          {{ range .Params.investors }}
+            <div class="investors__card">
+              <img class="investors__logo" src="{{ .logo }}" alt="Logo" loading="lazy" decoding="async">
+            </div>
+          {{ end }}
         </div>
-      </div>
-      <div class="investors__logos">
-        {{ range .Params.investors }}
-          <img class="investors__logo" src="{{ .logo }}" alt="Logo">
-        {{ end }}
+        <ul class="investors__links">
+          {{ range .Params.links }}
+            <li class="investors__link-outer">
+              <a class="investors__link link link_xl" href="{{ .url }}" {{ if hasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .title }}</a>
+            </li>
+          {{ end }}
+        </ul>
       </div>
     </div>
   </section>

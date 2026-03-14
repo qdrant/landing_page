@@ -1,0 +1,1 @@
+Language-neutral BM25 query disabling stemming/stopwords, using multilingual tokenizer and ASCII folding.

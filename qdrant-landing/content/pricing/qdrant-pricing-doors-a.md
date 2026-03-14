@@ -40,7 +40,7 @@ cards:
   price: Custom
   description: Price on request.
   button:
-    text: Contact Sales
+    text: Contact Us
     url: /contact-us/
     contained: false
   featureDescription: Deploy Qdrant fully on premise for maximum control and data sovereignty.

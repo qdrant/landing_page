@@ -10,7 +10,6 @@
       <div class="documentation__content">
         <!--        todo: update this and styles to support both types of content on the same page-->
         <div class="documentation__content-wrapper">
-
           {{ if eq .Section "articles" }}
             {{ $subject := site.GetPage "articles" }}
             {{ $currentNode := .Params }}
@@ -31,6 +30,7 @@
                       </div>
 
                       {{ $category := .Params.category }}
+
 
                       <div class="docs-articles__posts">
                         <div class="row gy-4">
@@ -68,10 +68,12 @@
               <div class="docs-articles docs-articles__list">
                 {{ partial "documentation/breadcrumbs" . }}
 
+
                 <h4 class="docs-articles__title">{{ .Params.title }}</h4>
                 <p class="docs-articles__description">{{ .Params.description }}</p>
 
                 {{ $category := .Params.category }}
+
 
                 <div class="docs-articles__posts">
                   <div class="row gx-4 gy-5">
@@ -115,17 +117,26 @@
               <div class="documentation__article-wrapper">
                 {{ partial "documentation/breadcrumbs" . }}
 
+
                 <article class="documentation-article">
                   <div class="documentation-article__header">
                     {{ $firstUrlElement := index (split .RelPermalink "/") 1 }}
                     {{ $url := path.Join $firstUrlElement .Params.category }}
 
+
                     <a href="/{{ $url }}/" class="documentation-article__header-link">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14.6668 8.00004H1.3335M1.3335 8.00004L6.00016 12.6667M1.3335 8.00004L6.00016 3.33337" stroke="#8F98B3" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path
+                          d="M14.6668 8.00004H1.3335M1.3335 8.00004L6.00016 12.6667M1.3335 8.00004L6.00016 3.33337"
+                          stroke="#8F98B3"
+                          stroke-width="1.33333"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
                       </svg>
                       {{ with (.Site.GetPage $url) }}
-                        Back to {{ .Params.Title }}
+                        Back to
+                        {{ .Params.Title }}
                       {{ end }}
                     </a>
                     <h1 class="documentation-article__header-title">{{ .Params.title }}</h1>
@@ -140,9 +151,9 @@
                         <img alt="{{ .Title }}" src="{{ .Params.preview_dir }}/title.jpg" />
                       </picture>
                     {{ else }}
-                    <picture class="documentation-article__preview">
-                      {{ partial "preview-image" (dict "context" . "default_file_name" "title.jpg" "preview_file" .Params.title_preview_image) }}
-                    </picture>
+                      <picture class="documentation-article__preview">
+                        {{ partial "preview-image" (dict "context" . "default_file_name" "title.jpg" "preview_file" .Params.title_preview_image) }}
+                      </picture>
                     {{ end }}
                   </div>
 
@@ -167,6 +178,7 @@
                 {{ if not (eq .Params.breadcrumb false) }}
                   {{ partial "documentation/breadcrumbs" . }}
                 {{ end }}
+
 
                 <article class="documentation-article">
                   {{ partial "article-content.html" . }}

@@ -1,1 +1,23 @@
-{{ define "main" }}{{ end }}
+{{ define "main" }}
+  {{ partial "site-header" . }}
+  <section class="outlined-card-group grey-bg py-5">
+    <div class="container">
+      {{ if or (eq .File.BaseFileName "calendar") (eq .Type "elastic-lucene") }}
+        <div class="row">
+          <h3 class="text-center col-12 mb-5">{{ .Title }}</h3>
+        </div>
+        <div class="row elastic-lucene-calendar">
+          <div class="col-12">
+            {{ .Content }}
+          </div>
+        </div>
+      {{ else }}
+        <div class="qdrant-post">
+          <article class="qdrant-post__content">
+            {{ partial "article-content" . }}
+          </article>
+        </div>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

@@ -14,7 +14,9 @@ To learn how Hybrid Cloud works, [read the overview document](/documentation/hyb
 
 ## Prerequisites
 
-- **Kubernetes cluster:** To create a Hybrid Cloud Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
+Qdrant Hybrid Cloud is available as part of our Enterprise plan. To get access to Qdrant Hybrid Cloud, please [contact us](/contact-us/).
+
+- **Kubernetes Cluster:** To create a Hybrid Cloud Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud (e.g. EKS), on-premise (e.g. vSphere), or edge environment (e.g. vSphere).  See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
 - **Storage:** For storage, you need to set up the Kubernetes cluster with a Container Storage Interface (CSI) driver that provides block storage. For vertical scaling, the CSI driver needs to support volume expansion. The `StorageClass` needs to be created beforehand. For backups and restores, the driver needs to support CSI snapshots and restores. The `VolumeSnapshotClass` needs to be created beforehand. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
 
 <aside role="status">Network storage systems like NFS or object storage systems such as S3 are not supported.</aside>
@@ -64,6 +66,7 @@ By default, Qdrant Cloud will provision two volumes per Qdrant Pod: One for the 
 - An optional secret with credentials to access your own container registry.
 - Log level for the operator and agent.
 - Node selectors and tolerations for the operater, agent, cluster-manager and monitoring stack.
+- Control Plane Labels that will be added to all Kubernetes resources of the Hybrid Cloud control-plane components.
 
 ![Create Hybrid Cloud Environment - Advanced Configuration](/documentation/cloud/hybrid_cloud_advanced_configuration.png)
 
@@ -187,24 +190,6 @@ With the above configuration, you can add the following values to the advanced s
 * Chart repository URL: `oci://your-registry.example.com/qdrant-charts`
 
 If your registry requires authentication, you can create and reference the secret the same way as described above.
-
-### Rate limits at `docker.io`
-
-By default, the Qdrant database image will be fetched from Docker Hub, which is the main source of truth. Docker Hub has rate limits for anonymous users. If you have larger setups and also fetch other images from their, you may run into these limits. To solve this, you can provide authentication information for Docker Hub.
-
-First, create a secret with your Docker Hub credentials into your `the-qdrant-namespace` namespace:
-
-```shell
-kubectl create secret docker-registry dockerhub-registry-secret --namespace the-qdrant-namespace --docker-server=https://index.docker.io/v1/ --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
-```
-
-Then, you can reference this secret by adding the following configuration in the operator configuration YAML editor in the advanced section of the Hybrid Cloud Environment:
-
-```yaml
-qdrant:
-  image:
-    pull_secret: "dockerhub-registry-secret"
-```
 
 ## Rotating Secrets
 

@@ -1,0 +1,47 @@
+@use '../../helpers/functions' as *;
+
+.qdrant-pricing-faq {
+  padding: $spacer * 5 0 $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__title {
+    margin-bottom: $spacer * 5;
+    font-size: pxToRem(56);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+    text-align: center;
+  }
+
+  &__questions {
+    max-width: pxToRem(800);
+    margin: 0 auto;
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding: $spacer * 4 0 $spacer * 2;
+
+    &__title {
+      margin-bottom: $spacer * 3;
+      font-size: pxToRem(40);
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: $spacer * 2.5 0 $spacer * 2;
+
+    &__title {
+      margin-bottom: $spacer * 3;
+      font-size: pxToRem(40);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      text-align: center;
+    }
+
+    &__questions {
+      margin: 0 $spacer * 1.25;
+    }
+  }
+}

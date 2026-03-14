@@ -88,7 +88,7 @@ load_dotenv('./.env')
 
 LlamaIndex provides built-in support for the [Jina Embeddings API](https://jina.ai/embeddings/#apiform). To use it, you need to initialize the `JinaEmbedding` object with your API Key and model name.
 
-For the LLM, you need wrap it in a subclass of `llama_index.llms.CustomLLM` to make it compatible with LlamaIndex.
+For the LLM, you need to wrap it in a subclass of `llama_index.llms.CustomLLM` to make it compatible with LlamaIndex.
 
 ```python
 # connect embeddings
