@@ -7,6 +7,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # for rust client
     gcc \
     libc6-dev \
+    pkg-config \
+    libssl-dev \
+    # TODO: remove when no longer needed
+    protobuf-compiler \
+    libprotobuf-dev \
     # for go client
     golang \
     # for java client
@@ -27,7 +32,7 @@ RUN add-apt-repository ppa:dotnet/backports && \
 # for rust client
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
     CARGO_HOME=/opt/rust RUSTUP_HOME=/opt/rust \
-    sh -s -- -y --default-toolchain 1.91.0
+    sh -s -- -y --default-toolchain 1.94.0
 
 # for typescript client
 RUN npm install --global --prefix /usr/local pnpm

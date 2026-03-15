@@ -3,7 +3,7 @@ from pathlib import Path
 from qdrant_edge import (
     Distance,
     EdgeConfig,
-    VectorDataConfig,
+    EdgeVectorParams,
 )
 
 SHARD_DIRECTORY = "./qdrant-edge-directory"
@@ -12,8 +12,8 @@ VECTOR_DIMENSION=4
 
 Path(SHARD_DIRECTORY).mkdir(parents=True, exist_ok=True)
 config = EdgeConfig(
-    vector_data={
-        VECTOR_NAME: VectorDataConfig(
+    vectors={
+        VECTOR_NAME: EdgeVectorParams(
             size=VECTOR_DIMENSION,
             distance=Distance.Cosine,
         )
