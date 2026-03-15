@@ -1,5 +1,5 @@
 ---
-title: "Video Anomaly Detection Part 3 | Scoring, Governance, and Deployment"
+title: "Video Anomaly Detection Part III | Scoring, Governance, and Deployment"
 weight: 11
 partition: build
 social_preview_image: /articles_data/video-anomaly-edge/preview/social_preview.jpg
@@ -9,19 +9,30 @@ aliases:
 
 # Video Anomaly Detection: Scoring, Governance, and Deployment
 
-| Time: 60 min | Level: Advanced | Stack: Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA VSS, Vultr | Output: [GitHub](https://github.com/qdrant/examples/tree/master/video-anomaly-edge) |
-| --- | ----------- | ----------- | ----------- |
+| Time: 60 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/video-anomaly-edge) |
+| --- | ----------- | ----------- |
 
-*This is Part 3 of a 3-part series on building real-time video anomaly detection from edge to cloud.*
+*This is Part III of a 3-part series on building real-time video anomaly detection from edge to cloud.*
 
 **Series:**
-- [Part 1 | Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
-- [Part 2 | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
-- Part 3 | Scoring, Governance, and Deployment (here)
+- [Part I | Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
+- [Part II | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
+- Part III | Scoring, Governance, and Deployment (here)
 
 ---
 
-In [Part 1](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/), we set up the architecture, Twelve Labs integration, and NVIDIA VSS connection. In [Part 2](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/), we built Qdrant Edge's two-shard architecture and the escalation pipeline. Now we turn raw scores into incidents, protect the baseline, and deploy.
+In [Part I](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/), we set up the architecture, Twelve Labs integration, and NVIDIA VSS connection. In [Part II](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/), we built Qdrant Edge's two-shard architecture and the escalation pipeline. Now we turn raw scores into incidents, protect the baseline, and deploy.
+
+## Getting Started
+
+Before continuing, make sure you have completed Parts I and II and have the following running:
+
+- Docker stack up (`docker compose up`)
+- Qdrant Cloud collection populated with baseline embeddings
+- At least one edge device registered and synced
+- Twelve Labs indexes created (Marengo and Pegasus)
+
+If you're starting fresh, return to [Part I](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/) for setup instructions.
 
 ## Anomaly Scoring and Incident Formation
 
@@ -50,13 +61,13 @@ Contiguous windows above threshold are grouped into incidents:
 @dataclass
 class Incident:
     incident_id: str
-    start_time: float
-    end_time: float
-    peak_score: float         # Maximum smoothed score
-    mean_score: float         # Average smoothed score
-    severity: int             # 0-100 scale
-    window_count: int         # Number of clips in incident
-    duration_ms: int          # End - start
+    start_time: float   # seconds
+    end_time: float     # seconds
+    peak_score: float   # Maximum smoothed score
+    mean_score: float   # Average smoothed score
+    severity: int       # 0-100 scale
+    window_count: int   # Number of clips in incident
+    duration_ms: int    # End - start in milliseconds
 ```
 
 Incidents within a 20-second cooldown window are merged to prevent fragmentation.
@@ -167,11 +178,22 @@ GET  /api/twelvelabs/status Check Twelve Labs config
 POST /api/vss/upload        Upload to VSS (chunk + ingest)
 GET  /api/vss/health        Check VSS health
 
+# Edge sync
+POST /api/upsert            Receive edge points for cloud baseline sync
+POST /api/snapshots/full    Full shard snapshot for edge immutable shard
+POST /api/snapshots/partial Incremental shard snapshot for edge sync
+POST /edge/metrics          Receive metrics from edge devices
+
 # Operations
-GET  /api/escalations/stats Escalation tracker summary
-GET  /api/edges             List edge devices
-POST /api/edges/register    Register new edge device
-GET  /api/memory/stats      Baseline governance stats
+GET  /api/escalations/stats            Escalation tracker summary
+GET  /api/edges                        List edge devices
+POST /api/edges/register               Register new edge device
+POST /api/edges/{device_id}/sync-baseline Trigger baseline sync to device
+GET  /api/edges/{device_id}/stats      Per-device analytics
+GET  /api/memory/stats                 Baseline governance stats
+GET  /api/qdrant/stats                 Collection point count and status
+GET  /api/incidents                    List detected incidents
+GET  /health                           Service health check
 ```
 
 ---
@@ -180,7 +202,7 @@ GET  /api/memory/stats      Baseline governance stats
 
 ![UMAP scatter plot of video embeddings showing normal baseline clusters and anomaly outliers in vector space](/articles_data/video-anomaly-edge/umap-scatter.png)
 
-We evaluated on the [UCF-Crime dataset](https://www.crcv.ucf.edu/projects/real-world/), the standard benchmark for video anomaly detection. The dataset contains 1,900 surveillance videos across 13 anomaly categories (abuse, arson, assault, burglary, explosion, fighting, road accidents, robbery, shooting, shoplifting, stealing, vandalism) plus normal footage.
+We evaluated on the [UCF-Crime dataset](https://www.crcv.ucf.edu/projects/real-world/), the standard benchmark for video anomaly detection. The dataset contains 1,900 surveillance videos across 13 anomaly categories (abuse, arrest, arson, assault, burglary, explosion, fighting, road accidents, robbery, shooting, shoplifting, stealing, vandalism) plus normal footage.
 
 **Cloud tier (Twelve Labs Marengo, k=3):**
 
@@ -219,9 +241,9 @@ In production, the cloud tier must handle bursts of escalations from multiple ed
 | Queue Utilization | Mode | Behavior |
 |------------------|------|----------|
 | < 80% | NORMAL | Full pipeline (embed + score + incident) |
-| 80-90% | SCORE_ONLY | Skip caption generation |
-| 90-95% | PASSTHROUGH | Use cached embeddings |
-| > 95% | SHED_LOAD | Drop oldest requests |
+| 80-90% | SCORE_ONLY | Skip VSS caption generation |
+| 90-95% | PASSTHROUGH | Use edge embedding, skip re-embed |
+| > 95% | SHED_LOAD | Drop request (503) |
 
 This ensures the system degrades gracefully under load rather than queuing unboundedly.
 
@@ -231,8 +253,8 @@ This ensures the system degrades gracefully under load rather than queuing unbou
 
 ```bash
 # Clone and install
-git clone https://github.com/qdrant/examples.git
-cd examples/video-anomaly-edge
+git clone https://github.com/qdrant/video-anomaly-edge.git
+cd video-anomaly-edge
 uv sync
 
 # Configure
@@ -270,12 +292,11 @@ The key takeaways:
 
 Check out the full series and additional resources:
 
-- **Part 1**: [Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
-- **Part 2**: [Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
-- **Project Repository**: [qdrant/examples/video-anomaly-edge](https://github.com/qdrant/examples/tree/master/video-anomaly-edge)
-- **Live Demo**: [avenue-demo.vercel.app](https://avenue-demo.vercel.app/)
-- **NVIDIA VSS Twelve Labs Integration**: [james-le-twelve-labs/nvidia-vss](https://github.com/james-le-twelve-labs/nvidia-vss)
-- **Reference: Manufacturing Automation Tutorial**: [nathanchess/twelvelabs-nvidia-vss-sample](https://github.com/nathanchess/twelvelabs-nvidia-vss-sample)
+- **Part I**: [Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
+- **Part II**: [Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
+- **Project Repository**: [qdrant/video-anomaly-edge](https://github.com/qdrant/video-anomaly-edge)
+- **Live Demo**: [qdrant-edge-video-anomaly.vercel.app](https://qdrant-edge-video-anomaly.vercel.app/)
+- **NVIDIA VSS Twelve Labs Integration**: [qdrant/qdrant-twelvelabs-nvidia-vss](https://github.com/qdrant/qdrant-twelvelabs-nvidia-vss)
 - **Twelve Labs Documentation**: [docs.twelvelabs.io](https://docs.twelvelabs.io/)
 - **Qdrant Documentation**: [qdrant.tech/documentation](https://qdrant.tech/documentation/)
 - **Vultr Cloud GPUs**: [vultr.com/products/cloud-gpu](https://www.vultr.com/products/cloud-gpu/)

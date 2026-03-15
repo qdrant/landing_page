@@ -1,5 +1,5 @@
 ---
-title: "Video Anomaly Detection Part 2 | Edge-to-Cloud Pipeline"
+title: "Video Anomaly Detection Part II | Edge-to-Cloud Pipeline"
 weight: 10
 partition: build
 social_preview_image: /articles_data/video-anomaly-edge/preview/social_preview.jpg
@@ -9,15 +9,15 @@ aliases:
 
 # Video Anomaly Detection: Edge-to-Cloud Pipeline
 
-| Time: 90 min | Level: Advanced | Stack: Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA VSS, Vultr | Output: [GitHub](https://github.com/qdrant/examples/tree/master/video-anomaly-edge) |
-| --- | ----------- | ----------- | ----------- |
+| Time: 90 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/video-anomaly-edge) |
+| --- | ----------- | ----------- |
 
-*This is Part 2 of a 3-part series on building real-time video anomaly detection from edge to cloud.*
+*This is Part II of a 3-part series on building real-time video anomaly detection from edge to cloud.*
 
 **Series:**
-- [Part 1 | Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
-- Part 2 | Edge-to-Cloud Pipeline (here)
-- [Part 3 | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
+- [Part I | Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
+- Part II | Edge-to-Cloud Pipeline (here)
+- [Part III | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
 
 ---
 
@@ -64,8 +64,11 @@ from qdrant_edge import (
     Distance as EdgeDistance,
     EdgeConfig,
     EdgeShard,
+    FieldCondition,
+    Filter,
     Point,
     Query,
+    RangeFloat,
     SearchRequest,
     UpdateOperation,
     VectorDataConfig,
@@ -118,7 +121,8 @@ def score_local(self, embedding: np.ndarray) -> float:
     top_k = results[:K_NEIGHBORS]
 
     if not top_k:
-        return 0.0
+        # No baseline yet: treat as maximally anomalous, not normal
+        return 1.0
 
     sims = [r.score for r in top_k]
     return 1.0 - float(np.mean(sims))
@@ -147,6 +151,8 @@ for i in range(500):
 ```
 
 This preserves the baseline's coverage while fitting comfortably in edge device memory.
+
+When `EDGE_SNAPSHOT_KMEANS=500` is set, the backend's `/api/snapshots/full` endpoint runs MiniBatchKMeans on the cloud baseline before creating the snapshot, producing a 500-vector representative subset for the edge immutable shard.
 
 ---
 
@@ -186,8 +192,8 @@ When an edge device scores a clip above the escalation threshold, it sends the c
 3. **Upload**: Clip and edge metadata sent to cloud
 4. **Cloud re-analysis**: Twelve Labs Marengo produces embeddings, kNN score in Qdrant Cloud + semantic signals
 5. **VSS enrichment**: VLM captioning, audio transcription, CV pipeline (if enabled)
-6. **Ensemble scoring**: 70% cloud score + 30% edge score
-7. **Confirmation**: Final score compared against cloud threshold (0.038)
+6. **Ensemble scoring**: 70% cloud score + 30% edge score with temporal boost
+7. **Confirmation**: Ensemble score compared against threshold (0.038)
 
 The escalation handler in our backend supports both Twelve Labs and local model server paths:
 
@@ -236,12 +242,10 @@ async def handle_escalation(request: EscalationRequest) -> EscalationResult:
         k=CONFIRMATION_K,
     )
 
-    # Ensemble scoring
+    # Return cloud score — confirmation happens after ensemble in the endpoint
     cloud_score = cloud_result.anomaly_score
-    is_confirmed = cloud_score > ESCALATION_THRESHOLD
     return EscalationResult(
         cloud_score=cloud_score,
-        is_confirmed_anomaly=is_confirmed,
         ...
     )
 ```
@@ -253,13 +257,18 @@ async def handle_escalation(request: EscalationRequest) -> EscalationResult:
 The ensemble weighting reflects the accuracy differential between tiers:
 
 ```python
-ensemble_score = (
-    DEFAULT_CLOUD_WEIGHT * cloud_score +  # 0.7
-    DEFAULT_EDGE_WEIGHT * edge_score       # 0.3
+ens = ensemble_scorer.score(
+    edge_score=edge_score,
+    cloud_score=cloud_score,
+    device_id=edge_device_id,
+    timestamp=time.time(),
 )
+
+# Confirmation uses ensemble score, not raw cloud score
+is_confirmed = ens.is_anomaly  # ensemble_score > threshold (0.038)
 ```
 
-A low cloud score suppresses a high edge score (false positive). A high cloud score confirms a high edge score (true anomaly). This is why the cloud threshold (0.038) is lower than the edge threshold (0.06) because the cloud model is more accurate and can set a tighter decision boundary.
+A low cloud score suppresses a high edge score (false positive). A high cloud score confirms a high edge score (true anomaly). The threshold (0.038) is lower than the edge threshold (0.06) because the cloud model is more accurate and can set a tighter decision boundary.
 
 ### Temporal Boosting
 
@@ -299,6 +308,9 @@ The immutable shard stays current through snapshot syncing. A full sync download
 
 ```python
 def sync_from_server(self, full: bool = False) -> None:
+    # Flush pending uploads first; track whether they succeeded
+    upload_ok = self._upload_batch(pending_items)  # returns True on success
+
     if full or not self._immutable_shard:
         # Full sync: download complete snapshot
         resp = requests.post(f"{CLOUD_API_URL}/api/snapshots/full", stream=True)
@@ -320,18 +332,20 @@ def sync_from_server(self, full: bool = False) -> None:
                 f.write(chunk)
         self._immutable_shard.update_from_snapshot(str(snapshot_path))
 
-    # Clean synced points from mutable shard
-    self._mutable_shard.update(
-        UpdateOperation.delete_points_by_filter(
-            Filter(must=[FieldCondition(
-                key="sync_timestamp",
-                range=RangeFloat(lte=sync_timestamp),
-            )])
+    # Only purge mutable shard if upload succeeded.
+    # If upload failed, points are not in the cloud yet -- deleting them would cause data loss.
+    if upload_ok:
+        self._mutable_shard.update(
+            UpdateOperation.delete_points_by_filter(
+                Filter(must=[FieldCondition(
+                    key="sync_timestamp",
+                    range=RangeFloat(lte=sync_timestamp),
+                )])
+            )
         )
-    )
 ```
 
-After syncing, points that were already uploaded to the cloud are purged from the mutable shard to prevent double-counting during kNN queries.
+After syncing, points that were already uploaded to the cloud are purged from the mutable shard to prevent double-counting during kNN queries. The cleanup is gated on `upload_ok` to avoid deleting local data that never reached the cloud.
 
 ### Offline Resilience
 
@@ -340,14 +354,23 @@ After syncing, points that were already uploaded to the cloud are purged from th
 If the cloud is unreachable, escalation data is persisted to disk as JSON files:
 
 ```python
-async def escalate_to_cloud(self, clip_path, edge_embedding, edge_score):
+async def escalate_to_cloud(self, clip_path, edge_embedding, edge_score, timestamp_ms=0, scene_id=""):
+    payload = {"edge_score": edge_score, "embedding": edge_embedding.tolist()}
     try:
         async with httpx.AsyncClient(timeout=30.0) as client:
-            resp = await client.post(
-                f"{CLOUD_API_URL}/api/escalate",
-                data={"metadata": json.dumps(payload)},
-                files={"clip": (Path(clip_path).name, f, "video/mp4")},
-            )
+            data = {
+                "edge_device_id": EDGE_DEVICE_ID,
+                "edge_score": str(edge_score),
+                "edge_embedding": json.dumps(edge_embedding.tolist()),
+                "timestamp_ms": str(timestamp_ms),
+                "scene_id": scene_id,
+            }
+            with open(clip_path, "rb") as f:
+                resp = await client.post(
+                    f"{CLOUD_API_URL}/api/escalate",
+                    data=data,
+                    files={"file": (Path(clip_path).name, f, "video/mp4")},
+                )
             resp.raise_for_status()
     except Exception:
         # Persist to offline queue for later flush
@@ -445,20 +468,68 @@ def _evict_by_score_priority(self) -> None:
 
 ---
 
+## Fleet Management
+
+A real deployment has dozens of edge devices, not one. The cloud backend tracks each Jetson independently through a device registry.
+
+Each device registers itself on first boot:
+
+```python
+POST /api/edges/register
+{
+  "name": "north-entrance-cam",
+  "location": "Building A - Zone 1",
+  "device_id": "edge-a1b2c3d4"   # optional, auto-generated if omitted
+}
+```
+
+From that point, escalations are tagged with `edge_device_id` so the cloud can track per-device performance:
+
+```python
+POST /api/escalate
+  edge_device_id = "edge-a1b2c3d4"
+  edge_score     = 0.12
+  edge_embedding = [...]
+  clip           = <video file>
+```
+
+The registry maintains per-device stats that surface in the Sentinel dashboard:
+
+| Metric | What it tells you |
+|--------|-------------------|
+| `escalation_rate_per_hour` | How active this camera is |
+| `confirmation_rate` | How accurate its edge model is |
+| `false_positive_rate` | Whether the edge threshold needs tuning |
+| `baseline_version` | Which snapshot the device is running |
+| `status` | `online`, `offline`, or `syncing` |
+
+Devices that haven't sent an escalation or heartbeat in 5 minutes are automatically marked `offline`. Baseline syncs are versioned: when the cloud pushes a new snapshot to a device, its status flips to `syncing` until the device confirms receipt.
+
+Per-device thresholds can be tuned independently. A camera covering a busy intersection will naturally see higher scores than one covering an empty stairwell. Rather than adjusting the global threshold, you set a device-level override:
+
+```
+POST /api/edges/{device_id}/sync-baseline
+```
+
+This triggers a snapshot download to that specific device, letting you roll out baseline updates incrementally across the fleet.
+
+---
+
 ## Recap
 
-In Part 2, you built Qdrant Edge's two-shard architecture (immutable baseline + mutable live context), implemented edge triage that reduces cloud processing by ~6x, wired the escalation pipeline with ensemble scoring and temporal boosting, and added offline resilience. The edge is running. Now we need to turn raw scores into actionable incidents.
+In Part II, you built Qdrant Edge's two-shard architecture (immutable baseline + mutable live context), implemented edge triage that reduces cloud processing by ~6x, wired the escalation pipeline with ensemble scoring and temporal boosting, and added offline resilience. The edge is running. Now we need to turn raw scores into actionable incidents.
 
 ## What's Next
 
-In **[Part 3 | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)**, we'll cover incident formation from raw scores, baseline governance to prevent poisoning, unified retrieval across cameras, evaluation results on UCF-Crime, and deployment on Vultr Cloud GPUs.
+In **[Part III | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)**, we'll cover incident formation from raw scores, baseline governance to prevent poisoning, unified retrieval across cameras, evaluation results on UCF-Crime, and deployment on Vultr Cloud GPUs.
 
 ---
 
 Additional Resources:
 
-- **Project Repository**: [qdrant/examples/video-anomaly-edge](https://github.com/qdrant/examples/tree/master/video-anomaly-edge)
-- **Part 1**: [Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
+- **Project Repository**: [qdrant/video-anomaly-edge](https://github.com/qdrant/video-anomaly-edge)
+- **Part I**: [Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
+- **Part III**: [Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
 - **Qdrant Edge Documentation**: [qdrant.tech/documentation/edge](/documentation/edge/)
 - **Twelve Labs Documentation**: [docs.twelvelabs.io](https://docs.twelvelabs.io/)
 - **Vultr Cloud GPUs**: [vultr.com/products/cloud-gpu](https://www.vultr.com/products/cloud-gpu/)
