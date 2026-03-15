@@ -1,6 +1,6 @@
 ---
 title: Qdrant Quickstart
-weight: 4
+weight: 110
 partition: qdrant
 aliases:
   - quick_start
