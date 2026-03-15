@@ -1,8 +1,9 @@
 ---
 title: Payload
-weight: 45
+weight: 15
 aliases:
   - ../payload
+  - /documentation/concepts/payload/
 ---
 
 # Payload

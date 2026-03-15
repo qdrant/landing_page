@@ -1,6 +1,8 @@
 ---
 title: Search Relevance
-weight: 52
+weight: 30
+aliases:
+  - /documentation/concepts/search-relevance/
 ---
 
 # Search Relevance

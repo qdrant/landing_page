@@ -1,8 +1,9 @@
 ---
 title: Explore
-weight: 55
+weight: 20
 aliases:
   - ../explore
+  - /documentation/concepts/explore/
 ---
 
 # Explore the data

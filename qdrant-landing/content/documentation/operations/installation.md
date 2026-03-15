@@ -5,6 +5,7 @@ aliases:
   - ../install
   - ../installation
   - ../guides
+  - /documentation/guides/installation/
 ---
 
 # Installation requirements

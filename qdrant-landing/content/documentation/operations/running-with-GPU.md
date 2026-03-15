@@ -1,6 +1,8 @@
 ---
 title: Running with GPU
-weight: 30
+weight: 65
+aliases:
+  - /documentation/guides/running-with-GPU/
 ---
 
 # Running Qdrant with GPU Support

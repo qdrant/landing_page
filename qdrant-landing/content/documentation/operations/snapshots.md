@@ -1,8 +1,9 @@
 ---
 title: Snapshots
-weight: 110
+weight: 25
 aliases:
   - ../snapshots
+  - /documentation/concepts/snapshots/
 ---
 
 # Snapshots

@@ -1,6 +1,8 @@
 ---
 title: Low-Latency Search
-weight: 60
+weight: 35
+aliases:
+  - /documentation/guides/low-latency-search/
 ---
 
 # Tips for Low-Latency Search with Qdrant

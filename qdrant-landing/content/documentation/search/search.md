@@ -1,8 +1,9 @@
 ---
 title: Search
-weight: 50
+weight: 5
 aliases:
   - ../search
+  - /documentation/concepts/search/
 ---
 
 # Similarity search

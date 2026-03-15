@@ -1,9 +1,10 @@
 ---
 title: Capacity Planning
-weight: 40
+weight: 5
 aliases:
   - capacity
   - /documentation/cloud/capacity-sizing
+  - /documentation/guides/capacity-planning/
 ---
 # Capacity Planning
 

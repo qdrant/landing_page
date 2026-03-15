@@ -1,10 +1,11 @@
 ---
 title: Collections
-weight: 30
+weight: 20
 aliases:
   - ../collections
   - /concepts/collections/
   - /documentation/frameworks/fondant/documentation/concepts/collections/
+  - /documentation/concepts/collections/
 ---
 
 # Collections

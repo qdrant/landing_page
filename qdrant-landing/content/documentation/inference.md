@@ -1,8 +1,10 @@
 ---
 title: Inference
-weight: 65
+weight: 220
+partition: qdrant
 aliases:
   - ../inference
+  - /documentation/concepts/inference/
 ---
 
 # Inference
