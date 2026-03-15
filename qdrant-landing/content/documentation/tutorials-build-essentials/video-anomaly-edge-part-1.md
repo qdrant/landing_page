@@ -144,7 +144,7 @@ ANOMALY_THRESHOLD=0.15
 **4.** Clone the NVIDIA VSS framework (with Twelve Labs integration) for reference.
 
 ```bash
-git clone https://github.com/qdrant/qdrant-twelvelabs-nvidia-vss
+git clone https://github.com/qdrant/twelvelabs-nvidia-vss
 ```
 
 **5.** Start the full stack with Docker Compose.
@@ -381,7 +381,7 @@ The true value is in **modularity**. Our architecture uses the Twelve Labs integ
 
 ### Video Chunking for VSS
 
-The first step in the VSS pipeline is chunking. Following the pattern from the [Twelve Labs x NVIDIA VSS manufacturing sample](https://github.com/qdrant/qdrant-twelvelabs-nvidia-vss), we split videos using FFmpeg's segment muxer:
+The first step in the VSS pipeline is chunking. Following the pattern from the [Twelve Labs x NVIDIA VSS manufacturing sample](https://github.com/qdrant/twelvelabs-nvidia-vss), we split videos using FFmpeg's segment muxer:
 
 `/backend/vss.py`
 
@@ -424,7 +424,7 @@ def chunk_video(
     return sorted(output_dir.glob(f"{input_path.stem}_chunk_*.mp4"))
 ```
 
-**Why chunk at all?** The same cost issue from the [manufacturing sample](https://github.com/qdrant/qdrant-twelvelabs-nvidia-vss) applies here. Processing 24 hours of raw video is expensive. Our edge tier already filters ~85% of footage, and chunking the remaining escalated clips further optimizes the cloud pipeline. Only chunks of interest flow through the full VSS stack.
+**Why chunk at all?** The same cost issue from the [manufacturing sample](https://github.com/qdrant/twelvelabs-nvidia-vss) applies here. Processing 24 hours of raw video is expensive. Our edge tier already filters ~85% of footage, and chunking the remaining escalated clips further optimizes the cloud pipeline. Only chunks of interest flow through the full VSS stack.
 
 ### Async Upload to VSS
 
@@ -535,7 +535,7 @@ In **[Part III | Scoring, Governance, and Deployment](/documentation/tutorials-b
 Additional Resources:
 
 - **Project Repository**: [qdrant/video-anomaly-edge](https://github.com/qdrant/video-anomaly-edge)
-- **NVIDIA VSS Twelve Labs Integration**: [qdrant/qdrant-twelvelabs-nvidia-vss](https://github.com/qdrant/qdrant-twelvelabs-nvidia-vss)
+- **NVIDIA VSS Twelve Labs Integration**: [qdrant/twelvelabs-nvidia-vss](https://github.com/qdrant/twelvelabs-nvidia-vss)
 - **Twelve Labs Documentation**: [docs.twelvelabs.io](https://docs.twelvelabs.io/)
 - **Qdrant Documentation**: [qdrant.tech/documentation](https://qdrant.tech/documentation/)
 - **Vultr Cloud GPUs**: [vultr.com/products/cloud-gpu](https://www.vultr.com/products/cloud-gpu/)
