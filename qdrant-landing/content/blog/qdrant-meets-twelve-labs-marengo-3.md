@@ -14,6 +14,8 @@ tags:
   - blog
 ---
 
+![Sentinel dashboard: live camera grid with real-time anomaly alerts](/blog/video-anomaly-detection-edge-to-cloud/sentinel-dashboard.png)
+
 What if your surveillance cameras could detect fights, accidents, intrusions, and equipment failures without ever being trained on those specific events?
 
 Traditional video classifiers need labeled examples of every anomaly type you want to catch. That breaks in the real world. You can't enumerate everything that could go wrong, and the moment something new happens, your model scores 0.0.
@@ -46,6 +48,8 @@ This works because the space of "normal" is learnable, but the space of "abnorma
 
 ## What It Produces
 
+![Sentinel incident view: video playback with Twelve Labs-powered chat Q&A](/blog/video-anomaly-detection-edge-to-cloud/sentinel-chat.png)
+
 The system transforms live surveillance streams into:
 
 - **Real-time anomaly scores** using kNN distance from the normal baseline, with temporal smoothing and hysteresis thresholding to filter noise
@@ -53,6 +57,8 @@ The system transforms live surveillance streams into:
 - **Semantic video search** across all cameras and time periods. "Show me unusual activity at the north entrance last week."
 - **Interactive Q&A** about detected events, grounded in actual video content
 - **Edge-to-cloud escalation** that reduces cloud processing volume by ~6x while catching ~95% of true anomalies
+
+
 
 ## Why Edge Matters
 
@@ -62,14 +68,18 @@ A 50-camera deployment generates 432,000 clips per day. Sending every clip to th
 
 The result is a system that scales with camera count without scaling cloud costs linearly.
 
-## Coming Soon
+![Sentinel: real-time AI-powered anomaly detection powered by Qdrant Edge, Twelve Labs, Vultr, and NVIDIA](/blog/video-anomaly-detection-edge-to-cloud/sentinel-splash.png)
 
-We're publishing a full 3-part tutorial that walks through every component of this architecture with working code: from kNN anomaly detection theory through Qdrant Edge's two-shard design to baseline governance and Vultr deployment.
+## Build It Yourself
 
-In the meantime, check out the project:
+We published a full 3-part tutorial that walks through every component of this architecture with working code: from kNN anomaly detection theory through Qdrant Edge's two-shard design to baseline governance and Vultr deployment.
 
-**GitHub**: [thierrydamiba/edge-video-anomaly](https://github.com/thierrydamiba/edge-video-anomaly)
+- [Part I | Architecture, Twelve Labs, and NVIDIA VSS](/documentation/tutorials-build-essentials/video-anomaly-edge-part-1/)
+- [Part II | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
+- [Part III | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
 
-**Live Demo**: [avenue-demo.vercel.app](https://avenue-demo.vercel.app/)
+**GitHub**: [qdrant/video-anomaly-edge](https://github.com/qdrant/video-anomaly-edge)
+
+**Live Demo**: [qdrant-edge-video-anomaly.vercel.app](https://qdrant-edge-video-anomaly.vercel.app/)
 
 The concepts extend beyond surveillance. Manufacturing safety, retail analytics, traffic monitoring: anywhere you need to detect "something unusual" without defining every possible anomaly in advance.
