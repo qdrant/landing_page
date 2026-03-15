@@ -296,7 +296,7 @@ Check out the full series and additional resources:
 - **Part II**: [Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
 - **Project Repository**: [qdrant/video-anomaly-edge](https://github.com/qdrant/video-anomaly-edge)
 - **Live Demo**: [qdrant-edge-video-anomaly.vercel.app](https://qdrant-edge-video-anomaly.vercel.app/)
-- **NVIDIA VSS Twelve Labs Integration**: [qdrant/qdrant-twelvelabs-nvidia-vss](https://github.com/qdrant/qdrant-twelvelabs-nvidia-vss)
+- **NVIDIA VSS Twelve Labs Integration**: [qdrant/twelvelabs-nvidia-vss](https://github.com/qdrant/twelvelabs-nvidia-vss)
 - **Twelve Labs Documentation**: [docs.twelvelabs.io](https://docs.twelvelabs.io/)
 - **Qdrant Documentation**: [qdrant.tech/documentation](https://qdrant.tech/documentation/)
 - **Vultr Cloud GPUs**: [vultr.com/products/cloud-gpu](https://www.vultr.com/products/cloud-gpu/)
