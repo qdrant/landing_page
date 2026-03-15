@@ -1,5 +1,5 @@
 ---
-title: "Video Anomaly Detection Part 1 | Architecture, Twelve Labs, and NVIDIA VSS"
+title: "Video Anomaly Detection Part I | Architecture, Twelve Labs, and NVIDIA VSS"
 weight: 9
 partition: build
 social_preview_image: /articles_data/video-anomaly-edge/preview/social_preview.jpg
@@ -10,15 +10,15 @@ aliases:
 
 # Video Anomaly Detection: Architecture, Twelve Labs, and NVIDIA VSS
 
-| Time: 60 min | Level: Advanced | Stack: Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA VSS, Vultr | Output: [GitHub](https://github.com/qdrant/examples/tree/master/video-anomaly-edge) |
-| --- | ----------- | ----------- | ----------- |
+| Time: 120 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/video-anomaly-edge) |
+| --- | ----------- | ----------- |
 
-*This is Part 1 of a 3-part series on building real-time video anomaly detection from edge to cloud. We'll go from architecture and integrations to a production-grade detection pipeline.*
+*This is Part I of a 3-part series on building real-time video anomaly detection from edge to cloud. We'll go from architecture and integrations to a production-grade detection pipeline.*
 
 **Series:**
-- Part 1 | Architecture, Twelve Labs, and NVIDIA VSS (here)
-- [Part 2 | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
-- [Part 3 | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
+- Part I | Architecture, Twelve Labs, and NVIDIA VSS (here)
+- [Part II | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
+- [Part III | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
 
 ---
 
@@ -48,15 +48,17 @@ Specifically, you will build a platform that transforms live surveillance stream
 
 <aside role="status">The concepts and technology demonstrated here apply beyond surveillance. You can use this same architecture for manufacturing safety, retail analytics, traffic monitoring, or anything you need anomaly detection for. Just swap out the baseline data and adjust the detection threshold to fit your new domain.</aside>
 
+![Tech stack overview: NVIDIA Jetson, Qdrant Edge, Twelve Labs, and Qdrant Cloud connected in an edge-to-cloud pipeline](/articles_data/video-anomaly-edge/tech-stack-overview.png)
+
 ---
 
 ## Application Demo
 
 Before we begin coding, check out the project repository and live demo to get familiarized with what we'll be building.
 
-**GitHub**: [qdrant/examples/video-anomaly-edge](https://github.com/qdrant/examples/tree/master/video-anomaly-edge)
+**GitHub**: [qdrant/video-anomaly-edge](https://github.com/qdrant/video-anomaly-edge)
 
-**Live Demo**: [avenue-demo.vercel.app](https://avenue-demo.vercel.app/)
+**Live Demo**: [qdrant-edge-video-anomaly.vercel.app](https://qdrant-edge-video-anomaly.vercel.app/)
 
 ![Sentinel dashboard screenshot](/articles_data/video-anomaly-edge/sentinel-screenshot.png)
 
@@ -99,8 +101,8 @@ In this series you will:
 **1.** Clone the repository into your local environment.
 
 ```bash
-git clone https://github.com/qdrant/examples.git
-cd examples/video-anomaly-edge
+git clone https://github.com/qdrant/video-anomaly-edge.git
+cd video-anomaly-edge
 ```
 
 **2.** Install dependencies with uv.
@@ -126,7 +128,7 @@ TWELVE_LABS_API_KEY=<your-twelve-labs-api-key>
 TWELVE_LABS_API_URL=https://api.twelvelabs.io/v1.3
 TWELVE_LABS_MARENGO_INDEX_NAME=anomaly-marengo-search
 TWELVE_LABS_PEGASUS_INDEX_NAME=anomaly-pegasus-summary
-TWELVE_LABS_MARENGO_MODEL=marengo2.7
+TWELVE_LABS_MARENGO_MODEL=marengo3.0
 TWELVE_LABS_PEGASUS_MODEL=pegasus1.2
 
 # NVIDIA VSS
@@ -142,8 +144,7 @@ ANOMALY_THRESHOLD=0.15
 **4.** Clone the NVIDIA VSS framework (with Twelve Labs integration) for reference.
 
 ```bash
-git clone https://github.com/james-le-twelve-labs/nvidia-vss
-git clone https://github.com/nathanchess/twelvelabs-nvidia-vss-sample
+git clone https://github.com/qdrant/qdrant-twelvelabs-nvidia-vss
 ```
 
 **5.** Start the full stack with Docker Compose.
@@ -172,7 +173,7 @@ Binary classifiers require labeled examples of every anomaly type you want to de
 
 **Concept drift.** What counts as "normal" changes over time. A school hallway looks different during class hours versus recess. kNN baselines can be updated continuously without retraining.
 
-![Why classifiers fail: CLIP single-frame scores 0.23 AUC-ROC while Twelve Labs Marengo temporal embeddings score 0.97, a 4.2x improvement](/articles_data/video-anomaly-edge/why-classifiers-fail.png)
+![Why classifiers fail: CLIP single-frame scores 0.23 AUC-ROC while Twelve Labs Marengo temporal embeddings score 0.9696, a 4.2x improvement](/articles_data/video-anomaly-edge/why-classifiers-fail.png)
 
 The kNN approach is simple and effective. Embed video clips into a vector space, build a baseline of normal embeddings in Qdrant, and flag clips whose nearest neighbors are far away:
 
@@ -203,8 +204,6 @@ This is why we use Twelve Labs Marengo in the cloud. It's purpose-built for vide
 ## Architecture Overview
 
 The system uses a three-tier architecture designed around a simple principle: **cheap, fast triage at the edge; accurate, rich analysis in the cloud.**
-
-![Tech stack overview: NVIDIA Jetson, Qdrant Edge, Twelve Labs, and Qdrant Cloud connected in an edge-to-cloud pipeline](/articles_data/video-anomaly-edge/tech-stack-overview.png)
 
 **Architecture:**
 
@@ -260,29 +259,7 @@ Twelve Labs provides two key models for our architecture. **Marengo** handles em
 
 Let's look at how we integrate them into our backend.
 
-### Twelve Labs Client
-
-`/backend/twelvelabs_client.py`
-
-```python
-from twelvelabs import TwelveLabs
-
-TWELVE_LABS_API_KEY = os.getenv("TWELVE_LABS_API_KEY", "")
-MARENGO_MODEL = os.getenv("TWELVE_LABS_MARENGO_MODEL", "marengo2.7")
-PEGASUS_MODEL = os.getenv("TWELVE_LABS_PEGASUS_MODEL", "pegasus1.2")
-
-_client: Optional[TwelveLabs] = None
-
-def get_client() -> TwelveLabs:
-    global _client
-    if _client is None:
-        if not TWELVE_LABS_API_KEY:
-            raise RuntimeError("TWELVE_LABS_API_KEY not set")
-        _client = TwelveLabs(api_key=TWELVE_LABS_API_KEY)
-    return _client
-```
-
-We use a singleton pattern for the client, initialized once and reused across all requests. The two models need separate indexes in Twelve Labs:
+The client is a simple singleton initialized from `TWELVE_LABS_API_KEY` in your `.env`. The two models need separate indexes in Twelve Labs:
 
 ```python
 def _ensure_index(index_name: str, models: list[dict]) -> str:
@@ -404,7 +381,7 @@ The true value is in **modularity**. Our architecture uses the Twelve Labs integ
 
 ### Video Chunking for VSS
 
-The first step in the VSS pipeline is chunking. Following the pattern from the [Twelve Labs x NVIDIA VSS manufacturing sample](https://github.com/nathanchess/twelvelabs-nvidia-vss-sample), we split videos using FFmpeg's segment muxer:
+The first step in the VSS pipeline is chunking. Following the pattern from the [Twelve Labs x NVIDIA VSS manufacturing sample](https://github.com/qdrant/qdrant-twelvelabs-nvidia-vss), we split videos using FFmpeg's segment muxer:
 
 `/backend/vss.py`
 
@@ -447,7 +424,7 @@ def chunk_video(
     return sorted(output_dir.glob(f"{input_path.stem}_chunk_*.mp4"))
 ```
 
-**Why chunk at all?** The same cost issue from the [manufacturing automation tutorial](https://www.twelvelabs.io/blog/manufacturing-automation) applies here. Processing 24 hours of raw video is expensive. Our edge tier already filters ~85% of footage, and chunking the remaining escalated clips further optimizes the cloud pipeline. Only chunks of interest flow through the full VSS stack.
+**Why chunk at all?** The same cost issue from the [manufacturing sample](https://github.com/qdrant/qdrant-twelvelabs-nvidia-vss) applies here. Processing 24 hours of raw video is expensive. Our edge tier already filters ~85% of footage, and chunking the remaining escalated clips further optimizes the cloud pipeline. Only chunks of interest flow through the full VSS stack.
 
 ### Async Upload to VSS
 
@@ -458,10 +435,13 @@ async def upload_to_vss(file_path: str | Path) -> Optional[str]:
     """Upload a single video file to NVIDIA VSS."""
     file_path = Path(file_path)
 
+    with open(file_path, "rb") as f:
+        content = f.read()
+
     timeout = aiohttp.ClientTimeout(total=VSS_UPLOAD_TIMEOUT)
     async with aiohttp.ClientSession(timeout=timeout) as session:
         data = aiohttp.FormData()
-        data.add_field("file", open(file_path, "rb"),
+        data.add_field("file", content,
                        filename=file_path.name, content_type="video/mp4")
         data.add_field("purpose", "vision")
         data.add_field("media_type", "video")
@@ -525,6 +505,8 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+    networks:
+      - anomaly-net
 
   backend:
     environment:
@@ -540,20 +522,20 @@ services:
 
 ## Recap
 
-In Part 1, you set up the project, learned why kNN anomaly detection in Qdrant outperforms traditional classifiers for open-world surveillance, integrated Twelve Labs Marengo and Pegasus for video embeddings and Q&A, and connected NVIDIA VSS for GPU-accelerated ingestion. The architecture is in place. Now we need to build the edge.
+In Part I, you set up the project, learned why kNN anomaly detection in Qdrant outperforms traditional classifiers for open-world surveillance, integrated Twelve Labs Marengo and Pegasus for video embeddings and Q&A, and connected NVIDIA VSS for GPU-accelerated ingestion. The architecture is in place. Now we need to build the edge.
 
 ## What's Next
 
-In **[Part 2 | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)**, we'll implement the two-shard Qdrant Edge architecture, edge triage scoring, escalation flow with ensemble scoring, and offline resilience.
+In **[Part II | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)**, we'll implement the two-shard Qdrant Edge architecture, edge triage scoring, escalation flow with ensemble scoring, and offline resilience.
 
-In **[Part 3 | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)**, we'll cover incident formation, baseline governance, unified retrieval, results on UCF-Crime, and deployment on Vultr Cloud GPUs.
+In **[Part III | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)**, we'll cover incident formation, baseline governance, unified retrieval, results on UCF-Crime, and deployment on Vultr Cloud GPUs.
 
 ---
 
 Additional Resources:
 
-- **Project Repository**: [qdrant/examples/video-anomaly-edge](https://github.com/qdrant/examples/tree/master/video-anomaly-edge)
-- **NVIDIA VSS Twelve Labs Integration**: [james-le-twelve-labs/nvidia-vss](https://github.com/james-le-twelve-labs/nvidia-vss)
+- **Project Repository**: [qdrant/video-anomaly-edge](https://github.com/qdrant/video-anomaly-edge)
+- **NVIDIA VSS Twelve Labs Integration**: [qdrant/qdrant-twelvelabs-nvidia-vss](https://github.com/qdrant/qdrant-twelvelabs-nvidia-vss)
 - **Twelve Labs Documentation**: [docs.twelvelabs.io](https://docs.twelvelabs.io/)
 - **Qdrant Documentation**: [qdrant.tech/documentation](https://qdrant.tech/documentation/)
 - **Vultr Cloud GPUs**: [vultr.com/products/cloud-gpu](https://www.vultr.com/products/cloud-gpu/)
