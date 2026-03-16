@@ -3,6 +3,7 @@ title: "Convolve 4.0 - IIT Hackathon Winners"
 draft: false
 slug: iit-hack-winners
 short_description: "Discover the winners of Qdrant’s Convolve 4.0 - IIT Hackathon, where developers built innovative vector search applications using Multi-Agent Intelligence Systems - from e-commerce to healthcare, trends, and more."
+description: "Discover the winners of Qdrant’s Convolve 4.0 - IIT Hackathon, where developers built innovative vector search applications using Multi-Agent Intelligence Systems - from e-commerce to healthcare, trends, and more."
 preview_image: blog/iit-hack-2026/convolve.png
 social_preview_image: blog/iit-hack-2026/convolve.png
 date: 2026-02-27
