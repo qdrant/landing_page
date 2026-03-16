@@ -2,6 +2,7 @@
 title: "Demo: Implementing a Hybrid Search System"
 description: Step-by-step demo on implementing hybrid search using Qdrant’s Universal Query API. Explore dense vs. sparse search, score fusion algorithms, and real-world evaluation techniques.
 weight: 5
+isLesson: true
 ---
 
 {{< date >}} Day 3 {{< /date >}}

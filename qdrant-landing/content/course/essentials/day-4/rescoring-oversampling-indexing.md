@@ -2,6 +2,7 @@
 title: "Accuracy Recovery with Rescoring"
 description: Learn how oversampling and rescoring restore accuracy in quantized vector search. Improve Qdrant search precision while maintaining high performance using efficient reranking on original vectors. 
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Day 4 {{< /date >}}

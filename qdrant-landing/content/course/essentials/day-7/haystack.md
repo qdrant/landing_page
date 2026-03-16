@@ -2,6 +2,7 @@
 title: "Integrating with Haystack"
 description: Learn how Qdrant and Haystack combine to deliver end-to-end search and recommendation systems with hybrid retrieval, semantic filtering, and agentic AI orchestration. 
 weight: 2
+isLesson: true
 ---
 
 {{< date >}} Day 7 {{< /date >}}

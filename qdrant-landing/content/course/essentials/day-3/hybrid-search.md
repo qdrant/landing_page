@@ -2,6 +2,7 @@
 title: "Hybrid Search and the Universal Query API"
 description: Master hybrid search in Qdrant using dense and sparse vectors. Explore retrieval, reranking, and Reciprocal Rank Fusion (RRF) to build efficient, adaptive search experiences.
 weight: 4
+isLesson: true
 ---
 
 {{< date >}} Day 3 {{< /date >}}

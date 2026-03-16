@@ -2,6 +2,7 @@
 title: "Demo: Semantic Movie Search"
 description: Build a semantic movie search with Qdrant. Compare chunking strategies, embed descriptions, and combine cosine similarity with metadata filters and grouping for accurate, theme-aware recommendations. 
 weight: 5
+isLesson: true
 ---
 
 {{< date >}} Day 1 {{< /date >}}

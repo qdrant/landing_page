@@ -2,6 +2,7 @@
 title: "Distance Metrics"
 description: Learn how distance metrics like cosine, Euclidean, Manhattan, and dot product shape vector similarity in Qdrant. Discover which metric fits your data and use case. 
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Day 1 {{< /date >}}
