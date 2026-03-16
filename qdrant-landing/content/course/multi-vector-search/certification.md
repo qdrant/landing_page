@@ -2,6 +2,7 @@
 title: "Qdrant Multi-Vector Certification"
 description: "Get officially certified in multi-vector search by Qdrant."
 url: /course/multi-vector-search/certification/
+isLesson: true
 weight: 50
 ---
 
