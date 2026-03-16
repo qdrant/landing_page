@@ -6,7 +6,7 @@ short_description: "Detect anomalies in live video by reframing surveillance as 
 description: "Qdrant Edge, Twelve Labs Marengo 3.0, NVIDIA Metropolis VSS, and Vultr Cloud GPUs come together for real-time video anomaly detection. Detect what you've never seen before."
 preview_image: /blog/video-anomaly-detection-edge-to-cloud/preview.png
 social_preview_image: /blog/video-anomaly-detection-edge-to-cloud/preview.png
-date: 2026-03-15
+date: 2026-03-16
 author: Qdrant
 featured: false
 tags:
