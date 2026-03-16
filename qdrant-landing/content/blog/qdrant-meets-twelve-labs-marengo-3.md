@@ -46,7 +46,7 @@ This works because the space of "normal" is learnable, but the space of "abnorma
 
 **[Vultr](https://www.vultr.com/)** provides the cloud GPU infrastructure that powers the entire cloud tier. Dedicated NVIDIA GPUs with per-hour billing and a global data center footprint keep latency low and costs predictable for edge-to-cloud escalation.
 
-## What It Produces
+### What It Produces
 
 ![Sentinel incident view: video playback with Twelve Labs-powered chat Q&A](/blog/video-anomaly-detection-edge-to-cloud/sentinel-chat.png)
 
