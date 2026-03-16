@@ -10,7 +10,7 @@ aliases:
 
 # Video Anomaly Detection: Architecture, Twelve Labs, and NVIDIA VSS
 
-| Time: 120 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/video-anomaly-edge) |
+| Time: 90 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/video-anomaly-edge) |
 | --- | ----------- | ----------- |
 
 *This is Part I of a 3-part series on building real-time video anomaly detection from edge to cloud. We'll go from architecture and integrations to a production-grade detection pipeline.*

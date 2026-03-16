@@ -9,7 +9,7 @@ aliases:
 
 # Video Anomaly Detection: Scoring, Governance, and Deployment
 
-| Time: 60 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/video-anomaly-edge) |
+| Time: 90 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/video-anomaly-edge) |
 | --- | ----------- | ----------- |
 
 *This is Part III of a 3-part series on building real-time video anomaly detection from edge to cloud.*
