@@ -1,5 +1,5 @@
 ---
-title: "Video Anomaly Detection Part I | Architecture, Twelve Labs, and NVIDIA VSS"
+title: "Video Anomaly Detection Part 1: Architecture, Twelve Labs, and NVIDIA VSS"
 weight: 9
 partition: build
 social_preview_image: /articles_data/video-anomaly-edge/preview/social_preview.jpg
@@ -13,12 +13,12 @@ aliases:
 | Time: 90 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/video-anomaly-edge) |
 | --- | ----------- | ----------- |
 
-*This is Part I of a 3-part series on building real-time video anomaly detection from edge to cloud. We'll go from architecture and integrations to a production-grade detection pipeline.*
+*This is Part 1 of a 3-part series on building real-time video anomaly detection from edge to cloud. We'll go from architecture and integrations to a production-grade detection pipeline.*
 
 **Series:**
-- Part I | Architecture, Twelve Labs, and NVIDIA VSS (here)
-- [Part II | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
-- [Part III | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
+- Part 1 | Architecture, Twelve Labs, and NVIDIA VSS (here)
+- [Part 2 | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)
+- [Part 3 | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)
 
 ---
 
@@ -522,13 +522,13 @@ services:
 
 ## Recap
 
-In Part I, you set up the project, learned why kNN anomaly detection in Qdrant outperforms traditional classifiers for open-world surveillance, integrated Twelve Labs Marengo and Pegasus for video embeddings and Q&A, and connected NVIDIA VSS for GPU-accelerated ingestion. The architecture is in place. Now we need to build the edge.
+In Part 1, you set up the project, learned why kNN anomaly detection in Qdrant outperforms traditional classifiers for open-world surveillance, integrated Twelve Labs Marengo and Pegasus for video embeddings and Q&A, and connected NVIDIA VSS for GPU-accelerated ingestion. The architecture is in place. Now we need to build the edge.
 
 ## What's Next
 
-In **[Part II | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)**, we'll implement the two-shard Qdrant Edge architecture, edge triage scoring, escalation flow with ensemble scoring, and offline resilience.
+In **[Part 2 | Edge-to-Cloud Pipeline](/documentation/tutorials-build-essentials/video-anomaly-edge-part-2/)**, we'll implement the two-shard Qdrant Edge architecture, edge triage scoring, escalation flow with ensemble scoring, and offline resilience.
 
-In **[Part III | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)**, we'll cover incident formation, baseline governance, unified retrieval, results on UCF-Crime, and deployment on Vultr Cloud GPUs.
+In **[Part 3 | Scoring, Governance, and Deployment](/documentation/tutorials-build-essentials/video-anomaly-edge-part-3/)**, we'll cover incident formation, baseline governance, unified retrieval, results on UCF-Crime, and deployment on Vultr Cloud GPUs.
 
 ---
 
