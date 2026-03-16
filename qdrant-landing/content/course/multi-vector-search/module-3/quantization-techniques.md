@@ -2,6 +2,7 @@
 title: "Vector Quantization Techniques"
 description: Learn how to reduce memory usage with scalar quantization, binary quantization, and other compression methods.
 weight: 2
+isLesson: true
 ---
 
 {{< date >}} Module 3 {{< /date >}}

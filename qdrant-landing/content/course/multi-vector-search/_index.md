@@ -12,6 +12,7 @@ content:
   title: "Multi-Vector Search"
   description: Master late interaction models, ColPali, and production optimization. Build scalable multi-vector search pipelines.
 partition: course
+isLesson: true
 ---
 
 # Multi-Vector Search

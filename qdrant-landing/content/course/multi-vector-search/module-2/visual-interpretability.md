@@ -2,6 +2,7 @@
 title: "Visual Interpretability of ColPali"
 description: Learn how to visualize and interpret ColPali embeddings to understand what the model focuses on in images.
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Module 2 {{< /date >}}

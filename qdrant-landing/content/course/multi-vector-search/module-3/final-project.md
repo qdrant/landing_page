@@ -2,6 +2,7 @@
 title: "Final Project: Build Your Own Multi-Vector Search System"
 description: Apply everything you've learned to build a multi-vector search system that solves a real problem of your choosing.
 weight: 7
+isLesson: true
 ---
 
 {{< date >}} Module 3 {{< /date >}}

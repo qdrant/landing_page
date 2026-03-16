@@ -2,6 +2,7 @@
 title: "Pooling Techniques"
 description: Reduce the number of vectors per document using row/column pooling and hierarchical token pooling strategies.
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Module 3 {{< /date >}}

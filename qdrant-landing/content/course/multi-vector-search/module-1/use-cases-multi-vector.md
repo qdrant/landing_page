@@ -2,6 +2,7 @@
 title: "Use Cases for Multi-Vector Search"
 description: Discover scenarios where multi-vector search outperforms single-vector embeddings and provides better retrieval quality.
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Module 1 {{< /date >}}

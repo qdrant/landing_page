@@ -2,6 +2,7 @@
 title: "MaxSim Distance Metric"
 description: Learn about the MaxSim distance metric used in multi-vector search and how it computes similarity between multi-vector representations.
 weight: 2
+isLesson: true
 ---
 
 {{< date >}} Module 1 {{< /date >}}

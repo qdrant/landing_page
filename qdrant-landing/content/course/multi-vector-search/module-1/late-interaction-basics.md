@@ -2,6 +2,7 @@
 title: "Late Interaction Basics"
 description: Understand the late interaction paradigm and how it differs from traditional dense embeddings for text search.
 weight: 1
+isLesson: true
 ---
 
 {{< date >}} Module 1 {{< /date >}}

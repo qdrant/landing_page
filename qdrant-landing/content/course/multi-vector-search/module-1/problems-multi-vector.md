@@ -2,6 +2,7 @@
 title: "Problems of Multi-Vector Search"
 description: Understand the challenges and limitations of multi-vector search at scale, including memory and performance considerations.
 weight: 4
+isLesson: true
 ---
 
 {{< date >}} Module 1 {{< /date >}}

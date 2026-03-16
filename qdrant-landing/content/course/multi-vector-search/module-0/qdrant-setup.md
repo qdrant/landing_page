@@ -2,6 +2,7 @@
 title: "Qdrant Setup"
 description: Set up Qdrant for multi-vector search. Learn how to create a collection and configure it for multi-vector embeddings.
 weight: 1
+isLesson: true
 ---
 
 {{< date >}} Module 0 {{< /date >}}

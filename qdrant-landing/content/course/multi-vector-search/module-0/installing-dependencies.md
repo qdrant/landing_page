@@ -2,6 +2,7 @@
 title: "Installing Dependencies"
 description: Install Python dependencies including FastEmbed and Qdrant client.
 weight: 2
+isLesson: true
 ---
 
 {{< date >}} Module 0 {{< /date >}}

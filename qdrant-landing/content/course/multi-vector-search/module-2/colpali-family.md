@@ -2,6 +2,7 @@
 title: "ColPali Family Overview"
 description: Explore the ColPali model family and their capabilities for multi-modal document understanding and retrieval.
 weight: 2
+isLesson: true
 ---
 
 {{< date >}} Module 2 {{< /date >}}

@@ -2,6 +2,7 @@
 title: "MUVERA"
 description: Understand MUVERA and how it enables HNSW indexing for multi-vector search despite MaxSim asymmetry.
 weight: 4
+isLesson: true
 ---
 
 {{< date >}} Module 3 {{< /date >}}

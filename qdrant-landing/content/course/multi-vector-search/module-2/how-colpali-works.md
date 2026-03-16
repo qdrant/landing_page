@@ -2,6 +2,7 @@
 title: "How ColPali Models Work"
 description: Understand the inner workings of ColPali models and how they generate multi-vector representations for images and documents.
 weight: 1
+isLesson: true
 ---
 
 {{< date >}} Module 2 {{< /date >}}
