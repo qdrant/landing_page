@@ -199,4 +199,4 @@ See more in [the docs](/documentation/concepts/filtering/).
 
 In the next section, we'll define a collection with structured payloads, configure payload indexing, and evaluate how different HNSW parameters impact filtered search performance.
 
-Learn more: [Filterable HNSW Article](https://qdrant.tech/articles/filterable-hnsw/) 
+Learn more: [Filterable HNSW Article](/articles/filterable-hnsw/) 

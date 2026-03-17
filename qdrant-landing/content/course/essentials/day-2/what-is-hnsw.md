@@ -25,7 +25,7 @@ At this point, you've learned how vector search retrieves the nearest vectors to
 
 You might wonder if Qdrant calculates the distance to every single vector in your collection for each query. This method, known as brute force search, technically works but with millions or billions of vectors this is too slow per query.
 
-Fortunately, Qdrant speeds things up with **[HNSW — Hierarchical Navigable Small Worlds](https://qdrant.tech/articles/filterable-hnsw/)**.
+Fortunately, Qdrant speeds things up with **[HNSW — Hierarchical Navigable Small Worlds](/articles/filterable-hnsw/)**.
 
 ### The Library Analogy
 
@@ -335,6 +335,6 @@ For very tight RAM budgets consider these solutions:
 
 Now you understand how HNSW makes vector search fast and scalable. Next we'll combine fast search with complex filters using Qdrant’s filter‑aware HNSW.
 
-Learn more: [HNSW in Qdrant Documentation](https://qdrant.tech/documentation/concepts/indexing/#vector-index) 
+Learn more: [HNSW in Qdrant Documentation](/documentation/concepts/indexing/#vector-index) 
 
 Ready to see how HNSW handles real-world filtering scenarios? Let's continue!
