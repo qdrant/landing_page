@@ -1,12 +1,12 @@
 ---
 title: Integration Tutorials
-weight: 36
+weight: 1300
 is_empty: true
 hideInSidebar: true
 aliases:
   - how-to
   - tutorials
-partition: build
+partition: ecosystem
 ---
 <!-- Migrate Integration Tutorials here, gradually -->
 

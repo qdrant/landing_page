@@ -1,7 +1,7 @@
 ---
 title: Practice Datasets
-weight: 28
-partition: build
+weight: 1100
+partition: ecosystem
 ---
 
 # Common Datasets in Snapshot Format

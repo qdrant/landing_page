@@ -1,7 +1,7 @@
 ---
 title: Embeddings
-weight: 12
-partition: build
+weight: 300
+partition: ecosystem
 ---
 
 # Supported Embedding Providers & Models
