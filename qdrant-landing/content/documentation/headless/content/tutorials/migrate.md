@@ -7,4 +7,4 @@
 | [From Elasticsearch](/documentation/migrate-to-qdrant/from-elasticsearch/) | Migrate dense vectors from Elasticsearch. | <span class="pill">CLI</span> | 15m | <span class="text-yellow">Intermediate</span> |
 | [From pgvector](/documentation/migrate-to-qdrant/from-pgvector/) | Migrate from PostgreSQL pgvector tables. | <span class="pill">CLI</span> | 15m | <span class="text-yellow">Intermediate</span> |
 | [Migration Verification](/documentation/migration-verification/) | Verify data integrity and search quality. | <span class="pill">Python</span> | 1h+ | <span class="text-yellow">Intermediate</span> |
-| [Keeping Data in Sync](/documentation/data-synchronization/) | Keep your source of truth and Qdrant in sync. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
+| [Keeping Postgres in Sync](/documentation/data-synchronization/) | Keep Postgres and Qdrant in sync. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |

@@ -53,4 +53,4 @@ These flags apply to all source types:
 Once your data is in Qdrant, verify that everything arrived correctly:
 
 - **[Migration Verification Guide](/documentation/migration-verification/)** — a structured framework covering data integrity checks and search quality validation.
-- **[Keeping Data in Sync](/documentation/data-synchronization/)** — if you're running a relational database alongside Qdrant, learn how to keep them in sync.
+- **[Keeping Postgres in Sync](/documentation/data-synchronization/)** — if you're running Postgres alongside Qdrant, learn how to keep them in sync.
