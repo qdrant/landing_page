@@ -522,9 +522,9 @@ print("=" * 60)
 4. **Advanced features**: Explore quantization, sharding, and replication
 
 **Additional resources:**
-- [Qdrant Documentation](https://qdrant.tech/documentation/) - Complete technical reference
+- [Qdrant Documentation](/documentation/) - Complete technical reference
 - [HNSW Paper](https://arxiv.org/abs/1603.09320) - Original algorithm research
 - [Qdrant Cloud](https://cloud.qdrant.io/) - Managed vector search service
-- [Performance Tuning Guide](https://qdrant.tech/documentation/guides/optimization/) - Advanced optimization techniques
+- [Performance Tuning Guide](/documentation/guides/optimize/) - Advanced optimization techniques
 
 **Ready for the pitstop project?** Now it's your turn to optimize performance with your own dataset and use case. You'll apply these same techniques to your domain-specific data and measure the real-world impact of different HNSW parameters and indexing strategies. 
