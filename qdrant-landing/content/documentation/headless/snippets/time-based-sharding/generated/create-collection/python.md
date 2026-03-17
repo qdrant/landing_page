@@ -14,6 +14,6 @@ client.create_collection(
         )
     },
     sharding_method=models.ShardingMethod.CUSTOM,
-    shard_number=1,
+    shard_number=1, # The number of shards per shard key
 )
 ```

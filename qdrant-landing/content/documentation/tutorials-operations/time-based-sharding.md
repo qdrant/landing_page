@@ -48,9 +48,11 @@ Create a collection with [user-defined sharding](/documentation/guides/distribut
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="create-collection" >}}
 
-Custom shards can be accessed by their shard key. In this tutorial, the shard key will be the date in `YYYY-MM-DD` format, extracted from the timestamp of each data point.
+Custom shards can be accessed by their shard key. In this tutorial, the shard keys are the dates in `YYYY-MM-DD` format, extracted from the timestamp of each data point.
 
-By setting the shard number to `1`, the collection will have one separate shard for each shard key (day of data). If your dataset is very large, you could increase the shard number to have multiple shards for each day. Distributing these shards across multiple peers in the cluster increases write throughput. Ensure you're not creating too many shards, though. The total number of shards for the collection equals the number of shard keys (days) multiplied by the shard number.
+For default collections using `auto` sharding, `shard_number` determines the total number of shards for a collection. With user-defined sharding, it determines the number of shards **per shard key**: the total number of shards for a collection equals the number of shard keys (days) multiplied by the `shard_number`.
+
+Setting `shard_number` to `1` creates a separate shard for each shard key (each day of data). For very large datasets, you can improve write throughput by increasing `shard_number` and distributing these shards across multiple peers in the cluster. However, avoid creating too many shards, as each shard consumes resources, and too many shards can lead to performance degradation.
 
 ## Ingest Historical Data
 
