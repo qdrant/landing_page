@@ -450,7 +450,7 @@ In Qdrant, this metadata lives in the **payload** - a JSON object attached to ea
 
 ### What Metadata Enables
 
-**Disclaimer**: For performance reasons, filterable fields must be indexed using the [Payload Index](https://qdrant.tech/documentation/concepts/indexing/#payload-index).
+**Disclaimer**: For performance reasons, filterable fields must be indexed using the [Payload Index](/documentation/concepts/indexing/#payload-index).
 
 **1. Filtered Search (Exact Match)**
 You can filter results based on exact metadata values, which is perfect for categorical data.
