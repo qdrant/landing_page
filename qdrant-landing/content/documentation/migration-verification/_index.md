@@ -1,8 +1,8 @@
 ---
 title: Migration Verification
-weight: 24
+weight: 32
 is_empty: false
-partition: qdrant
+partition: build
 ---
 
 # Migration Verification Guide

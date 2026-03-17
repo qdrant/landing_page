@@ -1,8 +1,8 @@
 ---
 title: Migration Tool
-weight: 23
+weight: 31
 is_empty: false
-partition: qdrant
+partition: build
 ---
 
 # Migrate to Qdrant
@@ -53,4 +53,4 @@ These flags apply to all source types:
 Once your data is in Qdrant, verify that everything arrived correctly:
 
 - **[Migration Verification Guide](/documentation/migration-verification/)** — a structured framework covering data integrity checks and search quality validation.
-- **[Data Synchronization](/documentation/data-synchronization/)** — if you're running Postgres alongside Qdrant, learn how to keep them in sync.
+- **[Keeping Data in Sync](/documentation/data-synchronization/)** — if you're running a relational database alongside Qdrant, learn how to keep them in sync.

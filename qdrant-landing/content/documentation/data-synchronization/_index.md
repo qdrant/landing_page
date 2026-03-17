@@ -1,8 +1,8 @@
 ---
-title: Data Synchronization
-weight: 25
+title: Keeping Data in Sync
+weight: 33
 is_empty: false
-partition: qdrant
+partition: build
 ---
 
 # Keeping Postgres and Qdrant in Sync
@@ -11,7 +11,7 @@ If you've migrated your vectors to Qdrant but still use Postgres as your source 
 
 This section covers three progressively robust sync architectures — from simple application-level dual-writes to production-grade Change Data Capture — with working code, failure mode analysis, and clear guidance on when to use each.
 
-Not sure if you need a dedicated vector store alongside Postgres? Read [pgvector Tradeoffs](/documentation/data-synchronization/pgvector-tradeoffs/) to understand the six conditions under which pgvector is sufficient — and when you'll outgrow it.
+Not sure if you need a dedicated vector store alongside Postgres? Read our [pgvector tradeoffs blog post](/blog/pgvector-tradeoffs/) to understand the six conditions under which pgvector is sufficient — and when you'll outgrow it.
 
 ## Three Tiers of Sync
 

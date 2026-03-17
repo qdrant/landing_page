@@ -1,9 +1,18 @@
 ---
-title: pgvector Tradeoffs
-weight: 10
+draft: false
+title: "Start with pgvector: Why You'll Outgrow It Faster Than You Think"
+short_description: "We analyzed 110+ community threads to test the 'just use pgvector' heuristic. Here are the six conditions that must all hold — and why most apps fail at least two."
+description: "We analyzed 110+ community threads from Hacker News and Reddit to test the 'just use pgvector' heuristic. pgvector is a reasonable default, but only when six specific conditions hold simultaneously. Most applications hit its limits sooner than expected."
+date: 2026-03-17T00:00:00Z
+author: Nathan LeRoy
+featured: false
+preview_image: /blog/pgvector-tradeoffs/preview_image.png
+social_image: /blog/pgvector-tradeoffs/preview_image.png
+tags:
+  - pgvector
+  - vector-database
+  - postgres
 ---
-
-# "Start with pgvector": Why You Might Outgrow It Faster Than You Think
 
 The most common advice in every vector database thread online is some version of "start with pgvector, graduate later." We analyzed 110+ community threads from Hacker News and Reddit to see if the data supports this heuristic. The short answer is that it's more nuanced than it sounds, and most applications will hit its limits sooner than expected.
 
@@ -23,7 +32,11 @@ The people giving this advice are usually running Postgres for transactional dat
 
 ## Six Conditions That Must All Hold
 
-pgvector is a reasonable default, but only when six specific conditions hold *simultaneously*.
+After reading through these 110+ threads, a clear pattern emerged. The developers who are happy with pgvector are more than just lucky. They share a specific set of circumstances. We distilled these into six conditions. When all six hold, pgvector is genuinely the right call: you get vector search without operational overhead, and the tradeoffs don't bite you.
+
+However, all six need to hold *simultaneously*. The moment one or two fall away, the pain points that dominate these threads start showing up: slow queries under load, broken filtered search, missing hybrid capabilities. These are scenarios most production applications land in within months of shipping.
+
+Here are the six conditions:
 
 **1. Your vector dataset is under ~1M vectors.** The community's empirical ceiling is around 10M, but the comfortable range is much lower. Above 1M you'll start hitting index-build times, memory pressure, and recall degradation under load.
 
@@ -78,8 +91,4 @@ There's a reason the "start with pgvector" advice persists despite these limitat
 
 This is a legitimate concern, and we don't want to dismiss it. However, it's also a solved problem with well-known patterns, ranging from simple dual-writes for prototypes to transactional outbox patterns for production, to full CDC pipelines for high-throughput systems.
 
-If you've decided you need a dedicated vector store, don't let sync anxiety push you back to pgvector. This guide walks through three progressively robust sync architectures — each with working code, failure mode analysis, and clear guidance on when to use which:
-
-1. **[Dual-Writes](/documentation/data-synchronization/dual-writes/)** — simple application-level sync for prototypes
-2. **[Transactional Outbox](/documentation/data-synchronization/transactional-outbox/)** — production-grade at-least-once delivery
-3. **[Change Data Capture](/documentation/data-synchronization/change-data-capture/)** — infrastructure-level sync for high-throughput systems
+If you've decided you need a dedicated vector store, don't let sync anxiety push you back to pgvector. Our [Postgres-Qdrant Data Synchronization guide](/documentation/data-synchronization/) walks through three progressively robust sync architectures — each with working code, failure mode analysis, and clear guidance on when to use which.
