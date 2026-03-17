@@ -1,6 +1,6 @@
 ---
-title: Composable High-Performance Vector Search
-subtitle: Qdrant helps you build the AI retrieval you want. Ship high performance, full-feature vector search at any scale and with any deployment model.
+title: Composable Vector Search
+subtitle: Build the AI retrieval you want. Ship high performance, full-feature vector search at any scale with any deployment model.
 startFree:
   text: Start Free in Qdrant Cloud
   url: https://cloud.qdrant.io/signup
