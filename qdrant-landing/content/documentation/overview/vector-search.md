@@ -1,6 +1,6 @@
 ---
 title: Understanding Vector Search in Qdrant
-weight: 2
+weight: 10
 social_preview_image: /docs/gettingstarted/vector-social.png
 ---
 

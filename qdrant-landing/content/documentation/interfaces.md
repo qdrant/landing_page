@@ -1,6 +1,6 @@
 ---
 title: API & SDKs
-weight: 5
+weight: 230
 partition: qdrant
 ---
 

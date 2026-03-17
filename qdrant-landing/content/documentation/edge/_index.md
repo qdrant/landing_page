@@ -1,6 +1,6 @@
 ---
 title: "Qdrant Edge"
-weight: 13
+weight: 315
 partition: qdrant
 ---
 
