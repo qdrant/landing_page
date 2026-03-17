@@ -25,7 +25,7 @@ At this point, you've learned how vector search retrieves the nearest vectors to
 
 You might wonder if Qdrant calculates the distance to every single vector in your collection for each query. This method, known as brute force search, technically works but with millions or billions of vectors this is too slow per query.
 
-Fortunately, Qdrant speeds things up with **[HNSW — Hierarchical Navigable Small World](https://qdrant.tech/articles/filterable-hnsw/)**.
+Fortunately, Qdrant speeds things up with **[HNSW — Hierarchical Navigable Small Worlds](https://qdrant.tech/articles/filterable-hnsw/)**.
 
 ### The Library Analogy
 
@@ -118,7 +118,7 @@ accurate_search = SearchParams(hnsw_ef=256) # Higher recall, slower
 
 ### Memory & Indexing Behavior
 
-Some vectors can remain unindexed depending on optimizer settings e.g. when the unindexed part stays below the `indexing_threshold` (kB).
+Some vectors can remain unindexed depending on [optimizer](/documentation/concepts/optimizer.md) settings e.g. when the unindexed part stays below the `indexing_threshold` (kB).
 
 Small collections or low-dimensional vectors may not trigger HNSW indexing at all. In such cases, full-scan search (brute force) is used instead until indexing becomes beneficial
 
@@ -206,11 +206,11 @@ client.create_collection(
         hnsw_config=models.HnswConfigDiff(
             m=8,  # Fewer connections
             ef_construct=100,  # Faster builds
-            full_scan_threshold=100,  # Use brute force below this size (default)
+            full_scan_threshold=0,  # Always use HNSW search, never fall back to brute force
         ),
     ),
     optimizers_config=models.OptimizersConfigDiff(
-        indexing_threshold=100,  # Use brute force below this size (default)
+        indexing_threshold=100,  # Low threshold to force HNSW index build on small data
     ),
 )
 
@@ -269,13 +269,12 @@ performance = benchmark_search_performance(collection_name, test_queries, ef_val
 
 ### Inspecting Performance and Index Use
 
-Use [`get_collection`](/api-reference/collections/get-collection) to inspect your collection. It returns Current statistics and configuration of the collection like `points_count`, `indexed_vectors_count` or `hnsw_config`. It also lists `payload_schema` for payload indexes you created.
+Use [`get_collection`](/api-reference/collections/get-collection) to inspect your collection. It returns current statistics and configuration of the collection like `points_count`, `indexed_vectors_count` or `hnsw_config`. It also lists `payload_schema` for payload indexes you created.
 
 To see whether your data is actually indexed, you need to check two things: the number of indexed vectors and the collection's status. If `indexed_vectors_count` is low, indexing may not have completed. More importantly, you should check the collection `status`. A `YELLOW` status means optimization (indexing) is still in progress, while a `GREEN` status confirms it is complete and ready for optimal performance.
 
 If queries feel slow check:
 - whether filter fields have [payload indexes](/documentation/concepts/indexing/#payload-index).
-- if payload indexes have been set before building HNSW graph with setting `m>0`
 - if the payload indexes have been set before building the HNSW graph (HNSW graph building begins when you switch from `m = 0` to `m > 0`)
 - if `hnsw_config.full_scan_threshold` is too high.
 

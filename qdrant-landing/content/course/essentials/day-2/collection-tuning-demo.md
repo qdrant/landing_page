@@ -78,11 +78,15 @@ import openai
 import time
 import os
 
-client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+client = QdrantClient(
+    url=os.getenv("QDRANT_URL"), 
+    api_key=os.getenv("QDRANT_API_KEY"), 
+    timeout=300,  # Increase timeout limit depending on your connection speed
+    )
 
 # For Colab:
 # from google.colab import userdata
-# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"), timeout=300)
 
 # Verify connection
 try:
@@ -213,12 +217,16 @@ def upload_batch(start_idx, end_idx):
         points.append(models.PointStruct(id=i, vector=embedding, payload=payload))
 
     if points:
-        client.upload_points(collection_name=collection_name, points=points)
+        client.upload_points(
+            collection_name=collection_name, 
+            points=points,
+            parallel=4,  # default parallelism; can reduce to prevent timeouts
+            )
         return len(points)
     return 0
 
 
-batch_size = 64 * 10
+batch_size = 64 * 10  # Reduce to 32 if connection times out
 total_points = len(ds["train"])
 print(f"Uploading {total_points} points in batches of {batch_size}")
 
@@ -372,7 +380,8 @@ client.query_points(collection_name=collection_name, query=query_embedding, limi
 
 # Run multiple times for more reliable measurement
 unindexed_times = []
-for i in range(25):
+for i in range(10):
+    time.sleep(2)  # Small delay to avoid noise; demo only
     start_time = time.time()
     response = client.query_points(
         collection_name=collection_name,
@@ -436,7 +445,8 @@ client.query_points(collection_name=collection_name, query=query_embedding, limi
 
 # Run multiple times for more reliable measurement
 indexed_times = []
-for i in range(25):
+for i in range(10):
+    time.sleep(2)  # Small delay to reduce noise; demo only
     start_time = time.time()
     response = client.query_points(
         collection_name=collection_name,
