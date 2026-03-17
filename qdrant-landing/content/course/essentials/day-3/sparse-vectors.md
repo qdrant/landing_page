@@ -210,7 +210,7 @@ The similarity score for sparse vectors is calculated by comparing only the matc
 They’re storage-efficient and work well alongside dense vectors in future **Hybrid Search** setups.
 2. Similarity = Dot product. Sparse vector similarity in Qdrant is always measured by the **dot product**.
 3. Sparse vectors are organized in **inverted index** (separate data structure from **HNSW**, which is used for dense vectors).  
-Search on sparse vectors in Qdrant is **exact**, as opposed to approximate dense vector search.
+4. Search on sparse vectors in Qdrant is **exact**, as opposed to approximate dense vector search.
 
 ## What's Next
 In the next video, we’ll build keyword-based retrieval with sparse vectors in Qdrant.  
