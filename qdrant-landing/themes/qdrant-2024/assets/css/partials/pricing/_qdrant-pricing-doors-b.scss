@@ -93,8 +93,7 @@
     }
 
     &--paid {
-      /* Don't add full border - it doubles with neighbors; use background for emphasis */
-      background-color: #f5f8ff;
+      background-color: $secondary-blue-95;
     }
   }
 
