@@ -21,7 +21,8 @@ tags:
 
 ![My AskAI overview](/blog/case-study-my-askai/my-askai-bento-box.png)
 
-[My AskAI](https://myaskai.com) built a managed platform for AI customer support agents that plug directly into existing helpdesk tools like [Intercom](https://myaskai.com/ai-agent-integration/intercom) and [Zendesk](https://myaskai.com/ai-agent-integration/zendesk-tickets). The goal was to make AI behave like a reliable coworker, not a brittle chatbot. In production, My AskAI's agents are designed to resolve a large portion of inbound support requests automatically, then hand over to a human when the agent cannot answer confidently. My AskAI positions this as [deflecting around 75 percent of support requests](https://myaskai.com/blog/my-askai-edel-optics-case-study-2026) and sustaining a resolution rate in the low to mid 70s, depending on the time window and workload mix.
+<a href="https://myaskai.com" target="_blank">My AskAI</a> built a managed platform for AI customer support agents that plug directly into existing helpdesk tools like <a href="https://myaskai.com/ai-agent-integration/intercom" target="_blank">Intercom</a>
+and <a href="https://myaskai.com/ai-agent-integration/zendesk-tickets" target="_blank">Zendesk</a> . The goal was to make AI behave like a reliable coworker, not a brittle chatbot. In production, My AskAI's agents are designed to resolve a large portion of inbound support requests automatically, then hand over to a human when the agent cannot answer confidently. My AskAI positions this as <a href="https://myaskai.com/blog/my-askai-edel-optics-case-study-2026" target="_blank">deflecting around 75 percent of support requests</a> and sustaining a resolution rate in the low to mid 70s, depending on the time window and workload mix.
 
 As My AskAI narrowed its focus, the team discovered that customer support was not just a use case; it was **the use case**. Support data is messy, unstructured, and constantly changing. Success required strong retrieval, predictable latency, and an infrastructure layer that could scale without forcing the team to become full-time database operators. That combination ultimately led My AskAI to standardize on [Qdrant Cloud](http://cloud.qdrant.io) as the vector search backbone of its platform.
 
@@ -85,7 +86,7 @@ Just as importantly, My AskAI highlighted the hands-on, highly technical support
 
 My AskAI's most important next step is self-learning.
 
-When an AI agent escalates a conversation to a human, My AskAI now monitors what the human does next and treats it as a [learning opportunity](https://myaskai.com/features/self-learning). The system compares the human response to what the AI would have done, identifies gaps, and stores new learnings. Those learnings are then clustered and compiled into what My AskAI calls a self-learning article, a continuously updated body of knowledge derived from real support outcomes.
+When an AI agent escalates a conversation to a human, My AskAI now monitors what the human does next and treats it as a  <a href="https://myaskai.com/features/self-learning" target="_blank">learning opportunity</a>. The system compares the human response to what the AI would have done, identifies gaps, and stores new learnings. Those learnings are then clustered and compiled into what My AskAI calls a self-learning article, a continuously updated body of knowledge derived from real support outcomes.
 
 "Most of the time it's because companies just don't keep their help articles super up to date. It's not easy to do that," Alex explains. "These learnings get stored, get clustered, and then we push those into what we call a self-learning article, a collection of new knowledge that doesn't exist in public help articles but exists in the human agent replies."
 
