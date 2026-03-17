@@ -4,6 +4,8 @@ weight: 105
 aliases:
   - overview
   - orientation
+  - concepts
+  - guides
 partition: qdrant
 ---
 

@@ -4,7 +4,6 @@ weight: 10
 aliases:
   - ../install
   - ../installation
-  - ../guides
   - /documentation/guides/installation/
 ---
 
