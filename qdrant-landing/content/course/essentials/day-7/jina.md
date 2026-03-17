@@ -122,7 +122,7 @@ This architecture enables various sophisticated use cases:
 - [Build a RAG System with Jina Embeddings and Qdrant](https://jina.ai/news/build-a-rag-system-with-jina-embeddings-and-qdrant/):  
   Official Jina AI guide on building RAG systems with Jina Embeddings v2 and Qdrant. Learn how to create retrieval-augmented generation engines using LlamaIndex and multimodal embeddings.
 
-- [Jina AI & Qdrant Integration Guide](https://qdrant.tech/documentation/embeddings/jina-embeddings/):  
+- [Jina AI & Qdrant Integration Guide](/documentation/embeddings/jina-embeddings/):  
   Official Qdrant documentation on integrating Jina AI embeddings with Qdrant. Learn how to implement multimodal search with text and image embeddings.
 
 ⭐ **Show your support!** Give Jina AI a star on their GitHub repository: [github.com/jina-ai/jina](https://github.com/jina-ai/jina)

@@ -124,7 +124,7 @@ Similarity("cheese for pizza", "Grated hard cheese")
 Computing and maintaining per-term IDF for every term in the corpus can be annoying.  
 > Qdrant maintains **collection-level** IDF for sparse vectors and applies it for you during scoring.
 
-Enable the [IDF modifier](https://qdrant.tech/documentation/concepts/indexing/#idf-modifier) in the collection configuration:
+Enable the [IDF modifier](/documentation/concepts/indexing/#idf-modifier) in the collection configuration:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-idf/" >}}
 
@@ -334,7 +334,7 @@ Instead of assigning word weights solely based on the corpus statistics, we coul
 
 In practice, authors of sparse neural retrievers often start from dense encoders and adapt them to produce sparse text representations: similar in shape to bag‑of‑words, but with **weights produced by a machine learning model**.
 
-If you’re interested in details, you can check out ["Modern Sparse Neural Retrieval: From Theory to Practice"](https://qdrant.tech/articles/modern-sparse-neural-retrieval/) article.
+If you’re interested in details, you can check out ["Modern Sparse Neural Retrieval: From Theory to Practice"](/articles/modern-sparse-neural-retrieval/) article.
 
 Probably the most famous and used model in the field of modern sparse neural retrieval is called the Sparse Lexical and Expansion Model or SPLADE.
 
@@ -383,7 +383,7 @@ client.create_collection(
 
 The FastEmbed library provides **SPLADE++**; one of the latest models in the SPLADE family.
 
-> **<font color='red'>Update:</font>** Since the release of [Qdrant Cloud Inference](https://qdrant.tech/blog/qdrant-cloud-inference-launch/), you can move SPLADE++ embedding inference from local execution (as shown in this notebook) to the Qdrant Cloud, reducing latency and centralizing resource usage.
+> **<font color='red'>Update:</font>** Since the release of [Qdrant Cloud Inference](/blog/qdrant-cloud-inference-launch/), you can move SPLADE++ embedding inference from local execution (as shown in this notebook) to the Qdrant Cloud, reducing latency and centralizing resource usage.
 
 As a result, this step looks mostly identical to using BM25 in Qdrant. 
 
@@ -435,7 +435,7 @@ SPLADE **expands** the input by adding contextually relevant tokens and simultan
 
 For example, "*mac and cheese*" will be expanded to: "*mac and cheese dairy apple dish & variety brand food made , foods difference eat restaurant or*", resulting in a SPLADE-generated sparse representation with **17 non-zero values**.
 
-If you’d like to experiment with SPLADE's expansion behavior, check out our documentation on [using SPLADE in FastEmbed](https://qdrant.tech/documentation/fastembed/fastembed-splade/). It includes a utility function to decode SPLADE++ sparse representations back into tokens with their corresponding weights.
+If you’d like to experiment with SPLADE's expansion behavior, check out our documentation on [using SPLADE in FastEmbed](/documentation/fastembed/fastembed-splade/). It includes a utility function to decode SPLADE++ sparse representations back into tokens with their corresponding weights.
 
 #### Sparse Neural Retrieval with SPLADE++ & Qdrant
 
@@ -477,12 +477,12 @@ SPLADE models are a strong choice for sparse neural retrieval, but they have lim
 We’ve been exploring sparse neural retrieval as a promising approach for domains where keyword-based matching is useful, but traditional methods like BM25 fall short due to their lack of semantic understanding.
 
 We’ve developed and open-sourced two custom sparse neural retrievers, both built on top of the BM25 formula.  
-You can find all the details in the following articles: [BM42 Sparse Neural Retriever](https://qdrant.tech/articles/bm42/) and [miniCOIL Sparse Neural Retriever](https://qdrant.tech/articles/minicoil/).
+You can find all the details in the following articles: [BM42 Sparse Neural Retriever](/articles/bm42/) and [miniCOIL Sparse Neural Retriever](/articles/minicoil/).
 
 Both models can be used with FastEmbed and Qdrant in the same way we demonstrated with BM25 and SPLADE++ in this tutorial.
 
 - FastEmbed handle for **BM42**: `Qdrant/bm42-all-minilm-l6-v2-attentions`  
-- FastEmbed handle for **miniCOIL**: `Qdrant/minicoil-v1` (here's the detailed guide ["How to use miniCOIL"](https://qdrant.tech/documentation/fastembed/fastembed-minicoil/))
+- FastEmbed handle for **miniCOIL**: `Qdrant/minicoil-v1` (here's the detailed guide ["How to use miniCOIL"](/documentation/fastembed/fastembed-minicoil/))
 
 ## Key Takeaways
 

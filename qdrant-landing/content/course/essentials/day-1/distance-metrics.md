@@ -165,4 +165,4 @@ If you are training your own model or designing custom features, use these guide
     *   **Dot product** accounts for magnitude and direction.
 4.  **Experiment:** Qdrant allows you to set distance metrics per named vector, making it easy to A/B test different metrics on your specific data.
 
-Reference: [Distance Metrics in Qdrant Documentation](https://qdrant.tech/documentation/concepts/search/#metrics) 
+Reference: [Distance Metrics in Qdrant Documentation](/documentation/concepts/search/#metrics) 
