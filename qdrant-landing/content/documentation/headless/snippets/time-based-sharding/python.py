@@ -40,7 +40,7 @@ import urllib.request
 from qdrant_client.http.models import PointStruct, Document
 import uuid
 
-csv_url = 'https://raw.githubusercontent.com/qdrant/examples/blob/master/time-based-sharding/social-media-posts.csv'
+csv_url = 'https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/time-based-sharding/social-media-posts.csv'
 
 existing_shard_keys = list(client.list_shard_keys(collection_name=collection_name).shard_keys)
 

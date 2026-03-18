@@ -1,5 +1,5 @@
 ---
-title: Time-based Sharding
+title: Time-Based Sharding
 weight: 181
 ---
 
