@@ -89,7 +89,9 @@ When the migration is complete, you will see the new collection on Qdrant with a
 
 ## Conclusion
 
-The **Qdrant Migration Tool** makes data transfer across vector database instances effortless. Whether you're moving between cloud regions, upgrading from self-hosted to Qdrant Cloud, or switching from other databases such as Pinecone, this tool saves you hours of manual effort. [Try it today](https://github.com/qdrant/migration). 
+The **Qdrant Migration Tool** makes data transfer across vector database instances effortless. Whether you're moving between cloud regions, upgrading from self-hosted to Qdrant Cloud, or switching from other databases such as Pinecone, this tool saves you hours of manual effort. [Try it today](https://github.com/qdrant/migration).
+
+For detailed per-provider migration guides (Pinecone, Weaviate, Milvus, Elasticsearch, pgvector), see the [Migrate to Qdrant](/documentation/migrate-to-qdrant/) section. After migrating, use the [Migration Verification Guide](/documentation/migration-verification/) to confirm data integrity and search quality.
 
 
 
