@@ -14,7 +14,7 @@ For example, with daily shards, today's data is stored in today's shard, yesterd
 <figure>
   <img src="/documentation/tutorials/time-based-sharding/time-based-sharding.png">
   <figcaption>
-    Time-based sharding routes data to different shards based on timestamp. Typically, all writes go to the newest shard, while queries can target one or more recent shards. Older shards can then be pruned in the background without affecting performance.
+    Time-based sharding routes data to different shards based on timestamp. Typically, all writes go to the newest shard, while queries can target one or more shards. Older shards can be pruned in the background without affecting performance.
   </figcaption>
 </figure>
 
@@ -52,11 +52,11 @@ Custom shards can be accessed by their shard key. In this tutorial, the shard ke
 
 For default collections using `auto` sharding, `shard_number` determines the total number of shards for a collection. With user-defined sharding, it determines the number of shards **per shard key**: the total number of shards for a collection equals the number of shard keys (days) multiplied by the `shard_number`.
 
-Setting `shard_number` to `1` creates a separate shard for each shard key (each day of data). For very large datasets, you can improve write throughput by increasing `shard_number` and distributing these shards across multiple peers in the cluster. However, avoid creating too many shards, as each shard consumes resources, and too many shards can lead to performance degradation.
+Setting `shard_number` to `1` creates a single shard for each shard key (a separate shard for each day of data). For very large datasets, you can improve write throughput by increasing `shard_number` and distributing these shards across multiple peers in the cluster. However, avoid creating too many shards, as each shard consumes resources, and having too many shards can lead to performance degradation.
 
 ## Ingest Historical Data
 
-Time series data often arrives in streams, with new data points continuously being added. Each data point may include a timestamp indicating when it was created. You can use this timestamp to determine which shard a data point belongs to. If your data does not have timestamps, you can use the current ingestion time.
+Time series data often arrives in streams, with new data points continuously being added. Each data point may include a timestamp indicating when it was created. You can use this timestamp to determine which shard a data point belongs to. If your data does not have timestamps, you can use the current time.
 
 This tutorial uses a [sample dataset of social media posts](https://github.com/qdrant/examples/blob/master/time-based-sharding/social-media-posts.csv) with timestamps. Let's assume today is April 7th, 2026. You'll start by ingesting some historical data from this week (April 1-7). Here are a few sample rows from the dataset:
 
@@ -72,8 +72,8 @@ Upload the dataset and store each day of data in its own shard:
 
 Let's break down the code:
 
-- First, a CSV file of social media posts is fetched from a URL.
-- Next, a list of existing shard keys in the collection is retrieved. There should be none because you just created the collection, but in production, this ensures you take into account any existing data.
+- First, a list of existing shard keys in the collection is retrieved. There should be none because you just created the collection, but in production, this ensures you take into account any existing data.
+- Next, a CSV file is streamed from a URL.
 - The CSV file is streamed row by row, buffering points in batches of 100 for efficient uploading. The optimal batch size depends on your data and cluster, so you may want to experiment with different sizes for best performance.
 - The date (`YYYY-MM-DD`) is extracted from each row's datetime field. This date is used as the shard key to route the data to the correct shard.
 - A new shard is created for each new date encountered if it doesn't already exist.
