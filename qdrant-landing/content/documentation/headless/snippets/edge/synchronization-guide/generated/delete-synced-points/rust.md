@@ -7,5 +7,7 @@ let filter = Filter::new_must(Condition::Field(FieldCondition::new_range(
     },
 )));
 
-mutable_shard.update(PointOperation(DeletePointsByFilter(filter)))?;
+mutable_shard.update(UpdateOperation::PointOperation(
+    PointOperations::DeletePointsByFilter(filter),
+))?;
 ```

@@ -19,7 +19,7 @@ A Qdrant Edge Shard stores its data in a local directory on disk. Create the dir
 
 An Edge Shard is configured with a definition of the dense and sparse vectors that can be stored in the Edge Shard, similar to how you would configure a Qdrant collection.
 
-Set up a configuration by creating an instance of `EdgeConfig` in Python or `EdgeShardConfig` in Rust. For example:
+Set up a configuration by creating an instance of `EdgeConfig`. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="configure-edge-shard" >}}
 
@@ -69,7 +69,7 @@ Optimization is the process of removing data marked for deletion, merging segmen
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="optimize" >}}
 
-The optimizer can be configured using the `optimizers` parameter of `EdgeConfig` (Python) or `EdgeShardConfig` (Rust) when initializing the Edge Shard. For example:
+The optimizer can be configured using the `optimizers` parameter of `EdgeConfig` when initializing the Edge Shard. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="configure-optimizer" >}}
 

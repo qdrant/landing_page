@@ -1,8 +1,10 @@
 ```rust
-edge_shard.update(FieldIndexOperation(FieldIndexOperations::CreateIndex(
-    CreateIndex {
+edge_shard.update(UpdateOperation::FieldIndexOperation(
+    FieldIndexOperations::CreateIndex(CreateIndex {
         field_name: "color".try_into().unwrap(),
-        field_schema: Some(PayloadFieldSchema::FieldType(PayloadSchemaType::Keyword)),
-    },
-)))?;
+        field_schema: Some(PayloadFieldSchema::FieldType(
+            PayloadSchemaType::Keyword,
+        )),
+    }),
+))?;
 ```

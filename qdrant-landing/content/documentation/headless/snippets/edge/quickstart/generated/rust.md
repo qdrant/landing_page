@@ -3,23 +3,15 @@ use std::collections::HashMap;
 use std::path::Path;
 
 use qdrant_edge::EdgeShard;
-use qdrant_edge::config::optimizers::EdgeOptimizersConfig;
-use qdrant_edge::config::shard::EdgeShardConfig;
-use qdrant_edge::config::vectors::EdgeVectorParams;
-use qdrant_edge::segment::data_types::vectors::{NamedQuery, VectorInternal, VectorStructInternal};
-use qdrant_edge::segment::types::{
-    Condition, Distance, ExtendedPointId, FieldCondition, Filter, Match, MatchValue,
-    Payload, PayloadFieldSchema, PayloadSchemaType, ValueVariants, WithPayloadInterface, WithVector,
+use qdrant_edge::{
+    Condition, CreateIndex, Distance, EdgeConfig, EdgeOptimizersConfig,
+    EdgeVectorParams, FacetRequest, FieldCondition, FieldIndexOperations,
+    Filter, Match, MatchValue, NamedQuery, PayloadFieldSchema,
+    PayloadSchemaType, PointId, PointInsertOperations, PointOperations,
+    PointStruct, PointStructPersisted, QueryEnum, QueryRequest, ScoringQuery,
+    UpdateOperation, ValueVariants, Vectors, WithPayloadInterface, WithVector,
 };
-use qdrant_edge::shard::operations::CollectionUpdateOperations::{FieldIndexOperation, PointOperation};
-use qdrant_edge::shard::operations::point_ops::PointInsertOperationsInternal::PointsList;
-use qdrant_edge::shard::operations::point_ops::PointOperations::UpsertPoints;
-use qdrant_edge::shard::operations::point_ops::PointStructPersisted;
-use qdrant_edge::shard::operations::{CreateIndex, FieldIndexOperations};
-use qdrant_edge::shard::facet::FacetRequestInternal;
-use qdrant_edge::shard::query::query_enum::QueryEnum;
-use qdrant_edge::shard::query::{ScoringQuery, ShardQueryRequest};
-use serde_json::{Value, json};
+use serde_json::json;
 
 const SHARD_DIRECTORY: &str = "./qdrant-edge-directory";
 
@@ -28,7 +20,7 @@ fs_err::create_dir_all(SHARD_DIRECTORY)?;
 const VECTOR_NAME: &str = "my-vector";
 const VECTOR_DIMENSION: usize = 4;
 
-let config = EdgeShardConfig {
+let config = EdgeConfig {
     on_disk_payload: true,
     vectors: HashMap::from([(
         VECTOR_NAME.to_string(),
@@ -48,41 +40,33 @@ let config = EdgeShardConfig {
     optimizers: Default::default(),
 };
 
-let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), Some(config))?;
+let edge_shard = EdgeShard::load(
+    Path::new(SHARD_DIRECTORY),
+    Some(config),
+)?;
 
-fn point(id: u64, vector: Vec<f32>, payload: Value) -> PointStructPersisted {
-    let mut vectors = HashMap::new();
-    vectors.insert(VECTOR_NAME.to_string(), VectorInternal::from(vector));
-    PointStructPersisted {
-        id: ExtendedPointId::NumId(id),
-        vector: VectorStructInternal::Named(vectors).into(),
-        payload: Some(json_to_payload(payload)),
-    }
-}
+let points: Vec<PointStructPersisted> = vec![
+    PointStruct::new(
+        1u64,
+        Vectors::new_named([(VECTOR_NAME, vec![0.1f32, 0.2, 0.3, 0.4])]),
+        json!({"color": "red"}),
+    )
+    .into(),
+];
 
-fn json_to_payload(value: Value) -> Payload {
-    if let Value::Object(map) = value {
-        let mut payload = Payload::default();
-        for (k, v) in map {
-            payload.0.insert(k, v);
-        }
-        payload
-    } else {
-        Payload::default()
-    }
-}
-
-let points = vec![point(1, vec![0.1, 0.2, 0.3, 0.4], json!({"color": "red"}))];
-
-edge_shard.update(PointOperation(UpsertPoints(PointsList(points))))?;
+edge_shard.update(UpdateOperation::PointOperation(
+    PointOperations::UpsertPoints(
+        PointInsertOperations::PointsList(points),
+    ),
+))?;
 
 let retrieved = edge_shard.retrieve(
-    &[ExtendedPointId::NumId(1)],
+    &[PointId::NumId(1)],
     Some(WithPayloadInterface::Bool(true)),
     Some(WithVector::Bool(false)),
 )?;
 
-let results = edge_shard.query(ShardQueryRequest {
+let results = edge_shard.query(QueryRequest {
     prefetches: vec![],
     query: Some(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
         query: vec![0.2f32, 0.1, 0.9, 0.7].into(),
@@ -109,7 +93,7 @@ let filter = Filter {
     must_not: None,
 };
 
-let results = edge_shard.query(ShardQueryRequest {
+let results = edge_shard.query(QueryRequest {
     prefetches: vec![],
     query: Some(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
         query: vec![0.2f32, 0.1, 0.9, 0.7].into(),
@@ -124,7 +108,7 @@ let results = edge_shard.query(ShardQueryRequest {
     with_payload: WithPayloadInterface::Bool(true),
 })?;
 
-let facet_response = edge_shard.facet(FacetRequestInternal {
+let facet_response = edge_shard.facet(FacetRequest {
     key: "color".try_into().unwrap(),
     limit: 10,
     filter: None,
@@ -133,7 +117,7 @@ let facet_response = edge_shard.facet(FacetRequestInternal {
 
 edge_shard.optimize()?;
 
-let config = EdgeShardConfig {
+let config = EdgeConfig {
     on_disk_payload: true,
     vectors: HashMap::from([(
         VECTOR_NAME.to_string(),
@@ -158,12 +142,14 @@ let config = EdgeShardConfig {
     },
 };
 
-edge_shard.update(FieldIndexOperation(FieldIndexOperations::CreateIndex(
-    CreateIndex {
+edge_shard.update(UpdateOperation::FieldIndexOperation(
+    FieldIndexOperations::CreateIndex(CreateIndex {
         field_name: "color".try_into().unwrap(),
-        field_schema: Some(PayloadFieldSchema::FieldType(PayloadSchemaType::Keyword)),
-    },
-)))?;
+        field_schema: Some(PayloadFieldSchema::FieldType(
+            PayloadSchemaType::Keyword,
+        )),
+    }),
+))?;
 
 drop(edge_shard);
 

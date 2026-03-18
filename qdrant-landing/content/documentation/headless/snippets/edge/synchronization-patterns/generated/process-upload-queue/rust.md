@@ -6,7 +6,10 @@ let points_to_upload: Vec<PointStruct> = upload_queue
 
 if !points_to_upload.is_empty() {
     server_client
-        .upsert_points(UpsertPointsBuilder::new(COLLECTION_NAME, points_to_upload))
+        .upsert_points(UpsertPointsBuilder::new(
+            COLLECTION_NAME,
+            points_to_upload,
+        ))
         .await?;
 }
 ```

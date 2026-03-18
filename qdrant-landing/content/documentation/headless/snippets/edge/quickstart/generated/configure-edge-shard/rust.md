@@ -2,7 +2,7 @@
 const VECTOR_NAME: &str = "my-vector";
 const VECTOR_DIMENSION: usize = 4;
 
-let config = EdgeShardConfig {
+let config = EdgeConfig {
     on_disk_payload: true,
     vectors: HashMap::from([(
         VECTOR_NAME.to_string(),

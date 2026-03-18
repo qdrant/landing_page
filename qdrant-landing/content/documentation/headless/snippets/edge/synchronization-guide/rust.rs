@@ -5,22 +5,15 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use ordered_float::OrderedFloat;
 use qdrant_client::qdrant::PointStruct;
 use qdrant_edge::EdgeShard;
-use qdrant_edge::config::shard::EdgeShardConfig;
-use qdrant_edge::config::vectors::EdgeVectorParams;
-use qdrant_edge::segment::data_types::vectors::{NamedQuery, VectorInternal, VectorStructInternal};
-use qdrant_edge::segment::json_path::JsonPath;
-use qdrant_edge::segment::types::{
-    Condition, Distance, ExtendedPointId, FieldCondition, Filter, Payload, Range,
-    WithPayloadInterface, WithVector,
+use qdrant_edge::internal::SnapshotManifest;
+use qdrant_edge::{
+    Condition, Distance, EdgeConfig, EdgeVectorParams, FieldCondition, Filter,
+    JsonPath, NamedQuery, PointId, PointInsertOperations, PointOperations,
+    PointStruct as EdgePoint, PointStructPersisted, QueryEnum, QueryRequest,
+    Range, ScoringQuery, UpdateOperation, Vectors, WithPayloadInterface,
+    WithVector,
 };
-use qdrant_edge::shard::operations::CollectionUpdateOperations::PointOperation;
-use qdrant_edge::shard::operations::point_ops::PointInsertOperationsInternal::PointsList;
-use qdrant_edge::shard::operations::point_ops::PointOperations::{DeletePointsByFilter, UpsertPoints};
-use qdrant_edge::shard::operations::point_ops::PointStructPersisted;
-use qdrant_edge::shard::query::query_enum::QueryEnum;
-use qdrant_edge::shard::query::{ScoringQuery, ShardQueryRequest};
-use qdrant_edge::shard::snapshots::snapshot_manifest::SnapshotManifest;
-use serde_json::{Value, json};
+use serde_json::json;
 
 pub async fn main() -> anyhow::Result<()> {
     // @hide-start
@@ -36,7 +29,7 @@ pub async fn main() -> anyhow::Result<()> {
     const VECTOR_NAME: &str = "my-vector";
 
     fs_err::create_dir_all(MUTABLE_SHARD_DIR)?;
-    let config = EdgeShardConfig {
+    let config = EdgeConfig {
         on_disk_payload: true,
         vectors: HashMap::from([(
             VECTOR_NAME.to_string(),
@@ -56,19 +49,23 @@ pub async fn main() -> anyhow::Result<()> {
         optimizers: Default::default(),
     };
 
-    let mutable_shard = EdgeShard::load(Path::new(MUTABLE_SHARD_DIR), Some(config))?;
+    let mutable_shard = EdgeShard::load(
+        Path::new(MUTABLE_SHARD_DIR),
+        Some(config),
+    )?;
     // @block-end initialize-mutable-shard
 
     // @block-start initialize-immutable-shard
     const COLLECTION_NAME: &str = "edge-collection";
-    let snapshot_url =
-        format!("{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot");
+    let snapshot_url = format!(
+        "{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot"
+    );
 
     const IMMUTABLE_SHARD_DIR: &str = "./qdrant-edge-directory/immutable";
     let data_dir = Path::new(IMMUTABLE_SHARD_DIR);
 
-    let restore_dir =
-        tempfile::Builder::new().tempdir_in(data_dir.parent().unwrap_or(Path::new(".")))?;
+    let restore_dir = tempfile::Builder::new()
+        .tempdir_in(data_dir.parent().unwrap_or(Path::new(".")))?;
     let snapshot_path = restore_dir.path().join("shard.snapshot");
 
     let mut bytes = Vec::new();
@@ -105,33 +102,19 @@ pub async fn main() -> anyhow::Result<()> {
         SYNC_TIMESTAMP_KEY: timestamp,
     });
 
-    fn edge_point(id: u64, vector: Vec<f32>, payload: Value) -> PointStructPersisted {
-        let mut vectors = HashMap::new();
-        vectors.insert(VECTOR_NAME.to_string(), VectorInternal::from(vector));
-        PointStructPersisted {
-            id: ExtendedPointId::NumId(id),
-            vector: VectorStructInternal::Named(vectors).into(),
-            payload: Some(json_to_payload(payload)),
-        }
-    }
-
-    fn json_to_payload(value: Value) -> Payload {
-        if let Value::Object(map) = value {
-            let mut payload = Payload::default();
-            for (k, v) in map {
-                payload.0.insert(k, v);
-            }
-            payload
-        } else {
-            Payload::default()
-        }
-    }
-
-    mutable_shard.update(PointOperation(UpsertPoints(PointsList(vec![edge_point(
-        id,
-        vector.clone(),
-        payload.clone(),
-    )]))))?;
+    let edge_points: Vec<PointStructPersisted> = vec![
+        EdgePoint::new(
+            PointId::NumId(id),
+            Vectors::new_named([(VECTOR_NAME, vector.clone())]),
+            payload.clone(),
+        )
+        .into(),
+    ];
+    mutable_shard.update(UpdateOperation::PointOperation(
+        PointOperations::UpsertPoints(
+            PointInsertOperations::PointsList(edge_points),
+        ),
+    ))?;
 
     let rest_point = PointStruct::new(
         id,
@@ -150,7 +133,8 @@ pub async fn main() -> anyhow::Result<()> {
     let current_manifest = immutable_shard.snapshot_manifest()?;
 
     let update_url = format!(
-        "{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot/partial/create"
+        "{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot\
+        /partial/create"
     );
 
     let temp_dir = tempfile::tempdir_in(data_dir)?;
@@ -169,7 +153,10 @@ pub async fn main() -> anyhow::Result<()> {
 
     let unpacked_dir = tempfile::tempdir_in(data_dir)?;
     EdgeShard::unpack_snapshot(&partial_snapshot_path, unpacked_dir.path())?;
-    let snapshot_manifest = SnapshotManifest::load_from_snapshot(unpacked_dir.path(), None)?;
+    let snapshot_manifest = SnapshotManifest::load_from_snapshot(
+        unpacked_dir.path(),
+        None,
+    )?;
 
     let immutable_shard = EdgeShard::recover_partial_snapshot(
         data_dir,
@@ -188,11 +175,13 @@ pub async fn main() -> anyhow::Result<()> {
         },
     )));
 
-    mutable_shard.update(PointOperation(DeletePointsByFilter(filter)))?;
+    mutable_shard.update(UpdateOperation::PointOperation(
+        PointOperations::DeletePointsByFilter(filter),
+    ))?;
     // @block-end delete-synced-points
 
     // @block-start query-both-shards
-    let query = ShardQueryRequest {
+    let query = QueryRequest {
         prefetches: vec![],
         query: Some(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
             query: vec![0.2f32, 0.1, 0.9, 0.7].into(),

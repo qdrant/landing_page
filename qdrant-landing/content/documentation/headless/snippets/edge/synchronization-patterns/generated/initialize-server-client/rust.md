@@ -7,7 +7,10 @@ if !server_client.collection_exists(COLLECTION_NAME).await? {
     server_client
         .create_collection(
             CreateCollectionBuilder::new(COLLECTION_NAME).vectors_config(
-                VectorParamsBuilder::new(VECTOR_DIMENSION as u64, Distance::Cosine),
+                VectorParamsBuilder::new(
+                    VECTOR_DIMENSION as u64,
+                    Distance::Cosine,
+                ),
             ),
         )
         .await?;

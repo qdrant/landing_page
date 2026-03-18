@@ -2,8 +2,8 @@
 const SHARD_DIRECTORY: &str = "./qdrant-edge-directory";
 let data_dir = Path::new(SHARD_DIRECTORY);
 
-let restore_dir =
-    tempfile::Builder::new().tempdir_in(data_dir.parent().unwrap_or(Path::new(".")))?;
+let restore_dir = tempfile::Builder::new()
+    .tempdir_in(data_dir.parent().unwrap_or(Path::new(".")))?;
 let snapshot_path = restore_dir.path().join("shard.snapshot");
 
 let mut bytes = Vec::new();

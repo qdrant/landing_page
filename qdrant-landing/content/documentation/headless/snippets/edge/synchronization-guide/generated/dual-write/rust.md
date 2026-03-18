@@ -11,33 +11,19 @@ let payload = json!({
     SYNC_TIMESTAMP_KEY: timestamp,
 });
 
-fn edge_point(id: u64, vector: Vec<f32>, payload: Value) -> PointStructPersisted {
-    let mut vectors = HashMap::new();
-    vectors.insert(VECTOR_NAME.to_string(), VectorInternal::from(vector));
-    PointStructPersisted {
-        id: ExtendedPointId::NumId(id),
-        vector: VectorStructInternal::Named(vectors).into(),
-        payload: Some(json_to_payload(payload)),
-    }
-}
-
-fn json_to_payload(value: Value) -> Payload {
-    if let Value::Object(map) = value {
-        let mut payload = Payload::default();
-        for (k, v) in map {
-            payload.0.insert(k, v);
-        }
-        payload
-    } else {
-        Payload::default()
-    }
-}
-
-mutable_shard.update(PointOperation(UpsertPoints(PointsList(vec![edge_point(
-    id,
-    vector.clone(),
-    payload.clone(),
-)]))))?;
+let edge_points: Vec<PointStructPersisted> = vec![
+    EdgePoint::new(
+        PointId::NumId(id),
+        Vectors::new_named([(VECTOR_NAME, vector.clone())]),
+        payload.clone(),
+    )
+    .into(),
+];
+mutable_shard.update(UpdateOperation::PointOperation(
+    PointOperations::UpsertPoints(
+        PointInsertOperations::PointsList(edge_points),
+    ),
+))?;
 
 let rest_point = PointStruct::new(
     id,

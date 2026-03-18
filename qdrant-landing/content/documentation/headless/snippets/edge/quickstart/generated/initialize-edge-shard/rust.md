@@ -1,3 +1,6 @@
 ```rust
-let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), Some(config))?;
+let edge_shard = EdgeShard::load(
+    Path::new(SHARD_DIRECTORY),
+    Some(config),
+)?;
 ```

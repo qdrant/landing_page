@@ -4,7 +4,7 @@ const VECTOR_DIMENSION: usize = 4;
 const VECTOR_NAME: &str = "my-vector";
 
 fs_err::create_dir_all(MUTABLE_SHARD_DIR)?;
-let config = EdgeShardConfig {
+let config = EdgeConfig {
     on_disk_payload: true,
     vectors: HashMap::from([(
         VECTOR_NAME.to_string(),
@@ -24,5 +24,8 @@ let config = EdgeShardConfig {
     optimizers: Default::default(),
 };
 
-let mutable_shard = EdgeShard::load(Path::new(MUTABLE_SHARD_DIR), Some(config))?;
+let mutable_shard = EdgeShard::load(
+    Path::new(MUTABLE_SHARD_DIR),
+    Some(config),
+)?;
 ```

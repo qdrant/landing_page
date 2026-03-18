@@ -1,5 +1,5 @@
 ```rust
-let config = EdgeShardConfig {
+let config = EdgeConfig {
     on_disk_payload: true,
     vectors: HashMap::from([(
         VECTOR_NAME.to_string(),
