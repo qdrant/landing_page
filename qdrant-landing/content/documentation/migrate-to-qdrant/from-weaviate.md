@@ -22,8 +22,10 @@ curl -X PUT 'https://your-instance.cloud.qdrant.io:6333/collections/your-collect
     -H 'Content-Type: application/json' \
     -d '{
         "vectors": {
-            "size": 384,
-            "distance": "Cosine"
+            "vector_name": {
+                "size": 384,
+                "distance": "Cosine"
+            }
         }
     }'
 ```
@@ -53,11 +55,8 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
     --weaviate.api-key 'your-weaviate-api-key' \
     --qdrant.url 'https://your-instance.cloud.qdrant.io:6334' \
     --qdrant.api-key 'your-qdrant-api-key' \
-    --qdrant.collection 'your-collection' \
-    --migration.create-collection false
+    --qdrant.collection 'your-collection'
 ```
-
-<aside role="status">Note the <code>--migration.create-collection false</code> flag — since you pre-created the collection, the tool should skip auto-creation.</aside>
 
 ### All Weaviate-Specific Flags
 
