@@ -1,6 +1,6 @@
 ---
 title: Time-Based Sharding
-weight: 181
+weight: 35
 ---
 
 # Time-Based Sharding in Qdrant
