@@ -22,7 +22,7 @@ Not sure if you need a dedicated vector store alongside Postgres? Read our [pgve
 
 ## Choosing Your Tier
 
-<!-- Decision tree figure -->
+![Choosing your sync tier](/documentation/data-synchronization/tier_descision_tree.png)
 
 These tiers aren't permanent decisions. Start with Tier 1. When you hit its limits — Qdrant outages generating too much drift, write latency becoming noticeable — move to Tier 2. Only when Tier 2 becomes a bottleneck or you need replay capability should you invest in Tier 3.
 
@@ -36,7 +36,7 @@ These tiers aren't permanent decisions. Start with Tier 1. When you hit its limi
 
 Every CRUD endpoint writes to Postgres first, then to Qdrant, in the same request handler. If the Qdrant write fails, the error is logged but the request succeeds — Postgres is the source of truth, and a reconciliation job can fix drift later.
 
-<!-- Tier 1 figure -->
+![Tier 1: Dual-write architecture](/documentation/data-synchronization/tier_1_dual_writes.png)
 
 ## The Code
 
@@ -99,7 +99,7 @@ Instead of writing to Qdrant directly from the request handler, we write an *eve
 
 The outbox event exists if and only if the product write succeeded. There's no window between the two — they commit atomically.
 
-<!-- Tier 2 figure -->
+![Tier 2: Transactional outbox architecture](/documentation/data-synchronization/tier_2_background_worker.png)
 
 ## The Outbox Table
 
@@ -243,7 +243,7 @@ You also have a new table to manage: the outbox table grows over time and needs 
 
 CDC is architecturally different from the previous two approaches in a fundamental way: **the application code has no awareness of Qdrant**. The FastAPI routes are pure Postgres CRUD — they don't import the Qdrant client, they don't write to an outbox. Sync is handled entirely in the infrastructure layer.
 
-<!-- Tier 3 figure -->
+![Tier 3: Change Data Capture architecture](/documentation/data-synchronization/tier_3_debezium_kafka.png)
 
 ## How It Works
 
