@@ -89,11 +89,11 @@ Similarity("Grated hard cheese", "four cheese pizza for cheese lovers")
 This already hints at the idea behind a keywords-based retrieval system. We could encode all our documents as sparse vectors and retrieve & rank them based on similarity to the query.
 
 ### TF-IDF
-Yet in retrieval, we care about **relevance** between documents & queries.  
-Documents with the matching keywords to the query are probably relevant to it, yet it's not the same for every keyword, while some keywords are more important than others.
+Yet in retrieval, we care about **relevance** between documents & queries. Documents with the matching keywords to the query are probably relevant to it, yet it's not the same for every keyword, while some keywords are more important than others.
 
 #### IDF 
-Some keywords are common across many documents (e.g., adjectives like `tasty` or `fresh` in the dataset of grocery shop item descriptions). Others are rare and more specific (e.g., `gorgonzola`, `mozarella`).  
+Some keywords are common across many documents (e.g., adjectives like `tasty` or `fresh` in the dataset of grocery shop item descriptions). Others are rare and more specific (e.g., `gorgonzola`, `mozarella`).
+
 In the grocery corpus, the keyword `mozarella` is **more important** than `tasty` because it is **rarer**.  
 
 This importance could be expressed through **Inverse Document Frequency**.
@@ -154,7 +154,8 @@ Additional parameters controlling document length normalization and TF saturatio
 - `k_1`: controls TF saturation (how strongly extra occurrences of a query word in the document increase the score).
 - `b`: controls normalization by document length, balancing `|D|` against the corpus average `avg_corpus(|D|)`.
 
-To design BM25-based retrieval on sparse vectors, the aforementioned TF-IDF representation of documents should be updated with BM25 parameters.  
+To design BM25-based retrieval on sparse vectors, the aforementioned TF-IDF representation of documents should be updated with BM25 parameters.
+
 Let’s see how to use the BM25 retriever in practice, in Qdrant.
 
 ### BM25 in Qdrant
@@ -197,7 +198,7 @@ $$
 \text{BM25}(d_i) = \mathrm{function}\left(\mathrm{TF}(d_i, D), k_1, b, |D|, \mathrm{avg}_{\text{corpus}}|D|\right)
 $$
 
-The FastEmbed Qdrant library provides a way to [generate these BM25 formula-based sparse representations](https://github.com/qdrant/fastembed/blob/main/fastembed/sparse/bm25.py).
+The [FastEmbed](/documentation/fastembed/) Qdrant library provides a way to [generate these BM25 formula-based sparse representations](https://github.com/qdrant/fastembed/blob/main/fastembed/sparse/bm25.py).
 
 > **<font color='red'>Update:</font>** Since Qdrant's release [1.15.2](https://github.com/qdrant/qdrant/pull/6891), the conversion to BM25 sparse vectors happens directly in Qdrant, for all the supported Qdrant clients.  
 > Interface-wise, it looks the same as the local inference with FastEmbed, as we show here.  
@@ -234,7 +235,7 @@ client.upsert(
 )
 ```
 
-#### BM25 in FastEmbed (Qdrant): Implementation Details
+#### BM25 in FastEmbed: Implementation Details
 
 **Corpus Average Length**
 
@@ -247,7 +248,7 @@ Qdrant and FastEmbed do not compute $\mathrm{avg}_{\text{corpus}}|D|$ (the avera
 
 **Text Processing Pipeline**
 
-FastEmbed (Qdrant) uses the [Snowball stemmer](https://www.geeksforgeeks.org/snowball-stemmer-nlp/) to reduce words to their root or base form, and applies language-specific stop word lists (e.g., *and*, *or* in English) to reduce vocabulary size and improve retrieval quality.
+FastEmbed uses the [Snowball stemmer](https://www.geeksforgeeks.org/snowball-stemmer-nlp/) to reduce words to their root or base form, and applies language-specific stop word lists (e.g., *and*, *or* in English) to reduce vocabulary size and improve retrieval quality.
 
 > If you're using BM25 with Qdrant (since 1.15.2 release), you can customize stopwords lists.
 
@@ -308,18 +309,19 @@ $$
 
 ## Sparse Neural Retrieval
 
-Now let’s explore an approach that makes keyword‑based retrieval semantically aware: sparse neural retrieval.
+Now let’s explore an approach that makes keyword‑based retrieval semantically aware: **sparse neural retrieval.**
 
 ### What Does “Semantically Aware” Mean
 The **bag‑of‑words** approach builds sparse text representations without word order. It counts terms, but it does not model which words appear next to which, i.e., **context**. Yet the **meaning** of a word is strongly shaped by its context.
 
 **Example #1:**
-Consider `"I want some hard-to-get cheese"` and `"I want to get some hard cheese"`.  These two sentences use the same words but, due to different **word order**, put different meanings into the word `cheese.`  
-Classical retrievers that rely on word statistics computed independently of other words cannot capture this meaning-in-context, which affects relevance. 
+Consider `"I want some hard-to-get cheese"` and `"I want to get some hard cheese"`.  These two sentences use the same words but, due to different **word order**, put different meanings into the word `cheese.` Classical retrievers that rely on word statistics computed independently of other words cannot capture this meaning-in-context, which affects relevance. 
 
 **Example #2:**
 As humans, we know that:  
+
 `"A not soft cheese"` is closer in meaning to  `"hard cheese"`  than to `"soft cheese"`.  
+
 **BM25** lacks this semantic awareness.
 
 Dense retrieval might seem like the perfect solution, but in many domains **keyword‑based search** is attractive because it is **explainable**, **exact**, and **not as recall‑heavy**. The question becomes: how can we keep exact matches while making them **meaning‑aware**?
@@ -423,7 +425,8 @@ SPLADE models generate sparse text representations made up of **tokens** produce
 
 #### Text to Tokens
 
-Each document is first tokenized and the resulting tokens are mapped to their corresponding indices in the model’s vocabulary.  
+Each document is first tokenized and the resulting tokens are mapped to their corresponding indices in the model’s vocabulary.
+  
 These indices are then used in the final sparse representation.
 
 You can explore this process in the [Tokenizer Playground](https://huggingface.co/spaces/Xenova/the-tokenizer-playground) by selecting the `custom` tokenizer and entering `Qdrant/Splade_PP_en_v1`. For example, "*cheese*" is mapped to token index `8808`, and "*mac*" to `6097`.
