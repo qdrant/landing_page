@@ -1,6 +1,7 @@
 ---
 title: Search Quality
-weight: 30
+weight: 15
+partition: ecosystem
 ---
 
 # Search Quality Verification

@@ -1,8 +1,8 @@
 ---
 title: Migration Verification
-weight: 32
+weight: 300
 is_empty: false
-partition: build
+partition: ecosystem
 ---
 
 # Migration Verification Guide

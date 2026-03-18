@@ -1,6 +1,6 @@
 ---
 title: Frameworks 
-weight: 400
+weight: 800
 partition: ecosystem
 aliases: ["/documentation/frameworks/memgpt/"]
 ---

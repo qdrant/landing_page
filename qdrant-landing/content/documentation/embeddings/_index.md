@@ -1,6 +1,6 @@
 ---
 title: Embeddings
-weight: 300
+weight: 700
 partition: ecosystem
 ---
 

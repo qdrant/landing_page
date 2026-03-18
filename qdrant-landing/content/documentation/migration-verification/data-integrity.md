@@ -1,6 +1,7 @@
 ---
 title: Data Integrity
-weight: 20
+weight: 10
+partition: ecosystem
 ---
 
 # Data Integrity Verification

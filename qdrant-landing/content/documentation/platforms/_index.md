@@ -1,6 +1,6 @@
 ---
 title: Platforms
-weight: 600
+weight: 1000
 partition: ecosystem
 ---
 

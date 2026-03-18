@@ -1,6 +1,7 @@
 ---
 title: From Milvus
-weight: 30
+weight: 15
+partition: ecosystem
 ---
 
 # Migrate from Milvus to Qdrant

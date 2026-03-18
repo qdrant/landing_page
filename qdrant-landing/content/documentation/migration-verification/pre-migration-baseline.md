@@ -1,6 +1,7 @@
 ---
 title: Pre-Migration Baseline
-weight: 10
+weight: 5
+partition: ecosystem
 ---
 
 # Pre-Migration Baseline

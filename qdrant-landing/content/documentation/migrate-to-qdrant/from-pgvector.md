@@ -1,6 +1,7 @@
 ---
 title: From pgvector
-weight: 50
+weight: 30
+partition: ecosystem
 ---
 
 # Migrate from pgvector to Qdrant

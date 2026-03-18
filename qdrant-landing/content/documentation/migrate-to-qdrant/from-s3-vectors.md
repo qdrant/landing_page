@@ -1,6 +1,7 @@
 ---
 title: From S3 Vectors
-weight: 55
+weight: 35
+partition: ecosystem
 ---
 
 # Migrate from S3 Vectors to Qdrant

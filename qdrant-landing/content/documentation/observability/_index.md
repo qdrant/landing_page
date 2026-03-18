@@ -1,6 +1,6 @@
 ---
 title: Observability
-weight: 500
+weight: 900
 partition: ecosystem
 ---
 

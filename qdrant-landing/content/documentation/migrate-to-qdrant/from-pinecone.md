@@ -1,6 +1,7 @@
 ---
 title: From Pinecone
-weight: 10
+weight: 5
+partition: ecosystem
 ---
 
 # Migrate from Pinecone to Qdrant

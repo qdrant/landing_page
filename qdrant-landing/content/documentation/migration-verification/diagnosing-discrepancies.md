@@ -1,6 +1,7 @@
 ---
 title: Diagnosing Discrepancies
-weight: 40
+weight: 20
+partition: ecosystem
 ---
 
 # Diagnosing Discrepancies

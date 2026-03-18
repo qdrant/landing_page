@@ -1,6 +1,7 @@
 ---
 title: From Elasticsearch
-weight: 40
+weight: 20
+partition: ecosystem
 ---
 
 # Migrate from Elasticsearch to Qdrant
