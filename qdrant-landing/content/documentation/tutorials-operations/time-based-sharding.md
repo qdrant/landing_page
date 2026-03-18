@@ -85,21 +85,29 @@ Let's break down the code:
 - Each full  batch of 100 points is uploaded to Qdrant, targeting the correct date-based shard via the shard key selector parameter.
 - Any remaining points are uploaded in a partial final batch after the loop ends.
 
-## Query Today's Data
+## Query the Data
 
-Now you can run a semantic search for "coffee" on today's posts. Setting the shard key selector to `2026-04-07`  (assuming today is April 7th, 2026) limits the query to the shard that stores today's data:
+### Query Today's Data
+
+Now you can run a semantic query on the posts. Setting the shard key selector to `2026-04-07`  (assuming today is April 7th, 2026) limits the query to the shard that stores today's data:
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="search-single-shard" >}}
 
-## Query the Full Dataset
+### Query Multiple Days of Data
 
-To query the entire dataset (all shards), omit the shard key selector parameter:
+To query multiple shards, set the shard key selector to a list of shard keys. For example, to query the last 2 days of data (April 6-7):
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="search-multiple-shards" >}}
 
+### Query the Full Dataset
+
+To query the entire dataset (all shards), omit the shard key selector parameter:
+
+{{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="search-all-shards" >}}
+
 ## Pruning Shards
 
-Every night at midnight, create a new shard for the new data that will be ingested that day. If you only query the last 7 days of data, you can also delete the oldest shard. You could automate this with a cron job.
+Every night at midnight, create a new shard for the new data that will be ingested that day. If you only query the last 7 days of data, you can also delete the oldest shard. You can automate this with a cron job.
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="pruning-shards" >}}
 
@@ -109,8 +117,6 @@ When ingesting new data, set the `shard_key_selector` to today's date so the dat
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="ingest-new-data" >}}
 
-Finally, rerun the earlier queries to see how you can still query the whole dataset or just a subset.
-
 ## Conclusion
 
-Time-based sharding is a powerful technique for managing large, time-sensitive datasets in Qdrant. By routing data to different shards based on timestamps, you can efficiently store and query recent data while easily pruning older data without impacting performance. This approach is ideal for use cases like social media analysis, where data relevance decreases over time.
+Time-based sharding is a powerful technique for managing large, time-series datasets in Qdrant. By routing data to different shards based on timestamps, you can efficiently store and query recent data while easily pruning older data without impacting performance. This approach is ideal for use cases like social media analysis, where data relevance decreases over time.

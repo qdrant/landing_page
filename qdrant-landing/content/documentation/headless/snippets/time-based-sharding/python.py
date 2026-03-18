@@ -95,8 +95,6 @@ if buffer:
 # @block-end upload-vectors
 
 # @block-start search-single-shard
-today = "2026-04-07"
-
 query_text = "coffee"
 
 resp = client.query_points(
@@ -104,7 +102,7 @@ resp = client.query_points(
     query=Document(text=query_text, model=dense_model),
     using="dense_vector",
     limit=5,
-    shard_key_selector=today
+    shard_key_selector="2026-04-07"
 )
 print(resp)
 # @block-end search-single-shard
@@ -115,9 +113,20 @@ resp = client.query_points(
     query=Document(text=query_text, model=dense_model),
     using="dense_vector",
     limit=5,
+    shard_key_selector=["2026-04-06","2026-04-07"]
 )
 print(resp)
 # @block-end search-multiple-shards
+
+# @block-start search-all-shards
+resp = client.query_points(
+    collection_name=collection_name,
+    query=Document(text=query_text, model=dense_model),
+    using="dense_vector",
+    limit=5,
+)
+print(resp)
+# @block-end search-all-shards
 
 # @block-start pruning-shards
 from datetime import date, timedelta
