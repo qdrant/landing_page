@@ -61,6 +61,12 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 | `--milvus.server-version` | No | Override detected server version |
 | `--milvus.enable-tls-auth` | No | Enable TLS authentication |
 
+### Qdrant-Side Options
+
+| Flag | Default | Description |
+| :--- | :--- | :--- |
+| `--qdrant.distance-metric` | — | Distance metric per vector field (map format, e.g., `field1:cosine,field2:dot`) |
+
 ## Gotchas
 
 - **Partition handling:** Milvus partitions can map to Qdrant collections or payload filters. If you merge partitions into a single collection, add a partition name as a payload field for filtering.

@@ -21,9 +21,14 @@ docker pull registry.cloud.qdrant.io/library/qdrant-migration
 | [Weaviate](/documentation/migrate-to-qdrant/from-weaviate/) | `weaviate` | No (must pre-create) |
 | [Milvus](/documentation/migrate-to-qdrant/from-milvus/) | `milvus` | Yes |
 | [Elasticsearch](/documentation/migrate-to-qdrant/from-elasticsearch/) | `elasticsearch` | Yes |
+| [OpenSearch](/documentation/migrate-to-qdrant/from-opensearch/) | `opensearch` | Yes |
 | [pgvector](/documentation/migrate-to-qdrant/from-pgvector/) | `pg` | Yes |
+| [S3 Vectors](/documentation/migrate-to-qdrant/from-s3-vectors/) | `s3` | Yes |
+| [Chroma](/documentation/migrate-to-qdrant/from-chroma/) | `chroma` | Yes |
 
-The tool also supports Chroma, Redis, MongoDB, OpenSearch, S3 Vectors, FAISS, Apache Solr, and [Qdrant-to-Qdrant](/documentation/tutorials-operations/migration/) migrations.
+The tool also supports Redis, MongoDB, FAISS, Apache Solr, and [Qdrant-to-Qdrant](/documentation/tutorials-operations/migration/) migrations.
+
+Not seeing your current vector store? [Open an issue on GitHub](https://github.com/qdrant/migration/issues) and let us know!
 
 ## General Advice
 
@@ -45,8 +50,11 @@ These flags apply to all source types:
 | `--migration.restart` | false | Ignore saved progress, start fresh |
 | `--migration.create-collection` | true | Auto-create target collection |
 | `--migration.batch-delay` | 0 | Milliseconds between batches |
-| `--migration.num-workers` | CPU cores | Parallel workers |
+| `--migration.offsets-collection` | `_migration_offsets` | Collection used to track migration progress |
 | `--debug` / `--trace` | — | Verbose logging |
+| `--skip-tls-verification` | false | Skip TLS certificate verification |
+
+<aside role="status"><code>--migration.num-workers</code> is only available for the <code>pg</code> and <code>qdrant</code> subcommands.</aside>
 
 ## After Migration
 

@@ -22,21 +22,7 @@ Not sure if you need a dedicated vector store alongside Postgres? Read our [pgve
 
 ## Choosing Your Tier
 
-```
-Do you have < 10K records and low write volume?
-└── Yes → Tier 1 (dual-write) is fine to start
-
-Does Qdrant downtime need to be invisible to your write path?
-└── Yes → Go to Tier 2
-
-Do you already run Kafka/Redpanda infrastructure?
-└── Yes → Tier 3 is a natural fit
-
-Do multiple services (not just Qdrant) need to react to data changes?
-└── Yes → Tier 3
-
-Otherwise → Tier 2
-```
+<!-- Decision tree figure -->
 
 These tiers aren't permanent decisions. Start with Tier 1. When you hit its limits — Qdrant outages generating too much drift, write latency becoming noticeable — move to Tier 2. Only when Tier 2 becomes a bottleneck or you need replay capability should you invest in Tier 3.
 
@@ -49,6 +35,8 @@ These tiers aren't permanent decisions. Start with Tier 1. When you hit its limi
 ## Architecture
 
 Every CRUD endpoint writes to Postgres first, then to Qdrant, in the same request handler. If the Qdrant write fails, the error is logged but the request succeeds — Postgres is the source of truth, and a reconciliation job can fix drift later.
+
+<!-- Tier 1 figure -->
 
 ## The Code
 
@@ -110,6 +98,8 @@ More subtly: the request latency includes the Qdrant round-trip. For write-heavy
 Instead of writing to Qdrant directly from the request handler, we write an *event* into a `sync_outbox` table in the **same Postgres transaction** as the product write. A background worker picks up these events and syncs them to Qdrant asynchronously.
 
 The outbox event exists if and only if the product write succeeded. There's no window between the two — they commit atomically.
+
+<!-- Tier 2 figure -->
 
 ## The Outbox Table
 
@@ -252,6 +242,8 @@ You also have a new table to manage: the outbox table grows over time and needs 
 ## Architecture
 
 CDC is architecturally different from the previous two approaches in a fundamental way: **the application code has no awareness of Qdrant**. The FastAPI routes are pure Postgres CRUD — they don't import the Qdrant client, they don't write to an outbox. Sync is handled entirely in the infrastructure layer.
+
+<!-- Tier 3 figure -->
 
 ## How It Works
 

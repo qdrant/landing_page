@@ -71,6 +71,11 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 | `--weaviate.username` | No | Username (when auth-type is `password`) |
 | `--weaviate.password` | No | Password (when auth-type is `password`) |
 | `--weaviate.tenant` | No | Specific tenant to migrate |
+| `--weaviate.scopes` | No | Scopes (when auth-type is `password` or `client`) |
+| `--weaviate.client-secret` | No | Client secret (when auth-type is `client`) |
+| `--weaviate.token` | No | Token (when auth-type is `bearer`) |
+| `--weaviate.refresh-token` | No | Refresh token (when auth-type is `bearer`) |
+| `--weaviate.expires-in` | No | Token expiry in seconds (when auth-type is `bearer`) |
 
 ## Gotchas
 

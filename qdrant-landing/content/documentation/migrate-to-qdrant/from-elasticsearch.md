@@ -59,6 +59,12 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 | `--elasticsearch.api-key` | No | API key for authentication |
 | `--elasticsearch.insecure-skip-verify` | No | Skip TLS certificate verification |
 
+### Qdrant-Side Options
+
+| Flag | Default | Description |
+| :--- | :--- | :--- |
+| `--qdrant.id-field` | `__id__` | Payload field name for original Elasticsearch document IDs |
+
 ## Hybrid Search Considerations
 
 If your Elasticsearch setup uses hybrid BM25 + kNN scoring, you'll need to reconstruct this in Qdrant using [sparse vectors](/documentation/concepts/vectors/#sparse-vectors) (for BM25-like behavior) alongside dense vectors. The migration tool transfers the dense vectors; you'll need to generate sparse vectors separately if you want hybrid search in Qdrant.

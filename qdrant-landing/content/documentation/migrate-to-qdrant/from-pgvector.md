@@ -53,8 +53,15 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 | :--- | :--- | :--- |
 | `--pg.url` | Yes | Postgres connection string |
 | `--pg.table` | Yes | Table name to migrate |
-| `--pg.key-column` | No | Column to use as point ID |
+| `--pg.key-column` | Yes | Column to use as point ID |
 | `--pg.columns` | No | Comma-separated columns to migrate (default: all) |
+| `--migration.num-workers` | No | Parallel workers (default: number of CPU cores) |
+
+### Qdrant-Side Options
+
+| Flag | Default | Description |
+| :--- | :--- | :--- |
+| `--qdrant.distance-metric` | `cosine` | Distance metric per vector field (map format) |
 
 ## Gotchas
 

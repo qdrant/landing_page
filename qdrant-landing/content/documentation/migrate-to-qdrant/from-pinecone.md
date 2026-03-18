@@ -60,6 +60,13 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 | `--pinecone.namespace` | No | Specific namespace to migrate |
 | `--pinecone.service-host` | No | Custom Pinecone service host |
 
+### Qdrant-Side Options
+
+| Flag | Default | Description |
+| :--- | :--- | :--- |
+| `--qdrant.id-field` | `__id__` | Payload field name for original Pinecone IDs |
+| `--qdrant.sparse-vector` | `sparse_vector` | Named vector for Pinecone sparse values |
+
 ## Gotchas
 
 - **Score scaling:** Pinecone cosine similarity returns values in [0, 1] (rescaled). Qdrant returns [-1, 1]. Rankings are identical, but raw scores won't match.
