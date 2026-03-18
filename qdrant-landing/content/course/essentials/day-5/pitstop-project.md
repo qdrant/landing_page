@@ -1,6 +1,7 @@
 ---
 title: "Project: Building a Recommendation System"
 description: Build a hybrid AI recommendation system with Qdrant’s Universal Query API—combining dense, sparse, and multivector retrieval, ColBERT reranking, and RRF fusion in one atomic query. 
+isLesson: true
 weight: 5
 ---
 

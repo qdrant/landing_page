@@ -1,6 +1,7 @@
 ---
 title: "Qdrant Setup"
 description: Set up your Qdrant Cloud cluster in minutes. Learn to create collections, manage data, access the Web UI, and connect securely from Python.
+isLesson: true
 weight: 2
 ---
 

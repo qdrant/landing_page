@@ -1,6 +1,7 @@
 ---
 title: "Demo: Keyword Search with Sparse Vectors"
 description: Hands-on sparse retrieval in Qdrant—create BM25 collections, enable IDF, index with FastEmbed, try SPLADE++ expansion, and execute keyword queries via the Universal Query API.
+isLesson: true
 weight: 3
 ---
 

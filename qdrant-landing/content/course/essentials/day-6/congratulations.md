@@ -1,6 +1,7 @@
 ---
 title: "Course Completion and Next Steps"
 description: Complete your Qdrant course by earning certification and mastering hybrid, multivector, and production-ready vector search techniques—skills to design, evaluate, and deploy real-world AI search systems. 
+isLesson: true
 weight: 3
 ---
 

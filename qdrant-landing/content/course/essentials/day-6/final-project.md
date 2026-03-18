@@ -1,6 +1,7 @@
 ---
 title: "Final Project: Production-Ready Documentation Search Engine"
 description: Create a complete documentation search system with Qdrant, featuring hybrid retrieval, multivector reranking, and performance evaluation for a portfolio-ready, production-quality vector search application.
+isLesson: true
 weight: 2
 ---
 

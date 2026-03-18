@@ -1,6 +1,7 @@
 ---
 title: "Vector Quantization Methods"
 description: Explore scalar, binary, and product quantization in Qdrant. Learn how compression boosts vector search speed, cuts memory costs, and balances accuracy for large-scale AI retrieval. 
+isLesson: true
 weight: 2
 ---
 
