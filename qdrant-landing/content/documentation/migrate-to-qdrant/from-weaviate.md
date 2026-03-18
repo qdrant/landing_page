@@ -22,8 +22,10 @@ curl -X PUT 'https://your-instance.cloud.qdrant.io:6333/collections/your-collect
     -H 'Content-Type: application/json' \
     -d '{
         "vectors": {
-            "size": 384,
-            "distance": "Cosine"
+            "vector_name": {
+                "size": 384,
+                "distance": "Cosine"
+            }
         }
     }'
 ```
