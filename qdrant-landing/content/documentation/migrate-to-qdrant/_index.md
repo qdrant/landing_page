@@ -25,8 +25,11 @@ docker pull registry.cloud.qdrant.io/library/qdrant-migration
 | [pgvector](/documentation/migrate-to-qdrant/from-pgvector/) | `pg` | Yes |
 | [S3 Vectors](/documentation/migrate-to-qdrant/from-s3-vectors/) | `s3` | Yes |
 | [Chroma](/documentation/migrate-to-qdrant/from-chroma/) | `chroma` | Yes |
-
-The tool also supports Redis, MongoDB, FAISS, Apache Solr, and [Qdrant-to-Qdrant](/documentation/tutorials-operations/migration/) migrations.
+| [Redis](/documentation/migrate-to-qdrant/from-redis/) | `redis` | No (must pre-create) |
+| [MongoDB](/documentation/migrate-to-qdrant/from-mongodb/) | `mongodb` | No (must pre-create) |
+| [FAISS](/documentation/migrate-to-qdrant/from-faiss/) | `faiss` | Yes |
+| [Apache Solr](/documentation/migrate-to-qdrant/from-solr/) | `solr` | No (must pre-create) |
+| [Qdrant](/documentation/migrate-to-qdrant/from-qdrant/) | `qdrant` | Yes |
 
 Not seeing your current vector store? [Open an issue on GitHub](https://github.com/qdrant/migration/issues) and let us know!
 
