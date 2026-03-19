@@ -76,26 +76,26 @@ With your virtual environment activated, install the required libraries:
 **Using uv (recommended):**
 
 ```bash
-uv pip install "qdrant-client==1.16.2" "fastembed==0.7.4"
+uv pip install qdrant-client fastembed
 ```
 
 **Using Poetry:**
 
 ```bash
-poetry add "qdrant-client==1.16.2" "fastembed==0.7.4"
+poetry add qdrant-client fastembed
 ```
 
 **Using pip:**
 
 ```bash
-pip install "qdrant-client==1.16.2" "fastembed==0.7.4"
+pip install qdrant-client fastembed
 ```
 
 ### What These Libraries Do
 
-- **qdrant-client (1.16.2)**: The official Python client for Qdrant, providing both synchronous and asynchronous APIs for vector search operations. This library contains full type definitions and supports all Qdrant features.
+- **qdrant-client**: The official Python client for Qdrant, providing both synchronous and asynchronous APIs for vector search operations. This library contains full type definitions and supports all Qdrant features.
 
-- **fastembed (0.7.4)**: A fast, lightweight library for generating embeddings, maintained by the Qdrant team. It includes support for multi-vector embeddings which we'll use extensively in this course.
+- **fastembed**: A fast, lightweight library for generating embeddings, maintained by the Qdrant team. It includes support for multi-vector embeddings which we'll use extensively in this course. **(Note: fastembed=0.7.5 or above required for this course)**
 
 ## Verification Steps
 
