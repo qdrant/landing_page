@@ -37,7 +37,7 @@ config = EdgeConfig(
     }
 )
 
-edge_shard = EdgeShard(SHARD_DIRECTORY, config)
+edge_shard = EdgeShard.create(SHARD_DIRECTORY, config)
 
 from pathlib import Path
 from qdrant_edge import Point, UpdateOperation

@@ -23,5 +23,5 @@ config = EdgeConfig(
     }
 )
 
-mutable_shard = EdgeShard(MUTABLE_SHARD_DIR, config)
+mutable_shard = EdgeShard.create(MUTABLE_SHARD_DIR, config)
 ```

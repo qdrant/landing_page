@@ -29,7 +29,7 @@ config = EdgeConfig(
 # @block-start initialize-edge-shard
 from qdrant_edge import EdgeShard
 
-edge_shard = EdgeShard(SHARD_DIRECTORY, config)
+edge_shard = EdgeShard.create(SHARD_DIRECTORY, config)
 # @block-end initialize-edge-shard
 
 # @block-start upsert-points
@@ -125,5 +125,5 @@ edge_shard.close()
 # @block-end close-edge-shard
 
 # @block-start load-edge-shard
-edge_shard = EdgeShard(SHARD_DIRECTORY)
+edge_shard = EdgeShard.load(SHARD_DIRECTORY)
 # @block-end load-edge-shard

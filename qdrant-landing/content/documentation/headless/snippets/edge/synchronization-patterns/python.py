@@ -35,7 +35,7 @@ with tempfile.TemporaryDirectory(dir=data_dir.parent) as restore_dir:
 
     EdgeShard.unpack_snapshot(str(snapshot_path), str(data_dir))
 
-edge_shard = EdgeShard(SHARD_DIRECTORY)
+edge_shard = EdgeShard.load(SHARD_DIRECTORY)
 # @block-end restore-snapshot
 
 # @block-start update-from-snapshot
@@ -77,7 +77,7 @@ config = EdgeConfig(
     }
 )
 
-edge_shard = EdgeShard(SHARD_DIRECTORY, config)
+edge_shard = EdgeShard.create(SHARD_DIRECTORY, config)
 # @block-end initialize-edge-shard
 
 # @block-start initialize-server-client

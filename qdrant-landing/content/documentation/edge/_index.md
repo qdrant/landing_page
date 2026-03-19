@@ -20,6 +20,8 @@ Qdrant Edge is built around the concept of an **Edge Shard**: a self-contained s
 
 To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](https://pypi.org/project/qdrant-edge-py/) package or the [`qdrant-edge` Rust crate](https://crates.io/crates/qdrant-edge). This library provides an `EdgeShard` class with methods to manage data, query it, and restore snapshots:
 
+- `new` (Rust) / `create` (Python): Creates a new Edge Shard at the given path with the provided configuration. Fails if the path already contains data.
+- `load`: Initializes an Edge Shard by reading existing data and optionally the configuration from disk.
 - `update`: Updates the data.
 - `query`: Queries the data.
 - `facet`: Returns the top N distinct values of a payload field, sorted by the number of points that have each value.

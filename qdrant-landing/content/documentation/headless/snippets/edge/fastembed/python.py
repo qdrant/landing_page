@@ -39,7 +39,7 @@ config = EdgeConfig(
     }
 )
 
-edge_shard = EdgeShard(SHARD_DIRECTORY, config)
+edge_shard = EdgeShard.create(SHARD_DIRECTORY, config)
 # @block-end initialize-edge-shard
 
 # @block-start embed-and-store-image

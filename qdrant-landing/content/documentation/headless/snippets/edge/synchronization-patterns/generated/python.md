@@ -27,7 +27,7 @@ with tempfile.TemporaryDirectory(dir=data_dir.parent) as restore_dir:
 
     EdgeShard.unpack_snapshot(str(snapshot_path), str(data_dir))
 
-edge_shard = EdgeShard(SHARD_DIRECTORY)
+edge_shard = EdgeShard.load(SHARD_DIRECTORY)
 
 manifest = edge_shard.snapshot_manifest()
 
@@ -65,7 +65,7 @@ config = EdgeConfig(
     }
 )
 
-edge_shard = EdgeShard(SHARD_DIRECTORY, config)
+edge_shard = EdgeShard.create(SHARD_DIRECTORY, config)
 
 from qdrant_client import QdrantClient, models
 

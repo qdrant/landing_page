@@ -24,8 +24,8 @@ let config = EdgeConfig {
     optimizers: Default::default(),
 };
 
-let mutable_shard = EdgeShard::load(
+let mutable_shard = EdgeShard::new(
     Path::new(MUTABLE_SHARD_DIR),
-    Some(config),
+    config,
 )?;
 ```

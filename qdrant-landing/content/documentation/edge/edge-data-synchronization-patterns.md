@@ -25,7 +25,7 @@ Using the snapshot URL, you can download the snapshot to the local disk and use 
 
 {{< code-snippet path="/documentation/headless/snippets/edge/synchronization-patterns/" block="restore-snapshot" >}}
 
-This code first downloads the snapshot to a temporary directory. Next, `EdgeShard.unpack_snapshot` unpacks the downloaded snapshot into the data directory, and a new instance of `EdgeShard` is created using the unpacked snapshot's data and configuration.
+This code first downloads the snapshot to a temporary directory. Next, `EdgeShard.unpack_snapshot` unpacks the downloaded snapshot into the data directory, and an EdgeShard is initialized using the unpacked data and configuration.
 
 The `edge_shard` will use the same configuration and the same file structure as the source collection from which the snapshot was created, including vector and payload indexes.
 

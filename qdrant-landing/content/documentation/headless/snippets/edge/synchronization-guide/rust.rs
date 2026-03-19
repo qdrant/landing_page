@@ -49,9 +49,9 @@ pub async fn main() -> anyhow::Result<()> {
         optimizers: Default::default(),
     };
 
-    let mutable_shard = EdgeShard::load(
+    let mutable_shard = EdgeShard::new(
         Path::new(MUTABLE_SHARD_DIR),
-        Some(config),
+        config,
     )?;
     // @block-end initialize-mutable-shard
 

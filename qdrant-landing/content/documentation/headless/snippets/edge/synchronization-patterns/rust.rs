@@ -120,9 +120,9 @@ pub async fn main() -> anyhow::Result<()> {
         optimizers: Default::default(),
     };
 
-    let edge_shard = EdgeShard::load(
+    let edge_shard = EdgeShard::new(
         Path::new(SHARD_DIRECTORY),
-        Some(config),
+        config,
     )?;
     // @block-end initialize-edge-shard
 

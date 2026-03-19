@@ -25,7 +25,7 @@ config = EdgeConfig(
 
 from qdrant_edge import EdgeShard
 
-edge_shard = EdgeShard(SHARD_DIRECTORY, config)
+edge_shard = EdgeShard.create(SHARD_DIRECTORY, config)
 
 from qdrant_edge import ( Point, UpdateOperation )
 
@@ -101,5 +101,5 @@ edge_shard.update(UpdateOperation.create_field_index("color", PayloadSchemaType.
 
 edge_shard.close()
 
-edge_shard = EdgeShard(SHARD_DIRECTORY)
+edge_shard = EdgeShard.load(SHARD_DIRECTORY)
 ```

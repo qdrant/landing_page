@@ -45,9 +45,9 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end configure-edge-shard
 
     // @block-start initialize-edge-shard
-    let edge_shard = EdgeShard::load(
+    let edge_shard = EdgeShard::new(
         Path::new(SHARD_DIRECTORY),
-        Some(config),
+        config,
     )?;
     // @block-end initialize-edge-shard
 

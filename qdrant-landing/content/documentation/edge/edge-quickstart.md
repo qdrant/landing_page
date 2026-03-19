@@ -25,9 +25,11 @@ Set up a configuration by creating an instance of `EdgeConfig`. For example:
 
 ## Initialize the Edge Shard
 
-Now you can create an instance of `EdgeShard` with the storage directory and the configuration:
+Now you can create a new `EdgeShard` using `EdgeShard.create` (Python) or `EdgeShard::new` (Rust), passing the storage directory and configuration:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="initialize-edge-shard" >}}
+
+Note that `create` and `new` will fail if the storage directory already contains data. To initialize an Edge Shard with existing data, see [Load Existing Edge Shard from Disk](#load-existing-edge-shard-from-disk).
 
 ## Work with Points
 
@@ -81,7 +83,7 @@ When shutting down your application, close the Edge Shard to ensure all data is 
 
 ## Load Existing Edge Shard from Disk
 
-After closing an Edge Shard, you can reopen it by loading its data and configuration from disk. Create a new `EdgeShard` instance with the storage directory:
+After closing an Edge Shard, you can reopen it by loading its data and configuration from disk using the `load` method:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="load-edge-shard" >}}
 

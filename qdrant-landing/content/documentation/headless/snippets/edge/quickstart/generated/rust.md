@@ -40,9 +40,9 @@ let config = EdgeConfig {
     optimizers: Default::default(),
 };
 
-let edge_shard = EdgeShard::load(
+let edge_shard = EdgeShard::new(
     Path::new(SHARD_DIRECTORY),
-    Some(config),
+    config,
 )?;
 
 let points: Vec<PointStructPersisted> = vec![

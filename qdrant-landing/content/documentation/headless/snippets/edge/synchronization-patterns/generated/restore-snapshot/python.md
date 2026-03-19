@@ -23,5 +23,5 @@ with tempfile.TemporaryDirectory(dir=data_dir.parent) as restore_dir:
 
     EdgeShard.unpack_snapshot(str(snapshot_path), str(data_dir))
 
-edge_shard = EdgeShard(SHARD_DIRECTORY)
+edge_shard = EdgeShard.load(SHARD_DIRECTORY)
 ```
