@@ -6,12 +6,11 @@ dependencies = [
     "datasets>=4.4.1",
     "fastembed",
     "qdrant-client",
-    "qdrant-edge-py"
+    "qdrant-edge-py==0.6.0"
 ]
 
 [tool.uv.sources]
 qdrant-client = { git = "https://github.com/qdrant/qdrant-client", tag = "dev" }
-qdrant-edge-py = { git = "https://github.com/qdrant/qdrant", branch = "dev", subdirectory = "lib/edge/python" }
 
 [dependency-groups]
 dev = [

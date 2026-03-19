@@ -1,6 +1,9 @@
-with import <nixpkgs> { };
-mkShell {
-  buildInputs = [
+let
+  rust-overlay = builtins.fetchTarball "https://github.com/oxalica/rust-overlay/archive/master.tar.gz";
+  pkgs = import <nixpkgs> { overlays = [ (import rust-overlay) ]; };
+in
+pkgs.mkShell {
+  buildInputs = with pkgs; [
     # for ./sync-clients.py
     git
 
@@ -17,8 +20,7 @@ mkShell {
     uv
 
     # for rust client
-    cargo
-    rustfmt
+    rust-bin.stable.latest.default
 
     # for typescript client
     pnpm

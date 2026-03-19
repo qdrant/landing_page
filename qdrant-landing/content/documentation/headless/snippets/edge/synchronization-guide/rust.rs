@@ -17,8 +17,8 @@ use serde_json::json;
 
 pub async fn main() -> anyhow::Result<()> {
     // @hide-start
-    let QDRANT_URL = "";
-    let QDRANT_API_KEY = "";
+    const QDRANT_URL: &str = "";
+    const QDRANT_API_KEY: &str = "";
     let mut upload_queue: std::collections::VecDeque<PointStruct> =
         std::collections::VecDeque::new();
     // @hide-end

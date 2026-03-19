@@ -17,8 +17,8 @@ use serde_json::json;
 
 pub async fn main() -> anyhow::Result<()> {
     // @hide-start
-    let QDRANT_URL = "";
-    let QDRANT_API_KEY = "";
+    const QDRANT_URL: &str = "";
+    const QDRANT_API_KEY: &str = "";
     // @hide-end
 
     // @block-start snapshot-url
