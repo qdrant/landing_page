@@ -60,7 +60,7 @@ Setting `unindexed_filtering_retrieve` to false prevents retrieving points by fi
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve/" >}}
 
-Or turn it off later on an existing collection through the [collection update](#update-collection-parameters) API.
+Or turn it off later on an existing collection through the [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters) API.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve-off/" >}}
 
