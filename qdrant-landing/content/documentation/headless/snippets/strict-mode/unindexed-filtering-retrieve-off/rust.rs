@@ -1,13 +1,16 @@
-use qdrant_client::Qdrant;
-use qdrant_client::qdrant::{CreateCollectionBuilder, StrictModeConfigBuilder};
+use qdrant_client::qdrant::{UpdateCollectionBuilder, StrictModeConfigBuilder};
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    let client = qdrant_client::Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     client
-        .create_collection(
-            CreateCollectionBuilder::new("{collection_name}")
-                .strict_mode_config(StrictModeConfigBuilder::default().enabled(true).unindexed_filtering_retrieve(true)),
+        .update_collection(
+            UpdateCollectionBuilder::new("{collection_name}")
+                .strict_mode_config(
+                    StrictModeConfigBuilder::default()
+                        .enabled(true)
+                        .unindexed_filtering_retrieve(true),
+                ),
         )
         .await?;
 
