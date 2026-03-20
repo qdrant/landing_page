@@ -26,7 +26,7 @@ Every individual upsert call initiates a transaction that consumes memory and di
 
 ## Choosing Your Ingestion Strategy
 
-Qdrant provides several methods for data ingestion, each tailored to different scales and use cases. It should be noted that only the Python client supports the upload_points and upload_collection methods. If you're using Qdrant on a different client then we reccomend using upsert with batch upload for large scale ingestion. [Learn more about bulk operations](/documentation/guides/bulk-operations/).
+Qdrant provides several methods for data ingestion, each tailored to different scales and use cases. It should be noted that only the Python client supports the upload_points and upload_collection methods. If you're using Qdrant on a different client then we recommend using upsert with batch upload for large scale ingestion. [Learn more about bulk operations](/documentation/guides/bulk-operations/).
 
 - **upsert (Individual or Batched)**: This is the fundamental operation for adding or updating points. Individual upserts are best suited for real-time updates while batching works best for larger workloads. 
 

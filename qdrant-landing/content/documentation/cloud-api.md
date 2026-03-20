@@ -19,12 +19,12 @@ To cater to diverse integration needs, the Qdrant Cloud API offers two primary i
 * **REST/JSON API**: A conventional HTTP/1.1 (and HTTP/2) interface with JSON payloads. This API is provided via a gRPC Gateway, translating RESTful calls into gRPC messages, offering ease of use for web clients, scripts, and broader tool compatibility.
 
 You can find the API definitions and generated client libraries in our Qdrant Cloud Public API [GitHub repository](https://github.com/qdrant/qdrant-cloud-public-api).
-**Note:** The API is splitted into multiple services to make it easier to use.
+**Note:** The API is split into multiple services to make it easier to use.
 
 ### Qdrant Cloud API Endpoints
 
 * **gRPC Endpoint**: grpc.cloud.qdrant.io:443
-* **REST/JSON Endpoint**: https://api.cloud.qdrant.io
+* **REST/JSON Endpoint**: https://api.qdrant.tech
 
 ### Authentication
 

@@ -68,7 +68,7 @@ Qdrant will use vector embeddings of our facts to enrich the original prompt wit
 
 We'll be using the [bge-base-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) model via [FastEmbed](https://github.com/qdrant/fastembed/) - A lightweight, fast, Python library for embeddings generation.
 
-The Qdrant client provides a handy integration with FastEmbed that makes building a knowledge base very straighforward.
+The Qdrant client provides a handy integration with FastEmbed that makes building a knowledge base very straightforward.
 
 First, we need to create a collection, so Qdrant would know what vectors it will be dealing with, and then, we just pass our raw documents
 wrapped into `models.Document` to compute and upload the embeddings.

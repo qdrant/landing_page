@@ -98,7 +98,7 @@ For that reason, when comparing two similar sentences, their embeddings will tur
 
 <img src="/articles_data/what-is-a-vector-database/two-similar-vectors.png" alt="Comparison of the embeddings of 2 similar sentences" width="500">
 
-That’s the beauty of embeddings. Tthe complexity of the data is distilled into something that can be compared across a multi-dimensional space.
+That’s the beauty of embeddings. The complexity of the data is distilled into something that can be compared across a multi-dimensional space.
 
 ### 3. The Payload: Adding Context with Metadata
 
@@ -290,7 +290,7 @@ Sparse vectors are ideal for tasks like **keyword search** or **metadata filteri
 
 Sometimes context alone isn’t enough. Sometimes you need precision, too. Dense vectors are fantastic when you need to retrieve results based on the context or meaning behind the data. Sparse vectors are useful when you also need **keyword or specific attribute matching**.
 
-> With hybrid search you don’t have to choose one over the othe and use both to get searches that are more **relevant** and **filtered**. 
+> With hybrid search you don’t have to choose one over the other and use both to get searches that are more **relevant** and **filtered**. 
 
 To achieve this balance, Qdrant uses **normalization** and **fusion** techniques to blend results from multiple search methods. One common approach is **Reciprocal Rank Fusion (RRF)**, where results from different methods are merged, giving higher importance to items ranked highly by both methods. This ensures that the best candidates, whether identified through dense or sparse vectors, appear at the top of the results.
 

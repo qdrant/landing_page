@@ -237,7 +237,7 @@ search_pipeline = Pipeline()
 ```
 
 Our second process takes user input, converts it into embeddings and then searches for the most relevant documents
-using the query embedding. This might look familiar, but we arent working with `Document` instances 
+using the query embedding. This might look familiar, but we aren't working with `Document` instances 
 anymore, since the query only accepts raw text. Thus, some of the components will be different, especially the embedder,
 as it has to accept a single string as an input and produce a single embedding as an output:
 

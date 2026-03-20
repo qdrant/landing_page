@@ -24,7 +24,7 @@ partition: build
 
 ## Notebooks
 
-Our Notebooks offer complex instructions that are supported with a throrough explanation. Follow along by trying out the code and get the most out of each example.
+Our Notebooks offer complex instructions that are supported with a thorough explanation. Follow along by trying out the code and get the most out of each example.
 
 | Example                                                                                                                                                                                                                               | Description                                                                                     | Stack                      |   
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|----------------------------|

@@ -82,5 +82,5 @@ You can scale this process with a dataset (e.g. from Hugging Face) and evaluate 
 
 ## Further Reading
 
-- [End-to-end Evalutation Example](https://github.com/qdrant/qdrant-rag-eval/blob/master/workshop-rag-eval-qdrant-deepeval/notebook/rag_eval_qdrant_deepeval.ipynb)
+- [End-to-end Evaluation Example](https://github.com/qdrant/qdrant-rag-eval/blob/master/workshop-rag-eval-qdrant-deepeval/notebook/rag_eval_qdrant_deepeval.ipynb)
 - [DeepEval documentation](https://deepeval.com)

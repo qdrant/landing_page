@@ -133,7 +133,7 @@ if not client.collection_exists("startups"):
 ```
 
 Qdrant requires vectors to have their own names and configurations.
-Parameters `size` and `distance` are mandatory, however, you can additionaly  specify extended configuration for your vectors, like `quantization_config` or `hnsw_config`.
+Parameters `size` and `distance` are mandatory, however, you can additionally  specify extended configuration for your vectors, like `quantization_config` or `hnsw_config`.
 
 
 4. Read data from the file.

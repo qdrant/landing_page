@@ -34,7 +34,7 @@ However, similarity learning comes with its own difficulties such as:
 
 Quaterion is a fine tuning framework built to tackle such problems in similarity learning.
 It uses [PyTorch Lightning](https://www.pytorchlightning.ai/)
-as a backend, which is advertized with the motto, "spend more time on research, less on engineering."
+as a backend, which is advertised with the motto, "spend more time on research, less on engineering."
 This is also true for Quaterion, and it includes:
 
 1. Trainable and servable model classes,

@@ -18,7 +18,7 @@ It might be installed with pip:
 pip install langchain-qdrant
 ```
 
-The integration supports searching for relevant documents usin dense/sparse and hybrid retrieval.
+The integration supports searching for relevant documents using dense/sparse and hybrid retrieval.
 
 Qdrant acts as a vector index that may store the embeddings with the documents used to generate them. There are various ways to use it, but calling `QdrantVectorStore.from_texts` or `QdrantVectorStore.from_documents` is probably the most straightforward way to get started:
 

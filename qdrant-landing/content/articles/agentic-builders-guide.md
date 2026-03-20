@@ -147,7 +147,7 @@ Authentication for agents is handled by [API keys](https://qdrant.tech/documenta
 
 Note: Qdrant also supports concurrent queries, so your search won’t slow down as more users are writing queries simultaneously.
 
-Authorization is handled by [RBAC](https://qdrant.tech/articles/data-privacy/) and [multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/), which work hand-in-hand to define and enforce permissions specific to the agent. RBAC is a set of rules that defines the allowed permissions inlcuding read-only, read-write, and admin controls. It answers the question, “What is this agent allowed to do?” For instance, can it only search for hotels (read-only), or can it also add, update, and delete them (read-write)?
+Authorization is handled by [RBAC](https://qdrant.tech/articles/data-privacy/) and [multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/), which work hand-in-hand to define and enforce permissions specific to the agent. RBAC is a set of rules that defines the allowed permissions including read-only, read-write, and admin controls. It answers the question, “What is this agent allowed to do?” For instance, can it only search for hotels (read-only), or can it also add, update, and delete them (read-write)?
 
 ![Multi-tenancy](/articles_data/agentic-builders-guide/multi-tenancy.png)
 

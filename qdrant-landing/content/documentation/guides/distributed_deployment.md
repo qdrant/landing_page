@@ -304,10 +304,10 @@ If you anticipate a lot of growth, we recommend 12 shards since you can expand f
 
 Shards are evenly distributed across all existing nodes when a collection is first created.
 
-When you add or remove nodes from the cluster, rebalancing of existing shards accross the nodes depends on how you've deployed the cluster:
+When you add or remove nodes from the cluster, rebalancing of existing shards across the nodes depends on how you've deployed the cluster:
 
 - In Qdrant Cloud, shards are [balanced across the nodes automatically](/documentation/cloud/configure-cluster/#shard-rebalancing).
-- If your cluster is not runnning in Qdrant Cloud, you need to [manually balance shards](#moving-shards).
+- If your cluster is not running in Qdrant Cloud, you need to [manually balance shards](#moving-shards).
 
 ### Resharding
 
@@ -1321,7 +1321,7 @@ Listener node will not participate in search operations, but will still accept w
 
 All shards, stored on the listener node, will be converted to the `Listener` state.
 
-Additionally, all write requests sent to the listener node will be processed with `wait=false` option, which means that the write oprations will be considered successful once they are written to WAL.
+Additionally, all write requests sent to the listener node will be processed with `wait=false` option, which means that the write operations will be considered successful once they are written to WAL.
 This mechanism should allow to minimize upsert latency in case of parallel snapshotting.
 
 ## Consensus Checkpointing

@@ -195,7 +195,7 @@ By default, Qdrant Cloud will reserve 20% of available CPU and memory on each Po
 
 You can modify this reservation in the “Configuration” section of the Qdrant Cluster detail page.
 
-If you want to check how much resources are availabe on an empty Kubernetes node, you can use the following command:
+If you want to check how much resources are available on an empty Kubernetes node, you can use the following command:
 
 ```shell
 kubectl describe node <node-name>

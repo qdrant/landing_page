@@ -795,7 +795,7 @@ _Appears in:_
 | `security` _[QdrantSecurityContext](#qdrantsecuritycontext)_ | Security specifies the security context for each Qdrant node. |  |  |
 | `tolerations` _[Toleration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#toleration-v1-core) array_ | Tolerations specifies the tolerations for each Qdrant node. |  |  |
 | `nodeSelector` _object (keys:string, values:string)_ | NodeSelector specifies the node selector for each Qdrant node. |  |  |
-| `config` _[QdrantConfiguration](#qdrantconfiguration)_ | Config specifies the Qdrant configuration setttings for the clusters. |  |  |
+| `config` _[QdrantConfiguration](#qdrantconfiguration)_ | Config specifies the Qdrant configuration settings for the clusters. |  |  |
 | `ingress` _[Ingress](#ingress)_ | Ingress specifies the ingress for the cluster. |  |  |
 | `service` _[KubernetesService](#kubernetesservice)_ | Service specifies the configuration of the Qdrant Kubernetes Service. |  |  |
 | `gpu` _[GPU](#gpu)_ | GPU specifies GPU configuration for the cluster. If this field is not set, no GPU will be used. |  |  |

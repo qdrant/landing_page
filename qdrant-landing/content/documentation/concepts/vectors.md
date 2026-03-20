@@ -182,7 +182,7 @@ Similarly, you can use inference at query time by providing the text or image to
 
 ## Datatypes
 
-Newest versions of embeddings models generate vectors with very large dimentionalities.
+Newest versions of embeddings models generate vectors with very large dimensionalities.
 With OpenAI's `text-embedding-3-large` embedding model, the dimensionality can go up to 3072.
 
 The amount of memory required to store such vectors grows linearly with the dimensionality,

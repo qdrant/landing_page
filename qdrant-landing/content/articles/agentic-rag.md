@@ -212,7 +212,7 @@ Some of the key concepts of CrewAI include:
   Qdrant comes into play, as it might be used as a long-term memory layer.**
 
 CrewAI provides a rich set of tools integrated into the framework. That may be a huge advantage for those who want to
-combine RAG with e.g. code execution, or image generation. The ecosystem is rich, however brining your own tools is
+combine RAG with e.g. code execution, or image generation. The ecosystem is rich, however bringing your own tools is
 not a big deal, as CrewAI is designed to be extensible.
 
 A simple agentic RAG application implemented in CrewAI could look like this:

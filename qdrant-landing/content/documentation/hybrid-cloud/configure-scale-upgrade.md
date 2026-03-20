@@ -11,7 +11,7 @@ Alongside Hybrid Cloud specific scheduling options, you can also adjust various 
 
 ## Scale Clusters
 
-Hybrid cloud clusters can be scaled up and down, horizontall and vertically, at any time. For more details see [Scale Clusters](/documentation/cloud/cluster-scaling/).
+Hybrid cloud clusters can be scaled up and down, horizontal and vertically, at any time. For more details see [Scale Clusters](/documentation/cloud/cluster-scaling/).
 
 ### Automatic Shard Rebalancing
 
