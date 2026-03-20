@@ -59,3 +59,7 @@ Everything you need to deploy, configure, and run Qdrant in production. These pa
 ## Optimizer
 
 [Optimizer](/documentation/operations/optimizer/) describes the background optimizer process that rebuilds segments to improve search performance over time.
+
+## Production Checklist
+
+[Production Checklist](/documentation/operations/production-checklist/) provides a step-by-step guide to prepare your Qdrant deployment for production, covering optimization strategies, sharding, quantization, and hardware choices.
