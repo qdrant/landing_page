@@ -83,6 +83,9 @@ Ensure your search is fast, accurate, and efficient under production load.
 - **Apply payload filters to narrow the search space.**
 Searching every data point is inefficient at scale. [Filtering](/documentation/search/filtering/) on specific payload fields can reduce computational load and focus queries on relevant data subsets.
 
+- **Create [payload indexes](/documentation/manage-data/indexing/#payload-index) on fields used for filtering.**
+Payload indexes speed up filtering and reduce load on the system. Identify which fields are commonly used in filters and create indexes on them before ingesting data.
+
 - **Evaluate whether [hybrid search](/documentation/search/hybrid-queries/) fits your use case.**
 Combine dense vector search (semantic similarity) with sparse vector search (keyword matching) for higher precision.
 
