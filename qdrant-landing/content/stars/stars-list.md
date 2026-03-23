@@ -143,13 +143,19 @@ cards:
   - id: 15
     image:
       src: /img/stars/vaibhava-photo.jpg
-      alt: Vaibhava Laxmi
+      alt: Vaibhava Laxmi Photo
     name: Vaibhava Laxmi
     position: AI Engineer
     description: Passionate about building intelligent retrieval and reasoning systems using Knowledge Graphs, Ontologies, Vector Databases, and Large Language Models.
+  - id: 16
+    image:
+      src: /img/stars/ian-walker-photo.jpg
+      alt: Ian Walker Photo
+    name: Ian Walker
+    position: Founder @ Base21.uk
+    description: A software developer focused on vector search applications using Qdrant since 2023. Creator of articles and videos showcasing Qdrant, especially with Rust and FastEmbed.
 link:
   text: Read the Qdrant Stars Handbook
   url: https://qdrant.github.io/qdrant-stars-handbook/
 sitemapExclude: true
 ---
-
