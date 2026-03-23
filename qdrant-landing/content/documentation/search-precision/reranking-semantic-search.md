@@ -2,6 +2,7 @@
 title: Reranking for Better Search
 weight: 1
 partition: ecosystem
+hideInSidebar: true
 aliases:
   - ../search-precision
 ---

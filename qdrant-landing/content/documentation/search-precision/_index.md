@@ -6,4 +6,5 @@ is_empty: true
 build:
   render: never
 partition: ecosystem
+hideInSidebar: true
 ---
