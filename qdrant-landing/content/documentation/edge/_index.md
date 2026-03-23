@@ -34,7 +34,7 @@ To work with a Qdrant Edge Shard, use the [Python Bindings for Qdrant Edge](http
 - `info`: Returns metadata information about the shard.
 - `unpack_snapshot`: Unpacks a snapshot on disk.
 - `snapshot_manifest`: Returns the current shard’s snapshot manifest.
-- `update_from_snapshot`: Applies a snapshot to the shard.
+-  `recover_partial_snapshot` (Rust) / `update_from_snapshot` (Python): Applies a snapshot to the shard.
 
 ## Using Qdrant Edge
 
