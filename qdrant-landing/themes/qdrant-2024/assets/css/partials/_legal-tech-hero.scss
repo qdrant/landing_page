@@ -69,9 +69,13 @@
 
     img {
       position: relative;
+      z-index: 1;
       display: block;
       width: 100%;
-      max-width: pxToRem(560);
+      max-width: pxToRem(395);
+      height: auto;
+      object-fit: contain;
+      object-position: right top;
       margin-right: -$spacer * 1.5;
       margin-bottom: -$spacer * 1.5;
     }
@@ -80,6 +84,10 @@
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 5;
+
+    &__content {
+      max-width: pxToRem(560);
+    }
 
     &__title {
       font-size: $spacer * 3;
@@ -93,29 +101,36 @@
       &-square-grid {
         display: block;
         position: absolute;
-        width: pxToRem(686);
-        height: pxToRem(480);
-        right: -24%;
-        top: -3%;
+        width: min(100%, pxToRem(686));
+        aspect-ratio: 800 / 560;
+        right: 0;
+        top: -$spacer * 1.5;
         background-image: url('/img/legal-tech-hero-grid.svg');
-        background-size: 100%;
+        background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         z-index: 0;
       }
 
       img {
-        width: 110%;
+        width: 100%;
+        max-width: pxToRem(395);
+        height: auto;
+        object-fit: contain;
+        object-position: right top;
       }
     }
   }
 
   @include media-breakpoint-up(xl) {
+    &__content {
+      max-width: pxToRem(634);
+    }
+
     &__preview {
       &-square-grid {
-        width: pxToRem(800);
-        height: pxToRem(560);
-        top: -5%;
+        width: min(100%, pxToRem(800));
+        aspect-ratio: 1 / 1;
       }
     }
   }
