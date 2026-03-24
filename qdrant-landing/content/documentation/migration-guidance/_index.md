@@ -7,7 +7,7 @@ aliases:
   - /documentation/migration-verification/
 ---
 
-# Migration Verification Guide
+# Migration Guidance
 
 Switching databases is often necessary to improve the performance and costs of large software systems. As the size of data continues to grow, navigating this migration can be tricky. While a migration might appear to have been successful, several silent errors may be occurring. Some examples include: data loss, metadata drift, and search quality regressions. These problems can hide behind a successful import. To help mitigate these issues, this guide gives you a structured framework to verify that your migration worked correctly.
 
