@@ -1,6 +1,6 @@
 ---
 title: Databricks Ingestion
-weight: 36
+weight: 5
 hideInSidebar: true
 aliases:
   - /documentation/examples/databricks/

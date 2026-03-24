@@ -1,6 +1,9 @@
 ---
 title: Data Integrity
-weight: 20
+weight: 10
+partition: ecosystem
+aliases:
+  - /documentation/migration-verification/data-integrity/
 ---
 
 # Data Integrity Verification

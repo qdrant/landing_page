@@ -1,7 +1,7 @@
 ---
 title: Observability
-weight: 14
-partition: build
+weight: 900
+partition: ecosystem
 ---
 
 ## Observability Integrations

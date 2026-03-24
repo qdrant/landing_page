@@ -1,6 +1,7 @@
 ---
 title: From OpenSearch
-weight: 45
+weight: 25
+partition: ecosystem
 ---
 
 # Migrate from OpenSearch to Qdrant

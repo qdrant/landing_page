@@ -1,6 +1,7 @@
 ---
 title: From Chroma
-weight: 60
+weight: 40
+partition: ecosystem
 ---
 
 # Migrate from Chroma to Qdrant

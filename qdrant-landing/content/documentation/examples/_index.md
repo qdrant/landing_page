@@ -1,7 +1,7 @@
 ---
 title: Build Prototypes
-weight: 25
-partition: build 
+weight: 1300
+partition: ecosystem
 ---
 # Build Prototypes
 

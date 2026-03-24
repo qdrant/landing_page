@@ -1,8 +1,8 @@
 ---
 title: Migration Tool
-weight: 31
+weight: 200
 is_empty: false
-partition: build
+partition: ecosystem
 ---
 
 # Migrate to Qdrant

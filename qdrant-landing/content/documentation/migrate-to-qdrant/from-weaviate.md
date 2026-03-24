@@ -1,6 +1,7 @@
 ---
 title: From Weaviate
-weight: 20
+weight: 10
+partition: ecosystem
 ---
 
 # Migrate from Weaviate to Qdrant
