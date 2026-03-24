@@ -2,6 +2,7 @@
 title: "Integrating with Unstructured.io"
 description: Learn how Unstructured.io and Qdrant transform unstructured enterprise data into structured embeddings through VLM document understanding, smart chunking, and secure, production-ready ETL pipelines. 
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Day 7 {{< /date >}}

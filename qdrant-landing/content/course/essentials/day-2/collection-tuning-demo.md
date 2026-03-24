@@ -2,6 +2,7 @@
 title: "Demo: HNSW Performance Tuning"
 description: Tune Qdrant’s HNSW index for speed and precision. Optimize bulk uploads, test filters, and benchmark performance on a real 100K OpenAI embedding dataset. 
 weight: 4
+isLesson: true
 ---
 
 {{< date >}} Day 2 {{< /date >}}
