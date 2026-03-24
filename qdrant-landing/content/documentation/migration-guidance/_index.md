@@ -1,8 +1,10 @@
 ---
-title: Migration Verification
+title: Migration Guidance
 weight: 300
 is_empty: false
 partition: ecosystem
+aliases:
+  - /documentation/migration-verification/
 ---
 
 # Migration Verification Guide

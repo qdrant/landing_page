@@ -2,6 +2,8 @@
 title: Pre-Migration Baseline
 weight: 5
 partition: ecosystem
+aliases:
+  - /documentation/migration-verification/pre-migration-baseline/
 ---
 
 # Pre-Migration Baseline

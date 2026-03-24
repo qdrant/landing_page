@@ -1,6 +1,6 @@
 ---
-title: Keeping Postgres in Sync
-weight: 400
+title: With Postgres
+weight: 5
 partition: ecosystem
 ---
 

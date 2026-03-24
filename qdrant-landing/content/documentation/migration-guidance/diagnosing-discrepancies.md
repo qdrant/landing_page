@@ -2,6 +2,8 @@
 title: Diagnosing Discrepancies
 weight: 20
 partition: ecosystem
+aliases:
+  - /documentation/migration-verification/diagnosing-discrepancies/
 ---
 
 # Diagnosing Discrepancies

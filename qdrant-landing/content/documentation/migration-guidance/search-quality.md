@@ -2,6 +2,8 @@
 title: Search Quality
 weight: 15
 partition: ecosystem
+aliases:
+  - /documentation/migration-verification/search-quality/
 ---
 
 # Search Quality Verification
