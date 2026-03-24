@@ -10,7 +10,7 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Hitting structural limits in Java-based search engines? Join us April 2 to learn about the the new retrieval paradigm"
+text: "Hitting structural limits in Java-based search engines? Join us April 2 to learn about the new retrieval paradigm"
 link:
   text: Register now
   url: https://try.qdrant.tech/modernize-search-march
