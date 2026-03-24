@@ -6,7 +6,7 @@ partition: ecosystem
 
 # Keeping Your Data in Sync with Qdrant
 
-After migrating to Qdrant, maintaining consistency between Qdrant and your primary data store is an ongoing operational concern. As records are created, updated, or deleted in your source of truth, those changes need to be reflected in Qdrant to keep search results accurate and fresh.
+After migrating to Qdrant, maintaining consistency between Qdrant and your other data stores can be an ongoing operational concern. As records are created, updated, or deleted in your other sources, those changes often need to be reflected in Qdrant to keep search results accurate and fresh.
 
 The guides in this section cover database-specific synchronization patterns for keeping Qdrant aligned with your existing infrastructure.
 
