@@ -76,19 +76,19 @@ With your virtual environment activated, install the required libraries:
 **Using uv (recommended):**
 
 ```bash
-uv pip install "qdrant-client>=1.16.2" "fastembed>=0.7.5"
+uv pip install "qdrant-client>=1.16.2" "fastembed>=0.8.0"
 ```
 
 **Using Poetry:**
 
 ```bash
-poetry add "qdrant-client>=1.16.2" "fastembed>=0.7.5"
+poetry add "qdrant-client>=1.16.2" "fastembed>=0.8.0"
 ```
 
 **Using pip:**
 
 ```bash
-pip install "qdrant-client>=1.16.2" "fastembed>=0.7.5"
+pip install "qdrant-client>=1.16.2" "fastembed>=0.8.0"
 ```
 
 ### What These Libraries Do
