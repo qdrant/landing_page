@@ -1,6 +1,6 @@
 import { QdrantClient } from "@qdrant/js-client-rest";
 
-const client = new QdrantClient({ host: "localhost", port: 6333 });
+const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
 
 client.upsert("{collection_name}", {
     points: [

@@ -4,7 +4,7 @@ use qdrant_client::{
 };
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("<your-qdrant-url>").build().unwrap();
+    let client = Qdrant::from_url("<your-qdrant-url>").build().unwrap(); // @hide
 
     client
         .query(

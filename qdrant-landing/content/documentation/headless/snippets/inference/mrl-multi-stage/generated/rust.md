@@ -6,8 +6,6 @@ use qdrant_client::{
     qdrant::{Document, PrefetchQueryBuilder, Query, QueryPointsBuilder, Value},
 };
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 client
     .query(
         QueryPointsBuilder::new("{collection_name}")

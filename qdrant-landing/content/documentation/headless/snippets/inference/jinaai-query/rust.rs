@@ -5,7 +5,7 @@ use qdrant_client::{
 use std::collections::HashMap;
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("<your-qdrant-url>").build().unwrap();
+    let client = Qdrant::from_url("<your-qdrant-url>").build().unwrap(); // @hide
 
     let mut options = HashMap::<String, Value>::new();
     options.insert("jina-api-key".to_string(), "<YOUR_JINAAI_API_KEY>".into());

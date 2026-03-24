@@ -5,8 +5,6 @@ use qdrant_client::{
 };
 use std::collections::HashMap;
 
-let client = Qdrant::from_url("<your-qdrant-url>").build().unwrap();
-
 let mut options = HashMap::<String, Value>::new();
 options.insert("openrouter-api-key".to_string(), "<YOUR_OPENROUTER_API_KEY>".into());
 

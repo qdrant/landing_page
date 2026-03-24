@@ -5,7 +5,7 @@ use qdrant_client::{
 use std::collections::HashMap;
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("<your-qdrant-url>").build()?;
+    let client = Qdrant::from_url("<your-qdrant-url>").build()?; // @hide
     let mut options = HashMap::new();
     options.insert("cohere-api-key".to_string(), "<YOUR_COHERE_API_KEY>".into());
     options.insert("output_dimension".to_string(), 512.into());

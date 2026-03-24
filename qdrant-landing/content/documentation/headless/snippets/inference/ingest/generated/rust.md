@@ -5,8 +5,6 @@ use qdrant_client::{
 };
 use std::collections::HashMap;
 
-let client = Qdrant::from_url("<your-qdrant-url>").build()?;
-
 client
     .upsert_points(UpsertPointsBuilder::new(
         "{collection_name}",

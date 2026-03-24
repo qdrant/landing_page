@@ -7,12 +7,14 @@ import (
 )
 
 func Main() {
+	// @hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{
 	    Host:   "xyz-example.qdrant.io",
 	    Port:   6334,
 	    APIKey: "<paste-your-api-key-here>",
 	    UseTLS: true,
 	})
+	// @hide-end
 
 	if err != nil { panic(err) } // @hide
 

@@ -6,8 +6,6 @@ use qdrant_client::{
     qdrant::{Document, NamedVectors, PointStruct, UpsertPointsBuilder, Value},
 };
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 client
     .upsert_points(
         UpsertPointsBuilder::new(

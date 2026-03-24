@@ -10,30 +10,24 @@ import io.qdrant.client.grpc.Points.PointStruct;
 import java.util.List;
 import java.util.Map;
 
-QdrantClient client =
-    new QdrantClient(
-        QdrantGrpcClient.newBuilder("xyz-example.qdrant.io", 6334, true)
-            .withApiKey("<your-api-key")
-            .build());
-
-client
-    .upsertAsync(
-        "{collection_name}",
-        List.of(
-            PointStruct.newBuilder()
-                .setId(id(1))
-                .setVectors(
-                    vectors(
-                        Document.newBuilder()
-                            .setModel("openai/text-embedding-3-large")
-                            .setText("Recipe for baking chocolate chip cookies")
-                            .putAllOptions(
-                                Map.of(
-                                    "openai-api-key",
-                                    value("<YOUR_OPENAI_API_KEY>"),
-                                    "dimensions",
-                                    value(512)))
-                            .build()))
-                .build()))
-    .get();
+    client
+        .upsertAsync(
+            "{collection_name}",
+            List.of(
+                PointStruct.newBuilder()
+                    .setId(id(1))
+                    .setVectors(
+                        vectors(
+                            Document.newBuilder()
+                                .setModel("openai/text-embedding-3-large")
+                                .setText("Recipe for baking chocolate chip cookies")
+                                .putAllOptions(
+                                    Map.of(
+                                        "openai-api-key",
+                                        value("<YOUR_OPENAI_API_KEY>"),
+                                        "dimensions",
+                                        value(512)))
+                                .build()))
+                    .build()))
+        .get();
 ```

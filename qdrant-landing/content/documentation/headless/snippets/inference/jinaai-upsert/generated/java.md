@@ -10,12 +10,6 @@ import io.qdrant.client.grpc.Points.PointStruct;
 import java.util.List;
 import java.util.Map;
 
-QdrantClient client =
-    new QdrantClient(
-        QdrantGrpcClient.newBuilder("xyz-example.qdrant.io", 6334, true)
-            .withApiKey("<your-api-key")
-            .build());
-
 client
     .upsertAsync(
         "{collection_name}",

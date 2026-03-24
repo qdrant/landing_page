@@ -11,11 +11,13 @@ import java.util.Map;
 
 public class Snippet {
         public static void run() throws Exception {
+                // @hide-start
                 QdrantClient client =
                     new QdrantClient(
                         QdrantGrpcClient.newBuilder("xyz-example.qdrant.io", 6334, true)
                             .withApiKey("<your-openrouter-key>")
                             .build());
+                // @hide-end
                 client
                     .queryAsync(
                         QueryPoints.newBuilder()

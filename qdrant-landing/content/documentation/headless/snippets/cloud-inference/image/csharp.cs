@@ -6,12 +6,14 @@ public class Snippet
 {
 	public static async Task Run()
 	{
+		// @hide-start
 		var client = new QdrantClient(
 		  host: "xyz-example.qdrant.io",
 		  port: 6334,
 		  https: true,
 		  apiKey: "<paste-your-api-key-here>"
 		);
+		// @hide-end
 
 		await client.UpsertAsync(
 		  collectionName: "<your-collection>",

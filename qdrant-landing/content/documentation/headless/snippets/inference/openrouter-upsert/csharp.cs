@@ -5,8 +5,10 @@ public class Snippet
 {
 	public static async Task Run()
 	{
+		// @hide-start
 		var client = new QdrantClient(
 		host: "xyz-example.qdrant.io", port: 6334, https: true, apiKey: "<your-openrouter-key>");
+		// @hide-end
 
 		await client.UpsertAsync(
 		    collectionName: "{collection_name}",

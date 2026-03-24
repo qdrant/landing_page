@@ -6,7 +6,7 @@ use qdrant_client::{
 };
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     client
         .upsert_points(

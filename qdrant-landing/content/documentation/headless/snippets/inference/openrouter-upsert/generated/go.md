@@ -5,13 +5,6 @@ import (
 	"github.com/qdrant/go-client/qdrant"
 )
 
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host:   "xyz-example.qdrant.io",
-	Port:   6334,
-	APIKey: "<paste-your-openrouter-key-here>",
-	UseTLS: true,
-})
-
 client.Upsert(context.Background(), &qdrant.UpsertPoints{
 	CollectionName: "{collection_name}",
 	Points: []*qdrant.PointStruct{

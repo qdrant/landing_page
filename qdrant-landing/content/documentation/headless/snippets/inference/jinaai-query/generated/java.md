@@ -8,11 +8,6 @@ import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import java.util.Map;
 
-QdrantClient client =
-    new QdrantClient(
-        QdrantGrpcClient.newBuilder("xyz-example.qdrant.io", 6334, true)
-            .withApiKey("<your-api-key")
-            .build());
 client
     .queryAsync(
         QueryPoints.newBuilder()
