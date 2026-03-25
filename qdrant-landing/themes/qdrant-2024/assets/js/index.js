@@ -6,7 +6,7 @@ import { handleSegmentReady } from './segment-helpers';
 import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpers';
 import TableOfContents from './table-of-content';
 import { DOCS_HEADER_OFFSET } from './constants';
-import { scrollIntoViewWithOffset } from './helpers';
+import { scrollIntoViewWithOffset, initCustomersCaseStudies } from './helpers';
 
 persistUTMParams();
 
@@ -159,6 +159,11 @@ document.addEventListener('DOMContentLoaded', function () {
     el.addEventListener('click', toggleAccordion);
   });
 
+  const customersAccordionButtons = Array.from(document.getElementsByClassName('customers-case-studies__accordion-header'));
+  customersAccordionButtons.forEach((el) => {
+    el.addEventListener('click', toggleAccordion);
+  });
+
   // Pricing doors tabs
   const pricingDoorsTabs = document.querySelectorAll('.qdrant-pricing-doors-b__tab');
   const pricingDoorsContainers = document.querySelectorAll('[data-doors-tab]');
@@ -189,5 +194,9 @@ document.addEventListener('DOMContentLoaded', function () {
       history.pushState(null, null, target);
       scrollIntoViewWithOffset(target.replace('#', ''), offset);
     });
+  });
+
+  document.querySelectorAll("[data-customers-case-study]").forEach((root) => {
+    initCustomersCaseStudies(root);
   });
 });

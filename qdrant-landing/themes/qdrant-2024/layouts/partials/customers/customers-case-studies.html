@@ -1,0 +1,300 @@
+{{- $all := .Params.clients | default slice -}}
+
+{{- $industries := slice -}}
+{{- $products := slice -}}
+{{- $sizes := slice -}}
+{{- $locations := slice -}}
+{{- $useCases := slice -}}
+
+{{- range $all -}}
+{{- with .industry }}{{ $industries = $industries | append . }}{{ end -}}
+{{- with .product }}{{ $products = $products | append . }}{{ end -}}
+{{- with .company_size }}{{ $sizes = $sizes | append . }}{{ end -}}
+{{- with .location }}{{ $locations = $locations | append . }}{{ end -}}
+{{- range .use_cases }}{{ $useCases = $useCases | append . }}{{ end -}}
+{{- end -}}
+
+{{- $industries = sort (uniq $industries) -}}
+{{- $products = sort (uniq $products) -}}
+{{- $sizes = sort (uniq $sizes) -}}
+{{- $locations = sort (uniq $locations) -}}
+{{- $useCases = sort (uniq $useCases) -}}
+
+<section
+  class="customers-case-studies"
+  data-customers-case-study
+  data-batch-size="12"
+>
+  <div class="container customers-case-studies__container">
+    <aside class="customers-case-studies__filters" data-filters>
+      <div class="customers-case-studies__filters-header">
+        <h6 class="customers-case-studies__filters-title">Filter and Sort</h6>
+        <button class="customers-case-studies__filters-close-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M18.3642 4.22258C18.7547 3.83206 19.3887 3.83206 19.7792 4.22258C20.1695 4.61305 20.1695 5.24617 19.7792 5.63664L13.415 11.9999L19.7792 18.3642C20.1697 18.7547 20.1697 19.3887 19.7792 19.7792C19.3888 20.1696 18.7557 20.1693 18.3652 19.7792L12.0009 13.415L5.63664 19.7792C5.24618 20.1694 4.61305 20.1695 4.22258 19.7792C3.83206 19.3887 3.83206 18.7547 4.22258 18.3642L10.5859 11.9999L4.22258 5.63664C3.83209 5.24612 3.83209 4.6131 4.22258 4.22258C4.6131 3.83206 5.24612 3.83208 5.63664 4.22258L11.9999 10.5859L18.3642 4.22258Z" fill="#161E33"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="customers-case-studies__accordion">
+        <div class="customers-case-studies__accordion-item">
+          <p class="customers-case-studies__accordion-header" >
+            <span>Sort by</span>
+          </p>
+          <div class="customers-case-studies__accordion-body">
+            <div class="customers-case-studies__accordion-inner customers-case-studies__accordion-sort">
+              <select id="filters-select" class="customers-case-studies__accordion-select" data-sort-select>
+                <option value="">Placeholder text</option>
+                <option value="name-asc">Company name (A-Z)</option>
+                <option value="name-desc">Company name (Z-A)</option>
+                <option value="industry-asc">Industry (A-Z)</option>
+                <option value="product-asc">Product (A-Z)</option>
+                <option value="company_size-asc">Size (A-Z)</option>
+                <option value="location-asc">Geography (A-Z)</option>
+              </select>
+              <span class="customers-case-studies__accordion-select-icon"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="customers-case-studies__accordion-item">
+          <p class="customers-case-studies__accordion-header">
+            Industry
+          </p>
+          <div class="customers-case-studies__accordion-body">
+            <div class="customers-case-studies__accordion-inner">
+              {{ range $industries }}
+                <div class="customers-case-studies__accordion-option">
+                  <input type="checkbox" data-filter-input data-filter-key="industry" value="{{ . }}" id="{{ . }}">
+                  <label for="{{ . }}">{{ . }}</label>
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+
+        <div class="customers-case-studies__accordion-item">
+          <p class="customers-case-studies__accordion-header">
+            Product
+          </p>
+          <div class="customers-case-studies__accordion-body">
+            <div class="customers-case-studies__accordion-inner customers-case-studies__filters-options">
+              {{ range $products }}
+                <div class="customers-case-studies__accordion-option">
+                  <input type="checkbox" data-filter-input data-filter-key="product" value="{{ . }}" id="{{ . }}">
+                  <label for="{{ . }}">{{ . }}</label>
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+
+        <div class="customers-case-studies__accordion-item">
+          <p class="customers-case-studies__accordion-header">
+            Size
+          </p>
+          <div class="customers-case-studies__accordion-body">
+            <div class="customers-case-studies__accordion-inner customers-case-studies__filters-options">
+              {{ range $sizes }}
+                <div class="customers-case-studies__accordion-option">
+                  <input type="checkbox" data-filter-input data-filter-key="company_size" value="{{ . }}" id="{{ . }}">
+                  <label for="{{ . }}">{{ . }}</label>
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+
+        <div class="customers-case-studies__accordion-item">
+          <p class="customers-case-studies__accordion-header">
+            Geography
+          </p>
+          <div class="customers-case-studies__accordion-body">
+            <div class="customers-case-studies__accordion-inner customers-case-studies__filters-options">
+              {{ range $locations }}
+                <div class="customers-case-studies__accordion-option">
+                  <input type="checkbox" data-filter-input data-filter-key="location" value="{{ . }}" id="{{ . }}">
+                  <label for="{{ . }}">{{ . }}</label>
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+
+        <div class="customers-case-studies__accordion-item">
+          <p class="customers-case-studies__accordion-header">
+            Use Case(s)
+          </p>
+          <div class="customers-case-studies__accordion-body">
+            <div class="customers-case-studies__accordion-inner customers-case-studies__filters-options">
+              {{ range $useCases }}
+                <div class="customers-case-studies__accordion-option">
+                  <input type="checkbox" data-filter-input data-filter-key="use_cases" value="{{ . }}" id="{{ . }}">
+                  <label for="{{ . }}">{{ . }}</label>
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="customers-case-studies__filters-footer">
+        <button class="button button_outlined button_lg customers-case-studies__filters-clear-button">
+          Clear Filters
+        </button>
+        <button class="button button_contained button_lg customers-case-studies__filters-apply-button">
+          Apply
+        </button>
+      </div>
+    </aside>
+
+    <div class="customers-case-studies__content">
+      <div class="customers-case-studies__content-header">
+        <button class="customers-case-studies__filter-mobile-button">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.8457 3.69238H12.9226M4.30724 7.38469H10.4611M6.1534 11.077H8.61493" stroke="#111824" stroke-width="1.23" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <button type="button" class="customers-case-studies__search" data-target="#searchModal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+            <path d="M14.6723 14.6723L11.6679 11.6679M13.2749 7.68531C13.2749 10.7724 10.7724 13.2749 7.68531 13.2749C4.59825 13.2749 2.0957 10.7724 2.0957 7.68531C2.0957 4.59825 4.59825 2.0957 7.68531 2.0957C10.7724 2.0957 13.2749 4.59825 13.2749 7.68531Z" stroke="#28324D" stroke-width="1.3974" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="customers-case-studies__search-text">Search Customer Stories</span>
+          <span class="customers-case-studies__search-mobile-text">Customer</span>
+        </button>
+        
+        <div class="customers-case-studies__toggle" data-customers-view-toggle>
+          <button class="customers-case-studies__toggle-btn active" data-view-btn="grid">
+            <span>Grid</span>
+          </button>
+          <button class="customers-case-studies__toggle-btn" data-view-btn="list">
+            <span>List</span>
+          </button>
+        </div>
+      </div>
+      
+      <div 
+        class="customers-case-studies__results customers-case-studies__results--grid active"
+        data-view-block="grid"
+        data-results-grid
+      >
+        {{ range $all }}
+          <a
+            href="#"
+            class="customers-case-studies__card"
+            data-client-card
+            data-id="{{ .id }}"
+            data-name="{{ .name }}"
+            data-industry="{{ .industry }}"
+            data-product="{{ .product }}"
+            data-company_size="{{ .company_size }}"
+            data-location="{{ .location }}"
+            data-use_cases="{{ delimit .use_cases "||" }}"
+          >
+            <div class="customers-case-studies__card-logo">
+              <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
+            </div>
+            <p class="customers-case-studies__card-description">{{ .description }}</p>
+            <p class="customers-case-studies__card-time">{{ .time }}</p>
+          </a>
+        {{ end }}
+      </div>
+
+      <div
+        class="customers-case-studies__results customers-case-studies__results--list"
+        data-view-block="list"
+      >
+        <div class="customers-case-studies__table">
+          <div class="customers-case-studies__table-header">
+            <div class="customers-case-studies__table-row customers-case-studies__table-header-row">
+              <div></div>
+              <div><p>Industry</p></div>
+              <div><p>Company Size</p></div>
+              <div><p>Product</p></div>
+              <div><p>Location</p></div>
+            </div>
+          </div>
+          <div class="customers-case-studies__table-body" data-results-list>
+            {{ range $all }}
+              <div
+                class="customers-case-studies__table-row customers-case-studies__table-body-row block"
+                data-client-card
+                data-id="{{ .id }}"
+                data-name="{{ .name }}"
+                data-industry="{{ .industry }}"
+                data-product="{{ .product }}"
+                data-company_size="{{ .company_size }}"
+                data-location="{{ .location }}"
+                data-use_cases="{{ delimit .use_cases "||" }}"
+              >
+                <div>
+                  <p>{{ .name }}</p>
+                </div>
+                <div>
+                  <span>Industry</span>
+                  <p>{{ .industry }}</p>
+                </div>
+                <div>
+                  <span>Company Size</span>
+                  <p>{{ .company_size }}</p>
+                </div>
+                <div>
+                  <span>Product</span>
+                  <p>{{ .product }}</p>
+                </div>
+                <div>
+                  <span>Location</span>
+                  <p>{{ .location }}</p>
+                </div>
+                <div>
+                  <a href="#" class="button button_outlined button_lg">
+                    Read Customer Story
+                  </a>
+                </div>
+              </div>
+              <a 
+                href="#"
+                class="customers-case-studies__table-row customers-case-studies__table-body-row link-block"
+                data-client-card
+                data-id="{{ .id }}"
+                data-name="{{ .name }}"
+                data-industry="{{ .industry }}"
+                data-product="{{ .product }}"
+                data-company_size="{{ .company_size }}"
+                data-location="{{ .location }}"
+                data-use_cases="{{ delimit .use_cases "||" }}"
+              >
+                <div>
+                  <p>{{ .name }}</p>
+                </div>
+                <div>
+                  <span>Industry</span>
+                  <p>{{ .industry }}</p>
+                </div>
+                <div>
+                  <span>Company Size</span>
+                  <p>{{ .company_size }}</p>
+                </div>
+                <div>
+                  <span>Product</span>
+                  <p>{{ .product }}</p>
+                </div>
+                <div>
+                  <span>Location</span>
+                  <p>{{ .location }}</p>
+                </div>
+              </a>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+
+      {{- if gt (len $all) 12 -}}
+        <button class="button button_outlined customers-case-studies__button" data-load-more hidden>
+          View more
+        </button>
+      {{- end -}}
+    </div>
+  </div>
+</section>
