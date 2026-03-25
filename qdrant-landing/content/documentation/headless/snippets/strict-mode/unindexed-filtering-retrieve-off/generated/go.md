@@ -5,12 +5,7 @@ import (
   "github.com/qdrant/go-client/qdrant"
 )
 
-client, err := qdrant.NewClient(&qdrant.Config{
-  Host: "localhost",
-  Port: 6334,
-})
-
-client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
   CollectionName: "{collection_name}",
   StrictModeConfig: &qdrant.StrictModeConfig{
     Enabled: qdrant.PtrOf(true),
