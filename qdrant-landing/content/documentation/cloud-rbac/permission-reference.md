@@ -1,6 +1,6 @@
 ---
 title: Permission Reference
-weight: 3
+weight: 15
 ---
 
 # **Permission Reference**

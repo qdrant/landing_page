@@ -1,10 +1,12 @@
 ---
 title: Installation
-weight: 10
+weight: 110
+partition: deploy
 aliases:
   - ../install
   - ../installation
   - /documentation/guides/installation/
+  - /documentation/operations/installation/
 ---
 
 # Installation requirements

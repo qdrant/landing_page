@@ -1,6 +1,6 @@
 ---
 title: Authentication
-weight: 30
+weight: 10
 ---
 
 # Database Authentication in Qdrant Managed Cloud

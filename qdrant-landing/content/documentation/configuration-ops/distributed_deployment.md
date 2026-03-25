@@ -1,10 +1,13 @@
 ---
 title: Distributed Deployment
-weight: 60
+weight: 15
+partition: deploy
 aliases:
   - ../distributed_deployment
   - /guides/distributed_deployment
   - /documentation/guides/distributed_deployment/
+  - /documentation/operations/distributed_deployment/
+  - /documentation/distributed_deployment/
 ---
 
 # Distributed deployment
@@ -314,7 +317,7 @@ When you add or remove nodes from the cluster, rebalancing of existing shards ac
 
 *Available as of v1.13.0 in Cloud*
 
-Resharding allows you to change the number of shards in your existing collections if you're hosting with our [Cloud](/documentation/cloud-intro/) offering.
+Resharding allows you to change the number of shards in your existing collections if you're hosting with our [Cloud](/documentation/deploy-intro/) offering.
 
 Resharding can change the number of shards both up and down, without having to recreate the collection from scratch.
 

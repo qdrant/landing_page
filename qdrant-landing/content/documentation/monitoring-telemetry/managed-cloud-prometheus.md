@@ -1,6 +1,8 @@
 ---
 title: Managed Cloud Prometheus Monitoring
-weight: 36
+weight: 10
+aliases:
+  - /documentation/tutorials-and-examples/managed-cloud-prometheus/
 ---
 
 # Monitoring Managed Cloud with Prometheus and Grafana

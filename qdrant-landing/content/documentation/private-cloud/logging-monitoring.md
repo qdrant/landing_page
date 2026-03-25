@@ -1,6 +1,6 @@
 ---
 title: Logging & Monitoring
-weight: 4
+weight: 20
 ---
 
 # Configuring Logging & Monitoring in Qdrant Private Cloud

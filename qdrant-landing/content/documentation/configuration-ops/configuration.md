@@ -1,10 +1,13 @@
 ---
 title: Configuration
-weight: 50
+weight: 5
+partition: deploy
 aliases:
   - ../configuration
   - /guides/configuration/
   - /documentation/guides/configuration/
+  - /documentation/operations/configuration/
+  - /documentation/configuration/
 ---
 
 # Configuration

@@ -1,6 +1,8 @@
 ---
 title: Welcome to Qdrant Cloud
-slug: cloud-intro
+slug: deploy-intro
+aliases:
+  - /documentation/cloud-intro/
 breadcrumb: false
 content:
   - partial: documentation/banners/banner-b
@@ -68,6 +70,6 @@ content:
       link:
         text: Join Qdrant
         url: https://qdrant.to/cloud
-partition: cloud
+partition: deploy
 hideInSidebar: true
 ---

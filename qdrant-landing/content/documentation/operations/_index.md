@@ -1,7 +1,10 @@
 ---
 title: Operations
 weight: 215
-partition: qdrant
+partition: deploy
+hideInSidebar: true
+aliases:
+  - /documentation/operations/
 ---
 
 # Operations

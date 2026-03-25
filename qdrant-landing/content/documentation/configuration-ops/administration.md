@@ -1,9 +1,10 @@
 ---
 title: Administration
-weight: 55
+weight: 10
 aliases:
   - ../administration
   - /documentation/guides/administration/
+  - /documentation/operations/administration/
 ---
 
 # Administration

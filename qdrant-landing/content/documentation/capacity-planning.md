@@ -1,10 +1,12 @@
 ---
 title: Capacity Planning
-weight: 5
+weight: 105
+partition: deploy
 aliases:
   - capacity
   - /documentation/cloud/capacity-sizing
   - /documentation/guides/capacity-planning/
+  - /documentation/operations/capacity-planning/
 ---
 # Capacity Planning
 

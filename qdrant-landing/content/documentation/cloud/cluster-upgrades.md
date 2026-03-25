@@ -1,6 +1,6 @@
 ---
 title: Update Clusters
-weight: 55
+weight: 35
 ---
 
 # Updating Qdrant Cloud Clusters

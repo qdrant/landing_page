@@ -2,7 +2,7 @@
 title: Develop & Implement
 weight: 425
 is_empty: false
-partition: qdrant
+partition: develop
 ---
 
 ### Develop & Implement Tutorials

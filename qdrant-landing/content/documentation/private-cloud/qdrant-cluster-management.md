@@ -1,6 +1,6 @@
 ---
 title: Managing a Cluster
-weight: 3
+weight: 10
 ---
 
 # Managing a Qdrant Cluster

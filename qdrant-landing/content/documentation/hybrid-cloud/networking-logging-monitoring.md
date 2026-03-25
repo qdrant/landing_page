@@ -1,6 +1,6 @@
 ---
 title: Networking, Logging & Monitoring
-weight: 4
+weight: 20
 ---
 # Configuring Networking, Logging & Monitoring in Qdrant Hybrid Cloud
 

@@ -1,8 +1,11 @@
 ---
 title: Running with GPU
-weight: 65
+weight: 20
+partition: deploy
 aliases:
   - /documentation/guides/running-with-GPU/
+  - /documentation/operations/running-with-GPU/
+  - /documentation/running-with-GPU/
 ---
 
 # Running Qdrant with GPU Support

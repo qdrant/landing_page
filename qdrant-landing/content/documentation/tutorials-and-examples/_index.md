@@ -1,7 +1,7 @@
 ---
 title: Tutorials & Examples
 weight: 40
-partition: cloud
+partition: triage
 ---
 ## Cloud Tutorials & Examples
 
