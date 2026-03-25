@@ -1,10 +1,11 @@
 ---
-title: Local Quickstart
-weight: 4
+title: Qdrant Quickstart
+weight: 110
 partition: qdrant
 aliases:
   - quick_start
   - quick-start
+  - quickstart
 ---
 # How to Get Started with Qdrant Locally
 

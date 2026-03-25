@@ -57,7 +57,7 @@
     p,
     li,
     table {
-      font-weight: 400;
+      font-weight: $font-weight-base;
     }
 
     a:hover {
@@ -85,6 +85,12 @@
     h4 {
       font-size: pxToRem(18);
       line-height: pxToRem(27);
+      margin-bottom: $spacer;
+    }
+
+    h5 {
+      font-size: pxToRem(16);
+      line-height: pxToRem(24);
       margin-bottom: $spacer;
     }
 

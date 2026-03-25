@@ -5,6 +5,65 @@ weight: 5
 
 # Changelog
 
+## 1.9.6 (2026-02-19)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.23.0 |
+| operator                | 2.15.0  |
+| qdrant-cluster-manager  | v0.3.17 |
+| qdrant-cluster-exporter | 1.7.6   |
+
+Latest validated Qdrant version: 1.17.0
+
+* Support for Qdrant 1.17
+
+## 1.9.5 (2026-02-18)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.23.0 |
+| operator                | 2.14.0  |
+| qdrant-cluster-manager  | v0.3.17 |
+| qdrant-cluster-exporter | 1.7.6   |
+
+Latest validated Qdrant version: 1.16.3
+
+* Performance and stability improvements
+* Extended status information in QdrantCluster status
+* Support for VolumeAttributeClasses for storage volumes
+* Qdrant Pod zone added to QdrantCluster status
+* Metrics are additionally exposed on a separate port to allow more granular access control through NetworkPolicies
+
+## 1.9.4 (2026-01-15)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.22.1 |
+| operator                | 2.9.1   |
+| qdrant-cluster-manager  | v0.3.15 |
+| qdrant-cluster-exporter | 1.7.6   |
+
+Latest validated Qdrant version: 1.16.3
+
+* Configurable labels support for cluster-manager
+* Limit RBAC for cluster-exporter to release namespace
+
+## 1.9.3 (2025-12-22)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.22.1 |
+| operator                | 2.9.1   |
+| qdrant-cluster-manager  | v0.3.13 |
+| qdrant-cluster-exporter | 1.7.6   |
+
+Latest validated Qdrant version: 1.16.3
+
+* Performance and stability improvements
+* Qdrant 1.16 improvements
+* Configurable volumeAttributesClassName for storage volumes
+
 ## 1.9.2 (2025-11-18)
 
 | Component               | Version |

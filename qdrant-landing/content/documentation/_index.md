@@ -6,7 +6,7 @@ breadcrumb: false
 content:
   - partial: "documentation/banners/banner-a"
     title: Qdrant Documentation
-    description: Qdrant is an AI-native vector database and a semantic search engine. You can use it to extract meaningful information from unstructured data.
+    description: Qdrant is an AI-native vector search and a semantic search engine. You can use it to extract meaningful information from unstructured data.
     linkDescription: <a href="https://github.com/qdrant/qdrant_demo/" target="_blank">Clone this repo now</a> and build a search engine in five minutes.
     cloudButton:
       text: Cloud Quickstart
@@ -72,7 +72,7 @@ THIS CONTENT IS GOING TO BE IGNORED FOR NOW
 
 # Documentation
 
-Qdrant is an AI-native vector database and a semantic search engine. You can use it to extract meaningful information from unstructured data. Want to see how it works? [Clone this repo now](https://github.com/qdrant/qdrant_demo/) and build a search engine in five minutes.
+Qdrant is an AI-native vector search and a semantic search engine. You can use it to extract meaningful information from unstructured data. Want to see how it works? [Clone this repo now](https://github.com/qdrant/qdrant_demo/) and build a search engine in five minutes.
 
 |||
 |-:|:-|
@@ -88,7 +88,7 @@ Qdrant is an AI-native vector database and a semantic search engine. You can use
 ## Qdrant's most popular features: 
 ||||
 |:-|:-|:-|
-|[Filtrable HNSW](/documentation/filtering/) </br> Single-stage payload filtering | [Recommendations & Context Search](/documentation/concepts/explore/#explore-the-data) </br> Exploratory advanced search| [Pure-Vector Hybrid Search](/documentation/hybrid-queries/)</br>Full text and semantic search in one|
+|[Filterable HNSW](/documentation/filtering/) </br> Single-stage payload filtering | [Recommendations & Context Search](/documentation/concepts/explore/#explore-the-data) </br> Exploratory advanced search| [Pure-Vector Hybrid Search](/documentation/hybrid-queries/)</br>Full text and semantic search in one|
 |[Multitenancy](/documentation/guides/multiple-partitions/) </br> Payload-based partitioning|[Custom Sharding](/documentation/guides/distributed_deployment/#sharding) </br> For data isolation and distribution|[Role Based Access Control](/documentation/guides/security/?q=jwt#granular-access-control-with-jwt)</br>Secure JWT-based access |
 |[Quantization](/documentation/guides/quantization/) </br> Compress data for drastic speedups|[Multivector Support](/documentation/concepts/vectors/?q=multivect#multivectors) </br> For ColBERT late interaction |[Built-in IDF](/documentation/concepts/indexing/?q=inverse+docu#idf-modifier) </br> Advanced similarity calculation|
 

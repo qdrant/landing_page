@@ -22,10 +22,10 @@
     grid-template-columns: 1fr;
     gap: $spacer * 1.5;
     grid-template-areas:
-      "compliance"
-      "management"
-      "api"
-      "observability";
+      'compliance'
+      'management'
+      'api'
+      'observability';
   }
 
   &__card {
@@ -101,8 +101,8 @@
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(2, 1fr);
       grid-template-areas:
-      "compliance management management"
-      "compliance api observability";
+        'compliance management management'
+        'compliance api observability';
     }
 
     &__card {

@@ -1,79 +1,100 @@
 ---
-cards:
-- id: 0
-  popular: true
-  title: Managed Cloud
-  price: Starting at $0
-  description: Starts with 1GB free cluster, no credit card required.
-  button:
-    text: Start Free
-    url: https://cloud.qdrant.io
-    contained: true
-  featureDescription: Scale your production solutions without deployment and upkeep.
-  featureLink:
-    text: Calculate your usage.
-    url: https://cloud.qdrant.io/calculator
-  features:
-  - id: 0
-    content: 1GB free forever cluster. No credit card required.
-  - id: 1
-    content: Fully managed with central cluster management
-  - id: 2
-    content: Multiple cloud providers and regions (AWS, GCP, Azure)
-  - id: 3
-    content: Horizontal & vertical scaling
-  - id: 4
-    content: Central monitoring, log management and alerting
-  - id: 5
-    content: High availability, auto-healing
-  - id: 6
-    content: Backup & disaster recovery
-  - id: 7
-    content: Zero-downtime upgrades
-  - id: 8
-    content: Unlimited users
-  - id: 9
-    content: Standard support and uptime SLAs, can be upgraded to Premium
-  # - id: 10
-  #   content: Can be upgraded to premium support plan
-- id: 1
-  popular: false
-  title: Hybrid Cloud
-  price: Custom
-  description: Price on request.
-  button:
-    text: Contact Us
-    url: /contact-us/
-    contained: false
-  featureDescription: Bring your own cluster from any cloud provider, on-premise infrastructure, or edge locations and connect them to the managed cloud.
-  features:
-  - id: 0
-    content: All the benefits of Qdrant Cloud
-  - id: 1
-    content: Security, data isolation, optimal latency
-  - id: 2
-    content: Use the Managed Cloud Central Cluster Management
-  - id: 3
-    content: Standard support and uptime SLAs, can be upgraded to Premium
-#  minPrice: <span>*</span>Min $99 / month
-- id: 2
-  popular: false
-  title: Private Cloud
-  price: Custom
-  description: Price on request.
-  button:
-    text: Contact Us
-    url: /contact-us/
-    contained: false
-  featureDescription: Deploy Qdrant fully on premise for maximum control and data sovereignty.
-  features:
-  - id: 0
-    content: All the benefits of Hybrid Cloud
-  - id: 1
-    content: Security, data isolation, optimal latency
-  - id: 2
-    content: Manage Qdrant database clusters on your infrastructure, in the cloud, on-premise at the edge, even fully air-gapped without a connection to Qdrant Cloud
-  - id: 3
-    content: Premium Support Plan
+tabs:
+- id: managed
+  label: Managed
+  active: true
+  tiers:
+  - id: free
+    title: Free Tier
+    pricing: Free forever
+    pricingNote: (No credit card required)
+    target: For testing, and prototypes
+    features:
+    - Single Node Cluster
+    - 0.5 vCPU / 1GB RAM/ 4 GB Disk.
+    - Free Cloud Inference With Selected Models
+    cta:
+      text: Start Free
+      url: https://cloud.qdrant.io
+      style: outlined
+  - id: paid
+    title: Standard Tier
+    pricing: Usage-based pricing
+    target: For production workloads and scaling applications
+    features:
+    - Dedicated Resources
+    - Flexible Vertical and Horizontal Scaling
+    - Highly Available Setups
+    - Backup & Disaster Recovery
+    - Free Tokens for Paid Inference Models
+    - 99.5% Uptime SLA
+    marketplace:
+      label: Subscribe on Marketplace.
+      logos:
+      - name: AWS
+        icon: aws
+      - name: Google Cloud
+        icon: gcp
+      - name: Azure
+        icon: azure
+    cta:
+      text: Deploy on Cloud
+      url: https://cloud.qdrant.io
+      style: contained
+  - id: premium
+    title: Premium Tier
+    pricing: Minimum spend required
+    pricingNote: Committed Usage
+    target: For enterprises with additional security and compliance needs
+    features:
+    - SSO
+    - Private VPC Links
+    - 99.9% Uptime SLA
+    - Extra Support
+    cta:
+      text: Talk to Our Engineers
+      url: /contact-us/
+      style: outlined
+- id: on-premise
+  label: On-Premise
+  active: false
+  tiers:
+  - id: hybrid-cloud
+    title: Hybrid Cloud
+    badge: true
+    target: Run managed Qdrant clusters on your own infrastructure using your compute, network and storage.
+    featureGroups:
+    - label: "Best for:"
+      items:
+      - Local Data Residency
+      - Regulated Workloads
+      - Easy Operations in Your Own Cloud
+    - label: "Benefits:"
+      items:
+      - Data Stays in Your Network
+      - Fully Managed Through Qdrant Cloud
+      - Production-Grade Uptime
+    cta:
+      text: Talk to Our Engineers
+      url: /contact-us/
+      style: contained
+  - id: private-cloud
+    title: Private Cloud
+    badge: true
+    target: "Dedicated, isolated deployment for strict security or compliance needs."
+    featureGroups:
+    - label: "Best for:"
+      items:
+      - Large Enterprises
+      - Sensitive Workloads
+      - Air-Gapped Setups
+    - label: "Benefits:"
+      items:
+      - Custom SLAs
+      - Full Isolation
+    cta:
+      text: Talk to Our Engineers
+      url: /contact-us/
+      style: contained
 sitemapExclude: true
 ---

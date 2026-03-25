@@ -8,11 +8,8 @@
           <h4 class="our-story__subtitle">{{ .Params.subtitle }}</h4>
           <p class="our-story__content">{{ .Params.content }}</p>
           <picture>
-            <source
-              srcset="{{ .Params.image.src }} 1x, {{ .Params.image.srcLarge }} 2x"
-              type="image/jpeg"
-            >
-            <img class="our-story__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}">
+            <source srcset="{{ .Params.image.src }} 1x, {{ .Params.image.srcLarge }} 2x" type="image/jpeg" />
+            <img class="our-story__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
           </picture>
         </div>
       </div>
@@ -24,8 +21,12 @@
               <source
                 srcset="{{ .Params.extraImage1.src }} 1x, {{ .Params.extraImage1.srcLarge }} 2x"
                 type="image/jpeg"
-              >
-              <img class="our-story__extra-image" src="{{ .Params.extraImage1.src }}" alt="{{ .Params.extraImage1.alt }}">
+              />
+              <img
+                class="our-story__extra-image"
+                src="{{ .Params.extraImage1.src }}"
+                alt="{{ .Params.extraImage1.alt }}"
+              />
             </picture>
           </div>
           <div class="our-story__extra-block">
@@ -34,8 +35,12 @@
               <source
                 srcset="{{ .Params.extraImage2.src }} 1x, {{ .Params.extraImage2.srcLarge }} 2x"
                 type="image/jpeg"
-              >
-              <img class="our-story__extra-image" src="{{ .Params.extraImage2.src }}" alt="{{ .Params.extraImage2.alt }}">
+              />
+              <img
+                class="our-story__extra-image"
+                src="{{ .Params.extraImage2.src }}"
+                alt="{{ .Params.extraImage2.alt }}"
+              />
             </picture>
           </div>
         </div>

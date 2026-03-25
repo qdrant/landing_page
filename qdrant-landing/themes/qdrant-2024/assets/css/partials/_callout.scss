@@ -20,10 +20,12 @@
     bottom: 0;
     width: 100%;
     height: pxToRem(376);
-    background-image: url('/img/blurred/blurred-light-24.png'),
-                      url('/img/blurred/blurred-light-25.png'),
-                      url('/img/blurred/blurred-light-26.png');
-    background-position: top left, bottom left, bottom right;
+    background-image: url('/img/blurred/blurred-light-24.png'), url('/img/blurred/blurred-light-25.png'),
+      url('/img/blurred/blurred-light-26.png');
+    background-position:
+      top left,
+      bottom left,
+      bottom right;
     background-size: contain, contain, contain;
     background-repeat: no-repeat;
     z-index: 1;
@@ -36,9 +38,12 @@
     right: -20%;
     bottom: -9px;
     display: flex;
-    background-image: linear-gradient(270deg, rgba(11, 15, 25, 0.00) 26.48%, #0B0F19 87.55%), url('/img/square-grid-black.svg');
+    background-image: linear-gradient(270deg, rgba(11, 15, 25, 0) 26.48%, #0b0f19 87.55%),
+      url('/img/square-grid-black.svg');
     background-size: cover, contain;
-    background-position: center right, center right;
+    background-position:
+      center right,
+      center right;
     background-repeat: no-repeat, no-repeat;
     z-index: 0;
   }
@@ -59,7 +64,7 @@
     }
 
     @include media-breakpoint-up(xl) {
-    right: 0;
+      right: 0;
     }
   }
 
@@ -71,7 +76,7 @@
     display: flex;
     flex-direction: column;
     gap: pxToRem(32);
-    
+
     @include media-breakpoint-up(lg) {
       max-width: pxToRem(560);
     }

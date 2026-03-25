@@ -1,0 +1,1 @@
+This code snippet demonstrates how to create a payload index for a keyword field while disabling the creation of additional HNSW graph nodes for that index by setting the `enable_hnsw` parameter to `false`.

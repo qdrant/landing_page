@@ -1,19 +1,20 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
-  {{ partial "hero" . }}
-  {{ partial "customers" . }}
+  {{ partial "home/hero" . }}
+  {{ partial "home/customers" . }}
 
-  {{ partial "core-features" . }}
-  {{ partial "customer-stories" . }}
-  {{ partial "integrations" . }}
-
-  {{ with (.Site.GetPage "/headless/main/docker-deploy") }}
-    {{ partial "docker-deploy" (dict "context" . "class" "") }}
+  {{ partial "home/why-qdrant" . }}
+  {{ partial "home/case-studies" . }}
+  {{ partial "home/enterprise-capabilities" . }}
+  {{ partial "home/enterprise-ready" . }}
+  {{ with (.Site.GetPage "/headless/main/canva") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial pb-5 pb-lg-7") }}
   {{ end }}
-
-  {{ with (.Site.GetPage "/headless/main/vectors") }}
-    {{ partial "vectors" . }}
+  {{ partial "home/performance-by-design" . }}
+  {{ partial "home/engineered-for-builders" . }}
+  {{ partial "home/integrations-logos" . }}
+  {{ partial "home/solutions" . }}
+  {{ with (.Site.GetPage "/headless/main/cta-banner") }}
+    {{ partial "cta-banner" . }}
   {{ end }}
-
-  {{ partial "get-started" . }}
 {{ end }}

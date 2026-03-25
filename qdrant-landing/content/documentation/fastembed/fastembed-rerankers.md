@@ -1,6 +1,6 @@
 ---
 title: Reranking with FastEmbed
-weight: 8
+weight: 80
 ---
 
 # How to use rerankers with FastEmbed

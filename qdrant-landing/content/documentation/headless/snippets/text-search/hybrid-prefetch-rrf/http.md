@@ -15,8 +15,7 @@ POST /collections/books/points/query
         "text": "9780553213515",
         "model": "Qdrant/bm25"
       },
-      "using": "isbn-bm25",
-      "with_payload": true
+      "using": "isbn-bm25"
     }
   ],
   "query": {

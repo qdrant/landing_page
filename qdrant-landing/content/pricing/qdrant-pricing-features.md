@@ -1,0 +1,119 @@
+---
+title: Features by Tier
+tables:
+  - id: managed
+    label: Managed
+    tiers:
+      - id: oss
+        name: OSS
+        highlight: false
+        bold: false
+      - id: free
+        name: Free Tier
+        highlight: false
+        bold: false
+      - id: standard
+        name: Standard Tier
+        highlight: true
+        bold: true
+      - id: premium
+        name: Premium Tier
+        highlight: false
+        bold: true
+    sections:
+      - name: Features
+        features:
+          - name: Cloud Inference
+            oss: false
+            free: Only free and external models
+            standard: true
+            premium: true
+          - name: Cloud Providers
+            oss: Depends on chosen infrastructure
+            free: AWS, Azure, GCP
+            standard: AWS, Azure, GCP
+            premium: AWS, Azure, GCP
+          - name: Uptime SLA
+            oss: false
+            free: false
+            standard: "99.5"
+            premium: "99.9"
+          - name: Automation
+            oss: false
+            free: API, Terraform, Pulumi
+            standard: API, Terraform, Pulumi
+            premium: API, Terraform, Pulumi
+          - name: Vertical Up & Downscaling
+            oss: No resource usage safe guards
+            free: false
+            standard: true
+            premium: true
+          - name: Horizontal Up & Downscaling
+            oss: No automated shard rebalancing
+            free: false
+            standard: true
+            premium: true
+          - name: Backup & Disaster Recovery
+            oss: Custom automation
+            free: false
+            standard: true
+            premium: true  
+          - name: Shard Splitting
+            oss: false
+            free: false
+            standard: true
+            premium: true                
+          - name: Support Level
+            oss: Community
+            free: Community
+            standard: Standard
+            premium: Premium
+          - name: Support Response Times
+            oss: false
+            free: Best effort
+            standard: 10x5
+            premium: 24x7
+          - name: Encryption at Rest and in Transit
+            oss: Depends on chosen infrastructure
+            free: true
+            standard: true
+            premium: true          
+          - name: Disk Encryption with Custom Key
+            oss: Depends on chosen infrastructure
+            free: false
+            standard: false
+            premium: (AWS only)
+          - name: Private VPC Links
+            oss: N/A
+            free: false
+            standard: false
+            premium: true          
+          - name: Enterprise SSO Authentication
+            oss: false
+            free: false
+            standard: false
+            premium: true
+    ctas:
+      - tier: oss
+        text: Start Free
+        url: https://cloud.qdrant.io
+        contained: false
+      - tier: free
+        text: Start Free
+        url: https://cloud.qdrant.io
+        contained: false
+      - tier: standard
+        text: Deploy on Cloud
+        url: https://cloud.qdrant.io
+        contained: true
+      - tier: premium
+        text: Deploy on Cloud
+        url: /contact-us/
+        contained: false
+
+
+compareButton:
+  text: Compare All Features
+  url: /pricing/comparison/
+sitemapExclude: true
+---

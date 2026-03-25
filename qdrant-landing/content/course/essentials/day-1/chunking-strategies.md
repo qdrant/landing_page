@@ -54,7 +54,7 @@ This is where chunking comes in. The goal is to have chunks
 
 By breaking a document into focused chunks, each chunk gets its own vector that accurately represents a specific idea. This allows the search to be far more precise.
 
-**Example:** Consider a multi-page Document like the [Qdrant Collection Configuration Guide of day 7](/course/essentials/day-7/collection-configuration-guide/) covering everything from HNSW to sharding and quantization.
+**Example:** Consider a multi-page Document like the [Qdrant Collection Configuration Guide of Day 7](/course/essentials/day-7/collection-configuration-guide/) covering everything from HNSW to sharding and quantization.
 
 If a user asks: *"What does the m parameter do?"*
 
@@ -450,7 +450,7 @@ In Qdrant, this metadata lives in the **payload** - a JSON object attached to ea
 
 ### What Metadata Enables
 
-**Disclaimer**: For performance reasons, filterable fields must be indexed using the [Payload Index](https://qdrant.tech/documentation/concepts/indexing/#payload-index).
+**Disclaimer**: For performance reasons, filterable fields must be indexed using the [Payload Index](/documentation/concepts/indexing/#payload-index).
 
 **1. Filtered Search (Exact Match)**
 You can filter results based on exact metadata values, which is perfect for categorical data.
@@ -492,7 +492,7 @@ You can read more about grouping [here](/documentation/concepts/hybrid-queries/?
 - Original content with source attribution
 - Section context for better understanding
 - Direct links to full documents
-- Creation timestamps for [freshness](/documentation/concepts/hybrid-queries/#time-based-score-boosting)
+- Creation timestamps for [freshness](/documentation/concepts/search-relevance/#time-based-score-boosting)
 
 **5. Permission Control**
 ```python

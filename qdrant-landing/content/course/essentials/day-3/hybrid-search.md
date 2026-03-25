@@ -48,7 +48,7 @@ Or any other language, as these models might be trained to support many of them 
 
 On the other hand, sparse vectors are more suitable for cases where the exact match matters. They are quite often described as keyword-based or lexical search.
 
-Imagine you know the identifier of an item you want to find. For example, you have a particular smartphone model, so when buying some accessories, you don't want to see all the possible chargers for different devices, but only those you can use. That's where lexical search would be better suited than the dense vector search!
+Imagine you know the identifier of an item you want to find. For example, you have a particular smartphone model, so when buying some accessories, you don't want to see all the possible power chargers for different devices, but only those you can use. That's where lexical search would be better suited than the dense vector search!
 
 ### Real-World Complexity: Legal Search Example
 
@@ -59,7 +59,7 @@ Unfortunately, reality is never that simple. Some of your users might be domain 
 - **Others** would rather describe a very specific case they encountered
 - **Mixed cases**: Maybe somebody knows the particular act, but not the paragraph?
 
-You don't need to choose just one method or build separate pipelines to serve both types of users! Hybrid search might be the solution you are looking for!
+You don't need to choose just one method or build separate pipelines to serve both types of users! **Hybrid search** might be the solution you are looking for!
 
 ## What is Hybrid Search?
 
@@ -158,7 +158,7 @@ Using multiple search methods in sequence isn't always the best approach. Consid
 
 For instance, if there's a perfect document match that only sparse retrieval would identify, but you use dense retrieval first, you'll never find that document since it won't be included in the candidates passed to the reranker.
 
-There are ways of incorporating both signals! Let's discuss fusion!
+There are ways of incorporating both signals! Let's discuss **fusion**!
 
 ## Fusion: Combining Search Signals
 
@@ -207,13 +207,13 @@ Now let's calculate RRF scores (using k=60):
 
 | Document | Dense Rank | Dense RRF         | Sparse Rank | Sparse RRF        | Total RRF | Final Rank |
 |----------|------------|-------------------|-------------|-------------------|-----------|------------|
-| D1       | 1          | 1/(60+1) = 0.0164 | 3           | 1/(60+3) = 0.0159 | 0.0323    | 2          |
+| D1       | 1          | 1/(60+1) = 0.0164 | 3           | 1/(60+3) = 0.0159 | 0.0323    | **1**      |
 | D2       | 2          | 1/(60+2) = 0.0161 | 4           | 1/(60+4) = 0.0156 | 0.0317    | 3          |
-| D3       | 3          | 1/(60+3) = 0.0159 | 2           | 1/(60+2) = 0.0161 | 0.0320    | **1**      |
+| D3       | 3          | 1/(60+3) = 0.0159 | 2           | 1/(60+2) = 0.0161 | 0.0320    | 2          |
 | D4       | 4          | 1/(60+4) = 0.0156 | -           | 0                 | 0.0156    | 5          |
 | D5       | -          | 0                 | 1           | 1/(60+1) = 0.0164 | 0.0164    | 4          |
 
-**Notice:** D3 became the winner, even though it was not the best match for any of the individual methods! However, both ranked it quite high, so it probably captures both lexical and semantic meaning.
+**Notice:** D1 became the winner, even though it was not the best match for each method individualy! However, both ranked it quite high, so it probably captures both lexical and semantic meaning.
 
 ## Implementing RRF in Qdrant
 

@@ -53,7 +53,8 @@
       line-height: pxToRem(67);
     }
 
-    &__subtitle, &__description {
+    &__subtitle,
+    &__description {
       max-width: pxToRem(500);
     }
   }

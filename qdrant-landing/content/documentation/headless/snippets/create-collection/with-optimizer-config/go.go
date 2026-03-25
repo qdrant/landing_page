@@ -21,7 +21,7 @@ func Main() {
 			Distance: qdrant.Distance_Cosine,
 		}),
 		OptimizersConfig: &qdrant.OptimizersConfigDiff{
-			MaxSegmentSize: qdrant.PtrOf(uint64(20000)),
+			IndexingThreshold: qdrant.PtrOf(uint64(20000)),
 		},
 	})
 }

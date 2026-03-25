@@ -124,7 +124,7 @@ This combined strategy of a hybrid storage configuration and streaming ingestion
 
 This architecture strikes a balance by keeping infrastructure costs low by minimizing RAM usage while maintaining fast and accurate search performance. By understanding and applying these ingestion strategies, you can confidently scale your Qdrant-powered applications to handle real-world data volumes.
 
-> Learn more in a complete hands-on guide in our **[Large-Scale Search tutorial](https://qdrant.tech/documentation/database-tutorials/large-scale-search/)**.
+> Learn more in a complete hands-on guide in our **[Large-Scale Search tutorial](/documentation/database-tutorials/large-scale-search/)**.
 
 > **Check out the reference implementation:**  
 > [qdrant/laion-400m-benchmark on GitHub](https://github.com/qdrant/laion-400m-benchmark)  

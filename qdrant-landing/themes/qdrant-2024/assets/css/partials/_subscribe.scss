@@ -94,7 +94,7 @@
         flex-direction: column;
 
         .hs_email {
-         & > label {
+          & > label {
             display: block;
             margin-bottom: pxToRem(6);
             font-size: pxToRem(14);
@@ -103,8 +103,8 @@
           }
         }
         .button {
-            width: 100%;
-            margin-top: $spacer * 1.5;
+          width: 100%;
+          margin-top: $spacer * 1.5;
         }
         .hs_error_rollup {
           top: 0;
@@ -114,7 +114,6 @@
     .submitted-message {
       text-align: center;
     }
-
   }
 
   &-header {

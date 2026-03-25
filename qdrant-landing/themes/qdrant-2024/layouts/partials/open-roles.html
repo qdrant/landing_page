@@ -10,7 +10,11 @@
         <a
           href="{{ .Params.seeOpenRoles.url }}"
           class="button button_contained button_md open-roles__button"
-          target="{{ if .Params.seeOpenRoles.target }}_blank{{ else }}_self{{ end }}"
+          target="{{ if .Params.seeOpenRoles.target }}
+            _blank
+          {{ else }}
+            _self
+          {{ end }}"
         >
           {{ .Params.seeOpenRoles.text }}
         </a>
@@ -19,4 +23,3 @@
     </div>
   </div>
 </section>
-

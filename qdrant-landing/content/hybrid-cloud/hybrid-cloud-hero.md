@@ -16,7 +16,7 @@ features:
   icon:
     src: /icons/fill/money-growth-green.svg
     alt: Minimum Cost
-description: Seamlessly deploy and manage the vector database across diverse environments, ensuring performance, security, and cost efficiency for AI-driven applications.
+description: Seamlessly deploy and manage the vector search across diverse environments, ensuring performance, security, and cost efficiency for AI-driven applications.
 startFree:
   text: Talk to sales
   url: /contact-us/

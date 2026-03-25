@@ -1,8 +1,9 @@
 ---
-title: Vector Database Benchmarks
-description: The first comparative benchmark and benchmarking framework for vector search engines and vector databases.
+title: Vector Search Benchmarks
+description: The first comparative benchmark and benchmarking framework for vector search engines.
 keywords:
   - vector databases comparative benchmark
+  - vector search comparative benchmark
   - ANN Benchmark
   - Qdrant vs Milvus
   - Qdrant vs Weaviate

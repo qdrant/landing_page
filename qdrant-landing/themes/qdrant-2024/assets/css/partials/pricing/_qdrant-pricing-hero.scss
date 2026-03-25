@@ -1,0 +1,140 @@
+@use '../../helpers/functions' as *;
+
+.qdrant-pricing-hero {
+  position: relative;
+  padding: $spacer * 5 0 $spacer * 4;
+  background-color: $neutral-94;
+  text-align: center;
+  overflow: hidden;
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background: url('/img/prices-background.svg') top center / 100% auto no-repeat;
+  }
+
+  &__grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    display: grid;
+    grid-template-columns: repeat(18, 80px);
+    grid-template-rows: repeat(5, 80px);
+    justify-content: center;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba($neutral-94, 0) 0%, $neutral-94 100%),
+        linear-gradient(to right, $neutral-94 0%, transparent 15%, transparent 85%, $neutral-94 100%);
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    max-width: pxToRem(730);
+    margin: 0 auto;
+    padding: 0 $spacer;
+    background: linear-gradient(to right, rgba($neutral-94, 0) 8%, $neutral-94 50%, rgba($neutral-94, 0) 92%);
+  }
+
+  &__title {
+    font-size: pxToRem(56);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    margin-bottom: $spacer;
+    color: $neutral-20;
+  }
+
+  &__description {
+    margin-bottom: $spacer;
+    font-size: pxToRem(18);
+    line-height: 1.5;
+    color: $neutral-30;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacer * 1.5;
+    flex-wrap: wrap;
+  }
+
+  &__button {
+    min-width: pxToRem(166);
+  }
+
+  &__link {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer * 0.25;
+    font-size: pxToRem(16);
+    font-weight: 500;
+    color: $primary-50;
+    text-decoration: none;
+
+    &::before,
+    &::after {
+      height: calc(1ex + 3px);
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding: $spacer * 3 0 $spacer * 2.5;
+
+    &__title {
+      font-size: pxToRem(40);
+    }
+
+    &__description {
+      font-size: pxToRem(16);
+    }
+
+    &__actions {
+      flex-direction: column;
+      gap: $spacer;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: $spacer * 2.5 0 $spacer * 2;
+
+    &__background {
+      display: none;
+    }
+
+    &__grid {
+      display: none;
+    }
+
+    &__content {
+      background: none;
+    }
+
+    &__title {
+      font-size: pxToRem(40);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+
+    &__description {
+      font-size: pxToRem(16);
+      line-height: 1.5;
+    }
+  }
+}

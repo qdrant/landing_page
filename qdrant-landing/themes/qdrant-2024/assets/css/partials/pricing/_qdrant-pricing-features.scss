@@ -1,0 +1,112 @@
+@use '../../helpers/functions' as *;
+
+.qdrant-pricing-features {
+  padding: $spacer * 2.5 0 $spacer * 7.5;
+  background-color: $neutral-94;
+
+  &__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: $spacer * 3.5;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: pxToRem(40);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+  }
+
+  &__tabs {
+    display: flex;
+    gap: $spacer * 0.5;
+    padding: pxToRem(4);
+    background-color: $neutral-98;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(8);
+  }
+
+  &__table-wrapper {
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__tab {
+    padding: $spacer * 0.5 $spacer * 1.5;
+    font-size: pxToRem(16);
+    font-weight: 400;
+    line-height: 1.5;
+    color: $neutral-30;
+    background: transparent;
+    border: none;
+    border-radius: pxToRem(8);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &--active {
+      font-weight: 600;
+      color: $neutral-20;
+      background-color: $neutral-94;
+    }
+
+    &:hover:not(&--active) {
+      background-color: $neutral-94;
+    }
+  }
+
+  &__compare {
+    display: flex;
+    justify-content: center;
+    margin-top: $spacer * 2.5;
+
+    .button {
+      padding: $spacer * 0.5 $spacer * 1.375;
+    }
+
+    .button_outlined {
+      color: $neutral-20;
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding: $spacer * 2.5 0 $spacer * 4;
+
+    &__tabs {
+      width: 100%;
+    }
+
+    &__tab {
+      flex: 1;
+    }
+
+    &__header {
+      flex-direction: column;
+      align-items: center;
+      gap: $spacer * 1.5;
+    }
+
+    &__title {
+      font-size: pxToRem(32);
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    padding: $spacer * 2.5 0 $spacer * 4;
+
+    &__header {
+      margin-bottom: $spacer * 2.5;
+      gap: $spacer;
+    }
+
+    &__title {
+      font-size: pxToRem(40);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+  }
+}

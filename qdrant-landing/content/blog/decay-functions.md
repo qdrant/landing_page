@@ -17,7 +17,7 @@ tags:
 
 ---
 
-A problem we've noticed while monitoring the [Qdrant Discord Community](https://discord.gg/d4MPnX3s) is that due to the extensive list of expressions that the [score boosting](https://qdrant.tech/documentation/concepts/hybrid-queries/#score-boosting) functionality provides, there's room for confusion on how it's supposed to be applied. And that might block you from moving the business logic behind relevance scoring into the Qdrant search engine. We don't want that!
+A problem we've noticed while monitoring the [Qdrant Discord Community](https://discord.gg/d4MPnX3s) is that due to the extensive list of expressions that the [score boosting](https://qdrant.tech/documentation/concepts/search-relevance/#score-boosting) functionality provides, there's room for confusion on how it's supposed to be applied. And that might block you from moving the business logic behind relevance scoring into the Qdrant search engine. We don't want that!
 
 In this blog, we'd like to de-spooky-fy the **decay functions** part of the score boosting, or, more precisely: `LinDecayExpression`, `ExpDecayExpression`, and `GaussDecayExpression` -- frequent guests on the Discord *#ask-for-help* channel.
 
@@ -170,7 +170,7 @@ But here's the problem: That 36 might not be a "high" score at all. Maybe your d
 
 Now let's see how using decay functions looks in Qdrant.
 
-We'll provide HTTP request examples, but you can use decay functions [analogously in the Python, TypeScript, Rust, Java, C#, and Go clients](https://qdrant.tech/documentation/concepts/hybrid-queries/#time-based-score-boosting).
+We'll provide HTTP request examples, but you can use decay functions [analogously in the Python, TypeScript, Rust, Java, C#, and Go clients](/documentation/concepts/search-relevance/#time-based-score-boosting).
 
 **Note #6.**
 Payload variables used within the formula benefit from having [payload indexes](https://qdrant.tech/documentation/concepts/indexing/#payload-index). So, we require you to set up a payload index for any variable used in a formula.
@@ -248,7 +248,7 @@ We truly hope this write-up helped untangle things a bit. Now the only thing lef
 
 Use the snippets in the article as a starting point and experiment with the relevance score boosting in [Qdrant Cloud](https://qdrant.tech/). We offer a free-forever 1GB cluster: enough to test, tweak, and see how the decay functions behave on your data.
 
-And if you feel like diving deeper into decay functions or score boosting in general, check out our [documentation](https://qdrant.tech/documentation/concepts/hybrid-queries/?q=Query+Points+API#score-boosting), which includes a decay-on-distance example and plenty more to learn from.
+And if you feel like diving deeper into decay functions or score boosting in general, check out our [documentation](/documentation/concepts/search-relevance/#score-boosting), which includes a decay-on-distance example and plenty more to learn from.
 
 ### Tell Us What You're Building
 

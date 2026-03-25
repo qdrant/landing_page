@@ -1,0 +1,12 @@
+```java
+client
+    .createPayloadIndexAsync(
+        COLLECTION_NAME,
+        "year",
+        PayloadSchemaType.Integer,
+        null,
+        true,
+        null,
+        null)
+    .get();
+```

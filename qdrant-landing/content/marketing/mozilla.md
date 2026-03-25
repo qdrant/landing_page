@@ -8,7 +8,7 @@ aliases:
 sitemapExclude: true
 heroSection:
     title: High-Performance Vector Search at Scale
-    description: The leading open-source vector database designed to handle high-dimensional vectors for performance and massive-scale AI applications. Qdrant is purpose-built in Rust for unmatched speed and reliability even when processing billions of vectors.
+    description: The leading open-source vector search designed to handle high-dimensional vectors for performance and massive-scale AI applications. Qdrant is purpose-built in Rust for unmatched speed and reliability even when processing billions of vectors.
     buttonLeft:
         text: Start Free
         link: https://cloud.qdrant.io/signup
@@ -62,7 +62,7 @@ featuresSection:
     subtitle: Learn more about it in our <a href="/benchmarks/" target="_blank">performance benchmarks</a>. # not required, optional
     features:
         - title: Highest RPS
-          text: Qdrant leads with top requests-per-seconds, outperforming alternative vector databases in various datasets by up to 4x.
+          text: Qdrant leads with top requests-per-seconds, outperforming alternative vector search engines in various datasets by up to 4x.
           icon: /marketing/mozilla/rps.svg
         - title: Minimal Latency
           text: "Qdrant consistently achieves the lowest latency, ensuring quicker response times in data retrieval: 3ms response for 1M Open AI embeddings, outpacing alternatives by 50x-100x."

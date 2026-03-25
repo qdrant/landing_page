@@ -17,7 +17,7 @@ Explore the Qdrant ecosystem and learn how to integrate with leading AI and data
 
 Learn about the Qdrant ecosystem and integration strategies.
 
-[**➡️ Partner Integrations**](https://qdrant.tech/partners/)
+[**➡️ Partner Integrations**](/partners/)
 
 ---
 

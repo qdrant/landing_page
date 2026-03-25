@@ -1,11 +1,10 @@
 {{ $currentNode := .context }}
 
+
 <div class="docs-menu">
   <div id="sidebar" class="docs-menu__content">
     <nav>
       <div class="docs-menu__links-group">
-
-        
         <!-- 
           If page is top-level, like /course we want to show sidebar with sub-pages of /course
           If page is not top-level, like /course/essentials we want to show sidebar with sub-pages of /course/essentials
@@ -18,28 +17,31 @@
         {{ $subject := $currentNode }}
 
         {{ if eq $numLevels 1 }}
-          {{ $subject = $currentNode }} <!-- top-level, `/course` -->
+          {{ $subject = $currentNode }}
+          <!-- top-level, `/course` -->
         {{ else if eq $numLevels 2 }}
-          {{ $subject = $currentNode }} <!-- not top-level, `/course/essentials` -->
+          {{ $subject = $currentNode }}
+          <!-- not top-level, `/course/essentials` -->
         {{ else if eq $numLevels 3 }}
-          {{ $subject = $currentNode.Parent }} <!-- not top-level, `/course/essentials/day-0` -->
+          {{ $subject = $currentNode.Parent }}
+          <!-- not top-level, `/course/essentials/day-0` -->
         {{ else if eq $numLevels 4 }}
-          {{ $subject = $currentNode.Parent.Parent }} <!-- not top-level, `/course/essentials/day-0/introduction` -->
+          {{ $subject = $currentNode.Parent.Parent }}
+          <!-- not top-level, `/course/essentials/day-0/introduction` -->
         {{ else }}
-          {{ $subject = $currentNode.Parent.Parent.Parent }} <!-- not top-level, `/course/essentials/day-0/introduction/overview` -->
+          {{ $subject = $currentNode.Parent.Parent.Parent }}
+          <!-- not top-level, `/course/essentials/day-0/introduction/overview` -->
         {{ end }}
-        
-        
+
         {{ if and $subject $subject.Params $subject.Params.content $subject.Params.content.sidebarTitle }}
-        <p class="docs-menu__links-title">
-          {{ $subject.Params.content.sidebarTitle }}
-        </p>
+          <p class="docs-menu__links-title">
+            {{ $subject.Params.content.sidebarTitle }}
+          </p>
         {{ end }}
 
         {{ if or (eq $currentNode.Params.isLesson true) (eq $currentNode.Parent.Params.isLesson true) }}
           {{ $allLessons := where $subject.Pages ".Params.isLesson" true }}
           {{ $total := len $allLessons }}
-
 
           {{ if $total }}
             {{ $currentIndex := 0 }}
@@ -58,6 +60,7 @@
             {{ $percent := mul (div (float $currentIndex) (float $total)) 100 }}
             {{ $percentStr := printf "%.0f" $percent }}
 
+
             <div class="docs-menu__progress">
               <div class="docs-menu__progress-container">
                 <div class="docs-menu__progress-bar" style="width: {{ $percentStr }}%;"></div>
@@ -72,7 +75,9 @@
             class="
               mt-3
               docs-menu__articles-link
-              docs-menu__links-group-heading{{ if eq $currentNode.RelPermalink $subject.Params.content.menuTitle.url }} active{{ end }}
+              docs-menu__links-group-heading{{ if eq $currentNode.RelPermalink $subject.Params.content.menuTitle.url }}
+              active
+            {{ end }}
             "
           >
             <a href="{{ $subject.Params.content.menuTitle.url }}">
@@ -94,7 +99,7 @@
             {{ end }}
 
             {{ if $fileExistsAndMatchUniqueID }}
-                {{ $isActive = true }}
+              {{ $isActive = true }}
             {{ end }}
 
             {{ $sectionLink := .Permalink }}
@@ -102,6 +107,7 @@
             {{ if .Params.is_empty }}
               {{ $sectionLink = (index (.RegularPages) 0).Permalink }}
             {{ end }}
+
 
             <details
               class="docs-menu__links-group link-group {{ if $fileExistsAndMatchUniqueID }}active{{ end }}"
@@ -114,9 +120,7 @@
                 <ul class="docs-menu__links-submenu">
                   {{ range .Pages }}
                     {{ $fileExistsAndMatchUniqueIDSub := and .File $currentNode.File (eq .File.UniqueID $currentNode.File.UniqueID) }}
-                    <div
-                      class="docs-menu__links-group {{ if $fileExistsAndMatchUniqueIDSub }}active{{ end }}"
-                    >
+                    <div class="docs-menu__links-group {{ if $fileExistsAndMatchUniqueIDSub }}active{{ end }}">
                       <div class="docs-menu__links-group-heading">
                         <a href="{{ .Permalink }}">{{ .Title }}</a>
                       </div>
@@ -127,9 +131,7 @@
             </details>
           {{ else }}
             {{ $fileExistsAndMatchUniqueID := and .File $currentNode.File (eq .File.UniqueID $currentNode.File.UniqueID) }}
-            <div
-              class="docs-menu__links-group {{ if $fileExistsAndMatchUniqueID }}active{{ end }}"
-            >
+            <div class="docs-menu__links-group {{ if $fileExistsAndMatchUniqueID }}active{{ end }}">
               <div class="docs-menu__links-group-heading">
                 <a href="{{ .Params.url }}">{{ .Title }}</a>
               </div>

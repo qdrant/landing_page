@@ -104,7 +104,7 @@
             font-size: $spacer * 2;
             line-height: $spacer * 2.5;
             padding: 0;
-            margin-bottom:  math.div($spacer, 2);
+            margin-bottom: math.div($spacer, 2);
           }
 
           h3 {
@@ -271,7 +271,8 @@
       }
     }
     .docs-core__developing-block {
-      h1, h3 {
+      h1,
+      h3 {
         color: $neutral-98;
       }
       p {

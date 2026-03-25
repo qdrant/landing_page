@@ -1,0 +1,31 @@
+<section class="healthcare-why-qdrant">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-xl-7 healthcare-why-qdrant__content">
+        <h2 class="healthcare-why-qdrant__title">{{ .Params.title }}</h2>
+        <div class="healthcare-why-qdrant__items">
+          {{ range .Params.items }}
+            <div class="healthcare-why-qdrant__item">
+              <div class="healthcare-why-qdrant__item-icon">
+                <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              </div>
+              <p class="healthcare-why-qdrant__item-text">{{ .text | safeHTML }}</p>
+            </div>
+          {{ end }}
+        </div>
+        {{ with .Params.badges }}
+          <div class="healthcare-why-qdrant__badges">
+            {{ range . }}
+              <img src="{{ .src }}" alt="{{ .alt }}" class="healthcare-why-qdrant__badge" />
+            {{ end }}
+          </div>
+        {{ end }}
+      </div>
+      <div class="col-12 col-xl-5 healthcare-why-qdrant__visual">
+        {{ with .Params.image }}
+          <img src="{{ .src }}" alt="{{ .alt }}" class="healthcare-why-qdrant__image" />
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>

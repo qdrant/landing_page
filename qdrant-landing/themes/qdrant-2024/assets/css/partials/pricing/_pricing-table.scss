@@ -1,0 +1,441 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+/* Shared pricing table styles – used by qdrant-pricing-features and qdrant-pricing-comparison */
+
+:root {
+  --tier-count: 4;
+  --feature-cell-width: 19.375rem;
+}
+
+.pricing-table {
+
+  // Layout – fallback for browsers without subgrid (same column track sizes, explicit grid)
+  // First column: up to --feature-cell-width when grid fits, shrinks when it doesn't
+  &__table {
+    display: grid;
+    grid-template-columns: minmax(0, var(--feature-cell-width)) repeat(var(--tier-count), 1fr);
+  }
+
+  &__table-header,
+  &__table-footer {
+    grid-column: 1 / calc(var(--tier-count) + 2);
+    display: grid;
+    grid-template-columns: minmax(0, var(--feature-cell-width)) repeat(var(--tier-count), 1fr);
+  }
+
+  &__table-body {
+    grid-column: 1 / calc(var(--tier-count) + 2);
+    display: block;
+  }
+
+  &__table-section {
+    display: grid;
+    grid-template-columns: minmax(0, var(--feature-cell-width)) repeat(var(--tier-count), 1fr);
+
+    &-header {
+      grid-column: 1 / calc(var(--tier-count) + 2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: pxToRem(24) pxToRem(32);
+      cursor: pointer;
+      user-select: none;
+      background-color: $secondary-blue-95;
+      border-left: 0.5px solid $neutral-80;
+      border-right: 0.5px solid $neutral-80;
+      border-bottom: 0.5px solid $neutral-80;
+    }
+
+    &-title {
+      font-size: pxToRem(16);
+      font-weight: 500;
+      line-height: 1.5;
+      color: $neutral-20;
+    }
+
+    &-rows {
+      display: grid;
+      grid-template-columns: minmax(0, var(--feature-cell-width)) repeat(var(--tier-count), 1fr);
+      grid-column: 1 / calc(var(--tier-count) + 2);
+      transition: max-height 0.35s ease;
+    }
+
+    &--collapsed {
+      .pricing-table__chevron {
+        transform: rotate(180deg);
+      }
+    }
+
+    &:first-of-type &-header {
+      border-top: 0.5px solid $neutral-80;
+      border-top-left-radius: pxToRem(8);
+    }
+
+    &:last-of-type.pricing-table__table-section--collapsed &-header {
+      border-bottom-left-radius: pxToRem(8);
+    }
+  }
+
+  &__table-row {
+    display: grid;
+    grid-template-columns: minmax(0, var(--feature-cell-width)) repeat(var(--tier-count), 1fr);
+    grid-column: 1 / calc(var(--tier-count) + 2);
+  }
+
+  /* Enhancement for browsers that support subgrid */
+  @supports (grid-template-columns: subgrid) {
+    &__table-header,
+    &__table-footer {
+      grid-column: 1 / calc(var(--tier-count) + 2);
+      grid-template-columns: subgrid;
+    }
+
+    &__table-body {
+      display: grid;
+      grid-template-columns: subgrid;
+      grid-column: 1 / calc(var(--tier-count) + 2);
+    }
+
+    &__table-section {
+      grid-template-columns: subgrid;
+      grid-column: 1 / calc(var(--tier-count) + 2);
+
+      &-header {
+        grid-column: 1 / calc(var(--tier-count) + 2);
+      }
+
+      &-rows {
+        grid-template-columns: subgrid;
+        grid-column: 1 / calc(var(--tier-count) + 2);
+      }
+    }
+
+    &__table-row {
+      grid-template-columns: subgrid;
+      grid-column: 1 / calc(var(--tier-count) + 2);
+    }
+  }
+
+  &__table-cell {
+    padding: pxToRem(16) pxToRem(32);
+    background-color: $neutral-98;
+    font-size: pxToRem(14);
+    font-weight: 400;
+    line-height: 1.5;
+    color: $neutral-30;
+    text-align: center;
+    border-bottom: 0.5px solid $neutral-80;
+    border-left: 0.5px solid $neutral-80;
+  }
+
+  &__table-cell--feature {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  &__table-cell--highlight {
+    background-color: $secondary-blue-95;
+  }
+
+  &__table-header &__table-cell--feature,
+  &__table-footer &__table-cell--feature {
+    background-color: transparent;
+  }
+
+  &__table-header {
+    & .pricing-table__table-cell {
+      border-top: 0.5px solid $neutral-80;
+      border-bottom: none;
+    }
+
+    & .pricing-table__table-cell:not(.pricing-table__table-cell--feature) {
+      padding: pxToRem(16) pxToRem(32);
+      font-size: pxToRem(20);
+      font-weight: 600;
+      line-height: 1.5;
+      letter-spacing: -0.2px;
+      color: $neutral-20;
+      background-color: $neutral-98;
+      text-align: center;
+
+      &.pricing-table__table-cell--highlight {
+        background-color: $secondary-blue-95;
+      }
+
+      &:nth-of-type(2) {
+        border-top-left-radius: pxToRem(8);
+      }
+
+      &:last-of-type {
+        border-top-right-radius: pxToRem(8);
+      }
+    }
+  }
+
+  &__table-footer {
+    .button {
+      padding: $spacer * 0.5 $spacer * 1;
+      font-size: pxToRem(16);
+      height: auto;
+
+      &_outlined {
+        color: $neutral-20;
+      }
+    }
+
+    & .pricing-table__table-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 0.5px solid $neutral-80;
+      padding: pxToRem(32) 1rem;
+    }
+
+    & .pricing-table__table-cell:not(.pricing-table__table-cell--feature) {
+      background-color: $neutral-98;
+      text-align: center;
+
+      &.pricing-table__table-cell--highlight {
+        background-color: $secondary-blue-95;
+      }
+
+      &:nth-of-type(2) {
+        border-bottom-left-radius: pxToRem(8);
+      }
+
+      &:last-of-type {
+        border-bottom-right-radius: pxToRem(8);
+      }
+    }
+  }
+
+  &__table-header .pricing-table__table-cell:last-child,
+  &__table-footer .pricing-table__table-cell:last-child,
+  &__table-row .pricing-table__table-cell:last-child {
+    border-right: 0.5px solid $neutral-80;
+  }
+
+  &__table-header &__table-cell--feature {
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+    border-top-left-radius: pxToRem(8);
+  }
+
+  &__table-footer &__table-cell--feature {
+    border-left: none;
+    border-bottom: none;
+    border-bottom-left-radius: pxToRem(8);
+  }
+
+  &__table-body {
+    .pricing-table__table-section:last-of-type
+      .pricing-table__table-section-rows
+      .pricing-table__table-row:last-child
+      .pricing-table__table-cell:first-child {
+      border-bottom-left-radius: pxToRem(8);
+    }
+  }
+
+  &--highlight {
+    background-color: $secondary-blue-95;
+  }
+
+  &__chevron {
+    color: $neutral-20;
+    transition: transform 0.2s ease;
+  }
+
+  &__check {
+    color: $neutral-30;
+  }
+
+  &__x {
+    color: $neutral-60;
+  }
+
+  &__text {
+    font-size: pxToRem(14);
+    color: $neutral-30;
+
+    &--bold {
+      font-weight: 600;
+    }
+  }
+
+  &__tier-tabs {
+    display: none;
+  }
+
+  // Mobile layout
+  @include media-breakpoint-down(xl) {
+
+    &__table {
+      overflow-x: auto;
+    }
+
+    &__table-header,
+    &__table-row,
+    &__table-footer {
+      min-width: pxToRem(900);
+    }
+
+    &__table-cell {
+      min-width: pxToRem(160);
+
+      &--feature {
+        min-width: pxToRem(260);
+      }
+    }
+  }
+
+  @media (min-width: 992px) and (max-width: 1999px) {
+    &__table-footer .button {
+      white-space: normal;
+      text-align: center;
+      height: auto;
+      min-height: pxToRem(40);
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    &__tier-tabs {
+      display: flex;
+      gap: 0;
+      padding: pxToRem(4);
+      margin-bottom: 0;
+      background-color: $neutral-98;
+      border: 0.5px solid $neutral-80;
+      border-bottom: none;
+      border-radius: pxToRem(8) pxToRem(8) 0 0;
+      width: 100%;
+    }
+
+    &__tier-tab {
+      flex: 1;
+      padding: $spacer * 0.5 $spacer;
+      font-size: pxToRem(14);
+      font-weight: 400;
+      line-height: 1.5;
+      color: $neutral-30;
+      background: transparent;
+      border: none;
+      border-radius: pxToRem(8);
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &--active {
+        font-weight: 600;
+        color: $neutral-20;
+        background-color: $neutral-94;
+      }
+    }
+
+    &__table {
+      overflow-x: visible;
+    }
+
+    &__table-header {
+      display: none;
+    }
+
+    &__table-header,
+    &__table-row,
+    &__table-footer {
+      min-width: 0;
+    }
+
+    &__table-row {
+      display: grid;
+      grid-template-columns: 60% 40%;
+    }
+
+    &__table-cell {
+      min-width: 0;
+
+      &[data-tier-col] {
+        display: none;
+
+        &.pricing-table__table-cell--mobile-active {
+          display: flex;
+          grid-column: 2;
+          align-items: center;
+          justify-content: center;
+          border-right: none;
+        }
+      }
+
+      &--feature {
+        grid-column: 1;
+        min-width: 0;
+        border-radius: 0;
+      }
+    }
+
+    &__table-body {
+      .pricing-table__table-section:last-of-type
+        .pricing-table__table-section-rows
+        .pricing-table__table-row:last-child
+        .pricing-table__table-cell:first-child {
+        border-bottom-left-radius: 0;
+      }
+    }
+
+    &__table-footer {
+      display: grid;
+      grid-template-columns: 1fr;
+      width: 100%;
+
+      .pricing-table__table-cell--feature {
+        display: none;
+      }
+
+      .pricing-table__table-cell--cta {
+        display: none;
+
+        &[data-tier-col].pricing-table__table-cell--mobile-active {
+          display: flex;
+          grid-column: 1;
+          align-items: center;
+          justify-content: center;
+          border-left: 0.5px solid $neutral-80;
+          border-right: 0.5px solid $neutral-80;
+          border-bottom-left-radius: pxToRem(8);
+          border-bottom-right-radius: pxToRem(8);
+        }
+      }
+    }
+
+    &__table-section {
+      &-rows {
+        border-right: 0.5px solid $neutral-80;
+      }
+
+      &:first-of-type &-header {
+        border-radius: 0;
+      }
+
+      &:last-of-type.pricing-table__table-section--collapsed &-header {
+        border-bottom-left-radius: 0;
+      }
+
+      &-header {
+        border-radius: 0;
+      }
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    &__table-section-header {
+      padding: $spacer;
+      min-height: pxToRem(56);
+    }
+
+    &__table-section-title {
+      font-size: pxToRem(16);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+  }
+}

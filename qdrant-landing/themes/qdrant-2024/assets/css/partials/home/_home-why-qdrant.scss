@@ -1,0 +1,166 @@
+@use '../../helpers/functions' as *;
+
+// Mobile-first: base styles (no min-width), then enhance from xxl only
+.why-qdrant {
+  background-color: $neutral-94;
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: $spacer * 4;
+    gap: $spacer;
+  }
+
+  &__pill {
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-size: pxToRem(14);
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 2px;
+    color: $neutral-30;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+    margin: 0;
+    max-width: pxToRem(838);
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'l');
+    font-weight: 350;
+    line-height: 1.5;
+    color: $neutral-30;
+    margin: 0;
+    max-width: pxToRem(780);
+  }
+
+  &__grid {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2;
+  }
+
+  &__card {
+    background-color: $neutral-98;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(8);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: pxToRem(400);
+  }
+
+  &__card-visual {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    min-height: pxToRem(200);
+    background: linear-gradient(180deg, $neutral-98 0%, rgba($neutral-94, 0.3) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  &__card-content {
+    padding: pxToRem(24);
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+  }
+
+  &__card-title {
+    font-size: pxToRem(20);
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    color: $neutral-20;
+    margin: 0;
+  }
+
+  &__card-description {
+    font-size: map-get($font-sizes-text, 'md');
+    font-weight: 350;
+    line-height: 1.5;
+    color: $neutral-40;
+    margin: 0;
+
+    code {
+      font-family: 'Geist Mono', $font-family-monospace;
+      font-size: pxToRem(14);
+      color: $success-50;
+      background: transparent;
+      padding: 0;
+    }
+  }
+
+  &__card-link {
+    align-self: flex-start;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  @include media-breakpoint-up(md) {
+    &__title {
+      font-size: pxToRem(48);
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: auto auto;
+      gap: pxToRem(30);
+    }
+
+    &__card {
+      min-height: pxToRem(440);
+
+      &--large {
+        grid-column: span 3;
+      }
+
+      &--small {
+        grid-column: span 2;
+
+        &:nth-child(3) {
+          grid-column: 1 / span 2;
+          grid-row: 2;
+        }
+
+        &:nth-child(4) {
+          grid-column: 3 / span 2;
+          grid-row: 2;
+        }
+
+        &:nth-child(5) {
+          grid-column: 5 / span 2;
+          grid-row: 2;
+        }
+      }
+    }
+
+    &__card-visual {
+      min-height: pxToRem(266);
+
+      .why-qdrant__card--small & {
+        min-height: pxToRem(218);
+      }
+    }
+  }
+}

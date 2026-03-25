@@ -5,15 +5,11 @@
       <div class="enterprise-solutions-use-cases__cases row g-4">
         {{ range $index, $element := .Params.items }}
           <div class="{{ if eq $index 0 }}col-12{{ else }}col-12 col-lg-6{{ end }}">
-            <a
-                    href="{{ .link.url }}"
-                    class="card enterprise-solutions-use-cases__case">
+            <a href="{{ .link.url }}" class="card enterprise-solutions-use-cases__case">
               <div class="enterprise-solutions-use-cases__case-text">
                 <h3 class="enterprise-solutions-use-cases__case-title">{{ .title }}</h3>
                 <p class="enterprise-solutions-use-cases__case-description">{{ .description }}</p>
-                <span
-                  class="enterprise-solutions-use-cases__case-link link link_md align-self-start"
-                >
+                <span class="enterprise-solutions-use-cases__case-link link link_md align-self-start">
                   {{ .link.text }}
                 </span>
               </div>

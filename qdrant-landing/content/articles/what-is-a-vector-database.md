@@ -112,7 +112,7 @@ For example, if you’re searching for a picture of a dog, the vector helps the 
 
 <img src="/articles_data/what-is-a-vector-database/filtering-example.png" alt="Filtering Example" width="500">
 
-The payload can help you narrow down those results by ignoring vectors that doesn't match your query vector filtering criteria. If you want the full picture of how filtering works in Qdrant, check out our [Complete Guide to Filtering.](https://qdrant.tech/articles/vector-search-filtering/)
+The payload can help you narrow down those results by ignoring vectors that don't match your query vector filtering criteria. If you want the full picture of how filtering works in Qdrant, check out our [Complete Guide to Filtering.](https://qdrant.tech/articles/vector-search-filtering/)
 
 ## The Architecture of a Vector Database
 
@@ -184,7 +184,7 @@ In Qdrant, indexing is modular. You can configure indexes for **both vectors and
 
 <img src="/articles_data/what-is-a-vector-database/hnsw-search.png" alt="Searching Data with the HNSW algorithm" width="300">
 
-You need to build the payload index for **each field** you'd like to search. The magic here is in the combination: HNSW finds similar vectors, and the payload index makes sure only the ones that fit your criteria come through. Learn more about Qdrant's [Filtrable HNSW](https://qdrant.tech/articles/filtrable-hnsw/) and why it was built like this.
+You need to build the payload index for **each field** you'd like to search. The magic here is in the combination: HNSW finds similar vectors, and the payload index makes sure only the ones that fit your criteria come through. Learn more about Qdrant's [Filterable HNSW](https://qdrant.tech/articles/filterable-hnsw/) and why it was built like this.
 
 > Combining [full-text search](https://qdrant.tech/documentation/concepts/indexing/#full-text-index) with vector-based search gives you even more versatility. You can simultaneously search for conceptually similar documents while ensuring specific keywords are present, all within the same query.
 
@@ -324,9 +324,9 @@ This is just a simple example and there's so much more you can do with it. See o
 
 ![vector-database-architecture](/articles_data/what-is-a-vector-database/vector-database-2.jpeg)
 
-As your vector dataset grow larger, so do the computational demands of searching through it. 
+As your vector dataset grows larger, so do the computational demands of searching through it. 
 
-Quantized vectors are much smaller and easier to compare. With methods like [**Binary Quantization**](https://qdrant.tech/articles/binary-quantization/), you can see **search speeds improve by up to 40x while memory usage decreases by 32x**. Improvements that can be decicive when dealing with large datasets or needing low-latency results.
+Quantized vectors are much smaller and easier to compare. With methods like [**Binary Quantization**](https://qdrant.tech/articles/binary-quantization/), you can see **search speeds improve by up to 40x while memory usage decreases by 32x**. Improvements that can be decisive when dealing with large datasets or needing low-latency results.
 
 It works by converting high-dimensional vectors, which typically use `4 bytes` per dimension, into binary representations, using just `1 bit` per dimension. Values above zero become "1", and everything else becomes "0".
 
@@ -473,7 +473,7 @@ In more advanced setups, Qdrant uses **JWT (JSON Web Tokens)** to enforce **Role
 
 RBAC defines roles and assigns permissions, while JWT securely encodes these roles into tokens. Each request is validated against the user's JWT, ensuring they can only access or modify data based on their assigned permissions. 
 
-You can easily setup you access tokens and secure access to sensitive data through the **Qdrant Web UI:**
+You can easily setup your access tokens and secure access to sensitive data through the **Qdrant Web UI:**
 
 <img src="/articles_data/what-is-a-vector-database/jwt-web-ui.png" alt="Qdrant Web UI for generating a new access token." width="1000">
 

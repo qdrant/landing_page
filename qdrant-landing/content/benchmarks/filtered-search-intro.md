@@ -31,4 +31,4 @@ On top of it, there is also a problem with search accuracy.
 It appears if too many vectors are filtered out, so the HNSW graph becomes disconnected.
 
 Qdrant uses a different approach, not requiring pre- or post-filtering while addressing the accuracy problem.
-Read more about the Qdrant approach in our [Filtrable HNSW](/articles/filtrable-hnsw/) article.
+Read more about the Qdrant approach in our [Filterable HNSW](/articles/filterable-hnsw/) article.
