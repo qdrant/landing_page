@@ -39,28 +39,11 @@ In Qdrant's API, wherever you can use regular vectors, you can also use Inferenc
 
 For example, the following code:
 
-```http
-POST /collections/<your-collection>/points/query
-{
-  "query": {
-    "nearest": [0.12, 0.34, 0.56, 0.78, ...]
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/inference/query-vector/" >}}
 
-can be replaced with
+can be replaced with:
 
-```http
-POST /collections/<your-collection>/points/query
-{
-  "query": {
-    "nearest": {
-      "text": "My Query Text",
-      "model": "<the-model-to-use>"
-    }
-  }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/inference/query-document/" >}}
 
 In this case, Qdrant uses the configured embedding model to create a vector from the Inference Object and then perform the search query with it. All of this happens within a low-latency network.
 
