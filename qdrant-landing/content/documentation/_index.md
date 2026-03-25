@@ -27,11 +27,11 @@ content:
         src: /img/rocket.svg
         alt: Rocket
   - partial: documentation/sections/cards-section
-    title: Optimize Qdrant's performance
-    description: Boost search speed, reduce latency, and improve the accuracy and memory usage of your Qdrant deployment.
+    title: Build with Qdrant
+    description: Everything you need to design, query, and ship vector search applications — from data modeling to advanced retrieval.
     button:
-      text: Learn More
-      url: /documentation/guides/optimize/
+      text: Browse Tutorials
+      url: /documentation/tutorials/
     cardsPartial: documentation/cards/docs-cards
     cards:
       - id: 1
@@ -39,32 +39,55 @@ content:
         icon:
           src: /icons/outline/documentation-blue.svg
           alt: Documents
-        title: Distributed Deployment
-        description: Scale Qdrant beyond a single node and optimize for high availability, fault tolerance, and billion-scale performance.
+        title: Manage Data
+        description: Learn how to structure collections, store vectors, attach payloads, and configure indexing for your use case.
         link:
-          url: /documentation/guides/distributed_deployment/
+          url: /documentation/manage-data/
           text: Read More
       - id: 2
         tag: Documents
         icon:
           src: /icons/outline/documentation-blue.svg
           alt: Documents
-        title: Multitenancy
-        description: Build vector search apps that serve millions of users. Learn about data isolation, security, and performance tuning.
+        title: Search
+        description: Explore similarity search, filtering, hybrid queries, recommendations, and advanced retrieval techniques.
         link:
-          url: /documentation/guides/multiple-partitions/
+          url: /documentation/search/
           text: Read More
       - id: 3
-        tag: Blog
-        tagColor: violet
+        tag: Documents
         icon:
-          src: /icons/outline/blog-purple.svg
-          alt: Blog
-        title: Vector Quantization
-        description: Learn about cutting-edge techniques for vector quantization and how they can be used to improve search performance.
+          src: /icons/outline/documentation-blue.svg
+          alt: Documents
+        title: Tutorials
+        description: Step-by-step guides for common use cases — semantic search, RAG, multimodal search, and more.
         link:
-          url: /articles/what-is-vector-quantization/
+          url: /documentation/tutorials/
           text: Read More
+  - partial: documentation/sections/cards-section
+    title: Support
+    description: Get help from the Qdrant community or reach out to our support team.
+    cardsPartial: documentation/cards/docs-cards
+    cardsPerRow: 2
+    cards:
+    - id: 1
+      icon:
+        src: /icons/outline/discord-purple.svg
+        alt: Discord icon
+      title: Community Support
+      description: Join 8,000+ active members to learn, collaborate, and participate in Qdrant's latest activities.
+      link:
+        text: Join our Discord
+        url: https://qdrant.to/discord
+    - id: 2
+      icon:
+        src: /icons/outline/support-blue.svg
+        alt: Support icon
+      title: Qdrant Cloud Support
+      description: Paying customers have access to our Support team. Links to the support portal are available in the Qdrant Cloud Console.
+      link:
+        text: Get Support
+        url: /documentation/support/
 partition: develop
 ---
 
