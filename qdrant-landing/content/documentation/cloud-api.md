@@ -24,7 +24,7 @@ You can find the API definitions and generated client libraries in our Qdrant Cl
 ### Qdrant Cloud API Endpoints
 
 * **gRPC Endpoint**: grpc.cloud.qdrant.io:443
-* **REST/JSON Endpoint**: https://api.qdrant.tech
+* **REST/JSON Endpoint**: https://api.cloud.qdrant.io
 
 ### Authentication
 
