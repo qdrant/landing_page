@@ -1,5 +1,5 @@
 ```http
-POST collections/{collection_name}/points/query
+POST /collections/{collection_name}/points/query
 {
   "query": [
     [-0.013,  0.020, -0.007, -0.111, ...],

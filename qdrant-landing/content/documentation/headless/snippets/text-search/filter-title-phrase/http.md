@@ -1,5 +1,5 @@
 ```http
-POST /collections/books/points/query?wait=true
+POST /collections/books/points/query
 {
   "query": {
     "text": "time travel",
