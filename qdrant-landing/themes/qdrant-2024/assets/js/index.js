@@ -6,7 +6,7 @@ import { handleSegmentReady } from './segment-helpers';
 import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpers';
 import TableOfContents from './table-of-content';
 import { DOCS_HEADER_OFFSET } from './constants';
-import { scrollIntoViewWithOffset, initCustomersCaseStudies } from './helpers';
+import { scrollIntoViewWithOffset } from './helpers';
 
 persistUTMParams();
 
@@ -194,9 +194,5 @@ document.addEventListener('DOMContentLoaded', function () {
       history.pushState(null, null, target);
       scrollIntoViewWithOffset(target.replace('#', ''), offset);
     });
-  });
-
-  document.querySelectorAll("[data-customers-case-study]").forEach((root) => {
-    initCustomersCaseStudies(root);
   });
 });

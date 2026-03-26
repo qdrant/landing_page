@@ -345,7 +345,10 @@
           }
           
           img {
-            height: $spacer * 2.5;
+            width: 100%;
+            height: auto;
+            max-height: $spacer * 2.5;
+            padding: 0 $spacer * 0.5;
           }
         }
 

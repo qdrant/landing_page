@@ -112,6 +112,11 @@
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 {{ end }}
 
+{{ if eq .Section "customers" }}
+  {{ $customersJs := resources.Get "js/customers-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $customersJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if in (slice "blog" "articles" "course" "learn" "benchmarks" "docs" "documentation") .Section }}
   <!--popper.js for bootstrap-->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
