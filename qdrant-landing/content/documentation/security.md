@@ -481,6 +481,11 @@ audit:
   dir: ./storage/audit
   rotation: daily
   max_log_files: 7
+  # Only enable when Qdrant is behind a trusted reverse proxy or load balancer.
+  # When true, the client IP is taken from the X-Forwarded-For header instead of
+  # the TCP connection. Enabling this on a publicly reachable instance allows
+  # clients to spoof their IP address in audit logs.
+  trust_forwarded_headers: false
 ```
 
 By default, audit logs are rotated daily, and the seven most recent log files are kept. To configure hourly rotation, set `rotation` to `hourly`. When the number of log files exceeds `max_log_files`, the oldest log file is deleted.
@@ -496,6 +501,42 @@ You can attach a tracing ID to individual requests. When audit logging is enable
 Qdrant reads the tracing ID from the first matching header in the following order: `x-request-id`, `x-tracing-id`, `traceparent`. Tracing IDs longer than 256 characters are truncated.
 
 {{< code-snippet path="/documentation/headless/snippets/audit-tracing-id/simple/" >}}
+
+### Query Audit Logs
+
+*Available as of v1.18.0*
+
+The audit log can be queried via the `/audit/logs` API (requires [manage-level access](#table-of-access)). For example:
+
+{{< code-snippet path="/documentation/headless/snippets/audit-logging/query/" >}}
+
+By default, the API returns the 100 most recent entries, but you can change this number with the `limit` parameter.
+
+In a distributed cluster, the API aggregates results from all nodes before returning them. An optional `timeout` (seconds) query parameter controls how long to wait for remote peers in a cluster.
+
+Entries are returned in reverse-chronological order (newest first). Each entry has the following fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `timestamp` | ISO-8601 | When the access check occurred. |
+| `method` | string | API method name, for example `upsert_points`, `search_points`. |
+| `auth_type` | `"Jwt"` \| `"ApiKey"` \| `"None"` | How the request was authenticated. |
+| `result` | `"ok"` \| `"denied"` | Whether access was granted. |
+| `subject` | string | JWT `sub` claim. Only present for JWT-authenticated requests. |
+| `remote` | string | Client IP address, if available. |
+| `collection` | string | Collection name, for collection-scoped operations. |
+| `tracing_id` | string | Value of the `x-request-id`, `x-tracing-id`, or `traceparent` request header. |
+| `error` | string | Reason access was denied. Only present when `result` is `"denied"`. |
+
+#### Narrowing Results with Time Ranges and Filters
+
+To narrow results to a specific time range, use the `time_from` (inclusive) and `time_to` (exclusive) parameters.
+
+The `filters` parameter enables exact-match filtering of entries based on specific field values. The parameter accepts a dictionary of field-value pairs. When specifying more than one pair, only entries that match all specified criteria are returned (logical AND). 
+
+For example, to retrieve the 50 most recent denied requests to the `my_collection` collection on March 26, 2026:
+
+{{< code-snippet path="/documentation/headless/snippets/audit-logging/query-with-filters/" >}}
 
 ## Network Bind
 
