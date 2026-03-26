@@ -28,6 +28,7 @@ weight: 50
 docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration pg \
     --pg.url 'postgres://user:password@host:5432/dbname' \
     --pg.table 'your_embeddings_table' \
+    --pg.key-column 'id' \
     --qdrant.url 'https://your-instance.cloud.qdrant.io:6334' \
     --qdrant.api-key 'your-qdrant-api-key' \
     --qdrant.collection 'your-collection'
@@ -41,6 +42,7 @@ By default, all columns are migrated. Use `--pg.columns` to select specific ones
 docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration pg \
     --pg.url 'postgres://user:password@host:5432/dbname' \
     --pg.table 'your_embeddings_table' \
+    --pg.key-column 'id' \
     --pg.columns 'id,embedding,title,category' \
     --qdrant.url 'https://your-instance.cloud.qdrant.io:6334' \
     --qdrant.api-key 'your-qdrant-api-key' \
