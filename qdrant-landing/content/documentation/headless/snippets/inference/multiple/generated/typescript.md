@@ -9,7 +9,7 @@ client.upsert("{collection_name}", {
             id: 1,
             vector: {
                 image: {
-                    image: 'https://qdrant.tech/example.png,
+                    image: 'https://qdrant.tech/example.png',
                     model: 'jinaai/jina-clip-v2',
                     options: {
                         'jina-api-key': '<your_jinaai_api_key>',
