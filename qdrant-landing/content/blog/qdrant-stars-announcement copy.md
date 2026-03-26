@@ -75,7 +75,7 @@ Our inaugural Qdrant Stars are a diverse and talented lineup who have shown exce
   <div style="display: flex; align-items: center; margin-bottom: 20px;">
     <img src="/blog/qdrant-stars-announcement/Prof-Owen-Colegrove.jpeg" alt="Owen Colegrove" style="width: 200px; height: 200px; object-fit: cover; object-position: center; margin-right: 20px; margin-top: 20px;">
     <div>
-      <p>Owen Colegrove is the Co-Founder of <a href="https://www.sciphi.ai/">SciPhi</a>, making it easy build, deploy, and scale RAG systems using Qdrant vector search tecnology. He has Ph.D. in Physics and was previously a Quantitative Strategist at Citadel and a Researcher at CERN.</p>
+      <p>Owen Colegrove is the Co-Founder of <a href="https://www.sciphi.ai/">SciPhi</a>, making it easy build, deploy, and scale RAG systems using Qdrant vector search technology. He has Ph.D. in Physics and was previously a Quantitative Strategist at Citadel and a Researcher at CERN.</p>
     </div>
   </div>
   <blockquote>
@@ -172,7 +172,7 @@ Share your journey with vector search technologies and how you plan to contribut
 
 #### Nominate a Qdrant Star
 
-Do you know someone who could be our next Qdrant Star? Please submit your nomination through our [nomination form](hhttps://forms.gle/jsEJ9zjdaxqk7F5b9), explaining why they're a great fit. Your recommendation could help us find the next standout ambassador.
+Do you know someone who could be our next Qdrant Star? Please submit your nomination through our [nomination form](https://forms.gle/jsEJ9zjdaxqk7F5b9), explaining why they're a great fit. Your recommendation could help us find the next standout ambassador.
 
 #### Learn More
 

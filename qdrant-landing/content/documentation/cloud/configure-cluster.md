@@ -9,10 +9,10 @@ Qdrant Cloud offers several advanced configuration options to optimize clusters 
 
 The cloud platform does not expose all [configuration options](/documentation/guides/configuration/) available in Qdrant. We have selected the relevant options that are explained in detail below.
 
-In adition the cloud platform automatically configures the following settings for your cluster to ensure optimal performance and reliability:
+In addition the cloud platform automatically configures the following settings for your cluster to ensure optimal performance and reliability:
 
 * The maximum number of collections in a cluster is set to 1000. Larger numbers of collections lead to performance degradation. For more information see [Multitenancy](/documentation/guides/multiple-partitions/).
-* Strict mode is activated by default for new collections enforcing that all filters being used in retrieve and udpate queries are indexed. This improves performance and reliability. You can disable this individually for each collection. For more information see [Strict Mode](/documentation/guides/administration/#strict-mode).
+* Strict mode is activated by default for new collections enforcing that all filters being used in retrieve and update queries are indexed. This improves performance and reliability. You can disable this individually for each collection. For more information see [Strict Mode](/documentation/guides/administration/#strict-mode).
 * The cluster mode is automatically enabled to allow distributed deployments and horizontal scaling.
 * The maximum amount of payload indexes per collection is set to 100. Larger numbers of payload indexes lead to performance degradation (starting with Qdrant v1.16.0).
 

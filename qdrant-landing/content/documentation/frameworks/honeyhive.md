@@ -11,7 +11,7 @@ By integrating Qdrant with HoneyHive, you can:
 - Trace vector database operations
 - Monitor latency, embedding quality, and context relevance
 - Evaluate retrieval performance in your RAG pipelines
-- Optimize paramaters such as `chunk_size` or `chunk_overlap`
+- Optimize parameters such as `chunk_size` or `chunk_overlap`
 
 ## Prerequisites
 

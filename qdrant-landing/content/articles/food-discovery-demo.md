@@ -27,7 +27,7 @@ Otherwise, read on to learn more about the demo and how it works!
 In general, our application consists of three parts: a [FastAPI](https://fastapi.tiangolo.com/) backend, a [React](https://react.dev/) frontend, and 
 a [Qdrant](/) instance. The architecture diagram below shows how these components interact with each other:
 
-![Archtecture diagram](/articles_data/food-discovery-demo/architecture-diagram.png)
+![Architecture diagram](/articles_data/food-discovery-demo/architecture-diagram.png)
 
 ## Why did we use a CLIP model?
 

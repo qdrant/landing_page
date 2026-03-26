@@ -78,7 +78,7 @@ spec:
       app.kubernetes.io/name: operator
 ```
 
-The example aboves assumes that your Qdrant database and the cloud platform exporter are deployed in the `qdrant` namespace. Adjust the `namespaceSelector` and `namespace` fields according to your deployment.
+The example above assumes that your Qdrant database and the cloud platform exporter are deployed in the `qdrant` namespace. Adjust the `namespaceSelector` and `namespace` fields according to your deployment.
 
 ## Step 3: Access Grafana
 

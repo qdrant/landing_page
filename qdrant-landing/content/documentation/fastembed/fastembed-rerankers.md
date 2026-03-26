@@ -41,7 +41,7 @@ TextCrossEncoder.list_supported_models()
 This command displays the available models, including details such as output embedding dimensions, model description, model size, model sources, and model file.
 
 <details>
-<summary> <span style="background-color: gray; color: black;"> Avaliable models </span> </summary>
+<summary> <span style="background-color: gray; color: black;"> Available models </span> </summary>
 
 
 ```python

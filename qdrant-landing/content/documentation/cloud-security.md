@@ -42,7 +42,7 @@ Qdrant clusters in Hybrid Cloud also run in hardened, unprivileged containers wi
 
 ### Private Cloud
 
-In Qdrant Private Cloud, Qdrant clusters run completely isolated and air-gapped within your infrastucture without any connection to the Qdrant Cloud Console. 
+In Qdrant Private Cloud, Qdrant clusters run completely isolated and air-gapped within your infrastructure without any connection to the Qdrant Cloud Console. 
 
 Since there is no connection or communication with Qdrant, you are fully responsible for the security of the entire Qdrant Private Cloud installation. This also means that you do not benefit from the integrated management and observability features of Qdrant Managed Cloud and Hybrid Cloud.
 

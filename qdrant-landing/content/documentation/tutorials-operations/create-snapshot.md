@@ -223,15 +223,15 @@ Alternatively, you can use the `wget` command:
 ```bash
 wget https://node-0.my-cluster.com:6333/collections/test_collection/snapshots/test_collection-559032209313046-2024-01-03-13-20-11.snapshot \
     --header="api-key: ${QDRANT_API_KEY}" \
-    -O node-0-shapshot.snapshot
+    -O node-0-snapshot.snapshot
 
 wget https://node-1.my-cluster.com:6333/collections/test_collection/snapshots/test_collection-559032209313047-2024-01-03-13-20-12.snapshot \
     --header="api-key: ${QDRANT_API_KEY}" \
-    -O node-1-shapshot.snapshot
+    -O node-1-snapshot.snapshot
 
 wget https://node-2.my-cluster.com:6333/collections/test_collection/snapshots/test_collection-559032209313048-2024-01-03-13-20-13.snapshot \
     --header="api-key: ${QDRANT_API_KEY}" \
-    -O node-2-shapshot.snapshot
+    -O node-2-snapshot.snapshot
 ```
 
 The snapshots are now stored locally. We can use them to restore the collection to a different Qdrant instance, or treat them as a backup. We will create another collection using the same data on the same cluster.
@@ -262,17 +262,17 @@ Alternatively, you can use the `curl` command:
 curl -X POST 'https://node-0.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
     -H 'api-key: ${QDRANT_API_KEY}' \
     -H 'Content-Type:multipart/form-data' \
-    -F 'snapshot=@node-0-shapshot.snapshot'
+    -F 'snapshot=@node-0-snapshot.snapshot'
 
 curl -X POST 'https://node-1.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
     -H 'api-key: ${QDRANT_API_KEY}' \
     -H 'Content-Type:multipart/form-data' \
-    -F 'snapshot=@node-1-shapshot.snapshot'
+    -F 'snapshot=@node-1-snapshot.snapshot'
 
 curl -X POST 'https://node-2.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
     -H 'api-key: ${QDRANT_API_KEY}' \
     -H 'Content-Type:multipart/form-data' \
-    -F 'snapshot=@node-2-shapshot.snapshot'
+    -F 'snapshot=@node-2-snapshot.snapshot'
 ```
 
 

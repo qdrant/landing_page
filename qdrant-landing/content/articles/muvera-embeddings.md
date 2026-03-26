@@ -66,7 +66,7 @@ done by computing the dot product of the input vector with each hyperplane norma
 result. Since each of our regions can be represented as a binary string of length `k_sim` (where each bit indicates 
 which side of a hyperplane the vector is on), we can interpret this binary string as an integer to get a cluster ID.
 
-![SimHash cluster assignement](/articles_data/muvera-embeddings/simhash-cluster-assignment.png)
+![SimHash cluster assignment](/articles_data/muvera-embeddings/simhash-cluster-assignment.png)
 
 ### Fixed Dimensional Encoding (FDE) creation
 

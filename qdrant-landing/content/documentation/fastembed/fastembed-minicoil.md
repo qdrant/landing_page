@@ -13,7 +13,7 @@ $$
 $$
 
 A detailed breakdown of the idea behind miniCOIL can be found in the 
-["miniCOIL: on the road to Usable Sparse Neural Retreival" article](https://qdrant.tech/articles/minicoil/) or, in a [recorded talk "miniCOIL: Sparse Neural Retrieval Done Right"](https://youtu.be/f1sBJMSgBXA?si=G3C5--UVRKAW5WJ0).
+["miniCOIL: on the road to Usable Sparse Neural Retrieval" article](https://qdrant.tech/articles/minicoil/) or, in a [recorded talk "miniCOIL: Sparse Neural Retrieval Done Right"](https://youtu.be/f1sBJMSgBXA?si=G3C5--UVRKAW5WJ0).
 
 This tutorial will demonstrate how miniCOIL-based sparse neural retrieval performs compared to BM25-based lexical retrieval.
 

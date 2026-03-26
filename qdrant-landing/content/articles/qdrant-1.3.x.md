@@ -33,7 +33,7 @@ Your feedback is valuable to us, and are always tying to include some of your fe
 
 ## New features
 
-### Asychronous I/O interface
+### Asynchronous I/O interface
 
 Going forward, we will support the `io_uring` asychnronous interface for storage devices on Linux-based systems. Since its introduction, `io_uring` has been proven to speed up slow-disk deployments as it decouples kernel work from the IO process. 
 
@@ -201,7 +201,7 @@ Internally, `is_empty` was not using the index when it was called, so it had to 
 
 ### Faster read access with mmap
 
-If you used mmap, you most likely found that segments were always created with cold caches. The first request to the database needed to request the disk, which made startup slower despite plenty of RAM being available. We have implemeneted a way to ask the kernel to "heat up" the disk cache and make initialization much faster.
+If you used mmap, you most likely found that segments were always created with cold caches. The first request to the database needed to request the disk, which made startup slower despite plenty of RAM being available. We have implemented a way to ask the kernel to "heat up" the disk cache and make initialization much faster.
 
 The function is expected to be used on startup and after segment optimization and reloading of newly indexed segment. So far this is only implemented for "immutable" memmaps.
 

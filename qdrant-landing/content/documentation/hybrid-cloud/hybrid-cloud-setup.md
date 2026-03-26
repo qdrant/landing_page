@@ -60,7 +60,7 @@ By default, Qdrant Cloud will provision two volumes per Qdrant Pod: One for the 
 
 5. (Optional) If you have special requirements for any of the following, activate the **Show advanced configuration** option:
 
-- If you use a proxy to connect from your infrastructure to the Qdrant Cloud API, you can specify the proxy URL, credentials and cetificates.
+- If you use a proxy to connect from your infrastructure to the Qdrant Cloud API, you can specify the proxy URL, credentials and certificates.
 - Container registry URL for Qdrant services (like Agent, Operator, Cluster-manager and monitoring stack) images. The default is <https://registry.cloud.qdrant.io/qdrant/>.
 - Helm chart repository URL for the Qdrant services. The default is <oci://registry.cloud.qdrant.io/qdrant-charts>.
 - An optional secret with credentials to access your own container registry.

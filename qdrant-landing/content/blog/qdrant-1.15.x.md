@@ -89,7 +89,7 @@ Dataset: Laion 1 million 512d vectors
 ![Section 2](/blog/qdrant-1.15.x/section-2.png)
 
 Full-text filtering in Qdrant in an efficient way to combine Vector-based scoring with exact keyword match.
-And in v1.15 full-text index recieved a number of upgrades which make vector similarity evem more useful.
+And in v1.15 full-text index received a number of upgrades which make vector similarity even more useful.
 
 ### Multilingual Tokenization
 
@@ -172,7 +172,7 @@ PUT /collections/{collection_name}/index
 With [phrase matching](/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase search.
 It allows you to search for a specific phrase, words in exact order, within a text field.
 
-For efficient phrase seach Qdrant requires to build an additional data structure,
+For efficient phrase search Qdrant requires to build an additional data structure,
 so it needs to be configured during creation of the full-text index:
 
 ```http
@@ -283,7 +283,7 @@ This modification, in combinations with [incremental HNSW indexing](/blog/qdrant
 
 ### HNSW Graph connectivity estimation
 
-Qdrant builds [addtitional HNSW links](/articles/filterable-hnsw/) to ensure that filtered searches are performed fast and accurate.
+Qdrant builds [additional HNSW links](/articles/filterable-hnsw/) to ensure that filtered searches are performed fast and accurate.
 
 It does, however, introduce an overhead for indexing complexity, especially when the number of payload indexes is large.
 With v1.15, Qdrant introduces an optimization, which quickly estimates graph connectivity before creating additional links.
