@@ -14,12 +14,12 @@ Migrating data between vector databases, especially across regions, platforms, o
 
 You can run the migration tool on any machine where you have connectivity to both the source and the target Qdrant databases. Direct connectivity between both databases is not required. For optimal performance, you should run the tool on a machine with a fast network connection and minimum latency to both databases.
 
-In this tutorial, we will learn how to use the migration tool and walk through a practical example of migrating from other vector databases to Qdrant. 
+In this tutorial, we will learn how to use the migration tool and walk through a practical example of migrating from another vector database to Qdrant.
 
 
 ## Why use this instead of Qdrant’s Native Snapshotting?
 
-Qdrant supports [snapshot-based backups](https://qdrant.tech/documentation/concepts/snapshots/), low-level disk operations built for  same cluster recovery or local backups. These snapshots:
+Qdrant supports [snapshot-based backups](https://qdrant.tech/documentation/concepts/snapshots/), which are low-level disk operations built for same-cluster recovery or local backups. These snapshots:
 
 * Require snapshot consistency across nodes.   
 * Can be hard to port across machines or cloud zones. 
@@ -29,7 +29,7 @@ On the other hand, the Qdrant Migration Tool:
 * Streams data in live batches.  
 * Can resume interrupted migrations.  
 * Works even when data is being inserted.  
-* Supports collection reconfiguration (e.g., change replication, and quantization)  
+* Supports collection reconfiguration (e.g., changing replication settings and quantization).
 * Supports migrating from other vector DBs (Pinecone, Chroma, Weaviate, etc.)
 
 ## How to Use the Qdrant Migration Tool
@@ -56,12 +56,12 @@ docker run --rm -it \
 ```
 
 <aside role="alert">
-    Note: The migration CLI uses the Qdrant GRPC API, this means you must always configure the GRPC port for Qdrant URLs with the Migration CLI (default: 6334).
+    Note: The migration CLI uses the Qdrant gRPC API, so you must always configure the gRPC port for Qdrant URLs with the Migration CLI (default: 6334).
 </aside>
 
 ## Example: Migrate from Pinecone to Qdrant
 
-Let’s now walk through an example of migrating from Pinecone to Qdrant. Assuming your Pinecone index looks like this:  
+Let’s now walk through an example of migrating from Pinecone to Qdrant. Assume your Pinecone index looks like this:
 
 ![Pinecone Dashboard showing index details](/documentation/guides/pinecone-index.png)
 
