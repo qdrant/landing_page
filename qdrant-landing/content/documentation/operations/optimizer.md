@@ -110,11 +110,12 @@ storage:
     # Note: 1Kb = 1 vector of size 256
     memmap_threshold: 200000
 
-    # Maximum size (in kilobytes) of vectors allowed for plain index, exceeding this threshold will enable vector indexing
-    # Default value is 20,000, based on <https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md>.
-    # To disable vector indexing, set to `0`.
-    # Note: 1kB = 1 vector of size 256.
-    indexing_threshold_kb: 20000
+    # Maximum size (in KiloBytes) of vectors allowed for plain index.
+    # Default value based on experiments and observations.
+    # Note: 1Kb = 1 vector of size 256
+    # To explicitly disable vector indexing, set to `0`.
+    # If not set, the default value will be used.
+    indexing_threshold_kb: 10000
 ```
 
 In addition to the configuration file, you can also set optimizer parameters separately for each [collection](/documentation/concepts/collections/).
