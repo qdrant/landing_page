@@ -40,8 +40,7 @@ There are two ways to configure the usage of memmap(also known as on-disk) stora
 
 - Set up `on_disk` option for the vectors in the collection create API:
 
-*Available as of v1.2.0*
-
+  *Available as of v1.2.0*
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-vectors-on-disk/" >}}
 
@@ -51,17 +50,17 @@ This is the recommended way, in case your Qdrant instance operates with fast dis
 
 - Set up `memmap_threshold` option. This option will set the threshold after which the segment will be converted to memmap storage.
 
-There are two ways to do this:
+  There are two ways to do this:
 
-1. You can set the threshold globally in the [configuration file](/documentation/guides/configuration/). The parameter is called `memmap_threshold` (previously `memmap_threshold_kb`).
-2. You can set the threshold for each collection separately during [creation](/documentation/concepts/collections/#create-collection) or [update](/documentation/concepts/collections/#update-collection-parameters).
+  1. You can set the threshold globally in the [configuration file](/documentation/guides/configuration/). The parameter is called `memmap_threshold` (previously `memmap_threshold_kb`).
+  2. You can set the threshold for each collection separately during [creation](/documentation/concepts/collections/#create-collection) or [update](/documentation/concepts/collections/#update-collection-parameters).
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-optimizer-config/" >}}
 
 The rule of thumb to set the memmap threshold parameter is simple:
 
-- if you have a balanced use scenario - set memmap threshold the same as `indexing_threshold` (default is 20000). In this case the optimizer will not make any extra runs and will optimize all thresholds at once.
-- if you have a high write load and low RAM - set memmap threshold lower than `indexing_threshold` to e.g. 10000. In this case the optimizer will convert the segments to memmap storage first and will only apply indexing after that.
+- if you have a balanced use scenario - set memmap threshold the same as `indexing_threshold` (default is 10000). In this case the optimizer will not make any extra runs and will optimize all thresholds at once.
+- if you have a high write load and low RAM - set memmap threshold lower than `indexing_threshold` to e.g. 5000. In this case the optimizer will convert the segments to memmap storage first and will only apply indexing after that.
 
 In addition, you can use memmap storage not only for vectors, but also for HNSW index.
 To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` during collection [creation](/documentation/concepts/collections/#create-a-collection) or [updating](/documentation/concepts/collections/#update-collection-parameters).
