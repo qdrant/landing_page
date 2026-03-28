@@ -54,24 +54,67 @@
             {{ else if eq .Params.type "reference" }}
               {{ $page := site.GetPage .Params.reference }}
 
-
-              <div
-                class="docs-menu__links-group {{ if eq $page.File.UniqueID $currentNode.File.UniqueID }}active{{ end }}
+              {{ if $page.IsSection }}
+                {{ $isActive := false }}
+                {{ range $page.RegularPages }}
+                  {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
+                    {{ $isActive = true }}
+                  {{ end }}
+                {{ end }}
+                {{ if eq $page.File.UniqueID $currentNode.File.UniqueID }}
+                  {{ $isActive = true }}
+                {{ end }}
+                {{ $sectionLink := $page.Permalink }}
+                {{ if $page.Params.is_empty }}
+                  {{ $sectionLink = (index ($page.RegularPages) 0).Permalink }}
+                {{ end }}
+                <details
+                  class="docs-menu__links-group link-group {{ if $isActive }}active{{ end }}"
+                  {{ if $isActive }}open{{ end }}
+                >
+                  <summary class="docs-menu__links-group-heading">
+                    <a href="{{ $sectionLink }}">{{ $page.Title }}</a>
+                  </summary>
+                  <nav>
+                    <ul class="docs-menu__links-submenu">
+                      {{ range $page.RegularPages }}
+                        {{ if (eq .Params.type "external-link") }}
+                          <li class="docs-menu__links-submenu-item">
+                            <a href="{{ .Params.external_url }}" target="_blank">
+                              {{ .Title }}
+                              {{ partial "svg" "external-link.svg" }}
+                            </a>
+                          </li>
+                        {{ else if not .Params.hideInSidebar }}
+                          <li
+                            class="docs-menu__links-submenu-item{{ if eq .File.UniqueID $currentNode.File.UniqueID }} active{{ end }}"
+                          >
+                            <a href="{{ .Permalink }}">{{ .Title }}</a>
+                          </li>
+                        {{ end }}
+                      {{ end }}
+                    </ul>
+                  </nav>
+                </details>
+              {{ else }}
+                <div
+                  class="docs-menu__links-group {{ if eq $page.File.UniqueID $currentNode.File.UniqueID }}active{{ end }}
   {{- if (eq $page.Params.type "external-link") }}external-link{{ end -}} "
-              >
-                <div class="docs-menu__links-group-heading">
-                  <a
-                    href="{{ if (eq $page.Params.type "external-link") }}
-                      {{ $page.Params.external_url }}
-                    {{ else }}
-                      {{ $page.Permalink }}
-                    {{ end }}"
-                    {{ if (eq $page.Params.type "external-link") }}target="_blank"{{ end }}
-                  >
-                    {{ $page.Title }}
-                  </a>
+                >
+                  <div class="docs-menu__links-group-heading">
+                    <a
+                      href="{{ if (eq $page.Params.type "external-link") }}
+                        {{ $page.Params.external_url }}
+                      {{ else }}
+                        {{ $page.Permalink }}
+                      {{ end }}"
+                      {{ if (eq $page.Params.type "external-link") }}target="_blank"{{ end }}
+                    >
+                      {{ $page.Title }}
+                    </a>
+                  </div>
                 </div>
-              </div>
+              {{ end }}
             {{ else }}
               {{ if and (.IsPage) (not .Params.hideInSidebar) }}
                 <div

@@ -1,6 +1,6 @@
 ---
 title: Configuration
-weight: 115
+weight: 125
 partition: deploy
 ---
 

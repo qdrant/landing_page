@@ -1,6 +1,6 @@
 ---
 title: Monitoring & Telemetry
-weight: 135
+weight: 145
 partition: deploy
 ---
 
