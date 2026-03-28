@@ -4,8 +4,8 @@ weight: 160
 partition: deploy
 aliases:
   - ../security
-  - /documentation/guides/security/
-  - /documentation/operations/security/
+  - /documentation/security/
+  - /documentation/security/
 ---
 
 # Security

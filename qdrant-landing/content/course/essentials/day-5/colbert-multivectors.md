@@ -27,7 +27,7 @@ Late-interaction models such as ColBERT retain per-token document vectors. At se
 
 ## Late Interaction: Token-Level Precision
 
-Qdrant implements this powerful technique through [multivector representations](/documentation/concepts/vectors/#multivectors). A multivector field holds an ordered list of subvectors, each of which captures a different token of the document.
+Qdrant implements this powerful technique through [multivector representations](/documentation/manage-data/vectors/#multivectors). A multivector field holds an ordered list of subvectors, each of which captures a different token of the document.
 
 At query time, Qdrant performs the late interaction scoring. It compares every query token embedding $ q_i $ with each document token embedding $ d_j $. Only the highest score per query token is retained and these top scores are then summed. This mechanism, called MaxSim, delivers fine-grained relevance that respects the structure of your content.
 

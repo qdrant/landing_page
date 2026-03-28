@@ -59,7 +59,7 @@ When looking at the overview of your cluster, we’ve added new tabs with an imp
 * **Logs**: get a real-time window into what’s happening inside cluste for transparency, diagnostics, and control (especially important during debugging, performance tuning, or infrastructure troubleshooting\!)  
 * **Backups:** View snapshots of your vector data and metadata that can be used to restore your collections in case of data loss, migration, or rollbacks (not available on free clusters)   
 * **Configuration**: Check your collection defaults and add advanced optimizations (after reading Docs of course)   
-  * For example, we advise against setting up a ton of different collections. Instead segment with [payloads](https://qdrant.tech/documentation/concepts/payload/).
+  * For example, we advise against setting up a ton of different collections. Instead segment with [payloads](https://qdrant.tech/documentation/manage-data/payload/).
 
 When viewing the details of your clusters, you can now view the Cluster UI Dashboard regardless of where you are, and also have easier access to tutorials and resources. 
 
@@ -74,7 +74,7 @@ Next we’ve done a major overhaul to the “Get Started” page. Our goal is to
 ![Image of Get Started webpage](/blog/product-ui-changes/get-started-overview.jpg)
 
 **Explore Your Data or Start with Samples**  
-You’ll see immediately pertinent information to help you get the most out of Qdrant quickly, including the [Cloud Quickstart guide](https://qdrant.tech/documentation/quickstart-cloud/), and resources to help you get your data into Qdrant, or use sample data. 
+You’ll see immediately pertinent information to help you get the most out of Qdrant quickly, including the [Cloud Quickstart guide](https://qdrant.tech/documentation/cloud-quickstart/), and resources to help you get your data into Qdrant, or use sample data. 
 
 Learn about the different ways to connect to your cluster, use the Qdrant API, try out sample data, and our personal favorite, use the Qdrant Cluster UI to view your collection data and access tutorials. 
 
@@ -82,8 +82,8 @@ Learn about the different ways to connect to your cluster, use the Qdrant API, t
 If you are ready to build an app, but looking for ideas or the best place to start, we have our top three tutorials highlighted for you. 
 
 Learn how to:
-* [Build a hybrid search service](https://qdrant.tech/documentation/beginner-tutorials/hybrid-search-fastembed/) with [FastEmbed](https://github.com/qdrant/fastembed)   
-* [Build a RAG app with DeepSeek](https://qdrant.tech/documentation/rag-deepseek/) for semantic query enrichment  
+* [Build a hybrid search service](https://qdrant.tech/documentation/tutorials-search-engineering/hybrid-search-fastembed/) with [FastEmbed](https://github.com/qdrant/fastembed)   
+* [Build a RAG app with DeepSeek](https://qdrant.tech/documentation/tutorials-build-essentials/rag-deepseek/) for semantic query enrichment  
 * [Connect Qdrant with your data stack](https://qdrant.tech/documentation/data-management/) for seamless workflows
 
 **Pick a Deployment Model**

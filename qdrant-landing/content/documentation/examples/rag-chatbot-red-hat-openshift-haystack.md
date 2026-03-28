@@ -3,7 +3,7 @@ title: Private Chatbot for Interactive Learning
 weight: 30 
 social_preview_image: /blog/hybrid-cloud-red-hat-openshift/hybrid-cloud-red-hat-openshift-tutorial.png
 aliases:
-  - /documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/
+  - /documentation/examples/rag-chatbot-red-hat-openshift-haystack/
 ---
 
 # Private Chatbot for Interactive Learning
@@ -458,4 +458,4 @@ The response should be similar to the one we got in the Python before:
 - [Haystack's documentation](https://docs.haystack.deepset.ai/docs/kubernetes) describes [how to deploy the Hayhooks service in a Kubernetes 
 environment](https://docs.haystack.deepset.ai/docs/kubernetes), so you can easily move it to your own OpenShift infrastructure.
 
-- If you are just getting started and need more guidance on Qdrant, read the [quickstart](/documentation/quick-start/) or try out our [beginner tutorial](/documentation/tutorials/neural-search/).
+- If you are just getting started and need more guidance on Qdrant, read the [quickstart](/documentation/quick-start/) or try out our [beginner tutorial](/documentation/tutorials-search-engineering/neural-search/).

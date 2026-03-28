@@ -5,7 +5,7 @@ partition: ecosystem
 hideInSidebar: true
 social_preview_image: /documentation/examples/data-ingestion-beginners/social_preview.png
 aliases:
-  - /documentation/data-ingestion-beginners/
+  - /documentation/tutorials-build-essentials/data-ingestion-beginners/
 ---
 <!-- ![data-ingestion-beginners-7](/documentation/examples/data-ingestion-beginners/data-ingestion-7.png) -->
 
@@ -30,7 +30,7 @@ Let's break down each component of this workflow:
 
 - **S3 Bucket:** This is our starting point—a centralized, scalable storage solution for various file types like PDFs, images, and text.
 - **LangChain:** Acting as the pipeline’s orchestrator, LangChain handles extraction, preprocessing, and manages data flow for embedding generation. It simplifies processing PDFs, so you won’t need to worry about applying OCR (Optical Character Recognition) here.
-- **Qdrant:** As your vector database, Qdrant stores embeddings and their [payloads](https://qdrant.tech/documentation/concepts/payload/), enabling efficient similarity search and retrieval across all content types.
+- **Qdrant:** As your vector database, Qdrant stores embeddings and their [payloads](https://qdrant.tech/documentation/manage-data/payload/), enabling efficient similarity search and retrieval across all content types.
 
 ## Prerequisites
 

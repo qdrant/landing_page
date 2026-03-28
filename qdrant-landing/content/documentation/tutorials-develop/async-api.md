@@ -1,8 +1,8 @@
 ---
 title: Async API
 aliases:
-  - /documentation/tutorials/async-api/
-  - /documentation/database-tutorials/async-api/
+  - /documentation/tutorials-develop/async-api/
+  - /documentation/tutorials-develop/async-api/
 weight: 4
 ---
 

@@ -31,32 +31,32 @@ Additionally, version 1.16 introduces a new conditional update API, facilitating
 
 Multitenancy is a common requirement for SaaS applications, where multiple customers (tenants) share the same database instance. In Qdrant, when an instance is shared between multiple users, you may need to partition vectors by user. This is done so that each user can only access their own vectors and can’t see the vectors of other users. To implement multitenancy in Qdrant, there are two main approaches:
 
-- [Payload-based multitenancy](/documentation/guides/multiple-partitions/), which works well when you have a large number of small tenants. This causes practically no overhead. Quite the opposite: a query with a tenant payload filter can be faster than a full search.
-- [Shard-based multitenancy](/documentation/guides/distributed_deployment/#user-defined-sharding), designed for when you have a smaller number of larger tenants. This works well when each tenant requires isolation and dedicated resources. Separating tenants by shard prevents a classic noisy neighbor problem where a single high-volume tenant can force the cluster to scale for everyone, increasing costs and reducing performance for smaller tenants. However, shard-based multitenancy is not a good solution when you have a large number of small tenants, as each shard incurs some overhead.
+- [Payload-based multitenancy](/documentation/manage-data/multitenancy/), which works well when you have a large number of small tenants. This causes practically no overhead. Quite the opposite: a query with a tenant payload filter can be faster than a full search.
+- [Shard-based multitenancy](/documentation/distributed_deployment/#user-defined-sharding), designed for when you have a smaller number of larger tenants. This works well when each tenant requires isolation and dedicated resources. Separating tenants by shard prevents a classic noisy neighbor problem where a single high-volume tenant can force the cluster to scale for everyone, increasing costs and reducing performance for smaller tenants. However, shard-based multitenancy is not a good solution when you have a large number of small tenants, as each shard incurs some overhead.
 
 Real-world usage patterns often fall between these two use cases. It's common to have a small number of large tenants and a huge tail of smaller ones. You may even have tenants that grow over time, starting small and eventually becoming large enough to require dedicated resources.
 
-In version 1.16, Qdrant can now efficiently combine the two multitenancy approaches with a new feature called [Tiered Multitenancy](/documentation/guides/multitenancy/#tiered-multitenancy).
+In version 1.16, Qdrant can now efficiently combine the two multitenancy approaches with a new feature called [Tiered Multitenancy](/documentation/manage-data/multitenancy/#tiered-multitenancy).
 
 The main principles behind Tiered Multitenancy are:
 
-- [User-defined Sharding](/documentation/guides/distributed_deployment/#user-defined-sharding) allows you to create named shards within a collection. It enables you to isolate large tenants into their own shards. A multitenant collection can consist of a shared "fallback" shard for small tenants and multiple dedicated shards for large tenants.
+- [User-defined Sharding](/documentation/distributed_deployment/#user-defined-sharding) allows you to create named shards within a collection. It enables you to isolate large tenants into their own shards. A multitenant collection can consist of a shared "fallback" shard for small tenants and multiple dedicated shards for large tenants.
 - **Fallback shards** - a special routing mechanism that allows Qdrant to route a request to either a dedicated shard (if it exists) or to a shared fallback shard. This keeps requests unified, without the need to know whether a tenant is dedicated or shared.
-- [Tenant promotion](/documentation/guides/multitenancy/#promote-tenant-to-dedicated-shard) - a mechanism that makes it possible to "promote" tenants from the shared Fallback Shard to their own dedicated shard when they grow large enough. This process is based on Qdrant’s internal shard transfer mechanism, which makes promotion completely transparent for the application. Both read and write requests are supported during the promotion process.
+- [Tenant promotion](/documentation/manage-data/multitenancy/#promote-tenant-to-dedicated-shard) - a mechanism that makes it possible to "promote" tenants from the shared Fallback Shard to their own dedicated shard when they grow large enough. This process is based on Qdrant’s internal shard transfer mechanism, which makes promotion completely transparent for the application. Both read and write requests are supported during the promotion process.
 
 {{< figure src="/docs/tenant-promotion.png" alt="Tiered multitenancy with tenant promotion" caption="Tiered multitenancy with tenant promotion" width="90%" >}}
 
-To use Tiered Multitenancy, after [setting up a collection with a shared fallback shard and dedicated shards](/documentation/guides/multitenancy/#configure-tiered-multitenancy), when inserting or querying points, [provide a shard key selector](/documentation/guides/multitenancy/#query-tiered-multitenant-collection).
+To use Tiered Multitenancy, after [setting up a collection with a shared fallback shard and dedicated shards](/documentation/manage-data/multitenancy/#configure-tiered-multitenancy), when inserting or querying points, [provide a shard key selector](/documentation/manage-data/multitenancy/#query-tiered-multitenant-collection).
 
 ## ACORN - Filtered Vector Search Improvements
 
 ![Section 2](/blog/qdrant-1.16.x/section-2.png)
 
-To enhance the scalability and speed of vector search, Qdrant employs a graph-based index structure known as [HNSW (Hierarchical Navigable Small World)](/documentation/concepts/indexing/#vector-index). While traditional HNSW is primarily designed for unfiltered searches, Qdrant has addressed this limitation by implementing a [filterable HSNW index](/articles/filterable-hnsw/). This innovative approach extends the HNSW graph with additional edges that correspond to indexed payload values. This enables Qdrant to maintain search quality even with high filtering selectivity, without introducing any runtime overhead during the search process.
+To enhance the scalability and speed of vector search, Qdrant employs a graph-based index structure known as [HNSW (Hierarchical Navigable Small World)](/documentation/manage-data/indexing/#vector-index). While traditional HNSW is primarily designed for unfiltered searches, Qdrant has addressed this limitation by implementing a [filterable HSNW index](/articles/filterable-hnsw/). This innovative approach extends the HNSW graph with additional edges that correspond to indexed payload values. This enables Qdrant to maintain search quality even with high filtering selectivity, without introducing any runtime overhead during the search process.
 
-Even with filterable HNSW graphs, there are instances where the quality of search results can deteriorate significantly. This can happen when you use a combination of high cardinality filters, leading to the HNSW graph becoming [disconnected](/documentation/concepts/indexing/#filterable-index). It is impractical to build additional links for every possible combination of filters in advance due to the potentially vast number of combinations. Another case where filterable HNSW may break down is in situations where filtering criteria are not known in advance.
+Even with filterable HNSW graphs, there are instances where the quality of search results can deteriorate significantly. This can happen when you use a combination of high cardinality filters, leading to the HNSW graph becoming [disconnected](/documentation/manage-data/indexing/#filterable-index). It is impractical to build additional links for every possible combination of filters in advance due to the potentially vast number of combinations. Another case where filterable HNSW may break down is in situations where filtering criteria are not known in advance.
 
-To address these limitations, in version 1.16 we are introducing support for [ACORN](/documentation/concepts/search/#acorn-search-algorithm), based on the ACORN-1 algorithm described in the paper [ACORN: Performant and Predicate-Agnostic Search Over Vector Embeddings and Structured Data](https://arxiv.org/abs/2403.04871). With ACORN enabled, Qdrant not only traverses direct neighbors (the first hop) in the HNSW graph but also examines neighbors of neighbors (the second hop) if the direct neighbors have been filtered out. This enhancement improves search accuracy at the expense of performance, especially when multiple low-selectivity filters are applied.
+To address these limitations, in version 1.16 we are introducing support for [ACORN](/documentation/search/search/#acorn-search-algorithm), based on the ACORN-1 algorithm described in the paper [ACORN: Performant and Predicate-Agnostic Search Over Vector Embeddings and Structured Data](https://arxiv.org/abs/2403.04871). With ACORN enabled, Qdrant not only traverses direct neighbors (the first hop) in the HNSW graph but also examines neighbors of neighbors (the second hop) if the direct neighbors have been filtered out. This enhancement improves search accuracy at the expense of performance, especially when multiple low-selectivity filters are applied.
 
 <figure>
   <img src="/blog/qdrant-1.16.x/hnsw-acorn.png">
@@ -65,7 +65,7 @@ To address these limitations, in version 1.16 we are introducing support for [AC
   </figcaption>
 </figure>
 
-You can enable ACORN on a per-query basis, via the optional [query-time `acorn` parameter](/documentation/concepts/search/#acorn-search-algorithm). This doesn't require any changes at index time.
+You can enable ACORN on a per-query basis, via the optional [query-time `acorn` parameter](/documentation/search/search/#acorn-search-algorithm). This doesn't require any changes at index time.
 
 ### Benchmarks
 
@@ -126,9 +126,9 @@ For instance, querying 1 million vectors with the HNSW parameters `m` set to 16 
 
 However, disk-based storage has a property we can exploit to reduce the number of random access reads: paged reading. Disk devices typically read a full page (4KB or more) of data at once. Traditional tree-based data structures, such as B-trees, have used this property effectively. However, in graph-based structures like the HNSW index, grouping connected nodes into pages is not straightforward due to each node potentially having an arbitrary number of connections to other nodes.
 
-With Qdrant version 1.16, you can make use of paged reading through a new feature called [inline storage](/documentation/guides/optimize/#inline-storage-in-hnsw-index). Inline storage allows for storing quantized vector data directly inside the HNSW nodes. This offers faster read access, at the cost of additional storage space.
+With Qdrant version 1.16, you can make use of paged reading through a new feature called [inline storage](/documentation/optimization/optimize/#inline-storage-in-hnsw-index). Inline storage allows for storing quantized vector data directly inside the HNSW nodes. This offers faster read access, at the cost of additional storage space.
 
-Inline storage can be enabled by [setting a collection's HNSW configuration `inline_storage` option to `true`](/documentation/guides/optimize/#inline-storage-in-hnsw-index). It requires quantization to be enabled.
+Inline storage can be enabled by [setting a collection's HNSW configuration `inline_storage` option to `true`](/documentation/optimization/optimize/#inline-storage-in-hnsw-index). It requires quantization to be enabled.
 
 <figure>
   <img src="/blog/qdrant-1.16.x/no-inline-storage.png">
@@ -218,7 +218,7 @@ However, there was no convenient way to search to match *at least one* of the pr
 }
 ```
 
-In version 1.16, we have added a new [`text_any` condition](/documentation/concepts/filtering/#full-text-any) that simplifies this use case. Now, instead of building complex boolean conditions, Qdrant can handle the tokenization and matching internally. 
+In version 1.16, we have added a new [`text_any` condition](/documentation/search/filtering/#full-text-any) that simplifies this use case. Now, instead of building complex boolean conditions, Qdrant can handle the tokenization and matching internally. 
 
 The `text_any` condition matches text fields that contain any of the query terms. In other words, even if a text field contains just one of the query terms, it is considered a match.
 
@@ -270,9 +270,9 @@ Many Latin languages use diacritical marks (accents) to indicate different pronu
 
 A solution to this problem is to normalize characters with diacritics to their base ASCII equivalents, a process known as ASCII folding. For example, "café" becomes "cafe" and "naïve" becomes "naive." This normalization allows for more flexible and inclusive search results, improving search recall for multilingual texts.
 
-[An open source contribution by community member eltu](https://github.com/qdrant/qdrant/pull/7408) has added [ASCII folding support](/documentation/concepts/indexing/#ascii-folding) to Qdrant's full-text search capabilities in version 1.16. When enabled, Qdrant automatically normalizes text fields and search terms, for instance by removing diacritical marks.
+[An open source contribution by community member eltu](https://github.com/qdrant/qdrant/pull/7408) has added [ASCII folding support](/documentation/manage-data/indexing/#ascii-folding) to Qdrant's full-text search capabilities in version 1.16. When enabled, Qdrant automatically normalizes text fields and search terms, for instance by removing diacritical marks.
 
-To enable ASCII folding, [set the `ascii_folding` option to `true` when creating a full-text payload index](/documentation/concepts/indexing/#ascii-folding).
+To enable ASCII folding, [set the `ascii_folding` option to `true` when creating a full-text payload index](/documentation/manage-data/indexing/#ascii-folding).
 
 ## Conditional Updates
 
@@ -285,7 +285,7 @@ Point updates in Qdrant are idempotent, meaning that applying the same update mu
 3. Client A modifies point P and writes it back to Qdrant.
 4. Client B modifies point P (based on stale data) and writes it back to Qdrant, unintentionally overwriting changes made by Client A.
 
-To address this issue, Qdrant 1.16 introduces support for [conditional updates](/documentation/concepts/points/#conditional-updates). With conditional updates, you can specify a condition, in the form of an update filter, that must be met for the update to be applied. If the condition is not met, Qdrant rejects the update, preventing unintended overwrites.
+To address this issue, Qdrant 1.16 introduces support for [conditional updates](/documentation/manage-data/points/#conditional-updates). With conditional updates, you can specify a condition, in the form of an update filter, that must be met for the update to be applied. If the condition is not met, Qdrant rejects the update, preventing unintended overwrites.
 
 For example, you can add a `version` field to your points to track changes. When updating a point, you can specify a condition that the `version` field must match the expected value. If another client has modified the point in the meantime and incremented the `version`, the update is rejected: 
 
@@ -315,10 +315,10 @@ In version 1.16, we have revamped the Web UI with a fresh new look and improved 
 
 ![Section 7](/blog/qdrant-1.16.x/section-7.png)
 
-- The constant `k` that determines how Reciprocal Rank Fusion (RRF) fuses result sets [is now configurable](/documentation/concepts/hybrid-queries/#parametrized-rrf).
-- The Metrics API now exposes [additional metrics](/documentation/guides/monitoring/#metrics) that help monitor your deployment's health.
-- In strict mode, it is now possible to [configure the maximum number of payload indices](/documentation/guides/administration/#maximum-number-of-payload-index-count).
-- It's now possible to [attach custom metadata to collections](/documentation/concepts/collections/#collection-metadata).
+- The constant `k` that determines how Reciprocal Rank Fusion (RRF) fuses result sets [is now configurable](/documentation/search/hybrid-queries/#parametrized-rrf).
+- The Metrics API now exposes [additional metrics](/documentation/monitoring-telemetry/monitoring/#metrics) that help monitor your deployment's health.
+- In strict mode, it is now possible to [configure the maximum number of payload indices](/documentation/configuration-ops/administration/#maximum-number-of-payload-index-count).
+- It's now possible to [attach custom metadata to collections](/documentation/manage-data/collections/#collection-metadata).
 
 For a full list of all changes in version 1.16, please refer to the [change log](https://github.com/qdrant/qdrant/releases/tag/v1.16.0).
 

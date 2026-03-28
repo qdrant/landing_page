@@ -4,9 +4,9 @@ weight: 165
 partition: deploy
 aliases:
   - ../tutorials/common-errors
-  - /documentation/troubleshooting/
-  - /documentation/guides/common-errors/
-  - /documentation/operations/common-errors/
+  - /documentation/common-errors/
+  - /documentation/common-errors/
+  - /documentation/common-errors/
 ---
 
 # Solving common errors
@@ -37,7 +37,7 @@ Please note, the command should be executed before you run Qdrant server.
 
 ## Incompatible file system
 
-Qdrant have a [set of requirements](https://qdrant.tech/documentation/guides/installation/#storage) for persistent file storage.
+Qdrant have a [set of requirements](https://qdrant.tech/documentation/installation/#storage) for persistent file storage.
 The most important requirement is that file system **must** be [POSIX-compatible](https://www.quobyte.com/storage-explained/posix-filesystem/).
 
 
@@ -108,7 +108,7 @@ Can't open Collections meta Wal: Os { code: 11, kind: WouldBlock, message: "Reso
 ```
 
 It means that Qdrant cannot start because a collection cannot be loaded. Its
-associated [WAL](/documentation/concepts/storage/#versioning) files are currently
+associated [WAL](/documentation/manage-data/storage/#versioning) files are currently
 unavailable, likely because the same files are already being used by another
 Qdrant instance.
 

@@ -30,7 +30,7 @@ features:
   description: Learn how to build an AI meeting scheduler with Zoom, LlamaIndex, and Qdrant, featuring a hands-on RAG recommendation engine code sample.
   link:
     text: View Tutorial
-    url: /documentation/agentic-rag-crewai-zoom/
+    url: /documentation/tutorials-build-essentials/agentic-rag-crewai-zoom/
 caseStudy:
   logo:
     src: /img/ai-agents-use-cases/customer-logo.svg

@@ -32,7 +32,7 @@ Your enterprise-grade AI applications demand more than just a powerful vector da
 
 ### Cloud API for Simplified Management
 
-Skip the UI—manage Qdrant entirely through code. The [**Qdrant Cloud API**](https://qdrant.tech/documentation/qdrant-cloud-api/?) lets you automate cluster creation, updates, and scaling, ensuring repeatable, version-controlled deployments. You can also programmatically generate and revoke API keys, update configurations, and adapt infrastructure as workloads change.
+Skip the UI—manage Qdrant entirely through code. The [**Qdrant Cloud API**](https://qdrant.tech/documentation/cloud-api/?) lets you automate cluster creation, updates, and scaling, ensuring repeatable, version-controlled deployments. You can also programmatically generate and revoke API keys, update configurations, and adapt infrastructure as workloads change.
 
 You can manage the Qdrant Cloud lifecycle with Qdrant’s [**Terraform Provider**](https://qdrant.tech/documentation/cloud-tools/terraform/). With this support, you can define and automate cluster provisioning using Infrastructure-as-Code (IaC) best practices.
 
@@ -62,7 +62,7 @@ To further refine access, **payload-based filters** allow you to restrict API ke
 
 **SSO setup is fully supported**—to enable it for your company, **contact Qdrant support**, and our team will guide you through the setup process. SSO also works with **multi-factor authentication (MFA)** for additional security.
 
-*SSO is only available for [Premium Tier](https://qdrant.tech/documentation/cloud/premium/) customers. [Learn more about SSO](https://qdrant.tech/documentation/cloud/qdrant-cloud-setup/#enterprise-single-sign-on-sso).*
+*SSO is only available for [Premium Tier](https://qdrant.tech/documentation/cloud-premium/) customers. [Learn more about SSO](https://qdrant.tech/documentation/cloud-account-setup/#enterprise-single-sign-on-sso).*
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/EtUcA-MCZJM?si=-u31oU5R0FkVrspN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 

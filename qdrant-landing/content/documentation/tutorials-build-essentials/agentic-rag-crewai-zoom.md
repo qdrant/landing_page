@@ -4,7 +4,7 @@ weight: 5
 partition: ecosystem
 social_preview_image: /documentation/examples/agentic-rag-crewai-zoom/social_preview.png
 aliases:
-  - /documentation/agentic-rag-crewai-zoom/
+  - /documentation/tutorials-build-essentials/agentic-rag-crewai-zoom/
 ---
 <!-- ![agentic-rag-crewai-zoom](/documentation/examples/agentic-rag-crewai-zoom/agentic-rag-1.png) -->
 

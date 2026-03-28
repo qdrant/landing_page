@@ -56,14 +56,14 @@ Beyond coding, Anima uses Qdrant to understand documents at scale. By working wi
 
 Several factors made Qdrant a strong fit for healthcare workloads.
 
-[Deployment flexibility](https://qdrant.tech/documentation/guides/installation/) was non-negotiable. Anima requires data to remain at rest in the UK, allowing them to make strong guarantees to customers about compliance and residency. Qdrant’s self-hosted and region-controlled deployment options enabled this without compromising performance.
+[Deployment flexibility](https://qdrant.tech/documentation/installation/) was non-negotiable. Anima requires data to remain at rest in the UK, allowing them to make strong guarantees to customers about compliance and residency. Qdrant’s self-hosted and region-controlled deployment options enabled this without compromising performance.
 
 Cost predictability also played a critical role. With a fixed infrastructure cost for vector search, Anima could use retrieval across multiple passes in their pipelines. This unlocked higher-quality results without eroding margins.
 
 >“Knowing that retrieval is reliable and low cost changed how we build. We do not think twice about using vector search as part of our pipelines.”  
 -Colin Cooke, Lead AI Engineer, Anima Health
 
-Finally, Qdrant’s vector-native capabilities mattered. [Payload-based filtering](https://qdrant.tech/documentation/concepts/payload/) allows Anima to scope searches precisely across different electronic health record systems. [Multivector support](https://qdrant.tech/documentation/concepts/payload/) enables experimentation with multiple embedding strategies and providers, reducing long-term lock-in and easing future transitions.
+Finally, Qdrant’s vector-native capabilities mattered. [Payload-based filtering](https://qdrant.tech/documentation/manage-data/payload/) allows Anima to scope searches precisely across different electronic health record systems. [Multivector support](https://qdrant.tech/documentation/manage-data/payload/) enables experimentation with multiple embedding strategies and providers, reducing long-term lock-in and easing future transitions.
 
 ### Results: Scalable, privacy-first AI in production
 

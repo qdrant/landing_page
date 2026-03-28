@@ -4,9 +4,9 @@ weight: 5
 partition: deploy
 aliases:
   - ../tutorials/optimize
-  - /documentation/guides/optimize/
-  - /documentation/operations/optimize/
-  - /documentation/optimize/
+  - /documentation/optimization/optimize/
+  - /documentation/optimization/optimize/
+  - /documentation/optimization/optimize/
 ---
 
 # Optimizing Qdrant Performance: Three Scenarios

@@ -4,8 +4,8 @@ weight: 20
 aliases:
   - ../collections
   - /concepts/collections/
-  - /documentation/frameworks/fondant/documentation/concepts/collections/
-  - /documentation/concepts/collections/
+  - /documentation/frameworks/fondant/documentation/manage-data/collections/
+  - /documentation/manage-data/collections/
 ---
 
 # Collections
@@ -40,13 +40,13 @@ These settings can be changed at any time by a corresponding request.
 
 In addition to the required options, you can also specify custom values for the following collection options:
 
-* `hnsw_config` - see [indexing](/documentation/concepts/indexing/#vector-index) for details.
-* `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](/documentation/concepts/storage/#versioning)
-* `optimizers_config` - see [optimizer](/documentation/concepts/optimizer/) for details.
-* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](/documentation/guides/distributed_deployment/#sharding) section for details.
+* `hnsw_config` - see [indexing](/documentation/manage-data/indexing/#vector-index) for details.
+* `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](/documentation/manage-data/storage/#versioning)
+* `optimizers_config` - see [optimizer](/documentation/optimization/optimizer/) for details.
+* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](/documentation/distributed_deployment/#sharding) section for details.
 * `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
-* `quantization_config` - see [quantization](/documentation/guides/quantization/#setting-up-quantization-in-qdrant) for details.
-* `strict_mode_config` - see [strict mode](/documentation/guides/administration/#strict-mode) for details.
+* `quantization_config` - see [quantization](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant) for details.
+* `strict_mode_config` - see [strict mode](/documentation/configuration-ops/administration/#strict-mode) for details.
 
 Default parameters for the optional collection parameters are defined in [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
 
@@ -57,7 +57,7 @@ See [schema definitions](https://api.qdrant.tech/api-reference/collections/creat
 Vectors all live in RAM for very quick access. The `on_disk` parameter can be
 set in the vector configuration. If true, all vectors will live on disk. This
 will enable the use of
-[memmaps](/documentation/concepts/storage/#configuring-memmap-storage),
+[memmaps](/documentation/manage-data/storage/#configuring-memmap-storage),
 which is suitable for ingesting a large amount of data.
 
 
@@ -78,8 +78,8 @@ For rare use cases, it is possible to create a collection without any vector sto
 *Available as of v1.1.1*
 
 For each named vector you can optionally specify
-[`hnsw_config`](/documentation/concepts/indexing/#vector-index) or
-[`quantization_config`](/documentation/guides/quantization/#setting-up-quantization-in-qdrant) to
+[`hnsw_config`](/documentation/manage-data/indexing/#vector-index) or
+[`quantization_config`](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant) to
 deviate from the collection configuration. This can be useful to fine-tune
 search performance on a vector level.
 
@@ -88,7 +88,7 @@ search performance on a vector level.
 Vectors all live in RAM for very quick access. On a per-vector basis you can set
 `on_disk` to true to store all vectors on disk at all times. This will enable
 the use of
-[memmaps](/documentation/concepts/storage/#configuring-memmap-storage),
+[memmaps](/documentation/manage-data/storage/#configuring-memmap-storage),
 which is suitable for ingesting a large amount of data.
 
 
@@ -127,7 +127,7 @@ Outside of a unique name, there are no required configuration parameters for spa
 
 The distance function for sparse vectors is always `Dot` and does not need to be specified.
 
-However, there are optional parameters to tune the underlying [sparse vector index](/documentation/concepts/indexing/#sparse-vector-index).
+However, there are optional parameters to tune the underlying [sparse vector index](/documentation/manage-data/indexing/#sparse-vector-index).
 
 ### Create collection from another collection
 
@@ -167,12 +167,12 @@ The following command enables indexing for segments that have more than 10000 kB
 
 The following parameters can be updated:
 
-* `optimizers_config` - see [optimizer](/documentation/concepts/optimizer/) for details.
-* `hnsw_config` - see [indexing](/documentation/concepts/indexing/#vector-index) for details.
-* `quantization_config` - see [quantization](/documentation/guides/quantization/#setting-up-quantization-in-qdrant) for details.
+* `optimizers_config` - see [optimizer](/documentation/optimization/optimizer/) for details.
+* `hnsw_config` - see [indexing](/documentation/manage-data/indexing/#vector-index) for details.
+* `quantization_config` - see [quantization](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant) for details.
 * `vectors_config` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
 * `params` - other collection parameters, including `read_fan_out_delay_ms`, `write_consistency_factor` and `on_disk_payload`. 
-* `strict_mode_config` - see [strict mode](/documentation/guides/administration/#strict-mode) for details.
+* `strict_mode_config` - see [strict mode](/documentation/configuration-ops/administration/#strict-mode) for details.
 
 Full API specification is available in [schema definitions](https://api.qdrant.tech/api-reference/collections/update-collection).
 
@@ -200,7 +200,7 @@ use `""` as name:
 
 To put vector data on disk for a collection that **does have** named vectors:
 
-Note: To create a vector name, follow the procedure from our [Points](/documentation/concepts/points/#create-vector-name).
+Note: To create a vector name, follow the procedure from our [Points](/documentation/manage-data/points/#create-vector-name).
 
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/vectors-to-disk-named/" >}}
@@ -323,14 +323,14 @@ round of automatic optimizations is completed.
 To clarify: these numbers don't represent the exact amount of points or vectors
 you have inserted, nor does it represent the exact number of distinguishable
 points or vectors you can query. If you want to know exact counts, refer to the
-[count API](/documentation/concepts/points/#counting-points).
+[count API](/documentation/manage-data/points/#counting-points).
 
 _Note: these numbers may be removed in a future version of Qdrant._
 
 ### Indexing vectors in HNSW
 
 In some cases, you might be surprised the value of `indexed_vectors_count` is lower than you expected. This is an intended behaviour and
-depends on the [optimizer configuration](/documentation/concepts/optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the
+depends on the [optimizer configuration](/documentation/optimization/optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the
 value of `indexing_threshold`(in kB).  If your collection is very small or the dimensionality of the vectors is low, there might be no HNSW segment
 created and `indexed_vectors_count` might be equal to `0`.
 

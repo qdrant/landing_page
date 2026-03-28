@@ -52,7 +52,7 @@ To get started, we created a comprehensive tutorial that shows how to build next
 
 In this tutorial, you will build a chatbot without public internet access. The goal is to keep sensitive data secure and isolated. Your RAG system will be built with Qdrant Hybrid Cloud on Red Hat OpenShift, leveraging Haystack for enhanced generative AI capabilities. This tutorial especially explores how this setup ensures that not a single data point leaves the environment.
 
-[Try the Tutorial](/documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/)
+[Try the Tutorial](/documentation/examples/rag-chatbot-red-hat-openshift-haystack/)
 
 #### Documentation: Deploy Qdrant in a Few Clicks
 

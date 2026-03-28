@@ -71,7 +71,7 @@ _Click each to expand._
 <details>
   <summary><b>Unnamed/Default vector</b></summary>
 
-Reference: [Creating a collection with a default vector](https://qdrant.tech/documentation/concepts/collections/#create-a-collection).
+Reference: [Creating a collection with a default vector](https://qdrant.tech/documentation/manage-data/collections/#create-a-collection).
 
 ```json
 {
@@ -100,7 +100,7 @@ Reference: [Creating a collection with a default vector](https://qdrant.tech/doc
 <details>
   <summary><b>Named multiple vectors</b></summary>
 
-Reference: [Creating a collection with multiple vectors](https://qdrant.tech/documentation/concepts/collections/#collection-with-multiple-vectors).
+Reference: [Creating a collection with multiple vectors](https://qdrant.tech/documentation/manage-data/collections/#collection-with-multiple-vectors).
 
 ```json
 {
@@ -141,7 +141,7 @@ Reference: [Creating a collection with multiple vectors](https://qdrant.tech/doc
 <details>
   <summary><b>Sparse vectors</b></summary>
 
-Reference: [Creating a collection with sparse vectors](https://qdrant.tech/documentation/concepts/collections/#collection-with-sparse-vectors).
+Reference: [Creating a collection with sparse vectors](https://qdrant.tech/documentation/manage-data/collections/#collection-with-sparse-vectors).
 
 ```json
 {
@@ -235,9 +235,9 @@ Reference: [Creating a collection with sparse vectors](https://qdrant.tech/docum
 
 Reference:
 
-- [Creating a collection with multiple vectors](https://qdrant.tech/documentation/concepts/collections/#collection-with-multiple-vectors).
+- [Creating a collection with multiple vectors](https://qdrant.tech/documentation/manage-data/collections/#collection-with-multiple-vectors).
 
-- [Creating a collection with sparse vectors](https://qdrant.tech/documentation/concepts/collections/#collection-with-sparse-vectors).
+- [Creating a collection with sparse vectors](https://qdrant.tech/documentation/manage-data/collections/#collection-with-sparse-vectors).
 
 ```json
 {

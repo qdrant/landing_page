@@ -3,7 +3,7 @@ title: Static Embeddings
 weight: 181
 aliases:
   - /blog/static-embeddings/
-  - /documentation/database-tutorials/static-embeddings/
+  - /documentation/tutorials-search-engineering/static-embeddings/
 ---
 # Static Embeddings in Practice
 
@@ -135,7 +135,7 @@ ranking quality of search results, with higher scores indicating better performa
 Binary Quantization definitely speeds up the retrieval, and make it cheaper, but also seems not to affect the quality of 
 the retrieval much in some cases. **However, that's something you should carefully verify on your own data**. If you are 
 a Qdrant user, then you can just enable quantization on an existing collection and [measure the impact on the retrieval 
-quality](/documentation/beginner-tutorials/retrieval-quality/).
+quality](/documentation/tutorials-search-engineering/retrieval-quality/).
 
 All the tests we did were performed using [`beir-qdrant`](https://github.com/kacperlukawski/beir-qdrant), and might be
 reproduced by running [the script available on the project 

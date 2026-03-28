@@ -3,7 +3,7 @@ title: Upgrades
 weight: 155
 partition: deploy
 aliases:
-  - /documentation/operations/upgrades/
+  - /documentation/upgrades/
 ---
 
 # Upgrading Qdrant

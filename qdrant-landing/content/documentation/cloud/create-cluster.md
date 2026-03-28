@@ -20,7 +20,7 @@ A free tier cluster only includes 1 single node with the following resources:
 | Disk space | 4 GB  |
 | Nodes      | 1     |
 
-This configuration supports serving about 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity Planning](/documentation/guides/capacity-planning/).
+This configuration supports serving about 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity Planning](/documentation/capacity-planning/).
 
 The choice of cloud providers and regions is limited.
 
@@ -52,7 +52,7 @@ On top of the Free cluster features, Standard clusters offer:
 
 You have a broad choice of regions on AWS, Azure and Google Cloud.
 
-For payment information see [**Pricing and Payments**](/documentation/cloud/pricing-payments/).
+For payment information see [**Pricing and Payments**](/documentation/cloud-pricing-payments/).
 
 ## Create a Cluster
 
@@ -75,7 +75,7 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 
 1. Choose your data center region or Hybrid Cloud environment. 
 1. Configure RAM for each node. 
-   >  For more information, see our [Capacity Planning](/documentation/guides/capacity-planning/) guidance.
+   >  For more information, see our [Capacity Planning](/documentation/capacity-planning/) guidance.
 1. Choose the number of vCPUs per node. If you add more
    RAM, the menu provides different options for vCPUs.
 1. Select the number of nodes you want the cluster to be deployed on.
@@ -111,7 +111,7 @@ You should create a backup schedule for your cluster. This ensures that you can 
 
 **Collection Sharding**
 
-To allow your cluster to easily scale horizontally, you should configure at least twice as many shards per collection than the number of nodes in your cluster. You can configure the number of shards when creating a collection. See [**Sharding**](/documentation/guides/distributed_deployment/#sharding) for more information.
+To allow your cluster to easily scale horizontally, you should configure at least twice as many shards per collection than the number of nodes in your cluster. You can configure the number of shards when creating a collection. See [**Sharding**](/documentation/distributed_deployment/#sharding) for more information.
 
 If you did not configure enough shards in a collection, you can use the [**Resharding**](/documentation/cloud/cluster-scaling/#resharding) feature to change the number of shards in an existing collection.
 

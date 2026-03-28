@@ -3,7 +3,7 @@ title: Indexing
 weight: 30
 aliases:
   - ../indexing
-  - /documentation/concepts/indexing/
+  - /documentation/manage-data/indexing/
 ---
 
 # Indexing
@@ -13,14 +13,14 @@ A key feature of Qdrant is the effective combination of vector and traditional i
 The indexes in the segments exist independently, but the parameters of the indexes themselves are configured for the whole collection.
 
 Not all segments automatically have indexes.
-Their necessity is determined by the [optimizer](/documentation/concepts/optimizer/) settings and depends, as a rule, on the number of stored points.
+Their necessity is determined by the [optimizer](/documentation/optimization/optimizer/) settings and depends, as a rule, on the number of stored points.
 
 ## Payload Index
 
 Payload index in Qdrant is similar to the index in conventional document-oriented databases.
 This index is built for a specific field and type, and is used for quick point requests by the corresponding filtering condition.
 
-The index is also used to accurately estimate the filter cardinality, which helps the [query planning](/documentation/concepts/search/#query-planning) choose a search strategy.
+The index is also used to accurately estimate the filter cardinality, which helps the [query planning](/documentation/search/search/#query-planning) choose a search strategy.
 
 Creating an index requires additional computational resources and memory, so choosing fields to be indexed is essential. Qdrant does not make this choice but grants it to the user.
 
@@ -28,19 +28,19 @@ To mark a field as indexable, you can use the following:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-keyword/" >}}
 
-You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](/documentation/concepts/filtering/#nested-key).
+You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](/documentation/search/filtering/#nested-key).
 
 Available field types are:
 
-* `keyword` - for [keyword](/documentation/concepts/payload/#keyword) payload, affects [Match](/documentation/concepts/filtering/#match) filtering conditions.
-* `integer` - for [integer](/documentation/concepts/payload/#integer) payload, affects [Match](/documentation/concepts/filtering/#match) and [Range](/documentation/concepts/filtering/#range) filtering conditions.
-* `float` - for [float](/documentation/concepts/payload/#float) payload, affects [Range](/documentation/concepts/filtering/#range) filtering conditions.
-* `bool` - for [bool](/documentation/concepts/payload/#bool) payload, affects [Match](/documentation/concepts/filtering/#match) filtering conditions (available as of v1.4.0).
-* `geo` - for [geo](/documentation/concepts/payload/#geo) payload, affects [Geo Bounding Box](/documentation/concepts/filtering/#geo-bounding-box) and [Geo Radius](/documentation/concepts/filtering/#geo-radius) filtering conditions.
-* `datetime` - for [datetime](/documentation/concepts/payload/#datetime) payload, affects [Range](/documentation/concepts/filtering/#range) filtering conditions (available as of v1.8.0).
-* `text` - a special kind of index, available for [keyword](/documentation/concepts/payload/#keyword) / string payloads, affects [Full Text search](/documentation/concepts/filtering/#full-text-match) filtering conditions. Read more about [text index configuration](#full-text-index)
-* `uuid` - a special type of index, similar to `keyword`, but optimized for [UUID values](/documentation/concepts/payload/#uuid).
-Affects [Match](/documentation/concepts/filtering/#match) filtering conditions. (available as of v1.11.0)
+* `keyword` - for [keyword](/documentation/manage-data/payload/#keyword) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions.
+* `integer` - for [integer](/documentation/manage-data/payload/#integer) payload, affects [Match](/documentation/search/filtering/#match) and [Range](/documentation/search/filtering/#range) filtering conditions.
+* `float` - for [float](/documentation/manage-data/payload/#float) payload, affects [Range](/documentation/search/filtering/#range) filtering conditions.
+* `bool` - for [bool](/documentation/manage-data/payload/#bool) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions (available as of v1.4.0).
+* `geo` - for [geo](/documentation/manage-data/payload/#geo) payload, affects [Geo Bounding Box](/documentation/search/filtering/#geo-bounding-box) and [Geo Radius](/documentation/search/filtering/#geo-radius) filtering conditions.
+* `datetime` - for [datetime](/documentation/manage-data/payload/#datetime) payload, affects [Range](/documentation/search/filtering/#range) filtering conditions (available as of v1.8.0).
+* `text` - a special kind of index, available for [keyword](/documentation/manage-data/payload/#keyword) / string payloads, affects [Full Text search](/documentation/search/filtering/#full-text-match) filtering conditions. Read more about [text index configuration](#full-text-index)
+* `uuid` - a special type of index, similar to `keyword`, but optimized for [UUID values](/documentation/manage-data/payload/#uuid).
+Affects [Match](/documentation/search/filtering/#match) filtering conditions. (available as of v1.11.0)
 
 Payload index may occupy some additional memory, so it is recommended to only use the index for those fields that are used in filtering conditions.
 If you need to filter by many fields and the memory limits do not allow for indexing all of them, it is recommended to choose the field that limits the search result the most.
@@ -58,9 +58,9 @@ you to fine-tune indexing and search performance.
 Both the regular and parameterized `integer` indexes use the following flags:
 
 - `lookup`: enables support for direct lookup using
- [Match](/documentation/concepts/filtering/#match) filters.
+ [Match](/documentation/search/filtering/#match) filters.
 - `range`: enables support for
- [Range](/documentation/concepts/filtering/#range) filters.
+ [Range](/documentation/search/filtering/#range) filters.
 
 The regular `integer` index assumes both `lookup` and `range` are `true`. In
 contrast, to configure a parameterized index, you would set only one of these
@@ -120,7 +120,7 @@ The list will be extended in future versions.
 
 Many vector search use-cases require multitenancy. In a multi-tenant scenario the collection is expected to contain multiple subsets of data, where each subset belongs to a different tenant.
 
-Qdrant supports efficient multi-tenant search by enabling [special configuration](/documentation/guides/multiple-partitions/) vector index, which disables global search and only builds sub-indexes for each tenant.
+Qdrant supports efficient multi-tenant search by enabling [special configuration](/documentation/manage-data/multitenancy/) vector index, which disables global search and only builds sub-indexes for each tenant.
 
 <aside role="note">
   In Qdrant, tenants are not necessarily non-overlapping. It is possible to have subsets of data that belong to multiple tenants.
@@ -166,7 +166,7 @@ Full-text index allows you to filter points by the presence of a word or a phras
 Full-text index configuration is a bit more complex than other indexes, as you can specify the tokenization parameters.
 Tokenization is the process of splitting a string into tokens, which are then indexed in the inverted index.
 
-See [Full Text match](/documentation/concepts/filtering/#full-text-match) for examples of querying with a full-text index.
+See [Full Text match](/documentation/search/filtering/#full-text-match) for examples of querying with a full-text index.
 
 To create a full-text index, you can use the following:
 
@@ -241,7 +241,7 @@ For efficient phrase search, Qdrant requires building an additional data structu
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/phrase-full-text/" >}}
 
-See [Phrase Match](/documentation/concepts/filtering/#phrase-match) for examples of querying phrases with a full-text index.
+See [Phrase Match](/documentation/search/filtering/#phrase-match) for examples of querying phrases with a full-text index.
 
 
 ## Vector Index
@@ -277,7 +277,7 @@ storage:
 
 ```
 
-And so in the process of creating a [collection](/documentation/concepts/collections/). The `ef` parameter is configured during [the search](/documentation/concepts/search/) and by default is equal to `ef_construct`.
+And so in the process of creating a [collection](/documentation/manage-data/collections/). The `ef` parameter is configured during [the search](/documentation/search/search/) and by default is equal to `ef_construct`.
 
 HNSW is chosen for several reasons.
 First, HNSW is well-compatible with the modification that allows Qdrant to use filters during a search.
@@ -286,7 +286,7 @@ Second, it is one of the most accurate and fastest algorithms, according to [pub
 *Available as of v1.1.1*
 
 The HNSW parameters can also be configured on a collection and named vector
-level by setting [`hnsw_config`](/documentation/concepts/indexing/#vector-index) to fine-tune search
+level by setting [`hnsw_config`](/documentation/manage-data/indexing/#vector-index) to fine-tune search
 performance.
 
 ### Filterable HNSW Index
@@ -315,7 +315,7 @@ In some cases, the additional edges built for Qdrant's filterable HNSW may not b
 These extra edges are added for each payload index separately, but not for every possible combination of payload indices.
 As a result, a combination of two or more strict filters might still lead to disconnected graph components.
 The same can happen when there are a large number of soft-deleted points in the graph.
-In such cases, use the [ACORN Search Algorithm](/documentation/concepts/search/#acorn-search-algorithm).
+In such cases, use the [ACORN Search Algorithm](/documentation/search/search/#acorn-search-algorithm).
 When using ACORN, during graph traversal, it explores not just direct neighbors (first hop), but also neighbors of neighbors (second hop) when direct neighbors are filtered out. This improves search accuracy at the cost of performance.
 
 #### Disable the Creation of Extra Edges for Payload Fields

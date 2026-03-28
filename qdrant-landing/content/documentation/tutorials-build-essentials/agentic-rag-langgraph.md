@@ -4,7 +4,7 @@ weight: 15
 partition: ecosystem
 hideInSidebar: true
 aliases:
-  - /documentation/agentic-rag-langgraph/
+  - /documentation/tutorials-build-essentials/agentic-rag-langgraph/
 ---
 # Agentic RAG with LangGraph and Qdrant
 

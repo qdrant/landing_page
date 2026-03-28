@@ -1,9 +1,9 @@
 ---
 title: Aleph Alpha
 aliases:
-  - /documentation/examples/aleph-alpha-search/
-  - /documentation/tutorials/aleph-alpha-search/
-  - /documentation/integrations/aleph-alpha/ 
+  - /documentation/embeddings/aleph-alpha/
+  - /documentation/embeddings/aleph-alpha/
+  - /documentation/embeddings/aleph-alpha/ 
 ---
 
 # Using Aleph Alpha Embeddings with Qdrant 

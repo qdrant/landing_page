@@ -2,8 +2,8 @@
 title: Multivectors and Late Interaction
 weight: 2
 aliases:
-  - /documentation/search-precision/multivector-representations-with-Qdrant/
-  - /documentation/advanced-tutorials/using-multivector-representations/
+  - /documentation/tutorials-search-engineering/using-multivector-representations/
+  - /documentation/tutorials-search-engineering/using-multivector-representations/
 ---
 # Multivector Representations for Reranking in Qdrant
 
@@ -27,7 +27,7 @@ As you will see later in the tutorial, Qdrant supports multivectors and thus lat
 
 With token-level vectors, models like ColBERT can match specific query tokens to the most relevant parts of a document, enabling high-accuracy retrieval through Late Interaction.
 
-In late interaction, each document is converted into multiple token-level vectors instead of a single vector. The query is also tokenized and embedded into various vectors. Then, the query and document vectors are matched using a similarity function: MaxSim. You can see how it is calculated [here](https://qdrant.tech/documentation/concepts/vectors/#multivectors). 
+In late interaction, each document is converted into multiple token-level vectors instead of a single vector. The query is also tokenized and embedded into various vectors. Then, the query and document vectors are matched using a similarity function: MaxSim. You can see how it is calculated [here](https://qdrant.tech/documentation/manage-data/vectors/#multivectors). 
 
 In traditional retrieval, the query and document are converted into single embeddings, after which similarity is computed. This is an early interaction because the information is compressed before retrieval.
 
@@ -46,7 +46,7 @@ However, because multivectors are typically used in the reranking stage (after a
 
 Instead, they can be stored as multi-vector fields (without HNSW indexing) and used at query-time for reranking, which reduces resource overhead and improves performance.
 
-For more on this, check out Qdrant's detailed breakdown in our [Scaling PDF Retrieval with Qdrant tutorial](https://qdrant.tech/documentation/advanced-tutorials/pdf-retrieval-at-scale/#math-behind-the-scaling). 
+For more on this, check out Qdrant's detailed breakdown in our [Scaling PDF Retrieval with Qdrant tutorial](https://qdrant.tech/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/#math-behind-the-scaling). 
 
 With Qdrant, you have full control of how indexing works. You can disable indexing by setting the HNSW `m` parameter to `0`:
 ```python

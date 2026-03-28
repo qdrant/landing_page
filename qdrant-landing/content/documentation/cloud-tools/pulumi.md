@@ -1,7 +1,7 @@
 ---
 title: Pulumi
 aliases:
-  - /documentation/infrastructure/pulumi/
+  - /documentation/cloud-tools/pulumi/
 ---
 
 ![Pulumi Logo](/documentation/platforms/pulumi/pulumi-logo.png)
@@ -13,7 +13,7 @@ A Qdrant SDK in any of Pulumi's supported languages can be generated based on th
 ## Pre-requisites
 
 1. A [Pulumi Installation](https://www.pulumi.com/docs/install/).
-2. An [API key](/documentation/qdrant-cloud-api/#authentication-connecting-to-cloud-api) to access the Qdrant cloud API.
+2. An [API key](/documentation/cloud-api/#authentication-connecting-to-cloud-api) to access the Qdrant cloud API.
 
 ## Setup
 

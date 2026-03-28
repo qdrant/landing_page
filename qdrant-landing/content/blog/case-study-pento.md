@@ -106,7 +106,7 @@ To maintain the agility of the system and to avoid an excess of likes per user, 
 
 #### User Representation as Multivectors
 
-Once clusters are identified and scored, we distill a user’s taste into something compact, expressive, and ready for retrieval: a multivector representation [learn more about multivectors representations in Qdrant](https://qdrant.tech/documentation/advanced-tutorials/using-multivector-representations/).
+Once clusters are identified and scored, we distill a user’s taste into something compact, expressive, and ready for retrieval: a multivector representation [learn more about multivectors representations in Qdrant](https://qdrant.tech/documentation/tutorials-search-engineering/using-multivector-representations/).
 
 Each positively scored cluster contributes its medoid vector, a single embedding that represents the core of that aesthetic preference. We do the same for negatively scored clusters, treating them as regions the user tends to avoid.
 

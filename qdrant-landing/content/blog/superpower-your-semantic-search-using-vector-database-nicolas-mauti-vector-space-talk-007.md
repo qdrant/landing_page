@@ -33,7 +33,7 @@ Nicolas Mauti, a computer science graduate from INSA Lyon Engineering School, tr
 
 ## **Top Takeaways:**
 
-Dive into the intricacies of [semantic search](https://qdrant.tech/documentation/tutorials/search-beginners/) enhancement with Nicolas Mauti, MLOps Engineer at Malt. Discover how Nicolas and his team at Malt revolutionize the way freelancers connect with projects.
+Dive into the intricacies of [semantic search](https://qdrant.tech/documentation/tutorials-basics/search-beginners/) enhancement with Nicolas Mauti, MLOps Engineer at Malt. Discover how Nicolas and his team at Malt revolutionize the way freelancers connect with projects.
 
 In this episode, Nicolas delves into enhancing semantics search at Malt by implementing a retriever-ranker architecture with multilingual transformer-based models, improving freelancer-project matching through a transition to [Qdrant](https://qdrant.tech/) that reduced latency from 10 seconds to 1 second and bolstering the platform's overall performance and scaling capabilities.
 
@@ -175,7 +175,7 @@ Demetrios:
 All right, first off, I want to give a shout out in case there are freelancers that are watching this or looking at this, now is a great time to just join Malt, I think. It seems like it's getting better every day. So I know there's questions that will come through and trickle in, but we've already got one from Luis. What's happening, Luis? He's asking what library or service were you using for Ann before considering Qdrant, in fact.
 
 Nicolas Mauti:
-So before that we didn't add any library or service or we were not doing any ann search or [semantic searc](https://qdrant.tech/documentation/tutorials/search-beginners/) in the way we are doing it right now. We just had one model when we passed the freelancers and the project at the same time in the model, and we got relevancy scoring at the end. And so that's why it was also so slow because you had to constrict each pair and send each pair to your model. And so right now we don't have to do that and so it's much better.
+So before that we didn't add any library or service or we were not doing any ann search or [semantic searc](https://qdrant.tech/documentation/tutorials-basics/search-beginners/) in the way we are doing it right now. We just had one model when we passed the freelancers and the project at the same time in the model, and we got relevancy scoring at the end. And so that's why it was also so slow because you had to constrict each pair and send each pair to your model. And so right now we don't have to do that and so it's much better.
 
 Demetrios:
 Yeah, that makes sense. One question from my side is it took you, I think you said in October you started with the A B test and then in December you rolled it out. What was that last slide that you had?
@@ -196,7 +196,7 @@ Nicolas Mauti:
 Thanks.
 
 Demetrios:
-All right, everyone. By the way, in case you want to join us and talk about what you're working on and how you're using Qdrant or what you're doing in the semantic space or [semantic search](https://qdrant.tech/documentation/tutorials/search-beginners/) or vector space, all that fun stuff, hit us up. We would love to have you on here. One last question for you, Nicola. Something came through. What indexing method do you use? Is it good for using OpenAI embeddings?
+All right, everyone. By the way, in case you want to join us and talk about what you're working on and how you're using Qdrant or what you're doing in the semantic space or [semantic search](https://qdrant.tech/documentation/tutorials-basics/search-beginners/) or vector space, all that fun stuff, hit us up. We would love to have you on here. One last question for you, Nicola. Something came through. What indexing method do you use? Is it good for using OpenAI embeddings?
 
 Nicolas Mauti:
 So in our case, we have our own model to build the embeddings.

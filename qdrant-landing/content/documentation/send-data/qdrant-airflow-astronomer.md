@@ -3,7 +3,7 @@ title: Querying with Airflow
 weight: 10
 hideInSidebar: true
 aliases:
-  - /documentation/examples/qdrant-airflow-astronomer/
+  - /documentation/send-data/qdrant-airflow-astronomer/
 ---
 
 # Qdrant Semantic Querying with Airflow and Astronomer

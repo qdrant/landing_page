@@ -121,7 +121,7 @@ A vector database is made of multiple different entities and relations. Let's un
 
 ### Collections
 
-A [collection](https://qdrant.tech/documentation/concepts/collections/) is essentially a group of **vectors** (or “[points](https://qdrant.tech/documentation/concepts/points/)”) that are logically grouped together **based on similarity or a specific task**. Every vector within a collection shares the same dimensionality and can be compared using a single metric. Avoid creating multiple collections unless necessary; instead, consider techniques like **sharding** for scaling across nodes or **multitenancy** for handling different use cases within the same infrastructure.
+A [collection](https://qdrant.tech/documentation/manage-data/collections/) is essentially a group of **vectors** (or “[points](https://qdrant.tech/documentation/manage-data/points/)”) that are logically grouped together **based on similarity or a specific task**. Every vector within a collection shares the same dimensionality and can be compared using a single metric. Avoid creating multiple collections unless necessary; instead, consider techniques like **sharding** for scaling across nodes or **multitenancy** for handling different use cases within the same infrastructure.
 
 ### Distance Metrics 
 
@@ -154,7 +154,7 @@ client.create_collection(
 )
 ```
 
-For other configurations like `hnsw_config.on_disk` or `memmap_threshold`, see the Qdrant documentation for [Storage.](https://qdrant.tech/documentation/concepts/storage/)
+For other configurations like `hnsw_config.on_disk` or `memmap_threshold`, see the Qdrant documentation for [Storage.](https://qdrant.tech/documentation/manage-data/storage/)
 
 ### SDKs
 
@@ -186,7 +186,7 @@ In Qdrant, indexing is modular. You can configure indexes for **both vectors and
 
 You need to build the payload index for **each field** you'd like to search. The magic here is in the combination: HNSW finds similar vectors, and the payload index makes sure only the ones that fit your criteria come through. Learn more about Qdrant's [Filterable HNSW](https://qdrant.tech/articles/filterable-hnsw/) and why it was built like this.
 
-> Combining [full-text search](https://qdrant.tech/documentation/concepts/indexing/#full-text-index) with vector-based search gives you even more versatility. You can simultaneously search for conceptually similar documents while ensuring specific keywords are present, all within the same query.
+> Combining [full-text search](https://qdrant.tech/documentation/manage-data/indexing/#full-text-index) with vector-based search gives you even more versatility. You can simultaneously search for conceptually similar documents while ensuring specific keywords are present, all within the same query.
 
 ### 2. Searching: Approximate Nearest Neighbors (ANN) Search
 
@@ -334,7 +334,7 @@ It works by converting high-dimensional vectors, which typically use `4 bytes` p
 
 Quantization reduces data precision, and yes, this does lead to some loss of accuracy.  However, for binary quantization, **OpenAI embeddings** achieves this performance improvement at a cost of only 5% of accuracy. If you apply techniques like **oversampling** and **rescoring**, this loss can be brought down even further.
 
-However, binary quantization isn’t the only available option. Techniques like [**Scalar Quantization**](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization) and [**Product Quantization**](https://qdrant.tech/documentation/guides/quantization/#product-quantization) are also popular alternatives when optimizing vector compression.
+However, binary quantization isn’t the only available option. Techniques like [**Scalar Quantization**](https://qdrant.tech/documentation/manage-data/quantization/#scalar-quantization) and [**Product Quantization**](https://qdrant.tech/documentation/manage-data/quantization/#product-quantization) are also popular alternatives when optimizing vector compression.
 
 You can set up your chosen quantization method using the `quantization_config` parameter when creating a new collection:
 
@@ -414,7 +414,7 @@ client.create_collection(
 
 We recommend using sharding and replication together so that your data is both split across nodes and replicated for availability. 
 
-For more details on features like **user-defined sharding, node failure recovery**, and **consistency guarantees**, see our guide on [Distributed Deployment.](https://qdrant.tech/documentation/guides/distributed_deployment/)
+For more details on features like **user-defined sharding, node failure recovery**, and **consistency guarantees**, see our guide on [Distributed Deployment.](https://qdrant.tech/documentation/distributed_deployment/)
 
 ## Multitenancy: Data Isolation for Multi-Tenant Architectures
 
@@ -477,13 +477,13 @@ You can easily setup your access tokens and secure access to sensitive data thro
 
 <img src="/articles_data/what-is-a-vector-database/jwt-web-ui.png" alt="Qdrant Web UI for generating a new access token." width="1000">
 
-By default, Qdrant instances are **unsecured**, so it's important to configure security measures before moving to production. To learn more about how to configure security for your Qdrant instance and other advanced options, please check out the [official Qdrant documentation on security.](https://qdrant.tech/documentation/guides/security/)
+By default, Qdrant instances are **unsecured**, so it's important to configure security measures before moving to production. To learn more about how to configure security for your Qdrant instance and other advanced options, please check out the [official Qdrant documentation on security.](https://qdrant.tech/documentation/security/)
 
 ## Time to Experiment
 
 As we've seen in this article, a vector database is definitely not **just** a database as we traditionally know it. It opens up a world of possibilities, from advanced similarity search to hybrid search that allows content retrieval with both context and precision. 
 
-But there’s no better way to learn than by doing. Try building a [semantic search engine](https://qdrant.tech/documentation/tutorials/search-beginners/) or experiment deploying a [hybrid search service](https://qdrant.tech/documentation/tutorials/hybrid-search-fastembed/) from zero. You'll realize there are endless ways you can take advantage of vectors.
+But there’s no better way to learn than by doing. Try building a [semantic search engine](https://qdrant.tech/documentation/tutorials-basics/search-beginners/) or experiment deploying a [hybrid search service](https://qdrant.tech/documentation/tutorials-search-engineering/hybrid-search-fastembed/) from zero. You'll realize there are endless ways you can take advantage of vectors.
 
 | **Use Case**                     | **How It Works**                                                                                      | **Examples**                                             |
 |-----------------------------------|------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|

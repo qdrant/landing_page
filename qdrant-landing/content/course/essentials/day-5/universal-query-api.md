@@ -9,11 +9,11 @@ isLesson: true
 
 # The Universal Query API
 
-Picture this: a customer types "leather jackets" into your store's search bar. You want to show items that match the style semantically - so a bomber jacket surfaces even if it doesn't mention "leather jackets" verbatim - but you also need to enforce your business rules. Only products under $200, only items in stock, only jackets released within the past year. Traditionally, you'd fire off a search, gather results, then apply filters and glue code. With Qdrant's [Universal Query API](/documentation/concepts/hybrid-queries/), all of that happens in one declarative request.
+Picture this: a customer types "leather jackets" into your store's search bar. You want to show items that match the style semantically - so a bomber jacket surfaces even if it doesn't mention "leather jackets" verbatim - but you also need to enforce your business rules. Only products under $200, only items in stock, only jackets released within the past year. Traditionally, you'd fire off a search, gather results, then apply filters and glue code. With Qdrant's [Universal Query API](/documentation/search/hybrid-queries/), all of that happens in one declarative request.
 
 ## Run dense + sparse retrieval in parallel with RRF
 
-First, you retrieve candidates from multiple sources in parallel and fuse their ranks. Below, we blend dense semantics from a BGE model with sparse keyword matching from SPLADE by using [Reciprocal Rank Fusion](/documentation/concepts/hybrid-queries/#hybrid-search) to merge the two lists:
+First, you retrieve candidates from multiple sources in parallel and fuse their ranks. Below, we blend dense semantics from a BGE model with sparse keyword matching from SPLADE by using [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#hybrid-search) to merge the two lists:
 
 ```python
 from qdrant_client import QdrantClient, models

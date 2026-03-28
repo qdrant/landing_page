@@ -3,7 +3,7 @@ title: Hybrid Queries
 weight: 15
 aliases:
   - ../hybrid-queries
-  - /documentation/concepts/hybrid-queries/
+  - /documentation/search/hybrid-queries/
 hideInSidebar: false
 ---
 
@@ -11,7 +11,7 @@ hideInSidebar: false
 
 _Available as of v1.10.0_
 
-With the introduction of [multiple named vectors per point](/documentation/concepts/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries,
+With the introduction of [multiple named vectors per point](/documentation/manage-data/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries,
 or by performing the search in more than one stage.
 
 Qdrant has a flexible and universal interface to make this possible, called `Query API` ([API reference](https://api.qdrant.tech/api-reference/search/query-points)).
@@ -131,4 +131,4 @@ REST API ([Schema](https://api.qdrant.tech/master/api-reference/search/query-poi
 
 {{< code-snippet path="/documentation/headless/snippets/query-groups/basic/" >}}
 
-For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](/documentation/concepts/search/#search-groups) and [lookup](/documentation/concepts/search/#lookup-in-groups).
+For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](/documentation/search/search/#search-groups) and [lookup](/documentation/search/search/#lookup-in-groups).

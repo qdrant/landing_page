@@ -3,7 +3,7 @@ title: Security
 weight: 255
 partition: deploy
 aliases:
-    - /documentation/cloud/security/
+    - /documentation/cloud-security/
 ---
 
 # Qdrant Cloud Security

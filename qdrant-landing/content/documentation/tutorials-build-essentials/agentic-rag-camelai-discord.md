@@ -4,7 +4,7 @@ weight: 20
 #partition: ecosystem
 social_preview_image: /documentation/examples/agentic-rag-camelai-discord/social-preview.png
 aliases:
-  - /documentation/agentic-rag-camelai-discord/
+  - /documentation/tutorials-build-essentials/agentic-rag-camelai-discord/
 ---
 
 <!--  ![agentic-rag-camelai-astronaut](/documentation/examples/agentic-rag-camelai-discord/astronaut-main.png) -->
@@ -179,11 +179,11 @@ vector_retriever = VectorRetriever(embedding_model=embedding_instance,
 
 qdrant_urls = [
     "https://qdrant.tech/documentation/overview",
-    "https://qdrant.tech/documentation/guides/installation",
-    "https://qdrant.tech/documentation/concepts/filtering",
-    "https://qdrant.tech/documentation/concepts/indexing",
-    "https://qdrant.tech/documentation/guides/distributed_deployment",
-    "https://qdrant.tech/documentation/guides/quantization"
+    "https://qdrant.tech/documentation/installation",
+    "https://qdrant.tech/documentation/search/filtering",
+    "https://qdrant.tech/documentation/manage-data/indexing",
+    "https://qdrant.tech/documentation/distributed_deployment",
+    "https://qdrant.tech/documentation/manage-data/quantization"
     # Add more URLs as needed
 ]
 

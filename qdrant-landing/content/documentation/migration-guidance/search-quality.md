@@ -3,7 +3,7 @@ title: Search Quality
 weight: 15
 partition: ecosystem
 aliases:
-  - /documentation/migration-verification/search-quality/
+  - /documentation/migration-guidance/search-quality/
 ---
 
 # Search Quality Verification
@@ -26,7 +26,7 @@ This is perhaps the hardest part of migration verification. The guide breaks it 
 
 ## Tier 1: Spot-Check (Every Migration)
 
-Run your [baseline queries](/documentation/migration-verification/pre-migration-baseline/) against Qdrant and eyeball the results. This catches configuration-level errors that would affect every query: wrong distance metric, missing index, broken filter logic.
+Run your [baseline queries](/documentation/migration-guidance/pre-migration-baseline/) against Qdrant and eyeball the results. This catches configuration-level errors that would affect every query: wrong distance metric, missing index, broken filter logic.
 
 ```py
 from qdrant_client import QdrantClient, models
@@ -94,7 +94,7 @@ def tier1_report(comparison_results):
 * **No empty results:** If a query returned results on the source, it should return results on Qdrant
 * **Score range is reasonable:** Cosine similarity scores should be between -1 and 1; dot product scores vary by vector magnitude
 
-**If Tier 1 fails:** Stop. The issue is almost certainly a configuration problem (distance metric, missing index, filter translation error). Go to [Diagnosing Discrepancies](/documentation/migration-verification/diagnosing-discrepancies/) before running further checks.
+**If Tier 1 fails:** Stop. The issue is almost certainly a configuration problem (distance metric, missing index, filter translation error). Go to [Diagnosing Discrepancies](/documentation/migration-guidance/diagnosing-discrepancies/) before running further checks.
 
 ---
 
@@ -201,7 +201,7 @@ Even a correct migration will often show recall@10 between 0.85 and 0.95 rather 
 | Min recall@10 | ≥0.50 | 0.30 to 0.50 | <0.30 |
 | P5 recall@10 | ≥0.60 | 0.40 to 0.60 | <0.40 |
 
-**If Tier 2 passes but a few queries have low recall:** This is normal. Check whether the low-recall queries involve highly selective filters or edge cases. See [Diagnosing Discrepancies](/documentation/migration-verification/diagnosing-discrepancies/).
+**If Tier 2 passes but a few queries have low recall:** This is normal. Check whether the low-recall queries involve highly selective filters or edge cases. See [Diagnosing Discrepancies](/documentation/migration-guidance/diagnosing-discrepancies/).
 
 ### Extending Tier 2: Score Correlation
 
@@ -387,4 +387,4 @@ Most teams don't have labeled evaluation data on migration day. That's fine. Her
 
 ---
 
-**Next:** [Diagnosing Discrepancies](/documentation/migration-verification/diagnosing-discrepancies/)
+**Next:** [Diagnosing Discrepancies](/documentation/migration-guidance/diagnosing-discrepancies/)

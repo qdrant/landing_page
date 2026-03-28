@@ -2,7 +2,7 @@
 title: LlamaIndex
 aliases:
   - ../integrations/llama-index/
-  - /documentation/overview/integrations/llama-index/
+  - /documentation/frameworks/llama-index/
 ---
 
 # LlamaIndex

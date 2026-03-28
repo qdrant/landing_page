@@ -3,8 +3,8 @@ title: Administration
 weight: 10
 aliases:
   - ../administration
-  - /documentation/guides/administration/
-  - /documentation/operations/administration/
+  - /documentation/configuration-ops/administration/
+  - /documentation/configuration-ops/administration/
 ---
 
 # Administration
@@ -22,7 +22,7 @@ example, by deleting a collection. After resolving Qdrant can be restarted
 normally to continue operation.
 
 In recovery mode, collection operations are limited to
-[deleting](/documentation/concepts/collections/#delete-collection) a
+[deleting](/documentation/manage-data/collections/#delete-collection) a
 collection. That is because only collection metadata is loaded during recovery.
 
 To enable recovery mode with the Qdrant Docker image you must set the

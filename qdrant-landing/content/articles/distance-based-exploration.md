@@ -26,7 +26,7 @@ Examining data points individually is not always the best way to grasp the struc
 As numbers in a table obtain meaning when plotted on a graph, visualising distances (similar/dissimilar) between unstructured data items can reveal hidden structures and patterns.
 
 {{< figure src="/articles_data/distance-based-exploration/data-on-chart.png" alt="Data visualization" caption="Visualized chart, very intuitive" >}}
-There are many tools to investigate data similarity, and Qdrant's [1.12 release](https://qdrant.tech/blog/qdrant-1.12.x/) made it much easier to start this investigation.  With the new [Distance Matrix API](/documentation/concepts/explore/#distance-matrix), Qdrant handles the most computationally expensive part of the process—calculating the distances between data points.
+There are many tools to investigate data similarity, and Qdrant's [1.12 release](https://qdrant.tech/blog/qdrant-1.12.x/) made it much easier to start this investigation.  With the new [Distance Matrix API](/documentation/search/explore/#distance-matrix), Qdrant handles the most computationally expensive part of the process—calculating the distances between data points.
 
 In many implementations, the distance matrix calculation was part of the clustering or visualization processes, requiring either brute-force computation or building a temporary index. With Qdrant, however, the data is already indexed, and the distance matrix can be computed relatively cheaply.
 

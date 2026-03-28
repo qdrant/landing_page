@@ -5,9 +5,9 @@ hideInSidebar: true
 partition: ecosystem
 social_preview_image: /documentation/examples/multimodal-search/social_preview.png
 aliases:
-  - /documentation/tutorials/multimodal-search-fastembed/
-  - /documentation/advanced-tutorials/multimodal-search-fastembed/
-  - /documentation/multimodal-search/
+  - /documentation/tutorials-build-essentials/multimodal-search/
+  - /documentation/tutorials-build-essentials/multimodal-search/
+  - /documentation/tutorials-build-essentials/multimodal-search/
 ---
 
 # Multimodal and Multilingual RAG with LlamaIndex and Qdrant

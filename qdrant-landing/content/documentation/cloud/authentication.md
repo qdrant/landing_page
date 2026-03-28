@@ -7,7 +7,7 @@ weight: 10
 
 This page describes what Database API keys are and shows you how to use the Qdrant Cloud Console to create a Database API key for a cluster. You will learn how to connect to your cluster using the new API key.
 
-Database API keys can be configured with granular access control. Database API keys with granular access control can be recognized by starting with `eyJhb`. Please refer to the [Table of access](/documentation/guides/security/#table-of-access) to understand what permissions you can configure.
+Database API keys can be configured with granular access control. Database API keys with granular access control can be recognized by starting with `eyJhb`. Please refer to the [Table of access](/documentation/security/#table-of-access) to understand what permissions you can configure.
 
 Database API keys with granular access control are available for clusters using version **v1.11.0** and above.
 

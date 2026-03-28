@@ -2,7 +2,7 @@
 title: Jina Embeddings
 aliases:
   - /documentation/embeddings/jina-embeddings/
-  - /documentation/integrations/jina-embeddings/
+  - /documentation/embeddings/jina-embeddings/
 ---
 
 # Jina Embeddings

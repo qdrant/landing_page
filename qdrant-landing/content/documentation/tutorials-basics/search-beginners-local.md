@@ -3,8 +3,8 @@ title: Semantic Search 101
 hideInSidebar: true
 aliases:
   - /documentation/tutorials/mighty.md/
-  - /documentation/tutorials/search-beginners/
-  - /documentation/beginner-tutorials/search-beginners/
+  - /documentation/tutorials-basics/search-beginners/
+  - /documentation/tutorials-basics/search-beginners/
 ---
 
 # Build a Semantic Search Engine in 5 Minutes

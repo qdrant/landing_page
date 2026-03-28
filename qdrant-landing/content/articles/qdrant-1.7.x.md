@@ -51,11 +51,11 @@ Things have changed since then, as so many of you wanted a single tool for spars
 
 If you're coming across the topic of sparse vectors for the first time, our [Brief History of Search](/documentation/overview/vector-search/) explains the difference between sparse and dense vectors.
 
-Check out the [sparse vectors article](/articles/sparse-vectors/) and [sparse vectors index docs](/documentation/concepts/indexing/#sparse-vector-index) for more details on what this new index means for Qdrant users.
+Check out the [sparse vectors article](/articles/sparse-vectors/) and [sparse vectors index docs](/documentation/manage-data/indexing/#sparse-vector-index) for more details on what this new index means for Qdrant users.
 
 ### Discovery API
 
-The recently launched [Discovery API](/documentation/concepts/explore/#discovery-api) extends the range of scenarios for leveraging vectors. While its interface mirrors the [Recommendation API](/documentation/concepts/explore/#recommendation-api), it focuses on refining the search parameters for greater precision.
+The recently launched [Discovery API](/documentation/search/explore/#discovery-api) extends the range of scenarios for leveraging vectors. While its interface mirrors the [Recommendation API](/documentation/search/explore/#recommendation-api), it focuses on refining the search parameters for greater precision.
 The concept of 'context' refers to a collection of positive-negative pairs that define zones within a space. Each pair effectively divides the space into positive or negative segments. This concept guides the search operation to prioritize points based on their inclusion within positive zones or their avoidance of negative zones. Essentially, the search algorithm favors points that fall within multiple positive zones or steer clear of negative ones.
 
 The Discovery API can be used in two ways - either with or without the target point. The first case is called a **discovery search**, while the second is called a **context search**.
@@ -66,7 +66,7 @@ The Discovery API can be used in two ways - either with or without the target po
 
 ![Discovery search visualization](/articles_data/qdrant-1.7.x/discovery-search.png)
 
-Please refer to the [Discovery API documentation on discovery search](/documentation/concepts/explore/#discovery-search) for more details and the internal mechanics of the operation.
+Please refer to the [Discovery API documentation on discovery search](/documentation/search/explore/#discovery-search) for more details and the internal mechanics of the operation.
 
 #### Context search
 
@@ -92,7 +92,7 @@ POST /collections/my_collection/points/search
 }
 ```
 
-If you want to know more about the user-defined sharding, please refer to the [sharding documentation](/documentation/guides/distributed_deployment/#sharding).
+If you want to know more about the user-defined sharding, please refer to the [sharding documentation](/documentation/distributed_deployment/#sharding).
 
 ### Snapshot-based shard transfer
 
@@ -101,7 +101,7 @@ That's a really more in depth technical improvement for the distributed mode use
 Moving shards is required for dynamical scaling of the cluster. Your data can migrate between nodes, and the way you move it is crucial for the performance of the whole system. The good old `stream_records` method (still the default one) transmits all the records between the machines and indexes them on the target node. 
 In the case of moving the shard, it's necessary to recreate the HNSW index each time. However, with the introduction of the new `snapshot` approach, the snapshot itself, inclusive of all data and potentially quantized content, is transferred to the target node. This comprehensive snapshot includes the entire index, enabling the target node to seamlessly load it and promptly begin handling requests without the need for index recreation.
 
-There are multiple scenarios in which you may prefer one over the other. Please check out the docs of the [shard transfer method](/documentation/guides/distributed_deployment/#shard-transfer-method) for more details and head-to-head comparison. As for now, the old `stream_records` method is still the default one, but we may decide to change it in the future.
+There are multiple scenarios in which you may prefer one over the other. Please check out the docs of the [shard transfer method](/documentation/distributed_deployment/#shard-transfer-method) for more details and head-to-head comparison. As for now, the old `stream_records` method is still the default one, but we may decide to change it in the future.
 
 ## Minor improvements
 

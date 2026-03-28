@@ -145,7 +145,7 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(":memory:")  # Qdrant is running from RAM.
 ```
 
-Let's create a [collection](https://qdrant.tech/documentation/concepts/collections/) with our movie data.
+Let's create a [collection](https://qdrant.tech/documentation/manage-data/collections/) with our movie data.
 
 ```python
 client.create_collection(

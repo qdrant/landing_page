@@ -18,7 +18,7 @@ In dense vectors, Qdrant supports up to 65,535 dimensions.
 
 ### What is the maximum size of vector metadata that can be stored?
 
-There is no inherent limitation on metadata size, but it should be [optimized for performance and resource usage](/documentation/guides/optimize/). Users can set upper limits in the configuration.
+There is no inherent limitation on metadata size, but it should be [optimized for performance and resource usage](/documentation/optimization/optimize/). Users can set upper limits in the configuration.
 
 ### Can the same similarity search query yield different results on different machines?
 
@@ -30,7 +30,7 @@ This depends on the nature of your data and the specific application. Consider f
 
 ### How does Qdrant handle different vector embeddings from various providers in the same collection?
 
-Qdrant natively [supports multiple vectors per data point](/documentation/concepts/vectors/#multivectors), allowing different embeddings from various providers to coexist within the same collection.
+Qdrant natively [supports multiple vectors per data point](/documentation/manage-data/vectors/#multivectors), allowing different embeddings from various providers to coexist within the same collection.
 
 ### Can I migrate my embeddings from another vector store to Qdrant?
 
@@ -46,14 +46,14 @@ Make sure to check that the collection status is `green` and that the number of 
 ### Why collection info shows inaccurate number of points?
 
 Collection info API in Qdrant returns an approximate number of points in the collection.
-If you need an exact number, you can use the [count](/documentation/concepts/points/#counting-points) API.
+If you need an exact number, you can use the [count](/documentation/manage-data/points/#counting-points) API.
 
 ### Vectors in the collection don't match what I uploaded.
 
 There are two possible reasons for this:
 
 - You used the `Cosine` distance metric in the [collection settings](/concepts/collections/#collections). In this case, Qdrant pre-normalizes your vectors for faster distance computation. If you strictly need the original vectors to be preserved, consider using the `Dot` distance metric instead.
-- You used the `uint8` [datatype](/documentation/concepts/vectors/#datatypes) to store vectors. `uint8` requires a special format for input values, which might not be compatible with the typical output of embedding models.
+- You used the `uint8` [datatype](/documentation/manage-data/vectors/#datatypes) to store vectors. `uint8` requires a special format for input values, which might not be compatible with the typical output of embedding models.
 
 
 ## Search 
@@ -71,7 +71,7 @@ If you're still seeing `"vector": null` in your results, it might be that the ve
 
 ### How can I search without a vector?
 
-You are likely looking for the [scroll](/documentation/concepts/points/#scroll-points) method. It allows you to retrieve the records based on filters or even iterate over all the records in the collection.
+You are likely looking for the [scroll](/documentation/manage-data/points/#scroll-points) method. It allows you to retrieve the records based on filters or even iterate over all the records in the collection.
 
 ### Does Qdrant support a full-text search or a hybrid search?
 
@@ -84,8 +84,8 @@ What Qdrant can do:
 - Apply full-text filters to the vector search (i.e., perform vector search among the records with specific words or phrases)
 - Do prefix search and semantic [search-as-you-type](/articles/search-as-you-type/)
 - Sparse vectors, as used in [SPLADE](https://github.com/naver/splade) or similar models
-- [Multi-vectors](/documentation/concepts/vectors/#multivectors), for example ColBERT and other late-interaction models
-- Combination of the [multiple searches](/documentation/concepts/hybrid-queries/)
+- [Multi-vectors](/documentation/manage-data/vectors/#multivectors), for example ColBERT and other late-interaction models
+- Combination of the [multiple searches](/documentation/search/hybrid-queries/)
 
 What Qdrant doesn't plan to support:
 
@@ -109,7 +109,7 @@ Please read more about collections, isolation, and multiple users in our [Multit
 
 ### How do I upload a large number of vectors into a Qdrant collection?
 
-Read about our recommendations in the [bulk upload](/documentation/tutorials/bulk-upload/) tutorial.
+Read about our recommendations in the [bulk upload](/documentation/tutorials-develop/bulk-upload/) tutorial.
 
 ### Can I only store quantized vectors and discard full precision vectors?
 
@@ -144,7 +144,7 @@ You should always index first if you know your filters upfront. If you need to i
 ## Should I create one Qdrant collection per user? 
 No. Creating one collection per user is more resource intensive. 
 
-Instead of creating separate collections for each user, we recommend creating a [single collection](https://qdrant.tech/documentation/guides/multiple-partitions/) and separate access using payloads. Each Qdrant point can have a payload as metadata. For multitenancy, you can include a `user_id` or `tenant_id` for each point. To optimize storage further, you can enable [tenant indexing](https://qdrant.tech/documentation/concepts/indexing/#tenant-index) for payload fields.
+Instead of creating separate collections for each user, we recommend creating a [single collection](https://qdrant.tech/documentation/manage-data/multitenancy/) and separate access using payloads. Each Qdrant point can have a payload as metadata. For multitenancy, you can include a `user_id` or `tenant_id` for each point. To optimize storage further, you can enable [tenant indexing](https://qdrant.tech/documentation/manage-data/indexing/#tenant-index) for payload fields.
 
 ## Cloud
 

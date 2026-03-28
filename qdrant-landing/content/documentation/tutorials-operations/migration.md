@@ -1,7 +1,7 @@
 ---
 title: Data Migration
 aliases:
-    - /documentation/database-tutorials/migration/
+    - /documentation/tutorials-operations/migration/
 weight: 20
 ---
 
@@ -19,7 +19,7 @@ In this tutorial, we will learn how to use the migration tool and walk through a
 
 ## Why use this instead of Qdrant’s Native Snapshotting?
 
-Qdrant supports [snapshot-based backups](https://qdrant.tech/documentation/concepts/snapshots/), which are low-level disk operations built for same-cluster recovery or local backups. These snapshots:
+Qdrant supports [snapshot-based backups](https://qdrant.tech/documentation/snapshots/), which are low-level disk operations built for same-cluster recovery or local backups. These snapshots:
 
 * Require snapshot consistency across nodes.   
 * Can be hard to port across machines or cloud zones. 
@@ -91,7 +91,7 @@ When the migration is complete, you will see the new collection on Qdrant with a
 
 The **Qdrant Migration Tool** makes data transfer across vector database instances effortless. Whether you're moving between cloud regions, upgrading from self-hosted to Qdrant Cloud, or switching from other databases such as Pinecone, this tool saves you hours of manual effort. [Try it today](https://github.com/qdrant/migration).
 
-For detailed per-provider migration guides (Pinecone, Weaviate, Milvus, Elasticsearch, pgvector), see the [Migrate to Qdrant](/documentation/migrate-to-qdrant/) section. After migrating, use the [Migration Verification Guide](/documentation/migration-verification/) to confirm data integrity and search quality.
+For detailed per-provider migration guides (Pinecone, Weaviate, Milvus, Elasticsearch, pgvector), see the [Migrate to Qdrant](/documentation/migrate-to-qdrant/) section. After migrating, use the [Migration Verification Guide](/documentation/migration-guidance/) to confirm data integrity and search quality.
 
 
 

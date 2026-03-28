@@ -4,7 +4,7 @@ weight: 30
 partition: ecosystem
 social_preview_image: /documentation/examples/rag-deepseek/social_preview.png
 aliases:
-    - /documentation/rag-deepseek/
+    - /documentation/tutorials-build-essentials/rag-deepseek/
 ---
 
 <!-- ![deepseek-rag-qdrant](/documentation/examples/rag-deepseek/deepseek.png) -->
@@ -47,7 +47,7 @@ pip install "qdrant-client[fastembed]>=1.14.1"
 
 [Qdrant](https://qdrant.tech) will act as a knowledge base providing the context information for the prompts we'll be sending to the LLM.
 
-You can get a free-forever Qdrant cloud instance at http://cloud.qdrant.io. Learn about setting up your instance from the [Quickstart](https://qdrant.tech/documentation/quickstart-cloud/).
+You can get a free-forever Qdrant cloud instance at http://cloud.qdrant.io. Learn about setting up your instance from the [Quickstart](https://qdrant.tech/documentation/cloud-quickstart/).
 
 
 ```python

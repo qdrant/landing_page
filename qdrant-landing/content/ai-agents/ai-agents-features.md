@@ -48,7 +48,7 @@ features:
   description: Qdrant’s architecture is optimized for high-throughput embedding processing, minimizing CPU load and preventing performance bottlenecks. This enables AI agents in Agentic RAG workflows to execute complex, multi-step tasks efficiently, ensuring smooth operation even at scale.
   link:
     text: Distributed Deployment
-    url: /documentation/guides/distributed_deployment/
+    url: /documentation/distributed_deployment/
 - id: 4
   icon:
     src: /icons/outline/speedometer-blue.svg

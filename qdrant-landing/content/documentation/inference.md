@@ -4,7 +4,7 @@ weight: 220
 partition: develop
 aliases:
   - ../inference
-  - /documentation/concepts/inference/
+  - /documentation/inference/
 ---
 
 # Inference
@@ -280,6 +280,6 @@ The following example demonstrates how to insert a point into a collection with 
 
 Note that, even though the request contains two inference objects, Qdrant Cloud's inference service only makes one inference request to the OpenAI API, saving one round trip and reducing costs.
 
-A good use case for MRL is [prefetching](https://qdrant.tech/documentation/concepts/hybrid-queries/#multi-stage-queries) with smaller vectors, followed by re-scoring with the original-sized vectors, effectively balancing speed and accuracy. This example first prefetches 1000 candidates using a 64-dimensional reduced vector (`small`) and then re-scores them using the original full-size vector (`large`) to return the top 10 most relevant results:
+A good use case for MRL is [prefetching](https://qdrant.tech/documentation/search/hybrid-queries/#multi-stage-queries) with smaller vectors, followed by re-scoring with the original-sized vectors, effectively balancing speed and accuracy. This example first prefetches 1000 candidates using a 64-dimensional reduced vector (`small`) and then re-scores them using the original full-size vector (`large`) to return the top 10 most relevant results:
 
 {{< code-snippet path="/documentation/headless/snippets/inference/mrl-multi-stage/" >}}

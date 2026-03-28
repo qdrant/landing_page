@@ -289,7 +289,7 @@ Fusion is not the only way to build a hybrid search. Sometimes, you have a bigge
 In the next lesson, we will build a hybrid search pipeline using Qdrant's Universal Query API with real data. Now that you know how it might be done, it's time to get your hands dirty with real implementation!
 
 **Additional resources:**
-- [Qdrant Documentation: Hybrid Search](/documentation/concepts/hybrid-queries/) - Complete technical reference
-- [Universal Query API Guide](/documentation/concepts/search/#search-api) - API documentation
+- [Qdrant Documentation: Hybrid Search](/documentation/search/hybrid-queries/) - Complete technical reference
+- [Universal Query API Guide](/documentation/search/search/#search-api) - API documentation
 
 **Ready for hands-on practice?** In the next demo, you'll implement a real hybrid search, test different strategies, and measure the impact on search quality!

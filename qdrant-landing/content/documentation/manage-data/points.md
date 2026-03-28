@@ -3,13 +3,13 @@ title: Points
 weight: 5
 aliases:
   - ../points
-  - /documentation/concepts/points/
+  - /documentation/manage-data/points/
 ---
 
 # Points
 
 The points are the central entity that Qdrant operates with.
-A point is a record consisting of a [vector](/documentation/concepts/vectors/) and an optional [payload](/documentation/concepts/payload/).
+A point is a record consisting of a [vector](/documentation/manage-data/vectors/) and an optional [payload](/documentation/manage-data/payload/).
 
 It looks like this:
 
@@ -22,8 +22,8 @@ It looks like this:
 }
 ```
 
-You can search among the points grouped in one [collection](/documentation/concepts/collections/) based on vector similarity.
-This procedure is described in more detail in the [search](/documentation/concepts/search/) and [filtering](/documentation/concepts/filtering/) sections.
+You can search among the points grouped in one [collection](/documentation/manage-data/collections/) based on vector similarity.
+This procedure is described in more detail in the [search](/documentation/search/search/) and [filtering](/documentation/search/filtering/) sections.
 
 This section explains how to create and manage vectors.
 
@@ -71,7 +71,7 @@ Here is a list of supported vector types:
 It is possible to attach more than one type of vector to a single point.
 In Qdrant we call these Named Vectors.
 
-Read more about vector types, how they are stored and optimized in the [vectors](/documentation/concepts/vectors/) section.
+Read more about vector types, how they are stored and optimized in the [vectors](/documentation/manage-data/vectors/) section.
 
 
 ## Upload points
@@ -290,7 +290,7 @@ To delete entire points, see [deleting points](#delete-points).
 
 ### Update payload
 
-Learn how to modify the payload of a point in the [Payload](/documentation/concepts/payload/#update-payload) section.
+Learn how to modify the payload of a point in the [Payload](/documentation/manage-data/payload/#update-payload) section.
 
 ## Delete points
 
@@ -390,7 +390,7 @@ _Available as of v1.8.0_
 
 When using the [`scroll`](#scroll-points) API, you can sort the results by payload key. For example, you can retrieve points in chronological order if your payloads have a `"timestamp"` field, as is shown from the example below:
 
-<aside role="status">Without an appropriate index, payload-based ordering would create too much load on the system for each request. Qdrant therefore requires a payload index which supports <a href=/documentation/concepts/indexing/#payload-index target="_blank">Range filtering conditions</a> on the field used for <code>order_by</code></aside>
+<aside role="status">Without an appropriate index, payload-based ordering would create too much load on the system for each request. Qdrant therefore requires a payload index which supports <a href=/documentation/manage-data/indexing/#payload-index target="_blank">Range filtering conditions</a> on the field used for <code>order_by</code></aside>
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-order-by-simple/" >}}
 
@@ -440,10 +440,10 @@ order. These operations can be batched:
 - [Delete points](#delete-points): `delete_points` or `DeleteOperation`
 - [Update vectors](#update-vectors): `update_vectors` or `UpdateVectorsOperation`
 - [Delete vectors](#delete-vectors): `delete_vectors` or `DeleteVectorsOperation`
-- [Set payload](/documentation/concepts/payload/#set-payload): `set_payload` or `SetPayloadOperation`
-- [Overwrite payload](/documentation/concepts/payload/#overwrite-payload): `overwrite_payload` or `OverwritePayload`
-- [Delete payload](/documentation/concepts/payload/#delete-payload-keys): `delete_payload` or `DeletePayloadOperation`
-- [Clear payload](/documentation/concepts/payload/#clear-payload): `clear_payload` or `ClearPayloadOperation`
+- [Set payload](/documentation/manage-data/payload/#set-payload): `set_payload` or `SetPayloadOperation`
+- [Overwrite payload](/documentation/manage-data/payload/#overwrite-payload): `overwrite_payload` or `OverwritePayload`
+- [Delete payload](/documentation/manage-data/payload/#delete-payload-keys): `delete_payload` or `DeletePayloadOperation`
+- [Clear payload](/documentation/manage-data/payload/#clear-payload): `clear_payload` or `ClearPayloadOperation`
 
 The following example snippet makes use of all operations.
 

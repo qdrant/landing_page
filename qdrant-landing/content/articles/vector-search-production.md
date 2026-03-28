@@ -52,17 +52,17 @@ This article will help you successfully deploy and maintain vector search system
 
 ### Ensure your hot dataset fits in RAM for low-latency queries. 
 
-If not, then you'll have to [**offload data 'on_disk'**](/documentation/concepts/storage/#configuring-memmap-storage). If this parameter is enabled, Qdrant caches your most frequently accessed vectors loaded into RAM, and the rest is memory-mapped onto the disk. 
+If not, then you'll have to [**offload data 'on_disk'**](/documentation/manage-data/storage/#configuring-memmap-storage). If this parameter is enabled, Qdrant caches your most frequently accessed vectors loaded into RAM, and the rest is memory-mapped onto the disk. 
 
 This ensures minimal disk access during queries, significantly reducing latency and boosting overall performance. By monitoring query patterns and usage metrics, you can identify which subsets of your data deserve dedicated in-memory storage, reserving disk access only for colder, less frequently queried vectors.
 
 ||
 |-|
-|**Read More:** [**Storage Documentation**](https://qdrant.tech/documentation/concepts/storage/)|
+|**Read More:** [**Storage Documentation**](https://qdrant.tech/documentation/manage-data/storage/)|
 
 ### Index Your Important Metadata to Avoid Costly Queries
 
-✅ You should always [**create payload indexes**](https://qdrant.tech/documentation/concepts/indexing/#payload-index) for all fields used in filters or sorting.
+✅ You should always [**create payload indexes**](https://qdrant.tech/documentation/manage-data/indexing/#payload-index) for all fields used in filters or sorting.
 
 Many users configure complex filters but may not be aware of the need to create corresponding payload indexes. 
 
@@ -72,11 +72,11 @@ Filtering after retrieving thousands of vectors can get expensive. If you don't 
 
 Unlike some other engines, Qdrant lets you make the optimal choice of which fields to index for your use case rather than creating indexes for every field by default.
 
-> **Note:** Don't forget to use the correct [**payload index type**](https://qdrant.tech/documentation/concepts/indexing/#payload-index). If there are numeric values, the you must use a numeric index. If you represent numbers in strings ("123"), a numeric index will not work.
+> **Note:** Don't forget to use the correct [**payload index type**](https://qdrant.tech/documentation/manage-data/indexing/#payload-index). If there are numeric values, the you must use a numeric index. If you represent numbers in strings ("123"), a numeric index will not work.
 
 ||
 |-|
-|**Read More:** [**Filtering Documentation**](https://qdrant.tech/documentation/concepts/filtering/)|
+|**Read More:** [**Filtering Documentation**](https://qdrant.tech/documentation/search/filtering/)|
 
 ### Don't Forget to Tune HNSW Search Parameters
 
@@ -88,7 +88,7 @@ Sometimes users don't properly balance HNSW search parameters. Setting the HNSW 
 
 ❓ **Use Case:** A customer ran advanced similarity searches across their vast dataset of nearly 800 million vectors. Initially, they found that queries took anywhere from 10 to 20 seconds, especially when combining multiple filters and metadata fields.
 
-> ✅ How can they retain accuracy and keep things fast?  [**The answer is optimization.**](https://qdrant.tech/documentation/guides/optimize/) 
+> ✅ How can they retain accuracy and keep things fast?  [**The answer is optimization.**](https://qdrant.tech/documentation/optimization/optimize/) 
 
 **Figure 1:** Qdrant is highly configurable. You can configure it for speed, precision or resource use. 
 ![qdrant resource tradeoffs](/docs/tradeoff.png)
@@ -99,8 +99,8 @@ This strategy balanced memory usage with performance: only the compact vectors n
 
 ||
 |-|
-|**Read More:** [**Optimization Guide**](https://qdrant.tech/documentation/guides/optimize/)|#optimizing-qdrant-performance-three-scenarios
-|**Read More:** [**HNSW Documentation**](https://qdrant.tech/documentation/concepts/indexing/#vector-index)|
+|**Read More:** [**Optimization Guide**](https://qdrant.tech/documentation/optimization/optimize/)|#optimizing-qdrant-performance-three-scenarios
+|**Read More:** [**HNSW Documentation**](https://qdrant.tech/documentation/manage-data/indexing/#vector-index)|
 
 ### Compress Your Data with Quantization Strategies
 
@@ -108,21 +108,21 @@ This strategy balanced memory usage with performance: only the compact vectors n
 |:-:|
 |**"We're using too much memory for our massive dataset."**|
 
-Many users skip [**quantization**](https://qdrant.tech/documentation/guides/quantization/), causing their index to consume excessive RAM and produce uneven performance. Some users hesitate to compromise precision, but this is not always the case.
+Many users skip [**quantization**](https://qdrant.tech/documentation/manage-data/quantization/), causing their index to consume excessive RAM and produce uneven performance. Some users hesitate to compromise precision, but this is not always the case.
 
 If your workload can tolerate a moderate drop in embedding precision, data compression offers a powerful way to shrink vector size and slash memory usage. By converting high-dimensional floating-point values into lower-bit formats (such as 8-bit scalar or even a single bit-sized representations), you can keep far more vectors in RAM while reducing disk footprint.
 
-> ✅ [**You should evaluate and apply quantization**](https://qdrant.tech/documentation/guides/quantization/#how-to-choose-the-right-quantization-method) if your use case allows. Quantization seriously improves performance and reduces storage costs.
+> ✅ [**You should evaluate and apply quantization**](https://qdrant.tech/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method) if your use case allows. Quantization seriously improves performance and reduces storage costs.
 
 This not only speeds up query throughput for large-scale datasets, but also cuts hardware costs and storage overhead. While Scalar Quantization is a midrange compression alternative, Binary quantization is more drastic, so be sure to test your accuracy requirements for each thoroughly.
 
-When using [**quantization**](https://qdrant.tech/documentation/guides/quantization/), you can store only the compressed vectors in memory while leaving the original floating-point versions on disk for reference. This approach dramatically lowers RAM consumption—since quantized vectors take far less space—yet still allows you to retrieve full-precision vectors if needed for downstream tasks like re-ranking.
+When using [**quantization**](https://qdrant.tech/documentation/manage-data/quantization/), you can store only the compressed vectors in memory while leaving the original floating-point versions on disk for reference. This approach dramatically lowers RAM consumption—since quantized vectors take far less space—yet still allows you to retrieve full-precision vectors if needed for downstream tasks like re-ranking.
 
 >**Sidenote:** You can always enable `async_io` scorer when the linux kernel supports it and if you have `on_disk` vectors.
 
 ||
 |-|
-|**Read More:** [**Quantization Documentation**](https://qdrant.tech/documentation/guides/quantization/)|
+|**Read More:** [**Quantization Documentation**](https://qdrant.tech/documentation/manage-data/quantization/)|
 
 ## 2. How do I Ingest and Index Large Amounts of Data?
 ![vector-search-production](/articles_data/vector-search-production/vector-search-production-2.jpg)
@@ -141,7 +141,7 @@ Once all records are inserted, you can rebuild the index in a single pass. Consi
 
 ||
 |-|
-|**Read More:** [**Configuring the Vector Index**](https://qdrant.tech/documentation/concepts/indexing/#vector-index)|
+|**Read More:** [**Configuring the Vector Index**](https://qdrant.tech/documentation/manage-data/indexing/#vector-index)|
 
 ### Other Solutions to Alleviate Indexing Bottleneck
 
@@ -155,7 +155,7 @@ Once all records are inserted, you can rebuild the index in a single pass. Consi
 
 ||
 |-|
-|**Read More:** [**Configuration Documentation**](https://qdrant.tech/documentation/guides/configuration/)|
+|**Read More:** [**Configuration Documentation**](https://qdrant.tech/documentation/configuration-ops/configuration/)|
 
 ### When Indexing Falls Behind Ingestion
 ![vector-search-production](/articles_data/vector-search-production/vector-search-production-3.jpg)
@@ -166,15 +166,15 @@ By default, searches include unindexed data. However, a large number of unindexe
 
 If the maximum number of indexed points remains consistently low, this is likely not an issue. If you anticipate periods with many unindexed points, you should take measures to prevent search disruptions in production.
 
-One option is to [**set `indexed_only=true` in search requests**](https://qdrant.tech/documentation/concepts/search/#search-api). This will ensure fast searches by only considering indexed data, at the expense of eventual consistency (new data becomes searchable only after indexing).
+One option is to [**set `indexed_only=true` in search requests**](https://qdrant.tech/documentation/search/search/#search-api). This will ensure fast searches by only considering indexed data, at the expense of eventual consistency (new data becomes searchable only after indexing).
 
-Alternatively, you can perform [**bulk vector uploads**](https://qdrant.tech/documentation/database-tutorials/bulk-upload/) during low-traffic periods to allow indexing to complete before increased traffic.
+Alternatively, you can perform [**bulk vector uploads**](https://qdrant.tech/documentation/tutorials-develop/bulk-upload/) during low-traffic periods to allow indexing to complete before increased traffic.
 
 > A persistent increase in the number of indexed points indicates a problem. Potential solutions include: increasing hardware resources, optimizing indexing (e.g., smaller segments, HNSW tuning), or reducing the volume of data changes.
 
 ||
 |-|
-|**Read More:** [**Indexing Documentation**](https://qdrant.tech/documentation/concepts/indexing/)|
+|**Read More:** [**Indexing Documentation**](https://qdrant.tech/documentation/manage-data/indexing/)|
 
 ### How to Arrange Metadata and Schema for Consistency
 
@@ -184,7 +184,7 @@ Alternatively, you can perform [**bulk vector uploads**](https://qdrant.tech/doc
 
 In some cases, the payload schema is inconsistent across data pipelines, so some fields have mismatched types or are missing altogether.
 
-❓ **Use Case:** A healthcare firm discovered that some pipelines inserted strings where others inserted integers. Filters broke silently or returned inconsistent results, signalling that [**a unified payload schema**](https://qdrant.tech/documentation/concepts/indexing/#payload-index) was not in place.
+❓ **Use Case:** A healthcare firm discovered that some pipelines inserted strings where others inserted integers. Filters broke silently or returned inconsistent results, signalling that [**a unified payload schema**](https://qdrant.tech/documentation/manage-data/indexing/#payload-index) was not in place.
 
 > When payload fields are typed inconsistently across your ingestion pipelines, filters can break in unpredictable ways. 
 
@@ -194,13 +194,13 @@ For example, **some services might write a "status" field as a string ("active")
 
 ||
 |-|
-|**Read More:** [**Payload Documentation**](https://qdrant.tech/documentation/concepts/payload/)|
+|**Read More:** [**Payload Documentation**](https://qdrant.tech/documentation/manage-data/payload/)|
 
 ### Decide How to Set Up a Multitenant Collection
 
 ❓ **Use Case:** When implementing vector databases, healthcare organizations need to ensure isolation between users' data. Our customer needed to make sure that when they filtered queries to only show a particular patient's documents, and no other patient's documents appeared in the query results.
 
-✅ [**You should almost always consolidate tenants to a single collection**](https://qdrant.tech/documentation/guides/multiple-partitions/) if possible, tagging by tenant.
+✅ [**You should almost always consolidate tenants to a single collection**](https://qdrant.tech/documentation/manage-data/multitenancy/) if possible, tagging by tenant.
 
 ```text
 PUT /collections/{collection_name}/index
@@ -230,7 +230,7 @@ Figure: For many-tenant setups, spinning up a new collection per tenant can ball
 |:-:|
 |**"How many nodes, CPUs, RAM and storage do I need for my Qdrant Cluster?"**|
 
-It depends. If you're just starting out - we have prepared a tool on our website to help you figure this out. For more information, [**check out the Capacity Planning document as well.**](https://qdrant.tech/documentation/guides/capacity-planning/)
+It depends. If you're just starting out - we have prepared a tool on our website to help you figure this out. For more information, [**check out the Capacity Planning document as well.**](https://qdrant.tech/documentation/capacity-planning/)
 
 ✅ [**Use the sizing calculator**](https://cloud.qdrant.io/calculator) or performance testing to ensure node specs (RAM/CPU) match your workload.
 
@@ -242,7 +242,7 @@ It depends. If you're just starting out - we have prepared a tool on our website
 
 A three-node setup provides a baseline for fault tolerance: if one node goes offline, the remaining two can continue serving queries and maintain a quorum for data consistency. This guards against hardware failures, rolling updates, and network disruptions. Fewer than three nodes leaves you vulnerable to single-point failures that can knock your entire cluster offline.
 
-> [**We follow the Raft Protocol**](https://qdrant.tech/documentation/guides/distributed_deployment/#raft), so check out the docs and learn why this is important.
+> [**We follow the Raft Protocol**](https://qdrant.tech/documentation/distributed_deployment/#raft), so check out the docs and learn why this is important.
 
 ✅ **Set a replication factor of at least 2** to tolerate node failure without losing availability.
 
@@ -274,7 +274,7 @@ Development and staging environments often run experimental builds, tests, or si
 
 > It's quite possible that the user has multiple shards on one node, which end up handling most traffic while other nodes remain underutilized.
 
-In this case, you should [**choose the right number of shards**](https://qdrant.tech/documentation/guides/distributed_deployment/#sharding) based on your node count and expected RPS.
+In this case, you should [**choose the right number of shards**](https://qdrant.tech/documentation/distributed_deployment/#sharding) based on your node count and expected RPS.
 
 You need to implement a shard strategy that aligns with real usage patterns. First, distribute your shards across all available nodes. This will help balance the load more effectively. After redistributing the shards, run performance tests to see how it affects your system. Then add replicas and test again to see how that changes performance.
 
@@ -292,7 +292,7 @@ Proper sharding considers data distribution and query patterns. By default, shar
 
 Some teams scale up for daytime surges, then scale down overnight to save resources. If you do this, ensure data is sharded and replicated appropriately, so that scaling up and down won't result in service degradation.
 
-If using Qdrant Cloud you could also do this using the [**Replication Factor**](https://qdrant.tech/documentation/guides/distributed_deployment/#replication-factor), though it may be considered a bit of a hack.
+If using Qdrant Cloud you could also do this using the [**Replication Factor**](https://qdrant.tech/documentation/distributed_deployment/#replication-factor), though it may be considered a bit of a hack.
 
 > If you have 3 nodes with just 1 shard, and replication factor 6. It will create 3 replicas (one on each node) of that shard, because it can't host more. If you add 3 more nodes at peak times, it'll automatically replicate that shard 3 more times in an attempt to match the factor of 6.
 
@@ -308,7 +308,7 @@ If new nodes remain empty after joining, you waste resources. If departing nodes
 
 ||
 |-|
-|**Read More:** [**Distributed Deployment Documentation**](https://qdrant.tech/documentation/guides/distributed_deployment/)|
+|**Read More:** [**Distributed Deployment Documentation**](https://qdrant.tech/documentation/distributed_deployment/)|
 |**Read More:** [**Resharding**](https://qdrant.tech/documentation/cloud/cluster-scaling/#resharding)|
 
 ### How to Predict and Test Cluster Performance
@@ -331,7 +331,7 @@ Remember, cold-starts and query behaviour are dataset dependent, which is why yo
 
 ||
 |-|
-|**Read More:** [Distributed Deployment Documentation](https://qdrant.tech/documentation/guides/distributed_deployment/)
+|**Read More:** [Distributed Deployment Documentation](https://qdrant.tech/documentation/distributed_deployment/)
 
 ### How to Design Your Systems to Protect Against Failure
 
@@ -375,7 +375,7 @@ By following these comprehensive load testing practices, you'll be able to ident
 
 ||
 |-|
-|**Read More:** [**Telemetry and Monitoring Documentation**](https://qdrant.tech/documentation/guides/monitoring/)|
+|**Read More:** [**Telemetry and Monitoring Documentation**](https://qdrant.tech/documentation/monitoring-telemetry/monitoring/)|
 |**Read More:** [**Cloud Monitoring Documentation**](https://qdrant.tech/documentation/hybrid-cloud/networking-logging-monitoring/)
 
 ## 4. Ensuring Disaster Recovery With Database Backups and Snapshots
@@ -413,7 +413,7 @@ If you host tens of billions of vectors, store backups off-node in a different d
 
 ||
 |-|
-|**Read More:** [**Snapshot Documentation**](https://qdrant.tech/documentation/concepts/snapshots/)|
+|**Read More:** [**Snapshot Documentation**](https://qdrant.tech/documentation/snapshots/)|
 |**Read More:** [**Managed Cloud Backup Documentation**](https://qdrant.tech/documentation/cloud/backups/)|
 |**Read More:** [**Private Cloud Backup Documentation**](https://qdrant.tech/documentation/private-cloud/backups/)|
 
@@ -438,7 +438,7 @@ Investigations showed they hadn't adjusted the default configuration or reserved
 
 ||
 |-|
-|**Read More:** [**Qdrant Configuration Documentation**](https://qdrant.tech/documentation/guides/configuration/)|
+|**Read More:** [**Qdrant Configuration Documentation**](https://qdrant.tech/documentation/configuration-ops/configuration/)|
 
 ### Security & Governance
 
@@ -450,7 +450,7 @@ Enabling TLS/HTTPS is essential for meeting compliance requirements in regulated
 
 > You need to protect data in transit. To enable TLS/HTTPS for encrypted traffic in production, you need to configure secure communication between clients and your Qdrant database, as well as individual cluster nodes. This involves implementing Transport Layer Security (TLS) certificates to encrypt all traffic, preventing unauthorized access and data interception.
 
-If self-hosting, you can set up encryption yourself by [**incorporating TLS directly from the configuration**](https://qdrant.tech/documentation/guides/security/#tls)
+If self-hosting, you can set up encryption yourself by [**incorporating TLS directly from the configuration**](https://qdrant.tech/documentation/security/#tls)
 
 ```text
 service:
@@ -469,7 +469,7 @@ tls:
 
 ||
 |-|
-|**Read More:** [**Security Documentation**](https://qdrant.tech/documentation/guides/security/)|
+|**Read More:** [**Security Documentation**](https://qdrant.tech/documentation/security/)|
 
 ### Setting up Access Controls in Production
 

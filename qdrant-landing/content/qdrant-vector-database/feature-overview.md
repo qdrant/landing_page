@@ -59,7 +59,7 @@ cards:
   content: Ability to segment a single collection for organized and efficient retrieval, data isolation, and privacy. Vital for applications needing distinct vector dataset management.
   link:
     text: Multitenancy
-    url: /documentation/guides/multiple-partitions/
+    url: /documentation/manage-data/multitenancy/
 - id: 6
   icon:
     src: /icons/outline/disk-storage-blue.svg
@@ -77,7 +77,7 @@ cards:
   content: Unparalleled speed and accuracy, powered by a bespoke modification of the HNSW algorithm for Approximate Nearest Neighbor Search.
   link:
     text: Learn More
-    url: /documentation/concepts/search/
+    url: /documentation/search/search/
 - id: 8
   icon:
     src: /icons/outline/filter-blue.svg
@@ -86,7 +86,7 @@ cards:
   content: Vector payload supports a large variety of data types and query conditions, including string matching, numerical ranges, geo-locations, and more.
   link:
     text: Learn More
-    url: /documentation/concepts/payload/
+    url: /documentation/manage-data/payload/
 - id: 9
   icon:
     src: /icons/outline/vectors-blue.svg

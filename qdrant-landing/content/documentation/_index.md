@@ -10,7 +10,7 @@ content:
     linkDescription: <a href="https://github.com/qdrant/qdrant_demo/" target="_blank">Clone this repo now</a> and build a search engine in five minutes.
     cloudButton:
       text: Cloud Quickstart
-      url: /documentation/quickstart-cloud/
+      url: /documentation/cloud-quickstart/
     localButton:
       text: Local Quickstart
       url: /documentation/quickstart/
@@ -99,7 +99,7 @@ Qdrant is an AI-native vector search and a semantic search engine. You can use i
 
 |||
 |-:|:-|
-|[Cloud Quickstart](/documentation/quickstart-cloud/)|[Local Quickstart](/documentation/quick-start/)|
+|[Cloud Quickstart](/documentation/cloud-quickstart/)|[Local Quickstart](/documentation/quick-start/)|
 
 
 ## Ready to start developing? 
@@ -111,9 +111,9 @@ Qdrant is an AI-native vector search and a semantic search engine. You can use i
 ## Qdrant's most popular features: 
 ||||
 |:-|:-|:-|
-|[Filterable HNSW](/documentation/filtering/) </br> Single-stage payload filtering | [Recommendations & Context Search](/documentation/concepts/explore/#explore-the-data) </br> Exploratory advanced search| [Pure-Vector Hybrid Search](/documentation/hybrid-queries/)</br>Full text and semantic search in one|
-|[Multitenancy](/documentation/guides/multiple-partitions/) </br> Payload-based partitioning|[Custom Sharding](/documentation/guides/distributed_deployment/#sharding) </br> For data isolation and distribution|[Role Based Access Control](/documentation/guides/security/?q=jwt#granular-access-control-with-jwt)</br>Secure JWT-based access |
-|[Quantization](/documentation/guides/quantization/) </br> Compress data for drastic speedups|[Multivector Support](/documentation/concepts/vectors/?q=multivect#multivectors) </br> For ColBERT late interaction |[Built-in IDF](/documentation/concepts/indexing/?q=inverse+docu#idf-modifier) </br> Advanced similarity calculation|
+|[Filterable HNSW](/documentation/filtering/) </br> Single-stage payload filtering | [Recommendations & Context Search](/documentation/search/explore/#explore-the-data) </br> Exploratory advanced search| [Pure-Vector Hybrid Search](/documentation/hybrid-queries/)</br>Full text and semantic search in one|
+|[Multitenancy](/documentation/manage-data/multitenancy/) </br> Payload-based partitioning|[Custom Sharding](/documentation/distributed_deployment/#sharding) </br> For data isolation and distribution|[Role Based Access Control](/documentation/security/?q=jwt#granular-access-control-with-jwt)</br>Secure JWT-based access |
+|[Quantization](/documentation/manage-data/quantization/) </br> Compress data for drastic speedups|[Multivector Support](/documentation/manage-data/vectors/?q=multivect#multivectors) </br> For ColBERT late interaction |[Built-in IDF](/documentation/manage-data/indexing/?q=inverse+docu#idf-modifier) </br> Advanced similarity calculation|
 
 ## Developer guidebooks:
 

@@ -2,8 +2,8 @@
 title: Hugging Face Dataset Ingestion
 hideInSidebar: true
 aliases:
-  - /documentation/tutorials/huggingface-datasets/
-  - /documentation/database-tutorials/huggingface-datasets/
+  - /documentation/tutorials-basics/huggingface-datasets/
+  - /documentation/tutorials-basics/huggingface-datasets/
 weight: 3
 ---
 

@@ -1,18 +1,18 @@
 ---
 title: Multivector Document Retrieval
 aliases:
-  - /documentation/tutorials/pdf-retrieval-at-scale/
-  - /documentation/advanced-tutorials/pdf-retrieval-at-scale/
+  - /documentation/tutorials-search-engineering/pdf-retrieval-at-scale/
+  - /documentation/tutorials-search-engineering/pdf-retrieval-at-scale/
 short_description: "Optimizing PDF retrieval at scale with Qdrant and Vision Large Language Models (VLLMs) such as ColPali and ColQwen."
 description: "Optimizing PDF retrieval at scale with Qdrant and Vision Large Language Models (VLLMs) such as ColPali and ColQwen. Two-stage retrieval with multivector representations mean pooling."
 weight: 4
-preview_image: /documentation/tutorials/pdf-retrieval-at-scale/social_preview.png
-social_preview_image: /documentation/tutorials/pdf-retrieval-at-scale/social_preview.png
+preview_image: /documentation/tutorials-search-engineering/pdf-retrieval-at-scale/social_preview.png
+social_preview_image: /documentation/tutorials-search-engineering/pdf-retrieval-at-scale/social_preview.png
 ---
 
 # Qdrant Multivector Document Retrieval with ColPali/ColQwen
 
-![scaling-pdf-retrieval-qdrant](/documentation/tutorials/pdf-retrieval-at-scale/image1.png)
+![scaling-pdf-retrieval-qdrant](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/image1.png)
 
 | Time: 30 min | Level: Intermediate |Output: [GitHub](https://github.com/qdrant/examples/blob/master/pdf-retrieval-at-scale/ColPali_ColQwen2_Tutorial.ipynb)|[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/pdf-retrieval-at-scale/ColPali_ColQwen2_Tutorial.ipynb)   |
 | --- | ----------- | ----------- | ----------- |
@@ -27,7 +27,7 @@ Recent advancements in **Vision Large Language Models (VLLMs)**, such as [**ColP
 
 VLLMs like **ColPali** and **ColQwen** generate **multivector representations** for each PDF page; the representations are stored and indexed in a vector database. During the retrieval process, models dynamically create multivector representations for (textual) user queries, and precise retrieval -- matching between PDF pages and queries -- is achieved through [late-interaction mechanism](/blog/qdrant-colpali/#how-colpali-works-under-the-hood).
 
-<aside role="status"> Qdrant supports <a href="/documentation/concepts/vectors/#multivectors">multivector representations</a>, making it well-suited for using embedding models such as ColPali, ColQwen, or <a href="/documentation/fastembed/fastembed-colbert/">ColBERT</a></aside>
+<aside role="status"> Qdrant supports <a href="/documentation/manage-data/vectors/#multivectors">multivector representations</a>, making it well-suited for using embedding models such as ColPali, ColQwen, or <a href="/documentation/fastembed/fastembed-colbert/">ColBERT</a></aside>
 
 ## Challenges of Scaling VLLMs
 
@@ -40,7 +40,7 @@ The heavy multivector representations produced by VLLMs make PDF retrieval at sc
 To understand the impact, consider the construction of an [**HNSW index**](/articles/what-is-a-vector-database/#1-indexing-hnsw-index-and-sending-data-to-qdrant), a common indexing algorithm for vector databases. Let's roughly estimate the number of comparisons needed to insert a new PDF page into the index.
 
 - **Vectors per page:** ~700 (ColQwen) or ~1,000 (ColPali)
-- **[ef_construct](/documentation/concepts/indexing/#vector-index):** 100 (default)
+- **[ef_construct](/documentation/manage-data/indexing/#vector-index):** 100 (default)
 
 The lower bound estimation for the number of vector comparisons would be:
 
@@ -66,7 +66,7 @@ For example:
 - ColPali divides PDF page into **1,024 patches**.
 - Applying mean pooling by rows (or columns) of this patch matrix reduces the page representation to just **32 vectors**.
 
-![ColPali patching of a PDF page](/documentation/tutorials/pdf-retrieval-at-scale/pooling-by-rows.png)
+![ColPali patching of a PDF page](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/pooling-by-rows.png)
 
 We tested this approach with the ColPali model, mean pooling its multivectors by PDF page rows. The results showed:
 - **Indexing time faster by an order of magnitude**
@@ -200,7 +200,7 @@ ColQwen dynamically determines the number of patches in "rows and columns" of a 
 
 For example, that's how ColQwen multivector output is formed.
 
-![that's how ColQwen multivector output is formed](/documentation/tutorials/pdf-retrieval-at-scale/ColQwen-preprocessing.png)
+![that's how ColQwen multivector output is formed](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/ColQwen-preprocessing.png)
 
 The `get_patches` function is to get the number of `x_patches` (rows) and `y_patches` (columns) ColPali/ColQwen2 models will divide a PDF page into.
 For ColPali, the numbers will always be 32 by 32; ColQwen will define them dynamically based on the PDF page size.
@@ -334,7 +334,7 @@ And check the top retrieved result to our query *"Lee Harvey Oswald's involvemen
 dataset[response.points[0].payload['index']]['image']
 ```
 
-![Results, ColPali](/documentation/tutorials/pdf-retrieval-at-scale/result-VLLMs.png)
+![Results, ColPali](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/result-VLLMs.png)
 
 
 ## Conclusion

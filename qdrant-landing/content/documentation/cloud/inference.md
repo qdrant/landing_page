@@ -5,7 +5,7 @@ weight: 45
 
 # Inference in Qdrant Managed Cloud
 
-[Inference](/documentation/concepts/inference/) is the process of creating vector embeddings from text, images, or other data types using a machine learning model.
+[Inference](/documentation/inference/) is the process of creating vector embeddings from text, images, or other data types using a machine learning model.
 
 Qdrant Managed Cloud allows you to use inference directly in the cloud, without the need to set up and maintain your own inference infrastructure. You can use [embedding models hosted on Qdrant Cloud](#cloud-inference), or use [externally hosted models](#use-external-models).
 
@@ -21,7 +21,7 @@ Inference is enabled by default for all new clusters, created after July, 7th 20
 
 ## Using Inference
 
-Inference can be easily used through the Qdrant SDKs and the REST or GRPC APIs when upserting points and when querying the database. Refer to the [Inference documentation](/documentation/concepts/inference/) for details.
+Inference can be easily used through the Qdrant SDKs and the REST or GRPC APIs when upserting points and when querying the database. Refer to the [Inference documentation](/documentation/inference/) for details.
 
 ## Cloud Inference
 

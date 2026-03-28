@@ -30,9 +30,9 @@ tags:
 
 Crafting queries is hard: users often struggle to precisely formulate search queries. At the same time, judging the relevance of a given search result is often much easier. Retrieval systems can leverage this [relevance feedback](/articles/search-feedback-loop/) to iteratively refine results toward user intent.
 
-This release introduces a new [Relevance Feedback Query](/documentation/concepts/search-relevance/#relevance-feedback) as a scalable, vector‑native approach to incorporating relevance feedback. The Relevance Feedback Query uses a small amount of model‑generated feedback to guide the retriever through the entire vector space, effectively nudging search toward “more relevant” results without requiring expensive loops, expensive retrievers, or human labeling. This enables the engine to traverse billions of vectors with improved recall without having to retrain models.
+This release introduces a new [Relevance Feedback Query](/documentation/search/search-relevance/#relevance-feedback) as a scalable, vector‑native approach to incorporating relevance feedback. The Relevance Feedback Query uses a small amount of model‑generated feedback to guide the retriever through the entire vector space, effectively nudging search toward “more relevant” results without requiring expensive loops, expensive retrievers, or human labeling. This enables the engine to traverse billions of vectors with improved recall without having to retrain models.
 
-This method works by collecting lightweight feedback on just a few top results, creating “context pairs” of more‑ and less‑relevant examples. These pairs define a signal that adjusts the scoring function during the next retrieval pass. Instead of rewriting queries or rescoring large batches of documents, Qdrant modifies how similarity is computed. Experiments demonstrate substantial gains, especially when pairing expressive retrievers with strong feedback models. For the methodology and experiments behind this feature, see our article [Relevance Feedback in Qdrant](/articles/relevance-feedback). To get started, refer to the [documentation](/documentation/concepts/search-relevance/#relevance-feedback).
+This method works by collecting lightweight feedback on just a few top results, creating “context pairs” of more‑ and less‑relevant examples. These pairs define a signal that adjusts the scoring function during the next retrieval pass. Instead of rewriting queries or rescoring large batches of documents, Qdrant modifies how similarity is computed. Experiments demonstrate substantial gains, especially when pairing expressive retrievers with strong feedback models. For the methodology and experiments behind this feature, see our article [Relevance Feedback in Qdrant](/articles/relevance-feedback). To get started, refer to the [documentation](/documentation/search/search-relevance/#relevance-feedback).
 
 <figure>
   <img src="/blog/qdrant-1.17.x/relevance-feedback-overview.png">
@@ -56,9 +56,9 @@ A common pattern with vector search engines like Qdrant involves bulk uploads. F
 
 This release addresses these issues by changing how data is ingested. Shards still process data through the familiar stages: WAL persistence, queued updates, application to unoptimized segments, and eventual full indexing, but two new features reshape how systems behave under heavy write load. 
 
-A new [update queue](/documentation/guides/low-latency-search/#query-indexed-data-only) tracks up to one million pending changes. When the queue fills, back pressure slows incoming writes, preventing runaway load and helping clusters stay stable even during large batch operations or recovery after downtime.
+A new [update queue](/documentation/search/low-latency-search/#query-indexed-data-only) tracks up to one million pending changes. When the queue fills, back pressure slows incoming writes, preventing runaway load and helping clusters stay stable even during large batch operations or recovery after downtime.
 
-For applications that demand consistently low-latency search, indexed‑only mode ensures queries touch only fully indexed segments. A side-effect of using indexed-only queries was that they could temporarily hide the newest updates, before they were indexed. A new [`prevent_unoptimized` optimizer setting](/documentation/guides/low-latency-search/#query-indexed-data-only) solves this by throttling updates to match the indexing rate, reducing the creation of large unoptimized segments. 
+For applications that demand consistently low-latency search, indexed‑only mode ensures queries touch only fully indexed segments. A side-effect of using indexed-only queries was that they could temporarily hide the newest updates, before they were indexed. A new [`prevent_unoptimized` optimizer setting](/documentation/search/low-latency-search/#query-indexed-data-only) solves this by throttling updates to match the indexing rate, reducing the creation of large unoptimized segments. 
 
 Together, these features give developers tighter control over write throughput, indexing behavior, and search performance, especially in high‑volume environments.
 
@@ -66,7 +66,7 @@ Together, these features give developers tighter control over write throughput, 
 
 By default, a search operation queries a single replica of each shard within a collection. If one of these replicas responds slowly due to load or network issues, this negatively impacts the overall search latency. This phenomenon, where a single slow replica increases the 95th or 99th percentile latency of the entire system, is known as “tail latency.” High tail latency can noticeably degrade the user experience.
 
-To mitigate tail latency for read operations, this release introduces a new [delayed fan-out](/documentation/guides/low-latency-search/#use-delayed-fan-outs) feature. With delayed fan-outs, if the initial request to a replica exceeds a configurable latency threshold, an additional read request is sent to another replica, and Qdrant will use the first available response. Delayed fan-outs help your application provide a consistent, low latency experience to end-users.
+To mitigate tail latency for read operations, this release introduces a new [delayed fan-out](/documentation/search/low-latency-search/#use-delayed-fan-outs) feature. With delayed fan-outs, if the initial request to a replica exceeds a configurable latency threshold, an additional read request is sent to another replica, and Qdrant will use the first available response. Delayed fan-outs help your application provide a consistent, low latency experience to end-users.
 
 ## Greater Operational Observability
 
@@ -78,11 +78,11 @@ We are continuously working to enhance the operational observability of Qdrant c
 
 Qdrant’s API exposes a `/telemetry` endpoint which provides information about the current state of a peer in a cluster, including the number of vectors, shards, and other useful information. However, obtaining a complete view of the entire cluster using this endpoint is not straightforward, requiring querying each peer and piecing together a complete view yourself.
 
-In version 1.17, we’re introducing a new [`/cluster/telemetry` endpoint](/documentation/guides/monitoring/#cluster-wide-telemetry). This API provides information about all peers in a cluster, offering insights into cluster-wide operations such as leader elections, resharding, and shard transfers.
+In version 1.17, we’re introducing a new [`/cluster/telemetry` endpoint](/documentation/monitoring-telemetry/monitoring/#cluster-wide-telemetry). This API provides information about all peers in a cluster, offering insights into cluster-wide operations such as leader elections, resharding, and shard transfers.
 
 ### Segment Optimization Monitoring
 
-Optimization is a background process where Qdrant removes data marked for deletion, merges segments, and creates indexes. To improve visibility into this process, this release introduces [segment optimization monitoring capabilities](/documentation/concepts/optimizer/#optimization-monitoring).
+Optimization is a background process where Qdrant removes data marked for deletion, merges segments, and creates indexes. To improve visibility into this process, this release introduces [segment optimization monitoring capabilities](/documentation/optimization/optimizer/#optimization-monitoring).
 
 A new `/collections/{collection_name}/optimizations` API endpoint provides cluster-wide information about the current optimization status, as well as detailed information for current and past optimization operations. Because the output of the API can be verbose, we’ve added a new Optimizations tab to the Collections interface in the Web UI that makes it easier to analyze the data. Here, you can find an overview of the current optimization status, a timeline of current and past optimization operations, and a breakdown of the tasks in a specific cycle and their durations.
 
@@ -114,17 +114,17 @@ Many people have been asking about point filtering in web UI. And now it's back,
 
 As an open source project, we welcome contributions from the Qdrant community. This release features two contributions from community members:
 
-- Not all payload field indexes are used in combination with dense vector queries. With this release, you can [specify whether individual payload field indexes should be reflected in the HNSW index](/documentation/concepts/indexing/#disable-the-creation-of-extra-edges-for-payload-fields).
-- A new API endpoint is available to [list all user-defined shard keys](/documentation/guides/distributed_deployment/#user-defined-sharding).
+- Not all payload field indexes are used in combination with dense vector queries. With this release, you can [specify whether individual payload field indexes should be reflected in the HNSW index](/documentation/manage-data/indexing/#disable-the-creation-of-extra-edges-for-payload-fields).
+- A new API endpoint is available to [list all user-defined shard keys](/documentation/distributed_deployment/#user-defined-sharding).
 
 Additionally, this release adds the following features:
 
-- Upserts now support an [update mode](/documentation/concepts/points/#update-mode) for insert-only or update-only operations.
+- Upserts now support an [update mode](/documentation/manage-data/points/#update-mode) for insert-only or update-only operations.
 - To speed up the recovery of the replicas after they’ve been down, shards will [increase the size of their write-ahead log](https://github.com/qdrant/qdrant/pull/7834) when they detect that one of their remote replicas is unavailable.
-- Reciprocal Rank Fusion (RRF) combines multiple query results into one list, but its default equal weighting can let weaker rankers dilute stronger ones. [Weighted RRF](/documentation/concepts/hybrid-queries/#reciprocal-rank-fusion-rrf) in Qdrant 1.17 addresses this by letting you assign weights to individual queries.
+- Reciprocal Rank Fusion (RRF) combines multiple query results into one list, but its default equal weighting can let weaker rankers dilute stronger ones. [Weighted RRF](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) in Qdrant 1.17 addresses this by letting you assign weights to individual queries.
 - A new [user interface in the Web UI enables resharding collections](https://github.com/qdrant/qdrant-web-ui/pull/341) on Qdrant Cloud.
-- Qdrant now supports [audit logging](/documentation/guides/security/#audit-logging) to track all API operations that require authentication or authorization.
-- [External provider API keys for inference requests](/documentation/concepts/inference/#external-embedding-model-providers) can now be provided in the request header.
+- Qdrant now supports [audit logging](/documentation/security/#audit-logging) to track all API operations that require authentication or authorization.
+- [External provider API keys for inference requests](/documentation/inference/#external-embedding-model-providers) can now be provided in the request header.
 
 For a full list of all changes in version 1.17, please refer to the [change log](https://github.com/qdrant/qdrant/releases/tag/v1.17.0).
 

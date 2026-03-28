@@ -81,10 +81,10 @@ partition: develop
 
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
-| [Multimodal & Multilingual RAG](/documentation/multimodal-search/) | Search across image and text modalities. | <span class="pill">LlamaIndex</span> | 15m | <span class="text-green">Beginner</span> |
-| [Agentic RAG with CrewAI](/documentation/agentic-rag-crewai-zoom/) | Step-by-step multi-agent RAG system. | <span class="pill">CrewAI</span> | 45m | <span class="text-green">Beginner</span> |
-| [Agentic RAG with LangGraph](/documentation/agentic-rag-langgraph/) | Build AI agents to answer library documentation. | <span class="pill">LangGraph</span> | 45m | <span class="text-yellow">Intermediate</span> |
-| [Discord RAG Bot](/documentation/agentic-rag-camelai-discord/) | Develop a functional bot with CAMEL-AI. | <span class="pill">OpenAI</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Multimodal & Multilingual RAG](/documentation/tutorials-build-essentials/multimodal-search/) | Search across image and text modalities. | <span class="pill">LlamaIndex</span> | 15m | <span class="text-green">Beginner</span> |
+| [Agentic RAG with CrewAI](/documentation/tutorials-build-essentials/agentic-rag-crewai-zoom/) | Step-by-step multi-agent RAG system. | <span class="pill">CrewAI</span> | 45m | <span class="text-green">Beginner</span> |
+| [Agentic RAG with LangGraph](/documentation/tutorials-build-essentials/agentic-rag-langgraph/) | Build AI agents to answer library documentation. | <span class="pill">LangGraph</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Discord RAG Bot](/documentation/tutorials-build-essentials/agentic-rag-camelai-discord/) | Develop a functional bot with CAMEL-AI. | <span class="pill">OpenAI</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [LLM-Powered Filter Automation](/documentation/search-precision/automate-filtering-with-llms/) | Use LLM structured output for dynamic filters. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 
 ---
@@ -97,8 +97,8 @@ partition: develop
 | [Snapshots](/documentation/tutorials-operations/create-snapshot/) | Create and restore collection snapshots. | <span class="pill">Python</span> | 20m | <span class="text-green">Beginner</span> |
 | [Cloud Inference Hybrid Search](/documentation/tutorials-and-examples/cloud-inference-hybrid-search/) | Hybrid search using Qdrant's built-in inference. | <span class="pill">Any</span> | 20m | <span class="text-green">Beginner</span> |
 | [Data Migration](/documentation/tutorials-operations/migration/) | Move dense and sparse embeddings to Qdrant. | <span class="pill">CLI</span> | 30m | <span class="text-yellow">Intermediate</span> |
-| [Qdrant Cloud Prometheus Monitoring](/documentation/tutorials-and-examples/managed-cloud-prometheus/) | Observability with Prometheus and Grafana. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
-| [Self-Hosted Prometheus Monitoring](/documentation/tutorials-and-examples/hybrid-cloud-prometheus/) | Observability for hybrid/private cloud setups. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
+| [Qdrant Cloud Prometheus Monitoring](/documentation/monitoring-telemetry/managed-cloud-prometheus/) | Observability with Prometheus and Grafana. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
+| [Self-Hosted Prometheus Monitoring](/documentation/monitoring-telemetry/hybrid-cloud-prometheus/) | Observability for hybrid/private cloud setups. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Large-Scale Search](/documentation/tutorials-operations/large-scale-search/) | Cost-efficient search for LAION-400M datasets. | <span class="pill">None</span> | 2 days | <span class="text-red">Advanced</span> |
 
 ---
@@ -118,11 +118,11 @@ partition: develop
 
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
-| [S3 Ingestion with LangChain](/documentation/data-ingestion-beginners/) | Stream data from AWS S3 to vector store. | <span class="pill">LangChain</span> | 30m | <span class="text-green">Beginner</span> |
+| [S3 Ingestion with LangChain](/documentation/tutorials-build-essentials/data-ingestion-beginners/) | Stream data from AWS S3 to vector store. | <span class="pill">LangChain</span> | 30m | <span class="text-green">Beginner</span> |
 | [Hugging Face Dataset Ingestion](/documentation/tutorials-ecosystem/huggingface-datasets/) | Load and search public ML datasets. | <span class="pill">Python</span> | 15m | <span class="text-green">Beginner</span> |
 | [Databricks Ingestion](/documentation/send-data/databricks/) | Vectorize datasets using FastEmbed on Databricks. | <span class="pill">Databricks</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Querying with Airflow](/documentation/send-data/qdrant-airflow-astronomer/) | Orchestrate data engineering workflows. | <span class="pill">Airflow</span> | 45m | <span class="text-yellow">Intermediate</span> |
-| [n8n Workflow Automation](/documentation/qdrant-n8n/) | Combine Qdrant with low-code n8n workflows. | <span class="pill">n8n</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [n8n Workflow Automation](/documentation/tutorials-build-essentials/qdrant-n8n/) | Combine Qdrant with low-code n8n workflows. | <span class="pill">n8n</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Kafka Streaming into Qdrant](/documentation/send-data/data-streaming-kafka-qdrant/) | Setup Qdrant Sink Connector for real-time data. | <span class="pill">Kafka</span> | 60m | <span class="text-red">Advanced</span> |
 
 -->

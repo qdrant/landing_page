@@ -212,7 +212,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 ```
 > You may also use the `PATCH` request to enable Strict Mode on an existing collection.
 
-*Read more about Strict Mode in the [**Database Administration Guide**](/documentation/guides/administration/#strict-mode)*
+*Read more about Strict Mode in the [**Database Administration Guide**](/documentation/configuration-ops/administration/#strict-mode)*
 
 ## HNSW Graph Compression
 
@@ -228,7 +228,7 @@ In contrast with traditional compression algorithms, like gzip or lz4, **Delta E
 
 > Our experiments didn't observe any measurable performance degradation. However, the memory footprint of the HNSW graph was **reduced by up to 30%**.
 
-*For more general info, read about [**Indexing and Data Structures in Qdrant**](/documentation/concepts/indexing/)*
+*For more general info, read about [**Indexing and Data Structures in Qdrant**](/documentation/manage-data/indexing/)*
 
 ## Filter by Named Vectors
 
@@ -236,13 +236,13 @@ In contrast with traditional compression algorithms, like gzip or lz4, **Delta E
 
 In Qdrant, you can store multiple vectors of different sizes and types in a single data point. This is useful when you have to representing data with multiple embeddings, such as image, text, or video features.
 
-> We previously introduced this feature as [**Named Vectors**](/documentation/concepts/vectors/#named-vectors). Now, you can filter points by checking if a specific named vector exists.
+> We previously introduced this feature as [**Named Vectors**](/documentation/manage-data/vectors/#named-vectors). Now, you can filter points by checking if a specific named vector exists.
 
 This makes it easy to search for points based on the presence of specific vectors. For example, *if your collection includes image and text vectors, you can filter for points that only have the image vector defined*.
 
 ### Create a Collection with Named Vectors
 
-Upon collection [creation](/documentation/concepts/collections/#collection-with-multiple-vectors), you define named vector types, such as `image` or `text`:
+Upon collection [creation](/documentation/manage-data/collections/#collection-with-multiple-vectors), you define named vector types, such as `image` or `text`:
 
 ```http
 PUT /collections/{collection_name}
@@ -370,7 +370,7 @@ client.Scroll(context.Background(), &qdrant.ScrollPoints{
 ```
 This feature makes it easier to manage and query collections with heterogeneous data. It will give you more flexibility and control over your vector search workflows.
 
-*To dive deeper into filtering by named vectors, check out the [**Filtering Documentation**](/documentation/concepts/filtering/#has-vector)*
+*To dive deeper into filtering by named vectors, check out the [**Filtering Documentation**](/documentation/search/filtering/#has-vector)*
 
 ## Custom Storage Engine
 
@@ -401,7 +401,7 @@ There are four elements: the **Data Layer**, **Mask Layer**, **the Region** and 
 ## Get Started with Qdrant
 ![get-started](/blog/qdrant-1.13.x/image_1.png)
 
-The easiest way to reach that **Hello World** moment is to [**try vector search in a live cluster**](/documentation/quickstart-cloud/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
+The easiest way to reach that **Hello World** moment is to [**try vector search in a live cluster**](/documentation/cloud-quickstart/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
 
 **New features, like named vector filtering, can be tested in the Qdrant Dashboard:**
 

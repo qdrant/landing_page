@@ -2,7 +2,7 @@
 title: Implement Cohere RAG connector
 weight: 35
 aliases:
-  - /documentation/tutorials/cohere-rag-connector/
+  - /documentation/examples/cohere-rag-connector/
 ---
 
 # Implement custom connector for Cohere RAG
@@ -19,7 +19,7 @@ search over your data is a typical case.
 Cohere RAG has lots of interesting features, such as inline citations, which help you to refer to the specific parts of
 the documents used to generate the response.
 
-![Cohere RAG citations](/documentation/tutorials/cohere-rag-connector/cohere-rag-citations.png)
+![Cohere RAG citations](/documentation/examples/cohere-rag-connector/cohere-rag-citations.png)
 
 *Source: https://docs.cohere.com/docs/retrieval-augmented-generation-rag*
 
@@ -224,7 +224,7 @@ uvicorn main:app
 FastAPI exposes an interactive documentation at `http://localhost:8000/docs`, where we can test our endpoint. The 
 `/search` endpoint is available there.
 
-![FastAPI documentation](/documentation/tutorials/cohere-rag-connector/fastapi-openapi.png)
+![FastAPI documentation](/documentation/examples/cohere-rag-connector/fastapi-openapi.png)
 
 We can interact with it and check the documents that will be returned for a specific query. For example, we want to know
 recall what we are supposed to do regarding the infrastructure for your projects.

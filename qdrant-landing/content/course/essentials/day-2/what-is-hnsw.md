@@ -275,7 +275,7 @@ Use [`get_collection`](/api-reference/collections/get-collection) to inspect you
 To see whether your data is actually indexed, you need to check two things: the number of indexed vectors and the collection's status. If `indexed_vectors_count` is low, indexing may not have completed. More importantly, you should check the collection `status`. A `YELLOW` status means optimization (indexing) is still in progress, while a `GREEN` status confirms it is complete and ready for optimal performance.
 
 If queries feel slow check:
-- whether filter fields have [payload indexes](/documentation/concepts/indexing/#payload-index).
+- whether filter fields have [payload indexes](/documentation/manage-data/indexing/#payload-index).
 - if the payload indexes have been set before building the HNSW graph (HNSW graph building begins when you switch from `m = 0` to `m > 0`)
 - if `hnsw_config.full_scan_threshold` is too high.
 
@@ -336,6 +336,6 @@ For very tight RAM budgets consider these solutions:
 
 Now you understand how HNSW makes vector search fast and scalable. Next we'll combine fast search with complex filters using Qdrant’s filter‑aware HNSW.
 
-Learn more: [HNSW in Qdrant Documentation](/documentation/concepts/indexing/#vector-index) 
+Learn more: [HNSW in Qdrant Documentation](/documentation/manage-data/indexing/#vector-index) 
 
 Ready to see how HNSW handles real-world filtering scenarios? Let's continue!

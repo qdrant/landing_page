@@ -52,7 +52,7 @@ You can perform text extraction in various ways, for example:
 
 **Object-based parsing**, such as the one provided by [PyPDF](https://pypi.org/project/pypdf/) or [PyMuPDF](https://pymupdf.readthedocs.io/en/latest/), is fast and cheap for text-only documents but might fail to capture the complexity of tables, images and other visual elements many files can have nowadays.  
 
-**Agentic and OCR-based parsing**, such as the one offered by [LlamaParse](https://www.llamaindex.ai/llamaparse), which is often an excellent choice for handling complex documents, and other methods, including **using Visual Language Retrievers** such as [ColPali&ColQwen](https://qdrant.tech/documentation/advanced-tutorials/pdf-retrieval-at-scale/), which are also very effective, especially with scanned or image-dense files.
+**Agentic and OCR-based parsing**, such as the one offered by [LlamaParse](https://www.llamaindex.ai/llamaparse), which is often an excellent choice for handling complex documents, and other methods, including **using Visual Language Retrievers** such as [ColPali&ColQwen](https://qdrant.tech/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/), which are also very effective, especially with scanned or image-dense files.
 
 #### My Advice
 

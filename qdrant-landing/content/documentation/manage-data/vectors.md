@@ -3,7 +3,7 @@ title: Vectors
 weight: 10
 aliases:
   - /vectors
-  - /documentation/concepts/vectors/
+  - /documentation/manage-data/vectors/
 ---
 
 
@@ -147,9 +147,9 @@ To search with multivector (available in `query` API):
 
 ## Named Vectors
 
-In Qdrant, you can store multiple vectors of different sizes and [types](#vector-types) in the same data [point](/documentation/concepts/points/). This is useful when you need to define your data with multiple embeddings to represent different features or modalities (e.g., image, text or video). 
+In Qdrant, you can store multiple vectors of different sizes and [types](#vector-types) in the same data [point](/documentation/manage-data/points/). This is useful when you need to define your data with multiple embeddings to represent different features or modalities (e.g., image, text or video). 
 
-To store different vectors for each point, you need to create separate named vector spaces in the [collection](/documentation/concepts/collections/). You can define these vector spaces during collection creation and manage them independently.
+To store different vectors for each point, you need to create separate named vector spaces in the [collection](/documentation/manage-data/collections/). You can define these vector spaces during collection creation and manage them independently.
 
 <aside role="status">
 Each vector should have a unique name. Vectors can represent different modalities and you can use different embedding models to generate them.
@@ -251,7 +251,7 @@ This quantized representation can be used to quickly select candidates for resco
 
 Quantization is applied in the background, during the optimization process.
 
-More information about the quantization process can be found in the [Quantization](/documentation/guides/quantization/) section.
+More information about the quantization process can be found in the [Quantization](/documentation/manage-data/quantization/) section.
 
 
 ## Vector Storage
@@ -259,4 +259,4 @@ More information about the quantization process can be found in the [Quantizatio
 Depending on the requirements of the application, Qdrant can use one of the data storage options.
 Keep in mind that you will have to tradeoff between search speed and the size of RAM used.
 
-More information about the storage options can be found in the [Storage](/documentation/concepts/storage/#vector-storage) section.
+More information about the storage options can be found in the [Storage](/documentation/manage-data/storage/#vector-storage) section.

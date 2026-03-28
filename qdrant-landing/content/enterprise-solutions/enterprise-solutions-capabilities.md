@@ -15,7 +15,7 @@ cards:
   content: Control who gets in and what they can do with Cloud RBAC, SSO, and granular <br class="d-none d-md-inline"/>Database API Keys.
   link:
     text: Learn More
-    url: /documentation/cloud/qdrant-cloud-setup/#enterprise-single-sign-on-sso
+    url: /documentation/cloud-account-setup/#enterprise-single-sign-on-sso
   image:
     src: /img/enterprise-solutions-capabilities/identity-and-access-management.svg
     alt: Secure Access & Authentication
@@ -33,7 +33,7 @@ cards:
   content: Stay ahead of issues with Prometheus/OpenMetrics, Datadog, Grafana, and other third-party integrations.
   link:
     text: Learn More
-    url: /documentation/guides/monitoring/
+    url: /documentation/monitoring-telemetry/monitoring/
   image:
     src: /img/enterprise-solutions-capabilities/observability.svg
     alt: Advanced Monitoring & Observability

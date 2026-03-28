@@ -1,8 +1,8 @@
 ---
 title: Bulk Operations
 aliases:
-  - /documentation/tutorials/bulk-upload/
-  - /documentation/database-tutorials/bulk-upload/
+  - /documentation/tutorials-develop/bulk-upload/
+  - /documentation/tutorials-develop/bulk-upload/
 weight: 1
 ---
 
@@ -512,23 +512,23 @@ At this point, Qdrant will begin indexing new and previously unindexed segments 
 ## Upload directly to disk
 
 When the vectors you upload do not all fit in RAM, you likely want to use
-[memmap](/documentation/concepts/storage/#configuring-memmap-storage)
+[memmap](/documentation/manage-data/storage/#configuring-memmap-storage)
 support.
 
 During collection
-[creation](/documentation/concepts/collections/#create-collection),
+[creation](/documentation/manage-data/collections/#create-collection),
 memmaps may be enabled on a per-vector basis using the `on_disk` parameter. This
 will store vector data directly on disk at all times. It is suitable for
 ingesting a large amount of data, essential for the billion scale benchmark.
 
 Using `memmap_threshold` is not recommended in this case. It would require
-the [optimizer](/documentation/concepts/optimizer/) to constantly
+the [optimizer](/documentation/optimization/optimizer/) to constantly
 transform in-memory segments into memmap segments on disk. This process is
 slower, and the optimizer can be a bottleneck when ingesting a large amount of
 data.
 
 Read more about this in
-[Configuring Memmap Storage](/documentation/concepts/storage/#configuring-memmap-storage).
+[Configuring Memmap Storage](/documentation/manage-data/storage/#configuring-memmap-storage).
 
 ## Parallel upload into multiple shards
 

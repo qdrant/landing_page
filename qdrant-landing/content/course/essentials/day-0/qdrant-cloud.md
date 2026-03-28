@@ -85,7 +85,7 @@ you’ll get a detailed view with these tabs:
 
 * **Search Quality Tab**: Evaluate and benchmark retrieval precision against ground truth. Tune parameters and measure the impact on accuracy.
 
-* **Snapshots Tab**: Manage backups for this collection. Create a [snapshot](/documentation/concepts/snapshots/), restore it later, or migrate it to another cluster.
+* **Snapshots Tab**: Manage backups for this collection. Create a [snapshot](/documentation/snapshots/), restore it later, or migrate it to another cluster.
 
 * **Visualize Tab**: Explore your vector space with an interactive 2D projection. See clusters, spot outliers, and build intuition about your embeddings.
 

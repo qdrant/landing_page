@@ -3,8 +3,8 @@ title: Semantic Search 101
 weight: 4
 aliases:
   - /documentation/tutorials/mighty.md/
-  - /documentation/tutorials/search-beginners/
-  - /documentation/beginner-tutorials/search-beginners/
+  - /documentation/tutorials-basics/search-beginners/
+  - /documentation/tutorials-basics/search-beginners/
 ---
 
 # Build a Semantic Search Engine in 5 Minutes
@@ -46,11 +46,11 @@ Next, create a client connection to your Qdrant cluster using the endpoint and A
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="client-connection" >}}
 
-Replace `QDRANT_URL` and `QDRANT_API_KEY` with the cluster endpoint and API key you obtained in the previous step. The `cloud_inference=True` parameter enables Qdrant Cloud's [inference](/documentation/concepts/inference/) capabilities, allowing the cluster to generate vector embeddings without the need to manage your own embedding infrastructure. 
+Replace `QDRANT_URL` and `QDRANT_API_KEY` with the cluster endpoint and API key you obtained in the previous step. The `cloud_inference=True` parameter enables Qdrant Cloud's [inference](/documentation/inference/) capabilities, allowing the cluster to generate vector embeddings without the need to manage your own embedding infrastructure. 
 
 ## 3. Create a Collection
 
-All data in Qdrant is organized within [collections](/documentation/concepts/collections/). Since you're storing books, let's create a collection named `my_books`.
+All data in Qdrant is organized within [collections](/documentation/manage-data/collections/). Since you're storing books, let's create a collection named `my_books`.
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="create-collection" >}}
 
@@ -63,7 +63,7 @@ The dataset consists of a list of science fiction books. Each entry has a name, 
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="upload-data" >}}
 
-Store each book as a [point](/documentation/concepts/points/) in the `my_books` collection, with each point consisting of a [unique ID](/documentation/concepts/points/#point-ids), a [vector](/documentation/concepts/vectors/) generated from the description, and a [payload](/documentation/concepts/payload/) containing the book's metadata:
+Store each book as a [point](/documentation/manage-data/points/) in the `my_books` collection, with each point consisting of a [unique ID](/documentation/manage-data/points/#point-ids), a [vector](/documentation/manage-data/vectors/) generated from the description, and a [payload](/documentation/manage-data/payload/) containing the book's metadata:
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="upload-points" >}}
 
@@ -89,9 +89,9 @@ The search engine returns the three most relevant books related to an alien inva
 
 ### Narrow down the Query
 
-How about the most recent book from the early 2000s? Qdrant allows you to narrow down query results by applying a [filter](/documentation/concepts/filtering/). To filter for books published after the year 2000, you can filter on the `year` field in the payload.
+How about the most recent book from the early 2000s? Qdrant allows you to narrow down query results by applying a [filter](/documentation/search/filtering/). To filter for books published after the year 2000, you can filter on the `year` field in the payload.
 
-Before filtering on a payload field, create a [payload index](/documentation/concepts/indexing/#payload-index) for that field:
+Before filtering on a payload field, create a [payload index](/documentation/manage-data/indexing/#payload-index) for that field:
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-semantic-search-101/" block="create-payload-index" >}}
 

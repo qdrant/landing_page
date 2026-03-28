@@ -3,7 +3,7 @@ title: Support
 weight: 315
 partition: deploy
 aliases:
-    - /documentation/cloud/support/
+    - /documentation/support/
 ---
 
 # Qdrant Cloud Support and Troubleshooting
@@ -61,4 +61,4 @@ You will also be asked to select a **severity level**, which determines how your
 - **Severity 3** – Moderate impact: bugs with workarounds or degraded UX
 - **Severity 4** – Minor issues: cosmetic bugs, general questions
 
-> Please refer to the [Qdrant Cloud SLA](https://qdrant.to/sla/) for full definitions of severity levels and guaranteed response times per your [support tier](/documentation/cloud/premium/).
+> Please refer to the [Qdrant Cloud SLA](https://qdrant.to/sla/) for full definitions of severity levels and guaranteed response times per your [support tier](/documentation/cloud-premium/).

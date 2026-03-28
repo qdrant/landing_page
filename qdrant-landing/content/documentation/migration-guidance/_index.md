@@ -4,7 +4,7 @@ weight: 300
 is_empty: false
 partition: ecosystem
 aliases:
-  - /documentation/migration-verification/
+  - /documentation/migration-guidance/
 ---
 
 # Migration Guidance
@@ -28,10 +28,10 @@ Before starting verification, you need:
 
 This guide proposes four distinct stages of verification, each building on the next to ensure a successful migration:
 
-1. **[Pre-Migration Baseline](/documentation/migration-verification/pre-migration-baseline/):** Before starting the migration, capture what "correct" looks like in your source system. This includes vector counts, metadata samples, collection configuration, and baseline search results. Without this, post-migration comparison is impossible. *Budget 15 to 30 minutes*.
-2. **[Data Integrity](/documentation/migration-verification/data-integrity/):** After migration, verify that the data arrived intact. This layer catches missing vectors, dropped metadata fields, type coercion errors, and misconfigured collections. These checks take only minutes to run and catch the most common migration failures.
-3. **[Search Quality](/documentation/migration-verification/search-quality/):** This layer catches result ranking changes, recall degradation, and relevance shifts caused by differences in indexing, quantization, or scoring between systems. *Depending on the tier you choose, this takes anywhere from 15 minutes to several hours.*
-4. **[Diagnosing Discrepancies](/documentation/migration-verification/diagnosing-discrepancies/):** When any of the previous layers catches a problem, this section provides a decision tree for root-causing it: is the issue in the data or the configuration? Which vendor-specific gotcha is responsible? What's the fastest path to resolution?
+1. **[Pre-Migration Baseline](/documentation/migration-guidance/pre-migration-baseline/):** Before starting the migration, capture what "correct" looks like in your source system. This includes vector counts, metadata samples, collection configuration, and baseline search results. Without this, post-migration comparison is impossible. *Budget 15 to 30 minutes*.
+2. **[Data Integrity](/documentation/migration-guidance/data-integrity/):** After migration, verify that the data arrived intact. This layer catches missing vectors, dropped metadata fields, type coercion errors, and misconfigured collections. These checks take only minutes to run and catch the most common migration failures.
+3. **[Search Quality](/documentation/migration-guidance/search-quality/):** This layer catches result ranking changes, recall degradation, and relevance shifts caused by differences in indexing, quantization, or scoring between systems. *Depending on the tier you choose, this takes anywhere from 15 minutes to several hours.*
+4. **[Diagnosing Discrepancies](/documentation/migration-guidance/diagnosing-discrepancies/):** When any of the previous layers catches a problem, this section provides a decision tree for root-causing it: is the issue in the data or the configuration? Which vendor-specific gotcha is responsible? What's the fastest path to resolution?
 
 ## Quick Reference: Verification Checklist
 
@@ -65,4 +65,4 @@ DISCREPANCY DIAGNOSIS (if checks fail)
 
 ---
 
-**Next:** [Pre-Migration Baseline](/documentation/migration-verification/pre-migration-baseline/)
+**Next:** [Pre-Migration Baseline](/documentation/migration-guidance/pre-migration-baseline/)

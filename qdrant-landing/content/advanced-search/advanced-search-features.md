@@ -10,7 +10,7 @@ features:
   description: Qdrant optimizes similarity search, identifying the closest database items to any query vector for applications like recommendation systems, RAG and image retrieval, enhancing accuracy and user experience.
   link:
     text: Learn More
-    url: /documentation/concepts/search/
+    url: /documentation/search/search/
 - id: 1
   icon:
     src: /icons/outline/search-text-blue.svg
@@ -19,7 +19,7 @@ features:
   description: By combining dense vector embeddings with sparse vectors e.g. BM25, Qdrant powers semantic search to deliver context-aware results, transcending traditional keyword search by understanding the deeper meaning of data.
   link:
     text: Learn More
-    url: /documentation/beginner-tutorials/hybrid-search-fastembed/
+    url: /documentation/tutorials-search-engineering/hybrid-search-fastembed/
 - id: 2
   icon:
     src: /icons/outline/selection-blue.svg
@@ -28,7 +28,7 @@ features:
   description: Qdrant's capability extends to multi-modal search, indexing and retrieving various data forms (text, images, audio) once vectorized, facilitating a comprehensive search experience.
   link:
     text: View Tutorial
-    url: /documentation/tutorials/multimodal-search-fastembed/
+    url: /documentation/tutorials-build-essentials/multimodal-search/
 - id: 3
   icon:
     src: /icons/outline/filter-blue.svg

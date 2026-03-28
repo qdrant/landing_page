@@ -63,7 +63,7 @@ if not client.collection_exists(collection_name):
     )
 
 ```  
-We disable indexing for the ColBERT multivector since it will only be used for reranking. To learn more about this, check out the [How to Effectively Use Multivector Representations in Qdrant for Reranking](https://qdrant.tech/documentation/advanced-tutorials/using-multivector-representations/) article. 
+We disable indexing for the ColBERT multivector since it will only be used for reranking. To learn more about this, check out the [How to Effectively Use Multivector Representations in Qdrant for Reranking](https://qdrant.tech/documentation/tutorials-search-engineering/using-multivector-representations/) article. 
 
 ### Batch Uploading to Qdrant
 

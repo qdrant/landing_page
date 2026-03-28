@@ -18,7 +18,7 @@ features:
   description: This tutorial shows you how to run a proper multimodal semantic search system with a few lines of code, without the need to annotate the data or train your networks.
   link:
     text: View Tutorial
-    url: /documentation/tutorials/multimodal-search-fastembed/
+    url: /documentation/tutorials-build-essentials/multimodal-search/
 - id: 2
   image:
     src: /img/advanced-search-use-cases/simple-neural-search.svg
@@ -27,7 +27,7 @@ features:
   description: This tutorial shows you how to build and deploy your own neural search service.
   link:
     text: View Tutorial
-    url: /documentation/beginner-tutorials/neural-search/
+    url: /documentation/tutorials-search-engineering/neural-search/
 - id: 3
   image:
     src: /img/advanced-search-use-cases/image-classification.svg
@@ -45,7 +45,7 @@ features:
   description: Build a semantic search engine for science fiction books in 5 mins.
   link:
     text: View Tutorial
-    url: /documentation/beginner-tutorials/search-beginners/
+    url: /documentation/tutorials-basics/search-beginners/
 - id: 5
   image:
     src: /img/advanced-search-use-cases/hybrid-search-service-fastembed.svg
@@ -54,7 +54,7 @@ features:
   description: This tutorial guides you through building and deploying your own hybrid search service using FastEmbed.
   link:
     text: View Tutorial
-    url: /documentation/beginner-tutorials/hybrid-search-fastembed/
+    url: /documentation/tutorials-search-engineering/hybrid-search-fastembed/
 sitemapExclude: true
 ---
 

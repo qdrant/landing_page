@@ -2,8 +2,8 @@
 title: Hybrid Search with Reranking
 weight: 2
 aliases:
-  - /documentation/search-precision/reranking-hybrid-search/
-  - /documentation/advanced-tutorials/reranking-hybrid-search/
+  - /documentation/tutorials-search-engineering/reranking-hybrid-search/
+  - /documentation/tutorials-search-engineering/reranking-hybrid-search/
 ---
 
 # Qdrant Hybrid Search with Reranking

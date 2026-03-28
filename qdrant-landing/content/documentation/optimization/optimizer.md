@@ -3,15 +3,15 @@ title: Optimizer
 weight: 10
 aliases:
   - ../optimizer
-  - /documentation/concepts/optimizer/
-  - /documentation/operations/optimizer/
+  - /documentation/optimization/optimizer/
+  - /documentation/optimization/optimizer/
 ---
 
 # Optimizer
 
 It is much more efficient to apply changes in batches than perform each change individually, as many other databases do. Qdrant here is no exception. Since Qdrant operates with data structures that are not always easy to change, it is sometimes necessary to rebuild those structures completely.
 
-Storage optimization in Qdrant occurs at the segment level (see [storage](/documentation/concepts/storage/)).
+Storage optimization in Qdrant occurs at the segment level (see [storage](/documentation/manage-data/storage/)).
 In this case, the segment to be optimized remains readable for the time of the rebuild.
 
 ![Segment optimization](/articles_data/immutable-data-structures/optimization.png)
@@ -119,7 +119,7 @@ storage:
     indexing_threshold_kb: 10000
 ```
 
-In addition to the configuration file, you can also set optimizer parameters separately for each [collection](/documentation/concepts/collections/).
+In addition to the configuration file, you can also set optimizer parameters separately for each [collection](/documentation/manage-data/collections/).
 
 Dynamic parameter updates may be useful, for example, for more efficient initial loading of points. You can disable indexing during the upload process with these settings and enable it immediately after it is finished. As a result, you will not waste extra computation resources on rebuilding the index.
 
@@ -162,7 +162,7 @@ Because the update worker must finish indexing before continuing to consume the 
 
 ### Monitoring Deferred Points
 
-You can check the number of deferred points in a collection via the `update_queue` section in the response of the [collection info API](/documentation/manage-data/collections/#collection-info). The same information is also available in [telemetry and metrics](/documentation/operations/monitoring/), enabling dashboards and alerting.
+You can check the number of deferred points in a collection via the `update_queue` section in the response of the [collection info API](/documentation/manage-data/collections/#collection-info). The same information is also available in [telemetry and metrics](/documentation/monitoring-telemetry/monitoring/), enabling dashboards and alerting.
 
 A non-zero deferred point count means the optimizer is processing a backlog. This is expected under heavy write load; monitor the count to confirm that it is decreasing over time.
 

@@ -3,9 +3,9 @@ title: Usage Statistics
 weight: 15
 aliases:
   - ../telemetry
-  - /documentation/guides/telemetry
-  - /documentation/guides/usage-statistics/
-  - /documentation/operations/usage-statistics/
+  - /documentation/configuration-ops/usage-statistics
+  - /documentation/configuration-ops/usage-statistics/
+  - /documentation/configuration-ops/usage-statistics/
 ---
 
 # Usage statistics

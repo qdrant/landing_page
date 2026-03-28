@@ -4,7 +4,7 @@ weight: 230
 partition: develop
 aliases:
   - /documentation/web-ui/
-  - /documentation/interfaces/web-ui/
+  - /documentation/web-ui/
 ---
 
 # Qdrant Web UI
@@ -31,7 +31,7 @@ In the **Console**, you may use the REST API to interact with Qdrant, while in *
 In the Qdrant Web UI, you can:
 
 - Run HTTP-based calls from the console
-- List and search existing [collections](/documentation/concepts/collections/)
+- List and search existing [collections](/documentation/manage-data/collections/)
 - Learn from our interactive tutorial
 
 You can navigate to these options directly. For example, if you used our 

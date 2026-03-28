@@ -6,7 +6,7 @@ aliases:
   - aws-marketplace
   - gcp-marketplace
   - azure-marketplace
-  - /documentation/cloud/pricing-payments/
+  - /documentation/cloud-pricing-payments/
 ---
 
 # Qdrant Cloud Billing & Payments

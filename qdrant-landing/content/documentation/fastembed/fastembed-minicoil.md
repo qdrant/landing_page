@@ -77,7 +77,7 @@ documents = [
 ## Create Collection
 Let's create a collection to store and index titles.
 
-As miniCOIL was designed with Qdrant's ability to calculate the keywords Inverse Document Frequency (IDF) in mind, we need to configure miniCOIL sparse vectors with [IDF modifier](https://qdrant.tech/documentation/concepts/indexing/#idf-modifier).
+As miniCOIL was designed with Qdrant's ability to calculate the keywords Inverse Document Frequency (IDF) in mind, we need to configure miniCOIL sparse vectors with [IDF modifier](https://qdrant.tech/documentation/manage-data/indexing/#idf-modifier).
 
 <aside role="status">
 Don't forget to configure the IDF modifier to use miniCOIL sparse vectors in Qdrant!

@@ -20,7 +20,7 @@ You can install the [Qdrant integration](https://docs.datadoghq.com/integrations
 datadog-agent integration install -t qdrant==1.0.0
 ```
 
-- Edit the `conf.d/qdrant.d/conf.yaml` file in your [Agent's configuration directory](https://docs.datadoghq.com/agent/guide/agent-configuration-files/#agent-configuration-directory) to start collecting your [Qdrant metrics](/documentation/guides/monitoring/).
+- Edit the `conf.d/qdrant.d/conf.yaml` file in your [Agent's configuration directory](https://docs.datadoghq.com/agent/guide/agent-configuration-files/#agent-configuration-directory) to start collecting your [Qdrant metrics](/documentation/monitoring-telemetry/monitoring/).
 
 Most importantly, set the `openmetrics_endpoint` value to the `/metrics` endpoint of your Qdrant instance.
 

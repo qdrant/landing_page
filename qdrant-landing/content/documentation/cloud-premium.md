@@ -3,7 +3,7 @@ title: Premium Tier
 weight: 245
 partition: deploy
 aliases:
-  - /documentation/cloud/premium/
+  - /documentation/cloud-premium/
 ---
 
 # Qdrant Cloud Premium Tier

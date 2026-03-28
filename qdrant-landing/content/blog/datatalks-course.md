@@ -34,7 +34,7 @@ Evgeniya (Jenny) Sukhodolskaya, Developer Advocate at Qdrant
 → Learn how to run locally semantic similarity search with Qdrant and [FastEmbed](https://qdrant.tech/documentation/fastembed/) (Qdrant's optimized embedding solution) as well as gain visual understanding of vector search with Qdrant's [WebUI](https://qdrant.tech/documentation/web-ui/). 
 
 Kacper Łukawski, Senior Developer Advocate at Qdrant  
-→ Dive into [hybrid search](https://qdrant.tech/articles/hybrid-search/): combining lexical and vector search for better results. You’ll also explore multi-vector search, [reranking](https://qdrant.tech/documentation/advanced-tutorials/reranking-hybrid-search/), and [late interaction models](https://qdrant.tech/articles/late-interaction-models/).
+→ Dive into [hybrid search](https://qdrant.tech/articles/hybrid-search/): combining lexical and vector search for better results. You’ll also explore multi-vector search, [reranking](https://qdrant.tech/documentation/tutorials-search-engineering/reranking-hybrid-search/), and [late interaction models](https://qdrant.tech/articles/late-interaction-models/).
 
 ## How to Join  
 The course is 100% free and online, with all materials publicly available.

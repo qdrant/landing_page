@@ -473,7 +473,7 @@ fmt.Println(searchResult)
 ```
 
 The results are returned in decreasing similarity order. Note that payload and vector data is missing in these results by default.
-See [payload and vector in the result](/documentation/concepts/search/#payload-and-vector-in-the-result) on how to enable it.
+See [payload and vector in the result](/documentation/search/search/#payload-and-vector-in-the-result) on how to enable it.
 
 ## Add a filter
 
@@ -596,7 +596,7 @@ fmt.Println(searchResult)
 ]
 ```
 
-<aside role="status">To make filtered search fast on real datasets, we highly recommend to create <a href="/documentation/concepts/indexing/#payload-index">payload indexes</a>!</aside>
+<aside role="status">To make filtered search fast on real datasets, we highly recommend to create <a href="/documentation/manage-data/indexing/#payload-index">payload indexes</a>!</aside>
 
 You have just conducted vector search. You loaded vectors into a database and queried the database with a vector of your own. Qdrant found the closest results and presented you with a similarity score.
 

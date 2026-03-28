@@ -3,7 +3,7 @@ title: Payload
 weight: 15
 aliases:
   - ../payload
-  - /documentation/concepts/payload/
+  - /documentation/manage-data/payload/
 ---
 
 # Payload
@@ -47,11 +47,11 @@ This feature is implemented as additional filters during the search and will ena
 
 During the filtering, Qdrant will check the conditions over those values that match the type of the filtering condition. If the stored value type does not fit the filtering condition - it will be considered not satisfied.
 
-For example, you will get an empty output if you apply the [range condition](/documentation/concepts/filtering/#range) on the string data.
+For example, you will get an empty output if you apply the [range condition](/documentation/search/filtering/#range) on the string data.
 
 However, arrays (multiple values of the same type) are treated a little bit different. When we apply a filter to an array, it will succeed if at least one of the values inside the array meets the condition.
 
-The filtering process is discussed in detail in the section [Filtering](/documentation/concepts/filtering/).
+The filtering process is discussed in detail in the section [Filtering](/documentation/search/filtering/).
 
 Let's look at the data types that Qdrant supports for searching:
 
@@ -292,7 +292,7 @@ Alternatively, you can use filters to delete payload keys from the points.
 
 To search more efficiently with filters, Qdrant allows you to create indexes for payload fields by specifying the name and type of field it is intended to be.
 
-The indexed fields also affect the vector index. See [Indexing](/documentation/concepts/indexing/) for details.
+The indexed fields also affect the vector index. See [Indexing](/documentation/manage-data/indexing/) for details.
 
 In practice, we recommend creating an index on those fields that could potentially constrain the results the most.
 For example, using an index for the object ID will be much more efficient, being unique for each record, than an index by its color, which has only a few possible values.

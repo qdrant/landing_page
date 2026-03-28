@@ -2,7 +2,7 @@
 title: Haystack
 aliases:
   - ../integrations/haystack/
-  - /documentation/overview/integrations/haystack/
+  - /documentation/frameworks/haystack/
 ---
 
 # Haystack

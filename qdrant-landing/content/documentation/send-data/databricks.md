@@ -3,7 +3,7 @@ title: Databricks Ingestion
 weight: 5
 hideInSidebar: true
 aliases:
-  - /documentation/examples/databricks/
+  - /documentation/send-data/databricks/
 ---
 
 # Ingest Databricks Data into Qdrant
@@ -26,7 +26,7 @@ In this example, we will demonstrate how to vectorize a dataset with dense and s
   - Click on `Install New` at the top-right to open the library installation modal.
   - Search for `io.qdrant:spark:VERSION` in the Maven packages and click on `Install`.
 
-    ![Install the library](/documentation/examples/databricks/library-install.png)
+    ![Install the library](/documentation/send-data/databricks/library-install.png)
 
 - Create a new **[Databricks notebook](https://docs.databricks.com/en/notebooks/index.html)** on your cluster to begin working with your data and libraries.
 
@@ -119,7 +119,7 @@ embeddings_df = spark.createDataFrame(data=embeddings, schema=schema)
 ### Uploading the data to Qdrant
 
 - **Create a Qdrant collection:**
-  - [Follow the documentation](/documentation/concepts/collections/#create-a-collection) to create a collection with the appropriate configurations. Here's an example request to support both dense and sparse vectors:
+  - [Follow the documentation](/documentation/manage-data/collections/#create-a-collection) to create a collection with the appropriate configurations. Here's an example request to support both dense and sparse vectors:
 
   ```json
   PUT /collections/{collection_name}

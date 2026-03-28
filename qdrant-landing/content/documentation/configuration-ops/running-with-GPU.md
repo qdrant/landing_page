@@ -3,9 +3,9 @@ title: Running with GPU
 weight: 20
 partition: deploy
 aliases:
-  - /documentation/guides/running-with-GPU/
-  - /documentation/operations/running-with-GPU/
-  - /documentation/running-with-GPU/
+  - /documentation/configuration-ops/running-with-GPU/
+  - /documentation/configuration-ops/running-with-GPU/
+  - /documentation/configuration-ops/running-with-GPU/
 ---
 
 # Running Qdrant with GPU Support
@@ -200,7 +200,7 @@ And without quantization:
 ```
 
 The maximum size of each segment can be configured in the collection settings.
-Use the following operation to [change](/documentation/concepts/collections/#update-collection-parameters) on your existing collection:
+Use the following operation to [change](/documentation/manage-data/collections/#update-collection-parameters) on your existing collection:
 
 ```http
 PATCH collections/{collection_name}

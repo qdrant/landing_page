@@ -2,7 +2,7 @@
 title: Managed Cloud Prometheus Monitoring
 weight: 10
 aliases:
-  - /documentation/tutorials-and-examples/managed-cloud-prometheus/
+  - /documentation/monitoring-telemetry/managed-cloud-prometheus/
 ---
 
 # Monitoring Managed Cloud with Prometheus and Grafana

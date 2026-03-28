@@ -120,7 +120,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     **Where can I learn more about this alert?**
     
-    You can learn more about disk capacity [here](/documentation/guides/capacity-planning/#scaling-disk-space-in-qdrant-cloud).
+    You can learn more about disk capacity [here](/documentation/capacity-planning/#scaling-disk-space-in-qdrant-cloud).
     
     You can learn about vertical scaling [here](/documentation/cloud/cluster-scaling/#vertical-scaling).
     
@@ -142,11 +142,11 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     A single collection with payload index partitioning is usually optimal compared to many small individual tenant collections.*
     
-    It is also possible to split collections across clusters, the [Qdrant Migration CLI](/documentation/database-tutorials/migration/) can help you with this.
+    It is also possible to split collections across clusters, the [Qdrant Migration CLI](/documentation/tutorials-operations/migration/) can help you with this.
     
     **Where can I learn more about this alert?**
     
-    You can learn more about how to set up multi-tenancy with a Qdrant collection [here](/documentation/guides/multiple-partitions/).
+    You can learn more about how to set up multi-tenancy with a Qdrant collection [here](/documentation/manage-data/multitenancy/).
 
 - title: Cluster is Unhealthy
   content: |
@@ -202,7 +202,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     Learn about the SDKs [here](/documentation/interfaces/).
     
-    Learn more about JWT Keys and permissions [here](/documentation/guides/security/?q=jwt#granular-access-control-with-jwt).
+    Learn more about JWT Keys and permissions [here](/documentation/security/?q=jwt#granular-access-control-with-jwt).
 
 - title: A Node is CPU Throttled
   content: |
@@ -230,11 +230,11 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     **Where can I learn more about this alert?**
     
-    Learn about how to optimizer Qdrant for performance and how to configure indexing [here](/documentation/concepts/indexing/) and [here](/documentation/guides/optimize/).
+    Learn about how to optimizer Qdrant for performance and how to configure indexing [here](/documentation/manage-data/indexing/) and [here](/documentation/optimization/optimize/).
     
-    Learn about optimizers [here](/documentation/concepts/optimizer/).
+    Learn about optimizers [here](/documentation/optimization/optimizer/).
     
-    Learn more about hybrid search [here](/documentation/concepts/hybrid-queries/).
+    Learn more about hybrid search [here](/documentation/search/hybrid-queries/).
 
 - title: Node CPU Usage is Not Distributed Equally
   content: |
@@ -280,7 +280,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     **Where can I learn more about this alert?**
     
-    Learn more about distributed deployments and resharding [here](/documentation/guides/distributed_deployment/#resharding).
+    Learn more about distributed deployments and resharding [here](/documentation/distributed_deployment/#resharding).
     
     Learn more about cloud rebalancing [here](/documentation/cloud/configure-cluster/#shard-rebalancing).
 
@@ -294,11 +294,11 @@ To scrape metrics from a Qdrant cluster running in Qdrant Cloud, an [API key](/d
 
 ### Qdrant Node Metrics
 
-Metrics in a Prometheus compatible format are available at the `/metrics` endpoint of each Qdrant database node. When scraping, you should use the [node specific URLs](/documentation/cloud/cluster-access/#node-specific-endpoints) to ensure that you are scraping metrics from all nodes in each cluster. For more information see [Qdrant monitoring](/documentation/guides/monitoring/).
+Metrics in a Prometheus compatible format are available at the `/metrics` endpoint of each Qdrant database node. When scraping, you should use the [node specific URLs](/documentation/cloud/cluster-access/#node-specific-endpoints) to ensure that you are scraping metrics from all nodes in each cluster. For more information see [Qdrant monitoring](/documentation/monitoring-telemetry/monitoring/).
 
 You can also access the `/telemetry` [endpoint](https://api.qdrant.tech/api-reference/service/telemetry) of your database. This endpoint is available on the cluster endpoint and provides information about the current state of the database, including the number of vectors, shards, and other useful information.
 
-For more information, see [Qdrant monitoring](/documentation/guides/monitoring/).
+For more information, see [Qdrant monitoring](/documentation/monitoring-telemetry/monitoring/).
 
 ### Cluster System Metrics
 
