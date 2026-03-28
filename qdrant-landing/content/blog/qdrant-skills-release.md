@@ -2,10 +2,10 @@
 title: "[Working Title]"
 draft: false
 slug: qdrant-skills-release
-short_description: "Go beyond single-vector embeddings. Our new advanced course covers ColBERT, ColPali, MaxSim, and production-grade multi-vector pipelines in Qdrant."
-description: "Go beyond single-vector embeddings. Our new advanced course covers ColBERT, ColPali, MaxSim, and production-grade multi-vector pipelines in Qdrant."
-preview_image: /blog/multi-vector-course-release/hero.png
-social_preview_image: /blog/multi-vector-course-release/hero.png
+short_description: "Agent skills for Qdrant: solutions architect knowledge encoded for AI agents. Diagnose, tune, and scale vector search without guessing."
+description: "Agent skills for Qdrant: solutions architect knowledge encoded for AI agents. Diagnose, tune, and scale vector search without guessing."
+preview_image: /blog/qdrant-skills-release/hero.png
+social_preview_image: /blog/qdrant-skills-release/hero.png
 date: 2026-03-26
 author: Thierry Damiba
 featured: true
@@ -38,14 +38,14 @@ These primitives compound. The right combination depends on your data distributi
 
 [Cosmos](https://qdrant.tech/blog/case-study-cosmos/), a visual search platform for creative professionals, is a canonical example of composable vector search in production. By combining multiple Qdrant features, they created a refined, intuitive search experience that understands the users taste. In a single collection using named vectors, they store CLIP vectors (text to image search), CNNs (for style), pHash (to identify duplicates), and color embeddings (for palette search). Color searches leverage five different vectors held in memory for fast distance calculations; text search relies on CLIP vectors. Hybrid queries blend the two.
 
-They started with built-in reciprocal rank fusion, then moved to application-side fusion because they needed custom scoring that balanced relevance, engagement, and aesthetics. Every one of those choices was a tradeoff: memory for color precision, latency for ranking quality, simplicity for control. 
+They started with built-in reciprocal rank fusion, then moved to application-side fusion because they needed custom scoring that balanced relevance, engagement, and aesthetics. Every one of those choices was a tradeoff: memory for color precision, latency for ranking quality, simplicity for control.
 
-Storage is passive. Vector search is a decision space with real engineering tradeoffs: memory vs latency, recall vs throughput, precision vs cost. An agent that only knows how to call `search(query, top_k=10)` is ignoring the entire tradeoff surface. 
+Storage is passive. Vector search is a decision space with real engineering tradeoffs: memory vs latency, recall vs throughput, precision vs cost. An agent that only knows how to call `search(query, top_k=10)` is ignoring the entire tradeoff surface.
 
 
 ## The agent gap
 
-AI agents are good at calling APIs. Give an agent documentation for `client.query_points()` and it will write the call correctly. 
+AI agents are good at calling APIs. Give an agent documentation for `client.query_points()` and it will write the call correctly.
 
 But production vector search requires a different kind of knowledge:
 
@@ -137,69 +137,63 @@ The result is a hierarchical navigation system over our documentation, organized
 
 ## Real examples: same agent, same question, with and without skills
 
-We gave Claude the same three production questions, once with no skills loaded and once with the relevant Qdrant skill in context. Same model, same system prompt, no cherry-picking. The full prompts and outputs are [reproducible in the repo](https://github.com/qdrant/skills).
+We ran each question 5 times on Claude Opus 4.6 (1M context), with and without Qdrant skills loaded. Same model, same system prompt, no cherry-picking. With skills: 150/150 assertions passed (100%). Without skills: 78/150 (52%). The full prompts, outputs, and grading are [reproducible in the repo](https://github.com/qdrant/skills/tree/main/skills-eval-workspace).
 
 ---
 
-### "My Qdrant instance memory keeps growing. We're worried about a memory leak."
+### "We index social media posts and only care about the last 3 months. Our cron job deletes old posts but performance keeps degrading."
+
+*Baseline pass rate: 28% across 5 runs. With skill: 100%. The largest delta in our evaluation.*
 
 **Without skills:**
 
-> Memory growth in Qdrant is usually not a leak but expected behavior. Qdrant loads vector indexes (HNSW graphs) and payload indexes into RAM as collections are accessed, and this memory stays resident for fast retrieval. If you recently uploaded a large batch of points, the indexing process builds in-memory structures that will stabilize once complete. Check the /metrics or /telemetry endpoints to see actual memory breakdown across collections.
+> The core issue: Qdrant uses soft deletes internally. When you delete points via a cron job, the data is marked as deleted but not immediately reclaimed. The HNSW index still contains the deleted nodes, queries still traverse them, and segment compaction has to work harder. Over time, you accumulate tombstones and both search latency and memory usage climb.
 >
-> The most common culprits for genuinely unexpected growth are: keeping too many collections active simultaneously, using very large segment sizes without on_disk_payload enabled, or having vectors stored in RAM when they could move to disk. For large datasets, set on_disk: true for vectors in your collection config, and consider enabling memmap_threshold so segments above a certain size use memory-mapped files instead of loading fully into RAM.
->
-> To investigate further, monitor the number of segments per collection (fragmented collections after many updates will have more segments and higher memory use until optimization runs), trigger manual optimization if needed, and make sure your optimizer settings are not too conservative. If memory grows unboundedly even with no new data being added, capture a heap profile or check for any client-side connection pooling issues causing responses to buffer in memory on the application side rather than in Qdrant itself.
+> Instead of deleting individual points, rotate entire collections on a schedule. Create monthly collections (`social_posts_2026_01`, `social_posts_2026_02`, ...), point an alias at the active window, search across all active collections in parallel, and merge results client-side. Each month, create the new collection and drop the oldest one.
 
 **With skills:**
 
-> Start by checking whether what you're seeing is actually a problem. Qdrant uses two types of RAM: resident memory (data structures, quantized vectors) and OS page cache (cached disk reads). Page cache filling available RAM is normal OS behavior and is not a memory leak. Only investigate further if resident memory (RSSAnon) specifically exceeds 80% of total RAM.
+> Your performance degradation is expected. Filter-and-delete leaves tombstoned points that degrade search until the optimizer compacts segments. Disk is not reclaimed instantly either. For a 3-month rolling window, this is the wrong strategy.
 >
-> If resident memory is genuinely high, check `/metrics` for RSS and allocated bytes, then use `/telemetry` for a per-collection breakdown of point counts and vector configurations. Estimate expected memory with `num_vectors * dimensions * 4 bytes * 1.5` for vectors, plus payload and index overhead. If actual usage far exceeds this estimate, the common culprits are quantized vectors with `always_ram=true`, too many payload indexes, or a large `max_segment_size` during optimization.
->
-> Before changing any config, check optimizer status first. Most production issues trace back to active optimizations competing for resources, and making config changes while the optimizer is running causes cascading re-optimizations that can make things worse.
+> Switch to user-defined sharding with one shard key per month. Create a collection with `sharding_method: "custom"`, create shard keys `2026-01`, `2026-02`, `2026-03`. Ingest into the current month's shard key. When a new month starts, create the next shard key, redirect writes, and delete the oldest shard key. Deleting a shard key reclaims all resources instantly. No tombstones, no compaction, no degradation. Pre-create the next month's shard key before rotation to avoid write failures during the transition.
 
-**The difference:** The unskilled agent gives a reasonable wall of generic possibilities. The skilled agent's first sentence is: "check whether what you're seeing is actually a problem." It teaches the diagnostic fork (RSSAnon vs page cache) that prevents hours of chasing phantom leaks.
+**The difference:** Both agents correctly diagnose tombstone degradation. But without the skill, Claude defaults to collection rotation with alias swapping, which requires application-level fan-out search across multiple collections and client-side result merging. The skill teaches shard rotation: a single collection with user-defined shard keys, where queries automatically span all time periods without fan-out and dropping a shard key reclaims resources instantly. The unskilled agent doesn't know this pattern exists.
 
 ---
 
-### "Search results are bad. Users complain about irrelevant results."
+### "We're running Qdrant 1.14 and want to upgrade to 1.17. Our cluster has replication factor 1 and 2 nodes."
+
+*Baseline pass rate: 48% across 5 runs. With skill: 100%.*
 
 **Without skills:**
 
-> Poor search quality usually comes from one of three root causes: the embedding model is a poor fit for your domain, you're searching with wrong parameters, or your data pipeline has preprocessing mismatches between indexing and query time.
->
-> Start by auditing your embedding model. A general-purpose model trained on web text will perform poorly on specialized domains. Verify you're applying identical preprocessing to both documents and queries. On the search side, check your distance metric, try disabling quantization temporarily, and consider hybrid search combining dense vectors with sparse (BM25) vectors if results are semantically close but contextually wrong.
+> With replication factor 1, you have zero redundancy. Each shard exists on exactly one node. Increase replication factor to 2 before upgrading. Upgrade one minor version at a time: 1.14 to 1.15, then 1.15 to 1.16, then 1.16 to 1.17. Do not skip versions. Take snapshots before each hop. Perform rolling upgrades: stop one node, upgrade it, wait for it to rejoin and sync, then do the other.
 
 **With skills:**
 
-> Start by isolating the cause before tuning anything. Run a test query with `exact=true` to bypass HNSW approximation. If exact search also returns bad results, the problem is your embedding model, not Qdrant configuration. If exact search returns good results but approximate search doesn't, the issue is HNSW tuning.
+> Two critical issues. First: your replication factor of 1 means rolling upgrades cannot guarantee zero downtime. Each shard only exists on one node, so when that node goes down for upgrade, those shards are unavailable. Increase to RF=2 before starting.
 >
-> If the model is the problem, test the top 3 MTEB models on 100-1000 sample queries and measure recall@10. Domain-specific models consistently outperform general-purpose ones for specialized content. Do not tune Qdrant parameters until you have confirmed the model is appropriate for your use case.
->
-> If the model is fine but approximate search is degraded, increase `hnsw_ef` at query time, raise `ef_construct` to 200+, and consider increasing `m` from the default 16 to 32 for higher recall. If you are using binary quantization, make sure rescore is enabled since binary quantization without rescore causes severe quality loss. Also verify that payload indexes exist on any filtered fields, and check whether filters are too restrictive by testing without them.
+> Second: Qdrant only guarantees storage compatibility between consecutive minor versions. You must upgrade step by step: 1.14 to 1.15, 1.15 to 1.16, 1.16 to 1.17. For each hop, upgrade the SDK to the target minor version first, then upgrade the server. The server is backward-compatible with the next SDK version for available features. Qdrant Cloud automates this process and can jump directly from 1.14 to 1.17, but self-hosted clusters must do each step manually. Use the [qcloud CLI](https://github.com/qdrant/qcloud-cli) for Cloud upgrades.
 
-**The difference:** Both agents mention the embedding model. But the skilled agent gives you a single diagnostic test (`exact=true`) that cleanly separates "model problem" from "Qdrant problem" before you touch anything. The unskilled agent lists possibilities. The skilled agent gives you a decision tree.
+**The difference:** The unskilled agent gets the big picture right (step-by-step, increase RF). But it misses three things the skill provides: the explicit storage compatibility guarantee (why you can't skip), the SDK-before-server upgrade ordering, and that Qdrant Cloud can automate multi-version jumps. These are the details that prevent a failed migration at 2am.
 
 ---
 
-### "We have 500 customers. Should we create one collection per customer for isolation?"
+### "We have 5,000 tenants with 10k-100k vectors each. We've been creating one collection per tenant but hitting limits."
+
+*Baseline pass rate: 48% across 5 runs. With skill: 100%.*
 
 **Without skills:**
 
-> For 500 customers, creating one collection per customer is generally not recommended. Each collection carries overhead (memory, file handles, segment management), and 500 collections would create meaningful resource pressure.
->
-> The better approach is a single shared collection with a `customer_id` payload field, using filtering at query time for logical isolation. If you need stronger guarantees, use Qdrant's multi-tenancy support or group customers into fewer collections by region or tier. Add a payload index on `customer_id` to keep filtered queries fast.
+> Creating 5,000 separate collections is not sustainable. Each collection carries its own HNSW index, WAL, optimizer threads, and segment management. The correct approach is to consolidate into a single shared collection with payload-based partitioning. Add a `tenant_id` field to every point, create a keyword payload index on it, and filter by `tenant_id` on every query. This drops resource usage dramatically and scales to 100,000+ tenants.
 
 **With skills:**
 
-> No. One collection per customer does not scale past a few hundred tenants, and with 500 customers you are already at the edge of where this breaks down. We have seen users in our support channels hit the 1000 collection limit after a year of this pattern and have to migrate. The resource waste alone makes it a poor choice.
+> One collection per tenant does not scale past a few hundred. One company hit the 1,000 collection limit after a year of collection-per-repo and had to migrate to payload partitioning. Use a shared collection with a `tenant_id` field and create a keyword index with `is_tenant: true`. This is critical: without `is_tenant: true`, Qdrant builds a single global HNSW graph and filters after traversal, which kills performance. With it, Qdrant builds per-tenant HNSW segments so each tenant's search stays fast. Do not build a global HNSW for multi-tenant collections; use `payload_m` instead.
 >
-> Use a shared collection with a tenant ID field instead. Add a keyword index on that field, set `is_tenant=true` to co-locate each customer's data for sequential reads, and disable global HNSW (`m: 0`) in favor of `payload_m: 16` for per-tenant indexes. This gives you significantly faster ingestion and query performance at your scale.
->
-> If some customers eventually grow large enough to need stronger isolation, Qdrant v1.16+ supports tenant promotion to dedicated shards. Small tenants stay on shared fallback shards, large ones get promoted automatically. That gives you isolation where it matters without the overhead of 500 separate collections from day one.
+> Your tenants range 10x in size (10k to 100k vectors). If some grow significantly larger, use tiered multitenancy to promote large tenants to dedicated shards while keeping small tenants on shared shards. Custom sharding by tenant ID hash becomes relevant at 100k+ tenants, not at your current 5,000.
 
-**The difference:** The unskilled agent gives correct general advice: don't do it, use payload filtering. The skilled agent says "No" in the first word, cites a real production incident (the 1,000 collection limit), and gives the exact config: `is_tenant=true`, `m: 0`, `payload_m: 16`. Then it goes further with tenant promotion for customers that outgrow shared shards. The unskilled agent vaguely mentions "named vectors or partition strategies." The skilled agent gives you the architecture.
+**The difference:** Both agents give the correct high-level answer: consolidate into one collection with payload filtering. But the unskilled agent misses the specific configuration that makes it work well: `is_tenant: true` for per-tenant HNSW segments, `payload_m` over global HNSW, and tiered multitenancy for uneven tenant sizes. It also lacks the real-world incident (the 1,000 collection limit) that makes the recommendation concrete. The skilled agent gives you the architecture; the unskilled agent gives you the idea.
 
 
 ## Try it
@@ -209,6 +203,3 @@ Skills are open source. Install them, break them, tell us what's wrong. If you h
 The piece of the stack between "the API works" and "the system works in production" is where most teams lose time. That gap is a diagnosis problem, not a documentation problem.
 
 [github.com/qdrant/skills](https://github.com/qdrant/skills)
-
-
-
