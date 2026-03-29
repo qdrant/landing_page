@@ -38,7 +38,7 @@ EmbeddingStore<TextSegment> embeddingStore =
     QdrantEmbeddingStore.builder()
         // Ensure the collection is configured with the appropriate dimensions
         // of the embedding model.
-        // Reference /documentation/manage-data/collections/
+        // Reference: https://qdrant.tech/documentation/manage-data/collections/
         .collectionName("YOUR_COLLECTION_NAME")
         .host("YOUR_HOST_URL")
         // GRPC port of the Qdrant server

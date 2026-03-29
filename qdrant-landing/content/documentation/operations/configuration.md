@@ -306,7 +306,7 @@ storage:
   # Default shard transfer method to use if none is defined.
   # If null - don't have a shard transfer preference, choose automatically.
   # If stream_records, snapshot or wal_delta - prefer this specific method.
-  # More info: /documentation/operations/distributed_deployment/#shard-transfer-method
+  # More info: https://qdrant.tech/documentation/operations/distributed_deployment/#shard-transfer-method
   shard_transfer_method: null
 
   # Default parameters for collections
@@ -325,7 +325,7 @@ storage:
     # shard_number_per_node: 1
 
     # Default quantization configuration.
-    # More info: /documentation/manage-data/quantization
+    # More info: https://qdrant.tech/documentation/manage-data/quantization
     quantization: null
 
     # Default strict mode parameters for newly created collections.
@@ -457,7 +457,7 @@ cluster:
     compact_wal_entries: 128
 
 # Set to true to prevent service from sending usage statistics to the developers.
-# Read more: /documentation/operations/usage-statistics
+# Read more: https://qdrant.tech/documentation/operations/usage-statistics
 telemetry_disabled: false
 
 # TLS configuration.
