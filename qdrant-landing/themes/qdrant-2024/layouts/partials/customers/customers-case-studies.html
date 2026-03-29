@@ -44,7 +44,7 @@
           <div class="customers-case-studies__accordion-body">
             <div class="customers-case-studies__accordion-inner customers-case-studies__accordion-sort">
               <select id="filters-select" class="customers-case-studies__accordion-select" data-sort-select>
-                <option value="">Placeholder text</option>
+                <option value="">-- Select Sort --</option>
                 <option value="name-asc">Company name (A-Z)</option>
                 <option value="name-desc">Company name (Z-A)</option>
                 <option value="industry-asc">Industry (A-Z)</option>
@@ -180,8 +180,16 @@
         data-results-grid
       >
         {{ range $all }}
+          {{ $storyURL := "#" }}
+          {{ $storyPage := false }}
+          {{ with .blog_path }}
+            {{ with site.GetPage . }}
+              {{ $storyURL = .RelPermalink }}
+              {{ $storyPage = . }}
+            {{ end }}
+          {{ end }}
           <a
-            href="#"
+            href="{{ $storyURL }}"
             class="customers-case-studies__card"
             data-client-card
             data-id="{{ .id }}"
@@ -195,8 +203,10 @@
             <div class="customers-case-studies__card-logo">
               <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
             </div>
-            <p class="customers-case-studies__card-description">{{ .description }}</p>
-            <p class="customers-case-studies__card-time">{{ .time }}</p>
+            <p class="customers-case-studies__card-description">{{ .title }}</p>
+            <p class="customers-case-studies__card-time">
+              {{ with $storyPage }}{{ .ReadingTime }} min read{{ else }}{{ .time }}{{ end }}
+            </p>
           </a>
         {{ end }}
       </div>
@@ -217,6 +227,12 @@
           </div>
           <div class="customers-case-studies__table-body" data-results-list>
             {{ range $all }}
+              {{ $storyURL := "#" }}
+              {{ with .blog_path }}
+                {{ with site.GetPage . }}
+                  {{ $storyURL = .RelPermalink }}
+                {{ end }}
+              {{ end }}
               <div
                 class="customers-case-studies__table-row customers-case-studies__table-body-row block"
                 data-client-card
@@ -248,13 +264,13 @@
                   <p>{{ .location }}</p>
                 </div>
                 <div>
-                  <a href="#" class="button button_outlined button_lg">
+                  <a href="{{ $storyURL }}" class="button button_outlined button_lg">
                     Read Customer Story
                   </a>
                 </div>
               </div>
               <a 
-                href="#"
+                href="{{ $storyURL }}"
                 class="customers-case-studies__table-row customers-case-studies__table-body-row link-block"
                 data-client-card
                 data-id="{{ .id }}"
