@@ -26,7 +26,7 @@ Before you start, make sure you have the following:
 1. Airbyte instance, either [Open Source](https://airbyte.com/solutions/airbyte-open-source),
    [Self-Managed](https://airbyte.com/solutions/airbyte-enterprise), or [Cloud](https://airbyte.com/solutions/airbyte-cloud).
 2. Running instance of Qdrant. It has to be accessible by URL from the machine where Airbyte is running.
-   You can follow the [installation guide](/documentation/guides/installation/) to set up Qdrant.
+   You can follow the [installation guide](/documentation/operations/installation/) to set up Qdrant.
 
 ## Setting up Qdrant as a destination
 

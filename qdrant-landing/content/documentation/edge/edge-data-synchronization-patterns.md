@@ -14,7 +14,7 @@ Instead of starting with an empty Edge Shard, you may want to initialize it with
 
 ![Qdrant Edge Shards can be initialized from snapshots of server-side shards](/documentation/edge/qdrant-edge-restore-snapshot.png)
 
-When creating a snapshot for synchronization, specify the applicable server-side shard ID in the snapshot URL. This allows for a single collection to serve multiple independent users or devices, each with its own Edge Shard. Read more about Qdrant's sharding strategy in the [Tiered Multitenancy Documentation](/documentation/guides/multitenancy/#tiered-multitenancy).
+When creating a snapshot for synchronization, specify the applicable server-side shard ID in the snapshot URL. This allows for a single collection to serve multiple independent users or devices, each with its own Edge Shard. Read more about Qdrant's sharding strategy in the [Tiered Multitenancy Documentation](/documentation/manage-data/multitenancy/#tiered-multitenancy).
 
 First, craft a snapshot URL:
 

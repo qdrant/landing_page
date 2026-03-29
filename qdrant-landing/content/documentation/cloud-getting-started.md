@@ -20,7 +20,7 @@ Premium Plan subscribers can enable single sign-on (SSO) for their organizations
 
 ## Cluster Sizing
 
-Before deploying any cluster, consider the resources needed for your specific workload. Our [Capacity Planning guide](/documentation/guides/capacity-planning/) describes how to assess the required CPU, memory, and storage. Additionally, the [Pricing Calculator](https://cloud.qdrant.io/calculator) helps you estimate associated costs based on your projected usage.
+Before deploying any cluster, consider the resources needed for your specific workload. Our [Capacity Planning guide](/documentation/operations/capacity-planning/) describes how to assess the required CPU, memory, and storage. Additionally, the [Pricing Calculator](https://cloud.qdrant.io/calculator) helps you estimate associated costs based on your projected usage.
 
 ## Creating and Managing Clusters
 
@@ -28,9 +28,9 @@ After setting up your account, you can create a Qdrant Cluster by following the 
 
 ## Preparing for Production
 
-For a production-ready environment, consider deploying a multi-node Qdrant cluster (at least three nodes) with replication enabled. More details are available in the [Distributed Deployment](/documentation/guides/distributed_deployment/) guide. For more information on how to create a production-ready cluster, see our [Vector Search in Production](/articles/vector-search-production/) article.
+For a production-ready environment, consider deploying a multi-node Qdrant cluster (at least three nodes) with replication enabled. More details are available in the [Distributed Deployment](/documentation/operations/distributed_deployment/) guide. For more information on how to create a production-ready cluster, see our [Vector Search in Production](/articles/vector-search-production/) article.
 
-If you are looking to optimize costs, you can reduce memory usage through [Quantization](/documentation/guides/quantization/) or by [offloading vectors to disk](/documentation/concepts/storage/#configuring-memmap-storage).
+If you are looking to optimize costs, you can reduce memory usage through [Quantization](/documentation/manage-data/quantization/) or by [offloading vectors to disk](/documentation/manage-data/storage/#configuring-memmap-storage).
 
 ## Infrastructure as Code Automation
 

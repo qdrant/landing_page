@@ -255,7 +255,7 @@ Now that all the preparations are complete, let's start building a neural search
 
 In order to process incoming requests, the hybrid search class will need 3 things: 1) models to convert the query into a vector, 2) the Qdrant client to perform search queries, 3) fusion function to re-rank dense and sparse search results.
 
-Qdrant supports 2 fusion functions for combining the results: [reciprocal rank fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf) and [distribution based score fusion](https://qdrant.tech/documentation/concepts/hybrid-queries/?q=distribution+based+sc#:~:text=Distribution%2DBased%20Score%20Fusion)
+Qdrant supports 2 fusion functions for combining the results: [reciprocal rank fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf) and [distribution based score fusion](/documentation/search/hybrid-queries/?q=distribution+based+sc#:~:text=Distribution%2DBased%20Score%20Fusion)
 
 
 1. Create a file named `hybrid_searcher.py` and specify the following.

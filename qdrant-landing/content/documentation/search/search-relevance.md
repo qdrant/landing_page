@@ -57,7 +57,7 @@ There are multiple expressions available. Check the [API docs for specific detai
 - **exp** - Exponential function of an expression (`e^x`).
 - **geo distance** - Haversine distance between two geographic points. Values need to be `{ "lat": 0.0, "lon": 0.0 }` objects.
 - **decay** - Apply a decay function to an expression, which clamps the output between 0 and 1. Available decay functions are **linear**, **exponential**, and **gaussian**. [See more](#decay-functions).
-- **datetime** - Parse a datetime string (see formats [here](/documentation/concepts/payload/#datetime)), and use it as a POSIX timestamp in seconds.
+- **datetime** - Parse a datetime string (see formats [here](/documentation/manage-data/payload/#datetime)), and use it as a POSIX timestamp in seconds.
 - **datetime key** - Specify that a payload key contains a datetime string to be parsed into POSIX seconds.
 
 It is possible to define a default for when the variable (either from payload or prefetch score) is not found. This is given in the form of a mapping from variable to value.

@@ -30,7 +30,7 @@ online_store:
     port: 6333
     api_key: <your-own-key>
     vector_len: 384
-    # Reference: https://qdrant.tech/documentation/concepts/vectors/#named-vectors
+    # Reference: /documentation/manage-data/vectors/#named-vectors
     # vector_name: text-vec
     write_batch_size: 100
 ```

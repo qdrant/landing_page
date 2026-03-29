@@ -7,7 +7,7 @@ weight: 2
 | Time: 30 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/blob/master/using-relevance-feedback/Customizing_Relevance_Feedback.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/using-relevance-feedback/Customizing_Relevance_Feedback.ipynb) |
 | --- | ----------- | ----------- | ----------- |
 
-In Qdrant 1.17 we introduced a new [Relevance Feedback Query](/documentation/concepts/search-relevance/#relevance-feedback), our scalable, first ever vector index-native approach to [incorporating relevance feedback](/articles/search-feedback-loop/) in retrieval.
+In Qdrant 1.17 we introduced a new [Relevance Feedback Query](/documentation/search/search-relevance/#relevance-feedback), our scalable, first ever vector index-native approach to [incorporating relevance feedback](/articles/search-feedback-loop/) in retrieval.
 
 In this tutorial, you'll see how to: 
 1. Customize Relevance Feedback Query for your Qdrant collection, retriever and feedback model.
@@ -25,7 +25,7 @@ A detailed description of how it works can be found in the article [Relevance Fe
 
 ### Strategy
 
-To use the feedback for guiding a retriever in the vector space, there are several possible strategies. For now, only the **naive strategy** is available -- [a simple 3-parameter formula](https://qdrant.tech/documentation/concepts/search-relevance/#naive-strategy) which adjusts similarity scoring based on the feedback.
+To use the feedback for guiding a retriever in the vector space, there are several possible strategies. For now, only the **naive strategy** is available -- [a simple 3-parameter formula](/documentation/search/search-relevance/#naive-strategy) which adjusts similarity scoring based on the feedback.
 
 For the strategy to work well, the parameters of this naive formula should be customized for your data, retriever and feedback model.
 For convenience, we provide you with a [`qdrant-relevance-feedback` Python package](https://pypi.org/project/qdrant-relevance-feedback/) that gives you the corresponding parameters for your use case.
@@ -94,7 +94,7 @@ Check what a point in this collection looks like.
 
 ![Point in the documentation collection](/documentation/tutorials/using-relevance-feedback/point.png)
 
-Our documentation collection has only one vector per point -- `Default vector`. However, in Qdrant, one can have several [named vectors](https://qdrant.tech/documentation/concepts/vectors/#named-vectors) per point.
+Our documentation collection has only one vector per point -- `Default vector`. However, in Qdrant, one can have several [named vectors](/documentation/manage-data/vectors/#named-vectors) per point.
 
 We need to provide the name of the vector associated with the retriever that we're planning to optimize with feedback.
 
@@ -102,7 +102,7 @@ We need to provide the name of the vector associated with the retriever that we'
 RETRIEVER_VECTOR_NAME = None # None if it's a default vector or your named vector handle in Qdrant's collection
 ```
 
-We also need to point our framework to the raw data which is vectorized with our retriever model. Here, the raw data is the `text` field in the point's [payload](https://qdrant.tech/documentation/concepts/payload/#payload). Simply put, we search on `text` snippets -- in their vectorized form.
+We also need to point our framework to the raw data which is vectorized with our retriever model. Here, the raw data is the `text` field in the point's [payload](/documentation/manage-data/payload/#payload). Simply put, we search on `text` snippets -- in their vectorized form.
 
 ```python
 PAYLOAD_KEY = "text"

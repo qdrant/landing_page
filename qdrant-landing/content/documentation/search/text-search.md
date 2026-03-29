@@ -12,10 +12,10 @@ Qdrant is a vector search engine, making it a great tool for [semantic search](#
 
 ### Semantic Search
 
-Semantic search is a search technique that focuses on the meaning of the text rather than just matching on keywords. This is achieved by converting text into [vectors](/documentation/concepts/vectors/) (embeddings) using machine learning models. These vectors capture the semantic meaning of the text, enabling you to find similar text even if it doesn't share exact keywords.
+Semantic search is a search technique that focuses on the meaning of the text rather than just matching on keywords. This is achieved by converting text into [vectors](/documentation/manage-data/vectors/) (embeddings) using machine learning models. These vectors capture the semantic meaning of the text, enabling you to find similar text even if it doesn't share exact keywords.
 
 <aside role="status">
-The examples in this guide use <a href="/documentation/concepts/inference">inference</a> to let Qdrant generate the vectors. Inference is only available on <a href="/documentation/concepts/inference/#qdrant-cloud-inference">Qdrant Cloud</a>, with the exception of the BM25 model. If you are not running on Qdrant Cloud, you can use a library like <a href="/documentation/fastembed/">FastEmbed</a> to generate vectors on the client side. When using FastEmbed, refer to the documentation, as its API may differ from that of server-side inference.
+The examples in this guide use <a href="/documentation/inference">inference</a> to let Qdrant generate the vectors. Inference is only available on <a href="/documentation/inference/#qdrant-cloud-inference">Qdrant Cloud</a>, with the exception of the BM25 model. If you are not running on Qdrant Cloud, you can use a library like <a href="/documentation/fastembed/">FastEmbed</a> to generate vectors on the client side. When using FastEmbed, refer to the documentation, as its API may differ from that of server-side inference.
 </aside>
 
 For example, to search through a collection of books, you could use a model like the `all-MiniLM-L6-v2` sentence transformer model. First, create a collection and configure a dense vector for the book descriptions:
@@ -30,7 +30,7 @@ To find books related to "time travel", use the following query:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-description-dense/" >}}
 
-In these examples, Qdrant uses [inference](/documentation/concepts/inference) to generate vectors from the `text` provided in the request using the specified `model`. Alternatively, you can generate explicit vectors on the client side with a library like [FastEmbed](/documentation/fastembed/).
+In these examples, Qdrant uses [inference](/documentation/inference) to generate vectors from the `text` provided in the request using the specified `model`. Alternatively, you can generate explicit vectors on the client side with a library like [FastEmbed](/documentation/fastembed/).
 
 ### Lexical Search
 
@@ -47,7 +47,7 @@ When it comes to lexical search in Qdrant, it's important to distinguish between
 
 ## Filtering
 
-Qdrant supports [filtering](/documentation/concepts/filtering) on a wide range of datatypes: numbers, dates, booleans, geolocations, and strings. In Qdrant, a filter is typically combined with a vector query. The vector query is used to score and rank the results, while the filter is used to narrow down the results based on specific criteria.
+Qdrant supports [filtering](/documentation/search/filtering) on a wide range of datatypes: numbers, dates, booleans, geolocations, and strings. In Qdrant, a filter is typically combined with a vector query. The vector query is used to score and rank the results, while the filter is used to narrow down the results based on specific criteria.
 
 ### Text and Keyword Strings
 
@@ -59,15 +59,15 @@ For example, take a string like "United States". If you want to filter on all po
 |---|---|
 | Used for exact string matches | Used for filtering on individual terms |
 | Ideal for IDs, categories, tags | Ideal for larger text fields |
-| Not tokenized | [Tokenized](/documentation/concepts/text-search/#tokenization) into individual terms |
+| Not tokenized | [Tokenized](/documentation/search/text-search/#tokenization) into individual terms |
 | Case-sensitive | Case-insensitive by default |
 
 ### Filtering on an Exact String
 
-To filter on exact strings, first create a [payload index](/documentation/concepts/indexing/#payload-index) of type `keyword`for the field you want to filter on. A payload index makes filtering faster and reduces the load on the system.
+To filter on exact strings, first create a [payload index](/documentation/manage-data/indexing/#payload-index) of type `keyword`for the field you want to filter on. A payload index makes filtering faster and reduces the load on the system.
 
 <aside role="status">
-Filtering on a field without an index is not possible on collections that run in <a href="/documentation/guides/administration/#strict-mode">strict mode</a>. Strict mode is enabled by default on Qdrant Cloud.
+Filtering on a field without an index is not possible on collections that run in <a href="/documentation/operations/administration/#strict-mode">strict mode</a>. Strict mode is enabled by default on Qdrant Cloud.
 </aside>
 
 For example, to filter books by author name, create a keyword index on the "author" field:
@@ -110,14 +110,14 @@ To enable efficient full-text filtering, Qdrant processes text strings by breaki
 
 The following text processing steps are applied to text strings:
 
-- The string is broken down into individual tokens (words) using a process called [tokenization](/documentation/concepts/indexing/#tokenizers). By default, Qdrant uses the `word` tokenizer, which splits the string using word boundaries, discarding spaces, punctuation marks, and special characters.
-- By default, each word is then [converted to lowercase](/documentation/concepts/indexing/#lowercasing). Lowercasing the tokens allows Qdrant to ignore capitalization, making full-text filters case-insensitive.
-- Optionally, Qdrant can remove diacritics (accents) from characters using a process called [ASCII folding](/documentation/concepts/indexing/#ascii-folding). This ensures that diacritics are ignored. As a result, filtering for the word "cafe" matches "café".
-- Optionally, tokens can be reduced to their root form using a [stemmer](/documentation/concepts/indexing/#stemmer). This ensures that filtering for "running" also matches "run" and "ran". Because stemming is language-specific, if enabled, it must be configured for a specific language.
-- Certain words like "the", "is", and "and" are very common in text and do not contribute much to the meaning of text. These words are called [stopwords](/documentation/concepts/indexing/#stopwords) and can optionally be removed during indexing. Like stemming, stopword removal is language-specific. You can configure specific languages for stopword removal and/or provide a custom list of stopwords to remove.
-- Optionally, you can enable [phrase matching](/documentation/concepts/indexing/#phrase-search) to allow filtering for multiple words in the exact same order as they appear in the original text.
+- The string is broken down into individual tokens (words) using a process called [tokenization](/documentation/manage-data/indexing/#tokenizers). By default, Qdrant uses the `word` tokenizer, which splits the string using word boundaries, discarding spaces, punctuation marks, and special characters.
+- By default, each word is then [converted to lowercase](/documentation/manage-data/indexing/#lowercasing). Lowercasing the tokens allows Qdrant to ignore capitalization, making full-text filters case-insensitive.
+- Optionally, Qdrant can remove diacritics (accents) from characters using a process called [ASCII folding](/documentation/manage-data/indexing/#ascii-folding). This ensures that diacritics are ignored. As a result, filtering for the word "cafe" matches "café".
+- Optionally, tokens can be reduced to their root form using a [stemmer](/documentation/manage-data/indexing/#stemmer). This ensures that filtering for "running" also matches "run" and "ran". Because stemming is language-specific, if enabled, it must be configured for a specific language.
+- Certain words like "the", "is", and "and" are very common in text and do not contribute much to the meaning of text. These words are called [stopwords](/documentation/manage-data/indexing/#stopwords) and can optionally be removed during indexing. Like stemming, stopword removal is language-specific. You can configure specific languages for stopword removal and/or provide a custom list of stopwords to remove.
+- Optionally, you can enable [phrase matching](/documentation/manage-data/indexing/#phrase-search) to allow filtering for multiple words in the exact same order as they appear in the original text.
 
-These text processing steps can be configured when creating a [full-text index](documentation/concepts/indexing/#full-text-index). For example, to create a text index on the `title` field with ASCII folding enabled:
+These text processing steps can be configured when creating a [full-text index](/documentation/manage-data/indexing/#full-text-index). For example, to create a text index on the `title` field with ASCII folding enabled:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/create-title-text-index/" >}}
 
@@ -125,7 +125,7 @@ When querying using this index, Qdrant automatically applies the same text proce
 
 ### Filter on Text Strings
 
-To filter on text values in a payload field, first create a [full-text index](/documentation/concepts/indexing/#full-text-index) for that field. Next, you can use a `text` condition to query the collection with a filter for titles that contain the word "space":
+To filter on text values in a payload field, first create a [full-text index](/documentation/manage-data/indexing/#full-text-index) for that field. Next, you can use a `text` condition to query the collection with a filter for titles that contain the word "space":
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/filter-title-text/" >}}
 
@@ -147,7 +147,7 @@ Summarizing the differences between the four filtering methods for a multi-term 
 | keyword  | `"Space War"`     | Yes               | No                      | No                    | No                          |
 
 
-To filter on phrases, use a `phrase` condition. This requires enabling [phrase searching](/documentation/concepts/indexing/#phrase-search) when creating the full-text index:
+To filter on phrases, use a `phrase` condition. This requires enabling [phrase searching](/documentation/manage-data/indexing/#phrase-search) when creating the full-text index:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/create-title-phrase-index/" >}}
 
@@ -157,7 +157,7 @@ Next, you can use a `phrase` condition to filter for titles that contain the exa
 
 ### Progressive Filtering with the Batch Search API
 
-Even though filters are not used to rank results, you can use the [batch search API](/documentation/concepts/search/#batch-search-api) to progressively relax filters. This is useful when you have strict filtering criteria that may not return results. Batching multiple search requests with progressively relaxed filters enables you to get results even when the strictest filter returns no results.
+Even though filters are not used to rank results, you can use the [batch search API](/documentation/search/search/#batch-search-api) to progressively relax filters. This is useful when you have strict filtering criteria that may not return results. Batching multiple search requests with progressively relaxed filters enables you to get results even when the strictest filter returns no results.
 
 For example, the following batch search request first tries to find books that match all search terms in the title. The second search request relaxes the filter to match any of the search terms. The third search request removes the filter altogether:
 
@@ -178,7 +178,7 @@ BM25 (Best Matching 25) is a popular ranking algorithm that takes a probabilisti
 - Inverse document frequency (IDF): the rarer a term is across all documents, the higher the weight of that term.
 - Document length: a term appearing in a shorter document is more relevant than the same term appearing in a longer document.
 
-Qdrant provides native support for BM25 through an [inference model](/documentation/concepts/inference/#server-side-inference-bm25) that generates sparse vectors, or you can generate vectors on the client side using the [FastEmbed](/documentation/fastembed/) library.
+Qdrant provides native support for BM25 through an [inference model](/documentation/inference/#server-side-inference-bm25) that generates sparse vectors, or you can generate vectors on the client side using the [FastEmbed](/documentation/fastembed/) library.
 
 The BM25 model supports the same [text processing](#text-processing) options as text indices, including tokenization, lowercasing, ASCII folding, stemming, and stopword removal. A notable difference with text indices is that BM25 defaults to English stemming and stopword removal. If you are using a language other than English, ensure that you [configure](#language-specific-settings) the model accordingly.
 
@@ -186,7 +186,7 @@ To use BM25, configure a sparse vector when creating a collection:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/create-bm25-collection/" >}}
 
-Note the [IDF modifier](/documentation/concepts/indexing/#idf-modifier), which configures the sparse vector for queries that use the inverse document frequency (IDF).
+Note the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier), which configures the sparse vector for queries that use the inverse document frequency (IDF).
 
 Now you can ingest data. The following example ingests a book with its title represented as a sparse vector generated by the BM25 model:
 
@@ -265,7 +265,7 @@ The SPLADE (Sparse Lexical and Dense) family of models are transformer-based mod
 
 The advantage of using SPLADE models is that they [perform better](/articles/sparse-vectors/#splade) than traditional BM25. They also have several downsides though. First, because they use a fixed vocabulary, you can't use SPLADE models to find terms that are not in the vocabulary, such as product IDs and out-of-domain language (words not seen in training). Secondly, because they are transformer-based models, SPLADE models are slower and require more computational resources than the traditional BM25 model.
 
-On [Qdrant Cloud](/documentation/concepts/inference/#qdrant-cloud-inference), you can use the SPLADE++ model with inference. Alternatively, you can generate vectors on the client side using the [FastEmbed](/documentation/fastembed/) library.
+On [Qdrant Cloud](/documentation/inference/#qdrant-cloud-inference), you can use the SPLADE++ model with inference. Alternatively, you can generate vectors on the client side using the [FastEmbed](/documentation/fastembed/) library.
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-splade/" >}}
 
@@ -279,9 +279,9 @@ miniCOIL can be [used with the FastEmbed library](/documentation/fastembed/faste
 
 ## Combining Semantic and Lexical Search with Hybrid Search
 
-[Hybrid search](/documentation/concepts/hybrid-queries/#hybrid-search) enables you to combine semantic and lexical search in a single query, returning results that match the semantic meaning, the exact keywords, or both. This is useful when you don't know whether the user is looking for a specific keyword or a semantically similar document. For example, when searching for books, a user may enter "time travel" to find books related to the concept of time travel, but they may also enter a book's ISBN to find a specific book. Hybrid queries enable you to return results for both cases in a single query.
+[Hybrid search](/documentation/search/hybrid-queries/#hybrid-search) enables you to combine semantic and lexical search in a single query, returning results that match the semantic meaning, the exact keywords, or both. This is useful when you don't know whether the user is looking for a specific keyword or a semantically similar document. For example, when searching for books, a user may enter "time travel" to find books related to the concept of time travel, but they may also enter a book's ISBN to find a specific book. Hybrid queries enable you to return results for both cases in a single query.
 
-Hybrid queries make use of Qdrant's ability to store [multiple named vectors](/documentation/concepts/vectors/#named-vectors) in a single point. For example, you can store a dense vector for semantic search and a sparse vector for lexical search in the same point. To do so, first create a collection with both a dense vector and a sparse vector:
+Hybrid queries make use of Qdrant's ability to store [multiple named vectors](/documentation/manage-data/vectors/#named-vectors) in a single point. For example, you can store a dense vector for semantic search and a sparse vector for lexical search in the same point. To do so, first create a collection with both a dense vector and a sparse vector:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/create-hybrid-collection/" >}}
 
@@ -294,7 +294,7 @@ This query searches for an ISBN, for which only the lexical search returns a res
 You are not limited to prefetching just two queries. Examples include, but are not limited to:
 
 - Fuse multiple lexical queries across the `title`, `author`, and `isbn` fields alongside a semantic query to achieve a comprehensive search across all data.
-- Prefetch using sparse or dense vectors and/or filters, and [rescore with dense vectors](/documentation/concepts/hybrid-queries/#multi-stage-queries).
+- Prefetch using sparse or dense vectors and/or filters, and [rescore with dense vectors](/documentation/search/hybrid-queries/#multi-stage-queries).
 - [Prefetch with dense and sparse vectors, and rerank using late interaction embeddings](/documentation/advanced-tutorials/reranking-hybrid-search/?q=late+interaction).
 
 ## Conclusion

@@ -119,7 +119,7 @@ embeddings_df = spark.createDataFrame(data=embeddings, schema=schema)
 ### Uploading the data to Qdrant
 
 - **Create a Qdrant collection:**
-  - [Follow the documentation](/documentation/concepts/collections/#create-a-collection) to create a collection with the appropriate configurations. Here's an example request to support both dense and sparse vectors:
+  - [Follow the documentation](/documentation/manage-data/collections/#create-a-collection) to create a collection with the appropriate configurations. Here's an example request to support both dense and sparse vectors:
 
   ```json
   PUT /collections/{collection_name}

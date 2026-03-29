@@ -57,7 +57,7 @@ const connector = new QdrantStorageConnector.Builder()
   .build();
 ```
 
-Since Qdrant supports [multiple vectors](/documentation/concepts/vectors/#named-vectors) per point, you can use the `withVectorName` option to specify one. The connector defaults to unnamed (default) vector.
+Since Qdrant supports [multiple vectors](/documentation/manage-data/vectors/#named-vectors) per point, you can use the `withVectorName` option to specify one. The connector defaults to unnamed (default) vector.
 
 ```typescript
 const connector = new QdrantStorageConnector.Builder()

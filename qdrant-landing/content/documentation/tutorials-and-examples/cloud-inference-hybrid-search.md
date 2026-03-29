@@ -11,7 +11,7 @@ weight: 35
 In this tutorial, we'll walkthrough building a **hybrid semantic search engine** using Qdrant Cloud's built-in [inference](/documentation/cloud/inference/) capabilities. You'll learn how to:
 - Automatically embed your data using [cloud Inference](/documentation/cloud/inference/) without needing to run local models,
 - Combine dense semantic embeddings with [sparse BM25 keywords](https://qdrant.tech/documentation/advanced-tutorials/reranking-hybrid-search/),  and
-- Perform hybrid search using  [Reciprocal Rank Fusion (RRF)](https://qdrant.tech/documentation/concepts/hybrid-queries/) to retrieve the most relevant results.
+- Perform hybrid search using  [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/) to retrieve the most relevant results.
 
 ## Initialize the Client
 Initialize the Qdrant client after creating a [Qdrant Cloud account](/documentation/cloud/) and a [dedicated paid cluster](/documentation/cloud/create-cluster/). Set `cloud_inference` to `True` to enable [cloud inference](/documentation/cloud/inference/). 
@@ -41,7 +41,7 @@ Create a sample query:
 {{< code-snippet path="/documentation/headless/snippets/cloud-inference/vector-search/create-sample-query/" >}}
 
 ## Run Vector Search
-Here, you will ask a question that will allow you to retrieve semantically relevant results. The final results are obtained by reranking using [Reciprocal Rank Fusion](https://qdrant.tech/documentation/concepts/hybrid-queries/#hybrid-search).
+Here, you will ask a question that will allow you to retrieve semantically relevant results. The final results are obtained by reranking using [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#hybrid-search).
 
 {{< code-snippet path="/documentation/headless/snippets/cloud-inference/vector-search/run-vector-search/" >}}
 
