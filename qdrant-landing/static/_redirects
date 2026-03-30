@@ -1,2 +1,28 @@
 /surveys/hybrid-saas    https://hybrid-cloud.qdrant.tech/    301
 /surveys/hybrid-saas/    https://hybrid-cloud.qdrant.tech/    301
+
+# Rewrites for pages moved in PRs #2204 and #2212 (fixed in #2239)
+# /documentation/guides/ -> /documentation/operations/ or /documentation/manage-data/
+/documentation/guides/optimize/                 /documentation/operations/optimize/              200
+/documentation/guides/distributed_deployment/   /documentation/operations/distributed_deployment/ 200
+/documentation/guides/capacity-planning/        /documentation/operations/capacity-planning/     200
+/documentation/guides/security/                 /documentation/operations/security/              200
+/documentation/guides/monitoring/               /documentation/operations/monitoring/            200
+/documentation/guides/configuration/            /documentation/operations/configuration/         200
+/documentation/guides/installation/             /documentation/operations/installation/          200
+/documentation/guides/administration/           /documentation/operations/administration/        200
+/documentation/guides/quantization/             /documentation/manage-data/quantization/         200
+/documentation/guides/multiple-partitions/      /documentation/manage-data/multitenancy/         200
+/documentation/guides/multitenancy/             /documentation/manage-data/multitenancy/         200
+
+# /documentation/concepts/ -> /documentation/search/, /documentation/manage-data/, or /documentation/operations/
+/documentation/concepts/explore/                /documentation/search/explore/                   200
+/documentation/concepts/filtering/              /documentation/search/filtering/                 200
+/documentation/concepts/hybrid-queries/         /documentation/search/hybrid-queries/            200
+/documentation/concepts/collections/            /documentation/manage-data/collections/          200
+/documentation/concepts/indexing/               /documentation/manage-data/indexing/             200
+/documentation/concepts/vectors/                /documentation/manage-data/vectors/              200
+/documentation/concepts/storage/                /documentation/manage-data/storage/              200
+/documentation/concepts/snapshots/              /documentation/operations/snapshots/             200
+/documentation/concepts/optimizer/              /documentation/operations/optimizer/             200
+/documentation/concepts/inference/              /documentation/inference/                        200
