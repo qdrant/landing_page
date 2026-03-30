@@ -408,11 +408,11 @@ Out of all retriever–feedback model pairs, three leaders emerged with the foll
 
 ## Relevance Feedback Query
 
-The results were convincing enough to justify implementing Relevance Feedback Query. And [here it is](https://qdrant.tech/documentation/concepts/search-relevance/#relevance-feedback), ready for your retrieval pipelines!
+The results were convincing enough to justify implementing Relevance Feedback Query. And [here it is](https://qdrant.tech/documentation/search/search-relevance/#relevance-feedback), ready for your retrieval pipelines!
 
 ### When to Use It
 
-Use Relevance Feedback Query once a basic retrieval pipeline is in place and you're looking for additional techniques to boost result relevance, such as [Maximal Marginal Relevance (MMR)](https://qdrant.tech/documentation/concepts/search-relevance/#maximal-marginal-relevance-mmr), [Reranking](https://qdrant.tech/documentation/concepts/hybrid-queries/#multi-stage-queries), or [Score Boosting](https://qdrant.tech/documentation/concepts/search-relevance/#score-boosting).  
+Use Relevance Feedback Query once a basic retrieval pipeline is in place and you're looking for additional techniques to boost result relevance, such as [Maximal Marginal Relevance (MMR)](https://qdrant.tech/documentation/search/search-relevance/#maximal-marginal-relevance-mmr), [Reranking](https://qdrant.tech/documentation/search/hybrid-queries/#multi-stage-queries), or [Score Boosting](https://qdrant.tech/documentation/search/search-relevance/#score-boosting).  
 **It's here not to replace but to complement other search relevance tools.**
 
 For example, Relevance Feedback Query can be a great aid for search agents, letting you propagate the agent's understanding of your use case directly to the vector search index.
@@ -434,7 +434,7 @@ If no training queries are supplied, the package will train the formula directly
 > **Warning:** If your use case doesn't involve document-to-document semantic similarity search, training on sampled documents alone may completely cancel the effect of relevance feedback scoring on real data.  
 > It's far more effective to use real queries.
 
-Once you've obtained the weights, simply plug them into your [Qdrant Client of choice](https://qdrant.tech/documentation/concepts/search-relevance/#relevance-feedback).
+Once you've obtained the weights, simply plug them into your [Qdrant Client of choice](https://qdrant.tech/documentation/search/search-relevance/#relevance-feedback).
 
 ### Evaluating Your Gains
 

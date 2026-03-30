@@ -59,7 +59,7 @@ Please keep in mind that this feature is experimental and that the interface may
 
 ### Oversampling for quantization
 
-We are introducing [oversampling](/documentation/guides/quantization/#oversampling) as a new way to help you improve the accuracy and performance of similarity search algorithms. With this method, you are able to significantly compress high-dimensional vectors in memory and then compensate the accuracy loss by re-scoring additional points with the original vectors. 
+We are introducing [oversampling](/documentation/manage-data/quantization/#oversampling) as a new way to help you improve the accuracy and performance of similarity search algorithms. With this method, you are able to significantly compress high-dimensional vectors in memory and then compensate the accuracy loss by re-scoring additional points with the original vectors. 
 
 You will experience much faster performance with quantization due to parallel disk usage when reading vectors. Much better IO means that you can keep quantized vectors in RAM, so the pre-selection will be even faster. Finally, once pre-selection is done, you can use parallel IO to retrieve original vectors, which is significantly faster than traversing HNSW on slow disks.
 

@@ -35,7 +35,7 @@ Qovery’s ambitious vision for the DevOps Copilot ([read more here](https://www
 
 ### Seamless Integration of Scalable and Efficient Vector Search
 
-Qovery chose [Qdrant Cloud](https://qdrant.tech/cloud/) after carefully evaluating several options. Romaric Philogène, CEO and co-founder of Qovery, highlighted the importance of open-source credibility, performance, ease of use, and scalability. Qdrant’s native support for [real-time indexing](https://qdrant.tech/documentation/concepts/indexing/) and low-latency queries made it ideal for handling Qovery’s significant data volume and frequency of updates.
+Qovery chose [Qdrant Cloud](https://qdrant.tech/cloud/) after carefully evaluating several options. Romaric Philogène, CEO and co-founder of Qovery, highlighted the importance of open-source credibility, performance, ease of use, and scalability. Qdrant’s native support for [real-time indexing](https://qdrant.tech/documentation/manage-data/indexing/) and low-latency queries made it ideal for handling Qovery’s significant data volume and frequency of updates.
 
 The integration process was straightforward, with minimal operational overhead, enabling the Qovery team to focus their resources on enhancing the Copilot's capabilities rather than maintaining complex database infrastructure. With its Rust-based architecture, Qdrant delivered the speed, accuracy, and low resource utilization Qovery required.
 

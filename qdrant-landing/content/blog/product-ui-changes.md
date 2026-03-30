@@ -59,7 +59,7 @@ When looking at the overview of your cluster, we’ve added new tabs with an imp
 * **Logs**: get a real-time window into what’s happening inside cluste for transparency, diagnostics, and control (especially important during debugging, performance tuning, or infrastructure troubleshooting\!)  
 * **Backups:** View snapshots of your vector data and metadata that can be used to restore your collections in case of data loss, migration, or rollbacks (not available on free clusters)   
 * **Configuration**: Check your collection defaults and add advanced optimizations (after reading Docs of course)   
-  * For example, we advise against setting up a ton of different collections. Instead segment with [payloads](https://qdrant.tech/documentation/concepts/payload/).
+  * For example, we advise against setting up a ton of different collections. Instead segment with [payloads](https://qdrant.tech/documentation/manage-data/payload/).
 
 When viewing the details of your clusters, you can now view the Cluster UI Dashboard regardless of where you are, and also have easier access to tutorials and resources. 
 

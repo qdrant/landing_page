@@ -192,7 +192,7 @@ def log_retriever_results(retriever, dataset):
   return log
 ```
 
-This is the power of combining Qdrant and Relari. Instead of having to build multiple applications, slowly [upsert](/documentation/concepts/points/#upload-points), and [retrieve](/documentation/concepts/search/) data, you can use both to quickly test different parameters and instantly get results. This evaluation system is built for fast, useful iteration.
+This is the power of combining Qdrant and Relari. Instead of having to build multiple applications, slowly [upsert](/documentation/manage-data/points/#upload-points), and [retrieve](/documentation/search/search/) data, you can use both to quickly test different parameters and instantly get results. This evaluation system is built for fast, useful iteration.
 
 ### Evaluate results
 
@@ -249,7 +249,7 @@ We can even look at individual cases in the UI to get more insight.
 
 Relari and Qdrant can also be integrated to evaluate [hybrid search systems](/articles/hybrid-search/), which combine both sparse (traditional keyword-based) and dense (vector-based) search methods. This combination allows you to leverage the strengths of both approaches, potentially improving the relevance and accuracy of search results.
 
-By using Relari’s evaluation framework alongside Qdrant’s [vector search](/advanced-search/) capabilities, you can experiment with different configurations for hybrid search. For example, you might test varying the ratio of [sparse-to-dense search results](/documentation/concepts/hybrid-queries/#hybrid-search) or adjust how each component contributes to the overall retrieval score.
+By using Relari’s evaluation framework alongside Qdrant’s [vector search](/advanced-search/) capabilities, you can experiment with different configurations for hybrid search. For example, you might test varying the ratio of [sparse-to-dense search results](/documentation/search/hybrid-queries/#hybrid-search) or adjust how each component contributes to the overall retrieval score.
 
 ## Auto Prompt Optimization
 

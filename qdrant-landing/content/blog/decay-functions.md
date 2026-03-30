@@ -17,7 +17,7 @@ tags:
 
 ---
 
-A problem we've noticed while monitoring the [Qdrant Discord Community](https://discord.gg/d4MPnX3s) is that due to the extensive list of expressions that the [score boosting](https://qdrant.tech/documentation/concepts/search-relevance/#score-boosting) functionality provides, there's room for confusion on how it's supposed to be applied. And that might block you from moving the business logic behind relevance scoring into the Qdrant search engine. We don't want that!
+A problem we've noticed while monitoring the [Qdrant Discord Community](https://discord.gg/d4MPnX3s) is that due to the extensive list of expressions that the [score boosting](https://qdrant.tech/documentation/search/search-relevance/#score-boosting) functionality provides, there's room for confusion on how it's supposed to be applied. And that might block you from moving the business logic behind relevance scoring into the Qdrant search engine. We don't want that!
 
 In this blog, we'd like to de-spooky-fy the **decay functions** part of the score boosting, or, more precisely: `LinDecayExpression`, `ExpDecayExpression`, and `GaussDecayExpression` -- frequent guests on the Discord *#ask-for-help* channel.
 
@@ -144,13 +144,13 @@ Anything longer than 9 minutes or shorter than 1 minute quickly becomes less rel
 **Explanation:**  
 Out of all promo codes for different products/events, users will strongly prefer ones uploaded *just now*, as they’re most likely to work. But that relevance drops quickly over time: within a week, it reaches a midpoint of 0.1. After that, if a promo code is still active, it’s a gamble anyway: might work, might not. So old-but-not-expired codes are roughly equally irrelevant.
 
-**Note #5.** For Qdrant [datetime](https://qdrant.tech/documentation/concepts/payload/#datetime) payloads, `scale` should always be provided in seconds!
+**Note #5.** For Qdrant [datetime](https://qdrant.tech/documentation/manage-data/payload/#datetime) payloads, `scale` should always be provided in seconds!
 
 ### I Don't Know All the Parameters in Advance
 
 As you can see, using decay functions in Qdrant's score boosting means you'll have to know the parameters in advance.
 
-What we've seen in our Discord Community quite a few times is that people try to apply decay functions to normalize similarity scores from [prefetches](https://qdrant.tech/documentation/concepts/hybrid-queries/#multi-stage-queries), usually as a way to fuse results from different types of similarity searches.
+What we've seen in our Discord Community quite a few times is that people try to apply decay functions to normalize similarity scores from [prefetches](https://qdrant.tech/documentation/search/hybrid-queries/#multi-stage-queries), usually as a way to fuse results from different types of similarity searches.
 
 The common question is:
 
@@ -170,10 +170,10 @@ But here's the problem: That 36 might not be a "high" score at all. Maybe your d
 
 Now let's see how using decay functions looks in Qdrant.
 
-We'll provide HTTP request examples, but you can use decay functions [analogously in the Python, TypeScript, Rust, Java, C#, and Go clients](/documentation/concepts/search-relevance/#time-based-score-boosting).
+We'll provide HTTP request examples, but you can use decay functions [analogously in the Python, TypeScript, Rust, Java, C#, and Go clients](/documentation/search/search-relevance/#time-based-score-boosting).
 
 **Note #6.**
-Payload variables used within the formula benefit from having [payload indexes](https://qdrant.tech/documentation/concepts/indexing/#payload-index). So, we require you to set up a payload index for any variable used in a formula.
+Payload variables used within the formula benefit from having [payload indexes](https://qdrant.tech/documentation/manage-data/indexing/#payload-index). So, we require you to set up a payload index for any variable used in a formula.
 
 Let's take our "educational videos in the German language" example and see how it takes shape in Qdrant:
 
@@ -248,7 +248,7 @@ We truly hope this write-up helped untangle things a bit. Now the only thing lef
 
 Use the snippets in the article as a starting point and experiment with the relevance score boosting in [Qdrant Cloud](https://qdrant.tech/). We offer a free-forever 1GB cluster: enough to test, tweak, and see how the decay functions behave on your data.
 
-And if you feel like diving deeper into decay functions or score boosting in general, check out our [documentation](/documentation/concepts/search-relevance/#score-boosting), which includes a decay-on-distance example and plenty more to learn from.
+And if you feel like diving deeper into decay functions or score boosting in general, check out our [documentation](/documentation/search/search-relevance/#score-boosting), which includes a decay-on-distance example and plenty more to learn from.
 
 ### Tell Us What You're Building
 

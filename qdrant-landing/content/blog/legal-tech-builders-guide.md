@@ -85,7 +85,7 @@ Leveraging Late-Interaction Models for Rich Documents
 
 Traditional OCR pipelines can add complexity and create accuracy challenges. But late-interaction models simplify the ingestion pipeline by running at the reranking stage.
 
-Models like ([ColPali](https://qdrant.tech/blog/qdrant-colpali/) and ColQwen) bypass traditional OCR pipelines, directly processing images of complex documents. They enhance accuracy by maintaining original layouts and contextual integrity, simplifying your retrieval pipelines. The tradeoff is a heavier application, but these challenges can be addressed with further [optimization](https://qdrant.tech/documentation/guides/optimize/)*.*
+Models like ([ColPali](https://qdrant.tech/blog/qdrant-colpali/) and ColQwen) bypass traditional OCR pipelines, directly processing images of complex documents. They enhance accuracy by maintaining original layouts and contextual integrity, simplifying your retrieval pipelines. The tradeoff is a heavier application, but these challenges can be addressed with further [optimization](https://qdrant.tech/documentation/operations/optimize/)*.*
 
 #### Enabling highly granular accuracy for complex legal searches
 
@@ -125,7 +125,7 @@ final_results = reranked[:5]
 
 Not every clause is created equal. Legal professionals often care more about specific provisions, jurisdictions, or case types, for example.
 
-Qdrant's [Score Boosting Reranker](/documentation/concepts/search-relevance/#score-boosting) lets you integrate domain-specific logic (e.g., jurisdiction or recent cases) directly into search rankings, ensuring results align precisely with legal business rules.
+Qdrant's [Score Boosting Reranker](/documentation/search/search-relevance/#score-boosting) lets you integrate domain-specific logic (e.g., jurisdiction or recent cases) directly into search rankings, ensuring results align precisely with legal business rules.
 
 ```json
 POST /collections/legal-docs/points/query
@@ -163,7 +163,7 @@ Legal datasets are growing, and so are the compute bills. From GPU acceleration 
 
 * [GPU indexing](https://qdrant.tech/blog/qdrant-1.13.x/) accelerates indexing by up to 10x compared to CPU methods, offering vendor-agnostic compatibility with modern GPUs via Vulkan API.
 
-* [Vector quantization](https://qdrant.tech/documentation/guides/quantization/) compresses embeddings, significantly reducing memory and operational costs. It results in lower accuracy, so carefully consider this option. For example, [LawMe](http://qdrant.tech/blog/case-study-lawme), a Qdrant user, uses Binary Quantization to cost-effectively add more data for its AI Legal Assistants. 
+* [Vector quantization](https://qdrant.tech/documentation/manage-data/quantization/) compresses embeddings, significantly reducing memory and operational costs. It results in lower accuracy, so carefully consider this option. For example, [LawMe](http://qdrant.tech/blog/case-study-lawme), a Qdrant user, uses Binary Quantization to cost-effectively add more data for its AI Legal Assistants. 
 
 ### Getting Started: Choosing Your Search Infrastructure
 

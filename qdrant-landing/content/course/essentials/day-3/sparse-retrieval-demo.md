@@ -125,7 +125,7 @@ Similarity("cheese for pizza", "Grated hard cheese")
 Computing and maintaining per-term IDF for every term in the corpus can be annoying.  
 > Qdrant maintains **collection-level** IDF for sparse vectors and applies it for you during scoring.
 
-Enable the [IDF modifier](/documentation/concepts/indexing/#idf-modifier) in the collection configuration:
+Enable the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier) in the collection configuration:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-idf/" >}}
 

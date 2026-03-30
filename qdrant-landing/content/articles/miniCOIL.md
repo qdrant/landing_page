@@ -227,7 +227,7 @@ Here are the specific characteristics of the miniCOIL model we trained based on 
 | **Input Dense Encoder** | [`jina-embeddings-v2-small-en`](https://huggingface.co/jinaai/jina-embeddings-v2-small-en) (512 dimensions) |
 | **miniCOIL Vectors Size** | 4 dimensions |
 | **miniCOIL Vocabulary** | List of 30,000 of the most common English words, cleaned of stop words and words shorter than 3 letters, [taken from here](https://github.com/arstgit/high-frequency-vocabulary/tree/master). Words are stemmed to align miniCOIL with our BM25 implementation. |
-| **Training Data** | 40 million sentences — a random subset of the [OpenWebText dataset](https://paperswithcode.com/dataset/openwebtext). To make triplet sampling convenient, we uploaded sentences and their [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) embeddings to Qdrant and built a [full-text payload index](https://qdrant.tech/documentation/concepts/indexing/#full-text-index) on sentences with a tokenizer of type `word`. |
+| **Training Data** | 40 million sentences — a random subset of the [OpenWebText dataset](https://paperswithcode.com/dataset/openwebtext). To make triplet sampling convenient, we uploaded sentences and their [`mxbai-embed-large-v1`](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) embeddings to Qdrant and built a [full-text payload index](https://qdrant.tech/documentation/manage-data/indexing/#full-text-index) on sentences with a tokenizer of type `word`. |
 | **Training Data per Word** | We sample 8000 sentences per word and form triplets with a margin of at least **0.1**.<br>Additionally, we apply **augmentation** — take a sentence and cut out the target word plus its 1–3 neighbours. We reuse the same similarity score between original and augmented sentences for simplicity. |
 | **Training Parameters** | **Epochs**: 60<br>**Optimizer**: Adam with a learning rate of 1e-4<br>**Validation set**: 20% |
 
@@ -237,7 +237,7 @@ We included this `minicoil-v1` version in the [v0.7.0 release of our FastEmbed l
 You can check an example of `minicoil-v1` usage with FastEmbed in the [HuggingFace card](https://huggingface.co/Qdrant/minicoil-v1).
 
 <aside role="status">
-  To use <span style="font-weight: bold;">minicoil-v1</span> correctly, make sure to configure sparse vectors with <a href="https://qdrant.tech/documentation/concepts/indexing/?q=modifier#idf-modifier">Modifier.IDF</a>
+  To use <span style="font-weight: bold;">minicoil-v1</span> correctly, make sure to configure sparse vectors with <a href="https://qdrant.tech/documentation/manage-data/indexing/?q=modifier#idf-modifier">Modifier.IDF</a>
 </aside>
 
 ## Results

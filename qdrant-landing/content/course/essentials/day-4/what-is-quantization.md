@@ -19,7 +19,7 @@ isLesson: true
 </iframe>
 </div>
 
-Production vector search engines face an inevitable scaling challenge: memory requirements grow with dataset size, while search latency demands vectors remain in fast storage. [Quantization](/documentation/guides/quantization/) provides the solution by compressing vector representations while maintaining retrieval quality - but the method you choose fundamentally determines your system's performance characteristics.
+Production vector search engines face an inevitable scaling challenge: memory requirements grow with dataset size, while search latency demands vectors remain in fast storage. [Quantization](/documentation/manage-data/quantization/) provides the solution by compressing vector representations while maintaining retrieval quality - but the method you choose fundamentally determines your system's performance characteristics.
 
 ## The Memory Economics
 
@@ -65,7 +65,7 @@ client.create_collection(
 )
 ```
 
-> [Check out](/documentation/guides/quantization/#setting-up-scalar-quantization) how to set up scalar quantization in **TypeScript**, **Rust**, **Java**, **C#**, and **Go** clients.
+> [Check out](/documentation/manage-data/quantization/#setting-up-scalar-quantization) how to set up scalar quantization in **TypeScript**, **Rust**, **Java**, **C#**, and **Go** clients.
 
 ## Binary Quantization
 
@@ -75,7 +75,7 @@ The computational advantages are substantial. Bitwise operations enable distance
 
 However, binary quantization demands specific model characteristics for optimal performance. The technique works best with high-dimensional vectors (≥1024 dimensions) that exhibit centered value distributions around zero. Models like OpenAI's text-embedding-ada-002 and Cohere's embed-english-v2.0 have been validated for binary compatibility, but other models may experience significant accuracy degradation.
 
-> **<font color='red'>Update:</font>** Starting from Qdrant **v1.15.0**, [two additional quantization types](/documentation/guides/quantization/#15-bit-and-2-bit-quantization) were introduced: **1.5-bit** and **2-bit binary quantization**.  
+> **<font color='red'>Update:</font>** Starting from Qdrant **v1.15.0**, [two additional quantization types](/documentation/manage-data/quantization/#15-bit-and-2-bit-quantization) were introduced: **1.5-bit** and **2-bit binary quantization**.  
 > These methods provide a useful middle ground: they are more aggressive than scalar quantization but offer better precision than standard binary quantization. They also address one of binary quantization’s main weaknesses: **handling values close to zero**.  
 >
 > **<font color='red'>Additionally:</font>** [Asymmetric quantization](#asymmetric-quantization) was added. This method allows combining different quantization strategies for queries and documents, helping balance **accuracy** and **compression efficiency**.
@@ -98,7 +98,7 @@ client.create_collection(
 )
 ```
 
-> [Check out](/documentation/guides/quantization/#setting-up-binary-quantization) how to set up binary quantization in **TypeScript**, **Rust**, **Java**, **C#**, and **Go** clients.
+> [Check out](/documentation/manage-data/quantization/#setting-up-binary-quantization) how to set up binary quantization in **TypeScript**, **Rust**, **Java**, **C#**, and **Go** clients.
 
 ## Product Quantization
 
@@ -126,7 +126,7 @@ client.create_collection(
 )
 ```
 
-> [Check out](/documentation/guides/quantization/#setting-up-product-quantization) how to set up product quantization in **TypeScript**, **Rust**, **Java**, **C#**, and **Go** clients.
+> [Check out](/documentation/manage-data/quantization/#setting-up-product-quantization) how to set up product quantization in **TypeScript**, **Rust**, **Java**, **C#**, and **Go** clients.
 
 ## Quantization Comparison
 
@@ -137,14 +137,14 @@ client.create_collection(
 | Product             | 0.7      | 0.5x     | up to 64x   |å
 *For compatible models
 
-> [Check out](/documentation/guides/quantization/#how-to-choose-the-right-quantization-method) how the new **1.5-bit** and **2-bit binary quantization** methods compare to classical binary quantization. They offer a balanced middle ground between **binary** and **scalar** approaches.
+> [Check out](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method) how the new **1.5-bit** and **2-bit binary quantization** methods compare to classical binary quantization. They offer a balanced middle ground between **binary** and **scalar** approaches.
 
 
 ## Dual Storage Architecture
 
 Qdrant's quantization implementation maintains both compressed and original vectors, enabling flexible deployment strategies and safe experimentation. This dual storage approach allows you to switch quantization methods, adjust parameters, or disable quantization entirely without data re-ingestion - a critical advantage for production systems where data pipeline complexity must be minimized.
 
-> Check out our **[quantization tips](/documentation/guides/quantization/#quantization-tips)**
+> Check out our **[quantization tips](/documentation/manage-data/quantization/#quantization-tips)**
 
 The default configuration stores both representations in RAM, providing fast search with quantized vectors and exact scoring with originals when needed. However, this negates memory savings. The optimal production pattern places original vectors on disk (`on_disk=True`) while keeping quantized vectors in RAM (`always_ram=True`). This configuration delivers the best of both worlds: rapid quantized search with the ability to perform exact rescoring by reading only the small candidate set from disk storage.
 

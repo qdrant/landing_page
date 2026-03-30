@@ -9,7 +9,7 @@ isLesson: true
 
 # Sparse Vectors and Inverted Indexes
 
-Create and index [sparse vector](/documentation/concepts/vectors/#sparse-vectors) representations for keywords-based search and recommendations.
+Create and index [sparse vector](/documentation/manage-data/vectors/#sparse-vectors) representations for keywords-based search and recommendations.
 
 
 <div class="video">

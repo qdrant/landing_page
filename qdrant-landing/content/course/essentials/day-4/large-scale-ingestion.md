@@ -27,7 +27,7 @@ Every individual upsert call initiates a transaction that consumes memory and di
 
 ## Choosing Your Ingestion Strategy
 
-Qdrant provides several methods for data ingestion, each tailored to different scales and use cases. It should be noted that only the Python client supports the upload_points and upload_collection methods. If you're using Qdrant on a different client then we recommend using upsert with batch upload for large scale ingestion. [Learn more about bulk operations](/documentation/guides/bulk-operations/).
+Qdrant provides several methods for data ingestion, each tailored to different scales and use cases. It should be noted that only the Python client supports the upload_points and upload_collection methods. If you're using Qdrant on a different client then we recommend using upsert with batch upload for large scale ingestion. [Learn more about bulk operations](/documentation/manage-data/points/#batch-update).
 
 - **upsert (Individual or Batched)**: This is the fundamental operation for adding or updating points. Individual upserts are best suited for real-time updates while batching works best for larger workloads. 
 
@@ -85,13 +85,13 @@ client.recreate_collection(
 
 This configuration employs several key optimizations:
 
-- **`on_disk=True`**: This is the most critical setting for large datasets. It instructs Qdrant to store the full-precision original vectors on disk ([memmap storage](/documentation/guides/storage/#on-disk-storage)) instead of in RAM, dramatically reducing memory requirements.
+- **`on_disk=True`**: This is the most critical setting for large datasets. It instructs Qdrant to store the full-precision original vectors on disk ([memmap storage](/documentation/manage-data/storage/#on-disk-storage)) instead of in RAM, dramatically reducing memory requirements.
 
-- **Binary Quantization with `always_ram=True`**: While the original vectors are on disk, we enable [binary quantization](/documentation/guides/quantization/#binary-quantization) and force the compressed vectors to remain in RAM. This provides a lightweight in-memory representation for fast initial candidate searches.
+- **Binary Quantization with `always_ram=True`**: While the original vectors are on disk, we enable [binary quantization](/documentation/manage-data/quantization/#binary-quantization) and force the compressed vectors to remain in RAM. This provides a lightweight in-memory representation for fast initial candidate searches.
 
 - **Large Segment Size**: The `max_segment_size` is increased to create fewer, larger segments. This can improve search performance at the cost of slightly slower indexing.
 
-- **In-Memory HNSW Index**: By setting `on_disk=False` for the [HNSW config](/documentation/guides/quantization/#hnsw-config), we keep the graph index in RAM. This ensures that navigating vector relationships during a search is extremely fast, avoiding disk latency. The `m` value is lowered to 6 to further conserve memory.
+- **In-Memory HNSW Index**: By setting `on_disk=False` for the [HNSW config](/documentation/manage-data/quantization/#hnsw-config), we keep the graph index in RAM. This ensures that navigating vector relationships during a search is extremely fast, avoiding disk latency. The `m` value is lowered to 6 to further conserve memory.
 
 ### The Upload Process
 

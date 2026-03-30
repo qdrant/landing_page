@@ -40,19 +40,19 @@ Here are the six conditions:
 
 **1. Your vector dataset is under ~1M vectors.** The community's empirical ceiling is around 10M, but the comfortable range is much lower. Above 1M you'll start hitting index-build times, memory pressure, and recall degradation under load.
 
-This threshold is also easier to hit than you'd expect — especially if you're working with **multivectors**. Techniques like ColBERT-style late interaction generate one embedding *per token* rather than one per document, so a corpus of 100K documents can easily balloon into tens of millions of vectors overnight. Qdrant, by contrast, has [native multivector support](/documentation/concepts/vectors/#multivectors) with dedicated documentation and query APIs built around it.
+This threshold is also easier to hit than you'd expect — especially if you're working with **multivectors**. Techniques like ColBERT-style late interaction generate one embedding *per token* rather than one per document, so a corpus of 100K documents can easily balloon into tens of millions of vectors overnight. Qdrant, by contrast, has [native multivector support](/documentation/manage-data/vectors/#multivectors) with dedicated documentation and query APIs built around it.
 
 **2. You don't need accurate metadata filtering.** If every search is against the full collection, post-filtering won't limit you. But the moment you need to scope searches to a user, tenant, category, or any selective predicate, pgvector generates unnecessary search overhead.
 
 > *"I think the most relevant weakness for pgvector is the lack of 'proper' prefiltering on metadata while leveraging the vector index."*
 
-Qdrant takes an entirely different approach to filtering. Specifically, Qdrant utilizes a [filterable HNSW](/documentation/concepts/indexing/#filtrable-index) which lets you traverse the nearest-neighbor graph while maintaining metadata filters.
+Qdrant takes an entirely different approach to filtering. Specifically, Qdrant utilizes a [filterable HNSW](/documentation/manage-data/indexing/#filtrable-index) which lets you traverse the nearest-neighbor graph while maintaining metadata filters.
 
 **3. Your embeddings are tightly coupled to relational data.** If vectors are just an attribute of a row (e.g., a product description embedding alongside the product), colocation helps. If vectors are first-class entities, the argument for co-location weakens.
 
 **4. You don't need hybrid search.** While pgvector supports dense vector similarity search via HNSW, the Postgres extension ecosystem still lacks a high-quality BM25 implementation — a critical component for hybrid search.
 
-Postgres *does* have full-text search via `tsvector`/`tsquery`, and it's excellent for what it does. But that's lexical search — exact term matches, stemming, and stop words. BM25 is a probabilistic model that considers term frequency, inverse document frequency, and document length. Qdrant supports [native BM25 via sparse vectors](/documentation/concepts/vectors/#sparse-vectors). They're not the same thing.
+Postgres *does* have full-text search via `tsvector`/`tsquery`, and it's excellent for what it does. But that's lexical search — exact term matches, stemming, and stop words. BM25 is a probabilistic model that considers term frequency, inverse document frequency, and document length. Qdrant supports [native BM25 via sparse vectors](/documentation/manage-data/vectors/#sparse-vectors). They're not the same thing.
 
 **5. Postgres is already doing the heavy lifting for your business logic.** You have existing transactions, schemas, and ACID guarantees that matter. Adding a second data store splits that concern. If Postgres is truly central, the operational argument for colocation is real.
 
@@ -75,7 +75,7 @@ That's three conditions gone before you've even thought about scale. People are 
 When the conditions above don't all hold, dedicated vector stores offer concrete advantages:
 
 - **Efficient metadata filtering** — pre-filter on metadata fields before computing similarity, avoiding wasted work on irrelevant vectors
-- **Native hybrid search** — combine dense similarity and BM25 keyword matching in a single query with [reciprocal rank fusion](/documentation/concepts/hybrid-queries/)
+- **Native hybrid search** — combine dense similarity and BM25 keyword matching in a single query with [reciprocal rank fusion](/documentation/search/hybrid-queries/)
 - **Scale beyond 10M vectors** — purpose-built sharding, distributed indexing, and memory management
 - **Decoupled architecture** — scale, optimize, and evolve your search layer independently of your relational database
 

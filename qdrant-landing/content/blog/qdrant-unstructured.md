@@ -50,7 +50,7 @@ unstructured-ingest discord --help
 
 ### Ingesting into Qdrant
 
-Before loading the data, set up a collection with the information you need for the following REST call. In this example we use a local Huggingface model generating 384-dimensional embeddings. You can create a Qdrant [API key](/documentation/cloud/authentication/#create-api-keys) and set names for your Qdrant [collections](/documentation/concepts/collections/).
+Before loading the data, set up a collection with the information you need for the following REST call. In this example we use a local Huggingface model generating 384-dimensional embeddings. You can create a Qdrant [API key](/documentation/cloud/authentication/#create-api-keys) and set names for your Qdrant [collections](/documentation/manage-data/collections/).
 
 We set up the collection with the following command:
 

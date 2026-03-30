@@ -31,14 +31,14 @@ You can now configure the Query API request with the following parameters:
 |Parameter|Description|
 |-|-|
 |no parameter|Returns points by `id`|
-|`nearest`|Queries nearest neighbors ([Search](/documentation/concepts/search/))|
-|`fusion`|Fuses sparse/dense prefetch queries ([Hybrid Search](/documentation/concepts/hybrid-queries/#hybrid-search))|
-|`discover`|Queries `target` with added `context` ([Discovery](/documentation/concepts/explore/#discovery-api))|
-|`context` |No target with `context` only ([Context](/documentation/concepts/explore/#context-search))|
-|`recommend`|Queries against `positive`/`negative` examples. ([Recommendation](/documentation/concepts/explore/#recommendation-api))|
-|`order_by`|Orders results by [payload field](/documentation/concepts/hybrid-queries/#re-ranking-with-payload-values)|
+|`nearest`|Queries nearest neighbors ([Search](/documentation/search/search/))|
+|`fusion`|Fuses sparse/dense prefetch queries ([Hybrid Search](/documentation/search/hybrid-queries/#hybrid-search))|
+|`discover`|Queries `target` with added `context` ([Discovery](/documentation/search/explore/#discovery-api))|
+|`context` |No target with `context` only ([Context](/documentation/search/explore/#context-search))|
+|`recommend`|Queries against `positive`/`negative` examples. ([Recommendation](/documentation/search/explore/#recommendation-api))|
+|`order_by`|Orders results by [payload field](/documentation/search/hybrid-queries/#re-ranking-with-payload-values)|
 
-For example, you can configure Query API to run [Discovery search](/documentation/concepts/explore/#discovery-api). Let's see how that looks:
+For example, you can configure Query API to run [Discovery search](/documentation/search/explore/#discovery-api). Let's see how that looks:
 
 ```http
 POST collections/{collection_name}/points/query
@@ -57,7 +57,7 @@ POST collections/{collection_name}/points/query
 }
 ```
 
-We will be publishing code samples in [docs](/documentation/concepts/hybrid-queries/) and our new [API specification](http://api.qdrant.tech).</br> *If you need additional support with this new method, our [Discord](https://qdrant.to/discord) on-call engineers can help you.*
+We will be publishing code samples in [docs](/documentation/search/hybrid-queries/) and our new [API specification](http://api.qdrant.tech).</br> *If you need additional support with this new method, our [Discord](https://qdrant.to/discord) on-call engineers can help you.*
 
 ### Native Hybrid Search Support
 
@@ -221,7 +221,7 @@ await client.QueryAsync(
 
 Query API can now pre-fetch vectors for requests, which means you can run queries sequentially within the same API call. There are a lot of options here, so you will need to define a strategy to merge these requests using new parameters. For example, you can now include **rescoring within Hybrid Search**, which can open the door to strategies like iterative refinement via matryoshka embeddings.
 
-*To learn more about this, read the [Query API documentation](/documentation/concepts/search/#query-api).*
+*To learn more about this, read the [Query API documentation](/documentation/search/search/#query-api).*
 
 ## Inverse Document Frequency [IDF]
 
@@ -535,11 +535,11 @@ await client.QueryAsync(
 ```
 
 **Note:** *The multivector feature is not only useful for ColBERT; it can also be used in other ways.*</br>
-For instance, in e-commerce, you can use multi-vector to store multiple images of the same item. This serves as an alternative to the [group-by](/documentation/concepts/search/#grouping-api) method.
+For instance, in e-commerce, you can use multi-vector to store multiple images of the same item. This serves as an alternative to the [group-by](/documentation/search/search/#grouping-api) method.
 
 ## Sparse Vectors Compression
 
-In version 1.9, we introduced the `uint8` [vector datatype](/documentation/concepts/vectors/#datatypes) for sparse vectors, in order to support pre-quantized embeddings from companies like JinaAI and Cohere.
+In version 1.9, we introduced the `uint8` [vector datatype](/documentation/manage-data/vectors/#datatypes) for sparse vectors, in order to support pre-quantized embeddings from companies like JinaAI and Cohere.
 This time, we are introducing a new datatype **for both sparse and dense vectors**, as well as a different way of **storing** these  vectors.
 
 **Datatype:** Sparse and dense vectors were previously represented in larger `float32` values, but now they can be turned to the `float16`. `float16` vectors have a lower precision compared to `float32`, which means that there is less numerical accuracy in the vector values - but this is negligible for practical use cases.
@@ -669,7 +669,7 @@ documentation, making it easier to navigate and find the information you need.
 
 ## S3 Snapshot Storage
 
-Qdrant **Collections**, **Shards** and **Storage** can be backed up with [Snapshots](/documentation/concepts/snapshots/) and saved in case of data loss or other data transfer purposes. These snapshots can be quite large and the resources required to maintain them can result in higher costs. AWS S3 and other S3-compatible implementations like [min.io](https://min.io/) is a great low-cost alternative that can hold snapshots without incurring high costs. It is globally reliable, scalable and resistant to data loss.
+Qdrant **Collections**, **Shards** and **Storage** can be backed up with [Snapshots](/documentation/operations/snapshots/) and saved in case of data loss or other data transfer purposes. These snapshots can be quite large and the resources required to maintain them can result in higher costs. AWS S3 and other S3-compatible implementations like [min.io](https://min.io/) is a great low-cost alternative that can hold snapshots without incurring high costs. It is globally reliable, scalable and resistant to data loss.
 
 You can configure S3 storage settings in the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), specifically with `snapshots_storage`.
 
@@ -697,7 +697,7 @@ storage:
       secret_key: your_secret_key_here
 ```
 
-*Read more about [S3 snapshot storage](/documentation/concepts/snapshots/#s3) and [configuration](/documentation/guides/configuration/).*
+*Read more about [S3 snapshot storage](/documentation/operations/snapshots/#s3) and [configuration](/documentation/operations/configuration/).*
 
 This integration allows for a more convenient distribution of snapshots. Users of **any S3-compatible object storage** can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
 

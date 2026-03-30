@@ -11,7 +11,7 @@ featureCards:
       alt: Metadata filters code illustration
     link:
       text: Learn About Metadata Filters
-      url: /documentation/concepts/payload/
+      url: /documentation/manage-data/payload/
     size: large
   - id: hybrid-search
     title: Native Hybrid Search (Dense + Sparse)
@@ -21,7 +21,7 @@ featureCards:
       alt: Native hybrid search illustration
     link:
       text: Explore Hybrid Search
-      url: /documentation/concepts/hybrid-queries/
+      url: /documentation/search/hybrid-queries/
     size: large
   - id: multivector
     title: Built-in Multivector

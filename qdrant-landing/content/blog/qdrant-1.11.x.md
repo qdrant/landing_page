@@ -36,7 +36,7 @@ New Web UI Tools:</br>
 
 Before we dive into the specifics of our optimizations, let's first go over Multitenancy. This is one of our most significant features, [best used for scaling and data isolation](https://qdrant.tech/articles/multitenancy/).
 
-If you’re using Qdrant to manage data for multiple users, regions, or workspaces (tenants), we suggest setting up a [multitenant environment](/documentation/guides/multiple-partitions/). This approach keeps all tenant data in a single global collection, with points separated and isolated by their payload.
+If you’re using Qdrant to manage data for multiple users, regions, or workspaces (tenants), we suggest setting up a [multitenant environment](/documentation/manage-data/multitenancy/). This approach keeps all tenant data in a single global collection, with points separated and isolated by their payload.
 
 To avoid slow and unnecessary indexing, it’s better to create an index for each relevant payload rather than indexing the entire collection globally. Since some data is indexed more frequently, you can focus on building indexes for specific regions, workspaces, or users.
 
@@ -156,7 +156,7 @@ await client.CreatePayloadIndexAsync(
 
 As a result, the storage structure will be organized in a way to co-locate vectors of the same tenant together at the next optimization.
 
-*To learn more about defragmentation, read the [Multitenancy documentation](/documentation/guides/multiple-partitions/).*
+*To learn more about defragmentation, read the [Multitenancy documentation](/documentation/manage-data/multitenancy/).*
 
 ### On-Disk Support for the Payload Index
 
@@ -281,7 +281,7 @@ await client.CreatePayloadIndexAsync(
 
 By moving the index to disk, Qdrant can handle larger datasets that exceed the capacity of RAM, making the system more scalable and capable of storing more data without being constrained by memory limitations.
 
-*To learn more about this, read the [Indexing documentation](/documentation/concepts/indexing/).*
+*To learn more about this, read the [Indexing documentation](/documentation/manage-data/indexing/).*
 
 ### UUID Datatype for the Payload Index
 
@@ -311,7 +311,7 @@ PUT /collections/{collection_name}/points
 
 > For organizations that have numerous users and UUIDs, this simple fix can significantly reduce the cluster size and improve efficiency.
 
-*To learn more about this, read the [Payload documentation](/documentation/concepts/payload/).*
+*To learn more about this, read the [Payload documentation](/documentation/manage-data/payload/).*
 
 ### Query API: Groups Endpoint
 
@@ -411,7 +411,7 @@ await client.QueryGroupsAsync(
 
 This endpoint will retrieve the best N points for each document, assuming that the payload of the points contains the document ID. Sometimes, the best N points cannot be fulfilled due to lack of points or a big distance with respect to the query. In every case, the `group_size` is a best-effort parameter, similar to the limit parameter.
 
-*For more information on grouping capabilities refer to our [Hybrid Queries documentation](/documentation/concepts/hybrid-queries/).*
+*For more information on grouping capabilities refer to our [Hybrid Queries documentation](/documentation/search/hybrid-queries/).*
 
 ### Query API: Random Sampling
 
@@ -490,7 +490,7 @@ await client.QueryAsync(
 );
 ```
 
-*To learn more, check out the [Query API documentation](/documentation/concepts/hybrid-queries/).*
+*To learn more, check out the [Query API documentation](/documentation/search/hybrid-queries/).*
 
 ### Query API: Distribution-Based Score Fusion
 
@@ -658,7 +658,7 @@ await client.QueryAsync(
 
 Note that `dbsf` is stateless and calculates the normalization limits only based on the results of each query, not on all the scores that it has seen.
 
-*To learn more, check out the [Hybrid Queries documentation](/documentation/concepts/hybrid-queries/).*
+*To learn more, check out the [Hybrid Queries documentation](/documentation/search/hybrid-queries/).*
 
 ## Web UI: Search Quality Tool
 
