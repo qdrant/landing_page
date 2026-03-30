@@ -3,5 +3,6 @@ https://fonts.gstatic.com/
 https://twitter.com/intent.*
 https://www.linkedin.com/sharing.*
 http://localhost.*
+.*%20\d+w.*
 https://fonts.googleapis.com/
 admin/emails/*
