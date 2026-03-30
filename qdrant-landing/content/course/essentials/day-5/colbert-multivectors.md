@@ -29,7 +29,7 @@ Late-interaction models such as ColBERT retain per-token document vectors. At se
 
 Qdrant implements this powerful technique through [multivector representations](/documentation/manage-data/vectors/#multivectors). A multivector field holds an ordered list of subvectors, each of which captures a different token of the document.
 
-At query time, Qdrant performs the late interaction scoring. It compares every query token embedding $ q_i $ with each document token embedding $ d_j $. Only the highest score per query token is retained and these top scores are then summed. This mechanism, called MaxSim, delivers fine-grained relevance that respects the structure of your content.
+At query time, Qdrant performs late interaction scoring. It compares every query token embedding $ q_i $ with each document token embedding $ d_j $. Only the highest score per query token is retained, and those top scores are then summed. This mechanism, called MaxSim, delivers fine-grained relevance that respects the structure of your content.
 
 $$
 MaxSim_{\text{norm}}(Q, D) = \frac{1}{|Q|} \sum_{i=1}^{|Q|} \max_{j=1}^{|D|} \text{sim}(q_i, d_j)
@@ -49,7 +49,7 @@ doc_multivectors = list(encoder.embed(["A long document about AI in medicine."])
 # Returns [[token_vec1, token_vec2, ...]]
 ```
 
-The model `colbert-ir/colbertv2.0` outputs 128-dimensional vectors and is available through FastEmbed's optimized ONNX runtime. Use `.embed` for documents and `.query_embed` for queries.
+The model `colbert-ir/colbertv2.0` outputs 128-dimensional vectors and is available through FastEmbed's optimized ONNX Runtime. Use `.embed` for documents and `.query_embed` for queries.
 
 ## Collection Configuration: Multivector Setup
 
@@ -81,7 +81,7 @@ client.create_collection(
 )
 ```
 
-By specifying `MAX_SIM`, you tell Qdrant to apply the late interaction scoring at query time. We explicitly disable HNSW indexing with `m=0` because the graph typically won't be used for multivectors (except in rare edge cases), so disabling it saves RAM. Without HNSW, queries use brute-force MaxSim scoring across all points, which provides maximum precision but may be slower on large collections. For better performance on larger datasets, you'll learn about retrieval-reranking patterns in the next lesson.
+By specifying `MAX_SIM`, you tell Qdrant to apply late interaction scoring at query time. We explicitly disable HNSW indexing with `m=0` because the graph typically won't be used for multivectors except in rare edge cases, so disabling it saves RAM. Without HNSW, queries use brute-force MaxSim scoring across all points, which provides maximum precision but may be slower on large collections. For better performance on larger datasets, you'll learn about retrieval and reranking patterns in the next lesson.
 
 ## Querying with ColBERT
 
@@ -103,13 +103,13 @@ hits = client.query_points(
 )
 ```
 
-Qdrant performs brute-force MaxSim scoring between your query tokens and the document tokens for all points in the collection. This delivers highly precise results based on fine-grained token-level matching. Keep in mind that without HNSW indexing, this approach may be slower on large collections - in the next lesson you'll see how to combine fast approximate retrieval with ColBERT reranking for better performance.
+Qdrant performs brute-force MaxSim scoring between your query tokens and the document tokens for all points in the collection. This delivers highly precise results based on fine-grained token-level matching. Keep in mind that without HNSW indexing, this approach may be slower on large collections. In the next lesson, you'll see how to combine fast approximate retrieval with ColBERT reranking for better performance.
 
 ## ColPali for Visual Documents
 
-For documents with rich layouts, PDFs, invoices, slide decks, ColPali (Contextualized Late Interaction over PaliGemma) extends the same idea to vision. ColPali divides each page into a 32×32 grid (1,024 patches), encodes each patch with a vision-language model into 128-dimensional vectors, and treats those patch embeddings as subvectors. You use the identical multivector configuration, and Qdrant applies MaxSim on token embeddings, no matter how they were created.
+For documents with rich layouts such as PDFs, invoices, and slide decks, ColPali (Contextualized Late Interaction over PaliGemma) extends the same idea to vision. ColPali divides each page into a 32x32 grid (1,024 patches), encodes each patch with a vision-language model into 128-dimensional vectors, and treats those patch embeddings as subvectors. You use the same multivector configuration, and Qdrant applies MaxSim to those embeddings regardless of how they were created.
 
 The visual approach eliminates traditional OCR and layout detection steps, processing document images directly to capture both textual content and visual structure in a single pass. This makes ColPali particularly effective for complex documents where layout and visual elements are crucial for understanding.
 
 ## Next
-With multivectors in your toolkit, you can achieve high-precision retrieval for both text and visual documents. In the next lesson, we'll explore the Universal Query API, where you'll learn how to combine multiple retrieval strategies and use ColBERT for reranking - a more common production pattern that balances speed and precision when working with large collections. 
+With multivectors in your toolkit, you can achieve high-precision retrieval for both text and visual documents. In the next lesson, we'll explore the Universal Query API, where you'll learn how to combine multiple retrieval strategies and use ColBERT for reranking, a more common production pattern that balances speed and precision when working with large collections.
