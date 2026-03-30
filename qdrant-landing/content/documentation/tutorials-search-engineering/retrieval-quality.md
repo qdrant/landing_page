@@ -58,7 +58,7 @@ the approximate search results. Then, we will call the exact search endpoint to 
 in terms of precision.
 
 Before we start, let's create a collection, fill it with some data and then start our evaluation. We will use the same dataset as in the
-[Loading a dataset from Hugging Face hub](/documentation/tutorials/huggingface-datasets/) tutorial, `Qdrant/arxiv-titles-instructorxl-embeddings`
+[Loading a dataset from Hugging Face hub](/documentation/tutorials-basics/huggingface-datasets/) tutorial, `Qdrant/arxiv-titles-instructorxl-embeddings`
 from the [Hugging Face hub](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings). Let's download it in a streaming
 mode, as we are only going to use part of it.
 

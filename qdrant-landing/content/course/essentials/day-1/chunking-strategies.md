@@ -55,7 +55,7 @@ This is where chunking comes in. The goal is to have chunks
 
 By breaking a document into focused chunks, each chunk gets its own vector that accurately represents a specific idea. This allows the search to be far more precise.
 
-**Example:** Consider a multi-page Document like the [Qdrant Collection Configuration Guide of Day 7](/course/essentials/day-7/collection-configuration-guide/) covering everything from HNSW to sharding and quantization.
+**Example:** Consider a multi-page Document like the [Qdrant Collection Configuration Guide of Day 7](/course/essentials/day-7/) covering everything from HNSW to sharding and quantization.
 
 If a user asks: *"What does the m parameter do?"*
 
@@ -420,7 +420,7 @@ The trade-off is computational cost. You're embedding the full document upfront 
 | **Recursive** | Flexible, handles messy input | Heuristic, sometimes brittle | Scraped web content, mixed sources |
 | **Semantic** | High-quality, meaning-aware | Slower, resource-intensive | Legal, research, critical QA |
 
-**Note**: Sometimes, it's necessary to keep the document intact. If chunking is too complicated, or the document is visually rich (diagrams, graphs etc.), you can use [VLMs](/documentation/advanced-tutorials/pdf-retrieval-at-scale/) to embed the whole page.
+**Note**: Sometimes, it's necessary to keep the document intact. If chunking is too complicated, or the document is visually rich (diagrams, graphs etc.), you can use [VLMs](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) to embed the whole page.
 
 ## Adding Meaning with Metadata
 
@@ -439,7 +439,7 @@ In Qdrant, this metadata lives in the **payload** - a JSON object attached to ea
   "section_title": "What Is a Vector",
   "chunk_index": 7,
   "chunk_count": 15,
-  "url": "https://qdrant.tech/documentation/concepts/collections/",
+  "url": "https://qdrant.tech/documentation/manage-data/collections/",
   "tags": ["qdrant", "vector search", "point", "vector", "payload"],
   "source_type": "documentation", 
   "created_at": "2025-01-15T10:00:00Z",
@@ -451,7 +451,7 @@ In Qdrant, this metadata lives in the **payload** - a JSON object attached to ea
 
 ### What Metadata Enables
 
-**Disclaimer**: For performance reasons, filterable fields must be indexed using the [Payload Index](/documentation/concepts/indexing/#payload-index).
+**Disclaimer**: For performance reasons, filterable fields must be indexed using the [Payload Index](/documentation/manage-data/indexing/#payload-index).
 
 **1. Filtered Search (Exact Match)**
 You can filter results based on exact metadata values, which is perfect for categorical data.
@@ -469,7 +469,7 @@ filter = models.Filter(
 ```
 
 **2. Hybrid Search with Text Filtering (Full-Text Search)**
-For more powerful text-based filtering, you can combine vector search with traditional keyword search. This requires setting up a [full-text index](/documentation/concepts/indexing/#full-text-index) on a payload field.
+For more powerful text-based filtering, you can combine vector search with traditional keyword search. This requires setting up a [full-text index](/documentation/manage-data/indexing/#full-text-index) on a payload field.
 ```python
 # Find vectors that also contain the keyword "HNSW" in their content
 filter = models.Filter(
@@ -487,13 +487,13 @@ filter = models.Filter(
 # Top result per document - get the most relevant chunk from each source
 group_by = "document_id"
 ```
-You can read more about grouping [here](/documentation/concepts/hybrid-queries/?q=grouping#grouping).
+You can read more about grouping [here](/documentation/search/hybrid-queries/?q=grouping#grouping).
 
 **4. Rich Result Display**
 - Original content with source attribution
 - Section context for better understanding
 - Direct links to full documents
-- Creation timestamps for [freshness](/documentation/concepts/search-relevance/#time-based-score-boosting)
+- Creation timestamps for [freshness](/documentation/search/search-relevance/#time-based-score-boosting)
 
 **5. Permission Control**
 ```python

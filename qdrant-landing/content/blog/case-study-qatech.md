@@ -43,7 +43,7 @@ Qdrant’s fast, scalable [vector search](/advanced-search/) enables QA.tech to 
 
 ## Why QA.tech chose Qdrant for its AI Agent platform
 
-QA.tech’s AI Agents handle high-velocity web actions, requiring efficient real-time operations and scalable infrastructure. The team faced challenges with managing network overhead, CPU load, and the need to store [multiple embeddings](/documentation/concepts/vectors/#multivectors) for different use cases. Qdrant provided the solution to address these issues.
+QA.tech’s AI Agents handle high-velocity web actions, requiring efficient real-time operations and scalable infrastructure. The team faced challenges with managing network overhead, CPU load, and the need to store [multiple embeddings](/documentation/manage-data/vectors/#multivectors) for different use cases. Qdrant provided the solution to address these issues.
 
 **Reducing Network Overhead with Batch Operations**
 

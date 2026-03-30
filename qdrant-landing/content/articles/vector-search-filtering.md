@@ -83,7 +83,7 @@ Most people use default settings and build vector search apps that aren't proper
 
 #### Remember to run all tutorial code in Qdrant's Dashboard 
 
-The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/quickstart-cloud/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
+The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/cloud-quickstart/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
 
 ![qdrant-filtering-tutorial](/articles_data/vector-search-filtering/qdrant-filtering-tutorial.png)
 
@@ -93,13 +93,13 @@ Qdrant follows a specific method of searching and filtering through dense vector
 
 Let's take a look at this **3-stage diagram**. In this case, we are trying to find the nearest neighbour to the query vector **(green)**. Your search journey starts at the bottom **(orange)**.
 
-By default, Qdrant connects all your data points within the [**vector index**](/documentation/concepts/indexing/). After you [**introduce filters**](/documentation/concepts/filtering/), some data points become disconnected. Vector search can't cross the grayed out area and it won't reach the nearest neighbor. 
+By default, Qdrant connects all your data points within the [**vector index**](/documentation/manage-data/indexing/). After you [**introduce filters**](/documentation/search/filtering/), some data points become disconnected. Vector search can't cross the grayed out area and it won't reach the nearest neighbor. 
 How can we bridge this gap? 
 
 **Figure 1:** How Qdrant maintains a filterable vector index. 
 ![filterable-vector-index](/articles_data/vector-search-filtering/filterable-vector-index.png)
 
-[**Filterable vector index**](/documentation/concepts/indexing/): This technique builds additional links **(orange)** between leftover data points. The filtered points which stay behind are now traversible once again. Qdrant uses special category-based methods to connect these data points. 
+[**Filterable vector index**](/documentation/manage-data/indexing/): This technique builds additional links **(orange)** between leftover data points. The filtered points which stay behind are now traversible once again. Qdrant uses special category-based methods to connect these data points. 
 
 ### Qdrant's approach vs traditional filtering methods
 
@@ -201,7 +201,7 @@ As you can see, Qdrant's filtering method has a greater chance of capturing all 
 
 This specific example uses the `range` condition for filtering. Qdrant, however, offers many other possible ways to structure a filter
 
-**For detailed usage examples, [filtering](/documentation/concepts/filtering/) docs are the best resource.** 
+**For detailed usage examples, [filtering](/documentation/search/filtering/) docs are the best resource.** 
 
 ### Scrolling instead of searching
 
@@ -240,7 +240,7 @@ POST /collections/online_store/points/scroll
 ```
 The response contains a batch of points that match the criteria and a reference (offset or next page token) to retrieve the next set of points.
 
-> [**Scrolling**](/documentation/concepts/points/#scroll-points) is designed to be efficient. It minimizes the load on the server and reduces memory consumption on the client side by returning only manageable chunks of data at a time.
+> [**Scrolling**](/documentation/manage-data/points/#scroll-points) is designed to be efficient. It minimizes the load on the server and reduces memory consumption on the client side by returning only manageable chunks of data at a time.
 
 #### Available filtering conditions
 
@@ -254,7 +254,7 @@ The response contains a batch of points that match the criteria and a reference 
 | **Full Text Match**   | Search in text fields.                   | **Is Empty**          | Filter empty fields.                     |
 | **Has ID**            | Filter by unique ID.                     | **Is Null**           | Filter null values.                      |
 
-> All clauses and conditions are outlined in Qdrant's [filtering](/documentation/concepts/filtering/) documentation. 
+> All clauses and conditions are outlined in Qdrant's [filtering](/documentation/search/filtering/) documentation. 
 
 #### Filtering clauses to remember
 
@@ -559,10 +559,10 @@ You can use filters to retrieve data points without knowing their `id`. You can 
 
 | Action | Description | Action | Description |
 |--------|-------------|--------|-------------|
-| [Delete Points](/documentation/concepts/points/#delete-points) | Deletes all points matching the filter. | [Set Payload](/documentation/concepts/payload/#set-payload) | Adds payload fields to all points matching the filter. |
-| [Scroll Points](/documentation/concepts/points/#scroll-points) | Lists all points matching the filter. | [Update Payload](/documentation/concepts/payload/#overwrite-payload) | Updates payload fields for points matching the filter. |
-| [Order Points](/documentation/concepts/points/#order-points-by-payload-key) | Lists all points, sorted by the filter. | [Delete Payload](/documentation/concepts/payload/#delete-payload-keys) | Deletes fields for points matching the filter. |
-| [Count Points](/documentation/concepts/points/#counting-points) | Totals the points matching the filter. | | |
+| [Delete Points](/documentation/manage-data/points/#delete-points) | Deletes all points matching the filter. | [Set Payload](/documentation/manage-data/payload/#set-payload) | Adds payload fields to all points matching the filter. |
+| [Scroll Points](/documentation/manage-data/points/#scroll-points) | Lists all points matching the filter. | [Update Payload](/documentation/manage-data/payload/#overwrite-payload) | Updates payload fields for points matching the filter. |
+| [Order Points](/documentation/manage-data/points/#order-points-by-payload-key) | Lists all points, sorted by the filter. | [Delete Payload](/documentation/manage-data/payload/#delete-payload-keys) | Deletes fields for points matching the filter. |
+| [Count Points](/documentation/manage-data/points/#counting-points) | Totals the points matching the filter. | | |
 
 ## Filtering with the payload index
 
@@ -577,7 +577,7 @@ Just how the vector index organizes vectors, the payload index will structure yo
 
 ![payload-index-vector-search](/articles_data/vector-search-filtering/payload-index-vector-search.png)
 
-On its own, semantic searching over terabytes of data can take up lots of RAM. [**Filtering**](/documentation/concepts/filtering/) and [**Indexing**](/documentation/concepts/indexing/) are two easy strategies to reduce your compute usage and still get the best results. Remember, this is only a guide. For an exhaustive list of filtering options, you should read the [filtering documentation](/documentation/concepts/filtering/). 
+On its own, semantic searching over terabytes of data can take up lots of RAM. [**Filtering**](/documentation/search/filtering/) and [**Indexing**](/documentation/manage-data/indexing/) are two easy strategies to reduce your compute usage and still get the best results. Remember, this is only a guide. For an exhaustive list of filtering options, you should read the [filtering documentation](/documentation/search/filtering/). 
 
 Here is how you can create a single index for a metadata field "category":
 
@@ -660,11 +660,11 @@ If your users are often filtering by **laptop** when looking up a product **cate
 
 | Index Type          | Description                                                                                                                                           |
 |---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Full-text Index](/documentation/concepts/indexing/#full-text-index)     | Enables efficient text search in large datasets.                                                                                                      |
-| [Tenant Index](/documentation/concepts/indexing/#tenant-index)        | For data isolation and retrieval efficiency in multi-tenant architectures.                                                                            |
-| [Principal Index](/documentation/concepts/indexing/#principal-index)     | Manages data based on primary entities like users or accounts.                                                                                        |
-|[On-Disk Index](/documentation/concepts/indexing/#on-disk-payload-index)       | Stores indexes on disk to manage large datasets without memory usage.                                                                                 |
-| [Parameterized Index](/documentation/concepts/indexing/#parameterized-index) | Allows for dynamic querying, where the index can adapt based on different parameters or conditions provided by the user. Useful for numeric data like prices or timestamps. |
+| [Full-text Index](/documentation/manage-data/indexing/#full-text-index)     | Enables efficient text search in large datasets.                                                                                                      |
+| [Tenant Index](/documentation/manage-data/indexing/#tenant-index)        | For data isolation and retrieval efficiency in multi-tenant architectures.                                                                            |
+| [Principal Index](/documentation/manage-data/indexing/#principal-index)     | Manages data based on primary entities like users or accounts.                                                                                        |
+|[On-Disk Index](/documentation/manage-data/indexing/#on-disk-payload-index)       | Stores indexes on disk to manage large datasets without memory usage.                                                                                 |
+| [Parameterized Index](/documentation/manage-data/indexing/#parameterized-index) | Allows for dynamic querying, where the index can adapt based on different parameters or conditions provided by the user. Useful for numeric data like prices or timestamps. |
 
 ### Indexing payloads in multitenant setups
 
@@ -688,7 +688,7 @@ PUT /collections/{collection_name}/index
 ```
 Additionally, we offer a way of organizing data efficiently by means of the tenant index. This is another variant of the payload index that makes tenant data more accessible. This time, the request will specify the field as a tenant. This means that you can mark various customer types and user id’s as `is_tenant: true`. 
 
-Read more about setting up [tenant defragmentation](/documentation/concepts/indexing/?q=tenant#tenant-index) in multitenant environments,
+Read more about setting up [tenant defragmentation](/documentation/manage-data/indexing/?q=tenant#tenant-index) in multitenant environments,
 
 ## Key takeaways in filtering and indexing
 ![best-practices](/articles_data/vector-search-filtering/best-practices.png)
@@ -744,7 +744,7 @@ As a conclusion to this guide, let's look at some real-life use cases where filt
 
 #### Before you go - all the code is in Qdrant's Dashboard 
 
-The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/quickstart-cloud/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
+The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/cloud-quickstart/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
 
 **It's all in your free cluster!**
 

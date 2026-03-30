@@ -80,7 +80,7 @@ Once running, you can access the Web UI at `http://localhost:6333/dashboard` to 
 
 ### Alternative Installation Methods
 
-For production deployments or other installation methods, see the [Qdrant Installation Guide](/documentation/guides/installation/).
+For production deployments or other installation methods, see the [Qdrant Installation Guide](/documentation/operations/installation/).
 
 ## Verifying Your Setup
 

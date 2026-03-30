@@ -27,7 +27,7 @@ This time around, we have focused on Qdrant's internals. Our goal was to optimiz
 
 - **Faster [sparse vectors](https://qdrant.tech/articles/sparse-vectors/):** [Hybrid search](https://qdrant.tech/articles/hybrid-search/) is up to 16x faster now!
 - **CPU resource management:** You can allocate CPU threads for faster indexing. 
-- **Better indexing performance:** We optimized text [indexing](https://qdrant.tech/documentation/concepts/indexing/) on the backend.
+- **Better indexing performance:** We optimized text [indexing](https://qdrant.tech/documentation/manage-data/indexing/) on the backend.
 
 ## Faster search with sparse vectors
 
@@ -55,7 +55,7 @@ The colors within both scatter plots show the frequency of results. The red dots
 
 This performance increase can have a dramatic effect on hybrid search implementations. [Read more about how to set this up.](/articles/sparse-vectors/)
 
-FYI, sparse vectors were released in [Qdrant v.1.7.0](/articles/qdrant-1.7.x/#sparse-vectors). They are stored using a different index, so first [check out the documentation](/documentation/concepts/indexing/#sparse-vector-index) if you want to try an implementation.
+FYI, sparse vectors were released in [Qdrant v.1.7.0](/articles/qdrant-1.7.x/#sparse-vectors). They are stored using a different index, so first [check out the documentation](/documentation/manage-data/indexing/#sparse-vector-index) if you want to try an implementation.
 
 ## CPU resource management
 
@@ -65,7 +65,7 @@ This isn't mandatory, as Qdrant is by default tuned to strike the right balance 
 
 This version introduces a `optimizer_cpu_budget` parameter to control the maximum number of CPUs used for indexing. 
 
-> Read more about `config.yaml` in the [configuration file](/documentation/guides/configuration/).
+> Read more about `config.yaml` in the [configuration file](/documentation/operations/configuration/).
 
 ```yaml
 # CPU budget, how many CPUs (threads) to allocate for an optimization job.
@@ -99,8 +99,8 @@ This approach ensures stability in the [vector search](https://qdrant.tech/docum
 
 Beyond these enhancements, [Qdrant v1.8.0](https://github.com/qdrant/qdrant/releases/tag/v1.8.0) adds and improves on several smaller features:
 
-1. **Order points by payload:** In addition to searching for semantic results, you might want to retrieve results by specific metadata (such as price). You can now use Scroll API to [order points by payload key](/documentation/concepts/points/#order-points-by-payload-key). 
-2. **Datetime support:** We have implemented [datetime support for the payload index](/documentation/concepts/filtering/#datetime-range). Prior to this, if you wanted to search for a specific datetime range, you would have had to convert dates to UNIX timestamps. ([PR#3320](https://github.com/qdrant/qdrant/issues/3320)) 
+1. **Order points by payload:** In addition to searching for semantic results, you might want to retrieve results by specific metadata (such as price). You can now use Scroll API to [order points by payload key](/documentation/manage-data/points/#order-points-by-payload-key). 
+2. **Datetime support:** We have implemented [datetime support for the payload index](/documentation/search/filtering/#datetime-range). Prior to this, if you wanted to search for a specific datetime range, you would have had to convert dates to UNIX timestamps. ([PR#3320](https://github.com/qdrant/qdrant/issues/3320)) 
 3. **Check collection existence:** You can check whether a collection exists via the `/exists` endpoint to the `/collections/{collection_name}`. You will get a true/false response. ([PR#3472](https://github.com/qdrant/qdrant/pull/3472)).
 4. **Find points** whose payloads match more than the minimal amount of conditions. We included the `min_should` match feature for a condition to be `true` ([PR#3331](https://github.com/qdrant/qdrant/pull/3466/)).
 5. **Modify nested fields:** We have improved the `set_payload` API, adding the ability to update nested fields ([PR#3548](https://github.com/qdrant/qdrant/pull/3548)).

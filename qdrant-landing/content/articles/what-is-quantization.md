@@ -28,7 +28,7 @@ When working with high-dimensional vectors, such as embeddings from providers li
 
 With 1 million vectors needing around 6 GB of memory, as your dataset grows to multiple **millions of vectors**, the memory and processing demands increase significantly.
 
-To understand why this process is so computationally demanding, let's take a look at the nature of the [HNSW index](https://qdrant.tech/documentation/concepts/indexing/#vector-index).
+To understand why this process is so computationally demanding, let's take a look at the nature of the [HNSW index](https://qdrant.tech/documentation/manage-data/indexing/#vector-index).
 
 The **HNSW (Hierarchical Navigable Small World) index** organizes vectors in a layered graph, connecting each vector to its nearest neighbors. At each layer, the algorithm narrows down the search area until it reaches the lower layers, where it efficiently finds the closest matches to the query.
 
@@ -54,7 +54,7 @@ There are several methods to achieve this, and here we will focus on three main 
 
 ![](/articles_data/what-is-vector-quantization/astronaut-mars.jpg)
 
-In Qdrant, each dimension is represented by a `float32` value, which uses **4 bytes** of memory. When using [Scalar Quantization](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization), we map our vectors to a range that the smaller `int8` type can represent. An `int8` is only **1 byte** and can represent 256 values (from -128 to 127, or 0 to 255). This results in a **75% reduction** in memory size.
+In Qdrant, each dimension is represented by a `float32` value, which uses **4 bytes** of memory. When using [Scalar Quantization](https://qdrant.tech/documentation/manage-data/quantization/#scalar-quantization), we map our vectors to a range that the smaller `int8` type can represent. An `int8` is only **1 byte** and can represent 256 values (from -128 to 127, or 0 to 255). This results in a **75% reduction** in memory size.
 
 For example, if our data lies in the range of -1.0 to 1.0, Scalar Quantization will transform these values to a range that `int8` can represent, i.e., within -128 to 127. The system **maps** the `float32` values into this range.
 
@@ -107,7 +107,7 @@ While the performance gains of Scalar Quantization may not match those achieved 
 
 ![Astronaut in surreal white environment](/articles_data/what-is-vector-quantization/astronaut-white-surreal.jpg)
 
-[Binary Quantization](https://qdrant.tech/documentation/guides/quantization/#binary-quantization) is an excellent option if you're looking to **reduce memory** usage while also achieving a significant **boost in speed**. It works by converting high-dimensional vectors into simple binary (0 or 1) representations.
+[Binary Quantization](https://qdrant.tech/documentation/manage-data/quantization/#binary-quantization) is an excellent option if you're looking to **reduce memory** usage while also achieving a significant **boost in speed**. It works by converting high-dimensional vectors into simple binary (0 or 1) representations.
 
 - Values greater than zero are converted to 1.
 - Values less than or equal to zero are converted to 0.
@@ -176,7 +176,7 @@ If you're interested in exploring Binary Quantization in more detail—including
 
 ![](/articles_data/what-is-vector-quantization/astronaut-centroids.jpg)
 
-[Product Quantization](https://qdrant.tech/documentation/guides/quantization/#product-quantization) is a method used to compress high-dimensional vectors by representing them with a smaller set of representative points.
+[Product Quantization](https://qdrant.tech/documentation/manage-data/quantization/#product-quantization) is a method used to compress high-dimensional vectors by representing them with a smaller set of representative points.
 
 The process begins by splitting the original high-dimensional vectors into smaller **sub-vectors.** Each sub-vector represents a segment of the original vector, capturing different characteristics of the data.
 
@@ -268,7 +268,7 @@ Product Quantization can significantly reduce memory usage, potentially offering
 
 If your application requires high precision or real-time performance, Product Quantization may not be the best choice. However, if **memory savings** are critical and some accuracy loss is acceptable, it could still be an ideal solution.
 
-Here’s a comparison of speed, accuracy, and compression for all three methods, adapted from [Qdrant's documentation](https://qdrant.tech/documentation/guides/quantization/#how-to-choose-the-right-quantization-method):
+Here’s a comparison of speed, accuracy, and compression for all three methods, adapted from [Qdrant's documentation](https://qdrant.tech/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method):
 
 | Quantization method | Accuracy | Speed      | Compression |
 |---------------------|----------|------------|-------------|
@@ -519,7 +519,7 @@ Here are some final thoughts to help you choose the right quantization method fo
 
 ### Learn More
 
-If you want to learn more about improving accuracy, memory efficiency, and speed when using quantization in Qdrant, we have a dedicated [Quantization tips](https://qdrant.tech/documentation/guides/quantization/#quantization-tips) section in our docs that explains all the quantization tips you can use to enhance your results.
+If you want to learn more about improving accuracy, memory efficiency, and speed when using quantization in Qdrant, we have a dedicated [Quantization tips](https://qdrant.tech/documentation/manage-data/quantization/#quantization-tips) section in our docs that explains all the quantization tips you can use to enhance your results.
 
 Learn more about optimizing real-time precision with oversampling in Binary Quantization by watching this interview with Qdrant’s CTO, Andrey Vasnetsov:
 

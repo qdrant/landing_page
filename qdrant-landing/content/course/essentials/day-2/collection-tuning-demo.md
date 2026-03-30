@@ -409,7 +409,7 @@ else:
 
 ## Step 10: Create Payload Indexes
 
-Create a [full‑text index](/documentation/concepts/indexing/#full-text-index) for faster filtering.
+Create a [full‑text index](/documentation/manage-data/indexing/#full-text-index) for faster filtering.
 
 ```python
 # Create a payload index for 'text' so filters use an index, not a scan.
@@ -526,6 +526,6 @@ print("=" * 60)
 - [Qdrant Documentation](/documentation/) - Complete technical reference
 - [HNSW Paper](https://arxiv.org/abs/1603.09320) - Original algorithm research
 - [Qdrant Cloud](https://cloud.qdrant.io/) - Managed vector search service
-- [Performance Tuning Guide](/documentation/guides/optimize/) - Advanced optimization techniques
+- [Performance Tuning Guide](/documentation/operations/optimize/) - Advanced optimization techniques
 
 **Ready for the pitstop project?** Now it's your turn to optimize performance with your own dataset and use case. You'll apply these same techniques to your domain-specific data and measure the real-world impact of different HNSW parameters and indexing strategies. 

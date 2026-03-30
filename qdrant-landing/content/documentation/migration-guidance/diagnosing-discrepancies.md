@@ -288,4 +288,4 @@ for record in sample_records:
 
 ---
 
-**Previous:** [Search Quality Verification](/documentation/migration-verification/search-quality/) | **Start:** [Migration Verification Overview](/documentation/migration-verification/)
+**Previous:** [Search Quality Verification](/documentation/migration-guidance/search-quality/) | **Start:** [Migration Verification Overview](/documentation/migration-guidance/)

@@ -85,7 +85,7 @@ docker pull qdrant/qdrant
 docker run -p 6334:6334 -p 6333:6333 qdrant/qdrant
 ```
 
-This will download the Qdrant image and start a Qdrant instance accessible at `http://localhost:6333`. For more detailed instructions and alternative installation methods, refer to the [Qdrant installation documentation](https://qdrant.tech/documentation/quick-start/).
+This will download the Qdrant image and start a Qdrant instance accessible at `http://localhost:6333`. For more detailed instructions and alternative installation methods, refer to the [Qdrant installation documentation](https://qdrant.tech/documentation/quickstart/).
 
 ## Installation of Qdrant-Kafka Sink Connector:
 

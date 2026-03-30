@@ -14,7 +14,7 @@ integrations:
     alt: Open AI logo
   title: Swarm
   description: Decentralized platform enabling collaboration among AI agents for task completion.
-  url: /documentation/frameworks/swarm/
+  url: /documentation/frameworks/
 - id: 2
   icon:
     src: /img/integrations/integration-crew-ai.svg

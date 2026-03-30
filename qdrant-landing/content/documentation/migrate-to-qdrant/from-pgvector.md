@@ -71,7 +71,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 - **Partition structure:** If you had manual partitions in pgvector (common at scale), verify that all partitions were migrated, not just the primary table.
 - **NULL handling:** PostgreSQL NULLs may be dropped during export. Check that optional fields are represented correctly in Qdrant payloads.
 - **Index type and recall:** pgvector supports IVFFlat and HNSW. If your baseline was captured with IVFFlat (lower recall), Qdrant's HNSW may return better results. This looks like a "mismatch" but is an improvement.
-- **Row count approximation:** Postgres's `n_live_tup` is an estimate, not an exact count. Use `SELECT COUNT(*) FROM your_table` for accurate comparison during [migration verification](/documentation/migration-verification/).
+- **Row count approximation:** Postgres's `n_live_tup` is an estimate, not an exact count. Use `SELECT COUNT(*) FROM your_table` for accurate comparison during [migration verification](/documentation/migration-guidance/).
 
 ## After Migration: Keeping Postgres and Qdrant in Sync
 
@@ -79,4 +79,4 @@ If you continue using Postgres as your source of truth alongside Qdrant, you'll 
 
 ## Next Steps
 
-After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-verification/).
+After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-guidance/).

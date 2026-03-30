@@ -197,7 +197,7 @@ And without quantization:
 ```
 
 The maximum size of each segment can be configured in the collection settings.
-Use the following operation to [change](/documentation/concepts/collections/#update-collection-parameters) on your existing collection:
+Use the following operation to [change](/documentation/manage-data/collections/#update-collection-parameters) on your existing collection:
 
 ```http
 PATCH collections/{collection_name}

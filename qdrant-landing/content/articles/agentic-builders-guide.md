@@ -38,7 +38,7 @@ Reliable agentic workflows require a clear plan executed with precise tools. A v
 * [**Real-time memory layer:**](https://qdrant.tech/blog/case-study-fieldy/) fast access to prior steps, actions, and knowledge  
 * [**Multimodal support**](https://qdrant.tech/blog/case-study-mixpeek/): text, image, videos, audio, and code  
 * [**Hybrid search**](https://qdrant.tech/articles/hybrid-search/)**:** combining dense \+ sparse vectors  
-* [**Advanced filtering**](https://qdrant.tech/documentation/concepts/filtering/)**:** semantic \+ metadata \+ keyword constraints  
+* [**Advanced filtering**](https://qdrant.tech/documentation/search/filtering/)**:** semantic \+ metadata \+ keyword constraints  
 * [**Millisecond vector retrieval**](https://qdrant.tech/articles/vector-search-production/)**:** Fast retrieval at \>billion vector scale
 
 Throughout this article, we’ll use TripAdvisor’s [TripBuilder](https://www.tripadvisor.com/TripBuilder) to illustrate how each of the four concepts above is critical for building and deploying agentic search at scale.
@@ -55,7 +55,7 @@ When your agent has to design the itinerary for the trip to Berlin, TripBuilder 
 
 ## Why Speed Matters in Agentic Retrieval
 
-Agents may run thousands of searches to answer a single complex question. Sometimes those searches are run in parallel, but sometimes they’re run sequentially. For those sequential searches, each millisecond saved compounds. That’s when Qdrant's [Rust-based](https://qdrant.tech/articles/why-rust/) [HNSW indexing](https://qdrant.tech/documentation/concepts/indexing/#hnsw-graph-index), which enables millisecond-level retrieval at scale, becomes a differentiator.
+Agents may run thousands of searches to answer a single complex question. Sometimes those searches are run in parallel, but sometimes they’re run sequentially. For those sequential searches, each millisecond saved compounds. That’s when Qdrant's [Rust-based](https://qdrant.tech/articles/why-rust/) [HNSW indexing](https://qdrant.tech/documentation/manage-data/indexing/#hnsw-graph-index), which enables millisecond-level retrieval at scale, becomes a differentiator.
 
 Let’s imagine that you see a 75ms retrieval performance gain with Qdrant. On its own, that might not make a demonstrable difference in the search experience. But if an agent performs four sequential searches, that 300ms starts to have a user experience impact. With that delay, a user can quickly get bored or distracted, leading to frustration. With agentic AI, the retrieval speed optimizations are compounded. 
 
@@ -81,7 +81,7 @@ Combining semantic search, metadata, and keyword [filters](https://qdrant.tech/a
 
 ## Real-Time Memory Layer for Agents
 
-Users expect agents to remember the details of their conversation. Your agent's memory must be updated every time it gets new information, not just at the start of each session. Qdrant supports [real-time upserts](https://qdrant.tech/documentation/concepts/points/#upsert-points), giving your agent access to the freshest data for short-term memory and long-term memory.
+Users expect agents to remember the details of their conversation. Your agent's memory must be updated every time it gets new information, not just at the start of each session. Qdrant supports [real-time upserts](https://qdrant.tech/documentation/manage-data/points/#upsert-points), giving your agent access to the freshest data for short-term memory and long-term memory.
 
 Not all information is timeless. For an agent, knowing what's recent is as important as knowing what's relevant. This is where [decay functions](https://qdrant.tech/blog/decay-functions/) come in, acting as a "recency boost" during a search.
 
@@ -109,13 +109,13 @@ Once you’ve built a fast, accurate, secure, and scalable agent, how do you kno
 
 Your agent’s ability to complete complex tasks is only as good as the context it can retrieve. It is crucial to closely and continuously monitor the agent’s performance with grounding checks to spot and prevent hallucinations, recall@k to ensure relevance in search, and MMR parameters for diversity.
 
-#### [**Performance-Cost Tradeoff**](https://qdrant.tech/documentation/guides/optimize/)
+#### [**Performance-Cost Tradeoff**](https://qdrant.tech/documentation/operations/optimize/)
 
 In production agents, efficiency is one of, if not the, most important metric to track. First, in enterprise environments you must meet strict latency budgets. Evaluations also let you track the cost per task by tracking token usage and end-to-end compute time. Finally, you can track the effectiveness of your memory layer by monitoring cache hit rates for your memory banks.
 
 ![Tradeoff Triangle](/articles_data/agentic-builders-guide/tradeoff-triangle.png)
 
-#### [**Guardrails & Fallbacks**](https://qdrant.tech/documentation/guides/security/)
+#### [**Guardrails & Fallbacks**](https://qdrant.tech/documentation/operations/security/)
 
 Just like humans, agents aren’t perfect. A production agentic system should expect and anticipate failures and have guardrails to handle them gracefully. You can also use a human in the loop when confidence scores are below a chosen threshold or the query touches on a high-stakes or sensitive topic. To handle a wide range of queries, your agent should use hybrid search. Hybrid search combines the power of semantic search for understanding meaning with the precision of keyword search for exact matches, giving you the best of both worlds.
 
@@ -125,13 +125,13 @@ The same agent that speeds through a toy dataset with 10,000 points will become 
 
 We’ll talk about three concepts you can take advantage of to improve your scale, but if you want even more information on how to scale, check out this [article](https://qdrant.tech/documentation/database-tutorials/large-scale-search/) on large scale search.
 
-As your dataset and traffic grow, Qdrant Cloud offers a suite of features to ensure your system can scale effectively. Horizontal scaling is achieved through [sharding](https://qdrant.tech/articles/multitenancy/), which splits your collection across multiple nodes to distribute the load and improve performance. For high availability and fault tolerance, Qdrant supports [replication](https://qdrant.tech/documentation/guides/distributed_deployment/), creating copies of your shards across the cluster. 
+As your dataset and traffic grow, Qdrant Cloud offers a suite of features to ensure your system can scale effectively. Horizontal scaling is achieved through [sharding](https://qdrant.tech/articles/multitenancy/), which splits your collection across multiple nodes to distribute the load and improve performance. For high availability and fault tolerance, Qdrant supports [replication](https://qdrant.tech/documentation/operations/distributed_deployment/), creating copies of your shards across the cluster. 
 
-Qdrant provides robust tools for resource and cost optimization. Vector [quantization](https://qdrant.tech/documentation/guides/quantization/) compresses your data, significantly reducing its memory footprint and speeding up search.
+Qdrant provides robust tools for resource and cost optimization. Vector [quantization](https://qdrant.tech/documentation/manage-data/quantization/) compresses your data, significantly reducing its memory footprint and speeding up search.
 
 ![Quantization](/articles_data/agentic-builders-guide/quantization.png)
 
-To further manage costs as your dataset expands, [on-disk storage](https://qdrant.tech/documentation/concepts/storage/) allows you to keep the full vectors on more affordable SSDs while the necessary index data remains in RAM. This hybrid approach enables searches over billions of vectors without the high cost of keeping all data in memory.
+To further manage costs as your dataset expands, [on-disk storage](https://qdrant.tech/documentation/manage-data/storage/) allows you to keep the full vectors on more affordable SSDs while the necessary index data remains in RAM. This hybrid approach enables searches over billions of vectors without the high cost of keeping all data in memory.
 
 To enhance the relevance and precision of search queries, Qdrant natively supports hybrid search, which combines traditional keyword-based search with semantic vector search. By doing so, your application can find documents that match exact terms, such as product codes or names, while also discovering documents that are semantically similar in meaning. This ensures that you can find the most relevant information, even in massive and complex datasets.
 
@@ -143,11 +143,11 @@ Workflows that are effective for a single user or a handful of users in a develo
 
 Qdrant provides production-grade [authorization and authentication](https://qdrant.tech/documentation/cloud/authentication/) via API keys, multitenancy, and Role-Based Access Control (RBAC) to make sure your agent doesn’t go rogue.
 
-Authentication for agents is handled by [API keys](https://qdrant.tech/documentation/guides/security/#api-keys). With Qdrant, API keys are more than just a password. They act as smart credentials that also carry the details of the authorization rules that are enforced once the agent’s identity is confirmed. These keys can be dynamically created as temporary credentials for each user session, making access limited to the session and secure.
+Authentication for agents is handled by [API keys](https://qdrant.tech/documentation/operations/security/#api-keys). With Qdrant, API keys are more than just a password. They act as smart credentials that also carry the details of the authorization rules that are enforced once the agent’s identity is confirmed. These keys can be dynamically created as temporary credentials for each user session, making access limited to the session and secure.
 
 Note: Qdrant also supports concurrent queries, so your search won’t slow down as more users are writing queries simultaneously.
 
-Authorization is handled by [RBAC](https://qdrant.tech/articles/data-privacy/) and [multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/), which work hand-in-hand to define and enforce permissions specific to the agent. RBAC is a set of rules that defines the allowed permissions including read-only, read-write, and admin controls. It answers the question, “What is this agent allowed to do?” For instance, can it only search for hotels (read-only), or can it also add, update, and delete them (read-write)?
+Authorization is handled by [RBAC](https://qdrant.tech/articles/data-privacy/) and [multitenancy](https://qdrant.tech/documentation/manage-data/multitenancy/), which work hand-in-hand to define and enforce permissions specific to the agent. RBAC is a set of rules that defines the allowed permissions including read-only, read-write, and admin controls. It answers the question, “What is this agent allowed to do?” For instance, can it only search for hotels (read-only), or can it also add, update, and delete them (read-write)?
 
 ![Multi-tenancy](/articles_data/agentic-builders-guide/multi-tenancy.png)
 

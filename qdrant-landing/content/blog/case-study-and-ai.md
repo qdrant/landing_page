@@ -71,7 +71,7 @@ By using [Qdrant Cloud](https://qdrant.tech/cloud/), \&AI avoided the need to ma
 
 "Patent litigation has huge stakes, one result could influence a billion-dollar case," said Turner. "Accuracy is the top priority, and Qdrant let us optimize for that without compromising on cost or performance."
 
-Qdrant’s support for [payload filters](https://qdrant.tech/documentation/concepts/filtering/), [multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/), and quantization let \&AI optimize deeply. Their AI patent agent, Andy, uses natural language to guide attorneys through patent analysis tasks, drastically cutting time-to-result.
+Qdrant’s support for [payload filters](https://qdrant.tech/documentation/search/filtering/), [multitenancy](https://qdrant.tech/documentation/manage-data/multitenancy/), and quantization let \&AI optimize deeply. Their AI patent agent, Andy, uses natural language to guide attorneys through patent analysis tasks, drastically cutting time-to-result.
 
 *"With Qdrant, we scaled to a billion vectors and still respond in sub-second latency. That lets us power workflows that used to take hours in just a few minutes."*
 

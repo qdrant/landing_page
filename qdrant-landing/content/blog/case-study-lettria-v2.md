@@ -38,7 +38,7 @@ Enterprises in regulated sectors deal with extensive, complex documentation feat
 
 One component of the build was the vector database. Lettria evaluated Weaviate, Milvus, and Qdrant based on their hybrid search capability, deployment simplicity (Docker, Kubernetes), and search performance (latency, RAM usage).
 
-Ultimately, Lettria chose Qdrant. First, it had a simple Kubernetes deployment, superior latency and lower memory footprint in competitive benchmarks. Additionally, there were unique features, such as the grouping API and detailed [payload indexing](https://qdrant.tech/documentation/concepts/payload/), that made Qdrant stand out. 
+Ultimately, Lettria chose Qdrant. First, it had a simple Kubernetes deployment, superior latency and lower memory footprint in competitive benchmarks. Additionally, there were unique features, such as the grouping API and detailed [payload indexing](https://qdrant.tech/documentation/manage-data/payload/), that made Qdrant stand out. 
 
 ## Building the document understanding and extraction pipeline
 
@@ -288,7 +288,7 @@ Note that they duplicate the english tags for string properties as they are cons
 
 #### Filtering
 
-based on a filter definition. Lettria flattens properties on Neo4J so that they can use similar filters. The nested structure ([more on that here](https://qdrant.tech/documentation/concepts/filtering/#nested-key)) {"foo": { "bar": "qux" }} is kept in Qdrant and dot separated in NeoJ: foo.bar=qux so that they can perform match queries with similar keys from Qdrant. This introduces some complexity as they need to be careful in the handling of url and other 'dot rich' values in properties.
+based on a filter definition. Lettria flattens properties on Neo4J so that they can use similar filters. The nested structure ([more on that here](https://qdrant.tech/documentation/search/filtering/#nested-key)) {"foo": { "bar": "qux" }} is kept in Qdrant and dot separated in NeoJ: foo.bar=qux so that they can perform match queries with similar keys from Qdrant. This introduces some complexity as they need to be careful in the handling of url and other 'dot rich' values in properties.
 
 If they want to filter based on the onto:surface value, the same keys are used in Qdrant and Neo4J:
 

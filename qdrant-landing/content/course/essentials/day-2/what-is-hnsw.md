@@ -119,7 +119,7 @@ accurate_search = SearchParams(hnsw_ef=256) # Higher recall, slower
 
 ### Memory & Indexing Behavior
 
-Some vectors can remain unindexed depending on [optimizer](/documentation/concepts/optimizer.md) settings e.g. when the unindexed part stays below the `indexing_threshold` (kB).
+Some vectors can remain unindexed depending on [optimizer](/documentation/operations/optimizer/) settings e.g. when the unindexed part stays below the `indexing_threshold` (kB).
 
 Small collections or low-dimensional vectors may not trigger HNSW indexing at all. In such cases, full-scan search (brute force) is used instead until indexing becomes beneficial
 
@@ -270,12 +270,12 @@ performance = benchmark_search_performance(collection_name, test_queries, ef_val
 
 ### Inspecting Performance and Index Use
 
-Use [`get_collection`](/api-reference/collections/get-collection) to inspect your collection. It returns current statistics and configuration of the collection like `points_count`, `indexed_vectors_count` or `hnsw_config`. It also lists `payload_schema` for payload indexes you created.
+Use [`get_collection`](https://api.qdrant.tech/api-reference/collections/get-collection) to inspect your collection. It returns current statistics and configuration of the collection like `points_count`, `indexed_vectors_count` or `hnsw_config`. It also lists `payload_schema` for payload indexes you created.
 
 To see whether your data is actually indexed, you need to check two things: the number of indexed vectors and the collection's status. If `indexed_vectors_count` is low, indexing may not have completed. More importantly, you should check the collection `status`. A `YELLOW` status means optimization (indexing) is still in progress, while a `GREEN` status confirms it is complete and ready for optimal performance.
 
 If queries feel slow check:
-- whether filter fields have [payload indexes](/documentation/concepts/indexing/#payload-index).
+- whether filter fields have [payload indexes](/documentation/manage-data/indexing/#payload-index).
 - if the payload indexes have been set before building the HNSW graph (HNSW graph building begins when you switch from `m = 0` to `m > 0`)
 - if `hnsw_config.full_scan_threshold` is too high.
 
@@ -336,6 +336,6 @@ For very tight RAM budgets consider these solutions:
 
 Now you understand how HNSW makes vector search fast and scalable. Next we'll combine fast search with complex filters using Qdrant’s filter‑aware HNSW.
 
-Learn more: [HNSW in Qdrant Documentation](/documentation/concepts/indexing/#vector-index) 
+Learn more: [HNSW in Qdrant Documentation](/documentation/manage-data/indexing/#vector-index) 
 
 Ready to see how HNSW handles real-world filtering scenarios? Let's continue!

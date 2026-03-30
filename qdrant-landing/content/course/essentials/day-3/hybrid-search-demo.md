@@ -388,7 +388,7 @@ for query in queries:
 4. **Test on your data**: Apply these techniques to domain-specific datasets
 
 **Additional resources:**
-- [Qdrant Documentation: Hybrid Search](/documentation/concepts/hybrid-queries/) - Complete technical reference
-- [Universal Query API Guide](/documentation/concepts/search/#search-api) - Advanced usage patterns
+- [Qdrant Documentation: Hybrid Search](/documentation/search/hybrid-queries/) - Complete technical reference
+- [Universal Query API Guide](/documentation/search/search/#search-api) - Advanced usage patterns
 
 **Ready for the next challenge?** You've mastered hybrid search fundamentals. These same techniques scale to millions of documents and power production search systems! 

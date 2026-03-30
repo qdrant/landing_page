@@ -24,9 +24,9 @@ Add the `langchain4j-qdrant` to your project dependencies.
 
 Before you use the following code sample, customize the following values for your configuration:
 
-- `YOUR_COLLECTION_NAME`: Use our [Collections](/documentation/concepts/collections/) guide to create or
+- `YOUR_COLLECTION_NAME`: Use our [Collections](/documentation/manage-data/collections/) guide to create or
   list collections.
-- `YOUR_HOST_URL`: Use the GRPC URL for your system. If you used the [Quick Start](/documentation/quick-start/) guide,
+- `YOUR_HOST_URL`: Use the GRPC URL for your system. If you used the [Quick Start](/documentation/quickstart/) guide,
   it may be http://localhost:6334. If you've deployed in the [Qdrant Cloud](/documentation/cloud/), you may have a
   longer URL such as `https://example.location.cloud.qdrant.io:6334`.
 - `YOUR_API_KEY`: Substitute the API key associated with your configuration.
@@ -38,7 +38,7 @@ EmbeddingStore<TextSegment> embeddingStore =
     QdrantEmbeddingStore.builder()
         // Ensure the collection is configured with the appropriate dimensions
         // of the embedding model.
-        // Reference https://qdrant.tech/documentation/concepts/collections/
+        // Reference: https://qdrant.tech/documentation/manage-data/collections/
         .collectionName("YOUR_COLLECTION_NAME")
         .host("YOUR_HOST_URL")
         // GRPC port of the Qdrant server

@@ -76,7 +76,7 @@ When Deutsche Telekom began searching for a scalable, high-performance vector da
 The team structured its evaluation around two key metrics:
 
 1. **Qualitative metrics**: developer experience, ease of use, memory efficiency features.  
-2. **Operational simplicity**: how well it fit into their PaaS-first approach and [multitenancy requirements](https://qdrant.tech/documentation/guides/multiple-partitions/).
+2. **Operational simplicity**: how well it fit into their PaaS-first approach and [multitenancy requirements](https://qdrant.tech/documentation/manage-data/multitenancy/).
 
 Deutsche Telekom's engineers also cited several standout features that made Qdrant the right fit:
 

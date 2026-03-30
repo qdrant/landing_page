@@ -93,7 +93,7 @@ developing business logic.
 Aleph Alpha embeddings are high dimensional vectors by default, with a dimensionality of `5120`. However, a pretty 
 unique feature of that model is that they might be compressed to a size of `128`, with a small drop in accuracy 
 performance (4-6%, according to the docs). Qdrant can store even the original vectors easily, and this sounds like a 
-good idea to enable [Binary Quantization](/documentation/guides/quantization/#binary-quantization) to save space and 
+good idea to enable [Binary Quantization](/documentation/manage-data/quantization/#binary-quantization) to save space and 
 make the retrieval faster. Let's create a collection with such settings:
 
 ```python
@@ -234,7 +234,7 @@ llm = AlephAlpha(
 Then, we can glue the components together and build the search process. `RetrievalQA` is a class that takes implements
 the Question Retrieval process, with a specified retriever and Large Language Model. The instance of `Qdrant` might be
 converted into a retriever, with additional filter that will be passed to the `similarity_search` method. The filter
-is created as [in a regular Qdrant query](/documentation/concepts/filtering/), with the `roles` field set to the
+is created as [in a regular Qdrant query](/documentation/search/filtering/), with the `roles` field set to the
 user's roles.
 
 ```python

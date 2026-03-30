@@ -8,7 +8,7 @@ aliases:
 
 # Data Integrity Verification
 
-Once you've established a [baseline](/documentation/migration-verification/pre-migration-baseline/), you first need to check data integrity. Data integrity answers the question: "Did all my data arrive, and did it arrive correctly?" These are the fastest checks to run and catch the most common migration failures.
+Once you've established a [baseline](/documentation/migration-guidance/pre-migration-baseline/), you first need to check data integrity. Data integrity answers the question: "Did all my data arrive, and did it arrive correctly?" These are the fastest checks to run and catch the most common migration failures.
 
 ## 1. Vector Count Verification
 
@@ -279,4 +279,4 @@ def verify_vectors(source_vectors, qdrant_collection, client, tolerance=1e-6):
 
 ---
 
-**Next:** [Search Quality Verification](/documentation/migration-verification/search-quality/)
+**Next:** [Search Quality Verification](/documentation/migration-guidance/search-quality/)

@@ -59,7 +59,7 @@ Please keep in mind that this feature is experimental and that the interface may
 
 ### Oversampling for quantization
 
-We are introducing [oversampling](/documentation/guides/quantization/#oversampling) as a new way to help you improve the accuracy and performance of similarity search algorithms. With this method, you are able to significantly compress high-dimensional vectors in memory and then compensate the accuracy loss by re-scoring additional points with the original vectors. 
+We are introducing [oversampling](/documentation/manage-data/quantization/#oversampling) as a new way to help you improve the accuracy and performance of similarity search algorithms. With this method, you are able to significantly compress high-dimensional vectors in memory and then compensate the accuracy loss by re-scoring additional points with the original vectors. 
 
 You will experience much faster performance with quantization due to parallel disk usage when reading vectors. Much better IO means that you can keep quantized vectors in RAM, so the pre-selection will be even faster. Finally, once pre-selection is done, you can use parallel IO to retrieve original vectors, which is significantly faster than traversing HNSW on slow disks.
 
@@ -180,7 +180,7 @@ client.search_groups(
 
 We are excited to announce a more user-friendly way to organize and work with your collections inside of Qdrant. Our dashboard's design is simple, but very intuitive and easy to access.
 
-Try it out now! If you have Docker running, you can [quickstart Qdrant](/documentation/quick-start/) and access the Dashboard locally from [http://localhost:6333/dashboard](http://localhost:6333/dashboard). You should see this simple access point to Qdrant:
+Try it out now! If you have Docker running, you can [quickstart Qdrant](/documentation/quickstart/) and access the Dashboard locally from [http://localhost:6333/dashboard](http://localhost:6333/dashboard). You should see this simple access point to Qdrant:
 
 ![Qdrant Web UI](/articles_data/qdrant-1.3.x/web-ui.png)
 

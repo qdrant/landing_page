@@ -57,7 +57,7 @@ This flexibility with weights allows users to rapidly iterate, experiment, and i
 
 **SuperLinked Framework Setup:** Once you [**setup the Superlinked server**](https://github.com/superlinked/superlinked-recipes/tree/main/projects/hotel-search), most of the prototype work is done right out of the [**sample notebook**](https://github.com/superlinked/superlinked-recipes/blob/main/projects/hotel-search/notebooks/superlinked-queries.ipynb). Once ready, you can host from a GitHub repository and deploy via Actions. 
 
-**Qdrant Vector Database:** The easiest way to store vectors is to [**create a free Qdrant Cloud cluster**](https://cloud.qdrant.io/login). We have simple docs that show you how to [**grab the API key**](/documentation/quickstart-cloud/) and upsert your new vectors and run some basic searches. For this demo, we have deployed a live Qdrant Cloud cluster.
+**Qdrant Vector Database:** The easiest way to store vectors is to [**create a free Qdrant Cloud cluster**](https://cloud.qdrant.io/login). We have simple docs that show you how to [**grab the API key**](/documentation/cloud-quickstart/) and upsert your new vectors and run some basic searches. For this demo, we have deployed a live Qdrant Cloud cluster.
 
 **OpenAI API Key:** For natural language queries and generating the weights you will need an OpenAI API key
 

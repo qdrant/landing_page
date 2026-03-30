@@ -397,8 +397,8 @@ from qdrant_client import QdrantClient, models
 qdrant_client = QdrantClient(":memory:") # Qdrant is running from RAM.
 ```
 
-Now, let's create a [collection](https://qdrant.tech/documentation/concepts/collections/) in which could upload our sparse SPLADE++ embeddings. \
-For that, we will use the [sparse vectors](https://qdrant.tech/documentation/concepts/vectors/#sparse-vectors) representation supported in Qdrant.
+Now, let's create a [collection](https://qdrant.tech/documentation/manage-data/collections/) in which could upload our sparse SPLADE++ embeddings. \
+For that, we will use the [sparse vectors](https://qdrant.tech/documentation/manage-data/vectors/#sparse-vectors) representation supported in Qdrant.
 
 ```python
 qdrant_client.create_collection(

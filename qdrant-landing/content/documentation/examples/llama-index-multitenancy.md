@@ -9,8 +9,8 @@ aliases:
 
 If you are building a service that serves vectors for many independent users, and you want to isolate their
 data, the best practice is to use a single collection with payload-based partitioning. This approach is 
-called **multitenancy**. Our guide on the [Separate Partitions](/documentation/guides/multiple-partitions/) describes 
-how to set it up in general, but if you use [LlamaIndex](/documentation/integrations/llama-index/) as a 
+called **multitenancy**. Our guide on the [Separate Partitions](/documentation/manage-data/multitenancy/) describes 
+how to set it up in general, but if you use [LlamaIndex](/documentation/frameworks/llama-index/) as a 
 backend, you may prefer reading a more specific instruction. So here it is!
 
 ## Prerequisites
@@ -147,7 +147,7 @@ for document in documents:
 Our documents have been split into nodes, encoded using the embedding model, and stored in the vector 
 store. However, we don't want to allow our users to search for all the documents in the collection,
 but only for the documents that belong to a library they are interested in. For that reason, we need
-to set up the Qdrant [payload index](/documentation/concepts/indexing/#payload-index), so the search 
+to set up the Qdrant [payload index](/documentation/manage-data/indexing/#payload-index), so the search 
 is more efficient. 
 
 ```python
@@ -162,7 +162,7 @@ client.create_payload_index(
 
 The payload index is not the only thing we want to change. Since none of the search
 queries will be executed on the whole collection, we can also change its configuration, so the HNSW 
-graph is not built globally. This is also done due to [performance reasons](/documentation/guides/multiple-partitions/#calibrate-performance).
+graph is not built globally. This is also done due to [performance reasons](/documentation/manage-data/multitenancy/#calibrate-performance).
 **You should not be changing these parameters, if you know there will be some global search operations
 done on the collection.**
 

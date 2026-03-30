@@ -16,7 +16,7 @@ features:
   description: Avoid RAM overhead, slow inserts, and wasted compute by effectively using multivector representations.
   link:
     text: Read about Multivector Support
-    url: /documentation/advanced-tutorials/using-multivector-representations/
+    url: /documentation/tutorials-search-engineering/using-multivector-representations/
 - id: 2
   icon:
     src: /icons/outline/multitenancy-blue.svg

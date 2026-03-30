@@ -94,7 +94,7 @@ This architecture enables various enterprise use cases:
 - [Unstructured Qdrant Destination](https://docs.unstructured.io/ui/destinations/qdrant):  
   Official Unstructured documentation for sending processed data to Qdrant. Learn about Qdrant Cloud integration, collection setup, and workflow configuration.
 
-- [Qdrant & Unstructured Integration Guide](/documentation/frameworks/unstructured/):  
+- [Qdrant & Unstructured Integration Guide](/documentation/data-management/unstructured/):  
   Official Qdrant documentation for Unstructured.io integration, covering setup and best practices for document processing pipelines.
 
 ⭐ **Show your support!** Give Unstructured a star on their GitHub repository: [github.com/Unstructured-IO/unstructured](https://github.com/Unstructured-IO/unstructured)

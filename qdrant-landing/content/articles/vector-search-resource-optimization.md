@@ -32,12 +32,12 @@ Let's take a look at some common goals and optimization strategies:
 
 | Intended Result                | Optimization Strategy        |
 |--------------------------------|------------------------------|
-| [**High Search Precision + Low Memory Expenditure**](/documentation/guides/optimize/#1-high-speed-search-with-low-memory-usage)    | [**On-Disk Indexing**](/documentation/guides/optimize/#1-high-speed-search-with-low-memory-usage)             |
-| [**Low Memory Expenditure + Fast Search Speed**](/documentation/guides/quantization/)        | [**Quantization**](/documentation/guides/quantization/)                 |
-| [**High Search Precision + Fast Search Speed**](/documentation/guides/optimize/#3-high-precision-with-high-speed-search)    | [**RAM Storage + Quantization**](/documentation/guides/optimize/#3-high-precision-with-high-speed-search)   |
-| [**Balance Latency vs Throughput**](/documentation/guides/optimize/#balancing-latency-and-throughput)         | [**Segment Configuration**](/documentation/guides/optimize/#balancing-latency-and-throughput)        |
+| [**High Search Precision + Low Memory Expenditure**](/documentation/operations/optimize/#1-high-speed-search-with-low-memory-usage)    | [**On-Disk Indexing**](/documentation/operations/optimize/#1-high-speed-search-with-low-memory-usage)             |
+| [**Low Memory Expenditure + Fast Search Speed**](/documentation/manage-data/quantization/)        | [**Quantization**](/documentation/manage-data/quantization/)                 |
+| [**High Search Precision + Fast Search Speed**](/documentation/operations/optimize/#3-high-precision-with-high-speed-search)    | [**RAM Storage + Quantization**](/documentation/operations/optimize/#3-high-precision-with-high-speed-search)   |
+| [**Balance Latency vs Throughput**](/documentation/operations/optimize/#balancing-latency-and-throughput)         | [**Segment Configuration**](/documentation/operations/optimize/#balancing-latency-and-throughput)        |
 
-After this article, check out the code samples in our docs on [**Qdrant’s Optimization Methods**](/documentation/guides/optimize/).
+After this article, check out the code samples in our docs on [**Qdrant’s Optimization Methods**](/documentation/operations/optimize/).
 
 ---
 
@@ -47,7 +47,7 @@ After this article, check out the code samples in our docs on [**Qdrant’s Opti
 
 A vector index is the central location where Qdrant calculates vector similarity. It is the backbone of your search process, retrieving relevant results from vast amounts of data. 
 
-Qdrant uses the [**HNSW (Hierarchical Navigable Small World Graph) algorithm**](/documentation/concepts/indexing/#vector-index) as its dense vector index, which is both powerful and scalable.
+Qdrant uses the [**HNSW (Hierarchical Navigable Small World Graph) algorithm**](/documentation/manage-data/indexing/#vector-index) as its dense vector index, which is both powerful and scalable.
 
 **Figure 2:** A sample HNSW vector index with three layers. Follow the blue arrow on the top layer to see how a query travels throughout the database index. The closest result is on the bottom level, nearest to the gray query point.
 
@@ -57,7 +57,7 @@ Qdrant uses the [**HNSW (Hierarchical Navigable Small World Graph) algorithm**](
 
 Working with massive datasets that contain billions of vectors demands significant resources—and those resources come with a price. While Qdrant provides reasonable defaults, tailoring them to your specific use case can unlock optimal performance. Here’s what you need to know.
 
-The following parameters give you the flexibility to fine-tune Qdrant’s performance for your specific workload. You can modify them directly in Qdrant's [**configuration**](https://qdrant.tech/documentation/guides/configuration/) files or at the collection and named vector levels for more granular control.
+The following parameters give you the flexibility to fine-tune Qdrant’s performance for your specific workload. You can modify them directly in Qdrant's [**configuration**](https://qdrant.tech/documentation/operations/configuration/) files or at the collection and named vector levels for more granular control.
 
 **Figure 3:** A description of three key HNSW parameters.
 
@@ -101,7 +101,7 @@ client.query_points(
 )
 ```
 ---
-These are just the basics of HNSW. Learn More about [**Indexing**](/documentation/concepts/indexing/).
+These are just the basics of HNSW. Learn More about [**Indexing**](/documentation/manage-data/indexing/).
 
 ---
 
@@ -110,7 +110,7 @@ These are just the basics of HNSW. Learn More about [**Indexing**](/documentatio
 
 Efficient data compression is a cornerstone of resource optimization in vector databases. By reducing memory usage, you can achieve faster query performance without sacrificing too much accuracy.
 
-One powerful technique is [**quantization**](/documentation/guides/quantization/), which transforms high-dimensional vectors into compact representations while preserving relative similarity. Let’s explore the quantization options available in Qdrant.
+One powerful technique is [**quantization**](/documentation/manage-data/quantization/), which transforms high-dimensional vectors into compact representations while preserving relative similarity. Let’s explore the quantization options available in Qdrant.
 
 #### Scalar Quantization
 
@@ -156,7 +156,7 @@ When working with Qdrant, you can fine-tune the quantization configuration to op
 Adjust these settings to strike the right balance between precision and efficiency for your specific workload.
 
 ---
-Learn More about [**Scalar Quantization**](/documentation/guides/quantization/)
+Learn More about [**Scalar Quantization**](/documentation/manage-data/quantization/)
 
 ---
 
@@ -194,7 +194,7 @@ client.create_collection(
 > By default, quantized vectors load like original vectors unless you set `always_ram` to `True` for instant access and faster queries.
 
 ---
-Learn more about [**Binary Quantization**](/documentation/guides/quantization/)
+Learn more about [**Binary Quantization**](/documentation/manage-data/quantization/)
 
 ---
 
@@ -259,7 +259,7 @@ client.upsert(
 To ensure proper data isolation in a multitenant environment, you can assign a unique identifier, such as a **group_id**, to each vector. This approach ensures that each user's data remains segregated, allowing users to access only their own data. You can further enhance this setup by applying filters during queries to restrict access to the relevant data.
 
 ---
-Learn More about [**Multitenancy**](/documentation/guides/multiple-partitions/)
+Learn More about [**Multitenancy**](/documentation/manage-data/multitenancy/)
 
 ---
 
@@ -325,7 +325,7 @@ Here’s how to choose the shard_number:
 | **Plan for Scalability**        | Start with at least **2 shards per node** to allow room for future growth.                                        |
 | **Future-Proofing**             | Starting with around **12 shards** is a good rule of thumb. This setup allows your system to scale seamlessly from 1 to 12 nodes without requiring re-sharding. |
 
-Learn more about [**Sharding in Distributed Deployment**](/documentation/guides/distributed_deployment/)
+Learn more about [**Sharding in Distributed Deployment**](/documentation/operations/distributed_deployment/)
 
 ---
 
@@ -358,10 +358,10 @@ results = client.search(
 
 ![filterable-vector-index](/articles_data/vector-search-resource-optimization/filterable-vector-index.png)
 
-[**Filterable vector index**](/documentation/concepts/indexing/): This technique builds additional links **(orange)** between leftover data points. The filtered points which stay behind are now traversible once again. Qdrant uses special category-based methods to connect these data points.
+[**Filterable vector index**](/documentation/manage-data/indexing/): This technique builds additional links **(orange)** between leftover data points. The filtered points which stay behind are now traversible once again. Qdrant uses special category-based methods to connect these data points.
 
 ---
-Read more about [**Filtering Docs**](/documentation/concepts/filtering/) and check out the [**Complete Filtering Guide**](/articles/vector-search-filtering/).
+Read more about [**Filtering Docs**](/documentation/search/filtering/) and check out the [**Complete Filtering Guide**](/articles/vector-search-filtering/).
 
 ---
 #### Batch Processing
@@ -417,7 +417,7 @@ ___
 
 #### Hybrid Search
 
-Hybrid search combines **keyword filtering** with **vector similarity search**, enabling faster and more precise results. Keywords help narrow down the dataset quickly, while vector similarity ensures semantic accuracy. This search method combines [**dense and sparse vectors**](/documentation/concepts/vectors/).
+Hybrid search combines **keyword filtering** with **vector similarity search**, enabling faster and more precise results. Keywords help narrow down the dataset quickly, while vector similarity ensures semantic accuracy. This search method combines [**dense and sparse vectors**](/documentation/manage-data/vectors/).
 
 Hybrid search in Qdrant uses both fusion and reranking. The former is about combining the results from different search methods, based solely on the scores returned by each method. That usually involves some normalization, as the scores returned by different methods might be in different ranges. 
 
@@ -428,7 +428,7 @@ Hybrid search in Qdrant uses both fusion and reranking. The former is about comb
 After that, there is a formula that takes the relevancy measures and calculates the final score that we use later on to reorder the documents. Qdrant has built-in support for the Reciprocal Rank Fusion method, which is the de facto standard in the field.
 
 ---
-Learn more about [**Hybrid Search**](/articles/hybrid-search/) and read out [**Hybrid Queries docs**](/documentation/concepts/hybrid-queries/).
+Learn more about [**Hybrid Search**](/articles/hybrid-search/) and read out [**Hybrid Queries docs**](/documentation/search/hybrid-queries/).
 
 ---
 
@@ -494,7 +494,7 @@ client.query_points(
 )
 ```
 ___
-Learn more about [**Reranking**](/documentation/search-precision/reranking-hybrid-search/#rerank).
+Learn more about [**Reranking**](/documentation/tutorials-search-engineering/reranking-hybrid-search/#rerank).
 
 ---
 
@@ -584,7 +584,7 @@ Here are some important metrics to monitor:
 | grpc_responses_avg_duration_seconds |  | Average response duration in gRPC API |
 | rest_responses_fail_total |  | Total number of failed responses (REST) |
 
-Read more about [**Qdrant Open Source Monitoring**](/documentation/guides/monitoring/) and [**Qdrant Cloud Monitoring**](/documentation/cloud/cluster-monitoring/) for managed clusters.
+Read more about [**Qdrant Open Source Monitoring**](/documentation/operations/monitoring/) and [**Qdrant Cloud Monitoring**](/documentation/cloud/cluster-monitoring/) for managed clusters.
 _________________________________________________________________________
 
 ## Recap: When Should You Optimize?

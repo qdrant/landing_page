@@ -175,23 +175,23 @@ POST /collections/{collection_name}/points/query
 
 You can tweak parameters like `target`, `scale`, and `midpoint` to shape how quickly the score decays over distance. This is extremely useful for local search scenarios, where location is a major factor but not the only factor.
 
-> This is a very powerful feature that allows for extensive customization. Read more about this feature in the [**Hybrid Queries Documentation**](/documentation/concepts/hybrid-queries/)
+> This is a very powerful feature that allows for extensive customization. Read more about this feature in the [**Hybrid Queries Documentation**](/documentation/search/hybrid-queries/)
 
 ## Incremental HNSW Indexing 
 ![optimizations](/blog/qdrant-1.14.x/optimizations.jpg)
 
-Rebuilding an entire [**HNSW graph**](/documentation/concepts/indexing/#vector-index) every time new data is added can be computationally expensive. With this release, Qdrant now supports incremental HNSW indexing—an approach that extends existing HNSW graphs rather than recreating them from scratch.
+Rebuilding an entire [**HNSW graph**](/documentation/manage-data/indexing/#vector-index) every time new data is added can be computationally expensive. With this release, Qdrant now supports incremental HNSW indexing—an approach that extends existing HNSW graphs rather than recreating them from scratch.
 
 > This feature is designed to make indexing faster and more efficient when you’re only adding new points. It reuses the existing structure of the HNSW graph and appends the new data directly onto it. 
 
 That means much less time spent building and more time searching. Although this initial implementation currently only support upserts, it lays the groundwork for a more dynamic and performance-friendly indexing process. Especially for collections with frequent updates to payload values or growing datasets, incremental HNSW is a big step forward.
 
-> Note that deletes and updates will still trigger a full rebuild. Check out the [**indexing documentation**](/documentation/concepts/indexing/) to learn more. 
+> Note that deletes and updates will still trigger a full rebuild. Check out the [**indexing documentation**](/documentation/manage-data/indexing/) to learn more. 
 
 ## Faster Batch Queries
 ![reranking](/blog/qdrant-1.14.x/gridstore.jpg)
 
-In this release, Qdrant introduces a major performance boost for [**batch query operations**](/documentation/concepts/search/#batch-search-api). Until now, the query batch API used a single thread per segment, which worked well—unless you had just one segment and a large batch of queries in a single request. In such cases, everything was processed on a single thread, significantly slowing things down. This scenario was especially common when using our [**Python client**](https://github.com/qdrant/qdrant-client), which is single-threaded by default.
+In this release, Qdrant introduces a major performance boost for [**batch query operations**](/documentation/search/search/#batch-search-api). Until now, the query batch API used a single thread per segment, which worked well—unless you had just one segment and a large batch of queries in a single request. In such cases, everything was processed on a single thread, significantly slowing things down. This scenario was especially common when using our [**Python client**](https://github.com/qdrant/qdrant-client), which is single-threaded by default.
 
 The new optimization changes that. Large query batches are now split into chunks, and each chunk is processed on a separate thread. 
 
@@ -220,7 +220,7 @@ We ran the same test of large queries for the following configurations:
 
 As you can see, the improvement is **most significant (57%) in single-segment configurations** where parallelization was previously limited. Even in already-optimized multi-shard setups, we still see good gains of 12-32%.
 
-> For more on batch queries, check out the [**Search documentation**](/documentation/concepts/search/#batch-search-api).
+> For more on batch queries, check out the [**Search documentation**](/documentation/search/search/#batch-search-api).
 
 ## Improved Resource Use During Segment Optimization
 ![segment-optimization](/blog/qdrant-1.14.x/segment-optimization.jpg)
@@ -237,7 +237,7 @@ It also gives you **predictable performance**, as there are fewer sudden spikes 
 
 In our experiment, **we indexed 400 million 512-dimensional vectors**. The previous version of Qdrant took around 40 hours on an 8-core machine, while the new version with this change completed the task in just 28 hours.
 
-> **Tutorial:** If you want to work with a large number of vectors, we can show you how. [**Learn how to upload and search large collections efficiently.**](/documentation/database-tutorials/large-scale-search/)
+> **Tutorial:** If you want to work with a large number of vectors, we can show you how. [**Learn how to upload and search large collections efficiently.**](/documentation/tutorials-operations/large-scale-search/)
 
 
 ## Optimized Memory Usage in Immutable Segments
