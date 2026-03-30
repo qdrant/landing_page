@@ -40,7 +40,7 @@ and build your applications based on semantic search. **Please let us know if yo
 a specific dataset!**
 
 If you are not familiar with [Hugging Face datasets](https://huggingface.co/docs/datasets/index),
-or would like to know how to combine it with Qdrant, please refer to the [tutorial](/documentation/tutorials/huggingface-datasets/).
+or would like to know how to combine it with Qdrant, please refer to the [tutorial](/documentation/tutorials-basics/huggingface-datasets/).
 
 ## Arxiv.org
 

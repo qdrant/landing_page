@@ -238,4 +238,4 @@ Store these alongside your migration scripts. You'll reference them in every sub
 
 ---
 
-**Next:** [Data Integrity Verification](/documentation/migration-guidance/data-integrity/)
+**Next:** [Data Integrity Verification](/documentation/migration-guidancey/data-integrity/)

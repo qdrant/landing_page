@@ -54,7 +54,7 @@ Everything you need to deploy, configure, and run Qdrant in production. These pa
 
 ## Running with GPU
 
-[Running with GPU](/documentation/operations/running-with-GPU/) describes how to enable GPU-accelerated indexing using dedicated Qdrant Docker images for NVIDIA and AMD GPUs.
+[Running with GPU](/documentation/operations/running-with-gpu/) describes how to enable GPU-accelerated indexing using dedicated Qdrant Docker images for NVIDIA and AMD GPUs.
 
 ## Optimize Performance
 

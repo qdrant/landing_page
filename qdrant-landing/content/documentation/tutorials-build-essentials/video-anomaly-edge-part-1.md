@@ -2,7 +2,6 @@
 title: "Video Anomaly Detection Part 1: Architecture, Twelve Labs, and NVIDIA VSS"
 weight: 40
 partition: ecosystem
-social_preview_image: /articles_data/video-anomaly-edge/preview/social_preview.jpg
 aliases:
   - /articles/video-anomaly-edge/
   - /articles/video-anomaly-edge-part-1/

@@ -50,7 +50,7 @@ content:
             - "Advanced: Production optimization"
       
       link:
-        url: /course/essentials
+        url: /courses/essentials/
         text: View Courses
     - id: 3
       image:
@@ -66,7 +66,7 @@ content:
             - "Develop and Implement"
       
       link:
-        url: /documentation/tutorials-lp-overview
+        url: /documentation/tutorials-lp-overview/
         text: Explore Tutorials
   - partial: documentation/sections/cards-section
     title: Quickstart
@@ -82,7 +82,7 @@ content:
       description: Start with our beginner-friendly exercises on vector embeddings and basic concepts.
       link:
         text: Start Learning
-        url: /documentation/tutorials-basics
+        url: /documentation/tutorials-basics/
     - id: 2
       icon:
         src: /icons/outline/hacker-purple.svg
