@@ -9,7 +9,7 @@ aliases:
 
 ## Scale Horizontally with Replicas
 
-Qdrant can be deployed in a [distributed configuration](/documentation/operations/distributed_deployment). In distributed mode, multiple instances of Qdrant, called peers, operate as a single entity, called a cluster. Data is stored in [collections](/documentation/manage-data/collections/), which are divided into [shards](/documentation/operations/distributed_deployment/#sharding) that are distributed across the peers. Each shard can have multiple [replicas](/documentation/operations/distributed_deployment/#replication) for redundancy and load balancing. Because every replica of the same shard contains the same data, read requests can be distributed across replicas, reducing latency and increasing throughput.
+Qdrant can be deployed in a [distributed configuration](/documentation/operations/distributed_deployment/). In distributed mode, multiple instances of Qdrant, called peers, operate as a single entity, called a cluster. Data is stored in [collections](/documentation/manage-data/collections/), which are divided into [shards](/documentation/operations/distributed_deployment/#sharding) that are distributed across the peers. Each shard can have multiple [replicas](/documentation/operations/distributed_deployment/#replication) for redundancy and load balancing. Because every replica of the same shard contains the same data, read requests can be distributed across replicas, reducing latency and increasing throughput.
 
 For example, a collection with three shards and a replication factor of two would have six total replicas (two replicas for each of the three shards). On a cluster with three peers, these replicas can be evenly distributed across the peers, with each peer hosting two replicas.
 

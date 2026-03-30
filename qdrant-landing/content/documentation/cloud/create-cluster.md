@@ -52,7 +52,7 @@ On top of the Free cluster features, Standard clusters offer:
 
 You have a broad choice of regions on AWS, Azure and Google Cloud.
 
-For payment information see [**Pricing and Payments**](/documentation/cloud/pricing-payments/).
+For payment information see [**Pricing and Payments**](/documentation/cloud-pricing-payments/).
 
 ## Create a Cluster
 

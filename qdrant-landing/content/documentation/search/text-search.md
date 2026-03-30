@@ -15,7 +15,7 @@ Qdrant is a vector search engine, making it a great tool for [semantic search](#
 Semantic search is a search technique that focuses on the meaning of the text rather than just matching on keywords. This is achieved by converting text into [vectors](/documentation/manage-data/vectors/) (embeddings) using machine learning models. These vectors capture the semantic meaning of the text, enabling you to find similar text even if it doesn't share exact keywords.
 
 <aside role="status">
-The examples in this guide use <a href="/documentation/inference">inference</a> to let Qdrant generate the vectors. Inference is only available on <a href="/documentation/inference/#qdrant-cloud-inference">Qdrant Cloud</a>, with the exception of the BM25 model. If you are not running on Qdrant Cloud, you can use a library like <a href="/documentation/fastembed/">FastEmbed</a> to generate vectors on the client side. When using FastEmbed, refer to the documentation, as its API may differ from that of server-side inference.
+The examples in this guide use <a href="/documentation/inference/">inference</a> to let Qdrant generate the vectors. Inference is only available on <a href="/documentation/inference/#qdrant-cloud-inference">Qdrant Cloud</a>, with the exception of the BM25 model. If you are not running on Qdrant Cloud, you can use a library like <a href="/documentation/fastembed/">FastEmbed</a> to generate vectors on the client side. When using FastEmbed, refer to the documentation, as its API may differ from that of server-side inference.
 </aside>
 
 For example, to search through a collection of books, you could use a model like the `all-MiniLM-L6-v2` sentence transformer model. First, create a collection and configure a dense vector for the book descriptions:
@@ -30,7 +30,7 @@ To find books related to "time travel", use the following query:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-description-dense/" >}}
 
-In these examples, Qdrant uses [inference](/documentation/inference) to generate vectors from the `text` provided in the request using the specified `model`. Alternatively, you can generate explicit vectors on the client side with a library like [FastEmbed](/documentation/fastembed/).
+In these examples, Qdrant uses [inference](/documentation/inference/) to generate vectors from the `text` provided in the request using the specified `model`. Alternatively, you can generate explicit vectors on the client side with a library like [FastEmbed](/documentation/fastembed/).
 
 ### Lexical Search
 
@@ -47,7 +47,7 @@ When it comes to lexical search in Qdrant, it's important to distinguish between
 
 ## Filtering
 
-Qdrant supports [filtering](/documentation/search/filtering) on a wide range of datatypes: numbers, dates, booleans, geolocations, and strings. In Qdrant, a filter is typically combined with a vector query. The vector query is used to score and rank the results, while the filter is used to narrow down the results based on specific criteria.
+Qdrant supports [filtering](/documentation/search/filtering/) on a wide range of datatypes: numbers, dates, booleans, geolocations, and strings. In Qdrant, a filter is typically combined with a vector query. The vector query is used to score and rank the results, while the filter is used to narrow down the results based on specific criteria.
 
 ### Text and Keyword Strings
 
@@ -169,7 +169,7 @@ The response contains three separate result sets. You can return the first non-e
 
 Full-text search is similar to full-text filtering, with the key difference being that full-text queries are used for ranking. For each document that matches the search terms, Qdrant calculates a relevance score based on how well the document matches the search terms. That score is used to rank the results. Qdrant supports several full-text search scoring algorithms.
 
-Full-text search in Qdrant is powered by [sparse vectors](/articles/sparse-vectors/). Why sparse vectors? Because they are a flexible way to represent data for search purposes, from classic BM25-based search, to semantic search, and [collaborative filtering](/documentation/advanced-tutorials/collaborative-filtering/). Each term in the vocabulary corresponds to one or more dimension of the sparse vector, and the values in those dimensions represent the weight of that term in the document. Weights can be calculated using document statistics for use with the [BM25](#bm25) ranking algorithm, or you can use transformer-based models that can capture semantic meaning, like [SPLADE++](#splade), and [miniCOIL](#minicoil).
+Full-text search in Qdrant is powered by [sparse vectors](/articles/sparse-vectors/). Why sparse vectors? Because they are a flexible way to represent data for search purposes, from classic BM25-based search, to semantic search, and [collaborative filtering](/documentation/tutorials-search-engineering/collaborative-filtering/). Each term in the vocabulary corresponds to one or more dimension of the sparse vector, and the values in those dimensions represent the weight of that term in the document. Weights can be calculated using document statistics for use with the [BM25](#bm25) ranking algorithm, or you can use transformer-based models that can capture semantic meaning, like [SPLADE++](#splade), and [miniCOIL](#minicoil).
 
 ### BM25
 
@@ -295,7 +295,7 @@ You are not limited to prefetching just two queries. Examples include, but are n
 
 - Fuse multiple lexical queries across the `title`, `author`, and `isbn` fields alongside a semantic query to achieve a comprehensive search across all data.
 - Prefetch using sparse or dense vectors and/or filters, and [rescore with dense vectors](/documentation/search/hybrid-queries/#multi-stage-queries).
-- [Prefetch with dense and sparse vectors, and rerank using late interaction embeddings](/documentation/advanced-tutorials/reranking-hybrid-search/?q=late+interaction).
+- [Prefetch with dense and sparse vectors, and rerank using late interaction embeddings](/documentation/tutorials-search-engineering/reranking-hybrid-search/?q=late+interaction).
 
 ## Conclusion
 

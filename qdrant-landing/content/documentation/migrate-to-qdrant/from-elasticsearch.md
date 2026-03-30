@@ -75,9 +75,9 @@ Qdrant supports native hybrid search with [Reciprocal Rank Fusion (RRF)](/docume
 ## Gotchas
 
 - **Nested documents:** Elasticsearch nested documents need to be flattened or restructured for Qdrant's payload model.
-- **Score normalization:** Elasticsearch `_score` values are not comparable to Qdrant scores. Use rank-based metrics (recall@k, Spearman correlation) rather than raw score comparison when [verifying your migration](/documentation/migration-verification/).
+- **Score normalization:** Elasticsearch `_score` values are not comparable to Qdrant scores. Use rank-based metrics (recall@k, Spearman correlation) rather than raw score comparison when [verifying your migration](/documentation/migration-guidance/).
 - **BM25 is not migrated:** The migration tool transfers vectors and document fields. If you relied on Elasticsearch's BM25 scoring, you'll need to set up sparse vectors in Qdrant separately.
 
 ## Next Steps
 
-After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-verification/).
+After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-guidance/).

@@ -27,40 +27,40 @@ Learn about the Qdrant ecosystem and integration strategies.
 - icon: /courses/course-integrations/haystack.png
   title: Haystack
   content: Build end-to-end agentic pipelines with Qdrant
-  link: haystack/
+  link: /course/essentials/day-7/haystack/
 
 - icon: /courses/course-integrations/tensorlake.svg
   title: Tensorlake
   content: Build scalable data lakes with vector capabilities
-  link: tensorlake/
+  link: /course/essentials/day-7/tensorlake/
 
 - icon: /courses/course-integrations/llamaindex.svg
   title: LlamaIndex
   content: Build agentic workflows for complex enterprise documents
-  link: llamaindex/
+  link: /course/essentials/day-7/llamaindex/
 
 - icon: /courses/course-integrations/unstructured.svg
   title: Unstructured.io
   content: Process and vectorize documents from any format
-  link: unstructured/
+  link: /course/essentials/day-7/unstructured/
 
 - icon: /courses/course-integrations/quotient.svg
   title: Quotient
   content: Advanced analytics with vector data
-  link: quotient/
+  link: /course/essentials/day-7/quotient/
 
 - icon: /courses/course-integrations/superlinked.svg
   title: Superlinked
   content: Advanced feature engineering for vectors
-  link: superlinked/
+  link: /course/essentials/day-7/superlinked/
 
 - icon: /courses/course-integrations/camel-ai.svg
   title: Camel AI
   content: Agentic RAG with multi-agent systems
-  link: camel/
+  link: /course/essentials/day-7/camel/
 
 - icon: /courses/course-integrations/jina.svg
   title: Jina AI
   content: Advanced multimodal embeddings with Qdrant
-  link: jina/
+  link: /course/essentials/day-7/jina/
 {{< /cards-list >}}

@@ -10,7 +10,7 @@ aliases:
 If you are building a service that serves vectors for many independent users, and you want to isolate their
 data, the best practice is to use a single collection with payload-based partitioning. This approach is 
 called **multitenancy**. Our guide on the [Separate Partitions](/documentation/manage-data/multitenancy/) describes 
-how to set it up in general, but if you use [LlamaIndex](/documentation/integrations/llama-index/) as a 
+how to set it up in general, but if you use [LlamaIndex](/documentation/frameworks/llama-index/) as a 
 backend, you may prefer reading a more specific instruction. So here it is!
 
 ## Prerequisites

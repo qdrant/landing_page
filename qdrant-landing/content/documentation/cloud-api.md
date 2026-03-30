@@ -44,4 +44,4 @@ For samples on how to use the API, with a tool like grpcurl, curl or any of the 
 
 ## Terraform Provider
 
-Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud resources. [Learn more](/documentation/infrastructure/terraform/).
+Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud resources. [Learn more](/documentation/cloud-tools/terraform/).

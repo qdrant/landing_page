@@ -119,7 +119,7 @@ accurate_search = SearchParams(hnsw_ef=256) # Higher recall, slower
 
 ### Memory & Indexing Behavior
 
-Some vectors can remain unindexed depending on [optimizer](/documentation/operations/optimizer.md) settings e.g. when the unindexed part stays below the `indexing_threshold` (kB).
+Some vectors can remain unindexed depending on [optimizer](/documentation/operations/optimizer/) settings e.g. when the unindexed part stays below the `indexing_threshold` (kB).
 
 Small collections or low-dimensional vectors may not trigger HNSW indexing at all. In such cases, full-scan search (brute force) is used instead until indexing becomes beneficial
 
@@ -270,7 +270,7 @@ performance = benchmark_search_performance(collection_name, test_queries, ef_val
 
 ### Inspecting Performance and Index Use
 
-Use [`get_collection`](/api-reference/collections/get-collection) to inspect your collection. It returns current statistics and configuration of the collection like `points_count`, `indexed_vectors_count` or `hnsw_config`. It also lists `payload_schema` for payload indexes you created.
+Use [`get_collection`](https://api.qdrant.tech/api-reference/collections/get-collection) to inspect your collection. It returns current statistics and configuration of the collection like `points_count`, `indexed_vectors_count` or `hnsw_config`. It also lists `payload_schema` for payload indexes you created.
 
 To see whether your data is actually indexed, you need to check two things: the number of indexed vectors and the collection's status. If `indexed_vectors_count` is low, indexing may not have completed. More importantly, you should check the collection `status`. A `YELLOW` status means optimization (indexing) is still in progress, while a `GREEN` status confirms it is complete and ready for optimal performance.
 

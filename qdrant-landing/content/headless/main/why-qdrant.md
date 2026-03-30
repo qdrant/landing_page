@@ -31,7 +31,7 @@ featureCards:
       alt: Multivector illustration
     link:
       text: See Documentation
-      url: /documentation/advanced-tutorials/using-multivector-representations/
+      url: /documentation/tutorials-search-engineering/using-multivector-representations/
     size: small
   - id: one-stage-filtering
     title: Efficient, One-Stage Filtering

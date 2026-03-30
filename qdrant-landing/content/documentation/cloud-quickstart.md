@@ -7,7 +7,7 @@ aliases:
   - cloud-quick-start
   - cloud-quickstart
   - cloud/quickstart-cloud/
-  - /documentation/quickstart-cloud/
+  - /documentation/cloud-quickstart/
 ---
 
 # Quick Start with Qdrant Cloud
@@ -1038,4 +1038,4 @@ You've just performed semantic search on real menu item data. The query "vegetar
 
 - Explore [filtering](/documentation/search/filtering/) to combine semantic search with structured queries
 - Learn about [collections](/documentation/manage-data/collections/) and advanced configuration options
-- Check out more [examples and tutorials](/documentation/tutorials-overview/)
+- Check out more [examples and tutorials](/documentation/tutorials-lp-overview/)

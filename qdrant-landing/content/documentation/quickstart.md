@@ -602,8 +602,8 @@ You have just conducted vector search. You loaded vectors into a database and qu
 
 ## Next steps
 
-Now you know how Qdrant works. Getting started with [Qdrant Cloud](/documentation/cloud/quickstart-cloud/) is just as easy. [Create an account](https://qdrant.to/cloud) and use our SaaS completely free. We will take care of infrastructure maintenance and software updates.
+Now you know how Qdrant works. Getting started with [Qdrant Cloud](/documentation/cloud-quickstart/) is just as easy. [Create an account](https://qdrant.to/cloud) and use our SaaS completely free. We will take care of infrastructure maintenance and software updates.
 
-To move onto some more complex examples of vector search, read our [Tutorials](/documentation/tutorials/) and create your own app with the help of our [Examples](/documentation/examples/).
+To move onto some more complex examples of vector search, read our [Tutorials](/documentation/tutorials-lp-overview/) and create your own app with the help of our [Examples](/documentation/examples/).
 
 **Note:** There is another way of running Qdrant locally. If you are a Python developer, we recommend that you try Local Mode in [Qdrant Client](https://github.com/qdrant/qdrant-client), as it only takes a few moments to get setup.

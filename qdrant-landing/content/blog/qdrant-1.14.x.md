@@ -237,7 +237,7 @@ It also gives you **predictable performance**, as there are fewer sudden spikes 
 
 In our experiment, **we indexed 400 million 512-dimensional vectors**. The previous version of Qdrant took around 40 hours on an 8-core machine, while the new version with this change completed the task in just 28 hours.
 
-> **Tutorial:** If you want to work with a large number of vectors, we can show you how. [**Learn how to upload and search large collections efficiently.**](/documentation/database-tutorials/large-scale-search/)
+> **Tutorial:** If you want to work with a large number of vectors, we can show you how. [**Learn how to upload and search large collections efficiently.**](/documentation/tutorials-operations/large-scale-search/)
 
 
 ## Optimized Memory Usage in Immutable Segments

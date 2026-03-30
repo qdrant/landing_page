@@ -211,7 +211,7 @@ We have just about witnessed the tip of the iceberg in terms of what vector simi
 
 Ready to implement vector similarity in your AI applications? Explore Qdrant's vector database to enhance your data retrieval and AI capabilities. For additional resources and documentation, visit:
 
-- [Quick Start Guide](/documentation/quick-start/)
+- [Quick Start Guide](/documentation/quickstart/)
 - [Documentation](/documentation/)
 
 We are always available on our [Discord channel](https://qdrant.to/discord) to answer any questions you might have. You can also sign up for our [newsletter](/subscribe/) to stay ahead of the curve.

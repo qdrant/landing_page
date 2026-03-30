@@ -74,7 +74,7 @@ Next we’ve done a major overhaul to the “Get Started” page. Our goal is to
 ![Image of Get Started webpage](/blog/product-ui-changes/get-started-overview.jpg)
 
 **Explore Your Data or Start with Samples**  
-You’ll see immediately pertinent information to help you get the most out of Qdrant quickly, including the [Cloud Quickstart guide](https://qdrant.tech/documentation/quickstart-cloud/), and resources to help you get your data into Qdrant, or use sample data. 
+You’ll see immediately pertinent information to help you get the most out of Qdrant quickly, including the [Cloud Quickstart guide](https://qdrant.tech/documentation/cloud-quickstart/), and resources to help you get your data into Qdrant, or use sample data. 
 
 Learn about the different ways to connect to your cluster, use the Qdrant API, try out sample data, and our personal favorite, use the Qdrant Cluster UI to view your collection data and access tutorials. 
 

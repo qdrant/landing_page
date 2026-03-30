@@ -142,7 +142,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     A single collection with payload index partitioning is usually optimal compared to many small individual tenant collections.*
     
-    It is also possible to split collections across clusters, the [Qdrant Migration CLI](/documentation/database-tutorials/migration/) can help you with this.
+    It is also possible to split collections across clusters, the [Qdrant Migration CLI](/documentation/tutorials-operations/migration/) can help you with this.
     
     **Where can I learn more about this alert?**
     

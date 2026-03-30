@@ -179,7 +179,7 @@ For example, to use `insert_only` mode:
 
 {{< code-snippet path="/documentation/headless/snippets/insert-points/update-mode/" >}}
 
-`insert_only` mode is especially useful when [migrating from one embedding model to another](/documentation/database-tutorials/embedding-model-migration/), where conflicts between regular updates and background re-embedding tasks need to be resolved.
+`insert_only` mode is especially useful when [migrating from one embedding model to another](/documentation/tutorials-operations/embedding-model-migration/), where conflicts between regular updates and background re-embedding tasks need to be resolved.
 
 {{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >}}
 

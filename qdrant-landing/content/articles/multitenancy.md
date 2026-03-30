@@ -182,7 +182,7 @@ client.create_payload_index(
 
 ## Explore multitenancy and custom sharding in Qdrant for scalable solutions
 
-Qdrant is ready to support a massive-scale architecture for your machine learning project. If you want to see whether our [vector database](https://qdrant.tech/) is right for you, try the [quickstart tutorial](/documentation/quick-start/) or read our [docs and tutorials](/documentation/).
+Qdrant is ready to support a massive-scale architecture for your machine learning project. If you want to see whether our [vector database](https://qdrant.tech/) is right for you, try the [quickstart tutorial](/documentation/quickstart/) or read our [docs and tutorials](/documentation/).
 
 To spin up a free instance of Qdrant, sign up for [Qdrant Cloud](https://qdrant.to/cloud) - no strings attached.
 

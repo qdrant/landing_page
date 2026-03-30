@@ -5,7 +5,6 @@ slug: decay-functions # Change this slug to your page slug if needed
 short_description: Why's and how's of decay functions in Qdrant's relevance score boosting. # Change this
 description: Understanding decay functions for relevance score boosting. # Change this
 preview_image: /blog/decay-functions/preview/preview.jpg # Change this
-social_preview_image: /blog/decay-functions/preview/social_preview.jpg # Optional image used for link previews
 title_preview_image: /blog/decay-functions/preview/title.jpg # Optional image used for blog post title
 date: 2025-09-01T14:55:45+02:00
 author: Evgeniya Sukhodolskaya 

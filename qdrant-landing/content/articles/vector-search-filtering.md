@@ -83,7 +83,7 @@ Most people use default settings and build vector search apps that aren't proper
 
 #### Remember to run all tutorial code in Qdrant's Dashboard 
 
-The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/quickstart-cloud/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
+The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/cloud-quickstart/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
 
 ![qdrant-filtering-tutorial](/articles_data/vector-search-filtering/qdrant-filtering-tutorial.png)
 
@@ -744,7 +744,7 @@ As a conclusion to this guide, let's look at some real-life use cases where filt
 
 #### Before you go - all the code is in Qdrant's Dashboard 
 
-The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/quickstart-cloud/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
+The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/cloud-quickstart/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
 
 **It's all in your free cluster!**
 

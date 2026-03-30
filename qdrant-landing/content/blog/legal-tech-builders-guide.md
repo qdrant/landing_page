@@ -169,7 +169,7 @@ Legal datasets are growing, and so are the compute bills. From GPU acceleration 
 
 #### Deploy in private, cloud, or hybrid environments without sacrificing control
 
-No matter your stage—prototype or production—your stack will have to meet both engineering and compliance needs. Qdrant supports flexible deployment strategies, including [managed cloud](https://qdrant.tech/cloud/) and [hybrid cloud](https://qdrant.tech/hybrid-cloud/), along with open-source solutions via [Docker](https://qdrant.tech/documentation/quick-start/), enabling easy scaling and secure management of legal data.
+No matter your stage—prototype or production—your stack will have to meet both engineering and compliance needs. Qdrant supports flexible deployment strategies, including [managed cloud](https://qdrant.tech/cloud/) and [hybrid cloud](https://qdrant.tech/hybrid-cloud/), along with open-source solutions via [Docker](https://qdrant.tech/documentation/quickstart/), enabling easy scaling and secure management of legal data.
 
 #### Build and iterate quickly with responsive support and built-in tooling
 

@@ -17,13 +17,13 @@ values:
   icon:
     src: /img/about-us/rust-logo.svg
     alt: rust-logo
-  link: /articles/why-rust
+  link: /articles/why-rust/
 - id: 3
   title: 9k Members
   icon:
     src: /img/about-us/discord-logo.svg
     alt: discord-logo
-  link: /community
+  link: /community/
 - id: 4
   title: 100+ employees
   icon:

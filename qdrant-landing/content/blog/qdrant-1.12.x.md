@@ -134,7 +134,7 @@ The new graphing method is cleaner and reveals **relationships and outliers:**
 
 ![distance-matrix](/blog/qdrant-1.12.x/distance-matrix.png)
 
-*To learn more about the Web UI Dashboard, read the [**Interfaces documentation**](/documentation/interfaces/web-ui/).*
+*To learn more about the Web UI Dashboard, read the [**Interfaces documentation**](/documentation/web-ui/).*
 
 ## Facet API for Metadata Cardinality
 
@@ -259,7 +259,7 @@ PUT /collections/{collection_name}/index
 
 ## Just the Beginning
 
-The easiest way to reach that **Hello World** moment is to [**try vector search in a live cluster**](/documentation/quickstart-cloud/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
+The easiest way to reach that **Hello World** moment is to [**try vector search in a live cluster**](/documentation/cloud-quickstart/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
 
 **All of the new features from version 1.12 can be tested in the Web UI:**
 

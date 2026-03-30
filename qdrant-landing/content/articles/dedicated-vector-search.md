@@ -24,7 +24,7 @@ In this article, we will describe the unique challenges vector search poses and 
 
 Let's look at the central concept of vector databases — [**vectors**](/documentation/manage-data/vectors/).
 
-Vectors (also known as embeddings) are high-dimensional representations of various data points — texts, images, videos, etc. Many state-of-the-art (SOTA) embedding models generate representations of over 1,500 dimensions. When it comes to state-of-the-art PDF retrieval, the representations can reach [**over 100,000 dimensions per page**](/documentation/advanced-tutorials/pdf-retrieval-at-scale/).
+Vectors (also known as embeddings) are high-dimensional representations of various data points — texts, images, videos, etc. Many state-of-the-art (SOTA) embedding models generate representations of over 1,500 dimensions. When it comes to state-of-the-art PDF retrieval, the representations can reach [**over 100,000 dimensions per page**](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/).
 
 This brings us to the first challenge of vector search — vectors are heavy.
 
@@ -196,7 +196,7 @@ Consider some of the advanced features implemented in Qdrant:
 - [**Multivectors**](/documentation/manage-data/vectors/?q=multivectors#multivectors)  
   Some modern embedding models produce an entire matrix (a list of vectors) as output rather than a single vector. Qdrant supports multivectors natively.
   
-  This feature is critical when using state-of-the-art retrieval models such as [**ColBERT**](/documentation/fastembed/fastembed-colbert/), ColPali, or ColQwen. For instance, ColPali and ColQwen produce multivector outputs, and supporting them natively is crucial for [**state-of-the-art (SOTA) PDF-retrieval**](/documentation/advanced-tutorials/pdf-retrieval-at-scale/).
+  This feature is critical when using state-of-the-art retrieval models such as [**ColBERT**](/documentation/fastembed/fastembed-colbert/), ColPali, or ColQwen. For instance, ColPali and ColQwen produce multivector outputs, and supporting them natively is crucial for [**state-of-the-art (SOTA) PDF-retrieval**](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/).
 
 In addition to that, we continuously look for improvements in:
 

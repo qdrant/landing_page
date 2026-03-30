@@ -401,7 +401,7 @@ There are four elements: the **Data Layer**, **Mask Layer**, **the Region** and 
 ## Get Started with Qdrant
 ![get-started](/blog/qdrant-1.13.x/image_1.png)
 
-The easiest way to reach that **Hello World** moment is to [**try vector search in a live cluster**](/documentation/quickstart-cloud/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
+The easiest way to reach that **Hello World** moment is to [**try vector search in a live cluster**](/documentation/cloud-quickstart/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
 
 **New features, like named vector filtering, can be tested in the Qdrant Dashboard:**
 

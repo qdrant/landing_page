@@ -55,7 +55,7 @@ This is where chunking comes in. The goal is to have chunks
 
 By breaking a document into focused chunks, each chunk gets its own vector that accurately represents a specific idea. This allows the search to be far more precise.
 
-**Example:** Consider a multi-page Document like the [Qdrant Collection Configuration Guide of Day 7](/course/essentials/day-7/collection-configuration-guide/) covering everything from HNSW to sharding and quantization.
+**Example:** Consider a multi-page Document like the [Qdrant Collection Configuration Guide of Day 7](/course/essentials/day-7/) covering everything from HNSW to sharding and quantization.
 
 If a user asks: *"What does the m parameter do?"*
 
@@ -420,7 +420,7 @@ The trade-off is computational cost. You're embedding the full document upfront 
 | **Recursive** | Flexible, handles messy input | Heuristic, sometimes brittle | Scraped web content, mixed sources |
 | **Semantic** | High-quality, meaning-aware | Slower, resource-intensive | Legal, research, critical QA |
 
-**Note**: Sometimes, it's necessary to keep the document intact. If chunking is too complicated, or the document is visually rich (diagrams, graphs etc.), you can use [VLMs](/documentation/advanced-tutorials/pdf-retrieval-at-scale/) to embed the whole page.
+**Note**: Sometimes, it's necessary to keep the document intact. If chunking is too complicated, or the document is visually rich (diagrams, graphs etc.), you can use [VLMs](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) to embed the whole page.
 
 ## Adding Meaning with Metadata
 

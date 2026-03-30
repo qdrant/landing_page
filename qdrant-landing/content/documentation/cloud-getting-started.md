@@ -12,9 +12,9 @@ Welcome to Qdrant Managed Cloud! This document contains all the information you 
 
 ## Prerequisites
 
-Before creating a cluster, make sure you have a Qdrant Cloud account. Detailed instructions for signing up can be found in the [Qdrant Cloud Setup](/documentation/cloud/qdrant-cloud-setup/) guide. Qdrant Cloud supports granular [role-based access control](/documentation/cloud-rbac/).
+Before creating a cluster, make sure you have a Qdrant Cloud account. Detailed instructions for signing up can be found in the [Qdrant Cloud Setup](/documentation/cloud-account-setup/) guide. Qdrant Cloud supports granular [role-based access control](/documentation/cloud-rbac/).
 
-You also need to provide [payment details](/documentation/cloud/pricing-payments/). If you have a custom payment agreement, first create your account, then [contact our Support Team](https://support.qdrant.io/) to finalize the setup.
+You also need to provide [payment details](/documentation/cloud-pricing-payments/). If you have a custom payment agreement, first create your account, then [contact our Support Team](https://support.qdrant.io/) to finalize the setup.
 
 Premium Plan subscribers can enable single sign-on (SSO) for their organizations. To activate SSO, please reach out to the Support Team at [https://support.qdrant.io/](https://support.qdrant.io/) for guidance.
 

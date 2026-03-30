@@ -52,7 +52,7 @@ If you need an exact number, you can use the [count](/documentation/manage-data/
 
 There are two possible reasons for this:
 
-- You used the `Cosine` distance metric in the [collection settings](/concepts/collections/#collections). In this case, Qdrant pre-normalizes your vectors for faster distance computation. If you strictly need the original vectors to be preserved, consider using the `Dot` distance metric instead.
+- You used the `Cosine` distance metric in the [collection settings](/documentation/manage-data/collections/#collections). In this case, Qdrant pre-normalizes your vectors for faster distance computation. If you strictly need the original vectors to be preserved, consider using the `Dot` distance metric instead.
 - You used the `uint8` [datatype](/documentation/manage-data/vectors/#datatypes) to store vectors. `uint8` requires a special format for input values, which might not be compatible with the typical output of embedding models.
 
 
@@ -105,11 +105,11 @@ It is _highly_ recommended not to create many small collections, as it will lead
 
 We consider creating a collection for each user/dialog/document as an antipattern.
 
-Please read more about collections, isolation, and multiple users in our [Multitenancy](/documentation/tutorials/multiple-partitions/) tutorial.
+Please read more about collections, isolation, and multiple users in our [Multitenancy](/documentation/manage-data/collections/#multitenancy) tutorial.
 
 ### How do I upload a large number of vectors into a Qdrant collection?
 
-Read about our recommendations in the [bulk upload](/documentation/tutorials/bulk-upload/) tutorial.
+Read about our recommendations in the [bulk upload](/documentation/tutorials-develop/bulk-upload/) tutorial.
 
 ### Can I only store quantized vectors and discard full precision vectors?
 

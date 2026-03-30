@@ -94,13 +94,13 @@ Whether you are building a bank fraud-detection system, RAG for e-commerce, or s
 
 Now that you know how Qdrant and LangChain can elevate your setup - it's time to try us out. 
 
-- Qdrant is open source and you can [quickstart locally](/documentation/quick-start/), [install it via Docker](/documentation/quick-start/), [or to Kubernetes](https://github.com/qdrant/qdrant-helm/). 
+- Qdrant is open source and you can [quickstart locally](/documentation/quickstart/), [install it via Docker](/documentation/quickstart/), [or to Kubernetes](https://github.com/qdrant/qdrant-helm/). 
 
 - We also offer [a free-tier of Qdrant Cloud](https://cloud.qdrant.io/) for prototyping and testing.
 
 - For best integration with LangChain, read the [official LangChain documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant/). 
 
-- For all other cases, [Qdrant documentation](/documentation/integrations/langchain/) is the best place to get there.
+- For all other cases, [Qdrant documentation](/documentation/frameworks/langchain/) is the best place to get there.
 
 > We offer additional support tailored to your business needs. [Contact us](https://qdrant.to/contact-us) to learn more about implementation strategies and integrations that suit your company.
 

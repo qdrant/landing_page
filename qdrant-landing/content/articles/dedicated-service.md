@@ -107,7 +107,7 @@ In practice, this means that your main database becomes burdened with high memor
 Fortunately, the data synchronization problem is not new and definitely not unique to vector search.
 There are many well-known solutions, starting with message queues and ending with specialized ETL tools.
 
-For example, we recently released our [integration with Airbyte](/documentation/integrations/airbyte/), allowing you to synchronize data from various sources into Qdrant incrementally.
+For example, we recently released our [integration with Airbyte](/documentation/data-management/airbyte/), allowing you to synchronize data from various sources into Qdrant incrementally.
 
 ###### You have to pay for a vector service uptime and data transfer of both solutions.
 

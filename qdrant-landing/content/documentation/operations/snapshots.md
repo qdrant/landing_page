@@ -16,7 +16,7 @@ This feature can be used to archive data or easily replicate an existing deploym
 
 A collection level snapshot only contains data within that collection, including the collection configuration, all points and payloads. Collection aliases are not included and can be migrated or recovered [separately](/documentation/manage-data/collections/#collection-aliases).
 
-For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials/create-snapshot/).
+For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials-operations/create-snapshot/).
 
 ## Create snapshot
 
@@ -244,4 +244,4 @@ Apart from Snapshots, Qdrant also provides the [Qdrant Migration Tool](https://g
 - Migrating vectors from other providers into Qdrant.
 - Migrating from Qdrant OSS to Qdrant Cloud.
 
-Follow our [migration guide](/documentation/database-tutorials/migration/) to learn how to effectively use the Qdrant Migration tool. 
+Follow our [migration guide](/documentation/tutorials-operations/migration/) to learn how to effectively use the Qdrant Migration tool. 
