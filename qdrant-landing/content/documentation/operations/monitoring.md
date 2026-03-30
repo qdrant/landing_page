@@ -142,14 +142,14 @@ QDRANT__SERVICE__METRICS_PREFIX="qdrant_"
 
 ## Telemetry endpoint
 
-Qdrant also provides a `/telemetry` endpoint, which provides information about the current state of the database, including the number of vectors, shards, and other useful information. You can find a full documentation of this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/telemetry).
+Qdrant also provides a `/telemetry` endpoint, which provides information about the current state of the database, including the number of vectors, shards, and other useful information. You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/telemetry).
 
 ## Cluster-wide telemetry
 
-The `/telemetry` endpoint reports from the point of view of the peer being queried. But Qdrant also provides a `/cluster/telemetry` endpoint, which aggregates telemetries from all peers. 
+The `/telemetry` endpoint reports from the point of view of the peer being queried. Qdrant also provides a `/cluster/telemetry` endpoint, which aggregates telemetry from all peers.
 
 This includes less information than `/telemetry`, but provides information like shard transfer progress more reliably.
-You can find a full documentation of this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/cluster-telemetry).
+You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/cluster-telemetry).
 
 ## Kubernetes health endpoints
 

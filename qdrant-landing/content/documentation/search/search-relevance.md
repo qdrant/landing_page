@@ -179,7 +179,7 @@ For example, in this set of retrieved results:
 | 222 | 0.81 | 0.72 | 
 | 333 | 0.77 | 0.61 |
 
-The feedback model considers the second result with ID 222 to be the most relevant, which is a discrepancy with retriever's ranking. Hence, this feedback can potentially help make the next iteration of retrieval better.
+The feedback model considers the second result with ID 222 to be the most relevant, which is a discrepancy with the retriever's ranking. Hence, this feedback can potentially help make the next iteration of retrieval better.
 
 ---
 
@@ -187,7 +187,7 @@ To leverage the feedback in search across the entire collection, Qdrant provides
 
 1. The original query (`target`), which can be a point ID, an inference object, or a raw vector.
 2. A short list of initial retrieval results and their relevance score (`feedback`). Each feedback item consists of:
-   - `example`, which can be point ID, an inference object, or a raw vector used by the retriever.
+   - `example`, which can be a point ID, an inference object, or a raw vector used by the retriever.
    - `score`, the feedback score.
 3. A definition of the formula that modifies retrieval based on the feedback (`strategy`).
 

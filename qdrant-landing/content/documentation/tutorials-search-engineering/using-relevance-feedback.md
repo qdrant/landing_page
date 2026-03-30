@@ -229,7 +229,7 @@ TRAIN_LIMIT = 25
 
 The bigger the `TRAIN_LIMIT`, the more training data our formula gets, but the more expensive and slow the training becomes.
 
-*For training, we need our feedback model to provide ground truth relevancy scores, so it rescores #queries * TRAIN_LIMIT, here 50 * 25 = 1250 query-document pairs. Adjust based on your training budget.*
+*For training, we need our feedback model to provide ground-truth relevance scores, so it rescores #queries * TRAIN_LIMIT, here 50 * 25 = 1250 query-document pairs. Adjust based on your training budget.*
 
 #### Training Process
 
@@ -243,13 +243,13 @@ formula_params = relevance_feedback.train(
 ```
 
 You'll see a "**Building training data**" process running on 50 queries.
-Additionally, the framework will provide you with a sensibility check, something like:
+Additionally, the framework will provide you with a sanity check, something like:
 
 ```bash
 On 22.00% of training queries the feedback model strongly disagreed with the retriever model.
 ```
 
-> If the feedback model agrees with your retriever in all cases (if percentage is 0.00), there's little point in using the chosen setup for relevance feedback-based retrieval, consider changing the setup.
+> If the feedback model agrees with your retriever in all cases (if percentage is 0.00), there is little point in using the chosen setup for relevance feedback-based retrieval, consider changing the setup.
 
 Then after a blazingly fast training, you'll get your parameters, something like:
 
@@ -319,7 +319,7 @@ Works, but perhaps there's something else in our collection that would answer th
 
 Now we get feedback from our `mxbai-embed-large-v1` feedback model on the top 3 results for the query *"recommendations API how to use"*.
 
-The feedback model rescores them according to its own judgement of semantic similarity. We only show it a small number of results (`CONTEXT_LIMIT` = 3) to keep the pipeline fast and cheap.
+The feedback model rescores them according to its own judgment of semantic similarity. We only show it a small number of results (`CONTEXT_LIMIT` = 3) to keep the pipeline fast and cheap.
 
 ```python
 feedback_model_scores = feedback.score(query, responses_raw)
