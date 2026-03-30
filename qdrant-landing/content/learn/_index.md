@@ -50,7 +50,7 @@ content:
             - "Advanced: Production optimization"
       
       link:
-        url: /courses/essentials/
+        url: /course/essentials/
         text: View Courses
     - id: 3
       image:

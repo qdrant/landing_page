@@ -21,7 +21,7 @@ In this example, we will demonstrate how to vectorize a dataset with dense and s
 
 - Set up a **[Databricks cluster](https://docs.databricks.com/en/compute/configure.html)** following the official documentation guidelines.
 
-- Install the **[Qdrant Spark connector](/documentation/frameworks/spark/)** as a library:
+- Install the **[Qdrant Spark connector](/documentation/data-management/spark/)** as a library:
   - Navigate to the `Libraries` section in your cluster dashboard.
   - Click on `Install New` at the top-right to open the library installation modal.
   - Search for `io.qdrant:spark:VERSION` in the Maven packages and click on `Install`.
