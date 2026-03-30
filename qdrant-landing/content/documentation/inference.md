@@ -4,7 +4,6 @@ weight: 220
 partition: qdrant
 aliases:
   - ../inference
-  - /documentation/concepts/inference/
 ---
 
 # Inference

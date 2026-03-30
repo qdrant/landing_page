@@ -3,7 +3,6 @@ title: Storage
 weight: 25
 aliases:
   - ../storage
-  - /documentation/concepts/storage/
 ---
 
 # Storage

@@ -3,7 +3,6 @@ title: Indexing
 weight: 30
 aliases:
   - ../indexing
-  - /documentation/concepts/indexing/
 ---
 
 # Indexing

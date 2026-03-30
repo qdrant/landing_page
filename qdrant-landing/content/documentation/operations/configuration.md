@@ -4,7 +4,6 @@ weight: 50
 aliases:
   - ../configuration
   - /guides/configuration/
-  - /documentation/guides/configuration/
 ---
 
 # Configuration
