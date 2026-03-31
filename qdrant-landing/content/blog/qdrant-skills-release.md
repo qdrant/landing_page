@@ -149,7 +149,7 @@ We ran each question 5 times on Claude Opus 4.6 (1M context), with and without Q
 
 ---
 
-### "We have a social media search index with a 3-month retention window. We run a nightly cron that deletes old posts but after 6 months in production our searches went from 15ms to 200ms and disk usage keeps climbing even though the dataset size is stable."
+#### "We have a social media search index with a 3-month retention window. We run a nightly cron that deletes old posts but after 6 months in production our searches went from 15ms to 200ms and disk usage keeps climbing even though the dataset size is stable."
 
 *Baseline pass rate: 32% across 5 runs. With skill: 100%. The largest delta in our evaluation.*
 
@@ -169,7 +169,7 @@ We ran each question 5 times on Claude Opus 4.6 (1M context), with and without Q
 
 ---
 
-### "We're maxing out at 150 QPS but need 500. Single node, 32GB RAM, 8 cores, 20M vectors at 384 dims. We tried increasing hnsw_ef and segment count to 16 to make it faster but QPS actually got worse."
+#### "We're maxing out at 150 QPS but need 500. Single node, 32GB RAM, 8 cores, 20M vectors at 384 dims. We tried increasing hnsw_ef and segment count to 16 to make it faster but QPS actually got worse."
 
 *Baseline pass rate: 60% across 5 runs. With skill: 100%.*
 
@@ -185,7 +185,7 @@ We ran each question 5 times on Claude Opus 4.6 (1M context), with and without Q
 
 ---
 
-### "We have a multi-tenant SaaS with 5,000 tenants, each with 10k-100k vectors. We started with one collection per tenant but at around 800 collections Qdrant started using 90%+ memory just for overhead. We tried grouping small tenants into shared collections but search got really slow because the HNSW graph is global."
+#### "We have a multi-tenant SaaS with 5,000 tenants, each with 10k-100k vectors. We started with one collection per tenant but at around 800 collections Qdrant started using 90%+ memory just for overhead. We tried grouping small tenants into shared collections but search got really slow because the HNSW graph is global."
 
 *Baseline pass rate: 68% across 5 runs. With skill: 100%.*
 
