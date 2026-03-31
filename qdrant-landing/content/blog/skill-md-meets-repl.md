@@ -1,9 +1,9 @@
 ---
 title: "Two Approaches to Helping AI Agents Use Your API (And Why You Need Both)"
 draft: false
-slug: skill-md-meet-repl
+slug: skill-md-meets-repl
 description: "Two emerging patterns for agent-assisted development: static knowledge files and dynamic tool access. How they complement each other using Qdrant as a case study."
-short_description: "Mintlify's skill.md and Armin Ronacher's REPL-first MCP solve different failure modes. Together, they define how agents should interact with developer tools."
+short_description: "Mintlify's SKILL.md and Armin Ronacher's REPL-first MCP solve different failure modes. Together, they define how agents should interact with developer tools."
 preview_image: /blog/skill-md-meets-repl/repl-skill.png
 social_preview_image: /blog/skill-md-meets-repl/repl-skill.png
 date: 2026-01-28T00:00:00-08:00
@@ -24,13 +24,13 @@ When an agent writes code against your API, it can fail because:
 
 2. **It can't discover what exists.** The agent doesn't know what collections exist, what the payload schema looks like, or what data is actually in the system. This is the "unknown unknowns" problem: things specific to the user's environment that no amount of documentation covers.
 
-Most agent failures trace back to one of these. Mintlify's SKILL.md aproach addresses the first. Armin Ronacher's REPL-first MCP addresses the second.
+Most agent failures trace back to one of these. Mintlify's SKILL.md approach addresses the first. Armin Ronacher's REPL-first MCP addresses the second.
 
 ## What SKILL.md Gives You
 
-[SKILL.md](https://github.com/AgenticSkills/skills) is an emerging open standard for shipping knowledge to agents before they write code. The idea has roots in the [Cloudflare RFC](https://blog.cloudflare.com/ai-agents-open-standard), the [agentskills proposal](https://agentskills.org), and Vercel's skills CLI. [Mintlify's blog post](https://mintlify.com/blog/skill-md) by [Michael Ryaboy](https://www.linkedin.com/in/michael-ryaboy-software-engineer) showed how to apply it in practice. Decision tables for component selection, explicit gotchas sections, and auto-generating skill files from existing docs. A skill.md isn't documentation. It's a briefing. Decision tables, not tutorials. Gotchas, not explanations.
+[SKILL.md](https://github.com/AgenticSkills/skills) is an emerging open standard for shipping knowledge to agents before they write code. The idea has roots in the [Cloudflare RFC](https://blog.cloudflare.com/ai-agents-open-standard), the [agentskills proposal](https://agentskills.org), and Vercel's skills CLI. [Mintlify's blog post](https://mintlify.com/blog/skill-md) by [Michael Ryaboy](https://www.linkedin.com/in/michael-ryaboy-software-engineer) showed how to apply it in practice. Decision tables for component selection, explicit gotchas sections, and auto-generating skill files from existing docs. A SKILL.md isn't documentation. It's a briefing. Decision tables, not tutorials. Gotchas, not explanations.
 
-For Qdrant, a skill.md might include:
+For Qdrant, a SKILL.md might include:
 
 <div style="max-width: 640px; margin: 2rem auto; border-radius: 12px; overflow: hidden; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; box-shadow: 0 4px 24px rgba(0,0,0,0.12);">
   <div style="background: #1a1a2e; color: #e0e0e0; padding: 12px 20px; text-align: center; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 2px solid #dc3545;">Decision Table</div>
@@ -70,7 +70,7 @@ For Qdrant, a skill.md might include:
   </div>
 </div>
 
-This prevents the agent from using `client.search()` (deprecated), creating a collection per user (anti-pattern), or misconfiguring sparse vectors (common mistake). The guidance for all of these exists across Qdrant's tutorials, docs, and community discussions. However, finding it requires existing Qdrant context because you need to already know enough to ask the right questions. Skills package that accumulated product intuition so agents don't need to build it from scratch.
+This prevents the agent from using `client.search()` (deprecated), creating a collection per user (anti-pattern), or misconfiguring sparse vectors (common mistake). The guidance for all of these exists across Qdrant's tutorials, docs, and community discussions. However, finding it requires existing Qdrant context because you need to already know enough to ask the right questions. Skills package has accumulated product intuition so agents don't need to build it from scratch.
 
 ## What REPL-First MCP Gives You
 
@@ -90,9 +90,9 @@ The agent discovers what exists by asking the system directly. No tool for "list
 
 ## Why Neither Alone Works
 
-**skill.md without REPL:** The agent knows *how* to use `query_points` but not *what* to query. It guesses collection names. It assumes payload fields. It writes syntactically correct code that fails at runtime.
+**SKILL.md without REPL:** The agent knows *how* to use `query_points` but not *what* to query. It guesses collection names. It assumes payload fields. It writes syntactically correct code that fails at runtime.
 
-**REPL without skill.md:** The agent can discover what exists but still uses deprecated methods. It creates collections with wrong configurations. It makes the same mistakes it would have made without the REPL, just with more information about the data.
+**REPL without SKILL.md:** The agent can discover what exists but still uses deprecated methods. It creates collections with wrong configurations. It makes the same mistakes it would have made without the REPL, just with more information about the data.
 
 Together, the agent workflow looks like this:
 
@@ -100,7 +100,7 @@ Together, the agent workflow looks like this:
   <div style="background: #1a1a2e; color: #e0e0e0; padding: 12px 20px; text-align: center; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 2px solid #dc3545;">Agent Workflow</div>
   <div style="background: #16213e; padding: 24px 28px;">
     <div style="margin-bottom: 20px;">
-      <div style="color: #dc3545; font-weight: 700; margin-bottom: 6px;">1. Read skill.md</div>
+      <div style="color: #dc3545; font-weight: 700; margin-bottom: 6px;">1. Read SKILL.md</div>
       <div style="padding-left: 20px; line-height: 1.7;">
         <code class="repl" style="color: #7fdbca !important; background: rgba(127,219,202,0.1) !important;">"Use query_points, not search"</code><br>
         <code class="repl" style="color: #7fdbca !important; background: rgba(127,219,202,0.1) !important;">"Never one collection per user"</code><br>
@@ -124,11 +124,11 @@ Together, the agent workflow looks like this:
   </div>
 </div>
 
-The skill.md prevents known mistakes. The REPL handles environment-specific discovery. Both failure modes addressed.
+The SKILL.md prevents known mistakes. The REPL handles environment-specific discovery. Both failure modes are addressed.
 
 ## Implementation
 
-The skill.md is just a file you drop into your project. The REPL is an MCP tool. A minimal implementation:
+The SKILL.md is just a file you drop into your project. The REPL is an MCP tool. A minimal implementation:
 
 ```python
 @server.call_tool()
@@ -150,7 +150,7 @@ State persists between calls. The agent builds up context incrementally.
 
 This isn't specific to Qdrant. Any API with:
 
-- Deprecated methods or migration paths → needs skill.md
+- Deprecated methods or migration paths → needs SKILL.md
 - User-specific state (databases, collections, schemas) → needs REPL
 
 The two approaches complement because they address orthogonal problems. Static knowledge for static mistakes. Dynamic access for dynamic discovery.
@@ -159,9 +159,9 @@ Most developer tools need both.
 
 ## This Doesn't Make It Easy
 
-Adding skill.md and a REPL doesn't mean agents suddenly work flawlessly. They still hallucinate. They still misunderstand requirements. They still write code that technically runs but doesn't do what you wanted.
+Adding SKILL.md and a REPL doesn't mean agents suddenly work flawlessly. They still hallucinate. They still misunderstand requirements. They still write code that technically runs but doesn't do what you wanted.
 
-What these tools do is eliminate *unnecessary* failures. The agent won't fail because it used a deprecated method. That's a solved problem with skill.md. It won't fail because it guessed a collection name. The REPL lets it check. But it can still fail because it misunderstood what you meant by "similar products" or because the embedding model you're using doesn't capture the semantics you care about.
+What these tools do is eliminate *unnecessary* failures. The agent won't fail because it used a deprecated method. That's a solved problem with SKILL.md. It won't fail because it guessed a collection name. The REPL lets it check. But it can still fail because it misunderstood what you meant by "similar products" or because the embedding model you're using doesn't capture the semantics you care about.
 
 You might ask: why not just pull context from docs automatically? Tools like [mcp-code-snippets](https://github.com/qdrant/mcp-code-snippets), Qdrant's MCP server for searching documentation and code examples, solve a real problem, but they solve a different one. Auto-generated context gives you API surface area. A SKILL.md gives you judgment. "Don't create one collection per user" isn't obvious from any API reference. "BM25 needs Modifier.IDF" is documented, but you have to know to look for it. Skills distill that intuition into a format agents can use immediately. The two approaches aren't in competition. Use both.
 
