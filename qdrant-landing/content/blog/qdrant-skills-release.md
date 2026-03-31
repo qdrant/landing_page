@@ -80,7 +80,9 @@ We built skills for the problems that generate common questions:
 - **Version upgrades**: What to check before, during, and after upgrading.
 
 
-For teams on Qdrant Cloud, [qcloud-cli](https://github.com/qdrant/qcloud-cli) handles cluster creation, API key management, backups, and region selection from the terminal, so deployment fits into CI/CD pipelines instead of a web UI.
+Skills handle the knowledge layer. For the infrastructure layer, [qcloud-cli](https://github.com/qdrant/qcloud-cli) brings Qdrant Cloud management to the terminal. Create and scale clusters, manage API keys, configure backups, and select regions without leaving your workflow. Named contexts let you switch between staging and production with one command, and every operation works in CI/CD pipelines and scripts.
+
+Together, skills tell your agent what to configure, and qcloud lets it do the configuring. An agent diagnosing a memory issue can recommend quantization (skill) and then apply it to the right cluster (qcloud). The knowledge and the tooling work as a pair.
 
 Skills are open source and work with any agent that supports the skills format (Cursor, Claude Code, OpenClaw, OpenCode, OpenAI Codex, Pi).
 
@@ -203,5 +205,7 @@ We ran each question 5 times on Claude Opus 4.6 (1M context), with and without Q
 Skills are open source. Install them, break them, tell us what's wrong. If you have a production debugging pattern we missed, open a PR. The best skills will come from engineers who have already spent the week we are trying to save you.
 
 The piece of the stack between "the API works" and "the system works in production" is where most teams lose time. That gap is a diagnosis problem, not a documentation problem.
+
+Special thanks to Andrey Vasnetsov, Evgeniya Sukhodolskaya, Jenny Cooper, Juan Carmona, Konstantin Babanakov, Nathan LeRoy, Kirstin Taufertshofer, and Neil Kanungo for making this happen.
 
 [github.com/qdrant/skills](https://github.com/qdrant/skills)
