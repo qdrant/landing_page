@@ -70,7 +70,7 @@ We built [Qdrant skills](https://github.com/qdrant/skills): solutions architect 
 
 We built skills for the problems that generate common questions:
 
-- [**Deployment options**](https://qdrant.tech/documentation/deployment/): Prototyping vs self-hosted vs managed cloud vs edge. Which one, when, and why. (Cosmos chose managed cloud so they could focus on product instead of managing reindexing and scaling. Others need self-hosted for compliance.)
+- [**Deployment options**](https://qdrant.tech/documentation/guides/installation/): Prototyping vs self-hosted vs managed cloud vs edge. Which one, when, and why. (Cosmos chose managed cloud so they could focus on product instead of managing reindexing and scaling. Others need self-hosted for compliance.)
 - **Search quality diagnosis**: Results are bad. Is it the model, HNSW approximation, quantization, or filters?
 - **Search strategies**: When to use relevance feedback, hybrid search, keyword matching, or late interaction models.
 - **Memory optimization**: What's using RAM and how to reduce it without destroying performance.
