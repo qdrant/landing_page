@@ -4,8 +4,8 @@ draft: false
 slug: qdrant-skills-release
 short_description: "Agent skills for Qdrant: solutions architect knowledge encoded for AI agents. Diagnose, tune, and scale vector search without guessing."
 description: "Agent skills for Qdrant: solutions architect knowledge encoded for AI agents. Diagnose, tune, and scale vector search without guessing."
-preview_image: /blog/qdrant-skills-release/hero.png
-social_preview_image: /blog/qdrant-skills-release/hero.png
+preview_image: /blog/qdrant-skills-release/hero.jpg
+social_preview_image: /blog/qdrant-skills-release/hero.jpg
 date: 2026-03-31
 author: Thierry Damiba
 featured: true
