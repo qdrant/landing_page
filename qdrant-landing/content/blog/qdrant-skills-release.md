@@ -141,13 +141,9 @@ We ran each question 5 times on Claude Opus 4.6 (1M context), with and without Q
 
 **With skills: 144/150 assertions passed (96%). Without skills: 97/150 (65%).**
 
-| Metric | With Skill | Without Skill | Delta |
-|--------|-----------|---------------|-------|
-| **Pass Rate** | **96% ± 8%** | **65% ± 24%** | **+31%** |
-| **Response Time** | **24.8s ± 6.1s** | **45.5s ± 23.8s** | **1.8x faster** |
-| **Output Size** | **~759 tokens** | **~875 tokens** | **13% fewer** |
+![Benchmark results: with skill vs without skill](/blog/qdrant-skills-release/benchmark-table.png)
 
-Skills produce more accurate, faster, and more focused responses. The full prompts, outputs, and grading are [reproducible in the eval repo](https://github.com/qdrant-labs/skills-eval).
+*6 Qdrant scaling questions, 5 runs each, Claude Opus 4.6. Full data at [qdrant-labs/skills-eval](https://github.com/qdrant-labs/skills-eval).*
 
 ---
 
