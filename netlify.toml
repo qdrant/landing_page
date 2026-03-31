@@ -5,7 +5,7 @@ command = "bash -x ./install-and-build.sh"
 [build.environment]
 HUGO_VERSION = "0.141.0"
 DART_SASS_VERSION = "1.70.0"
-NODE_VERSION = "20.10.0"
+NODE_VERSION = "22.22.2"
 HUGO_PARAMS_segmentWriteKey = "UOgPyE2GbtD4lletUP2uWfBGQQSfkzf1"
 HUGO_PARAMS_onetrustScriptId = "0196246a-3663-7350-9a45-b65f645d6314"
 
