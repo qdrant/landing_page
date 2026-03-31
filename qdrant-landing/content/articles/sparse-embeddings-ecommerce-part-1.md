@@ -20,6 +20,8 @@ category: practicle-examples
 - [Part 4: Specialization vs Generalization](/articles/sparse-embeddings-ecommerce-part-4/)
 - [Part 5: From Research to Product](/articles/sparse-embeddings-ecommerce-part-5/)
 
+This series started at La Oaxaquena in SF, where Kumar Shivendu, engineer at Qdrant, laid out the architecture for fine-tuning a retrieval model for e-commerce search. Off-the-shelf models optimize for general benchmarks, not your product catalog. Training on your own data closes that gap. Charles Frye unlocked the Modal GPU credits that made it real (though we ended up barely needing them). Evgeniya Sukhodolskaya pointed to Sentence Transformers v5, which added native sparse model support and made the whole training pipeline significantly simpler. She also reviewed every draft on late-night Google Meets, flagging things like a mislabeled axis in Part 3 or a claim about NDCG that didn't hold up under her scrutiny. Neil Kanungo pushed for more diagrams and clearer structure when the early drafts read like research notes. Nathan LeRoy caught the technical gaps everyone else missed.
+
 ---
 
 Search "iPhone 15 Pro Max 256GB" on a dense embedding system and it happily returns the 128GB model. The semantic similarity is high - it's the same phone! But the customer specified 256GB for a reason. In e-commerce, the details aren't noise. They're the whole point.
