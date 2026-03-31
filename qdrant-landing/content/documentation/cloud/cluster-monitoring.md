@@ -230,7 +230,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     **Where can I learn more about this alert?**
     
-    Learn how to optimize Qdrant for performance and configure indexing [here](/documentation/concepts/indexing/) and [here](/documentation/guides/optimize/).
+    Learn how to optimize Qdrant for performance and configure indexing [here](/documentation/manage-data/indexing/) and [here](/documentation/operations/optimize/).
     
     Learn about optimizers [here](/documentation/operations/optimizer/).
     
