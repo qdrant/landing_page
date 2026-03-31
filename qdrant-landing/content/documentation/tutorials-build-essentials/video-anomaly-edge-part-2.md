@@ -1,8 +1,7 @@
 ---
 title: "Video Anomaly Detection Part 2: Edge-to-Cloud Pipeline"
-weight: 10
-partition: build
-social_preview_image: /articles_data/video-anomaly-edge/preview/social_preview.jpg
+weight: 45
+partition: ecosystem
 aliases:
   - /articles/video-anomaly-edge-part-2/
 ---

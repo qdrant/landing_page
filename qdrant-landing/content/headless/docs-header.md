@@ -16,8 +16,8 @@ menuItems:
     url: /documentation/cloud-intro/
     icon: cloud-white.svg
   - id: menu-2
-    name: Build
-    url: /documentation/build/
+    name: Ecosystem
+    url: /documentation/ecosystem/
     icon: blog-white.svg
   - id: menu-3
     name: Learn

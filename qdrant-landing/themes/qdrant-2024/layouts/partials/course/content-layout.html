@@ -21,7 +21,7 @@
                 <div class="d-flex justify-content-lg-end pb-3 pt-4">
                   {{/* Determine the course section */}}
                   {{ $subject := "" }}
-                  {{ if eq .Params.isLesson true }}
+                  {{ if .IsSection }}
                     {{/* Current page is a lesson (_index.md), parent is the course section */}}
                     {{ $subject = .Parent }}
                   {{ else }}

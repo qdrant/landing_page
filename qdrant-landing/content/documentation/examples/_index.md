@@ -1,7 +1,7 @@
 ---
 title: Build Prototypes
-weight: 25
-partition: build 
+weight: 1300
+partition: ecosystem
 ---
 # Build Prototypes
 
@@ -22,13 +22,13 @@ The following guided samples help you get started with real-world projects using
 | [Blog-Reading RAG Chatbot](/documentation/examples/rag-chatbot-scaleway/)                                 | Develop a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LangChain, GPT-4o   
 | [Movie Recommendation System](/documentation/examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |
 | [GraphRAG Agent](/documentation/examples/graphrag-qdrant-neo4j/)                                 | Build a GraphRAG Agent with Neo4J and Qdrant               | Qdrant, Neo4j |
-| [Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy](/documentation/examples/Qdrant-DSPy-medicalbot/)                                 | How to build a medical chatbot grounded in medical literature with Qdrant and DSPy.              | Qdrant, DSPy |
+| [Building a Chain-of-Thought Medical Chatbot with Qdrant and DSPy](/documentation/examples/qdrant-dspy-medicalbot/)                                 | How to build a medical chatbot grounded in medical literature with Qdrant and DSPy.              | Qdrant, DSPy |
 
 
 
 ## Example Notebooks
 
-Our Notebooks offer complex instructions that are supported with a throrough explanation. Follow along by trying out the code and get the most out of each example.
+Our Notebooks offer complex instructions that are supported with a thorough explanation. Follow along by trying out the code and get the most out of each example.
 
 | Example                                                                                                                                                                                                                               | Description                                                                                     | Stack                      |   
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|----------------------------|

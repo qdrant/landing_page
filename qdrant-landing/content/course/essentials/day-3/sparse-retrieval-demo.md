@@ -2,6 +2,7 @@
 title: "Demo: Keyword Search with Sparse Vectors"
 description: Hands-on sparse retrieval in Qdrant—create BM25 collections, enable IDF, index with FastEmbed, try SPLADE++ expansion, and execute keyword queries via the Universal Query API.
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Day 3 {{< /date >}}
@@ -124,7 +125,7 @@ Similarity("cheese for pizza", "Grated hard cheese")
 Computing and maintaining per-term IDF for every term in the corpus can be annoying.  
 > Qdrant maintains **collection-level** IDF for sparse vectors and applies it for you during scoring.
 
-Enable the [IDF modifier](/documentation/concepts/indexing/#idf-modifier) in the collection configuration:
+Enable the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier) in the collection configuration:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-idf/" >}}
 
@@ -475,17 +476,40 @@ SPLADE models are a strong choice for sparse neural retrieval, but they have lim
   D: "Mac and cheese"  →  ["mac", "cheese", "restaurant", "brand", "apple", …]
   ```
 
+That said, the expansion behavior can be **fine-tuned** on domain-specific data to make it more deliberate. For example, in an e-commerce setting, fine-tuning can make SPLADE expand `mac` with `laptop` and `computer`, not `cheese`.
+
+If you'd like to explore this direction, we walk through the full process in our 5-part series [Fine-Tuning Sparse Embeddings for E-Commerce Search](/articles/sparse-embeddings-ecommerce-part-1/).
+
 #### Qdrant's Sparse Neural Retrievers
 
-We’ve been exploring sparse neural retrieval as a promising approach for domains where keyword-based matching is useful, but traditional methods like BM25 fall short due to their lack of semantic understanding.
+We’ve been exploring sparse neural retrieval as a promising approach for domains where keyword-based matching is useful, but traditional methods like BM25 fall short due to their lack of semantic understanding (BM25 won't be able to distinguish "apple" in "**apple** charger" and "**apple** cutter", as opposed to sparse neural retrievers).
 
-We’ve developed and open-sourced two custom sparse neural retrievers, both built on top of the BM25 formula.  
-You can find all the details in the following articles: [BM42 Sparse Neural Retriever](/articles/bm42/) and [miniCOIL Sparse Neural Retriever](/articles/minicoil/).
+We’ve developed and open-sourced two custom sparse neural retrievers, both built on top of the BM25 formula, [BM42 Sparse Neural Retriever](/articles/bm42/) and [miniCOIL Sparse Neural Retriever](/articles/minicoil/).
 
 Both models can be used with FastEmbed and Qdrant in the same way we demonstrated with BM25 and SPLADE++ in this tutorial.
 
-- FastEmbed handle for **BM42**: `Qdrant/bm42-all-minilm-l6-v2-attentions`  
+- FastEmbed handle for **BM42**: `Qdrant/bm42-all-minilm-l6-v2-attentions`
 - FastEmbed handle for **miniCOIL**: `Qdrant/minicoil-v1` (here's the detailed guide ["How to use miniCOIL"](/documentation/fastembed/fastembed-minicoil/))
+
+**miniCOIL** is the more recent of the two, and our current recommendation for new projects. It's a sparse neural retrieval model that acts as if a BM25-based retriever understood the contextual meaning of keywords and ranked results accordingly (for a query like "**apple** slicer", miniCOIL would rank "**apple** cutter" higher than "**apple** charger").
+
+- **When to use miniCOIL:** you need **exact keyword matches** in the retrieved results, as you're working in a domain where precise term overlap matters (e.g., e-commerce, legal, medical), but want ranking to reflect the keyword's meaning in context.
+- **When not to use it:** if retrieved results should be **similar by meaning** to the query but share with it no overlapping keywords. In that case, use SPLADE models or combine miniCOIL with dense vector search in a **hybrid search** setup. You'll see how to do that in the next section.
+
+## Which Model to Choose
+
+|  | **BM25** | **miniCOIL** | **SPLADE** |
+|---|---|---|---|
+| **Matching** | Exact term overlap only | Exact term overlap only | Exact terms + synonym-like expansion |
+| **Domain support** | High, statistical model, works out of the box on any domain | Medium-to-high, due to unsupervised learning on Web Data | Low, fine-tuning recommended |
+| **Language support** | Any (tokenizer-dependent) | English (v1); vocabulary is easy to extend per-word | Typically fixed to training vocabulary (*usually BERT-based & English*) |
+| **Unknown terms (not in vocabulary)** | Matched as-is (tokenizer-dependent) | Falls back to BM25 | Mapped to `[UNK]`, likely mismatched |
+| **Explainability** | High | Medium-to-high | Lower without fine-tuning; expansion can introduce unrelated tokens |
+| **Encoding speed** | Near-instant, tokenization only, no neural model | Medium, lightweight model | Medium-to-low, due to inner expansion mechanisms |
+| **Sparse vector density** | Sparse | ~4x times less sparse than BM25 | ~8x+ times less sparse than BM25 on avg (*measured on MSMARCO*) |
+| **Retrieval cost** | Low, compact sparse vectors, fast index lookup | Medium, less sparse vectors mean more computation at retrieval | High, expanded vectors are denser, increasing memory and search cost |
+| **When to use** | Strong baseline; fast, lightweight, no setup required | BM25 upgrade with contextual ranking; still lightweight exact keyword matches | When synonym-like recall matters and you can invest in fine-tuning |
+| **Example**: query "**apple** slicer" | Ranks "**apple** charger" and "**apple** cutter" equally as both contain "apple" | Ranks "**apple** cutter" higher, as "apple" is understood as fruit, not brand | Can match "fruit peeler" even with no keyword overlap if expansion covers it |
 
 ## Key Takeaways
 
@@ -493,7 +517,7 @@ Both models can be used with FastEmbed and Qdrant in the same way we demonstrate
 - Qdrant calculates **Inverse Document Frequency (IDF)** (part of BM25) on the server side. Enable it when configuring a collection with sparse vectors.
 - Since 1.15.2, Qdrant supports native conversion to BM25 sparse representations.
 - **Sparse neural retrieval** is keyword-based retrieval that accounts for a word’s meaning in context.
-- Qdrant has open-sourced its own sparse neural retriever (e.g., **miniCOIL**).
+- Qdrant has its own open-sourced sparse neural retrievers (e.g., **miniCOIL**).
 - When choosing a sparse retriever, lexical (e.g., BM25) or neural (e.g., SPLADE++, miniCOIL), **experiment on your data** to find the best fit.
 
 ## What's Next

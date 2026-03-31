@@ -100,7 +100,7 @@ This launches a web dashboard with tabs for each stage of the pipeline:
 
 **Evaluate.** Point at a trained model and test queries. Get metric cards for nDCG@10, MRR@10, Recall, and Precision.
 
-**[Collections](https://qdrant.tech/documentation/concepts/collections/).** Browse your Qdrant collections, check point counts, and run test searches against indexed products. Useful for sanity-checking that indexing worked before evaluation.
+**[Collections](https://qdrant.tech/documentation/manage-data/collections/).** Browse your Qdrant collections, check point counts, and run test searches against indexed products. Useful for sanity-checking that indexing worked before evaluation.
 
 **Publish.** Enter a model path and HuggingFace repo name. Click publish.
 

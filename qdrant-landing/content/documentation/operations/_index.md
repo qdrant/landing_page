@@ -16,6 +16,10 @@ Everything you need to deploy, configure, and run Qdrant in production. These pa
 
 [Installation](/documentation/operations/installation/) covers how to run Qdrant using Docker, from packages, or from source, including basic configuration options.
 
+## Upgrading
+
+[Upgrading](/documentation/operations/upgrades/) explains how to safely upgrade your Qdrant cluster to a new version with zero downtime, including version compatibility and client SDK updates.
+
 ## Snapshots
 
 [Snapshots](/documentation/operations/snapshots/) describe how to back up and restore collections at a point in time, for individual nodes or the full cluster.
@@ -50,7 +54,7 @@ Everything you need to deploy, configure, and run Qdrant in production. These pa
 
 ## Running with GPU
 
-[Running with GPU](/documentation/operations/running-with-GPU/) describes how to enable GPU-accelerated indexing using dedicated Qdrant Docker images for NVIDIA and AMD GPUs.
+[Running with GPU](/documentation/operations/running-with-gpu/) describes how to enable GPU-accelerated indexing using dedicated Qdrant Docker images for NVIDIA and AMD GPUs.
 
 ## Optimize Performance
 

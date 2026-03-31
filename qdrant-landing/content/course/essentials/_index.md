@@ -175,7 +175,7 @@ Build the vector search skills that matter: hybrid retrieval, multivector rerank
     - ML Platforms & Analytics (Tensorlake, Vectorize.io, Superlinked, Quotient)
     <br>
     <br>
-    <p style="margin-left: 0px;"><a href="/course/essentials/day-7/">→ Start day 7</a></p>
+    <p style="margin-left: 0px;"><a href="/course/essentials/day-7/">→ Start Day 7</a></p>
 {{< /accordion >}}
 
 

@@ -1,6 +1,7 @@
 ---
 title: From Pinecone
-weight: 10
+weight: 5
+partition: ecosystem
 ---
 
 # Migrate from Pinecone to Qdrant
@@ -75,4 +76,4 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ## Next Steps
 
-After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-verification/).
+After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-guidance/).

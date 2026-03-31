@@ -52,7 +52,7 @@ You will need to have access to the Kubernetes cluster with `kubectl` and `helm`
 
 You can also configure the StorageClass and VolumeSnapshotClass to use for the Qdrant databases, if you want to deviate from the default settings of your cluster.
 
-By default, Qdrant Cloud will provision two volumes per Qdrant Pod: One for the data stored within Qdrant, and one for [collection snapshots](/documentation/concepts/snapshots). By default, the same StorageClass will be used for both volumes. You can also configure a different StorageClass in the advanced configuration options of your Hybrid Cloud environment. If you want to disable the snapshot volume, you can configure `emptyDir` as a Snapshot StorageClass.
+By default, Qdrant Cloud will provision two volumes per Qdrant Pod: One for the data stored within Qdrant, and one for [collection snapshots](/documentation/operations/snapshots/). By default, the same StorageClass will be used for both volumes. You can also configure a different StorageClass in the advanced configuration options of your Hybrid Cloud environment. If you want to disable the snapshot volume, you can configure `emptyDir` as a Snapshot StorageClass.
 
 ![Create Hybrid Cloud Environment](/documentation/cloud/hybrid_cloud_env_create.png)
 
@@ -60,7 +60,7 @@ By default, Qdrant Cloud will provision two volumes per Qdrant Pod: One for the 
 
 5. (Optional) If you have special requirements for any of the following, activate the **Show advanced configuration** option:
 
-- If you use a proxy to connect from your infrastructure to the Qdrant Cloud API, you can specify the proxy URL, credentials and cetificates.
+- If you use a proxy to connect from your infrastructure to the Qdrant Cloud API, you can specify the proxy URL, credentials and certificates.
 - Container registry URL for Qdrant services (like Agent, Operator, Cluster-manager and monitoring stack) images. The default is <https://registry.cloud.qdrant.io/qdrant/>.
 - Helm chart repository URL for the Qdrant services. The default is <oci://registry.cloud.qdrant.io/qdrant-charts>.
 - An optional secret with credentials to access your own container registry.

@@ -64,7 +64,7 @@ If you want to retrieve the secret again, you can also use `kubectl`:
 kubectl get secret qdrant-api-key -o jsonpath="{.data.api-key}" --namespace the-qdrant-namespace | base64 --decode
 ```
 
-After configuring the API key secret, you can create JWTs with granular access control in the Qdrant Cluster UI. Please refer to the [Granular access control with JWT](/documentation/guides/security/#granular-access-control-with-jwt) documentation for more details.
+After configuring the API key secret, you can create JWTs with granular access control in the Qdrant Cluster UI. Please refer to the [Granular access control with JWT](/documentation/operations/security/#granular-access-control-with-jwt) documentation for more details.
 
 #### Watch the Video
 
@@ -196,7 +196,7 @@ By default, Qdrant Cloud will reserve 20% of available CPU and memory on each Po
 
 You can modify this reservation in the “Configuration” section of the Qdrant Cluster detail page.
 
-If you want to check how much resources are availabe on an empty Kubernetes node, you can use the following command:
+If you want to check how much resources are available on an empty Kubernetes node, you can use the following command:
 
 ```shell
 kubectl describe node <node-name>

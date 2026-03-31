@@ -33,11 +33,11 @@ memory_size = 1,000,000 * 1024 * 4 bytes * 1.5
 ```
 The memory_size is approximately 6,144,000,000 bytes, or about 5.72 GB.
 
-Depending on the use case, large datasets can benefit from reduced memory requirements via [quantization](/documentation/guides/quantization/).
+Depending on the use case, large datasets can benefit from reduced memory requirements via [quantization](/documentation/manage-data/quantization/).
 
 ## Calculating payload size
 
-This is always different. The size of the payload depends on the [structure and content of your data](/documentation/concepts/payload/#payload-types). For instance:
+This is always different. The size of the payload depends on the [structure and content of your data](/documentation/manage-data/payload/#payload-types). For instance:
 
 - **Text fields** consume space based on length and encoding (e.g. a large chunk of text vs a few words).
 - **Floats** have fixed sizes of 8 bytes for `int64` or `float64`.
@@ -64,11 +64,11 @@ The total_payload_size is approximately 5,000,000 bytes, or about 4.77 GB.
 
 For optimal performance, you should store only frequently accessed data in RAM. The rest should be offloaded to the disk. For example, extra payload fields that you don't use for filtering can be stored on disk. 
 
-Only [indexed fields](/documentation/concepts/indexing/#payload-index) should be stored in RAM. You can read more about payload storage in the [Storage](/documentation/concepts/storage/#payload-storage) section.
+Only [indexed fields](/documentation/manage-data/indexing/#payload-index) should be stored in RAM. You can read more about payload storage in the [Storage](/documentation/manage-data/storage/#payload-storage) section.
 
 ### Storage-focused configuration
 
-If your priority is to handle large volumes of vectors with average search latency, it's recommended to configure [memory-mapped (mmap) storage](/documentation/concepts/storage/#configuring-memmap-storage). In this setup, vectors are stored on disk in memory-mapped files, while only the most frequently accessed vectors are cached in RAM.
+If your priority is to handle large volumes of vectors with average search latency, it's recommended to configure [memory-mapped (mmap) storage](/documentation/manage-data/storage/#configuring-memmap-storage). In this setup, vectors are stored on disk in memory-mapped files, while only the most frequently accessed vectors are cached in RAM.
 
 The amount of available RAM greatly impacts search performance. As a general rule, if you store half as many vectors in RAM, search latency will roughly double.
 
@@ -84,7 +84,7 @@ In this scenario, only the active subset of vectors will be cached in RAM, allow
 memory_size = number_of_active_vectors * vector_dimension * 4 bytes * 1.5
 ```
 
-Please refer to our [multitenancy](/documentation/guides/multiple-partitions/) documentation for more details on partitioning data in a Qdrant.
+Please refer to our [multitenancy](/documentation/manage-data/multitenancy/) documentation for more details on partitioning data in a Qdrant.
 
 ## Scaling disk space in Qdrant Cloud
 

@@ -1,5 +1,5 @@
 ---
-title: "Welcome to Qdrant Academy"
+title: "Qdrant Academy"
 description: Master vector search and AI-powered applications with Qdrant Academy. Free, self-paced courses guide you from beginner to expert with hands-on projects, code notebooks, and certification.
 weight: 50
 ---
@@ -12,13 +12,11 @@ Qdrant Academy is your step-by-step learning hub for mastering vector search, hy
 
 Whether you’re new to Qdrant or building production-grade systems, our guided courses help you go from beginner to expert, one module at a time.
 
-Qdrant Academy currently offers one comprehensive course, but more are on the way! Register your interest for upcoming courses below, or take the available course and [get certified](https://train.qdrant.dev)!
-
 ## Available Now
 
-{{< course-card 
+{{< course-card
  title="Qdrant Essentials Course"
- image="/icons/outline/rocket-white-light.svg" 
+ image="/icons/outline/rocket-white-light.svg"
  link="/course/essentials/"
 >}}
 **What you’ll gain:**
@@ -30,7 +28,24 @@ Qdrant Academy currently offers one comprehensive course, but more are on the wa
 - Ecosystem Integrations (Bonus)
 <br><br>
 Time to Complete: 9-12 hours<br>
-Includes: videos, code notebooks, projects, walkthroughs
+Includes: videos, code notebooks, projects, certification
+{{< /course-card >}}
+
+{{< course-card
+ title="Multi-Vector Search Course"
+ image="/icons/outline/similarity-blue.svg"
+ link="/course/multi-vector-search/"
+>}}
+**What you’ll gain:**
+- Late Interaction Models and MaxSim Scoring
+- ColBERT for Text Search
+- ColPali for Visual Document Search
+- Multi-Stage Retrieval Pipelines
+- Quantization and Pooling Techniques
+- MUVERA Indexing for Large-Scale Search
+<br><br>
+Time to Complete: 4-6 hours<br>
+Includes: videos, code notebooks, projects, certification
 {{< /course-card >}}
 
 ## Upcoming Courses

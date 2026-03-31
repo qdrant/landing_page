@@ -47,9 +47,9 @@ After evaluating multiple vector databases, the Connectivity Platform team selec
 
 The decision came down to a combination of search quality, performance, and operational fit.
 
-Qdrant’s hybrid search capabilities were a key factor. By supporting both dense vectors for semantic search and sparse vectors for keyword-based retrieval—combined using [Reciprocal Rank Fusion (RRF)](https://qdrant.tech/documentation/concepts/hybrid-queries/#reciprocal-rank-fusion-rrf), the team could address both conceptual questions and exact-match queries in a single system. Named Vectors made it possible to manage multiple vector types within the same collection.
+Qdrant’s hybrid search capabilities were a key factor. By supporting both dense vectors for semantic search and sparse vectors for keyword-based retrieval—combined using [Reciprocal Rank Fusion (RRF)](https://qdrant.tech/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf), the team could address both conceptual questions and exact-match queries in a single system. Named Vectors made it possible to manage multiple vector types within the same collection.
 
-Performance was another major consideration. Qdrant’s [Rust-based architecture](https://qdrant.tech/articles/why-rust/), efficient [HNSW implementation](https://qdrant.tech/course/essentials/day-2/what-is-hnsw/), and support for [scalar quantization (INT8)](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization) provided low-latency search while optimizing memory usage. This was crucial for an internal service expected to scale over time.
+Performance was another major consideration. Qdrant’s [Rust-based architecture](https://qdrant.tech/articles/why-rust/), efficient [HNSW implementation](https://qdrant.tech/course/essentials/day-2/what-is-hnsw/), and support for [scalar quantization (INT8)](https://qdrant.tech/documentation/manage-data/quantization/#scalar-quantization) provided low-latency search while optimizing memory usage. This was crucial for an internal service expected to scale over time.
 
 From an operational standpoint, Qdrant fit naturally into Kakao’s environment. Its single-binary design simplified deployment, it ran reliably on Kubernetes, and it allowed Kakao to retain full control over data by self-hosting within internal infrastructure.
 
@@ -63,7 +63,7 @@ The team integrated Qdrant using the asynchronous Python client (`AsyncQdrantCli
 
 Collections were designed around data sources, with separate collections for internal technical documentation, historical inquiry data, and a semantic cache used to speed up repeated queries. Metadata filtering allows the system to narrow search scope by service or time period, while maintaining fast response times.
 
-Each collection stores both dense and sparse vectors using [Named Vectors](https://qdrant.tech/documentation/concepts/vectors/#named-vectors). Hybrid search results are merged using RRF to produce more accurate answers across different query types.
+Each collection stores both dense and sparse vectors using [Named Vectors](https://qdrant.tech/documentation/manage-data/vectors/#named-vectors). Hybrid search results are merged using RRF to produce more accurate answers across different query types.
 
 An automated indexing pipeline handles document ingestion end-to-end. This ranges from cleansing and chunking, to embedding generation, to batch upserts into Qdrant.
 

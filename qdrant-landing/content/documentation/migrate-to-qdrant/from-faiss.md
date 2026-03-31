@@ -62,4 +62,4 @@ docker run --net=host --rm -it \
 
 ## Next Steps
 
-After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-verification/).
+After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-guidance/).

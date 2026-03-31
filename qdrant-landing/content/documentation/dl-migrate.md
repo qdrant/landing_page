@@ -2,10 +2,10 @@
 #Delimiter files are used to separate the list of documentation pages into sections.
 title: "Migrate to Qdrant"
 type: delimiter
-weight: 30 # Change this weight to change order of sections
+weight: 100 # Change this weight to change order of sections
 sitemapExclude: True
 _build:
   publishResources: false
   render: never
-partition: build
+partition: ecosystem
 ---

@@ -27,13 +27,13 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 | --- | --- |
 | Nearest Neighbors Search | Vector Similarity Search, also known as k-NN |
 | Search By Id | Search by an already stored vector - skip embedding model inference |
-| [Recommendations](/documentation/concepts/explore/#recommendation-api) | Provide positive and negative examples |
-| [Discovery Search](/documentation/concepts/explore/#discovery-api) | Guide the search using context as a one-shot training set |
-| [Scroll](/documentation/concepts/points/#scroll-points) | Get all points with optional filtering |
-| [Grouping](/documentation/concepts/search/#grouping-api) | Group results by a certain field |
-| [Order By](/documentation/concepts/points/#order-points-by-payload-key) | Order points by payload key |
-| [Hybrid Search](/documentation/concepts/hybrid-queries/#hybrid-search) | Combine multiple queries to get better results |
-| [Multi-Stage Search](/documentation/concepts/hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
+| [Recommendations](/documentation/search/explore/#recommendation-api) | Provide positive and negative examples |
+| [Discovery Search](/documentation/search/explore/#discovery-api) | Guide the search using context as a one-shot training set |
+| [Scroll](/documentation/manage-data/points/#scroll-points) | Get all points with optional filtering |
+| [Grouping](/documentation/search/search/#grouping-api) | Group results by a certain field |
+| [Order By](/documentation/manage-data/points/#order-points-by-payload-key) | Order points by payload key |
+| [Hybrid Search](/documentation/search/hybrid-queries/#hybrid-search) | Combine multiple queries to get better results |
+| [Multi-Stage Search](/documentation/search/hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
 | [Random Sampling](#random-sampling) | Get random points from the collection |
 
 **Nearest Neighbors Search**
@@ -88,11 +88,11 @@ Currently, it could be:
 * `hnsw_ef` - value that specifies `ef` parameter of the HNSW algorithm.
 * `exact` - option to not use the approximate search (ANN). If set to true, the search may run for a long as it performs a full scan to retrieve exact results.
 * `indexed_only` - With this option you can disable the search in those segments where vector index is not built yet. This may be useful if you want to minimize the impact to the search performance whilst the collection is also being updated. Using this option may lead to a partial result if the collection is not fully indexed yet, consider using it only if eventual consistency is acceptable for your use case.
-* `quantization` - parameters related to quantization. See [Searching with Quantization](/documentation/guides/quantization/#searching-with-quantization) guide.
+* `quantization` - parameters related to quantization. See [Searching with Quantization](/documentation/manage-data/quantization/#searching-with-quantization) guide.
 * `acorn` - parameters related to the [ACORN search algorithm](#acorn-search-algorithm).
 
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
-See details of possible filters and their work in the [filtering](/documentation/concepts/filtering/) section.
+See details of possible filters and their work in the [filtering](/documentation/search/filtering/) section.
 
 Example result of this API would be
 
@@ -175,8 +175,8 @@ Accessing array elements by index is currently not supported.
 
 *Available as of v1.16.0*
 
-For filtered vector search, you are recommended to create a [payload index](/documentation/concepts/indexing/#payload-index) for the fields you want to filter by.
-During the search, Qdrant will use a combined [filterable index](/documentation/concepts/indexing/#filterable-index).
+For filtered vector search, you are recommended to create a [payload index](/documentation/manage-data/indexing/#payload-index) for the fields you want to filter by.
+During the search, Qdrant will use a combined [filterable index](/documentation/manage-data/indexing/#filterable-index).
 However, when combining multiple strict payload filters, this mechanism might not provide sufficient accuracy.
 In such cases, you can use the ACORN search algorithm.
 
@@ -238,7 +238,7 @@ The result of this API contains one array per search requests.
 
 ## Query by ID
 
-Whenever you need to use a vector as an input, you can always use a [point ID](/documentation/concepts/points/#point-ids) instead.
+Whenever you need to use a vector as an input, you can always use a [point ID](/documentation/manage-data/points/#point-ids) instead.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/by-existing-id/" >}}
 
@@ -260,7 +260,7 @@ collection `another_collection`.
 
 ## Pagination
 
-Search and [recommendation](/documentation/concepts/explore/#recommendation-api) APIs allow to skip first results of the search and return only the result starting from some specified offset:
+Search and [recommendation](/documentation/search/explore/#recommendation-api) APIs allow to skip first results of the search and return only the result starting from some specified offset:
 
 Example:
 
@@ -281,7 +281,7 @@ Using an `offset` parameter, will require to internally retrieve `offset + limit
 
 It is possible to group results by a certain field. This is useful when you have multiple points for the same item, and you want to avoid redundancy of the same item in the results.
 
-For example, if you have a large document split into multiple chunks, and you want to search or [recommend](/documentation/concepts/explore/#recommendation-api) on a per-document basis, you can group the results by the document ID.
+For example, if you have a large document split into multiple chunks, and you want to search or [recommend](/documentation/search/explore/#recommendation-api) on a per-document basis, you can group the results by the document ID.
 
 Consider having points with the following payloads:
 
@@ -393,7 +393,7 @@ If the `group_by` field of a point is an array (e.g. `"document_id": ["a", "b"]`
 
 **Limitations**:
 
-* Only [keyword](/documentation/concepts/payload/#keyword) and [integer](/documentation/concepts/payload/#integer) payload values are supported for the `group_by` parameter. Payload values with other types will be ignored.
+* Only [keyword](/documentation/manage-data/payload/#keyword) and [integer](/documentation/manage-data/payload/#integer) payload values are supported for the `group_by` parameter. Payload values with other types will be ignored.
 * At the moment, pagination is not enabled when using **groups**, so the `offset` parameter is not allowed.
 
 ### Lookup in groups
@@ -479,10 +479,10 @@ This process is called query planning.
 The strategy selection process relies heavily on heuristics and can vary from release to release.
 However, the general principles are:
 
-* planning is performed for each segment independently (see [storage](/documentation/concepts/storage/) for more information about segments)
+* planning is performed for each segment independently (see [storage](/documentation/manage-data/storage/) for more information about segments)
 * prefer a full scan if the amount of points is below a threshold
 * estimate the cardinality of a filtered result before selecting a strategy
-* retrieve points using payload index (see [indexing](/documentation/concepts/indexing/)) if cardinality is below threshold
+* retrieve points using payload index (see [indexing](/documentation/manage-data/indexing/)) if cardinality is below threshold
 * use filterable vector index if the cardinality is above a threshold
 * use ACORN when the selectivity (ratio) is low, but the cardinality (an amount) is still high
 

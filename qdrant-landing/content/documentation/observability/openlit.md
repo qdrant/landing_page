@@ -1,6 +1,6 @@
 ---
 title: OpenLIT
-weight: 3100
+weight: 10
 aliases: [ ../frameworks/openlit/ ]
 ---
 
@@ -40,5 +40,5 @@ With the LLM Observability data now being collected by OpenLIT, the next step is
 
 To begin exploring your LLM Application's performance data within the OpenLIT UI, please see the [Quickstart Guide](https://docs.openlit.io/latest/quickstart).
 
-If you want to integrate and send the generated metrics and traces to your existing observability tools like Promethues+Jaeger, Grafana or more, refer to the [Official Documentation for OpenLIT Connections](https://docs.openlit.io/latest/connections/intro) for detailed instructions.
+If you want to integrate and send the generated metrics and traces to your existing observability tools like Prometheus+Jaeger, Grafana or more, refer to the [Official Documentation for OpenLIT Connections](https://docs.openlit.io/) for detailed instructions.
 

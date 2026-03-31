@@ -1,11 +1,13 @@
 ---
-title: Build World-Class Applications
-slug: build
+title: Explore the Qdrant Ecosystem
+slug: ecosystem
+aliases:
+  - /documentation/build/
 breadcrumb: false
 content:
   - partial: documentation/banners/banner-c
-    title: Build World-Class Applications
-    description: Dev-portal Build
+    title: Explore the Qdrant Ecosystem
+    description: Dev-portal Ecosystem
     image:
       src: /img/dev-portal-build/spanish-ai-app-hero.png
       alt: Spanish AI app.png
@@ -24,7 +26,7 @@ content:
       title: Search
       description: Build a simple neural search service with Qdrant and FastEmbed. Learn how to upload data, create indexes, and run search queries.
       link:
-        url: /documentation/beginner-tutorials/hybrid-search-fastembed/
+        url: /documentation/tutorials-search-engineering/hybrid-search-fastembed/
         text: Read More
     - id: 2
       image:
@@ -44,6 +46,6 @@ content:
       link:
         url: /documentation/send-data/
         text: Read More
-partition: build
+partition: ecosystem
 hideInSidebar: true
 ---

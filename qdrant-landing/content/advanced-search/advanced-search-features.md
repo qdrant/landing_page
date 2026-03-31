@@ -10,7 +10,7 @@ features:
   description: Qdrant optimizes similarity search, identifying the closest database items to any query vector for applications like recommendation systems, RAG and image retrieval, enhancing accuracy and user experience.
   link:
     text: Learn More
-    url: /documentation/concepts/search/
+    url: /documentation/search/search/
 - id: 1
   icon:
     src: /icons/outline/search-text-blue.svg

@@ -1,7 +1,7 @@
 ---
-title: Keeping Postgres in Sync
-weight: 33
-partition: build
+title: With Postgres
+weight: 5
+partition: ecosystem
 ---
 
 # Keeping Postgres and Qdrant in Sync

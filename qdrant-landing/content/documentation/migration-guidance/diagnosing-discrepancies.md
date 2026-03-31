@@ -1,6 +1,9 @@
 ---
 title: Diagnosing Discrepancies
-weight: 40
+weight: 20
+partition: ecosystem
+aliases:
+  - /documentation/migration-verification/diagnosing-discrepancies/
 ---
 
 # Diagnosing Discrepancies
@@ -285,4 +288,4 @@ for record in sample_records:
 
 ---
 
-**Previous:** [Search Quality Verification](/documentation/migration-verification/search-quality/) | **Start:** [Migration Verification Overview](/documentation/migration-verification/)
+**Previous:** [Search Quality Verification](/documentation/migration-guidance/search-quality/) | **Start:** [Migration Verification Overview](/documentation/migration-guidance/)

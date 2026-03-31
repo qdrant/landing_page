@@ -18,7 +18,7 @@ It might be installed with pip:
 pip install langchain-qdrant
 ```
 
-The integration supports searching for relevant documents usin dense/sparse and hybrid retrieval.
+The integration supports searching for relevant documents using dense/sparse and hybrid retrieval.
 
 Qdrant acts as a vector index that may store the embeddings with the documents used to generate them. There are various ways to use it, but calling `QdrantVectorStore.from_texts` or `QdrantVectorStore.from_documents` is probably the most straightforward way to get started:
 
@@ -81,7 +81,7 @@ qdrant = Qdrant.from_documents(
 
 ### On-premise server deployment
 
-No matter if you choose to launch QdrantVectorStore locally with [a Docker container](/documentation/guides/installation/), or
+No matter if you choose to launch QdrantVectorStore locally with [a Docker container](/documentation/operations/installation/), or
 select a Kubernetes deployment with [the official Helm chart](https://github.com/qdrant/qdrant-helm), the way you're
 going to connect to such an instance will be identical. You'll need to provide a URL pointing to the service.
 

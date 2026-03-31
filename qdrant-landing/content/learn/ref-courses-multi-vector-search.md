@@ -1,11 +1,11 @@
 ---
 #Delimiter files are used to separate the list of documentation pages into sections.
-title: "Ecosystem"
-type: delimiter
-weight: 300 # Change this weight to change order of sections
+type: reference
+reference: /course/multi-vector-search
+weight: 220
 sitemapExclude: True
 _build:
   publishResources: false
   render: never
-partition: qdrant
---- 
+partition: learn
+---

@@ -97,7 +97,7 @@ Real-world systems don’t operate in a vacuum. Failures happen: software bugs c
 If one component is updated but another isn’t, the entire system could become inconsistent. Worse, if an operation is only partially written to disk, it could lead to orphaned data, unusable space, or even data corruption.
 
 ### Stability Through Idempotency: Recovering With WAL
-To guard against these risks, Qdrant relies on a [**Write-Ahead Log (WAL)**](/documentation/concepts/storage/). Before committing an operation, Qdrant ensures that it is at least recorded in the WAL. If a crash happens before all updates are flushed, the system can safely replay operations from the log. 
+To guard against these risks, Qdrant relies on a [**Write-Ahead Log (WAL)**](/documentation/manage-data/storage/). Before committing an operation, Qdrant ensures that it is at least recorded in the WAL. If a crash happens before all updates are flushed, the system can safely replay operations from the log. 
 
 This recovery mechanism introduces another essential property: [**idempotence**](https://en.wikipedia.org/wiki/Idempotence). 
 
@@ -167,7 +167,7 @@ For even sharper debugging, Property-Based Testing adds automated test generatio
 
 Designing for crash resilience is one thing, and proving it works under stress is another. To push Qdrant’s data integrity to the limit, we built [**Crasher**](https://github.com/qdrant/crasher), a test bench that brutally kills and restarts Qdrant while it handles a heavy update workload.
 
-Crasher runs a loop that continuously writes data, then randomly crashes Qdrant. On each restart, Qdrant replays its [**Write-Ahead Log (WAL)**](/documentation/concepts/storage/), and we verify if data integrity holds. Possible anomalies include:
+Crasher runs a loop that continuously writes data, then randomly crashes Qdrant. On each restart, Qdrant replays its [**Write-Ahead Log (WAL)**](/documentation/manage-data/storage/), and we verify if data integrity holds. Possible anomalies include:
 - Missing data (points, vectors, or payloads)
 - Corrupt payload values
 
@@ -194,7 +194,7 @@ This shows a clear boost in performance. As we can see, the investment in Gridst
 
 ### End-to-End Benchmarking
 
-Now, let’s test the impact on a real Qdrant instance. So far, we’ve only integrated Gridstore for [**payloads**](/documentation/concepts/payload/) and [**sparse vectors**](/documentation/concepts/vectors/#sparse-vectors), but even this partial switch should show noticeable improvements.
+Now, let’s test the impact on a real Qdrant instance. So far, we’ve only integrated Gridstore for [**payloads**](/documentation/manage-data/payload/) and [**sparse vectors**](/documentation/manage-data/vectors/#sparse-vectors), but even this partial switch should show noticeable improvements.
 
 For benchmarking, we used our in-house [**bfb tool**](https://github.com/qdrant/bfb) to generate a workload. Our configuration:
 

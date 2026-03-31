@@ -1,7 +1,7 @@
 ---
 title: Platforms
-weight: 15
-partition: build
+weight: 1000
+partition: ecosystem
 ---
 
 ## Platform Integrations

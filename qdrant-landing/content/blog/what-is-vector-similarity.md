@@ -145,15 +145,15 @@ The vector index in Qdrant employs the Hierarchical Navigable Small World (HNSW)
 
 ### Scalability
 
-For massive datasets and demanding workloads, Qdrant supports [distributed deployment](/documentation/guides/distributed_deployment/) from v0.8.0. In this mode, you can set up a Qdrant cluster and distribute data across multiple nodes, enabling you to maintain high performance and availability even under increased workloads. Clusters support sharding and replication, and harness the Raft consensus algorithm to manage node coordination.
+For massive datasets and demanding workloads, Qdrant supports [distributed deployment](/documentation/operations/distributed_deployment/) from v0.8.0. In this mode, you can set up a Qdrant cluster and distribute data across multiple nodes, enabling you to maintain high performance and availability even under increased workloads. Clusters support sharding and replication, and harness the Raft consensus algorithm to manage node coordination.
 
-Qdrant also supports vector [quantization](/documentation/guides/quantization/) to reduce memory footprint and speed up vector similarity searches, making it very effective for large-scale applications where efficient resource management is critical.
+Qdrant also supports vector [quantization](/documentation/manage-data/quantization/) to reduce memory footprint and speed up vector similarity searches, making it very effective for large-scale applications where efficient resource management is critical.
 
 There are three quantization strategies you can choose from - scalar quantization, binary quantization and product quantization - which will help you control the trade-off between storage efficiency, search accuracy and speed.
 
 ### Security
 
-Qdrant offers several [security features](/documentation/guides/security/) to help protect data and access to the vector store:
+Qdrant offers several [security features](/documentation/operations/security/) to help protect data and access to the vector store:
 
 - API Key Authentication: This helps secure API access to Qdrant Cloud with static or read-only API keys.
 - JWT-Based Access Control: You can also enable more granular access control through JSON Web Tokens (JWT), and opt for restricted access to specific parts of the stored data while building Role-Based Access Control (RBAC).
@@ -167,7 +167,7 @@ In order to achieve top performance in vector similarity searches, Qdrant employ
 
 **Support for Dense and Sparse Vectors**: Qdrant supports both dense and sparse vector representations. While dense vectors are most common, you may encounter situations where the dataset contains a range of specialized domain-specific keywords. [Sparse vectors](/articles/sparse-vectors/) shine in such scenarios. Sparse vectors are vector representations of data where most elements are zero.
 
-**Multitenancy**: Qdrant supports [multitenancy](/documentation/guides/multiple-partitions/) by allowing vectors to be partitioned by payload within a single collection. Using this you can isolate each user's data, and avoid creating separate collections for each user. In order to ensure indexing performance, Qdrant also offers ways to bypass the construction of a global vector index, so that you can index vectors for each user independently.
+**Multitenancy**: Qdrant supports [multitenancy](/documentation/manage-data/multitenancy/) by allowing vectors to be partitioned by payload within a single collection. Using this you can isolate each user's data, and avoid creating separate collections for each user. In order to ensure indexing performance, Qdrant also offers ways to bypass the construction of a global vector index, so that you can index vectors for each user independently.
 
 **IO Optimizations**: If your data doesn’t fit into the memory, it may require storing on disk. To [optimize disk IO performance](/articles/io_uring/), Qdrant offers io_uring based *async uring* storage backend on Linux-based systems. Benchmarks show that it drastically helps reduce operating system overhead from disk IO.
 
@@ -211,7 +211,7 @@ We have just about witnessed the tip of the iceberg in terms of what vector simi
 
 Ready to implement vector similarity in your AI applications? Explore Qdrant's vector database to enhance your data retrieval and AI capabilities. For additional resources and documentation, visit:
 
-- [Quick Start Guide](/documentation/quick-start/)
+- [Quick Start Guide](/documentation/quickstart/)
 - [Documentation](/documentation/)
 
 We are always available on our [Discord channel](https://qdrant.to/discord) to answer any questions you might have. You can also sign up for our [newsletter](/subscribe/) to stay ahead of the curve.

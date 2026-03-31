@@ -19,7 +19,7 @@ We’ve launched the **beta** of our Qdrant **Vector Data Migration Tool**, desi
 
 This powerful tool streams all vectors from a source collection to a target Qdrant instance in live batches. It supports migrations from one Qdrant deployment to another, including from open source to Qdrant Cloud or between cloud regions. But that's not all. You can also migrate your data from other vector databases directly into Qdrant. All with a single command.
 
-Unlike Qdrant’s included [snapshot migration method](https://qdrant.tech/documentation/concepts/snapshots/), which requires consistent node-specific snapshots, our migration tool enables you to easily migrate data between different Qdrant database clusters in streaming batches. The only requirement is that the vector size and distance function must match.
+Unlike Qdrant’s included [snapshot migration method](https://qdrant.tech/documentation/operations/snapshots/), which requires consistent node-specific snapshots, our migration tool enables you to easily migrate data between different Qdrant database clusters in streaming batches. The only requirement is that the vector size and distance function must match.
 
 This is especially useful if you want to change the collection configuration on the target, for example by choosing a different replication factor or quantization method.
 

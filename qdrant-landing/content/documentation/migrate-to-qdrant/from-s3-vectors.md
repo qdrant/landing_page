@@ -1,6 +1,7 @@
 ---
 title: From S3 Vectors
-weight: 55
+weight: 35
+partition: ecosystem
 ---
 
 # Migrate from S3 Vectors to Qdrant
@@ -50,4 +51,4 @@ AWS credentials are passed via environment variables or the default AWS credenti
 
 ## Next Steps
 
-After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-verification/).
+After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-guidance/).

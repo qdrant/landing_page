@@ -45,7 +45,7 @@ Check each Day’s page of content.
 {{< course-card
 title="Why Start Today"
 image="/icons/outline/rocket-white-light.svg"
-link="/course/day-0/">}}
+link="/course/essentials/day-0/">}}
 
 - Seeing practical examples (e.g., hybrid search, sparse+dense vectors)
 - Learning key deployment tactics (multi-node clusters, on-disk indexing, RBAC)

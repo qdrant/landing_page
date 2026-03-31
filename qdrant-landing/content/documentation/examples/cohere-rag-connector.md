@@ -1,6 +1,6 @@
 ---
 title: Implement Cohere RAG connector
-weight: 24
+weight: 35
 aliases:
   - /documentation/tutorials/cohere-rag-connector/
 ---
@@ -258,7 +258,7 @@ The output should look like following:
 Our web service is implemented, yet running only on our local machine. It has to be exposed to the public before 
 Command-R can interact with it. For a quick experiment, it might be enough to set up tunneling using services such as 
 [ngrok](https://ngrok.com/). We won't cover all the details in the tutorial, but their 
-[Quickstart](https://ngrok.com/docs/guides/getting-started/) is a great resource describing the process step-by-step. 
+[Quickstart](https://ngrok.com/docs/getting-started/) is a great resource describing the process step-by-step. 
 Alternatively, you can also deploy the service with a public URL.
 
 Once it's done, we can create the connector first, and then tell the model to use it, while interacting through the chat

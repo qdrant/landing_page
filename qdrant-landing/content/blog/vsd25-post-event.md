@@ -54,7 +54,7 @@ André highlighted the underlying forces driving this shift:
 
 We are convinced that if AI is going to evolve beyond static assistants, it needs a **retrieval layer built for unstructured data and agent workflows**. 
 
-Next on stage, our Co-Founder and CTO [**Andrey Vasnetsov**](https://www.linkedin.com/in/andrey-vasnetsov-75268897/) emphazised our belief that ‘vector database’ is actually the wrong term to describe what we are building at Qdrant. **Qdrant is not “a vector database”** because vectors themselves are not data, but representations.
+Next on stage, our Co-Founder and CTO [**Andrey Vasnetsov**](https://www.linkedin.com/in/andrey-vasnetsov-75268897/) emphasized our belief that ‘vector database’ is actually the wrong term to describe what we are building at Qdrant. **Qdrant is not “a vector database”** because vectors themselves are not data, but representations.
 
 ![Not a Vector DB](/blog/vsd25-post-event/keynote-notvdb.png)
 

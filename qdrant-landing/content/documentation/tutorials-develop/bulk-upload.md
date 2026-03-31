@@ -30,7 +30,7 @@ To control this behavior and optimize for your system’s limits, adjust the fol
 |-------------------------------------------|-------------------------------------------------|----------------------------------------------------|
 | Fastest upload, tolerate high RAM usage           | Disable indexing completely                     | `indexing_threshold: 0`                           |
 | Low memory usage during upload            | Defer HNSW graph construction (recommended)                  | `m: 0`                 |
-| Faster index availability after upload       | Keep indexing enabled (default behavior)        | `m: 16`, `indexing_threshold: 20000` *(default)* |
+| Faster index availability after upload       | Keep indexing enabled (default behavior)        | `m: 16`, `indexing_threshold: 10000` *(default)* |
 
 Indexing must be re-enabled after upload to activate fast HNSW search if it was disabled during ingestion.
 
@@ -408,13 +408,13 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 With indexing_threshold set to 0, storage won't be optimized properly, which can lead to high RAM usage as segments accumulate in memory.
 </aside>
 
-After upload is done, you can enable indexing by setting `indexing_threshold` to a desired value (default is 20000):
+After upload is done, you can enable indexing by setting `indexing_threshold` to a desired value (default is 10000):
 
 ```http
 PATCH /collections/{collection_name}
 {
     "optimizers_config": {
-        "indexing_threshold": 20000
+        "indexing_threshold": 10000
     }
 }
 ```
@@ -437,7 +437,7 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.updateCollection("{collection_name}", {
   optimizers_config: {
-    indexing_threshold: 20000,
+    indexing_threshold: 10000,
   },
 });
 ```
@@ -453,7 +453,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 client
     .update_collection(
         UpdateCollectionBuilder::new("{collection_name}")
-            .optimizers_config(OptimizersConfigDiffBuilder::default().indexing_threshold(20000)),
+            .optimizers_config(OptimizersConfigDiffBuilder::default().indexing_threshold(10000)),
     )
     .await?;
 ```
@@ -512,23 +512,23 @@ At this point, Qdrant will begin indexing new and previously unindexed segments 
 ## Upload directly to disk
 
 When the vectors you upload do not all fit in RAM, you likely want to use
-[memmap](/documentation/concepts/storage/#configuring-memmap-storage)
+[memmap](/documentation/manage-data/storage/#configuring-memmap-storage)
 support.
 
 During collection
-[creation](/documentation/concepts/collections/#create-collection),
+[creation](/documentation/manage-data/collections/#create-collection),
 memmaps may be enabled on a per-vector basis using the `on_disk` parameter. This
 will store vector data directly on disk at all times. It is suitable for
 ingesting a large amount of data, essential for the billion scale benchmark.
 
 Using `memmap_threshold` is not recommended in this case. It would require
-the [optimizer](/documentation/concepts/optimizer/) to constantly
+the [optimizer](/documentation/operations/optimizer/) to constantly
 transform in-memory segments into memmap segments on disk. This process is
 slower, and the optimizer can be a bottleneck when ingesting a large amount of
 data.
 
 Read more about this in
-[Configuring Memmap Storage](/documentation/concepts/storage/#configuring-memmap-storage).
+[Configuring Memmap Storage](/documentation/manage-data/storage/#configuring-memmap-storage).
 
 ## Parallel upload into multiple shards
 

@@ -53,7 +53,7 @@ In the podcast, we addressed the following:
 - **Model evaluation(LLM)** - Understanding the model at the domain-level for the given use case, supporting required context length and terminology/concept understanding.
 - **Ingestion pipeline evaluation** - Evaluating factors related to data ingestion and processing such as chunk strategies, chunk size, chunk overlap, and more.
 - **Retrieval evaluation** - Understanding factors such as average precision, [Distributed cumulative gain](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) (DCG), as well as normalized DCG.
-- **Generation evaluation(E2E)** - Establishing guardrails. Evaulating prompts. Evaluating the number of chunks needed to set up the context for generation.
+- **Generation evaluation(E2E)** - Establishing guardrails. Evaluating prompts. Evaluating the number of chunks needed to set up the context for generation.
 
 ### The recording
 

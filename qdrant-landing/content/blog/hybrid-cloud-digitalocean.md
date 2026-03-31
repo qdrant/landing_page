@@ -47,7 +47,7 @@ To get Qdrant Hybrid Cloud setup on DigitalOcean, just follow these steps:
 
 We created a tutorial that guides you through setting up and leveraging Qdrant Hybrid Cloud on DigitalOcean for a RAG application. It highlights practical steps to integrate vector search with Jina AI's LLMs, optimizing the generation of high-quality, relevant AI content, while ensuring data sovereignty is maintained throughout. This specific system is tied together via the LlamaIndex framework.
 
-[Try the Tutorial](/documentation/tutorials/hybrid-search-llamaindex-jinaai/)
+[Try the Tutorial](/documentation/examples/hybrid-search-llamaindex-jinaai/)
 
 For a comprehensive guide, our documentation provides detailed instructions on setting up Qdrant on DigitalOcean.
 

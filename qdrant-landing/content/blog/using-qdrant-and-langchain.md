@@ -74,7 +74,7 @@ Here is what this basic tutorial will teach you:
 
 **3. Implement vector similarity search algorithms:** Second, you will create and test a chatbot that only uses the LLM. Then, you will enable the memory component offered by Qdrant. This will allow your chatbot to be modified and updated, giving it long-term memory. 
 
-**4. Optimize the chatbot's performance:** In the last step, you will query the chatbot in two ways. First query will retrieve parametric data from the LLM, while the second one will get contexual data via Qdrant.
+**4. Optimize the chatbot's performance:** In the last step, you will query the chatbot in two ways. First query will retrieve parametric data from the LLM, while the second one will get contextual data via Qdrant.
 
 The goal of this exercise is to show that RAG is simple to implement via LangChain and yields much better results than using LLMs by itself.
 
@@ -94,13 +94,13 @@ Whether you are building a bank fraud-detection system, RAG for e-commerce, or s
 
 Now that you know how Qdrant and LangChain can elevate your setup - it's time to try us out. 
 
-- Qdrant is open source and you can [quickstart locally](/documentation/quick-start/), [install it via Docker](/documentation/quick-start/), [or to Kubernetes](https://github.com/qdrant/qdrant-helm/). 
+- Qdrant is open source and you can [quickstart locally](/documentation/quickstart/), [install it via Docker](/documentation/quickstart/), [or to Kubernetes](https://github.com/qdrant/qdrant-helm/). 
 
 - We also offer [a free-tier of Qdrant Cloud](https://cloud.qdrant.io/) for prototyping and testing.
 
 - For best integration with LangChain, read the [official LangChain documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant/). 
 
-- For all other cases, [Qdrant documentation](/documentation/integrations/langchain/) is the best place to get there.
+- For all other cases, [Qdrant documentation](/documentation/frameworks/langchain/) is the best place to get there.
 
 > We offer additional support tailored to your business needs. [Contact us](https://qdrant.to/contact-us) to learn more about implementation strategies and integrations that suit your company.
 

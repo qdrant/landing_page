@@ -133,7 +133,7 @@ The LLM is typically a model like GPT, BART or T5, trained on massive datasets t
 ![How a Generator works](/articles_data/what-is-rag-in-ai/how-generation-works.png)
 
 
-The retriever and generator don't operate in isolation. The image bellow shows how the output of the retrieval feeds the generator to produce the final generated response.
+The retriever and generator don't operate in isolation. The image below shows how the output of the retrieval feeds the generator to produce the final generated response.
 
 
 ![The entire architecture of a RAG system](/articles_data/what-is-rag-in-ai/rag-system.jpg)

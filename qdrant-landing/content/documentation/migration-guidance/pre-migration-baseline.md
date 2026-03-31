@@ -1,6 +1,9 @@
 ---
 title: Pre-Migration Baseline
-weight: 10
+weight: 5
+partition: ecosystem
+aliases:
+  - /documentation/migration-verification/pre-migration-baseline/
 ---
 
 # Pre-Migration Baseline
@@ -235,4 +238,4 @@ Store these alongside your migration scripts. You'll reference them in every sub
 
 ---
 
-**Next:** [Data Integrity Verification](/documentation/migration-verification/data-integrity/)
+**Next:** [Data Integrity Verification](/documentation/migration-guidance/data-integrity/)

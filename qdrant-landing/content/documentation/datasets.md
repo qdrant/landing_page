@@ -1,7 +1,7 @@
 ---
 title: Practice Datasets
-weight: 28
-partition: build
+weight: 1500
+partition: ecosystem
 ---
 
 # Common Datasets in Snapshot Format
@@ -22,7 +22,7 @@ on a dataset name to see its detailed description.
 | [Arxiv.org abstracts](#arxivorg-abstracts) | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl)                 | 768         | 2.3M      | 8.4 GB | [Download](https://snapshots.qdrant.io/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
 | [Wolt food](#wolt-food)                    | [clip-ViT-B-32](https://huggingface.co/sentence-transformers/clip-ViT-B-32) | 512         | 1.7M      | 7.9 GB | [Download](https://snapshots.qdrant.io/wolt-clip-ViT-B-32-2446808438011867-2023-12-14-15-55-26.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/wolt-food-clip-ViT-B-32-embeddings)      |
 
-Once you download a snapshot, you need to [restore it](/documentation/concepts/snapshots/#restore-snapshot) 
+Once you download a snapshot, you need to [restore it](/documentation/operations/snapshots/#restore-snapshot) 
 using the Qdrant CLI upon startup or through the API.
 
 ## Qdrant on Hugging Face
@@ -40,7 +40,7 @@ and build your applications based on semantic search. **Please let us know if yo
 a specific dataset!**
 
 If you are not familiar with [Hugging Face datasets](https://huggingface.co/docs/datasets/index),
-or would like to know how to combine it with Qdrant, please refer to the [tutorial](/documentation/tutorials/huggingface-datasets/).
+or would like to know how to combine it with Qdrant, please refer to the [tutorial](/documentation/tutorials-basics/huggingface-datasets/).
 
 ## Arxiv.org
 

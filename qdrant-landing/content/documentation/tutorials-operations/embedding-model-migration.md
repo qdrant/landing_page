@@ -29,7 +29,7 @@ Re-embedding requires access to the original data used to create the embeddings.
 
 The solution outlined in this tutorial only works for upsert operations. If you use deletes or partial updates, it is necessary to pause those operations during the migration or implement additional logic to handle them.
 
-This tutorial assumes you use [Qdrant Cloud Inference](/documentation/concepts/inference/#qdrant-cloud-inference) to generate vector embeddings. If you manage your own embedding infrastructure, you can apply the same principles, but you will need to adapt the code examples to use your embedding service.
+This tutorial assumes you use [Qdrant Cloud Inference](/documentation/inference/#qdrant-cloud-inference) to generate vector embeddings. If you manage your own embedding infrastructure, you can apply the same principles, but you will need to adapt the code examples to use your embedding service.
 
 ## Step 1: Create a New Collection
 
@@ -86,9 +86,9 @@ The migration process reads the points from the old collection, re-embeds them u
 
 Breaking down this code step by step:
 
-- Data is read from the old collection in batches of 100 points using a [scroll](/documentation/concepts/points/#scroll-points). The `last_offset` variable keeps track of the scroll position in the collection.
+- Data is read from the old collection in batches of 100 points using a [scroll](/documentation/manage-data/points/#scroll-points). The `last_offset` variable keeps track of the scroll position in the collection.
 - For each batch of points, the process re-embeds the vectors using the new embedding model. It assumes that the original text used for embedding is stored in the payload under the key `text`.
-- With the re-embedded vectors, it upserts the points into the new collection, keeping the original IDs and payloads. The upserts use [insert-only mode](/documentation/concepts/points/#update-mode) to ensure that a point is only inserted if it does not already exist in the new collection. This prevents overwriting newer updates from the regular update service.
+- With the re-embedded vectors, it upserts the points into the new collection, keeping the original IDs and payloads. The upserts use [insert-only mode](/documentation/manage-data/points/#update-mode) to ensure that a point is only inserted if it does not already exist in the new collection. This prevents overwriting newer updates from the regular update service.
 
 This kind of migration process can take some time, and the offset can be stored in a persistent way, so you can resume the migration process in case of a failure. You can use a database, a file, or any other persistent storage to keep track of the last offset. Having said that, because the conditional upserts would not overwrite any points in the new collection, you could safely restart the migration process from the beginning if needed.
 
@@ -96,7 +96,7 @@ This kind of migration process can take some time, and the offset can be stored 
 
 Once the migration process is complete, and all the points from the old collection are re-embedded and stored in the new collection, you can roll out a configuration change of the backend application. There are two key changes you have to make:
 
-1. **The collection name**. Switch this from the old collection to the new collection. If you're using a [collection alias](/documentation/concepts/collections/#collection-aliases), switch the alias to point to the new collection.
+1. **The collection name**. Switch this from the old collection to the new collection. If you're using a [collection alias](/documentation/manage-data/collections/#collection-aliases), switch the alias to point to the new collection.
 2. **The embedding model**. Switch this from the old embedding model to the new embedding model.
 
 If these values are hardcoded in your application, you will need to change them directly in the code and deploy a new version of your application. For example, if your current search code looks like this:

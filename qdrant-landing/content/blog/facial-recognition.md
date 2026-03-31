@@ -44,7 +44,7 @@ ___
 
 ## Architecture
 
-**Search Engine & DB:** [**Qdrant**](https://qdrant.tech) stands out as a high-performance [**vector database**](/qdrant-vector-database/) built in Rust, known for its reliability and speed. Its advanced features, such as [**vector visualization**](/documentation/web-ui/) and efficient [**querying**](/documentation/concepts/search/), make it a go-to choice for developers working on embedding-based projects. 
+**Search Engine & DB:** [**Qdrant**](https://qdrant.tech) stands out as a high-performance [**vector database**](/qdrant-vector-database/) built in Rust, known for its reliability and speed. Its advanced features, such as [**vector visualization**](/documentation/web-ui/) and efficient [**querying**](/documentation/search/search/), make it a go-to choice for developers working on embedding-based projects. 
 
 ![architecture](/blog/facial-recognition/architecture.png)
 
@@ -121,7 +121,7 @@ If your data is properly embedded, then the visualization tool will appropriatel
 
 ## Lessons and Takeaways
 
-Scalability poses challenges when working with large datasets, such as 20,000+ images. Consider optimizations like [**quantization**](/documentation/guides/quantization/) to reduce memory usage or precomputing average embeddings for clusters can significantly minimize storage and computational costs. These strategies ensure the system remains performant as the dataset grows.
+Scalability poses challenges when working with large datasets, such as 20,000+ images. Consider optimizations like [**quantization**](/documentation/manage-data/quantization/) to reduce memory usage or precomputing average embeddings for clusters can significantly minimize storage and computational costs. These strategies ensure the system remains performant as the dataset grows.
 
 The potential real-world applications of this technology extend far beyond entertainment. Similar systems can be used in security applications for embedding-based facial recognition to secure access to buildings or devices. 
 

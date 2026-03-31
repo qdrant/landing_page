@@ -1,8 +1,9 @@
 ---
 title: LLM-Powered Filter Automation
-weight: 2
+weight: 10
 alias:
     - /documentation/database-tutorials/automate-filtering-with-llms/
+hideInSidebar: true
 ---
 
 # LLM-Powered Filter Automation with Qdrant

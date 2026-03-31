@@ -12,7 +12,7 @@ social_preview_image: /docs/gettingstarted/vector-social.png
 
 If you are still trying to figure out how vector search works, please read ahead. This document describes how vector search is used, covers Qdrant's place in the larger ecosystem, and outlines how you can use Qdrant to augment your existing projects.
 
-For those who want to start writing code right away, visit our [Complete Beginners tutorial](/documentation/tutorials/search-beginners/) to build a search engine in 5-15 minutes.
+For those who want to start writing code right away, visit our [Complete Beginners tutorial](/documentation/tutorials-basics/search-beginners/) to build a search engine in 5-15 minutes.
 
 ## A Brief History of Search
 
@@ -24,7 +24,7 @@ If you are looking for a specific topic in a particular book, you can try to fin
 
 Time passed, and we haven’t had much change in that area for quite a long time. But our textual data collection started to grow at a greater pace. So we also started building up many processes around those inverted indexes. For example, we allowed our users to provide many words and started splitting them into pieces. That allowed finding some documents which do not necessarily contain all the query words, but possibly part of them. We also started converting words into their root forms to cover more cases, removing stopwords, etc. Effectively we were becoming more and more user-friendly. Still, the idea behind the whole process is derived from the most straightforward keyword-based search known since the Middle Ages, with some tweaks.
 
-{{< figure src=/docs/gettingstarted/tokenization.png caption="The process of tokenization with an additional stopwords removal and converstion to root form of a word." >}}
+{{< figure src=/docs/gettingstarted/tokenization.png caption="The process of tokenization with an additional stopwords removal and conversion to root form of a word." >}}
 
 Technically speaking, we encode the documents and queries into so-called sparse vectors where each position has a corresponding word from the whole dictionary. If the input text contains a specific word, it gets a non-zero value at that position. But in reality, none of the texts will contain more than hundreds of different words. So the majority of vectors will have thousands of zeros and a few non-zero values. That’s why we call them sparse. And they might be already used to calculate some word-based similarity by finding the documents which have the biggest overlap.
 
@@ -64,8 +64,8 @@ While doing a semantic search at scale, because this is what we sometimes call t
 
 Vector search is an exciting alternative to sparse methods. It solves the issues we had with the keyword-based search without needing to maintain lots of heuristics manually. It requires an additional component, a neural encoder, to convert text into vectors. 
 
-[**Tutorial 1 - Qdrant for Complete Beginners**](/documentation/tutorials/search-beginners/)
-Despite its complicated background, vectors search is extraordinarily simple to set up. With Qdrant, you can have a search engine up-and-running in five minutes. Our [Complete Beginners tutorial](/documentation/tutorials/search-beginners/) will show you how.
+[**Tutorial 1 - Qdrant for Complete Beginners**](/documentation/tutorials-basics/search-beginners/)
+Despite its complicated background, vectors search is extraordinarily simple to set up. With Qdrant, you can have a search engine up-and-running in five minutes. Our [Complete Beginners tutorial](/documentation/tutorials-basics/search-beginners/) will show you how.
 
 [**Tutorial 2 - Question and Answer System**](/articles/qa-with-cohere-and-qdrant/)
 However, you can also choose SaaS tools to generate them and avoid building your model. Setting up a vector search project with Qdrant Cloud and Cohere co.embed API is fairly easy if you follow the [Question and Answer system tutorial](/articles/qa-with-cohere-and-qdrant/).

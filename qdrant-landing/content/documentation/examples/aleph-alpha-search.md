@@ -1,6 +1,6 @@
 ---
 title: Aleph Alpha Search
-weight: 16
+weight: 10
 draft: true
 ---
 

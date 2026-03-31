@@ -66,7 +66,7 @@ This approach maintains storage size and RAM usage similar to binary quantizatio
 
 When performing nearest vector search, the query vector is compared against quantized vectors stored in the database. If the query itself remains unquantized and a scoring method exists to evaluate it directly against the compressed vectors, this allows for more accurate results without increasing memory usage.
 
->  Quantization enables efficient storage and search of high-dimensional vectors. Learn more about this from our [**quantization**](/documentation/guides/quantization/) docs.
+>  Quantization enables efficient storage and search of high-dimensional vectors. Learn more about this from our [**quantization**](/documentation/manage-data/quantization/) docs.
 
 
 <details>
@@ -89,7 +89,7 @@ Dataset: Laion 1 million 512d vectors
 ![Section 2](/blog/qdrant-1.15.x/section-2.png)
 
 Full-text filtering in Qdrant in an efficient way to combine Vector-based scoring with exact keyword match.
-And in v1.15 full-text index recieved a number of upgrades which make vector similarity evem more useful.
+And in v1.15 full-text index received a number of upgrades which make vector similarity even more useful.
 
 ### Multilingual Tokenization
 
@@ -138,7 +138,7 @@ PUT /collections/{collection_name}/index
 }
 ```
 
-For more information about stopwords, see the [documentation](https://qdrant.tech/documentation/concepts/indexing/#stopwords).
+For more information about stopwords, see the [documentation](https://qdrant.tech/documentation/manage-data/indexing/#stopwords).
 
 ### Stemming
 
@@ -169,10 +169,10 @@ PUT /collections/{collection_name}/index
 
 ### Phrase Matching
 
-With [phrase matching](/documentation/concepts/filtering/#phrase-match), you can now perform exact phrase search.
+With [phrase matching](/documentation/search/filtering/#phrase-match), you can now perform exact phrase search.
 It allows you to search for a specific phrase, words in exact order, within a text field.
 
-For efficient phrase seach Qdrant requires to build an additional data structure,
+For efficient phrase search Qdrant requires to build an additional data structure,
 so it needs to be configured during creation of the full-text index:
 
 ```http
@@ -213,7 +213,7 @@ The above will match:
 
 ## MMR Reranking
 
-We introduce [Maximal Marginal Relevance (MMR)](/documentation/concepts/search-relevance/#maximal-marginal-relevance-mmr) reranking to balance relevance and diversity.
+We introduce [Maximal Marginal Relevance (MMR)](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr) reranking to balance relevance and diversity.
 MMR works by selecting the results iteratively, by picking the item with the best combination of similarity to the query and dissimilarity to the already selected items.
 
 It prevents your top-k results from being redundant and helps surface varied but relevant answers, particularly in dense datasets with overlapping entries.
@@ -225,7 +225,7 @@ It prevents your top-k results from being redundant and helps surface varied but
 Let’s say you’re building a knowledge assistant or semantic document explorer in which a single query can return multiple highly similar queries.
 For instance, searching “climate change” in a scientific paper database might return several similar paragraphs.
 
-You can diversify the results with [Maximal Marginal Relevance (MMR)](/documentation/concepts/search-relevance/#maximal-marginal-relevance-mmr).
+You can diversify the results with [Maximal Marginal Relevance (MMR)](/documentation/search/search-relevance/#maximal-marginal-relevance-mmr).
 
 Instead of returning the top-k results based on pure similarity, MMR helps select a diverse subset of high-quality results.
 This gives more coverage and avoids redundant results, which is helpful in dense content domains such as academic papers, product catalogs, or search assistants.
@@ -273,7 +273,7 @@ As usual, new Qdrant release brings more performance optimization for faster and
 Qdrant 1.15 introduces HNSW healing.
 
 Instead of completely re-building HNSW index during optimization, Qdrant now tries to re-use information from the existing vector index to speed-up construction of the new one.
-When points are removed from an existing [HNSW graph](https://qdrant.tech/documentation/concepts/indexing/#vector-index), new links are added to prevent isolation in the graph, and avoid decreasing search quality.
+When points are removed from an existing [HNSW graph](https://qdrant.tech/documentation/manage-data/indexing/#vector-index), new links are added to prevent isolation in the graph, and avoid decreasing search quality.
 
 {{<figure src="/blog/qdrant-1.15.x/healing.png" caption="Indexing speed with healing vs full re-index" >}}
 
@@ -283,7 +283,7 @@ This modification, in combinations with [incremental HNSW indexing](/blog/qdrant
 
 ### HNSW Graph connectivity estimation
 
-Qdrant builds [addtitional HNSW links](/articles/filterable-hnsw/) to ensure that filtered searches are performed fast and accurate.
+Qdrant builds [additional HNSW links](/articles/filterable-hnsw/) to ensure that filtered searches are performed fast and accurate.
 
 It does, however, introduce an overhead for indexing complexity, especially when the number of payload indexes is large.
 With v1.15, Qdrant introduces an optimization, which quickly estimates graph connectivity before creating additional links.

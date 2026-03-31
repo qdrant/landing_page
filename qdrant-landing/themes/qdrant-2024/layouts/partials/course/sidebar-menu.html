@@ -40,7 +40,19 @@
         {{ end }}
 
         {{ if or (eq $currentNode.Params.isLesson true) (eq $currentNode.Parent.Params.isLesson true) }}
-          {{ $allLessons := where $subject.Pages ".Params.isLesson" true }}
+          {{ $allLessons := slice }}
+          {{ range $subject.Pages }}
+            {{ if .Params.isLesson }}
+              {{ $allLessons = $allLessons | append . }}
+            {{ end }}
+            {{ if .IsSection }}
+              {{ range .Pages }}
+                {{ if .Params.isLesson }}
+                  {{ $allLessons = $allLessons | append . }}
+                {{ end }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
           {{ $total := len $allLessons }}
 
           {{ if $total }}
