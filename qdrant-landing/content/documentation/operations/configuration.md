@@ -221,6 +221,13 @@ storage:
     # See: <https://qdrant.tech/articles/io_uring/#and-what-about-qdrant>
     #async_scorer: false
 
+    # Maximum number of collections to load concurrently.
+    #max_concurrent_collection_loads: 1
+    # Maximum number of local shards to load concurrently when loading a collection.
+    #max_concurrent_shard_loads: 1
+    # Maximum number of segments to load concurrently when loading a local shard.
+    #max_concurrent_segment_loads: 8
+
   optimizers:
     # The minimal fraction of deleted vectors in a segment, required to perform segment optimization
     deleted_threshold: 0.2
@@ -306,7 +313,7 @@ storage:
   # Default shard transfer method to use if none is defined.
   # If null - don't have a shard transfer preference, choose automatically.
   # If stream_records, snapshot or wal_delta - prefer this specific method.
-  # More info: https://qdrant.tech/documentation/operations/distributed_deployment/#shard-transfer-method
+  # More info: https://qdrant.tech/documentation/guides/distributed_deployment/#shard-transfer-method
   shard_transfer_method: null
 
   # Default parameters for collections
@@ -325,7 +332,7 @@ storage:
     # shard_number_per_node: 1
 
     # Default quantization configuration.
-    # More info: https://qdrant.tech/documentation/manage-data/quantization
+    # More info: https://qdrant.tech/documentation/guides/quantization
     quantization: null
 
     # Default strict mode parameters for newly created collections.
@@ -457,7 +464,7 @@ cluster:
     compact_wal_entries: 128
 
 # Set to true to prevent service from sending usage statistics to the developers.
-# Read more: https://qdrant.tech/documentation/operations/usage-statistics
+# Read more: https://qdrant.tech/documentation/guides/telemetry
 telemetry_disabled: false
 
 # TLS configuration.
@@ -483,4 +490,19 @@ tls:
   # Only works for HTTPS endpoints. Does not support gRPC (and intra-cluster communication).
   # If `null` - TTL is disabled.
   cert_ttl: 3600
+
+# Audit logging configuration.
+# When enabled, Qdrant writes structured JSON audit log entries for every
+# access-checked API request.
+#
+# audit:
+#   enabled: false
+#   dir: ./storage/audit
+#   rotation: daily
+#   max_log_files: 7
+#   # If true, use X-Forwarded-For header to determine client IP in audit logs.
+#   # Only enable this when running behind a trusted reverse proxy or load balancer.
+#   # WARNING: Enabling this without a trusted proxy allows clients to spoof their IP.
+#   # Default: false
+#   trust_forwarded_headers: false
 ```
