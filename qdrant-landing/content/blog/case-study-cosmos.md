@@ -17,6 +17,7 @@ tags:
 - color search
 - creative discovery
 - case study
+partition: case-studies
 ---
 
 ![How Cosmos powered text, color, and hybrid search with Qdrant](/blog/case-study-cosmos/cosmos-bento-box-dark.jpg)

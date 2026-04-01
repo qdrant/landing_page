@@ -16,6 +16,7 @@ tags:
 - latency reduction
 - revenue growth
 - case study
+partition: case-studies
 ---
 
 ## How ConvoSearch Boosted E-commerce Revenue with Qdrant

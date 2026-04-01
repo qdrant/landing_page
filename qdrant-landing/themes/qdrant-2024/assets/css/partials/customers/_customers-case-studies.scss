@@ -328,7 +328,7 @@
           border: pxToRem(1) solid $neutral-90;
           border-radius: $spacer * 0.5;
           background-color: $neutral-98;
-          padding: $spacer * 0.5;
+          padding: $spacer * 1;
 
           &:after {
             content: "";
@@ -348,14 +348,9 @@
           img {
             z-index: 1;
             display: block;
-            min-width: 0;
-            max-width: 100%;
-            min-height: $spacer * 2.5;
-            max-height: $spacer * 3.5;
             width: auto;
-            height: auto;
-            object-fit: contain;
-            object-position: center;
+            height: 40px;
+            max-width: 100%;
             position: relative;
           }
         }

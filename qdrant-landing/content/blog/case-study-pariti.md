@@ -15,6 +15,7 @@ tags:
 - recruitment tech
 - candidate matching
 - case study
+partition: case-studies
 ---
 
 

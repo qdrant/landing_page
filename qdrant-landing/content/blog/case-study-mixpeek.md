@@ -14,7 +14,8 @@ tags:
 - vector search
 - multimodal AI  
 - retrieval-augmented generation  
-- case study 
+- case study
+partition: case-studies
 ---
 # How Mixpeek Uses Qdrant for Efficient Multimodal Feature Stores
 

@@ -17,6 +17,7 @@ tags:
 - knowledge engine
 - latency optimization
 - case study
+partition: case-studies
 ---
 
 ![Xaver Overview](/blog/case-study-xaver/xaver-bento-box-dark.jpg)

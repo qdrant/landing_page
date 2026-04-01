@@ -15,6 +15,7 @@ tags:
   - PGVector
   - Agents
   - Retrieval Augmented Generation
+partition: case-studies
 ---
 
 ![qdrant-qatech-1](/blog/case-study-qatech/qdrant-qatech-1.png)

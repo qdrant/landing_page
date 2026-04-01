@@ -16,6 +16,7 @@ tags:
   - vector search
   - RAG
   - case study
+partition: case-studies
 ---
 ![voiceflow/image2.png](/blog/case-study-voiceflow/image1.png)
 

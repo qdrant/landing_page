@@ -18,6 +18,7 @@ tags:
 - nodejs
 - cost reduction
 - case study
+partition: case-studies
 ---
 
 ![GlassDollar overview](/blog/case-study-glassdollar/glassdollar-bento-box.png)

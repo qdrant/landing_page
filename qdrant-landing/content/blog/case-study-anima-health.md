@@ -18,6 +18,7 @@ tags:
 - agentic ai
 - privacy
 - case study
+partition: case-studies
 ---
 
 ![Anima Health scaled privacy-first clinical intelligence with Qdrant](/blog/case-study-anima-health/anima-bento.png)

@@ -15,6 +15,7 @@ tags:
   - computer vision
   - quality control
   - anomaly detection
+partition: case-studies
 ---
 
 ![visua/image1.png](/blog/case-study-visua/image1.png)

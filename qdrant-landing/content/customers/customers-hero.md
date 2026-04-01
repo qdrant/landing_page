@@ -6,7 +6,7 @@ tag:
     alt: Open book
 button:
   text: Talk to Sales
-  url: "#"
+  url: /contact-us/
 cards:
   - id: 0
     image:

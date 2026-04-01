@@ -15,6 +15,7 @@ tags:
 - retrieval-augmented generation
 - case study
 - patent law
+partition: case-studies
 ---
 
 ![Bento Box](/blog/case-study-and-ai/and-ai-bento.jpg)

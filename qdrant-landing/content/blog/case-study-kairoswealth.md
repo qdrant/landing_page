@@ -15,6 +15,7 @@ tags:
   - Performance Scalability
   - Multi-Tenancy
   - Financial Recommendations
+partition: case-studies
 ---
 
 ![Kairoswealth overview](/blog/case-study-kairoswealth/image2.png)
