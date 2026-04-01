@@ -1,2 +1,28 @@
 /surveys/hybrid-saas    https://hybrid-cloud.qdrant.tech/    301
 /surveys/hybrid-saas/    https://hybrid-cloud.qdrant.tech/    301
+
+# Rewrites for pages moved in PRs #2204 and #2212 (fixed in #2239)
+# /documentation/guides/ -> /documentation/operations/ or /documentation/manage-data/
+/documentation/guides/optimize/*                 /documentation/operations/optimize/:splat              301
+/documentation/guides/distributed_deployment/*   /documentation/operations/distributed_deployment/:splat 301
+/documentation/guides/capacity-planning/*        /documentation/operations/capacity-planning/:splat     301
+/documentation/guides/security/*                 /documentation/operations/security/:splat              301
+/documentation/guides/monitoring/*               /documentation/operations/monitoring/:splat            301
+/documentation/guides/configuration/*            /documentation/operations/configuration/:splat         301
+/documentation/guides/installation/*             /documentation/operations/installation/:splat          301
+/documentation/guides/administration/*           /documentation/operations/administration/:splat        301
+/documentation/guides/quantization/*             /documentation/manage-data/quantization/:splat         301
+/documentation/guides/multiple-partitions/*      /documentation/manage-data/multitenancy/:splat         301
+/documentation/guides/multitenancy/*             /documentation/manage-data/multitenancy/:splat         301
+
+# /documentation/concepts/ -> /documentation/search/, /documentation/manage-data/, or /documentation/operations/
+/documentation/concepts/explore/*                /documentation/search/explore/:splat                   301
+/documentation/concepts/filtering/*              /documentation/search/filtering/:splat                 301
+/documentation/concepts/hybrid-queries/*         /documentation/search/hybrid-queries/:splat            301
+/documentation/concepts/collections/*            /documentation/manage-data/collections/:splat          301
+/documentation/concepts/indexing/*               /documentation/manage-data/indexing/:splat             301
+/documentation/concepts/vectors/*                /documentation/manage-data/vectors/:splat              301
+/documentation/concepts/storage/*                /documentation/manage-data/storage/:splat              301
+/documentation/concepts/snapshots/*              /documentation/operations/snapshots/:splat             301
+/documentation/concepts/optimizer/*              /documentation/operations/optimizer/:splat             301
+/documentation/concepts/inference/*              /documentation/inference/:splat                        301

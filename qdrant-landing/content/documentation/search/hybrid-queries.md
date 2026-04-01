@@ -3,7 +3,6 @@ title: Hybrid Queries
 weight: 15
 aliases:
   - ../hybrid-queries
-  - /documentation/concepts/hybrid-queries/
 hideInSidebar: false
 ---
 

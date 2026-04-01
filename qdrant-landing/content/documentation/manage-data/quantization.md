@@ -5,7 +5,6 @@ aliases:
   - ../quantization
   - /articles/dedicated-service/documentation/guides/quantization/
   - /guides/quantization/
-  - /documentation/guides/quantization/
 ---
 
 # Quantization

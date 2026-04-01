@@ -5,7 +5,6 @@ aliases:
   - ../collections
   - /concepts/collections/
   - /documentation/frameworks/fondant/documentation/concepts/collections/
-  - /documentation/concepts/collections/
 ---
 
 # Collections

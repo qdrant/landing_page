@@ -3,7 +3,6 @@ title: Filtering
 weight: 10
 aliases:
   - ../filtering
-  - /documentation/concepts/filtering/
 ---
 
 # Filtering

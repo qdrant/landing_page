@@ -3,7 +3,6 @@ title: Administration
 weight: 55
 aliases:
   - ../administration
-  - /documentation/guides/administration/
 ---
 
 # Administration

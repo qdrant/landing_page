@@ -3,7 +3,6 @@ title: Optimizer
 weight: 75
 aliases:
   - ../optimizer
-  - /documentation/concepts/optimizer/
 ---
 
 # Optimizer

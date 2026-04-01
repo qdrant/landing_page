@@ -3,7 +3,6 @@ title: Monitoring & Telemetry
 weight: 35
 aliases:
   - ../monitoring
-  - /documentation/guides/monitoring/
 ---
 
 # Monitoring & Telemetry
