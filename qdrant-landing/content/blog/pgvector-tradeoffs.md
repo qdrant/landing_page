@@ -91,4 +91,4 @@ There's a reason the "start with pgvector" advice persists despite these limitat
 
 This is a legitimate concern, and we don't want to dismiss it. However, it's also a solved problem with well-known patterns, ranging from simple dual-writes for prototypes to transactional outbox patterns for production, to full CDC pipelines for high-throughput systems.
 
-If you've decided you need a dedicated vector store, don't let sync anxiety push you back to pgvector. Our [Postgres-Qdrant Data Synchronization guide](/documentation/data-synchronization/with-postgres) walks through three progressively robust sync architectures — each with working code, failure mode analysis, and clear guidance on when to use which.
+If you've decided you need a dedicated vector store, don't let sync anxiety push you back to pgvector. Our [Postgres-Qdrant Data Synchronization guide](/documentation/data-synchronization/with-postgres/) walks through three progressively robust sync architectures — each with working code, failure mode analysis, and clear guidance on when to use which.
