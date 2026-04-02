@@ -93,7 +93,7 @@ You can add labels to a Qdrant Cluster from the cluster's detail page. Labels ar
 
 You can activate audit logs for your cluster in the cluster configuration tab of the cluster details page. Audit logs provide a record of all API calls made to the cluster. This is useful for security and compliance purposes.
 
-Audit logs are available for all paid clusters, starting with Qdrant v1.17.0; the download endpoint starting with Qdrant v1.17.1.
+Audit logs are available for all paid clusters, starting with Qdrant v1.17.0; the endpoint for downloading logs is available from Qdrant v1.17.1.
 
 The following information is tracked:
 
