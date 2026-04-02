@@ -225,6 +225,11 @@ sections:
     free: false
     standard: false
     premium: (AWS only)
+  - name: Audit Logging
+    oss: true
+    free: false
+    standard: true
+    premium: true
   - name: Enterprise SSO Authentication
     oss: false
     free: false

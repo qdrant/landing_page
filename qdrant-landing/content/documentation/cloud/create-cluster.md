@@ -48,6 +48,7 @@ On top of the Free cluster features, Standard clusters offer:
 - Multi-node clusters for high availability
 - Horizontal and vertical scaling
 - Monitoring and log management
+- Audit Loggig
 - Zero-downtime upgrades for multi-node clusters with replication
 
 You have a broad choice of regions on AWS, Azure and Google Cloud.
