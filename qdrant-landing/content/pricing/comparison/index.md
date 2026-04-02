@@ -91,7 +91,7 @@ sections:
     oss: false
     free: false
     standard: "99.5"
-    premium: "99.9"
+    premium: "Single AZ: 99.9, Multi AZ: 99.95"
 - name: Developer Experience
   features:
   - name: Database Web UI
@@ -147,6 +147,11 @@ sections:
     oss: true
     free: false
     standard: true
+    premium: true
+  - name: Topology Aware Multi AZ Setup
+    oss: false
+    free: false
+    standard: false
     premium: true
   - name: Disk Performance Tiers
     oss: Depends on chosen infrastructure

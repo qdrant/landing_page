@@ -37,7 +37,7 @@ tables:
             oss: false
             free: false
             standard: "99.5"
-            premium: "99.9"
+            premium: "Single AZ: 99.9, Multi AZ: 99.95"
           - name: Automation
             oss: false
             free: API, Terraform, Pulumi
@@ -53,6 +53,11 @@ tables:
             free: false
             standard: true
             premium: true
+          - name: Topology Aware Multi AZ Setup
+            oss: false
+            free: false
+            standard: false
+            premium: true            
           - name: Backup & Disaster Recovery
             oss: Custom automation
             free: false
