@@ -103,7 +103,9 @@ The following information is tracked:
 * The result of the action (success or failure)
 * The IP address from which the action was performed
 
-You can configure the rotation (daily/hourly) and the retention of the log files (how many of the rotated log files should be kept). The audit log files will be stored on your encrypted database storage disk. You need to ensure that you have enough storage capacity available. The storage capacity and usage is reported in your cluster metrics.
+You can configure the rotation (daily/hourly) and retention of your log files (how many of the log files should be kept). 
+
+Audit log files will be stored on your cluster's encrypted storage disk. You need to ensure that you have enough storage capacity available. Storage capacity and usage can be viewed in your cluster metrics.
 
 You can download the audit logs from your cluster through the Qdrant API:
 
