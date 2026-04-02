@@ -6,7 +6,7 @@ partition: cloud
 
 # Qdrant Cloud CLI
 
-`qcloud` is the official command-line interface for managing [Qdrant Cloud](https://qdrant.tech/). It lets you manage clusters, authentication, and anything the Qdrant Cloud API has to offer—all from your terminal.
+`qcloud` is the official command-line interface for managing Qdrant Cloud. It lets you manage clusters, authentication, and anything the Qdrant Cloud API has to offer—all from your terminal.
 
 ## Installation
 
