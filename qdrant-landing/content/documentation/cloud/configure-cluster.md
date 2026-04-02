@@ -89,7 +89,7 @@ You can add labels to a Qdrant Cluster from the cluster's detail page. Labels ar
 
 ![Cluster Labels](/documentation/cloud/cloud-cluster-labels.png)
 
-## Audit Logs
+## Audit Logging
 
 You can activate audit logs for your cluster in the cluster configuration tab of the cluster details page. Audit logs provide a record of all API calls made to the cluster. This is useful for security and compliance purposes.
 
@@ -105,7 +105,7 @@ The following information is tracked:
 
 You can configure the rotation (daily/hourly) and the retention of the log files (how many of the rotated log files should be kept). The audit log files will be stored on your encrypted database storage disk. You need to ensure that you have enough storage capacity available. The storage capacity and usage is reported in your cluster metrics.
 
-You can download the audit logs through the Qdrant API:
+You can download the audit logs from your cluster through the Qdrant API:
 
 ```sh
 curl -X POST 'https://node-N-YOUR-CLUSTER-URL:6333/audit/logs' \
@@ -130,6 +130,3 @@ curl -X POST 'https://node-N-YOUR-CLUSTER-URL:6333/audit/logs' \
   -H 'Content-Type: application/json' \
   -d '{}'
 ```
-
-Note that each cluster node will only return the audit logs for the actions that were performed on that specific node. If you have a multi-node cluster, you need to query the [node specific URLs](/documentation/cloud/cluster-access/#node-specific-endpoints) separately to get the complete audit log for the cluster.
-
