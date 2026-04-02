@@ -106,7 +106,7 @@ Your cluster should have at least 3 nodes, and each collection should have a rep
 
 Premium tier customers can choose to deploy their cluster across multiple availability zones. This ensures that if one availability zone goes down, the cluster remains operational. You can ensure this by checking the **Multi AZ Deployment** checkbox when creating a cluster. This can not be changed later.
 Multi AZ clusters need a minimum of 3 nodes, and can only scale to a multiple of 3 (e.g. 3, 6, 9, etc.) to ensure that nodes are evenly distributed across availability zones.
-Your collections should have a replication factor of at least 2 (better 3) to ensure that all data is available in another availability zone, and the outage of one zone is not compromising the availability of the cluster. Shards will be automatically distributed across availability zones, so that each shard has a replica in another availability zone. Traffic is routed between zones automatically, so that the cluster remains available even if one zone goes down.
+Your collections should have a replication factor of at least 2 (better 3) to ensure that all data is available across availability zones, so the outage of one zone does not compromise the availability of the cluster. Shards will be automatically distributed across availability zones, so that each shard has a replica in another availability zone. Traffic is routed between zones automatically, so that the cluster remains available even if one zone goes down.
 
 **Disk Speed (AWS only)**
 
