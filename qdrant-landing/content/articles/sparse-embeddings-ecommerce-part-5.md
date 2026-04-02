@@ -220,3 +220,9 @@ The 28% improvement over BM25 from Part 3 isn't locked behind a research repo an
 - **[Part 3: Evaluation and hard negatives](/articles/sparse-embeddings-ecommerce-part-3/)**: +28% vs BM25, ANCE mining with Qdrant
 - **[Part 4: Specialization vs generalization](/articles/sparse-embeddings-ecommerce-part-4/)**: Domain-specific vs multi-domain tradeoffs
 - **[Part 5: From research to product](/articles/sparse-embeddings-ecommerce-part-5/)**: CLI + dashboard that runs the full pipeline
+
+---
+
+## Acknowledgements
+
+Thanks to all the people who made this series possible. It started with Kumar Shivendu's insight that the industry lacked good resources on fine-tuning retrieval models on your own dataset to outperform popular models optimized for general benchmarks. He shared Jason and Ivan's blog as a starting point. Charles Frye from Modal provided their GPU credits. Evgeniya Sukhodolskaya pointed to Sentence Transformers v5's native sparse model support which simplified training and reviewed every draft. Neil Kanungo pushed for more diagrams and clearer structure. Nathan LeRoy caught the remaining technical gaps we missed.
