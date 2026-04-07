@@ -34,7 +34,7 @@ qcloud version
 
 ## Quick Start
 
-Before using `qcloud`, create a management API key and note your account ID from the [Qdrant Cloud Console](https://cloud.qdrant.io).
+Before using `qcloud`, create a [management API](/documentation/cloud-api/) key and note your account ID from the [Qdrant Cloud Console](https://cloud.qdrant.io).
 
 ```sh
 # 1. Create a context with your credentials
