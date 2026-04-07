@@ -1,3 +1,3 @@
 ```http
-GET collections/{collection_name}/optimizations?with=queued,completed
+GET /collections/{collection_name}/optimizations?with=queued,completed
 ```

@@ -1,5 +1,5 @@
 ```http
-PUT collections/{collection_name}
+PUT /collections/{collection_name}
 {
   "vectors": {
     "size": 128,
