@@ -48,6 +48,7 @@ On top of the Free cluster features, Standard clusters offer:
 - Multi-node clusters for high availability
 - Horizontal and vertical scaling
 - Monitoring and log management
+- Audit Loggig
 - Zero-downtime upgrades for multi-node clusters with replication
 - Support for GPUs to optimize indexing (AWS only)
 
