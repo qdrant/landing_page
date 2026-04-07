@@ -62,7 +62,12 @@ tables:
             oss: false
             free: false
             standard: true
-            premium: true                
+            premium: true   
+          - name: GPU Indexing
+            oss: true
+            free: false
+            standard: true
+            premium: true            
           - name: Support Level
             oss: Community
             free: Community

@@ -66,8 +66,8 @@ sections:
   - name: GPU Indexing
     oss: true
     free: false
-    standard: false
-    premium: false
+    standard: true
+    premium: true
   - name: Cloud Inference
     oss: false
     free: Only free models

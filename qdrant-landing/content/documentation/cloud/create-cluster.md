@@ -49,6 +49,7 @@ On top of the Free cluster features, Standard clusters offer:
 - Horizontal and vertical scaling
 - Monitoring and log management
 - Zero-downtime upgrades for multi-node clusters with replication
+- Support for GPUs to optimize indexing (AWS only)
 
 You have a broad choice of regions on AWS, Azure and Google Cloud.
 
@@ -76,8 +77,8 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 1. Choose your data center region or Hybrid Cloud environment. 
 1. Configure RAM for each node. 
    >  For more information, see our [Capacity Planning](/documentation/operations/capacity-planning/) guidance.
-1. Choose the number of vCPUs per node. If you add more
-   RAM, the menu provides different options for vCPUs.
+1. Choose the number of vCPUs and GPUs per node. If you add more
+   RAM, the menu provides different options for vCPUs. For higher RAM configurations, you can also choose to add a GPU to optimize indexing performance (AWS only).
 1. Select the number of nodes you want the cluster to be deployed on.
    > Each node is automatically attached with a disk, that has enough space to store data with Qdrant's default collection configuration.
 1. Select additional disk space for your deployment.
@@ -104,6 +105,10 @@ Your cluster should have at least 3 nodes, and each collection should have a rep
 **Disk Speed (AWS only)**
 
 We recommend the **Balanced** tier for disks >= 32 GiB, and the **Performance** tier for disks >= 256 GiB.
+
+**GPUs (AWS only)**
+
+If you have a write-heavy workload, you can add a GPU to each node to optimize indexing performance. See [**GPUs for Indexing**](/documentation/operations/running-with-gpu/) for more information. All GPU settings will be configured automatically by the cloud platform.
 
 **Backup and Disaster Recovery**
 
