@@ -29,6 +29,6 @@ import 'qdrant-page-search/dist/js/search.min.js';
   }
 
   if (/customers/.test(window.location?.pathname)) {
-    window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: 'blog', partition: partition });
+    window.initQdrantSearch({ searchApiUrl: 'https://search.qdrant.tech/api/search', section: 'blog', partition: 'case-studies' });
   }
 })();
