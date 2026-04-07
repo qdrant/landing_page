@@ -106,9 +106,9 @@ sections:
     premium: true
   - name: Automation
     oss: false
-    free: API, Terraform, Pulumi
-    standard: API, Terraform, Pulumi
-    premium: API, Terraform, Pulumi
+    free: API, Terraform, Pulumi, CLI
+    standard: API, Terraform, Pulumi, CLI
+    premium: API, Terraform, Pulumi, CLI
 - name: Querying / Ranking
   features:
   - name: Advanced Payload Filtering (Incl. Geo and Full-Text)

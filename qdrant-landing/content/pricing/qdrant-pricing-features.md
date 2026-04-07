@@ -40,9 +40,9 @@ tables:
             premium: "99.9"
           - name: Automation
             oss: false
-            free: API, Terraform, Pulumi
-            standard: API, Terraform, Pulumi
-            premium: API, Terraform, Pulumi
+            free: API, Terraform, Pulumi, CLI
+            standard: API, Terraform, Pulumi, CLI
+            premium: API, Terraform, Pulumi, CLI
           - name: Vertical Up & Downscaling
             oss: No resource usage safe guards
             free: false
