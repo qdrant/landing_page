@@ -17,6 +17,7 @@ tags:
 - hybrid search
 - llm agents
 - case study
+partition: case-studies
 ---
 
 ![My AskAI overview](/blog/case-study-my-askai/my-askai-bento-box.png)

@@ -14,6 +14,7 @@ tags:
   - Markus Lukasson
   - Visual Search
   - Synthetic Data
+partition: case-studies
 ---
 
 ![nyris-case-study](/blog/case-study-nyris/nyris-case-study.png)

@@ -16,6 +16,7 @@ tags:
 - real-time analytics
 - user intent
 - case study
+partition: case-studies
 ---
 
 ## **How PortfolioMind delivered real-time crypto intelligence with Qdrant**

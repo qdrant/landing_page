@@ -17,6 +17,7 @@ tags:
 - Split AI
 - float16 optimization
 - case study
+partition: case-studies
 ---
 
 ![Dragonfruit Overview](/blog/case-study-dragonfruit/dragonfruit-bento-box-dark.png)

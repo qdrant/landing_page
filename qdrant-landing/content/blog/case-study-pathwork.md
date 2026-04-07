@@ -16,6 +16,7 @@ tags:
 - vector search
 - AI in insurance
 - case study
+partition: case-studies
 ---
 
 

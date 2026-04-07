@@ -17,6 +17,7 @@ tags:
 - product insights
 - cost optimization
 - case study
+partition: case-studies
 ---
 
 ![Bazaarvoice overview](/blog/case-study-bazaarvoice/bazaarvoice-bento.png)
