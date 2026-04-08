@@ -28171,9 +28171,11 @@ filters to `true`:
 | `false` | `true` | Parameterized integer index |
 | `false` | `false` | No integer index |
 
-The parameterized index can enhance performance in collections with millions
-of points. We encourage you to try it out. If it does not enhance performance
-in your use case, you can always restore the regular `integer` index.
+The parameterized index may help to tune and reduce memory usage in collections
+with millions of points. We encourage you to try it out if mutual exclusively
+using range or lookup payload filter types. If you don't see an improvement or
+if you're not sure what kind of payload filters you're using, you can always go
+back the regular `integer` index.
 
 Note: If you set `"range": false` and still use a range filter, it may lead to
 significant performance issues. The same is true for the lookup parameter and
