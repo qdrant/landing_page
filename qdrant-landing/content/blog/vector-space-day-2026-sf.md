@@ -17,6 +17,7 @@ tags:
 ## Vector Space Day 2026: Powered by Qdrant 
 
 📍 San Francisco
+
 🗓️ Thursday, June 11, 2026
 
 
@@ -26,6 +27,7 @@ We’re hosting our second-ever full-day in-person Vector Space Day (https://lum
 
 Last year in Berlin we brought together 400+ engineers, researchers, and AI builders to explore the cutting edge of retrieval, vector search infrastructure, and agentic AI. And we’re excited to now bring that to San Francisco.
 
+![Berlin](/blog/vector-space-day-2026-sf/berlin1.jpeg)
 
 ### Why You Should Attend
 
@@ -54,7 +56,8 @@ Due April 20th.
 
 ### Get Your Ticket
 
-General admission: $199$
+General admission: $199
+
 Early bird pricing: $99 through April 27 
 
 [**Reserve your spot now.**](https://luma.com/vsd-sf)
