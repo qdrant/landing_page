@@ -50,9 +50,9 @@ Create a collection with [user-defined sharding](/documentation/guides/distribut
 
 Custom shards can be accessed by their shard key. In this tutorial, the shard keys are the dates in `YYYY-MM-DD` format, extracted from the timestamp of each data point.
 
-For default collections using `auto` sharding, `shard_number` determines the total number of shards for a collection. With user-defined sharding, it determines the number of shards **per shard key**: the total number of shards for a collection equals the number of shard keys (days) multiplied by the `shard_number`.
+This collection will have a single shard for each shard key (a separate shard for each day of data). For very large datasets, you can improve write throughput by setting `shard_number` to a number higher than 1 and distributing these shards across multiple peers in the cluster. However, avoid creating too many shards, as each shard consumes resources, and having too many shards can lead to performance degradation.
 
-Setting `shard_number` to `1` creates a single shard for each shard key (a separate shard for each day of data). For very large datasets, you can improve write throughput by increasing `shard_number` and distributing these shards across multiple peers in the cluster. However, avoid creating too many shards, as each shard consumes resources, and having too many shards can lead to performance degradation.
+Note that, for regular collections using `auto` sharding, `shard_number` determines the total number of shards for a collection. With user-defined sharding, it determines the number of shards **per shard key**: the total number of shards for a collection equals the number of shard keys (days) multiplied by the `shard_number`.
 
 ## Ingest Historical Data
 

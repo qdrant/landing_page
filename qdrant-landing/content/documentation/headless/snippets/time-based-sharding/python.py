@@ -29,8 +29,7 @@ client.create_collection(
             size=384, distance=models.Distance.COSINE
         )
     },
-    sharding_method=models.ShardingMethod.CUSTOM,
-    shard_number=1, # The number of shards per shard key
+    sharding_method=models.ShardingMethod.CUSTOM
 )
 # @block-end create-collection
 
