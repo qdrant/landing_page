@@ -1,1 +1,0 @@
-This code snippet shows how to prune specific shards. You prune by setting up a task to delete old data regularly. By deleting specific shards doesn't trigger expensive re-indexing across the whole dataset. 

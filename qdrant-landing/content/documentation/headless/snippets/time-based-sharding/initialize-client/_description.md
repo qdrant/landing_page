@@ -1,1 +1,0 @@
-This code snippet creates a Qdrant client for time-based sharding using Qdrant Cloud. 
