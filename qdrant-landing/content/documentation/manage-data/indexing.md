@@ -46,7 +46,7 @@ Payload index may occupy some additional memory, so it is recommended to only us
 If you need to filter by many fields and the memory limits do not allow for indexing all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 
-<aside role="alert">It's highly recommended to create all payload indices immediately after collection creation. Creating them later may block updates for some time. HNSW graphs will also only benefit from <a href="#filterable-index">additional optimizations</a> (extra edges) when they are generated after payload index creation.</aside>
+<aside role="alert">It's highly recommended to create all payload indices immediately after collection creation. Creating them later may block updates for some time. HNSW graphs will also only benefit from <a href="#filterable-hnsw-index">additional optimizations</a> (extra edges) when they are generated after payload index creation.</aside>
 
 ### Parameterized index
 
@@ -306,6 +306,8 @@ On the other hand, the HNSW graph starts to fall apart when using filters that a
 Qdrant solves this problem by extending the HNSW graph with additional edges based on indexed payload values.
 Extra edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph.
 You can find more information on this approach in our [article](/articles/filterable-hnsw/).
+
+<aside role="status">For the HNSW graph to be optimized for filtered search, it's highly recommended to create all payload indices immediately after collection creation, before ingesting data. Extra edges for the HNSW graph can only be generated after payload index creation.</aside>
 
 #### The ACORN Search Algorithm
 
