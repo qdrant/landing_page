@@ -6,7 +6,7 @@ startFree:
   url: https://cloud.qdrant.io/signup
 learnMore:
   text: Learn More
-  url: "#vector-features"
+  url: /contact-us/
 image:
   src: /img/home/horizontal-slider/anomaly-detection.png
   webp: /img/home/horizontal-slider/anomaly-detection.webp
