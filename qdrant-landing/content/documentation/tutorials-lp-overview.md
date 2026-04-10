@@ -1,6 +1,6 @@
 ---
 title: Overview
-weight: 16
+weight: 405
 is_empty: false
 aliases:
   - how-to
@@ -35,6 +35,13 @@ partition: qdrant
 *Core tools and APIs for building with Qdrant.*
 
 {{% include "content/documentation/headless/content/tutorials/develop.md" %}}
+
+---
+
+### Migrate to Qdrant
+*Move your vectors from other databases and keep them in sync.*
+
+{{% include "content/documentation/headless/content/tutorials/migrate.md" %}}
 
 <!-- KEEP BELOW FOR REFERENCE -->
 <!-- 

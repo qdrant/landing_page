@@ -41,7 +41,7 @@ To get you started, we’ve put together a tutorial that shows how to create nex
 
 We created a comprehensive tutorial to show how you can build a RAG-based system with Qdrant Hybrid Cloud, LangChain and Cohere’s embeddings. This use case is focused on building a question-answering system for internal corporate employee onboarding. 
 
-[Try the Tutorial](/documentation/tutorials/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/)
+[Try the Tutorial](/documentation/examples/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/)
 
 #### Documentation: Deploy Qdrant in a Few Clicks
 

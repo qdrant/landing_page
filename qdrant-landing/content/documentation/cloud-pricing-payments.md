@@ -58,7 +58,7 @@ To subscribe:
 2. Select **GCP Marketplace** as the payment method. You will be redirected to the GCP Marketplace listing for Qdrant.
 3. Select **Subscribe**. (If you have already subscribed, select **Manage on Provider**.)
 4. On the next screen, choose options as required, and select **Subscribe**.
-5. On the pop-up window that appers, select **Sign up with Qdrant**.
+5. On the pop-up window that appears, select **Sign up with Qdrant**.
 
 You will be redirected to the Billing Details screen in the [Qdrant Cloud Console](https://cloud.qdrant.io/). From there you can start to create Qdrant database clusters.
 

@@ -3,6 +3,7 @@ title: "Sketch & Search: Google Deepmind x Qdrant x Freepik Hackathon Winners"
 draft: false
 slug: sketch-n-search-winners
 short_description: "Discover the winners of Qdrant’s Sketch & Search Hackathon in collaboration with Google Deepmind and Freepik, where developers built innovative vector search applications beyond chatbots - from robotics to gaming, e-commerce, and more."
+description: "Discover the winners of Qdrant’s Sketch & Search Hackathon in collaboration with Google Deepmind and Freepik, where developers built innovative vector search applications beyond chatbots - from robotics to gaming, e-commerce, and more."
 preview_image: blog/sketch-n-search-2025/sketch.png
 social_preview_image: blog/sketch-n-search-2025/sketch.png
 date: 2026-02-03

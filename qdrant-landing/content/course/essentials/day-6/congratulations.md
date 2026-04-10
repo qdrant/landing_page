@@ -2,6 +2,7 @@
 title: "Course Completion and Next Steps"
 description: Complete your Qdrant course by earning certification and mastering hybrid, multivector, and production-ready vector search techniques—skills to design, evaluate, and deploy real-world AI search systems. 
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Day 6 {{< /date >}}
@@ -47,7 +48,7 @@ Get recognized for completing Day 0–6 and the final project. Add it to your Li
 
 ## What's Next?
 
-**Explore Advanced Integrations**: Check out [Day 7 Partner Integrations](../../day-7/) to see how Qdrant works with leading AI frameworks and data platforms.
+**Explore Advanced Integrations**: Check out [Day 7 Partner Integrations](/course/essentials/day-7/) to see how Qdrant works with leading AI frameworks and data platforms.
 
 **Join the Community**: Share your final project results and connect with other practitioners building vector search systems. The Qdrant community is always excited to see what people build.
 

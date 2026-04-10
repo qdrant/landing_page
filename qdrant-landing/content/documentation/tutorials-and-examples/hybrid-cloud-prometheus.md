@@ -78,7 +78,7 @@ spec:
       app.kubernetes.io/name: operator
 ```
 
-The example aboves assumes that your Qdrant database and the cloud platform exporter are deployed in the `qdrant` namespace. Adjust the `namespaceSelector` and `namespace` fields according to your deployment.
+The example above assumes that your Qdrant database and the cloud platform exporter are deployed in the `qdrant` namespace. Adjust the `namespaceSelector` and `namespace` fields according to your deployment.
 
 ## Step 3: Access Grafana
 
@@ -101,7 +101,7 @@ Now you can open your web browser and go to `http://localhost:3000`. Log in with
 
 ## Step 4: Import Qdrant Dashboard
 
-Qdrant Cloud offers an example Grafana Dashboard on the [Qdrant GitHub repository](https://github.com/qdrant/qdrant-cloud-grafana-dashboard). This comes with built in views and graphs to get you started with monitoring your Qdrant Clusters.
+Qdrant Cloud offers an example Grafana dashboard in the [Qdrant GitHub repository](https://github.com/qdrant/qdrant-cloud-grafana-dashboard). This comes with built-in views and graphs to help you get started monitoring your Qdrant clusters.
 
 To import the dashboard:
 

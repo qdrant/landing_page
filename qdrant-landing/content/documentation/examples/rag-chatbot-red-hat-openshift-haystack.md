@@ -1,6 +1,6 @@
 ---
 title: Private Chatbot for Interactive Learning
-weight: 23 
+weight: 30 
 social_preview_image: /blog/hybrid-cloud-red-hat-openshift/hybrid-cloud-red-hat-openshift-tutorial.png
 aliases:
   - /documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/
@@ -237,7 +237,7 @@ search_pipeline = Pipeline()
 ```
 
 Our second process takes user input, converts it into embeddings and then searches for the most relevant documents
-using the query embedding. This might look familiar, but we arent working with `Document` instances 
+using the query embedding. This might look familiar, but we aren't working with `Document` instances 
 anymore, since the query only accepts raw text. Thus, some of the components will be different, especially the embedder,
 as it has to accept a single string as an input and produce a single embedding as an output:
 
@@ -458,4 +458,4 @@ The response should be similar to the one we got in the Python before:
 - [Haystack's documentation](https://docs.haystack.deepset.ai/docs/kubernetes) describes [how to deploy the Hayhooks service in a Kubernetes 
 environment](https://docs.haystack.deepset.ai/docs/kubernetes), so you can easily move it to your own OpenShift infrastructure.
 
-- If you are just getting started and need more guidance on Qdrant, read the [quickstart](/documentation/quick-start/) or try out our [beginner tutorial](/documentation/tutorials/neural-search/).
+- If you are just getting started and need more guidance on Qdrant, read the [quickstart](/documentation/quickstart/) or try out our [beginner tutorial](/documentation/tutorials-search-engineering/neural-search/).

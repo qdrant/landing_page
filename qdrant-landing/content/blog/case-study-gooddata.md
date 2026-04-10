@@ -16,6 +16,7 @@ tags:
 - semantic search
 - enterprise AI
 - case study
+partition: case-studies
 ---
 
 ![Gooddata Overview](/blog/case-study-gooddata/gooddata-bento-box-dark.jpg)

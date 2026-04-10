@@ -27,9 +27,9 @@ Have a look at the [API reference](/documentation/interfaces/#api-reference) and
 
 ## Node Specific Endpoints
 
-Next to the cluster endpoint which loadbalances requests across all healthy Qdrant nodes, each node in the cluster has its own endpoint as well. This is mainly usefull for monitoring or manual shard management purpuses.
+Next to the cluster endpoint which loadbalances requests across all healthy Qdrant nodes, each node in the cluster has its own endpoint as well. This is mainly useful for monitoring or manual shard management purposes.
 
-You can finde the node specific endpoints on the cluster detail page in the Qdrant Cloud Console.
+You can find the node specific endpoints on the cluster detail page in the Qdrant Cloud Console.
 
 ![Cluster node endpoints](/documentation/cloud/cloud-node-endpoints.png)
 

@@ -19,6 +19,7 @@ tags: # Change this, related by tags posts will be shown on the blog page
   - recommender system
 weight: 0 # Change this weight to change order of posts
 # For more guidance, see https://github.com/qdrant/landing_page?tab=readme-ov-file#blog
+partition: case-studies
 ---
 
 ## Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Search
@@ -167,7 +168,7 @@ They aim to work on Perspective feed next and say
 ![perspective-feed-with-qdrant](/case-studies/dailymotion/perspective-feed-qdrant.jpg)
 
 
-The team is also interested in leveraging advanced features like [Qdrant’s Discovery API](/documentation/concepts/explore/#recommendation-api) to promote exploration of content to enable finding not only similar but dissimilar content too by using positive and negative vectors in the queries and making it work with the existing collaborative recommendation model.
+The team is also interested in leveraging advanced features like [Qdrant’s Discovery API](/documentation/search/explore/#recommendation-api) to promote exploration of content to enable finding not only similar but dissimilar content too by using positive and negative vectors in the queries and making it work with the existing collaborative recommendation model.
 
 ### References
 

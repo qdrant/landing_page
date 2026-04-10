@@ -17,6 +17,7 @@ tags:
 - latency optimization
 - case study
 - Edge
+partition: case-studies
 ---
 
 ![Tavus Overview](/blog/case-study-tavus/tavus-bento-box-dark.jpg)

@@ -137,7 +137,7 @@ spec:
       jwt_rbac: true
 ```
 
-If you set the `jwt_rbac` flag, you will also be able to create granular [JWT tokens for role based access control](/documentation/guides/security/#granular-access-control-with-jwt).
+If you set the `jwt_rbac` flag, you will also be able to create granular [JWT tokens for role based access control](/documentation/operations/security/#granular-access-control-with-jwt).
 
 ### Configuring TLS for Database Access
 
@@ -291,7 +291,7 @@ step certificate create mydomain.com qdrant-nodes.crt qdrant-nodes.key \
 
 ## GPU support
 
-Starting with Qdrant 1.13 and private-cloud version 1.6.1 you can create a cluster that uses GPUs to accelarate indexing.
+Starting with Qdrant 1.13 and private-cloud version 1.6.1 you can create a cluster that uses GPUs to accelerate indexing.
 
 As a prerequisite, you need to have a Kubernetes cluster with GPU support. You can check the [Kubernetes documentation](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/) for generic information on GPUs and Kubernetes, or the documentation of your specific Kubernetes distribution.
 

@@ -1,7 +1,7 @@
 ---
 title: Send Data to Qdrant
-weight: 25
-partition: build
+weight: 1050
+partition: ecosystem
 hideInSidebar: true
 ---
 
@@ -9,7 +9,7 @@ hideInSidebar: true
 
 The following examples show you some of the many ways you can send data to a Qdrant cluster from different sources.
 
-If you want to migrate data from another Qdrant instance or vector database like Pinecone, Weaviate or Milvus see our [Migration Guide](/documentation/database-tutorials/migration/) for more information.
+If you want to migrate data from another Qdrant instance or vector database like Pinecone, Weaviate or Milvus see our [Migration Guide](/documentation/tutorials-operations/migration/) for more information.
 
 | Example                                                                   | Description                                                       | Stack                                       |   
 |---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|

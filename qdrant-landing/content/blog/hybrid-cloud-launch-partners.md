@@ -34,49 +34,49 @@ Together with our launch partners, we created in-depth tutorials and use cases f
 
 > This tutorial shows how to build a private AI customer support system using Cohere's AI models on AWS, Airbyte, and Qdrant Hybrid Cloud for efficient and secure query automation.
 
-[View Tutorial](/documentation/tutorials/rag-customer-support-cohere-airbyte-aws/)
+[View Tutorial](/documentation/examples/rag-customer-support-cohere-airbyte-aws/)
 
 **RAG System for Employee Onboarding** with Qdrant Hybrid Cloud, Oracle Cloud Infrastructure (OCI), Cohere, and LangChain
 
 > This tutorial demonstrates how to use Oracle Cloud Infrastructure (OCI) for a secure setup that integrates Cohere's language models with Qdrant Hybrid Cloud, using LangChain to orchestrate natural language search for corporate documents, enhancing resource discovery and onboarding.
 
-[View Tutorial](/documentation/tutorials/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/)
+[View Tutorial](/documentation/examples/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/)
 
 **Hybrid Search for Product PDF Manuals** with Qdrant Hybrid Cloud, LlamaIndex, and JinaAI
 
 > Create a RAG-based chatbot that enhances customer support by parsing product PDF manuals using Qdrant Hybrid Cloud, LlamaIndex, and JinaAI, with DigitalOcean as the cloud host. This tutorial will guide you through the setup and integration process, enabling your system to deliver precise, context-aware responses for household appliance inquiries.
 
-[View Tutorial](/documentation/tutorials/hybrid-search-llamaindex-jinaai/)
+[View Tutorial](/documentation/examples/hybrid-search-llamaindex-jinaai/)
 
 **Region-Specific RAG System for Contract Management** with Qdrant Hybrid Cloud, Aleph Alpha, and STACKIT
 
 > Learn how to streamline contract management with a RAG-based system in this tutorial, which utilizes Aleph Alpha’s embeddings and a region-specific cloud setup. Hosted on STACKIT with Qdrant Hybrid Cloud, this solution ensures secure, GDPR-compliant storage and processing of data, ideal for businesses with intensive contractual needs.
 
-[View Tutorial](/documentation/tutorials/rag-contract-management-stackit-aleph-alpha/)
+[View Tutorial](/documentation/examples/rag-contract-management-stackit-aleph-alpha/)
  
 **Movie Recommendation System** with Qdrant Hybrid Cloud and OVHcloud
 
 > Discover how to build a recommendation system with our guide on collaborative filtering, using sparse vectors and the Movielens dataset.
 
-[View Tutorial](/documentation/tutorials/recommendation-system-ovhcloud/)
+[View Tutorial](/documentation/examples/recommendation-system-ovhcloud/)
 
 **Private RAG Information Extraction Engine** with Qdrant Hybrid Cloud and Vultr using DSPy and Ollama
 
 > This tutorial teaches you how to handle and structure private documents with large unstructured data. Learn to use DSPy for information extraction, run your LLM with Ollama on Vultr, and manage data with Qdrant Hybrid Cloud on Vultr, perfect for regulated environments needing data privacy.
 
-[View Tutorial](/documentation/tutorials/rag-chatbot-vultr-dspy-ollama/)
+[View Tutorial](/documentation/examples/rag-chatbot-vultr-dspy-ollama/)
 
 **RAG System That Chats with Blog Contents** with Qdrant Hybrid Cloud and Scaleway using LangChain.
 
 > Build a RAG system that combines blog scanning with the capabilities of semantic search. RAG enhances the generation of answers by retrieving relevant documents to aid the question-answering process. This setup showcases the integration of advanced search and AI language processing to improve information retrieval and generation tasks.
 
-[View Tutorial](/documentation/tutorials/rag-chatbot-scaleway/)
+[View Tutorial](/documentation/examples/rag-chatbot-scaleway/)
 
 **Private Chatbot for Interactive Learning** with Qdrant Hybrid Cloud and Red Hat OpenShift using Haystack.
 
 > In this tutorial, you will build a chatbot without public internet access. The goal is to keep sensitive data secure and isolated. Your RAG system will be built with Qdrant Hybrid Cloud on Red Hat OpenShift, leveraging Haystack for enhanced generative AI capabilities. This tutorial especially explores how this setup ensures that not a single data point leaves the environment.
 
-[View Tutorial](/documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/)
+[View Tutorial](/documentation/examples/rag-chatbot-red-hat-openshift-haystack/)
 
 #### Supporting Documentation 
 

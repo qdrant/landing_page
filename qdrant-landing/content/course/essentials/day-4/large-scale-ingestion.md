@@ -2,6 +2,7 @@
 title: "Large-Scale Data Ingestion"
 description: Master large-scale vector ingestion in Qdrant. Explore batching, upload_points, and upload_collection methods, on-disk storage, and parallel streaming for billion-scale AI data pipelines.
 weight: 4
+isLesson: true
 ---
 
 {{< date >}} Day 4 {{< /date >}}
@@ -26,7 +27,7 @@ Every individual upsert call initiates a transaction that consumes memory and di
 
 ## Choosing Your Ingestion Strategy
 
-Qdrant provides several methods for data ingestion, each tailored to different scales and use cases. It should be noted that only the Python client supports the upload_points and upload_collection methods. If you're using Qdrant on a different client then we reccomend using upsert with batch upload for large scale ingestion. [Learn more about bulk operations](/documentation/guides/bulk-operations/).
+Qdrant provides several methods for data ingestion, each tailored to different scales and use cases. It should be noted that only the Python client supports the upload_points and upload_collection methods. If you're using Qdrant on a different client then we recommend using upsert with batch upload for large scale ingestion. [Learn more about bulk operations](/documentation/manage-data/points/#batch-update).
 
 - **upsert (Individual or Batched)**: This is the fundamental operation for adding or updating points. Individual upserts are best suited for real-time updates while batching works best for larger workloads. 
 
@@ -84,13 +85,13 @@ client.recreate_collection(
 
 This configuration employs several key optimizations:
 
-- **`on_disk=True`**: This is the most critical setting for large datasets. It instructs Qdrant to store the full-precision original vectors on disk ([memmap storage](/documentation/guides/storage/#on-disk-storage)) instead of in RAM, dramatically reducing memory requirements.
+- **`on_disk=True`**: This is the most critical setting for large datasets. It instructs Qdrant to store the full-precision original vectors on disk ([memmap storage](/documentation/manage-data/storage/#on-disk-storage)) instead of in RAM, dramatically reducing memory requirements.
 
-- **Binary Quantization with `always_ram=True`**: While the original vectors are on disk, we enable [binary quantization](/documentation/guides/quantization/#binary-quantization) and force the compressed vectors to remain in RAM. This provides a lightweight in-memory representation for fast initial candidate searches.
+- **Binary Quantization with `always_ram=True`**: While the original vectors are on disk, we enable [binary quantization](/documentation/manage-data/quantization/#binary-quantization) and force the compressed vectors to remain in RAM. This provides a lightweight in-memory representation for fast initial candidate searches.
 
 - **Large Segment Size**: The `max_segment_size` is increased to create fewer, larger segments. This can improve search performance at the cost of slightly slower indexing.
 
-- **In-Memory HNSW Index**: By setting `on_disk=False` for the [HNSW config](/documentation/guides/quantization/#hnsw-config), we keep the graph index in RAM. This ensures that navigating vector relationships during a search is extremely fast, avoiding disk latency. The `m` value is lowered to 6 to further conserve memory.
+- **In-Memory HNSW Index**: By setting `on_disk=False` for the [HNSW config](/documentation/manage-data/quantization/#hnsw-config), we keep the graph index in RAM. This ensures that navigating vector relationships during a search is extremely fast, avoiding disk latency. The `m` value is lowered to 6 to further conserve memory.
 
 ### The Upload Process
 
@@ -124,7 +125,7 @@ This combined strategy of a hybrid storage configuration and streaming ingestion
 
 This architecture strikes a balance by keeping infrastructure costs low by minimizing RAM usage while maintaining fast and accurate search performance. By understanding and applying these ingestion strategies, you can confidently scale your Qdrant-powered applications to handle real-world data volumes.
 
-> Learn more in a complete hands-on guide in our **[Large-Scale Search tutorial](https://qdrant.tech/documentation/database-tutorials/large-scale-search/)**.
+> Learn more in a complete hands-on guide in our **[Large-Scale Search tutorial](/documentation/tutorials-operations/large-scale-search/)**.
 
 > **Check out the reference implementation:**  
 > [qdrant/laion-400m-benchmark on GitHub](https://github.com/qdrant/laion-400m-benchmark)  

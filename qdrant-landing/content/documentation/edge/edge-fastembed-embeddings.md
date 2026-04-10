@@ -1,11 +1,12 @@
 ---
 title: "On-Device Embeddings" 
 weight: 15
+partition: qdrant
 ---
 
 # On-Device Embeddings with Qdrant Edge and FastEmbed
 
-To generate embeddings for use with Qdrant Edge directly on a device, you can use the [FastEmbed](/documentation/fastembed/) library. FastEmbed provides multimodal models that run efficiently on edge devices to generate vector embeddings from text and images.
+When using Python, you can use the [FastEmbed](/documentation/fastembed/) library to generate embeddings for use with Qdrant Edge. FastEmbed provides multimodal models that run efficiently on edge devices to generate vector embeddings from text and images.
 
 # Provision the Device
 

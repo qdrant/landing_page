@@ -1,6 +1,6 @@
 ---
 title: Basics
-weight: 17
+weight: 410
 is_empty: false
 aliases:
   - how-to

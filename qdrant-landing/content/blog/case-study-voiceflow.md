@@ -16,6 +16,7 @@ tags:
   - vector search
   - RAG
   - case study
+partition: case-studies
 ---
 ![voiceflow/image2.png](/blog/case-study-voiceflow/image1.png)
 
@@ -27,7 +28,7 @@ tags:
 
 As part of this development, the Voiceflow engineering team was looking for a [vector database](/qdrant-vector-database/) solution to power their RAG setup. They evaluated various vector databases based on several key factors:
 
-- **Performance**: The ability to [handle the scale](/documentation/guides/distributed_deployment/) required by Voiceflow, supporting hundreds of thousands of projects efficiently.
+- **Performance**: The ability to [handle the scale](/documentation/operations/distributed_deployment/) required by Voiceflow, supporting hundreds of thousands of projects efficiently.
 - **Metadata**: The capability to tag data and chunks and retrieve based on those values, essential for organizing and accessing specific information swiftly.
 - **Managed Solution**: The availability of a [managed service](/documentation/cloud/) with automated maintenance, scaling, and security, freeing the team from infrastructure concerns.
 
@@ -82,7 +83,7 @@ Voiceflow achieved significant improvements and efficiencies by leveraging Qdran
 - **Optimized Performance**: Resolved concerns about retrieval times with a high number of tags by optimizing indexing strategies, achieving efficient performance.
 - **Minimal Operational Overhead**: Experienced minimal overhead, streamlining their operational processes.
 - **Future-Ready**: Anticipates further innovation in hybrid search with multi-token attention.
-- **Multitenancy Support**: Utilized Qdrant's efficient and [isolated data management](/documentation/guides/multiple-partitions/) to support diverse user needs.
+- **Multitenancy Support**: Utilized Qdrant's efficient and [isolated data management](/documentation/manage-data/multitenancy/) to support diverse user needs.
 
 Overall, Qdrant's features and infrastructure provided Voiceflow with a stable, scalable, and efficient solution for their data processing and retrieval needs.
 

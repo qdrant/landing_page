@@ -4,7 +4,6 @@ title: "Building real-time multimodal similarity search in Flipkart Trust & Safe
 short_description: "Tackling fraud and abuse with scalable similarity search."
 description: "Tackling fraud and abuse with scalable similarity search."
 preview_image: /blog/case-study-flipkart/social_preview_partnership-flipkart.png
-social_preview_image: /blog/case-study/social_preview_partnership-flipkart.png
 date: 2026-01-09
 author: "Daniel Azoulai"
 featured: true
@@ -17,6 +16,7 @@ tags:
 - real-time search
 - trust and safety
 - case study
+partition: case-studies
 ---
 
 ### Tackling fraud and abuse with scalable similarity search 

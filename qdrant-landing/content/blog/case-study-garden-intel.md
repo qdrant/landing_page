@@ -15,6 +15,7 @@ tags:
 - patent analysis
 - intellectual property
 - case study
+partition: case-studies
 ---
 
 ## Garden Accelerates Patent Intelligence with Qdrant’s Filterable Vector Search

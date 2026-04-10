@@ -2,6 +2,7 @@
 title: "Integrating with Camel AI"
 description: Learn how Camel AI and Qdrant enable automated RAG pipelines with multi-agent communication, vector-based memory, and seamless integration into live environments like Discord bots. 
 weight: 8
+isLesson: true
 ---
 
 {{< date >}} Day 7 {{< /date >}}
@@ -73,7 +74,7 @@ When you query "What is Qdrant?" with a Qdrant website link, the system:
 - [CAMEL Qdrant Integration](https://docs.camel-ai.org/cookbooks/applications/customer_service_Discord_bot_with_agentic_RAG#integrating-qdrant-for-large-files-to-build-a-more-powerful-discord-bot):  
   Official CAMEL documentation for integrating Qdrant with Discord bots and agentic RAG. Learn about Auto-Retrieval, vector storage, and building powerful customer service bots.
 
-- [Qdrant & CAMEL Integration Guide](https://qdrant.tech/documentation/frameworks/camel/):  
+- [Qdrant & CAMEL Integration Guide](/documentation/frameworks/camel/):  
   Official Qdrant documentation on integrating with CAMEL-AI. Learn how to use Qdrant as a storage mechanism for ingesting and retrieving semantically similar data in your multi-agent systems.
 
 ⭐ **Show your support!** Give CAMEL a star on their GitHub repository: [github.com/camel-ai/camel](https://github.com/camel-ai/camel)

@@ -1,5 +1,5 @@
 ```http
-PUT /collections/books?wait=true
+PUT /collections/books
 {
   "sparse_vectors": {
     "title-bm25": {

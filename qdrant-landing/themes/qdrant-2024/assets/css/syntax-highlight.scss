@@ -1,3 +1,7 @@
+pre, code {
+  font-variant-ligatures: none;
+}
+
 /* inline code */
 article code:not([class]) {
   color: $neutral-20;

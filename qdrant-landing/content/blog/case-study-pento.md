@@ -16,6 +16,7 @@ tags:
 - multivector
 - semantic search
 - case study
+partition: case-studies
 ---
 
 ![pento bento box](/blog/case-study-pento/pento-bento-box-dark.jpg)

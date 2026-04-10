@@ -2,6 +2,7 @@
 title: "Integrating with Haystack"
 description: Learn how Qdrant and Haystack combine to deliver end-to-end search and recommendation systems with hybrid retrieval, semantic filtering, and agentic AI orchestration. 
 weight: 2
+isLesson: true
 ---
 
 {{< date >}} Day 7 {{< /date >}}
@@ -84,7 +85,7 @@ This architecture extends beyond movie recommendations to various domains:
 - [Haystack Qdrant Integration](https://haystack.deepset.ai/integrations/qdrant-document-store):  
   Official Haystack documentation for using Qdrant as a document store. Learn about installation, usage, and connecting to Qdrant Cloud clusters.
 
-- [Qdrant & Haystack Integration Guide](https://qdrant.tech/documentation/frameworks/haystack/):  
+- [Qdrant & Haystack Integration Guide](/documentation/frameworks/haystack/):  
   Official Qdrant documentation on integrating with Haystack. Learn how to build powerful NLP pipelines with vector search capabilities.
 
 ⭐ **Show your support!** Give Haystack a star on their GitHub repository: [github.com/deepset-ai/haystack](https://github.com/deepset-ai/haystack)

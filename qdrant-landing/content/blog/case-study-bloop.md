@@ -12,6 +12,7 @@ author: Qdrant Team
 featured: false
 aliases:
   - /case-studies/bloop/
+partition: case-studies
 ---
 
 Founded in early 2021, [bloop](https://bloop.ai/) was one of the first companies to tackle semantic 

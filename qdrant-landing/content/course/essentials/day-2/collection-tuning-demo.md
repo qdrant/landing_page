@@ -2,6 +2,7 @@
 title: "Demo: HNSW Performance Tuning"
 description: Tune Qdrant’s HNSW index for speed and precision. Optimize bulk uploads, test filters, and benchmark performance on a real 100K OpenAI embedding dataset. 
 weight: 4
+isLesson: true
 ---
 
 {{< date >}} Day 2 {{< /date >}}
@@ -78,11 +79,15 @@ import openai
 import time
 import os
 
-client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+client = QdrantClient(
+    url=os.getenv("QDRANT_URL"), 
+    api_key=os.getenv("QDRANT_API_KEY"), 
+    timeout=300,  # Increase timeout limit depending on your connection speed
+    )
 
 # For Colab:
 # from google.colab import userdata
-# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
+# client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"), timeout=300)
 
 # Verify connection
 try:
@@ -213,12 +218,16 @@ def upload_batch(start_idx, end_idx):
         points.append(models.PointStruct(id=i, vector=embedding, payload=payload))
 
     if points:
-        client.upload_points(collection_name=collection_name, points=points)
+        client.upload_points(
+            collection_name=collection_name, 
+            points=points,
+            parallel=4,  # default parallelism; can reduce to prevent timeouts
+            )
         return len(points)
     return 0
 
 
-batch_size = 64 * 10
+batch_size = 64 * 10  # Reduce to 32 if connection times out
 total_points = len(ds["train"])
 print(f"Uploading {total_points} points in batches of {batch_size}")
 
@@ -372,7 +381,8 @@ client.query_points(collection_name=collection_name, query=query_embedding, limi
 
 # Run multiple times for more reliable measurement
 unindexed_times = []
-for i in range(25):
+for i in range(10):
+    time.sleep(2)  # Small delay to avoid noise; demo only
     start_time = time.time()
     response = client.query_points(
         collection_name=collection_name,
@@ -399,7 +409,7 @@ else:
 
 ## Step 10: Create Payload Indexes
 
-Create a [full‑text index](/documentation/concepts/indexing/#full-text-index) for faster filtering.
+Create a [full‑text index](/documentation/manage-data/indexing/#full-text-index) for faster filtering.
 
 ```python
 # Create a payload index for 'text' so filters use an index, not a scan.
@@ -436,7 +446,8 @@ client.query_points(collection_name=collection_name, query=query_embedding, limi
 
 # Run multiple times for more reliable measurement
 indexed_times = []
-for i in range(25):
+for i in range(10):
+    time.sleep(2)  # Small delay to reduce noise; demo only
     start_time = time.time()
     response = client.query_points(
         collection_name=collection_name,
@@ -512,9 +523,9 @@ print("=" * 60)
 4. **Advanced features**: Explore quantization, sharding, and replication
 
 **Additional resources:**
-- [Qdrant Documentation](https://qdrant.tech/documentation/) - Complete technical reference
+- [Qdrant Documentation](/documentation/) - Complete technical reference
 - [HNSW Paper](https://arxiv.org/abs/1603.09320) - Original algorithm research
 - [Qdrant Cloud](https://cloud.qdrant.io/) - Managed vector search service
-- [Performance Tuning Guide](https://qdrant.tech/documentation/guides/optimization/) - Advanced optimization techniques
+- [Performance Tuning Guide](/documentation/operations/optimize/) - Advanced optimization techniques
 
 **Ready for the pitstop project?** Now it's your turn to optimize performance with your own dataset and use case. You'll apply these same techniques to your domain-specific data and measure the real-world impact of different HNSW parameters and indexing strategies. 

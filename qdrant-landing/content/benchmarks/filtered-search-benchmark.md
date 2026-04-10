@@ -18,7 +18,7 @@ As you can see from the charts, there are three main patterns:
 
 - **Speed downturn** - some engines struggle to keep high RPS, it might be related to the requirement of building a filtering mask for the dataset, as described above.
 
-- **Accuracy collapse** - some engines are loosing accuracy dramatically under some filters. It is related to the fact that the HNSW graph becomes disconnected, and the search becomes unreliable.
+- **Accuracy collapse** - some engines are losing accuracy dramatically under some filters. It is related to the fact that the HNSW graph becomes disconnected, and the search becomes unreliable.
 
 Qdrant avoids all these problems and also benefits from the speed boost, as it implements an advanced [query planning strategy](/documentation/search/#query-planning).
 

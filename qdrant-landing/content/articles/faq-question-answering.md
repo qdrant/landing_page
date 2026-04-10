@@ -55,7 +55,7 @@ As embeddings are vectors, one can apply a simple function to calculate the simi
 So with similarity learning, all we need to do is provide pairs of correct questions and answers.
 And then, the model will learn to distinguish proper answers by the similarity of embeddings.
 
->If you want to learn more about similarity learning and applications, check out this [article](/documentation/tutorials/neural-search/) which might be an asset.
+>If you want to learn more about similarity learning and applications, check out this [article](/documentation/tutorials-search-engineering/neural-search/) which might be an asset.
 
 ## Let's build
 

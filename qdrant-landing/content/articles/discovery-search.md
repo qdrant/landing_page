@@ -38,7 +38,7 @@ This is where a __vector _context___ can help. We define _context_ as a list of 
 
 ![Discovery search visualization](/articles_data/discovery-search/discovery-search.png)
 
-While positive and negative vectors might suggest the use of the <a href="/documentation/concepts/explore/#recommendation-api" target="_blank">recommendation interface</a>, in the case of _context_ they require to be paired up in a positive-negative fashion. This is inspired from the machine-learning concept of <a href="https://en.wikipedia.org/wiki/Triplet_loss" target="_blank">_triplet loss_</a>, where you have three vectors: an anchor, a positive, and a negative. Triplet loss is an evaluation of how much the anchor is closer to the positive than to the negative vector, so that learning happens by "moving" the positive and negative points to try to get a better evaluation. However, during discovery, we consider the positive and negative vectors as static points, and we search through the whole dataset for the "anchors", or result candidates, which fit this characteristic better.
+While positive and negative vectors might suggest the use of the <a href="/documentation/search/explore/#recommendation-api" target="_blank">recommendation interface</a>, in the case of _context_ they require to be paired up in a positive-negative fashion. This is inspired from the machine-learning concept of <a href="https://en.wikipedia.org/wiki/Triplet_loss" target="_blank">_triplet loss_</a>, where you have three vectors: an anchor, a positive, and a negative. Triplet loss is an evaluation of how much the anchor is closer to the positive than to the negative vector, so that learning happens by "moving" the positive and negative points to try to get a better evaluation. However, during discovery, we consider the positive and negative vectors as static points, and we search through the whole dataset for the "anchors", or result candidates, which fit this characteristic better.
 
 ![Triplet loss](/articles_data/discovery-search/triplet-loss.png)
 
@@ -100,4 +100,4 @@ This way you can give refreshing recommendations, while still being in control b
 - Discovery search is a powerful tool for controlled exploration in vector spaces.
 Context, consisting of positive and negative vectors constrain the search space, while a target guides the search.
 - Real-world applications include multimodal search, diverse recommendations, and context-driven exploration.
-- Ready to learn more about the math behind it and how to use it? Check out the [documentation](/documentation/concepts/explore/#discovery-api)
+- Ready to learn more about the math behind it and how to use it? Check out the [documentation](/documentation/search/explore/#discovery-api)

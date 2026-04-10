@@ -27,7 +27,7 @@ with tempfile.TemporaryDirectory(dir=data_dir.parent) as restore_dir:
 
     EdgeShard.unpack_snapshot(str(snapshot_path), str(data_dir))
 
-edge_shard = EdgeShard(SHARD_DIRECTORY)
+edge_shard = EdgeShard.load(SHARD_DIRECTORY)
 
 manifest = edge_shard.snapshot_manifest()
 
@@ -48,7 +48,7 @@ from pathlib import Path
 from qdrant_edge import (
     Distance,
     EdgeConfig,
-    VectorDataConfig,
+    EdgeVectorParams,
 )
 
 SHARD_DIRECTORY = "./qdrant-edge-directory"
@@ -57,15 +57,15 @@ VECTOR_DIMENSION=4
 
 Path(SHARD_DIRECTORY).mkdir(parents=True, exist_ok=True)
 config = EdgeConfig(
-    vector_data={
-        VECTOR_NAME: VectorDataConfig(
+    vectors={
+        VECTOR_NAME: EdgeVectorParams(
             size=VECTOR_DIMENSION,
             distance=Distance.Cosine,
         )
     }
 )
 
-edge_shard = EdgeShard(SHARD_DIRECTORY, config)
+edge_shard = EdgeShard.create(SHARD_DIRECTORY, config)
 
 from qdrant_client import QdrantClient, models
 

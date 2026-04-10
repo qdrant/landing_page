@@ -2,13 +2,14 @@
 title: "Sparse Vectors and Inverted Indexes"
 description: Learn sparse vectors and inverted indexes in Qdrant, create named sparse vectors, store index–value pairs, run exact dot-product search, and prepare for hybrid search with dense vectors.
 weight: 2
+isLesson: true
 ---
 
 {{< date >}} Day 3 {{< /date >}}
 
 # Sparse Vectors and Inverted Indexes
 
-Create and index [sparse vector](/documentation/concepts/vectors/#sparse-vectors) representations for keywords-based search and recommendations.
+Create and index [sparse vector](/documentation/manage-data/vectors/#sparse-vectors) representations for keywords-based search and recommendations.
 
 
 <div class="video">
@@ -45,7 +46,7 @@ User_2: [ 0,  0,  0,  0,  4,  0,  0,  2,  0,  0 ]
 
 Comparing two sparse representations, you'd be usually interested in how much they agree on the same features/objects (e.g., the same movie rating). 
 
-The **dot product** distance metric, introduced in the **day 1** (*Vector Search Fundamentals/Distance Metrics*), is a perfect fit for measuring the similarity between sparse representations. 
+The **dot product** distance metric, introduced in the **Day 1** (*Vector Search Fundamentals/Distance Metrics*), is a perfect fit for measuring the similarity between sparse representations. 
 It multiplies corresponding dimensions and summes the results.
 
 ```text
@@ -210,7 +211,7 @@ The similarity score for sparse vectors is calculated by comparing only the matc
 They’re storage-efficient and work well alongside dense vectors in future **Hybrid Search** setups.
 2. Similarity = Dot product. Sparse vector similarity in Qdrant is always measured by the **dot product**.
 3. Sparse vectors are organized in **inverted index** (separate data structure from **HNSW**, which is used for dense vectors).  
-Search on sparse vectors in Qdrant is **exact**, as opposed to approximate dense vector search.
+4. Search on sparse vectors in Qdrant is **exact**, as opposed to approximate dense vector search.
 
 ## What's Next
 In the next video, we’ll build keyword-based retrieval with sparse vectors in Qdrant.  

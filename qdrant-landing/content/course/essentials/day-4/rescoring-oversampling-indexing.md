@@ -2,6 +2,7 @@
 title: "Accuracy Recovery with Rescoring"
 description: Learn how oversampling and rescoring restore accuracy in quantized vector search. Improve Qdrant search precision while maintaining high performance using efficient reranking on original vectors. 
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Day 4 {{< /date >}}
@@ -69,8 +70,8 @@ response = client.query_points(
 )
 ```
 
-> Check out **[how to set up oversampling and rescoring](/documentation/guides/quantization/#searching-with-quantization)** in **TypeScript**, **Rust**, **Java**, **C#**, and **Go** clients.
+> Check out **[how to set up oversampling and rescoring](/documentation/manage-data/quantization/#searching-with-quantization)** in **TypeScript**, **Rust**, **Java**, **C#**, and **Go** clients.
 
 If quantization is impacting performance in an application that requires high accuracy, combining oversampling with rescoring is a great choice. However, if you need faster searches and can tolerate some loss in accuracy, you might choose to use oversampling without rescoring, or adjust the oversampling factor to a lower value. 
 
-> Check out our **[quantization tips](/documentation/guides/quantization/#quantization-tips)**
+> Check out our **[quantization tips](/documentation/manage-data/quantization/#quantization-tips)**

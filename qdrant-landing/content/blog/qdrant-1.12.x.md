@@ -113,7 +113,7 @@ Two arrays, `offsets_row` and `offsets_col`, represent the positions of non-zero
     }
 }
 ```
-*To learn more about the distance matrix, read [**The Distance Matrix documentation**](/documentation/concepts/explore/#distance-matrix).*
+*To learn more about the distance matrix, read [**The Distance Matrix documentation**](/documentation/search/explore/#distance-matrix).*
 
 ## Distance Matrix API in the Graph UI
 
@@ -134,7 +134,7 @@ The new graphing method is cleaner and reveals **relationships and outliers:**
 
 ![distance-matrix](/blog/qdrant-1.12.x/distance-matrix.png)
 
-*To learn more about the Web UI Dashboard, read the [**Interfaces documentation**](/documentation/interfaces/web-ui/).*
+*To learn more about the Web UI Dashboard, read the [**Interfaces documentation**](/documentation/web-ui/).*
 
 ## Facet API for Metadata Cardinality
 
@@ -142,7 +142,7 @@ The new graphing method is cleaner and reveals **relationships and outliers:**
 
 In modern applications like e-commerce, users often rely on [**filters**](/articles/vector-search-filtering/), such as **brand** or **color**, to refine search results. The **Facet API** is designed to help users understand the distribution of values in a dataset. 
 
-The `facet` endpoint can efficiently count and aggregate values for a specific [**payload field**](/documentation/concepts/payload/) in your dataset. 
+The `facet` endpoint can efficiently count and aggregate values for a specific [**payload field**](/documentation/manage-data/payload/) in your dataset. 
 
 You can use it to retrieve unique values for a field, along with the number of points that contain each value. This functionality is similar to `GROUP BY` with `COUNT(*)` in SQL databases.
 
@@ -195,12 +195,12 @@ POST /collections/{collection_name}/facet
 ```
 This feature provides flexibility between performance and precision, depending on the needs of your application.
 
-*To learn more about faceting, read the [**Facet API documentation**](/documentation/concepts/payload/#facet-counts).*
+*To learn more about faceting, read the [**Facet API documentation**](/documentation/manage-data/payload/#facet-counts).*
 
 ## Text Index on Disk Support 
 ![text-index-disk](/blog/qdrant-1.12.x/text-index-disk.png)
 
-[**Qdrant text indexing**](/documentation/concepts/indexing/#full-text-index) tokenizes text into smaller units (tokens) based on chosen settings (e.g., tokenizer type, token length). These tokens are stored in an inverted index for fast text searches. 
+[**Qdrant text indexing**](/documentation/manage-data/indexing/#full-text-index) tokenizes text into smaller units (tokens) based on chosen settings (e.g., tokenizer type, token length). These tokens are stored in an inverted index for fast text searches. 
 
 > With `on_disk` text indexing, the inverted index is stored on disk, reducing memory usage.
 
@@ -222,11 +222,11 @@ PUT /collections/{collection_name}/index
 }
 ```
 
-*To learn more about indexes, read the [**Indexing documentation**](/documentation/concepts/indexing/).*
+*To learn more about indexes, read the [**Indexing documentation**](/documentation/manage-data/indexing/).*
 
 ## Geo Index on Disk Support 
 
-For [**large-scale geographic datasets**](/documentation/concepts/payload/#geo) where storing all indexes in memory is impractical, **geo indexing** allows efficient filtering of points based on geographic coordinates. 
+For [**large-scale geographic datasets**](/documentation/manage-data/payload/#geo) where storing all indexes in memory is impractical, **geo indexing** allows efficient filtering of points based on geographic coordinates. 
 
 With `on_disk` geo indexing, the index is written to disk instead of residing in memory, making it possible to handle large datasets without exhausting system memory. 
 
@@ -255,11 +255,11 @@ PUT /collections/{collection_name}/index
 
 ![geo-index-disk](/blog/qdrant-1.12.x/geo-index-disk.png)
 
-> To learn how to get the best performance from Qdrant, read the [**Optimization Guide**](/documentation/guides/optimize/).
+> To learn how to get the best performance from Qdrant, read the [**Optimization Guide**](/documentation/operations/optimize/).
 
 ## Just the Beginning
 
-The easiest way to reach that **Hello World** moment is to [**try vector search in a live cluster**](/documentation/quickstart-cloud/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
+The easiest way to reach that **Hello World** moment is to [**try vector search in a live cluster**](/documentation/cloud-quickstart/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
 
 **All of the new features from version 1.12 can be tested in the Web UI:**
 

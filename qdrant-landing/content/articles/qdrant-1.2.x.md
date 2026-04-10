@@ -39,7 +39,7 @@ why we have introduced the [Scalar Quantization](/articles/scalar-quantization/)
 which makes it possible to reduce the memory requirements by up to four times.
 
 Today, we are bringing a new quantization mechanism to life. A separate article on [Product 
-Quantization](/documentation/quantization/#product-quantization) will describe that feature in more 
+Quantization](/documentation/manage-data/quantization/#product-quantization) will describe that feature in more 
 detail. In a nutshell, you can **reduce the memory requirements by up to 64 times**!
 
 ### Optional named vectors
@@ -83,7 +83,7 @@ returned.
 
 Unlike some other vector databases, Qdrant accepts any arbitrary JSON payload, including
 arrays, objects, and arrays of objects. You can also [filter the search results using nested 
-keys](/documentation/filtering/#nested-key), even though arrays (using the `[]` syntax). 
+keys](/documentation/search/filtering/#nested-key), even though arrays (using the `[]` syntax). 
 
 Before Qdrant 1.2 it was impossible to express some more complex conditions for the
 nested structures. For example, let's assume we have the following payload:
@@ -195,18 +195,18 @@ Out-of-Memory errors.
 Qdrant 1.2 enters recovery mode, if enabled, when it detects a failure on startup. 
 That makes the service halt the loading of collection data and commence operations in a partial state. 
 This state allows for removing collections but doesn't support search or update functions. 
-**Recovery mode [has to be enabled by user](/documentation/administration/#recovery-mode).**
+**Recovery mode [has to be enabled by user](/documentation/operations/administration/#recovery-mode).**
 
 ### Appendable mmap
 
 For a long time, segments using mmap storage were `non-appendable` and could only be constructed by 
 the optimizer. Dynamically adding vectors to the mmap file is fairly complicated and thus not 
 implemented in Qdrant, but we did our best to implement it in the recent release. If you want 
-to read more about segments, check out our docs on [vector storage](/documentation/storage/#vector-storage).
+to read more about segments, check out our docs on [vector storage](/documentation/manage-data/storage/#vector-storage).
 
 ## Security
 
-There are two major changes in terms of [security](/documentation/security/):
+There are two major changes in terms of [security](/documentation/operations/security/):
 
 1. **API-key support** - basic authentication with a static API key to prevent unwanted access. Previously 
    API keys were only supported in [Qdrant Cloud](https://cloud.qdrant.io/).

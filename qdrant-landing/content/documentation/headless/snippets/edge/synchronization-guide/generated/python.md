@@ -4,7 +4,7 @@ from qdrant_edge import (
     Distance,
     EdgeConfig,
     EdgeShard,
-    VectorDataConfig,
+    EdgeVectorParams,
 )
 
 MUTABLE_SHARD_DIR = "./qdrant-edge-directory/mutable"
@@ -15,15 +15,15 @@ VECTOR_NAME="my-vector"
 VECTOR_DIMENSION=4
 
 config = EdgeConfig(
-    vector_data={
-        VECTOR_NAME: VectorDataConfig(
+    vectors={
+        VECTOR_NAME: EdgeVectorParams(
             size=VECTOR_DIMENSION,
             distance=Distance.Cosine,
         )
     }
 )
 
-mutable_shard = EdgeShard(MUTABLE_SHARD_DIR, config)
+mutable_shard = EdgeShard.create(MUTABLE_SHARD_DIR, config)
 
 import requests
 import tempfile
@@ -51,7 +51,7 @@ with tempfile.TemporaryDirectory(dir=data_dir.parent) as restore_dir:
 
     EdgeShard.unpack_snapshot(str(snapshot_path), str(data_dir))
 
-immutable_shard = EdgeShard(IMMUTABLE_SHARD_DIR)
+immutable_shard = EdgeShard.load(IMMUTABLE_SHARD_DIR)
 
 from qdrant_edge import ( Point, UpdateOperation )
 from qdrant_client import models

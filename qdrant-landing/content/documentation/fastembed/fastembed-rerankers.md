@@ -1,6 +1,6 @@
 ---
 title: Reranking with FastEmbed
-weight: 8
+weight: 80
 ---
 
 # How to use rerankers with FastEmbed
@@ -41,7 +41,7 @@ TextCrossEncoder.list_supported_models()
 This command displays the available models, including details such as output embedding dimensions, model description, model size, model sources, and model file.
 
 <details>
-<summary> <span style="background-color: gray; color: black;"> Avaliable models </span> </summary>
+<summary> <span style="background-color: gray; color: black;"> Available models </span> </summary>
 
 
 ```python
@@ -145,7 +145,7 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(":memory:")  # Qdrant is running from RAM.
 ```
 
-Let's create a [collection](https://qdrant.tech/documentation/concepts/collections/) with our movie data.
+Let's create a [collection](/documentation/manage-data/collections/) with our movie data.
 
 ```python
 client.create_collection(

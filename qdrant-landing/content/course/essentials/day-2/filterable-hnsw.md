@@ -2,13 +2,14 @@
 title: "Combining Vector Search and Filtering"
 description: Learn how Qdrant combines HNSW vector search with payload filtering. Understand Filterable HNSW, query planning, and payload indexing for accurate, high-performance retrieval.
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Day 2 {{< /date >}}
 
 # Combining Vector Search and Filtering
 
-We've talked about how Qdrant uses the [HNSW](/documentation/concepts/indexing/#filterable-index) graph to efficiently search dense vectors. But in real-world applications, you'll often want to constrain your search using filters. This creates unique challenges for graph traversal that Qdrant solves elegantly.
+We've talked about how Qdrant uses the [HNSW](/documentation/manage-data/indexing/#filterable-index) graph to efficiently search dense vectors. But in real-world applications, you'll often want to constrain your search using filters. This creates unique challenges for graph traversal that Qdrant solves elegantly.
 
 <div class="video">
 <iframe 
@@ -22,7 +23,7 @@ We've talked about how Qdrant uses the [HNSW](/documentation/concepts/indexing/#
 
 ## The Challenge: Filters Break Graph Connectivity
 
-Consider retrieving items from an online store collection where you only want to show laptops priced under $1,000. That price information, along with the category 'laptop', isn't part of the vector - it lives in the [payload](/documentation/concepts/payload/).
+Consider retrieving items from an online store collection where you only want to show laptops priced under $1,000. That price information, along with the category 'laptop', isn't part of the vector - it lives in the [payload](/documentation/manage-data/payload/).
 
 ![To help shoppers easily find products on your website, you need to have a user-friendly search engine](/courses/day2/vector-search-ecommerce.png)
 
@@ -169,7 +170,7 @@ results = client.query_points(
 )
 ```
 
-See more in [the docs](/documentation/concepts/filtering/).
+See more in [the docs](/documentation/search/filtering/).
 
 ### Query Planner Decision Matrix
 
@@ -199,4 +200,4 @@ See more in [the docs](/documentation/concepts/filtering/).
 
 In the next section, we'll define a collection with structured payloads, configure payload indexing, and evaluate how different HNSW parameters impact filtered search performance.
 
-Learn more: [Filterable HNSW Article](https://qdrant.tech/articles/filterable-hnsw/) 
+Learn more: [Filterable HNSW Article](/articles/filterable-hnsw/) 

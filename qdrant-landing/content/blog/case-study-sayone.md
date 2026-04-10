@@ -16,6 +16,7 @@ tags:
 - government AI
 - scalable infrastructure
 - data privacy
+partition: case-studies
 ---
 
 

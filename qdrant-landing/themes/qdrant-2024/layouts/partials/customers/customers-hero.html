@@ -1,0 +1,32 @@
+{{ with (.Site.GetPage "/customers/customers-hero") }}
+  <section class="customers-hero">
+    <div class="customers-hero__overlay"></div>
+    <div class="customers-hero__texture"></div>
+    <div class="container customers-hero__container">
+      <div class="customers-hero__tag">
+        <img class="customers-hero__tag-image" src="{{ .Params.tag.icon.src }}" alt="{{ .Params.tag.icon.alt }}" />
+        <p class="customers-hero__tag-title">{{ .Params.tag.title }}</p>
+      </div>
+      
+      <h1 class="customers-hero__title">{{ .Params.title }}</h1>
+      <a class="customers-hero__button button button_contained button_lg" href="{{ .Params.button.url }}">
+        {{ .Params.button.text }}
+      </a>
+
+      <div class="customers-hero__slider">
+        {{ range $index, $card := .Params.cards }}
+          <div class="customers-hero__slider-card">
+            <a class="customers-hero__slider-card-inner" href="#">
+              <img src="{{ .image.src }}" alt="{{ .image.alt }}" class="customers-hero__slider-card-img" />
+              <p class="customers-hero__slider-card-description">{{ .description }}</p>
+            </a>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+
+    {{ with (.Site.GetPage "customer-list") }}
+      {{ .Scratch.Set "setting" (slice " dark") }}{{ partial "customer-list" . }}
+    {{ end }}
+  </section>
+{{ end }}

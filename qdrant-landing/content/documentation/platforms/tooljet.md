@@ -33,15 +33,15 @@ You can interface with the Qdrant instance using the following Tooljet operation
 
 ![Qdrant Upsert Points](/documentation/platforms/tooljet/tooljet-upsert-points.png)
 
-- Get Points - Get points from a collection by IDs or [filters](https://qdrant.tech/documentation/concepts/filtering/).
+- Get Points - Get points from a collection by IDs or [filters](/documentation/search/filtering/).
 
 ![Qdrant Get Points](/documentation/platforms/tooljet/tooljet-get-points.png)
 
-- Delete Points - Delete points from a collection by [filters](https://qdrant.tech/documentation/concepts/filtering/).
+- Delete Points - Delete points from a collection by [filters](/documentation/search/filtering/).
 
 ![Qdrant Delete Points](/documentation/platforms/tooljet/tooljet-delete-points.png)
 
-- Query Points - [Search](https://qdrant.tech/documentation/concepts/search/) for points in a collection.
+- Query Points - [Search](/documentation/search/search/) for points in a collection.
 
 ![Qdrant Query Points](/documentation/platforms/tooljet/tooljet-query-points.png)
 

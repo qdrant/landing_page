@@ -118,7 +118,7 @@ sparse_vectors_config={
 }
 ```
 
-**Hybrid in one request.** Combine sparse precision with dense semantics via native [RRF/prefetch](https://qdrant.tech/documentation/concepts/hybrid-queries/) - no external reranker:
+**Hybrid in one request.** Combine sparse precision with dense semantics via native [RRF/prefetch](https://qdrant.tech/documentation/search/hybrid-queries/) - no external reranker:
 
 ```python
 client.query_points(

@@ -2,6 +2,7 @@
 title: "Integrating with Tensorlake"
 description: Learn how TensorLake and Qdrant combine document parsing, knowledge graphs, and vector search to build scalable, structured data lakes for advanced RAG and research discovery applications.
 weight: 4
+isLesson: true
 ---
 
 {{< date >}} Day 7 {{< /date >}}

@@ -17,6 +17,7 @@ tags:
 - Split AI
 - float16 optimization
 - case study
+partition: case-studies
 ---
 
 ![Dragonfruit Overview](/blog/case-study-dragonfruit/dragonfruit-bento-box-dark.png)
@@ -41,13 +42,13 @@ Retail and warehouse environments are bandwidth-constrained and heterogeneous. A
 * Operate a vector store at enterprise scale: thousands of locations → thousands of cameras, accumulating into tens to hundreds of billions of vectors and multi-terabyte storage.
 ### Why Qdrant: Performance headroom and operational control
 
-Dragonfruit chose the open-source version of Qdrant as its vector search engine to meet the twin pressures of real-time reads and high-velocity writes. In head-to-head experiments, Qdrant delivered the QPS targets they needed while giving the team granular, [per-collection](https://qdrant.tech/documentation/concepts/collections/) tuning to match workload diversity.
+Dragonfruit chose the open-source version of Qdrant as its vector search engine to meet the twin pressures of real-time reads and high-velocity writes. In head-to-head experiments, Qdrant delivered the QPS targets they needed while giving the team granular, [per-collection](https://qdrant.tech/documentation/manage-data/collections/) tuning to match workload diversity.
 
 Key reasons the team highlighted:
 
 * **Per-collection configurability.** Collections with heavy reads and low writes use different settings than write-heavy pipelines. Tuning shard counts and HNSW parameters by collection helped hit latency Service Level Objectives (SLOs) without overprovisioning.
 
-* **Efficient numeric formats.** For most vision workloads, [float16](https://qdrant.tech/documentation/concepts/vectors/) vectors were sufficient, improving memory efficiency and cache behavior with no material loss in retrieval accuracy for their use cases.
+* **Efficient numeric formats.** For most vision workloads, [float16](https://qdrant.tech/documentation/manage-data/vectors/) vectors were sufficient, improving memory efficiency and cache behavior with no material loss in retrieval accuracy for their use cases.
 
 * **Open source and ecosystem fit.** Qdrant’s OSS model aligned with Dragonfruit’s platform strategy and let them co-evolve the deployment with their edge and cloud stack.
 

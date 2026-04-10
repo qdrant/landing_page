@@ -1,6 +1,7 @@
 ---
 title: "Qdrant Essentials Certification"
 description: Get officially certified by Qdrant today!
+isLesson: true
 weight: 100
 ---
 

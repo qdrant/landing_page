@@ -17,6 +17,7 @@ tags:
 - knowledge engine
 - latency optimization
 - case study
+partition: case-studies
 ---
 
 ![Xaver Overview](/blog/case-study-xaver/xaver-bento-box-dark.jpg)
@@ -49,7 +50,7 @@ To make this work, Xaver needed a system that could manage knowledge retrieval a
 ### The solution: Semantic caching, or a two-layer knowledge engine
 
 [Qdrant](https://qdrant.tech/documentation/overview/) was selected after extensive evaluation for several reasons:
-Xaver’s AI platform includes a “knowledge engine,” an [indexing](https://qdrant.tech/documentation/concepts/indexing/) and [retrieval](https://qdrant.tech/documentation/beginner-tutorials/retrieval-quality/) layer that feeds contextually relevant insights to both automated and human-assisted consultations. It powers two key functions:
+Xaver’s AI platform includes a “knowledge engine,” an [indexing](https://qdrant.tech/documentation/manage-data/indexing/) and [retrieval](https://qdrant.tech/documentation/beginner-tutorials/retrieval-quality/) layer that feeds contextually relevant insights to both automated and human-assisted consultations. It powers two key functions:
 
 1. Automated consultation through AI-led sessions via phone, video avatar, messengers, or web chat.
 

@@ -18,7 +18,7 @@ In this blog post, we'll demonstrate how to load data into Qdrant from the chann
 
 ### Prerequisites
 
-- A running Qdrant instance. Refer to our [Quickstart guide](/documentation/quick-start/) to set up an instance.
+- A running Qdrant instance. Refer to our [Quickstart guide](/documentation/quickstart/) to set up an instance.
 - A Discord bot token. Generate one [here](https://discord.com/developers/applications) after adding the bot to your server.
 - Unstructured CLI with the required extras. For more information, see the Discord [Getting Started guide](https://discord.com/developers/docs/getting-started). Install it with the following command:
 
@@ -50,7 +50,7 @@ unstructured-ingest discord --help
 
 ### Ingesting into Qdrant
 
-Before loading the data, set up a collection with the information you need for the following REST call. In this example we use a local Huggingface model generating 384-dimensional embeddings. You can create a Qdrant [API key](/documentation/cloud/authentication/#create-api-keys) and set names for your Qdrant [collections](/documentation/concepts/collections/).
+Before loading the data, set up a collection with the information you need for the following REST call. In this example we use a local Huggingface model generating 384-dimensional embeddings. You can create a Qdrant [API key](/documentation/cloud/authentication/#create-api-keys) and set names for your Qdrant [collections](/documentation/manage-data/collections/).
 
 We set up the collection with the following command:
 

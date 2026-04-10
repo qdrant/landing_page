@@ -27,7 +27,7 @@ Recent advancements in **Vision Large Language Models (VLLMs)**, such as [**ColP
 
 VLLMs like **ColPali** and **ColQwen** generate **multivector representations** for each PDF page; the representations are stored and indexed in a vector database. During the retrieval process, models dynamically create multivector representations for (textual) user queries, and precise retrieval -- matching between PDF pages and queries -- is achieved through [late-interaction mechanism](/blog/qdrant-colpali/#how-colpali-works-under-the-hood).
 
-<aside role="status"> Qdrant supports <a href="/documentation/concepts/vectors/#multivectors">multivector representations</a>, making it well-suited for using embedding models such as ColPali, ColQwen, or <a href="/documentation/fastembed/fastembed-colbert/">ColBERT</a></aside>
+<aside role="status"> Qdrant supports <a href="/documentation/manage-data/vectors/#multivectors">multivector representations</a>, making it well-suited for using embedding models such as ColPali, ColQwen, or <a href="/documentation/fastembed/fastembed-colbert/">ColBERT</a></aside>
 
 ## Challenges of Scaling VLLMs
 
@@ -40,7 +40,7 @@ The heavy multivector representations produced by VLLMs make PDF retrieval at sc
 To understand the impact, consider the construction of an [**HNSW index**](/articles/what-is-a-vector-database/#1-indexing-hnsw-index-and-sending-data-to-qdrant), a common indexing algorithm for vector databases. Let's roughly estimate the number of comparisons needed to insert a new PDF page into the index.
 
 - **Vectors per page:** ~700 (ColQwen) or ~1,000 (ColPali)
-- **[ef_construct](/documentation/concepts/indexing/#vector-index):** 100 (default)
+- **[ef_construct](/documentation/manage-data/indexing/#vector-index):** 100 (default)
 
 The lower bound estimation for the number of vector comparisons would be:
 

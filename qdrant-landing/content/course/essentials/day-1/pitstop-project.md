@@ -2,6 +2,7 @@
 title: "Project: Building a Semantic Search Engine"
 description: Build a semantic search engine with Qdrant. Compare chunking strategies, index embeddings, and query by meaning to discover what works best for your domain. 
 weight: 6
+isLesson: true
 ---
 
 {{< date >}} Day 1 {{< /date >}}
@@ -134,7 +135,7 @@ def paragraph_chunks(text):
 
 ### Step 4: Create Collections and Process Data
 
-Note: If you are already familiar with Qdrant's filterable HNSW, you will know that effective filtering and grouping often relies on creating a [payload index](/documentation/concepts/indexing/#payload-index) before building HNSW indexes. To keep things simple in this tutorial, we will do a basic search with filters without payload indexes and talk about proper usage of payload indexes on [day 2](/content/course/essentials/day-2/_index.md) of this course.
+Note: If you are already familiar with Qdrant's filterable HNSW, you will know that effective filtering and grouping often relies on creating a [payload index](/documentation/manage-data/indexing/#payload-index) before building HNSW indexes. To keep things simple in this tutorial, we will do a basic search with filters without payload indexes and talk about proper usage of payload indexes on [day 2](/course/essentials/day-2/) of this course.
 
 ```python
 collection_name = "day1_semantic_search"
@@ -349,4 +350,4 @@ encoder_large = SentenceTransformer("all-mpnet-base-v2")  # Larger, potentially 
 encoder_fast = SentenceTransformer("all-MiniLM-L12-v2")   # Different size/speed tradeoff
 ```
 
-**Ready for Day 2?** Tomorrow you'll learn how Qdrant makes vector search lightning-fast through [HNSW](https://qdrant.tech/articles/filterable-hnsw/) indexing and how to optimize for production workloads.
+**Ready for Day 2?** Tomorrow you'll learn how Qdrant makes vector search lightning-fast through [HNSW](/articles/filterable-hnsw/) indexing and how to optimize for production workloads.

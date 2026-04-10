@@ -2,6 +2,7 @@
 title: "Qdrant Setup"
 description: Set up your Qdrant Cloud cluster in minutes. Learn to create collections, manage data, access the Web UI, and connect securely from Python.
 weight: 2
+isLesson: true
 ---
 
 {{< date >}} Day 0 {{< /date >}}
@@ -84,7 +85,7 @@ you’ll get a detailed view with these tabs:
 
 * **Search Quality Tab**: Evaluate and benchmark retrieval precision against ground truth. Tune parameters and measure the impact on accuracy.
 
-* **Snapshots Tab**: Manage backups for this collection. Create a [snapshot](/documentation/concepts/snapshots/), restore it later, or migrate it to another cluster.
+* **Snapshots Tab**: Manage backups for this collection. Create a [snapshot](/documentation/operations/snapshots/), restore it later, or migrate it to another cluster.
 
 * **Visualize Tab**: Explore your vector space with an interactive 2D projection. See clusters, spot outliers, and build intuition about your embeddings.
 

@@ -5,9 +5,9 @@ aliases: [ ../frameworks/buildship/ ]
 
 # BuildShip
 
-[BuildShip](https://buildship.com/) is a low-code visual builder to create APIs, scheduled jobs, and backend workflows with AI assitance.  
+[BuildShip](https://buildship.com/) is a low-code visual builder to create APIs, scheduled jobs, and backend workflows with AI assistance.  
 
-You can use the [Qdrant integration](https://buildship.com/integrations/qdrant) to development workflows with semantic-search capabilites.
+You can use the [Qdrant integration](https://buildship.com/integrations/qdrant) to development workflows with semantic-search capabilities.
 
 ## Prerequisites
 

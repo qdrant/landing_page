@@ -2,6 +2,7 @@
 title: "Integrating with LlamaIndex"
 description: Learn how LlamaIndex and Qdrant power intelligent RAG pipelines, function-calling agents, and cloud-synced vector search systems with structured workflows and dynamic query handling.
 weight: 6
+isLesson: true
 ---
 
 {{< date >}} Day 7 {{< /date >}}
@@ -111,7 +112,7 @@ This architecture enables various sophisticated use cases:
 - [LlamaIndex Qdrant Integration](https://docs.llamaindex.ai/en/stable/examples/vector_stores/qdrant_hybrid/):  
   Official LlamaIndex documentation for using Qdrant as a vector store. Learn about hybrid search, vector storage configuration, and query examples.
 
-- [Qdrant & LlamaIndex Integration Guide](https://qdrant.tech/documentation/frameworks/llama-index/):  
+- [Qdrant & LlamaIndex Integration Guide](/documentation/frameworks/llama-index/):  
   Official Qdrant documentation on integrating with LlamaIndex. Learn how to build sophisticated RAG applications and AI agents with function calling capabilities.
 
 ⭐ **Show your support!** Give LlamaIndex a star on their GitHub repository: [github.com/run-llama/llama_index](https://github.com/run-llama/llama_index)

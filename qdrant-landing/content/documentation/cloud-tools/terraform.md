@@ -15,7 +15,7 @@ With the [Qdrant Terraform Provider](https://registry.terraform.io/providers/qdr
 To use the Qdrant Terraform Provider, you'll need:
 
 1. A [Terraform installation](https://developer.hashicorp.com/terraform/install).
-2. An [API key](/documentation/qdrant-cloud-api/#authentication-connecting-to-cloud-api) to access the Qdrant cloud API.
+2. An [API key](/documentation/cloud-api/#authentication) to access the Qdrant cloud API.
 
 ## Example Usage
 

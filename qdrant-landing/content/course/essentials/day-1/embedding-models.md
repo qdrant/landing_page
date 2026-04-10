@@ -2,6 +2,7 @@
 title: "Points, Vectors and Payloads"
 description: Learn Qdrant’s core data model with points, vectors, payloads, and named vectors. Compare dense, sparse, and multivectors, understand dimensionality trade-offs, and master filtering with payload indexes for precise retrieval. 
 weight: 2
+isLesson: true
 ---
 
 {{< date >}} Day 1 {{< /date >}}
@@ -81,7 +82,7 @@ The `indices` and `values` arrays must be the same size, and all the `indices` m
 
 There is no need to sort the sparse representation by indices, as Qdrant will perform this internally while maintaining the correct link between each index and its value.
 
-We will cover more about sparse vectors on day 3. If you would like to read up on the subject in advance, you can find more documentation [here](/documentation/concepts/vectors/#sparse-vectors).
+We will cover more about sparse vectors on day 3. If you would like to read up on the subject in advance, you can find more documentation [here](/documentation/manage-data/vectors/#sparse-vectors).
 
 
 ### Multivectors
@@ -170,7 +171,7 @@ Choosing the right embedding source is a critical decision that balances cost, p
 
 ### 1. On-Premise, Optimized: FastEmbed by Qdrant
 
-[FastEmbed](https://qdrant.tech/documentation/fastembed/) is Qdrant's optimized embedding solution designed for on-premise, high-speed generation with minimal dependencies. It delivers low-latency, CPU-friendly embedding generation using quantized model weights and ONNX Runtime, making it up to 50% faster than traditional PyTorch-based models while maintaining competitive accuracy.
+[FastEmbed](/documentation/fastembed/) is Qdrant's optimized embedding solution designed for on-premise, high-speed generation with minimal dependencies. It delivers low-latency, CPU-friendly embedding generation using quantized model weights and ONNX Runtime, making it up to 50% faster than traditional PyTorch-based models while maintaining competitive accuracy.
 
 The default model for standalone use, [`BAAI/bge-small-en-v1.5`](https://huggingface.co/BAAI/bge-small-en-v1.5), is lightweight at ~67MB compared to 300MB+ for many Hugging Face models. While the `qdrant-client` integration allows you to specify any compatible model, using the default is a great way to get started quickly.
 
@@ -233,7 +234,7 @@ While vectors capture the essence of data, payloads hold structured metadata for
 
 Payloads can store textual data (descriptions, tags, categories), numerical values (dates, prices, ratings), and complex structures (nested objects, arrays). When searching for dog images, for example, the vector finds visually similar images while payload filters narrow results to images taken within the last year, tagged with "vacation," or meeting specific rating criteria.
 
-Learn more: [Payload Documentation](https://qdrant.tech/documentation/concepts/payload/)
+Learn more: [Payload Documentation](/documentation/manage-data/payload/)
 
 
 ### Payload Types
@@ -303,7 +304,7 @@ Here are some of the most common condition types:
 
 <aside role="alert"> This list covers the most common conditions available at the time of this course. Qdrant is constantly evolving, and new filtering capabilities may have been added.
 
-For the complete, most up-to-date list of all available filtering conditions, please refer to the **[official Filtering documentation](https://qdrant.tech/documentation/concepts/filtering/#filtering-conditions)**.</aside>
+For the complete, most up-to-date list of all available filtering conditions, please refer to the **[official Filtering documentation](/documentation/search/filtering/#filtering-conditions)**.</aside>
 
 
 ### Filtering Capabilities Reference
@@ -381,7 +382,7 @@ client.create_payload_index(
 
 When filters are highly selective, Qdrant's query planner may bypass vector indexing entirely and use payload indexes for faster results.
 
-For comprehensive filtering examples and advanced usage patterns, see the [Filtering Documentation](https://qdrant.tech/documentation/concepts/filtering/) and [Complete Guide to Filtering in Vector Search](https://qdrant.tech/articles/vector-search-filtering/).
+For comprehensive filtering examples and advanced usage patterns, see the [Filtering Documentation](/documentation/search/filtering/) and [Complete Guide to Filtering in Vector Search](/articles/vector-search-filtering/).
 
 ## Key Takeaways
 

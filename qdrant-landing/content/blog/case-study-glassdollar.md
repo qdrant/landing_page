@@ -18,6 +18,7 @@ tags:
 - nodejs
 - cost reduction
 - case study
+partition: case-studies
 ---
 
 ![GlassDollar overview](/blog/case-study-glassdollar/glassdollar-bento-box.png)
@@ -48,7 +49,7 @@ Instead of optimizing around a single response time target, GlassDollar focused 
 
 ## Accuracy Meant End-to-end Results, not Just Retriever Scores
 
-For GlassDollar, accuracy was measured at the workflow level: did the system surface the right companies for a given enterprise need, and did users act on the results. That meant optimizing the full architecture, including [query expansion](https://qdrant.tech/documentation/concepts/hybrid-queries/), retrieval, ranking, and contextual ranking, rather than chasing marginal gains in any single component. Faster retrieval mattered most because it enabled more queries to improve query expansion, which raised recall and improved the final shortlist quality.
+For GlassDollar, accuracy was measured at the workflow level: did the system surface the right companies for a given enterprise need, and did users act on the results. That meant optimizing the full architecture, including [query expansion](https://qdrant.tech/documentation/search/hybrid-queries/), retrieval, ranking, and contextual ranking, rather than chasing marginal gains in any single component. Faster retrieval mattered most because it enabled more queries to improve query expansion, which raised recall and improved the final shortlist quality.
 
 ## Contextual Embeddings Improved Matching Between User Intent and Company Descriptions
 

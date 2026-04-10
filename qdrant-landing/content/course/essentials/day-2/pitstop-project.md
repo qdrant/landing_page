@@ -2,13 +2,14 @@
 title: "Project: HNSW Performance Benchmarking"
 description: Optimize vector search with Qdrant. Test multiple HNSW configurations, time uploads and queries, and evaluate filtering with and without payload indexes to find the best settings for your domain.
 weight: 5
+isLesson: true
 ---
 
 {{< date >}} Day 2 {{< /date >}}
 
 # Project: HNSW Performance Benchmarking
 
-Now that you've seen how [HNSW](https://qdrant.tech/articles/filterable-hnsw/) parameters and payload indexes affect performance with the DBpedia dataset, it's time to optimize for your own domain and use case.
+Now that you've seen how [HNSW](/articles/filterable-hnsw/) parameters and payload indexes affect performance with the DBpedia dataset, it's time to optimize for your own domain and use case.
 
 ## Your Mission
 

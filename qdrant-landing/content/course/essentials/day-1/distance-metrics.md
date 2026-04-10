@@ -2,13 +2,14 @@
 title: "Distance Metrics"
 description: Learn how distance metrics like cosine, Euclidean, Manhattan, and dot product shape vector similarity in Qdrant. Discover which metric fits your data and use case. 
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Day 1 {{< /date >}}
 
 # Distance Metrics
 
-After vectors are stored, we can use their spatial properties to perform [nearest neighbor searches](/documentation/concepts/search/) that retrieve semantically similar items based on how close they are in this space.
+After vectors are stored, we can use their spatial properties to perform [nearest neighbor searches](/documentation/search/search/) that retrieve semantically similar items based on how close they are in this space.
 
 The position of a vector in embedding space only reflects meaning as far as the embedding model has learned to encode it. The model and its training objective tell you what "close" means.
 
@@ -165,4 +166,4 @@ If you are training your own model or designing custom features, use these guide
     *   **Dot product** accounts for magnitude and direction.
 4.  **Experiment:** Qdrant allows you to set distance metrics per named vector, making it easy to A/B test different metrics on your specific data.
 
-Reference: [Distance Metrics in Qdrant Documentation](https://qdrant.tech/documentation/concepts/search/#metrics) 
+Reference: [Distance Metrics in Qdrant Documentation](/documentation/search/search/#metrics) 

@@ -14,7 +14,7 @@ category: vector-search-manuals
 
 Multi-vector representations are superior to single-vector embeddings in many benchmarks. It might be tempting to use 
 them right away, but there is a catch: they are slower to search. Traditional vector search structures like 
-[HNSW](/documentation/concepts/indexing/#vector-index) are optimized for retrieving the nearest neighbors of a single 
+[HNSW](/documentation/manage-data/indexing/#vector-index) are optimized for retrieving the nearest neighbors of a single 
 query vector using simple metrics such as cosine similarity. These indexes are not suitable for multi-vector retrieval 
 strategies, such as MaxSim, where a query and document are each represented by multiple vectors and the final score is 
 computed as the maximum similarity over all cross-pairings. MaxSim is inherently asymmetric and non-metric, so HNSW 
@@ -66,7 +66,7 @@ done by computing the dot product of the input vector with each hyperplane norma
 result. Since each of our regions can be represented as a binary string of length `k_sim` (where each bit indicates 
 which side of a hyperplane the vector is on), we can interpret this binary string as an integer to get a cluster ID.
 
-![SimHash cluster assignement](/articles_data/muvera-embeddings/simhash-cluster-assignment.png)
+![SimHash cluster assignment](/articles_data/muvera-embeddings/simhash-cluster-assignment.png)
 
 ### Fixed Dimensional Encoding (FDE) creation
 

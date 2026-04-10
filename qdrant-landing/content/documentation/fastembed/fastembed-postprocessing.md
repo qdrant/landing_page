@@ -1,6 +1,6 @@
 ---
 title: Multi-Vector Postprocessing
-weight: 9
+weight: 90
 ---
 
 # Multi-Vector Postprocessing
@@ -174,8 +174,8 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient("http://localhost:6333")
 ```
 
-Create a [collection](/documentation/concepts/collections/) that stores both MUVERA embeddings and the original 
-multi-vector representations using [named vectors](/documentation/concepts/vectors/#named-vectors).
+Create a [collection](/documentation/manage-data/collections/) that stores both MUVERA embeddings and the original 
+multi-vector representations using [named vectors](/documentation/manage-data/vectors/#named-vectors).
 
 ```python
 client.create_collection(
@@ -220,7 +220,7 @@ client.upload_points(
 ### Hybrid Search: MUVERA Retrieval + ColBERT Reranking
 
 Now let's perform a search using the hybrid approach. Qdrant supports [multi-stage 
-queries](/documentation/concepts/hybrid-queries/#multi-stage-queries) through the `prefetch` parameter, which lets us 
+queries](/documentation/search/hybrid-queries/#multi-stage-queries) through the `prefetch` parameter, which lets us 
 combine MUVERA's fast retrieval with ColBERT's accurate rescoring in a single query.
 
 First, create query embeddings in both formats.
@@ -253,7 +253,7 @@ ColBERT's multi-vector representation. Qdrant automatically handles the MaxSim c
 
 <aside role="status">
 Qdrant's multi-stage query API handles the two-stage retrieval natively - no manual reranking code needed! Learn more 
-about <a href="/documentation/concepts/hybrid-queries/#multi-stage-queries">multi-stage queries</a>.
+about <a href="/documentation/search/hybrid-queries/#multi-stage-queries">multi-stage queries</a>.
 </aside>
 
 Display the results.

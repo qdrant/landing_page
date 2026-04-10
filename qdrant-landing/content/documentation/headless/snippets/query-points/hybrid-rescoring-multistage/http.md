@@ -4,11 +4,11 @@ POST /collections/{collection_name}/points/query
     "prefetch": {
         "prefetch": {
             "query": [1, 23, 45, 67], // <------ small byte vector
-            "using": "mrl_byte"
+            "using": "mrl_byte",
             "limit": 1000
         },
         "query": [0.01, 0.45, 0.67, ...], // <-- full dense vector
-        "using": "full"
+        "using": "full",
         "limit": 100
     },
     "query": [           // <─┐

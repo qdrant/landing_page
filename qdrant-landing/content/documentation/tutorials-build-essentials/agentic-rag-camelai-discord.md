@@ -1,7 +1,7 @@
 ---
 title: Discord RAG Bot
-weight: 4
-#partition: build
+weight: 20
+#partition: ecosystem
 social_preview_image: /documentation/examples/agentic-rag-camelai-discord/social-preview.png
 aliases:
   - /documentation/agentic-rag-camelai-discord/
@@ -179,11 +179,11 @@ vector_retriever = VectorRetriever(embedding_model=embedding_instance,
 
 qdrant_urls = [
     "https://qdrant.tech/documentation/overview",
-    "https://qdrant.tech/documentation/guides/installation",
-    "https://qdrant.tech/documentation/concepts/filtering",
-    "https://qdrant.tech/documentation/concepts/indexing",
-    "https://qdrant.tech/documentation/guides/distributed_deployment",
-    "https://qdrant.tech/documentation/guides/quantization"
+    "/documentation/operations/installation",
+    "/documentation/search/filtering",
+    "/documentation/manage-data/indexing",
+    "/documentation/operations/distributed_deployment",
+    "/documentation/manage-data/quantization"
     # Add more URLs as needed
 ]
 
