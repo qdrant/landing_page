@@ -26,7 +26,7 @@
               <p class="vectors__card-content">{{ .content }}</p>
               <a class="link link_light link_md" href="{{ .link.url }}"> {{ .link.text }} </a>
             </div>
-            <div class="vectors__card-image" style="background-image: url(/img/vectors/vector-{{ $index }}.svg)"></div>
+            <div class="vectors__card-image" style="background-image: url('{{ .image.src }}');{{ if .image.webp }} background-image: image-set(url('{{ .image.webp }}') type('image/webp'), url('{{ .image.src }}') type('image/png'));{{ end }}"></div>
           </div>
         </div>
       {{ end }}
