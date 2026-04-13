@@ -5,10 +5,11 @@ startFree:
   text: Get Started
   url: https://cloud.qdrant.io/signup
 learnMore:
-  text: Contact Us
+  text: Learn More
   url: /contact-us/
 image:
-  src: /img/vectors/vector-2.svg
+  src: /img/home/horizontal-slider/rag.png
+  webp: /img/home/horizontal-slider/rag.png
   alt: Retrieval Augmented Generation
 sitemapExclude: true
 ---
