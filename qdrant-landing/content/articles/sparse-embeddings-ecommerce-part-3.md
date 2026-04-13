@@ -8,7 +8,7 @@ weight: -198
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: practical-examples
+category: practicle-examples
 ---
 
 *This is Part 3 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 2](/articles/sparse-embeddings-ecommerce-part-2/), we trained a SPLADE model on Modal. Now we evaluate it and push further with hard negative mining.*
