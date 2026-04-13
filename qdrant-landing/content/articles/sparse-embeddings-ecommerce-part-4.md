@@ -8,7 +8,7 @@ weight: -197
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: practicle-examples
+category: practical-examples
 ---
 
 *This is Part 4 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 3](/articles/sparse-embeddings-ecommerce-part-3/), we evaluated our model and implemented hard negative mining. Now we test how well it generalizes.*
