@@ -26,3 +26,6 @@
 /documentation/concepts/snapshots/*              /documentation/operations/snapshots/:splat             301
 /documentation/concepts/optimizer/*              /documentation/operations/optimizer/:splat             301
 /documentation/concepts/inference/*              /documentation/inference/:splat                        301
+
+# Cloud quickstart URL change in PR #1615
+/documentation/quickstart-cloud//*               /documentation/cloud-quickstart/:splat                 301
