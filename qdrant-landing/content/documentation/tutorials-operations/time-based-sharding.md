@@ -52,7 +52,9 @@ Custom shards can be accessed by their shard key. In this tutorial, the shard ke
 
 This collection will have a single shard for each shard key (a separate shard for each day of data). For very large datasets, you can improve write throughput by configuring a `shard_number` for the collection. `shard_number` defaults to 1. Set it to a higher value to create multiple shards per shard key to distribute the write load across multiple peers in the cluster. However, avoid creating too many shards, as each shard consumes resources and adds overhead, which can lead to performance degradation. Test what the optimal number of shards is for your dataset and cluster configuration.
 
-Note that, for regular collections using `auto` sharding, `shard_number` determines the total number of shards for a collection. With user-defined sharding, it determines the number of shards **per shard key**: the total number of shards for a collection equals the number of shard keys (days) multiplied by the `shard_number`.
+Two things to note about collections that use user-defined sharding versus regular collections using auto sharding:
+- For regular collections using auto sharding, `shard_number` determines the total number of shards for the collection. However, with user-defined sharding, `shard_number` determines the number of shards **per shard key**: the total number of shards for a collection equals the number of shard keys (days) multiplied by the `shard_number`.
+- Collection-level configuration changes that you can apply to a regular collection (for example, HNSW parameters) can also be applied to a collection with user-defined sharding. These changes are applied retroactively to existing shards and to new shards created in the future.
 
 ## Ingest Historical Data
 
