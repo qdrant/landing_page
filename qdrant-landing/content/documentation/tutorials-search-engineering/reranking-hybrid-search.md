@@ -13,7 +13,7 @@ aliases:
 
 Reranking is a powerful technique for improving search precision: rather than running an expensive model over your entire corpus, you apply it to a smaller set of candidates already retrieved by a faster method. This keeps latency low while surfacing the most relevant results.
 
-Reranking pairs especially well with [hybrid search](/documentation/search/hybrid-queries/), which casts a wide retrieval net by combining dense embeddings for semantic matching with sparse embeddings for keyword matching, maximizing recall across both retrieval paths. Reranking can sort the hybrid search results with a deeper relevance signal. A late interaction model, for instance, represents both query and document as multiple vectors, enabling more nuanced term-level comparisons than a single embedding can capture.
+Reranking pairs especially well with [hybrid search](/documentation/search/hybrid-queries/), which casts a wide retrieval net, maximizing recall across several retrieval paths. Reranking can sort the hybrid search results with a deeper relevance signal. A [late interaction model](/course/multi-vector-search/module-1/late-interaction-basics/), for instance, represents both query and document as multiple vectors, enabling more nuanced term-level comparisons than a single embedding can capture.
 
 In this tutorial, you'll learn how to build a hybrid search engine that uses dense embeddings for semantic search, sparse embeddings for keyword search, and late interaction embeddings for reranking. The result is a powerful search engine that delivers highly relevant results by combining the strengths of different embedding types.
 
@@ -64,6 +64,16 @@ client = QdrantClient(
 )
 ```
 
+### Models
+
+Next, define the three embedding models. You'll use the 384-dimensional [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) model for dense embeddings, the [`qdrant/bm25`](https://huggingface.co/Qdrant/bm25) model for sparse embeddings, and the 96-dimensional [`answerdotai/answerai-colbert-small-v1`](https://huggingface.co/answerdotai/answerai-colbert-small-v1) multivector model for late interaction embeddings.
+
+```python
+dense_embedding_model = "sentence-transformers/all-MiniLM-L6-v2"
+sparse_embedding_model = "qdrant/bm25"
+late_interaction_embedding_model = "answerdotai/answerai-colbert-small-v1"
+```
+
 ### Create Collection
 
 Create a new collection called `hybrid-search`, configured to handle the three vector types:
@@ -102,16 +112,6 @@ client.create_collection(
 )
 ```
 
-### Models
-
-Next, define the three embedding models:
-
-```python
-dense_embedding_model = "sentence-transformers/all-MiniLM-L6-v2"
-sparse_embedding_model = "qdrant/bm25"
-late_interaction_embedding_model = "answerdotai/answerai-colbert-small-v1"
-```
-
 ### Ingest Data
 
 Now you can load the sci-fi book descriptions from a CSV and insert them into the `hybrid-search` collection. With Cloud Inference, embeddings are computed server-side by wrapping the text in a `Document` object.
@@ -122,13 +122,11 @@ from qdrant_client.models import Document, PointStruct
 import urllib.request
 
 csv_url = 'https://gist.githubusercontent.com/abdonpijpelink/288dc9939d285cd052eb36297a2b5ce1/raw/8e88626da2b52d8794e8e85824061e3989220d05/top_100_scifi_books_full.csv'
-batch_size = 25
-buffer: list[PointStruct] = []
 
 with urllib.request.urlopen(csv_url) as response:
     reader = csv.DictReader(line.decode('utf-8') for line in response)
-    for idx, row in enumerate(reader):
-        buffer.append(PointStruct(
+    points = (
+        PointStruct(
             id=idx,
             vector={
                 "dense": Document(text=row['Description'], model=dense_embedding_model),
@@ -136,24 +134,17 @@ with urllib.request.urlopen(csv_url) as response:
                 "multi": Document(text=row['Description'], model=late_interaction_embedding_model),
             },
             payload={"title": row['Title'], "author": row['Author'], "description": row['Description']}
-        ))
-
-        if len(buffer) >= batch_size:
-            client.upload_points(
-                collection_name=collection_name,
-                points=buffer
-            )
-            buffer = []
-
-# Flush remaining partial batch
-if buffer:
+        )
+        for idx, row in enumerate(reader)
+    )
     client.upload_points(
         collection_name=collection_name,
-        points=buffer
+        points=points,
+        batch_size=25
     )
 ```
 
-For each book, create a point with three vector types and a payload containing the title, author, and description. Documents are uploaded to Qdrant in batches of 25, with Cloud Inference generating all three embeddings on the fly.
+For each book, create a point with three vector types and a payload containing the title, author, and description. Documents are uploaded to Qdrant in batches of 25, with Cloud Inference generating all three embeddings on the fly. In Production, the optimal batch size depends on your data and cluster, so you may want to experiment with different sizes for best performance.
 
 ### Retrieval
 
@@ -211,9 +202,9 @@ The top 5 results are:
 | 4 | The Time Machine | A Victorian scientist travels far into the future to witness civilization's fate. |
 | 5 | Slaughterhouse-Five | A nonlinear, time-tripping reflection on war and fate. |
 
-The sparse BM25 model performs keyword matching. As a result, it returns books whose descriptions contain the words "time" and "travel". For instance, "Station Eleven" and "Hyperion" mention "travel" but aren't primarily about time travel.
+The sparse BM25 model performs keyword matching with stemming. As a result, it returns books whose descriptions contain variants of the words "time" and "travel". For instance, "Station Eleven" and "Hyperion" mention "traveling" and "travelers" but aren't primarily about time travel.
 
-**Hybrid search** combines the prefetch parameter with fusion. This lets you run multiple sub-queries in one go and merge the results using [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf):
+**Hybrid search** can be used to prefetch the dense and sparse results and next merge them using [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf):
 
 ```python
 prefetch = [
@@ -242,7 +233,7 @@ pprint.pp(results.points)
 
 This runs two sub-queries in parallel: one using dense embeddings for semantic meaning, the other using sparse BM25 embeddings for keyword matching. The prefetch step retrieves the top 20 candidates from each sub-query (dense and sparse) and fuses the ranked lists into a single result using RRF.
 
-The results are a mix of books that are semantically relevant to time travel and those that contain the keywords, giving you a broader set of relevant documents. However, the ranking may not be optimal since RRF treats both signals equally and doesn't capture the nuanced interactions between query and document terms. For example, "Station Eleven" ranks highly because it has stronger keyword matches, even though it is not about time travel.
+The results are a mix of books that are semantically relevant to time travel and those that contain the keywords, giving you a broader set of relevant documents. However, the ranking may not be optimal since, [by default, RRF treats both signals equally](/documentation/search/hybrid-queries/#weighted-rrf) and doesn't capture the nuanced interactions between query and document terms. For example, "Station Eleven" ranks highly because it has stronger keyword matches, even though it is not about time travel.
 
 | Position | Title | Description |
 |----------|-------|-------------|
@@ -298,12 +289,11 @@ Let's compare the top 10 results of hybrid search with and without reranking. No
 
 ## Best Practices in Reranking
 
-Reranking can dramatically improve the relevance of search results, especially when combined with hybrid search. Here are some best practices to keep in mind:
+Reranking with late interaction models can dramatically improve the relevance of search results, especially when combined with hybrid search. Here are some best practices to keep in mind:
 
-- **Implement hybrid reranking**: blend keyword-based (sparse) and vector-based (dense) search results for a more comprehensive ranking system.
-- **Continuous testing and monitoring**: regularly evaluate your reranking models to avoid overfitting and make timely adjustments to maintain performance.
-- **Balance relevance and latency**: Reranking can be computationally expensive, so aim for a balance between relevance and speed. Therefore, the first step is to retrieve the relevant documents and then use reranking on them.
+- **Continuous testing and monitoring**: regularly evaluate your hybrid search pipelines to avoid overfitting and make timely adjustments to maintain performance.
+- **Balance relevance and cost**: Reranking can be computationally expensive, and late interaction embeddings require significant storage. Aim for a balance between relevance and cost. Simple fusion methods like RRF can be effective for many use cases, while late interaction models can be reserved for queries where precision is critical.
 
 ## Conclusion
 
-Reranking is a powerful tool that boosts the relevance of search results, especially when combined with hybrid search methods. While it can add some latency due to its complexity, applying it to a smaller, pre-filtered subset of results ensures both speed and relevance.
+Reranking with late interaction models is a powerful tool that boosts the relevance of search results, especially when combined with hybrid search methods. While it can add some latency due to its complexity, applying it to a smaller, pre-filtered subset of results ensures both speed and relevance.
