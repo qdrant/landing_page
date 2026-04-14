@@ -386,5 +386,3 @@ The four queries above would be awkward in traditional tools:
 - **Multi-space fusion:** This query has no straightforward expression in time-series tools at all. You'd have to build a custom scorer.
 
 That's the actual value: not that vector search is faster at any one of these tasks, but that it makes certain questions *expressible at all* without a lot of custom engineering.
-
-The Artemis II trajectory is publicly available. The full notebook for this post — including the HORIZONS data pull, preprocessing, and all four queries — is on [GitHub](https://github.com/qdrant/artemis-trajectory-analysis). If you want to run it yourself, the [Qdrant Quickstart](https://qdrant.tech/documentation/quickstart/) gets you a local instance in one Docker command.
