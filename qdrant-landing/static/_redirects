@@ -28,4 +28,4 @@
 /documentation/concepts/inference/*              /documentation/inference/:splat                        301
 
 # Cloud quickstart URL change in PR #1615
-/documentation/quickstart-cloud//*               /documentation/cloud-quickstart/:splat                 301
+/documentation/quickstart-cloud/*               /documentation/cloud-quickstart/:splat                 301
