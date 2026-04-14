@@ -48,124 +48,45 @@ Next, **hybrid search** uses dense and sparse embeddings to find the most releva
 
 First, install the Qdrant client:
 
-```python
-pip install qdrant-client
-```
+{{< code-snippet path="/documentation/headless/snippets/install-client/" >}}
 
 Next, initialize the client:
 
-```python
-from qdrant_client import QdrantClient
-
-client = QdrantClient(
-    url="https://xyz-example.eu-central.aws.cloud.qdrant.io:6333",
-    api_key="<your-api-key>",
-    cloud_inference=True,
-)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="client-connection" >}}
 
 ### Models
 
 Next, define the three embedding models. You'll use the 384-dimensional [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) model for dense embeddings, the [`qdrant/bm25`](https://huggingface.co/Qdrant/bm25) model for sparse embeddings, and the 96-dimensional [`answerdotai/answerai-colbert-small-v1`](https://huggingface.co/answerdotai/answerai-colbert-small-v1) multivector model for late interaction embeddings.
 
-```python
-dense_embedding_model = "sentence-transformers/all-MiniLM-L6-v2"
-sparse_embedding_model = "qdrant/bm25"
-late_interaction_embedding_model = "answerdotai/answerai-colbert-small-v1"
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="define-models" >}}
 
 ### Create Collection
 
 Create a new collection called `hybrid-search`, configured to handle the three vector types:
 
 - **Dense embeddings** (`dense`) using cosine distance for semantic comparisons.
-- **Late interaction embeddings** (`multi`) using cosine distance, with a multivector configuration using the maximum similarity comparator. Note that we set `m=0` to disable HNSW indexing since these embeddings are used for reranking, not ANN retrieval.
+- **Late interaction embeddings** (`multi`) using cosine distance, with a multivector configuration using the maximum similarity comparator. Note the `m=0` configuration to disable HNSW indexing. These embeddings are used for reranking, not ANN retrieval, so an HNSW index is not needed.
 - **Sparse embeddings** (`sparse`) for keyword-based searches using the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier).
 
-```python
-from qdrant_client.models import Distance, VectorParams, models
-
-collection_name = "hybrid-search"
-
-if client.collection_exists(collection_name=collection_name):
-    client.delete_collection(collection_name=collection_name)
-
-client.create_collection(
-    collection_name,
-    vectors_config={
-        "dense": models.VectorParams(
-            size=384,
-            distance=models.Distance.COSINE,
-        ),
-        "multi": models.VectorParams(
-            size=96,
-            distance=models.Distance.COSINE,
-            multivector_config=models.MultiVectorConfig(
-                comparator=models.MultiVectorComparator.MAX_SIM,
-            ),
-            hnsw_config=models.HnswConfigDiff(m=0)  #  Disable HNSW for reranking
-        ),
-    },
-    sparse_vectors_config={
-        "sparse": models.SparseVectorParams(modifier=models.Modifier.IDF)
-    }
-)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="create-collection" >}}
 
 ### Ingest Data
 
 Now you can load the sci-fi book descriptions from a CSV and insert them into the `hybrid-search` collection. With Cloud Inference, embeddings are computed server-side by wrapping the text in a `Document` object.
 
-```python
-import csv
-from qdrant_client.models import Document, PointStruct
-import urllib.request
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="ingest-data" >}}
 
-csv_url = 'https://gist.githubusercontent.com/abdonpijpelink/288dc9939d285cd052eb36297a2b5ce1/raw/8e88626da2b52d8794e8e85824061e3989220d05/top_100_scifi_books_full.csv'
-
-with urllib.request.urlopen(csv_url) as response:
-    reader = csv.DictReader(line.decode('utf-8') for line in response)
-    points = (
-        PointStruct(
-            id=idx,
-            vector={
-                "dense": Document(text=row['Description'], model=dense_embedding_model),
-                "sparse": Document(text=row['Description'], model=sparse_embedding_model),
-                "multi": Document(text=row['Description'], model=late_interaction_embedding_model),
-            },
-            payload={"title": row['Title'], "author": row['Author'], "description": row['Description']}
-        )
-        for idx, row in enumerate(reader)
-    )
-    client.upload_points(
-        collection_name=collection_name,
-        points=points,
-        batch_size=25
-    )
-```
-
-For each book, create a point with three vector types and a payload containing the title, author, and description. Documents are uploaded to Qdrant in batches of 25, with Cloud Inference generating all three embeddings on the fly. In Production, the optimal batch size depends on your data and cluster, so you may want to experiment with different sizes for best performance.
+This code creates a point for each book, with three vector types and a payload containing the title, author, and description. Documents are uploaded to Qdrant in batches of 25, with Cloud Inference generating all three embeddings on the fly. In Production, the optimal batch size depends on your data and cluster, so you may want to experiment with different sizes for best performance.
 
 ### Retrieval
 
-Before combining results, let's see how dense and sparse retrieval perform individually. For retrieval, we wrap the query in a `Document` object so Cloud Inference computes the appropriate embedding server-side.
+Before combining results, let's see how dense and sparse retrieval perform individually.
+
+For retrieval, wrap the query in a `Document` object so Cloud Inference computes the appropriate embeddings server-side.
 
 **Dense retrieval** captures semantic meaning:
 
-```python
-import pprint
-
-query = "time travel"
-
-results = client.query_points(
-    collection_name,
-    query=models.Document(text=query, model=dense_embedding_model),
-    using="dense",
-    limit=10,
-)
-
-pprint.pp(results.points)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="dense-retrieval" >}}
 
 Let's take a look at the top 5 results:
 
@@ -181,16 +102,7 @@ Each of these books has a strong semantic connection to the concept of time trav
 
 **Sparse retrieval** focuses on keyword matches:
 
-```python
-results = client.query_points(
-    collection_name,
-    query=models.Document(text=query, model=sparse_embedding_model),
-    using="sparse",
-    limit=10,
-)
-
-pprint.pp(results.points)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="sparse-retrieval" >}}
 
 The top 5 results are:
 
@@ -206,30 +118,7 @@ The sparse BM25 model performs keyword matching with stemming. As a result, it r
 
 **Hybrid search** can be used to prefetch the dense and sparse results and next merge them using [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf):
 
-```python
-prefetch = [
-    models.Prefetch(
-        query=models.Document(text=query, model=dense_embedding_model),
-        using="dense",
-        limit=20,
-    ),
-    models.Prefetch(
-        query=models.Document(text=query, model=sparse_embedding_model),
-        using="sparse",
-        limit=20,
-    ),
-]
-
-results = client.query_points(
-    collection_name,
-    prefetch=prefetch,
-    query=models.FusionQuery(fusion=models.Fusion.RRF),
-    with_payload=True,
-    limit=10,
-)
-
-pprint.pp(results.points)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="hybrid-search" >}}
 
 This runs two sub-queries in parallel: one using dense embeddings for semantic meaning, the other using sparse BM25 embeddings for keyword matching. The prefetch step retrieves the top 20 candidates from each sub-query (dense and sparse) and fuses the ranked lists into a single result using RRF.
 
@@ -247,31 +136,7 @@ The results are a mix of books that are semantically relevant to time travel and
 
 The hybrid search results can be reranked using late interaction embeddings for maximum precision. Instead of fusing with RRF, use the ColBERT multi-vector as the final ranking signal:
 
-```python
-prefetch = [
-    models.Prefetch(
-        query=models.Document(text=query, model=dense_embedding_model),
-        using="dense",
-        limit=20,
-    ),
-    models.Prefetch(
-        query=models.Document(text=query, model=sparse_embedding_model),
-        using="sparse",
-        limit=20,
-    ),
-]
-
-results = client.query_points(
-    collection_name,
-    prefetch=prefetch,
-    query=models.Document(text=query, model=late_interaction_embedding_model),
-    using="multi",
-    with_payload=True,
-    limit=10,
-)
-
-pprint.pp(results.points)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="rerank" >}}
 
 The prefetch step retrieves the top 20 candidates from each sub-query (dense and sparse), and the ColBERT late interaction model reranks the combined candidates to surface the most relevant results.
 
