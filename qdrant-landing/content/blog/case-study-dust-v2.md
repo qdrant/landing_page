@@ -15,6 +15,7 @@ tags:
 - multi-tenancy
 - scalar quantization
 - case study
+partition: case-studies
 ---
 
 ## Inside Dust’s Vector Stack Overhaul: Scaling to 5,000+ Data Sources with Qdrant

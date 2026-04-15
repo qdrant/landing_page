@@ -15,6 +15,7 @@ tags:
 - travel technology
 - vector search
 - case study
+partition: case-studies
 ---
 
 # How Tripadvisor Is Reimagining Travel with Qdrant

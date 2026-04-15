@@ -1,7 +1,7 @@
 ---
 title: 5-Minute RAG with DeepSeek
-weight: 6
-partition: build
+weight: 30
+partition: ecosystem
 social_preview_image: /documentation/examples/rag-deepseek/social_preview.png
 aliases:
     - /documentation/rag-deepseek/
@@ -47,7 +47,7 @@ pip install "qdrant-client[fastembed]>=1.14.1"
 
 [Qdrant](https://qdrant.tech) will act as a knowledge base providing the context information for the prompts we'll be sending to the LLM.
 
-You can get a free-forever Qdrant cloud instance at http://cloud.qdrant.io. Learn about setting up your instance from the [Quickstart](https://qdrant.tech/documentation/quickstart-cloud/).
+You can get a free-forever Qdrant cloud instance at http://cloud.qdrant.io. Learn about setting up your instance from the [Quickstart](https://qdrant.tech/documentation/cloud-quickstart/).
 
 
 ```python
@@ -70,7 +70,7 @@ Qdrant will use vector embeddings of our facts to enrich the original prompt wit
 
 We'll be using the [bge-base-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) model via [FastEmbed](https://github.com/qdrant/fastembed/) - A lightweight, fast, Python library for embeddings generation.
 
-The Qdrant client provides a handy integration with FastEmbed that makes building a knowledge base very straighforward.
+The Qdrant client provides a handy integration with FastEmbed that makes building a knowledge base very straightforward.
 
 First, we need to create a collection, so Qdrant would know what vectors it will be dealing with, and then, we just pass our raw documents
 wrapped into `models.Document` to compute and upload the embeddings.

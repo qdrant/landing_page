@@ -1,7 +1,7 @@
 ---
 title: Embeddings
-weight: 12
-partition: build
+weight: 700
+partition: ecosystem
 ---
 
 # Supported Embedding Providers & Models
@@ -33,5 +33,6 @@ Additionally, [any open-source embeddings from HuggingFace](https://huggingface.
 | [Prem AI](/documentation/embeddings/premai/)          | Precise language embeddings.                                     |
 | [Twelve Labs](/documentation/embeddings/twelvelabs/)  | Multimodal embeddings from Twelve labs.                          |
 | [Snowflake](/documentation/embeddings/snowflake/)     | Scalable embeddings for big data.                                |
+| [Superlinked](/documentation/embeddings/superlinked/) | Self-hosted inference engine serving 85+ dense, sparse, and multivector (ColBERT) embedding models from a single endpoint. |
 | [Upstage](/documentation/embeddings/upstage/)         | Embeddings for speech and language tasks.                        |
 | [Voyage AI](/documentation/embeddings/voyage/)        | Navigation and spatial understanding embeddings.                 |

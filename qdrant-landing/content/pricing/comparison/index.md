@@ -66,8 +66,8 @@ sections:
   - name: GPU Indexing
     oss: true
     free: false
-    standard: false
-    premium: false
+    standard: true
+    premium: true
   - name: Cloud Inference
     oss: false
     free: Only free models
@@ -106,9 +106,9 @@ sections:
     premium: true
   - name: Automation
     oss: false
-    free: API, Terraform, Pulumi
-    standard: API, Terraform, Pulumi
-    premium: API, Terraform, Pulumi
+    free: API, Terraform, Pulumi, CLI
+    standard: API, Terraform, Pulumi, CLI
+    premium: API, Terraform, Pulumi, CLI
 - name: Querying / Ranking
   features:
   - name: Advanced Payload Filtering (Incl. Geo and Full-Text)
@@ -225,6 +225,11 @@ sections:
     free: false
     standard: false
     premium: (AWS only)
+  - name: Audit Logging
+    oss: true
+    free: false
+    standard: true
+    premium: true
   - name: Enterprise SSO Authentication
     oss: false
     free: false

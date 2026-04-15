@@ -1,6 +1,7 @@
 ---
 title: From Milvus
-weight: 30
+weight: 15
+partition: ecosystem
 ---
 
 # Migrate from Milvus to Qdrant
@@ -75,4 +76,4 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ## Next Steps
 
-After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-verification/).
+After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-guidance/).

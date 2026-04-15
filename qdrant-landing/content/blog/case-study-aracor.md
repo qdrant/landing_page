@@ -17,6 +17,7 @@ tags:
 - hybrid search
 - AI automation
 - case study
+partition: case-studies
 ---
 
 ## Precision at Scale: How Aracor Uses Qdrant to Accelerate Legal Due Diligence Resulting in 90% Faster Workflows ##

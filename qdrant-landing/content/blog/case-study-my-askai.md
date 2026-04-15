@@ -17,6 +17,7 @@ tags:
 - hybrid search
 - llm agents
 - case study
+partition: case-studies
 ---
 
 ![My AskAI overview](/blog/case-study-my-askai/my-askai-bento-box.png)
@@ -48,7 +49,7 @@ Everything changed when OpenAI released its embedding model. Instead of hoping u
 >"That was a transformational moment for us. Now we could have hundreds of help articles ingested in the system, and a user can ask a question, and we can answer that really specifically and cheaply and quickly."
 
 
-Over time, the team also learned that semantic search was strong but not universally sufficient, especially when tickets contained product names, error codes, or specific identifiers that benefit from lexical matching. That realization led My AskAI toward experimentation with [hybrid search](https://qdrant.tech/documentation/concepts/hybrid-queries/) as a way to blend semantic similarity with keyword signals, while keeping the operational footprint small.
+Over time, the team also learned that semantic search was strong but not universally sufficient, especially when tickets contained product names, error codes, or specific identifiers that benefit from lexical matching. That realization led My AskAI toward experimentation with [hybrid search](https://qdrant.tech/documentation/search/hybrid-queries/) as a way to blend semantic similarity with keyword signals, while keeping the operational footprint small.
 
 ## Why My AskAI Chose Qdrant: Scalability, Integrations, and Developer Experience
 
@@ -74,7 +75,7 @@ Once on Qdrant Cloud, My AskAI leaned into a workflow where scaling and day-to-d
 
 The ideal infrastructure, as Alex puts it, is the kind you don't have to think about. "I didn't want to have to think about it."
 
-My AskAI also began running customer-specific proofs of concept for [hybrid search](https://qdrant.tech/documentation/concepts/hybrid-queries/), aiming to find the right blend that improved retrieval in the edge cases where semantic-only results were not enough. Before Qdrant, managing hybrid search had required spinning up separate infrastructure on AWS and handling reranking externally. With Qdrant, the team could enable hybrid search per collection and iterate without managing additional systems.
+My AskAI also began running customer-specific proofs of concept for [hybrid search](https://qdrant.tech/documentation/search/hybrid-queries/), aiming to find the right blend that improved retrieval in the edge cases where semantic-only results were not enough. Before Qdrant, managing hybrid search had required spinning up separate infrastructure on AWS and handling reranking externally. With Qdrant, the team could enable hybrid search per collection and iterate without managing additional systems.
 
 >"Just being able to turn on hybrid search is super useful. It removes that headache and pushes management of hybrid search down to the vendor."
 

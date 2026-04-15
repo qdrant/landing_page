@@ -4,8 +4,6 @@ weight: 40
 aliases:
   - ../tutorials/multiple-partitions
   - /tutorials/multiple-partitions/
-  - /documentation/guides/multiple-partitions/
-  - /documentation/guides/multitenancy/
 ---
 # Configure Multitenancy
 
@@ -81,7 +79,7 @@ To address this problem, in v1.16.0 Qdrant provides a built-in mechanism for tie
 With tiered multitenancy, you can implement two levels of tenant isolation within a single collection, keeping small tenants together inside a shared Shard, while isolating large tenants into their own dedicated Shards.
 There are 3 components in Qdrant, that allows you to implement tiered multitenancy:
 
-- [**User-defined Sharding**](/documentation/guides/distributed_deployment/#user-defined-sharding) allows you to create named Shards within a collection. It allows to isolate large tenants into their own Shards.
+- [**User-defined Sharding**](/documentation/operations/distributed_deployment/#user-defined-sharding) allows you to create named Shards within a collection. It allows to isolate large tenants into their own Shards.
 - **Fallback shards** - a special routing mechanism that allows to route request to either a dedicated Shard (if it exists) or to a shared Fallback Shard. It allows to keep requests unified, without the need to know whether a tenant is dedicated or shared.
 - **Tenant promotion** - a mechanism that allows to move tenants from the shared Fallback Shard to their own dedicated Shard when they grow large enough. This process is based on Qdrant's internal shard transfer mechanism, which makes promotion completely transparent for the application. Both read and write requests are supported during the promotion process.
 
@@ -144,6 +142,6 @@ At this point it is safe to delete the tenant's data from the shared Fallback Sh
 
 ### Limitations
 
-- Currently, `fallback` Shard may only contain a single shard ID on its own. That means all small tenants must fit a single peer of the cluser. This restriction will be improved in future releases.
+- Currently, `fallback` Shard may only contain a single shard ID on its own. That means all small tenants must fit a single peer of the cluster. This restriction will be improved in future releases.
 - Similar to collections, dedicated Shards introduce some resource overhead. It is not recommended to create more than a thousand dedicated Shards per cluster. Recommended threshold of promoting a tenant is the same as the indexing threshold for a single collection, which is around 20K points.
 

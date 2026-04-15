@@ -16,6 +16,9 @@
       "webpack-cli": "qdrant-2024"
     }
   },
+  "engines": {
+    "node": ">=22.x"
+  },
   "dependencies": {
     "@splidejs/splide": "^4.1.4",
     "anchor-js": "^5.0.0",

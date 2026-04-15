@@ -107,7 +107,7 @@ In practice, this means that your main database becomes burdened with high memor
 Fortunately, the data synchronization problem is not new and definitely not unique to vector search.
 There are many well-known solutions, starting with message queues and ending with specialized ETL tools.
 
-For example, we recently released our [integration with Airbyte](/documentation/integrations/airbyte/), allowing you to synchronize data from various sources into Qdrant incrementally.
+For example, we recently released our [integration with Airbyte](/documentation/data-management/airbyte/), allowing you to synchronize data from various sources into Qdrant incrementally.
 
 ###### You have to pay for a vector service uptime and data transfer of both solutions.
 
@@ -115,7 +115,7 @@ In the open-source world, you pay for the resources you use, not the number of d
 Resources depend more on the optimal solution for each use case.
 As a result, running a dedicated vector search engine can be even cheaper, as it allows optimization specifically for vector search use cases.
 
-For instance, Qdrant implements a number of [quantization techniques](/documentation/guides/quantization/) that can significantly reduce the memory footprint of embeddings.
+For instance, Qdrant implements a number of [quantization techniques](/documentation/manage-data/quantization/) that can significantly reduce the memory footprint of embeddings.
 
 In terms of data transfer costs, on most cloud providers, network use within a region is usually free. As long as you put the original source data and the vector store in the same region, there are no added data transfer costs.
 

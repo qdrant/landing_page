@@ -238,7 +238,7 @@ If you're curious about how FastEmbed and Qdrant can make your search tasks a br
 
 1. **Cloud**:  Get started with a free plan on the [Qdrant Cloud](https://qdrant.to/cloud?utm_source=qdrant&utm_medium=website&utm_campaign=fastembed&utm_content=article).
 
-2. **Docker Container**: If you're the DIY type, you can set everything up on your own machine. Here's a quick guide to help you out: [Quick Start with Docker](/documentation/quick-start/?utm_source=qdrant&utm_medium=website&utm_campaign=fastembed&utm_content=article).
+2. **Docker Container**: If you're the DIY type, you can set everything up on your own machine. Here's a quick guide to help you out: [Quick Start with Docker](/documentation/quickstart/?utm_source=qdrant&utm_medium=website&utm_campaign=fastembed&utm_content=article).
 
 So, go ahead, take it for a test drive. We're excited to hear what you think!
 

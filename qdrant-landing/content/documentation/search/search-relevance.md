@@ -57,7 +57,7 @@ There are multiple expressions available. Check the [API docs for specific detai
 - **exp** - Exponential function of an expression (`e^x`).
 - **geo distance** - Haversine distance between two geographic points. Values need to be `{ "lat": 0.0, "lon": 0.0 }` objects.
 - **decay** - Apply a decay function to an expression, which clamps the output between 0 and 1. Available decay functions are **linear**, **exponential**, and **gaussian**. [See more](#decay-functions).
-- **datetime** - Parse a datetime string (see formats [here](/documentation/concepts/payload/#datetime)), and use it as a POSIX timestamp in seconds.
+- **datetime** - Parse a datetime string (see formats [here](/documentation/manage-data/payload/#datetime)), and use it as a POSIX timestamp in seconds.
 - **datetime key** - Specify that a payload key contains a datetime string to be parsed into POSIX seconds.
 
 It is possible to define a default for when the variable (either from payload or prefetch score) is not found. This is given in the form of a mapping from variable to value.
@@ -155,7 +155,7 @@ This is implemented in Qdrant as a parameter of a nearest neighbors query. You d
 
 Relevance feedback distills signals from current search results into the next retrieval iteration to surface more relevant documents.
 
-Qdrant provides a subtype of relevance feedback-based retrieval, where feedback is given by any model (relevance oracle) in a granular fashion: it rescores top retrieved results by their relative relevance to the query. A detailed overview of relevance feedback methods can be found in [Relevance Feedback in Information Retrieval](/articles/search-feedback-loop).
+Qdrant provides a subtype of relevance feedback-based retrieval, where feedback is given by any model (relevance oracle) in a granular fashion: it rescores top retrieved results by their relative relevance to the query. A detailed overview of relevance feedback methods can be found in [Relevance Feedback in Information Retrieval](/articles/search-feedback-loop/).
 
 To use relevance feedback-based retrieval, two components are required:
 
@@ -179,7 +179,7 @@ For example, in this set of retrieved results:
 | 222 | 0.81 | 0.72 | 
 | 333 | 0.77 | 0.61 |
 
-The feedback model considers the second result with ID 222 to be the most relevant, which is a discrepancy with retriever's ranking. Hence, this feedback can potentially help make the next iteration of retrieval better.
+The feedback model considers the second result with ID 222 to be the most relevant, which is a discrepancy with the retriever's ranking. Hence, this feedback can potentially help make the next iteration of retrieval better.
 
 ---
 
@@ -187,13 +187,13 @@ To leverage the feedback in search across the entire collection, Qdrant provides
 
 1. The original query (`target`), which can be a point ID, an inference object, or a raw vector.
 2. A short list of initial retrieval results and their relevance score (`feedback`). Each feedback item consists of:
-   - `example`, which can be point ID, an inference object, or a raw vector used by the retriever.
+   - `example`, which can be a point ID, an inference object, or a raw vector used by the retriever.
    - `score`, the feedback score.
 3. A definition of the formula that modifies retrieval based on the feedback (`strategy`).
 
 {{< code-snippet path="/documentation/headless/snippets/query-points-explore/relevance-feedback-naive/" >}}
 
-Internally, Qdrant combines the feedback list into pairs, based on the relevance scores, and then uses these pairs in a formula that modifies vector space traversal during retrieval (changes the strategy of retrieval). This relevance feedback-based retrieval considers not only the similarity of candidates to the query but also to each feedback pair. For a more detailed description of how it works, refer to the article [Relevance Feedback in Qdrant](/articles/relevance-feedback).
+Internally, Qdrant combines the feedback list into pairs, based on the relevance scores, and then uses these pairs in a formula that modifies vector space traversal during retrieval (changes the strategy of retrieval). This relevance feedback-based retrieval considers not only the similarity of candidates to the query but also to each feedback pair. For a more detailed description of how it works, refer to the article [Relevance Feedback in Qdrant](/articles/relevance-feedback/).
 
 The `a`, `b`, and `c` parameters of the [`naive` strategy](#naive-strategy) need to be customized for each triplet of retriever, feedback model, and collection. To get these 3 weights adapted to your setup, use [our open source Python package](https://pypi.org/project/qdrant-relevance-feedback/).
 

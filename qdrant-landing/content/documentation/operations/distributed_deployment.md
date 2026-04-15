@@ -4,7 +4,6 @@ weight: 60
 aliases:
   - ../distributed_deployment
   - /guides/distributed_deployment
-  - /documentation/guides/distributed_deployment/
 ---
 
 # Distributed deployment
@@ -33,7 +32,7 @@ In summary, single-node clusters are best for non-production workloads, replicat
 
 ## Enabling distributed mode in self-hosted Qdrant
 
-To enable distributed deployment - enable the cluster mode in the [configuration](/documentation/guides/configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
+To enable distributed deployment - enable the cluster mode in the [configuration](/documentation/operations/configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
 
 ```yaml
 cluster:
@@ -155,7 +154,7 @@ Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to maintain c
 
 Operations on points, on the other hand, do not go through the consensus infrastructure.
 Qdrant is not intended to have strong transaction guarantees, which allows it to perform point operations with low overhead.
-In practice, it means that Qdrant does not guarantee atomic distributed updates but allows you to wait until the [operation is complete](/documentation/concepts/points/#awaiting-result) to see the results of your writes.
+In practice, it means that Qdrant does not guarantee atomic distributed updates but allows you to wait until the [operation is complete](/documentation/manage-data/points/#awaiting-result) to see the results of your writes.
 
 Operations on collections, on the contrary, are part of the consensus which guarantees that all operations are durable and eventually executed by all nodes.
 In practice it means that a majority of nodes agree on what operations should be applied before the service will perform them.
@@ -305,10 +304,10 @@ If you anticipate a lot of growth, we recommend 12 shards since you can expand f
 
 Shards are evenly distributed across all existing nodes when a collection is first created.
 
-When you add or remove nodes from the cluster, rebalancing of existing shards accross the nodes depends on how you've deployed the cluster:
+When you add or remove nodes from the cluster, rebalancing of existing shards across the nodes depends on how you've deployed the cluster:
 
 - In Qdrant Cloud, shards are [balanced across the nodes automatically](/documentation/cloud/configure-cluster/#shard-rebalancing).
-- If your cluster is not runnning in Qdrant Cloud, you need to [manually balance shards](#moving-shards).
+- If your cluster is not running in Qdrant Cloud, you need to [manually balance shards](#moving-shards).
 
 ### Resharding
 
@@ -383,7 +382,7 @@ Then you will have `1 * 10 * 2 = 20` total physical shards in the collection.
 
 Physical shards require a large amount of resources, so make sure your custom sharding key has a low cardinality.
 
-For large cardinality keys, it is recommended to use [partition by payload](/documentation/guides/multiple-partitions/#partition-by-payload) instead.
+For large cardinality keys, it is recommended to use [partition by payload](/documentation/manage-data/multitenancy/#partition-by-payload) instead.
 
 Now you need to create custom shards ([API reference](https://api.qdrant.tech/api-reference/distributed/create-shard-key#request)):
 
@@ -424,7 +423,7 @@ fastest depends on the size and state of a shard.
 Available shard transfer methods are:
 
 - `stream_records`: _(default)_ transfer by streaming just its records to the target node in batches.
-- `snapshot`: transfer including its index and quantized data by utilizing a [snapshot](/documentation/concepts/snapshots/) automatically.
+- `snapshot`: transfer including its index and quantized data by utilizing a [snapshot](/documentation/operations/snapshots/) automatically.
 - `wal_delta`: _(auto recovery default)_ transfer by resolving [WAL] difference; the operations that were missed.
 
 Each has pros, cons and specific requirements, some of which are:
@@ -477,7 +476,7 @@ are acceptable in your use case. If your cluster is unstable and out of
 resources, it's probably best to use the `stream_records` transfer method,
 because it is unlikely to fail.
 
-The `snapshot` transfer method utilizes [snapshots](/documentation/concepts/snapshots/)
+The `snapshot` transfer method utilizes [snapshots](/documentation/operations/snapshots/)
 to transfer a shard. A snapshot is created automatically. It is then transferred
 and restored on the target node. After this is done, the snapshot is removed
 from both nodes. While the snapshot/transfer/restore operation is happening, the
@@ -506,7 +505,7 @@ The `stream_records` method is currently used as default. This may change in the
 future. As of Qdrant 1.9.0 `wal_delta` is used for automatic shard replications
 to recover dead shards.
 
-[WAL]: /documentation/concepts/storage/#versioning
+[WAL]: /documentation/manage-data/storage/#versioning
 
 ## Replication
 
@@ -517,7 +516,7 @@ This ensures the availability of the data in case of node failures, except if al
 
 ### Replication factor
 
-When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/guides/configuration/#configuration-options). You can change that by setting the `replication_factor` when you create a collection.
+When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/operations/configuration/#configuration-options). You can change that by setting the `replication_factor` when you create a collection.
 
 The `replication_factor` can be updated for an existing collection, but the effect of this depends on how you're running Qdrant. If you're hosting the open source version of Qdrant yourself, changing the replication factor after collection creation doesn't do anything. You can manually [create](#creating-new-shard-replicas) or drop shard replicas to achieve your desired replication factor. In Qdrant Cloud (including Hybrid Cloud, Private Cloud) your shards will automatically be replicated or dropped to match your configured replication factor.
 
@@ -740,7 +739,7 @@ Snapshot recovery, used in single-node deployment, is different from cluster one
 Consensus manages all metadata about all collections and does not require snapshots to recover it.
 But you can use snapshots to recover missing shards of the collections.
 
-Use the [Collection Snapshot Recovery API](/documentation/concepts/snapshots/#recover-in-cluster-deployment) to do it.
+Use the [Collection Snapshot Recovery API](/documentation/operations/snapshots/#recover-in-cluster-deployment) to do it.
 The service will download the specified snapshot of the collection and recover shards with data from it.
 
 Once all shards of the collection are recovered, the collection will become operational again.
@@ -1326,7 +1325,7 @@ Listener node will not participate in search operations, but will still accept w
 
 All shards, stored on the listener node, will be converted to the `Listener` state.
 
-Additionally, all write requests sent to the listener node will be processed with `wait=false` option, which means that the write oprations will be considered successful once they are written to WAL.
+Additionally, all write requests sent to the listener node will be processed with `wait=false` option, which means that the write operations will be considered successful once they are written to WAL.
 This mechanism should allow to minimize upsert latency in case of parallel snapshotting.
 
 ## Consensus Checkpointing

@@ -243,7 +243,7 @@ So it's not as much as performance, but obviously performance matters, and that'
 
 Stanislas Polu:
 What I mentioned is that it's interesting because today the retrieval is noisy, because the embedders are not perfect, which is an interesting point.
-Sorry, I'm double clicking, but I'll come back. The embedded are really not perfect. Are really not perfect. So that's interesting. When Qdrant release kind of optimization for [storage of vectors](https://qdrant.tech/documentation/concepts/storage/), they come with obviously warnings that you may have a loss.
+Sorry, I'm double clicking, but I'll come back. The embedded are really not perfect. Are really not perfect. So that's interesting. When Qdrant release kind of optimization for [storage of vectors](https://qdrant.tech/documentation/manage-data/storage/), they come with obviously warnings that you may have a loss.
 Of precision because of the compression, et cetera, et cetera.
 And that's funny, like in all kind of retrieval and mental generation world, it really doesn't matter. We take all the performance we can because the loss of precision coming from compression of those vectors at the vector DB level are completely negligible compared to.
 The holon fuckness of the embedders in.

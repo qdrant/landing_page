@@ -1,18 +1,18 @@
 ```java
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.UpdateCollection;
 import io.qdrant.client.grpc.Collections.StrictModeConfig;
 
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
 client
-    .createCollectionAsync(
-        CreateCollection.newBuilder()
+    .updateCollectionAsync(
+        UpdateCollection.newBuilder()
             .setCollectionName("{collection_name}")
             .setStrictModeConfig(
-                StrictModeConfig.newBuilder().setEnabled(true).setUnindexedFilteringRetrieve(true).build())
+                StrictModeConfig.newBuilder()
+                    .setEnabled(true)
+                    .setUnindexedFilteringRetrieve(true)
+                    .build())
             .build())
     .get();
 ```

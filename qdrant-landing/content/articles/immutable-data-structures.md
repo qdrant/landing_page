@@ -169,12 +169,12 @@ If we knew some additional information about the data, we could combine all rele
 
 {{< figure src="/articles_data/immutable-data-structures/defragmentation.png" alt="Defragmentation" caption="Defragmentation" width="70%" >}}
 
-This additional information is available to Qdrant via the [payload index](/documentation/concepts/indexing/#payload-index).
+This additional information is available to Qdrant via the [payload index](/documentation/manage-data/indexing/#payload-index).
 
 By specifying the payload index, which is going to be used for filtering most of the time, we can put all vectors with the same payload together.
 This way, reading a single page will also read nearby vectors, which will be used in the search.
 
-This approach is especially efficient for [multi-tenant systems](/documentation/guides/multiple-partitions/), where only a small subset of vectors is actively used for search.
+This approach is especially efficient for [multi-tenant systems](/documentation/manage-data/multitenancy/), where only a small subset of vectors is actively used for search.
 The capacity of such a deployment is typically defined by the size of the hot subset, which is much smaller than the total number of vectors.
 
 > Grouping relevant vectors together allows us to optimize the size of the hot subset by avoiding caching of irrelevant data.
@@ -200,7 +200,7 @@ All benchmarks are made with minimal RAM allocation to demonstrate disk cache ef
 As you can see, the biggest impact is on the small tenant size, where defragmentation allows us to achieve **100x more RPS**. 
 Of course, the real-world impact of defragmentation depends on the specific workload and the size of the hot subset, but enabling this feature can significantly improve the performance of Qdrant. 
 
-Please find more details on how to enable defragmentation in the [indexing documentation](/documentation/concepts/indexing/#tenant-index).
+Please find more details on how to enable defragmentation in the [indexing documentation](/documentation/manage-data/indexing/#tenant-index).
 
 
 ## Updating Immutable Data Structures

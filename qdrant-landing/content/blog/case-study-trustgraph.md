@@ -17,6 +17,7 @@ tags:
 - enterprise AI
 - scalability
 - case study
+partition: case-studies
 ---
 
 

@@ -3,7 +3,6 @@ title: Administration
 weight: 55
 aliases:
   - ../administration
-  - /documentation/guides/administration/
 ---
 
 # Administration
@@ -21,7 +20,7 @@ example, by deleting a collection. After resolving Qdrant can be restarted
 normally to continue operation.
 
 In recovery mode, collection operations are limited to
-[deleting](/documentation/concepts/collections/#delete-collection) a
+[deleting](/documentation/manage-data/collections/#delete-collection) a
 collection. That is because only collection metadata is loaded during recovery.
 
 To enable recovery mode with the Qdrant Docker image you must set the
@@ -60,7 +59,7 @@ Setting `unindexed_filtering_retrieve` to false prevents retrieving points by fi
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve/" >}}
 
-Or turn it off later on an existing collection through the [collection update](#update-collection-parameters) API.
+Or turn it off later on an existing collection through the [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters) API.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve-off/" >}}
 

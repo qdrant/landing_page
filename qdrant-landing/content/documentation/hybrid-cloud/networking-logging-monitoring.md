@@ -6,7 +6,7 @@ weight: 4
 
 ## Configure network policies
 
-For security reasons, each database cluster is secured with network policies. By default, database pods only allow egress traffic between each and allow ingress traffic to ports 6333 (rest) and 6334 (grpc) from within the Kubernetes cluster.
+For security reasons, each database cluster is secured with network policies. By default, database pods only allow egress traffic between each other and ingress traffic to ports 6333 (REST) and 6334 (gRPC) from within the Kubernetes cluster.
 
 You can modify the default network policies in the Hybrid Cloud environment configuration:
 
@@ -54,15 +54,15 @@ You can integrate the logs into any log management system that supports Kubernet
 
 The Qdrant Cloud console gives you access to basic metrics about CPU, memory and disk usage of your Qdrant clusters.
 
-If you want to integrate the Qdrant metrics into your own monitoring system, you can instruct it to scrape the following endpoints that provide metrics in a Prometheus/OpenTelemetry compatible format:
+If you want to integrate Qdrant metrics into your own monitoring system, configure it to scrape the following endpoints, which provide metrics in a Prometheus/OpenMetrics-compatible format:
 
-* `/metrics` on port 6333 of every Qdrant database Pod, this provides metrics about each the database and its internals itself
-* `/metrics` on port 9290 of the Qdrant Operator Pod, this provides metrics about the Operator, as well as the status of Qdrant Clusters and Snapshots
-* `/metrics` on port 9090 of the Qdrant Cloud Agent Pod, this provides metrics about the Agent and its connection to the Qdrant Cloud control plane
-* `/metrics` on port 8080 of the [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics) Pod, this provides metrics about the state of Kubernetes resources like Pods and PersistentVolumes within the Qdrant Hybrid Cloud namespace (useful, if you are not running kube-state-metrics cluster-wide anyway)
+* `/metrics` on port 6333 of every Qdrant database Pod. This provides metrics about each database and its internals.
+* `/metrics` on port 9290 of the Qdrant Operator Pod. This provides metrics about the Operator, as well as the status of Qdrant clusters and snapshots.
+* `/metrics` on port 9090 of the Qdrant Cloud Agent Pod. This provides metrics about the Agent and its connection to the Qdrant Cloud control plane.
+* `/metrics` on port 8080 of the [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics) Pod. This provides metrics about the state of Kubernetes resources like Pods and PersistentVolumes within the Qdrant Hybrid Cloud namespace and is useful if you are not running kube-state-metrics cluster-wide.
 
 ### Grafana dashboard
 
-If you scrape the above metrics into your own monitoring system, and your are using Grafana, you can use our [Grafana dashboard](https://github.com/qdrant/qdrant-cloud-grafana-dashboard) to visualize these metrics.
+If you scrape the above metrics into your own monitoring system, and you are using Grafana, you can use our [Grafana dashboard](https://github.com/qdrant/qdrant-cloud-grafana-dashboard) to visualize these metrics.
 
-![Grafa dashboard](/documentation/cloud/cloud-grafana-dashboard.png)
+![Grafana dashboard](/documentation/cloud/cloud-grafana-dashboard.png)

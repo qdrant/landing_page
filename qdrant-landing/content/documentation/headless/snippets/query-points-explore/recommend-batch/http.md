@@ -1,5 +1,5 @@
 ```http
-POST /collections/{collection_name}/query/batch
+POST /collections/{collection_name}/points/query/batch
 {
   "searches": [
     {

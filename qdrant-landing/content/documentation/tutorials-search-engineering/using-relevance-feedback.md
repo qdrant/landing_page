@@ -7,7 +7,7 @@ weight: 2
 | Time: 30 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/blob/master/using-relevance-feedback/Customizing_Relevance_Feedback.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/using-relevance-feedback/Customizing_Relevance_Feedback.ipynb) |
 | --- | ----------- | ----------- | ----------- |
 
-In Qdrant 1.17 we introduced a new [Relevance Feedback Query](/documentation/concepts/search-relevance/#relevance-feedback), our scalable, first ever vector index-native approach to [incorporating relevance feedback](/articles/search-feedback-loop/) in retrieval.
+In Qdrant 1.17 we introduced a new [Relevance Feedback Query](/documentation/search/search-relevance/#relevance-feedback), our scalable, first ever vector index-native approach to [incorporating relevance feedback](/articles/search-feedback-loop/) in retrieval.
 
 In this tutorial, you'll see how to: 
 1. Customize Relevance Feedback Query for your Qdrant collection, retriever and feedback model.
@@ -25,7 +25,7 @@ A detailed description of how it works can be found in the article [Relevance Fe
 
 ### Strategy
 
-To use the feedback for guiding a retriever in the vector space, there are several possible strategies. For now, only the **naive strategy** is available -- [a simple 3-parameter formula](https://qdrant.tech/documentation/concepts/search-relevance/#naive-strategy) which adjusts similarity scoring based on the feedback.
+To use the feedback for guiding a retriever in the vector space, there are several possible strategies. For now, only the **naive strategy** is available -- [a simple 3-parameter formula](/documentation/search/search-relevance/#naive-strategy) which adjusts similarity scoring based on the feedback.
 
 For the strategy to work well, the parameters of this naive formula should be customized for your data, retriever and feedback model.
 For convenience, we provide you with a [`qdrant-relevance-feedback` Python package](https://pypi.org/project/qdrant-relevance-feedback/) that gives you the corresponding parameters for your use case.
@@ -94,7 +94,7 @@ Check what a point in this collection looks like.
 
 ![Point in the documentation collection](/documentation/tutorials/using-relevance-feedback/point.png)
 
-Our documentation collection has only one vector per point -- `Default vector`. However, in Qdrant, one can have several [named vectors](https://qdrant.tech/documentation/concepts/vectors/#named-vectors) per point.
+Our documentation collection has only one vector per point -- `Default vector`. However, in Qdrant, one can have several [named vectors](/documentation/manage-data/vectors/#named-vectors) per point.
 
 We need to provide the name of the vector associated with the retriever that we're planning to optimize with feedback.
 
@@ -102,7 +102,7 @@ We need to provide the name of the vector associated with the retriever that we'
 RETRIEVER_VECTOR_NAME = None # None if it's a default vector or your named vector handle in Qdrant's collection
 ```
 
-We also need to point our framework to the raw data which is vectorized with our retriever model. Here, the raw data is the `text` field in the point's [payload](https://qdrant.tech/documentation/concepts/payload/#payload). Simply put, we search on `text` snippets -- in their vectorized form.
+We also need to point our framework to the raw data which is vectorized with our retriever model. Here, the raw data is the `text` field in the point's [payload](/documentation/manage-data/payload/#payload). Simply put, we search on `text` snippets -- in their vectorized form.
 
 ```python
 PAYLOAD_KEY = "text"
@@ -229,7 +229,7 @@ TRAIN_LIMIT = 25
 
 The bigger the `TRAIN_LIMIT`, the more training data our formula gets, but the more expensive and slow the training becomes.
 
-*For training, we need our feedback model to provide ground truth relevancy scores, so it rescores #queries * TRAIN_LIMIT, here 50 * 25 = 1250 query-document pairs. Adjust based on your training budget.*
+*For training, we need our feedback model to provide ground-truth relevance scores, so it rescores #queries * TRAIN_LIMIT, here 50 * 25 = 1250 query-document pairs. Adjust based on your training budget.*
 
 #### Training Process
 
@@ -243,13 +243,13 @@ formula_params = relevance_feedback.train(
 ```
 
 You'll see a "**Building training data**" process running on 50 queries.
-Additionally, the framework will provide you with a sensibility check, something like:
+Additionally, the framework will provide you with a sanity check, something like:
 
 ```bash
 On 22.00% of training queries the feedback model strongly disagreed with the retriever model.
 ```
 
-> If the feedback model agrees with your retriever in all cases (if percentage is 0.00), there's little point in using the chosen setup for relevance feedback-based retrieval, consider changing the setup.
+> If the feedback model agrees with your retriever in all cases (if percentage is 0.00), there is little point in using the chosen setup for relevance feedback-based retrieval, consider changing the setup.
 
 Then after a blazingly fast training, you'll get your parameters, something like:
 
@@ -319,7 +319,7 @@ Works, but perhaps there's something else in our collection that would answer th
 
 Now we get feedback from our `mxbai-embed-large-v1` feedback model on the top 3 results for the query *"recommendations API how to use"*.
 
-The feedback model rescores them according to its own judgement of semantic similarity. We only show it a small number of results (`CONTEXT_LIMIT` = 3) to keep the pipeline fast and cheap.
+The feedback model rescores them according to its own judgment of semantic similarity. We only show it a small number of results (`CONTEXT_LIMIT` = 3) to keep the pipeline fast and cheap.
 
 ```python
 feedback_model_scores = feedback.score(query, responses_raw)

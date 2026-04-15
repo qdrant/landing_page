@@ -21,7 +21,7 @@ required to combine the results from different methods on your end.
 **Qdrant 1.10 introduces a new Query API that lets you build a search system by combining different search methods 
 to improve retrieval quality**. Everything is now done on the server side, and you can focus on building the best search 
 experience for your users. In this article, we will show you how to utilize the new [Query 
-API](/documentation/concepts/search/#query-api) to build a hybrid search system.
+API](/documentation/search/search/#query-api) to build a hybrid search system.
 
 ## Introducing the new Query API
 

@@ -3,7 +3,6 @@ title: Monitoring & Telemetry
 weight: 35
 aliases:
   - ../monitoring
-  - /documentation/guides/monitoring/
 ---
 
 # Monitoring & Telemetry
@@ -51,7 +50,7 @@ Counters - such as the number of created snapshots - are reset when the node is 
 | collection_points                                 | gauge   | Number of points, per collection <sup>(v1.16+)</sup>                                                  |
 | collection_vectors                                | gauge   | Number of vectors, per collection and vector name <sup>(v1.16+)</sup>                                 |
 | collections_vector_total                          | gauge   | Number of vectors in all collections                                                                  |
-| collection_indexed_only_excluded_points           | gauge   | Number of points excluded in [`indexed_only`](/documentation/concepts/search/#search-api)  search, per collection and vector name <sup>(v1.16+)</sup> |
+| collection_indexed_only_excluded_points           | gauge   | Number of points excluded in [`indexed_only`](/documentation/search/search/#search-api)  search, per collection and vector name <sup>(v1.16+)</sup> |
 | collection_active_replicas_min                    | gauge   | Minimum number of active replicas across all collections and shards <sup>(v1.16+)</sup>               |
 | collection_active_replicas_max                    | gauge   | Maximum number of active replicas across all collections and shards <sup>(v1.16+)</sup>               |
 | collection_dead_replicas                          | gauge   | Number of non-active replicas across all collections and shards <sup>(v1.16+)</sup>                   |
@@ -64,7 +63,7 @@ Counters - such as the number of created snapshots - are reset when the node is 
 | collection_hardware_metric_vector_io_read         | counter | Vector IO read operations measurement, per collection <sup>(v1.13+)</sup> [^metrics-hwreporting]      |
 | collection_hardware_metric_vector_io_write        | counter | Vector IO write operations measurement, per collection <sup>(v1.13+)</sup> [^metrics-hwreporting]     |
 
-[^metrics-hwreporting]: Only reported if hardware metrics are enabled in the configuration. See `service.hardware_reporting` in the [configuration](/documentation/guides/configuration/).
+[^metrics-hwreporting]: Only reported if hardware metrics are enabled in the configuration. See `service.hardware_reporting` in the [configuration](/documentation/operations/configuration/).
 
 **Snapshot metrics**
 
@@ -122,7 +121,7 @@ when distributed mode is enabled.
 | cluster_pending_operations_total | gauge   | Number of pending consensus operations [^metrics-distributed]           |
 | cluster_voter                    | gauge   | If a consensus voter (`1`) or learner (`0`) [^metrics-distributed]      |
 
-[^metrics-distributed]: Only reported if distributed mode (cluster mode) is enabled. Enabled by default in all Qdrant Cloud environments. See `cluster.enabled` in the [configuration](/documentation/guides/configuration/).
+[^metrics-distributed]: Only reported if distributed mode (cluster mode) is enabled. Enabled by default in all Qdrant Cloud environments. See `cluster.enabled` in the [configuration](/documentation/operations/configuration/).
 
 ### Metrics configuration
 
@@ -132,7 +131,7 @@ In self-hosted environments you have further configuration options for metrics.
 
 By default, all Qdrant metrics have no application namespace prefix. You may set
 a prefix with `service.metrics_prefix` in the
-[configuration](/documentation/guides/configuration/).
+[configuration](/documentation/operations/configuration/).
 
 To achieve this you may use the following environment variable for example:
 
@@ -142,14 +141,14 @@ QDRANT__SERVICE__METRICS_PREFIX="qdrant_"
 
 ## Telemetry endpoint
 
-Qdrant also provides a `/telemetry` endpoint, which provides information about the current state of the database, including the number of vectors, shards, and other useful information. You can find a full documentation of this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/telemetry).
+Qdrant also provides a `/telemetry` endpoint, which provides information about the current state of the database, including the number of vectors, shards, and other useful information. You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/telemetry).
 
 ## Cluster-wide telemetry
 
-The `/telemetry` endpoint reports from the point of view of the peer being queried. But Qdrant also provides a `/cluster/telemetry` endpoint, which aggregates telemetries from all peers. 
+The `/telemetry` endpoint reports from the point of view of the peer being queried. Qdrant also provides a `/cluster/telemetry` endpoint, which aggregates telemetry from all peers.
 
 This includes less information than `/telemetry`, but provides information like shard transfer progress more reliably.
-You can find a full documentation of this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/cluster-telemetry).
+You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/cluster-telemetry).
 
 ## Kubernetes health endpoints
 
@@ -164,7 +163,7 @@ Qdrant server.
 These currently provide the most basic status response, returning HTTP 200 if
 Qdrant is started and ready to be used.
 
-Regardless of whether an [API key](/documentation/guides/security/#authentication) is configured,
+Regardless of whether an [API key](/documentation/operations/security/#authentication) is configured,
 the endpoints are always accessible.
 
 You can read more about Kubernetes health endpoints

@@ -2,6 +2,7 @@
 title: "Implementing a Basic Vector Search"
 description: Learn how to build a basic vector search in Qdrant. Create collections, insert vectors, and run your first similarity search step-by-step with Python. 
 weight: 3
+isLesson: true
 ---
 
 {{< date >}} Day 0 {{< /date >}}
@@ -54,7 +55,7 @@ client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API
 
 ## Step 4: Create a Collection
 
-A [collection](/documentation/concepts/collections/) in Qdrant is like a table in relational databases - a container for storing vectors and their metadata. When creating a collection, specify:
+A [collection](/documentation/manage-data/collections/) in Qdrant is like a table in relational databases - a container for storing vectors and their metadata. When creating a collection, specify:
 
 - **Name**: A unique identifier for the collection
 - **Vector Configuration**:
@@ -77,7 +78,7 @@ client.create_collection(
 
 Expected output: `True` (indicating successful creation)
 
-**Distance metrics explained** ([learn more](/documentation/concepts/collections/#distance-metrics)):
+**Distance metrics explained** ([learn more](/documentation/manage-data/collections/#distance-metrics)):
 - **Euclidean**: Measures straight-line distance between points in space
 - **Cosine**: Measures the angle between vectors, focusing on orientation rather than magnitude
 - **Dot**: Measures the dot product of vectors, capturing both magnitude and direction
@@ -96,7 +97,7 @@ The `get_collections()` method returns all collections in your Qdrant instance, 
 
 ## Step 6: Insert Points into the Collection
 
-[Points](/documentation/concepts/points/) are the core data entities in Qdrant. Each point contains:
+[Points](/documentation/manage-data/points/) are the core data entities in Qdrant. Each point contains:
 
 - **ID**: A unique identifier
 - **Vector Data**: An array of numerical values representing the data point in vector space

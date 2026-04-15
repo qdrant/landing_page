@@ -1,6 +1,7 @@
 ---
 title: From Weaviate
-weight: 20
+weight: 10
+partition: ecosystem
 ---
 
 # Migrate from Weaviate to Qdrant
@@ -22,10 +23,8 @@ curl -X PUT 'https://your-instance.cloud.qdrant.io:6333/collections/your-collect
     -H 'Content-Type: application/json' \
     -d '{
         "vectors": {
-            "vector_name": {
-                "size": 384,
-                "distance": "Cosine"
-            }
+            "size": 384,
+            "distance": "Cosine"
         }
     }'
 ```
@@ -84,4 +83,4 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ## Next Steps
 
-After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-verification/).
+After migration, verify your data arrived correctly with the [Migration Verification Guide](/documentation/migration-guidance/).

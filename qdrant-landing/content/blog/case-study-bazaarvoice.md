@@ -17,6 +17,7 @@ tags:
 - product insights
 - cost optimization
 - case study
+partition: case-studies
 ---
 
 ![Bazaarvoice overview](/blog/case-study-bazaarvoice/bazaarvoice-bento.png)
@@ -55,8 +56,8 @@ With over a billion vectors, post-filtering meant searching far more data than n
 
 Qdrant stood out for a few key reasons:
 
-* [Multitenancy](https://qdrant.tech/documentation/guides/multitenancy/) with payload-based partitioning, allowing searches to be scoped by client, product, or category at query time  
-* [Quantization](https://qdrant.tech/documentation/guides/quantization/), enabling dramatic reductions in storage and RAM requirements which translates directly to cost  
+* [Multitenancy](https://qdrant.tech/documentation/manage-data/multitenancy/) with payload-based partitioning, allowing searches to be scoped by client, product, or category at query time  
+* [Quantization](https://qdrant.tech/documentation/manage-data/quantization/), enabling dramatic reductions in storage and RAM requirements which translates directly to cost  
 * [Hybrid cloud deployment](https://qdrant.tech/hybrid-cloud/), running inside Bazaarvoice’s VPC on Kubernetes  
 * Operational simplicity, eliminating manual partition management entirely
 

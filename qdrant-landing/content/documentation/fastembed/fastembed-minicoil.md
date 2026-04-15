@@ -1,6 +1,6 @@
 ---
 title: Working with miniCOIL
-weight: 4
+weight: 40
 ---
 
 # How to use miniCOIL, Qdrant's Sparse Neural Retriever
@@ -13,7 +13,7 @@ $$
 $$
 
 A detailed breakdown of the idea behind miniCOIL can be found in the 
-["miniCOIL: on the road to Usable Sparse Neural Retreival" article](https://qdrant.tech/articles/minicoil/) or, in a [recorded talk "miniCOIL: Sparse Neural Retrieval Done Right"](https://youtu.be/f1sBJMSgBXA?si=G3C5--UVRKAW5WJ0).
+["miniCOIL: on the road to Usable Sparse Neural Retrieval" article](https://qdrant.tech/articles/minicoil/) or, in a [recorded talk "miniCOIL: Sparse Neural Retrieval Done Right"](https://youtu.be/f1sBJMSgBXA?si=G3C5--UVRKAW5WJ0).
 
 This tutorial will demonstrate how miniCOIL-based sparse neural retrieval performs compared to BM25-based lexical retrieval.
 
@@ -77,7 +77,7 @@ documents = [
 ## Create Collection
 Let's create a collection to store and index titles.
 
-As miniCOIL was designed with Qdrant's ability to calculate the keywords Inverse Document Frequency (IDF) in mind, we need to configure miniCOIL sparse vectors with [IDF modifier](https://qdrant.tech/documentation/concepts/indexing/#idf-modifier).
+As miniCOIL was designed with Qdrant's ability to calculate the keywords Inverse Document Frequency (IDF) in mind, we need to configure miniCOIL sparse vectors with [IDF modifier](/documentation/manage-data/indexing/#idf-modifier).
 
 <aside role="status">
 Don't forget to configure the IDF modifier to use miniCOIL sparse vectors in Qdrant!

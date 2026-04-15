@@ -6,8 +6,8 @@ use qdrant_client::Qdrant;
 
 pub async fn main() -> anyhow::Result<()> {
     // @hide-start
-    let QDRANT_URL = "";
-    let QDRANT_API_KEY = "";
+    const QDRANT_URL: &str = "";
+    const QDRANT_API_KEY: &str = "";
     // @hide-end
     // @block-start client-connection
     let client = Qdrant::from_url(QDRANT_URL)

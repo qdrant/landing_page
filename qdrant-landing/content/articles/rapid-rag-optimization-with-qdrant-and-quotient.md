@@ -467,7 +467,7 @@ We will reprocess the data with the updated parameters above:
 
 ```python
 ## for iteration 2 - lets modify chunk configuration
-## We will start with creating seperate collection to store vectors
+## We will start with creating separate collection to store vectors
 
 chunk_size = 1024
 chunk_overlap = 128

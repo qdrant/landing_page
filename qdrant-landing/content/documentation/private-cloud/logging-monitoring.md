@@ -43,15 +43,15 @@ You can integrate the logs into any log management system that supports Kubernet
 
 The Qdrant Cloud console gives you access to basic metrics about CPU, memory and disk usage of your Qdrant clusters.
 
-If you want to integrate the Qdrant metrics into your own monitoring system, you can instruct it to scrape the following endpoints that provide metrics in a Prometheus/OpenTelemetry compatible format:
+If you want to integrate Qdrant metrics into your own monitoring system, configure it to scrape the following endpoints, which provide metrics in a Prometheus/OpenMetrics-compatible format:
 
-* `/metrics` on port 6333 of every Qdrant database Pod, this provides metrics about each the database and its internals itself
-* `/metrics` on port 9290 of the Qdrant Operator Pod, this provides metrics about the Operator, as well as the status of Qdrant Clusters and Snapshots
+* `/metrics` on port 6333 of every Qdrant database Pod. This provides metrics about each database and its internals.
+* `/metrics` on port 9290 of the Qdrant Operator Pod. This provides metrics about the Operator, as well as the status of Qdrant clusters and snapshots.
 * For metrics about the state of Kubernetes resources like Pods and PersistentVolumes within the Qdrant Hybrid Cloud namespace, we recommend using [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics)
 
 ### Grafana dashboard
 
-If you scrape the above metrics into your own monitoring system, and your are using Grafana, you can use our [Grafana dashboard](https://github.com/qdrant/qdrant-cloud-grafana-dashboard) to visualize these metrics.
+If you scrape the above metrics into your own monitoring system, and you are using Grafana, you can use our [Grafana dashboard](https://github.com/qdrant/qdrant-cloud-grafana-dashboard) to visualize these metrics.
 
-![Grafa dashboard](/documentation/cloud/cloud-grafana-dashboard.png)
+![Grafana dashboard](/documentation/cloud/cloud-grafana-dashboard.png)
 

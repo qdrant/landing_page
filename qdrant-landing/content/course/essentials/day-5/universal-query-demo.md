@@ -2,6 +2,7 @@
 title: "Demo: Universal Query for Hybrid Retrieval"
 description: Build a hybrid research discovery system using Qdrant’s Universal Query API—combine dense, sparse, and ColBERT vectors for semantic, keyword, and reranked retrieval in one query. 
 weight: 4
+isLesson: true
 ---
 
 {{< date >}} Day 5 {{< /date >}}
@@ -108,7 +109,7 @@ client.create_payload_index(
 
 ## Prepare and Ingest Research Paper Data
 
-Now that our collection is configured with vectors and payload indexes, let's take some sample research papers:
+Now that our collection is configured with vectors and payload indexes, let's define a few sample research papers:
 
 ```python
 sample_data = [
@@ -133,13 +134,13 @@ sample_data = [
         "open_access": True,
     },
     {
-        "title": "Zero-Shot Retrieval for Scalable Visual Search in a Two-Sided Marketplace",
-        "authors": ["Andre Rusli", "Shoma Ishimoto", "Sho Akiyama", "Aman Kumar Singh"],
-        "abstract": "Visual search offers an intuitive way for customers to explore diverse product catalogs, particularly in consumer-to-consumer (C2C) marketplaces where listings are often unstructured and visually driven. This paper presents a scalable visual search system deployed in Mercari's C2C marketplace...",
-        "research_area": "computer_vision",
-        "published_date": "2025-07-31",
-        "impact_score": 0.78,
-        "citation_count": 12,
+        "title": "MUVERA: Multi-Vector Retrieval via Fixed Dimensional Encodings",
+        "authors": ["Jason Lee", "Vahab Mirrokni", "Rajesh Jayaram"],
+        "abstract": "We present MUVERA, a retrieval approach that compresses multi-vector representations into fixed-dimensional encodings for efficient first-stage retrieval while preserving the quality benefits of late interaction models. The method reduces serving costs and latency without giving up strong reranking performance...",
+        "research_area": "machine_learning",
+        "published_date": "2024-05-29",
+        "impact_score": 0.84,
+        "citation_count": 27,
         "open_access": True,
     },
 ]
@@ -188,7 +189,7 @@ client.upload_points(
 )
 ```
 
-## Step 3: The Universal Query in Action
+## Step 2: The Universal Query in Action
 
 Let's build a sophisticated research discovery query step by step. We'll orchestrate dense search, sparse search, RRF fusion, and ColBERT reranking - all in a single API call.
 
@@ -327,11 +328,11 @@ for i, hit in enumerate(response.points or [], 1):
     print(f"   Score: {hit.score:.4f}\n")
 ```
 
-And there you have it - a sophisticated multi-stage research discovery system in a single declarative query!
+And there you have it: a sophisticated multi-stage research discovery system in a single declarative query.
 
 ## Real ArXiv Dataset Integration
 
-Here's how you could populate the collection with real data (if the endpoint wasn't broken):
+Here's how you could populate the collection with real arXiv data:
 
 ```python
 # ! pip install arxiv
@@ -391,10 +392,10 @@ print(f"Uploaded {len(points)} research papers to collection")
 - **Single Request**: Complex multi-stage research discovery in one API call
 - **Parallel Execution**: Dense and sparse searches run concurrently
 - **Smart Filtering**: Apply research quality filters at optimal stages
-- **Real Data**: Works with actual arXiv dataset and research metadata
+- **Real Data**: Works with actual arXiv data and research metadata
 - **Production Ready**: Scales to millions of papers with sub-second latency
 
-The Universal Query API eliminates the complexity of building multi-turn retrieval systems. What used to require coordination between semantic search engines, keyword systems, and reranking models now happens in a single, optimized request - perfect for academic search, literature reviews, and research recommendation systems.
+The Universal Query API eliminates the complexity of building multi-turn retrieval systems. What used to require coordination between semantic search engines, keyword systems, and reranking models now happens in a single, optimized request, which makes it a good fit for academic search, literature reviews, and research recommendation systems.
 
 ## Next
 

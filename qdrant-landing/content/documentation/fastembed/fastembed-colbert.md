@@ -1,6 +1,6 @@
 ---
 title: Working with ColBERT 
-weight: 6
+weight: 60
 ---
 
 # How to Generate ColBERT Multivectors with FastEmbed
@@ -30,10 +30,10 @@ All interactions between these parts are expected to be done "later" outside the
 
 ## Using ColBERT in Qdrant
 
-Qdrant supports [multivector representations](https://qdrant.tech/documentation/concepts/vectors/#multivectors) out of the box so that you can use any late interaction model as `ColBERT` or `ColPali` in Qdrant without any additional pre/post-processing.
+Qdrant supports [multivector representations](/documentation/manage-data/vectors/#multivectors) out of the box so that you can use any late interaction model as `ColBERT` or `ColPali` in Qdrant without any additional pre/post-processing.
 
 This tutorial uses ColBERT as a first-stage retriever on a toy dataset.
-You can see how to use ColBERT as a reranker in our [multi-stage queries documentation](https://qdrant.tech/documentation/concepts/hybrid-queries/#multi-stage-queries).
+You can see how to use ColBERT as a reranker in our [multi-stage queries documentation](/documentation/search/hybrid-queries/#multi-stage-queries).
 ## Setup
 
 Install `fastembed`.
@@ -144,8 +144,8 @@ from qdrant_client import QdrantClient, models
 qdrant_client = QdrantClient(":memory:") # Qdrant is running from RAM.
 ```
 
-Now, let's create a small [collection](https://qdrant.tech/documentation/concepts/collections/) with our movie data.
-For that, we will use the [multivectors](https://qdrant.tech/documentation/concepts/vectors/#multivectors) functionality supported in Qdrant.
+Now, let's create a small [collection](/documentation/manage-data/collections/) with our movie data.
+For that, we will use the [multivectors](/documentation/manage-data/vectors/#multivectors) functionality supported in Qdrant.
 To configure multivector collection, we need to specify:
 - similarity metric between vectors;
 - the size of each vector (for ColBERT, it's **128**);

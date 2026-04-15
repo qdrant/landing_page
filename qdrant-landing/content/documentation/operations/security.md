@@ -3,7 +3,6 @@ title: Security
 weight: 40
 aliases:
   - ../security
-  - /documentation/guides/security/
 ---
 
 # Security
@@ -168,6 +167,26 @@ export QDRANT__SERVICE__READ_ONLY_API_KEY=your_secret_read_only_api_key_here
 ```
 
 Both API keys can be used simultaneously.
+
+### Rotate an API Key
+
+*Available as of v1.17.0*
+
+In a distributed deployment, you can rotate an API key without downtime. Use the `alt_api_key` setting to temporarily configure a second API key that acts identically to the primary `api_key`, allowing both the old and new API keys to be active at the same time.
+
+```yaml
+service:
+  api_key: your_current_api_key_here
+  alt_api_key: your_new_api_key_here
+```
+
+To rotate an API key without downtime:
+
+1. Configure each peer with the new key set as `alt_api_key`. Restart only one peer at a time to avoid downtime (rolling restart). During the rotation window, requests authenticated with either key are accepted.
+2. Switch clients to the new key.
+3. Perform another rolling restart of the peers, promoting the new key to `api_key` and removing `alt_api_key`.
+
+<aside role="alert">JWT tokens are tied to the key they were signed with and are <strong>not</strong> automatically migrated. They must be re-created after switching to the new key.</aside>
 
 ### Granular Access Control with JWT
 

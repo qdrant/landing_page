@@ -290,6 +290,6 @@ expensive setup if you can agree to a small decrease in the search precision.
 
 ### Accessing best practices
 
-Qdrant documentation on [Scalar Quantization](/documentation/quantization/#setting-up-quantization-in-qdrant)
+Qdrant documentation on [Scalar Quantization](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant)
 is a great resource describing different scenarios and strategies to achieve up to 4x 
 lower memory footprint and even up to 2x performance increase.

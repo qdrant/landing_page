@@ -27,7 +27,7 @@
   }
 
   &__partners {
-    margin-top: $spacer * 5;
+    padding-top: $spacer * 5;
 
     &-title {
       margin-bottom: $spacer * 1.5;
@@ -73,7 +73,7 @@
     }
 
     &__partners {
-      margin-top: $spacer * 7.5;
+      padding-top: $spacer * 7.5;
 
       &-title {
         max-width: pxToRem(445);

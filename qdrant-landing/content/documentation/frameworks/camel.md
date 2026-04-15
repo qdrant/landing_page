@@ -92,7 +92,7 @@ retrieved_info = ar.run_vector_retriever(
 print(retrieved_info)
 ```
 
-You can refer to the Camel [documentation](https://docs.camel-ai.org/index.html) for more information about the retrieval mechansims.
+You can refer to the Camel [documentation](https://docs.camel-ai.org/index.html) for more information about the retrieval mechanisms.
 
 ## End-To-End Examples
 

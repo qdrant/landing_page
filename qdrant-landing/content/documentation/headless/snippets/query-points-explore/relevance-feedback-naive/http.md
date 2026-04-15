@@ -2,7 +2,7 @@
 POST /collections/{collection_name}/points/query
 {
   "query": {
-    "relevance_feedback: {
+    "relevance_feedback": {
       "target": [0.1, 0.9, 0.23, ...],
       "feedback": [
         { "example": 111, "score": 0.68 },
@@ -10,13 +10,13 @@ POST /collections/{collection_name}/points/query
         { "example": 333, "score": 0.61 }
       ],
       "strategy": {
-        "naive": { 
-          "a": 0.12, 
-          "b": 0.43, 
-          "c": 0.03 
+        "naive": {
+          "a": 0.12,
+          "b": 0.43,
+          "c": 0.03
         }
       }
-    ]
+    }
   }
 }
 ```

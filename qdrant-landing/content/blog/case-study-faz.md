@@ -15,6 +15,7 @@ tags:
 - hybrid search
 - AI in journalism
 - case study
+partition: case-studies
 ---
 
 # How FAZ Built a Hybrid Search Engine with Qdrant to Unlock 75 Years of Journalism

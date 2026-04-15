@@ -1,3 +1,3 @@
 ```python
-edge_shard = EdgeShard(SHARD_DIRECTORY)
+edge_shard = EdgeShard.load(SHARD_DIRECTORY)
 ```

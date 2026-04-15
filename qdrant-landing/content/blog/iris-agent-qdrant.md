@@ -16,6 +16,7 @@ tags:
   - customer support
 weight: 0 # Change this weight to change order of posts
 # For more guidance, see https://github.com/qdrant/landing_page?tab=readme-ov-file#blog
+partition: case-studies
 ---
 
 Artificial intelligence is evolving customer support, offering unprecedented capabilities for automating interactions, understanding user needs, and enhancing the overall customer experience. [IrisAgent](https://irisagent.com/), founded by former Google product manager [Palak Dalal Bhatia](https://www.linkedin.com/in/palakdalal/), demonstrates the concrete impact of AI on customer support with its AI-powered customer support automation platform. 

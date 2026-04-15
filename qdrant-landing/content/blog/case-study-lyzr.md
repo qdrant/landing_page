@@ -15,6 +15,7 @@ tags:
 - AI agents
 - scalable infrastructure
 - case study
+partition: case-studies
 ---
 # How Lyzr Supercharged AI Agent Performance with Qdrant
 

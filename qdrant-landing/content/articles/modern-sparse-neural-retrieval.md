@@ -234,7 +234,7 @@ internal document expansion idea, which made the retrieval quality noticeably be
 
 - The SPARTA model is not sparse enough by construction, so authors of the SPLADE family of models introduced explicit **sparsity regularisation**, 
 preventing the model from producing too many non-zero values. 
-- The SPARTA model mostly uses the BERT model as-is, without any additional neural network to capture the specifity of Information Retrieval problem, 
+- The SPARTA model mostly uses the BERT model as-is, without any additional neural network to capture the specificity of Information Retrieval problem, 
 so SPLADE models introduce a trainable neural network on top of BERT with a specific architecture choice to make it perfectly fit the task.
 - SPLADE family of models, finally, uses **knowledge distillation**, which is learning from a bigger 
 (and therefore much slower, not-so-fit for production tasks) model how to predict good representations.
@@ -397,8 +397,8 @@ from qdrant_client import QdrantClient, models
 qdrant_client = QdrantClient(":memory:") # Qdrant is running from RAM.
 ```
 
-Now, let's create a [collection](https://qdrant.tech/documentation/concepts/collections/) in which could upload our sparse SPLADE++ embeddings. \
-For that, we will use the [sparse vectors](https://qdrant.tech/documentation/concepts/vectors/#sparse-vectors) representation supported in Qdrant.
+Now, let's create a [collection](https://qdrant.tech/documentation/manage-data/collections/) in which could upload our sparse SPLADE++ embeddings. \
+For that, we will use the [sparse vectors](https://qdrant.tech/documentation/manage-data/vectors/#sparse-vectors) representation supported in Qdrant.
 
 ```python
 qdrant_client.create_collection(

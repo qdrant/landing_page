@@ -23,7 +23,7 @@ in this tutorial to create and download snapshots. When you [Restore from snapsh
 
 ## Prerequisites
 
-Let's assume you already have a running Qdrant instance or a cluster. If not, you can follow the [installation guide](/documentation/guides/installation/) to set up a local Qdrant instance or use [Qdrant Cloud](https://cloud.qdrant.io/) to create a cluster in a few clicks.
+Let's assume you already have a running Qdrant instance or a cluster. If not, you can follow the [installation guide](/documentation/operations/installation/) to set up a local Qdrant instance or use [Qdrant Cloud](https://cloud.qdrant.io/) to create a cluster in a few clicks.
 
 Once the cluster is running, let's install the required dependencies:
 
@@ -151,7 +151,7 @@ Qdrant exposes an HTTP endpoint to request creating a snapshot, but we can also 
 Our setup consists of 3 nodes, so we need to call the endpoint **on each of them** and create a snapshot on each node. While using Python SDK, that means creating a separate client instance for each node.
 
 
-<aside role="status">You may get a timeout error, if the collection size is big. You can trigger the snapshot process in the background, without awaiting for the result, by using <code>wait=false</code> parameter. You can always <a href="/documentation/concepts/snapshots/#list-snapshot">list all the snapshots through the API</a> later on.</aside>
+<aside role="status">You may get a timeout error, if the collection size is big. You can trigger the snapshot process in the background, without awaiting for the result, by using <code>wait=false</code> parameter. You can always <a href="/documentation/operations/snapshots/#list-snapshot">list all the snapshots through the API</a> later on.</aside>
 
 
 ```python
@@ -223,15 +223,15 @@ Alternatively, you can use the `wget` command:
 ```bash
 wget https://node-0.my-cluster.com:6333/collections/test_collection/snapshots/test_collection-559032209313046-2024-01-03-13-20-11.snapshot \
     --header="api-key: ${QDRANT_API_KEY}" \
-    -O node-0-shapshot.snapshot
+    -O node-0-snapshot.snapshot
 
 wget https://node-1.my-cluster.com:6333/collections/test_collection/snapshots/test_collection-559032209313047-2024-01-03-13-20-12.snapshot \
     --header="api-key: ${QDRANT_API_KEY}" \
-    -O node-1-shapshot.snapshot
+    -O node-1-snapshot.snapshot
 
 wget https://node-2.my-cluster.com:6333/collections/test_collection/snapshots/test_collection-559032209313048-2024-01-03-13-20-13.snapshot \
     --header="api-key: ${QDRANT_API_KEY}" \
-    -O node-2-shapshot.snapshot
+    -O node-2-snapshot.snapshot
 ```
 
 The snapshots are now stored locally. We can use them to restore the collection to a different Qdrant instance, or treat them as a backup. We will create another collection using the same data on the same cluster.
@@ -262,25 +262,25 @@ Alternatively, you can use the `curl` command:
 curl -X POST 'https://node-0.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
     -H 'api-key: ${QDRANT_API_KEY}' \
     -H 'Content-Type:multipart/form-data' \
-    -F 'snapshot=@node-0-shapshot.snapshot'
+    -F 'snapshot=@node-0-snapshot.snapshot'
 
 curl -X POST 'https://node-1.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
     -H 'api-key: ${QDRANT_API_KEY}' \
     -H 'Content-Type:multipart/form-data' \
-    -F 'snapshot=@node-1-shapshot.snapshot'
+    -F 'snapshot=@node-1-snapshot.snapshot'
 
 curl -X POST 'https://node-2.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
     -H 'api-key: ${QDRANT_API_KEY}' \
     -H 'Content-Type:multipart/form-data' \
-    -F 'snapshot=@node-2-shapshot.snapshot'
+    -F 'snapshot=@node-2-snapshot.snapshot'
 ```
 
 
-**Important:** We selected `priority=snapshot` to make sure that the snapshot is preferred over the data stored on the node. You can read mode about the priority in the [documentation](/documentation/concepts/snapshots/#snapshot-priority).
+**Important:** We selected `priority=snapshot` to make sure that the snapshot is preferred over the data stored on the node. You can read mode about the priority in the [documentation](/documentation/operations/snapshots/#snapshot-priority).
 
 Apart from Snapshots, Qdrant also provides the [Qdrant Migration Tool](https://github.com/qdrant/migration) that supports: 
 - Migration between Qdrant Cloud instances. 
 - Migrating vectors from other providers into Qdrant.
 - Migrating from Qdrant OSS to Qdrant Cloud.
 
-Follow our [migration guide](/documentation/database-tutorials/migration/) to learn how to effectively use the Qdrant Migration tool. 
+Follow our [migration guide](/documentation/tutorials-operations/migration/) to learn how to effectively use the Qdrant Migration tool. 

@@ -3,7 +3,6 @@ title: Snapshots
 weight: 25
 aliases:
   - ../snapshots
-  - /documentation/concepts/snapshots/
 ---
 
 # Snapshots
@@ -14,9 +13,9 @@ Snapshots are `tar` archive files that contain data and configuration of a speci
 
 This feature can be used to archive data or easily replicate an existing deployment. For disaster recovery, Qdrant Cloud users may prefer to use [Backups](/documentation/cloud/backups/) instead, which are physical disk-level copies of your data.
 
-A collection level snapshot only contains data within that collection, including the collection configuration, all points and payloads. Collection aliases are not included and can be migrated or recovered [separately](/documentation/concepts/collections/#collection-aliases).
+A collection level snapshot only contains data within that collection, including the collection configuration, all points and payloads. Collection aliases are not included and can be migrated or recovered [separately](/documentation/manage-data/collections/#collection-aliases).
 
-For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials/create-snapshot/).
+For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials-operations/create-snapshot/).
 
 ## Create snapshot
 
@@ -136,7 +135,7 @@ To recover from a URL, you specify an additional parameter in the request body:
 Sometimes it might be handy to create snapshot not just for a single collection, but for the whole storage, including collection aliases.
 Qdrant provides a dedicated API for that as well. It is similar to collection-level snapshots, but does not require `collection_name`.
 
-<aside role="alert">Full storage snapshots are only suitable for single-node deployments. <a href="/documentation/guides/distributed_deployment/">Distributed</a> mode is not supported as it doesn't contain the necessary files for that.</aside>
+<aside role="alert">Full storage snapshots are only suitable for single-node deployments. <a href="/documentation/operations/distributed_deployment/">Distributed</a> mode is not supported as it doesn't contain the necessary files for that.</aside>
 
 <aside role="status">Full storage snapshots can be created and downloaded from Qdrant Cloud, but you cannot restore a Qdrant Cloud cluster from a whole storage snapshot since that requires use of the Qdrant CLI. You can use <a href="/documentation/cloud/backups/">Backups</a> instead.</aside>
 
@@ -181,7 +180,7 @@ also configure to use an [S3 storage](#s3) service for them.
 By default, snapshots are stored at `./snapshots` or at `/qdrant/snapshots` when
 using our Docker image.
 
-The target directory can be controlled through the [configuration](/documentation/guides/configuration/):
+The target directory can be controlled through the [configuration](/documentation/operations/configuration/):
 
 ```yaml
 storage:
@@ -209,7 +208,7 @@ storage:
 
 Rather than storing snapshots on the local file system, you may also configure
 to store snapshots in an S3-compatible storage service. To enable this, you must
-configure it in the [configuration](/documentation/guides/configuration/) file.
+configure it in the [configuration](/documentation/operations/configuration/) file.
 
 For example, to configure for AWS S3:
 
@@ -244,4 +243,4 @@ Apart from Snapshots, Qdrant also provides the [Qdrant Migration Tool](https://g
 - Migrating vectors from other providers into Qdrant.
 - Migrating from Qdrant OSS to Qdrant Cloud.
 
-Follow our [migration guide](/documentation/database-tutorials/migration/) to learn how to effectively use the Qdrant Migration tool. 
+Follow our [migration guide](/documentation/tutorials-operations/migration/) to learn how to effectively use the Qdrant Migration tool. 

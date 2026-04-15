@@ -15,6 +15,7 @@ tags:
   - computer vision
   - quality control
   - anomaly detection
+partition: case-studies
 ---
 
 ![visua/image1.png](/blog/case-study-visua/image1.png)
@@ -81,6 +82,6 @@ Integrating Qdrant into VISUA's quality control operations has delivered measura
 
 #### Expanding Qdrant’s Use Beyond Anomaly Detection
 
-While the primary application of Qdrant is focused on quality control, VISUA's team is actively exploring additional use cases with Qdrant. VISUA's use of Qdrant has inspired new opportunities, notably in content moderation. "The moment we started to experiment with Qdrant, opened up a lot of ideas within the team for new applications,” said Prest on the potential unlocked by Qdrant. For example, this has led them to actively explore the Qdrant [Discovery API](/documentation/concepts/explore/?q=discovery#discovery-api), with an eye on enhancing content moderation processes.
+While the primary application of Qdrant is focused on quality control, VISUA's team is actively exploring additional use cases with Qdrant. VISUA's use of Qdrant has inspired new opportunities, notably in content moderation. "The moment we started to experiment with Qdrant, opened up a lot of ideas within the team for new applications,” said Prest on the potential unlocked by Qdrant. For example, this has led them to actively explore the Qdrant [Discovery API](/documentation/search/explore/?q=discovery#discovery-api), with an eye on enhancing content moderation processes.
 
 Beyond content moderation, VISUA is set for significant growth by broadening its copyright infringement detection services. As the demand for detecting a wider range of infringements, like unauthorized use of popular characters on merchandise, increases, VISUA plans to expand its technology capabilities. Qdrant will be pivotal in this expansion, enabling VISUA to meet the complex and growing challenges of moderating copyrighted content effectively and ensuring comprehensive protection for brands and creators.

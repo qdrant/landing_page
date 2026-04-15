@@ -12,6 +12,7 @@ author: Qdrant Team
 featured: false
 aliases:
   - /case-studies/pienso/
+partition: case-studies
 ---
 
 The partnership between Pienso and Qdrant is set to revolutionize interactive deep learning, making it practical, efficient, and scalable for global customers. Pienso's low-code platform provides a streamlined and user-friendly process for deep learning tasks. This exceptional level of convenience is augmented by Qdrant’s scalable and cost-efficient high vector computation capabilities, which enable reliable retrieval of similar vectors from high-dimensional spaces.

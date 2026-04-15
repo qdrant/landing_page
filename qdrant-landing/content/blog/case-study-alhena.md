@@ -18,6 +18,7 @@ tags:
 - customer support
 - multitenancy
 - case study
+partition: case-studies
 ---
 
 # How Alhena AI unified its AI stack and accelerated ecommerce outcomes with Qdrant

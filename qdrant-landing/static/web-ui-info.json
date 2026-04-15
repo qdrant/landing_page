@@ -1,8 +1,8 @@
 {
   "banner": {
-    "message": "Qdrant 1.17 Released: relevance feedback, performance under high write loads, & tail latency",
-    "link": "https://qdrant.tech/blog/qdrant-1.17.x/",
-    "link_text": "Read More"
+    "message": "Agent Skills for Qdrant are now available!",
+    "link": "https://github.com/qdrant/skills",
+    "link_text": "Download Here"
   },
-  "latest_version": "1.17.0"
+  "latest_version": "1.17.1"
 }

@@ -15,6 +15,7 @@ tags:
   - Johannes Hötter 
   - Data Analysis
   - Markel Insurance
+partition: case-studies
 ---
 
 ![kern-case-study](/blog/case-study-kern/kern-case-study.png)

@@ -69,7 +69,7 @@ If you use multiple accounts for different purposes, it is a good idea to give t
 
 ### Changing the Account Owner
 
-Every account has one owner. The owner is granted full admin permissions for the account as well as futher unique permissions allowing them to either delete the account or transfer account ownership.
+Every account has one owner. The owner is granted full admin permissions for the account as well as further unique permissions allowing them to either delete the account or transfer account ownership.
 
 To transfer ownership of an account, as the owner, visit the *Access Management* page. In the actions menu of the user you wish to transfer to, you will find the option 'Make Account Owner' which begins the transfer.
 
@@ -94,6 +94,6 @@ Qdrant Cloud supports Enterprise Single-Sign-On for Premium Tier customers. The 
 * SAML
 * Azure Active Directory
 
-Enterprise Sign-On is available as an add-on for [Premium Tier](/documentation/cloud/premium/) customers. If you are interested in using SSO, please [contact us](/contact-us/).
+Enterprise Sign-On is available as an add-on for [Premium Tier](/documentation/cloud-premium/) customers. If you are interested in using SSO, please [contact us](/contact-us/).
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/EtUcA-MCZJM?si=-u31oU5R0FkVrspN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

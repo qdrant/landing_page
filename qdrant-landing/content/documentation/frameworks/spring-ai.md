@@ -60,7 +60,7 @@ public VectorStore vectorStore(QdrantVectorStoreConfig config, EmbeddingClient e
 
 You can now use the `VectorStore` instance backed by Qdrant as a vector store in the Spring AI APIs.
 
-<aside role="status">If the collection is not <a href="/documentation/concepts/collections/#create-a-collection">created in advance</a>, <code>QdrantVectorStore</code> will attempt to create one using cosine similarity and the dimension of the configured <code>EmbeddingClient</code>.</aside>
+<aside role="status">If the collection is not <a href="/documentation/manage-data/collections/#create-a-collection">created in advance</a>, <code>QdrantVectorStore</code> will attempt to create one using cosine similarity and the dimension of the configured <code>EmbeddingClient</code>.</aside>
 
 ## 📚 Further Reading
 

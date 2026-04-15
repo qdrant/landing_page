@@ -14,7 +14,7 @@
 
     <div class="docs-footer__bottom">
       <div class="docs-footer__bottom-content">
-        <span>{{ .Params.copyright }}</span>
+        <span>&copy; {{ time.Now.Year }} {{ .Params.copyright }}</span>
         <div class="footer__bottom-links">
           <a href="{{ .Params.termsLink.url }}">{{ .Params.termsLink.text }}</a>
           <a href="{{ .Params.privacyLink.url }}">{{ .Params.privacyLink.text }}</a>

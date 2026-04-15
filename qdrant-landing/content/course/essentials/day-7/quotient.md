@@ -2,6 +2,7 @@
 title: "Integrating with Quotient"
 description: Learn how Quotient and Qdrant combine to deliver end-to-end AI monitoring, hallucination detection, and performance analytics for reliable, high-quality retrieval-augmented generation systems.
 weight: 7
+isLesson: true
 ---
 
 {{< date >}} Day 7 {{< /date >}}

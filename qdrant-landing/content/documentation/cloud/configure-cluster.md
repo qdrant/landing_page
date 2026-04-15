@@ -7,12 +7,12 @@ weight: 55
 
 Qdrant Cloud offers several advanced configuration options to optimize clusters for your specific needs. You can access these options from the Cluster Details page in the Qdrant Cloud console.
 
-The cloud platform does not expose all [configuration options](/documentation/guides/configuration/) available in Qdrant. We have selected the relevant options that are explained in detail below.
+The cloud platform does not expose all [configuration options](/documentation/operations/configuration/) available in Qdrant. We have selected the relevant options that are explained in detail below.
 
-In adition the cloud platform automatically configures the following settings for your cluster to ensure optimal performance and reliability:
+In addition, the cloud platform automatically configures the following settings for your cluster to ensure optimal performance and reliability:
 
-* The maximum number of collections in a cluster is set to 1000. Larger numbers of collections lead to performance degradation. For more information see [Multitenancy](/documentation/guides/multiple-partitions/).
-* Strict mode is activated by default for new collections enforcing that all filters being used in retrieve and udpate queries are indexed. This improves performance and reliability. You can disable this individually for each collection. For more information see [Strict Mode](/documentation/guides/administration/#strict-mode).
+* The maximum number of collections in a cluster is set to 1000. Larger numbers of collections lead to performance degradation. For more information see [Multitenancy](/documentation/manage-data/multitenancy/).
+* Strict mode is activated by default for new collections enforcing that all filters being used in retrieve and update queries are indexed. This improves performance and reliability. You can disable this individually for each collection. For more information see [Strict Mode](/documentation/operations/administration/#strict-mode).
 * The cluster mode is automatically enabled to allow distributed deployments and horizontal scaling.
 * The maximum amount of payload indexes per collection is set to 100. Larger numbers of payload indexes lead to performance degradation (starting with Qdrant v1.16.0).
 
@@ -24,7 +24,7 @@ You can set default values for the configuration of new collections in your clus
 
 You can configure the default *Replication Factor*, the default *Write Consistency Factor*, and if vectors should be stored on disk only, instead of being cached in RAM.
 
-Refer to [Qdrant Configuration](/documentation/guides/configuration/#configuration-options) for more details.
+Refer to [Qdrant Configuration](/documentation/operations/configuration/#configuration-options) for more details.
 
 ## Advanced Optimizations
 
@@ -40,7 +40,7 @@ Configures how many CPUs (threads) to allocate for optimization and indexing job
 
 *Async Scorer*
 
-Enables async scorer which uses io_uring when rescoring. See [Qdrant under the hood: io_uring](/articles/io_uring/#and-what-about-qdrant) and [Large Scale Search](/documentation/database-tutorials/large-scale-search/) for more details.
+Enables async scorer which uses io_uring when rescoring. See [Qdrant under the hood: io_uring](/articles/io_uring/#and-what-about-qdrant) and [Large Scale Search](/documentation/tutorials-operations/large-scale-search/) for more details.
 
 ## Client IP Restrictions
 
@@ -89,3 +89,46 @@ You can add labels to a Qdrant Cluster from the cluster's detail page. Labels ar
 
 ![Cluster Labels](/documentation/cloud/cloud-cluster-labels.png)
 
+## Audit Logging
+
+You can activate audit logs for your cluster in the cluster configuration tab of the cluster details page. Audit logs provide a record of all API calls made to the cluster. This is useful for security and compliance purposes.
+
+Audit logs are available for all paid clusters, starting with Qdrant v1.17.0; the endpoint for downloading logs is available from Qdrant v1.17.1.
+
+The following information is tracked:
+
+* The performed action (e.g. `list_collections`, `create_collection`, `upsert_points`, etc.) 
+* The timestamp of the action
+* The API key ID used to perform the action, or the User ID if the action was performed through the Web UI
+* The result of the action (success or failure)
+* The IP address from which the action was performed
+
+You can configure the rotation (daily/hourly) and retention of your log files (how many of the log files should be kept). 
+
+Audit log files will be stored on your cluster's encrypted storage disk. You need to ensure that you have enough storage capacity available. Storage capacity and usage can be viewed in your cluster metrics.
+
+You can download the audit logs from your cluster through the Qdrant API:
+
+```sh
+curl -X POST 'https://node-N-YOUR-CLUSTER-URL:6333/audit/logs' \
+  -H 'api-key: QDRANT_API_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "limit": 50,
+    "time_from": "2026-03-26T00:00:00Z",
+    "time_to": "2026-03-27T00:00:00Z",
+    "filters": {
+      "result": "denied",
+      "collection": "my_collection"
+    }
+  }'
+```
+
+Or without a filter:
+
+```sh
+curl -X POST 'https://node-N-YOUR-CLUSTER-URL:6333/audit/logs' \
+  -H 'api-key: QDRANT_API_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{}'
+```

@@ -4,7 +4,7 @@ content: <p>If you have a production use case, run a side-by-side benchmark on y
 image:
   src: /img/elastic-lucene/astronaut-holding-cube.png
 button:
-  link: /lp/lucene/calendar
+  link: /lp/lucene/calendar/
   text: Talk to Sales
 sitemapExclude: true
 ---
