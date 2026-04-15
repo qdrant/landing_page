@@ -1,6 +1,6 @@
 ---
 title: Inference
-weight: 81
+weight: 45
 ---
 
 # Inference in Qdrant Managed Cloud

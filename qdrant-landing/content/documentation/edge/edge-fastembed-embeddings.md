@@ -1,7 +1,7 @@
 ---
 title: "On-Device Embeddings" 
 weight: 15
-partition: qdrant
+partition: develop
 ---
 
 # On-Device Embeddings with Qdrant Edge and FastEmbed

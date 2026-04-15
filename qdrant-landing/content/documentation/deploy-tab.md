@@ -68,6 +68,6 @@ content:
       link:
         text: Join Qdrant
         url: https://qdrant.to/cloud
-partition: cloud
+partition: deploy
 hideInSidebar: true
 ---

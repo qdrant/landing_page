@@ -1,6 +1,7 @@
 ---
 title: Security
-weight: 40
+weight: 145
+partition: deploy
 aliases:
   - ../security
 ---

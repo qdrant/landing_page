@@ -29,3 +29,30 @@
 
 # Cloud quickstart URL change in PR #1615
 /documentation/quickstart-cloud/*               /documentation/cloud-quickstart/:splat                 301
+
+# Navigation restructure — operations subsection moves
+/documentation/operations/administration/*          /documentation/operations/configuration/administration/:splat          301
+/documentation/operations/usage-statistics/*        /documentation/operations/configuration/usage-statistics/:splat        301
+/documentation/operations/running-with-GPU/*        /documentation/operations/configuration/running-with-GPU/:splat        301
+/documentation/operations/running-with-gpu/*        /documentation/operations/configuration/running-with-gpu/:splat        301
+/documentation/operations/optimize/*               /documentation/operations/optimization/optimize/:splat                 301
+/documentation/operations/optimizer/*              /documentation/operations/optimization/optimizer/:splat                301
+
+# Prometheus monitoring pages moved from tutorials-and-examples to operations/monitoring
+/documentation/tutorials-and-examples/managed-cloud-prometheus/*    /documentation/operations/monitoring/managed-cloud-prometheus/:splat    301
+/documentation/tutorials-and-examples/hybrid-cloud-prometheus/*     /documentation/operations/monitoring/hybrid-cloud-prometheus/:splat     301
+
+# cloud-security.md moved to triage
+/documentation/cloud-security/*    /documentation/triage/cloud-security/:splat    301
+
+# Operations root-level flattening (operations/ content moved to documentation root)
+/documentation/operations/capacity-planning/*         /documentation/capacity-planning/:splat                  301
+/documentation/operations/installation/*              /documentation/installation/:splat                       301
+/documentation/operations/distributed_deployment/*    /documentation/distributed_deployment/:splat             301
+/documentation/operations/snapshots/*                 /documentation/snapshots/:splat                          301
+/documentation/operations/upgrades/*                  /documentation/upgrades/:splat                           301
+/documentation/operations/security/*                  /documentation/security/:splat                           301
+/documentation/operations/common-errors/*             /documentation/common-errors/:splat                      301
+/documentation/operations/configuration/*             /documentation/configuration/:splat                      301
+/documentation/operations/optimization/*              /documentation/optimization/:splat                       301
+/documentation/operations/monitoring/*                /documentation/monitoring/:splat                         301

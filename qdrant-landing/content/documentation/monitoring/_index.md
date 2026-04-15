@@ -1,8 +1,7 @@
 ---
 title: Monitoring & Telemetry
-weight: 35
-aliases:
-  - ../monitoring
+weight: 130
+partition: deploy
 ---
 
 # Monitoring & Telemetry

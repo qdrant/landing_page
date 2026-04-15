@@ -1,6 +1,6 @@
 ---
 title: Backup Clusters
-weight: 61
+weight: 40
 ---
 
 # Backing up Qdrant Cloud Clusters

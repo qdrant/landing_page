@@ -1,6 +1,6 @@
 ---
 title: Scale Clusters
-weight: 50
+weight: 20
 ---
 
 # Scaling Qdrant Cloud Clusters

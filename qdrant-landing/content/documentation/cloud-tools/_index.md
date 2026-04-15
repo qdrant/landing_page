@@ -1,7 +1,7 @@
 ---
 title: Infrastructure Tools
-weight: 28
-partition: cloud
+weight: 235
+partition: deploy
 ---
 
 ## Cloud Tools

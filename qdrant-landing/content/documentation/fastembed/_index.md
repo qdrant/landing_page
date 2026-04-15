@@ -1,7 +1,7 @@
 ---
 title: "FastEmbed"
 weight: 305
-partition: qdrant
+partition: develop
 ---
 
 # What is FastEmbed?

@@ -1,6 +1,7 @@
 ---
 title: Troubleshooting
-weight: 45
+weight: 150
+partition: deploy
 aliases:
   - ../tutorials/common-errors
   - /documentation/troubleshooting/
