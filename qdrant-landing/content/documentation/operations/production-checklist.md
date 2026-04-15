@@ -14,7 +14,7 @@ A practical checklist to ensure Qdrant is optimized, stable, and ready to handle
 Architect for scale from day one. Retrofitting these patterns onto an existing deployment is costly.
 
 - **Ensure you have enough shards to scale.**
-Qdrant  [scales horizontally](/documentation/operations/distributed_deployment/) through [sharding](/documentation/operations/distributed_deployment/#sharding). Plan for enough shards to evenly distribute your data and load across the nodes in your cluster. As a minimum you need one shard or replica per node.
+Qdrant  [scales horizontally](/documentation/operations/distributed_deployment/) through [sharding](/documentation/operations/distributed_deployment/#sharding). Plan for enough shards to evenly distribute your data and load across the nodes in your cluster. At a minimum, you need one shard or replica per node.
 
 - **Ensure you don't have too many shards.** While sharding is essential for scale, having too many shards can lead to performance degradation. Each collection has its own shards, so if you have many collections, you may end up with an excessive number of shards.
 
@@ -22,7 +22,7 @@ Qdrant  [scales horizontally](/documentation/operations/distributed_deployment/)
 A common cause of too many shards is creating a separate collection for each user. Consider [partitioning by payload](/documentation/manage-data/multitenancy/) to logically isolate data for different users or groups within the same collection instead.
 
 - **Set up load balancing across nodes.**
-Distribute incoming requests evenly across cluster nodes to ensure consistent performance. Without load balancing, a single overloaded node can cause timeouts across your entire application. Qdrant Cloud includes a load balancer, but self-managed deployments need to configure this separately.
+Distribute incoming requests evenly across cluster nodes to ensure consistent performance. Without load balancing, a single overloaded node can cause timeouts across your entire application. Qdrant Cloud includes a load balancer, but self-managed deployments need to configure one separately.
 
 ---
 
@@ -72,8 +72,11 @@ Payload indexes speed up filtering and reduce load on the system. Identify which
 - **Apply payload filters to narrow the search space.**
 Searching every data point is inefficient at scale. [Filtering](/documentation/search/filtering/) on specific payload fields can reduce computational load and focus queries on relevant data subsets.
 
+- **[Query indexed data only](/documentation/search/low-latency-search/#query-indexed-data-only).**
+Under heavy write loads, large amounts of data may not be indexed immediately, which can slow down searches. To maintain consistent performance, only query indexed data.
+
 - **Evaluate whether [hybrid search](/documentation/search/hybrid-queries/) fits your use case.**
-Combining dense vector search (semantic similarity) with sparse vector search (keyword matching) can improve search relevance. Evaluate for your specific dataset and queries.
+Hybrid search casts a wide retrieval net, maximizing recall by using multiple retrieval methods, such as combining dense vector search (semantic similarity) with sparse vector search (keyword matching). Evaluate its effectiveness for your specific dataset and queries.
 
 - **Rerank for maximum search relevance.**
 After initial hybrid retrieval, [rerank](/documentation/search/hybrid-queries/#multi-stage-queries) the results using late interaction embeddings. Reranking can be computationally expensive, so aim for a balance between relevance and speed. To save memory, disable the HNSW index for vectors used only for rescoring and factor the rescoring vector into your capacity planning (disk and RAM).
@@ -82,7 +85,4 @@ After initial hybrid retrieval, [rerank](/documentation/search/hybrid-queries/#m
 [Group vector inserts into larger batches](/documentation/manage-data/points/?q=batch#upload-points) rather than individual transactions to reduce write overhead. [Batch multiple queries together](/documentation/search/search/#batch-search-api) to cut round trips to the database.
 
 - **Reduce tail latency with [delayed fan-outs](/documentation/search/low-latency-search/#use-delayed-fan-outs).**
-For collections with a replication factor higher than one, delayed fan-outs automatically query a second replica if the first one doesn't respond within the desired latency threshold.
-
-- **[Query indexed data only](/documentation/search/low-latency-search/#query-indexed-data-only).**
-Under heavy write loads, large amounts of data may not be indexed immediately, which can slow down searches. To maintain consistent performance, only query indexed data.
+For collections with a replication factor higher than one, use delayed fan-outs to automatically query a second replica if the first one doesn't respond within the desired latency threshold.
