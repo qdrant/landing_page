@@ -1,7 +1,7 @@
 ---
 title: Capacity Planning
 partition: deploy
-weight: 105
+weight: 238
 aliases:
   - capacity
   - /documentation/cloud/capacity-sizing
