@@ -154,7 +154,11 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 {{< code-snippet path="/documentation/headless/snippets/delete-collection/simple/" >}}
 
-## Update Collection Parameters
+## Update Collection
+
+After creating a collection, you can change its configuration, its vectors, and the configuration of its vectors.
+
+### Update Collection Parameters
 
 Dynamic parameter updates may be helpful, for example, for more efficient initial loading of vectors.
 For example, you can disable indexing during the upload process, and enable it immediately after the upload is finished.
@@ -179,7 +183,35 @@ Calls to this endpoint may be blocking as it waits for existing optimizers to
 finish. We recommended against using this in a production database as it may
 introduce huge overhead due to the rebuilding of the index.
 
-#### Update Vector Parameters
+### Update Vectors
+
+*Available as of v1.18.0*
+
+Named vectors can be added to or removed from an existing collection without having to recreate the collection.
+
+<aside role="status">
+These are schema-level operations that add or remove vector definitions from a collection's schema. To add/remove vector values from specific points, use the <a href="/documentation/manage-data/points/#update-vectors">update</a> and <a href="/documentation/manage-data/points/#delete-vectors">delete</a> vectors operations.
+</aside>
+
+To add a new dense named vector to an existing collection:
+
+{{< code-snippet path="/documentation/headless/snippets/create-named-vector/dense/" >}}
+
+To add a new sparse named vector to an existing collection:
+
+{{< code-snippet path="/documentation/headless/snippets/create-named-vector/sparse/" >}}
+
+The request body only accepts properties that define the vector space (size and distance for dense vectors). Quantization, storage type, and index configuration can be set afterward using the [update collection parameters](/documentation/manage-data/collections/#update-collection-parameters) or [update vector parameters](/documentation/manage-data/collections/#update-vector-parameters) APIs.
+
+Existing points will not have values for the newly added vector until they are upserted again. The new vector can be queried immediately, but will return no results until it is populated.
+
+To delete a named vector from an existing collection:
+
+{{< code-snippet path="/documentation/headless/snippets/delete-named-vector/" >}}
+
+Deleting a named vector removes its schema and all associated data. Existing points are otherwise unaffected.
+
+### Update Vector Parameters
 
 *Available as of v1.4.0*
 

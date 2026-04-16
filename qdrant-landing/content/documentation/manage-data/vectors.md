@@ -131,7 +131,7 @@ $$
 
 Where $N$ is the number of vectors in the first matrix, $M$ is the number of vectors in the second matrix, and $\text{Sim}$ is a similarity function, for example, cosine similarity.
 
-To use multivectors, create a collection with the following configuration:
+To use multivectors, create a dense vector with a multivector comparator:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-multivector/" >}}
 
@@ -172,27 +172,12 @@ To search with named vectors (available in `query` API):
 
 Named vectors can be added to or removed from an existing collection without having to recreate the collection.
 
-<aside role="status">
-These are schema-level operations that add or remove vector definitions from a collection's schema. To add/remove vector values from specific points, use the <a href="/documentation/manage-data/points/#update-vectors">update</a> and <a href="/documentation/manage-data/points/#delete-vectors">delete</a> vectors operations.
-</aside>
-
-To add a new dense named vector to an existing collection:
+For example:
 
 {{< code-snippet path="/documentation/headless/snippets/create-named-vector/dense/" >}}
 
-To add a new sparse named vector to an existing collection:
+Refer to [Update Vectors](/documentation/manage-data/collections/#update-vectors) for more details.
 
-{{< code-snippet path="/documentation/headless/snippets/create-named-vector/sparse/" >}}
-
-The request body only accepts properties that define the vector space (size and distance for dense vectors). Quantization, storage type, and index configuration can be set afterward using the [update collection](/documentation/manage-data/collections/#update-collection-parameters) API.
-
-Existing points will not have values for the newly added vector until they are upserted again. The new vector can be queried immediately, but will return no results until it is populated.
-
-To delete a named vector from an existing collection:
-
-{{< code-snippet path="/documentation/headless/snippets/delete-named-vector/" >}}
-
-Deleting a named vector removes its schema and all associated data. Existing points are otherwise unaffected.
 
 ## Inference
 
