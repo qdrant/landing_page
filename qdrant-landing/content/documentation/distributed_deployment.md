@@ -5,6 +5,7 @@ weight: 115
 aliases:
   - /documentation/distributed_deployment
   - /guides/distributed_deployment
+  - /documentation/operations/distributed_deployment
 ---
 
 # Distributed deployment

@@ -6,6 +6,7 @@ aliases:
   - ../tutorials/common-errors
   - /documentation/troubleshooting/
   - /documentation/guides/common-errors/
+  - /documentation/operations/common-errors
 ---
 
 # Solving common errors

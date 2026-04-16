@@ -3,6 +3,7 @@ title: Optimizer
 weight: 10
 aliases:
   - /documentation/optimizer
+  - /documentation/operations/optimizer
 ---
 
 # Optimizer

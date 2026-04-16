@@ -2,6 +2,8 @@
 title: Deploy Qdrant
 slug: deploy-intro
 breadcrumb: false
+aliases:
+  - /documentation/cloud-intro
 content:
   - partial: documentation/banners/banner-b
     title: Deploy Qdrant

@@ -5,6 +5,7 @@ aliases:
   - /documentation/telemetry
   - /documentation/guides/telemetry
   - /documentation/guides/usage-statistics/
+  - /documentation/operations/usage-statistics
 ---
 
 # Usage statistics

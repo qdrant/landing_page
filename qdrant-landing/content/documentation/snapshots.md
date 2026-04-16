@@ -4,6 +4,7 @@ partition: deploy
 weight: 135
 aliases:
   - /documentation/snapshots
+  - /documentation/operations/snapshots
 ---
 
 # Snapshots

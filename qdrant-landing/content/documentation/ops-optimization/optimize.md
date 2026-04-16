@@ -3,6 +3,7 @@ title: Optimize Performance
 weight: 5
 aliases:
   - /documentation/tutorials/optimize
+  - /documentation/operations/optimize
 ---
 
 # Optimizing Qdrant Performance: Three Scenarios
