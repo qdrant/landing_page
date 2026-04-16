@@ -49,16 +49,15 @@ The day won’t end when the last session wraps. Your ticket includes access to 
 
 We’ve locked in a strong lineup but we’re saving a few select slots for standout talks from the community. If you’re building something novel in vector search, AI memory, context engineering, or retrieval infra, we want to hear from you.
 
-[Submit your proposal.](https://docs.google.com/forms/d/e/1FAIpQLSfefAtmGP59-0IhNxCCMbNRCDlU-JRkJnSja3GfOrBnTZw-CA/viewform?usp=dialog 
-) 
+[Submit your proposal.](https://docs.google.com/forms/d/e/1FAIpQLSfefAtmGP59-0IhNxCCMbNRCDlU-JRkJnSja3GfOrBnTZw-CA/viewform?usp=dialog) 
 
-Due April 20th.
+Due May 6th.
 
 ### Get Your Ticket
 
 General admission: $199
 
-Early bird pricing: $99 through April 27 
+Early bird pricing: $99 through May 11 
 
 [**Reserve your spot now.**](https://luma.com/vsd-sf)
 
@@ -69,7 +68,8 @@ Space is limited.
 
 In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a global, virtual hackathon challenging devs to reimagine what's possible with vector search. Forget the classical RAG chatbot! Explore multi-modal applications, intelligent recommendations, and advanced vector search that go far beyond conversational interfaces.
 
-Stay tuned for more details.
+
+[Submit your project.](https://try.qdrant.tech/hackathon-vsd)
 
 
 
