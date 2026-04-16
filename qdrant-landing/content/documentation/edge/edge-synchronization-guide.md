@@ -42,11 +42,21 @@ Next, create the immutable Edge Shard from a snapshot on the server, as outlined
 
 ### 3. Implement a Dual-Write Mechanism
 
-With both Edge Shards initialized, you can implement a dual-write mechanism in your application as outlined in [Update a Server Collection from an Edge Shard](/documentation/edge/edge-data-synchronization-patterns/#update-a-server-collection-from-an-edge-shard). When adding or updating a point, write it to the mutable Edge Shard and enqueue it for writing to the server collection.
+With both Edge Shards initialized, you can implement a dual-write mechanism in your application as outlined in [Update a Server Collection from an Edge Shard](/documentation/edge/edge-data-synchronization-patterns/#update-a-server-collection-from-an-edge-shard).
+
+First, instantiate a queue to hold pending updates that need to be written to the server:
+
+{{< code-snippet path="/documentation/headless/snippets/edge/synchronization-patterns/" block="create-upload-queue" >}}
+
+When adding or updating a point, write it to the mutable Edge Shard and enqueue it for writing to the server collection:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/synchronization-guide/" block="dual-write" >}}
 
 Each point's payload should include a timestamp field (`SYNC_TIMESTAMP_KEY` in this example) that records when the point was upserted. This timestamp is used to deduplicate data when the immutable Edge Shard is synchronized with the server.
+
+A background worker can process the upload queue and write updates to the server collection at regular intervals. This ensures that the server collection is kept up to date with local changes from the mutable Edge Shard:
+
+{{< code-snippet path="/documentation/headless/snippets/edge/synchronization-patterns/" block="process-upload-queue" >}}
 
 ### 4. Periodically Update the Immutable Edge Shard
 

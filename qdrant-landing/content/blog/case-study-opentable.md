@@ -17,6 +17,7 @@ tags:
 - sparse embeddings
 - filtering
 - case study
+partition: case-studies
 ---
 
 ## **Reinventing Restaurant Discovery: How OpenTable built Concierge, an AI Dining Assistant** 

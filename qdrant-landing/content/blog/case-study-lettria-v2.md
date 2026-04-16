@@ -18,6 +18,7 @@ tags:
 - document intelligence
 - regulated industries
 - case study
+partition: case-studies
 ---
 
 # Scaled Vector & Graph Retrieval: How Lettria Unlocked 20% Accuracy Gains with Qdrant & Neo4j

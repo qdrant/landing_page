@@ -16,6 +16,7 @@ tags:
 - retrieval-augmented generation
 - internal knowledge search
 - case study
+partition: case-studies
 ---
 
 <a href="https://www.kakaocorp.com/" target="_blank">Kakao</a>  is one of South Korea's leading technology companies, best known for KakaoTalk, the country's dominant messaging platform with over 48 million monthly active users. Beyond messaging, Kakao operates a broad ecosystem of services including maps, mobility, fintech, and enterprise solutions.

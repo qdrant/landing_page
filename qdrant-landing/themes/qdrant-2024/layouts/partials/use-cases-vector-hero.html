@@ -15,7 +15,7 @@
       </div>
 
       <div class="use-cases-vector-hero__preview col-12 col-lg-6">
-        <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        <div class="use-cases-vector-hero__preview-img" style="background-image: url('{{ .Params.image.src }}');{{ if .Params.image.webp }} background-image: image-set(url('{{ .Params.image.webp }}') type('image/webp'), url('{{ .Params.image.src }}') type('image/png'));{{ end }}"></div>
       </div>
     </div>
   </div>

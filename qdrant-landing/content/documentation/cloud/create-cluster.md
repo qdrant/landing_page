@@ -48,7 +48,9 @@ On top of the Free cluster features, Standard clusters offer:
 - Multi-node clusters for high availability
 - Horizontal and vertical scaling
 - Monitoring and log management
+- Audit Loggig
 - Zero-downtime upgrades for multi-node clusters with replication
+- Support for GPUs to optimize indexing (AWS only)
 
 You have a broad choice of regions on AWS, Azure and Google Cloud.
 
@@ -76,10 +78,11 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 1. Choose your data center region or Hybrid Cloud environment. 
 1. Configure RAM for each node. 
    >  For more information, see our [Capacity Planning](/documentation/operations/capacity-planning/) guidance.
-1. Choose the number of vCPUs per node. If you add more
-   RAM, the menu provides different options for vCPUs.
+1. Choose the number of vCPUs and GPUs per node. If you add more
+   RAM, the menu provides different options for vCPUs. For higher RAM configurations, you can also choose to add a GPU to optimize indexing performance (AWS only).
 1. Select the number of nodes you want the cluster to be deployed on.
    > Each node is automatically attached with a disk, that has enough space to store data with Qdrant's default collection configuration.
+1. Premium tier customers can choose if the cluster should be deployed within a single availability zone, or across multiple availability zones for higher availability and resilience. This can only be chosen during cluster creation and not changed later.
 1. Select additional disk space for your deployment.
    > Depending on your collection configuration, you may need more disk space per RAM. For example, if you configure `on_disk: true` and only use RAM for caching. 
 1. Choose the speed tier for your disk. (AWS only)
@@ -101,9 +104,19 @@ To create a production-ready cluster, you need to ensure the following:
 
 Your cluster should have at least 3 nodes, and each collection should have a replication factor of at least 2. This ensures that is one node fails, or is restarted due to maintenance, a version upgrade, or a scaling operation, that the cluster remains fully operational. You can ensure this by checking the **High Availability** checkbox when creating a cluster.
 
+**Multi AZ Deployment (Premium only)**
+
+Premium tier customers can choose to deploy their cluster across multiple availability zones. This ensures that if one availability zone goes down, the cluster remains operational. You can ensure this by checking the **Multi AZ Deployment** checkbox when creating a cluster. This can not be changed later.
+Multi AZ clusters need a minimum of 3 nodes, and can only scale to a multiple of 3 (e.g. 3, 6, 9, etc.) to ensure that nodes are evenly distributed across availability zones.
+Your collections should have a replication factor of at least 2 (better 3) to ensure that all data is available across availability zones, so the outage of one zone does not compromise the availability of the cluster. Shards will be automatically distributed across availability zones, so that each shard has a replica in another availability zone. Traffic is routed between zones automatically, so that the cluster remains available even if one zone goes down.
+
 **Disk Speed (AWS only)**
 
 We recommend the **Balanced** tier for disks >= 32 GiB, and the **Performance** tier for disks >= 256 GiB.
+
+**GPUs (AWS only)**
+
+If you have a write-heavy workload, you can add a GPU to each node to optimize indexing performance. See [**GPUs for Indexing**](/documentation/operations/running-with-gpu/) for more information. All GPU settings will be configured automatically by the cloud platform.
 
 **Backup and Disaster Recovery**
 

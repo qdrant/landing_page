@@ -17,6 +17,7 @@ tags:
 - cost reduction
 - reliability
 - case study
+partition: case-studies
 ---
 
 ## Fieldy AI’s migration to Qdrant: Building a fault-tolerant AI memory platform

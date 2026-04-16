@@ -16,6 +16,7 @@ tags:
 - real-time search
 - trust and safety
 - case study
+partition: case-studies
 ---
 
 ### Tackling fraud and abuse with scalable similarity search 

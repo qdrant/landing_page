@@ -19,6 +19,7 @@ tags: # Change this, related by tags posts will be shown on the blog page
   - recommender system
 weight: 0 # Change this weight to change order of posts
 # For more guidance, see https://github.com/qdrant/landing_page?tab=readme-ov-file#blog
+partition: case-studies
 ---
 
 ## Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Search

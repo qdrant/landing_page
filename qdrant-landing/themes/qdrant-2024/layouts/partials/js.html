@@ -102,7 +102,7 @@
   </script>
 {{ end }}
 
-{{ if or (in (slice "docs" "documentation" "articles" "course" "learn") .Section) (and (not .IsPage) (eq .Section "blog")) }}
+{{ if or (in (slice "docs" "documentation" "articles" "course" "learn" "customers") .Section) (and (not .IsPage) (eq .Section "blog")) }}
   {{ $pageSearchJs := resources.Get "/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
 {{ end }}
@@ -110,6 +110,11 @@
 {{ if and .IsPage (in (slice "blog" "articles" "course" "learn" "benchmarks" "docs" "documentation") .Section) }}
   {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if eq .Section "customers" }}
+  {{ $customersJs := resources.Get "js/customers-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if in (slice "blog" "articles" "course" "learn" "benchmarks" "docs" "documentation") .Section }}
@@ -154,7 +159,7 @@
   <script src="{{ $anchorJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "blog" "docs" "documentation" "articles" "course" "learn") .Section }}
+{{ if in (slice "blog" "docs" "documentation" "articles" "course" "learn" "customers") .Section }}
   <script>
     document.addEventListener('keydown', function (event) {
       if ((event.metaKey || event.ctrlKey) && event.key === 'k') {

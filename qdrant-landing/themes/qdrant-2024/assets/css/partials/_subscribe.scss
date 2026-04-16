@@ -5,7 +5,7 @@
   flex-direction: column;
   padding-top: $spacer * 3;
   background: url('/img/stars-pattern.png') $neutral-10;
-  min-height: calc(100vh - 104px);
+  min-height: calc(100vh - 64px);
 
   &-body {
     flex-grow: 1;
@@ -144,7 +144,7 @@
   }
 
   @include media-breakpoint-up(xl) {
-    min-height: calc(100vh - 140px);
+    min-height: calc(100vh - 100px);
 
     &-body {
       position: relative;

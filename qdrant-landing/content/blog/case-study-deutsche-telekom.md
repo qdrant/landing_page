@@ -12,7 +12,7 @@ featured: false
 tags: 
   - Deutsche Telekom
   - case_study
-
+partition: case-studies
 ---
 
 **How Deutsche Telekom Built a Scalable, Multi-Agent Enterprise Platform Leveraging Qdrant—Powering Over 2 Million Conversations Across Europe**

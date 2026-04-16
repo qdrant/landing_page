@@ -15,6 +15,7 @@ tags:
   - Qdrant Benchmarks
   - ElasticSearch
   - Vector Search
+partition: case-studies
 ---
 
 ![case-study-sprinklr-1](/blog/case-study-sprinklr/image1.png)

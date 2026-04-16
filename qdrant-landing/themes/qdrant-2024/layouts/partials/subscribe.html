@@ -36,7 +36,7 @@
     </picture>
   </div>
   <div class="subscribe-header">
-    <p class="subscribe-header__rights">{{ .Params.footer.rights | safeHTML }}</p>
+    <p class="subscribe-header__rights">&copy; {{ time.Now.Year }} {{ .Params.footer.rights | safeHTML }}</p>
     <a class="subscribe-header__link" href="{{ .Params.footer.termsLink.url }}">{{ .Params.footer.termsLink.text }}</a>
     <a class="subscribe-header__link" href="{{ .Params.footer.policyLink.url }}">
       {{ .Params.footer.policyLink.text }}

@@ -15,6 +15,7 @@ tags:
 - DevOps automation
 - AI Copilot
 - case study
+partition: case-studies
 ---
 
 ## Qovery Scales Real-Time DevOps Automation with Qdrant

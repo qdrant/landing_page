@@ -101,22 +101,14 @@ colors:
     type: HEX
     code: "DC244C"
   - id: 1
-    name: Violet
+    name: Neon Blue
     type: HEX
-    code: "8547FF"
-  - id: 2
-    name: Blue
-    type: HEX
-    code: "2F6FF0"
+    code: "6047FF"
   - id: 3
-    name: Teal
-    type: HEX
-    code: "038585"
-  - id: 4
     name: Black
     type: HEX
-    code: "090E1A"
-  - id: 5
+    code: "0B0F19"
+  - id: 4
     name: White
     type: HEX
     code: "FFFFFF"

@@ -33,8 +33,9 @@ tabs:
       logos:
       - name: AWS
         icon: aws
+#       path: "themes/qdrant-2024/static/img/components/cloud-providers/" # optional, the example is a default path
       - name: Google Cloud
-        icon: gcp
+        icon: google-cloud
       - name: Azure
         icon: azure
     cta:

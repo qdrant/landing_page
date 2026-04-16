@@ -78,7 +78,7 @@
       <div class="container">
         <div class="row g-3">
           <div class="col-12 col-lg-6 footer__bottom-content">
-            <span class="footer__bottom-copyright">{{ .Params.copyright }}</span>
+            <span class="footer__bottom-copyright">&copy; {{ time.Now.Year }} {{ .Params.copyright }}</span>
             <div class="footer__bottom-bages">
               {{ range .Params.bages }}
                 <a href="{{ .url }}" target="_blank">

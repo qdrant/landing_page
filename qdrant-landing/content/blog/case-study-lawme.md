@@ -16,6 +16,7 @@ tags:
 - binary quantization
 - hybrid search
 - case study
+partition: case-studies
 ---
 
 ## How Lawme Scaled AI Legal Assistants and Cut Costs by 75% with Qdrant
