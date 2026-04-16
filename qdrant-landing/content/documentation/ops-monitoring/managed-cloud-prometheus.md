@@ -1,6 +1,6 @@
 ---
 title: Managed Cloud Prometheus Monitoring
-weight: 36
+weight: 10
 ---
 
 # Monitoring Managed Cloud with Prometheus and Grafana

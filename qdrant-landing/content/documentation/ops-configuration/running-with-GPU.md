@@ -1,6 +1,6 @@
 ---
 title: Running with GPU
-weight: 65
+weight: 20
 aliases:
   - /documentation/guides/running-with-GPU/
 ---

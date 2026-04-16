@@ -1,6 +1,6 @@
 ---
 title: Self-Hosted Prometheus Monitoring
-weight: 37
+weight: 15
 ---
 
 # Monitoring Hybrid/Private Cloud with Prometheus and Grafana

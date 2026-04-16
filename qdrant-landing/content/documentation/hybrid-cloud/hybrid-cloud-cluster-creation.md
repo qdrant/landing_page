@@ -1,6 +1,6 @@
 ---
 title: Create a Cluster
-weight: 2
+weight: 10
 ---
 
 # Creating a Qdrant Cluster in Hybrid Cloud

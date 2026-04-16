@@ -1,8 +1,9 @@
 ---
 title: Snapshots
-weight: 25
+partition: deploy
+weight: 135
 aliases:
-  - ../snapshots
+  - /documentation/snapshots
 ---
 
 # Snapshots

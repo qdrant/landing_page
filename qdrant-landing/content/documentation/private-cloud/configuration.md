@@ -1,6 +1,6 @@
 ---
 title: Configuration
-weight: 2
+weight: 10
 ---
 
 # Private Cloud Configuration

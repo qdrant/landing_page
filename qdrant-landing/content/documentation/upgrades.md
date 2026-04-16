@@ -1,6 +1,7 @@
 ---
 title: Upgrades
-weight: 11
+partition: deploy
+weight: 140
 ---
 
 # Upgrading Qdrant

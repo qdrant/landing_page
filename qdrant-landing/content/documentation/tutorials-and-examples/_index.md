@@ -1,7 +1,8 @@
 ---
 title: Tutorials & Examples
 weight: 40
-partition: cloud
+hideInSidebar: true
+partition: deploy
 ---
 ## Cloud Tutorials & Examples
 

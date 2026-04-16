@@ -1,5 +1,6 @@
 ---
 title: Terraform
+weight: 10
 aliases:
   - /documentation/infrastructure/terraform/
 ---

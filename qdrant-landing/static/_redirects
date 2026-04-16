@@ -29,3 +29,27 @@
 
 # Cloud quickstart URL change in PR #1615
 /documentation/quickstart-cloud/*               /documentation/cloud-quickstart/:splat                 301
+# Operations pages moved to documentation root (docs reorganization)
+/documentation/operations/capacity-planning/                     /documentation/capacity-planning/                           301
+/documentation/operations/installation/                          /documentation/installation/                                301
+/documentation/operations/distributed_deployment/                /documentation/distributed_deployment/                      301
+/documentation/operations/snapshots/                             /documentation/snapshots/                                   301
+/documentation/operations/upgrades/                              /documentation/upgrades/                                    301
+/documentation/operations/security/                              /documentation/security/                                    301
+/documentation/operations/common-errors/                         /documentation/common-errors/                               301
+
+# Operations sub-pages moved to new sub-sections (docs reorganization)
+/documentation/operations/configuration/                         /documentation/ops-configuration/configuration/             301
+/documentation/operations/administration/                        /documentation/ops-configuration/administration/            301
+/documentation/operations/usage-statistics/                      /documentation/ops-configuration/usage-statistics/          301
+/documentation/operations/running-with-GPU/                      /documentation/ops-configuration/running-with-GPU/          301
+/documentation/operations/optimize/                              /documentation/ops-optimization/optimize/                   301
+/documentation/operations/optimizer/                             /documentation/ops-optimization/optimizer/                  301
+/documentation/operations/monitoring/                            /documentation/ops-monitoring/monitoring/                   301
+
+# Prometheus monitoring pages moved from tutorials-and-examples to ops-monitoring (docs reorganization)
+/documentation/tutorials-and-examples/managed-cloud-prometheus/  /documentation/ops-monitoring/managed-cloud-prometheus/     301
+/documentation/tutorials-and-examples/hybrid-cloud-prometheus/   /documentation/ops-monitoring/hybrid-cloud-prometheus/      301
+
+# Deploy tab landing page slug change
+/documentation/cloud-intro/    /documentation/deploy-intro/    301

@@ -1,8 +1,8 @@
 ---
 title: Configuration
-weight: 50
+weight: 5
 aliases:
-  - ../configuration
+  - /documentation/ops-configuration/configuration
   - /guides/configuration/
 ---
 

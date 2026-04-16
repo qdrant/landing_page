@@ -1,7 +1,7 @@
 ---
 title: Account Setup
-weight: 13
-partition: cloud
+weight: 210
+partition: deploy
 aliases:
   - /documentation/cloud/qdrant-cloud-setup/
 ---

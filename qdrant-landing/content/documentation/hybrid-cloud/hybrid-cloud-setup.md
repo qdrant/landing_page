@@ -1,6 +1,6 @@
 ---
 title: Setup Hybrid Cloud
-weight: 1
+weight: 5
 ---
 
 # Creating a Hybrid Cloud Environment

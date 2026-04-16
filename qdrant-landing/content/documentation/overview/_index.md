@@ -6,7 +6,7 @@ aliases:
   - orientation
   - concepts
   - guides
-partition: qdrant
+partition: develop
 ---
 
 <aside role="status">
