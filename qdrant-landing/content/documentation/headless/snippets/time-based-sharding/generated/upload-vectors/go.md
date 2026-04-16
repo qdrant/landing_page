@@ -3,6 +3,7 @@ csvUrl := "https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/t
 
 shardKeyDescriptions, err := client.ListShardKeys(context.Background(), collectionName)
 
+// Retrieve a list of existing shard keys in the collection
 existingShardKeys := make(map[string]bool)
 for _, desc := range shardKeyDescriptions {
 	existingShardKeys[desc.Key.GetKeyword()] = true
@@ -13,20 +14,9 @@ batchSize := 100
 var currentDate string
 var buffer []*qdrant.PointStruct
 
-resp, err := http.Get(csvUrl)
-defer resp.Body.Close()
-
-csvReader := csv.NewReader(resp.Body)
-headers, err := csvReader.Read()
-
-for {
-	row, err := csvReader.Read()
-	if err == io.EOF {
-		break
-	}
-
-	text := row[textIdx]
-	datetime := row[datetimeIdx]
+err = parseCSV(csvUrl, func(row CSVRow) {
+	text := row.Text
+	datetime := row.Datetime
 	shardDate := datetime[:10] // Extract YYYY-MM-DD
 
 	if shardDate != currentDate {
@@ -53,6 +43,7 @@ for {
 		currentDate = shardDate
 	}
 
+	// Add point to buffer
 	buffer = append(buffer, &qdrant.PointStruct{
 		Id: qdrant.NewID(uuid.New().String()),
 		Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
@@ -67,6 +58,7 @@ for {
 		}),
 	})
 
+	// Flush batch if buffer size exceeds batch size
 	if len(buffer) >= batchSize {
 		client.Upsert(context.Background(), &qdrant.UpsertPoints{
 			CollectionName: collectionName,
@@ -77,7 +69,7 @@ for {
 		})
 		buffer = nil
 	}
-}
+})
 
 // Flush remaining partial batch
 if len(buffer) > 0 {

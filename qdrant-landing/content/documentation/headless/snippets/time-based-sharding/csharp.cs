@@ -38,9 +38,29 @@ public class Snippet
 		);
 		// @block-end create-collection
 
+		// @block-start parse-csv
+		async IAsyncEnumerable<(string text, string datetime)> ParseCsv(string url)
+		{
+			using var httpClient = new HttpClient();
+			using var stream = await httpClient.GetStreamAsync(url);
+			using var parser = new TextFieldParser(new StreamReader(stream));
+			parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+			parser.SetDelimiters(",");
+			string[]? headers = parser.ReadFields();
+			int textIdx = Array.IndexOf(headers!, "text");
+			int datetimeIdx = Array.IndexOf(headers!, "datetime");
+			while (!parser.EndOfData)
+			{
+				var fields = parser.ReadFields()!;
+				yield return (fields[textIdx], fields[datetimeIdx]);
+			}
+		}
+		// @block-end parse-csv
+
 		// @block-start upload-vectors
 		string csvUrl = "https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/time-based-sharding/social-media-posts.csv";
-
+		
+		// Retrieve a list of existing shard keys in the collection
 		var existingShardKeys = (await client.ListShardKeysAsync(collectionName))
 			.Select(sk => sk.Key.Keyword)
 			.ToHashSet();
@@ -50,21 +70,8 @@ public class Snippet
 		string? currentDate = null;
 		var buffer = new List<PointStruct>();
 
-		using var httpClient = new HttpClient();
-		using var stream = await httpClient.GetStreamAsync(csvUrl);
-		using var parser = new TextFieldParser(new StreamReader(stream));
-		parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
-		parser.SetDelimiters(",");
-
-		string[]? headers = parser.ReadFields();
-		int textIdx = Array.IndexOf(headers!, "text");
-		int datetimeIdx = Array.IndexOf(headers!, "datetime");
-
-		while (!parser.EndOfData)
+		await foreach (var (text, datetime) in ParseCsv(csvUrl))
 		{
-			var fields = parser.ReadFields()!;
-			string text = fields[textIdx];
-			string datetime = fields[datetimeIdx];
 			string shardDate = datetime[..10]; // Extract YYYY-MM-DD
 
 			if (shardDate != currentDate)
@@ -96,6 +103,7 @@ public class Snippet
 				currentDate = shardDate;
 			}
 
+			// Add point to buffer
 			buffer.Add(new PointStruct
 			{
 				Id = Guid.NewGuid(),
@@ -106,6 +114,7 @@ public class Snippet
 				Payload = { ["text"] = text, ["datetime"] = datetime }
 			});
 
+			// Flush batch if buffer size exceeds batch size
 			if (buffer.Count >= batchSize)
 			{
 				await client.UpsertAsync(

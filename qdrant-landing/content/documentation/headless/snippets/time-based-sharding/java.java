@@ -36,8 +36,50 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class Snippet {
+
+    // @block-start parse-csv
+    static class CsvRow {
+        final String text;
+        final String datetime;
+        CsvRow(String text, String datetime) { this.text = text; this.datetime = datetime; }
+    }
+
+    static Stream<CsvRow> parseCSV(String url) throws Exception {
+        Function<String, List<String>> parseCsvLine = line -> {
+            List<String> fields = new ArrayList<>();
+            boolean inQuotes = false;
+            var sb = new StringBuilder();
+            for (char c : line.toCharArray()) {
+                if (c == '"') {
+                    inQuotes = !inQuotes;
+                } else if (c == ',' && !inQuotes) {
+                    fields.add(sb.toString());
+                    sb.setLength(0);
+                } else {
+                    sb.append(c);
+                }
+            }
+            fields.add(sb.toString());
+            return fields;
+        };
+
+        var reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
+        String headerLine = reader.readLine();
+        List<String> headers = List.of(headerLine.split(","));
+        int textIdx = headers.indexOf("text");
+        int datetimeIdx = headers.indexOf("datetime");
+
+        return reader.lines()
+            .map(line -> {
+                List<String> fields = parseCsvLine.apply(line);
+                return new CsvRow(fields.get(textIdx), fields.get(datetimeIdx));
+            })
+            .onClose(() -> { try { reader.close(); } catch (Exception ignored) {} });
+    }
+    // @block-end parse-csv
 
     public static void run() throws Exception {
         // @hide-start
@@ -78,6 +120,7 @@ public class Snippet {
         // @block-start upload-vectors
         String csvUrl = "https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/time-based-sharding/social-media-posts.csv";
 
+        // Retrieve a list of existing shard keys in the collection
         var shardKeyDescriptions = client.listShardKeysAsync(collectionName).get();
         Set<String> existingShardKeys = new HashSet<>();
         for (var desc : shardKeyDescriptions) {
@@ -89,47 +132,10 @@ public class Snippet {
         String currentDate = null;
         List<PointStruct> buffer = new ArrayList<>();
 
-        Function<String, List<String>> parseCsvLine = line -> {
-            List<String> fields = new ArrayList<>();
-            int i = 0;
-            while (i < line.length()) {
-                if (line.charAt(i) == '"') {
-                    i++;
-                    StringBuilder sb = new StringBuilder();
-                    while (i < line.length()) {
-                        if (line.charAt(i) == '"' && i + 1 < line.length() && line.charAt(i + 1) == '"') {
-                            sb.append('"');
-                            i += 2;
-                        } else if (line.charAt(i) == '"') {
-                            i++;
-                            break;
-                        } else {
-                            sb.append(line.charAt(i++));
-                        }
-                    }
-                    fields.add(sb.toString());
-                    if (i < line.length() && line.charAt(i) == ',') i++;
-                } else {
-                    int start = i;
-                    while (i < line.length() && line.charAt(i) != ',') i++;
-                    fields.add(line.substring(start, i));
-                    if (i < line.length()) i++;
-                }
-            }
-            return fields;
-        };
-
-        try (var reader = new BufferedReader(new InputStreamReader(new URL(csvUrl).openStream()))) {
-            String headerLine = reader.readLine();
-            List<String> headers = List.of(headerLine.split(","));
-            int textIdx = headers.indexOf("text");
-            int datetimeIdx = headers.indexOf("datetime");
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                List<String> fields = parseCsvLine.apply(line);
-                String text = fields.get(textIdx);
-                String datetime = fields.get(datetimeIdx);
+        try (var stream = parseCSV(csvUrl)) {
+            for (var row : (Iterable<CsvRow>) stream::iterator) {
+                String text = row.text;
+                String datetime = row.datetime;
                 String shardDate = datetime.substring(0, 10); // Extract YYYY-MM-DD
 
                 if (!shardDate.equals(currentDate)) {
@@ -161,6 +167,7 @@ public class Snippet {
                     currentDate = shardDate;
                 }
 
+                // Add point to buffer
                 buffer.add(
                     PointStruct.newBuilder()
                         .setId(id(UUID.randomUUID()))
@@ -173,6 +180,7 @@ public class Snippet {
                         .putAllPayload(Map.of("text", value(text), "datetime", value(datetime)))
                         .build());
 
+                // Flush batch if buffer size exceeds batch size
                 if (buffer.size() >= batchSize) {
                     client.upsertAsync(
                         UpsertPoints.newBuilder()

@@ -43,9 +43,33 @@ pub async fn main() -> anyhow::Result<()> {
         .await?;
     // @block-end create-collection
 
+    // @block-start parse-csv
+    struct CsvRow {
+        text: String,
+        datetime: String,
+    }
+
+    fn parse_csv(url: &str) -> anyhow::Result<impl Iterator<Item = anyhow::Result<CsvRow>>> {
+        let reader = ureq::get(url).call()?.into_body().into_reader();
+        let mut rdr = csv::Reader::from_reader(reader);
+        let headers = rdr.headers()?.clone();
+        let text_idx = headers.iter().position(|h| h == "text").unwrap();
+        let datetime_idx = headers.iter().position(|h| h == "datetime").unwrap();
+        let iter = rdr.into_records().map(move |result| {
+            let record = result?;
+            Ok(CsvRow {
+                text: record[text_idx].to_string(),
+                datetime: record[datetime_idx].to_string(),
+            })
+        });
+        Ok(iter)
+    }
+    // @block-end parse-csv
+
     // @block-start upload-vectors
     let csv_url = "https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/time-based-sharding/social-media-posts.csv";
 
+    // Retrieve a list of existing shard keys in the collection
     let response = client.list_shard_keys(collection_name).await?;
     let mut existing_shard_keys: HashSet<String> = response
         .shard_keys
@@ -63,16 +87,10 @@ pub async fn main() -> anyhow::Result<()> {
     let mut current_date = String::new();
     let mut buffer: Vec<PointStruct> = Vec::new();
 
-    let bytes = reqwest::get(csv_url).await?.bytes().await?;
-    let mut rdr = csv::Reader::from_reader(bytes.as_ref());
-    let headers = rdr.headers()?.clone();
-    let text_idx = headers.iter().position(|h| h == "text").unwrap();
-    let datetime_idx = headers.iter().position(|h| h == "datetime").unwrap();
-
-    for result in rdr.records() {
-        let record = result?;
-        let text = record[text_idx].to_string();
-        let datetime = record[datetime_idx].to_string();
+    for row in parse_csv(csv_url)? {
+        let row = row?;
+        let text = row.text;
+        let datetime = row.datetime;
         let shard_date = datetime[..10].to_string(); // Extract YYYY-MM-DD
 
         if shard_date != current_date {
@@ -104,6 +122,7 @@ pub async fn main() -> anyhow::Result<()> {
             current_date = shard_date;
         }
 
+        // Add point to buffer
         buffer.push(PointStruct::new(
             uuid::Uuid::new_v4().to_string(),
             HashMap::from([(
@@ -113,6 +132,7 @@ pub async fn main() -> anyhow::Result<()> {
             [("text", text.into()), ("datetime", datetime.into())],
         ));
 
+        // Flush batch if buffer size exceeds batch size
         if buffer.len() >= batch_size {
             client
                 .upsert_points(

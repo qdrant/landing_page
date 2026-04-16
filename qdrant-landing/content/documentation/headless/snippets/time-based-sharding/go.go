@@ -12,6 +12,49 @@ import (
 	"github.com/qdrant/go-client/qdrant"
 )
 
+// @block-start parse-csv
+type CSVRow struct {
+	Text     string
+	Datetime string
+}
+
+func parseCSV(url string, fn func(CSVRow)) error {
+	resp, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	csvReader := csv.NewReader(resp.Body)
+	headers, err := csvReader.Read()
+	if err != nil {
+		return err
+	}
+
+	textIdx, datetimeIdx := -1, -1
+	for i, h := range headers {
+		switch h {
+		case "text":
+			textIdx = i
+		case "datetime":
+			datetimeIdx = i
+		}
+	}
+
+	for {
+		row, err := csvReader.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		fn(CSVRow{Text: row[textIdx], Datetime: row[datetimeIdx]})
+	}
+	return nil
+}
+// @block-end parse-csv
+
 func Main() {
 	// @hide-start
 	QDRANT_URL := ""
@@ -61,6 +104,7 @@ func Main() {
 	shardKeyDescriptions, err := client.ListShardKeys(context.Background(), collectionName)
 	if err != nil { panic(err) } // @hide
 
+	// Retrieve a list of existing shard keys in the collection
 	existingShardKeys := make(map[string]bool)
 	for _, desc := range shardKeyDescriptions {
 		existingShardKeys[desc.Key.GetKeyword()] = true
@@ -71,35 +115,9 @@ func Main() {
 	var currentDate string
 	var buffer []*qdrant.PointStruct
 
-	resp, err := http.Get(csvUrl)
-	if err != nil { panic(err) } // @hide
-	defer resp.Body.Close()
-
-	csvReader := csv.NewReader(resp.Body)
-	headers, err := csvReader.Read()
-	if err != nil { panic(err) } // @hide
-
-	// @hide-start
-	textIdx, datetimeIdx := -1, -1
-	for i, h := range headers {
-		switch h {
-		case "text":
-			textIdx = i
-		case "datetime":
-			datetimeIdx = i
-		}
-	}
-	// @hide-end
-
-	for {
-		row, err := csvReader.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil { panic(err) } // @hide
-
-		text := row[textIdx]
-		datetime := row[datetimeIdx]
+	err = parseCSV(csvUrl, func(row CSVRow) {
+		text := row.Text
+		datetime := row.Datetime
 		shardDate := datetime[:10] // Extract YYYY-MM-DD
 
 		if shardDate != currentDate {
@@ -126,6 +144,7 @@ func Main() {
 			currentDate = shardDate
 		}
 
+		// Add point to buffer
 		buffer = append(buffer, &qdrant.PointStruct{
 			Id: qdrant.NewID(uuid.New().String()),
 			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
@@ -140,6 +159,7 @@ func Main() {
 			}),
 		})
 
+		// Flush batch if buffer size exceeds batch size
 		if len(buffer) >= batchSize {
 			client.Upsert(context.Background(), &qdrant.UpsertPoints{
 				CollectionName: collectionName,
@@ -150,7 +170,8 @@ func Main() {
 			})
 			buffer = nil
 		}
-	}
+	})
+	if err != nil { panic(err) } // @hide
 
 	// Flush remaining partial batch
 	if len(buffer) > 0 {

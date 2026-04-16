@@ -75,7 +75,11 @@ Upload the dataset and store each day of data in its own shard:
 Let's break down the code:
 
 - First, a list of existing shard keys in the collection is retrieved. There should be none because you just created the collection, but in production, this ensures you take into account any existing data.
-- Next, a CSV file is streamed from a URL.
+- Next, a CSV file is streamed from a URL using a helper function to parse the CSV.
+  <details>
+  <summary>Details</summary> 
+  {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="parse-csv" >}}
+  </details>
 - The CSV file is streamed row by row, buffering points in batches of 100 for efficient uploading. The optimal batch size depends on your data and cluster, so you may want to experiment with different sizes for best performance.
 - The date (`YYYY-MM-DD`) is extracted from each row's datetime field. This date is used as the shard key to route the data to the correct shard.
 - A new shard is created for each new date encountered if it doesn't already exist.
