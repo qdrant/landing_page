@@ -66,7 +66,7 @@ which is suitable for ingesting a large amount of data.
 
 It is possible to have multiple vectors per record.
 This feature allows for multiple vector storages per collection. 
-To distinguish vectors in one record, they should have a unique name defined when creating the collection.
+To distinguish vectors in one record, they should have a unique [name](/documentation/manage-data/vectors/#named-vectors).
 Each named vector in this mode has its distance and size:
 
 

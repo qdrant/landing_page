@@ -182,7 +182,7 @@ Qdrant provides native support for BM25 through an [inference model](/documentat
 
 The BM25 model supports the same [text processing](#text-processing) options as text indices, including tokenization, lowercasing, ASCII folding, stemming, and stopword removal. A notable difference with text indices is that BM25 defaults to English stemming and stopword removal. If you are using a language other than English, ensure that you [configure](#language-specific-settings) the model accordingly.
 
-To use BM25, configure a sparse vector when creating a collection:
+To use BM25, configure a sparse vector:
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/create-bm25-collection/" >}}
 
