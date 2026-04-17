@@ -27,7 +27,7 @@ Vertical scaling can be an effective way to improve the performance of a cluster
 
 In such cases, horizontal scaling may be a more effective solution.
 
-Horizontal scaling is the process of increasing the capacity of a cluster by adding more nodes and distributing the load and data among them. The horizontal scaling at Qdrant starts on the collection level. You have to choose the number of shards you want to distribute your collection around while creating the collection.  Please refer to the [sharding documentation](/documentation/operations/distributed_deployment/#sharding) section for details.
+Horizontal scaling is the process of increasing the capacity of a cluster by adding more nodes and distributing the load and data among them. The horizontal scaling at Qdrant starts on the collection level. You have to choose the number of shards you want to distribute your collection around while creating the collection.  Please refer to the [sharding documentation](/documentation/distributed_deployment/#sharding) section for details.
 
 When scaling up horizontally, the cloud platform will automatically rebalance all available shards across nodes to ensure that the data is evenly distributed. See [Configuring Clusters](/documentation/cloud/configure-cluster/#shard-rebalancing) for more details.
 

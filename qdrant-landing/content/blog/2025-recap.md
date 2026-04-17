@@ -57,8 +57,8 @@ In 2025, we focused on giving teams explicit control over retrieval quality as a
 To support large, cost-sensitive workloads, we targeted the biggest performance bottlenecks in production systems.  New improvements help teams scale indexing and querying without over-provisioning memory or compute.
 
 **Related enhancements:**  
-• [GPU-Accelerated HNSW Indexing](https://qdrant.tech/documentation/operations/running-with-gpu/) unlocks up to an order-of-magnitude faster ingestion  
-• [Inline Storage](https://qdrant.tech/documentation/operations/optimize/#inline-storage-in-hnsw-index) embedded quantized vectors directly into the graph to dramatically improve disk-based search performance  
+• [GPU-Accelerated HNSW Indexing](https://qdrant.tech/documentation/ops-configuration/running-with-GPU/) unlocks up to an order-of-magnitude faster ingestion  
+• [Inline Storage](https://qdrant.tech/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index) embedded quantized vectors directly into the graph to dramatically improve disk-based search performance  
 • [Custom storage engine](https://qdrant.tech/articles/gridstore-key-value-storage/) optimized for predictable low-latency access  
 • [Incremental HNSW indexing](https://qdrant.tech/documentation/database-tutorials/bulk-upload/?q=incremental+hnsw#choose-an-indexing-strategy) for upsert-heavy workloads  
 • HNSW graph compression to reduce memory footprint  

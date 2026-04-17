@@ -6,7 +6,7 @@ aliases:
   - ../tutorials/common-errors
   - /documentation/troubleshooting/
   - /documentation/guides/common-errors/
-  - /documentation/operations/common-errors
+  - /documentation/common-errors
 ---
 
 # Solving common errors
@@ -37,7 +37,7 @@ Please note, the command should be executed before you run Qdrant server.
 
 ## Incompatible file system
 
-Qdrant have a [set of requirements](/documentation/operations/installation/#storage) for persistent file storage.
+Qdrant have a [set of requirements](/documentation/installation/#storage) for persistent file storage.
 The most important requirement is that file system **must** be [POSIX-compatible](https://www.quobyte.com/storage-explained/posix-filesystem/).
 
 
