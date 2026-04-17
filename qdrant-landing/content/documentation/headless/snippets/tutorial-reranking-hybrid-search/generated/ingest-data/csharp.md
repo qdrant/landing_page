@@ -5,19 +5,8 @@ int batchSize = 25;
 ulong idx = 0;
 var buffer = new List<PointStruct>();
 
-using var httpClient = new HttpClient();
-using var stream = await httpClient.GetStreamAsync(csvUrl);
-using var parser = new TextFieldParser(new StreamReader(stream));
-parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
-parser.SetDelimiters(",");
-
-while (!parser.EndOfData)
+await foreach (var (title, author, description) in ParseCsv(csvUrl))
 {
-	var fields = parser.ReadFields()!;
-	string title = fields[0];
-	string author = fields[1];
-	string description = fields[3];
-
 	buffer.Add(new PointStruct
 	{
 		Id = idx++,

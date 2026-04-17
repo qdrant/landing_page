@@ -9,6 +9,50 @@ import (
 	"github.com/qdrant/go-client/qdrant"
 )
 
+type CSVRow struct {
+	Title       string
+	Author      string
+	Description string
+}
+
+func parseCSV(url string, fn func(CSVRow)) error {
+	resp, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	csvReader := csv.NewReader(resp.Body)
+	headers, err := csvReader.Read()
+	if err != nil {
+		return err
+	}
+
+	titleIdx, authorIdx, descriptionIdx := -1, -1, -1
+	for i, h := range headers {
+		switch h {
+		case "Title":
+			titleIdx = i
+		case "Author":
+			authorIdx = i
+		case "Description":
+			descriptionIdx = i
+		}
+	}
+
+	for {
+		row, err := csvReader.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		fn(CSVRow{Title: row[titleIdx], Author: row[authorIdx], Description: row[descriptionIdx]})
+	}
+	return nil
+}
+
 client, err := qdrant.NewClient(&qdrant.Config{
 	Host:   QDRANT_URL,
 	APIKey: QDRANT_API_KEY,
@@ -53,24 +97,14 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 
 csvUrl := "https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/sci-fi-books/top_100_scifi_books_full.csv"
 
-resp, err := http.Get(csvUrl)
-defer resp.Body.Close()
-
-csvReader := csv.NewReader(resp.Body)
-
 batchSize := 25
 var idx uint64
 var buffer []*qdrant.PointStruct
 
-for {
-	row, err := csvReader.Read()
-	if err == io.EOF {
-		break
-	}
-
-	title := row[0]
-	author := row[1]
-	description := row[3]
+err = parseCSV(csvUrl, func(row CSVRow) {
+	title := row.Title
+	author := row.Author
+	description := row.Description
 
 	buffer = append(buffer, &qdrant.PointStruct{
 		Id: qdrant.NewIDNum(idx),
@@ -94,7 +128,7 @@ for {
 		})
 		buffer = nil
 	}
-}
+})
 
 if len(buffer) > 0 {
 	client.Upsert(context.Background(), &qdrant.UpsertPoints{

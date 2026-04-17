@@ -40,30 +40,34 @@ client.create_collection(
 )
 
 import csv
-from qdrant_client.models import Document, PointStruct
 import urllib.request
+
+def parse_csv(url):
+    with urllib.request.urlopen(url) as response:
+        reader = csv.DictReader(line.decode('utf-8') for line in response)
+        yield from reader
+
+from qdrant_client.models import Document, PointStruct
 
 csv_url = 'https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/sci-fi-books/top_100_scifi_books_full.csv'
 
-with urllib.request.urlopen(csv_url) as response:
-    reader = csv.DictReader(line.decode('utf-8') for line in response)
-    points = (
-        PointStruct(
-            id=idx,
-            vector={
-                "dense": Document(text=row['Description'], model=dense_embedding_model),
-                "sparse": Document(text=row['Description'], model=sparse_embedding_model),
-                "multi": Document(text=row['Description'], model=late_interaction_embedding_model),
-            },
-            payload={"title": row['Title'], "author": row['Author'], "description": row['Description']}
-        )
-        for idx, row in enumerate(reader)
+points = (
+    PointStruct(
+        id=idx,
+        vector={
+            "dense": Document(text=row['Description'], model=dense_embedding_model),
+            "sparse": Document(text=row['Description'], model=sparse_embedding_model),
+            "multi": Document(text=row['Description'], model=late_interaction_embedding_model),
+        },
+        payload={"title": row['Title'], "author": row['Author'], "description": row['Description']}
     )
-    client.upload_points(
-        collection_name=collection_name,
-        points=points,
-        batch_size=25
-    )
+    for idx, row in enumerate(parse_csv(csv_url))
+)
+client.upload_points(
+    collection_name=collection_name,
+    points=points,
+    batch_size=25
+)
 
 import pprint
 

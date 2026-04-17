@@ -57,6 +57,32 @@ pub async fn main() -> anyhow::Result<()> {
         .await?;
     // @block-end create-collection
 
+    // @block-start parse-csv
+    struct CsvRow {
+        title: String,
+        author: String,
+        description: String,
+    }
+
+    fn parse_csv(url: &str) -> anyhow::Result<impl Iterator<Item = anyhow::Result<CsvRow>>> {
+        let reader = ureq::get(url).call()?.into_body().into_reader();
+        let mut rdr = csv::Reader::from_reader(reader);
+        let headers = rdr.headers()?.clone();
+        let title_idx = headers.iter().position(|h| h == "Title").unwrap();
+        let author_idx = headers.iter().position(|h| h == "Author").unwrap();
+        let description_idx = headers.iter().position(|h| h == "Description").unwrap();
+        let iter = rdr.into_records().map(move |result| {
+            let record = result?;
+            Ok(CsvRow {
+                title: record[title_idx].to_string(),
+                author: record[author_idx].to_string(),
+                description: record[description_idx].to_string(),
+            })
+        });
+        Ok(iter)
+    }
+    // @block-end parse-csv
+
     // @block-start ingest-data
     let csv_url = "https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/sci-fi-books/top_100_scifi_books_full.csv";
 
@@ -64,14 +90,11 @@ pub async fn main() -> anyhow::Result<()> {
     let mut idx: u64 = 0;
     let mut buffer: Vec<PointStruct> = Vec::new();
 
-    let bytes = reqwest::get(csv_url).await?.bytes().await?;
-    let mut rdr = csv::Reader::from_reader(bytes.as_ref());
-
-    for result in rdr.records() {
-        let record = result?;
-        let title = record[0].to_string();
-        let author = record[1].to_string();
-        let description = record[3].to_string();
+    for row in parse_csv(csv_url)? {
+        let row = row?;
+        let title = row.title;
+        let author = row.author;
+        let description = row.description;
 
         let vectors = NamedVectors::default()
             .add_vector("dense", Document::new(&description, dense_embedding_model))

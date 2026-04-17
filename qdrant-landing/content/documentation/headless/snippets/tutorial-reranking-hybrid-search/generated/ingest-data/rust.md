@@ -5,14 +5,11 @@ let batch_size = 25;
 let mut idx: u64 = 0;
 let mut buffer: Vec<PointStruct> = Vec::new();
 
-let bytes = reqwest::get(csv_url).await?.bytes().await?;
-let mut rdr = csv::Reader::from_reader(bytes.as_ref());
-
-for result in rdr.records() {
-    let record = result?;
-    let title = record[0].to_string();
-    let author = record[1].to_string();
-    let description = record[3].to_string();
+for row in parse_csv(csv_url)? {
+    let row = row?;
+    let title = row.title;
+    let author = row.author;
+    let description = row.description;
 
     let vectors = NamedVectors::default()
         .add_vector("dense", Document::new(&description, dense_embedding_model))

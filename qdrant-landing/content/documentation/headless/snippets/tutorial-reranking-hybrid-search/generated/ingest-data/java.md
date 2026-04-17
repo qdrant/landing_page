@@ -5,15 +5,11 @@ int batchSize = 25;
 long idx = 0;
 List<PointStruct> buffer = new ArrayList<>();
 
-try (var reader = new BufferedReader(new InputStreamReader(new URL(csvUrl).openStream()))) {
-    reader.readLine(); // skip header row
-
-    String line;
-    while ((line = reader.readLine()) != null) {
-        String[] fields = line.split(",", -1);
-        String title = fields[0];
-        String author = fields[1];
-        String description = fields[3];
+try (var stream = parseCSV(csvUrl)) {
+    for (var row : (Iterable<CsvRow>) stream::iterator) {
+        String title = row.title;
+        String author = row.author;
+        String description = row.description;
 
         buffer.add(
             PointStruct.newBuilder()

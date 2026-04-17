@@ -78,6 +78,12 @@ Now you can load the sci-fi book descriptions from a CSV and insert them into th
 
 This code creates a point for each book, with three vector types and a payload containing the title, author, and description. Documents are uploaded to Qdrant in batches of 25, with Cloud Inference generating all three embeddings on the fly. In Production, the optimal batch size depends on your data and cluster, so you may want to experiment with different sizes for best performance.
 
+This code uses a helper function to stream and parse the CSV file:
+
+<details><summary>Details</summary> 
+{{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="parse-csv" >}}
+</details>
+
 ### Retrieval
 
 Before combining results, let's see how dense and sparse retrieval perform individually.

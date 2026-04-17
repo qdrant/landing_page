@@ -1,24 +1,14 @@
 ```go
 csvUrl := "https://raw.githubusercontent.com/qdrant/examples/refs/heads/master/sci-fi-books/top_100_scifi_books_full.csv"
 
-resp, err := http.Get(csvUrl)
-defer resp.Body.Close()
-
-csvReader := csv.NewReader(resp.Body)
-
 batchSize := 25
 var idx uint64
 var buffer []*qdrant.PointStruct
 
-for {
-	row, err := csvReader.Read()
-	if err == io.EOF {
-		break
-	}
-
-	title := row[0]
-	author := row[1]
-	description := row[3]
+err = parseCSV(csvUrl, func(row CSVRow) {
+	title := row.Title
+	author := row.Author
+	description := row.Description
 
 	buffer = append(buffer, &qdrant.PointStruct{
 		Id: qdrant.NewIDNum(idx),
@@ -42,7 +32,7 @@ for {
 		})
 		buffer = nil
 	}
-}
+})
 
 if len(buffer) > 0 {
 	client.Upsert(context.Background(), &qdrant.UpsertPoints{
