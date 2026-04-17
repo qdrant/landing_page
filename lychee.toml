@@ -1,0 +1,27 @@
+# Auto-generated from qdrant-landing/static/_redirects
+# Do not edit manually — regenerate with: bash automation/generate_lychee_toml.sh > lychee.toml
+
+remap = [
+  "http://localhost:1314/documentation/guides/optimize/(.*) http://localhost:1314/documentation/operations/optimize/$1",
+  "http://localhost:1314/documentation/guides/distributed_deployment/(.*) http://localhost:1314/documentation/operations/distributed_deployment/$1",
+  "http://localhost:1314/documentation/guides/capacity-planning/(.*) http://localhost:1314/documentation/operations/capacity-planning/$1",
+  "http://localhost:1314/documentation/guides/security/(.*) http://localhost:1314/documentation/operations/security/$1",
+  "http://localhost:1314/documentation/guides/monitoring/(.*) http://localhost:1314/documentation/operations/monitoring/$1",
+  "http://localhost:1314/documentation/guides/configuration/(.*) http://localhost:1314/documentation/operations/configuration/$1",
+  "http://localhost:1314/documentation/guides/installation/(.*) http://localhost:1314/documentation/operations/installation/$1",
+  "http://localhost:1314/documentation/guides/administration/(.*) http://localhost:1314/documentation/operations/administration/$1",
+  "http://localhost:1314/documentation/guides/quantization/(.*) http://localhost:1314/documentation/manage-data/quantization/$1",
+  "http://localhost:1314/documentation/guides/multiple-partitions/(.*) http://localhost:1314/documentation/manage-data/multitenancy/$1",
+  "http://localhost:1314/documentation/guides/multitenancy/(.*) http://localhost:1314/documentation/manage-data/multitenancy/$1",
+  "http://localhost:1314/documentation/concepts/explore/(.*) http://localhost:1314/documentation/search/explore/$1",
+  "http://localhost:1314/documentation/concepts/filtering/(.*) http://localhost:1314/documentation/search/filtering/$1",
+  "http://localhost:1314/documentation/concepts/hybrid-queries/(.*) http://localhost:1314/documentation/search/hybrid-queries/$1",
+  "http://localhost:1314/documentation/concepts/collections/(.*) http://localhost:1314/documentation/manage-data/collections/$1",
+  "http://localhost:1314/documentation/concepts/indexing/(.*) http://localhost:1314/documentation/manage-data/indexing/$1",
+  "http://localhost:1314/documentation/concepts/vectors/(.*) http://localhost:1314/documentation/manage-data/vectors/$1",
+  "http://localhost:1314/documentation/concepts/storage/(.*) http://localhost:1314/documentation/manage-data/storage/$1",
+  "http://localhost:1314/documentation/concepts/snapshots/(.*) http://localhost:1314/documentation/operations/snapshots/$1",
+  "http://localhost:1314/documentation/concepts/optimizer/(.*) http://localhost:1314/documentation/operations/optimizer/$1",
+  "http://localhost:1314/documentation/concepts/inference/(.*) http://localhost:1314/documentation/inference/$1",
+  "http://localhost:1314/documentation/quickstart-cloud/(.*) http://localhost:1314/documentation/cloud-quickstart/$1",
+]
