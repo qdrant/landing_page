@@ -116,7 +116,7 @@ We recommend the **Balanced** tier for disks >= 32 GiB, and the **Performance** 
 
 **GPUs (AWS only)**
 
-If you have a write-heavy workload, you can add a GPU to each node to optimize indexing performance. See [**GPUs for Indexing**](/documentation/ops-configuration/running-with-GPU/) for more information. All GPU settings will be configured automatically by the cloud platform.
+If you have a write-heavy workload, you can add a GPU to each node to optimize indexing performance. See [**GPUs for Indexing**](/documentation/ops-configuration/running-with-gpu/) for more information. All GPU settings will be configured automatically by the cloud platform.
 
 **Backup and Disaster Recovery**
 

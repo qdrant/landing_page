@@ -22,4 +22,4 @@ These pages cover the settings and runtime options available for customizing and
 
 ## Running with GPU
 
-[Running with GPU](/documentation/ops-configuration/running-with-GPU/) explains how to enable GPU-accelerated vector indexing using dedicated Docker images for NVIDIA and AMD hardware, available from Qdrant v1.13.0.
+[Running with GPU](/documentation/ops-configuration/running-with-gpu/) explains how to enable GPU-accelerated vector indexing using dedicated Docker images for NVIDIA and AMD hardware, available from Qdrant v1.13.0.

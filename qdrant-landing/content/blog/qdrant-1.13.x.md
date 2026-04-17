@@ -62,13 +62,13 @@ This experiment didn't require any changes to the codebase, and everything worke
 - **Full Feature Support:** GPU indexing supports **all quantization options and datatypes** implemented in Qdrant.
 - **Large-Scale Benefits:** Fast indexing unlocks larger size of segments, which leads to **higher RPS on the same hardware**.
 
-### [Instructions & Documentation](/documentation/ops-configuration/running-with-GPU/)
+### [Instructions & Documentation](/documentation/ops-configuration/running-with-gpu/)
 The setup is simple, with pre-configured Docker images [**(check Docker Registry)**](https://hub.docker.com/r/qdrant/qdrant/tags) for GPU environments like NVIDIA and AMD. 
 We've made it so you can enable GPU indexing with minimal configuration changes.
 
 > Note: Logs will clearly indicate GPU detection and usage for transparency.
 
-*Read more about this feature in the [**GPU Indexing Documentation**](/documentation/ops-configuration/running-with-GPU/)*
+*Read more about this feature in the [**GPU Indexing Documentation**](/documentation/ops-configuration/running-with-gpu/)*
 
 #### Interview With the Creator of GPU Indexing
 
