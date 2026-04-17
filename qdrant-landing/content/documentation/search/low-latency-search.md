@@ -36,8 +36,6 @@ An alternative approach to fanning out reads is to always read from multiple rep
 
 ## Query Indexed Data Only
 
-*Available as of v1.17.0*
-
 Shards store their data in [segments](/documentation/manage-data/storage/). Write operations go through several stages before the changes are fully indexed and searchable:
 
 1. First, each incoming write request is written to the shard's write-ahead log (WAL). At this stage, the data is not yet searchable, but the write request is persisted and will eventually be applied.
@@ -47,8 +45,20 @@ Shards store their data in [segments](/documentation/manage-data/storage/). Writ
 
 Search latency can vary depending on where the data is in this process. Querying large amounts of unindexed data can lead to increased latency. This can occur under heavy write load, for example, during nightly batch updates or when processing a large backlog of updates after a period of downtime.
 
-If your application requires a consistently low search latency, set the [search parameter](/documentation/search/search/#search-api) `indexed_only` to `true`. With this setting enabled, search operations will only consider indexed data, ensuring more consistent and lower response times. The tradeoff is that the most recent data might not be included in search results until it has been indexed.
+If your application requires a consistently low search latency, Qdrant offers two mechanisms to avoid searching unindexed data. You can either use the `indexed_only` query parameter to search indexed data only, or enable the `prevent_unoptimized` optimizer setting to prevent unoptimized segments from returning unindexed data. Choose one of these methods; there's no need to use both.
 
-Enabling `indexed_only` can cause recently updated data to temporarily disappear from search results until it is indexed again. To mitigate this, set the `prevent_unoptimized` optimizer setting to `true` when [creating or updating a collection](/documentation/manage-data/collections/#update-collection-parameters), or globally in the [configuration file](/documentation/operations/optimizer/). It prevents creating segments with a large amount of unindexed data for searches. Instead, once a segment reaches the so called `indexing_threshold`, all additional points will be added in 'deferred state'. Deferred points are not yet visible in reads but are still handled in writes. Deferred points will be promoted to visible points once the segment is optimized.
+### `indexed_only` Search Parameter
+
+*Available as of v1.7.0*
+
+With the [search parameter](/documentation/search/search/#search-api) `indexed_only` set to `true`, search operations only consider indexed data, ensuring more consistent and lower response times. The tradeoff is that the most recent data might not be included in search results until it has been indexed. It may also cause recently updated data to temporarily disappear from search results until it is indexed again.
+
+### `prevent_unoptimized` Optimizer Setting
+
+*Available as of v1.17.0*
 
 <aside role="alert"><code>prevent_unoptimized</code> is an experimental feature; its behavior may change slightly in future releases and it must be used with care.</aside>
+
+Because updates in Qdrant are implemented as a delete followed by an insert, a side effect of searching indexed data only is that it can cause recently updated data to temporarily disappear from search results until it is indexed again. This is because the delete operation immediately removes the old point from the index, while the insert operation adds the new point to an unindexed segment that is not yet visible to searches.
+
+To mitigate this, an alternative to using `indexed_only` is to set the [`prevent_unoptimized` optimizer setting](/documentation/operations/optimizer/#prevent-reads-from-unindexed-segments) to `true`. This prevents the creation of segments with a large amount of unindexed data. Instead, once a segment reaches the so called `indexing_threshold`, all additional points will be added in a 'deferred state'. Deferred points are not yet visible in reads but are still handled in writes. Deferred points are promoted to visible points once the segment is optimized.

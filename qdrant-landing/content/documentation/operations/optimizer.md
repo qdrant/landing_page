@@ -135,7 +135,7 @@ To mitigate this, the optimizer supports a `prevent_unoptimized` mode. When enab
 
 Enabling `prevent_unoptimized` only affects newly created segments. Existing segments are not changed retroactively. Similarly, changing `indexing_threshold` does not affect existing segments. Only new segments will use the updated threshold.
 
-Set `prevent_unoptimized` to `true` when creating or updating a collection:
+`prevent_unoptimized` can be enabled per collection, or globally in the configuration file.
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/prevent-unoptimized/" >}}
 
@@ -144,13 +144,6 @@ Do not use <code>prevent_unoptimized</code> in combination with <code>wait=true<
 </aside>
 
 With `prevent_unoptimized` enabled, setting `indexed_only` to `true` is not necessary to avoid slow searches, as unindexed segments do not return deferred points.
-
-| `prevent_unoptimized` | `indexed_only` | Effect |
-|----------------------|----------------|--------|
-| `false` (default) | `false` | All points are searchable, but searches may be slow if there are many unindexed points. |
-| `false` (default) | `true` | Only indexed points are searchable, but recently updated points may temporarily disappear from search results until they are indexed. |
-| `true` | `false` (default) | Reads return indexed points and unindexed points that are not deferred. Deferred points are not visible to reads until indexed. |
-| `true` | `true` | Only indexed points are visible to reads. |
 
 ### Effect on `wait=true`
 
@@ -162,7 +155,7 @@ Under normal conditions, setting `wait=true` on a write request returns after th
 
 Because the update worker must finish indexing before continuing to consume the queue, a blocked `wait=true` request also delays all subsequent updates that use `wait=true`. Updates with `wait=false` are written to the write-ahead log immediately, but they are not applied until the blocked request unblocks. This head-of-line blocking means that `wait=true` can stall the entire update pipeline for as long as indexing takes. Use it with caution when `prevent_unoptimized` is enabled and the cluster is under heavy write load.
 
-A consequence of enabling `prevent_unoptimized` and setting `wait=false` is eventual consistency: updates might not be immediately visible. If your application requires a guarantee that the vector will be available for searching immediately after the API responds, you can opt out of `prevent_unoptimized` on a per-update basis by setting `wait=true`, but be aware of the implications described in this section. Alternatively, you can choose to not enable `prevent_unoptimized`, but this may lead to slower search performance under heavy write load.
+A consequence of enabling `prevent_unoptimized` and setting `wait=false` is eventual consistency: updates might not be immediately visible. If your application requires a guarantee that the vector will be available for searching immediately after the API responds, you can set `wait=true`, but be aware of the implications described in this section. Alternatively, you can choose to not enable `prevent_unoptimized`, but this may lead to slower search performance under heavy write load.
 
 ### Monitoring Deferred Points
 
