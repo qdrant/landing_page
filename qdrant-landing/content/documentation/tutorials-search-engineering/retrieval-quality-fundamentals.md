@@ -22,12 +22,12 @@ The third level is **business impact**: does better retrieval lead to better out
 
 The three levels aren't measured in isolation. Teams that successfully connect retrieval work to business outcomes tend to build an **evaluation ladder** that runs each layer at a different cadence and cost, and uses the result of each layer to decide whether to invest effort at the next:
 
-| Layer | Question it answers | Cadence | Cost |
-|---|---|---|---|
-| `Recall@k` vs exact kNN on a sampled query set | Is HNSW recovering the true top-k? | On index-config or embedding changes | Low, once a sample query set exists |
-| `Recall@k` / `NDCG@k` vs labeled golden set | Are the right documents surfacing? | Weekly, or on retrieval-stack changes | Low per run; **building the golden set is the real cost** (see next tutorial) |
-| End-to-end answer quality on golden set, scored by LLM-as-judge or human rating | Does the user get a correct answer? | Weekly, or on retrieval- or generator-stack changes | Moderate (LLM-judge cost per query × eval size) |
-| Online A/B behind a flag | Does the business KPI move? | Per release, once offline layers pass | High (traffic allocation, experimentation infra) |
+| # | Layer | What it measures | Cadence | Cost |
+|---|---|---|---|---|
+| 1 | ANN recall | `Recall@k` vs exact kNN on a sampled query set | On index or embedding changes | Low |
+| 2 | Retrieval relevance | `Recall@k` / `NDCG@k` vs a labeled golden set | Weekly, or on retrieval-stack changes | Low per run; **golden set is the real cost** (see next tutorial) |
+| 3 | End-to-end answer quality | LLM-as-judge or human rating on the golden set | Weekly, or on retrieval or generator changes | Moderate (LLM-judge cost × eval size) |
+| 4 | Business impact | Online A/B behind a flag | Per release, once offline layers pass | High (traffic, experimentation infra) |
 
 Each layer is necessary but not sufficient. A win at layer 2 that doesn't carry through to layer 3 usually means the generator or the prompt is the bottleneck, not retrieval. This is the most useful diagnostic the ladder provides, and the reason teams shouldn't collapse layers 2 and 3 into a single score.
 
