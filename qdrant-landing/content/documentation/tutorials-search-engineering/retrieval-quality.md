@@ -3,7 +3,7 @@ title: Retrieval Quality Evaluation
 aliases:
   - /documentation/tutorials/retrieval-quality/
   - /documentation/beginner-tutorials/retrieval-quality/
-weight: 4
+weight: 6
 ---
 
 # Evaluate Retrieval Quality with Qdrant
@@ -34,28 +34,17 @@ perform pure kNN search. Instead, they use **Approximate Nearest Neighbors** (AN
 but can return suboptimal results. We can also **measure the retrieval quality of that approximation** which also contributes to the overall
 search quality.
 
-### Quality metrics
-
-There are various ways of how quantify the quality of semantic search. Some of them, such as [Precision@k](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Precision_at_k), 
-are based on the number of relevant documents in the top-k search results. Others, such as [Mean Reciprocal Rank (MRR)](https://en.wikipedia.org/wiki/Mean_reciprocal_rank), 
-take into account the position of the first relevant document in the search results. [DCG and NDCG](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) 
-metrics are, in turn, based on the relevance score of the documents.
-
-If we treat the search pipeline as a whole, we could use them all. The same is true for the embeddings quality evaluation. However, for the 
-ANN algorithm itself, anything based on the relevance score or ranking is not applicable. Ranking in vector search relies on the distance
-between the query and the document in the vector space, however distance is not going to change due to approximation, as the function is
-still the same. 
-
-Therefore, it only makes sense to measure the quality of the ANN algorithm by the number of relevant documents in the top-k search results, 
-such as `precision@k`. It is calculated as the number of relevant documents in the top-k search results divided by `k`. In case of testing
-just the ANN algorithm, we can use the exact kNN search as a ground truth, with `k` being fixed. It will be a measure on **how well the ANN
-algorithm approximates the exact search**.
+For a broader discussion of what to measure and when (ANN recall vs retrieval relevance vs business impact, and which metric fits which scenario),
+see [Retrieval Quality Fundamentals](/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/). This tutorial focuses on the
+ANN-algorithm layer and measures it with `recall@k`: the fraction of the true top-k items returned by exact search that the approximate search
+recovers. When both ANN and exact search return exactly `k` items, `recall@k` and `precision@k` are numerically identical; we use "recall" to
+match the ANN-benchmarks convention.
 
 ## Measure the quality of the search results
 
 Let's build a quality [evaluation](https://qdrant.tech/rag/rag-evaluation-guide/) of the ANN algorithm in Qdrant. We will, first, call the search endpoint in a standard way to obtain
 the approximate search results. Then, we will call the exact search endpoint to obtain the exact matches, and finally compare both results
-in terms of precision.
+in terms of recall.
 
 Before we start, let's create a collection, fill it with some data and then start our evaluation. We will use the same dataset as in the
 [Loading a dataset from Hugging Face hub](/documentation/tutorials-basics/huggingface-datasets/) tutorial, `Qdrant/arxiv-titles-instructorxl-embeddings`
@@ -70,7 +59,7 @@ dataset = load_dataset(
 )
 ```
 
-We need some data to be indexed and another set for the testing purposes. Let's get the first 50000 items for the training and the next 1000
+We need some data to be indexed and another set for the testing purposes. Let's get the first 60000 items for the training and the next 1000
 for the testing.
 
 ```python
@@ -133,12 +122,12 @@ Qdrant has a built-in exact search mode, which can be used to measure the qualit
 full kNN search for each query, without any approximation. It is not suitable for production use with high load, but it is perfect for the 
 evaluation of the ANN algorithm and its parameters. It might be triggered by setting the `exact` parameter to `True` in the search request.
 We are simply going to use all the examples from the test dataset as queries and compare the results of the approximate search with the
-results of the exact search. Let's create a helper function with `k` being a parameter, so we can calculate the `precision@k` for different
+results of the exact search. Let's create a helper function with `k` being a parameter, so we can calculate the `recall@k` for different
 values of `k`.
 
 ```python
-def avg_precision_at_k(k: int):
-    precisions = []
+def avg_recall_at_k(k: int):
+    recalls = []
     for item in test_dataset:
         ann_result = client.query_points(
             collection_name="arxiv-titles-instructorxl-embeddings",
@@ -155,37 +144,37 @@ def avg_precision_at_k(k: int):
             ),
         ).points
 
-        # We can calculate the precision@k by comparing the ids of the search results
+        # We can calculate the recall@k by comparing the ids of the search results
         ann_ids = set(item.id for item in ann_result)
         knn_ids = set(item.id for item in knn_result)
-        precision = len(ann_ids.intersection(knn_ids)) / k
-        precisions.append(precision)
+        recall = len(ann_ids.intersection(knn_ids)) / k
+        recalls.append(recall)
     
-    return sum(precisions) / len(precisions)
+    return sum(recalls) / len(recalls)
 ```
 
-Calculating the `precision@5` is as simple as calling the function with the corresponding parameter:
+Calculating the `recall@5` is as simple as calling the function with the corresponding parameter:
 
 ```python
-print(f"avg(precision@5) = {avg_precision_at_k(k=5)}")
+print(f"avg(recall@5) = {avg_recall_at_k(k=5)}")
 ```
 
 Response:
 
 ```text
-avg(precision@5) = 0.9935999999999995
+avg(recall@5) = 0.9935999999999995
 ```
 
-As we can see, the precision of the approximate search vs exact search is pretty high. There are, however, some scenarios when we
-need higher precision and can accept higher latency. HNSW is pretty tunable, and we can increase the precision by changing its parameters.
+As we can see, the recall of the approximate search vs exact search is pretty high. There are, however, some scenarios when we
+need higher recall and can accept higher latency. HNSW is pretty tunable, and we can increase the recall by changing its parameters.
   
 ## Tweaking the HNSW parameters
 
 HNSW is a hierarchical graph, where each node has a set of links to other nodes. The number of edges per node is called the `m` parameter. 
-The larger the value of it, the higher the precision of the search, but more space required. The `ef_construct` parameter is the number of 
-neighbours to consider during the index building. Again, the larger the value, the higher the precision, but the longer the indexing time.
+The larger the value of it, the higher the recall of the search, but more space required. The `ef_construct` parameter is the number of 
+neighbours to consider during the index building. Again, the larger the value, the higher the recall, but the longer the indexing time.
 The default values of these parameters are `m=16` and `ef_construct=100`. Let's try to increase them to `m=32` and `ef_construct=200` and
-see how it affects the precision. Of course, we need to wait until the indexing is finished before we can perform the search.
+see how it affects the recall. Of course, we need to wait until the indexing is finished before we can perform the search.
 
 ```python
 client.update_collection(
@@ -203,20 +192,20 @@ while True:
         break
 ```
 
-The same function can be used to calculate the average `precision@5`:
+The same function can be used to calculate the average `recall@5`:
 
 ```python
-print(f"avg(precision@5) = {avg_precision_at_k(k=5)}")
+print(f"avg(recall@5) = {avg_recall_at_k(k=5)}")
 ```
 
 Response:
 
 ```text
-avg(precision@5) = 0.9969999999999998
+avg(recall@5) = 0.9969999999999998
 ```
 
-The precision has obviously increased, and we know how to control it. However, there is a trade-off between the precision and the search
-latency and memory requirements. In some specific cases, we may want to increase the precision as much as possible, so now we know how
+The recall has obviously increased, and we know how to control it. However, there is a trade-off between the recall and the search
+latency and memory requirements. In some specific cases, we may want to increase the recall as much as possible, so now we know how
 to do it. 
 
 ## Wrapping up
@@ -225,6 +214,6 @@ Assessing the quality of retrieval is a critical aspect of [evaluating](https://
 your search results. Qdrant provides a built-in exact search mode, which can be used to measure the quality of the ANN algorithm itself, 
 even in an automated way, as part of your CI/CD pipeline.
 
-Again, **the quality of the embeddings is the most important factor**. HNSW does a pretty good job in terms of precision, and it is
+Again, **the quality of the embeddings is the most important factor**. HNSW does a pretty good job in terms of recall, and it is
 parameterizable and tunable, when required. There are some other ANN algorithms available out there, such as [IVF*](https://github.com/facebookresearch/faiss/wiki/Faiss-indexes#cell-probe-methods-indexivf-indexes), 
 but they usually [perform worse than HNSW in terms of quality and performance](https://nirantk.com/writing/pgvector-vs-qdrant/#correctness). 
