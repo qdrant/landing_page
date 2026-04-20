@@ -45,20 +45,26 @@ Shards store their data in [segments](/documentation/manage-data/storage/). Writ
 
 Search latency can vary depending on where the data is in this process. Querying large amounts of unindexed data can lead to increased latency. This can occur under heavy write load, for example, during nightly batch updates or when processing a large backlog of updates after a period of downtime.
 
-If your application requires a consistently low search latency, Qdrant offers two mechanisms to avoid searching unindexed data. You can either use the `indexed_only` query parameter to search indexed data only, or enable the `prevent_unoptimized` optimizer setting to prevent unoptimized segments from returning unindexed data. Choose one of these methods; there's no need to use both.
+If your application requires a consistently low search latency, Qdrant offers two mechanisms to avoid searching unindexed data. You can either use the `indexed_only` query parameter, or enable the `prevent_unoptimized` optimizer setting. Choose one of these methods; there's no need to use both.
 
 ### `indexed_only` Search Parameter
 
 *Available as of v1.7.0*
 
-With the [search parameter](/documentation/search/search/#search-api) `indexed_only` set to `true`, search operations only consider indexed data, ensuring more consistent and lower response times. The tradeoff is that the most recent data might not be included in search results until it has been indexed. It may also cause recently updated data to temporarily disappear from search results until it is indexed again.
+To restrict searches to indexed data and small segments below the indexing threshold, set the `indexed_only` [search parameter](/documentation/search/search/#search-api) to `true`. This ensures more consistent and lower response times. However, the tradeoff is that the most recent data might not be included in search results until it has been indexed.
+
+A side-effect of using `indexed_only` is that it can cause "blinking" points in search results. When an unoptimized segment is below the indexing threshold, all its points are visible in `indexed_only` searches. But once inserts push the segment over the threshold, all its points temporarily disappear from search results until the segment has been indexed. Updates can also cause blinking points, since Qdrant implements them as a delete followed by an insert. To mitigate "blinking" points, use `prevent_unoptimized` instead, as described in the next section.
 
 ### `prevent_unoptimized` Optimizer Setting
 
-*Available as of v1.17.0*
+*Available as of v1.17.1*
 
 <aside role="alert"><code>prevent_unoptimized</code> is an experimental feature; its behavior may change slightly in future releases and it must be used with care.</aside>
 
-Because updates in Qdrant are implemented as a delete followed by an insert, a side effect of searching indexed data only is that it can cause recently updated data to temporarily disappear from search results until it is indexed again. This is because the delete operation immediately removes the old point from the index, while the insert operation adds the new point to an unindexed segment that is not yet visible to searches.
+To mitigate "blinking" points, an alternative to using `indexed_only` is to set the `prevent_unoptimized` optimizer setting to `true`. This prevents the creation of large segments with unindexed data. Instead, once a segment reaches the `indexing_threshold`, all additional points will be added in a "deferred" state. Deferred points are not yet visible in reads but are available to write operations. Deferred points are promoted to visible points once the segment has been optimized.
 
-To mitigate this, an alternative to using `indexed_only` is to set the [`prevent_unoptimized` optimizer setting](/documentation/operations/optimizer/#prevent-reads-from-unindexed-segments) to `true`. This prevents the creation of segments with a large amount of unindexed data. Instead, once a segment reaches the so called `indexing_threshold`, all additional points will be added in a 'deferred state'. Deferred points are not yet visible in reads but are still handled in writes. Deferred points are promoted to visible points once the segment is optimized.
+Refer to [Prevent Reads from Large Unindexed Segments](/documentation/operations/optimizer/#prevent-reads-from-large-unindexed-segments) for more details on how this works.
+
+<aside role="status">
+Do not use <code>prevent_unoptimized</code> in combination with <code>wait=true</code> on write requests without understanding the implications. See <a href="/documentation/operations/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
+</aside>
