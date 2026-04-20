@@ -1,0 +1,153 @@
+<section 
+  class="industries-case-studies{{ if ge (len .Params.caseStudies) 4 }} industries-case-studies__active-slider{{ end }}"
+>
+  <div class="container industries-case-studies__container">
+    <div class="industries-case-studies__header">
+      <h2 class="industries-case-studies__title">{{ .Params.title }}</h2>
+      <div class="industries-case-studies__controls">
+        <button type="button" class="industries-case-studies__arrow industries-case-studies__arrow--prev" aria-label="Previous slide">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M36.6668 20H3.3335M3.3335 20L15.0002 31.6667M3.3335 20L15.0002 8.33337" stroke="#161E33" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button type="button" class="industries-case-studies__arrow industries-case-studies__arrow--next" aria-label="Next slide">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M25 8.33337L36.6667 20L25 31.6667" stroke="#161E33" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3.3335 20H36.6668" stroke="#161E33" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="industries-case-studies__carousel">
+      <div class="industries-case-studies__track">
+        {{ range .Params.caseStudies }}
+          <div class="industries-case-studies__slide">
+            <div class="card industries-case-studies__card">
+              <h4 class="industries-case-studies__card-title">{{ .title }}</h4>
+              <p class="industries-case-studies__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  (function() {
+    const root = document.querySelector('.industries-case-studies');
+    const container = document.querySelector('.industries-case-studies__container');
+    const carousel = document.querySelector('.industries-case-studies__carousel');
+    const track = document.querySelector('.industries-case-studies__track');
+    const prevBtn = document.querySelector('.industries-case-studies__arrow--prev');
+    const nextBtn = document.querySelector('.industries-case-studies__arrow--next');
+
+    if (!root || !container || !carousel || !track || !prevBtn || !nextBtn) return;
+
+    const slides = track.querySelectorAll('.industries-case-studies__slide');
+    const breakpoints = { sm: 576, md: 768, xl: 1200 };
+    let currentOffset = 0;
+    let gap = 0;
+    let sliderEnabled = false;
+
+    function readGap() {
+      const style = getComputedStyle(track);
+      gap = parseFloat(style.columnGap || style.gap) || 0;
+      carousel.style.setProperty('--industries-case-studies-gap', gap + 'px');
+    }
+
+    function getVisibleCount() {
+      const w = window.innerWidth;
+      if (w < breakpoints.md) return 1;
+      if (w < breakpoints.xl) return 2;
+      return 3;
+    }
+
+    function getContainerContentWidth() {
+      const style = getComputedStyle(container);
+      const paddingLeft = parseFloat(style.paddingLeft) || 0;
+      const paddingRight = parseFloat(style.paddingRight) || 0;
+      return container.offsetWidth - paddingLeft - paddingRight;
+    }
+
+    function getSlideWidth() {
+      const contentWidth = getContainerContentWidth();
+      const count = Math.min(getVisibleCount(), slides.length);
+      const gaps = Math.max(0, count - 1) * gap;
+      return Math.floor((contentWidth - gaps) / count);
+    }
+
+    function applySlideWidth() {
+      const slideWidth = getSlideWidth();
+      carousel.style.setProperty('--industries-case-studies-slide-width', slideWidth + 'px');
+    }
+
+    function getMaxOffset() {
+      applySlideWidth();
+      const slideWidth = getSlideWidth();
+      const trackWidth = slides.length * slideWidth + (slides.length - 1) * gap;
+      const contentWidth = getContainerContentWidth();
+      return Math.max(0, trackWidth - contentWidth);
+    }
+
+    function updateTrack() {
+      if (!sliderEnabled) {
+        currentOffset = 0;
+        track.style.transform = 'translateX(0px)';
+        return;
+      }
+      const maxOffset = getMaxOffset();
+      currentOffset = Math.min(Math.max(0, currentOffset), maxOffset);
+      track.style.transform = `translateX(-${currentOffset}px)`;
+    }
+
+    function updateButtons() {
+      if (!sliderEnabled) {
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        return;
+      }
+      const maxOffset = getMaxOffset();
+      prevBtn.disabled = currentOffset <= 0;
+      nextBtn.disabled = currentOffset >= maxOffset;
+    }
+
+    prevBtn.addEventListener('click', function() {
+      if (!sliderEnabled) return;
+      const slideWidth = getSlideWidth();
+      currentOffset = Math.max(0, currentOffset - (slideWidth + gap));
+      updateTrack();
+      updateButtons();
+    });
+
+    nextBtn.addEventListener('click', function() {
+      if (!sliderEnabled) return;
+      const maxOffset = getMaxOffset();
+      const slideWidth = getSlideWidth();
+      currentOffset = Math.min(maxOffset, currentOffset + (slideWidth + gap));
+      updateTrack();
+      updateButtons();
+    });
+
+    function onResize() {
+      readGap();
+      applySlideWidth();
+
+      const visible = Math.min(getVisibleCount(), slides.length);
+      sliderEnabled = slides.length > visible;
+      root.classList.toggle('industries-case-studies__active-slider', sliderEnabled);
+
+      updateTrack();
+      updateButtons();
+    }
+
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        requestAnimationFrame(onResize);
+      }, 100);
+    });
+
+    onResize();
+  })();
+</script>

@@ -1,0 +1,22 @@
+<section class="industries-dark-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="industries-dark-banner__block">
+          <div class="industries-dark-banner__logo">
+            <img src="{{ .Params.logo.src }}" alt="{{ .Params.logo.alt }}">
+          </div>
+          <div class="industries-dark-banner__content">
+            <p class="industries-dark-banner__content-description">{{ .Params.description }}</p>
+            <p class="industries-dark-banner__content-industry">{{ .Params.industry }}</p>
+          </div>
+          <div class="industries-dark-banner__metric">
+            <h3 class="industries-dark-banner__metric-rate">{{ .Params.metric.rate }}</h3>
+            <p class="industries-dark-banner__metric-description">{{ .Params.metric.description }}</p>
+            <a class="link link_md industries-dark-banner__metric-link" href="{{ .Params.link.href }}">{{ .Params.link.text }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

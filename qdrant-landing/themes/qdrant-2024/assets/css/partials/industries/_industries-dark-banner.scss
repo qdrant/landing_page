@@ -1,0 +1,110 @@
+@use '../../helpers/functions' as *;
+
+.industries-dark-banner {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-10;
+  
+  &__block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: $spacer * 2;
+    border-radius: $spacer * 0.5;
+    border: pxToRem(1) solid $neutral-30;
+    background: linear-gradient($neutral-20, #0e1424);
+  }
+  
+  &__logo {
+    margin-bottom: pxToRem(30);
+    
+    img {
+      height: $spacer * 3;
+    }
+  }
+  
+  &__content {
+    border-bottom: pxToRem(1) solid $neutral-30;
+    
+    &-description {
+      margin-bottom: pxToRem(30);
+      font-size: $h6-font-size;
+      line-height: $spacer * 2;
+      color: $neutral-94;
+    }
+    
+    &-industry {
+      margin-bottom: pxToRem(30);
+      color: $neutral-70;
+    }
+  }
+  
+  &__metric {
+    &-rate {
+      margin-top: pxToRem(30);
+      margin-bottom: $spacer;
+      font-size: $h5-font-size;
+      line-height: pxToRem(42);
+      color: #1FC7C7;
+    }
+    
+    &-description {
+      margin-bottom: $spacer * 5;
+      color: $neutral-70;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 0;
+    padding-bottom: $spacer * 7.5;
+
+    &__block {
+      flex-direction: row;
+      padding: $spacer * 3.5;
+    }
+    
+    &__logo {
+      flex-shrink: 0;
+      padding-right: $spacer * 3;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      padding: 0 $spacer * 3;
+      border-left: pxToRem(1) solid $neutral-30;
+      border-right: pxToRem(1) solid $neutral-30;
+      border-bottom: 0;
+
+      &-industry {
+        margin-top: auto;
+        margin-bottom: 0;
+      }
+    }
+    
+    &__metric {
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      align-items: flex-start;
+      width: pxToRem(293);
+      padding-left: $spacer * 3;
+
+      &-rate {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: $h4-font-size;
+        line-height: $spacer * 3;
+      }
+
+      &-description {
+        margin-bottom: $spacer * 5;
+        color: $neutral-70;
+      }
+      
+      &-link {
+        margin-top: auto;
+      }
+    }
+  }
+}

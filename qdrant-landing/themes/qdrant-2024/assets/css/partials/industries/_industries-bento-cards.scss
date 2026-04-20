@@ -1,0 +1,125 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.industries-bento-cards {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__subtitle {
+    margin-bottom: pxToRem(30);
+    text-align: center;
+    font-family: $font-family-code;
+    font-size: $font-size-s;
+    font-weight: 500;
+    line-height: $line-height-sm;
+    text-transform: uppercase;
+    color: $neutral-30;
+  }
+  
+  &__title {
+    margin-bottom: 0;
+    text-align: center;
+    font-size: $h4-font-size;
+    line-height: $spacer * 3;
+    color: $neutral-20;
+  }
+  
+  &__description {
+    margin-top: pxToRem(30);
+    margin-bottom: 0;
+    text-align: center;
+    color: $neutral-30;
+  }
+  
+  &__header {
+    margin-bottom: pxToRem(30);
+  }
+
+  &__card {
+    justify-content: flex-start;
+    gap: $spacer;
+    
+    &-icon {
+      height: $spacer * 1.5;
+      width: $spacer * 1.5;
+    }
+    
+    &-title {
+      margin-bottom: 0;
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      color: $neutral-20;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      color: $neutral-30;
+    }
+    
+    &-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spacer * 0.5;
+      
+      &-link {
+        display: flex;
+        gap: pxToRem(6);
+        padding: math.div($spacer, 4) pxToRem(10);
+        border-radius: math.div($spacer, 4);
+        background: $neutral-94;
+        font-size: $font-size-xs;
+        line-height: pxToRem(18);
+        color: $neutral-30;
+        
+        &:hover {
+          background: $neutral-90;
+        }
+        
+        &:after {
+          content: "";
+          display: block;
+          width: $spacer;
+          height: $spacer;
+          background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.6665 4.66675H11.3332M11.3332 4.66675V11.3334M11.3332 4.66675L4.6665 11.3334' stroke='%2328324D' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+      }
+    }
+  }
+
+  &__card-with-chips {
+    gap: $spacer * 1.5;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 2.5;
+    padding-bottom: $spacer * 7.5;
+    
+    &-with-subtitle {
+      padding-top: $spacer * 6.5;
+      padding-bottom: $spacer * 4;
+    }
+    
+    &__subtitle {
+      margin-bottom: $spacer;
+    }
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+    }
+
+    &__description {
+      margin-top: $spacer;
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+    }
+
+    &__header {
+      margin-bottom: $spacer * 4;
+    }
+  }
+}

@@ -1,0 +1,204 @@
+<section class="industries-hero">
+  <div class="container">
+    <div class="row">
+      <div class="industries-hero__content col-12 col-lg-7">
+        <div class="industries-hero__badge">
+          <img src="{{ .Params.badge.icon.src }}" alt="{{ .Params.badge.icon.alt }}">
+          <span>{{ .Params.badge.title }}</span>
+        </div>
+        <h1 class="industries-hero__title">{{ .Params.title }}</h1>
+        <p class="industries-hero__description">{{ .Params.description }}</p>
+        <div class="industries-hero__buttons">
+          <a href="{{ .Params.containedButton.url }}" class="button button_contained button_lg" target="_blank">
+            {{ .Params.containedButton.text }}
+          </a>
+          <a href="{{ .Params.outlinedButton.url }}" class="button button_outlined button_lg">
+            {{ .Params.outlinedButton.text }}
+          </a>
+        </div>
+      </div>
+      <div class="col-12 col-lg-5">
+        <div class="industries-hero__block">
+          <div class="industries-hero__tabs">
+            <button>Code</button>
+            <button>Steps</button>
+          </div>
+          <div class="industries-hero__code">
+            <div class="industries-hero__code-tabs">
+              <button class="industries-hero__code-tab">{{ .Params.language }}</button>
+              <button class="industries-hero__code-button industries-hero__code-expand">
+                <span>Expand</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4.66699 10.0004L8.00049 13.3339L11.334 10.0004M4.66699 6.00025L8.00049 2.66675L11.334 6.00025" stroke="#B4BACC" stroke-width="1.3334" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <button class="industries-hero__code-button industries-hero__code-collapse">
+                <span>Collapse</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4.66699 13.3339L8.00049 10.0004L11.334 13.3339M4.66699 2.66675L8.00049 6.00025L11.334 2.66675" stroke="#B4BACC" stroke-width="1.3334" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            <div class="industries-hero__code-content">
+              {{ with .Params.code }}
+                {{ $lang := $.Params.language | default "python" }}
+                {{ highlight . $lang "" }}
+              {{ end }}
+              <button class="industries-hero__code-content-button industries-hero__code-copy">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_14927_49916)">
+                    <path d="M2 8C1.45 8 1 7.55 1 7V2C1 1.45 1.45 1 2 1H7C7.55 1 8 1.45 8 2M5 4H10C10.5523 4 11 4.44771 11 5V10C11 10.5523 10.5523 11 10 11H5C4.44771 11 4 10.5523 4 10V5C4 4.44771 4.44771 4 5 4Z" stroke="#B4BACC" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_14927_49916">
+                      <rect width="12" height="12" fill="white"/>
+                    </clipPath>
+                  </defs>
+                </svg>
+              </button>
+              <button class="industries-hero__code-content-button industries-hero__code-done">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 3L4.5 8.5L2 6" stroke="#F0F3FA" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="industries-hero__steps">
+            {{ range .Params.steps }}
+              <div class="industries-hero__steps-item">
+                <div class="industries-hero__steps-item-header">
+                  <img src="{{ .icon.src }}" alt="{{ .icon.alt }}">
+                  <h6>{{ .title }}</h6>
+                </div>
+                <p>{{ .description }}</p>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+      <div class="industries-hero__mobile-buttons">
+        <a href="{{ .Params.containedButton.url }}" class="button button_contained button_sm" target="_blank">
+          {{ .Params.containedButton.text }}
+        </a>
+        <a href="{{ .Params.outlinedButton.url }}" class="button button_outlined button_sm">
+          {{ .Params.outlinedButton.text }}
+        </a>
+      </div>
+      <div class="industries-hero__badges col-12">
+        {{ range .Params.badges }}
+          <div class="industries-hero__badges-item">
+            <img src="{{ .icon.src }}" alt="{{ .icon.alt }}">
+            <span>{{ .title }}</span>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  (function () {
+    const initTabs = (root) => {
+      const tabsWrap = root.querySelector(".industries-hero__tabs");
+      if (!tabsWrap) return;
+      const [btnCode, btnSteps] = tabsWrap.querySelectorAll("button");
+      const codeBlock = root.querySelector(".industries-hero__code");
+      const stepsBlock = root.querySelector(".industries-hero__steps");
+      if (!btnCode || !btnSteps || !codeBlock || !stepsBlock) return;
+      
+      const setActive = (view) => {
+        const isCode = view === "code";
+        codeBlock.hidden = !isCode;
+        stepsBlock.hidden = isCode;
+        btnCode.classList.toggle("active", isCode);
+        btnSteps.classList.toggle("active", !isCode);
+        btnCode.type = "button";
+        btnSteps.type = "button";
+        btnCode.setAttribute("aria-selected", String(isCode));
+        btnSteps.setAttribute("aria-selected", String(!isCode));
+      };
+      
+      btnCode.addEventListener("click", () => setActive("code"));
+      btnSteps.addEventListener("click", () => setActive("steps"));
+      setActive("code");
+    };
+    
+    const initCodeExpandCollapse = (root) => {
+      const code = root.querySelector(".industries-hero__code");
+      if (!code) return;
+
+      const content = code.querySelector(".industries-hero__code-content");
+      const btnExpand = code.querySelector(".industries-hero__code-expand");
+      const btnCollapse = code.querySelector(".industries-hero__code-collapse");
+      if (!content || !btnExpand || !btnCollapse) return;
+
+      const collapsedHeightPx = parseFloat(getComputedStyle(content).height);
+
+      btnExpand.type = "button";
+      btnCollapse.type = "button";
+
+      const expand = () => {
+        code.classList.add("is-expanded");
+
+        const startHeight = content.getBoundingClientRect().height;
+        content.style.height = `${startHeight}px`;
+        content.offsetHeight;
+
+        const targetHeight = content.scrollHeight;
+        content.style.height = `${targetHeight}px`;
+
+        const onEnd = (e) => {
+          if (e.propertyName !== "height") return;
+          content.style.height = "auto";
+          content.removeEventListener("transitionend", onEnd);
+        };
+        content.addEventListener("transitionend", onEnd);
+      };
+
+      const collapse = () => {
+        code.classList.remove("is-expanded");
+
+        const startHeight = content.getBoundingClientRect().height;
+
+        content.style.height = `${startHeight}px`;
+        content.offsetHeight;
+        content.style.height = `${collapsedHeightPx}px`;
+      };
+
+      btnExpand.addEventListener("click", expand);
+      btnCollapse.addEventListener("click", collapse);
+    };
+
+    const initCopyCode = (root) => {
+      const codeWrap = root.querySelector(".industries-hero__code");
+      if (!codeWrap) return;
+
+      const btnCopy = codeWrap.querySelector(".industries-hero__code-copy");
+      const btnDone = codeWrap.querySelector(".industries-hero__code-done");
+      const codeEl = codeWrap.querySelector(".highlight code");
+
+      if (!btnCopy || !btnDone || !codeEl) return;
+
+      btnCopy.type = "button";
+      btnDone.type = "button";
+
+      btnCopy.addEventListener("click", async () => {
+        const text = codeEl.textContent || "";
+        try {
+          await navigator.clipboard.writeText(text);
+          btnCopy.style.display = "none";
+          btnDone.style.display = "flex";
+          setTimeout(() => {
+            btnDone.style.display = "none";
+            btnCopy.style.display = "flex";
+          }, 1200);
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    };
+    
+    initTabs(document);
+    initCodeExpandCollapse(document);
+    initCopyCode(document);
+  })();
+</script>

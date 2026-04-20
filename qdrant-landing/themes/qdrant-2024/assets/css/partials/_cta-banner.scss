@@ -47,6 +47,10 @@
     line-height: pxToRem(38);
     letter-spacing: -0.5px;
     color: $neutral-98;
+    
+    span {
+      color: $primary-50;
+    }
   }
 
   &__description {
