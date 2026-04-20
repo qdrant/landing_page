@@ -61,7 +61,7 @@ A side-effect of using `indexed_only` is that it can cause "blinking" points in 
 
 <aside role="alert"><code>prevent_unoptimized</code> is an experimental feature; its behavior may change slightly in future releases and it must be used with care.</aside>
 
-To mitigate "blinking" points, an alternative to using `indexed_only` is to set the `prevent_unoptimized` optimizer setting to `true`. This prevents the creation of large segments with unindexed data. Instead, once a segment reaches the `indexing_threshold`, all additional points will be added in a "deferred" state. Deferred points are not yet visible in reads but are available to write operations. Deferred points are promoted to visible points once the segment has been optimized.
+To mitigate "blinking" points, an alternative to using `indexed_only` is to set the `prevent_unoptimized` optimizer setting to `true`. This prevents the creation of large segments with unindexed data. Instead, once a segment reaches the `indexing_threshold`, all additional points will be added in a "deferred" state. Deferred points are not yet visible in reads but are handled in write operations. Deferred points are promoted to visible points once the segment has been optimized.
 
 Refer to [Prevent Reads from Large Unindexed Segments](/documentation/operations/optimizer/#prevent-reads-from-large-unindexed-segments) for more details on how this works.
 

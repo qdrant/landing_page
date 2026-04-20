@@ -141,7 +141,7 @@ To mitigate this, the optimizer supports a `prevent_unoptimized` mode. When enab
 Do not use <code>prevent_unoptimized</code> in combination with <code>wait=true</code> on write requests without understanding the implications. See <a href="#effect-on-waittrue">Effect on <code>wait=true</code></a>.
 </aside>
 
-With `prevent_unoptimized` enabled, setting `indexed_only` to `true` is not necessary.
+With `prevent_unoptimized` enabled, setting `indexed_only` to `true` is not necessary. They are mutually exclusive.
 
 ### Effect on `wait=true`
 
@@ -149,7 +149,7 @@ Write requests support a [`wait` parameter](/documentation/manage-data/points/#a
 
 Qdrant processes updates in strict order: each update is written to the write-ahead log and then applied sequentially by the update worker, preserving this order.
 
-Under normal conditions, setting `wait=true` on a write request returns after the update has been applied to a segment. After enabling `prevent_unoptimized`, the response is held until every deferred point, including the current update, has been indexed and is visible for search. Depending on the volume of pending updates in the update queue and the speed of the optimizer, this can take a significant amount of time and may lead to timeouts on the client side. If the client times out, the update can be expected to be durably stored and eventually indexed, but the client will not receive a confirmation for that specific request.
+Under normal conditions, setting `wait=true` on a write request returns after the update has been applied to a segment. After enabling `prevent_unoptimized`, the response is held until every deferred point, including the current update, has been indexed and is visible for search. Depending on the volume of pending updates in the update queue and the speed of the optimizer, this can take a significant amount of time and will likely lead to timeouts on the client side. If the client times out, the update can be expected to be durably stored and eventually indexed, but the client will not receive a confirmation for that specific request.
 
 Because the update worker must finish indexing before continuing to consume the queue, a blocked `wait=true` request also delays all subsequent updates that use `wait=true`. Updates with `wait=false` are written to the write-ahead log immediately, but they are not applied until the blocked request unblocks. This head-of-line blocking means that `wait=true` can stall the entire update pipeline for as long as indexing takes. Use it with caution when `prevent_unoptimized` is enabled and the cluster is under heavy write load.
 
