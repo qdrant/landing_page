@@ -24,8 +24,8 @@ The three levels aren't measured in isolation. Teams that successfully connect r
 
 | Layer | Question it answers | Cadence | Cost |
 |---|---|---|---|
-| `Recall@k` vs exact kNN on a sampled query set | Is the ANN plumbing sound? | On index-config or embedding changes | Low, once a sample query set exists |
-| `Recall@k` / `NDCG@k` vs labeled golden set | Are the right documents surfacing? | Weekly, or on retrieval-stack changes | Low per run; **building the golden set is the real cost** (see the next page) |
+| `Recall@k` vs exact kNN on a sampled query set | Is HNSW recovering the true top-k? | On index-config or embedding changes | Low, once a sample query set exists |
+| `Recall@k` / `NDCG@k` vs labeled golden set | Are the right documents surfacing? | Weekly, or on retrieval-stack changes | Low per run; **building the golden set is the real cost** (see next tutorial) |
 | End-to-end answer quality on golden set, scored by LLM-as-judge or human rating | Does the user get a correct answer? | Weekly, or on retrieval- or generator-stack changes | Moderate (LLM-judge cost per query × eval size) |
 | Online A/B behind a flag | Does the business KPI move? | Per release, once offline layers pass | High (traffic allocation, experimentation infra) |
 
