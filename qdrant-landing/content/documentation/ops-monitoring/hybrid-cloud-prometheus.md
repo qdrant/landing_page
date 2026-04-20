@@ -3,6 +3,7 @@ title: Self-Hosted Prometheus Monitoring
 weight: 15
 aliases:
   - /documentation/ops-monitoring/hybrid-cloud-prometheus
+  - /documentation/tutorials-and-examples/hybrid-cloud-prometheus
 ---
 
 # Monitoring Hybrid/Private Cloud with Prometheus and Grafana

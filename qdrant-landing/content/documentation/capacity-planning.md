@@ -6,6 +6,7 @@ aliases:
   - capacity
   - /documentation/cloud/capacity-sizing
   - /documentation/capacity-planning
+  - /documentation/operations/capacity-planning
 ---
 # Capacity Planning
 

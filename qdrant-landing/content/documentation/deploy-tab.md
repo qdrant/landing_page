@@ -4,6 +4,7 @@ slug: deploy-intro
 breadcrumb: false
 aliases:
   - /documentation/deploy-intro
+  - /documentation/cloud-intro
 content:
   - partial: documentation/banners/banner-b
     title: Deploy Qdrant

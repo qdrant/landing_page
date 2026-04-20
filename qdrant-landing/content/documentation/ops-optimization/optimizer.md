@@ -4,6 +4,7 @@ weight: 10
 aliases:
   - /documentation/optimizer
   - /documentation/ops-optimization/optimizer
+  - /documentation/operations/optimizer
 ---
 
 # Optimizer

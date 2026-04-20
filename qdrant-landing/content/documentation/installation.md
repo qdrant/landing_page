@@ -5,7 +5,7 @@ weight: 110
 aliases:
   - /documentation/install
   - /documentation/installation
-  - /documentation/installation
+  - /documentation/operations/installation
 ---
 
 # Installation requirements

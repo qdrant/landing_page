@@ -4,6 +4,7 @@ weight: 5
 aliases:
   - /documentation/tutorials/optimize
   - /documentation/ops-optimization/optimize
+  - /documentation/operations/optimize
 ---
 
 # Optimizing Qdrant Performance: Three Scenarios

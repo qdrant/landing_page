@@ -4,6 +4,7 @@ weight: 5
 aliases:
   - /documentation/monitoring
   - /documentation/ops-monitoring/monitoring
+  - /documentation/operations/monitoring
 ---
 
 # Monitoring & Telemetry
