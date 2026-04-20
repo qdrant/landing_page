@@ -2,11 +2,11 @@
 title: "Announcing Vector Space Day 2026 in San Francisco"
 draft: false
 slug: vector-space-day-sf-2026
-short_description: "We’re hosting our first-ever full-day in-person Vector Space Day this September in Berlin, and you’re invited."
+short_description: "Join 300+ AI builders in San Francisco to talk about search, AI retrieval, agents, memory, edge & robotics AI, and more."
 description: "From building scalable RAG pipelines to enabling real-time AI memory and next-gen context engineering, we’re covering the full spectrum of modern vector-native search."
-preview_image: /blog/vector-space-day-2026-sf/Vector-Space-Day-Hero.png
-social_preview_image: /blog/vector-space-day-2026-sf/Vector-Space-Day-Hero.png
-date: 2026-04-08
+preview_image: /blog/vector-space-day-2026-sf/vsd-2026-initial-logos.jpg
+social_preview_image: /blog/vector-space-day-2026-sf/vsd-2026-initial-logos.jpg
+date: 2026-04-20
 author: Qdrant
 featured: false
 tags:
