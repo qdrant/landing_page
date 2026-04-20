@@ -6,7 +6,7 @@ aliases:
 weight: 6
 ---
 
-# Evaluate Retrieval Quality with Qdrant
+# Evaluate Retrieval Quality
 
 | Time: 30 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
