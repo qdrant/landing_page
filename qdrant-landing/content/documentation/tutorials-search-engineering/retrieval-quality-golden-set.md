@@ -42,6 +42,66 @@ def generate_queries_for_doc(doc_text: str, n: int = 3) -> list[str]:
 
 For high-stakes applications, **human annotation** is the cleanest approach. Domain experts rate query-document pairs on a 3 to 5 point relevance scale, which is expensive but produces the signal needed for NDCG-based evaluation.
 
+## Using the Golden Set
+
+Once queries are labeled, run each through Qdrant and compare the returned IDs against the labels. The metric to compute depends on what the labels record (see the [metric-selection table](/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#choosing-the-right-metric)).
+
+For **binary-relevance labels** (a set of relevant doc IDs per query), compute `recall@k` and `MRR`:
+
+```python
+def recall_at_k(retrieved_ids: list, relevant_ids: set, k: int) -> float:
+    hit = sum(1 for doc_id in retrieved_ids[:k] if doc_id in relevant_ids)
+    return hit / len(relevant_ids) if relevant_ids else 0.0
+
+def mrr(retrieved_ids: list, relevant_ids: set) -> float:
+    for i, doc_id in enumerate(retrieved_ids):
+        if doc_id in relevant_ids:
+            return 1.0 / (i + 1)
+    return 0.0
+```
+
+For **graded-relevance labels** (for example 0/1/2 scores per query-document pair), compute `NDCG@k`:
+
+```python
+import numpy as np
+
+def ndcg_at_k(retrieved_ids: list, relevance_map: dict, k: int) -> float:
+    dcg = sum(
+        (2 ** relevance_map.get(doc_id, 0) - 1) / np.log2(i + 2)
+        for i, doc_id in enumerate(retrieved_ids[:k])
+    )
+    ideal = sorted(relevance_map.values(), reverse=True)[:k]
+    idcg = sum((2 ** rel - 1) / np.log2(i + 2) for i, rel in enumerate(ideal))
+    return dcg / idcg if idcg > 0 else 0.0
+```
+
+Run the evaluation loop across the golden set:
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient("http://localhost:6333")
+
+def evaluate(golden_set: list, collection: str, k: int = 10) -> dict:
+    recalls, mrrs = [], []
+    for entry in golden_set:
+        results = client.query_points(
+            collection_name=collection,
+            query=entry["query_vector"],
+            limit=k,
+        ).points
+        retrieved = [p.id for p in results]
+        relevant = set(entry["relevant_ids"])
+        recalls.append(recall_at_k(retrieved, relevant, k))
+        mrrs.append(mrr(retrieved, relevant))
+    return {
+        "mean_recall": sum(recalls) / len(recalls),
+        "mean_mrr": sum(mrrs) / len(mrrs),
+    }
+```
+
+This produces the retrieval-relevance score (layer 2 of the [evaluation ladder](/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-levels-in-practice)). Re-run it whenever the retrieval stack changes: new embedding model, new index config, new reranker. To measure layer 1 (ANN recall against exact kNN), see [Retrieval Quality Evaluation](/documentation/tutorials-search-engineering/retrieval-quality/).
+
 ## Pitfalls to Watch For (Data Leakage and Friends)
 
 The term **data leakage** is often used loosely to cover any situation where evaluation scores come out higher than real-world performance would justify. Unlike classical ML train/test leakage, the failure modes for golden query sets are more subtle. The document that a query was generated from **must** be indexed (it's the relevant answer the evaluation expects to find), so "hold out the labeled docs from the index" is *not* the right fix. The real risks are the following.
