@@ -5,7 +5,6 @@
   padding-bottom: $spacer * 2.5;
   background-color: $neutral-94;
 
-  // Header
   &__header {
     text-align: center;
     margin-bottom: pxToRem(30);
@@ -22,7 +21,6 @@
     margin: 0;
   }
 
-  // Controls
   &__controls {
     flex-shrink: 0;
     margin-left: auto;
@@ -91,7 +89,6 @@
     );
   }
   
-  // Card
   &__card {
     justify-content: flex-start;
     gap: $spacer * 2;
