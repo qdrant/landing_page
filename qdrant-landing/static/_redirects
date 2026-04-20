@@ -32,7 +32,7 @@
 # Cloud quickstart URL change in PR #1615
 /documentation/quickstart-cloud/*               /documentation/cloud-quickstart/:splat                 301
 # Operations pages moved to documentation root (docs reorganization)
-/documentation/operations/                                        /documentation/                                             301
+/documentation/operations/                                        /documentation/deploy-intro/                                301
 /documentation/operations/capacity-planning/                     /documentation/capacity-planning/                           301
 /documentation/operations/installation/                          /documentation/installation/                                301
 /documentation/operations/distributed_deployment/                /documentation/distributed_deployment/                      301
