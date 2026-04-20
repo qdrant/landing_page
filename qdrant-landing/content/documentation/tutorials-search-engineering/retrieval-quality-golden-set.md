@@ -14,9 +14,19 @@ Evaluating retrieval relevance requires a labeled dataset of queries paired with
 
 ## Generating Queries
 
-The highest-fidelity source is **real user queries mined from logs**. If the application records clicks or explicit feedback, sample query-document pairs and use them directly. Reach for this first before generating synthetic data. When sampling, stratify by query type or topic cluster rather than sampling uniformly at random: a random sample over-represents frequent queries and leaves rare-but-important cases uncovered. As a rough heuristic, a few hundred labeled pairs is enough to detect large metric differences; detecting small ranking differences or slicing by query type requires substantially more. The right number depends on your effect size and query-level variance, so treat any specific number as a starting point and widen confidence intervals if the signal is noisy.
+There are three practical approaches to building a golden set. They trade quality against cost and scale, so most teams use a mix. Pick the ones that match your resources and quality bar.
 
-When logs aren't available, **LLM-based synthetic generation** is a practical alternative. For each document in the corpus, prompt a capable LLM to generate a handful of queries that a user would plausibly ask if they were looking for that document. This scales cheaply to thousands of query-document pairs.
+### 1. Human Annotation (Highest Quality, Highest Cost)
+
+Domain experts review query-document pairs and assign relevance scores, typically on a binary (relevant / not relevant) or graded (0/1/2 or 1 to 5) scale. This is the cleanest approach for high-stakes applications and produces the graded labels needed for NDCG-based evaluation. The bottleneck is expert time, so most teams reserve it for a small, high-value subset (for example, the hardest queries or the ones that matter most commercially) and build coverage around it with the other two approaches.
+
+### 2. Real User Queries from Logs (High Realism, Requires Production Traffic)
+
+If the application records queries with click or explicit-feedback signals, sample query-document pairs and use them directly. This captures real user intent and vocabulary, and is the first thing to reach for once production traffic exists. When sampling, stratify by query type or topic cluster rather than sampling uniformly at random: a random sample over-represents frequent queries and leaves rare-but-important cases uncovered. As a rough heuristic, a few hundred labeled pairs is enough to detect large metric differences; detecting small ranking differences or slicing by query type requires substantially more. The right number depends on your effect size and query-level variance, so treat any specific number as a starting point and widen confidence intervals if the signal is noisy.
+
+### 3. LLM-Based Synthetic Generation (Scales Cheaply, Lowest Fidelity)
+
+When neither logs nor human reviewers are available, prompt a capable LLM to generate queries that a user would plausibly ask to find each document. This scales cheaply to thousands of query-document pairs, but synthetic queries tend to be easier to retrieve than what real users type. See *Synthetic-query unrealism* below before trusting the numbers.
 
 ```python
 import os
@@ -39,8 +49,6 @@ def generate_queries_for_doc(doc_text: str, n: int = 3) -> list[str]:
     )
     return response.content[0].text.strip().splitlines()
 ```
-
-For high-stakes applications, **human annotation** is the cleanest approach. Domain experts rate query-document pairs on a 3 to 5 point relevance scale, which is expensive but produces the signal needed for NDCG-based evaluation.
 
 ## Using the Golden Set
 
