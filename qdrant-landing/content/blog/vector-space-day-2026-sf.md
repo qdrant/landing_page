@@ -37,10 +37,11 @@ Last year in Berlin we brought together 400+ engineers, researchers, and AI buil
 ### Topics We’ll Explore
 
 If you work on any of the following, the Vector Space Day 2026 is your event:
-* Retrieval Foundations
-* Agents & Memory 
-* Multi modal & real-world scale  
-* Edge & Hands-on
+* Search & AI Retrieval
+* Agents & Memory
+* Edge & Robotics AI
+* Happy Hour
+
 
 ### After Party
 The day won’t end when the last session wraps. Your ticket includes access to the happy hour where we will unwind and keep the conversations going over drinks, music, and light bites. 
@@ -73,7 +74,7 @@ In the lead-up to Vector Space Day, we're hosting **Think Outside the Bot**, a g
 
 
 
-### Need your manager’s approval to atten the event on June 11?
+### Need your manager’s approval to attend the event on June 11?
 
 We’ve got you covered. Download this ready-to-send request letter to help explain why attending Vector Search Day is a valuable use of your time (and budget). [Download now](https://docs.google.com/document/d/1EivCVK47XEFXAhyoo8QaCBX0Op6uicUODAxTGXhZxrs/edit?usp=sharing). 
 
