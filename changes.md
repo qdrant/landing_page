@@ -58,10 +58,10 @@ The three levels are not measured in isolation. Teams that successfully connect 
 
 | Layer | Question it answers | Cadence | Cost |
 |---|---|---|---|
-| `Recall@k` vs exact kNN | Is the ANN plumbing sound? | Every CI run | ~free |
-| `Recall@k` / `NDCG@k` vs labeled golden set | Are the right documents surfacing? | Weekly | cheap (pre-built set) |
-| End-to-end answer quality on golden set, scored by LLM-as-judge or human rating | Does the user actually get a correct answer? | Weekly | moderate |
-| Online A/B behind a flag | Does the business KPI move? | Per release | expensive |
+| `Recall@k` vs exact kNN on a sampled query set | Is the ANN plumbing sound? | On index-config or embedding changes | Low, once a sample query set exists |
+| `Recall@k` / `NDCG@k` vs labeled golden set | Are the right documents surfacing? | Weekly, or on retrieval-stack changes | Low per run; **building the golden set is the real cost** — see the next page |
+| End-to-end answer quality on golden set, scored by LLM-as-judge or human rating | Does the user actually get a correct answer? | Weekly, or on retrieval- or generator-stack changes | Moderate (LLM-judge cost per query × eval size) |
+| Online A/B behind a flag | Does the business KPI move? | Per release, once offline layers pass | High (traffic allocation, experimentation infra) |
 
 Each layer is necessary but not sufficient. A win at layer 2 that does not carry through to layer 3 usually means the generator or the prompt is the bottleneck, not retrieval — this is the single most useful diagnostic the ladder provides, and the reason teams should not collapse layers 2 and 3 into a single score.
 
@@ -80,7 +80,7 @@ are based on the number of relevant documents in the top-k search results. Other
 take into account the position of the first relevant document in the search results. [DCG and NDCG](https://en.wikipedia.org/wiki/Discounted_cumulative_gain)
 metrics are, in turn, based on the relevance score of the documents.
 
-If we treat the search pipeline as a whole, we could use them all. However, for the ANN algorithm itself, anything based on the relevance score or ranking is not applicable. Ranking in vector search relies on the distance between the query and the document in the vector space, and distance is not going to change due to approximation, as the function is still the same. Therefore, the right measure for the ANN algorithm is **`recall@k`**: of the true `k` nearest neighbours returned by exact search, how many does the approximate search recover? It is calculated as `|ANN results ∩ exact results| / k`. Note that when both ANN and exact search return exactly `k` items, `recall@k` and `precision@k` are numerically identical — we use "recall" to stay aligned with the ANN-benchmarks convention and to make it clear the ground truth is the exact top-k set.
+If we treat the search pipeline as a whole, we could use any of them. For the ANN algorithm itself, however, the natural question is much narrower: did the approximate search recover the same set of items that an exact kNN search would have returned? What approximation actually loses is *items* — some true nearest neighbours are missed and replaced by further ones — so the most informative metric is set-overlap against exact kNN. This is **`recall@k`**: of the true `k` nearest neighbours returned by exact search, how many does the approximate search recover? It is calculated as `|ANN results ∩ exact results| / k`. Note that when both ANN and exact search return exactly `k` items, `recall@k` and `precision@k` are numerically identical — the community uses "recall" to stay aligned with the ANN-benchmarks convention and to make it explicit that the ground truth is the exact top-k set.
 
 ### Choosing the right metric
 
@@ -88,7 +88,7 @@ The right choice of metric depends on what the search pipeline does with its res
 
 | Scenario | Recommended metric | Ground truth | Why |
 |---|---|---|---|
-| Tuning HNSW parameters | `Recall@k` | Exact kNN search | Measures how many of the true `k` nearest neighbours the ANN recovered; ranking within that set is unaffected by approximation |
+| Tuning HNSW parameters | `Recall@k` | Exact kNN search | Approximation manifests as missed items from the true top-k set, so set-overlap against exact search is the quantity that actually changes with index parameters |
 | RAG pipeline (LLM reads top-k chunks) | `Recall@k` | Labeled relevant chunks | The LLM can recover if a relevant doc is at position 3 vs 1; missing it entirely hurts more |
 | Single-answer retrieval (FAQ, Q&A) | `MRR` or `Hits@1` | Labeled correct answer | The first result is what the user acts on; lower ranks matter little |
 | Re-ranking or recommendation feeds | `NDCG@k` | Graded relevance labels (e.g. 0/1/2) | Order within the result list matters; a highly relevant doc at rank 5 is worse than at rank 1 |
