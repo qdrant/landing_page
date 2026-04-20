@@ -4,8 +4,8 @@ draft: false
 slug: vector-space-day-sf-2026
 short_description: "Join 300+ AI builders in San Francisco to talk about search, AI retrieval, agents, memory, edge & robotics AI, and more."
 description: "From building scalable RAG pipelines to enabling real-time AI memory and next-gen context engineering, we’re covering the full spectrum of modern vector-native search."
-preview_image: /blog/vector-space-day-2026-sf/vsd-2026-initial-logos.jpg
-social_preview_image: /blog/vector-space-day-2026-sf/vsd-2026-initial-logos.jpg
+preview_image: /blog/vector-space-day-2026-sf/sf-hero-20-april.jpg
+social_preview_image: /blog/vector-space-day-2026-sf/sf-hero-20-april.jpg
 date: 2026-04-20
 author: Qdrant
 featured: false
@@ -48,7 +48,7 @@ The day won’t end when the last session wraps. Your ticket includes access to 
 
 ### Call for Speakers
 
-We’ve locked in a strong lineup but we’re saving a few select slots for standout talks from the community. If you’re building something novel in vector search, AI memory, context engineering, or retrieval infra, we want to hear from you.
+We’ve locked in a strong lineup including Llamaindex, mem0, Neo4j, and more, but we’re saving a few select slots for standout talks from the community. If you’re building something novel in vector search, AI memory, context engineering, or retrieval infra, we want to hear from you.
 
 [Submit your proposal.](https://docs.google.com/forms/d/e/1FAIpQLSfefAtmGP59-0IhNxCCMbNRCDlU-JRkJnSja3GfOrBnTZw-CA/viewform?usp=dialog) 
 
