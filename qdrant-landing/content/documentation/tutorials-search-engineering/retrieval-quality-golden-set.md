@@ -1,0 +1,57 @@
+---
+title: Building a Golden Query Set
+weight: 5
+aliases:
+  - /documentation/tutorials/retrieval-quality-golden-set/
+---
+
+# Building a Golden Query Set
+
+| Time: 20 min | Level: Intermediate |  |    |
+|--------------|---------------------|--|----|
+
+Evaluating retrieval relevance requires a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). The [Retrieval Quality Evaluation](/documentation/tutorials-search-engineering/retrieval-quality/) tutorial measures **ANN recall** against exact kNN, which needs no relevance labels. This page covers the separate task of building labeled data to measure **retrieval relevance** against real user intent.
+
+## Generating Queries
+
+The highest-fidelity source is **real user queries mined from logs**. If the application records clicks or explicit feedback, sample query-document pairs and use them directly. Reach for this first before generating synthetic data. When sampling, stratify by query type or topic cluster rather than sampling uniformly at random: a random sample over-represents frequent queries and leaves rare-but-important cases uncovered. As a rough heuristic, a few hundred labeled pairs is enough to detect large metric differences; detecting small ranking differences or slicing by query type requires substantially more. The right number depends on your effect size and query-level variance, so treat any specific number as a starting point and widen confidence intervals if the signal is noisy.
+
+When logs aren't available, **LLM-based synthetic generation** is a practical alternative. For each document in the corpus, prompt a capable LLM to generate a handful of queries that a user would plausibly ask if they were looking for that document. This scales cheaply to thousands of query-document pairs.
+
+```python
+import os
+
+import anthropic
+
+client = anthropic.Anthropic()
+
+def generate_queries_for_doc(doc_text: str, n: int = 3) -> list[str]:
+    response = client.messages.create(
+        model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6"),
+        max_tokens=256,
+        messages=[{
+            "role": "user",
+            "content": (
+                f"Generate {n} short, realistic search queries that would lead a user to the "
+                f"following document. Return only the queries, one per line.\n\n{doc_text}"
+            ),
+        }],
+    )
+    return response.content[0].text.strip().splitlines()
+```
+
+For high-stakes applications, **human annotation** is the cleanest approach. Domain experts rate query-document pairs on a 3 to 5 point relevance scale, which is expensive but produces the signal needed for NDCG-based evaluation.
+
+## Pitfalls to Watch For (Data Leakage and Friends)
+
+The term **data leakage** is often used loosely to cover any situation where evaluation scores come out higher than real-world performance would justify. Unlike classical ML train/test leakage, the failure modes for golden query sets are more subtle. The document that a query was generated from **must** be indexed (it's the relevant answer the evaluation expects to find), so "hold out the labeled docs from the index" is *not* the right fix. The real risks are the following.
+
+**Synthetic-query unrealism.** LLMs tend to paraphrase the source document's wording. The resulting queries are much easier to retrieve than what real users type, which are typically shorter, vaguer, and use different vocabulary. Offline scores on synthetic queries therefore overstate production quality. Two practical mitigations: (1) prompt the LLM to write queries "as a user who has not seen this document", and (2) anchor a sample of synthetic queries against any real queries you do have, and verify the distributions of length and specificity are comparable.
+
+**Embedding-model contamination.** If the embedding model was fine-tuned on (query, document) pairs that overlap with the golden set, the evaluation measures in-distribution performance and overstates real-world behavior. When using an off-the-shelf model, check its training mixture if published; when fine-tuning in-house, keep a strict split between fine-tuning data and evaluation data.
+
+**Near-duplicate documents.** If two documents are nearly identical, a query generated from one will retrieve the other, but the other won't be in the labels, so **precision is under-reported** because the labeled relevant set is incomplete. Deduplicate the corpus before generating labels (e.g. drop documents with cosine similarity > 0.95 to an earlier document), or label near-duplicate clusters jointly.
+
+**Temporal drift.** If the corpus evolves over time, evaluating with queries generated from documents that post-date the index version under test is unfair: those documents aren't there to retrieve. Pin the corpus snapshot, generate queries from that snapshot, and re-generate the golden set when the corpus changes materially.
+
+**Reviewer reproducibility.** Whatever approach you pick, pin the data: the corpus snapshot, the query-generation prompt, the LLM model version, and any deduplication threshold. Without this, a later "the score got worse" investigation can't tell whether the retrieval regressed or the evaluation set changed underneath it.
