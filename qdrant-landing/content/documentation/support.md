@@ -1,7 +1,7 @@
 ---
 title: Support
-weight: 35
-partition: cloud
+weight: 305
+partition: deploy
 aliases:
     - /documentation/cloud/support/
 ---

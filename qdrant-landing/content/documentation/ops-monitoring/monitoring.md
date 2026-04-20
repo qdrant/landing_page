@@ -1,8 +1,10 @@
 ---
 title: Monitoring & Telemetry
-weight: 35
+weight: 5
 aliases:
-  - ../monitoring
+  - /documentation/monitoring
+  - /documentation/ops-monitoring/monitoring
+  - /documentation/operations/monitoring
 ---
 
 # Monitoring & Telemetry
@@ -63,7 +65,7 @@ Counters - such as the number of created snapshots - are reset when the node is 
 | collection_hardware_metric_vector_io_read         | counter | Vector IO read operations measurement, per collection <sup>(v1.13+)</sup> [^metrics-hwreporting]      |
 | collection_hardware_metric_vector_io_write        | counter | Vector IO write operations measurement, per collection <sup>(v1.13+)</sup> [^metrics-hwreporting]     |
 
-[^metrics-hwreporting]: Only reported if hardware metrics are enabled in the configuration. See `service.hardware_reporting` in the [configuration](/documentation/operations/configuration/).
+[^metrics-hwreporting]: Only reported if hardware metrics are enabled in the configuration. See `service.hardware_reporting` in the [configuration](/documentation/ops-configuration/configuration/).
 
 **Snapshot metrics**
 
@@ -121,7 +123,7 @@ when distributed mode is enabled.
 | cluster_pending_operations_total | gauge   | Number of pending consensus operations [^metrics-distributed]           |
 | cluster_voter                    | gauge   | If a consensus voter (`1`) or learner (`0`) [^metrics-distributed]      |
 
-[^metrics-distributed]: Only reported if distributed mode (cluster mode) is enabled. Enabled by default in all Qdrant Cloud environments. See `cluster.enabled` in the [configuration](/documentation/operations/configuration/).
+[^metrics-distributed]: Only reported if distributed mode (cluster mode) is enabled. Enabled by default in all Qdrant Cloud environments. See `cluster.enabled` in the [configuration](/documentation/ops-configuration/configuration/).
 
 ### Metrics configuration
 
@@ -131,7 +133,7 @@ In self-hosted environments you have further configuration options for metrics.
 
 By default, all Qdrant metrics have no application namespace prefix. You may set
 a prefix with `service.metrics_prefix` in the
-[configuration](/documentation/operations/configuration/).
+[configuration](/documentation/ops-configuration/configuration/).
 
 To achieve this you may use the following environment variable for example:
 
@@ -163,7 +165,7 @@ Qdrant server.
 These currently provide the most basic status response, returning HTTP 200 if
 Qdrant is started and ready to be used.
 
-Regardless of whether an [API key](/documentation/operations/security/#authentication) is configured,
+Regardless of whether an [API key](/documentation/security/#authentication) is configured,
 the endpoints are always accessible.
 
 You can read more about Kubernetes health endpoints

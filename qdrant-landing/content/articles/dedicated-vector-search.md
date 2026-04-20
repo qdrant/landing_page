@@ -128,7 +128,7 @@ With index maintenance divided between segments, Qdrant can ensure high performa
 | | |
 |---------------------|-------------|
 | **Mutable Segments** | These are used for quickly ingesting new data and handling changes (updates) to existing data. |
-| **Immutable Segments** | Once a mutable segment reaches a certain size, an optimization process converts it into an immutable segment, constructing an HNSW index – you could [**read about these optimizers here**](/documentation/operations/optimizer/#optimizer) in detail. This immutability trick allowed us, for example, to ensure effective [**tenant isolation**](/documentation/manage-data/indexing/#tenant-index). |
+| **Immutable Segments** | Once a mutable segment reaches a certain size, an optimization process converts it into an immutable segment, constructing an HNSW index – you could [**read about these optimizers here**](/documentation/ops-optimization/optimizer/#optimizer) in detail. This immutability trick allowed us, for example, to ensure effective [**tenant isolation**](/documentation/manage-data/indexing/#tenant-index). |
 
 Immutable segments are an implementation detail transparent for users — they can delete vectors at any time, while additions and updates are applied to a mutable segment instead. This combination of mutability and immutability allows search and indexing to smoothly run simultaneously, even under heavy loads. This approach minimizes the performance impact of indexing time and allows on-the-fly configuration changes on a collection level (such as enabling or disabling data quantization) without downtimes.
 

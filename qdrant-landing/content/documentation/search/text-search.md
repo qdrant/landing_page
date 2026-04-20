@@ -67,7 +67,7 @@ For example, take a string like "United States". If you want to filter on all po
 To filter on exact strings, first create a [payload index](/documentation/manage-data/indexing/#payload-index) of type `keyword`for the field you want to filter on. A payload index makes filtering faster and reduces the load on the system.
 
 <aside role="status">
-Filtering on a field without an index is not possible on collections that run in <a href="/documentation/operations/administration/#strict-mode">strict mode</a>. Strict mode is enabled by default on Qdrant Cloud.
+Filtering on a field without an index is not possible on collections that run in <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a>. Strict mode is enabled by default on Qdrant Cloud.
 </aside>
 
 For example, to filter books by author name, create a keyword index on the "author" field:

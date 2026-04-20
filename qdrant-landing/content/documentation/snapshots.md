@@ -1,8 +1,10 @@
 ---
 title: Snapshots
-weight: 25
+partition: deploy
+weight: 135
 aliases:
-  - ../snapshots
+  - /documentation/snapshots
+  - /documentation/operations/snapshots
 ---
 
 # Snapshots
@@ -135,7 +137,7 @@ To recover from a URL, you specify an additional parameter in the request body:
 Sometimes it might be handy to create snapshot not just for a single collection, but for the whole storage, including collection aliases.
 Qdrant provides a dedicated API for that as well. It is similar to collection-level snapshots, but does not require `collection_name`.
 
-<aside role="alert">Full storage snapshots are only suitable for single-node deployments. <a href="/documentation/operations/distributed_deployment/">Distributed</a> mode is not supported as it doesn't contain the necessary files for that.</aside>
+<aside role="alert">Full storage snapshots are only suitable for single-node deployments. <a href="/documentation/distributed_deployment/">Distributed</a> mode is not supported as it doesn't contain the necessary files for that.</aside>
 
 <aside role="status">Full storage snapshots can be created and downloaded from Qdrant Cloud, but you cannot restore a Qdrant Cloud cluster from a whole storage snapshot since that requires use of the Qdrant CLI. You can use <a href="/documentation/cloud/backups/">Backups</a> instead.</aside>
 
@@ -180,7 +182,7 @@ also configure to use an [S3 storage](#s3) service for them.
 By default, snapshots are stored at `./snapshots` or at `/qdrant/snapshots` when
 using our Docker image.
 
-The target directory can be controlled through the [configuration](/documentation/operations/configuration/):
+The target directory can be controlled through the [configuration](/documentation/ops-configuration/configuration/):
 
 ```yaml
 storage:
@@ -208,7 +210,7 @@ storage:
 
 Rather than storing snapshots on the local file system, you may also configure
 to store snapshots in an S3-compatible storage service. To enable this, you must
-configure it in the [configuration](/documentation/operations/configuration/) file.
+configure it in the [configuration](/documentation/ops-configuration/configuration/) file.
 
 For example, to configure for AWS S3:
 

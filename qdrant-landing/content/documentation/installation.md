@@ -1,9 +1,11 @@
 ---
 title: Installation
-weight: 10
+partition: deploy
+weight: 110
 aliases:
-  - ../install
-  - ../installation
+  - /documentation/install
+  - /documentation/installation
+  - /documentation/operations/installation
 ---
 
 # Installation requirements
@@ -39,15 +41,15 @@ Qdrant won't work with [Network file systems](https://en.wikipedia.org/wiki/File
 
 If you offload vectors to a local disk, we recommend you use a solid-state (SSD or NVMe) drive.
 
-<aside role="status">Using Docker/WSL on Windows with mounts is known to have file system problems causing data loss. See <a href="/documentation/operations/common-errors/#incompatible-file-system">troubleshooting</a>.</aside>
+<aside role="status">Using Docker/WSL on Windows with mounts is known to have file system problems causing data loss. See <a href="/documentation/common-errors/#incompatible-file-system">troubleshooting</a>.</aside>
 
 ### Networking
 
 Each Qdrant instance requires three open ports:
 
-* `6333` - For the HTTP API, for the [Monitoring](/documentation/operations/monitoring/) health and metrics endpoints
+* `6333` - For the HTTP API, for the [Monitoring](/documentation/ops-monitoring/monitoring/) health and metrics endpoints
 * `6334` - For the [gRPC](/documentation/interfaces/#grpc-interface) API
-* `6335` - For [Distributed deployment](/documentation/operations/distributed_deployment/)
+* `6335` - For [Distributed deployment](/documentation/distributed_deployment/)
 
 All Qdrant instances in a cluster must be able to:
 
@@ -56,7 +58,7 @@ All Qdrant instances in a cluster must be able to:
 
 ### Security
 
-The default configuration of Qdrant might not be secure enough for every situation. Please see [our security documentation](/documentation/operations/security/) for more information.
+The default configuration of Qdrant might not be secure enough for every situation. Please see [our security documentation](/documentation/security/) for more information.
 
 ## Installation options
 
@@ -81,7 +83,7 @@ We provide a Qdrant Enterprise Operator for Kubernetes installations as part of 
 
 ### Kubernetes
 
-You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in your Kubernetes cluster. While it is possible to deploy Qdrant in a distributed setup with the Helm chart, it does not come with the same level of features for zero-downtime upgrades, up and down-scaling, monitoring, logging, and backup and disaster recovery as the Qdrant Cloud offering or the Qdrant Private Cloud Enterprise Operator. Instead you must manage and set this up [yourself](/documentation/operations/distributed_deployment/). Support for the Helm chart is limited to community support.
+You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in your Kubernetes cluster. While it is possible to deploy Qdrant in a distributed setup with the Helm chart, it does not come with the same level of features for zero-downtime upgrades, up and down-scaling, monitoring, logging, and backup and disaster recovery as the Qdrant Cloud offering or the Qdrant Private Cloud Enterprise Operator. Instead you must manage and set this up [yourself](/documentation/distributed_deployment/). Support for the Helm chart is limited to community support.
 
 The following table gives you an overview about the feature differences between the Qdrant Cloud and the Helm chart:
 
@@ -123,11 +125,11 @@ However, you can also use Docker and Docker Compose to run Qdrant in production,
 In addition, you have to make sure:
 
 * To use a performant [persistent storage](#storage) for your data
-* To configure the [security settings](/documentation/operations/security/) for your deployment
-* To set up and configure Qdrant on multiple nodes for a highly available [distributed deployment](/documentation/operations/distributed_deployment/)
+* To configure the [security settings](/documentation/security/) for your deployment
+* To set up and configure Qdrant on multiple nodes for a highly available [distributed deployment](/documentation/distributed_deployment/)
 * To set up a load balancer for your Qdrant cluster
-* To create a [backup and disaster recovery strategy](/documentation/operations/snapshots/) for your data
-* To integrate Qdrant with your [monitoring](/documentation/operations/monitoring/) and logging solutions
+* To create a [backup and disaster recovery strategy](/documentation/snapshots/) for your data
+* To integrate Qdrant with your [monitoring](/documentation/ops-monitoring/monitoring/) and logging solutions
 
 ## Development
 
@@ -178,7 +180,7 @@ docker run -p 6333:6333 \
     ./qdrant --config-path config/custom_config.yaml
 ```
 
-For more information, see the [Configuration](/documentation/operations/configuration/) documentation.
+For more information, see the [Configuration](/documentation/ops-configuration/configuration/) documentation.
 
 ### Docker Compose
 

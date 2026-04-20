@@ -41,11 +41,11 @@ In addition to the required options, you can also specify custom values for the 
 
 * `hnsw_config` - see [indexing](/documentation/manage-data/indexing/#vector-index) for details.
 * `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](/documentation/manage-data/storage/#versioning)
-* `optimizers_config` - see [optimizer](/documentation/operations/optimizer/) for details.
-* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](/documentation/operations/distributed_deployment/#sharding) section for details.
+* `optimizers_config` - see [optimizer](/documentation/ops-optimization/optimizer/) for details.
+* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](/documentation/distributed_deployment/#sharding) section for details.
 * `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
 * `quantization_config` - see [quantization](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant) for details.
-* `strict_mode_config` - see [strict mode](/documentation/operations/administration/#strict-mode) for details.
+* `strict_mode_config` - see [strict mode](/documentation/ops-configuration/administration/#strict-mode) for details.
 
 Default parameters for the optional collection parameters are defined in [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
 
@@ -166,12 +166,12 @@ The following command enables indexing for segments that have more than 10000 kB
 
 The following parameters can be updated:
 
-* `optimizers_config` - see [optimizer](/documentation/operations/optimizer/) for details.
+* `optimizers_config` - see [optimizer](/documentation/ops-optimization/optimizer/) for details.
 * `hnsw_config` - see [indexing](/documentation/manage-data/indexing/#vector-index) for details.
 * `quantization_config` - see [quantization](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant) for details.
 * `vectors_config` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
 * `params` - other collection parameters, including `read_fan_out_delay_ms`, `write_consistency_factor` and `on_disk_payload`. 
-* `strict_mode_config` - see [strict mode](/documentation/operations/administration/#strict-mode) for details.
+* `strict_mode_config` - see [strict mode](/documentation/ops-configuration/administration/#strict-mode) for details.
 
 Full API specification is available in [schema definitions](https://api.qdrant.tech/api-reference/collections/update-collection).
 
@@ -329,7 +329,7 @@ _Note: these numbers may be removed in a future version of Qdrant._
 ### Indexing vectors in HNSW
 
 In some cases, you might be surprised the value of `indexed_vectors_count` is lower than you expected. This is an intended behaviour and
-depends on the [optimizer configuration](/documentation/operations/optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the
+depends on the [optimizer configuration](/documentation/ops-optimization/optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the
 value of `indexing_threshold`(in kB).  If your collection is very small or the dimensionality of the vectors is low, there might be no HNSW segment
 created and `indexed_vectors_count` might be equal to `0`.
 

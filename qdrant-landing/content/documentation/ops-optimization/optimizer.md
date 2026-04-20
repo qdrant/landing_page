@@ -1,8 +1,10 @@
 ---
 title: Optimizer
-weight: 75
+weight: 10
 aliases:
-  - ../optimizer
+  - /documentation/optimizer
+  - /documentation/ops-optimization/optimizer
+  - /documentation/operations/optimizer
 ---
 
 # Optimizer
@@ -160,7 +162,7 @@ Because the update worker must finish indexing before continuing to consume the 
 
 ### Monitoring Deferred Points
 
-You can check the number of deferred points in a collection via the `update_queue` section in the response of the [collection info API](/documentation/manage-data/collections/#collection-info). The same information is also available in [telemetry and metrics](/documentation/operations/monitoring/), enabling dashboards and alerting.
+You can check the number of deferred points in a collection via the `update_queue` section in the response of the [collection info API](/documentation/manage-data/collections/#collection-info). The same information is also available in [telemetry and metrics](/documentation/ops-monitoring/monitoring/), enabling dashboards and alerting.
 
 A non-zero deferred point count means the optimizer is processing a backlog. This is expected under heavy write load; monitor the count to confirm that it is decreasing over time.
 

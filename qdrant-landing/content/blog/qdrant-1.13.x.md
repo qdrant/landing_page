@@ -62,13 +62,13 @@ This experiment didn't require any changes to the codebase, and everything worke
 - **Full Feature Support:** GPU indexing supports **all quantization options and datatypes** implemented in Qdrant.
 - **Large-Scale Benefits:** Fast indexing unlocks larger size of segments, which leads to **higher RPS on the same hardware**.
 
-### [Instructions & Documentation](/documentation/operations/running-with-gpu/)
+### [Instructions & Documentation](/documentation/ops-configuration/running-with-gpu/)
 The setup is simple, with pre-configured Docker images [**(check Docker Registry)**](https://hub.docker.com/r/qdrant/qdrant/tags) for GPU environments like NVIDIA and AMD. 
 We've made it so you can enable GPU indexing with minimal configuration changes.
 
 > Note: Logs will clearly indicate GPU detection and usage for transparency.
 
-*Read more about this feature in the [**GPU Indexing Documentation**](/documentation/operations/running-with-gpu/)*
+*Read more about this feature in the [**GPU Indexing Documentation**](/documentation/ops-configuration/running-with-gpu/)*
 
 #### Interview With the Creator of GPU Indexing
 
@@ -212,7 +212,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 ```
 > You may also use the `PATCH` request to enable Strict Mode on an existing collection.
 
-*Read more about Strict Mode in the [**Database Administration Guide**](/documentation/operations/administration/#strict-mode)*
+*Read more about Strict Mode in the [**Database Administration Guide**](/documentation/ops-configuration/administration/#strict-mode)*
 
 ## HNSW Graph Compression
 

@@ -5,7 +5,7 @@ is_empty: false
 aliases:
   - how-to
   - tutorials
-partition: qdrant
+partition: develop
 ---
 
 ### Search Engineering Tutorials

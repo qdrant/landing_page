@@ -16,56 +16,73 @@ content:
       url: /documentation/quickstart/
       contained: true
   - partial: documentation/banners/banner-d
-    developingTitle: Ready to start developing?
-    developingDescription: Qdrant is open-source and can be self-hosted. However, the quickest way to get started is with our <a href="https://qdrant.to/cloud" target="_blank">free tier</a> on Qdrant Cloud. It scales easily and provides a UI where you can interact with data.
+    developingTitle: Introducing Qdrant Edge
+    developingDescription: Qdrant Edge is a lightweight, embedded vector search engine for in-process retrieval — no background services, minimal memory footprint, and no network required. Built for robots, kiosks, mobile devices, and any environment requiring offline-capable AI search.
     developingBlock:
-      title: Create your first Qdrant Cloud cluster today
+      title: Run vector search anywhere, even offline
       button:
         text: Get Started
-        url: https://qdrant.to/cloud
+        url: /documentation/edge/edge-quickstart/
       image:
         src: /img/rocket.svg
         alt: Rocket
   - partial: documentation/sections/cards-section
-    title: Optimize Qdrant's performance
-    description: Boost search speed, reduce latency, and improve the accuracy and memory usage of your Qdrant deployment.
-    button:
-      text: Learn More
-      url: /documentation/operations/optimize/
+    title: Qdrant User Manual
+    description: Learn how to manage your data, run powerful searches, and leverage inference to build AI-native applications.
     cardsPartial: documentation/cards/docs-cards
     cards:
       - id: 1
-        tag: Documents
         icon:
-          src: /icons/outline/documentation-blue.svg
-          alt: Documents
-        title: Distributed Deployment
-        description: Scale Qdrant beyond a single node and optimize for high availability, fault tolerance, and billion-scale performance.
+          src: /icons/outline/vectors-blue.svg
+          alt: Vectors
+        title: Manage Data
+        description: Create collections, manage vectors, payloads, and storage. Learn about indexing, quantization, and multitenancy.
         link:
-          url: /documentation/operations/distributed_deployment/
+          url: /documentation/manage-data/
           text: Read More
       - id: 2
-        tag: Documents
         icon:
-          src: /icons/outline/documentation-blue.svg
-          alt: Documents
-        title: Multitenancy
-        description: Build vector search apps that serve millions of users. Learn about data isolation, security, and performance tuning.
+          src: /icons/outline/search-blue.svg
+          alt: Search
+        title: Search
+        description: Learn about similarity search, filtering, hybrid queries, and advanced retrieval techniques.
         link:
-          url: /documentation/manage-data/multitenancy/
+          url: /documentation/search/
           text: Read More
       - id: 3
-        tag: Blog
-        tagColor: violet
         icon:
-          src: /icons/outline/blog-purple.svg
-          alt: Blog
-        title: Vector Quantization
-        description: Learn about cutting-edge techniques for vector quantization and how they can be used to improve search performance.
+          src: /icons/outline/integration-blue.svg
+          alt: Inference
+        title: Inference
+        description: Configure dense, sparse, and multi-vector embeddings. Use cloud-hosted embedding models directly with Qdrant.
         link:
-          url: /articles/what-is-vector-quantization/
+          url: /documentation/inference/
           text: Read More
-partition: qdrant
+  - partial: documentation/sections/cards-section
+    title: Support
+    description: Get help from the Qdrant community or contact our support team.
+    cardsPartial: documentation/cards/docs-cards
+    cardsPerRow: 2
+    cards:
+      - id: 1
+        icon:
+          src: /icons/outline/discord-purple.svg
+          alt: Discord icon
+        title: Community Support
+        description: Join 6,000+ active members to learn, collaborate, and participate in Qdrant's latest activities.
+        link:
+          text: Join our Discord
+          url: https://qdrant.to/discord
+      - id: 2
+        icon:
+          src: /icons/outline/support-blue.svg
+          alt: Support icon
+        title: Qdrant Cloud Support
+        description: Paying customers have access to our Support team. Links to the support portal are available in the Qdrant Cloud Console.
+        link:
+          text: Join Qdrant
+          url: https://qdrant.to/cloud
+partition: develop
 ---
 
 THIS CONTENT IS GOING TO BE IGNORED FOR NOW
@@ -89,7 +106,7 @@ Qdrant is an AI-native vector search and a semantic search engine. You can use i
 ||||
 |:-|:-|:-|
 |[Filterable HNSW](/documentation/search/filtering/) </br> Single-stage payload filtering | [Recommendations & Context Search](/documentation/search/explore/#explore-the-data) </br> Exploratory advanced search| [Pure-Vector Hybrid Search](/documentation/search/hybrid-queries/)</br>Full text and semantic search in one|
-|[Multitenancy](/documentation/manage-data/multitenancy/) </br> Payload-based partitioning|[Custom Sharding](/documentation/operations/distributed_deployment/#sharding) </br> For data isolation and distribution|[Role Based Access Control](/documentation/operations/security/?q=jwt#granular-access-control-with-jwt)</br>Secure JWT-based access |
+|[Multitenancy](/documentation/manage-data/multitenancy/) </br> Payload-based partitioning|[Custom Sharding](/documentation/distributed_deployment/#sharding) </br> For data isolation and distribution|[Role Based Access Control](/documentation/security/?q=jwt#granular-access-control-with-jwt)</br>Secure JWT-based access |
 |[Quantization](/documentation/manage-data/quantization/) </br> Compress data for drastic speedups|[Multivector Support](/documentation/manage-data/vectors/?q=multivect#multivectors) </br> For ColBERT late interaction |[Built-in IDF](/documentation/manage-data/indexing/?q=inverse+docu#idf-modifier) </br> Advanced similarity calculation|
 
 ## Developer guidebooks:

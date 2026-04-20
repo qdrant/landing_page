@@ -1,9 +1,11 @@
 ---
 title: Distributed Deployment
-weight: 60
+partition: deploy
+weight: 115
 aliases:
-  - ../distributed_deployment
+  - /documentation/distributed_deployment
   - /guides/distributed_deployment
+  - /documentation/operations/distributed_deployment
 ---
 
 # Distributed deployment
@@ -32,7 +34,7 @@ In summary, single-node clusters are best for non-production workloads, replicat
 
 ## Enabling distributed mode in self-hosted Qdrant
 
-To enable distributed deployment - enable the cluster mode in the [configuration](/documentation/operations/configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
+To enable distributed deployment - enable the cluster mode in the [configuration](/documentation/ops-configuration/configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
 
 ```yaml
 cluster:
@@ -313,7 +315,7 @@ When you add or remove nodes from the cluster, rebalancing of existing shards ac
 
 *Available as of v1.13.0 in Cloud*
 
-Resharding allows you to change the number of shards in your existing collections if you're hosting with our [Cloud](/documentation/cloud-intro/) offering.
+Resharding allows you to change the number of shards in your existing collections if you're hosting with our [Cloud](/documentation/deploy-intro/) offering.
 
 Resharding can change the number of shards both up and down, without having to recreate the collection from scratch.
 
@@ -423,7 +425,7 @@ fastest depends on the size and state of a shard.
 Available shard transfer methods are:
 
 - `stream_records`: _(default)_ transfer by streaming just its records to the target node in batches.
-- `snapshot`: transfer including its index and quantized data by utilizing a [snapshot](/documentation/operations/snapshots/) automatically.
+- `snapshot`: transfer including its index and quantized data by utilizing a [snapshot](/documentation/snapshots/) automatically.
 - `wal_delta`: _(auto recovery default)_ transfer by resolving [WAL] difference; the operations that were missed.
 
 Each has pros, cons and specific requirements, some of which are:
@@ -476,7 +478,7 @@ are acceptable in your use case. If your cluster is unstable and out of
 resources, it's probably best to use the `stream_records` transfer method,
 because it is unlikely to fail.
 
-The `snapshot` transfer method utilizes [snapshots](/documentation/operations/snapshots/)
+The `snapshot` transfer method utilizes [snapshots](/documentation/snapshots/)
 to transfer a shard. A snapshot is created automatically. It is then transferred
 and restored on the target node. After this is done, the snapshot is removed
 from both nodes. While the snapshot/transfer/restore operation is happening, the
@@ -516,7 +518,7 @@ This ensures the availability of the data in case of node failures, except if al
 
 ### Replication factor
 
-When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/operations/configuration/#configuration-options). You can change that by setting the `replication_factor` when you create a collection.
+When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/ops-configuration/configuration/#configuration-options). You can change that by setting the `replication_factor` when you create a collection.
 
 The `replication_factor` can be updated for an existing collection, but the effect of this depends on how you're running Qdrant. If you're hosting the open source version of Qdrant yourself, changing the replication factor after collection creation doesn't do anything. You can manually [create](#creating-new-shard-replicas) or drop shard replicas to achieve your desired replication factor. In Qdrant Cloud (including Hybrid Cloud, Private Cloud) your shards will automatically be replicated or dropped to match your configured replication factor.
 
@@ -739,7 +741,7 @@ Snapshot recovery, used in single-node deployment, is different from cluster one
 Consensus manages all metadata about all collections and does not require snapshots to recover it.
 But you can use snapshots to recover missing shards of the collections.
 
-Use the [Collection Snapshot Recovery API](/documentation/operations/snapshots/#recover-in-cluster-deployment) to do it.
+Use the [Collection Snapshot Recovery API](/documentation/snapshots/#recover-in-cluster-deployment) to do it.
 The service will download the specified snapshot of the collection and recover shards with data from it.
 
 Once all shards of the collection are recovered, the collection will become operational again.
