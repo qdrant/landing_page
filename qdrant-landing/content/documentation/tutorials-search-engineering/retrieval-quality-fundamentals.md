@@ -37,7 +37,7 @@ Each layer is necessary but not sufficient. A win at layer 2 that doesn't carry 
 
 **Pre-register the decision rule.** Before running the A/B, write down what constitutes a win and what constitutes a no-ship, in terms of both the retrieval metric and the KPI. This is the highest-leverage discipline for avoiding "recall improved but the KPI didn't, the KPI is noisy, let's ship anyway" rationalization.
 
-**Tooling.** Qdrant owns layers 1 and 2 directly. For layer 3, the ecosystem has mature tooling like [Ragas](https://docs.ragas.io/), [Phoenix](https://phoenix.arize.com/), and [DeepEval](https://docs.confident-ai.com/) that handles LLM-as-judge scoring and offline answer-quality eval. Use those rather than rebuilding the scoring harness in-house.
+**Tooling.** Qdrant owns layers 1 and 2 directly. For layer 3, the ecosystem has mature tooling like [Ragas](https://docs.ragas.io/), [Arize Phoenix](https://phoenix.arize.com/), and [DeepEval](https://docs.confident-ai.com/) that handles LLM-as-judge scoring and offline answer-quality eval.
 
 ## Quality Metrics
 
@@ -46,7 +46,11 @@ are based on the number of relevant documents in the top-k search results. Other
 take into account the position of the first relevant document in the search results. [DCG and NDCG](https://en.wikipedia.org/wiki/Discounted_cumulative_gain)
 metrics are, in turn, based on the relevance score of the documents.
 
-If we treat the search pipeline as a whole, we could use any of them. For the ANN algorithm itself, however, the natural question is much narrower: did the approximate search recover the same set of items that an exact kNN search would have returned? What approximation loses is *items* (some true nearest neighbors are missed and replaced by further ones), so the most informative metric is set-overlap against exact kNN. This is **`recall@k`**: of the true `k` nearest neighbors returned by exact search, how many does the approximate search recover? It's calculated as `|ANN results ∩ exact results| / k`. When both ANN and exact search return exactly `k` items, `recall@k` and `precision@k` are numerically identical. The community uses "recall" to stay aligned with the ANN-benchmarks convention and to make it explicit that the ground truth is the exact top-k set.
+To evaluate the ANN algorithm itself, the question is simple: of the `k` true nearest neighbors an exact search would return, how many did the approximation find? That fraction is **`recall@k`**:
+
+`recall@k = |ANN results ∩ exact results| / k`
+
+When both searches return exactly `k` items, `recall@k` and `precision@k` are numerically identical. The ANN community uses "recall" by convention to make clear that exact kNN is the ground truth.
 
 ### Choosing the Right Metric
 
