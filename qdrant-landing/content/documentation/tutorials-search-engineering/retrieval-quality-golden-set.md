@@ -7,7 +7,7 @@ aliases:
 
 # Building a Golden Query Set
 
-| Time: 20 min | Level: Intermediate |  |    |
+| Time: 40 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
 
 Evaluating retrieval relevance requires a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). The [Retrieval Quality Evaluation](/documentation/tutorials-search-engineering/retrieval-quality/) tutorial measures **ANN recall** against exact kNN, which needs no relevance labels. This page covers the separate task of building labeled data to measure **retrieval relevance** against real user intent.

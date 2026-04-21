@@ -7,7 +7,7 @@ aliases:
 
 # Retrieval Quality Fundamentals
 
-| Time: 15 min | Level: Intermediate |  |    |
+| Time: 20 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
 
 Before measuring retrieval quality, it's worth understanding what you're measuring. Retrieval quality operates at three distinct levels, and it's easy to optimize for the wrong one.
