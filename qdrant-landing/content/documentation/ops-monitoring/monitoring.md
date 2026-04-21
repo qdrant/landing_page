@@ -31,20 +31,20 @@ Two endpoints are available:
 
 Note that `/metrics` only reports metrics for the peer connected to. It is therefore important to scrape from each peer individually, even if a load balancer is involved.
 
-### Node metrics `/metrics`
+### Node Metrics `/metrics`
 
 Each Qdrant node will expose the following metrics.
 
 Counters - such as the number of created snapshots - are reset when the node is restarted.
 
-**Application metrics**
+**Application Metrics**
 
 | Name                                | Type    | Meaning                        |
 | ----------------------------------- | ------- | ------------------------------ |
 | app_info                            | gauge   | Qdrant server name and version |
 | app_status_recovery_mode            | gauge   | If started in recovery mode    |
 
-**Collection metrics**
+**Collection Metrics**
 
 | Name                                              | Type    | Meaning                                                                                               |
 | ------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------- |
@@ -67,7 +67,7 @@ Counters - such as the number of created snapshots - are reset when the node is 
 
 [^metrics-hwreporting]: Only reported if hardware metrics are enabled in the configuration. See `service.hardware_reporting` in the [configuration](/documentation/ops-configuration/configuration/).
 
-**Snapshot metrics**
+**Snapshot Metrics**
 
 | Name                                    | Type    | Meaning                                                                     |
 | --------------------------------------- | ------- | --------------------------------------------------------------------------- |
@@ -75,7 +75,7 @@ Counters - such as the number of created snapshots - are reset when the node is 
 | snapshot_recovery_running               | gauge   | Number of snapshots being recovered, per collection <sup>(v1.16+)</sup>     |
 | snapshot_created_total                  | counter | Number of created snapshots since start, per collection <sup>(v1.16+)</sup> |
 
-**API response metrics**
+**API Response Metrics**
 
 | Name                                | Type      | Meaning                                                            |
 | ----------------------------------- | --------- | ------------------------------------------------------------------ |
@@ -94,7 +94,7 @@ Counters - such as the number of created snapshots - are reset when the node is 
 
 [^metrics-per-collection]: When `/metrics?per_collection=true` is used, these metrics include a `collection` label. See [Per-Collection API Metrics](#per-collection-api-metrics).
 
-**Process metrics**
+**Process Metrics**
 
 | Name                                | Type    | Meaning                                                                                                                       |
 | ----------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -111,7 +111,7 @@ Counters - such as the number of created snapshots - are reset when the node is 
 | process_minor_page_faults_total     | counter | Number of minor page faults encountered by the process <sup>(v1.16+)</sup>                                                    |
 | process_major_page_faults_total     | counter | Number of major page faults encountered by the process <sup>(v1.16+)</sup>                                                    |
 
-**Cluster metrics (consensus)**
+**Cluster Metrics (Consensus)**
 
 Metrics reporting the current cluster consensus state of the node. Exposed only
 when distributed mode is enabled.
@@ -127,7 +127,7 @@ when distributed mode is enabled.
 
 [^metrics-distributed]: Only reported if distributed mode (cluster mode) is enabled. Enabled by default in all Qdrant Cloud environments. See `cluster.enabled` in the [configuration](/documentation/ops-configuration/configuration/).
 
-### Metrics configuration
+### Metrics Configuration
 
 *Available as of v1.16.0*
 
@@ -164,18 +164,18 @@ Without `?per_collection=true`, the same metrics omit the collection label and r
 
 <aside role="status">Per-collection metrics increase the cardinality of the <code>/metrics</code> output. In deployments with many collections, ensure that your monitoring infrastructure can handle the additional label values.</aside>
 
-## Telemetry endpoint
+## Telemetry Endpoint
 
 Qdrant also provides a `/telemetry` endpoint, which provides information about the current state of the database, including the number of vectors, shards, and other useful information. You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/telemetry).
 
-## Cluster-wide telemetry
+## Cluster-Wide Telemetry
 
 The `/telemetry` endpoint reports from the point of view of the peer being queried. Qdrant also provides a `/cluster/telemetry` endpoint, which aggregates telemetry from all peers.
 
 This includes less information than `/telemetry`, but provides information like shard transfer progress more reliably.
 You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/cluster-telemetry).
 
-## Kubernetes health endpoints
+## Kubernetes Health Endpoints
 
 *Available as of v1.5.0*
 
