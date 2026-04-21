@@ -32,7 +32,7 @@ mainCards:
     src: /img/stars/tarun-jain.jpg
     alt: Tarun Jain Photo
   name: Tarun Jain
-  position: Founding Engineer at Stealth and YouTube @AiwithTarun 
+  position: Founding Engineer at Kaivid Labs 
   description: Google Developer Expert in AI and two-time Google Summer of Code contributor (Red Hen Lab and caMicroscope). Creates educational AI content on YouTube and regularly speaks at tech events.
 cards:
   - id: 0
@@ -154,6 +154,13 @@ cards:
     name: Ian Walker
     position: Founder @ Base21.uk
     description: A software developer focused on vector search applications using Qdrant since 2023. Creator of articles and videos showcasing Qdrant, especially with Rust and FastEmbed.
+  - id: 17
+    image:
+      src: /img/stars/kevin-photo.jpg
+      alt: Kevin Figueroa Photo
+    name: Kevin Figueroa
+    position: Senior Red Teamer
+    description: Cybersecurity professional with 30+ years experience specializing in adversarial simulation and advanced Red Team operations. Integrates AI-driven automation and vector database technologies to build cyber intelligence platforms using Qdrant.
 link:
   text: Read the Qdrant Stars Handbook
   url: https://qdrant.github.io/qdrant-stars-handbook/
