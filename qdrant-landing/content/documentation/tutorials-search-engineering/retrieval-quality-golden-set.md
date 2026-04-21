@@ -18,15 +18,15 @@ There are three practical approaches to building a golden set. They trade qualit
 
 ### 1. Human Annotation (Highest Quality, Highest Cost)
 
-Domain experts review query-document pairs and assign relevance scores, typically on a binary (relevant / not relevant) or graded (0/1/2 or 1 to 5) scale. This is the cleanest approach for high-stakes applications and produces the graded labels needed for NDCG-based evaluation. The bottleneck is expert time, so most teams reserve it for a small, high-value subset (for example, the hardest queries or the ones that matter most commercially) and build coverage around it with the other two approaches.
+Domain experts assign relevance scores on a binary (relevant / not relevant) or graded (0/1/2 or 1–5) scale. This is the cleanest approach for high-stakes applications and produces the graded labels NDCG needs. Expert time is the bottleneck, so reserve it for a small, high-value subset — the hardest queries or the ones that matter most commercially — and use the other two approaches for coverage.
 
 ### 2. Real User Queries from Logs (High Realism, Requires Production Traffic)
 
-If the application records queries with click or explicit-feedback signals, sample query-document pairs and use them directly. This captures real user intent and vocabulary, and is the first thing to reach for once production traffic exists. When sampling, stratify by query type or topic cluster rather than sampling uniformly at random: a random sample over-represents frequent queries and leaves rare-but-important cases uncovered. As a rough heuristic, a few hundred labeled pairs is enough to detect large metric differences; detecting small ranking differences or slicing by query type requires substantially more. The right number depends on your effect size and query-level variance, so treat any specific number as a starting point and widen confidence intervals if the signal is noisy.
+If your app records queries with click or explicit-feedback signals, sample query-document pairs directly. This captures real user intent and vocabulary, and should be your first choice once production traffic exists. Stratify by query type or topic cluster — uniform sampling over-represents frequent queries and misses rare-but-important cases. As a rough heuristic, a few hundred labeled pairs detects large metric differences; small ranking differences or per-slice analysis need substantially more. Treat any number as a starting point and widen confidence intervals if the signal is noisy.
 
 ### 3. LLM-Based Synthetic Generation (Scales Cheaply, Lowest Fidelity)
 
-When neither logs nor human reviewers are available, prompt a capable LLM to generate queries that a user would plausibly ask to find each document. This scales cheaply to thousands of query-document pairs, but synthetic queries tend to be easier to retrieve than what real users type. See *Synthetic-query unrealism* below before trusting the numbers.
+When logs and reviewers aren't available, prompt an LLM to generate plausible queries for each document. This scales to thousands of pairs, but synthetic queries are easier to retrieve than what real users type.
 
 ```python
 import os
@@ -112,14 +112,14 @@ This produces the retrieval-relevance score (layer 2 of the [evaluation ladder](
 
 ## Pitfalls to Watch For (Data Leakage and Friends)
 
-The term **data leakage** is often used loosely to cover any situation where evaluation scores come out higher than real-world performance would justify. Unlike classical ML train/test leakage, the failure modes for golden query sets are more subtle. The document that a query was generated from **must** be indexed (it's the relevant answer the evaluation expects to find), so "hold out the labeled docs from the index" is *not* the right fix. The real risks are the following.
+In golden query sets, **data leakage** means any setup that makes offline metrics look better than production reality. Unlike classic train/test leakage, the issue is often evaluation design. Keep source documents in the index (they are the expected relevant answers). Focus on these risks:
 
-**Synthetic-query unrealism.** LLMs tend to paraphrase the source document's wording. The resulting queries are much easier to retrieve than what real users type, which are typically shorter, vaguer, and use different vocabulary. Offline scores on synthetic queries therefore overstate production quality. Two practical mitigations: (1) prompt the LLM to write queries "as a user who has not seen this document", and (2) anchor a sample of synthetic queries against any real queries you do have, and verify the distributions of length and specificity are comparable.
+**Synthetic-query unrealism.** LLMs often mirror source wording, creating easier queries than real user input. This inflates offline scores. Mitigate it by prompting for queries from users who have not seen the source, then compare synthetic and real-query distributions (length and specificity).
 
-**Embedding-model contamination.** If the embedding model was fine-tuned on (query, document) pairs that overlap with the golden set, the evaluation measures in-distribution performance and overstates real-world behavior. When using an off-the-shelf model, check its training mixture if published; when fine-tuning in-house, keep a strict split between fine-tuning data and evaluation data.
+**Embedding-model contamination.** If your embedding model was trained on pairs overlapping with the golden set, results will look better than true generalization. For hosted models, review published training data when possible. For in-house fine-tuning, keep strict train/eval separation.
 
-**Near-duplicate documents.** If two documents are nearly identical, a query generated from one will retrieve the other, but the other won't be in the labels, so **precision is under-reported** because the labeled relevant set is incomplete. Deduplicate the corpus before generating labels (e.g. drop documents with cosine similarity > 0.95 to an earlier document), or label near-duplicate clusters jointly.
+**Near-duplicate documents.** A query from document A may retrieve near-duplicate B, which is relevant but unlabeled. That makes **precision look worse** because labels are incomplete. Deduplicate before labeling (for example, cosine similarity > 0.95), or label duplicate clusters together.
 
-**Temporal drift.** If the corpus evolves over time, evaluating with queries generated from documents that post-date the index version under test is unfair: those documents aren't there to retrieve. Pin the corpus snapshot, generate queries from that snapshot, and re-generate the golden set when the corpus changes materially.
+**Temporal drift.** If the corpus changes, queries generated from newer documents can unfairly evaluate older index snapshots. Pin a corpus snapshot for each run and regenerate the golden set after material corpus changes.
 
-**Reviewer reproducibility.** Whatever approach you pick, pin the data: the corpus snapshot, the query-generation prompt, the LLM model version, and any deduplication threshold. Without this, a later "the score got worse" investigation can't tell whether the retrieval regressed or the evaluation set changed underneath it.
+**Reviewer reproducibility.** Version the full evaluation setup: corpus snapshot, prompt, LLM version, and dedup threshold. Otherwise you cannot tell whether a later score drop is model/index regression or dataset drift.
