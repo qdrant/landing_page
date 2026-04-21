@@ -156,7 +156,7 @@ cards:
     description: A software developer focused on vector search applications using Qdrant since 2023. Creator of articles and videos showcasing Qdrant, especially with Rust and FastEmbed.
   - id: 17
     image:
-      src: /img/stars/kevin-photo.jpg
+      src: /img/stars/kevin-photo.JPG
       alt: Kevin Figueroa Photo
     name: Kevin Figueroa
     position: Senior Red Teamer
