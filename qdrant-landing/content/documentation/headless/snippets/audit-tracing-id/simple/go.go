@@ -7,8 +7,10 @@ import (
 )
 
 func Main() {
+	// @hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{Host: "localhost", Port: 6334})
-	if err != nil { panic(err) } // @hide
+	if err != nil { panic(err) }
+	// @hide-end
 
 	ctx := qdrant.WithHeader(context.Background(), "x-request-id", "my-trace-id")
 	client.ListCollections(ctx)

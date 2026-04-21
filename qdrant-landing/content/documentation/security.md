@@ -491,7 +491,7 @@ By default, audit logs are rotated daily, and the seven most recent log files ar
 
 *Available as of v1.18.0*
 
-You can attach a tracing ID to individual requests. When audit logging is enabled, Qdrant includes the tracing ID in the audit log entry, making it easy to correlate client-side operations with their corresponding log entries.
+You can attach a tracing ID to individual requests. When audit logging is enabled, Qdrant includes the tracing ID in the audit log entry, enabling the correlation of client-side operations with their corresponding log entries.
 
 Qdrant reads the tracing ID from the first matching header in the following order: `x-request-id`, `x-tracing-id`, `traceparent`. Tracing IDs longer than 256 characters are truncated.
 
