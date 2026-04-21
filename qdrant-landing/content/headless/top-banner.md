@@ -10,12 +10,12 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Build a Biomedical AI Copilot with Neo4j + Qdrant"
+text: "Join 300+ AI builders in San Francisco on June 11 at Vector Space Day"
 link:
-  text: Join live on April 21
-  url: https://luma.com/a7ai1y4t
-start: 2026-04-05T11:50:00.000Z
+  text: Learn more
+  url: https://qdrant.tech/blog/vector-space-day-sf-2026/
+start: 2026-04-20T11:50:00.000Z
 sitemapExclude: true
-end: 2026-04-20T14:00:00.000Z
+end: 2026-05-09T14:00:00.000Z
 
 ---
