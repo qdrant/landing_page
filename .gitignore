@@ -2,3 +2,6 @@
 __pycache__
 qdrant-landing/.DS_Store
 .DS_Store
+.tools/
+package-lock.json
+.claude/
