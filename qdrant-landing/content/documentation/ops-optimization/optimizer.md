@@ -123,7 +123,7 @@ In addition to the configuration file, you can also set optimizer parameters sep
 
 Dynamic parameter updates may be useful, for example, for more efficient initial loading of points. You can disable indexing during the upload process with these settings and enable it immediately after it is finished. As a result, you will not waste extra computation resources on rebuilding the index.
 
-## Prevent Reads from Unindexed Segments
+## Prevent Reads from Large Unindexed Segments
 
 *Available as of v1.17.1*
 
@@ -131,34 +131,31 @@ Dynamic parameter updates may be useful, for example, for more efficient initial
 
 When a collection receives a high volume of updates, for example, during nightly batch updates or when processing a large backlog of updates after a period of downtime, the optimizer might not be able to index new points fast enough to keep up. When this happens, searches may slow down as Qdrant has to scan through large amounts of unindexed data for every query.
 
-To address this, Qdrant supports [querying indexed data only](/documentation/search/low-latency-search/#query-indexed-data-only), by setting `indexed_only` to `true`. Because updates in Qdrant are implemented as a delete followed by an insert, a side effect of searching indexed data only is that it can cause recently updated data to temporarily disappear from search results until it is indexed again. This is because the delete operation immediately removes the old point from the index, while the insert operation adds the new point to an unindexed segment that is not yet visible to searches.
+To address this, Qdrant supports [querying indexed data only](/documentation/search/low-latency-search/#query-indexed-data-only), by setting `indexed_only` to `true`. A side effect of searching indexed data only is that it can cause recently updated data to temporarily disappear from search results until it is indexed again ("blinking" points).
 
-To mitigate this, the optimizer supports a `prevent_unoptimized` mode. When enabled, points written to an unindexed segment that is larger than `indexing_threshold` are accepted and durably stored but are not visible in search results until the optimizer has indexed the segment. These are called deferred points. Not until the optimizer finishes indexing a segment containing deferred points, do those points become visible.
+To mitigate this, Qdrant supports a `prevent_unoptimized` mode. When enabled, points written to an unindexed segment that is larger than `indexing_threshold` are accepted and durably stored but are not visible in search results. These "deferred" points only become visible after the optimizer has indexed the segment.
 
-Set `prevent_unoptimized` to `true` when creating or updating a collection:
+`prevent_unoptimized` can be enabled per collection, or globally in the configuration file.
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/prevent-unoptimized/" >}}
 
 <aside role="status">
-Enabling <code>prevent_unoptimized</code> only affects newly created segments. Existing segments are not changed retroactively. Similarly, changing <code>indexing_threshold</code> does not affect existing segments. Only new segments will use the updated threshold.
+Do not use <code>prevent_unoptimized</code> in combination with <code>wait=true</code> on write requests without understanding the implications. See <a href="#effect-on-waittrue">Effect on <code>wait=true</code></a>.
 </aside>
 
-With `prevent_unoptimized` enabled, setting `indexed_only` to `true` is not necessary to avoid slow searches, as unindexed segments do not return deferred points.
-
-| `prevent_unoptimized` | `indexed_only` | Effect |
-|----------------------|----------------|--------|
-| `false` (default) | `false` | All points are searchable, but searches may be slow if there are many unindexed points. |
-| `false` (default) | `true` | Only indexed points are searchable, but recently updated points may temporarily disappear from search results until they are indexed. |
-| `true` | `false` (default) | Reads return indexed points and unindexed points that are not deferred. Deferred points are not visible to reads until indexed. |
-| `true` | `true` | Only indexed points are visible to reads. |
+With `prevent_unoptimized` enabled, setting `indexed_only` to `true` is not necessary. They are mutually exclusive.
 
 ### Effect on `wait=true`
 
+Write requests support a [`wait` parameter](/documentation/manage-data/points/#awaiting-result) that, when set to `true`, causes the request to return only after the update has been applied and is visible for search. With `prevent_unoptimized` enabled, setting `wait=true` is not recommended without understanding the implications.
+
 Qdrant processes updates in strict order: each update is written to the write-ahead log and then applied sequentially by the update worker, preserving this order.
 
-Under normal conditions, setting `wait=true` on a write request returns after the update has been applied to a segment. After enabling `prevent_unoptimized`, the response is held until every deferred point, including the current update, has been indexed and is visible for search. Depending on the volume of updates and the speed of the optimizer, this can take a significant amount of time and may lead to timeouts on the client side. If the client times out, the update can be expected to be durably stored and eventually indexed, but the client will not receive a confirmation for that specific request.
+Under normal conditions, setting `wait=true` on a write request returns after the update has been applied to a segment. After enabling `prevent_unoptimized`, the response is held until every deferred point, including the current update, has been indexed and is visible for search. Depending on the volume of pending updates in the update queue and the speed of the optimizer, this can take a significant amount of time and will likely lead to timeouts on the client side. If the client times out, the update can be expected to be durably stored and eventually indexed, but the client will not receive a confirmation for that specific request.
 
 Because the update worker must finish indexing before continuing to consume the queue, a blocked `wait=true` request also delays all subsequent updates that use `wait=true`. Updates with `wait=false` are written to the write-ahead log immediately, but they are not applied until the blocked request unblocks. This head-of-line blocking means that `wait=true` can stall the entire update pipeline for as long as indexing takes. Use it with caution when `prevent_unoptimized` is enabled and the cluster is under heavy write load.
+
+A consequence of enabling `prevent_unoptimized` and setting `wait=false` is eventual consistency: updates might not be immediately visible. If your application requires a guarantee that the vector will be available for searching immediately after the API responds, you can set `wait=true`, but be aware of the implications described in this section. Alternatively, you can choose to not enable `prevent_unoptimized`, but this may lead to slower search performance under heavy write load.
 
 ### Monitoring Deferred Points
 
