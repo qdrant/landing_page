@@ -6,7 +6,7 @@ short_description: "Join 300+ AI builders in San Francisco to talk about search,
 description: "From building scalable RAG pipelines to enabling real-time AI memory and next-gen context engineering, we’re covering the full spectrum of modern vector-native search."
 preview_image: /blog/vector-space-day-2026-sf/sf-hero-20-april.jpg
 social_preview_image: /blog/vector-space-day-2026-sf/sf-hero-20-april.jpg
-date: 2026-04-20
+date: 2026-04-21
 author: Qdrant
 featured: false
 tags:
@@ -16,14 +16,9 @@ tags:
 
 ## Vector Space Day 2026: Powered by Qdrant 
 
-📍 San Francisco
-
-🗓️ Thursday, June 11, 2026
-
-
 ### About
 
-We’re hosting our second-ever full-day in-person Vector Space Day (https://luma.com/vsd-sf) this June in San Francisco, and you’re invited.
+We’re hosting our second-ever full-day in-person Vector Space Day (https://luma.com/vsd-sf) on June 11th at The Midway in San Francisco, and you’re invited.
 
 Last year in Berlin we brought together 400+ engineers, researchers, and AI builders to explore the cutting edge of retrieval, vector search infrastructure, and agentic AI. And we’re excited to now bring that to San Francisco.
 
@@ -31,7 +26,7 @@ Last year in Berlin we brought together 400+ engineers, researchers, and AI buil
 
 ### Why You Should Attend
 
-* **Deep-dives, lightning talks and sessions you won’t want to miss**: Learn from the teams solving hard problems in AI infrastructure, search relevance, and semantic retrieval in production.  
+* **Deep-dives, lightning talks, sessions you won’t want to miss**: Learn from the teams solving hard problems in AI infrastructure, search relevance, and semantic retrieval in production.  
 * **Meet the community**: This isn’t just a conference. It’s a gathering of the developers rethinking how AI systems search, retrieve, and reason at scale. Network or not, productive conversations will be had. 
 
 ### Topics We’ll Explore
@@ -43,7 +38,7 @@ If you work on any of the following, the Vector Space Day 2026 is your event:
 * Happy Hour
 
 
-### After Party
+### Happy Hour
 The day won’t end when the last session wraps. Your ticket includes access to the happy hour where we will unwind and keep the conversations going over drinks, music, and light bites. 
 
 ### Call for Speakers
