@@ -133,7 +133,7 @@ When a collection receives a high volume of updates, for example, during nightly
 
 To address this, Qdrant supports [querying indexed data only](/documentation/search/low-latency-search/#query-indexed-data-only), by setting `indexed_only` to `true`. A side effect of searching indexed data only is that it can cause recently updated data to temporarily disappear from search results until it is indexed again ("blinking" points).
 
-To mitigate this, the optimizer supports a `prevent_unoptimized` mode. When enabled, points written to an unindexed segment that is larger than `indexing_threshold` are accepted and durably stored but are not visible in search results. These "deferred" points only become visible after the optimizer has indexed the segment.
+To mitigate this, Qdrant supports a `prevent_unoptimized` mode. When enabled, points written to an unindexed segment that is larger than `indexing_threshold` are accepted and durably stored but are not visible in search results. These "deferred" points only become visible after the optimizer has indexed the segment.
 
 `prevent_unoptimized` can be enabled per collection, or globally in the configuration file.
 
