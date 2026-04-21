@@ -1,6 +1,6 @@
 @use '../../helpers/functions' as *;
 
-// Mobile-first: base styles (no min-width), then enhance from xxl only
+// Mobile-first: 1 col default; 2 cols from md (768px); full 6-col layout from lg (992px)
 .why-qdrant {
   background-color: $neutral-94;
   padding-top: $spacer * 5;
@@ -61,14 +61,24 @@
   }
 
   &__card-visual {
-    flex: 1;
+    flex: 0 0 auto;
+    width: 100%;
     position: relative;
     overflow: hidden;
-    min-height: pxToRem(200);
     background: linear-gradient(180deg, $neutral-98 0%, rgba($neutral-94, 0.3) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+    .why-qdrant__card--large & {
+      aspect-ratio: 9 / 5;
+    }
+
+    .why-qdrant__card--small & {
+      aspect-ratio: 16 / 9;
+    }
+
+    picture {
+      position: absolute;
+      inset: 0;
+    }
   }
 
   &__card-image {
@@ -79,6 +89,7 @@
   }
 
   &__card-content {
+    flex: 1;
     padding: pxToRem(24);
     display: flex;
     flex-direction: column;
@@ -123,13 +134,29 @@
 
     &__grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      grid-template-rows: auto auto;
+      grid-template-columns: repeat(2, 1fr);
       gap: pxToRem(30);
     }
 
     &__card {
       min-height: pxToRem(440);
+
+      &:last-child {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__grid {
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: auto auto;
+    }
+
+    &__card {
+      &:last-child {
+        grid-column: auto;
+      }
 
       &--large {
         grid-column: span 3;
@@ -152,14 +179,6 @@
           grid-column: 5 / span 2;
           grid-row: 2;
         }
-      }
-    }
-
-    &__card-visual {
-      min-height: pxToRem(266);
-
-      .why-qdrant__card--small & {
-        min-height: pxToRem(218);
       }
     }
   }
