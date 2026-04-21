@@ -13,7 +13,7 @@ The primary source of memory usage is vector data. There are several ways to add
 - Configure on-disk vector storage
 
 The choice of the approach depends on your requirements.
-Read more about [configuring the optimal](/documentation/operations/optimize/) use of Qdrant.
+Read more about [configuring the optimal](/documentation/ops-optimization/optimize/) use of Qdrant.
 
 ### How do you choose the machine configuration?
 

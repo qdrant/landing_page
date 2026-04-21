@@ -17,7 +17,7 @@ largeCards:
       src: /img/home/monitoring-and-observability.svg
       alt: Monitoring and observability integrations
     link:
-      url: /documentation/operations/monitoring/
+      url: /documentation/ops-monitoring/monitoring/
   - id: sso
     title: SSO (SAML/OIDC)
     visual: sso

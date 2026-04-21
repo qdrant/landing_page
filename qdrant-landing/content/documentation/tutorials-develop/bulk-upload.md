@@ -522,7 +522,7 @@ will store vector data directly on disk at all times. It is suitable for
 ingesting a large amount of data, essential for the billion scale benchmark.
 
 Using `memmap_threshold` is not recommended in this case. It would require
-the [optimizer](/documentation/operations/optimizer/) to constantly
+the [optimizer](/documentation/ops-optimization/optimizer/) to constantly
 transform in-memory segments into memmap segments on disk. This process is
 slower, and the optimizer can be a bottleneck when ingesting a large amount of
 data.

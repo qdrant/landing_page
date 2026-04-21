@@ -1,6 +1,6 @@
 ---
 title: Backup Clusters
-weight: 61
+weight: 40
 ---
 
 # Backing up Qdrant Cloud Clusters
@@ -71,7 +71,7 @@ Or you can restore the backup into a new cluster.
 
 Qdrant also offers a snapshot API which allows you to create a snapshot
 of a specific collection or your entire cluster. For more information, see our
-[snapshot documentation](/documentation/operations/snapshots/).
+[snapshot documentation](/documentation/snapshots/).
 
 Here is how you can take a snapshot and recover a collection:
 
@@ -79,11 +79,11 @@ Here is how you can take a snapshot and recover a collection:
    - For a single node cluster, call the snapshot endpoint on the exposed URL.
    - For a multi node cluster call a snapshot on each node of the collection. 
      Specifically, prepend `node-{num}-` to your cluster URL.
-     Then call the [snapshot endpoint](/documentation/operations/snapshots/#create-snapshot) on the individual hosts. Start with node 0.
+     Then call the [snapshot endpoint](/documentation/snapshots/#create-snapshot) on the individual hosts. Start with node 0.
    - In the response, you'll see the name of the snapshot.
 2. Delete and recreate the collection.
 3. Recover the snapshot:
-   - Call the [recover endpoint](/documentation/operations/snapshots/#recover-in-cluster-deployment). Set a location which points to the snapshot file (`file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`) for each host.
+   - Call the [recover endpoint](/documentation/snapshots/#recover-in-cluster-deployment). Set a location which points to the snapshot file (`file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`) for each host.
 
 ## Backup Considerations
 

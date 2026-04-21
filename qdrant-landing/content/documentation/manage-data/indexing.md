@@ -12,7 +12,7 @@ A key feature of Qdrant is the effective combination of vector and traditional i
 The indexes in the segments exist independently, but the parameters of the indexes themselves are configured for the whole collection.
 
 Not all segments automatically have indexes.
-Their necessity is determined by the [optimizer](/documentation/operations/optimizer/) settings and depends, as a rule, on the number of stored points.
+Their necessity is determined by the [optimizer](/documentation/ops-optimization/optimizer/) settings and depends, as a rule, on the number of stored points.
 
 ## Payload Index
 

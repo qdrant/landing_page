@@ -111,9 +111,12 @@ configuration:
 ```yaml
 # within the storage config
 storage:
+  performance:
 	# enable the async scorer which uses io_uring
 	async_scorer: true
 ```
+
+or `QDRANT__STORAGE__PERFORMANCE__ASYNC_SCORER=true`.
 
 You can return to the mmap based backend by either deleting the `async_scorer`
 entry or setting the value to `false`.

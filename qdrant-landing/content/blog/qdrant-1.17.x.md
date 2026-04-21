@@ -78,11 +78,11 @@ We are continuously working to enhance the operational observability of Qdrant c
 
 Qdrant’s API exposes a `/telemetry` endpoint which provides information about the current state of a peer in a cluster, including the number of vectors, shards, and other useful information. However, obtaining a complete view of the entire cluster using this endpoint is not straightforward, requiring querying each peer and piecing together a complete view yourself.
 
-In version 1.17, we’re introducing a new [`/cluster/telemetry` endpoint](/documentation/operations/monitoring/#cluster-wide-telemetry). This API provides information about all peers in a cluster, offering insights into cluster-wide operations such as leader elections, resharding, and shard transfers.
+In version 1.17, we’re introducing a new [`/cluster/telemetry` endpoint](/documentation/ops-monitoring/monitoring/#cluster-wide-telemetry). This API provides information about all peers in a cluster, offering insights into cluster-wide operations such as leader elections, resharding, and shard transfers.
 
 ### Segment Optimization Monitoring
 
-Optimization is a background process where Qdrant removes data marked for deletion, merges segments, and creates indexes. To improve visibility into this process, this release introduces [segment optimization monitoring capabilities](/documentation/operations/optimizer/#optimization-monitoring).
+Optimization is a background process where Qdrant removes data marked for deletion, merges segments, and creates indexes. To improve visibility into this process, this release introduces [segment optimization monitoring capabilities](/documentation/ops-optimization/optimizer/#optimization-monitoring).
 
 A new `/collections/{collection_name}/optimizations` API endpoint provides cluster-wide information about the current optimization status, as well as detailed information for current and past optimization operations. Because the output of the API can be verbose, we’ve added a new Optimizations tab to the Collections interface in the Web UI that makes it easier to analyze the data. Here, you can find an overview of the current optimization status, a timeline of current and past optimization operations, and a breakdown of the tasks in a specific cycle and their durations.
 
@@ -115,7 +115,7 @@ Many people have been asking about point filtering in web UI. And now it's back,
 As an open source project, we welcome contributions from the Qdrant community. This release features two contributions from community members:
 
 - Not all payload field indexes are used in combination with dense vector queries. With this release, you can [specify whether individual payload field indexes should be reflected in the HNSW index](/documentation/manage-data/indexing/#disable-the-creation-of-extra-edges-for-payload-fields).
-- A new API endpoint is available to [list all user-defined shard keys](/documentation/operations/distributed_deployment/#user-defined-sharding).
+- A new API endpoint is available to [list all user-defined shard keys](/documentation/distributed_deployment/#user-defined-sharding).
 
 Additionally, this release adds the following features:
 
@@ -123,7 +123,7 @@ Additionally, this release adds the following features:
 - To speed up the recovery of the replicas after they’ve been down, shards will [increase the size of their write-ahead log](https://github.com/qdrant/qdrant/pull/7834) when they detect that one of their remote replicas is unavailable.
 - Reciprocal Rank Fusion (RRF) combines multiple query results into one list, but its default equal weighting can let weaker rankers dilute stronger ones. [Weighted RRF](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) in Qdrant 1.17 addresses this by letting you assign weights to individual queries.
 - A new [user interface in the Web UI enables resharding collections](https://github.com/qdrant/qdrant-web-ui/pull/341) on Qdrant Cloud.
-- Qdrant now supports [audit logging](/documentation/operations/security/#audit-logging) to track all API operations that require authentication or authorization.
+- Qdrant now supports [audit logging](/documentation/security/#audit-logging) to track all API operations that require authentication or authorization.
 - [External provider API keys for inference requests](/documentation/inference/#external-embedding-model-providers) can now be provided in the request header.
 
 For a full list of all changes in version 1.17, please refer to the [change log](https://github.com/qdrant/qdrant/releases/tag/v1.17.0).

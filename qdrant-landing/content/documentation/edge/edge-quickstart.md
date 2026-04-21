@@ -1,7 +1,7 @@
 ---
 title: "Quickstart" 
 weight: 10
-partition: qdrant
+partition: develop
 ---
 
 # Qdrant Edge Quickstart

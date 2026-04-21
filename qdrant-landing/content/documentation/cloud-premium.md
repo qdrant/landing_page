@@ -1,7 +1,7 @@
 ---
 title: Premium Tier
-weight: 19
-partition: cloud
+weight: 260
+partition: deploy
 aliases:
   - /documentation/cloud/premium/
 ---
@@ -16,6 +16,7 @@ Qdrant Cloud offers an optional premium tier for customers who require additiona
 * **Single Sign-On (SSO)**: Premium customers can use their existing SSO provider to manage access to Qdrant Cloud.
 * **VPC Private Links**: Premium customers can connect their Qdrant Cloud clusters to their VPCs using private links.
 * **Storage encryption with shared keys**: Premium customers can encrypt their data at rest using their own keys.
+* **Topology Aware Multi-AZ Setup**: Premium customers can deploy their clusters across multiple availability zones for higher availability and resilience. This guarantees a **99.95% uptime SLA** for Multi-AZ clusters.
 
 Please refer to the [Qdrant Cloud SLA](https://qdrant.to/sla/) for a detailed definition on uptime and support SLAs.
 

@@ -4,8 +4,8 @@ slug: cloud-intro
 breadcrumb: false
 content:
   - partial: documentation/banners/banner-b
-    title: Welcome to Qdrant Cloud
-    description: Dev-portal Cloud
+    title: Deploy & Operate Qdrant
+    description: Deploy & Operate Qdrant
     image:
       src: /img/dev-portal-cloud/dev-portal-cloud-hero.png
       alt: Qdrant cloud dashboard
@@ -13,7 +13,39 @@ content:
       text: Get Started
       url: https://qdrant.to/cloud
   - partial: documentation/sections/cards-section
-    title: Managed Services
+    title: Operations
+    description: Install, configure, optimize, and monitor your Qdrant deployment across any environment.
+    cardsPartial: documentation/cards/docs-cards
+    cards:
+    - id: 1
+      icon:
+        src: /icons/outline/server-rack-blue.svg
+        alt: Installation
+      title: Installation
+      description: Deploy Qdrant on any infrastructure. Get requirements, configuration options, and GPU setup guides.
+      link:
+        url: /documentation/installation/
+        text: Read More
+    - id: 2
+      icon:
+        src: /icons/outline/switches-blue.svg
+        alt: Configuration
+      title: Configuration
+      description: Tune storage, network, performance, and runtime settings for your Qdrant instance.
+      link:
+        url: /documentation/ops-configuration/configuration/
+        text: Read More
+    - id: 3
+      icon:
+        src: /icons/outline/chart-bar-blue.svg
+        alt: Monitoring
+      title: Monitoring & Telemetry
+      description: Monitor cluster health, collect metrics with Prometheus and Grafana, and configure telemetry.
+      link:
+        url: /documentation/ops-monitoring/monitoring/
+        text: Read More
+  - partial: documentation/sections/cards-section
+    title: Cloud
     description: Deploy and manage high-performance vector search clusters across cloud environments. Easily scale with fully managed cloud solutions, integrate seamlessly across hybrid setups, or maintain complete control with private cloud deployments in Kubernetes.
     cardsPartial: documentation/cards/docs-cards
     cards:
@@ -45,8 +77,8 @@ content:
         url: /documentation/private-cloud/
         text: Read More
   - partial: documentation/sections/cards-section
-    title: Customer Support
-    description: Stream, index, and migrate data to Qdrant with these essential tools and strategies.
+    title: Support
+    description: Get help from the Qdrant community or contact our support team.
     cardsPartial: documentation/cards/docs-cards
     cardsPerRow: 2
     cards:
@@ -68,6 +100,6 @@ content:
       link:
         text: Join Qdrant
         url: https://qdrant.to/cloud
-partition: cloud
+partition: deploy
 hideInSidebar: true
 ---

@@ -28,7 +28,7 @@ partition: case-studies
 
 As part of this development, the Voiceflow engineering team was looking for a [vector database](/qdrant-vector-database/) solution to power their RAG setup. They evaluated various vector databases based on several key factors:
 
-- **Performance**: The ability to [handle the scale](/documentation/operations/distributed_deployment/) required by Voiceflow, supporting hundreds of thousands of projects efficiently.
+- **Performance**: The ability to [handle the scale](/documentation/distributed_deployment/) required by Voiceflow, supporting hundreds of thousands of projects efficiently.
 - **Metadata**: The capability to tag data and chunks and retrieve based on those values, essential for organizing and accessing specific information swiftly.
 - **Managed Solution**: The availability of a [managed service](/documentation/cloud/) with automated maintenance, scaling, and security, freeing the team from infrastructure concerns.
 
