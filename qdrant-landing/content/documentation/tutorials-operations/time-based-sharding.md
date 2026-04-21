@@ -7,7 +7,7 @@ weight: 35
 
 When working with massive, fast-moving datasets, like social media or image/video streams, efficient storage and retrieval are critical. Often, only the most recent data is relevant, while older data can be archived or deleted. For instance, in sentiment analysis of social media posts, you might only need the last 7 days of data to capture current trends, with most queries focusing on the last 24 hours.
 
-Storing everything in Qdrant collection with default sharding can lead to expensive re-indexing across the entire dataset when deleting old points, impacting performance. A better solution is **time-based sharding**, where points are routed to a specific [shard (or shards)](/documentation/operations/distributed_deployment/#sharding) based on timestamp. For use cases with a natural time-to-live (TTL) segmentation, sharding by a timestamp-based key enables efficient querying of recent data and allows users to seamlessly drop the old.
+Storing everything in Qdrant collection with default sharding can lead to expensive re-indexing across the entire dataset when deleting old points, impacting performance. A better solution is **time-based sharding**, where points are routed to a specific [shard (or shards)](/documentation/distributed_deployment/#sharding) based on timestamp. For use cases with a natural time-to-live (TTL) segmentation, sharding by a timestamp-based key enables efficient querying of recent data and allows users to seamlessly drop the old.
 
 For example, with daily shards, today's data is stored in today's shard, yesterday's data in yesterday's shard, and so on. Queries can target specific shards (today's shard, for example) or multiple shards to cover a date range.
 
@@ -44,7 +44,7 @@ This tutorial assumes you are using [Qdrant Cloud Inference](/documentation/infe
 
 ## Create Collection
 
-Create a collection with [user-defined sharding](/documentation/operations/distributed_deployment/#user-defined-sharding) by setting the sharding method to custom.
+Create a collection with [user-defined sharding](/documentation/distributed_deployment/#user-defined-sharding) by setting the sharding method to custom.
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="create-collection" >}}
 

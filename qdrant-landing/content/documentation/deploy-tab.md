@@ -1,11 +1,14 @@
 ---
-title: Welcome to Qdrant Cloud
-slug: cloud-intro
+title: Deploy Qdrant
+slug: deploy-intro
 breadcrumb: false
+aliases:
+  - /documentation/deploy-intro
+  - /documentation/cloud-intro
 content:
   - partial: documentation/banners/banner-b
-    title: Deploy & Operate Qdrant
-    description: Deploy & Operate Qdrant
+    title: Deploy Qdrant
+    description: Deploy Qdrant
     image:
       src: /img/dev-portal-cloud/dev-portal-cloud-hero.png
       alt: Qdrant cloud dashboard

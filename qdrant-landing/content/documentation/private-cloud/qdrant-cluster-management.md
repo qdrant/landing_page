@@ -1,6 +1,6 @@
 ---
 title: Managing a Cluster
-weight: 3
+weight: 15
 ---
 
 # Managing a Qdrant Cluster
@@ -137,7 +137,7 @@ spec:
       jwt_rbac: true
 ```
 
-If you set the `jwt_rbac` flag, you will also be able to create granular [JWT tokens for role based access control](/documentation/operations/security/#granular-access-control-with-jwt).
+If you set the `jwt_rbac` flag, you will also be able to create granular [JWT tokens for role based access control](/documentation/security/#granular-access-control-with-jwt).
 
 ### Configuring TLS for Database Access
 

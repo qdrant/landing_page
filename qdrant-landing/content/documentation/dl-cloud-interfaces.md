@@ -3,9 +3,10 @@
 title: "Interfaces & Tools"
 type: delimiter
 weight: 25 # Change this weight to change order of sections
+hideInSidebar: true
 sitemapExclude: True
 _build:
   publishResources: false
   render: never
-partition: cloud 
+partition: deploy
 ---

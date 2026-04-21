@@ -9,7 +9,7 @@ aliases:
 
 ## Scale Horizontally with Replicas
 
-Qdrant can be deployed in a [distributed configuration](/documentation/operations/distributed_deployment/). In distributed mode, multiple instances of Qdrant, called peers, operate as a single entity, called a cluster. Data is stored in [collections](/documentation/manage-data/collections/), which are divided into [shards](/documentation/operations/distributed_deployment/#sharding) that are distributed across the peers. Each shard can have multiple [replicas](/documentation/operations/distributed_deployment/#replication) for redundancy and load balancing. Because every replica of the same shard contains the same data, read requests can be distributed across replicas, reducing latency and increasing throughput.
+Qdrant can be deployed in a [distributed configuration](/documentation/distributed_deployment/). In distributed mode, multiple instances of Qdrant, called peers, operate as a single entity, called a cluster. Data is stored in [collections](/documentation/manage-data/collections/), which are divided into [shards](/documentation/distributed_deployment/#sharding) that are distributed across the peers. Each shard can have multiple [replicas](/documentation/distributed_deployment/#replication) for redundancy and load balancing. Because every replica of the same shard contains the same data, read requests can be distributed across replicas, reducing latency and increasing throughput.
 
 For example, a collection with three shards and a replication factor of two would have six total replicas (two replicas for each of the three shards). On a cluster with three peers, these replicas can be evenly distributed across the peers, with each peer hosting two replicas.
 
@@ -63,8 +63,8 @@ A side-effect of using `indexed_only` is that it can cause "blinking" points in 
 
 To mitigate "blinking" points, an alternative to using `indexed_only` is to set the `prevent_unoptimized` optimizer setting to `true`. This prevents the creation of large segments with unindexed data. Instead, once a segment reaches the `indexing_threshold`, all additional points will be added in a "deferred" state. Deferred points are not yet visible in reads but are handled in write operations. Deferred points are promoted to visible points once the segment has been optimized.
 
-Refer to [Prevent Reads from Large Unindexed Segments](/documentation/operations/optimizer/#prevent-reads-from-large-unindexed-segments) for more details on how this works.
+Refer to [Prevent Reads from Large Unindexed Segments](/documentation/ops-optimization/optimizer/#prevent-reads-from-large-unindexed-segments) for more details on how this works.
 
 <aside role="status">
-Do not use <code>prevent_unoptimized</code> in combination with <code>wait=true</code> on write requests without understanding the implications. See <a href="/documentation/operations/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
+Do not use <code>prevent_unoptimized</code> in combination with <code>wait=true</code> on write requests without understanding the implications. See <a href="/documentation/ops-optimization/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
 </aside>

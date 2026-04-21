@@ -1,6 +1,6 @@
 ---
 title: Configure, Scale & Update Clusters
-weight: 3
+weight: 15
 ---
 
 # Configure, Scale & Update Qdrant Hybrid Cloud Clusters

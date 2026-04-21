@@ -1,10 +1,12 @@
 ---
 title: Usage Statistics
-weight: 30
+weight: 15
 aliases:
-  - ../telemetry
+  - /documentation/telemetry
   - /documentation/guides/telemetry
   - /documentation/guides/usage-statistics/
+  - /documentation/ops-configuration/usage-statistics
+  - /documentation/operations/usage-statistics
 ---
 
 # Usage statistics

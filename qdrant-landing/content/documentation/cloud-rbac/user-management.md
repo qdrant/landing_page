@@ -1,6 +1,6 @@
 ---
 title: User Management
-weight: 2
+weight: 10
 ---
 
 # User Management
