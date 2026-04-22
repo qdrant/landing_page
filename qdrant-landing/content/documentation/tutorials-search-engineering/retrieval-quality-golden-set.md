@@ -33,7 +33,9 @@ import os
 
 import anthropic
 
-client = anthropic.Anthropic()
+client = Anthropic(
+    api_key=os.environ.get("ANTHROPIC_API_KEY"),
+)
 
 def generate_queries_for_doc(doc_text: str, n: int = 3) -> list[str]:
     response = client.messages.create(
