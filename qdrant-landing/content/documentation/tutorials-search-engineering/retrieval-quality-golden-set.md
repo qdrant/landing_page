@@ -10,7 +10,7 @@ aliases:
 | Time: 40 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
 
-This tutorial covers **layer 2** of the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-levels-in-practice" target="_blank">evaluation ladder</a>: **retrieval relevance**. Measuring how well retrieved results match real user intent requires a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). For layer 1 (ANN recall against exact kNN), which needs no relevance labels, see <a href="/documentation/tutorials-search-engineering/retrieval-quality/" target="_blank">Retrieval Quality Evaluation</a>.
+This tutorial covers **layer 2** of the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-levels-in-practice" target="_blank">evaluation ladder</a>: **retrieval relevance**. Measuring how well retrieved results match real user intent requires a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). For layer 1 (ANN recall against exact kNN), which needs no relevance labels, use the **Search Quality** tab in the <a href="/documentation/web-ui/" target="_blank">Qdrant Web UI</a>.
 
 ## Generating Queries
 
