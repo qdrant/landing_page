@@ -11,311 +11,160 @@ aliases:
 | Time: 40 min | Level: Intermediate |
 | --- | ----------- |
 
-Hybrid search combines dense and sparse retrieval to deliver precise and comprehensive results. By adding reranking with ColBERT, you can further refine search outputs for maximum relevance. 
+Reranking is a powerful technique for improving search precision: rather than running an expensive model over your entire corpus, you apply it to a smaller set of candidates already retrieved by a faster method. This keeps latency low while surfacing the most relevant results.
 
-In this guide, we’ll show you how to implement hybrid search with reranking in Qdrant, leveraging dense, sparse, and late interaction embeddings to create an efficient, high-accuracy search system. Let’s get started!
+Reranking pairs especially well with [hybrid search](/documentation/search/hybrid-queries/), which casts a wide retrieval net, maximizing recall across several retrieval paths. Reranking can sort the hybrid search results with a deeper relevance signal. A [late interaction model](/course/multi-vector-search/module-1/late-interaction-basics/), for instance, represents both query and document as multiple vectors, enabling more nuanced term-level comparisons than a single embedding can capture.
+
+In this tutorial, you'll learn how to build a hybrid search engine that uses dense embeddings for semantic search, sparse embeddings for keyword search, and late interaction embeddings for reranking. The result is a powerful search engine that delivers highly relevant results by combining the strengths of different embedding types.
+
+You'll use [Qdrant Cloud Inference](/documentation/inference/#qdrant-cloud-inference) to generate vector embeddings. The three embedding models used in this tutorial (dense, sparse, and late interaction) are available free of charge on Qdrant Cloud. If you prefer to manage your own embedding infrastructure, you can apply the same principles, but you will need to adapt the code examples to use your embedding service.
 
 ## Overview
 
-Let’s start by breaking down the architecture:
-
-![image3.png](/documentation/examples/reranking-hybrid-search/image3.png)
-
-Processing Dense, Sparse, and Late Interaction Embeddings in Vector Databases (VDB)
+Let's start by breaking down the architecture:
 
 ### Ingestion Stage
 
-Here’s how we’re going to set up the advanced hybrid search. The process is similar to what we did earlier but with a few powerful additions:
+![Processing dense, sparse, and late interaction embeddings in Qdrant](/documentation/examples/reranking-hybrid-search/image3.png)
 
-1. **Documents**: Just like before, we start with the raw input—our set of documents that need to be indexed for search.
-2. **Dense Embeddings**: We’ll generate dense embeddings for each document, just like in the basic search. These embeddings capture the deeper, semantic meanings behind the text.
-3. **Sparse Embeddings**: This is where it gets interesting. Alongside dense embeddings, we’ll create sparse embeddings using more traditional, keyword-based methods. Specifically, we’ll use BM25, a probabilistic retrieval model. BM25 ranks documents based on how relevant their terms are to a given query, taking into account how often terms appear, document length, and how common the term is across all documents. It’s perfect for keyword-heavy searches.
-4. **Late Interaction Embeddings**: Now, we add the magic of ColBERT. ColBERT uses a two-stage approach. First, it generates contextualized embeddings for both queries and documents using BERT, and then it performs late interaction—matching those embeddings efficiently using a dot product to fine-tune relevance. This step allows for deeper, contextual understanding, making sure you get the most precise results.
-5. **Vector Database**: All of these embeddings—dense, sparse, and late interaction—are stored in a vector database like Qdrant. This allows you to efficiently search, retrieve, and rerank your documents based on multiple layers of relevance.
+You'll start by ingesting a CSV file containing information about science fiction books. Each row is a **document**, corresponding to a book, with fields for the title, author, and description. Each book description will be processed to generate three types of embeddings:
+- **Dense embeddings** capture the deeper, semantic meanings behind the text.
+- **Sparse embeddings** support more traditional, keyword-based methods. Specifically, you'll use [BM25](/documentation/search/text-search/#bm25), a probabilistic retrieval model. BM25 ranks documents based on how relevant their terms are to a given query, taking into account how often terms appear, document length, and how common the term is across all documents. It's perfect for keyword-heavy searches.
+- **Late interaction embeddings** capture the nuanced interactions between query and document terms. You'll use a ColBERT model, which uses a two-stage approach. First, it generates contextualized embeddings for both queries and documents using BERT, and then it performs late interaction, matching those embeddings efficiently to fine-tune relevance. Learn more about late interaction models in the [Multivector Representations for Reranking in Qdrant](/documentation/tutorials-search-engineering/using-multivector-representations/) tutorial and the [Multi-Vector Search](/course/multi-vector-search/) course.
 
-![image2.png](/documentation/examples/reranking-hybrid-search/image2.png)
-
-Query Retrieval and Reranking Process in Search Systems
+The data, including all the embeddings, is stored in Qdrant, a **vector search engine**. This enables you to efficiently search, retrieve, and rerank your documents based on multiple layers of relevance.
 
 ### Retrieval Stage
 
-Now, let's talk about how we’re going to pull the best results once the user submits a query:
+![Query retrieval and reranking process in Qdrant](/documentation/examples/reranking-hybrid-search/image2.png)
 
-1. **User’s Query**: The user enters a query, and that query is transformed into multiple types of embeddings. We’re talking about representations that capture both the deeper meaning (dense) and specific keywords (sparse).
-2. **Embeddings**: The query gets converted into various embeddings—some for understanding the semantics (dense embeddings) and others for focusing on keyword matches (sparse embeddings).
-3. **Hybrid Search**: Our hybrid search uses both dense and sparse embeddings to find the most relevant documents. The dense embeddings ensure we capture the overall meaning of the query, while sparse embeddings make sure we don’t miss out on those key, important terms.
-4. **Rerank**: Once we’ve got a set of documents, the final step is reranking. This is where late interaction embeddings come into play, giving you results that are not only relevant but tuned to your query by prioritizing the documents that truly meet the user's intent.
+When a user submits a **query**, it is, just like documents, transformed into each of the types of embeddings: dense for semantic search, sparse for keyword search, and late interaction for precise reranking.
+
+Next, **hybrid search** uses dense and sparse embeddings to find the most relevant documents. The dense embeddings are used for semantic search, while the sparse embeddings are used for keyword search. The resulting sets of documents are then **reranked** using late interaction embeddings, giving results that are not only relevant but also tuned to your query by prioritizing the documents that truly meet the user's intent.
 
 ## Implementation
 
-Let’s see it in action in this section.
+### Install and Initialize the Qdrant Client
 
-### Additional Setup
+First, install the Qdrant client:
 
-This time around, we’re using FastEmbed—a lightweight Python library designed for generating embeddings, and it supports popular text models right out of the box. First things first, you’ll need to install it:
+{{< code-snippet path="/documentation/headless/snippets/install-client/" >}}
 
-```python
-pip install fastembed
-```
+Next, initialize the client:
 
----
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="client-connection" >}}
 
-Here are the models we’ll be pulling from FastEmbed:
+### Models
 
-```python
-from fastembed import TextEmbedding, LateInteractionTextEmbedding, SparseTextEmbedding 
-```
+Next, define the three embedding models. You'll use the 384-dimensional [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) model for dense embeddings, the [`qdrant/bm25`](https://huggingface.co/Qdrant/bm25) model for sparse embeddings, and the 96-dimensional [`answerdotai/answerai-colbert-small-v1`](https://huggingface.co/answerdotai/answerai-colbert-small-v1) multivector model for late interaction embeddings.
 
----
-
-### Ingestion
-
-As before, we’ll convert our documents into embeddings, but thanks to FastEmbed, the process is even more straightforward because all the models you need are conveniently available in one location.
-
-### Embeddings
-
-First, let’s load the models we need:
-
-```python
-dense_embedding_model = TextEmbedding("sentence-transformers/all-MiniLM-L6-v2")
-bm25_embedding_model = SparseTextEmbedding("Qdrant/bm25")
-late_interaction_embedding_model = LateInteractionTextEmbedding("colbert-ir/colbertv2.0")
-```
-
----
-
-Now, let’s convert our documents into embeddings:
-
-```python
-dense_embeddings = list(dense_embedding_model.embed(doc for doc in documents))
-bm25_embeddings = list(bm25_embedding_model.embed(doc for doc in documents))
-late_interaction_embeddings = list(late_interaction_embedding_model.embed(doc for doc in documents))
-```
-
----
-
-Since we’re dealing with multiple types of embeddings (dense, sparse, and late interaction), we’ll need to store them in a collection that supports a multi-vector setup. The previous collection we created won’t work here, so we’ll create a new one designed specifically for handling these different types of embeddings.
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="define-models" >}}
 
 ### Create Collection
 
-Now, we’re setting up a new collection in Qdrant for our hybrid search with the right configurations to handle all the different vector types we’re working with.
+Create a new collection called `hybrid-search`, configured to handle the three vector types:
 
-Here’s how you do it:
+- **Dense embeddings** (`dense`) using cosine distance for semantic comparisons.
+- **Late interaction embeddings** (`multi`) using cosine distance, with a multivector configuration using the maximum similarity comparator. Note the `m=0` configuration to disable HNSW indexing. These embeddings are used for reranking, not ANN retrieval, so an HNSW index is not needed.
+- **Sparse embeddings** (`sparse`) for keyword-based searches using the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier).
 
-```python
-from qdrant_client.models import Distance, VectorParams, models
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="create-collection" >}}
 
-client.create_collection(
-    "hybrid-search",
-    vectors_config={
-        "all-MiniLM-L6-v2": models.VectorParams(
-            size=len(dense_embeddings[0]),
-            distance=models.Distance.COSINE,
-        ),
-        "colbertv2.0": models.VectorParams(
-            size=len(late_interaction_embeddings[0][0]),
-            distance=models.Distance.COSINE,
-            multivector_config=models.MultiVectorConfig(
-                comparator=models.MultiVectorComparator.MAX_SIM,
-            ),
-            hnsw_config=models.HnswConfigDiff(m=0)  #  Disable HNSW for reranking
-        ),
-    },
-    sparse_vectors_config={
-        "bm25": models.SparseVectorParams(modifier=models.Modifier.IDF
-        )
-    }
-)
-```
+### Ingest Data
 
----
+Now you can load the sci-fi book descriptions from a CSV and insert them into the `hybrid-search` collection. With Cloud Inference, embeddings are computed server-side by wrapping the text in a `Document` object.
 
-What’s happening here? We’re creating a collection called "hybrid-search", and we’re configuring it to handle:
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="ingest-data" >}}
 
-- **Dense embeddings** from the model all-MiniLM-L6-v2 using cosine distance for comparisons.
-- **Late interaction embeddings** from colbertv2.0, also using cosine distance, but with a multivector configuration to use the maximum similarity comparator. Note that we set `m=0` in the `colbertv2.0` vector to prevent indexing since it's not needed for reranking. 
-- **Sparse embeddings** from BM25 for keyword-based searches. They use `dot_product` for similarity calculation.
+This code creates a point for each book, with three vector types and a payload containing the title, author, and description. Documents are uploaded to Qdrant in batches of 25, with Cloud Inference generating all three embeddings on the fly. In Production, the optimal batch size depends on your data and cluster, so you may want to experiment with different sizes for best performance.
 
-This setup ensures that all the different types of vectors are stored and compared correctly for your hybrid search.
+This code uses a helper function to stream and parse the CSV file:
 
-### Upsert Data
-
-Next, we need to insert the documents along with their multiple embeddings into the **hybrid-search** collection:
-
-```python
-from qdrant_client.models import PointStruct
-points = []
-for idx, (dense_embedding, bm25_embedding, late_interaction_embedding, doc) in enumerate(zip(dense_embeddings, bm25_embeddings, late_interaction_embeddings, documents)):
-  
-    point = PointStruct(
-        id=idx,
-        vector={
-            "all-MiniLM-L6-v2": dense_embedding,
-            "bm25": bm25_embedding.as_object(),
-            "colbertv2.0": late_interaction_embedding,
-        },
-        payload={"document": doc}
-    )
-    points.append(point)
-
-operation_info = client.upsert(
-    collection_name="hybrid-search",
-    points=points
-)
-```
-
-<aside role="status">
-Check how points can be uploaded with builtin Fastembed integration.
-</aside>
-
-<details>
-    <summary>Upload with implicit embeddings computation</summary>
-
-
-```python
-from qdrant_client.models import PointStruct
-points = []
-
-for idx, doc in enumerate(documents):
-    point = PointStruct(
-        id=idx,
-        vector={
-            "all-MiniLM-L6-v2": models.Document(text=doc, model="sentence-transformers/all-MiniLM-L6-v2"),
-            "bm25": models.Document(text=doc, model="Qdrant/bm25"),
-            "colbertv2.0": models.Document(text=doc, model="colbert-ir/colbertv2.0"),
-        },
-        payload={"document": doc}
-    )
-    points.append(point)
-
-operation_info = client.upsert(
-    collection_name="hybrid-search",
-    points=points
-)
-```
+<details><summary>Details</summary> 
+{{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="parse-csv" >}}
 </details>
-
----
-
-This code pulls everything together by creating a list of **PointStruct** objects, each containing the embeddings and corresponding documents.
-
-For each document, it adds:
-
-- **Dense embeddings** for the deep, semantic meaning.
-- **BM25 embeddings** for powerful keyword-based search.
-- **ColBERT embeddings** for precise contextual interactions.
-
-Once that’s done, the points are uploaded into our **"hybrid-search"** collection using the upsert method, ensuring everything’s in place.
 
 ### Retrieval
 
-For retrieval, it’s time to convert the user’s query into the required embeddings. Here’s how you can do it:
+Before combining results, let's see how dense and sparse retrieval perform individually.
 
-```python
-dense_vectors = next(dense_embedding_model.query_embed(query))
-sparse_vectors = next(bm25_embedding_model.query_embed(query))
-late_vectors = next(late_interaction_embedding_model.query_embed(query))
-```
+For retrieval, wrap the query in a `Document` object so Cloud Inference computes the appropriate embeddings server-side.
 
----
+**Dense retrieval** captures semantic meaning:
 
-The real magic of hybrid search lies in the **prefetch** parameter. This lets you run multiple sub-queries in one go, combining the power of dense and sparse embeddings. Here’s how to set it up, after which we execute the hybrid search:
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="dense-retrieval" >}}
 
-```python
-prefetch = [
-        models.Prefetch(
-            query=dense_vectors,
-            using="all-MiniLM-L6-v2",
-            limit=20,
-        ),
-        models.Prefetch(
-            query=models.SparseVector(**sparse_vectors.as_object()),
-            using="bm25",
-            limit=20,
-        ),
-    ]
-```
+Let's take a look at the top 5 results:
 
----
+| Position | Title | Description |
+|----------|-------|-------------|
+| 1 | The Time Machine | A Victorian scientist travels far into the future to witness civilization's fate. |
+| 2 | Slaughterhouse-Five | A nonlinear, time-tripping reflection on war and fate. |
+| 3 | The Peripheral | Two timelines intersect through telepresence technology. |
+| 4 | The Space Between Worlds | A multiverse traveler uncovers dangerous secrets across parallel Earths. |
+| 5 | The Forever War | A soldier experiences extreme time dilation while fighting an interstellar war. |
 
-This code kicks off a hybrid search by running two sub-queries:
+Each of these books has a strong semantic connection to the concept of time travel, even if the exact phrase doesn't appear in the description.
 
-- One using dense embeddings from "all-MiniLM-L6-v2" to capture the semantic meaning of the query.
-- The other using sparse embeddings from BM25 for strong keyword matching.
+**Sparse retrieval** focuses on keyword matches:
 
-Each sub-query is limited to 20 results. These sub-queries are bundled together using the prefetch parameter, allowing them to run in parallel.
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="sparse-retrieval" >}}
+
+The top 5 results are:
+
+| Position | Title | Description |
+|----------|-------|-------------|
+| 1 | Station Eleven | A traveling symphony roams a post-pandemic North America. |
+| 2 | Hyperion | Travelers share haunting tales on a pilgrimage to confront the mysterious Shrike. |
+| 3 | The Space Between Worlds | A multiverse traveler uncovers dangerous secrets across parallel Earths. |
+| 4 | The Time Machine | A Victorian scientist travels far into the future to witness civilization's fate. |
+| 5 | Slaughterhouse-Five | A nonlinear, time-tripping reflection on war and fate. |
+
+The sparse BM25 model performs keyword matching with stemming. As a result, it returns books whose descriptions contain variants of the words "time" and "travel". For instance, "Station Eleven" and "Hyperion" mention "traveling" and "travelers" but aren't primarily about time travel.
+
+**Hybrid search** can be used to prefetch the dense and sparse results and next merge them using [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf):
+
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="hybrid-search" >}}
+
+This runs two sub-queries in parallel: one using dense embeddings for semantic meaning, the other using sparse BM25 embeddings for keyword matching. The prefetch step retrieves the top 20 candidates from each sub-query (dense and sparse) and fuses the ranked lists into a single result using RRF.
+
+The results are a mix of books that are semantically relevant to time travel and those that contain the keywords, giving you a broader set of relevant documents. However, the ranking may not be optimal since, [by default, RRF treats both signals equally](/documentation/search/hybrid-queries/#weighted-rrf) and doesn't capture the nuanced interactions between query and document terms. For example, "Station Eleven" ranks highly because it has stronger keyword matches, even though it is not about time travel.
+
+| Position | Title | Description |
+|----------|-------|-------------|
+| 1 | The Time Machine | A Victorian scientist travels far into the future to witness civilization's fate. |
+| 2 | Station Eleven | A traveling symphony roams a post-pandemic North America. |
+| 3 | Slaughterhouse-Five | A nonlinear, time-tripping reflection on war and fate. |
+| 4 | The Space Between Worlds | A multiverse traveler uncovers dangerous secrets across parallel Earths. |
+| 5 | Hyperion | Travelers share haunting tales on a pilgrimage to confront the mysterious Shrike. |
 
 ### Rerank
 
-Now that we've got our initial hybrid search results, it’s time to rerank them using late interaction embeddings for maximum precision. Here’s how you can do it:
+The hybrid search results can be reranked using late interaction embeddings for maximum precision. Instead of fusing with RRF, use the ColBERT multi-vector as the final ranking signal:
 
-```python
-results = client.query_points(
-         "hybrid-search",
-        prefetch=prefetch,
-        query=late_vectors,
-        using="colbertv2.0",
-        with_payload=True,
-        limit=10,
-)
-```
+{{< code-snippet path="/documentation/headless/snippets/tutorial-reranking-hybrid-search/" block="rerank" >}}
 
-<aside role="status">
-Check how queries can be made with builtin Fastembed integration.
-</aside>
+The prefetch step retrieves the top 20 candidates from each sub-query (dense and sparse), and the ColBERT late interaction model reranks the combined candidates to surface the most relevant results.
 
-<details>
-    <summary>Query points with implicit embeddings computation</summary>
+### Compare results
 
+Let's compare the top 10 results of hybrid search with and without reranking. Notice how some documents shift in rank based on their relevance according to the late interaction embeddings.
 
-```python
-prefetch = [
-        models.Prefetch(
-            query=models.Document(text=query, model="sentence-transformers/all-MiniLM-L6-v2"),
-            using="all-MiniLM-L6-v2",
-            limit=20,
-        ),
-        models.Prefetch(
-            query=models.Document(text=query, model="Qdrant/bm25"),
-            using="bm25",
-            limit=20,
-        ),
-    ]
-results = client.query_points(
-         "hybrid-search",
-        prefetch=prefetch,
-        query=models.Document(text=query, model="colbert-ir/colbertv2.0"),
-        using="colbertv2.0",
-        with_payload=True,
-        limit=10,
-)
-```
-</details>
-
-
----
-
-Let’s look at how the positions change after applying reranking. Notice how some documents shift in rank based on their relevance according to the late interaction embeddings.
-
-|  | **Document** | **First Query Rank** | **Second Query Rank** | **Rank Change** |
-| --- | --- | --- | --- | --- |
-|  | In machine learning, feature scaling is the process of normalizing the range of independent variables or features. The goal is to ensure that all features contribute equally to the model, especially in algorithms like SVM or k-nearest neighbors where distance calculations matter. | 1 | 1 | No Change |
-|  | Feature scaling is commonly used in data preprocessing to ensure that features are on the same scale. This is particularly important for gradient descent-based algorithms where features with larger scales could disproportionately impact the cost function. | 2 | 6 | Moved Down |
-|  | Unsupervised learning algorithms, such as clustering methods, may benefit from feature scaling, which ensures that features with larger numerical ranges don't dominate the learning process. | 3 | 4 | Moved Down |
-|  | Data preprocessing steps, including feature scaling, can significantly impact the performance of machine learning models, making it a crucial part of the modeling pipeline. | 5 | 2 | Moved Up |
-
-Great! We've now explored how reranking works and successfully implemented it.
+ Title | Description | Reranked | RRF rank  | Rank Change |
+|-------|-------------| ---------|----------|-------------|
+| Slaughterhouse-Five | A nonlinear, time-tripping reflection on war and fate. | 1 | 3 | Moved up |
+| The Forever War | A soldier experiences extreme time dilation while fighting an interstellar war. | 2 | 8 | Moved up |
+| Kindred | A modern Black woman is pulled back in time to the antebellum South. | 3 | 7 | Moved up |
+| Spin | Earth is enclosed in a time-distorting barrier by unknown forces. | 4 | 6 | Moved up |
+| The Light Brigade | Soldiers are turned into light to fight a war across space-time. | 5 | 10 | Moved up |
 
 ## Best Practices in Reranking
 
-Reranking can dramatically improve the relevance of search results, especially when combined with hybrid search. Here are some best practices to keep in mind:
+Reranking with late interaction models can dramatically improve the relevance of search results, especially when combined with hybrid search. Here are some best practices to keep in mind:
 
-- **Implement Hybrid Reranking**: Blend keyword-based (sparse) and vector-based (dense) search results for a more comprehensive ranking system.
-- **Continuous Testing and Monitoring**: Regularly evaluate your reranking models to avoid overfitting and make timely adjustments to maintain performance.
-- **Balance Relevance and Latency**: Reranking can be computationally expensive, so aim for a balance between relevance and speed. Therefore, the first step is to retrieve the relevant documents and then use reranking on it.
+- **Continuous testing and monitoring**: regularly evaluate your hybrid search pipelines to avoid overfitting and make timely adjustments to maintain performance.
+- **Balance relevance and cost**: Reranking can be computationally expensive, and late interaction embeddings require significant storage. Aim for a balance between relevance and cost. Simple fusion methods like RRF can be effective for many use cases, while late interaction models can be reserved for queries where precision is critical.
 
 ## Conclusion
 
-Reranking is a powerful tool that boosts the relevance of search results, especially when combined with hybrid search methods. While it can add some latency due to its complexity, applying it to a smaller, pre-filtered subset of results ensures both speed and relevance.
-
-Qdrant offers an easy-to-use API to get started with your own search engine, so if you’re ready to dive in, sign up for free at [Qdrant Cloud](https://qdrant.tech/) and start building
+Reranking with late interaction models is a powerful tool that boosts the relevance of search results, especially when combined with hybrid search methods. While it can add some latency due to its complexity, applying it to a smaller, pre-filtered subset of results ensures both speed and relevance.
