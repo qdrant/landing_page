@@ -6,7 +6,7 @@ startFree:
   url: https://cloud.qdrant.io/signup
 learnMore:
   text: Learn More
-  url: /contact-us/
+  url: "#ai-agents"
 image:
   src: /img/home/horizontal-slider/qdrant-use-caseai-agents.png
   webp: /img/home/horizontal-slider/qdrant-use-caseai-agents.webp
