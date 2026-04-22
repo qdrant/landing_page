@@ -1,5 +1,5 @@
 ---
-title: Home
+title: Documentation
 weight: 2
 hideTOC: true
 breadcrumb: false
