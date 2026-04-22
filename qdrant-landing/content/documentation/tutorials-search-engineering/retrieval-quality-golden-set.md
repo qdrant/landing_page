@@ -10,7 +10,7 @@ aliases:
 | Time: 40 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
 
-Evaluating retrieval relevance requires a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). The [Retrieval Quality Evaluation](/documentation/tutorials-search-engineering/retrieval-quality/) tutorial measures **ANN recall** against exact kNN, which needs no relevance labels. This page covers the separate task of building labeled data to measure **retrieval relevance** against real user intent.
+This tutorial covers **layer 2** of the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-levels-in-practice" target="_blank">evaluation ladder</a>: **retrieval relevance**. Measuring how well retrieved results match real user intent requires a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). For layer 1 (ANN recall against exact kNN), which needs no relevance labels, see <a href="/documentation/tutorials-search-engineering/retrieval-quality/" target="_blank">Retrieval Quality Evaluation</a>.
 
 ## Generating Queries
 
@@ -54,7 +54,7 @@ def generate_queries_for_doc(doc_text: str, n: int = 3) -> list[str]:
 
 ## Using the Golden Set
 
-Once queries are labeled, run each through Qdrant and compare the returned IDs against the labels. The metric to compute depends on what the labels record (see the [metric-selection table](/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#choosing-the-right-metric)).
+Once queries are labeled, run each through Qdrant and compare the returned IDs against the labels. The metric to compute depends on what the labels record (see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#choosing-the-right-metric" target="_blank">metric-selection table</a>).
 
 For **binary-relevance labels** (a set of relevant doc IDs per query), compute `recall@k` and `MRR`:
 
@@ -110,7 +110,7 @@ def evaluate(golden_set: list, collection: str, k: int = 10) -> dict:
     }
 ```
 
-This produces the retrieval-relevance score (layer 2 of the [evaluation ladder](/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-levels-in-practice)). Re-run it whenever the retrieval stack changes: new embedding model, new index config, new reranker. To measure layer 1 (ANN recall against exact kNN), see [Retrieval Quality Evaluation](/documentation/tutorials-search-engineering/retrieval-quality/).
+Re-run this whenever the retrieval stack changes: new embedding model, new index config, new reranker.
 
 ## Pitfalls to Watch For (Data Leakage and Friends)
 
