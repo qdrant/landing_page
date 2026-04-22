@@ -13,28 +13,20 @@ weight: 6
 
 This tutorial measures **layer 1** of the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-levels-in-practice" target="_blank">evaluation ladder</a>, **ANN recall**: the share of exact kNN results that Qdrant's approximate nearest-neighbor search recovers. For retrieval relevance (layer 2), see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-golden-set/" target="_blank">Building a Golden Query Set</a> tutorial.
 
-Semantic search pipelines are as good as the embeddings they use. If your model cannot properly represent input data, similar objects might
-be far away from each other in the vector space. No surprise, that the search results will be poor in this case. There is, however, another
-component of the process which can also degrade the quality of the search results. It is the ANN algorithm itself. 
-
-In this tutorial, we will show how to measure the quality of the semantic retrieval and how to tune the parameters of the HNSW, the ANN 
-algorithm used in Qdrant, to obtain the best results.
+We'll measure Qdrant's ANN recall with `recall@k` and tune HNSW parameters to control the recall/latency trade-off. The ANN algorithm is one of several levers that shape retrieval quality in a production pipeline, alongside the embedding model, retrieval strategy (dense, sparse, hybrid, and multi-vector), filtering, and reranking.
 
 ## Embeddings Quality
 
 The quality of the embeddings is a topic for a separate tutorial. In a nutshell, it is usually measured and compared by benchmarks, such as 
 [Massive Text Embedding Benchmark (MTEB)](https://huggingface.co/spaces/mteb/leaderboard). The evaluation process itself is pretty 
 straightforward and is based on a ground truth dataset built by humans. We have a set of queries and a set of the documents we would expect
-to receive for each of them. In the [evaluation process](https://qdrant.tech/rag/rag-evaluation-guide/), we take a query, find the most similar documents in the vector space and compare 
+to receive for each of them. In the evaluation process, we take a query, find the most similar documents in the vector space and compare 
 them with the ground truth. In that setup, **finding the most similar documents is implemented as full kNN search, without any approximation**.
 As a result, we can measure the quality of the embeddings themselves, without the influence of the ANN algorithm.
 
-## Retrieval Quality
+## ANN Recall
 
-Embeddings quality is indeed the most important factor in the semantic search quality. However, vector search engines, such as Qdrant, do not 
-perform pure kNN search. Instead, they use **Approximate Nearest Neighbors** (ANN) algorithms, which are much faster than the exact search, 
-but can return suboptimal results. We can also **measure the retrieval quality of that approximation** which also contributes to the overall
-search quality.
+The embedding model sets a baseline for search quality, but the retrieval pipeline can still underperform it. Vector search engines such as Qdrant don't run pure kNN at query time; they use **approximate nearest-neighbor** (ANN) algorithms for speed. ANN is faster than exact search but can return suboptimal results. **ANN recall** measures that gap.
 
 For a broader discussion of what to measure and when (ANN recall vs retrieval relevance vs business impact, and which metric fits which scenario),
 see [Retrieval Quality Fundamentals](/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/). This tutorial focuses on the
@@ -44,7 +36,7 @@ match the ANN-benchmarks convention.
 
 ## Measure the Quality of the Search Results
 
-Let's build a quality [evaluation](https://qdrant.tech/rag/rag-evaluation-guide/) of the ANN algorithm in Qdrant. We will, first, call the search endpoint in a standard way to obtain
+Let's build a quality evaluation of the ANN algorithm in Qdrant. We will, first, call the search endpoint in a standard way to obtain
 the approximate search results. Then, we will call the exact search endpoint to obtain the exact matches, and finally compare both results
 in terms of recall.
 
@@ -212,7 +204,7 @@ to do it.
 
 ## Wrapping Up
 
-Assessing the quality of retrieval is a critical aspect of [evaluating](https://qdrant.tech/rag/rag-evaluation-guide/) semantic search performance. It is imperative to measure retrieval quality when aiming for optimal quality of.
+Assessing the quality of retrieval is a critical aspect of evaluating semantic search performance. It is imperative to measure retrieval quality when aiming for optimal quality of.
 your search results. Qdrant provides a built-in exact search mode, which can be used to measure the quality of the ANN algorithm itself, 
 even in an automated way, as part of your CI/CD pipeline.
 
