@@ -1,14 +1,14 @@
 ---
-title: Retrieval Quality Evaluation
+title: Measuring ANN Precision
 aliases:
   - /documentation/tutorials/retrieval-quality/
   - /documentation/beginner-tutorials/retrieval-quality/
 weight: 6
 ---
 
-# Evaluate Retrieval Quality
+# Measuring ANN Precision
 
-| Time: 30 min | Level: Intermediate |  |    |
+| Time: 15 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
 
 This tutorial measures **layer 1** of the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-levels-in-practice" target="_blank">evaluation ladder</a>, **ANN precision**: the share of Qdrant's approximate nearest-neighbor top-k that appears in the exact kNN top-k. For retrieval relevance (layer 2), see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-golden-set/" target="_blank">Building a Golden Query Set</a> tutorial.

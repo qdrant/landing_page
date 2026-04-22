@@ -12,9 +12,9 @@ aliases:
 
 Before measuring retrieval quality, it's worth understanding what you're measuring. Retrieval quality operates at three distinct levels, and it's easy to optimize for the wrong one.
 
-The first level is **ANN recall**: does the approximate search return the same results as an exact nearest-neighbor search? This is a purely algorithmic question about how faithfully HNSW approximates exhaustive search. It has nothing to do with whether those results are useful to a human.
+The first level is **ANN precision**: does the approximate search return the same results as an exact nearest-neighbor search? This is a purely algorithmic question about how faithfully HNSW approximates exhaustive search. It has nothing to do with whether those results are useful to a human.
 
-The second level is **retrieval relevance**: of the results returned, how many are relevant to the query intent? This requires a labeled ground-truth dataset or human judgment. A pipeline can achieve near-perfect ANN recall and still surface irrelevant documents if the embeddings are a poor fit for the task.
+The second level is **retrieval relevance**: of the results returned, how many are relevant to the query intent? This requires a labeled ground-truth dataset or human judgment. A pipeline can achieve near-perfect ANN precision and still surface irrelevant documents if the embeddings are a poor fit for the task.
 
 The third level is **business impact**: does better retrieval lead to better outcomes like lower hallucination rates in downstream LLMs, higher task-completion rates, or improved user satisfaction scores? This is what stakeholders care about, but it's the hardest to measure directly. The causal chain from a vector match to a user outcome is long and easily dominated by generator behavior, UI, and other confounders, so no single offline metric is a reliable proxy for a KPI. The next section describes how teams bridge this gap in practice.
 
@@ -24,7 +24,7 @@ The three levels aren't measured in isolation. Teams that successfully connect r
 
 | # | Layer | What it measures | Cadence | Cost |
 |---|---|---|---|---|
-| 1 | ANN recall | `Recall@k` vs exact kNN on a sampled query set | On index or embedding changes | Low |
+| 1 | ANN precision | `Recall@k` vs exact kNN on a sampled query set | On index or embedding changes | Low |
 | 2 | Retrieval relevance | `Recall@k` / `NDCG@k` vs a labeled golden set | Weekly, or on retrieval-stack changes | Low per run; **golden set is the real cost** (see next tutorial) |
 | 3 | End-to-end answer quality | LLM-as-judge or human rating on the golden set | Weekly, or on retrieval or generator changes | Moderate (LLM-judge cost × eval size) |
 | 4 | Business impact | Online A/B behind a flag | Per release, once offline layers pass | High (traffic, experimentation infra) |
@@ -71,4 +71,4 @@ On choosing `k`: set it to match actual usage. If the application shows 5 result
 
 ## Next Steps
 
-To build a labeled dataset for relevance evaluation, see [Building a Golden Query Set](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/). To measure and tune the ANN recall of a Qdrant collection in practice, see [Retrieval Quality Evaluation](/documentation/tutorials-search-engineering/retrieval-quality/).
+To build a labeled dataset for relevance evaluation, see [Building a Golden Query Set](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/). To measure and tune the ANN precision of a Qdrant collection in practice, see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/).
