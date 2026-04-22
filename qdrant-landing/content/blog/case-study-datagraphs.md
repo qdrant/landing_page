@@ -1,11 +1,11 @@
 ---
 draft: false
-title: "How Data Graphs Built a True Hybrid Graph RAG Platform with Qdrant"
+title: "How Data Graphs Built a True Hybrid Graph RAG Platform"
 short_description: "Data Graphs combines Qdrant's vector search with a proprietary graph database to deliver schema-first, agentic retrieval across industries."
 description: "Discover how Data Graphs built a true Hybrid Graph RAG platform using Qdrant's Hybrid Cloud deployment, payload filtering, and Terraform automation to deliver cited, domain-aware AI responses."
 preview_image: /blog/case-study-datagraphs/datagraphs-case-study-preview.png
 social_preview_image: /blog/case-study-datagraphs/datagraphs-case-study-preview.png
-date: 2025-06-10T00:00:00Z
+date: 2026-04-22T00:00:00Z
 author: "Daniel Azoulai"
 featured: false
 
@@ -19,7 +19,7 @@ tags:
 - case study
 ---
 
-![How Data Graphs Built a True Hybrid Graph RAG Platform with Qdrant](/blog/case-study-datagraphs/datagraphs-bento.png)
+![How Data Graphs Built a True Hybrid Graph RAG Platform](/blog/case-study-datagraphs/datagraphs-bento.png)
 
 Data Graphs is a UK-based platform company that provides a knowledge graph-as-a-service polystore, built on a proprietary, high-performance graph database engine. Co-founded by Paul Wilton over 10 years ago as a consultancy, Data Graphs has evolved into a platform that serves industries ranging from sports media and publishing to GLAM (galleries, libraries, archives, museums), Agri-Tech, and Regulatory Technology.
 
@@ -69,7 +69,7 @@ Data Graphs built a retrieval architecture that goes beyond standard RAG. The sy
 
 — Paul Wilton, CEO/Co-Founder, Data Graphs
 
-![architecture][/blog/case-study-datagraphs/datagraphs-architecture.png]
+![architecture](/blog/case-study-datagraphs/datagraphs-architecture.png)
 
 ## Qdrant in Production: Stability and Developer Experience
 
