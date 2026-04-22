@@ -22,7 +22,7 @@ Domain experts assign relevance scores on a binary (relevant / not relevant) or 
 
 ### 2. Real User Queries from Logs (High Realism, Requires Production Traffic)
 
-If your app records queries with click or explicit-feedback signals, sample query-document pairs directly. This captures real user intent and vocabulary, and should be your first choice once production traffic exists. Stratify by query type or topic cluster — uniform sampling over-represents frequent queries and misses rare-but-important cases. As a rough heuristic, a few hundred labeled pairs detects large metric differences; small ranking differences or per-slice analysis need substantially more. Treat any number as a starting point and widen confidence intervals if the signal is noisy.
+If your app records queries with click or explicit-feedback signals, sample query-document pairs directly. This captures real user intent and vocabulary, and should be your first choice once production traffic exists. Stratify sampling so rare-but-important cases aren't drowned out. For search-style traffic, that usually means query type or topic cluster. For RAG or agentic retrieval, it often means conversation turn or intent class. A few hundred labeled pairs can detect large metric differences; per-slice analysis or small ranking deltas need substantially more. Treat any number as a starting point and widen confidence intervals if the signal is noisy.
 
 ### 3. LLM-Based Synthetic Generation (Scales Cheaply, Lowest Fidelity)
 
