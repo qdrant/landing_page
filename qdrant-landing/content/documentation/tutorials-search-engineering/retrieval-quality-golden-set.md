@@ -26,14 +26,15 @@ If your app records queries with click or explicit-feedback signals, sample quer
 
 ### 3. LLM-Based Synthetic Generation (Scales Cheaply, Lowest Fidelity)
 
-When logs and reviewers aren't available, prompt an LLM to generate plausible queries for each document. This scales to thousands of pairs, but synthetic queries are easier to retrieve than what real users type.
+When logs and reviewers aren't available, prompt an LLM to generate plausible queries for each document. This scales to thousands of pairs, but synthetic queries are easier to retrieve than what real users type. Frameworks such as <a href="https://docs.ragas.io/" target="_blank">Ragas</a> provide ready-made testset generators if you want a maintained tool; the example below is a minimal prompt shape you can adapt to any model.
 
 ```python
 import os
 
 import anthropic
 
-client = Anthropic(
+# Anthropic's API is one option; any LLM works.
+client = anthropic.Anthropic(
     api_key=os.environ.get("ANTHROPIC_API_KEY"),
 )
 
@@ -56,59 +57,34 @@ def generate_queries_for_doc(doc_text: str, n: int = 3) -> list[str]:
 
 Once queries are labeled, run each through Qdrant and compare the returned IDs against the labels. The metric to compute depends on what the labels record (see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#choosing-the-right-metric" target="_blank">metric-selection table</a>).
 
-For **binary-relevance labels** (a set of relevant doc IDs per query), compute `recall@k` and `MRR`:
+Use <a href="https://amenra.github.io/ranx/" target="_blank">ranx</a>, a Python library for ranking evaluation. It covers `recall@k`, `MRR`, `NDCG@k`, and others through a single `Qrels` / `Run` interface, and handles both binary and graded labels the same way.
 
-```python
-def recall_at_k(retrieved_ids: list, relevant_ids: set, k: int) -> float:
-    hit = sum(1 for doc_id in retrieved_ids[:k] if doc_id in relevant_ids)
-    return hit / len(relevant_ids) if relevant_ids else 0.0
-
-def mrr(retrieved_ids: list, relevant_ids: set) -> float:
-    for i, doc_id in enumerate(retrieved_ids):
-        if doc_id in relevant_ids:
-            return 1.0 / (i + 1)
-    return 0.0
-```
-
-For **graded-relevance labels** (for example 0/1/2 scores per query-document pair), compute `NDCG@k`:
-
-```python
-import numpy as np
-
-def ndcg_at_k(retrieved_ids: list, relevance_map: dict, k: int) -> float:
-    dcg = sum(
-        (2 ** relevance_map.get(doc_id, 0) - 1) / np.log2(i + 2)
-        for i, doc_id in enumerate(retrieved_ids[:k])
-    )
-    ideal = sorted(relevance_map.values(), reverse=True)[:k]
-    idcg = sum((2 ** rel - 1) / np.log2(i + 2) for i, rel in enumerate(ideal))
-    return dcg / idcg if idcg > 0 else 0.0
-```
-
-Run the evaluation loop across the golden set:
+Construct the labels as a `Qrels` object (a dict mapping query IDs to `{doc_id: relevance_score}`) and the Qdrant results as a `Run` (a dict mapping query IDs to `{doc_id: ranking_score}`). For binary labels, use `1` for relevant; for graded labels, use the raw 0/1/2 scores.
 
 ```python
 from qdrant_client import QdrantClient
+from ranx import Qrels, Run, evaluate
 
 client = QdrantClient("http://localhost:6333")
 
-def evaluate(golden_set: list, collection: str, k: int = 10) -> dict:
-    recalls, mrrs = [], []
+def retrieval_run(golden_set: list, collection: str, k: int = 10) -> Run:
+    run = {}
     for entry in golden_set:
         results = client.query_points(
             collection_name=collection,
             query=entry["query_vector"],
             limit=k,
         ).points
-        retrieved = [p.id for p in results]
-        relevant = set(entry["relevant_ids"])
-        recalls.append(recall_at_k(retrieved, relevant, k))
-        mrrs.append(mrr(retrieved, relevant))
-    return {
-        "mean_recall": sum(recalls) / len(recalls),
-        "mean_mrr": sum(mrrs) / len(mrrs),
-    }
+        run[entry["query_id"]] = {p.id: p.score for p in results}
+    return Run(run)
+
+qrels = Qrels({entry["query_id"]: entry["labels"] for entry in golden_set})
+run = retrieval_run(golden_set, collection="my_collection", k=10)
+
+metrics = evaluate(qrels, run, ["recall@10", "mrr", "ndcg@10"])
 ```
+
+For the full metric list (Precision@k, MAP, ERR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
 
 Re-run this whenever the retrieval stack changes: new embedding model, new index config, new reranker.
 
