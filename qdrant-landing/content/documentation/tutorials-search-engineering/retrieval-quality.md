@@ -11,7 +11,7 @@ weight: 6
 | Time: 15 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
 
-This tutorial measures **layer 1** of the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-levels-in-practice" target="_blank">evaluation ladder</a>, **ANN precision**: the share of Qdrant's approximate nearest-neighbor top-k that appears in the exact kNN top-k. For retrieval relevance (layer 2), see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-golden-set/" target="_blank">Building a Golden Query Set</a> tutorial.
+This tutorial measures **layer 1** of the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-layers-in-practice" target="_blank">evaluation ladder</a>, **ANN precision**: the share of Qdrant's approximate nearest-neighbor top-k that appears in the exact kNN top-k. For retrieval relevance (layer 2), see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-golden-set/" target="_blank">Building a Golden Query Set</a> tutorial.
 
 We'll measure Qdrant's ANN precision with `precision@k` and tune HNSW parameters to control the precision/latency trade-off. The ANN algorithm is one of several levers that shape retrieval quality in a production pipeline, alongside the embedding model, retrieval strategy (dense, sparse, hybrid, and multi-vector), filtering, and reranking.
 

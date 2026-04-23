@@ -10,17 +10,21 @@ aliases:
 | Time: 20 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
 
-Before measuring retrieval quality, it's worth understanding what you're measuring. Retrieval quality operates at three distinct levels, and it's easy to optimize for the wrong one.
+Retrieval quality decides what shows up in a search result. When it drops, downstream systems suffer: RAG answers hallucinate, search users bounce, and agents pick the wrong tools. Measuring it systematically is how you catch regressions from embedding model swaps, index config changes, or dataset drift before they reach production.
 
-The first level is **ANN precision**: does the approximate search return the same results as an exact nearest-neighbor search? This is a purely algorithmic question about how faithfully HNSW approximates exhaustive search. It has nothing to do with whether those results are useful to a human.
+Before measuring retrieval quality, it's worth understanding what you're measuring. Retrieval quality operates at four distinct layers, and it's easy to optimize for the wrong one.
 
-The second level is **retrieval relevance**: of the results returned, how many are relevant to the query intent? This requires a labeled ground-truth dataset or human judgment. A pipeline can achieve near-perfect ANN precision and still surface irrelevant documents if the embeddings are a poor fit for the task.
+The first layer is **approximate nearest-neighbor (ANN) precision**: does the approximate index return the same results as an exact nearest-neighbor search? This is a purely algorithmic question about how faithfully HNSW approximates exhaustive search. (Sparse vectors use exact matching, so this layer doesn't apply to them.) ANN precision has nothing to do with whether those results are useful to a human.
 
-The third level is **business impact**: does better retrieval lead to better outcomes like lower hallucination rates in downstream LLMs, higher task-completion rates, or improved user satisfaction scores? This is what stakeholders care about, but it's the hardest to measure directly. The causal chain from a vector match to a user outcome is long and easily dominated by generator behavior, UI, and other confounders, so no single offline metric is a reliable proxy for a KPI. The next section describes how teams bridge this gap in practice.
+The second layer is **retrieval relevance**: of the results returned, how many are relevant to the query intent? This requires a labeled ground-truth dataset, human judgment, or LLM-as-judge scoring. A pipeline can achieve near-perfect ANN precision and still surface irrelevant documents if the embeddings are a poor fit for the task.
 
-## Connecting the Levels in Practice
+The third layer is **end-to-end answer quality**: does the full pipeline (retrieval plus whatever consumes it, such as an LLM, a ranker, or a recommendation surface) produce the right output? This is usually measured offline with LLM-as-judge or human rating on a labeled test set. It's downstream of retrieval but upstream of any business KPI.
 
-The three levels aren't measured in isolation. Teams that successfully connect retrieval work to business outcomes tend to build an **evaluation ladder** that runs each layer at a different cadence and cost, and uses the result of each layer to decide whether to invest effort at the next:
+The fourth layer is **business impact**: does better retrieval lead to better outcomes like lower hallucination rates in downstream LLMs, higher task-completion rates, or improved user satisfaction scores? This is what stakeholders care about, but it's the hardest to measure directly. The causal chain from a vector match to a user outcome is long and easily dominated by generator behavior, UI, and other confounders, so no single offline metric is a reliable proxy for a KPI. The next section describes how teams bridge this gap in practice.
+
+## Connecting the Layers in Practice
+
+The four layers aren't measured in isolation. Teams that successfully connect retrieval work to business outcomes tend to build an **evaluation ladder** that runs each layer at a different cadence and cost, and uses the result of each layer to decide whether to invest effort at the next:
 
 | # | Layer | What it measures | Cadence | Cost |
 |---|---|---|---|---|
@@ -37,24 +41,23 @@ Each layer is necessary but not sufficient. A win at layer 2 that doesn't carry 
 
 **Pre-register the decision rule.** Before running the A/B, write down what constitutes a win and what constitutes a no-ship, in terms of both the retrieval metric and the KPI. This is the highest-leverage discipline for avoiding "recall improved but the KPI didn't, the KPI is noisy, let's ship anyway" rationalization.
 
-**Tooling.** Qdrant owns layers 1 and 2 directly. For layer 3, the ecosystem has mature tooling like [Ragas](https://docs.ragas.io/), [Arize Phoenix](https://phoenix.arize.com/), and [DeepEval](https://docs.confident-ai.com/) that handles LLM-as-judge scoring and offline answer-quality eval.
+**Tooling.** For layer 1, the Qdrant Web UI ships with a Search Quality tab that measures ANN vs exact kNN without code (see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/)). For layer 2, [ranx](https://amenra.github.io/ranx/) is the standard Python library for ranking metrics (recall@k, MRR, NDCG@k, and others). For layer 3, the ecosystem has mature tooling like [Ragas](https://docs.ragas.io/), [Arize Phoenix](https://phoenix.arize.com/), and [DeepEval](https://docs.confident-ai.com/) for LLM-as-judge scoring and offline answer-quality eval.
 
 ## Quality Metrics
 
-There are various ways to quantify the quality of semantic search. Some of them, such as [Precision@k](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Precision_at_k),
-are based on the number of relevant documents in the top-k search results. Others, such as [Mean Reciprocal Rank (MRR)](https://en.wikipedia.org/wiki/Mean_reciprocal_rank),
-take into account the position of the first relevant document in the search results. [DCG and NDCG](https://en.wikipedia.org/wiki/Discounted_cumulative_gain)
-metrics are, in turn, based on the relevance score of the documents.
+Different layers call for different metrics. The right choice depends on what the pipeline does with its results and what ground truth is available.
 
-To evaluate the ANN algorithm itself, the question is simple: of the `k` true nearest neighbors an exact search would return, how many did the approximation find? That fraction is **`recall@k`**:
+**Layer 1 (ANN precision).** The question is simple: of the `k` true nearest neighbors an exact search would return, how many did the approximation find? That fraction is **`recall@k`**:
 
 `recall@k = |ANN results ∩ exact results| / k`
 
 When both searches return exactly `k` items, `recall@k` and `precision@k` are numerically identical. The ANN community uses "recall" by convention to make clear that exact kNN is the ground truth.
 
+**Layer 2 (retrieval relevance).** Several metrics quantify relevance against a labeled ground truth. [Precision@k](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Precision_at_k) is based on the number of relevant documents in the top-k. [Mean Reciprocal Rank (MRR)](https://en.wikipedia.org/wiki/Mean_reciprocal_rank) takes into account the position of the first relevant document. [DCG and NDCG](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) are based on the relevance score of the documents.
+
 ### Choosing the Right Metric
 
-The right choice of metric depends on what the search pipeline does with its results, and on what ground truth is available. The table below is a starting point, not a prescription: pick the metric that matches your ground truth and your user-visible behavior.
+The table below is a starting point, not a prescription: pick the metric that matches your ground truth and your user-visible behavior.
 
 | Scenario | Recommended metric | Ground truth | Why |
 |---|---|---|---|
