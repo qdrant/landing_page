@@ -20,7 +20,7 @@ The second layer is **retrieval relevance**: of the results returned, how many a
 
 The third layer is **end-to-end answer quality**: does the full pipeline (retrieval plus whatever consumes it, such as an LLM, a ranker, or a recommendation surface) produce the right output? This is usually measured offline with LLM-as-judge or human rating on a labeled test set. It's downstream of retrieval but upstream of any business KPI.
 
-The fourth layer is **business impact**: does better retrieval lead to better outcomes like lower hallucination rates in downstream LLMs, higher task-completion rates, or improved user satisfaction scores? This is what stakeholders care about, but it's the hardest to measure directly. The causal chain from a vector match to a user outcome is long and easily dominated by generator behavior, UI, and other confounders, so no single offline metric is a reliable proxy for a KPI. The next section describes how teams bridge this gap in practice.
+The fourth layer is **business impact**: does better retrieval lead to better outcomes like lower hallucination rates in downstream LLMs, higher task-completion rates, or improved user satisfaction scores? This is what stakeholders care about, but it's the hardest to measure directly. The causal chain from a vector match to a user outcome is long and easily dominated by generator behavior, UI, and other confounders, so no single offline metric is a reliable proxy for a KPI. The next section lays out common patterns for bridging this gap.
 
 ## Connecting the Layers in Practice
 
@@ -33,11 +33,11 @@ The four layers aren't measured in isolation. Teams that successfully connect re
 | 3 | End-to-end answer quality | LLM-as-judge or human rating on the golden set | Weekly, or on retrieval or generator changes | Moderate (LLM-judge cost × eval size) |
 | 4 | Business impact | Online A/B behind a flag | Per release, once offline layers pass | High (traffic, experimentation infra) |
 
-Each layer is necessary but not sufficient. A win at layer 2 that doesn't carry through to layer 3 usually means the generator or the prompt is the bottleneck, not retrieval. This is the most useful diagnostic the ladder provides, and the reason teams shouldn't collapse layers 2 and 3 into a single score.
+Each layer is necessary but not sufficient. A win at layer 2 that doesn't carry through to layer 3 usually means the downstream consumer (an LLM generator in RAG, a ranker in a search UI, or the prompt itself) is the bottleneck, not retrieval. This is the most useful diagnostic the ladder provides, and the reason teams shouldn't collapse layers 2 and 3 into a single score.
 
-**Isolate the component under test.** When end-to-end quality moves, hold one side fixed: evaluate retrieval with the generator frozen, and evaluate the generator with retrieval frozen. Without this, attribution collapses into guesswork and the ladder stops being diagnostic.
+**Isolate the component under test.** When end-to-end quality moves, hold one side fixed: evaluate retrieval with the downstream piece frozen (an LLM generator, a ranker, or the UI), and evaluate that piece with retrieval frozen. Without this, attribution collapses into guesswork and the ladder stops being diagnostic.
 
-**Proxy KPIs for teams without A/B infrastructure.** Most teams don't have the traffic or tooling to run a proper A/B. Cheap production signals that correlate with business value (click position on surfaced results, answer copy or share rate, session-level task completion, thumbs-up/down) can be instrumented long before a formal experimentation platform exists, and sit usefully between the golden-set layer and the full A/B.
+**Proxy KPIs for teams without A/B infrastructure.** A/B design for RAG and agentic systems is still evolving, and most teams don't have the traffic or tooling for a proper A/B regardless. Cheap production signals that correlate with business value (click position on surfaced results, answer copy or share rate, session-level task completion, thumbs-up/down) can be instrumented long before a formal experimentation platform exists, and sit usefully between the golden-set layer and the full A/B.
 
 **Pre-register the decision rule.** Before running the A/B, write down what constitutes a win and what constitutes a no-ship, in terms of both the retrieval metric and the KPI. This is the highest-leverage discipline for avoiding "recall improved but the KPI didn't, the KPI is noisy, let's ship anyway" rationalization.
 
@@ -51,7 +51,7 @@ Different layers call for different metrics. The right choice depends on what th
 
 `recall@k = |ANN results ∩ exact results| / k`
 
-When both searches return exactly `k` items, `recall@k` and `precision@k` are numerically identical. The ANN community uses "recall" by convention to make clear that exact kNN is the ground truth.
+Because both result sets are size `k`, this formula is numerically identical to `precision@k`. The [ANN-benchmarks](https://ann-benchmarks.com/) community uses "recall" to make clear that exact kNN is the ground truth.
 
 **Layer 2 (retrieval relevance).** Several metrics quantify relevance against a labeled ground truth. [Precision@k](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Precision_at_k) is based on the number of relevant documents in the top-k. [Mean Reciprocal Rank (MRR)](https://en.wikipedia.org/wiki/Mean_reciprocal_rank) takes into account the position of the first relevant document. [DCG and NDCG](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) are based on the relevance score of the documents.
 
