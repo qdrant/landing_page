@@ -1,6 +1,6 @@
 ---
 title: Setup Private Cloud
-weight: 1
+weight: 5
 ---
 
 # Qdrant Private Cloud Setup

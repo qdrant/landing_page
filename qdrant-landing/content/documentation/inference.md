@@ -1,7 +1,7 @@
 ---
 title: Inference
-weight: 220
-partition: qdrant
+weight: 215
+partition: develop
 aliases:
   - ../inference
 ---

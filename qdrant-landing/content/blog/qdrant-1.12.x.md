@@ -255,7 +255,7 @@ PUT /collections/{collection_name}/index
 
 ![geo-index-disk](/blog/qdrant-1.12.x/geo-index-disk.png)
 
-> To learn how to get the best performance from Qdrant, read the [**Optimization Guide**](/documentation/operations/optimize/).
+> To learn how to get the best performance from Qdrant, read the [**Optimization Guide**](/documentation/ops-optimization/optimize/).
 
 ## Just the Beginning
 

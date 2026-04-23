@@ -1,6 +1,6 @@
 ---
 title: Deployment Platforms
-weight: 5
+weight: 30
 ---
 
 # Qdrant Hybrid Cloud: Hosting Platforms & Deployment Options

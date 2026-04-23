@@ -119,7 +119,7 @@ accurate_search = SearchParams(hnsw_ef=256) # Higher recall, slower
 
 ### Memory & Indexing Behavior
 
-Some vectors can remain unindexed depending on [optimizer](/documentation/operations/optimizer/) settings e.g. when the unindexed part stays below the `indexing_threshold` (kB).
+Some vectors can remain unindexed depending on [optimizer](/documentation/ops-optimization/optimizer/) settings e.g. when the unindexed part stays below the `indexing_threshold` (kB).
 
 Small collections or low-dimensional vectors may not trigger HNSW indexing at all. In such cases, full-scan search (brute force) is used instead until indexing becomes beneficial
 

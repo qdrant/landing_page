@@ -1,18 +1,18 @@
 ---
 title: Configure Clusters
-weight: 55
+weight: 25
 ---
 
 # Configure Qdrant Cloud Clusters
 
 Qdrant Cloud offers several advanced configuration options to optimize clusters for your specific needs. You can access these options from the Cluster Details page in the Qdrant Cloud console.
 
-The cloud platform does not expose all [configuration options](/documentation/operations/configuration/) available in Qdrant. We have selected the relevant options that are explained in detail below.
+The cloud platform does not expose all [configuration options](/documentation/ops-configuration/configuration/) available in Qdrant. We have selected the relevant options that are explained in detail below.
 
 In addition, the cloud platform automatically configures the following settings for your cluster to ensure optimal performance and reliability:
 
 * The maximum number of collections in a cluster is set to 1000. Larger numbers of collections lead to performance degradation. For more information see [Multitenancy](/documentation/manage-data/multitenancy/).
-* Strict mode is activated by default for new collections enforcing that all filters being used in retrieve and update queries are indexed. This improves performance and reliability. You can disable this individually for each collection. For more information see [Strict Mode](/documentation/operations/administration/#strict-mode).
+* Strict mode is activated by default for new collections enforcing that all filters being used in retrieve and update queries are indexed. This improves performance and reliability. You can disable this individually for each collection. For more information see [Strict Mode](/documentation/ops-configuration/administration/#strict-mode).
 * The cluster mode is automatically enabled to allow distributed deployments and horizontal scaling.
 * The maximum amount of payload indexes per collection is set to 100. Larger numbers of payload indexes lead to performance degradation (starting with Qdrant v1.16.0).
 
@@ -24,7 +24,7 @@ You can set default values for the configuration of new collections in your clus
 
 You can configure the default *Replication Factor*, the default *Write Consistency Factor*, and if vectors should be stored on disk only, instead of being cached in RAM.
 
-Refer to [Qdrant Configuration](/documentation/operations/configuration/#configuration-options) for more details.
+Refer to [Qdrant Configuration](/documentation/ops-configuration/configuration/#configuration-options) for more details.
 
 ## Advanced Optimizations
 

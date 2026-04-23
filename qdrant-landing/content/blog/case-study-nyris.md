@@ -57,8 +57,8 @@ As part of their selection process, Nyris evaluated several critical factors to 
 
 Nyris has found several aspects of Qdrant particularly beneficial in their production environment:
 
-- **Enhanced Security with JWT**: [JSON Web Tokens](https://qdrant.tech/documentation/operations/security/#granular-access-control-with-jwt) provide enhanced security and performance, critical for safeguarding their data.
-- **Seamless Scalability**: Qdrant's ability to [scale effortlessly across nodes](https://qdrant.tech/documentation/operations/distributed_deployment/) ensures consistent high performance, even as Nyris's data volume grows.
+- **Enhanced Security with JWT**: [JSON Web Tokens](https://qdrant.tech/documentation/security/#granular-access-control-with-jwt) provide enhanced security and performance, critical for safeguarding their data.
+- **Seamless Scalability**: Qdrant's ability to [scale effortlessly across nodes](https://qdrant.tech/documentation/distributed_deployment/) ensures consistent high performance, even as Nyris's data volume grows.
 - **Flexible Search Options**: The availability of both graph-based and brute-force search methods offers Nyris the flexibility to tailor the search approach to specific use case requirements.
 - **Versatile Data Handling**: Qdrant imposes almost no restrictions on data types and vector sizes, allowing Nyris to manage diverse and complex datasets effectively.
 - **Built with Rust**: The use of [Rust](https://qdrant.tech/articles/why-rust/) ensures superior performance and future-proofing, while its open-source nature allows Nyris to inspect and customize the code as necessary.

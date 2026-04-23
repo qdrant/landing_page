@@ -195,7 +195,7 @@ Out-of-Memory errors.
 Qdrant 1.2 enters recovery mode, if enabled, when it detects a failure on startup. 
 That makes the service halt the loading of collection data and commence operations in a partial state. 
 This state allows for removing collections but doesn't support search or update functions. 
-**Recovery mode [has to be enabled by user](/documentation/operations/administration/#recovery-mode).**
+**Recovery mode [has to be enabled by user](/documentation/ops-configuration/administration/#recovery-mode).**
 
 ### Appendable mmap
 
@@ -206,7 +206,7 @@ to read more about segments, check out our docs on [vector storage](/documentati
 
 ## Security
 
-There are two major changes in terms of [security](/documentation/operations/security/):
+There are two major changes in terms of [security](/documentation/security/):
 
 1. **API-key support** - basic authentication with a static API key to prevent unwanted access. Previously 
    API keys were only supported in [Qdrant Cloud](https://cloud.qdrant.io/).
