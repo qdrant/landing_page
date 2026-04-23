@@ -1,7 +1,7 @@
 ---
-title: Qdrant Quickstart
+title: Local Quickstart
 weight: 110
-partition: qdrant
+partition: develop
 aliases:
   - quick_start
   - quick-start

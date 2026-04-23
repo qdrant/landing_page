@@ -109,13 +109,13 @@ Once you’ve built a fast, accurate, secure, and scalable agent, how do you kno
 
 Your agent’s ability to complete complex tasks is only as good as the context it can retrieve. It is crucial to closely and continuously monitor the agent’s performance with grounding checks to spot and prevent hallucinations, recall@k to ensure relevance in search, and MMR parameters for diversity.
 
-#### [**Performance-Cost Tradeoff**](https://qdrant.tech/documentation/operations/optimize/)
+#### [**Performance-Cost Tradeoff**](https://qdrant.tech/documentation/ops-optimization/optimize/)
 
 In production agents, efficiency is one of, if not the, most important metric to track. First, in enterprise environments you must meet strict latency budgets. Evaluations also let you track the cost per task by tracking token usage and end-to-end compute time. Finally, you can track the effectiveness of your memory layer by monitoring cache hit rates for your memory banks.
 
 ![Tradeoff Triangle](/articles_data/agentic-builders-guide/tradeoff-triangle.png)
 
-#### [**Guardrails & Fallbacks**](https://qdrant.tech/documentation/operations/security/)
+#### [**Guardrails & Fallbacks**](https://qdrant.tech/documentation/security/)
 
 Just like humans, agents aren’t perfect. A production agentic system should expect and anticipate failures and have guardrails to handle them gracefully. You can also use a human in the loop when confidence scores are below a chosen threshold or the query touches on a high-stakes or sensitive topic. To handle a wide range of queries, your agent should use hybrid search. Hybrid search combines the power of semantic search for understanding meaning with the precision of keyword search for exact matches, giving you the best of both worlds.
 
@@ -125,7 +125,7 @@ The same agent that speeds through a toy dataset with 10,000 points will become 
 
 We’ll talk about three concepts you can take advantage of to improve your scale, but if you want even more information on how to scale, check out this [article](https://qdrant.tech/documentation/database-tutorials/large-scale-search/) on large scale search.
 
-As your dataset and traffic grow, Qdrant Cloud offers a suite of features to ensure your system can scale effectively. Horizontal scaling is achieved through [sharding](https://qdrant.tech/articles/multitenancy/), which splits your collection across multiple nodes to distribute the load and improve performance. For high availability and fault tolerance, Qdrant supports [replication](https://qdrant.tech/documentation/operations/distributed_deployment/), creating copies of your shards across the cluster. 
+As your dataset and traffic grow, Qdrant Cloud offers a suite of features to ensure your system can scale effectively. Horizontal scaling is achieved through [sharding](https://qdrant.tech/articles/multitenancy/), which splits your collection across multiple nodes to distribute the load and improve performance. For high availability and fault tolerance, Qdrant supports [replication](https://qdrant.tech/documentation/distributed_deployment/), creating copies of your shards across the cluster. 
 
 Qdrant provides robust tools for resource and cost optimization. Vector [quantization](https://qdrant.tech/documentation/manage-data/quantization/) compresses your data, significantly reducing its memory footprint and speeding up search.
 
@@ -143,7 +143,7 @@ Workflows that are effective for a single user or a handful of users in a develo
 
 Qdrant provides production-grade [authorization and authentication](https://qdrant.tech/documentation/cloud/authentication/) via API keys, multitenancy, and Role-Based Access Control (RBAC) to make sure your agent doesn’t go rogue.
 
-Authentication for agents is handled by [API keys](https://qdrant.tech/documentation/operations/security/#api-keys). With Qdrant, API keys are more than just a password. They act as smart credentials that also carry the details of the authorization rules that are enforced once the agent’s identity is confirmed. These keys can be dynamically created as temporary credentials for each user session, making access limited to the session and secure.
+Authentication for agents is handled by [API keys](https://qdrant.tech/documentation/security/#api-keys). With Qdrant, API keys are more than just a password. They act as smart credentials that also carry the details of the authorization rules that are enforced once the agent’s identity is confirmed. These keys can be dynamically created as temporary credentials for each user session, making access limited to the session and secure.
 
 Note: Qdrant also supports concurrent queries, so your search won’t slow down as more users are writing queries simultaneously.
 
@@ -165,7 +165,7 @@ Your AI agent needs to be able to run without issues wherever your users are run
 
 Qdrant lets you deploy in a variety of ways so you can build the system that best fits your use case. You can deploy via the cloud or self host on Docker or your own machine. Read more below:
 
-* [Qdrant Cloud](https://qdrant.tech/documentation/cloud-intro/)  
+* [Qdrant Cloud](https://qdrant.tech/documentation/deploy-intro/)  
 * [Hybrid Cloud](https://qdrant.tech/documentation/hybrid-cloud/)  
 * [Self-Hosted](https://qdrant.tech/documentation/quickstart/)
 

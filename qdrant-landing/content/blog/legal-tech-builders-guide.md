@@ -85,7 +85,7 @@ Leveraging Late-Interaction Models for Rich Documents
 
 Traditional OCR pipelines can add complexity and create accuracy challenges. But late-interaction models simplify the ingestion pipeline by running at the reranking stage.
 
-Models like ([ColPali](https://qdrant.tech/blog/qdrant-colpali/) and ColQwen) bypass traditional OCR pipelines, directly processing images of complex documents. They enhance accuracy by maintaining original layouts and contextual integrity, simplifying your retrieval pipelines. The tradeoff is a heavier application, but these challenges can be addressed with further [optimization](https://qdrant.tech/documentation/operations/optimize/)*.*
+Models like ([ColPali](https://qdrant.tech/blog/qdrant-colpali/) and ColQwen) bypass traditional OCR pipelines, directly processing images of complex documents. They enhance accuracy by maintaining original layouts and contextual integrity, simplifying your retrieval pipelines. The tradeoff is a heavier application, but these challenges can be addressed with further [optimization](https://qdrant.tech/documentation/ops-optimization/optimize/)*.*
 
 #### Enabling highly granular accuracy for complex legal searches
 

@@ -19,7 +19,7 @@ In this tutorial, we will learn how to use the migration tool and walk through a
 
 ## Why use this instead of Qdrant’s Native Snapshotting?
 
-Qdrant supports [snapshot-based backups](/documentation/operations/snapshots/), which are low-level disk operations built for same-cluster recovery or local backups. These snapshots:
+Qdrant supports [snapshot-based backups](/documentation/snapshots/), which are low-level disk operations built for same-cluster recovery or local backups. These snapshots:
 
 * Require snapshot consistency across nodes.   
 * Can be hard to port across machines or cloud zones. 

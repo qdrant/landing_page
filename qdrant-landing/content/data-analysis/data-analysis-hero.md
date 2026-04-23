@@ -5,10 +5,11 @@ startFree:
   text: Get Started
   url: https://cloud.qdrant.io/signup
 learnMore:
-  text: Contact Us
+  text: Learn More
   url: /contact-us/
 image:
-  src: /img/vectors/vector-3.svg
+  src: /img/home/horizontal-slider/anomaly-detection.png
+  webp: /img/home/horizontal-slider/anomaly-detection.webp
   alt: Anomaly Detection
 sitemapExclude: true
 ---

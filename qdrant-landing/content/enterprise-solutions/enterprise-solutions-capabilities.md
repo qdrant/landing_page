@@ -33,7 +33,7 @@ cards:
   content: Stay ahead of issues with Prometheus/OpenMetrics, Datadog, Grafana, and other third-party integrations.
   link:
     text: Learn More
-    url: /documentation/operations/monitoring/
+    url: /documentation/ops-monitoring/monitoring/
   image:
     src: /img/enterprise-solutions-capabilities/observability.svg
     alt: Advanced Monitoring & Observability

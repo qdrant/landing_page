@@ -1,6 +1,6 @@
 ---
 title: Scale Clusters
-weight: 50
+weight: 20
 ---
 
 # Scaling Qdrant Cloud Clusters
@@ -27,7 +27,7 @@ Vertical scaling can be an effective way to improve the performance of a cluster
 
 In such cases, horizontal scaling may be a more effective solution.
 
-Horizontal scaling is the process of increasing the capacity of a cluster by adding more nodes and distributing the load and data among them. The horizontal scaling at Qdrant starts on the collection level. You have to choose the number of shards you want to distribute your collection around while creating the collection.  Please refer to the [sharding documentation](/documentation/operations/distributed_deployment/#sharding) section for details.
+Horizontal scaling is the process of increasing the capacity of a cluster by adding more nodes and distributing the load and data among them. The horizontal scaling at Qdrant starts on the collection level. You have to choose the number of shards you want to distribute your collection around while creating the collection.  Please refer to the [sharding documentation](/documentation/distributed_deployment/#sharding) section for details.
 
 When scaling up horizontally, the cloud platform will automatically rebalance all available shards across nodes to ensure that the data is evenly distributed. See [Configuring Clusters](/documentation/cloud/configure-cluster/#shard-rebalancing) for more details.
 
@@ -43,7 +43,7 @@ We will be glad to consult you on an optimal strategy for scaling.
 
 *Available as of Qdrant v1.13.0*
 
-<aside role="status">Resharding is exclusively available on multi-node clusters across our <a href="/documentation/cloud-intro/">cloud</a> offering, including <a href="/documentation/hybrid-cloud/">Hybrid</a> and <a href="/documentation/private-cloud/">Private</a> Cloud.</aside>
+<aside role="status">Resharding is exclusively available on multi-node clusters across our <a href="/documentation/deploy-intro/">cloud</a> offering, including <a href="/documentation/hybrid-cloud/">Hybrid</a> and <a href="/documentation/private-cloud/">Private</a> Cloud.</aside>
 
 When creating a collection, it has a specific number of shards. The ideal number of shards might change as your cluster evolves.
 

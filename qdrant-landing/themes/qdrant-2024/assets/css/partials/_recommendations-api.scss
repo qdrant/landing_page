@@ -44,11 +44,13 @@
     }
 
     &__title {
+      max-width: pxToRem(445);
       font-size: $spacer * 3;
       line-height: pxToRem(57);
     }
 
     &__description {
+      max-width: pxToRem(445);
       font-size: pxToRem(20);
       line-height: pxToRem(30);
     }

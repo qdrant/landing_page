@@ -88,7 +88,7 @@ Sometimes users don't properly balance HNSW search parameters. Setting the HNSW 
 
 ❓ **Use Case:** A customer ran advanced similarity searches across their vast dataset of nearly 800 million vectors. Initially, they found that queries took anywhere from 10 to 20 seconds, especially when combining multiple filters and metadata fields.
 
-> ✅ How can they retain accuracy and keep things fast?  [**The answer is optimization.**](https://qdrant.tech/documentation/operations/optimize/) 
+> ✅ How can they retain accuracy and keep things fast?  [**The answer is optimization.**](https://qdrant.tech/documentation/ops-optimization/optimize/) 
 
 **Figure 1:** Qdrant is highly configurable. You can configure it for speed, precision or resource use. 
 ![qdrant resource tradeoffs](/docs/tradeoff.png)
@@ -99,7 +99,7 @@ This strategy balanced memory usage with performance: only the compact vectors n
 
 ||
 |-|
-|**Read More:** [**Optimization Guide**](https://qdrant.tech/documentation/operations/optimize/)|#optimizing-qdrant-performance-three-scenarios
+|**Read More:** [**Optimization Guide**](https://qdrant.tech/documentation/ops-optimization/optimize/)|#optimizing-qdrant-performance-three-scenarios
 |**Read More:** [**HNSW Documentation**](https://qdrant.tech/documentation/manage-data/indexing/#vector-index)|
 
 ### Compress Your Data with Quantization Strategies
@@ -155,7 +155,7 @@ Once all records are inserted, you can rebuild the index in a single pass. Consi
 
 ||
 |-|
-|**Read More:** [**Configuration Documentation**](https://qdrant.tech/documentation/operations/configuration/)|
+|**Read More:** [**Configuration Documentation**](https://qdrant.tech/documentation/ops-configuration/configuration/)|
 
 ### When Indexing Falls Behind Ingestion
 ![vector-search-production](/articles_data/vector-search-production/vector-search-production-3.jpg)
@@ -230,7 +230,7 @@ Figure: For many-tenant setups, spinning up a new collection per tenant can ball
 |:-:|
 |**"How many nodes, CPUs, RAM and storage do I need for my Qdrant Cluster?"**|
 
-It depends. If you're just starting out - we have prepared a tool on our website to help you figure this out. For more information, [**check out the Capacity Planning document as well.**](https://qdrant.tech/documentation/operations/capacity-planning/)
+It depends. If you're just starting out - we have prepared a tool on our website to help you figure this out. For more information, [**check out the Capacity Planning document as well.**](https://qdrant.tech/documentation/capacity-planning/)
 
 ✅ [**Use the sizing calculator**](https://cloud.qdrant.io/calculator) or performance testing to ensure node specs (RAM/CPU) match your workload.
 
@@ -242,7 +242,7 @@ It depends. If you're just starting out - we have prepared a tool on our website
 
 A three-node setup provides a baseline for fault tolerance: if one node goes offline, the remaining two can continue serving queries and maintain a quorum for data consistency. This guards against hardware failures, rolling updates, and network disruptions. Fewer than three nodes leaves you vulnerable to single-point failures that can knock your entire cluster offline.
 
-> [**We follow the Raft Protocol**](https://qdrant.tech/documentation/operations/distributed_deployment/#raft), so check out the docs and learn why this is important.
+> [**We follow the Raft Protocol**](https://qdrant.tech/documentation/distributed_deployment/#raft), so check out the docs and learn why this is important.
 
 ✅ **Set a replication factor of at least 2** to tolerate node failure without losing availability.
 
@@ -274,7 +274,7 @@ Development and staging environments often run experimental builds, tests, or si
 
 > It's quite possible that the user has multiple shards on one node, which end up handling most traffic while other nodes remain underutilized.
 
-In this case, you should [**choose the right number of shards**](https://qdrant.tech/documentation/operations/distributed_deployment/#sharding) based on your node count and expected RPS.
+In this case, you should [**choose the right number of shards**](https://qdrant.tech/documentation/distributed_deployment/#sharding) based on your node count and expected RPS.
 
 You need to implement a shard strategy that aligns with real usage patterns. First, distribute your shards across all available nodes. This will help balance the load more effectively. After redistributing the shards, run performance tests to see how it affects your system. Then add replicas and test again to see how that changes performance.
 
@@ -285,14 +285,14 @@ Proper sharding considers data distribution and query patterns. By default, shar
 
 ||
 |-|
-|**Read More:** [**Sharding Documentation**](https://qdrant.tech/documentation/operations/distributed_deployment/#sharding)|
+|**Read More:** [**Sharding Documentation**](https://qdrant.tech/documentation/distributed_deployment/#sharding)|
 
 ### Manage Your Costs by Scaling Up or Down
 ![vector-search-production](/articles_data/vector-search-production/vector-search-production-5.jpg)
 
 Some teams scale up for daytime surges, then scale down overnight to save resources. If you do this, ensure data is sharded and replicated appropriately, so that scaling up and down won't result in service degradation.
 
-If using Qdrant Cloud you could also do this using the [**Replication Factor**](https://qdrant.tech/documentation/operations/distributed_deployment/#replication-factor), though it may be considered a bit of a hack.
+If using Qdrant Cloud you could also do this using the [**Replication Factor**](https://qdrant.tech/documentation/distributed_deployment/#replication-factor), though it may be considered a bit of a hack.
 
 > If you have 3 nodes with just 1 shard, and replication factor 6. It will create 3 replicas (one on each node) of that shard, because it can't host more. If you add 3 more nodes at peak times, it'll automatically replicate that shard 3 more times in an attempt to match the factor of 6.
 
@@ -308,7 +308,7 @@ If new nodes remain empty after joining, you waste resources. If departing nodes
 
 ||
 |-|
-|**Read More:** [**Distributed Deployment Documentation**](https://qdrant.tech/documentation/operations/distributed_deployment/)|
+|**Read More:** [**Distributed Deployment Documentation**](https://qdrant.tech/documentation/distributed_deployment/)|
 |**Read More:** [**Resharding**](https://qdrant.tech/documentation/cloud/cluster-scaling/#resharding)|
 
 ### How to Predict and Test Cluster Performance
@@ -331,7 +331,7 @@ Remember, cold-starts and query behaviour are dataset dependent, which is why yo
 
 ||
 |-|
-|**Read More:** [Distributed Deployment Documentation](https://qdrant.tech/documentation/operations/distributed_deployment/)
+|**Read More:** [Distributed Deployment Documentation](https://qdrant.tech/documentation/distributed_deployment/)
 
 ### How to Design Your Systems to Protect Against Failure
 
@@ -375,7 +375,7 @@ By following these comprehensive load testing practices, you'll be able to ident
 
 ||
 |-|
-|**Read More:** [**Telemetry and Monitoring Documentation**](https://qdrant.tech/documentation/operations/monitoring/)|
+|**Read More:** [**Telemetry and Monitoring Documentation**](https://qdrant.tech/documentation/ops-monitoring/monitoring/)|
 |**Read More:** [**Cloud Monitoring Documentation**](https://qdrant.tech/documentation/hybrid-cloud/networking-logging-monitoring/)
 
 ## 4. Ensuring Disaster Recovery With Database Backups and Snapshots
@@ -413,7 +413,7 @@ If you host tens of billions of vectors, store backups off-node in a different d
 
 ||
 |-|
-|**Read More:** [**Snapshot Documentation**](https://qdrant.tech/documentation/operations/snapshots/)|
+|**Read More:** [**Snapshot Documentation**](https://qdrant.tech/documentation/snapshots/)|
 |**Read More:** [**Managed Cloud Backup Documentation**](https://qdrant.tech/documentation/cloud/backups/)|
 |**Read More:** [**Private Cloud Backup Documentation**](https://qdrant.tech/documentation/private-cloud/backups/)|
 
@@ -438,7 +438,7 @@ Investigations showed they hadn't adjusted the default configuration or reserved
 
 ||
 |-|
-|**Read More:** [**Qdrant Configuration Documentation**](https://qdrant.tech/documentation/operations/configuration/)|
+|**Read More:** [**Qdrant Configuration Documentation**](https://qdrant.tech/documentation/ops-configuration/configuration/)|
 
 ### Security & Governance
 
@@ -450,7 +450,7 @@ Enabling TLS/HTTPS is essential for meeting compliance requirements in regulated
 
 > You need to protect data in transit. To enable TLS/HTTPS for encrypted traffic in production, you need to configure secure communication between clients and your Qdrant database, as well as individual cluster nodes. This involves implementing Transport Layer Security (TLS) certificates to encrypt all traffic, preventing unauthorized access and data interception.
 
-If self-hosting, you can set up encryption yourself by [**incorporating TLS directly from the configuration**](https://qdrant.tech/documentation/operations/security/#tls)
+If self-hosting, you can set up encryption yourself by [**incorporating TLS directly from the configuration**](https://qdrant.tech/documentation/security/#tls)
 
 ```text
 service:
@@ -469,7 +469,7 @@ tls:
 
 ||
 |-|
-|**Read More:** [**Security Documentation**](https://qdrant.tech/documentation/operations/security/)|
+|**Read More:** [**Security Documentation**](https://qdrant.tech/documentation/security/)|
 
 ### Setting up Access Controls in Production
 

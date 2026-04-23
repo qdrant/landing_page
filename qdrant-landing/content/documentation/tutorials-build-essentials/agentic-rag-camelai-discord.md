@@ -179,10 +179,10 @@ vector_retriever = VectorRetriever(embedding_model=embedding_instance,
 
 qdrant_urls = [
     "https://qdrant.tech/documentation/overview",
-    "/documentation/operations/installation",
+    "/documentation/installation",
     "/documentation/search/filtering",
     "/documentation/manage-data/indexing",
-    "/documentation/operations/distributed_deployment",
+    "/documentation/distributed_deployment",
     "/documentation/manage-data/quantization"
     # Add more URLs as needed
 ]

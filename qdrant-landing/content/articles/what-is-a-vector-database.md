@@ -414,7 +414,7 @@ client.create_collection(
 
 We recommend using sharding and replication together so that your data is both split across nodes and replicated for availability. 
 
-For more details on features like **user-defined sharding, node failure recovery**, and **consistency guarantees**, see our guide on [Distributed Deployment.](https://qdrant.tech/documentation/operations/distributed_deployment/)
+For more details on features like **user-defined sharding, node failure recovery**, and **consistency guarantees**, see our guide on [Distributed Deployment.](https://qdrant.tech/documentation/distributed_deployment/)
 
 ## Multitenancy: Data Isolation for Multi-Tenant Architectures
 
@@ -477,7 +477,7 @@ You can easily setup your access tokens and secure access to sensitive data thro
 
 <img src="/articles_data/what-is-a-vector-database/jwt-web-ui.png" alt="Qdrant Web UI for generating a new access token." width="1000">
 
-By default, Qdrant instances are **unsecured**, so it's important to configure security measures before moving to production. To learn more about how to configure security for your Qdrant instance and other advanced options, please check out the [official Qdrant documentation on security.](https://qdrant.tech/documentation/operations/security/)
+By default, Qdrant instances are **unsecured**, so it's important to configure security measures before moving to production. To learn more about how to configure security for your Qdrant instance and other advanced options, please check out the [official Qdrant documentation on security.](https://qdrant.tech/documentation/security/)
 
 ## Time to Experiment
 

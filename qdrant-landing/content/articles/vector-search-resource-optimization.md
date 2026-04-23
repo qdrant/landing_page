@@ -32,12 +32,12 @@ Let's take a look at some common goals and optimization strategies:
 
 | Intended Result                | Optimization Strategy        |
 |--------------------------------|------------------------------|
-| [**High Search Precision + Low Memory Expenditure**](/documentation/operations/optimize/#1-high-speed-search-with-low-memory-usage)    | [**On-Disk Indexing**](/documentation/operations/optimize/#1-high-speed-search-with-low-memory-usage)             |
+| [**High Search Precision + Low Memory Expenditure**](/documentation/ops-optimization/optimize/#1-high-speed-search-with-low-memory-usage)    | [**On-Disk Indexing**](/documentation/ops-optimization/optimize/#1-high-speed-search-with-low-memory-usage)             |
 | [**Low Memory Expenditure + Fast Search Speed**](/documentation/manage-data/quantization/)        | [**Quantization**](/documentation/manage-data/quantization/)                 |
-| [**High Search Precision + Fast Search Speed**](/documentation/operations/optimize/#3-high-precision-with-high-speed-search)    | [**RAM Storage + Quantization**](/documentation/operations/optimize/#3-high-precision-with-high-speed-search)   |
-| [**Balance Latency vs Throughput**](/documentation/operations/optimize/#balancing-latency-and-throughput)         | [**Segment Configuration**](/documentation/operations/optimize/#balancing-latency-and-throughput)        |
+| [**High Search Precision + Fast Search Speed**](/documentation/ops-optimization/optimize/#3-high-precision-with-high-speed-search)    | [**RAM Storage + Quantization**](/documentation/ops-optimization/optimize/#3-high-precision-with-high-speed-search)   |
+| [**Balance Latency vs Throughput**](/documentation/ops-optimization/optimize/#balancing-latency-and-throughput)         | [**Segment Configuration**](/documentation/ops-optimization/optimize/#balancing-latency-and-throughput)        |
 
-After this article, check out the code samples in our docs on [**Qdrant’s Optimization Methods**](/documentation/operations/optimize/).
+After this article, check out the code samples in our docs on [**Qdrant’s Optimization Methods**](/documentation/ops-optimization/optimize/).
 
 ---
 
@@ -57,7 +57,7 @@ Qdrant uses the [**HNSW (Hierarchical Navigable Small World Graph) algorithm**](
 
 Working with massive datasets that contain billions of vectors demands significant resources—and those resources come with a price. While Qdrant provides reasonable defaults, tailoring them to your specific use case can unlock optimal performance. Here’s what you need to know.
 
-The following parameters give you the flexibility to fine-tune Qdrant’s performance for your specific workload. You can modify them directly in Qdrant's [**configuration**](https://qdrant.tech/documentation/operations/configuration/) files or at the collection and named vector levels for more granular control.
+The following parameters give you the flexibility to fine-tune Qdrant’s performance for your specific workload. You can modify them directly in Qdrant's [**configuration**](https://qdrant.tech/documentation/ops-configuration/configuration/) files or at the collection and named vector levels for more granular control.
 
 **Figure 3:** A description of three key HNSW parameters.
 
@@ -325,7 +325,7 @@ Here’s how to choose the shard_number:
 | **Plan for Scalability**        | Start with at least **2 shards per node** to allow room for future growth.                                        |
 | **Future-Proofing**             | Starting with around **12 shards** is a good rule of thumb. This setup allows your system to scale seamlessly from 1 to 12 nodes without requiring re-sharding. |
 
-Learn more about [**Sharding in Distributed Deployment**](/documentation/operations/distributed_deployment/)
+Learn more about [**Sharding in Distributed Deployment**](/documentation/distributed_deployment/)
 
 ---
 
@@ -584,7 +584,7 @@ Here are some important metrics to monitor:
 | grpc_responses_avg_duration_seconds |  | Average response duration in gRPC API |
 | rest_responses_fail_total |  | Total number of failed responses (REST) |
 
-Read more about [**Qdrant Open Source Monitoring**](/documentation/operations/monitoring/) and [**Qdrant Cloud Monitoring**](/documentation/cloud/cluster-monitoring/) for managed clusters.
+Read more about [**Qdrant Open Source Monitoring**](/documentation/ops-monitoring/monitoring/) and [**Qdrant Cloud Monitoring**](/documentation/cloud/cluster-monitoring/) for managed clusters.
 _________________________________________________________________________
 
 ## Recap: When Should You Optimize?
