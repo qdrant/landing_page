@@ -29,7 +29,7 @@ The four layers aren't measured in isolation. Teams that successfully connect re
 | # | Layer | What it measures | Cadence | Cost |
 |---|---|---|---|---|
 | 1 | ANN precision | `Recall@k` vs exact kNN on a sampled query set | On index or embedding changes | Low |
-| 2 | Retrieval relevance | `Recall@k` / `NDCG@k` vs a labeled golden set | Weekly, or on retrieval-stack changes | Low per run; **golden set is the real cost** (see next tutorial) |
+| 2 | Retrieval relevance | `Recall@k` / `NDCG@k` vs a labeled golden set | Weekly, or on retrieval-stack changes | Low per run; **golden set is the real cost**|
 | 3 | End-to-end answer quality | LLM-as-judge or human rating on the golden set | Weekly, or on retrieval or generator changes | Moderate (LLM-judge cost × eval size) |
 | 4 | Business impact | Online A/B behind a flag | Per release, once offline layers pass | High (traffic, experimentation infra) |
 

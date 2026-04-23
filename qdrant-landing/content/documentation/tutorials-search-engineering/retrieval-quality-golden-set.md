@@ -1,6 +1,6 @@
 ---
 title: Building a Golden Query Set
-weight: 5
+weight: 6
 aliases:
   - /documentation/tutorials/retrieval-quality-golden-set/
 ---
@@ -10,23 +10,28 @@ aliases:
 | Time: 40 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
 
-This tutorial covers **layer 2** of the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-layers-in-practice" target="_blank">evaluation ladder</a>: **retrieval relevance**. Measuring how well retrieved results match real user intent requires a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). For layer 1 (ANN precision against exact kNN), which needs no relevance labels, use the **Search Quality** tab in the <a href="/documentation/web-ui/" target="_blank">Qdrant Web UI</a>.
+This tutorial focuses on **retrieval relevance**: how well retrieved results match real user intent.
+To measure retrieval relevance, you need a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*).
+
+To evaluate other layers of your retrieval pipeline, see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-layers-in-practice" target="_blank">evaluation ladder</a>.
 
 ## Generating Queries
 
-There are three practical approaches to building a golden set. They trade quality against cost and scale, so most teams use a mix. Pick the ones that match your resources and quality bar.
+There are three practical approaches to building a golden set. Each one trades quality against cost and scale.
 
-### 1. Human Annotation (Highest Quality, Highest Cost)
+### 1. Human Annotation
 
-Domain experts assign relevance scores on a binary (relevant / not relevant) or graded (0/1/2 or 1–5) scale. This is the cleanest approach for high-stakes applications and produces the graded labels NDCG needs. Expert time is the bottleneck, so reserve it for a small, high-value subset — the hardest queries or the ones that matter most commercially — and use the other two approaches for coverage.
+Domain experts assign relevance scores on a binary (relevant / not relevant) or graded (0/1/2 or 1–5) scale. Human-labeled data produces the highest-fidelity signal and is the only practical source for graded labels, which ranking metrics like [Normalized Discounted Cumulative Gain (NDCG)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) use to reward relevant results appearing at higher positions. Expert time is the bottleneck, which typically limits this approach to a small set of high-value queries.
 
-### 2. Real User Queries from Logs (High Realism, Requires Production Traffic)
+### 2. Real User Queries from Logs
 
-If your app records queries with click or explicit-feedback signals, sample query-document pairs directly. This captures real user intent and vocabulary, and should be your first choice once production traffic exists. Stratify sampling so rare-but-important cases aren't drowned out. For search-style traffic, that usually means query type or topic cluster. For RAG or agentic retrieval, it often means conversation turn or intent class. A few hundred labeled pairs can detect large metric differences; per-slice analysis or small ranking deltas need substantially more. Treat any number as a starting point and widen confidence intervals if the signal is noisy.
+If your app records queries with click or explicit-feedback signals, sample query-document pairs directly. Log-based pairs reflect real user intent and vocabulary that synthetic queries cannot replicate, though the approach requires production traffic and a signal that maps to relevance. Frequent queries dominate uniform samples, so stratifying by query type, topic cluster, conversation turn, or intent class keeps rare-but-important cases represented. A few hundred labeled pairs typically detects large metric differences; per-slice analysis or small ranking deltas require substantially more.
 
-### 3. LLM-Based Synthetic Generation (Scales Cheaply, Lowest Fidelity)
+### 3. LLM-Based Synthetic Generation
 
-When logs and reviewers aren't available, prompt an LLM to generate plausible queries for each document. This scales to thousands of pairs, but synthetic queries are easier to retrieve than what real users type. Frameworks such as <a href="https://docs.ragas.io/" target="_blank">Ragas</a> provide ready-made testset generators if you want a maintained tool; the example below is a minimal prompt shape you can adapt to any model.
+An LLM can generate plausible queries for each document. This scales to thousands of pairs cheaply, but synthetic queries are typically easier to retrieve than real user queries, which inflates offline scores relative to production behavior. Frameworks such as <a href="https://docs.ragas.io/" target="_blank">Ragas</a> provide ready-made testset generators if you want a maintained tool.
+
+The example below prompts an LLM to produce short, realistic queries for each document, with the source document serving as the labeled relevant answer.
 
 ```python
 import os
@@ -39,6 +44,8 @@ client = anthropic.Anthropic(
 )
 
 def generate_queries_for_doc(doc_text: str, n: int = 3) -> list[str]:
+    # doc_text is one document from your corpus; iterate over the corpus
+    # to build the full golden set, with each source doc as the relevance label.
     response = client.messages.create(
         model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6"),
         max_tokens=256,
@@ -65,9 +72,10 @@ Construct the labels as a `Qrels` object (a dict mapping query IDs to `{doc_id: 
 from qdrant_client import QdrantClient
 from ranx import Qrels, Run, evaluate
 
-client = QdrantClient("http://localhost:6333")
+client = QdrantClient("http://localhost:6333")  # or QdrantClient(url="https://<id>.cloud.qdrant.io", api_key="...") for Qdrant Cloud
 
 def retrieval_run(golden_set: list, collection: str, k: int = 10) -> Run:
+    # Each entry: {"query_id": str, "query_vector": list[float], "labels": {doc_id: score}}
     run = {}
     for entry in golden_set:
         results = client.query_points(
