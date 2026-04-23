@@ -9,7 +9,7 @@ weight: 7
 
 Qdrant lets you inspect how much disk space, RAM, and OS page cache a collection is using, broken down by component. Use this to plan capacity, diagnose memory pressure, or understand which parts of a collection are resident in memory.
 
-This information is available in the [Qdrant Web UI](/documentation/interfaces/web-ui/) and through the API.
+This information is available in the [Qdrant Web UI](/documentation/web-ui/) and through the API.
 
 ## Web UI
 
