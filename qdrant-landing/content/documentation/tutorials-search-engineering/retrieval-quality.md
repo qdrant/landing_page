@@ -34,7 +34,7 @@ The tab reports average **precision@k**. The score is typically high but not alw
 
 HNSW is a hierarchical graph where each node has a set of links to other nodes. The `m` parameter controls the number of edges per node: higher `m` means higher precision at the cost of more memory. The `ef_construct` parameter controls how many neighbours are considered during index building: higher `ef_construct` means higher precision at the cost of longer indexing time. Defaults are `m=16` and `ef_construct=100`.
 
-For the full list of HNSW parameters, including on-disk storage and precision/memory trade-offs, see [Optimize Performance](/documentation/operations/optimize/).
+For the full list of HNSW parameters, including on-disk storage and precision/memory trade-offs, see [Optimize Performance](/documentation/ops-optimization/optimize/).
 
 Toggle **advanced mode** in the Search Quality tab to tune these parameters inline. Raise `m` to 32 and `ef_construct` to 200, then run the evaluation again.
 
