@@ -77,7 +77,7 @@ A key requirement for GlassDollar was staying productive in a Node.js and TypeSc
 
 This mattered for hiring and velocity. It enabled engineers who already shipped product in JavaScript and TypeScript to implement modern RAG pipelines without maintaining a separate Python-only stack.
 
-## User Engagement Rripled After Retrieval Quality Improved
+## User Engagement Tripled After Retrieval Quality Improved
 
 GlassDollar tracked success through product behavior. One signal was how often users saved (bookmarked) companies during sourcing workflows. Before the search improvements, many users either relied on manual sourcing or browsed results without committing them into a shortlist.
 
@@ -85,6 +85,6 @@ After migrating to Qdrant and scaling their recall-focused retrieval strategy, s
 
 ## Next Steps Focus on Repeatable Feedback Loops for Accuracy Gains
 
-With retrieval scalability in place, GlassDollar’s roadmap centers on continuous accuracy improvements across the full RAG architecture. They will continue optimizing query expansion strategy and improving reraking models to continually improve.
+With retrieval scalability in place, GlassDollar’s roadmap centers on continuous accuracy improvements across the full RAG architecture. They will continue optimizing query expansion strategy and improving reranking models to continually improve.
 
 The goal remains consistent: deliver the most accurate matchmaking between corporate pain points and startups through a search built for high-recall, decision-ready results. 
