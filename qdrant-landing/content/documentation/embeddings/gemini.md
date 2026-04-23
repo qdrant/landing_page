@@ -22,7 +22,7 @@ The following example shows how to integrate Gemini embeddings with Qdrant:
 
 Let's see how to use the Embedding Model API to embed documents for retrieval.
 
-The following example shows how to embed multiple documents with the `gemini-embedding-2-preview` model using the `RETRIEVAL_DOCUMENT` [task type](#supported-task-types):
+The following example shows how to embed multiple documents with the `gemini-embedding-2` model using the `RETRIEVAL_DOCUMENT` [task type](#supported-task-types):
 
 ## Embedding a document
 
@@ -40,7 +40,7 @@ texts = [
 ]
 
 result = gemini_client.models.embed_content(
-    model="gemini-embedding-2-preview",
+    model="gemini-embedding-2",
     contents=texts,
     config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT"),
 )
@@ -59,7 +59,7 @@ const texts = [
 ];
 
 const result = await geminiClient.models.embedContent({
-  model: "gemini-embedding-2-preview",
+  model: "gemini-embedding-2",
   contents: texts,
   config: { taskType: "RETRIEVAL_DOCUMENT" },
 });
@@ -90,7 +90,7 @@ const points = texts.map((text, idx) => ({
 
 ### Create Collection
 
-By default, `gemini-embedding-2-preview` outputs a 3072-dimensional embedding vector. You can reduce it to a smaller size (e.g., 768 or 1536) using the `output_dimensionality` configuration to save storage space. In this example, we keep the default 3072 dimensions.
+By default, `gemini-embedding-2` outputs a 3072-dimensional embedding vector. You can reduce it to a smaller size (e.g., 768 or 1536) using the `output_dimensionality` configuration to save storage space. In this example, we keep the default 3072 dimensions.
 
 ```python
 client.create_collection(
@@ -124,7 +124,7 @@ Once the documents are indexed, you can search for the most relevant documents u
 
 ```python
 query_result = gemini_client.models.embed_content(
-    model="gemini-embedding-2-preview",
+    model="gemini-embedding-2",
     contents="Is Qdrant compatible with Gemini?",
     config=types.EmbedContentConfig(task_type="RETRIEVAL_QUERY"),
 )
@@ -137,7 +137,7 @@ client.query_points(
 
 ```typescript
 const queryResult = await geminiClient.models.embedContent({
-  model: "gemini-embedding-2-preview",
+  model: "gemini-embedding-2",
   contents: "Is Qdrant compatible with Gemini?",
   config: { taskType: "RETRIEVAL_QUERY" },
 });
@@ -161,7 +161,7 @@ pdf_part = types.Part.from_bytes(
 )
 
 gemini_client.models.embed_content(
-    model="gemini-embedding-2-preview",
+    model="gemini-embedding-2",
     contents=[pdf_part],
 )
 ```
@@ -173,7 +173,7 @@ const pdfBytes = readFileSync("filename.pdf");
 const base64 = pdfBytes.toString("base64");
 
 await geminiClient.models.embedContent({
-  model: "gemini-embedding-2-preview",
+  model: "gemini-embedding-2",
   contents: [{
     parts: [{ inlineData: { mimeType: "application/pdf", data: base64 } }],
   }],
