@@ -35,6 +35,35 @@ message in an environment variable, such as
 `QDRANT__STORAGE__RECOVERY_MODE="My recovery message"`.
 
 
+## Low Memory Mode
+
+*Available as of v1.18.0*
+
+Low memory mode reduces how much data Qdrant loads into resident memory at startup. On memory-constrained hosts, the normal startup process can exhaust available memory before the node becomes reachable. Low memory mode lets you bring the node up with a reduced memory footprint so you can make configuration changes to reduce memory usage. Revert it once the node is stable.
+
+Three modes are available:
+
+| Mode | Description |
+| --- | --- |
+| `disabled` | Default. Loads all components as persisted. |
+| `no_resident` | Forces quantization to behave as `always_ram: false`, payload field indexes to `on_disk: true`, and payload storage to mmap with lazy populate. |
+| `no_populate` | Same as `no_resident`, and additionally skips mmap prefetch for vectors, the HNSW graph, and payload storage. Offers the lowest startup memory footprint, but first queries will be slower until the OS page cache warms up. |
+
+To enable low memory mode, set `storage.low_memory_mode` in the node's configuration file:
+
+```yaml
+storage:
+  low_memory_mode: no_populate   # or no_resident
+```
+
+Or use the environment variable:
+
+```bash
+QDRANT__STORAGE__LOW_MEMORY_MODE=no_populate
+```
+
+Low memory mode takes effect on the next restart. It doesn't modify the [vector storage](/documentation/manage-data/storage/) settings persisted in your collections.
+
 ## Strict mode
 
 *Available as of v1.13.0*
