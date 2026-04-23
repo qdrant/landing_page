@@ -487,6 +487,16 @@ By default, audit logs are rotated daily, and the seven most recent log files ar
 
 <aside role="alert">Audit logging is verbose and audit logs can grow in size rapidly. Ensure that you have sufficient disk space.</aside>
 
+### Tracing IDs
+
+*Available as of v1.18.0*
+
+You can attach a tracing ID to individual requests. When audit logging is enabled, Qdrant includes the tracing ID in the audit log entry, enabling the correlation of client-side operations with their corresponding log entries.
+
+Qdrant reads the tracing ID from the first matching header in the following order: `x-request-id`, `x-tracing-id`, `traceparent`. Tracing IDs longer than 256 characters are truncated.
+
+{{< code-snippet path="/documentation/headless/snippets/audit-tracing-id/simple/" >}}
+
 ## Network Bind
 
 By default, a custom Qdrant deployment binds to all network interfaces. Your
