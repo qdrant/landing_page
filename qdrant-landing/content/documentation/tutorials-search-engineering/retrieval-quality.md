@@ -29,7 +29,7 @@ Retrieval quality sits on top of embedding quality, measured separately by bench
 
 ## Measure ANN Precision with the Web UI
 
-Qdrant's Web UI has a Search Quality tab that measures the gap between approximate and exact search without requiring evaluation code. Open the dashboard at `http://localhost:6333/dashboard` (or your cluster's dashboard on Qdrant Cloud), navigate to your collection, open the Search Quality tab, and click **Check Index Quality** to run the comparison.
+Qdrant's Web UI includes a Search Quality tab that measures the gap between approximate and exact search without writing evaluation code. Open the dashboard at `http://localhost:6333/dashboard` (or your cluster's dashboard on Qdrant Cloud), navigate to your collection, open the Search Quality tab, and click **Check Index Quality** to run the comparison.
 
 ![Search Quality tab with default evaluation results](/documentation/tutorials/retrieval-quality/search-quality-tab.png)
 
@@ -37,7 +37,7 @@ The tab reports average **precision@k** (1.0 = perfect overlap; 0.95+ is typical
 
 ## Tuning the HNSW Parameters
 
-HNSW is a hierarchical graph where each node has a set of links to other nodes. The `m` parameter controls the number of edges per node: higher `m` means higher precision at the cost of more memory. The `ef_construct` parameter controls how many neighbors are considered during index building: higher `ef_construct` means higher precision at the cost of longer indexing time. Defaults are `m=16` and `ef_construct=100`.
+HNSW is a hierarchical graph where each node has a set of links to other nodes. The `m` parameter controls the number of edges per node: higher `m` means higher precision at the cost of more memory. The `ef_construct` parameter controls how many neighbors are considered during index building: higher `ef_construct` means higher precision at the cost of longer indexing time. The defaults are `m=16` and `ef_construct=100`.
 
 For the full list of HNSW parameters, including on-disk storage and precision/memory trade-offs, see [Optimize Performance](/documentation/ops-optimization/optimize/).
 
