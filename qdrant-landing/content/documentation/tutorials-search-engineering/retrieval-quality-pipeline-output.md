@@ -119,12 +119,13 @@ Pass the eval samples into `evaluate()` with those three metrics:
 
 ```python
 from ragas import EvaluationDataset, evaluate
-from ragas.metrics import faithfulness, answer_relevancy, context_precision
+from ragas.metrics.collections import faithfulness, answer_relevancy, context_precision
 
 dataset = EvaluationDataset(samples=samples)
 scores = evaluate(
     dataset,
     metrics=[faithfulness, answer_relevancy, context_precision],
+    # For a non-OpenAI judge, pass llm= and embeddings= (see Ragas docs).
 )
 ```
 

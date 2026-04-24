@@ -117,6 +117,7 @@ def retrieval_run(golden_set: list, collection: str, k: int = 10) -> Run:
             query=entry["query_vector"],
             limit=k,
         ).points
+        # p.id type must match the doc_id type in labels (ranx matches by equality).
         run[entry["query_id"]] = {p.id: p.score for p in results}
     return Run(run)
 
