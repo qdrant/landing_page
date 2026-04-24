@@ -55,7 +55,7 @@ Tune until you hit the point that matches your quality and cost targets.
 
 The Web UI is the fastest way to check precision interactively. For continuous integration or scripted regression tests, the Qdrant client exposes the same exact-search mode via `search_params=models.SearchParams(exact=True)`. Compare the ANN and exact top-k sets yourself and compute precision@k.
 
-This helper takes a list of query vectors and returns the average precision@k. Use a representative sample of query vectors from your workload as your test set.
+This helper takes a list of query vectors and returns the average precision@k. Use a representative sample of query vectors from your workload (typically 20–50, embedded with the same model your collection uses) as your test set.
 
 ```python
 from qdrant_client import QdrantClient, models

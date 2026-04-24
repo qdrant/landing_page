@@ -23,6 +23,8 @@ For orientation on the four layers of retrieval evaluation and where this tutori
 
 **1. Prepare the evaluation data.** Each entry needs a `query_id`, a `query_text` (for prompting the generator), a `query_vector` (for retrieval), and `labels`. For `context_precision` only, also include a `ground_truth` reference answer.
 
+If your queries came from synthetic generation, they don't carry ground-truth answers natively. A simple workaround: make one more LLM pass per query, constrained to the source document, asking for a one-to-two-sentence reference answer. Skip this step if you're only scoring `faithfulness` and `answer_relevancy` (both are reference-free).
+
 ```python
 # Example of an evaluation-ready entry.
 {
@@ -52,6 +54,8 @@ Question:
 {query_text}
 """
 ```
+
+The prompt above is a starting point; tune it for your domain: answer style, refusal behavior, whether outside knowledge is allowed, and output format.
 
 **3. Run retrieval and generation.** For each entry, retrieve the top-k chunks, pass them through the generator, and record a `SingleTurnSample`. `SingleTurnSample` is Ragas's data class for one evaluation record: question, retrieved context, generated answer, and optional reference. The example uses Anthropic, but any LLM provider works (OpenAI, Cohere, a local model). Only the `generate_answer` body changes:
 

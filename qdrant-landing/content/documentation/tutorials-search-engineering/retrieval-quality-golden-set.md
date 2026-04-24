@@ -43,7 +43,11 @@ You are helping build an evaluation dataset for a search system.
 Generate 3 realistic search queries for the document below.
 Each query should be what a real user would type to find it.
 Phrase queries naturally, not as paraphrases of the document.
-Return only the queries, one per line. No numbering or explanation.
+
+Return exactly 3 lines, one query per line. No numbering, no bullets, no preamble. Example:
+how does X work
+best way to configure Y
+what is Z used for
 
 Document:
 {document_text}
