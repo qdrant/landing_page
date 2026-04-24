@@ -15,11 +15,11 @@ To measure pipeline output quality, you run your golden set through the full pip
 
 For orientation on the four layers of retrieval evaluation and where this tutorial fits, see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation).
 
-**Prerequisites.** A Qdrant collection with your corpus indexed (chunk text in a `text` payload field), a labeled golden set (see [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)), LLM access for generation and judging, and Python with `ragas` installed. The Wiring section shows the exact entry shape this tutorial expects.
+**Prerequisites.** A Qdrant collection populated with your documents as points (vectors + a `text` payload field for the chunk content), a labeled golden set (see [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)), LLM access for generation and judging, and Python with `ragas` installed. The Wiring section shows the exact entry shape this tutorial expects.
 
 ## Wiring the RAG Pipeline
 
-<a href="https://docs.ragas.io/" target="_blank">Ragas</a> is a Python library that uses an LLM as a judge to score RAG outputs (rating each answer against criteria like faithfulness and relevancy instead of comparing to a labeled ground truth). It expects samples shaped as `(question, retrieved_context, answer)` triples, so you build a fresh evaluation set from your labeled data. Three steps: prepare the evaluation data, define a grounding prompt, and run the retrieve-generate-record loop.
+<a href="https://docs.ragas.io/" target="_blank">Ragas</a> is a Python library that uses an LLM as a judge to score RAG outputs (rating each answer against criteria like faithfulness and relevancy). It expects samples shaped as `(question, retrieved_context, answer)` triples, so you build a fresh evaluation set from your labeled data. Three steps: prepare the evaluation data, define a grounding prompt, and run the retrieve-generate-record loop.
 
 **1. Prepare the evaluation data.** Each entry needs a `query_id`, a `query_text` (for prompting the generator), a `query_vector` (for retrieval), and `labels`. For `context_precision` only, also include a `ground_truth` reference answer.
 

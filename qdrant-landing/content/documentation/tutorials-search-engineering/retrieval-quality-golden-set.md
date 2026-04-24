@@ -15,7 +15,7 @@ To measure retrieval relevance, you need a labeled dataset of queries paired wit
 
 For orientation on the four layers of retrieval evaluation and where this tutorial fits, see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation).
 
-**Prerequisites.** A Qdrant collection with your corpus indexed, an embedding model available to encode queries at evaluation time, and Python with `ranx` installed.
+**Prerequisites.** A Qdrant collection populated with your documents as points (vectors + optional payload), an embedding model available to encode queries at evaluation time, and Python with `ranx` installed.
 
 ## Generating Queries
 
