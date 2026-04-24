@@ -11,7 +11,7 @@ aliases:
 |--------------|---------------------|--|----|
 
 This tutorial focuses on **pipeline output quality**: whether the full retrieval pipeline produces the right output once retrieved results reach a consumer, most often an LLM generator in a RAG system.
-To measure pipeline output quality, you run your golden query set through the full pipeline, capture each `(question, retrieved_context, answer)` triple, and score the triples against judgment metrics like faithfulness, answer relevancy, and context precision.
+To measure pipeline output quality, you run your golden set through the full pipeline, capture each `(question, retrieved_context, answer)` triple, and score the triples against judgment metrics like faithfulness, answer relevancy, and context precision.
 
 For orientation on the four layers of retrieval evaluation and where this tutorial fits, see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation).
 
@@ -53,7 +53,7 @@ Question:
 """
 ```
 
-**3. Run retrieval and generation.** For each entry, retrieve the top-k chunks, pass them through the generator, and record a `SingleTurnSample`. The example uses Anthropic, but any LLM provider works (OpenAI, Cohere, a local model). Only the `generate_answer` body changes:
+**3. Run retrieval and generation.** For each entry, retrieve the top-k chunks, pass them through the generator, and record a `SingleTurnSample`. `SingleTurnSample` is Ragas's data class for one evaluation record: question, retrieved context, generated answer, and optional reference. The example uses Anthropic, but any LLM provider works (OpenAI, Cohere, a local model). Only the `generate_answer` body changes:
 
 ```python
 import os
@@ -128,7 +128,7 @@ scores = evaluate(
 )
 ```
 
-`evaluate()` returns a result object whose aggregate scores look like this:
+`evaluate()` returns an `EvaluationResult` object. Its aggregate scores print like this:
 
 ```python
 {"faithfulness": 0.88, "answer_relevancy": 0.81, "context_precision": 0.74}
@@ -198,3 +198,7 @@ Pair offline metric changes with online KPI changes over a few launches. After t
 ### Proxy Signals When You Can't A/B
 
 Most teams don't have a proper experimentation platform, or don't have the traffic to power a test quickly. Cheap-to-instrument signals correlate enough with value to catch big regressions and big wins: thumbs up or down on answers, regeneration rate, source-click rate, copy or share actions, and session abandonment. Build these into production telemetry before you need them.
+
+## Wrapping Up
+
+That completes the four-layer retrieval evaluation stack: ANN precision, retrieval relevance, pipeline output quality, and business impact. Each layer catches a different class of regression, and running them together means retrieval changes can ship with defensible evidence at every stage.
