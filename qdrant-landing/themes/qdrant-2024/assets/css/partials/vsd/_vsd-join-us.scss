@@ -5,6 +5,7 @@
   padding-top: pxToRem(30);
   padding-bottom: pxToRem(30);
   background-color: $neutral-10;
+  overflow: hidden;
   
   &__title {
     margin-bottom: $spacer;
