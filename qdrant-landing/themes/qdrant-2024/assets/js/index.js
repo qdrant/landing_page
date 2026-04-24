@@ -7,7 +7,6 @@ import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpe
 import TableOfContents from './table-of-content';
 import { DOCS_HEADER_OFFSET } from './constants';
 import { scrollIntoViewWithOffset } from './helpers';
-import {logPlugin} from "@babel/preset-env/lib/debug";
 
 persistUTMParams();
 
