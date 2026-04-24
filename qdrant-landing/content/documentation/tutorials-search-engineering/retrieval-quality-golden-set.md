@@ -58,13 +58,48 @@ Document:
 
 ## Using the Golden Set
 
-Before running the evaluation, load your labeled queries and assemble each into an entry with a `query_id`, a `query_vector`, and `labels`. The `query_vector` comes from embedding the query text with the same model your Qdrant collection uses. The `labels` dict maps relevant doc IDs to their relevance score: for synthetic queries, the source document's ID; for human or log-based labels, the annotated relevant docs.
+<a href="https://amenra.github.io/ranx/" target="_blank">ranx</a> is a Python library for ranking-metric evaluation. It covers the standard IR metrics (`recall@k`, `MRR`, `NDCG@k`, `Precision@k`, MAP, and others) through one consistent interface, so you don't hand-roll each metric or juggle different libraries as needs grow.
 
-Once assembled, run each query through Qdrant and compare the returned IDs against the labels. The metric to compute depends on what the labels record (see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#choosing-the-right-metric" target="_blank">metric-selection table</a>).
+The evaluation runs in three steps: load the labeled queries into the shape ranx expects, run each through Qdrant, then compute metrics.
 
-Use <a href="https://amenra.github.io/ranx/" target="_blank">ranx</a>, a Python library for ranking evaluation. It covers `recall@k`, `MRR`, `NDCG@k`, and others through a single `Qrels` / `Run` interface, and handles both binary and graded labels the same way.
+**1. Load and assemble.** For each labeled query, build an entry with `query_id`, `query_vector` (embedded with the same model your Qdrant collection uses), and `labels`:
 
-Construct the labels as a `Qrels` object (a dict mapping query IDs to `{doc_id: relevance_score}`) and the Qdrant results as a `Run` (a dict mapping query IDs to `{doc_id: ranking_score}`). For binary labels, use `1` for relevant; for graded labels, use the raw 0/1/2 scores. [NDCG (Normalized Discounted Cumulative Gain)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) is the standard metric when you have graded labels; it rewards relevant results appearing at higher positions.
+```python
+{
+    "query_id": "q1",
+    "query_vector": [0.12, -0.48, 0.33, ...],  # embedding of the query text
+    "labels": {"doc_42": 1},  # source doc for synthetic queries, relevant docs otherwise
+}
+```
+
+Build the full `golden_set` by normalizing whatever your generation pipeline produced, then looping through it:
+
+```python
+from your_embedding_model import embed
+
+# Normalize whatever your generation pipeline produced into this shape:
+#   - Synthetic: one item per generated query, labels = {source_doc_id: 1}
+#   - Logs: one item per query-click pair, labels = {clicked_doc_id: 1}
+#   - Human: one item per annotated query, labels = {doc_id: score, ...}
+labeled_data = [
+    {"query_text": "how does X work", "labels": {"doc_42": 1}},
+    {"query_text": "what is Y used for", "labels": {"doc_55": 1, "doc_88": 1}},
+    # ...one entry per labeled query
+]
+
+golden_set = []
+for i, item in enumerate(labeled_data):
+    golden_set.append({
+        "query_id": f"q{i}",
+        "query_vector": embed(item["query_text"]),
+        "labels": item["labels"],
+    })
+```
+
+**2. Build `Qrels` and `Run`.** ranx compares two inputs, both shaped as `{query_id: {doc_id: score}}`:
+
+- **`Qrels`** (query relevance judgments). The labeled ground truth. Use `1` for binary labels or the raw `0/1/2` for graded labels.
+- **`Run`** (retrieval output). What Qdrant returned for each query, with similarity scores.
 
 ```python
 from qdrant_client import QdrantClient
@@ -73,7 +108,6 @@ from ranx import Qrels, Run, evaluate
 client = QdrantClient("http://localhost:6333")  # or QdrantClient(url="https://<id>.cloud.qdrant.io", api_key="...") for Qdrant Cloud
 
 def retrieval_run(golden_set: list, collection: str, k: int = 10) -> Run:
-    # Each entry: {"query_id": str, "query_vector": list[float], "labels": {doc_id: score}}
     run = {}
     for entry in golden_set:
         results = client.query_points(
@@ -86,17 +120,21 @@ def retrieval_run(golden_set: list, collection: str, k: int = 10) -> Run:
 
 qrels = Qrels({entry["query_id"]: entry["labels"] for entry in golden_set})
 run = retrieval_run(golden_set, collection="my_collection", k=10)
+```
 
+**3. Compute metrics.** `evaluate(qrels, run, [...])` compares the two and returns a dict of metric names to floats.
+
+```python
 metrics = evaluate(qrels, run, ["recall@10", "mrr", "ndcg@10"])
 ```
 
-`evaluate()` returns a dict of metric names to floats, for example:
+`evaluate()` returns:
 
 ```python
 {"recall@10": 0.82, "mrr": 0.71, "ndcg@10": 0.76}
 ```
 
-Higher is better on all three metrics. For the full metric list (Precision@k, MAP, ERR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
+Higher is better on all three. See the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#choosing-the-right-metric" target="_blank">metric-selection table</a> to pick which matter for your use case. [NDCG (Normalized Discounted Cumulative Gain)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) specifically needs graded labels; for binary labels, stick with `recall@k` and `MRR`. For the full metric list (Precision@k, MAP, ERR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
 
 Re-run whenever the retrieval stack changes: new embedding model (which also requires re-embedding queries and re-indexing), new index config, or new reranker. In CI, compute `recall@10` against a fixed golden set and fail the job when the score drops below your target threshold.
 
@@ -108,11 +146,11 @@ In golden query sets, **data leakage** means any setup that makes offline metric
 
 **Embedding-model contamination.** If your embedding model was trained on pairs overlapping with the golden set, results will look better than true generalization. For hosted models, review published training data when possible. For in-house fine-tuning, keep strict train/eval separation.
 
-**Near-duplicate documents.** A query from document A may retrieve near-duplicate B, which is relevant but unlabeled. That makes **metrics look worse** because labels are incomplete. Deduplicate before labeling (for example, cosine similarity > 0.95), or label duplicate clusters together.
+**Near-duplicate documents.** Your retrieval may return a near-duplicate of a labeled document that isn't in the label set. That makes **metrics look worse** because labels are incomplete, not because retrieval is failing. A score dip here is a signal to audit your labels before tuning retrieval. Deduplicate before labeling (for example, cosine similarity > 0.95), or label duplicate clusters together.
 
-**Temporal drift.** If the corpus changes, queries generated from newer documents can unfairly evaluate older index snapshots. Pin a corpus snapshot for each run and regenerate the golden set after material corpus changes.
+**Temporal drift.** If the corpus changes after labeling, labels go stale: referenced docs may be removed or superseded by newer versions. Pin a corpus snapshot for each run and regenerate the golden set after material corpus changes.
 
-**Setup reproducibility.** Version the full evaluation setup: corpus snapshot, prompt, LLM version, and dedup threshold. Otherwise you can't tell whether a later score drop is model/index regression or dataset drift.
+**Setup reproducibility.** Version the full evaluation setup: corpus snapshot, how labels were produced, and any preprocessing thresholds. Otherwise you can't tell whether a later score drop is model/index regression or dataset drift.
 
 ## Next Steps
 
