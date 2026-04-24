@@ -11,9 +11,11 @@ aliases:
 |--------------|---------------------|--|----|
 
 This tutorial focuses on **retrieval relevance**: how well retrieved results match real user intent.
-To measure retrieval relevance, you need a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*).
+To measure retrieval relevance, you need a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). This tutorial covers both building that dataset and running it through Qdrant to compute relevance metrics.
 
-To evaluate other layers of your retrieval pipeline, see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#connecting-the-layers-in-practice" target="_blank">evaluation ladder</a>.
+To learn more about retrieval quality evaluation, see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#the-evaluation-ladder" target="_blank">evaluation ladder</a>.
+
+**Prerequisites.** A Qdrant collection with your corpus indexed, an embedding model available to encode queries at evaluation time, and Python with `ranx` installed.
 
 ## Generating Queries
 
@@ -21,52 +23,48 @@ There are three practical approaches to building a golden set. Each one trades q
 
 ### 1. Human Annotation
 
-Domain experts assign relevance scores on a binary (relevant / not relevant) or graded (0/1/2 or 1–5) scale. Human-labeled data produces the highest-fidelity signal and is the only practical source for graded labels, which ranking metrics like [Normalized Discounted Cumulative Gain (NDCG)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) use to reward relevant results appearing at higher positions. Expert time is the bottleneck, which typically limits this approach to a small set of high-value queries.
+Domain experts assign relevance scores on a binary (relevant / not relevant) or graded (0/1/2 or 1–5) scale. Human-labeled data produces the highest-fidelity signal and is the primary source for graded labels. Expert time is the bottleneck, which typically limits this approach to a small set of high-value queries.
 
 ### 2. Real User Queries from Logs
 
-If your app records queries with click or explicit-feedback signals, sample query-document pairs directly. Log-based pairs reflect real user intent and vocabulary that synthetic queries cannot replicate, though the approach requires production traffic and a signal that maps to relevance. Frequent queries dominate uniform samples, so stratifying by query type, topic cluster, conversation turn, or intent class keeps rare-but-important cases represented. A few hundred labeled pairs typically detects large metric differences; per-slice analysis or small ranking deltas require substantially more.
+Sample query-document pairs from your production logs, using clicks or explicit feedback (thumbs up/down, ratings) as the relevance signal. Real user queries capture intent and vocabulary that synthetic generation can't match, but you need enough traffic and a signal that maps to relevance.
+
+Balance the sample so frequent queries don't crowd out rare ones: group by query type, topic, or intent class. Start with a few hundred labeled pairs to detect large metric differences; per-slice analysis or small ranking deltas need substantially more.
 
 ### 3. LLM-Based Synthetic Generation
 
-An LLM can generate plausible queries for each document. This scales to thousands of pairs cheaply, but synthetic queries are typically easier to retrieve than real user queries, which inflates offline scores relative to production behavior. Frameworks such as <a href="https://docs.ragas.io/" target="_blank">Ragas</a> provide ready-made testset generators if you want a maintained tool.
+An LLM can generate plausible queries for documents sampled from your corpus. This scales cheaply to thousands of pairs, but synthetic queries are typically easier to retrieve than real user queries, which inflates offline scores. For very large corpora, log-based sampling is often more practical.
 
-The example below prompts an LLM to produce short, realistic queries for each document, with the source document serving as the labeled relevant answer.
+The document you feed the LLM (the **source document**) becomes the relevance label for every query it generates:
 
-```python
-import os
+```text
+You are helping build an evaluation dataset for a search system.
 
-import anthropic
+Generate 3 realistic search queries for the document below.
+Each query should be what a real user would type to find it.
+Phrase queries naturally, not as paraphrases of the document.
+Return only the queries, one per line. No numbering or explanation.
 
-# Anthropic's API is one option; any LLM works.
-client = anthropic.Anthropic(
-    api_key=os.environ.get("ANTHROPIC_API_KEY"),
-)
-
-def generate_queries_for_doc(doc_text: str, n: int = 3) -> list[str]:
-    # doc_text is one document from your corpus; iterate over the corpus
-    # to build the full golden set, with each source doc as the relevance label.
-    response = client.messages.create(
-        model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6"),
-        max_tokens=256,
-        messages=[{
-            "role": "user",
-            "content": (
-                f"Generate {n} short, realistic search queries that would lead a user to the "
-                f"following document. Return only the queries, one per line.\n\n{doc_text}"
-            ),
-        }],
-    )
-    return response.content[0].text.strip().splitlines()
+Document:
+{document_text}
 ```
+
+**Tune the prompt to your corpus:**
+
+- **Query style.** Questions for FAQ/RAG, keyword phrases for e-commerce, intent phrases for code search, or technical terms for specialist domains.
+- **Count per document.** `3` is a default; tune to document length and golden-set size.
+- **Persona.** A generic "user" works broadly; specialist corpora (medical, legal, technical) benefit from targeted personas.
+- **Language.** Default English; state multilingual explicitly.
 
 ## Using the Golden Set
 
-Once queries are labeled, run each through Qdrant and compare the returned IDs against the labels. The metric to compute depends on what the labels record (see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#choosing-the-right-metric" target="_blank">metric-selection table</a>).
+Before running the evaluation, load your labeled queries and assemble each into an entry with a `query_id`, a `query_vector`, and `labels`. The `query_vector` comes from embedding the query text with the same model your Qdrant collection uses. The `labels` dict maps relevant doc IDs to their relevance score: for synthetic queries, the source document's ID; for human or log-based labels, the annotated relevant docs.
+
+Once assembled, run each query through Qdrant and compare the returned IDs against the labels. The metric to compute depends on what the labels record (see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#choosing-the-right-metric" target="_blank">metric-selection table</a>).
 
 Use <a href="https://amenra.github.io/ranx/" target="_blank">ranx</a>, a Python library for ranking evaluation. It covers `recall@k`, `MRR`, `NDCG@k`, and others through a single `Qrels` / `Run` interface, and handles both binary and graded labels the same way.
 
-Construct the labels as a `Qrels` object (a dict mapping query IDs to `{doc_id: relevance_score}`) and the Qdrant results as a `Run` (a dict mapping query IDs to `{doc_id: ranking_score}`). For binary labels, use `1` for relevant; for graded labels, use the raw 0/1/2 scores.
+Construct the labels as a `Qrels` object (a dict mapping query IDs to `{doc_id: relevance_score}`) and the Qdrant results as a `Run` (a dict mapping query IDs to `{doc_id: ranking_score}`). For binary labels, use `1` for relevant; for graded labels, use the raw 0/1/2 scores. [NDCG (Normalized Discounted Cumulative Gain)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) is the standard metric when you have graded labels; it rewards relevant results appearing at higher positions.
 
 ```python
 from qdrant_client import QdrantClient
@@ -92,20 +90,30 @@ run = retrieval_run(golden_set, collection="my_collection", k=10)
 metrics = evaluate(qrels, run, ["recall@10", "mrr", "ndcg@10"])
 ```
 
-For the full metric list (Precision@k, MAP, ERR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
+`evaluate()` returns a dict of metric names to floats, for example:
 
-Re-run this whenever the retrieval stack changes: new embedding model, new index config, new reranker.
+```python
+{"recall@10": 0.82, "mrr": 0.71, "ndcg@10": 0.76}
+```
+
+Higher is better on all three metrics. For the full metric list (Precision@k, MAP, ERR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
+
+Re-run whenever the retrieval stack changes: new embedding model (which also requires re-embedding queries and re-indexing), new index config, or new reranker. In CI, compute `recall@10` against a fixed golden set and fail the job when the score drops below your target threshold.
 
 ## Pitfalls to Watch For (Data Leakage and Friends)
 
 In golden query sets, **data leakage** means any setup that makes offline metrics look better than production reality. Unlike classic train/test leakage, the issue is often evaluation design. Keep source documents in the index (they are the expected relevant answers). Focus on these risks:
 
-**Synthetic-query unrealism.** LLMs often mirror source wording, creating easier queries than real user input. This inflates offline scores. Mitigate it by prompting for queries from users who have not seen the source, then compare synthetic and real-query distributions (length and specificity).
+**Synthetic-query unrealism.** LLMs often mirror source wording, creating easier queries than real user input. This inflates offline scores. Mitigate it by instructing the LLM to generate queries as a user who hasn't seen the source document, then compare synthetic and real-query distributions (length and specificity).
 
 **Embedding-model contamination.** If your embedding model was trained on pairs overlapping with the golden set, results will look better than true generalization. For hosted models, review published training data when possible. For in-house fine-tuning, keep strict train/eval separation.
 
-**Near-duplicate documents.** A query from document A may retrieve near-duplicate B, which is relevant but unlabeled. That makes **precision look worse** because labels are incomplete. Deduplicate before labeling (for example, cosine similarity > 0.95), or label duplicate clusters together.
+**Near-duplicate documents.** A query from document A may retrieve near-duplicate B, which is relevant but unlabeled. That makes **metrics look worse** because labels are incomplete. Deduplicate before labeling (for example, cosine similarity > 0.95), or label duplicate clusters together.
 
 **Temporal drift.** If the corpus changes, queries generated from newer documents can unfairly evaluate older index snapshots. Pin a corpus snapshot for each run and regenerate the golden set after material corpus changes.
 
-**Reviewer reproducibility.** Version the full evaluation setup: corpus snapshot, prompt, LLM version, and dedup threshold. Otherwise you cannot tell whether a later score drop is model/index regression or dataset drift.
+**Setup reproducibility.** Version the full evaluation setup: corpus snapshot, prompt, LLM version, and dedup threshold. Otherwise you can't tell whether a later score drop is model/index regression or dataset drift.
+
+## Next Steps
+
+Once retrieval relevance is on target, the next layer is pipeline output quality: whether the full pipeline produces the right output when retrieval feeds into a consumer (LLM generator, ranker, or UI). See [Evaluating Pipeline Output Quality](/documentation/tutorials-search-engineering/retrieval-quality-pipeline-output/).
