@@ -19,7 +19,7 @@ logos:
     alt: N8n logo
 button:
   text: Submit a Talk Proposal
-  url: "#"
+  url: https://docs.google.com/forms/d/e/1FAIpQLSfefAtmGP59-0IhNxCCMbNRCDlU-JRkJnSja3GfOrBnTZw-CA/viewform
 sitemapExclude: true
 ---
 

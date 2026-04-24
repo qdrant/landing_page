@@ -1,7 +1,7 @@
 ---
 getTickets:
   text: Get Tickets
-  url: "#"
+  url: https://luma.com/vsd-sf
 logoLink: /
 menuItems:
   - id: menu-0

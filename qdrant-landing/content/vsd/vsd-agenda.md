@@ -7,7 +7,7 @@ cards:
     title: Agenda
     button:
       text: Get Your Ticket
-      url: "#"
+      url: https://luma.com/vsd-sf
   - id: 1
     content: Search <br>& AI Retrieval
   - id: 2

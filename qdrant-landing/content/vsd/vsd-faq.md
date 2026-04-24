@@ -22,7 +22,7 @@ questions:
 - question: Who should attend?
   answer: This event is designed for ML engineers, AI researchers, and backend engineers working with search and retrieval systems, anyone building products on top of vector databases or embedding models. Talks range from foundational to advanced.
 - question: Can I speak at Vector Space Day?
-  answer: We're building a handpicked lineup of technical talks. If your team is solving hard problems in retrieval, embeddings, agent memory, or AI infrastructure at scale, send a proposal <a href="">via this form</a>.
+  answer: We're building a handpicked lineup of technical talks. If your team is solving hard problems in retrieval, embeddings, agent memory, or AI infrastructure at scale, send a proposal <a href="https://docs.google.com/forms/d/e/1FAIpQLSfefAtmGP59-0IhNxCCMbNRCDlU-JRkJnSja3GfOrBnTZw-CA/viewform">via this form</a>.
 - question: How do I become a sponsor?
   answer: Sponsorship packages range from $5,000 to $30,000 and include booth space, brand presence, and direct access to the audience. Email <a href="mailto:vectorspaceday@qdrant.com">vectorspaceday@qdrant.com</a> for the full prospectus.
 sitemapExclude: true

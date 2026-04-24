@@ -8,7 +8,7 @@
   position: relative;
   overflow: hidden;
   
-  &:after {
+  &:before {
     content: "";
     display: block;
     position: absolute;
@@ -102,6 +102,11 @@
       text-transform: uppercase;
     }
     
+    &-button {
+      position: relative;
+      z-index: 1;
+    }
+    
     &:first-child{
       grid-area: a;
       min-height: pxToRem(314);
@@ -129,8 +134,7 @@
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 5;
 
-    &:before {
-      content: "";
+    &__overlay {
       display: block;
       position: absolute;
       left: 50%;

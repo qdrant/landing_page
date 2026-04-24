@@ -10,7 +10,7 @@ logos:
     alt: Vultr logo
 link:
   text: Contact Us About Sponsoring
-  url: "#"
+  url: /contact-us/
 sitemapExclude: true
 ---
 

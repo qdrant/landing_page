@@ -1,5 +1,6 @@
 {{ with (.Site.GetPage "/vsd/vsd-agenda") }}
   <section class="vsd-agenda" id="agenda">
+    <div class="vsd-agenda__overlay"></div>
     <div class="container">
       <h2 class="vsd-agenda__title">{{ .Params.title }}</h2>
       <p class="vsd-agenda__description">{{ .Params.description }}</p>
