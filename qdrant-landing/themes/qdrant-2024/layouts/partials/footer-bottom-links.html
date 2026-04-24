@@ -1,0 +1,9 @@
+{{/* dict: footer (headless footer page), optional wrapperClass (default footer__bottom-links) */}}
+{{ $p := .footer }}
+{{ $class := default "footer__bottom-links" .wrapperClass }}
+<div class="{{ $class }}">
+  {{ range $p.Params.bottomLinks }}
+    <a href="{{ .url }}">{{ .text }}</a>
+  {{ end }}
+  <a href="#" onClick="OneTrust.ToggleInfoDisplay();return false;">Cookie Consent</a>
+</div>

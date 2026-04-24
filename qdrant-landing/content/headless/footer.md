@@ -139,15 +139,15 @@ menuItems:
         name: Contact Us
         url: /contact-us/
 copyright: Qdrant.
-termsLink:
-  text: Terms
-  url: /legal/terms_and_conditions/
-privacyLink:
-  text: Privacy Policy
-  url: /legal/privacy-policy/
-impressumLink:
-  text: Impressum
-  url: /legal/impressum/
+bottomLinks:
+  - text: Terms
+    url: /legal/terms_and_conditions/
+  - text: Privacy Policy
+    url: /legal/privacy-policy/
+  - text: Impressum
+    url: /legal/impressum/
+  - text: Recruitment Privacy Policy
+    url: /legal/recruitment-privacy-policy/
 bages:
   - src: /img/soc2-badge.png
     alt: "SOC2"

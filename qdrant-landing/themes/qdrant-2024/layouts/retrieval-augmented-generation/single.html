@@ -58,11 +58,7 @@
         <div class="footer__bottom container">
           <div class="footer__bottom-content">
             <span>&copy; {{ time.Now.Year }} {{ .Params.copyright }}</span>
-            <div class="footer__bottom-links">
-              <a href="{{ .Params.termsLink.url }}">{{ .Params.termsLink.text }}</a>
-              <a href="{{ .Params.privacyLink.url }}">{{ .Params.privacyLink.text }}</a>
-              <a href="{{ .Params.impressumLink.url }}">{{ .Params.impressumLink.text }}</a>
-            </div>
+            {{ partial "footer-bottom-links.html" (dict "footer" .) }}
           </div>
         </div>
       </footer>

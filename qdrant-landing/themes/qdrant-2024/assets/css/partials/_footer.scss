@@ -150,7 +150,7 @@
       gap: $spacer * 2.5;
 
       a {
-        font-size: map-get($font-sizes-text, 's');
+        font-size: pxToRem(12);
         line-height: pxToRem(21);
         color: $neutral-70;
       }
