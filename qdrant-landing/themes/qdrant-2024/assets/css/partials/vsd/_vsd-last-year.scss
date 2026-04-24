@@ -1,0 +1,117 @@
+@use '../../helpers/functions' as *;
+
+.vsd-last-year {
+  width: 100%;
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 3;
+  background-color: $neutral-10;
+  overflow: hidden;
+
+  &__subtitle {
+    margin-bottom: $spacer * 1.5;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    text-align: center;
+    color: #898EA3;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    max-width: pxToRem(900);
+    margin: 0 auto $spacer * 3;
+    font-size: $h4-font-size;
+    line-height: $spacer * 3;
+    text-align: center;
+    color: $neutral-98;
+  }
+  
+  &__title2 {
+    margin: $spacer * 3 auto;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    text-align: center;
+    color: #ABB1C7;
+  }
+  
+  &__logos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &__logo {
+    width: 100%;
+    padding: $spacer $spacer * 4;
+    border: pxToRem(1) solid #303547;
+    margin-top: pxToRem(-1);
+    max-width: pxToRem(332);
+    
+    img {
+      display: block;
+      height: $spacer * 2.5;
+      margin: 0 auto;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    &__logos {
+      flex-direction: row;
+      margin: 0 pxToRem(-80);
+      width: calc(100% + pxToRem(160));
+      position: relative;
+
+      &:before,
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        height: calc(100% + pxToRem(1));
+        width: pxToRem(100);
+        top: pxToRem(-1);
+      }
+
+      &:before {
+        left: 0;
+        background: linear-gradient(90deg, $neutral-10 50%, rgba($neutral-10, 0) 100%);
+      }
+
+      &:after {
+        right: 0;
+        background: linear-gradient(90deg, rgba($neutral-10, 0) 0%, $neutral-10 50%);
+      }
+    }
+    
+    &__logo {
+      width: auto;
+      margin-left: pxToRem(-1);
+      max-width: none
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__subtitle {
+      font-size: $font-size-s;
+      line-height: $line-height-sm;
+    }
+
+    &__title2 {
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+    }
+  }
+  
+  @include media-breakpoint-up(xl) {
+    &__logos {
+      margin: 0 pxToRem(-165);
+      width: calc(100% + pxToRem(330));
+
+      &:before,
+      &:after {
+        width: pxToRem(160);
+      }
+    }
+  }
+}

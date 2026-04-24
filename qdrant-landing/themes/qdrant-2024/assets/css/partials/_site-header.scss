@@ -2,4 +2,8 @@
   background:
     linear-gradient(180deg, #090d19, rgba(9, 13, 25, 0)),
     url('/img/stars-pattern.png') $neutral-10;
+
+  &_no-stars {
+    background: linear-gradient(180deg, #090d19, rgba(9, 13, 25, 0)) $neutral-10;
+  }
 }
