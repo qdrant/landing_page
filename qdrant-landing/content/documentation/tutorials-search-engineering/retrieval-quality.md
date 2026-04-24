@@ -14,7 +14,16 @@ weight: 5
 This tutorial focuses on **ANN precision**: how closely approximate nearest-neighbor (ANN) search matches exact kNN search.
 To measure ANN precision, you compare Qdrant's approximate top-k against the exact kNN top-k using `precision@k`, then tune HNSW parameters to trade memory and build time for higher precision.
 
-To learn more about retrieval quality evaluation, see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#the-evaluation-ladder" target="_blank">evaluation ladder</a>.
+## The Four Layers of Retrieval Evaluation
+
+Retrieval quality operates at four layers. Each catches different failure modes at a different cadence and cost. This tutorial covers layer 1.
+
+- **Layer 1: ANN precision** (this tutorial). How closely approximate nearest-neighbor search matches exact kNN. Run on every index or embedding change.
+- **Layer 2: Retrieval relevance** ([Building a Golden Query Set](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)). How well the results match query intent against a labeled dataset. Run weekly, or on retrieval-stack changes.
+- **Layer 3: Pipeline output quality** ([Evaluating Pipeline Output Quality](/documentation/tutorials-search-engineering/retrieval-quality-pipeline-output/)). Whether the full pipeline (retrieval plus an LLM generator, a ranker, or a UI) produces the right output. Run weekly, or on retrieval or generator changes.
+- **Layer 4: Business impact**. Whether better retrieval moves the KPIs the business cares about. Measured per release once the offline layers pass.
+
+Retrieval quality sits on top of embedding quality. Embedding quality is measured separately by benchmarks like [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and sets the ceiling on every downstream metric.
 
 ## Measure ANN Precision with the Web UI
 
