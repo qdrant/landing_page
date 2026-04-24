@@ -149,7 +149,7 @@ With `prevent_unoptimized` enabled, setting `indexed_only` to `true` is not nece
 
 Write requests support a [`wait` parameter](/documentation/manage-data/points/#awaiting-result) that, when set to `true`, causes the request to return only after the update has been applied and is visible for search. If `prevent_unoptimized` is enabled, `wait` should be set to `false` to avoid potential timeouts and delays.
 
-This is particularly important for the Python, TypeScript/JavaScript, .NET, and Java clients, that set `wait` to `true` by default. The Go and Rust clients already default to `false`, so no change is needed when using those clients.
+This is particularly important for the Python, TypeScript/JavaScript, .NET, and Java clients, that set `wait` to `true` by default. The Go and Rust clients and the REST API interface already default to `false`, so no change is needed when using those clients.
 
 Qdrant processes updates in strict order: each update is written to the write-ahead log and then applied sequentially by the update worker, preserving this order.
 
