@@ -1,0 +1,99 @@
+@use '../../helpers/functions' as *;
+@use '../../mixins/marquee' as marquee;
+
+.vsd-join-us {
+  padding-top: pxToRem(30);
+  padding-bottom: pxToRem(30);
+  background-color: $neutral-10;
+  
+  &__title {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    text-align: center;
+    color: #898EA3;
+    text-transform: uppercase;
+  }
+
+  &__container {
+    max-width: pxToRem(838) !important;
+    margin: 0 auto;
+    position: relative;
+
+    &:before,
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 0;
+      width: pxToRem(116);
+      height: 100%;
+      z-index: 1;
+    }
+
+    &:before {
+      left: pxToRem(-20);
+      background: linear-gradient(270deg, rgba(11, 15, 25, 0.00) 0%, #0B0F19 100%);
+    }
+
+    &:after {
+      right: pxToRem(-20);
+      background: linear-gradient(90deg, rgba(11, 15, 25, 0.00) 0%, #0B0F19 100%);
+    }
+
+  }
+
+  &__marquee {
+    @include marquee.base(42px, 329px, 5, 5, 32px, transparent, false, 30s, none);
+    
+    &__item {
+      justify-content: center;
+      white-space: nowrap;
+      text-align: center;
+      font-size: $h4-font-size;
+      line-height: pxToRem(42);
+      font-variation-settings: "wdth" 75, "wght" 600;
+      text-transform: uppercase;
+      color: #CAD0E5;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__marquee {
+      @include marquee.base(67px, 459px, 5, 5, 32px, transparent, false, 30s, none);
+    }
+
+    &__container {
+      &:before,
+      &:after {
+        width: pxToRem(260);
+      }
+
+      &:before {
+        left: 0;
+      }
+
+      &:after {
+        right: 0;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 7;
+    
+    &__title {
+      font-size: $font-size-s;
+      line-height: $line-height-sm;
+    }
+
+    &__marquee {
+      &__item {
+        font-size: $h1-font-size;
+        line-height: pxToRem(67);
+      }
+    }
+  }
+}

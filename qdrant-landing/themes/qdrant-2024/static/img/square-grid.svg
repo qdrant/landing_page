@@ -1,0 +1,41 @@
+<svg width="1440" height="443" viewBox="0 0 1440 443" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.8">
+<rect x="169" y="110.725" width="110.224" height="110.224" transform="rotate(-90 169 110.725)" stroke="#303547"/>
+<rect x="279.223" y="110.725" width="110.224" height="110.224" transform="rotate(-90 279.223 110.725)" stroke="#303547"/>
+<rect x="389.449" y="110.725" width="110.224" height="110.224" transform="rotate(-90 389.449 110.725)" stroke="#303547"/>
+<rect x="499.672" y="110.725" width="110.224" height="110.224" transform="rotate(-90 499.672 110.725)" stroke="#303547"/>
+<rect x="609.895" y="110.725" width="110.224" height="110.224" transform="rotate(-90 609.895 110.725)" stroke="#303547"/>
+<rect x="720.121" y="110.725" width="110.224" height="110.224" transform="rotate(-90 720.121 110.725)" stroke="#303547"/>
+<rect x="830.344" y="110.724" width="110.224" height="110.224" transform="rotate(-90 830.344 110.724)" stroke="#303547"/>
+<rect x="940.566" y="110.725" width="110.224" height="110.224" transform="rotate(-90 940.566 110.725)" stroke="#303547"/>
+<rect x="499.672" y="220.948" width="110.224" height="110.224" transform="rotate(-90 499.672 220.948)" stroke="#303547"/>
+<rect x="609.895" y="220.948" width="110.224" height="110.224" transform="rotate(-90 609.895 220.948)" stroke="#303547"/>
+<rect x="720.121" y="220.948" width="110.224" height="110.224" transform="rotate(-90 720.121 220.948)" stroke="#303547"/>
+<rect x="830.344" y="220.948" width="110.224" height="110.224" transform="rotate(-90 830.344 220.948)" stroke="#303547"/>
+<rect x="940.566" y="220.948" width="110.224" height="110.224" transform="rotate(-90 940.566 220.948)" stroke="#303547"/>
+<rect x="1050.79" y="220.948" width="110.224" height="110.224" transform="rotate(-90 1050.79 220.948)" stroke="#303547"/>
+<rect x="1161.02" y="220.948" width="110.224" height="110.224" transform="rotate(-90 1161.02 220.948)" stroke="#303547"/>
+<rect x="169" y="331.172" width="110.224" height="110.224" transform="rotate(-90 169 331.172)" stroke="#303547"/>
+<rect x="389.449" y="331.172" width="110.224" height="110.224" transform="rotate(-90 389.449 331.172)" stroke="#303547"/>
+<rect x="499.672" y="331.172" width="110.224" height="110.224" transform="rotate(-90 499.672 331.172)" stroke="#303547"/>
+<rect x="609.895" y="331.172" width="110.224" height="110.224" transform="rotate(-90 609.895 331.172)" stroke="#303547"/>
+<rect x="720.121" y="331.172" width="110.224" height="110.224" transform="rotate(-90 720.121 331.172)" stroke="#303547"/>
+<rect x="830.344" y="331.172" width="110.224" height="110.224" transform="rotate(-90 830.344 331.172)" stroke="#303547"/>
+<rect x="940.566" y="331.172" width="110.224" height="110.224" transform="rotate(-90 940.566 331.172)" stroke="#303547"/>
+<rect x="1050.79" y="331.172" width="110.224" height="110.224" transform="rotate(-90 1050.79 331.172)" stroke="#303547"/>
+<rect x="1161.02" y="331.172" width="110.224" height="110.224" transform="rotate(-90 1161.02 331.172)" stroke="#303547"/>
+<rect x="279.223" y="331.172" width="110.224" height="110.224" transform="rotate(-90 279.223 331.172)" stroke="#303547"/>
+<rect x="1050.79" y="110.725" width="110.224" height="110.224" transform="rotate(-90 1050.79 110.725)" stroke="#303547"/>
+<rect x="1161.02" y="110.725" width="110.224" height="110.224" transform="rotate(-90 1161.02 110.725)" stroke="#303547"/>
+<rect x="169" y="220.948" width="110.224" height="110.224" transform="rotate(-90 169 220.948)" stroke="#303547"/>
+<rect x="279.223" y="220.948" width="110.224" height="110.224" transform="rotate(-90 279.223 220.948)" stroke="#303547"/>
+<rect x="389.449" y="220.948" width="110.224" height="110.224" transform="rotate(-90 389.449 220.948)" stroke="#303547"/>
+</g>
+<rect x="-2" y="67.5005" width="1444" height="375" fill="url(#paint0_linear_261_15887)"/>
+<defs>
+<linearGradient id="paint0_linear_261_15887" x1="720" y1="67.5005" x2="720" y2="456.567" gradientUnits="userSpaceOnUse">
+<stop stop-color="#111824" stop-opacity="0"/>
+<stop offset="0.739663" stop-color="#0B0F19"/>
+</linearGradient>
+</defs>
+</svg>

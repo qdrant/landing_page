@@ -1,0 +1,29 @@
+{{ with (.Site.GetPage "/vsd/vsd-join-us") }}
+  <section class="vsd-join-us">
+    <p class="vsd-join-us__title">{{ .Params.title }}</p>
+    <div class="vsd-join-us__container">
+      <div class="vsd-join-us__marquee">
+        <div class="vsd-join-us__marquee__container">
+          <div class="vsd-join-us__marquee__block">
+            <div class="vsd-join-us__marquee__inner vsd-join-us__marquee__inner_to-left">
+              <span>
+              {{ range .Params.content }}
+                <div class="vsd-join-us__marquee__item">
+                  {{ .title }}
+                </div>
+              {{ end }}
+              </span>
+                  <span>
+              {{ range .Params.content }}
+                <div class="vsd-join-us__marquee__item">
+                  {{ .title }}
+                </div>
+              {{ end }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

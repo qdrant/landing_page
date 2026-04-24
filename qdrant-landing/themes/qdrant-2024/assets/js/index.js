@@ -7,6 +7,7 @@ import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpe
 import TableOfContents from './table-of-content';
 import { DOCS_HEADER_OFFSET } from './constants';
 import { scrollIntoViewWithOffset } from './helpers';
+import {logPlugin} from "@babel/preset-env/lib/debug";
 
 persistUTMParams();
 
@@ -110,7 +111,17 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   document.querySelectorAll('.menu-mobile__item').forEach((item) => {
-    item.addEventListener('click', () => {
+    item.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (link) {
+        const vsdHeaderMenu = e.target.closest('.vsd-header')?.querySelector('.menu-mobile');
+        if (vsdHeaderMenu && vsdHeaderMenu.classList.contains('menu-mobile--visible')) {
+          vsdHeaderMenu.classList.remove('menu-mobile--visible');
+          body.classList.remove('no-scroll');
+        }
+        return;
+      }
+      
       toggleMenu(item.dataset.path);
     });
   });
