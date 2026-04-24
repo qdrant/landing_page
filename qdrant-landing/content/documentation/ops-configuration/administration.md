@@ -34,7 +34,6 @@ If using a Qdrant binary, recovery mode can be enabled by setting a recovery
 message in an environment variable, such as
 `QDRANT__STORAGE__RECOVERY_MODE="My recovery message"`.
 
-
 ## Low Memory Mode
 
 *Available as of v1.18.0*
@@ -122,7 +121,7 @@ Setting `max_timeout` caps the maximum value in seconds for the `timeout` parame
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-timeout/" >}}
 
-### Disable exact search
+### Disable Exact Search
 
 Exact search bypasses the HNSW index and performs a brute-force scan, which can be very slow on large collections.
 
@@ -130,7 +129,7 @@ Setting `search_allow_exact` to false prevents clients from requesting exact sea
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/search-allow-exact/" >}}
 
-### Maximum HNSW ef parameter
+### Maximum HNSW ef Parameter
 
 A high HNSW `ef` value increases recall but also increases search latency.
 
@@ -138,7 +137,7 @@ Setting `search_max_hnsw_ef` caps the maximum `ef` value allowed in search param
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/search-max-hnsw-ef/" >}}
 
-### Maximum search oversampling
+### Maximum Search Oversampling
 
 A high oversampling factor increases the number of candidates evaluated during search, which can significantly increase latency.
 
@@ -146,7 +145,7 @@ Setting `search_max_oversampling` caps the maximum oversampling factor allowed i
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/search-max-oversampling/" >}}
 
-### Maximum size of a filtering condition
+### Maximum Size of a Filtering Condition
 
 Large filtering conditions are expensive to evaluate.
 
@@ -172,7 +171,7 @@ Setting `upsert_max_batchsize` caps the maximum size in bytes of a batch during 
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/upsert-max-batchsize/" >}}
 
-### Maximum batch size when searching
+### Maximum Batch Size When Searching
 
 Sending very large search batches can create internal congestion.
 
@@ -180,7 +179,7 @@ Setting `search_max_batchsize` caps the maximum number of searches in a single b
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/search-max-batchsize/" >}}
 
-### Maximum collection storage size
+### Maximum Collection Storage Size
 
 It is possible to set the maximum size of a collection in terms of vectors and/or payload storage size.
 
@@ -188,7 +187,7 @@ Setting `max_collection_vector_size_bytes` and/or `max_collection_payload_size_b
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-collection-storage-size-bytes/" >}}
 
-### Maximum resident memory usage
+### Maximum Resident Memory Usage
 
 When a node is under memory pressure, new write operations can destabilize the cluster.
 
@@ -196,7 +195,7 @@ Setting `max_resident_memory_percent` rejects memory-consuming write operations 
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-resident-memory-percent/" >}}
 
-### Maximum points count
+### Maximum Points Count
 
 Setting `max_points_count` caps the maximum number of points for a collection.
 
@@ -212,7 +211,7 @@ When exceeding the maximum number of operations, the client will receive an HTTP
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/rate-limiting/" >}}
 
-### Maximum vectors per multivector
+### Maximum Vectors per Multivector
 
 A multivector with many vectors per point is expensive to store and query.
 
@@ -220,7 +219,7 @@ Setting `multivector_config` caps the maximum number of vectors per multivector 
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/multivector-config/" >}}
 
-### Maximum sparse vector length
+### Maximum Sparse Vector Length
 
 Long sparse vectors increase memory usage and slow down filtering.
 
