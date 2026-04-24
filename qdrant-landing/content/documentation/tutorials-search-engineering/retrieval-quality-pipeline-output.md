@@ -13,7 +13,7 @@ aliases:
 This tutorial focuses on **pipeline output quality**: whether the full retrieval pipeline produces the right output once retrieved results reach a consumer, most often an LLM generator in a RAG system.
 To measure pipeline output quality, you run your golden query set through the full pipeline, capture each `(question, retrieved_context, answer)` triple, and score the triples against judgment metrics like faithfulness, answer relevancy, and context precision.
 
-To learn more about retrieval quality evaluation, see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#the-evaluation-ladder" target="_blank">evaluation ladder</a>.
+For orientation on the four layers of retrieval evaluation and where this tutorial fits, see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation).
 
 **Prerequisites.** A Qdrant collection with your corpus indexed (chunk text in a `text` payload field), a labeled golden set (see [Building a Golden Query Set](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)), LLM access for generation and judging, and Python with `ragas` installed. The Wiring section shows the exact entry shape this tutorial expects.
 
@@ -172,6 +172,29 @@ This split is the reason to keep retrieval and pipeline-output evaluation separa
 
 **Non-RAG consumers.** Ragas metrics assume a generator output. If retrieval feeds a ranker, a recommendation surface, or a UI, swap Ragas for metrics that match the consumer: CTR and dwell time for a UI, graded rubrics for a ranker, and task-completion scores for an agent. The method (freeze the consumer, score the end-to-end output against the golden set) stays the same; only the metric changes.
 
-## Next Steps
+## Connecting to Business Impact
 
-Once pipeline output quality is on target, the final step is business impact: whether the retrieval change moves the KPIs users and stakeholders respond to. There isn't a dedicated tutorial for this step, because the mechanics depend on your experimentation platform, product shape, and traffic profile. See the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#the-evaluation-ladder" target="_blank">evaluation ladder</a> for the methodology: proxy KPIs when you can't run an A/B, pre-registered decision rules, and experiment design for retrieval changes.
+Once pipeline output quality is on target, the remaining question is whether those offline wins move the KPIs the business responds to. It's the hardest measurement to get right, but a few disciplines make it manageable without a full experimentation platform.
+
+### Pick KPIs That Match the Product Shape
+
+No single KPI captures "retrieval is working." The right one depends on what retrieval is for. Pair one or two leading KPIs (which respond quickly) with a lagging KPI (which takes weeks or months to move).
+
+| Application | Leading KPIs | Lagging KPIs |
+|---|---|---|
+| RAG or Q&A | Regeneration rate, follow-up rate, source-click rate | Retention, NPS |
+| Search UI | CTR@1, abandonment rate, reformulation rate | Retention, repeat usage |
+| Agentic | Step count to completion, tool-selection accuracy | Cost per completed task |
+| Recommendations | Engagement rate, diversity-adjusted engagement | Retention, long-term value |
+
+### Pre-Register the Decision Rule
+
+Before running an A/B, write down what counts as a win, what counts as a no-ship, and which guardrails (latency, cost, slice performance, safety) can't regress. This is the highest-leverage habit for avoiding "the KPI is noisy, let's ship anyway" rationalization after results land.
+
+### Calibrate the Offline-Online Transfer Function
+
+Pair offline metric changes with online KPI changes over a few launches. After three or four paired measurements, patterns emerge: the slope (how much offline translates to online), the threshold (below what offline delta online noise dominates), and the lag (how long after launch the KPI moves). Until calibrated, offline wins are unfalsifiable claims.
+
+### Proxy Signals When You Can't A/B
+
+Most teams don't have a proper experimentation platform, or don't have the traffic to power a test quickly. Cheap-to-instrument signals correlate enough with value to catch big regressions and big wins: thumbs up or down on answers, regeneration rate, source-click rate, copy or share actions, and session abandonment. Build these into production telemetry before you need them.
