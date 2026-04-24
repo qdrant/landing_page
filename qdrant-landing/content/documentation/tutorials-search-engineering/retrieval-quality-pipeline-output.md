@@ -15,7 +15,7 @@ To measure pipeline output quality, you run your golden query set through the fu
 
 To learn more about retrieval quality evaluation, see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#the-evaluation-ladder" target="_blank">evaluation ladder</a>.
 
-**Prerequisites.** A Qdrant collection with your corpus indexed, a labeled golden set (see [Building a Golden Query Set](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)), LLM access for both generation and judging, and Python with `ragas` installed.
+**Prerequisites.** A Qdrant collection with your corpus indexed and chunk text stored under a `text` payload field, a labeled golden set that also carries the raw question text and (optionally) a ground-truth answer per entry (see [Building a Golden Query Set](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)), LLM access for both generation and judging, and Python with `ragas` installed.
 
 ## Wiring the RAG Pipeline
 
@@ -41,6 +41,7 @@ Run the loop and assemble one evaluation sample per query. Each sample carries t
 
 ```python
 from qdrant_client import QdrantClient
+from ragas import SingleTurnSample
 
 client = QdrantClient("http://localhost:6333")  # or QdrantClient(url="https://<id>.cloud.qdrant.io", api_key="...") for Qdrant Cloud
 
@@ -54,12 +55,12 @@ def build_eval_set(golden_set: list, collection: str, k: int = 10) -> list:
         ).points
         contexts = [p.payload["text"] for p in results]
         answer = generate_answer(entry["question"], contexts)  # your LLM call
-        samples.append({
-            "question": entry["question"],
-            "contexts": contexts,
-            "answer": answer,
-            "ground_truth": entry.get("ground_truth", ""),
-        })
+        samples.append(SingleTurnSample(
+            user_input=entry["question"],
+            retrieved_contexts=contexts,
+            response=answer,
+            reference=entry.get("ground_truth", ""),
+        ))
     return samples
 ```
 
@@ -71,16 +72,15 @@ def build_eval_set(golden_set: list, collection: str, k: int = 10) -> list:
 
 - **`faithfulness`** checks whether the answer only makes claims supported by the retrieved context. It drops when the generator hallucinates or leaks parametric knowledge.
 - **`answer_relevancy`** checks whether the answer addresses the question. It drops when the generator pads, dodges, or drifts off-topic.
-- **`context_precision`** checks whether the retrieved chunks are relevant to the ground-truth answer and ranked highly. It drops when retrieval surfaces noise that crowds out the useful chunks.
+- **`context_precision`** checks whether the retrieved chunks are relevant to the ground-truth answer and ranked highly. It drops when retrieval surfaces noise that crowds out the useful chunks. `context_precision` compares against the `reference` field, so it only scores queries that carry a ground-truth answer.
 
 Pass the eval samples into `evaluate()` with those three metrics:
 
 ```python
-from datasets import Dataset
-from ragas import evaluate
+from ragas import EvaluationDataset, evaluate
 from ragas.metrics import faithfulness, answer_relevancy, context_precision
 
-dataset = Dataset.from_list(samples)
+dataset = EvaluationDataset(samples=samples)
 scores = evaluate(
     dataset,
     metrics=[faithfulness, answer_relevancy, context_precision],
