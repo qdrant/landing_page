@@ -13,9 +13,9 @@ aliases:
 This tutorial focuses on **pipeline output quality**: whether the full retrieval pipeline produces the right output once retrieved results reach a consumer, most often an LLM generator in a RAG system.
 To measure pipeline output quality, you run your golden set through the full pipeline, capture each `(question, retrieved_context, answer)` triple, and score the triples against judgment metrics like faithfulness, answer relevancy, and context precision.
 
-For orientation on the four layers of retrieval evaluation and where this tutorial fits, see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation).
+This tutorial is part of a four-layer retrieval evaluation framework; see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation) for the full overview.
 
-**Prerequisites.** A Qdrant collection populated with your documents as points (vectors + a `text` payload field for the chunk content), a labeled golden set (see [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)), LLM access for generation and judging, and Python with `ragas` installed. The Wiring section shows the exact entry shape this tutorial expects.
+**Prerequisites.** A Qdrant collection populated with your documents as points (vectors + a `text` payload field for the chunk content), a labeled golden set (see [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)), LLM access for generation and judging, and Python with `ragas` installed.
 
 ## Wiring the RAG Pipeline
 
@@ -57,7 +57,8 @@ Question:
 
 The prompt above is a starting point; tune it for your domain: answer style, refusal behavior, whether outside knowledge is allowed, and output format.
 
-**3. Run retrieval and generation.** For each entry, retrieve the top-k chunks, pass them through the generator, and record a `SingleTurnSample`. `SingleTurnSample` is Ragas's data class for one evaluation record: question, retrieved context, generated answer, and optional reference. The example uses Anthropic, but any LLM provider works (OpenAI, Cohere, a local model). Only the `generate_answer` body changes:
+**3. Run retrieval and generation.** For each entry, retrieve the top-k chunks, pass them through the generator, and record a `SingleTurnSample` (Ragas's data class for one evaluation record: question, retrieved context, generated answer, and optional reference).
+
 
 ```python
 import os
@@ -67,6 +68,8 @@ from qdrant_client import QdrantClient
 from ragas import SingleTurnSample
 
 client = QdrantClient("http://localhost:6333")  # or QdrantClient(url="https://<id>.cloud.qdrant.io", api_key="...") for Qdrant Cloud
+
+# The example uses Anthropic, but any LLM provider works.
 anthropic_client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
 
@@ -109,7 +112,7 @@ def build_eval_set(golden_set: list, collection: str, k: int = 10) -> list:
     return samples
 ```
 
-The result is a list of `SingleTurnSample` objects, one per query. Each sample carries the question, retrieved contexts, generated answer, and optional reference. The list feeds directly into Ragas's `evaluate()` in the next section.
+If an entry's `ground_truth` is empty, Ragas silently skips that sample for metrics that need a reference (like `context_precision`). Populate it only when you'll actually score those metrics.
 
 ## Scoring with Ragas
 
@@ -146,11 +149,15 @@ per_query = scores.to_pandas()  # row-per-query scores
 worst = per_query.nsmallest(10, "faithfulness")
 ```
 
+### Running in CI
+
 If you ship retrieval changes regularly, this evaluation earns its place in CI. Running it on every change against a fixed golden set catches generator regressions from prompt edits, model swaps, or chunking changes before they reach production. The usual pattern: set a target threshold per metric and fail the job when any score drops below.
+
+### Alternatives
 
 **Without a golden set.** `faithfulness` and `answer_relevancy` are reference-free; swap `context_precision` for `LLMContextPrecisionWithoutReference`. You can then score synthetic queries offline or sampled production traffic live, at the cost of no fixed baseline for regression gating.
 
-Ragas isn't the only tool in this space: <a href="https://docs.confident-ai.com/" target="_blank">DeepEval</a> has a pytest-native API that fits the CI story more directly, and teams that want full rubric control often build a small set of custom LLM-as-judge prompts instead.
+Ragas isn't the only tool in this space: <a href="https://docs.confident-ai.com/" target="_blank">DeepEval</a> has a pytest-native API that fits the CI story more directly.
 
 ## Isolating Retrieval vs Generation
 
@@ -167,6 +174,10 @@ Pair `recall@10` from the retrieval evaluation with `faithfulness` from the pipe
 
 This split is the reason to keep retrieval and pipeline-output evaluation separate. Collapsing them into one end-to-end score tells you the pipeline moved, but not which half moved, so the next iteration becomes guesswork.
 
+## Non-RAG Use Cases
+
+Ragas's metrics assume the consumer is an LLM generator. If retrieval feeds something else (a ranker, a recommendation surface, an agent, a search UI), swap the metrics to match: CTR or dwell time for a UI, graded rubrics for a ranker, task-completion rate for an agent. The method stays the same: freeze the consumer, run the golden set through the full pipeline, score the end-to-end output. Only the metric changes.
+
 ## Pitfalls to Watch For
 
 **Judge bias.** LLM judges reward verbose, confident, or well-formatted answers even when the underlying claim is weaker. Calibrate by running a sample of outputs through human raters and comparing; if judge and human scores disagree often, adjust the rubric or swap the judge model.
@@ -175,11 +186,9 @@ This split is the reason to keep retrieval and pipeline-output evaluation separa
 
 **Cost scaling.** LLM-as-judge cost grows with queries times metrics times judge calls per metric, and Ragas makes multiple judge calls per sample. A 500-query golden set with three metrics runs into the thousands of judge-model calls per run. Sample aggressively during iteration and reserve the full sweep for release candidates.
 
-**Non-RAG consumers.** Ragas metrics assume a generator output. If retrieval feeds a ranker, a recommendation surface, or a UI, swap Ragas for metrics that match the consumer: CTR and dwell time for a UI, graded rubrics for a ranker, and task-completion scores for an agent. The method (freeze the consumer, score the end-to-end output against the golden set) stays the same; only the metric changes.
-
 ## Connecting to Business Impact
 
-Once pipeline output quality is on target, the remaining question is whether those offline wins move the KPIs the business responds to. It's the hardest measurement to get right, but a few disciplines make it manageable without a full experimentation platform.
+Once pipeline output quality is on target, the remaining question is whether those offline wins move the KPIs the business responds to. The standard answer is an A/B test: ship the change to a subset of users, compare their KPIs against a control group receiving the old behavior, and isolate the change's effect from unrelated drift. It's the hardest measurement to get right, but a few disciplines make it manageable without a full experimentation platform.
 
 ### Pick KPIs That Match the Product Shape
 
@@ -192,18 +201,14 @@ No single KPI captures "retrieval is working." The right one depends on what ret
 | Agentic | Step count to completion, tool-selection accuracy | Cost per completed task |
 | Recommendations | Engagement rate, diversity-adjusted engagement | Retention, long-term value |
 
-### Pre-Register the Decision Rule
+### Measurement Best Practices
 
-Before running an A/B, write down what counts as a win, what counts as a no-ship, and which guardrails (latency, cost, slice performance, safety) can't regress. This is the highest-leverage habit for avoiding "the KPI is noisy, let's ship anyway" rationalization after results land.
+Three practices make A/B results more credible:
 
-### Calibrate the Offline-Online Transfer Function
-
-Pair offline metric changes with online KPI changes over a few launches. After three or four paired measurements, patterns emerge: the slope (how much offline translates to online), the threshold (below what offline delta online noise dominates), and the lag (how long after launch the KPI moves). Until calibrated, offline wins are unfalsifiable claims.
-
-### Proxy Signals When You Can't A/B
-
-Most teams don't have a proper experimentation platform, or don't have the traffic to power a test quickly. Cheap-to-instrument signals correlate enough with value to catch big regressions and big wins: thumbs up or down on answers, regeneration rate, source-click rate, copy or share actions, and session abandonment. Build these into production telemetry before you need them.
+- **Pre-register the decision rule.** Before the test, write down win criteria, no-ship criteria, and which guardrails (latency, cost, slice performance, safety) must not regress.
+- **Calibrate offline against online.** Track how offline metric changes map to KPI changes over several launches. Three or four paired measurements usually reveal the slope (how much offline translates), the threshold (below which online noise dominates), and the lag (how long the KPI takes to move).
+- **Instrument proxy signals.** When a formal A/B isn't feasible, proxies like thumbs up/down, regeneration rate, source-click rate, copy/share actions, and session abandonment can catch large regressions and wins. Add them to production telemetry before they're needed.
 
 ## Wrapping Up
 
-That completes the four-layer retrieval evaluation stack: ANN precision, retrieval relevance, pipeline output quality, and business impact. Each layer catches a different class of regression, and running them together means retrieval changes can ship with defensible evidence at every stage.
+That completes the four-layer retrieval evaluation stack: ANN precision, retrieval relevance, pipeline output quality, and business impact. Each layer catches a different class of regression.

@@ -13,7 +13,7 @@ aliases:
 This tutorial focuses on **retrieval relevance**: how well retrieved results match real user intent.
 To measure retrieval relevance, you need a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). This tutorial covers both building that dataset and running it through Qdrant to compute relevance metrics.
 
-For orientation on the four layers of retrieval evaluation and where this tutorial fits, see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation).
+This tutorial is part of a four-layer retrieval evaluation framework; see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation) for the full overview.
 
 **Prerequisites.** A Qdrant collection populated with your documents as points (vectors + optional payload), an embedding model available to encode queries at evaluation time, and Python with `ranx` installed.
 
@@ -141,7 +141,11 @@ metrics = evaluate(qrels, run, ["recall@10", "mrr", "ndcg@10"])
 {"recall@10": 0.82, "mrr": 0.71, "ndcg@10": 0.76}
 ```
 
-Higher is better on all three. Which metric matters most depends on what your pipeline does with results:
+Higher is better on all three.
+
+### Choosing the Right Metric
+
+Which metric matters most depends on what your pipeline does with results:
 
 | Scenario | Recommended Metric | Why |
 |---|---|---|
@@ -152,6 +156,8 @@ Higher is better on all three. Which metric matters most depends on what your pi
 [NDCG (Normalized Discounted Cumulative Gain)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) needs graded labels (for example, 0/1/2 scores per query-document pair). For binary labels, stick with `recall@k` and [`MRR` (Mean Reciprocal Rank)](https://en.wikipedia.org/wiki/Mean_reciprocal_rank). For the full metric list (Precision@k, MAP, ERR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
 
 On choosing `k`: set it to match actual usage. If the application shows 5 results to the user, measure `@5`. If a RAG pipeline passes 10 chunks to the LLM, measure `@10`. Reporting `@100` for a UI that surfaces 5 results makes the metric look artificially good.
+
+### Re-running in CI
 
 Re-run whenever the retrieval stack changes: new embedding model (which also requires re-embedding queries and re-indexing), new index config, or new reranker. In CI, compute `recall@10` against a fixed golden set and fail the job when the score drops below your target threshold.
 

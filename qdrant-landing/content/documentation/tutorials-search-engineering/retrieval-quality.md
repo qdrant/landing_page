@@ -18,14 +18,14 @@ To measure ANN precision, you compare Qdrant's approximate top-k against the exa
 
 ## The Four Layers of Retrieval Evaluation
 
-Retrieval quality operates at four layers. Each catches different failure modes at a different cadence and cost. This tutorial covers layer 1.
+This tutorial is part of a four-layer retrieval evaluation framework.
 
 - **Layer 1: ANN precision** (this tutorial). How closely approximate nearest-neighbor search matches exact kNN. Run on every index or embedding change.
 - **Layer 2: Retrieval relevance** ([Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)). How well the results match query intent against a labeled dataset. Run weekly, or on retrieval-stack changes.
 - **Layer 3: Pipeline output quality** ([Evaluating Pipeline Output Quality](/documentation/tutorials-search-engineering/retrieval-quality-pipeline-output/)). Whether the full pipeline (retrieval plus an LLM generator, a ranker, or a UI) produces the right output. Run weekly, or on retrieval or generator changes.
 - **Layer 4: Business impact**. Whether better retrieval moves the KPIs the business cares about. Measured per release once the offline layers pass.
 
-Retrieval quality sits on top of embedding quality. Embedding quality is measured separately by benchmarks like [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and sets the ceiling on every downstream metric.
+Retrieval quality sits on top of embedding quality, measured separately by benchmarks like [MTEB](https://huggingface.co/spaces/mteb/leaderboard), which sets the ceiling on every downstream metric.
 
 ## Measure ANN Precision with the Web UI
 
@@ -41,7 +41,7 @@ HNSW is a hierarchical graph where each node has a set of links to other nodes. 
 
 For the full list of HNSW parameters, including on-disk storage and precision/memory trade-offs, see [Optimize Performance](/documentation/ops-optimization/optimize/).
 
-Toggle **advanced mode** in the Search Quality tab to tune these parameters inline. Raise `m` to 32 and `ef_construct` to 200, then run the evaluation again.
+Toggle **advanced mode** in the Search Quality tab to tune these parameters inline. To see the effect, try raising `m` and `ef_construct` (for example, to 32 and 200), then run the evaluation again.
 
 ![Search Quality advanced mode with HNSW parameters](/documentation/tutorials/retrieval-quality/search-quality-advanced.png)
 
@@ -49,7 +49,7 @@ Precision should increase at the cost of higher build time and memory.
 
 ![Search Quality results after HNSW tuning](/documentation/tutorials/retrieval-quality/search-quality-after-tuning.png)
 
-Tune until you hit the point that matches your quality and cost targets.
+Tune until the balance between precision and cost matches your targets.
 
 ## Automate in CI with Python
 
@@ -93,6 +93,4 @@ Wire it into CI and fail the job when precision falls below your target threshol
 
 ## Next Steps
 
-Measuring ANN precision keeps HNSW tuning honest. The Search Quality tab gives you a quick interactive read; the Python helper plugs into CI to catch regressions after embedding model changes or index config updates.
-
-Once ANN precision is on target, the next layer is whether the retrieved results are relevant to users. See [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/).
+Once ANN precision is on target, continue with [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/) to check how well those results match user intent.
