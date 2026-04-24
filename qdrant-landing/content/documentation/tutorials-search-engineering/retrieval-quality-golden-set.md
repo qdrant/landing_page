@@ -62,12 +62,13 @@ Document:
 
 The evaluation runs in three steps: load the labeled queries into the shape ranx expects, run each through Qdrant, then compute metrics.
 
-**1. Load and assemble.** For each labeled query, build an entry with `query_id`, `query_vector` (embedded with the same model your Qdrant collection uses), and `labels`:
+**1. Load and assemble.** For each labeled query, build an entry with `query_id`, `query_text`, `query_vector` (embedded with the same model your Qdrant collection uses), and `labels`:
 
 ```python
 {
     "query_id": "q1",
-    "query_vector": [0.12, -0.48, 0.33, ...],  # embedding of the query text
+    "query_text": "how does X work",
+    "query_vector": [0.12, -0.48, 0.33, ...],  # embedding of query_text
     "labels": {"doc_42": 1},  # source doc for synthetic queries, relevant docs otherwise
 }
 ```
@@ -91,6 +92,7 @@ golden_set = []
 for i, item in enumerate(labeled_data):
     golden_set.append({
         "query_id": f"q{i}",
+        "query_text": item["query_text"],
         "query_vector": embed(item["query_text"]),
         "labels": item["labels"],
     })
