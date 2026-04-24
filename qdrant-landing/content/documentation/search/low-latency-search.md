@@ -66,5 +66,5 @@ To mitigate "blinking" points, an alternative to using `indexed_only` is to set 
 Refer to [Prevent Reads from Large Unindexed Segments](/documentation/ops-optimization/optimizer/#prevent-reads-from-large-unindexed-segments) for more details on how this works.
 
 <aside role="status">
-Do not use <code>prevent_unoptimized</code> in combination with <code>wait=true</code> on write requests without understanding the implications. See <a href="/documentation/ops-optimization/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
+Set the <code>wait</code> parameter to <code>false</code> on write requests when <code>prevent_unoptimized</code> is enabled. See <a href="/documentation/ops-optimization/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
 </aside>
