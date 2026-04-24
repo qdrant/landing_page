@@ -15,7 +15,7 @@ To measure pipeline output quality, you run your golden query set through the fu
 
 For orientation on the four layers of retrieval evaluation and where this tutorial fits, see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation).
 
-**Prerequisites.** A Qdrant collection with your corpus indexed (chunk text in a `text` payload field), a labeled golden set (see [Building a Golden Query Set](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)), LLM access for generation and judging, and Python with `ragas` installed. The Wiring section shows the exact entry shape this tutorial expects.
+**Prerequisites.** A Qdrant collection with your corpus indexed (chunk text in a `text` payload field), a labeled golden set (see [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)), LLM access for generation and judging, and Python with `ragas` installed. The Wiring section shows the exact entry shape this tutorial expects.
 
 ## Wiring the RAG Pipeline
 

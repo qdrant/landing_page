@@ -19,7 +19,7 @@ To measure ANN precision, you compare Qdrant's approximate top-k against the exa
 Retrieval quality operates at four layers. Each catches different failure modes at a different cadence and cost. This tutorial covers layer 1.
 
 - **Layer 1: ANN precision** (this tutorial). How closely approximate nearest-neighbor search matches exact kNN. Run on every index or embedding change.
-- **Layer 2: Retrieval relevance** ([Building a Golden Query Set](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)). How well the results match query intent against a labeled dataset. Run weekly, or on retrieval-stack changes.
+- **Layer 2: Retrieval relevance** ([Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)). How well the results match query intent against a labeled dataset. Run weekly, or on retrieval-stack changes.
 - **Layer 3: Pipeline output quality** ([Evaluating Pipeline Output Quality](/documentation/tutorials-search-engineering/retrieval-quality-pipeline-output/)). Whether the full pipeline (retrieval plus an LLM generator, a ranker, or a UI) produces the right output. Run weekly, or on retrieval or generator changes.
 - **Layer 4: Business impact**. Whether better retrieval moves the KPIs the business cares about. Measured per release once the offline layers pass.
 
@@ -93,4 +93,4 @@ Wire it into CI and fail the job when precision falls below your target threshol
 
 Measuring ANN precision keeps HNSW tuning honest. The Search Quality tab gives you a quick interactive read; the Python helper plugs into CI to catch regressions after embedding model changes or index config updates.
 
-Once ANN precision is on target, the next layer is whether the retrieved results are relevant to users. See [Building a Golden Query Set](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/).
+Once ANN precision is on target, the next layer is whether the retrieved results are relevant to users. See [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/).

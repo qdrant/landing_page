@@ -1,11 +1,11 @@
 ---
-title: Building a Golden Query Set
+title: Measuring Retrieval Relevance
 weight: 6
 aliases:
   - /documentation/tutorials/retrieval-quality-golden-set/
 ---
 
-# Building a Golden Query Set
+# Measuring Retrieval Relevance
 
 | Time: 40 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
