@@ -134,7 +134,7 @@ menuItems:
         url: /partners/
       - id: 3
         name: Careers
-        url: https://qdrant.join.com/
+        url: https://qdrant.to/jobs
       - id: 4
         name: Contact Us
         url: /contact-us/

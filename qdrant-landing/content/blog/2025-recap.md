@@ -130,7 +130,7 @@ The progress in 2025 was shaped by real feedback and real use cases from the com
 • **Advanced Agent Retrieval**: relevance feedback, expanded inference capabilities  
 • **Robust Enterprise Deployment**: fully scalable multitenancy, faster horizontal scaling, read-only replicas
 
-If you’re building the next generation of intelligent applications, or the infrastructure that supports them, Qdrant is ready. [Explore open roles](https://join.com/companies/qdrant) on our team or [start a free instance on Qdrant Cloud](https://cloud.qdrant.io/login) today. 
+If you’re building the next generation of intelligent applications, or the infrastructure that supports them, Qdrant is ready. [Explore open roles](https://qdrant.to/jobs) on our team or [start a free instance on Qdrant Cloud](https://cloud.qdrant.io/login) today. 
 
 ![team](/blog/2025-recap/2025-team.png)
 
