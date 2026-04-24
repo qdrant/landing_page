@@ -24,8 +24,51 @@
     z-index: 1;
 
     &-icon {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
       width: $spacer * 5.5;
       height: $spacer * 5.5;
+      border-radius: $spacer * 0.5;
+      background: linear-gradient($neutral-20, #0e1424);
+      overflow: hidden;
+      
+      img {
+        width: $spacer * 3;
+        height: $spacer * 3;
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease-in-out;
+      }
+      
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: $spacer * 4.5;
+        height: $spacer * 4.5;
+        background-image: url('/img/blurred/blurred-light-28.svg');
+        background-position: top;
+        background-size: cover;
+        transition: all 0.3s ease-in-out;
+      }
+      
+      &:hover {
+        img {
+          width: $spacer * 3.5;
+          height: $spacer * 3.5;
+        }
+        
+        &:before {
+          width: $spacer * 5;
+          height: $spacer * 5;
+          background-image: url('/img/blurred/blurred-light-29.svg');
+        }
+      }
     }
 
     &-title {
@@ -40,11 +83,6 @@
       line-height: pxToRem(21);
       margin-bottom: 0;
       color: $neutral-70;
-    }
-  }
-  a.use-cases-vector-integrations__card:hover {
-    .use-cases-vector-integrations__card-title {
-      text-decoration: underline;
     }
   }
 

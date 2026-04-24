@@ -57,8 +57,8 @@
 
       &-title {
         margin-bottom: $spacer * 0.5;
-        font-size: pxToRem(18);
-        line-height: pxToRem(27);
+        font-size: $font-size-md;
+        line-height: $spacer * 1.5;
         color: $neutral-20;
       }
 

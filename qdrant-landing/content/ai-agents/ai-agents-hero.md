@@ -8,7 +8,8 @@ learnMore:
   text: Learn More
   url: "#ai-agents"
 image:
-  src: /img/vectors/vector-4.svg
+  src: /img/home/horizontal-slider/qdrant-use-caseai-agents.png
+  webp: /img/home/horizontal-slider/qdrant-use-caseai-agents.webp
   alt: AI agents chat
 sitemapExclude: true
 ---

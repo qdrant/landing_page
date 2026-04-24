@@ -1,0 +1,7 @@
+@use '../helpers/functions' as *;
+
+.ai-agents-integrations {
+  @include media-breakpoint-up(lg) {
+    padding-bottom: pxToRem(324);
+  }
+}
