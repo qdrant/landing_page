@@ -1,0 +1,1 @@
+This code snippet sets `search_max_oversampling` on the strict mode configuration to cap the maximum oversampling factor allowed in search parameters.

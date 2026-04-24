@@ -1,0 +1,1 @@
+This code snippet sets `search_allow_exact` to false on the strict mode configuration to prevent exact (brute-force) search, which can be very slow on large collections.

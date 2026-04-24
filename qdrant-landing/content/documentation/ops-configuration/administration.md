@@ -122,7 +122,31 @@ Setting `max_timeout` caps the maximum value in seconds for the `timeout` parame
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-timeout/" >}}
 
-### Maximum Size of a Filtering Condition
+### Disable exact search
+
+Exact search bypasses the HNSW index and performs a brute-force scan, which can be very slow on large collections.
+
+Setting `search_allow_exact` to false prevents clients from requesting exact search.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/search-allow-exact/" >}}
+
+### Maximum HNSW ef parameter
+
+A high HNSW `ef` value increases recall but also increases search latency.
+
+Setting `search_max_hnsw_ef` caps the maximum `ef` value allowed in search parameters.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/search-max-hnsw-ef/" >}}
+
+### Maximum search oversampling
+
+A high oversampling factor increases the number of candidates evaluated during search, which can significantly increase latency.
+
+Setting `search_max_oversampling` caps the maximum oversampling factor allowed in search parameters.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/search-max-oversampling/" >}}
+
+### Maximum size of a filtering condition
 
 Large filtering conditions are expensive to evaluate.
 
@@ -148,7 +172,15 @@ Setting `upsert_max_batchsize` caps the maximum size in bytes of a batch during 
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/upsert-max-batchsize/" >}}
 
-### Maximum Collection Storage Size
+### Maximum batch size when searching
+
+Sending very large search batches can create internal congestion.
+
+Setting `search_max_batchsize` caps the maximum number of searches in a single batch request.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/search-max-batchsize/" >}}
+
+### Maximum collection storage size
 
 It is possible to set the maximum size of a collection in terms of vectors and/or payload storage size.
 
@@ -156,7 +188,15 @@ Setting `max_collection_vector_size_bytes` and/or `max_collection_payload_size_b
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-collection-storage-size-bytes/" >}}
 
-### Maximum Points Count
+### Maximum resident memory usage
+
+When a node is under memory pressure, new write operations can destabilize the cluster.
+
+Setting `max_resident_memory_percent` rejects memory-consuming write operations (such as upsert and set payload) when process resident memory exceeds the given percentage of total system memory. Delete operations are not affected. Accepts values in the range 1–100.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-resident-memory-percent/" >}}
+
+### Maximum points count
 
 Setting `max_points_count` caps the maximum number of points for a collection.
 
@@ -171,3 +211,19 @@ Setting `read_rate_limit` and/or `write_rate_limit` to cap the maximum number of
 When exceeding the maximum number of operations, the client will receive an HTTP 429 error code with a suggested delay before retrying.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/rate-limiting/" >}}
+
+### Maximum vectors per multivector
+
+A multivector with many vectors per point is expensive to store and query.
+
+Setting `multivector_config` caps the maximum number of vectors per multivector for each named vector.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/multivector-config/" >}}
+
+### Maximum sparse vector length
+
+Long sparse vectors increase memory usage and slow down filtering.
+
+Setting `sparse_config` caps the maximum length of sparse vectors for each named vector.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/sparse-config/" >}}
