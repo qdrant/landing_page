@@ -140,14 +140,16 @@ To mitigate this, Qdrant supports a `prevent_unoptimized` mode. When enabled, po
 {{< code-snippet path="/documentation/headless/snippets/update-collection/prevent-unoptimized/" >}}
 
 <aside role="status">
-Do not use <code>prevent_unoptimized</code> in combination with <code>wait=true</code> on write requests without understanding the implications. See <a href="#effect-on-waittrue">Effect on <code>wait=true</code></a>.
+Set the <code>wait</code> parameter to <code>false</code> on write requests when <code>prevent_unoptimized</code> is enabled. See <a href="/documentation/ops-optimization/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
 </aside>
 
 With `prevent_unoptimized` enabled, setting `indexed_only` to `true` is not necessary. They are mutually exclusive.
 
 ### Effect on `wait=true`
 
-Write requests support a [`wait` parameter](/documentation/manage-data/points/#awaiting-result) that, when set to `true`, causes the request to return only after the update has been applied and is visible for search. With `prevent_unoptimized` enabled, setting `wait=true` is not recommended without understanding the implications.
+Write requests support a [`wait` parameter](/documentation/manage-data/points/#awaiting-result) that, when set to `true`, causes the request to return only after the update has been applied and is visible for search. If `prevent_unoptimized` is enabled, `wait` should be set to `false` to avoid potential timeouts and delays.
+
+This is particularly important for the Python, TypeScript/JavaScript, .NET, and Java clients, that set `wait` to `true` by default. The Go and Rust clients already default to `false`, so no change is needed when using those clients.
 
 Qdrant processes updates in strict order: each update is written to the write-ahead log and then applied sequentially by the update worker, preserving this order.
 
