@@ -13,7 +13,7 @@ aliases:
 This tutorial focuses on **retrieval relevance**: how well retrieved results match real user intent.
 To measure retrieval relevance, you need a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). This tutorial covers both building that dataset and running it through Qdrant to compute relevance metrics.
 
-To learn more about retrieval quality evaluation, see the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#the-evaluation-ladder" target="_blank">evaluation ladder</a>.
+For orientation on the four layers of retrieval evaluation and where this tutorial fits, see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation).
 
 **Prerequisites.** A Qdrant collection with your corpus indexed, an embedding model available to encode queries at evaluation time, and Python with `ranx` installed.
 
@@ -136,7 +136,17 @@ metrics = evaluate(qrels, run, ["recall@10", "mrr", "ndcg@10"])
 {"recall@10": 0.82, "mrr": 0.71, "ndcg@10": 0.76}
 ```
 
-Higher is better on all three. See the <a href="/documentation/tutorials-search-engineering/retrieval-quality-fundamentals/#choosing-the-right-metric" target="_blank">metric-selection table</a> to pick which matter for your use case. [NDCG (Normalized Discounted Cumulative Gain)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) specifically needs graded labels; for binary labels, stick with `recall@k` and `MRR`. For the full metric list (Precision@k, MAP, ERR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
+Higher is better on all three. Which metric matters most depends on what your pipeline does with results:
+
+| Scenario | Recommended Metric | Why |
+|---|---|---|
+| RAG pipeline (LLM reads top-k chunks) | `Recall@k` | The LLM can recover if a relevant doc is at position 3 vs 1; missing it entirely hurts more |
+| Single-answer retrieval (FAQ or Q&A) | `MRR` or `Hits@1` | The first result is what the user acts on; lower ranks matter little |
+| Re-ranking or recommendation feeds | `NDCG@k` | Order within the result list matters; a highly relevant doc at rank 5 is worse than at rank 1 |
+
+[NDCG (Normalized Discounted Cumulative Gain)](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) needs graded labels (for example, 0/1/2 scores per query-document pair). For binary labels, stick with `recall@k` and `MRR`. For the full metric list (Precision@k, MAP, ERR, and others), see the <a href="https://amenra.github.io/ranx/" target="_blank">ranx docs</a>.
+
+On choosing `k`: set it to match actual usage. If the application shows 5 results to the user, measure `@5`. If a RAG pipeline passes 10 chunks to the LLM, measure `@10`. Reporting `@100` for a UI that surfaces 5 results makes the metric look artificially good.
 
 Re-run whenever the retrieval stack changes: new embedding model (which also requires re-embedding queries and re-indexing), new index config, or new reranker. In CI, compute `recall@10` against a fixed golden set and fail the job when the score drops below your target threshold.
 
