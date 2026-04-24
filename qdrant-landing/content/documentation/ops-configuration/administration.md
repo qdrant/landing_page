@@ -213,7 +213,7 @@ When exceeding the maximum number of operations, the client will receive an HTTP
 
 ### Maximum Vectors per Multivector
 
-A multivector with many vectors per point is expensive to store and query.
+A multivector with many vectors per point is expensive to store, index and query.
 
 Setting `multivector_config` caps the maximum number of vectors per multivector for each named vector.
 
