@@ -14,6 +14,8 @@ weight: 5
 This tutorial focuses on **ANN precision**: how closely approximate nearest-neighbor (ANN) search matches exact kNN search.
 To measure ANN precision, you compare Qdrant's approximate top-k against the exact kNN top-k using `precision@k`, then tune HNSW parameters to trade memory and build time for higher precision.
 
+**Prerequisites.** A Qdrant collection with your corpus indexed. For the CI section, Python with `qdrant-client` installed.
+
 ## The Four Layers of Retrieval Evaluation
 
 Retrieval quality operates at four layers. Each catches different failure modes at a different cadence and cost. This tutorial covers layer 1.
@@ -89,7 +91,7 @@ def avg_precision_at_k(
 
 Wire it into CI and fail the job when precision falls below your target threshold. This catches regressions from embedding model swaps or index config changes before they reach production.
 
-## Wrapping Up
+## Next Steps
 
 Measuring ANN precision keeps HNSW tuning honest. The Search Quality tab gives you a quick interactive read; the Python helper plugs into CI to catch regressions after embedding model changes or index config updates.
 
