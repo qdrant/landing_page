@@ -10,7 +10,7 @@ logos:
     alt: Vultr logo
 link:
   text: Contact Us About Sponsoring
-  url: /contact-us/
+  url: mailto:vectorspaceday@qdrant.com
 sitemapExclude: true
 ---
 
