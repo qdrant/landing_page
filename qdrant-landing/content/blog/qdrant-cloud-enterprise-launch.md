@@ -30,7 +30,7 @@ GPU Indexing is available today in Qdrant Cloud on AWS clusters.
 
 GPU indexing is a cluster-level capability. When you create or scale a cluster to a GPU-enabled package, every node in your cluster gets a dedicated GPU. Customers can add GPUs to existing clusters for high-volume indexing. This requires at least 16 GiB RAM per node and uses the NVIDIA T4 (shown below).
 
-![gpu-accelerated-indexing][/blog/qdrant-cloud-enterprise-launch/gpu-accelerated-indexing.png]
+![gpu-accelerated-indexing](/blog/qdrant-cloud-enterprise-launch/gpu-accelerated-indexing.png)
 
 ## Multi-Availability-Zone (Multi-AZ) Replication
 
@@ -38,7 +38,7 @@ For teams needing vector search with stronger guarantees on availability, and hi
 
 Multi-AZ ensure that if one availability zone goes down, the cluster remains operational. Activate this feature by checking the Multi-AZ Deployment checkbox when creating a cluster (shown below). Note: This can not be changed later.
 
-![multi-az][/blog/qdrant-cloud-enterprise-launch/multi-az.png]
+![multi-az](/blog/qdrant-cloud-enterprise-launch/multi-az.png)
 
 ### SLA Comparison
 
@@ -60,7 +60,7 @@ Audit Logging is available on all Paid clusters. Additionally, users must use an
 
 You can activate audit logs for your cluster in the cluster configuration tab of the cluster details page (see below). 
 
-![audit-logging][/blog/qdrant-cloud-enterprise-launch/audit-logging.png]
+![audit-logging](/blog/qdrant-cloud-enterprise-launch/audit-logging.png)
 
 ## All three capabilities are available now.
 
