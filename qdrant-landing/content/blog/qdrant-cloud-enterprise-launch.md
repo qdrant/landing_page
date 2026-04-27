@@ -16,8 +16,6 @@ tags:
 - qdrant cloud
 ---
 
-![Qdrant Cloud Features](/blog/qdrant-cloud-enterprise-launch/enterprise-launch-hero.png)
-
 # Now Available on Qdrant Cloud: GPU Indexing, Multi-AZ, and Audit Logging
 
 We’re excited to announce some Qdrand Cloud upgrades to address AI workloads that write continuously, must meet higher uptime SLAs, and require audit logging. 
