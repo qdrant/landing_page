@@ -49,5 +49,5 @@ Qdrant is shaped by engineers running it under real pressure, and we want to tha
 
 Models get the attention, but retrieval is what makes them useful in production. We believe retrieval will become core infrastructure for AI, not a feature bolted onto something else. And we're building Qdrant to be the engine that lasts.
 
-If you're building with Qdrant or contributing back: thank you. And if you want to work on fundamental infrastructure for AI, [we're hiring](https://join.com/companies/qdrant).
+If you're building with Qdrant or contributing back: thank you. And if you want to work on fundamental infrastructure for AI, [we're hiring](https://qdrant.to/jobs).
 
