@@ -76,21 +76,25 @@
           </div>
         </div>
       </div>
-      <div class="industries-hero__mobile-buttons">
-        <a href="{{ .Params.containedButton.url }}" class="button button_contained button_sm" target="_blank">
-          {{ .Params.containedButton.text }}
-        </a>
-        <a href="{{ .Params.outlinedButton.url }}" class="button button_outlined button_sm">
-          {{ .Params.outlinedButton.text }}
-        </a>
+      <div class="col-12">
+        <div class="industries-hero__mobile-buttons">
+          <a href="{{ .Params.containedButton.url }}" class="button button_contained button_sm" target="_blank">
+            {{ .Params.containedButton.text }}
+          </a>
+          <a href="{{ .Params.outlinedButton.url }}" class="button button_outlined button_sm">
+            {{ .Params.outlinedButton.text }}
+          </a>
+        </div>
       </div>
-      <div class="industries-hero__badges col-12">
-        {{ range .Params.badges }}
-          <div class="industries-hero__badges-item">
-            <img src="{{ .icon.src }}" alt="{{ .icon.alt }}">
-            <span>{{ .title }}</span>
-          </div>
-        {{ end }}
+      <div class="col-12">
+        <div class="industries-hero__badges">
+          {{ range .Params.badges }}
+            <div class="industries-hero__badges-item">
+              <img src="{{ .icon.src }}" alt="{{ .icon.alt }}">
+              <span>{{ .title }}</span>
+            </div>
+          {{ end }}
+        </div>
       </div>
     </div>
   </div>
