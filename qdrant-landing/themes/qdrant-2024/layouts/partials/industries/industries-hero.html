@@ -9,7 +9,7 @@
         <h1 class="industries-hero__title">{{ .Params.title }}</h1>
         <p class="industries-hero__description">{{ .Params.description }}</p>
         <div class="industries-hero__buttons">
-          <a href="{{ .Params.containedButton.url }}" class="button button_contained button_lg" target="_blank">
+          <a href="{{ .Params.containedButton.url }}" class="button button_contained button_lg">
             {{ .Params.containedButton.text }}
           </a>
           <a href="{{ .Params.outlinedButton.url }}" class="button button_outlined button_lg">
@@ -95,110 +95,3 @@
     </div>
   </div>
 </section>
-<script>
-  (function () {
-    const initTabs = (root) => {
-      const tabsWrap = root.querySelector(".industries-hero__tabs");
-      if (!tabsWrap) return;
-      const [btnCode, btnSteps] = tabsWrap.querySelectorAll("button");
-      const codeBlock = root.querySelector(".industries-hero__code");
-      const stepsBlock = root.querySelector(".industries-hero__steps");
-      if (!btnCode || !btnSteps || !codeBlock || !stepsBlock) return;
-      
-      const setActive = (view) => {
-        const isCode = view === "code";
-        codeBlock.hidden = !isCode;
-        stepsBlock.hidden = isCode;
-        btnCode.classList.toggle("active", isCode);
-        btnSteps.classList.toggle("active", !isCode);
-        btnCode.type = "button";
-        btnSteps.type = "button";
-        btnCode.setAttribute("aria-selected", String(isCode));
-        btnSteps.setAttribute("aria-selected", String(!isCode));
-      };
-      
-      btnCode.addEventListener("click", () => setActive("code"));
-      btnSteps.addEventListener("click", () => setActive("steps"));
-      setActive("code");
-    };
-    
-    const initCodeExpandCollapse = (root) => {
-      const code = root.querySelector(".industries-hero__code");
-      if (!code) return;
-
-      const content = code.querySelector(".industries-hero__code-content");
-      const btnExpand = code.querySelector(".industries-hero__code-expand");
-      const btnCollapse = code.querySelector(".industries-hero__code-collapse");
-      if (!content || !btnExpand || !btnCollapse) return;
-
-      const collapsedHeightPx = parseFloat(getComputedStyle(content).height);
-
-      btnExpand.type = "button";
-      btnCollapse.type = "button";
-
-      const expand = () => {
-        code.classList.add("is-expanded");
-
-        const startHeight = content.getBoundingClientRect().height;
-        content.style.height = `${startHeight}px`;
-        content.offsetHeight;
-
-        const targetHeight = content.scrollHeight;
-        content.style.height = `${targetHeight}px`;
-
-        const onEnd = (e) => {
-          if (e.propertyName !== "height") return;
-          content.style.height = "auto";
-          content.removeEventListener("transitionend", onEnd);
-        };
-        content.addEventListener("transitionend", onEnd);
-      };
-
-      const collapse = () => {
-        code.classList.remove("is-expanded");
-
-        const startHeight = content.getBoundingClientRect().height;
-
-        content.style.height = `${startHeight}px`;
-        content.offsetHeight;
-        content.style.height = `${collapsedHeightPx}px`;
-      };
-
-      btnExpand.addEventListener("click", expand);
-      btnCollapse.addEventListener("click", collapse);
-    };
-
-    const initCopyCode = (root) => {
-      const codeWrap = root.querySelector(".industries-hero__code");
-      if (!codeWrap) return;
-
-      const btnCopy = codeWrap.querySelector(".industries-hero__code-copy");
-      const btnDone = codeWrap.querySelector(".industries-hero__code-done");
-      const codeEl = codeWrap.querySelector(".highlight code");
-
-      if (!btnCopy || !btnDone || !codeEl) return;
-
-      btnCopy.type = "button";
-      btnDone.type = "button";
-
-      btnCopy.addEventListener("click", async () => {
-        const text = codeEl.textContent || "";
-        try {
-          await navigator.clipboard.writeText(text);
-          btnCopy.style.display = "none";
-          btnDone.style.display = "flex";
-          setTimeout(() => {
-            btnDone.style.display = "none";
-            btnCopy.style.display = "flex";
-          }, 1200);
-        } catch (e) {
-          console.error(e);
-        }
-      });
-    };
-    
-    initTabs(document);
-    initCodeExpandCollapse(document);
-    initCopyCode(document);
-  })();
-</script>

@@ -13,10 +13,10 @@ sections:
     description: Power job search, candidate matching, and recommendation systems for scaled talent platforms.
     containedButton: 
       text: Talk to an Expert
-      url: "#"
+      url: /contact-us/
     outlinedButton:
       text: Read the Docs
-      url: "#"
+      url: /documentation/
     language: Python
     code: |
       result = client.query_points(
@@ -155,7 +155,7 @@ sections:
     description: Our solutions engineers do technical deep-dives with HR tech teams weekly.
     contactUs:
       text: Book a Session
-      url:
+      url: /contact-us/
 
   #bento-cards-section
   - type: bento-cards
@@ -327,7 +327,7 @@ sections:
       src: /img/hr-tech/pariti-light-small.svg
       alt: Pariti logo
     link: 
-      href: "#"
+      href: /blog/case-study-pariti/?q=Pariti
       text: Read the Full Case Study
 
   #faq-section
@@ -339,22 +339,22 @@ sections:
         answer: Keyword search requires candidates to guess the exact terms employers use. A job seeker searching "development" gets "business development" results mixed in with software engineering roles. Vector search converts job descriptions, resumes, and queries into embeddings that capture meaning, so "Senior Software Engineer," "Staff Dev," and "Lead SWE" all surface as semantically similar. Qdrant combines this semantic matching with strict payload filters (location, salary range, work authorization) in a single query, so results are both relevant and compliant with hard hiring constraints.
       - id: 1
         question: Can Qdrant Handle Millions of Job or Candidate Vectors Without Performance Degradation?
-        answer: 
+        answer: Yes. Qdrant is built in Rust with a custom HNSW implementation and storage engine designed for high-throughput, concurrent read/write workloads. Recruiting platforms commonly maintain millions of vectors (candidates and jobs combined) with heavy daily update loads. Scalar and binary quantization compress vectors 4 to 32x in memory, which helps keep infrastructure costs predictable as you scale. Filters are applied during HNSW graph traversal, not after, so compound queries on location, salary, category, and experience level avoid the recall degradation and latency spikes that other architectures can produce.
       - id: 2
         question: Is Qdrant Compliant with HIPAA, GDPR, and Data Residency Requirements for HR Data?
-        answer:
+        answer: "Qdrant Cloud is SOC 2 Type 2 certified and supports HIPAA-compliant deployments with a Business Associate Agreement (BAA) for healthcare recruiting platforms. For teams with GDPR or data residency requirements, Qdrant offers Hybrid Cloud deployment: your data stays on your own AWS, GCP, or Azure infrastructure while Qdrant manages the control plane. On-premises and fully air-gapped deployments are also available for organizations that require complete data sovereignty."
       - id: 3
         question: How Does Qdrant Compare to Elasticsearch or OpenSearch for Recruiting Search?
-        answer:
+        answer: "Elasticsearch and OpenSearch were designed for full-text keyword search and log analytics, not semantic vector retrieval. Teams that bolt vector search onto these systems often report filter performance degradation, over-provisioned clusters to handle burst traffic, and complex operational overhead. Qdrant is purpose-built for vector workloads: filters execute during graph traversal (not as a post-processing step), hybrid search combines dense semantic vectors with sparse BM25 keyword vectors in a single query, and the Rust-based engine provides consistent low-latency performance without the memory overhead of JVM-based systems. Some HR tech teams that evaluate Qdrant are replacing an existing search stack, not building from scratch."
       - id: 4
         question: Does Qdrant Support Geospatial Search for Location-Based Job Matching?
-        answer:
+        answer: Yes. Qdrant has native geospatial filtering that lets you run radius queries and bounding-box filters alongside vector search in the same request. For job boards operating across multiple countries or regions, this means you can combine semantic job matching with location constraints without maintaining a separate geospatial index. This is a common reason teams explore alternatives to solutions where geospatial and vector search are difficult to combine without custom engineering.
       - id: 5
         question: Can Qdrant Support Multi-Language Job Search for International Job Boards?
-        answer:
+        answer: Qdrant is embedding-model agnostic, which means it supports any multi-language embedding model your team selects (such as multilingual-e5, Cohere multilingual, or OpenAI embeddings). For teams that want to simplify their pipeline, Qdrant Cloud Inference handles embedding directly within Qdrant, so you can send raw text (job descriptions, resumes, queries in any language) and skip managing a separate inference service. Job boards expanding from a single market to multiple countries can store all language variants in the same collection and query across them with consistent performance. Combined with regional deployment options and geospatial filtering, this lets you scale from one market to dozens without re-architecting your search infrastructure.
       - id: 6
         question: What Latency Can I Expect from Qdrant for Real-Time Candidate or Job Search?
-        answer:
+        answer: "Qdrant helps teams meet aggressive latency goals on collections with billions of vectors, including filtered queries. This matters for recruiting platforms because search latency directly affects candidate experience: slow search times lead to measurable user abandonment. Qdrant maintains performance during concurrent ingestion (daily job or candidate updates) and search traffic, helping avoid the latency spikes that commonly occur during peak hours or batch update windows."
           
   #cta-banner-section
   - type: cta-banner
@@ -362,7 +362,7 @@ sections:
     description: Get guidance on scaling search, matching, and recommendations beyond 20M vectors.
     button:
       text: Talk to an Expert
-      url: "#"
+      url: /contact-us/
     
 build:
   render: always

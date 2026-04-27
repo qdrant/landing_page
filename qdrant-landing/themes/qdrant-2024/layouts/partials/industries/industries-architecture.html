@@ -66,38 +66,3 @@
     </div>
   </div>
 </section>
-<script>
-  (function () {
-    const initCopyCode = (root) => {
-      root.querySelectorAll(".industries-architecture__code").forEach((codeWrap) => {
-        const btnCopy = codeWrap.querySelector(".industries-architecture__code-copy");
-        const btnDone = codeWrap.querySelector(".industries-architecture__code-done");
-        const codeEl = codeWrap.querySelector(".highlight code");
-
-        if (!btnCopy || !btnDone || !codeEl) return;
-
-        btnCopy.type = "button";
-        btnDone.type = "button";
-
-        btnCopy.addEventListener("click", async () => {
-          const text = codeEl.textContent || "";
-
-          try {
-            await navigator.clipboard.writeText(text);
-            btnCopy.style.display = "none";
-            btnDone.style.display = "block";
-
-            setTimeout(() => {
-              btnDone.style.display = "none";
-              btnCopy.style.display = "block";
-            }, 1200);
-          } catch (e) {
-            console.error(e);
-          }
-        });
-      });
-    };
-
-    initCopyCode(document);
-  })();
-</script>

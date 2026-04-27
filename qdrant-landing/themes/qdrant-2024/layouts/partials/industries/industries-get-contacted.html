@@ -5,7 +5,7 @@
         <h3 class="industries-get-contacted__title">{{ .Params.title }}</h3>
         <p class="industries-get-contacted__description">{{ .Params.description }}</p>
       </div>
-      <a href="{{ .context.Params.contactUs.url }}" class="{{ .class }}__button button button_contained">
+      <a href="{{ .Params.contactUs.url }}" class="{{ .class }}__button button button_contained">
         {{ .Params.contactUs.text | safeHTML }}
       </a>
     </div>
