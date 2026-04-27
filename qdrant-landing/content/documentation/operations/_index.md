@@ -4,7 +4,7 @@ type: delimiter
 weight: 100
 partition: deploy
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 ---

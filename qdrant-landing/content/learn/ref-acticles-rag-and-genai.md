@@ -4,7 +4,7 @@ type: reference
 reference: /articles/rag-and-genai
 weight: 150
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: learn

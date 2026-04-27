@@ -4,7 +4,7 @@ type: reference
 reference: /articles/machine-learning
 weight: 140
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: learn
