@@ -11,7 +11,7 @@ featured: true
 tags:
 - gpu indexing
 - multi-az
-- audit logging
+- audit logging 
 - enterprise
 - qdrant cloud
 ---
