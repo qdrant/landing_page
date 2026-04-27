@@ -20,10 +20,10 @@ To measure ANN precision, you compare Qdrant's approximate top-k against the exa
 
 This tutorial is part of a four-layer retrieval evaluation framework.
 
-- **Layer 1: ANN precision** (this tutorial). How closely approximate nearest-neighbor search matches exact kNN. Run on every index or embedding change.
-- **Layer 2: Retrieval relevance** ([Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)). How well the results match query intent against a labeled dataset. Run weekly, or on retrieval-stack changes.
-- **Layer 3: Pipeline output quality** ([Evaluating Pipeline Output Quality](/documentation/tutorials-search-engineering/retrieval-quality-pipeline-output/)). Whether the full pipeline (retrieval plus an LLM generator, a ranker, or a UI) produces the right output. Run weekly, or on retrieval or generator changes.
-- **Layer 4: Business impact**. Whether better retrieval moves the KPIs the business cares about. Measured per release once the offline layers pass.
+- **Layer 1: ANN precision** (this tutorial). How closely approximate nearest-neighbor search matches exact kNN.
+- **Layer 2: Retrieval relevance** ([Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)). How well the results match query intent against a labeled dataset.
+- **Layer 3: Pipeline output quality** ([Evaluating Pipeline Output Quality](/documentation/tutorials-search-engineering/retrieval-quality-pipeline-output/)). Whether the full pipeline (retrieval plus an LLM generator, a ranker, or a UI) produces the right output.
+- **Layer 4: Business impact**. Whether better retrieval moves the KPIs the business cares about.
 
 Retrieval quality sits on top of embedding quality, measured separately by benchmarks like [MTEB](https://huggingface.co/spaces/mteb/leaderboard), which sets the ceiling on every downstream metric.
 
