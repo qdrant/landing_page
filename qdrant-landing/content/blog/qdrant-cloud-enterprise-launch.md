@@ -7,7 +7,7 @@ preview_image: /blog/qdrant-cloud-enterprise-launch/enterprise-launch-hero.png
 social_preview_image: /blog/qdrant-cloud-enterprise-launch/enterprise-launch-hero.png
 date: 2025-04-28T00:00:00Z
 author: Daniel Azoulai
-featured: true
+featured: false
 tags:
 - gpu indexing
 - multi-az
