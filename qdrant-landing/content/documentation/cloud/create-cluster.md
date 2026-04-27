@@ -1,6 +1,6 @@
 ---
 title: Create a Cluster
-weight: 20
+weight: 5
 ---
 
 # Creating a Qdrant Cloud Cluster
@@ -20,7 +20,7 @@ A free tier cluster only includes 1 single node with the following resources:
 | Disk space | 4 GB  |
 | Nodes      | 1     |
 
-This configuration supports serving about 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity Planning](/documentation/operations/capacity-planning/).
+This configuration supports serving about 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity Planning](/documentation/capacity-planning/).
 
 The choice of cloud providers and regions is limited.
 
@@ -77,7 +77,7 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 
 1. Choose your data center region or Hybrid Cloud environment. 
 1. Configure RAM for each node. 
-   >  For more information, see our [Capacity Planning](/documentation/operations/capacity-planning/) guidance.
+   >  For more information, see our [Capacity Planning](/documentation/capacity-planning/) guidance.
 1. Choose the number of vCPUs and GPUs per node. If you add more
    RAM, the menu provides different options for vCPUs. For higher RAM configurations, you can also choose to add a GPU to optimize indexing performance (AWS only).
 1. Select the number of nodes you want the cluster to be deployed on.
@@ -116,7 +116,7 @@ We recommend the **Balanced** tier for disks >= 32 GiB, and the **Performance** 
 
 **GPUs (AWS only)**
 
-If you have a write-heavy workload, you can add a GPU to each node to optimize indexing performance. See [**GPUs for Indexing**](/documentation/operations/running-with-gpu/) for more information. All GPU settings will be configured automatically by the cloud platform.
+If you have a write-heavy workload, you can add a GPU to each node to optimize indexing performance. See [**GPUs for Indexing**](/documentation/ops-configuration/running-with-gpu/) for more information. All GPU settings will be configured automatically by the cloud platform.
 
 **Backup and Disaster Recovery**
 
@@ -124,7 +124,7 @@ You should create a backup schedule for your cluster. This ensures that you can 
 
 **Collection Sharding**
 
-To allow your cluster to easily scale horizontally, you should configure at least twice as many shards per collection than the number of nodes in your cluster. You can configure the number of shards when creating a collection. See [**Sharding**](/documentation/operations/distributed_deployment/#sharding) for more information.
+To allow your cluster to easily scale horizontally, you should configure at least twice as many shards per collection than the number of nodes in your cluster. You can configure the number of shards when creating a collection. See [**Sharding**](/documentation/distributed_deployment/#sharding) for more information.
 
 If you did not configure enough shards in a collection, you can use the [**Resharding**](/documentation/cloud/cluster-scaling/#resharding) feature to change the number of shards in an existing collection.
 

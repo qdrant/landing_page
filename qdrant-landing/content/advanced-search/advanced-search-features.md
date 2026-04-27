@@ -33,8 +33,8 @@ features:
   icon:
     src: /icons/outline/filter-blue.svg
     alt: Filter
-  title: Single Stage filtering That Works
-  description: Qdrant enhances search speeds and control and context understanding through filtering on any nested entry in our payload. Unique architecture allows Qdrant to avoid expensive pre-filtering and post-filtering stages, making search faster and accurate.
+  title: Pre-Filtering that Works
+  description: Qdrant enhances search speeds and control and context understanding through pre-filtering on any nested entry in our payload. This filter works first – making your search faster and combines with our hybrid search and multi-modal search seamlessly.
   link:
     text: Learn More
     url: /articles/filterable-hnsw/

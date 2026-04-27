@@ -57,7 +57,7 @@ Beyond coding, Anima uses Qdrant to understand documents at scale. By working wi
 
 Several factors made Qdrant a strong fit for healthcare workloads.
 
-[Deployment flexibility](https://qdrant.tech/documentation/operations/installation/) was non-negotiable. Anima requires data to remain at rest in the UK, allowing them to make strong guarantees to customers about compliance and residency. Qdrant’s self-hosted and region-controlled deployment options enabled this without compromising performance.
+[Deployment flexibility](https://qdrant.tech/documentation/installation/) was non-negotiable. Anima requires data to remain at rest in the UK, allowing them to make strong guarantees to customers about compliance and residency. Qdrant’s self-hosted and region-controlled deployment options enabled this without compromising performance.
 
 Cost predictability also played a critical role. With a fixed infrastructure cost for vector search, Anima could use retrieval across multiple passes in their pipelines. This unlocked higher-quality results without eroding margins.
 

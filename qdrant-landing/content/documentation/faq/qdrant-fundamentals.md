@@ -18,7 +18,7 @@ In dense vectors, Qdrant supports up to 65,535 dimensions.
 
 ### What is the maximum size of vector metadata that can be stored?
 
-There is no inherent limitation on metadata size, but it should be [optimized for performance and resource usage](/documentation/operations/optimize/). Users can set upper limits in the configuration.
+There is no inherent limitation on metadata size, but it should be [optimized for performance and resource usage](/documentation/ops-optimization/optimize/). Users can set upper limits in the configuration.
 
 ### Can the same similarity search query yield different results on different machines?
 

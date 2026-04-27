@@ -9,7 +9,7 @@ aliases:
 
 ## Scale Horizontally with Replicas
 
-Qdrant can be deployed in a [distributed configuration](/documentation/operations/distributed_deployment/). In distributed mode, multiple instances of Qdrant, called peers, operate as a single entity, called a cluster. Data is stored in [collections](/documentation/manage-data/collections/), which are divided into [shards](/documentation/operations/distributed_deployment/#sharding) that are distributed across the peers. Each shard can have multiple [replicas](/documentation/operations/distributed_deployment/#replication) for redundancy and load balancing. Because every replica of the same shard contains the same data, read requests can be distributed across replicas, reducing latency and increasing throughput.
+Qdrant can be deployed in a [distributed configuration](/documentation/distributed_deployment/). In distributed mode, multiple instances of Qdrant, called peers, operate as a single entity, called a cluster. Data is stored in [collections](/documentation/manage-data/collections/), which are divided into [shards](/documentation/distributed_deployment/#sharding) that are distributed across the peers. Each shard can have multiple [replicas](/documentation/distributed_deployment/#replication) for redundancy and load balancing. Because every replica of the same shard contains the same data, read requests can be distributed across replicas, reducing latency and increasing throughput.
 
 For example, a collection with three shards and a replication factor of two would have six total replicas (two replicas for each of the three shards). On a cluster with three peers, these replicas can be evenly distributed across the peers, with each peer hosting two replicas.
 
@@ -36,8 +36,6 @@ An alternative approach to fanning out reads is to always read from multiple rep
 
 ## Query Indexed Data Only
 
-*Available as of v1.17.0*
-
 Shards store their data in [segments](/documentation/manage-data/storage/). Write operations go through several stages before the changes are fully indexed and searchable:
 
 1. First, each incoming write request is written to the shard's write-ahead log (WAL). At this stage, the data is not yet searchable, but the write request is persisted and will eventually be applied.
@@ -47,10 +45,26 @@ Shards store their data in [segments](/documentation/manage-data/storage/). Writ
 
 Search latency can vary depending on where the data is in this process. Querying large amounts of unindexed data can lead to increased latency. This can occur under heavy write load, for example, during nightly batch updates or when processing a large backlog of updates after a period of downtime.
 
-If your application requires a consistently low search latency, set the [search parameter](/documentation/search/search/#search-api) `indexed_only` to `true`. With this setting enabled, search operations will only consider indexed data, ensuring more consistent and lower response times. The tradeoff is that the most recent data might not be included in search results until it has been indexed.
+If your application requires a consistently low search latency, Qdrant offers two mechanisms to avoid searching unindexed data. You can either use the `indexed_only` query parameter, or enable the `prevent_unoptimized` optimizer setting. Choose one of these methods; there's no need to use both.
 
-Enabling `indexed_only` can cause recently updated data to temporarily disappear from search results until it is indexed again. To mitigate this, set the `prevent_unoptimized` optimizer setting to `true` when [creating or updating a collection](/documentation/manage-data/collections/#update-collection-parameters), or globally in the [configuration file](/documentation/operations/optimizer/). It prevents creating segments with a large amount of unindexed data for searches. Instead, once a segment reaches the so called `indexing_threshold`, all additional points will be added in 'deferred state'. Deferred points are not yet visible in reads but are still handled in writes. Deferred points will be promoted to visible points once the segment is optimized.
+### `indexed_only` Search Parameter
 
-In practice this behavior is good for three things. It prevents high search latencies because the search space on unoptimized data remains small. It prevents throttling update processing on large update queues. And it prevents creating a lot of small segments which would be expensive to optimize. A trade-off is eventual consistency, meaning updates might not be immediately visible. It can be mitigated by opting out on a per-update basis by setting `wait=true`. Or you might completely disable the feature by setting `indexed_only=false` and `prevent_unoptimized=false`.
+*Available as of v1.7.0*
+
+To restrict searches to indexed data and small segments below the indexing threshold, set the `indexed_only` [search parameter](/documentation/search/search/#search-api) to `true`. This ensures more consistent and lower response times. However, the tradeoff is that the most recent data might not be included in search results until it has been indexed.
+
+A side-effect of using `indexed_only` is that it can cause "blinking" points in search results. When an unoptimized segment is below the indexing threshold, all its points are visible in `indexed_only` searches. But once inserts push the segment over the threshold, all its points temporarily disappear from search results until the segment has been indexed. Updates can also cause blinking points, since Qdrant implements them as a delete followed by an insert. To mitigate "blinking" points, use `prevent_unoptimized` instead, as described in the next section.
+
+### `prevent_unoptimized` Optimizer Setting
+
+*Available as of v1.17.1*
 
 <aside role="alert"><code>prevent_unoptimized</code> is an experimental feature; its behavior may change slightly in future releases and it must be used with care.</aside>
+
+To mitigate "blinking" points, an alternative to using `indexed_only` is to set the `prevent_unoptimized` optimizer setting to `true`. This prevents the creation of large segments with unindexed data. Instead, once a segment reaches the `indexing_threshold`, all additional points will be added in a "deferred" state. Deferred points are not yet visible in reads but are handled in write operations. Deferred points are promoted to visible points once the segment has been optimized.
+
+Refer to [Prevent Reads from Large Unindexed Segments](/documentation/ops-optimization/optimizer/#prevent-reads-from-large-unindexed-segments) for more details on how this works.
+
+<aside role="status">
+Set the <code>wait</code> parameter to <code>false</code> on write requests when <code>prevent_unoptimized</code> is enabled. See <a href="/documentation/ops-optimization/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
+</aside>

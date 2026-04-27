@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/vsd/vsd-faq") }}
+  <section class="vsd-faq" id="faqs">
+    <div class="container">
+      <h2 class="vsd-faq__title">{{ .Params.title }}</h2>
+      {{ partial "accordion" . }}
+    </div>
+  </section>
+{{ end }}

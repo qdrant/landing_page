@@ -28,7 +28,7 @@ tags:
 
 Historically, our API key supported basic read and write operations. However, recognizing the evolving needs of our user base, especially large organizations, we've implemented additional options for finer control over data access within internal environments.
 
-Qdrant now supports [granular access control using JSON Web Tokens (JWT)](/documentation/operations/security/#granular-access-control-with-jwt). JWT will let you easily limit a user's access to the specific data they are permitted to view. Specifically, JWT-based authentication leverages tokens with restricted access to designated data segments, laying the foundation for implementing role-based access control (RBAC) on top of it. **You will be able to define permissions for users and restrict access to sensitive endpoints.**
+Qdrant now supports [granular access control using JSON Web Tokens (JWT)](/documentation/security/#granular-access-control-with-jwt). JWT will let you easily limit a user's access to the specific data they are permitted to view. Specifically, JWT-based authentication leverages tokens with restricted access to designated data segments, laying the foundation for implementing role-based access control (RBAC) on top of it. **You will be able to define permissions for users and restrict access to sensitive endpoints.**
 
 **Dashboard users:** For your convenience, we have added a JWT generation tool the Qdrant Web UI under the 🔑 tab. If you're using the default url, you will find it at `http://localhost:6333/dashboard#/jwt`.
 
@@ -36,11 +36,11 @@ Qdrant now supports [granular access control using JSON Web Tokens (JWT)](/docum
 
 We highly recommend this feature to enterprises using [Qdrant Hybrid Cloud](/hybrid-cloud/), as it is tailored to those who need additional control over company data and user access. RBAC empowers administrators to define roles and assign specific privileges to users based on their roles within the organization. In combination with [Hybrid Cloud's data sovereign architecture](/documentation/hybrid-cloud/), this feature reinforces internal security and efficient collaboration by granting access only to relevant resources.
 
-> **Documentation:** [Read the access level breakdown](/documentation/operations/security/#table-of-access) to see which actions are allowed or denied.
+> **Documentation:** [Read the access level breakdown](/documentation/security/#table-of-access) to see which actions are allowed or denied.
 
 ## Faster shard transfers on node recovery
 
-We now offer a streamlined approach to [data synchronization between shards](/documentation/operations/distributed_deployment/#shard-transfer-method) during node upgrades or recovery processes. Traditional methods used to transfer the entire dataset, but our new `wal_delta` method focuses solely on transmitting the difference between two existing shards. By leveraging the Write-Ahead Log (WAL) of both shards, this method selectively transmits missed operations to the target shard, ensuring data consistency. 
+We now offer a streamlined approach to [data synchronization between shards](/documentation/distributed_deployment/#shard-transfer-method) during node upgrades or recovery processes. Traditional methods used to transfer the entire dataset, but our new `wal_delta` method focuses solely on transmitting the difference between two existing shards. By leveraging the Write-Ahead Log (WAL) of both shards, this method selectively transmits missed operations to the target shard, ensuring data consistency. 
 
 In some cases, where transfers can take hours, this update **reduces transfers down to a few minutes.**
 
@@ -48,7 +48,7 @@ The advantages of this approach are twofold:
 1. **It is faster** since only the differential data is transmitted, avoiding the transfer of redundant information. 
 2. It upholds robust **ordering guarantees**, crucial for applications reliant on strict sequencing. 
 
-For more details on how this works, check out the [shard transfer documentation](/documentation/operations/distributed_deployment/#shard-transfer-method).
+For more details on how this works, check out the [shard transfer documentation](/documentation/distributed_deployment/#shard-transfer-method).
 
 > **Note:** There are limitations to consider. First, this method only works with existing shards. Second, while the WALs typically retain recent operations, their capacity is finite, potentially impeding the transfer process if exceeded. Nevertheless, for scenarios like rapid node restarts or upgrades, where the WAL content remains manageable, WAL delta transfer is an efficient solution.
 

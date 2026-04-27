@@ -1,7 +1,7 @@
 ---
 title: Cloud Quickstart
-weight: 4
-partition: cloud
+weight: 115
+partition: develop
 aliases:
   - ../cloud-quick-start
   - cloud-quick-start
@@ -22,7 +22,7 @@ Learn how to set up Qdrant Cloud and perform your first semantic search in just 
 2. Under **Create a Free Cluster**, enter a cluster name and select your preferred cloud provider and region. Click **Create Free Cluster**.
 3. Copy your **API key** when prompted - you'll need it to connect. Store it somewhere safe as it won't be displayed again.
 
-For detailed cluster setup instructions, see the [Cloud documentation](/documentation/cloud-intro/).
+For detailed cluster setup instructions, see the [Cloud documentation](/documentation/deploy-intro/).
 
 ## 2. Install the Qdrant Client
 

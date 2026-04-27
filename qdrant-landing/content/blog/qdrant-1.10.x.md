@@ -669,7 +669,7 @@ documentation, making it easier to navigate and find the information you need.
 
 ## S3 Snapshot Storage
 
-Qdrant **Collections**, **Shards** and **Storage** can be backed up with [Snapshots](/documentation/operations/snapshots/) and saved in case of data loss or other data transfer purposes. These snapshots can be quite large and the resources required to maintain them can result in higher costs. AWS S3 and other S3-compatible implementations like [min.io](https://min.io/) is a great low-cost alternative that can hold snapshots without incurring high costs. It is globally reliable, scalable and resistant to data loss.
+Qdrant **Collections**, **Shards** and **Storage** can be backed up with [Snapshots](/documentation/snapshots/) and saved in case of data loss or other data transfer purposes. These snapshots can be quite large and the resources required to maintain them can result in higher costs. AWS S3 and other S3-compatible implementations like [min.io](https://min.io/) is a great low-cost alternative that can hold snapshots without incurring high costs. It is globally reliable, scalable and resistant to data loss.
 
 You can configure S3 storage settings in the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), specifically with `snapshots_storage`.
 
@@ -697,7 +697,7 @@ storage:
       secret_key: your_secret_key_here
 ```
 
-*Read more about [S3 snapshot storage](/documentation/operations/snapshots/#s3) and [configuration](/documentation/operations/configuration/).*
+*Read more about [S3 snapshot storage](/documentation/snapshots/#s3) and [configuration](/documentation/ops-configuration/configuration/).*
 
 This integration allows for a more convenient distribution of snapshots. Users of **any S3-compatible object storage** can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
 

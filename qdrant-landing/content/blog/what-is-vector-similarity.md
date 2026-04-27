@@ -145,7 +145,7 @@ The vector index in Qdrant employs the Hierarchical Navigable Small World (HNSW)
 
 ### Scalability
 
-For massive datasets and demanding workloads, Qdrant supports [distributed deployment](/documentation/operations/distributed_deployment/) from v0.8.0. In this mode, you can set up a Qdrant cluster and distribute data across multiple nodes, enabling you to maintain high performance and availability even under increased workloads. Clusters support sharding and replication, and harness the Raft consensus algorithm to manage node coordination.
+For massive datasets and demanding workloads, Qdrant supports [distributed deployment](/documentation/distributed_deployment/) from v0.8.0. In this mode, you can set up a Qdrant cluster and distribute data across multiple nodes, enabling you to maintain high performance and availability even under increased workloads. Clusters support sharding and replication, and harness the Raft consensus algorithm to manage node coordination.
 
 Qdrant also supports vector [quantization](/documentation/manage-data/quantization/) to reduce memory footprint and speed up vector similarity searches, making it very effective for large-scale applications where efficient resource management is critical.
 
@@ -153,7 +153,7 @@ There are three quantization strategies you can choose from - scalar quantizatio
 
 ### Security
 
-Qdrant offers several [security features](/documentation/operations/security/) to help protect data and access to the vector store:
+Qdrant offers several [security features](/documentation/security/) to help protect data and access to the vector store:
 
 - API Key Authentication: This helps secure API access to Qdrant Cloud with static or read-only API keys.
 - JWT-Based Access Control: You can also enable more granular access control through JSON Web Tokens (JWT), and opt for restricted access to specific parts of the stored data while building Role-Based Access Control (RBAC).

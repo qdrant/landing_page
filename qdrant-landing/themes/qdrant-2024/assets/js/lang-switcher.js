@@ -1,4 +1,14 @@
 (function () {
+  const STORAGE_KEY = 'preferred-lang';
+
+  function saveLanguage(lang) {
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
+  }
+
+  function loadLanguage() {
+    try { return localStorage.getItem(STORAGE_KEY); } catch (_) { return null; }
+  }
+
   /**
    * @class LangSwitcher
    * create tabs with buttons to switching
@@ -51,6 +61,10 @@
       this.#setActiveButton(lang);
     }
 
+    hasLang(lang) {
+      return this.tabs.some(t => t.querySelector(`code.language-${lang}`) !== null);
+    }
+
     setTabs(tabs) {
       tabs[0].active = true;
       this.tabs = tabs;
@@ -89,21 +103,39 @@
     }
   }
 
+  const allSwitchers = [];
+
   /**
    * init switcher for each group of tabs
    */
   tabsGroups.forEach((g, i) => {
     const langSwitcher = new LangSwitcher(g);
     langSwitcher.initLangButtons();
+    allSwitchers.push(langSwitcher);
 
     const tabBtns = langSwitcher.getLangButtons();
     if (tabBtns) {
-      langSwitcher.getLangButtons().addEventListener('click', (e) => {
+      tabBtns.addEventListener('click', (e) => {
         const button = e.target.closest('.lang-tabs__button');
         if (button && button.dataset.lang) {
-          langSwitcher.switchLanguage(button.dataset.lang);
+          const lang = button.dataset.lang;
+          langSwitcher.switchLanguage(lang);
+          saveLanguage(lang);
+          allSwitchers.forEach(s => {
+            if (s !== langSwitcher && s.hasLang(lang)) {
+              s.switchLanguage(lang);
+            }
+          });
         }
       });
     }
   });
+
+  // Apply stored language preference on page load
+  const saved = loadLanguage();
+  if (saved) {
+    allSwitchers.forEach(s => {
+      if (s.hasLang(saved)) s.switchLanguage(saved);
+    });
+  }
 }).call(this);

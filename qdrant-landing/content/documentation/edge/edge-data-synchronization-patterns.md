@@ -1,7 +1,7 @@
 ---
 title: "Data Synchronization Patterns" 
 weight: 20
-partition: qdrant
+partition: develop
 ---
 
 # Data Synchronization Patterns

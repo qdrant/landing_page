@@ -1,5 +1,6 @@
 ---
 title: Pulumi
+weight: 5
 aliases:
   - /documentation/infrastructure/pulumi/
 ---

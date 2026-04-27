@@ -1,7 +1,7 @@
 ---
 title: Qdrant Cloud CLI
-weight: 28
-partition: cloud
+weight: 250
+partition: deploy
 ---
 
 # Qdrant Cloud CLI

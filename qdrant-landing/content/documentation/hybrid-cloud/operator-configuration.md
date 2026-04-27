@@ -1,6 +1,6 @@
 ---
 title: Configure the Qdrant Operator 
-weight: 4
+weight: 20
 ---
 
 # Configuring Qdrant Operator: Advanced Options

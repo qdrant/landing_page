@@ -1,6 +1,6 @@
 ---
 title: Cluster Access
-weight: 35
+weight: 15
 ---
 
 # Accessing Qdrant Cloud Clusters
