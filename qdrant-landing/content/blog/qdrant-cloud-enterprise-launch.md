@@ -58,7 +58,7 @@ This is helpful for agentic workloads; when an autonomous system acts on retriev
 
 ### Additional Details 
 
-Audit Logging is available on all Paid clusters. Additionally, users must use an endpoint to retrieve and build their own integrations. And since logs are written to disk, customers may need to consider larger disks.
+Audit Logging is available on all Paid clusters. Logs are written to the cluster node's storage disks persistently and are rotated automatically. There is an endpoint to retrieve these logs to integrate them into SIEM solutions.
 
 You can activate audit logs for your cluster in the cluster configuration tab of the cluster details page (see below). 
 
