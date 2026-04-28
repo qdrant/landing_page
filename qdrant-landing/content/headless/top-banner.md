@@ -13,7 +13,7 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
 text: "Join 300+ AI builders in San Francisco on June 11 at Vector Space Day"
 link:
   text: Learn more
-  url: https://qdrant.tech/blog/vector-space-day-sf-2026/
+  url: https://qdrant.tech/vector-space-day-sf-26/
 start: 2026-04-20T11:50:00.000Z
 sitemapExclude: true
 end: 2026-05-09T14:00:00.000Z
