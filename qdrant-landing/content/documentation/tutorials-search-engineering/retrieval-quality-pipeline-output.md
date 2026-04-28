@@ -186,29 +186,6 @@ Ragas's metrics assume the consumer is an LLM generator. If retrieval feeds some
 
 **Cost scaling.** LLM-as-judge cost grows with queries times metrics times judge calls per metric, and Ragas makes multiple judge calls per sample. A 500-query golden set with three metrics runs into the thousands of judge-model calls per run. Sample aggressively during iteration and reserve the full sweep for release candidates.
 
-## Connecting to Business Impact
-
-Once pipeline output quality is on target, the remaining question is whether those offline wins move the KPIs the business responds to. The standard answer is an A/B test: ship the change to a subset of users, compare their KPIs against a control group receiving the old behavior, and isolate the change's effect from unrelated drift. It's the hardest measurement to get right, but a few disciplines make it manageable without a full experimentation platform.
-
-### Pick KPIs That Match the Product Shape
-
-No single KPI captures "retrieval is working." The right one depends on what retrieval is for. Pair one or two leading KPIs (which respond quickly) with a lagging KPI (which takes weeks or months to move).
-
-| Application | Leading KPIs | Lagging KPIs |
-|---|---|---|
-| RAG or Q&A | Regeneration rate, follow-up rate, source-click rate | Retention, NPS |
-| Search UI | CTR@1, abandonment rate, reformulation rate | Retention, repeat usage |
-| Agentic | Step count to completion, tool-selection accuracy | Cost per completed task |
-| Recommendations | Engagement rate, diversity-adjusted engagement | Retention, long-term value |
-
-### Measurement Best Practices
-
-Three practices make A/B results more credible:
-
-- **Pre-register the decision rule.** Before the test, write down win criteria, no-ship criteria, and which guardrails (latency, cost, slice performance, safety) must not regress.
-- **Calibrate offline against online.** Track how offline metric changes map to KPI changes over several launches. Three or four paired measurements usually reveal the slope (how much offline translates), the threshold (below which online noise dominates), and the lag (how long the KPI takes to move).
-- **Instrument proxy signals.** When a formal A/B isn't feasible, proxies like thumbs up/down, regeneration rate, source-click rate, copy/share actions, and session abandonment can catch large regressions and wins. Add them to production telemetry before they're needed.
-
 ## Wrapping Up
 
-That completes the four-layer retrieval evaluation stack: ANN precision, retrieval relevance, pipeline output quality, and business impact. Each layer catches a different class of regression.
+That completes the three retrieval-evaluation layers covered in this series: ANN precision, retrieval relevance, and pipeline output quality. Each catches a different class of regression.
