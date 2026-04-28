@@ -132,6 +132,35 @@ This is particularly useful for indexing millions of vectors as it improves prec
 
 See how to set up Asymmetric Quantization quantization in the [following section](#set-up-asymmetric-quantization)
 
+## TurboQuant Quantization
+
+*Available as of v1.18.0*
+
+TurboQuant is [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/) that applies a fast random rotation to vectors before compressing them. The rotation redistributes data evenly across coordinates, so it works with any vector distribution, not just centered ones. TurboQuant achieves better accuracy than Binary Quantization at the same compression ratio.
+
+Qdrant's implementation of TurboQuant offers a precision enhancement over the original algorithm. For immutable (non-appendable) segments, TurboQuant automatically collects per-segment coordinate statistics and uses them to better calibrate quantization levels to the actual data distribution.
+
+TurboQuant uses asymmetric quantization automatically: only stored vectors are compressed, while queries are scored in full precision. This improves accuracy and requires no additional configuration.
+
+### Encoding Options
+
+TurboQuant supports four bit depths:
+
+| Encoding | Bit Depth | Compression |
+|----------|-----------|-------------|
+| `bits4` (default) | 4 bits | 4× |
+| `bits2` | 2 bits | 16× |
+| `bits1_5` | 1.5 bits | 24× |
+| `bits1` | 1 bit | 32× |
+
+The default encoding is `bits4`, which offers the best accuracy and serves as a drop-in replacement for Scalar Quantization.
+
+### Distance Metric Support
+
+TurboQuant fully supports Cosine, Dot, and Euclidean (L2) distance with SIMD-accelerated scoring.
+
+Manhattan (L1) distance is supported but requires full vector reconstruction per comparison, making it significantly slower than the other metrics. Use Cosine, Dot, or Euclidean distance for best performance with TurboQuant.
+
 ## Product Quantization
 
 *Available as of v1.2.0*
@@ -152,22 +181,26 @@ Please refer to the [Quantization Tips](#quantization-tips) section for more inf
 
 Here is a brief table of the pros and cons of each quantization method:
 
-| Quantization method | Accuracy | Speed        | Compression |
-|---------------------|----------|--------------|-------------|
-| Scalar              | 0.99     | up to x2     | 4           |
-| Product             | 0.7      | 0.5          | up to 64    |
-| Binary (1 bit)      | 0.95*    | up to x40    | 32          |
-| Binary (1.5 bit)    | 0.95**   | up to x30    | 24          |
-| Binary (2 bit)      | 0.95***  | up to x20    | 16          |
+| Quantization Method     | Accuracy | Speed     | Compression |
+|-------------------------|----------|-----------|-------------|
+| TurboQuant (4-bit)      | TODO     | TODO      | 4           |
+| TurboQuant (2-bit)      | TODO     | TODO      | 16          |
+| TurboQuant (1.5-bit)    | TODO     | TODO      | 24          |
+| TurboQuant (1-bit)      | TODO     | TODO      | 32          |
+| Scalar                  | 0.99     | up to ×2  | 4           |
+| Product                 | 0.7      | 0.5       | up to 64    |
+| Binary (1 bit)          | 0.95*    | up to ×40 | 32          |
+| Binary (1.5 bit)        | 0.95**   | up to ×30 | 24          |
+| Binary (2 bit)          | 0.95***  | up to ×20 | 16          |
 
 - `*` - for compatible models with high-dimensional vectors (approx. 1536+ dimensions)
 - `**` - for compatible models with medium-dimensional vectors (approx. 1024-1536 dimensions)
 - `***` - for compatible models with low-dimensional vectors (approx. 768-1024 dimensions)
 
-- **Binary Quantization** is the fastest method and the most memory-efficient, but it requires a centered distribution of vector components. It is recommended to use with tested models only.
-  - If you are planning to use binary quantization with low or medium-dimensional vectors (approx. 512-1024 dimensions), it is recommended to use 1.5-bit or 2-bit quantization as well as asymmetric quantization feature.
-
-- **Scalar Quantization** is the most universal method, as it provides a good balance between accuracy, speed, and compression. It is recommended as default quantization if binary quantization is not applicable.
+- **TurboQuant** is the recommended default quantization method. It achieves better accuracy than Binary Quantization at the same compression ratio and works with any vector distribution. Use `bits4` as a drop-in replacement for Scalar Quantization, or a lower bit depth for higher compression.
+- **Binary Quantization** is a proven method and remains available for existing deployments. TurboQuant is recommended over Binary Quantization for new collections.
+  - For low or medium-dimensional vectors (approx. 512-1024 dimensions), Binary Quantization requires a centered distribution and often needs 1.5-bit or 2-bit encoding with the asymmetric quantization feature.
+- **Scalar Quantization** is a well-established 4× compression method. TurboQuant at `bits4` is the recommended alternative with comparable compression and accuracy.
 - **Product Quantization** may provide a better compression ratio, but it has a significant loss of accuracy and is slower than scalar quantization. It is recommended if the memory footprint is the top priority and the search speed is not critical.
 
 ## Setting up Quantization in Qdrant
@@ -234,6 +267,24 @@ To enable asymmetric quantization, you need to specify `query_encoding` paramete
 - `scalar4bits` - use 4bit quantization for the query.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization-and-query-encoding/" >}}
+
+### Setting up TurboQuant
+
+To enable TurboQuant, specify it in the `quantization_config` section of the collection configuration.
+
+When enabling TurboQuant on an existing collection, use a PATCH request or the corresponding `update_collection` method and omit the vector configuration, as it's already defined.
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-turbo-quant/" >}}
+
+`bits` - the encoding bit depth. Defaults to `bits4`. Available values: `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy.
+
+`always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors. Set `always_ram` to `true` to store quantized vectors in RAM.
+
+#### Select a Bit Depth
+
+To use a specific compression level, set the `bits` parameter:
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-turbo-quant-bits/" >}}
 
 ### Setting up Product Quantization
 
