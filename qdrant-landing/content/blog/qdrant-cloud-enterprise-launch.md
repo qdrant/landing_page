@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: "Now Available on Qdrant Cloud: GPU Indexing, Multi-AZ, and Audit Logging"
 short_description: "Three enterprise capabilities now available in Qdrant Cloud"
 description: "Learn how GPU-accelerated indexing, Multi-AZ replication, and audit logging support enterprise AI workloads in Qdrant Cloud."
@@ -7,7 +7,7 @@ preview_image: /blog/qdrant-cloud-enterprise-launch/enterprise-launch-hero.png
 social_preview_image: /blog/qdrant-cloud-enterprise-launch/enterprise-launch-hero.png
 date: 2026-04-28T00:00:00Z
 author: Daniel Azoulai
-featured: false
+featured: true
 tags:
 - gpu indexing
 - multi-az
