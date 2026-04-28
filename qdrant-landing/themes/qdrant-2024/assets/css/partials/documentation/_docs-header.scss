@@ -176,9 +176,16 @@
       padding: pxToRem(22) $spacer * 1.5;
       border-bottom: pxToRem(1) solid $neutral-20;
 
+      &__item {
+        margin: 0 clamp(#{pxToRem(4)}, 0.8vw, #{$spacer});
+      }
+
       &__buttons {
+        flex-shrink: 1;
+        min-width: 0;
+
         &-input {
-          width: pxToRem(300);
+          width: clamp(#{pxToRem(160)}, 18vw, #{pxToRem(300)});
           height: pxToRem(35);
           margin-right: $spacer * 1.5;
           padding: 0;
