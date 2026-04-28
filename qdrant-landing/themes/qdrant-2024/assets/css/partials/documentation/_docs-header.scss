@@ -170,6 +170,8 @@
 
   @include media-breakpoint-up(xl) {
     .main-menu {
+      display: flex;
+      justify-content: space-between;
       height: $spacer * 5;
       padding: pxToRem(22) $spacer * 1.5;
       border-bottom: pxToRem(1) solid $neutral-20;
