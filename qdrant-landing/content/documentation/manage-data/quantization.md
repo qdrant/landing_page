@@ -24,7 +24,9 @@ The level of this tradeoff depends on the quantization method and its parameters
 
 ## How to Choose the Right Quantization Method
 
-- **[TurboQuant](#turboquant-quantization)** is the recommended default quantization method. It achieves better accuracy than other quantization methods at the same compression ratio and works with any vector distribution. The default four-bit depth strikes a balance between accuracy and compression. Use a lower bit depth for higher compression. 
+- **[TurboQuant](#turboquant-quantization)** is the recommended quantization method. It achieves better accuracy than other quantization methods at the same compression ratio and works with any vector distribution. The default four-bit depth strikes a balance between accuracy and compression. Use a lower bit depth for higher compression.
+
+  TurboQuant performs best with Cosine, Dot, or Euclidean distance. For Manhattan (L1) distance, consider using another quantization method.
 - **[Binary Quantization](#binary-quantization)** is a proven method and remains available for existing deployments. TurboQuant is recommended over Binary Quantization for new collections. If you are planning to use binary quantization with low or medium-dimensional vectors (approx. 512-1024 dimensions), it is recommended to use 1.5-bit or 2-bit quantization as well as asymmetric quantization.
 - **[Scalar Quantization](#scalar-quantization)** is a well-established 4× compression method. TurboQuant at four-bit depth is the recommended alternative with better compression and accuracy.
 - **[Product Quantization](#product-quantization)** may provide a better compression ratio, but it has a significant loss of accuracy and is slower than scalar quantization. It is recommended if the memory footprint is the top priority and the search speed is not critical.
@@ -47,7 +49,9 @@ Here is a brief table of the pros and cons of each quantization method:
 
 *Available as of v1.18.0*
 
-TurboQuant is [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/) that applies a fast random rotation to vectors before compressing them. The rotation redistributes data evenly across coordinates, so it works with any vector distribution. TurboQuant achieves better accuracy than other quantization methods at the same compression ratio.
+TurboQuant is [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). It operates by applying a fast random rotation to vectors before compression, which evenly redistributes data across coordinates. This approach enables TurboQuant to work effectively with any vector distribution, overcoming a key limitation found in binary quantization.
+
+TurboQuant delivers better accuracy and speed than other quantization methods at the same compression ratio, making it the recommended quantization method for new collections in Qdrant.
 
 Qdrant's implementation of TurboQuant offers a precision enhancement over the original algorithm. For immutable (non-appendable) segments, TurboQuant automatically collects per-segment coordinate statistics and uses them to better calibrate quantization levels to the actual data distribution.
 
@@ -59,12 +63,12 @@ TurboQuant supports four bit depths:
 
 | Encoding | Bit Depth | Compression |
 |----------|-----------|-------------|
-| `bits4` (default) | 4 bits | 4× |
+| `bits4` (default) | 4 bits | 8× |
 | `bits2` | 2 bits | 16× |
 | `bits1_5` | 1.5 bits | 24× |
 | `bits1` | 1 bit | 32× |
 
-The default encoding is `bits4`, which offers the best accuracy and serves as a drop-in replacement for Scalar Quantization.
+The default encoding is `bits4`, which offers the best accuracy.
 
 ### Distance Metric Support
 
