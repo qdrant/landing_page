@@ -24,7 +24,7 @@ The level of this tradeoff depends on the quantization method and its parameters
 
 ## How to Choose the Right Quantization Method
 
-- **[TurboQuant](#turboquant-quantization)** is the recommended default quantization method. It achieves better accuracy than other quantization methods at the same compression ratio and works with any vector distribution. The default four-bit depth strikes a balance between accuracy and compression. Use a lower bit depth for higher compression.
+- **[TurboQuant](#turboquant-quantization)** is the recommended default quantization method. It achieves better accuracy than other quantization methods at the same compression ratio and works with any vector distribution. The default four-bit depth strikes a balance between accuracy and compression. Use a lower bit depth for higher compression. 
 - **[Binary Quantization](#binary-quantization)** is a proven method and remains available for existing deployments. TurboQuant is recommended over Binary Quantization for new collections. If you are planning to use binary quantization with low or medium-dimensional vectors (approx. 512-1024 dimensions), it is recommended to use 1.5-bit or 2-bit quantization as well as asymmetric quantization.
 - **[Scalar Quantization](#scalar-quantization)** is a well-established 4× compression method. TurboQuant at four-bit depth is the recommended alternative with better compression and accuracy.
 - **[Product Quantization](#product-quantization)** may provide a better compression ratio, but it has a significant loss of accuracy and is slower than scalar quantization. It is recommended if the memory footprint is the top priority and the search speed is not critical.
@@ -111,9 +111,9 @@ At the moment, binary quantization shows good accuracy results with the followin
 
 Models with a lower dimensionality or a different distribution of vector components may require additional experiments to find the optimal quantization parameters.
 
-We recommend using binary quantization only with rescoring enabled, as it can significantly improve the search quality
-with just a minor performance impact.
-Additionally, oversampling can be used to tune the tradeoff between search speed and search quality in the query time.
+We recommend using binary quantization only with rescoring enabled, as this can significantly improve search quality. However, keep in mind that if the original vectors are stored on disk, rescoring can significantly decrease search speed.
+
+Additionally, oversampling can be used to tune the tradeoff between search speed and search quality at query time.
 
 #### Binary Quantization as Hamming Distance
 
@@ -314,10 +314,7 @@ However, there are a few options that you can use to control the search process:
 
 `ignore` - Toggle whether to ignore quantized vectors during the search process. By default, Qdrant will use quantized vectors if they are available.
 
-`rescore` - Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors.
-This can improve the search quality, but may slightly decrease the search speed, compared to the search without rescore.
-It is recommended to disable rescore only if the original vectors are stored on a slow storage (e.g. HDD or network storage).
-By default, rescore is enabled.
+`rescore` - Qdrant can re-evaluate top-k search results using the original vectors. While this can improve search quality, it may decrease search speed, especially if the original vectors are stored on disk. In such cases, it is recommended to disable rescoring. By default, rescoring is only enabled for binary quantization. Other quantization methods do not rescore by default.
 
 **Available as of v1.3.0**
 
@@ -341,7 +338,7 @@ By setting it to a value lower than 1.0, you can exclude extreme values (outlier
 For example, if you set the quantile to 0.99, 1% of the extreme values will be excluded.
 By adjusting the quantile, you find an optimal value that will provide the best search quality for your collection.
 
-- **Enable rescore**: Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. On large collections, this can improve the search quality, with just minor performance impact.
+- **Enable rescoring**: Qdrant can re-evaluate top-k search results using the original vectors. While this can improve search quality, it may decrease search speed, especially if the original vectors are stored on disk. In such cases, it is recommended to disable rescoring. By default, rescoring is only enabled for binary quantization. Other quantization methods do not rescore by default.
 
 ### Memory and Speed Tuning
 
@@ -353,21 +350,18 @@ There are 3 possible modes to place storage of vectors within the qdrant collect
 
 - **Original on Disk, quantized in RAM** - this is a hybrid mode, allows to obtain a good balance between speed and memory usage. Recommended scenario if you are aiming to shrink the memory footprint while keeping the search speed.
 
-  This mode is enabled by setting `always_ram` to `true` in the quantization config while using memmap storage:
-
+  This mode is enabled by setting `always_ram` to `true` in the quantization config while using memmap storage:\
 {{< code-snippet path="/documentation/headless/snippets/create-collection/scalar-quantization-in-ram/" >}}
 
   In this scenario, the number of disk reads may play a significant role in the search speed.
   In a system with high disk latency, the re-scoring step may become a bottleneck.
 
-  Consider disabling `rescore` to improve the search speed:
-
+  Consider disabling `rescore` to improve the search speed:\
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-disabled-rescoring/" >}}
 
 - **All on Disk** - all vectors, original and quantized, are stored on disk. This mode allows to achieve the smallest memory footprint, but at the cost of the search speed.
 
   It is recommended to use this mode if you have a large collection and fast storage (e.g. SSD or NVMe).
 
-  This mode is enabled by setting `always_ram` to `false` in the quantization config while using mmap storage:
-
+  This mode is enabled by setting `always_ram` to `false` in the quantization config while using mmap storage:\
 {{< code-snippet path="/documentation/headless/snippets/create-collection/quantization-on-disk/" >}}
