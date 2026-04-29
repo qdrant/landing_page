@@ -39,7 +39,7 @@ message in an environment variable, such as
 
 *Available as of v1.18.0*
 
-Low memory mode reduces how much data Qdrant loads into resident memory at startup. On memory-constrained hosts, the normal startup process can exhaust available memory before the node becomes reachable. Low memory mode lets you bring the node up with a reduced memory footprint so you can make configuration changes to reduce memory usage. Revert it once the node is stable.
+Low memory mode reduces memory requirements at startup. On memory-constrained hosts, the normal startup process can exhaust available memory before the node becomes reachable resulting in a crash loop. Low memory mode lets you bring the node up with a reduced memory footprint so you can make configuration changes to reduce memory usage. Revert it once the node is stable.
 
 Three modes are available:
 
