@@ -1,0 +1,13 @@
+<section class="industries-get-contacted">
+  <div class="container">
+    <div class="industries-get-contacted__content col-12">
+      <div>
+        <h3 class="industries-get-contacted__title">{{ .Params.title }}</h3>
+        <p class="industries-get-contacted__description">{{ .Params.description }}</p>
+      </div>
+      <a href="{{ .Params.contactUs.url }}" class="{{ .class }}__button button button_contained">
+        {{ .Params.contactUs.text | safeHTML }}
+      </a>
+    </div>
+  </div>
+</section>

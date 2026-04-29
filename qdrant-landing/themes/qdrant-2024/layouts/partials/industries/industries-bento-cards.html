@@ -1,0 +1,35 @@
+<section class="industries-bento-cards{{ if .Params.subtitle }} industries-bento-cards-with-subtitle{{ end }}">
+  <div class="container">
+    <div class="industries-bento-cards__header">
+      {{ if .Params.subtitle }}
+        <p class="industries-bento-cards__subtitle">{{ .Params.subtitle }}</p>
+      {{ end }}
+      <h3 class="industries-bento-cards__title">{{ .Params.title }}</h3>
+      {{ if .Params.description }}
+        <p class="industries-bento-cards__description">{{ .Params.description }}</p>
+      {{ end }}
+    </div>
+    
+    <div class="row g-4">
+      {{ $mdCol := cond (eq (len .Params.cards) 3) "col-md-4" "col-md-6" }}
+      {{ range .Params.cards }}
+        <div class="col-12 {{ $mdCol }}">
+          <div 
+            class="card industries-bento-cards__card{{ if .chips }} industries-bento-cards__card-with-chips{{ end }}"
+          >
+            <img class="industries-bento-cards__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+            <h6 class="industries-bento-cards__card-title">{{ .title }}</h6>
+            <p class="industries-bento-cards__card-description">{{ .description }}</p>
+            {{ if .chips }}
+              <div class="industries-bento-cards__card-chips">
+                {{ range .chips }}
+                  <a class="industries-bento-cards__card-chips-link" href="{{ .link }}">{{ .title }}</a>
+                {{ end }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</section>

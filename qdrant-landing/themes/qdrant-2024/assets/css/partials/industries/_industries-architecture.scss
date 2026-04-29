@@ -1,0 +1,207 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.industries-architecture {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-10;
+  
+  &__title {
+    margin-bottom: pxToRem(30);
+    color: $neutral-98;
+    font-size: $h4-font-size;
+    line-height: $spacer * 3;
+    text-align: center;
+  }
+  
+  &__description {
+    margin-bottom: pxToRem(30);
+    color: $neutral-70;
+    text-align: center;
+  }
+  
+  &__sections {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(30);
+  }
+  
+  &__checklist {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: $spacer * 0.5;
+    border: pxToRem(1) solid $neutral-30;
+    background-color: $neutral-10;
+
+    &-top {
+      padding: $spacer * 1.5 $spacer * 1.5 $spacer * 2.5;
+    }
+    
+    &-title {
+      margin-bottom: $spacer;
+      font-size: $h5-font-size;
+      line-height: pxToRem(42);
+      color: $neutral-100;
+    }
+    
+    &-description {
+      margin-bottom: 0;
+      color: $neutral-70;
+    }
+    
+    &-link {
+      margin: 0 $spacer * 1.5 $spacer * 1.5;
+    }
+
+    &-bottom {
+      margin-top: auto;
+    }
+    
+    &-step {
+      padding: $spacer $spacer * 1.5;
+      border-top: pxToRem(1) solid $neutral-30;
+
+      &-top {
+        display: flex;
+        gap: $spacer * 0.5;
+        align-items: center;
+
+        img {
+          height: pxToRem(18);
+          width: pxToRem(18);
+        }
+      }
+
+      &-title {
+        margin-bottom: 0;
+        font-size: $font-size-md;
+        line-height: $spacer * 1.5;
+        color: $neutral-100;
+      }
+
+      &-description  {
+        margin-bottom: 0;
+        color: $neutral-70;
+      }
+    }
+  }
+  
+  &__code {
+    height: 100%;
+    padding: pxToRem(3);
+    border-radius: $spacer * 0.5;
+    border: pxToRem(1) solid $neutral-30;
+    background-color: $neutral-10;
+    
+    &-tabs {
+      display: flex;
+      justify-content: space-between;
+      height: $spacer * 2.5;
+      padding: 0 $spacer;
+      
+      &-button {
+        padding: 0 $spacer * 2;
+        border: 0;
+        border-bottom: pxToRem(2) solid $primary-50;
+        font-size: $font-size-s;
+        line-height: $spacer * 2.5;
+        background-color: transparent;
+        color: $neutral-100;
+      }
+    }
+    
+    &-button {
+      height: $spacer * 1.5;
+      width: $spacer * 1.5;
+      padding: math.div($spacer, 4);
+      border: 0;
+      background-color: transparent;
+      
+      img {
+        height: $spacer;
+        width: $spacer;
+      }
+    }
+    
+    &-done {
+      display: none;
+    }
+
+    .highlight {
+      width: 100%;
+      margin-bottom: 0;
+      padding: $spacer * 1.5;
+      border: pxToRem(1) solid $neutral-30;
+      border-radius: $spacer * 0.5;
+      background: linear-gradient($neutral-20, #0e1424);
+
+      pre {
+        display: block;
+        width: 100%;
+        padding: 0;
+        background: transparent;
+        white-space: pre-wrap;
+        overflow-x: hidden;
+      }
+
+      code {
+        display: block;
+        width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+
+        .line {
+          margin-bottom: 0;
+        }
+
+        * {
+          font-size: $font-size-s;
+          line-height: $line-height-sm;
+          color: #C5C8C6;
+        }
+        
+        .c1 {
+          color: #7C7C7C;
+        }
+
+        .s2, .nb {
+          color: #A8FF60;
+        }
+
+        .k {
+          color: #96CBFE;
+        }
+
+        .mi {
+          color: #FF73FD;
+        }
+      }
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+    background-image: url("/img/blurred/blurred-light-29.png");
+    background-position: top pxToRem(-52) left 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    &__title {
+      margin-bottom: $spacer;
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+    }
+
+    &__description {
+      margin-bottom: $spacer * 4;
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+    }
+
+    &__sections {
+      gap: $spacer * 4;
+    }
+  }
+}
