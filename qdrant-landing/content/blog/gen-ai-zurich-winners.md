@@ -1,5 +1,5 @@
 ---
-title: "Sentinel - Gen AI Zürich Hackathon Winner"
+title: "Presenting Sentinel - Gen AI Zürich Hackathon Winner"
 draft: false
 slug: gen-ai-zurich-winners
 short_description: "Meet Sentinel, the AI-powered misinformation detection system that won the Qdrant Challenge at Gen AI Zürich Hackathon. Discover how this solo developer built a real-time fact-checking system using Qdrant Cloud for semantic search."
@@ -25,7 +25,7 @@ Sentinel is an AI-powered early warning system that monitors 20 global news sour
 
 **🥉 3rd Place — Apify Challenge**
 
-**🎯 Top 10 Finalist (out of 93 submissions)**
+**🎯 Top 10 Finalist**
 
 ## How Sentinel Works
 
