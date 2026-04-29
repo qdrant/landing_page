@@ -1,17 +1,17 @@
 ---
-title: Measuring ANN Precision
+title: Measuring ANN Recall
 aliases:
   - /documentation/tutorials/retrieval-quality/
   - /documentation/beginner-tutorials/retrieval-quality/
 weight: 5
 ---
 
-# Measuring ANN Precision
+# Measuring ANN Recall
 
 | Time: 15 min | Level: Beginner |  |    |
 |--------------|---------------------|--|----|
 
-This tutorial focuses on **ANN precision**: how closely approximate nearest-neighbor (ANN) search matches exact kNN search, measured with `precision@k`.
+This tutorial focuses on **ANN recall**: how closely approximate nearest-neighbor (ANN) search matches exact kNN search, measured with `recall@k`.
 
 **Prerequisites.** A Qdrant collection populated with your documents as points (vectors + optional payload).
 
@@ -19,50 +19,50 @@ This tutorial focuses on **ANN precision**: how closely approximate nearest-neig
 
 This tutorial is part of a four-layer retrieval evaluation framework.
 
-- **Layer 1: ANN precision** (this tutorial). How closely approximate nearest-neighbor search matches exact kNN.
+- **Layer 1: ANN recall** (this tutorial). How closely approximate nearest-neighbor search matches exact kNN.
 - **Layer 2: Retrieval relevance** ([Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)). How well the results match query intent against a labeled dataset.
 - **Layer 3: Pipeline output quality** ([Evaluating Pipeline Output Quality](/documentation/tutorials-search-engineering/retrieval-quality-pipeline-output/)). Whether the full pipeline (retrieval plus an LLM generator, a ranker, or a UI) produces the right output.
 - **Layer 4: Business impact**. Whether better retrieval moves the KPIs the business cares about. This layer is application-specific and out of scope for these tutorials.
 
 Retrieval quality sits on top of embedding quality, measured separately by benchmarks like [MTEB](https://huggingface.co/spaces/mteb/leaderboard), which sets the ceiling on every downstream metric.
 
-## Measure ANN Precision with the Web UI
+## Measure ANN Recall with the Web UI
 
 Qdrant's Web UI includes a Search Quality tab that measures the gap between approximate and exact search without writing evaluation code. Open the dashboard at `http://localhost:6333/dashboard` (or your cluster's dashboard on Qdrant Cloud), navigate to your collection, open the Search Quality tab, and click **Check Index Quality** to run the comparison.
 
 ![Search Quality tab with default evaluation results](/documentation/tutorials/retrieval-quality/search-quality-tab.png)
 
-The tab reports average **precision@k** (1.0 = perfect overlap; 0.95+ is typical for well-tuned HNSW).
+The tab reports average **recall@k** (1.0 = perfect overlap; 0.95+ is typical for well-tuned HNSW).
 
-## Tuning Search Precision
+## Tuning Search Recall
 
-Toggle **advanced mode** in the Search Quality tab to tune search-time parameters inline. The main one is `hnsw_ef`: the number of candidates evaluated during a search. Raising it explores more of the graph, improving precision at the cost of higher query latency. To see the effect, raise `hnsw_ef` (for example, to 256) and run the evaluation again.
+Toggle **advanced mode** in the Search Quality tab to tune search-time parameters inline. The main one is `hnsw_ef`: the number of candidates evaluated during a search. Raising it explores more of the graph, improving recall at the cost of higher query latency. To see the effect, raise `hnsw_ef` (for example, to 256) and run the evaluation again.
 
 ![Search Quality advanced mode with HNSW parameters](/documentation/tutorials/retrieval-quality/search-quality-advanced.png)
 
-Precision should increase at the cost of higher query latency.
+Recall should increase at the cost of higher query latency.
 
 ![Search Quality results after HNSW tuning](/documentation/tutorials/retrieval-quality/search-quality-after-tuning.png)
 
-If `hnsw_ef` alone does not get you to your precision target, the build-time parameters `m` and `ef_construct` set the ceiling on how precise approximate search can be. Changing them requires rebuilding the HNSW index. For the trade-offs and how to choose values, see [HNSW Indexing Fundamentals](/course/essentials/day-2/what-is-hnsw/) in the Qdrant Essentials course.
+If `hnsw_ef` alone does not get you to your recall target, the build-time parameters `m` and `ef_construct` set the ceiling on the recall approximate search can achieve. Changing them requires rebuilding the HNSW index. For the trade-offs and how to choose values, see [HNSW Indexing Fundamentals](/course/essentials/day-2/what-is-hnsw/) in the Qdrant Essentials course.
 
 ## Automate in CI with Python
 
-The Web UI is the fastest way to check precision interactively. For continuous integration or scripted regression tests, the Qdrant client exposes the same exact-search mode via `search_params=models.SearchParams(exact=True)`. Compare the ANN and exact top-k sets yourself and compute precision@k.
+The Web UI is the fastest way to check recall interactively. For continuous integration or scripted regression tests, the Qdrant client exposes the same exact-search mode via `search_params=models.SearchParams(exact=True)`. Compare the ANN and exact top-k sets yourself and compute recall@k.
 
-This helper takes a list of query vectors and returns the average precision@k. Use a representative sample of query vectors from your workload (typically 20–50, embedded with the same model your collection uses) as your test set.
+This helper takes a list of query vectors and returns the average recall@k. Use a representative sample of query vectors from your workload (typically 20–50, embedded with the same model your collection uses) as your test set.
 
 ```python
 from qdrant_client import QdrantClient, models
 
 
-def avg_precision_at_k(
+def avg_recall_at_k(
     client: QdrantClient,
     collection_name: str,
     test_vectors: list,
     k: int,
 ) -> float:
-    precisions = []
+    recalls = []
     for vector in test_vectors:
         ann_ids = {
             p.id for p in client.query_points(
@@ -79,13 +79,13 @@ def avg_precision_at_k(
                 search_params=models.SearchParams(exact=True),
             ).points
         }
-        precisions.append(len(ann_ids & knn_ids) / k)
+        recalls.append(len(ann_ids & knn_ids) / k)
 
-    return sum(precisions) / len(precisions)
+    return sum(recalls) / len(recalls)
 ```
 
-Wire it into CI and fail the job when precision falls below your target threshold. This catches regressions from embedding model swaps or index config changes before they reach production.
+Wire it into CI and fail the job when recall falls below your target threshold. This catches regressions from embedding model swaps or index config changes before they reach production.
 
 ## Next Steps
 
-Once ANN precision is on target, continue with [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/) to check how well those results match user intent.
+Once ANN recall is on target, continue with [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/) to check how well those results match user intent.

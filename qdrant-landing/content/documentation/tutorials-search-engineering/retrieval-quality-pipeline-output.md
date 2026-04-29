@@ -13,7 +13,7 @@ aliases:
 This tutorial focuses on **pipeline output quality**: whether the full retrieval pipeline produces the right output once retrieved results reach a consumer, most often an LLM generator in a RAG system.
 To measure pipeline output quality, you run your golden set through the full pipeline, capture each `(question, retrieved_context, answer)` triple, and score the triples against judgment metrics like faithfulness, answer relevancy, and context precision.
 
-This tutorial is part of a four-layer retrieval evaluation framework; see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation) for the full overview.
+This tutorial is part of a four-layer retrieval evaluation framework; see [Measuring ANN Recall](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation) for the full overview.
 
 **Prerequisites.** A Qdrant collection populated with your documents as points (vectors + a `text` payload field for the chunk content), a labeled golden set (see [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)), LLM access for generation and judging, and Python with `ragas` installed.
 
@@ -188,4 +188,4 @@ Ragas's metrics assume the consumer is an LLM generator. If retrieval feeds some
 
 ## Wrapping Up
 
-That completes the three retrieval-evaluation layers covered in this series: ANN precision, retrieval relevance, and pipeline output quality. Each catches a different class of regression.
+That completes the three retrieval-evaluation layers covered in this series: ANN recall, retrieval relevance, and pipeline output quality. Each catches a different class of regression.

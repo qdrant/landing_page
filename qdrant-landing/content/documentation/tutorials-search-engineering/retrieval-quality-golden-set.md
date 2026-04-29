@@ -13,7 +13,7 @@ aliases:
 This tutorial focuses on **retrieval relevance**: how well retrieved results match real user intent.
 To measure retrieval relevance, you need a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). This tutorial covers both building that dataset and running it through Qdrant to compute relevance metrics.
 
-This tutorial is part of a four-layer retrieval evaluation framework; see [Measuring ANN Precision](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation) for the full overview.
+This tutorial is part of a four-layer retrieval evaluation framework; see [Measuring ANN Recall](/documentation/tutorials-search-engineering/retrieval-quality/#the-four-layers-of-retrieval-evaluation) for the full overview.
 
 **Prerequisites.** A Qdrant collection populated with your documents as points (vectors + optional payload), an embedding model available to encode queries at evaluation time, and Python with `ranx` installed.
 
