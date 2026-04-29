@@ -41,7 +41,7 @@ The system uses Mistral-7B model (via Featherless AI) to extract facts and calcu
 ### Technology Stack
 - **Backend:** FastAPI hosted on HuggingFace Spaces
 - **Frontend:** React (via Lovable) with D3.js for narrative network visualization
-- **Vector Database:** Qdrant Cloud for semantic search
+- **Vector storage and search engine:** Qdrant Cloud for semantic search
 - **AI Model:** Mistral-7B for fact extraction and scoring
 
 ### Sentinel in Action
