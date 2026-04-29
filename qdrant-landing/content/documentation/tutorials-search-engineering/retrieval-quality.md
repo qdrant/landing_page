@@ -11,8 +11,7 @@ weight: 5
 | Time: 15 min | Level: Beginner |  |    |
 |--------------|---------------------|--|----|
 
-This tutorial focuses on **ANN precision**: how closely approximate nearest-neighbor (ANN) search matches exact kNN search.
-To measure ANN precision, you compare Qdrant's approximate top-k against the exact kNN top-k using `precision@k`, then tune HNSW parameters to trade memory and build time for higher precision.
+This tutorial focuses on **ANN precision**: how closely approximate nearest-neighbor (ANN) search matches exact kNN search, measured with `precision@k`.
 
 **Prerequisites.** A Qdrant collection populated with your documents as points (vectors + optional payload).
 
@@ -33,23 +32,19 @@ Qdrant's Web UI includes a Search Quality tab that measures the gap between appr
 
 ![Search Quality tab with default evaluation results](/documentation/tutorials/retrieval-quality/search-quality-tab.png)
 
-The tab reports average **precision@k** (1.0 = perfect overlap; 0.95+ is typical for well-tuned HNSW). HNSW has tunable parameters that trade memory and index build time for higher precision.
+The tab reports average **precision@k** (1.0 = perfect overlap; 0.95+ is typical for well-tuned HNSW).
 
-## Tuning the HNSW Parameters
+## Tuning Search Precision
 
-HNSW is a hierarchical graph where each node has a set of links to other nodes. The `m` parameter controls the number of edges per node: higher `m` means higher precision at the cost of more memory. The `ef_construct` parameter controls how many neighbors are considered during index building: higher `ef_construct` means higher precision at the cost of longer indexing time. The defaults are `m=16` and `ef_construct=100`.
-
-For the full list of HNSW parameters, including on-disk storage and precision/memory trade-offs, see [Optimize Performance](/documentation/ops-optimization/optimize/).
-
-Toggle **advanced mode** in the Search Quality tab to tune these parameters inline. To see the effect, try raising `m` and `ef_construct` (for example, to 32 and 200), then run the evaluation again.
+Toggle **advanced mode** in the Search Quality tab to tune search-time parameters inline. The main one is `hnsw_ef`: the number of candidates evaluated during a search. Raising it explores more of the graph, improving precision at the cost of higher query latency. To see the effect, raise `hnsw_ef` (for example, to 256) and run the evaluation again.
 
 ![Search Quality advanced mode with HNSW parameters](/documentation/tutorials/retrieval-quality/search-quality-advanced.png)
 
-Precision should increase at the cost of higher build time and memory.
+Precision should increase at the cost of higher query latency.
 
 ![Search Quality results after HNSW tuning](/documentation/tutorials/retrieval-quality/search-quality-after-tuning.png)
 
-Tune until the balance between precision and cost matches your targets.
+If `hnsw_ef` alone does not get you to your precision target, the build-time parameters `m` and `ef_construct` set the ceiling on how precise approximate search can be. Changing them requires rebuilding the HNSW index. For the trade-offs and how to choose values, see [HNSW Indexing Fundamentals](/course/essentials/day-2/what-is-hnsw/) in the Qdrant Essentials course.
 
 ## Automate in CI with Python
 
