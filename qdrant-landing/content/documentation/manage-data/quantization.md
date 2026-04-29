@@ -177,7 +177,7 @@ Also, product quantization has a loss of accuracy, so it is recommended to use i
 
 Please refer to the [Quantization Tips](#quantization-tips) section for more information on how to optimize the quantization parameters for your use case.
 
-## How to choose the right quantization method
+## How to Choose the Right Quantization Method
 
 Here is a brief table of the pros and cons of each quantization method:
 
@@ -203,7 +203,7 @@ Here is a brief table of the pros and cons of each quantization method:
 - **Scalar Quantization** is a well-established 4× compression method. TurboQuant at `bits4` is the recommended alternative with comparable compression and accuracy.
 - **Product Quantization** may provide a better compression ratio, but it has a significant loss of accuracy and is slower than scalar quantization. It is recommended if the memory footprint is the top priority and the search speed is not critical.
 
-## Setting up Quantization in Qdrant
+## Setting Up Quantization in Qdrant
 
 You can configure quantization for a collection by specifying the quantization parameters in the `quantization_config` section of the collection configuration.
 
@@ -214,7 +214,7 @@ Quantized vectors are stored alongside the original vectors in the collection, s
 
 The `quantization_config` can also be set on a per vector basis by specifying it in a named vector.
 
-### Setting up Scalar Quantization
+### Setting Up Scalar Quantization
 
 To enable scalar quantization, you need to specify the quantization parameters in the `quantization_config` section of the collection configuration.
 
@@ -239,7 +239,7 @@ However, in some setups you might want to keep quantized vectors in RAM to speed
 
 In this case, you can set `always_ram` to `true` to store quantized vectors in RAM.
 
-### Setting up Binary Quantization
+### Setting Up Binary Quantization
 
 To enable binary quantization, you need to specify the quantization parameters in the `quantization_config` section of the collection configuration.
 
@@ -252,14 +252,14 @@ However, in some setups you might want to keep quantized vectors in RAM to speed
 
 In this case, you can set `always_ram` to `true` to store quantized vectors in RAM.
 
-#### Set up bit depth
+#### Set Up Bit Depth
 
 To enable 2bit or 1.5bit quantization, you need to specify `encoding` parameter in the `quantization_config` section of the collection configuration. Available values are `two_bits` and `one_and_half_bits`.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization-and-encoding/" >}}
 
 
-#### Set up asymmetric quantization
+#### Set Up Asymmetric Quantization
 
 To enable asymmetric quantization, you need to specify `query_encoding` parameter in the `quantization_config` section of the collection configuration. Available values are:
 - `default` and `binary` - use regular binary quantization for the query.
@@ -268,7 +268,7 @@ To enable asymmetric quantization, you need to specify `query_encoding` paramete
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization-and-query-encoding/" >}}
 
-### Setting up TurboQuant
+### Setting Up TurboQuant
 
 To enable TurboQuant, specify it in the `quantization_config` section of the collection configuration.
 
@@ -286,7 +286,7 @@ To use a specific compression level, set the `bits` parameter:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-turbo-quant-bits/" >}}
 
-### Setting up Product Quantization
+### Setting Up Product Quantization
 
 To enable product quantization, you need to specify the quantization parameters in the `quantization_config` section of the collection configuration.
 
@@ -332,9 +332,9 @@ By default, rescore is enabled.
 For example, if oversampling is 2.4 and limit is 100, then 240 vectors will be pre-selected using quantized index, and then top-100 will be returned after re-scoring.
 Oversampling is useful if you want to tune the tradeoff between search speed and search quality in the query time.
 
-## Quantization tips
+## Quantization Tips
 
-#### Accuracy tuning
+#### Accuracy Tuning
 
 In this section, we will discuss how to tune the search precision.
 The fastest way to understand the impact of quantization on the search quality is to compare the search results with and without quantization.
@@ -350,7 +350,7 @@ By adjusting the quantile, you find an optimal value that will provide the best 
 
 - **Enable rescore**: Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. On large collections, this can improve the search quality, with just minor performance impact.
 
-#### Memory and speed tuning
+#### Memory and Speed Tuning
 
 In this section, we will discuss how to tune the memory and speed of the search process with quantization.
 
