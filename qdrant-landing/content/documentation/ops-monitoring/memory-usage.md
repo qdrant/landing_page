@@ -7,7 +7,7 @@ weight: 7
 
 *Available as of v1.18.0*
 
-Qdrant lets you inspect how much disk space, RAM, and OS page cache a collection is using, broken down by component. Use this to plan capacity, diagnose memory pressure, or understand which parts of a collection are resident in memory.
+Qdrant lets you inspect a collection's disk space, RAM, and OS page cache usage, summed up across the whole cluster and broken down by component. Use this to plan capacity, diagnose memory pressure, or understand which parts of a collection are resident in memory.
 
 This information is available in the [Qdrant Web UI](/documentation/web-ui/) and through the API.
 
@@ -52,12 +52,14 @@ You can retrieve the same data though Qdrant's API:
 curl http://localhost:6333/collections/{collection_name}/memory
 ```
 
+<!--
 The response contains a `result` object with `total`, `vectors`, `sparse_vectors`, `payload`, `payload_index`, and `other` fields. Each field uses the same four-value structure: `disk_bytes`, `ram_bytes`, `cached_bytes`, and `expected_cache_bytes`.
 
 See the [API reference](https://api.qdrant.tech/api-reference) for the full response schema.
+-->
 
 ## Accuracy
 
 The reported values are estimates. RAM usage is typically underestimated by 10–15% because memory allocated by third-party libraries and the allocator itself isn't accounted for.
 
-Page cache residency (**Cached**) is measured using the `mincore` system call, which probes which memory-mapped file pages are currently resident. On non-Unix systems, **Cached** is always reported as `0`.
+On non-Unix systems, **Cached** is always reported as `0`.
