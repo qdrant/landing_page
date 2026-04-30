@@ -154,7 +154,7 @@ For custom fusion, use the [Formula Query](/documentation/search/search-relevanc
 
 To evaluate which works better for your use case, create a small golden query set and compare [retrieval quality metrics](/documentation/tutorials-search-engineering/retrieval-quality/) (for example, NDCG@10) under each method.
 
-See also: [Hybrid Queries](/documentation/hybrid-queries/)
+See also: [Hybrid Queries](/documentation/search/hybrid-queries/)
 
 ### My hybrid search results aren't relevant. Where do I start debugging?
 
