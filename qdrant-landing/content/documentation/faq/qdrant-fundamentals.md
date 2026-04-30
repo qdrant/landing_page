@@ -57,7 +57,7 @@ There are two possible reasons for this:
 
 ### How many vectors can I store in a point? Can a point have no vector at all?
 
-A point can hold any number of dense, sparse, and multi vectors. There's no hard limit imposed by Qdrant, though practical limits apply: each additional vector increases memory usage, so the realistic ceiling is determined by available RAM and storage. You can attach a single vector, or multiple vectors with different names (for example, a dense vector for semantic search alongside a sparse vector for keyword matching). This lets you run [hybrid queries](/documentation/hybrid-queries/) over several representations of the same data within one collection. Each vector must be defined in the collection's schema.
+A point can hold any number of dense, sparse, and multi vectors. There's no hard limit imposed by Qdrant, though practical limits apply: each additional vector increases memory usage, so the realistic ceiling is determined by available RAM and storage. You can attach a single vector, or multiple vectors with different names (for example, a dense vector for semantic search alongside a sparse vector for keyword matching). This lets you run [hybrid queries](/documentation/search/hybrid-queries/) over several representations of the same data within one collection. Each vector must be defined in the collection's schema.
 
 A point can also have zero vectors. If you don't provide any vectors at upsert time, Qdrant stores the point with its ID and payload only. This is useful when you want to use Qdrant as a document store with filtering, or when you plan to add vectors to a point later. A vector-less point won't appear in nearest-neighbor search results, but it's fully accessible via [scroll](/documentation/manage-data/points/#scroll-points) and payload filtering.
 
@@ -112,13 +112,13 @@ You are likely looking for the [scroll](/documentation/manage-data/points/#scrol
 
 ### My filtered vector search is slow. What should I check first?
 
-Add a [payload index](/documentation/payload-index/) on all the fields you're filtering by. Payload indexing often produces larger speedups for filtered queries than other optimizations such as changes to Hierarchical Navigable Small World (HNSW) parameters.
+Add a [payload index](/documentation/manage-data/indexing/#payload-index) on all the fields you're filtering by. Payload indexing often produces larger speedups for filtered queries than other optimizations such as changes to Hierarchical Navigable Small World (HNSW) parameters.
 
 For best results, create payload indexes **before** uploading data. When uploading data later, rebuild the HNSW index by making a minimal change to `m` or `ef_construct` (for example, from 100 to 101). Queries continue to be served by the old index until the new index is complete, so there is no downtime. Don't immediately change the value of `ef_construct` back to its original value, but keep it set to the new value.
 
 To prevent clients from filtering on payload fields that don't have a payload index, enable strict mode and [set unindexed\_filtering\_retrieve to false](/documentation/ops-configuration/administration/#disable-retrieving-via-non-indexed-payload).
 
-See also: [Indexing](/documentation/indexing/), [Low-Latency Search](/documentation/low-latency-search/)
+See also: [Indexing](/documentation/manage-data/indexing/), [Low-Latency Search](/documentation/search/low-latency-search/)
 
 ### Does Qdrant support a full-text search or a hybrid search?
 
