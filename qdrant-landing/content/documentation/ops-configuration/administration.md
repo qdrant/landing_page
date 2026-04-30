@@ -63,7 +63,7 @@ QDRANT__STORAGE__LOW_MEMORY_MODE=no_populate
 
 Low memory mode takes effect on the next restart. It doesn't modify the [vector storage](/documentation/manage-data/storage/) settings persisted in your collections.
 
-## Strict mode
+## Strict Mode
 
 *Available as of v1.13.0*
 
