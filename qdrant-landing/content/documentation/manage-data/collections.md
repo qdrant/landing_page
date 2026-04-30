@@ -183,7 +183,7 @@ Calls to this endpoint may be blocking as it waits for existing optimizers to
 finish. We recommended against using this in a production database as it may
 introduce huge overhead due to the rebuilding of the index.
 
-### Update Vectors
+### Update Vector Schema
 
 *Available as of v1.18.0*
 
