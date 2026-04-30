@@ -15,16 +15,16 @@ This tutorial focuses on **ANN recall**: how closely approximate nearest-neighbo
 
 **Prerequisites.** A Qdrant collection populated with your documents as points (vectors + optional payload).
 
-## The Four Layers of Retrieval Evaluation
+## The Retrieval Evaluation Stack
 
-This tutorial is part of a four-layer retrieval evaluation framework.
+ANN recall measures how closely approximate search matches exact kNN. It's the first of four evaluation layers; each higher layer measures a different property of the retrieval system, with different tools.
 
-- **Layer 1: ANN recall** (this tutorial). How closely approximate nearest-neighbor search matches exact kNN.
-- **Layer 2: Retrieval relevance** ([Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/)). How well the results match query intent against a labeled dataset.
-- **Layer 3: Pipeline output quality** ([Evaluating Pipeline Output Quality](/documentation/tutorials-search-engineering/retrieval-quality-pipeline-output/)). Whether the full pipeline (retrieval plus an LLM generator, a ranker, or a UI) produces the right output.
-- **Layer 4: Business impact**. Whether better retrieval moves the KPIs the business cares about. This layer is application-specific and out of scope for these tutorials.
+- **ANN recall** (this tutorial). Is the approximate index close to exact kNN?
+- **Retrieval relevance** ([Measuring Retrieval Relevance](/documentation/improve-search/retrieval-quality-golden-set/)). Do the top-k results match query intent?
+- **Pipeline output quality** ([Evaluating Pipeline Output Quality](/documentation/improve-search/retrieval-quality-pipeline-output/)). Does the end-to-end pipeline (retrieval + generator, ranker, or UI) produce the right output?
+- **Business impact**. Do the KPIs the business cares about move? Application-specific, out of scope for these tutorials.
 
-Retrieval quality sits on top of embedding quality, measured separately by benchmarks like [MTEB](https://huggingface.co/spaces/mteb/leaderboard), which sets the ceiling on every downstream metric.
+A high score on a higher layer requires acceptable scores on the layers below. Embedding quality (separately measured by benchmarks like [MTEB](https://huggingface.co/spaces/mteb/leaderboard)) sets the ceiling on every downstream metric.
 
 ## Measure ANN Recall with the Web UI
 
@@ -86,4 +86,4 @@ Wire it into CI and fail the job when recall falls below your target threshold. 
 
 ## Next Steps
 
-Once ANN recall is on target, continue with [Measuring Retrieval Relevance](/documentation/tutorials-search-engineering/retrieval-quality-golden-set/) to check how well those results match user intent.
+Once ANN recall is on target, continue with [Measuring Retrieval Relevance](/documentation/improve-search/retrieval-quality-golden-set/) to check how well those results match user intent.
