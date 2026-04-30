@@ -63,21 +63,19 @@ QDRANT__STORAGE__LOW_MEMORY_MODE=no_populate
 
 Low memory mode takes effect on the next restart. It doesn't modify the [vector storage](/documentation/manage-data/storage/) settings persisted in your collections.
 
-## Strict Mode
+## Strict mode
 
 *Available as of v1.13.0*
 
-Strict mode is a feature to restrict certain type of operations on a collection in order to protect the Qdrant cluster.
+Strict mode is a feature to restrict certain type of operations on a collection in order to protect the Qdrant cluster. The goal is to prevent inefficient usage patterns that could overload the system.
 
-The goal is to prevent inefficient usage patterns that could overload the system.
+Strict mode ensures a more predictable and responsive service when you do not have control over the queries that are being executed. Upon crossing a limit, the server will return a client side error with the information about the limit that was crossed.
 
-Strict mode ensures a more predictable and responsive service when you do not have control over the queries that are being executed.
+The `strict_mode_config` can be enabled when [creating](#create-a-collection) a new collection, see [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the available `strict_mode_config` parameters. As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically. 
 
-Upon crossing a limit, the server will return a client side error with the information about the limit that was crossed.
+Simply enabling strict mode without specifying a specific restriction does not have any effect. You need to explicitly set the restrictions you want to enforce.
 
-The `strict_mode_config` can be enabled when [creating](#create-a-collection) a new collection, see [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the available `strict_mode_config` parameters.
-
-As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically.
+On Qdrant Cloud, strict mode is enabled by default for new collections. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/) for the specific restrictions.
 
 It is possible to raise the default limits and/or disable strict mode entirely. Though, in order to ensure a stable cluster we strongly recommend to keep strict mode enabled using its default configuration. For disabling strict mode on an existing collection use:
 
