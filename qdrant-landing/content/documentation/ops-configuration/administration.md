@@ -11,7 +11,7 @@ aliases:
 
 Qdrant exposes administration tools which enable to modify at runtime the behavior of a qdrant instance without changing its configuration manually.
 
-## Recovery mode
+## Recovery Mode
 
 *Available as of v1.2.0*
 
@@ -35,7 +35,36 @@ message in an environment variable, such as
 `QDRANT__STORAGE__RECOVERY_MODE="My recovery message"`.
 
 
-## Strict mode
+## Low Memory Mode
+
+*Available as of v1.18.0*
+
+Low memory mode reduces memory requirements at startup. On memory-constrained hosts, the normal startup process can exhaust available memory before the node becomes reachable resulting in a crash loop. Low memory mode lets you bring the node up with a reduced memory footprint so you can make configuration changes to reduce memory usage. Revert it once the node is stable.
+
+Three modes are available:
+
+| Mode | Description |
+| --- | --- |
+| `disabled` | Default. Loads all components as persisted. |
+| `no_resident` | Forces quantization to behave as `always_ram: false`, payload field indexes to `on_disk: true`, and payload storage to mmap with lazy populate. |
+| `no_populate` | Same as `no_resident`, and additionally skips mmap prefetch for vectors, the HNSW graph, and payload storage. Offers the lowest startup memory footprint, but first queries will be slower until the OS page cache warms up. |
+
+To enable low memory mode, set `storage.low_memory_mode` in the node's configuration file:
+
+```yaml
+storage:
+  low_memory_mode: no_populate   # or no_resident
+```
+
+Or use the environment variable:
+
+```bash
+QDRANT__STORAGE__LOW_MEMORY_MODE=no_populate
+```
+
+Low memory mode takes effect on the next restart. It doesn't modify the [vector storage](/documentation/manage-data/storage/) settings persisted in your collections.
+
+## Strict Mode
 
 *Available as of v1.13.0*
 
@@ -55,7 +84,7 @@ It is possible to raise the default limits and/or disable strict mode entirely. 
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/disable/" >}}
 
-### Disable retrieving via non indexed payload
+### Disable Retrieving via Non Indexed Payload
 
 Setting `unindexed_filtering_retrieve` to false prevents retrieving points by filtering on a non indexed payload key which can be very slow.
 
@@ -65,19 +94,19 @@ Or turn it off later on an existing collection through the [update collection pa
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-retrieve-off/" >}}
 
-### Disable updating via non indexed payload
+### Disable Updating via Non Indexed Payload
 
 Setting `unindexed_filtering_update` to false prevents updating points by filtering on a non indexed payload key which can be very slow.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/unindexed-filtering-update/" >}}
 
-### Maximum number of payload index count
+### Maximum Number of Payload Index Count
 
 Setting `max_payload_index_count` caps the maximum number of payload index that can exist on a collection.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-payload-index-count/" >}}
 
-### Maximum query `limit` parameter
+### Maximum Query `limit` Parameter
 
 Retrieving large result set is expensive.
 
@@ -85,7 +114,7 @@ Setting `max_query_limit` caps the maximum number of points that can be retrieve
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-query-limit/" >}}
 
-### Maximum `timeout` parameter
+### Maximum `timeout` Parameter
 
 Long running operations are often symptomatic of a deeper issue.
 
@@ -93,7 +122,7 @@ Setting `max_timeout` caps the maximum value in seconds for the `timeout` parame
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-timeout/" >}}
 
-### Maximum size of a filtering condition
+### Maximum Size of a Filtering Condition
 
 Large filtering conditions are expensive to evaluate.
 
@@ -103,7 +132,7 @@ e.g. the number of elements in `MatchAny`
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/condition-max-size/" >}}
 
-### Maximum number of conditions in a filter
+### Maximum Number of Conditions in a Filter
 
 A large number of filtering conditions are expensive to evaluate.
 
@@ -111,7 +140,7 @@ Setting `filter_max_conditions` caps the maximum number of conditions filters ca
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/filter-max-conditions/" >}}
 
-### Maximum batch size when inserting vectors
+### Maximum Batch Size When Inserting Vectors
 
 Sending very large batch upserts can create internal congestion.  
 
@@ -119,7 +148,7 @@ Setting `upsert_max_batchsize` caps the maximum size in bytes of a batch during 
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/upsert-max-batchsize/" >}}
 
-### Maximum collection storage size
+### Maximum Collection Storage Size
 
 It is possible to set the maximum size of a collection in terms of vectors and/or payload storage size.
 
@@ -127,13 +156,13 @@ Setting `max_collection_vector_size_bytes` and/or `max_collection_payload_size_b
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-collection-storage-size-bytes/" >}}
 
-### Maximum points count
+### Maximum Points Count
 
 Setting `max_points_count` caps the maximum number of points for a collection.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-points-count/" >}}
 
-### Rate limiting
+### Rate Limiting
 
 An extremely high rate of incoming requests can have a negative impact on the latency.
 
