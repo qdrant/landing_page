@@ -10,5 +10,5 @@ partition: ecosystem
 
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
-| [Measuring Retrieval Relevance](/documentation/improve-search/retrieval-quality-golden-set/) | Build a labeled golden set and score retrieval relevance with ranx. | <span class="pill">Python</span> | 40m | <span class="text-yellow">Intermediate</span> |
-| [Evaluating Pipeline Output Quality](/documentation/improve-search/retrieval-quality-pipeline-output/) | Score a RAG pipeline with Ragas and isolate retrieval vs generation failures. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Measuring Retrieval Relevance](/documentation/improve-search/retrieval-relevance/) | Build a labeled golden set and score retrieval relevance with ranx. | <span class="pill">Python</span> | 40m | <span class="text-yellow">Intermediate</span> |
+| [Evaluating Pipeline Output Quality](/documentation/improve-search/pipeline-output-quality/) | Score a RAG pipeline with Ragas and isolate retrieval vs generation failures. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |

@@ -14,7 +14,7 @@ partition: ecosystem
 This tutorial focuses on **retrieval relevance**: how well retrieved results match real user intent.
 To measure retrieval relevance, you need a labeled dataset of queries paired with their expected relevant documents (commonly called a *golden query set* or *ground truth*). This tutorial covers both building that dataset and running it through Qdrant to compute relevance metrics.
 
-Two related tutorials cover the other retrieval-evaluation concerns: [Measuring ANN Recall](/documentation/tutorials-search-engineering/retrieval-quality/) (does the approximate index match exact kNN?) and [Evaluating Pipeline Output Quality](/documentation/improve-search/retrieval-quality-pipeline-output/) (does the end-to-end pipeline produce the right output?).
+Two related tutorials cover the other retrieval-evaluation concerns: [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) (does the approximate index match exact kNN?) and [Evaluating Pipeline Output Quality](/documentation/improve-search/pipeline-output-quality/) (does the end-to-end pipeline produce the right output?).
 
 **Prerequisites.** A Qdrant collection populated with your documents as points (vectors + optional payload), an embedding model available to encode queries at evaluation time, and Python with `ranx` installed.
 
@@ -178,4 +178,4 @@ In golden sets, **data leakage** means any setup that makes offline metrics look
 
 ## Next Steps
 
-Once retrieval relevance is on target, the next layer is pipeline output quality: whether the full pipeline produces the right output when retrieval feeds into a consumer (LLM generator, ranker, or UI). See [Evaluating Pipeline Output Quality](/documentation/improve-search/retrieval-quality-pipeline-output/).
+Once retrieval relevance is on target, the next layer is pipeline output quality: whether the full pipeline produces the right output when retrieval feeds into a consumer (LLM generator, ranker, or UI). See [Evaluating Pipeline Output Quality](/documentation/improve-search/pipeline-output-quality/).
