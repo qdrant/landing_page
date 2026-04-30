@@ -34,7 +34,6 @@ If using a Qdrant binary, recovery mode can be enabled by setting a recovery
 message in an environment variable, such as
 `QDRANT__STORAGE__RECOVERY_MODE="My recovery message"`.
 
-
 ## Low Memory Mode
 
 *Available as of v1.18.0*
@@ -68,17 +67,15 @@ Low memory mode takes effect on the next restart. It doesn't modify the [vector 
 
 *Available as of v1.13.0*
 
-Strict mode is a feature to restrict certain type of operations on a collection in order to protect the Qdrant cluster.
+Strict mode is a feature to restrict certain type of operations on a collection in order to protect the Qdrant cluster. The goal is to prevent inefficient usage patterns that could overload the system.
 
-The goal is to prevent inefficient usage patterns that could overload the system.
+Strict mode ensures a more predictable and responsive service when you do not have control over the queries that are being executed. Upon crossing a limit, the server will return a client side error with the information about the limit that was crossed.
 
-Strict mode ensures a more predictable and responsive service when you do not have control over the queries that are being executed.
+The `strict_mode_config` can be enabled when [creating](#create-a-collection) a new collection, see [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the available `strict_mode_config` parameters. As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically. 
 
-Upon crossing a limit, the server will return a client side error with the information about the limit that was crossed.
+Simply enabling strict mode without specifying a specific restriction does not have any effect. You need to explicitly set the restrictions you want to enforce.
 
-The `strict_mode_config` can be enabled when [creating](#create-a-collection) a new collection, see [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection#request.body.strict_mode_config) for all the available `strict_mode_config` parameters.
-
-As part of the config, the `enabled` field act as a toggle to enable or disable the strict mode dynamically.
+On Qdrant Cloud, strict mode is enabled by default for new collections. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/) for the specific restrictions.
 
 It is possible to raise the default limits and/or disable strict mode entirely. Though, in order to ensure a stable cluster we strongly recommend to keep strict mode enabled using its default configuration. For disabling strict mode on an existing collection use:
 
@@ -122,6 +119,30 @@ Setting `max_timeout` caps the maximum value in seconds for the `timeout` parame
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-timeout/" >}}
 
+### Disable Exact Search
+
+Exact search bypasses the HNSW index and performs a brute-force scan, which can be very slow on large collections.
+
+Setting `search_allow_exact` to false prevents clients from requesting exact search.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/search-allow-exact/" >}}
+
+### Maximum HNSW ef Parameter
+
+A high HNSW `ef` value increases recall but also increases search latency.
+
+Setting `search_max_hnsw_ef` caps the maximum `ef` value allowed in search parameters.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/search-max-hnsw-ef/" >}}
+
+### Maximum Search Oversampling
+
+A high oversampling factor increases the number of candidates evaluated during search, which can significantly increase latency.
+
+Setting `search_max_oversampling` caps the maximum oversampling factor allowed in search parameters.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/search-max-oversampling/" >}}
+
 ### Maximum Size of a Filtering Condition
 
 Large filtering conditions are expensive to evaluate.
@@ -148,6 +169,14 @@ Setting `upsert_max_batchsize` caps the maximum size in bytes of a batch during 
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/upsert-max-batchsize/" >}}
 
+### Maximum Batch Size When Searching
+
+Sending very large search batches can create internal congestion.
+
+Setting `search_max_batchsize` caps the maximum number of searches in a single batch request.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/search-max-batchsize/" >}}
+
 ### Maximum Collection Storage Size
 
 It is possible to set the maximum size of a collection in terms of vectors and/or payload storage size.
@@ -155,6 +184,14 @@ It is possible to set the maximum size of a collection in terms of vectors and/o
 Setting `max_collection_vector_size_bytes` and/or `max_collection_payload_size_bytes` caps the maximum byte size of a collection.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-collection-storage-size-bytes/" >}}
+
+### Maximum Resident Memory Usage
+
+When a node is under memory pressure, new write operations can destabilize the cluster.
+
+Setting `max_resident_memory_percent` rejects memory-consuming write operations (such as upsert and set payload) when process resident memory exceeds the given percentage of total system memory. Delete operations are not affected. Accepts values in the range 1–100.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/max-resident-memory-percent/" >}}
 
 ### Maximum Points Count
 
@@ -171,3 +208,19 @@ Setting `read_rate_limit` and/or `write_rate_limit` to cap the maximum number of
 When exceeding the maximum number of operations, the client will receive an HTTP 429 error code with a suggested delay before retrying.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/rate-limiting/" >}}
+
+### Maximum Vectors per Multivector
+
+A multivector with many vectors per point is expensive to store, index and query.
+
+Setting `multivector_config` caps the maximum number of vectors per multivector for each named vector.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/multivector-config/" >}}
+
+### Maximum Sparse Vector Length
+
+Long sparse vectors increase memory usage and slow down filtering.
+
+Setting `sparse_config` caps the maximum length of sparse vectors for each named vector.
+
+{{< code-snippet path="/documentation/headless/snippets/strict-mode/sparse-config/" >}}

@@ -1,0 +1,1 @@
+This code snippet sets `max_resident_memory_percent` on the strict mode configuration to reject memory-consuming write operations when resident memory exceeds the given percentage of total system memory.
