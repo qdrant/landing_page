@@ -38,11 +38,9 @@ The tab reports average **recall@k** (1.0 = perfect overlap; 0.95+ is typical fo
 
 Toggle **advanced mode** in the ANN Recall tab to tune search-time parameters inline. The main one is `hnsw_ef`: the number of candidates evaluated during a search. Raising it explores more of the graph, improving recall at the cost of higher query latency. To see the effect, raise `hnsw_ef` (for example, to 256) and run the evaluation again.
 
-![ANN Recall advanced mode with HNSW parameters](/documentation/tutorials/retrieval-quality/search-quality-advanced.png)
-
 Recall should increase at the cost of higher query latency.
 
-![ANN Recall results after HNSW tuning](/documentation/tutorials/retrieval-quality/search-quality-after-tuning.png)
+![ANN Recall advanced mode with HNSW parameters](/documentation/tutorials/retrieval-quality/search-quality-advanced.png)
 
 If `hnsw_ef` alone does not get you to your recall target, the build-time parameters `m` and `ef_construct` set the ceiling on the recall approximate search can achieve. Changing them requires rebuilding the HNSW index. For the trade-offs and how to choose values, see [HNSW Indexing Fundamentals](/course/essentials/day-2/what-is-hnsw/) in the Qdrant Essentials course.
 
