@@ -1,7 +1,7 @@
 ---
 title: "Optimizing RAG Through an Evaluation-Based Methodology"
-short_description: "Learn how Qdrant-powered RAG applications can be tested and iteratively improved using LLM evaluation tools like Quotient."
-description: "Learn how Qdrant-powered RAG applications can be tested and iteratively improved using LLM evaluation tools like Quotient."
+short_description: Learn how Qdrant-powered RAG applications can be tested and iteratively improved using LLM evaluation tools like Quotient.
+description: Learn how Qdrant-powered RAG applications can be tested and iteratively improved using LLM evaluation tools like Quotient.
 social_preview_image: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/preview/social_preview.jpg
 small_preview_image: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/icon.svg
 preview_dir: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/preview

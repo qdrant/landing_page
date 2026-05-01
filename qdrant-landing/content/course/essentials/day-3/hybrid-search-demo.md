@@ -1,7 +1,7 @@
 ---
 title: "Demo: Implementing a Hybrid Search System"
 short_description: "Implement hybrid search end to end: dense plus sparse named vectors, RRF fusion, and side-by-side comparisons of retrieval strategies."
-description: "Step-by-step demo on implementing hybrid search using Qdrant’s Universal Query API. Explore dense vs. sparse search, score fusion algorithms, and real-world evaluation techniques."
+description: Step-by-step demo on implementing hybrid search using Qdrant’s Universal Query API. Explore dense vs. sparse search, score fusion algorithms, and real-world evaluation techniques.
 weight: 5
 isLesson: true
 ---

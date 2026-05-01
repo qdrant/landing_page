@@ -1,7 +1,7 @@
 ---
 title: Introducing Qdrant 0.11
-short_description: "Check out what's new in Qdrant 0.11"
-description: "Replication support is the most important change introduced by Qdrant 0.11. Check out what else has been added!"
+short_description: Check out what's new in Qdrant 0.11
+description: Replication support is the most important change introduced by Qdrant 0.11. Check out what else has been added!
 preview_dir: /articles_data/qdrant-0-11-release/preview
 small_preview_image: /articles_data/qdrant-0-11-release/announcement-svgrepo-com.svg
 social_preview_image: /articles_data/qdrant-0-11-release/preview/social_preview.jpg

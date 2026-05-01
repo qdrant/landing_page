@@ -2,8 +2,8 @@
 draft: false
 title: The challenges in using LLM-as-a-Judge - Sourabh Agrawal | Vector Space Talks
 slug: llm-as-a-judge
-short_description: "Sourabh Agrawal explores the world of AI chatbots."
-description: "Everything you need to know about chatbots, Sourabh Agrawal goes in"
+short_description: Sourabh Agrawal explores the world of AI chatbots.
+description: Everything you need to know about chatbots, Sourabh Agrawal goes in
   to detail on evaluating their performance, from real-time to post-feedback
   assessments, and introduces uptrendAI—an open-source tool for enhancing
   chatbot interactions through customized and logical evaluations.

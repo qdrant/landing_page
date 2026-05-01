@@ -1,7 +1,7 @@
 ---
 title: "Multi-Vector Embeddings in Qdrant"
 short_description: "Configure Qdrant collections for multi-vector search: enable MaxSim, index ColBERT-style embeddings, and run late-interaction queries."
-description: "Configure Qdrant collections for multi-vector embeddings and learn how to index and query multi-vector data."
+description: Configure Qdrant collections for multi-vector embeddings and learn how to index and query multi-vector data.
 weight: 5
 isLesson: true
 ---

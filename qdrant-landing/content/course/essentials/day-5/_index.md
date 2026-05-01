@@ -1,7 +1,7 @@
 ---
 title: "Day 5: Advanced APIs"
 short_description: "Day 5 of Qdrant Essentials: multivectors, ColBERT late interaction, and the Universal Query API for advanced retrieval pipelines."
-description: "Learn advanced Qdrant APIs, including multivectors and the Universal Query API, to power hybrid retrieval, late interaction models, and recommendation systems with high accuracy and flexibility."
+description: Learn advanced Qdrant APIs, including multivectors and the Universal Query API, to power hybrid retrieval, late interaction models, and recommendation systems with high accuracy and flexibility. 
 isLesson: true
 weight: 60
 ---

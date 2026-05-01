@@ -2,10 +2,10 @@
 draft: false
 title: Advancements and Challenges in RAG Systems - Syed Asad | Vector Space Talks
 slug: rag-advancements-challenges
-short_description: "Syed Asad talked about advanced rag systems and multimodal AI"
+short_description: Syed Asad talked about advanced rag systems and multimodal AI
   projects, discussing challenges, technologies, and model evaluations in the
   context of their work at Kiwi Tech.
-description: "Syed Asad unfolds the challenges of developing multimodal RAG"
+description: Syed Asad unfolds the challenges of developing multimodal RAG
   systems at Kiwi Tech, detailing the balance between accuracy and
   cost-efficiency, and exploring various tools and approaches like GPT 4 and
   Mixtral to enhance family tree apps and financial chatbots while navigating

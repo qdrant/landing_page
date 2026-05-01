@@ -3,9 +3,9 @@ draft: false
 title: Vector Search for Content-Based Video Recommendation - Gladys and Samuel
   from Dailymotion
 slug: vector-search-vector-recommendation
-short_description: "Gladys Roch and Samuel Leonardo Gracio join us in this"
+short_description: Gladys Roch and Samuel Leonardo Gracio join us in this
   episode to share their knowledge on content-based recommendation.
-description: "Gladys Roch and Samuel Leonardo Gracio from Dailymotion, discussed"
+description: Gladys Roch and Samuel Leonardo Gracio from Dailymotion, discussed
   optimizing video recommendations using Qdrant's vector search alongside
   challenges and solutions in content-based recommender systems.
 preview_image: /blog/from_cms/gladys-and-sam-bp-cropped.png

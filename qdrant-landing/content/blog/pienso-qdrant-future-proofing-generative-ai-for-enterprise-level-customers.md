@@ -2,8 +2,8 @@
 draft: true
 title: "Pienso & Qdrant: Future Proofing Generative AI for Enterprise-Level Customers"
 slug: pienso-case-study
-short_description: "Case study"
-description: "Case study"
+short_description: Case study
+description: Case study
 preview_image: /blog/from_cms/title.webp
 date: 2024-01-05T15:10:57.473Z
 author: Author

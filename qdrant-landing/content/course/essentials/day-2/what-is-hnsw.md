@@ -1,7 +1,7 @@
 ---
 title: "HNSW Indexing Fundamentals"
 short_description: "Learn how HNSW powers approximate nearest neighbor search in Qdrant and how its layered graph structure scales to billions of vectors."
-description: "Learn how HNSW indexing powers fast, scalable vector search in Qdrant. Understand parameters like m, ef_construct, and hnsw_ef to balance recall, speed, and memory efficiency."
+description: Learn how HNSW indexing powers fast, scalable vector search in Qdrant. Understand parameters like m, ef_construct, and hnsw_ef to balance recall, speed, and memory efficiency. 
 weight: 2
 isLesson: true
 ---

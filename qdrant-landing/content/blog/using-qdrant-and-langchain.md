@@ -1,8 +1,8 @@
 ---
 draft: false
 title: "Integrating Qdrant and LangChain for Advanced Vector Similarity Search"
-short_description: "Discover how Qdrant and LangChain can be integrated to enhance AI applications."
-description: "Discover how Qdrant and LangChain can be integrated to enhance AI applications with advanced vector similarity search technology."
+short_description: Discover how Qdrant and LangChain can be integrated to enhance AI applications.
+description: Discover how Qdrant and LangChain can be integrated to enhance AI applications with advanced vector similarity search technology.
 preview_image: /blog/using-qdrant-and-langchain/qdrant-langchain.png
 date: 2024-03-12T09:00:00Z
 author: David Myriel

@@ -1,7 +1,7 @@
 ---
 title: "Is RAG Dead? The Role of Vector Databases in Vector Search | Qdrant"
-short_description: "Learn how Qdrant’s vector database enhances enterprise AI with superior accuracy and cost-effectiveness."
-description: "Uncover the necessity of vector databases for RAG and learn how Qdrant's vector database empowers enterprise AI with unmatched accuracy and cost-effectiveness."
+short_description: Learn how Qdrant’s vector database enhances enterprise AI with superior accuracy and cost-effectiveness.
+description: Uncover the necessity of vector databases for RAG and learn how Qdrant's vector database empowers enterprise AI with unmatched accuracy and cost-effectiveness. 
 social_preview_image: /articles_data/rag-is-dead/preview/social_preview.jpg 
 small_preview_image: /articles_data/rag-is-dead/icon.svg 
 preview_dir: /articles_data/rag-is-dead/preview 

@@ -1,7 +1,7 @@
 ---
 title: "Project: Building Your First Vector Search System"
 short_description: "Hands-on starter project: build a working vector search system with a collection, points, payloads, similarity search, and filter conditions."
-description: "Apply your Qdrant skills to build a complete vector search system. Create collections, insert data, run similarity and filtered searches, and share your results."
+description: Apply your Qdrant skills to build a complete vector search system. Create collections, insert data, run similarity and filtered searches, and share your results. 
 weight: 4
 isLesson: true
 ---

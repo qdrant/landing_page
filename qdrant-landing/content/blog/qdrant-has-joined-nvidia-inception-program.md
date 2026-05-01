@@ -4,8 +4,8 @@ preview_image: /blog/from_cms/inception.png
 sitemapExclude: true
 title: Qdrant has joined NVIDIA Inception Program
 slug: qdrant-joined-nvidia-inception-program
-short_description: "Recently Qdrant has become a member of the NVIDIA Inception."
-description: "Along with the various opportunities it gives, we are the most"
+short_description: Recently Qdrant has become a member of the NVIDIA Inception.
+description: Along with the various opportunities it gives, we are the most
   excited about GPU support since it is an essential feature in Qdrant's
   roadmap. Stay tuned for our new updates.
 date: 2022-04-04T12:06:36.819Z

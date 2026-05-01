@@ -3,9 +3,9 @@ draft: false
 title: Building a High-Performance Entity Matching Solution with Qdrant -
   Rishabh Bhardwaj | Vector Space Talks
 slug: entity-matching-qdrant
-short_description: "Rishabh Bhardwaj, a Data Engineer at HRS Group, discusses"
+short_description: Rishabh Bhardwaj, a Data Engineer at HRS Group, discusses
   building a high-performance hotel matching solution with Qdrant.
-description: "Rishabh Bhardwaj, a Data Engineer at HRS Group, discusses building"
+description: Rishabh Bhardwaj, a Data Engineer at HRS Group, discusses building
   a high-performance hotel matching solution with Qdrant, addressing data
   inconsistency, duplication, and real-time processing challenges.
 preview_image: /blog/from_cms/rishabh-bhardwaj-cropped.png

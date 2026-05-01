@@ -1,7 +1,7 @@
 ---
 title: "Day 6: Final Project - Building a Production-Grade Search Engine"
 short_description: "Day 6 of Qdrant Essentials: ship a portfolio-ready documentation search engine with hybrid retrieval, reranking, and rigorous evaluation."
-description: "Build a production-grade documentation search engine with Qdrant—combining hybrid retrieval, multivector reranking, and evaluation to showcase real-world, portfolio-ready vector search expertise."
+description: Build a production-grade documentation search engine with Qdrant—combining hybrid retrieval, multivector reranking, and evaluation to showcase real-world, portfolio-ready vector search expertise.
 isLesson: true
 weight: 70
 ---

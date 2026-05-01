@@ -1,7 +1,7 @@
 ---
 title: "Qdrant Setup"
 short_description: "Stand up Qdrant Cloud or a local Qdrant instance and configure credentials before running multi-vector search experiments."
-description: "Set up Qdrant for multi-vector search. Learn how to create a collection and configure it for multi-vector embeddings."
+description: Set up Qdrant for multi-vector search. Learn how to create a collection and configure it for multi-vector embeddings.
 weight: 1
 isLesson: true
 ---

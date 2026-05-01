@@ -2,8 +2,8 @@
 title: "Qdrant Attains SOC 2 Type II Audit Report"
 draft: false
 slug: qdrant-soc2-type2-audit # Change this slug to your page slug if needed
-short_description: "We're proud to announce achieving SOC 2 Type II compliance for Security, Availability, Processing Integrity, Confidentiality, and Privacy."
-description: "We're proud to announce achieving SOC 2 Type II compliance for Security, Availability, and Confidentiality."
+short_description:  We're proud to announce achieving SOC 2 Type II compliance for Security, Availability, Processing Integrity, Confidentiality, and Privacy.
+description: We're proud to announce achieving SOC 2 Type II compliance for Security, Availability, and Confidentiality.
 preview_image: /blog/soc2-type2-report/soc2-preview.jpeg # 
 
 social_preview_image: /blog/soc2-type2-report/soc2-preview.jpeg 

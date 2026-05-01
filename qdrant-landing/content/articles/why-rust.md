@@ -1,7 +1,7 @@
 ---
 title: Why Rust?
 short_description: "A short history on how we chose rust and what it has brought us"
-description: "Qdrant could be built in any language. But it's written in Rust. Here*s why."
+description: Qdrant could be built in any language. But it's written in Rust. Here*s why.
 social_preview_image: /articles_data/why-rust/preview/social_preview.jpg
 preview_dir: /articles_data/why-rust/preview
 weight: 10

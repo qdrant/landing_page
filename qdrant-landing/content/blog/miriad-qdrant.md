@@ -2,8 +2,8 @@
 title: "Qdrant for Research: The Story Behind ETH & Stanford’s MIRIAD Dataset"
 draft: false
 slug: miriad-qdrant
-short_description: "Discover how Qdrant contributed to ETH & Stanford researchers’ mission to advance the development of AI in medicine."
-description: "Discover how Qdrant contributed to ETH & Stanford researchers’ mission to advance the development of AI in medicine."
+short_description: Discover how Qdrant contributed to ETH & Stanford researchers’ mission to advance the development of AI in medicine.
+description: Discover how Qdrant contributed to ETH & Stanford researchers’ mission to advance the development of AI in medicine.
 preview_image: /blog/miriad-qdrant/preview/preview.jpg
 social_preview_image: /blog/miriad-qdrant/preview/social_preview.jpg # Optional image used for link previews
 title_preview_image: /blog/miriad-qdrant/preview/title.jpg # Optional image used for blog post title

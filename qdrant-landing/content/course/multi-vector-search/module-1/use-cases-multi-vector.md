@@ -1,7 +1,7 @@
 ---
 title: "Use Cases for Multi-Vector Search"
 short_description: "See when multi-vector search outperforms single-vector embeddings: token-level matching for precise, fine-grained retrieval on complex queries."
-description: "Discover scenarios where multi-vector search outperforms single-vector embeddings and provides better retrieval quality."
+description: Discover scenarios where multi-vector search outperforms single-vector embeddings and provides better retrieval quality.
 weight: 3
 isLesson: true
 ---

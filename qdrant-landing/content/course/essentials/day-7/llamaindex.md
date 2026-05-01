@@ -1,7 +1,7 @@
 ---
 title: "Integrating with LlamaIndex"
 short_description: "Build LLM applications and agentic workflows with LlamaIndex and Qdrant: data loaders, RAG pipelines, function agents, and custom workflows."
-description: "Learn how LlamaIndex and Qdrant power intelligent RAG pipelines, function-calling agents, and cloud-synced vector search systems with structured workflows and dynamic query handling."
+description: Learn how LlamaIndex and Qdrant power intelligent RAG pipelines, function-calling agents, and cloud-synced vector search systems with structured workflows and dynamic query handling.
 weight: 6
 isLesson: true
 ---

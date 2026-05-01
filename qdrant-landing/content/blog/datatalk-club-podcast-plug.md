@@ -2,8 +2,8 @@
 title: "Navigating challenges and innovations in search technologies"
 draft: false
 slug: navigating-challenges-innovations
-short_description: "Podcast on search and LLM with Datatalk.club"
-description: "Podcast on search and LLM with Datatalk.club"
+short_description: Podcast on search and LLM with Datatalk.club
+description: Podcast on search and LLM with Datatalk.club
 preview_image: /blog/navigating-challenges-innovations/preview/preview.png
 date: 2024-01-12T15:39:53.751Z
 author: Atita Arora

@@ -2,8 +2,8 @@
 title: "Introducing Qdrant Stars: Join Our Ambassador Program!"
 draft: false
 slug: qdrant-stars-announcement # Change this slug to your page slug if needed
-short_description: "Qdrant Stars recognizes and supports key contributors to the Qdrant ecosystem through content creation and community leadership. # Change this"
-description: "Say hello to the first Qdrant Stars and learn more about our new ambassador program!"
+short_description: Qdrant Stars recognizes and supports key contributors to the Qdrant ecosystem through content creation and community leadership. # Change this
+description: Say hello to the first Qdrant Stars and learn more about our new ambassador program!
 preview_image: /blog/qdrant-stars-announcement/preview-image.png
 social_preview_image: /blog/qdrant-stars-announcement/preview-image.png
 date: 2024-05-19T11:57:37-03:00

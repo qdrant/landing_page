@@ -2,9 +2,9 @@
 draft: false
 title: "Pienso & Qdrant: Future Proofing Generative AI for Enterprise-Level Customers"
 slug: case-study-pienso
-short_description: "Why Pienso chose Qdrant as a cornerstone for building"
+short_description: Why Pienso chose Qdrant as a cornerstone for building
   domain-specific foundation models.
-description: "Why Pienso chose Qdrant as a cornerstone for building"
+description: Why Pienso chose Qdrant as a cornerstone for building
   domain-specific foundation models.
 preview_image: /case-studies/pienso/social_preview.png
 date: 2023-02-28T09:48:00.000Z

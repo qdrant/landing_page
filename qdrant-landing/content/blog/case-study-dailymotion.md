@@ -2,8 +2,8 @@
 title: "Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Search"
 draft: false
 slug: case-study-dailymotion # Change this slug to your page slug if needed
-short_description: "Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Search"
-description: "Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Search"
+short_description:  Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Search
+description: Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Search
 preview_image: /case-studies/dailymotion/preview-dailymotion.png # Change this
 
 # social_preview_image: /blog/Article-Image.png # Optional image used for link previews

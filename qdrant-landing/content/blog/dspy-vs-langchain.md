@@ -1,7 +1,7 @@
 ---
 title: "DSPy vs LangChain: A Comprehensive Framework Comparison" #required
-short_description: "DSPy and LangChain are powerful frameworks for building AI applications leveraging LLMs and vector search technology."
-description: "We dive deep into the capabilities of DSPy and LangChain and discuss scenarios where each of these frameworks shine. #required"
+short_description: DSPy and LangChain are powerful frameworks for building AI applications leveraging LLMs and vector search technology.
+description: We dive deep into the capabilities of DSPy and LangChain and discuss scenarios where each of these frameworks shine. #required
 social_preview_image: /blog/dspy-vs-langchain/dspy-langchain.png # This image will be used in 
 preview_image: /blog/dspy-vs-langchain/dspy-langchain.png
 author: Qdrant Team # Author of the article. Required.

@@ -1,7 +1,7 @@
 ---
 title: "Late Interaction Basics"
 short_description: "Compare no-interaction, early-interaction, and late-interaction retrieval to see why ColBERT-style multivectors outperform single-vector search."
-description: "Understand the late interaction paradigm and how it differs from traditional dense embeddings for text search."
+description: Understand the late interaction paradigm and how it differs from traditional dense embeddings for text search.
 weight: 1
 isLesson: true
 ---

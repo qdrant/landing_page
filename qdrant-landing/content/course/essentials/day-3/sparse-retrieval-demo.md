@@ -1,7 +1,7 @@
 ---
 title: "Demo: Keyword Search with Sparse Vectors"
 short_description: "Run keyword retrieval with sparse vectors in Qdrant using BM25 and SPLADE-style neural sparse models for precise lexical matching."
-description: "Hands-on sparse retrieval in Qdrant—create BM25 collections, enable IDF, index with FastEmbed, try SPLADE++ expansion, and execute keyword queries via the Universal Query API."
+description: Hands-on sparse retrieval in Qdrant—create BM25 collections, enable IDF, index with FastEmbed, try SPLADE++ expansion, and execute keyword queries via the Universal Query API.
 weight: 3
 isLesson: true
 ---

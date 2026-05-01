@@ -1,7 +1,7 @@
 ---
 title: "MaxSim Distance Metric"
 short_description: "Understand the MaxSim distance metric for late interaction: how token-level matches aggregate into a single score for multi-vector retrieval."
-description: "Learn about the MaxSim distance metric used in multi-vector search and how it computes similarity between multi-vector representations."
+description: Learn about the MaxSim distance metric used in multi-vector search and how it computes similarity between multi-vector representations.
 weight: 2
 isLesson: true
 ---

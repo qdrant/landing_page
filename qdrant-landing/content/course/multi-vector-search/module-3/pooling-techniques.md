@@ -1,7 +1,7 @@
 ---
 title: "Pooling Techniques"
 short_description: "Apply pooling to multi-vector documents to cut the number of vectors per document while preserving late-interaction retrieval quality."
-description: "Reduce the number of vectors per document using row/column pooling and hierarchical token pooling strategies."
+description: Reduce the number of vectors per document using row/column pooling and hierarchical token pooling strategies.
 weight: 3
 isLesson: true
 ---

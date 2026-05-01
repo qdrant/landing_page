@@ -2,8 +2,8 @@
 title: "Metadata automation and optimization - Reece Griffiths | Vector Space Talks"
 draft: false
 slug: metadata-deasy-labs # Change this slug to your page slug if needed
-short_description: "Reece Griffiths discusses the power of metadata in retrieval-augmented generation (RAG), how Deasy Labs automates metadata, and best practices for metadata optimization."
-description: "Metadata plays a critical role in vector search accuracy, yet it’s often overlooked. In this episode of Vector Space Talks, Reece Griffiths, CEO of Deasy Labs, explains why metadata automation is essential for scalable AI systems. He walks us through how Deasy Labs orchestrates metadata extraction, classification, and enrichment to boost retrieval efficiency."
+short_description: Reece Griffiths discusses the power of metadata in retrieval-augmented generation (RAG), how Deasy Labs automates metadata, and best practices for metadata optimization.
+description: Metadata plays a critical role in vector search accuracy, yet it’s often overlooked. In this episode of Vector Space Talks, Reece Griffiths, CEO of Deasy Labs, explains why metadata automation is essential for scalable AI systems. He walks us through how Deasy Labs orchestrates metadata extraction, classification, and enrichment to boost retrieval efficiency.
 preview_image: /blog/metadata-deasy-labs/preview.jpg
 social_preview_image: /blog/metadata-deasy-labs/social_preview.png
 title_preview_image: /blog/metadata-deasy-labs/title.jpg # Optional image used for 

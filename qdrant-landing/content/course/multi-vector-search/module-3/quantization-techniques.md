@@ -1,7 +1,7 @@
 ---
 title: "Vector Quantization Techniques"
 short_description: "Compress multi-vector embeddings with scalar, binary, and product quantization in Qdrant to slash memory cost without losing retrieval quality."
-description: "Learn how to reduce memory usage with scalar quantization, binary quantization, and other compression methods."
+description: Learn how to reduce memory usage with scalar quantization, binary quantization, and other compression methods.
 weight: 2
 isLesson: true
 ---

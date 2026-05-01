@@ -2,7 +2,7 @@
 draft: false
 title: Qdrant Summer of Code 24
 slug: qdrant-summer-of-code-24
-short_description: "Introducing Qdrant Summer of Code 2024 program."
+short_description: Introducing Qdrant Summer of Code 2024 program.
 description: "Introducing Qdrant Summer of Code 2024 program. GSoC alternative."
 preview_image: /blog/Qdrant-summer-of-code.png
 date: 2024-02-21T00:39:53.751Z

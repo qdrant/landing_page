@@ -1,7 +1,7 @@
 ---
 title: "Integrating with Tensorlake"
 short_description: "Use Tensorlake to parse documents into knowledge graphs and feed structured embeddings into Qdrant for richer semantic retrieval."
-description: "Learn how TensorLake and Qdrant combine document parsing, knowledge graphs, and vector search to build scalable, structured data lakes for advanced RAG and research discovery applications."
+description: Learn how TensorLake and Qdrant combine document parsing, knowledge graphs, and vector search to build scalable, structured data lakes for advanced RAG and research discovery applications.
 weight: 4
 isLesson: true
 ---

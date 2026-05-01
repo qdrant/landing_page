@@ -1,7 +1,7 @@
 ---
 title: "Final Project: Build Your Own Multi-Vector Search System"
 short_description: "Capstone project: build an end-to-end multi-vector search system with ColPali, optimization techniques, and a measurable quality benchmark."
-description: "Apply everything you've learned to build a multi-vector search system that solves a real problem of your choosing."
+description: Apply everything you've learned to build a multi-vector search system that solves a real problem of your choosing.
 weight: 7
 isLesson: true
 ---

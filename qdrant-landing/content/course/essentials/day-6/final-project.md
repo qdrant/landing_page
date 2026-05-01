@@ -1,7 +1,7 @@
 ---
 title: "Final Project: Production-Ready Documentation Search Engine"
 short_description: "Final project: build a documentation search engine with hybrid retrieval, multivector reranking, and Recall@10, MRR, and latency metrics."
-description: "Create a complete documentation search system with Qdrant, featuring hybrid retrieval, multivector reranking, and performance evaluation for a portfolio-ready, production-quality vector search application."
+description: Create a complete documentation search system with Qdrant, featuring hybrid retrieval, multivector reranking, and performance evaluation for a portfolio-ready, production-quality vector search application.
 weight: 2
 isLesson: true
 ---

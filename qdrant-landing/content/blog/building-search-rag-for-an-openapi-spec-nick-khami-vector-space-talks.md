@@ -2,9 +2,9 @@
 draft: false
 title: Building Search/RAG for an OpenAPI spec - Nick Khami | Vector Space Talks
 slug: building-search-rag-open-api
-short_description: "Nick Khami, Founder and Engineer of Trieve, dives into the"
+short_description: Nick Khami, Founder and Engineer of Trieve, dives into the
   world of search and rag apps powered by Open API specs.
-description: "Nick Khami discuss Trieve's work with Qdrant's Open API spec for"
+description: Nick Khami discuss Trieve's work with Qdrant's Open API spec for
   creating powerful and simplified search and recommendation systems, touching
   on real-world applications, technical specifics, and the potential for
   improved user experiences.

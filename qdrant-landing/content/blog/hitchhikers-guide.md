@@ -2,8 +2,8 @@
 title: "The Hitchhiker's Guide to Vector Search"
 draft: false
 slug: hitchhikers-guide
-short_description: "A Qdrant Star shares her hard-won lessons from her extensive open-source building"
-description: "A Qdrant Star shares her hard-won lessons from her extensive open-source building"
+short_description: A Qdrant Star shares her hard-won lessons from her extensive open-source building
+description: A Qdrant Star shares her hard-won lessons from her extensive open-source building 
 preview_image: /blog/hitchhikers-guide/preview/preview.jpg 
 social_preview_image: /blog/hitchhikers-guide/preview/social_preview.jpg # Optional image used for link previews
 title_preview_image: /blog/hitchhikers-guide/preview/title.jpg # Optional image used for blog post title

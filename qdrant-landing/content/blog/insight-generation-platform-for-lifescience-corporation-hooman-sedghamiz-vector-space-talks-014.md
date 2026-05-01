@@ -3,9 +3,9 @@ draft: false
 title: Insight Generation Platform for LifeScience Corporation - Hooman
   Sedghamiz | Vector Space Talks
 slug: insight-generation-platform
-short_description: "Hooman Sedghamiz explores the potential of large language"
+short_description: Hooman Sedghamiz explores the potential of large language
   models in creating cutting-edge AI applications.
-description: "Hooman Sedghamiz discloses the potential of AI in life sciences,"
+description: Hooman Sedghamiz discloses the potential of AI in life sciences,
   from custom knowledge applications to improving crop yield predictions, while
   tearing apart the nuances of in-house AI deployment for multi-faceted
   enterprise efficiency.

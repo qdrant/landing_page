@@ -2,7 +2,7 @@
 draft: false
 title: Introducing Qdrant Cloud on Microsoft Azure
 slug: qdrant-cloud-on-microsoft-azure
-short_description: "Qdrant Cloud is now available on Microsoft Azure"
+short_description: Qdrant Cloud is now available on Microsoft Azure
 description: "Learn the benefits of Qdrant Cloud on Azure."
 preview_image: /blog/from_cms/qdrant-azure-2-1.png
 date: 2024-01-17T08:40:42Z

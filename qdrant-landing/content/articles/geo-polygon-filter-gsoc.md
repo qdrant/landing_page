@@ -1,7 +1,7 @@
 ---
 title:  Google Summer of Code 2023 - Polygon Geo Filter for Qdrant Vector Database
-short_description: "Gsoc'23 Polygon Geo Filter for Qdrant Vector Database"
-description: "A Summary of my work and experience at Qdrant's Gsoc '23."
+short_description: Gsoc'23 Polygon Geo Filter for Qdrant Vector Database
+description: A Summary of my work and experience at Qdrant's Gsoc '23.
 preview_dir: /articles_data/geo-polygon-filter-gsoc/preview
 small_preview_image: /articles_data/geo-polygon-filter-gsoc/icon.svg
 social_preview_image: /articles_data/geo-polygon-filter-gsoc/preview/social_preview.jpg

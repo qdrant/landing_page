@@ -1,7 +1,7 @@
 ---
 title: "Qdrant Essentials FAQs"
 short_description: "Frequently asked questions about the Qdrant Essentials course: who it's for, time commitment, tooling, certification, and support."
-description: "Learn everything about the Qdrant Essentials course — who it’s for, tools required, certification details, setup options, and how to get help while building your vector search expertise."
+description: Learn everything about the Qdrant Essentials course — who it’s for, tools required, certification details, setup options, and how to get help while building your vector search expertise.
 weight: 200
 ---
 
