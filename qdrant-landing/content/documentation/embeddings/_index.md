@@ -1,5 +1,7 @@
 ---
 title: Embeddings
+short_description: "Connect Qdrant to text, image, and multimodal embedding providers including OpenAI, Cohere, Jina, Mistral, AWS Bedrock, Voyage, and many more."
+description: "Browse Qdrant integrations with embedding providers and models for dense, sparse, and multimodal vectors, including OpenAI, Cohere, Jina, Mistral, and Bedrock."
 weight: 700
 partition: ecosystem
 ---

@@ -1,5 +1,7 @@
 ---
 title: Retrieval Quality Evaluation
+short_description: "Measure and tune retrieval quality in Qdrant by evaluating embeddings and tuning HNSW parameters against a ground-truth dataset."
+description: "Tutorial: evaluate Qdrant retrieval quality with precision and ranking metrics, then tune HNSW parameters to balance accuracy against search latency."
 aliases:
   - /documentation/tutorials/retrieval-quality/
   - /documentation/beginner-tutorials/retrieval-quality/

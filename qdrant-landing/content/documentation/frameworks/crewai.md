@@ -1,5 +1,7 @@
 ---
 title: CrewAI
+short_description: "Back CrewAI's short-term and entity memory with Qdrant so role-playing agents can recall context, relationships, and past interactions reliably."
+description: "Use Qdrant as the memory store for CrewAI agents, powering short-term and entity memory with vector search for richer multi-agent collaboration."
 ---
 
 # CrewAI

@@ -1,5 +1,7 @@
 ---
 title: Vectorize.io
+short_description: "Use Vectorize.io to extract data from many sources and stream embeddings into Qdrant, deploying real-time RAG pipelines that stay in sync."
+description: "Integrate Vectorize.io with Qdrant to deploy real-time RAG pipelines, automatically extracting data, generating embeddings, and keeping collections fresh."
 ---
 
 # Vectorize.io

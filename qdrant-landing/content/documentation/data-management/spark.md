@@ -1,5 +1,7 @@
 ---
 title: Apache Spark
+short_description: "Write big-data embeddings into Qdrant from Apache Spark jobs using the Qdrant-Spark connector for distributed ingestion."
+description: "Use the Qdrant-Spark connector to load embeddings and payloads from large Spark DataFrames into Qdrant collections for distributed vector ingestion at scale."
 aliases: [ ../integrations/spark/, ../frameworks/spark/ ]
 ---
 

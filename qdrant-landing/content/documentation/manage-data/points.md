@@ -1,5 +1,7 @@
 ---
 title: Points
+short_description: "Insert, update, and delete points in Qdrant — the core records that pair a vector with an optional payload."
+description: "Manage points in Qdrant collections by upserting, updating, deleting, and retrieving records that combine a vector with an optional JSON payload for search."
 weight: 5
 aliases:
   - ../points

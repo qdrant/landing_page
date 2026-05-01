@@ -1,5 +1,7 @@
 ---
 title: Overview
+short_description: "Get oriented with Qdrant: how vector search works, the retrieval process, the client-server architecture, and core data structures."
+description: "Qdrant overview covering vector embeddings, hybrid retrieval with dense and sparse vectors, client-server architecture, and core data structures."
 weight: 105
 aliases:
   - overview

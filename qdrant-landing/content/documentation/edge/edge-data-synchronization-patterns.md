@@ -1,5 +1,7 @@
 ---
 title: "Data Synchronization Patterns" 
+short_description: "Sync Qdrant Edge Shards with server collections using snapshots, partial updates, and dual-write patterns for offline-first apps."
+description: "Synchronize Qdrant Edge Shards with server collections through snapshots, partial updates, and dual-write patterns for offline-first edge applications."
 weight: 20
 partition: develop
 ---

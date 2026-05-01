@@ -1,5 +1,7 @@
 ---
 title: Sycamore
+short_description: "Process complex unstructured documents with Sycamore and write or read embeddings against Qdrant collections for GenAI and RAG analytics."
+description: "Use the Sycamore Qdrant connector to write and read embeddings for PDFs, HTML, and other unstructured documents, powering GenAI, RAG, and document analytics."
 ---
 
 ## Sycamore

@@ -1,5 +1,7 @@
 ---
 title: DLT
+short_description: "Load messy data into Qdrant with DLT, an open-source Python library for declarative, schema-aware vector ingestion."
+description: "Use DLT as a Python data load tool to extract from arbitrary sources and write structured records and embeddings into Qdrant as a vector destination."
 aliases: [ ../integrations/dlt/, ../frameworks/dlt/ ]
 ---
 

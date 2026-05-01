@@ -1,5 +1,7 @@
 ---
 title: Role Management
+short_description: "Build custom Qdrant Cloud roles with fine-grained permissions, or assign built-in Base, Admin, and Owner roles to your team."
+description: "Create, edit, and assign custom Qdrant Cloud roles with fine-grained permissions, or use built-in Base, Admin, and Owner roles for access control."
 weight: 5
 ---
 

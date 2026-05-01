@@ -1,5 +1,7 @@
 ---
 title: Jina Embeddings
+short_description: "Combine Jina AI embeddings with Qdrant for multilingual retrieval, code search, late chunking, and Matryoshka-style adjustable vector dimensions."
+description: "Use Jina AI embeddings with Qdrant for multilingual semantic search, code retrieval, and long-context indexing with task-specific adapters and Matryoshka dimensions."
 aliases:
   - /documentation/embeddings/jina-embeddings/
   - /documentation/integrations/jina-embeddings/

@@ -1,5 +1,7 @@
 ---
 title: Deployment Platforms
+short_description: "Deploy Qdrant Hybrid Cloud on managed Kubernetes platforms including AWS EKS, GCP GKE, Azure AKS, and Linode LKE."
+description: "Deploy Qdrant Hybrid Cloud on managed Kubernetes platforms such as AWS EKS, GCP GKE, Azure AKS, and Linode LKE with platform-specific guidance."
 weight: 30
 ---
 

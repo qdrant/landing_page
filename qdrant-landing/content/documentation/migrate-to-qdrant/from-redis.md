@@ -1,5 +1,7 @@
 ---
 title: From Redis
+short_description: "Migrate Redis vector data out of RediSearch full-text indexes and into Qdrant for a dedicated vector search backend."
+description: "Migrate from Redis to Qdrant by streaming vectors and metadata out of RediSearch FT indexes and into Qdrant collections with the Qdrant Migration Tool."
 weight: 70
 ---
 

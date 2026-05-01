@@ -1,5 +1,7 @@
 ---
 title: Twelve Labs
+short_description: "Embed video, text, image, and audio in a unified vector space with Twelve Labs and search across modalities using Qdrant."
+description: "Use Twelve Labs Embed API with Qdrant to index video, text, image, and audio in one vector space and run any-to-any cross-modal similarity search."
 ---
 
 # Twelve Labs

@@ -1,5 +1,7 @@
 ---
 title: OpenAI 
+short_description: "Use OpenAI embeddings with Qdrant for semantic search and RAG across documents, with optional binary quantization for compact vector storage."
+description: "Index OpenAI embeddings in Qdrant for semantic search and retrieval-augmented generation, and apply binary quantization to shrink storage with minimal quality loss."
 aliases: [ ../integrations/openai/ ]
 ---
 

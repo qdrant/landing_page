@@ -1,5 +1,7 @@
 ---
 title: Distributed Deployment
+short_description: "Run Qdrant in distributed mode across multiple nodes for higher availability, scalable throughput, and fault-tolerant vector search."
+description: "Configure distributed Qdrant deployments to scale storage, balance load, and tolerate node failures using sharding and replication across a cluster."
 partition: deploy
 weight: 115
 aliases:

@@ -1,5 +1,7 @@
 ---
 title: Semantic-Router
+short_description: "Route LLM and agent requests by semantic meaning using Semantic-Router with Qdrant as the vector index for fast, embedding-based decisions."
+description: "Use Semantic-Router with Qdrant as the vector index to make decision-layer routing for LLM agents based on semantic similarity rather than LLM generations."
 ---
 
 # Semantic-Router

@@ -1,5 +1,7 @@
 ---
 title: Airbyte
+short_description: "Replicate data into Qdrant with Airbyte to power vector search pipelines from hundreds of source connectors with minimal code."
+description: "Use Airbyte as a managed ELT pipeline into Qdrant, replicating records from databases, SaaS apps, and files into vector collections for semantic search."
 aliases: [ ../integrations/airbyte/, ../frameworks/airbyte/ ]
 ---
 

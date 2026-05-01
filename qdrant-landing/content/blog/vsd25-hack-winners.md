@@ -3,6 +3,7 @@ title: "Thinking Outside the Bot with 2025 Hackathon Winners"
 draft: false
 slug: vector-space-hackathon-winners-2025
 short_description: "Discover the winners of Qdrant’s global Think Outside the Bot hackathon, where developers built innovative vector search applications beyond chatbots — from robotics to gaming, e-commerce, and more."
+description: "Meet the 2025 Qdrant Hackathon winners building beyond chatbots: vector search projects spanning robotics, e-commerce, and gaming."
 preview_image: /blog/vector-space-hackathon-2025/hackathon-hero.jpg
 social_preview_image: /blog/vector-space-hackathon-2025/hackathon-hero.jpg
 date: 2025-09-29

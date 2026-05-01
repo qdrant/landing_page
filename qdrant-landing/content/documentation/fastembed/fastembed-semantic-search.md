@@ -1,5 +1,7 @@
 ---
 title: "FastEmbed & Qdrant"
+short_description: "Build semantic search end-to-end using Qdrant Client and FastEmbed — generate embeddings, create a collection, and run vector queries in a few lines."
+description: "Use Qdrant Client with FastEmbed to build end-to-end semantic search: generate embeddings, create a collection, and query for the most relevant documents."
 weight: 20
 ---
 

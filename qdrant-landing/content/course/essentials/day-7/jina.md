@@ -1,5 +1,6 @@
 ---
 title: "Integrating with Jina AI"
+short_description: "Power multimodal text and image retrieval by pairing Jina embedding models with Qdrant for cross-modal search across mixed content."
 description: Learn how Jina AI’s Embeddings v4 and Qdrant enable advanced multimodal retrieval, supporting text-to-image, image-to-text, and hybrid search with high-performance vector storage.
 weight: 9
 isLesson: true

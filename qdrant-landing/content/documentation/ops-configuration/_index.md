@@ -1,5 +1,7 @@
 ---
 title: Configuration
+short_description: "Configure and administer Qdrant with guides on config files, environment variables, runtime administration, telemetry, and GPU support."
+description: "Customize Qdrant with configuration files, environment variables, runtime administration tools, anonymized telemetry controls, and GPU-accelerated indexing."
 weight: 120
 partition: deploy
 ---

@@ -1,5 +1,7 @@
 ---
 title: ToolJet
+short_description: "Connect ToolJet to Qdrant with the marketplace plugin to build low-code business apps backed by collections, filtered search, and vector queries."
+description: "Use the Qdrant plugin in ToolJet to build low-code business apps with vector search, managing collections, points, and filtered queries through drag-and-drop."
 ---
 
 # ToolJet

@@ -1,5 +1,6 @@
 ---
 title: "Visual Interpretability of ColPali"
+short_description: "Visualize ColPali matches by mapping query tokens to image patches, making multi-modal retrieval results inspectable and debuggable."
 description: Learn how to visualize and interpret ColPali embeddings to understand what the model focuses on in images.
 weight: 3
 isLesson: true

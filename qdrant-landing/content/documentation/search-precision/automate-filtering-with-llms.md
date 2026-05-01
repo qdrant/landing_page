@@ -1,5 +1,7 @@
 ---
 title: LLM-Powered Filter Automation
+short_description: "Use LLMs to translate natural-language queries into Qdrant payload filters for precise, conversational search."
+description: "Automate filter construction in Qdrant by using an LLM to convert natural-language queries into structured payload filter conditions for precise vector search."
 weight: 10
 alias:
     - /documentation/database-tutorials/automate-filtering-with-llms/

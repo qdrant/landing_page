@@ -1,5 +1,7 @@
 ---
 title: Working with SPLADE 
+short_description: "Generate sparse text vectors with SPLADE in FastEmbed for interpretable, large-scale lexical retrieval that outperforms classic BM25."
+description: "Use SPLADE with FastEmbed to produce sparse text embeddings for Qdrant, enabling interpretable, large-scale retrieval that improves on BM25-style ranking."
 weight: 50
 ---
 

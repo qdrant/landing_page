@@ -1,5 +1,7 @@
 ---
 title: Collections
+short_description: "Create and configure Qdrant collections — named sets of points sharing vector dimensions and a distance metric."
+description: "Configure Qdrant collections, define named vectors with configurable distance metrics, and manage the building blocks of vector search at the collection level."
 weight: 20
 aliases:
   - ../collections

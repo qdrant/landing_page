@@ -1,5 +1,7 @@
 ---
 title: "Nomic"
+short_description: "Generate long-context Nomic text embeddings via the Nomic SDK or FastEmbed and index them in Qdrant for high-quality semantic search."
+description: "Use open-source Nomic text embeddings with Qdrant via the Nomic SDK or FastEmbed to build long-context semantic search and retrieval pipelines."
 ---
 
 # Nomic

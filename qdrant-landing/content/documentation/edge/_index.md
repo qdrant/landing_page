@@ -1,5 +1,7 @@
 ---
 title: "Qdrant Edge"
+short_description: "Embed Qdrant Edge for in-process vector search on robots, kiosks, and mobile devices with low-latency local retrieval."
+description: "Embed Qdrant Edge for in-process vector search on robots, kiosks, and mobile devices, with offline-capable local retrieval and optional server sync."
 weight: 220
 partition: develop
 ---

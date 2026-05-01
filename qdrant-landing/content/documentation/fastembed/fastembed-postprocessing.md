@@ -1,5 +1,7 @@
 ---
 title: Multi-Vector Postprocessing
+short_description: "Compress multivector embeddings into single fixed-size vectors with MUVERA in FastEmbed for fast first-stage search and accurate multivector reranking."
+description: "Use FastEmbed's MUVERA postprocessing to convert multivector embeddings into single-vector approximations, enabling fast HNSW retrieval with multivector reranking."
 weight: 90
 ---
 

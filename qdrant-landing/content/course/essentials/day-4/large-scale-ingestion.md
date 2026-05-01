@@ -1,5 +1,6 @@
 ---
 title: "Large-Scale Data Ingestion"
+short_description: "Choose the right ingestion strategy for Qdrant: batched upserts, upload_points, and streaming uploads for million- and billion-scale workloads."
 description: Master large-scale vector ingestion in Qdrant. Explore batching, upload_points, and upload_collection methods, on-disk storage, and parallel streaming for billion-scale AI data pipelines.
 weight: 4
 isLesson: true

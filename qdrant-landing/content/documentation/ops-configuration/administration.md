@@ -1,5 +1,7 @@
 ---
 title: Administration
+short_description: "Administer a running Qdrant instance with runtime tools for recovery mode, strict mode, and limiting expensive query patterns."
+description: "Manage Qdrant at runtime with administration tools for recovery mode, strict mode, and guardrails against expensive queries on unindexed payload fields."
 weight: 10
 aliases:
   - /documentation/administration

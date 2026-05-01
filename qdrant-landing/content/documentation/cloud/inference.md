@@ -1,5 +1,7 @@
 ---
 title: Inference
+short_description: "Generate dense, sparse, and multimodal embeddings inside Qdrant Cloud, or proxy to OpenAI, Cohere, and Jina without external infrastructure."
+description: "Generate dense, sparse, and multimodal embeddings inside Qdrant Cloud, or proxy requests to OpenAI, Cohere, and Jina without managing inference servers."
 weight: 45
 ---
 

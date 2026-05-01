@@ -1,5 +1,7 @@
 ---
 title: "On-Device Embeddings" 
+short_description: "Generate text and image embeddings on-device by pairing FastEmbed with Qdrant Edge for fully offline vector search."
+description: "Pair FastEmbed with Qdrant Edge to generate text and image embeddings on-device, enabling fully offline vector search with cached local models."
 weight: 15
 partition: develop
 ---

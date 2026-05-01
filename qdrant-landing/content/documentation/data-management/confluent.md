@@ -1,5 +1,7 @@
 ---
 title: Confluent Kafka
+short_description: "Stream events from Confluent Cloud Kafka topics into Qdrant collections for real-time, event-driven vector ingestion."
+description: "Connect Confluent Cloud Kafka to Qdrant with the managed sink connector, streaming records from topics into vector collections for real-time AI applications."
 aliases: [ ../frameworks/confluent/ ]
 ---
 

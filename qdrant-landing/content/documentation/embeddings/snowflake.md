@@ -1,5 +1,7 @@
 ---
 title: Snowflake Models
+short_description: "Combine Snowflake Arctic Embed text models with Qdrant to power compact, high-quality semantic search using FastEmbed for inference."
+description: "Use Snowflake Arctic Embed text models with Qdrant via FastEmbed to build efficient semantic search with compact, high-recall sentence embeddings."
 ---
 
 # Snowflake

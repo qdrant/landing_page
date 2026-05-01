@@ -1,5 +1,7 @@
 ---
 title: Local Quickstart
+short_description: "Run Qdrant locally with Docker, connect a client SDK, and create your first collection for vector search."
+description: "Quickstart guide to running Qdrant locally with Docker, connecting an SDK, and building a first collection for semantic vector search."
 weight: 110
 partition: develop
 aliases:

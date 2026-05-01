@@ -1,5 +1,7 @@
 ---
 title: Blog-Reading Chatbot with GPT-4o 
+short_description: "Build a blog-reading RAG chatbot with Qdrant Hybrid Cloud on Scaleway, LangChain, and OpenAI for grounded answers over your own content."
+description: "Deploy a RAG chatbot on Scaleway with Qdrant Hybrid Cloud, LangChain, and OpenAI, ingesting blog content for accurate, retrieval-augmented responses."
 weight: 70
 social_preview_image: /blog/hybrid-cloud-scaleway/hybrid-cloud-scaleway-tutorial.png
 aliases:

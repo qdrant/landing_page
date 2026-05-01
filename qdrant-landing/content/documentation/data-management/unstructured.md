@@ -1,5 +1,7 @@
 ---
 title: Unstructured
+short_description: "Preprocess documents with Unstructured and ingest the cleaned text and embeddings into Qdrant for retrieval-ready RAG datasets."
+description: "Use Unstructured to parse PDFs, HTML, and office files, then ingest the cleaned text and embeddings into Qdrant collections for RAG and semantic search."
 aliases: [ ../frameworks/unstructured/ ]
 ---
 

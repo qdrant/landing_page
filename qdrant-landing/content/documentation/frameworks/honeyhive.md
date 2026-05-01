@@ -1,5 +1,7 @@
 ---
 title: HoneyHive
+short_description: "Trace and evaluate Qdrant-powered RAG pipelines in HoneyHive to monitor latency, retrieval quality, and embedding performance in production."
+description: "Use HoneyHive to trace and evaluate Qdrant vector search in RAG pipelines, monitoring latency, retrieval relevance, and embedding quality at scale."
 ---
 
 # HoneyHive

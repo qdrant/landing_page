@@ -1,5 +1,7 @@
 ---
 title: Google ADK
+short_description: "Connect Google Agent Development Kit agents to Qdrant via the Qdrant MCP Server for semantic memory, retrieval, and tool-augmented reasoning."
+description: "Use Qdrant with Google ADK agents through the Qdrant MCP Server, giving agents semantic memory and retrieval tools for storing and recalling information."
 ---
 
 # Google ADK

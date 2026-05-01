@@ -1,5 +1,7 @@
 ---
 title: Semantic Search 101
+short_description: "Build a semantic search engine locally with Qdrant in five minutes using sentence-transformer embeddings and the Python SDK."
+description: "Tutorial: build a local semantic search engine with Qdrant in minutes by encoding text into embeddings and running vector queries with the Python client."
 hideInSidebar: true
 aliases:
   - /documentation/tutorials/mighty.md/

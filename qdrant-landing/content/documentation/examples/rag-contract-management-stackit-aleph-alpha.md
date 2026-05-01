@@ -1,5 +1,7 @@
 ---
 title: Region-Specific Contract Management System
+short_description: "Build a region-specific contract management RAG system on STACKIT with Qdrant Hybrid Cloud and Aleph Alpha for GDPR-compliant document search."
+description: "Deploy a contract management RAG application on STACKIT with Qdrant Hybrid Cloud and Aleph Alpha embeddings and LLMs for region-restricted document search."
 weight: 50
 social_preview_image: /blog/hybrid-cloud-aleph-alpha/hybrid-cloud-aleph-alpha-tutorial.png
 aliases:

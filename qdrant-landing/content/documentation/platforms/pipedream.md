@@ -1,5 +1,7 @@
 ---
 title: Pipedream
+short_description: "Connect Qdrant to Pipedream workflows with the official app to add vector search to automations spanning thousands of APIs and data sources."
+description: "Integrate Qdrant with Pipedream to build automated cross-platform workflows that combine vector search with thousands of supported apps and APIs."
 aliases: [ ../frameworks/pipedream/ ]
 ---
 

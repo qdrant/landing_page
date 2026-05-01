@@ -1,5 +1,7 @@
 ---
 title: Database Optimization
+short_description: "Answers to common Qdrant optimization questions: reducing memory usage, sizing hardware, on-disk storage, and resolving slow queries."
+description: "FAQ on optimizing Qdrant: cut memory with quantization and on-disk storage, size machines correctly, and diagnose slow queries with payload indexing."
 weight: 2
 ---
 

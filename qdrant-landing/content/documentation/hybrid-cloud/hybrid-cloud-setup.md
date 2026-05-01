@@ -1,5 +1,7 @@
 ---
 title: Setup Hybrid Cloud
+short_description: "Set up a Qdrant Hybrid Cloud Environment by installing the Operator and Cloud Agent into your own Kubernetes cluster."
+description: "Onboard a Kubernetes cluster as a Qdrant Hybrid Cloud Environment by installing the Operator and Cloud Agent with the required storage and permissions."
 weight: 5
 ---
 

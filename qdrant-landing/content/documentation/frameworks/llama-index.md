@@ -1,5 +1,7 @@
 ---
 title: LlamaIndex
+short_description: "Index and retrieve private data in LlamaIndex with Qdrant as the vector store, augmenting LLMs with grounded context from your documents."
+description: "Use Qdrant as the vector store in LlamaIndex to ingest private data and augment LLM apps with semantic retrieval and retrieval-augmented generation."
 aliases:
   - ../integrations/llama-index/
   - /documentation/overview/integrations/llama-index/

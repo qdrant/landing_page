@@ -2,7 +2,7 @@
 title: "Dust and Qdrant: Using AI to Unlock Company Knowledge and Drive Employee Productivity"
 draft: false
 slug: dust-and-qdrant 
-#short_description: 
+short_description: "How Dust uses Qdrant to power retrieval-augmented AI assistants that surface company knowledge and boost employee productivity."
 description: Using AI to Unlock Company Knowledge and Drive Employee Productivity
 preview_image: /case-studies/dust/preview.png
 date: 2024-02-06T07:03:26-08:00

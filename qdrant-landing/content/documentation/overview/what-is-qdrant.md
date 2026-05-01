@@ -1,5 +1,7 @@
 ---
 title: What is Qdrant?
+short_description: "Introduction to Qdrant, the vector similarity search engine that stores points with vectors and payloads for semantic search and RAG."
+description: "Qdrant is a vector database for storing, searching, and managing high-dimensional embeddings — purpose-built for semantic search, RAG, and recommendations."
 weight: 5
 aliases:
   - overview

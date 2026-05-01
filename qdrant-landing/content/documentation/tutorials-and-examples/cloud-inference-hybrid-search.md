@@ -1,5 +1,7 @@
 ---
 title: Cloud Inference Hybrid Search
+short_description: "Step-by-step tutorial: build hybrid search in Qdrant combining dense semantic and sparse keyword retrieval with reciprocal rank fusion."
+description: "Build a hybrid search engine on Qdrant Cloud that fuses dense embeddings with BM25 sparse vectors using reciprocal rank fusion for higher-precision retrieval."
 hideInSidebar: true
 weight: 35
 ---

@@ -1,5 +1,7 @@
 ---
 title: Cheshire Cat
+short_description: "Run Cheshire Cat agents on Qdrant as the default vector memory, taking advantage of collection aliases, quantization, and snapshots."
+description: "Use Qdrant as the vector memory for Cheshire Cat agents, with built-in support for aliases, quantization, and snapshots for fast and durable retrieval."
 aliases: [ ../integrations/cheshire-cat/ ]
 ---
 

@@ -1,5 +1,7 @@
 ---
 title: Practice Datasets
+short_description: "Skip the embedding step with ready-made Qdrant snapshots of public datasets you can import and explore right away."
+description: "Download pre-computed Qdrant snapshots of public datasets like arXiv and Hugging Face collections to practice vector search without generating embeddings."
 weight: 1500
 partition: ecosystem
 ---

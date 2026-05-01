@@ -1,5 +1,7 @@
 ---
 title: Pulumi
+short_description: "Provision Qdrant Cloud clusters with Pulumi using your preferred language to define, deploy, and manage vector database infrastructure as code."
+description: "Use Pulumi to provision and manage Qdrant Cloud clusters as code, defining clusters, API keys, and packages in Python, TypeScript, Go, or other supported languages."
 weight: 5
 aliases:
   - /documentation/infrastructure/pulumi/

@@ -1,5 +1,7 @@
 ---
 title: Querying with Airflow
+short_description: "Orchestrate Qdrant ingestion and semantic queries with Apache Airflow and Astronomer using the official Qdrant Airflow provider."
+description: "Build Apache Airflow DAGs on Astronomer that generate embeddings in parallel and run semantic queries against Qdrant for production data pipelines."
 weight: 10
 hideInSidebar: true
 aliases:

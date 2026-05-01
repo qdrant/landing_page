@@ -1,5 +1,7 @@
 ---
 title: API & SDKs
+short_description: "Talk to Qdrant through REST or gRPC and use official client SDKs for Python, JavaScript, Rust, Go, Java, and .NET."
+description: "Connect to Qdrant with REST or gRPC APIs and official client libraries for Python, JavaScript, Rust, Go, Java, and .NET to build vector search apps."
 weight: 230
 partition: develop
 ---

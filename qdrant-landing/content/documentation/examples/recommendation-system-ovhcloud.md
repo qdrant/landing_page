@@ -1,5 +1,7 @@
 ---
 title: Movie Recommendation System 
+short_description: "Build a movie recommendation system on OVHcloud with Qdrant Hybrid Cloud and sparse vectors using collaborative filtering over user preferences."
+description: "Build a collaborative-filtering movie recommender on OVHcloud with Qdrant Hybrid Cloud and sparse vectors for fast, private personalized recommendations."
 weight: 65
 social_preview_image: /blog/hybrid-cloud-ovhcloud/hybrid-cloud-ovhcloud-tutorial.png
 aliases:

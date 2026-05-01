@@ -1,5 +1,7 @@
 ---
 title: Neo4j GraphRAG
+short_description: "Run GraphRAG with Neo4j and Qdrant — vector search in Qdrant retrieves candidates that the Neo4j knowledge graph turns into grounded answers."
+description: "Use the Neo4j GraphRAG package with Qdrant as a vector retriever to combine graph-based knowledge with fast vector search for retrieval-augmented generation."
 ---
 
 # Neo4j GraphRAG

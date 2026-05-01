@@ -1,5 +1,7 @@
 ---
 title: Hybrid Queries
+short_description: "Combine dense, sparse, and multivector queries in Qdrant with hybrid search and multi-stage Universal Query pipelines."
+description: "Run hybrid and multi-stage queries in Qdrant — fuse dense, sparse, and multivector results with RRF or DBSF using the Universal Query API for hybrid search."
 weight: 15
 aliases:
   - ../hybrid-queries

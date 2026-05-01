@@ -1,5 +1,7 @@
 ---
 title: Semantic Search 101
+short_description: "Run your first semantic search on Qdrant Cloud: create a cluster, upload a small dataset, and query by meaning instead of keywords."
+description: "Step-by-step tutorial: spin up a Qdrant Cloud cluster, create a collection, upload sample data, and run semantic vector search queries in five minutes."
 weight: 4
 aliases:
   - /documentation/tutorials/mighty.md/

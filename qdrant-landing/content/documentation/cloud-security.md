@@ -1,5 +1,7 @@
 ---
 title: Cloud Security
+short_description: "Run Qdrant Cloud on isolated, encrypted infrastructure with RBAC, API keys, IP allowlists, and SOC 2 and HIPAA compliance."
+description: "Qdrant Cloud security: isolated clusters, encryption at rest and in transit, RBAC, API key controls, IP restrictions, and SOC 2 and HIPAA compliance."
 weight: 240
 partition: deploy
 aliases:

@@ -1,5 +1,7 @@
 ---
 title: Mixpeek
+short_description: "Chunk and embed video with Mixpeek, then store the resulting vectors in Qdrant for fast text- and video-query similarity search."
+description: "Pair Mixpeek video embeddings with Qdrant to chunk, index, and search video content using text or video queries for scalable multimodal retrieval."
 ---
 
 # Mixpeek Video Embeddings

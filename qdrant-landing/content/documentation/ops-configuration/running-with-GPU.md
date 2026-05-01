@@ -1,5 +1,7 @@
 ---
 title: Running with GPU
+short_description: "Accelerate Qdrant vector indexing with GPU support using dedicated Docker images for NVIDIA and AMD hardware via the Vulkan API."
+description: "Enable GPU-accelerated vector indexing in Qdrant with dedicated Docker images for NVIDIA and AMD hardware, powered by the Vulkan compute API."
 weight: 20
 aliases:
   - /documentation/guides/running-with-GPU/

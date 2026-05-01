@@ -1,5 +1,7 @@
 ---
 title: From Pinecone
+short_description: "Migrate Pinecone serverless indexes into Qdrant collections, preserving vectors, metadata, and namespaces in transit."
+description: "Migrate from Pinecone to Qdrant by streaming serverless index data, vectors, namespaces, and metadata into Qdrant collections with the Qdrant Migration Tool."
 weight: 5
 partition: ecosystem
 ---

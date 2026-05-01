@@ -1,5 +1,6 @@
 ---
 title: "Qdrant Academy"
+short_description: "Qdrant Academy: free, structured courses on vector search, hybrid retrieval, multivectors, and production-grade AI search applications."
 description: Master vector search and AI-powered applications with Qdrant Academy. Free, self-paced courses guide you from beginner to expert with hands-on projects, code notebooks, and certification.
 weight: 50
 ---

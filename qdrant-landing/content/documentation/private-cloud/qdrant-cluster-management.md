@@ -1,5 +1,7 @@
 ---
 title: Managing a Cluster
+short_description: "Manage Qdrant Private Cloud clusters declaratively with Kubernetes resources to scale, upgrade, and expose them via Service or Ingress."
+description: "Manage Qdrant Private Cloud clusters declaratively in Kubernetes to scale resources, upgrade Qdrant versions, and expose clusters via Service or Ingress."
 weight: 15
 ---
 

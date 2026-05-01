@@ -1,5 +1,7 @@
 ---
 title: Salesforce Mulesoft
+short_description: "Bring vector search into Salesforce MuleSoft Anypoint by connecting Qdrant through the open-source MuleSoft Vectors connector for AI-powered integrations."
+description: "Integrate Qdrant with Salesforce MuleSoft Anypoint via the MuleSoft Vectors connector to add vector search and AI capabilities to enterprise integrations."
 ---
 
 # Salesforce Mulesoft

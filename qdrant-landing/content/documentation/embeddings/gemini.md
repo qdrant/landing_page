@@ -1,5 +1,7 @@
 ---
 title: Gemini
+short_description: "Embed text, images, video, and audio with Google Gemini and store vectors in Qdrant for unified, multilingual multimodal retrieval."
+description: "Generate Google Gemini embeddings for text and multimodal content, then index them in Qdrant to build multilingual, cross-modal semantic search."
 ---
 
 # Gemini

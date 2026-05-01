@@ -1,5 +1,7 @@
 ---
 title: Multitenancy with LlamaIndex
+short_description: "Set up multitenancy in LlamaIndex with Qdrant using payload-based partitioning to keep each user's data fully isolated in one collection."
+description: "Configure multitenant retrieval with LlamaIndex and Qdrant via payload-based partitioning, isolating per-user data in a single shared collection."
 weight: 25
 aliases:
   - /documentation/tutorials/llama-index-multitenancy/

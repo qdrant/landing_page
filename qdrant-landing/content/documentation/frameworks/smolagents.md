@@ -1,5 +1,7 @@
 ---
 title: SmolAgents
+short_description: "Pair Hugging Face SmolAgents with Qdrant retrieval to build code-writing agents that query vector collections through reusable tools."
+description: "Build Hugging Face SmolAgents that call Qdrant retrieval tools to query vector collections, combining code-driven agents with semantic search over your data."
 ---
 
 # SmolAgents

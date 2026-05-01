@@ -1,5 +1,7 @@
 ---
 title: Managed Cloud
+short_description: "Run Qdrant as a managed SaaS on AWS, GCP, or Azure with high availability, automatic scaling, backups, and zero-downtime upgrades."
+description: "Run Qdrant as a managed service on AWS, GCP, or Azure with high availability, automatic scaling, backups, and zero-downtime version upgrades."
 weight: 220
 aliases:
   - /documentation/overview/qdrant-alternatives/documentation/cloud/

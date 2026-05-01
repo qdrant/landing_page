@@ -1,5 +1,6 @@
 ---
 title: "Day 4: Optimization and Scale"
+short_description: "Day 4 of Qdrant Essentials: scalar, binary, and product quantization, oversampling and rescoring, plus high-throughput ingestion patterns."
 description: Learn Qdrant performance optimization with vector quantization, accuracy recovery with rescoring, and high-throughput data ingestion. Compare memory usage, recall, and speed to tune large-scale vector search. 
 isLesson: true
 weight: 50
