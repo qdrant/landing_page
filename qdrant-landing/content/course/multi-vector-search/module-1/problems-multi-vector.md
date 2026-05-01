@@ -1,7 +1,7 @@
 ---
 title: "Problems of Multi-Vector Search"
 short_description: "Understand the trade-offs of multi-vector search: HNSW incompatibility, asymmetric MaxSim, and the storage and compute overhead per document."
-description: Understand the challenges and limitations of multi-vector search at scale, including memory and performance considerations.
+description: "Understand the challenges and limitations of multi-vector search at scale, including memory and performance considerations."
 weight: 4
 isLesson: true
 ---

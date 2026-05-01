@@ -2,8 +2,8 @@
 draft: false
 title: "Qdrant Hybrid Cloud: the First Managed Vector Database You Can Run Anywhere"
 slug: hybrid-cloud
-short_description: 
-description:
+short_description: "Announcing Qdrant Hybrid Cloud — the first managed vector database that runs in any cloud, on-premise, or edge environment with full data sovereignty."
+description: "Qdrant Hybrid Cloud launch: deploy a managed vector database on any Kubernetes infrastructure — cloud, on-premise, or edge — with full data sovereignty."
 preview_image: /blog/hybrid-cloud/hybrid-cloud.png
 social_preview_image: /blog/hybrid-cloud/hybrid-cloud.png
 date: 2024-04-15T00:01:00Z

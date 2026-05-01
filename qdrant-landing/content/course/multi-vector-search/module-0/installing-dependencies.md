@@ -1,7 +1,7 @@
 ---
 title: "Installing Dependencies"
 short_description: "Set up a Python environment for multi-vector search with the Qdrant client and FastEmbed for late-interaction embeddings."
-description: Install Python dependencies including FastEmbed and Qdrant client.
+description: "Install Python dependencies including FastEmbed and Qdrant client."
 weight: 2
 isLesson: true
 ---

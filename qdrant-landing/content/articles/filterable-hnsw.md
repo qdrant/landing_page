@@ -1,7 +1,7 @@
 ---
 title: Filterable HNSW
-short_description: How to make ANN search with custom filtering?
-description: How to make ANN search with custom filtering? Search in selected subsets without losing the results.
+short_description: "How to make ANN search with custom filtering?"
+description: "How to make ANN search with custom filtering? Search in selected subsets without losing the results."
 # external_link: https://blog.vasnetsov.com/posts/categorical-hnsw/
 social_preview_image: /articles_data/filterable-hnsw/social_preview.jpg
 preview_dir: /articles_data/filterable-hnsw/preview

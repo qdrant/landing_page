@@ -2,9 +2,9 @@
 draft: false
 title: Binary Quantization - Andrey Vasnetsov | Vector Space Talks
 slug: binary-quantization
-short_description: Andrey Vasnetsov, CTO of Qdrant, discusses the concept of
+short_description: "Andrey Vasnetsov, CTO of Qdrant, discusses the concept of"
   binary quantization and its applications in vector indexing.
-description: Andrey Vasnetsov, CTO of Qdrant, discusses the concept of binary
+description: "Andrey Vasnetsov, CTO of Qdrant, discusses the concept of binary"
   quantization and its benefits in vector indexing, including the challenges and
   potential future developments of this technique.
 preview_image: /blog/from_cms/andrey-vasnetsov-cropped.png

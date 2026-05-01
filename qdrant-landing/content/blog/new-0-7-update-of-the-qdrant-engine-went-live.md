@@ -2,8 +2,8 @@
 draft: true
 title: New 0.7.0 update of the Qdrant engine went live
 slug: qdrant-0-7-0-released
-short_description: Qdrant v0.7.0 engine has been released
-description: Qdrant v0.7.0 engine has been released
+short_description: "Qdrant v0.7.0 engine has been released"
+description: "Qdrant v0.7.0 engine has been released"
 preview_image: /blog/from_cms/v0.7.0.png
 date: 2022-04-13T08:57:07.604Z
 author: Alyona Kavyerina

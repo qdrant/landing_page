@@ -1,7 +1,7 @@
 ---
 title: "Project: Building a Recommendation System"
 short_description: "Build a recommendation system that fuses dense, sparse, and ColBERT multivectors in a single Universal Query with reranking and filters."
-description: Build a hybrid AI recommendation system with Qdrant’s Universal Query API—combining dense, sparse, and multivector retrieval, ColBERT reranking, and RRF fusion in one atomic query. 
+description: "Build a hybrid AI recommendation system with Qdrant’s Universal Query API—combining dense, sparse, and multivector retrieval, ColBERT reranking, and RRF fusion in one atomic query."
 weight: 5
 isLesson: true
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Sparse Vectors and Inverted Indexes"
 short_description: "Use sparse vectors and inverted indexes for keyword search and recommendations, with index-value pairs and dot-product scoring."
-description: Learn sparse vectors and inverted indexes in Qdrant, create named sparse vectors, store index–value pairs, run exact dot-product search, and prepare for hybrid search with dense vectors.
+description: "Learn sparse vectors and inverted indexes in Qdrant, create named sparse vectors, store index–value pairs, run exact dot-product search, and prepare for hybrid search with dense vectors."
 weight: 2
 isLesson: true
 ---

@@ -2,10 +2,10 @@
 draft: false
 title: Optimizing an Open Source Vector Database with Andrey Vasnetsov
 slug: open-source-vector-search-engine-vector-database
-short_description: CTO of Qdrant Andrey talks about Vector search engines and
+short_description: "CTO of Qdrant Andrey talks about Vector search engines and"
   the technical facets and challenges encountered in developing an open-source
   vector database.
-description: Learn key strategies for optimizing vector search from Andrey Vasnetsov, CTO at Qdrant. Dive into techniques like efficient indexing for improved performance.
+description: "Learn key strategies for optimizing vector search from Andrey Vasnetsov, CTO at Qdrant. Dive into techniques like efficient indexing for improved performance."
 preview_image: /blog/from_cms/andrey-vasnetsov-cropped.png
 date: 2024-01-10T16:04:57.804Z
 author: Demetrios Brinkmann

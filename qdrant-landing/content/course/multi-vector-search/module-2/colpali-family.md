@@ -1,7 +1,7 @@
 ---
 title: "ColPali Family Overview"
 short_description: "Compare ColPali variants for visual document retrieval, from compact ColSmol and ColFlor to multilingual models, and pick the right fit."
-description: Explore the ColPali model family and their capabilities for multi-modal document understanding and retrieval.
+description: "Explore the ColPali model family and their capabilities for multi-modal document understanding and retrieval."
 weight: 2
 isLesson: true
 ---

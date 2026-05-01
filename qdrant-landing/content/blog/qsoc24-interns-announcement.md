@@ -2,8 +2,8 @@
 title: "QSoC 2024: Announcing Our Interns!"
 draft: false
 slug: qsoc24-interns-announcement # Change this slug to your page slug if needed
-short_description:  We are pleased to announce the selection of interns for the inaugural Qdrant Summer of Code (QSoC) program. # Change this
-description: We are pleased to announce the selection of interns for the inaugural Qdrant Summer of Code (QSoC) program. # Change this
+short_description: "We are pleased to announce the selection of interns for the inaugural Qdrant Summer of Code (QSoC) program. # Change this"
+description: "We are pleased to announce the selection of interns for the inaugural Qdrant Summer of Code (QSoC) program. # Change this"
 preview_image: /blog/qsoc24-interns-announcement/qsoc.jpg # Change this
 
 social_preview_image: /blog/qsoc24-interns-announcement/qsoc.jpg # Optional image used for link previews

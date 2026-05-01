@@ -1,8 +1,8 @@
 ---
 draft: false
 title: "Qdrant is Now Available on Azure Marketplace!"
-short_description: Discover the power of Qdrant on Azure Marketplace! 
-description: Discover the power of Qdrant on Azure Marketplace! Get started today and streamline your operations with ease.
+short_description: "Discover the power of Qdrant on Azure Marketplace!"
+description: "Discover the power of Qdrant on Azure Marketplace! Get started today and streamline your operations with ease."
 preview_image: /blog/azure-marketplace/azure-marketplace.png
 date: 2024-03-26T10:30:00Z
 author: David Myriel

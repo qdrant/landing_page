@@ -5,9 +5,9 @@ sitemapExclude: true
 title: "Introducing the Quaterion: a framework for fine-tuning similarity
   learning models"
 slug: quaterion
-short_description: Please meet Quaterion—a framework for training and
+short_description: "Please meet Quaterion—a framework for training and"
   fine-tuning similarity learning models.
-description: We're happy to share the result of the work we've been into during
+description: "We're happy to share the result of the work we've been into during"
   the last months - Quaterion. It is a framework for fine-tuning similarity
   learning models that streamlines the training process to make it significantly
   faster and cost-efficient.

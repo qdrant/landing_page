@@ -2,8 +2,8 @@
 title: How Deutsche Telekom Built a Multi-Agent Enterprise Platform Leveraging Qdrant
 draft: false
 slug: case-study-deutsche-telekom
-short_description: How Deutsche Telekom built a fully-fledged PaaS platform for AI agents, streamlining development and accelerating deployment of AI Agents. 
-description: Learn about Deutsche Telekom's requirements for scaling enterprise AI agents, key AI stack considerations, and how the team built a Platform as a Service (PaaS) - LMOS (Language Models Operating System) — a multi-agent PaaS designed for high scalability and modular AI agent deployment.
+short_description: "How Deutsche Telekom built a fully-fledged PaaS platform for AI agents, streamlining development and accelerating deployment of AI Agents."
+description: "Learn about Deutsche Telekom's requirements for scaling enterprise AI agents, key AI stack considerations, and how the team built a Platform as a Service (PaaS) - LMOS (Language Models Operating System) — a multi-agent PaaS designed for high scalability and modular AI agent deployment."
 preview_image: /blog/case-study-deutsche-telekom/social_preview_2.jpg
 social_preview_image: /blog/case-study-deutsche-telekom/social_preview_2.jpg
 date: 2025-03-07T08:00:00.000Z

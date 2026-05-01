@@ -2,9 +2,9 @@
 draft: false
 title: "Unlocking AI Potential: Insights from Stanislas Polu"
 slug: qdrant-x-dust-vector-search
-short_description: Stanislas shares insights from his experiences at Stripe and
+short_description: "Stanislas shares insights from his experiences at Stripe and"
   founding his own company, Dust, focusing on AI technology's product layer.
-description: Explore the dynamic discussion with Stanislas Polu on AI, ML, entrepreneurship, and product development. Gain valuable insights into AI's transformative power.
+description: "Explore the dynamic discussion with Stanislas Polu on AI, ML, entrepreneurship, and product development. Gain valuable insights into AI's transformative power."
 preview_image: /blog/from_cms/stan-polu-cropped.png
 date: 2024-01-26T16:22:37.487Z
 author: Demetrios Brinkmann

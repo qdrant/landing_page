@@ -1,7 +1,7 @@
 ---
 title: "Discovery needs context"
-short_description: Discover points by constraining the vector space.
-description: Discovery Search, an innovative way to constrain the vector space in which a search is performed, relying only on vectors.
+short_description: "Discover points by constraining the vector space."
+description: "Discovery Search, an innovative way to constrain the vector space in which a search is performed, relying only on vectors."
 social_preview_image: /articles_data/discovery-search/social_preview.jpg 
 small_preview_image: /articles_data/discovery-search/icon.svg 
 preview_dir: /articles_data/discovery-search/preview 

@@ -1,7 +1,7 @@
 ---
 title: "Evaluating Search Pipelines"
 short_description: "Evaluate retrieval pipelines with Recall@k, NDCG, and MRR using qrels to balance cost, latency, and search quality across configurations."
-description: Learn how to evaluate different search configurations in terms of cost, latency, and retrieval quality using ground truth datasets and standardized metrics.
+description: "Learn how to evaluate different search configurations in terms of cost, latency, and retrieval quality using ground truth datasets and standardized metrics."
 weight: 5
 isLesson: true
 ---

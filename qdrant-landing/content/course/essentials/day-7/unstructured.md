@@ -1,7 +1,7 @@
 ---
 title: "Integrating with Unstructured.io"
 short_description: "Process PDFs, Word docs, and emails with Unstructured.io and load chunked, vectorized content into Qdrant for enterprise RAG pipelines."
-description: Learn how Unstructured.io and Qdrant transform unstructured enterprise data into structured embeddings through VLM document understanding, smart chunking, and secure, production-ready ETL pipelines. 
+description: "Learn how Unstructured.io and Qdrant transform unstructured enterprise data into structured embeddings through VLM document understanding, smart chunking, and secure, production-ready ETL pipelines."
 weight: 3
 isLesson: true
 ---

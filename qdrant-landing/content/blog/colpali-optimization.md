@@ -2,8 +2,8 @@
 title: "Optimizing ColPali for Retrieval at Scale, 13x Faster Results"
 draft: false
 slug: colpali-qdrant-optimization # Change this slug to your page slug if needed
-short_description:  Learn how we optimized ColPali, a document retrieval system, to be 13x faster for datasets of 20,000+ PDFs. Discover how pooling and reranking boost scalability while maintaining precision. # Change this
-description: ColPali combines text and visual contexts for precise document retrieval, but scaling posed challenges. We achieved 13x faster retrieval using pooling and reranking, reducing vector counts by ~30x while retaining near-original accuracy. Explore the open-source demo to optimize your retrieval workflows! # Change this
+short_description: "Learn how we optimized ColPali, a document retrieval system, to be 13x faster for datasets of 20,000+ PDFs. Discover how pooling and reranking boost scalability while maintaining precision. # Change this"
+description: "ColPali combines text and visual contexts for precise document retrieval, but scaling posed challenges. We achieved 13x faster retrieval using pooling and reranking, reducing vector counts by ~30x while retaining near-original accuracy. Explore the open-source demo to optimize your retrieval workflows! # Change this"
 
 preview_image: /blog/colpali-optimization/preview-2.png # Change this
 social_preview_image: /blog/colpali-optimization/preview-2.png # Optional image used for link previews

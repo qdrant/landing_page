@@ -1,8 +1,8 @@
 ---
 draft: false
 title: "Introducing FastLLM: Qdrant’s Revolutionary LLM"
-short_description: The most powerful LLM known to human...or LLM. 
-description: Lightweight and open-source. Custom made for RAG and completely integrated with Qdrant.
+short_description: "The most powerful LLM known to human...or LLM."
+description: "Lightweight and open-source. Custom made for RAG and completely integrated with Qdrant."
 preview_image: /blog/fastllm-announcement/fastllm.png
 date: 2024-04-01T00:00:00Z
 author: David Myriel

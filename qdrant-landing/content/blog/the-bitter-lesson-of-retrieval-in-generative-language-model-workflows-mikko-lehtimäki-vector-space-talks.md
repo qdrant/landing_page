@@ -3,9 +3,9 @@ draft: false
 title: The Bitter Lesson of Retrieval in Generative Language Model Workflows -
   Mikko Lehtimäki | Vector Space Talks
 slug: bitter-lesson-generative-language-model
-short_description: Mikko Lehtimäki discusses the challenges and techniques in
+short_description: "Mikko Lehtimäki discusses the challenges and techniques in"
   implementing retrieval augmented generation for Yokot AI
-description: Mikko Lehtimäki delves into the intricate world of
+description: "Mikko Lehtimäki delves into the intricate world of"
   retrieval-augmented generation, discussing how Yokot AI manages vast diverse
   data inputs and how focusing on re-ranking can massively improve LLM workflows
   and output quality.

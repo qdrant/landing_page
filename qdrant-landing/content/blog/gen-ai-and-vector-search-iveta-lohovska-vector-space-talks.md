@@ -2,10 +2,10 @@
 draft: false
 title: Iveta Lohovska on Gen AI and Vector Search | Qdrant
 slug: gen-ai-and-vector-search
-short_description: Iveta talks about the importance of trustworthy AI,
+short_description: "Iveta talks about the importance of trustworthy AI,"
   particularly when implementing it within high-stakes enterprises like
   governments and security agencies
-description: Discover valuable insights on generative AI, vector search, and ethical AI implementation from Iveta Lohovska, Chief Technologist at HPE.
+description: "Discover valuable insights on generative AI, vector search, and ethical AI implementation from Iveta Lohovska, Chief Technologist at HPE."
 preview_image: /blog/from_cms/iveta-lohovska-bp-cropped.png
 date: 2024-04-11T22:12:00.000Z
 author: Demetrios Brinkmann

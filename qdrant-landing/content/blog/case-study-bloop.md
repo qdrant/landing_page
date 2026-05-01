@@ -2,9 +2,9 @@
 draft: false
 title: Powering Bloop semantic code search
 slug: case-study-bloop
-short_description: Bloop is a fast code-search engine that combines semantic
+short_description: "Bloop is a fast code-search engine that combines semantic"
   search, regex search and precise code navigation
-description: Bloop is a fast code-search engine that combines semantic search,
+description: "Bloop is a fast code-search engine that combines semantic search,"
   regex search and precise code navigation
 preview_image: /case-studies/bloop/social_preview.png
 date: 2023-02-28T09:48:00.000Z

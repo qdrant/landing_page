@@ -3,9 +3,9 @@ draft: false
 title: Production-scale RAG for Real-Time News Distillation - Robert Caulk |
   Vector Space Talks
 slug: real-time-news-distillation-rag
-short_description: Robert Caulk tackles the challenges and innovations in open
+short_description: "Robert Caulk tackles the challenges and innovations in open"
   source AI and news article modeling.
-description: Robert Caulk, founder of Emergent Methods, discusses the
+description: "Robert Caulk, founder of Emergent Methods, discusses the"
   complexities of context engineering, the power of Newscatcher API for broader
   news access, and the sophisticated use of tools like Qdrant for improved
   recommendation systems, all while emphasizing the importance of efficiency and

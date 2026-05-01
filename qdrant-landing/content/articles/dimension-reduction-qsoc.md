@@ -1,7 +1,7 @@
 ---
 title: Qdrant Summer of Code 2024 - WASM based Dimension Reduction
-short_description: QSOC'24 WASM based Dimension Reduction
-description: My journey as a Qdrant Summer of Code 2024 participant working on enhancing vector visualization using WebAssembly (WASM) based dimension reduction.
+short_description: "QSOC'24 WASM based Dimension Reduction"
+description: "My journey as a Qdrant Summer of Code 2024 participant working on enhancing vector visualization using WebAssembly (WASM) based dimension reduction."
 preview_dir: /articles_data/dimension-reduction-qsoc/preview
 small_preview_image: /articles_data/dimension-reduction-qsoc/icon.svg
 social_preview_image: /articles_data/dimension-reduction-qsoc/preview/social_preview.jpg

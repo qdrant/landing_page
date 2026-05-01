@@ -3,9 +3,9 @@ draft: false
 title: How to meow on the long tail with Cheshire Cat AI? - Piero and Nicola |
   Vector Space Talks
 slug: meow-with-cheshire-cat
-short_description: Piero Savastano and Nicola Procopio discusses the ins and
+short_description: "Piero Savastano and Nicola Procopio discusses the ins and"
   outs of Cheshire Cat AI.
-description: Cheshire Cat AI's Piero Savastano and Nicola Procopio discusses the
+description: "Cheshire Cat AI's Piero Savastano and Nicola Procopio discusses the"
   framework's vector space complexities, community growth, and future
   cloud-based expansions.
 preview_image: /blog/from_cms/piero-and-nicola-bp-cropped.png

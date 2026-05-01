@@ -2,8 +2,8 @@
 title: "Qdrant Updated Benchmarks 2024"
 draft: false
 slug: qdrant-benchmarks-2024 # Change this slug to your page slug if needed
-short_description:  Qdrant Updated Benchmarks 2024 # Change this
-description: We've compared how Qdrant performs against the other vector search engines to give you a thorough performance analysis # Change this
+short_description: "Qdrant Updated Benchmarks 2024 # Change this"
+description: "We've compared how Qdrant performs against the other vector search engines to give you a thorough performance analysis # Change this"
 preview_image: /benchmarks/social-preview.png # Change this
 categories:
   - News

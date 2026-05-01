@@ -1,7 +1,7 @@
 ---
 title: "MUVERA"
 short_description: "Use MUVERA to approximate multi-vector documents as single vectors so HNSW can index them, enabling fast late-interaction retrieval at scale."
-description: Understand MUVERA and how it enables HNSW indexing for multi-vector search despite MaxSim asymmetry.
+description: "Understand MUVERA and how it enables HNSW indexing for multi-vector search despite MaxSim asymmetry."
 weight: 4
 isLesson: true
 ---

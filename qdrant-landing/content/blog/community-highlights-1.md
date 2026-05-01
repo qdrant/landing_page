@@ -2,8 +2,8 @@
 title: "Community Highlights #1"
 draft: false
 slug: community-highlights-1 # Change this slug to your page slug if needed
-short_description: Celebrating top contributions and achievements in vector search, featuring standout projects, articles, and the Creator of the Month, Pavan Kumar. # Change this
-description: Celebrating top contributions and achievements in vector search, featuring standout projects, articles, and the Creator of the Month, Pavan Kumar!
+short_description: "Celebrating top contributions and achievements in vector search, featuring standout projects, articles, and the Creator of the Month, Pavan Kumar. # Change this"
+description: "Celebrating top contributions and achievements in vector search, featuring standout projects, articles, and the Creator of the Month, Pavan Kumar!"
 preview_image: /blog/community-highlights-1/preview-image.png
 social_preview_image: /blog/community-highlights-1/preview-image.png
 

@@ -2,8 +2,8 @@
 title: "IrisAgent and Qdrant: Redefining Customer Support with AI" 
 draft: false
 slug: iris-agent-qdrant
-short_description: Pushing the boundaries of AI in customer support
-description: Learn how IrisAgent leverages Qdrant for RAG to automate support, and improve resolution times, transforming customer service
+short_description: "Pushing the boundaries of AI in customer support"
+description: "Learn how IrisAgent leverages Qdrant for RAG to automate support, and improve resolution times, transforming customer service"
 preview_image: /case-studies/iris/irisagent-qdrant.png
 
 date: 2024-03-06T07:45:34-08:00

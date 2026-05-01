@@ -1,7 +1,7 @@
 ---
 title: "Project: Quantization Performance Optimization"
 short_description: "Apply scalar and binary quantization to your search engine and tune oversampling plus rescoring for better recall and lower memory."
-description: Apply vector quantization in Qdrant to boost search speed, reduce memory, and balance accuracy. Test scalar, binary, and 2-bit quantization with oversampling and rescoring optimization. 
+description: "Apply vector quantization in Qdrant to boost search speed, reduce memory, and balance accuracy. Test scalar, binary, and 2-bit quantization with oversampling and rescoring optimization."
 weight: 5
 isLesson: true
 ---

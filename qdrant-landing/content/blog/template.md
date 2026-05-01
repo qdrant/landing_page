@@ -3,8 +3,8 @@ draft: true # What does this mean? published blogs say false or true
 title: Title # Name of the blog with character count max of XX
 sitemapExclude: true # What does this mean??
 slug: slug-example # This is your URL after /blog BUT write instructions on how to avoid 404   
-short_description: Description # What is this and why is it shorter
-description: Description # What is this and why is it longer
+short_description: "Description # What is this and why is it shorter"
+description: "Description # What is this and why is it longer"
 preview_image: /blog/from_cms/alfredo-deza-bp-cropped.png
 social_preview_image: /blog/metadata-deasy-labs/social_preview.png # insert what the specs are
 title_preview_image: /blog/metadata-deasy-labs/title.jpg # Optional image used for ???

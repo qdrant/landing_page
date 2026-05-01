@@ -1,7 +1,7 @@
 ---
 title: "Text Chunking Strategies"
 short_description: "Compare text chunking strategies and learn how to split documents into chunks that align with embedding model context windows for precise retrieval."
-description: Learn how to split text into meaningful chunks for vector search. Compare six chunking strategies and discover how metadata improves retrieval precision in Qdrant.
+description: "Learn how to split text into meaningful chunks for vector search. Compare six chunking strategies and discover how metadata improves retrieval precision in Qdrant."
 weight: 4
 isLesson: true
 ---

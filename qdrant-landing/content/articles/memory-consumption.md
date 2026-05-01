@@ -1,7 +1,7 @@
 ---
 title: Minimal RAM you need to serve a million vectors
-short_description: How to properly measure RAM usage and optimize Qdrant for memory consumption.
-description: How to properly measure RAM usage and optimize Qdrant for memory consumption.
+short_description: "How to properly measure RAM usage and optimize Qdrant for memory consumption."
+description: "How to properly measure RAM usage and optimize Qdrant for memory consumption."
 social_preview_image: /articles_data/memory-consumption/preview/social_preview.jpg
 preview_dir: /articles_data/memory-consumption/preview
 small_preview_image: /articles_data/memory-consumption/icon.svg

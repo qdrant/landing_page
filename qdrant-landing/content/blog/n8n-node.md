@@ -2,8 +2,8 @@
 title: "​​Introducing the Official Qdrant Node for n8n" 
 draft: false
 slug: n8n-node
-short_description: Qdrant now has an official, team-supported node for n8n.
-description: Qdrant now has an official, team-supported node for n8n.
+short_description: "Qdrant now has an official, team-supported node for n8n."
+description: "Qdrant now has an official, team-supported node for n8n."
 preview_image: /blog/n8n-node/n8n-node-blog-hero.jpg
 date: 2025-06-09
 author: Maddie Duhon & Evgeniya Sukhodolskaya

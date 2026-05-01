@@ -1,7 +1,7 @@
 ---
 title: "Integrating with Haystack"
 short_description: "Build agentic RAG pipelines with Haystack and Qdrant: sparse vector search, metadata filtering, and LLM-driven query routing."
-description: Learn how Qdrant and Haystack combine to deliver end-to-end search and recommendation systems with hybrid retrieval, semantic filtering, and agentic AI orchestration. 
+description: "Learn how Qdrant and Haystack combine to deliver end-to-end search and recommendation systems with hybrid retrieval, semantic filtering, and agentic AI orchestration."
 weight: 2
 isLesson: true
 ---

@@ -2,7 +2,7 @@
 title: Qdrant Blog
 subtitle: Check out our latest posts
 short_description: "News, releases, customer stories, and engineering posts from the Qdrant team on vector search, RAG, and AI agents."
-description: A place to learn how to become an expert traveler through vector space. Subscribe and we will update you on features and news.
+description: "A place to learn how to become an expert traveler through vector space. Subscribe and we will update you on features and news."
 email_placeholder: Enter your email
 subscribe_button: Subscribe
 features_title: Features and News

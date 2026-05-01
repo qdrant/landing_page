@@ -1,8 +1,8 @@
 ---
 draft: false
 title: "Data-Driven RAG Evaluation: Testing Qdrant Apps with Relari AI" 
-short_description: Enhancing RAG systems with vector search and data-driven RAG evaluation.
-description: Learn how Qdrant and Relari enhance RAG systems with vector search and data-driven RAG evaluation.
+short_description: "Enhancing RAG systems with vector search and data-driven RAG evaluation."
+description: "Learn how Qdrant and Relari enhance RAG systems with vector search and data-driven RAG evaluation."
 preview_image: /blog/qdrant-relari/preview.png
 social_preview_image: /blog/qdrant-relari/preview.png
 date: 2024-09-16T00:02:00Z

@@ -2,8 +2,8 @@
 title: "Optimizing OpenAI Embeddings: Enhance Efficiency with Qdrant's Binary Quantization"
 draft: false
 slug: binary-quantization-openai
-short_description: Use Qdrant's Binary Quantization to enhance OpenAI embeddings
-description: Explore how Qdrant's Binary Quantization can significantly improve the efficiency and performance of OpenAI's Ada-003 embeddings. Learn best practices for real-time search applications.
+short_description: "Use Qdrant's Binary Quantization to enhance OpenAI embeddings"
+description: "Explore how Qdrant's Binary Quantization can significantly improve the efficiency and performance of OpenAI's Ada-003 embeddings. Learn best practices for real-time search applications."
 preview_dir: /articles_data/binary-quantization-openai/preview
 preview_image: /articles-data/binary-quantization-openai/Article-Image.png
 small_preview_image: /articles_data/binary-quantization-openai/icon.svg

@@ -1,7 +1,7 @@
 ---
 title: "Integrating with Camel AI"
 short_description: "Build agentic RAG with Camel AI's multi-agent framework and Qdrant for automated context retrieval and collaborative agent workflows."
-description: Learn how Camel AI and Qdrant enable automated RAG pipelines with multi-agent communication, vector-based memory, and seamless integration into live environments like Discord bots. 
+description: "Learn how Camel AI and Qdrant enable automated RAG pipelines with multi-agent communication, vector-based memory, and seamless integration into live environments like Discord bots."
 weight: 8
 isLesson: true
 ---

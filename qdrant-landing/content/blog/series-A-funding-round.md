@@ -2,8 +2,8 @@
 draft: false
 title: "Announcing Qdrant's $28M Series A Funding Round"
 slug: series-A-funding-round
-short_description: 
-description:
+short_description: "Qdrant raises a $28M Series A led by Spark Capital to accelerate the next generation of enterprise-grade vector search and AI applications."
+description: "Qdrant announces a $28M Series A funding round led by Spark Capital, fueling continued growth of the open-source vector database for enterprise AI."
 preview_image: /blog/series-A-funding-round/series-A.png
 social_preview_image: /blog/series-A-funding-round/series-A.png
 date: 2024-01-23T09:00:00.000Z

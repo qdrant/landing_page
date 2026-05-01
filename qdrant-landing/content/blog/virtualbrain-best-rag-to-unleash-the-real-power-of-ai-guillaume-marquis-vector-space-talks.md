@@ -3,9 +3,9 @@ draft: false
 title: "VirtualBrain: Best RAG to unleash the real power of AI - Guillaume
   Marquis | Vector Space Talks"
 slug: virtualbrain-best-rag
-short_description: Let's explore information retrieval with Guillaume Marquis,
+short_description: "Let's explore information retrieval with Guillaume Marquis,"
   CTO & Co-Founder at VirtualBrain.
-description: Guillaume Marquis, CTO & Co-Founder at VirtualBrain, reveals the
+description: "Guillaume Marquis, CTO & Co-Founder at VirtualBrain, reveals the"
   mechanics of advanced document retrieval with RAG technology, discussing the
   challenges of scalability, up-to-date information, and navigating user
   feedback to enhance the productivity of knowledge workers.

@@ -1,7 +1,7 @@
 ---
 title: Qdrant 0.10 released
-short_description: A short review of all the features introduced in Qdrant 0.10
-description: Qdrant 0.10 brings a lot of changes. Check out what's new!
+short_description: "A short review of all the features introduced in Qdrant 0.10"
+description: "Qdrant 0.10 brings a lot of changes. Check out what's new!"
 preview_dir: /articles_data/qdrant-0-10-release/preview
 small_preview_image: /articles_data/qdrant-0-10-release/new-svgrepo-com.svg
 social_preview_image: /articles_data/qdrant-0-10-release/preview/social_preview.jpg

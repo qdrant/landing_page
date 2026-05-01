@@ -1,7 +1,7 @@
 ---
 title: On Unstructured Data, Vector Databases, New AI Age, and Our Seed Round.
-short_description: On Unstructured Data, Vector Databases, New AI Age, and Our Seed Round.
-description: We announce Qdrant seed round investment and share our thoughts on Vector Databases and New AI Age.
+short_description: "On Unstructured Data, Vector Databases, New AI Age, and Our Seed Round."
+description: "We announce Qdrant seed round investment and share our thoughts on Vector Databases and New AI Age."
 preview_dir: /articles_data/seed-round/preview
 social_preview_image: /articles_data/seed-round/seed-social.png
 small_preview_image: /articles_data/quantum-quantization/icon.svg

@@ -1,7 +1,7 @@
 ---
 title: "Day 0: Setup and First Steps"
 short_description: "Day 0 of Qdrant Essentials: set up Qdrant Cloud, build a first vector search, and ship a working starter project."
-description: Set up Qdrant and build your first vector search app. Learn how to configure Qdrant Cloud, run a basic search, and complete your first project.
+description: "Set up Qdrant and build your first vector search app. Learn how to configure Qdrant Cloud, run a basic search, and complete your first project."
 isLesson: true
 weight: 10
 ---

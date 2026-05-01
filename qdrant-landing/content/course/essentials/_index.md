@@ -2,7 +2,7 @@
 title: "Qdrant Essentials Course"
 page_title: Qdrant Essentials Course
 short_description: "Build production vector search skills in seven days: hybrid retrieval, multivector reranking, quantization, sharding, and multitenancy."
-description: Learn hybrid search, multivectors, and production deployment in 7 days. Build and ship a docs search engine.
+description: "Learn hybrid search, multivectors, and production deployment in 7 days. Build and ship a docs search engine."
 content:
   sidebarTitle: Qdrant Essentials
   menuTitle:

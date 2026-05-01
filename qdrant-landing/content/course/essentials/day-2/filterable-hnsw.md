@@ -1,7 +1,7 @@
 ---
 title: "Combining Vector Search and Filtering"
 short_description: "Combine vector search with payload filters using Qdrant's filterable HNSW index to keep recall high without sacrificing query speed."
-description: Learn how Qdrant combines HNSW vector search with payload filtering. Understand Filterable HNSW, query planning, and payload indexing for accurate, high-performance retrieval.
+description: "Learn how Qdrant combines HNSW vector search with payload filtering. Understand Filterable HNSW, query planning, and payload indexing for accurate, high-performance retrieval."
 weight: 3
 isLesson: true
 ---

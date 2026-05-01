@@ -2,8 +2,8 @@
 draft: true
 title: Neural Search Tutorial
 slug: neural-search-tutorial
-short_description: Neural Search Tutorial
-description: Step-by-step guide on how to build a neural search service.
+short_description: "Neural Search Tutorial"
+description: "Step-by-step guide on how to build a neural search service."
 preview_image: /blog/from_cms/1_vghoj7gujfjazpdmm9ebxa.webp
 date: 2024-01-05T14:09:57.544Z
 author: Andrey Vasnetsov

@@ -1,7 +1,7 @@
 ---
 title: "Day 2: Indexing and Performance"
 short_description: "Day 2 of Qdrant Essentials: HNSW indexing, filterable HNSW, payload indexes, and tuning recall and latency for fast vector search."
-description: Learn how Qdrant’s HNSW indexing accelerates vector search. Explore index parameters, filtering integration, and performance tuning to balance speed, recall, and precision. 
+description: "Learn how Qdrant’s HNSW indexing accelerates vector search. Explore index parameters, filtering integration, and performance tuning to balance speed, recall, and precision."
 isLesson: true
 weight: 30
 ---

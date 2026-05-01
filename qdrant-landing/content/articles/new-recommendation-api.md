@@ -1,7 +1,7 @@
 ---
 title: Deliver Better Recommendations with Qdrant’s new API
-short_description: Qdrant 1.6 brings recommendations strategies and more flexibility to the Recommendation API.
-description: Qdrant 1.6 brings recommendations strategies and more flexibility to the Recommendation API.
+short_description: "Qdrant 1.6 brings recommendations strategies and more flexibility to the Recommendation API."
+description: "Qdrant 1.6 brings recommendations strategies and more flexibility to the Recommendation API."
 preview_dir: /articles_data/new-recommendation-api/preview
 social_preview_image: /articles_data/new-recommendation-api/preview/social_preview.png
 small_preview_image: /articles_data/new-recommendation-api/icon.svg
