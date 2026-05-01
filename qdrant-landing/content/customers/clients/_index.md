@@ -110,6 +110,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/dailymotion.svg
       alt: Dailymotion logo
+  - id: data-graphs
+    name: Data Graphs
+    industry: Customer support # todo: change
+    product: Self-managed  # todo: change
+    company_size: 51-200 # todo: change
+    location: North America # todo: change
+    use_cases: ["Customer support", "RAG", "Generative AI"] # todo: change
+    title: "..." # todo: change
+    blog_path: /blog/case-study-datagraphs/
+    logo:
+      src: /img/customers-case-studies-logo/datagraphs.svg #todo: add an actual logo file to the path
+      alt: Data Graphs
   - id: deutsche-telekom
     name: Deutsche Telekom
     industry: Telecommunications
