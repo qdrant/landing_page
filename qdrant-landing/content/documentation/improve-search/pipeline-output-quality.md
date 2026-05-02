@@ -20,11 +20,13 @@ Two related tutorials cover the other retrieval-evaluation concerns: [Measuring 
 
 ## Wiring the RAG Pipeline
 
+Several frameworks score RAG outputs with an LLM judge, including Ragas, <a href="https://docs.confident-ai.com/" target="_blank">DeepEval</a>, and others. We use Ragas here because it's the lightest setup for the three metrics this tutorial covers. If your team has standardized on a different framework or prefers to call the judge LLM directly, the same workflow applies.
+
 <a href="https://docs.ragas.io/" target="_blank">Ragas</a> is a Python library that uses an LLM as a judge to score RAG outputs (rating each answer against criteria like faithfulness and relevancy). It expects samples shaped as `(question, retrieved_context, answer)` triples, so you build a fresh evaluation set from your labeled data. Three steps: prepare the evaluation data, define a grounding prompt, and run the retrieve-generate-record loop.
 
 **1. Prepare the evaluation data.** Each entry needs a `query_id`, a `query_text` (used for both prompting the generator and embedding for retrieval), and `labels`. For `context_precision` only, also include a `ground_truth` reference answer.
 
-If your queries came from synthetic generation, they don't carry ground-truth answers natively. A simple workaround: make one more LLM pass per query, constrained to the source document, asking for a one-to-two-sentence reference answer. Skip this step if you're only scoring `faithfulness` and `answer_relevancy` (both are reference-free).
+Synthetic queries don't ship with ground-truth answers. If you're only scoring `faithfulness` and `answer_relevancy`, skip this step since both are reference-free. Otherwise, generate references by running each query through an LLM scoped to its source document. Have the model return `NO_ANSWER` when the source can't answer, and drop those rows before scoring, or `context_precision` ends up judging retrieval against a reference the source doc doesn't support.
 
 ```python
 # Example of an evaluation-ready entry.
@@ -127,15 +129,28 @@ Three Ragas metrics cover the common failure modes for pipeline output quality:
 Pass the eval samples into `evaluate()` with those three metrics:
 
 ```python
+from anthropic import Anthropic
+from openai import OpenAI
 from ragas import EvaluationDataset, evaluate
-from ragas.metrics.collections import faithfulness, answer_relevancy, context_precision
+from ragas.embeddings.base import embedding_factory
+from ragas.llms import llm_factory
+from ragas.metrics.collections import AnswerRelevancy, ContextPrecision, Faithfulness
+
+# Judge LLM, Use a different LLM family as the generator to avoid self-evaluation bias
+judge_client = OpenAI()  # reads OPENAI_API_KEY from the environment
+judge_llm = llm_factory("gpt-5.4", client=judge_client)
+
+# This is the judge's question-similarity check; it does not need to match the retrieval embedder.
+judge_embeddings = embedding_factory("openai", model="text-embedding-3-large", client=judge_client)
+
+metrics = [
+    Faithfulness(llm=judge_llm),
+    AnswerRelevancy(llm=judge_llm, embeddings=judge_embeddings),
+    ContextPrecision(llm=judge_llm),
+]
 
 dataset = EvaluationDataset(samples=samples)
-scores = evaluate(
-    dataset,
-    metrics=[faithfulness, answer_relevancy, context_precision],
-    # For a non-OpenAI judge, pass llm= and embeddings= (see Ragas docs).
-)
+scores = evaluate(dataset, metrics=metrics)
 ```
 
 `evaluate()` returns an `EvaluationResult` object. Its aggregate scores print like this:
@@ -158,8 +173,6 @@ If you ship retrieval changes regularly, this evaluation earns its place in CI. 
 ### Alternatives
 
 **Without a golden set.** `faithfulness` and `answer_relevancy` are reference-free; swap `context_precision` for `LLMContextPrecisionWithoutReference`. You can then score synthetic queries offline or sampled production traffic live, at the cost of no fixed baseline for regression gating.
-
-Ragas isn't the only tool in this space: <a href="https://docs.confident-ai.com/" target="_blank">DeepEval</a> has a pytest-native API that fits the CI story more directly.
 
 ## Isolating Retrieval vs Generation
 
@@ -186,7 +199,7 @@ Ragas's metrics assume the consumer is an LLM generator. If retrieval feeds some
 
 **Self-judging contamination.** Using the same model to generate and to judge inflates scores because the judge recognizes and rewards its own output style. Pick a different model family for the judge than for the generator, and record both versions in every run so score shifts can't be blamed on a silent upgrade.
 
-**Cost scaling.** LLM-as-judge cost grows with queries times metrics times judge calls per metric, and Ragas makes multiple judge calls per sample. A 500-query golden set with three metrics runs into the thousands of judge-model calls per run. Sample aggressively during iteration and reserve the full sweep for release candidates.
+**Cost scaling.** LLM-as-judge cost grows with queries times metrics times judge calls per metric, and Ragas makes multiple judge calls per sample. A 500-query golden set with three metrics runs into the thousands of judge-model calls per run. Sample 50 to 100 queries with a cheap judge (`claude-haiku-4-5` or `gpt-4o-mini`) during iteration; reserve the full sweep with the strong judge for release candidates.
 
 ## Wrapping Up
 
