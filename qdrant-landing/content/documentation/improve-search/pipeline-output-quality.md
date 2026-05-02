@@ -22,7 +22,7 @@ Two related tutorials cover the other retrieval-evaluation concerns: [Measuring 
 
 <a href="https://docs.ragas.io/" target="_blank">Ragas</a> is a Python library that uses an LLM as a judge to score RAG outputs (rating each answer against criteria like faithfulness and relevancy). It expects samples shaped as `(question, retrieved_context, answer)` triples, so you build a fresh evaluation set from your labeled data. Three steps: prepare the evaluation data, define a grounding prompt, and run the retrieve-generate-record loop.
 
-**1. Prepare the evaluation data.** Each entry needs a `query_id`, a `query_text` (for prompting the generator), a `query_vector` (for retrieval), and `labels`. For `context_precision` only, also include a `ground_truth` reference answer.
+**1. Prepare the evaluation data.** Each entry needs a `query_id`, a `query_text` (used for both prompting the generator and embedding for retrieval), and `labels`. For `context_precision` only, also include a `ground_truth` reference answer.
 
 If your queries came from synthetic generation, they don't carry ground-truth answers natively. A simple workaround: make one more LLM pass per query, constrained to the source document, asking for a one-to-two-sentence reference answer. Skip this step if you're only scoring `faithfulness` and `answer_relevancy` (both are reference-free).
 
@@ -31,7 +31,6 @@ If your queries came from synthetic generation, they don't carry ground-truth an
 {
     "query_id": "q1",
     "query_text": "how does X work",
-    "query_vector": [0.12, -0.48, 0.33, ...],
     "labels": {"doc_42": 1},
     "ground_truth": "...",  # optional; required for context_precision only
 }
@@ -68,6 +67,8 @@ import anthropic
 from qdrant_client import QdrantClient
 from ragas import SingleTurnSample
 
+from your_embedding_model import embed  # must match the model your Qdrant collection uses
+
 client = QdrantClient("http://localhost:6333")  # or QdrantClient(url="https://<id>.cloud.qdrant.io", api_key="...") for Qdrant Cloud
 
 # The example uses Anthropic, but any LLM provider works.
@@ -95,7 +96,7 @@ def build_eval_set(golden_set: list, collection: str, k: int = 10) -> list:
         # Retrieve top-k chunks from Qdrant.
         results = client.query_points(
             collection_name=collection,
-            query=entry["query_vector"],
+            query=embed(entry["query_text"]),
             limit=k,
         ).points
         contexts = [p.payload["text"] for p in results]  # adjust the payload key to match your schema

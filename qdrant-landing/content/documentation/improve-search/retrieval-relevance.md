@@ -67,13 +67,12 @@ Document:
 
 The evaluation runs in three steps: load the labeled queries into the shape ranx expects, run each through Qdrant, then compute metrics.
 
-**1. Load and assemble.** For each labeled query, build an entry with `query_id`, `query_text`, `query_vector` (embedded with the same model your Qdrant collection uses), and `labels`:
+**1. Load and assemble.** For each labeled query, build an entry with `query_id`, `query_text`, and `labels`:
 
 ```python
 {
     "query_id": "q1",
     "query_text": "how does X work",
-    "query_vector": [0.12, -0.48, 0.33, ...],  # embedding of query_text
     "labels": {"doc_42": 1},  # source doc for synthetic queries, relevant docs otherwise
 }
 ```
@@ -81,8 +80,6 @@ The evaluation runs in three steps: load the labeled queries into the shape ranx
 Build the full `golden_set` by normalizing whatever your generation pipeline produced, then looping through it:
 
 ```python
-from your_embedding_model import embed
-
 # Normalize whatever your generation pipeline produced into this shape:
 #   - Synthetic: one item per generated query, labels = {source_doc_id: 1}
 #   - Logs: one item per query-click pair, labels = {clicked_doc_id: 1}
@@ -98,7 +95,6 @@ for i, item in enumerate(labeled_data):
     golden_set.append({
         "query_id": f"q{i}",
         "query_text": item["query_text"],
-        "query_vector": embed(item["query_text"]),
         "labels": item["labels"],
     })
 ```
@@ -112,6 +108,8 @@ for i, item in enumerate(labeled_data):
 from qdrant_client import QdrantClient
 from ranx import Qrels, Run, evaluate
 
+from your_embedding_model import embed  # must match the model your Qdrant collection uses
+
 client = QdrantClient("http://localhost:6333")  # or QdrantClient(url="https://<id>.cloud.qdrant.io", api_key="...") for Qdrant Cloud
 
 def retrieval_run(golden_set: list, collection: str, k: int = 10) -> Run:
@@ -119,7 +117,7 @@ def retrieval_run(golden_set: list, collection: str, k: int = 10) -> Run:
     for entry in golden_set:
         results = client.query_points(
             collection_name=collection,
-            query=entry["query_vector"],
+            query=embed(entry["query_text"]),
             limit=k,
         ).points
         # p.id type must match the doc_id type in labels (ranx matches by equality).
