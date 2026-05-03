@@ -510,7 +510,7 @@ The audit log can be queried via the `/audit/logs` API (requires [manage-level a
 
 {{< code-snippet path="/documentation/headless/snippets/audit-logging/query/" >}}
 
-By default, the API returns the 100 most recent entries, but you can change this number with the `limit` parameter.
+By default, the API returns the 100 most recent entries, but you can change this number with the `limit` parameter (max 10,000).
 
 In a distributed cluster, the API aggregates results from all nodes before returning them. An optional `timeout` (seconds) query parameter controls how long to wait for remote peers in a cluster.
 
@@ -532,7 +532,11 @@ Entries are returned in reverse-chronological order (newest first). Each entry h
 
 To narrow results to a specific time range, use the `time_from` (inclusive) and `time_to` (exclusive) parameters.
 
-The `filters` parameter enables exact-match filtering of entries based on specific field values. The parameter accepts a dictionary of field-value pairs. When specifying more than one pair, only entries that match all specified criteria are returned (logical AND). 
+The `filters` parameter enables exact-match filtering of entries based on specific field values. The parameter accepts a dictionary of field-value pairs. When specifying more than one pair, only entries that match all specified criteria are returned (logical AND).
+
+Unknown filter fields silently return no matches. Filter field names are case-sensitive: filtering on a field name with incorrect casing silently returns no matches.
+
+You can filter on any field in the entry fields table except `timestamp`. Use `time_from` and `time_to` for time-range filtering instead.
 
 For example, to retrieve the 50 most recent denied requests to the `my_collection` collection on March 26, 2026:
 
