@@ -24,9 +24,10 @@ The level of this tradeoff depends on the quantization method and its parameters
 
 ## How to Choose the Right Quantization Method
 
-- **[TurboQuant](#turboquant-quantization)** is the recommended quantization method. It achieves better accuracy than other quantization methods at the same compression ratio and works with any vector distribution. The default four-bit depth strikes a balance between accuracy and compression. Use a lower bit depth for higher compression.
-
+- **[TurboQuant](#turboquant-quantization)** achieves better speed and accuracy than other quantization methods at the same compression ratio and works with any vector distribution. The default four-bit depth strikes a balance between accuracy and compression. Use a lower bit depth for higher compression.
   TurboQuant performs best with Cosine, Dot, or Euclidean distance. For Manhattan (L1) distance, consider using another quantization method.
+  
+  As a new feature, test TurboQuant on your data before committing. We encourage you to try it on new collections.
 - **[Binary Quantization](#binary-quantization)** is a proven method and remains available for existing deployments. TurboQuant is recommended over Binary Quantization for new collections. If you are planning to use binary quantization with low or medium-dimensional vectors (approx. 512-1024 dimensions), it is recommended to use 1.5-bit or 2-bit quantization as well as asymmetric quantization.
 - **[Scalar Quantization](#scalar-quantization)** is a well-established 4× compression method. TurboQuant at four-bit depth is the recommended alternative with better compression and accuracy.
 - **[Product Quantization](#product-quantization)** may provide a better compression ratio, but it has a significant loss of accuracy and is slower than scalar quantization. It is recommended if the memory footprint is the top priority and the search speed is not critical.
@@ -49,9 +50,11 @@ Here is a brief table of the pros and cons of each quantization method:
 
 *Available as of v1.18.0*
 
+<aside role="status">As a new feature, test TurboQuant on your data before committing. We encourage you to try it on new collections.</aside>
+
 TurboQuant is [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). It operates by applying a fast random rotation to vectors before compression, which evenly redistributes data across coordinates. This approach enables TurboQuant to work effectively with any vector distribution, overcoming a key limitation found in binary quantization.
 
-TurboQuant delivers better accuracy and speed than other quantization methods at the same compression ratio, making it the recommended quantization method for new collections in Qdrant.
+TurboQuant delivers better accuracy and speed than other quantization methods at the same compression ratio.
 
 Qdrant's implementation of TurboQuant offers a precision enhancement over the original algorithm. For immutable (non-appendable) segments, TurboQuant automatically collects per-segment coordinate statistics and uses them to better calibrate quantization levels to the actual data distribution.
 
@@ -63,10 +66,10 @@ TurboQuant supports four bit depths:
 
 | Encoding | Bit Depth | Compression |
 |----------|-----------|-------------|
-| `bits4` (default) | 4 bits | 8× |
-| `bits2` | 2 bits | 16× |
-| `bits1_5` | 1.5 bits | 24× |
-| `bits1` | 1 bit | 32× |
+| `bits4` (default) | 4 bits   | 8× |
+| `bits2`           | 2 bits   | 16× |
+| `bits1_5`         | 1.5 bits | 24× |
+| `bits1`           | 1 bit    | 32× |
 
 The default encoding is `bits4`, which offers the best accuracy.
 
@@ -76,9 +79,7 @@ TurboQuant fully supports Cosine, Dot, and Euclidean (L2) distance with SIMD-acc
 
 Manhattan (L1) distance is supported but requires full vector reconstruction per comparison, making it significantly slower than the other metrics. Use Cosine, Dot, or Euclidean distance for best performance with TurboQuant.
 
-## Other Quantization Methods
-
-### Scalar Quantization
+## Scalar Quantization
 
 *Available as of v1.1.0*
 
@@ -99,7 +100,7 @@ In our experiments, we found that the error introduced by scalar quantization is
 However, this value depends on the data and the quantization parameters.
 Please refer to the [Quantization Tips](#quantization-tips) section for more information on how to optimize the quantization parameters for your use case.
 
-### Binary Quantization
+## Binary Quantization
 
 *Available as of v1.5.0*
 
@@ -119,7 +120,7 @@ We recommend using binary quantization only with rescoring enabled, as this can 
 
 Additionally, oversampling can be used to tune the tradeoff between search speed and search quality at query time.
 
-#### Binary Quantization as Hamming Distance
+### Binary Quantization as Hamming Distance
 
 The additional benefit of this method is that you can efficiently emulate Hamming distance with dot product.
 
@@ -149,7 +150,7 @@ Specifically, if original vectors contain `{-1, 1}` as possible values, then the
 As you can see, both functions are equal up to a constant factor, which makes similarity search equivalent.
 Binary quantization makes it efficient to compare vectors using this representation.
 
-#### 1.5-Bit and 2-Bit Quantization
+### 1.5-Bit and 2-Bit Quantization
 
 *Available as of v1.15.0*
 
@@ -170,7 +171,7 @@ In order to build 2-bit representation, Qdrant computes values distribution and 
 
 See how to set up 1.5-bit and 2-bit quantization in the [following section](#set-up-bit-depth).
 
-#### Asymmetric Quantization
+### Asymmetric Quantization
 
 *Available as of v1.15.0*
 
@@ -184,7 +185,7 @@ This is particularly useful for indexing millions of vectors as it improves prec
 
 See how to set up Asymmetric Quantization quantization in the [following section](#set-up-asymmetric-quantization)
 
-### Product Quantization
+## Product Quantization
 
 *Available as of v1.2.0*
 
