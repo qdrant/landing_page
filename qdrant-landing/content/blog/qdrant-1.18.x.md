@@ -32,13 +32,13 @@ Additionally, version 1.18 adds two improvements to audit logging: a new API end
 
 Quantization is a technique that reduces the memory footprint of a vector collection by compressing floating-point values to a lower bit depth. Smaller vectors fit more readily in memory, which speeds up search and lowers infrastructure costs.
 
-Choosing a quantization method means accepting tradeoffs. Binary quantization is fast but requires a centered vector distribution, and accuracy degrades significantly for smaller vectors. Scalar quantization is reliable but compresses only by a factor of four. Product quantization compresses more aggressively, but at the cost of accuracy and speed. There was no single method that worked well across all vector distributions and dimensions.
+Choosing a quantization method means accepting tradeoffs. Binary quantization is fast but requires a centered vector distribution, and accuracy degrades significantly for smaller vectors. Scalar quantization is reliable but compresses only by a factor of four. Product quantization compresses more aggressively, but at the cost of accuracy and speed. There has been no single method that worked well across all vector distributions and dimensions.
 
 Version 1.18 introduces support for [TurboQuant](/documentation/manage-data/quantization/), a new quantization method developed by [Google Research](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). TurboQuant applies a fast Hadamard rotation to vectors before compression, which redistributes values evenly across coordinates. Because this rotation normalizes the data distribution, TurboQuant works well with any embedding model.
 
-Qdrant extends the original TurboQuant algorithm with per-segment calibration. For fully indexed (immutable) segments, Qdrant collects per-segment coordinate statistics and uses them to tune quantization levels to the actual data distribution, improving accuracy beyond what the base algorithm provides.
+Qdrant's implementation of TurboQuant extends the original algorithm with per-segment calibration. For fully indexed (immutable) segments, Qdrant collects per-segment coordinate statistics and uses them to tune quantization levels to the actual data distribution, improving accuracy beyond what the base algorithm provides.
 
-TurboQuant delivers better accuracy than other quantization methods at the same compression ratio. As a new feature, it's worth testing on your data before committing, but we encourage you to try it on new collections.
+TurboQuant delivers better speed and accuracy than other quantization methods at the same compression ratio. As a new feature, it's worth testing on your data before committing, but we encourage you to try it on new collections.
 
 To get started, refer to the [quantization documentation](/documentation/manage-data/quantization/).
 
@@ -52,7 +52,7 @@ TODO: results of benchmarking.
 
 Understanding how much memory a Qdrant collection actually uses has traditionally required cross-referencing OS-level tools, Prometheus gauges, and rough estimates based on collection configuration. There was no straightforward way to see which component (vectors, payload, indexes) was consuming memory, making capacity planning and diagnosing memory pressure difficult.
 
-Version 1.18 introduces [collection memory monitoring](/documentation/ops-monitoring/memory-usage/), offering a detailed breakdown of disk, RAM, and OS page cache usage per component, summed across the whole cluster.
+This release introduces [collection memory monitoring](/documentation/ops-monitoring/memory-usage/), offering a detailed breakdown of disk, RAM, and OS page cache usage per component, summed across the whole cluster.
 
 In Web UI, open the collection detail page and select the **Memory** tab to see the memory breakdown.
 
@@ -63,7 +63,7 @@ In Web UI, open the collection detail page and select the **Memory** tab to see 
   </figcaption>
 </figure>
 
-The same data is available through Qdrant's API.
+The same data is available [through Qdrant's API](/documentation/ops-monitoring/memory-usage/#api).
 
 ## Adding and Removing Named Vectors
 
@@ -89,15 +89,15 @@ Version 1.18 introduces a [new query audit logs API endpoint](/documentation/sec
 
 When an audit log entry records a denied request or an unexpected operation, it can be hard to link that entry back to the client-side request that triggered it, making incident response and debugging harder than it needs to be.
 
-Version 1.18 adds support for [request tracing IDs](/documentation/security/#audit-logging). Attach a tracing ID to any request by passing it in the `x-request-id`, `x-tracing-id`, or `traceparent` header. Qdrant records the tracing ID in the corresponding audit log entry, enabling you to correlate client-side and server-side logs.
+This release adds support for [request tracing IDs](/documentation/security/#audit-logging). Attach a tracing ID to any request by passing it in the `x-request-id`, `x-tracing-id`, or `traceparent` header. Qdrant records the tracing ID in the corresponding audit log entry, enabling you to correlate client-side and server-side logs.
 
 ## Per-Collection API Metrics
 
 ![Section 5](/blog/qdrant-1.18.x/section-5.png)
 
-Qdrant's `/metrics` endpoint exposes REST and gRPC response metrics, but they were aggregated across all collections. When response times spiked or error rates climbed, there was no EASY way to identify which collection was responsible.
+Qdrant's `/metrics` endpoint exposes REST and gRPC response metrics, but they were aggregated across all collections. When response times spiked or error rates climbed, there was no easy way to identify which collection was responsible.
 
-Version 1.18 adds a [`?per_collection=true` parameter](/documentation/ops-monitoring/monitoring/#per-collection-api-metrics) to the `/metrics` endpoint. When set, the `rest_responses_*` and `grpc_responses_*` metrics include a `collection` label, giving you a per-collection breakdown of request counts, failure counts, and response durations.
+A [community contribution](https://github.com/qdrant/qdrant/pull/8214) to version 1.18 adds a [`?per_collection=true` parameter](/documentation/ops-monitoring/monitoring/#per-collection-api-metrics) to the `/metrics` endpoint. When set, the `rest_responses_*` and `grpc_responses_*` metrics include a `collection` label, giving you a per-collection breakdown of request counts, failure counts, and response durations.
 
 ## New Strict Mode Guardrails
 
