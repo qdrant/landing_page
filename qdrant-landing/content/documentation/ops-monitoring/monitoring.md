@@ -94,6 +94,8 @@ Counters - such as the number of created snapshots - are reset when the node is 
 
 [^metrics-per-collection]: When `/metrics?per_collection=true` is used, these metrics include a `collection` label. See [Per-Collection API Metrics](#per-collection-api-metrics).
 
+ The output does not include metrics for the collection info, listing, and snapshot endpoints.
+
 **Process Metrics**
 
 | Name                                | Type    | Meaning                                                                                                                       |
@@ -147,20 +149,22 @@ QDRANT__SERVICE__METRICS_PREFIX="qdrant_"
 
 *Available as of v1.18.0*
 
-By default, the API response metrics (`rest_responses_*`, `grpc_responses_*`) are global — they don't distinguish between collections. You can request per-collection breakdowns by adding `?per_collection=true` to the `/metrics` endpoint:
+By default, the API response metrics (`rest_responses_*`, `grpc_responses_*`) are global — they don't distinguish between collections. To request per-collection breakdowns, add `?per_collection=true` to the `/metrics` endpoint:
 
 ```bash
 curl http://localhost:6333/metrics?per_collection=true
 ```
 
-When enabled, metrics such as `rest_responses_total` and `grpc_responses_total` include a `collection` label:
+Enabling per-collection mode replaces the global metrics entirely. The unlabeled `rest_responses_total` and `grpc_responses_total` are not returned when per-collection data is enabled. Instead, `rest_responses_total` carries four labels (`method`, `endpoint`, `status`, `collection`) and `grpc_responses_total` carries three (`endpoint`, `status`, `collection`):
 
-```
-rest_responses_total{endpoint="/collections/{name}/points/search",collection="my-collection",status="200"} 42
-grpc_responses_total{endpoint="/qdrant.Points/Search",collection="my-collection",status="Ok"} 17
+```text
+rest_responses_total{method="POST",endpoint="/collections/{collection_name}/points/search",status="200",collection="my-collection"} 42
+grpc_responses_total{endpoint="/qdrant.Points/Search",status="0",collection="my-collection"} 17
 ```
 
-Without `?per_collection=true`, the same metrics omit the collection label and report global totals — this is the default behavior.
+The `endpoint` label uses the route template, not the resolved path. The actual collection name is in the separate `collection` label.
+
+Only endpoints in the search, query, recommend, scroll, upsert, discover, facet, and payload families are tracked. Collection-info, listing, and snapshot endpoints don't appear in either mode.
 
 <aside role="status">Per-collection metrics increase the cardinality of the <code>/metrics</code> output. In deployments with many collections, ensure that your monitoring infrastructure can handle the additional label values.</aside>
 
