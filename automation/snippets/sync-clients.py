@@ -88,7 +88,7 @@ def main() -> None:
         if args.java is not None:
             url = "https://github.com/qdrant/java-client"
             dir = BASE_DIR / "clients" / "java"
-            checkout_repo(url, dir, "master")
+            checkout_repo(url, dir, args.java)
             ok = True
         if args.typescript is not None:
             url = "https://github.com/qdrant/qdrant-js"
