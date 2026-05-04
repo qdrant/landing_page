@@ -112,15 +112,15 @@ clients:
       alt: Dailymotion logo
   - id: data-graphs
     name: Data Graphs
-    industry: Customer support # todo: change
-    product: Self-managed  # todo: change
-    company_size: 51-200 # todo: change
-    location: North America # todo: change
-    use_cases: ["Customer support", "RAG", "Generative AI"] # todo: change
-    title: "..." # todo: change
+    industry: Developer tools
+    product: Hybrid
+    company_size: 51-200
+    location: Europe
+    use_cases: ["Customer support", "Graph RAG", "Generative AI"]
+    title: "How Data Graphs Built a True Hybrid Graph RAG Platform - Qdrant"
     blog_path: /blog/case-study-datagraphs/
     logo:
-      src: /img/customers-case-studies-logo/datagraphs.svg #todo: add an actual logo file to the path
+      src: /img/customers-case-studies-logo/data-graphs.svg
       alt: Data Graphs
   - id: deutsche-telekom
     name: Deutsche Telekom
