@@ -24,27 +24,15 @@ The level of this tradeoff depends on the quantization method and its parameters
 
 ## How to Choose the Right Quantization Method
 
-- **[TurboQuant](#turboquant-quantization)** achieves better speed and accuracy than other quantization methods at the same compression ratio and works with any vector distribution. The default four-bit depth strikes a balance between accuracy and compression. Use a lower bit depth for higher compression.
+Qdrant offers several quantization methods, each with its own advantages and tradeoffs. Here are some guidelines to help you choose the right quantization method for your use case:
+
+- **[TurboQuant](#turboquant-quantization)** achieves better speed and accuracy than other quantization methods at at identical or higher compression ratios. The default four-bit depth strikes a balance between accuracy and compression. Use a lower bit depth for higher compression.
   TurboQuant performs best with Cosine, Dot, or Euclidean distance. For Manhattan (L1) distance, consider using another quantization method.
   
   As a new feature, test TurboQuant on your data before committing. We encourage you to try it on new collections.
 - **[Binary Quantization](#binary-quantization)** is a proven method and remains available for existing deployments. TurboQuant is recommended over Binary Quantization for new collections. If you are planning to use binary quantization with low or medium-dimensional vectors (approx. 512-1024 dimensions), it is recommended to use 1.5-bit or 2-bit quantization as well as asymmetric quantization.
 - **[Scalar Quantization](#scalar-quantization)** is a well-established 4× compression method. TurboQuant at four-bit depth is the recommended alternative with better compression and accuracy.
 - **[Product Quantization](#product-quantization)** may provide a better compression ratio, but it has a significant loss of accuracy and is slower than scalar quantization. It is recommended if the memory footprint is the top priority and the search speed is not critical.
-
-Here is a brief table of the pros and cons of each quantization method:
-
-| Quantization Method     | Speed     | Compression |
-|-------------------------|-----------|-------------|
-| TurboQuant (4-bit)      | TODO      | 8           |
-| TurboQuant (2-bit)      | TODO      | 16          |
-| TurboQuant (1.5-bit)    | TODO      | 24          |
-| TurboQuant (1-bit)      | TODO      | 32          |
-| Scalar                  | up to ×2  | 4           |
-| Product                 | 0.5       | up to 64    |
-| Binary (1 bit)          | up to ×40 | 32          |
-| Binary (1.5 bit)        | up to ×30 | 24          |
-| Binary (2 bit)          | up to ×20 | 16          |
 
 ## TurboQuant Quantization
 
@@ -56,7 +44,7 @@ TurboQuant is [a quantization method developed by Google](https://research.googl
 
 TurboQuant delivers better accuracy and speed than other quantization methods at the same compression ratio.
 
-Qdrant's implementation of TurboQuant offers a precision enhancement over the original algorithm. For immutable (non-appendable) segments, TurboQuant automatically collects per-segment coordinate statistics and uses them to better calibrate quantization levels to the actual data distribution.
+Qdrant's implementation of TurboQuant extends the original algorithm to close the gap between the algorithm's theoretical assumptions and real-world embeddings. Refer to the [our TurboQuant quantization article](/articles/turboquant-quantization/) for more details on the algorithm and Qdrant's implementation.
 
 TurboQuant uses asymmetric quantization automatically: only stored vectors are compressed, while queries are scored in full precision. This improves accuracy and requires no additional configuration.
 
