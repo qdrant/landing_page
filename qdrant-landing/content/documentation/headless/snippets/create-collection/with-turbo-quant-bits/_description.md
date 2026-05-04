@@ -1,1 +1,1 @@
-This code creates a collection with TurboQuant using 2-bit encoding. Specify `bits` to select the compression level. Available values are `bits4` (default, 4× compression), `bits2` (16× compression), `bits1_5` (24× compression), and `bits1` (32× compression).
+This code creates a collection with TurboQuant using 2-bit encoding. Specify `bits` to select the compression level. Available values are `bits4` (default, 8× compression), `bits2` (16× compression), `bits1_5` (24× compression), and `bits1` (32× compression).
