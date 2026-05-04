@@ -164,8 +164,6 @@ grpc_responses_total{endpoint="/qdrant.Points/Search",status="0",collection="my-
 
 The `endpoint` label uses the route template, not the resolved path. The actual collection name is in the separate `collection` label.
 
-Only endpoints in the search, query, recommend, scroll, upsert, discover, facet, and payload families are tracked. Collection-info, listing, and snapshot endpoints don't appear in either mode.
-
 <aside role="status">Per-collection metrics increase the cardinality of the <code>/metrics</code> output. In deployments with many collections, ensure that your monitoring infrastructure can handle the additional label values.</aside>
 
 ## Telemetry Endpoint
