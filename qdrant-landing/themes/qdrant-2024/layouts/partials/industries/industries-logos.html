@@ -1,0 +1,38 @@
+<section class="industries-logos">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="industries-logos__title">{{ .Params.title }}</h2>
+        <div class="industries-logos__list">
+          {{ range .Params.logos }}
+            <div class="industries-logos__list-item">
+              <img class="industries-logos__list-item-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="industries-logos__marquee">
+    <div class="industries-logos__marquee__container">
+      <div class="industries-logos__marquee__block">
+        <div class="industries-logos__marquee__inner industries-logos__marquee__inner_to-left">
+              <span>
+                {{ range .Params.logos }}
+                  <div class="industries-logos__marquee__item">
+                    <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+                  </div>
+                {{ end }}
+              </span>
+          <span>
+                {{ range .Params.logos }}
+                  <div class="industries-logos__marquee__item">
+                    <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+                  </div>
+                {{ end }}
+              </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

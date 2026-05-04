@@ -1,0 +1,83 @@
+@use '../../helpers/functions' as *;
+@use '../../mixins/marquee' as marquee;
+
+.industries-logos {
+  padding-top: $spacer * 7.5;
+  padding-bottom: $spacer * 7.5;
+  background-color: $neutral-10;
+
+  &__title {
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    text-align: center;
+  }
+  
+  &__list {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    
+    &-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: pxToRem(240);
+      height: $spacer * 5;
+      border: pxToRem(1) solid $neutral-20;
+      margin-left: pxToRem(-1);
+    }
+  }
+
+  &__marquee {
+    position: relative;
+    @include marquee.base(80px, 240px, 4, 4, 0, transparent, false, 20s, none);
+
+    &__item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: pxToRem(240);
+      height: $spacer * 5;
+      border: pxToRem(1) solid $neutral-20;
+      border-right: 0;
+    }
+
+    &:before,
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 0;
+      width: $spacer * 3;
+      height: 100%;
+      z-index: 1;
+    }
+
+    &:before {
+      left: 0;
+      background: linear-gradient(90deg, $neutral-10 50%, rgba(9, 14, 26, 0.00) 100%);
+    }
+
+    &:after {
+      right: 0;
+      background: linear-gradient(90deg, rgba(9, 14, 26, 0.00) 0%, $neutral-10 50%);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+    }
+
+    &__marquee {
+      display: none;
+    }
+
+    &__list {
+      display: flex;
+    }
+  }
+}
