@@ -3,7 +3,7 @@ title: "Qdrant 1.18 - TurboQuant"
 draft: false
 slug: qdrant-1.18.x
 short_description: "Version 1.18 of Qdrant introduces TurboQuant, a novel quantization method."
-description: "Version 1.18 of Qdrant introduces TurboQuant, a novel quantization method with better accuracy at every compression ratio."
+description: "Version 1.18 of Qdrant introduces TurboQuant, a novel quantization method that matches scalar quantization's recall at half the memory with faster query throughput, and outperforms binary quantization in recall at equivalent storage budgets."
 preview_image: /blog/qdrant-1.18.x/social_preview.jpg
 social_preview_image: /blog/qdrant-1.18.x/social_preview.jpg
 date: 2026-04-30T00:00:00-08:00
@@ -18,7 +18,7 @@ tags:
 
 [**Qdrant 1.18.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.18.0) Let's look at the main features for this version:
 
-**TurboQuant:** A new quantization method that outperforms binary and scalar quantization in speed and accuracy, at identical or higher compression ratios.
+**TurboQuant:** A new quantization method that matches scalar quantization's recall at half the memory with faster query throughput, and outperforms binary quantization in recall at equivalent storage budgets.
 
 **Memory Monitoring:** Inspect a collection's disk, RAM, and page cache usage broken down by component (vectors, payload, indexes, and more) via a new Web UI view and API endpoint.
 
@@ -36,7 +36,7 @@ Choosing a quantization method means accepting tradeoffs. Binary quantization is
 
 Version 1.18 introduces support for [TurboQuant](/documentation/manage-data/quantization/), a new quantization method developed by [Google Research](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). TurboQuant applies a fast Hadamard rotation to vectors before compression, which redistributes values evenly across coordinates. Because this rotation normalizes the data distribution, TurboQuant works well with any embedding model.
 
-Qdrant's implementation of TurboQuant extends the original algorithm with four extensions that close the gap between the algorithm's theoretical assumptions and real-world embeddings. A length renormalization step corrects a recall-degrading bias that appears on anisotropic embeddings. A per-coordinate calibration pre-pass compensates for the uneven variance distributions common in instruction-tuned and contrastive models. Cosine, dot product, and L2 are all supported as first-class distance metrics, removing the unit-sphere restriction of the original paper. And finally, an integer-arithmetic scoring path keeps the hot path running at memory-bandwidth limits, which improves speed.
+Qdrant's implementation of TurboQuant extends the original algorithm to close the gap between the algorithm's theoretical assumptions and real-world embeddings. A length renormalization step corrects a recall-degrading bias caused by quantization error. A per-coordinate calibration pre-pass fits the data to precomputed codebooks more accurately than expected by theory. Cosine, dot product, and L2 are all supported as first-class distance metrics, removing the unit-sphere restriction of the original paper. And finally, we implemented a highly optimized SIMD acceleration for TurboQuant to achieve maximum performance.
 
 To learn more about Qdrant's TurboQuant implementation, refer to [our article](/articles/turboquant-quantization/).
 
@@ -62,7 +62,9 @@ Detailed numbers including throughput and indexing time are [in our article](/ar
 
 ### Get Started with TurboQuant
 
-TurboQuant delivers better speed and accuracy than other quantization methods at at identical or higher compression ratios. As a new feature, it's worth testing on your data before committing, but we encourage you to try it on new collections. To get started, refer to the [quantization documentation](/documentation/manage-data/quantization/).
+In our benchmarks, TurboQuant matches scalar quantization's recall at half the memory with faster query throughput, and outperforms binary quantization in recall at equivalent storage budgets. As a new feature, it's worth testing on your data before committing, but we encourage you to try it on new collections.
+
+To get started, refer to the [quantization documentation](/documentation/manage-data/quantization/).
 
 ## Memory Monitoring
 
