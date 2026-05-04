@@ -42,7 +42,7 @@ Qdrant offers several quantization methods, each with its own advantages and tra
 
 TurboQuant is [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). It operates by applying a fast random rotation to vectors before compression, which evenly redistributes data across coordinates. This approach enables TurboQuant to work effectively with any vector distribution, overcoming a key limitation found in binary quantization.
 
-TurboQuant delivers better accuracy and speed than other quantization methods at the same compression ratio.
+TurboQuant delivers better accuracy and speed than other quantization methods at at identical or higher compression ratios.
 
 Qdrant's implementation of TurboQuant extends the original algorithm to close the gap between the algorithm's theoretical assumptions and real-world embeddings. Refer to the [our TurboQuant quantization article](/articles/turboquant-quantization/) for more details on the algorithm and Qdrant's implementation.
 
