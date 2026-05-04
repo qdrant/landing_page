@@ -46,7 +46,8 @@
 {{ $googleJs := resources.Get "js/google-setup.js" | js.Build (dict "params" (dict "gaMeasurementId" .Site.Config.Services.GoogleAnalytics.ID)) | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $googleJs.RelPermalink }}"></script>
 
-{{ $indexJs := resources.Get "/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+{{ $referrerFullDomains := default (slice) .Site.Params.referrerFullDomains }}
+{{ $indexJs := resources.Get "/js/index.js" | js.Build (dict "params" (dict "referrerFullDomains" $referrerFullDomains)) | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $indexJs.RelPermalink }}"></script>
 
 {{ if eq .Section "pricing" }}

@@ -81,6 +81,14 @@ disableKinds = ["taxonomy", "term"]
   segmentWriteKey = "UOgPyE2GbtD4lletUP2uWfBGQQSfkzf1"
   onetrustScriptId = "0196246a-3663-7350-9a45-b65f645d6314"
 
+  # Hosts whose inbound links should receive the full referrer URL instead of just the origin.
+  # On every page, `applyReferrerPolicyForAllowlistedDomains` (in `assets/js/helpers.js`) walks
+  # the DOM at `DOMContentLoaded`, sets `referrerpolicy="no-referrer-when-downgrade"` on every
+  # `<a>` whose host is in this list, and strips `noreferrer` from `rel` (which would otherwise
+  # override the policy and send no Referer at all).
+  # Adding a host here is sufficient — no template edits required.
+  referrerFullDomains = ["cloud.qdrant.io"]
+
 [params.author]
   name = "Andrey Vasnetsov"
   email = "info@qdrant.tech"

@@ -167,3 +167,38 @@ export function addUTMToLinks() {
       });
   }
 }
+
+// For every <a> whose host matches `allowlist`, set
+// referrerpolicy="no-referrer-when-downgrade" and strip `noreferrer` from
+// `rel` (which would otherwise override the policy and send no Referer at all).
+//
+// The allowlist is sourced from `referrerFullDomains` in `config.toml` and
+// embedded into this bundle at Hugo build time via `js.Build` params.
+//
+// This is a single source of truth: any link to an allowlisted host is covered,
+// regardless of which template, markdown file, or JS rendered it.
+export function applyReferrerPolicyForAllowlistedDomains(allowlist) {
+  if (!Array.isArray(allowlist) || allowlist.length === 0) return;
+
+  const allowSet = new Set(allowlist);
+
+  document.querySelectorAll('a[href]').forEach((link) => {
+    let host;
+    try {
+      host = new URL(link.href, window.location.origin).host;
+    } catch (e) {
+      return;
+    }
+
+    if (!allowSet.has(host)) return;
+
+    link.referrerPolicy = 'no-referrer-when-downgrade';
+
+    if (link.rel) {
+      link.rel = link.rel
+        .split(/\s+/)
+        .filter((token) => token && token !== 'noreferrer')
+        .join(' ');
+    }
+  });
+}

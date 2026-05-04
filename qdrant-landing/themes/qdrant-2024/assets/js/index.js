@@ -1,7 +1,13 @@
+import * as params from '@params';
 import scrollHandler from './scroll-handler';
 import { initTabSync } from './tab-sync';
 import { XXL_BREAKPOINT } from './constants';
-import { addUTMToLinks, initGoToTopButton, persistUTMParams } from './helpers';
+import {
+  addUTMToLinks,
+  applyReferrerPolicyForAllowlistedDomains,
+  initGoToTopButton,
+  persistUTMParams,
+} from './helpers';
 import { handleSegmentReady } from './segment-helpers';
 import { addOneTrustPreferencesToLinks, registerAndCall } from './onetrust-helpers';
 import TableOfContents from './table-of-content';
@@ -13,6 +19,7 @@ persistUTMParams();
 // on document ready
 document.addEventListener('DOMContentLoaded', function () {
   addUTMToLinks();
+  applyReferrerPolicyForAllowlistedDomains(params.referrerFullDomains);
 
   const handleOneTrustLoaded = () => {
     // One Trust Loaded
