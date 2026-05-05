@@ -57,7 +57,7 @@ There are two possible reasons for this:
 
 ### How many vectors can I store in a point? Can a point have no vector at all?
 
-A point can hold any number of dense, sparse, and multi vectors. There's no hard limit imposed by Qdrant, though practical limits apply: each additional vector increases memory usage, so the realistic ceiling is determined by available RAM and storage. You can attach a single vector, or multiple vectors with different names (for example, a dense vector for semantic search alongside a sparse vector for keyword matching). This lets you run [hybrid queries](/documentation/search/hybrid-queries/) over several representations of the same data within one collection. Each vector must be defined in the collection's schema.
+A point can hold any number of dense, sparse, and multi vectors, though each has to be configured in the collection's schema. There's no hard limit imposed by Qdrant, though practical limits apply: each additional vector increases memory usage, so the realistic ceiling is determined by available RAM and storage. You can attach a single vector, or multiple vectors with different names (for example, a dense vector for semantic search alongside a sparse vector for keyword matching). This lets you run [hybrid queries](/documentation/search/hybrid-queries/) over several representations of the same data within one collection. Each vector must be defined in the collection's schema.
 
 A point can also have zero vectors. If you don't provide any vectors at upsert time, Qdrant stores the point with its ID and payload only. This is useful when you want to use Qdrant as a document store with filtering, or when you plan to add vectors to a point later. A vector-less point won't appear in nearest-neighbor search results, but it's fully accessible via [scroll](/documentation/manage-data/points/#scroll-points) and payload filtering.
 
@@ -81,7 +81,7 @@ See also: [Text Chunking Strategies](course/essentials/day-1/chunking-strategies
 
 ### How does point deletion work internally? Does Qdrant rebuild the index on every delete?
 
-Qdrant implements deletions as soft deletes using a bitmask, so the index is not rebuilt after each deletion. The bitmask is a lightweight data structure kept in RAM, enabling Qdrant to quickly determine whether a point should be excluded from an operation without accessing the deleted point's data. The Vacuum Optimizer handles physical cleanup in the background.
+Qdrant implements deletions as soft deletes using a bitmask, so the index is not rebuilt after each deletion. The bitmask is a lightweight data structure, enabling Qdrant to quickly determine whether a point should be excluded from an operation without accessing the deleted point's data. The Vacuum Optimizer handles physical cleanup in the background.
 
 After a delete operation, the point is immediately inaccessible via the API. The soft-delete mechanism is an internal implementation detail.
 
