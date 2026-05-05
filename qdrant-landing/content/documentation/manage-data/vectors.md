@@ -121,6 +121,8 @@ There are two scenarios where multivectors are useful:
 * **Late interaction embeddings** - Some text embedding models can output multiple vectors for a single text. 
 For example, a family of models such as ColBERT output a relatively small vector for each token in the text. 
 
+MaxSim returns a single combined score per point, not per subvector. For per-representation control across title, summary, and chunk embeddings, see [Named Vectors](#named-vectors) and the [Multi-Representation Search tutorial](/documentation/tutorials-search-engineering/multi-representation-search/). The [multivectors course](/course/multi-vector-search/) covers limitations at scale.
+
 In order to use multivectors, we need to specify a function that will be used to compare between matrices of vectors
 
 Currently, Qdrant supports `max_sim` function, which is defined as a sum of maximum similarities between each pair of vectors in the matrices.
