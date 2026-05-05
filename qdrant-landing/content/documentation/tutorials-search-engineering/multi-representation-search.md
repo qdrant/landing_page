@@ -7,27 +7,33 @@ aliases:
 
 # Multi-Representation Search Across Titles, Summaries, and Chunks
 
-| Time: 45 min | Level: Intermediate |
-| --- | ----------- |
+| Time: 45 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb) |
+| --- | ----------- | ----------- | ----------- |
 
-A document is rarely well-represented by a single embedding. A research paper has a title that signals topic, an abstract that summarizes the contribution, body chunks that hold the substance, and category tags that act as keywords. Treat the whole paper as one dense vector and you lose most of that structure: the title's signal gets averaged out, keyword matches on tags disappear, and chunk-level grounding for downstream reasoning is gone.
+A document is rarely well-represented by a single embedding. A paper has a title, an abstract, body chunks, and category tags, each carrying a different signal. Treat all four as one dense vector and the title gets averaged out, keyword matches on tags disappear, and chunk-level grounding for downstream reasoning is gone.
 
-This tutorial shows how to build retrieval that uses each representation deliberately. You'll design a collection with named vectors per representation, fuse them through a single Query API call, group results back to the document level for presentation, and apply score boosting to express ranking preferences. Everything is evaluated against a small ground-truth set so you can see the effect of each step.
+This tutorial builds retrieval that uses each representation deliberately: named vectors per representation, fused via the Query API, grouped back to the document level for presentation, with score boosting for ranking preferences. Each step targets a specific retrieval failure mode you'd hit in production.
 
-This is not a beginner tutorial. It assumes you've built a hybrid (dense plus sparse) search before, that you're comfortable with [named vectors](/documentation/manage-data/vectors/#named-vectors) and the [Query API](/documentation/search/hybrid-queries/), and that you've seen Reciprocal Rank Fusion (RRF), Best Matching 25 (BM25), and basic ranking metrics like Recall@k, Normalized Discounted Cumulative Gain (NDCG), and Mean Reciprocal Rank (MRR). If hybrid search is new, start with [Hybrid Search with FastEmbed](/documentation/tutorials-search-engineering/hybrid-search-fastembed/) and the [Hybrid Search Revamped](/articles/hybrid-search/) article first.
+This tutorial assumes you've built hybrid (dense plus sparse) search before, that you're comfortable with [named vectors](/documentation/manage-data/vectors/#named-vectors), the [Query API](/documentation/search/hybrid-queries/), Reciprocal Rank Fusion (RRF), and Best Matching 25 (BM25). If hybrid search is new, start with [Hybrid Search with FastEmbed](/documentation/tutorials-search-engineering/hybrid-search-fastembed/) first.
 
-## Why Named Vectors, Not Multivectors
+## Setup
 
-A common first instinct is to put title, summary, and chunk vectors into a single multivector field, since multivectors store multiple vectors per point. That isn't what multivectors are designed for. The maximum similarity (MaxSim) comparator returns one combined score per point and doesn't expose per-subvector matches, so you can't tell which representation contributed to the hit, can't rerank by title alone, and can't fuse across representations with different weights or fusion strategies.
+Install the Python packages used throughout the tutorial:
 
-Named vectors are the right primitive here. Each representation gets its own vector with its own embedding model, its own index, and its own role in the query. The Query API fuses across them at query time. For a deeper look at where multivectors do fit, see the [multivectors course](/course/multi-vector-search/) and the [Multivectors and Late Interaction](/documentation/tutorials-search-engineering/using-multivector-representations/) tutorial.
+```bash
+pip install qdrant-client fastembed datasets
+```
 
-## Dataset and Ground-Truth Eval Set
+Use Python <3.13. Not all dependencies support the newest Python versions yet.
 
-You'll work with a sample of arXiv papers from the [`gfissore/arxiv-abstracts-2021`](https://huggingface.co/datasets/gfissore/arxiv-abstracts-2021) Hugging Face dataset. Each paper has a title, an abstract, and category tags, which gives you four natural representations once the abstract is split into chunks: title, full abstract as a summary, abstract sentences as chunks, and categories as tags.
+## Dataset
+
+You'll work with a sample of arXiv papers from the [`gfissore/arxiv-abstracts-2021`](https://huggingface.co/datasets/gfissore/arxiv-abstracts-2021) Hugging Face dataset, filtered to machine-learning and computer-science categories. Each paper has a title, an abstract, and category tags, which gives you four natural representations once the abstract is split into chunks: title, full abstract as a summary, abstract sentences as chunks, and categories as tags.
 
 ```python
 from datasets import load_dataset
+
+ML_CATEGORIES = {"cs.LG", "cs.CV", "cs.CL", "cs.AI", "stat.ML"}
 
 dataset = load_dataset(
     "gfissore/arxiv-abstracts-2021", split="train", streaming=True
@@ -35,59 +41,18 @@ dataset = load_dataset(
 papers = []
 for row in dataset:
     if len(papers) >= 2000:
-        break
+        break # 2000 ML/CS papers is enough for this tutorial
     if not row["abstract"] or not row["title"]:
         continue
+    cats = list(row["categories"])
+    if not any(c in ML_CATEGORIES for c in cats):
+        continue # ML/CS papers only
     papers.append({
         "arxiv_id": row["id"],
         "title": row["title"].strip(),
         "abstract": row["abstract"].strip(),
-        "categories": list(row["categories"]),
+        "categories": cats,
     })
-```
-
-Two thousand papers is enough for the eval to be informative without long ingestion times. Swap in any other arXiv source as long as it exposes title, abstract, and categories.
-
-For evaluation, you need a set of `(query, relevant_arxiv_ids)` pairs. Fifty to one hundred queries is enough to see meaningful lift between steps; fewer than that and noise dominates. The eval set used here was generated by prompting a large language model (LLM) with samples from the dataset to produce realistic search queries and a candidate relevance list, then filtered manually for plausibility. Document your generation method and treat the resulting set as a fixture, not as ground truth in the strict sense.
-
-```python
-eval_set = [
-    {"query": "diffusion models for high-resolution image synthesis",
-     "relevant_ids": ["2112.10752", "2105.05233", "2006.11239"]},
-    {"query": "attention mechanisms in transformer architectures",
-     "relevant_ids": ["1706.03762", "2005.14165", "1810.04805"]},
-    # ... 50 to 100 entries total, populated with arxiv_id values from your sample
-]
-```
-
-The [Retrieval Quality Evaluation](/documentation/tutorials-search-engineering/retrieval-quality/) tutorial uses `precision@k` against exact k-nearest-neighbor (kNN) results as ground truth. Here, the ground truth is human-judged relevance, so the helpers compare against `relevant_ids` instead. The same evaluation framing applies: drive metrics through one entry point, run the same eval after each change.
-
-```python
-import math
-
-def recall_at_k(retrieved_ids, relevant_ids, k):
-    return len(set(retrieved_ids[:k]) & set(relevant_ids)) / max(len(relevant_ids), 1)
-
-def ndcg_at_k(retrieved_ids, relevant_ids, k):
-    rel = set(relevant_ids)
-    dcg = sum(1.0 / math.log2(i + 2) for i, d in enumerate(retrieved_ids[:k]) if d in rel)
-    ideal = sum(1.0 / math.log2(i + 2) for i in range(min(len(rel), k)))
-    return dcg / ideal if ideal else 0.0
-
-def mrr(retrieved_ids, relevant_ids, _k=None):
-    rel = set(relevant_ids)
-    for i, d in enumerate(retrieved_ids):
-        if d in rel:
-            return 1.0 / (i + 1)
-    return 0.0
-
-def evaluate(retrieve_fn, eval_set, k=10):
-    rows = [(retrieve_fn(item["query"]), item["relevant_ids"]) for item in eval_set]
-    return {
-        "Recall@10": sum(recall_at_k(r, g, k) for r, g in rows) / len(rows),
-        "NDCG@10":   sum(ndcg_at_k(r, g, k)   for r, g in rows) / len(rows),
-        "MRR":       sum(mrr(r, g)            for r, g in rows) / len(rows),
-    }
 ```
 
 ## Collection Schema
@@ -97,7 +62,7 @@ Design the collection before writing any queries. The point granularity is the c
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("http://localhost:6333")
+client = QdrantClient("http://localhost:6333") # or QdrantClient(url="https://<id>.cloud.qdrant.io", api_key="...") for Qdrant Cloud
 
 client.create_collection(
     collection_name="arxiv_multi_repr",
@@ -114,49 +79,57 @@ client.create_collection(
 )
 ```
 
-Each named vector earns its place:
+Each vector covers a different signal:
 
-- `dense_chunk` is the workhorse. Chunks are short enough that a single embedding can faithfully represent them, which is where dense retrieval shines.
-- `dense_title` captures the topic in a few tokens. Titles often phrase the contribution explicitly, so a title hit is a strong signal even when no chunk matches.
-- `dense_summary` (the abstract) sits between the two: longer than a title, more focused than the body. It catches queries that target the contribution rather than a specific passage.
-- `sparse_keywords` runs BM25 over title and tags only, joined into a single short text field. BM25's term-frequency, inverse-document-frequency, and length-normalization parameters are calibrated for document-length text. On long chunks, BM25 still works; on short structured fields like titles and tags, it's where lexical matching pays off most clearly. See the [BM25 documentation](/documentation/search/text-search/#bm25) for parameter details.
+- `dense_chunk`: the content workhorse. Chunks are short enough that a single embedding represents them faithfully.
+- `dense_title`: a few tokens that name the topic. A title hit is a strong signal even when no chunk matches.
+- `dense_summary`: between title and chunk in length and specificity. Catches queries about the contribution rather than a passage.
+- `sparse_keywords`: BM25 over title and tags concatenated. BM25 pays off on short structured fields where exact lexical matches matter.
 
 Title and summary vectors are duplicated across every chunk of the same document. That trades storage for query simplicity: one collection, one Query API call, no `lookup_from`. If your titles or summaries are heavy, or you have millions of chunks per document, store them in a separate collection and reach them with `lookup_from`. For the typical case (a few dozen chunks per document, embeddings under a kilobyte each), inline storage is the simpler choice.
-
-These are not multivectors. Each named vector is a distinct embedding type with a distinct role; MaxSim across them would discard exactly the per-representation signal you're trying to use. See [the Vectors page](/documentation/manage-data/vectors/#multivectors) for the multivector contract.
 
 Ingestion produces one point per chunk and reuses the title and summary embeddings.
 
 ```python
 from fastembed import TextEmbedding, SparseTextEmbedding
 
-dense_model = TextEmbedding("sentence-transformers/all-MiniLM-L6-v2")
+# Dense embeddings for title, summary, and chunk content; sparse BM25 for keyword matching.
+dense_model = TextEmbedding("BAAI/bge-small-en-v1.5")
 sparse_model = SparseTextEmbedding("Qdrant/bm25")
 
 def chunk_sentences(text, target_len=2):
+    """Split text into ~2-sentence chunks; fall back to the full text if it doesn't split cleanly."""
     sentences = [s.strip() for s in text.split(". ") if s.strip()]
     return [". ".join(sentences[i:i + target_len])
             for i in range(0, len(sentences), target_len)] or [text]
 
 def to_sparse(sparse_emb):
+    """Convert FastEmbed's SparseEmbedding into a Qdrant SparseVector."""
     return models.SparseVector(
         indices=sparse_emb.indices.tolist(),
         values=sparse_emb.values.tolist(),
     )
 
 points = []
-point_id = 0
 for paper in papers:
     chunks = chunk_sentences(paper["abstract"])
+
+    # Paper-level embeddings: computed once per paper, reused across every chunk below.
+    # next(iter(...)) extracts the single vector from FastEmbed's generator output.
     title_vec   = next(iter(dense_model.embed([paper["title"]]))).tolist()
     summary_vec = next(iter(dense_model.embed([paper["abstract"]]))).tolist()
-    keyword_text = paper["title"] + " " + " ".join(paper["categories"])
-    sparse_vec  = to_sparse(next(iter(sparse_model.embed([keyword_text]))))
-    chunk_vecs  = [v.tolist() for v in dense_model.embed(chunks)]
+    sparse_vec  = to_sparse(next(iter(sparse_model.embed(
+        [paper["title"] + " " + " ".join(paper["categories"])]
+    ))))
 
+    # Chunk-level dense embedding: one vector per chunk.
+    chunk_vecs = [v.tolist() for v in dense_model.embed(chunks)]
+
+    # One Qdrant point per chunk. dense_title, dense_summary, and sparse_keywords
+    # are the same for every chunk of this paper; only dense_chunk varies.
     for i, (chunk, chunk_vec) in enumerate(zip(chunks, chunk_vecs)):
         points.append(models.PointStruct(
-            id=point_id,
+            id=len(points),
             vector={
                 "dense_chunk":     chunk_vec,
                 "dense_title":     title_vec,
@@ -171,119 +144,29 @@ for paper in papers:
                 "chunk_text":  chunk,
             },
         ))
-        point_id += 1
 
 client.upload_points(collection_name="arxiv_multi_repr", points=points, batch_size=64)
 ```
 
+After the upload completes, opening any point in the Qdrant Cloud UI shows all four named vectors attached to one chunk. `dense_chunk` carries the chunk's own embedding, while `dense_title`, `dense_summary`, and `sparse_keywords` are the same across every chunk of this paper.
+
+![A point in the arxiv_multi_repr collection showing all four named vectors](/documentation/tutorials/multi-representation-search/point.png)
+
 A fixed-length sentence chunker is used here for clarity. Chunking strategy is its own design space; see the limitations section at the end for pointers.
 
-## Walkthrough
+## Retrieval
 
-Five queries, each adding one capability over the previous step. After each step, run the eval and look at the lift before moving on.
-
-A small helper keeps the query side compact. BM25 has a separate `query_embed` path that uses inverse document frequency (IDF) weighting calibrated for queries, distinct from the indexing-side `embed`.
+The recommended pipeline fuses three prefetches with Reciprocal Rank Fusion and groups the results by document. One Query API call covers everything except boosting:
 
 ```python
 def embed_query(query):
     dense = next(iter(dense_model.query_embed([query]))).tolist()
     sparse = to_sparse(next(iter(sparse_model.query_embed([query]))))
     return dense, sparse
-```
 
-### Step 1: Dense Over Chunks Only (Baseline)
-
-The naive baseline: one dense vector, chunk-level retrieval, no fusion. This is what most "vector search" examples stop at.
-
-```python
-def retrieve_baseline(query, limit=10):
-    dense, _ = embed_query(query)
-    res = client.query_points(
-        collection_name="arxiv_multi_repr",
-        query=dense,
-        using="dense_chunk",
-        limit=limit,
-    ).points
-    return [p.payload["document_id"] for p in res]
-
-print(evaluate(retrieve_baseline, eval_set))
-```
-
-Example output (your numbers will depend on the dataset slice and embedding model):
-
-```text
-{'Recall@10': 0.41, 'NDCG@10': 0.27, 'MRR': 0.31}
-```
-
-This is what every later step measures itself against.
-
-### Step 2: Hybrid With Sparse Keywords (RRF)
-
-Add a BM25 prefetch over title and tags, then fuse with [Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf). RRF works on rank, not score, so it sidesteps the calibration problem entirely: dense scores live in [0, 1], sparse BM25 scores don't, and RRF doesn't have to reconcile the two.
-
-```python
-def retrieve_hybrid(query, limit=10):
+def retrieve(query, limit=10, group_size=3):
     dense, sparse = embed_query(query)
-    res = client.query_points(
-        collection_name="arxiv_multi_repr",
-        prefetch=[
-            models.Prefetch(query=dense,  using="dense_chunk",     limit=50),
-            models.Prefetch(query=sparse, using="sparse_keywords", limit=50),
-        ],
-        query=models.FusionQuery(fusion=models.Fusion.RRF),
-        limit=limit,
-    ).points
-    return [p.payload["document_id"] for p in res]
-
-print(evaluate(retrieve_hybrid, eval_set))
-```
-
-Example output:
-
-```text
-{'Recall@10': 0.52, 'NDCG@10': 0.35, 'MRR': 0.42}
-```
-
-Tuning linear weights between dense and sparse scores instead of using RRF is fragile: the right weight depends on query length, model, and corpus, and a weight that helps one query class hurts another. The full argument is in [Hybrid Search Revamped](/articles/hybrid-search/). Stick with RRF unless you have a reason and a holdout set.
-
-### Step 3: Add Title as a Third Prefetch
-
-Now fuse across three representations: chunks, keywords, and title. The title prefetch is what saves queries where the topic is named explicitly but not echoed in any single chunk.
-
-```python
-def retrieve_three_repr(query, limit=10):
-    dense, sparse = embed_query(query)
-    res = client.query_points(
-        collection_name="arxiv_multi_repr",
-        prefetch=[
-            models.Prefetch(query=dense,  using="dense_chunk",     limit=50),
-            models.Prefetch(query=dense,  using="dense_title",     limit=50),
-            models.Prefetch(query=sparse, using="sparse_keywords", limit=50),
-        ],
-        query=models.FusionQuery(fusion=models.Fusion.RRF),
-        limit=limit,
-    ).points
-    return [p.payload["document_id"] for p in res]
-
-print(evaluate(retrieve_three_repr, eval_set))
-```
-
-Example output:
-
-```text
-{'Recall@10': 0.59, 'NDCG@10': 0.41, 'MRR': 0.49}
-```
-
-Concretely: for a query like "diffusion models for high-resolution image synthesis", a paper titled "High-Resolution Image Synthesis with Latent Diffusion Models" surfaces from the title prefetch even when its abstract phrases the contribution differently. The chunk prefetch alone misses it; the title prefetch catches it; RRF promotes it because both prefetches agree.
-
-### Step 4: Group by Document
-
-So far the result list contains chunks, and the same paper can appear multiple times. Most consumers (a results UI, a citation list, an LLM that wants document-level attribution) want one entry per document. Use `query_points_groups` with `group_by="document_id"` to collapse chunks back to documents while keeping the top chunks per document attached.
-
-```python
-def retrieve_grouped(query, limit=10, group_size=3):
-    dense, sparse = embed_query(query)
-    res = client.query_points_groups(
+    return client.query_points_groups(
         collection_name="arxiv_multi_repr",
         prefetch=[
             models.Prefetch(query=dense,  using="dense_chunk",     limit=100),
@@ -295,82 +178,65 @@ def retrieve_grouped(query, limit=10, group_size=3):
         group_size=group_size,
         limit=limit,
     ).groups
-    return [g.id for g in res]
-
-print(evaluate(retrieve_grouped, eval_set))
 ```
 
-Same retrieval, different shape: ten groups instead of (potentially) ten chunks of two papers. Each group's `hits` field carries the top chunks for that paper, ranked by their fused score.
+BM25 has a separate `query_embed` path that uses inverse document frequency (IDF) weighting calibrated for queries, distinct from the indexing-side `embed`.
 
-Increase prefetch `limit` when grouping. If a paper has three chunks that fuse well but the prefetch only returned two, grouping doesn't have the third to consider. The `with_lookup` parameter is useful when document-level metadata (full title, authors, publication date) lives in a separate collection: it fetches one record per group instead of repeating it per chunk.
+The pipeline makes four design decisions. Each is worth understanding so you can defend or adjust it.
 
-There's a tradeoff to flag explicitly. Grouping helps when the consumer wants documents (citations, deduped UI lists). It hurts when an LLM benefits from seeing several independently ranked chunks across multiple documents in its context window: collapsing those chunks into one group per document throws away ordering information the LLM could have used. Don't reflexively group; pick based on what consumes the result.
+### What to Prefetch
 
-Example output (Recall@10 here means the proportion of relevant documents recovered in the top 10 groups):
+A representation only earns its own prefetch if it carries signal independent of the others. The three above are deliberately complementary:
 
-```text
-{'Recall@10': 0.61, 'NDCG@10': 0.43, 'MRR': 0.51}
-```
+- `dense_chunk` carries the body content.
+- `dense_title` carries the topical naming. For a query like "diffusion models for high-resolution image synthesis", a paper titled "High-Resolution Image Synthesis with Latent Diffusion Models" surfaces from the title prefetch even when its abstract phrases the contribution differently. The chunk prefetch alone misses it.
+- `sparse_keywords` carries lexical hits on title and tags that the dense embedding has averaged out: rare entity names, jargon, controlled-vocabulary tags.
 
-The lift is small. Grouping isn't a relevance technique; it's a presentation technique. The metrics move slightly because deduplication frees up slots in the top 10 for more documents.
+Adding `dense_summary` as a fourth prefetch is worth it only if summaries surface what chunks don't. If summaries paraphrase the chunks, the extra prefetch adds latency without lift.
 
-### Step 5: Score Boosting With a Formula
+### How to Fuse
 
-The Query API's [score boosting](/documentation/search/search-relevance/#score-boosting) lets you express ranking preferences that aren't captured by similarity alone. Two are common in this pattern: rewarding a paper when its title also matched, and decaying older content. Both are expressed as formulas over the prefetch scores and payload fields.
+[Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) works on rank, not score, so it sidesteps the calibration problem entirely: dense scores live in [0, 1], sparse BM25 scores don't, and RRF doesn't have to reconcile the two. The prefetches return overlapping but not identical candidate sets, and RRF rewards documents the paths agree on.
+
+Tuning linear weights between dense and sparse scores instead of using RRF is fragile: the right weight depends on query length, model, and corpus, and a weight that helps one query class hurts another. The full argument is in [Hybrid Search Revamped](/articles/hybrid-search/). Stick with RRF unless you have a reason and a holdout set to validate the alternative.
+
+### When to Group, When Not To
+
+`query_points_groups` collapses chunks back to documents while keeping the top chunks per document attached. Each group's `hits` field carries the top-`group_size` chunks for that paper, ranked by their fused score.
+
+Grouping helps when the consumer wants documents: a results UI, a citation list, an LLM that wants document-level attribution. It hurts when an LLM benefits from seeing several independently ranked chunks across multiple documents in its context window. Collapsing those chunks into one group per document throws away ordering information the LLM could have used.
+
+Grouping is a presentation choice, not a relevance technique. The candidates and their fused scores don't change; only the result shape does.
+
+Two operational notes:
+
+- Increase prefetch `limit` when grouping. If a paper has three chunks worth retrieving but the prefetch only returned two, grouping doesn't have the third to consider.
+- Use the `with_lookup` parameter when document-level metadata (full title, authors, publication date) lives in a separate collection. It fetches one record per group instead of repeating it per chunk.
+
+### When to Boost, When to Rerank
+
+The Query API's [score boosting](/documentation/search/search-relevance/#score-boosting) lets you express ranking preferences that aren't captured by similarity alone. Swap the `FusionQuery` for a `FormulaQuery` and use the prefetch scores as variables:
 
 ```python
-def retrieve_boosted(query, limit=10, group_size=3):
-    dense, sparse = embed_query(query)
-    res = client.query_points_groups(
-        collection_name="arxiv_multi_repr",
-        prefetch=[
-            # Prefetch order matters: $score[0] = chunk, $score[1] = title, $score[2] = sparse.
-            models.Prefetch(query=dense,  using="dense_chunk",     limit=100),
-            models.Prefetch(query=dense,  using="dense_title",     limit=100),
-            models.Prefetch(query=sparse, using="sparse_keywords", limit=100),
-        ],
-        query=models.FormulaQuery(
-            formula=models.SumExpression(sum=[
-                "$score[0]",
-                models.MultExpression(mult=[0.5, "$score[1]"]),
-                models.MultExpression(mult=[0.3, "$score[2]"]),
-            ]),
-            defaults={"$score[1]": 0.0, "$score[2]": 0.0},
-        ),
-        group_by="document_id",
-        group_size=group_size,
-        limit=limit,
-    ).groups
-    return [g.id for g in res]
-
-print(evaluate(retrieve_boosted, eval_set))
+query=models.FormulaQuery(
+    formula=models.SumExpression(sum=[
+        "$score[0]",
+        models.MultExpression(mult=[0.5, "$score[1]"]),
+        models.MultExpression(mult=[0.3, "$score[2]"]),
+    ]),
+    defaults={"$score[1]": 0.0, "$score[2]": 0.0},
+),
 ```
 
-The formula sums the chunk score with a half-weighted title score and a smaller sparse contribution. The `defaults` map covers candidates that appeared in the chunk prefetch but not in the title or sparse prefetches: without it, a missing variable would error. Unlike RRF, this is a linear combination of raw scores, which is fragile across query types unless you've validated the weights against your eval set. The point of showing it here is the mechanism, not the specific weights: the formula language lets you express ranking preferences (recency decay, source quality, author boost) directly, without a separate reranking pass.
+`$score[i]` references the score from prefetch `i`, so order in the `prefetch=` list is load-bearing. The `defaults` map covers candidates that appeared in one prefetch but not another: without it, a missing variable would error. The formula above sums the chunk score with a half-weighted title score and a smaller sparse contribution. Unlike RRF, this is a linear combination of raw scores and is fragile across query types unless you've held the weights up against representative queries.
 
-For time-based decay on a `published_at` payload field, swap the title term for an `exp_decay` expression from the [decay functions](/documentation/search/search-relevance/#decay-functions) reference; the [score-boost-time snippet](/documentation/search/search-relevance/#time-based-score-boosting) shows the typed pattern.
+Use the formula API when the preference is structured and known up front: recency, source authority, geographic proximity, content type. For time-based decay on a `published_at` payload field, swap the title term for an `exp_decay` expression from the [decay functions](/documentation/search/search-relevance/#decay-functions) reference.
 
-Example output:
+Use a reranker when the preference is "this is more relevant than that" but you can't easily express why in a closed form. Formulas are cheap and deterministic; rerankers are expensive but learn what you can't articulate.
 
-```text
-{'Recall@10': 0.63, 'NDCG@10': 0.47, 'MRR': 0.55}
-```
+---
 
-NDCG and MRR move more than Recall, which is the expected pattern: boosting reorders within a fixed candidate set rather than pulling new candidates in.
-
-## Results Summary
-
-| Step | Retrieval | Recall@10 | NDCG@10 | MRR |
-| --- | --- | --- | --- | --- |
-| 1 | Dense chunks only | 0.41 | 0.27 | 0.31 |
-| 2 | Dense + sparse, RRF | 0.52 | 0.35 | 0.42 |
-| 3 | Add title prefetch | 0.59 | 0.41 | 0.49 |
-| 4 | Group by document | 0.61 | 0.43 | 0.51 |
-| 5 | Score boost with formula | 0.63 | 0.47 | 0.55 |
-
-These numbers are illustrative. Run the eval against your own dataset slice and ground truth to see your shape of the lift. The structural pattern, gains compounding from baseline through hybrid through multi-representation through grouping through boosting, is what the design buys you.
-
-For a complementary view that varies the *query* across three representations against a single document representation, see the [Universal Query for Hybrid Retrieval demo](/course/essentials/day-5/universal-query-demo/). This tutorial is the document-side equivalent: multiple document representations against a single query.
+For the step-by-step build-up that produced this design (dense baseline, plus sparse, plus title prefetch, plus grouping, plus boosting) with eval numbers showing the lift at each step, see the [accompanying notebook](https://github.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb). For a complementary view that varies the *query* across three representations against a single document representation, see the [Universal Query for Hybrid Retrieval demo](/course/essentials/day-5/universal-query-demo/). This tutorial is the document-side equivalent: multiple document representations against a single query.
 
 ## Where This Pattern Doesn't Fit
 
@@ -380,17 +246,16 @@ The pattern also assumes you can identify the representations cleanly. If your c
 
 ## Open Ends
 
-**Chunking strategy.** This tutorial uses a fixed-length sentence chunker for clarity. The chunking choice has a measurable effect on retrieval quality, and the right strategy depends on document structure. Worth comparing against your eval set: hierarchical chunking ([POMA-AI VST](https://arxiv.org/abs/2406.04590)), late chunking ([Jina](https://jina.ai/news/late-chunking-in-long-context-embedding-models/)), and semantic chunking ([Chonkie](https://github.com/chonkie-ai/chonkie)).
+**Chunking strategy.** This tutorial uses a fixed-length sentence chunker for clarity. The chunking choice has a measurable effect on retrieval quality, and the right strategy depends on document structure. Worth considering for your corpus: hierarchical chunking ([POMA-AI VST](https://arxiv.org/abs/2406.04590)), late chunking ([Jina](https://jina.ai/news/late-chunking-in-long-context-embedding-models/)), and semantic chunking ([Chonkie](https://github.com/chonkie-ai/chonkie)).
 
 **BM25F.** The technically correct extension of BM25 to multi-field text of varying length is BM25F, which weights term statistics per field. Qdrant doesn't support BM25F natively today. The workaround used in step 3, separate sparse vectors per field fused via the Query API, gives you most of the practical benefit. Default BM25 parameters (k1, b) are calibrated for document-length text and may need recalibration for short fields like titles or tags; treat them as tunable hyperparameters when working with mixed-length sparse representations.
 
 ## Wrapping Up
 
-Multi-representation retrieval is a schema decision, not a model decision. Once each representation has its own named vector, the Query API composes them at query time: prefetch per representation, fuse with RRF, group by document for presentation, and apply a formula for ranking preferences. The lift compounds across these steps because each one targets a different failure mode of the previous one.
+Multi-representation retrieval is a schema decision, not a model decision. Once each representation has its own named vector, the Query API composes them at query time: prefetch per representation, fuse with RRF, group by document for presentation, and apply a formula for ranking preferences. Each step in the walkthrough targets a specific retrieval failure mode the previous step left on the table.
 
 Related reading:
 
 - [Hybrid Search Revamped](/articles/hybrid-search/) for the why behind RRF over linear weighting.
 - [Hybrid Queries reference](/documentation/search/hybrid-queries/) for the full Query API surface, including grouping and `lookup_from`.
 - [Search Relevance reference](/documentation/search/search-relevance/) for the formula and decay function syntax used in step 5.
-- [Retrieval Quality Evaluation](/documentation/tutorials-search-engineering/retrieval-quality/) for the broader evaluation framing and HNSW tuning.
