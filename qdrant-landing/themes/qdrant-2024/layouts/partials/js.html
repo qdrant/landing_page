@@ -6,7 +6,7 @@
 </script>
 
 <!-- OneTrust Cookies Consent Notice start for local.qdrant.tech -->
-{{ if and hugo.IsProduction .Site.Params.onetrustScriptID }}
+{{ if and (not hugo.IsServer) .Site.Params.onetrustScriptID }}
   <script
     src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
     type="text/javascript"
