@@ -22,6 +22,15 @@ This can be particularly beneficial in large-scale applications where minimizing
 On the other hand, quantization introduces an approximation error, which can lead to a slight decrease in search quality.
 The level of this tradeoff depends on the quantization method and its parameters, as well as the characteristics of the data.
 
+Qdrant supports four quantization methods:
+
+- **[TurboQuant](#turboquant-quantization)** supports up to 32x compression, with strong recall across most embedding models.
+- **[Scalar Quantization](#scalar-quantization)** compresses each vector component from a 32-bit float to an 8-bit integer, achieving 4x compression with minimal accuracy loss.
+- **[Binary Quantization](#binary-quantization)** reduces each vector component to one to two bits for up to 32x compression. Best suited for high-dimensional, centered vector distributions.
+- **[Product Quantization](#product-quantization)** enables up to 64x compression when minimizing memory is the top priority.
+
+To help you choose the right quantization method for your use case, refer to the [next section](#how-to-choose-the-right-quantization-method).
+
 ## How to Choose the Right Quantization Method
 
 Qdrant offers several quantization methods, each with its own advantages and tradeoffs. Here are some guidelines to help you choose the right quantization method, depending on the desired compression ratio:
