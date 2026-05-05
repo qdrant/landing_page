@@ -71,38 +71,42 @@ Explain the design choice for each one in one or two sentences. Specifically:
 
 **Code tabs:** Follow the convention of existing tutorials in the same directory. Python first, then language tabs as supported by the Query API and grouping features.
 
-## Deliverable 2: Hybrid Queries Grouping Section
+## Deliverable 2: Hybrid Queries Grouping Cross-Link
 
 **Path:** `qdrant-landing/content/documentation/search/hybrid-queries.md` (anchor `#grouping`)
 
-The current section is close to an API stub. Expand it with a real title/chunk grouping example showing `group_by="document_id"` with `group_size=3` against a hybrid query. Roughly 30 lines of code plus 100 to 150 words of surrounding prose.
+This page is maintained as a use-case-agnostic API reference, so an expanded worked example would duplicate tutorial content and create maintenance drift. Do not expand the section.
 
-Add a "See also" link at the end pointing to the new tutorial.
+Add a "See also" link at the end of the grouping section pointing to the new tutorial as the worked end-to-end example.
 
 ## Deliverable 3: Vectors Page Multivector Clarification
 
 **Path:** `qdrant-landing/content/documentation/manage-data/vectors.md` (the Multivectors subsection)
 
-The page currently lists two scenarios where multivectors are useful, including "multiple representation of the same object." That phrasing is the source of the misuse: readers interpret it as a green light to store title + summary + chunks in a multivector field.
+The page currently lists two scenarios where multivectors are useful, including "multiple representation of the same object." That phrasing leads readers to store title + summary + chunks in a multivector field, which is not what MaxSim is designed for.
 
-Tighten the existing bullet and add a short clarification, roughly 30 to 50 words of net new copy:
-- Specify that "multiple representation of the same object" means same-modality, same-shape vectors (for example, images of one product from different angles), not different fields such as title + summary + chunks.
-- Note that MaxSim returns a single combined score per point, not per subvector, so the caller cannot tell which subvector matched.
+Avoid framing this as an anti-pattern: multivectors are not always wrong for multi-representation cases, and the docs page is not the right venue for "when NOT to use" guidance. Instead, add one factual sentence and one cross-link, roughly 20 to 40 words of net new copy:
+- State that MaxSim returns a single combined score per point, not per subvector, so the caller cannot tell which subvector matched.
 - Point readers to the Named Vectors section further down the same page for the title + summary + chunks case, and link to the new tutorial as the worked example.
+- Reference the multivector course (Kacper's section) where the limitations of multivectors at large-scale vector search are explained.
 
-This edit is the single highest-leverage one in the task because the misuse pattern is constant in Discord. Do it carefully and consult `qdrant-messaging` for the wording.
+Broader "when does this fit" discussion belongs in the FAQ section Abdon is building on the same page, not in this edit. Consult `qdrant-messaging` for the wording.
 
 ## Deliverable 4: Text Search BM25 Note
 
 **Path:** `qdrant-landing/content/documentation/search/text-search.md` (BM25 subsection)
 
-Add a short note (two to three sentences) that BM25's term-frequency, IDF, and length-normalization parameters were calibrated for document-length text and degrade on titles or short chunks. When designing a multi-representation collection, apply BM25 to the longer fields and rely on dense vectors for the short ones. Link to the new tutorial.
+Add a short note (three to four sentences) that BM25's default term-frequency, IDF, and length-normalization parameters were calibrated for document-length text and require experimentation when applied to titles or short chunks (k1 and b may need recalibration). When designing a multi-representation collection, the practical default is BM25 on the longer fields with dense vectors carrying the short ones. Add a one-liner that BM25F is the principled extension for multi-field text of varying length, that Qdrant does not support it natively, and that the tutorial shows the workaround (separate sparse vectors per field, fused via the Query API). Link to the new tutorial.
+
+Before drafting, check whether there is published guidance on calibrating k1 and b for short-text fields and incorporate any concrete recommendations into the note (or the tutorial's schema section) if found.
 
 ## Deliverable 5: Search Relevance Cross-Link
 
 **Path:** `qdrant-landing/content/documentation/search/search-relevance.md`
 
-The page already has the heading-boost example for the docs site (h1/h2 vs p/li). Add a one-line link from that example to the new tutorial as the worked end-to-end version.
+This page is maintained as an API reference for relevance-tuning primitives, not a guideline page, so an inbound link from the heading-boost example is misplaced. Do not edit this page.
+
+Instead, ensure the tutorial's score-boosting step (walkthrough step 5) links out to the search-relevance reference. The cross-link is one-way: tutorial → reference.
 
 ## Sidebar and Navigation
 
@@ -125,7 +129,7 @@ Before opening the PR, verify:
 - [ ] Eval numbers are reported inline after each step, not only in a summary table at the end.
 - [ ] The schema section explains the rationale for each named vector and for putting BM25 only on the longer fields.
 - [ ] Multivectors are not used for storing different representations anywhere in the tutorial. The schema uses named vectors.
-- [ ] Cross-links go in both directions: from the four supporting doc pages into the tutorial, and from the tutorial back out to the relevant concept pages.
+- [ ] Cross-links work as scoped: the hybrid-queries grouping section, the vectors page multivector subsection, and the text-search BM25 subsection link into the tutorial; the tutorial links out to the relevant concept pages, including search-relevance for the score-boosting step. The search-relevance page itself is not edited.
 - [ ] The Universal Query Demo (`course/essentials/day-5/universal-query-demo`) is mentioned in the tutorial as the related piece showing three representations of one query, with a one-line note on how the new tutorial covers the document-side equivalent.
 - [ ] The Vectors page edit explicitly addresses the multivector misuse pattern and links to the tutorial.
 - [ ] The tutorial is between 2,000 and 3,000 words. Cut if longer.
