@@ -33,7 +33,7 @@ To help you choose the right quantization method for your use case, refer to the
 
 ## How to Choose the Right Quantization Method
 
-Qdrant offers several quantization methods, each with its own advantages and tradeoffs. Here are some guidelines to help you choose the right quantization method, depending on the desired compression ratio:
+**4-bit TurboQuant** is the recommended quantization method for most use cases, as it offers a good balance between recall and compression. If you need higher compression, consult this table for guidance:
 
 | Compression | Method      |
 |-------------|-------------|
