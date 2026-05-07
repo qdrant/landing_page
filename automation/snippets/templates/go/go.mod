@@ -4,7 +4,7 @@ go 1.25.2
 
 require (
 	github.com/google/uuid v1.6.0
-	github.com/qdrant/go-client v1.17.2-0.20260501075011-9fcff901cc27
+	github.com/qdrant/go-client v1.17.2-0.20260506161257-af08d6b9a542
 )
 
 require (

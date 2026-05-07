@@ -33,13 +33,13 @@ jobs:
         run: docker build -t snippet-checker automation/snippets/docker
 
       - name: Fetch C# client
-        run: automation/snippets/docker.sh ./sync-clients.py fetch --csharp
+        run: automation/snippets/docker.sh ./sync-clients.py fetch --csharp=1-18-x
 
       - name: Fetch Java client
-        run: automation/snippets/docker.sh ./sync-clients.py fetch --java
+        run: automation/snippets/docker.sh ./sync-clients.py fetch --java=1-18-x
 
       - name: Fetch TypeScript client
-        run: automation/snippets/docker.sh ./sync-clients.py fetch --typescript
+        run: automation/snippets/docker.sh ./sync-clients.py fetch --typescript=v1.18
 
       - name: Typecheck snippets
         run: automation/snippets/docker.sh ./check.py build
