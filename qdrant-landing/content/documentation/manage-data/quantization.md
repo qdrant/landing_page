@@ -33,15 +33,15 @@ To help you choose the right quantization method for your use case, refer to the
 
 ## How to Choose the Right Quantization Method
 
-**4-bit TurboQuant** is the recommended quantization method for most use cases, as it offers a good balance between recall and compression. If you need higher compression, consult this table for guidance:
+Depending on your requirements for recall, compression, and distance metrics, consult this table for guidance:
 
 | Compression | Method      |
 |-------------|-------------|
-| 4           | Use **Scalar Quantization** if you want to use a well-established method with a good balance between recall and compression. <br/><br/>However, 4-bit **TurboQuant** offers 8× compression with similar recall (see the next row). Consider using 4-bit **TurboQuant** instead of scalar quantization, unless you want to use the Manhattan (L1) distance metric. |
-| 8           | Use 4-bit **TurboQuant**. This is the **recommended method for most use cases**, offering a good balance between recall and compression. <br/><br/>TurboQuant performs best with the Cosine, Dot, or Euclidean distance metrics. When using the Manhattan (L1) distance metric, consider using another quantization method. |
-| 16          | In most benchmarks, **2-bit TurboQuant** delivers the highest recall at this compression ratio. <br/><br/>Test whether 2-bit **TurboQuant** or **binary quantization** offers better recall on your embedding model. Only choose binary quantization if it is equal to or better than TurboQuant in terms of recall. Otherwise, choose TurboQuant. |
-| 24          | In most benchmarks, **1.5-bit TurboQuant** delivers the highest recall at this compression ratio. <br/><br/>Test whether 1.5-bit **TurboQuant** or **binary quantization** offers better recall on your embedding model. Only choose binary quantization if it is equal to or better than TurboQuant in terms of recall. Otherwise, choose TurboQuant. |
-| 32          | In most benchmarks, **1-bit TurboQuant** delivers the highest recall at this compression ratio. <br/><br/>Test whether 1-bit **TurboQuant** or **binary quantization** offers better recall on your embedding model. Only choose binary quantization if it is equal to or better than TurboQuant in terms of recall. Otherwise, choose TurboQuant. |
+| 4           | Use **Scalar Quantization**. It is a well-established quantization method with a good balance between recall and compression. <br/><br/>However, unless you need to use the Manhattan (L1) distance metric, consider using 4-bit **TurboQuant** instead of scalar quantization, as it offers comparable recall at double the compression. |
+| 8           | Use 4-bit **TurboQuant**. It offers a good balance between recall and compression. <br/><br/>When using the Manhattan (L1) distance metric, consider using another quantization method. |
+| 16          | **2-bit TurboQuant** and **2-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
+| 24          | **1.5-bit TurboQuant** and **1.5-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
+| 32          | **1-bit TurboQuant** and **1-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
 | Up to 64  | Use **Product Quantization** if the memory footprint is the top priority and accuracy and speed are not critical. |
 
 ## TurboQuant Quantization
@@ -67,7 +67,9 @@ TurboQuant supports four bit depths:
 | `bits1_5`         | 1.5 bits | 24× |
 | `bits1`           | 1 bit    | 32× |
 
-TurboQuant at 4 bits matches scalar quantization's recall at half the memory and faster query throughput. TurboQuant at 2, 1.5, and 1 bit matches binary quantization's storage budgets but consistently deliver higher recall across benchmarked datasets.
+In our benchmarks, 4-bit TurboQuant, at twice the compression ratio of scalar quantization, delivers similar recall and speed. Results vary by dataset and embedding model: it may outperform or slightly underperform scalar quantization. This makes 4-bit TurboQuant a good default choice for many use cases.
+
+Compared to binary quantization, TurboQuant offers better recall at lower speed and equivalent storage budgets.
 
 The default encoding is `bits4`, which offers the best accuracy.
 
