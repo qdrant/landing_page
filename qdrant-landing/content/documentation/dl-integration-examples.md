@@ -5,7 +5,7 @@ type: delimiter
 weight: 1100 # Change this weight to change order of sections
 partition: ecosystem
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 ---

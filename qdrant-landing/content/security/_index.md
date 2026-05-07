@@ -1,7 +1,7 @@
 ---
 title: Security
 sitemapExclude: True
-_build:
+build:
   render: never
 cascade:
   - build:

@@ -22,18 +22,21 @@
   "dependencies": {
     "@splidejs/splide": "^4.1.4",
     "anchor-js": "^5.0.0",
-    "bootstrap": "^5.3.3",
+    "bootstrap": "^5.3.8",
     "clipboard": "^2.0.11",
     "qdrant-page-search": "^1.1.3"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.23.9",
-    "copy-webpack-plugin": "^12.0.2",
-    "prettier": "^3.2.5",
+    "@babel/preset-env": "^7.29.2",
+    "copy-webpack-plugin": "^14.0.0",
+    "prettier": "^3.8.3",
     "prettier-plugin-go-template": "^0.0.15",
-    "webpack": "^5.90.1",
-    "webpack-cli": "^5.1.4"
+    "webpack": "^5.106.2",
+    "webpack-cli": "^7.0.2"
   },
   "name": "qdrant-landing",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "workspaces": [
+    "packages/hugoautogen"
+  ]
 }

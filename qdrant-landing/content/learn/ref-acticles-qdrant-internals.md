@@ -4,7 +4,7 @@ type: reference
 reference: /articles/qdrant-internals
 weight: 120
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: learn

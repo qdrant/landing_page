@@ -4,7 +4,7 @@ type: reference
 reference: /course/essentials
 weight: 210
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: learn

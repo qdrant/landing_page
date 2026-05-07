@@ -4,7 +4,7 @@ title: "Support"
 type: delimiter
 weight: 300
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: deploy
