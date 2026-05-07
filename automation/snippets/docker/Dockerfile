@@ -30,7 +30,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
     sh -s -- -y --default-toolchain 1.94.0
 
 # for typescript client
-RUN npm install --global --prefix /usr/local pnpm
+RUN npm install --global --prefix /usr/local pnpm@8
 # Without this, typescript snippets tries to connect to ::1 instead of 127.1
 RUN echo "precedence ::ffff:0:0/96 100" >> /etc/gai.conf
 
