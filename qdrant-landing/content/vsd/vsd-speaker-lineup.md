@@ -6,17 +6,26 @@ logos:
     src: /img/vsd-logos/LlamaIndex.svg
     alt: LlamaIndex logo
   - id: 1
+    src: /img/vsd-logos/Google-Deepmind.svg
+    alt: Google DeepMind logo
+  - id: 2
     src: /img/vsd-logos/ArizeAI.svg
     alt: ArizeAI logo
-  - id: 2
+  - id: 3
     src: /img/vsd-logos/TwelveLabs.svg
     alt: TwelveLabs logo
-  - id: 3
+  - id: 4
     src: /img/vsd-logos/Mem0.svg
     alt: Mem0 logo
-  - id: 4
+  - id: 5
     src: /img/vsd-logos/N8n.svg
     alt: N8n logo
+  - id: 6
+    src: /img/vsd-logos/Cognee.svg
+    alt: Cognee logo
+  - id: 7
+    src: /img/vsd-logos/Qualcomm.svg
+    alt: Qualcomm logo
 button:
   text: Submit a Talk Proposal
   url: https://docs.google.com/forms/d/e/1FAIpQLSfefAtmGP59-0IhNxCCMbNRCDlU-JRkJnSja3GfOrBnTZw-CA/viewform
