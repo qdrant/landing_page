@@ -13,10 +13,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openjdk-21-jdk-headless \
     # for python client
     python3 \
-    # for typescript client
-    nodejs \
-    npm \
     && rm -rf /var/lib/apt/lists/*
+
+# for typescript client - Node 22 (Node 18 EOL April 2025, pnpm requires 20+)
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y --no-install-recommends nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 # for csharp client
 RUN add-apt-repository ppa:dotnet/backports && \
@@ -30,7 +32,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
     sh -s -- -y --default-toolchain 1.94.0
 
 # for typescript client
-RUN npm install --global --prefix /usr/local pnpm@9
+RUN npm install --global --prefix /usr/local pnpm
 # Without this, typescript snippets tries to connect to ::1 instead of 127.1
 RUN echo "precedence ::ffff:0:0/96 100" >> /etc/gai.conf
 
