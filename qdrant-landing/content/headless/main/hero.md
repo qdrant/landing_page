@@ -9,7 +9,7 @@ learnMore:
   url: /qdrant-vector-database/
 valueBadges:
   - icon: /img/home/hero/github-icon.svg
-    text: 25k+ GitHub Stars
+    text: 30k+ GitHub Stars
     url: https://github.com/qdrant/qdrant
   - icon: /img/home/hero/users-icon.svg
     text: 60k+ Community Members
