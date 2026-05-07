@@ -3,7 +3,7 @@ title: "Qdrant 1.18 - TurboQuant"
 draft: false
 slug: qdrant-1.18.x
 short_description: "Version 1.18 of Qdrant introduces TurboQuant, a novel quantization method."
-description: "Version 1.18 of Qdrant introduces TurboQuant, a novel quantization method that matches scalar quantization's recall at half the memory with faster query throughput, and outperforms binary quantization in recall at equivalent storage budgets."
+description: "Version 1.18 of Qdrant introduces TurboQuant, a novel quantization method that, at twice the compression ratio of scalar quantization, delivers similar recall and speed."
 preview_image: /blog/qdrant-1.18.x/social_preview.jpg
 social_preview_image: /blog/qdrant-1.18.x/social_preview.jpg
 date: 2026-04-30T00:00:00-08:00
@@ -18,7 +18,7 @@ tags:
 
 [**Qdrant 1.18.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.18.0) Let's look at the main features for this version:
 
-**TurboQuant:** A new quantization method that matches scalar quantization's recall at half the memory with faster query throughput, and outperforms binary quantization in recall at equivalent storage budgets.
+**TurboQuant:** A new quantization method that, at twice the compression ratio of scalar quantization, delivers similar recall and speed.
 
 **Memory Monitoring:** Inspect a collection's disk, RAM, and page cache usage broken down by component (vectors, payload, indexes, and more) via a new Web UI view and API endpoint.
 
@@ -32,39 +32,51 @@ Additionally, version 1.18 adds two improvements to audit logging: a new API end
 
 Quantization is a technique that reduces the memory footprint of a vector collection by compressing floating-point values to a lower bit depth. Smaller vectors fit more readily in memory, which speeds up search and lowers infrastructure costs.
 
-Choosing a quantization method means accepting tradeoffs. Binary quantization is fast but requires a centered vector distribution, and accuracy degrades significantly for smaller vectors. Scalar quantization is reliable but compresses only by a factor of four. Product quantization compresses more aggressively, but at the cost of accuracy and speed. There has been no single method that worked well across all vector distributions and dimensions.
+Choosing a quantization method means accepting tradeoffs. Binary quantization is fast but requires a centered vector distribution, and accuracy degrades significantly for smaller vectors. Scalar quantization is reliable but compresses only by a factor of four. Product quantization compresses more aggressively, but at the cost of accuracy and speed.
 
 Version 1.18 introduces support for [TurboQuant](/documentation/manage-data/quantization/), a new quantization method developed by [Google Research](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). TurboQuant applies a fast Hadamard rotation to vectors before compression, which redistributes values evenly across coordinates. Because this rotation normalizes the data distribution, TurboQuant works well with any embedding model.
 
-Qdrant's implementation of TurboQuant extends the original algorithm to close the gap between the algorithm's theoretical assumptions and real-world embeddings. A length renormalization step corrects a recall-degrading bias caused by quantization error. A per-coordinate calibration pre-pass fits the data to precomputed codebooks more accurately than expected by theory. Cosine, dot product, and L2 are all supported as first-class distance metrics, removing the unit-sphere restriction of the original paper. And finally, we implemented a highly optimized SIMD acceleration for TurboQuant to achieve maximum performance.
+Qdrant's implementation of TurboQuant extends the original algorithm to close the gap between the algorithm's theoretical assumptions and real-world embeddings. A length renormalization step corrects a recall-degrading bias caused by quantization error, an idea borrowed from [RaBitQ](https://arxiv.org/abs/2405.12497). A per-coordinate calibration pre-pass fits the data to precomputed codebooks, aiming to recover accuracy lost to distribution mismatch. Cosine, dot product, and L2 are all supported as first-class distance metrics. And finally, we implemented highly optimized SIMD acceleration for TurboQuant to achieve maximum performance.
 
 To learn more about Qdrant's TurboQuant implementation, refer to [our article](/articles/turboquant-quantization/).
 
 ### How TurboQuant Compares
 
-The following table compares Recall@10 for full original vectors (f32), scalar quantization (SQ), TurboQuant (TQ) at 4-bit, 2-bit, and 1-bit configurations, and binary quantization (BQ) at 2-bit and 1-bit (asymmetric). Benchmarks were run on 100K vectors per dataset with HNSW configured with `m=16` and `ef_construct=128`:
+#### TurboQuant vs Scalar Quantization
 
-| Dataset | f32 | SQ | **TQ 4-bit** | TQ 2-bit | BQ 2-bit | TQ 1-bit | BQ 1-bit |
-|---|---|---|---|---|---|---|---|
-| arxiv-instructorxl-768 | 0.916 | 0.913 | **0.902** | **0.817** | 0.675 | **0.678** | 0.598 |
-| dbpedia-openai3-large-1536 | 0.934 | 0.933 | **0.927** | **0.880** | 0.750 | **0.792** | 0.780 |
-| dbpedia-openai3-small-1536 | 0.936 | 0.934 | **0.929** | **0.883** | 0.761 | **0.796** | 0.788 |
-| wiki-cohere-v3-1024 | 0.962 | 0.960 | **0.950** | **0.889** | 0.748 | **0.798** | 0.744 |
-| **Compression** | 1× | 4× | **8×** | 16× | 16× | 32× | 32× |
+The following table shows recall@10 for 4-bit TurboQuant (TQ4) compared to uncompressed vectors (F32) and scalar quantization (SQ) across four benchmarked datasets. Benchmarks were run with HNSW configured with `m=16` and `ef_construct=128`.
 
-The three key takeaways from these results are:
+| Dataset | F32 | SQ | TQ4 |
+|---|---|---|---|
+| [arxiv-titles-instructorxl-embeddings](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings) | 0.9419 | 0.9285 | 0.9193 |
+| [gte-multilingual-ads-1M](https://huggingface.co/datasets/Qdrant/gte-multilingual-ads-1M) | 0.9298 | 0.9187 | 0.9169 |
+| [dbpedia-entities-openai3-text-embedding-3-large-1536-100K](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-100K) | 0.9348 | 0.9339 | 0.9271 |
+| [wikipedia-2023-11-embed-multilingual-v3](https://huggingface.co/datasets/CohereLabs/wikipedia-2023-11-embed-multilingual-v3) | 0.9446 | 0.9014 | 0.9261 |
 
-- **TQ 4-bit matches SQ recall** within ~1 percentage point on every dataset, at half the storage and similar or better throughput.
-- **TQ 2-bit beats BQ 2-bit by ~13 percentage points** on every dataset, at the same 16× storage.
-- **TQ 1-bit beats BQ 1-bit on every dataset**, by 1–8 percentage points — a smaller margin than the 16× class, but still a consistent win at the same 32× storage.
+Compared to scalar quantization, TurboQuant delivers similar recall **at double the compression ratio**. Results vary by dataset and embedding model: TurboQuant may slightly outperform or underperform scalar quantization.
 
-Detailed numbers including throughput and indexing time are [in our article](/articles/turboquant-quantization/).
+#### TurboQuant vs Binary Quantization
+
+The following table shows recall@10 for 1-bit TurboQuant (TQ1) compared to uncompressed vectors (F32) and 1-bit binary quantization (BQ1) across four benchmarked datasets. Benchmarks were run with HNSW configured with `m=16` and `ef_construct=128`.
+
+| Dataset | F32 | BQ1 | TQ1 |
+|---|---|---|---|
+| [arxiv-titles-instructorxl-embeddings](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings) | 0.9419 | 0.4683 | 0.6763 |
+| [gte-multilingual-ads-1M](https://huggingface.co/datasets/Qdrant/gte-multilingual-ads-1M) | 0.9298 | 0.6760 | 0.7717 |
+| [dbpedia-entities-openai3-text-embedding-3-large-1536-100K](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-100K) | 0.9348 | 0.6921 | 0.7924 |
+| [wikipedia-2023-11-embed-multilingual-v3](https://huggingface.co/datasets/CohereLabs/wikipedia-2023-11-embed-multilingual-v3) | 0.9446 | 0.5409 | 0.6300 |
+
+Compared to 1-bit binary quantization, 1-bit TurboQuant offers better recall at equivalent storage budgets, albeit at a lower speed. Similar trends are observed for 1.5-bit and 2-bit configurations.
+
+Detailed numbers including throughput and indexing times are [in our article](/articles/turboquant-quantization/).
 
 ### Get Started with TurboQuant
 
-In our benchmarks, TurboQuant matches scalar quantization's recall at half the memory with faster query throughput, and outperforms binary quantization in recall at equivalent storage budgets. As a new feature, it's worth testing on your data before committing, but we encourage you to try it on new collections.
+In our benchmarks, TurboQuant, at twice the compression ratio of scalar quantization, delivers similar recall and speed. Results vary by dataset and embedding model: it may outperform or slightly underperform scalar quantization. This makes TurboQuant a good default choice for many use cases.
 
-To get started, refer to the [quantization documentation](/documentation/manage-data/quantization/).
+Compared to binary quantization, TurboQuant offers better recall at lower speed and equivalent storage budgets.
+
+Benchmark which quantization method performs best on your data and embedding model, and choose the one that fits your needs. To get started with TurboQuant, refer to the [documentation](/documentation/manage-data/quantization/).
 
 ## Memory Monitoring
 
