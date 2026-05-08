@@ -20,7 +20,7 @@ tags:
 partition: case-studies
 ---
 
-![Summary](/blog/case-study-sapu/social-preview-sapu.png)
+![Summary](/blog/case-study-sapu/sapu-bento.png)
 
 Sapu is an early-stage biopharmaceutical company developing treatments for hard-to-treat cancers. From its San Diego facility, the team is pioneering a nanomedicine pipeline that takes existing FDA-approved drugs and re-engineers them at the nanoscale, making them smaller, more effective, and less toxic. Building on already-approved compounds gives Sapu a stronger and faster path to therapeutic success in an industry where most candidates never reach patients.
 
