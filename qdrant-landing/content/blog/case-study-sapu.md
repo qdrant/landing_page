@@ -15,7 +15,6 @@ tags:
 - biomedical research
 - PubMed
 - hybrid search
-- payload filtering
 - Qdrant Cloud Premium
 - case study
 partition: case-studies
