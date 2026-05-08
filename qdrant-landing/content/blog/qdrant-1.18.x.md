@@ -38,8 +38,6 @@ Version 1.18 introduces support for [TurboQuant](/documentation/manage-data/quan
 
 Qdrant's implementation of TurboQuant extends the original algorithm to close the gap between the algorithm's theoretical assumptions and real-world embeddings. A length renormalization step corrects a recall-degrading bias caused by quantization error, an idea borrowed from [RaBitQ](https://arxiv.org/abs/2405.12497). A per-coordinate calibration pre-pass fits the data to precomputed codebooks, aiming to recover accuracy lost to distribution mismatch. Cosine, dot product, and L2 are all supported as first-class distance metrics. And finally, we implemented highly optimized SIMD acceleration for TurboQuant to achieve maximum performance.
 
-To learn more about Qdrant's TurboQuant implementation, refer to [our article](/articles/turboquant-quantization/).
-
 ### How TurboQuant Compares
 
 #### TurboQuant vs Scalar Quantization
@@ -68,7 +66,7 @@ The following table shows recall@10 for 1-bit TurboQuant (TQ1) compared to uncom
 
 Compared to 1-bit binary quantization, 1-bit TurboQuant offers better recall at equivalent storage budgets, albeit at a lower speed. Similar trends are observed for 1.5-bit and 2-bit configurations.
 
-Detailed numbers including throughput and indexing times are [in our article](/articles/turboquant-quantization/).
+We will soon publish an article with detailed numbers, including throughput and indexing times.
 
 ### Get Started with TurboQuant
 
