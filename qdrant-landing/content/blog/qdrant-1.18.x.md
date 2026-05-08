@@ -42,7 +42,7 @@ Qdrant's implementation of TurboQuant extends the original algorithm to close th
 
 #### TurboQuant vs Scalar Quantization
 
-The following table shows recall@10 for 4-bit TurboQuant (TQ4) compared to uncompressed vectors (F32) and scalar quantization (SQ) across four benchmarked datasets. Benchmarks were run with HNSW configured with `m=16` and `ef_construct=128`.
+The following table shows recall for 4-bit TurboQuant (TQ4) compared to uncompressed vectors (F32) and scalar quantization (SQ) across four benchmarked datasets. Benchmarks were run with HNSW configured with `m=16` and `ef_construct=128`.
 
 | Dataset | F32 | SQ | TQ4 |
 |---|---|---|---|
@@ -55,7 +55,7 @@ Compared to scalar quantization, TurboQuant delivers similar recall **at double 
 
 #### TurboQuant vs Binary Quantization
 
-The following table shows recall@10 for 1-bit TurboQuant (TQ1) compared to uncompressed vectors (F32) and 1-bit binary quantization (BQ1) across four benchmarked datasets. Benchmarks were run with HNSW configured with `m=16` and `ef_construct=128`.
+The following table shows recall for 1-bit TurboQuant (TQ1) compared to uncompressed vectors (F32) and 1-bit binary quantization (BQ1) across four benchmarked datasets. Benchmarks were run with HNSW configured with `m=16` and `ef_construct=128`.
 
 | Dataset | F32 | BQ1 | TQ1 |
 |---|---|---|---|
