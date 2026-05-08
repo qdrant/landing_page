@@ -1,11 +1,11 @@
 ---
 title: "TurboQuant in Qdrant: 8× Vector Compression Without the Recall Tax"
 short_description: "TurboQuant ships in Qdrant 1.18: 8× vector compression at int8 recall, no calibration set required."
-description: "TurboQuant — a new scalar quantization algorithm from Google Research — now ships in Qdrant 1.18, with extensions that make it work on real embeddings. 8× compression at the recall of int8, without per-dataset training or calibration sets."
+description: "TurboQuant — a new rotation-based vector quantization algorithm from Google Research — now ships in Qdrant 1.18, with extensions that make it work on real embeddings. 8× compression at the recall of int8, without per-dataset training or calibration sets."
 social_preview_image: /articles_data/turboquant/social_preview.png
 small_preview_image: /articles_data/turboquant/turboquant-icon.svg
 preview_dir: /articles_data/turboquant/preview
-author: Ivan Pleshkov and Jonas Schultz
+author: Ivan Pleshkov and Jonas Schulz
 author_link: https://qdrant.tech
 date: 2026-05-04T10:00:00+02:00
 draft: false
@@ -21,15 +21,15 @@ weight: -200
 
 # TurboQuant in Qdrant
 
-If you run production vector workloads, you already know the compression ladder in Qdrant: float32 is the baseline, **Scalar Quantization (SQ)** halves memory four times over with almost no recall hit, and **Binary Quantization (BQ)** packs vectors at 16× or 32× depending on the storage variant, with a steeper recall trade-off that depends heavily on the embedding model.
+If you run production vector workloads, you already know the compression ladder in Qdrant: float32 is the baseline, **Scalar Quantization (SQ)** compresses vectors by 4× with almost no recall hit, and **Binary Quantization (BQ)** packs vectors at 16× or 32× depending on the storage variant, with a steeper recall trade-off that depends heavily on the embedding model.
 
-Qdrant 1.18 ships **TurboQuant** — a new scalar quantization method from [Google Research](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/), with extensions that make it work on real production embeddings — as an alternative across the same compression range. Summarizing the results of benchmarks across ten public embedding datasets:
+Qdrant 1.18 ships **TurboQuant** — a new rotation-based vector quantization method from [Google Research](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/), with extensions that make it work on real production embeddings — as an alternative across the same compression range. Summarizing the results of benchmarks across ten public embedding datasets:
 
 * **TurboQuant 4-bit** is competitive with SQ across the board — within ~1–2 percentage points on most datasets, and noticeably *ahead* of SQ on a few (where the SQ int8 grid struggles with the embedding distribution).
 * **TurboQuant 2-bit and 1-bit** match BQ's storage budgets but consistently deliver substantially higher recall — typically 10–20 percentage points across the benchmarked datasets.
 * No external calibration set is required. No per-dataset codebooks to ship or maintain. Calibration is computed inline, per segment.
 
-The recommendation is straightforward: if you currently run SQ or BQ, try the equivalent TurboQuant configuration on a test segment — it is a config change and a re-index. On most embedding models you will see a recall improvement, often a substantial one. Stay on SQ or BQ if throughput drops noticeably for your workload, or if the recall improvement is too small to matter for your use case.
+The recommendation is straightforward: if you currently run SQ or BQ, try the equivalent TurboQuant configuration on a test segment — it is a config change and a re-index. What you gain depends on where you start: **SQ → TQ 4-bit** is a memory win at the same recall (half the storage, recall within ~1–2 pp on most embeddings); **BQ → TurboQuant at the same storage class** is a recall win at the same memory (typically 10–20 pp higher recall, on every embedding model we have benchmarked). Stay on SQ or BQ if throughput drops noticeably for your workload, or if the gain — memory or recall, whichever applies — is too small to matter for your use case.
 
 This article walks through what TurboQuant is, what we added on top to make it production-grade, and how it compares to SQ and BQ across ten public embedding datasets.
 
@@ -87,7 +87,7 @@ Three takeaways worth headlining:
 
 ## What Is TurboQuant?
 
-TurboQuant ([Zandieh et al., 2026](https://arxiv.org/abs/2504.19874)) is a scalar quantization algorithm with a clean theoretical recipe:
+TurboQuant ([Zandieh et al., 2026](https://arxiv.org/abs/2504.19874)) is a rotation-based vector quantizer in the PQ family, with a clean theoretical recipe:
 
 1. **Apply a random orthogonal rotation** to every vector. This redistributes per-coordinate variance evenly — by the central limit theorem, after rotation each coordinate looks roughly Gaussian with the same variance.
 2. **Quantize each coordinate independently** with a fixed Lloyd-Max codebook for the standard normal distribution. One codebook of `2^b` levels for the entire dataset, hard-coded as a small lookup table.
@@ -111,7 +111,7 @@ This is the gap between vanilla TurboQuant MSE and what we ship in Qdrant. The n
 
 ## What Qdrant Adds
 
-A note on lineage before the technical details. TurboQuant is not the only rotation-based scalar quantizer in this design space — **[RaBitQ (Gao & Long, SIGMOD 2024)](https://arxiv.org/abs/2405.12497)** independently develops the same rotate-then-quantize foundation, with different choices on how to debias the resulting representation, how to handle scoring, and what to store per vector. The two algorithms agree on the high-level recipe and disagree on the details. What ships in Qdrant is not pure TurboQuant: it is the MSE codebook and integer-friendly scoring path from TurboQuant, combined with the per-vector length-rescaling debiasing idea from RaBitQ, plus the anisotropy compensation we developed on top — picking the best-fitting piece from each line of work for each sub-problem rather than committing to one paper end-to-end. The specific attribution is called out in each subsection below.
+A note on lineage before the technical details. TurboQuant is not the only rotation-based vector quantizer in this design space — **[RaBitQ (Gao & Long, SIGMOD 2024)](https://arxiv.org/abs/2405.12497)** independently develops the same rotate-then-quantize foundation, with different choices on how to debias the resulting representation, how to handle scoring, and what to store per vector. The two algorithms agree on the high-level recipe and disagree on the details. What ships in Qdrant is not pure TurboQuant: it is the MSE codebook and integer-friendly scoring path from TurboQuant, combined with the per-vector length-rescaling debiasing idea from RaBitQ, plus the anisotropy compensation we developed on top — picking the best-fitting piece from each line of work for each sub-problem rather than committing to one paper end-to-end. The specific attribution is called out in each subsection below.
 
 Three constraints shaped Qdrant's TurboQuant on top of the vanilla MSE algorithm:
 
@@ -129,7 +129,7 @@ The fix we use here comes from **[RaBitQ](https://arxiv.org/abs/2405.12497)** ra
 
 ### Per-Coordinate Calibration (Anisotropy Compensation)
 
-This is the headline extension — the one that turns vanilla MSE from "elegant but only competitive on isotropic data" into something that beats BQ across embedding models we have benchmarked. After rotation, we run a single pre-pass over the segment that estimates a `(shift, scale)` pair per coordinate. Each coordinate is then mapped via `x → (x + shift) · scale` before quantization, pulling its empirical distribution onto the Lloyd-Max codebook's grid no matter how skewed it was originally.
+After rotation, we run a single pre-pass over the segment that estimates a `(shift, scale)` pair per coordinate. Each coordinate is then mapped via `x → (x + shift) · scale` before quantization, pulling its empirical distribution onto the Lloyd-Max codebook's grid no matter how skewed it was originally. This is the extension that turns vanilla MSE from "elegant but only competitive on isotropic data" into something that beats BQ across embedding models we have benchmarked.
 
 The non-obvious part is **what we calibrate to**. Standard mean-and-stddev rescaling implicitly assumes the rotated coordinates are Gaussian, which is exactly the assumption that breaks on anisotropic embeddings — that is why vanilla TurboQuant struggles on them in the first place. Instead, we anchor calibration directly to the codebook itself: the `(shift, scale)` pair is fit so that the empirical quantiles at the probability levels of the **outermost codebook centroid** land at that centroid. The calibration is robust to whatever distributional weirdness the post-rotation coordinates actually have — heavy tails, bimodality, anisotropy, all of it — without making any parametric assumption.
 
@@ -157,9 +157,9 @@ The asymmetric scoring path — one float query against millions of quantized ve
 
 #### 4-bit: scalar-quantize both sides, then a `maddubs` loop
 
-The Lloyd-Max codebook for 4-bit is 16 `f32` centroids — 64 bytes, four XMM registers wide, with no SIMD instruction that can index into it directly. The trick is an extra layer of **scalar quantization on the codebook itself**: each centroid `f32 → i8` via `c_i8 = round(c · 127 / max|c|)`. The whole codebook collapses to `[i8; 16]`, exactly one XMM register, and indexed access becomes a single `pshufb` (`_mm_shuffle_epi8`) — "parallel indexing into a 16-byte table". The same scalar quantization is applied once per query: the rotated and anisotropy-prescaled `[f32]` query becomes `[i16]`, then is split into two `[i8]` halves (`q = 128 · high + low`) so it can feed into `_mm_maddubs_epi16`, the only SSE instruction that multiplies signed × unsigned bytes pairwise into i16 lane sums.
+The Lloyd-Max codebook for 4-bit is 16 `f32` centroids — 64 bytes, four XMM registers wide, with no SIMD instruction that can index into it directly. The trick is an extra layer of **scalar quantization on the codebook itself**: each centroid is mapped to one byte and the whole codebook collapses to `[u8; 16]`, exactly one XMM register, with indexed access becoming a single `pshufb` (`_mm_shuffle_epi8`) — "parallel indexing into a 16-byte table". The codebook is encoded as **`u8` (not `i8`)** on purpose: the SSE instruction we want to multiply with, `_mm_maddubs_epi16`, takes one **unsigned** byte operand and one **signed** byte operand. We park the codebook on the unsigned side via `c_u8[k] = round(c[k] · 128 / max|c|) + 128`, which maps the symmetric centroid range into `[0, 255]`, and the constant `+128` offset is unwound once per query as a single bias-correction term added at the end of the dot product. The query takes the signed side: the rotated, anisotropy-prescaled `[f32]` query is quantized to `[i16]` once per query, then split into two `[i8]` halves (`q = 128 · high + low`) so it feeds `maddubs`'s signed operand. (NEON's `vmull_s8` is signed × signed, so on ARM the codebook is stored directly as `[i8; 16]` and there is no offset to unwind.)
 
-After that the kernel is mechanical: `pshufb` for centroid lookup, `maddubs` for the byte multiply, `madd_epi16` to widen the pair sums into an `i32` accumulator. A 16-dimension chunk of scoring compiles to a handful of integer SIMD instructions, all on byte and 16-bit registers. On VNNI-capable CPUs (Ice Lake+, Sapphire Rapids, Zen 4+) the `maddubs + madd_epi16` pair compresses further into a single `VPDPBUSD`; on ARMv8.2-A `SDOT` plays the same role. The codebook-SQ noise is roughly an order of magnitude below the PQ quantization noise itself — a `test_simd_noise_below_pq_noise` test in the codebase asserts the SIMD noise stays at least 5× smaller than the PQ noise, so this extra quantization layer is genuinely free at the recall level. The 2-bit kernel uses the same recipe with paired-nibble lookup tables. The full walkthrough — the `+128` shift trick that turns signed centroids into `maddubs`'s unsigned operand, the i8-halves split for query precision, the cross-platform SSE / AVX2 / AVX-512 / NEON variants — is in [Jojii's deep-dive](#further-reading).
+After that the kernel is mechanical: `pshufb` for centroid lookup, `maddubs` for the unsigned-codebook × signed-query byte multiply, `madd_epi16` to widen the pair sums into an `i32` accumulator. A 16-dimension chunk of scoring compiles to a handful of integer SIMD instructions, all on byte and 16-bit registers. On VNNI-capable CPUs (Ice Lake+, Sapphire Rapids, Zen 4+) the `maddubs + madd_epi16` pair compresses further into a single `VPDPBUSD`; on ARMv8.2-A `SDOT` plays the same role. The codebook-SQ noise is roughly an order of magnitude below the PQ quantization noise itself — a `test_simd_noise_below_pq_noise` test in the codebase asserts the SIMD noise stays at least 5× smaller than the PQ noise, so this extra quantization layer is genuinely free at the recall level. The 2-bit kernel uses the same recipe with paired-nibble lookup tables. The full walkthrough — the unsigned-codebook layout and per-query bias correction, the i8-halves split for query precision, the cross-platform SSE / AVX2 / AVX-512 / NEON variants — is in [Jojii's deep-dive](#further-reading).
 
 #### 1-bit: RaBitQ-style bit-plane popcount
 
@@ -242,7 +242,7 @@ Two engineering deep-dives go further than this post: Ivan Pleshkov on the algor
 
 * [TurboQuant: Redefining AI Efficiency with Extreme Compression](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/) — the original Google Research blog post.
 * [TurboQuant paper (arXiv:2504.19874)](https://arxiv.org/abs/2504.19874) — Zandieh et al., 2026.
-* [RaBitQ paper (arXiv:2405.12497)](https://arxiv.org/abs/2405.12497) — Gao & Long, SIGMOD 2024. The closely related rotation-based scalar quantizer whose per-vector length-rescaling debiasing we adopted for TurboQuant in Qdrant. Worth reading alongside the TurboQuant paper to see how two independent lines of work converge on the same rotate-then-quantize core but diverge on the bias-correction details.
+* [RaBitQ paper (arXiv:2405.12497)](https://arxiv.org/abs/2405.12497) — Gao & Long, SIGMOD 2024. The closely related rotation-based vector quantizer whose per-vector length-rescaling debiasing we adopted for TurboQuant in Qdrant. Worth reading alongside the TurboQuant paper to see how two independent lines of work converge on the same rotate-then-quantize core but diverge on the bias-correction details.
 * [Interactive TurboQuant explainer](https://arkaung.github.io/interactive-turboquant/) by Arkar Min Aung — a hands-on, step-by-step walkthrough of the algorithm with interactive visualizations. The clearest high-level explanation of TurboQuant available, and a great place to build intuition before reading the paper.
 * [Scalar Quantization in Qdrant](https://qdrant.tech/articles/scalar-quantization/) — the int8 baseline this post refers to.
 * [Binary Quantization in Qdrant](https://qdrant.tech/articles/binary-quantization/) — the 1-bit baseline this post refers to.
