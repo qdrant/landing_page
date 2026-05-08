@@ -3,8 +3,8 @@ draft: false
 title: "How Sapu Indexed 27 Million PubMed Abstracts to Accelerate Cancer Research with Qdrant"
 short_description: "Sapu indexed 27M PubMed abstracts into Qdrant to power AI-driven biomedical research for cancer drug development."
 description: "Discover how Sapu, a nanomedicine biotech company, indexed 27 million PubMed abstracts into a single Qdrant collection, enabling researchers to query the entire biomedical literature corpus and accelerating hard-to-treat cancer therapy development."
-preview_image: /blog/case-study-sapu/social-preview-sapu.jpg
-social_preview_image: /blog/case-study-sapu/social-preview-sapu.jpg
+preview_image: /blog/case-study-sapu/social-preview-sapu.png
+social_preview_image: /blog/case-study-sapu/social-preview-sapu.png
 date: 2025-05-08
 author: "Daniel Azoulai"
 featured: true
@@ -22,8 +22,6 @@ partition: case-studies
 ---
 
 ![Summary](/blog/case-study-sapu/social-preview-sapu.jpg)
-
-# How Sapu indexed 27 million PubMed abstracts to accelerate cancer research with Qdrant
 
 Sapu is an early-stage biopharmaceutical company developing treatments for hard-to-treat cancers. From its San Diego facility, the team is pioneering a nanomedicine pipeline that takes existing FDA-approved drugs and re-engineers them at the nanoscale, making them smaller, more effective, and less toxic. Building on already-approved compounds gives Sapu a stronger and faster path to therapeutic success in an industry where most candidates never reach patients.
 
