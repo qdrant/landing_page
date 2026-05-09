@@ -1,10 +1,10 @@
 ---
 draft: false
-title: "How Sapu Indexed 27 Million PubMed Abstracts to Accelerate Cancer Research with Qdrant"
-short_description: "Sapu indexed 27M PubMed abstracts into Qdrant to power AI-driven biomedical research for cancer drug development."
-description: "Discover how Sapu, a nanomedicine biotech company, indexed 27 million PubMed abstracts into a single Qdrant collection, enabling researchers to query the entire biomedical literature corpus and accelerating hard-to-treat cancer therapy development."
-preview_image: /blog/case-study-sapu/social-preview-sapu.png
-social_preview_image: /blog/case-study-sapu/social-preview-sapu.png
+title: "How Sapu Indexed 28 Million PubMed Abstracts to Accelerate Cancer Research with Qdrant"
+short_description: "Sapu indexed 28M PubMed abstracts into Qdrant to power AI-driven biomedical research for cancer drug development."
+description: "Discover how Sapu, a nanomedicine biotech company, indexed 28 million PubMed abstracts into a single Qdrant collection, enabling researchers to query the entire biomedical literature corpus and accelerating hard-to-treat cancer therapy development."
+preview_image: /blog/case-study-sapu/sapu-preview.png
+social_preview_image: /blog/case-study-sapu/sapu-preview.png
 date: 2026-05-08
 author: "Daniel Azoulai"
 featured: true
@@ -20,7 +20,7 @@ tags:
 partition: case-studies
 ---
 
-![Summary](/blog/case-study-sapu/sapu-bento.png)
+![Summary](/blog/case-study-sapu/sapu-bento-box.png)
 
 Sapu is an early-stage biopharmaceutical company developing treatments for hard-to-treat cancers. From its San Diego facility, the team is pioneering a nanomedicine pipeline that takes existing FDA-approved drugs and re-engineers them at the nanoscale, making them smaller, more effective, and less toxic. Building on already-approved compounds gives Sapu a stronger and faster path to therapeutic success in an industry where most candidates never reach patients.
 
@@ -46,11 +46,11 @@ Support quality also stood out. Myers described being surprised when a support e
 
 The continuous pace of new capabilities reinforced the decision. Recent releases like audit logging and Multi-Availability Zone deployment for Premium customers landed during Sapu's tenure on the platform, giving the team enterprise features without a migration or upgrade project.
 
-## Indexing 27 million PubMed abstracts in a single collection
+## Indexing 28 million PubMed abstracts in a single collection
 
-The headline outcome is scale. Sapu's team indexed every abstract in the PubMed database, 27 million records, into a single Qdrant collection. Before this, researchers had to upload subsets of abstracts whenever they wanted to query. Now the entire corpus of biomedical literature is searchable in place. Researchers can query a small filtered slice using metadata, or run vector search across all 27 million abstracts at once.
+The headline outcome is scale. Sapu's team indexed every abstract in the PubMed database, 28 million records, into a single Qdrant collection. Before this, researchers had to upload subsets of abstracts whenever they wanted to query. Now the entire corpus of biomedical literature is searchable in place. Researchers can query a small filtered slice using metadata, or run vector search across all 28 million abstracts at once.
 
-*"We indexed every single abstract from the PubMed database into a Qdrant vector database. That's 27 million abstracts. Now we can query across all of them, and that's something that just was not possible a few years ago."* — Scott Myers, Product Manager, Sapu
+*"We indexed every single abstract from the PubMed database into a Qdrant vector database. That's 28 million abstracts. Now we can query across all of them, and that's something that just was not possible a few years ago."* — Scott Myers, Product Manager, Sapu
 
 The downstream impact has been concrete. Sapu has published seven peer-reviewed research papers that used the AI tooling in the underlying research work. Editors reviewing the methods sections have asked specifically about the AI components. Internal adoption is broad: the CEO uses the AI tools daily, and the San Diego research staff relies on them for SOP lookup, document research, and paper drafting.
 
@@ -76,6 +76,6 @@ Sapu is also exploring Qdrant Cloud Inference to simplify its embedding pipeline
 
 ## From prototype to production-scale biomedical retrieval
 
-What started as a command-line prototype shortly after ChatGPT's release has become a production AI platform that touches every part of Sapu's research workflow, from drug development paper drafting to SOP-aware chatbots to a 27 million abstract literature index. Qdrant moved from a piece of evaluation software that "just worked" to the retrieval foundation under research that is now publishing in peer-reviewed journals and being licensed to external partners. For a biotech company building therapies for hard-to-treat cancers, the math is simple: the faster researchers can find what they need across the world's biomedical literature, the faster the next therapy reaches patients.
+What started as a command-line prototype shortly after ChatGPT's release has become a production AI platform that touches every part of Sapu's research workflow, from drug development paper drafting to SOP-aware chatbots to a 28 million abstract literature index. Qdrant moved from a piece of evaluation software that "just worked" to the retrieval foundation under research that is now publishing in peer-reviewed journals and being licensed to external partners. For a biotech company building therapies for hard-to-treat cancers, the math is simple: the faster researchers can find what they need across the world's biomedical literature, the faster the next therapy reaches patients.
 
 ##  
