@@ -117,7 +117,7 @@
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "hr-tech" "legal-tech") .Section }}
+{{ if eq .Section "industries" }}
   {{ $customersJs := resources.Get "js/industries.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
