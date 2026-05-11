@@ -27,13 +27,13 @@ Qdrant 1.18 ships **TurboQuant** — a new rotation-based vector quantization me
 * **TurboQuant 4-bit** is competitive with SQ across the board — within ~1–2 percentage points on most datasets, and sometimes *ahead* of SQ (where the SQ int8 grid struggles with the embedding distribution).
 * **TurboQuant 2-bit and 1-bit** match BQ's storage budgets but consistently deliver substantially higher recall.
 
-The recommendation is straightforward: if you currently run SQ or BQ, try the equivalent TurboQuant configuration on a test subset of your data — it is a config change and a re-index. What you gain depends on where you start: **SQ → TQ 4-bit** is a memory win at the competitive recall (half the storage, recall within ~1–2 pp on most embeddings); **BQ → TurboQuant at the same storage class** is a recall win at the same memory (typically 10–20 pp higher recall, on every embedding model we have benchmarked).
+The recommendation is straightforward: if you currently run SQ or BQ, try the equivalent TurboQuant configuration on a test subset of your data — it is a config change and a re-index. What you gain depends on where you start: **SQ → TQ 4-bit** is a memory win at competitive recall (half the storage, recall within ~1–2 pp on most embeddings); **BQ → TurboQuant at the same storage class** is a recall win at the same memory (typically 10–20 pp higher recall on every embedding model we have benchmarked).
 
 This article walks through what TurboQuant is, what we added on top to make it production-grade, and how it compares to SQ and BQ across public embedding datasets.
 
 ## The Quantization Ladder in Qdrant
 
-Before TurboQuant, Qdrant offered production-grade quantization paths:
+Before TurboQuant, Qdrant offered two production-grade quantization paths:
 
 * **[Scalar Quantization (SQ)](https://qdrant.tech/articles/scalar-quantization/)** — int8 per coordinate. 4× compression. Recall is essentially indistinguishable from float32 on most embeddings. The default first step when memory matters.
 * **[Binary Quantization (BQ)](https://qdrant.tech/articles/binary-quantization/)** — 1- or 2-bit storage (32× or 16× compression). Recall depends heavily on the embedding model — it works beautifully on isotropic, well-trained models.
@@ -61,27 +61,27 @@ PUT /collections/{collection_name}
 
 When enabling TurboQuant on an existing collection, use a `PATCH` request — or the corresponding `update_collection` method in any client SDK.
 
-The `bits` field controls encoding bit depth. It defaults to `bits4`. Available values: `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy — see the [benchmarks](#detailed-benchmarks) for the recall trade-off on each bit width. Full reference is in [the quantization docs](https://qdrant.tech/documentation/guides/quantization/).
+The `bits` field controls encoding bit depth. It defaults to `bits4`. Available values: `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy — see the [benchmarks](#detailed-benchmarks) for the recall trade-off on each bit width. The full reference is in [the quantization docs](https://qdrant.tech/documentation/guides/quantization/).
 
 ## At a Glance
 
-Recall@10, HNSW (`m=16`, `ef_construct=128`). Four datasets shown here for orientation; the full dataset table is [further down](#detailed-benchmarks).
+Recall, HNSW (`m=16`, `ef_construct=128`). Four datasets shown here for orientation; the full dataset table is [further down](#detailed-benchmarks).
 
-| Dataset | f32 | SQ | **TQ 4-bit** | TQ 2-bit | BQ 2-bit | TQ 1-bit | BQ 1-bit |
-|---|---|---|---|---|---|---|---|
-| [arxiv-instructorxl-768](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings) | 0.9419 | 0.9285 | **0.9193** | **0.8227** | 0.6756 | **0.6763** | 0.4683 |
-| dbpedia-gemini [TODO link] | 0.9167 | 0.9134 | **0.9020** | **0.8170** | 0.6689 | **0.6990** | 0.4945 |
-| dbpedia-openai-ada [TODO link] | 0.9625 | 0.8839 | **0.9299** | **0.8480** | 0.7332 | **0.7356** | 0.6098 |
-| [wiki-cohere-v3-1024](https://huggingface.co/datasets/Cohere/wikipedia-2023-11-embed-multilingual-v3) | 0.9446 | 0.9014 | **0.9271** | **0.8303** | 0.6880 | **0.6300** | 0.5409 |
-| **Compression** | 1× | 4× | **8×** | 16× | 16× | 32× | 32× |
+| Dataset                                                                                               | f32    | SQ     | **TQ 4-bit** | TQ 2-bit   | BQ 2-bit | TQ 1-bit   | BQ 1-bit |
+| ----------------------------------------------------------------------------------------------------- | ------ | ------ | ------------ | ---------- | -------- | ---------- | -------- |
+| [arxiv-instructorxl-768](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings) | 0.9419 | 0.9285 | **0.9193**   | **0.8227** | 0.6756   | **0.6763** | 0.4683   |
+| dbpedia-gemini [TODO link]                                                                            | 0.9167 | 0.9134 | **0.9020**   | **0.8170** | 0.6689   | **0.6990** | 0.4945   |
+| dbpedia-openai-ada [TODO link]                                                                        | 0.9625 | 0.8839 | **0.9299**   | **0.8480** | 0.7332   | **0.7356** | 0.6098   |
+| [wiki-cohere-v3-1024](https://huggingface.co/datasets/Cohere/wikipedia-2023-11-embed-multilingual-v3) | 0.9446 | 0.9014 | **0.9271**   | **0.8303** | 0.6880   | **0.6300** | 0.5409   |
+| **Compression**                                                                                       | 1×     | 4×     | **8×**       | 16×        | 16×      | 32×        | 32×      |
 
 `BQ 1-bit` is the vanilla 1-bit configuration (1-bit storage, 1-bit query). The asymmetric variant (8-bit query) is included separately in the [detailed table](#detailed-benchmarks).
 
 Three main observations:
 
 1. **TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ up to 4.6.
-2. **TQ 2-bit beats BQ 2-bit by 11–15 pp** on these four datasets (and 9–24 pp across all measured), at the same 16× storage.
-3. **TQ 1-bit beats vanilla BQ 1-bit by 9–21 pp** on these four datasets (and 9–21 pp across all measured), at the same 32× storage.
+2. **TQ 2-bit beats BQ 2-bit by 11–15 pp** on these four datasets (and 9–24 pp across all ten datasets), at the same 16× storage.
+3. **TQ 1-bit beats vanilla BQ 1-bit by 9–21 pp** on these four datasets (and 9–21 pp across all ten datasets), at the same 32× storage.
 
 ## What Is TurboQuant?
 
@@ -100,14 +100,14 @@ The original paper proposes two variants. **MSE** is the literal recipe above: s
 Qdrant ships the MSE variant for three reasons:
 
 * **A vector index needs symmetric scoring.** Most operations a vector database performs internally — HNSW graph construction, relevance feedback, etc — compare two stored vectors against each other, not a query against storage. PROD's QJL correction assumes the query side is continuous and breaks down when both sides are quantized. MSE's codebook lookup composes symmetrically: any pair of stored vectors can be scored against each other directly from their indices, with no float side required.
-* **Bit efficiency at fixed budget.** At a given storage class, MSE puts every bit into the codebook itself; PROD splits the budget between the codebook and the QJL bit-correction. With Qdrant's extensions described below, the bias that PROD spends bits to fix can be removed for almost free in storage.
+* **Bit efficiency at fixed budget.** At a given storage class, MSE puts every bit into the codebook itself; PROD splits the budget between the codebook and the QJL bit-correction. With Qdrant's extensions described below, the bias that PROD spends bits to fix can be removed at almost no storage cost.
 * **Computational simplicity.** MSE scoring is a stream of integer multiply-adds against bit-packed indices — a near-perfect fit for AVX-VNNI / AVX-512 / NEON dot-product instructions. PROD's per-query random projection is `O(D log D)` extra work that has to be repaid on every score.
 
 ## What Qdrant Adds
 
 A note on lineage before the technical details. TurboQuant is not the only rotation-based vector quantization algorithm in this design space — **[RaBitQ (Gao & Long, SIGMOD 2024)](https://arxiv.org/abs/2405.12497)** independently develops the same rotate-then-quantize foundation, with different choices on how to debias the resulting representation, how to handle scoring, and what to store per vector. The two algorithms agree on the high-level recipe and disagree on the details. What ships in Qdrant is not pure TurboQuant: it is the MSE codebook and integer-friendly scoring path from TurboQuant, combined with the per-vector length-rescaling debiasing idea from RaBitQ, plus the anisotropy compensation we developed on top — picking the best-fitting piece from each line of work for each sub-problem rather than committing to one paper end-to-end.
 
-Three constraints shaped Qdrant's TurboQuant on top of the vanilla MSE algorithm:
+Three constraints shaped how Qdrant extends the vanilla MSE algorithm:
 
 * **One stored artifact has to serve both scoring paths.** User search runs *asymmetric* (float query against quantized data); HNSW build, segment merges, and rescoring all run *symmetric* (quantized against quantized) because dragging the original float vectors there would defeat the point of compressing them. Every extension below has to compose with both paths.
 * **The hot path stays a tight integer SIMD kernel.** All extensions are paid either at encoding time, or once per query — never per stored vector being scored. The 4-bit kernel compiles to a `pshufb` + `maddubs` loop; the 1-bit kernel to a chain of `AND` + popcount. This is what keeps TurboQuant scoring competitive with plain BQ at the same storage class, despite the algorithmic additions.
@@ -119,11 +119,11 @@ The algorithmic extensions described next were designed and implemented by [Ivan
 
 Vanilla MSE has a persistent length bias: quantized vectors are systematically shorter than the originals (Jensen's inequality applied to the rounding-to-codebook step). On the same anisotropic embeddings that the PROD variant was designed to handle, the shrinkage is roughly **5% at 4-bit, ~12% at 2-bit, and ~36% at 1-bit**. Recall loss tracks the shrinkage: 5–15 percentage points at 4-bit and considerably worse at lower bit depths.
 
-The fix we use here comes from **[RaBitQ](https://arxiv.org/abs/2405.12497)** rather than from the TurboQuant paper itself: store one extra per-vector scalar that records how much the quantization shrunk the length, and multiply it back in at scoring time. Concretely, we pay the same 4 bytes per vector that we already reserve for the L2 length and use them to store the **ratio of original length to centroid-reconstruction length**. At scoring time the SIMD raw_dot is multiplied by this scalar; the scoring formula stays unchanged, the storage budget for the codebook itself is untouched, and the cost stays one multiply per query-vector pair (not per coordinate). This is the cleaner of the two debiasing approaches in the literature: TurboQuant's PROD variant spends an entire QJL random projection plus extra bits in the codebook on the same problem; RaBitQ-style renormalization spends 4 bytes and one multiply.
+The fix we use here comes from **[RaBitQ](https://arxiv.org/abs/2405.12497)** rather than from the TurboQuant paper itself: store one extra per-vector scalar that records how much the quantization shrank the length, and multiply it back in at scoring time. Concretely, we pay the same 4 bytes per vector that we already reserve for the L2 length and use them to store the **ratio of original length to centroid-reconstruction length**. At scoring time the SIMD raw_dot is multiplied by this scalar; the scoring formula stays unchanged, the storage budget for the codebook itself is untouched, and the cost stays one multiply per query-vector pair (not per coordinate). This is the cleaner of the two debiasing approaches in the literature: TurboQuant's PROD variant spends an entire QJL random projection plus extra bits in the codebook on the same problem; RaBitQ-style renormalization spends 4 bytes and one multiplication.
 
 ### Per-Coordinate Calibration (Anisotropy Compensation)
 
-After rotation, we run a single pre-pass over the segment that estimates a `(shift, scale)` pair per coordinate. Each coordinate is then mapped via `x → (x + shift) · scale` before quantization, pulling its empirical distribution onto the Lloyd-Max codebook's grid no matter how skewed it was originally. This is the extension that turns vanilla MSE from "elegant but only competitive on isotropic data" into something that beats BQ across embedding models we have benchmarked.
+After rotation, we run a single pre-pass over the segment that estimates a `(shift, scale)` pair per coordinate. Each coordinate is then mapped via `x → (x + shift) · scale` before quantization, pulling its empirical distribution onto the Lloyd-Max codebook's grid no matter how skewed it was originally. This is the extension that turns vanilla MSE from "elegant but only competitive on isotropic data" into something that beats BQ across every embedding model we have benchmarked.
 
 The non-obvious part is **what we calibrate to**. Standard mean-and-stddev rescaling implicitly assumes the rotated coordinates are Gaussian, which is exactly the assumption that breaks on anisotropic embeddings — that is why vanilla TurboQuant struggles on them in the first place. Instead, we anchor calibration directly to the codebook itself: the `(shift, scale)` pair is fit so that the empirical quantiles at the probability levels of the **outermost codebook centroid** land at that centroid. The calibration is robust to whatever distributional weirdness the post-rotation coordinates actually have — heavy tails, bimodality, anisotropy, all of it — without making any parametric assumption.
 
@@ -139,11 +139,11 @@ Ablation in the deep-dive quantifies the impact: at 4-bit on highly anisotropic 
 
 ### L2 and Unnormalized Dot
 
-Vanilla TurboQuant assumes all inputs live on the unit sphere — that is, cosine distance only. We extend the algorithm beyond the sphere by **folding the original L2 length into the same per-vector scaling factor that already carries length renormalization** — both end up multiplied into the SIMD raw_dot at scoring time, so dot and L2 cost the same as cosine in the hot path. L2 distances are reconstructed via the identity `‖q − v‖² = ‖q‖² + ‖v‖² − 2⟨q, v⟩`, where the right-hand side has all the components already available.
+Vanilla TurboQuant assumes all inputs live on the unit sphere — that is, cosine distance only. We extend the algorithm beyond the sphere by **folding the original L2 length into the same per-vector scaling factor that already carries length renormalization** — both end up multiplied into the SIMD raw_dot at scoring time, so dot and L2 cost the same as cosine in the hot path. L2 distances are reconstructed via the identity `‖q − v‖² = ‖q‖² + ‖v‖² − 2⟨q, v⟩`, where all components on the right-hand side are already available.
 
 Net result: **cosine, dot, and L2 are all first-class** in Qdrant's TurboQuant — same storage layout, same kernels, no precision tax for the non-cosine metrics.
 
-L1 is not supported. Random orthogonal rotation preserves the L2 norm but not the L1 norm, which is the foundational invariant the entire algorithm relies on. There is no clean way to make L1 work without inverting the rotation per score, which would defeat the speedup. If your similarity is L1, stick with SQ.
+L1, however, is not supported. Random orthogonal rotation preserves the L2 norm but not the L1 norm, which is the foundational invariant the entire algorithm relies on. There is no clean way to make L1 work without inverting the rotation per score, which would defeat the speedup. If your similarity is L1, stick with SQ.
 
 ### SIMD Acceleration
 
@@ -151,7 +151,7 @@ The asymmetric scoring path — one float query against millions of quantized ve
 
 #### 4-bit: scalar-quantize both sides, then a `maddubs` loop
 
-The Lloyd-Max codebook for 4-bit is 16 `f32` centroids — 64 bytes, four XMM registers wide, with no SIMD instruction that can index into it directly. The trick is an extra layer of **scalar quantization on the codebook itself**: each centroid is mapped to one byte and the whole codebook collapses to `[u8; 16]`, exactly one XMM register, with indexed access becoming a single `pshufb` (`_mm_shuffle_epi8`) — "parallel indexing into a 16-byte table". The codebook is encoded as **`u8` (not `i8`)** on purpose: the SSE instruction we want to multiply with, `_mm_maddubs_epi16`, takes one **unsigned** byte operand and one **signed** byte operand. We park the codebook on the unsigned side via `c_u8[k] = round(c[k] · 128 / max|c|) + 128`, which maps the symmetric centroid range into `[0, 255]`, and the constant `+128` offset is unwound once per query as a single bias-correction term added at the end of the dot product. The query takes the signed side: the rotated, anisotropy-prescaled `[f32]` query is quantized to `[i16]` once per query, then split into two `[i8]` halves (`q = 128 · high + low`) so it feeds `maddubs`'s signed operand. (NEON's `vmull_s8` is signed × signed, so on ARM the codebook is stored directly as `[i8; 16]` and there is no offset to unwind.)
+The Lloyd-Max codebook for 4-bit is 16 `f32` centroids — 64 bytes, four XMM registers wide, with no SIMD instruction that can index into it directly. The trick is an extra layer of **scalar quantization on the codebook itself**: each centroid is mapped to one byte and the whole codebook collapses to `[u8; 16]`, exactly one XMM register, with indexed access becoming a single `pshufb` (`_mm_shuffle_epi8`) — "parallel indexing into a 16-byte table". The codebook is encoded as **`u8` (not `i8`)** on purpose: the SSE instruction we want to multiply with, `_mm_maddubs_epi16`, takes one **unsigned** byte operand and one **signed** byte operand. We park the codebook on the unsigned side via `c_u8[k] = round(c[k] · 128 / max|c|) + 128`, which maps the symmetric centroid range into `[0, 255]`, and the constant `+128` offset is unwound once per query as a single bias-correction term added at the end of the dot product. The query takes the signed side: the rotated, anisotropy-prescaled `[f32]` query is quantized to `[i16]` once per query, then split into two `[i8]` halves (`q = 128 · high + low`) to feed `maddubs`'s signed operand. (NEON's `vmull_s8` is signed × signed, so on ARM the codebook is stored directly as `[i8; 16]` and there is no offset to unwind.)
 
 After that the kernel is mechanical: `pshufb` for centroid lookup, `maddubs` for the unsigned-codebook × signed-query byte multiply, `madd_epi16` to widen the pair sums into an `i32` accumulator. A 16-dimension chunk of scoring compiles to a handful of integer SIMD instructions, all on byte and 16-bit registers. On VNNI-capable CPUs (Ice Lake+, Sapphire Rapids, Zen 4+) the `maddubs + madd_epi16` pair compresses further into a single `VPDPBUSD`; on ARMv8.2-A `SDOT` plays the same role. The codebook-SQ noise is roughly an order of magnitude below the PQ quantization noise itself — a `test_simd_noise_below_pq_noise` test in the codebase asserts the SIMD noise stays at least 5× smaller than the PQ noise, so this extra quantization layer is genuinely free at the recall level. The 2-bit kernel uses the same recipe with paired-nibble lookup tables. The full walkthrough — the unsigned-codebook layout and per-query bias correction, the i8-halves split for query precision, the cross-platform SSE / AVX2 / AVX-512 / NEON variants — is in [Jojii's deep-dive](#further-reading).
 
@@ -173,7 +173,7 @@ The architectural payoff is the same across both kernels: scoring throughput is 
 
 ## Detailed Benchmarks
 
-Setup: HNSW index (`m=16`, `ef_construct=128`), 100K vectors per dataset, recall@10 vs brute-force ground truth. SQ uses the standard int8 path. Rows are ordered by storage class so the head-to-head TurboQuant vs BQ comparisons line up.
+Setup: HNSW index (`m=16`, `ef_construct=128`), 100K vectors per dataset, recall vs brute-force ground truth. SQ uses the standard int8 path. Rows are ordered by storage class so the head-to-head TurboQuant vs BQ comparisons line up.
 
 **Datasets:**
 
@@ -188,19 +188,19 @@ Setup: HNSW index (`m=16`, `ef_construct=128`), 100K vectors per dataset, recall
 * `laion` — LAION image embeddings — [TODO link]
 * `ads-1M` — ad-creative embeddings — [TODO link]
 
-**Recall@10:**
+**Recall:**
 
-| Variant (compression) | arxiv-384 | arxiv-iXL | dbp-gem | dbp-3s | dbp-3l | dbp-oai | cohere | h&m | laion | ads-1M |
-|---|---|---|---|---|---|---|---|---|---|---|
-| f32 (1×) | 0.9855 | 0.9419 | 0.9167 | 0.9384 | 0.9348 | 0.9625 | 0.9446 | 0.9967 | 0.9897 | 0.9298 |
-| SQ (4×) | 0.9674 | 0.9285 | 0.9134 | 0.9362 | 0.9339 | 0.8839 | 0.9014 | 0.9789 | 0.9276 | 0.9187 |
-| **TQ 4-bit (8×)** | **0.9442** | **0.9193** | **0.9020** | **0.9313** | **0.9271** | **0.9299** | **0.9271** | **0.9739** | **0.9438** | **0.9169** |
-| TQ 2-bit (16×) | 0.8477 | 0.8227 | 0.8170 | 0.8838 | 0.8806 | 0.8480 | 0.8303 | 0.9195 | 0.8349 | 0.8706 |
-| BQ 2-bit (16×) | 0.6948 | 0.6756 | 0.6689 | 0.7630 | 0.7513 | 0.7332 | 0.6880 | 0.7018 | 0.5953 | 0.7808 |
-| TQ 1.5-bit (~21×) | 0.7567 | 0.7143 | 0.7391 | 0.8278 | 0.8197 | 0.7690 | 0.6460 | 0.8756 | 0.7213 | 0.7941 |
-| TQ 1-bit (32×) | 0.7127 | 0.6763 | 0.6990 | 0.7997 | 0.7924 | 0.7356 | 0.6300 | 0.8540 | 0.6807 | 0.7717 |
-| BQ asymmetric (32×) | 0.7070 | 0.5919 | 0.6112 | 0.7910 | 0.7824 | 0.7072 | 0.6287 | 0.7802 | 0.5800 | 0.7570 |
-| BQ 1-bit (32×) | 0.6028 | 0.4683 | 0.4945 | 0.7041 | 0.6921 | 0.6098 | 0.5409 | 0.6989 | 0.4762 | 0.6760 |
+| Variant (compression) | arxiv-384  | arxiv-iXL  | dbp-gem    | dbp-3s     | dbp-3l     | dbp-oai    | cohere     | h&m        | laion      | ads-1M     |
+| --------------------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+| f32 (1×)              | 0.9855     | 0.9419     | 0.9167     | 0.9384     | 0.9348     | 0.9625     | 0.9446     | 0.9967     | 0.9897     | 0.9298     |
+| SQ (4×)               | 0.9674     | 0.9285     | 0.9134     | 0.9362     | 0.9339     | 0.8839     | 0.9014     | 0.9789     | 0.9276     | 0.9187     |
+| **TQ 4-bit (8×)**     | **0.9442** | **0.9193** | **0.9020** | **0.9313** | **0.9271** | **0.9299** | **0.9271** | **0.9739** | **0.9438** | **0.9169** |
+| TQ 2-bit (16×)        | 0.8477     | 0.8227     | 0.8170     | 0.8838     | 0.8806     | 0.8480     | 0.8303     | 0.9195     | 0.8349     | 0.8706     |
+| BQ 2-bit (16×)        | 0.6948     | 0.6756     | 0.6689     | 0.7630     | 0.7513     | 0.7332     | 0.6880     | 0.7018     | 0.5953     | 0.7808     |
+| TQ 1.5-bit (~21×)     | 0.7567     | 0.7143     | 0.7391     | 0.8278     | 0.8197     | 0.7690     | 0.6460     | 0.8756     | 0.7213     | 0.7941     |
+| TQ 1-bit (32×)        | 0.7127     | 0.6763     | 0.6990     | 0.7997     | 0.7924     | 0.7356     | 0.6300     | 0.8540     | 0.6807     | 0.7717     |
+| BQ asymmetric (32×)   | 0.7070     | 0.5919     | 0.6112     | 0.7910     | 0.7824     | 0.7072     | 0.6287     | 0.7802     | 0.5800     | 0.7570     |
+| BQ 1-bit (32×)        | 0.6028     | 0.4683     | 0.4945     | 0.7041     | 0.6921     | 0.6098     | 0.5409     | 0.6989     | 0.4762     | 0.6760     |
 
 The pattern repeats across all ten datasets:
 
@@ -213,7 +213,7 @@ The pattern repeats across all ten datasets:
 
 A practical guide:
 
-* **You currently run SQ** → try TQ 4-bit. Comparable recall (often within 1–2 pp; sometimes higher) at half the memory. The upgrade with the smallest reason not to take it.
+* **You currently run SQ** → try TQ 4-bit. Comparable recall (often within 1–2 pp; sometimes higher) at half the memory. The easiest upgrade call on the ladder.
 * **You currently run BQ at any bit depth** → try TurboQuant at the same storage budget (BQ 2-bit → TQ 2-bit, BQ 1-bit → TQ 1-bit). On the benchmarks described here, it consistently delivers higher recall — typically 10–20 pp at both the 16× and 32× storage classes. Stay on BQ if you observe a noticeable drop in throughput on your workload, or if the recall improvement is too small to matter for your use case.
 * **You need cosine, dot, or L2** → all three are first-class in TurboQuant. **L1** → stay on SQ.
 
@@ -223,7 +223,7 @@ A word on indexing: TurboQuant has a small one-time pre-pass per segment (the ca
 
 TurboQuant gives Qdrant a third path on the compression ladder: 8× compression at SQ-level recall, and at 16× / 32× a consistent 10–20 percentage points of recall above BQ on every embedding model we have benchmarked. What makes that work is a hybrid — TurboQuant's MSE codebook and integer-arithmetic SIMD kernels, RaBitQ's per-vector length rescaling and bit-plane scoring at 1-bit, and the anisotropy-compensation pre-pass we developed on top to make all of it land on real production embeddings. The whole stack is shipping in **Qdrant 1.18**, on Cloud and in the standard Docker image. Migration from SQ or BQ is a config change and a re-index; the rest of the application stays identical.
 
-Two engineering deep-dives go further than this post: Ivan Pleshkov on the algorithmic side, Jojii on the SIMD kernels (both linked in [Further Reading](#further-reading)). The Python reference implementation is open-source at [turboquant-qdrant-showcase](https://github.com/IvanPleshkov/turboquant-qdrant-showcase) — reproducible benchmarks, no SIMD obscuring the math. If you run TurboQuant on an embedding model where the numbers don't match what's reported here, or you want help picking the right operating point for your workload, our team is on [Discord](https://qdrant.to/discord). We are always interested in hearing about embeddings that break our assumptions.
+Two engineering deep-dives go further than this post: Ivan Pleshkov on the algorithmic side, Jojii on the SIMD kernels (both linked in [Further Reading](#further-reading)). The Python reference implementation is open-source at [turboquant-qdrant-showcase](https://github.com/IvanPleshkov/turboquant-qdrant-showcase) — reproducible benchmarks, no SIMD obscuring the math. If your TurboQuant numbers don't match what's reported here, or if you want help picking the right operating point for your workload, our team is on [Discord](https://qdrant.to/discord). We are always interested in hearing about embeddings that break our assumptions.
 
 ## Further Reading
 
