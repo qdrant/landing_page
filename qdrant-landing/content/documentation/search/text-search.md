@@ -208,7 +208,7 @@ For instance, book titles are generally shorter than 256 words. To achieve more 
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/ingest-bm25-avglen/" >}}
 
-When designing a multi-representation collection (combining short fields like titles and tags with longer body text), the practical default is BM25 on the shorter, structured fields with dense vectors carrying the longer ones. Default `k` and `b` values are calibrated for document-length text and may need recalibration when applied to titles or short tags. BM25F is the principled extension for multi-field text of varying length; Qdrant doesn't support it natively today, but the [Multi-Representation Search](/documentation/tutorials-search-engineering/multi-representation-search/) tutorial shows the workaround: separate sparse vectors per field, fused via the Query API.
+When designing a multi-representation collection (combining short fields like titles and tags with longer body text), the practical default is BM25 on the shorter, structured fields with dense vectors carrying the longer ones. BM25F is the principled extension for multi-field text of varying length; Qdrant doesn't support it natively today, but the [Multi-Representation Search](/documentation/tutorials-search-engineering/multi-representation-search/) tutorial shows the workaround: separate sparse vectors per field, fused via the Query API.
 
 #### Language-specific Settings
 

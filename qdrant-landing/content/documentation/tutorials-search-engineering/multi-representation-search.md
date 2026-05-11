@@ -126,9 +126,12 @@ for paper in papers:
     # Cloud Inference embeds each Document on the server, so you don't need a client-side embedding library.
     title_doc   = models.Document(text=paper["title"],    model=DENSE_MODEL)
     abstract_doc = models.Document(text=paper["abstract"], model=DENSE_MODEL)
+    # avg_len is the average word count of the indexed text.
+    # Default is 256 (document-length); setting it to the actual field length (~15 here) improves BM25 scoring accuracy.
     sparse_doc  = models.Document(
         text=paper["title"] + " " + " ".join(paper["categories"]),
         model=BM25_MODEL,
+        options={"avg_len": 15.0},
     )
 
     for i, chunk in enumerate(chunks):
@@ -246,7 +249,7 @@ The pattern also assumes you can identify the representations cleanly. If your c
 
 **Chunking strategy.** This tutorial uses a fixed-length sentence chunker for clarity. The chunking choice has a measurable effect on retrieval quality, and the right strategy depends on document structure. Worth considering for your corpus: hierarchical chunking ([POMA-AI VST](https://arxiv.org/abs/2406.04590)), late chunking ([Jina](https://jina.ai/news/late-chunking-in-long-context-embedding-models/)), and semantic chunking ([Chonkie](https://github.com/chonkie-ai/chonkie)).
 
-**BM25F.** The technically correct extension of BM25 to multi-field text of varying length is BM25F, which weights term statistics per field. Qdrant doesn't support BM25F natively today. The workaround used in step 3, separate sparse vectors per field fused via the Query API, gives you most of the practical benefit. Default BM25 parameters (k1, b) are calibrated for document-length text and may need recalibration for short fields like titles or tags; treat them as tunable hyperparameters when working with mixed-length sparse representations.
+**BM25F.** The technically correct extension of BM25 to multi-field text of varying length is BM25F, which weights term statistics per field. Qdrant doesn't support BM25F natively today. The workaround used in step 3 (separate sparse vectors per field fused via the Query API) gives you most of the practical benefit.
 
 ## Wrapping Up
 
