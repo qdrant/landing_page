@@ -5,9 +5,9 @@ short_description: "Sapu indexed 28M PubMed abstracts into Qdrant to power AI-dr
 description: "Discover how Sapu, a nanomedicine biotech company, indexed 28 million PubMed abstracts into a single Qdrant collection, enabling researchers to query the entire biomedical literature corpus and accelerating hard-to-treat cancer therapy development."
 preview_image: /blog/case-study-sapu/sapu-preview.png
 social_preview_image: /blog/case-study-sapu/sapu-preview.png
-date: 2026-05-08
+date: 2026-05-12
 author: "Daniel Azoulai"
-featured: true
+featured: false
 
 tags:
 - Sapu
