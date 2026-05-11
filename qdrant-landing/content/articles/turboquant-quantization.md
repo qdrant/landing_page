@@ -64,7 +64,7 @@ The `bits` field controls encoding bit depth. It defaults to `bits4`. Available 
 
 ## At a Glance
 
-Recall, HNSW (`m=16`, `ef_construct=128`), on four representative datasets — [arxiv-instructorxl-768](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings), dbpedia-gemini [TODO link], dbpedia-openai-ada [TODO link], and [wiki-cohere-v3-1024](https://huggingface.co/datasets/Cohere/wikipedia-2023-11-embed-multilingual-v3). The full ten-dataset table is [further down](#detailed-benchmarks).
+Recall, HNSW (`m=16`, `ef_construct=128`), on four representative datasets — [arxiv-instructorxl-768](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings), [dbpedia-gemini](https://huggingface.co/datasets/nirantk/dbpedia-entities-google-palm-gemini-embedding-001-100K), dbpedia-openai-ada [TODO link], and [wiki-cohere-v3-1024](https://huggingface.co/datasets/CohereLabs/wikipedia-2023-11-embed-multilingual-v3). The full ten-dataset table is [further down](#detailed-benchmarks).
 
 **1. TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ by up to 4.6 pp.
 
@@ -118,6 +118,8 @@ TurboQuant's PROD variant spends an entire QJL random projection plus extra bits
 
 The rotation step gives every coordinate a roughly N(0, 1) distribution **on isotropic data** — the proof is based on uniformly distributed vectors across the sphere and does not extend to anisotropic embeddings, where a few directions concentrate most of the variance. After rotation those high-variance directions get spread across coordinates, but the per-coordinate distributions are not all identical Gaussians — they have different scales, different shapes, sometimes heavy tails. The Lloyd-Max codebook is fitted once for N(0, 1) and stays fixed, so coordinates that drift off the codebook grid waste centroid positions and lose recall.
 
+{{< figure src="/articles_data/turboquant/per-coordinate-calibration.svg" alt="Per-coordinate calibration: on the left the data distribution is shifted and stretched relative to the N(0,1) codebook, so a long tail falls past the outermost codebook centroid; on the right (shift, scale) brings the data back onto the codebook grid" caption="One coordinate of the rotated data (histogram) against the fixed N(0,1) codebook (dashed curve + red centroids). Left: the data drifts off the grid — the highlighted bars sit past the outermost centroid and are lost to the codebook. Right: after `(shift, scale)`, the data lines up with the centroids again." width="100%" >}}
+
 Because Qdrant stores data in segments, we can fix this per segment. For each segment we do a single **pre-pass** before quantization: estimate a `(shift, scale)` pair per coordinate after rotation, then apply `x → (x + shift) · scale` to pull the empirical per-coordinate distribution back onto the codebook's grid. The same `(shift, scale)` is baked into the segment's metadata and reused for every query that hits the segment.
 
 **This is free at search time** thanks to the asymmetric scoring scheme. The stored code is `x⁺ = (x + shift) · scale`, so the original vector is `x = x⁺ / scale − shift`. Plugging that into the dot product gives
@@ -168,14 +170,14 @@ Setup: HNSW index (`m=16`, `ef_construct=128`). Rows are ordered by storage clas
 
 * `arxiv-384` — arXiv titles, 384-dim sentence-transformer embeddings — [TODO link]
 * `arxiv-iXL` — [arXiv titles, InstructorXL 768-dim](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings)
-* `dbp-gem` — DBpedia entities, Gemini embeddings — [TODO link]
-* `dbp-3s` — DBpedia entities, OpenAI text-embedding-3-small 1536-dim — [TODO link]
-* `dbp-3l` — DBpedia entities, OpenAI text-embedding-3-large 1536-dim — [TODO link]
+* `dbp-gem` — [DBpedia entities, Gemini embeddings](https://huggingface.co/datasets/nirantk/dbpedia-entities-google-palm-gemini-embedding-001-100K)
+* `dbp-3s` — [DBpedia entities, OpenAI text-embedding-3-small 1536-dim](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-small-1536-100K)
+* `dbp-3l` — [DBpedia entities, OpenAI text-embedding-3-large 1536-dim](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-100K)
 * `dbp-oai` — DBpedia entities, OpenAI ada-002 — [TODO link]
-* `cohere` — [Wikipedia, Cohere multilingual-v3 1024-dim](https://huggingface.co/datasets/Cohere/wikipedia-2023-11-embed-multilingual-v3)
+* `cohere` — [Wikipedia, Cohere multilingual-v3 1024-dim](https://huggingface.co/datasets/CohereLabs/wikipedia-2023-11-embed-multilingual-v3)
 * `h&m` — H&M product catalog embeddings — [TODO link]
 * `laion` — LAION image embeddings — [TODO link]
-* `ads-1M` — ad-creative embeddings — [TODO link]
+* `ads-1M` — [ad-creative embeddings, GTE multilingual](https://huggingface.co/datasets/Qdrant/gte-multilingual-ads-1M)
 
 **Recall:**
 
