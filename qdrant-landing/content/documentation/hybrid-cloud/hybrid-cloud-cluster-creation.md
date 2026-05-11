@@ -96,7 +96,7 @@ The service type and necessary annotations can be configured in the "Kubernetes 
 
 ![Hybrid Cloud API Key configuration](/documentation/cloud/hybrid_cloud_service.png)
 
-Especially if you create a LoadBalancer Service, you may need to provide annotations for the loadbalancer configration. Please refer to the documention of your cloud provider for more details.
+Especially if you create a LoadBalancer Service, you may need to provide annotations for the loadbalancer configuration. Please refer to the documentation of your cloud provider for more details.
 
 Examples:
 
