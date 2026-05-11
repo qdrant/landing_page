@@ -182,6 +182,7 @@ def retrieve(query, limit=10, group_size=3, tags=None):
         models.Filter(must=[models.FieldCondition(key="tags", match=models.MatchAny(any=tags))])
         if tags else None
     )
+    # query_points_groups runs the prefetches, fuses with RRF, applies the filter, and groups results by document_id.
     return client.query_points_groups(
         collection_name="arxiv_multi_repr",
         prefetch=[
@@ -258,12 +259,6 @@ Two operational notes:
 ---
 
 For the step-by-step build-up that produced this design (dense baseline, plus sparse, plus title prefetch, plus grouping, plus boosting) with eval numbers showing the lift at each step, see the [accompanying notebook](https://github.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb). For a complementary view that varies the *query* across three representations against a single document representation, see the [Universal Query for Hybrid Retrieval demo](/course/essentials/day-5/universal-query-demo/). This tutorial is the document-side equivalent: multiple document representations against a single query.
-
-## Where This Pattern Doesn't Fit
-
-Multi-representation retrieval pays off when items are long and structured. It's overkill, and sometimes worse than a single dense vector, when items are short and homogeneous. Tweets, product names, and one-line forum titles don't have a meaningful title-versus-body distinction; splitting them into representations adds query latency without adding signal. For those cases, a single well-chosen dense model and a sparse fallback are usually enough.
-
-The pattern also assumes you can identify the representations cleanly. If your corpus has inconsistent metadata (some documents have abstracts, others don't), the missing-representation case becomes its own design problem: empty vectors, fallback strategies, or a separate index per representation availability.
 
 ## Wrapping Up
 
