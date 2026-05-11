@@ -110,6 +110,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/dailymotion.svg
       alt: Dailymotion logo
+  - id: data-graphs
+    name: Data Graphs
+    industry: Developer tools
+    product: Hybrid
+    company_size: 51-200
+    location: Europe
+    use_cases: ["Customer support", "Graph RAG", "Generative AI"]
+    title: "How Data Graphs Built a True Hybrid Graph RAG Platform - Qdrant"
+    blog_path: /blog/case-study-datagraphs/
+    logo:
+      src: /img/customers-case-studies-logo/data-graphs.svg
+      alt: Data Graphs
   - id: deutsche-telekom
     name: Deutsche Telekom
     industry: Telecommunications

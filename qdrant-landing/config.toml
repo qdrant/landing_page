@@ -109,10 +109,10 @@ disableKinds = ["taxonomy", "term"]
 
 # Not rendering the content of the cd following files in production
 [[cascade]]
-  [cascade._build]
+  [cascade.build]
     list = 'never'
     render = 'never'
-  [cascade._target]
+  [cascade.target]
     environment = '{production}'
     path = '{**.skip,**.skip/*}'
 

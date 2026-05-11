@@ -16,9 +16,20 @@
 
 {{- $industries = sort (uniq $industries) -}}
 {{- $products = sort (uniq $products) -}}
-{{- $sizes = sort (uniq $sizes) -}}
 {{- $locations = sort (uniq $locations) -}}
 {{- $useCases = sort (uniq $useCases) -}}
+
+{{- $sizeItems := slice -}}
+{{- range (uniq $sizes) -}}
+  {{- $label := . -}}
+  {{- $m := findRE `\d+` $label -}}
+  {{- $key := 999999 -}}
+  {{- if gt (len $m) 0 -}}
+  {{- $key = int (index $m 0) -}}
+  {{- end -}}
+  {{- $sizeItems = $sizeItems | append (dict "label" $label "key" $key) -}}
+{{- end -}}
+{{- $sizeItems = sort $sizeItems "key" "asc" -}}
 
 <section
   class="customers-case-studies"
@@ -95,10 +106,10 @@
           </p>
           <div class="customers-case-studies__accordion-body">
             <div class="customers-case-studies__accordion-inner customers-case-studies__filters-options">
-              {{ range $sizes }}
+              {{ range $sizeItems }}
                 <div class="customers-case-studies__accordion-option">
-                  <input type="checkbox" data-filter-input data-filter-key="company_size" value="{{ . }}" id="{{ . }}">
-                  <label for="{{ . }}">{{ . }}</label>
+                  <input type="checkbox" data-filter-input data-filter-key="company_size" value="{{ .label }}" id="{{ .label }}">
+                  <label for="{{ .label }}">{{ .label }}</label>
                 </div>
               {{ end }}
             </div>
