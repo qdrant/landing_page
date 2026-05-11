@@ -4,7 +4,7 @@ short_description: "TurboQuant ships in Qdrant 1.18"
 description: "TurboQuant — a new rotation-based vector quantization algorithm from Google Research — now ships in Qdrant 1.18, with extensions that make it work on real embeddings."
 social_preview_image: /articles_data/turboquant/preview/social_preview.png
 preview_dir: /articles_data/turboquant/preview
-author: Ivan Pleshkov and Jonas Schulz
+author: Ivan Pleshkov & Jonas Schulz
 author_link: https://qdrant.tech
 date: 2026-05-04T10:00:00+02:00
 draft: false
@@ -80,7 +80,7 @@ Recall, HNSW (`m=16`, `ef_construct=128`). Four datasets shown here for orientat
 
 Three main observations:
 
-1. **TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ up to 4.6.
+1. **TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ up to 4.6 pp.
 2. **TQ 2-bit beats BQ 2-bit by 11–15 pp** on these four datasets (and 9–24 pp across all ten datasets), at the same 16× storage.
 3. **TQ 1-bit beats vanilla BQ 1-bit by 9–21 pp** on these four datasets (and 9–21 pp across all ten datasets), at the same 32× storage.
 
@@ -88,7 +88,7 @@ Three main observations:
 
 TurboQuant ([Zandieh et al., 2026](https://arxiv.org/abs/2504.19874)) is a rotation-based vector quantization algorithm in the PQ family, with a clean theoretical recipe:
 
-1. **Apply a random orthogonal rotation** to every vector. This redistributes per-coordinate variance evenly, after rotation each coordinate looks roughly Gaussian with the same variance.
+1. **Apply a random orthogonal rotation** to every vector. This redistributes per-coordinate variance evenly; after rotation each coordinate looks roughly Gaussian with the same variance.
 2. **Quantize each coordinate independently** with a fixed Lloyd-Max codebook for the standard normal distribution. One codebook of `2^b` levels for the entire dataset, hard-coded as a small lookup table.
 3. **Score** quantized vectors by reconstructing the dot product directly from the codebook indices. The rotation is orthogonal, so it preserves dot products and L2 distances — no need to ever undo it.
 
@@ -100,7 +100,7 @@ The original paper proposes two variants. **MSE** is the literal recipe above: s
 
 Qdrant ships the MSE variant for three reasons:
 
-* **A vector index needs symmetric scoring.** There are operations, which require a score between two quantized vectors, not a query against storage — HNSW graph construction, relevance feedback, etc. MSE's codebook lookup composes symmetrically: any pair of stored vectors can be scored against each other directly from their indices, with no float side required.
+* **A vector index needs symmetric scoring.** There are operations that require a score between two quantized vectors, not a query against storage — HNSW graph construction, relevance feedback, etc. MSE's codebook lookup composes symmetrically: any pair of stored vectors can be scored against each other directly from their indices, with no float side required.
 * **Bit efficiency at fixed budget.** At a given storage class, MSE puts every bit into the codebook itself; PROD splits the budget between the codebook and the QJL bit-correction. With Qdrant's extensions described below, the bias that PROD spends bits to fix can be removed at almost no storage cost.
 * **Computational simplicity.** In our implementation, MSE scoring is a stream of integer multiply-adds against bit-packed indices — a near-perfect fit for AVX-VNNI / AVX-512 / NEON dot-product instructions. PROD's per-query random projection requires extra work that has to be paid on every score.
 
@@ -147,21 +147,21 @@ L1 is also supported by full vector reconstruction while scoring. Random orthogo
 
 ### SIMD Acceleration
 
-The asymmetric scoring path — one float query against millions of quantized vectors — is the hot path of every search. The 4-/2-bit kernels and the 1-bit kernel have different shapes, but the algorithmic choices upstream were made with the target SIMD instructions in mind in both cases.
+The asymmetric scoring path — one float query against millions of quantized vectors — is the hot path of every search. The 4-bit and 2-bit kernels share most of a scoring core; 1-bit uses bit-plane scoring instead.
 
 #### 4-bit and 2-bit: scalar-quantized codebook + `maddubs` loop
 
-Two ideas, combined, make the 4-bit and 2-bit kernels fast:
+Two ideas combine to make the 4-bit and 2-bit kernels fast:
 
-1. **The codebook is scalar-quantized to 8-bit integers.** The Lloyd-Max codebook (16 centroids for 4-bit, 4 for 2-bit) is mapped to a single-byte LUT that fits in exactly one SIMD register. Centroid lookup by index becomes a single `pshufb` (`_mm_shuffle_epi8`) — "parallel indexing into a 16-byte table".
+1. **The codebook is scalar-quantized to 8-bit integers.** The Lloyd-Max codebook (16 centroids for 4-bit, 4 for 2-bit) is mapped to a single-byte LUT that fits in exactly one SIMD register. Centroid lookup by index becomes a single `pshufb` (`_mm_shuffle_epi8`) — "parallel indexing into a 16-byte table."
 
-2. **The query is scalar-quantized to two bytes per coordinate.** Once per query, the rotated and anisotropy-prescaled `[f32]` query becomes `[i16]`, then is split into two `[i8]` halves so it can feed `_mm_maddubs_epi16`.
+2. **The query is scalar-quantized to two bytes per coordinate.** Once per query, the rotated and anisotropy-prescaled `[f32]` query becomes `[i16]` and is then split into two `[i8]` halves to feed `_mm_maddubs_epi16`.
 
-With those two pieces, the inner loop collapses to: `pshufb` for the codebook lookup, two `maddubs` instructions for the multiply (one per query half), and a final `madd_epi16` to widen the pair sums into an `i32` accumulator. A 16-dimension chunk of scoring is a handful of integer SIMD instructions. On VNNI-capable CPUs (Ice Lake+, Zen 4+) the `maddubs + madd_epi16` pair compresses into a single `VPDPBUSD`; on ARMv8.2-A `SDOT` plays the same role. The 2-bit kernel uses paired-nibble lookup tables but the structure is identical.
+With those two pieces, the inner loop collapses to: `pshufb` for the codebook lookup, two `maddubs` instructions for the multiply (one per query half), and a final `madd_epi16` to widen the pair sums into an `i32` accumulator. Scoring a 16-dimension chunk takes a handful of integer SIMD instructions. On VNNI-capable CPUs (Ice Lake+, Zen 4+), the `maddubs + madd_epi16` pair compresses into a single `VPDPBUSD`; on ARMv8.2-A, `SDOT` plays the same role. The 2-bit kernel uses paired-nibble lookup tables, but the structure is identical.
 
 #### 1-bit: RaBitQ bit-plane scoring
 
-The 1-bit scoring path is **[RaBitQ](https://arxiv.org/abs/2405.12497)**'s as published. The data is one bit per coordinate (the sign of the rotated coordinate), bit-packed 128 dimensions per 16-byte chunk. The query is scalar-quantized to `B` bits per coordinate, then transposed into `B` bit-planes — one plane holds bit `b` of every query coordinate. With that layout the dot product becomes one `AND` plus one popcount per plane, weighted by `2^b` and summed.
+The 1-bit scoring path follows **[RaBitQ](https://arxiv.org/abs/2405.12497)** as is, without specific modifications. The data is one bit per coordinate (the sign of the rotated coordinate), bit-packed at 128 dimensions per 16-byte chunk. The query is scalar-quantized to `B` bits per coordinate, then transposed into `B` bit-planes — one plane holds bit `b` of every query coordinate. With that layout, the dot product becomes one `AND` plus one popcount per plane, weighted by `2^b` and summed.
 
 ## Detailed Benchmarks
 
