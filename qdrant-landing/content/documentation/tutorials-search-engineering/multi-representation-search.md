@@ -5,7 +5,7 @@ aliases:
   - /documentation/tutorials/multi-representation-search/
 ---
 
-# Multi-Representation Search Across Titles, Summaries, and Chunks
+# Multi-Representation Search Across Titles, Abstracts, and Chunks
 
 | Time: 45 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb) |
 | --- | ----------- | ----------- | ----------- |
@@ -30,7 +30,9 @@ This tutorial uses <a href="/documentation/inference/#qdrant-cloud-inference">Qd
 
 ## Dataset
 
-You'll work with 20 000 arXiv papers from the [`gfissore/arxiv-abstracts-2021`](https://huggingface.co/datasets/gfissore/arxiv-abstracts-2021) Hugging Face dataset, filtered to ML/CS categories and to papers from 2018 onward, since earlier ML papers predate most of the topics queries care about. Each paper has a title, an abstract, and category tags, which gives you four natural representations once the abstract is split into chunks: title, full abstract as a summary, abstract sentences as chunks, and categories as tags.
+You'll work with 20 000 arXiv papers from the [`gfissore/arxiv-abstracts-2021`](https://huggingface.co/datasets/gfissore/arxiv-abstracts-2021) Hugging Face dataset, filtered to ML/CS categories and to papers from 2018 onward, since earlier ML papers predate most of the topics queries care about. Each paper has a title, an abstract, and category tags, which gives you four natural representations once the abstract is split into chunks: title, full abstract, abstract sentences as chunks, and categories as tags.
+
+arXiv abstracts are short enough to fit any dense embedding model's context window, so chunking isn't strictly required for this dataset. We chunk here because the same pipeline shape (chunk-level retrieval, document-level grouping) is what you'd use on full paper bodies in production, where context limits force the issue. The abstract stands in for what would be a longer body field in your own corpus.
 
 ```python
 from datasets import load_dataset
@@ -68,7 +70,7 @@ for i in range(len(dataset) - 1, -1, -1):
 
 ## Collection Schema
 
-Design the collection before writing any queries. The point granularity is the chunk: every chunk of every paper becomes one point. Title and summary embeddings are stored on every chunk so the Query API can fuse across them in a single request without an extra lookup.
+Design the collection before writing any queries. The point granularity is the chunk: every chunk of every paper becomes one point. Title and abstract embeddings are stored on every chunk so the Query API can fuse across them in a single request without an extra lookup.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -85,7 +87,7 @@ client.create_collection(
     vectors_config={
         "dense_chunk":   models.VectorParams(size=384, distance=models.Distance.COSINE),
         "dense_title":   models.VectorParams(size=384, distance=models.Distance.COSINE),
-        "dense_summary": models.VectorParams(size=384, distance=models.Distance.COSINE),
+        "dense_abstract": models.VectorParams(size=384, distance=models.Distance.COSINE),
     },
     sparse_vectors_config={
         "sparse_keywords": models.SparseVectorParams(
@@ -99,12 +101,12 @@ Each vector covers a different signal:
 
 - `dense_chunk`: the content workhorse. Chunks are short enough that a single embedding represents them faithfully.
 - `dense_title`: a few tokens that name the topic. A title hit is a strong signal even when no chunk matches.
-- `dense_summary`: between title and chunk in length and specificity. Catches queries about the contribution rather than a passage.
+- `dense_abstract`: between title and chunk in length and specificity. Catches queries about the contribution rather than a single passage.
 - `sparse_keywords`: BM25 over title and tags concatenated. BM25 pays off on short structured fields where exact lexical matches matter.
 
-Title and summary vectors are duplicated across every chunk of the same document. That trades storage for query simplicity: one collection, one Query API call, no `lookup_from`. If your titles or summaries are heavy, or you have millions of chunks per document, store them in a separate collection and reach them with `lookup_from`. For the typical case (a few dozen chunks per document, embeddings under a kilobyte each), inline storage is the simpler choice.
+Title and abstract vectors are duplicated across every chunk of the same document. That trades storage for query simplicity: one collection, one Query API call, no `lookup_from`. If your titles or abstracts are heavy, or you have millions of chunks per document, store them in a separate collection and reach them with `lookup_from`. For the typical case (a few dozen chunks per document, embeddings under a kilobyte each), inline storage is the simpler choice.
 
-Ingestion produces one point per chunk and reuses the title and summary embeddings.
+Ingestion produces one point per chunk and reuses the title and abstract embeddings.
 
 ```python
 DENSE_MODEL = "sentence-transformers/all-minilm-l6-v2"
@@ -120,10 +122,10 @@ points = []
 for paper in papers:
     chunks = chunk_sentences(paper["abstract"])
 
-    # Title, summary, and sparse docs are reused across every chunk of this paper; only the chunk text varies.
+    # Title, abstract, and sparse docs are reused across every chunk of this paper; only the chunk text varies.
     # Cloud Inference embeds each Document on the server, so you don't need a client-side embedding library.
     title_doc   = models.Document(text=paper["title"],    model=DENSE_MODEL)
-    summary_doc = models.Document(text=paper["abstract"], model=DENSE_MODEL)
+    abstract_doc = models.Document(text=paper["abstract"], model=DENSE_MODEL)
     sparse_doc  = models.Document(
         text=paper["title"] + " " + " ".join(paper["categories"]),
         model=BM25_MODEL,
@@ -135,7 +137,7 @@ for paper in papers:
             vector={
                 "dense_chunk":     models.Document(text=chunk, model=DENSE_MODEL),
                 "dense_title":     title_doc,
-                "dense_summary":   summary_doc,
+                "dense_abstract":   abstract_doc,
                 "sparse_keywords": sparse_doc,
             },
             payload={
@@ -150,7 +152,7 @@ for paper in papers:
 client.upload_points(collection_name="arxiv_multi_repr", points=points, batch_size=64)
 ```
 
-After the upload completes, opening any point in the Qdrant Cloud UI shows all four named vectors attached to one chunk. `dense_chunk` carries the chunk's own embedding, while `dense_title`, `dense_summary`, and `sparse_keywords` are the same across every chunk of this paper.
+After the upload completes, opening any point in the Qdrant Cloud UI shows all four named vectors attached to one chunk. `dense_chunk` carries the chunk's own embedding, while `dense_title`, `dense_abstract`, and `sparse_keywords` are the same across every chunk of this paper.
 
 ![A point in the arxiv_multi_repr collection showing all four named vectors](/documentation/tutorials/multi-representation-search/point.png)
 
@@ -188,7 +190,7 @@ A representation only earns its own prefetch if it carries signal independent of
 - `dense_title` carries the topical naming. For a query like "diffusion models for high-resolution image synthesis", a paper titled "High-Resolution Image Synthesis with Latent Diffusion Models" surfaces from the title prefetch even when its abstract phrases the contribution differently. The chunk prefetch alone misses it.
 - `sparse_keywords` carries lexical hits on title and tags that the dense embedding has averaged out: rare entity names, jargon, controlled-vocabulary tags.
 
-Adding `dense_summary` as a fourth prefetch is worth it only if summaries surface what chunks don't. If summaries paraphrase the chunks, the extra prefetch adds latency without lift.
+Adding `dense_abstract` as a fourth prefetch is worth it only if the abstract surfaces what chunks don't. If the abstract paraphrases the chunks, the extra prefetch adds latency without lift.
 
 ### How to Fuse
 
@@ -236,9 +238,9 @@ For the step-by-step build-up that produced this design (dense baseline, plus sp
 
 ## Where This Pattern Doesn't Fit
 
-Multi-representation retrieval pays off when items are long and structured. It's overkill, and sometimes worse than a single dense vector, when items are short and homogeneous. Tweets, product names, and one-line forum titles don't have a meaningful title-versus-summary-versus-body distinction; splitting them into representations adds query latency without adding signal. For those cases, a single well-chosen dense model and a sparse fallback are usually enough.
+Multi-representation retrieval pays off when items are long and structured. It's overkill, and sometimes worse than a single dense vector, when items are short and homogeneous. Tweets, product names, and one-line forum titles don't have a meaningful title-versus-body distinction; splitting them into representations adds query latency without adding signal. For those cases, a single well-chosen dense model and a sparse fallback are usually enough.
 
-The pattern also assumes you can identify the representations cleanly. If your corpus has inconsistent metadata (some documents have summaries, others don't), the missing-representation case becomes its own design problem: empty vectors, fallback strategies, or a separate index per representation availability.
+The pattern also assumes you can identify the representations cleanly. If your corpus has inconsistent metadata (some documents have abstracts, others don't), the missing-representation case becomes its own design problem: empty vectors, fallback strategies, or a separate index per representation availability.
 
 ## Open Ends
 
