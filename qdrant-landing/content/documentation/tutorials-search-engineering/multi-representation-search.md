@@ -32,7 +32,7 @@ This tutorial uses <a href="/documentation/inference/#qdrant-cloud-inference">Qd
 
 You'll work with 20 000 arXiv papers from the [`gfissore/arxiv-abstracts-2021`](https://huggingface.co/datasets/gfissore/arxiv-abstracts-2021) Hugging Face dataset, filtered to ML/CS categories and to papers from 2018 onward, since earlier ML papers predate most of the topics queries care about. Each paper has a title, an abstract, and category tags, which gives you four natural representations once the abstract is split into chunks: title, full abstract, abstract sentences as chunks, and categories as tags.
 
-arXiv abstracts are short enough to fit any dense embedding model's context window, so chunking isn't strictly required for this dataset. We chunk here because the same pipeline shape (chunk-level retrieval, document-level grouping) is what you'd use on full paper bodies in production, where context limits force the issue. The abstract stands in for what would be a longer body field in your own corpus.
+arXiv abstracts are short enough to fit any dense embedding model's context window, so chunking isn't strictly required for this dataset. We chunk here because the same pipeline shape (chunk-level retrieval, document-level grouping) is what you'd use on full paper bodies in production, where context limits force the issue. The abstract stands in for what would be a longer body field in your own corpus. We use a fixed-length sentence chunker for simplicity; the right chunking strategy depends on your document structure.
 
 ```python
 from datasets import load_dataset
@@ -159,8 +159,6 @@ After the upload completes, opening any point in the Qdrant Cloud UI shows all f
 
 ![A point in the arxiv_multi_repr collection showing all four named vectors](/documentation/tutorials/multi-representation-search/point.png)
 
-A fixed-length sentence chunker is used here for clarity. Chunking strategy is its own design space; see the limitations section at the end for pointers.
-
 ## Retrieval
 
 The recommended pipeline fuses three prefetches with Reciprocal Rank Fusion and groups the results by document. One Query API call covers retrieval, fusion, and grouping:
@@ -251,18 +249,12 @@ Multi-representation retrieval pays off when items are long and structured. It's
 
 The pattern also assumes you can identify the representations cleanly. If your corpus has inconsistent metadata (some documents have abstracts, others don't), the missing-representation case becomes its own design problem: empty vectors, fallback strategies, or a separate index per representation availability.
 
-## Open Ends
-
-**Chunking strategy.** This tutorial uses a fixed-length sentence chunker for clarity. The chunking choice has a measurable effect on retrieval quality, and the right strategy depends on document structure. Worth considering for your corpus: hierarchical chunking ([POMA-AI VST](https://arxiv.org/abs/2406.04590)), late chunking ([Jina](https://jina.ai/news/late-chunking-in-long-context-embedding-models/)), and semantic chunking ([Chonkie](https://github.com/chonkie-ai/chonkie)).
-
-**BM25F.** The technically correct extension of BM25 to multi-field text of varying length is BM25F, which weights term statistics per field. Qdrant doesn't support BM25F natively today. The workaround used in step 3 (separate sparse vectors per field fused via the Query API) gives you most of the practical benefit.
-
 ## Wrapping Up
 
-Multi-representation retrieval is a schema decision, not a model decision. Once each representation has its own named vector, the Query API composes them at query time: prefetch per representation, fuse with RRF, group by document for presentation, and apply a formula for ranking preferences. Each step in the walkthrough targets a specific retrieval failure mode the previous step left on the table.
+Multi-representation retrieval is a schema decision, not a model decision. Once each representation has its own named vector, the Query API composes them at query time: prefetch per representation, fuse with RRF, group by document for presentation, and apply a formula for ranking preferences.
 
 Related reading:
 
 - [Hybrid Search Revamped](/articles/hybrid-search/) for the why behind RRF over linear weighting.
 - [Hybrid Queries reference](/documentation/search/hybrid-queries/) for the full Query API surface, including grouping.
-- [Search Relevance reference](/documentation/search/search-relevance/) for the formula and decay function syntax used in step 5.
+- [Search Relevance reference](/documentation/search/search-relevance/) for the formula and decay function syntax.
