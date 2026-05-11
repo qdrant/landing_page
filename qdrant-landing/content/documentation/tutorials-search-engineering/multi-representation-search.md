@@ -14,7 +14,7 @@ A document is rarely well-represented by a single embedding. A paper has a title
 
 This tutorial builds retrieval that uses each representation deliberately: named vectors per representation, fused via the Query API, grouped back to the document level for presentation, with score boosting for ranking preferences. Each step targets a specific retrieval failure mode you'd hit in production.
 
-This tutorial assumes you've built hybrid (dense plus sparse) search before, that you're comfortable with [named vectors](/documentation/manage-data/vectors/#named-vectors), the [Query API](/documentation/search/hybrid-queries/), Reciprocal Rank Fusion (RRF), and Best Matching 25 (BM25). If hybrid search is new, start with [Hybrid Search with FastEmbed](/documentation/tutorials-search-engineering/hybrid-search-fastembed/) first.
+This tutorial assumes you've built hybrid (dense plus sparse) search before, that you're comfortable with [named vectors](/documentation/manage-data/vectors/#named-vectors), the [Query API](/documentation/search/hybrid-queries/), Reciprocal Rank Fusion (RRF), and Best Matching 25 (BM25). If hybrid search is new, start with the [hybrid search section of the Text Search guide](/documentation/search/text-search/#combining-semantic-and-lexical-search-with-hybrid-search) first.
 
 ## Setup
 
