@@ -64,7 +64,7 @@ The `bits` field controls encoding bit depth. It defaults to `bits4`. Available 
 
 ## At a Glance
 
-Recall, HNSW (`m=16`, `ef_construct=128`), on four representative datasets — [arxiv-instructorxl-768](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings), [dbpedia-gemini](https://huggingface.co/datasets/nirantk/dbpedia-entities-google-palm-gemini-embedding-001-100K), dbpedia-openai-ada [TODO link], and [wiki-cohere-v3-1024](https://huggingface.co/datasets/CohereLabs/wikipedia-2023-11-embed-multilingual-v3). The full ten-dataset table is [further down](#detailed-benchmarks).
+Recall, HNSW (`m=16`, `ef_construct=128`), on four representative datasets — [arxiv-instructorxl-768](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings), [dbpedia-gemini](https://huggingface.co/datasets/nirantk/dbpedia-entities-google-palm-gemini-embedding-001-100K), [dbpedia-openai-ada](https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_100K.tgz), and [wiki-cohere-v3-1024](https://huggingface.co/datasets/CohereLabs/wikipedia-2023-11-embed-multilingual-v3). The full ten-dataset table is [further down](#detailed-benchmarks).
 
 **1. TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ by up to 4.6 pp.
 
@@ -168,15 +168,15 @@ Setup: HNSW index (`m=16`, `ef_construct=128`). Rows are ordered by storage clas
 
 **Datasets:**
 
-* `arxiv-384` — arXiv titles, 384-dim sentence-transformer embeddings — [TODO link]
+* `arxiv-384` — [arXiv titles, 384-dim sentence-transformer embeddings](https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv_no_filters.tar.gz)
 * `arxiv-iXL` — [arXiv titles, InstructorXL 768-dim](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings)
 * `dbp-gem` — [DBpedia entities, Gemini embeddings](https://huggingface.co/datasets/nirantk/dbpedia-entities-google-palm-gemini-embedding-001-100K)
 * `dbp-3s` — [DBpedia entities, OpenAI text-embedding-3-small 1536-dim](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-small-1536-100K)
 * `dbp-3l` — [DBpedia entities, OpenAI text-embedding-3-large 1536-dim](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-100K)
-* `dbp-oai` — DBpedia entities, OpenAI ada-002 — [TODO link]
+* `dbp-oai` — [DBpedia entities, OpenAI ada-002 1536-dim](https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_100K.tgz)
 * `cohere` — [Wikipedia, Cohere multilingual-v3 1024-dim](https://huggingface.co/datasets/CohereLabs/wikipedia-2023-11-embed-multilingual-v3)
-* `h&m` — H&M product catalog embeddings — [TODO link]
-* `laion` — LAION image embeddings — [TODO link]
+* `h&m` — [H&M product catalog embeddings, 2048-dim](https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm_no_filters.tgz)
+* `laion` — [LAION small CLIP image embeddings](https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-small-clip.tgz)
 * `ads-1M` — [ad-creative embeddings, GTE multilingual](https://huggingface.co/datasets/Qdrant/gte-multilingual-ads-1M)
 
 **Recall:**
