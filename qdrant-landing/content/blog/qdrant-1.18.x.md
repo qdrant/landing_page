@@ -6,7 +6,7 @@ short_description: "Version 1.18 of Qdrant introduces TurboQuant, a novel quanti
 description: "Version 1.18 of Qdrant introduces TurboQuant, a novel quantization method that, at twice the compression ratio of scalar quantization, delivers similar recall and speed."
 preview_image: /blog/qdrant-1.18.x/social_preview.jpg
 social_preview_image: /blog/qdrant-1.18.x/social_preview.jpg
-date: 2026-05-01T00:00:00-08:00
+date: 2026-05-11T00:00:00-08:00
 author: Abdon Pijpelink
 featured: true
 tags:
