@@ -22,7 +22,7 @@ partition: case-studies
 
 ![Summary](/blog/case-study-sapu/sapu-bento-box.png)
 
-Sapu is an early-stage biopharmaceutical company developing treatments for hard-to-treat cancers. From its San Diego facility, the team is pioneering a nanomedicine pipeline that takes existing FDA-approved drugs and re-engineers them at the nanoscale, making them smaller, more effective, and less toxic. Building on already-approved compounds gives Sapu a stronger and faster path to therapeutic success in an industry where most candidates never reach patients.
+<a href="https://www.sapubio.com/" target="_blank">Sapu</a> is an early-stage biopharmaceutical company developing treatments for hard-to-treat cancers. From its San Diego facility, the team is pioneering a nanomedicine pipeline that takes existing FDA-approved drugs and re-engineers them at the nanoscale, making them smaller, more effective, and less toxic. Building on already-approved compounds gives Sapu a stronger and faster path to therapeutic success in an industry where most candidates never reach patients.
 
 Behind the lab work sits an AI tooling suite that does the reading, searching, and synthesis that would otherwise take researchers thousands of hours. Sapu's internal AI platform supports research paper authorship, references standard operating procedures, and lets the team query its document corpus with the precision biotech R\&D requires. As the company grew, so did the volume of documents, the variety of use cases, and the demands placed on the underlying retrieval infrastructure.
 
@@ -30,15 +30,15 @@ Behind the lab work sits an AI tooling suite that does the reading, searching, a
 
 Sapu started building its AI platform shortly after ChatGPT became available, beginning with a command-line prototype and graduating to a full user interface as the system matured. Documents were initially stored as text snippets, with no vector retrieval at all. As use cases expanded into research paper ingestion and SOP-aware chatbots, the team needed a vector search engine that worked.
 
-Scott Myers, who leads much of the AI development at Sapu, evaluated several options. "I just looked up vector search solutions and tried a couple of others. I couldn't get them to work at first. [Qdrant](http:///) happened to work really well right out of the box, and so we stuck with it."
+Scott Myers, who leads much of the AI development at Sapu, evaluated several options. "I just looked up vector search solutions and tried a couple of others. I couldn't get them to work at first. Qdrant happened to work really well right out of the box, and so we stuck with it."
 
 The team initially ran Qdrant self-hosted on Docker. That worked well enough to get the platform off the ground, but as Sapu scaled the variety and volume of its workloads, operating its own cluster became a liability. The setup wasn't optimized, stability issues started appearing, and the team didn't have Qdrant infrastructure expertise in-house to debug them. The cost of self-hosting was no longer just dollars: it was reliability and engineering attention pulled away from the actual research mission.
 
 ## Why Sapu moved to Qdrant Cloud Premium
 
-Sapu signed a Qdrant Cloud Premium partnership to get reliability without dedicating engineering bandwidth to managing infrastructure. The shift solved the stability problems immediately.
+Sapu signed a [Qdrant Cloud](https://qdrant.tech/documentation/cloud-premium/) Premium partnership to get reliability without dedicating engineering bandwidth to managing infrastructure. The shift solved the stability problems immediately.
 
-*"So far it's paid dividends. We haven't run into the issues we had previously."* — Scott Myers, Product Manager, Sapu
+>"So far it's paid dividends. We haven't run into the issues we had previously." — Scott Myers, Product Manager, Sapu
 
 Compliance was a second deciding factor. Sapu plans to license its AI platform to other biotech companies, so the underlying infrastructure has to carry credible certifications. SOC 2 compliance lets Sapu tell prospective licensees that the platform their data sits on meets enterprise security standards.
 
@@ -50,7 +50,7 @@ The continuous pace of new capabilities reinforced the decision. Recent releases
 
 The headline outcome is scale. Sapu's team indexed every abstract in the PubMed database, 28 million records, into a single Qdrant collection. Before this, researchers had to upload subsets of abstracts whenever they wanted to query. Now the entire corpus of biomedical literature is searchable in place. Researchers can query a small filtered slice using metadata, or run vector search across all 28 million abstracts at once.
 
-*"We indexed every single abstract from the PubMed database into a Qdrant vector database. That's 28 million abstracts. Now we can query across all of them, and that's something that just was not possible a few years ago."* — Scott Myers, Product Manager, Sapu
+>"We indexed every single abstract from the PubMed database into a Qdrant vector database. That's 28 million abstracts. Now we can query across all of them, and that's something that just was not possible a few years ago." — Scott Myers, Product Manager, Sapu
 
 The downstream impact has been concrete. Sapu has published seven peer-reviewed research papers that used the AI tooling in the underlying research work. Editors reviewing the methods sections have asked specifically about the AI components. Internal adoption is broad: the CEO uses the AI tools daily, and the San Diego research staff relies on them for SOP lookup, document research, and paper drafting.
 
@@ -72,10 +72,8 @@ Sapu's near-term roadmap centers on extending the AI suite to robotics. The Tech
 
 For closed lab systems with no internet access, the team is evaluating Qdrant Edge for on-device vector search. Air-gapped deployment is a hard requirement for facilities where data leakage is not an acceptable risk.
 
-Sapu is also exploring Qdrant Cloud Inference to simplify its embedding pipeline and explore lower-dimensional embedding models that could reduce storage and query costs without compromising relevance.
+Sapu is also exploring [Qdrant Cloud Inference](https://qdrant.tech/cloud-inference/) to simplify its embedding pipeline and explore lower-dimensional embedding models that could reduce storage and query costs without compromising relevance.
 
 ## From prototype to production-scale biomedical retrieval
 
-What started as a command-line prototype shortly after ChatGPT's release has become a production AI platform that touches every part of Sapu's research workflow, from drug development paper drafting to SOP-aware chatbots to a 28 million abstract literature index. Qdrant moved from a piece of evaluation software that "just worked" to the retrieval foundation under research that is now publishing in peer-reviewed journals and being licensed to external partners. For a biotech company building therapies for hard-to-treat cancers, the math is simple: the faster researchers can find what they need across the world's biomedical literature, the faster the next therapy reaches patients.
-
-##  
+What started as a command-line prototype shortly after ChatGPT's release has become a production AI platform that touches every part of Sapu's research workflow, from drug development paper drafting to SOP-aware chatbots to a 28 million abstract literature index. Qdrant moved from a piece of evaluation software that "just worked" to the retrieval foundation under research that is now publishing in peer-reviewed journals and being licensed to external partners. For a biotech company building therapies for hard-to-treat cancers, the math is simple: the faster researchers can find what they need across the world's biomedical literature, the faster the next therapy reaches patients.  
