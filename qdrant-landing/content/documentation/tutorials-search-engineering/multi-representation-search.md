@@ -163,7 +163,7 @@ A fixed-length sentence chunker is used here for clarity. Chunking strategy is i
 
 ## Retrieval
 
-The recommended pipeline fuses three prefetches with Reciprocal Rank Fusion and groups the results by document. One Query API call covers everything except boosting:
+The recommended pipeline fuses three prefetches with Reciprocal Rank Fusion and groups the results by document. One Query API call covers retrieval, fusion, and grouping:
 
 ```python
 def retrieve(query, limit=10, group_size=3):
@@ -195,11 +195,38 @@ A representation only earns its own prefetch if it carries signal independent of
 
 Adding `dense_abstract` as a fourth prefetch is worth it only if the abstract surfaces what chunks don't. If the abstract paraphrases the chunks, the extra prefetch adds latency without lift.
 
-### How to Fuse
+### Which Fusion to Use
 
-[Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) works on rank, not score, so it sidesteps the calibration problem entirely: dense scores live in [0, 1], sparse BM25 scores don't, and RRF doesn't have to reconcile the two. The prefetches return overlapping but not identical candidate sets, and RRF rewards documents the paths agree on.
+[Reciprocal Rank Fusion](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf) combines prefetches using document rank rather than raw scores, avoiding issues caused by dense and sparse scores operating on different scales. It’s the default configuration for this tutorial and a reasonable place to begin. In some scenarios, the variants below may produce stronger results.
 
-Tuning linear weights between dense and sparse scores instead of using RRF is fragile: the right weight depends on query length, model, and corpus, and a weight that helps one query class hurts another. The full argument is in [Hybrid Search Revamped](/articles/hybrid-search/). Stick with RRF unless you have a reason and a holdout set to validate the alternative.
+For when RRF isn't enough:
+
+- **[Weighted RRF](/documentation/search/hybrid-queries/#weighted-rrf).** Per-prefetch weights in the rank-fusion formula. Use when one path is reliably stronger on your data; tune weights against a validation set, since a weight that helps one query class often hurts another.
+- **[Distribution-Based Score Fusion (DBSF)](/documentation/search/hybrid-queries/#distribution-based-score-fusion-dbsf).** Normalizes each prefetch's scores into a common range before summing. Preserves score magnitude (which RRF discards) when prefetches share a model family and score distributions are stable.
+- **Custom formula via `FormulaQuery`.** Full control over how scores combine:
+
+```python
+query=models.FormulaQuery(
+    formula=models.SumExpression(sum=[
+        "$score[0]",
+        models.MultExpression(mult=[0.5, "$score[1]"]),
+        models.MultExpression(mult=[0.3, "$score[2]"]),
+    ]),
+    defaults={"$score[1]": 0.0, "$score[2]": 0.0},
+),
+```
+
+In this formula, `$score[i]` is the score from prefetch `i`, so the order of your `prefetch=` list matters. The `defaults` map provides fallback values (here `0.0`) for candidates that didn't appear in every prefetch, so the formula still evaluates.
+
+This is a linear combination of raw scores, which breaks down when prefetches use different scoring scales (for example, dense scores in [0, 1] alongside unbounded BM25 scores). The other two fusion strategies handle this for you: RRF discards scores entirely, and DBSF normalizes each prefetch before summing. With a custom formula, you have to normalize the scores yourself, typically using [decay functions](/documentation/search/search-relevance/#decay-functions). The full FormulaQuery syntax lives in the [Score Boosting](/documentation/search/search-relevance/#score-boosting) reference.
+
+For RRF vs. DBSF guidance, see the [hybrid-search FAQ](/documentation/faq/qdrant-fundamentals/#when-should-i-use-reciprocal-rank-fusion-rrf-vs-distribution-based-score-fusion-dbsf-for-hybrid-search).
+
+### When to Boost, When to Rerank
+
+Score boosting expresses ranking preferences that aren't captured by retrieval scores alone: recency, source authority, geographic proximity, content type. Use a FormulaQuery whose terms reference payload fields. For time-based decay on a `published_at` field, use an `exp_decay` expression from the [decay functions](/documentation/search/search-relevance/#decay-functions) reference.
+
+Use a reranker when the preference is "this is more relevant than that" but you can't easily express why in a closed form. Formulas are cheap and deterministic; rerankers are expensive but learn what you can't articulate.
 
 ### When to Group, When Not To
 
@@ -213,27 +240,6 @@ Two operational notes:
 
 - Increase prefetch `limit` when grouping. If a paper has three chunks worth retrieving but the prefetch only returned two, grouping doesn't have the third to consider.
 - Use the `with_lookup` parameter when document-level metadata (full title, authors, publication date) lives in a separate collection. It fetches one record per group instead of repeating it per chunk.
-
-### When to Boost, When to Rerank
-
-The Query API's [score boosting](/documentation/search/search-relevance/#score-boosting) lets you express ranking preferences that aren't captured by similarity alone. Swap the `FusionQuery` for a `FormulaQuery` and use the prefetch scores as variables:
-
-```python
-query=models.FormulaQuery(
-    formula=models.SumExpression(sum=[
-        "$score[0]",
-        models.MultExpression(mult=[0.5, "$score[1]"]),
-        models.MultExpression(mult=[0.3, "$score[2]"]),
-    ]),
-    defaults={"$score[1]": 0.0, "$score[2]": 0.0},
-),
-```
-
-`$score[i]` references the score from prefetch `i`, so order in the `prefetch=` list is load-bearing. The `defaults` map covers candidates that appeared in one prefetch but not another: without it, a missing variable would error. The formula above sums the chunk score with a half-weighted title score and a smaller sparse contribution. Unlike RRF, this is a linear combination of raw scores and is fragile across query types unless you've held the weights up against representative queries.
-
-Use the formula API when the preference is structured and known up front: recency, source authority, geographic proximity, content type. For time-based decay on a `published_at` payload field, swap the title term for an `exp_decay` expression from the [decay functions](/documentation/search/search-relevance/#decay-functions) reference.
-
-Use a reranker when the preference is "this is more relevant than that" but you can't easily express why in a closed form. Formulas are cheap and deterministic; rerankers are expensive but learn what you can't articulate.
 
 ---
 
