@@ -18,8 +18,6 @@ category: qdrant-internals
 weight: -200
 ---
 
-# TurboQuant in Qdrant
-
 If you run production vector workloads, you already know the compression ladder in Qdrant: float32 is the baseline, **Scalar Quantization (SQ)** compresses vectors by 4× with almost no recall hit, and **Binary Quantization (BQ)** packs vectors at 16× or 32×.
 
 Qdrant 1.18 ships **TurboQuant** — a new rotation-based vector quantization method from [Google Research](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/), with extensions that make it work on real production embeddings. Summarizing the results of benchmarks across public embedding datasets:
@@ -66,23 +64,19 @@ The `bits` field controls encoding bit depth. It defaults to `bits4`. Available 
 
 ## At a Glance
 
-Recall, HNSW (`m=16`, `ef_construct=128`). Four datasets shown here for orientation; the full dataset table is [further down](#detailed-benchmarks).
+Recall, HNSW (`m=16`, `ef_construct=128`), on four representative datasets — [arxiv-instructorxl-768](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings), dbpedia-gemini [TODO link], dbpedia-openai-ada [TODO link], and [wiki-cohere-v3-1024](https://huggingface.co/datasets/Cohere/wikipedia-2023-11-embed-multilingual-v3). The full ten-dataset table is [further down](#detailed-benchmarks).
 
-| Dataset                                                                                               | f32    | SQ     | **TQ 4-bit** | TQ 2-bit   | BQ 2-bit | TQ 1-bit   | BQ 1-bit |
-| ----------------------------------------------------------------------------------------------------- | ------ | ------ | ------------ | ---------- | -------- | ---------- | -------- |
-| [arxiv-instructorxl-768](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings) | 0.9419 | 0.9285 | **0.9193**   | **0.8227** | 0.6756   | **0.6763** | 0.4683   |
-| dbpedia-gemini [TODO link]                                                                            | 0.9167 | 0.9134 | **0.9020**   | **0.8170** | 0.6689   | **0.6990** | 0.4945   |
-| dbpedia-openai-ada [TODO link]                                                                        | 0.9625 | 0.8839 | **0.9299**   | **0.8480** | 0.7332   | **0.7356** | 0.6098   |
-| [wiki-cohere-v3-1024](https://huggingface.co/datasets/Cohere/wikipedia-2023-11-embed-multilingual-v3) | 0.9446 | 0.9014 | **0.9271**   | **0.8303** | 0.6880   | **0.6300** | 0.5409   |
-| **Compression**                                                                                       | 1×     | 4×     | **8×**       | 16×        | 16×      | 32×        | 32×      |
+**1. TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ by up to 4.6 pp.
 
-`BQ 1-bit` is the vanilla 1-bit configuration (1-bit storage, 1-bit query). The asymmetric variant (8-bit query) is included separately in the [detailed table](#detailed-benchmarks).
+{{< figure src="/articles_data/turboquant/at-a-glance-4bit.svg" alt="Recall comparison: float32 baseline vs SQ (4×) vs TurboQuant 4-bit (8×) across four datasets" caption="float32 baseline, SQ (4× compression), and TurboQuant 4-bit (8× compression)." width="100%" >}}
 
-Three main observations:
+**2. TQ 2-bit beats BQ 2-bit by 11–15 pp** on these four datasets (and 9–24 pp across all ten datasets), at the same 16× storage.
 
-1. **TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ by up to 4.6 pp.
-2. **TQ 2-bit beats BQ 2-bit by 11–15 pp** on these four datasets (and 9–24 pp across all ten datasets), at the same 16× storage.
-3. **TQ 1-bit beats vanilla BQ 1-bit by 9–21 pp** on these four datasets (and 9–21 pp across all ten datasets), at the same 32× storage.
+{{< figure src="/articles_data/turboquant/at-a-glance-2bit.svg" alt="Recall comparison at 16× compression: TurboQuant 2-bit vs Binary Quantization 2-bit" caption="At 16× compression — TurboQuant 2-bit vs Binary Quantization 2-bit." width="100%" >}}
+
+**3. TQ 1-bit beats vanilla BQ 1-bit by 9–21 pp** on these four datasets (and 9–21 pp across all ten datasets), at the same 32× storage. `BQ 1-bit` here is the vanilla 1-bit configuration (1-bit storage, 1-bit query); the asymmetric variant (8-bit query) is in the [detailed table](#detailed-benchmarks).
+
+{{< figure src="/articles_data/turboquant/at-a-glance-1bit.svg" alt="Recall comparison at 32× compression: TurboQuant 1-bit vs vanilla Binary Quantization 1-bit" caption="At 32× compression — TurboQuant 1-bit vs vanilla Binary Quantization 1-bit." width="100%" >}}
 
 ## What Is TurboQuant?
 
@@ -114,10 +108,9 @@ Let's describe each extension over the vanilla MSE TurboQuant separately.
 
 Vanilla MSE has a persistent length bias: quantized vectors are systematically shorter than the originals.
 
-The fix we use here comes from **[RaBitQ](https://arxiv.org/abs/2405.12497)** rather than from the TurboQuant paper itself: store one extra per-vector scalar that records how much the quantization shrank the length, and multiply it back in at scoring time. We pay the same 4 bytes per vector that we already reserve for the L2 length and use them to store the **ratio of original length to centroid-reconstruction length**. 
+The fix we use here comes from **[RaBitQ](https://arxiv.org/abs/2405.12497)** rather than from the TurboQuant paper itself: store one extra per-vector scalar that records how much the quantization shrank the length, and multiply it back in at scoring time. We pay the same 4 bytes per vector that we already reserve for the L2 length and use them to store the **ratio of original length to centroid-reconstruction length**.
 
-TODO: diagram
-
+{{< figure src="/articles_data/turboquant/length-renormalization.svg" alt="2D illustration of length renormalization: the quantized vector is short and slightly rotated; multiplying by the stored ratio scales it back to the original length and lands it much closer to the original vector" caption="The quantized vector is shorter than the original and points in a slightly different direction. Multiplying by the stored ratio scales it back to the original length — the renormalized vector lands on the same circle as the original, much closer to it than the raw quantized one." width="100%" >}}
 
 TurboQuant's PROD variant spends an entire QJL random projection plus extra bits in the codebook on the same problem; RaBitQ-style renormalization spends 4 bytes and one multiplication.
 
