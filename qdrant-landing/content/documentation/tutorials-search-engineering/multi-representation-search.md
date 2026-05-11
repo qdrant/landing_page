@@ -104,7 +104,7 @@ Each vector covers a different signal:
 - `dense_abstract`: between title and chunk in length and specificity. Catches queries about the contribution rather than a single passage.
 - `sparse_keywords`: BM25 over title and tags concatenated. BM25 pays off on short structured fields where exact lexical matches matter.
 
-Title and abstract vectors are duplicated across every chunk of the same document. That trades storage for query simplicity: one collection, one Query API call, no `lookup_from`. If your titles or abstracts are heavy, or you have millions of chunks per document, store them in a separate collection and reach them with `lookup_from`. For the typical case (a few dozen chunks per document, embeddings under a kilobyte each), inline storage is the simpler choice.
+Title and abstract vectors are duplicated across every chunk of the same document. That trades storage for query simplicity: one collection, one Query API call, every representation reachable from any point. For the typical case (a few dozen chunks per document, embeddings under a kilobyte each), inline storage is the simpler choice. To split heavy document-level payload into a separate collection and pull it back at grouping time, see [Lookup in groups](/documentation/search/search/#lookup-in-groups).
 
 Ingestion produces one point per chunk and reuses the title and abstract embeddings.
 
@@ -255,5 +255,5 @@ Multi-representation retrieval is a schema decision, not a model decision. Once 
 Related reading:
 
 - [Hybrid Search Revamped](/articles/hybrid-search/) for the why behind RRF over linear weighting.
-- [Hybrid Queries reference](/documentation/search/hybrid-queries/) for the full Query API surface, including grouping and `lookup_from`.
+- [Hybrid Queries reference](/documentation/search/hybrid-queries/) for the full Query API surface, including grouping.
 - [Search Relevance reference](/documentation/search/search-relevance/) for the formula and decay function syntax used in step 5.
