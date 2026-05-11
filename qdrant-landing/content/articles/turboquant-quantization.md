@@ -136,7 +136,7 @@ Truly isotropic data matches the theoretical Gaussian quantiles, the formula col
 
 ### L2 and Unnormalized Dot
 
-Vanilla TurboQuant assumes all inputs live on the unit sphere — that is, cosine distance only. We extend the algorithm beyond the sphere by **storing the original L2 norm** and restoring L2 and unnormalized dot from normalized one, so dot and L2 cost the same as cosine in the hot path.
+Vanilla TurboQuant assumes all inputs live on the unit sphere — that is, cosine distance only. We extend the scoring mechanism and unlock L2 and unnormalized dot by *storing the original L2 norm*, normalizing the vectors and then apply the L2 norm back during scoring.
 
 L2 distances are reconstructed via the identity `‖q − v‖² = ‖q‖² + ‖v‖² − 2⟨q, v⟩ = ‖q‖² + ‖v‖² − 2 ‖v‖ ‖q‖ ⟨q_normalized, v_normalized⟩`, where all components on the right-hand side are already available.
 
