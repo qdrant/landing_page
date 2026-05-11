@@ -21,14 +21,16 @@ This tutorial assumes you've built hybrid (dense plus sparse) search before, tha
 Install the Python packages used throughout the tutorial:
 
 ```bash
-pip install qdrant-client fastembed datasets
+pip install qdrant-client datasets
 ```
 
-Use Python <3.13. Not all dependencies support the newest Python versions yet.
+<aside role="status">
+This tutorial uses <a href="/documentation/inference/#qdrant-cloud-inference">Qdrant Cloud Inference</a> to generate embeddings server-side. The free tier covers this tutorial's footprint. Core BM25 runs on any Qdrant instance, but dense Cloud Inference is Cloud-only. To self-host, generate dense vectors on the client with a library like <a href="/documentation/fastembed/">FastEmbed</a> and pass them as raw vectors instead of <code>models.Document</code>.
+</aside>
 
 ## Dataset
 
-You'll work with 20 000 arXiv papers from the [`gfissore/arxiv-abstracts-2021`](https://huggingface.co/datasets/gfissore/arxiv-abstracts-2021) Hugging Face dataset, filtered to ML/CS categories and to papers from 2018 onward — earlier ML papers predate most of the topics queries care about. Each paper has a title, an abstract, and category tags, which gives you four natural representations once the abstract is split into chunks: title, full abstract as a summary, abstract sentences as chunks, and categories as tags.
+You'll work with 20 000 arXiv papers from the [`gfissore/arxiv-abstracts-2021`](https://huggingface.co/datasets/gfissore/arxiv-abstracts-2021) Hugging Face dataset, filtered to ML/CS categories and to papers from 2018 onward, since earlier ML papers predate most of the topics queries care about. Each paper has a title, an abstract, and category tags, which gives you four natural representations once the abstract is split into chunks: title, full abstract as a summary, abstract sentences as chunks, and categories as tags.
 
 ```python
 from datasets import load_dataset
@@ -71,8 +73,13 @@ Design the collection before writing any queries. The point granularity is the c
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("http://localhost:6333") # or QdrantClient(url="https://<id>.cloud.qdrant.io", api_key="...") for Qdrant Cloud
+client = QdrantClient(
+    url="https://xyz-example.qdrant.io:6333",
+    api_key="<your-api-key>",
+    cloud_inference=True,
+)
 
+# 384 is the output dimension of sentence-transformers/all-minilm-l6-v2, used below for every dense vector.
 client.create_collection(
     collection_name="arxiv_multi_repr",
     vectors_config={
@@ -100,11 +107,8 @@ Title and summary vectors are duplicated across every chunk of the same document
 Ingestion produces one point per chunk and reuses the title and summary embeddings.
 
 ```python
-from fastembed import TextEmbedding, SparseTextEmbedding
-
-# Dense embeddings for title, summary, and chunk content; sparse BM25 for keyword matching.
-dense_model = TextEmbedding("BAAI/bge-small-en-v1.5")
-sparse_model = SparseTextEmbedding("Qdrant/bm25")
+DENSE_MODEL = "sentence-transformers/all-minilm-l6-v2"
+BM25_MODEL = "qdrant/bm25"
 
 def chunk_sentences(text, target_len=2):
     """Split text into ~2-sentence chunks; fall back to the full text if it doesn't split cleanly."""
@@ -112,38 +116,27 @@ def chunk_sentences(text, target_len=2):
     return [". ".join(sentences[i:i + target_len])
             for i in range(0, len(sentences), target_len)] or [text]
 
-def to_sparse(sparse_emb):
-    """Convert FastEmbed's SparseEmbedding into a Qdrant SparseVector."""
-    return models.SparseVector(
-        indices=sparse_emb.indices.tolist(),
-        values=sparse_emb.values.tolist(),
-    )
-
 points = []
 for paper in papers:
     chunks = chunk_sentences(paper["abstract"])
 
-    # Paper-level embeddings: computed once per paper, reused across every chunk below.
-    # next(iter(...)) extracts the single vector from FastEmbed's generator output.
-    title_vec   = next(iter(dense_model.embed([paper["title"]]))).tolist()
-    summary_vec = next(iter(dense_model.embed([paper["abstract"]]))).tolist()
-    sparse_vec  = to_sparse(next(iter(sparse_model.embed(
-        [paper["title"] + " " + " ".join(paper["categories"])]
-    ))))
+    # Title, summary, and sparse docs are reused across every chunk of this paper; only the chunk text varies.
+    # Cloud Inference embeds each Document on the server, so you don't need a client-side embedding library.
+    title_doc   = models.Document(text=paper["title"],    model=DENSE_MODEL)
+    summary_doc = models.Document(text=paper["abstract"], model=DENSE_MODEL)
+    sparse_doc  = models.Document(
+        text=paper["title"] + " " + " ".join(paper["categories"]),
+        model=BM25_MODEL,
+    )
 
-    # Chunk-level dense embedding: one vector per chunk.
-    chunk_vecs = [v.tolist() for v in dense_model.embed(chunks)]
-
-    # One Qdrant point per chunk. dense_title, dense_summary, and sparse_keywords
-    # are the same for every chunk of this paper; only dense_chunk varies.
-    for i, (chunk, chunk_vec) in enumerate(zip(chunks, chunk_vecs)):
+    for i, chunk in enumerate(chunks):
         points.append(models.PointStruct(
             id=len(points),
             vector={
-                "dense_chunk":     chunk_vec,
-                "dense_title":     title_vec,
-                "dense_summary":   summary_vec,
-                "sparse_keywords": sparse_vec,
+                "dense_chunk":     models.Document(text=chunk, model=DENSE_MODEL),
+                "dense_title":     title_doc,
+                "dense_summary":   summary_doc,
+                "sparse_keywords": sparse_doc,
             },
             payload={
                 "document_id": paper["arxiv_id"],
@@ -168,19 +161,15 @@ A fixed-length sentence chunker is used here for clarity. Chunking strategy is i
 The recommended pipeline fuses three prefetches with Reciprocal Rank Fusion and groups the results by document. One Query API call covers everything except boosting:
 
 ```python
-def embed_query(query):
-    dense = next(iter(dense_model.query_embed([query]))).tolist()
-    sparse = to_sparse(next(iter(sparse_model.query_embed([query]))))
-    return dense, sparse
-
 def retrieve(query, limit=10, group_size=3):
-    dense, sparse = embed_query(query)
+    dense_query  = models.Document(text=query, model=DENSE_MODEL)
+    sparse_query = models.Document(text=query, model=BM25_MODEL)
     return client.query_points_groups(
         collection_name="arxiv_multi_repr",
         prefetch=[
-            models.Prefetch(query=dense,  using="dense_chunk",     limit=100),
-            models.Prefetch(query=dense,  using="dense_title",     limit=100),
-            models.Prefetch(query=sparse, using="sparse_keywords", limit=100),
+            models.Prefetch(query=dense_query,  using="dense_chunk",     limit=100),
+            models.Prefetch(query=dense_query,  using="dense_title",     limit=100),
+            models.Prefetch(query=sparse_query, using="sparse_keywords", limit=100),
         ],
         query=models.FusionQuery(fusion=models.Fusion.RRF),
         group_by="document_id",
@@ -188,8 +177,6 @@ def retrieve(query, limit=10, group_size=3):
         limit=limit,
     ).groups
 ```
-
-BM25 has a separate `query_embed` path that uses inverse document frequency (IDF) weighting calibrated for queries, distinct from the indexing-side `embed`.
 
 The pipeline makes four design decisions. Each is worth understanding so you can defend or adjust it.
 
