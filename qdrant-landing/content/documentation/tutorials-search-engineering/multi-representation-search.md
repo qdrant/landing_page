@@ -104,12 +104,7 @@ client.create_payload_index(
 )
 ```
 
-Each vector covers a different signal:
-
-- `dense_chunk`: the content workhorse. Chunks are short enough that a single embedding represents them faithfully.
-- `dense_title`: a few tokens that name the topic. A title hit is a strong signal even when no chunk matches.
-- `dense_abstract`: between title and chunk in length and specificity. Catches queries about the contribution rather than a single passage.
-- `sparse_title`: BM25 over the title. Catches exact lexical matches (rare entity names, jargon) that the dense embedding averages out.
+Each vector covers a different signal: `dense_chunk` for chunk content, `dense_title` and `sparse_title` for the title (dense and lexical respectively), `dense_abstract` for the abstract as a whole.
 
 Categories live in the `tags` payload with a keyword index, so queries can pre-filter by category.
 
@@ -170,7 +165,7 @@ After the upload completes, opening any point in the Qdrant Cloud UI shows all f
 
 ## Retrieval
 
-The recommended pipeline fuses three prefetches with Reciprocal Rank Fusion and groups the results by document. One Query API call covers retrieval, fusion, and grouping:
+The recommended pipeline fuses four prefetches with Reciprocal Rank Fusion and groups the results by document. One Query API call covers retrieval, fusion, and grouping:
 
 ```python
 def retrieve(query, limit=10, group_size=3, tags=None):
@@ -183,12 +178,14 @@ def retrieve(query, limit=10, group_size=3, tags=None):
         if tags else None
     )
     # query_points_groups runs the prefetches, fuses with RRF, applies the filter, and groups results by document_id.
+    # You may need to adjust the per-prefetch limit based on the number of chunks per document; grouping only sees what the prefetch returns.
     return client.query_points_groups(
         collection_name="arxiv_multi_repr",
         prefetch=[
-            models.Prefetch(query=dense_query,  using="dense_chunk", limit=100),
-            models.Prefetch(query=dense_query,  using="dense_title", limit=100),
-            models.Prefetch(query=sparse_query, using="sparse_title", limit=100),
+            models.Prefetch(query=dense_query,  using="dense_chunk",    limit=100),
+            models.Prefetch(query=dense_query,  using="dense_title",    limit=100),
+            models.Prefetch(query=dense_query,  using="dense_abstract", limit=100),
+            models.Prefetch(query=sparse_query, using="sparse_title",   limit=100),
         ],
         query=models.FusionQuery(fusion=models.Fusion.RRF),
         query_filter=query_filter,
@@ -198,17 +195,14 @@ def retrieve(query, limit=10, group_size=3, tags=None):
     ).groups
 ```
 
-The pipeline makes four design decisions. Each is worth understanding so you can defend or adjust it.
-
 ### What to Prefetch
 
-A representation only earns its own prefetch if it carries signal independent of the others. The three above are deliberately complementary:
+A representation only earns its own prefetch if it carries signal independent of the others. The four above are deliberately complementary:
 
 - `dense_chunk` carries the body content.
 - `dense_title` carries the topical naming. For a query like "diffusion models for high-resolution image synthesis", a paper titled "High-Resolution Image Synthesis with Latent Diffusion Models" surfaces from the title prefetch even when its abstract phrases the contribution differently. The chunk prefetch alone misses it.
+- `dense_abstract` carries the abstract as a complete semantic unit, while `dense_chunk` indexes smaller sections of the document itself.
 - `sparse_title` carries lexical hits on the title that the dense embedding averages out: rare entity names, jargon, specific model or paper names.
-
-Adding `dense_abstract` as a fourth prefetch is worth it only if the abstract surfaces what chunks don't. If the abstract paraphrases the chunks, the extra prefetch adds latency without lift.
 
 ### Which Fusion to Use
 
@@ -242,19 +236,6 @@ For RRF vs. DBSF guidance, see the [hybrid-search FAQ](/documentation/faq/qdrant
 Score boosting expresses ranking preferences that aren't captured by retrieval scores alone: recency, source authority, geographic proximity, content type. Use a FormulaQuery whose terms reference payload fields. For time-based decay on a `published_at` field, use an `exp_decay` expression from the [decay functions](/documentation/search/search-relevance/#decay-functions) reference.
 
 Use a reranker when the preference is "this is more relevant than that" but you can't easily express why in a closed form. Formulas are cheap and deterministic; rerankers are expensive but learn what you can't articulate.
-
-### When to Group, When Not To
-
-`query_points_groups` collapses chunks back to documents while keeping the top chunks per document attached. Each group's `hits` field carries the top-`group_size` chunks for that paper, ranked by their fused score.
-
-Grouping helps when the consumer wants documents: a results UI, a citation list, an LLM that wants document-level attribution. It hurts when an LLM benefits from seeing several independently ranked chunks across multiple documents in its context window. Collapsing those chunks into one group per document throws away ordering information the LLM could have used.
-
-Grouping is a presentation choice, not a relevance technique. The candidates and their fused scores don't change; only the result shape does.
-
-Two operational notes:
-
-- Increase prefetch `limit` when grouping. If a paper has three chunks worth retrieving but the prefetch only returned two, grouping doesn't have the third to consider.
-- Use the `with_lookup` parameter when document-level metadata (full title, authors, publication date) lives in a separate collection. It fetches one record per group instead of repeating it per chunk.
 
 ---
 
