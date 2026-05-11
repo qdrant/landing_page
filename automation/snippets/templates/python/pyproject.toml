@@ -10,7 +10,7 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-qdrant-client = { git = "https://github.com/qdrant/qdrant-client", branch = "models-1.18.0" }
+qdrant-client = { git = "https://github.com/qdrant/qdrant-client", branch = "dev" }
 
 [dependency-groups]
 dev = [
