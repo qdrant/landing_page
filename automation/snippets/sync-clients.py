@@ -195,6 +195,7 @@ def checkout_repo(
     if p.returncode == 0:
         rev = p.stdout.strip()
 
+    subprocess.run(["git", "-C", dest_dir, "reset", "--hard"], check=True)
     subprocess.run(["git", "-C", dest_dir, "checkout", "--detach", rev], check=True)
 
 

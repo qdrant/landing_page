@@ -1420,8 +1420,8 @@ wheels = [
 
 [[package]]
 name = "qdrant-client"
-version = "1.17.1.dev0"
-source = { git = "https://github.com/qdrant/qdrant-client?branch=dev#d72554e64078397060630954e2f8f97451d0bb93" }
+version = "1.18.0"
+source = { git = "https://github.com/qdrant/qdrant-client?tag=v1.18.0#326adefcc2158121dd0d04877e1a483b5aa2627b" }
 dependencies = [
     { name = "grpcio" },
     { name = "httpx", extra = ["http2"] },
@@ -1509,7 +1509,7 @@ dev = [
 requires-dist = [
     { name = "datasets", specifier = ">=4.4.1" },
     { name = "fastembed" },
-    { name = "qdrant-client", git = "https://github.com/qdrant/qdrant-client?branch=dev" },
+    { name = "qdrant-client", git = "https://github.com/qdrant/qdrant-client?tag=v1.18.0" },
     { name = "qdrant-edge-py", specifier = "==0.6.0" },
 ]
 
