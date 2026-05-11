@@ -149,29 +149,21 @@ L1 is also supported by full vector reconstruction while scoring. Random orthogo
 
 ### SIMD Acceleration
 
-The asymmetric scoring path — one float query against millions of quantized vectors — is the hot path of every search, and we tune it hard. Modern CPUs ship SIMD instructions specifically aimed at small-integer dot products (`pshufb` / `maddubs` on SSE, `VPDPBUSD` on AVX-VNNI, `SDOT` on ARMv8.2-A, `VPOPCNTDQ` on AVX-512); the algorithmic choices upstream were made with those instructions as the compilation target. The 4-bit and 1-bit kernels have very different shapes and are worth describing separately.
+The asymmetric scoring path — one float query against millions of quantized vectors — is the hot path of every search. The 4-/2-bit kernels and the 1-bit kernel have different shapes, but the algorithmic choices upstream were made with the target SIMD instructions in mind in both cases.
 
-#### 4-bit: scalar-quantize both sides, then a `maddubs` loop
+#### 4-bit and 2-bit: scalar-quantized codebook + `maddubs` loop
 
-The Lloyd-Max codebook for 4-bit is 16 `f32` centroids — 64 bytes, four XMM registers wide, with no SIMD instruction that can index into it directly. The trick is an extra layer of **scalar quantization on the codebook itself**: each centroid is mapped to one byte and the whole codebook collapses to `[u8; 16]`, exactly one XMM register, with indexed access becoming a single `pshufb` (`_mm_shuffle_epi8`) — "parallel indexing into a 16-byte table". The codebook is encoded as **`u8` (not `i8`)** on purpose: the SSE instruction we want to multiply with, `_mm_maddubs_epi16`, takes one **unsigned** byte operand and one **signed** byte operand. We park the codebook on the unsigned side via `c_u8[k] = round(c[k] · 128 / max|c|) + 128`, which maps the symmetric centroid range into `[0, 255]`, and the constant `+128` offset is unwound once per query as a single bias-correction term added at the end of the dot product. The query takes the signed side: the rotated, anisotropy-prescaled `[f32]` query is quantized to `[i16]` once per query, then split into two `[i8]` halves (`q = 128 · high + low`) to feed `maddubs`'s signed operand. (NEON's `vmull_s8` is signed × signed, so on ARM the codebook is stored directly as `[i8; 16]` and there is no offset to unwind.)
+Two ideas, combined, make the 4-bit and 2-bit kernels fast:
 
-After that the kernel is mechanical: `pshufb` for centroid lookup, `maddubs` for the unsigned-codebook × signed-query byte multiply, `madd_epi16` to widen the pair sums into an `i32` accumulator. A 16-dimension chunk of scoring compiles to a handful of integer SIMD instructions, all on byte and 16-bit registers. On VNNI-capable CPUs (Ice Lake+, Sapphire Rapids, Zen 4+) the `maddubs + madd_epi16` pair compresses further into a single `VPDPBUSD`; on ARMv8.2-A `SDOT` plays the same role. The codebook-SQ noise is roughly an order of magnitude below the PQ quantization noise itself — a `test_simd_noise_below_pq_noise` test in the codebase asserts the SIMD noise stays at least 5× smaller than the PQ noise, so this extra quantization layer is genuinely free at the recall level. The 2-bit kernel uses the same recipe with paired-nibble lookup tables. The full walkthrough — the unsigned-codebook layout and per-query bias correction, the i8-halves split for query precision, the cross-platform SSE / AVX2 / AVX-512 / NEON variants — is in [Jojii's deep-dive](#further-reading).
+1. **The codebook is scalar-quantized to 8-bit integers.** The Lloyd-Max codebook (16 centroids for 4-bit, 4 for 2-bit) is mapped to a single-byte LUT that fits in exactly one SIMD register. Centroid lookup by index becomes a single `pshufb` (`_mm_shuffle_epi8`) — "parallel indexing into a 16-byte table".
 
-#### 1-bit: RaBitQ-style bit-plane popcount
+2. **The query is scalar-quantized to two bytes per coordinate.** Once per query, the rotated and anisotropy-prescaled `[f32]` query becomes `[i16]`, then is split into two `[i8]` halves so it can feed `_mm_maddubs_epi16`.
 
-The 1-bit scoring path is **[RaBitQ](https://arxiv.org/abs/2405.12497)**'s scoring scheme as published — we did not reinvent it. The data side is one bit per coordinate (the sign of the rotated coordinate), 128 dimensions per 16-byte chunk. The query is scalar-quantized to a `B`-bit signed integer (`B = 8` by default; `B = 16` when anisotropy compensation is on, because the per-coordinate query rescaling pushes some query values to the bottom of the dynamic range where 8-bit precision is too coarse) and then **transposed into `B` bit-planes**: all "bit 0" bits of `q[0..128]` stored contiguously, then all "bit 1" bits, and so on — `B` planes of 16 bytes each.
+With those two pieces, the inner loop collapses to: `pshufb` for the codebook lookup, two `maddubs` instructions for the multiply (one per query half), and a final `madd_epi16` to widen the pair sums into an `i32` accumulator. A 16-dimension chunk of scoring is a handful of integer SIMD instructions. On VNNI-capable CPUs (Ice Lake+, Zen 4+) the `maddubs + madd_epi16` pair compresses into a single `VPDPBUSD`; on ARMv8.2-A `SDOT` plays the same role. The 2-bit kernel uses paired-nibble lookup tables but the structure is identical.
 
-With that layout the dot product collapses to one popcount per plane:
+#### 1-bit: RaBitQ bit-plane scoring
 
-```
-v · q  =  2 · Σ_b  2^b · popcount(v AND plane_b)  −  Σ q
-```
-
-Each plane costs one `AND` plus one popcount — three instructions on AVX-512 with VPOPCNTDQ (`vpand` + `vpopcntq` + accumulate), a few more on AVX2/SSE via Muła's nibble-lookup trick, just `vcntq_u8` plus reductions on NEON. The asymmetric value-set choice — vector ∈ {−1, +1}, query bit ∈ {0, +1} — is what makes `AND` the natural backbone here; symmetric BQ uses XOR + popcount because both sides live in {−1, +1}, but the asymmetric setup falls out as `AND` + popcount instead. The algebra is from the RaBitQ paper; the SIMD instruction selection is in [Jojii's deep-dive](#further-reading).
-
-#### Why the kernel shape matters
-
-The architectural payoff is the same across both kernels: scoring throughput is bounded by **memory bandwidth on the bit-packed indices**, not by ALU utilization. That is the regime you want for a production index — once you are memory-bandwidth-bound, the rest of the system (cache hierarchy, NUMA placement, prefetch) keeps scaling for you; once you are ALU-bound, throughput stops scaling with anything except clock speed. The symmetric scoring path used by HNSW build and segment merges has its own simpler kernels — both sides are already small integers, no second-level query quantization needed — and a single stored artifact serves both paths.
+The 1-bit scoring path is **[RaBitQ](https://arxiv.org/abs/2405.12497)**'s as published. The data is one bit per coordinate (the sign of the rotated coordinate), bit-packed 128 dimensions per 16-byte chunk. The query is scalar-quantized to `B` bits per coordinate, then transposed into `B` bit-planes — one plane holds bit `b` of every query coordinate. With that layout the dot product becomes one `AND` plus one popcount per plane, weighted by `2^b` and summed.
 
 ## Detailed Benchmarks
 
@@ -229,14 +221,13 @@ TurboQuant gives Qdrant a new path on the compression ladder: 8× compression at
 
 **Engineering deep-dives by the team that built this:**
 
-* **[TurboQuant in Qdrant: tricks and ideas behind the implementation](https://turbo-quant-personal-site.pleshkov-ivan.workers.dev/blog/turboquant/)** — by Ivan Pleshkov. Every algorithmic extension explained: renormalization, the reversible LCG + Fisher-Yates Hadamard rotation, anisotropy compensation, P-Square calibration, support for L2 and unnormalized dot. Includes the ablation table that quantifies each extension's contribution to recall.
-* **[SIMD optimizations for TurboQuant scoring](TODO: link to Jojii's post)** — by Jojii. How the scoring hot path is implemented in Rust with AVX2 / AVX-512 / NEON intrinsics. Bit-packed storage, the 8-bit and 16-bit query precomputation paths, and how the kernels stay memory-bandwidth-bound rather than ALU-bound across modern CPU architectures.
+* **[TurboQuant in Qdrant: tricks and ideas behind the implementation](https://turbo-quant-personal-site.pleshkov-ivan.workers.dev/blog/turboquant/)** — by Ivan Pleshkov. Every algorithmic extension explained: renormalization, the reversible LCG + Fisher-Yates Hadamard rotation, anisotropy compensation, P-Square calibration, support for L2 and unnormalized dot. The post walks through each idea against the companion [Python showcase](https://github.com/IvanPleshkov/turboquant-qdrant-showcase) — a readable toy-implementation to see exactly how each piece works in practice.
 
 **Background:**
 
 * [TurboQuant: Redefining AI Efficiency with Extreme Compression](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/) — the original Google Research blog post.
 * [TurboQuant paper (arXiv:2504.19874)](https://arxiv.org/abs/2504.19874) — Zandieh et al., 2026.
-* [RaBitQ paper (arXiv:2405.12497)](https://arxiv.org/abs/2405.12497) — Gao & Long, SIGMOD 2024. The closely related rotation-based vector quantizer whose per-vector length-rescaling debiasing we adopted for TurboQuant in Qdrant. Worth reading alongside the TurboQuant paper to see how two independent lines of work converge on the same rotate-then-quantize core but diverge on the bias-correction details.
+* [RaBitQ paper (arXiv:2405.12497)](https://arxiv.org/abs/2405.12497) — Gao & Long.
 * [Interactive TurboQuant explainer](https://arkaung.github.io/interactive-turboquant/) by Arkar Min Aung — a hands-on, step-by-step walkthrough of the algorithm with interactive visualizations. The clearest high-level explanation of TurboQuant available, and a great place to build intuition before reading the paper.
 * [Scalar Quantization in Qdrant](https://qdrant.tech/articles/scalar-quantization/) — the int8 baseline this post refers to.
 * [Binary Quantization in Qdrant](https://qdrant.tech/articles/binary-quantization/) — the 1-bit baseline this post refers to.
