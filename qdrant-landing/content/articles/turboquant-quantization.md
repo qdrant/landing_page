@@ -123,17 +123,21 @@ TurboQuant's PROD variant spends an entire QJL random projection plus extra bits
 
 ### Per-Coordinate Calibration (Anisotropy Compensation)
 
-The rotation step gives every coordinate a roughly N(0, 1) distribution **on isotropic data** — the proof goes through the central limit theorem and does not extend to anisotropic embeddings, where a few directions concentrate most of the variance. After rotation those high-variance directions get spread across coordinates, but the per-coordinate distributions are not all identical Gaussians — they have different scales, different shapes, sometimes heavy tails. The Lloyd-Max codebook is fitted once for N(0, 1) and stays fixed, so coordinates that drift off the codebook grid waste centroids and lose recall.
+The rotation step gives every coordinate a roughly N(0, 1) distribution **on isotropic data** — the proof is based on uniformly distributed vectors across the sphere and does not extend to anisotropic embeddings, where a few directions concentrate most of the variance. After rotation those high-variance directions get spread across coordinates, but the per-coordinate distributions are not all identical Gaussians — they have different scales, different shapes, sometimes heavy tails. The Lloyd-Max codebook is fitted once for N(0, 1) and stays fixed, so coordinates that drift off the codebook grid waste centroid positions and lose recall.
 
 Because Qdrant stores data in segments, we can fix this per segment. For each segment we do a single **pre-pass** before quantization: estimate a `(shift, scale)` pair per coordinate after rotation, then apply `x → (x + shift) · scale` to pull the empirical per-coordinate distribution back onto the codebook's grid. The same `(shift, scale)` is baked into the segment's metadata and reused for every query that hits the segment.
 
-**This is free at search time** thanks to the asymmetric scoring scheme. Applying `(shift, scale)` on the data side would mean an extra multiply per coordinate per scored vector — unaffordable in the hot path. Instead we move that work onto the query: at query-encoding time we precompute the rescaled query and a single scalar score-bias term, once per query. The scoring kernel does not change shape, and storage stays at exactly `b·D` bits per vector.
+**This is free at search time** thanks to the asymmetric scoring scheme. The stored code is `x⁺ = (x + shift) · scale`, so the original vector is `x = x⁺ / scale − shift`. Plugging that into the dot product gives
+
+`⟨q, x⟩ = ⟨q / scale, x⁺⟩ − ⟨q, shift⟩`
+
+— the per-coordinate `1/scale` collapses into the query, and the `⟨q, shift⟩` term is a single scalar that depends only on the query. Both are computed **once per query**. The hot path still scores the raw `b·D`-bit code against a precomputed query, with one scalar added at the end; the scoring kernel does not change shape, and storage stays at exactly `b·D` bits per vector. All of the per-coordinate precision lives on the query side, where we have full float room to spend.
 
 **Why not just mean + stddev?** Mean-and-stddev rescaling assumes the post-rotation coordinates are Gaussian — exactly the assumption that breaks on anisotropic data, which is the case where we need calibration in the first place. We anchor calibration to the codebook itself instead: the `(shift, scale)` pair is fit so the empirical quantiles at the probability levels of the **outermost codebook centroid** land at that centroid. The quantiles themselves are estimated with the [P-Square algorithm](https://www.cse.wustl.edu/~jain/papers/ftp/psqr.pdf) (Jain & Chlamtac, 1985) — streaming, no parametric fit, constant memory per coordinate.
 
-**Sampling, not full scan.** Running P-Square over every vector in the segment would dominate index-build time. We instead sample a random subset of segment vectors using [Vitter's Algorithm R](https://en.wikipedia.org/wiki/Reservoir_sampling#Algorithm_R) (classical reservoir sampling), then run P-Square on the reservoir. The sample size is picked per bit-depth — the 4-bit codebook anchors at a deeper tail quantile than 1-bit, so it needs more samples to keep the estimator's variance flat. Full setup is in [Ivan's deep-dive](#further-reading).
+**Sampling, not full scan.** Running P-Square over every vector in the segment decreases index-build time. We instead sample a random subset of segment vectors using [Vitter's Algorithm R](https://en.wikipedia.org/wiki/Reservoir_sampling#Algorithm_R) (classical reservoir sampling), then run P-Square on the reservoir.
 
-On truly isotropic data the empirical quantiles match the theoretical Gaussian quantiles, the formula collapses to `(shift=0, scale=1)`, and the encoded vector is bit-identical to vanilla TurboQuant MSE. The extension never makes already-good data worse.
+Truly isotropic data matches the theoretical Gaussian quantiles, the formula collapses to `(shift=0, scale=1)`, and the encoded vector is bit-identical to vanilla TurboQuant. So the `(shift, scale)` correction never degrades isotropic data.
 
 ### L2 and Unnormalized Dot
 
