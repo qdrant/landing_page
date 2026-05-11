@@ -1,0 +1,1 @@
+Delete a named vector from an existing collection. This removes the vector schema and all associated data from every segment. Existing points lose this vector field; they are not otherwise affected.

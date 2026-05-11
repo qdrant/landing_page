@@ -1,0 +1,1 @@
+Create a new dense named vector on an existing collection. Only the immutable vector-space properties are required: size and distance. Storage type, index, and quantization can be configured separately afterward.

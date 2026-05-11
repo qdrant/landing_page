@@ -131,7 +131,7 @@ $$
 
 Where $N$ is the number of vectors in the first matrix, $M$ is the number of vectors in the second matrix, and $\text{Sim}$ is a similarity function, for example, cosine similarity.
 
-To use multivectors, create a collection with the following configuration:
+To use multivectors, create a dense vector with a multivector comparator:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-multivector/" >}}
 
@@ -148,7 +148,7 @@ To search with multivector (available in `query` API):
 
 In Qdrant, you can store multiple vectors of different sizes and [types](#vector-types) in the same data [point](/documentation/manage-data/points/). This is useful when you need to define your data with multiple embeddings to represent different features or modalities (e.g., image, text or video). 
 
-To store different vectors for each point, you need to create separate named vector spaces in the [collection](/documentation/manage-data/collections/). You can define these vector spaces during collection creation and manage them independently.
+To store different vectors for each point, you need to create separate named vector spaces in the [collection](/documentation/manage-data/collections/). You can define these vector spaces during collection creation or [add them later](#adding-and-removing-named-vectors) and manage them independently.
 
 <aside role="status">
 Each vector should have a unique name. Vectors can represent different modalities and you can use different embedding models to generate them.
@@ -165,6 +165,19 @@ To insert a point with named vectors:
 To search with named vectors (available in `query` API):
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/named-vector/" >}}
+
+### Adding and Removing Named Vectors
+
+*Available as of v1.18.0*
+
+Named vectors can be added to or removed from an existing collection without having to recreate the collection.
+
+For example:
+
+{{< code-snippet path="/documentation/headless/snippets/create-named-vector/dense/" >}}
+
+Refer to [Update Vectors](/documentation/manage-data/collections/#update-vectors) for more details.
+
 
 ## Inference
 

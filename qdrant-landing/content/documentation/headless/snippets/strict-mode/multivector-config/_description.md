@@ -1,0 +1,1 @@
+This code snippet sets `multivector_config` on the strict mode configuration to cap the maximum number of vectors per multivector for a named vector.
