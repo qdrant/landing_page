@@ -80,7 +80,7 @@ Recall, HNSW (`m=16`, `ef_construct=128`). Four datasets shown here for orientat
 
 Three main observations:
 
-1. **TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ up to 4.6 pp.
+1. **TQ 4-bit is competitive with SQ at half the storage.** On `arxiv-instructorxl` and `dbpedia-gemini` it is about 1 pp below SQ; on `dbpedia-openai-ada` and `wiki-cohere-v3` it actually *beats* SQ by up to 4.6 pp.
 2. **TQ 2-bit beats BQ 2-bit by 11–15 pp** on these four datasets (and 9–24 pp across all ten datasets), at the same 16× storage.
 3. **TQ 1-bit beats vanilla BQ 1-bit by 9–21 pp** on these four datasets (and 9–21 pp across all ten datasets), at the same 32× storage.
 
@@ -106,7 +106,7 @@ Qdrant ships the MSE variant for three reasons:
 
 ## What Qdrant Adds
 
-TurboQuant is not the only rotation-based vector quantization algorithm in this design space — **[RaBitQ (Gao & Long, SIGMOD 2024)](https://arxiv.org/abs/2405.12497)** also develops the same rotate-then-quantize foundation, with different choices on implementation details. Qdrant borrows the ideas from both algrorithms to achieve production-ready quality of quantization: rotations from both, LLoyd-Max from turbo quant, renormalization and 1bit asymmetric scoring from RaBitQ. Also we have our extension described below.
+TurboQuant is not the only rotation-based vector quantization algorithm in this design space — **[RaBitQ (Gao & Long, SIGMOD 2024)](https://arxiv.org/abs/2405.12497)** also develops the same rotate-then-quantize foundation, with different implementation details. Qdrant borrows the ideas from both algorithms to achieve production-ready quantization quality: rotations from both, Lloyd-Max from TurboQuant, renormalization and 1-bit asymmetric scoring from RaBitQ. We also add our own extensions on top.
 
 Let's describe each extension over the vanilla MSE TurboQuant separately.
 
@@ -135,19 +135,19 @@ Because Qdrant stores data in segments, we can fix this per segment. For each se
 
 **Why not just mean + stddev?** Mean-and-stddev rescaling assumes the post-rotation coordinates are Gaussian — exactly the assumption that breaks on anisotropic data, which is the case where we need calibration in the first place. We anchor calibration to the codebook itself instead: the `(shift, scale)` pair is fit so the empirical quantiles at the probability levels of the **outermost codebook centroid** land at that centroid. The quantiles themselves are estimated with the [P-Square algorithm](https://www.cse.wustl.edu/~jain/papers/ftp/psqr.pdf) (Jain & Chlamtac, 1985) — streaming, no parametric fit, constant memory per coordinate.
 
-**Sampling, not full scan.** Running P-Square over every vector in the segment decreases index-build time. We instead sample a random subset of segment vectors using [Vitter's Algorithm R](https://en.wikipedia.org/wiki/Reservoir_sampling#Algorithm_R) (classical reservoir sampling), then run P-Square on the reservoir.
+**Sampling, not full scan.** Running P-Square over every vector in the segment increases index-build time. We instead sample a random subset of segment vectors using [Vitter's Algorithm R](https://en.wikipedia.org/wiki/Reservoir_sampling#Algorithm_R) (classical reservoir sampling), then run P-Square on the reservoir.
 
 Truly isotropic data matches the theoretical Gaussian quantiles, the formula collapses to `(shift=0, scale=1)`, and the encoded vector is bit-identical to vanilla TurboQuant. So the `(shift, scale)` correction never degrades isotropic data.
 
 ### L2 and Unnormalized Dot
 
-Vanilla TurboQuant assumes all inputs live on the unit sphere — that is, cosine distance only. We extend the algorithm beyond the sphere by **storing the original L2 norm** and restore L2 and Unnormalized dot from normalized one, so dot and L2 cost the same as cosine in the hot path.
+Vanilla TurboQuant assumes all inputs live on the unit sphere — that is, cosine distance only. We extend the algorithm beyond the sphere by **storing the original L2 norm** and restoring L2 and unnormalized dot from normalized one, so dot and L2 cost the same as cosine in the hot path.
 
 L2 distances are reconstructed via the identity `‖q − v‖² = ‖q‖² + ‖v‖² − 2⟨q, v⟩ = ‖q‖² + ‖v‖² − 2 ‖v‖ ‖q‖ ⟨q_normalized, v_normalized⟩`, where all components on the right-hand side are already available.
 
 Net result: **cosine, dot, and L2 are all first-class** in Qdrant's TurboQuant — same storage layout, same kernels, no precision tax for the non-cosine metrics.
 
-L1 is also supported by full vector reconstruction while scoring. Random orthogonal rotation preserves the L2 norm but not the L1 norm, which is the foundational invariant the entire algorithm relies on. There is no clean way to make L1 work without inverting the rotation per score, which would defeat the speedup. If your similarity is L1, stick with SQ.
+L1 is also supported by full vector reconstruction at scoring time. Random orthogonal rotation preserves the L2 norm but not the L1 norm, which is the foundational invariant the entire algorithm relies on. There is no clean way to make L1 work without inverting the rotation per score, which would defeat the speedup. If your similarity is L1, stick with SQ.
 
 ### SIMD Acceleration
 
@@ -165,7 +165,7 @@ With those two pieces, the inner loop collapses to: `pshufb` for the codebook lo
 
 #### 1-bit: RaBitQ bit-plane scoring
 
-The 1-bit scoring path follows **[RaBitQ](https://arxiv.org/abs/2405.12497)** as is, without specific modifications. The data is one bit per coordinate (the sign of the rotated coordinate), bit-packed at 128 dimensions per 16-byte chunk. The query is scalar-quantized to `B` bits per coordinate, then transposed into `B` bit-planes — one plane holds bit `b` of every query coordinate. With that layout, the dot product becomes one `AND` plus one popcount per plane, weighted by `2^b` and summed.
+The 1-bit scoring path follows **[RaBitQ](https://arxiv.org/abs/2405.12497)** as-is, without specific modifications. The data is one bit per coordinate (the sign of the rotated coordinate), bit-packed at 128 dimensions per 16-byte chunk. The query is scalar-quantized to `B` bits per coordinate, then transposed into `B` bit-planes — one plane holds bit `b` of every query coordinate. With that layout, the dot product becomes one `AND` plus one popcount per plane, weighted by `2^b` and summed.
 
 ## Detailed Benchmarks
 
