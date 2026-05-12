@@ -80,7 +80,7 @@ Recall, HNSW (`m=16`, `ef_construct=128`), on four representative datasets — [
 
 ## What Is TurboQuant?
 
-TurboQuant ([Zandieh et al., 2026](https://arxiv.org/abs/2504.19874)) is a rotation-based vector quantization algorithm in the PQ family, with a clean theoretical recipe:
+TurboQuant ([Zandieh et al., 2026](https://arxiv.org/abs/2504.19874)) is a rotation-based vector quantization algorithm in the Product Quantization (PQ) family, with a clean theoretical recipe:
 
 1. **Apply a random orthogonal rotation** to every vector. This redistributes per-coordinate variance evenly; after rotation each coordinate looks roughly Gaussian with the same variance.
 2. **Quantize each coordinate independently** with a fixed lookup table of representative values (Lloyd-Max codebook) for the standard normal distribution. One codebook of `2^b` levels for the entire dataset, hard-coded as a small lookup table.
