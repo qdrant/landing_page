@@ -77,6 +77,7 @@ Design the collection before writing any queries. The point granularity is the c
 ```python
 from qdrant_client import QdrantClient, models
 
+# Replace url and api_key with your own from https://cloud.qdrant.io
 client = QdrantClient(
     url="https://xyz-example.qdrant.io:6333",
     api_key="<your-api-key>",
@@ -219,11 +220,12 @@ For when RRF isn't enough:
 ```python
 query=models.FormulaQuery(
     formula=models.SumExpression(sum=[
-        "$score[0]",
+        models.MultExpression(mult=[1.0, "$score[0]"]),
         models.MultExpression(mult=[0.5, "$score[1]"]),
-        models.MultExpression(mult=[0.3, "$score[2]"]),
+        models.MultExpression(mult=[0.4, "$score[2]"]),
+        models.MultExpression(mult=[0.3, "$score[3]"]),
     ]),
-    defaults={"$score[1]": 0.0, "$score[2]": 0.0},
+    defaults={"$score[1]": 0.0, "$score[2]": 0.0, "$score[3]": 0.0},
 ),
 ```
 
