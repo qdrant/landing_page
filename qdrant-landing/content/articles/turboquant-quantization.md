@@ -218,7 +218,7 @@ TurboQuant gives Qdrant a new path on the compression ladder: 8× compression at
 
 **Engineering deep-dives by the team that built this:**
 
-* **[TurboQuant + RaBitQ: a hybrid approach in Qdrant](https://turbo-quant-personal-site.pleshkov-ivan.workers.dev/blog/turboquant/)** — by [Ivan Pleshkov](https://www.linkedin.com/in/ivan-pleshkov/). Every algorithmic extension explained: renormalization, the reversible LCG + Fisher-Yates Hadamard rotation, anisotropy compensation, P-Square calibration, support for L2 and unnormalized dot. The post walks through each idea against the companion [Python showcase](https://github.com/IvanPleshkov/turboquant-qdrant-showcase) — a readable toy-implementation to see exactly how each piece works in practice.
+* **[TurboQuant + RaBitQ: a hybrid approach in Qdrant](https://ivanpleshkov.dev/blog/turboquant/)** — by [Ivan Pleshkov](https://www.linkedin.com/in/ivan-pleshkov/). Every algorithmic extension explained: renormalization, the reversible LCG + Fisher-Yates Hadamard rotation, anisotropy compensation, P-Square calibration, support for L2 and unnormalized dot. The post walks through each idea against the companion [Python showcase](https://github.com/IvanPleshkov/turboquant-qdrant-showcase) — a readable toy-implementation to see exactly how each piece works in practice.
 
 **Background:**
 
