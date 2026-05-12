@@ -110,9 +110,9 @@ Because Qdrant stores data in segments, we can fix this per segment. For each se
 
 * **This is free at search time** thanks to the asymmetric scoring scheme. The stored code is `x⁺ = (x + shift) · scale`, so the original vector is `x = x⁺ / scale − shift`. Plugging that into the dot product gives
 
-`⟨q, x⟩ = ⟨q / scale, x⁺⟩ − ⟨q, shift⟩`
+  `⟨q, x⟩ = ⟨q / scale, x⁺⟩ − ⟨q, shift⟩`
 
-— the per-coordinate `1/scale` collapses into the query, and the `⟨q, shift⟩` term is a single scalar that depends only on the query. Both are computed **once per query**. The hot path still scores the raw `b·D`-bit code against a precomputed query, with one scalar added at the end; the scoring kernel does not change shape, and storage stays at exactly `b·D` bits per vector. All of the per-coordinate precision lives on the query side, where we have full float room to spend.
+  — the per-coordinate `1/scale` collapses into the query, and the `⟨q, shift⟩` term is a single scalar that depends only on the query. Both are computed **once per query**. The hot path still scores the raw `b·D`-bit code against a precomputed query, with one scalar added at the end; the scoring kernel does not change shape, and storage stays at exactly `b·D` bits per vector. All of the per-coordinate precision lives on the query side, where we have full float room to spend.
 
 * **Why not just mean + stddev?** Mean-and-stddev rescaling assumes the post-rotation coordinates are Gaussian — exactly the assumption that breaks on anisotropic data, which is the case where we need calibration in the first place. We anchor calibration to the codebook itself instead: the `(shift, scale)` pair is fit so the empirical quantiles at the probability levels of the **outermost codebook centroid** land at that centroid. The quantiles themselves are estimated with the [P-Square algorithm](https://www.cse.wustl.edu/~jain/papers/ftp/psqr.pdf) (Jain & Chlamtac, 1985) — streaming, no parametric fit, constant memory per coordinate.
 
