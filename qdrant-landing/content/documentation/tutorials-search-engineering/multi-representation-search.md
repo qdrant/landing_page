@@ -99,7 +99,12 @@ client.create_collection(
     },
 )
 
-# Index the 'tags' payload as keyword so we can filter on category at query time.
+# Index 'document_id' so the Query API can group by it; index 'tags' so we can filter on category.
+client.create_payload_index(
+    collection_name="arxiv_multi_repr",
+    field_name="document_id",
+    field_schema=models.PayloadSchemaType.KEYWORD,
+)
 client.create_payload_index(
     collection_name="arxiv_multi_repr",
     field_name="tags",
@@ -159,7 +164,7 @@ for paper in papers:
             },
         ))
 
-client.upload_points(collection_name="arxiv_multi_repr", points=points, batch_size=64)
+client.upload_points(collection_name="arxiv_multi_repr", points=points, batch_size=256, parallel=2)
 ```
 
 After the upload completes, opening any point in the Qdrant Cloud UI shows all four named vectors attached to one chunk. `dense_chunk` carries the chunk's own embedding, while `dense_title`, `dense_abstract`, and `sparse_title` are the same across every chunk of this paper.
