@@ -4,7 +4,7 @@ title: "Articles"
 type: delimiter
 weight: 100 # Change this weight to change order of sections
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: learn

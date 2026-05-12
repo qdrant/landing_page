@@ -4,7 +4,7 @@ type: reference
 reference: /documentation/tutorials-basics
 weight: 311
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: learn

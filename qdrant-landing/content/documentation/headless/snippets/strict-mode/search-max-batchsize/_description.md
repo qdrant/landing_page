@@ -1,0 +1,1 @@
+This code snippet sets `search_max_batchsize` on the strict mode configuration to cap the maximum number of searches in a single batch request.

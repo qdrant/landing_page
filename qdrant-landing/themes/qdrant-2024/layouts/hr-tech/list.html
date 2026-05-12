@@ -4,10 +4,10 @@
   {{ range .Params.sections }}
     {{ $type := .type }}
     {{ $special := dict
-      "cta-banner" "partials/cta-banner.html"
+      "cta-banner" "cta-banner.html"
     }}
 
-    {{ $partialPath := (index $special $type) | default (printf "partials/industries/industries-%s.html" $type) }}
+    {{ $partialPath := (index $special $type) | default (printf "industries/industries-%s.html" $type) }}
     {{ partial $partialPath (dict "Params" .) }}
   {{ end }}
 

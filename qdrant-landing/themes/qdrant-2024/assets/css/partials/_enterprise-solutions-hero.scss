@@ -49,8 +49,16 @@
     }
   }
 
-  .customers-hero__overlay {
-    bottom: pxToRem(-48);
+  &__overlay {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: pxToRem(-17);
+    width: 100%;
+    height: pxToRem(200);
+    background-image: url('/img/blurred/blurred-light-12.svg');
+    background-position: center;
+    background-size: cover;
   }
 
   @include media-breakpoint-up(lg) {

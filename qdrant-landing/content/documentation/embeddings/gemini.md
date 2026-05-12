@@ -41,11 +41,14 @@ texts = [
     "Gemini is a family of natively multimodal, large language models (LLMs).",
 ]
 
-result = gemini_client.models.embed_content(
-    model="gemini-embedding-2",
-    contents=texts,
-    config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT"),
-)
+embeddings = [
+    gemini_client.models.embed_content(
+        model="gemini-embedding-2",
+        contents=text,
+        config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT"),
+    ).embeddings[0]
+    for text in texts
+]
 ```
 
 ```typescript
@@ -60,12 +63,19 @@ const texts = [
   "Gemini is a family of natively multimodal, large language models (LLMs).",
 ];
 
-const result = await geminiClient.models.embedContent({
-  model: "gemini-embedding-2",
-  contents: texts,
-  config: { taskType: "RETRIEVAL_DOCUMENT" },
-});
+const embeddings = await Promise.all(
+  texts.map(async (text) => {
+    const result = await geminiClient.models.embedContent({
+      model: "gemini-embedding-2",
+      contents: text,
+      config: { taskType: "RETRIEVAL_DOCUMENT" },
+    });
+    return result.embeddings[0];
+  })
+);
 ```
+
+> Note: `gemini-embedding-2` returns one aggregated embedding when given multiple inputs. Embed each text separately and parallelize on the caller side.
 
 ## Creating Qdrant Points and Indexing documents with Qdrant
 
@@ -78,14 +88,14 @@ points = [
         vector=embedding.values,
         payload={"text": text},
     )
-    for idx, (embedding, text) in enumerate(zip(result.embeddings, texts))
+    for idx, (embedding, text) in enumerate(zip(embeddings, texts))
 ]
 ```
 
 ```typescript
 const points = texts.map((text, idx) => ({
   id: idx,
-  vector: result.embeddings[idx].values,
+  vector: embeddings[idx].values,
   payload: { text },
 }));
 ```

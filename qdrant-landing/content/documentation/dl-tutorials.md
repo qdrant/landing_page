@@ -6,7 +6,7 @@ description: "Hands-on Qdrant tutorials for semantic and hybrid search, retrieva
 type: delimiter
 weight: 400 # Change this weight to change order of sections
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: develop

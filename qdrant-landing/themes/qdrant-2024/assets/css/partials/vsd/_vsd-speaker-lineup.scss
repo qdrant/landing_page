@@ -48,7 +48,7 @@
 
   &__description {
     margin-bottom: 0;
-    font-size: $font-size-md;
+    font-size: pxToRem(15);
     line-height: $spacer * 1.5;
     text-align: center;
     color: #ABB1C7;
@@ -58,56 +58,35 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 0 pxToRem(-40);
-    width: calc(100% + pxToRem(80));
-    position: relative;
-    
-    &:before,
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      height: calc(100% + pxToRem(1));
-      width: pxToRem(110);
-      top: pxToRem(-1);
-    }
-    
-    &:before {
-      left: pxToRem(-30);
-      background: linear-gradient(90deg, $neutral-10 50%, rgba($neutral-10, 0) 100%);
-    }
-
-    &:after {
-      right: pxToRem(-30);
-      background: linear-gradient(90deg, rgba($neutral-10, 0) 0%, $neutral-10 50%);
-    }
+    align-content: center;
+    align-items: center;
+    width: 100%;
   }
 
   &__logo {
-    padding: pxToRem(11) $spacer * 2.5;
+    padding: pxToRem(11) pxToRem(32);
     border: pxToRem(1) solid #303547;
     margin-top: pxToRem(-1);
     margin-left: pxToRem(-1);
-    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
     img {
       height: pxToRem(27);
     }
-    
-    &:nth-of-type(3) {
-      margin-right: pxToRem(120);
-      margin-left: pxToRem(120);
-    }
   }
 
-  @include media-breakpoint-up(sm) {
-    &__logo {
-      &:nth-of-type(3) {
-        margin-right: 0;
-        margin-left: pxToRem(-1);
-      }
-    }
+  &__disclaimer {
+    margin: 0;
+    max-width: pxToRem(640);
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    text-align: center;
+    color: #8B92A8;
   }
-  
+
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 5;
@@ -126,7 +105,7 @@
     }
 
     &__description {
-      font-size: $font-size-l;
+      font-size: pxToRem(17);
       line-height: $line-height-lg;
     }
   }

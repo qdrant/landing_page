@@ -34,9 +34,6 @@ features:
     alt: Rocket
   title: Events
   description: Meet us at upcoming hackathons, meetups, webinars and conferences.
-  link:
-    text: Learn More
-    url: https://try.qdrant.tech/events
 - id: 4
   icon:
     src: /icons/outline/guide-blue.svg

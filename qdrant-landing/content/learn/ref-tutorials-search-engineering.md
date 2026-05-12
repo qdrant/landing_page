@@ -4,7 +4,7 @@ type: reference
 reference: /documentation/tutorials-search-engineering
 weight: 312
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: learn

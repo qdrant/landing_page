@@ -33,11 +33,7 @@ Distribute incoming requests evenly across cluster nodes to ensure consistent pe
 
 Compress vectors to reduce memory footprint. [Quantization](/documentation/manage-data/quantization/) is one of the most impactful changes you can make before going to production.
 
-- **Evaluate whether [Scalar Quantization](/documentation/manage-data/quantization/#scalar-quantization) fits your use case.**
-Scalar quantization converts `float32` to `uint8`, reducing memory by a factor of 4. The right default for most production workloads, especially with high-dimensional vectors.
-
-- **Consider [Binary Quantization](/documentation/manage-data/quantization/#binary-quantization) for maximum compression.**
-Binary quantization reduces memory by a factor of 32 and can significantly speed up searches. Best suited for compatible high-dimensional embedding models (for example, OpenAI `text-embedding-ada-002` or Cohere `embed-english-v2.0`).
+- **Quantization** reduces the memory footprint of vectors, by compressing them to fewer bits. This enables you to store more vectors in memory and on disk, which can improve query performance and reduce costs. Qdrant supports multiple quantization methods, each with different trade-offs between recall, speed, and compression. [Choose the right method](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method) based on your requirements for recall, compression, and distance metrics.
 
 - **Benchmark retrieval quality after applying quantization.**
 Some models produce embeddings that can't be quantized efficiently. [Verify](/documentation/manage-data/quantization/#accuracy-tuning) that error rates stay within your acceptable threshold for your specific dataset and query patterns. Rescoring adds latency. [Tune](/documentation/manage-data/quantization/#memory-and-speed-tuning) quantization settings to ensure it meets your performance targets.

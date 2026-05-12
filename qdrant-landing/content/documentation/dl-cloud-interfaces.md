@@ -7,7 +7,7 @@ type: delimiter
 weight: 25 # Change this weight to change order of sections
 hideInSidebar: true
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: deploy

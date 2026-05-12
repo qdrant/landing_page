@@ -4,7 +4,7 @@ type: reference
 reference: /course/multi-vector-search
 weight: 220
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: learn

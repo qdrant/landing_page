@@ -6,7 +6,7 @@ description: "Support resources for Qdrant Cloud users — community Discord, do
 type: delimiter
 weight: 300
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: deploy

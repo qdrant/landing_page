@@ -6,7 +6,7 @@ description: "Tools for working with Qdrant — the qcloud CLI, MCP server, web 
 type: delimiter
 weight: 300 # Change this weight to change order of sections
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: develop

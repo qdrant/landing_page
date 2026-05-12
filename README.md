@@ -65,8 +65,7 @@
 ## Run
 
 ```bash
-cd qdrant-landing
-hugo serve
+./run.sh
 ```
 
 Open http://localhost:1313/ in your browser.

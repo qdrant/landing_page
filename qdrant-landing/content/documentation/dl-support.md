@@ -6,7 +6,7 @@ description: "Support options for Qdrant — community channels on Discord and G
 type: delimiter
 weight: 500 # Change this weight to change order of sections
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: develop

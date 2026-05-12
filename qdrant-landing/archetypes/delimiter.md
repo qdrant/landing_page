@@ -4,7 +4,7 @@ title: "{{ replace .Name "-" " " | title }}"
 type: delimiter
 weight: 0 # Change this weight to change order of sections
 sitemapExclude: True
-_build:
+build:
   list: never
   publishResources: false
   render: never
