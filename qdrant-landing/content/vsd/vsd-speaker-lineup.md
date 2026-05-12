@@ -1,6 +1,6 @@
 ---
 title: Full Speaker Lineup Coming Soon
-description: "We're building a handpicked lineup of technical talks across 3 agenda tracks:<br>Search & AI Retrieval, Agents & Memory, and Edge & Robotics A.<br class=\"mb-2\">We’ve locked in a strong lineup including Llamaindex, mem0, Neo4j, Google Deepmind, and more.<br class=\"mb-2\">Proposal submissions are closed, but if you missed the May 6 deadline, send yours in anyway."
+description: "We're building a handpicked lineup of technical talks across 3 agenda tracks:<br>Search & AI Retrieval, Agents & Memory, and Edge & Robotics AI.<br class=\"mb-2\">We’ve locked in a strong lineup including Llamaindex, mem0, Neo4j, Google Deepmind, and more.<br class=\"mb-2\">Proposal submissions are closed, but if you missed the May 6 deadline, send yours in anyway."
 logos:
   - id: 0
     src: /img/vsd-logos/LlamaIndex.svg
