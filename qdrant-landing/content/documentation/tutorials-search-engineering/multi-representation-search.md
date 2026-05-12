@@ -10,11 +10,13 @@ aliases:
 | Time: 45 min | Level: Intermediate | Output: [GitHub](https://github.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb) |
 | --- | ----------- | ----------- | ----------- |
 
-A document is rarely well-represented by a single embedding. A paper has a title, an abstract, body chunks, and category tags, each carrying a different signal. Treat all four as one dense vector and the title gets averaged out, and chunk-level grounding for downstream reasoning is gone.
+A document is rarely well-represented by a single embedding. A paper has a title, an abstract, body chunks, and category tags, each carrying a different signal. Treat all four as one dense vector and the title gets averaged out; chunk-level grounding for downstream reasoning disappears.
 
-This tutorial builds retrieval that uses each representation deliberately: named vectors per representation, fused via the Query API, grouped back to the document level for presentation, with score boosting for ranking preferences. Each step targets a specific retrieval failure mode you'd hit in production.
+This tutorial builds retrieval that uses each representation deliberately: named vectors per representation, fused via the Query API and grouped back to the document level for presentation.
 
 This tutorial assumes you've built hybrid (dense plus sparse) search before, that you're comfortable with [named vectors](/documentation/manage-data/vectors/#named-vectors), the [Query API](/documentation/search/hybrid-queries/), Reciprocal Rank Fusion (RRF), and Best Matching 25 (BM25). If hybrid search is new, start with the [hybrid search section of the Text Search guide](/documentation/search/text-search/#combining-semantic-and-lexical-search-with-hybrid-search) first.
+
+If you'd rather read the code, the [accompanying notebook](https://github.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb) walks through this pipeline step by step with eval numbers at each stage.
 
 ## Setup
 
@@ -30,9 +32,9 @@ This tutorial uses <a href="/documentation/inference/#qdrant-cloud-inference">Qd
 
 ## Dataset
 
-You'll work with 20 000 arXiv papers from the [`gfissore/arxiv-abstracts-2021`](https://huggingface.co/datasets/gfissore/arxiv-abstracts-2021) Hugging Face dataset, filtered to ML/CS categories and to papers from 2018 onward, since earlier ML papers predate most of the topics queries care about. Each paper has a title, an abstract, and category tags, which gives you three natural text representations once the abstract is split into chunks (title, full abstract, abstract sentences as chunks), plus categories as filterable metadata.
+You'll work with 20 000 ML/CS arXiv papers (2018 and later) from the [`gfissore/arxiv-abstracts-2021`](https://huggingface.co/datasets/gfissore/arxiv-abstracts-2021) dataset. Each paper has a title, an abstract, and category tags, giving you three text representations once the abstract is chunked, plus categories as filterable metadata.
 
-arXiv abstracts are short enough to fit any dense embedding model's context window, so chunking isn't strictly required for this dataset. We chunk here because the same pipeline shape (chunk-level retrieval, document-level grouping) is what you'd use on full paper bodies in production, where context limits force the issue. The abstract stands in for what would be a longer body field in your own corpus. We use a fixed-length sentence chunker for simplicity; the right chunking strategy depends on your document structure.
+arXiv abstracts fit any dense model's context window, so chunking isn't strictly required for this dataset. We chunk anyway because the pipeline shape (chunk-level retrieval, document-level grouping) is what you'd use on full paper bodies in production. A fixed-length sentence chunker keeps the example simple; the right strategy depends on your document structure.
 
 ```python
 from datasets import load_dataset
@@ -239,11 +241,11 @@ Use a reranker when the preference is "this is more relevant than that" but you 
 
 ---
 
-For the step-by-step build-up that produced this design (dense baseline, plus sparse, plus title prefetch, plus grouping, plus boosting) with eval numbers showing the lift at each step, see the [accompanying notebook](https://github.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb). For a complementary view that varies the *query* across three representations against a single document representation, see the [Universal Query for Hybrid Retrieval demo](/course/essentials/day-5/universal-query-demo/). This tutorial is the document-side equivalent: multiple document representations against a single query.
+For the step-by-step build-up that produced this design (dense baseline, plus sparse, plus title prefetch, plus grouping, plus boosting) with eval numbers showing the lift at each step, see the [accompanying notebook](https://github.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb). For a complementary view that varies the *query* across three representations against a single document representation, see the [Universal Query for Hybrid Retrieval demo](/course/essentials/day-5/universal-query-demo/).
 
 ## Wrapping Up
 
-Multi-representation retrieval is a schema decision, not a model decision. Once each representation has its own named vector, the Query API composes them at query time: prefetch per representation, fuse with RRF, group by document for presentation, and apply a formula for ranking preferences.
+Multi-representation retrieval is a schema decision, not a model decision. Once each representation has its own named vector, the Query API composes them at query time: prefetch per representation, fuse with RRF, and group by document for presentation. Use a `FormulaQuery` or weighted fusion when you need finer control over scoring.
 
 Related reading:
 
