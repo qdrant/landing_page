@@ -42,21 +42,7 @@ TurboQuant adds a new path with four operating points: 8× (4 bits/dim), 16× (2
 
 To enable TurboQuant, specify it in the `quantization_config` section of the collection configuration:
 
-```http
-PUT /collections/{collection_name}
-{
-    "vectors": {
-        "size": 1536,
-        "distance": "Cosine"
-    },
-    "quantization_config": {
-        "turbo": {
-            "bits": "bits4",
-            "always_ram": true
-        }
-    }
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-turbo-quant-bits/" >}}
 
 When enabling TurboQuant on an existing collection, use a `PATCH` request — or the corresponding `update_collection` method in any client SDK.
 
