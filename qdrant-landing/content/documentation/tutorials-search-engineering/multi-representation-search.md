@@ -16,7 +16,7 @@ This tutorial builds retrieval that uses each representation deliberately: named
 
 This tutorial assumes you've built hybrid (dense plus sparse) search before, that you're comfortable with [named vectors](/documentation/manage-data/vectors/#named-vectors), the [Query API](/documentation/search/hybrid-queries/), Reciprocal Rank Fusion (RRF), and Best Matching 25 (BM25). If hybrid search is new, start with the [hybrid search section of the Text Search guide](/documentation/search/text-search/#combining-semantic-and-lexical-search-with-hybrid-search) first.
 
-If you'd rather read the code, the [accompanying notebook](https://github.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb) walks through this pipeline step by step with eval numbers at each stage.
+If you'd rather read the code, the [accompanying notebook](https://githubtocolab.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb) walks through this pipeline step by step with eval numbers at each stage.
 
 ## Setup
 
@@ -243,7 +243,7 @@ Use a reranker when the preference is "this is more relevant than that" but you 
 
 ---
 
-For the step-by-step build-up that produced this design (dense baseline, plus sparse, plus title prefetch, plus grouping, plus boosting) with eval numbers showing the lift at each step, see the [accompanying notebook](https://github.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb). For a complementary view that varies the *query* across three representations against a single document representation, see the [Universal Query for Hybrid Retrieval demo](/course/essentials/day-5/universal-query-demo/).
+For the step-by-step build-up that produced this design (dense baseline, plus sparse, plus title prefetch, plus grouping, plus boosting) with eval numbers showing the lift at each step, see the [accompanying notebook](https://githubtocolab.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb). For a complementary view that varies the *query* across three representations against a single document representation, see the [Universal Query for Hybrid Retrieval demo](/course/essentials/day-5/universal-query-demo/).
 
 ## Wrapping Up
 
