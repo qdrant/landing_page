@@ -114,9 +114,9 @@ client.create_payload_index(
 
 Each vector covers a different signal: `dense_chunk` for chunk content, `dense_title` and `sparse_title` for the title (dense and lexical respectively), `dense_abstract` for the abstract as a whole.
 
-Categories live in the `tags` payload with a keyword index, so queries can pre-filter by category.
+Categories live in the `tags` payload with a [keyword index](/documentation/manage-data/indexing/#payload-index), so queries can pre-filter by category.
 
-Title and abstract vectors are duplicated across every chunk of the same document. That trades storage for query simplicity: one collection, one Query API call, every representation reachable from any point. For the typical case (a few dozen chunks per document, embeddings under a kilobyte each), inline storage is the simpler choice. To split heavy document-level payload into a separate collection and pull it back at grouping time, see [Lookup in groups](/documentation/search/search/#lookup-in-groups).
+Title and abstract vectors are duplicated across every chunk of the same document. That trades storage for query simplicity: one collection, one Query API call, every representation reachable from any point. For 20 000 documents at 24 chunks each, the duplicated vectors add ~1.4 GB; storing them once per document in a sidecar collection would be ~60 MB. See [Calculating RAM size](/documentation/capacity-planning/#calculating-ram-size) for how to price this on your own corpus, and [Lookup in groups](/documentation/search/search/#lookup-in-groups) to split heavy fields out and rejoin at grouping time.
 
 Ingestion produces one point per chunk and reuses the title and abstract embeddings.
 
@@ -253,6 +253,8 @@ For the step-by-step build-up that produced this design (dense baseline, plus sp
 ## Wrapping Up
 
 Multi-representation retrieval is a schema decision, not a model decision. Once each representation has its own named vector, the Query API composes them at query time: prefetch per representation, fuse with RRF, and group by document for presentation. Use a `FormulaQuery` or weighted fusion when you need finer control over scoring.
+
+Real corpora rarely have clean metadata across every document. If yours has gaps and you're unsure how to adapt this pipeline, ask in [Discord](https://discord.com/invite/qdrant). We want to hear the shape of your data.
 
 Related reading:
 
