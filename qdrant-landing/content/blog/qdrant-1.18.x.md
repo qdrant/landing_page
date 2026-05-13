@@ -101,7 +101,7 @@ The same data is available [through Qdrant's API](/documentation/ops-monitoring/
 
 When a collection's vector schema needed to change, for example, when adding support for a new embedding model or retiring an old one, there was no way to update it in place. The only option was to recreate the collection from scratch and re-ingest all points.
 
-Version 1.18 makes it possible to [add and remove named vectors](/documentation/manage-data/collections/#update-vectors) to an existing collection's schema without having to recreate it. This makes embedding model migration considerably easier. You can now add a new vector field, populate it in the background, and remove the old one when you're ready.
+Version 1.18 makes it possible to [add and remove named vectors](/documentation/manage-data/collections/#update-vector-schema) to an existing collection's schema without having to recreate it. This makes embedding model migration considerably easier. You can now add a new vector field, populate it in the background, and remove the old one when you're ready.
 
 ## Audit Logging Improvements
 
