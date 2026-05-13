@@ -15,50 +15,49 @@ model](/articles/how-to-choose-an-embedding-model/). Over time, you may want to 
 quality or cost-effectiveness. If your application is in production, this must be done with zero downtime to avoid 
 disrupting users. Switching models requires re-embedding all vectors in your collection, which can take time.
 
-This tutorial will guide you step-by-step through the two options for migrating to a new model.
+This tutorial will guide you step-by-step through the two options for migrating to a new model with zero downtime.
+
+Re-embedding requires access to the original data used to create the embeddings. This data can come from a primary database, or it may be stored in the payloads of the points in Qdrant. This tutorial assumes that the necessary data is stored in the payloads. This is usually the case, as the payload often contains the text or other data that was used to generate the embeddings.
 
 The code examples in this tutorial use [Qdrant Cloud Inference](/documentation/inference/#qdrant-cloud-inference) to generate vector embeddings. If you manage your own embedding infrastructure, you can apply the same principles, but you'll need to adapt the code examples for your embedding service.
 
 ## Two Options
 
-The best approach to migrating to a new embedding model depends on how your collection has been configured. A blue-green deployment (option 1) works with any collection type. Alternatively, if you already use named vectors, option 2 is easier, faster, and uses fewer resources.
+The best approach to migrating to a new embedding model depends on how your collection has been configured. A blue-green migration (option 1) works with any collection type. Alternatively, if you use named vectors, option 2 is easier, faster, and uses fewer resources.
 
 ### Option 1: Blue-Green Migration
 
-The [blue-green migration approach](#blue-green-migration) uses two parallel collections. You create a new collection configured for the new embedding model, then enable dual writes so that every incoming upsert is written to both collections simultaneously. A background migration process scrolls through the old collection, re-embeds each point using the new model, and writes it to the new collection without overwriting points already added by the update service. Once migration is complete, you switch search traffic to the new collection and disable dual writes. This option works with any collection type, regardless of whether you use unnamed or named vectors. 
+The [blue-green migration approach](#blue-green-migration) uses two parallel collections. Start by creating a new collection configured for the new embedding model. Then, enable dual writes such that every incoming upsert is written to both collections simultaneously. Use a background scrolls to re-embed each point using the new model, and write it to the new collection. Once migration is complete, switch search traffic to the new collection (flipping the alias, if applicable) and disable dual writes. This option works with any collection type, regardless of whether you use unnamed or named vectors. 
 
 This approach has a couple of downsides:
-- It duplicates payloads across both collections, while the named vectors option stores them only once. For text-heavy collections where the payload is large, this can have a significant impact.
-- It only works when all writes to your collection are upserts. If you use deletes or partial updates, you need to pause those operations during the migration or implement additional logic to handle them.
+- It duplicates payloads across both collections. For text-heavy collections where the payload is large, this can have a significant impact.
+- Deletes or partial updates need to be paused during the migration or you need to implement additional logic to handle them.
 
 ### Option 2: Named Vectors
 
-The [named vectors approach](#migrate-using-named-vectors) keeps everything in a single collection. You [add the new model as an additional named vector](/documentation/manage-data/collections/#update-vector-schema): a schema-only operation that doesn't affect existing data. You then enable dual writes so that every incoming upsert embeds with both models. A background process scrolls through the collection and updates only the new named vector on each existing point, leaving the old vector and payload intact. Once all points are re-embedded, you switch the `using` parameter in your search queries to the new vector, and then delete the old named vector.
+The [named vectors approach](#migrate-using-named-vectors) keeps everything in a single collection. Start by [adding the new model as an additional named vector](/documentation/manage-data/collections/#update-vector-schema): a schema-only operation that doesn't affect existing data. Next, enable dual writes so that every incoming upsert embeds with both models. Then, use a background scrolls to update the new named vector on each existing point, leaving the old vector and payload intact. Once all points are re-embedded, you switch the `using` parameter in your search queries to the new vector, and then delete the old named vector.
 
 The downside of this approach is that it only works for collections that were created with named vectors.
 
-
 Compared to a blue-green migration, this approach:
 
-- Doesn't require a second collection, a collection alias, or any data copying.
+- Doesn't require a second collection or any data copying.
 - Keeps all point IDs, payloads, and other named vectors intact throughout the migration.
 - Makes rollback trivial: the old named vector stays in the collection until you explicitly delete it.
 
-Unlike Option 1, point deletions are safe during this migration. Deleting a point removes it from the collection entirely, so there's no risk of the migration process re-adding it. If you call `update_vectors` on the old named vector, make sure your dual-write logic also updates the new named vector at the same time. Updating only one will cause the two vectors to diverge.
+Unlike Option 1, point deletions are safe during this migration. Deleting a point removes it from the collection entirely, so there's no risk of the migration process re-adding it. When updating a vector, make sure your dual-write logic also updates the new named vector at the same time. Updating only one will cause the two vectors to diverge.
 
 ## Blue-Green Migration
 
-Switching the embedding model with zero downtime is possible by using a blue-green deployment with two collections. The first collection contains the old embeddings, and the second one is used to store the new embeddings. A migration process copies the data from the old collection to the new one, re-embedding vectors using the new model. During the migration, you keep searching the old collection while writing any data updates to both collections. Once all vectors are re-embedded, switch the search to use the new collection.
+A blue-green migration uses two collections: the first collection contains the old embeddings, and the second one is used to store the new embeddings. A migration process copies the data from the old collection to the new one, re-embedding vectors using the new model. During the migration, you keep searching the old collection while writing any data updates to both collections. Once all vectors are re-embedded, switch the search to use the new collection.
 
-{{< figure src="/docs/embedding-model-migration.png" caption="Embedding model migration in blue-green deployment" width="80%" >}}
+{{< figure src="/docs/embedding-model-migration.png" caption="Blue-green embedding model migration" width="80%" >}}
 
-Re-embedding requires access to the original data used to create the embeddings. This data can come from a primary database, or it may be stored in the payloads of the points in Qdrant. This tutorial assumes that the necessary data is stored in the payloads. This is usually the case, as the payload often contains the text or other data that was used to generate the embeddings.
-
-The solution outlined in this section only works for upsert operations. If you use deletes or partial updates, it is necessary to pause those operations during the migration or implement additional logic to handle them.
+The solution outlined here only works as-is for upsert operations. If you use deletes or partial updates, it is necessary to pause those operations during the migration or implement additional logic to handle them.
 
 ### Step 1: Create a New Collection
 
-The first step is to create a new collection in Qdrant that will be used to store the new 
+The first step is to create a new collection that will be used to store the new 
 embeddings, compatible with the new model in terms of vector size and similarity function.
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-model-migration/" block="create-new-collection" >}}
@@ -67,10 +66,9 @@ Now is also a good moment to consider changing any other settings for the collec
 
 The newly created collection is empty and ready to be used for storing the new embeddings.
 
-
 ### Step 2: Enable Dual Writes
 
-To ensure that both collections are kept up-to-date during the migration, you need to write any changes to both collections simultaneously. This way, any new data or updates to existing data are reflected in both collections.
+To ensure that both collections are kept up-to-date during the migration, write any changes to both collections simultaneously. This way, any new data or updates to existing data are reflected in both collections.
 
 Ideally, the data in Qdrant is updated by an update service reading from an update queue. This service is responsible for embedding the documents and writing them to Qdrant. It uses code similar to this:
 
@@ -144,7 +142,7 @@ All searches are now performed using the new embeddings. If the old collection i
 
 If your collection uses [named vectors](/documentation/manage-data/points/#named-vectors/), you can migrate to a new embedding model without creating a second collection. Instead, [add the new model as an additional named vector to the existing collection's schema](/documentation/manage-data/collections/#update-vector-schema), re-embed points in the background, switch the `using` parameter in your search queries, and then delete the old named vector.
 
-This only works when your collection was created with named vectors. If you use an unnamed vector, migrate using a [blue-green migration](#blue-green-migration) instead.
+This only works when your collection was created with named vectors. If you use an unnamed vector, use a [blue-green migration](#blue-green-migration) instead.
 
 ### Step 1: Add the New Named Vector
 
@@ -184,7 +182,7 @@ After:
 
 ### Step 5: Disable Dual Writes and Delete the Old Named Vector
 
-Once all search traffic uses the new vector, update your upsert service to write only to the new vector going forward. Next, delete the old named vector from the collection:
+Once all search traffic uses the new vector, change your upsert service to write only to the new vector going forward. Next, delete the old named vector from the collection:
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-model-migration/" block="delete-old-named-vector" >}}
 

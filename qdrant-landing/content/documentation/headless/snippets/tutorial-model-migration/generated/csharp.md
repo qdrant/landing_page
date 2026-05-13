@@ -120,4 +120,88 @@ results = await client.QueryAsync(
 	},
 	limit: 10
 );
+
+await client.CreateVectorNameAsync(new()
+{
+	CollectionName = COLLECTION,
+	VectorName = NEW_VECTOR,
+	DenseConfig = new() { Size = 512, Distance = Distance.Cosine }
+});
+
+await client.UpsertAsync(
+	collectionName: COLLECTION,
+	points: new List<PointStruct>
+	{
+		new()
+		{
+			Id = 1,
+			Vectors = new Dictionary<string, Vector>
+			{
+				[OLD_VECTOR] = new Document { Text = "Example document", Model = OLD_MODEL },
+				[NEW_VECTOR] = new Document { Text = "Example document", Model = NEW_MODEL },
+			},
+			Payload = { ["text"] = "Example document" }
+		}
+	}
+);
+
+PointId? reEmbedLastOffset = null;
+uint reEmbedBatchSize = 100;
+bool reEmbedReachedEnd = false;
+
+while (!reEmbedReachedEnd)
+{
+	var reEmbedScrollResult = await client.ScrollAsync(
+		collectionName: COLLECTION,
+		limit: reEmbedBatchSize,
+		offset: reEmbedLastOffset,
+		payloadSelector: true,
+		vectorsSelector: false
+	);
+
+	var reEmbedRecords = reEmbedScrollResult.Result;
+	reEmbedLastOffset = reEmbedScrollResult.NextPageOffset;
+
+	var pointVectors = new List<PointVectors>();
+	foreach (var record in reEmbedRecords)
+	{
+		var text = record.Payload.ContainsKey("text")
+			? record.Payload["text"].StringValue
+			: "";
+
+		// Update only the new vector on each point; the old vector and payload are untouched
+		pointVectors.Add(new PointVectors
+		{
+			Id = record.Id,
+			Vectors = new Dictionary<string, Vector>
+			{
+				[NEW_VECTOR] = new Document { Text = text, Model = NEW_MODEL }
+			}
+		});
+	}
+
+	await client.UpdateVectorsAsync(collectionName: COLLECTION, points: pointVectors);
+
+	reEmbedReachedEnd = (reEmbedLastOffset == null);
+}
+
+var oldVectorResults = await client.QueryAsync(
+	collectionName: COLLECTION,
+	query: new Document { Text = "my query", Model = OLD_MODEL },
+	usingVector: OLD_VECTOR,
+	limit: 10
+);
+
+var newVectorResults = await client.QueryAsync(
+	collectionName: COLLECTION,
+	query: new Document { Text = "my query", Model = NEW_MODEL },
+	usingVector: NEW_VECTOR,
+	limit: 10
+);
+
+await client.DeleteVectorNameAsync(new()
+{
+	CollectionName = COLLECTION,
+	VectorName = OLD_VECTOR
+});
 ```
