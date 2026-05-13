@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" role="img" aria-label="2D illustration of length renormalization">
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="context-stroke"/>
+  </marker>
+  <marker id="arrow-axis" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
+  </marker>
+</defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="380.0" y="30" text-anchor="middle" font-size="16" font-weight="600" fill="#0F172A">Length renormalization in 2D</text>
+<line x1="110" y1="380" x2="500.0" y2="380.0" stroke="#0F172A" stroke-width="1.2" marker-end="url(#arrow-axis)"/>
+<line x1="110" y1="380" x2="110.0" y2="20.0" stroke="#0F172A" stroke-width="1.2" marker-end="url(#arrow-axis)"/>
+<path d="M 425.0 380.0 A 315.0 315.0 0 0 0 110.0 65.0" fill="none" stroke="#0F172A" stroke-width="1.4" stroke-dasharray="4 4"/>
+<line x1="303.9" y1="131.8" x2="215.7" y2="311.4" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="303.9" y1="131.8" x2="374.2" y2="208.4" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="110" y1="380" x2="374.2" y2="208.4" stroke="#DC244C" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="110" y1="380" x2="215.7" y2="311.4" stroke="#64748B" stroke-width="2.6" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+<line x1="110" y1="380" x2="303.9" y2="131.8" stroke="#1E293B" stroke-width="3" marker-end="url(#arrow)"/>
+<circle cx="110" cy="380" r="3" fill="#0F172A"/>
+<circle cx="303.9" cy="131.8" r="4" fill="#1E293B"/>
+<circle cx="374.2" cy="208.4" r="4" fill="#DC244C"/>
+<circle cx="215.7" cy="311.4" r="4" fill="#64748B"/>
+<text x="315.9" y="123.8" text-anchor="start" font-size="16" font-weight="600" fill="#1E293B">x</text>
+<text x="388.2" y="212.4" text-anchor="start" font-size="16" font-weight="600" fill="#DC244C">ratio · x quantized</text>
+<text x="229.7" y="329.4" text-anchor="start" font-size="16" font-weight="600" fill="#64748B">x quantized</text>
+</svg>
