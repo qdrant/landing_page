@@ -1,5 +1,7 @@
 ---
 title: With Postgres
+short_description: "Keep Postgres and Qdrant in sync using dual-write, queue-based, or CDC architectures for reliable hybrid search backends."
+description: "Sync Postgres with Qdrant using dual-write, queued, or Change Data Capture patterns to keep vector search aligned with your relational source of truth."
 weight: 5
 partition: ecosystem
 ---

@@ -1,5 +1,7 @@
 ---
 title: From Apache Solr
+short_description: "Move dense vector fields from Apache Solr collections into Qdrant for purpose-built vector search and filtering."
+description: "Migrate from Apache Solr to Qdrant by streaming dense vector fields, document IDs, and metadata from Solr collections into Qdrant with the Qdrant Migration Tool."
 weight: 100
 ---
 

@@ -1,5 +1,7 @@
 ---
 title: Kafka Streaming into Qdrant
+short_description: "Stream real-time data into Qdrant with Apache Kafka and Confluent for change-data-capture pipelines powering semantic search and RAG."
+description: "Build real-time CDC pipelines that stream data from Kafka and Confluent into Qdrant, enabling fresh semantic search and retrieval-augmented generation."
 weight: 15
 hideInSidebar: true
 aliases:

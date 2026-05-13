@@ -1,5 +1,7 @@
 ---
 title: Installation
+short_description: "Install Qdrant on Linux, macOS, or Windows using Docker, Kubernetes, or a binary, with hardware and storage guidance."
+description: "Install Qdrant via Docker, Kubernetes, or binary releases — review CPU, memory, storage, and networking requirements for self-hosted deployments."
 partition: deploy
 weight: 110
 aliases:

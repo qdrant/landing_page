@@ -1,5 +1,7 @@
 ---
 title: "Synchronize with a Server" 
+short_description: "Combine mutable and immutable Qdrant Edge Shards with a server to offload indexing, back up data, and synchronize edge devices."
+description: "Combine mutable and immutable Qdrant Edge Shards with a central server to offload indexing, back up data, and keep multiple edge devices in sync."
 weight: 30
 partition: develop
 ---

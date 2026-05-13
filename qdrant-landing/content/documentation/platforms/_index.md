@@ -1,5 +1,7 @@
 ---
 title: Platforms
+short_description: "Connect Qdrant to low-code, automation, and data-ops platforms like n8n, Make, Pipedream, Power Apps, and more to add vector search to your workflows."
+description: "Integrate Qdrant with platforms like n8n, Make, Pipedream, Power Apps, Keboola, and MuleSoft to add vector search to low-code and automation workflows."
 weight: 1000
 partition: ecosystem
 ---

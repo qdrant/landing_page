@@ -1,5 +1,7 @@
 ---
 title: Semantic Search for Code
+short_description: "Build a semantic code search engine on Qdrant using natural-language and code-to-code embeddings for navigating large codebases."
+description: "Tutorial: build a semantic code search engine with Qdrant by combining natural-language and code-specific embeddings to navigate large source codebases."
 aliases:
   - /documentation/tutorials/code-search/
   - /documentation/advanced-tutorials/code-search/

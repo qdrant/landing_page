@@ -1,5 +1,7 @@
 ---
 title: Mastra
+short_description: "Add Qdrant as the vector store in Mastra TypeScript AI apps to power RAG, agents, workflows, and evaluations on local or serverless deployments."
+description: "Use Qdrant with the Mastra TypeScript framework as the vector store for RAG, agents, and workflows running locally or in serverless cloud environments."
 ---
 
 # Mastra

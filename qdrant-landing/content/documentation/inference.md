@@ -1,5 +1,7 @@
 ---
 title: Inference
+short_description: "Generate vector embeddings inside Qdrant — server-side inference removes the need to run separate embedding infrastructure."
+description: "Use Qdrant's built-in inference to generate text, image, and multimodal embeddings server-side — no separate embedding stack required."
 weight: 215
 partition: develop
 aliases:

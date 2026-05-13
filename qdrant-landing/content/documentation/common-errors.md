@@ -1,5 +1,7 @@
 ---
 title: Troubleshooting
+short_description: "Diagnose and resolve common Qdrant errors, from open-file limits to incompatible file systems and corrupted collection metadata."
+description: "Troubleshoot common Qdrant runtime errors — open-file limits, POSIX file system requirements, and recovery from corrupted collection metadata."
 partition: deploy
 weight: 150
 aliases:

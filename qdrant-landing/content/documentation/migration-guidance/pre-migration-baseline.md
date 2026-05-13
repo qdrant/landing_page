@@ -1,5 +1,7 @@
 ---
 title: Pre-Migration Baseline
+short_description: "Capture a pre-migration baseline of collection inventory, metadata, and search behavior before moving to Qdrant."
+description: "Record a pre-migration baseline of collection inventory, metadata schema, and reference search results so you can verify a clean migration cutover to Qdrant."
 weight: 5
 partition: ecosystem
 aliases:

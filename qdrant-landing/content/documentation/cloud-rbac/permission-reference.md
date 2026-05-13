@@ -1,5 +1,7 @@
 ---
 title: Permission Reference
+short_description: "Reference of Qdrant Cloud RBAC permissions for IAM, clusters, API keys, backups, Hybrid Cloud, billing, and account management."
+description: "Browse the full list of Qdrant Cloud RBAC permissions covering identity, clusters, API keys, backups, Hybrid Cloud, billing, and account management."
 weight: 15
 ---
 

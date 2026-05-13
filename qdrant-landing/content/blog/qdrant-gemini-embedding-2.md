@@ -3,6 +3,7 @@ title: "Qdrant Meets Google Gemini Embedding 2"
 draft: false
 slug: qdrant-gemini-embedding-2
 short_description: "Qdrant with Gemini Embedding 2 enables multimodal search across text, images, video, audio, and PDFs all in one vector space. Read more to learn how to get started."
+description: "Combine Google's Gemini Embedding 2 with Qdrant to build unified multimodal search across text, images, video, audio, and PDFs."
 preview_image: /blog/qdrant-gemini-embedding-2/gemini-2-hero.png
 social_preview_image: /blog/qdrant-gemini-embedding-2/gemini-2-hero.png
 date: 2026-03-10

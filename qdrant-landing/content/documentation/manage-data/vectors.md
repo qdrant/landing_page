@@ -1,5 +1,7 @@
 ---
 title: Vectors
+short_description: "Configure dense, sparse, and multivector representations in Qdrant to model text, images, and multimodal data."
+description: "Define dense, sparse, and multivector configurations in Qdrant collections to support text, image, multimodal, and late-interaction retrieval like ColBERT."
 weight: 10
 aliases:
   - /vectors

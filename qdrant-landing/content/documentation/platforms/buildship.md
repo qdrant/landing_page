@@ -1,5 +1,7 @@
 ---
 title: BuildShip
+short_description: "Add semantic search to BuildShip workflows with the Qdrant integration, building AI-assisted APIs and backend automations without code."
+description: "Use the Qdrant integration in BuildShip to build low-code AI workflows, APIs, and scheduled jobs with semantic search over your vector collections."
 aliases: [ ../frameworks/buildship/ ]
 ---
 

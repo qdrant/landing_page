@@ -1,5 +1,7 @@
 ---
 title: Working with ColBERT 
+short_description: "Generate ColBERT multivector embeddings with FastEmbed and store them in Qdrant to use late-interaction retrieval and reranking out of the box."
+description: "Use FastEmbed to generate ColBERT multivectors and index them in Qdrant for late-interaction retrieval and reranking with native multivector support."
 weight: 60
 ---
 

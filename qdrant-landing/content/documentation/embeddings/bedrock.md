@@ -1,5 +1,7 @@
 ---
 title: AWS Bedrock
+short_description: "Generate embeddings with AWS Bedrock and store them in Qdrant to run semantic search and RAG fully within your AWS environment."
+description: "Combine AWS Bedrock embedding models with Qdrant for scalable semantic search and retrieval-augmented generation across your AWS-hosted data."
 ---
 
 # Bedrock Embeddings

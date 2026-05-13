@@ -1,5 +1,7 @@
 ---
 title: Low-Latency Search
+short_description: "Tune Qdrant for low-latency vector search with quantization, HNSW indexing, sharding, and replica routing strategies."
+description: "Reduce Qdrant search latency by tuning HNSW indexes, quantization, sharding, and replica routing for fast vector retrieval in distributed deployments."
 weight: 35
 aliases:
   - /documentation/guides/low-latency-search/

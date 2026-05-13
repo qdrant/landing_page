@@ -1,5 +1,7 @@
 ---
 title: "Video Anomaly Detection Part 2: Edge-to-Cloud Pipeline"
+short_description: "Build the edge-to-cloud pipeline for video anomaly detection using Qdrant Edge shards, snapshot sync, and offline-capable kNN search."
+description: "Part 2 tutorial: implement the edge-to-cloud pipeline for video anomaly detection with Qdrant Edge shards, snapshot sync, and offline-ready vector search."
 weight: 45
 partition: ecosystem
 aliases:

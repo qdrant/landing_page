@@ -1,5 +1,7 @@
 ---
 title: Dynamiq
+short_description: "Add Qdrant as a writer, retriever, or agent memory inside Dynamiq Gen AI workflows to orchestrate RAG and tool-using LLM agents."
+description: "Use Qdrant in Dynamiq Gen AI workflows for document writing, retrieval, and agent memory to power RAG pipelines and tool-augmented LLM agents."
 ---
 
 

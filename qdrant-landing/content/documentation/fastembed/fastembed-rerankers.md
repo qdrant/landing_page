@@ -1,5 +1,7 @@
 ---
 title: Reranking with FastEmbed
+short_description: "Refine vector search results with cross-encoder rerankers in FastEmbed, combining fast first-stage retrieval with precise relevance scoring."
+description: "Use cross-encoder rerankers with FastEmbed and Qdrant to re-score initial search results, trading speed for higher precision on a small candidate set."
 weight: 80
 ---
 

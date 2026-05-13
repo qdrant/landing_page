@@ -1,5 +1,7 @@
 ---
 title: Monitoring & Telemetry
+short_description: "Expose Qdrant metrics in Prometheus and OpenMetrics format and integrate with Grafana for cluster, collection, and node-level dashboards."
+description: "Scrape Qdrant metrics in Prometheus and OpenMetrics format and visualize cluster, collection, and node-level telemetry in Grafana monitoring dashboards."
 weight: 5
 aliases:
   - /documentation/monitoring

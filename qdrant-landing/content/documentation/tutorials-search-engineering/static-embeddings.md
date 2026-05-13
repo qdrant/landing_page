@@ -1,5 +1,7 @@
 ---
 title: Static Embeddings
+short_description: "Use static embeddings in Qdrant for fast, low-resource semantic search with minimal quality trade-offs versus transformer models."
+description: "Tutorial: apply static embedding models in Qdrant to deliver fast, low-resource semantic search with quality close to transformer-based embeddings."
 weight: 181
 aliases:
   - /blog/static-embeddings/

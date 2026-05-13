@@ -1,5 +1,7 @@
 ---
 title: Private RAG Information Extraction Engine
+short_description: "Run a private information-extraction engine on Vultr with Qdrant Hybrid Cloud, DSPy, and Ollama to structure unstructured documents on-premises."
+description: "Build a private RAG information-extraction pipeline on Vultr using Qdrant Hybrid Cloud, DSPy, and Ollama for fully on-prem document processing."
 weight: 60
 social_preview_image: /blog/hybrid-cloud-vultr/hybrid-cloud-vultr-tutorial.png
 aliases:

@@ -1,5 +1,7 @@
 ---
 title: Databricks Ingestion
+short_description: "Vectorize and ingest Databricks datasets into Qdrant using Apache Spark and the Qdrant Spark connector for large-scale embedding workflows."
+description: "Generate dense and sparse embeddings on Databricks with Spark and load them into Qdrant using the Spark connector for scalable vector ingestion pipelines."
 weight: 5
 hideInSidebar: true
 aliases:

@@ -1,5 +1,7 @@
 ---
 title: Overview
+short_description: "Browse Qdrant tutorials covering basics, search engineering, retrieval quality, operations, migrations, and integrations."
+description: "Tutorial hub for Qdrant — basics, search engineering, retrieval quality, operations and scale, migrations, and ecosystem integrations all in one place."
 weight: 405
 is_empty: false
 aliases:

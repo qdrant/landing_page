@@ -1,5 +1,7 @@
 ---
 title: Feast
+short_description: "Use Qdrant as the online vector store in Feast to serve embedding features and similarity lookups in production ML systems at scale."
+description: "Configure Qdrant as the online vector store in the Feast feature store to serve embedding features and similarity searches for production ML systems."
 ---
 
 ## Feast

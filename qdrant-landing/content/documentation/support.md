@@ -1,5 +1,7 @@
 ---
 title: Support
+short_description: "Open Qdrant Cloud support tickets through the JSM portal with severity levels and request types matched to your issue."
+description: "Get help from Qdrant Cloud support — submit tickets through the support portal with the right request type, severity, and diagnostic information."
 weight: 305
 partition: deploy
 aliases:

@@ -1,5 +1,7 @@
 ---
 title: Monitor Clusters
+short_description: "Monitor Qdrant Cloud cluster health with built-in metrics, logs, and email alerts for memory, disk, and availability issues."
+description: "Track Qdrant Cloud cluster health through metrics, logs, and automated email alerts that flag memory pressure, disk usage, and availability problems."
 weight: 30
 ---
 

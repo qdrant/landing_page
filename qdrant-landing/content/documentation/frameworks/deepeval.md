@@ -1,5 +1,7 @@
 ---
 title: DeepEval
+short_description: "Evaluate Qdrant-backed RAG pipelines with DeepEval, scoring answer relevancy, faithfulness, hallucination, and contextual precision against your retrieval results."
+description: "Use DeepEval to test Qdrant-powered RAG pipelines, measuring answer relevancy, faithfulness, hallucination, and contextual precision over retrieved vector results."
 ---
 
 # DeepEval

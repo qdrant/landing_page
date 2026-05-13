@@ -1,5 +1,7 @@
 ---
 title: API Reference
+short_description: "Reference for Qdrant Private Cloud Kubernetes APIs covering clusters, snapshots, restores, scheduled backups, and authentication."
+description: "Browse the Qdrant Private Cloud Kubernetes API reference for clusters, snapshots, restores, scheduled backups, and authentication custom resources."
 weight: 30
 ---
 

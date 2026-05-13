@@ -1,5 +1,6 @@
 ---
 title: "Module 2: Multi-Vector Representations for Multi-Modal Data"
+short_description: "Module 2: extend multi-vector search to images and PDFs with ColPali, vision-language models, and visual interpretability."
 description: "Explore multi-modal multi-vector search with ColPali. Learn how to search across images and text, and configure Qdrant for multi-vector embeddings."
 isLesson: true
 weight: 30

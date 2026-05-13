@@ -1,5 +1,7 @@
 ---
 title: OpenLIT
+short_description: "Instrument Qdrant with OpenLIT, an OpenTelemetry-native LLM observability tool, to trace operations and surface performance insights."
+description: "Use OpenLIT, an OpenTelemetry-native LLM observability tool, to auto-instrument Qdrant and forward traces and metrics to your existing telemetry backend."
 weight: 10
 aliases: [ ../frameworks/openlit/ ]
 ---

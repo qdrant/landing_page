@@ -1,5 +1,7 @@
 ---
 title: Deploy Qdrant
+short_description: "Deploy Qdrant your way — managed in Qdrant Cloud, Hybrid Cloud, Private Cloud, or self-hosted with Docker or Kubernetes."
+description: "Choose how to deploy Qdrant: Managed Cloud, Hybrid Cloud, Private Cloud, or self-hosted via Docker, Kubernetes, or bare-metal installation."
 slug: deploy-intro
 breadcrumb: false
 aliases:

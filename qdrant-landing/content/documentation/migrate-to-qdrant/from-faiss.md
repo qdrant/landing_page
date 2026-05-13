@@ -1,5 +1,7 @@
 ---
 title: From FAISS
+short_description: "Move vectors from a FAISS index file into Qdrant to gain managed storage, payload filtering, and distributed search."
+description: "Migrate from FAISS to Qdrant by importing non-quantized FAISS index files into Qdrant collections for managed storage, payload filters, and distributed search."
 weight: 90
 ---
 

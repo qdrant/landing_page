@@ -1,5 +1,7 @@
 ---
 title: Understanding Vector Search in Qdrant
+short_description: "Understand how vector search works, why it goes beyond keyword matching, and where Qdrant fits in the modern retrieval ecosystem."
+description: "Learn how vector search uses embeddings to retrieve by semantic meaning, how it differs from keyword search, and where Qdrant fits in the retrieval stack."
 weight: 10
 social_preview_image: /docs/gettingstarted/vector-social.png
 ---

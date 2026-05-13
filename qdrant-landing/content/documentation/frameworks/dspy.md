@@ -1,5 +1,7 @@
 ---
 title: Stanford DSPy
+short_description: "Use Qdrant as the retrieval model in Stanford DSPy programs to ground prompting, reasoning, and self-improving LLM pipelines in your data."
+description: "Configure DSPy to use Qdrant as its retrieval model, grounding declarative LLM programs and RAG modules in fast vector search over your collections."
 aliases: [ ../integrations/dspy/ ]
 ---
 

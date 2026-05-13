@@ -1,5 +1,7 @@
 ---
 title: Backups
+short_description: "Create one-time and recurring snapshots and restore Qdrant Private Cloud clusters using declarative Kubernetes resources."
+description: "Back up and restore Qdrant Private Cloud clusters with one-time snapshots, recurring scheduled backups, and declarative Kubernetes restore resources."
 weight: 20
 ---
 

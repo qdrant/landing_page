@@ -1,5 +1,7 @@
 ---
 title: InfinyOn Fluvio
+short_description: "Stream records from InfinyOn Fluvio topics into Qdrant collections for low-latency, real-time vector ingestion."
+description: "Use the Qdrant Fluvio connector to stream events from Fluvio topics into Qdrant collections, powering real-time vector search and event-driven AI workflows."
 ---
 
 ![Fluvio Logo](/documentation/data-management/fluvio/fluvio-logo.png)

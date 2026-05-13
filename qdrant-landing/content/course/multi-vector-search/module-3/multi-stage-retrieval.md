@@ -1,5 +1,6 @@
 ---
 title: "Multi-Stage Retrieval with Universal Query API"
+short_description: "Build multi-stage retrieval with the Universal Query API: prefetch with fast vectors, then rerank with ColBERT for high-quality results."
 description: Combine multiple optimization techniques in multi-stage retrieval pipelines using Qdrant's Universal Query API.
 weight: 1
 isLesson: true

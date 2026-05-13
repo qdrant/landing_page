@@ -1,5 +1,7 @@
 ---
 title: Production Checklist
+short_description: "Run through the Qdrant production checklist — sharding, replication, quantization, load balancing, and observability before launch."
+description: "Production-readiness checklist for Qdrant: distributed sharding, replication, quantization, load balancing, and monitoring for stable vector search."
 partition: deploy
 weight: 147
 ---

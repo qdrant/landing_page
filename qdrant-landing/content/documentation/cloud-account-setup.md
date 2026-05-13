@@ -1,5 +1,7 @@
 ---
 title: Account Setup
+short_description: "Set up your Qdrant Cloud account: register with email, Google, GitHub, or SSO, invite teammates, and manage multiple accounts."
+description: "Register a Qdrant Cloud account with email, Google, GitHub, or SSO. Invite users, manage permissions, and switch between multiple Cloud accounts."
 weight: 210
 partition: deploy
 aliases:

@@ -1,5 +1,7 @@
 ---
 title: Hybrid Search with Reranking
+short_description: "Combine dense, sparse, and late-interaction embeddings in Qdrant to build hybrid search with reranking for high-precision results."
+description: "Step-by-step tutorial: build hybrid search in Qdrant combining dense, sparse, and late-interaction reranking for higher precision on large corpora."
 weight: 2
 aliases:
   - /documentation/search-precision/reranking-hybrid-search/

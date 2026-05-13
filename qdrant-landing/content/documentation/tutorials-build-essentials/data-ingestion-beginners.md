@@ -1,5 +1,7 @@
 ---
 title: S3 Ingestion with LangChain
+short_description: "Stream documents from AWS S3 into Qdrant with LangChain to build a vector ingestion pipeline for unstructured data."
+description: "Tutorial: build a data ingestion pipeline that pulls documents from AWS S3, generates embeddings via LangChain, and stores them in Qdrant for semantic search."
 weight: 10
 partition: ecosystem
 hideInSidebar: true

@@ -1,5 +1,7 @@
 ---
 title: Prem AI
+short_description: "Generate embeddings on the PremAI generative AI platform and store them in Qdrant to ship semantic search backed by tunable, monitored models."
+description: "Use PremAI's generative AI platform to create embeddings and index them in Qdrant for semantic search, RAG, and monitored, fine-tunable retrieval workflows."
 ---
 
 # Prem AI

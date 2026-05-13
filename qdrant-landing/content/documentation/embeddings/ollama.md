@@ -1,5 +1,7 @@
 ---
 title: Ollama
+short_description: "Run local-first RAG by pairing Ollama embedding models with Qdrant for fully on-machine retrieval and generation pipelines."
+description: "Use Ollama to generate local embeddings and store them in Qdrant — power private, on-device retrieval-augmented generation without leaving your machine."
 ---
 
 # Using Ollama with Qdrant

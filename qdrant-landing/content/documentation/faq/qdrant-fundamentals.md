@@ -1,5 +1,7 @@
 ---
 title: Qdrant Fundamentals
+short_description: "FAQ covering Qdrant fundamentals: vector dimensions, payload metadata, real-time updates, multivectors, and search behavior."
+description: "Common questions about Qdrant fundamentals — vector dimensions, payload limits, multivectors, real-time updates, and how similarity search behaves at scale."
 weight: 1
 aliases:
   - ../faq

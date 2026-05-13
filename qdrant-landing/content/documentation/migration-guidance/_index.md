@@ -1,5 +1,7 @@
 ---
 title: Migration Guidance
+short_description: "A structured framework for verifying vector database migrations to Qdrant catch silent data and search regressions."
+description: "Verify migrations to Qdrant with a structured framework that catches silent data loss, metadata drift, and search quality regressions across vector workloads."
 weight: 300
 is_empty: false
 partition: ecosystem

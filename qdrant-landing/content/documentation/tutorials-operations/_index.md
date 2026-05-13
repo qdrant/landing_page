@@ -1,5 +1,7 @@
 ---
 title: Operations & Scale
+short_description: "Production operations tutorials for Qdrant: snapshots, migrations, sharding, and large-scale indexing for high-volume workloads."
+description: "Operate Qdrant at scale: tutorials covering snapshots, model migrations, time-based sharding, and large-scale indexing for production vector workloads."
 weight: 420
 is_empty: false
 aliases:

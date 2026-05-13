@@ -1,5 +1,7 @@
 ---
 title: Voyage AI
+short_description: "Index Voyage AI embeddings in Qdrant to power high-accuracy semantic search and retrieval-augmented generation over your documents."
+description: "Use Voyage AI embeddings with Qdrant to run high-quality semantic search and RAG, generating dense vectors for documents and queries via the Voyage API."
 ---
 
 # Voyage AI

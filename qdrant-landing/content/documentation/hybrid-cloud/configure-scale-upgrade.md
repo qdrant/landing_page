@@ -1,5 +1,7 @@
 ---
 title: Configure, Scale & Update Clusters
+short_description: "Configure, scale, reshard, and upgrade Qdrant Hybrid Cloud clusters with automatic shard rebalancing across your Kubernetes nodes."
+description: "Configure, scale horizontally or vertically, reshard, and upgrade Qdrant Hybrid Cloud clusters with automatic shard rebalancing on Kubernetes."
 weight: 15
 ---
 

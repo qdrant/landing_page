@@ -1,5 +1,7 @@
 ---
 title: Create a Cluster
+short_description: "Create a Qdrant cluster in Hybrid Cloud with Kubernetes scheduling controls, node selectors, and secret-based API key authentication."
+description: "Create a production-ready Qdrant cluster in Hybrid Cloud with Kubernetes scheduling controls, node selectors, and secret-based API key authentication."
 weight: 10
 ---
 

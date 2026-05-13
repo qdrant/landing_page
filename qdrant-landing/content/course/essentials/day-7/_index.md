@@ -1,5 +1,6 @@
 ---
 title: "Day 7: Partner Ecosystem Integrations (Bonus)"
+short_description: "Bonus day on the Qdrant ecosystem: integrations with LlamaIndex, Haystack, Jina, Unstructured, and other AI and data platforms."
 description: Learn how to extend Qdrant with integrations across top AI platforms like Haystack, LlamaIndex, and Unstructured.io for scalable, intelligent, and agentic search pipelines.
 isLesson: true
 weight: 80

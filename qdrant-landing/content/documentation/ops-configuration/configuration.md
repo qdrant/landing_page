@@ -1,5 +1,7 @@
 ---
 title: Configuration
+short_description: "Customize Qdrant with config files and environment variables to control storage, networking, performance tuning, and feature flags."
+description: "Configure Qdrant via config files and environment variables to set storage paths, network interfaces, performance parameters, and feature flags."
 weight: 5
 aliases:
   - /guides/configuration/

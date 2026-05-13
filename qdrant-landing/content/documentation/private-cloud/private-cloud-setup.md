@@ -1,5 +1,7 @@
 ---
 title: Setup Private Cloud
+short_description: "Install Qdrant Private Cloud into your Kubernetes cluster with Helm, using the Qdrant Operator and container registry credentials."
+description: "Install Qdrant Private Cloud into any standard Kubernetes cluster with Helm, the Qdrant Operator, and credentials for the Qdrant container registry."
 weight: 5
 ---
 

@@ -1,5 +1,7 @@
 ---
 title: Snapshots
+short_description: "Back up and restore Qdrant collections with snapshots across single-node and distributed multi-node clusters."
+description: "Tutorial: create, download, and restore Qdrant snapshots to back up collections or migrate data between single-node and distributed multi-node clusters."
 aliases:
   - /documentation/tutorials/create-snapshot/
   - /documentation/database-tutorials/create-snapshot/

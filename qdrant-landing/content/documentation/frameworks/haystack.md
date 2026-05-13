@@ -1,5 +1,7 @@
 ---
 title: Haystack
+short_description: "Build generative AI, QA, and semantic search systems in Haystack with the Qdrant document store, including support for quantization and advanced indexing."
+description: "Use the Qdrant document store with Haystack to build generative AI, QA, and semantic search pipelines with full control over collection and quantization options."
 aliases:
   - ../integrations/haystack/
   - /documentation/overview/integrations/haystack/

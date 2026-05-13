@@ -1,5 +1,7 @@
 ---
 title: Microsoft NLWeb
+short_description: "Add natural language interfaces to websites with Microsoft NLWeb backed by Qdrant as the vector store for embedding storage and context retrieval."
+description: "Use Microsoft NLWeb with Qdrant as the retrieval engine to build natural language interfaces for websites, powered by Schema.org, RSS, and the MCP protocol."
 ---
 
 # NLWeb

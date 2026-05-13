@@ -1,5 +1,7 @@
 ---
 title: Semantic Search Basics
+short_description: "Build a neural semantic search service on Qdrant using sentence-transformer embeddings and a FastAPI search endpoint."
+description: "Tutorial: build a neural search service that encodes text with sentence transformers, indexes vectors in Qdrant, and serves results through FastAPI."
 aliases:
   - /documentation/tutorials/neural-search/
   - /documentation/beginner-tutorials/neural-search/

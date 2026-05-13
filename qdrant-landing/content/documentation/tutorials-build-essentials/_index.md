@@ -1,5 +1,7 @@
 ---
 title: Essential Examples
+short_description: "Hands-on Qdrant integration tutorials: connect AI agents, RAG pipelines, ingestion stacks, and automation tools to a vector database."
+description: "Step-by-step tutorials integrating Qdrant with LangChain, LlamaIndex, n8n, AWS S3, and other AI ecosystem tools to build production retrieval pipelines."
 weight: 1200
 partition: ecosystem
 ---

@@ -1,5 +1,7 @@
 ---
 title: Kotaemon
+short_description: "Configure Kotaemon to use Qdrant as its vector store for chatting with your documents through a customizable open-source RAG UI."
+description: "Use Qdrant as the vector store in Kotaemon to power a customizable open-source RAG interface for ingesting and chatting with your own documents."
 ---
 
 # Kotaemon

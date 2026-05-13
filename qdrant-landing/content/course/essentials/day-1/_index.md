@@ -1,5 +1,6 @@
 ---
 title: "Day 1: Vector Search Fundamentals"
+short_description: "Day 1 of Qdrant Essentials: points, vectors, payloads, distance metrics, chunking strategies, and a hands-on semantic search build."
 description: Learn vector search fundamentals in Qdrant. Explore points, payloads, and distance metrics, then apply them in a hands-on semantic movie search project.
 isLesson: true
 weight: 20

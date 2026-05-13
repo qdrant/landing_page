@@ -1,5 +1,6 @@
 ---
 title: "Demo: Universal Query for Hybrid Retrieval"
+short_description: "Build a research paper discovery pipeline that blends dense semantics, sparse keywords, ColBERT reranking, and metadata filters in one query."
 description: Build a hybrid research discovery system using Qdrant’s Universal Query API—combine dense, sparse, and ColBERT vectors for semantic, keyword, and reranked retrieval in one query. 
 weight: 4
 isLesson: true

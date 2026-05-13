@@ -1,5 +1,7 @@
 ---
 title: "FastEmbed"
+short_description: "FastEmbed is a lightweight, ONNX-based embedding library from Qdrant for fast, accurate dense, sparse, and multivector inference in Python."
+description: "FastEmbed is Qdrant's lightweight ONNX-based embedding library for generating dense, sparse, and multivector embeddings with minimal dependencies and high accuracy."
 weight: 305
 partition: develop
 ---

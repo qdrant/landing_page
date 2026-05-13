@@ -1,5 +1,7 @@
 ---
 title: Quantization
+short_description: "Compress vectors with scalar, product, or binary quantization to shrink memory use and speed up Qdrant search."
+description: "Apply quantization in Qdrant to compress high-dimensional vectors, reduce memory footprint, and accelerate similarity search while preserving recall quality."
 weight: 35
 aliases:
   - ../quantization

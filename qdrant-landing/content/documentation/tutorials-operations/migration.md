@@ -1,5 +1,7 @@
 ---
 title: Data Migration
+short_description: "Migrate vector data into Qdrant from Pinecone, Weaviate, Chroma, or other Qdrant clusters using the Qdrant Migration Tool."
+description: "Tutorial: use the Qdrant Migration Tool to stream vectors from Pinecone, Weaviate, Chroma, or another Qdrant cluster with resumable, live migrations."
 aliases:
     - /documentation/database-tutorials/migration/
 weight: 20

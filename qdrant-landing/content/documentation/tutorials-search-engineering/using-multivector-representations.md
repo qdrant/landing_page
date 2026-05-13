@@ -1,5 +1,7 @@
 ---
 title: Multivectors and Late Interaction
+short_description: "Use multivector representations and late interaction reranking in Qdrant to improve precision without exploding RAM or insert times."
+description: "Tutorial: use Qdrant multivectors with late interaction reranking to capture token-level signals and improve precision while controlling RAM and indexing cost."
 weight: 2
 aliases:
   - /documentation/search-precision/multivector-representations-with-Qdrant/

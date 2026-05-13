@@ -1,5 +1,7 @@
 ---
 title: From Elasticsearch
+short_description: "Migrate vector indexes from Elasticsearch into Qdrant collections to consolidate semantic search on a vector-native engine."
+description: "Migrate from Elasticsearch to Qdrant by streaming vector indexes, source documents, and metadata into Qdrant collections with the Qdrant Migration Tool."
 weight: 20
 partition: ecosystem
 ---

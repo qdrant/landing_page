@@ -1,5 +1,7 @@
 ---
 title: Filtering
+short_description: "Combine vector similarity with payload filters in Qdrant to enforce business rules and refine search results."
+description: "Filter Qdrant search results with payload conditions on metadata and IDs, combining database-style clauses with vector similarity for precise retrieval."
 weight: 10
 aliases:
   - ../filtering

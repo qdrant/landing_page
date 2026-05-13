@@ -1,5 +1,7 @@
 ---
 title: Datadog
+short_description: "Monitor Qdrant in Datadog with the official integration to track REST and gRPC performance, cluster readiness, and deployment health."
+description: "Install the Datadog integration for Qdrant to collect real-time metrics on REST, gRPC, and cluster health and visualize them in your Datadog dashboards."
 ---
 
 ![Datadog Cover](/documentation/observability/datadog/datadog-cover.jpg)
