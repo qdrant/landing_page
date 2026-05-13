@@ -4,7 +4,7 @@ type: reference
 reference: /articles/vector-search-manuals
 weight: 110
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: learn

@@ -1,0 +1,382 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.industries-hero {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-10;
+  background-image:
+    radial-gradient(
+      105.1% 114.35% at 50% 2%,
+      rgba($neutral-10, 0) 0%,
+      rgba($neutral-10, 0.32) 81.57%,
+      rgba($secondary-blue-50, 0.8) 99.31%
+    );
+  background-position: 0 0;
+  background-size: auto;
+  background-repeat: no-repeat;
+  position: relative;
+  
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+  
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/img/stars-pattern.png");
+    background-position: 0 0;
+    background-size: pxToRem(350) pxToRem(350);
+    background-repeat: repeat;
+    opacity: .5;
+    z-index: 1;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacer;
+    margin-bottom: $spacer * 4.5;
+  }
+  
+  &__badge {
+    display: flex;
+    gap: $spacer * 0.5;
+    align-items: center;
+    padding: math.div($spacer, 4) $spacer;
+    border-radius: math.div($spacer, 4);
+    background: linear-gradient($neutral-20, #0e1424);
+    
+    img {
+      height: pxToRem(20);
+      width: pxToRem(20);
+    }
+    
+    span {
+      color: $neutral-98;
+      font-size: $font-size-s;
+      line-height: $line-height-sm;
+    }
+  }
+  
+  &__title {
+    margin-bottom: 0;
+    color: $neutral-98;
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    text-align: center;
+  }
+  
+  &__description {
+    margin-bottom: 0;
+    color: $neutral-70;
+    text-align: center;
+  }
+  
+  &__mobile-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 1.5;
+    margin-top: $spacer * 2;
+    align-items: center;
+    
+    a {
+      width: pxToRem(170)
+    }
+  }
+  
+  &__buttons {
+    display: none;
+    gap: $spacer * 1.5;
+  }
+  
+  &__block {
+    overflow: hidden;
+    width: 100%;
+    border-radius: $spacer;
+    background-color: $neutral-20;
+    border: pxToRem(1) solid $neutral-20;
+  }
+  
+  &__tabs {
+    display: flex;
+    padding: pxToRem(3) pxToRem(3) math.div($spacer, 4) pxToRem(3);
+    
+    button {
+      width: 50%;
+      border: 0;
+      padding: $spacer * 0.5 $spacer * 1.5;
+      border-radius: pxToRem(12);
+      background-color: $neutral-20;
+      color: $neutral-70;
+      
+      &.active {
+        background-color: $neutral-40;
+        color: $neutral-98;
+        font-weight: 500;
+      }
+    }
+  }
+  
+  &__code {
+    border-radius: $spacer * 0.5;
+    background-color: $neutral-10;
+    
+    &-tabs {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 $spacer;
+    }
+    
+    &-tab {
+      height: $spacer * 2.5;
+      padding: 0 $spacer * 2;
+      font-size: $font-size-s;
+      line-height: $spacer * 2.5;
+      color: $neutral-94;
+      border: 0;
+      background-color: transparent;
+      border-bottom: pxToRem(2) solid $primary-50;
+    }
+
+    &-button {
+      display: flex;
+      gap: $spacer * 0.5;
+      align-items: center;
+      justify-content: flex-end;
+      border: 0;
+      padding: 0;
+      background-color: transparent;
+      
+      span {
+        display: none;
+        font-size: $font-size-s;
+        line-height: $line-height-sm;
+        color: $neutral-80;
+      }
+      
+      &:hover {
+        span {
+          display: block;
+        }
+      }
+    }
+
+    &-collapse {
+      display: none;
+    }
+
+    &.is-expanded {
+      .industries-hero__code-expand {
+        display: none;
+      }
+
+      .industries-hero__code-collapse {
+        display: flex;
+      }
+
+      .industries-hero__code-content {
+        overflow-y: visible;
+      }
+    }
+
+    &-content {
+      display: flex;
+      align-items: flex-start;
+      height: pxToRem(280);
+      transition: height 0.2s;
+      margin: 0 pxToRem(3);
+      padding: $spacer * 1.5 $spacer $spacer * 1.5 $spacer * 1.5;
+      border-radius: $spacer * 0.5 $spacer * 0.5 0 0;
+      background: linear-gradient($neutral-20, #0e1424);
+      border: pxToRem(1) solid $neutral-20;
+      overflow-y: auto;
+      overflow-x: hidden;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
+      
+      .highlight {
+        width: calc(100% - pxToRem(24));
+        margin-bottom: 0;
+        background: transparent;
+
+        pre {
+          display: block;
+          width: 100%;
+          padding: 0;
+          background: transparent;
+          white-space: pre-wrap;
+          overflow-x: hidden;
+        }
+
+        code {
+          display: block;
+          width: 100%;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+
+          .line {
+            margin-bottom: 0;
+          }
+
+          * {
+            font-size: $font-size-s;
+            line-height: $line-height-sm;
+            color: #C5C8C6;
+          }
+
+          .c1 {
+            color: #7C7C7C;
+          }
+
+          .s2, .nb {
+            color: #A8FF60;
+          }
+
+          .k {
+            color: #96CBFE;
+          }
+
+          .mi {
+            color: #FF73FD;
+          }
+        }
+      }
+      
+      &-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: pxToRem(5);
+        border: pxToRem(1) solid $neutral-30;
+        border-radius: math.div($spacer, 4);
+        background: linear-gradient($neutral-20, #0e1424);
+        
+        svg {
+          height: pxToRem(12);
+          width: pxToRem(12);
+        }
+      }
+    }
+
+    &-done {
+      display: none;
+    }
+  }
+  
+  &__steps {
+    height: pxToRem(320);
+    border-radius: $spacer * 0.5;
+    background-color: $neutral-10;
+    
+    &-item {
+      height: $spacer * 5;
+      padding: $spacer $spacer * 1.5;
+      
+      &:not(:last-of-type) {
+        border-bottom: pxToRem(1) solid $neutral-20;
+      }
+      
+      &-header {
+        display: flex;
+        gap: $spacer * 0.5;
+        align-items: center;
+        
+        h6 {
+          color: $neutral-94;
+          font-size: $font-size-md;
+          line-height: $spacer * 1.5;
+          margin: 0;
+        }
+        
+        img {
+          height: pxToRem(18);
+          width: pxToRem(18);
+        }
+      }
+      
+      p {
+        color: $neutral-70;
+        margin: 0;
+      }
+    }
+  }
+
+  &__badges {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacer * 1.5;
+    margin-top: $spacer * 5;
+    
+    &-item {
+      display: flex;
+      gap: $spacer * 0.5;
+      align-items: center;
+      padding: pxToRem(6) pxToRem(10);
+      border-radius: math.div($spacer, 4);
+      background: linear-gradient($neutral-20, #0e1424);
+
+      img {
+        height: $spacer;
+        width: $spacer;
+      }
+
+      span {
+        color: $neutral-98;
+        font-size: $font-size-s;
+        line-height: $line-height-sm;
+      }
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__content {
+      gap: $spacer * 1.5;
+      align-items: flex-start;
+      margin-bottom: 0;
+    }
+
+    &__title {
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+      text-align: left;
+    }
+
+    &__description {
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      text-align: left;
+    }
+    
+    &__buttons {
+      display: flex;
+    }
+
+    &__mobile-buttons {
+      display: none;
+    }
+
+    &__badges {
+      display: flex;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{{ with (.Site.GetPage "/vsd/vsd-last-year") }}
+  <section class="vsd-last-year" id="berlin-2025">
+    <div class="container">
+      <p class="vsd-last-year__subtitle">{{ .Params.subtitle }}</p>
+      <h2 class="vsd-last-year__title">{{ .Params.title }}</h2>
+      <div class="vsd-last-year__logos">
+        {{ range .Params.logos }}
+          <div class="vsd-last-year__logo">
+            <img src="{{ .src }}" alt="{{ .alt }}">
+          </div>
+        {{ end }}
+      </div>
+      <p class="vsd-last-year__title2">{{ .Params.title2 }}</p>
+      <div class="vsd-last-year__logos">
+        {{ range .Params.logos2 }}
+          <div class="vsd-last-year__logo">
+            <img src="{{ .src }}" alt="{{ .alt }}">
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

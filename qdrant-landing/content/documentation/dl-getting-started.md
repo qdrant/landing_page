@@ -4,7 +4,7 @@ title: "Getting Started"
 type: delimiter
 weight: 100 # Change this weight to change order of sections
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: develop

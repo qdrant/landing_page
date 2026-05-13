@@ -2,12 +2,12 @@
 title: "Make the most of your Unstructured Data"
 icon: 
 sitemapExclude: True
-_build:
+build:
   render: never
   list: never
   publishResources: false
 cascade:
-  _build:
+  build:
     render: never
     list: never
     publishResources: false

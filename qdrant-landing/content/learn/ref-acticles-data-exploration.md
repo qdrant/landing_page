@@ -4,7 +4,7 @@ type: reference
 reference: /articles/data-exploration
 weight: 130
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: learn

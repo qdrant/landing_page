@@ -15,7 +15,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@16361eb4acea8698b220b76c0d4e84e1fd22c61d # v2.6.0
         with:
-          hugo-version: "0.123.0"
+          hugo-version: "0.160.1"
       - name: Install npm
         uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
@@ -25,8 +25,13 @@ jobs:
           bash -x ./install-and-build.sh
           CURRENT_DIR=$(pwd)
           export PATH="${CURRENT_DIR}/dart-sass:${PATH}"
-          cd qdrant-landing && hugo --gc -b 'http://localhost:1314' && hugo serve --port 1314 &
-          sleep 5 # wait for server to start
+          cd qdrant-landing
+          hugo --gc -b 'http://localhost:1314'
+          hugo serve --port 1314 &
+          for i in {1..60}; do
+            curl -sf http://localhost:1314/ >/dev/null && break
+            sleep 1
+          done
       - name: Internal Links Check
         id: lychee
         uses: lycheeverse/lychee-action@ec3ed119d4f44ad2673a7232460dc7dff59d2421 # v1.8.0

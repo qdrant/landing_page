@@ -5,3 +5,4 @@ qdrant-landing/.DS_Store
 .tools/
 package-lock.json
 .claude/
+dart-sass/

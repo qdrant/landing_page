@@ -54,6 +54,7 @@
         width: 100%;
         height: auto;
         margin: 0 auto;
+        border: none;
       }
     }
   }
@@ -149,6 +150,14 @@
       }
     }
   }
+}
+
+article.documentation-article {
+
+  img {
+    border: 1px solid $neutral-80;
+  }
+
 }
 
 [data-theme='light'] {

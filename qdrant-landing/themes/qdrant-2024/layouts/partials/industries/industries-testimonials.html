@@ -1,0 +1,41 @@
+<section class="industries-testimonials">
+  <div class="container">
+    {{ range .Params.testimonials }}
+      <div class="industries-testimonials__item row{{ if .reverse }} flex-row-reverse{{ end }} g-4">
+        <div class="col-12 col-lg-8">
+          <div class="card industries-testimonials__card">
+            <div class="industries-testimonials__card-review">
+              <p class="industries-testimonials__card-review-text">{{ .review }}</p>
+              <div class="industries-testimonials__card-review-block">
+                <img src="{{ .author.avatar.src }}" alt="{{ .author.avatar.alt }}">
+                <div>
+                  <p class="industries-testimonials__card-review-name">{{ .author.name }}</p>
+                  <p class="industries-testimonials__card-review-role">{{ .author.role }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="industries-testimonials__card-metric">
+              {{ range .metric }}
+                <div class="industries-testimonials__card-metric-item">
+                  {{ if .icon }}
+                    <img src="{{ .icon.src }}" alt="{{ .icon.alt }}">
+                  {{ end }}
+                  {{ if .title }}
+                    <h6 class="industries-testimonials__card-metric-count">{{ .title }}</h6>
+                  {{ end }}
+                  <p class="industries-testimonials__card-metric-description">{{ .description }}</p>
+                </div>
+                <hr class="industries-testimonials__card-metric-divider" />
+              {{ end }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4">
+          <div class="industries-testimonials__logo">
+            <img src="{{ .logo.src }}" alt="{{ .logo.alt }}">
+          </div>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+</section>

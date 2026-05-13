@@ -4,7 +4,7 @@ type: reference
 reference: /documentation/tutorials-lp-overview
 weight: 310
 sitemapExclude: True
-_build:
+build:
   publishResources: false
   render: never
 partition: learn

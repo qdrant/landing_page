@@ -1,0 +1,15 @@
+```http
+PUT /collections/{collection_name}
+{
+    "vectors": {
+      "size": 1536,
+      "distance": "Cosine"
+    },
+    "quantization_config": {
+        "turbo": {
+            "bits": "bits2",
+            "always_ram": true
+        }
+    }
+}
+```

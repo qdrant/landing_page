@@ -1,0 +1,24 @@
+@use '../../helpers/functions' as *;
+@use '../../mixins/get-contacted' as get-contacted;
+
+.industries-get-contacted {
+  @include get-contacted.base($spacer * 4, pxToRem(30), $spacer * 7.5, $spacer * 2.5, pxToRem(620));
+  
+  h3 {
+    margin-bottom: $spacer * 0.5;
+    text-align: center;
+    font-size: $h6-font-size;
+    line-height: $spacer * 2;
+    color: $neutral-98;
+
+    @include media-breakpoint-up(lg) {
+      text-align: left;
+    }
+  }
+  
+  p {
+    color: $neutral-70;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+  }
+}
