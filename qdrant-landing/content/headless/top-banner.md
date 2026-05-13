@@ -10,12 +10,12 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Qdrant 1.18 ships w/TurboQuant. More compression, similar recall vs. Scalar"
+text: "TurboQuant in Qdrant Explained"
 link:
-  text: Read more
-  url: http://qdrant.tech/blog/qdrant-1.18.x/
+  text: Join us on May 26 to learn more
+  url: https://luma.com/qdrant-turboquant
 start: 2026-05-11T11:50:00.000Z
 sitemapExclude: true
-end: 2026-05-19T14:00:00.000Z
+end: 2026-05-26T14:00:00.000Z
 
 ---
