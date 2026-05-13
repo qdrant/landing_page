@@ -218,13 +218,17 @@ See also: [Named Vectors](/documentation/manage-data/vectors/#named-vectors)
 
 ### Can I switch to a different embedding model without recreating my collection?
 
-The recommended pattern is an alias-based swap:
+Yes, if you're using named vectors:
+
+1. [Add a new named vector](/documentation/manage-data/collections/#update-vector-schema) for the new model
+2. Re-embed points in the background
+3. Remove the old named vector when you're ready.
+
+If you don't use named vectors, you need to create a new collection. Use an alias-based swap for a zero-downtime migration:
 
 1. Create a new collection and ingest your data re-embedded with the new model.  
 2. Once indexed, atomically update the [collection alias](/documentation/manage-data/collections/#collection-aliases) to point to the new collection.  
 3. Delete the old collection when you're confident the migration is stable.
-
-This gives you zero-downtime migrations and a rollback path.
 
 See also: [Migrate to a New Embedding Model](/documentation/tutorials-operations/embedding-model-migration/)
 
