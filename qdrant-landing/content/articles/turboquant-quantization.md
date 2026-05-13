@@ -74,6 +74,8 @@ TurboQuant ([Zandieh et al., 2026](https://arxiv.org/abs/2504.19874)) is a rotat
 
 The elegance: **no per-dataset training, no calibration set, no codebooks to persist**. The codebook is derived once from the standard normal distribution and is universal. The same lookup table works for every dataset and every dimensionality. By contrast, PQ requires a learned codebook trained on representative data and shipped alongside the index.
 
+For a visual explanation of TurboQuant, see [this interactive walkthrough](https://arkaung.github.io/interactive-turboquant/).
+
 ### MSE vs PROD: Picking the Variant
 
 The original paper proposes two variants. **MSE** is the literal recipe above: scalar Lloyd-Max quantization, score by codebook lookup. **PROD** adds a second QJL random projection on top of the indices to cancel the per-vector length bias that MSE inherits from rounding to a finite codebook.
