@@ -12,7 +12,7 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   height="16" fill="white"/></clipPath></defs></svg>
 text: "TurboQuant in Qdrant Explained"
 link:
-  text: Join us on May 26 to learn more
+  text: Join us May 26 to learn more
   url: https://luma.com/qdrant-turboquant
 start: 2026-05-11T11:50:00.000Z
 sitemapExclude: true
