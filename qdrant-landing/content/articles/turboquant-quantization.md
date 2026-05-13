@@ -6,7 +6,7 @@ social_preview_image: /articles_data/turboquant/preview/social_preview.png
 preview_dir: /articles_data/turboquant/preview
 author: Ivan Pleshkov & Jonas Schulz
 author_link: https://qdrant.tech
-date: 2026-05-04T10:00:00+02:00
+date: 2026-05-13T10:00:00+02:00
 draft: false
 keywords:
   - quantization
