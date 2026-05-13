@@ -66,7 +66,7 @@ for i in range(len(dataset) - 1, -1, -1):
         "arxiv_id": arxiv_id,
         "title": row["title"].strip(),
         "abstract": row["abstract"].strip(),
-        "categories": cats,
+        "tags": cats,
     })
 ```
 
@@ -158,7 +158,7 @@ for paper in papers:
             payload={
                 "document_id": paper["arxiv_id"],
                 "title":       paper["title"],
-                "tags":        paper["categories"],
+                "tags":        paper["tags"],
                 "chunk_index": i,
                 "chunk_text":  chunk,
             },
