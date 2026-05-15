@@ -135,3 +135,5 @@ REST API ([Schema](https://api.qdrant.tech/master/api-reference/search/query-poi
 {{< code-snippet path="/documentation/headless/snippets/query-groups/basic/" >}}
 
 For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](/documentation/search/search/#search-groups) and [lookup](/documentation/search/search/#lookup-in-groups).
+
+**See also:** the [Multi-Representation Search](/documentation/tutorials-search-engineering/multi-representation-search/) tutorial for a worked end-to-end example of grouping in a hybrid retrieval pipeline.
