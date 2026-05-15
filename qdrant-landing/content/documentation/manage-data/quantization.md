@@ -85,7 +85,7 @@ Manhattan (L1) distance is supported but requires full vector reconstruction per
 
 *Available as of v1.1.0*
 
-Scalar quantization, in the context of vector search engines, is a compression technique that compresses vectors by reducing the number of bits used to represent each vector component.
+[Scalar quantization](/articles/scalar-quantization/), in the context of vector search engines, is a compression technique that compresses vectors by reducing the number of bits used to represent each vector component.
 
 For instance, Qdrant uses 32-bit floating numbers to represent the original vector components. Scalar quantization allows you to reduce the number of bits used to 8.
 In other words, Qdrant performs `float32 -> uint8` conversion for each vector component.
@@ -106,7 +106,7 @@ Please refer to the [Quantization Tips](#quantization-tips) section for more inf
 
 *Available as of v1.5.0*
 
-Binary quantization is an extreme case of scalar quantization.
+[Binary quantization](/articles/binary-quantization/) is an extreme case of scalar quantization.
 This feature lets you represent each vector component as a single bit, effectively reducing the memory footprint by a factor of 32. This is the fastest quantization method, since it lets you perform a vector comparison with a few CPU instructions. Binary quantization can achieve up to a 40x speedup compared to the original vectors.
 
 However, binary quantization is only efficient for high-dimensional vectors and require a centered distribution of vector components.
@@ -191,7 +191,7 @@ See how to set up Asymmetric Quantization quantization in the [following section
 
 *Available as of v1.2.0*
 
-Product quantization is a method of compressing vectors to minimize their memory usage by dividing them into
+[Product quantization](/articles/product-quantization/) is a method of compressing vectors to minimize their memory usage by dividing them into
 chunks and quantizing each segment individually.
 Each chunk is approximated by a centroid index that represents the original vector component.
 The positions of the centroids are determined through the utilization of a clustering algorithm such as k-means.
