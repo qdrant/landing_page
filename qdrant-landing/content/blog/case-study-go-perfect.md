@@ -22,7 +22,7 @@ partition: case-studies
 
 GoPerfect mission is to use an AI recruiting workforce that replaces the manual, low-leverage parts of recruiting. Instead, an agent decomposes recruiter intent and runs the work end to end to find top talent.  Their agentic platform handles sourcing, scanning, reviewing, outreach, admin work as well as  candidate conversations for recruiters, hiring managers, agencies, and CEOs who hire at volume. 
 
-![screenshot](/blog/case-study-goperfect/goperfect-screenshot.png)
+![screenshot](/blog/case-study-goperfect/goperfect_screenshot.png)
 
 Recruiting is a needle-in-a-haystack problem with two complications: the haystack is massive (over 100 million people in the US alone, enriched into profiles drawn from professional networks, code repositories, company data, and AI-derived signals), and the definition of the "needle" is more nuanced than any keyword filter can express. A product manager is not a product marketer, even though the two sit close together in any reasonable embedding space.
 
