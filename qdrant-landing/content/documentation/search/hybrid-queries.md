@@ -81,7 +81,7 @@ Weights should be provided as an array of numbers, where each weight is applied 
 
 Weights are a hyperparameter, not a free knob. A held-out eval is the most defensible way to set them.
 
-- **With an eval set (queries paired with known-relevant docs):** grid-search weights on a train split, score on a held-out val split. The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) ships a reusable `tune_rrf_weights` helper.
+- **With an eval set (queries paired with known-relevant docs):** split your eval queries in two. Search the weight space on the first half, then report metrics on the second half (held out from the search). Reporting on the same set you tuned on inflates the result. The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) demonstrates this with a reusable `tune_rrf_weights` grid-search helper. Random search and Bayesian optimization (Optuna, hyperopt) work equally well for two-retriever fusion.
 - **Without an eval set:** leave weights at the default `(1.0, 1.0)`. Hand-tuned weights without measurement are unlikely to beat the default reliably.
 
 Retune when your retrievers change (new embedding model, new chunking), when your corpus drifts substantially, or on a fixed cadence with a fresh eval sample.
