@@ -19,19 +19,11 @@ Their necessity is determined by the [optimizer](/documentation/ops-optimization
 ## Payload Index
 
 Payload index in Qdrant is similar to the index in conventional document-oriented databases.
-This index is built for a specific field and type, and is used for quick point requests by the corresponding filtering condition.
-
-The index is also used to accurately estimate the filter cardinality, which helps the [query planning](/documentation/search/search/#query-planning) choose a search strategy.
+This index is built for a specific field and type, and is used for quick point requests by the corresponding filtering condition. The index is also used to accurately estimate the filter cardinality, which helps the [query planning](/documentation/search/search/#query-planning) choose a search strategy.
 
 Creating an index requires additional computational resources and memory, so choosing fields to be indexed is essential. Qdrant does not make this choice but grants it to the user.
 
-To mark a field as indexable, you can use the following:
-
-{{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-keyword/" >}}
-
-You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](/documentation/search/filtering/#nested-key).
-
-Available field types are:
+The following field types support payload indexing:
 
 * `keyword` - for [keyword](/documentation/manage-data/payload/#keyword) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions.
 * `integer` - for [integer](/documentation/manage-data/payload/#integer) payload, affects [Match](/documentation/search/filtering/#match) and [Range](/documentation/search/filtering/#range) filtering conditions.
@@ -43,13 +35,43 @@ Available field types are:
 * `uuid` - a special type of index, similar to `keyword`, but optimized for [UUID values](/documentation/manage-data/payload/#uuid).
 Affects [Match](/documentation/search/filtering/#match) filtering conditions. (available as of v1.11.0)
 
-Payload index may occupy some additional memory, so it is recommended to only use the index for those fields that are used in filtering conditions.
+Payload indexes may occupy additional memory, so it is recommended to only apply payload indexes for those fields that are used in filtering conditions.
 If you need to filter by many fields and the memory limits do not allow for indexing all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 
-<aside role="alert">It's highly recommended to create all payload indices immediately after collection creation. Creating them later may block updates for some time. HNSW graphs will also only benefit from <a href="#filterable-hnsw-index">additional optimizations</a> (extra edges) when they are generated after payload index creation.</aside>
+### Create a Payload Index
 
-### Parameterized index
+To create a payload index for a field:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-keyword/" >}}
+
+You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](/documentation/search/filtering/#nested-key).
+
+**Payload indexes should be created before ingesting data.** [Qdrant's filterable HNSW index](#filterable-hnsw-index) only benefits from additional filter-aware edges when it is generated after the payload indexes have been created. If you create a payload index after data has already been indexed, you can rebuild the HNSW index to take advantage of the new payload indexes.
+
+<aside role="alert">
+Rebuilding the HNSW index is an expensive operation. It's highly recommended to create all payload indexes before ingesting data instead.
+</aside>
+
+To rebuild an HNSW index, make a change to its HNSW configuration, for example by bumping `ef_construct` by `1`. This forces the optimizer to re-index all segments.
+
+First, retrieve the current value of `ef_construct`:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/increment-ef-construct/" block="get-current-value" >}}
+
+Next, update the collection with the value of `ef_construct` incremented by `1`:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/increment-ef-construct/" block="update-collection" >}}
+
+Don’t immediately revert the value of `ef_construct` to its original value. Keep it set to the new value.
+
+### Prevent Filtering on Unindexed Fields
+
+Since filtering on an unindexed field can be slow, Qdrant offers an option to prevent it. By enabling [strict mode](/documentation/ops-configuration/administration/#strict-mode) and setting `unindexed_filtering_retrieve` to `false`, Qdrant will return an error if a search query filters on an unindexed field. On Qdrant Cloud, these settings are applied to all collections by default.
+
+For more information, refer to [Disable Retrieving via Non Indexed Payload](/documentation/ops-configuration/administration/#disable-retrieving-via-non-indexed-payload).
+
+### Parameterized Index
 
 *Available as of v1.8.0*
 
@@ -88,7 +110,7 @@ supports only range filters:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/integer-with-params/" >}}
 
-### On-disk payload index
+### On-Disk Payload Index
 
 *Available as of v1.11.0*
 
@@ -161,7 +183,7 @@ Principal optimization is supported for following types:
 * `datetime`
 
 
-## Full-text index
+## Full-Text Index
 
 Qdrant supports full-text search for string payload.
 Full-text index allows you to filter points by the presence of a word or a phrase in the payload field.
