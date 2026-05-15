@@ -3,6 +3,8 @@ draft: false
 title: "How GoPerfect Built an Agentic Recruiting Workforce with Qdrant Cloud"
 short_description: "How GoPerfect Built an Agentic Recruiting Workforce with Qdrant Cloud"
 description: "How GoPerfect Built an Agentic Recruiting Workforce with Qdrant Cloud"
+preview_image: /blog/case-study-goperfect/social_preview_goperfect.png
+social_preview_image: /blog/case-study-goperfect/social_preview_goperfect.png
 date: 2026-05-19
 author: "Daniel Azoulai"
 featured: false
@@ -76,7 +78,7 @@ GoPerfect also runs a candidate scoring and fraud-signal layer that cross-refere
 >With Qdrant, we can offer customers a full agentic experience: a real chain of thoughts, memory, and context. That's what people expect from a true agent today.
 — Eylon Etshtein, CEO, GoPerfect
 
-![production-pipeline](/blog/case-study-goperfect/goperfect_production_pipeline.png)
+![pipeline](/blog/case-study-goperfect/goperfect_production_pipeline.svg)
 
 ### What's next
 
