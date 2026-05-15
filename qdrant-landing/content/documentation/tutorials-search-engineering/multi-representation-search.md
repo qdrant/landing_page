@@ -208,7 +208,7 @@ def retrieve(query, limit=10, group_size=3, tags=None):
 A representation only earns its own prefetch if it carries signal independent of the others. The four above are deliberately complementary:
 
 - `dense_chunk` carries the body content.
-- `dense_title` carries the topical naming. For a query like "diffusion models for high-resolution image synthesis", a paper titled "High-Resolution Image Synthesis with Latent Diffusion Models" surfaces from the title prefetch even when its abstract phrases the contribution differently. The chunk prefetch alone misses it.
+- `dense_title` carries the topical naming. The title isn't part of the chunk or abstract text in this schema, so a query matching title vocabulary that the body never repeats needs this prefetch to surface the document.
 - `dense_abstract` carries the abstract as a complete semantic unit, while `dense_chunk` indexes smaller sections of the document itself.
 - `sparse_title` carries lexical hits on the title that the dense embedding averages out: rare entity names, jargon, specific model or paper names.
 
@@ -236,7 +236,11 @@ query=models.FormulaQuery(
 
 In this formula, `$score[i]` is the score from prefetch `i`, so the order of your `prefetch=` list matters. The `defaults` map provides fallback values (here `0.0`) for candidates that didn't appear in every prefetch, so the formula still evaluates.
 
-This is a linear combination of raw scores, which breaks down when prefetches use different scoring scales (for example, dense scores in [0, 1] alongside unbounded BM25 scores). The other two fusion strategies handle this for you: RRF discards scores entirely, and DBSF normalizes each prefetch before summing. With a custom formula, you have to normalize the scores yourself, typically using [decay functions](/documentation/search/search-relevance/#decay-functions). The full FormulaQuery syntax lives in the [Score Boosting](/documentation/search/search-relevance/#score-boosting) reference.
+<aside role="alert">
+Linear combinations of raw scores break down when prefetches use different scoring scales — for example, dense scores in [0, 1] alongside unbounded BM25 scores. See <a href="/articles/hybrid-search/#why-not-a-linear-combination">Why not a linear combination?</a> for the full argument.
+</aside>
+
+The other two fusion strategies handle this for you: RRF discards scores entirely, and DBSF normalizes each prefetch before summing. With a custom formula, you have to normalize the scores yourself, typically using [decay functions](/documentation/search/search-relevance/#decay-functions). The full FormulaQuery syntax lives in the [Score Boosting](/documentation/search/search-relevance/#score-boosting) reference.
 
 For RRF vs. DBSF guidance, see the [hybrid-search FAQ](/documentation/faq/qdrant-fundamentals/#when-should-i-use-reciprocal-rank-fusion-rrf-vs-distribution-based-score-fusion-dbsf-for-hybrid-search).
 
