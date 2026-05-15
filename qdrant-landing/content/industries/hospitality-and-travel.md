@@ -353,15 +353,15 @@ sections:
     logos:
       - id: 0
         icon:
-          src: /img/hospitality-and-travel/open-table-small.svg
+          src: /img/hospitality-and-travel/open-table-light.svg
           alt: OpenTable logo
       - id: 1
         icon:
-          src: /img/hospitality-and-travel/tripadvisor-small.svg
+          src: /img/hospitality-and-travel/tripadvisor-light.svg
           alt: Tripadvisor logo
       - id: 2
         icon:
-          src: /img/hospitality-and-travel/sprinklr-small.svg
+          src: /img/hospitality-and-travel/sprinklr-light.svg
           alt: Sprinklr logo
 
   #testimonials-section
