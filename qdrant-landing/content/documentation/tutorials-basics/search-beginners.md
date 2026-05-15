@@ -2,7 +2,7 @@
 title: Semantic Search 101
 short_description: "Run your first semantic search on Qdrant Cloud: create a cluster, upload a small dataset, and query by meaning instead of keywords."
 description: "Step-by-step tutorial: spin up a Qdrant Cloud cluster, create a collection, upload sample data, and run semantic vector search queries in five minutes."
-weight: 4
+weight: 10
 aliases:
   - /documentation/tutorials/mighty.md/
   - /documentation/tutorials/search-beginners/
@@ -113,4 +113,4 @@ The results have been narrowed down to one result from 2008:
 
 ## Next Steps
 
-Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial, try [building your own hybrid search service](/documentation/tutorials-search-engineering/hybrid-search-fastembed/) or take the free [Qdrant Essentials course](/course/essentials/).
+Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial, try [building your own hybrid search service](/documentation/tutorials-basics/cloud-inference-hybrid-search/) or take the free [Qdrant Essentials course](/course/essentials/).
