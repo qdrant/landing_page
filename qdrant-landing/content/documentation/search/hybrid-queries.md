@@ -1,7 +1,7 @@
 ---
 title: Hybrid Queries
-short_description: "Combine dense, sparse, and multivector queries in Qdrant with hybrid search and multi-stage Universal Query pipelines."
-description: "Run hybrid and multi-stage queries in Qdrant — fuse dense, sparse, and multivector results with RRF or DBSF using the Universal Query API for hybrid search."
+short_description: "Combine dense, sparse, and multivector queries in Qdrant with hybrid search, weighted RRF tuning, DBSF, and FormulaQuery custom scoring."
+description: "Run hybrid queries in Qdrant: fuse dense, sparse, and multivector results with RRF, DBSF, or FormulaQuery, and pick the right fusion method for your data."
 weight: 15
 aliases:
   - ../hybrid-queries
@@ -79,15 +79,55 @@ Weights should be provided as an array of numbers, where each weight is applied 
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf-weights/" >}}
 
+Weights are a hyperparameter, not a free knob. A held-out eval is the most defensible way to set them.
+
+- **With an eval set (queries paired with known-relevant docs):** grid-search weights on a train split, score on a held-out val split. The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) ships a reusable `tune_rrf_weights` helper.
+- **Without an eval set:** leave weights at the default `(1.0, 1.0)`. Hand-tuned weights without measurement are unlikely to beat the default reliably.
+
+Retune when your retrievers change (new embedding model, new chunking), when your corpus drifts substantially, or on a fixed cadence with a fresh eval sample.
+
 ### Distribution-Based Score Fusion (DBSF)
 
 _Available as of v1.11.0_
-  
-<a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">
-DBSF</a> 
-normalizes the scores of the points in each query, using the mean +/- the 3rd standard deviation as limits, and then sums the scores of the same point across different queries.
 
-<aside role="status"><code>dbsf</code> is stateless and calculates the normalization limits only based on the results of each query, not on all the scores that it has seen.</aside>
+<a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">DBSF</a> keeps the raw scores from each query but normalizes their distributions before combining. For each retriever's returned set, it computes the mean $\mu$ and sample standard deviation $\sigma$, then linearly remaps every score using the 3-sigma extremes as endpoints:
+
+$$ \hat{s} = \frac{s - (\mu - 3\sigma)}{6\sigma} $$
+
+Normalized scores are summed across retrievers. Different score magnitudes no longer matter because each retriever contributes on the same comparable range.
+
+<aside role="status"><code>dbsf</code> is stateless and computes its normalization limits from each query's returned points, not from all the scores it has seen. Scores are <strong>not</strong> clipped to [0, 1]; values outside the 3-sigma range remain outside it after the remap. If all returned scores are identical (or only one point is returned), DBSF emits <code>0.5</code> rather than dividing by zero.</aside>
+
+DBSF is a reasonable choice when you trust your retrievers' raw scores to carry magnitude information. Weighted RRF tends to win when you have an eval set and can grid-search, but DBSF remains competitive on retrievers with well-calibrated score distributions. Two caveats apply: the statistics come from the prefetch top-k (a small sample), and a single dominant outlier in that top-k can skew normalization for that query. Increase the prefetch `limit` if you see unstable rankings.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-dbsf/" >}}
+
+### Custom Fusion with FormulaQuery
+
+_Available as of v1.14.0_
+
+`FormulaQuery` lets you write the combining expression explicitly, using scores from prefetches (`$score`), payload fields, and built-in helpers like `ExpDecayExpression` or `GaussDecayExpression`. It is **not** a replacement for tuned weighted RRF. Writing `0.7 * $score[0] + 0.3 * $score[1]` over raw retriever scores reintroduces the same scale problem that breaks naive linear fusion. If the prefetches are themselves `rrf` or `dbsf`, the scores are already on comparable scales and a weighted formula sum works.
+
+`FormulaQuery` is designed for layering ranking logic **on top of** a fused result: recency decay, popularity boosts, geo decay, or category-conditional multipliers. The canonical pattern is to fuse with RRF (or DBSF) in a prefetch, then wrap the prefetch in a `FormulaQuery` that uses `$score` and payload fields:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-formula-decay/" >}}
+
+<aside role="status">Calibrate the decay weight against the scale of your fused <code>$score</code>. RRF scores are small (sums of <code>1/(k+rank)</code> terms), while decay functions return values in <code>[0, 1]</code>, so an unweighted decay term will dominate the fused score unless you multiply it by a smaller coefficient. Wrap the decay in <code>MultExpression(mult=[w, ...])</code> with a <code>w</code> tuned to your workload.</aside>
+
+The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) shows this pattern end-to-end with exponential decay on a `published_at` payload field. For full `FormulaQuery` and decay function syntax, see the [Search Relevance reference](/documentation/search/search-relevance/).
+
+### Choosing a Fusion Method
+
+| If you have... | Use |
+| --- | --- |
+| Business logic to apply after fusion (recency, boosts, geo) | RRF or DBSF in a prefetch, wrapped in `FormulaQuery` |
+| An eval set (queries with known-relevant docs) to tune on | Weighted RRF, with weights tuned on a train/val split |
+| Trust in your retrievers' raw scores and no eval set | DBSF |
+| Neither an eval set nor strong score priors | RRF (the safe default) |
+
+For a deeper breakdown of when to prefer each, see the [FAQ on RRF vs. DBSF](/documentation/faq/qdrant-fundamentals/#when-should-i-use-reciprocal-rank-fusion-rrf-vs-distribution-based-score-fusion-dbsf-for-hybrid-search).
+
+<aside role="status">A common request is "alpha-weighted linear combination of dense and sparse scores." This is unreliable without first normalizing the scores: dense (cosine, bounded) and sparse (BM25, unbounded) scores live on different scales that also shift per query, so a fixed alpha over raw scores tends to be dominated by whichever retriever has larger raw magnitudes on a given query. RRF sidesteps this by using ranks. DBSF sidesteps it by normalizing distributions. <code>FormulaQuery</code> can do it explicitly if you write the normalization yourself.</aside>
 
 
 ## Multi-stage queries
