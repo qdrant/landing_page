@@ -249,4 +249,4 @@ The query has been narrowed down to one result from 2008.
 
 ## Next Steps
 
-Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial, try [building your own hybrid search service](/documentation/tutorials-search-engineering/hybrid-search-fastembed/) or take the free [Qdrant Essentials course](/course/essentials/).
+Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial, try [building your own hybrid search service](/documentation/tutorials-basics/hybrid-search-fastembed/) or take the free [Qdrant Essentials course](/course/essentials/).

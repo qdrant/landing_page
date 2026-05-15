@@ -13,7 +13,7 @@ aliases:
 
 In this tutorial, we'll walkthrough building a **hybrid semantic search engine** using Qdrant Cloud's built-in [inference](/documentation/cloud/inference/) capabilities. You'll learn how to:
 - Automatically embed your data using [cloud Inference](/documentation/cloud/inference/) without needing to run local models,
-- Combine dense semantic embeddings with [sparse BM25 keywords](https://qdrant.tech/documentation/tutorials-search-engineering/reranking-hybrid-search/),  and
+- Combine dense semantic embeddings with [sparse BM25 keywords](/documentation/tutorials-basics/reranking-hybrid-search/),  and
 - Perform hybrid search using  [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/) to retrieve the most relevant results.
 
 ## Initialize the Client
@@ -58,4 +58,4 @@ vector=None, shard_key=None, order_value=None)]
 
 ## Next Steps
 
-Hybrid search result quality can be improved by reranking the results using a more expensive but higher quality model. Learn more in the [hybrid search with reranking tutorial](/documentation/tutorials-search-engineering/reranking-hybrid-search/).
+Hybrid search result quality can be improved by reranking the results using a more expensive but higher quality model. Learn more in the [hybrid search with reranking tutorial](/documentation/tutorials-basics/reranking-hybrid-search/).

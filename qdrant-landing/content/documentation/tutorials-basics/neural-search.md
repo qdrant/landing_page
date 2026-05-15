@@ -20,7 +20,7 @@ A neural search service uses artificial neural networks to improve the accuracy 
 
 <aside role="status">
 There is a version of this tutorial that uses <a href="https://github.com/qdrant/fastembed">Fastembed</a> model inference engine instead of Sentence Transformers.
-Check it out <a href="/documentation/tutorials-search-engineering/hybrid-search-fastembed/">here</a>.
+Check it out <a href="/documentation/tutorials-basics/hybrid-search-fastembed/">here</a>.
 </aside>
 
 
