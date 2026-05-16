@@ -1,8 +1,10 @@
 package com.example.snippets_amalgamation;
 
+import static io.qdrant.client.ExpressionFactory.constant;
 import static io.qdrant.client.ExpressionFactory.datetime;
 import static io.qdrant.client.ExpressionFactory.datetimeKey;
 import static io.qdrant.client.ExpressionFactory.expDecay;
+import static io.qdrant.client.ExpressionFactory.mult;
 import static io.qdrant.client.ExpressionFactory.sum;
 import static io.qdrant.client.ExpressionFactory.variable;
 import static io.qdrant.client.QueryFactory.formula;
@@ -13,6 +15,7 @@ import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.DecayParamsExpression;
 import io.qdrant.client.grpc.Points.Formula;
+import io.qdrant.client.grpc.Points.MultExpression;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.Rrf;
@@ -52,13 +55,18 @@ public class Snippet {
                                             SumExpression.newBuilder()
                                                 .addSum(variable("$score"))
                                                 .addSum(
-                                                    expDecay(
-                                                        DecayParamsExpression.newBuilder()
-                                                            .setX(datetimeKey("published_at"))
-                                                            .setTarget(
-                                                                datetime("YYYY-MM-DDT00:00:00Z"))
-                                                            .setScale(86400 * 180)
-                                                            .setMidpoint(0.5f)
+                                                    mult(
+                                                        MultExpression.newBuilder()
+                                                            .addMult(constant(0.1f))
+                                                            .addMult(
+                                                                expDecay(
+                                                                    DecayParamsExpression.newBuilder()
+                                                                        .setX(datetimeKey("published_at"))
+                                                                        .setTarget(
+                                                                            datetime("YYYY-MM-DDT00:00:00Z"))
+                                                                        .setScale(86400 * 180)
+                                                                        .setMidpoint(0.5f)
+                                                                        .build()))
                                                             .build()))
                                                 .build()))
                                     .build()))

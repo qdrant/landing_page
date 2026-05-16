@@ -25,14 +25,17 @@ client.query_points(
         formula=models.SumExpression(
             sum=[
                 "$score",  # the fused score from the RRF prefetch
-                models.ExpDecayExpression(
-                    exp_decay=models.DecayParamsExpression(
-                        x=models.DatetimeKeyExpression(datetime_key="published_at"),
-                        target=models.DatetimeExpression(datetime="YYYY-MM-DDT00:00:00Z"),
-                        scale=86400 * 180,  # 180 days in seconds
-                        midpoint=0.5,
-                    )
-                ),
+                models.MultExpression(mult=[
+                    0.1,  # caps decay contribution; un-weighted decay [0, 1] would otherwise crowd out small RRF scores
+                    models.ExpDecayExpression(
+                        exp_decay=models.DecayParamsExpression(
+                            x=models.DatetimeKeyExpression(datetime_key="published_at"),
+                            target=models.DatetimeExpression(datetime="YYYY-MM-DDT00:00:00Z"),
+                            scale=86400 * 180,  # 180 days in seconds
+                            midpoint=0.5,
+                        )
+                    ),
+                ]),
             ]
         )
     ),

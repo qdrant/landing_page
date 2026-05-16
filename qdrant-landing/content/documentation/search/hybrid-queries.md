@@ -53,6 +53,8 @@ Where:
 - $r_d$ is the rank of document $d$ in ranking $r$
 - $w_r$ is the weight of ranking $r$ (set to 1 by default)
 
+_Qdrant uses zero-based rank positions; the top result has $r_d = 0$._
+
 Because $w_r$ defaults to 1, without setting explicit weights, the formula can be simplified to the original RRF function:
 
 $$ score(d\in D) = \sum_{r_d\in R(d)} \frac{1}{k + r_d} $$
@@ -71,7 +73,7 @@ To change the value of constant $k$ in the formula, use the dedicated `rrf` quer
 #### Weighted RRF
 _Available as of v1.17.0_
 
-By default, each query is assigned an equal weight. In reality, some queries are stronger, more discriminative, or more domain-specific than others. For example, a semantic search model understands meaning better than a simple keyword matcher. Assigning equal weight to both can cause the weaker model to negatively influence results, leading to a suboptimal search experience. To address this, you can assign greater weight to rankers that perform well.
+By default, each query is assigned an equal weight. In reality, one retriever is often stronger than the other for a given workload. For example, a dense retriever may dominate on natural-language queries, while BM25 may win on identifier-heavy ones. Assigning equal weight to both can let the weaker retriever drag down results. To address this, you can assign greater weight to rankers that perform well on your evaluation set.
 
 The `rrf` query allows you to configure relative weights for each of the prefetches. For example, if you have two prefetches and assign a weight of 3.0 to the first and 1.0 to the second, a document ranked third in the first query scores the same as a document ranked first in the second query. In the case of non-overlapping result sets, these weights return three results from the first set for every one result from the second set.
 
@@ -81,7 +83,7 @@ Weights should be provided as an array of numbers, where each weight is applied 
 
 Weights are a hyperparameter, not a free knob. A held-out eval is the most defensible way to set them.
 
-- **With an eval set (queries paired with known-relevant docs):** split your eval queries in two. Search the weight space on the first half, then report metrics on the second half (held out from the search). Reporting on the same set you tuned on inflates the result. The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) demonstrates this with a reusable `tune_rrf_weights` grid-search helper. Random search and Bayesian optimization (Optuna, hyperopt) work equally well for two-retriever fusion.
+- **With an eval set (queries paired with known-relevant docs):** split your eval queries in two. Search the weight space on the first half, then report metrics on the second half (held out from the search). Reporting on the same set you tuned on inflates the result. The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) provides a reusable `tune_rrf_weights` grid-search helper you can adapt to a train/val split. Random search and Bayesian optimization (Optuna, hyperopt) work equally well for two-retriever fusion.
 - **Without an eval set:** leave weights at the default `(1.0, 1.0)`. Hand-tuned weights without measurement are unlikely to beat the default reliably.
 
 Retune when your retrievers change (new embedding model, new chunking), when your corpus drifts substantially, or on a fixed cadence with a fresh eval sample.
@@ -130,7 +132,7 @@ For a deeper breakdown of when to prefer each, see the [FAQ on RRF vs. DBSF](/do
 <aside role="status">A common request is "alpha-weighted linear combination of dense and sparse scores." This is unreliable without first normalizing the scores: dense (cosine, bounded) and sparse (BM25, unbounded) scores live on different scales that also shift per query, so a fixed alpha over raw scores tends to be dominated by whichever retriever has larger raw magnitudes on a given query. RRF sidesteps this by using ranks. DBSF sidesteps it by normalizing distributions. <code>FormulaQuery</code> can do it explicitly if you write the normalization yourself.</aside>
 
 
-## Multi-stage queries
+## Multi-Stage Queries
 
 In general, larger vector representations give more accurate search results, but makes them more expensive to compute.
 
@@ -150,7 +152,7 @@ such that the coarse results are fetched first, and then they are refined later 
 
 <aside role="status">Disable the HNSW index for vectors used only for rescoring by setting <code>m=0</code> in the vector's HNSW configuration. Rescoring does not use the HNSW index, so disabling it will free up memory.</aside>
 
-### Re-scoring examples
+### Re-Scoring Examples
 
 Fetch 1000 results using a shorter MRL byte vector, then re-score them using the full vector and get the top 10.
 
@@ -160,7 +162,7 @@ Fetch 100 results using the default vector, then re-score them using a multi-vec
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring-multivector/" >}}
 
-It is possible to combine all the above techniques in a single query:
+You can combine all of these techniques in a single query:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring-multistage/" >}}
 

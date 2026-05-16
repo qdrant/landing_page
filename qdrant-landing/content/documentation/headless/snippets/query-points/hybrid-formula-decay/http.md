@@ -25,16 +25,21 @@ POST /collections/{collection_name}/points/query
             "sum": [
                 "$score", // the fused score from the RRF prefetch
                 {
-                    "exp_decay": {
-                        "x": {
-                            "datetime_key": "published_at"
-                        },
-                        "target": {
-                            "datetime": "YYYY-MM-DDT00:00:00Z"
-                        },
-                        "scale": 15552000, // 180 days in seconds
-                        "midpoint": 0.5
-                    }
+                    "mult": [
+                        0.1, // caps decay contribution
+                        {
+                            "exp_decay": {
+                                "x": {
+                                    "datetime_key": "published_at"
+                                },
+                                "target": {
+                                    "datetime": "YYYY-MM-DDT00:00:00Z"
+                                },
+                                "scale": 15552000, // 180 days in seconds
+                                "midpoint": 0.5
+                            }
+                        }
+                    ]
                 }
             ]
         }

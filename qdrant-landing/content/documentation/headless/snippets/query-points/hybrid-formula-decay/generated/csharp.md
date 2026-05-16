@@ -32,15 +32,22 @@ await client.QueryAsync(
             Sum =
             {
                 "$score", // the fused score from the RRF prefetch
-                Expression.FromExpDecay(
-                    new()
+                new MultExpression
+                {
+                    Mult =
                     {
-                        X = Expression.FromDateTimeKey("published_at"),
-                        Target = Expression.FromDateTime("YYYY-MM-DDT00:00:00Z"),
-                        Scale = 86400 * 180, // 180 days in seconds
-                        Midpoint = 0.5f
+                        0.1f, // caps decay contribution
+                        Expression.FromExpDecay(
+                            new()
+                            {
+                                X = Expression.FromDateTimeKey("published_at"),
+                                Target = Expression.FromDateTime("YYYY-MM-DDT00:00:00Z"),
+                                Scale = 86400 * 180, // 180 days in seconds
+                                Midpoint = 0.5f
+                            }
+                        )
                     }
-                )
+                }
             }
         }
     },

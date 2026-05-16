@@ -29,12 +29,15 @@ pub async fn main() -> anyhow::Result<()> {
             .query(
                 FormulaBuilder::new(Expression::sum_with([
                     Expression::score(),
-                    Expression::exp_decay(
-                        DecayParamsExpressionBuilder::new(Expression::datetime_key("published_at"))
-                            .target(Expression::datetime("YYYY-MM-DDT00:00:00Z"))
-                            .scale(86400.0 * 180.0)
-                            .midpoint(0.5),
-                    ),
+                    Expression::mult_with([
+                        Expression::constant(0.1),
+                        Expression::exp_decay(
+                            DecayParamsExpressionBuilder::new(Expression::datetime_key("published_at"))
+                                .target(Expression::datetime("YYYY-MM-DDT00:00:00Z"))
+                                .scale(86400.0 * 180.0)
+                                .midpoint(0.5),
+                        ),
+                    ]),
                 ])),
             )
             .limit(10u64),

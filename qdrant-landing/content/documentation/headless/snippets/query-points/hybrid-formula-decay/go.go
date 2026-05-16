@@ -38,11 +38,16 @@ func Main() {
 			Expression: qdrant.NewExpressionSum(&qdrant.SumExpression{
 				Sum: []*qdrant.Expression{
 					qdrant.NewExpressionVariable("$score"), // the fused score from the RRF prefetch
-					qdrant.NewExpressionExpDecay(&qdrant.DecayParamsExpression{
-						X:        qdrant.NewExpressionDatetimeKey("published_at"),
-						Target:   qdrant.NewExpressionDatetime("YYYY-MM-DDT00:00:00Z"),
-						Scale:    qdrant.PtrOf(float32(86400 * 180)), // 180 days in seconds
-						Midpoint: qdrant.PtrOf(float32(0.5)),
+					qdrant.NewExpressionMult(&qdrant.MultExpression{
+						Mult: []*qdrant.Expression{
+							qdrant.NewExpressionConstant(0.1), // caps decay contribution
+							qdrant.NewExpressionExpDecay(&qdrant.DecayParamsExpression{
+								X:        qdrant.NewExpressionDatetimeKey("published_at"),
+								Target:   qdrant.NewExpressionDatetime("YYYY-MM-DDT00:00:00Z"),
+								Scale:    qdrant.PtrOf(float32(86400 * 180)), // 180 days in seconds
+								Midpoint: qdrant.PtrOf(float32(0.5)),
+							}),
+						},
 					}),
 				},
 			}),
