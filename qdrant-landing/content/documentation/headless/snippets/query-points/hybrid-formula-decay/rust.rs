@@ -1,7 +1,7 @@
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{
-    DecayParamsExpressionBuilder, Expression, FormulaBuilder, Fusion, PrefetchQueryBuilder, Query,
-    QueryPointsBuilder,
+    DecayParamsExpressionBuilder, Expression, FormulaBuilder, PrefetchQueryBuilder, Query,
+    QueryPointsBuilder, RrfBuilder,
 };
 
 pub async fn main() -> anyhow::Result<()> {
@@ -23,7 +23,7 @@ pub async fn main() -> anyhow::Result<()> {
                             .using("dense")
                             .limit(100u64),
                     )
-                    .query(Query::new_fusion(Fusion::Rrf))
+                    .query(Query::new_rrf(RrfBuilder::default()))
                     .limit(100u64),
             )
             .query(

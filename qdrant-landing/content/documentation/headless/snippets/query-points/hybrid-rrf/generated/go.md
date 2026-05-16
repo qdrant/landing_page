@@ -22,6 +22,6 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 			Using: qdrant.PtrOf("dense"),
 		},
 	},
-	Query: qdrant.NewQueryFusion(qdrant.Fusion_RRF),
+	Query: qdrant.NewQueryRRF(&qdrant.Rrf{}),
 })
 ```

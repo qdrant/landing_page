@@ -18,7 +18,7 @@ client.query_points(
                 limit=100,
             ),
         ],
-        query=models.FusionQuery(fusion=models.Fusion.RRF),
+        query=models.RrfQuery(rrf=models.Rrf()),
         limit=100,
     ),
     query=models.FormulaQuery(

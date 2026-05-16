@@ -98,7 +98,7 @@ Normalized scores are summed across retrievers. Different score magnitudes no lo
 
 <aside role="status"><code>dbsf</code> is stateless and computes its normalization limits from each query's returned points, not from all the scores it has seen. Scores are <strong>not</strong> clipped to [0, 1]; values outside the 3-sigma range remain outside it after the remap. If all returned scores are identical (or only one point is returned), DBSF emits <code>0.5</code> rather than dividing by zero.</aside>
 
-DBSF is a reasonable choice when you trust your retrievers' raw scores to carry magnitude information. Weighted RRF tends to win when you have an eval set and can grid-search, but DBSF remains competitive on retrievers with well-calibrated score distributions. Two caveats apply: the statistics come from the prefetch top-k (a small sample), and a single dominant outlier in that top-k can skew normalization for that query. Increase the prefetch `limit` if you see unstable rankings.
+DBSF is a reasonable choice when you trust your retrievers' raw scores to carry magnitude information. On well-calibrated retrievers DBSF can outperform tuned weighted RRF; on others weighted RRF wins. Neither dominates the other in general, so use your eval set to choose between them. Two caveats apply: the statistics come from the prefetch top-k (a small sample), and a single dominant outlier in that top-k can skew normalization for that query. Increase the prefetch `limit` if you see unstable rankings.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-dbsf/" >}}
 

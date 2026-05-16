@@ -1,12 +1,12 @@
 ```java
-import static io.qdrant.client.QueryFactory.fusion;
 import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.QueryFactory.rrf;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.Fusion;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
 import io.qdrant.client.grpc.Points.QueryPoints;
+import io.qdrant.client.grpc.Points.Rrf;
 import java.util.List;
 
 QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
@@ -24,7 +24,7 @@ client.queryAsync(
       .setUsing("dense")
       .setLimit(20)
       .build())
-    .setQuery(fusion(Fusion.RRF))
+    .setQuery(rrf(Rrf.newBuilder().build()))
     .build())
   .get();
 ```

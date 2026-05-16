@@ -17,7 +17,7 @@ POST /collections/{collection_name}/points/query
                 "limit": 100
             }
         ],
-        "query": { "fusion": "rrf" },
+        "query": { "rrf": {} },
         "limit": 100
     },
     "query": {

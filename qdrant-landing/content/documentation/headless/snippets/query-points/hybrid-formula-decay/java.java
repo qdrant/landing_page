@@ -6,16 +6,16 @@ import static io.qdrant.client.ExpressionFactory.expDecay;
 import static io.qdrant.client.ExpressionFactory.sum;
 import static io.qdrant.client.ExpressionFactory.variable;
 import static io.qdrant.client.QueryFactory.formula;
-import static io.qdrant.client.QueryFactory.fusion;
 import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.QueryFactory.rrf;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.DecayParamsExpression;
 import io.qdrant.client.grpc.Points.Formula;
-import io.qdrant.client.grpc.Points.Fusion;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
 import io.qdrant.client.grpc.Points.QueryPoints;
+import io.qdrant.client.grpc.Points.Rrf;
 import io.qdrant.client.grpc.Points.SumExpression;
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class Snippet {
                                         .setUsing("dense")
                                         .setLimit(100)
                                         .build())
-                                .setQuery(fusion(Fusion.RRF))
+                                .setQuery(rrf(Rrf.newBuilder().build()))
                                 .setLimit(100)
                                 .build())
                         .setQuery(

@@ -19,7 +19,7 @@ await client.query("{collection_name}", {
                 limit: 100,
             },
         ],
-        query: { fusion: "rrf" },
+        query: { rrf: {} },
         limit: 100,
     },
     query: {

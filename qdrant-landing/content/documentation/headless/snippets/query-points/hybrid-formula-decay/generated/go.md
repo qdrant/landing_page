@@ -26,7 +26,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 					Limit: qdrant.PtrOf(uint64(100)),
 				},
 			},
-			Query: qdrant.NewQueryFusion(qdrant.Fusion_RRF),
+			Query: qdrant.NewQueryRRF(&qdrant.Rrf{}),
 			Limit: qdrant.PtrOf(uint64(100)),
 		},
 	},

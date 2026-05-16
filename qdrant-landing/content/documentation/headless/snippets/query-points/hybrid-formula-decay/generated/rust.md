@@ -1,8 +1,8 @@
 ```rust
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{
-    DecayParamsExpressionBuilder, Expression, FormulaBuilder, Fusion, PrefetchQueryBuilder, Query,
-    QueryPointsBuilder,
+    DecayParamsExpressionBuilder, Expression, FormulaBuilder, PrefetchQueryBuilder, Query,
+    QueryPointsBuilder, RrfBuilder,
 };
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
@@ -23,7 +23,7 @@ client.query(
                         .using("dense")
                         .limit(100u64),
                 )
-                .query(Query::new_fusion(Fusion::Rrf))
+                .query(Query::new_rrf(RrfBuilder::default()))
                 .limit(100u64),
         )
         .query(

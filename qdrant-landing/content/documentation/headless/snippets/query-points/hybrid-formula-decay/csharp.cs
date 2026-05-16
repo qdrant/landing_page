@@ -24,7 +24,7 @@ public class Snippet
 		                    Limit = 100
 		                },
 		            },
-		            Query = Fusion.Rrf,
+		            Query = new Rrf(),
 		            Limit = 100
 		        },
 		    ],
