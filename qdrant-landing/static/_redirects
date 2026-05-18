@@ -56,9 +56,9 @@
 
 # Search tutorials reorg
 /documentation/tutorials-and-examples/cloud-inference-hybrid-search/*  /documentation/tutorials-basics/cloud-inference-hybrid-search/:splat  301
-/documentation/tutorials-search-engineering/code-search/*  /documentation/tutorials-basics/code-search/:splat  301
-/documentation/tutorials-search-engineering/neural-search/*  /documentation/tutorials-basics/neural-search/:splat  301
-/documentation/tutorials-search-engineering/hybrid-search-fastembed/*  /documentation/tutorials-basics/hybrid-search-fastembed/:splat  301
+/documentation/tutorials-search-engineering/code-search/*  /documentation/tutorials-develop/code-search/:splat  301
+/documentation/tutorials-search-engineering/neural-search/*  /documentation/tutorials-develop/neural-search/:splat 
+/documentation/tutorials-search-engineering/hybrid-search-fastembed/*  /documentation/tutorials-develop/hybrid-search-fastembed/:splat  301
 /documentation/tutorials-search-engineering/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301
 
 # Deploy tab landing page slug change
