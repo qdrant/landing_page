@@ -10,7 +10,7 @@ author: "Daniel Azoulai"
 featured: false
 
 tags:
-- Sunny Health
+- Sunny Health AI
 - vector search
 - hybrid search
 - payload filtering
