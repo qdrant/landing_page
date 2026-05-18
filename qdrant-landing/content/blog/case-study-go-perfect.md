@@ -52,13 +52,13 @@ GoPerfect evaluated multiple vector search engines and ran a structured proof-of
 
 The initial Qdrant deployment also hit a ceiling. On small pools, recall was strong. Scaled to the full corpus, the system started hallucinating: returning candidates whose overall embedding looked relevant but whose underlying experience didn't match the recruiter's intent.
 
-The fix was structural. Instead of representing each candidate as a single dense embedding, GoPerfect moved to a multi-vector representation in Qdrant. In this paradigm each vector captures a distinct professional dimension of the candidate and carries both dense and sparse representations for hybrid retrieval  At query time, the GoPerfect agent categorizes the recruiter's intent and runs hybrid search across the relevant subset of vectors. The LLM orchestration layer above sits on top of those results and assembles the final ranking. Splitting the representation got results much more accurate; The LLM orchestration loop on top of Qdrant closed the gap to near-perfect.
+The fix was structural. GoPerfect moved to a multivector representation in Qdrant, structuring each candidate's profile to support more granular retrieval. At query time, the GoPerfect agent categorizes the recruiter's intent and runs hybrid search across the relevant subset of vectors. The LLM orchestration layer above sits on top of those results and assembles the final ranking. Splitting the representation got results much more accurate; The LLM orchestration loop on top of Qdrant closed the gap to near-perfect.
 
-A single embedding per candidate collapses dimensions a recruiter needs to query independently: education, role history, certifications.  It's what composable vector search is designed for: retrieval primitives that engineers combine at query time, tuned to the specific workload, rather than a fixed pipeline that forces the problem to fit the tool.
+A single embedding per candidate collapses the nuances a recruiter needs to evaluate independently. It's what composable vector search is designed for: retrieval primitives that engineers combine at query time, tuned to the specific workload, rather than a fixed pipeline that forces the problem to fit the tool.
 
 ### From the industry's 30 percent to near-perfect match accuracy
 
-The combined effect of hybrid search, multi-vector representation, and the LLM orchestration layer moved GoPerfect's match accuracy from the recruiting industry's baseline 30 percent acceptance rate to close to 100 percent in internal benchmarks. Most customers see results in the 95–100% range after the agent's iterative refinement. That's roughly four times the recruiting industry baseline.
+The combined effect of hybrid search, multivector representation, and the LLM orchestration layer moved GoPerfect's match accuracy from the recruiting industry's baseline 30 percent acceptance rate to close to 100 percent in internal benchmarks. Most customers see results in the 95–100% range after the agent's iterative refinement. That's roughly four times the recruiting industry baseline.
 
 >"After we split the vectors, the results were much more accurate. We added the LLM layer above all of it, and that's where we managed to reach near 100 percent accuracy."
 — Idan Shaked, Head of R\&D, GoPerfect
@@ -71,14 +71,14 @@ Within GoPerfect's user-facing interactive, sub-agent-loop latency budget, the a
 
 ### How it works in production
 
-The production pipeline runs in three layers. Ingestion enriches profile data from multiple sources (professional networks, code repositories, company data, and AI-derived signals) and writes structured multi-vector points into Qdrant. Retrieval combines hybrid search with category-specific multi-vector queries to return a high-confidence candidate pool. An LLM orchestration layer above Qdrant runs the agent loop: it generates sub-questions, issues parallel searches, evaluates the returned candidates, and assembles the final ranked shortlist.
+The production pipeline runs in three layers. Ingestion enriches profile data from multiple sources (professional networks, code repositories, company data, and AI-derived signals) and writes structured multivector points into Qdrant. Retrieval combines hybrid search with category-specific multivector queries to return a high-confidence candidate pool. An LLM orchestration layer above Qdrant runs the agent loop: it generates sub-questions, issues parallel searches, evaluates the returned candidates, and assembles the final ranked shortlist.
 
 GoPerfect also runs a candidate scoring and fraud-signal layer that cross-references claims in a resume against external evidence. A candidate who lists a programming language, for example, gets validated against their public code activity. The scoring layer also learns from outcomes: when a candidate flagged with a fraud signal goes on to get hired through normal channels, the system weights similar signals more leniently going forward. Recruiters see a graphical view of each candidate that includes both the ranking and the supporting evidence, with adjustable tolerance for fraud signals depending on the role context.
 
 >With Qdrant, we can offer customers a full agentic experience: a real chain of thoughts, memory, and context. That's what people expect from a true agent today.
 — Eylon Etshtein, CEO, GoPerfect
 
-![pipeline](/blog/case-study-goperfect/goperfect_production_pipeline.svg)
+![pipeline](/blog/case-study-goperfect/goperfect-pipeline-architecture.png)
 
 ### What's next
 
@@ -86,4 +86,4 @@ GoPerfect's roadmap extends Qdrant deeper into the recruiting funnel. Near-term 
 
 ### From semantic-only to agentic-grade retrieval
 
-GoPerfect encountered what most retrieval systems bump up against when the corpus grows and the queries get more nuanced. Pure semantic similarity returned candidates that looked right and weren't. The move to hybrid, multi-vector, agent-orchestrated retrieval on Qdrant changed the product's economics. Instead of 30 percent acceptance rates that mirror the rest of the recruiting industry, GoPerfect ships shortlists that recruiters can act on directly. That's the difference between a faster version of the same job and a different category of product.
+GoPerfect encountered what most retrieval systems bump up against when the corpus grows and the queries get more nuanced. Pure semantic similarity returned candidates that looked right and weren't. The move to hybrid, multivector, agent-orchestrated retrieval on Qdrant changed the product's economics. Instead of 30 percent acceptance rates that mirror the rest of the recruiting industry, GoPerfect ships shortlists that recruiters can act on directly. That's the difference between a faster version of the same job and a different category of product.
