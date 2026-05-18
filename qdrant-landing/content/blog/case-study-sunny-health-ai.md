@@ -66,7 +66,7 @@ The second was first-class [geo](https://qdrant.tech/documentation/manage-data/p
 >Doing distance matching in care matching, in the database, in the same call as the vector and filter stage, is really important to us. It's one of the things that pushed us to Qdrant specifically.     
 — Nikhil Karnik, Founding Engineer, Sunny Health
 
-The third was the flexible JSON [payload model](https://qdrant.tech/documentation/manage-data/payload/#geo). Provider records are deeply nested with specialties, certifications, multiple locations, organizations, education history, and accepted insurances. Forcing a flattened schema would mean either losing fidelity or building an external catalog lookup, both of which add latency and complexity.
+The third was the flexible JSON [payload model](https://qdrant.tech/documentation/manage-data/payload/). Provider records are deeply nested with specialties, certifications, multiple locations, organizations, education history, and accepted insurances. Forcing a flattened schema would mean either losing fidelity or building an external catalog lookup, both of which add latency and complexity.
 
 >"Qdrant has a very flexible JSON payload model. Our provider records are long and nested: specialties, certifications, multiple locations, organizations, education, insurances. The flexible payload model fits us without forcing a flattened schema or an external catalog lookup."    
 — Nikhil Karnik, Founding Engineer, Sunny Health
