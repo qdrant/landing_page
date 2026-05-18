@@ -210,6 +210,8 @@ For instance, book titles are generally shorter than 256 words. To achieve more 
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/ingest-bm25-avglen/" >}}
 
+When designing a multi-representation collection (combining short fields like titles and tags with longer body text), the practical default is BM25 on the shorter, structured fields with dense vectors carrying the longer ones. BM25F is the principled extension for multi-field text of varying length; Qdrant doesn't support it natively today, but the [Multi-Representation Search](/documentation/tutorials-search-engineering/multi-representation-search/) tutorial shows the workaround: separate sparse vectors per field, fused via the Query API.
+
 #### Language-specific Settings
 
 By default, BM25 uses English-specific settings for tokenization, stemming, and stopword removal. Words are reduced to their English root form, and common English stopwords are removed. If your data is not in English, this leads to suboptimal search results. To achieve optimal results for other languages, configure language-specific BM25 settings.

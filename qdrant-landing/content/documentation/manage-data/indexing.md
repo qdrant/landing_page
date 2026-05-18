@@ -74,12 +74,14 @@ filters to `true`:
 | `false` | `true` | Parameterized integer index |
 | `false` | `false` | No integer index            |
 
-The parameterized index can enhance performance in collections with millions
-of points. We encourage you to try it out. If it does not enhance performance
-in your use case, you can always restore the regular `integer` index.
+Setting `lookup` or `range` to `false` may help to tune and reduce memory usage
+in large collections. We encourage you to try out if setting either to `false`
+improves memory usage. If you don't see an improvement or if you're not sure
+what kind of payload filters you're using, use the regular `integer` index.
 
-Note: If you set `"lookup": true` with a range filter, that may lead to
-significant performance issues.
+Note: If you set `"range": false` and still use a range filter, it may lead to
+significant performance issues. The same is true for the lookup parameter and
+its respective filters.
 
 For example, the following code sets up a parameterized integer index which
 supports only range filters:

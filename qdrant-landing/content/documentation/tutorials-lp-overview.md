@@ -72,8 +72,9 @@ partition: develop
 | [Multivector Document Retrieval](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) | PDF RAG using ColPali and embedding pooling. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) | Measure ANN recall with the Web UI and tune HNSW parameters. | <span class="pill">Web UI</span> | 15m | <span class="text-green">Beginner</span> |
 | [Reranking for Better Search](/documentation/search-precision/reranking-semantic-search/) | Use multivector representations for better ranking. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
-| [Hybrid Search with Reranking](/documentation/tutorials-basics/reranking-hybrid-search/) | Implement late interaction and sparse reranking. | <span class="pill">Python</span> | 40m | <span class="text-yellow">Intermediate</span> |
-| [Semantic Search for Code](/documentation/tutorials-basics/code-search/) | Navigate codebases using vector similarity. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Hybrid Search with Reranking](/documentation/tutorials-search-engineering/reranking-hybrid-search/) | Implement late interaction and sparse reranking. | <span class="pill">Python</span> | 40m | <span class="text-yellow">Intermediate</span> |
+| [Semantic Search for Code](/documentation/tutorials-search-engineering/code-search/) | Navigate codebases using vector similarity. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Multi-Representation Search](/documentation/tutorials-search-engineering/multi-representation-search/) | Fuse title, summary, chunk, and tag vectors with named vectors and the Query API. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Static Embeddings](/documentation/tutorials-search-engineering/static-embeddings/) | Evaluate the renaissance of static embeddings. | <span class="pill">Python</span> | 20m | <span class="text-yellow">Intermediate</span> |
 
 ---

@@ -66,7 +66,7 @@ The following table shows recall for 1-bit TurboQuant (TQ1) compared to uncompre
 
 Compared to 1-bit binary quantization, 1-bit TurboQuant offers better recall at equivalent storage budgets, albeit at a lower speed. Similar trends are observed for 1.5-bit and 2-bit configurations.
 
-We will soon publish an article with detailed numbers, including throughput and indexing times.
+For more details about Qdrant's TurboQuant implementation, refer to our article [TurboQuant in Qdrant](/articles/turboquant-quantization/).
 
 ### Get Started with TurboQuant
 
