@@ -20,7 +20,7 @@ tags:
 partition: case-studies
 ---
 
-![bento-box](/blog/case-study-goperfect/bento-box-goperfect.png)
+![bento-box](/blog/case-study-goperfect/go-perfect-bento.png)
 
 GoPerfect mission is to use an AI recruiting workforce that replaces the manual, low-leverage parts of recruiting. Instead, an agent decomposes recruiter intent and runs the work end to end to find top talent.  Their agentic platform handles sourcing, scanning, reviewing, outreach, admin work as well as  candidate conversations for recruiters, hiring managers, agencies, and CEOs who hire at volume. 
 
