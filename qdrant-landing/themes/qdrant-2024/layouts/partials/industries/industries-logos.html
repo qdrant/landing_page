@@ -17,20 +17,20 @@
     <div class="industries-logos__marquee__container">
       <div class="industries-logos__marquee__block">
         <div class="industries-logos__marquee__inner industries-logos__marquee__inner_to-left">
-              <span>
-                {{ range .Params.logos }}
-                  <div class="industries-logos__marquee__item">
-                    <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
-                  </div>
-                {{ end }}
-              </span>
           <span>
-                {{ range .Params.logos }}
-                  <div class="industries-logos__marquee__item">
-                    <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
-                  </div>
-                {{ end }}
-              </span>
+            {{ range .Params.logos }}
+              <div class="industries-logos__marquee__item">
+                <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              </div>
+            {{ end }}
+          </span>
+          <span>
+            {{ range .Params.logos }}
+              <div class="industries-logos__marquee__item">
+                <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              </div>
+            {{ end }}
+          </span>
         </div>
       </div>
     </div>

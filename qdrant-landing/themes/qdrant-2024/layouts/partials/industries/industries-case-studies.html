@@ -24,7 +24,7 @@
           <div class="industries-case-studies__slide">
             <div class="card industries-case-studies__card">
               <h4 class="industries-case-studies__card-title">{{ .title }}</h4>
-              <p class="industries-case-studies__card-description">{{ .description }}</p>
+              <p class="industries-case-studies__card-description">{{ .description | safeHTML }}</p>
             </div>
           </div>
         {{ end }}
