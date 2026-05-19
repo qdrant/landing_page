@@ -13,7 +13,7 @@ aliases:
 
 If your search queries include filters, create [payload indexes](/documentation/manage-data/indexing/#payload-index) for the fields you filter on. Payload indexes are the primary way to improve filtered search performance in Qdrant. For best results, create payload indexes **before** uploading data.
 
-If a cluster has to process many filters on unindexed fields, it can also negatively impact the performance of other search queries. Consider [blocking queries that filter on unindexed fields](/documentation/manage-data/indexing/#block-queries-that-filter-on-unindexed-fields) completely. This rejects queries that would degrade performance at the API boundary, surfacing misconfigured indexes as errors rather than latency spikes. Consequently, a missing index can't go unnoticed just because queries still return results, only slowly.
+Queries that filter on unindexed fields are not only slower; they can also unnecessarily consume cluster resources, negatively impacting the latency of other search queries. Consider [blocking queries that filter on unindexed fields](/documentation/manage-data/indexing/#block-queries-that-filter-on-unindexed-fields). This rejects queries that would degrade performance at the API boundary, surfacing misconfigured indexes as errors rather than latency spikes.
 
 ## Scale Horizontally with Replicas
 

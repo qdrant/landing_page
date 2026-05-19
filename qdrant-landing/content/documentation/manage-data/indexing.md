@@ -47,23 +47,7 @@ To create a payload index for a field:
 
 You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](/documentation/search/filtering/#nested-key).
 
-**Payload indexes should be created before ingesting data.** [Qdrant's filterable HNSW index](#filterable-hnsw-index) only benefits from additional filter-aware edges when it is generated after the payload indexes have been created. If you create a payload index after data has already been indexed, you can rebuild the HNSW index to take advantage of the new payload indexes.
-
-<aside role="alert">
-Rebuilding the HNSW index is an expensive operation. It's highly recommended to create all payload indexes before ingesting data instead.
-</aside>
-
-To rebuild an HNSW index, make a small change to its HNSW configuration, for example by bumping `ef_construct` by `1`. This forces the optimizer to re-index all segments.
-
-First, retrieve the current value of `ef_construct`:
-
-{{< code-snippet path="/documentation/headless/snippets/update-collection/increment-ef-construct/" block="get-current-value" >}}
-
-Next, update the collection with the value of `ef_construct` incremented by `1`:
-
-{{< code-snippet path="/documentation/headless/snippets/update-collection/increment-ef-construct/" block="update-collection" >}}
-
-Don’t immediately revert the value of `ef_construct` to its original value. Keep it set to the new value.
+**Payload indexes should be created before ingesting data.** [Qdrant's filterable HNSW index](#filterable-hnsw-index) only benefits from additional filter-aware edges when it is generated after the payload indexes have been created. If you create a payload index after data has already been ingested, you need to [rebuild the HNSW index](#rebuild-the-hnsw-index) to take advantage of the new payload indexes.
 
 ### Block Queries That Filter on Unindexed Fields
 
@@ -341,7 +325,7 @@ You can find more information on this approach in our [article](/articles/filter
 
 <aside role="status">For the HNSW graph to be optimized for filtered search, it's highly recommended to create all payload indices immediately after collection creation, before ingesting data. Extra edges for the HNSW graph can only be generated after payload index creation.</aside>
 
-#### The ACORN Search Algorithm
+### The ACORN Search Algorithm
 
 *Available as of v1.16.0*
 
@@ -352,7 +336,7 @@ The same can happen when there are a large number of soft-deleted points in the 
 In such cases, use the [ACORN Search Algorithm](/documentation/search/search/#acorn-search-algorithm).
 When using ACORN, during graph traversal, it explores not just direct neighbors (first hop), but also neighbors of neighbors (second hop) when direct neighbors are filtered out. This improves search accuracy at the cost of performance.
 
-#### Disable the Creation of Extra Edges for Payload Fields
+### Disable the Creation of Extra Edges for Payload Fields
 
 *Available as of v1.17.0*
 
@@ -361,6 +345,24 @@ Not all payload indices may be intended for use with dense vector search. For ex
 You can disable the creation of extra edges for an indexed payload field by setting `enable_hnsw` to `false` when configuring a payload index:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/disable-hnsw/" >}}
+
+### Rebuild the HNSW Index
+
+<aside role="alert">
+Rebuilding the HNSW index is resource-intensive and can take a long time. Avoid it when possible.
+</aside>
+
+There may be cases when you need to rebuild the HNSW index, for example, when you create a new payload index and want to take advantage of filter-aware edges in the HNSW graph. To rebuild an HNSW index, make a small change to its HNSW configuration, for example by bumping `ef_construct` by `1`. This forces the optimizer to re-index all segments.
+
+First, retrieve the current value of `ef_construct`:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/increment-ef-construct/" block="get-current-value" >}}
+
+Next, update the collection with the value of `ef_construct` incremented by `1`:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/increment-ef-construct/" block="update-collection" >}}
+
+Don’t immediately revert the value of `ef_construct` to its original value. Keep it set to the new value.
 
 ## Sparse Vector Index
 
