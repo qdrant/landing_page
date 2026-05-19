@@ -1,14 +1,15 @@
 ---
-title: Semantic Search Basics
+title: Build a Semantic Search API
 short_description: "Build a neural semantic search service on Qdrant using sentence-transformer embeddings and a FastAPI search endpoint."
 description: "Tutorial: build a neural search service that encodes text with sentence transformers, indexes vectors in Qdrant, and serves results through FastAPI."
 aliases:
   - /documentation/tutorials/neural-search/
   - /documentation/beginner-tutorials/neural-search/
-weight: 2
+  - /documentation/tutorials-search-engineering/neural-search/
+weight: 30
 ---
 
-# Semantic Search Basics with Qdrant
+# Build a Semantic Search API with Qdrant
 
 | Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/tree/sentense-transformers) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)   |
 | --- | ----------- | ----------- |----------- |
@@ -19,7 +20,7 @@ A neural search service uses artificial neural networks to improve the accuracy 
 
 <aside role="status">
 There is a version of this tutorial that uses <a href="https://github.com/qdrant/fastembed">Fastembed</a> model inference engine instead of Sentence Transformers.
-Check it out <a href="/documentation/tutorials-search-engineering/hybrid-search-fastembed/">here</a>.
+Check it out <a href="/documentation/tutorials-develop/hybrid-search-fastembed/">here</a>.
 </aside>
 
 

@@ -5,7 +5,8 @@ description: "Tutorial: build a semantic code search engine with Qdrant by combi
 aliases:
   - /documentation/tutorials/code-search/
   - /documentation/advanced-tutorials/code-search/
-weight: 2
+  - /documentation/tutorials-search-engineering/code-search/
+weight: 20
 ---
 
 # Semantic Search for Code with Qdrant

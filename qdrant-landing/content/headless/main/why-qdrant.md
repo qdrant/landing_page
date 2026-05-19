@@ -51,7 +51,7 @@ featureCards:
       alt: Reranking illustration
     link:
       text: See Documentation
-      url: /documentation/tutorials-search-engineering/reranking-hybrid-search/
+      url: /documentation/tutorials-basics/reranking-hybrid-search/
     size: small
 sitemapExclude: true
 ---

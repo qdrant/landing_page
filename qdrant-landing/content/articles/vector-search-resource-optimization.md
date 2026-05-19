@@ -494,7 +494,7 @@ client.query_points(
 )
 ```
 ___
-Learn more about [**Reranking**](/documentation/tutorials-search-engineering/reranking-hybrid-search/#rerank).
+Learn more about [**Reranking**](/documentation/tutorials-basics/reranking-hybrid-search/#rerank).
 
 ---
 

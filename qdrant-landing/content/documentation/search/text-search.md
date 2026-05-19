@@ -299,7 +299,7 @@ You are not limited to prefetching just two queries. Examples include, but are n
 
 - Fuse multiple lexical queries across the `title`, `author`, and `isbn` fields alongside a semantic query to achieve a comprehensive search across all data.
 - Prefetch using sparse or dense vectors and/or filters, and [rescore with dense vectors](/documentation/search/hybrid-queries/#multi-stage-queries).
-- [Prefetch with dense and sparse vectors, and rerank using late interaction embeddings](/documentation/tutorials-search-engineering/reranking-hybrid-search/?q=late+interaction).
+- [Prefetch with dense and sparse vectors, and rerank using late interaction embeddings](/documentation/tutorials-basics/reranking-hybrid-search/?q=late+interaction).
 
 ## Conclusion
 

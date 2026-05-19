@@ -66,8 +66,8 @@ partition: develop
 
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
-| [Hybrid Search with FastEmbed](/documentation/tutorials-search-engineering/hybrid-search-fastembed/) | Combine dense and sparse search for startups. | <span class="pill">FastAPI</span> | 20m | <span class="text-green">Beginner</span> |
-| [Semantic Search Basics](/documentation/tutorials-search-engineering/neural-search/) | Deploy a search service for company descriptions. | <span class="pill">FastAPI</span> | 30m | <span class="text-green">Beginner</span> |
+| [Hybrid Search with FastEmbed](/documentation/tutorials-develop/hybrid-search-fastembed/) | Combine dense and sparse search for startups. | <span class="pill">FastAPI</span> | 20m | <span class="text-green">Beginner</span> |
+| [Semantic Search Basics](/documentation/tutorials-develop/neural-search/) | Deploy a search service for company descriptions. | <span class="pill">FastAPI</span> | 30m | <span class="text-green">Beginner</span> |
 | [Collaborative Filtering](/documentation/tutorials-search-engineering/collaborative-filtering/) | Collaborative filtering using sparse embeddings. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Multivector Document Retrieval](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) | PDF RAG using ColPali and embedding pooling. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Measuring ANN Recall](/documentation/tutorials-search-engineering/ann-recall/) | Measure ANN recall with the Web UI and tune HNSW parameters. | <span class="pill">Web UI</span> | 15m | <span class="text-green">Beginner</span> |
