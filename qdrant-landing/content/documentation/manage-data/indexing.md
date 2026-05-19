@@ -35,7 +35,7 @@ The following field types support payload indexing:
 * `uuid` - a special type of index, similar to `keyword`, but optimized for [UUID values](/documentation/manage-data/payload/#uuid).
 Affects [Match](/documentation/search/filtering/#match) filtering conditions. (available as of v1.11.0)
 
-Payload indexes may occupy additional memory, so it is recommended to only apply payload indexes for those fields that are used in filtering conditions.
+Payload indexes occupy additional memory and disk space, so it is recommended to only apply payload indexes for those fields that are used in filtering conditions.
 If you need to filter by many fields and the memory limits do not allow for indexing all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 
