@@ -1,7 +1,7 @@
 <section class="industries-architecture">
   <div class="container">
     <h3 class="industries-architecture__title">{{ .Params.title }}</h3>
-    <p class="industries-architecture__description">{{ .Params.description }}</p>
+    <p class="industries-architecture__description">{{ .Params.description | safeHTML }}</p>
 
     <div class="industries-architecture__sections">
       {{ range .Params.sections }}
