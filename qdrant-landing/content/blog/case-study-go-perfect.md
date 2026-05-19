@@ -20,13 +20,13 @@ tags:
 partition: case-studies
 ---
 
-![bento-box](/blog/case-study-goperfect/go-perfect-bento.png)
+![bento-box](/blog/case-study-goperfect/go-perfect-bento-v2.png)
 
 GoPerfect mission is to use an AI recruiting workforce that replaces the manual, low-leverage parts of recruiting. Instead, an agent decomposes recruiter intent and runs the work end to end to find top talent.  Their agentic platform handles sourcing, scanning, reviewing, outreach, admin work as well as  candidate conversations for recruiters, hiring managers, agencies, and CEOs who hire at volume. 
 
 ![screenshot](/blog/case-study-goperfect/goperfect_screenshot.png)
 
-Recruiting is a needle-in-a-haystack problem with two complications: the haystack is massive (over 100 million people in the US alone, enriched into profiles drawn from professional networks, code repositories, company data, and AI-derived signals), and the definition of the "needle" is more nuanced than any keyword filter can express. A product manager is not a product marketer, even though the two sit close together in any reasonable embedding space.
+Recruiting is a needle-in-a-haystack problem with two complications: the haystack is massive (200M+ profiles enriched with 1B+ data points drawn from professional networks, code repositories, company data, and AI-derived signals), and the definition of the "needle" is more nuanced than any keyword filter can express. A product manager is not a product marketer, even though the two sit close together in any reasonable embedding space.
 
 ### Why vector search alone hit a ceiling
 
@@ -58,14 +58,14 @@ A single embedding per candidate collapses the nuances a recruiter needs to eval
 
 ### From the industry's 30 percent to near-perfect match accuracy
 
-The combined effect of hybrid search, multivector representation, and the LLM orchestration layer moved GoPerfect's match accuracy from the recruiting industry's baseline 30 percent acceptance rate to close to 100 percent in internal benchmarks. Most customers see results in the 95–100% range after the agent's iterative refinement. That's roughly four times the recruiting industry baseline.
+The combined effect of hybrid search, multivector representation, and the LLM orchestration layer moved GoPerfect's match accuracy from the recruiting industry's baseline 30 percent acceptance rate to 99.993% in internal benchmarks. Across their largest customer cohorts, they consistently see acceptance rates in the 95–100% range after the agent's iterative refinement. That's roughly four times the recruiting industry baseline.
 
->"After we split the vectors, the results were much more accurate. We added the LLM layer above all of it, and that's where we managed to reach near 100 percent accuracy."   
+>"After we split the vectors, the results were much more accurate. We added the LLM layer above all of it, and that's where we managed to reach 99.993% percent accuracy."   
 — Idan Shaked, Head of R\&D, GoPerfect
 
-Speed mattered for a non-obvious reason. The agent doesn't run one search per recruiter request. It runs many in parallel and then reasons over the combined result set. A query like "product marketer in San Francisco with 10 must-haves" gets decomposed into multiple parallel sub-queries that probe different category combinations. 
+Speed mattered for a non-obvious reason. The agent doesn't run one search per recruiter request. It runs many in parallel and then reasons over the combined result set. A query like "product marketer in San Francisco with 10 must-haves" gets decomposed into multiple parallel sub-queries that probe different category combinations.
 
-Within GoPerfect's user-facing interactive, sub-agent-loop latency budget, the agent runs multiple parallel sub-queries against Qdrant and reasons over the union before returning a shortlist. Predictable retrieval latency is what makes the chain-of-thought experience feel agentic instead of laggy.
+Within GoPerfect's user-facing interactive, sub-agent-loop latency budget, the agent runs multiple parallel sub-queries against Qdrant and reasons over the union before returning a shortlist. Complex, multi-criteria searches complete end to end in under 10 seconds. From recruiter intent to a live pipeline, including the outreach agent kicking in, the full cycle takes under 2 minutes. Predictable retrieval latency is what makes the chain-of-thought experience feel agentic instead of laggy.
 
 >"Higher accuracy means fewer searches. Recruiters who used to run dozens of queries per role to assemble a shortlist now run one or two."    
 — Idan Shaked, Head of R\&D, GoPerfect
