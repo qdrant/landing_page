@@ -92,7 +92,7 @@ Retune when your retrievers change (new embedding model, new chunking), when you
 
 _Available as of v1.11.0_
 
-<a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">DBSF</a> keeps the raw scores from each query but normalizes their distributions before combining. For each retriever's returned set, it computes the mean $\mu$ and sample standard deviation $\sigma$, then linearly remaps every score using the 3-sigma extremes as endpoints:
+<a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">DBSF</a> keeps the raw scores from each query but normalizes their distributions before combining. For each retriever's returned set, it computes the mean $\mu$ and sample standard deviation $\sigma$, then normalizes every score using the 3-sigma extremes as endpoints:
 
 $$ \hat{s} = \frac{s - (\mu - 3\sigma)}{6\sigma} $$
 
