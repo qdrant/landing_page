@@ -1,5 +1,7 @@
 ---
 title: Mem0
+short_description: "Power Mem0's self-improving memory layer with Qdrant to give chatbots and AI assistants personalized, long-lasting recall of user preferences."
+description: "Configure Mem0 to use Qdrant as its vector store backend, giving LLM applications a self-improving memory layer with personalized, long-term user recall."
 ---
 
 ![Mem0 Logo](/documentation/frameworks/mem0/mem0-banner.png)

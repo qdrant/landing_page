@@ -1,5 +1,7 @@
 ---
 title: txtai
+short_description: "Use Qdrant as the embedding backend for txtai semantic applications, powering similarity search over Transformer-based neural embeddings."
+description: "Configure txtai to use Qdrant as its embedding backend, building semantic search apps over Transformer-based neural embeddings with high-performance vector search."
 aliases: [ ../integrations/txtai/ ]
 ---
 

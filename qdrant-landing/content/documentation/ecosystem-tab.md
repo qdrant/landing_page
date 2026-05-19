@@ -1,5 +1,7 @@
 ---
 title: Explore the Qdrant Ecosystem
+short_description: "Explore the Qdrant ecosystem of integrations, partners, frameworks, and community tools built around vector search."
+description: "Discover the Qdrant ecosystem — integrations with frameworks, embedding providers, cloud platforms, and community-built tools for vector search."
 slug: ecosystem
 aliases:
   - /documentation/build/

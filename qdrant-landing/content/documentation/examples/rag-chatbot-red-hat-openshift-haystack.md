@@ -1,5 +1,7 @@
 ---
 title: Private Chatbot for Interactive Learning
+short_description: "Build a fully private interactive learning chatbot with Qdrant Hybrid Cloud, Haystack, and an open-source LLM running on Red Hat OpenShift."
+description: "Deploy a private RAG chatbot on Red Hat OpenShift with Qdrant Hybrid Cloud and Haystack, keeping training content and queries inside your infrastructure."
 weight: 30 
 social_preview_image: /blog/hybrid-cloud-red-hat-openshift/hybrid-cloud-red-hat-openshift-tutorial.png
 aliases:

@@ -1,5 +1,7 @@
 ---
 title: AWS Lakechain
+short_description: "Stream document embeddings from AWS Project Lakechain pipelines into Qdrant collections using the Qdrant storage connector and AWS CDK."
+description: "Deploy AWS document processing pipelines with Project Lakechain that write embeddings into Qdrant collections via the Qdrant storage connector and CDK."
 ---
 
 # AWS Lakechain

@@ -1,5 +1,7 @@
 ---
 title: Documentation
+short_description: "Build with Qdrant: install, run, and scale a vector search engine across self-hosted, Cloud, Hybrid Cloud, and Private Cloud deployments."
+description: "Official Qdrant documentation for vector search and retrieval — quickstarts, deployment guides, integrations, and references for self-hosted and Qdrant Cloud."
 weight: 2
 hideTOC: true
 breadcrumb: false

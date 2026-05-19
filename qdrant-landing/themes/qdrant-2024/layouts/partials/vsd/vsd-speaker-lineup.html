@@ -4,7 +4,7 @@
       <div class="vsd-speaker-lineup__banner">
         <div class="vsd-speaker-lineup__banner-container">
           <h2 class="vsd-speaker-lineup__title">{{ .Params.title }}</h2>
-          <p class="vsd-speaker-lineup__description">{{ .Params.description }}</p>
+          <p class="vsd-speaker-lineup__description">{{ .Params.description | safeHTML }}</p>
           <div class="vsd-speaker-lineup__logos">
             {{ range .Params.logos }}
               <div class="vsd-speaker-lineup__logo">
@@ -12,9 +12,12 @@
               </div>
             {{ end }}
           </div>
-          <a href="{{ .Params.button.url }}" class="button button_contained button_lg vsd-speaker-lineup__button">
+          <a href="{{ .Params.button.url }}" class="button button_contained button_lg vsd-speaker-lineup__button" target="_blank" rel="noopener noreferrer">
             {{ .Params.button.text }}
           </a>
+          {{ with .Params.button.disclaimer }}
+            <p class="vsd-speaker-lineup__disclaimer">{{ . }}</p>
+          {{ end }}
         </div>
       </div>
     </div>

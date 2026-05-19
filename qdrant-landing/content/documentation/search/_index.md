@@ -1,5 +1,7 @@
 ---
 title: Search
+short_description: "Run similarity, hybrid, and multimodal search in Qdrant with filters, multi-stage pipelines, and relevance tuning."
+description: "Search Qdrant with similarity, hybrid, and multimodal queries — apply payload filters, combine query stages, and tune relevance and latency for production AI."
 weight: 210
 partition: develop
 ---

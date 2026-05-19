@@ -1,5 +1,7 @@
 ---
 title: n8n Workflow Automation
+short_description: "Automate Qdrant workflows in n8n: build no-code pipelines for vector search, recommendations, and unstructured data analysis."
+description: "Tutorial: connect Qdrant to n8n to automate vector search, recommendations, and unstructured data workflows using a low-code visual pipeline builder."
 weight: 35
 #partition: ecosystem
 social_preview_image: /documentation/examples/qdrant-n8n-2/preview/social_preview.png

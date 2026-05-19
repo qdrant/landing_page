@@ -1,5 +1,7 @@
 ---
 title: Cluster Access
+short_description: "Connect to Qdrant Cloud clusters through the Cluster UI, REST API, and gRPC API with load-balanced endpoints and IP allowlists."
+description: "Access Qdrant Cloud clusters through the integrated UI, REST and gRPC APIs, node-specific endpoints, and IP allowlists for restricted network access."
 weight: 15
 ---
 

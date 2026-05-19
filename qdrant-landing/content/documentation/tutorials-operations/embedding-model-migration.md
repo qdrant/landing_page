@@ -1,5 +1,7 @@
 ---
 title: Migrate to a New Embedding Model
+short_description: "Migrate a Qdrant collection to a new embedding model with zero downtime using a blue-green dual-collection strategy."
+description: "Tutorial: switch embedding models in Qdrant with zero downtime by running a blue-green migration across two collections while serving live traffic."
 aliases:
   - /documentation/tutorials/embedding-model-migration/
 weight: 30

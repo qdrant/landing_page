@@ -1,5 +1,6 @@
 ---
 title: "Qdrant Multi-Vector Certification"
+short_description: "Validate your multi-vector search skills with an official Qdrant certification covering ColBERT, ColPali, MaxSim, and MUVERA pipelines."
 description: "Get officially certified in multi-vector search by Qdrant."
 url: /course/multi-vector-search/certification/
 isLesson: true

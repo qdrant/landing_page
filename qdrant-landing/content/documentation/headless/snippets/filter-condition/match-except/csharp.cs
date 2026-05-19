@@ -4,6 +4,6 @@ public class Snippet
 {
 	public static async Task Run()
 	{
-		Match("color", ["black", "yellow"]);
+		MatchExcept("color", ["black", "yellow"]);
 	}
 }

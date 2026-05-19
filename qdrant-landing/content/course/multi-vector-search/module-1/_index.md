@@ -1,5 +1,6 @@
 ---
 title: "Module 1: Multi-Vector Representations for Textual Data"
+short_description: "Module 1: late interaction with ColBERT, MaxSim scoring, multi-vector use cases, and the practical challenges of running them in Qdrant."
 description: "Learn about multi-vector representations for text with ColBERT. Understand how they differ from single vector embeddings and when to use them."
 isLesson: true
 weight: 20

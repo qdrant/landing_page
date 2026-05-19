@@ -1,5 +1,7 @@
 ---
 title: Search
+short_description: "Run similarity search in Qdrant to find points whose vectors are nearest to a query in the configured vector space."
+description: "Run similarity search in Qdrant to retrieve nearest-neighbor points for text, image, and multimodal queries using configurable distance metrics and HNSW."
 weight: 5
 aliases:
   - ../search

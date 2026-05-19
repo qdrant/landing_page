@@ -1,5 +1,7 @@
 ---
 title: Authentication
+short_description: "Create Qdrant Cloud Database API keys with granular access control, set expirations, and connect securely to your clusters."
+description: "Create Qdrant Cloud Database API keys with granular access control, configure expirations, and authenticate to your clusters with best-practice rotation."
 weight: 10
 ---
 

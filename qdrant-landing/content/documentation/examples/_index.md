@@ -1,5 +1,7 @@
 ---
 title: Build Prototypes
+short_description: "End-to-end Qdrant tutorials and notebooks covering RAG, hybrid search, multitenancy, recommendations, and multimodal semantic search."
+description: "Hands-on Qdrant code samples and notebooks for RAG, hybrid search, multitenancy, recommendations, and multimodal search across the AI ecosystem."
 weight: 1300
 partition: ecosystem
 ---

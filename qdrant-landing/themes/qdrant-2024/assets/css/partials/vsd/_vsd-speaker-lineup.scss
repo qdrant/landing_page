@@ -48,7 +48,7 @@
 
   &__description {
     margin-bottom: 0;
-    font-size: $font-size-md;
+    font-size: pxToRem(15);
     line-height: $spacer * 1.5;
     text-align: center;
     color: #ABB1C7;
@@ -77,7 +77,16 @@
       height: pxToRem(27);
     }
   }
-  
+
+  &__disclaimer {
+    margin: 0;
+    max-width: pxToRem(640);
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    text-align: center;
+    color: #8B92A8;
+  }
+
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 5;
@@ -96,7 +105,7 @@
     }
 
     &__description {
-      font-size: $font-size-l;
+      font-size: pxToRem(17);
       line-height: $line-height-lg;
     }
   }

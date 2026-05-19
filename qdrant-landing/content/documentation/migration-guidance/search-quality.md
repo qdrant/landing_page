@@ -1,5 +1,7 @@
 ---
 title: Search Quality
+short_description: "Validate search quality after migrating to Qdrant with tiered checks for ranking, recall, and filter behavior."
+description: "Validate search quality after migrating to Qdrant using tiered checks that compare ranking, recall, and filter behavior against your source vector database."
 weight: 15
 partition: ecosystem
 aliases:

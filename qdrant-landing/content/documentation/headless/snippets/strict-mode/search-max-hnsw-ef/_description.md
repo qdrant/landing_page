@@ -1,0 +1,1 @@
+This code snippet sets `search_max_hnsw_ef` on the strict mode configuration to cap the maximum HNSW ef value allowed in search parameters.

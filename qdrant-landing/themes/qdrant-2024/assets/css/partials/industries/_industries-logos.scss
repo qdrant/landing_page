@@ -1,3 +1,4 @@
+@use 'sass:math';
 @use '../../helpers/functions' as *;
 @use '../../mixins/marquee' as marquee;
 
@@ -33,6 +34,29 @@
   &__marquee {
     position: relative;
     @include marquee.base(80px, 240px, 4, 4, 0, transparent, false, 20s, none);
+
+    --marquee-items: 4;
+    $leftKeyframe: marqueeLeft;
+    $rightKeyframe: marqueeRight;
+
+    &__block {
+      width: calc(240px * var(--marquee-items, 4));
+    }
+
+    &__inner {
+      width: calc(var(--marquee-items, 4) / var(--marquee-items, 4) * 2 * 100%);
+    }
+
+    @keyframes #{$leftKeyframe} {
+      100% {
+        left: calc(var(--marquee-items, 4) / var(--marquee-items, 4) * 2 * 100% * 0.5 * -1);
+      }
+    }
+    @keyframes #{$rightKeyframe} {
+      0% {
+        left: calc(var(--marquee-items, 4) / var(--marquee-items, 4) * 2 * 100% * 0.5 * -1);
+      }
+    }
 
     &__item {
       display: flex;

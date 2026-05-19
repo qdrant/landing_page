@@ -1,5 +1,7 @@
 ---
 title: Static Embeddings
+short_description: "Use static embeddings in Qdrant for fast, low-resource semantic search with minimal quality trade-offs versus transformer models."
+description: "Tutorial: apply static embedding models in Qdrant to deliver fast, low-resource semantic search with quality close to transformer-based embeddings."
 weight: 181
 aliases:
   - /blog/static-embeddings/
@@ -135,7 +137,7 @@ ranking quality of search results, with higher scores indicating better performa
 Binary Quantization definitely speeds up the retrieval, and make it cheaper, but also seems not to affect the quality of 
 the retrieval much in some cases. **However, that's something you should carefully verify on your own data**. If you are 
 a Qdrant user, then you can just enable quantization on an existing collection and [measure the impact on the retrieval 
-quality](/documentation/tutorials-search-engineering/retrieval-quality/).
+quality](/documentation/tutorials-search-engineering/ann-recall/).
 
 All the tests we did were performed using [`beir-qdrant`](https://github.com/kacperlukawski/beir-qdrant), and might be
 reproduced by running [the script available on the project 

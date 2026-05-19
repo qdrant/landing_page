@@ -1,5 +1,7 @@
 ---
 title: Hugging Face Dataset Ingestion
+short_description: "Load Hugging Face datasets directly into Qdrant collections, including precomputed embeddings, with batched uploads and streaming."
+description: "Step-by-step guide to ingest Hugging Face datasets into Qdrant collections using the Python SDK, with batching and streaming for large vector workloads."
 hideInSidebar: true
 aliases:
   - /documentation/tutorials/huggingface-datasets/

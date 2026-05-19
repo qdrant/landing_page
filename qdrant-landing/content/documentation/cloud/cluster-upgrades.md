@@ -1,5 +1,7 @@
 ---
 title: Update Clusters
+short_description: "Upgrade Qdrant Cloud clusters to new versions with rolling, zero-downtime updates on multi-node clusters with replicated collections."
+description: "Upgrade Qdrant Cloud clusters to new versions through the console, with rolling zero-downtime updates on multi-node clusters that use replication."
 weight: 35
 ---
 

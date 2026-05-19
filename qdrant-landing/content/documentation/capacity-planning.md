@@ -1,5 +1,7 @@
 ---
 title: Capacity Planning
+short_description: "Size a Qdrant cluster by balancing RAM and disk for vectors, payload, indexes, replication, and quantization workloads."
+description: "Plan Qdrant cluster capacity: estimate RAM and disk for vectors, payloads, indexes, replication, and quantization to match your workload."
 partition: deploy
 weight: 238
 aliases:

@@ -1,5 +1,7 @@
 ---
 title: Changelog
+short_description: "Release notes for Qdrant Private Cloud, including supported Qdrant versions, new features, and stability improvements."
+description: "Track Qdrant Private Cloud releases, supported Qdrant versions, new features, performance improvements, and stability fixes across versions."
 weight: 35
 ---
 

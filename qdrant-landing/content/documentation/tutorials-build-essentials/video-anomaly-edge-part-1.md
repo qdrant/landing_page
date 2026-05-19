@@ -1,5 +1,7 @@
 ---
 title: "Video Anomaly Detection Part 1: Architecture, Twelve Labs, and NVIDIA VSS"
+short_description: "Architect a real-time video anomaly detection system on Qdrant Edge with Twelve Labs video intelligence and NVIDIA Metropolis VSS."
+description: "Part 1 tutorial: design a real-time video anomaly detection pipeline using Qdrant Edge vector search, Twelve Labs embeddings, and NVIDIA Metropolis VSS."
 weight: 40
 partition: ecosystem
 aliases:

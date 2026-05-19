@@ -2,7 +2,7 @@
 @use '../../mixins/get-contacted' as get-contacted;
 
 .industries-get-contacted {
-  @include get-contacted.base($spacer * 4, pxToRem(30), $spacer * 7.5, $spacer * 2.5, pxToRem(620));
+  @include get-contacted.base($spacer * 4, pxToRem(30), $spacer * 7.5, $spacer * 2.5, pxToRem(720));
   
   h3 {
     margin-bottom: $spacer * 0.5;
@@ -20,5 +20,9 @@
     color: $neutral-70;
     font-size: $font-size-md;
     line-height: $spacer * 1.5;
+  }
+  
+  a {
+    flex-shrink: 0;
   }
 }

@@ -1,5 +1,7 @@
 ---
 title: Qdrant Cloud CLI
+short_description: "Manage Qdrant Cloud from your terminal with qcloud — create clusters, rotate keys, and switch between accounts and environments."
+description: "Install and use the qcloud CLI to manage Qdrant Cloud clusters, API keys, and accounts directly from your terminal with scriptable commands."
 weight: 250
 partition: deploy
 ---

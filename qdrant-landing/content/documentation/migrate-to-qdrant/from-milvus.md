@@ -1,5 +1,7 @@
 ---
 title: From Milvus
+short_description: "Migrate Milvus and Zilliz Cloud collections to Qdrant, preserving vectors and metadata in a single streamed transfer."
+description: "Migrate from Milvus or Zilliz Cloud to Qdrant by streaming vectors, payloads, and metadata from Milvus collections into Qdrant with the Qdrant Migration Tool."
 weight: 15
 partition: ecosystem
 ---

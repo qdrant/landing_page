@@ -1,5 +1,6 @@
 ---
 title: "Implementing a Basic Vector Search"
+short_description: "Walk through your first vector search: connect to Qdrant, create a collection, insert points, and run similarity queries with the Python client."
 description: Learn how to build a basic vector search in Qdrant. Create collections, insert vectors, and run your first similarity search step-by-step with Python. 
 weight: 3
 isLesson: true

@@ -1,5 +1,7 @@
 ---
 title: Testcontainers
+short_description: "Spin up disposable Qdrant instances inside integration tests with Testcontainers modules for Java, Go, Node.js, Python, and .NET."
+description: "Use Testcontainers to launch disposable Qdrant instances for end-to-end integration tests across Java, Go, Node.js, Python, and .NET projects."
 aliases: [ ../infrastructure/testcontainers/ ]
 ---
 

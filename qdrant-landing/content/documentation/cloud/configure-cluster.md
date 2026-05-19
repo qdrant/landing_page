@@ -1,5 +1,7 @@
 ---
 title: Configure Clusters
+short_description: "Tune Qdrant Cloud clusters with collection defaults, strict mode, replication factor, and advanced optimizer settings."
+description: "Configure Qdrant Cloud clusters with collection defaults, strict mode, replication factors, and advanced optimizer settings tailored to your workload."
 weight: 25
 ---
 

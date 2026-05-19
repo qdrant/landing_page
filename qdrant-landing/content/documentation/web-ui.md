@@ -1,5 +1,7 @@
 ---
 title: Qdrant Web UI
+short_description: "Manage Qdrant collections, run REST calls, and explore data through the Qdrant Web UI for local and Cloud deployments."
+description: "Use the Qdrant Web UI to manage collections, run REST API calls, upload snapshots, and explore vector data for local and Cloud deployments."
 weight: 225
 partition: develop
 aliases:

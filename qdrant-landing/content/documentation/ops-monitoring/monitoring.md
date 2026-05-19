@@ -1,5 +1,7 @@
 ---
 title: Monitoring & Telemetry
+short_description: "Expose Qdrant metrics in Prometheus and OpenMetrics format and integrate with Grafana for cluster, collection, and node-level dashboards."
+description: "Scrape Qdrant metrics in Prometheus and OpenMetrics format and visualize cluster, collection, and node-level telemetry in Grafana monitoring dashboards."
 weight: 5
 aliases:
   - /documentation/monitoring
@@ -31,20 +33,20 @@ Two endpoints are available:
 
 Note that `/metrics` only reports metrics for the peer connected to. It is therefore important to scrape from each peer individually, even if a load balancer is involved.
 
-### Node metrics `/metrics`
+### Node Metrics `/metrics`
 
 Each Qdrant node will expose the following metrics.
 
 Counters - such as the number of created snapshots - are reset when the node is restarted.
 
-**Application metrics**
+**Application Metrics**
 
 | Name                                | Type    | Meaning                        |
 | ----------------------------------- | ------- | ------------------------------ |
 | app_info                            | gauge   | Qdrant server name and version |
 | app_status_recovery_mode            | gauge   | If started in recovery mode    |
 
-**Collection metrics**
+**Collection Metrics**
 
 | Name                                              | Type    | Meaning                                                                                               |
 | ------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------- |
@@ -67,7 +69,7 @@ Counters - such as the number of created snapshots - are reset when the node is 
 
 [^metrics-hwreporting]: Only reported if hardware metrics are enabled in the configuration. See `service.hardware_reporting` in the [configuration](/documentation/ops-configuration/configuration/).
 
-**Snapshot metrics**
+**Snapshot Metrics**
 
 | Name                                    | Type    | Meaning                                                                     |
 | --------------------------------------- | ------- | --------------------------------------------------------------------------- |
@@ -75,24 +77,28 @@ Counters - such as the number of created snapshots - are reset when the node is 
 | snapshot_recovery_running               | gauge   | Number of snapshots being recovered, per collection <sup>(v1.16+)</sup>     |
 | snapshot_created_total                  | counter | Number of created snapshots since start, per collection <sup>(v1.16+)</sup> |
 
-**API response metrics**
+**API Response Metrics**
 
 | Name                                | Type      | Meaning                                                            |
 | ----------------------------------- | --------- | ------------------------------------------------------------------ |
-| rest_responses_total                | counter   | Number of responses through REST API                               |
+| rest_responses_total                | counter   | Number of responses through REST API [^metrics-per-collection]     |
 | rest_responses_fail_total           | counter   | Number of failed responses through REST API                        |
 | rest_responses_avg_duration_seconds | gauge     | Average response duration in REST API                              |
 | rest_responses_min_duration_seconds | gauge     | Minimum response duration in REST API                              |
 | rest_responses_max_duration_seconds | gauge     | Maximum response duration in REST API                              |
 | rest_responses_duration_seconds     | histogram | Histogram of response durations in the REST API <sup>(v1.8+)</sup> |
-| grpc_responses_total                | counter   | Number of responses through gRPC API                               |
+| grpc_responses_total                | counter   | Number of responses through gRPC API [^metrics-per-collection]     |
 | grpc_responses_fail_total           | counter   | Number of failed responses through REST API                        |
 | grpc_responses_avg_duration_seconds | gauge     | Average response duration in gRPC API                              |
 | grpc_responses_min_duration_seconds | gauge     | Minimum response duration in gRPC API                              |
 | grpc_responses_max_duration_seconds | gauge     | Maximum response duration in gRPC API                              |
 | grpc_responses_duration_seconds     | histogram | Histogram of response durations in the gRPC API <sup>(v1.8+)</sup> |
 
-**Process metrics**
+[^metrics-per-collection]: When `/metrics?per_collection=true` is used, these metrics include a `collection` label. See [Per-Collection API Metrics](#per-collection-api-metrics).
+
+ The output does not include metrics for the collection info, listing, and snapshot endpoints.
+
+**Process Metrics**
 
 | Name                                | Type    | Meaning                                                                                                                       |
 | ----------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -109,7 +115,7 @@ Counters - such as the number of created snapshots - are reset when the node is 
 | process_minor_page_faults_total     | counter | Number of minor page faults encountered by the process <sup>(v1.16+)</sup>                                                    |
 | process_major_page_faults_total     | counter | Number of major page faults encountered by the process <sup>(v1.16+)</sup>                                                    |
 
-**Cluster metrics (consensus)**
+**Cluster Metrics (Consensus)**
 
 Metrics reporting the current cluster consensus state of the node. Exposed only
 when distributed mode is enabled.
@@ -125,7 +131,7 @@ when distributed mode is enabled.
 
 [^metrics-distributed]: Only reported if distributed mode (cluster mode) is enabled. Enabled by default in all Qdrant Cloud environments. See `cluster.enabled` in the [configuration](/documentation/ops-configuration/configuration/).
 
-### Metrics configuration
+### Metrics Configuration
 
 *Available as of v1.16.0*
 
@@ -141,18 +147,39 @@ To achieve this you may use the following environment variable for example:
 QDRANT__SERVICE__METRICS_PREFIX="qdrant_"
 ```
 
-## Telemetry endpoint
+### Per-Collection API Metrics
+
+*Available as of v1.18.0*
+
+By default, the API response metrics (`rest_responses_*`, `grpc_responses_*`) are global — they don't distinguish between collections. To request per-collection breakdowns, add `?per_collection=true` to the `/metrics` endpoint:
+
+```bash
+curl http://localhost:6333/metrics?per_collection=true
+```
+
+Enabling per-collection mode replaces the global metrics entirely. The unlabeled `rest_responses_total` and `grpc_responses_total` are not returned when per-collection data is enabled. Instead, `rest_responses_total` carries four labels (`method`, `endpoint`, `status`, `collection`) and `grpc_responses_total` carries three (`endpoint`, `status`, `collection`):
+
+```text
+rest_responses_total{method="POST",endpoint="/collections/{collection_name}/points/search",status="200",collection="my-collection"} 42
+grpc_responses_total{endpoint="/qdrant.Points/Search",status="0",collection="my-collection"} 17
+```
+
+The `endpoint` label uses the route template, not the resolved path. The actual collection name is in the separate `collection` label.
+
+<aside role="status">Per-collection metrics increase the cardinality of the <code>/metrics</code> output. In deployments with many collections, ensure that your monitoring infrastructure can handle the additional label values.</aside>
+
+## Telemetry Endpoint
 
 Qdrant also provides a `/telemetry` endpoint, which provides information about the current state of the database, including the number of vectors, shards, and other useful information. You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/telemetry).
 
-## Cluster-wide telemetry
+## Cluster-Wide Telemetry
 
 The `/telemetry` endpoint reports from the point of view of the peer being queried. Qdrant also provides a `/cluster/telemetry` endpoint, which aggregates telemetry from all peers.
 
 This includes less information than `/telemetry`, but provides information like shard transfer progress more reliably.
 You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/cluster-telemetry).
 
-## Kubernetes health endpoints
+## Kubernetes Health Endpoints
 
 *Available as of v1.5.0*
 

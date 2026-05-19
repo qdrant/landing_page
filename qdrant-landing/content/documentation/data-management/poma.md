@@ -1,5 +1,7 @@
 ---
 title: POMA
+short_description: "Pair POMA structure-aware document chunking with Qdrant for clean, retrieval-ready vector indexes and RAG datasets."
+description: "Combine POMA's structure-preserving chunking with Qdrant to turn documents into chunksets and load them into vector collections for higher-quality retrieval."
 ---
 
 # POMA + Qdrant: Structure-Preserving Retrieval

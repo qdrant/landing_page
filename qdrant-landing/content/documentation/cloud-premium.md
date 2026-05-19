@@ -1,5 +1,7 @@
 ---
 title: Premium Tier
+short_description: "Upgrade to Qdrant Cloud Premium for 24/7 support, higher uptime SLAs, SSO, VPC private links, and customer-managed encryption keys."
+description: "Qdrant Cloud Premium adds 24/7 support, stronger uptime SLAs, SSO, VPC private links, multi-AZ topology, and customer-managed encryption keys."
 weight: 260
 partition: deploy
 aliases:

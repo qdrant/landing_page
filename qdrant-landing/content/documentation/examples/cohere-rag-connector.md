@@ -1,5 +1,7 @@
 ---
 title: Implement Cohere RAG connector
+short_description: "Implement a custom Cohere RAG connector backed by Qdrant to expose your collections to Cohere LLMs with inline citations."
+description: "Build a Cohere RAG connector over Qdrant, indexing data with Cohere embeddings and serving it to Command-R for grounded, citation-aware responses."
 weight: 35
 aliases:
   - /documentation/tutorials/cohere-rag-connector/

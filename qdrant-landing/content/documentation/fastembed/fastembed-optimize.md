@@ -1,5 +1,7 @@
 ---
 title: "Optimize Throughput" 
+short_description: "Tune FastEmbed for higher throughput with parallel workers, lazy model loading, and batch processing across CPU and GPU hardware."
+description: "Optimize FastEmbed throughput by parallelizing embedding workers, batching documents, and enabling GPU acceleration for high-volume indexing pipelines."
 weight: 30
 ---
 

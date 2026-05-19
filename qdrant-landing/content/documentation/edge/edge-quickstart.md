@@ -1,5 +1,7 @@
 ---
 title: "Quickstart" 
+short_description: "Get started with Qdrant Edge: install the Python or Rust bindings, configure a shard, and run local vector search in minutes."
+description: "Set up Qdrant Edge with Python or Rust bindings to configure shards, upsert points, build payload indexes, and run local vector search on-device."
 weight: 10
 partition: develop
 ---

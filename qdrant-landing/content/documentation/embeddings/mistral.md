@@ -1,5 +1,7 @@
 ---
 title: Mistral 
+short_description: "Embed documents with Mistral and store vectors in Qdrant to run semantic search at scale, optionally compressed with binary quantization."
+description: "Use Mistral Embed with Qdrant for semantic search and RAG, and apply binary quantization to shrink vector storage while preserving retrieval quality."
 ---
 
 | Time: 10 min | Level: Beginner | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/mistral-getting-started/mistral-embed-getting-started/mistral_qdrant_getting_started.ipynb)   |

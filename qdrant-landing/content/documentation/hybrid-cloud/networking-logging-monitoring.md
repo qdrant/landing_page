@@ -1,5 +1,7 @@
 ---
 title: Networking, Logging & Monitoring
+short_description: "Configure network policies, logs, and Prometheus-compatible metrics for Qdrant Hybrid Cloud, with a ready-made Grafana dashboard."
+description: "Configure network policies, log collection, and Prometheus-compatible metrics for Qdrant Hybrid Cloud, and visualize cluster health in Grafana."
 weight: 25
 ---
 # Configuring Networking, Logging & Monitoring in Qdrant Hybrid Cloud

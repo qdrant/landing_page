@@ -1,5 +1,7 @@
 ---
 title: Qdrant Fundamentals
+short_description: "FAQ covering Qdrant fundamentals: vector dimensions, payload metadata, real-time updates, multivectors, and search behavior."
+description: "Common questions about Qdrant fundamentals — vector dimensions, payload limits, multivectors, real-time updates, and how similarity search behaves at scale."
 weight: 1
 aliases:
   - ../faq
@@ -152,7 +154,7 @@ Both methods combine scores from multiple retrieval legs (for example, dense and
 
 For custom fusion, use the [Formula Query](/documentation/search/search-relevance/#score-boosting). For example, you can use decay functions to normalize both scores to a 0-1 range and then fuse them. This approach requires you to determine the approximate score distribution for each corpus, since you can't set decay function parameters dynamically. The Formula Query doesn't support custom rank-based fusion because it doesn't have access to prefetch ranks; only to the raw scores.
 
-To evaluate which works better for your use case, create a small golden query set and compare [retrieval quality metrics](/documentation/tutorials-search-engineering/retrieval-quality/) (for example, NDCG@10) under each method.
+To evaluate which works better for your use case, create a small golden query set and compare [retrieval quality metrics](/documentation/improve-search/retrieval-relevance/) (for example, NDCG@10) under each method.
 
 See also: [Hybrid Queries](/documentation/search/hybrid-queries/)
 

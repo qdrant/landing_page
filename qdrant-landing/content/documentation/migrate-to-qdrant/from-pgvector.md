@@ -1,5 +1,7 @@
 ---
 title: From pgvector
+short_description: "Move vector data out of pgvector tables into Qdrant for higher recall, advanced filtering, and horizontal scale."
+description: "Migrate from pgvector to Qdrant by streaming rows from Postgres tables into Qdrant collections for scalable vector search with payload filtering and sharding."
 weight: 30
 partition: ecosystem
 ---

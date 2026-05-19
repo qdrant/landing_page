@@ -1,5 +1,7 @@
 ---
 title: Agno
+short_description: "Power Agno multi-agent systems with Qdrant as the vector knowledge base for fast retrieval, memory, and tool-augmented agent workflows."
+description: "Use Qdrant as the knowledge base for Agno multi-agent systems to give agents persistent memory and fast retrieval over documents and external data."
 ---
 
 # Agno

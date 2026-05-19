@@ -1,5 +1,7 @@
 ---
 title: Agentic RAG with CrewAI
+short_description: "Combine Qdrant vector search with CrewAI agents and Streamlit to extract insights from meeting transcripts and recordings."
+description: "Step-by-step tutorial: build an agentic RAG system with Qdrant and CrewAI to store, retrieve, and analyze meeting transcripts through coordinated AI agents."
 weight: 5
 partition: ecosystem
 social_preview_image: /documentation/examples/agentic-rag-crewai-zoom/social_preview.png

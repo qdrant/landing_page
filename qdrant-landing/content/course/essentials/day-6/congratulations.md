@@ -1,5 +1,6 @@
 ---
 title: "Course Completion and Next Steps"
+short_description: "Wrap up Qdrant Essentials and review the production skills you gained: hybrid retrieval, quantization, scaling, and search evaluation."
 description: Complete your Qdrant course by earning certification and mastering hybrid, multivector, and production-ready vector search techniques—skills to design, evaluate, and deploy real-world AI search systems. 
 weight: 3
 isLesson: true

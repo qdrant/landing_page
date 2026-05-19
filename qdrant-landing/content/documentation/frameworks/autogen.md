@@ -1,5 +1,7 @@
 ---
 title: AutoGen
+short_description: "Build multi-agent RetrieveChat workflows with Microsoft AutoGen and Qdrant, giving cooperating agents fast vector search over your documents."
+description: "Use Microsoft AutoGen with Qdrant to build multi-agent RAG workflows where cooperating LLM agents retrieve and reason over documents stored as vectors."
 aliases: [ ../integrations/autogen/ ]
 ---
 

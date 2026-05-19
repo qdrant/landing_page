@@ -1,5 +1,7 @@
 ---
 title: Send Data to Qdrant
+short_description: "Load data into Qdrant from streaming, batch, and orchestration sources including Kafka, Databricks, and Apache Airflow."
+description: "Send data to Qdrant from streaming and batch sources including Kafka, Databricks, and Apache Airflow for real-time and scheduled ingestion pipelines."
 weight: 1050
 partition: ecosystem
 hideInSidebar: true

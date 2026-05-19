@@ -1,5 +1,6 @@
 ---
 title: "Project: HNSW Performance Benchmarking"
+short_description: "Benchmark HNSW configurations and payload indexes on your own dataset to find the parameter mix that fits your workload."
 description: Optimize vector search with Qdrant. Test multiple HNSW configurations, time uploads and queries, and evaluate filtering with and without payload indexes to find the best settings for your domain.
 weight: 5
 isLesson: true

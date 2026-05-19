@@ -1,5 +1,7 @@
 ---
 title: Spring AI
+short_description: "Add Qdrant as the vector store in Spring AI Java apps to power semantic search and RAG with Spring Boot configuration and starter packages."
+description: "Use Qdrant as the vector store in Spring AI to build Java AI apps with Spring-friendly abstractions for embeddings, semantic search, and RAG pipelines."
 ---
 
 # Spring AI

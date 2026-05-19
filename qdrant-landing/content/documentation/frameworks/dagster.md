@@ -1,5 +1,7 @@
 ---
 title: Dagster
+short_description: "Orchestrate AI data pipelines in Dagster with the Qdrant resource to ingest, embed, and query vector collections from declarative assets."
+description: "Use the Qdrant Dagster integration to build observable AI data pipelines that ingest documents, manage collections, and run vector search from Dagster assets."
 ---
 
 # Dagster

@@ -1,5 +1,7 @@
 ---
 title: Microsoft GraphRAG
+short_description: "Plug Qdrant in as a custom vector store for Microsoft GraphRAG to combine knowledge-graph indexing with fast vector retrieval."
+description: "Use Qdrant as a custom vector store backend for Microsoft GraphRAG to combine graph-based indexing with high-performance vector search for grounded LLM responses."
 ---
 
 # Microsoft GraphRAG

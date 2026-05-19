@@ -1,5 +1,7 @@
 ---
 title: Backup Clusters
+short_description: "Schedule automatic snapshots and restore Qdrant Cloud clusters for disaster recovery, with retention controls and point-in-time recovery."
+description: "Set up scheduled snapshots, on-demand backups, and one-click restores for Qdrant Cloud clusters to protect against data loss and enable disaster recovery."
 weight: 40
 ---
 

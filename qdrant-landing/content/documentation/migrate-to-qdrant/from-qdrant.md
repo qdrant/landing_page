@@ -1,5 +1,7 @@
 ---
 title: From Qdrant
+short_description: "Copy collections between Qdrant instances or within one cluster, preserving vector config, indexes, and quantization."
+description: "Replicate collections between Qdrant instances or within the same cluster, automatically recreating vector config, HNSW settings, quantization, and sharding."
 weight: 110
 ---
 

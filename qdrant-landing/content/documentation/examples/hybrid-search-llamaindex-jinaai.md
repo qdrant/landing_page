@@ -1,5 +1,7 @@
 ---
 title: Chat With Product PDF Manuals Using Hybrid Search 
+short_description: "Build a PDF-manual chatbot with Qdrant Hybrid Cloud, LlamaIndex, and Jina embeddings, using hybrid search to answer product-support questions."
+description: "Create a RAG chatbot for PDF manuals using Qdrant Hybrid Cloud, LlamaIndex, and Jina embeddings, with hybrid search for precise customer-support answers."
 weight: 45
 social_preview_image: /blog/hybrid-cloud-llamaindex/hybrid-cloud-llamaindex-tutorial.png
 aliases:

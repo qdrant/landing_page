@@ -1,5 +1,7 @@
 ---
 title: Multimodal and Multilingual RAG
+short_description: "Build a multimodal, multilingual RAG application with LlamaIndex and Qdrant that searches across image and text modalities."
+description: "Tutorial: combine LlamaIndex with Qdrant to power multimodal, multilingual RAG over images and text using a shared embedding space and vector search."
 weight: 25
 hideInSidebar: true
 partition: ecosystem

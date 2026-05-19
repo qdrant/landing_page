@@ -1,5 +1,7 @@
 ---
 title: Infrastructure Tools
+short_description: "Provision and manage Qdrant Cloud clusters with infrastructure-as-code tools like Terraform and Pulumi for repeatable, version-controlled deployments."
+description: "Manage Qdrant Cloud clusters as code with Terraform and Pulumi to automate provisioning, version your infrastructure, and standardize deployments across environments."
 weight: 235
 partition: deploy
 ---

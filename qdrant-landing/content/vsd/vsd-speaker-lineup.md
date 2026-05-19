@@ -1,6 +1,6 @@
 ---
 title: Full Speaker Lineup Coming Soon
-description: We're building a handpicked lineup of technical talks across all agenda tracks. If your team is solving hard problems in retrieval, embeddings, agent memory, or AI infrastructure at scale, we'd love to talk. Submit your proposal by May 6.
+description: "We're building a handpicked lineup of technical talks across 3 agenda tracks:<br>Search & AI Retrieval, Agents & Memory, and Edge & Robotics AI.<br class=\"mb-2\">We’ve locked in a strong lineup including Llamaindex, mem0, Neo4j, Google Deepmind, and more.<br class=\"mb-2\">Proposal submissions are closed, but if you missed the May 6 deadline, send yours in anyway."
 logos:
   - id: 0
     src: /img/vsd-logos/LlamaIndex.svg
@@ -29,6 +29,7 @@ logos:
 button:
   text: Submit a Talk Proposal
   url: https://docs.google.com/forms/d/e/1FAIpQLSfefAtmGP59-0IhNxCCMbNRCDlU-JRkJnSja3GfOrBnTZw-CA/viewform
+  disclaimer: Proposals submitted after the deadline, without prior communication with the event organizers, will be reviewed if space becomes available.
 sitemapExclude: true
 ---
 

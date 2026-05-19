@@ -1,5 +1,7 @@
 ---
 title: Snapshots
+short_description: "Back up and restore Qdrant collections with snapshots for archiving, disaster recovery, and replicating deployments."
+description: "Create, list, and restore Qdrant snapshots to back up collections, recover from failures, and replicate vector search deployments across clusters."
 partition: deploy
 weight: 135
 aliases:

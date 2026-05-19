@@ -1,5 +1,7 @@
 ---
 title: VectaX - Mirror Security
+short_description: "Secure vector search in Qdrant with Mirror Security VectaX — encrypt embeddings and enforce role-based access on similarity queries."
+description: "Combine Mirror Security VectaX with Qdrant to encrypt vector embeddings and enforce role-based access control on semantic search and retrieval."
 ---
 
 ![VectaX Logo](/documentation/frameworks/mirror-security/vectax-logo.png)

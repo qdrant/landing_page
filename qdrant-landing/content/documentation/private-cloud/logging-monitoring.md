@@ -1,5 +1,7 @@
 ---
 title: Logging & Monitoring
+short_description: "Collect logs and Prometheus-compatible metrics from Qdrant Private Cloud clusters, with a ready-made Grafana dashboard."
+description: "Collect logs and Prometheus-compatible metrics from Qdrant Private Cloud clusters and visualize cluster health with a ready-made Grafana dashboard."
 weight: 25
 ---
 

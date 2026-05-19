@@ -1,5 +1,7 @@
 ---
 title: User Management
+short_description: "Invite users, assign roles, and transfer account ownership in Qdrant Cloud through the User Management console."
+description: "Invite teammates, assign or revoke roles, transfer account ownership, and remove users from your Qdrant Cloud account through User Management."
 weight: 10
 ---
 

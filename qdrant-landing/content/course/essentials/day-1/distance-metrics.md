@@ -1,5 +1,6 @@
 ---
 title: "Distance Metrics"
+short_description: "Compare cosine, dot product, and Euclidean distance for vector search, and learn how to pick the right metric for your embedding model."
 description: Learn how distance metrics like cosine, Euclidean, Manhattan, and dot product shape vector similarity in Qdrant. Discover which metric fits your data and use case. 
 weight: 3
 isLesson: true

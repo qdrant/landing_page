@@ -1,5 +1,7 @@
 ---
 title: Hybrid Search with FastEmbed
+short_description: "Build a hybrid search service with Qdrant and FastEmbed by combining dense and sparse embeddings behind a FastAPI endpoint."
+description: "Tutorial: build a hybrid search API with Qdrant and FastEmbed that fuses dense and sparse embeddings, served through a FastAPI application."
 aliases:
   - /documentation/tutorials/hybrid-search-fastembed/
   - /documentation/beginner-tutorials/hybrid-search-fastembed/

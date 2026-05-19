@@ -1,5 +1,7 @@
 ---
 title: Keboola
+short_description: "Connect Keboola to Qdrant to load embeddings from your data pipelines and orchestrate vector search as part of end-to-end data operations."
+description: "Integrate Qdrant with Keboola to build data pipelines that generate embeddings, manage collections, and orchestrate vector search across your stack."
 ---
 
 # Keboola

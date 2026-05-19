@@ -1,5 +1,7 @@
 ---
 title: Question-Answering System for AI Customer Support
+short_description: "Build a private customer-support QA system on AWS using Qdrant Hybrid Cloud, Cohere, and Airbyte to keep ticket data inside your infrastructure."
+description: "Set up a private customer-support RAG pipeline on AWS with Qdrant Hybrid Cloud, Cohere models, and Airbyte ingestion for continuous, secure data sync."
 weight: 40
 social_preview_image: /blog/hybrid-cloud-airbyte/hybrid-cloud-airbyte-tutorial.png
 aliases:

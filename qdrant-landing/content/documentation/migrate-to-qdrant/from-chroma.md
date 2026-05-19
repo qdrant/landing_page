@@ -1,5 +1,7 @@
 ---
 title: From Chroma
+short_description: "Migrate Chroma collections into Qdrant, transferring vectors and metadata in a streamed, resumable transfer."
+description: "Migrate from Chroma to Qdrant by streaming collections, vectors, and metadata into a Qdrant cluster using the Qdrant Migration Tool's Chroma source connector."
 weight: 40
 partition: ecosystem
 ---

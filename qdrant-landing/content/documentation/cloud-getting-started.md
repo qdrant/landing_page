@@ -1,5 +1,7 @@
 ---
 title: Getting Started
+short_description: "Get started with Qdrant Managed Cloud: prepare access, size your cluster, deploy, and prepare a workload for production."
+description: "Onboarding guide for Qdrant Managed Cloud — set up your account, size and create clusters, and prepare a production-ready vector search deployment."
 weight: 205
 partition: deploy
 aliases:

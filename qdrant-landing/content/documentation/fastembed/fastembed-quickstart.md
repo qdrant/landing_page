@@ -1,5 +1,7 @@
 ---
 title: "Quickstart" 
+short_description: "Get started with FastEmbed: install the library, load a default text embedding model, and generate vectors from sample documents in minutes."
+description: "Install FastEmbed, load a default text embedding model, and generate vectors from sample documents in this quickstart for Qdrant's lightweight embedding library."
 weight: 10
 ---
 

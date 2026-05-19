@@ -1,5 +1,7 @@
 ---
 title: LangGraph
+short_description: "Add Qdrant retrieval nodes to LangGraph workflows in Python or JavaScript to ground stateful, multi-actor agent applications in your data."
+description: "Use Qdrant retrieval tools in LangGraph workflows to build stateful, multi-actor agents that combine LangChain components with hybrid vector search."
 aliases: [ ../integrations/langgraph/ ]
 ---
 

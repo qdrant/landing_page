@@ -1,5 +1,7 @@
 ---
 title: Chonkie
+short_description: "Chunk, embed, and store text in Qdrant directly from the Chonkie SDK for fast, lightweight RAG ingestion pipelines."
+description: "Use Chonkie to chunk and embed documents, then index them into Qdrant in a single SDK flow for retrieval-augmented generation and semantic search apps."
 ---
 
 # Chonkie

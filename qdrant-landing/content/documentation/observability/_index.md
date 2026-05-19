@@ -1,5 +1,7 @@
 ---
 title: Observability
+short_description: "Connect Qdrant to your observability stack with integrations for Datadog, OpenLIT, and OpenLLMetry to monitor performance and traces."
+description: "Monitor Qdrant with observability integrations including Datadog, OpenLIT, and OpenLLMetry for metrics, distributed tracing, and LLM application insights."
 weight: 900
 partition: ecosystem
 ---

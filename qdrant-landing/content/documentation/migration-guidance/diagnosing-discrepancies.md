@@ -1,5 +1,7 @@
 ---
 title: Diagnosing Discrepancies
+short_description: "Diagnose post-migration mismatches in Qdrant — separate data issues from configuration drift with a guided decision tree."
+description: "Diagnose post-migration discrepancies in Qdrant by separating data-level issues from configuration drift in indexing, scoring, and filtering behavior."
 weight: 20
 partition: ecosystem
 aliases:

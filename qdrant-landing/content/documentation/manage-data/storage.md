@@ -1,5 +1,7 @@
 ---
 title: Storage
+short_description: "Tune how Qdrant stores vectors and payloads across segments, with options for in-memory, mmap, and on-disk storage."
+description: "Configure Qdrant storage across segments, balancing in-memory, memory-mapped, and on-disk options for vectors and payloads to fit cost and latency goals."
 weight: 25
 aliases:
   - ../storage

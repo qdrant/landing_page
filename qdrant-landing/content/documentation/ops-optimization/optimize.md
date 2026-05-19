@@ -1,5 +1,7 @@
 ---
 title: Optimize Performance
+short_description: "Tune Qdrant performance with quantization, on-disk storage, and HNSW parameters to balance speed, precision, and memory usage."
+description: "Optimize Qdrant performance with quantization, on-disk vector storage, and HNSW tuning to balance search speed, precision, and memory consumption."
 weight: 5
 aliases:
   - /documentation/tutorials/optimize

@@ -1,5 +1,7 @@
 ---
 title: Bulk Operations
+short_description: "Bulk-upload vectors into Qdrant collections efficiently by tuning indexing strategy and using high-performance client libraries."
+description: "Tutorial: bulk-upload large vector datasets into Qdrant by deferring HNSW index construction and parallelizing client uploads for maximum throughput."
 aliases:
   - /documentation/tutorials/bulk-upload/
   - /documentation/database-tutorials/bulk-upload/

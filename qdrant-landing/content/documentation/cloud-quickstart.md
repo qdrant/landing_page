@@ -1,5 +1,7 @@
 ---
 title: Cloud Quickstart
+short_description: "Spin up a free Qdrant Cloud cluster, connect with the official SDKs, and run your first semantic search in minutes."
+description: "Create a free Qdrant Cloud cluster, install the client SDK, and run your first semantic search using built-in inference for vector embeddings."
 weight: 115
 partition: develop
 aliases:

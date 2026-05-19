@@ -1,5 +1,7 @@
 ---
 title: Large-Scale Search
+short_description: "Index and search hundreds of millions of vectors in Qdrant cost-efficiently with minimal hardware and tuned configuration."
+description: "Tutorial: index and search hundreds of millions of vectors in Qdrant on minimal hardware while keeping search latency and accuracy production-grade."
 aliases:
     - /documentation/database-tutorials/large-scale-search/
 weight: 40

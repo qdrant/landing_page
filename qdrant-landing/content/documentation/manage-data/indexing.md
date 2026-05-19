@@ -1,5 +1,7 @@
 ---
 title: Indexing
+short_description: "Combine HNSW vector indexes with payload indexes in Qdrant for fast filtered search across structured fields."
+description: "Configure HNSW vector indexes and payload indexes in Qdrant to accelerate similarity search with filters on structured fields and high-cardinality metadata."
 weight: 30
 aliases:
   - ../indexing

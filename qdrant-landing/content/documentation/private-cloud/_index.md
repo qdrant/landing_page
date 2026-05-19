@@ -1,5 +1,7 @@
 ---
 title: Private Cloud
+short_description: "Run Qdrant Private Cloud in your own Kubernetes cluster with full control over scheduling, security, and disaster recovery."
+description: "Run Qdrant Private Cloud in any Kubernetes cluster with full control over scheduling, security, scaling, and disaster recovery, fully air-gapped."
 weight: 230
 partition: deploy
 ---
