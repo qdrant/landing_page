@@ -30,14 +30,14 @@ Recruiting is a needle-in-a-haystack problem with two complications: the haystac
 
 ### Why vector search alone hit a ceiling
 
-Most people assume you can just throw a talent database at GPT and get great candidates back. But LLMs alone can't do this. They can't hold 100M profiles in context, they hallucinate on structured matching, speed and relevance rate. The real breakthrough is combining LLM reasoning with semantic search, vector retrieval, and structured filtering into an orchestrated system. That's the moat.
+Most people assume you can just throw a talent database at GPT and get great candidates back. But LLMs alone can't do this. They can't hold 200M profiles in context, they hallucinate on structured matching, speed and relevance rate. The real breakthrough is combining LLM reasoning with semantic search, vector retrieval, and structured filtering into an orchestrated system. That's the moat.
 
 GoPerfect's previous vector architecture worked at small scale with purely semantic dense embeddings. But as the talent pool grew, the system started returning candidates who looked right semantically and were wrong in practice. GoPerfect measures acceptance rate as the share of surfaced candidates that recruiters accept onto their shortlist. On their previous system, that rate plateaued around 30 percent. For a company whose product thesis is finding unicorns and replacing manual recruiter work, parity wasn't a defensible position.
 
 >"Words can be really close semantically but mean completely different things. A product manager and a product marketer sit right next to each other in embedding space. They're not the same job."    
 — Idan Shaked, Head of R\&D, GoPerfect             
 
-Large language models alone could not close the gap either. Even if a recruiter wanted to drop 100 million profiles into a model, the context window will not accommodate that scale, and the model would fail to reason reliably over the corpus. GoPerfect needed a retrieval layer that could narrow a 100 million-profile pool into a high-confidence shortlist before the LLM ever saw it.
+Large language models alone could not close the gap either. Even if a recruiter wanted to drop 200 million profiles into a model, the context window will not accommodate that scale, and the model would fail to reason reliably over the corpus. GoPerfect needed a retrieval layer that could narrow a 200 million-profile pool into a high-confidence shortlist before the LLM ever saw it.
 
 ### GoPerfect chose Qdrant for Accuracy and Speed
 
