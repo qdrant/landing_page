@@ -1,6 +1,6 @@
 ```typescript
-client.queryGroups("{collection_name}", {
-    query: [1.1],
+client.queryGroups("chunks", {
+    query: [0.2, 0.1, 0.9, 0.7],
     group_by: "document_id",
     limit: 2,
     group_size: 2,

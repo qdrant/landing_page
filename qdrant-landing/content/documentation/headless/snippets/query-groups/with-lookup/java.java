@@ -17,7 +17,7 @@ public class Snippet {
 
                 client.queryGroupsAsync(
                         QueryPointGroups.newBuilder()
-                                .setCollectionName("{collection_name}")
+                                .setCollectionName("chunks")
                                 .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
                                 .setGroupBy("document_id")
                                 .setLimit(2)
