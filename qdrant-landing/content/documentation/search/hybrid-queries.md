@@ -1,7 +1,7 @@
 ---
 title: Hybrid Queries
-short_description: "Combine dense, sparse, and multivector queries in Qdrant with hybrid search, weighted RRF tuning, DBSF, and multi-stage rescoring with FormulaQuery."
-description: "Run hybrid queries in Qdrant: fuse dense, sparse, and multivector results with RRF or DBSF, layer custom scoring with FormulaQuery, and pick the right method for your data."
+short_description: "Combine dense, sparse, and multivector queries in Qdrant with hybrid search, weighted RRF tuning, DBSF, and multi-stage rescoring with Formula Query."
+description: "Run hybrid queries in Qdrant: fuse dense, sparse, and multivector results with RRF or DBSF, layer custom scoring with Formula Query, and pick the right method for your data."
 weight: 15
 aliases:
   - ../hybrid-queries
@@ -112,7 +112,7 @@ DBSF is a reasonable choice when you trust your retrievers' raw scores to carry 
 | Trust in your retrievers' raw scores and no eval set | DBSF |
 | Neither an eval set nor strong score priors | RRF (the safe default) |
 
-For a deeper breakdown of when to prefer each, see the [FAQ on RRF vs. DBSF](/documentation/faq/qdrant-fundamentals/#when-should-i-use-reciprocal-rank-fusion-rrf-vs-distribution-based-score-fusion-dbsf-for-hybrid-search). To layer business logic (recency, popularity, geo) on top of a fused result, see [Custom scoring with FormulaQuery](#custom-scoring-with-formulaquery).
+For a deeper breakdown of when to prefer each, see the [FAQ on RRF vs. DBSF](/documentation/faq/qdrant-fundamentals/#when-should-i-use-reciprocal-rank-fusion-rrf-vs-distribution-based-score-fusion-dbsf-for-hybrid-search). To layer business logic (recency, popularity, geo) on top of a fused result, see [Custom scoring with a formula query](#custom-scoring-with-a-formula-query).
 
 <aside role="status">A common request is "alpha-weighted linear combination of dense and sparse scores." This is unreliable without first normalizing the scores: dense (cosine, bounded) and sparse (BM25, unbounded) scores live on different scales that also shift per query, so a fixed alpha over raw scores tends to be dominated by whichever retriever has larger raw magnitudes on a given query. RRF sidesteps this by using ranks. DBSF sidesteps it by normalizing distributions.</aside>
 
@@ -151,17 +151,17 @@ You can combine all of these techniques in a single query:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring-multistage/" >}}
 
-### Custom Scoring with `FormulaQuery`
+### Custom Scoring with a Formula Query
 
 _Available as of v1.14.0_
 
-A `FormulaQuery` lets you compose a final score from prefetch scores (`$score`), payload fields, and built-in helpers like `ExpDecayExpression` or `GaussDecayExpression`. The typical pattern is to fuse retrievers with RRF or DBSF in a prefetch, then wrap that prefetch in a `FormulaQuery` that layers ranking logic on top: recency decay, popularity boosts, geo decay, or category-conditional multipliers.
+A formula query lets you compose a final score from prefetch scores (`$score`), payload fields, and built-in helpers like exponential or Gaussian decay. The typical pattern is to fuse retrievers with RRF or DBSF in a prefetch, then wrap that prefetch in a formula query that layers ranking logic on top: recency decay, popularity boosts, geo decay, or category-conditional multipliers.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-formula-decay/" >}}
 
-<aside role="status">Calibrate the decay weight against the scale of your fused <code>$score</code>. RRF scores are small (sums of <code>1/(k+rank)</code> terms), while decay functions return values in <code>[0, 1]</code>, so an unweighted decay term will dominate the fused score unless you multiply it by a smaller coefficient. Wrap the decay in <code>MultExpression(mult=[w, ...])</code> with a <code>w</code> tuned to your workload.</aside>
+<aside role="status">Calibrate the decay weight against the scale of your fused <code>$score</code>. RRF scores are small (sums of <code>1/(k+rank)</code> terms), while decay functions return values in <code>[0, 1]</code>, so an unweighted decay term will dominate the fused score unless you multiply it by a smaller coefficient. Wrap the decay in a multiplication expression with a coefficient tuned to your workload.</aside>
 
-The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) shows this pattern end-to-end with exponential decay on a `published_at` payload field. For full `FormulaQuery` and decay function syntax, see the [Search Relevance reference](/documentation/search/search-relevance/).
+The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) shows this pattern end-to-end with exponential decay on a `published_at` payload field. For full formula query and decay function syntax, see the [Search Relevance reference](/documentation/search/search-relevance/).
 
 ## Grouping
 
