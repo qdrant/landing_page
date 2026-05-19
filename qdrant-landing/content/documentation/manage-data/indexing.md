@@ -53,7 +53,7 @@ You can use dot notation to specify a nested field for indexing. Similar to spec
 Rebuilding the HNSW index is an expensive operation. It's highly recommended to create all payload indexes before ingesting data instead.
 </aside>
 
-To rebuild an HNSW index, make a change to its HNSW configuration, for example by bumping `ef_construct` by `1`. This forces the optimizer to re-index all segments.
+To rebuild an HNSW index, make a small change to its HNSW configuration, for example by bumping `ef_construct` by `1`. This forces the optimizer to re-index all segments.
 
 First, retrieve the current value of `ef_construct`:
 
@@ -65,9 +65,16 @@ Next, update the collection with the value of `ef_construct` incremented by `1`:
 
 Don’t immediately revert the value of `ef_construct` to its original value. Keep it set to the new value.
 
-### Prevent Filtering on Unindexed Fields
+### Block Queries That Filter on Unindexed Fields
 
-Since filtering on an unindexed field can be slow, Qdrant offers an option to prevent it. By enabling [strict mode](/documentation/ops-configuration/administration/#strict-mode) and setting `unindexed_filtering_retrieve` to `false`, Qdrant will return an error if a search query filters on an unindexed field. On Qdrant Cloud, these settings are applied to all collections by default.
+Queries that filter on unindexed fields are not only slower; they can also unnecessarily consume cluster resources, negatively impacting the latency of other search queries. To prevent that, Qdrant provides an option to block queries that filter on unindexed fields. This gives you:
+
+- Fail-fast behavior: Queries that would degrade performance are rejected at the API boundary, surfacing misconfigured indexes as errors rather than latency spikes.
+- Performance guarantees: Every query that succeeds is backed by an index, preventing accidental filters on unindexed fields from reaching production.
+- Operational visibility: Without strict mode, a missing index might go unnoticed for a long time because queries still return results, albeit slowly.
+
+
+To block queries that filter on unindexed fields, enable [strict mode](/documentation/ops-configuration/administration/#strict-mode) and set `unindexed_filtering_retrieve` to `false`. Qdrant will then return an error if a search query attempts to filter on an unindexed field. On Qdrant Cloud, these settings are applied to all collections by default.
 
 For more information, refer to [Disable Retrieving via Non Indexed Payload](/documentation/ops-configuration/administration/#disable-retrieving-via-non-indexed-payload).
 

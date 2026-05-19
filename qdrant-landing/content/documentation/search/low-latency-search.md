@@ -9,6 +9,12 @@ aliases:
 
 # Tips for Low-Latency Search with Qdrant
 
+## Create Payload Indexes
+
+If your search queries include filters, create [payload indexes](/documentation/manage-data/indexing/#payload-index) for the fields you filter on. Payload indexes are the primary way to improve filtered search performance in Qdrant. For best results, create payload indexes **before** uploading data.
+
+If a cluster has to process many filters on unindexed fields, it can also negatively impact the performance of other search queries. Consider [blocking queries that filter on unindexed fields](/documentation/manage-data/indexing/#block-queries-that-filter-on-unindexed-fields) completely. This rejects queries that would degrade performance at the API boundary, surfacing misconfigured indexes as errors rather than latency spikes. Consequently, a missing index can't go unnoticed just because queries still return results, only slowly.
+
 ## Scale Horizontally with Replicas
 
 Qdrant can be deployed in a [distributed configuration](/documentation/distributed_deployment/). In distributed mode, multiple instances of Qdrant, called peers, operate as a single entity, called a cluster. Data is stored in [collections](/documentation/manage-data/collections/), which are divided into [shards](/documentation/distributed_deployment/#sharding) that are distributed across the peers. Each shard can have multiple [replicas](/documentation/distributed_deployment/#replication) for redundancy and load balancing. Because every replica of the same shard contains the same data, read requests can be distributed across replicas, reducing latency and increasing throughput.
