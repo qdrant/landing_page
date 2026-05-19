@@ -26,6 +26,12 @@ logos:
   - id: 7
     src: /img/vsd-logos/Qualcomm.svg
     alt: Qualcomm logo
+  - id: 8
+    src: /img/vsd-logos/Adobe.svg
+    alt: Adobe logo
+  - id: 9
+    src: /img/vsd-logos/Hubspot.svg
+    alt: Hubspot logo
 button:
   text: Submit a Talk Proposal
   url: https://docs.google.com/forms/d/e/1FAIpQLSfefAtmGP59-0IhNxCCMbNRCDlU-JRkJnSja3GfOrBnTZw-CA/viewform
