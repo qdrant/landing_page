@@ -26,7 +26,7 @@ PUT /collections/chunks/points
         {
             "id": 1,
             "vector": [0.5, 0.6, 0.7, 0.8],
-            "payload": {"document_id": 201}
+            "payload": {"document_id": [200, 201]}
         }
     ]
 }

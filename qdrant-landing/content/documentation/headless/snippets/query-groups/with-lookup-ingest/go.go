@@ -47,7 +47,7 @@ func Main() {
 			{
 				Id:      qdrant.NewIDNum(1),
 				Vectors: qdrant.NewVectors(0.5, 0.6, 0.7, 0.8),
-				Payload: qdrant.NewValueMap(map[string]any{"document_id": 201}),
+				Payload: qdrant.NewValueMap(map[string]any{"document_id": []int{200, 201}}),
 			},
 		},
 	})

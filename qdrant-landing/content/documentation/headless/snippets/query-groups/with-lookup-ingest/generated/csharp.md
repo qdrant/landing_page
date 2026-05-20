@@ -45,7 +45,7 @@ await client.UpsertAsync(
 		{
 			Id = 1,
 			Vectors = new float[] { 0.5f, 0.6f, 0.7f, 0.8f },
-			Payload = { ["document_id"] = 201 },
+			Payload = { ["document_id"] = new Value[] { 200L, 201L } },
 		},
 	}
 );

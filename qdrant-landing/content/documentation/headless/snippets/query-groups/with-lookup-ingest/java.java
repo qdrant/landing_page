@@ -1,6 +1,7 @@
 package com.example.snippets_amalgamation;
 
 import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.list;
 import static io.qdrant.client.ValueFactory.value;
 import static io.qdrant.client.VectorsFactory.namedVectors;
 import static io.qdrant.client.VectorsFactory.vectors;
@@ -45,7 +46,7 @@ public class Snippet {
                         PointStruct.newBuilder()
                             .setId(id(1))
                             .setVectors(vectors(0.5f, 0.6f, 0.7f, 0.8f))
-                            .putAllPayload(Map.of("document_id", value(201)))
+                            .putAllPayload(Map.of("document_id", list(List.of(value(200), value(201)))))
                             .build())).get();
         }
 }
