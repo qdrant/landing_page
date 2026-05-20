@@ -17,14 +17,14 @@ client.upsertAsync(
     "documents",
     List.of(
         PointStruct.newBuilder()
-            .setId(id(1))
+            .setId(id(200))
             .setVectors(namedVectors(Map.of()))
             .putAllPayload(Map.of(
                 "title", value("Document A"),
                 "text", value("This is document A")))
             .build(),
         PointStruct.newBuilder()
-            .setId(id(2))
+            .setId(id(201))
             .setVectors(namedVectors(Map.of()))
             .putAllPayload(Map.of(
                 "title", value("Document B"),
@@ -37,11 +37,11 @@ client.upsertAsync(
         PointStruct.newBuilder()
             .setId(id(0))
             .setVectors(vectors(0.1f, 0.2f, 0.3f, 0.4f))
-            .putAllPayload(Map.of("document_id", value(1)))
+            .putAllPayload(Map.of("document_id", value(200)))
             .build(),
         PointStruct.newBuilder()
             .setId(id(1))
             .setVectors(vectors(0.5f, 0.6f, 0.7f, 0.8f))
-            .putAllPayload(Map.of("document_id", value(2)))
+            .putAllPayload(Map.of("document_id", value(201)))
             .build())).get();
 ```

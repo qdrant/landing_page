@@ -11,7 +11,7 @@ pub async fn main() -> anyhow::Result<()> {
             "documents",
             vec![
                 PointStruct::new(
-                    1,
+                    200,
                     HashMap::<String, Vector>::new(),
                     [
                         ("title", "Document A".into()),
@@ -19,7 +19,7 @@ pub async fn main() -> anyhow::Result<()> {
                     ],
                 ),
                 PointStruct::new(
-                    2,
+                    201,
                     HashMap::<String, Vector>::new(),
                     [
                         ("title", "Document B".into()),
@@ -34,8 +34,8 @@ pub async fn main() -> anyhow::Result<()> {
         .upsert_points(UpsertPointsBuilder::new(
             "chunks",
             vec![
-                PointStruct::new(0, vec![0.1, 0.2, 0.3, 0.4], [("document_id", 1.into())]),
-                PointStruct::new(1, vec![0.5, 0.6, 0.7, 0.8], [("document_id", 2.into())]),
+                PointStruct::new(0, vec![0.1, 0.2, 0.3, 0.4], [("document_id", 200.into())]),
+                PointStruct::new(1, vec![0.5, 0.6, 0.7, 0.8], [("document_id", 201.into())]),
             ],
         ))
         .await?;

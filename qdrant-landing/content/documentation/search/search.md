@@ -428,19 +428,20 @@ Query the `chunks` collection with `group_by="document_id"` and `with_lookup` po
 
 You can also pass `with_lookup="documents"` as a shorthand. It uses the server defaults (`with_payload=True`, `with_vectors=False`), so the documents' vectors are not returned. Use the explicit `WithLookup(...)` form when you need those vectors back.
 
-The looked-up result appears under `lookup` in each group.
+The looked-up result appears under `lookup` in each group. Below, chunk id 1 shows up in both groups because its `document_id` payload is an array (`[200, 201]`), placing the chunk into every matching group.
 
 ```json
 {
     "result": {
         "groups": [
             {
-                "id": 1,
+                "id": 200,
                 "hits": [
-                    { "id": 0, "score": 0.93 }
+                    { "id": 0, "score": 0.91 },
+                    { "id": 1, "score": 0.85 }
                 ],
                 "lookup": {
-                    "id": 1,
+                    "id": 200,
                     "payload": {
                         "title": "Document A",
                         "text": "This is document A"
@@ -448,12 +449,12 @@ The looked-up result appears under `lookup` in each group.
                 }
             },
             {
-                "id": 2,
+                "id": 201,
                 "hits": [
-                    { "id": 1, "score": 0.88 }
+                    { "id": 1, "score": 0.85 }
                 ],
                 "lookup": {
-                    "id": 2,
+                    "id": 201,
                     "payload": {
                         "title": "Document B",
                         "text": "This is document B"

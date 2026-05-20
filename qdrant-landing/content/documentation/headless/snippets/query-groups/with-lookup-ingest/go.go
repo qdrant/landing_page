@@ -18,7 +18,7 @@ func Main() {
 		CollectionName: "documents",
 		Points: []*qdrant.PointStruct{
 			{
-				Id: qdrant.NewIDNum(1),
+				Id: qdrant.NewIDNum(200),
 				Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{}),
 				Payload: qdrant.NewValueMap(map[string]any{
 					"title": "Document A",
@@ -26,7 +26,7 @@ func Main() {
 				}),
 			},
 			{
-				Id: qdrant.NewIDNum(2),
+				Id: qdrant.NewIDNum(201),
 				Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{}),
 				Payload: qdrant.NewValueMap(map[string]any{
 					"title": "Document B",
@@ -42,12 +42,12 @@ func Main() {
 			{
 				Id:      qdrant.NewIDNum(0),
 				Vectors: qdrant.NewVectors(0.1, 0.2, 0.3, 0.4),
-				Payload: qdrant.NewValueMap(map[string]any{"document_id": 1}),
+				Payload: qdrant.NewValueMap(map[string]any{"document_id": 200}),
 			},
 			{
 				Id:      qdrant.NewIDNum(1),
 				Vectors: qdrant.NewVectors(0.5, 0.6, 0.7, 0.8),
-				Payload: qdrant.NewValueMap(map[string]any{"document_id": 2}),
+				Payload: qdrant.NewValueMap(map[string]any{"document_id": 201}),
 			},
 		},
 	})

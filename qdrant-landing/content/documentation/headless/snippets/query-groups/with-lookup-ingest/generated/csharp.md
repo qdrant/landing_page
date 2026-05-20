@@ -10,7 +10,7 @@ await client.UpsertAsync(
 	{
 		new()
 		{
-			Id = 1,
+			Id = 200,
 			Vectors = new Dictionary<string, Vector>(),
 			Payload =
 			{
@@ -20,7 +20,7 @@ await client.UpsertAsync(
 		},
 		new()
 		{
-			Id = 2,
+			Id = 201,
 			Vectors = new Dictionary<string, Vector>(),
 			Payload =
 			{
@@ -39,13 +39,13 @@ await client.UpsertAsync(
 		{
 			Id = 0,
 			Vectors = new float[] { 0.1f, 0.2f, 0.3f, 0.4f },
-			Payload = { ["document_id"] = 1 },
+			Payload = { ["document_id"] = 200 },
 		},
 		new()
 		{
 			Id = 1,
 			Vectors = new float[] { 0.5f, 0.6f, 0.7f, 0.8f },
-			Payload = { ["document_id"] = 2 },
+			Payload = { ["document_id"] = 201 },
 		},
 	}
 );
