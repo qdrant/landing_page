@@ -12,6 +12,17 @@
               </div>
             {{ end }}
           </div>
+          {{ with .Params.speakers }}
+            <ul class="vsd-speaker-lineup__speakers">
+              {{ range . }}
+                <li class="vsd-speaker-lineup__speaker">
+                  <span class="vsd-speaker-lineup__speaker-company">{{ .company }}</span>
+                  <span class="vsd-speaker-lineup__speaker-name">{{ .speaker }}</span>
+                  <span class="vsd-speaker-lineup__speaker-theme">{{ .theme }}</span>
+                </li>
+              {{ end }}
+            </ul>
+          {{ end }}
           <a href="{{ .Params.button.url }}" class="button button_contained button_lg vsd-speaker-lineup__button" target="_blank" rel="noopener noreferrer">
             {{ .Params.button.text }}
           </a>
