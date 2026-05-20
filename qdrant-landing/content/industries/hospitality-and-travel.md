@@ -197,7 +197,7 @@ sections:
         chips:
           - id: 0
             title: Semantic-Search
-            link: /search/text-search/#semantic-search
+            link: /documentation/search/text-search/#semantic-search
       - id: 2
         icon:
           src: /icons/outline/heart-handshake.svg
