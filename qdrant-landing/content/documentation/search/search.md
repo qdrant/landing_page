@@ -428,17 +428,6 @@ Query the `chunks` collection with `group_by="document_id"` and `with_lookup` po
 
 You can also pass `with_lookup="documents"` as a shorthand. It uses the server defaults (`with_payload=True`, `with_vectors=False`), so the documents' vectors are not returned. Use the explicit `WithLookup(...)` form when you need those vectors back.
 
-```python
-client.query_points_groups(
-    collection_name="chunks",
-    query=[0.2, 0.1, 0.9, 0.7],
-    group_by="document_id",
-    limit=2,
-    group_size=2,
-    with_lookup="documents",  # server defaults: with_payload=True, with_vectors=False
-)
-```
-
 The looked-up result appears under `lookup` in each group.
 
 ```json
