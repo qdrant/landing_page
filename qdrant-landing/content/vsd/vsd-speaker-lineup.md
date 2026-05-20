@@ -18,8 +18,8 @@ logos:
     src: /img/vsd-logos/Mem0.svg
     alt: Mem0 logo
   - id: 5
-    src: /img/vsd-logos/N8n.svg
-    alt: N8n logo
+    src: /img/vsd-logos/Neo4j.svg
+    alt: Neo4j logo
   - id: 6
     src: /img/vsd-logos/Cognee.svg
     alt: Cognee logo
