@@ -61,6 +61,7 @@
     align-content: center;
     align-items: center;
     width: 100%;
+    margin-bottom: pxToRem(16);
   }
 
   &__logo {
@@ -76,6 +77,56 @@
     img {
       height: pxToRem(27);
     }
+  }
+
+  &__speakers {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    gap: pxToRem(24);
+    text-align: left;
+  }
+
+  &__speaker {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(6);
+    padding-bottom: pxToRem(24);
+    border-bottom: pxToRem(1) solid #303547;
+
+    &:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+  }
+
+  &__speaker-company,
+  &__speaker-name,
+  &__speaker-theme {
+    display: block;
+    line-height: $line-height-sm;
+  }
+
+  &__speaker-company {
+    font-size: $font-size-s;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #8B92A8;
+  }
+
+  &__speaker-name {
+    font-size: pxToRem(15);
+    font-weight: 500;
+    color: $neutral-98;
+  }
+
+  &__speaker-theme {
+    font-size: pxToRem(15);
+    color: #ABB1C7;
   }
 
   &__disclaimer {
@@ -105,6 +156,16 @@
     }
 
     &__description {
+      font-size: pxToRem(17);
+      line-height: $line-height-lg;
+    }
+
+    &__logos {
+      margin-bottom: pxToRem(24);
+    }
+
+    &__speaker-name,
+    &__speaker-theme {
       font-size: pxToRem(17);
       line-height: $line-height-lg;
     }
