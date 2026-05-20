@@ -1,13 +1,13 @@
 package com.example.snippets_amalgamation;
 
+import static io.qdrant.client.QueryFactory.fusion;
 import static io.qdrant.client.QueryFactory.nearest;
-import static io.qdrant.client.QueryFactory.rrf;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Fusion;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
 import io.qdrant.client.grpc.Points.QueryPoints;
-import io.qdrant.client.grpc.Points.Rrf;
 import java.util.List;
 
 public class Snippet {
@@ -27,7 +27,7 @@ public class Snippet {
                       .setUsing("dense")
                       .setLimit(20)
                       .build())
-                    .setQuery(rrf(Rrf.newBuilder().build()))
+                    .setQuery(fusion(Fusion.DBSF))
                     .build())
                   .get();
         }

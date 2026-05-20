@@ -25,7 +25,7 @@ public class Snippet
 		        Limit = 20
 		    }
 		  },
-		  query: new Rrf()
+		  query: Fusion.Dbsf
 		);
 	}
 }

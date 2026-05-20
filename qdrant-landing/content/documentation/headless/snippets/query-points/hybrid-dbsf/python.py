@@ -1,4 +1,3 @@
-```python
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
@@ -17,6 +16,5 @@ client.query_points(
             limit=20,
         ),
     ],
-    query=models.RrfQuery(rrf=models.Rrf()),
+    query=models.FusionQuery(fusion=models.Fusion.DBSF),
 )
-```

@@ -16,7 +16,7 @@ POST /collections/{collection_name}/points/query
             "limit": 20
         }
     ],
-    "query": { "rrf": {} }, // <--- reciprocal rank fusion with defaults
+    "query": { "fusion": "dbsf" }, // <--- distribution-based score fusion
     "limit": 10
 }
 ```

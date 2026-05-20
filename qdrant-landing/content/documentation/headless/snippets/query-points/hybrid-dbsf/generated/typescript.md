@@ -20,7 +20,7 @@ client.query("{collection_name}", {
         },
     ],
     query: {
-        rrf: {},
+        fusion: 'dbsf',
     },
 });
 ```

@@ -156,7 +156,7 @@ For custom fusion, use the [Formula Query](/documentation/search/search-relevanc
 
 To evaluate which works better for your use case, create a small golden query set and compare [retrieval quality metrics](/documentation/improve-search/retrieval-relevance/) (for example, NDCG@10) under each method.
 
-See also: [Hybrid Queries](/documentation/search/hybrid-queries/)
+See also: the [Choosing a Fusion Method](/documentation/search/hybrid-queries/#choosing-a-fusion-method) decision table in the Hybrid Queries reference, and the [Choosing a Fusion Method notebook](https://github.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) for a runnable RRF vs weighted RRF vs DBSF eval on BEIR/SciFact with a reusable weight-tuning helper.
 
 ### My hybrid search results aren't relevant. Where do I start debugging?
 
