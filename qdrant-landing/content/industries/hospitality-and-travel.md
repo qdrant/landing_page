@@ -41,7 +41,7 @@ sections:
     steps:
       - id: 0
         title: Step 1
-        description: Embed - Parse + Embed Resume / JD
+        description: Embed - Parse + Embed Document
         icon:
           src: /icons/outline/square-code.svg
           alt: Code
@@ -197,7 +197,7 @@ sections:
         chips:
           - id: 0
             title: Semantic-Search
-            link: /
+            link: /search/text-search/#semantic-search
       - id: 2
         icon:
           src: /icons/outline/heart-handshake.svg
@@ -207,10 +207,10 @@ sections:
         chips:
           - id: 0
             title: Recommend API
-            link: /
+            link: /documentation/search/explore/#recommendation-api
           - id: 1
             title: Discovery API
-            link: /
+            link: /documentation/search/explore/#discovery-api
 
   #architecture-section
   - type: architecture
@@ -253,7 +253,7 @@ sections:
         title: RAG-Powered AI Concierge
         description: "Ground AI assistants in real guest reviews and venue data. This is the pattern OpenTable uses for Concierge: vectorize review chunks, retrieve relevant context per question, and generate grounded answers that reflect actual guest experiences."
         link:
-          href: /rag/
+          href: /blog/case-study-opentable/
           text: View Full Example
         steps:
           - id: 0
@@ -295,7 +295,7 @@ sections:
         title: Geo-Partitioned Search
         description: Custom shard keys partition inventory by region so queries stay local, with cross-region discovery when users browse globally.
         link:
-          href: /
+          href: /documentation/search/filtering/#geo
           text: View Full Example
         steps:
           - id: 0

@@ -47,7 +47,7 @@ sections:
     steps:
       - id: 0
         title: Step 1
-        description: Embed - Parse + Embed Resume / JD
+        description: Embed - Parse + Embed Document
         icon:
           src: /icons/outline/square-code.svg
           alt: Code

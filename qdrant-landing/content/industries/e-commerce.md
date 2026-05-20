@@ -39,7 +39,7 @@ sections:
     steps:
       - id: 0
         title: Step 1
-        description: Embed - Parse + Embed Resume / JD
+        description: Embed - Parse + Embed Document
         icon:
           src: /icons/outline/square-code.svg
           alt: Code
@@ -195,10 +195,10 @@ sections:
         chips:
           - id: 0
             title: Recommendations API
-            link: /
+            link: /documentation/search/explore/#recommendation-api
           - id: 1
             title: Filtering
-            link: /
+            link: /documentation/search/filtering/
       - id: 2
         icon:
           src: /icons/outline/heart-handshake.svg
@@ -208,10 +208,10 @@ sections:
         chips:
           - id: 0
             title: Recommendation API
-            link: /
+            link: /documentation/search/explore/#recommendation-api
           - id: 0
             title: Discovery API
-            link: /
+            link: /documentation/search/explore/#discovery-api
 
   #architecture-section
   - type: architecture
@@ -385,17 +385,17 @@ sections:
         answer: Yes. Qdrant's horizontal scaling with auto-sharding handles 4x-100x traffic spikes without manual intervention. Add nodes and the operator auto-distributes shards. Quantization (scalar for 4x compression, binary for 32x) keeps memory costs predictable even at peak load.
       - id: 1
         question: What Deployment Options Work for Multi-Region E-Commerce?
-        answer:
+        answer: Qdrant supports managed cloud, BYOC (any cloud with Kubernetes), hybrid cloud, on-prem, and edge deployments. SOC2 and GDPR compliant. EU-based company. Multi-AZ deployment with zero-downtime upgrades for 99.99% availability.
       - id: 2
         question: How Does Multi-Tenancy Work for Marketplace Platforms?
-        answer: 
+        answer: Qdrant supports payload-based multi-tenancy that scales to 100k+ tenants in a single collection. Per-tenant HNSW indexes with disabled global indexing prevent cross-tenant interference. Large tenants can be promoted to dedicated shards. This avoids the file descriptor limits of collection-per-tenant approaches.
       - id: 3
         question: Can We Combine Image and Text Search in One Query?
-        answer: 
+        answer: Yes. Qdrant's multi-vector support lets you store and search across dense embeddings (semantic), sparse embeddings (keyword), image embeddings (CLIP/ColPali), and user behavior embeddings simultaneously. Prefetching enables parallel multi-modal retrieval with RRF fusion for balanced ranking.
       - id: 4
         question: How Does Qdrant Compare to Legacy search engines for E-Commerce Search?
-        answer: 
-        
+        answer: Legacy Java-based search engines were built for text search and added vector capabilities as a bolt-on. Qdrant is purpose-built for vector workloads with native hybrid search (dense + sparse vectors + metadata filters in a single query). E-commerce teams report significant improvements when migrating.
+
   #cta-banner-section
   - type: cta-banner
     title: Talk to an expert about <br><span>E-commerce</span> retrieval.
