@@ -11,13 +11,11 @@ aliases:
 
 # Security
 
-Qdrant supports various security features to help you secure your instance. Most
-of these must to be explicitly configured to make your instance production
-ready. Please read the following section carefully.
+Securing a Qdrant deployment means controlling who can access your data, encrypting traffic, and keeping an audit trail for compliance. To secure your deployments, Qdrant supports [API key authentication](#authentication) with [read-only API keys](#read-only-api-key) for query-only consumers and [JWT-based access control](#granular-access-control-with-jwt) with per-collection read/write scoping, [network binding](#network-bind), [TLS](#tls) for encrypted connections, and [audit logging](#audit-logging) for compliance. On Qdrant Cloud, these features are enabled by default. On self-hosted open source deployments, they must be explicitly configured before going to production.
 
 ## Secure Your Instance
 
-<aside role="alert">Custom deployments are <b>not</b> secure by default and are <b>not</b> production ready. Qdrant Cloud deployments are always secure and production ready.</aside>
+<aside role="alert">Self-hosted open source deployments are <b>not</b> secure by default and are <b>not</b> production-ready. Qdrant Cloud deployments are always secure and production-ready.</aside>
 
 By default, all self-deployed Qdrant instances are not secure. They are open to
 all network interfaces and do not have any kind of authentication configured. They
@@ -32,12 +30,13 @@ Restrictions](/documentation/cloud/configure-cluster/#client-ip-restrictions).
 
 To properly secure your own instance, we strongly recommend taking the following steps:
 
-1. [Authentication](#authentication): set up an API key to prevent unauthorized access.  
-   The most important step to prevent unauthenticated actors from accessing your data.
-2. [Network Bind](#network-bind): bind to a specific network interface or IP address.  
+1. [Authentication](#authentication): Set up an API key to prevent unauthorized access.  
+   Use a [read-only API key](#read-only-api-key) for query-only consumers, or enable [fine-grained access control with JWT](#granular-access-control-with-jwt) to scope access per collection.
+1. [Audit Logging](#audit-logging): Record all API operations to a log file for compliance and forensics.
+1. [Network Bind](#network-bind): Bind to a specific network interface or IP address.  
    When developing locally, bind to `127.0.0.1` to prevent all external access.
    When deploying to production, bind to a private network interface or IP.
-3. [TLS](#tls): enable encrypted traffic everywhere using TLS.
+1. [TLS](#tls): Encrypt traffic everywhere using TLS.
 
 ## Authentication
 
