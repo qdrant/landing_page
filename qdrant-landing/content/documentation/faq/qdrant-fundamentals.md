@@ -8,9 +8,9 @@ aliases:
 ---
 
 # Frequently Asked Questions: General Topics
-||||||
-|-|-|-|-|-|
-|[Vectors](/documentation/faq/qdrant-fundamentals/#vectors)|[Search](/documentation/faq/qdrant-fundamentals/#search)|[Collections](/documentation/faq/qdrant-fundamentals/#collections)|[Compatibility](/documentation/faq/qdrant-fundamentals/#compatibility)|[Cloud](/documentation/faq/qdrant-fundamentals/#cloud)|
+|||||||
+|-|-|-|-|-|-|
+|[Vectors](/documentation/faq/qdrant-fundamentals/#vectors)|[Search](/documentation/faq/qdrant-fundamentals/#search)|[Collections](/documentation/faq/qdrant-fundamentals/#collections)|[Compatibility](/documentation/faq/qdrant-fundamentals/#compatibility)|[Security](/documentation/faq/qdrant-fundamentals/#security)|[Cloud](/documentation/faq/qdrant-fundamentals/#cloud)|
 
 ## Vectors
 
@@ -293,10 +293,24 @@ You should always index first if you know your filters upfront. If you need to i
 
 Changing `m` or `ef_construct` automatically triggers a full background HNSW rebuild. For cases where only a payload index is being added, make a minimal change to `ef_construct` (for example, from 100 to 101). Queries continue to be served by the old index until the new index is complete, so there is no downtime. Don't immediately change the value of `ef_construct` back to its original value, but keep it set to the new value.
 
-## Should I create one Qdrant collection per user? 
+### Should I create one Qdrant collection per user? 
 No. Creating one collection per user is more resource intensive. 
 
 Instead of creating separate collections for each user, we recommend creating a [single collection](/documentation/manage-data/multitenancy/) and separate access using payloads. Each Qdrant point can have a payload as metadata. For multitenancy, you can include a `user_id` or `tenant_id` for each point. To optimize storage further, you can enable [tenant indexing](/documentation/manage-data/indexing/#tenant-index) for payload fields.
+
+## Security
+
+### Is my Qdrant cluster secure by default?
+
+It depends on your deployment. Qdrant Cloud clusters are always secure by default. Self-hosted deployments are not: they're open to all network interfaces and have no authentication configured until you set it up. See [Security](/documentation/security/) for a full configuration guide.
+
+### Does Qdrant support read-only access?
+
+Yes. You can configure a read-only API key that permits queries but blocks all write operations. Both keys can be active at the same time, so you can issue a read-only key to consumers without rotating your primary key. See [Read-Only API Key](/documentation/security/#read-only-api-key).
+
+### Can I restrict access to specific collections?
+
+Yes. Qdrant supports JWT-based access control that lets you issue signed tokens scoped to individual collections with read or write permissions. This is useful for multi-tenant deployments where each user or service should only access their own data. See [Granular Access Control with JWT](/documentation/security/#granular-access-control-with-jwt).
 
 ## Cloud
 
