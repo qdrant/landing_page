@@ -21,7 +21,7 @@ tags:
 - case study
 ---
 
-![summary](/blog/case-study-sunny-health-ai/bento-box-sunny-health.png)
+![summary](/blog/case-study-sunny-health-ai/sunny-bento-v2.png)
 
 Most people don't read their insurance pamphlet. The benefits are there: deductibles, copays, in-network providers, what dental covers, what dermatology covers, when an optometry visit is included in the medical plan. But the document is dense, the website is worse, and the result is that patients pay for plans they barely understand and delay care because finding an in-network provider with availability takes more energy than they have.
 
@@ -31,9 +31,6 @@ Most people don't read their insurance pamphlet. The benefits are there: deducti
 — Nikolas Yanek-Chrones, Chief Technology Officer, Sunny Health
 
 Sunny Health distributes through payers and care providers, who plug the concierge into the experience their members already get.
-
->"People are already paying for insurance. They don't see the value in paying monthly for something on top of it. The goal now is targeting the payers and the providers."    
-— Nikhil Karnik, Founding Engineer, Sunny Health  
 	  
 Behind any of those distribution surfaces sits the same engineering challenge: matching a specific member with specific benefits to a specific provider with the right network status, license, language, location, and specialty. That challenge is what brought the team to Qdrant.
 
@@ -52,7 +49,7 @@ For provider matching specifically, the team had also been leaning on fuzzy stri
 
 On top of all of it, healthcare introduces filters that cannot be ranked around. If a doctor isn't in network, isn't licensed in the patient's state, or doesn't speak the patient's language, they cannot appear in results. Period.
 
->"Hybrid for us is non-negotiable. Network adequacy, licenses, language: these are hard filters in healthcare. They're not options you can rank around. When the vector database can express a 'must' alongside a 'similar to' in a single query, that's the difference between a usable system and one you can't use at all."     
+>“Hybrid search is essential for us. In healthcare, network adequacy, provider licensing, and language support are hard constraints — not optional ranking signals. When a vector search can combine strict filtering with semantic similarity in a single query, it becomes production-usable. Without that, the system breaks down entirely.”     
 — Nikhil Karnik, Founding Engineer, Sunny Health
 
 ## Why Sunny Health chose Qdrant
@@ -68,10 +65,10 @@ The second was first-class [geo](https://qdrant.tech/documentation/manage-data/p
 
 The third was the flexible JSON [payload model](https://qdrant.tech/documentation/manage-data/payload/). Provider records are deeply nested with specialties, certifications, multiple locations, organizations, education history, and accepted insurances. Forcing a flattened schema would mean either losing fidelity or building an external catalog lookup, both of which add latency and complexity.
 
->"Qdrant has a very flexible JSON payload model. Our provider records are long and nested: specialties, certifications, multiple locations, organizations, education, insurances. The flexible payload model fits us without forcing a flattened schema or an external catalog lookup."    
-— Nikhil Karnik, Founding Engineer, Sunny Health
+>“Qdrant’s flexible JSON payload model fit our data structure extremely well. Our provider records are deeply nested and include specialties, certifications, multiple practice locations, organizations, education, and insurance data. We didn’t have to flatten our schema or rely on external catalog lookups.”    
+— Ayush Tomar, Chief Data Officer, Sunny Health
 
-The fourth was developer ergonomics. The team is a Rust shop, and Qdrant shipped a first-class Rust client they didn't have to build themselves. Nikhil also called out the [Qdrant MCP](https://github.com/qdrant/mcp-server-qdrant) tool as a development accelerator: "I found that amazing. It sped up a lot of my time."
+The fourth was developer ergonomics. The team is a Rust shop, and Qdrant shipped a first-class Rust client they didn't have to build themselves. Nikhil also called out the [Qdrant MCP](https://github.com/qdrant/mcp-server-qdrant) tool as a development accelerator: "Automating vector point population saved me a significant amount of time."
 
 ## What changed after the migration
 
@@ -83,6 +80,8 @@ What's clear from the team's framing is the qualitative shift. A query like "fem
 — Nikhil Karnik, Founding Engineer, Sunny Health
 
 For the AI calling agent, accuracy weighs more than raw speed. A wrong match doesn't just degrade UX, it produces real-world harm: misrouted patients, surprise bills, no-show charges. Qdrant's accuracy under filtered, geo-ranked queries is what gives the team confidence to put this matching logic on the critical path of an automated booking flow.
+
+After migrating our fuzzy-matching pipeline from Supabase/Postgres to Qdrant, Sunny Health saw up to a 57% reduction in retrieval latency for complex provider matching queries—about a 2-4 second decrease from the previous ~7 second query.
 
 ## How it works in production
 
