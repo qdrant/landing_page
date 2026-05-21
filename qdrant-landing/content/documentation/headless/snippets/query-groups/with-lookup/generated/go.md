@@ -11,9 +11,10 @@ client, err := qdrant.NewClient(&qdrant.Config{
 })
 
 client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
-	CollectionName: "{collection_name}",
+	CollectionName: "chunks",
 	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
 	GroupBy:        "document_id",
+	Limit:          qdrant.PtrOf(uint64(2)),
 	GroupSize:      qdrant.PtrOf(uint64(2)),
 	WithLookup: &qdrant.WithLookup{
 		Collection:  "documents",

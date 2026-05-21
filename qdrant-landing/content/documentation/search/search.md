@@ -404,38 +404,48 @@ If the `group_by` field of a point is an array (e.g. `"document_id": ["a", "b"]`
 
 ### Lookup in groups
 
-Having multiple points for parts of the same item often introduces redundancy in the stored data. Which may be fine if the information shared by the points is small, but it can become a problem if the payload is large, because it multiplies the storage space needed to store the points by a factor of the amount of points we have per group.
+When the points in a group share large fields like titles, abstracts, or full document vectors, copying that data onto every point inflates storage and forces you to rewrite every chunk whenever a shared field changes.
 
-One way of optimizing storage when using groups is to store the information shared by the points with the same group id in a single point in another collection. Then, when using the [**groups** API](#grouping-api), add the `with_lookup` parameter to bring the information from those points into each group.
+`with_lookup` solves this. Store the shared data once in a separate collection, then attach it to each group at query time using the [groups API](#grouping-api).
 
 ![Group id matches point id](/docs/lookup_id_linking.png)
 
 <aside role="status">Store only document-level metadata (e.g., titles, abstracts) in the lookup collection, not chunks or duplicated data.</aside>
 
-This has the extra benefit of having a single point to update when the information shared by the points in a group changes.
+Set up the two collections. `chunks` holds one point per chunk with its own vector. `documents` holds one point per document with payload only. The payload index on `document_id` lets `group_by` work on that field.
 
-For example, if you have a collection of documents, you may want to chunk them and store the points for the chunks in a separate collection, making sure that you store the point id from the document it belongs in the payload of the chunk point.
+{{< code-snippet path="/documentation/headless/snippets/query-groups/with-lookup-setup/" >}}
 
-In this case, to bring the information from the documents into the chunks grouped by the document id, you can use the `with_lookup` parameter:
+Ingest both collections, with `documents` populated before any query that uses `with_lookup`.
+
+{{< code-snippet path="/documentation/headless/snippets/query-groups/with-lookup-ingest/" >}}
+
+The lookup is a plain join by point id, not a vector search:
+
+- The `documents` collection must already contain a point whose id matches the `group_by` value from each chunk.
+- The id types must match. A string `group_by` value against integer point ids returns an empty `lookup` field with no error.
+- Group ids without a matching point in `documents` get an empty `lookup` field.
+
+Query the `chunks` collection with `group_by="document_id"` and `with_lookup` pointing at the `documents` collection:
 
 {{< code-snippet path="/documentation/headless/snippets/query-groups/with-lookup/" >}}
 
-For the `with_lookup` parameter, you can also use the shorthand `with_lookup="documents"` to bring the whole payload and vector(s) without explicitly specifying it.
+You can also pass `with_lookup="documents"` as a shorthand. It uses the server defaults (`with_payload=True`, `with_vectors=False`), so the documents' vectors are not returned. Use the explicit `WithLookup(...)` form when you need those vectors back.
 
-The looked up result will show up under `lookup` in each group.
+The looked-up result appears under `lookup` in each group. Below, chunk id 1 shows up in both groups because its `document_id` payload is an array (`[200, 201]`), placing the chunk into every matching group.
 
 ```json
 {
     "result": {
         "groups": [
             {
-                "id": 1,
+                "id": 200,
                 "hits": [
                     { "id": 0, "score": 0.91 },
                     { "id": 1, "score": 0.85 }
                 ],
                 "lookup": {
-                    "id": 1,
+                    "id": 200,
                     "payload": {
                         "title": "Document A",
                         "text": "This is document A"
@@ -443,12 +453,12 @@ The looked up result will show up under `lookup` in each group.
                 }
             },
             {
-                "id": 2,
+                "id": 201,
                 "hits": [
                     { "id": 1, "score": 0.85 }
                 ],
                 "lookup": {
-                    "id": 2,
+                    "id": 201,
                     "payload": {
                         "title": "Document B",
                         "text": "This is document B"
@@ -462,9 +472,7 @@ The looked up result will show up under `lookup` in each group.
 }
 ```
 
-Since the lookup is done by matching directly with the point id, the lookup collection must be pre-populated with points where the `id` matches the `group_by` value (e.g., document_id) from your primary collection.
-
-Any group id that is not an existing (and valid) point id in the lookup collection will be ignored, and the `lookup` field will be empty.
+For a collection of 20 000 documents with around 24 chunks each, duplicating ~3 KB of document-level data on every chunk adds up to ~1.4 GB. Storing those fields once per document in the `documents` collection brings that down to ~60 MB. The split pays off when the shared fields are large or change often, since updating one point in `documents` shows up under every chunk's group at query time.
 
 ## Random Sampling
 

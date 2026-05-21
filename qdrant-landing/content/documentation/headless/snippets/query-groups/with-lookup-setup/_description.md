@@ -1,0 +1,1 @@
+Create the two collections used by the `with_lookup` pattern. The `chunks` collection holds one point per chunk with its own vector. The `documents` collection holds one point per document and carries only payload, no vectors. A payload index on `document_id` is required for `group_by` to work on that field.

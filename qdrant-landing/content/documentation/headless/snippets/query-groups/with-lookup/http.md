@@ -2,7 +2,7 @@
 POST /collections/chunks/points/query/groups
 {
     // Same as in the regular query API
-    "query": [1.1],
+    "query": [0.2, 0.1, 0.9, 0.7],
 
     // Grouping parameters
     "group_by": "document_id",
@@ -19,7 +19,7 @@ POST /collections/chunks/points/query/groups
         "with_payload": ["title", "text"],
 
         // Options for specifying what to bring from the vector(s) 
-        // of the looked up point, true by default
+        // of the looked up point, false by default
         "with_vectors": false
     }
 }
