@@ -30,7 +30,7 @@ The result is breadth from vectors and precision from the graph — useful when 
 Cognee ships a Qdrant adapter and documents Qdrant as a preferred, built-in vector database option. That means you configure one URI and key, and Cognee's pipelines will read/write embeddings directly to Qdrant while building and querying the graph.
 
 ```bash
-pip install Cognee-community-vector-adapter-qdrant
+pip install cognee-community-vector-adapter-qdrant
 ```
 
 ## A Minimal Setup
@@ -40,31 +40,42 @@ The below example comes from Cognee-community repo and mirrors the structure man
 ```python
 import asyncio, os, pathlib
 from os import path
-from cognee_community_vector_adapter_qdrant import register
+from cognee_community_vector_adapter_qdrant import register  # noqa: F401
+
+import cognee
+from cognee import config
+
+MY_PREFERENCE = """
+- I like to visit places near the beach where I can find the best spots. 
+- I need locations that are rare to find on blogs but are goldmine places for your eyes
+- I prefer Vegetarian meals. Use this when I ask for restaurants recommendation
+- My hobbies that might also help in planning Itineraries: I love Anime, F1 and Cricket.
+"""
 
 async def main():
-    from Cognee import SearchType, add, cognify, config, prune, search
-
     system_path = pathlib.Path(__file__).parent
     config.system_root_directory(path.join(system_path, ".cognee_system"))
     config.data_root_directory(path.join(system_path, ".data_storage"))
 
     config.set_relational_db_config({"db_provider": "sqlite"})
-    config.set_vector_db_config({
-        "vector_db_provider": "qdrant",
-        "vector_dataset_database_handler": "qdrant",
-        "vector_db_url": os.getenv("QDRANT_API_URL", "http://localhost:6333"),
-        "vector_db_key": os.getenv("QDRANT_API_KEY", ""),
-    })
-    config.set_graph_db_config({"graph_database_provider": "kuzu"})
+    config.set_vector_db_config(
+        {
+            "vector_db_provider": "qdrant",
+            "vector_db_url": os.getenv("QDRANT_API_URL", "http://localhost:6333"),
+            "vector_db_key": os.getenv("QDRANT_API_KEY", ""),
+            "vector_dataset_database_handler":"qdrant"
+        }
+    )
+    config.set_graph_db_config({"graph_database_provider": "kuzu",
+        "graph_dataset_database_handler": "kuzu"})
 
-    await prune.prune_data(); await prune.prune_system(metadata=True)
-    await add("Natural language processing (NLP) ...")
-    await cognify()
+    await cognee.remember(MY_PREFERENCE) # buills a Knowledge Graph
+    
+    query_text = "plan a 3 days Itinerary for Berlin along with restaurants to try food."
+    search_results = await cognee.recall(query_text=query_text) # get relevant memory search results
 
-    for txt in await search(query_type=SearchType.GRAPH_COMPLETION,
-                            query_text="Tell me about NLP"):
-        print(txt)
+    for result_text in search_results:
+        print(result_text)
 
 if __name__ == "__main__":
     asyncio.run(main())
