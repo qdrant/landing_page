@@ -4,8 +4,8 @@ draft: false
 slug: vector-space-day-sf-2026
 short_description: "Join 300+ AI builders in San Francisco to talk about search, AI retrieval, agents, memory, edge & robotics AI, and more."
 description: "From building scalable RAG pipelines to enabling real-time AI memory and next-gen context engineering, we’re covering the full spectrum of modern vector-native search."
-preview_image: /blog/vector-space-day-2026-sf/VSD-SF-Blog-Hero_may7.jpg
-social_preview_image: /blog/vector-space-day-2026-sf/VSD-SF-Blog-Hero_may7.jpg
+preview_image: /blog/vector-space-day-2026-sf/VSD-22-may.jpg
+social_preview_image: /blog/vector-space-day-2026-sf/VSD-22-may.jpg
 date: 2026-04-21
 author: Qdrant
 featured: false
@@ -26,8 +26,17 @@ Last year in Berlin we brought together 400+ engineers, researchers, and AI buil
 
 ### Why You Should Attend
 
-* **Deep-dives, lightning talks, sessions you won’t want to miss**: Learn from the teams solving hard problems in AI infrastructure, search relevance, and semantic retrieval in production.  
-* **Meet the community**: This isn’t just a conference. It’s a gathering of the developers rethinking how AI systems search, retrieve, and reason at scale. Network or not, productive conversations will be had. 
+We’ve already locked in a strong lineup including Llamaindex, mem0, Neo4j, Google DeepMind, Qualcomm, Arize, TwelveLabs. See the full list below.
+
+​Your ticket includes:
+*​Coffee and breakfast during check-in starting at 8:30 am
+​*Limited edition t-shirts for the first 200 to check-in
+​*Expert-led discussions on the cutting edge of retrieval, vector search infrastructure, agentic AI, robotics, memory & Edge
+​*Lunch
+​*Networking with devs rethinking how AI systems search, retrieve, and reason at scale
+​*Complimentary happy hour to close out the day with 3 Nintendo Switch's up for grabs
+
+Lastly, don't miss your chance to **meet the community**: This isn’t just a conference. It’s a gathering of the developers rethinking how AI systems search, retrieve, and reason at scale. Network or not, productive conversations will be had. 
 
 ### Topics We’ll Explore
 
@@ -37,9 +46,19 @@ If you work on any of the following, the Vector Space Day 2026 is your event:
 * Edge & Robotics AI
 * Happy Hour
 
+### Agenda
 
-### Happy Hour
-The day won’t end when the last session wraps. Your ticket includes access to the happy hour where we will unwind and keep the conversations going over drinks, music, and light bites. 
+​08:30 AM – 09:30 AM · Check-in
+09:30 AM – 10:00 AM · Opening & Qdrant Keynotes
+10:00 AM – 10:40 AM · Talks
+10:40 AM – 10:55 AM · Coffee Break
+10:55 AM – 12:15 PM · Talks
+12:15 PM – 01:20 PM · Lunch Break + Expo Hall
+01:20 PM – 03:25 PM · Talks
+03:25 PM – 03:40 PM · Coffee Break
+03:40 PM – 04:40 PM · Talks
+04:40 PM – 5:00 PM · Closing Remarks & Hackathon Winners
+5:00 PM – onward · Happy Hour & Networking
 
 ### Call for Speakers
 
@@ -54,8 +73,6 @@ Proposals submitted after the deadline, without prior communication with the eve
 ### Get Your Ticket
 
 General admission: $199
-
-Early bird pricing: $99 through May 11 
 
 [**Reserve your spot now.**](https://luma.com/vsd-sf)
 
