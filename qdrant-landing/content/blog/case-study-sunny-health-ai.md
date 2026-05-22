@@ -5,7 +5,7 @@ short_description: "See how Sunny Health's AI healthcare concierge uses Qdrant."
 description: "Discover how Sunny Health built an AI healthcare concierge on Qdrant, combining hybrid search, geo re-ranking, and a flexible payload model to match members to in-network providers across a corpus of three to four million records."
 preview_image: /blog/case-study-sunny-health-ai/social-preview-sunny-health.png
 social_preview_image: /blog/case-study-sunny-health-ai/social-preview-sunny-health.png
-date: 2026-05-15
+date: 2026-05-21
 author: "Daniel Azoulai"
 featured: false
 
