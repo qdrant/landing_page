@@ -1,7 +1,7 @@
 ---
 title: Security
 short_description: "Harden self-hosted Qdrant with API keys, network binding, TLS encryption, and JWT-based access control."
-description: "Secure a Qdrant instance with API key authentication, network binding, TLS encryption, and fine-grained JWT-based access control for production use."
+description: "Secure a Qdrant instance with Admin API keys, read-only API keys, JWT-based access control for collection-scoped permissions, network binding, and TLS encryption."
 partition: deploy
 weight: 145
 aliases:
