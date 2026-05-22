@@ -29,12 +29,12 @@ Last year in Berlin we brought together 400+ engineers, researchers, and AI buil
 We’ve already locked in a strong lineup including Llamaindex, mem0, Neo4j, Google DeepMind, Qualcomm, Adobe, Hubspot, Vultr, Arize, TwelveLabs and AWS.
 
 ​Your ticket includes:
-* ​Coffee and breakfast during check-in starting at 8:30 am
-​* Limited edition t-shirts for the first 200 to check-in
-​* Expert-led discussions on the cutting edge of retrieval, vector search infrastructure, agentic AI, robotics, memory & Edge
-​* Lunch
-​* Networking with devs rethinking how AI systems search, retrieve, and reason at scale
-​* Complimentary happy hour to close out the day with 3 Nintendo Switch's up for grabs
+​Coffee and breakfast during check-in starting at 8:30 am
+​Limited edition t-shirts for the first 200 to check-in
+​Expert-led discussions on the cutting edge of retrieval, vector search infrastructure, agentic AI, robotics, memory & Edge
+​Lunch
+​Networking with devs rethinking how AI systems search, retrieve, and reason at scale
+​Complimentary happy hour to close out the day with 3 Nintendo Switch's up for grabs
 
 Lastly, don't miss your chance to **meet the community**. This isn’t just a conference. It’s a gathering of the developers rethinking how AI systems search, retrieve, and reason at scale.  
 
