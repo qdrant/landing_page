@@ -9,9 +9,9 @@ aliases:
   - /documentation/operations/security
 ---
 
-# Security
+# Security & Access Control
 
-Securing a Qdrant deployment means controlling who can access your data, encrypting traffic, and keeping an audit trail for compliance. To secure your deployments, Qdrant supports [API key authentication](#authentication) with [read-only API keys](#read-only-api-key) for query-only consumers and [JWT-based access control](#granular-access-control-with-jwt) with per-collection read/write scoping, [network binding](#network-bind), [TLS](#tls) for encrypted connections, and [audit logging](#audit-logging) for compliance. On Qdrant Cloud, these features are enabled by default. On self-hosted open source deployments, they must be explicitly configured before going to production.
+Securing a Qdrant deployment means controlling who can access your data, encrypting traffic, and keeping an audit trail for compliance. To secure your deployments, Qdrant supports [API key authentication](#authentication) (including [read-only API keys](#read-only-api-key) for query-only consumers and [granular access API keys](#granular-access-api-keys) with per-collection read/write scoping), [network binding](#network-bind), [TLS](#tls) for encrypted connections, and [audit logging](#audit-logging) for compliance. On Qdrant Cloud, these features are enabled by default. On self-hosted open source deployments, they must be explicitly configured before going to production.
 
 ## Secure Your Instance
 
@@ -21,17 +21,16 @@ By default, all self-deployed Qdrant instances are not secure. They are open to
 all network interfaces and do not have any kind of authentication configured. They
 may be open to everybody on the internet without any restrictions. You must
 therefore take security measures to make your instance production-ready.
-Please read through this section carefully for instructions on how to secure
+Please read this section carefully for instructions on how to secure
 your instance.
 
-Instances deployed via Qdrant Cloud are always secure by default. Refer to
+Qdrant Cloud deployments are always secure by default. Refer to
 [Authentication](/documentation/cloud/authentication/) and [Client IP
 Restrictions](/documentation/cloud/configure-cluster/#client-ip-restrictions).
 
 To properly secure your own instance, we strongly recommend taking the following steps:
 
 1. [Authentication](#authentication): Set up an API key to prevent unauthorized access.  
-   Use a [read-only API key](#read-only-api-key) for query-only consumers, or enable [fine-grained access control with JWT](#granular-access-control-with-jwt) to scope access per collection.
 1. [Audit Logging](#audit-logging): Record all API operations to a log file for compliance and forensics.
 1. [Network Bind](#network-bind): Bind to a specific network interface or IP address.  
    When developing locally, bind to `127.0.0.1` to prevent all external access.
@@ -40,13 +39,29 @@ To properly secure your own instance, we strongly recommend taking the following
 
 ## Authentication
 
+By default, an open source Qdrant deployment accepts requests from anyone who can reach it. To secure your instance, enable API key authentication. On Qdrant Cloud, API key authentication is enabled by default.
+
+Qdrant supports three types of API key:
+
+- **[Admin API Key](#admin-api-key)**: Grants full access to all operations and collections.
+- **[Read-Only API Key](#read-only-api-key)**: Grants read-only access to all operations and collections. This key can be used for services or users that only need to query data.
+- **[Granular Access API Keys](#granular-access-api-keys)**: For more granular access control, you can use API keys that specify read or write permissions on individual collections.
+
+### Authenticate with an API Key
+
+To authenticate with an API key, whether it's an admin key, read-only key, or granular access token, provide it in the `api-key` request header:
+
+{{< code-snippet path="/documentation/headless/snippets/authentication/api-key/" >}}
+
+Alternatively, use the `Authorization: Bearer` header:
+
+{{< code-snippet path="/documentation/headless/snippets/authentication/bearer/" >}}
+
+### Admin API Key
+
 *Available as of v1.2.0*
 
-Qdrant supports a simple form of client authentication using a static API key.
-This can be used to secure your instance.
-
-To enable API key based authentication in your own Qdrant instance you must
-specify a key in the configuration:
+The admin API key is the primary key that grants full access to all operations and collections. It is configured with the `api_key` setting in the configuration file.
 
 ```yaml
 service:
@@ -60,7 +75,7 @@ service:
   api_key: your_secret_api_key_here
 ```
 
-Or alternatively, you can use the environment variable:
+Or alternatively, you can use the `QDRANT__SERVICE__API_KEY` environment variable:
 
 ```bash
 docker run -p 6333:6333 \
@@ -70,112 +85,18 @@ docker run -p 6333:6333 \
 
 <aside role="alert"><a href="#tls">TLS</a> must be used to prevent leaking the API key over an unencrypted connection.</aside>
 
-For using API key based authentication in Qdrant Cloud see the cloud
+For using API key based authentication on Qdrant Cloud, see the Cloud
 [Authentication](/documentation/cloud/authentication/)
 section.
 
-The API key then needs to be present in all REST or gRPC requests to your instance.
-All official Qdrant clients for Python, Go, Rust, .NET and Java support the API key parameter.
-
-<!---
-Examples with clients
--->
-
-```bash
-curl \
-  -X GET https://localhost:6333 \
-  --header 'api-key: your_secret_api_key_here'
-```
-
-```python
-from qdrant_client import QdrantClient
-
-client = QdrantClient(
-    url="https://localhost:6333",
-    api_key="your_secret_api_key_here",
-)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({
-  url: "http://localhost",
-  port: 6333,
-  apiKey: "your_secret_api_key_here",
-});
-```
-
-```rust
-use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("https://xyz-example.eu-central.aws.cloud.qdrant.io:6334")
-    .api_key("<paste-your-api-key-here>")
-    .build()?;
-```
-
-```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-
-QdrantClient client =
-    new QdrantClient(
-        QdrantGrpcClient.newBuilder(
-                "xyz-example.eu-central.aws.cloud.qdrant.io",
-                6334,
-                true)
-            .withApiKey("<paste-your-api-key-here>")
-            .build());
-```
-
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient(
-  host: "xyz-example.eu-central.aws.cloud.qdrant.io",
-  https: true,
-  apiKey: "<paste-your-api-key-here>"
-);
-```
-
-```go
-import "github.com/qdrant/go-client/qdrant"
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host:   "xyz-example.eu-central.aws.cloud.qdrant.io",
-	Port:   6334,
-	APIKey: "<paste-your-api-key-here>",
-	UseTLS: true,
-})
-```
 
 <aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key nor bearer tokens. Internal gRPC uses port 6335 by default if running in distributed mode. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, this setting is disabled for Qdrant Cloud and the Qdrant Helm chart.</aside>
 
-### Read-Only API Key
-
-*Available as of v1.7.0*
-
-In addition to the regular API key, Qdrant also supports a read-only API key.
-This key can be used to access read-only operations on the instance.
-
-```yaml
-service:
-  read_only_api_key: your_secret_read_only_api_key_here
-```
-
-Or with the environment variable:
-
-```bash
-export QDRANT__SERVICE__READ_ONLY_API_KEY=your_secret_read_only_api_key_here
-```
-
-Both API keys can be used simultaneously.
-
-### Rotate an API Key
+#### Rotate an Admin API Key
 
 *Available as of v1.17.0*
 
-In a distributed deployment, you can rotate an API key without downtime. Use the `alt_api_key` setting to temporarily configure a second API key that acts identically to the primary `api_key`, allowing both the old and new API keys to be active at the same time.
+In a distributed deployment, you can rotate an admin API key without downtime. Use the `alt_api_key` setting to temporarily configure a second API key that acts identically to the primary `api_key`, allowing both the old and new API keys to be active at the same time.
 
 ```yaml
 service:
@@ -191,15 +112,33 @@ To rotate an API key without downtime:
 
 <aside role="alert">JWT tokens are tied to the key they were signed with and are <strong>not</strong> automatically migrated. They must be re-created after switching to the new key.</aside>
 
-### Granular Access Control with JWT
+### Read-Only API Key
+
+*Available as of v1.7.0*
+
+Qdrant also supports a read-only API key.
+This key can be used to access read-only operations on the instance.
+
+```yaml
+service:
+  read_only_api_key: your_secret_read_only_api_key_here
+```
+
+Or with the environment variable:
+
+```bash
+export QDRANT__SERVICE__READ_ONLY_API_KEY=your_secret_read_only_api_key_here
+```
+
+Admin and read-only API keys can be used simultaneously.
+
+### Granular Access API Keys
 
 *Available as of v1.9.0*
 
-For more complex cases, Qdrant supports granular access control with [JSON Web Tokens (JWT)](https://jwt.io/).
-This allows you to create tokens which restrict access to data stored in your cluster, and build [Role-based access control (RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control) on top of that.
-In this way, you can define permissions for users and restrict access to sensitive endpoints.
+Granular access API keys let you assign read or write permissions on individual collections, enabling [Role-based access control (RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control). They're built on the [JSON Web Tokens (JWT)](https://jwt.io/) standard.
 
-To enable JWT-based authentication in your own Qdrant instance you need to specify the `api-key` and enable the `jwt_rbac` feature in the configuration:
+On Qdrant Cloud, granular access API key authentication is enabled by default. To enable granular access API key authentication on open source Qdrant instances, specify an `api-key` and enable the `jwt_rbac` feature in the configuration:
 
 ```yaml
 service:
@@ -207,7 +146,7 @@ service:
   jwt_rbac: true
 ```
 
-Or with the environment variables:
+Or with environment variables:
 
 ```bash
 export QDRANT__SERVICE__API_KEY=your_secret_api_key_here
@@ -216,81 +155,9 @@ export QDRANT__SERVICE__JWT_RBAC=true
 
 The `api_key` you set in the configuration will be used to encode and decode the JWTs, so –needless to say– keep it secure. If your `api_key` changes, all existing tokens will be invalid.
 
-To use JWT-based authentication, you need to provide it as a bearer token in the `Authorization` header, or as an key in the `Api-Key` header of your requests.
-
-```http
-Authorization: Bearer <JWT>
-
-// or
-
-Api-Key: <JWT>
-```
-
-```python
-from qdrant_client import QdrantClient
-
-qdrant_client = QdrantClient(
-    "xyz-example.eu-central.aws.cloud.qdrant.io",
-    api_key="<JWT>",
-)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({
-  host: "xyz-example.eu-central.aws.cloud.qdrant.io",
-  apiKey: "<JWT>",
-});
-```
-
-```rust
-use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("https://xyz-example.eu-central.aws.cloud.qdrant.io:6334")
-    .api_key("<JWT>")
-    .build()?;
-```
-
-```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-
-QdrantClient client =
-    new QdrantClient(
-        QdrantGrpcClient.newBuilder(
-                "xyz-example.eu-central.aws.cloud.qdrant.io",
-                6334,
-                true)
-            .withApiKey("<JWT>")
-            .build());
-```
-
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient(
-  host: "xyz-example.eu-central.aws.cloud.qdrant.io",
-  https: true,
-  apiKey: "<JWT>"
-);
-```
-
-```go
-import "github.com/qdrant/go-client/qdrant"
-
-client, err := qdrant.NewClient(&qdrant.Config{
-	Host:   "xyz-example.eu-central.aws.cloud.qdrant.io",
-	Port:   6334,
-	APIKey: "<JWT>",
-	UseTLS: true,
-})
-```
 #### Generating JSON Web Tokens
 
-Due to the nature of JWT, anyone who knows the `api_key` can generate tokens by using any of the existing libraries and tools, it is not necessary for them to have access to the Qdrant instance to generate them.
-
-For convenience, we have added a JWT generation tool the Qdrant Web UI under the 🔑 tab, if you're using the default url, it will be at `http://localhost:6333/dashboard#/jwt`.
+JWTs can be generated with the admin API key. You can use any of the existing libraries and tools to generate tokens. You can also use the Qdrant Web UI to generate JWTs by selecting **Access Tokens**.
 
 - **JWT Header** - Qdrant uses the `HS256` algorithm to decode the tokens.
 
@@ -301,7 +168,7 @@ For convenience, we have added a JWT generation tool the Qdrant Web UI under the
   }
   ```
 
-- **JWT Payload** - You can include any combination of the [parameters available](#jwt-configuration) in the payload. Keep reading for more info on each one.
+- **JWT Payload** - You can include any combination of the [available parameters](#jwt-configuration) in the payload.
 
   ```json
   {
@@ -311,11 +178,11 @@ For convenience, we have added a JWT generation tool the Qdrant Web UI under the
   }
   ```
 
-**Signing the token** - To confirm that the generated token is valid, it needs to be signed with the `api_key` you have set in the configuration.
-That would mean, that someone who knows the `api_key` gives the authorization for the new token to be used in the Qdrant instance.
-Qdrant can validate the signature, because it knows the `api_key` and can decode the token.
+**Signing the token** - To confirm that the generated token is valid, it needs to be signed with the `api_key` set in the configuration.
+This means that someone who knows the admin API key can authorize the new token for use with the Qdrant instance.
+Qdrant can validate the signature because it knows the admin API key and can decode the token.
 
-The process of token generation can be done on the client side offline, and doesn't require any communication with the Qdrant instance.
+The process of token generation can be done on the client side offline and doesn't require any communication with the Qdrant instance.
 
 Here is an example of libraries that can be used to generate JWT tokens:
 
@@ -345,7 +212,7 @@ These are the available options, or **claims** in the JWT lingo. You can use the
   }
   ```
 
-- **`value_exists`** - This is a claim that can be used to validate the token against the data stored in a collection. Structure of this claim is as follows:
+- **`value_exists`** - This is a claim that can be used to validate the token against the data stored in a collection. The structure of this claim is as follows:
 
   ```json
   {
@@ -358,7 +225,7 @@ These are the available options, or **claims** in the JWT lingo. You can use the
   }
   ```
 
-  If this claim is present, Qdrant will check if there is a point in the collection with the specified key-values. If it does, the token is valid.
+  If this claim is present, Qdrant will check if there is a point in the collection with the specified key-values. If such a point exists, the token is valid.
 
   This claim is especially useful if you want to have an ability to revoke tokens without changing the `api_key`.
   Consider a case where you have a collection of users, and you want to revoke access to a specific user.
@@ -375,7 +242,7 @@ These are the available options, or **claims** in the JWT lingo. You can use the
   }
   ```
 
-  You can create a token with this claim, and when you want to revoke access, you can change the `role` of the user to something else, and the token will be invalid.
+  You can create a token with this claim, and when you want to revoke access, you can change the `role` of the user to something else, and the token will become invalid.
 
 - **`access`** - This claim defines the [access level](#table-of-access) of the token. If this claim is present, Qdrant will check if the token has the required access level to perform the operation. If this claim is **not** present, **manage** access is assumed.
 

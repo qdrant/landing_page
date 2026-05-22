@@ -310,7 +310,7 @@ Yes. You can configure a read-only API key that permits queries but blocks all w
 
 ### Can I restrict access to specific collections?
 
-Yes. Qdrant supports JWT-based access control that lets you issue signed tokens scoped to individual collections with read or write permissions. This is useful for multi-tenant deployments where each user or service should only access their own data. See [Granular Access Control with JWT](/documentation/security/#granular-access-control-with-jwt).
+Yes. Qdrant supports JWT-based access control that lets you issue signed tokens scoped to individual collections with read or write permissions. This is useful for multi-tenant deployments where each user or service should only access their own data. See [Granular Access API Keys](/documentation/security/#granular-access-api-keys).
 
 ## Cloud
 
