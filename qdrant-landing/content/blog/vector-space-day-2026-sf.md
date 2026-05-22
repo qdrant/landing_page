@@ -26,17 +26,17 @@ Last year in Berlin we brought together 400+ engineers, researchers, and AI buil
 
 ### Why You Should Attend
 
-We’ve already locked in a strong lineup including Llamaindex, mem0, Neo4j, Google DeepMind, Qualcomm, Arize, TwelveLabs. See the full list below.
+We’ve already locked in a strong lineup including Llamaindex, mem0, Neo4j, Google DeepMind, Qualcomm, Adobe, Hubspot, Vultr, Arize, TwelveLabs and AWS.
 
 ​Your ticket includes:
-*​Coffee and breakfast during check-in starting at 8:30 am
-​*Limited edition t-shirts for the first 200 to check-in
-​*Expert-led discussions on the cutting edge of retrieval, vector search infrastructure, agentic AI, robotics, memory & Edge
-​*Lunch
-​*Networking with devs rethinking how AI systems search, retrieve, and reason at scale
-​*Complimentary happy hour to close out the day with 3 Nintendo Switch's up for grabs
+* ​Coffee and breakfast during check-in starting at 8:30 am
+​* Limited edition t-shirts for the first 200 to check-in
+​* Expert-led discussions on the cutting edge of retrieval, vector search infrastructure, agentic AI, robotics, memory & Edge
+​* Lunch
+​* Networking with devs rethinking how AI systems search, retrieve, and reason at scale
+​* Complimentary happy hour to close out the day with 3 Nintendo Switch's up for grabs
 
-Lastly, don't miss your chance to **meet the community**: This isn’t just a conference. It’s a gathering of the developers rethinking how AI systems search, retrieve, and reason at scale. Network or not, productive conversations will be had. 
+Lastly, don't miss your chance to **meet the community**. This isn’t just a conference. It’s a gathering of the developers rethinking how AI systems search, retrieve, and reason at scale.  
 
 ### Topics We’ll Explore
 
@@ -49,20 +49,28 @@ If you work on any of the following, the Vector Space Day 2026 is your event:
 ### Agenda
 
 ​08:30 AM – 09:30 AM · Check-in
+
 09:30 AM – 10:00 AM · Opening & Qdrant Keynotes
+
 10:00 AM – 10:40 AM · Talks
+
 10:40 AM – 10:55 AM · Coffee Break
+
 10:55 AM – 12:15 PM · Talks
+
 12:15 PM – 01:20 PM · Lunch Break + Expo Hall
+
 01:20 PM – 03:25 PM · Talks
+
 03:25 PM – 03:40 PM · Coffee Break
+
 03:40 PM – 04:40 PM · Talks
+
 04:40 PM – 5:00 PM · Closing Remarks & Hackathon Winners
+
 5:00 PM – onward · Happy Hour & Networking
 
 ### Call for Speakers
-
-We’ve locked in a strong lineup including Llamaindex, mem0, Neo4j, and more, but we’ve saving a few select slots for standout talks from the community. If you’re building something novel in vector search, AI memory, context engineering, or retrieval infra, we want to hear from you.
 
 [Proposal submissions are closed. Missed the May 6 deadline? Go ahead and send it in anyway.](https://docs.google.com/forms/d/e/1FAIpQLSfefAtmGP59-0IhNxCCMbNRCDlU-JRkJnSja3GfOrBnTZw-CA/viewform?usp=dialog) 
  
