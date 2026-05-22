@@ -23,7 +23,7 @@ The code examples in this tutorial use [Qdrant Cloud Inference](/documentation/i
 
 ## Two Options
 
-The best approach to migrating to a new embedding model depends on how your collection has been configured. A blue-green migration (option 1) works with any collection type. Alternatively, if you use named vectors, option 2 is easier, faster, and uses fewer resources.
+The best approach to migrating to a new embedding model depends on how your collection has been configured. A blue-green migration (option 1) works with any collection type. Alternatively, if you use named vectors and your deployment is running version 1.18 or later, option 2 is easier, faster, and uses fewer resources.
 
 ### Option 1: Blue-Green Migration
 
@@ -111,7 +111,7 @@ Breaking down this code step by step:
 
 - Data is read from the old collection in batches of 100 points using a [scroll](/documentation/manage-data/points/#scroll-points).
 - For each batch of points, the process re-embeds the vectors using the new embedding model. It assumes that the original text used for embedding is stored in the payload under the key `text`.
-- With the re-embedded vectors, it upserts the points into the new collection, keeping the original IDs and payloads. The upserts use [insert-only mode](/documentation/manage-data/points/#update-mode) to ensure that a point is only inserted if it does not already exist in the new collection. This prevents overwriting newer updates from the regular update service.
+- With the re-embedded vectors, it upserts the points into the new collection, keeping the original IDs and payloads. The upserts use [insert-only mode](/documentation/manage-data/points/#update-mode) to ensure that a point is only inserted if it does not already exist in the new collection (available in version 1.16 or later). This prevents overwriting newer updates from the regular update service.
 
 The migration process can take some time, and the offset can be stored in a persistent way so you can resume the migration process in case of a failure. You can use a database, a file, or any other persistent storage to keep track of the last offset. Having said that, because the conditional upserts would not overwrite any points in the new collection, you could safely restart the migration process from the beginning if needed.
 
@@ -140,9 +140,9 @@ All searches are now performed using the new embeddings. If the old collection i
 
 ## Migrate Using Named Vectors
 
-If your collection uses [named vectors](/documentation/manage-data/points/#named-vectors/), you can migrate to a new embedding model without creating a second collection. Instead, [add the new model as an additional named vector to the existing collection's schema](/documentation/manage-data/collections/#update-vector-schema), re-embed points in the background, switch the `using` parameter in your search queries, and then delete the old named vector.
+If your collection uses [named vectors](/documentation/manage-data/points/#named-vectors/) and your deployment is running version 1.18 or later, you can migrate to a new embedding model without creating a second collection. Instead, [add the new model as an additional named vector to the existing collection's schema](/documentation/manage-data/collections/#update-vector-schema), re-embed points in the background, switch the `using` parameter in your search queries, and then delete the old named vector.
 
-This only works when your collection was created with named vectors. If you use an unnamed vector, use a [blue-green migration](#blue-green-migration) instead.
+This approach only works when your collection was created with named vectors and your deployment is running version 1.18 or later. If not, use a [blue-green migration](#blue-green-migration) instead.
 
 ### Step 1: Add the New Named Vector
 
