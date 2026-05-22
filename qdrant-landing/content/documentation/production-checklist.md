@@ -39,7 +39,7 @@ The minimum step required before any production deployment. Without it, an open 
 - **Use a Read-Only API Key for Query-Only Consumers.**
 Issue a separate [read-only key](/documentation/security/#read-only-api-key) for services or users that only need to query data. This limits the blast radius if a key is compromised. Both keys can be active simultaneously.
 
-- **Use [Fine-Grained Access Control](/documentation/security/#granular-access-control-with-jwt).**
+- **Use [Fine-Grained Access Control](/documentation/security/#granular-access-api-keys).**
 Grant read or write permissions on individual collections, giving each client access only to what it needs.
 
 - **Enable TLS.**
