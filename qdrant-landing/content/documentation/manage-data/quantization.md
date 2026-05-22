@@ -12,7 +12,7 @@ aliases:
 # Quantization
 
 Quantization is an optional feature in Qdrant that enables efficient storage and search of high-dimensional vectors.
-By transforming original vectors into a new representations, quantization compresses data while preserving close to original relative distances between vectors.
+By transforming original vectors into new representations, quantization compresses data while preserving close to original relative distances between vectors.
 Different quantization methods have different mechanics and tradeoffs. We will cover them in this section.
 
 Quantization is primarily used to reduce the memory footprint and accelerate the search process in high-dimensional vector spaces.
@@ -109,7 +109,7 @@ Please refer to the [Quantization Tips](#quantization-tips) section for more inf
 [Binary quantization](/articles/binary-quantization/) is an extreme case of scalar quantization.
 This feature lets you represent each vector component as a single bit, effectively reducing the memory footprint by a factor of 32. This is the fastest quantization method, since it lets you perform a vector comparison with a few CPU instructions. Binary quantization can achieve up to a 40x speedup compared to the original vectors.
 
-However, binary quantization is only efficient for high-dimensional vectors and require a centered distribution of vector components.
+However, binary quantization is only efficient for high-dimensional vectors and requires a centered distribution of vector components.
 
 At the moment, binary quantization shows good accuracy results with the following models:
 
@@ -167,7 +167,7 @@ In order to build 2-bit representation, Qdrant computes values distribution and 
 - `0` - 01
 - `1` - 11
 
-1.5-bit quantization is similar, but merges buckets of pairs of elements into a binary triptets
+1.5-bit quantization is similar, but it merges buckets of element pairs into binary triplets.
 
 {{<figure src=/docs/2-bit-quantization.png caption="2-bit quantization" width=80% >}}
 
@@ -177,8 +177,8 @@ See how to set up 1.5-bit and 2-bit quantization in the [following section](#set
 
 *Available as of v1.15.0*
 
-The **Asymmetric Quantization** technique allows qdrant to use different vector encoding algorithm for stored vectors and for queries.
-Particularly interesting combination is a Binary stored vectors and Scalar quantized queries.
+The **Asymmetric Quantization** technique allows Qdrant to use different vector encoding algorithms for stored vectors and queries.
+A particularly interesting combination is binary stored vectors and Scalar quantized queries.
 
 {{<figure src=/docs/asymmetric-quantization.png caption="Asymmetric quantization" width=80% >}}
 
@@ -353,9 +353,9 @@ In this section, we will discuss how to tune the memory and speed of the search 
 
 There are 3 possible modes to place storage of vectors within the qdrant collection:
 
-- **All in RAM** - all vector, original and quantized, are loaded and kept in RAM. This is the fastest mode, but requires a lot of RAM. Enabled by default.
+- **All in RAM** - all vectors, original and quantized, are loaded and kept in RAM. This is the fastest mode, but requires a lot of RAM. Enabled by default.
 
-- **Original on Disk, quantized in RAM** - this is a hybrid mode, allows to obtain a good balance between speed and memory usage. Recommended scenario if you are aiming to shrink the memory footprint while keeping the search speed.
+- **Original on Disk, quantized in RAM** - this is a hybrid mode that provides a good balance between speed and memory usage. It is recommended if you are aiming to shrink the memory footprint while keeping the search speed.
 
   This mode is enabled by setting `always_ram` to `true` in the quantization config while using memmap storage:\
 {{< code-snippet path="/documentation/headless/snippets/create-collection/scalar-quantization-in-ram/" >}}
@@ -366,7 +366,7 @@ There are 3 possible modes to place storage of vectors within the qdrant collect
   Consider disabling `rescore` to improve the search speed:\
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-disabled-rescoring/" >}}
 
-- **All on Disk** - all vectors, original and quantized, are stored on disk. This mode allows to achieve the smallest memory footprint, but at the cost of the search speed.
+- **All on Disk** - all vectors, original and quantized, are stored on disk. This mode achieves the smallest memory footprint, but at the cost of search speed.
 
   It is recommended to use this mode if you have a large collection and fast storage (e.g. SSD or NVMe).
 
