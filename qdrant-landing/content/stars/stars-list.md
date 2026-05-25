@@ -161,6 +161,13 @@ cards:
     name: Kevin Figueroa
     position: Senior Red Teamer
     description: Cybersecurity professional with 30+ years experience specializing in adversarial simulation and advanced Red Team operations. Integrates AI-driven automation and vector database technologies to build cyber intelligence platforms using Qdrant.
+  - id: 18
+    image:
+      src: /img/stars/anoop-sharma.png
+      alt: Anoop Sharma Photo
+    name: Anoop Sharma
+    position: AI Engineer
+    description: AI Engineer focused on scalable backend systems, LLM integrations, and intelligent automation and open-source contribution. Building production-ready solutions using modern web frameworks, vector databases, and AI infrastructure.
 link:
   text: Read the Qdrant Stars Handbook
   url: https://qdrant.github.io/qdrant-stars-handbook/
