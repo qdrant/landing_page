@@ -5,6 +5,13 @@ hideTOC: true
 breadcrumb: false
 partition: learn
 feedback: false
+build:
+  render: always
+cascade:
+  - build:
+      list: local
+      publishResources: false
+      render: never
 content:
 #   - partial: documentation/banners/banner-b
 #     title: Welcome to Qdrant Learn

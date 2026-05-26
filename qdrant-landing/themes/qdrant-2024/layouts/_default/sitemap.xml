@@ -2,8 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
     {{  range .Data.Pages }}
-
-{{-     if and (or (eq (isset .Params "sitemapexclude") false) (ne .Params.sitemapExclude true)) (ne .Permalink "") }}
+{{-     $includeInSitemap := true -}}
+{{-     if eq .Params.sitemapExclude true -}}
+{{-       $includeInSitemap = false -}}
+{{-     else if .Sitemap.Disable -}}
+{{-       $includeInSitemap = false -}}
+{{-     else -}}
+{{-       $render := "always" -}}
+{{-       with .Params.build -}}
+{{-         $render = .render | default "always" -}}
+{{-       end -}}
+{{-       if in (slice "never" "link") $render -}}
+{{-         $includeInSitemap = false -}}
+{{-       end -}}
+{{-     end -}}
+{{-     if and $includeInSitemap (ne .Permalink "") }}
     <url>
         <loc>{{ .Permalink }}</loc>{{ if not .Lastmod.IsZero }}
         <lastmod>{{ safeHTML ( .Lastmod.Format "2006-01-02T15:04:05-07:00" ) }}</lastmod>{{ end }}{{ with .Sitemap.ChangeFreq }}

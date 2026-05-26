@@ -6,4 +6,5 @@ seeOpenRoles:
   url: https://qdrant.to/jobs
   target: true
 image: /img/about-us/employee.svg
+sitemapExclude: true
 ---
