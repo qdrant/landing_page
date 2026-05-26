@@ -76,6 +76,7 @@ partition: develop
 | [Semantic Search for Code](/documentation/tutorials-search-engineering/code-search/) | Navigate codebases using vector similarity. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Multi-Representation Search](/documentation/tutorials-search-engineering/multi-representation-search/) | Fuse title, summary, chunk, and tag vectors with named vectors and the Query API. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Static Embeddings](/documentation/tutorials-search-engineering/static-embeddings/) | Evaluate the renaissance of static embeddings. | <span class="pill">Python</span> | 20m | <span class="text-yellow">Intermediate</span> |
+| [Branch-Aware Search](/documentation/tutorials-search-engineering/branch-aware-search/) | Scope semantic search to a branch's HEAD in a versioned corpus. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 
 ---
 
