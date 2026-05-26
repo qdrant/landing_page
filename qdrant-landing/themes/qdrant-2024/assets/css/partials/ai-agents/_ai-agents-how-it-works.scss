@@ -1,0 +1,251 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.ai-agents-how-it-works {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+  overflow: hidden;
+
+  &__subtitle {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-30;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin-bottom: $spacer;
+    text-align: center;
+    font-size: $h4-font-size;
+    line-height: $spacer * 3;
+    color: $neutral-20;
+  }
+
+  &__description {
+    margin-bottom: $spacer * 4;
+    text-align: center;
+    color: $neutral-30;
+  }
+  
+  &__cards {
+    margin-bottom: $spacer * 4;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  &__card {
+    height: 100%;
+    position: relative;
+    
+    & > div {
+      height: 100%;
+    }
+    
+    &-index {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: $spacer * 2;
+      width: $spacer * 2.5;
+      margin-bottom: math.div($spacer, 2);
+      border-radius: pxToRem(2);
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      font-weight: $font-weight-medium;
+    }
+    
+    &-line {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      height: $spacer * 4;
+      width: pxToRem(2);
+      z-index: 1;
+      
+      &:after, &:before {
+        display: block;
+        content: "";
+        position: absolute;
+        left: calc((pxToRem(9) - pxToRem(2)) / 2 * -1);
+        width: pxToRem(9);
+        height: pxToRem(9);
+        border-radius: 50%;
+        border: 1px solid $neutral-90;
+        background: $neutral-98;
+        box-shadow:
+          pxToRem(3) pxToRem(4) pxToRem(1) 0 rgba(32, 34, 39, 0.00),
+          pxToRem(2) pxToRem(2) pxToRem(1) 0 rgba(32, 34, 39, 0.01),
+          pxToRem(1) pxToRem(1) pxToRem(1) 0 rgba(32, 34, 39, 0.05), 
+          0 pxToRem(1) pxToRem(1) 0 rgba(32, 34, 39, 0.09);
+      }
+
+      &:before {
+        top: pxToRem(-5);
+      }
+
+      &:after {
+        bottom: pxToRem(-5);
+      }
+    }
+    
+    &:nth-of-type(1) {
+      .ai-agents-how-it-works__card-index {
+        color: $secondary-violet-50;
+        border-radius: 2px;
+        border-top: math.div($spacer, 32) solid $secondary-violet-70;
+        border-right: math.div($spacer, 32) solid $secondary-violet-70;
+        background: $secondary-violet-90;
+      }
+      
+      .ai-agents-how-it-works__card-line {
+        background: linear-gradient(180deg, rgba($secondary-blue-50, 0.1) 0%, $secondary-blue-50 100%);
+      }
+    }
+    
+    &:nth-of-type(2) {
+      .ai-agents-how-it-works__card-index {
+        color: $secondary-blue-50;
+        border-radius: 2px;
+        border-top: math.div($spacer, 32) solid $secondary-blue-70;
+        border-right: math.div($spacer, 32) solid $secondary-blue-70;
+        background: $secondary-blue-90;
+      }
+
+      .ai-agents-how-it-works__card-line {
+        background: linear-gradient(180deg, rgba($secondary-teal-50, 0.1) 0%, $secondary-teal-50 100%);
+      }
+    }
+
+    &:nth-of-type(3) {
+      .ai-agents-how-it-works__card-index {
+        color: $secondary-teal-50;
+        border-radius: 2px;
+        border-top: math.div($spacer, 32) solid $secondary-teal-70;
+        border-right: math.div($spacer, 32) solid $secondary-teal-70;
+        background: $secondary-teal-90;
+      }
+    }
+    
+    &-title {
+      padding-bottom: $spacer;
+      margin-bottom: $spacer;font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      color: $neutral-20;
+      border-bottom: pxToRem(1) solid $neutral-90;
+    }
+    
+    &-description {
+      margin-bottom: $spacer * 1.5;
+      color: $neutral-40;
+    }
+    
+    .highlight {
+      background: $neutral-94;
+      margin-bottom: 0;
+
+      pre {
+        display: block;
+        width: 100%;
+        padding: pxToRem(12) pxToRem(6) pxToRem(12) math.div($spacer, 2);
+        background: transparent;
+        white-space: pre-wrap;
+        overflow-x: hidden;
+        border-radius: math.div($spacer, 2);
+      }
+
+      code {
+        display: block;
+        width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+
+        .line {
+          margin-bottom: 0;
+        }
+
+        * {
+          font-size: $font-size-xs;
+          line-height: pxToRem(18);
+          color: $neutral-30;
+        }
+        
+        .nb {
+          color: #EF6C00;
+        }
+        
+        .s2 {
+          color: #009688;
+        }
+      }
+    }
+  }
+  
+  &__preview {
+    width: 100%;
+    
+    img {
+      width: 100%;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+    }
+
+    &__description {
+      margin-top: $spacer;
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+    }
+
+    &__cards {
+      flex-direction: row;
+      justify-content: center;
+    }
+    
+    &__card {
+      &-line {
+        top: 50%;
+        left: 100%;
+        transform: translate(-50%, 0);
+        height: pxToRem(2);
+        width: $spacer * 4;
+        
+        &:after, &:before {
+          top: calc((pxToRem(9) - pxToRem(2)) / 2 * -1);
+          bottom: auto;
+        }
+
+        &:before {
+          left: pxToRem(-5);
+          right: auto;
+        }
+
+        &:after {
+          right: pxToRem(-5);
+          left: auto;
+        }
+      }
+
+      &:nth-of-type(1) {
+        .ai-agents-how-it-works__card-line {
+          background: linear-gradient(90deg, rgba($secondary-blue-50, 0.1) 0%, $secondary-blue-50 100%);
+        }
+      }
+
+      &:nth-of-type(2) {
+        .ai-agents-how-it-works__card-line {
+          background: linear-gradient(90deg, rgba($secondary-teal-50, 0.1) 0%, $secondary-teal-50 100%);
+        }
+      }
+    }
+  }
+}

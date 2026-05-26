@@ -100,6 +100,13 @@
       letter-spacing: -0.2px;
     }
   }
+  
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacer;
+  }
 
   &__button {
     white-space: nowrap;
@@ -142,6 +149,10 @@
     &__description {
       font-size: pxToRem(20);
       line-height: 1.5;
+    }
+
+    &__buttons {
+      flex-direction: row;
     }
 
     &__illustration {

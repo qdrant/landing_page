@@ -1,0 +1,25 @@
+{{ with (.Site.GetPage "/ai-agents/ai-agents-resources") }}
+  <section class="ai-agents-resources">
+    <div class="container">
+      <div class="ai-agents-resources__header">
+        <p class="ai-agents-resources__subtitle">{{ .Params.subtitle }}</p>
+        <h3 class="ai-agents-resources__title">{{ .Params.title }}</h3>
+        <p class="ai-agents-resources__description">{{ .Params.description }}</p>
+      </div>
+      <div class="row g-4">
+        {{ range .Params.resources }}
+          <div class="col-12 col-lg-4">
+            <div class="card ai-agents-resources__card">
+              <img class="ai-agents-resources__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}">
+              <h6 class="ai-agents-resources__card-title">{{ .title }}</h6>
+              <p class="ai-agents-resources__card-description">{{ .description }}</p>
+              <div class="ai-agents-resources__card-link">
+                <a class="link link_md link_dark" href="{{ .link.url }}">{{ .link.text }}</a>
+              </div>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

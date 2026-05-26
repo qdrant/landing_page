@@ -1,0 +1,68 @@
+{{ with (.Site.GetPage "/ai-agents/ai-agents-hero") }}
+  <section class="ai-agents-hero">
+    <div class="container">
+      <div class="row">
+        <div class="ai-agents-hero__content col-12 col-lg-6">
+          <p class="ai-agents-hero__subtitle">{{ .Params.subtitle }}</p>
+          <h1 class="ai-agents-hero__title">{{ .Params.title }}</h1>
+          <p class="ai-agents-hero__description">{{ .Params.description }}</p>
+          <div class="ai-agents-hero__buttons">
+            <a href="{{ .Params.containedButton.url }}" class="button button_contained button_lg">
+              {{ .Params.containedButton.text }}
+            </a>
+            <a href="{{ .Params.outlinedButton.url }}" class="button button_outlined button_lg">
+              {{ .Params.outlinedButton.text }}
+            </a>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="ai-agents-hero__code js-copy-code">
+            <div class="ai-agents-hero__code-header">
+              <div class="ai-agents-hero__code-window-buttons">
+                <div class="ai-agents-hero__code-window-buttons__close"></div>
+                <div class="ai-agents-hero__code-window-buttons__minimize"></div>
+                <div class="ai-agents-hero__code-window-buttons__expand"></div>
+              </div>
+              <p class="ai-agents-hero__code-bar">{{ .Params.codeBar }}</p>
+            </div>
+            <div class="ai-agents-hero__code-content">
+              {{ with .Params.code }}
+                {{ $lang := $.Params.language | default "python" }}
+                {{ highlight . $lang "" }}
+              {{ end }}
+              <button class="ai-agents-hero__code-content-button js-copy-code__copy">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_14927_49916)">
+                    <path d="M2 8C1.45 8 1 7.55 1 7V2C1 1.45 1.45 1 2 1H7C7.55 1 8 1.45 8 2M5 4H10C10.5523 4 11 4.44771 11 5V10C11 10.5523 10.5523 11 10 11H5C4.44771 11 4 10.5523 4 10V5C4 4.44771 4.44771 4 5 4Z" stroke="#B4BACC" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_14927_49916">
+                      <rect width="12" height="12" fill="white"/>
+                    </clipPath>
+                  </defs>
+                </svg>
+              </button>
+              <button class="ai-agents-hero__code-content-button js-copy-code__done">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 3L4.5 8.5L2 6" stroke="#F0F3FA" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="ai-agents-hero__logos">
+            <p class="ai-agents-hero__logos-title">{{ .Params.logosTitle }}</p>
+            <div class="ai-agents-hero__logos-list">
+              {{ range .Params.logos }}
+                <div class="ai-agents-hero__logos-item">
+                  <img src="{{ .src }}" alt="{{ .alt }}">
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

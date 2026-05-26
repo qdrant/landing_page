@@ -1,62 +1,60 @@
 ---
-image: 
-  src: /img/ai-agents-dashboard-cloud.png
-  alt: Dashboard cloud
-title: AI Agents with Qdrant
-description: AI agents powered by Qdrant leverage advanced vector search to access and retrieve high-dimensional data in real-time, enabling intelligent, Agentic-RAG driven, multi-step decision-making across dynamic environments.
-cases:
-- id: 0
-  title: Multimodal Data Handling
-  description: Qdrant enables AI agents to process and retrieve high-dimensional vectors from diverse data types (text, images, audio), supporting more comprehensive decision-making in multimodal environments.
-- id: 1
-  title: Adaptive Learning
-  description: Qdrant supports continuous learning by enabling efficient vector retrieval and updates, allowing agents to learn and evolve based on real-time interactions and new data points.
-featuresTitle: Qdrant equips AI agents to adapt, learn, and collaborate efficiently.
+subtitle: DEVELOPER TOOLS
+title: Purpose-Built for Agent Builders
+description: Tools and patterns that make agent memory a solved problem, not a research project.
+button:
+  text: Start Building with Skills
+  url: /qdrant/skills
+codeBar: SKILL.md
+code: |
+  # Agent Memory Skill
+  #
+  # Give your agent persistent, filtered
+  # memory using Qdrant as the retrieval
+  # backend.
+  
+  # Setup
+  # pip install qdrant-client
+  
+  # Collection Schema
+  # vectors:
+  #   dense: { size: 1536, distance: Cosine }
+  #   sparse: { index: { on_disk: true } }
+  # payload_index:
+  #   - session_id: keyword
+  #   - agent_role: keyword
+  #   - timestamp: integer
+  #   - tool_name: keyword
+  
+  # Query Pattern
+  # Always filter by session_id + agent_role
+  # Use hybrid (dense+sparse) for knowledge
+  # Use dense-only for conversation history
 features:
-- id: 0
-  icon: 
-    src: /icons/outline/precision-blue.svg
-    alt: Precision
-  title: Contextual Precision
-  description: Qdrant’s hybrid search combines semantic vector search, lexical search, and metadata filtering, enabling AI Agents to retrieve highly relevant and contextually precise information. This enhances decision-making by allowing agents to leverage both meaning-based and keyword-based strategies, ensuring accuracy and relevance for complex queries in dynamic environments.
-  link:
-    text: Hybrid Search
-    url: /articles/hybrid-search/
-- id: 1
-  icon:
-    src: /icons/outline/multitenancy-blue.svg
-    alt: Multitenancy
-  title: Multi-Agent Systems
-  description: Qdrant’s scalability and multitenancy ensures that multiple agents can collaborate in distributed systems, enabling seamless coordination and communication - key for Agentic RAG workflows.
-  link:
-    text: Multitenancy
-    url: /articles/multitenancy/
-- id: 2
-  icon:
-    src: /icons/outline/time-blue.svg
-    alt: Time
-  title: Real Time Decision Making
-  description: Qdrant’s real-time, advanced vector search enables AI agents to act instantly on live data, which is crucial for time-sensitive, autonomous decision-making.
-  link:
-    text: HNSW
-    url: /articles/filterable-hnsw/
-- id: 3
-  icon:
-    src: /icons/outline/server-rack-blue.svg
-    alt: Server rack
-  title: Optimized CPU Performance for Embedding Processing
-  description: Qdrant’s architecture is optimized for high-throughput embedding processing, minimizing CPU load and preventing performance bottlenecks. This enables AI agents in Agentic RAG workflows to execute complex, multi-step tasks efficiently, ensuring smooth operation even at scale.
-  link:
-    text: Distributed Deployment
-    url: /documentation/distributed_deployment/
-- id: 4
-  icon:
-    src: /icons/outline/speedometer-blue.svg
-    alt: Speedometer
-  title: Semantic Cache for Rapid Query Handling
-  description: Qdrant enhances AI agent efficiency with semantic caching, which preserves results of queries based on semantic equivalence rather than exact matches. This method reduces query processing times and system load by reusing previously computed answers, essential for high-throughput AI applications.
-  link:
-    text: Semantic Cache
-    url: /articles/semantic-cache-ai-data-retrieval/
+  - id: 0
+    icon:
+      src: /icons/outline/text-search-pink.svg
+      alt: Text search
+    content: <b>Hybrid search</b> combines dense embeddings with BM25 sparse vectors via reciprocal rank fusion
+  - id: 1
+    icon:
+      src: /icons/outline/filter-blue-large.svg
+      alt: Filter
+    content: <b>Payload filtering</b> scopes retrieval by any metadata field without post-processing
+  - id: 2
+    icon:
+      src: /icons/outline/boxes-purple.svg
+      alt: Boxes
+    content: <b>Multi-vector support</b> stores ColBERT token-level representations natively
+  - id: 3
+    icon:
+      src: /icons/outline/target-green.svg
+      alt: Target
+    content: <b>Quantization</b> (scalar, binary, product) cuts memory 4x while preserving accuracy
+  - id: 4
+    icon:
+      src: /icons/outline/git-branch-orange.svg
+      alt: Git branch
+    content: <b>Real-time upserts</b> let agents write new memories without index rebuild delays
 sitemapExclude: true
 ---
