@@ -77,7 +77,7 @@ The payload data is loaded into RAM at service startup while disk and [Gridstore
 This type of storage works quite fast, but it may require a lot of space to keep all the data in RAM, especially if the payload has large values attached - abstracts of text or even images.
 
 In the case of large payload values, it might be better to use OnDisk payload storage.
-This type of storage will read and write payload directly to RocksDB, so it won't require any significant amount of RAM to store.
+This type of storage will read and write payload directly to Gridstore, so it won't require any significant amount of RAM to store.
 The downside, however, is the access latency.
 If you need to query vectors with some payload-based conditions - checking values stored on disk might take too much time.
 In this scenario, we recommend creating a payload index for each field used in filtering conditions to avoid disk access.
