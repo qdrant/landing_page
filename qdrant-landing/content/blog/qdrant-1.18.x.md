@@ -84,7 +84,7 @@ Understanding how much memory a Qdrant collection actually uses has traditionall
 
 This release introduces [collection memory monitoring](/documentation/ops-monitoring/memory-usage/), offering a detailed breakdown of disk, RAM, and OS page cache usage per component, summed across the whole cluster.
 
-In Web UI, open the collection detail page and select the **Memory** tab to see the memory breakdown.
+In the Web UI, open the collection detail page and select the **Memory** tab to see the memory breakdown.
 
 <figure>
   <img width="75%" src="/blog/qdrant-1.18.x/memory-usage.png" alt="The Memory tab showing a breakdown of disk, RAM, cached, and expected cache values per collection component.">
