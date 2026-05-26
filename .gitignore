@@ -6,3 +6,6 @@ qdrant-landing/.DS_Store
 package-lock.json
 .claude/
 dart-sass/
+
+.env
+.venv/

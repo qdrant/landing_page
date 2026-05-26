@@ -79,7 +79,7 @@ Yes, in most Retrieval-Augmented Generation (RAG) setups, each chunk is stored a
 
 How you chunk matters significantly and is domain-dependent. As a starting point: paragraph-level chunking works well for books and prose; sentence-level chunking tends to work better for technical articles and Q\&A content. Plan to experiment — chunking strategy is one of the highest-leverage variables in retrieval quality.
 
-See also: [Text Chunking Strategies](course/essentials/day-1/chunking-strategies/)
+See also: [Text Chunking Strategies](/course/essentials/day-1/chunking-strategies/)
 
 ### How does point deletion work internally? Does Qdrant rebuild the index on every delete?
 
