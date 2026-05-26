@@ -4,7 +4,7 @@ title: Purpose-Built for Agent Builders
 description: Tools and patterns that make agent memory a solved problem, not a research project.
 button:
   text: Start Building with Skills
-  url: /qdrant/skills
+  url: https://github.com/qdrant/skills
 codeBar: SKILL.md
 code: |
   # Agent Memory Skill
