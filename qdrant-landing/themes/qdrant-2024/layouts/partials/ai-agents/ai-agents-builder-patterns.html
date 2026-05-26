@@ -1,0 +1,196 @@
+{{ with (.Site.GetPage "ai-agents/ai-agents-builder-patterns") }}
+  <section class="ai-agents-builder-patterns">
+    <div class="container">
+      <div class="ai-agents-builder-patterns__header">
+        <p class="ai-agents-builder-patterns__subtitle">{{ .Params.subtitle }}</p>
+        <h2 class="ai-agents-builder-patterns__title">{{ .Params.title }}</h2>
+        <p class="ai-agents-builder-patterns__description">{{ .Params.description }}</p>
+      </div>
+  
+      <div class="ai-agents-builder-patterns__slider">
+        <div class="ai-agents-builder-patterns__content">
+          <div class="ai-agents-builder-patterns__features">
+            {{ range $index, $feature := .Params.features }}
+              <div class="ai-agents-builder-patterns__feature{{ if eq $index 0 }} ai-agents-builder-patterns__feature--active{{ end }}" data-feature-index="{{ $index }}">
+                <h3 class="ai-agents-builder-patterns__feature-title">{{ $feature.title }}</h3>
+                <div class="ai-agents-builder-patterns__feature-body">
+                  <p class="ai-agents-builder-patterns__feature-description">{{ $feature.description | safeHTML }}</p>
+                  
+                  {{/* Visible only below lg */}}
+                  <div class="ai-agents-builder-patterns__visual-block ai-agents-builder-patterns__visual-block--mobile">
+                    <div class="ai-agents-builder-patterns__code js-copy-code">
+                      <div class="ai-agents-builder-patterns__code-header">
+                        <div class="ai-agents-builder-patterns__code-window-buttons">
+                          <div class="ai-agents-builder-patterns__code-window-buttons__close"></div>
+                          <div class="ai-agents-builder-patterns__code-window-buttons__minimize"></div>
+                          <div class="ai-agents-builder-patterns__code-window-buttons__expand"></div>
+                        </div>
+                        <p class="ai-agents-builder-patterns__code-bar">{{ .codeBar }}</p>
+                      </div>
+                      <div class="ai-agents-builder-patterns__code-content">
+                        {{ with .code }}
+                          {{ $lang := $.Params.language | default "python" }}
+                          {{ highlight . $lang "" }}
+                        {{ end }}
+                        <button class="ai-agents-builder-patterns__code-content-button js-copy-code__copy">
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_14927_49916)">
+                              <path d="M2 8C1.45 8 1 7.55 1 7V2C1 1.45 1.45 1 2 1H7C7.55 1 8 1.45 8 2M5 4H10C10.5523 4 11 4.44771 11 5V10C11 10.5523 10.5523 11 10 11H5C4.44771 11 4 10.5523 4 10V5C4 4.44771 4.44771 4 5 4Z" stroke="#8F98B3" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_14927_49916">
+                                <rect width="12" height="12" fill="white"/>
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </button>
+                        <button class="ai-agents-builder-patterns__code-content-button js-copy-code__done">
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 3L4.5 8.5L2 6" stroke="#8F98B3" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="ai-agents-builder-patterns__card">
+                      <h6 class="ai-agents-builder-patterns__card-title">{{ .cardTitle }}</h6>
+                      <p class="ai-agents-builder-patterns__card-content">{{ .cardContent | safeHTML }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {{ end }}
+          </div>
+          
+          <div class="ai-agents-builder-patterns__visual">
+            
+            {{/* Visible from lg up */}}
+            {{ range $index, $feature := .Params.features }}
+            <div class="ai-agents-builder-patterns__visual-block{{ if eq $index 0 }} ai-agents-builder-patterns__visual-block--active{{ end }}" data-block-index="{{ $index }}">
+                <div class="ai-agents-builder-patterns__code js-copy-code">
+                  <div class="ai-agents-builder-patterns__code-header">
+                    <div class="ai-agents-builder-patterns__code-window-buttons">
+                      <div class="ai-agents-builder-patterns__code-window-buttons__close"></div>
+                      <div class="ai-agents-builder-patterns__code-window-buttons__minimize"></div>
+                      <div class="ai-agents-builder-patterns__code-window-buttons__expand"></div>
+                    </div>
+                    <p class="ai-agents-builder-patterns__code-bar">{{ .codeBar }}</p>
+                  </div>
+                  <div class="ai-agents-builder-patterns__code-content">
+                    {{ with .code }}
+                      {{ $lang := $.Params.language | default "python" }}
+                      {{ highlight . $lang "" }}
+                    {{ end }}
+                    <button class="ai-agents-builder-patterns__code-content-button js-copy-code__copy">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_14927_49916)">
+                          <path d="M2 8C1.45 8 1 7.55 1 7V2C1 1.45 1.45 1 2 1H7C7.55 1 8 1.45 8 2M5 4H10C10.5523 4 11 4.44771 11 5V10C11 10.5523 10.5523 11 10 11H5C4.44771 11 4 10.5523 4 10V5C4 4.44771 4.44771 4 5 4Z" stroke="#8F98B3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_14927_49916">
+                            <rect width="12" height="12" fill="white"/>
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </button>
+                    <button class="ai-agents-builder-patterns__code-content-button js-copy-code__done">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 3L4.5 8.5L2 6" stroke="#8F98B3" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="ai-agents-builder-patterns__card">
+                  <h6 class="ai-agents-builder-patterns__card-title">{{ .cardTitle }}</h6>
+                  <p class="ai-agents-builder-patterns__card-content">{{ .cardContent | safeHTML }}</p>
+                </div>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+<script>
+  (function () {
+    const section = document.querySelector(".ai-agents-builder-patterns");
+    if (!section) return;
+
+    const features = section.querySelectorAll(".ai-agents-builder-patterns__feature");
+    const blocks = section.querySelectorAll(
+      ".ai-agents-builder-patterns__visual .ai-agents-builder-patterns__visual-block"
+    );
+    if (!features.length) return;
+
+    const breakpoints = { lg: 992 };
+
+    let currentIndex = 0;
+    let autoplayInterval = null;
+    const AUTOPLAY_DELAY = 5000;
+
+    const isLgUp = () => window.innerWidth >= breakpoints.lg;
+
+    const goToFeature = (index) => {
+      if (index < 0 || index >= features.length) return;
+
+      features.forEach((feature) => {
+        feature.classList.remove("ai-agents-builder-patterns__feature--active");
+      });
+
+      blocks.forEach((block) => {
+        block.classList.remove("ai-agents-builder-patterns__visual-block--active");
+      });
+
+      features[index].classList.add("ai-agents-builder-patterns__feature--active");
+      blocks[index]?.classList.add("ai-agents-builder-patterns__visual-block--active");
+
+      currentIndex = index;
+    };
+
+    const nextFeature = () => {
+      goToFeature((currentIndex + 1) % features.length);
+    };
+
+    const stopAutoplay = () => {
+      if (!autoplayInterval) return;
+      clearInterval(autoplayInterval);
+      autoplayInterval = null;
+    };
+
+    const startAutoplay = () => {
+      stopAutoplay();
+      if (!isLgUp()) return;
+      autoplayInterval = setInterval(nextFeature, AUTOPLAY_DELAY);
+    };
+
+    const syncAutoplay = () => {
+      if (isLgUp()) {
+        startAutoplay();
+      } else {
+        stopAutoplay();
+      }
+    };
+
+    features.forEach((feature, index) => {
+      feature.addEventListener("click", () => {
+        goToFeature(index);
+        startAutoplay();
+      });
+    });
+
+    let resizeRaf = 0;
+    window.addEventListener("resize", () => {
+      if (resizeRaf) return;
+      resizeRaf = requestAnimationFrame(() => {
+        resizeRaf = 0;
+        syncAutoplay();
+      });
+    });
+
+    goToFeature(0);
+    syncAutoplay();
+  })();
+</script>

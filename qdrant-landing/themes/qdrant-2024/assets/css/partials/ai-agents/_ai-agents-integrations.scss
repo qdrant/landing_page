@@ -1,0 +1,115 @@
+@use '../../helpers/functions' as *;
+
+.ai-agents-integrations {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  position: relative;
+  background: radial-gradient(
+    107.37% 114.83% at 50% 94.96%, 
+    rgba(67, 37, 174, 0.00) 0%, 
+    rgba(67, 37, 174, 0.00) 75%, 
+    rgba(67, 37, 174, 0.80) 90%, 
+    #6143E0 100%),
+    $neutral-10;
+
+  &__subtitle {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-70;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin-bottom: $spacer;
+    text-align: center;
+    font-size: $h4-font-size;
+    line-height: $spacer * 3;
+    color: $neutral-98;
+  }
+
+  &__description {
+    margin-bottom: 0;
+    text-align: center;
+    color: $neutral-70;
+  }
+  
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 4;
+    margin-top: $spacer * 4;
+  }
+  
+  &__block {
+    &-title {
+      margin-bottom: $spacer * 1.5;
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      font-weight: $font-weight-normal;
+      color: $neutral-98;
+      text-align: center;
+    }
+    
+    &-items {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    &-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50%;
+      height: $spacer * 5;
+      border: pxToRem(1) solid $neutral-20;
+      margin-top: pxToRem(-1);
+      margin-left: pxToRem(-1);
+      
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__header {
+      position: sticky;
+      top: pxToRem(140);
+      margin-bottom: $spacer * 5;
+    }
+
+    &__subtitle {
+      text-align: left;
+    }
+
+    &__title {
+      max-width: pxToRem(445);
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+      text-align: left;
+    }
+
+    &__description {
+      max-width: pxToRem(445);
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+      text-align: left;
+    }
+
+    &__list {
+      margin-top: $spacer * 2.5;
+    }
+
+    &__block {
+      &-title {
+        font-size: $h6-font-size;
+        line-height: pxToRem(34);
+        text-align: left;
+      }
+    }
+  }
+}
