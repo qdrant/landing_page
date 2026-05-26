@@ -37,7 +37,7 @@ speakers:
     speaker: Taranjeet Singh, CEO, Co-Founder
     theme: Continual Learning Starts with Memory
   - company: Adobe
-    speaker: Murthy Chandrapaty, Principal Engineer
+    speaker: Murthy Chandrapaty, Principal Engineer<br>Ankush Gumber, Software Engineer
     theme: Using GraphRAG to Improve Enterprise Governance
   - company: Google DeepMind
     speaker: Paige Bailey, Developer Relations Lead
