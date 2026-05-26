@@ -1,0 +1,23 @@
+```go
+client, err = qdrant.NewClient(&qdrant.Config{
+	Host:   "localhost",
+	Port:   6334,
+	UseTLS: true,
+})
+if err != nil {
+	panic(err)
+}
+
+_, err = client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "my_collection",
+	Points: []*qdrant.PointStruct{
+		{
+			Id:      qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectors(0.1, 0.2, 0.3, 0.4),
+		},
+	},
+})
+if err != nil {
+	fmt.Println(err) // Unauthenticated
+}
+```
