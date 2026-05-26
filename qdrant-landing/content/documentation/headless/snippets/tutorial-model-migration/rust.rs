@@ -1,6 +1,10 @@
+use std::collections::HashMap;
+
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, Distance, Document, PointStruct, Query, QueryPointsBuilder,
-    ScrollPointsBuilder, UpdateMode, UpsertPointsBuilder, VectorParamsBuilder,
+    CreateCollectionBuilder, CreateVectorNameRequestBuilder, DeleteVectorNameRequestBuilder,
+    DenseVectorCreationConfigBuilder, Distance, Document, NamedVectors, PointStruct, PointVectors,
+    Query, QueryPointsBuilder, ScrollPointsBuilder, UpdateMode, UpdatePointVectorsBuilder,
+    UpsertPointsBuilder, VectorParamsBuilder,
 };
 use qdrant_client::Qdrant;
 
@@ -18,6 +22,10 @@ pub async fn main() -> anyhow::Result<()> {
 
     let old_model = "sentence-transformers/all-minilm-l6-v2";
     let new_model = "qdrant/clip-vit-b-32-text";
+
+    let collection = "my_collection";
+    let old_vector = "old-model";
+    let new_vector = "new-model";
     // @hide-end
 
     // @block-start create-new-collection
@@ -142,6 +150,134 @@ pub async fn main() -> anyhow::Result<()> {
     // @hide-start
     _ = results;
     // @hide-end
+
+    // @block-start add-named-vector
+    client
+        .create_vector_name(
+            CreateVectorNameRequestBuilder::new(
+                collection,
+                new_vector,
+                DenseVectorCreationConfigBuilder::new(512, Distance::Cosine), // Size of the new embedding vectors
+            ),
+        )
+        .await?;
+    // @block-end add-named-vector
+
+    // @block-start upsert-both-vectors
+    client
+        .upsert_points(UpsertPointsBuilder::new(
+            collection,
+            vec![PointStruct::new(
+                1,
+                NamedVectors::default()
+                    .add_vector(
+                        old_vector,
+                        Document {
+                            text: "Example document".into(),
+                            model: old_model.into(),
+                            ..Default::default()
+                        },
+                    )
+                    .add_vector(
+                        new_vector,
+                        Document {
+                            text: "Example document".into(),
+                            model: new_model.into(),
+                            ..Default::default()
+                        },
+                    ),
+                [("text", "Example document".into())],
+            )],
+        ))
+        .await?;
+    // @block-end upsert-both-vectors
+
+    // @block-start re-embed-existing
+    let mut last_offset = None;
+    let batch_size = 100;
+
+    loop {
+        let mut scroll_builder = ScrollPointsBuilder::new(collection)
+            .limit(batch_size)
+            .with_payload(true)
+            .with_vectors(false);
+
+        if let Some(offset) = last_offset {
+            scroll_builder = scroll_builder.offset(offset);
+        }
+
+        let scroll_result = client.scroll(scroll_builder).await?;
+        let records = scroll_result.result;
+        last_offset = scroll_result.next_page_offset;
+
+        // Update only the new vector on each point; the old vector and payload are untouched
+        let point_vectors: Vec<PointVectors> = records
+            .iter()
+            .map(|record| PointVectors {
+                id: record.id.clone(),
+                vectors: Some(
+                    HashMap::<String, Document>::from([(
+                        new_vector.to_string(),
+                        Document::new(
+                            record.payload.get("text")
+                                .and_then(|v| v.as_str())
+                                .map_or("", |v| v),
+                            new_model,
+                        ),
+                    )])
+                    .into(),
+                ),
+            })
+            .collect();
+
+        client
+            .update_vectors(UpdatePointVectorsBuilder::new(collection, point_vectors))
+            .await?;
+
+        if last_offset.is_none() {
+            break;
+        }
+    }
+    // @block-end re-embed-existing
+
+    // @block-start search-with-old-vector
+    let old_vector_results = client
+        .query(
+            QueryPointsBuilder::new(collection)
+                .query(Query::new_nearest(Document::new("my query", old_model)))
+                .using(old_vector)
+                .limit(10),
+        )
+        .await?;
+    // @block-end search-with-old-vector
+
+    // @hide-start
+    _ = old_vector_results;
+    // @hide-end
+
+    // @block-start search-with-new-vector
+    let new_vector_results = client
+        .query(
+            QueryPointsBuilder::new(collection)
+                .query(Query::new_nearest(Document::new("my query", new_model)))
+                .using(new_vector)
+                .limit(10),
+        )
+        .await?;
+    // @block-end search-with-new-vector
+
+    // @hide-start
+    _ = new_vector_results;
+    // @hide-end
+
+    // @block-start delete-old-named-vector
+    client
+        .delete_vector_name(DeleteVectorNameRequestBuilder::new(
+            collection,
+            old_vector,
+        ))
+        .await?;
+    // @block-end delete-old-named-vector
 
     Ok(())
 }

@@ -23,6 +23,10 @@ func Main() {
 
 	OLD_MODEL := "sentence-transformers/all-minilm-l6-v2"
 	NEW_MODEL := "qdrant/clip-vit-b-32-text"
+
+	COLLECTION := "my_collection"
+	OLD_VECTOR := "old-model"
+	NEW_VECTOR := "new-model"
 	// @hide-end
 
 	// @block-start create-new-collection
@@ -164,4 +168,135 @@ func Main() {
 	}
 	_ = results
 	// @hide-end
+
+	// @block-start add-named-vector
+	client.CreateVectorName(context.Background(), &qdrant.CreateVectorNameRequest{
+		CollectionName: COLLECTION,
+		VectorName:     NEW_VECTOR,
+		VectorConfig: &qdrant.CreateVectorNameRequest_DenseConfig{
+			DenseConfig: &qdrant.DenseVectorCreationConfig{
+				Size:     512, // Size of the new embedding vectors
+				Distance: qdrant.Distance_Cosine,
+			},
+		},
+	})
+	// @block-end add-named-vector
+
+	// @block-start upsert-both-vectors
+	client.Upsert(context.Background(), &qdrant.UpsertPoints{
+		CollectionName: COLLECTION,
+		Points: []*qdrant.PointStruct{
+			{
+				Id: qdrant.NewIDNum(1),
+				Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+					OLD_VECTOR: qdrant.NewVectorDocument(&qdrant.Document{
+						Text:  "Example document",
+						Model: OLD_MODEL,
+					}),
+					NEW_VECTOR: qdrant.NewVectorDocument(&qdrant.Document{
+						Text:  "Example document",
+						Model: NEW_MODEL,
+					}),
+				}),
+				Payload: qdrant.NewValueMap(map[string]any{"text": "Example document"}),
+			},
+		},
+	})
+	// @block-end upsert-both-vectors
+
+	// @block-start re-embed-existing
+	var reEmbedLastOffset *qdrant.PointId
+	reEmbedBatchSize := uint32(100)
+	reEmbedReachedEnd := false
+
+	for !reEmbedReachedEnd {
+		reEmbedScrollResult, err := client.Scroll(context.Background(), &qdrant.ScrollPoints{
+			CollectionName: COLLECTION,
+			Limit:          qdrant.PtrOf(reEmbedBatchSize),
+			Offset:         reEmbedLastOffset,
+			WithPayload:    qdrant.NewWithPayload(true),
+			WithVectors:    qdrant.NewWithVectors(false),
+		})
+
+		// @hide-start
+		if err != nil {
+			panic(err)
+		}
+		// @hide-end
+
+		reEmbedRecords := reEmbedScrollResult
+		reEmbedLastOffset = reEmbedScrollResult[len(reEmbedScrollResult)-1].Id // @hide
+
+		pointVectors := make([]*qdrant.PointVectors, len(reEmbedRecords))
+		for idx, record := range reEmbedRecords {
+			text := ""
+			if val, ok := record.Payload["text"]; ok {
+				text = val.GetStringValue()
+			}
+
+			// Update only the new vector on each point; the old vector and payload are untouched
+			pointVectors[idx] = &qdrant.PointVectors{
+				Id: record.Id,
+				Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+					NEW_VECTOR: qdrant.NewVectorDocument(&qdrant.Document{
+						Text:  text,
+						Model: NEW_MODEL,
+					}),
+				}),
+			}
+		}
+
+		client.UpdateVectors(context.Background(), &qdrant.UpdatePointVectors{
+			CollectionName: COLLECTION,
+			Points:         pointVectors,
+		})
+
+		reEmbedReachedEnd = (reEmbedLastOffset == nil)
+	}
+	// @block-end re-embed-existing
+
+	// @block-start search-with-old-vector
+	oldVectorResults, err := client.Query(context.Background(), &qdrant.QueryPoints{
+		CollectionName: COLLECTION,
+		Query: qdrant.NewQueryDocument(&qdrant.Document{
+			Text:  "my query",
+			Model: OLD_MODEL,
+		}),
+		Using: qdrant.PtrOf(OLD_VECTOR),
+		Limit: qdrant.PtrOf(uint64(10)),
+	})
+	// @block-end search-with-old-vector
+
+	// @hide-start
+	if err != nil {
+		panic(err)
+	}
+	_ = oldVectorResults
+	// @hide-end
+
+	// @block-start search-with-new-vector
+	newVectorResults, err := client.Query(context.Background(), &qdrant.QueryPoints{
+		CollectionName: COLLECTION,
+		Query: qdrant.NewQueryDocument(&qdrant.Document{
+			Text:  "my query",
+			Model: NEW_MODEL,
+		}),
+		Using: qdrant.PtrOf(NEW_VECTOR),
+		Limit: qdrant.PtrOf(uint64(10)),
+	})
+	// @block-end search-with-new-vector
+
+	// @hide-start
+	if err != nil {
+		panic(err)
+	}
+	_ = newVectorResults
+	// @hide-end
+
+	// @block-start delete-old-named-vector
+	client.DeleteVectorName(context.Background(), &qdrant.DeleteVectorNameRequest{
+		CollectionName: COLLECTION,
+		VectorName:     OLD_VECTOR,
+	})
+	// @block-end delete-old-named-vector
 }

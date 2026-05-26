@@ -3,6 +3,7 @@ import static io.qdrant.client.PointIdFactory.id;
 import static io.qdrant.client.QueryFactory.nearest;
 import static io.qdrant.client.ValueFactory.value;
 import static io.qdrant.client.VectorFactory.vector;
+import static io.qdrant.client.VectorsFactory.namedVectors;
 import static io.qdrant.client.VectorsFactory.vectors;
 import io.qdrant.client.WithPayloadSelectorFactory;
 import io.qdrant.client.WithVectorsSelectorFactory;
@@ -15,6 +16,10 @@ import io.qdrant.client.grpc.JsonWithInt.Value;
 import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.PointStruct;
 import io.qdrant.client.grpc.Points.QueryPoints;
+import io.qdrant.client.grpc.Points.CreateVectorNameRequest;
+import io.qdrant.client.grpc.Points.DeleteVectorNameRequest;
+import io.qdrant.client.grpc.Points.DenseVectorCreationConfig;
+import io.qdrant.client.grpc.Points.PointVectors;
 import io.qdrant.client.grpc.Points.UpsertPoints;
 import io.qdrant.client.grpc.Points.ScrollPoints;
 import io.qdrant.client.grpc.Points.UpdateMode;
@@ -141,4 +146,113 @@ QueryPoints newRequest =
         .build();
 
 results = client.queryAsync(newRequest).get();
+
+client
+    .createVectorNameAsync(
+        CreateVectorNameRequest.newBuilder()
+            .setCollectionName(COLLECTION)
+            .setVectorName(NEW_VECTOR)
+            .setDenseConfig(
+                DenseVectorCreationConfig.newBuilder()
+                    .setSize(512) // Size of the new embedding vectors
+                    .setDistance(Distance.Cosine) // Similarity function for the new model
+                    .build())
+            .build())
+    .get();
+
+client.upsertAsync(COLLECTION, List.of(
+    PointStruct.newBuilder()
+        .setId(id(1))
+        .setVectors(
+            namedVectors(
+                Map.of(
+                    OLD_VECTOR, vector(
+                        Document.newBuilder()
+                            .setText("Example document")
+                            .setModel(OLD_MODEL)
+                            .build()),
+                    NEW_VECTOR, vector(
+                        Document.newBuilder()
+                            .setText("Example document")
+                            .setModel(NEW_MODEL)
+                            .build()))))
+        .putAllPayload(Map.of("text", value("Example document")))
+        .build())).get();
+
+int reEmbedBatchSize = 100;
+boolean reEmbedReachedEnd = false;
+
+var reEmbedScrollBuilder = ScrollPoints.newBuilder()
+    .setCollectionName(COLLECTION)
+    .setLimit(reEmbedBatchSize)
+    .setWithPayload(WithPayloadSelectorFactory.enable(true))
+    .setWithVectors(WithVectorsSelectorFactory.enable(false));
+
+while (!reEmbedReachedEnd) {
+    var reEmbedScrollResult = client.scrollAsync(reEmbedScrollBuilder.build()).get();
+    var reEmbedRecords = reEmbedScrollResult.getResultList();
+
+    List<PointVectors> pointVectors = new ArrayList<>();
+    for (var record : reEmbedRecords) {
+        String text = record.getPayloadMap().containsKey("text")
+            ? record.getPayloadMap().get("text").getStringValue()
+            : "";
+
+        // Update only the new vector on each point; the old vector and payload are untouched
+        pointVectors.add(
+            PointVectors.newBuilder()
+                .setId(record.getId())
+                .setVectors(
+                    namedVectors(
+                        Map.of(
+                            NEW_VECTOR, vector(
+                                Document.newBuilder()
+                                    .setText(text)
+                                    .setModel(NEW_MODEL)
+                                    .build()))))
+                .build());
+    }
+
+    client.updateVectorsAsync(COLLECTION, pointVectors).get();
+
+    if (reEmbedScrollResult.hasNextPageOffset()) {
+        reEmbedScrollBuilder.setOffset(reEmbedScrollResult.getNextPageOffset());
+    } else {
+        reEmbedReachedEnd = true;
+    }
+}
+
+var oldVectorResults = client.queryAsync(
+    QueryPoints.newBuilder()
+        .setCollectionName(COLLECTION)
+        .setQuery(
+            nearest(
+                Document.newBuilder()
+                    .setText("my query")
+                    .setModel(OLD_MODEL)
+                    .build()))
+        .setUsing(OLD_VECTOR)
+        .setLimit(10)
+        .build()).get();
+
+var newVectorResults = client.queryAsync(
+    QueryPoints.newBuilder()
+        .setCollectionName(COLLECTION)
+        .setQuery(
+            nearest(
+                Document.newBuilder()
+                    .setText("my query")
+                    .setModel(NEW_MODEL)
+                    .build()))
+        .setUsing(NEW_VECTOR)
+        .setLimit(10)
+        .build()).get();
+
+client
+    .deleteVectorNameAsync(
+        DeleteVectorNameRequest.newBuilder()
+            .setCollectionName(COLLECTION)
+            .setVectorName(OLD_VECTOR)
+            .build())
+    .get();
 ```
