@@ -127,7 +127,7 @@ Refer to [Security > TLS](/documentation/security/#tls) to learn more about TLS 
 
 Without enabling authentication, anyone with network access to a Qdrant instance can read, write, or delete all its data. Set an [admin API key](/documentation/security/#authentication) to require credentials on every request.
 
-Add the API key to `docker-compose.yml`:
+Set the `QDRANT__SERVICE__API_KEY` environment variable to the API key in `docker-compose.yml`:
 
 ```yaml
     environment:
@@ -155,6 +155,27 @@ The same behaviour applies to the clients. Ingesting a point without an API key 
 
 With the admin API key, the request succeeds:
 
+```bash
+curl -X PUT 'https://localhost:6333/collections/my_collection' \
+  -H 'Content-Type: application/json' \
+  -H 'api-key: my-admin-key' \
+  -d '{
+    "vectors": {
+      "size": 4,
+      "distance": "Cosine"
+    }
+  }'
+
+curl -X PUT 'https://localhost:6333/collections/my_collection/points' \
+  -H 'Content-Type: application/json' \
+  -H 'api-key: my-admin-key' \
+  -d '{
+    "points": [
+      {"id": 1, "vector": [0.1, 0.2, 0.3, 0.4]}
+    ]
+  }'
+```
+
 {{< code-snippet path="/documentation/headless/snippets/tutorial-secure-qdrant/" block="upsert-admin-key" >}}
 
 Refer to [Security > Authentication](/documentation/security/#authentication) to learn more about admin API keys, including API key rotation.
@@ -165,7 +186,7 @@ Refer to [Security > Authentication](/documentation/security/#authentication) to
 
 Issue a separate [read-only API key](/documentation/security/#read-only-api-key) for services that only need to read data. With this key, a client application can search and read but cannot upsert, delete, or modify data.
 
-Add the read-only key to `docker-compose.yml`:
+Set the `QDRANT__SERVICE__READ_ONLY_API_KEY` environment variable to the read-only key in `docker-compose.yml`:
 
 ```yaml
     environment:
@@ -195,7 +216,7 @@ Or with a client:
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-secure-qdrant/" block="delete-read-only-key" >}}
 
-Reads succeed with the read-only key:
+Reads still succeed with the read-only key:
 
 ```bash
 curl https://localhost:6333/collections/my_collection \
