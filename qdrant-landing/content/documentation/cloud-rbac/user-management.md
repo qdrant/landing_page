@@ -21,12 +21,14 @@ After inviting a user, they will receive an email prompting them to join the acc
 
 ### Inviting Users from a Role
 
-To invite a user directly into a specific Role on the **Role Details** page - just click the Users tab to find the **Add existing Member** button. Users can also be invited to a Role directly via the **User Management** section as well
+To invite a user directly into a specific Role on the **Role Details** page - just click the Users tab to find the **Add Existing Member** button. Users can also be invited to a Role directly via the **User Management** section as well
 
 Once accepted, they'll be assigned that role's permissions, along with the base role.
 
 
 ![image.png](/documentation/cloud/role-based-access-control/invite-user.png)
+
+![image.png](/documentation/cloud/role-based-access-control/add-existing-member.png)
 
 ### Revoking an Invitation
 
