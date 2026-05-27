@@ -8,9 +8,9 @@ aliases:
 ---
 
 # Frequently Asked Questions: General Topics
-||||||
-|-|-|-|-|-|
-|[Vectors](/documentation/faq/qdrant-fundamentals/#vectors)|[Search](/documentation/faq/qdrant-fundamentals/#search)|[Collections](/documentation/faq/qdrant-fundamentals/#collections)|[Compatibility](/documentation/faq/qdrant-fundamentals/#compatibility)|[Cloud](/documentation/faq/qdrant-fundamentals/#cloud)|
+|||||||
+|-|-|-|-|-|-|
+|[Vectors](/documentation/faq/qdrant-fundamentals/#vectors)|[Search](/documentation/faq/qdrant-fundamentals/#search)|[Collections](/documentation/faq/qdrant-fundamentals/#collections)|[Compatibility](/documentation/faq/qdrant-fundamentals/#compatibility)|[Security](/documentation/faq/qdrant-fundamentals/#security)|[Cloud](/documentation/faq/qdrant-fundamentals/#cloud)|
 
 ## Vectors
 
@@ -79,7 +79,7 @@ Yes, in most Retrieval-Augmented Generation (RAG) setups, each chunk is stored a
 
 How you chunk matters significantly and is domain-dependent. As a starting point: paragraph-level chunking works well for books and prose; sentence-level chunking tends to work better for technical articles and Q\&A content. Plan to experiment — chunking strategy is one of the highest-leverage variables in retrieval quality.
 
-See also: [Text Chunking Strategies](course/essentials/day-1/chunking-strategies/)
+See also: [Text Chunking Strategies](/course/essentials/day-1/chunking-strategies/)
 
 ### How does point deletion work internally? Does Qdrant rebuild the index on every delete?
 
@@ -220,13 +220,17 @@ See also: [Named Vectors](/documentation/manage-data/vectors/#named-vectors)
 
 ### Can I switch to a different embedding model without recreating my collection?
 
-The recommended pattern is an alias-based swap:
+Yes, if you're using named vectors:
+
+1. [Add a new named vector](/documentation/manage-data/collections/#update-vector-schema) for the new model
+2. Re-embed points in the background
+3. Remove the old named vector when you're ready.
+
+If you don't use named vectors, you need to create a new collection. Use an alias-based swap for a zero-downtime migration:
 
 1. Create a new collection and ingest your data re-embedded with the new model.  
 2. Once indexed, atomically update the [collection alias](/documentation/manage-data/collections/#collection-aliases) to point to the new collection.  
 3. Delete the old collection when you're confident the migration is stable.
-
-This gives you zero-downtime migrations and a rollback path.
 
 See also: [Migrate to a New Embedding Model](/documentation/tutorials-operations/embedding-model-migration/)
 
@@ -293,10 +297,24 @@ You should always index first if you know your filters upfront. If you need to i
 
 Changing `m` or `ef_construct` automatically triggers a full background HNSW rebuild. For cases where only a payload index is being added, make a minimal change to `ef_construct` (for example, from 100 to 101). Queries continue to be served by the old index until the new index is complete, so there is no downtime. Don't immediately change the value of `ef_construct` back to its original value, but keep it set to the new value.
 
-## Should I create one Qdrant collection per user? 
+### Should I create one Qdrant collection per user? 
 No. Creating one collection per user is more resource intensive. 
 
 Instead of creating separate collections for each user, we recommend creating a [single collection](/documentation/manage-data/multitenancy/) and separate access using payloads. Each Qdrant point can have a payload as metadata. For multitenancy, you can include a `user_id` or `tenant_id` for each point. To optimize storage further, you can enable [tenant indexing](/documentation/manage-data/indexing/#tenant-index) for payload fields.
+
+## Security
+
+### Is my Qdrant cluster secure by default?
+
+It depends on your deployment. Qdrant Cloud clusters are always secure by default. Self-hosted deployments are not: they're open to all network interfaces and have no authentication configured until you set it up. See [Security](/documentation/security/) for a full configuration guide.
+
+### Does Qdrant support read-only access?
+
+Yes. You can configure a read-only API key that permits queries but blocks all write operations. Both keys can be active at the same time, so you can issue a read-only key to consumers without rotating your primary key. See [Read-Only API Key](/documentation/security/#read-only-api-key).
+
+### Can I restrict access to specific collections?
+
+Yes. Qdrant supports JWT-based access control that lets you issue signed tokens scoped to individual collections with read or write permissions. This is useful for multi-tenant deployments where each user or service should only access their own data. See [Granular Access API Keys](/documentation/security/#granular-access-api-keys).
 
 ## Cloud
 

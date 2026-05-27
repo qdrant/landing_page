@@ -5611,7 +5611,7 @@ spec:
 
 ```
 
-If you set the `jwt_rbac` flag, you will also be able to create granular [JWT tokens for role based access control](https://qdrant.tech/documentation/guides/security/#granular-access-control-with-jwt).
+If you set the `jwt_rbac` flag, you will also be able to create granular [JWT tokens for role based access control](https://qdrant.tech/documentation/guides/security/#granular-access-api-keys).
 
 ### [Anchor](https://qdrant.tech/documentation/private-cloud/qdrant-cluster-management/\#configuring-tls-for-database-access) Configuring TLS for Database Access
 
@@ -47846,7 +47846,7 @@ export QDRANT__SERVICE__READ_ONLY_API_KEY=your_secret_read_only_api_key_here
 
 Both API keys can be used simultaneously.
 
-### [Anchor](https://qdrant.tech/documentation/guides/security/\#granular-access-control-with-jwt) Granular access control with JWT
+### [Anchor](https://qdrant.tech/documentation/guides/security/\#granular-access-api-keys) Granular access control with JWT
 
 _Available as of v1.9.0_
 

@@ -84,7 +84,7 @@ Understanding how much memory a Qdrant collection actually uses has traditionall
 
 This release introduces [collection memory monitoring](/documentation/ops-monitoring/memory-usage/), offering a detailed breakdown of disk, RAM, and OS page cache usage per component, summed across the whole cluster.
 
-In Web UI, open the collection detail page and select the **Memory** tab to see the memory breakdown.
+In the Web UI, open the collection detail page and select the **Memory** tab to see the memory breakdown.
 
 <figure>
   <img width="75%" src="/blog/qdrant-1.18.x/memory-usage.png" alt="The Memory tab showing a breakdown of disk, RAM, cached, and expected cache values per collection component.">
@@ -101,7 +101,7 @@ The same data is available [through Qdrant's API](/documentation/ops-monitoring/
 
 When a collection's vector schema needed to change, for example, when adding support for a new embedding model or retiring an old one, there was no way to update it in place. The only option was to recreate the collection from scratch and re-ingest all points.
 
-Version 1.18 makes it possible to [add and remove named vectors](/documentation/manage-data/collections/#update-vectors) to an existing collection's schema without having to recreate it. This makes embedding model migration considerably easier. You can now add a new vector field, populate it in the background, and remove the old one when you're ready.
+Version 1.18 makes it possible to [add and remove named vectors](/documentation/manage-data/collections/#update-vector-schema) to an existing collection's schema without having to recreate it. This makes embedding model migration considerably easier. You can now add a new vector field, populate it in the background, and remove the old one when you're ready.
 
 ## Audit Logging Improvements
 

@@ -95,4 +95,86 @@ results = client.query_points(
     query=models.Document(text="my query", model=NEW_MODEL),
     limit=10,
 )
+
+client.create_vector_name(
+    collection_name=COLLECTION,
+    vector_name=NEW_VECTOR,
+    vector_name_config=models.DenseVectorNameConfig(
+        dense=models.DenseVectorConfig(
+            size=512,  # Size of the new embedding vectors
+            distance=models.Distance.COSINE  # Similarity function for the new model
+        )
+    ),
+)
+
+client.upsert(
+    collection_name=COLLECTION,
+    points=[
+        models.PointStruct(
+            id=1,
+            vector={
+                OLD_VECTOR: models.Document(
+                    text="Example document",
+                    model=OLD_MODEL,
+                ),
+                NEW_VECTOR: models.Document(
+                    text="Example document",
+                    model=NEW_MODEL,
+                ),
+            },
+            payload={"text": "Example document"}
+        )
+    ]
+)
+
+last_offset = None
+batch_size = 100
+reached_end = False
+
+while not reached_end:
+    records, last_offset = client.scroll(
+        collection_name=COLLECTION,
+        limit=batch_size,
+        offset=last_offset,
+        with_payload=True,
+        with_vectors=False,
+    )
+
+    # Update only the new vector on each point; the old vector and payload are untouched
+    client.update_vectors(
+        collection_name=COLLECTION,
+        points=[
+            models.PointVectors(
+                id=record.id,
+                vector={
+                    NEW_VECTOR: models.Document(
+                        text=(record.payload or {}).get("text", ""),
+                        model=NEW_MODEL,
+                    )
+                },
+            )
+            for record in records
+        ],
+    )
+
+    reached_end = last_offset is None
+
+results = client.query_points(
+    collection_name=COLLECTION,
+    query=models.Document(text="my query", model=OLD_MODEL),
+    using=OLD_VECTOR,
+    limit=10,
+)
+
+results = client.query_points(
+    collection_name=COLLECTION,
+    query=models.Document(text="my query", model=NEW_MODEL),
+    using=NEW_VECTOR,
+    limit=10,
+)
+
+client.delete_vector_name(
+    collection_name=COLLECTION,
+    vector_name=OLD_VECTOR,
+)
 ```

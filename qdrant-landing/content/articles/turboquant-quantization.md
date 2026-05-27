@@ -46,7 +46,7 @@ To enable TurboQuant, specify it in the `quantization_config` section of the col
 
 When enabling TurboQuant on an existing collection, use a `PATCH` request, or the corresponding `update_collection` method in any client SDK.
 
-The `bits` field controls encoding bit depth. It defaults to `bits4`. Available values: `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy. See the [benchmarks](#detailed-benchmarks) for the recall trade-off on each bit width. The full reference is in [the quantization docs](https://qdrant.tech/documentation/guides/quantization/).
+The `bits` field controls encoding bit depth. It defaults to `bits4`. Available values: `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy. See the [benchmarks](#detailed-benchmarks) for the recall trade-off on each bit width. The full reference is in [the quantization docs](https://qdrant.tech/documentation/manage-data/quantization/).
 
 ## At a Glance
 
@@ -124,7 +124,7 @@ Truly isotropic data matches the theoretical Gaussian quantiles, the formula col
 
 ### L2 and Unnormalized Dot
 
-Vanilla TurboQuant assumes all inputs live on the unit sphere; that is, cosine distance only. We extend the scoring mechanism and unlock L2 and unnormalized dot by *storing the original L2 norm*, normalizing the vectors and then apply the L2 norm back during scoring.
+Vanilla TurboQuant assumes all inputs live on the unit sphere; that is, cosine distance only. We extend the scoring mechanism and unlock L2 and unnormalized dot by *storing the original L2 norm*, normalizing the vectors, and then applying the L2 norm back during scoring.
 
 L2 distances are reconstructed via the identity `‖q − v‖² = ‖q‖² + ‖v‖² − 2⟨q, v⟩ = ‖q‖² + ‖v‖² − 2 ‖v‖ ‖q‖ ⟨q_normalized, v_normalized⟩`, where all components on the right-hand side are already available.
 

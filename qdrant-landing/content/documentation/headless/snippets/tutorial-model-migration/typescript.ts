@@ -14,6 +14,10 @@ const OLD_COLLECTION = "old_collection";
 
 const OLD_MODEL = "sentence-transformers/all-minilm-l6-v2";
 const NEW_MODEL = "qdrant/clip-vit-b-32-text";
+
+const COLLECTION = "my_collection";
+const OLD_VECTOR = "old-model";
+const NEW_VECTOR = "new-model";
 // @hide-end
 
 // @block-start create-new-collection
@@ -120,3 +124,92 @@ const resultsNew = await client.query(NEW_COLLECTION, {
     limit: 10,
 });
 // @block-end search-new-collection
+
+// @block-start add-named-vector
+await client.createVectorName(COLLECTION, NEW_VECTOR, {
+    dense: {
+        size: 512, // Size of the new embedding vectors
+        distance: "Cosine", // Similarity function for the new model
+    },
+});
+// @block-end add-named-vector
+
+// @block-start upsert-both-vectors
+await client.upsert(COLLECTION, {
+    points: [
+        {
+            id: 1,
+            vector: {
+                [OLD_VECTOR]: {
+                    text: "Example document",
+                    model: OLD_MODEL,
+                },
+                [NEW_VECTOR]: {
+                    text: "Example document",
+                    model: NEW_MODEL,
+                },
+            },
+            payload: { text: "Example document" },
+        },
+    ],
+});
+// @block-end upsert-both-vectors
+
+// @block-start re-embed-existing
+let reEmbedLastOffset: number | string | undefined = undefined;
+const reEmbedBatchSize = 100;
+let reEmbedReachedEnd = false;
+
+while (!reEmbedReachedEnd) {
+    const reEmbedScrollResult = await client.scroll(COLLECTION, {
+        limit: reEmbedBatchSize,
+        offset: reEmbedLastOffset,
+        with_payload: true,
+        with_vector: false,
+    });
+
+    const records = reEmbedScrollResult.points;
+    reEmbedLastOffset = reEmbedScrollResult.next_page_offset as number | string | undefined;
+
+    // Update only the new vector on each point; the old vector and payload are untouched
+    await client.updateVectors(COLLECTION, {
+        points: records.map((record) => ({
+            id: record.id,
+            vector: {
+                [NEW_VECTOR]: {
+                    text: ((record.payload?.text as string) ?? ""),
+                    model: NEW_MODEL,
+                },
+            },
+        })),
+    });
+
+    reEmbedReachedEnd = reEmbedLastOffset == null;
+}
+// @block-end re-embed-existing
+
+// @block-start search-with-old-vector
+const oldVectorResults = await client.query(COLLECTION, {
+    query: {
+        text: "my query",
+        model: OLD_MODEL,
+    },
+    using: OLD_VECTOR,
+    limit: 10,
+});
+// @block-end search-with-old-vector
+
+// @block-start search-with-new-vector
+const newVectorResults = await client.query(COLLECTION, {
+    query: {
+        text: "my query",
+        model: NEW_MODEL,
+    },
+    using: NEW_VECTOR,
+    limit: 10,
+});
+// @block-end search-with-new-vector
+
+// @block-start delete-old-named-vector
+await client.deleteVectorName(COLLECTION, OLD_VECTOR);
+// @block-end delete-old-named-vector

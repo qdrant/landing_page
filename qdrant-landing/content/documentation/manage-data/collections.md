@@ -189,7 +189,7 @@ introduce huge overhead due to the rebuilding of the index.
 
 *Available as of v1.18.0*
 
-Named vectors can be added to or removed from an existing collection without having to recreate the collection.
+Named vectors can be added to or removed from an existing collection without having to recreate the collection. This is useful for [embedding model migration](/documentation/tutorials-operations/embedding-model-migration/): you can add a new vector for the new model, re-embed points in the background, and then remove the old vector when you're ready. 
 
 <aside role="status">
 These are schema-level operations that add or remove vector definitions from a collection's schema. To add/remove vector values from specific points, use the <a href="/documentation/manage-data/points/#update-vectors">update</a> and <a href="/documentation/manage-data/points/#delete-vectors">delete</a> vectors operations.

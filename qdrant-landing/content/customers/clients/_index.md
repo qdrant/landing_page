@@ -1,5 +1,4 @@
 ---
-url: "/customers/"
 clients:
   - id: alhena
     name: Alhena AI
@@ -566,4 +565,5 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/iris-agent.svg
       alt: IrisAgent logo
+sitemapExclude: true
 ---

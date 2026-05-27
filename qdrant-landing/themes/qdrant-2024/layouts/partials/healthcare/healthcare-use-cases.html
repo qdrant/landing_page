@@ -6,7 +6,7 @@
       {{ range $index, $tab := .Params.tabs }}
         <button
           type="button"
-          class="healthcare-use-cases__tab{{ if eq $index 0 }}healthcare-use-cases__tab--active{{ end }}"
+          class="healthcare-use-cases__tab{{ if eq $index 0 }} healthcare-use-cases__tab--active{{ end }}"
           data-use-case-tab="{{ $tab.id }}"
           data-slide-index="{{ $index }}"
         >
@@ -18,7 +18,7 @@
     <div class="healthcare-use-cases__slider">
       {{ range $index, $useCase := .Params.useCases }}
         <div
-          class="healthcare-use-cases__slide{{ if eq $index 0 }}healthcare-use-cases__slide--active{{ end }}"
+          class="healthcare-use-cases__slide{{ if eq $index 0 }} healthcare-use-cases__slide--active{{ end }}"
           data-slide="{{ $index }}"
         >
           <div class="healthcare-use-cases__card" style="background: {{ $useCase.gradient | safeCSS }};">
@@ -68,7 +68,7 @@
         {{ range $index, $tab := .Params.tabs }}
           <button
             type="button"
-            class="healthcare-use-cases__dot{{ if eq $index 0 }}healthcare-use-cases__dot--active{{ end }}"
+            class="healthcare-use-cases__dot{{ if eq $index 0 }} healthcare-use-cases__dot--active{{ end }}"
             data-slide-index="{{ $index }}"
           >
             <span></span>

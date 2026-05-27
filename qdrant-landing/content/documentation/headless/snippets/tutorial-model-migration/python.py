@@ -11,6 +11,10 @@ OLD_COLLECTION="old_collection"
 
 OLD_MODEL="sentence-transformers/all-minilm-l6-v2"
 NEW_MODEL="qdrant/clip-vit-b-32-text"
+
+COLLECTION="my_collection"
+OLD_VECTOR="old-model"
+NEW_VECTOR="new-model"
 # @hide-end
 
 # @block-start create-new-collection
@@ -119,3 +123,97 @@ results = client.query_points(
     limit=10,
 )
 # @block-end search-new-collection
+
+# @block-start add-named-vector
+client.create_vector_name(
+    collection_name=COLLECTION,
+    vector_name=NEW_VECTOR,
+    vector_name_config=models.DenseVectorNameConfig(
+        dense=models.DenseVectorConfig(
+            size=512,  # Size of the new embedding vectors
+            distance=models.Distance.COSINE  # Similarity function for the new model
+        )
+    ),
+)
+# @block-end add-named-vector
+
+# @block-start upsert-both-vectors
+client.upsert(
+    collection_name=COLLECTION,
+    points=[
+        models.PointStruct(
+            id=1,
+            vector={
+                OLD_VECTOR: models.Document(
+                    text="Example document",
+                    model=OLD_MODEL,
+                ),
+                NEW_VECTOR: models.Document(
+                    text="Example document",
+                    model=NEW_MODEL,
+                ),
+            },
+            payload={"text": "Example document"}
+        )
+    ]
+)
+# @block-end upsert-both-vectors
+
+# @block-start re-embed-existing
+last_offset = None
+batch_size = 100
+reached_end = False
+
+while not reached_end:
+    records, last_offset = client.scroll(
+        collection_name=COLLECTION,
+        limit=batch_size,
+        offset=last_offset,
+        with_payload=True,
+        with_vectors=False,
+    )
+
+    # Update only the new vector on each point; the old vector and payload are untouched
+    client.update_vectors(
+        collection_name=COLLECTION,
+        points=[
+            models.PointVectors(
+                id=record.id,
+                vector={
+                    NEW_VECTOR: models.Document(
+                        text=(record.payload or {}).get("text", ""),
+                        model=NEW_MODEL,
+                    )
+                },
+            )
+            for record in records
+        ],
+    )
+
+    reached_end = last_offset is None
+# @block-end re-embed-existing
+
+# @block-start search-with-old-vector
+results = client.query_points(
+    collection_name=COLLECTION,
+    query=models.Document(text="my query", model=OLD_MODEL),
+    using=OLD_VECTOR,
+    limit=10,
+)
+# @block-end search-with-old-vector
+
+# @block-start search-with-new-vector
+results = client.query_points(
+    collection_name=COLLECTION,
+    query=models.Document(text="my query", model=NEW_MODEL),
+    using=NEW_VECTOR,
+    limit=10,
+)
+# @block-end search-with-new-vector
+
+# @block-start delete-old-named-vector
+client.delete_vector_name(
+    collection_name=COLLECTION,
+    vector_name=OLD_VECTOR,
+)
+# @block-end delete-old-named-vector

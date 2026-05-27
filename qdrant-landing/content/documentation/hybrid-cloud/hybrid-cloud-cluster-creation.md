@@ -66,7 +66,7 @@ If you want to retrieve the secret again, you can also use `kubectl`:
 kubectl get secret qdrant-api-key -o jsonpath="{.data.api-key}" --namespace the-qdrant-namespace | base64 --decode
 ```
 
-After configuring the API key secret, you can create JWTs with granular access control in the Qdrant Cluster UI. Please refer to the [Granular access control with JWT](/documentation/security/#granular-access-control-with-jwt) documentation for more details.
+After configuring the API key secret, you can create JWTs with granular access control in the Qdrant Cluster UI. Please refer to the [Granular access API Keys](/documentation/security/#granular-access-api-keys) documentation for more details.
 
 #### Watch the Video
 

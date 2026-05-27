@@ -29,7 +29,28 @@ Distribute incoming requests evenly across cluster nodes to ensure consistent pe
 
 ---
 
-## 2. Quantization
+## 2. Security
+
+Lock down access before exposing your instance to any network. By default, self-hosted open source Qdrant instances are open to all interfaces without any authentication. On Qdrant Cloud, security features are enabled by default.
+
+- **[Set Up an API Key](/documentation/security/#authentication).**
+The minimum step required before any production deployment. Without it, an open source instance accepts requests from anyone who can reach it. On Qdrant Cloud, API key authentication is enabled by default.
+
+- **Use a Read-Only API Key for Query-Only Consumers.**
+Issue a separate [read-only key](/documentation/security/#read-only-api-key) for services or users that only need to query data. This limits the blast radius if a key is compromised. Both keys can be active simultaneously.
+
+- **Use [Fine-Grained Access Control](/documentation/security/#granular-access-api-keys).**
+Grant read or write permissions on individual collections, giving each client access only to what it needs.
+
+- **Enable TLS.**
+[Encrypt traffic](/documentation/security/#tls) between clients and your Qdrant instance (enabled by default on Qdrant Cloud).
+
+- **Bind to a Private Network Interface.**
+When self-hosting, prevent external access by [binding Qdrant to a private IP or loopback address](/documentation/security/#network-bind).
+
+---
+
+## 3. Quantization
 
 Compress vectors to reduce memory footprint. [Quantization](/documentation/manage-data/quantization/) is one of the most impactful changes you can make before going to production.
 
@@ -40,7 +61,7 @@ Some models produce embeddings that can't be quantized efficiently. [Verify](/do
 
 ---
 
-## 3. Storage and Hardware
+## 4. Storage and Hardware
 
 Right-size your RAM, disk type, and storage mode. These decisions are difficult to change once you're in production.
 
@@ -61,7 +82,7 @@ When storing vectors and the HNSW index on disk, improve search performance by [
 
 ---
 
-## 4. Query Optimization
+## 5. Query Optimization
 
 Ensure your search is fast, accurate, and efficient under production load.
 

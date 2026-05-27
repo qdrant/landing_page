@@ -18,7 +18,8 @@
   }
   
   &__title {
-    margin-bottom: 0;
+    max-width: pxToRem(920);
+    margin: 0 auto;
     text-align: center;
     font-size: $h4-font-size;
     line-height: $spacer * 3;
@@ -26,8 +27,8 @@
   }
   
   &__description {
-    margin-top: pxToRem(30);
-    margin-bottom: 0;
+    max-width: pxToRem(980);
+    margin: pxToRem(30) auto 0;
     text-align: center;
     color: $neutral-30;
   }

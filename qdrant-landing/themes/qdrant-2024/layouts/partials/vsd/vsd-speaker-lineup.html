@@ -17,7 +17,7 @@
               {{ range . }}
                 <li class="vsd-speaker-lineup__speaker">
                   <span class="vsd-speaker-lineup__speaker-company">{{ .company }}</span>
-                  <span class="vsd-speaker-lineup__speaker-name">{{ .speaker }}</span>
+                  <span class="vsd-speaker-lineup__speaker-name">{{ .speaker | safeHTML }}</span>
                   <span class="vsd-speaker-lineup__speaker-theme">{{ .theme }}</span>
                 </li>
               {{ end }}
