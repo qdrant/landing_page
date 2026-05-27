@@ -22,6 +22,12 @@ public class Snippet {
             QdrantGrpcClient.newBuilder("localhost", 6334, true).build());
 
         try {
+            client.createCollectionAsync("my_collection",
+                VectorParams.newBuilder()
+                    .setSize(4)
+                    .setDistance(Distance.Cosine)
+                    .build()).get();
+
             client.upsertAsync("my_collection", List.of(
                 PointStruct.newBuilder()
                     .setId(id(1))

@@ -15,6 +15,14 @@ if err != nil {
 	panic(err)
 }
 
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "my_collection",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     4,
+		Distance: qdrant.Distance_Cosine,
+	}),
+})
+
 _, err = client.Upsert(context.Background(), &qdrant.UpsertPoints{
 	CollectionName: "my_collection",
 	Points: []*qdrant.PointStruct{

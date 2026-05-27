@@ -1,7 +1,7 @@
 ---
 title: Secure a Self-Hosted Qdrant Instance
-short_description: "Progressively harden a self-hosted Qdrant deployment with TLS, an Admin API key, a Read-Only key, and JWT-based Granular Access Control."
-description: "Tutorial: secure a self-hosted Qdrant instance step by step — enable TLS, set up an Admin API key, restrict consumers with a Read-Only key, and issue collection-scoped JWT tokens using the Web UI."
+short_description: "Harden a self-hosted Qdrant deployment with TLS, an Admin API key, a Read-Only key, and Granular Access Control."
+description: "Tutorial: secure a self-hosted Qdrant instance step by step: enable TLS, set up an Admin API key, restrict consumers with a Read-Only key, and issue collection-scoped JWT tokens."
 weight: 45
 ---
 
@@ -10,19 +10,21 @@ weight: 45
 | Time: 45 min | Level: Intermediate |
 | --- | ----------- |
 
-Lock down your instance before connecting it to any network. By default, self-hosted Qdrant runs with no authentication and no encryption — every interface on the host is reachable without a key or password. This tutorial walks through five layers of protection, validating each one before moving to the next.
+Qdrant offers a comprehensive set of [security and access control features](/documentation/security/) that enable you to protect your data and control access at multiple levels. By default, these features are enabled on Qdrant Cloud deployments. However, self-hosted Qdrant deployments default to no authentication and no encryption: every interface on the host is reachable without a key or password. For self-hosted instances, it is crucial to secure your instance before connecting it to any network. 
 
-<aside role="alert">Qdrant Cloud deployments are always secure by default. This tutorial covers <strong>self-hosted Docker deployments only</strong>.</aside>
+This tutorial walks through securing a self-hosted Qdrant instance step by step: enabling TLS, setting up an admin API key, restricting consumers with a read-only key, and issuing granular access API keys.
+
+> Qdrant Cloud deployments are always secure by default. This tutorial covers self-hosted deployments only. While this tutorial uses Docker Compose, the same security features and configurations apply to any self-hosted deployment method.
 
 ## Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed
 - `curl` available in your terminal
-- [mkcert](https://github.com/FiloSottile/mkcert#readme) for generating a local self-signed certificate (Step 2)
+- [mkcert](https://github.com/FiloSottile/mkcert#readme) for generating a local self-signed certificate
 
 ---
 
-## Step 1 — Start an Unsecured Instance
+## Step 1: Start an Unsecured Instance
 
 Start Qdrant using the [standard Docker Compose setup](/documentation/installation/#docker-compose). Create a `docker-compose.yml` file:
 
@@ -46,7 +48,7 @@ Start the instance:
 docker compose up -d
 ```
 
-Confirm that no credentials are required:
+Confirm that no credentials are required when connecting to the REST API port with `curl`:
 
 ```bash
 curl http://localhost:6333
@@ -62,18 +64,21 @@ Expected response:
 
 ---
 
-## Step 2 — Enable TLS
+## Step 2: Enable TLS
 
 Unencrypted connections allow anyone on the network to read your API key and data in transit. Enable TLS to encrypt all traffic.
 
-Generate a locally trusted certificate with mkcert:
+First, add a local certificate authority to your system trust store, so `curl` and your browser will accept the certificate without extra flags.
 
 ```bash
 mkcert -install
-mkdir tls && mkcert -cert-file tls/cert.pem -key-file tls/key.pem localhost 127.0.0.1
 ```
 
-`mkcert -install` adds a local certificate authority to your system trust store, so `curl` and your browser will accept the certificate without extra flags.
+Next, generate a locally trusted certificate with mkcert:
+
+```bash
+mkdir tls && mkcert -cert-file tls/cert.pem -key-file tls/key.pem localhost 127.0.0.1
+```
 
 Update `docker-compose.yml` to mount the certificate and enable TLS:
 
@@ -96,29 +101,31 @@ volumes:
   qdrant_storage:
 ```
 
-Restart:
+Restart Qdrant to apply the changes:
 
 ```bash
 docker compose down && docker compose up -d
 ```
 
-Verify that HTTPS works and HTTP no longer does:
+Now, unencrypted HTTP requests are rejected:
+
+```bash
+curl http://localhost:6333
+```
+
+However, HTTPS requests succeed:
 
 ```bash
 curl https://localhost:6333
-# Expected: {"title":"qdrant - vector search engine","version":"..."}
-
-curl http://localhost:6333
-# Expected: curl: (52) Empty reply from server
 ```
 
-See [Security > TLS](/documentation/security/#tls) for more TLS configuration options.
+Refer to [Security > TLS](/documentation/security/#tls) to learn more about TLS configuration.
 
 ---
 
-## Step 3 — Enable an Admin API Key
+## Step 3: Enable an Admin API Key
 
-Without an API key, any authenticated TLS connection can still read, write, or delete everything. Set an Admin API key to require credentials on every request.
+Without enabling authentication, anyone with network access to a Qdrant instance can read, write, or delete all its data. Set an [admin API key](/documentation/security/#authentication) to require credentials on every request.
 
 Add the API key to `docker-compose.yml`:
 
@@ -130,7 +137,7 @@ Add the API key to `docker-compose.yml`:
       QDRANT__SERVICE__API_KEY: "my-admin-key"
 ```
 
-Restart:
+Restart Qdrant to apply the changes:
 
 ```bash
 docker compose down && docker compose up -d
@@ -140,26 +147,25 @@ Verify that unauthenticated requests are now rejected:
 
 ```bash
 curl https://localhost:6333/collections
-# Expected: {"status":{"error":"Unauthorized"},"time":0.0}
 ```
 
-Next, confirm the same behaviour from the SDK. Ingesting a point without an API key is blocked:
+The same behaviour applies to the clients. Ingesting a point without an API key is blocked:
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-secure-qdrant/" block="upsert-no-auth" >}}
 
-With the Admin API key, the request succeeds:
+With the admin API key, the request succeeds:
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-secure-qdrant/" block="upsert-admin-key" >}}
 
-See [Security > Authentication](/documentation/security/#authentication) for additional configuration options, including API key rotation.
+Refer to [Security > Authentication](/documentation/security/#authentication) to learn more about admin API keys, including API key rotation.
 
 ---
 
-## Step 4 — Enable a Read-Only API Key
+## Step 4: Enable a Read-Only API Key
 
-Issue a separate Read-Only API key for services that only need to query data. With this key active, callers can search and read but cannot upsert, delete, or modify collections.
+Issue a separate [read-only API key](/documentation/security/#read-only-api-key) for services that only need to read data. With this key, a client application can search and read but cannot upsert, delete, or modify data.
 
-Add the Read-Only key to `docker-compose.yml`:
+Add the read-only key to `docker-compose.yml`:
 
 ```yaml
     environment:
@@ -170,41 +176,39 @@ Add the Read-Only key to `docker-compose.yml`:
       QDRANT__SERVICE__READ_ONLY_API_KEY: "my-read-only-key"
 ```
 
-Restart:
+Restart Qdrant:
 
 ```bash
 docker compose down && docker compose up -d
 ```
 
-Verify that a delete attempt with the Read-Only key is rejected:
+Verify that a delete attempt with the read-only key is rejected:
+
+```bash
+curl -X POST https://localhost:6333/collections/my_collection/points/delete \
+  -H "api-key: my-read-only-key" \    
+  -H "Content-Type: application/json" \
+  -d '{"points": [1]}'
+```
+
+Or with a client:
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-secure-qdrant/" block="delete-read-only-key" >}}
 
-Or with curl:
-
-```bash
-curl -X DELETE https://localhost:6333/collections/my_collection/points \
-  -H "api-key: my-read-only-key" \
-  -H "Content-Type: application/json" \
-  -d '{"points": [1]}'
-# Expected: {"status":{"error":"Forbidden"},"time":0.0}
-```
-
-Reads still succeed with the Read-Only key:
+Reads succeed with the read-only key:
 
 ```bash
 curl https://localhost:6333/collections/my_collection \
   -H "api-key: my-read-only-key"
-# Expected: {"result":{...},"status":"ok","time":0.0}
 ```
 
 Both keys can be used simultaneously. See [Security > Read-Only API Key](/documentation/security/#read-only-api-key).
 
 ---
 
-## Step 5 — Set Up Granular Access API Keys (JWT)
+## Step 5: Set Up Granular Access API Keys (JWT)
 
-The Admin and Read-Only keys apply globally. For finer control — for example, read-write access to one collection and read-only access to another — use Granular Access API Keys (JWT).
+The admin and read-only keys apply globally. For finer control, use [granular access API Keys](/documentation/security/#granular-access-api-keys) (JSON Web Tokens, JWT). For example, you can use JWT to provide read-write access to one collection and read-only access to another.
 
 Enable JWT RBAC in `docker-compose.yml`:
 
@@ -224,7 +228,7 @@ Restart:
 docker compose down && docker compose up -d
 ```
 
-Create a second collection using the Admin key:
+Create a second collection `other_collection` using the admin API key:
 
 ```bash
 curl -X PUT https://localhost:6333/collections/other_collection \
@@ -236,44 +240,36 @@ curl -X PUT https://localhost:6333/collections/other_collection \
 Generate a JWT in the Web UI:
 
 1. Open `https://localhost:6333/dashboard#/jwt`.
-2. In the **Access** field, configure per-collection scopes — read-write on `my_collection`, read-only on `other_collection`:
+1. Select **Collection Access**.
+1. For `my_collection`, select **Read** and **Write**. 
+1. For `other_collection`, select **Read** only.
+1. Copy the generated JWT Token.
 
-```json
-{
-  "access": [
-    {"collection": "my_collection", "access": "rw"},
-    {"collection": "other_collection", "access": "r"}
-  ]
-}
-```
-
-3. Copy the generated token.
-
-Writing to `my_collection` (rw scope) succeeds:
-
-{{< code-snippet path="/documentation/headless/snippets/tutorial-secure-qdrant/" block="upsert-jwt-rw-collection" >}}
-
-Writing to `other_collection` (r scope) is blocked:
-
-{{< code-snippet path="/documentation/headless/snippets/tutorial-secure-qdrant/" block="upsert-jwt-ro-collection" >}}
-
-Or with curl:
+Using the JWT token, writing to `my_collection` (`rw` scope) should succeed:
 
 ```bash
-# Write to the rw collection — succeeds
 curl -X PUT https://localhost:6333/collections/my_collection/points \
   -H "api-key: <your-jwt>" \
   -H "Content-Type: application/json" \
   -d '{"points": [{"id": 2, "vector": [0.5, 0.6, 0.7, 0.8]}]}'
-# Expected: {"result":{"operation_id":1,"status":"completed"},"status":"ok","time":0.0}
+```
 
-# Write to the read-only collection — blocked
+With a client too:
+
+{{< code-snippet path="/documentation/headless/snippets/tutorial-secure-qdrant/" block="upsert-jwt-rw-collection" >}}
+
+However, writing to `other_collection` (`r` scope) is blocked:
+
+```bash
 curl -X PUT https://localhost:6333/collections/other_collection/points \
   -H "api-key: <your-jwt>" \
   -H "Content-Type: application/json" \
   -d '{"points": [{"id": 2, "vector": [0.5, 0.6, 0.7, 0.8]}]}'
-# Expected: {"status":{"error":"Forbidden"},"time":0.0}
 ```
+
+With a client too:
+
+{{< code-snippet path="/documentation/headless/snippets/tutorial-secure-qdrant/" block="upsert-jwt-ro-collection" >}}
 
 See [Security > Granular Access Control with JWT](/documentation/security/#granular-access-api-keys) for the full list of available JWT claims and the complete access-level table.
 

@@ -14,6 +14,11 @@ public class Snippet
 
 		try
 		{
+			await client.CreateCollectionAsync(
+				collectionName: "my_collection",
+				vectorsConfig: new VectorParams { Size = 4, Distance = Distance.Cosine }
+			);
+
 			await client.UpsertAsync(
 				collectionName: "my_collection",
 				points: new List<PointStruct>
