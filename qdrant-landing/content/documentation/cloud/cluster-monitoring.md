@@ -204,7 +204,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     Learn about the SDKs [here](/documentation/interfaces/).
     
-    Learn more about JWT Keys and permissions [here](/documentation/security/?q=jwt#granular-access-control-with-jwt).
+    Learn more about JWT Keys and permissions [here](/documentation/security/?q=jwt#granular-access-api-keys).
 
 - title: A Node is CPU Throttled
   content: |
