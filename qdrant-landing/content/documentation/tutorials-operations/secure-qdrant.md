@@ -301,5 +301,5 @@ See [Security > Granular Access Control with JWT](/documentation/security/#granu
 Your instance now has TLS encryption, API key authentication, a read-only key for query consumers, and collection-scoped JWT tokens. For production deployments, also consider:
 
 - [Network Bind](/documentation/security/#network-bind) — restrict which network interfaces Qdrant listens on.
-- [API Key Rotation](/documentation/security/#rotate-an-api-key) — rotate keys in a distributed deployment without downtime.
+- [API Key Rotation](/documentation/security/#rotate-an-admin-api-key) — rotate admin API keys in a distributed deployment without downtime.
 - [Production Checklist](/documentation/production-checklist/) — a full checklist of security and reliability settings for production.
