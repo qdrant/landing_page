@@ -52,4 +52,5 @@ featureCards:
       src: /img/home/horizontal-slider/qdrant-use-caseai-agents.png
       webp: /img/home/horizontal-slider/qdrant-use-caseai-agents.webp
       alt: AI Agents
+sitemapExclude: true
 ---
