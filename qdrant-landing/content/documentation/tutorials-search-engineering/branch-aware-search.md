@@ -1,7 +1,7 @@
 ---
 title: Branch-Aware Search
 short_description: "Scope search to a version-controlled branch in Qdrant so a query returns that branch's live view, inherited from its ancestors."
-description: "Index a versioned corpus in Qdrant and scope queries to a branch's live view with an ancestor-walk filter over per-version branch and seq payload fields."
+description: "Index a versioned document corpus in Qdrant and scope each query to one branch's live view by walking its lineage with a payload filter."
 weight: 12
 aliases:
   - /documentation/tutorials/branch-aware-search/
@@ -12,113 +12,20 @@ aliases:
 | Time: 25 min | Level: Intermediate |
 | --- | ----------- |
 
-A search on a specific branch should return exactly the content that is live on that branch, and nothing from another. Without that scoping, a query returns content from other branches, or a version this branch already replaced.
-
-Each version of a file is one point in the Qdrant collection, tagged with the `branch` that wrote it and a `seq` (the commit number on that branch). <br>When a later commit overwrites or deletes a file, the previous version's point records which branch did it, and when. A search on a branch is then a single filter: it reads from that branch and the branches it forked from, and skips anything they later replaced.
+When a document corpus is versioned with git-style branches, an ordinary search leaks across them, returning content from another branch or a version the current branch already replaced. This tutorial indexes such a corpus in Qdrant and scopes each query to a single branch's live view: its own commits plus what it inherited from its ancestors, and nothing a later commit replaced. The pattern fits a documentation site with draft and published branches, a policy repository with regional forks, or a codebase where each feature branch needs its own view.
 
 ## Setup
 
-Install the Python client:
-
-```bash
-pip install "qdrant-client>=1.18"
-```
+Each version of a file is one point, embedded with a dense model for semantic search. The [Cloud Quickstart](/documentation/cloud-quickstart/) covers creating a cluster and connecting a client.
 
 <aside role="status">
-This tutorial uses <a href="/documentation/inference/#qdrant-cloud-inference">Qdrant Cloud Inference</a> to generate embeddings server-side. The free tier covers this tutorial's footprint.
+This tutorial uses <a href="/documentation/inference/#qdrant-cloud-inference">Qdrant Cloud Inference</a> to generate embeddings server-side. The free tier covers this tutorial's footprint. To self-host, generate dense vectors on the client with a library like <a href="/documentation/fastembed/">FastEmbed</a> and pass them as raw vectors instead of <code>models.Document</code>.
 </aside>
-
-## The Synthetic Corpus
-
-The corpus is a small documentation site: pricing pages, policies, getting-started guides, and API reference. There are three branches: `main` is the published version, with `pricing-refresh` (marketing's) and `compliance-update` (legal's) forked from it.
-
-```python
-main_docs = {
-    "pricing/pro-tier.md":            "The Pro tier costs $29 per month and includes 100 GB of storage, unlimited API calls, and team collaboration for up to 10 seats.",
-    "pricing/enterprise.md":          "Enterprise pricing is customized based on volume. Contact sales for a quote, custom SLAs, and an SSO demo.",
-    "pricing/free-tier.md":           "The Free tier is permanently free with 1 GB of storage and 100 API calls per day. No credit card required.",
-    "policies/refunds.md":            "Refunds are processed within 30 days of the original purchase. Pro-rated charges apply for partial periods.",
-    "policies/data-retention.md":     "Customer data is retained for the duration of the contract and 90 days after termination, then permanently deleted.",
-    "policies/acceptable-use.md":     "Our acceptable use policy prohibits scraping, automated abuse, and any content that violates applicable laws.",
-    "getting-started/install.md":     "Install the CLI with pip install our-tool. The default config writes to ~/.our-tool/config.json.",
-    "getting-started/auth.md":        "Authenticate with an API key from your dashboard. Set it via OUR_TOOL_API_KEY or in the config file.",
-    "getting-started/first-query.md": "Run your first query with our-tool query 'your search here'. Results return as JSON or YAML.",
-    "guides/python-sdk.md":           "The Python SDK wraps every API endpoint. Install with pip install our-tool-sdk and import from our_tool.",
-    "guides/typescript-sdk.md":       "The TypeScript SDK ships type definitions for all API responses. Install with npm install @our-tool/sdk.",
-    "guides/migrations.md":           "Schema migrations run automatically on deployment. Roll back with our-tool migrate --rollback.",
-    "guides/monitoring.md":           "Metrics export in Prometheus format on port 9090. Dashboard templates ship for Grafana.",
-    "guides/troubleshooting.md":      "Common errors and their resolutions. Check the status page first if multiple users are affected.",
-    "guides/best-practices.md":       "Production-grade recommendations for security, performance, and reliability.",
-    "api/overview.md":                "The REST API uses standard HTTPS with bearer token auth. All responses are JSON.",
-    "api/rate-limits.md":             "Free plan is 100 requests per day. Pro plan is unlimited within fair use. Enterprise has custom limits.",
-    "api/errors.md":                  "All errors return standard HTTP status codes with a JSON body describing the cause.",
-    "README.md":                      "Overview of our tool for new users. Start with the Getting Started guide.",
-    "CHANGELOG.md":                   "Release notes by version, newest first. Major releases follow semantic versioning.",
-}
-
-# Marketing branch: raise the Pro price and refresh enterprise messaging.
-pricing_refresh = {
-    "pricing/pro-tier.md":   "The Pro tier costs $39 per month and includes 200 GB of storage, unlimited API calls, team collaboration for unlimited seats, and SSO support.",
-    "pricing/enterprise.md": "Enterprise pricing starts at $499 per month with custom volume discounts. SSO, audit logs, and dedicated support included.",
-}
-
-# Compliance branch: add GDPR language to the Pro tier page and tighten the refund window.
-compliance_update = {
-    "pricing/pro-tier.md": "The Pro tier costs $29 per month and includes 100 GB of storage, unlimited API calls, and team collaboration for up to 10 seats. EU customers: data is processed under GDPR with EU-region storage.",
-    "policies/refunds.md": "Refunds are processed within 14 days for Pro customers and 30 days for Free tier. No questions asked within the first 7 days.",
-}
-
-# main keeps committing after the two branches fork off: it edits a shared file and adds a new one.
-main_later_edit = {
-    "api/rate-limits.md": "Free plan is 60 requests per minute. Pro and Enterprise are unlimited within fair use, with burst credits.",
-    "policies/sla.md":    "Service level agreement: 99.9% uptime for Pro and Enterprise, measured monthly with service credits for breaches.",
-}
-```
-
-Two cases this design has to get right:
-
-1. **Per-branch versions of the same file.** Both forks edit `pricing/pro-tier.md`: `pricing-refresh` raises the price and adds SSO, while `compliance-update` adds GDPR copy at the original price. The same path should resolve to three different versions across the three branches.
-2. **Timing.** After both branches fork off `main`, `main` keeps moving: it edits the shared `api/rate-limits.md` and adds `policies/sla.md`. Each fork should still see `main`'s files as they were at the fork point, not these later changes.
-
-## How a Branch Sees Content
-
-A branch records its fork point as `(parent, parent's seq at fork)`. From there, what the branch sees is its own commits plus everything inherited from its ancestors up to the fork point, minus anything superseded along the way:
-
-```text
-main ──● seq0 ───────────────────● seq1
-       │  (20 base files)          (edit api/rate-limits.md, add policies/sla.md)
-       ├── pricing-refresh ● seq0
-       └── compliance-update ● seq0
-```
-
-Both branches forked at `main seq0`, so each sees `main` as it stood at that fork. 
-
-Three pieces of runtime state encode this in plain Python:
-
-```python
-lineage: dict[str, tuple[str, int] | None] = {}  # branch -> (parent, fork_seq)
-last_seq: dict[str, int] = {}  # branch -> its latest commit seq (-1 before first)
-head: dict[str, dict[str, str]] = {}  # branch -> {path -> current point id}
-```
-
-`lineage` is the durable per-branch record. <br>`head` and `last_seq` are replay bookkeeping, rebuilt from version control on startup.
-
-<aside role="status">
-In the tutorial these dicts live in process memory. In production, persist the per-branch <code>lineage</code> records (the only durable state) somewhere small and reachable: a JSON manifest checked into the repo, a metadata table, or a separate Qdrant collection with one point per branch. The <code>head</code> map stays a replay cache, rebuild it from version control alongside the collection.
-</aside>
-
-## Collection Schema
-
-Each point in the collection has three payload fields:
-
-- `branch`: the branch that wrote a version.
-- `seq`: a per-branch counter we assign on each commit (`0`, `1`, `2`, ...), not the git commit hash. It orders each branch's commits, so the filter can include only the commits at or before each ancestor's fork point.
-- `overwritten_in`: a list of `{by, seq}` records, each meaning "replaced in branch `by` at that branch's commit `seq`." Overwrites and deletes both append one.
-
-Every field the visibility filter touches needs a payload index:
 
 ```python
 from qdrant_client import QdrantClient, models
+
+MODEL = "sentence-transformers/all-MiniLM-L6-v2"  # 384-dim dense vectors, free on Cloud Inference
 
 # Replace url and api_key with your own from https://cloud.qdrant.io
 client = QdrantClient(
@@ -129,220 +36,356 @@ client = QdrantClient(
 
 client.create_collection(
     collection_name="content",
-    sparse_vectors_config={
-        "bm25": models.SparseVectorParams(modifier=models.Modifier.IDF),
-    },
-)
-
-client.create_payload_index(
-    collection_name="content",
-    field_name="branch",
-    field_schema=models.PayloadSchemaType.KEYWORD,
-)
-client.create_payload_index(
-    collection_name="content",
-    field_name="seq",
-    field_schema=models.PayloadSchemaType.INTEGER,
-)
-client.create_payload_index(
-    collection_name="content",
-    field_name="overwritten_in[].by",
-    field_schema=models.PayloadSchemaType.KEYWORD,
-)
-client.create_payload_index(
-    collection_name="content",
-    field_name="overwritten_in[].seq",
-    field_schema=models.PayloadSchemaType.INTEGER,
+    vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
 )
 ```
 
-## Ingest
-
-A commit writes a new point for each file it adds or changes, tagged with the branch and its current `seq`. If the file already had a version on this branch, that prior point gets a `{by, seq}` appended to the `overwritten_in` field, marking it superseded.
-<br>The point ID is derived from `(branch, seq, path)`, so replaying the same history produces the same IDs and the rebuild path can `upsert` without duplicating points.
-
-<aside role="status">
-This tutorial uses one point per file. For chunked corpora the branch logic is unchanged, the point ID gains a stable chunk anchor, becoming <code>(branch, seq, path, anchor)</code>. See <a href="/course/essentials/day-1/chunking-strategies/">chunking strategies</a> for how to split each content type.
-</aside>
+Every point also gets a derived ID, so replaying the same history produces the same IDs and a rebuild can `upsert` without duplicating points:
 
 ```python
 import uuid
 
 NS = uuid.UUID("00000000-0000-0000-0000-000000000042")
 
-# BM25's key parameter for short fields: the average word count.
-word_counts = [len(text.split()) for text in main_docs.values()]
-AVG_LEN = round(sum(word_counts) / len(word_counts), 1)  # ~15.3 here
-
 def point_id(branch: str, seq: int, path: str) -> str:
     return str(uuid.uuid5(NS, f"{branch}|{seq}|{path}"))
-
-def create_branch(name: str, parent: str | None):
-    """Record a branch. A fork inherits the parent's view, no points written."""
-    last_seq[name] = -1
-    if parent is None:
-        lineage[name] = None
-        head[name] = {}
-    else:
-        # fork point: parent + parent's latest seq
-        lineage[name] = (parent, last_seq[parent])
-        head[name] = dict(head[parent])  # start from parent's view
-
-def supersede(branch: str, path: str, at_seq: int):
-    """Mark the version of `path` that `branch` currently sees, at `at_seq`."""
-    prev = head[branch].get(path)
-    if prev is None:
-        return
-    point = client.retrieve("content", ids=[prev])[0]
-    marks = point.payload["overwritten_in"]
-    marks.append({"by": branch, "seq": at_seq})
-    client.set_payload(
-        "content",
-        payload={"overwritten_in": marks},
-        points=[prev],
-    )
-
-def commit(branch: str, writes: dict[str, str] | None = None, deletes: list[str] | None = None):
-    """One commit at one seq: write or overwrite files, and/or delete files."""
-    writes, deletes = writes or {}, deletes or []
-    seq = last_seq[branch] + 1
-    last_seq[branch] = seq
-    points = []
-    for path, content in writes.items():
-        supersede(branch, path, seq)  # mark the version this commit replaces
-        pid = point_id(branch, seq, path)
-        points.append(models.PointStruct(
-            id=pid,
-            vector={
-                "bm25": models.Document(
-                    text=content,
-                    model="qdrant/bm25",
-                    options={"avg_len": AVG_LEN},
-                ),
-            },
-            payload={
-                "path": path,
-                "content": content,
-                "branch": branch,
-                "seq": seq,
-                "overwritten_in": [],
-            },
-        ))
-        head[branch][path] = pid
-    for path in deletes:
-        supersede(branch, path, seq)  # same record, no replacement point
-        head[branch].pop(path, None)
-    if points:
-        client.upsert(collection_name="content", points=points, wait=True)
 ```
 
-A delete writes the same record as an overwrite, with no replacement point behind it, and it is a real commit, so it carries a `seq` like any other. That `seq` is what lets a branch that forked before the delete keep the file, while the branch that deleted it (and anything forked after) does not.
+<aside role="status">
+Each step creates a payload index at the point that first needs it, so you can see why each one exists. In production, create every index before loading data and you avoid the extra indexing pass.
+</aside>
 
-Build the fixture:
+## Step 1: Add a File
 
-```python
-create_branch("main", parent=None)
-commit("main", writes=main_docs)
+Start with a single `root` branch and one commit that adds a file.
 
-create_branch("pricing-refresh", parent="main")  # forks at main seq0
-commit("pricing-refresh", writes=pricing_refresh)
-
-create_branch("compliance-update", parent="main")  # also at main seq0
-commit(
-    "compliance-update",
-    writes=compliance_update,
-    deletes=["policies/acceptable-use.md"],
-)
-
-commit("main", writes=main_later_edit)  # main seq1, after both forks
+```text
+root  ●            seq 0: add pricing.md
 ```
 
-Each fork wrote only the files it changed, and `main`'s later commit wrote two points (the edited `api/rate-limits.md` and the new `policies/sla.md`). The collection holds 26 physical points: the 20 base files, two versions from each fork, and the two from `main`'s later commit.
-
-## Query
-
-A query on a branch is one filter built from a lineage walk. <br>For each branch on the path there's a **cutoff**, the highest `seq` to include from that branch: for the querying branch itself, that's its latest commit; for an ancestor, the `seq` at which this line forked from it. <br>Both filter clauses key off those cutoffs. The `should` clause (the candidates to consider) gathers each branch's versions up to its cutoff. The `must_not` clause (the ones to drop) excludes anything that branch superseded at or before its cutoff, using a [nested filter](/documentation/search/filtering/#nested-object-filter) so `by` and `seq` match on the same record:
+A commit is numbered with a per-branch `seq` (`0`, `1`, `2`, ...). Each file it writes becomes a point tagged with the `branch` that wrote it, the `seq`, and the file `path`. To find a file on a branch later, we filter on `path` and `branch`, so both need a payload index:
 
 ```python
-def candidate_clause(b: str, cut: int) -> models.Filter:
-    """Versions written on branch b with seq up to cut."""
-    return models.Filter(must=[
-        models.FieldCondition(key="branch", match=models.MatchValue(value=b)),
-        models.FieldCondition(key="seq", range=models.Range(lte=cut)),
-    ])
+client.create_payload_index(collection_name="content", field_name="path", field_schema=models.PayloadSchemaType.KEYWORD)
+client.create_payload_index(collection_name="content", field_name="branch", field_schema=models.PayloadSchemaType.KEYWORD)
+```
 
-def exclusion_clause(b: str, cut: int) -> models.NestedCondition:
-    """Match if overwritten_in has {by: b, seq <= cut} on the same record."""
-    return models.NestedCondition(nested=models.Nested(
-        key="overwritten_in",
-        filter=models.Filter(must=[
-            models.FieldCondition(key="by", match=models.MatchValue(value=b)),
-            models.FieldCondition(key="seq", range=models.Range(lte=cut)),
+The write itself embeds the content and stores the three fields, plus an empty `overwritten_in` list we'll use shortly:
+
+```python
+def update(file_name, branch, seq, content):
+    client.upsert(collection_name="content", points=[models.PointStruct(
+        id=point_id(branch, seq, file_name),
+        vector=models.Document(text=content, model=MODEL),
+        payload={"path": file_name, "content": content, "branch": branch, "seq": seq, "overwritten_in": []},
+    )])
+```
+
+Commit `seq 0` on `root`, which writes three files:
+
+```python
+update("pricing.md", "root", seq=0, content="The Pro tier costs $29 per month with 100 GB of storage.")
+update("notes.md",   "root", seq=0, content="Internal launch notes. Remove before the public release.")
+update("terms.md",   "root", seq=0, content="Standard terms of service apply to all plans.")
+```
+
+Reading a file back on a branch is a filter on `path` and `branch`. Use `scroll`, which returns points matching a filter:
+
+```python
+def lookup(file_name, branch):
+    points, _ = client.scroll(
+        collection_name="content",
+        scroll_filter=models.Filter(must=[
+            models.FieldCondition(key="path", match=models.MatchValue(value=file_name)),
+            models.FieldCondition(key="branch", match=models.MatchValue(value=branch)),
         ]),
+        limit=1, with_payload=True,
+    )
+    return points[0] if points else None
+```
+
+```python
+lookup("pricing.md", "root").payload["content"]
+# The Pro tier costs $29 per month with 100 GB of storage.
+```
+
+## Step 2: Update a File
+
+A second commit changes a file that already exists.
+
+```text
+root  ●───────●        seq 1: update pricing.md
+      seq 0   seq 1
+```
+
+The old point stays in the collection. We mark it superseded so a later read skips it: `overwritten_in` is a list of `{by, seq}` records, each meaning "replaced in branch `by` at that branch's commit `seq`." A write now first marks the version this branch currently sees, then upserts the new one:
+
+```python
+def supersede(point, by, seq):
+    marks = point.payload["overwritten_in"] + [{"by": by, "seq": seq}]
+    client.set_payload(collection_name="content", payload={"overwritten_in": marks}, points=[point.id])
+
+def update(file_name, branch, seq, content):
+    prev = lookup(file_name, branch)
+    if prev:
+        supersede(prev, by=branch, seq=seq)
+    client.upsert(collection_name="content", points=[models.PointStruct(
+        id=point_id(branch, seq, file_name),
+        vector=models.Document(text=content, model=MODEL),
+        payload={"path": file_name, "content": content, "branch": branch, "seq": seq, "overwritten_in": []},
+    )])
+```
+
+To skip the superseded point, the read excludes any version this branch marked. That's the first index on `overwritten_in`, on the branch that did the replacing:
+
+```python
+client.create_payload_index(collection_name="content", field_name="overwritten_in.by", field_schema=models.PayloadSchemaType.KEYWORD)
+```
+
+`lookup` now adds a `must_not` that drops anything carrying this branch's mark:
+
+```python
+def visibility_filter(branch, path=None):
+    must = [models.FieldCondition(key="branch", match=models.MatchValue(value=branch))]
+    if path:
+        must.append(models.FieldCondition(key="path", match=models.MatchValue(value=path)))
+    excluded = models.NestedCondition(nested=models.Nested(
+        key="overwritten_in",
+        filter=models.Filter(must=[models.FieldCondition(key="by", match=models.MatchValue(value=branch))]),
     ))
+    return models.Filter(must=must, must_not=[excluded])
 
-def visibility_filter(branch: str) -> models.Filter:
-    # Walk lineage: (branch, cutoff) for this branch then each ancestor.
-    cutoffs = [(branch, last_seq[branch])]
-    node = lineage[branch]
+def lookup(file_name, branch):
+    points, _ = client.scroll(
+        collection_name="content",
+        scroll_filter=visibility_filter(branch, path=file_name),
+        limit=1, with_payload=True,
+    )
+    return points[0] if points else None
+```
+
+Every point still records its `seq`; the filter only uses it once branches appear.
+
+```python
+update("pricing.md", "root", seq=1, content="The Pro tier costs $39 per month with 200 GB of storage and unlimited seats.")
+
+lookup("pricing.md", "root").payload["content"]
+# The Pro tier costs $39 per month with 200 GB of storage and unlimited seats.
+```
+
+## Step 3: Delete a File
+
+A delete is a commit too, so it carries a `seq` like any other. It writes the same supersession mark as an overwrite, with no replacement point behind it:
+
+```text
+root  ●───────●───────●    seq 2: delete notes.md
+      seq 0   seq 1   seq 2
+```
+
+```python
+def delete(file_name, branch, seq):
+    supersede(lookup(file_name, branch), by=branch, seq=seq)  # mark, no replacement point
+```
+
+```python
+delete("notes.md", "root", seq=2)
+
+lookup("notes.md", "root")
+# None
+```
+
+The point is still stored, but `notes.md` no longer resolves on `root`. That recorded `seq` is what will let a branch that forked before the delete keep the file.
+
+## Step 4: Branch Off the Root
+
+A fork records where it started, the parent and the parent's latest `seq`, and writes no points. Its view begins as whatever the parent has at that `seq`.
+
+```text
+root  ●──●──●            seq 0–2
+            └── A ●      A forks at root seq 2; A seq 0: add roadmap.md
+```
+
+Lineage is the only durable state, and it mirrors what your version control already tracks. Store it however you like; here it's one record per branch:
+
+```python
+branches = {"root": None}  # branch -> (parent, fork_seq), or None for the root
+
+def fork(child, parent, at_seq):
+    branches[child] = (parent, at_seq)
+```
+
+A read on a branch now considers that branch and every ancestor up to its fork point. Walk the lineage, then build one candidate clause and one exclusion clause per branch on the path. The candidates (a `should`, so any one can match) gather each branch's versions; the exclusions (a `must_not`) drop anything those branches superseded:
+
+```python
+def ancestry(branch):
+    yield branch
+    node = branches[branch]
     while node is not None:
-        parent, fork = node
-        cutoffs.append((parent, fork))
-        node = lineage[parent]
+        parent, _ = node
+        yield parent
+        node = branches[parent]
 
+def visibility_filter(branch, path=None):
+    must = [models.FieldCondition(key="path", match=models.MatchValue(value=path))] if path else []
     should, must_not = [], []
-    for b, cut in cutoffs:
-        should.append(candidate_clause(b, cut))
-        must_not.append(exclusion_clause(b, cut))
-    return models.Filter(should=should, must_not=must_not)
+    for b in ancestry(branch):
+        should.append(models.Filter(must=[models.FieldCondition(key="branch", match=models.MatchValue(value=b))]))
+        must_not.append(models.NestedCondition(nested=models.Nested(
+            key="overwritten_in",
+            filter=models.Filter(must=[models.FieldCondition(key="by", match=models.MatchValue(value=b))]),
+        )))
+    return models.Filter(must=must, should=should, must_not=must_not)
+```
 
-def search(branch: str, query: str, limit: int = 5):
+Fork `A` and add a file that only `A` has:
+
+```python
+fork("A", "root", at_seq=2)
+update("roadmap.md", "A", seq=0, content="Draft roadmap for the next two quarters. Not for publication.")
+
+lookup("roadmap.md", "A").payload["content"]   # A's own file
+# Draft roadmap for the next two quarters. Not for publication.
+lookup("roadmap.md", "root")                   # root never sees it
+# None
+lookup("pricing.md", "A").payload["content"]   # inherited from root
+# The Pro tier costs $39 per month with 200 GB of storage and unlimited seats.
+```
+
+## Step 5: Change an Inherited File on the Branch
+
+`A` edits `pricing.md`, a file it inherited from `root`.
+
+```text
+root  ●──●──●            seq 0–2
+            └── A ●──●   A seq 1: update pricing.md
+```
+
+Nothing new is needed. `update` looks up the version `A` currently sees, which is `root`'s, and marks it, this time with `by: A`:
+
+```python
+update("pricing.md", "A", seq=1, content="The Pro tier costs $39 per month with 200 GB of storage, unlimited seats, and SSO.")
+```
+
+The mark `{by: A, seq: 1}` lands on `root`'s `pricing.md` point. Because the exclusion matches on `by`, it removes that version for `A` but not for `root`, whose filter only drops versions marked `by: root`. The same file now resolves differently on each branch:
+
+```python
+lookup("pricing.md", "A").payload["content"]
+# The Pro tier costs $39 per month with 200 GB of storage, unlimited seats, and SSO.
+lookup("pricing.md", "root").payload["content"]
+# The Pro tier costs $39 per month with 200 GB of storage and unlimited seats.
+```
+
+## Step 6: Commit on the Root After the Fork
+
+`root` keeps moving after `A` forked off. It updates `terms.md`, a file `A` inherited but never touched.
+
+```text
+root  ●──●──●──────●    root seq 3: update terms.md
+            └── A ●──●  A forked at seq 2, so it should not see seq 3
+```
+
+```python
+update("terms.md", "root", seq=3, content="Updated terms of service, effective Q3, with the new data-retention clause.")
+```
+
+`A` forked at `root` `seq 2`, so it should not see anything `root` committed later, including this `seq 3` edit. The bound is the `seq` we've recorded all along: each ancestor counts only up to the `seq` where this branch forked from it. <br>The cutoff applies on both sides of the filter: the candidate clause includes an ancestor's versions only up to the fork `seq`, and the exclusion clause honors only the marks it stamped by then, so a later change can neither appear nor hide the version `A` kept.
+
+That cutoff is a range on `seq`, on both the points and the marks, so both fields need an index:
+
+```python
+client.create_payload_index(collection_name="content", field_name="seq", field_schema=models.PayloadSchemaType.INTEGER)
+client.create_payload_index(collection_name="content", field_name="overwritten_in.seq", field_schema=models.PayloadSchemaType.INTEGER)
+```
+
+The walk now carries each branch's cutoff: the branch itself has none (all its own commits count), and each ancestor is bound to its fork `seq`. This is the final form of the filter:
+
+```python
+def ancestry(branch):
+    yield (branch, None)  # the branch itself: no upper bound on its own commits
+    node = branches[branch]
+    while node is not None:
+        parent, fork_seq = node
+        yield (parent, fork_seq)
+        node = branches[parent]
+
+def visibility_filter(branch, path=None):
+    must = [models.FieldCondition(key="path", match=models.MatchValue(value=path))] if path else []
+    should, must_not = [], []
+    for b, cut in ancestry(branch):
+        candidate = [models.FieldCondition(key="branch", match=models.MatchValue(value=b))]
+        excluded = [models.FieldCondition(key="by", match=models.MatchValue(value=b))]
+        if cut is not None:  # an ancestor: only up to the fork point
+            candidate.append(models.FieldCondition(key="seq", range=models.Range(lte=cut)))
+            excluded.append(models.FieldCondition(key="seq", range=models.Range(lte=cut)))
+        should.append(models.Filter(must=candidate))
+        must_not.append(models.NestedCondition(nested=models.Nested(
+            key="overwritten_in", filter=models.Filter(must=excluded))))
+    return models.Filter(must=must, should=should, must_not=must_not)
+```
+
+The candidate clause stops including `root`'s versions past `seq 2`, and the exclusion ignores marks stamped after `seq 2`. `A` keeps the `terms.md` it forked from; `root` sees the new one:
+
+```python
+lookup("terms.md", "A").payload["content"]
+# Standard terms of service apply to all plans.
+lookup("terms.md", "root").payload["content"]
+# Updated terms of service, effective Q3, with the new data-retention clause.
+```
+
+## Step 7: A Second Branch, Same File
+
+Fork `B` off `root` and have it overwrite `pricing.md`, the same file `A` already changed.
+
+```text
+root  ●──●──●──────●         root seq 0–3
+            ├── A ●──●       A: pricing.md with SSO
+            └── B ●          B forks at root seq 3; B seq 0: update pricing.md
+```
+
+```python
+fork("B", "root", at_seq=3)
+update("pricing.md", "B", seq=0, content="The Pro tier costs $39 per month with 200 GB of storage. EU customers: data stays in-region under GDPR.")
+```
+
+`root`'s `pricing.md` point now carries two marks, `{by: A, seq: 1}` and `{by: B, seq: 0}`. Each branch's exclusion matches only its own `by` on a single record, so the three branches resolve the same path three ways, with no leakage between the two forks:
+
+```python
+for branch in ["root", "A", "B"]:
+    print(branch, "→", lookup("pricing.md", branch).payload["content"])
+# root → The Pro tier costs $39 per month with 200 GB of storage and unlimited seats.
+# A    → The Pro tier costs $39 per month with 200 GB of storage, unlimited seats, and SSO.
+# B    → The Pro tier costs $39 per month with 200 GB of storage. EU customers: data stays in-region under GDPR.
+```
+
+## Searching a Branch
+
+`lookup` resolves one known path; a search ranks the whole corpus by relevance. It's the same visibility filter, passed to a semantic query instead of a path scroll:
+
+```python
+def search(query, branch, limit=5):
     return client.query_points(
         collection_name="content",
-        query=models.Document(
-            text=query,
-            model="qdrant/bm25",
-            options={"avg_len": AVG_LEN},
-        ),
-        using="bm25",
+        query=models.Document(text=query, model=MODEL),
         query_filter=visibility_filter(branch),
-        limit=limit,
-        with_payload=True,
+        limit=limit, with_payload=True,
     ).points
 ```
 
-Run a query that lands on `pricing/pro-tier.md`, against all three branches:
+The same query, scoped to each branch, returns that branch's live version of the page:
 
 ```python
-for branch in ["main", "pricing-refresh", "compliance-update"]:
-    print(f"{branch}:", search(branch, "Pro tier storage and seats", limit=1)[0].payload["content"])
-
-# Output:
-# main: The Pro tier costs $29 per month and includes 100 GB of storage, unlimited API calls, and team collaboration for up to 10 seats.
-# pricing-refresh: The Pro tier costs $39 per month and includes 200 GB of storage, unlimited API calls, team collaboration for unlimited seats, and SSO support.
-# compliance-update: The Pro tier costs $29 per month and includes 100 GB of storage, unlimited API calls, and team collaboration for up to 10 seats. EU customers: data is processed under GDPR with EU-region storage.
+for branch in ["root", "A", "B"]:
+    print(branch, "→", search("how much does the pro plan cost", branch, limit=1)[0].payload["content"])
+# root → The Pro tier costs $39 per month with 200 GB of storage and unlimited seats.
+# A    → The Pro tier costs $39 per month with 200 GB of storage, unlimited seats, and SSO.
+# B    → The Pro tier costs $39 per month with 200 GB of storage. EU customers: data stays in-region under GDPR.
 ```
-
-Same query, three branches, three different answers. `pricing-refresh` returns its $39 page with SSO. `compliance-update` returns its GDPR variant. `main` returns the original.
-
-Now the timing case. `main` edited `api/rate-limits.md` at `seq 1`, after both branches forked. `main` now shows the new text; the forks still see the version they inherited:
-
-```python
-for branch in ["main", "pricing-refresh"]:
-    print(f"{branch}:", search(branch, "rate limits requests free plan", limit=1)[0].payload["content"])
-
-# Output:
-# main: Free plan is 60 requests per minute. Pro and Enterprise are unlimited within fair use, with burst credits.
-# pricing-refresh: Free plan is 100 requests per day. Pro plan is unlimited within fair use. Enterprise has custom limits.
-```
-
-`pricing-refresh` forked at `main`'s `seq 0`, before the `seq 1` edit. Its cutoff for `main` is `0`, so the record stamped at `seq 1` falls past the cutoff, the exclusion doesn't apply, and the pre-edit version stays visible. The same cutoff hides `policies/sla.md` (which `main` added at `seq 1`) from both forks.
 
 ## Scaling to Production
 
-- **The filter grows with lineage depth, not corpus size.** The query walks the lineage once, adding one `should` clause and one `must_not` clause per ancestor. The filter's size tracks how deep a branch sits, not how many files or versions the collection holds.
+- **The filter grows with lineage depth, not corpus size.** Each query walks the lineage once, adding one candidate clause and one exclusion clause per ancestor. The filter's size tracks how deep a branch sits, not how many files or versions the collection holds.
 
-- **Qdrant is a derived index.** Branch lineage and history live in version control. Build the collection by replaying that history, and if the index ever drifts, rebuild it. Nothing here needs the index to be the source of truth.
+- **Qdrant is a derived index.** Branch lineage and history live in version control. Build the collection by replaying that history, and if the index ever drifts, rebuild it. The derived point IDs make a full replay idempotent: the same commit writes the same point, so `upsert` overwrites cleanly.
 
 - **Storage grows with edits.** Every overwrite keeps the old version as a point, so long-lived branches accumulate versions. Reclaiming superseded versions is a production concern.
 
@@ -350,6 +393,6 @@ for branch in ["main", "pricing-refresh"]:
 
 ## Related Reading
 
-- [Filtering](/documentation/search/filtering/) for the full set of filter clauses.
-- [Text Search](/documentation/search/text-search/) for BM25 and the `avg_len` parameter.
+- [Filtering](/documentation/search/filtering/) for the full set of filter clauses, including the [nested object filter](/documentation/search/filtering/#nested-object-filter) that binds `by` and `seq` on the same record.
 - [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for the index types the visibility fields use.
+- [Qdrant Cloud Inference](/documentation/inference/#qdrant-cloud-inference) for generating the dense embeddings server-side.
