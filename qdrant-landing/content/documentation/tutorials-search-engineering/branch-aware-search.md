@@ -25,7 +25,8 @@ This tutorial uses <a href="/documentation/inference/#qdrant-cloud-inference">Qd
 ```python
 from qdrant_client import QdrantClient, models
 
-MODEL = "sentence-transformers/all-MiniLM-L6-v2"  # 384-dim dense vectors, free on Cloud Inference
+# 384-dim dense vectors, free on Cloud Inference
+MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 # Replace url and api_key with your own from https://cloud.qdrant.io
 client = QdrantClient(
@@ -36,7 +37,8 @@ client = QdrantClient(
 
 client.create_collection(
     collection_name="content",
-    vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
+    vectors_config=models.VectorParams(
+        size=384, distance=models.Distance.COSINE),
 )
 ```
 
@@ -66,8 +68,14 @@ root  ●            seq 0: add pricing.md
 A commit is numbered with a per-branch `seq` (`0`, `1`, `2`, ...). Each file it writes becomes a point tagged with the `branch` that wrote it, the `seq`, and the file `path`. To find a file on a branch later, we filter on `path` and `branch`, so both need a payload index:
 
 ```python
-client.create_payload_index(collection_name="content", field_name="path", field_schema=models.PayloadSchemaType.KEYWORD)
-client.create_payload_index(collection_name="content", field_name="branch", field_schema=models.PayloadSchemaType.KEYWORD)
+client.create_payload_index(
+    collection_name="content", field_name="path",
+    field_schema=models.PayloadSchemaType.KEYWORD,
+)
+client.create_payload_index(
+    collection_name="content", field_name="branch",
+    field_schema=models.PayloadSchemaType.KEYWORD,
+)
 ```
 
 The write itself embeds the content and stores the three fields, plus an empty `overwritten_in` list we'll use shortly:
@@ -77,7 +85,10 @@ def update(file_name, branch, seq, content):
     client.upsert(collection_name="content", points=[models.PointStruct(
         id=point_id(branch, seq, file_name),
         vector=models.Document(text=content, model=MODEL),
-        payload={"path": file_name, "content": content, "branch": branch, "seq": seq, "overwritten_in": []},
+        payload={
+            "path": file_name, "content": content,
+            "branch": branch, "seq": seq, "overwritten_in": [],
+        },
     )])
 ```
 
@@ -96,8 +107,10 @@ def lookup(file_name, branch):
     points, _ = client.scroll(
         collection_name="content",
         scroll_filter=models.Filter(must=[
-            models.FieldCondition(key="path", match=models.MatchValue(value=file_name)),
-            models.FieldCondition(key="branch", match=models.MatchValue(value=branch)),
+            models.FieldCondition(
+                key="path", match=models.MatchValue(value=file_name)),
+            models.FieldCondition(
+                key="branch", match=models.MatchValue(value=branch)),
         ]),
         limit=1, with_payload=True,
     )
@@ -123,7 +136,11 @@ The old point stays in the collection. We mark it superseded so a later read ski
 ```python
 def supersede(point, by, seq):
     marks = point.payload["overwritten_in"] + [{"by": by, "seq": seq}]
-    client.set_payload(collection_name="content", payload={"overwritten_in": marks}, points=[point.id])
+    client.set_payload(
+        collection_name="content",
+        payload={"overwritten_in": marks},
+        points=[point.id],
+    )
 
 def update(file_name, branch, seq, content):
     prev = lookup(file_name, branch)
@@ -132,26 +149,35 @@ def update(file_name, branch, seq, content):
     client.upsert(collection_name="content", points=[models.PointStruct(
         id=point_id(branch, seq, file_name),
         vector=models.Document(text=content, model=MODEL),
-        payload={"path": file_name, "content": content, "branch": branch, "seq": seq, "overwritten_in": []},
+        payload={
+            "path": file_name, "content": content,
+            "branch": branch, "seq": seq, "overwritten_in": [],
+        },
     )])
 ```
 
 To skip the superseded point, the read excludes any version this branch marked. That's the first index on `overwritten_in`, on the branch that did the replacing:
 
 ```python
-client.create_payload_index(collection_name="content", field_name="overwritten_in.by", field_schema=models.PayloadSchemaType.KEYWORD)
+client.create_payload_index(
+    collection_name="content", field_name="overwritten_in.by",
+    field_schema=models.PayloadSchemaType.KEYWORD,
+)
 ```
 
 `lookup` now adds a `must_not` that drops anything carrying this branch's mark:
 
 ```python
 def visibility_filter(branch, path=None):
-    must = [models.FieldCondition(key="branch", match=models.MatchValue(value=branch))]
+    must = [models.FieldCondition(
+        key="branch", match=models.MatchValue(value=branch))]
     if path:
-        must.append(models.FieldCondition(key="path", match=models.MatchValue(value=path)))
+        must.append(models.FieldCondition(
+            key="path", match=models.MatchValue(value=path)))
     excluded = models.NestedCondition(nested=models.Nested(
         key="overwritten_in",
-        filter=models.Filter(must=[models.FieldCondition(key="by", match=models.MatchValue(value=branch))]),
+        filter=models.Filter(must=[models.FieldCondition(
+            key="by", match=models.MatchValue(value=branch))]),
     ))
     return models.Filter(must=must, must_not=[excluded])
 
@@ -184,7 +210,7 @@ root  ●───────●───────●    seq 2: delete notes
 
 ```python
 def delete(file_name, branch, seq):
-    supersede(lookup(file_name, branch), by=branch, seq=seq)  # mark, no replacement point
+    supersede(lookup(file_name, branch), by=branch, seq=seq)  # no new point
 ```
 
 ```python
@@ -208,7 +234,7 @@ root  ●──●──●            seq 0–2
 Lineage is the only durable state, and it mirrors what your version control already tracks. Store it however you like; here it's one record per branch:
 
 ```python
-branches = {"root": None}  # branch -> (parent, fork_seq), or None for the root
+branches = {"root": None}  # branch -> (parent, fork_seq), None for root
 
 def fork(child, parent, at_seq):
     branches[child] = (parent, at_seq)
@@ -226,13 +252,18 @@ def ancestry(branch):
         node = branches[parent]
 
 def visibility_filter(branch, path=None):
-    must = [models.FieldCondition(key="path", match=models.MatchValue(value=path))] if path else []
+    must = []
+    if path:
+        must.append(models.FieldCondition(
+            key="path", match=models.MatchValue(value=path)))
     should, must_not = [], []
     for b in ancestry(branch):
-        should.append(models.Filter(must=[models.FieldCondition(key="branch", match=models.MatchValue(value=b))]))
+        should.append(models.Filter(must=[models.FieldCondition(
+            key="branch", match=models.MatchValue(value=b))]))
         must_not.append(models.NestedCondition(nested=models.Nested(
             key="overwritten_in",
-            filter=models.Filter(must=[models.FieldCondition(key="by", match=models.MatchValue(value=b))]),
+            filter=models.Filter(must=[models.FieldCondition(
+                key="by", match=models.MatchValue(value=b))]),
         )))
     return models.Filter(must=must, should=should, must_not=must_not)
 ```
@@ -293,15 +324,21 @@ update("terms.md", "root", seq=3, content="Updated terms of service, effective Q
 That cutoff is a range on `seq`, on both the points and the marks, so both fields need an index:
 
 ```python
-client.create_payload_index(collection_name="content", field_name="seq", field_schema=models.PayloadSchemaType.INTEGER)
-client.create_payload_index(collection_name="content", field_name="overwritten_in.seq", field_schema=models.PayloadSchemaType.INTEGER)
+client.create_payload_index(
+    collection_name="content", field_name="seq",
+    field_schema=models.PayloadSchemaType.INTEGER,
+)
+client.create_payload_index(
+    collection_name="content", field_name="overwritten_in.seq",
+    field_schema=models.PayloadSchemaType.INTEGER,
+)
 ```
 
 The walk now carries each branch's cutoff: the branch itself has none (all its own commits count), and each ancestor is bound to its fork `seq`. This is the final form of the filter:
 
 ```python
 def ancestry(branch):
-    yield (branch, None)  # the branch itself: no upper bound on its own commits
+    yield (branch, None)  # the branch itself: all its own commits
     node = branches[branch]
     while node is not None:
         parent, fork_seq = node
@@ -309,14 +346,21 @@ def ancestry(branch):
         node = branches[parent]
 
 def visibility_filter(branch, path=None):
-    must = [models.FieldCondition(key="path", match=models.MatchValue(value=path))] if path else []
+    must = []
+    if path:
+        must.append(models.FieldCondition(
+            key="path", match=models.MatchValue(value=path)))
     should, must_not = [], []
     for b, cut in ancestry(branch):
-        candidate = [models.FieldCondition(key="branch", match=models.MatchValue(value=b))]
-        excluded = [models.FieldCondition(key="by", match=models.MatchValue(value=b))]
+        candidate = [models.FieldCondition(
+            key="branch", match=models.MatchValue(value=b))]
+        excluded = [models.FieldCondition(
+            key="by", match=models.MatchValue(value=b))]
         if cut is not None:  # an ancestor: only up to the fork point
-            candidate.append(models.FieldCondition(key="seq", range=models.Range(lte=cut)))
-            excluded.append(models.FieldCondition(key="seq", range=models.Range(lte=cut)))
+            candidate.append(models.FieldCondition(
+                key="seq", range=models.Range(lte=cut)))
+            excluded.append(models.FieldCondition(
+                key="seq", range=models.Range(lte=cut)))
         should.append(models.Filter(must=candidate))
         must_not.append(models.NestedCondition(nested=models.Nested(
             key="overwritten_in", filter=models.Filter(must=excluded))))
@@ -375,7 +419,8 @@ The same query, scoped to each branch, returns that branch's live version of the
 
 ```python
 for branch in ["root", "A", "B"]:
-    print(branch, "→", search("how much does the pro plan cost", branch, limit=1)[0].payload["content"])
+    hit = search("how much does the pro plan cost", branch, limit=1)[0]
+    print(branch, "→", hit.payload["content"])
 # root → The Pro tier costs $39 per month with 200 GB of storage and unlimited seats.
 # A    → The Pro tier costs $39 per month with 200 GB of storage, unlimited seats, and SSO.
 # B    → The Pro tier costs $39 per month with 200 GB of storage. EU customers: data stays in-region under GDPR.
