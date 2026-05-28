@@ -2,6 +2,7 @@
 <html lang="en">
   {{- partial "head.html" . -}}
   <body>
+    {{- partial "validate-content.html" . -}}
     <main>
       {{ if (eq .Params.type "external-link") }}
         Redirecting to <a href="{{ .Params.external_url }}">external page</a>...
