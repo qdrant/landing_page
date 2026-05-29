@@ -11,24 +11,24 @@ weight: 10
 
 ## Inviting Users to an Account
 
-
-
-Account users can be managed via the **User Management** section. Start by selecting a role from the dropdown and then type the name of the user you wish to manage. For users who are not in your account you will have the option to invite them. For users already in your account you can add them to the role, or see if the role has already been assigned to them.
+Account users can be managed via the **User Management** section. To invite new users, click on the Invite User button which will open up a dialog asking for the email address and the role into which the user should be invited.
 
 ![image.png](/documentation/cloud/role-based-access-control/user-invitation.png)
-![image.png](/documentation/cloud/role-based-access-control/user-addition.png)
 
 ### Accepting an Invitation
-
+ 
 After inviting a user, they will receive an email prompting them to join the account. After clicking the link in the email, they are directed to the Qdrant Cloud portal, where a banner at the top of the page enables them to accept or decline the invitation.
 
 ### Inviting Users from a Role
 
-Users can be invited attached to a specific role by inviting them through the **Role Details** page - just click on the Users tab and follow the prompts.
+To invite a user directly into a specific Role on the **Role Details** page - just click the Users tab to find the **Add Existing Member** button. Users can also be invited to a Role directly via the **User Management** section as well
 
 Once accepted, they'll be assigned that role's permissions, along with the base role.
 
+
 ![image.png](/documentation/cloud/role-based-access-control/invite-user.png)
+
+![image.png](/documentation/cloud/role-based-access-control/add-existing-member.png)
 
 ### Revoking an Invitation
 
