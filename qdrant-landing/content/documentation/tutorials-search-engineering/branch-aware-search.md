@@ -353,30 +353,137 @@ client.create_payload_index(
 )
 ```
 
-`visibility_filter` now reads the cutoff: the branch itself has none (all its own commits count), and each ancestor is bound to its fork `seq`. This is the final form:
+`visibility_filter` now reads the cutoff: the branch itself has none (all its own commits count), and each ancestor is bound to its fork `seq`.
+This is the final form:
 
 ```python
-def visibility_filter(ancestry, path=None):
+def branch_filter(
+        branch: str,
+        ancestry: List[Tuple[str, int]]
+    ) -> models.Filter:
+    """
+    Returns a filter, that matches only active
+    files in the current branch view.
+
+    Ancestry is a list of (branch, fork_seq)
+    pairs, ordered from the branch itself
+    Example:
+        branch = "A"
+        ancestry = [("root", 2)]
+
+    Simplified example of the retult:
+
+    filter: {
+        should = [
+            { "must": [ branch == "a" ] },
+            { "must": [ branch == "root", seq <= 2 ] }
+        ]
+        must_not = [
+            { "nested": overwritten_in { by == "a" } },
+            { "nested": overwritten_in { by == "root", seq <= 2 } }
+        ]
+    }
+
+    """
+    ...
+
+```
+
+<details>
+
+<summary>Full filter code</summary>
+
+```python
+def branch_filter(
+        branch: str,
+        ancestry: List[Tuple[str, int]]
+    ) -> models.Filter:
+
+    # Selctor for the current branch
+    should = [
+        model.FieldCondition(
+            key="branch",
+            match=model.MatchValue(value=branch)
+        )
+    ]
+
+    # Exclude files deleted in current branch
+    must_not = [
+        models.NestedCondition(
+            nested=models.Nested(
+                key="overwritten_in",
+                filter=models.Filter(
+                    must=[
+                        models.FieldCondition(
+                            key="by",
+                            match=models.MatchValue(value=branch)
+                        )
+                    ]
+                )
+            )
+        )
+    ]
+
+    for branch, cut in ancestry:
+        branch_selector = models.Filter(
+            must=[
+                models.FieldCondition(
+                    key="branch",
+                    match=models.MatchValue(value=branch)
+                ),
+                models.FieldCondition(
+                    key="seq",
+                    range=models.Range(lte=cut)
+                )
+            ]
+        )
+        should.append(branch_selector)
+
+        overwrite_exclusion = models.NestedCondition(
+            nested=models.Nested(
+                key="overwritten_in",
+                filter=models.Filter(
+                    must=[
+                        models.FieldCondition(
+                            key="by",
+                            match=models.MatchValue(value=branch)
+                        ),
+                        models.FieldCondition(
+                            key="seq",
+                            range=models.Range(lte=cut)
+                        )
+                    ]
+                )
+            )
+        )
+        must_not.append(overwrite_exclusion)
+
+
+    return models.Filter(should=should, must_not=must_not)
+
+```
+
+and the full filter with optional file path would be constructed like this:
+
+```python
+
+def visibility_filter(branch, ancestry, path=None):
     must = []
     if path:
-        must.append(models.FieldCondition(
-            key="path", match=models.MatchValue(value=path)))
-    should, must_not = [], []
-    for branch, cut in ancestry:
-        candidate = [models.FieldCondition(
-            key="branch", match=models.MatchValue(value=branch))]
-        excluded = [models.FieldCondition(
-            key="by", match=models.MatchValue(value=branch))]
-        if cut is not None:  # an ancestor: only up to the fork point
-            candidate.append(models.FieldCondition(
-                key="seq", range=models.Range(lte=cut)))
-            excluded.append(models.FieldCondition(
-                key="seq", range=models.Range(lte=cut)))
-        should.append(models.Filter(must=candidate))
-        must_not.append(models.NestedCondition(nested=models.Nested(
-            key="overwritten_in", filter=models.Filter(must=excluded))))
-    return models.Filter(must=must, should=should, must_not=must_not)
+        file_selector = models.FieldCondition(
+            key="path",
+            match=models.MatchValue(value=path)
+        )
+
+        must.append(file_selector)
+
+    branch_selector = branch_filter(branch, ancestry)
+    must.append(branch_selector)
+
+    return models.Filter(must=must)
 ```
+
+</details>
 
 `A` keeps the `terms.md` it forked from; `root` sees the new one:
 
@@ -384,8 +491,16 @@ def visibility_filter(ancestry, path=None):
 lookup("terms.md", A_ancestry).payload["content"]
 # Standard terms of service apply to all plans.
 lookup("terms.md", root_ancestry).payload["content"]
-# Updated terms of service, effective Q3, with the new data-retention clause.
+# Updated terms of service, effective Q3, with the new data-retention clause
 ```
+
+Storage state:
+
+```javascript
+{ path: 'terms.md', branch: root, seq: 0, overwritten_in: [{by: root, seq: 3}] }
+{ path: 'terms.md', branch: root, seq: 3, overwritten_in: [] }
+```
+
 
 ## Step 7: A Second Branch, Same File
 
