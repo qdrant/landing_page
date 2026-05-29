@@ -113,7 +113,7 @@ operator:
 You can configure Qdrant Private Cloud like this:
 
 ```bash
-helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.9.6 -f values.yaml
+helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.9.7 -f values.yaml
 ```
 
 ## Upgrades
@@ -127,7 +127,7 @@ helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/
 Then upgrade the Qdrant Private Cloud Helm chart using the same configuration values, e.g.:
 
 ```bash
-helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.9.6 -f values.yaml
+helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.9.7 -f values.yaml
 ```
 
 Note, that the image tag values are automatically derived from the chart's appVersions and should not be overridden in the `values.yaml`.
