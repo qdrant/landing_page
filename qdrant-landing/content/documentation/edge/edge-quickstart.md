@@ -26,6 +26,8 @@ Set up a configuration by creating an instance of `EdgeConfig`. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="configure-edge-shard" >}}
 
+Qdrant Edge supports all Qdrant quantization methods: Scalar, Product, Binary, and TurboQuant. Configure quantization globally on `EdgeConfig.quantization_config` or override per-vector on `EdgeVectorParams.quantization_config`. See the [Quantization](/documentation/manage-data/quantization/) guide for configuration details.
+
 ## Initialize the Edge Shard
 
 Now you can create a new `EdgeShard` using `EdgeShard.create` (Python) or `EdgeShard::new` (Rust), passing the storage directory and configuration:
