@@ -13,8 +13,8 @@ weight: 35
 |-------------------------|---------|
 | qdrant-kubernetes-api   | v1.34.0 |
 | operator                | 2.28.4  |
-| qdrant-cluster-manager  | v0.3.17 |
-| qdrant-cluster-exporter | 1.7.6   |
+| qdrant-cluster-manager  | v0.3.18 |
+| qdrant-cluster-exporter | 1.18.0  |
 
 Latest validated Qdrant version: 1.18.1
 
