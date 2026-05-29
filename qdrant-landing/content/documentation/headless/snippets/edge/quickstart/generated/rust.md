@@ -4,12 +4,13 @@ use std::path::Path;
 
 use qdrant_edge::EdgeShard;
 use qdrant_edge::{
-    Condition, CreateIndex, Distance, EdgeConfig, EdgeOptimizersConfig,
+    Condition, CreateIndex, CreateVectorName, Distance, EdgeConfig, EdgeOptimizersConfig,
     EdgeVectorParams, FacetRequest, FieldCondition, FieldIndexOperations,
-    Filter, Match, MatchValue, NamedQuery, PayloadFieldSchema,
+    Filter, Match, MatchValue, Modifier, NamedQuery, PayloadFieldSchema,
     PayloadSchemaType, PointId, PointInsertOperations, PointOperations,
     PointStruct, PointStructPersisted, QueryEnum, QueryRequest, ScoringQuery,
-    UpdateOperation, ValueVariants, Vectors, WithPayloadInterface, WithVector,
+    SparseVectorConfig, UpdateOperation, ValueVariants, VectorNameConfig,
+    VectorNameOperations, Vectors, WithPayloadInterface, WithVector,
 };
 use serde_json::json;
 
@@ -65,6 +66,16 @@ let retrieved = edge_shard.retrieve(
     Some(WithPayloadInterface::Bool(true)),
     Some(WithVector::Bool(false)),
 )?;
+
+edge_shard.update(UpdateOperation::VectorNameOperation(
+    VectorNameOperations::CreateVectorName(CreateVectorName {
+        vector_name: "text".to_string(),
+        config: VectorNameConfig::sparse(SparseVectorConfig {
+            modifier: Some(Modifier::Idf),
+            datatype: None,
+        }),
+    }),
+))?;
 
 let results = edge_shard.query(QueryRequest {
     prefetches: vec![],

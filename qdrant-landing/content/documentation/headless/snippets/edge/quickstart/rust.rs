@@ -3,12 +3,13 @@ use std::path::Path;
 
 use qdrant_edge::EdgeShard;
 use qdrant_edge::{
-    Condition, CreateIndex, Distance, EdgeConfig, EdgeOptimizersConfig,
+    Condition, CreateIndex, CreateVectorName, Distance, EdgeConfig, EdgeOptimizersConfig,
     EdgeVectorParams, FacetRequest, FieldCondition, FieldIndexOperations,
-    Filter, Match, MatchValue, NamedQuery, PayloadFieldSchema,
+    Filter, Match, MatchValue, Modifier, NamedQuery, PayloadFieldSchema,
     PayloadSchemaType, PointId, PointInsertOperations, PointOperations,
     PointStruct, PointStructPersisted, QueryEnum, QueryRequest, ScoringQuery,
-    UpdateOperation, ValueVariants, Vectors, WithPayloadInterface, WithVector,
+    SparseVectorConfig, UpdateOperation, ValueVariants, VectorNameConfig,
+    VectorNameOperations, Vectors, WithPayloadInterface, WithVector,
 };
 use serde_json::json;
 
@@ -41,6 +42,7 @@ pub async fn main() -> anyhow::Result<()> {
         hnsw_config: Default::default(),
         quantization_config: None,
         optimizers: Default::default(),
+        wal_options: None,
     };
     // @block-end configure-edge-shard
 
@@ -75,6 +77,18 @@ pub async fn main() -> anyhow::Result<()> {
         Some(WithVector::Bool(false)),
     )?;
     // @block-end retrieve-point
+
+    // @block-start modify-vector-schema
+    edge_shard.update(UpdateOperation::VectorNameOperation(
+        VectorNameOperations::CreateVectorName(CreateVectorName {
+            vector_name: "text".to_string(),
+            config: VectorNameConfig::sparse(SparseVectorConfig {
+                modifier: Some(Modifier::Idf),
+                datatype: None,
+            }),
+        }),
+    ))?;
+    // @block-end modify-vector-schema
 
     // @block-start query-points
     let results = edge_shard.query(QueryRequest {
@@ -159,6 +173,7 @@ pub async fn main() -> anyhow::Result<()> {
             default_segment_number: Some(2),
             ..Default::default()
         },
+        wal_options: None,
     };
     // @block-end configure-optimizer
 

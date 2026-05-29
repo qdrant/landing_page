@@ -44,6 +44,18 @@ To retrieve a point by ID, use the `retrieve` method:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="retrieve-point" >}}
 
+## Modify the Vector Schema
+
+You can add or remove named vectors to an existing Edge Shard's schema. This is useful when migrating to a new embedding model or adding hybrid search to an Edge Shard that already contains data.
+
+For example, to add a sparse vector for BM25 keyword search:
+
+{{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="modify-vector-schema" >}}
+
+Existing points aren't automatically populated with the new vector. Re-upsert them to add their values for the new field.
+
+To remove a named vector, use `UpdateOperation.delete_vector_name("text")` (Python) or `VectorNameOperations::DeleteVectorName` (Rust).
+
 ## Create a Payload Index
 
 To optimize operations like [filtering](#filtering) and [faceting](#faceting) on payload fields, first create a payload index on the fields you plan to use with these operations:

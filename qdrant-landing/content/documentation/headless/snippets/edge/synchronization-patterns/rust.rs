@@ -118,6 +118,7 @@ pub async fn main() -> anyhow::Result<()> {
         hnsw_config: Default::default(),
         quantization_config: None,
         optimizers: Default::default(),
+        wal_options: None,
     };
 
     let edge_shard = EdgeShard::new(
