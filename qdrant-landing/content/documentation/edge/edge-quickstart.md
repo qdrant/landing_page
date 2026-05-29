@@ -50,7 +50,7 @@ To retrieve a point by ID, use the `retrieve` method:
 
 You can add or remove named vectors to an existing Edge Shard's schema. This is useful when migrating to a new embedding model or adding hybrid search to an Edge Shard that already contains data.
 
-For example, to add a sparse vector for BM25 keyword search:
+For example, to add a sparse vector for [BM25 keyword search](/documentation/edge/edge-bm25/):
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="modify-vector-schema" >}}
 
