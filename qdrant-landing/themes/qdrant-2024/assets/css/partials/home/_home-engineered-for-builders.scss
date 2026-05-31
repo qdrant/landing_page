@@ -174,6 +174,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: $spacer;
   }
 
@@ -196,32 +197,5 @@
     line-height: 1.5;
     color: $neutral-70;
     margin: 0;
-  }
-
-  &__feature-link {
-    display: inline-flex;
-    align-items: center;
-    gap: pxToRem(2);
-    font-size: map-get($font-sizes-text, 'md');
-    font-weight: 500;
-    line-height: 1.5;
-    color: $neutral-98;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-
-    &:hover {
-      opacity: 0.8;
-    }
-
-    svg {
-      width: pxToRem(16);
-      height: pxToRem(16);
-      margin-top: pxToRem(2);
-      transition: transform 0.2s ease;
-    }
-
-    &:hover svg {
-      transform: translateX(4px);
-    }
   }
 }

@@ -5,6 +5,9 @@
         <span class="why-qdrant__pill">{{ .Params.pill }}</span>
         <h2 class="why-qdrant__title">{{ .Params.title }}</h2>
         <p class="why-qdrant__subtitle">{{ .Params.subtitle }}</p>
+        <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg why-qdrant__button">
+          {{ .Params.startFree.text }}
+        </a>
       </div>
       <div class="why-qdrant__grid">
         {{ range .Params.featureCards }}

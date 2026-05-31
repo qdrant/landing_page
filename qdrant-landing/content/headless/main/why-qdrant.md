@@ -2,6 +2,9 @@
 title: Build for Production-Grade AI Search
 subtitle: Engineered for real-time retrieval with the speed, accuracy, and scale that modern AI demands.
 pill: WHY QDRANT?
+startFree:
+  text: Start Free in Qdrant Cloud
+  url: https://cloud.qdrant.io/signup
 featureCards:
   - id: metadata-filters
     title: Expansive Metadata Filters

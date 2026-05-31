@@ -1,3 +1,4 @@
+@use 'sass:math';
 @use '../../helpers/functions' as *;
 
 .customers {
@@ -19,26 +20,58 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: pxToRem(24) pxToRem(8);
+    gap: pxToRem(24) 0;
     width: 100%;
   }
 
   &__logo {
     flex: 0 0 auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: pxToRem(103); // (1110 - 9*8)/10 so 10 logos fit per row on 2 lines
-    height: pxToRem(56);
-    padding: 0 pxToRem(10);
+    width: pxToRem(158);
+    height: pxToRem(48);
+    padding: math.div($spacer, 4) 0;
 
-    svg {
+    & > svg {
       display: block;
       max-width: 100%;
-      max-height: 100%;
+      max-height: $spacer * 2;
       width: auto;
       height: auto;
       object-fit: contain;
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+    
+    &-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: pxToRem(2);
+      height: 0;
+      font-size: pxToRem(7);
+      line-height: 1;
+      font-family: 'Geist Mono', $font-family-monospace;
+      color: $neutral-98;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    @include media-breakpoint-up(lg) {
+      &:hover {
+        & > svg {
+          transform: translateY(0);
+        }
+      }
+      
+      &:hover &-link {
+        opacity: 1;
+        height: $spacer * 0.5;
+        pointer-events: auto;
+      }
     }
   }
 }

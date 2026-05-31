@@ -2,6 +2,9 @@
 tagline: ARCHITECTURE FOR THE AI - NOT KEYWORD - ERA
 title: Performance by Design
 subtitle: We research, engineer, and optimize each component from first principles for the fastest, most scalable, and most customizable AI retrieval and search engine.
+startFree:
+  text: Start Free in Qdrant Cloud
+  url: https://cloud.qdrant.io/signup
 features:
   - id: high-performance
     title: Highest‑Performance Vector Search Engine
