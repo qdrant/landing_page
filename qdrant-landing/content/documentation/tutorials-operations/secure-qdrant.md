@@ -233,7 +233,7 @@ Verify that a delete attempt with the read-only key is rejected:
 
 ```bash
 curl -X POST https://localhost:6333/collections/my_collection/points/delete \
-  -H "api-key: my-read-only-key" \    
+  -H "api-key: my-read-only-key" \
   -H "Content-Type: application/json" \
   -d '{"points": [1]}'
 ```
