@@ -1,16 +1,16 @@
 ```rust
-use std::collections::HashMap;
 use std::path::Path;
 
 use qdrant_edge::EdgeShard;
 use qdrant_edge::{
-    Condition, CreateIndex, CreateVectorName, Distance, EdgeConfig, EdgeOptimizersConfig,
-    EdgeVectorParams, FacetRequest, FieldCondition, FieldIndexOperations,
-    Filter, Match, MatchValue, Modifier, NamedQuery, PayloadFieldSchema,
-    PayloadSchemaType, PointId, PointInsertOperations, PointOperations,
-    PointStruct, PointStructPersisted, QueryEnum, QueryRequest, ScoringQuery,
-    SparseVectorConfig, UpdateOperation, ValueVariants, VectorNameConfig,
-    VectorNameOperations, Vectors, WithPayloadInterface, WithVector,
+    Condition, CreateIndex, CreateVectorName, Distance, EdgeConfigBuilder,
+    EdgeOptimizersConfig, EdgeVectorParamsBuilder, FacetRequest, FieldCondition,
+    FieldIndexOperations, Filter, Match, MatchValue, Modifier, NamedQuery,
+    PayloadFieldSchema, PayloadSchemaType, PointId, PointInsertOperations,
+    PointOperations, PointStruct, PointStructPersisted, QueryEnum, QueryRequest,
+    ScoringQuery, SparseVectorConfig, UpdateOperation, ValueVariants,
+    VectorNameConfig, VectorNameOperations, Vectors, WalOptions,
+    WithPayloadInterface, WithVector,
 };
 use serde_json::json;
 
@@ -21,25 +21,15 @@ fs_err::create_dir_all(SHARD_DIRECTORY)?;
 const VECTOR_NAME: &str = "my-vector";
 const VECTOR_DIMENSION: usize = 4;
 
-let config = EdgeConfig {
-    on_disk_payload: true,
-    vectors: HashMap::from([(
-        VECTOR_NAME.to_string(),
-        EdgeVectorParams {
-            size: VECTOR_DIMENSION,
-            distance: Distance::Cosine,
-            on_disk: Some(true),
-            quantization_config: None,
-            multivector_config: None,
-            datatype: None,
-            hnsw_config: None,
-        },
-    )]),
-    sparse_vectors: HashMap::new(),
-    hnsw_config: Default::default(),
-    quantization_config: None,
-    optimizers: Default::default(),
-};
+let config = EdgeConfigBuilder::new()
+    .on_disk_payload(true)
+    .vector(
+        VECTOR_NAME,
+        EdgeVectorParamsBuilder::new(VECTOR_DIMENSION, Distance::Cosine)
+            .on_disk(true)
+            .build(),
+    )
+    .build();
 
 let edge_shard = EdgeShard::new(
     Path::new(SHARD_DIRECTORY),
@@ -128,30 +118,21 @@ let facet_response = edge_shard.facet(FacetRequest {
 
 edge_shard.optimize()?;
 
-let config = EdgeConfig {
-    on_disk_payload: true,
-    vectors: HashMap::from([(
-        VECTOR_NAME.to_string(),
-        EdgeVectorParams {
-            size: VECTOR_DIMENSION,
-            distance: Distance::Cosine,
-            on_disk: Some(true),
-            quantization_config: None,
-            multivector_config: None,
-            datatype: None,
-            hnsw_config: None,
-        },
-    )]),
-    sparse_vectors: HashMap::new(),
-    hnsw_config: Default::default(),
-    quantization_config: None,
-    optimizers: EdgeOptimizersConfig {
+let config = EdgeConfigBuilder::new()
+    .on_disk_payload(true)
+    .vector(
+        VECTOR_NAME,
+        EdgeVectorParamsBuilder::new(VECTOR_DIMENSION, Distance::Cosine)
+            .on_disk(true)
+            .build(),
+    )
+    .optimizers(EdgeOptimizersConfig {
         deleted_threshold: Some(0.2),
         vacuum_min_vector_number: Some(100),
         default_segment_number: Some(2),
         ..Default::default()
-    },
-};
+    })
+    .build();
 
 edge_shard.update(UpdateOperation::FieldIndexOperation(
     FieldIndexOperations::CreateIndex(CreateIndex {
@@ -165,4 +146,13 @@ edge_shard.update(UpdateOperation::FieldIndexOperation(
 drop(edge_shard);
 
 let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), None)?;
+
+let config = EdgeConfigBuilder::new()
+    .wal_options(WalOptions {
+        segment_capacity: 4 * 1024 * 1024,
+        ..Default::default()
+    })
+    .build();
+
+let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), Some(config))?;
 ```

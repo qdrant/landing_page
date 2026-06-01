@@ -6,7 +6,7 @@ dependencies = [
     "datasets>=4.4.1",
     "fastembed",
     "qdrant-client",
-    "qdrant-edge-py==0.6.0"
+    "qdrant-edge-py==0.7.2"
 ]
 
 [tool.uv.sources]

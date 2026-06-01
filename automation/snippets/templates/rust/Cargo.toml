@@ -7,7 +7,7 @@ edition = "2024"
 anyhow = "1.0.100"
 chrono = "0.4"
 csv = "1.3"
-qdrant-edge = "0.6.0"
+qdrant-edge = "0.7.2"
 fs-err = "3"
 ordered-float = "5"
 qdrant-client = { git = "https://github.com/qdrant/rust-client", branch = "master" }

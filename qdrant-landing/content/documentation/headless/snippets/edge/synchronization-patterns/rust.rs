@@ -9,7 +9,7 @@ use qdrant_client::Qdrant;
 use qdrant_edge::EdgeShard;
 use qdrant_edge::internal::SnapshotManifest;
 use qdrant_edge::{
-    EdgeConfig, EdgeVectorParams, PointId, PointInsertOperations,
+    EdgeConfigBuilder, EdgeVectorParamsBuilder, PointId, PointInsertOperations,
     PointOperations, PointStruct as EdgePoint, PointStructPersisted,
     UpdateOperation, Vectors,
 };
@@ -100,26 +100,15 @@ pub async fn main() -> anyhow::Result<()> {
     const VECTOR_NAME: &str = "my-vector";
 
     fs_err::create_dir_all(SHARD_DIRECTORY)?;
-    let config = EdgeConfig {
-        on_disk_payload: true,
-        vectors: HashMap::from([(
-            VECTOR_NAME.to_string(),
-            EdgeVectorParams {
-                size: VECTOR_DIMENSION,
-                distance: qdrant_edge::Distance::Cosine,
-                on_disk: Some(true),
-                quantization_config: None,
-                multivector_config: None,
-                datatype: None,
-                hnsw_config: None,
-            },
-        )]),
-        sparse_vectors: HashMap::new(),
-        hnsw_config: Default::default(),
-        quantization_config: None,
-        optimizers: Default::default(),
-        wal_options: None,
-    };
+    let config = EdgeConfigBuilder::new()
+        .on_disk_payload(true)
+        .vector(
+            VECTOR_NAME,
+            EdgeVectorParamsBuilder::new(VECTOR_DIMENSION, qdrant_edge::Distance::Cosine)
+                .on_disk(true)
+                .build(),
+        )
+        .build();
 
     let edge_shard = EdgeShard::new(
         Path::new(SHARD_DIRECTORY),
