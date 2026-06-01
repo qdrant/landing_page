@@ -1,3 +1,4 @@
+// @block-start upsert-no-auth
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
@@ -5,12 +6,7 @@ public class Snippet
 {
 	public static async Task Run()
 	{
-		// @hide-start
-		QdrantClient? client = null;
-		// @hide-end
-
-		// @block-start upsert-no-auth
-		client = new QdrantClient(host: "localhost", port: 6334, https: true);
+		var client = new QdrantClient(host: "localhost", port: 6334, https: true);
 
 		try
 		{

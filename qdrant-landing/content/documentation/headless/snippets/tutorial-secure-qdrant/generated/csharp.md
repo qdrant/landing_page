@@ -2,7 +2,7 @@
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
-client = new QdrantClient(host: "localhost", port: 6334, https: true);
+var client = new QdrantClient(host: "localhost", port: 6334, https: true);
 
 try
 {

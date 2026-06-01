@@ -1,5 +1,5 @@
 package snippet
-
+// @block-start upsert-no-auth
 import (
 	"context"
 	"fmt"
@@ -13,7 +13,6 @@ func Main() {
 	var err error
 	// @hide-end
 
-	// @block-start upsert-no-auth
 	client, err = qdrant.NewClient(&qdrant.Config{
 		Host:   "localhost",
 		Port:   6334,

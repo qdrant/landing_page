@@ -1,5 +1,6 @@
 package com.example.snippets_amalgamation;
 
+// @block-start upsert-no-auth
 import static io.qdrant.client.PointIdFactory.id;
 import static io.qdrant.client.VectorsFactory.vectors;
 
@@ -17,7 +18,6 @@ public class Snippet {
         QdrantClient client = null;
         // @hide-end
 
-        // @block-start upsert-no-auth
         client = new QdrantClient(
             QdrantGrpcClient.newBuilder("localhost", 6334, true).build());
 

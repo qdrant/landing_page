@@ -12,7 +12,12 @@ weight: 45
 
 Qdrant offers a comprehensive set of [security and access control features](/documentation/security/) that enable you to protect your data and control access at multiple levels. By default, these features are enabled on Qdrant Cloud deployments. However, self-hosted Qdrant deployments default to no authentication and no encryption: every interface on the host is reachable without a key or password. For self-hosted instances, it is crucial to secure your instance before connecting it to any network. 
 
-This tutorial walks through securing a self-hosted Qdrant instance step by step: enabling TLS, setting up an admin API key, restricting consumers with a read-only key, and issuing granular access API keys.
+This tutorial walks through securing a self-hosted Qdrant instance step by step. You will:
+
+- **Enable TLS** to encrypt traffic between clients and your Qdrant instance.
+- **Set up an admin API key** to require authentication for all requests.
+- **Restrict consumers with a read-only key** to prevent unintended writes.
+- **Issue granular access API keys** to scope permissions to specific collections.
 
 > Qdrant Cloud deployments are always secure by default. This tutorial covers self-hosted deployments only. While this tutorial uses Docker Compose, the same security features and configurations apply to any self-hosted deployment method.
 
@@ -20,7 +25,8 @@ This tutorial walks through securing a self-hosted Qdrant instance step by step:
 
 - [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed
 - `curl` available in your terminal
-- [mkcert](https://github.com/FiloSottile/mkcert#readme) for generating a local self-signed certificate
+- [mkcert](https://github.com/FiloSottile/mkcert#readme) for generating a local self-signed certificate ([installation instructions](https://github.com/FiloSottile/mkcert#installation))
+- TLS requires Qdrant 1.2 or later, API key authentication requires Qdrant 1.2 or later, and granular access API keys (JWT) require Qdrant 1.9 or later. This tutorial uses the latest Qdrant image, which includes all these features.
 
 ---
 
@@ -80,7 +86,27 @@ Next, generate a locally trusted certificate with mkcert:
 mkdir tls && mkcert -cert-file tls/cert.pem -key-file tls/key.pem localhost 127.0.0.1
 ```
 
-Update `docker-compose.yml` to mount the certificate and enable TLS:
+If you're using the Python or TypeScript clients, set the following environment variables to allow the clients to find the certificate:
+
+```python
+export SSL_CERT_FILE=$(mkcert -CAROOT)/rootCA.pem
+```
+```typescript
+export NODE_EXTRA_CA_CERTS=$(mkcert -CAROOT)/rootCA.pem
+```
+
+If you're using the Java client, add the certificate to the Java trust store:
+
+```java
+keytool -importcert \
+  -file $(mkcert -CAROOT)/rootCA.pem \
+  -alias mkcert-local \
+  -keystore $JAVA_HOME/lib/security/cacerts \
+  -storepass changeit -noprompt
+
+```
+
+Next, update `docker-compose.yml` to enable TLS and mount the certificate files:
 
 ```yaml
 services:
@@ -149,7 +175,7 @@ Verify that unauthenticated requests are now rejected:
 curl https://localhost:6333/collections
 ```
 
-The same behaviour applies to the clients. Ingesting a point without an API key is blocked:
+The same behavior applies to the clients. Ingesting a point without an API key is blocked:
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-secure-qdrant/" block="upsert-no-auth" >}}
 
@@ -261,10 +287,21 @@ curl -X PUT https://localhost:6333/collections/other_collection \
 Generate a JWT in the Web UI:
 
 1. Open `https://localhost:6333/dashboard#/jwt`.
+
+   If you get a warning about the connection not being private, this is because the certificate is self-signed. If so, restart the browser, and it should recognize the certificate as trusted.
 1. Select **Collection Access**.
 1. For `my_collection`, select **Read** and **Write**. 
 1. For `other_collection`, select **Read** only.
 1. Copy the generated JWT Token.
+
+<figure>
+  <img src="/documentation/tutorials/secure-qdrant/generate-jwt.png">
+  <figcaption>
+    Generating a JWT token with the desired access levels using the Web UI.
+  </figcaption>
+</figure>
+
+> JWT tokens can also be generated programmatically. See [Security > Granular Access API Keys](/documentation/security/#granular-access-api-keys) for a list of libraries that can be used to generate JWT tokens.
 
 Using the JWT token, writing to `my_collection` (`rw` scope) should succeed:
 

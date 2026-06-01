@@ -1,4 +1,6 @@
 ```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
 client = new QdrantClient({ url: "https://localhost:6333" });
 
 try {

@@ -1,6 +1,6 @@
+# @block-start upsert-no-auth
 from qdrant_client import QdrantClient, models
 
-# @block-start upsert-no-auth
 client = QdrantClient(url="https://localhost:6333")
 
 try:

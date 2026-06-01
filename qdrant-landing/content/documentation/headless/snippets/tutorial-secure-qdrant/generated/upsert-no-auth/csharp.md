@@ -1,5 +1,8 @@
 ```csharp
-client = new QdrantClient(host: "localhost", port: 6334, https: true);
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient(host: "localhost", port: 6334, https: true);
 
 try
 {

@@ -1,4 +1,6 @@
 ```python
+from qdrant_client import QdrantClient, models
+
 client = QdrantClient(url="https://localhost:6333")
 
 try:

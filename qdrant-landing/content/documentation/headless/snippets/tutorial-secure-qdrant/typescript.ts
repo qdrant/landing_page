@@ -1,10 +1,10 @@
+// @block-start upsert-no-auth
 import { QdrantClient } from "@qdrant/js-client-rest";
 
 // @hide-start
 let client: QdrantClient;
 // @hide-end
 
-// @block-start upsert-no-auth
 client = new QdrantClient({ url: "https://localhost:6333" });
 
 try {
