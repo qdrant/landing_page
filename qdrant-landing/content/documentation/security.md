@@ -13,6 +13,8 @@ aliases:
 
 Securing a Qdrant deployment means controlling who can access your data, encrypting traffic, and keeping an audit trail for compliance. To secure your deployments, Qdrant supports [API key authentication](#authentication) (including [read-only API keys](#read-only-api-key) for query-only consumers and [granular access API keys](#granular-access-api-keys) with per-collection read/write scoping), [network binding](#network-bind), [TLS](#tls) for encrypted connections, and [audit logging](#audit-logging) for compliance. On Qdrant Cloud, these features are enabled by default. On self-hosted open source deployments, they must be explicitly configured before going to production.
 
+> For a hands-on tutorial on securing a self-hosted Qdrant instance, see [Secure a Self-Hosted Qdrant Instance](/documentation/tutorials-operations/secure-qdrant/).
+
 ## Secure Your Instance
 
 <aside role="alert">Self-hosted open source deployments are <b>not</b> secure by default and are <b>not</b> production-ready. Qdrant Cloud deployments are always secure and production-ready.</aside>
