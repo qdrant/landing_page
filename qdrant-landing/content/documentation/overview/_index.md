@@ -114,7 +114,7 @@ Vertical scaling has natural limits \- eventually, you'll hit the maximum capaci
 
 Qdrant uses sharding to split collections across multiple nodes, where each shard is an independent store of points. A common recommendation is to start with 12 shards, which provides flexibility to scale from 1 node up to 2, 3, 6, or 12 nodes without resharding. However, this approach can limit throughput on small clusters since each node manages multiple shards.
 
-For optimal throughput, set `shard_number` equal to your node count (read more [here](/documentation/distributed_deployment#sharding)). If you want to have better control over sharding, Qdrant supports [custom shards](/documentation/distributed_deployment/#user-defined-sharding).
+For optimal throughput, set `shard_number` equal to your node count (read more [here](/documentation/distributed_deployment/#sharding)). If you want to have better control over sharding, Qdrant supports [custom shards](/documentation/distributed_deployment/#user-defined-sharding).
 
 #### Replication {#replication}
 
