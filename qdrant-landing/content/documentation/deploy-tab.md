@@ -107,4 +107,6 @@ content:
         url: https://qdrant.to/cloud
 partition: deploy
 hideInSidebar: true
+build:
+  render: always
 ---
