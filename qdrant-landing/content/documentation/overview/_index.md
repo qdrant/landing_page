@@ -114,7 +114,7 @@ Vertical scaling has natural limits \- eventually, you'll hit the maximum capaci
 
 Qdrant uses sharding to split collections across multiple nodes, where each shard is an independent store of points. A common recommendation is to start with 12 shards, which provides flexibility to scale from 1 node up to 2, 3, 6, or 12 nodes without resharding. However, this approach can limit throughput on small clusters since each node manages multiple shards.
 
-For optimal throughput, set `shard_number` equal to your node count (read more here). If you want to have better control over sharding, Qdrant supports [custom shards](/documentation/distributed_deployment/#user-defined-sharding).
+For optimal throughput, set `shard_number` equal to your node count (read more [here](/documentation/distributed_deployment/#sharding)). If you want to have better control over sharding, Qdrant supports [custom shards](/documentation/distributed_deployment/#user-defined-sharding).
 
 #### Replication {#replication}
 
@@ -132,10 +132,10 @@ In Qdrant Cloud, replication factor changes are applied automatically, and shard
 
 ### Safety {#safety}
 
-Some of the collection-level operations may degrade performance of the Qdrant cluster. Qdrant's [strict mode](/documentation/ops-configuration/administration/#strict-mode) prevents inefficient usage patterns through multiple controls: it may block filtering and updates on non-indexed payload fields, limit query result sizes and timeout durations, restrict the complexity and number of filter conditions, cap payload index counts, constrain batch upsert sizes, enforce maximum collection storage limits (for vectors, payloads, and point counts), and implement rate limiting for read and write operations to prevent system overload. 
+Some of the collection-level operations may degrade performance of the Qdrant cluster. Qdrant's [strict mode](/documentation/ops-configuration/administration/#strict-mode) prevents inefficient usage patterns through multiple controls: it may block filtering and updates on non-indexed payload fields, limit query result sizes and timeout durations, restrict the complexity and number of filter conditions, cap payload index counts, constrain batch upsert sizes, enforce maximum collection storage limits (for vectors, payloads, and point counts), and implement rate limiting for read and write operations to prevent system overload.
 
 <aside role="status">
-Qdrant Cloud disables filtering and updating by a non-indexed payload attribute by default, and also restricts the maximum number of payload indexes to 100\. You may consider disabling it temporarily if you want to execute some one-time queries on unindexed payload attributes, but in general you should need to do that.
+Qdrant Cloud disables filtering and updating by a non-indexed payload attribute by default, and also restricts the maximum number of payload indexes to 100. You may consider disabling it temporarily if you want to execute some one-time queries on unindexed payload attributes, but in general you should need to do that.
 </aside>
 
 The OSS version does not enforce anything, but please consider enabling and configuring strict mode settings according to the application needs. Otherwise, some of the API calls may impact the performance of your cluster by using Qdrant in a suboptimal way.

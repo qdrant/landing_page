@@ -23,7 +23,7 @@ Usually, this algorithm is a neural network that converts the object into a fixe
 
 The neural network is usually [trained](/articles/metric-learning-tips/) on a pairs or [triplets](/articles/triplet-loss/) of similar and dissimilar objects, so it learns to recognize a specific type of similarity.
 
-By using this property of vectors, you can explore your data in a number of ways; e.g. by searching for similar objects, clustering objects, and more.
+By using this property of vectors, you can explore your data in a number of ways; for example, by searching for similar objects, clustering objects, and more.
 
 
 ## Vector Types
@@ -150,7 +150,7 @@ To search with multivector (available in `query` API):
 
 ## Named Vectors
 
-In Qdrant, you can store multiple vectors of different sizes and [types](#vector-types) in the same data [point](/documentation/manage-data/points/). This is useful when you need to define your data with multiple embeddings to represent different features or modalities (e.g., image, text or video). 
+In Qdrant, you can store multiple vectors of different sizes and [types](#vector-types) in the same data [point](/documentation/manage-data/points/). This is useful when you need to define your data with multiple embeddings to represent different features or modalities (for example, image, text, or video).
 
 To store different vectors for each point, you need to create separate named vector spaces in the [collection](/documentation/manage-data/collections/). You can define these vector spaces during collection creation or [add them later](#adding-and-removing-named-vectors) and manage them independently.
 
