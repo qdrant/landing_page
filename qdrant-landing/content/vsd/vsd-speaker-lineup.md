@@ -32,6 +32,9 @@ logos:
   - id: 9
     src: /img/vsd-logos/Hubspot.svg
     alt: Hubspot logo
+  - id: 10
+    src: /img/vsd-logos/Slack.svg
+    alt: Slack logo
 speakers:
   - company: Mem0
     speaker: Taranjeet Singh, CEO, Co-Founder
