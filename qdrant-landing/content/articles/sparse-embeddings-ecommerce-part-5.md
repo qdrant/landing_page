@@ -32,7 +32,7 @@ So we packaged everything into [`qdrant-sparse-finetune`](https://github.com/qdr
 
 ![From research repo to production CLI](/articles_data/sparse-embeddings-ecommerce-part-5/research-to-production-pipeline.png)
 
-The series repo ([qdrant-sparse-finetune](https://github.com/qdrant-labs/devrel-projects/tree/main/qdrant-sparse-finetune)) is research code. It demonstrates how sparse embedding fine-tuning works. Actually using it on your data means you need to:
+The [series repo](https://github.com/thierrypdamiba/finetune-ecommerce-search) is research code. It demonstrates how sparse embedding fine-tuning works. Actually using it on your data means you need to:
 
 1. Format your product data to match the expected schema
 2. Either provide labeled queries or set up an LLM API for synthetic generation
