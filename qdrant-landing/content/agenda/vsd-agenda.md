@@ -5,7 +5,8 @@ logo: /img/qdrant-logo.svg
 social_preview_image: /vsd/vsd-link-preview.jpg
 hero_image: /img/vsd-sf-26/agenda/hero.png
 badge_icons_path: static/img/vsd-sf-26/agenda/
-description: Check-in begins at 8:30 AM.<br> First 200 to arrive get exclusive t-shirt.
+description: "Full agenda for Qdrant Vector Space Day SF 2026 — talks on vector search, AI agents, edge AI, and more at The Midway, San Francisco on June 11th."
+subtitle: Check-in begins at 8:30 AM.<br> First 200 to arrive get exclusive t-shirt.
 date_info: "June 11th, 2026"
 location: "The Midway, San Francisco"
 url: /vector-space-day-sf-26/agenda/
