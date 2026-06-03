@@ -10,6 +10,8 @@ partition: develop
 
 When using Python, you can use the [FastEmbed](/documentation/fastembed/) library to generate embeddings for use with Qdrant Edge. FastEmbed provides multimodal models that run efficiently on edge devices to generate vector embeddings from text and images.
 
+<aside role="status">To generate sparse BM25 embeddings for keyword search, see <a href="/documentation/edge/edge-bm25/">BM25 Embeddings on Qdrant Edge</a>.</aside>
+
 # Provision the Device
 
 Assuming the devices on which you will run Qdrant Edge have intermittent or no internet connectivity, you need to provision them with the necessary dependencies and model files ahead of time. First, install FastEmbed and the Qdrant Edge Python bindings:
