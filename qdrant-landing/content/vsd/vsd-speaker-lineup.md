@@ -3,37 +3,37 @@ title: Meet the Speakers
 description: "We've built a handpicked lineup of technical talks across 3 agenda tracks:<br>Search & AI Retrieval, Agents & Memory, and Edge & Robotics AI."
 logos:
   - id: 0
-    src: /img/vsd-logos/LlamaIndex.svg
+    src: /img/vsd-sf-26/vsd-logos/LlamaIndex.svg
     alt: LlamaIndex logo
   - id: 1
-    src: /img/vsd-logos/Google-Deepmind.svg
+    src: /img/vsd-sf-26/vsd-logos/Google-Deepmind.svg
     alt: Google DeepMind logo
   - id: 2
-    src: /img/vsd-logos/ArizeAI.svg
+    src: /img/vsd-sf-26/vsd-logos/ArizeAI.svg
     alt: ArizeAI logo
   - id: 3
-    src: /img/vsd-logos/TwelveLabs.svg
+    src: /img/vsd-sf-26/vsd-logos/TwelveLabs.svg
     alt: TwelveLabs logo
   - id: 4
-    src: /img/vsd-logos/Mem0.svg
+    src: /img/vsd-sf-26/vsd-logos/Mem0.svg
     alt: Mem0 logo
   - id: 5
-    src: /img/vsd-logos/Neo4j.svg
+    src: /img/vsd-sf-26/vsd-logos/Neo4j.svg
     alt: Neo4j logo
   - id: 6
-    src: /img/vsd-logos/Cognee.svg
+    src: /img/vsd-sf-26/vsd-logos/Cognee.svg
     alt: Cognee logo
   - id: 7
-    src: /img/vsd-logos/Qualcomm.svg
+    src: /img/vsd-sf-26/vsd-logos/Qualcomm.svg
     alt: Qualcomm logo
   - id: 8
-    src: /img/vsd-logos/Adobe.svg
+    src: /img/vsd-sf-26/vsd-logos/Adobe.svg
     alt: Adobe logo
   - id: 9
-    src: /img/vsd-logos/Hubspot.svg
+    src: /img/vsd-sf-26/vsd-logos/Hubspot.svg
     alt: Hubspot logo
   - id: 10
-    src: /img/vsd-logos/Slack.svg
+    src: /img/vsd-sf-26/vsd-logos/Slack.svg
     alt: Slack logo
 speakers:
   - company: Mem0
