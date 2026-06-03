@@ -1,0 +1,418 @@
+@use '../helpers/functions' as *;
+
+.agenda-page {
+  padding: 0 0 pxToRem(40);
+  background-color: $neutral-10;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+
+  &__hero {
+    position: relative;
+    z-index: 0;
+    margin-bottom: pxToRem(-60);
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+
+    &::before {
+      content: '';
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, #0b0f19 0%, rgba(11, 15, 25, 0) 15%),
+        linear-gradient(270deg, #0b0f19 0%, rgba(11, 15, 25, 0) 15%);
+
+      @include media-breakpoint-up(xl) {
+        display: block;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      z-index: 2;
+      background: linear-gradient(180deg, transparent 0%, $neutral-10 90%);
+      pointer-events: none;
+    }
+
+    @include media-breakpoint-up(lg) {
+      margin-bottom: pxToRem(-100);
+    }
+
+    @include media-breakpoint-up(xl) {
+      width: auto;
+      margin-left: pxToRem(-104);
+      margin-right: pxToRem(-104);
+    }
+  }
+
+  &__hero-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &__header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: pxToRem(16);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $h4-font-size;
+    font-weight: $font-weight-bold;
+    color: $neutral-98;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    font-variation-settings: 'wdth' 75;
+
+    @include media-breakpoint-up(lg) {
+      font-size: $h2-font-size;
+    }
+  }
+
+  &__logo {
+    height: pxToRem(32);
+    width: auto;
+
+    @include media-breakpoint-up(lg) {
+      height: pxToRem(56);
+    }
+  }
+
+  &__meta {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(8);
+    margin-bottom: pxToRem(40);
+    font-size: $font-size-s;
+    font-weight: $font-weight-medium;
+    color: #656b7f;
+    letter-spacing: -0.5px;
+
+    @include media-breakpoint-up(lg) {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      font-size: $h6-font-size;
+      line-height: 1.3;
+      margin-bottom: pxToRem(80);
+    }
+  }
+
+  &__meta-info {
+    line-height: 1.3;
+  }
+
+  &__meta-text {
+    margin: 0;
+  }
+
+  &__meta-details {
+    display: flex;
+    gap: pxToRem(16);
+    white-space: nowrap;
+
+    @include media-breakpoint-up(lg) {
+      gap: pxToRem(40);
+    }
+  }
+
+  &__slots {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(16);
+
+    @include media-breakpoint-up(lg) {
+      gap: pxToRem(24);
+    }
+  }
+
+  // Talk card
+  &__slot {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(24);
+    padding: pxToRem(24);
+    border-radius: pxToRem(12);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(180deg, #111824 0%, #0b0f19 89%);
+
+    @include media-breakpoint-up(lg) {
+      gap: pxToRem(48);
+      padding: pxToRem(40);
+      border-radius: pxToRem(16);
+    }
+  }
+
+  &__slot-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__slot-company-logo {
+    height: pxToRem(28);
+    width: auto;
+    filter: brightness(0) invert(1);
+
+    @include media-breakpoint-up(lg) {
+      height: pxToRem(40);
+    }
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: pxToRem(6);
+    padding: pxToRem(6) pxToRem(12);
+    border-radius: pxToRem(6);
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    letter-spacing: -0.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    box-shadow:
+      0 pxToRem(4) pxToRem(4) rgba(0, 0, 0, 0.08),
+      inset 0 pxToRem(2) pxToRem(1) rgba(255, 255, 255, 0.1);
+
+    svg {
+      width: pxToRem(18);
+      height: pxToRem(18);
+      flex-shrink: 0;
+    }
+
+    @include media-breakpoint-up(lg) {
+      gap: pxToRem(10);
+      padding: pxToRem(8) pxToRem(16);
+      font-size: $font-size-s;
+      border-radius: pxToRem(8);
+
+      svg {
+        width: pxToRem(24);
+        height: pxToRem(24);
+      }
+    }
+
+    &--qdrant {
+      color: $primary-50;
+      background-color: rgba($primary-50, 0.1);
+    }
+
+    &--search {
+      color: #26a69a;
+      background-color: rgba(#26a69a, 0.1);
+    }
+
+    &--agents {
+      color: #9494ff;
+      background-color: rgba(96, 71, 255, 0.1);
+    }
+
+    &--edge {
+      color: #29b6f6;
+      background-color: rgba(3, 169, 244, 0.1);
+    }
+  }
+
+  &__slot-title {
+    margin: 0;
+    font-size: pxToRem(24);
+    font-weight: $font-weight-semibold;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: $neutral-98;
+
+    @include media-breakpoint-up(lg) {
+      font-size: $h3-font-size;
+    }
+  }
+
+  &__slot-description {
+    margin: 0;
+    font-size: $font-size-md;
+    font-weight: $font-weight-normal;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: #abb1c7;
+
+    @include media-breakpoint-up(lg) {
+      font-size: pxToRem(20);
+    }
+  }
+
+  &__slot-footer {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(16);
+
+    @include media-breakpoint-up(md) {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  &__slot-speaker {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(16);
+    flex: 1;
+    min-width: 0;
+
+    @include media-breakpoint-up(lg) {
+      gap: pxToRem(20);
+    }
+  }
+
+  &__slot-avatar {
+    width: pxToRem(40);
+    height: pxToRem(40);
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+
+    @include media-breakpoint-up(lg) {
+      width: pxToRem(52);
+      height: pxToRem(52);
+    }
+  }
+
+  &__slot-speaker-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__slot-speaker-name {
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: $neutral-98;
+
+    @include media-breakpoint-up(lg) {
+      font-size: pxToRem(20);
+    }
+  }
+
+  &__slot-speaker-role {
+    font-size: $font-size-s;
+    font-weight: $font-weight-normal;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: #abb1c7;
+
+    @include media-breakpoint-up(lg) {
+      font-size: pxToRem(18);
+    }
+  }
+
+  &__slot-info {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(16);
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  &__slot-duration {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(4);
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: #abb1c7;
+    opacity: 0.9;
+
+    svg {
+      width: pxToRem(20);
+      height: pxToRem(20);
+      flex-shrink: 0;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: pxToRem(20);
+
+      svg {
+        width: pxToRem(24);
+        height: pxToRem(24);
+      }
+    }
+  }
+
+  &__slot-time {
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: $neutral-98;
+
+    @include media-breakpoint-up(lg) {
+      font-size: pxToRem(20);
+    }
+  }
+
+  // Break card
+  &__break {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: pxToRem(20) pxToRem(24);
+    border-radius: pxToRem(12);
+    background: linear-gradient(-37deg, rgba(57, 38, 137, 0.7) 2%, rgba(126, 117, 255, 0.7) 56%);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('/img/vsd-sf-26/agenda/texture.png') top left / pxToRem(820) repeat;
+      mix-blend-mode: overlay;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding: pxToRem(32) pxToRem(64);
+      border-radius: pxToRem(16);
+    }
+
+    .agenda-page__slot-duration,
+    .agenda-page__slot-time {
+      color: #f0f3fa;
+    }
+  }
+
+  &__break-title {
+    font-size: pxToRem(20);
+    font-weight: $font-weight-semibold;
+    color: $neutral-98;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    position: relative;
+
+    @include media-breakpoint-up(lg) {
+      font-size: $h3-font-size;
+    }
+  }
+}
