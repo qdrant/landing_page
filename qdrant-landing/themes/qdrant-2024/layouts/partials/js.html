@@ -123,7 +123,7 @@
 {{ end }}
 
 {{ if eq .Section "ai-agents" }}
-  {{ $copyCodeJs := resources.Get "/js/copy-code-new.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  {{ $copyCodeJs := resources.Get "/js/copy-code.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $copyCodeJs.RelPermalink }}"></script>
 {{ end }}
 
