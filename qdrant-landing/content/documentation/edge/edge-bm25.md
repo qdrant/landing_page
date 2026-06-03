@@ -30,7 +30,7 @@ Instantiate a BM25 embedder with a language setting. The embedder applies stemmi
 
 | Parameter | Description |
 |---|---|
-| `language` | Language for stemming and stopwords (for example, `"english"`, `"german"`). Defaults to `"english"`. |
+| `language` | Language for stemming and stopwords (for example, `"english"`, `"german"`). Defaults to `None`, which falls back to English stemming and stopwords. |
 | `k` | Term frequency saturation parameter. Default: `1.2`. |
 | `b` | Document length normalization factor. Default: `0.75`. |
 | `avg_len` | Expected average document length in tokens. Default: `256`. |
@@ -38,6 +38,7 @@ Instantiate a BM25 embedder with a language setting. The embedder applies stemmi
 | `ascii_folding` | Normalize accented characters to ASCII equivalents. Default: `false`. |
 | `stemmer` | Override the stemming algorithm. |
 | `stopwords` | Override the stopword list. |
+| `tokenizer` | Tokenizer used to break down text into individual tokens (words). Can be `"prefix"`, `"whitespace"`, `"word"`, or `"multilingual"`. Default: `"word"`. |
 | `min_token_len` | Minimum token length to include. |
 | `max_token_len` | Maximum token length to include. |
 
