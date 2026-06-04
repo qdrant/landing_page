@@ -154,7 +154,7 @@ No S3 uploads, no checkpoint management code, no lost training runs.
 Sentence Transformers v5 introduced `SparseEncoder`, making SPLADE training straightforward. The model has two components:
 
 1. **MLMTransformer**: A transformer with a masked language model head that outputs logits over the full vocabulary
-2. **SpladePooling**: Max-pools the token-level logits and applies ReLU + log saturation
+2. **SpladePooling**: Applies ReLU + log saturation to the token-level logits and max-pools across positions
 
 ```python
 from sentence_transformers import SparseEncoder

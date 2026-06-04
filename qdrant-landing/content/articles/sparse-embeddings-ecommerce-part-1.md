@@ -62,13 +62,13 @@ The key difference: each dimension in a sparse vector corresponds to an actual w
 
 ## SPLADE: Learned Sparse Representations
 
-SPLADE (Sparse Lexical and Expansion) is the model architecture that makes this work. It passes text through a transformer with a [masked language model](https://huggingface.co/docs/transformers/tasks/masked_language_modeling) (MLM) head, then applies max pooling and log saturation to produce sparse weights:
+SPLADE (Sparse Lexical and Expansion) is the model architecture that makes this work. It passes text through a transformer with a [masked language model](https://huggingface.co/docs/transformers/tasks/masked_language_modeling) (MLM) head, then applies log saturation and max pooling to produce sparse weights:
 
 For an input like `"noise canceling headphones"`, SPLADE encodes it in four steps:
 
 1. **Tokenize and encode** the input through DistilBERT with a masked language model (MLM) head
-2. **Max pool** across all token positions to get a single score per vocabulary term
-3. **Apply log saturation** — `log(1 + ReLU(x))` — a learned version of BM25's saturation curve that prevents any single term from dominating
+2. **Apply log saturation** — `log(1 + ReLU(x))` — a learned version of BM25's saturation curve that prevents any single term from dominating
+3. **Max pool** across all token positions to get a single score per vocabulary term
 4. **Output a sparse vector** with ~200 non-zero values out of 30,522 vocabulary dimensions
 
 ![The SPLADE encoding pipeline from input text to sparse vector](/articles_data/sparse-embeddings-ecommerce-part-1/splade-pipeline.png)
