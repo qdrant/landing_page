@@ -33,9 +33,9 @@
       width: auto;
       aspect-ratio: 1110 / 391;
       background-image: 
-        url("/img/vsd-hero/astronauts2.png"), 
-        url("/img/vsd-hero/overlay1.png"), 
-        url("/img/vsd-hero/astronauts1.png");
+        url("/img/vsd-sf-26/vsd-hero/astronauts2.png"), 
+        url("/img/vsd-sf-26/vsd-hero/overlay1.png"), 
+        url("/img/vsd-sf-26/vsd-hero/astronauts1.png");
       background-size: cover;
     }
 
@@ -44,7 +44,7 @@
       bottom: pxToRem(116);
       height: pxToRem(83);
       width: 100%;
-      background-image: url("/img/vsd-hero/overlay2.png");
+      background-image: url("/img/vsd-sf-26/vsd-hero/overlay2.png");
       background-size: cover;
     }
   }

@@ -23,7 +23,7 @@
               {{ end }}
             </ul>
           {{ end }}
-          <a href="{{ .Params.button.url }}" class="button button_contained button_lg vsd-speaker-lineup__button" target="_blank" rel="noopener noreferrer">
+          <a href="{{ .Params.button.url }}" class="button button_contained button_lg vsd-speaker-lineup__button"{{ if strings.HasPrefix .Params.button.url "http" }} target="_blank" rel="noopener noreferrer"{{ end }}>
             {{ .Params.button.text }}
           </a>
           {{ with .Params.button.disclaimer }}

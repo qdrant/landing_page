@@ -24,6 +24,7 @@
   - [Blog](#blog)
     - [Images](#images)
     - [Important notes](#important-notes)
+  - [Agenda](#agenda)
   - [Shortcodes 🧩🧩🧩](#shortcodes-)
     - [Built-in shortcodes](#built-in-shortcodes)
     - [Custom shortcodes](#custom-shortcodes)
@@ -310,6 +311,57 @@ In the blog post file, you'll see:
 - Add tags. While they're not shown on the blog post page, they are used to display related posts.
 - If a post has `featured: true` property in the front matter this post will appear in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.
   - If there are more than 4 `featured: true` posts (where `draft: false`), the oldest post disappears from /blog.
+
+## Agenda
+
+Agenda pages display event schedules with talk slots, speaker info, and break cards. Each agenda is a single markdown file containing all slots in the front matter — no separate files per talk.
+
+To create a new agenda page:
+
+```bash
+cd qdrant-landing
+hugo new --kind agenda agenda/my-event.md
+```
+
+This generates `content/agenda/my-event.md` with a starter template. Open it and fill in the front matter:
+
+- `heading` — page title displayed on the page
+- `logo` — path to the event logo shown next to the heading
+- `hero_image` — hero background image at the top
+- `badge_icons_path` — directory path for badge SVG icons (used by the `svg` partial)
+- `description` — SEO meta description
+- `subtitle` — visible text below the heading
+- `date_info`, `location` — event date and venue
+
+Each item in the `slots` list is either a **talk** or a **break**:
+
+```yaml
+slots:
+  # Talk slot
+  - type: talk
+    title: "Talk Title"
+    description: "Talk description text."
+    company_logo: /img/path-to/logo.svg
+    badge: "BADGE NAME"
+    badge_type: qdrant       # qdrant | search | agents | edge
+    badge_icon: presentation # matches SVG filename in badge_icons_path
+    speaker_name: "Speaker Name"
+    speaker_role: "Role, Company"
+    speaker_avatar: /img/path-to/avatar.png
+    duration: "20'"
+    time: "10:00 AM"
+
+  # Break slot
+  - type: break
+    title: "Coffee Break"
+    duration: "15'"
+    time: "10:30 AM"
+```
+
+Optional talk parameters:
+- `company_logo_offset` — adjust logo position with `placement` (top/bottom/left/right) and `value` (px)
+
+The layout lives at `themes/qdrant-2024/layouts/agenda/single.html` and styles at `themes/qdrant-2024/assets/css/partials/_agenda.scss`.
 
 ## Shortcodes 🧩🧩🧩
 
