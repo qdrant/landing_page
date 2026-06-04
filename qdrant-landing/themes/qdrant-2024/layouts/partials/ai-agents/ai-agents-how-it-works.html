@@ -7,7 +7,7 @@
       <div class="row g-6 ai-agents-how-it-works__cards">
         {{ range $index, $step := .Params.steps }}
           <div class="col-12 col-lg-4 ai-agents-how-it-works__card">
-            <div class="card">
+            <div class="card without-copy-code">
               <span class="ai-agents-how-it-works__card-index">0{{ add $index 1 }}</span>
               <h6 class="ai-agents-how-it-works__card-title">{{ .title }}</h6>
               <p class="ai-agents-how-it-works__card-description">{{ .description }}</p>
