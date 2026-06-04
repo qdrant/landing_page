@@ -132,7 +132,7 @@ client.query_points(
 )
 ```
 
-**Production-ready scaling.** Rust + [SIMD-optimized inverted index](https://qdrant.tech/articles/sparse-vectors/) with an on-disk option keeps RAM low even with 200+ active terms per doc across millions of products.
+**Production-ready scaling.** Rust + [SIMD-optimized inverted index](https://github.com/qdrant/qdrant/blob/master/lib/sparse/src/index/posting_list.rs) with an on-disk option keeps RAM low even with 200+ active terms per doc across millions of products.
 
 **No ANN approximation.** Sparse retrieval uses an [inverted index](https://qdrant.tech/articles/sparse-vectors/), the same data structure powering BM25. Results are exact - no recall tradeoffs from approximate nearest neighbor search.
 
