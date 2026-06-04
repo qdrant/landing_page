@@ -9,7 +9,8 @@ partition: develop
 # Agent Skills
 
 Qdrant ships a set of agent skills: structured knowledge files that help your AI coding assistant think like a solutions architect, not just retrieve documentation.
-Skills are hosted at [skills.qdrant.tech](https://skills.qdrant.tech). Pass the URL of a skill to your agent and it will use it immediately, no installation required.
+
+> Skills are hosted at [skills.qdrant.tech](https://skills.qdrant.tech). Pass the URL of a skill to your agent and it will use it immediately, no installation required.
 
 Using skills by URL keeps your agent’s context focused.
 Rather than loading all skills upfront, the agent fetches only the skill relevant to your current problem.
