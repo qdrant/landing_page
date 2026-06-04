@@ -140,7 +140,7 @@ code snippet shows how to create a new collection and fill it with the snapshot 
 ```http request
 PUT /collections/{collection_name}/snapshots/recover
 {
-  "location": "https://snapshots.qdrant.io/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot"
+  "location": "https://snapshots.qdrant.io/arxiv_abstracts-2108082541245612-2026-06-04-09-56-06.snapshot"
 }
 ```
 
@@ -192,6 +192,6 @@ code snippet shows how to create a new collection and fill it with the snapshot 
 ```http request
 PUT /collections/{collection_name}/snapshots/recover
 {
-  "location": "https://snapshots.qdrant.io/wolt-clip-ViT-B-32-2446808438011867-2023-12-14-15-55-26.snapshot"
+  "location": "https://snapshots.qdrant.io/wolt-clip-2108082541245612-2026-06-04-09-56-17.snapshot"
 }
 ```
