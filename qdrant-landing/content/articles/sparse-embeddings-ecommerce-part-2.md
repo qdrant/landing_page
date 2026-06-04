@@ -336,6 +336,8 @@ The results were disastrous:
 | Standard SPLADE (contextual) | **0.389** |
 | Inference-Free (static) | 0.065 |
 
+> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+
 That's 6x worse without contextual encoding.
 
 The static embedding completely failed because e-commerce queries are highly contextual. "Apple" means different things in "apple iphone" vs "apple fruit". The static embedding can't disambiguate. It looks up "apple" and returns the same vector regardless of context.

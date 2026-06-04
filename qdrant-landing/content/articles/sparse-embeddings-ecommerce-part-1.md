@@ -171,3 +171,5 @@ Over the next four articles, we'll walk through the full pipeline:
 
 The end result: a fine-tuned SPLADE model that achieves **nDCG@10 of 0.388** on Amazon ESCI, compared to **0.301** for BM25 and **0.324** for off-the-shelf SPLADE. That 29% improvement over BM25 translates to meaningfully better search results for real e-commerce queries. You can try the models directly from HuggingFace: [splade-ecommerce-esci](https://huggingface.co/thierrydamiba/splade-ecommerce-esci) (best in-domain) and [splade-ecommerce-multidomain](https://huggingface.co/thierrydamiba/splade-ecommerce-multidomain) (better generalization).
 
+> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+

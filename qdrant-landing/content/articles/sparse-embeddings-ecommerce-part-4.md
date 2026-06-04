@@ -43,6 +43,8 @@ We took our Amazon ESCI-trained model and tested it on three additional datasets
 | Home Depot | 0.349 | **0.391** | 0.384* | +10.0% |
 | MS MARCO (web) | 0.915 | 0.982 | 0.751 | -17.9% |
 
+> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+
 *On Home Depot, the off-the-shelf model edges out the fine-tuned one (0.391 vs 0.384).
 
 Three patterns emerge:
@@ -81,6 +83,8 @@ The hypothesis: exposure to diverse e-commerce catalogs should improve cross-dom
 | WANDS | 0.355 | **0.366** | +3.1% |
 | Home Depot | 0.384 | **0.410** | +6.8% |
 | MS MARCO | 0.751 | **0.829** | +10.4% |
+
+> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
 
 Multi-domain training does exactly what you'd expect:
 

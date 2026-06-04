@@ -131,6 +131,8 @@ Here's what we found, evaluated on 2,000 test queries:
 | SPLADE (off-the-shelf) | 0.326 | 0.339 | +7.2% |
 | **SPLADE (fine-tuned)** | **0.389** | **0.387** | **+27.5%** |
 
+> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+
 The fine-tuned model beats BM25 by nearly 28%. More telling: it beats the off-the-shelf SPLADE by 19%. The off-the-shelf model was trained on MS MARCO (web search queries), not e-commerce. That 19% gap is the value of domain-specific training.
 
 ### What About Hybrid Search?
@@ -154,6 +156,8 @@ client.query_points(
 With the **off-the-shelf SPLADE**, hybrid helps: +1.3% over sparse alone. Both signals are moderate strength, and combining them catches products that either one misses.
 
 With the **fine-tuned SPLADE**, hybrid actually hurts: SPLADE-only scored 0.413 vs hybrid at 0.405. The fine-tuned sparse model is strong enough that adding a generic dense signal dilutes the ranking. The dense model retrieves semantically similar but irrelevant products that drag down nDCG.
+
+> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
 
 This is a useful finding. Hybrid search isn't always better. It depends on the relative strength of your signals. If your sparse model is domain-tuned and your dense model is generic, the dense component can actively harm results.
 
