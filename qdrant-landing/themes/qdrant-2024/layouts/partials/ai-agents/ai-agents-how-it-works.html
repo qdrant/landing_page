@@ -7,14 +7,16 @@
       <div class="row g-6 ai-agents-how-it-works__cards">
         {{ range $index, $step := .Params.steps }}
           <div class="col-12 col-lg-4 ai-agents-how-it-works__card">
-            <div class="card without-copy-code">
+            <div class="card">
               <span class="ai-agents-how-it-works__card-index">0{{ add $index 1 }}</span>
               <h6 class="ai-agents-how-it-works__card-title">{{ .title }}</h6>
               <p class="ai-agents-how-it-works__card-description">{{ .description }}</p>
-              {{ with .code }}
-                {{ $lang := $.Params.language | default "python" }}
-                {{ highlight . $lang "" }}
-              {{ end }}
+              <div class="without-copy-code">
+                {{ with .code }}
+                  {{ $lang := $.Params.language | default "python" }}
+                  {{ highlight . $lang "" }}
+                {{ end }}
+              </div>
               {{ $num := add $index 1 }}
               {{ if or (eq $num 1) (eq $num 2) }}
                 <div class="ai-agents-how-it-works__card-line"></div>
