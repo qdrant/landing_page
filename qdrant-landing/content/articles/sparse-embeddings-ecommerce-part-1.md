@@ -163,7 +163,7 @@ Over the next four articles, we'll walk through the full pipeline:
 
 - [**Part 2: Training on Modal**](/articles/sparse-embeddings-ecommerce-part-2/) - Loading the Amazon ESCI dataset, creating the SPLADE model, configuring loss functions with sparsity regularization, and running GPU training with persistent checkpoints.
 
-- [**Part 3: Evaluation and Hard Negative Mining**](/articles/sparse-embeddings-ecommerce-part-3/) - Indexing products in Qdrant, running retrieval benchmarks (nDCG, MRR, Recall), implementing ANCE hard negative mining loops, and analyzing what fine-tuning actually changes in the model.
+- [**Part 3: Evaluation and Hard Negative Mining**](/articles/sparse-embeddings-ecommerce-part-3/) - Indexing products in Qdrant, running retrieval benchmarks (nDCG, MRR, Recall), implementing ANCE-inspired hard negative mining loops, and analyzing what fine-tuning actually changes in the model.
 
 - [**Part 4: Specialization vs Generalization**](/articles/sparse-embeddings-ecommerce-part-4/) - Cross-domain evaluation on Wayfair and Home Depot data, multi-domain training, when to specialize vs generalize, and production deployment guidance.
 

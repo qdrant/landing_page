@@ -22,11 +22,11 @@ category: practicle-examples
 
 ---
 
-In Parts 1 through 4, we built a SPLADE fine-tuning pipeline piece by piece: data loading, Modal GPU training, Qdrant evaluation, ANCE hard negative mining, cross-domain experiments. The code worked. The results were strong: 28% over BM25 on Amazon ESCI.
+In Parts 1 through 4, we built a SPLADE fine-tuning pipeline piece by piece: data loading, Modal GPU training, Qdrant evaluation, ANCE-inspired hard negative mining, cross-domain experiments. The code worked. The results were strong: 28% over BM25 on Amazon ESCI.
 
 Using it required reading four articles, cloning a repo, understanding the training loop internals, wiring up Modal volumes, and configuring Qdrant connections manually. That's fine for a series walkthrough. It's not fine for someone who has a product catalog and wants a better search model by end of day.
 
-So we packaged everything into [`qdrant-sparse-finetune`](https://github.com/qdrant/sparse-finetune): an open-source CLI and web dashboard that runs the entire pipeline (synthetic query generation, SPLADE training with ANCE, evaluation, and HuggingFace publishing) with a single command.
+So we packaged everything into [`qdrant-sparse-finetune`](https://github.com/qdrant/sparse-finetune): an open-source CLI and web dashboard that runs the entire pipeline (synthetic query generation, SPLADE training with ANCE-inspired hard negative mining, evaluation, and HuggingFace publishing) with a single command.
 
 ## The Problem We're Solving
 
@@ -38,7 +38,7 @@ The [series repo](https://github.com/thierrypdamiba/finetune-ecommerce-search) i
 2. Either provide labeled queries or set up an LLM API for synthetic generation
 3. Configure Modal volumes and GPU settings
 4. Wire up Qdrant credentials for indexing and mining
-5. Run training, manually trigger ANCE iterations
+5. Run training, manually trigger hard negative mining iterations
 6. Evaluate, interpret metrics
 7. Publish to HuggingFace if you want to share the model
 
@@ -96,7 +96,7 @@ qdrant-finetune studio
 
 This launches a web dashboard with tabs for each stage of the pipeline:
 
-**Train.** Configure the base model, ANCE iterations, batch size, and GPU backend. Submit a job and watch live logs with a loss chart that updates as training progresses.
+**Train.** Configure the base model, hard negative mining iterations, batch size, and GPU backend. Submit a job and watch live logs with a loss chart that updates as training progresses.
 
 **Evaluate.** Point at a trained model and test queries. Get metric cards for nDCG@10, MRR@10, Recall, and Precision.
 
@@ -151,7 +151,7 @@ That single line:
 1. Loads your product data
 2. Generates synthetic queries via LLM
 3. Creates a SPLADE encoder
-4. Runs 3 rounds of ANCE hard negative mining against Qdrant
+4. Runs 3 rounds of ANCE-inspired hard negative mining against Qdrant
 5. Saves the fine-tuned model
 
 For more control:
@@ -174,7 +174,7 @@ metrics = trainer.evaluate(queries="test_queries.csv")
 print(metrics)  # {'ndcg@10': 0.389, 'mrr@10': 0.387, ...}
 ```
 
-Same ANCE loop from Part 3, same evaluation metrics. The `Trainer` class wraps the training loop, Qdrant indexing, hard negative mining, and evaluation into a coherent API.
+Same ANCE-inspired loop from Part 3, same evaluation metrics. The `Trainer` class wraps the training loop, Qdrant indexing, hard negative mining, and evaluation into a coherent API.
 
 ## Getting Started
 
@@ -217,7 +217,7 @@ The 28% improvement over BM25 from Part 3 isn't locked behind a research repo an
 
 - **[Part 1: Why sparse embeddings for e-commerce](/articles/sparse-embeddings-ecommerce-part-1/)**: SPLADE combines keyword precision with learned expansion
 - **[Part 2: Training pipeline on Modal](/articles/sparse-embeddings-ecommerce-part-2/)**: A100 training with persistent checkpoints
-- **[Part 3: Evaluation and hard negatives](/articles/sparse-embeddings-ecommerce-part-3/)**: +28% vs BM25, ANCE mining with Qdrant
+- **[Part 3: Evaluation and hard negatives](/articles/sparse-embeddings-ecommerce-part-3/)**: +28% vs BM25, ANCE-inspired mining with Qdrant
 - **[Part 4: Specialization vs generalization](/articles/sparse-embeddings-ecommerce-part-4/)**: Domain-specific vs multi-domain tradeoffs
 - **[Part 5: From research to product](/articles/sparse-embeddings-ecommerce-part-5/)**: CLI + dashboard that runs the full pipeline
 
