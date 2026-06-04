@@ -10,7 +10,7 @@ This Recruitment Privacy Policy explains how Qdrant GmbH processes the personal 
 
 ## **1\. Who is the data controller and how can you contact the DPO?**
 
-Data Controller: Qdrant Solutions GmbH, Chausseestraße 86, 10115 Berlin, E-Mail: privacy@anydesk.com
+Data Controller: Qdrant Solutions GmbH, Chausseestraße 86, 10115 Berlin, E-Mail: privacy@qdrant.com
 
 Data Protection Officer: heyData GmbH, Schützenstraße 5, 10117 Berlin, www.heydata.eu, E-Mail: datenschutz@heydata.eu
 
