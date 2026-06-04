@@ -1,6 +1,9 @@
 ---
 title: Deploy Anywhere at Enterprise Scale
 subtitle: Open-source DNA with enterprise-grade security and flexibility — run on-prem, hybrid, edge, or move seamlessly to Qdrant Cloud.
+startFree:
+  text: Start Free in Qdrant Cloud
+  url: https://cloud.qdrant.io/signup
 deploymentOptions:
   - id: cloud
     title: Qdrant Cloud

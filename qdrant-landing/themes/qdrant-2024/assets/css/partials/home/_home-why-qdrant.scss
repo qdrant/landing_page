@@ -43,6 +43,10 @@
     margin: 0;
     max-width: pxToRem(780);
   }
+  
+  &__button {
+    margin-top: $spacer * 0.5;
+  }
 
   &__grid {
     display: flex;

@@ -7,45 +7,57 @@ customerStories:
 logoRows:
   - logos:
     - name: Discord
-      src: /img/customer-logo/discord.svg
+      src: /img/home-customers-logo/discord.svg
     - name: Perplexity
-      src: /img/customer-logo/perplexity.svg
+      src: /img/home-customers-logo/perplexity.svg
     - name: Servicenow
-      src: /img/customer-logo/servicenow.svg
+      src: /img/home-customers-logo/servicenow.svg
     - name: Tripadvisor
-      src: /img/customer-logo/tripadvisor.svg
+      src: /img/home-customers-logo/tripadvisor.svg
+      link: /blog/case-study-tripadvisor/
     - name: OpenTable
-      src: /img/customer-logo/opentable.svg
+      src: /img/home-customers-logo/opentable.svg
+      link: /blog/case-study-opentable/
     - name: Telekom
-      src: /img/customer-logo/telekom.svg
+      src: /img/home-customers-logo/telekom.svg
+      link: /blog/case-study-deutsche-telekom/
     - name: HubSpot
-      src: /img/customer-logo/hubspot.svg
+      src: /img/home-customers-logo/hubspot.svg
+      link: /blog/case-study-hubspot/
+    - name: Bayer
+      src: /img/home-customers-logo/bayer.svg
     - name: Dust
-      src: /img/customer-logo/dust.svg
+      src: /img/home-customers-logo/dust.svg
+      link: /blog/case-study-dust-v2/
     - name: Lyzr
-      src: /img/customer-logo/lyzr.svg
+      src: /img/home-customers-logo/lyzr.svg
+      link: /blog/case-study-lyzr/
     - name: Zscaler
-      src: /img/customer-logo/zscaler.svg
+      src: /img/home-customers-logo/zscaler.svg
   - logos:
     - name: "&AI"
-      src: /img/customer-logo/&ai.svg
+      src: /img/home-customers-logo/&ai.svg
+      link: /blog/case-study-and-ai/
     - name: Cosmos
-      src: /img/customer-logo/cosmos.svg
+      src: /img/home-customers-logo/cosmos.svg
+      link: /blog/case-study-cosmos/
     - name: Zepto
-      src: /img/customer-logo/zepto.svg
-    - name: Workato
-      src: /img/customer-logo/workato.svg
+      src: /img/home-customers-logo/zepto.svg
+    - name: Dailymotion
+      src: /img/home-customers-logo/dailymotion.svg
+      link: /blog/case-study-dailymotion/
+    - name: Canva
+      src: /img/home-customers-logo/canva.svg
     - name: Sprinklr
-      src: /img/customer-logo/sprinklr.svg
+      src: /img/home-customers-logo/sprinklr.svg
+      link: /blog/case-study-sprinklr/
     - name: Roche
-      src: /img/customer-logo/roche.svg
-    - name: Bayer
-      src: /img/customer-logo/bayer.svg
+      src: /img/home-customers-logo/roche.svg
     - name: Aleph Alpha
-      src: /img/customer-logo/aleph-alpha.svg
+      src: /img/home-customers-logo/aleph-alpha.svg
     - name: Fandom
-      src: /img/customer-logo/fandom.svg
+      src: /img/home-customers-logo/fandom.svg
     - name: GLG
-      src: /img/customer-logo/glg.svg
+      src: /img/home-customers-logo/glg.svg
 sitemapExclude: true
 ---
