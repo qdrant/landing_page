@@ -54,6 +54,7 @@ import Popover from 'bootstrap/js/src/popover.js';
   const initAutoInjectMode = (root = document) => {
     root.querySelectorAll('.highlight > pre').forEach((block) => {
       if (block.closest('.js-copy-code')) return;
+      if (block.closest('.without-copy-code')) return;
       if (block.dataset.copyCodeInitialized) return;
       if (block.nextElementSibling?.classList.contains('copy-code')) return;
 
