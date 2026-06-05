@@ -242,7 +242,7 @@ A common concern: isn't running a transformer on every query slow?
 | Sparse retrieval (Qdrant) | <1ms | Negligible |
 | **Total** | **10-20ms** | Real-time |
 
-The retrieval itself is negligible. Qdrant's Rust + [SIMD-optimized inverted index](https://github.com/qdrant/qdrant/blob/master/lib/sparse/src/index/posting_list.rs) scans millions of posting lists in sub-millisecond time. All the latency is in the encoder, which runs once per query regardless of catalog size.
+The retrieval itself is negligible. Qdrant's Rust + SIMD-optimized inverted index scans millions of posting lists in sub-millisecond time. All the latency is in the encoder, which runs once per query regardless of catalog size.
 
 Optimization strategies if 15ms isn't fast enough:
 - **Batch queries**: Encode multiple queries together (autocomplete, related searches)
