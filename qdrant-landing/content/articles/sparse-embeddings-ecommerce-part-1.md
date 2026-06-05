@@ -28,7 +28,7 @@ Search "iPhone 15 Pro Max 256GB" on a dense embedding system and it happily retu
 
 This is the gap that sparse embeddings fill. And with fine-tuning, they fill it dramatically well - we achieved a **29% improvement over BM25** on Amazon's ESCI dataset, one of the largest public e-commerce search benchmarks.
 
-In this series, we'll build the entire system: data loading, GPU training on Modal, evaluation with Qdrant, and hard negative mining. The [full code is on GitHub](https://github.com/qdrant-labs/devrel-projects/tree/main/qdrant-sparse-finetune) and the [fine-tuned models are on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci). If you want to skip the walkthrough and fine-tune on your own data, the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI runs the entire pipeline with one command. But first, let's understand why sparse embeddings are the right tool for e-commerce search.
+In this series, we'll build the entire system: data loading, GPU training on Modal, evaluation with Qdrant, and hard negative mining. The [full code is on GitHub](https://github.com/qdrant-labs/finetune-ecommerce-search) and the [fine-tuned models are on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci). If you want to skip the walkthrough and fine-tune on your own data, the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI runs the entire pipeline with one command. But first, let's understand why sparse embeddings are the right tool for e-commerce search.
 
 ## The Problem with Dense Embeddings in E-Commerce
 
@@ -62,13 +62,13 @@ The key difference: each dimension in a sparse vector corresponds to an actual w
 
 ## SPLADE: Learned Sparse Representations
 
-SPLADE (Sparse Lexical and Expansion) is the model architecture that makes this work. It passes text through a transformer with a [masked language model](https://huggingface.co/docs/transformers/tasks/masked_language_modeling) (MLM) head, then applies max pooling and log saturation to produce sparse weights:
+SPLADE (Sparse Lexical and Expansion) is the model architecture that makes this work. It passes text through a transformer with a [masked language model](https://huggingface.co/docs/transformers/tasks/masked_language_modeling) (MLM) head, then applies log saturation and max pooling to produce sparse weights:
 
 For an input like `"noise canceling headphones"`, SPLADE encodes it in four steps:
 
 1. **Tokenize and encode** the input through DistilBERT with a masked language model (MLM) head
-2. **Max pool** across all token positions to get a single score per vocabulary term
-3. **Apply log saturation** — `log(1 + ReLU(x))` — a learned version of BM25's saturation curve that prevents any single term from dominating
+2. **Apply log saturation** — `log(1 + ReLU(x))` — a learned version of BM25's saturation curve that prevents any single term from dominating
+3. **Max pool** across all token positions to get a single score per vocabulary term
 4. **Output a sparse vector** with ~200 non-zero values out of 30,522 vocabulary dimensions
 
 ![The SPLADE encoding pipeline from input text to sparse vector](/articles_data/sparse-embeddings-ecommerce-part-1/splade-pipeline.png)
@@ -132,7 +132,7 @@ client.query_points(
 )
 ```
 
-**Production-ready scaling.** Rust + [SIMD-optimized inverted index](https://qdrant.tech/articles/sparse-vectors/) with an on-disk option keeps RAM low even with 200+ active terms per doc across millions of products.
+**Production-ready scaling.** Rust + SIMD-optimized inverted index with an on-disk option keeps RAM low even with 200+ active terms per doc across millions of products.
 
 **No ANN approximation.** Sparse retrieval uses an [inverted index](https://qdrant.tech/articles/sparse-vectors/), the same data structure powering BM25. Results are exact - no recall tradeoffs from approximate nearest neighbor search.
 
@@ -163,11 +163,13 @@ Over the next four articles, we'll walk through the full pipeline:
 
 - [**Part 2: Training on Modal**](/articles/sparse-embeddings-ecommerce-part-2/) - Loading the Amazon ESCI dataset, creating the SPLADE model, configuring loss functions with sparsity regularization, and running GPU training with persistent checkpoints.
 
-- [**Part 3: Evaluation and Hard Negative Mining**](/articles/sparse-embeddings-ecommerce-part-3/) - Indexing products in Qdrant, running retrieval benchmarks (nDCG, MRR, Recall), implementing ANCE hard negative mining loops, and analyzing what fine-tuning actually changes in the model.
+- [**Part 3: Evaluation and Hard Negative Mining**](/articles/sparse-embeddings-ecommerce-part-3/) - Indexing products in Qdrant, running retrieval benchmarks (nDCG, MRR, Recall), implementing ANCE-inspired hard negative mining loops, and analyzing what fine-tuning actually changes in the model.
 
 - [**Part 4: Specialization vs Generalization**](/articles/sparse-embeddings-ecommerce-part-4/) - Cross-domain evaluation on Wayfair and Home Depot data, multi-domain training, when to specialize vs generalize, and production deployment guidance.
 
 - [**Part 5: From Research to Product**](/articles/sparse-embeddings-ecommerce-part-5/) - An open-source CLI and web dashboard that runs the entire fine-tuning pipeline with a single command.
 
-The end result: a fine-tuned SPLADE model that achieves **nDCG@10 of 0.388** on Amazon ESCI, compared to **0.301** for BM25 and **0.324** for off-the-shelf SPLADE. That 29% improvement over BM25 translates to meaningfully better search results for real e-commerce queries. You can try the models directly from HuggingFace: [splade-ecommerce-esci](https://huggingface.co/thierrydamiba/splade-ecommerce-esci) (best in-domain) and [splade-ecommerce-multidomain](https://huggingface.co/thierrydamiba/splade-ecommerce-multidomain) (better generalization).
+The end result: a fine-tuned SPLADE model that achieves **nDCG@10 of 0.388** on Amazon ESCI, compared to **0.301** for BM25 and **0.324** for off-the-shelf SPLADE. That 29% improvement over BM25 translates to meaningfully better search results for real e-commerce queries. You can try the models directly from HuggingFace: [splade-ecommerce-esci](https://huggingface.co/Qdrant/splade-ecommerce-esci) (best in-domain) and [splade-ecommerce-multidomain](https://huggingface.co/Qdrant/splade-ecommerce-multidomain) (better generalization).
+
+> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
 

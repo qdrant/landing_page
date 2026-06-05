@@ -1,7 +1,7 @@
 ---
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 3: Evaluation and Hard Negatives"
 short_description: "Evaluate fine-tuned SPLADE with Qdrant and boost results with hard negative mining."
-description: "Part 3 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Index products in Qdrant, run retrieval benchmarks, and implement ANCE hard negative mining for a 28% improvement over BM25."
+description: "Part 3 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Index products in Qdrant, run retrieval benchmarks, and implement ANCE-inspired hard negative mining for a 28% improvement over BM25."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-3/preview
 social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-3/preview/social_preview.jpg
 weight: -198
@@ -22,7 +22,7 @@ category: practicle-examples
 
 ---
 
-We have a trained SPLADE model sitting on a Modal volume (or grab it from [HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci)). Now comes the question that matters: is it actually better? In this article, we'll index products into Qdrant, run retrieval benchmarks, implement hard negative mining, and dig into what the model learned. Full evaluation code is in the [GitHub repo](https://github.com/qdrant-labs/devrel-projects/tree/main/qdrant-sparse-finetune). To run this entire pipeline on your own data, see the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI.
+We have a trained SPLADE model sitting on a Modal volume (or grab it from [HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci)). Now comes the question that matters: is it actually better? In this article, we'll index products into Qdrant, run retrieval benchmarks, implement hard negative mining, and dig into what the model learned. Full evaluation code is in the [GitHub repo](https://github.com/qdrant-labs/finetune-ecommerce-search). To run this entire pipeline on your own data, see the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI.
 
 ## Indexing Products in Qdrant
 
@@ -131,6 +131,8 @@ Here's what we found, evaluated on 2,000 test queries:
 | SPLADE (off-the-shelf) | 0.326 | 0.339 | +7.2% |
 | **SPLADE (fine-tuned)** | **0.389** | **0.387** | **+27.5%** |
 
+> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+
 The fine-tuned model beats BM25 by nearly 28%. More telling: it beats the off-the-shelf SPLADE by 19%. The off-the-shelf model was trained on MS MARCO (web search queries), not e-commerce. That 19% gap is the value of domain-specific training.
 
 ### What About Hybrid Search?
@@ -155,15 +157,17 @@ With the **off-the-shelf SPLADE**, hybrid helps: +1.3% over sparse alone. Both s
 
 With the **fine-tuned SPLADE**, hybrid actually hurts: SPLADE-only scored 0.413 vs hybrid at 0.405. The fine-tuned sparse model is strong enough that adding a generic dense signal dilutes the ranking. The dense model retrieves semantically similar but irrelevant products that drag down nDCG.
 
+> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+
 This is a useful finding. Hybrid search isn't always better. It depends on the relative strength of your signals. If your sparse model is domain-tuned and your dense model is generic, the dense component can actively harm results.
 
-## Hard Negative Mining with ANCE
+## ANCE-inspired Hard Negative Mining
 
 ![The ANCE hard negative mining loop](/articles_data/sparse-embeddings-ecommerce-part-3/ance-loop.png)
 
 The training in Part 2 used in-batch negatives: other products in the same batch serve as negatives for a given query. This works but has a limitation: random products are easy negatives. The model doesn't learn to distinguish between genuinely confusable products.
 
-[ANCE](https://www.sbert.net/examples/training/quora_duplicate_questions/README.html) (Approximate Nearest Neighbor Negative Contrastive Estimation) fixes this by mining hard negatives from the current model's own retrieval results:
+Inspired by [ANCE](https://arxiv.org/abs/2007.00808), this approach mines hard negatives from the current model's own retrieval results:
 
 1. **Index** products into Qdrant with the current model
 2. **Retrieve** top-K products for each query
@@ -199,9 +203,9 @@ hard_neg_examples = miner.mine_for_training(
 
 Sparse retrieval keeps mining cheap, with sub-millisecond per query in Qdrant. For 100K queries, the mining step takes seconds, not minutes. Payload filters exclude known positives so you don't accidentally treat a relevant product as a negative.
 
-### When to Use ANCE
+### When to Use ANCE-inspired Mining
 
-ANCE adds complexity. You need to:
+This approach adds complexity. You need to:
 1. Index products with the current model
 2. Run retrieval for all training queries
 3. Filter and format the results
@@ -238,7 +242,7 @@ A common concern: isn't running a transformer on every query slow?
 | Sparse retrieval (Qdrant) | <1ms | Negligible |
 | **Total** | **10-20ms** | Real-time |
 
-The retrieval itself is negligible. Qdrant's Rust + [SIMD-optimized inverted index](https://qdrant.tech/articles/sparse-vectors/) scans millions of posting lists in sub-millisecond time. All the latency is in the encoder, which runs once per query regardless of catalog size.
+The retrieval itself is negligible. Qdrant's Rust + SIMD-optimized inverted index scans millions of posting lists in sub-millisecond time. All the latency is in the encoder, which runs once per query regardless of catalog size.
 
 Optimization strategies if 15ms isn't fast enough:
 - **Batch queries**: Encode multiple queries together (autocomplete, related searches)
@@ -252,7 +256,7 @@ For most e-commerce applications, 15ms is fine, especially when it delivers 28% 
 
 - **Fine-tuned SPLADE beats BM25 by 28% and off-the-shelf SPLADE by 19%.** Domain-specific training matters, even for sparse models.
 - **Hybrid search isn't always better.** A strong domain-tuned sparse model can outperform sparse+dense fusion when the dense component is generic.
-- **Hard negative mining (ANCE) adds 5-10%** on top of basic training. Qdrant's sparse retrieval makes the mining step cheap.
+- **Hard negative mining (ANCE-inspired) adds 5-10%** on top of basic training. Qdrant's sparse retrieval makes the mining step cheap.
 - **Production latency is 10-20ms total.** Transformer encoding is the bottleneck, not retrieval.
 - **The model learns domain-specific patterns**: query expansion, term weighting, and e-commerce vocabulary all improve with fine-tuning.
 
