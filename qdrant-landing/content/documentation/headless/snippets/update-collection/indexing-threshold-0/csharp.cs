@@ -9,7 +9,7 @@ public class Snippet
 
 		await client.UpdateCollectionAsync(
 			collectionName: "{collection_name}",
-			optimizersConfig: new OptimizersConfigDiff { IndexingThreshold = 10000 }
+			optimizersConfig: new OptimizersConfigDiff { IndexingThreshold = 0 }
 		);
 	}
 }

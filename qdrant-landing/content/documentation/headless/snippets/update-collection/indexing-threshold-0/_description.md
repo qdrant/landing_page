@@ -1,0 +1,1 @@
+Disable indexing on a collection by setting `indexing_threshold` to `0`. This defers HNSW graph construction, which is useful during bulk ingestion to avoid frequent index rebuilds.

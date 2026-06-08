@@ -1,0 +1,1 @@
+This code snippet is used to create a collection with two shards. Increasing the shard number allows you to distribute the collection data across multiple nodes in a cluster.

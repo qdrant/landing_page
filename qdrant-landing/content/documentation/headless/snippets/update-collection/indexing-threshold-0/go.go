@@ -13,13 +13,13 @@ func Main() {
 		Port: 6334,
 	})
 
-	if err != nil { panic(err) } 
+	if err != nil { panic(err) }
 	// @hide-end
 
 	client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 		CollectionName: "{collection_name}",
 		OptimizersConfig: &qdrant.OptimizersConfigDiff{
-			IndexingThreshold: qdrant.PtrOf(uint64(10000)),
+			IndexingThreshold: qdrant.PtrOf(uint64(0)),
 		},
 	})
 }
