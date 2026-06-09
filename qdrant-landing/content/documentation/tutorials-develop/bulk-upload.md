@@ -13,25 +13,32 @@ weight: 1
 | Time: 20 min | Level: Intermediate |
 | --- | ----------- |
 
-Uploading a large-scale dataset fast might be a challenge, but Qdrant has a few tricks to help you with that.
+Uploading a large dataset quickly can be a challenge, but Qdrant provides several strategies to help.
 
-The first important detail about data uploading is that the bottleneck is usually located on the client side, not on the server side.
+The bottleneck during data upload is usually on the client side, not the server.
 This means that if you are uploading a large dataset, you should prefer a high-performance client library. We recommend using our [Rust client library](https://github.com/qdrant/rust-client) for this purpose, as it is the fastest client library available for Qdrant.
 
 ## Batch Your Uploads
 
-[Upsert points in batches](/documentation/manage-data/points/#upload-points) rather than one at a time. Each request to Qdrant carries overhead: network round-trip, WAL write, and internal routing. When you upload points individually, that overhead impacts throughput.
+[Upsert points in batches](/documentation/manage-data/points/#upload-points) rather than one at a time. Each request to Qdrant carries overhead: network round-trip, Write-Ahead Log (WAL) write, and internal routing. When you upload points individually, that overhead impacts the throughput.
 
 Aim for **64–256 points per batch**. Smaller batches under-utilize the network; larger batches can increase memory pressure on the server and raise the cost of retrying on failure. The optimal batch size depends on your data and cluster, so you may want to experiment with different sizes for best performance.
 
 ## Parallelize Across Multiple Threads
 
-A single upload thread rarely saturates the server. Split your dataset across two to four concurrent threads, each sending its own stream of batches. This keeps Qdrant's internal write workers busy across shards and reduces total upload time without the coordination overhead that comes with higher thread counts.
+A single upload thread rarely saturates the server. Split your dataset across two to four concurrent threads, each sending its own stream of batches. This keeps Qdrant's internal write workers busy across shards and reduces total upload time.
 
 If [your collection has multiple shards](#create-collections-with-multiple-shards), target one upload thread per shard as a starting point. Each shard has an independent WAL and update worker, so parallel streams map directly onto available write capacity.
 
 
-> The Python client's `upload_points` method [handles batching and parallelization for you](/documentation/manage-data/points/#python-client-optimizations). Pass an iterator of points and set `batch_size` and `parallel` to control throughput without managing batches manually.
+> The Python client's `upload_points` method [handles batching and parallelization for you](/documentation/manage-data/points/#python-client-optimizations). Pass an iterator of points and set `batch_size` and `parallel` to control throughput without managing batches manually. For other client libraries, you need to implement batching and parallelization yourself.
+
+## Create Collections with Multiple Shards
+
+In Qdrant, each collection is split into shards. By default, a collection has one shard, but you can specify more when creating the collection.
+By creating multiple shards, you can parallelize the upload of a large dataset. From two to four shards per machine is a reasonable number.
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-two-shards/" >}}
 
 ## Create Payload Indexes Before Ingesting Data
 
@@ -51,27 +58,18 @@ When the vectors you upload do not all fit in RAM, you likely want to use
 [memmap](/documentation/manage-data/storage/#configuring-memmap-storage)
 support.
 
-During collection
-[creation](/documentation/manage-data/collections/#create-collection),
-memmaps may be enabled on a per-vector basis using the `on_disk` parameter. This
-will store vector data directly on disk at all times. It is suitable for
-ingesting a large amount of data, essential for the billion-scale benchmark.
+During [collection
+creation](/documentation/manage-data/collections/#create-collection),
+memmaps can be enabled on a per-vector basis using the `on_disk` parameter. This
+will store vector data directly on disk at all times.
 
-Using `memmap_threshold` is not recommended in this case. It would require
+Using `memmap_threshold` is not recommended in this case. This requires
 the [optimizer](/documentation/ops-optimization/optimizer/) to constantly
 transform in-memory segments into memmap segments on disk. This process is
 slower, and the optimizer can be a bottleneck when ingesting a large amount of
 data.
 
-Read more about this in
-[Configuring Memmap Storage](/documentation/manage-data/storage/#configuring-memmap-storage).
-
-## Create Collections with Multiple Shards
-
-In Qdrant, each collection is split into shards. By default, a collection has one shard, but you can specify more when creating the collection.
-By creating multiple shards, you can parallelize the upload of a large dataset. From 2 to 4 shards per machine is a reasonable number.
-
-{{< code-snippet path="/documentation/headless/snippets/create-collection/with-two-shards/" >}}
+For full configuration details, see [Configuring Memmap Storage](/documentation/manage-data/storage/#configuring-memmap-storage).
 
 ## Disable Indexing During Upload
 
@@ -81,15 +79,13 @@ Disabling indexing is not recommended for general use, as it can lead to high RA
 
 Qdrant incrementally builds an HNSW index for dense vectors as new data arrives. This ensures fast search, but indexing is memory- and CPU-intensive. During bulk ingestion, frequent index updates can reduce throughput and increase resource usage.
 
-During an initial upload of a large dataset, you might want to disable indexing. This defers HNSW graph construction until after the upload is complete.
+During an initial upload of a large dataset, you may want to temporarily disable indexing. This defers HNSW graph construction until after the upload is complete.
 
 To disable indexing, set `indexing_threshold` to `0`:
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/indexing-threshold-0/" >}}
 
-Don't keep `indexing_threshold` set to 0 indefinitely. This can lead to high RAM usage and slow search performance.
-
-After the upload is done, re-enable indexing by setting `indexing_threshold` to a desired value (default is 10000):
+Don't keep `indexing_threshold` set to 0 indefinitely. This can lead to high RAM usage and slow search performance. After the upload is done, re-enable indexing by setting `indexing_threshold` to a desired value (default is 10000):
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/simple/" >}}
 
