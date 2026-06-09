@@ -75,6 +75,8 @@ Filtered points would be:
 ]
 ```
 
+<aside role="status">If all conditions inside <code>should</code> target the same field, use <a href="#match-any"><code>match any</code></a> instead. It's faster, especially when filtering on a large number of values.</aside>
+
 ### Must Not
 
 When using `must_not`, the clause becomes `true` if none of the conditions listed inside `must_not` is satisfied.
@@ -158,8 +160,7 @@ Example:
 
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
 
-If the stored value is an array, it should have at least one value matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"black"` is in `["black", "yellow"]`.
-
+If the stored value is an array, it should have at least one value matching any of the given values. For example, if the stored value is `["black", "green"]`, the condition will be satisfied, because `"black"` is in `["black", "yellow"]`.
 
 ### Match Except
 
