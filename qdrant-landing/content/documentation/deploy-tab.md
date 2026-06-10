@@ -110,3 +110,57 @@ hideInSidebar: true
 build:
   render: always
 ---
+# Deploy Qdrant
+
+## Self-Hosted
+
+- [Installation](/documentation/installation/index.md) — Install Qdrant via Docker, Kubernetes, or binary on Linux, macOS, or Windows.
+- [Distributed Deployment](/documentation/distributed_deployment/index.md) — Multi-node clusters with horizontal sharding and replication for scale and fault tolerance.
+- [Capacity Planning](/documentation/capacity-planning/index.md) — Estimate RAM and disk requirements for vectors, payloads, indexes, and replication factors.
+- [Snapshots](/documentation/snapshots/index.md) — Back up and restore collections for disaster recovery and cross-cluster replication.
+- [Production Checklist](/documentation/production-checklist/index.md) — Pre-launch review of sharding, replication, quantization, load balancing, and observability.
+- [Upgrades](/documentation/upgrades/index.md) — Upgrade Qdrant clusters across Cloud, Kubernetes, and Docker with zero-downtime planning.
+
+## Managed Cloud
+
+- [Managed Cloud](/documentation/cloud/index.md) — Run Qdrant as a managed service on AWS, GCP, or Azure with automatic scaling, backups, and zero-downtime upgrades.
+- [Create a Cluster](/documentation/cloud/create-cluster/index.md) — Launch a free or standard cluster on your preferred cloud provider.
+- [Authentication](/documentation/cloud/authentication/index.md) — Create Database API keys with granular access control and expiration settings.
+- [Cluster Access](/documentation/cloud/cluster-access/index.md) — Connect via REST, gRPC, or the Cluster UI with load-balanced endpoints and IP allowlists.
+- [Configure Clusters](/documentation/cloud/configure-cluster/index.md) — Tune collection defaults, strict mode, replication factor, and optimizer settings.
+- [Scale Clusters](/documentation/cloud/cluster-scaling/index.md) — Scale vertically or horizontally with automatic shard rebalancing.
+- [Monitor Clusters](/documentation/cloud/cluster-monitoring/index.md) — Monitor cluster health with built-in metrics, logs, and email alerts.
+- [Backup Clusters](/documentation/cloud/backups/index.md) — Schedule snapshots and restore clusters for disaster recovery.
+- [Update Clusters](/documentation/cloud/cluster-upgrades/index.md) — Zero-downtime rolling upgrades on multi-node clusters.
+- [Cloud Inference](/documentation/cloud/inference/index.md) — Generate embeddings inside Qdrant Cloud or proxy to OpenAI, Cohere, and Jina.
+
+## Hybrid Cloud
+
+- [Hybrid Cloud](/documentation/hybrid-cloud/index.md) — Deploy Qdrant in your own Kubernetes cluster while managing it through Qdrant Cloud.
+- [Setup Hybrid Cloud](/documentation/hybrid-cloud/hybrid-cloud-setup/index.md) — Install and connect the Qdrant Kubernetes Operator to Qdrant Cloud.
+- [Create a Cluster](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/index.md) — Create a Qdrant cluster in your Hybrid Cloud environment.
+- [Configure, Scale & Upgrade](/documentation/hybrid-cloud/configure-scale-upgrade/index.md) — Tune, resize, and upgrade Hybrid Cloud clusters.
+- [Networking, Logging & Monitoring](/documentation/hybrid-cloud/networking-logging-monitoring/index.md) — Configure networking, ingress, and observability for Hybrid Cloud.
+- [Operator Configuration](/documentation/hybrid-cloud/operator-configuration/index.md) — Advanced configuration of the Qdrant Kubernetes Operator.
+- [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/index.md) — Platform-specific deployment guides for AWS, GCP, Azure, and on-prem Kubernetes.
+
+## Private Cloud
+
+- [Private Cloud](/documentation/private-cloud/index.md) — Fully air-gapped Qdrant deployment in your own Kubernetes cluster with no Qdrant Cloud connectivity.
+- [Setup Private Cloud](/documentation/private-cloud/private-cloud-setup/index.md) — Install and configure Qdrant Private Cloud in a Kubernetes cluster.
+- [Cluster Management](/documentation/private-cloud/qdrant-cluster-management/index.md) — Create, manage, and operate clusters in Private Cloud.
+- [Configuration](/documentation/private-cloud/configuration/index.md) — Advanced configuration options for Private Cloud deployments.
+- [Backups](/documentation/private-cloud/backups/index.md) — Configure backup and restore for Private Cloud clusters.
+- [Logging & Monitoring](/documentation/private-cloud/logging-monitoring/index.md) — Set up observability for Private Cloud environments.
+- [API Reference](/documentation/private-cloud/api-reference/index.md) — Private Cloud management API reference.
+
+## Operations
+
+- [Configuration](/documentation/ops-configuration/index.md) — Customize Qdrant via config files and environment variables; runtime administration; GPU-accelerated indexing.
+- [Monitoring & Telemetry](/documentation/ops-monitoring/index.md) — Monitor Qdrant with Prometheus and Grafana via built-in OpenMetrics endpoints.
+- [Optimization](/documentation/ops-optimization/index.md) — Tune for high-speed search, high precision, or low memory; understand the background optimizer.
+
+## Security & Troubleshooting
+
+- [Security](/documentation/security/index.md) — API keys, JWT-based collection-scoped access control, TLS encryption, and network binding.
+- [Troubleshooting](/documentation/common-errors/index.md) — Diagnose common runtime errors: open-file limits, filesystem incompatibilities, corrupted collection metadata.
