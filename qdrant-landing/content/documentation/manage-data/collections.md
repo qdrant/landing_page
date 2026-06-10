@@ -30,9 +30,9 @@ These settings can be changed at any time by a corresponding request.
 
 ## Setting Up Multitenancy
 
-**How many collections should you create?** In most cases, you should only use a single collection with payload-based partitioning. This approach is called [multitenancy](https://en.wikipedia.org/wiki/Multitenancy). It is efficient for most of users, but it requires additional configuration. [Learn how to set it up](/documentation/manage-data/collections/#multitenancy)
+**How many collections should you create?** In most cases, you should only use a single collection with payload-based partitioning. This approach is called [multitenancy](https://en.wikipedia.org/wiki/Multitenancy). It is efficient for most of users, but it requires additional configuration. [Learn how to set it up](/documentation/manage-data/multitenancy).
 
-**When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise. 
+**When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise.
 
 ## Create a Collection
 
@@ -42,7 +42,7 @@ These settings can be changed at any time by a corresponding request.
 In addition to the required options, you can also specify custom values for the following collection options:
 
 * `hnsw_config` - see [indexing](/documentation/manage-data/indexing/#vector-index) for details.
-* `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](/documentation/manage-data/storage/#versioning)
+* `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](/documentation/manage-data/storage/#versioning).
 * `optimizers_config` - see [optimizer](/documentation/ops-optimization/optimizer/) for details.
 * `shard_number` - which defines how many shards the collection should have. See [distributed deployment](/documentation/distributed_deployment/#sharding) section for details.
 * `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
