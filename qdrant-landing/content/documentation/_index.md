@@ -132,3 +132,13 @@ Qdrant is an AI-native vector search engine for storing, indexing, and searching
 
 - [Tutorials](/documentation/tutorials-lp-overview/index.md) — Hub for all tutorials covering basics, search engineering, retrieval quality, operations, migrations, and ecosystem integrations.
 - [Examples](/documentation/examples/index.md) — End-to-end code samples for RAG pipelines, hybrid search, multitenancy, recommendations, and multimodal search.
+
+## Learn
+
+- [Articles](/articles/index.md) — Long-form articles on vector search, RAG, quantization, hybrid retrieval, and Qdrant internals from the engineering team.
+- [Qdrant Academy](/course/index.md) — Free, self-paced courses on vector search, hybrid retrieval, multivectors, and production-grade AI search applications.
+- [Tutorials](/documentation/tutorials-lp-overview/index.md) — Hub for all tutorials covering basics, search engineering, retrieval quality, operations, migrations, and ecosystem integrations.
+
+## API Reference
+
+- [Qdrant API Reference](https://api.qdrant.tech/api-reference) — Full REST API reference for all Qdrant operations: collections, points, search, indexing, cluster management, and more.
