@@ -87,32 +87,48 @@ content:
 partition: develop
 ---
 
-THIS CONTENT IS GOING TO BE IGNORED FOR NOW
+# Qdrant Documentation
 
-# Documentation
+Qdrant is an AI-native vector search engine for storing, indexing, and searching high-dimensional vectors — powering semantic search, RAG pipelines, recommendation systems, and AI-native applications.
 
-Qdrant is an AI-native vector search and a semantic search engine. You can use it to extract meaningful information from unstructured data. Want to see how it works? [Clone this repo now](https://github.com/qdrant/qdrant_demo/) and build a search engine in five minutes.
+## Getting Started
 
-|||
-|-:|:-|
-|[Cloud Quickstart](/documentation/cloud-quickstart/)|[Local Quickstart](/documentation/quickstart/)|
+- [Local Quickstart](/documentation/quickstart/) — Run Qdrant locally with Docker, connect a client SDK, and create your first collection.
+- [Cloud Quickstart](/documentation/cloud-quickstart/) — Create a free Qdrant Cloud cluster on AWS, GCP, or Azure and query it in minutes.
+- [Overview](/documentation/overview/) — How vector search works, the client-server architecture, and core data structures (points, vectors, payloads, collections).
+- [API & SDKs](/documentation/interfaces/) — Connect via REST or gRPC with official client libraries for Python, JavaScript/TypeScript, Rust, Go, Java, and .NET.
 
+## Develop
 
-## Ready to start developing? 
+- [Manage Data](/documentation/manage-data/) — Create collections, insert and update points and payloads, configure vector indexes, quantization, and multitenancy.
+- [Search](/documentation/search/) — Similarity search, filtering, hybrid and multimodal queries, multi-stage pipelines, and relevance tuning.
+- [Inference](/documentation/inference/) — Configure dense, sparse, and multi-vector embeddings; use cloud-hosted embedding models directly within Qdrant.
+- [Qdrant Edge](/documentation/edge/) — Lightweight embedded vector search for in-process, offline-capable retrieval on robots, kiosks, and mobile devices.
 
-***<p style="text-align: center;">Qdrant is open-source and can be self-hosted. However, the quickest way to get started is with our [free tier](https://qdrant.to/cloud) on Qdrant Cloud. It scales easily and provides an UI where you can interact with data.</p>***
+## Deploy
 
-[![Hybrid Cloud](/docs/homepage/cloud-cta.png)](https://qdrant.to/cloud)
+- [Deploy Overview](/documentation/deploy-intro/) — Compare all Qdrant deployment options: Managed Cloud, Hybrid Cloud, Private Cloud, and self-hosted.
+- [Installation](/documentation/installation/) — Install Qdrant via Docker, Kubernetes, or binary on Linux, macOS, or Windows.
+- [Managed Cloud](/documentation/cloud/) — Qdrant as a managed service on AWS, GCP, or Azure with automatic scaling, backups, and zero-downtime upgrades.
+- [Hybrid Cloud](/documentation/hybrid-cloud/) — Deploy into your own Kubernetes cluster while managing through Qdrant Cloud.
+- [Private Cloud](/documentation/private-cloud/) — Fully air-gapped deployment in your own Kubernetes cluster with no Qdrant Cloud connectivity required.
+- [Distributed Deployment](/documentation/distributed_deployment/) — Multi-node clusters with horizontal sharding and replication for scale and fault tolerance.
+- [Security](/documentation/security/) — API keys, JWT-based collection-scoped access control, TLS encryption, and network binding.
+- [Configuration](/documentation/ops-configuration/) — Customize Qdrant via config files and environment variables; runtime administration tools; GPU-accelerated vector indexing.
+- [Monitoring & Telemetry](/documentation/ops-monitoring/) — Monitor Qdrant with Prometheus and Grafana via built-in OpenMetrics endpoints.
+- [Optimization](/documentation/ops-optimization/) — Tune for high-speed search, high precision, or low memory usage; understand how the background optimizer works.
+- [Production Checklist](/documentation/production-checklist/) — Pre-launch review of sharding, replication, quantization, load balancing, and observability.
+- [Capacity Planning](/documentation/capacity-planning/) — Estimate RAM and disk for vectors, payloads, indexes, and replication factors.
+- [Snapshots](/documentation/snapshots/) — Back up and restore collections with snapshots for disaster recovery and cross-cluster replication.
+- [Troubleshooting](/documentation/common-errors/) — Diagnose common runtime errors: open-file limits, filesystem incompatibilities, corrupted collection metadata.
 
-## Qdrant's most popular features: 
-||||
-|:-|:-|:-|
-|[Filterable HNSW](/documentation/search/filtering/) </br> Single-stage payload filtering | [Recommendations & Context Search](/documentation/search/explore/#explore-the-data) </br> Exploratory advanced search| [Pure-Vector Hybrid Search](/documentation/search/hybrid-queries/)</br>Full text and semantic search in one|
-|[Multitenancy](/documentation/manage-data/multitenancy/) </br> Payload-based partitioning|[Custom Sharding](/documentation/distributed_deployment/#sharding) </br> For data isolation and distribution|[Role Based Access Control](/documentation/security/?q=jwt#granular-access-api-keys)</br>Secure JWT-based access |
-|[Quantization](/documentation/manage-data/quantization/) </br> Compress data for drastic speedups|[Multivector Support](/documentation/manage-data/vectors/?q=multivect#multivectors) </br> For ColBERT late interaction |[Built-in IDF](/documentation/manage-data/indexing/?q=inverse+docu#idf-modifier) </br> Advanced similarity calculation|
+## Ecosystem
 
-## Developer guidebooks:
+- [Frameworks](/documentation/frameworks/) — Integrations with 40+ AI agent and RAG frameworks: LangChain, LlamaIndex, Haystack, CrewAI, AutoGen, Spring AI, and more.
+- [Embedding Providers](/documentation/embeddings/) — Connect to 30+ providers: OpenAI, Cohere, Jina, Mistral, AWS Bedrock, Voyage AI, Ollama, and more.
+- [Platforms](/documentation/platforms/) — No-code and low-code integrations with n8n, Make, MuleSoft, Pipedream, and more.
 
-| [A Complete Guide to Filtering in Vector Search](/articles/vector-search-filtering/) </br> Beginner & advanced examples showing how to improve precision in vector search.| [Building Hybrid Search with Query API](/articles/hybrid-search/) </br> Build a pure vector-based hybrid search system with our new fusion feature.|
-|----------------------------------------------|-------------------------------|
-| [Multitenancy and Sharding: Best Practices](/articles/multitenancy/) </br> Combine two powerful features for complete data isolation and scaling.| [Benefits of Binary Quantization in Vector Search](/articles/binary-quantization/) </br> Compress data points while retaining essential meaning for extreme search performance.|
+## Tutorials & Examples
+
+- [Tutorials](/documentation/tutorials-lp-overview/) — Hub for all tutorials covering basics, search engineering, retrieval quality, operations, migrations, and ecosystem integrations.
+- [Examples](/documentation/examples/) — End-to-end code samples for RAG pipelines, hybrid search, multitenancy, recommendations, and multimodal search.
