@@ -173,3 +173,11 @@ Like Step 8, this step adds capacity rather than reallocating it. Where horizont
 **RAM.** This is often the highest-leverage upgrade. When vectors and the HNSW index fit entirely in memory, disk I/O drops out of the picture: the optimizer and queries no longer compete for it. If you're currently using memmap storage because your dataset outgrew RAM, adding memory may let you move to in-memory storage and eliminate a whole class of contention.
 
 **Input/Output Operations per Second (IOPS).** If vectors or the HNSW index are stored on disk, disk throughput is a shared resource between the optimizer and queries. The optimizer continuously reads and writes segment data: merging segments, flushing the write-ahead log, and rebuilding indexes. Higher IOPS lets it complete that work faster, shortening the window of I/O contention.
+
+## Read More
+
+- [Optimizer](/documentation/ops-optimization/optimizer/) covers all optimizer settings referenced in this guide, including how to monitor deferred points.
+- [Low-Latency Search](/documentation/search/low-latency-search/) covers delayed fan-outs and other techniques for reducing search latency.
+- [Qdrant under the Hood: io_uring](/articles/io_uring/) explains how async I/O works in Qdrant.
+- [Distributed Deployment](/documentation/distributed_deployment/) covers horizontal scaling with shards and replicas.
+- [Bulk Operations](/documentation/tutorials-develop/bulk-upload/) covers best practices for high-throughput ingestion.
