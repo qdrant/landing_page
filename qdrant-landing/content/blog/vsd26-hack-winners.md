@@ -55,25 +55,8 @@ Every person in a crowd carries a distinct musical identity across genre, energy
 Each persona is a 532-dimensional hybrid vector (LAION-CLAP semantic plus acoustic features) stored in Qdrant. Every 15 seconds, the system scores each listener with a reward formula weighing taste affinity, transition surprise, novelty, session energy coherence, and fatigue, then drifts the persona's preference vector to model how exposure reshapes taste over a show. The output is a time series of crowd reaction projected into 2D, exposing clusters, outliers, and how the room's preference landscape shifts song by song.
  
 [Repository](https://github.com/Gustavobrg/crowd-whisperer)
- 
-### 3rd Place: DejaPlay (Syed Shahriyar Ali)
- 
-<iframe width="560" height="315"
-  src="https://drive.google.com/file/d/118GCFUoDQ8WZmYFVMOe2tF39mDhAXvHE/preview"
-  title="DejaPlay"
-  frameborder="0"
-  allow="autoplay"
-  referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen>
-</iframe>
 
-Finding tactically similar football plays by hand is slow and subjective. DejaPlay turns it into a visual semantic search problem: it encodes StatsBomb possessions into compact embeddings, indexes them in Qdrant with rich metadata filters, and retrieves matches by vector similarity or Mistral-powered natural-language queries. Analysts get ranked results and side-by-side pitch animation to see how alike situations unfolded.
- 
-[Repository](https://github.com/SyedShahriyarAli/DejaPlay)
- 
-## Honorable Mentions
- 
-### Synthara (Mohammed Roqa)
+### 3rd Place: Synthara (Mohammed Roqa)
  
 <iframe width="560" height="315"
   src="https://www.youtube.com/embed/02au1NLX3-I?rel=0"
@@ -89,6 +72,23 @@ Synthara is a memory-driven dark fantasy role-playing game built on Next.js 16, 
 When a player approaches an NPC, the game queries Qdrant for semantic history tied to that character, and gemini-2.5-flash synthesizes voice-authentic dialogue that references the player's exact past deeds. Quests branch through Gemini-generated stages whose outcomes shape the resolution, and progression gates stay locked until the player accumulates enough episodic memories, for example 3 distinct entries before The Black Citadel opens.
  
 [Repository](https://github.com/mroqa/RBG-Synthara.git)
+
+## Honorable Mentions
+ 
+### DejaPlay (Syed Shahriyar Ali)
+ 
+<iframe width="560" height="315"
+  src="https://drive.google.com/file/d/118GCFUoDQ8WZmYFVMOe2tF39mDhAXvHE/preview"
+  title="DejaPlay"
+  frameborder="0"
+  allow="autoplay"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+
+Finding tactically similar football plays by hand is slow and subjective. DejaPlay turns it into a visual semantic search problem: it encodes StatsBomb possessions into compact embeddings, indexes them in Qdrant with rich metadata filters, and retrieves matches by vector similarity or Mistral-powered natural-language queries. Analysts get ranked results and side-by-side pitch animation to see how alike situations unfolded.
+ 
+[Repository](https://github.com/SyedShahriyarAli/DejaPlay)
  
 ### Cardinal (Nicholas Zhu)
  
