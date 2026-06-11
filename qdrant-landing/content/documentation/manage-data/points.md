@@ -76,7 +76,7 @@ In Qdrant we call these Named Vectors.
 Read more about vector types, how they are stored and optimized in the [vectors](/documentation/manage-data/vectors/) section.
 
 
-## Upload points
+## Upload Points
 
 To optimize performance, Qdrant supports batch loading of points. This means you can load several points into the service in one API call.
 Batching allows you to minimize the overhead of creating a network connection.
@@ -92,7 +92,7 @@ or record-oriented equivalent:
 
 {{< code-snippet path="/documentation/headless/snippets/insert-points/list-of-points-simple/" >}}
 
-### Python client optimizations
+### Python Client Optimizations
 
 The Python client has additional features for loading points, which include:
 
@@ -187,7 +187,7 @@ For example, to use `insert_only` mode:
 
 `update_only` mode is useful with [conditional updates](#conditional-updates). Because upserts default to inserts for non-existing points, a conditional update without an explicit `update_mode` will insert a new point even if the condition is not met, which is not the intended behavior in most cases.
 
-### Named vectors
+### Named Vectors
 
 _Available as of v0.10.0_
 
@@ -206,7 +206,7 @@ then it is inserted with just the specified vectors. In other words, the entire
 point is replaced, and any unspecified vectors are set to null. To keep existing
 vectors unchanged and only update specified vectors, see [update vectors](#update-vectors).
 
-### Sparse vectors
+### Sparse Vectors
 
 _Available as of v1.7.0_
 
@@ -258,12 +258,12 @@ You can use inference in the API wherever you can use regular vectors. For examp
 
 Qdrant uses the model to generate the embeddings and store the point with the resulting vector.
 
-## Modify points
+## Modify Points
 
 To change a point, you can modify its vectors or its payload. There are several
 ways to do this.
 
-### Update vectors
+### Update Vectors
 
 _Available as of v1.2.0_
 
@@ -277,7 +277,7 @@ REST API ([Schema](https://api.qdrant.tech/api-reference/points/update-vectors))
 To update points and replace all of their vectors, see [uploading
 points](#upload-points).
 
-### Delete vectors
+### Delete Vectors
 
 _Available as of v1.2.0_
 
@@ -290,11 +290,11 @@ REST API ([Schema](https://api.qdrant.tech/api-reference/points/delete-vectors))
 
 To delete entire points, see [deleting points](#delete-points).
 
-### Update payload
+### Update Payload
 
 Learn how to modify the payload of a point in the [Payload](/documentation/manage-data/payload/#update-payload) section.
 
-## Delete points
+## Delete Points
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/delete-points)):
 
@@ -306,7 +306,7 @@ An alternative way to specify which points to remove is to use a filter.
 
 This example removes all points with `{ "color": "red" }` from the collection.
 
-## Conditional updates
+## Conditional Updates
 
 _Available as of v1.16.0_
 
@@ -334,7 +334,7 @@ If Client B tries to write back its changes later, the condition would fail (as 
 
 Instead of `version`, applications can use timestamps (assuming synchronized clocks) or any other monotonically increasing value that fits their data model.
 
-## Retrieve points
+## Retrieve Points
 
 There is a method for retrieving points by their ids.
 
@@ -352,7 +352,7 @@ REST API ([Schema](https://api.qdrant.tech/api-reference/points/get-point)):
 
 {{< code-snippet path="/documentation/headless/snippets/retrieve-points/single/" >}}
 
-## Scroll points
+## Scroll Points
 
 Sometimes it might be necessary to get all stored points without knowing IDs, or iterate over points that correspond to a filter.
 
@@ -386,7 +386,7 @@ All resulting points are sorted by ID. To query the next page it is necessary to
 For convenience, this ID is also returned in the field `next_page_offset`.
 If the value of the `next_page_offset` field is `null` - the last page is reached.
 
-### Order points by payload key
+### Order Points by Payload Key
 
 _Available as of v1.8.0_
 
@@ -404,7 +404,7 @@ You need to use the `order_by` `key` parameter to specify the payload key. Then 
 
 When sorting is based on a non-unique value, it is not possible to rely on an ID offset. Thus, next_page_offset is not returned within the response. However, you can still do pagination by combining `"order_by": { "start_from": ... }` with a `{ "must_not": [{ "has_id": [...] }] }` filter.
 
-## Counting points
+## Counting Points
 
 _Available as of v0.8.4_
 
@@ -428,7 +428,7 @@ Returns the number of counts matching the given filtering conditions:
 }
 ```
 
-## Batch update
+## Batch Update
 
 _Available as of v1.5.0_
 
@@ -457,7 +457,7 @@ To batch many points with a single operation type, please use batching
 functionality in that operation directly.
 
 
-## Awaiting result
+## Awaiting Result
 
 If the API is called with the `&wait=false` parameter, or if it is not explicitly specified, the client will receive an acknowledgment of receiving data:
 
