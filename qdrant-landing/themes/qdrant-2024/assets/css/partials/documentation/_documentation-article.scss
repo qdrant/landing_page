@@ -160,6 +160,17 @@ article.documentation-article {
 
 }
 
+[data-theme='dark'] {
+  .documentation-article {
+    .table-responsive {
+      th,
+      td {
+        color: $neutral-70;
+      }
+    }
+  }
+}
+
 [data-theme='light'] {
   .documentation-article {
     h1,
