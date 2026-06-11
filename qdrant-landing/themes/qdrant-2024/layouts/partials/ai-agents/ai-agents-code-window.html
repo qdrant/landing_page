@@ -1,0 +1,45 @@
+{{/*
+  Reusable code window with copy button for AI Agents sections.
+
+  Params:
+    - block: BEM block prefix (e.g. "ai-agents-hero")
+    - codeBar: filename shown in the header
+    - code: source code string
+    - id: unique suffix for SVG clip-path IDs (required when multiple instances per page)
+    - language: optional, default "python"
+*/}}
+{{ $block := .block }}
+{{ $clipId := printf "code-window-clip-%s" .id }}
+{{ $lang := .language | default "python" }}
+<div class="{{ $block }}__code js-copy-code">
+  <div class="{{ $block }}__code-header">
+    <div class="{{ $block }}__code-window-buttons">
+      <div class="{{ $block }}__code-window-buttons__close"></div>
+      <div class="{{ $block }}__code-window-buttons__minimize"></div>
+      <div class="{{ $block }}__code-window-buttons__expand"></div>
+    </div>
+    <p class="{{ $block }}__code-bar">{{ .codeBar }}</p>
+  </div>
+  <div class="{{ $block }}__code-content">
+    {{ with .code }}
+      {{ highlight . $lang "" }}
+    {{ end }}
+    <button type="button" class="{{ $block }}__code-content-button js-copy-code__copy" aria-label="Copy code">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g clip-path="url(#{{ $clipId }})">
+          <path d="M2 8C1.45 8 1 7.55 1 7V2C1 1.45 1.45 1 2 1H7C7.55 1 8 1.45 8 2M5 4H10C10.5523 4 11 4.44771 11 5V10C11 10.5523 10.5523 11 10 11H5C4.44771 11 4 10.5523 4 10V5C4 4.44771 4.44771 4 5 4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <defs>
+          <clipPath id="{{ $clipId }}">
+            <rect width="12" height="12" fill="white"/>
+          </clipPath>
+        </defs>
+      </svg>
+    </button>
+    <button type="button" class="{{ $block }}__code-content-button js-copy-code__done" aria-label="Code copied">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</div>

@@ -4,10 +4,10 @@ title: Give Your Agents Memory That Works
 description: Store, retrieve, and reason over context with vector search. Drop Qdrant into your agent's retrieval loop in under 10 minutes.
 containedButton:
   text: Quickstart Guide
-  url: /
+  url: /documentation/quickstart/
 outlinedButton:
   text: View Examples
-  url: /
+  url: /blog/qdrant-skills-release/
 codeBar: agent_memory.py
 code: |
   from qdrant_client import QdrantClient
