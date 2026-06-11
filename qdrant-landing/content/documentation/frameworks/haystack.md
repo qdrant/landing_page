@@ -23,11 +23,11 @@ pip install qdrant-haystack
 
 `QdrantDocumentStore` supports [all the configuration properties](/documentation/manage-data/collections/#create-collection) available in
 the Qdrant Python client. If you want to customize the default configuration of the collection used under the hood, you can
-provide that settings when you create an instance of the `QdrantDocumentStore`. For example, if you'd like to enable the
+provide these settings when you create an instance of the `QdrantDocumentStore`. For example, if you'd like to enable the
 Scalar Quantization, you'd make that in the following way:
 
 ```python
-from qdrant_haystack.document_stores import QdrantDocumentStore
+from haystack_integrations.document_stores.qdrant import QdrantDocumentStore
 from qdrant_client import models
 
 document_store = QdrantDocumentStore(
