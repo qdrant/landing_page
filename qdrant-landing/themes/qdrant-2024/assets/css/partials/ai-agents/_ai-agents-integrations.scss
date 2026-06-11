@@ -6,10 +6,10 @@
   position: relative;
   background: radial-gradient(
     107.37% 114.83% at 50% 94.96%, 
-    rgba(67, 37, 174, 0.00) 0%, 
-    rgba(67, 37, 174, 0.00) 75%, 
-    rgba(67, 37, 174, 0.80) 90%, 
-    #6143E0 100%),
+    rgba($ai-agents-violet-gradient-base, 0) 0%, 
+    rgba($ai-agents-violet-gradient-base, 0) 75%, 
+    rgba($ai-agents-violet-gradient-base, 0.8) 90%, 
+    $ai-agents-violet-gradient-end 100%),
     $neutral-10;
 
   &__subtitle {
