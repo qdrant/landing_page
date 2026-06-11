@@ -234,23 +234,23 @@
           * {
             font-size: $font-size-s;
             line-height: $line-height-sm;
-            color: #28324D;
+            color: $neutral-30;
           }
 
           .c1 {
-            color: #717C99;
+            color: $neutral-60;
           }
 
           .s2, .nb {
-            color: #26A69A;
+            color: $ai-agents-code-string;
           }
 
           .k, .kn {
-            color: #7E75FF;
+            color: $ai-agents-code-keyword;
           }
 
           .mi {
-            color: #29B6F6;
+            color: $ai-agents-code-number;
           }
         }
       }
@@ -263,7 +263,7 @@
         border: pxToRem(1) solid $neutral-90;
         border-radius: math.div($spacer, 4);
         background: $neutral-98;
-        color: #8F98B3;
+        color: $neutral-70;
 
         svg {
           height: pxToRem(14);

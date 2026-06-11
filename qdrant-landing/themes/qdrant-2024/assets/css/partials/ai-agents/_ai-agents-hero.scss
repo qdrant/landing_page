@@ -51,11 +51,11 @@
     background-color: $neutral-10;
     border: pxToRem(1) solid $neutral-20;
     box-shadow:
-      pxToRem(179) pxToRem(179) pxToRem(71) 0 rgba(96, 71, 255, 0.00),
-      pxToRem(114) pxToRem(114) pxToRem(65) 0 rgba(96, 71, 255, 0.01),
-      pxToRem(64) pxToRem(64) pxToRem(55) 0 rgba(96, 71, 255, 0.05),
-      pxToRem(29) pxToRem(29) pxToRem(40) 0 rgba(96, 71, 255, 0.09),
-      pxToRem(7) pxToRem(7) pxToRem(22) 0 rgba(96, 71, 255, 0.10);
+      pxToRem(179) pxToRem(179) pxToRem(71) 0 rgba($ai-agents-violet-glow, 0),
+      pxToRem(114) pxToRem(114) pxToRem(65) 0 rgba($ai-agents-violet-glow, 0.01),
+      pxToRem(64) pxToRem(64) pxToRem(55) 0 rgba($ai-agents-violet-glow, 0.05),
+      pxToRem(29) pxToRem(29) pxToRem(40) 0 rgba($ai-agents-violet-glow, 0.09),
+      pxToRem(7) pxToRem(7) pxToRem(22) 0 rgba($ai-agents-violet-glow, 0.1);
     
     &-header {
       display: flex;
@@ -103,7 +103,7 @@
       height: pxToRem(400);
       margin: 0 math.div($spacer, 4);
       padding: pxToRem(28) pxToRem(20) pxToRem(28) pxToRem(28);
-      background: linear-gradient($neutral-20, #0e1424);
+      background: linear-gradient($neutral-20, $ai-agents-code-bg-end);
       border-right: pxToRem(1) solid $neutral-20;
       border-left: pxToRem(1) solid $neutral-20;
       overflow-y: auto;
@@ -145,23 +145,23 @@
           * {
             font-size: $font-size-s;
             line-height: $line-height-sm;
-            color: #C5C8C6;
+            color: $ai-agents-code-default-dark;
           }
 
           .c1 {
-            color: #717C99;
+            color: $neutral-60;
           }
 
           .s2, .nb {
-            color: #26A69A;
+            color: $ai-agents-code-string;
           }
 
           .k, .kn {
-            color: #7E75FF;
+            color: $ai-agents-code-keyword;
           }
 
           .mi {
-            color: #29B6F6;
+            color: $ai-agents-code-number;
           }
         }
       }
@@ -173,11 +173,11 @@
         padding: pxToRem(7);
         border: pxToRem(1) solid $neutral-30;
         border-radius: math.div($spacer, 4);
-        background: linear-gradient($neutral-20, #0e1424);
-        color: #B4BACC;
+        background: linear-gradient($neutral-20, $ai-agents-code-bg-end);
+        color: $neutral-80;
 
         &.js-copy-code__done {
-          color: #F0F3FA;
+          color: $neutral-98;
         }
 
         svg {

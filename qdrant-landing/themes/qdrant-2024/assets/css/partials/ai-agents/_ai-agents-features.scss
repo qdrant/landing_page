@@ -5,10 +5,10 @@
   padding-bottom: $spacer * 5;
   background: radial-gradient(
     115.51% 123.53% at 50% -4.94%, 
-    rgba(67, 37, 174, 0.00) 0%, 
-    rgba(67, 37, 174, 0.00) 75%, 
-    rgba(67, 37, 174, 0.80) 90%, 
-    #6143E0 100%),
+    rgba($ai-agents-violet-gradient-base, 0) 0%, 
+    rgba($ai-agents-violet-gradient-base, 0) 75%, 
+    rgba($ai-agents-violet-gradient-base, 0.8) 90%, 
+    $ai-agents-violet-gradient-end 100%),
     $neutral-10;
   
   &__header {
@@ -113,7 +113,7 @@
       height: pxToRem(472);
       margin: 0 math.div($spacer, 4);
       padding: pxToRem(28) pxToRem(20) pxToRem(28) pxToRem(28);
-      background: linear-gradient($neutral-20, #0e1424);
+      background: linear-gradient($neutral-20, $ai-agents-code-bg-end);
       border-right: pxToRem(1) solid $neutral-20;
       border-left: pxToRem(1) solid $neutral-20;
       overflow-y: auto;
@@ -167,11 +167,11 @@
         padding: pxToRem(7);
         border: pxToRem(1) solid $neutral-30;
         border-radius: math.div($spacer, 4);
-        background: linear-gradient($neutral-20, #0e1424);
-        color: #B4BACC;
+        background: linear-gradient($neutral-20, $ai-agents-code-bg-end);
+        color: $neutral-80;
 
         &.js-copy-code__done {
-          color: #F0F3FA;
+          color: $neutral-98;
         }
 
         svg {
@@ -211,10 +211,10 @@
     padding-bottom: $spacer * 10;
     background: radial-gradient(
       115.51% 123.53% at 50% -9.94%,
-      rgba(67, 37, 174, 0.00) 0%,
-      rgba(67, 37, 174, 0.00) 75%,
-      rgba(67, 37, 174, 0.80) 90%,
-      #6143E0 100%),
+      rgba($ai-agents-violet-gradient-base, 0) 0%,
+      rgba($ai-agents-violet-gradient-base, 0) 75%,
+      rgba($ai-agents-violet-gradient-base, 0.8) 90%,
+      $ai-agents-violet-gradient-end 100%),
       $neutral-10;
 
     &__title {
