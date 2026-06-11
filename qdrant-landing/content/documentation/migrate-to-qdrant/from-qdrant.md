@@ -17,6 +17,10 @@ Use the `qdrant` subcommand to copy a collection from one Qdrant instance to ano
 - **Target collection name** (must be different from source if using the same instance)
 - **API keys** — for each instance, if authentication is enabled
 
+<aside role="alert">
+  The target cluster needs <strong>twice the RAM and disk</strong> of the source collection during migration. Qdrant keeps original segments alongside newly built ones during optimization. You can scale back down once the migration completes.
+</aside>
+
 ## Concept Mapping
 
 | Source Qdrant | Target Qdrant | Notes |

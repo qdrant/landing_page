@@ -3,7 +3,7 @@ title: Capacity Planning
 short_description: "Size a Qdrant cluster by balancing RAM and disk for vectors, payload, indexes, replication, and quantization workloads."
 description: "Plan Qdrant cluster capacity: estimate RAM and disk for vectors, payloads, indexes, replication, and quantization to match your workload."
 partition: deploy
-weight: 238
+weight: 115
 aliases:
   - capacity
   - /documentation/cloud/capacity-sizing
@@ -109,6 +109,7 @@ Always remember to add 50% of the vector size. This would account for things lik
 total_vector_size = number_of_dimensions * 4 bytes * 1.5
 ```
 
-**Disclaimer**
+**Disclaimers**
 
-The above calculations are estimates at best. If you're looking for more accurate numbers, you should always test your data set in practice.
+- The above calculations are estimates at best. If you're looking for more accurate numbers, you should always test your data set in practice.
+- Migration scenarios require more headroom than normal operations. When using the Migration Tool or restoring a snapshot, the target cluster needs twice the disk of the source collection. When using the Migration Tool, it also needs twice the RAM. See [Migration and Recovery Options](/documentation/migration-recovery-options/) for details. 
