@@ -63,3 +63,8 @@
 
 # Deploy tab landing page slug change
 /documentation/cloud-intro/*    /documentation/deploy-intro/:splat    301
+
+# High-traffic missing pages
+/documentation/hybrid-search/   /documentation/search/hybrid-queries/    301
+/documentation/scroll/           /documentation/manage-data/points/#scroll-points       301
+/documentation/discovery/        /documentation/search/explore/           301
