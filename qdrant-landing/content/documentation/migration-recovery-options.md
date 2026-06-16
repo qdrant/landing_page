@@ -12,7 +12,7 @@ Qdrant gives you three mechanisms for moving or recovering data, each suited to 
 
 **Quick guide:**
 
-- Use the **[Qdrant Migration Tool](#qdrant-migration-tool)** when moving data from other vector search engines (for example, from Pinecone, Weaviate, or Chroma to Qdrant) or when you need to change shard counts, apply filters, or migrate a subset of data.
+- Use the **[Qdrant Migration Tool](#qdrant-migration-tool)** when moving data from other vector search engines (for example, from Pinecone, Weaviate, or Chroma to Qdrant), when you need to change shard counts, or migrate a subset of data.
 - Use **[Snapshots](#snapshots)** when moving a Qdrant collection between environments (for example, self-hosted to Cloud) and you want to skip re-indexing by transferring the existing index.
 - Use **[Cloud Backups](#cloud-backups)** for full cluster failure recovery or reverting a cluster to a previous state. This is the fastest restore option when you're on Qdrant Cloud.
 
@@ -30,9 +30,9 @@ See the [Data Migration tutorial](/documentation/tutorials-operations/migration/
 
 ## Snapshots
 
-Snapshots are `tar` archives of a collection's data, payload, and its pre-built index. Restoring a snapshot to a new cluster skips the indexing phase entirely, which can save hours on large collections.
+[Snapshots](/documentation/snapshots/) are `tar` archives of a collection's data and its pre-built index. Restoring a snapshot to a new cluster skips the indexing phase entirely, which can save hours on large collections.
 
-**When to use it:** Moving a Qdrant collection between environments (for example, self-hosted to Cloud or Managed Cloud to Private Cloud). For self-hosted deployments, snapshots also let you recover from a full cluster failure or revert to a known-good state after a failed deployment or data corruption.
+**When to use it:** Moving a Qdrant collection between environments (for example, self-hosted to Cloud, or Managed Cloud to Private Cloud). Snapshots also let you restore collections to a known-good state after accidental deletion, data corruption, or a failed data update.
 
 The target cluster still needs approximately two times the collection's disk size during the restore window, because the snapshot file and the restored collection exist simultaneously on disk until the restore is complete.
 
@@ -42,9 +42,9 @@ See [Snapshots](/documentation/snapshots/) for API reference and storage options
 
 ## Cloud Backups
 
-Cloud Backups work at the disk level: the storage volumes your Qdrant cluster runs on are snapshotted, without Qdrant reading or transferring any data. This makes it the fastest option to both create and restore.
+Cloud Backups work at the disk level: the storage volumes your Qdrant cluster runs on are snapshotted, without Qdrant reading or transferring any data. This makes it the fastest option.
 
-**When to use it:** Recovering from a full cluster failure, or reverting a cluster to a known-good state after a bad deployment or data corruption. Not suited for cross-environment migrations because the restore is constrained to the same cloud provider, same region, same Qdrant version, and same cluster shape.
+**When to use it:** Recovering from a full cluster failure, or reverting a cluster to a known-good state after a bad deployment or data corruption. The restore is constrained to the same cloud provider, same region, same Qdrant version, and same cluster shape.
 
 See [Backing up Qdrant Cloud Clusters](/documentation/cloud/backups/) for setup and restore instructions.
 
@@ -58,7 +58,7 @@ A high-level look at what each option does, the scenario it's designed for, and 
 
 | | Migration Tool | Snapshots | Cloud Backups |
 |---|---|---|---|
-| **Description** | Streams collection data to target | Captures collection data/state | Clones disks via CSI volume |
+| **Description** | Streams collection data to target | Captures collection data/state | Backs up volumes using CSI snapshots |
 | **When to use** | Migrations from other systems, shard changes | Collection migrations, recovery | Full failure recovery, cluster reversion |
 | **Scope** | Per collection (optional filter) | Per collection or shard | Entire volume |
 
@@ -80,9 +80,9 @@ How much effort each option requires, which APIs or tools you'll use, and where 
 | | Migration Tool | Snapshots | Cloud Backups |
 |---|---|---|---|
 | **Operational effort** | Moderate (CLI setup) | High (manual API scripting) | Low (automated, cluster-wide) |
-| **API / tooling** | Move/Copy CLI Tool | Qdrant REST API | Cloud infrastructure|
+| **API / tooling** | CLI Tool | Qdrant REST API | Cloud infrastructure|
 | **Snapshot location** | N/A | External (S3 or compatible) | Cloud infrastructure |
-| **Restore target** | N/A | Upload to any existing cluster | Restore within same region |
+| **Restore target** | Any existing cluster | Any existing cluster | Restore within same region |
 
 ### Infrastructure Limits
 
@@ -92,7 +92,7 @@ Constraints on source system, target cloud, cluster shape, and Qdrant version co
 |---|---|---|---|
 | **Flexibility** | High | Moderate | Low |
 | **Source system** | [Supported Sources](/documentation/migrate-to-qdrant/#supported-sources) | Qdrant cluster | Qdrant on compatible cloud infra |
-| **Target cloud** | Any | Any (cloud, hybrid, local) | Same cloud provider only |
+| **Target cloud** | Any | Any | Same cloud provider only |
 | **Target cluster shape** | Flexible | Moderate: same shard count | Strict: same config & node count |
 | **Target Qdrant version** | Any | Same or newer | Exact same version |
 
