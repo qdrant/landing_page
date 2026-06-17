@@ -9,9 +9,6 @@ weight: 5
 
 The following instruction set will show you how to properly set up a **Qdrant cluster** in your **Hybrid Cloud Environment**. 
 
-You can also watch a video demo on how to set up a Hybrid Cloud Environment:
-<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/BF02jULGCfo?si=apU1uQOE8AMjq9hD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
-
 To learn how Hybrid Cloud works, [read the overview document](/documentation/hybrid-cloud/). 
 
 ## Prerequisites
@@ -45,43 +42,34 @@ You will need to have access to the Kubernetes cluster with `kubectl` and `helm`
 
 2. Before creating your first Hybrid Cloud Environment, you have to provide billing information and accept the Hybrid Cloud license agreement. The installation wizard will guide you through the process.
 
-> **Note:** You will only be charged for the Qdrant cluster you create in a Hybrid Cloud Environment, but not for the environment itself.
+    > **Note:** You will only be charged for the Qdrant cluster you create in a Hybrid Cloud Environment, but not for the environment itself.
 
-3. Now you can specify the following:
+3. Specify the following:
 
     - **Environment Name:** A name for the Hybrid Cloud Environment
     - **Kubernetes Namespace:** The Kubernetes namespace for the services (like agent and operator). Once you select a namespace, you can't change it.
 
-   You can also configure the StorageClass and VolumeSnapshotClass to use for the Qdrant databases, if you want to deviate from the default settings of your cluster.
-
-   By default, Qdrant Cloud will provision two volumes per Qdrant Pod: One for the data stored within Qdrant, and one for [collection snapshots](/documentation/snapshots/). By default, the same StorageClass will be used for both volumes. You can also configure a different StorageClass in the advanced configuration options of your Hybrid Cloud environment. If you want to disable the snapshot volume, you can configure `emptyDir` as a Snapshot StorageClass.
-
    ![Create Hybrid Cloud Environment](/documentation/cloud/hybrid_cloud_env_create.png)
 
-4. You can then enter the YAML configuration for your Kubernetes operator. Qdrant supports a specific list of configuration options, as described in the [Qdrant Operator configuration](/documentation/hybrid-cloud/operator-configuration/) section.
+4. (Optional) Configure any of the following settings if needed:
 
-5. (Optional) If you have special requirements for any of the following, activate the **Show advanced configuration** option:
-
+    - Node selectors and tolerations for the operator, agent, cluster-manager and monitoring stack.
+    - Control Plane Labels that will be added to all Kubernetes resources of the Hybrid Cloud control-plane components.
+    ![Create Hybrid Cloud Environment - Connection Scheduling](/documentation/cloud/Hcloud_connection_scheduling_2.png)
     - If you use a proxy to connect from your infrastructure to the Qdrant Cloud API, you can specify the proxy URL, credentials and certificates.
     ![Create Hybrid Cloud Environment - Advanced Configuration](/documentation/cloud/hybrid_cloud_advanced_configuration.png)
     - Container registry URL for Qdrant services (like Agent, Operator, Cluster-manager and monitoring stack) images. The default is <https://registry.cloud.qdrant.io/qdrant/>.
     - Helm chart repository URL for the Qdrant services. The default is <oci://registry.cloud.qdrant.io/qdrant-charts>.
     - An optional secret with credentials to access your own container registry.
     ![Create Hybrid Cloud Environment - Custom Registries](/documentation/cloud/Hcloud_connection_custom_registries.png)
-    - Log level for the operator and agent.
-    - Node selectors and tolerations for the operator, agent, cluster-manager and monitoring stack.
-    - Control Plane Labels that will be added to all Kubernetes resources of the Hybrid Cloud control-plane components.
-    ![Create Hybrid Cloud Environment - Connection Scheduling](/documentation/cloud/Hcloud_connection_scheduling_2.png)
 
-6. Once complete, click the **Save and Generate Installation Command** button to proceed
+5. Once complete, click the **Save and Generate Installation Command** button to proceed
 
 > **Note:** All settings but the Kubernetes namespace can be changed later.
 
 ### Generate Installation Command
 
-After setting up your Hybrid Cloud, select **Save and Generate Installation Command** to generate a script that you can run in your Kubernetes cluster which will perform the initial installation of the Kubernetes operator and agent.
-
-![Rotate Hybrid Cloud Secrets](/documentation/cloud/hybrid_cloud_create_command.png)
+Clicking **Save and Generate Installation Command** generates a script that you can run in your Kubernetes cluster to perform the initial installation of the Kubernetes operator and agent.
 
 It will:
 
