@@ -13,7 +13,12 @@ Make sure to select your Hybrid Cloud Environment as the target.
 
 ![Create Hybrid Cloud Cluster](/documentation/cloud/hybrid_cloud_create_cluster.png)
 
-Note that in the "Kubernetes Configuration" section you can additionally configure:
+In the "Set up Your Storage" section, you can configure:
+- Database Storage Class, for the data stored within Qdrant.
+- Snapshot Storage Class, for [collection snapshots](/documentation/snapshots/).
+- Volume Snapshot Storage Class for backups. If you want to disable the snapshot volume, you can configure `None` as a Snapshot StorageClass, but you won't be able to make backups.
+
+In the "Kubernetes Configuration" section you can additionally configure:
 
 * NodeSelectors for the Qdrant database pods
 * Toleration for the Qdrant database pods
@@ -22,8 +27,6 @@ Note that in the "Kubernetes Configuration" section you can additionally configu
 * A service type and annotations for the Qdrant database service
 
 These settings can also be changed after the cluster is created on the cluster detail page.
-
-![Create Hybrid Cloud Cluster - Kubernetes Configuration](/documentation/cloud/hybrid_cloud_kubernetes_configuration.png)
 
 ### Scheduling Configuration
 
