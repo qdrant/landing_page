@@ -63,7 +63,7 @@ You will need to have access to the Kubernetes cluster with `kubectl` and `helm`
     - An optional secret with credentials to access your own container registry.
     ![Create Hybrid Cloud Environment - Custom Registries](/documentation/cloud/Hcloud_connection_custom_registries.png)
 
-5. Once complete, click the **Save and Generate Installation Command** button to proceed
+5. Once complete, click the **Save and Generate Installation Command** button to proceed (see next section).
 
 > **Note:** All settings but the Kubernetes namespace can be changed later.
 
