@@ -24,7 +24,7 @@ That memory has a concrete shape. As the robot moves, it turns what its camera s
 
 To make that memory visible, we built a demo you can drive. The robot starts each run from zero: a recorded walkthrough of a home plays as its camera feed, and every object it sees lands in a searchable memory on the device. Type what you remember, like "a leather lounge chair," and the memory returns the object the robot passed two rooms ago in under a millisecond. Cut the network and nothing changes, because nothing ever left the device: the whole thing runs as one process.
 
-![Mission control during the patrol: live detection boxes over a dining room, a search for a leather lounge chair returning captioned object crops in 0.29 ms, and an object inventory filling up on the right](/blog/qdrant-edge-on-device-vector-search/mission-control.png)
+![Qdrant Edge mission control: YOLOE detection boxes over a kitchen scene, a hybrid search for the query 'bar stools' returning captioned object crops with relevance scores, a live object inventory along the bottom, and an on-device search latency of 0.51 ms next to a typical cloud round trip](/blog/qdrant-edge-on-device-vector-search/mission-control.png)
 
 ## Why Cloud-First Retrieval Breaks at the Edge
 
@@ -71,7 +71,13 @@ The robot demo (the [full source is on GitHub](https://github.com/qdrant-labs/ed
 - **Florence-2** captions each new object on a background thread ("a chrome bar stool on a wooden floor").
 - **The Edge shard** stores all of it: dense vision vectors for similarity, sparse [BM25](/documentation/edge/edge-bm25/) vectors over the captions for keyword matching, plus payload indexes and live facet counts per object class.
 
-A search embeds your text once, then runs two prefetches inside the shard, dense similarity over the object crops and BM25 over the captions, and fuses them with [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/). Measured inside the shard, after that one-time text embedding, the hybrid query returns scored objects in 0.29 ms, all in-process. You can also teach the robot a new concept live: type "a surfboard" and it starts detecting surfboards in about 300 ms, from a single text embedding, with no retraining.
+{{< figure src="/blog/qdrant-edge-on-device-vector-search/panel-detection.png" alt="The demo's live feed with open-vocabulary YOLOE detection boxes labeling a cabinet, dining chairs, bar stools, and a dining table in a kitchen, plus per-frame detect, embed, and store timings along the bottom" caption="**Live feed.** Open-vocabulary detection on each frame, with per-frame detect, embed, and store timings." width="100%" >}}
+
+{{< figure src="/blog/qdrant-edge-on-device-vector-search/panel-object-memory.png" alt="The object memory inventory: live counts per class such as cabinet 12, coffee table 7, sofa 7, dining chair 4, and bar stool 3, above a strip of captioned object thumbnails" caption="**Object memory.** Live facet counts per class, maintained in the shard as objects are detected." width="100%" >}}
+
+A search embeds your text once, then runs two prefetches inside the shard, dense similarity over the object crops and BM25 over the captions, and fuses them with [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/). Measured inside the shard, after that one-time text embedding, the hybrid query returns scored objects in under a millisecond, all in-process. You can also teach the robot a new concept live: type "a surfboard" and it starts detecting surfboards in about 300 ms, from a single text embedding, with no retraining.
+
+{{< figure src="/blog/qdrant-edge-on-device-vector-search/panel-search.png" alt="The on-device memory panel: 230 vectors and 81 objects in a 14.6 MB shard, a local search latency of 0.51 ms next to a typical cloud round trip, and hybrid results for the query 'bar stools' showing captioned object crops ranked by relevance score" caption="**Hybrid search.** A text query fused over dense object crops and BM25 captions, returned from local memory in 0.51 ms." width="48%" >}}
 
 ## Three Patterns for On-Device Vector Search
 
