@@ -70,23 +70,3 @@ slower, and the optimizer can be a bottleneck when ingesting a large amount of
 data.
 
 For full configuration details, see [Configuring Memmap Storage](/documentation/manage-data/storage/#configuring-memmap-storage).
-
-## Disable Indexing During Upload
-
-<aside role="alert">
-Disabling indexing is not recommended for general use, as it can lead to high RAM usage and slow search performance until indexing is re-enabled and catches up with the backlog of unindexed segments.
-</aside>
-
-Qdrant incrementally builds an HNSW index for dense vectors as new data arrives. This ensures fast search, but indexing is memory- and CPU-intensive. During bulk ingestion, frequent index updates can reduce throughput and increase resource usage.
-
-During an initial upload of a large dataset, you may want to temporarily disable indexing. This defers HNSW graph construction until after the upload is complete.
-
-To disable indexing, set `indexing_threshold` to `0`:
-
-{{< code-snippet path="/documentation/headless/snippets/update-collection/indexing-threshold-0/" >}}
-
-Don't keep `indexing_threshold` set to 0 indefinitely. This can lead to high RAM usage and slow search performance. After the upload is done, re-enable indexing by setting `indexing_threshold` to a desired value (default is 10000):
-
-{{< code-snippet path="/documentation/headless/snippets/update-collection/simple/" >}}
-
-At this point, Qdrant will begin indexing new and previously unindexed segments in the background.
