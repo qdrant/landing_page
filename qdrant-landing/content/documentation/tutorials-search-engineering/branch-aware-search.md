@@ -19,7 +19,7 @@ When a document corpus is versioned with git-style branches, an ordinary search 
 Each version of a file is one point, embedded with a dense model for semantic search. The [Cloud Quickstart](/documentation/cloud-quickstart/) covers creating a cluster and connecting a client.
 
 <aside role="status">
-This tutorial uses <a href="/documentation/inference/#qdrant-cloud-inference">Qdrant Cloud Inference</a> to generate embeddings server-side. The free tier covers this tutorial's footprint. To self-host, generate dense vectors on the client with a library like <a href="/documentation/fastembed/">FastEmbed</a> and pass them as raw vectors instead of <code>models.Document</code>.
+This tutorial uses <a href="/documentation/inference/cloud-inference/">Qdrant Cloud Inference</a> to generate embeddings server-side. The free tier covers this tutorial's footprint. To self-host, generate dense vectors on the client with a library like <a href="/documentation/fastembed/">FastEmbed</a> and pass them as raw vectors instead of <code>models.Document</code>.
 </aside>
 
 ```python
@@ -759,4 +759,4 @@ for branch, anc in [("root", root_ancestry), ("A", A_ancestry), ("B", B_ancestry
 
 - [Filtering](/documentation/search/filtering/) for the full set of filter clauses, including the [nested object filter](/documentation/search/filtering/#nested-object-filter) that binds `by` and `seq` on the same record.
 - [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for the index types the visibility fields use.
-- [Qdrant Cloud Inference](/documentation/inference/#qdrant-cloud-inference) for generating the dense embeddings server-side.
+- [Qdrant Cloud Inference](/documentation/inference/cloud-inference/) for generating the dense embeddings server-side.

@@ -27,7 +27,7 @@ pip install qdrant-client datasets
 ```
 
 <aside role="status">
-This tutorial uses <a href="/documentation/inference/#qdrant-cloud-inference">Qdrant Cloud Inference</a> to generate embeddings server-side. The free tier covers this tutorial's footprint. Core BM25 runs on any Qdrant instance, but dense Cloud Inference is Cloud-only. To self-host, generate dense vectors on the client with a library like <a href="/documentation/fastembed/">FastEmbed</a> and pass them as raw vectors instead of <code>models.Document</code>.
+This tutorial uses <a href="/documentation/inference/cloud-inference/">Qdrant Cloud Inference</a> to generate embeddings server-side. The free tier covers this tutorial's footprint. Core BM25 runs on any Qdrant instance, but dense Cloud Inference is Cloud-only. To self-host, generate dense vectors on the client with a library like <a href="/documentation/fastembed/">FastEmbed</a> and pass them as raw vectors instead of <code>models.Document</code>.
 </aside>
 
 ## Dataset

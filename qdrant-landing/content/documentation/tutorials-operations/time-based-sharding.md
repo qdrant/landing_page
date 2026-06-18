@@ -42,7 +42,7 @@ Next, initialize the client:
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="initialize-client" >}}
 
-This tutorial assumes you are using [Qdrant Cloud Inference](/documentation/inference/#qdrant-cloud-inference) to generate vector embeddings. If you manage your own embedding infrastructure, you can apply the same principles, but you will need to adapt the code examples to use your embedding service.
+This tutorial assumes you are using [Qdrant Cloud Inference](/documentation/inference/cloud-inference/) to generate vector embeddings. If you manage your own embedding infrastructure, you can apply the same principles, but you will need to adapt the code examples to use your embedding service.
 
 ## Create Collection
 

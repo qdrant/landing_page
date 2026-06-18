@@ -17,7 +17,7 @@ Qdrant is a vector search engine, making it a great tool for [semantic search](#
 Semantic search is a search technique that focuses on the meaning of the text rather than just matching on keywords. This is achieved by converting text into [vectors](/documentation/manage-data/vectors/) (embeddings) using machine learning models. These vectors capture the semantic meaning of the text, enabling you to find similar text even if it doesn't share exact keywords.
 
 <aside role="status">
-The examples in this guide use <a href="/documentation/inference/">inference</a> to let Qdrant generate the vectors. Inference is only available on <a href="/documentation/inference/#qdrant-cloud-inference">Qdrant Cloud</a>, with the exception of the BM25 model. If you are not running on Qdrant Cloud, you can use a library like <a href="/documentation/fastembed/">FastEmbed</a> to generate vectors on the client side. When using FastEmbed, refer to the documentation, as its API may differ from that of server-side inference.
+The examples in this guide use <a href="/documentation/inference/">inference</a> to let Qdrant generate the vectors. Inference is only available on <a href="/documentation/inference/cloud-inference/">Qdrant Cloud</a>, with the exception of the BM25 model. If you are not running on Qdrant Cloud, you can use a library like <a href="/documentation/fastembed/">FastEmbed</a> to generate vectors on the client side. When using FastEmbed, refer to the documentation, as its API may differ from that of server-side inference.
 </aside>
 
 For example, to search through a collection of books, you could use a model like the `all-MiniLM-L6-v2` sentence transformer model. First, create a collection and configure a dense vector for the book descriptions:
@@ -180,7 +180,7 @@ BM25 (Best Matching 25) is a popular ranking algorithm that takes a probabilisti
 - Inverse document frequency (IDF): the rarer a term is across all documents, the higher the weight of that term.
 - Document length: a term appearing in a shorter document is more relevant than the same term appearing in a longer document.
 
-Qdrant provides native support for BM25 through an [inference model](/documentation/inference/#server-side-inference-bm25) that generates sparse vectors, or you can generate vectors on the client side using the [FastEmbed](/documentation/fastembed/) library.
+Qdrant provides native support for BM25 through an [inference model](/documentation/inference/inference-bm25/) that generates sparse vectors, or you can generate vectors on the client side using the [FastEmbed](/documentation/fastembed/) library.
 
 The BM25 model supports the same [text processing](#text-processing) options as text indices, including tokenization, lowercasing, ASCII folding, stemming, and stopword removal. A notable difference with text indices is that BM25 defaults to English stemming and stopword removal. If you are using a language other than English, ensure that you [configure](#language-specific-settings) the model accordingly.
 
@@ -269,7 +269,7 @@ The SPLADE (Sparse Lexical and Dense) family of models are transformer-based mod
 
 The advantage of using SPLADE models is that they [perform better](/articles/sparse-vectors/#splade) than traditional BM25. They also have several downsides though. First, because they use a fixed vocabulary, you can't use SPLADE models to find terms that are not in the vocabulary, such as product IDs and out-of-domain language (words not seen in training). Secondly, because they are transformer-based models, SPLADE models are slower and require more computational resources than the traditional BM25 model.
 
-On [Qdrant Cloud](/documentation/inference/#qdrant-cloud-inference), you can use the SPLADE++ model with inference. Alternatively, you can generate vectors on the client side using the [FastEmbed](/documentation/fastembed/) library.
+On [Qdrant Cloud](/documentation/inference/cloud-inference/), you can use the SPLADE++ model with inference. Alternatively, you can generate vectors on the client side using the [FastEmbed](/documentation/fastembed/) library.
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-splade/" >}}
 
