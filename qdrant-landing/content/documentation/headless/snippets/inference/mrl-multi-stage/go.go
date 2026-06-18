@@ -18,7 +18,9 @@ func Main() {
 
 	if err != nil { panic(err) } // @hide
 
-	client.Query(context.Background(), &qdrant.QueryPoints{
+	ctx := qdrant.WithHeader(context.Background(), "openai-api-key", "<YOUR_OPENAI_API_KEY>")
+
+	client.Query(ctx, &qdrant.QueryPoints{
 		CollectionName: "{collection_name}",
 		Prefetch: []*qdrant.PrefetchQuery{
 			{
@@ -27,8 +29,7 @@ func Main() {
 						Model: "openai/text-embedding-3-small",
 						Text:  "How to bake cookies?",
 						Options: qdrant.NewValueMap(map[string]any{
-							"mrl":            64,
-							"openai-api-key": "<YOUR_OPENAI_API_KEY>",
+							"mrl": 64,
 						}),
 					}),
 				),
@@ -40,9 +41,6 @@ func Main() {
 			qdrant.NewVectorInputDocument(&qdrant.Document{
 				Model: "openai/text-embedding-3-small",
 				Text:  "How to bake cookies?",
-				Options: qdrant.NewValueMap(map[string]any{
-					"openai-api-key": "<YOUR_OPENAI_API_KEY>",
-				}),
 			}),
 		),
 		Using: qdrant.PtrOf("large"),

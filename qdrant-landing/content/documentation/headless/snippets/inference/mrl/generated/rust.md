@@ -7,6 +7,7 @@ use qdrant_client::{
 };
 
 client
+    .with_header("openai-api-key", "<YOUR_OPENAI_API_KEY>")
     .upsert_points(
         UpsertPointsBuilder::new(
             "{collection_name}",
@@ -18,10 +19,7 @@ client
                         Document {
                             text: "Recipe for baking chocolate chip cookies".into(),
                             model: "openai/text-embedding-3-small".into(),
-                            options: HashMap::<String, Value>::from_iter(vec![(
-                                "openai-api-key".into(),
-                                "<YOUR_OPENAI_API_KEY>".into(),
-                            )]),
+                            options: HashMap::new(),
                         },
                     )
                     .add_vector(
@@ -29,13 +27,10 @@ client
                         Document {
                             text: "Recipe for baking chocolate chip cookies".into(),
                             model: "openai/text-embedding-3-small".into(),
-                            options: HashMap::<String, Value>::from_iter(vec![
-                                (
-                                    "openai-api-key".into(),
-                                    Value::from("<YOUR_OPENAI_API_KEY>"),
-                                ),
-                                ("mrl".into(), Value::from(64)),
-                            ]),
+                            options: HashMap::<String, Value>::from_iter(vec![(
+                                "mrl".into(),
+                                Value::from(64),
+                            )]),
                         },
                     ),
                 Payload::default(),

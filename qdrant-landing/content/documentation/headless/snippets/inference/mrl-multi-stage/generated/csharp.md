@@ -2,29 +2,29 @@
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
-await client.QueryAsync(
-    collectionName: "{collection_name}",
-    prefetch:
-    [
-        new()
-        {
-            Query = new Document()
+using (RequestHeaders.Use("openai-api-key", "<YOUR_OPENAI_API_KEY>"))
+    await client.QueryAsync(
+        collectionName: "{collection_name}",
+        prefetch:
+        [
+            new()
             {
-                Model = "openai/text-embedding-3-small",
-                Text = "How to bake cookies?",
-                Options = { ["openai-api-key"] = "<YOUR_OPENAI_API_KEY>", ["mrl"] = 64 },
+                Query = new Document()
+                {
+                    Model = "openai/text-embedding-3-small",
+                    Text = "How to bake cookies?",
+                    Options = { ["mrl"] = 64 },
+                },
+                Using = "small",
+                Limit = 1000,
             },
-            Using = "small",
-            Limit = 1000,
+        ],
+        query: new Document()
+        {
+            Model = "openai/text-embedding-3-small",
+            Text = "How to bake cookies?",
         },
-    ],
-    query: new Document()
-    {
-        Model = "openai/text-embedding-3-small",
-        Text = "How to bake cookies?",
-        Options = { ["openai-api-key"] = "<YOUR_OPENAI_API_KEY>" },
-    },
-    usingVector: "large",
-    limit: 10
-);
+        usingVector: "large",
+        limit: 10
+    );
 ```

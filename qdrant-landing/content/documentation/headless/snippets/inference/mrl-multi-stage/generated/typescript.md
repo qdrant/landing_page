@@ -1,27 +1,25 @@
 ```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
+import { QdrantClient, withHeaders } from "@qdrant/js-client-rest";
 
-client.query("{collection_name}", {
-    prefetch: {
+await withHeaders({ 'openai-api-key': '<YOUR_OPENAI_API_KEY>' }, () =>
+    client.query("{collection_name}", {
+        prefetch: {
+            query: {
+                text: "How to bake cookies?",
+                model: "openai/text-embedding-3-small",
+                options: {
+                    mrl: 64,
+                }
+            },
+            using: 'small',
+            limit: 1000,
+        },
         query: {
             text: "How to bake cookies?",
             model: "openai/text-embedding-3-small",
-            options: {
-                "openai-api-key": "<YOUR_OPENAI_API_KEY>",
-                mrl: 64,
-            }
         },
-        using: 'small',
-        limit: 1000,
-    },
-    query: {
-        text: "How to bake cookies?",
-        model: "openai/text-embedding-3-small",
-        options: {
-            "openai-api-key": "<YOUR_OPENAI_API_KEY>"
-        }
-    },
-    using: 'large',
-    limit: 10,
-});
+        using: 'large',
+        limit: 10,
+    })
+);
 ```

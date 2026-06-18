@@ -5,8 +5,10 @@ import static io.qdrant.client.ValueFactory.value;
 import static io.qdrant.client.VectorFactory.vector;
 import static io.qdrant.client.VectorsFactory.namedVectors;
 
+import io.grpc.Context;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.RequestHeaders;
 import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.PointStruct;
 import java.util.List;
@@ -22,7 +24,10 @@ public class Snippet {
                             .build());
                 // @hide-end
 
-                client
+                Context ctx = RequestHeaders.withHeader(
+                    Context.current(), "openai-api-key", "<YOUR_OPENAI_API_KEY>");
+
+                ctx.call(() -> client
                     .upsertAsync(
                         "{collection_name}",
                         List.of(
@@ -36,23 +41,15 @@ public class Snippet {
                                                 Document.newBuilder()
                                                     .setModel("openai/text-embedding-3-small")
                                                     .setText("Recipe for baking chocolate chip cookies")
-                                                    .putAllOptions(
-                                                        Map.of(
-                                                            "openai-api-key", value("<YOUR_OPENAI_API_KEY>")))
                                                     .build()),
                                             "small",
                                             vector(
                                                 Document.newBuilder()
                                                     .setModel("openai/text-embedding-3-small")
                                                     .setText("Recipe for baking chocolate chip cookies")
-                                                    .putAllOptions(
-                                                        Map.of(
-                                                            "openai-api-key",
-                                                            value("<YOUR_OPENAI_API_KEY>"),
-                                                            "mrl",
-                                                            value(64)))
+                                                    .putAllOptions(Map.of("mrl", value(64)))
                                                     .build()))))
                                 .build()))
-                    .get();
+                    .get());
         }
 }

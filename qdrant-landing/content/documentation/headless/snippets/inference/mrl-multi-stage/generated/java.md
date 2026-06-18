@@ -2,14 +2,19 @@
 import static io.qdrant.client.QueryFactory.nearest;
 import static io.qdrant.client.ValueFactory.value;
 
+import io.grpc.Context;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.RequestHeaders;
 import io.qdrant.client.grpc.Points;
 import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
 import java.util.Map;
 
-client
+Context ctx = RequestHeaders.withHeader(
+    Context.current(), "openai-api-key", "<YOUR_OPENAI_API_KEY>");
+
+ctx.call(() -> client
     .queryAsync(
         Points.QueryPoints.newBuilder()
             .setCollectionName("{collection_name}")
@@ -20,12 +25,7 @@ client
                             Document.newBuilder()
                                 .setModel("openai/text-embedding-3-small")
                                 .setText("How to bake cookies?")
-                                .putAllOptions(
-                                    Map.of(
-                                        "openai-api-key",
-                                        value("<YOUR_OPENAI_API_KEY>"),
-                                        "mrl",
-                                        value(64)))
+                                .putAllOptions(Map.of("mrl", value(64)))
                                 .build()))
                     .setUsing("small")
                     .setLimit(1000)
@@ -35,9 +35,8 @@ client
                     Document.newBuilder()
                         .setModel("openai/text-embedding-3-small")
                         .setText("How to bake cookies?")
-                        .putAllOptions(Map.of("openai-api-key", value("<YOUR_OPENAI_API_KEY>")))
                         .build()))
             .setUsing("large")
             .build())
-    .get();
+    .get());
 ```
