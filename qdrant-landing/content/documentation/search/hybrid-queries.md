@@ -163,52 +163,6 @@ A formula query lets you compose a final score from prefetch scores (`$score`), 
 
 The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) shows this pattern end-to-end with exponential decay on a `published_at` payload field. For full formula query and decay function syntax, see the [Search Relevance reference](/documentation/search/search-relevance/).
 
-### Query Decomposition for Multi-Hop Questions
-
-Multi-stage queries reorder candidates from a single request. A multi-hop question needs more than reordering: the evidence for a later step may never be retrieved by the original query, so there is nothing to rescore. For example, "Where was the director of the film Inception born?" has two steps: first find the director, then find where that person was born.
-
-Decomposition handles this. Retrieve once for the question, let an LLM read those results and ask the next sub-question, then retrieve again and merge both result sets.
-
-```python
-from openai import OpenAI
-from qdrant_client import QdrantClient
-
-llm = OpenAI(api_key="<your-api-key>")
-client = QdrantClient(url="http://localhost:6333")
-
-def retrieve(text):
-    return client.query_points(
-        collection_name="{collection_name}",
-        query=embed(text),  # embed the text with the same model your collection uses
-        using="dense",
-        limit=10,
-    ).points
-
-question = "Where was the director of the film Inception born?"
-
-# Step 1: retrieve for the question as written.
-hits = retrieve(question)
-
-# Step 2: let the model read those results and ask the next sub-question.
-context = "\n".join(hit.payload["text"] for hit in hits[:3])
-follow_up = llm.chat.completions.create(
-    model="gpt-5.5",
-    messages=[{"role": "user", "content":
-        f"Question: {question}\n\nResults so far:\n{context}\n\n"
-        f"What single follow-up question still needs answering? Reply with only the question."}],
-).choices[0].message.content.strip()
-
-# Step 3: retrieve for the follow-up, then merge, keeping the best score per passage.
-merged = {hit.id: hit for hit in hits}
-for hit in retrieve(follow_up):
-    if hit.id not in merged or hit.score > merged[hit.id].score:
-        merged[hit.id] = hit
-
-pool = sorted(merged.values(), key=lambda hit: hit.score, reverse=True)[:10]
-```
-
-`embed()` is your own embedding step, using the same model your collection was indexed with. Merging keeps the best-scoring copy of each passage, so evidence from either step reaches the final pool. For questions with more than two steps, repeat steps 2 and 3 until the model has no further sub-question.
-
 ## Grouping
 
 _Available as of v1.11.0_
