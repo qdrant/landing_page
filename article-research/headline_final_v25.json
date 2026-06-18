@@ -1,0 +1,311 @@
+{
+  "n_test": 321,
+  "n_answerable": 180,
+  "n_unanswerable": 141,
+  "touched_once": false,
+  "test_reuse": {
+    "v2": {
+      "multi_in_prior_ans": 16,
+      "unans_in_prior_unans": 60,
+      "single_src_in_prior_ans": 23
+    },
+    "v1": {
+      "multi_in_prior_ans": 10,
+      "unans_in_prior_unans": 60,
+      "single_src_in_prior_ans": 23
+    }
+  },
+  "lead_metrics": [
+    "recall@3",
+    "full_gold@3"
+  ],
+  "note_mrr": "mrr_first = reciprocal rank of the FIRST gold doc; lenient on multi-hop (rewards any one support passage). NOT the headline metric.",
+  "overall": {
+    "always_answer": {
+      "recall@1": 0.6755,
+      "recall@3": 0.8167,
+      "full_gold@3": 0.7,
+      "mrr_first": 0.8798,
+      "qdrant_calls": 1,
+      "llm_calls": 0,
+      "avg_latency_s": 0.15
+    },
+    "always_colbert": {
+      "recall@1": 0.7153,
+      "recall@3": 0.8023,
+      "full_gold@3": 0.6833,
+      "mrr_first": 0.8921,
+      "qdrant_calls": 2,
+      "llm_calls": 0,
+      "avg_latency_s": 0.3
+    },
+    "always_rerank": {
+      "recall@1": 0.7204,
+      "recall@3": 0.8079,
+      "full_gold@3": 0.6944,
+      "mrr_first": 0.9051,
+      "qdrant_calls": 1,
+      "llm_calls": 0,
+      "avg_latency_s": 0.15
+    },
+    "always_decompose": {
+      "recall@1": 0.6898,
+      "recall@3": 0.8773,
+      "full_gold@3": 0.7944,
+      "mrr_first": 0.9006,
+      "qdrant_calls": 3.139,
+      "llm_calls": 1.883,
+      "avg_latency_s": 3.296
+    },
+    "ladder": {
+      "recall@1": 0.7231,
+      "recall@3": 0.8523,
+      "full_gold@3": 0.7611,
+      "mrr_first": 0.9131,
+      "qdrant_calls": 2.206,
+      "llm_calls": 0.778,
+      "avg_latency_s": 1.498
+    }
+  },
+  "by_type": {
+    "single_hop": {
+      "always_answer": {
+        "recall@1": 0.85,
+        "recall@3": 0.975,
+        "full_gold@3": 0.975,
+        "mrr_first": 0.9056,
+        "qdrant_calls": 1,
+        "llm_calls": 0,
+        "avg_latency_s": 0.15
+      },
+      "always_colbert": {
+        "recall@1": 0.9,
+        "recall@3": 0.9417,
+        "full_gold@3": 0.9417,
+        "mrr_first": 0.9181,
+        "qdrant_calls": 2,
+        "llm_calls": 0,
+        "avg_latency_s": 0.3
+      },
+      "always_rerank": {
+        "recall@1": 0.9083,
+        "recall@3": 0.95,
+        "full_gold@3": 0.95,
+        "mrr_first": 0.9329,
+        "qdrant_calls": 1,
+        "llm_calls": 0,
+        "avg_latency_s": 0.15
+      },
+      "always_decompose": {
+        "recall@1": 0.85,
+        "recall@3": 0.975,
+        "full_gold@3": 0.975,
+        "mrr_first": 0.9076,
+        "qdrant_calls": 2.658,
+        "llm_calls": 1.517,
+        "avg_latency_s": 2.674
+      },
+      "ladder": {
+        "recall@1": 0.9,
+        "recall@3": 0.9583,
+        "full_gold@3": 0.9583,
+        "mrr_first": 0.9264,
+        "qdrant_calls": 1.517,
+        "llm_calls": 0.117,
+        "avg_latency_s": 0.402
+      }
+    },
+    "multi_hop": {
+      "always_answer": {
+        "recall@1": 0.3264,
+        "recall@3": 0.5,
+        "full_gold@3": 0.15,
+        "mrr_first": 0.8283,
+        "qdrant_calls": 1,
+        "llm_calls": 0,
+        "avg_latency_s": 0.15
+      },
+      "always_colbert": {
+        "recall@1": 0.3458,
+        "recall@3": 0.5236,
+        "full_gold@3": 0.1667,
+        "mrr_first": 0.8403,
+        "qdrant_calls": 2,
+        "llm_calls": 0,
+        "avg_latency_s": 0.3
+      },
+      "always_rerank": {
+        "recall@1": 0.3444,
+        "recall@3": 0.5236,
+        "full_gold@3": 0.1833,
+        "mrr_first": 0.8496,
+        "qdrant_calls": 1,
+        "llm_calls": 0,
+        "avg_latency_s": 0.15
+      },
+      "always_decompose": {
+        "recall@1": 0.3694,
+        "recall@3": 0.6819,
+        "full_gold@3": 0.4333,
+        "mrr_first": 0.8867,
+        "qdrant_calls": 4.1,
+        "llm_calls": 2.617,
+        "avg_latency_s": 4.54
+      },
+      "ladder": {
+        "recall@1": 0.3694,
+        "recall@3": 0.6403,
+        "full_gold@3": 0.3667,
+        "mrr_first": 0.8867,
+        "qdrant_calls": 3.583,
+        "llm_calls": 2.1,
+        "avg_latency_s": 3.688
+      }
+    }
+  },
+  "answers": {
+    "always_answer": {
+      "overall": {
+        "n": 180,
+        "em": 0.5167,
+        "f1": 0.5971
+      },
+      "single_hop": {
+        "n": 120,
+        "em": 0.675,
+        "f1": 0.7716
+      },
+      "multi_hop": {
+        "n": 60,
+        "em": 0.2,
+        "f1": 0.2482
+      }
+    },
+    "always_decompose": {
+      "overall": {
+        "n": 180,
+        "em": 0.5778,
+        "f1": 0.6575
+      },
+      "single_hop": {
+        "n": 120,
+        "em": 0.6833,
+        "f1": 0.7789
+      },
+      "multi_hop": {
+        "n": 60,
+        "em": 0.3667,
+        "f1": 0.4148
+      }
+    },
+    "ladder": {
+      "overall": {
+        "n": 180,
+        "em": 0.5667,
+        "f1": 0.6321
+      },
+      "single_hop": {
+        "n": 120,
+        "em": 0.6917,
+        "f1": 0.77
+      },
+      "multi_hop": {
+        "n": 60,
+        "em": 0.3167,
+        "f1": 0.3564
+      }
+    }
+  },
+  "selective_accuracy": {
+    "always_answer": {
+      "selective_accuracy": 0.5296,
+      "abstain_rate_unans": 0.5461,
+      "answerable_em": 0.5167
+    },
+    "ladder": {
+      "selective_accuracy": 0.4984,
+      "abstain_rate_unans": 0.4113,
+      "answerable_em": 0.5667
+    },
+    "always_decompose": {
+      "selective_accuracy": 0.4829,
+      "abstain_rate_unans": 0.3617,
+      "answerable_em": 0.5778
+    }
+  },
+  "tier_dist": {
+    "single_hop": {
+      "1": 70,
+      "2": 44,
+      "3": 6
+    },
+    "multi_hop": {
+      "1": 9,
+      "2": 4,
+      "3": 47
+    },
+    "unanswerable": {
+      "1": 19,
+      "2": 22,
+      "3": 100
+    }
+  },
+  "ci_vs": {
+    "always_answer": {
+      "recall@3": {
+        "lift": 0.0356,
+        "ci95": [
+          0.0032,
+          0.0676
+        ]
+      },
+      "full_gold@3": {
+        "lift": 0.0611,
+        "ci95": [
+          0.0111,
+          0.1111
+        ]
+      },
+      "em": {
+        "lift": 0.05,
+        "ci95": [
+          0.0111,
+          0.0889
+        ]
+      }
+    },
+    "always_decompose": {
+      "recall@3": {
+        "lift": -0.025,
+        "ci95": [
+          -0.0509,
+          -0.0028
+        ]
+      },
+      "full_gold@3": {
+        "lift": -0.0333,
+        "ci95": [
+          -0.0667,
+          -0.0056
+        ]
+      },
+      "em": {
+        "lift": -0.0111,
+        "ci95": [
+          -0.0444,
+          0.0222
+        ]
+      }
+    }
+  },
+  "gate": [
+    "dense_variance",
+    "score_variance"
+  ],
+  "answer_k": 3,
+  "latency_model": {
+    "description": "Estimated routing latency before final answer generation; final answer call is shared and excluded.",
+    "qdrant_call_s": 0.15,
+    "llm_subquery_call_s": 1.5
+  }
+}

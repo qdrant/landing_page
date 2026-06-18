@@ -1,0 +1,36 @@
+{
+  "n": 321,
+  "n_answerable": 180,
+  "n_unanswerable": 141,
+  "tier_dist": {
+    "1": 98,
+    "2": 70,
+    "3": 153
+  },
+  "variants": {
+    "baseline_hybrid_gentle": {
+      "selective_accuracy": 0.5296,
+      "answerable_em": 0.5167,
+      "abstain_unans": 0.5461,
+      "false_stop_ans": 0.2111
+    },
+    "ladder_gentle": {
+      "selective_accuracy": 0.4984,
+      "answerable_em": 0.5667,
+      "abstain_unans": 0.4113,
+      "false_stop_ans": 0.15
+    },
+    "ladder_autorater_all": {
+      "selective_accuracy": 0.6293,
+      "answerable_em": 0.4444,
+      "abstain_unans": 0.8652,
+      "false_stop_ans": 0.4111
+    },
+    "ladder_targeted": {
+      "selective_accuracy": 0.6168,
+      "answerable_em": 0.4667,
+      "abstain_unans": 0.8085,
+      "false_stop_ans": 0.3667
+    }
+  }
+}
