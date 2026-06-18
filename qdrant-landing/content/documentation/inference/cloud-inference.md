@@ -11,6 +11,8 @@ Clusters on Qdrant Managed Cloud can use [Qdrant Cloud Inference](/documentation
 
 Several embedding models are free to use with Qdrant Cloud Inference, including on free-tier clusters. The “Cost: Free” label in the Inference tab identifies these models.
 
+Qdrant Cloud Inference automatically handles short search queries locally, reducing latency for search inputs. This applies to supported Qdrant-hosted models and is fully transparent. Longer search inputs and upserts are handled by a dedicated remote inference service.
+
 Before using a Cloud-hosted embedding model, ensure that your collection has been configured for vectors with the correct dimensionality. The Inference tab of the Cluster Detail page in the Qdrant Cloud Console lists the dimensionality for each supported embedding model.
 
 ## Text Inference
