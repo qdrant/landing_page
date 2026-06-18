@@ -5,9 +5,11 @@ weight: 30
 
 # Qdrant Cloud Inference
 
-Clusters on Qdrant Managed Cloud can access embedding models that are [hosted on Qdrant Cloud](/documentation/cloud/inference/). For a list of available models, visit the Inference tab of the Cluster Detail page in the Qdrant Cloud Console. Here, you can also enable Cloud Inference for a cluster if it's not already enabled.
+![Qdrant Cloud Inference](/docs/qdrant-cloud-inference.png)
 
-Several embedding models can be used for free with Qdrant Cloud Inference, also in combination with clusters on the Qdrant Cloud free tier. Free models are identified by the “Cost: Free” label in the Inference tab of the Cluster Detail page.
+Clusters on Qdrant Managed Cloud can use [Qdrant Cloud Inference](/documentation/cloud/inference/) to generate embeddings. For a list of available models and their dimensions, visit the Inference tab of the Cluster Detail page in the Qdrant Cloud Console. You can also enable Cloud Inference for a cluster from this tab.
+
+Several embedding models are free to use with Qdrant Cloud Inference, including on free-tier clusters. The “Cost: Free” label in the Inference tab identifies these models.
 
 Before using a Cloud-hosted embedding model, ensure that your collection has been configured for vectors with the correct dimensionality. The Inference tab of the Cluster Detail page in the Qdrant Cloud Console lists the dimensionality for each supported embedding model.
 

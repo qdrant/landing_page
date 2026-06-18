@@ -5,7 +5,7 @@ weight: 10
 
 # Inference API
 
-In Qdrant's API, wherever you can use regular vectors, you can also use Inference Objects. An Inference Object is an object that contains the necessary information to generate a vector embedding from an input, such as text or an image, using a specified embedding model. The API supports three types of Inference Objects:
+When using [Qdrant Cloud Inference](/documentation/inference/cloud-inference/) or Qdrant's [BM25 model](/documentation/inference/inference-bm25/), embeddings are generated server-side. Instead of pre-computed vectors, you pass Inference Objects when ingesting or querying data. An Inference Object tells Qdrant how to generate a vector from your input. It contains the input, such as text or an image, along with the model to use. The API supports three types of Inference Objects:
 
 * **`Document`** object, used for text inference 
 
