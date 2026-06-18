@@ -4,8 +4,8 @@ draft: false
 slug: qdrant-edge-on-device-vector-search
 short_description: "A robot that remembers every object it sees, with no server and no network. On-device vector search turns local observations into instant memory."
 description: "Run vector search on-device with Qdrant Edge: an in-process, offline vector search engine that gives robots and edge AI a real-time, searchable memory."
-preview_image: /blog/qdrant-edge-on-device-vector-search/hero.png
-social_preview_image: /blog/qdrant-edge-on-device-vector-search/hero.png
+preview_image: /blog/qdrant-edge-on-device-vector-search/hero.jpg
+social_preview_image: /blog/qdrant-edge-on-device-vector-search/hero.jpg
 date: 2026-06-16
 author: Dylan Couzon
 featured: true
@@ -24,7 +24,7 @@ That memory has a concrete shape. As the robot moves, it turns what its camera s
 
 To make that memory visible, we built [a demo you can drive](https://qdrant-edge-mission-control.vercel.app/). The robot starts each run from zero: a recorded walkthrough of a home plays as its camera feed, and every object it sees lands in a searchable memory on the device. Type what you remember, like "a leather lounge chair," and the memory returns the object the robot passed two rooms ago in under a millisecond. Cut the network and nothing changes, because nothing ever left the device: the whole thing runs as one process.
 
-![Qdrant Edge mission control: YOLOE detection boxes over a kitchen scene, a hybrid search for the query 'bar stools' returning captioned object crops with relevance scores, a live object inventory along the bottom, and an on-device search latency of 0.51 ms next to a typical cloud round trip](/blog/qdrant-edge-on-device-vector-search/mission-control.png)
+![Qdrant Edge mission control: YOLOE detection boxes over a kitchen scene, a hybrid search for the query 'bar stools' returning captioned object crops with relevance scores, a live object inventory along the bottom, and an on-device search latency of 0.51 ms next to a typical cloud round trip](/blog/qdrant-edge-on-device-vector-search/mission-control.jpg)
 
 ## Why Cloud-First Retrieval Breaks at the Edge
 
@@ -40,7 +40,7 @@ The question underneath all five: what should stay local, what should stay isola
 
 ## Qdrant Edge: A Library, Not a Service
 
-Qdrant Edge is the standard Qdrant vector search engine, written in Rust, deployed as an embedded, in-process library. You open a shard on local disk inside your own process, write embeddings to it, and query them in sub-milliseconds, fully offline. No Docker, no background service, no network path, and a footprint of about 12 MB.
+Qdrant Edge is the standard Qdrant vector search engine, written in Rust, deployed as an embedded, in-process library. You open a shard on local disk inside your own process, write embeddings to it, and query them in sub-milliseconds, fully offline. No Docker, no background service, no network path, and an install footprint around 11 MB.
 
 ```python
 from qdrant_edge import EdgeShard, UpdateOperation, Query, QueryRequest
@@ -71,7 +71,7 @@ The robot demo (the [full source is on GitHub](https://github.com/qdrant-labs/ed
 - **Florence-2** captions each new object on a background thread ("a chrome bar stool on a wooden floor").
 - **The Edge shard** stores all of it: dense vision vectors for similarity, sparse [BM25](/documentation/edge/edge-bm25/) vectors over the captions for keyword matching, plus payload indexes and live facet counts per object class.
 
-{{< figure src="/blog/qdrant-edge-on-device-vector-search/panel-detection.png" alt="The demo's live feed with open-vocabulary YOLOE detection boxes labeling a cabinet, dining chairs, bar stools, and a dining table in a kitchen, plus per-frame detect, embed, and store timings along the bottom" caption="**Live feed.** Open-vocabulary detection on each frame, with per-frame detect, embed, and store timings." width="100%" >}}
+{{< figure src="/blog/qdrant-edge-on-device-vector-search/panel-detection.jpg" alt="The demo's live feed with open-vocabulary YOLOE detection boxes labeling a cabinet, dining chairs, bar stools, and a dining table in a kitchen, plus per-frame detect, embed, and store timings along the bottom" caption="**Live feed.** Open-vocabulary detection on each frame, with per-frame detect, embed, and store timings." width="100%" >}}
 
 {{< figure src="/blog/qdrant-edge-on-device-vector-search/panel-object-memory.png" alt="The object memory inventory: live counts per class such as cabinet 12, coffee table 7, sofa 7, dining chair 4, and bar stool 3, above a strip of captioned object thumbnails" caption="**Object memory.** Live facet counts per class, maintained in the shard as objects are detected." width="100%" >}}
 
