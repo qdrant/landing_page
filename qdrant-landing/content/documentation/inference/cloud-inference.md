@@ -35,6 +35,16 @@ Since the `CLIP` model is multimodal, we can use both image and text inputs on t
 
 The Qdrant Cloud Inference server will download the images using the provided URL. Alternatively, you can provide the image as a base64-encoded string. Each model has limitations on the file size and extensions it can work with. Refer to the model card for details.
 
+## Automatic Query and Passage Prefixes
+
+Some embedding models are trained to expect different text prefixes for query inputs versus passage or document inputs. Using the wrong prefix or omitting one can degrade retrieval quality.
+
+Qdrant Cloud Inference automatically applies the correct prefix for the model you're using, based on whether the request is a search query or an upsert. For example, when you upsert a document using a model from the E5 family, the proxy prepends `passage: ` to each input text. When you query with the same model, it prepends `query: ` instead. You don't need to add these prefixes yourself.
+
+If your input text already starts with the correct prefix, it's left unchanged, so you don't end up with a double prefix.
+
+This behavior applies to supported Qdrant-hosted models. Models accessed through [external providers](/documentation/inference/external-inference-providers/), such as `openai/`, `cohere/`, or `jinaai/`, are handled by those providers.
+
 ## Local Inference Compatibility
 
 The Python SDK offers a unique capability: it supports both [local](/documentation/fastembed/fastembed-semantic-search/) and cloud inference through an identical interface.
