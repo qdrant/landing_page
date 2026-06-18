@@ -108,13 +108,7 @@ Disk and RAM headroom needed on the target cluster, and how each option handles 
 | **Target RAM headroom** | 2× source | Same as source | Same as source |
 | **Resilience to interruption** | Checkpoint resume | Atomic restore | Atomic clone |
 
-## Resource Requirements at a Glance
-
-| Option | Target disk headroom | Target RAM headroom | Restore type |
-|---|---|---|---|
-| Migration Tool | 2× source | 2× source | Resumable (checkpoint) |
-| Core Snapshots | 2× source | Same as source | Atomic |
-| Cloud Backups | ≥ source size | Same as source | Atomic |
+"Source" refers to actual collection usage, not provisioned capacity. Check your current usage in the [Web UI](/documentation/ops-monitoring/memory-usage/) or via the [API](/documentation/ops-monitoring/memory-usage/#api).
 
 ## Related Pages
 
