@@ -12,7 +12,7 @@ Qdrant gives you three mechanisms for moving or recovering data, each suited to 
 
 **Quick guide:**
 
-- Use the **[Qdrant Migration Tool](#qdrant-migration-tool)** when moving data from other vector search engines (for example, from Pinecone, Weaviate, or Chroma to Qdrant), when you need to change shard counts, or migrate a subset of data.
+- Use the **[Qdrant Migration Tool](#qdrant-migration-tool)** when moving data from other vector search engines (for example, from Pinecone, Weaviate, or Chroma) to Qdrant, when you need to change shard counts, or migrate a subset of data.
 - Use **[Snapshots](#snapshots)** when moving a Qdrant collection between environments (for example, self-hosted to Cloud) and you want to skip re-indexing by transferring the existing index.
 - Use **[Cloud Backups](#cloud-backups)** for full cluster failure recovery or reverting a cluster to a previous state. This is the fastest restore option when you're on Qdrant Cloud.
 
@@ -36,7 +36,7 @@ See the [Data Migration tutorial](/documentation/tutorials-operations/migration/
 
 The target cluster still needs approximately two times the collection's disk size during the restore window, because the snapshot file and the restored collection exist simultaneously on disk until the restore is complete.
 
-Snapshots require the target to run the same or a newer version of Qdrant.
+The target cluster must match the source cluster's minor version, or be at most one minor version higher. For example, you can restore a 1.17.1 snapshot to a 1.18.1 cluster, but not a 1.16.0 snapshot.
 
 See [Snapshots](/documentation/snapshots/) for API reference and storage options, or the [Backup & Restore Qdrant with Snapshots](/documentation/tutorials-operations/create-snapshot/) for a walkthrough.
 
@@ -69,9 +69,9 @@ How each option handles indexing on the target, data transfer speed, network cos
 | | Migration Tool | Snapshots | Cloud Backups |
 |---|---|---|---|
 | **Indexing on target** | Full re-index (slow) | None (index transfers with data) | None (direct disk clone) |
-| **Transport speed** | High (network stream) | Moderate (disk I/O + upload) | Very fast (metadata clone) |
-| **Network cost** | Medium (streamed data) | High (potential cloud egress) | High / None (stays within region) |
-| **Impact on source** | Medium-High (CPU/IO intensive) | Moderate (CPU/IO for compression) | Minimal (handled by storage) |
+| **Speed** | Moderate | Fast | Very fast |
+| **Network cost** | Medium (potential cloud egress from streamed data) | High (potential cloud egress) | High / None (stays within region) |
+| **Impact on source** | Medium-High (CPU/IO intensive) | Moderate (CPU/IO) | Minimal (handled by storage) |
 
 ### Operations & Mechanics
 
@@ -79,10 +79,12 @@ How much effort each option requires, which APIs or tools you'll use, and where 
 
 | | Migration Tool | Snapshots | Cloud Backups |
 |---|---|---|---|
-| **Operational effort** | Moderate (CLI setup) | High (manual API scripting) | Low (automated, cluster-wide) |
+| **Operational effort** | Moderate (CLI setup) | Moderate (manual API scripting) | Low (automated, cluster-wide) |
 | **API / tooling** | CLI Tool | Qdrant REST API | Cloud infrastructure|
+| **Source availability** | Must be online throughout | Online during snapshot creation only; not required for upload or restore | Not required |
 | **Snapshot location** | N/A | External (S3 or compatible) | Cloud infrastructure |
 | **Restore target** | Any existing cluster | Any existing cluster | Restore within same region |
+
 
 ### Infrastructure Limits
 

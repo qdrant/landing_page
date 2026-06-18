@@ -7,7 +7,9 @@ weight: 110
 
 # Migrate Between Qdrant Instances
 
-Use the `qdrant` subcommand to copy a collection from one Qdrant instance to another — or between collections within the same instance. The tool automatically recreates the full collection schema (vector config, HNSW settings, quantization, sharding) on the target.
+Use the `qdrant` subcommand to copy a collection from one Qdrant instance to another or copy data between collections within the same instance.
+
+If the target collection does not exist, the tool automatically creates it using the source collection's configuration (vector config, HNSW settings, quantization, sharding). To change the target collection's configuration, create the target collection manually before running the migration.
 
 ## What You Need
 

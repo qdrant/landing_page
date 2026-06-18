@@ -112,4 +112,4 @@ total_vector_size = number_of_dimensions * 4 bytes * 1.5
 **Disclaimers**
 
 - The above calculations are estimates at best. If you're looking for more accurate numbers, you should always test your data set in practice.
-- Migration scenarios require more headroom than normal operations. When using the Migration Tool or restoring a snapshot, the target cluster needs twice the disk of the source collection. When using the Migration Tool, it also needs twice the RAM. See [Migration and Recovery Options](/documentation/migration-recovery-options/) for details. 
+- [Migration scenarios](/documentation/migration-recovery-options/) require more headroom than normal operations. When using the Migration Tool or restoring a snapshot, the target cluster needs twice the disk space currently used by the source collection. When using the Migration Tool, it also needs twice the RAM currently in use. To determine the current disk and RAM usage of your collection, check the [Web UI](/documentation/ops-monitoring/memory-usage/) or use the [API](/documentation/ops-monitoring/memory-usage/#api).
