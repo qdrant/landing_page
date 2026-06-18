@@ -22,7 +22,7 @@ On its first day in an unfamiliar house, a home robot has to build memory as it 
 
 That memory has a concrete shape. As the robot moves, it turns what its camera sees into vectors and writes them to a store it carries onboard. To make a decision, it queries that store for the nearest matches to what it is looking at, filtered by where or when it saw them. Capture, embed, search, decide, and the loop runs entirely on the robot, in milliseconds, with no trip to a server. The engine underneath it is [Qdrant Edge](https://qdrant.tech/edge/): the same Qdrant vector search engine, running in-process as an embedded library instead of behind an API.
 
-To make that memory visible, we built a demo you can drive. The robot starts each run from zero: a recorded walkthrough of a home plays as its camera feed, and every object it sees lands in a searchable memory on the device. Type what you remember, like "a leather lounge chair," and the memory returns the object the robot passed two rooms ago in under a millisecond. Cut the network and nothing changes, because nothing ever left the device: the whole thing runs as one process.
+To make that memory visible, we built [a demo you can drive](https://qdrant-edge-mission-control.vercel.app/). The robot starts each run from zero: a recorded walkthrough of a home plays as its camera feed, and every object it sees lands in a searchable memory on the device. Type what you remember, like "a leather lounge chair," and the memory returns the object the robot passed two rooms ago in under a millisecond. Cut the network and nothing changes, because nothing ever left the device: the whole thing runs as one process.
 
 ![Qdrant Edge mission control: YOLOE detection boxes over a kitchen scene, a hybrid search for the query 'bar stools' returning captioned object crops with relevance scores, a live object inventory along the bottom, and an on-device search latency of 0.51 ms next to a typical cloud round trip](/blog/qdrant-edge-on-device-vector-search/mission-control.png)
 
@@ -122,6 +122,6 @@ pip install qdrant-edge-py   # Python
 cargo add qdrant-edge        # Rust
 ```
 
-The [Edge quickstart](https://qdrant.tech/documentation/edge/edge-quickstart/) walks through your first shard, and the [Qdrant Edge page](https://qdrant.tech/edge/) covers where it fits. The full robot demo, including the pipeline and the mission-control interface, is [on GitHub](https://github.com/qdrant-labs/edge-mission-control).
+The [Edge quickstart](https://qdrant.tech/documentation/edge/edge-quickstart/) walks through your first shard, and the [Qdrant Edge page](https://qdrant.tech/edge/) covers where it fits. The full robot demo runs [live in your browser](https://qdrant-edge-mission-control.vercel.app/), with the pipeline and mission-control interface [on GitHub](https://github.com/qdrant-labs/edge-mission-control).
 
 Qdrant Edge puts the full vector search engine where AI systems operate: on the device, in your process, and offline by default.
