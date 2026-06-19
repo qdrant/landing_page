@@ -2,6 +2,8 @@
 @use 'sass:math';
 
 .ai-agents-builder-patterns {
+  // Prevent scroll anchoring from shifting the viewport when min-heights settle.
+  overflow-anchor: none;
   padding-bottom: $spacer * 5;
   background-color: $neutral-94;
 
