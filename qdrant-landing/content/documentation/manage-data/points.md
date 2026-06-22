@@ -420,13 +420,15 @@ REST API ([Schema](https://api.qdrant.tech/master/api-reference/points/count-poi
 
 {{< code-snippet path="/documentation/headless/snippets/count-points/with-filter-exact/" >}}
 
-Returns the number of counts matching the given filtering conditions:
+Returns the number of points matching the given filtering conditions:
 
 ```json
 {
   "count": 3811
 }
 ```
+
+By default, the count is approximate for performance reasons. To get an exact count, set `"exact": true` in the request.
 
 ## Batch Update
 
