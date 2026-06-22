@@ -79,7 +79,7 @@ How much effort each option requires, which APIs or tools you'll use, and where 
 
 | | Migration Tool | Snapshots | Cloud Backups |
 |---|---|---|---|
-| **Operational effort** | Moderate (CLI setup) | Moderate (manual API scripting) | Low (automated, cluster-wide) |
+| **Operational effort** | Moderate (CLI setup) | High (per-node API scripting) | Low (automated, cluster-wide) |
 | **API / tooling** | CLI Tool | Qdrant REST API | Cloud infrastructure|
 | **Source availability** | Must be online throughout | Online during snapshot creation only; not required for upload or restore | Not required |
 | **Snapshot location** | N/A | External (S3 or compatible) | Cloud infrastructure |
