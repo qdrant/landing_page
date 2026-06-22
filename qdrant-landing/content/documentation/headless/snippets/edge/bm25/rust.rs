@@ -1,3 +1,4 @@
+// @block-start configure-bm25-shard
 use std::path::Path;
 
 use qdrant_edge::bm25_embed::{EdgeBm25, EdgeBm25Config};
@@ -13,7 +14,6 @@ pub async fn main() -> anyhow::Result<()> {
     const SHARD_DIRECTORY: &str = "./qdrant-edge-bm25";
     fs_err::create_dir_all(SHARD_DIRECTORY)?; // @hide
 
-    // @block-start configure-bm25-shard
     let config = EdgeConfigBuilder::new()
         .sparse_vector("text", EdgeSparseVectorParamsBuilder::new()
             .modifier(Modifier::Idf)

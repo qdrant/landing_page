@@ -1,8 +1,8 @@
+// @block-start create-storage-directory
 use std::path::Path;
 
-use qdrant_edge::EdgeShard;
 use qdrant_edge::{
-    Condition, CreateIndex, CreateVectorName, Distance, EdgeConfigBuilder,
+    Condition, CreateIndex, CreateVectorName, Distance, EdgeConfigBuilder, EdgeShard,
     EdgeOptimizersConfig, EdgeVectorParamsBuilder, FacetRequest, FieldCondition,
     FieldIndexOperations, Filter, Match, MatchValue, Modifier, NamedQuery,
     PayloadFieldSchema, PayloadSchemaType, PointId, PointInsertOperations,
@@ -14,7 +14,7 @@ use qdrant_edge::{
 use serde_json::json;
 
 pub async fn main() -> anyhow::Result<()> {
-    // @block-start create-storage-directory
+
     const SHARD_DIRECTORY: &str = "./qdrant-edge-directory";
 
     fs_err::create_dir_all(SHARD_DIRECTORY)?;

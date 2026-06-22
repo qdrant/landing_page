@@ -4,18 +4,16 @@ QDRANT_URL=""
 QDRANT_API_KEY=""
 # @hide-end
 
-# @block-start snapshot-url
-COLLECTION_NAME="edge-collection"
-
-snapshot_url = f"{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot"
-# @block-end snapshot-url
-
 # @block-start restore-snapshot
 from pathlib import Path
 from qdrant_edge import EdgeShard
 import requests
 import shutil
 import tempfile
+
+COLLECTION_NAME="edge-collection"
+
+snapshot_url = f"{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot"
 
 SHARD_DIRECTORY = "./qdrant-edge-directory"
 data_dir = Path(SHARD_DIRECTORY)

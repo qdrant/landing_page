@@ -1,9 +1,8 @@
 ```rust
 use std::path::Path;
 
-use qdrant_edge::EdgeShard;
 use qdrant_edge::{
-    Condition, CreateIndex, CreateVectorName, Distance, EdgeConfigBuilder,
+    Condition, CreateIndex, CreateVectorName, Distance, EdgeConfigBuilder, EdgeShard,
     EdgeOptimizersConfig, EdgeVectorParamsBuilder, FacetRequest, FieldCondition,
     FieldIndexOperations, Filter, Match, MatchValue, Modifier, NamedQuery,
     PayloadFieldSchema, PayloadSchemaType, PointId, PointInsertOperations,

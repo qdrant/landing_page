@@ -1,3 +1,4 @@
+// @block-start restore-snapshot
 use std::collections::HashMap;
 use std::path::Path;
 
@@ -21,15 +22,12 @@ pub async fn main() -> anyhow::Result<()> {
     const QDRANT_API_KEY: &str = "";
     // @hide-end
 
-    // @block-start snapshot-url
     const COLLECTION_NAME: &str = "edge-collection";
 
     let snapshot_url = format!(
         "{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot"
     );
-    // @block-end snapshot-url
 
-    // @block-start restore-snapshot
     const SHARD_DIRECTORY: &str = "./qdrant-edge-directory";
     let data_dir = Path::new(SHARD_DIRECTORY);
 

@@ -1,3 +1,4 @@
+// @block-start initialize-mutable-shard
 use std::collections::HashMap;
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -23,7 +24,6 @@ pub async fn main() -> anyhow::Result<()> {
         std::collections::VecDeque::new();
     // @hide-end
 
-    // @block-start initialize-mutable-shard
     const MUTABLE_SHARD_DIR: &str = "./qdrant-edge-directory/mutable";
     const VECTOR_DIMENSION: usize = 4;
     const VECTOR_NAME: &str = "my-vector";

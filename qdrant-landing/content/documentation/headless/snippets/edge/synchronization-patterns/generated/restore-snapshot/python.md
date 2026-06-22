@@ -5,6 +5,10 @@ import requests
 import shutil
 import tempfile
 
+COLLECTION_NAME="edge-collection"
+
+snapshot_url = f"{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot"
+
 SHARD_DIRECTORY = "./qdrant-edge-directory"
 data_dir = Path(SHARD_DIRECTORY)
 
