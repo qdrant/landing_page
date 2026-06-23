@@ -6,10 +6,10 @@ use qdrant_client::{
 use std::collections::HashMap;
 
 let mut options = HashMap::<String, Value>::new();
-options.insert("jina-api-key".to_string(), "<YOUR_JINAAI_API_KEY>".into());
 options.insert("dimensions".to_string(), 512.into());
 
 client
+    .with_header("jina-api-key", "<YOUR_JINAAI_API_KEY>")
     .query(
         QueryPointsBuilder::new("{collection_name}")
             .query(Query::new_nearest(Document {

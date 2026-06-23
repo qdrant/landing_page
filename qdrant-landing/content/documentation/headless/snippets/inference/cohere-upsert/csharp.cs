@@ -10,26 +10,26 @@ public class Snippet
 		host: "xyz-example.qdrant.io", port: 6334, https: true, apiKey: "<your-api-key>");
 		// @hide-end
 
-		await client.UpsertAsync(
-		    collectionName: "{collection_name}",
-		    points: new List<PointStruct>
-		    {
-		        new()
+		using (RequestHeaders.Use("cohere-api-key", "<YOUR_COHERE_API_KEY>"))
+		    await client.UpsertAsync(
+		        collectionName: "{collection_name}",
+		        points: new List<PointStruct>
 		        {
-		            Id = 1,
-		            Vectors = new Image()
+		            new()
 		            {
-		                Model = "cohere/embed-v4.0",
-		                Image_ =
-		                    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFUlEQVR42mNk+M9Qz0AEYBxVSF+FAAhKDveksOjmAAAAAElFTkSuQmCC",
-		                Options =
+		                Id = 1,
+		                Vectors = new Image()
 		                {
-		                    ["cohere-api-key"] = "<YOUR_COHERE_API_KEY>",
-		                    ["output_dimension"] = 512,
+		                    Model = "cohere/embed-v4.0",
+		                    Image_ =
+		                        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFUlEQVR42mNk+M9Qz0AEYBxVSF+FAAhKDveksOjmAAAAAElFTkSuQmCC",
+		                    Options =
+		                    {
+		                        ["output_dimension"] = 512,
+		                    },
 		                },
 		            },
-		        },
-		    }
-		);
+		        }
+		    );
 	}
 }

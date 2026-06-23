@@ -6,10 +6,10 @@ use qdrant_client::{
 use std::collections::HashMap;
 
 let mut options = HashMap::new();
-options.insert("jina-api-key".to_string(), "<YOUR_JINAAI_API_KEY>".into());
 options.insert("dimensions".to_string(), 512.into());
 
 client
+    .with_header("jina-api-key", "<YOUR_JINAAI_API_KEY>")
     .upsert_points(UpsertPointsBuilder::new("{collection_name}",
         vec![
             PointStruct::new(1,

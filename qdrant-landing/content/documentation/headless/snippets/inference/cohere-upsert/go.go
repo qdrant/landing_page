@@ -18,7 +18,9 @@ func Main() {
 
 	if err != nil { panic(err) } // @hide
 
-	client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	ctx := qdrant.WithHeader(context.Background(), "cohere-api-key", "<YOUR_COHERE_API_KEY>")
+
+	client.Upsert(ctx, &qdrant.UpsertPoints{
 		CollectionName: "{collection_name}",
 		Points: []*qdrant.PointStruct{
 			{
@@ -27,7 +29,6 @@ func Main() {
 					Model: "cohere/embed-v4.0",
 					Image: qdrant.NewValueString("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFUlEQVR42mNk+M9Qz0AEYBxVSF+FAAhKDveksOjmAAAAAElFTkSuQmCC"),
 					Options: qdrant.NewValueMap(map[string]any{
-						"cohere-api-key":   "<YOUR_COHERE_API_KEY>",
 						"output_dimension": 512,
 					}),
 				}),

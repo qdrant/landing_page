@@ -6,10 +6,10 @@ use qdrant_client::{
 use std::collections::HashMap;
 
 let mut options = HashMap::<String, Value>::new();
-options.insert("cohere-api-key".to_string(), "<YOUR_COHERE_API_KEY>".into());
 options.insert("output_dimension".to_string(), 512.into());
 
 client
+    .with_header("cohere-api-key", "<YOUR_COHERE_API_KEY>")
     .query(
         QueryPointsBuilder::new("{collection_name}")
             .query(Query::new_nearest(Document {

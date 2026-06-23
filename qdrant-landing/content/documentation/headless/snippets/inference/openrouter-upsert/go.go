@@ -18,7 +18,9 @@ func Main() {
 
 	if err != nil { panic(err) } // @hide
 
-	client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	ctx := qdrant.WithHeader(context.Background(), "openrouter-api-key", "<YOUR_OPENROUTER_API_KEY>")
+
+	client.Upsert(ctx, &qdrant.UpsertPoints{
 		CollectionName: "{collection_name}",
 		Points: []*qdrant.PointStruct{
 			{
@@ -26,9 +28,6 @@ func Main() {
 				Vectors: qdrant.NewVectorsDocument(&qdrant.Document{
 					Model: "openrouter/mistralai/mistral-embed-2312",
 					Text:  "Recipe for baking chocolate chip cookies",
-					Options: qdrant.NewValueMap(map[string]any{
-						"openrouter-api-key": "<YOUR_OPENROUTER_API_KEY>",
-					}),
 				}),
 			},
 		},

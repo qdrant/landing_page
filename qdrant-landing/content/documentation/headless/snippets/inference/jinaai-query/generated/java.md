@@ -2,13 +2,18 @@
 import static io.qdrant.client.QueryFactory.nearest;
 import static io.qdrant.client.ValueFactory.value;
 
+import io.grpc.Context;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.RequestHeaders;
 import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import java.util.Map;
 
-client
+Context ctx = RequestHeaders.withHeader(
+    Context.current(), "jina-api-key", "<YOUR_JINAAI_API_KEY>");
+
+ctx.call(() -> client
     .queryAsync(
         QueryPoints.newBuilder()
             .setCollectionName("{collection_name}")
@@ -19,11 +24,9 @@ client
                         .setText("Mission to Mars")
                         .putAllOptions(
                             Map.of(
-                                "jina-api-key",
-                                value("<YOUR_JINAAI_API_KEY>"),
                                 "dimensions",
                                 value(512)))
                         .build()))
             .build())
-    .get();
+    .get());
 ```

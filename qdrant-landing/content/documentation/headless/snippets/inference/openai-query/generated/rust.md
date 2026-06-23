@@ -6,10 +6,10 @@ use qdrant_client::{
 use std::collections::HashMap;
 
 let mut options = HashMap::<String, Value>::new();
-options.insert("openai-api-key".to_string(), "<YOUR_OPENAI_API_KEY>".into());
 options.insert("dimensions".to_string(), 512.into());
 
 client
+    .with_header("openai-api-key", "<YOUR_OPENAI_API_KEY>")
     .query(
         QueryPointsBuilder::new("{collection_name}")
             .query(Query::new_nearest(Document {

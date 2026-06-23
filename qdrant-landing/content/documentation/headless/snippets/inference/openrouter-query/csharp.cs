@@ -14,14 +14,14 @@ public class Snippet
 		);
 		// @hide-end
 
-		await client.QueryAsync(
-		    collectionName: "{collection_name}",
-		    query: new Document()
-		    {
-		        Model = "openrouter/mistralai/mistral-embed-2312",
-		        Text = "How to bake cookies?",
-		        Options = { ["openrouter-api-key"] = "<YOUR_OPENROUTER_API_KEY>" },
-		    }
-		);
+		using (RequestHeaders.Use("openrouter-api-key", "<YOUR_OPENROUTER_API_KEY>"))
+		    await client.QueryAsync(
+		        collectionName: "{collection_name}",
+		        query: new Document()
+		        {
+		            Model = "openrouter/mistralai/mistral-embed-2312",
+		            Text = "How to bake cookies?",
+		        }
+		    );
 	}
 }

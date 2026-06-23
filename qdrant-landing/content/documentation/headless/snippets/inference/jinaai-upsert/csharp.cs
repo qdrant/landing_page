@@ -14,21 +14,22 @@ public class Snippet
 		);
 		// @hide-end
 
-		await client.UpsertAsync(
-		    collectionName: "{collection_name}",
-		    points: new List<PointStruct>
-		    {
-		        new()
+		using (RequestHeaders.Use("jina-api-key", "<YOUR_JINAAI_API_KEY>"))
+		    await client.UpsertAsync(
+		        collectionName: "{collection_name}",
+		        points: new List<PointStruct>
 		        {
-		            Id = 1,
-		            Vectors = new Document()
+		            new()
 		            {
-		                Model = "jinaai/jina-clip-v2",
-		                Text = "Mission to Mars",
-		                Options = { ["jina-api-key"] = "<YOUR_JINAAI_API_KEY>", ["dimensions"] = 512 },
+		                Id = 1,
+		                Vectors = new Image()
+		                {
+		                    Model = "jinaai/jina-clip-v2",
+		                    Image_ = "https://qdrant.tech/example.png",
+		                    Options = { ["dimensions"] = 512 },
+		                },
 		            },
-		        },
-		    }
-		);
+		        }
+		    );
 	}
 }

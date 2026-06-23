@@ -3,8 +3,10 @@ package com.example.snippets_amalgamation;
 import static io.qdrant.client.QueryFactory.nearest;
 import static io.qdrant.client.ValueFactory.value;
 
+import io.grpc.Context;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.RequestHeaders;
 import io.qdrant.client.grpc.Points.Document;
 import io.qdrant.client.grpc.Points.QueryPoints;
 import java.util.Map;
@@ -18,7 +20,11 @@ public class Snippet {
                             .withApiKey("<your-api-key")
                             .build());
             // @hide-end
-                client
+
+                Context ctx = RequestHeaders.withHeader(
+                    Context.current(), "openai-api-key", "<YOUR_OPENAI_API_KEY>");
+
+                ctx.call(() -> client
                     .queryAsync(
                         QueryPoints.newBuilder()
                             .setCollectionName("{collection_name}")
@@ -29,12 +35,10 @@ public class Snippet {
                                         .setText("How to bake cookies?")
                                         .putAllOptions(
                                             Map.of(
-                                                "openai-api-key",
-                                                value("<YOUR_OPENAI_API_KEY>"),
                                                 "dimensions",
                                                 value(512)))
                                         .build()))
                             .build())
-                    .get();
+                    .get());
         }
 }
