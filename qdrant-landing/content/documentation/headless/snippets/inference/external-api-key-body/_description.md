@@ -1,0 +1,1 @@
+This example upserts a point using OpenAI's `text-embedding-3-large` model. The OpenAI API key is passed in the `options` object in the request body.

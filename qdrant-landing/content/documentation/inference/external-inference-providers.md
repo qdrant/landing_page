@@ -16,8 +16,6 @@ This enables you to access any of the embedding models provided by these provide
 
 ![Inference with an external embedding model provider](/docs/inference-external-provider.png)
 
-To use an external provider's embedding model, you need an API key from that provider. For example, to access OpenAI models, you need an OpenAI API key. Qdrant does not store or cache your API keys; they must be provided with each inference request.
-
 When using an external embedding model, ensure that your collection has been configured for vectors with the correct dimensionality. Refer to the model's documentation for details on the output dimensions.
 
 <aside role="status">
@@ -27,6 +25,18 @@ When using a model from an external provider, refer to the model's documentation
 - how to pass an image when creating image embeddings. Some providers allow you to pass an image URL, while others require a base64-encoded image
 - any additional parameters that the model supports
 </aside>
+
+## API Key
+
+To use an external provider's embedding model, you need an API key from that provider. For example, to access OpenAI models, you need an OpenAI API key. Qdrant does not store or cache your API keys; they must be provided with each inference request.
+
+Provide the provider's API key in the request header (`openai-api-key`, `cohere-api-key`, `jina-api-key`, or `openrouter-api-key`). For example:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/external-api-key-header/" >}}
+
+Alternatively, provide the API key in the request body in the `options` object:
+
+{{< code-snippet path="/documentation/headless/snippets/inference/external-api-key-body/" >}}
 
 ## OpenAI
 
