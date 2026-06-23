@@ -8,3 +8,4 @@
 | [Secure a Self-Hosted Instance](/documentation/tutorials-operations/secure-qdrant/) | Enable TLS, API keys, and JWT access control. | <span class="pill">Any</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Qdrant Cloud Prometheus Monitoring](/documentation/ops-monitoring/managed-cloud-prometheus/) | Observability with Prometheus and Grafana. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Self-Hosted Prometheus Monitoring](/documentation/ops-monitoring/hybrid-cloud-prometheus/) | Observability for hybrid/private cloud setups. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
+| [Monitoring Hybrid/Private Cloud with Datadog](/documentation/ops-monitoring/hybrid-cloud-datadog/) | Observability for hybrid/private cloud setups with Datadog. | <span class="pill">Datadog</span> | 20m | <span class="text-yellow">Intermediate</span> |

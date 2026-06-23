@@ -21,3 +21,7 @@ These pages cover how to observe and measure a running Qdrant deployment using i
 ## Self-Hosted Prometheus Monitoring
 
 [Self-Hosted Prometheus Monitoring](/documentation/ops-monitoring/hybrid-cloud-prometheus/) is a step-by-step tutorial for setting up Prometheus and Grafana monitoring for Qdrant running in a Hybrid Cloud or Private Cloud environment.
+
+## Monitoring Hybrid/Private Cloud with Datadog
+
+[Monitoring Hybrid/Private Cloud with Datadog](/documentation/ops-monitoring/hybrid-cloud-datadog/) is a step-by-step tutorial for setting up Datadog to monitor Qdrant running in a Hybrid Cloud or Private Cloud environment.
