@@ -1,5 +1,5 @@
 ---
-title: "Product Quantization in Vector Search | Qdrant"
+title: "Product Quantization for Vector Search: How It Works"
 short_description: "Vector search with low memory? Try out our brand-new Product Quantization!"
 description: "Discover product quantization in vector search technology. Learn how it optimizes storage and accelerates search processes for high-dimensional data."
 social_preview_image: /articles_data/product-quantization/social_preview.png

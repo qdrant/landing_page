@@ -1,5 +1,5 @@
 ---
-title: "Vector Search in Production"
+title: "Vector Search in Production: Scaling, HA & Tuning Guide"
 short_description: "A comprehensive guide to running vector search in production environments"
 description: "We gathered our most recommended tips and tricks to make your production deployment run smoothly."
 preview_dir: /articles_data/vector-search-production/preview

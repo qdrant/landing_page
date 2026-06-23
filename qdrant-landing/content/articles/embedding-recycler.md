@@ -1,5 +1,5 @@
 ---
-title: Layer Recycling and Fine-tuning Efficiency
+title: "Layer Recycling: Faster Fine-Tuning via Cached Layers"
 short_description: Tradeoff between speed and performance in layer recycling
 description: Learn when and how to use layer recycling to achieve different performance targets.
 preview_dir: /articles_data/embedding-recycling/preview

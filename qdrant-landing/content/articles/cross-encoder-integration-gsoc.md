@@ -1,5 +1,5 @@
 ---
-title: Qdrant Summer of Code 2024 - ONNX Cross Encoders in Python
+title: "Qdrant Summer of Code 2024 - ONNX Cross Encoders in Python"
 short_description: QSoC 2024 ONNX Cross Encoders in Python
 description: A summary of my work and experience at Qdrant Summer of Code 2024.
 preview_dir: /articles_data/cross-encoder-integration-gsoc/preview

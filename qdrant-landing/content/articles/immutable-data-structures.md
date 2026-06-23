@@ -1,5 +1,5 @@
 ---
-title: "Qdrant Internals: Immutable Data Structures"
+title: "Immutable Data Structures in Qdrant"
 short_description: "Learn how immutable data structures improve vector search performance in Qdrant."
 description: "Learn how immutable data structures improve vector search performance in Qdrant."
 social_preview_image: /articles_data/immutable-data-structures/social_preview.png

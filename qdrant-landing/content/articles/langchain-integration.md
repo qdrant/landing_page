@@ -1,5 +1,5 @@
 ---
-title: "Using LangChain for Question Answering with Qdrant"
+title: "LangChain Question Answering with Qdrant and OpenAI"
 short_description: "Large Language Models might be developed fast with modern tool. Here is how!"
 description: "We combined LangChain, a pre-trained LLM from OpenAI, SentenceTransformers & Qdrant to create a question answering system with just a few lines of code. Learn more!"
 social_preview_image: /articles_data/langchain-integration/social_preview.png

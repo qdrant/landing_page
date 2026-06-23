@@ -1,5 +1,5 @@
 ---
-title: "Vector Similarity: Going Beyond Full-Text Search | Qdrant"
+title: "Vector Similarity Beyond kNN: Dissimilarity & Diversity"
 short_description: Explore how vector similarity enhances data discovery beyond full-text search, including diversity sampling and more!
 description: Discover how vector similarity expands data exploration beyond full-text search. Explore diversity sampling and more for enhanced data discovery!
 preview_dir: /articles_data/vector-similarity-beyond-search/preview
