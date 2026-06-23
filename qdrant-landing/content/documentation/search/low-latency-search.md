@@ -36,7 +36,13 @@ By default, a search operation queries a single replica of each shard in a colle
 
 To reduce tail latency for read operations, Qdrant supports delayed fan-outs. With delayed fan-outs, if the initial request to a replica exceeds a specified latency threshold, an additional read request is sent to another replica. Qdrant will then use the first available response.
 
-You can enable delayed fan-outs per collection by [setting](/documentation/manage-data/collections/#update-collection-parameters) the `read_fan_out_delay_ms` parameter to the number of milliseconds to wait before attempting to read from another replica. To disable delayed fan-outs after enabling, set this parameter to `0` (default).
+You can enable delayed fan-outs per collection by [setting](/documentation/manage-data/collections/#update-collection-parameters) the `read_fan_out_delay_ms` parameter to the number of milliseconds to wait before attempting to read from another replica. 
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/read-fan-out-delay-ms/" >}}
+
+Replace `100` with your collection's measured p95 read latency.
+
+To disable delayed fan-outs after enabling, set this parameter to `0` (default).
 
 <aside role="alert">Do not set the latency threshold to a very low value (for example, the 5th percentile of the read latency). This would cause almost every request to trigger additional read requests, significantly increasing the load on the cluster without much benefit. A good starting point is to set it to the 95th percentile of the read latency. This limits the additional load to approximately 5% while substantially shortening the latency tail.</aside>
 
