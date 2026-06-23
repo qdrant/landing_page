@@ -5,7 +5,7 @@ description: "Create a serverless semantic search engine using nothing but Qdran
 social_preview_image: /articles_data/serverless/social_preview.png
 small_preview_image: /articles_data/serverless/icon.svg
 preview_dir: /articles_data/serverless/preview
-weight: 1
+weight: 30
 author: Andre Bogus
 author_link: https://llogiq.github.io
 date: 2023-07-12T10:00:00+01:00

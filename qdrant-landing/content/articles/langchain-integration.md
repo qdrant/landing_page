@@ -5,7 +5,7 @@ description: "We combined LangChain, a pre-trained LLM from OpenAI, SentenceTran
 social_preview_image: /articles_data/langchain-integration/social_preview.png
 small_preview_image: /articles_data/langchain-integration/chain.svg
 preview_dir: /articles_data/langchain-integration/preview
-weight: 6
+weight: 40
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-01-31T10:53:20+01:00

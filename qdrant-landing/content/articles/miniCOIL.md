@@ -4,7 +4,7 @@ short_description: "Our attempt to learn from drawbacks of modern sparse neural 
 description: "Introducing miniCOIL, a lightweight sparse neural retriever capable of generalization."
 social_preview_image: /articles_data/minicoil/preview/social_preview.jpg
 preview_dir: /articles_data/minicoil/preview
-weight: -190
+weight: 10
 author: Evgeniya Sukhodolskaya
 date: 2025-05-13T00:00:00+03:00
 draft: false

@@ -5,7 +5,7 @@ description: "Learn how to accurately and efficiently create text embeddings wit
 social_preview_image: /articles_data/fastembed/preview/social_preview.jpg
 small_preview_image: /articles_data/fastembed/preview/lightning.svg
 preview_dir: /articles_data/fastembed/preview
-weight: -60
+weight: 10
 author: Nirant Kasliwal
 author_link: https://nirantk.com/about/ 
 date: 2023-10-18T10:00:00+03:00

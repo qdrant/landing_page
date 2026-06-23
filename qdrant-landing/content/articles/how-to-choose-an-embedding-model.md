@@ -9,6 +9,7 @@ author_link: https://www.kacperlukawski.com
 date: 2025-07-15T00:00:00.000Z
 category: core-concepts
 draft: false
+weight: 10
 ---
 
 No matter if you are just beginning your journey in the world of vector search, or you are a seasoned practitioner, you 

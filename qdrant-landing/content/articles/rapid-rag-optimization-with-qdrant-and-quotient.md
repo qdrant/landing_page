@@ -5,7 +5,7 @@ description: Learn how Qdrant-powered RAG applications can be tested and iterati
 social_preview_image: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/preview/social_preview.jpg
 small_preview_image: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/icon.svg
 preview_dir: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/preview
-weight: -131
+weight: 30
 author: Atita Arora
 author_link: https://github.com/atarora
 date: 2024-06-12T00:00:00.000Z

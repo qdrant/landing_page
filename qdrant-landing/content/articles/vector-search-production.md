@@ -8,6 +8,7 @@ author: David Myriel
 author_link: 
 date: 2025-04-30T00:00:00.000Z
 category: production-ops
+weight: 20
 ---
 
 ## What Does it Take to Run Search in Production?

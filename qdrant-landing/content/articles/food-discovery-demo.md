@@ -5,7 +5,7 @@ description: Feeling hungry? Find the perfect meal with Qdrant's multimodal sema
 preview_dir: /articles_data/food-discovery-demo/preview
 social_preview_image: /articles_data/food-discovery-demo/preview/social_preview.jpg
 small_preview_image: /articles_data/food-discovery-demo/icon.svg
-weight: -30
+weight: 30
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-09-05T11:32:00.000Z

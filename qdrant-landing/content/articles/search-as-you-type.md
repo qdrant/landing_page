@@ -5,7 +5,7 @@ description: To show off Qdrant's performance, we show how to do a quick search-
 social_preview_image: /articles_data/search-as-you-type/preview/social_preview.jpg
 small_preview_image: /articles_data/search-as-you-type/icon.svg
 preview_dir: /articles_data/search-as-you-type/preview
-weight: -2
+weight: 20
 author: Andre Bogus
 author_link: https://llogiq.github.io
 date: 2023-08-14T00:00:00+01:00

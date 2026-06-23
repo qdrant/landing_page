@@ -4,7 +4,7 @@ short_description: "Combine optimization methods to improve resource usage."
 description: "Learn how to get the most from Qdrant's optimization features. Discover key tricks and best practices to boost vector search performance and reduce Qdrant's resource usage."
 preview_dir: /articles_data/vector-search-resource-optimization/preview
 social_preview_image: /articles_data/vector-search-resource-optimization/preview/social_preview.jpg
-weight: -200
+weight: 40
 author: David Myriel
 category: production-ops
 date: 2025-02-09T00:00:00.000Z

@@ -8,6 +8,7 @@ author: Kacper Łukawski
 author_link: https://kacperlukawski.com
 date: 2025-09-05T00:00:00.000Z
 category: mastering-search
+weight: 60
 ---
 
 ## What are MUVERA Embeddings?

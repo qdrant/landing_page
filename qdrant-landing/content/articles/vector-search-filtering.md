@@ -4,7 +4,7 @@ short_description: "Merging different search methods to improve the search quali
 description: "Learn everything about filtering in Qdrant. Discover key tricks and best practices to boost semantic search performance and reduce Qdrant's resource usage."
 preview_dir: /articles_data/vector-search-filtering/preview
 social_preview_image: /articles_data/vector-search-filtering/social-preview.png
-weight: -200
+weight: 70
 author: Sabrina Aquino, David Myriel
 author_link: 
 date: 2024-09-10T00:00:00.000Z

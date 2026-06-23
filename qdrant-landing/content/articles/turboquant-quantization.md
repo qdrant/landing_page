@@ -15,7 +15,7 @@ keywords:
   - performance
   - benchmarks
 category: production-ops
-weight: -200
+weight: 10
 ---
 
 If you run production vector workloads, you already know the compression ladder in Qdrant: float32 is the baseline, **Scalar Quantization (SQ)** compresses vectors by 4x with almost no recall hit, and **Binary Quantization (BQ)** packs vectors at 16x or 32x.

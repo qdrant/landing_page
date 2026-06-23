@@ -6,7 +6,7 @@ description: How to make ANN search with custom filtering? Search in selected su
 social_preview_image: /articles_data/filterable-hnsw/social_preview.jpg
 preview_dir: /articles_data/filterable-hnsw/preview
 small_preview_image: /articles_data/filterable-hnsw/global-network.svg
-weight: 60
+weight: 40
 date: 2019-11-24T22:44:08+03:00
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/

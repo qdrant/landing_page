@@ -6,7 +6,7 @@ description: Discover the power of neural search. Learn what neural search is an
 social_preview_image: /articles_data/neural-search-tutorial/social_preview.jpg
 preview_dir: /articles_data/neural-search-tutorial/preview
 small_preview_image: /articles_data/neural-search-tutorial/tutorial.svg
-weight: 50
+weight: 70
 author: Andrey Vasnetsov
 author_link: https://blog.vasnetsov.com/
 date: 2021-06-10T10:18:00.000Z

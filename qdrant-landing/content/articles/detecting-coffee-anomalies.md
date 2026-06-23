@@ -5,7 +5,7 @@ description: Practical use of metric learning for anomaly detection. A way to ma
 social_preview_image: /articles_data/detecting-coffee-anomalies/preview/social_preview.jpg
 preview_dir: /articles_data/detecting-coffee-anomalies/preview
 small_preview_image: /articles_data/detecting-coffee-anomalies/anomalies_icon.svg
-weight: 30
+weight: 70
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2022-05-04T13:00:00+03:00

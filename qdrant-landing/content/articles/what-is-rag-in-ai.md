@@ -5,7 +5,7 @@ slug: what-is-rag-in-ai?
 short_description:  What is RAG? 
 description: Explore how RAG enables LLMs to retrieve and utilize relevant external data when generating responses, rather than being limited to their original training data alone.
 preview_dir: /articles_data/what-is-rag-in-ai/preview
-weight: -150
+weight: 50
 social_preview_image: /articles_data/what-is-rag-in-ai/preview/social_preview.jpg
 small_preview_image: /articles_data/what-is-rag-in-ai/icon.svg
 date: 2024-03-19T9:29:33-03:00

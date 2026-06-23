@@ -4,7 +4,7 @@ short_description: "Best practices to optimize memory usage during high-volume v
 description: "Efficient memory management is key when handling large-scale vector data. Learn how to optimize memory consumption during bulk uploads in Qdrant and keep your deployments performant under heavy load."  
 preview_dir: /articles_data/indexing-optimization/preview
 social_preview_image: /articles_data/indexing-optimization/preview/social_preview.jpg  
-weight: -155
+weight: 30
 author: Sabrina Aquino  
 date: 2025-02-13T00:00:00.000Z  
 category: production-ops

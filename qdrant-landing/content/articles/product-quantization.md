@@ -5,7 +5,7 @@ description: "Discover product quantization in vector search technology. Learn h
 social_preview_image: /articles_data/product-quantization/social_preview.png
 small_preview_image: /articles_data/product-quantization/product-quantization-icon.svg
 preview_dir: /articles_data/product-quantization/preview
-weight: 4
+weight: 80
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-05-30T09:45:00+02:00

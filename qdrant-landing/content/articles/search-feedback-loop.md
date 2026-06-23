@@ -4,7 +4,7 @@ short_description: "Incorporating relevance feedback into discovery search, an o
 description: "Relerance feedback: from ancient history to LLMs. Why relevance feedback techniques are good on paper but not popular in neural search, and what we can do about it."
 social_preview_image: /articles_data/search-feedback-loop/preview/social_preview.jpg
 preview_dir: /articles_data/search-feedback-loop/preview
-weight: -170
+weight: 20
 author: Evgeniya Sukhodolskaya
 date: 2025-03-27T00:00:00+03:00
 draft: false

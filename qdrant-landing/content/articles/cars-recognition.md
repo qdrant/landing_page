@@ -5,7 +5,7 @@ description: Learn how to train a similarity model that can retrieve similar car
 social_preview_image: /articles_data/cars-recognition/preview/social_preview.jpg
 small_preview_image: /articles_data/cars-recognition/icon.svg
 preview_dir: /articles_data/cars-recognition/preview
-weight: 10
+weight: 60
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2022-06-28T13:00:00+03:00

@@ -19,6 +19,7 @@ tags:
   - data retrieval
   - efficient data storage
 category: rag-and-agents
+weight: 30
 ---
 
 ## What is Semantic Cache?

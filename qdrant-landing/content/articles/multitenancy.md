@@ -5,7 +5,7 @@ description: "Discover how multitenancy and custom sharding in Qdrant can stream
 social_preview_image: /articles_data/multitenancy/social_preview.png
 preview_dir: /articles_data/multitenancy/preview
 small_preview_image: /articles_data/multitenancy/icon.svg
-weight: -120
+weight: 60
 author: David Myriel
 date: 2024-02-06T13:21:00.000Z
 draft: false

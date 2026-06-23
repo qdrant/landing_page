@@ -4,7 +4,7 @@ short_description: "Dense embeddings blur exact matches. Sparse embeddings keep 
 description: "Part 1 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Learn how sparse embeddings outperform BM25 and dense models for product search, how SPLADE works, and why Qdrant's native sparse vector support matters."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-1/preview
 social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-1/preview/social_preview.jpg
-weight: -200
+weight: 10
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z

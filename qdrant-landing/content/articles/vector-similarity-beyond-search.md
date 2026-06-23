@@ -5,7 +5,7 @@ description: Discover how vector similarity expands data exploration beyond full
 preview_dir: /articles_data/vector-similarity-beyond-search/preview
 small_preview_image: /articles_data/vector-similarity-beyond-search/icon.svg
 social_preview_image: /articles_data/vector-similarity-beyond-search/preview/social_preview.jpg
-weight: -1
+weight: 40
 author: Luis Cossío
 author_link: https://coszio.github.io/
 date: 2023-08-08T08:00:00+03:00

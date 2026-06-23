@@ -5,7 +5,7 @@ slug: what-is-vector-quantization
 short_description:  What is Vector Quantization? Methods & Examples 
 description: In this article, we'll teach you about compression methods like Scalar, Product, and Binary Quantization. Learn how to choose the best method for your specific application.
 preview_dir: /articles_data/what-is-vector-quantization/preview
-weight: -210
+weight: 40
 social_preview_image: /articles_data/what-is-vector-quantization/preview/social-preview.jpg
 date: 2024-09-25T09:29:33-03:00
 author: Sabrina Aquino 

@@ -19,7 +19,7 @@ tags:
   - OpenAI
   - binary quantization
   - embeddings
-weight: -130
+weight: 40
 
 aliases: [ /blog/binary-quantization-openai/ ]
 category: search-quality

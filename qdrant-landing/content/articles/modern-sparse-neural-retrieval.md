@@ -4,7 +4,7 @@ short_description: ""
 description: "A comprehensive guide to modern sparse neural retrievers: COIL, TILDEv2, SPLADE, and more. Find out how they work and learn how to use them effectively." 
 preview_dir: /articles_data/modern-sparse-neural-retrieval/preview
 social_preview_image: /articles_data/modern-sparse-neural-retrieval/social-preview.png
-weight: -213 
+weight: 20
 author: Evgeniya Sukhodolskaya
 date: 2024-10-23T00:00:00.000Z
 tags: 
