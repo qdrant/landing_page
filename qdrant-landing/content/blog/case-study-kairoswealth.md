@@ -52,9 +52,9 @@ Kairoswealth leverages Qdrant for several key use cases:
 
 Some of the key reasons, why Kairoswealth landed on Qdrant as the vector database of choice are:
 
-1. **High Performance with 2.4M Vectors:** “Qdrant efficiently handled the indexing of 1.2 million vectors with 16 metadata fields each, maintaining high performance with no degradation. Similarity queries and scrolls run in less than 0.3 seconds. When we doubled the dataset to 2.4 million vectors, performance remained consistent.So we decided to double that to 2.4M vectors, and it's as if we were inserting our first vector!” says Teyssier.
+1. **High Performance with 2.4M Vectors:** “Qdrant efficiently handled the indexing of 1.2 million vectors with 16 metadata fields each, maintaining high performance with no degradation. Similarity queries and scrolls run in less than 0.3 seconds. When we doubled the dataset to 2.4 million vectors, performance remained consistent. So we decided to double that to 2.4M vectors, and it's as if we were inserting our first vector!” says Teyssier.
 2. **8x Memory Efficiency:** The database storage size with Qdrant was eight times smaller than the previous solution, enabling the deployment of the entire dataset on smaller instances and saving significant infrastructure costs.
-3. **Embedded Capabilities:** “Beyond simple search and similarity, Qdrant hosts a bunch of very nice features around recommendation engines, adding positive and negative examples for better spacial narrowing, efficient multi-tenancy, and many more,” says Teyssier.
+3. **Embedded Capabilities:** “Beyond simple search and similarity, Qdrant hosts a bunch of very nice features around recommendation engines, adding positive and negative examples for better spatial narrowing, efficient multi-tenancy, and many more,” says Teyssier.
 4. **Support and Community:** “The Qdrant team, led by Andre Zayarni, provides exceptional support and has a strong passion for data engineering,” notes Teyssier, “the team's commitment to open-source and their active engagement in helping users, from beginners to veterans, is highly valued by Kairoswealth.”
 
 ## **Conclusion**

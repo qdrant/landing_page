@@ -126,7 +126,7 @@ Looking at the complexity, scale and adaptability of the desired solution, the t
 
 ![data-processing](/case-studies/dailymotion/data-processing-pipeline.png)
 
-Figure shows the streaming architecture of the data processing pipeline that processes everytime a new video is uploaded or updated (Title, Description, Tags, Transcript), an updated embedding is computed and fed directly into Qdrant.
+Figure shows the streaming architecture of the data processing pipeline that processes every time a new video is uploaded or updated (Title, Description, Tags, Transcript), an updated embedding is computed and fed directly into Qdrant.
 
 
 ### Results

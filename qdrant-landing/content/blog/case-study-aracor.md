@@ -28,7 +28,7 @@ partition: case-studies
 
 The world of mergers and acquisitions (M\&A) is notoriously painstaking, slow, expensive and error-prone. Lawyers spend weeks combing through thousands of documents—validating signatures, comparing versions, and flagging risks.
 
-Lawyers and dealmakers sift through mountains of documents—often numbering into the thousands—to validate every detail, from validating signatures, comparing the documents involved in the deal transaction, flagging risks to to patent validity. This meticulous process typically drains weeks or even months of productivity from highly trained professionals. [Aracor AI](https://aracor.ai/) set out to change that and to solve the M\&A transparency gap. The Miami-based AI platform is laser-focused on transforming this painstaking due diligence into an automated, accurate, and dramatically faster operation.
+Lawyers and dealmakers sift through mountains of documents—often numbering into the thousands—to validate every detail, from validating signatures, comparing the documents involved in the deal transaction, and flagging risks to patent validity. This meticulous process typically drains weeks or even months of productivity from highly trained professionals. [Aracor AI](https://aracor.ai/) set out to change that and to solve the M\&A transparency gap. The Miami-based AI platform is laser-focused on transforming this painstaking due diligence into an automated, accurate, and dramatically faster operation.
 
 ### The Challenge: Mountains of Documents, Mountains of Pain
 
