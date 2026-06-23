@@ -7,7 +7,7 @@ social_preview_image: /articles_data/muvera-embeddings/preview/social_preview.jp
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com
 date: 2025-09-05T00:00:00.000Z
-category: vector-search-manuals
+category: mastering-search
 ---
 
 ## What are MUVERA Embeddings?

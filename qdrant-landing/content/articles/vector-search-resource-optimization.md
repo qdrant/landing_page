@@ -6,7 +6,7 @@ preview_dir: /articles_data/vector-search-resource-optimization/preview
 social_preview_image: /articles_data/vector-search-resource-optimization/preview/social_preview.jpg
 weight: -200
 author: David Myriel
-category: vector-search-manuals
+category: production-ops
 date: 2025-02-09T00:00:00.000Z
 ---
 

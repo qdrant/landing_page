@@ -12,7 +12,7 @@ keywords:
     - system architecture
     - vector search
     - vector database 
-category: qdrant-internals
+category: core-concepts
 ---
 
 Any problem with even a bit of complexity requires a specialized solution. You can use a Swiss Army knife to open a bottle or poke a hole in a cardboard box, but you will need an axe to chop wood — the same goes for software.

@@ -12,7 +12,7 @@ tags:
   - sparse retrieval
   - splade
   - bm25
-category: machine-learning
+category: embedding-research
 ---
 
 Finding enough time to study all the modern solutions while keeping your production running is rarely feasible.

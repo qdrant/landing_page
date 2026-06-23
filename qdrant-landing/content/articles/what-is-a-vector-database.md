@@ -15,7 +15,7 @@ tags:
   - vector-search
   - vector-database
   - embeddings
-category: vector-search-manuals
+category: core-concepts
 ---
 
 ## An Introduction to Vector Databases

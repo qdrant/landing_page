@@ -9,8 +9,9 @@ weight: 9
 author: George Panchuk
 author_link: https://medium.com/@george.panchuk
 date: 2022-06-28T08:57:07.604Z
-category: practicle-examples
+category: demos-and-tutorials
 # aliases: [ /articles/faq-question-answering/ ]
+hideFromList: true
 ---
 
 # Question-answering system with Similarity Learning and Quaterion

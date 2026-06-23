@@ -16,7 +16,7 @@ keywords:
     - lexical search
     - search
     - informational retrieval
-category: machine-learning
+category: search-quality
 ---
 
 > A problem well stated is a problem half solved.

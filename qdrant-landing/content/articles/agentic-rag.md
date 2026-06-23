@@ -8,7 +8,7 @@ weight: -150
 author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
 date: 2024-11-22T00:00:00.000Z
-category: rag-and-genai
+category: rag-and-agents
 ---
 
 Standard [Retrieval Augmented Generation](/articles/what-is-rag-in-ai/) follows a predictable, linear path: receive 

@@ -13,7 +13,7 @@ keywords:
   - sparse retrieval
   - bm25
   - splade
-category: machine-learning
+category: embedding-research
 ---
 
 Have you ever heard of sparse neural retrieval? If so, have you used it in production? 

@@ -18,7 +18,7 @@ tags:
   - AI applications
   - data retrieval
   - efficient data storage
-category: rag-and-genai
+category: rag-and-agents
 ---
 
 ## What is Semantic Cache?

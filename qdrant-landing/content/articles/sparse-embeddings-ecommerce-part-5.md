@@ -8,7 +8,7 @@ weight: -196
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: practicle-examples
+category: mastering-search
 ---
 
 *This is Part 5 of a series on fine-tuning sparse embeddings for e-commerce search. Parts [1](/articles/sparse-embeddings-ecommerce-part-1/)–[4](/articles/sparse-embeddings-ecommerce-part-4/) built the pipeline from scratch. This article packages it into a tool anyone can use.*

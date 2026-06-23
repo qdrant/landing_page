@@ -14,7 +14,7 @@ keywords:
   - custom sharding
   - multiple partitions
   - vector database
-category: vector-search-manuals
+category: production-ops
 ---
 
 # Scaling Your Machine Learning Setup: The Power of Multitenancy and Custom Sharding in Qdrant 

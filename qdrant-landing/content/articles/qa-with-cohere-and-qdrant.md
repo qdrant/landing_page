@@ -16,7 +16,8 @@ keywords:
   - cohere
   - co.embed
   - embeddings
-category: practicle-examples
+category: demos-and-tutorials
+hideFromList: true
 ---
 
 Bi-encoders are probably the most efficient way of setting up a semantic Question Answering system. 

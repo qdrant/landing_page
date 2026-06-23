@@ -14,7 +14,7 @@ keywords:
   - vector search
   - product quantization
   - memory optimization
-category: qdrant-internals
+category: production-ops
 aliases: [ /articles/product_quantization/ ]
 ---
 

@@ -7,7 +7,7 @@ social_preview_image: /articles_data/indexing-optimization/preview/social_previe
 weight: -155
 author: Sabrina Aquino  
 date: 2025-02-13T00:00:00.000Z  
-category: vector-search-manuals
+category: production-ops
 ---
 
 # Optimizing Memory Consumption During Bulk Uploads

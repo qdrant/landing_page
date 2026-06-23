@@ -68,3 +68,10 @@
 /documentation/hybrid-search/   /documentation/search/hybrid-queries/    301
 /documentation/scroll/           /documentation/manage-data/points/#scroll-points       301
 /documentation/discovery/        /documentation/search/explore/           301
+
+# Articles category reorganization (technical articles taxonomy)
+/articles/vector-search-manuals/   /articles/mastering-search/      301
+/articles/machine-learning/        /articles/embedding-research/    301
+/articles/ecosystem/               /articles/demos-and-tutorials/   301
+/articles/practicle-examples/      /articles/demos-and-tutorials/   301
+/articles/rag-and-genai/           /articles/rag-and-agents/        301
