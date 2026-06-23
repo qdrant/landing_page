@@ -7,7 +7,8 @@ social_preview_image: /articles_data/vector-search-production/social_preview.png
 author: David Myriel
 author_link: 
 date: 2025-04-30T00:00:00.000Z
-category: vector-search-manuals
+category: production-ops
+weight: 20
 ---
 
 ## What Does it Take to Run Search in Production?

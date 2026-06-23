@@ -5,7 +5,7 @@ description: Discovery Search, an innovative way to constrain the vector space i
 social_preview_image: /articles_data/discovery-search/social_preview.jpg 
 small_preview_image: /articles_data/discovery-search/icon.svg 
 preview_dir: /articles_data/discovery-search/preview 
-weight: -110 
+weight: 20
 author: Luis Cossío 
 author_link: https://coszio.github.io 
 date: 2024-01-31T08:00:00-03:00 

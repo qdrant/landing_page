@@ -4,11 +4,11 @@ short_description: "Train a SPLADE model on Amazon's ESCI dataset using Modal's 
 description: "Part 2 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Build a training pipeline on Modal with persistent checkpoints, SpladeLoss, and hyperparameter sweeps."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-2/preview
 social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-2/preview/social_preview.jpg
-weight: -199
+weight: 20
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: practicle-examples
+category: mastering-search
 ---
 
 *This is Part 2 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 1](/articles/sparse-embeddings-ecommerce-part-1/), we covered why sparse embeddings beat BM25 for e-commerce. Now we build the training pipeline.*

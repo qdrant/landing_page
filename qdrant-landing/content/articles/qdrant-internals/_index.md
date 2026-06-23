@@ -5,5 +5,5 @@ description: Take a look under the hood of Qdrant’s high-performance vector se
 category: qdrant-internals
 url: /articles/qdrant-internals/
 isCategoryPage: true
-weight: 20
+weight: 50
 ---

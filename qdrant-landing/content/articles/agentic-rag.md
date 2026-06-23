@@ -4,11 +4,11 @@ short_description: "Will agentic RAG replace linear RAG? Learn how to build agen
 description: "Agents are a new paradigm in AI, and they are changing how we build RAG systems. Learn how to build agents with Qdrant and which framework to choose."
 preview_dir: /articles_data/agentic-rag/preview
 social_preview_image: /articles_data/agentic-rag/preview/social_preview.jpg
-weight: -150
+weight: 20
 author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
 date: 2024-11-22T00:00:00.000Z
-category: rag-and-genai
+category: rag-and-agents
 ---
 
 Standard [Retrieval Augmented Generation](/articles/what-is-rag-in-ai/) follows a predictable, linear path: receive 

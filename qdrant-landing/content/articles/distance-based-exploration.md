@@ -4,7 +4,7 @@ short_description: "Efficient visualization and clusterization of high-dimension
 description: "Explore your data under a new angle with Qdrant's tools for dimensionality reduction, clusterization, and visualization."
 social_preview_image: /articles_data/distance-based-exploration/social-preview.jpg
 preview_dir: /articles_data/distance-based-exploration/preview
-weight: -250
+weight: 10
 author: Andrey Vasnetsov
 date: 2025-03-11T12:00:00+03:00
 draft: false

@@ -5,11 +5,11 @@ description: "What are the advantages of Triplet Loss over Contrastive loss and 
 social_preview_image: /articles_data/triplet-loss/social_preview.jpg
 preview_dir: /articles_data/triplet-loss/preview
 small_preview_image: /articles_data/triplet-loss/icon.svg
-weight: 30
+weight: 80
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2022-03-24T15:12:00+03:00
-category: machine-learning
+category: embedding-research
 # aliases: [ /articles/triplet-loss/ ]
 ---
 

@@ -15,7 +15,7 @@ keywords:
     - geo polygon
     - search condition
     - gsoc'23
-category: qdrant-internals
+hideFromList: true
 ---
 
 

@@ -5,7 +5,7 @@ description: "Binary Quantization is a newly introduced mechanism of reducing th
 social_preview_image: /articles_data/binary-quantization/social_preview.png
 small_preview_image: /articles_data/binary-quantization/binary-quantization-icon.svg
 preview_dir: /articles_data/binary-quantization/preview
-weight: -40
+weight: 70
 author: Nirant Kasliwal
 author_link: https://nirantk.com/about/ 
 date: 2023-09-18T13:00:00+03:00
@@ -14,7 +14,7 @@ keywords:
   - vector search
   - binary quantization
   - memory optimization
-category: qdrant-internals
+category: production-ops
 ---
 
 # Optimizing High-Dimensional Vectors with Binary Quantization

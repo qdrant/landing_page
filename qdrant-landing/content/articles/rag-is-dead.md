@@ -5,7 +5,7 @@ description: Uncover the necessity of vector databases for RAG and learn how Qdr
 social_preview_image: /articles_data/rag-is-dead/preview/social_preview.jpg 
 small_preview_image: /articles_data/rag-is-dead/icon.svg 
 preview_dir: /articles_data/rag-is-dead/preview 
-weight: -131
+weight: 60
 author: David Myriel 
 author_link: https://github.com/davidmyriel
 date: 2024-02-27T00:00:00.000Z
@@ -15,7 +15,7 @@ keywords:
   - vector search
   - retrieval augmented generation
   - gemini 1.5
-category: rag-and-genai
+category: core-concepts
 ---
 
 # Is RAG Dead? The Role of Vector Databases in AI Efficiency and Vector Search 

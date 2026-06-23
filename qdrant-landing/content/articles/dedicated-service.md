@@ -5,7 +5,7 @@ description: "Why vector search requires a dedicated service."
 social_preview_image: /articles_data/dedicated-service/social-preview.png
 small_preview_image: /articles_data/dedicated-service/preview/icon.svg
 preview_dir: /articles_data/dedicated-service/preview
-weight: -70
+weight: 90
 author: Andrey Vasnetsov
 author_link: https://vasnetsov.com/
 date: 2023-11-30T10:00:00+03:00
@@ -15,7 +15,7 @@ keywords:
     - vector search
     - best practices
     - anti-patterns
-category: qdrant-internals
+category: core-concepts
 ---
 
 

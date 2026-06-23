@@ -6,11 +6,11 @@ description: Practical recommendations on how to train a matching model and serv
 social_preview_image: /articles_data/metric-learning-tips/preview/social_preview.jpg
 preview_dir: /articles_data/metric-learning-tips/preview
 small_preview_image: /articles_data/metric-learning-tips/scatter-graph.svg
-weight: 20
+weight: 90
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
 date: 2021-05-15T10:18:00.000Z
-category: machine-learning
+category: embedding-research
 # aliases: [ /articles/metric-learning-tips/ ]
 ---
 

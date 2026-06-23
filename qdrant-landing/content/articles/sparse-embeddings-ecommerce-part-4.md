@@ -4,11 +4,11 @@ short_description: "When to fine-tune sparse embeddings and how far to specializ
 description: "Part 4 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Test cross-domain generalization, train a multi-domain model, and decide when to specialize vs generalize."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-4/preview
 social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-4/preview/social_preview.jpg
-weight: -197
+weight: 40
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: practicle-examples
+category: mastering-search
 ---
 
 *This is Part 4 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 3](/articles/sparse-embeddings-ecommerce-part-3/), we evaluated our model and implemented hard negative mining. Now we test how well it generalizes.*

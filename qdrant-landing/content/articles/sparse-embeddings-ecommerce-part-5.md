@@ -4,11 +4,11 @@ short_description: "One command to fine-tune SPLADE for your catalog. No ML pipe
 description: "Part 5 of the sparse embeddings series. We packaged the entire training pipeline from Parts 1-4 into an open-source CLI and web dashboard that fine-tunes SPLADE models for any product catalog in minutes."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-5/preview
 social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-5/preview/social_preview.jpg
-weight: -196
+weight: 50
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: practicle-examples
+category: mastering-search
 ---
 
 *This is Part 5 of a series on fine-tuning sparse embeddings for e-commerce search. Parts [1](/articles/sparse-embeddings-ecommerce-part-1/)–[4](/articles/sparse-embeddings-ecommerce-part-4/) built the pipeline from scratch. This article packages it into a tool anyone can use.*

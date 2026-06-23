@@ -5,7 +5,7 @@ description: "Learn what sparse vectors are, how they work, and their importance
 social_preview_image: /articles_data/sparse-vectors/social_preview.png
 small_preview_image: /articles_data/sparse-vectors/sparse-vectors-icon.svg
 preview_dir: /articles_data/sparse-vectors/preview
-weight: -100
+weight: 80
 author: Nirant Kasliwal
 author_link: https://nirantk.com/about 
 date: 2023-12-09T13:00:00+03:00
@@ -15,7 +15,7 @@ keywords:
   - SPLADE
   - hybrid search
   - vector search
-category: vector-search-manuals
+category: core-concepts
 ---
 
 Think of a library with a vast index card system. Each index card only has a few keywords marked out (sparse vector) of a large possible set for each book (document). This is what sparse vectors enable for text. 

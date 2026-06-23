@@ -4,11 +4,11 @@ short_description: "Merging different search methods to improve the search quali
 description: "Our new Query API allows you to build a hybrid search system that uses different search methods to improve search quality & experience. Learn more here."
 preview_dir: /articles_data/hybrid-search/preview
 social_preview_image: /articles_data/hybrid-search/social-preview.png
-weight: -150
+weight: 80
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com
 date: 2024-07-25T00:00:00.000Z
-category: vector-search-manuals
+category: mastering-search
 ---
 
 It's been over a year since we published the original article on how to build a hybrid

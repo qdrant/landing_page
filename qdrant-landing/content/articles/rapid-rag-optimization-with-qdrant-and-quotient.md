@@ -5,7 +5,7 @@ description: Learn how Qdrant-powered RAG applications can be tested and iterati
 social_preview_image: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/preview/social_preview.jpg
 small_preview_image: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/icon.svg
 preview_dir: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/preview
-weight: -131
+weight: 30
 author: Atita Arora
 author_link: https://github.com/atarora
 date: 2024-06-12T00:00:00.000Z
@@ -17,7 +17,7 @@ keywords:
 - quotient
 - optimization
 - rag
-category: rag-and-genai
+category: search-quality
 ---
 
 In today's fast-paced, information-rich world, AI is revolutionizing knowledge management. The systematic process of capturing, distributing, and effectively using knowledge within an organization is one of the fields in which AI provides exceptional value today. 

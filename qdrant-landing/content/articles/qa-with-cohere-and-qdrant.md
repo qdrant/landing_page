@@ -5,7 +5,7 @@ description: "End-to-end Question Answering system for the biomedical data with 
 social_preview_image: /articles_data/qa-with-cohere-and-qdrant/social_preview.png
 small_preview_image: /articles_data/qa-with-cohere-and-qdrant/q-and-a-article-icon.svg
 preview_dir: /articles_data/qa-with-cohere-and-qdrant/preview
-weight: 7
+weight: 50
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2022-11-29T15:45:00+01:00
@@ -16,7 +16,8 @@ keywords:
   - cohere
   - co.embed
   - embeddings
-category: practicle-examples
+category: demos-and-tutorials
+hideFromList: true
 ---
 
 Bi-encoders are probably the most efficient way of setting up a semantic Question Answering system. 

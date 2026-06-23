@@ -4,7 +4,7 @@ short_description: "The story behind the vector search-native relevance feedback
 description: "The story behind the vector search-native relevance feedback feature, available since 1.17.0, which increases the relevance of search results universally, cheaply, and at scale."
 social_preview_image: /articles_data/relevance-feedback/preview/social_preview.jpg
 preview_dir: /articles_data/relevance-feedback/preview
-weight: -170
+weight: 10
 author: Evgeniya Sukhodolskaya
 date: 2026-02-20T00:00:00+03:00
 draft: false
@@ -13,7 +13,7 @@ keywords:
   - reranking
   - query rewriting
   - relevance
-category: machine-learning
+category: search-quality
 ---
 
 A year ago, we dropped a statement-bomb in the “[Relevance Feedback in Information Retrieval](https://qdrant.tech/articles/search-feedback-loop/)” article and then went silent.

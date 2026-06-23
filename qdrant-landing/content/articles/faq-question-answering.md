@@ -5,12 +5,13 @@ description: A complete guide to building a Q&A system using Quaterion and Sente
 social_preview_image: /articles_data/faq-question-answering/preview/social_preview.jpg
 preview_dir: /articles_data/faq-question-answering/preview
 small_preview_image: /articles_data/faq-question-answering/icon.svg
-weight: 9
+weight: 60
 author: George Panchuk
 author_link: https://medium.com/@george.panchuk
 date: 2022-06-28T08:57:07.604Z
-category: practicle-examples
+category: demos-and-tutorials
 # aliases: [ /articles/faq-question-answering/ ]
+hideFromList: true
 ---
 
 # Question-answering system with Similarity Learning and Quaterion

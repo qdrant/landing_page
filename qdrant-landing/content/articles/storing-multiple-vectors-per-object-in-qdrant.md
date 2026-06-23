@@ -14,7 +14,8 @@ tags:
   - Database
   - Search
   - Similarity Search
-category: vector-search-manuals
+category: mastering-search
+weight: 90
 ---
 
 # How to Optimize Vector Storage by Storing Multiple Vectors Per Object
