@@ -14,7 +14,7 @@ weight: 35
 
 A blue-green deployment runs two clusters in parallel: one live cluster serving production traffic (blue), and one staging cluster (green) where you prepare and validate changes. Once the green cluster is ready, you switch application traffic to it and decommission the old cluster.
 
-This is different from a [blue-green migration at the collection level](http:///documentation/tutorials-operations/embedding-model-migration/), where both collections live inside the same cluster. With collection-level blue-green, a bad upload or a heavy indexing run can still affect the production cluster. A cluster-level strategy removes that risk entirely by keeping the risky work on a separate cluster.
+This is different from a [blue-green migration at the collection level](/documentation/tutorials-operations/embedding-model-migration/), where both collections live inside the same cluster. With collection-level blue-green, a bad upload or a heavy indexing run can still affect the production cluster. A cluster-level strategy removes that risk entirely by keeping the risky work on a separate cluster.
 
 ## When to Use It
 
@@ -40,7 +40,7 @@ The process has five stages:
 
 - A running Qdrant cluster serving production traffic (the blue cluster).  
 - Access to [Qdrant Cloud](https://cloud.qdrant.io/) or your self-hosted infrastructure to spin up a new cluster.  
-- If you use private link on Qdrant Cloud, read the [private link note](#private-link-on-qdrant-cloud) before you start. You need to request the Private Link setup for the new cluster before cutover.
+- If you use private link on Qdrant Cloud, read the [private link note](#private-link-or-private-service-connect-on-qdrant-cloud) before you start. You need to request the Private Link setup for the new cluster before cutover.
 
 ## Step 1: Create the New Cluster
 
@@ -63,7 +63,7 @@ This approach gives you full control over the process and enables you to apply a
 
 ### Option B: Use the Migration Tool
 
-If you prefer a live, streaming migration, for example, to keep the green cluster closer to up-to-date with the blue cluster while you test or when you want to reshard,  use the [Qdrant Migration Tool](http:///documentation/tutorials-operations/migration/).
+If you prefer a live, streaming migration, for example, to keep the green cluster closer to up-to-date with the blue cluster while you test or when you want to reshard,  use the [Qdrant Migration Tool](/documentation/tutorials-operations/migration/).
 
 ```shell
 docker run --rm -it \
@@ -82,11 +82,11 @@ The migration tool streams data in batches and can resume if interrupted. It als
 
 Create a snapshot of each collection on the blue cluster and restore it to the green cluster. This is fast and reliable, and is the preferred approach for large datasets.
 
-Follow the [Snapshots tutorial](http:///documentation/tutorials-operations/create-snapshot/) to create and download snapshots, then restore them to the new cluster.
+Follow the [Snapshots tutorial](/documentation/tutorials-operations/create-snapshot/) to create and download snapshots, then restore them to the new cluster.
 
 ### Option D: Restore from a Volume Backup
 
-If you take disk-level backups of the Qdrant storage volume, for example, EBS snapshots on AWS, persistent disk snapshots on GCP, or equivalent block storage snapshots on other platforms, [you can restore one of those to the green cluster's storage volume directly](https://qdrant.tech/documentation/cloud/backups/#restore-a-backup).
+If you take disk-level backups of the Qdrant storage volume, for example, EBS snapshots on AWS, persistent disk snapshots on GCP, or equivalent block storage snapshots on other platforms, [you can restore one of those to the green cluster's storage volume directly](/documentation/cloud/backups/#restore-a-backup).
 
 This is the fastest way to populate a new cluster for large datasets, because it is a block-level copy that bypasses any Qdrant-level data transfer entirely. It restores all collections, their configurations, indexes, and the write-ahead log in one operation.
 
@@ -94,9 +94,9 @@ This is the fastest way to populate a new cluster for large datasets, because it
 
 Before switching traffic, validate the green cluster thoroughly. At a minimum, check:
 
-- [**Point counts**](https://qdrant.tech/documentation/manage-data/points/#counting-points)**.** Verify that each collection on the green cluster has the expected number of points. If the goal is to mirror the blue cluster, check that the counts match. If you loaded a new dataset, verify against the expected count from that source.  
-- [**Search quality**](https://qdrant.tech/documentation/migration-guidance/search-quality/)**.** Run a sample of your production queries against the green cluster and compare results.  
-- [**Index state**](https://qdrant.tech/documentation/manage-data/collections/#collection-info)**.** Confirm that indexing is complete before cutover. In the Qdrant Cloud console, each collection shows a status indicator. Wait until it is green. Heavy indexing work during cutover can cause elevated latency.  
+- [**Point counts**](/documentation/manage-data/points/#counting-points)**.** Verify that each collection on the green cluster has the expected number of points. If the goal is to mirror the blue cluster, check that the counts match. If you loaded a new dataset, verify against the expected count from that source.  
+- [**Search quality**](/documentation/migration-guidance/search-quality/)**.** Run a sample of your production queries against the green cluster and compare results.  
+- [**Index state**](/documentation/manage-data/collections/#collection-info)**.** Confirm that indexing is complete before cutover. In the Web UI Collections view, each collection shows a status indicator. Wait until it is green. Heavy indexing work during cutover can cause elevated latency.  
 - **Version behavior.** If you upgraded Qdrant, check the release notes for any breaking changes and test any features you rely on.
 
 Take your time here. The blue cluster is unaffected until you flip the switch.
