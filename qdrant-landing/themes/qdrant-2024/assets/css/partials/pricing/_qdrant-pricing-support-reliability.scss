@@ -1,0 +1,78 @@
+@use '../../helpers/functions' as *;
+
+.qdrant-pricing-support-reliability {
+  position: relative;
+  overflow: hidden;
+  padding: $spacer * 7.5 0;
+  background-color: $neutral-10;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -14rem;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        104% 112% at 50% 0%,
+        rgba($secondary-violet-30, 0) 0%,
+        rgba($secondary-violet-30, 0) 80%,
+        rgba($secondary-violet-30, 0.8) 96%,
+        $secondary-violet-30 100%
+      ),
+      radial-gradient(
+        104% 112% at 50% 100%,
+        rgba($secondary-violet-30, 0) 0%,
+        rgba($secondary-violet-30, 0) 80%,
+        rgba($secondary-violet-30, 0.8) 96%,
+        $secondary-violet-30 100%
+      ),
+      $neutral-10;
+  }
+
+  > .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: $spacer * 4;
+  }
+
+  &__label {
+    display: inline-block;
+    margin-bottom: $spacer;
+    font-family: $font-family-monospace;
+    font-size: $font-size-s;
+    font-weight: 500;
+    line-height: $line-height-sm;
+    letter-spacing: pxToRem(2);
+    text-transform: uppercase;
+    color: $neutral-94;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $h3-font-size;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: $neutral-98;
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding: $spacer * 5 0;
+
+    &__header {
+      margin-bottom: $spacer * 2.5;
+    }
+
+    &__title {
+      font-size: $h4-font-size;
+    }
+  }
+}

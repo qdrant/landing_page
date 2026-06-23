@@ -1,0 +1,17 @@
+<section class="qdrant-pricing-support-reliability">
+  <div class="container">
+    <div class="qdrant-pricing-support-reliability__header">
+      {{ with .Params.label }}
+        <span class="qdrant-pricing-support-reliability__label">{{ . }}</span>
+      {{ end }}
+      <h2 class="qdrant-pricing-support-reliability__title">{{ .Params.title }}</h2>
+    </div>
+
+    {{ partial "pricing/qdrant-pricing-features-table" (dict
+      "tiers" .Params.tiers
+      "sections" .Params.sections
+      "modifier" "dark"
+      )
+    }}
+  </div>
+</section>
