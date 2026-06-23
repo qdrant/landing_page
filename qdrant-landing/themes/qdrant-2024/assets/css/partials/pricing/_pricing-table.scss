@@ -246,6 +246,11 @@
       .pricing-table__table-cell:last-child {
       border-bottom-right-radius: pxToRem(8);
     }
+
+    .pricing-table__table-section:last-of-type.pricing-table__table-section--collapsed
+      .pricing-table__table-section-header {
+      border-bottom-right-radius: pxToRem(8);
+    }
   }
 
   &--highlight {
@@ -405,6 +410,11 @@
           border-bottom-right-radius: pxToRem(8);
           border-right: 0.5px solid $neutral-80;
         }
+      }
+
+      .pricing-table__table-section:last-of-type.pricing-table__table-section--collapsed
+        .pricing-table__table-section-header {
+        border-bottom-right-radius: pxToRem(8);
       }
     }
 
