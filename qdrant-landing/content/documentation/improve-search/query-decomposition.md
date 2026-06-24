@@ -116,7 +116,7 @@ Inception is a 2010 science fiction film written and directed by Christopher Nol
 Christopher Nolan studied English literature at University College London before starting his film career.
 ```
 
-The birthplace chunk never mentions Inception, so only the follow-up surfaces it. In this run, RRF brings both links to the top of `pool`. Pass that `pool` to your answer step: the LLM call that reads the chunks and writes the answer.
+The birthplace chunk never mentions Inception, so the original question won't surface it; only the follow-up does. Here, RRF ranks both the film chunk and the birthplace chunk at the top of `pool`. Pass that `pool` to your answer step: the LLM call that reads the chunks and writes the answer.
 
 ## When to Use It
 
