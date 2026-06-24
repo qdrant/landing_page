@@ -99,7 +99,7 @@ In some situations, you may want to disable language-specific processing altoget
 To disable language-specific processing, set the following options:
 - `stemmer`: set to `{"type": "none"}` to explicitly disable stemming.
 - `stopwords`: configure an empty stopwords set to disable stopword removal.
-- `tokenizer`: set to `multilingual` for multilingual tokenization and lemmatization.
+- `tokenizer`: set to `multilingual` for language-aware tokenization that automatically detects the script and applies the appropriate segmentation for each language.
 - Optionally, set `ascii_folding` to `true` to enable ASCII folding and ignore diacritics.
 
 <aside role="status">
