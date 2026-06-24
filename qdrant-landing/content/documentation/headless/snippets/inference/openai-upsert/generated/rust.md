@@ -5,12 +5,11 @@ use qdrant_client::{
 };
 use std::collections::HashMap;
 
-let client = Qdrant::from_url("<your-qdrant-url>").build()?;
 let mut options = HashMap::new();
-options.insert("openai-api-key".to_string(), "<YOUR_OPENAI_API_KEY>".into());
 options.insert("dimensions".to_string(), 512.into());
 
 client
+    .with_header("openai-api-key", "<YOUR_OPENAI_API_KEY>")
     .upsert_points(UpsertPointsBuilder::new("{collection_name}",
         vec![
             PointStruct::new(1,

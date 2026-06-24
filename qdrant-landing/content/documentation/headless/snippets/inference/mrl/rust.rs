@@ -6,9 +6,10 @@ use qdrant_client::{
 };
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("http://localhost:6334").build()?;
+    let client = Qdrant::from_url("http://localhost:6334").build()?; // @hide
 
     client
+        .with_header("openai-api-key", "<YOUR_OPENAI_API_KEY>")
         .upsert_points(
             UpsertPointsBuilder::new(
                 "{collection_name}",
@@ -20,10 +21,7 @@ pub async fn main() -> anyhow::Result<()> {
                             Document {
                                 text: "Recipe for baking chocolate chip cookies".into(),
                                 model: "openai/text-embedding-3-small".into(),
-                                options: HashMap::<String, Value>::from_iter(vec![(
-                                    "openai-api-key".into(),
-                                    "<YOUR_OPENAI_API_KEY>".into(),
-                                )]),
+                                options: HashMap::new(),
                             },
                         )
                         .add_vector(
@@ -31,13 +29,10 @@ pub async fn main() -> anyhow::Result<()> {
                             Document {
                                 text: "Recipe for baking chocolate chip cookies".into(),
                                 model: "openai/text-embedding-3-small".into(),
-                                options: HashMap::<String, Value>::from_iter(vec![
-                                    (
-                                        "openai-api-key".into(),
-                                        Value::from("<YOUR_OPENAI_API_KEY>"),
-                                    ),
-                                    ("mrl".into(), Value::from(64)),
-                                ]),
+                                options: HashMap::<String, Value>::from_iter(vec![(
+                                    "mrl".into(),
+                                    Value::from(64),
+                                )]),
                             },
                         ),
                     Payload::default(),

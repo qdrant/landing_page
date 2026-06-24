@@ -1,14 +1,15 @@
-import { QdrantClient } from "@qdrant/js-client-rest";
+import { QdrantClient, withHeaders } from "@qdrant/js-client-rest";
 
-const client = new QdrantClient({ host: "localhost", port: 6333 });
+const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
 
-client.query("{collection_name}", {
-    query: {
-        text: 'Mission to Mars',
-        model: 'jinaai/jina-clip-v2',
-        options: {
-            'jina-api-key': '<your_jinaai_api_key>',
-            dimensions: 512,
+await withHeaders({ 'jina-api-key': '<YOUR_JINAAI_API_KEY>' }, () =>
+    client.query("{collection_name}", {
+        query: {
+            text: 'Mission to Mars',
+            model: 'jinaai/jina-clip-v2',
+            options: {
+                dimensions: 512,
+            },
         },
-    },
-});
+    })
+);

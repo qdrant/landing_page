@@ -9,11 +9,13 @@ import io.qdrant.client.grpc.Points;
 
 public class Snippet {
         public static void run() throws Exception {
+            // @hide-start
                 QdrantClient client =
                     new QdrantClient(
                         QdrantGrpcClient.newBuilder("xyz-example.qdrant.io", 6334, true)
                             .withApiKey("<your-api-key")
                             .build());
+            // @hide-end
                 client
                     .queryAsync(
                         Points.QueryPoints.newBuilder()

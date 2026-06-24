@@ -4,8 +4,6 @@ use qdrant_client::{
     qdrant::{Document, Query, QueryPointsBuilder},
 };
 
-let client = Qdrant::from_url("<your-qdrant-url>").build().unwrap();
-
 client
     .query(
         QueryPointsBuilder::new("{collection_name}")

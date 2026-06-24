@@ -21,7 +21,7 @@ This tutorial will guide you step-by-step through the two options for migrating 
 
 Re-embedding requires access to the original data used to create the embeddings. This data can come from a primary database, or it may be stored in the payloads of the points in Qdrant. This tutorial assumes that the necessary data is stored in the payloads. This is usually the case, as the payload often contains the text or other data that was used to generate the embeddings.
 
-The code examples in this tutorial use [Qdrant Cloud Inference](/documentation/inference/#qdrant-cloud-inference) to generate vector embeddings. If you manage your own embedding infrastructure, you can apply the same principles, but you'll need to adapt the code examples for your embedding service.
+The code examples in this tutorial use [Qdrant Cloud Inference](/documentation/inference/cloud-inference/) to generate vector embeddings. If you manage your own embedding infrastructure, you can apply the same principles, but you'll need to adapt the code examples for your embedding service.
 
 ## Two Options
 

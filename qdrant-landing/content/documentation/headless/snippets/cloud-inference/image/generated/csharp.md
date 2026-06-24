@@ -3,13 +3,6 @@ using Qdrant.Client;
 using Qdrant.Client.Grpc;
 using Value = Qdrant.Client.Grpc.Value;
 
-var client = new QdrantClient(
-  host: "xyz-example.qdrant.io",
-  port: 6334,
-  https: true,
-  apiKey: "<paste-your-api-key-here>"
-);
-
 await client.UpsertAsync(
   collectionName: "<your-collection>",
   points: new List <PointStruct> {

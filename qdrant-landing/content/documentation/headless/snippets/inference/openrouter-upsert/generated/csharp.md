@@ -2,23 +2,20 @@
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
-var client = new QdrantClient(
-host: "xyz-example.qdrant.io", port: 6334, https: true, apiKey: "<your-openrouter-key>");
-
-await client.UpsertAsync(
-    collectionName: "{collection_name}",
-    points: new List<PointStruct>
-    {
-        new()
+using (RequestHeaders.Use("openrouter-api-key", "<YOUR_OPENROUTER_API_KEY>"))
+    await client.UpsertAsync(
+        collectionName: "{collection_name}",
+        points: new List<PointStruct>
         {
-            Id = 1,
-            Vectors = new Document()
+            new()
             {
-                Model = "openrouter/mistralai/mistral-embed-2312",
-                Text = "Recipe for baking chocolate chip cookies",
-                Options = { ["openrouter-api-key"] = "<YOUR_OPENROUTER_API_KEY>" },
+                Id = 1,
+                Vectors = new Document()
+                {
+                    Model = "openrouter/mistralai/mistral-embed-2312",
+                    Text = "Recipe for baking chocolate chip cookies",
+                },
             },
-        },
-    }
-);
+        }
+    );
 ```
