@@ -652,6 +652,14 @@ This code sample creates a collection with a total of 6 logical shards backed by
 
 Since a replication factor of "2" would require twice as much storage space, it is advised to make sure the hardware can host the additional shard replicas beforehand.
 
+### Nodes and availability zones
+
+Replication distributes shard copies across nodes, but does not control which availability zones those nodes are placed in. Replication factor and zone placement are independent properties.
+
+Without explicit zone-aware placement, all nodes in a cluster can be co-located in the same availability zone. A zone-level outage would then take down the entire cluster even with replication enabled.
+
+For Qdrant Cloud, zone distribution requires enabling **Multi-AZ** at cluster creation time. Refer to [Creating a Production-Ready Cluster](/documentation/cloud/create-cluster/#creating-a-production-ready-cluster) for details. Note that this option can only be selected during cluster creation and cannot be changed later.
+
 ### Creating new shard replicas
 
 It is possible to create or delete replicas manually on an existing collection using the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster). This is usually only necessary if you run Qdrant open-source. In Qdrant Cloud shard replication is handled and updated automatically, matching the configured `replication_factor`.
