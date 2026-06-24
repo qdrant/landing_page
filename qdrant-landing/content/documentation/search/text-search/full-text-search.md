@@ -74,7 +74,7 @@ At query time, use the exact same parameters to ensure consistent text processin
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-spanish/" >}}
 
-To configure only a stemmer or a stopword set, rather than both, set the other one to its disabled form: `stemmer: {"type": "none"}` or `stopwords: {}`.
+To use only stemming, set an empty stopword list. To use only stopword removal, disable stemming by setting `stemmer: {"type": "none"}`.
 
 #### ASCII Folding
 
