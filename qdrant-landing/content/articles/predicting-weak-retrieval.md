@@ -1,5 +1,5 @@
 ---
-title: "Predicting Weak Retrieval: Match the Signal to the Failure Mode"
+title: "Predicting Weak Retrieval Without an LLM"
 short_description: "Cheap signals flag weak retrieval before you pay for a rerank or LLM judge. The one that works depends on how your search fails."
 description: "Detect weak retrieval with cheap signals from the result, no extra model call. Which one predicts failure depends on your corpus, so test it on your data."
 preview_dir: /articles_data/predicting-weak-retrieval/preview
