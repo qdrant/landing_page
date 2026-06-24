@@ -59,19 +59,25 @@ After the keynotes, the day opened up into a packed schedule of technical talks 
 
 #### Neo4j: Free Your Agent's Mind with Context Graphs
 
-[**Stephen Chin**](https://www.linkedin.com/in/steveonjava/), VP of Developer Relations at Neo4j, made the case for pairing vector search with knowledge graphs to build AI that is both more accurate and more explainable. He split agent memory into three types, short-term, long-term, and reasoning, and argued that reasoning memory, the decision traces and provenance, is the piece most systems are missing. A simple GraphRAG pattern, vector search first and then graph traversal, grounds the model and produces answers you can explain, which he illustrated with a healthcare example.
+[**Stephen Chin**](https://www.linkedin.com/in/steveonjava/), VP of Developer Relations at Neo4j, made the case for pairing vector search with knowledge graphs to build AI that is both more accurate and more explainable. He split agent memory into three types, short-term, long-term, and reasoning, and argued that reasoning memory, the decision traces and provenance, is the piece most systems are missing. A simple GraphRAG pattern, vector search first and then graph traversal, grounds the model and produces answers you can explain, which he illustrated with a healthcare example. 
+
+[Watch Recording](https://youtu.be/SFsG3uBoHnA?si=TJXNJE2scRCilgC2)
 
 ![Stephen](/blog/vsd26-post-event/image4.jpg)
 
 #### HubSpot: Building the Infra Behind 20 Billion+ Vectors
 
-[**Oleg Tereshin**](https://www.linkedin.com/in/olegtereshin/) and [**Xin Liu**](https://www.linkedin.com/in/xinnyliuu/) pulled back the curtain on Vector-as-a-Service, HubSpot's centralized search platform built on Qdrant, running more than 20 billion vectors across 150 clusters and five regions. The heart of the talk was their migration off Helm, which could not handle Qdrant's stateful lifecycle, onto a Kubernetes operator pattern. The payoff: cluster spin-up dropped from hours to minutes, shard management became automatic, and one rebalancing run cut resource usage skew by 65%.
+[**Oleg Tereshin**](https://www.linkedin.com/in/olegtereshin/) and [**Xin Liu**](https://www.linkedin.com/in/xinnyliuu/) pulled back the curtain on Vector-as-a-Service, HubSpot's centralized search platform built on Qdrant, running more than 20 billion vectors across 150 clusters and five regions. The heart of the talk was their migration off Helm, which could not handle Qdrant's stateful lifecycle, onto a Kubernetes operator pattern. The payoff: cluster spin-up dropped from hours to minutes, shard management became automatic, and one rebalancing run cut resource usage skew by 65%. 
+
+[Watch Recording](https://youtu.be/46aQff4pxRE?si=kSFuUwVHLzC-Ha2M)
 
 ![HubSpot](/blog/vsd26-post-event/image5.jpg)
 
 #### Arize: Stop Vibe Shipping, Evaluate Your Retrieval
 
-[**Laurie Voss**](https://www.linkedin.com/in/seldo/), Head of Developer Relations at Arize AI, delivered the line of the day: "Looks good to me" is not an evaluation strategy. His core point: **similarity and relevance are not the same thing.** Vector search returns similar documents, not relevant ones, and the gap is where failures hide silently. The fix is to measure relevance directly with metrics like hit rate, precision, and recall, build a golden dataset from real production traces, and reach for better chunking, hybrid search, and a reranker before fine-tuning embeddings.
+[**Laurie Voss**](https://www.linkedin.com/in/seldo/), Head of Developer Relations at Arize AI, delivered the line of the day: "Looks good to me" is not an evaluation strategy. His core point: **similarity and relevance are not the same thing.** Vector search returns similar documents, not relevant ones, and the gap is where failures hide silently. The fix is to measure relevance directly with metrics like hit rate, precision, and recall, build a golden dataset from real production traces, and reach for better chunking, hybrid search, and a reranker before fine-tuning embeddings. 
+
+[Watch Recording](https://youtu.be/mhhMjHq2yN8?si=0Q_KWaGysduCXdst)
 
 ![Arize](/blog/vsd26-post-event/image6.jpg)
 
@@ -79,11 +85,11 @@ After the keynotes, the day opened up into a packed schedule of technical talks 
 
 The three tracks were full from morning to late afternoon. A few more highlights, one from each track:
 
-* **Slack, "Scaling to Billions"** *(Search and Retrieval).* In a one-on-one interview, [**Avirek Ghatia**](https://www.linkedin.com/in/avirek-ghatia-06705971/) and **[Brian O'Grady](https://www.linkedin.com/in/brian-ogrady/)** shared what it actually takes to index trillions of messages and keep them searchable within seconds, including a Lambda architecture with a snowball caching system to avoid recomputing billions of embeddings, greedy batching for a 3x inference speedup, and a candid look at why some quantization methods failed in production.  
-* **Google DeepMind, "Literal Skill Issue: Are SKILLS.md Holding Your Agents Back?"** *(Agents and Memory).* [**Paige Bailey**](https://www.linkedin.com/in/dynamicwebpaige/) made a provocative case that hand-written, static markdown skill files are a transitional phase, and walked through where they break down and what dynamic, autonomous tooling could look like instead.  
-* **AWS, "Tell the Robot What You Want"** *(Edge and Robotics).* [**Sandhya Subramani**](https://www.linkedin.com/in/sandhyasubramani/) closed the robotics track with a live robot that turned natural language commands into actions, using a hybrid edge-cloud architecture that keeps low-latency control on-device while delegating heavier reasoning to the cloud.
+* **Slack, "Scaling to Billions"** *(Search and Retrieval).* In a one-on-one interview, [**Avirek Ghatia**](https://www.linkedin.com/in/avirek-ghatia-06705971/) and **[Brian O'Grady](https://www.linkedin.com/in/brian-ogrady/)** shared what it actually takes to index trillions of messages and keep them searchable within seconds, including a Lambda architecture with a snowball caching system to avoid recomputing billions of embeddings, greedy batching for a 3x inference speedup, and a candid look at why some quantization methods failed in production. [Recording](https://youtu.be/2cUC38rv7PQ?si=vX4eY_LxzX05yDbu)  
+* **Google DeepMind, "Literal Skill Issue: Are SKILLS.md Holding Your Agents Back?"** *(Agents and Memory).* [**Paige Bailey**](https://www.linkedin.com/in/dynamicwebpaige/) made a provocative case that hand-written, static markdown skill files are a transitional phase, and walked through where they break down and what dynamic, autonomous tooling could look like instead. [Recording](https://youtu.be/ulnJo3eOUU8?si=L6Gy-BcGhxKbThXl)
+* **AWS, "Tell the Robot What You Want"** *(Edge and Robotics).* [**Sandhya Subramani**](https://www.linkedin.com/in/sandhyasubramani/) closed the robotics track with a live robot that turned natural language commands into actions, using a hybrid edge-cloud architecture that keeps low-latency control on-device while delegating heavier reasoning to the cloud. [Recording](https://youtu.be/lfW9CjAh7a0?si=eDdy9sqk4R5IQE6U)
 
-We also heard from Mem0, Adobe, Oncotelic Therapeutics with Qdrant Engineering on indexing 28 million PubMed abstracts for drug development, Vultr, LlamaIndex, Twelve Labs, Cognee, Qualcomm, and our own [Dylan Couzon](https://www.linkedin.com/in/dcouzon/) on Qdrant Edge. We can't do every session justice here, so the full set is on the **[Vector Space Day playlist](https://youtube.com/playlist?list=PL9IXkWSmb3691YPJcUloHXXfdPHIYjTlM)**.
+We also heard from Mem0, Adobe, Oncotelic Therapeutics with Qdrant Engineering on indexing 28 million PubMed abstracts for drug development, Vultr, LlamaIndex, Twelve Labs, Cognee, Qualcomm, and our own **[Dylan Couzon](https://www.linkedin.com/in/dcouzon/)** on Qdrant Edge. We can't do every session justice here, so the full set is on the **[Vector Space Day playlist](https://youtube.com/playlist?list=PL9IXkWSmb3691YPJcUloHXXfdPHIYjTlM)**.
 
 ### Hackathon Winners
 
