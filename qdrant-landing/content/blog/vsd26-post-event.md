@@ -16,14 +16,22 @@ tags:
 
 On June 11th, 2026, over 350 developers, researchers, and engineers came together at The Midway in San Francisco for **Vector Space Day**, our first event of its kind in the United States and our first major gathering in San Francisco.
 
-This was a single day, single stage, across three tracks: Agents and Memory, Search and Retrieval, and Edge and Robotics, hosted by our MC for the day, [Adam Chan](https://www.linkedin.com/in/itsajchan/), who kept the room moving from the first welcome to the final hackathon reveal.
+This was a single day, single stage, across three tracks: Agents and Memory, Search and Retrieval, and Edge and Robotics. Hosted by our MC for the day, [Adam Chan](https://www.linkedin.com/in/itsajchan/), who kept the energy flowing from opening keynotes to the final hackathon reveal.
 
-As with our first Vector Space Day in Berlin, the day belonged to the community. Over coffee and fresh swag, the conversations moved quickly to embeddings, hybrid search, agentic memory, and on-device retrieval. Laptops opened, QR codes were traded, and the room filled with people who build this technology for a living. San Francisco is a new home for us, and we are here to stay.
+As with our first Vector Space Day in Berlin, this event was for a community of builders. Conversations moved around the venue from embeddings to hybrid search, agentic memory, and on-device retrieval. Laptops opened, QR codes were traded, and the room buzzed with excitement.
 
-We know many of you could not make it in person, so this recap is a chance to relive the day. Let's dive in.
+Since we know many of you could not make it in person, this recap is a chance to relive the day.
 
-[See all session slides here](https://docs.google.com/presentation/d/1vX1gJOTqUaKv26iWqfdShCU7rZdgaodiyPChLhNCbUs/edit?usp=sharing)  
-[See all session recordings here](https://www.youtube.com/playlist?list=PL9IXkWSmb3691YPJcUloHXXfdPHIYjTlM)
+<iframe width="560" height="415"
+  src="https://www.youtube.com/embed/eMLRVlUPoZw?rel=0"
+  title="Vector Space Day Highlights"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+
+* **Access all session [slides](https://docs.google.com/presentation/d/1vX1gJOTqUaKv26iWqfdShCU7rZdgaodiyPChLhNCbUs/edit?usp=sharing) and [recordings](https://www.youtube.com/playlist?list=PL9IXkWSmb3691YPJcUloHXXfdPHIYjTlM)**
 
 ### From the Community
 
@@ -97,11 +105,9 @@ When the talks wrapped, the day shifted into a happy hour right at the venue. En
 
 ### Thank You
 
-To our community, our attendees, our speakers, and our sponsors: thank you. Vector Space Day would not be possible without you, and neither would Qdrant. Your energy and your questions push us to keep building, keep improving, and keep doing it the hard way so you do not have to.
+To our community, our attendees, our speakers, and our sponsors: thank you. Vector Space Day would not be possible without you, and neither would Qdrant. This was our first Vector Space Day in San Francisco. It will not be our last. We're here to stay.
 
-This was our first Vector Space Day in San Francisco. It will not be our last. We're here to stay.
-
-See you next year.
+See you next time.
 
 \- The Qdrant Team
 
