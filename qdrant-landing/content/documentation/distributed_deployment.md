@@ -15,6 +15,16 @@ aliases:
 Since version v0.8.0 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
+## Resilience
+
+Resilience in Qdrant is determined by two parameters: replication factor and node count. Together, they provide:
+
+- **Data durability**: A `replication_factor` of 2 or more keeps copies of every shard on multiple nodes. If a node is permanently lost, your data survives as long as at least one replica remains intact.
+- **Continued serving during outages**: A 3+ node cluster with all shards replicated to at least 2 nodes keeps all requests (reads, writes, and collection operations) running when one node is down. A 2-node cluster with full replication keeps reads and writes running, but collection operations (create, edit, delete) require a node majority and will be unavailable.
+- **Permanent node loss recovery**: Recovering from the permanent loss of a node goes through [Raft](#raft), which requires more than 50% of nodes to be healthy. This means 3+ node clusters can recover from a single permanent node loss; 2-node clusters cannot.
+
+These properties are not independent systems; they are consequences of the same two settings. Set `replication_factor` ≥ 2 on your collections and run ≥ 3 nodes, and your cluster is resilient on all three dimensions.
+
 ## How many Qdrant nodes should I run?
 
 The ideal number of Qdrant nodes depends on how much you value cost-saving, resilience, and performance/scalability in relation to each other.
