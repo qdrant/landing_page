@@ -6,7 +6,83 @@ const FILTER_KEYS = [
   "use_cases"
 ];
 
+const SORT_PARAM = "sort";
+
+const VALID_SORT_VALUES = new Set([
+  "name-asc",
+  "name-desc",
+  "industry-asc",
+  "product-asc",
+  "company_size-asc",
+  "location-asc"
+]);
+
 const DESKTOP_MIN_WIDTH = 992;
+
+function buildValidFilterValues(filterInputs) {
+  return filterInputs.reduce((acc, input) => {
+    const key = input.dataset.filterKey;
+    if (!FILTER_KEYS.includes(key)) return acc;
+    if (!acc[key]) acc[key] = new Set();
+    acc[key].add(input.value);
+    return acc;
+  }, {});
+}
+
+function parseStateFromUrl(validFilterValues) {
+  const params = new URLSearchParams(window.location.search);
+  const sortParam = params.get(SORT_PARAM) ?? "";
+  const sortValue = VALID_SORT_VALUES.has(sortParam) ? sortParam : "";
+
+  const filters = {
+    industry: [],
+    product: [],
+    company_size: [],
+    location: [],
+    use_cases: []
+  };
+
+  for (const key of FILTER_KEYS) {
+    const valid = validFilterValues[key] ?? new Set();
+    const raw = params
+      .getAll(key)
+      .flatMap((value) => value.split(",").map((part) => part.trim()))
+      .filter(Boolean);
+    filters[key] = [...new Set(raw.filter((value) => valid.has(value)))];
+  }
+
+  return { sortValue, filters };
+}
+
+function syncStateToUrl(state) {
+  const url = new URL(window.location.href);
+
+  url.searchParams.delete(SORT_PARAM);
+  if (state.sortValue) {
+    url.searchParams.set(SORT_PARAM, state.sortValue);
+  }
+
+  for (const key of FILTER_KEYS) {
+    url.searchParams.delete(key);
+    (state.filters[key] ?? []).forEach((value) => {
+      url.searchParams.append(key, value);
+    });
+  }
+
+  const nextUrl = `${url.pathname}${url.search}${url.hash}`;
+  const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+
+  if (nextUrl !== currentUrl) {
+    window.history.replaceState(null, "", nextUrl);
+  }
+}
+
+function hasActiveState(state) {
+  return (
+    Boolean(state.sortValue) ||
+    FILTER_KEYS.some((key) => (state.filters[key] ?? []).length > 0)
+  );
+}
 
 function initCustomersViewToggle(root) {
   const bar = root.querySelector("[data-customers-view-toggle]");
@@ -112,7 +188,39 @@ function closeAllFilterAccordions(root) {
   });
 }
 
-function initCustomersMobileFilters(root, { onClose, onOpen, onApply, onClear }) {
+function expandAccordionItem(item) {
+  const header = item.querySelector(".customers-case-studies__accordion-header");
+  const panel = header?.nextElementSibling;
+
+  if (!header || !panel?.classList.contains("customers-case-studies__accordion-body")) {
+    return;
+  }
+
+  item.classList.add("active");
+  panel.style.maxHeight = `${panel.scrollHeight}px`;
+}
+
+function syncAccordionExpansion(root, state) {
+  root.querySelectorAll(".customers-case-studies__accordion-item").forEach((item) => {
+    const sortSelect = item.querySelector("[data-sort-select]");
+    const filterInputs = [...item.querySelectorAll("[data-filter-input]")];
+
+    let shouldExpand = false;
+
+    if (sortSelect) {
+      shouldExpand = Boolean(state.sortValue);
+    } else if (filterInputs.length) {
+      const key = filterInputs[0].dataset.filterKey;
+      shouldExpand = (state.filters[key] ?? []).length > 0;
+    }
+
+    if (shouldExpand) {
+      expandAccordionItem(item);
+    }
+  });
+}
+
+function initCustomersMobileFilters(root, { onClose, onOpen, onApply, onClear, onAfterApply }) {
   const openBtn = root.querySelector(".customers-case-studies__filter-mobile-button");
   const closeBtn = root.querySelector(".customers-case-studies__filters-close-button");
   const applyBtn = root.querySelector(".customers-case-studies__filters-apply-button");
@@ -138,6 +246,7 @@ function initCustomersMobileFilters(root, { onClose, onOpen, onApply, onClear })
     onApply?.();
     panel.classList.remove("active");
     closeAllFilterAccordions(root);
+    onAfterApply?.();
   });
   clearBtn?.addEventListener("click", () => onClear?.());
 }
@@ -156,6 +265,7 @@ function initCustomersCaseStudies(root) {
 
   const gridCards = [...resultsGrid.querySelectorAll("[data-client-card]")];
   const listCards = [...resultsList.querySelectorAll("[data-client-card]")];
+  const validFilterValues = buildValidFilterValues(filterInputs);
 
   let visibleBatchCount = batchSize;
 
@@ -184,6 +294,20 @@ function initCustomersCaseStudies(root) {
 
   let appliedState = readControlsState();
   let draftState = appliedState;
+
+  const urlState = parseStateFromUrl(validFilterValues);
+  if (hasActiveState(urlState)) {
+    appliedState = urlState;
+    draftState = urlState;
+    applyStateToControls(appliedState);
+    syncAccordionExpansion(root, appliedState);
+  }
+
+  const commitAppliedState = () => {
+    syncStateToUrl(appliedState);
+    refresh();
+    syncAccordionExpansion(root, appliedState);
+  };
 
   const getSortedMatchingIds = (state) => {
     const filters = state.filters;
@@ -237,7 +361,7 @@ function initCustomersCaseStudies(root) {
   const onControlsChange = () => {
     if (isDesktop()) {
       appliedState = readControlsState();
-      refresh();
+      commitAppliedState();
       return;
     }
     draftState = readControlsState();
@@ -263,7 +387,7 @@ function initCustomersCaseStudies(root) {
         if (sortSelect) sortSelect.value = "";
         filterInputs.forEach((i) => (i.checked = false));
         appliedState = readControlsState();
-        refresh();
+        commitAppliedState();
         return;
       }
       if (sortSelect) sortSelect.value = "";
@@ -273,8 +397,21 @@ function initCustomersCaseStudies(root) {
     onApply: () => {
       if (isDesktop()) return;
       appliedState = draftState;
-      refresh();
+      commitAppliedState();
+    },
+    onAfterApply: () => {
+      if (isDesktop()) return;
+      syncAccordionExpansion(root, appliedState);
     }
+  });
+
+  window.addEventListener("popstate", () => {
+    const nextState = parseStateFromUrl(validFilterValues);
+    appliedState = nextState;
+    draftState = nextState;
+    applyStateToControls(appliedState);
+    refresh();
+    syncAccordionExpansion(root, appliedState);
   });
 
   refresh();
