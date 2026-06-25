@@ -36,7 +36,7 @@ In these examples, Qdrant uses [inference](/documentation/inference/) to generat
 
 ## Lexical Search
 
-Lexical search, also known as keyword-based search, is a traditional search technique that relies on matching words or phrases in the text. Many applications require a combination of semantic and traditional lexical search. A good example is in e-commerce, where users may want to search for products using a product ID. ID values don't lend themselves well to vectorization, but being able to search for them is essential for a good search experience. To facilitate these use cases, Qdrant supports [text filtering](/documentation/search/text-search/filtering/) and [full-text search](/documentation/search/text-search/full-text-search/).
+Lexical search, also known as keyword-based search, is a traditional search technique that relies on matching words or phrases in the text. Many applications require a combination of semantic and traditional lexical search. A good example is in e-commerce, where users may want to search for products using a product ID. ID values don't lend themselves well to vectorization, but being able to search for them is essential for a good search experience. To facilitate these use cases, Qdrant supports [text filtering](/documentation/search/text-search/text-filtering/) and [full-text search](/documentation/search/text-search/full-text-search/).
 
 ## Filtering Versus Querying
 
