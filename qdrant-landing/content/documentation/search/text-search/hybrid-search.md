@@ -1,5 +1,5 @@
 ---
-title: Combining Semantic and Lexical Search
+title: Hybrid Search
 short_description: "Combine dense and sparse vectors in Qdrant for hybrid search that handles both semantic queries and keyword lookups in a single request."
 description: "Build hybrid search pipelines in Qdrant by combining dense semantic vectors and sparse lexical vectors with the prefetch API and Reciprocal Rank Fusion for comprehensive search results."
 weight: 3
