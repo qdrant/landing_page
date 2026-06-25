@@ -4,7 +4,7 @@
 /* Shared pricing table styles – used by qdrant-pricing-features and qdrant-pricing-comparison */
 
 :root {
-  --tier-count: 4;
+  --tier-count: 4; // fallback; overridden per table via inline style in qdrant-pricing-features-table.html
   --feature-cell-width: 19.375rem;
 }
 
@@ -317,6 +317,7 @@
   @include media-breakpoint-down(lg) {
     &__tier-tabs {
       display: flex;
+      flex-wrap: wrap;
       gap: 0;
       padding: pxToRem(4);
       margin-bottom: 0;
@@ -328,11 +329,16 @@
     }
 
     &__tier-tab {
-      flex: 1;
-      padding: $spacer * 0.5 $spacer;
+      flex: 1 1 0;
+      min-width: min-content;
+      max-width: 100%;
+      padding: $spacer * 0.5 $spacer * 0.5;
       font-size: pxToRem(14);
       font-weight: 400;
       line-height: 1.5;
+      text-align: center;
+      white-space: normal;
+      overflow-wrap: normal;
       color: $neutral-30;
       background: transparent;
       border: none;

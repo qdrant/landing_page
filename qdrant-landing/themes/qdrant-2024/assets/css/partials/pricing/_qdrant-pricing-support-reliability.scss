@@ -64,6 +64,16 @@
     color: $neutral-98;
   }
 
+  &__actions {
+    display: flex;
+    justify-content: center;
+    margin-top: $spacer * 4;
+  }
+
+  &__button {
+    min-width: pxToRem(166);
+  }
+
   @include media-breakpoint-down(lg) {
     padding: $spacer * 5 0;
 
@@ -73,6 +83,10 @@
 
     &__title {
       font-size: $h4-font-size;
+    }
+
+    &__actions {
+      margin-top: $spacer * 2.5;
     }
   }
 }

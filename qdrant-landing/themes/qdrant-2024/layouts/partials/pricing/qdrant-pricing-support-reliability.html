@@ -13,5 +13,13 @@
       "modifier" "dark"
       )
     }}
+
+    {{ with .Params.button }}
+      <div class="qdrant-pricing-support-reliability__actions">
+        <a href="{{ .url }}" class="button button_contained button_lg qdrant-pricing-support-reliability__button">
+          {{ .text }}
+        </a>
+      </div>
+    {{ end }}
   </div>
 </section>

@@ -34,14 +34,14 @@ sections:
         premium: 24/7, 365
         enterprise: 24/7, 365
       - name: Uptime SLA
-        community: "—"
+        community: false
         standard: 99.5%
         premium: 99.9% (99.95% Multi-AZ)
         enterprise: Custom
   - name: Response SLA
     features:
       - name: Severity 1 (Full service outage)
-        community: "—"
+        community: false
         standard: 4h (Business Hours)
         premium: 1h (24/7)
         enterprise: Custom
@@ -103,5 +103,8 @@ sections:
         standard: false
         premium: true
         enterprise: true
+button:
+  text: Talk to Our Team
+  url: /contact-us/
 sitemapExclude: true
 ---

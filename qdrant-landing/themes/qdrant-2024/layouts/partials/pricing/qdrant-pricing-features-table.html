@@ -4,7 +4,10 @@
 {{ $modifier := .modifier | default "" }}
 
 
-<div class="pricing-table{{ with $modifier }} pricing-table--{{ . }}{{ end }}">
+<div
+  class="pricing-table{{ with $modifier }} pricing-table--{{ . }}{{ end }}"
+  style="--tier-count: {{ len $tiers }}"
+>
   {{/* Mobile tier tabs */}}
   <div class="pricing-table__tier-tabs">
     {{ range $index, $tier := $tiers }}
