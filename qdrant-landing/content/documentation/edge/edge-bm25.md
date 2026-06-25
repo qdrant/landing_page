@@ -8,9 +8,9 @@ partition: develop
 
 # BM25 with Qdrant Edge
 
-[BM25](/documentation/search/text-search/#bm25) (Best Matching 25) is a popular sparse-vector ranking algorithm for full-text search. Qdrant Edge includes a built-in BM25 embedder, so you can run keyword search without an internet connection or external embedding service.
+[BM25](/documentation/search/text-search/full-text-search/#bm25) (Best Matching 25) is a popular sparse-vector ranking algorithm for full-text search. Qdrant Edge includes a built-in BM25 embedder, so you can run keyword search without an internet connection or external embedding service.
 
-The BM25 embedder is compatible with server-side BM25: vectors produced by the Qdrant Edge embedder use the same token IDs and scoring formula as Qdrant Server's [text search](/documentation/search/text-search/#bm25) pipeline. You can initialize an Edge Shard from a server snapshot and query it with locally produced BM25 vectors without re-indexing.
+The BM25 embedder is compatible with server-side BM25: vectors produced by the Qdrant Edge embedder use the same token IDs and scoring formula as Qdrant Server's [text search](/documentation/search/text-search/full-text-search/#bm25) pipeline. You can initialize an Edge Shard from a server snapshot and query it with locally produced BM25 vectors without re-indexing.
 
 In Python, use the `Bm25` and `Bm25Config` classes. In Rust, use `EdgeBm25` and `EdgeBm25Config` from the `qdrant_edge::bm25_embed` module.
 
@@ -42,7 +42,7 @@ Instantiate a BM25 embedder with a language setting. The embedder applies stemmi
 | `min_token_len` | Minimum token length to include. |
 | `max_token_len` | Maximum token length to include. |
 
-For a full description of each parameter, see [Configuring BM25 Parameters](/documentation/search/text-search/#configuring-bm25-parameters).
+For a full description of each parameter, see [Configuring BM25 Parameters](/documentation/search/text-search/full-text-search/#configuring-bm25-parameters).
 
 ## Embed and Upsert Documents
 

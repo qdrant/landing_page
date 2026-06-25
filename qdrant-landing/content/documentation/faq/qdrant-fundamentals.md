@@ -162,7 +162,7 @@ See also: the [Choosing a Fusion Method](/documentation/search/hybrid-queries/#c
 
 Work through these in order:
 
-1. **Check sparse preprocessing.** Poor sparse results are often a tokenization issue. For non-English text, configure language-specific stemming and stop-word lists in the [text search settings](/documentation/search/text-search/#language-specific-settings).  
+1. **Check sparse preprocessing.** Poor sparse results are often a tokenization issue. For non-English text, configure language-specific stemming and stop-word lists in the [text search settings](/search/text-search/full-text-search/#bm25-text-processing).  
 2. **Isolate the legs.** Run your dense-only and sparse-only queries separately. If one leg is producing bad results in isolation, fix it before tuning fusion.  
 3. **Tune fusion weights.** If both legs look reasonable individually but fusion degrades quality, try adjusting the per-prefetch weights in your RRF configuration. There is no universal default. Evaluate against a small labeled query set.  
 4. **Add a reranking stage.** If precision matters more than latency, [reranking](/documentation/search/hybrid-queries/#multi-stage-queries) as a final stage can recover from imperfect retrieval.

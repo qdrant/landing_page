@@ -14,7 +14,7 @@ A document is rarely well-represented by a single embedding. A paper has a title
 
 This tutorial builds retrieval that uses each representation deliberately: named vectors per representation, fused via the Query API and grouped back to the document level for presentation.
 
-This tutorial assumes you've built hybrid (dense plus sparse) search before, that you're comfortable with [named vectors](/documentation/manage-data/vectors/#named-vectors), the [Query API](/documentation/search/hybrid-queries/), Reciprocal Rank Fusion (RRF), and Best Matching 25 (BM25). If hybrid search is new, start with the [hybrid search section of the Text Search guide](/documentation/search/text-search/#combining-semantic-and-lexical-search-with-hybrid-search) first.
+This tutorial assumes you've built hybrid (dense plus sparse) search before, that you're comfortable with [named vectors](/documentation/manage-data/vectors/#named-vectors), the [Query API](/documentation/search/hybrid-queries/), Reciprocal Rank Fusion (RRF), and Best Matching 25 (BM25). If hybrid search is new, start with the [hybrid search section of the Text Search guide](/documentation/search/text-search/hybrid-search/) first.
 
 If you'd rather read the code, the [accompanying notebook](https://githubtocolab.com/qdrant/examples/blob/master/multi-representation-search/multi-representation-search.ipynb) walks through this pipeline step by step with eval numbers at each stage.
 
