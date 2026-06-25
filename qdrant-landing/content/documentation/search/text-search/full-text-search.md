@@ -20,7 +20,7 @@ BM25 (Best Matching 25) is a popular ranking algorithm that takes a probabilisti
 
 Qdrant provides native support for BM25 through an [inference model](/documentation/inference/inference-bm25/) that generates sparse vectors, or you can generate vectors on the client side using the [FastEmbed](/documentation/fastembed/) library.
 
-The BM25 model supports the same [text processing](/documentation/search/text-search/filtering/#text-processing) options as text indices, including tokenization, lowercasing, ASCII folding, stemming, and stopword removal. A notable difference with text indices is that BM25 defaults to English stemming and stopword removal. If you are using a language other than English, ensure that you [configure](#bm25-text-processing) the model accordingly.
+The BM25 model supports the same [text processing](/documentation/search/text-search/text-filtering/#text-processing) options as text indices, including tokenization, lowercasing, ASCII folding, stemming, and stopword removal. A notable difference with text indices is that BM25 defaults to English stemming and stopword removal. If you are using a language other than English, ensure that you [configure](#bm25-text-processing) the model accordingly.
 
 To use BM25, configure a sparse vector:
 
