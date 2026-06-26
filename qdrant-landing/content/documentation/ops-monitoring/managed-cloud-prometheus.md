@@ -55,7 +55,7 @@ metadata:
     release: prometheus
 spec:
   metricsPath: /sys_metrics
-  scrapeInterval: 30s
+  scrapeInterval: 60s
   scheme: HTTPS
   authorization:
     type: Bearer
