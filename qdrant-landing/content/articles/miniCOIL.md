@@ -1,5 +1,5 @@
 ---
-title: "miniCOIL: on the Road to Usable Sparse Neural Retrieval"
+title: "miniCOIL: Lightweight Sparse Neural Retrieval Beyond BM25"
 short_description: "Our attempt to learn from drawbacks of modern sparse neural retrievers"
 description: "Introducing miniCOIL, a lightweight sparse neural retriever capable of generalization."
 social_preview_image: /articles_data/minicoil/preview/social_preview.jpg

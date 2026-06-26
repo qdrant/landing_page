@@ -1,5 +1,5 @@
 ---
-title: Triplet Loss - Advanced Intro
+title: "Triplet Loss and Online Triplet Mining in PyTorch"
 short_description: "What are the advantages of Triplet Loss and how to efficiently implement it?"
 description: "What are the advantages of Triplet Loss over Contrastive loss and how to efficiently implement it?"
 social_preview_image: /articles_data/triplet-loss/social_preview.jpg

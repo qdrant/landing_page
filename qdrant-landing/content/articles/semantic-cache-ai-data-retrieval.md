@@ -1,5 +1,5 @@
 ---
-title: "Semantic Cache: Accelerating AI with Lightning-Fast Data Retrieval"
+title: "Semantic Caching for RAG: Cut LLM Cost and Latency"
 short_description: "Semantic Cache for Best Results and Optimization."
 description: "Semantic cache is reshaping AI applications by enabling rapid data retrieval. Discover how its implementation benefits your RAG setup." 
 preview_dir: /articles_data/semantic-cache-ai-data-retrieval/preview

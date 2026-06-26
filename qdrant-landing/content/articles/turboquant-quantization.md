@@ -1,5 +1,5 @@
 ---
-title: "TurboQuant in Qdrant"
+title: "TurboQuant: Rotation-Based Quantization Beats SQ & BQ"
 short_description: "TurboQuant ships in Qdrant 1.18"
 description: "TurboQuant — a new rotation-based vector quantization algorithm from Google Research — now ships in Qdrant 1.18, with extensions that make it work on real embeddings."
 social_preview_image: /articles_data/turboquant/preview/social_preview.png
