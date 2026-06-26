@@ -1,0 +1,19 @@
+{{ with (.Site.GetPage "/ai-agents/ai-agents-proof") }}
+  <section class="ai-agents-proof">
+    <div class="container">
+      <div class="ai-agents-proof__items">
+        {{ $proofs := .Params.proofs }}
+        {{ $last := sub (len $proofs) 1 }}
+        {{ range $i, $proof := $proofs }}
+          <div class="ai-agents-proof__item">
+            <h3 class="ai-agents-proof__item-title">{{ $proof.title }}</h3>
+            <p class="ai-agents-proof__item-description">{{ $proof.description }}</p>
+          </div>
+          {{ if ne $i $last }}
+            <div class="ai-agents-proof__divider"></div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

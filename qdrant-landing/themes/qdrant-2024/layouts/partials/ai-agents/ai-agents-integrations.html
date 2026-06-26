@@ -1,0 +1,31 @@
+{{ with (.Site.GetPage "/ai-agents/ai-agents-integrations") }}
+  <section class="ai-agents-integrations">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <div class="ai-agents-integrations__header">
+            <p class="ai-agents-integrations__subtitle">{{ .Params.subtitle }}</p>
+            <h2 class="ai-agents-integrations__title">{{ .Params.title }}</h2>
+            <p class="ai-agents-integrations__description">{{ .Params.description }}</p>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="ai-agents-integrations__list">
+            {{ range .Params.integrations }}
+            <div class="ai-agents-integrations__block">
+              <h6 class="ai-agents-integrations__block-title">{{ .title }}</h6>
+              <div class="ai-agents-integrations__block-items">
+                {{ range .logos }}
+                  <div class="ai-agents-integrations__block-item">
+                    <img src="{{ .src }}" alt="{{ .alt }}">
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

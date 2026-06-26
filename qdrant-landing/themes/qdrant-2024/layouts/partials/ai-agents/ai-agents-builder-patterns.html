@@ -1,0 +1,63 @@
+{{ with (.Site.GetPage "/ai-agents/ai-agents-builder-patterns") }}
+  <section class="ai-agents-builder-patterns">
+    <div class="container">
+      <div class="ai-agents-builder-patterns__header">
+        <p class="ai-agents-builder-patterns__subtitle">{{ .Params.subtitle }}</p>
+        <h2 class="ai-agents-builder-patterns__title">{{ .Params.title }}</h2>
+        <p class="ai-agents-builder-patterns__description">{{ .Params.description }}</p>
+      </div>
+  
+      <div class="ai-agents-builder-patterns__slider">
+        <div class="ai-agents-builder-patterns__content">
+          <div class="ai-agents-builder-patterns__features">
+            {{ range $index, $feature := .Params.features }}
+              <div class="ai-agents-builder-patterns__feature{{ if eq $index 0 }} ai-agents-builder-patterns__feature--active{{ end }}" data-feature-index="{{ $index }}">
+                <h3 class="ai-agents-builder-patterns__feature-title">{{ $feature.title }}</h3>
+                <div class="ai-agents-builder-patterns__feature-body">
+                  <p class="ai-agents-builder-patterns__feature-description">{{ $feature.description | safeHTML }}</p>
+                  
+                  {{/* Visible only below lg */}}
+                  <div class="ai-agents-builder-patterns__visual-block ai-agents-builder-patterns__visual-block--mobile">
+                    {{ partial "ai-agents/ai-agents-code-window" (dict
+                      "block" "ai-agents-builder-patterns"
+                      "codeBar" .codeBar
+                      "code" .code
+                      "language" ($.Params.language | default "python")
+                      "id" (printf "bp-mobile-%d" $index)
+                    ) }}
+
+                    <div class="ai-agents-builder-patterns__card">
+                      <h6 class="ai-agents-builder-patterns__card-title">{{ .cardTitle }}</h6>
+                      <p class="ai-agents-builder-patterns__card-content">{{ .cardContent | safeHTML }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {{ end }}
+          </div>
+          
+          <div class="ai-agents-builder-patterns__visual">
+            
+            {{/* Visible from lg up */}}
+            {{ range $index, $feature := .Params.features }}
+            <div class="ai-agents-builder-patterns__visual-block{{ if eq $index 0 }} ai-agents-builder-patterns__visual-block--active{{ end }}" data-block-index="{{ $index }}">
+                {{ partial "ai-agents/ai-agents-code-window" (dict
+                  "block" "ai-agents-builder-patterns"
+                  "codeBar" .codeBar
+                  "code" .code
+                  "language" ($.Params.language | default "python")
+                  "id" (printf "bp-desktop-%d" $index)
+                ) }}
+
+                <div class="ai-agents-builder-patterns__card">
+                  <h6 class="ai-agents-builder-patterns__card-title">{{ .cardTitle }}</h6>
+                  <p class="ai-agents-builder-patterns__card-content">{{ .cardContent | safeHTML }}</p>
+                </div>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

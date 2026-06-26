@@ -1,0 +1,42 @@
+{{ with (.Site.GetPage "/ai-agents/ai-agents-hero") }}
+  <section class="ai-agents-hero">
+    <div class="container">
+      <div class="row">
+        <div class="ai-agents-hero__content col-12 col-lg-6">
+          <p class="ai-agents-hero__subtitle">{{ .Params.subtitle }}</p>
+          <h1 class="ai-agents-hero__title">{{ .Params.title }}</h1>
+          <p class="ai-agents-hero__description">{{ .Params.description }}</p>
+          <div class="ai-agents-hero__buttons">
+            <a href="{{ .Params.containedButton.url }}" class="button button_contained button_lg">
+              {{ .Params.containedButton.text }}
+            </a>
+            <a href="{{ .Params.outlinedButton.url }}" class="button button_outlined button_lg">
+              {{ .Params.outlinedButton.text }}
+            </a>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          {{ partial "ai-agents/ai-agents-code-window" (dict
+            "block" "ai-agents-hero"
+            "codeBar" .Params.codeBar
+            "code" .Params.code
+            "language" (.Params.language | default "python")
+            "id" "hero"
+          ) }}
+        </div>
+        <div class="col-12">
+          <div class="ai-agents-hero__logos">
+            <p class="ai-agents-hero__logos-title">{{ .Params.logosTitle }}</p>
+            <div class="ai-agents-hero__logos-list">
+              {{ range .Params.logos }}
+                <div class="ai-agents-hero__logos-item">
+                  <img src="{{ .src }}" alt="{{ .alt }}">
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
