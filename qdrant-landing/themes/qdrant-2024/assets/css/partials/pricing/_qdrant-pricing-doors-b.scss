@@ -19,12 +19,16 @@
   }
 
   &__tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: $spacer * 0.5 $spacer * 1.5;
     min-width: pxToRem(160);
-    height: pxToRem(40);
+    min-height: pxToRem(40);
     font-size: pxToRem(16);
     font-weight: 400;
     line-height: 1.5;
+    text-align: center;
     color: $neutral-30;
     background: transparent;
     border: none;
@@ -318,6 +322,8 @@
     &__tab {
       flex: 1;
       min-width: 0;
+      padding: $spacer * 0.5 $spacer * 0.5;
+      font-size: pxToRem(14);
     }
 
     &__doors-wrapper {

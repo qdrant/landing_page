@@ -1,10 +1,13 @@
 {{ $tiers := .tiers }}
 {{ $sections := .sections }}
 {{ $ctas := .ctas }}
-{{ $featureKeys := slice "oss" "free" "standard" "premium" }}
+{{ $modifier := .modifier | default "" }}
 
 
-<div class="pricing-table">
+<div
+  class="pricing-table{{ with $modifier }} pricing-table--{{ . }}{{ end }}"
+  style="--tier-count: {{ len $tiers }}"
+>
   {{/* Mobile tier tabs */}}
   <div class="pricing-table__tier-tabs">
     {{ range $index, $tier := $tiers }}
@@ -63,12 +66,11 @@
                 <div class="pricing-table__table-cell pricing-table__table-cell--feature">
                   {{ .name }}
                 </div>
-                {{ range $i, $tier := $tiers }}
-                  {{ $key := index $featureKeys $i }}
-                  {{ $val := index $feature $key }}
+                {{ range $tiers }}
+                  {{ $val := index $feature .id }}
                   <div
-                    class="pricing-table__table-cell{{ if $tier.highlight }} pricing-table__table-cell--highlight{{ end }}"
-                    data-tier-col="{{ $tier.id }}"
+                    class="pricing-table__table-cell{{ if .highlight }} pricing-table__table-cell--highlight{{ end }}"
+                    data-tier-col="{{ .id }}"
                   >
                   {{ if eq $val true }}
                     <svg
@@ -98,14 +100,14 @@
                     >
                       <path
                         d="M15 5L5 15M5 5L15 15"
-                        stroke="#717C99"
+                        stroke="currentColor"
                         stroke-width="1.5"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                       />
                     </svg>
                   {{ else }}
-                    <span class="pricing-table__text{{ if $tier.bold }} pricing-table__text--bold{{ end }}">{{ $val }}</span>
+                    <span class="pricing-table__text{{ if .bold }} pricing-table__text--bold{{ end }}">{{ $val }}</span>
                   {{ end }}
                   </div>
                 {{ end }}
@@ -116,28 +118,30 @@
       {{ end }}
     </div>
 
-    <div class="pricing-table__table-footer">
-      <div class="pricing-table__table-cell pricing-table__table-cell--feature"></div>
-      {{ range $index, $cta := $ctas }}
-        {{ $tier := index $tiers $index }}
-        <div
-          class="pricing-table__table-cell pricing-table__table-cell--cta{{ if $tier.highlight }}
-            pricing-table__table-cell--highlight
-          {{ end }}"
-          data-tier-col="{{ $tier.id }}"
-        >
-          <a
-            href="{{ $cta.url }}"
-            class="button {{ if $cta.contained }}
-              button_contained
-            {{ else }}
-              button_outlined
+    {{ with $ctas }}
+      <div class="pricing-table__table-footer">
+        <div class="pricing-table__table-cell pricing-table__table-cell--feature"></div>
+        {{ range $index, $cta := . }}
+          {{ $tier := index $tiers $index }}
+          <div
+            class="pricing-table__table-cell pricing-table__table-cell--cta{{ if $tier.highlight }}
+              pricing-table__table-cell--highlight
             {{ end }}"
+            data-tier-col="{{ $tier.id }}"
           >
-            {{ $cta.text }}
-          </a>
-        </div>
-      {{ end }}
-    </div>
+            <a
+              href="{{ $cta.url }}"
+              class="button {{ if $cta.contained }}
+                button_contained
+              {{ else }}
+                button_outlined
+              {{ end }}"
+            >
+              {{ $cta.text }}
+            </a>
+          </div>
+        {{ end }}
+      </div>
+    {{ end }}
   </div>
 </div>

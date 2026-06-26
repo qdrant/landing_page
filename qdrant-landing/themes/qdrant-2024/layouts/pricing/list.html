@@ -13,6 +13,10 @@
     {{ partial "pricing/qdrant-pricing-features" . }}
   {{ end }}
 
+  {{ with (.Site.GetPage "/pricing/qdrant-pricing-support-reliability") }}
+    {{ partial "pricing/qdrant-pricing-support-reliability" . }}
+  {{ end }}
+
   {{ with (.Site.GetPage "/pricing/qdrant-pricing-faq") }}
     {{ partial "pricing/qdrant-pricing-faq" . }}
   {{ end }}
