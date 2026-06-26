@@ -229,7 +229,7 @@ sections:
     oss: Depends on chosen infrastructure
     free: false
     standard: false
-    premium: (AWS only)
+    premium: (AWS and GCP only)
   - name: Audit Logging
     oss: true
     free: false

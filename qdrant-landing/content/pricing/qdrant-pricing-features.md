@@ -92,7 +92,7 @@ tables:
             oss: Depends on chosen infrastructure
             free: false
             standard: false
-            premium: (AWS only)
+            premium: (AWS and GCP only)
           - name: Private VPC Links
             oss: N/A
             free: false
