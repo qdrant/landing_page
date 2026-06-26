@@ -1,4 +1,6 @@
 ```rust
+use qdrant_edge::*;
+
 edge_shard.update(UpdateOperation::VectorNameOperation(
     VectorNameOperations::CreateVectorName(CreateVectorName {
         vector_name: "text".to_string(),

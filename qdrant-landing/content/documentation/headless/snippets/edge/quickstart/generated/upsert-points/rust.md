@@ -1,4 +1,7 @@
 ```rust
+use serde_json::json;
+use qdrant_edge::*;
+
 let points: Vec<PointStructPersisted> = vec![
     PointStruct::new(
         1u64,

@@ -1,18 +1,10 @@
 // @block-start configure-bm25-shard
-use std::path::Path;
-
-use qdrant_edge::bm25_embed::{EdgeBm25, EdgeBm25Config};
-use qdrant_edge::external::serde_json::json;
-use qdrant_edge::{
-    EdgeConfigBuilder, EdgeShard, EdgeSparseVectorParamsBuilder, Modifier,
-    NamedQuery, PointInsertOperations, PointOperations, PointStruct,
-    QueryEnum, QueryRequest, ScoringQuery, UpdateOperation,
-    VectorInternal, Vectors, WithPayloadInterface, WithVector,
-};
-
 pub async fn main() -> anyhow::Result<()> {
     const SHARD_DIRECTORY: &str = "./qdrant-edge-bm25";
     fs_err::create_dir_all(SHARD_DIRECTORY)?; // @hide
+
+    use std::path::*;
+    use qdrant_edge::*;
 
     let config = EdgeConfigBuilder::new()
         .sparse_vector("text", EdgeSparseVectorParamsBuilder::new()
@@ -24,6 +16,8 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end configure-bm25-shard
 
     // @block-start create-bm25
+    use qdrant_edge::bm25_embed::*;
+
     let bm25 = EdgeBm25::new(EdgeBm25Config {
         language: Some("english".to_string()),
         ..Default::default()
@@ -31,6 +25,9 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end create-bm25
 
     // @block-start embed-and-upsert
+    use qdrant_edge::external::serde_json::json;
+    use qdrant_edge::*;
+
     let docs = [
         (1u64, "the quick brown fox", "Article 1"),
         (2,    "a lazy dog sleeps",   "Article 2"),
@@ -52,6 +49,8 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end embed-and-upsert
 
     // @block-start query-with-bm25
+    use qdrant_edge::*;
+
     let query_vector = bm25.embed_query("clever fox");
 
     let results = shard.query(QueryRequest {

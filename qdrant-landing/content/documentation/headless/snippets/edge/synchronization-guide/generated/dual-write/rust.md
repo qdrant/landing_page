@@ -1,4 +1,9 @@
 ```rust
+use std::collections::*;
+use std::time::*;
+use serde_json::json;
+use qdrant_edge::*;
+
 const SYNC_TIMESTAMP_KEY: &str = "timestamp";
 let id = 2u64;
 let vector = vec![0.4f32, 0.3, 0.2, 0.1];
@@ -12,7 +17,7 @@ let payload = json!({
 });
 
 let edge_points: Vec<PointStructPersisted> = vec![
-    EdgePoint::new(
+    qdrant_edge::PointStruct::new(
         PointId::NumId(id),
         Vectors::new_named([(VECTOR_NAME, vector.clone())]),
         payload.clone(),
@@ -25,7 +30,7 @@ mutable_shard.update(UpdateOperation::PointOperation(
     ),
 ))?;
 
-let rest_point = PointStruct::new(
+let rest_point = ::qdrant_client::qdrant::PointStruct::new(
     id,
     HashMap::from([(VECTOR_NAME.to_string(), vector)]),
     payload.as_object().cloned().unwrap_or_default(),

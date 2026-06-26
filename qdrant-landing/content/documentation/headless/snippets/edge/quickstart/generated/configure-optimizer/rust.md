@@ -1,4 +1,6 @@
 ```rust
+use qdrant_edge::*;
+
 let config = EdgeConfigBuilder::new()
     .on_disk_payload(true)
     .vector(

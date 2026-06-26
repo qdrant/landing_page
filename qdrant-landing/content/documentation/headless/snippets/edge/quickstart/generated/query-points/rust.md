@@ -1,4 +1,6 @@
 ```rust
+use qdrant_edge::*;
+
 let results = edge_shard.query(QueryRequest {
     prefetches: vec![],
     query: Some(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {

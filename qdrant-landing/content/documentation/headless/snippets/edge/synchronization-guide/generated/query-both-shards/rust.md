@@ -1,4 +1,8 @@
 ```rust
+use std::cmp::*;
+use std::collections::*;
+use qdrant_edge::*;
+
 let query = QueryRequest {
     prefetches: vec![],
     query: Some(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
@@ -20,10 +24,10 @@ all_results.extend(immutable_shard.query(query)?);
 all_results.sort_by(|a, b| {
     b.score
         .partial_cmp(&a.score)
-        .unwrap_or(std::cmp::Ordering::Equal)
+        .unwrap_or(Ordering::Equal)
 });
 
-let mut seen_ids = std::collections::HashSet::new();
+let mut seen_ids = HashSet::new();
 let results: Vec<_> = all_results
     .into_iter()
     .filter(|p| seen_ids.insert(p.id.clone()))

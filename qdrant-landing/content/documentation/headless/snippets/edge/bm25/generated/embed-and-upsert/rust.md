@@ -1,4 +1,7 @@
 ```rust
+use qdrant_edge::external::serde_json::json;
+use qdrant_edge::*;
+
 let docs = [
     (1u64, "the quick brown fox", "Article 1"),
     (2,    "a lazy dog sleeps",   "Article 2"),

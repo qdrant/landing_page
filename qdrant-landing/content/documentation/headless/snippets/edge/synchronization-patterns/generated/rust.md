@@ -1,28 +1,14 @@
 ```rust
-use std::collections::HashMap;
-use std::path::Path;
-
-use qdrant_client::qdrant::{
-    CreateCollectionBuilder, Distance, PointStruct, UpsertPointsBuilder,
-    VectorParamsBuilder,
-};
-use qdrant_client::Qdrant;
-use qdrant_edge::EdgeShard;
-use qdrant_edge::internal::SnapshotManifest;
-use qdrant_edge::{
-    EdgeConfigBuilder, EdgeVectorParamsBuilder, PointId, PointInsertOperations,
-    PointOperations, PointStruct as EdgePoint, PointStructPersisted,
-    UpdateOperation, Vectors,
-};
-use serde_json::json;
-
 const COLLECTION_NAME: &str = "edge-collection";
+const SHARD_DIRECTORY: &str = "./qdrant-edge-directory";
+
+use std::path::*;
+use qdrant_edge::*;
 
 let snapshot_url = format!(
     "{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot"
 );
 
-const SHARD_DIRECTORY: &str = "./qdrant-edge-directory";
 let data_dir = Path::new(SHARD_DIRECTORY);
 
 let restore_dir = tempfile::Builder::new()
@@ -48,6 +34,9 @@ fs_err::create_dir_all(data_dir)?;
 EdgeShard::unpack_snapshot(&snapshot_path, data_dir)?;
 
 let edge_shard = EdgeShard::load(data_dir, None)?;
+
+use qdrant_edge::*;
+use qdrant_edge::internal::*;
 
 let current_manifest = edge_shard.snapshot_manifest()?;
 
@@ -84,6 +73,9 @@ let edge_shard = EdgeShard::recover_partial_snapshot(
     &snapshot_manifest,
 )?;
 
+use std::path::*;
+use qdrant_edge::*;
+
 const VECTOR_DIMENSION: usize = 4;
 const VECTOR_NAME: &str = "my-vector";
 
@@ -103,6 +95,10 @@ let edge_shard = EdgeShard::new(
     config,
 )?;
 
+use ::qdrant_client::*;
+use ::qdrant_client::qdrant::*;
+use ::qdrant_client::qdrant::Distance;
+
 let server_client = Qdrant::from_url(QDRANT_URL)
     .api_key(QDRANT_API_KEY)
     .build()?;
@@ -120,17 +116,25 @@ if !server_client.collection_exists(COLLECTION_NAME).await? {
         .await?;
 }
 
+use std::collections::*;
+
 // This is an in-memory queue.
 // For production use cases consider persisting changes.
-let mut upload_queue: std::collections::VecDeque<PointStruct> =
-    std::collections::VecDeque::new();
+let mut upload_queue: VecDeque<::qdrant_client::qdrant::PointStruct> = VecDeque::new();
+
+use std::collections::*;
+use serde_json::json;
+use qdrant_edge::{
+    PointInsertOperations, PointOperations,
+    PointStructPersisted, PointId, UpdateOperation, Vectors,
+};
 
 let id = 1u64;
 let vector = vec![0.1f32, 0.2, 0.3, 0.4];
 let payload = json!({"color": "red"});
 
 let edge_points: Vec<PointStructPersisted> = vec![
-    EdgePoint::new(
+    qdrant_edge::PointStruct::new(
         PointId::NumId(id),
         Vectors::new_named([(VECTOR_NAME, vector.clone())]),
         payload.clone(),
@@ -143,15 +147,17 @@ edge_shard.update(UpdateOperation::PointOperation(
     ),
 ))?;
 
-let server_point = PointStruct::new(
+let server_point = ::qdrant_client::qdrant::PointStruct::new(
     id,
     HashMap::from([(VECTOR_NAME.to_string(), vector)]),
     payload.as_object().cloned().unwrap_or_default(),
 );
 upload_queue.push_back(server_point);
 
+use ::qdrant_client::qdrant::*;
+
 const BATCH_SIZE: usize = 10;
-let points_to_upload: Vec<PointStruct> = upload_queue
+let points_to_upload: Vec<::qdrant_client::qdrant::PointStruct> = upload_queue
     .drain(..BATCH_SIZE.min(upload_queue.len()))
     .collect();
 
