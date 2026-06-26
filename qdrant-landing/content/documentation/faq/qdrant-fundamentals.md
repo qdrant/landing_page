@@ -253,9 +253,7 @@ Read about our recommendations in the [bulk upload](/documentation/tutorials-dev
 
 There is no universal recommended batch size. The optimum depends on your vector dimensionality, payload size, cluster configuration, and available memory. You should benchmark different batch sizes against your own setup to find what works best.
 
-A good starting point is 16 to 32 MB per request. This translates to approximately 100 points per batch when dealing with large payloads, or up to 1000 points per batch for pure vectors. However, if operations within a batch are inherently expensive, such as updates impacting many points or updates by filter, it is more efficient to send individual requests.
-
-A useful pattern for large-scale bulk loads is **staged indexing**: disable HNSW graph construction during upload [by setting the HNSQ `m` parameter to `0`](/documentation/tutorials-develop/bulk-upload/#defer-hnsw-graph-construction-m-0), upload in batches using the upsert API, then restore the threshold to trigger background indexing once the load is complete. This avoids optimizer thrashing and significantly improves throughput during the initial load.
+A good starting point is 64 to 256 points per batch. However, if operations within a batch are inherently expensive, such as updates impacting many points or updates by filter, it is more efficient to send individual requests.
 
 See also: [Bulk Operations](/documentation/tutorials-develop/bulk-upload/)
 
