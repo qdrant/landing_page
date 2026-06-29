@@ -101,7 +101,7 @@ content:
         url: /documentation/examples/
 ---
 
-# Learn
+# Learn 
 
 * [Articles](/articles/index.md)
 * [Courses](/course/index.md)
