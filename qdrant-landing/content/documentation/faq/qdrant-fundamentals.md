@@ -183,6 +183,18 @@ Results are generally expected to be consistent for the overlapping portion. How
 
 The time value is in seconds and represents the total duration the Qdrant server spent processing the request. It does not include network round-trip time between the client and the server.
 
+### Why do I get duplicate results when paginating through search results?
+
+Because HNSW is an approximate algorithm, the ranking of results can shift slightly between requests. As a result, paginating with `offset` can return the same point on multiple pages or skip points entirely. This is expected behavior, not a bug.
+
+There are three ways to work around this:
+
+- **Client-side pagination** — retrieve a large batch in a single request (for example, the top 100 results) and paginate through it on the client. This avoids multiple round-trips and guarantees no duplicates, at the cost of returning more data than the user sees at once.
+- **Exact search** — use exact searches to bypass HNSW and scan all vectors, returning results in a stable, deterministic order. This ensures offset-based pagination works correctly. This is practical only for small collections due to higher latency.
+- **Exclude seen IDs** — on each subsequent page, pass a `must_not: has_id` filter containing all point IDs from previous pages. The exclusion list grows by `limit` entries per page, so this works well for sequential, forward-only pagination but isn't practical for jumping to an arbitrary page.
+
+See also: [Stable Ordering](/documentation/search/search/#stable-ordering)
+
 ### If `limit` is higher than `hnsw_ef`, does Qdrant automatically adjust `hnsw_ef`?
 
 Yes. Qdrant internally sets `ef = max(ef, limit)` so that the candidate list is always at least as large as the requested result count.
