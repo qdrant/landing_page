@@ -5,7 +5,7 @@ weight: 20
 
 # Server-side Inference: BM25
 
-[BM25](/documentation/search/text-search/#bm25) (Best Matching 25) is a ranking function for text search. BM25 uses sparse vectors that represent documents, where each dimension corresponds to a word. Qdrant can generate these sparse embeddings from input text directly on the server.
+[BM25](/documentation/search/text-search/full-text-search/#bm25) (Best Matching 25) is a ranking function for text search. BM25 uses sparse vectors that represent documents, where each dimension corresponds to a word. Qdrant can generate these sparse embeddings from input text directly on the server.
 
 While upserting points, provide the text and the `qdrant/bm25` embedding model:
 
@@ -39,4 +39,4 @@ Similarly, use the BM25 model at query time by providing the query string and th
 
 {{< code-snippet path="/documentation/headless/snippets/inference/query/" >}}
 
-Read more about full-text search with BM25 in the [text search guide](/documentation/search/text-search/#full-text-search).
+Read more about full-text search with BM25 in the [text search guide](/documentation/search/text-search/full-text-search/).
