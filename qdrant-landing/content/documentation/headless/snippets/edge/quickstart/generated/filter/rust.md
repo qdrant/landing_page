@@ -1,4 +1,6 @@
 ```rust
+use qdrant_edge::*;
+
 let filter = Filter {
     should: None,
     min_should: None,

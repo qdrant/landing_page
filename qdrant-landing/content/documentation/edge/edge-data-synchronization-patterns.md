@@ -18,15 +18,11 @@ Instead of starting with an empty Edge Shard, you may want to initialize it with
 
 When creating a snapshot for synchronization, specify the applicable server-side shard ID in the snapshot URL. This allows for a single collection to serve multiple independent users or devices, each with its own Edge Shard. Read more about Qdrant's sharding strategy in the [Tiered Multitenancy Documentation](/documentation/manage-data/multitenancy/#tiered-multitenancy).
 
-First, craft a snapshot URL:
-
-{{< code-snippet path="/documentation/headless/snippets/edge/synchronization-patterns/" block="snapshot-url" >}}
-
-Note that this example uses shard ID `0`.
-
-Using the snapshot URL, you can download the snapshot to the local disk and use its data to initialize a new Edge Shard.
+First, craft a snapshot URL and use the URL to download the snapshot to the local disk. Next, use the snapshot to initialize a new Edge Shard.
 
 {{< code-snippet path="/documentation/headless/snippets/edge/synchronization-patterns/" block="restore-snapshot" >}}
+
+Note that this example uses shard ID `0`.
 
 This code first downloads the snapshot to a temporary directory. Next, `EdgeShard.unpack_snapshot` unpacks the downloaded snapshot into the data directory, and an EdgeShard is initialized using the unpacked data and configuration.
 

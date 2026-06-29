@@ -1,4 +1,6 @@
 ```rust
+use qdrant_edge::*;
+
 const VECTOR_NAME: &str = "my-vector";
 const VECTOR_DIMENSION: usize = 4;
 

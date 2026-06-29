@@ -1,4 +1,6 @@
 ```rust
+use qdrant_edge::*;
+
 let query_vector = bm25.embed_query("clever fox");
 
 let results = shard.query(QueryRequest {

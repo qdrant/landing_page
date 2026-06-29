@@ -1,6 +1,8 @@
 ```rust
+use ::qdrant_client::qdrant::*;
+
 const BATCH_SIZE: usize = 10;
-let points_to_upload: Vec<PointStruct> = upload_queue
+let points_to_upload: Vec<::qdrant_client::qdrant::PointStruct> = upload_queue
     .drain(..BATCH_SIZE.min(upload_queue.len()))
     .collect();
 

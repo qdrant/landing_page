@@ -1,4 +1,7 @@
 ```rust
+use std::path::*;
+use qdrant_edge::*;
+
 const MUTABLE_SHARD_DIR: &str = "./qdrant-edge-directory/mutable";
 const VECTOR_DIMENSION: usize = 4;
 const VECTOR_NAME: &str = "my-vector";

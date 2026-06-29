@@ -1,29 +1,15 @@
-use std::collections::HashMap;
-use std::path::Path;
-use std::time::{SystemTime, UNIX_EPOCH};
-
-use ordered_float::OrderedFloat;
-use qdrant_client::qdrant::PointStruct;
-use qdrant_edge::EdgeShard;
-use qdrant_edge::internal::SnapshotManifest;
-use qdrant_edge::{
-    Condition, Distance, EdgeConfigBuilder, EdgeVectorParamsBuilder,
-    FieldCondition, Filter, JsonPath, NamedQuery, PointId, PointInsertOperations,
-    PointOperations, PointStruct as EdgePoint, PointStructPersisted, QueryEnum,
-    QueryRequest, Range, ScoringQuery, UpdateOperation, Vectors,
-    WithPayloadInterface, WithVector,
-};
-use serde_json::json;
-
+// @block-start initialize-mutable-shard
 pub async fn main() -> anyhow::Result<()> {
     // @hide-start
     const QDRANT_URL: &str = "";
     const QDRANT_API_KEY: &str = "";
-    let mut upload_queue: std::collections::VecDeque<PointStruct> =
+    let mut upload_queue: std::collections::VecDeque<::qdrant_client::qdrant::PointStruct> =
         std::collections::VecDeque::new();
     // @hide-end
 
-    // @block-start initialize-mutable-shard
+    use std::path::*;
+    use qdrant_edge::*;
+
     const MUTABLE_SHARD_DIR: &str = "./qdrant-edge-directory/mutable";
     const VECTOR_DIMENSION: usize = 4;
     const VECTOR_NAME: &str = "my-vector";
@@ -46,6 +32,9 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end initialize-mutable-shard
 
     // @block-start initialize-immutable-shard
+    use std::path::*;
+    use qdrant_edge::*;
+
     const COLLECTION_NAME: &str = "edge-collection";
     let snapshot_url = format!(
         "{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot"
@@ -80,6 +69,11 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end initialize-immutable-shard
 
     // @block-start dual-write
+    use std::collections::*;
+    use std::time::*;
+    use serde_json::json;
+    use qdrant_edge::*;
+
     const SYNC_TIMESTAMP_KEY: &str = "timestamp";
     let id = 2u64;
     let vector = vec![0.4f32, 0.3, 0.2, 0.1];
@@ -93,7 +87,7 @@ pub async fn main() -> anyhow::Result<()> {
     });
 
     let edge_points: Vec<PointStructPersisted> = vec![
-        EdgePoint::new(
+        qdrant_edge::PointStruct::new(
             PointId::NumId(id),
             Vectors::new_named([(VECTOR_NAME, vector.clone())]),
             payload.clone(),
@@ -106,7 +100,7 @@ pub async fn main() -> anyhow::Result<()> {
         ),
     ))?;
 
-    let rest_point = PointStruct::new(
+    let rest_point = ::qdrant_client::qdrant::PointStruct::new(
         id,
         HashMap::from([(VECTOR_NAME.to_string(), vector)]),
         payload.as_object().cloned().unwrap_or_default(),
@@ -115,6 +109,10 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end dual-write
 
     // @block-start update-immutable-shard
+    use std::time::*;
+    use qdrant_edge::*;
+    use qdrant_edge::internal::*;
+
     let sync_timestamp = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .unwrap()
@@ -157,6 +155,9 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end update-immutable-shard
 
     // @block-start delete-synced-points
+    use ordered_float::*;
+    use qdrant_edge::*;
+
     let filter = Filter::new_must(Condition::Field(FieldCondition::new_range(
         SYNC_TIMESTAMP_KEY.parse::<JsonPath>().unwrap(),
         Range {
@@ -171,6 +172,10 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end delete-synced-points
 
     // @block-start query-both-shards
+    use std::cmp::*;
+    use std::collections::*;
+    use qdrant_edge::*;
+
     let query = QueryRequest {
         prefetches: vec![],
         query: Some(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
@@ -192,10 +197,10 @@ pub async fn main() -> anyhow::Result<()> {
     all_results.sort_by(|a, b| {
         b.score
             .partial_cmp(&a.score)
-            .unwrap_or(std::cmp::Ordering::Equal)
+            .unwrap_or(Ordering::Equal)
     });
 
-    let mut seen_ids = std::collections::HashSet::new();
+    let mut seen_ids = HashSet::new();
     let results: Vec<_> = all_results
         .into_iter()
         .filter(|p| seen_ids.insert(p.id.clone()))

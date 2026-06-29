@@ -1,22 +1,9 @@
 ```rust
-use std::path::Path;
-
-use qdrant_edge::EdgeShard;
-use qdrant_edge::{
-    Condition, CreateIndex, CreateVectorName, Distance, EdgeConfigBuilder,
-    EdgeOptimizersConfig, EdgeVectorParamsBuilder, FacetRequest, FieldCondition,
-    FieldIndexOperations, Filter, Match, MatchValue, Modifier, NamedQuery,
-    PayloadFieldSchema, PayloadSchemaType, PointId, PointInsertOperations,
-    PointOperations, PointStruct, PointStructPersisted, QueryEnum, QueryRequest,
-    ScoringQuery, SparseVectorConfig, UpdateOperation, ValueVariants,
-    VectorNameConfig, VectorNameOperations, Vectors, WalOptions,
-    WithPayloadInterface, WithVector,
-};
-use serde_json::json;
-
 const SHARD_DIRECTORY: &str = "./qdrant-edge-directory";
 
 fs_err::create_dir_all(SHARD_DIRECTORY)?;
+
+use qdrant_edge::*;
 
 const VECTOR_NAME: &str = "my-vector";
 const VECTOR_DIMENSION: usize = 4;
@@ -31,10 +18,16 @@ let config = EdgeConfigBuilder::new()
     )
     .build();
 
+use std::path::*;
+use qdrant_edge::*;
+
 let edge_shard = EdgeShard::new(
     Path::new(SHARD_DIRECTORY),
     config,
 )?;
+
+use serde_json::json;
+use qdrant_edge::*;
 
 let points: Vec<PointStructPersisted> = vec![
     PointStruct::new(
@@ -51,11 +44,15 @@ edge_shard.update(UpdateOperation::PointOperation(
     ),
 ))?;
 
+use qdrant_edge::*;
+
 let retrieved = edge_shard.retrieve(
     &[PointId::NumId(1)],
     Some(WithPayloadInterface::Bool(true)),
     Some(WithVector::Bool(false)),
 )?;
+
+use qdrant_edge::*;
 
 edge_shard.update(UpdateOperation::VectorNameOperation(
     VectorNameOperations::CreateVectorName(CreateVectorName {
@@ -66,6 +63,8 @@ edge_shard.update(UpdateOperation::VectorNameOperation(
         }),
     }),
 ))?;
+
+use qdrant_edge::*;
 
 let results = edge_shard.query(QueryRequest {
     prefetches: vec![],
@@ -81,6 +80,8 @@ let results = edge_shard.query(QueryRequest {
     with_vector: WithVector::Bool(false),
     with_payload: WithPayloadInterface::Bool(true),
 })?;
+
+use qdrant_edge::*;
 
 let filter = Filter {
     should: None,
@@ -109,6 +110,8 @@ let results = edge_shard.query(QueryRequest {
     with_payload: WithPayloadInterface::Bool(true),
 })?;
 
+use qdrant_edge::*;
+
 let facet_response = edge_shard.facet(FacetRequest {
     key: "color".try_into().unwrap(),
     limit: 10,
@@ -117,6 +120,8 @@ let facet_response = edge_shard.facet(FacetRequest {
 })?;
 
 edge_shard.optimize()?;
+
+use qdrant_edge::*;
 
 let config = EdgeConfigBuilder::new()
     .on_disk_payload(true)
@@ -134,6 +139,8 @@ let config = EdgeConfigBuilder::new()
     })
     .build();
 
+use qdrant_edge::*;
+
 edge_shard.update(UpdateOperation::FieldIndexOperation(
     FieldIndexOperations::CreateIndex(CreateIndex {
         field_name: "color".try_into().unwrap(),
@@ -145,7 +152,13 @@ edge_shard.update(UpdateOperation::FieldIndexOperation(
 
 drop(edge_shard);
 
+use std::path::*;
+use qdrant_edge::*;
+
 let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), None)?;
+
+use std::path::*;
+use qdrant_edge::*;
 
 let config = EdgeConfigBuilder::new()
     .wal_options(WalOptions {

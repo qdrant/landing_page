@@ -1,36 +1,20 @@
-use std::collections::HashMap;
-use std::path::Path;
-
-use qdrant_client::qdrant::{
-    CreateCollectionBuilder, Distance, PointStruct, UpsertPointsBuilder,
-    VectorParamsBuilder,
-};
-use qdrant_client::Qdrant;
-use qdrant_edge::EdgeShard;
-use qdrant_edge::internal::SnapshotManifest;
-use qdrant_edge::{
-    EdgeConfigBuilder, EdgeVectorParamsBuilder, PointId, PointInsertOperations,
-    PointOperations, PointStruct as EdgePoint, PointStructPersisted,
-    UpdateOperation, Vectors,
-};
-use serde_json::json;
-
+// @block-start restore-snapshot
 pub async fn main() -> anyhow::Result<()> {
     // @hide-start
     const QDRANT_URL: &str = "";
     const QDRANT_API_KEY: &str = "";
     // @hide-end
 
-    // @block-start snapshot-url
     const COLLECTION_NAME: &str = "edge-collection";
+    const SHARD_DIRECTORY: &str = "./qdrant-edge-directory";
+
+    use std::path::*;
+    use qdrant_edge::*;
 
     let snapshot_url = format!(
         "{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot"
     );
-    // @block-end snapshot-url
 
-    // @block-start restore-snapshot
-    const SHARD_DIRECTORY: &str = "./qdrant-edge-directory";
     let data_dir = Path::new(SHARD_DIRECTORY);
 
     let restore_dir = tempfile::Builder::new()
@@ -59,6 +43,9 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end restore-snapshot
 
     // @block-start update-from-snapshot
+    use qdrant_edge::*;
+    use qdrant_edge::internal::*;
+
     let current_manifest = edge_shard.snapshot_manifest()?;
 
     let update_url = format!(
@@ -96,6 +83,9 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end update-from-snapshot
 
     // @block-start initialize-edge-shard
+    use std::path::*;
+    use qdrant_edge::*;
+
     const VECTOR_DIMENSION: usize = 4;
     const VECTOR_NAME: &str = "my-vector";
 
@@ -117,6 +107,10 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end initialize-edge-shard
 
     // @block-start initialize-server-client
+    use ::qdrant_client::*;
+    use ::qdrant_client::qdrant::*;
+    use ::qdrant_client::qdrant::Distance;
+
     let server_client = Qdrant::from_url(QDRANT_URL)
         .api_key(QDRANT_API_KEY)
         .build()?;
@@ -136,19 +130,27 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end initialize-server-client
 
     // @block-start create-upload-queue
+    use std::collections::*;
+
     // This is an in-memory queue.
     // For production use cases consider persisting changes.
-    let mut upload_queue: std::collections::VecDeque<PointStruct> =
-        std::collections::VecDeque::new();
+    let mut upload_queue: VecDeque<::qdrant_client::qdrant::PointStruct> = VecDeque::new();
     // @block-end create-upload-queue
 
     // @block-start upsert-point
+    use std::collections::*;
+    use serde_json::json;
+    use qdrant_edge::{
+        PointInsertOperations, PointOperations,
+        PointStructPersisted, PointId, UpdateOperation, Vectors,
+    };
+
     let id = 1u64;
     let vector = vec![0.1f32, 0.2, 0.3, 0.4];
     let payload = json!({"color": "red"});
 
     let edge_points: Vec<PointStructPersisted> = vec![
-        EdgePoint::new(
+        qdrant_edge::PointStruct::new(
             PointId::NumId(id),
             Vectors::new_named([(VECTOR_NAME, vector.clone())]),
             payload.clone(),
@@ -161,7 +163,7 @@ pub async fn main() -> anyhow::Result<()> {
         ),
     ))?;
 
-    let server_point = PointStruct::new(
+    let server_point = ::qdrant_client::qdrant::PointStruct::new(
         id,
         HashMap::from([(VECTOR_NAME.to_string(), vector)]),
         payload.as_object().cloned().unwrap_or_default(),
@@ -170,8 +172,10 @@ pub async fn main() -> anyhow::Result<()> {
     // @block-end upsert-point
 
     // @block-start process-upload-queue
+    use ::qdrant_client::qdrant::*;
+
     const BATCH_SIZE: usize = 10;
-    let points_to_upload: Vec<PointStruct> = upload_queue
+    let points_to_upload: Vec<::qdrant_client::qdrant::PointStruct> = upload_queue
         .drain(..BATCH_SIZE.min(upload_queue.len()))
         .collect();
 

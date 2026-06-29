@@ -1,4 +1,7 @@
 ```rust
+use std::path::*;
+use qdrant_edge::*;
+
 let config = EdgeConfigBuilder::new()
     .wal_options(WalOptions {
         segment_capacity: 4 * 1024 * 1024,
