@@ -283,6 +283,36 @@ However, using the offset parameter saves the resources by reducing network traf
 
 Using an `offset` parameter, will require to internally retrieve `offset + limit` points, but only access payload and vector from the storage those points which are going to be actually returned.
 
+### Stable Ordering
+
+Because HNSW is an approximate algorithm, the ranking of results can shift slightly between requests. As a result, paginating with `offset` can return the same point on multiple pages or skip points entirely.
+
+There are several ways to work around this:
+
+#### Client-Side Pagination
+
+Retrieve a large batch in a single request and paginate through it on the client. For example, fetch the top 100 results at once and let the user browse them 10 at a time. This avoids multiple round-trips and guarantees no duplicates.
+
+The trade-off is increased latency, and returning more data than the user actually needs.
+
+#### Exact Search
+
+Use exact searches to bypass HNSW and scan all vectors, returning results in a stable, deterministic order. This ensures that offset-based pagination works correctly.
+
+The trade-off is higher latency, which makes this practical only for small collections.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/with-exact-search/" >}}
+
+#### Exclude Seen IDs
+
+To avoid duplicates, on subsequent pages, add a `must_not: has_id` filter containing all point IDs collected from previous pages. This excludes all previously seen points from the results:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/with-id-exclusion-pagination/" >}}
+
+Repeat this pattern on every page, expanding the exclusion list with each set of results.
+
+<aside role="status">The exclusion list grows by <code>limit</code> entries per page. This approach works well for sequential, forward-only pagination. It isn't practical for jumping directly to an arbitrary page.</aside>
+
 ## Grouping API
 
 It is possible to group results by a certain field. This is useful when you have multiple points for the same item, and you want to avoid redundancy of the same item in the results.
