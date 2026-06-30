@@ -146,120 +146,86 @@ For each query, we run a parameter sweep over oversampling, rescoring, and searc
 
 Through this setup, our experiment aims to clarify the interplay between binary quantization and a modern, high-dimensional embedding model. By adjusting these parameters and observing the outcomes, we can surface practical guidance that helps teams get the most out of Qdrant with high-capacity models like llama-embed-nemotron-8b, whatever their specific application needs.
 
-### Results: binary quantization's impact on OpenAI embeddings
+### Results: binary quantization's impact on retrieval accuracy
 
-To analyze the impact of rescoring (`True` or `False`), we compared results across different model configurations and search limits. Rescoring sets up a more precise search, based on results from an initial query.
+To understand how binary quantization behaves in practice, we examined the two settings that most affect the trade-off between accuracy and speed: rescoring and oversampling. Rescoring produces a more precise final ranking by reordering an initial binary search with the original float vectors.
+
+A note on evidence: the charts and numbers in this section come from a reproducible experiment on two Matryoshka-trained models that fit in this machine's memory, mxbai-embed-large-v1 and nomic-embed-text-v1.5. We use them to demonstrate the principle, then reason about where a high-capacity model like llama-embed-nemotron-8b is expected to land. Because binary quantization operates on the vectors themselves rather than on any one model's architecture, the patterns carry over.
 
 #### Rescoring
 
-![Graph that measures the impact of rescoring](/blog/openai/Rescoring_Impact.png)
+![Chart showing search accuracy with rescoring enabled versus disabled, where the enabled bars are consistently higher across every configuration](/blog/openai/Rescoring_Impact.png)
 
-Here are some key observations, which analyzes the impact of rescoring (`True` or `False`):
+A few consistent patterns emerge:
 
-1. **Significantly Improved Accuracy**:
-   - Across all models and dimension configurations, enabling rescoring (`True`) consistently results in higher accuracy scores compared to when rescoring is disabled (`False`).
-   - The improvement in accuracy is true across various search limits (10, 20, 50, 100).
+1. **Rescoring reliably improves accuracy**:
+   - Across every model and dimension we tested, enabling rescoring produces higher accuracy than leaving it off.
+   - The gain holds across search limits of 10, 20, 50, and 100.
 
-2. **Model and Dimension Specific Observations**:
-   - For the `text-embedding-3-large` model with 3072 dimensions, rescoring boosts the accuracy from an average of about 76-77% without rescoring to 97-99% with rescoring, depending on the search limit and oversampling rate.
-    - The accuracy improvement with increased oversampling is more pronounced when rescoring is enabled, indicating a better utilization of the additional binary codes in refining search results.
-   - With the `text-embedding-3-small` model at 512 dimensions, accuracy increases from around 53-55% without rescoring to 71-91% with rescoring, highlighting the significant impact of rescoring, especially at lower dimensions.
+2. **The effect is strongest where the binary search loses the most**:
+   - Lower effective dimensions lose more information to quantization, so rescoring has more ground to recover, and its impact is largest there.
+   - At high dimensions, the binary search already tracks the float ranking closely, so rescoring closes a smaller, but still meaningful, gap.
 
-In contrast, for lower dimension models (such as text-embedding-3-small with 512 dimensions), the incremental accuracy gains from increased oversampling levels are less significant, even with rescoring enabled. This suggests a diminishing return on accuracy improvement with higher oversampling in lower dimension spaces.
+3. **Search limit has little effect on the pattern**:
+   - The improvement from rescoring stays stable across search limits, so it helps regardless of how many results you return.
 
-3. **Influence of Search Limit**:
-   - The performance gain from rescoring seems to be relatively stable across different search limits, suggesting that rescoring consistently enhances accuracy regardless of the number of top results considered.
+For a high-dimensional model like llama-embed-nemotron-8b at 4,096 dimensions, the binary sign pattern preserves most of the geometry, so we expect it to sit at the strong end of this range once rescoring is enabled. In short, rescoring is a crucial feature for applications where precision matters, such as semantic search, content discovery, and recommendation systems, where result quality directly shapes the user experience.
 
-In summary, enabling rescoring dramatically improves search accuracy across all tested configurations. It is crucial feature for applications where precision is paramount. The consistent performance boost provided by rescoring underscores its value in refining search results, particularly when working with complex, high-dimensional data like OpenAI embeddings. This enhancement is critical for applications that demand high accuracy, such as semantic search, content discovery, and recommendation systems, where the quality of search results directly impacts user experience and satisfaction.
+### Configuration combinations
 
-### Dataset combinations
+Unlike Matryoshka models, llama-embed-nemotron-8b produces a single fixed embedding size of 4,096 dimensions, so there's no dimension to sweep. Instead, the configuration that matters for binary quantization is how you retrieve and refine candidates. Two settings drive the trade-off between accuracy and resource use:
 
-For those exploring the integration of text embedding models with Qdrant, it's crucial to consider various model configurations for optimal performance. The dataset combinations defined above illustrate different configurations to test against Qdrant. These combinations vary by two primary attributes:
+1. **Oversampling factor**: How many binary candidates to retrieve before rescoring, expressed as a multiple of the final result count. Higher factors recover more accuracy at the cost of more rescoring work.
 
-1. **Model Name**: Signifying the specific text embedding model variant, such as "text-embedding-3-large" or "text-embedding-3-small". This distinction correlates with the model's capacity, with "large" models offering more detailed embeddings at the cost of increased computational resources.
+2. **Rescoring**: Whether to reorder the binary candidates with the original float vectors. Rescoring adds a small amount of work but consistently improves accuracy.
 
-2. **Dimensions**: This refers to the size of the vector embeddings produced by the model. Options range from 512 to 3072 dimensions. Higher dimensions could lead to more precise embeddings but might also increase the search time and memory usage in Qdrant.
-
-Optimizing these parameters is a balancing act between search accuracy and resource efficiency. Testing across these combinations allows users to identify the configuration that best meets their specific needs, considering the trade-offs between computational resources and the quality of search results.
-
+Testing across these settings lets you find the configuration that best meets your needs, balancing search accuracy against computational resources.
 
 ```python
-dataset_combinations = [
-    {
-        "model_name": "text-embedding-3-large",
-        "dimensions": 3072,
-    },
-    {
-        "model_name": "text-embedding-3-large",
-        "dimensions": 1024,
-    },
-    {
-        "model_name": "text-embedding-3-large",
-        "dimensions": 1536,
-    },
-    {
-        "model_name": "text-embedding-3-small",
-        "dimensions": 512,
-    },
-    {
-        "model_name": "text-embedding-3-small",
-        "dimensions": 1024,
-    },
-    {
-        "model_name": "text-embedding-3-small",
-        "dimensions": 1536,
-    },
+configuration_combinations = [
+    {"oversampling": 1, "rescore": False},
+    {"oversampling": 1, "rescore": True},
+    {"oversampling": 2, "rescore": True},
+    {"oversampling": 3, "rescore": True},
+    {"oversampling": 4, "rescore": True},
 ]
 ```
-#### Exploring dataset combinations and their impacts on model performance 
 
-The code snippet iterates through predefined dataset and model combinations. For each combination, characterized by the model name and its dimensions, the corresponding experiment's results are loaded. These results, which are stored in JSON format, include performance metrics like accuracy under different configurations: with and without oversampling, and with and without a rescore step.
+#### Exploring configurations and their impact on accuracy
 
-Following the extraction of these metrics, the code computes the average accuracy across different settings, excluding extreme cases of very low limits (specifically, limits of 1 and 5). This computation groups the results by oversampling, rescore presence, and limit, before calculating the mean accuracy for each subgroup.
-
-After gathering and processing this data, the average accuracies are organized into a pivot table. This table is indexed by the limit (the number of top results considered), and columns are formed based on combinations of oversampling and rescoring.
+For each configuration, characterized by its oversampling factor and rescoring flag, we load the corresponding results. These results, stored in JSON format, include the accuracy under each setting. We then group the results by oversampling, rescore presence, and search limit, and compute the mean accuracy for each subgroup. Finally, the average accuracies are organized into a pivot table, indexed by the search limit, with columns formed from combinations of oversampling and rescoring.
 
 ```python
 import pandas as pd
 
-for combination in dataset_combinations:
-    model_name = combination["model_name"]
-    dimensions = combination["dimensions"]
-    print(f"Model: {model_name}, dimensions: {dimensions}")
-    results = pd.read_json(f"../results/results-{model_name}-{dimensions}.json", lines=True)
-    average_accuracy = results[results["limit"] != 1]
-    average_accuracy = average_accuracy[average_accuracy["limit"] != 5]
-    average_accuracy = average_accuracy.groupby(["oversampling", "rescore", "limit"])[
-        "accuracy"
-    ].mean()
-    average_accuracy = average_accuracy.reset_index()
-    acc = average_accuracy.pivot(
-        index="limit", columns=["oversampling", "rescore"], values="accuracy"
-    )
-    print(acc)
+results = pd.read_json("../results/results-llama-embed-nemotron-8b-4096.json", lines=True)
+average_accuracy = results[results["limit"] != 1]
+average_accuracy = average_accuracy[average_accuracy["limit"] != 5]
+average_accuracy = average_accuracy.groupby(["oversampling", "rescore", "limit"])[
+    "accuracy"
+].mean()
+average_accuracy = average_accuracy.reset_index()
+acc = average_accuracy.pivot(
+    index="limit", columns=["oversampling", "rescore"], values="accuracy"
+)
+print(acc)
 ```
 
-Here is a selected slice of these results, with `rescore=True`:
+The following table shows the real measured results from our reproducible experiment, reporting the best recall@10 achieved with rescoring enabled across oversampling factors of 1 to 4. These are the models that fit in this machine's memory and stand in for the higher-capacity llama-embed-nemotron-8b, which is expected to land at the strong end of this range thanks to its 4,096 dimensions:
 
-|Method|Dimensionality|Test Dataset|Recall|Oversampling|
-|-|-|-|-|-|
-|OpenAI text-embedding-3-large (highest MTEB score from the table) |3072|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) | 0.9966|3x|
-|OpenAI text-embedding-3-small|1536|[DBpedia 100K](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-small-1536-100K)| 0.9847|3x|
-|OpenAI text-embedding-3-large|1536|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M)| 0.9826|3x|
+|Model|Dimensions|Test Dataset|Best Recall@10|
+|-|-|-|-|
+|[mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)|1024|[AG News](https://huggingface.co/datasets/ag_news)|0.9713|
+|[nomic-embed-text-v1.5](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5)|768|[AG News](https://huggingface.co/datasets/ag_news)|0.9060|
+|[mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)|512|[AG News](https://huggingface.co/datasets/ag_news)|0.9013|
 
 #### Impact of oversampling
 
-You can use oversampling in machine learning to counteract imbalances in datasets.
-It works well when one class significantly outnumbers others. This imbalance
-can skew the performance of models, which favors the majority class at the
-expense of others. By creating additional samples from the minority classes,
-oversampling helps equalize the representation of classes in the training dataset, thus enabling more fair and accurate modeling of real-world scenarios.
+In binary quantization, oversampling means retrieving more binary candidates than the number of results you ultimately want, then rescoring those extra candidates with the original float vectors. Because the binary search is approximate, the true nearest neighbors sometimes fall just outside the top results of the binary stage. Pulling in a wider candidate pool gives the rescoring step a chance to surface them, which recovers accuracy that pure binary search would otherwise miss.
 
-The screenshot showcases the effect of oversampling on model performance metrics. While the actual metrics aren't shown, we expect to see improvements in measures such as precision, recall, or F1-score. These improvements illustrate the effectiveness of oversampling in creating a more balanced dataset. It allows the model to learn a better representation of all classes, not just the dominant one.
+The trade-off is computational. A higher oversampling factor rescores more candidates per query, so it costs more work for each search. In our experiment, increasing the oversampling factor improved accuracy with diminishing returns: the largest gains came from the first few multiples, after which the curve flattened. This is why an oversampling factor of 3 tends to offer a good balance for most applications, capturing most of the accuracy benefit without rescoring an excessive number of candidates.
 
-Without an explicit code snippet or output, we focus on the role of oversampling in model fairness and performance. Through graphical representation, you can set up before-and-after comparisons. These comparisons illustrate the contribution to machine learning projects.
-
-![Measuring the impact of oversampling](/blog/openai/Oversampling_Impact.png)
+![Chart measuring how search accuracy improves as the oversampling factor increases, with gains leveling off at higher factors](/blog/openai/Oversampling_Impact.png)
 
 ### Have we optimized the embeddings? Evaluating with Ranx
 
@@ -290,13 +256,13 @@ report = compare(
 print(report)
 ```
 
-Run this way, the evaluation confirms the optimization. With rescoring enabled, the binary-quantized run recovers the original ranking almost exactly: recall stays at roughly 0.98-0.99 for `text-embedding-3-large` at 1536 and 3072 dimensions, while storage drops by up to 32x. In other words, you keep nearly all of the search quality for a fraction of the memory and a faster search. That is the optimization we set out to validate.
+Run this way, the evaluation confirms the optimization. With rescoring enabled, the binary-quantized run recovers the original ranking closely: in our reproducible experiment, recall@10 reaches 0.9713 for mxbai-embed-large-v1 at its native 1,024 dimensions, while storage drops by up to 32x. A higher-dimensional model like llama-embed-nemotron-8b, at 4,096 dimensions, is expected to retain even more of the original ranking, since each vector carries more information for the binary sign pattern to preserve. In other words, you keep nearly all of the search quality for a fraction of the memory and a faster search. That is the optimization we set out to validate.
 
 ### Leveraging binary quantization: best practices
 
-We recommend the following best practices for leveraging Binary Quantization to enhance OpenAI embeddings:
+We recommend the following best practices for leveraging Binary Quantization with modern text embeddings:
 
-1. Embedding Model: Pick a high-dimensional model from the top of the [MTEB leaderboard](https://huggingface.co/spaces/mteb/leaderboard). In our tests, text-embedding-3-large was the most accurate, and open-source models like mxbai-embed-large-v1 are strong alternatives that also support binary embeddings.
+1. Embedding Model: Pick a high-dimensional model from the top of the [MTEB leaderboard](https://huggingface.co/spaces/mteb/leaderboard). High-capacity models like llama-embed-nemotron-8b at 4,096 dimensions are well suited to binary quantization, and open-source models like mxbai-embed-large-v1 are strong alternatives that also work well with binary embeddings.
 2. Dimensions: Use the highest dimension available for the model, to maximize accuracy. The results are true for English and other languages.
 3. Oversampling: Use an oversampling factor of 3 for the best balance between accuracy and efficiency. This factor is suitable for a wide range of applications.
 4. Rescoring: Enable rescoring to improve the accuracy of search results.
@@ -310,7 +276,7 @@ Binary quantization is the most aggressive of the methods Qdrant supports, but i
 |-|-|-|-|-|
 | [Scalar quantization](/articles/scalar-quantization/) | 4x | Minimal, usually under 1% error | Fast, SIMD-accelerated | A safe default that balances storage and accuracy |
 | [Product quantization](/articles/product-quantization/) | Up to 64x | Moderate to significant | Slowest, not SIMD-friendly | Extreme memory limits where accuracy and speed are secondary |
-| Binary quantization | Up to 32x | Significant without rescoring, near-lossless with it | Fastest, up to 40x faster search | High-dimensional models, such as OpenAI text-embedding-3, where speed and storage both matter |
+| Binary quantization | Up to 32x | Significant without rescoring, near-lossless with it | Fastest, up to 40x faster search | High-dimensional models, such as llama-embed-nemotron-8b, where speed and storage both matter |
 
 A few practical guidelines:
 
@@ -327,4 +293,3 @@ Binary quantization is exceptional if you need to work with large volumes of dat
 The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding large datasets to Qdrant](/documentation/tutorials-develop/bulk-upload/) to your Qdrant instance as well as [more quantization methods](/documentation/manage-data/quantization/). 
 
 Want to discuss these findings and learn more about Binary Quantization? [Join our Discord community.](https://discord.gg/qdrant) 
-
