@@ -5,7 +5,7 @@ slug: binary-quantization-openai
 short_description: Use Qdrant's Binary Quantization to enhance modern text embeddings
 description: Explore how Qdrant's Binary Quantization can significantly improve the efficiency and performance of modern text embedding models. Learn best practices for real-time search applications.
 preview_dir: /articles_data/binary-quantization-openai/preview
-preview_image: /articles-data/binary-quantization-openai/Article-Image.png
+preview_image: /articles_data/binary-quantization-openai/Article-Image.png
 small_preview_image: /articles_data/binary-quantization-openai/icon.svg
 social_preview_image: /articles_data/binary-quantization-openai/preview/social-preview.png
 title_preview_image: /articles_data/binary-quantization-openai/preview/preview.webp
@@ -42,7 +42,7 @@ You can also try out these techniques as described in [Binary Quantization OpenA
 
 ## The latest text embedding models
 
-Text embedding models have advanced rapidly, and the field is no longer dominated by a single provider. You can now choose from a wide range of high-quality models, both commercial and open-source, that top benchmarks such as [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and [MIRACL](https://openai.com/blog/new-embedding-models-and-api-updates). Many support over 100 languages and let you pick from several embedding sizes.
+Text embedding models have advanced rapidly, and the field is no longer dominated by a single provider. You can now choose from a wide range of high-quality models, both commercial and open-source, that top benchmarks such as [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and [MIRACL](https://github.com/project-miracl/miracl). Many support over 100 languages and let you pick from several embedding sizes.
 
 Because the rankings change constantly, the best way to stay current is to check the live [MTEB leaderboard](https://huggingface.co/spaces/mteb/leaderboard) before committing to a model. As of mid-2026, the top three models on the MTEB Multilingual leaderboard are:
 
@@ -101,11 +101,11 @@ The accompanying chart shows the best accuracy achieved with binary quantization
 
 One caveat about scope: the largest models such as `harrier-oss-v1` at 27B parameters or `llama-embed-nemotron` at 8B, need far more memory than was available, so they aren't plotted here. 
 
-<img width="1932" height="1036" alt="image-1782831348422" src="https://github.com/user-attachments/assets/5a4e78a9-19ac-4ced-848c-f9afae5597b0" />
+<img width="1932" height="1036" alt="Bar chart comparing recall@10 for full-precision search against binary quantization across mxbai-embed-large-v1 and nomic-embed-text-v1.5 at several dimensions" src="https://github.com/user-attachments/assets/5a4e78a9-19ac-4ced-848c-f9afae5597b0" />
 
 The efficiency gains from Binary Quantization are as follows: 
 
-- Reduced storage footprint: It helps with large-scale datasets. It also saves on memory, and scales up to 30x at the same cost. 
+- Reduced storage footprint: It helps with large-scale datasets. It also saves on memory, and scales up to 32x at the same cost.
 - Enhanced speed of data retrieval: Smaller data sizes generally leads to faster searches. 
 - Accelerated search process: It is based on simplified distance calculations between vectors to bitwise operations. This enables real-time querying even in extensive databases.
 
@@ -135,15 +135,13 @@ To measure binary quantization's impact on search efficiency and accuracy, we bu
 
 We encode a corpus of text passages with llama-embed-nemotron-8b and hold out a separate set of records to serve as queries. For each query, we search the corpus for its nearest neighbors. The full-precision float results act as the ground truth, and we then repeat the search with binary-quantized vectors to measure how closely the compressed search reproduces that ground truth. This setup lets us assess how binary quantization influences both search precision and efficiency on realistic, high-dimensional embeddings.
 
-#### Parameters: oversampling, rescoring, and search limits
+#### Parameters: oversampling and rescoring
 
-For each query, we run a parameter sweep over oversampling, rescoring, and search limits. This lets us understand how each setting shapes search accuracy and efficiency. Our experiment was designed to assess binary quantization under a range of conditions, based on the following parameters:
+For each query, we run a parameter sweep over oversampling and rescoring. This lets us understand how each setting shapes search accuracy and efficiency. Our experiment was designed to assess binary quantization under a range of conditions, based on the following parameters:
 
 - **Oversampling**: Oversampling limits the information loss inherent in quantization by retrieving more binary candidates than the final result count, then rescoring them. This helps preserve the semantic richness of the original llama-embed-nemotron-8b embeddings. We tested several oversampling factors to see how they affect accuracy and efficiency. Higher factors tend to improve accuracy, but they usually require more computational resources.
 
 - **Rescoring**: Rescoring refines the first results of an initial binary search. It uses the original high-dimensional vectors to reorder the candidates, which **always** improves accuracy. We toggled rescoring on and off to measure its effectiveness when combined with binary quantization, and we also measured its impact on search performance.
-
-- **Search limits**: This is the number of results we ask the search to return. We experimented with various search limits to measure their impact on accuracy and efficiency, and to explore the trade-off between search depth and speed. The results provide guidance for applications with different precision and speed requirements.
 
 Through this setup, our experiment aims to clarify the interplay between binary quantization and a modern, high-dimensional embedding model. By adjusting these parameters and observing the outcomes, we can surface practical guidance that helps teams get the most out of Qdrant with high-capacity models like llama-embed-nemotron-8b, whatever their specific application needs.
 
@@ -155,7 +153,7 @@ A note on evidence: the charts and numbers in this section come from a reproduci
 
 #### Rescoring
 
-<img width="1778" height="1035" alt="Rescoring_Impact_new" src="https://github.com/user-attachments/assets/51c21e0d-d130-4a51-94cb-2de5681be07a" />
+<img width="1778" height="1035" alt="Grouped bar chart of recall@10 with and without rescoring across six model and dimension configurations, showing rescoring recovers most of the accuracy lost to binary quantization" src="https://github.com/user-attachments/assets/51c21e0d-d130-4a51-94cb-2de5681be07a" />
 
 A few consistent patterns emerge:
 
@@ -191,20 +189,16 @@ configuration_combinations = [
 
 #### Exploring configurations and their impact on accuracy
 
-For each configuration, characterized by its oversampling factor and rescoring flag, we load the corresponding results. These results, stored in JSON format, include the accuracy under each setting. We then group the results by oversampling, rescore presence, and search limit, and compute the mean accuracy for each subgroup. Finally, the average accuracies are organized into a pivot table, indexed by the search limit, with columns formed from combinations of oversampling and rescoring.
+For each configuration, characterized by its oversampling factor and rescoring flag, we load the corresponding results. These results, stored in JSON format, include the recall@10 under each setting. We then group the results by oversampling and rescore presence, and compute the mean recall@10 for each subgroup. Finally, the values are organized into a pivot table, indexed by the oversampling factor, with columns for rescoring on and off.
 
 ```python
 import pandas as pd
 
-results = pd.read_json("../results/results-llama-embed-nemotron-8b-4096.json", lines=True)
-average_accuracy = results[results["limit"] != 1]
-average_accuracy = average_accuracy[average_accuracy["limit"] != 5]
-average_accuracy = average_accuracy.groupby(["oversampling", "rescore", "limit"])[
-    "accuracy"
-].mean()
+results = pd.read_json("../results/results-mxbai-embed-large-v1-1024.json", lines=True)
+average_accuracy = results.groupby(["oversampling", "rescore"])["recall_at_10"].mean()
 average_accuracy = average_accuracy.reset_index()
 acc = average_accuracy.pivot(
-    index="limit", columns=["oversampling", "rescore"], values="accuracy"
+    index="oversampling", columns="rescore", values="recall_at_10"
 )
 print(acc)
 ```
@@ -223,7 +217,7 @@ In binary quantization, oversampling means retrieving more binary candidates tha
 
 The trade-off is computational. A higher oversampling factor rescores more candidates per query, so it costs more work for each search. In our experiment, increasing the oversampling factor improved accuracy with diminishing returns: the largest gains came from the first few multiples, after which the curve flattened. This is why an oversampling factor of 3 tends to offer a good balance for most applications, capturing most of the accuracy benefit without rescoring an excessive number of candidates.
 
-<img width="1632" height="1032" alt="Oversampling_Impact_new" src="https://github.com/user-attachments/assets/639ead10-f560-464c-8e98-df8b96b20e40" />
+<img width="1632" height="1032" alt="Line chart of recall@10 versus oversampling factor from 1 to 4 with rescoring enabled, plotted per model and dimension" src="https://github.com/user-attachments/assets/639ead10-f560-464c-8e98-df8b96b20e40" />
 
 
 ### Have we optimized the embeddings? Evaluating with Ranx
