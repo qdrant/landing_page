@@ -8,7 +8,7 @@ aliases:
   - /documentation/concepts/search/
 ---
 
-# Similarity search
+# Similarity Search
 
 Searching for the nearest vectors is at the core of many representational learning applications.
 Modern neural networks are trained to transform objects into vectors so that objects close in the real world appear close in vector space.
@@ -142,7 +142,7 @@ In general, the speed of the search is proportional to the number of non-zero va
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/sparse-vectors/" >}}
 
-### Filtering results by score
+### Filtering Results by Score
 
 In addition to payload filtering, it might be useful to filter out results with a low similarity score.
 For example, if you know the minimal acceptance score for your model and do not want any results which are less similar than the threshold.
@@ -151,7 +151,7 @@ It will exclude all results with a score worse than the given.
 
 <aside role="status">This parameter may exclude lower or higher scores depending on the used metric. For example, higher scores of Euclidean metric are considered more distant and, therefore, will be excluded.</aside>
 
-### Payload and vector in the result
+### Payload and Vector in the Result
 
 By default, retrieval methods do not return any stored information such as
 payload and vectors. Additional parameters `with_vectors` and `with_payload`
@@ -205,7 +205,7 @@ $$ \text{Estimated filter selectivity} =
 $$
 Since ACORN is significantly slower (approximately 2-10x in typical scenarios) but improves recall for restrictive filters, tuning this parameter is about deciding when the accuracy improvement justifies the performance cost.
 
-## Batch search API
+## Batch Search API
 
 The batch search API enables to perform multiple search requests via a single request.
 
@@ -371,7 +371,7 @@ Consider having points with the following payloads:
 
 With the ***groups*** API, you will be able to get the best *N* points for each document, assuming that the payload of the points contains the document ID. Of course there will be times where the best *N* points cannot be fulfilled due to lack of points or a big distance with respect to the query. In every case, the `group_size` is a best-effort parameter, akin to the `limit` parameter.
 
-### Search groups
+### Search Groups
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/search/query-points-groups)):
 
@@ -427,7 +427,7 @@ If the `group_by` field of a point is an array (e.g. `"document_id": ["a", "b"]`
 * Only [keyword](/documentation/manage-data/payload/#keyword) and [integer](/documentation/manage-data/payload/#integer) payload values are supported for the `group_by` parameter. Payload values with other types will be ignored.
 * At the moment, pagination is not enabled when using **groups**, so the `offset` parameter is not allowed.
 
-### Lookup in groups
+### Lookup in Groups
 
 When the points in a group share large fields like titles, abstracts, or full document vectors, copying that data onto every point inflates storage and forces you to rewrite every chunk whenever a shared field changes.
 
@@ -509,7 +509,7 @@ Random sampling API is a part of [Universal Query API](#query-api) and can be us
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/random-sample/" >}}
 
-## Query planning
+## Query Planning
 
 Depending on the filter used in the search - there are several possible scenarios for query execution.
 Qdrant chooses one of the query execution options depending on the available indexes, the complexity of the conditions and the cardinality of the filtering result.
