@@ -147,11 +147,9 @@ Through this setup, our experiment aims to clarify the interplay between binary 
 
 ### Results: binary quantization's impact on retrieval accuracy
 
-To understand how binary quantization behaves in practice, we examined the two settings that most affect the trade-off between accuracy and speed: rescoring and oversampling. Rescoring produces a more precise final ranking by reordering an initial binary search with the original float vectors.
+To understand how binary quantization behaves in practice, we examined the two settings that most affect the trade-off between accuracy and speed: rescoring and oversampling. 
 
-A note on evidence: the charts and numbers in this section come from a reproducible experiment on two Matryoshka-trained models that fit in this machine's memory, mxbai-embed-large-v1 and nomic-embed-text-v1.5. We use them to demonstrate the principle, then reason about where a high-capacity model like llama-embed-nemotron-8b is expected to land. Because binary quantization operates on the vectors themselves rather than on any one model's architecture, the patterns carry over.
-
-#### Rescoring
+#### Impact of Rescoring
 
 <img width="1778" height="1035" alt="Grouped bar chart of recall@10 with and without rescoring across six model and dimension configurations, showing rescoring recovers most of the accuracy lost to binary quantization" src="https://github.com/user-attachments/assets/51c21e0d-d130-4a51-94cb-2de5681be07a" />
 
