@@ -155,7 +155,7 @@ A note on evidence: the charts and numbers in this section come from a reproduci
 
 #### Rescoring
 
-![Grouped bar chart of recall@10 with and without rescoring across six configurations. Without rescoring ranges from 0.42 to 0.70; with rescoring ranges from 0.73 to 0.97, and is higher in every case](/blog/openai/Rescoring_Impact_new.png)
+<img width="1778" height="1035" alt="Rescoring_Impact_new" src="https://github.com/user-attachments/assets/51c21e0d-d130-4a51-94cb-2de5681be07a" />
 
 A few consistent patterns emerge:
 
@@ -223,7 +223,8 @@ In binary quantization, oversampling means retrieving more binary candidates tha
 
 The trade-off is computational. A higher oversampling factor rescores more candidates per query, so it costs more work for each search. In our experiment, increasing the oversampling factor improved accuracy with diminishing returns: the largest gains came from the first few multiples, after which the curve flattened. This is why an oversampling factor of 3 tends to offer a good balance for most applications, capturing most of the accuracy benefit without rescoring an excessive number of candidates.
 
-![Line chart of recall@10 versus oversampling factor from 1 to 4 with rescoring enabled. Every model and dimension rises steeply from factor 1 to 2, then levels off toward factor 4](/blog/openai/Oversampling_Impact_new.png)
+<img width="1632" height="1032" alt="Oversampling_Impact_new" src="https://github.com/user-attachments/assets/639ead10-f560-464c-8e98-df8b96b20e40" />
+
 
 ### Have we optimized the embeddings? Evaluating with Ranx
 
