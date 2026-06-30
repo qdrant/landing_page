@@ -25,20 +25,20 @@ aliases: [ /blog/binary-quantization-openai/ ]
 category: search-quality
 ---
 
-Modern text embedding models are a powerful tool for natural language processing (NLP). However, the size of these embeddings is a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of the latest text embeddings. 
+Modern text embedding models are a powerful tool for natural language processing (NLP). However, the size of these embeddings is a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's binary quantization to enhance the performance and efficiency of the latest text embeddings.
 
 In this post, we discuss:
 
 - The latest text embedding models and benchmarks such as MTEB and MIRACL
-- Qdrant's Binary Quantization, and how it can improve the performance of text embeddings
+- Qdrant's binary quantization, and how it can improve the performance of text embeddings
 - Results of an experiment that highlights improvements in search efficiency and accuracy
 - Implications of these findings for real-world applications
 - How to validate the optimization with the Ranx evaluation library
-- Best practices for leveraging Binary Quantization to enhance text embeddings
+- Best practices for leveraging binary quantization to enhance text embeddings
 
-If you're new to Binary Quantization, consider reading our article which walks you through the concept and [how to use it with Qdrant](/articles/binary-quantization/)
+If you're new to binary quantization, consider reading our article which walks you through the concept and [how to use it with Qdrant](/articles/binary-quantization/)
 
-You can also try out these techniques as described in [Binary Quantization OpenAI](https://github.com/qdrant/examples/blob/openai-3/binary-quantization-openai/README.md), which includes Jupyter notebooks.
+You can also try out these techniques with the [hands-on example notebooks](https://github.com/qdrant/examples/blob/openai-3/binary-quantization-openai/README.md) in our examples repository.
 
 ## The latest text embedding models
 
@@ -64,19 +64,19 @@ Suppose your embedding looks like this:
 [0.24, -0.91, 1.32, -0.02, 0.67, ...]
 ```
 
-Every value is normally stored as a 32-bit floating-point number. For a 3072-dimensional embedding, that adds up quickly:
+Every value is normally stored as a 32-bit floating-point number. For a 4,096-dimensional embedding, that adds up quickly:
 
 ```
-3072 values × 32 bits
-≈ 98,304 bits
-≈ 12 KB
+4,096 values × 32 bits
+≈ 131,072 bits
+≈ 16 KB
 ```
 
 Now imagine you have 100 million documents:
 
 ```
-12 KB × 100,000,000
-≈ 1.2 TB
+16 KB × 100,000,000
+≈ 1.6 TB
 ```
 
 That's just the vectors, not the index or metadata. At this scale, memory becomes one of your biggest infrastructure costs.
@@ -97,17 +97,17 @@ Each dimension now costs 1 bit instead of 32 bits, which gives roughly a 32x red
 
 ### Dimension reduction vs accuracy with binary quantization 
 
-The accompanying chart shows the best accuracy achieved with binary quantization across two Matryoshka-trained models, `mxbai-embed-large-v1` and `nomic-embed-text-v1.5`, measured as recall@10 against full-precision search. At each model's native dimension, binary quantization preserves search quality remarkably well: `mxbai-embed-large-v1` holds 0.9713 at 1024 dimensions, and `nomic-embed-text-v1.5` holds 0.9060 at 768 dimensions. Accuracy declines as the vectors are truncated more aggressively, falling to roughly 0.80 and 0.73 at 256 dimensions, which tells you where the storage-versus-precision trade-off starts to bite. 
+The accompanying chart shows the best accuracy achieved with binary quantization across two Matryoshka-trained models, `mxbai-embed-large-v1` and `nomic-embed-text-v1.5`, measured as recall@10 against full-precision search. At each model's native dimension, binary quantization preserves search quality remarkably well: `mxbai-embed-large-v1` holds 0.9707 at 1024 dimensions, and `nomic-embed-text-v1.5` holds 0.9067 at 768 dimensions. Accuracy declines as the vectors are truncated more aggressively, falling to roughly 0.80 and 0.73 at 256 dimensions, which tells you where the storage-versus-precision trade-off starts to bite. 
 
-One caveat about scope: the largest models such as `harrier-oss-v1` at 27B parameters or `llama-embed-nemotron` at 8B, need far more memory than was available, so they aren't plotted here. 
+One caveat about scope: the largest models such as `harrier-oss-v1` at 27B parameters or `llama-embed-nemotron` at 8B need far more memory than was available, so they aren't plotted here.
 
 <img width="1932" height="1036" alt="Bar chart comparing recall@10 for full-precision search against binary quantization across mxbai-embed-large-v1 and nomic-embed-text-v1.5 at several dimensions" src="https://github.com/user-attachments/assets/5a4e78a9-19ac-4ced-848c-f9afae5597b0" />
 
-The efficiency gains from Binary Quantization are as follows: 
+The efficiency gains from binary quantization are as follows:
 
-- Reduced storage footprint: It helps with large-scale datasets. It also saves on memory, and scales up to 32x at the same cost.
-- Enhanced speed of data retrieval: Smaller data sizes generally leads to faster searches. 
-- Accelerated search process: It is based on simplified distance calculations between vectors to bitwise operations. This enables real-time querying even in extensive databases.
+- Reduced storage footprint: It helps with large-scale datasets. It also saves on memory, reducing storage by up to 32x.
+- Enhanced speed of data retrieval: Smaller data sizes generally lead to faster searches.
+- Accelerated search process: It reduces distance calculations between vectors to bitwise operations. This enables real-time querying even in extensive databases.
 
 #### Matryoshka representation learning
 
@@ -207,9 +207,9 @@ The following table shows the real measured results from our reproducible experi
 
 |Model|Dimensions|Test Dataset|Best Recall@10|
 |-|-|-|-|
-|[mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)|1024|[AG News](https://huggingface.co/datasets/ag_news)|0.9713|
-|[nomic-embed-text-v1.5](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5)|768|[AG News](https://huggingface.co/datasets/ag_news)|0.9060|
-|[mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)|512|[AG News](https://huggingface.co/datasets/ag_news)|0.9013|
+|[mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)|1024|[AG News](https://huggingface.co/datasets/ag_news)|0.9707|
+|[nomic-embed-text-v1.5](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5)|768|[AG News](https://huggingface.co/datasets/ag_news)|0.9067|
+|[mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)|512|[AG News](https://huggingface.co/datasets/ag_news)|0.8973|
 
 #### Impact of oversampling
 
@@ -249,14 +249,14 @@ report = compare(
 print(report)
 ```
 
-Run this way, the evaluation confirms the optimization. With rescoring enabled, the binary-quantized run recovers the original ranking closely: in our reproducible experiment, recall@10 reaches 0.9713 for mxbai-embed-large-v1 at its native 1,024 dimensions, while storage drops by up to 32x. A higher-dimensional model like llama-embed-nemotron-8b, at 4,096 dimensions, is expected to retain even more of the original ranking, since each vector carries more information for the binary sign pattern to preserve. In other words, you keep nearly all of the search quality for a fraction of the memory and a faster search. That is the optimization we set out to validate.
+Run this way, the evaluation confirms the optimization. With rescoring enabled, the binary-quantized run recovers the original ranking closely: in our reproducible experiment, recall@10 reaches 0.9707 for mxbai-embed-large-v1 at its native 1,024 dimensions, while storage drops by up to 32x. A higher-dimensional model like llama-embed-nemotron-8b, at 4,096 dimensions, is expected to retain even more of the original ranking, since each vector carries more information for the binary sign pattern to preserve. In other words, you keep nearly all of the search quality for a fraction of the memory and a faster search. That is the optimization we set out to validate.
 
 ### Leveraging binary quantization: best practices
 
-We recommend the following best practices for leveraging Binary Quantization with modern text embeddings:
+We recommend the following best practices for leveraging binary quantization with modern text embeddings:
 
 1. Embedding Model: Pick a high-dimensional model from the top of the [MTEB leaderboard](https://huggingface.co/spaces/mteb/leaderboard). High-capacity models like llama-embed-nemotron-8b at 4,096 dimensions are well suited to binary quantization, and open-source models like mxbai-embed-large-v1 are strong alternatives that also work well with binary embeddings.
-2. Dimensions: Use the highest dimension available for the model, to maximize accuracy. The results are true for English and other languages.
+2. Dimensions: Use the highest dimension available for the model, to maximize accuracy.
 3. Oversampling: Use an oversampling factor of 3 for the best balance between accuracy and efficiency. This factor is suitable for a wide range of applications.
 4. Rescoring: Enable rescoring to improve the accuracy of search results.
 5. RAM: Store the full vectors and payload on disk. Limit what you load from memory to the binary quantization index. This helps reduce the memory footprint and improve the overall efficiency of the system. The incremental latency from the disk read is negligible compared to the latency savings from the binary scoring in Qdrant, which uses SIMD instructions where possible.
@@ -269,7 +269,7 @@ Binary quantization is the most aggressive of the methods Qdrant supports, but i
 |-|-|-|-|-|
 | [Scalar quantization](/articles/scalar-quantization/) | 4x | Minimal, usually under 1% error | Fast, SIMD-accelerated | A safe default that balances storage and accuracy |
 | [Product quantization](/articles/product-quantization/) | Up to 64x | Moderate to significant | Slowest, not SIMD-friendly | Extreme memory limits where accuracy and speed are secondary |
-| Binary quantization | Up to 32x | Significant without rescoring, near-lossless with it | Fastest, up to 40x faster search | High-dimensional models, such as llama-embed-nemotron-8b, where speed and storage both matter |
+| Binary quantization | Up to 32x | Significant without rescoring, near-lossless with it | Fastest, bitwise distance with SIMD acceleration | High-dimensional models, such as llama-embed-nemotron-8b, where speed and storage both matter |
 
 A few practical guidelines:
 
@@ -285,4 +285,4 @@ Binary quantization is exceptional if you need to work with large volumes of dat
 
 The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding large datasets to Qdrant](/documentation/tutorials-develop/bulk-upload/) to your Qdrant instance as well as [more quantization methods](/documentation/manage-data/quantization/). 
 
-Want to discuss these findings and learn more about Binary Quantization? [Join our Discord community.](https://discord.gg/qdrant) 
+Want to discuss these findings and learn more about binary quantization? [Join our Discord community.](https://discord.gg/qdrant) 
