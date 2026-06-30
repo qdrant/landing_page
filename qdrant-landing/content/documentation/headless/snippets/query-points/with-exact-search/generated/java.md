@@ -1,21 +1,17 @@
 ```java
 import static io.qdrant.client.QueryFactory.nearest;
-import static io.qdrant.client.WithPayloadSelectorFactory.enable;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.WithVectorsSelectorFactory;
 import io.qdrant.client.grpc.Points.QueryPoints;
-import java.util.List;
+import io.qdrant.client.grpc.Points.SearchParams;
 
 client.queryAsync(
         QueryPoints.newBuilder()
                 .setCollectionName("{collection_name}")
                 .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
-                .setWithPayload(enable(true))
-                .setWithVectors(WithVectorsSelectorFactory.enable(true))
+                .setParams(SearchParams.newBuilder().setExact(true).build())
                 .setLimit(10)
-                .setOffset(100)
                 .build())
         .get();
 ```

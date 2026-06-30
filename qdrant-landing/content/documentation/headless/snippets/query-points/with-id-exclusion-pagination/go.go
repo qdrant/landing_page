@@ -16,12 +16,21 @@ func Main() {
 	if err != nil { panic(err) }
 	// @hide-end
 
+	seenIds := []uint64{83461, 19284, 57392, 44017, 91825} // IDs returned on previous pages
+
+	pointIds := make([]*qdrant.PointId, len(seenIds))
+	for i, id := range seenIds {
+		pointIds[i] = qdrant.NewIDNum(id)
+	}
+
 	client.Query(context.Background(), &qdrant.QueryPoints{
 		CollectionName: "{collection_name}",
 		Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
-		WithPayload:    qdrant.NewWithPayload(true),
-		WithVectors:    qdrant.NewWithVectors(true),
-		Limit:          qdrant.PtrOf(uint64(10)),
-		Offset:         qdrant.PtrOf(uint64(100)),
+		Filter: &qdrant.Filter{
+			MustNot: []*qdrant.Condition{
+				qdrant.NewHasID(pointIds...),
+			},
+		},
+		Limit: qdrant.PtrOf(uint64(5)),
 	})
 }

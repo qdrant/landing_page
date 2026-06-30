@@ -1,0 +1,1 @@
+This code snippet demonstrates how to run an exact nearest neighbor search by setting the `exact` parameter to `true`. Unlike the default approximate HNSW search, exact search scans all vectors and returns results in a stable, deterministic order.
