@@ -111,15 +111,14 @@ The efficiency gains from Binary Quantization are as follows:
 
 #### Matryoshka representation learning
 
-Many of the latest models, including OpenAI text-embedding-3, mixedbread mxbai-embed-large-v1, Nomic nomic-embed-text-v1.5, and EmbeddingGemma, are trained with a technique called "[Matryoshka Representation Learning](https://aniketrege.github.io/blog/2024/mrl/)". Developers can set up embeddings of different sizes (number of dimensions) and select the one that balances accuracy and size. For example, mxbai-embed-large-v1 keeps over 93% of its performance at 512 dimensions, and nomic-embed-text-v1.5 supports any size between 64 and 768.
+Many of the latest models are trained with a technique called "[Matryoshka Representation Learning](https://aniketrege.github.io/blog/2024/mrl/)". Developers can set up embeddings of different sizes (number of dimensions) and select the one that balances accuracy and size. For example, mxbai-embed-large-v1 keeps over 93% of its performance at 512 dimensions, and nomic-embed-text-v1.5 supports any size between 64 and 768.
 
 Because Matryoshka models concentrate the most important information in the earlier dimensions, they pair well with binary quantization: you first trim the vector to the smallest dimension your recall target allows, then quantize each remaining dimension to a single bit. Later in this article, we show that the accuracy of binary quantization stays high across different dimensions.
 
-OpenAI's text-embedding-3 models remain a strong commercial option. The transition from text-embedding-ada-002 to text-embedding-3-large brought a significant jump in performance, from 31.4% to 54.9% on MIRACL. But if you'd rather avoid a paid API, the open-source ecosystem has caught up. The table below lists popular choices that support flexible dimensions or binary embeddings, several with Matryoshka truncation out of the box. For a deeper comparison, see [a guide to open-source embedding models](https://www.bentoml.com/blog/a-guide-to-open-source-embedding-models) and our own article on [how to choose an embedding model](/articles/how-to-choose-an-embedding-model/).
+The table below lists popular choices that support flexible dimensions or binary embeddings, several with Matryoshka truncation. For a deeper dive read [how to choose an embedding model](/articles/how-to-choose-an-embedding-model/) article.
 
 | Model | Dimensions | Max Tokens | Matryoshka |
 |-|-|-|-|
-| [OpenAI text-embedding-3-large](https://openai.com/blog/new-embedding-models-and-api-updates) | 256-3072 | 8191 | Yes |
 | [mixedbread mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1) | 1024 (down to 512, 256) | 512 | Yes |
 | [Nomic nomic-embed-text-v1.5](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5) | 64-768 | 8192 | Yes |
 | [EmbeddingGemma-300M](https://huggingface.co/google/embeddinggemma-300m) | 768 (down to 512, 256, 128) | 2048 | Yes |
@@ -127,45 +126,27 @@ OpenAI's text-embedding-3 models remain a strong commercial option. The transiti
 | [Qwen3-Embedding-0.6B](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) | 32-1024 (user-defined) | long-context | No |
 | [BGE-M3](https://huggingface.co/BAAI/bge-m3) | 1024 | 8192 | No |
 
-These models cover the common use cases for embeddings: semantic search, retrieval-augmented generation, clustering, classification, and recommendation. Whichever you choose, the same challenge applies: high-dimensional embeddings are expensive to store and search at scale. That's where binary quantization helps.
+### Experiment setup: llama-embed-nemotron-8b in focus
 
+To measure binary quantization's impact on search efficiency and accuracy, we built our experiment around [llama-embed-nemotron-8b](https://huggingface.co/nvidia/llama-embed-nemotron-8b), a 7.5-billion-parameter retrieval model from NVIDIA. It's built on Llama-3.1-8B, produces 4,096-dimensional embeddings, handles context windows of up to 32,768 tokens, and was trained for multilingual retrieval across more than 1,000 languages. That makes it a strong, modern stand-in for the kind of high-capacity model teams reach for today.
 
-**Flexible embedding dimensions:** Through MRL, [EmbeddingGemma-300M](https://huggingface.co/google/embeddinggemma-300m) supports output truncation from 768 → 512 → 256 → 128 dimensions, which is helpful for trading off storage versus precision. The same flexibility is available in mxbai-embed-large-v1 (1024 → 512 → 256), nomic-embed-text-v1.5 (any size from 64 to 768), and OpenAI text-embedding-3 (256 to 3072). Models without MRL, such as BGE-M3, produce a fixed-size vector that you can't safely truncate, so binary quantization is your main lever for shrinking them.
-
-## Choosing an embedding benchmark: MTEB and  MIRACL
-
-A high leaderboard score is only meaningful if the benchmark matches your use case. The three benchmarks referenced most often measure different things, so pick the one that reflects the language and task you care about.
-
-- **MTEB (Massive Text Embedding Benchmark)**: Use it when you need a broad, general-purpose view of a model. MTEB spans more than 50 datasets across 8 task types, including retrieval, classification, clustering, reranking, and semantic textual similarity. It's the right starting point when your application mixes several of these tasks, or when you want a single overall ranking. Note that its coverage is heavily English, so a top MTEB score doesn't guarantee strong performance in other languages.
-
-- **MIRACL (Multilingual Information Retrieval Across a Continuum of Languages)**: Use it when your primary task is retrieval in non-English or multilingual content. MIRACL focuses purely on retrieval across 18 languages built from Wikipedia, so it's the benchmark to check before deploying search or retrieval-augmented generation for a global audience. Because it's Wikipedia-based, validate on your own domain if your content is far from encyclopedic text.
-
-
-In short: start with MTEB for a general sense of quality, switch to MIRACL when multilingual retrieval is the goal. Whichever benchmark you use, run a final check on a sample of your own data, since no public benchmark perfectly matches a production workload. For a deeper look at this process, see our article on [how to choose an embedding model](/articles/how-to-choose-an-embedding-model/).
-
-
-
-### Experiment setup: OpenAI embeddings in focus
-
-To identify Binary Quantization's impact on search efficiency and accuracy, we designed our experiment on OpenAI text-embedding models. These models, which capture nuanced linguistic features and semantic relationships, are the backbone of our analysis. We then delve deep into the potential enhancements offered by Qdrant's Binary Quantization feature.
-
-This approach not only leverages the high-caliber OpenAI embeddings but also provides a broad basis for evaluating the search mechanism under scrutiny. We use OpenAI text-embedding-3 here as a concrete case study, but the same findings apply to the other Matryoshka-trained models listed before, since binary quantization operates on the vectors themselves rather than on any one provider's model.
+We chose a high-dimensional model on purpose. Binary quantization shines when each vector carries many dimensions, because every dimension collapses to a single bit and the sign pattern still preserves most of the geometry. With 4,096 dimensions per vector, llama-embed-nemotron-8b is a demanding, realistic test of how much accuracy survives that compression. Unlike the Matryoshka models discussed before, this model produces a single fixed embedding size rather than truncatable dimensions, so we hold the dimension constant at 4,096 and isolate the effect of binary quantization itself. One practical note: llama-embed-nemotron-8b is released under a research, non-commercial license, so confirm the terms before using it in production.
 
 #### Dataset
 
- The research employs 100K random samples from the [OpenAI 1M](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) 1M dataset, focusing on 100 randomly selected records. These records serve as queries in the experiment, aiming to assess how Binary Quantization influences search efficiency and precision within the dataset. We then use the embeddings of the queries to search for the nearest neighbors in the dataset. 
+We encode a corpus of text passages with llama-embed-nemotron-8b and hold out a separate set of records to serve as queries. For each query, we search the corpus for its nearest neighbors. The full-precision float results act as the ground truth, and we then repeat the search with binary-quantized vectors to measure how closely the compressed search reproduces that ground truth. This setup lets us assess how binary quantization influences both search precision and efficiency on realistic, high-dimensional embeddings.
 
 #### Parameters: oversampling, rescoring, and search limits
 
-For each record, we run a parameter sweep over the number of oversampling, rescoring, and search limits. We can then understand the impact of these parameters on search accuracy and efficiency. Our experiment was designed to assess the impact of Binary Quantization under various conditions, based on the following parameters: 
+For each query, we run a parameter sweep over oversampling, rescoring, and search limits. This lets us understand how each setting shapes search accuracy and efficiency. Our experiment was designed to assess binary quantization under a range of conditions, based on the following parameters:
 
-- **Oversampling**: By oversampling, we can limit the loss of information inherent in quantization. This also helps to preserve the semantic richness of your OpenAI embeddings. We experimented with different oversampling factors, and identified the impact on the accuracy and efficiency of search. Spoiler: higher oversampling factors tend to improve the accuracy of searches. However, they usually require more computational resources.
+- **Oversampling**: Oversampling limits the information loss inherent in quantization by retrieving more binary candidates than the final result count, then rescoring them. This helps preserve the semantic richness of the original llama-embed-nemotron-8b embeddings. We tested several oversampling factors to see how they affect accuracy and efficiency. Higher factors tend to improve accuracy, but they usually require more computational resources.
 
-- **Rescoring**: Rescoring refines the first results of an initial binary search. This process leverages the original high-dimensional vectors to refine the search results, **always** improving accuracy. We toggled rescoring on and off to measure effectiveness, when combined with Binary Quantization. We also measured the impact on search performance. 
+- **Rescoring**: Rescoring refines the first results of an initial binary search. It uses the original high-dimensional vectors to reorder the candidates, which **always** improves accuracy. We toggled rescoring on and off to measure its effectiveness when combined with binary quantization, and we also measured its impact on search performance.
 
-- **Search Limits**: We specify the number of results from the search process. We experimented with various search limits to measure their impact the accuracy and efficiency. We explored the trade-offs between search depth and performance. The results provide insight for applications with different precision and speed requirements.
+- **Search limits**: This is the number of results we ask the search to return. We experimented with various search limits to measure their impact on accuracy and efficiency, and to explore the trade-off between search depth and speed. The results provide guidance for applications with different precision and speed requirements.
 
-Through this detailed setup, our experiment sought to shed light on the nuanced interplay between Binary Quantization and the high-quality embeddings produced by OpenAI's models. By meticulously adjusting and observing the outcomes under different conditions, we aimed to uncover actionable insights that could empower users to harness the full potential of Qdrant in combination with OpenAI's embeddings, regardless of their specific application needs.
+Through this setup, our experiment aims to clarify the interplay between binary quantization and a modern, high-dimensional embedding model. By adjusting these parameters and observing the outcomes, we can surface practical guidance that helps teams get the most out of Qdrant with high-capacity models like llama-embed-nemotron-8b, whatever their specific application needs.
 
 ### Results: binary quantization's impact on OpenAI embeddings
 
@@ -343,8 +324,9 @@ For the full configuration details on each method, see the [quantization documen
 
 ## What's next?
 
-Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. If you would like to learn about other quantization methods check the article about [scalar quantization](https://qdrant.tech/articles/scalar-quantization/) and [product quantization](https://qdrant.tech/articles/product-quantization/). You can try binary quantization feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
+Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. You can try this feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
 
 The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding large datasets to Qdrant](/documentation/tutorials-develop/bulk-upload/) to your Qdrant instance as well as [more quantization methods](/documentation/manage-data/quantization/). 
 
 Want to discuss these findings and learn more about Binary Quantization? [Join our Discord community.](https://discord.gg/qdrant) 
+
