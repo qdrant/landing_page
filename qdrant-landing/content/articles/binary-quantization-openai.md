@@ -31,7 +31,7 @@ Modern text embedding models are a powerful tool for natural language processing
 In this post, we discuss:
 
 - The latest text embedding models and the real-world challenges of their size
-- When to use embedding benchmarks such as MTEB, MIRACL, and C-MTEB
+- When to use embedding benchmarks such as MTEB and MIRACL
 - Qdrant's Binary Quantization, and how it can improve the performance of text embeddings
 - Results of an experiment that highlights improvements in search efficiency and accuracy
 - Implications of these findings for real-world applications
@@ -47,7 +47,17 @@ You can also try out these techniques as described in [Binary Quantization OpenA
 
 Text embedding models have advanced rapidly, and the field is no longer dominated by a single provider. You can now choose from a wide range of high-quality models, both commercial and open-source, that top benchmarks such as [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and [MIRACL](https://openai.com/blog/new-embedding-models-and-api-updates). Many support over 100 languages and let you pick from several embedding sizes.
 
-OpenAI's text-embedding-3 models remain a strong commercial option. The transition from text-embedding-ada-002 to text-embedding-3-large brought a significant jump in performance, from 31.4% to 54.9% on MIRACL. But if you'd rather avoid a paid API, the open-source ecosystem has caught up. The table below lists strong choices, several of which support Matryoshka truncation out of the box. For a deeper comparison, see [a guide to open-source embedding models](https://www.bentoml.com/blog/a-guide-to-open-source-embedding-models) and our own article on [how to choose an embedding model](/articles/how-to-choose-an-embedding-model/).
+Because the rankings change constantly, the best way to stay current is to check the live [MTEB leaderboard](https://huggingface.co/spaces/mteb/leaderboard) before committing to a model. As of mid-2026, the top three models on the MTEB Multilingual leaderboard are:
+
+| Rank | Model | Embedding Dim | Max Tokens | MTEB Mean |
+|-|-|-|-|-|
+| 1 | [microsoft/harrier-oss-v1-27b](https://huggingface.co/microsoft/harrier-oss-v1-27b) | 5376 | 131,072 | 74.27 |
+| 2 | [tencent/KaLM-Embedding-Gemma3-12B-2511](https://huggingface.co/tencent/KaLM-Embedding-Gemma3-12B-2511) | 3840 | 32,768 | 72.32 |
+| 3 | [nvidia/llama-embed-nemotron-8b](https://huggingface.co/nvidia/llama-embed-nemotron-8b) | 4096 | 32,768 | 69.46 |
+
+These leaders are large, high-accuracy models that produce high-dimensional vectors, which is exactly the case where binary quantization pays off most: each vector is expensive to store and search, so compressing it by up to 32x has a large impact.
+
+OpenAI's text-embedding-3 models remain a strong commercial option. The transition from text-embedding-ada-002 to text-embedding-3-large brought a significant jump in performance, from 31.4% to 54.9% on MIRACL. But if you'd rather avoid a paid API, the open-source ecosystem has caught up. The table below lists popular choices that support flexible dimensions or binary embeddings, several with Matryoshka truncation out of the box. For a deeper comparison, see [a guide to open-source embedding models](https://www.bentoml.com/blog/a-guide-to-open-source-embedding-models) and our own article on [how to choose an embedding model](/articles/how-to-choose-an-embedding-model/).
 
 | Model | Dimensions | Max Tokens | Matryoshka |
 |-|-|-|-|
@@ -69,7 +79,7 @@ Because Matryoshka models concentrate the most important information in the earl
 
 **Flexible embedding dimensions:** Through MRL, [EmbeddingGemma-300M](https://huggingface.co/google/embeddinggemma-300m) supports output truncation from 768 → 512 → 256 → 128 dimensions, which is helpful for trading off storage versus precision. The same flexibility is available in mxbai-embed-large-v1 (1024 → 512 → 256), nomic-embed-text-v1.5 (any size from 64 to 768), and OpenAI text-embedding-3 (256 to 3072). Models without MRL, such as BGE-M3, produce a fixed-size vector that you can't safely truncate, so binary quantization is your main lever for shrinking them.
 
-## Choosing an embedding benchmark: MTEB, MIRACL, and C-MTEB
+## Choosing an embedding benchmark: MTEB and  MIRACL
 
 A high leaderboard score is only meaningful if the benchmark matches your use case. The three benchmarks referenced most often measure different things, so pick the one that reflects the language and task you care about.
 
@@ -77,9 +87,8 @@ A high leaderboard score is only meaningful if the benchmark matches your use ca
 
 - **MIRACL (Multilingual Information Retrieval Across a Continuum of Languages)**: Use it when your primary task is retrieval in non-English or multilingual content. MIRACL focuses purely on retrieval across 18 languages built from Wikipedia, so it's the benchmark to check before deploying search or retrieval-augmented generation for a global audience. Because it's Wikipedia-based, validate on your own domain if your content is far from encyclopedic text.
 
-- **C-MTEB (Chinese MTEB)**: Use it when you're building for Chinese-language users. C-MTEB adapts the MTEB methodology to Chinese with 35 datasets across 6 task categories, including retrieval, reranking, STS, classification, pair classification, and clustering. A model that tops MTEB in English may not lead on C-MTEB, so check it directly for Chinese workloads.
 
-In short: start with MTEB for a general sense of quality, switch to MIRACL when multilingual retrieval is the goal, and rely on C-MTEB for Chinese. Whichever benchmark you use, run a final check on a sample of your own data, since no public benchmark perfectly matches a production workload. For a deeper look at this process, see our article on [how to choose an embedding model](/articles/how-to-choose-an-embedding-model/).
+In short: start with MTEB for a general sense of quality, switch to MIRACL when multilingual retrieval is the goal. Whichever benchmark you use, run a final check on a sample of your own data, since no public benchmark perfectly matches a production workload. For a deeper look at this process, see our article on [how to choose an embedding model](/articles/how-to-choose-an-embedding-model/).
 
 ## Enhanced performance and efficiency with binary quantization
 
