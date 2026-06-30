@@ -266,22 +266,17 @@ collection `another_collection`.
 
 ## Pagination
 
-Search and [recommendation](/documentation/search/explore/#recommendation-api) APIs allow to skip first results of the search and return only the result starting from some specified offset:
+The Search and [recommendation](/documentation/search/explore/#recommendation-api) APIs allow you to skip the first results and return only the results starting from a specified offset:
 
 Example:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-offset/" >}}
 
-Is equivalent to retrieving the 11th page with 10 records per page.
+This is equivalent to retrieving the 11th page with 10 records per page.
 
 <aside role="alert">Large offset values may cause performance issues</aside>
 
-Vector-based retrieval in general and HNSW index in particular, are not designed to be paginated.
-It is impossible to retrieve Nth closest vector without retrieving the first N vectors first.
-
-However, using the offset parameter saves the resources by reducing network traffic and the number of times the storage is accessed.
-
-Using an `offset` parameter, will require to internally retrieve `offset + limit` points, but only access payload and vector from the storage those points which are going to be actually returned.
+Vector-based retrieval in general, and the HNSW index in particular, are not designed to be paginated. It is impossible to retrieve the Nth closest vector without internally retrieving the first N vectors first. However, using the `offset` parameter saves resources by reducing network traffic and the number of times the storage is accessed. Using the `offset` parameter internally retrieves `offset + limit` points, but only accesses the payload and vector of those points that are actually returned.
 
 ### Stable Ordering
 
