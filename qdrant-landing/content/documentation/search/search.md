@@ -280,7 +280,7 @@ Vector-based retrieval in general, and the HNSW index in particular, are not des
 
 ### Stable Ordering
 
-Because HNSW is an approximate algorithm, the ranking of results can shift slightly between requests. As a result, paginating with `offset` can return the same point on multiple pages or skip points entirely.
+Because HNSW search is approximate, the ranking of results can shift slightly between requests. As a result, paginating with `offset` can return the same point on multiple pages or skip points entirely.
 
 There are several ways to work around this:
 
