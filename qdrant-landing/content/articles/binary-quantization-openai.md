@@ -278,27 +278,9 @@ We recommend the following best practices for leveraging binary quantization wit
 4. Rescoring: Enable rescoring to improve the accuracy of search results.
 5. RAM: Store the full vectors and payload on disk. Limit what you load from memory to the binary quantization index. This helps reduce the memory footprint and improve the overall efficiency of the system. The incremental latency from the disk read is negligible compared to the latency savings from the binary scoring in Qdrant, which uses SIMD instructions where possible.
 
-## Binary quantization vs other quantization methods
-
-Binary quantization is the most aggressive of the methods Qdrant supports, but it isn't the only option. Choosing the right method is a trade-off between memory, accuracy, and speed.
-
-| Method | Compression | Accuracy Impact | Speed | Best For |
-|-|-|-|-|-|
-| [Scalar quantization](/articles/scalar-quantization/) | 4x | Minimal, usually under 1% error | Fast, SIMD-accelerated | A safe default that balances storage and accuracy |
-| [Product quantization](/articles/product-quantization/) | Up to 64x | Moderate to significant | Slowest, not SIMD-friendly | Extreme memory limits where accuracy and speed are secondary |
-| Binary quantization | Up to 32x | Significant without rescoring, near-lossless with it | Fastest, bitwise distance with SIMD acceleration | High-dimensional models, such as llama-embed-nemotron-8b, where speed and storage both matter |
-
-A few practical guidelines:
-
-- **Scalar quantization** is the most forgiving choice. It maps float32 values to `uint8` for a 4x reduction with little accuracy loss, so it's a reliable starting point when you're unsure.
-- **Product quantization** delivers the largest compression but is the slowest and loses the most accuracy. Reserve it for cases where memory footprint is the only thing that matters.
-- **Binary quantization** shines with high-dimensional embeddings. The accuracy gap closes almost entirely once you enable rescoring and oversampling, as the experiment above shows, while you still gain 32x storage savings and the fastest search. For very low-dimensional models, the recall loss is harder to recover, so scalar quantization may serve you better.
-
-For the full configuration details on each method, see the [quantization documentation](/documentation/manage-data/quantization/).
-
 ## What's next?
 
-Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. You can try this feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
+Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. To learn about other quantization methods check the [documentation](/documentation/manage-data/quantization/). You can try this feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
 
 The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding large datasets to Qdrant](/documentation/tutorials-develop/bulk-upload/) to your Qdrant instance as well as [more quantization methods](/documentation/manage-data/quantization/). 
 
