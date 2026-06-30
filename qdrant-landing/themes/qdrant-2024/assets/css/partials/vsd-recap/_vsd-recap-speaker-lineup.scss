@@ -1,0 +1,207 @@
+@use '../../helpers/functions' as *;
+
+.vsd-recap-speaker-lineup {
+  padding: pxToRem(80) 0;
+  background-color: #0b0f19;
+  position: relative;
+  overflow: hidden;
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: pxToRem(369);
+    background-image: url('/img/blurred/blurred-light-30.svg');
+    background-position: bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__banner {
+    position: relative;
+    padding: pxToRem(80) pxToRem(20);
+    overflow: hidden;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      translate: -50% -50%;
+      width: 100%;
+      max-width: pxToRem(1110);
+      height: pxToRem(369);
+      background-image: url('/img/vsd-sf-26/agenda/texture.png');
+      background-size: pxToRem(820) pxToRem(820);
+      background-position: top left;
+      background-repeat: no-repeat;
+      opacity: 0.8;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+  }
+
+  &__intro,
+  &__cards,
+  &__button {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: pxToRem(64);
+    margin-bottom: pxToRem(64);
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: pxToRem(32);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: $neutral-98;
+  }
+
+  &__description {
+    margin: 0;
+    font-size: pxToRem(18);
+    line-height: 1.5;
+    color: #abb1c7;
+  }
+
+  &__logos {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: pxToRem(50);
+    padding: pxToRem(11) pxToRem(22);
+    border: pxToRem(1) solid rgba(255, 255, 255, 0.12);
+    margin-top: pxToRem(-1);
+
+    img {
+      height: pxToRem(27);
+      width: auto;
+      max-width: pxToRem(142);
+      object-fit: contain;
+    }
+  }
+
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: pxToRem(64);
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: pxToRem(16);
+    padding: pxToRem(40) pxToRem(24);
+    border: pxToRem(1) solid rgba(255, 255, 255, 0.12);
+    margin-top: pxToRem(-1);
+  }
+
+  &__card-logo {
+    display: block;
+    align-self: flex-start;
+    flex-shrink: 0;
+    height: pxToRem(32);
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  &__card-speaker {
+    margin: 0;
+    width: 100%;
+    font-size: pxToRem(20);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    font-weight: 600;
+    color: #abb1c7;
+  }
+
+  &__card-theme {
+    margin: 0;
+    width: 100%;
+    font-size: pxToRem(20);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    font-weight: 400;
+    color: #abb1c7;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__banner {
+      padding: pxToRem(80) pxToRem(64);
+    }
+
+    &__intro {
+      max-width: pxToRem(780);
+      margin: 0 auto pxToRem(64);
+    }
+
+    &__title {
+      font-size: pxToRem(40);
+    }
+
+    &__logos {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    &__logo {
+      width: auto;
+      margin-left: pxToRem(-1);
+    }
+
+    &__card {
+      padding: pxToRem(40) pxToRem(64);
+    }
+
+    &__card-speaker br {
+      display: none;
+    }
+
+    &__button {
+      display: flex;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}

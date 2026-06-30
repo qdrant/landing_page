@@ -1,4 +1,5 @@
-{{ with (.Site.GetPage "/vsd/vsd-header") }}
+{{ $root := .Scratch.Get "vsdContentRoot" | default "/vsd" }}
+{{ with (.Site.GetPage (printf "%s/vsd-header" $root)) }}
   <header class="site-header site-header_no-stars vsd-header">
     <div class="main-menu z-2">
       <a href="/">
