@@ -130,6 +130,7 @@ The table below lists popular choices that support flexible dimensions or binary
 
 To measure binary quantization's impact on search efficiency and accuracy, we built our experiment around [llama-embed-nemotron-8b](https://huggingface.co/nvidia/llama-embed-nemotron-8b), a 7.5-billion-parameter retrieval model from NVIDIA. It's built on Llama-3.1-8B, produces 4,096-dimensional embeddings, handles context windows of up to 32,768 tokens, and was trained for multilingual retrieval across more than 1,000 languages. Unlike the Matryoshka models, this model produces a single fixed embedding size rather than truncatable dimensions, so we hold the dimension constant at 4,096 and isolate the effect of binary quantization itself. 
 
+
 #### Dataset
 
 We encode a corpus of text passages with llama-embed-nemotron-8b and hold out a separate set of records to serve as queries. For each query, we search the corpus for its nearest neighbors. The full-precision float results act as the ground truth, and we then repeat the search with binary-quantized vectors to measure how closely the compressed search reproduces that ground truth. This setup lets us assess how binary quantization influences both search precision and efficiency on realistic, high-dimensional embeddings.
@@ -154,20 +155,17 @@ A note on evidence: the charts and numbers in this section come from a reproduci
 
 #### Rescoring
 
-![Chart showing search accuracy with rescoring enabled versus disabled, where the enabled bars are consistently higher across every configuration](/blog/openai/Rescoring_Impact.png)
+![Grouped bar chart of recall@10 with and without rescoring across six configurations. Without rescoring ranges from 0.42 to 0.70; with rescoring ranges from 0.73 to 0.97, and is higher in every case](/blog/openai/Rescoring_Impact_new.png)
 
 A few consistent patterns emerge:
 
 1. **Rescoring reliably improves accuracy**:
-   - Across every model and dimension we tested, enabling rescoring produces higher accuracy than leaving it off.
-   - The gain holds across search limits of 10, 20, 50, and 100.
+   - Across every model and dimension we tested, enabling rescoring produces higher recall@10 than leaving it off.
+   - The gain is substantial. For mxbai-embed-large-v1 at 1,024 dimensions, recall@10 rises from 0.70 to 0.97, and for nomic-embed-text-v1.5 at 768 dimensions it rises from 0.61 to 0.91.
 
 2. **The effect is strongest where the binary search loses the most**:
-   - Lower effective dimensions lose more information to quantization, so rescoring has more ground to recover, and its impact is largest there.
+   - Lower effective dimensions lose more information to quantization, so rescoring has more ground to recover, and its impact is largest there. At 256 dimensions, rescoring lifts mxbai-embed-large-v1 from 0.48 to 0.80.
    - At high dimensions, the binary search already tracks the float ranking closely, so rescoring closes a smaller, but still meaningful, gap.
-
-3. **Search limit has little effect on the pattern**:
-   - The improvement from rescoring stays stable across search limits, so it helps regardless of how many results you return.
 
 For a high-dimensional model like llama-embed-nemotron-8b at 4,096 dimensions, the binary sign pattern preserves most of the geometry, so we expect it to sit at the strong end of this range once rescoring is enabled. In short, rescoring is a crucial feature for applications where precision matters, such as semantic search, content discovery, and recommendation systems, where result quality directly shapes the user experience.
 
@@ -225,7 +223,7 @@ In binary quantization, oversampling means retrieving more binary candidates tha
 
 The trade-off is computational. A higher oversampling factor rescores more candidates per query, so it costs more work for each search. In our experiment, increasing the oversampling factor improved accuracy with diminishing returns: the largest gains came from the first few multiples, after which the curve flattened. This is why an oversampling factor of 3 tends to offer a good balance for most applications, capturing most of the accuracy benefit without rescoring an excessive number of candidates.
 
-![Chart measuring how search accuracy improves as the oversampling factor increases, with gains leveling off at higher factors](/blog/openai/Oversampling_Impact.png)
+![Line chart of recall@10 versus oversampling factor from 1 to 4 with rescoring enabled. Every model and dimension rises steeply from factor 1 to 2, then levels off toward factor 4](/blog/openai/Oversampling_Impact_new.png)
 
 ### Have we optimized the embeddings? Evaluating with Ranx
 
