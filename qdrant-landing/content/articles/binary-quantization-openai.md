@@ -25,7 +25,7 @@ aliases: [ /blog/binary-quantization-openai/ ]
 category: search-quality
 ---
 
-Modern text embedding models are a powerful tool for natural language processing (NLP). However, the size of these embeddings is a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of the latest text embeddings. For the latest state-of-art embedding models you can check the [MTEB benchmark](https://huggingface.co/spaces/mteb/leaderboard)
+Modern text embedding models are a powerful tool for natural language processing (NLP). However, the size of these embeddings is a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of the latest text embeddings. 
 
 In this post, we discuss:
 
