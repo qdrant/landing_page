@@ -133,7 +133,7 @@ To measure binary quantization's impact on search efficiency and accuracy, we bu
 
 #### Dataset
 
-We encode a corpus of text passages with llama-embed-nemotron-8b and hold out a separate set of records to serve as queries. For each query, we search the corpus for its nearest neighbors. The full-precision float results act as the ground truth, and we then repeat the search with binary-quantized vectors to measure how closely the compressed search reproduces that ground truth. This setup lets us assess how binary quantization influences both search precision and efficiency on realistic, high-dimensional embeddings.
+We draw our text passages from [AG News](https://huggingface.co/datasets/ag_news), a standard collection of English news articles. From it, we randomly sample 1,500 passages to form the searchable corpus and hold out a separate set of 150 records to serve as queries. We then encode both sets and, for each query, we search the corpus for its nearest neighbors. The full-precision float results act as the ground truth, and we then repeat the search with binary-quantized vectors to measure how closely the compressed search reproduces that ground truth. This setup lets us assess how binary quantization influences both search precision and efficiency on realistic, high-dimensional embeddings.
 
 #### Parameters: oversampling and rescoring
 
