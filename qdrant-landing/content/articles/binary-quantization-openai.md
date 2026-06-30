@@ -128,9 +128,7 @@ The table below lists popular choices that support flexible dimensions or binary
 
 ### Experiment setup: llama-embed-nemotron-8b in focus
 
-To measure binary quantization's impact on search efficiency and accuracy, we built our experiment around [llama-embed-nemotron-8b](https://huggingface.co/nvidia/llama-embed-nemotron-8b), a 7.5-billion-parameter retrieval model from NVIDIA. It's built on Llama-3.1-8B, produces 4,096-dimensional embeddings, handles context windows of up to 32,768 tokens, and was trained for multilingual retrieval across more than 1,000 languages. That makes it a strong, modern stand-in for the kind of high-capacity model teams reach for today.
-
-We chose a high-dimensional model on purpose. Binary quantization shines when each vector carries many dimensions, because every dimension collapses to a single bit and the sign pattern still preserves most of the geometry. With 4,096 dimensions per vector, llama-embed-nemotron-8b is a demanding, realistic test of how much accuracy survives that compression. Unlike the Matryoshka models discussed before, this model produces a single fixed embedding size rather than truncatable dimensions, so we hold the dimension constant at 4,096 and isolate the effect of binary quantization itself. One practical note: llama-embed-nemotron-8b is released under a research, non-commercial license, so confirm the terms before using it in production.
+To measure binary quantization's impact on search efficiency and accuracy, we built our experiment around [llama-embed-nemotron-8b](https://huggingface.co/nvidia/llama-embed-nemotron-8b), a 7.5-billion-parameter retrieval model from NVIDIA. It's built on Llama-3.1-8B, produces 4,096-dimensional embeddings, handles context windows of up to 32,768 tokens, and was trained for multilingual retrieval across more than 1,000 languages. Unlike the Matryoshka models, this model produces a single fixed embedding size rather than truncatable dimensions, so we hold the dimension constant at 4,096 and isolate the effect of binary quantization itself. 
 
 #### Dataset
 
