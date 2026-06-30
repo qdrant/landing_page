@@ -157,57 +157,76 @@ A few consistent patterns emerge:
 
 1. **Rescoring reliably improves accuracy**:
    - Across every model and dimension we tested, enabling rescoring produces higher recall@10 than leaving it off.
-   - The gain is substantial. For mxbai-embed-large-v1 at 1,024 dimensions, recall@10 rises from 0.70 to 0.97, and for nomic-embed-text-v1.5 at 768 dimensions it rises from 0.61 to 0.91.
+   - The gain is substantial. For `mxbai-embed-large-v1` at 1,024 dimensions, recall@10 rises from 0.70 to 0.97, and for `nomic-embed-text-v1.5` at 768 dimensions it rises from 0.61 to 0.91.
 
-2. **The effect is strongest where the binary search loses the most**:
-   - Lower effective dimensions lose more information to quantization, so rescoring has more ground to recover, and its impact is largest there. At 256 dimensions, rescoring lifts mxbai-embed-large-v1 from 0.48 to 0.80.
+2. **Model and Dimension Specific Observations**:
+   - Lower effective dimensions lose more information to quantization, so rescoring has more ground to recover, and its impact is largest there. At 256 dimensions, rescoring lifts `mxbai-embed-large-v1` from 0.48 to 0.80.
    - At high dimensions, the binary search already tracks the float ranking closely, so rescoring closes a smaller, but still meaningful, gap.
 
-For a high-dimensional model like llama-embed-nemotron-8b at 4,096 dimensions, the binary sign pattern preserves most of the geometry, so we expect it to sit at the strong end of this range once rescoring is enabled. In short, rescoring is a crucial feature for applications where precision matters, such as semantic search, content discovery, and recommendation systems, where result quality directly shapes the user experience.
+For a high-dimensional model like `llama-embed-nemotron-8b` at 4,096 dimensions, the binary sign pattern preserves most of the geometry, so we expect it to sit at the strong end of this range once rescoring is enabled. In short, rescoring is a crucial feature for applications where precision matters, such as semantic search, content discovery, and recommendation systems, where result quality directly shapes the user experience.
 
-### Configuration combinations
+### Model and dataset combinations
 
-Unlike Matryoshka models, llama-embed-nemotron-8b produces a single fixed embedding size of 4,096 dimensions, so there's no dimension to sweep. Instead, the configuration that matters for binary quantization is how you retrieve and refine candidates. Two settings drive the trade-off between accuracy and resource use:
+To check that binary quantization holds up beyond a single model and a single corpus, we tested it across a grid of combinations. Each combination varies by three attributes:
 
-1. **Oversampling factor**: How many binary candidates to retrieve before rescoring, expressed as a multiple of the final result count. Higher factors recover more accuracy at the cost of more rescoring work.
+1. **Model**: The embedding model that produces the vectors. We tested `mxbai-embed-large-v1` and `nomic-embed-text-v1.5`, two strong open-source models that fit in this machine's memory. The high-capacity `llama-embed-nemotron-8b` is the target we reason toward, but at 7.5 billion parameters it cannot be encoded on a 16 GB machine, so it is not measured here.
 
-2. **Rescoring**: Whether to reorder the binary candidates with the original float vectors. Rescoring adds a small amount of work but consistently improves accuracy.
+2. **Dimensions**: The size of the vector embeddings. Both models are Matryoshka-trained, so we truncate each to several sizes. Higher dimensions tend to preserve more accuracy, at the cost of more storage and search time.
 
-Testing across these settings lets you find the configuration that best meets your needs, balancing search accuracy against computational resources.
+3. **Dataset**: The text corpus. We used [AG News](https://huggingface.co/datasets/fancyzhx/ag_news), a collection of English news articles, and [DBpedia](https://huggingface.co/datasets/fancyzhx/dbpedia_14), a set of longer encyclopedia abstracts. Testing two domains shows whether the patterns depend on the corpus.
+
+Testing across these combinations lets you identify the configuration that best meets your needs, weighing search accuracy against computational resources.
 
 ```python
-configuration_combinations = [
-    {"oversampling": 1, "rescore": False},
-    {"oversampling": 1, "rescore": True},
-    {"oversampling": 2, "rescore": True},
-    {"oversampling": 3, "rescore": True},
-    {"oversampling": 4, "rescore": True},
+combinations = [
+    {"model_name": "mixedbread-ai/mxbai-embed-large-v1", "dimensions": 1024},
+    {"model_name": "mixedbread-ai/mxbai-embed-large-v1", "dimensions": 512},
+    {"model_name": "mixedbread-ai/mxbai-embed-large-v1", "dimensions": 256},
+    {"model_name": "nomic-ai/nomic-embed-text-v1.5", "dimensions": 768},
+    {"model_name": "nomic-ai/nomic-embed-text-v1.5", "dimensions": 512},
+    {"model_name": "nomic-ai/nomic-embed-text-v1.5", "dimensions": 256},
 ]
+datasets = ["ag_news", "dbpedia"]
 ```
 
-#### Exploring configurations and their impact on accuracy
+#### Exploring combinations and their impact on accuracy
 
-For each configuration, characterized by its oversampling factor and rescoring flag, we load the corresponding results. These results, stored in JSON format, include the recall@10 under each setting. We then group the results by oversampling and rescore presence, and compute the mean recall@10 for each subgroup. Finally, the values are organized into a pivot table, indexed by the oversampling factor, with columns for rescoring on and off.
+For each combination, characterized by its model, dimensions, and dataset, we load the corresponding results. These results, stored in JSON format, include the recall@10 under each setting. We then group the results by oversampling and rescore presence, and compute the mean recall@10 for each subgroup. Finally, the values are organized into a pivot table, indexed by the oversampling factor, with columns for rescoring on and off.
 
 ```python
 import pandas as pd
 
-results = pd.read_json("../results/results-mxbai-embed-large-v1-1024.json", lines=True)
-average_accuracy = results.groupby(["oversampling", "rescore"])["recall_at_10"].mean()
-average_accuracy = average_accuracy.reset_index()
-acc = average_accuracy.pivot(
-    index="oversampling", columns="rescore", values="recall_at_10"
-)
-print(acc)
+for combination in combinations:
+    model_name = combination["model_name"].split("/")[-1]
+    dimensions = combination["dimensions"]
+    for dataset in datasets:
+        print(f"Model: {model_name}, dimensions: {dimensions}, dataset: {dataset}")
+        results = pd.read_json(
+            f"../results/results-{model_name}-{dimensions}-{dataset}.json", lines=True
+        )
+        average_accuracy = results.groupby(["oversampling", "rescore"])[
+            "recall_at_10"
+        ].mean()
+        average_accuracy = average_accuracy.reset_index()
+        acc = average_accuracy.pivot(
+            index="oversampling", columns="rescore", values="recall_at_10"
+        )
+        print(acc)
 ```
 
-The following table shows the real measured results from our reproducible experiment, reporting the best recall@10 achieved with rescoring enabled across oversampling factors of 1 to 4. These are the models that fit in this machine's memory and stand in for the higher-capacity llama-embed-nemotron-8b, which is expected to land at the strong end of this range thanks to its 4,096 dimensions:
+The following table shows the real measured results from our reproducible experiment, reporting the best recall@10 achieved with rescoring enabled across oversampling factors of 1 to 4. These open models stand in for the higher-capacity llama-embed-nemotron-8b, which is expected to land at the strong end of this range thanks to its 4,096 dimensions:
 
 |Model|Dimensions|Test Dataset|Best Recall@10|
 |-|-|-|-|
-|[mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)|1024|[AG News](https://huggingface.co/datasets/ag_news)|0.9707|
-|[nomic-embed-text-v1.5](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5)|768|[AG News](https://huggingface.co/datasets/ag_news)|0.9067|
-|[mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)|512|[AG News](https://huggingface.co/datasets/ag_news)|0.8973|
+|[mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)|1024|[AG News](https://huggingface.co/datasets/fancyzhx/ag_news)|0.9707|
+|[mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)|1024|[DBpedia](https://huggingface.co/datasets/fancyzhx/dbpedia_14)|0.9440|
+|[nomic-embed-text-v1.5](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5)|768|[AG News](https://huggingface.co/datasets/fancyzhx/ag_news)|0.9067|
+|[nomic-embed-text-v1.5](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5)|768|[DBpedia](https://huggingface.co/datasets/fancyzhx/dbpedia_14)|0.8847|
+|[mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)|512|[AG News](https://huggingface.co/datasets/fancyzhx/ag_news)|0.8973|
+|[nomic-embed-text-v1.5](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5)|512|[DBpedia](https://huggingface.co/datasets/fancyzhx/dbpedia_14)|0.8253|
+
+Two patterns stand out. First, the result holds across both datasets: at each model's native dimension, recall@10 with rescoring stays above 0.88 on both AG News and DBpedia, so the accuracy is a property of binary quantization itself, not of one specific corpus. Second, dimension drives the outcome more than the choice of model or dataset. Both models lose accuracy as they're truncated toward 256 dimensions, which reinforces the guidance to use the highest dimension available, exactly where a fixed 4,096-dimension model like llama-embed-nemotron-8b is positioned to do well.
+
 
 #### Impact of oversampling
 
