@@ -3,14 +3,14 @@ title: "Optimizing Text Embeddings: Enhance Efficiency with Qdrant's Binary Quan
 draft: false
 slug: binary-quantization-openai
 short_description: Use Qdrant's Binary Quantization to enhance modern text embeddings
-description: Explore how Qdrant's Binary Quantization can significantly improve the efficiency and performance of modern text embedding models, from OpenAI text-embedding-3 to open-source options like mixedbread and Nomic. Learn best practices for real-time search applications.
+description: Explore how Qdrant's Binary Quantization can significantly improve the efficiency and performance of modern text embedding models. Learn best practices for real-time search applications.
 preview_dir: /articles_data/binary-quantization-openai/preview
 preview_image: /articles-data/binary-quantization-openai/Article-Image.png
 small_preview_image: /articles_data/binary-quantization-openai/icon.svg
 social_preview_image: /articles_data/binary-quantization-openai/preview/social-preview.png
 title_preview_image: /articles_data/binary-quantization-openai/preview/preview.webp
 
-date: 2024-02-21T13:12:08-08:00
+date: 2026-06-30T13:12:08-08:00
 author: Nirant Kasliwal
 author_link: https://nirantk.com/about/
 
@@ -19,25 +19,23 @@ tags:
   - text embeddings
   - embedding models
   - binary quantization
-  - OpenAI
 weight: 40
 
 aliases: [ /blog/binary-quantization-openai/ ]
 category: search-quality
 ---
 
-Modern text embedding models are a powerful tool for natural language processing (NLP). However, the size of these embeddings is a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of text embeddings, from OpenAI's text-embedding-3 models to open-source options like mixedbread and Nomic.
+Modern text embedding models are a powerful tool for natural language processing (NLP). However, the size of these embeddings is a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of the latest text embeddings. For the latest state-of-art embedding models you can check the [MTEB benchmark](https://huggingface.co/spaces/mteb/leaderboard)
 
 In this post, we discuss:
 
-- The latest text embedding models and the real-world challenges of their size
+- The latest text embedding models and the real-world challenges
 - When to use embedding benchmarks such as MTEB and MIRACL
 - Qdrant's Binary Quantization, and how it can improve the performance of text embeddings
 - Results of an experiment that highlights improvements in search efficiency and accuracy
 - Implications of these findings for real-world applications
 - How to validate the optimization with the Ranx evaluation library
-- How Binary Quantization compares to scalar and product quantization
-- Best practices for leveraging Binary Quantization to enhance OpenAI embeddings
+- Best practices for leveraging Binary Quantization to enhance text embeddings
 
 If you're new to Binary Quantization, consider reading our article which walks you through the concept and [how to use it with Qdrant](/articles/binary-quantization/)
 
@@ -302,7 +300,7 @@ For the full configuration details on each method, see the [quantization documen
 
 ## What's next?
 
-Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. You can try this feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
+Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. If you would like to learn about other quantization methods check the article about [scalar quantization](https://qdrant.tech/articles/scalar-quantization/) and [product quantization](https://qdrant.tech/articles/product-quantization/). You can try binary quantization feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
 
 The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding large datasets to Qdrant](/documentation/tutorials-develop/bulk-upload/) to your Qdrant instance as well as [more quantization methods](/documentation/manage-data/quantization/). 
 
