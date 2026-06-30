@@ -56,6 +56,45 @@ These leaders are large, high-accuracy models that produce high-dimensional vect
 
 ## Enhanced performance and efficiency with binary quantization
 
+#### How binary quantization works
+
+Suppose your embedding looks like this:
+
+```
+[0.24, -0.91, 1.32, -0.02, 0.67, ...]
+```
+
+Every value is normally stored as a 32-bit floating-point number. For a 3072-dimensional embedding, that adds up quickly:
+
+```
+3072 values × 32 bits
+≈ 98,304 bits
+≈ 12 KB
+```
+
+Now imagine you have 100 million documents:
+
+```
+12 KB × 100,000,000
+≈ 1.2 TB
+```
+
+That's just the vectors, not the index or metadata. At this scale, memory becomes one of your biggest infrastructure costs.
+
+Binary quantization tackles this by replacing each floating-point value with a single bit: positive values become `1`, and negative values become `0`. So instead of storing:
+
+```
+[0.24, -0.91, 1.32, -0.02]
+```
+
+you store:
+
+```
+[1, 0, 1, 0]
+```
+
+Each dimension now costs 1 bit instead of 32 bits, which gives roughly a 32x reduction in storage for the quantized representation.
+
 By reducing storage needs, you can scale applications with lower costs. This addresses a critical challenge posed by the original embedding sizes. Binary Quantization also speeds the search process. It simplifies the complex distance calculations between vectors into more manageable bitwise operations, which supports potentially real-time searches across vast datasets. 
 
 The accompanying graph illustrates the promising accuracy levels achievable with binary quantization across different model sizes, showcasing its practicality without severely compromising on performance. This dual advantage of storage reduction and accelerated search capabilities underscores the transformative potential of Binary Quantization in deploying text embeddings more effectively across various real-world applications.
