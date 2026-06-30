@@ -56,7 +56,7 @@ These leaders are large, high-accuracy models that produce high-dimensional vect
 
 ## Enhanced performance and efficiency with binary quantization
 
-#### How binary quantization works
+### How binary quantization works
 
 Suppose your embedding looks like this:
 
