@@ -95,8 +95,6 @@ you store:
 
 Each dimension now costs 1 bit instead of 32 bits, which gives roughly a 32x reduction in storage for the quantized representation.
 
-By reducing storage needs, you can scale applications with lower costs. This addresses a critical challenge posed by the original embedding sizes. Binary Quantization also speeds the search process. It simplifies the complex distance calculations between vectors into more manageable bitwise operations, which supports potentially real-time searches across vast datasets. 
-
 The accompanying chart shows the best accuracy achieved with binary quantization across two Matryoshka-trained models, `mxbai-embed-large-v1` and `nomic-embed-text-v1.5`, measured as recall@10 against full-precision search. At each model's native dimension, binary quantization preserves search quality remarkably well: `mxbai-embed-large-v1` holds 0.9713 at 1024 dimensions, and `nomic-embed-text-v1.5` holds 0.9060 at 768 dimensions. Accuracy declines as the vectors are truncated more aggressively, falling to roughly 0.80 and 0.73 at 256 dimensions, which tells you where the storage-versus-precision trade-off starts to bite. 
 
 One caveat about scope: the largest models such as `harrier-oss-v1` at 27B parameters or `llama-embed-nemotron` at 8B, need far more memory than was available, so they aren't plotted here. 
