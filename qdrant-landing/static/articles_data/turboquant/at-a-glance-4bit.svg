@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" role="img" aria-label="Recall — float32 baseline vs SQ (4×) vs TurboQuant 4-bit (8×)">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="380.0" y="30" text-anchor="middle" font-size="16" font-weight="600" fill="#0F172A">Recall — float32 baseline vs SQ (4×) vs TurboQuant 4-bit (8×)</text>
+<line x1="56" y1="342.0" x2="736" y2="342.0" stroke="#E2E8F0" stroke-width="1"/>
+<text x="48" y="346.0" text-anchor="end" fill="#64748B">0.0</text>
+<line x1="56" y1="287.6" x2="736" y2="287.6" stroke="#E2E8F0" stroke-width="1"/>
+<text x="48" y="291.6" text-anchor="end" fill="#64748B">0.2</text>
+<line x1="56" y1="233.2" x2="736" y2="233.2" stroke="#E2E8F0" stroke-width="1"/>
+<text x="48" y="237.2" text-anchor="end" fill="#64748B">0.4</text>
+<line x1="56" y1="178.8" x2="736" y2="178.8" stroke="#E2E8F0" stroke-width="1"/>
+<text x="48" y="182.8" text-anchor="end" fill="#64748B">0.6</text>
+<line x1="56" y1="124.4" x2="736" y2="124.4" stroke="#E2E8F0" stroke-width="1"/>
+<text x="48" y="128.4" text-anchor="end" fill="#64748B">0.8</text>
+<line x1="56" y1="70.0" x2="736" y2="70.0" stroke="#E2E8F0" stroke-width="1"/>
+<text x="48" y="74.0" text-anchor="end" fill="#64748B">1.0</text>
+<line x1="56" y1="342" x2="736" y2="342" stroke="#0F172A" stroke-width="1.2"/>
+<rect x="74.0" y="85.8" width="40.7" height="256.2" fill="#1E293B" rx="2"/>
+<text x="94.3" y="81.8" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.942</text>
+<rect x="120.7" y="89.4" width="40.7" height="252.6" fill="#4F46E5" rx="2"/>
+<text x="141.0" y="85.4" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.928</text>
+<rect x="167.3" y="92.0" width="40.7" height="250.0" fill="#DC244C" rx="2"/>
+<text x="187.7" y="88.0" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.919</text>
+<text x="141.0" y="360.0" text-anchor="middle" font-size="12" fill="#334155">arxiv-instructorxl-768</text>
+<rect x="244.0" y="92.7" width="40.7" height="249.3" fill="#1E293B" rx="2"/>
+<text x="264.3" y="88.7" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.917</text>
+<rect x="290.7" y="93.6" width="40.7" height="248.4" fill="#4F46E5" rx="2"/>
+<text x="311.0" y="89.6" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.913</text>
+<rect x="337.3" y="96.7" width="40.7" height="245.3" fill="#DC244C" rx="2"/>
+<text x="357.7" y="92.7" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.902</text>
+<text x="311.0" y="360.0" text-anchor="middle" font-size="12" fill="#334155">dbpedia-gemini</text>
+<rect x="414.0" y="80.2" width="40.7" height="261.8" fill="#1E293B" rx="2"/>
+<text x="434.3" y="76.2" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.963</text>
+<rect x="460.7" y="101.6" width="40.7" height="240.4" fill="#4F46E5" rx="2"/>
+<text x="481.0" y="97.6" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.884</text>
+<rect x="507.3" y="89.1" width="40.7" height="252.9" fill="#DC244C" rx="2"/>
+<text x="527.7" y="85.1" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.930</text>
+<text x="481.0" y="360.0" text-anchor="middle" font-size="12" fill="#334155">dbpedia-openai-ada</text>
+<rect x="584.0" y="85.1" width="40.7" height="256.9" fill="#1E293B" rx="2"/>
+<text x="604.3" y="81.1" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.945</text>
+<rect x="630.7" y="96.8" width="40.7" height="245.2" fill="#4F46E5" rx="2"/>
+<text x="651.0" y="92.8" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.901</text>
+<rect x="677.3" y="89.8" width="40.7" height="252.2" fill="#DC244C" rx="2"/>
+<text x="697.7" y="85.8" text-anchor="middle" font-size="11" fill="#0F172A" font-weight="500">0.927</text>
+<text x="651.0" y="360.0" text-anchor="middle" font-size="12" fill="#334155">wiki-cohere-v3-1024</text>
+<rect x="231.5" y="380.0" width="12" height="12" fill="#1E293B" rx="2"/>
+<text x="251.5" y="390.0" fill="#0F172A">float32</text>
+<rect x="324.5" y="380.0" width="12" height="12" fill="#4F46E5" rx="2"/>
+<text x="344.5" y="390.0" fill="#0F172A">SQ — 4×</text>
+<rect x="417.5" y="380.0" width="12" height="12" fill="#DC244C" rx="2"/>
+<text x="437.5" y="390.0" fill="#0F172A">TQ 4-bit — 8×</text>
+</svg>

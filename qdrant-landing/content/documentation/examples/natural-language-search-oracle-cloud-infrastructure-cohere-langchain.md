@@ -1,5 +1,7 @@
 ---
 title: RAG System for Employee Onboarding
+short_description: "Build an employee onboarding RAG assistant on Oracle Cloud using Qdrant Hybrid Cloud, Cohere, and LangChain for natural-language access to internal docs."
+description: "Build a private onboarding RAG system on Oracle Cloud with Qdrant Hybrid Cloud, Cohere, and LangChain for natural-language search over internal documents."
 weight: 55
 social_preview_image: /blog/hybrid-cloud-oracle-cloud-infrastructure/hybrid-cloud-oracle-cloud-infrastructure-tutorial.png
 aliases:

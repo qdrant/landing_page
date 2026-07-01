@@ -4,9 +4,21 @@
       <div class="customers__grid">
         {{ range .Params.logoRows }}
           {{ range .logos }}
-            <div class="customers__logo">
-              {{ partial "svg.html" (dict "icon" .src "path" "static" "fill" "#B4BACC") }}
-            </div>
+            {{ if .link }}
+              <a href="{{ .link }}" class="customers__logo">
+                {{ partial "svg.html" (dict "icon" .src "path" "static" "fill" "#B4BACC") }}
+                <div class="customers__logo-link">
+                  READ CASE STUDY
+                  <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                    <path d="M1.6665 3.99996H6.33317M3.99984 6.33329L6.33317 3.99996L3.99984 1.66663" stroke="#F0F3FA" stroke-width="0.666667" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </a>
+            {{ else }}
+              <div class="customers__logo">
+                {{ partial "svg.html" (dict "icon" .src "path" "static" "fill" "#B4BACC") }}
+              </div>
+            {{ end }}
           {{ end }}
         {{ end }}
       </div>

@@ -1,0 +1,1 @@
+Populate both collections for the `with_lookup` pattern. The `documents` collection holds one point per document with payload only. Each chunk in `chunks` carries a `document_id` payload value that matches the id of a point in `documents`.

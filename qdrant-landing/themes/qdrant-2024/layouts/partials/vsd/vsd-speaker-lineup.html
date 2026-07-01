@@ -1,0 +1,36 @@
+{{ with (.Site.GetPage "/vsd/vsd-speaker-lineup") }}
+  <section class="vsd-speaker-lineup" id="speakers">
+    <div class="container">
+      <div class="vsd-speaker-lineup__banner">
+        <div class="vsd-speaker-lineup__banner-container">
+          <h2 class="vsd-speaker-lineup__title">{{ .Params.title }}</h2>
+          <p class="vsd-speaker-lineup__description">{{ .Params.description | safeHTML }}</p>
+          <div class="vsd-speaker-lineup__logos">
+            {{ range .Params.logos }}
+              <div class="vsd-speaker-lineup__logo">
+                <img src="{{ .src }}" alt="{{ .alt }}">
+              </div>
+            {{ end }}
+          </div>
+          {{ with .Params.speakers }}
+            <ul class="vsd-speaker-lineup__speakers">
+              {{ range . }}
+                <li class="vsd-speaker-lineup__speaker">
+                  <span class="vsd-speaker-lineup__speaker-company">{{ .company }}</span>
+                  <span class="vsd-speaker-lineup__speaker-name">{{ .speaker | safeHTML }}</span>
+                  <span class="vsd-speaker-lineup__speaker-theme">{{ .theme }}</span>
+                </li>
+              {{ end }}
+            </ul>
+          {{ end }}
+          <a href="{{ .Params.button.url }}" class="button button_contained button_lg vsd-speaker-lineup__button"{{ if strings.HasPrefix .Params.button.url "http" }} target="_blank" rel="noopener noreferrer"{{ end }}>
+            {{ .Params.button.text }}
+          </a>
+          {{ with .Params.button.disclaimer }}
+            <p class="vsd-speaker-lineup__disclaimer">{{ . }}</p>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

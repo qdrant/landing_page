@@ -1,5 +1,7 @@
 ---
 title: Haystack
+short_description: "Build generative AI, QA, and semantic search systems in Haystack with the Qdrant document store, including support for quantization and advanced indexing."
+description: "Use the Qdrant document store with Haystack to build generative AI, QA, and semantic search pipelines with full control over collection and quantization options."
 aliases:
   - ../integrations/haystack/
   - /documentation/overview/integrations/haystack/
@@ -21,11 +23,11 @@ pip install qdrant-haystack
 
 `QdrantDocumentStore` supports [all the configuration properties](/documentation/manage-data/collections/#create-collection) available in
 the Qdrant Python client. If you want to customize the default configuration of the collection used under the hood, you can
-provide that settings when you create an instance of the `QdrantDocumentStore`. For example, if you'd like to enable the
+provide these settings when you create an instance of the `QdrantDocumentStore`. For example, if you'd like to enable the
 Scalar Quantization, you'd make that in the following way:
 
 ```python
-from qdrant_haystack.document_stores import QdrantDocumentStore
+from haystack_integrations.document_stores.qdrant import QdrantDocumentStore
 from qdrant_client import models
 
 document_store = QdrantDocumentStore(

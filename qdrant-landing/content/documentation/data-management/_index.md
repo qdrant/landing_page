@@ -1,5 +1,7 @@
 ---
 title: Data Management
+short_description: "Connect Qdrant to data integration, ETL, and streaming tools to ingest, transform, and sync vectors at scale."
+description: "Integrate Qdrant with data pipelines, streaming platforms, and chunking libraries to load and keep vector collections in sync with your source systems."
 weight: 600
 partition: ecosystem
 ---

@@ -1,5 +1,7 @@
 ---
 title: Self-Hosted Prometheus Monitoring
+short_description: "Monitor Qdrant Hybrid Cloud and Private Cloud deployments by deploying Prometheus and Grafana into your Kubernetes cluster."
+description: "Set up Prometheus and Grafana in Kubernetes to scrape metrics from Qdrant Hybrid Cloud and Private Cloud databases for end-to-end observability."
 weight: 15
 aliases:
   - /documentation/ops-monitoring/hybrid-cloud-prometheus
@@ -45,7 +47,7 @@ metadata:
 spec:
   endpoints:
   - honorLabels: true
-    interval: 30s
+    interval: 60s
     port: metrics
     scheme: http
     scrapeTimeout: 55s
@@ -68,7 +70,7 @@ metadata:
 spec:
   endpoints:
   - honorLabels: true
-    interval: 30s
+    interval: 60s
     port: metrics
     scheme: http
     scrapeTimeout: 55s

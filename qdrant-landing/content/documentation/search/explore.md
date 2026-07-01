@@ -1,5 +1,7 @@
 ---
 title: Explore
+short_description: "Explore Qdrant data beyond similarity search with recommendation, discovery, and dissimilar-vector search APIs."
+description: "Use Qdrant's exploration APIs for recommendation, discovery, and dissimilar-vector search to power data discovery, cleaning, and personalized retrieval."
 weight: 20
 aliases:
   - ../explore

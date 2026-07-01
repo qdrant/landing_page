@@ -1,5 +1,7 @@
 ---
 title: Storage
+short_description: "Tune how Qdrant stores vectors and payloads across segments, with options for in-memory, mmap, and on-disk storage."
+description: "Configure Qdrant storage across segments, balancing in-memory, memory-mapped, and on-disk options for vectors and payloads to fit cost and latency goals."
 weight: 25
 aliases:
   - ../storage
@@ -29,13 +31,13 @@ The choice has to be made between the search speed and the size of the RAM used.
 **In-memory storage** - Stores all vectors in RAM, has the highest speed since disk access is required only for persistence.
 
 **Memmap storage** - Creates a virtual address space associated with the file on disk. [Wiki](https://en.wikipedia.org/wiki/Memory-mapped_file).
-Mmapped files are not directly loaded into RAM. Instead, they use page cache to access the contents of the file.
+Memmapped files are not directly loaded into RAM. Instead, they use page cache to access the contents of the file.
 This scheme allows flexible use of available memory. With sufficient RAM, it is almost as fast as in-memory storage.
 
 
 ### Configuring Memmap storage
 
-There are two ways to configure the usage of memmap(also known as on-disk) storage:
+There are two ways to configure the usage of memmap (also known as on-disk) storage:
 
 - Set up `on_disk` option for the vectors in the collection create API:
 
@@ -75,7 +77,7 @@ The payload data is loaded into RAM at service startup while disk and [Gridstore
 This type of storage works quite fast, but it may require a lot of space to keep all the data in RAM, especially if the payload has large values attached - abstracts of text or even images.
 
 In the case of large payload values, it might be better to use OnDisk payload storage.
-This type of storage will read and write payload directly to RocksDB, so it won't require any significant amount of RAM to store.
+This type of storage will read and write payload directly to Gridstore, so it won't require any significant amount of RAM to store.
 The downside, however, is the access latency.
 If you need to query vectors with some payload-based conditions - checking values stored on disk might take too much time.
 In this scenario, we recommend creating a payload index for each field used in filtering conditions to avoid disk access.

@@ -1,5 +1,7 @@
 ---
 title: Power Apps
+short_description: "Use the Qdrant connector in Microsoft Power Apps to add vector search to custom business apps and Power Platform automation flows."
+description: "Connect Qdrant to Microsoft Power Apps with the official connector, adding vector search to custom business applications and Power Platform flows."
 ---
 
 # Power Apps

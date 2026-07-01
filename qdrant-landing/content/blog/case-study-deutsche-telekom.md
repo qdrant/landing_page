@@ -86,7 +86,7 @@ Deutsche Telekom's engineers also cited several standout features that made Qdra
 
 As part of their evaluation, Deutsche Telekom engineers compared multiple solutions, weighing operational simplicity and reliability. 
 
-One engineer summarized their findings: "Qdrant has way fewer components, compared to the another that required required Kafka, Zookeeper, and only had a hot standby for its index and query nodes. If you rescale it, you get downtime. Qdrant stays up." 
+One engineer summarized their findings: "Qdrant has way fewer components, compared to the other solution that required Kafka, Zookeeper, and only had a hot standby for its index and query nodes. If you rescale it, you get downtime. Qdrant stays up." 
 
 ### Scaling AI at Deutsche Telekom & The Future of LMOS
 

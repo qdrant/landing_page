@@ -1,0 +1,173 @@
+@use '../../helpers/functions' as *;
+
+.vsd-speaker-lineup {
+  padding-top: pxToRem(30);
+  padding-bottom: pxToRem(30);
+  background-color: $neutral-94;
+  
+  &__banner {
+    padding: pxToRem(30) pxToRem(20);
+    border-radius: $spacer;
+    background-color: #0B0F19;
+    position: relative;
+    overflow: hidden;
+    
+    &-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: pxToRem(30);
+      max-width: pxToRem(780);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 98%;
+      background-image: url('/img/blurred/blurred-light-30.svg');
+      background-position: bottom;
+      background-size: cover;
+    }
+  }
+
+  &__title {
+    margin-bottom: 0;
+    font-size: $h5-font-size;
+    line-height: pxToRem(42);
+    text-align: center;
+    color: $neutral-98;
+  }
+
+  &__description {
+    margin-bottom: 0;
+    font-size: pxToRem(15);
+    line-height: $spacer * 1.5;
+    text-align: center;
+    color: #ABB1C7;
+  }
+  
+  &__logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: pxToRem(16);
+  }
+
+  &__logo {
+    padding: pxToRem(11) pxToRem(22);
+    border: pxToRem(1) solid #303547;
+    margin-top: pxToRem(-1);
+    margin-left: pxToRem(-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    img {
+      height: pxToRem(27);
+    }
+  }
+
+  &__speakers {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    gap: pxToRem(24);
+    text-align: left;
+  }
+
+  &__speaker {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(6);
+    padding-bottom: pxToRem(24);
+    border-bottom: pxToRem(1) solid #303547;
+
+    &:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+  }
+
+  &__speaker-company,
+  &__speaker-name,
+  &__speaker-theme {
+    display: block;
+    line-height: $line-height-sm;
+  }
+
+  &__speaker-company {
+    font-size: $font-size-s;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #8B92A8;
+  }
+
+  &__speaker-name {
+    font-size: pxToRem(15);
+    font-weight: 500;
+    color: $neutral-98;
+  }
+
+  &__speaker-theme {
+    font-size: pxToRem(15);
+    color: #ABB1C7;
+  }
+
+  &__disclaimer {
+    margin: 0;
+    max-width: pxToRem(640);
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    text-align: center;
+    color: #8B92A8;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+    
+    &__banner {
+      padding: $spacer * 2.5 pxToRem(20);
+
+      &-container {
+        gap: $spacer * 2;
+      }
+    }
+
+    &__title {
+      font-size: $h4-font-size;
+      line-height: $spacer * 3;
+    }
+
+    &__description {
+      font-size: pxToRem(17);
+      line-height: $line-height-lg;
+    }
+
+    &__logos {
+      margin-bottom: pxToRem(24);
+    }
+
+    &__speaker-name,
+    &__speaker-theme {
+      font-size: pxToRem(17);
+      line-height: $line-height-lg;
+    }
+  }
+}

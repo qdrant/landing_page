@@ -1,5 +1,7 @@
 ---
 title: From OpenSearch
+short_description: "Migrate OpenSearch k-NN indexes into Qdrant collections to consolidate vector workloads on a dedicated engine."
+description: "Migrate from OpenSearch to Qdrant by streaming k-NN indexes, vectors, and document payloads into Qdrant collections with the Qdrant Migration Tool's connector."
 weight: 25
 partition: ecosystem
 ---

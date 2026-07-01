@@ -5,7 +5,7 @@ description: "Discover product quantization in vector search technology. Learn h
 social_preview_image: /articles_data/product-quantization/social_preview.png
 small_preview_image: /articles_data/product-quantization/product-quantization-icon.svg
 preview_dir: /articles_data/product-quantization/preview
-weight: 4
+weight: 80
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-05-30T09:45:00+02:00
@@ -14,7 +14,7 @@ keywords:
   - vector search
   - product quantization
   - memory optimization
-category: qdrant-internals
+category: production-ops
 aliases: [ /articles/product_quantization/ ]
 ---
 
@@ -224,7 +224,7 @@ In circumstances that do not align with the above, Scalar Quantization should be
 ## Using Qdrant for Product Quantization
 
 
-If you’re already a Qdrant user, we have, documentation on [Product Quantization](/documentation/manage-data/quantization/#setting-up-product-quantization) that will help you to set and configure the new quantization for your data and achieve even 
+If you’re already a Qdrant user, our documentation on [Product Quantization](/documentation/manage-data/quantization/#setting-up-product-quantization) will help you set and configure the new quantization for your data and achieve even 
 up to 64x memory reduction.
 
 Ready to experience the power of Product Quantization? [Sign up now](https://cloud.qdrant.io/signup) for a free Qdrant demo and optimize your data management today!

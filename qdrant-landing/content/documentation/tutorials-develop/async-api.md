@@ -1,5 +1,7 @@
 ---
 title: Async API
+short_description: "Build high-throughput, concurrent applications on Qdrant with the async Python client and ASGI-style web frameworks."
+description: "Tutorial: use Qdrant's async Python API with FastAPI and other ASGI frameworks to build non-blocking, high-throughput vector search applications."
 aliases:
   - /documentation/tutorials/async-api/
   - /documentation/database-tutorials/async-api/

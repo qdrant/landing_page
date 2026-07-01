@@ -1,5 +1,6 @@
 ---
 title: "Cognee"
+short_description: "Pair Qdrant's vector breadth with Cognee's graph precision to give agents semantic memory grounded in entities, relationships, and time."
 description: Cognee ships a Qdrant adapter and documents Qdrant as a preferred, built-in vector database option. That means you configure one URI and key, and Cognee's pipelines will read/write embeddings directly to Qdrant while building and querying the graph.
 ---
 

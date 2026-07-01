@@ -5,7 +5,7 @@ description: "Binary Quantization is a newly introduced mechanism of reducing th
 social_preview_image: /articles_data/binary-quantization/social_preview.png
 small_preview_image: /articles_data/binary-quantization/binary-quantization-icon.svg
 preview_dir: /articles_data/binary-quantization/preview
-weight: -40
+weight: 70
 author: Nirant Kasliwal
 author_link: https://nirantk.com/about/ 
 date: 2023-09-18T13:00:00+03:00
@@ -14,7 +14,7 @@ keywords:
   - vector search
   - binary quantization
   - memory optimization
-category: qdrant-internals
+category: production-ops
 ---
 
 # Optimizing High-Dimensional Vectors with Binary Quantization
@@ -181,7 +181,7 @@ If you have lower accuracy requirements you can even try doing a small oversampl
 
 We retrieved some early results on the relationship between limit and oversampling using the the DBPedia OpenAI 1M vector dataset. We ran all these experiments on a Qdrant instance where 100K vectors were indexed and used 100 random queries. 
 
-We varied the 3 parameters that will affect query time and accuracy: limit, rescore and oversampling. We offer these as an initial exploration of this new feature. You are highly encouraged to reproduce these experiments with your data sets.
+We varied the 3 parameters that will affect query time and accuracy: limit, rescore and oversampling. We offer these as an initial exploration of this new feature. You are highly encouraged to reproduce these experiments with your datasets.
 
 > Aside: Since this is a new innovation in vector databases, we are keen to hear feedback and results. [Join our Discord server](https://discord.gg/Qy6HCJK9Dc) for further discussion! 
 
@@ -231,6 +231,6 @@ If you determine that binary quantization is appropriate for your datasets and q
 
 Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. You can try this feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/signup) in our cloud hosted service. 
 
-The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding large datasets to Qdrant](/documentation/tutorials-develop/bulk-upload/) to your Qdrant instance as well as [more quantization methods](/documentation/manage-data/quantization/).
+The article gives examples of datasets and configuration you can use to get going. Our documentation covers [adding large datasets to Qdrant](/documentation/tutorials-develop/bulk-upload/) to your Qdrant instance as well as [more quantization methods](/documentation/manage-data/quantization/).
 
 If you have any feedback, drop us a note on Twitter or LinkedIn to tell us about your results. [Join our lively Discord Server](https://discord.gg/Qy6HCJK9Dc) if you want to discuss BQ with like-minded people!

@@ -1,5 +1,7 @@
 ---
 title: Cloud Quickstart
+short_description: "Spin up a free Qdrant Cloud cluster, connect with the official SDKs, and run your first semantic search in minutes."
+description: "Create a free Qdrant Cloud cluster, install the client SDK, and run your first semantic search using built-in inference for vector embeddings."
 weight: 115
 partition: develop
 aliases:
@@ -1039,3 +1041,4 @@ You've just performed semantic search on real menu item data. The query "vegetar
 - Explore [filtering](/documentation/search/filtering/) to combine semantic search with structured queries
 - Learn about [collections](/documentation/manage-data/collections/) and advanced configuration options
 - Check out more [examples and tutorials](/documentation/tutorials-lp-overview/)
+- Run through the [Production Checklist](/documentation/production-checklist/) before deploying to production

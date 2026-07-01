@@ -92,7 +92,7 @@
 
     &-title {
       font-size: map-get($font-sizes-text, 'xl');
-      line-height: pxToRem(30);
+      line-height: 1;
       margin-bottom: $spacer * 0.5;
       color: $neutral-98;
     }
@@ -145,12 +145,13 @@
 
     &-links {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      gap: $spacer * 2.5;
+      gap: $spacer $spacer * 2.5;
 
       a {
-        font-size: map-get($font-sizes-text, 's');
+        font-size: pxToRem(12);
         line-height: pxToRem(21);
         color: $neutral-70;
       }
@@ -187,6 +188,7 @@
       }
 
       &-links {
+        flex-wrap: nowrap;
         justify-content: flex-end;
       }
     }

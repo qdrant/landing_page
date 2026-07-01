@@ -61,7 +61,7 @@
     <div class="footer__middle ">
       <div class="container">
         {{ with (.Site.GetPage "/headless/newsletter") }}
-          <div class="align-items-center row">
+          <div class="align-items-top row">
             <div class="col-12 col-lg-5">
               <p class="footer__middle-title">{{ .Params.title }}</p>
               <p class="footer__middle-subtitle">{{ .Params.description }}</p>
@@ -77,7 +77,7 @@
     <div class="footer__bottom">
       <div class="container">
         <div class="row g-3">
-          <div class="col-12 col-lg-6 footer__bottom-content">
+          <div class="col-12 col-lg-5 footer__bottom-content">
             <span class="footer__bottom-copyright">&copy; {{ time.Now.Year }} {{ .Params.copyright }}</span>
             <div class="footer__bottom-bages">
               {{ range .Params.bages }}
@@ -87,12 +87,7 @@
               {{ end }}
             </div>
           </div>
-          <div class="col-12 col-lg-6 footer__bottom-links">
-            <a href="{{ .Params.termsLink.url }}">{{ .Params.termsLink.text }}</a>
-            <a href="{{ .Params.privacyLink.url }}">{{ .Params.privacyLink.text }}</a>
-            <a href="{{ .Params.impressumLink.url }}">{{ .Params.impressumLink.text }}</a>
-            <a href="#" onClick="OneTrust.ToggleInfoDisplay();return false;">Cookie Consent</a>
-          </div>
+          {{ partial "footer-bottom-links.html" (dict "footer" . "wrapperClass" "col-12 col-lg-7 footer__bottom-links") }}
         </div>
       </div>
     </div>

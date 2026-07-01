@@ -1,0 +1,206 @@
+@use '../../helpers/functions' as *;
+
+.industries-testimonials {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+
+  &__item {
+    &:not(:last-of-type) {
+      margin-bottom: $spacer * 5;
+    }
+  }
+  
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: $spacer * 10;
+    width: 100%;
+    border-radius: $spacer * 0.5;
+    border: pxToRem(1) solid $neutral-90;
+    background-color: $neutral-10;
+    background-image: url("/img/stars-pattern.png");
+    background-position: 0;
+    background-size: pxToRem(350) pxToRem(350);
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+    
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: pxToRem(-20);
+      background-image: url("/img/blurred/blurred-light-28.svg");
+      background-position: 0;
+      background-size: cover;
+      background-repeat: no-repeat;
+      width: 100%;
+      aspect-ratio: 4 / 1;
+    }
+  }
+  
+  &__card {
+    display: flex;
+    flex-direction: column-reverse;
+    padding: $spacer * 2 0;
+
+    &-review {
+      display: flex;
+      flex-direction: column;
+      padding: $spacer * 5 $spacer * 2 0;
+      
+      &-text {
+        margin-bottom: $spacer * 2;
+        font-size: $h6-font-size;
+        line-height: $spacer * 2;
+        font-weight: $font-weight-light;
+        color: $neutral-20;
+      }
+      
+      &-block {
+        display: flex;
+        gap: $spacer;
+        
+        img {
+          height: $spacer * 3;
+          width: $spacer * 3;
+        }
+      }
+      
+      &-name {
+        margin: 0;
+        color: $neutral-20;
+      }
+      
+      &-role {
+        margin: 0;
+        font-size: $font-size-s;
+        line-height: $line-height-sm;
+        color: $neutral-60;
+      }
+    }
+    
+    &-metric {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      
+      &-divider {
+        display: block;
+        width: 100%;
+        height: pxToRem(1);
+        margin: 0;
+        padding: 0;
+        background-color: $neutral-90;
+      }
+      
+      &-item {
+        padding: $spacer * 1.5 0 $spacer * 1.5 $spacer * 2;
+        
+        img {
+          height: $spacer * 2;
+          width: $spacer * 2;
+        }
+        
+        &:nth-of-type(1) {
+          padding: $spacer 0 $spacer * 1.5 $spacer * 2;
+          
+          .industries-testimonials__card-metric-count {
+            color: $secondary-blue-50;
+          }
+        }
+        
+        &:nth-of-type(2) {
+          .industries-testimonials__card-metric-count {
+            color: $secondary-teal-50;
+          }
+        }
+        
+        &:nth-of-type(3) {
+          .industries-testimonials__card-metric-count {
+            color: $secondary-violet-50;
+          }
+        }
+      }
+
+      &-count {
+        margin-bottom: 0;
+        font-weight: 500;
+      }
+
+      &-description {
+        margin-bottom: 0;
+        font-size: $font-size-l;
+        line-height: $line-height-lg;
+        font-weight: $font-weight-light;
+        color: $neutral-50;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__item {
+      &:not(:last-of-type) {
+        margin-bottom: pxToRem(30);
+      }
+    }
+
+    &__logo {
+      height: pxToRem(300);
+
+      &:after {
+        bottom: 0;
+      }
+    }
+
+    &__card {
+      height: pxToRem(300);
+      flex-direction: row;
+      padding: $spacer * 2;
+      
+      &-review {
+        justify-content: space-between;
+        padding: 0 $spacer * 0.5 0 0;
+        
+        &-text {
+          margin-bottom: $spacer * 0.2;
+        }
+      }
+
+      &-metric {
+        width: pxToRem(232);
+        justify-content: space-between;
+        flex-shrink: 0;
+        border-left: pxToRem(1) solid $neutral-90;
+
+        &-item {
+          padding: 0 0 0 $spacer * 2;
+          border-bottom: 0;
+
+          &:nth-of-type(1) {
+            padding: 0 $spacer * 0.5 0 $spacer * 2;
+          }
+          
+          &:last-of-type {
+            border-bottom: 0;
+          }
+        }
+
+        &-divider {
+          &:last-of-type {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__card {
+      padding: $spacer * 3.5;
+    }
+  }
+}

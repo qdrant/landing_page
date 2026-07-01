@@ -1,49 +1,33 @@
 ```rust
-use std::collections::HashMap;
-use std::path::Path;
-
-use qdrant_edge::EdgeShard;
-use qdrant_edge::{
-    Condition, CreateIndex, Distance, EdgeConfig, EdgeOptimizersConfig,
-    EdgeVectorParams, FacetRequest, FieldCondition, FieldIndexOperations,
-    Filter, Match, MatchValue, NamedQuery, PayloadFieldSchema,
-    PayloadSchemaType, PointId, PointInsertOperations, PointOperations,
-    PointStruct, PointStructPersisted, QueryEnum, QueryRequest, ScoringQuery,
-    UpdateOperation, ValueVariants, Vectors, WithPayloadInterface, WithVector,
-};
-use serde_json::json;
-
 const SHARD_DIRECTORY: &str = "./qdrant-edge-directory";
 
 fs_err::create_dir_all(SHARD_DIRECTORY)?;
 
+use qdrant_edge::*;
+
 const VECTOR_NAME: &str = "my-vector";
 const VECTOR_DIMENSION: usize = 4;
 
-let config = EdgeConfig {
-    on_disk_payload: true,
-    vectors: HashMap::from([(
-        VECTOR_NAME.to_string(),
-        EdgeVectorParams {
-            size: VECTOR_DIMENSION,
-            distance: Distance::Cosine,
-            on_disk: Some(true),
-            quantization_config: None,
-            multivector_config: None,
-            datatype: None,
-            hnsw_config: None,
-        },
-    )]),
-    sparse_vectors: HashMap::new(),
-    hnsw_config: Default::default(),
-    quantization_config: None,
-    optimizers: Default::default(),
-};
+let config = EdgeConfigBuilder::new()
+    .on_disk_payload(true)
+    .vector(
+        VECTOR_NAME,
+        EdgeVectorParamsBuilder::new(VECTOR_DIMENSION, Distance::Cosine)
+            .on_disk(true)
+            .build(),
+    )
+    .build();
+
+use std::path::*;
+use qdrant_edge::*;
 
 let edge_shard = EdgeShard::new(
     Path::new(SHARD_DIRECTORY),
     config,
 )?;
+
+use serde_json::json;
+use qdrant_edge::*;
 
 let points: Vec<PointStructPersisted> = vec![
     PointStruct::new(
@@ -60,11 +44,27 @@ edge_shard.update(UpdateOperation::PointOperation(
     ),
 ))?;
 
+use qdrant_edge::*;
+
 let retrieved = edge_shard.retrieve(
     &[PointId::NumId(1)],
     Some(WithPayloadInterface::Bool(true)),
     Some(WithVector::Bool(false)),
 )?;
+
+use qdrant_edge::*;
+
+edge_shard.update(UpdateOperation::VectorNameOperation(
+    VectorNameOperations::CreateVectorName(CreateVectorName {
+        vector_name: "text".to_string(),
+        config: VectorNameConfig::sparse(SparseVectorConfig {
+            modifier: Some(Modifier::Idf),
+            datatype: None,
+        }),
+    }),
+))?;
+
+use qdrant_edge::*;
 
 let results = edge_shard.query(QueryRequest {
     prefetches: vec![],
@@ -80,6 +80,8 @@ let results = edge_shard.query(QueryRequest {
     with_vector: WithVector::Bool(false),
     with_payload: WithPayloadInterface::Bool(true),
 })?;
+
+use qdrant_edge::*;
 
 let filter = Filter {
     should: None,
@@ -108,6 +110,8 @@ let results = edge_shard.query(QueryRequest {
     with_payload: WithPayloadInterface::Bool(true),
 })?;
 
+use qdrant_edge::*;
+
 let facet_response = edge_shard.facet(FacetRequest {
     key: "color".try_into().unwrap(),
     limit: 10,
@@ -117,30 +121,25 @@ let facet_response = edge_shard.facet(FacetRequest {
 
 edge_shard.optimize()?;
 
-let config = EdgeConfig {
-    on_disk_payload: true,
-    vectors: HashMap::from([(
-        VECTOR_NAME.to_string(),
-        EdgeVectorParams {
-            size: VECTOR_DIMENSION,
-            distance: Distance::Cosine,
-            on_disk: Some(true),
-            quantization_config: None,
-            multivector_config: None,
-            datatype: None,
-            hnsw_config: None,
-        },
-    )]),
-    sparse_vectors: HashMap::new(),
-    hnsw_config: Default::default(),
-    quantization_config: None,
-    optimizers: EdgeOptimizersConfig {
+use qdrant_edge::*;
+
+let config = EdgeConfigBuilder::new()
+    .on_disk_payload(true)
+    .vector(
+        VECTOR_NAME,
+        EdgeVectorParamsBuilder::new(VECTOR_DIMENSION, Distance::Cosine)
+            .on_disk(true)
+            .build(),
+    )
+    .optimizers(EdgeOptimizersConfig {
         deleted_threshold: Some(0.2),
         vacuum_min_vector_number: Some(100),
         default_segment_number: Some(2),
         ..Default::default()
-    },
-};
+    })
+    .build();
+
+use qdrant_edge::*;
 
 edge_shard.update(UpdateOperation::FieldIndexOperation(
     FieldIndexOperations::CreateIndex(CreateIndex {
@@ -153,5 +152,20 @@ edge_shard.update(UpdateOperation::FieldIndexOperation(
 
 drop(edge_shard);
 
+use std::path::*;
+use qdrant_edge::*;
+
 let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), None)?;
+
+use std::path::*;
+use qdrant_edge::*;
+
+let config = EdgeConfigBuilder::new()
+    .wal_options(WalOptions {
+        segment_capacity: 4 * 1024 * 1024,
+        ..Default::default()
+    })
+    .build();
+
+let edge_shard = EdgeShard::load(Path::new(SHARD_DIRECTORY), Some(config))?;
 ```

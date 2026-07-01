@@ -1,5 +1,7 @@
 ---
 title: Apify 
+short_description: "Use Apify to crawl and clean web content, then load it into Qdrant for RAG and semantic search powered by the official Apify integration."
+description: "Crawl websites with Apify and ingest the cleaned content into Qdrant collections to build RAG and semantic search applications on fresh web data."
 aliases: [ ../frameworks/apify/ ]
 ---
 

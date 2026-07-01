@@ -5,13 +5,14 @@ description: Learn when and how to use layer recycling to achieve different perf
 preview_dir: /articles_data/embedding-recycling/preview
 small_preview_image: /articles_data/embedding-recycling/icon.svg
 social_preview_image: /articles_data/embedding-recycling/preview/social_preview.jpg
-weight: 10
+weight: 50
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2022-08-23T13:00:00+03:00
 draft: false
 aliases: [ /articles/embedding-recycler/ ]
-category: machine-learning
+category: embedding-research
+hideFromList: true
 ---
 
 A recent [paper](https://arxiv.org/abs/2207.04993)

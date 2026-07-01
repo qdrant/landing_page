@@ -1,5 +1,6 @@
 ---
 title: "Multivectors for Late Interaction Models"
+short_description: "Use ColBERT multivectors and MaxSim scoring in Qdrant for token-level late-interaction retrieval that captures fine-grained relevance."
 description: Learn how Qdrant supports late interaction models like ColBERT and ColPali using multivectors for token-level precision, enabling fine-grained, context-aware text and visual document retrieval.
 weight: 2
 isLesson: true

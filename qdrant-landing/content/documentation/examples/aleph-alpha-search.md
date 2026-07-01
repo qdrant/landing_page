@@ -1,5 +1,7 @@
 ---
 title: Aleph Alpha Search
+short_description: "Run multimodal semantic search by pairing Aleph Alpha embeddings with Qdrant to query images with text, no labeling or training required."
+description: "Build a multimodal semantic search system with Aleph Alpha and Qdrant, querying image collections using natural-language text in a shared vector space."
 weight: 10
 draft: true
 ---

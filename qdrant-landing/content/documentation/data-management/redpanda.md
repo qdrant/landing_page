@@ -1,5 +1,7 @@
 ---
 title: Redpanda Connect
+short_description: "Build declarative, stateless streaming pipelines that sink data from Redpanda Connect into Qdrant collections."
+description: "Use Redpanda Connect to define YAML streaming pipelines that route records into Qdrant collections with at-least-once delivery for real-time vector ingestion."
 ---
 
 ![Redpanda Cover](/documentation/data-management/redpanda/redpanda-cover.png)

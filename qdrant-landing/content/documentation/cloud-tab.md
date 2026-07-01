@@ -1,5 +1,7 @@
 ---
 title: Welcome to Qdrant Cloud
+short_description: "Welcome to Qdrant Cloud — the managed home for production vector search across Managed, Hybrid, and Private Cloud deployments."
+description: "Overview of Qdrant Cloud: managed vector search infrastructure spanning Managed Cloud, Hybrid Cloud, and Private Cloud deployment options."
 slug: cloud-intro
 breadcrumb: false
 content:
@@ -102,4 +104,6 @@ content:
         url: https://qdrant.to/cloud
 partition: deploy
 hideInSidebar: true
+build:
+  render: always
 ---

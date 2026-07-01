@@ -1,5 +1,7 @@
 ---
 title: Apache Airflow
+short_description: "Schedule and monitor Qdrant ingestion workflows with Apache Airflow's Python-native DAGs and provider hooks for vector pipelines."
+description: "Orchestrate data loading into Qdrant with Apache Airflow, using the Qdrant provider to schedule, monitor, and recover vector ingestion DAGs in production."
 aliases: [ ../frameworks/airflow/ ]
 ---
 

@@ -1,5 +1,7 @@
 ---
 title: Cohere
+short_description: "Index documents and queries with Cohere embeddings in Qdrant to power high-quality semantic search, classification, and RAG applications."
+description: "Use Cohere embedding models with Qdrant for semantic search, RAG, and classification, indexing documents and queries with task-specific input types."
 aliases: [ ../integrations/cohere/ ]
 ---
 

@@ -1,5 +1,7 @@
 ---
 title: MixedBread
+short_description: "Use MixedBread embeddings with Qdrant to build versatile semantic search and RAG systems across multiple domains and content types."
+description: "Generate MixedBread embeddings and store them in Qdrant to power smarter, faster semantic search across documents, code, and multi-domain knowledge bases."
 ---
 
 # Using MixedBread with Qdrant 

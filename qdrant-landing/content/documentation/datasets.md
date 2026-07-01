@@ -1,5 +1,7 @@
 ---
 title: Practice Datasets
+short_description: "Skip the embedding step with ready-made Qdrant snapshots of public datasets you can import and explore right away."
+description: "Download pre-computed Qdrant snapshots of public datasets like arXiv and Hugging Face collections to practice vector search without generating embeddings."
 weight: 1500
 partition: ecosystem
 ---
@@ -18,9 +20,9 @@ on a dataset name to see its detailed description.
 
 | Dataset                                    | Model                                                                       | Vector size | Documents | Size   | Qdrant snapshot                                                                                          | HF Hub                                                                                 |
 |--------------------------------------------|-----------------------------------------------------------------------------|-------------|-----------|--------|----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| [Arxiv.org titles](#arxivorg-titles)       | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl)                 | 768         | 2.3M      | 7.1 GB | [Download](https://snapshots.qdrant.io/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot)    | [Open](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings)    |
-| [Arxiv.org abstracts](#arxivorg-abstracts) | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl)                 | 768         | 2.3M      | 8.4 GB | [Download](https://snapshots.qdrant.io/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
-| [Wolt food](#wolt-food)                    | [clip-ViT-B-32](https://huggingface.co/sentence-transformers/clip-ViT-B-32) | 512         | 1.7M      | 7.9 GB | [Download](https://snapshots.qdrant.io/wolt-clip-ViT-B-32-2446808438011867-2023-12-14-15-55-26.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/wolt-food-clip-ViT-B-32-embeddings)      |
+| [Arxiv.org titles](#arxivorg-titles)       | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl)                 | 768         | 2.3M      | 7.7 GB | [Download](https://snapshots.qdrant.io/arxiv_titles-2108082541245612-2026-06-04-09-55-52.snapshot)       | [Open](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings)    |
+| [Arxiv.org abstracts](#arxivorg-abstracts) | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl)                 | 768         | 2.3M      | 9.2 GB | [Download](https://snapshots.qdrant.io/arxiv_abstracts-2108082541245612-2026-06-04-09-56-06.snapshot)    | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
+| [Wolt food](#wolt-food)                    | [clip-ViT-B-32](https://huggingface.co/sentence-transformers/clip-ViT-B-32) | 512         | 1.7M      | 6.8 GB | [Download](https://snapshots.qdrant.io/wolt-clip-2108082541245612-2026-06-04-09-56-17.snapshot)          | [Open](https://huggingface.co/datasets/Qdrant/wolt-food-clip-ViT-B-32-embeddings)      |
 
 Once you download a snapshot, you need to [restore it](/documentation/snapshots/#restore-snapshot) 
 using the Qdrant CLI upon startup or through the API.
@@ -84,7 +86,7 @@ instruction = "Represent the Research Paper title for retrieval; Input:"
 embeddings = model.encode([[instruction, sentence]])
 ```
 
-The snapshot of the dataset might be downloaded [here](https://snapshots.qdrant.io/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot).
+The snapshot of the dataset might be downloaded [here](https://snapshots.qdrant.io/arxiv_titles-2108082541245612-2026-06-04-09-55-52.snapshot).
 
 #### Importing the dataset
 
@@ -95,7 +97,7 @@ code snippet shows how to create a new collection and fill it with the snapshot 
 ```http request
 PUT /collections/{collection_name}/snapshots/recover
 {
-  "location": "https://snapshots.qdrant.io/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot"
+  "location": "https://snapshots.qdrant.io/arxiv_titles-2108082541245612-2026-06-04-09-55-52.snapshot"
 }
 ```
 
@@ -138,7 +140,7 @@ code snippet shows how to create a new collection and fill it with the snapshot 
 ```http request
 PUT /collections/{collection_name}/snapshots/recover
 {
-  "location": "https://snapshots.qdrant.io/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot"
+  "location": "https://snapshots.qdrant.io/arxiv_abstracts-2108082541245612-2026-06-04-09-56-06.snapshot"
 }
 ```
 
@@ -190,6 +192,6 @@ code snippet shows how to create a new collection and fill it with the snapshot 
 ```http request
 PUT /collections/{collection_name}/snapshots/recover
 {
-  "location": "https://snapshots.qdrant.io/wolt-clip-ViT-B-32-2446808438011867-2023-12-14-15-55-26.snapshot"
+  "location": "https://snapshots.qdrant.io/wolt-clip-2108082541245612-2026-06-04-09-56-17.snapshot"
 }
 ```

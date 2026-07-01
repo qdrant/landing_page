@@ -15,7 +15,7 @@ keywords:
   - reranking
   - fastembed
   - qsoc'24
-category: machine-learning
+hideFromList: true
 ---
 
 ## Introduction

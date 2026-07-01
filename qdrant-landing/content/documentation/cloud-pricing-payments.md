@@ -1,5 +1,7 @@
 ---
 title: Billing & Payments
+short_description: "Understand Qdrant Cloud pricing based on CPU, memory, and storage, and pay by credit card or AWS, GCP, or Azure Marketplace."
+description: "Qdrant Cloud billing explained: usage-based pricing for CPU, memory, and disk, with payment via credit card or AWS, GCP, and Azure Marketplaces."
 weight: 255
 partition: deploy
 aliases:

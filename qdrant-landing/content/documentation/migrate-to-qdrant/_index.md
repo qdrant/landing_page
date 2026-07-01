@@ -1,5 +1,7 @@
 ---
 title: Migration Tool
+short_description: "Move vectors, payloads, and sparse embeddings into Qdrant from other vector databases with the Qdrant Migration Tool."
+description: "Use the Qdrant Migration Tool to stream vectors, payloads, and sparse embeddings from external vector databases into Qdrant with batched, resumable transfers."
 weight: 200
 is_empty: false
 partition: ecosystem

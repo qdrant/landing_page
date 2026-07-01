@@ -4,7 +4,7 @@ short_description: "Learn how immutable data structures improve vector search pe
 description: "Learn how immutable data structures improve vector search performance in Qdrant."
 social_preview_image: /articles_data/immutable-data-structures/social_preview.png
 preview_dir: /articles_data/immutable-data-structures/preview
-weight: -200
+weight: 20
 author: Andrey Vasnetsov
 date: 2024-08-20T10:45:00+02:00
 draft: false

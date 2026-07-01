@@ -1,5 +1,7 @@
 ---
 title: LangChain
+short_description: "Build LangChain apps with Qdrant as the vector store, supporting dense, sparse, and hybrid retrieval for semantic search and RAG."
+description: "Use the LangChain Qdrant integration to power semantic search and RAG with dense, sparse, and hybrid retrieval over your documents and embeddings."
 aliases:
   - ../integrations/langchain/
   - /documentation/overview/integrations/langchain/

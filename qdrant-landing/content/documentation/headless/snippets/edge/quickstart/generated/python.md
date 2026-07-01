@@ -43,6 +43,13 @@ records = edge_shard.retrieve(
     with_vector=False
 )
 
+from qdrant_edge import Modifier
+
+edge_shard.update(UpdateOperation.create_sparse_vector(
+    vector_name="text",
+    modifier=Modifier.Idf,
+))
+
 from qdrant_edge import Query, QueryRequest
 
 results = edge_shard.query(

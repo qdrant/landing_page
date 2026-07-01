@@ -45,6 +45,10 @@
       font-size: map-get($font-sizes-text, 'xl');
     }
   }
+  
+  &__button {
+    margin-top: $spacer * 0.5;
+  }
 
   // Content wrapper
   &__content {

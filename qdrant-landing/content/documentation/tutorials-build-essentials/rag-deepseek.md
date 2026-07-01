@@ -1,5 +1,7 @@
 ---
 title: 5-Minute RAG with DeepSeek
+short_description: "Build a five-minute RAG pipeline pairing Qdrant vector search with the DeepSeek LLM to enrich prompts with retrieved context."
+description: "Step-by-step tutorial: build a RAG pipeline with Qdrant and DeepSeek that stores embeddings in a vector database and grounds LLM answers in retrieved context."
 weight: 30
 partition: ecosystem
 social_preview_image: /documentation/examples/rag-deepseek/social_preview.png

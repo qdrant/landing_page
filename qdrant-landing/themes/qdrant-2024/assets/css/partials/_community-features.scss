@@ -38,11 +38,10 @@
     &-link {
       @include mixins.link-color($neutral-20);
     }
-    &:hover {
-      .community-features__card-title {
-        color: $primary-50;
-      }
-    }
+  }
+
+  a.community-features__card:hover .community-features__card-title {
+    color: $primary-50;
   }
 
   @include media-breakpoint-up(lg) {

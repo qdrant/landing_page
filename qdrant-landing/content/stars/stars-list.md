@@ -161,6 +161,20 @@ cards:
     name: Kevin Figueroa
     position: Senior Red Teamer
     description: Cybersecurity professional with 30+ years experience specializing in adversarial simulation and advanced Red Team operations. Integrates AI-driven automation and vector database technologies to build cyber intelligence platforms using Qdrant.
+  - id: 18
+    image:
+      src: /img/stars/anoop-sharma.png
+      alt: Anoop Sharma Photo
+    name: Anoop Sharma
+    position: AI Engineer
+    description: AI Engineer focused on scalable backend systems, LLM integrations, and intelligent automation and open-source contribution. Building production-ready solutions using modern web frameworks, vector databases, and AI infrastructure.
+  - id: 19
+    image:
+      src: /img/stars/srimon.png
+      alt: Srimon Danguria Photo
+    name: Srimon Danguria
+    position: Independent AI Systems Builder
+    description: Solo developer building AI infrastructure, governance tooling, MCP gateways, authentication systems, and local-first knowledge system. Open-source contributor exploring Qdrant's use cases across multiple domains.
 link:
   text: Read the Qdrant Stars Handbook
   url: https://qdrant.github.io/qdrant-stars-handbook/

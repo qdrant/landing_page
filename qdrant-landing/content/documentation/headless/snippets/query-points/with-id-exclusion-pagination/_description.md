@@ -1,0 +1,1 @@
+This code snippet demonstrates how to paginate search results without duplicate points. By collecting the point IDs returned on each page and passing them to a `must_not: has_id` filter on the next request, each subsequent page excludes all previously seen results.

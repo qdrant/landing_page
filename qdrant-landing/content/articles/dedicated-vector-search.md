@@ -4,7 +4,7 @@ short_description: "Why add-on vector search looks good — until you actually u
 description: "Why add-on vector search looks good — until you actually use it."
 social_preview_image: /articles_data/dedicated-vector-search/preview/social_preview.jpg
 preview_dir: /articles_data/dedicated-vector-search/preview
-weight: -170
+weight: 20
 author: Evgeniya Sukhodolskaya & Andrey Vasnetsov
 date: 2025-02-17T10:00:00+03:00
 draft: false
@@ -12,7 +12,7 @@ keywords:
     - system architecture
     - vector search
     - vector database 
-category: qdrant-internals
+category: core-concepts
 ---
 
 Any problem with even a bit of complexity requires a specialized solution. You can use a Swiss Army knife to open a bottle or poke a hole in a cardboard box, but you will need an axe to chop wood — the same goes for software.

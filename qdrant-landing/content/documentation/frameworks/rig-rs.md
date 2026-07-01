@@ -1,5 +1,7 @@
 ---
 title: Rig-rs
+short_description: "Build scalable LLM apps in Rust with Rig and use Qdrant as the vector store for semantic ingestion, retrieval, and RAG workflows."
+description: "Use Rig with Qdrant in Rust to build modular LLM applications with semantic retrieval, ingesting documents and querying them through the Qdrant vector store."
 ---
 
 # Rig-rs

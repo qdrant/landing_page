@@ -4,6 +4,9 @@
       <div class="enterprise-ready__header">
         <h2 class="enterprise-ready__title">{{ .Params.title }}</h2>
         <p class="enterprise-ready__subtitle">{{ .Params.subtitle }}</p>
+        <a href="{{ .Params.button.url }}" class="button button_contained button_md enterprise-ready__button">
+          {{ .Params.button.text }}
+        </a>
       </div>
       <div class="enterprise-ready__content">
         {{/* Large cards row */}}

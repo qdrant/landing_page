@@ -1,5 +1,7 @@
 ---
 title: N8N
+short_description: "Add semantic search to n8n workflows with the official Qdrant node for managing collections, indexing points, and running vector queries."
+description: "Use the official Qdrant node in n8n to build automation workflows with semantic search, managing collections and points directly from your scenarios."
 aliases: [ ../frameworks/n8n/ ]
 ---
 

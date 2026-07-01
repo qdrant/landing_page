@@ -17,7 +17,7 @@ keywords:
     - vector similarity
     - tsne
     - qdrant data visualization
-category: ecosystem
+hideFromList: true
 ---
 
 

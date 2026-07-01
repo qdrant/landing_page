@@ -1,5 +1,7 @@
 ---
 title: Usage Statistics
+short_description: "Understand and control the anonymized usage statistics collected by the Qdrant open-source container, including how to opt out."
+description: "Review what anonymized telemetry the Qdrant open-source container collects, how the data is anonymized, and how to deactivate or request deletion."
 weight: 15
 aliases:
   - /documentation/telemetry

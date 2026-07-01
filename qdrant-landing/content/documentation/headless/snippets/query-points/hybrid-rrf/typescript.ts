@@ -19,6 +19,6 @@ client.query("{collection_name}", {
         },
     ],
     query: {
-        fusion: 'rrf',
+        rrf: {},
     },
 });

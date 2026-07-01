@@ -7,8 +7,9 @@ social_preview_image: /articles_data/how-to-choose-an-embedding-model/preview/so
 author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
 date: 2025-07-15T00:00:00.000Z
-category: vector-search-manuals
+category: core-concepts
 draft: false
+weight: 10
 ---
 
 No matter if you are just beginning your journey in the world of vector search, or you are a seasoned practitioner, you 

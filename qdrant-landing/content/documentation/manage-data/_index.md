@@ -1,5 +1,7 @@
 ---
 title: Manage Data
+short_description: "Structure, store, and organize data in Qdrant — points, vectors, payloads, collections, indexes, and quantization."
+description: "Manage data in Qdrant by configuring collections, points, payloads, vector indexes, and quantization to control how records are stored, indexed, and retrieved."
 weight: 205
 partition: develop
 ---

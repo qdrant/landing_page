@@ -1,5 +1,7 @@
 ---
 title: Superlinked
+short_description: "Serve dense, sparse, and multivector embeddings from a single Superlinked endpoint and feed them into Qdrant for hybrid and ColBERT-style retrieval."
+description: "Use Superlinked's self-hosted inference engine to generate dense, sparse, and multivector embeddings, and store them in Qdrant for hybrid vector search."
 ---
 
 # Superlinked

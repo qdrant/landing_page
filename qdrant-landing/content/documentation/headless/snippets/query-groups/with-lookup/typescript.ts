@@ -2,8 +2,8 @@ import { QdrantClient } from "@qdrant/js-client-rest"; // @hide
 
 const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
 
-client.queryGroups("{collection_name}", {
-    query: [1.1],
+client.queryGroups("chunks", {
+    query: [0.2, 0.1, 0.9, 0.7],
     group_by: "document_id",
     limit: 2,
     group_size: 2,

@@ -1,5 +1,7 @@
 ---
 title: Create a Cluster
+short_description: "Launch a free or standard Qdrant Cloud cluster on AWS, GCP, or Azure, with options for high availability, GPUs, and Hybrid Cloud."
+description: "Create a free or standard Qdrant Cloud cluster on AWS, GCP, or Azure, with high availability, GPU acceleration, and Hybrid Cloud deployment options."
 weight: 5
 ---
 

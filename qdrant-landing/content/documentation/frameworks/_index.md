@@ -1,5 +1,7 @@
 ---
 title: Frameworks 
+short_description: "Browse Qdrant integrations with AI agent frameworks, RAG libraries, evaluation tools, and orchestration platforms across Python, TypeScript, Java, Rust, and more."
+description: "Explore Qdrant integrations with AI frameworks for agents, RAG, evaluation, and orchestration, including LangChain, LlamaIndex, Haystack, CrewAI, and many others."
 weight: 800
 partition: ecosystem
 aliases: ["/documentation/frameworks/memgpt/"]

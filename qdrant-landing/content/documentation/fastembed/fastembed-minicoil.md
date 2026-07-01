@@ -1,5 +1,7 @@
 ---
 title: Working with miniCOIL
+short_description: "Run sparse neural retrieval with miniCOIL and FastEmbed, ranking exact keyword matches by contextual meaning beyond classic BM25 scoring."
+description: "Use miniCOIL with FastEmbed and Qdrant for sparse neural retrieval that combines BM25-style keyword matching with contextual semantic ranking."
 weight: 40
 ---
 

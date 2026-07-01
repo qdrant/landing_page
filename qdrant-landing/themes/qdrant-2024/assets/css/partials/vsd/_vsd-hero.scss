@@ -1,0 +1,154 @@
+@use '../../helpers/functions' as *;
+
+.vsd-hero {
+  padding-top: pxToRem(30);
+  padding-bottom: pxToRem(30);
+  background-color: $neutral-10;
+
+  &__banner {
+    padding: $spacer * 2.5 pxToRem(20) pxToRem(70);
+    border-radius: $spacer * 1.5;
+    border: pxToRem(1) solid transparent;
+    background:
+      linear-gradient($neutral-10, $neutral-10) padding-box,
+      linear-gradient($neutral-30, $neutral-10) border-box;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+
+    &:before, &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 0;
+    }
+    
+    &:before {
+      left: 50%;
+      translate: -56%;
+      bottom: pxToRem(116);
+      height: pxToRem(250);
+      width: auto;
+      aspect-ratio: 1110 / 391;
+      background-image: 
+        url("/img/vsd-sf-26/vsd-hero/astronauts2.png"), 
+        url("/img/vsd-sf-26/vsd-hero/overlay1.png"), 
+        url("/img/vsd-sf-26/vsd-hero/astronauts1.png");
+      background-size: cover;
+    }
+
+    &:after {
+      left: 0;
+      bottom: pxToRem(116);
+      height: pxToRem(83);
+      width: 100%;
+      background-image: url("/img/vsd-sf-26/vsd-hero/overlay2.png");
+      background-size: cover;
+    }
+  }
+  
+  &__place {
+    margin-bottom: $spacer * 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: $spacer * 0.5;
+    position: relative;
+
+    p {
+      margin-bottom: 0;
+      font-family: $font-family-monospace;
+      color: $neutral-98;
+      text-transform: uppercase;
+    }
+  }
+  
+  &__title {
+    margin-bottom: pxToRem(180);
+    font-size: $h2-font-size;
+    line-height: pxToRem(62);
+    color: $primary-50;
+    text-transform: uppercase;
+    position: relative;
+    
+    span {
+      display: block;
+      background: linear-gradient(180deg, #fff 60%, #898ea3 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+  }
+  
+  &__button {
+    position: relative;
+    z-index: 1;
+  }
+  
+  @include media-breakpoint-up(md) {
+    &__banner {
+      padding: $spacer * 2.5;
+
+      &:before {
+        left: 0;
+        translate: 0;
+        bottom: pxToRem(84);
+        width: 100%;
+        height: auto;
+      }
+      
+      &:after {
+        bottom: pxToRem(84);
+      }
+    }
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+    
+    &__banner {
+      text-align: left;
+
+      &:before,
+      &:after {
+        bottom: 0;
+      }
+      
+      &:after {
+        height: pxToRem(137);
+      }
+    }
+
+    &__place {
+      margin-bottom: $spacer * 2.5;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: $spacer * 2;
+
+      p {
+        font-size: $font-size-l;
+        line-height: $line-height-lg;
+      }
+    }
+
+    &__title {
+      margin-bottom: $spacer * 2.5;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__place {
+      gap: $spacer * 5;
+    }
+
+    &__title {
+      font-size: $spacer * 5;
+      line-height: pxToRem(84);
+    }
+  }
+}

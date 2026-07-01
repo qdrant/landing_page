@@ -1,5 +1,7 @@
 ---
 title: Indexing
+short_description: "Combine HNSW vector indexes with payload indexes in Qdrant for fast filtered search across structured fields."
+description: "Configure HNSW vector indexes and payload indexes in Qdrant to accelerate similarity search with filters on structured fields and high-cardinality metadata."
 weight: 30
 aliases:
   - ../indexing
@@ -17,19 +19,11 @@ Their necessity is determined by the [optimizer](/documentation/ops-optimization
 ## Payload Index
 
 Payload index in Qdrant is similar to the index in conventional document-oriented databases.
-This index is built for a specific field and type, and is used for quick point requests by the corresponding filtering condition.
-
-The index is also used to accurately estimate the filter cardinality, which helps the [query planning](/documentation/search/search/#query-planning) choose a search strategy.
+This index is built for a specific field and type, and is used for quick point requests by the corresponding filtering condition. The index is also used to accurately estimate the filter cardinality, which helps the [query planning](/documentation/search/search/#query-planning) choose a search strategy.
 
 Creating an index requires additional computational resources and memory, so choosing fields to be indexed is essential. Qdrant does not make this choice but grants it to the user.
 
-To mark a field as indexable, you can use the following:
-
-{{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-keyword/" >}}
-
-You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](/documentation/search/filtering/#nested-key).
-
-Available field types are:
+The following field types support payload indexing:
 
 * `keyword` - for [keyword](/documentation/manage-data/payload/#keyword) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions.
 * `integer` - for [integer](/documentation/manage-data/payload/#integer) payload, affects [Match](/documentation/search/filtering/#match) and [Range](/documentation/search/filtering/#range) filtering conditions.
@@ -41,13 +35,34 @@ Available field types are:
 * `uuid` - a special type of index, similar to `keyword`, but optimized for [UUID values](/documentation/manage-data/payload/#uuid).
 Affects [Match](/documentation/search/filtering/#match) filtering conditions. (available as of v1.11.0)
 
-Payload index may occupy some additional memory, so it is recommended to only use the index for those fields that are used in filtering conditions.
+Payload indexes occupy additional memory and disk space, so it is recommended to only apply payload indexes for those fields that are used in filtering conditions.
 If you need to filter by many fields and the memory limits do not allow for indexing all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 
-<aside role="alert">It's highly recommended to create all payload indices immediately after collection creation. Creating them later may block updates for some time. HNSW graphs will also only benefit from <a href="#filterable-hnsw-index">additional optimizations</a> (extra edges) when they are generated after payload index creation.</aside>
+### Create a Payload Index
 
-### Parameterized index
+To create a payload index for a field:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-keyword/" >}}
+
+You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](/documentation/search/filtering/#nested-key).
+
+**Payload indexes should be created before ingesting data.** [Qdrant's filterable HNSW index](#filterable-hnsw-index) only benefits from additional filter-aware edges when it is generated after the payload indexes have been created. If you create a payload index after data has already been ingested, you need to [rebuild the HNSW index](#rebuild-the-hnsw-index) to take advantage of the new payload indexes.
+
+### Block Queries That Filter on Unindexed Fields
+
+Queries that filter on unindexed fields are not only slower; they can also unnecessarily consume cluster resources, negatively impacting the latency of other search queries. To prevent that, Qdrant provides an option to block queries that filter on unindexed fields. This gives you:
+
+- Fail-fast behavior: Queries that would degrade performance are rejected at the API boundary, surfacing misconfigured indexes as errors rather than latency spikes.
+- Performance guarantees: Every query that succeeds is backed by an index, preventing accidental filters on unindexed fields from reaching production.
+- Operational visibility: Without strict mode, a missing index might go unnoticed for a long time because queries still return results, albeit slowly.
+
+
+To block queries that filter on unindexed fields, enable [strict mode](/documentation/ops-configuration/administration/#strict-mode) and set `unindexed_filtering_retrieve` to `false`. Qdrant will then return an error if a search query attempts to filter on an unindexed field. On Qdrant Cloud, these settings are applied to all collections by default.
+
+For more information, refer to [Disable Retrieving via Non Indexed Payload](/documentation/ops-configuration/administration/#disable-retrieving-via-non-indexed-payload).
+
+### Parameterized Index
 
 *Available as of v1.8.0*
 
@@ -72,19 +87,21 @@ filters to `true`:
 | `false` | `true` | Parameterized integer index |
 | `false` | `false` | No integer index            |
 
-The parameterized index can enhance performance in collections with millions
-of points. We encourage you to try it out. If it does not enhance performance
-in your use case, you can always restore the regular `integer` index.
+Setting `lookup` or `range` to `false` may help to tune and reduce memory usage
+in large collections. We encourage you to try out if setting either to `false`
+improves memory usage. If you don't see an improvement or if you're not sure
+what kind of payload filters you're using, use the regular `integer` index.
 
-Note: If you set `"lookup": true` with a range filter, that may lead to
-significant performance issues.
+Note: If you set `"range": false` and still use a range filter, it may lead to
+significant performance issues. The same is true for the lookup parameter and
+its respective filters.
 
 For example, the following code sets up a parameterized integer index which
 supports only range filters:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/integer-with-params/" >}}
 
-### On-disk payload index
+### On-Disk Payload Index
 
 *Available as of v1.11.0*
 
@@ -157,7 +174,7 @@ Principal optimization is supported for following types:
 * `datetime`
 
 
-## Full-text index
+## Full-Text Index
 
 Qdrant supports full-text search for string payload.
 Full-text index allows you to filter points by the presence of a word or a phrase in the payload field.
@@ -308,7 +325,7 @@ You can find more information on this approach in our [article](/articles/filter
 
 <aside role="status">For the HNSW graph to be optimized for filtered search, it's highly recommended to create all payload indices immediately after collection creation, before ingesting data. Extra edges for the HNSW graph can only be generated after payload index creation.</aside>
 
-#### The ACORN Search Algorithm
+### The ACORN Search Algorithm
 
 *Available as of v1.16.0*
 
@@ -319,7 +336,7 @@ The same can happen when there are a large number of soft-deleted points in the 
 In such cases, use the [ACORN Search Algorithm](/documentation/search/search/#acorn-search-algorithm).
 When using ACORN, during graph traversal, it explores not just direct neighbors (first hop), but also neighbors of neighbors (second hop) when direct neighbors are filtered out. This improves search accuracy at the cost of performance.
 
-#### Disable the Creation of Extra Edges for Payload Fields
+### Disable the Creation of Extra Edges for Payload Fields
 
 *Available as of v1.17.0*
 
@@ -328,6 +345,24 @@ Not all payload indices may be intended for use with dense vector search. For ex
 You can disable the creation of extra edges for an indexed payload field by setting `enable_hnsw` to `false` when configuring a payload index:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/disable-hnsw/" >}}
+
+### Rebuild the HNSW Index
+
+<aside role="alert">
+Rebuilding the HNSW index is resource-intensive and can take a long time. Avoid it when possible.
+</aside>
+
+There may be cases when you need to rebuild the HNSW index, for example, when you create a new payload index and want to take advantage of filter-aware edges in the HNSW graph. To rebuild an HNSW index, make a small change to its HNSW configuration, for example by bumping `ef_construct` by `1`. This forces the optimizer to re-index all segments.
+
+First, retrieve the current value of `ef_construct`:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/increment-ef-construct/" block="get-current-value" >}}
+
+Next, update the collection with the value of `ef_construct` incremented by `1`:
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/increment-ef-construct/" block="update-collection" >}}
+
+Don’t immediately revert the value of `ef_construct` to its original value. Keep it set to the new value.
 
 ## Sparse Vector Index
 

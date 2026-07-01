@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" role="img" aria-label="Per-coordinate calibration: before and after (shift, scale)">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="210.0" y="40" text-anchor="middle" font-size="14" font-weight="600" fill="#0F172A">Before calibration</text>
+<text x="210.0" y="58" text-anchor="middle" font-size="12" font-weight="400" fill="#475569">data drifts off the codebook grid</text>
+<rect x="80.0" y="358.8" width="8.3" height="1.2" fill="#DC244C" opacity="0.85"/>
+<rect x="89.3" y="357.9" width="8.3" height="2.1" fill="#DC244C" opacity="0.85"/>
+<rect x="98.6" y="356.4" width="8.3" height="3.6" fill="#DC244C" opacity="0.85"/>
+<rect x="107.9" y="354.2" width="8.3" height="5.8" fill="#DC244C" opacity="0.85"/>
+<rect x="117.1" y="350.9" width="8.3" height="9.1" fill="#DC244C" opacity="0.85"/>
+<rect x="126.4" y="346.2" width="8.3" height="13.8" fill="#DC244C" opacity="0.85"/>
+<rect x="135.7" y="339.8" width="8.3" height="20.2" fill="#94A3B8" opacity="0.85"/>
+<rect x="145.0" y="331.1" width="8.3" height="28.9" fill="#94A3B8" opacity="0.85"/>
+<rect x="154.3" y="320.1" width="8.3" height="39.9" fill="#94A3B8" opacity="0.85"/>
+<rect x="163.6" y="306.6" width="8.3" height="53.4" fill="#94A3B8" opacity="0.85"/>
+<rect x="172.9" y="290.7" width="8.3" height="69.3" fill="#94A3B8" opacity="0.85"/>
+<rect x="182.1" y="272.9" width="8.3" height="87.1" fill="#94A3B8" opacity="0.85"/>
+<rect x="191.4" y="253.9" width="8.3" height="106.1" fill="#94A3B8" opacity="0.85"/>
+<rect x="200.7" y="234.8" width="8.3" height="125.2" fill="#94A3B8" opacity="0.85"/>
+<rect x="210.0" y="216.7" width="8.3" height="143.3" fill="#94A3B8" opacity="0.85"/>
+<rect x="219.3" y="201.2" width="8.3" height="158.8" fill="#94A3B8" opacity="0.85"/>
+<rect x="228.6" y="189.4" width="8.3" height="170.6" fill="#94A3B8" opacity="0.85"/>
+<rect x="237.9" y="182.4" width="8.3" height="177.6" fill="#94A3B8" opacity="0.85"/>
+<rect x="247.1" y="180.8" width="8.3" height="179.2" fill="#94A3B8" opacity="0.85"/>
+<rect x="256.4" y="184.9" width="8.3" height="175.1" fill="#94A3B8" opacity="0.85"/>
+<rect x="265.7" y="194.1" width="8.3" height="165.9" fill="#94A3B8" opacity="0.85"/>
+<rect x="275.0" y="207.7" width="8.3" height="152.3" fill="#94A3B8" opacity="0.85"/>
+<rect x="284.3" y="224.5" width="8.3" height="135.5" fill="#DC244C" opacity="0.85"/>
+<rect x="293.6" y="243.2" width="8.3" height="116.8" fill="#DC244C" opacity="0.85"/>
+<rect x="302.9" y="262.5" width="8.3" height="97.5" fill="#DC244C" opacity="0.85"/>
+<rect x="312.1" y="281.0" width="8.3" height="79.0" fill="#DC244C" opacity="0.85"/>
+<rect x="321.4" y="298.1" width="8.3" height="61.9" fill="#DC244C" opacity="0.85"/>
+<rect x="330.7" y="312.9" width="8.3" height="47.1" fill="#DC244C" opacity="0.85"/>
+<polyline points="80.0,359.6 83.2,359.5 86.5,359.2 89.8,359.0 93.0,358.6 96.2,358.2 99.5,357.6 102.8,356.8 106.0,355.9 109.2,354.7 112.5,353.2 115.7,351.4 119.0,349.1 122.3,346.4 125.5,343.2 128.8,339.3 132.0,334.8 135.2,329.5 138.5,323.4 141.8,316.4 145.0,308.5 148.2,299.7 151.5,290.0 154.8,279.3 158.0,267.8 161.2,255.5 164.5,242.4 167.8,228.9 171.0,214.9 174.2,200.7 177.5,186.6 180.8,172.7 184.0,159.4 187.2,146.8 190.5,135.3 193.8,125.0 197.0,116.3 200.2,109.3 203.5,104.2 206.8,101.1 210.0,100.0 213.2,101.1 216.5,104.2 219.8,109.3 223.0,116.3 226.2,125.0 229.5,135.3 232.8,146.8 236.0,159.4 239.2,172.7 242.5,186.6 245.8,200.7 249.0,214.9 252.3,228.9 255.5,242.4 258.8,255.5 262.0,267.8 265.2,279.3 268.5,290.0 271.8,299.7 275.0,308.5 278.2,316.4 281.5,323.4 284.8,329.5 288.0,334.8 291.2,339.3 294.5,343.2 297.8,346.4 301.0,349.1 304.2,351.4 307.5,353.2 310.8,354.7 314.0,355.9 317.2,356.8 320.5,357.6 323.8,358.2 327.0,358.6 330.2,359.0 333.5,359.2 336.8,359.5 340.0,359.6" fill="none" stroke="#1E293B" stroke-width="1.6" stroke-dasharray="5 3" opacity="0.85"/>
+<line x1="74.0" y1="360" x2="346.0" y2="360" stroke="#0F172A" stroke-width="1.4"/>
+<circle cx="132.3" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="161.5" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="182.7" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="201.2" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="218.8" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="237.3" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="258.5" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="287.7" cy="360" r="4.5" fill="#DC244C"/>
+<text x="132.3" y="382" text-anchor="middle" font-size="11" fill="#475569">−2.152</text>
+<text x="210.0" y="382" text-anchor="middle" font-size="11" fill="#475569">0</text>
+<text x="287.7" y="382" text-anchor="middle" font-size="11" fill="#475569">+2.152</text>
+<text x="570.0" y="40" text-anchor="middle" font-size="14" font-weight="600" fill="#0F172A">After  (shift, scale)</text>
+<text x="570.0" y="58" text-anchor="middle" font-size="12" font-weight="400" fill="#475569">data aligns with the N(0,1) codebook</text>
+<rect x="440.0" y="359.4" width="8.3" height="0.6" fill="#DC244C" opacity="0.85"/>
+<rect x="449.3" y="358.5" width="8.3" height="1.5" fill="#DC244C" opacity="0.85"/>
+<rect x="458.6" y="356.7" width="8.3" height="3.3" fill="#DC244C" opacity="0.85"/>
+<rect x="467.9" y="353.2" width="8.3" height="6.8" fill="#DC244C" opacity="0.85"/>
+<rect x="477.1" y="346.8" width="8.3" height="13.2" fill="#DC244C" opacity="0.85"/>
+<rect x="486.4" y="336.1" width="8.3" height="23.9" fill="#DC244C" opacity="0.85"/>
+<rect x="495.7" y="319.5" width="8.3" height="40.5" fill="#94A3B8" opacity="0.85"/>
+<rect x="505.0" y="295.7" width="8.3" height="64.3" fill="#94A3B8" opacity="0.85"/>
+<rect x="514.3" y="264.4" width="8.3" height="95.6" fill="#94A3B8" opacity="0.85"/>
+<rect x="523.6" y="226.9" width="8.3" height="133.1" fill="#94A3B8" opacity="0.85"/>
+<rect x="532.9" y="186.6" width="8.3" height="173.4" fill="#94A3B8" opacity="0.85"/>
+<rect x="542.1" y="148.5" width="8.3" height="211.5" fill="#94A3B8" opacity="0.85"/>
+<rect x="551.4" y="118.6" width="8.3" height="241.4" fill="#94A3B8" opacity="0.85"/>
+<rect x="560.7" y="102.1" width="8.3" height="257.9" fill="#94A3B8" opacity="0.85"/>
+<rect x="570.0" y="102.1" width="8.3" height="257.9" fill="#94A3B8" opacity="0.85"/>
+<rect x="579.3" y="118.6" width="8.3" height="241.4" fill="#94A3B8" opacity="0.85"/>
+<rect x="588.6" y="148.5" width="8.3" height="211.5" fill="#94A3B8" opacity="0.85"/>
+<rect x="597.9" y="186.6" width="8.3" height="173.4" fill="#94A3B8" opacity="0.85"/>
+<rect x="607.1" y="226.9" width="8.3" height="133.1" fill="#94A3B8" opacity="0.85"/>
+<rect x="616.4" y="264.4" width="8.3" height="95.6" fill="#94A3B8" opacity="0.85"/>
+<rect x="625.7" y="295.7" width="8.3" height="64.3" fill="#94A3B8" opacity="0.85"/>
+<rect x="635.0" y="319.5" width="8.3" height="40.5" fill="#94A3B8" opacity="0.85"/>
+<rect x="644.3" y="336.1" width="8.3" height="23.9" fill="#DC244C" opacity="0.85"/>
+<rect x="653.6" y="346.8" width="8.3" height="13.2" fill="#DC244C" opacity="0.85"/>
+<rect x="662.9" y="353.2" width="8.3" height="6.8" fill="#DC244C" opacity="0.85"/>
+<rect x="672.1" y="356.7" width="8.3" height="3.3" fill="#DC244C" opacity="0.85"/>
+<rect x="681.4" y="358.5" width="8.3" height="1.5" fill="#DC244C" opacity="0.85"/>
+<rect x="690.7" y="359.4" width="8.3" height="0.6" fill="#DC244C" opacity="0.85"/>
+<polyline points="440.0,359.6 443.2,359.5 446.5,359.2 449.8,359.0 453.0,358.6 456.2,358.2 459.5,357.6 462.8,356.8 466.0,355.9 469.2,354.7 472.5,353.2 475.8,351.4 479.0,349.1 482.2,346.4 485.5,343.2 488.8,339.3 492.0,334.8 495.2,329.5 498.5,323.4 501.8,316.4 505.0,308.5 508.2,299.7 511.5,290.0 514.8,279.3 518.0,267.8 521.2,255.5 524.5,242.4 527.8,228.9 531.0,214.9 534.2,200.7 537.5,186.6 540.8,172.7 544.0,159.4 547.2,146.8 550.5,135.3 553.8,125.0 557.0,116.3 560.2,109.3 563.5,104.2 566.8,101.1 570.0,100.0 573.2,101.1 576.5,104.2 579.8,109.3 583.0,116.3 586.2,125.0 589.5,135.3 592.8,146.8 596.0,159.4 599.2,172.7 602.5,186.6 605.8,200.7 609.0,214.9 612.2,228.9 615.5,242.4 618.8,255.5 622.0,267.8 625.2,279.3 628.5,290.0 631.8,299.7 635.0,308.5 638.2,316.4 641.5,323.4 644.8,329.5 648.0,334.8 651.2,339.3 654.5,343.2 657.8,346.4 661.0,349.1 664.2,351.4 667.5,353.2 670.8,354.7 674.0,355.9 677.2,356.8 680.5,357.6 683.8,358.2 687.0,358.6 690.2,359.0 693.5,359.2 696.8,359.5 700.0,359.6" fill="none" stroke="#1E293B" stroke-width="1.6" stroke-dasharray="5 3" opacity="0.85"/>
+<line x1="434.0" y1="360" x2="706.0" y2="360" stroke="#0F172A" stroke-width="1.4"/>
+<circle cx="492.3" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="521.5" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="542.7" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="561.2" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="578.8" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="597.3" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="618.5" cy="360" r="4.5" fill="#DC244C"/>
+<circle cx="647.7" cy="360" r="4.5" fill="#DC244C"/>
+<text x="492.3" y="382" text-anchor="middle" font-size="11" fill="#475569">−2.152</text>
+<text x="570.0" y="382" text-anchor="middle" font-size="11" fill="#475569">0</text>
+<text x="647.7" y="382" text-anchor="middle" font-size="11" fill="#475569">+2.152</text>
+<line x1="76.0" y1="398.5" x2="87.0" y2="398.5" stroke="#1E293B" stroke-width="1.6" stroke-dasharray="3 2"/>
+<text x="93.0" y="402.0" font-size="12" fill="#0F172A">N(0,1) reference</text>
+<rect x="215.4" y="393" width="11" height="11" fill="#DC244C" rx="2"/>
+<text x="232.4" y="402.0" font-size="12" fill="#0F172A">codebook centroids</text>
+<rect x="367.6" y="393" width="11" height="11" fill="#94A3B8" rx="2"/>
+<text x="384.6" y="402.0" font-size="12" fill="#0F172A">data inside codebook</text>
+<rect x="532.6" y="393" width="11" height="11" fill="#DC244C" rx="2"/>
+<text x="549.6" y="402.0" font-size="12" fill="#0F172A">data outside codebook</text>
+</svg>

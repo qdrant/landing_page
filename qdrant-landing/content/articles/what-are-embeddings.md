@@ -5,7 +5,7 @@ slug: what-are-embeddings?
 short_description: Explore the power of vector embeddings. Learn to use numerical machine learning representations to build a personalized Neural Search Service with Fastembed.
 description: Discover the power of vector embeddings. Learn how to harness the potential of numerical machine learning representations to create a personalized Neural Search Service with FastEmbed.
 preview_dir: /articles_data/what-are-embeddings/preview
-weight: -102
+weight: 70
 social_preview_image: /articles_data/what-are-embeddings/preview/social-preview.jpg
 small_preview_image: /articles_data/what-are-embeddings/icon.svg
 date: 2024-02-06T15:29:33-03:00
@@ -18,7 +18,7 @@ tags:
   - embeddings
   - machine-learning
   - artificial intelligence
-category: vector-search-manuals
+category: core-concepts
 ---
 
 > **Embeddings** are numerical machine learning representations of the semantic of the input data. They capture the meaning of complex, high-dimensional data, like text, images, or audio, into vectors. Enabling algorithms to process and analyze the data more efficiently.
@@ -140,7 +140,7 @@ We plan to go deeper into selecting the best model based on performance, cost, i
 
 ## Create a neural search service with Fastmbed
 
-Now that you’re familiar with the core concepts around vector embeddings, how about start building your own [Neural Search Service](/documentation/tutorials-search-engineering/neural-search/)?
+Now that you’re familiar with the core concepts around vector embeddings, how about start building your own [Neural Search Service](/documentation/tutorials-develop/neural-search/)?
 
 Tutorial guides you through a practical application of how to use Qdrant for document management based on descriptions of companies from [startups-list.com](https://www.startups-list.com/). From embedding data, integrating it with Qdrant's vector database, constructing a search API, and finally deploying your solution with FastAPI.
 

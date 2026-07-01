@@ -1,5 +1,7 @@
 ---
 title: PrivateGPT
+short_description: "Configure PrivateGPT to use Qdrant as its default vector store for offline, private question-answering over your own documents."
+description: "Use Qdrant as the default vector store in PrivateGPT to ingest and query your documents privately with local LLMs and full offline support."
 aliases: [ ../integrations/privategpt/, ../frameworks/privategpt/ ]
 ---
 

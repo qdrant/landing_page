@@ -1,5 +1,7 @@
 ---
 title: FiftyOne
+short_description: "Run image and text similarity search over computer vision datasets in FiftyOne, backed by Qdrant for fast vector retrieval."
+description: "Use Qdrant with FiftyOne to power image and text similarity search across computer vision datasets and improve dataset quality and model insights."
 aliases: [ ../integrations/fifty-one ]
 ---
 

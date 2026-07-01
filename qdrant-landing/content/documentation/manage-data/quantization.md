@@ -1,5 +1,7 @@
 ---
 title: Quantization
+short_description: "Compress vectors with scalar, product, or binary quantization to shrink memory use and speed up Qdrant search."
+description: "Apply quantization in Qdrant to compress high-dimensional vectors, reduce memory footprint, and accelerate similarity search while preserving recall quality."
 weight: 35
 aliases:
   - ../quantization
@@ -10,11 +12,11 @@ aliases:
 # Quantization
 
 Quantization is an optional feature in Qdrant that enables efficient storage and search of high-dimensional vectors.
-By transforming original vectors into a new representations, quantization compresses data while preserving close to original relative distances between vectors.
+By transforming original vectors into new representations, quantization compresses data while preserving close to original relative distances between vectors.
 Different quantization methods have different mechanics and tradeoffs. We will cover them in this section.
 
 Quantization is primarily used to reduce the memory footprint and accelerate the search process in high-dimensional vector spaces.
-In the context of the Qdrant, quantization allows you to optimize the search engine for specific use cases, striking a balance between accuracy, storage efficiency, and search speed.
+In the context of Qdrant, quantization allows you to optimize the search engine for specific use cases, striking a balance between accuracy, storage efficiency, and search speed.
 
 There are tradeoffs associated with quantization.
 On the one hand, quantization allows for significant reductions in storage requirements and faster search times.
@@ -22,11 +24,68 @@ This can be particularly beneficial in large-scale applications where minimizing
 On the other hand, quantization introduces an approximation error, which can lead to a slight decrease in search quality.
 The level of this tradeoff depends on the quantization method and its parameters, as well as the characteristics of the data.
 
+Qdrant supports four quantization methods:
+
+- **[TurboQuant](#turboquant-quantization)** supports up to 32x compression, with strong recall across most embedding models.
+- **[Scalar Quantization](#scalar-quantization)** compresses each vector component from a 32-bit float to an 8-bit integer, achieving 4x compression with minimal accuracy loss.
+- **[Binary Quantization](#binary-quantization)** reduces each vector component to one to two bits for up to 32x compression. Best suited for high-dimensional, centered vector distributions.
+- **[Product Quantization](#product-quantization)** enables up to 64x compression when minimizing memory is the top priority.
+
+To help you choose the right quantization method for your use case, refer to the [next section](#how-to-choose-the-right-quantization-method).
+
+## How to Choose the Right Quantization Method
+
+Depending on your requirements for recall, compression, and distance metrics, consult this table for guidance:
+
+| Compression | Method      |
+|-------------|-------------|
+| 4           | Use **Scalar Quantization**. It is a well-established quantization method with a good balance between recall and compression. <br/><br/>However, unless you need to use the Manhattan (L1) distance metric, consider using 4-bit **TurboQuant** instead of scalar quantization, as it offers comparable recall at double the compression. |
+| 8           | Use 4-bit **TurboQuant**. It offers a good balance between recall and compression. <br/><br/>When using the Manhattan (L1) distance metric, consider using another quantization method. |
+| 16          | **2-bit TurboQuant** and **2-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
+| 24          | **1.5-bit TurboQuant** and **1.5-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
+| 32          | **1-bit TurboQuant** and **1-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
+| Up to 64  | Use **Product Quantization** if the memory footprint is the top priority and accuracy and speed are not critical. |
+
+## TurboQuant Quantization
+
+*Available as of v1.18.0*
+
+<aside role="status">Test TurboQuant on your data before committing. We encourage you to try it on new collections.</aside>
+
+TurboQuant is [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). It operates by applying a fast random rotation to vectors before compression, which evenly redistributes data across coordinates. This allows applying a single pre-computed, globally optimized quantization mapping across the dataset, enabling TurboQuant to work effectively with any vector distribution and overcoming a key limitation found in binary quantization.
+
+[Qdrant's implementation of TurboQuant](/articles/turboquant-quantization/) extends the original algorithm to close the gap between the algorithm's theoretical assumptions and real-world embeddings.
+
+TurboQuant uses asymmetric quantization automatically: only stored vectors are compressed, while queries are scored in full precision. This improves accuracy and requires no additional configuration.
+
+### Encoding Options
+
+TurboQuant supports four bit depths:
+
+| Encoding | Bit Depth | Compression |
+|----------|-----------|-------------|
+| `bits4` (default) | 4 bits   | 8× |
+| `bits2`           | 2 bits   | 16× |
+| `bits1_5`         | 1.5 bits | 24× |
+| `bits1`           | 1 bit    | 32× |
+
+In our benchmarks, 4-bit TurboQuant, at twice the compression ratio of scalar quantization, delivers similar recall and speed. Results vary by dataset and embedding model: it may outperform or slightly underperform scalar quantization. This makes 4-bit TurboQuant a good default choice for many use cases.
+
+Compared to binary quantization, TurboQuant offers better recall at lower speed and equivalent storage budgets.
+
+The default encoding is `bits4`, which offers the best accuracy.
+
+### Distance Metric Support
+
+TurboQuant fully supports Cosine, Dot, and Euclidean (L2) distance with SIMD-accelerated scoring.
+
+Manhattan (L1) distance is supported but requires full vector reconstruction per comparison, making it significantly slower than the other metrics. Use Cosine, Dot, or Euclidean distance for best performance with TurboQuant.
+
 ## Scalar Quantization
 
 *Available as of v1.1.0*
 
-Scalar quantization, in the context of vector search engines, is a compression technique that compresses vectors by reducing the number of bits used to represent each vector component.
+[Scalar quantization](/articles/scalar-quantization/), in the context of vector search engines, is a compression technique that compresses vectors by reducing the number of bits used to represent each vector component.
 
 For instance, Qdrant uses 32-bit floating numbers to represent the original vector components. Scalar quantization allows you to reduce the number of bits used to 8.
 In other words, Qdrant performs `float32 -> uint8` conversion for each vector component.
@@ -47,14 +106,10 @@ Please refer to the [Quantization Tips](#quantization-tips) section for more inf
 
 *Available as of v1.5.0*
 
-Binary quantization is an extreme case of scalar quantization.
-This feature lets you represent each vector component as a single bit, effectively reducing the memory footprint by a **factor of 32**.
+[Binary quantization](/articles/binary-quantization/) is an extreme case of scalar quantization.
+This feature lets you represent each vector component as a single bit, effectively reducing the memory footprint by a factor of 32. This is the fastest quantization method, since it lets you perform a vector comparison with a few CPU instructions. Binary quantization can achieve up to a 40x speedup compared to the original vectors.
 
-This is the fastest quantization method, since it lets you perform a vector comparison with a few CPU instructions.
-
-Binary quantization can achieve up to a **40x** speedup compared to the original vectors.
-
-However, binary quantization is only efficient for high-dimensional vectors and require a centered distribution of vector components.
+However, binary quantization is only efficient for high-dimensional vectors and requires a centered distribution of vector components.
 
 At the moment, binary quantization shows good accuracy results with the following models:
 
@@ -63,9 +118,9 @@ At the moment, binary quantization shows good accuracy results with the followin
 
 Models with a lower dimensionality or a different distribution of vector components may require additional experiments to find the optimal quantization parameters.
 
-We recommend using binary quantization only with rescoring enabled, as it can significantly improve the search quality
-with just a minor performance impact.
-Additionally, oversampling can be used to tune the tradeoff between search speed and search quality in the query time.
+We recommend using binary quantization only with rescoring enabled, as this can significantly improve search quality. However, keep in mind that if the original vectors are stored on disk, rescoring can significantly decrease search speed.
+
+Additionally, oversampling can be used to tune the tradeoff between search speed and search quality at query time.
 
 ### Binary Quantization as Hamming Distance
 
@@ -112,7 +167,7 @@ In order to build 2-bit representation, Qdrant computes values distribution and 
 - `0` - 01
 - `1` - 11
 
-1.5-bit quantization is similar, but merges buckets of pairs of elements into a binary triptets
+1.5-bit quantization is similar, but it merges buckets of element pairs into binary triplets.
 
 {{<figure src=/docs/2-bit-quantization.png caption="2-bit quantization" width=80% >}}
 
@@ -122,8 +177,8 @@ See how to set up 1.5-bit and 2-bit quantization in the [following section](#set
 
 *Available as of v1.15.0*
 
-The **Asymmetric Quantization** technique allows qdrant to use different vector encoding algorithm for stored vectors and for queries.
-Particularly interesting combination is a Binary stored vectors and Scalar quantized queries.
+The **Asymmetric Quantization** technique allows Qdrant to use different vector encoding algorithms for stored vectors and queries.
+A particularly interesting combination is binary stored vectors and Scalar quantized queries.
 
 {{<figure src=/docs/asymmetric-quantization.png caption="Asymmetric quantization" width=80% >}}
 
@@ -136,7 +191,7 @@ See how to set up Asymmetric Quantization quantization in the [following section
 
 *Available as of v1.2.0*
 
-Product quantization is a method of compressing vectors to minimize their memory usage by dividing them into
+[Product quantization](/articles/product-quantization/) is a method of compressing vectors to minimize their memory usage by dividing them into
 chunks and quantizing each segment individually.
 Each chunk is approximated by a centroid index that represents the original vector component.
 The positions of the centroids are determined through the utilization of a clustering algorithm such as k-means.
@@ -148,29 +203,7 @@ Also, product quantization has a loss of accuracy, so it is recommended to use i
 
 Please refer to the [Quantization Tips](#quantization-tips) section for more information on how to optimize the quantization parameters for your use case.
 
-## How to choose the right quantization method
-
-Here is a brief table of the pros and cons of each quantization method:
-
-| Quantization method | Accuracy | Speed        | Compression |
-|---------------------|----------|--------------|-------------|
-| Scalar              | 0.99     | up to x2     | 4           |
-| Product             | 0.7      | 0.5          | up to 64    |
-| Binary (1 bit)      | 0.95*    | up to x40    | 32          |
-| Binary (1.5 bit)    | 0.95**   | up to x30    | 24          |
-| Binary (2 bit)      | 0.95***  | up to x20    | 16          |
-
-- `*` - for compatible models with high-dimensional vectors (approx. 1536+ dimensions)
-- `**` - for compatible models with medium-dimensional vectors (approx. 1024-1536 dimensions)
-- `***` - for compatible models with low-dimensional vectors (approx. 768-1024 dimensions)
-
-- **Binary Quantization** is the fastest method and the most memory-efficient, but it requires a centered distribution of vector components. It is recommended to use with tested models only.
-  - If you are planning to use binary quantization with low or medium-dimensional vectors (approx. 512-1024 dimensions), it is recommended to use 1.5-bit or 2-bit quantization as well as asymmetric quantization feature.
-
-- **Scalar Quantization** is the most universal method, as it provides a good balance between accuracy, speed, and compression. It is recommended as default quantization if binary quantization is not applicable.
-- **Product Quantization** may provide a better compression ratio, but it has a significant loss of accuracy and is slower than scalar quantization. It is recommended if the memory footprint is the top priority and the search speed is not critical.
-
-## Setting up Quantization in Qdrant
+## Setting Up Quantization in Qdrant
 
 You can configure quantization for a collection by specifying the quantization parameters in the `quantization_config` section of the collection configuration.
 
@@ -181,7 +214,25 @@ Quantized vectors are stored alongside the original vectors in the collection, s
 
 The `quantization_config` can also be set on a per vector basis by specifying it in a named vector.
 
-### Setting up Scalar Quantization
+### Setting Up TurboQuant
+
+To enable TurboQuant, specify it in the `quantization_config` section of the collection configuration.
+
+When enabling TurboQuant on an existing collection, use a PATCH request or the corresponding `update_collection` method and omit the vector configuration, as it's already defined.
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-turbo-quant/" >}}
+
+`bits` - the encoding bit depth. Defaults to `bits4`. Available values: `bits4`, `bits2`, `bits1_5`, and `bits1`. Lower bit depths offer higher compression at the cost of accuracy.
+
+`always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors. Set `always_ram` to `true` to store quantized vectors in RAM.
+
+#### Select a Bit Depth
+
+To use a specific compression level, set the `bits` parameter:
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-turbo-quant-bits/" >}}
+
+### Setting Up Scalar Quantization
 
 To enable scalar quantization, you need to specify the quantization parameters in the `quantization_config` section of the collection configuration.
 
@@ -206,7 +257,7 @@ However, in some setups you might want to keep quantized vectors in RAM to speed
 
 In this case, you can set `always_ram` to `true` to store quantized vectors in RAM.
 
-### Setting up Binary Quantization
+### Setting Up Binary Quantization
 
 To enable binary quantization, you need to specify the quantization parameters in the `quantization_config` section of the collection configuration.
 
@@ -219,14 +270,14 @@ However, in some setups you might want to keep quantized vectors in RAM to speed
 
 In this case, you can set `always_ram` to `true` to store quantized vectors in RAM.
 
-#### Set up bit depth
+#### Set Up Bit Depth
 
 To enable 2bit or 1.5bit quantization, you need to specify `encoding` parameter in the `quantization_config` section of the collection configuration. Available values are `two_bits` and `one_and_half_bits`.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization-and-encoding/" >}}
 
 
-#### Set up asymmetric quantization
+#### Set Up Asymmetric Quantization
 
 To enable asymmetric quantization, you need to specify `query_encoding` parameter in the `quantization_config` section of the collection configuration. Available values are:
 - `default` and `binary` - use regular binary quantization for the query.
@@ -235,7 +286,7 @@ To enable asymmetric quantization, you need to specify `query_encoding` paramete
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-binary-quantization-and-query-encoding/" >}}
 
-### Setting up Product Quantization
+### Setting Up Product Quantization
 
 To enable product quantization, you need to specify the quantization parameters in the `quantization_config` section of the collection configuration.
 
@@ -270,10 +321,7 @@ However, there are a few options that you can use to control the search process:
 
 `ignore` - Toggle whether to ignore quantized vectors during the search process. By default, Qdrant will use quantized vectors if they are available.
 
-`rescore` - Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors.
-This can improve the search quality, but may slightly decrease the search speed, compared to the search without rescore.
-It is recommended to disable rescore only if the original vectors are stored on a slow storage (e.g. HDD or network storage).
-By default, rescore is enabled.
+`rescore` - Qdrant can re-evaluate top-k search results using the original vectors. While this can improve search quality, it may decrease search speed, especially if the original vectors are stored on disk. In such cases, it is recommended to disable rescoring. By default, rescoring is only enabled for binary quantization. Other quantization methods do not rescore by default.
 
 **Available as of v1.3.0**
 
@@ -281,9 +329,9 @@ By default, rescore is enabled.
 For example, if oversampling is 2.4 and limit is 100, then 240 vectors will be pre-selected using quantized index, and then top-100 will be returned after re-scoring.
 Oversampling is useful if you want to tune the tradeoff between search speed and search quality in the query time.
 
-## Quantization tips
+## Quantization Tips
 
-#### Accuracy tuning
+### Accuracy Tuning
 
 In this section, we will discuss how to tune the search precision.
 The fastest way to understand the impact of quantization on the search quality is to compare the search results with and without quantization.
@@ -297,33 +345,30 @@ By setting it to a value lower than 1.0, you can exclude extreme values (outlier
 For example, if you set the quantile to 0.99, 1% of the extreme values will be excluded.
 By adjusting the quantile, you find an optimal value that will provide the best search quality for your collection.
 
-- **Enable rescore**: Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. On large collections, this can improve the search quality, with just minor performance impact.
+- **Enable rescoring**: Qdrant can re-evaluate top-k search results using the original vectors. While this can improve search quality, it may decrease search speed, especially if the original vectors are stored on disk. In such cases, it is recommended to disable rescoring. By default, rescoring is only enabled for binary quantization. Other quantization methods do not rescore by default.
 
-#### Memory and speed tuning
+### Memory and Speed Tuning
 
 In this section, we will discuss how to tune the memory and speed of the search process with quantization.
 
 There are 3 possible modes to place storage of vectors within the qdrant collection:
 
-- **All in RAM** - all vector, original and quantized, are loaded and kept in RAM. This is the fastest mode, but requires a lot of RAM. Enabled by default.
+- **All in RAM** - all vectors, original and quantized, are loaded and kept in RAM. This is the fastest mode, but requires a lot of RAM. Enabled by default.
 
-- **Original on Disk, quantized in RAM** - this is a hybrid mode, allows to obtain a good balance between speed and memory usage. Recommended scenario if you are aiming to shrink the memory footprint while keeping the search speed.
+- **Original on Disk, quantized in RAM** - this is a hybrid mode that provides a good balance between speed and memory usage. It is recommended if you are aiming to shrink the memory footprint while keeping the search speed.
 
-This mode is enabled by setting `always_ram` to `true` in the quantization config while using memmap storage:
-
+  This mode is enabled by setting `always_ram` to `true` in the quantization config while using memmap storage:\
 {{< code-snippet path="/documentation/headless/snippets/create-collection/scalar-quantization-in-ram/" >}}
 
-In this scenario, the number of disk reads may play a significant role in the search speed.
-In a system with high disk latency, the re-scoring step may become a bottleneck.
+  In this scenario, the number of disk reads may play a significant role in the search speed.
+  In a system with high disk latency, the re-scoring step may become a bottleneck.
 
-Consider disabling `rescore` to improve the search speed:
-
+  Consider disabling `rescore` to improve the search speed:\
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-disabled-rescoring/" >}}
 
-- **All on Disk** - all vectors, original and quantized, are stored on disk. This mode allows to achieve the smallest memory footprint, but at the cost of the search speed.
+- **All on Disk** - all vectors, original and quantized, are stored on disk. This mode achieves the smallest memory footprint, but at the cost of search speed.
 
-It is recommended to use this mode if you have a large collection and fast storage (e.g. SSD or NVMe).
+  It is recommended to use this mode if you have a large collection and fast storage (e.g. SSD or NVMe).
 
-This mode is enabled by setting `always_ram` to `false` in the quantization config while using mmap storage:
-
+  This mode is enabled by setting `always_ram` to `false` in the quantization config while using mmap storage:\
 {{< code-snippet path="/documentation/headless/snippets/create-collection/quantization-on-disk/" >}}

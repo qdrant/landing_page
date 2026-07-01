@@ -16,7 +16,7 @@
 
   &__title {
     font-size: $spacer * 1.5;
-    line-height: pxToRem(34);
+    line-height: 1;
     color: $neutral-98;
     margin-bottom: $spacer * 0.5;
   }
@@ -53,7 +53,6 @@
     &__content {
       flex-direction: row;
       justify-content: space-between;
-      align-items: center;
       padding: $spacer * 2.5 $spacer * 4;
     }
 

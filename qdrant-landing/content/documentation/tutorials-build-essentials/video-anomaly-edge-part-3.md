@@ -1,5 +1,7 @@
 ---
 title: "Video Anomaly Detection Part 3: Scoring, Governance, and Deployment"
+short_description: "Score, govern, and deploy a video anomaly detection system on Qdrant Edge with incident formation and baseline protection."
+description: "Part 3 tutorial: turn raw kNN scores into incidents, protect the baseline, and deploy a Qdrant Edge video anomaly detection system to production."
 weight: 50
 partition: ecosystem
 aliases:

@@ -1,5 +1,7 @@
 ---
 title: Gemini
+short_description: "Embed text, images, video, and audio with Google Gemini and store vectors in Qdrant for unified, multilingual multimodal retrieval."
+description: "Generate Google Gemini embeddings for text and multimodal content, then index them in Qdrant to build multilingual, cross-modal semantic search."
 ---
 
 # Gemini
@@ -22,7 +24,7 @@ The following example shows how to integrate Gemini embeddings with Qdrant:
 
 Let's see how to use the Embedding Model API to embed documents for retrieval.
 
-The following example shows how to embed multiple documents with the `gemini-embedding-2-preview` model using the `RETRIEVAL_DOCUMENT` [task type](#supported-task-types):
+The following example shows how to embed multiple documents with the `gemini-embedding-2` model using the `RETRIEVAL_DOCUMENT` [task type](#supported-task-types):
 
 ## Embedding a document
 
@@ -39,11 +41,14 @@ texts = [
     "Gemini is a family of natively multimodal, large language models (LLMs).",
 ]
 
-result = gemini_client.models.embed_content(
-    model="gemini-embedding-2-preview",
-    contents=texts,
-    config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT"),
-)
+embeddings = [
+    gemini_client.models.embed_content(
+        model="gemini-embedding-2",
+        contents=text,
+        config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT"),
+    ).embeddings[0]
+    for text in texts
+]
 ```
 
 ```typescript
@@ -58,12 +63,19 @@ const texts = [
   "Gemini is a family of natively multimodal, large language models (LLMs).",
 ];
 
-const result = await geminiClient.models.embedContent({
-  model: "gemini-embedding-2-preview",
-  contents: texts,
-  config: { taskType: "RETRIEVAL_DOCUMENT" },
-});
+const embeddings = await Promise.all(
+  texts.map(async (text) => {
+    const result = await geminiClient.models.embedContent({
+      model: "gemini-embedding-2",
+      contents: text,
+      config: { taskType: "RETRIEVAL_DOCUMENT" },
+    });
+    return result.embeddings[0];
+  })
+);
 ```
+
+> Note: `gemini-embedding-2` returns one aggregated embedding when given multiple inputs. Embed each text separately and parallelize on the caller side.
 
 ## Creating Qdrant Points and Indexing documents with Qdrant
 
@@ -76,21 +88,21 @@ points = [
         vector=embedding.values,
         payload={"text": text},
     )
-    for idx, (embedding, text) in enumerate(zip(result.embeddings, texts))
+    for idx, (embedding, text) in enumerate(zip(embeddings, texts))
 ]
 ```
 
 ```typescript
 const points = texts.map((text, idx) => ({
   id: idx,
-  vector: result.embeddings[idx].values,
+  vector: embeddings[idx].values,
   payload: { text },
 }));
 ```
 
 ### Create Collection
 
-By default, `gemini-embedding-2-preview` outputs a 3072-dimensional embedding vector. You can reduce it to a smaller size (e.g., 768 or 1536) using the `output_dimensionality` configuration to save storage space. In this example, we keep the default 3072 dimensions.
+By default, `gemini-embedding-2` outputs a 3072-dimensional embedding vector. You can reduce it to a smaller size (e.g., 768 or 1536) using the `output_dimensionality` configuration to save storage space. In this example, we keep the default 3072 dimensions.
 
 ```python
 client.create_collection(
@@ -124,7 +136,7 @@ Once the documents are indexed, you can search for the most relevant documents u
 
 ```python
 query_result = gemini_client.models.embed_content(
-    model="gemini-embedding-2-preview",
+    model="gemini-embedding-2",
     contents="Is Qdrant compatible with Gemini?",
     config=types.EmbedContentConfig(task_type="RETRIEVAL_QUERY"),
 )
@@ -137,7 +149,7 @@ client.query_points(
 
 ```typescript
 const queryResult = await geminiClient.models.embedContent({
-  model: "gemini-embedding-2-preview",
+  model: "gemini-embedding-2",
   contents: "Is Qdrant compatible with Gemini?",
   config: { taskType: "RETRIEVAL_QUERY" },
 });
@@ -161,7 +173,7 @@ pdf_part = types.Part.from_bytes(
 )
 
 gemini_client.models.embed_content(
-    model="gemini-embedding-2-preview",
+    model="gemini-embedding-2",
     contents=[pdf_part],
 )
 ```
@@ -173,7 +185,7 @@ const pdfBytes = readFileSync("filename.pdf");
 const base64 = pdfBytes.toString("base64");
 
 await geminiClient.models.embedContent({
-  model: "gemini-embedding-2-preview",
+  model: "gemini-embedding-2",
   contents: [{
     parts: [{ inlineData: { mimeType: "application/pdf", data: base64 } }],
   }],

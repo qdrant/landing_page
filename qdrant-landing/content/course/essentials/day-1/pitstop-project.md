@@ -1,5 +1,6 @@
 ---
 title: "Project: Building a Semantic Search Engine"
+short_description: "Build a domain-specific semantic search engine and compare chunking strategies to see how preprocessing shapes retrieval quality."
 description: Build a semantic search engine with Qdrant. Compare chunking strategies, index embeddings, and query by meaning to discover what works best for your domain. 
 weight: 6
 isLesson: true

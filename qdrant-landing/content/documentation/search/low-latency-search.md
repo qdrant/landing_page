@@ -1,11 +1,19 @@
 ---
 title: Low-Latency Search
+short_description: "Tune Qdrant for low-latency vector search with quantization, HNSW indexing, sharding, and replica routing strategies."
+description: "Reduce Qdrant search latency by tuning HNSW indexes, quantization, sharding, and replica routing for fast vector retrieval in distributed deployments."
 weight: 35
 aliases:
   - /documentation/guides/low-latency-search/
 ---
 
 # Tips for Low-Latency Search with Qdrant
+
+## Create Payload Indexes
+
+If your search queries include filters, create [payload indexes](/documentation/manage-data/indexing/#payload-index) for the fields you filter on. Payload indexes are the primary way to improve filtered search performance in Qdrant. For best results, create payload indexes **before** uploading data.
+
+Queries that filter on unindexed fields are not only slower; they can also unnecessarily consume cluster resources, negatively impacting the latency of other search queries. Consider [blocking queries that filter on unindexed fields](/documentation/manage-data/indexing/#block-queries-that-filter-on-unindexed-fields). This rejects queries that would degrade performance at the API boundary, surfacing misconfigured indexes as errors rather than latency spikes.
 
 ## Scale Horizontally with Replicas
 
@@ -28,7 +36,13 @@ By default, a search operation queries a single replica of each shard in a colle
 
 To reduce tail latency for read operations, Qdrant supports delayed fan-outs. With delayed fan-outs, if the initial request to a replica exceeds a specified latency threshold, an additional read request is sent to another replica. Qdrant will then use the first available response.
 
-You can enable delayed fan-outs per collection by [setting](/documentation/manage-data/collections/#update-collection-parameters) the `read_fan_out_delay_ms` parameter to the number of milliseconds to wait before attempting to read from another replica. To disable delayed fan-outs after enabling, set this parameter to `0` (default).
+You can enable delayed fan-outs per collection by [setting](/documentation/manage-data/collections/#update-collection-parameters) the `read_fan_out_delay_ms` parameter to the number of milliseconds to wait before attempting to read from another replica. 
+
+{{< code-snippet path="/documentation/headless/snippets/update-collection/read-fan-out-delay-ms/" >}}
+
+Replace `100` with your collection's measured p95 read latency.
+
+To disable delayed fan-outs after enabling, set this parameter to `0` (default).
 
 <aside role="alert">Do not set the latency threshold to a very low value (for example, the 5th percentile of the read latency). This would cause almost every request to trigger additional read requests, significantly increasing the load on the cluster without much benefit. A good starting point is to set it to the 95th percentile of the read latency. This limits the additional load to approximately 5% while substantially shortening the latency tail.</aside>
 
@@ -66,5 +80,5 @@ To mitigate "blinking" points, an alternative to using `indexed_only` is to set 
 Refer to [Prevent Reads from Large Unindexed Segments](/documentation/ops-optimization/optimizer/#prevent-reads-from-large-unindexed-segments) for more details on how this works.
 
 <aside role="status">
-Do not use <code>prevent_unoptimized</code> in combination with <code>wait=true</code> on write requests without understanding the implications. See <a href="/documentation/ops-optimization/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
+Set the <code>wait</code> parameter to <code>false</code> on write requests when <code>prevent_unoptimized</code> is enabled. See <a href="/documentation/ops-optimization/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
 </aside>

@@ -5,13 +5,13 @@ description: "Create a serverless semantic search engine using nothing but Qdran
 social_preview_image: /articles_data/serverless/social_preview.png
 small_preview_image: /articles_data/serverless/icon.svg
 preview_dir: /articles_data/serverless/preview
-weight: 1
+weight: 30
 author: Andre Bogus
 author_link: https://llogiq.github.io
 date: 2023-07-12T10:00:00+01:00
 draft: false
 keywords: rust, serverless, lambda, semantic, search
-category: practicle-examples
+category: demos-and-tutorials
 ---
 
 Do you want to insert a semantic search function into your website or online app? Now you can do so - without spending any money! In this example, you will learn how to create a free prototype search engine for your own non-commercial purposes.

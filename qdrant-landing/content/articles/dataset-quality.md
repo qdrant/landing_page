@@ -5,7 +5,7 @@ description: Improving quality of text-and-images datasets on the online furnitu
 preview_dir: /articles_data/dataset-quality/preview
 social_preview_image: /articles_data/dataset-quality/preview/social_preview.jpg
 small_preview_image: /articles_data/dataset-quality/icon.svg
-weight: 8
+weight: 50
 author: George Panchuk
 author_link: https://medium.com/@george.panchuk
 date: 2022-07-18T10:18:00.000Z

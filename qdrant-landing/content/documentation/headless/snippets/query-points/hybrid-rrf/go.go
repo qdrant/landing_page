@@ -20,12 +20,14 @@ func Main() {
 			{
 				Query: qdrant.NewQuerySparse([]uint32{1, 42}, []float32{0.22, 0.8}),
 				Using: qdrant.PtrOf("sparse"),
+				Limit: qdrant.PtrOf(uint64(20)),
 			},
 			{
 				Query: qdrant.NewQueryDense([]float32{0.01, 0.45, 0.67}),
 				Using: qdrant.PtrOf("dense"),
+				Limit: qdrant.PtrOf(uint64(20)),
 			},
 		},
-		Query: qdrant.NewQueryFusion(qdrant.Fusion_RRF),
+		Query: qdrant.NewQueryRRF(&qdrant.Rrf{}),
 	})
 }

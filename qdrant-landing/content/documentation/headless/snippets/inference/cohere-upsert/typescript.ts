@@ -1,19 +1,20 @@
-import { QdrantClient } from "@qdrant/js-client-rest";
+import { QdrantClient, withHeaders } from "@qdrant/js-client-rest";
 
-const client = new QdrantClient({ host: "localhost", port: 6333 });
+const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
 
-client.upsert("{collection_name}", {
-    points: [
-        {
-            id: 1,
-            vector: {
-                text: 'a green square',
-                model: 'cohere/embed-v4.0',
-                options: {
-                    'cohere-api-key': '<your_cohere_api_key>',
-                    output_dimension: 512,
+await withHeaders({ 'cohere-api-key': '<YOUR_COHERE_API_KEY>' }, () =>
+    client.upsert("{collection_name}", {
+        points: [
+            {
+                id: 1,
+                vector: {
+                    image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFUlEQVR42mNk+M9Qz0AEYBxVSF+FAAhKDveksOjmAAAAAElFTkSuQmCC',
+                    model: 'cohere/embed-v4.0',
+                    options: {
+                        output_dimension: 512,
+                    },
                 },
             },
-        },
-    ],
-});
+        ],
+    })
+);

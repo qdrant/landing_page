@@ -5,7 +5,7 @@ public class Snippet
 {
 	public static async Task Run()
 	{
-		var client = new QdrantClient("localhost", 6334);
+		var client = new QdrantClient("localhost", 6334); // @hide
 
 		await client.UpdateCollectionAsync(
 			collectionName: "{collection_name}",

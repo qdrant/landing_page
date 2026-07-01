@@ -1,5 +1,5 @@
 ---
-_build:
+build:
   list: never
   publishResources: false
   render: never
@@ -8,7 +8,7 @@ _build:
 # remove or comment out the lines below to render the section
 # only if you have a template for it!
 cascade:
-  _build:
+  build:
       list: never
       publishResources: false
       render: never

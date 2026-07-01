@@ -1,5 +1,7 @@
 ---
 title: Setup Private Cloud
+short_description: "Install Qdrant Private Cloud into your Kubernetes cluster with Helm, using the Qdrant Operator and container registry credentials."
+description: "Install Qdrant Private Cloud into any standard Kubernetes cluster with Helm, the Qdrant Operator, and credentials for the Qdrant container registry."
 weight: 5
 ---
 
@@ -67,13 +69,13 @@ helm registry login 'registry.cloud.qdrant.io' --username 'your-username' --pass
 4. Install the Qdrant Kubernetes Operator Custom Resource Definitions (CRDs):
 
 ```bash
-helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.23.0 --wait
+helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.37.0 --wait
 ```
 
 5. Install Qdrant Private Cloud:
 
 ```bash
-helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.9.6
+helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.9.10
 ```
 
 Ensure that the `qdrant-kubernetes-api` version is compatible with the `qdrant-private-cloud` version you are installing.
@@ -82,8 +84,8 @@ For a list of available versions consult the [Private Cloud Changelog](/document
 
 Current default versions are:
 
-* qdrant-kubernetes-api v1.23.0
-* qdrant-private-cloud 1.9.6
+* qdrant-kubernetes-api v1.37.0
+* qdrant-private-cloud 1.9.10
 
 For more information also see the [Helm Install Documentation](https://helm.sh/docs/helm/helm_install/).
 
@@ -111,7 +113,7 @@ operator:
 You can configure Qdrant Private Cloud like this:
 
 ```bash
-helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.9.6 -f values.yaml
+helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.9.10 -f values.yaml
 ```
 
 ## Upgrades
@@ -119,13 +121,13 @@ helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdran
 To upgrade Qdrant Private Cloud to a new version, first upgrade the Qdrant Kubernetes Operator Custom Resource Definitions (CRDs):
 
 ```bash
-helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.23.0 --wait
+helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.37.0 --wait
 ```
 
 Then upgrade the Qdrant Private Cloud Helm chart using the same configuration values, e.g.:
 
 ```bash
-helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.9.6 -f values.yaml
+helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.9.10 -f values.yaml
 ```
 
 Note, that the image tag values are automatically derived from the chart's appVersions and should not be overridden in the `values.yaml`.

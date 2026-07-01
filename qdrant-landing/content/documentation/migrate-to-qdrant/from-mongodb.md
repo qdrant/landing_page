@@ -1,5 +1,7 @@
 ---
 title: From MongoDB
+short_description: "Move embeddings from MongoDB Atlas Vector Search into Qdrant for purpose-built vector retrieval and filtering."
+description: "Migrate from MongoDB to Qdrant by exporting documents and vector fields from MongoDB Atlas and loading them into Qdrant collections for dedicated vector search."
 weight: 80
 ---
 

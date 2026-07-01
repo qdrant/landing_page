@@ -19,6 +19,9 @@
         <div class="enterprise-capabilities__header">
           <h2 class="enterprise-capabilities__title">{{ .Params.title }}</h2>
           <p class="enterprise-capabilities__subtitle">{{ .Params.subtitle }}</p>
+          <a href="{{ .Params.startFree.url }}" class="button button_contained button_md enterprise-capabilities__button">
+            {{ .Params.startFree.text }}
+          </a>
         </div>
         <div class="enterprise-capabilities__cards">
           {{ range .Params.deploymentOptions }}

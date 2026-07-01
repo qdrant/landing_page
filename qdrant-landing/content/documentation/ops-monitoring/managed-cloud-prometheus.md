@@ -1,5 +1,7 @@
 ---
 title: Managed Cloud Prometheus Monitoring
+short_description: "Monitor Qdrant Managed Cloud clusters with Prometheus and Grafana running in your own Kubernetes environment for full visibility."
+description: "Configure Prometheus and Grafana in Kubernetes to scrape metrics from Qdrant Managed Cloud clusters and import the official monitoring dashboard."
 weight: 10
 aliases:
   - /documentation/ops-monitoring/managed-cloud-prometheus
@@ -53,7 +55,7 @@ metadata:
     release: prometheus
 spec:
   metricsPath: /sys_metrics
-  scrapeInterval: 30s
+  scrapeInterval: 60s
   scheme: HTTPS
   authorization:
     type: Bearer

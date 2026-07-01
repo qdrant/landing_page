@@ -1,5 +1,7 @@
 ---
 title: Semantic Search 101
+short_description: "Build a semantic search engine locally with Qdrant in five minutes using sentence-transformer embeddings and the Python SDK."
+description: "Tutorial: build a local semantic search engine with Qdrant in minutes by encoding text into embeddings and running vector queries with the Python client."
 hideInSidebar: true
 aliases:
   - /documentation/tutorials/mighty.md/
@@ -247,4 +249,4 @@ The query has been narrowed down to one result from 2008.
 
 ## Next Steps
 
-Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial, try [building your own hybrid search service](/documentation/tutorials-search-engineering/hybrid-search-fastembed/) or take the free [Qdrant Essentials course](/course/essentials/).
+Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial, try [building your own hybrid search service](/documentation/tutorials-develop/hybrid-search-fastembed/) or take the free [Qdrant Essentials course](/course/essentials/).

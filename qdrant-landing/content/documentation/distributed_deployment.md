@@ -1,5 +1,7 @@
 ---
 title: Distributed Deployment
+short_description: "Run Qdrant in distributed mode across multiple nodes for higher availability, scalable throughput, and fault-tolerant vector search."
+description: "Configure distributed Qdrant deployments to scale storage, balance load, and tolerate node failures using sharding and replication across a cluster."
 partition: deploy
 weight: 115
 aliases:
@@ -160,6 +162,8 @@ In practice, it means that Qdrant does not guarantee atomic distributed updates 
 
 Operations on collections, on the contrary, are part of the consensus which guarantees that all operations are durable and eventually executed by all nodes.
 In practice it means that a majority of nodes agree on what operations should be applied before the service will perform them.
+
+For high availability, run at least three voting nodes. A two-node cluster cannot form a majority if either node is unavailable, so Raft cannot elect or confirm a leader until both nodes can communicate again.
 
 Practically, it means that if the cluster is in a transition state - either electing a new leader after a failure or starting up, the collection update operations will be denied.
 

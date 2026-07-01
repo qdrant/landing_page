@@ -4,7 +4,7 @@
 /* Shared pricing table styles – used by qdrant-pricing-features and qdrant-pricing-comparison */
 
 :root {
-  --tier-count: 4;
+  --tier-count: 4; // fallback; overridden per table via inline style in qdrant-pricing-features-table.html
   --feature-cell-width: 19.375rem;
 }
 
@@ -238,6 +238,21 @@
     }
   }
 
+  &__table:not(:has(.pricing-table__table-footer)) {
+    .pricing-table__table-body
+      .pricing-table__table-section:last-of-type
+      .pricing-table__table-section-rows
+      .pricing-table__table-row:last-child
+      .pricing-table__table-cell:last-child {
+      border-bottom-right-radius: pxToRem(8);
+    }
+
+    .pricing-table__table-section:last-of-type.pricing-table__table-section--collapsed
+      .pricing-table__table-section-header {
+      border-bottom-right-radius: pxToRem(8);
+    }
+  }
+
   &--highlight {
     background-color: $secondary-blue-95;
   }
@@ -302,6 +317,7 @@
   @include media-breakpoint-down(lg) {
     &__tier-tabs {
       display: flex;
+      flex-wrap: wrap;
       gap: 0;
       padding: pxToRem(4);
       margin-bottom: 0;
@@ -313,11 +329,16 @@
     }
 
     &__tier-tab {
-      flex: 1;
-      padding: $spacer * 0.5 $spacer;
+      flex: 1 1 0;
+      min-width: min-content;
+      max-width: 100%;
+      padding: $spacer * 0.5 $spacer * 0.5;
       font-size: pxToRem(14);
       font-weight: 400;
       line-height: 1.5;
+      text-align: center;
+      white-space: normal;
+      overflow-wrap: normal;
       color: $neutral-30;
       background: transparent;
       border: none;
@@ -382,6 +403,27 @@
       }
     }
 
+    &__table:not(:has(.pricing-table__table-footer)) {
+      .pricing-table__table-body
+        .pricing-table__table-section:last-of-type
+        .pricing-table__table-section-rows
+        .pricing-table__table-row:last-child {
+        .pricing-table__table-cell:first-child {
+          border-bottom-left-radius: pxToRem(8);
+        }
+
+        .pricing-table__table-cell--mobile-active {
+          border-bottom-right-radius: pxToRem(8);
+          border-right: 0.5px solid $neutral-80;
+        }
+      }
+
+      .pricing-table__table-section:last-of-type.pricing-table__table-section--collapsed
+        .pricing-table__table-section-header {
+        border-bottom-right-radius: pxToRem(8);
+      }
+    }
+
     &__table-footer {
       display: grid;
       grid-template-columns: 1fr;
@@ -436,6 +478,126 @@
       font-size: pxToRem(16);
       font-weight: 500;
       line-height: 1.5;
+    }
+  }
+
+  &--dark {
+    $dark-border: 0.5px solid $neutral-40;
+
+    .pricing-table__tier-tabs {
+      background-color: $neutral-20;
+      border: $dark-border;
+      border-bottom: none;
+    }
+
+    .pricing-table__tier-tab {
+      color: $neutral-80;
+
+      &--active {
+        color: $neutral-98;
+        background-color: $neutral-30;
+      }
+    }
+
+    .pricing-table__table-cell {
+      background-color: $neutral-20;
+      color: $neutral-80;
+      border-left: $dark-border;
+      border-bottom: $dark-border;
+    }
+
+    .pricing-table__table-cell--feature {
+      color: $neutral-80;
+    }
+
+    .pricing-table__table-cell--highlight {
+      background-color: $neutral-20;
+    }
+
+    .pricing-table__table-header .pricing-table__table-cell:not(.pricing-table__table-cell--feature) {
+      background-color: $neutral-20;
+      color: $neutral-98;
+      border-top: $dark-border;
+      border-left: $dark-border;
+      border-bottom: none;
+    }
+
+    .pricing-table__table-header .pricing-table__table-cell--feature,
+    .pricing-table__table-footer .pricing-table__table-cell--feature {
+      background-color: transparent;
+      border: none;
+    }
+
+    .pricing-table__table-header .pricing-table__table-cell:last-child,
+    .pricing-table__table-footer .pricing-table__table-cell:last-child,
+    .pricing-table__table-row .pricing-table__table-cell:last-child {
+      border-right: $dark-border;
+    }
+
+    .pricing-table__table-section-header {
+      background-color: $neutral-30;
+      border-left: $dark-border;
+      border-right: $dark-border;
+      border-bottom: $dark-border;
+    }
+
+    .pricing-table__table-section:first-of-type .pricing-table__table-section-header {
+      border-top: $dark-border;
+    }
+
+    .pricing-table__table-section-title {
+      color: $neutral-98;
+    }
+
+    .pricing-table__chevron {
+      color: $neutral-98;
+    }
+
+    .pricing-table__check {
+      color: $neutral-98;
+    }
+
+    .pricing-table__x {
+      color: $neutral-60;
+    }
+
+    .pricing-table__text {
+      color: $neutral-80;
+
+      &--bold {
+        color: $neutral-98;
+      }
+    }
+
+    .pricing-table__table-footer .pricing-table__table-cell:not(.pricing-table__table-cell--feature) {
+      background-color: $neutral-20;
+      border-left: $dark-border;
+      border-bottom: $dark-border;
+    }
+
+    @include media-breakpoint-down(lg) {
+      .pricing-table__table-section-rows {
+        border-right: $dark-border;
+      }
+
+      .pricing-table__table-cell[data-tier-col].pricing-table__table-cell--mobile-active {
+        border-right: none;
+      }
+
+      .pricing-table__table:not(:has(.pricing-table__table-footer)) {
+        .pricing-table__table-body
+          .pricing-table__table-section:last-of-type
+          .pricing-table__table-section-rows
+          .pricing-table__table-row:last-child
+          .pricing-table__table-cell--mobile-active {
+          border-right: $dark-border;
+        }
+      }
+
+      .pricing-table__table-footer .pricing-table__table-cell--cta[data-tier-col].pricing-table__table-cell--mobile-active {
+        border-left: $dark-border;
+        border-right: $dark-border;
+      }
     }
   }
 }

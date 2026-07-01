@@ -1,12 +1,14 @@
 ---
 title: Search
+short_description: "Run similarity search in Qdrant to find points whose vectors are nearest to a query in the configured vector space."
+description: "Run similarity search in Qdrant to retrieve nearest-neighbor points for text, image, and multimodal queries using configurable distance metrics and HNSW."
 weight: 5
 aliases:
   - ../search
   - /documentation/concepts/search/
 ---
 
-# Similarity search
+# Similarity Search
 
 Searching for the nearest vectors is at the core of many representational learning applications.
 Modern neural networks are trained to transform objects into vectors so that objects close in the real world appear close in vector space.
@@ -94,6 +96,10 @@ Currently, it could be:
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
 See details of possible filters and their work in the [filtering](/documentation/search/filtering/) section.
 
+<aside role="status">
+For performant filtering, create <a href="/documentation/manage-data/indexing/#payload-index">payload indexes</a> for the fields you plan to filter on. For best results, create payload indexes before ingesting data. Refer to <a href="/documentation/manage-data/indexing/#create-a-payload-index">Create a Payload Index</a> for more information.
+</aside>
+
 Example result of this API would be
 
 ```json
@@ -136,7 +142,7 @@ In general, the speed of the search is proportional to the number of non-zero va
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/sparse-vectors/" >}}
 
-### Filtering results by score
+### Filtering Results by Score
 
 In addition to payload filtering, it might be useful to filter out results with a low similarity score.
 For example, if you know the minimal acceptance score for your model and do not want any results which are less similar than the threshold.
@@ -145,7 +151,7 @@ It will exclude all results with a score worse than the given.
 
 <aside role="status">This parameter may exclude lower or higher scores depending on the used metric. For example, higher scores of Euclidean metric are considered more distant and, therefore, will be excluded.</aside>
 
-### Payload and vector in the result
+### Payload and Vector in the Result
 
 By default, retrieval methods do not return any stored information such as
 payload and vectors. Additional parameters `with_vectors` and `with_payload`
@@ -199,7 +205,7 @@ $$ \text{Estimated filter selectivity} =
 $$
 Since ACORN is significantly slower (approximately 2-10x in typical scenarios) but improves recall for restrictive filters, tuning this parameter is about deciding when the accuracy improvement justifies the performance cost.
 
-## Batch search API
+## Batch Search API
 
 The batch search API enables to perform multiple search requests via a single request.
 
@@ -260,22 +266,47 @@ collection `another_collection`.
 
 ## Pagination
 
-Search and [recommendation](/documentation/search/explore/#recommendation-api) APIs allow to skip first results of the search and return only the result starting from some specified offset:
+The Search and [recommendation](/documentation/search/explore/#recommendation-api) APIs allow you to skip the first results and return only the results starting from a specified offset:
 
 Example:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-offset/" >}}
 
-Is equivalent to retrieving the 11th page with 10 records per page.
+This is equivalent to retrieving the 11th page with 10 records per page.
 
 <aside role="alert">Large offset values may cause performance issues</aside>
 
-Vector-based retrieval in general and HNSW index in particular, are not designed to be paginated.
-It is impossible to retrieve Nth closest vector without retrieving the first N vectors first.
+Vector-based retrieval in general, and the HNSW index in particular, are not designed to be paginated. It is impossible to retrieve the Nth closest vector without internally retrieving the first N vectors first. However, using the `offset` parameter saves resources by reducing network traffic and the number of times the storage is accessed. Using the `offset` parameter internally retrieves `offset + limit` points, but only accesses the payload and vector of those points that are actually returned.
 
-However, using the offset parameter saves the resources by reducing network traffic and the number of times the storage is accessed.
+### Stable Ordering
 
-Using an `offset` parameter, will require to internally retrieve `offset + limit` points, but only access payload and vector from the storage those points which are going to be actually returned.
+Because HNSW search is approximate, the ranking of results can shift slightly between requests. As a result, paginating with `offset` can return the same point on multiple pages or skip points entirely.
+
+There are several ways to work around this:
+
+#### Client-Side Pagination
+
+Retrieve a large batch in a single request and paginate through it on the client. For example, fetch the top 100 results at once and let the user browse them 10 at a time. This avoids multiple round-trips and guarantees no duplicates.
+
+The trade-off is increased latency, and returning more data than the user actually needs.
+
+#### Exact Search
+
+Use exact searches to bypass HNSW and scan all vectors, returning results in a stable, deterministic order. This ensures that offset-based pagination works correctly.
+
+The trade-off is higher latency, which makes this practical only for small collections.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/with-exact-search/" >}}
+
+#### Exclude Seen IDs
+
+To avoid duplicates, on subsequent pages, add a `must_not: has_id` filter containing all point IDs collected from previous pages. This excludes all previously seen points from the results:
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/with-id-exclusion-pagination/" >}}
+
+Repeat this pattern on every page, expanding the exclusion list with each set of results.
+
+<aside role="status">The exclusion list grows by <code>limit</code> entries per page. This approach works well for sequential, forward-only pagination. It isn't practical for jumping directly to an arbitrary page.</aside>
 
 ## Grouping API
 
@@ -340,7 +371,7 @@ Consider having points with the following payloads:
 
 With the ***groups*** API, you will be able to get the best *N* points for each document, assuming that the payload of the points contains the document ID. Of course there will be times where the best *N* points cannot be fulfilled due to lack of points or a big distance with respect to the query. In every case, the `group_size` is a best-effort parameter, akin to the `limit` parameter.
 
-### Search groups
+### Search Groups
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/search/query-points-groups)):
 
@@ -396,40 +427,50 @@ If the `group_by` field of a point is an array (e.g. `"document_id": ["a", "b"]`
 * Only [keyword](/documentation/manage-data/payload/#keyword) and [integer](/documentation/manage-data/payload/#integer) payload values are supported for the `group_by` parameter. Payload values with other types will be ignored.
 * At the moment, pagination is not enabled when using **groups**, so the `offset` parameter is not allowed.
 
-### Lookup in groups
+### Lookup in Groups
 
-Having multiple points for parts of the same item often introduces redundancy in the stored data. Which may be fine if the information shared by the points is small, but it can become a problem if the payload is large, because it multiplies the storage space needed to store the points by a factor of the amount of points we have per group.
+When the points in a group share large fields like titles, abstracts, or full document vectors, copying that data onto every point inflates storage and forces you to rewrite every chunk whenever a shared field changes.
 
-One way of optimizing storage when using groups is to store the information shared by the points with the same group id in a single point in another collection. Then, when using the [**groups** API](#grouping-api), add the `with_lookup` parameter to bring the information from those points into each group.
+`with_lookup` solves this. Store the shared data once in a separate collection, then attach it to each group at query time using the [groups API](#grouping-api).
 
 ![Group id matches point id](/docs/lookup_id_linking.png)
 
 <aside role="status">Store only document-level metadata (e.g., titles, abstracts) in the lookup collection, not chunks or duplicated data.</aside>
 
-This has the extra benefit of having a single point to update when the information shared by the points in a group changes.
+Set up the two collections. `chunks` holds one point per chunk with its own vector. `documents` holds one point per document with payload only. The payload index on `document_id` lets `group_by` work on that field.
 
-For example, if you have a collection of documents, you may want to chunk them and store the points for the chunks in a separate collection, making sure that you store the point id from the document it belongs in the payload of the chunk point.
+{{< code-snippet path="/documentation/headless/snippets/query-groups/with-lookup-setup/" >}}
 
-In this case, to bring the information from the documents into the chunks grouped by the document id, you can use the `with_lookup` parameter:
+Ingest both collections, with `documents` populated before any query that uses `with_lookup`.
+
+{{< code-snippet path="/documentation/headless/snippets/query-groups/with-lookup-ingest/" >}}
+
+The lookup is a plain join by point id, not a vector search:
+
+- The `documents` collection must already contain a point whose id matches the `group_by` value from each chunk.
+- The id types must match. A string `group_by` value against integer point ids returns an empty `lookup` field with no error.
+- Group ids without a matching point in `documents` get an empty `lookup` field.
+
+Query the `chunks` collection with `group_by="document_id"` and `with_lookup` pointing at the `documents` collection:
 
 {{< code-snippet path="/documentation/headless/snippets/query-groups/with-lookup/" >}}
 
-For the `with_lookup` parameter, you can also use the shorthand `with_lookup="documents"` to bring the whole payload and vector(s) without explicitly specifying it.
+You can also pass `with_lookup="documents"` as a shorthand. It uses the server defaults (`with_payload=True`, `with_vectors=False`), so the documents' vectors are not returned. Use the explicit `WithLookup(...)` form when you need those vectors back.
 
-The looked up result will show up under `lookup` in each group.
+The looked-up result appears under `lookup` in each group. Below, chunk id 1 shows up in both groups because its `document_id` payload is an array (`[200, 201]`), placing the chunk into every matching group.
 
 ```json
 {
     "result": {
         "groups": [
             {
-                "id": 1,
+                "id": 200,
                 "hits": [
                     { "id": 0, "score": 0.91 },
                     { "id": 1, "score": 0.85 }
                 ],
                 "lookup": {
-                    "id": 1,
+                    "id": 200,
                     "payload": {
                         "title": "Document A",
                         "text": "This is document A"
@@ -437,12 +478,12 @@ The looked up result will show up under `lookup` in each group.
                 }
             },
             {
-                "id": 2,
+                "id": 201,
                 "hits": [
                     { "id": 1, "score": 0.85 }
                 ],
                 "lookup": {
-                    "id": 2,
+                    "id": 201,
                     "payload": {
                         "title": "Document B",
                         "text": "This is document B"
@@ -456,9 +497,7 @@ The looked up result will show up under `lookup` in each group.
 }
 ```
 
-Since the lookup is done by matching directly with the point id, the lookup collection must be pre-populated with points where the `id` matches the `group_by` value (e.g., document_id) from your primary collection.
-
-Any group id that is not an existing (and valid) point id in the lookup collection will be ignored, and the `lookup` field will be empty.
+For a collection of 20 000 documents with around 24 chunks each, duplicating ~3 KB of document-level data on every chunk adds up to ~1.4 GB. Storing those fields once per document in the `documents` collection brings that down to ~60 MB. The split pays off when the shared fields are large or change often, since updating one point in `documents` shows up under every chunk's group at query time.
 
 ## Random Sampling
 
@@ -470,7 +509,7 @@ Random sampling API is a part of [Universal Query API](#query-api) and can be us
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/random-sample/" >}}
 
-## Query planning
+## Query Planning
 
 Depending on the filter used in the search - there are several possible scenarios for query execution.
 Qdrant chooses one of the query execution options depending on the available indexes, the complexity of the conditions and the cardinality of the filtering result.

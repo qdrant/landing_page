@@ -1,5 +1,7 @@
 ---
 title: Time-Based Sharding
+short_description: "Implement time-based sharding in Qdrant to route fast-moving data by timestamp and prune old shards without expensive re-indexing."
+description: "Tutorial: configure time-based sharding in Qdrant to route data by timestamp, target queries to recent shards, and prune older data without re-indexing."
 weight: 35
 ---
 
@@ -40,7 +42,7 @@ Next, initialize the client:
 
 {{< code-snippet path="/documentation/headless/snippets/time-based-sharding/" block="initialize-client" >}}
 
-This tutorial assumes you are using [Qdrant Cloud Inference](/documentation/inference/#qdrant-cloud-inference) to generate vector embeddings. If you manage your own embedding infrastructure, you can apply the same principles, but you will need to adapt the code examples to use your embedding service.
+This tutorial assumes you are using [Qdrant Cloud Inference](/documentation/inference/cloud-inference/) to generate vector embeddings. If you manage your own embedding infrastructure, you can apply the same principles, but you will need to adapt the code examples to use your embedding service.
 
 ## Create Collection
 

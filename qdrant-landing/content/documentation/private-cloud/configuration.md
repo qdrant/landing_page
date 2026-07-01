@@ -1,5 +1,7 @@
 ---
 title: Configuration
+short_description: "Configure the Qdrant Private Cloud Helm chart for the Operator, networking, scheduling, ingress, and backup management."
+description: "Configure the Qdrant Private Cloud Helm chart with Operator settings, networking, scheduling, ingress, and backup management options for Kubernetes."
 weight: 10
 ---
 
@@ -222,10 +224,10 @@ operator:
           enable: true
           # The endpoint address where the cluster manager can be reached
           endpointAddress: "http://qdrant-cluster-manager"
-          # InvocationInterval is the interval between calls (started after the previous call is retured)
+          # InvocationInterval is the interval between calls (started after the previous call is returned)
           # Default is 10 seconds
           invocationInterval: 10s
-          # SyncClustersInterval is the interval between sync-clusters calls (started after the previous call is retured)
+          # SyncClustersInterval is the interval between sync-clusters calls (started after the previous call is returned)
           # Default is 10 seconds
           syncClustersInterval: 10s
           # Timeout is the duration a single call to the cluster manager is allowed to take.

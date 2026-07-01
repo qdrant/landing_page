@@ -5,6 +5,9 @@
         <span class="performance-by-design__tagline">{{ .Params.tagline }}</span>
         <h2 class="performance-by-design__title">{{ .Params.title }}</h2>
         <p class="performance-by-design__subtitle">{{ .Params.subtitle }}</p>
+        <a href="{{ .Params.startFree.url }}" class="button button_contained button_md performance-by-design__button">
+          {{ .Params.startFree.text }}
+        </a>
       </div>
 
       {{/* Slider layout: visible only below md */}}

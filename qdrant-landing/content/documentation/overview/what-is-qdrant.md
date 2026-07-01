@@ -1,5 +1,7 @@
 ---
 title: What is Qdrant?
+short_description: "Introduction to Qdrant, the vector similarity search engine that stores points with vectors and payloads for semantic search and RAG."
+description: "Qdrant is a vector database for storing, searching, and managing high-dimensional embeddings — purpose-built for semantic search, RAG, and recommendations."
 weight: 5
 aliases:
   - overview
@@ -20,9 +22,9 @@ learn about one of the most popular and fastest growing vector databases in the 
 
 ## What is Qdrant?
 
-[Qdrant](https://github.com/qdrant/qdrant) "is a vector similarity search engine that provides a production-ready 
+[Qdrant](https://github.com/qdrant/qdrant) is a vector similarity search engine that provides a production-ready 
 service with a convenient API to store, search, and manage points (i.e. vectors) with an additional 
-payload." You can think of the payloads as additional pieces of information that can help you 
+payload. You can think of the payloads as additional pieces of information that can help you 
 hone in on your search and also receive useful information that you can give to your users.
 
 You can get started using Qdrant with the Python `qdrant-client`, by pulling the latest docker 

@@ -1,5 +1,7 @@
 ---
 title: Nvidia
+short_description: "Generate embeddings with NVIDIA's retrieval models and store them in Qdrant for accurate, GPU-accelerated semantic search and RAG workflows."
+description: "Pair NVIDIA embedding models with Qdrant to power semantic search and RAG, using NVIDIA's retrieval API for high-quality query and passage embeddings."
 ---
 
 # Nvidia

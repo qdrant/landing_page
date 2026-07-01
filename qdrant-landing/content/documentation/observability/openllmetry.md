@@ -1,5 +1,7 @@
 ---
 title: OpenLLMetry
+short_description: "Trace Qdrant operations with OpenLLMetry, the OpenTelemetry-based LLM observability toolkit from Traceloop, for end-to-end visibility."
+description: "Instrument the Qdrant client with OpenLLMetry, an OpenTelemetry-based observability layer from Traceloop, and export traces to any OTel-compatible backend."
 weight: 5
 aliases: [ ../frameworks/openllmetry/ ]
 ---

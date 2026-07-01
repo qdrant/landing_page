@@ -1,6 +1,7 @@
 ```rust
+use std::collections::*;
+
 // This is an in-memory queue.
 // For production use cases consider persisting changes.
-let mut upload_queue: std::collections::VecDeque<PointStruct> =
-    std::collections::VecDeque::new();
+let mut upload_queue: VecDeque<::qdrant_client::qdrant::PointStruct> = VecDeque::new();
 ```

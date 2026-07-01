@@ -107,6 +107,17 @@
                   {{ $isActive = true }}
                 {{ end }}
 
+                {{ range .Sections }}
+                  {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
+                    {{ $isActive = true }}
+                  {{ end }}
+                  {{ range .RegularPages }}
+                    {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
+                      {{ $isActive = true }}
+                    {{ end }}
+                  {{ end }}
+                {{ end }}
+
                 {{ $sectionLink := .Permalink }}
 
                 {{ if .Params.is_empty }}
@@ -141,6 +152,34 @@
                             {{ end }}"
                           >
                             <a href="{{ .Permalink }}">{{ .Title }}</a>
+                          </li>
+                        {{ end }}
+                      {{ end }}
+                      {{ range .Sections }}
+                        {{ if not .Params.hideInSidebar }}
+                          {{ $subIsActive := false }}
+                          {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
+                            {{ $subIsActive = true }}
+                          {{ end }}
+                          {{ range .RegularPages }}
+                            {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
+                              {{ $subIsActive = true }}
+                            {{ end }}
+                          {{ end }}
+
+                          <li class="docs-menu__links-submenu-item docs-menu__links-submenu-item--section">
+                            <details {{ if $subIsActive }}open{{ end }}>
+                              <summary{{ if eq .File.UniqueID $currentNode.File.UniqueID }} class="active"{{ end }}><a href="{{ .Permalink }}">{{ .Title }}</a></summary>
+                              <ul class="docs-menu__links-sub-submenu">
+                                {{ range .RegularPages }}
+                                  {{ if not .Params.hideInSidebar }}
+                                    <li class="docs-menu__links-sub-submenu-item{{ if eq .File.UniqueID $currentNode.File.UniqueID }} active{{ end }}">
+                                      <a href="{{ .Permalink }}">{{ .Title }}</a>
+                                    </li>
+                                  {{ end }}
+                                {{ end }}
+                              </ul>
+                            </details>
                           </li>
                         {{ end }}
                       {{ end }}

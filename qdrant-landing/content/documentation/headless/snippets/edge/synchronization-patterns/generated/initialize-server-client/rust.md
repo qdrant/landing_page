@@ -1,4 +1,8 @@
 ```rust
+use ::qdrant_client::*;
+use ::qdrant_client::qdrant::*;
+use ::qdrant_client::qdrant::Distance;
+
 let server_client = Qdrant::from_url(QDRANT_URL)
     .api_key(QDRANT_API_KEY)
     .build()?;

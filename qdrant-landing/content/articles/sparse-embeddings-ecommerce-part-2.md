@@ -4,11 +4,11 @@ short_description: "Train a SPLADE model on Amazon's ESCI dataset using Modal's 
 description: "Part 2 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. Build a training pipeline on Modal with persistent checkpoints, SpladeLoss, and hyperparameter sweeps."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-2/preview
 social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-2/preview/social_preview.jpg
-weight: -199
+weight: 20
 author: Thierry Damiba
 author_link: https://github.com/thierrydamiba
 date: 2026-03-09T00:00:00.000Z
-category: practicle-examples
+category: mastering-search
 ---
 
 *This is Part 2 of a 5-part series on fine-tuning sparse embeddings for e-commerce search. In [Part 1](/articles/sparse-embeddings-ecommerce-part-1/), we covered why sparse embeddings beat BM25 for e-commerce. Now we build the training pipeline.*
@@ -22,7 +22,7 @@ category: practicle-examples
 
 ---
 
-In the last article we made the case for sparse embeddings in e-commerce search. Now we write the code. All source code is available in the [GitHub repo](https://github.com/thierrypdamiba/finetune-ecommerce-search), and you can try the [fine-tuned models on HuggingFace](https://huggingface.co/thierrydamiba/splade-ecommerce-esci). Want to skip straight to fine-tuning on your own data? See the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI. By the end of this piece, you'll have a SPLADE model trained on Amazon's ESCI dataset, running on Modal's serverless GPUs, with checkpoints saved to persistent storage.
+In the last article we made the case for sparse embeddings in e-commerce search. Now we write the code. All source code is available in the [GitHub repo](https://github.com/qdrant-labs/finetune-ecommerce-search), and you can try the [fine-tuned models on HuggingFace](https://huggingface.co/Qdrant/splade-ecommerce-esci). Want to skip straight to fine-tuning on your own data? See the [`sparse-finetune`](https://github.com/qdrant/sparse-finetune) CLI. By the end of this piece, you'll have a SPLADE model trained on Amazon's ESCI dataset, running on Modal's serverless GPUs, with checkpoints saved to persistent storage.
 
 ## The Dataset: Amazon ESCI
 
@@ -154,7 +154,7 @@ No S3 uploads, no checkpoint management code, no lost training runs.
 Sentence Transformers v5 introduced `SparseEncoder`, making SPLADE training straightforward. The model has two components:
 
 1. **MLMTransformer**: A transformer with a masked language model head that outputs logits over the full vocabulary
-2. **SpladePooling**: Max-pools the token-level logits and applies ReLU + log saturation
+2. **SpladePooling**: Applies ReLU + log saturation to the token-level logits and max-pools across positions
 
 ```python
 from sentence_transformers import SparseEncoder
@@ -336,6 +336,8 @@ The results were disastrous:
 | Standard SPLADE (contextual) | **0.389** |
 | Inference-Free (static) | 0.065 |
 
+> **Note:** These metrics were measured on a subsample of 100k products and 10k queries where all relevant documents are included. They are not directly comparable to official Amazon ESCI benchmarks and should be treated as a comparative signal only.
+
 That's 6x worse without contextual encoding.
 
 The static embedding completely failed because e-commerce queries are highly contextual. "Apple" means different things in "apple iphone" vs "apple fruit". The static embedding can't disambiguate. It looks up "apple" and returns the same vector regardless of context.
@@ -360,7 +362,7 @@ uv run modal run --detach modal_app.py \
     --mode train
 ```
 
-The model checkpoint gets saved to the persistent volume at `/checkpoints/splade_standard/final`. We've also published the trained model on HuggingFace as [splade-ecommerce-esci](https://huggingface.co/thierrydamiba/splade-ecommerce-esci) so you can skip training and use it directly. In the next article, we'll load this model, index products into Qdrant, and run retrieval benchmarks to see exactly how much we've improved over BM25.
+The model checkpoint gets saved to the persistent volume at `/checkpoints/splade_standard/final`. We've also published the trained model on HuggingFace as [splade-ecommerce-esci](https://huggingface.co/Qdrant/splade-ecommerce-esci) so you can skip training and use it directly. In the next article, we'll load this model, index products into Qdrant, and run retrieval benchmarks to see exactly how much we've improved over BM25.
 
 ## Key Takeaways
 

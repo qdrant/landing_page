@@ -1,5 +1,7 @@
 ---
 title: Database Optimization
+short_description: "Answers to common Qdrant optimization questions: reducing memory usage, sizing hardware, on-disk storage, and resolving slow queries."
+description: "FAQ on optimizing Qdrant: cut memory with quantization and on-disk storage, size machines correctly, and diagnose slow queries with payload indexing."
 weight: 2
 ---
 
@@ -33,6 +35,19 @@ As a result, the Qdrant process might use more memory than the minimum required 
 > Unused RAM is wasted RAM
 
 If you want to limit the memory usage of the service, we recommend using [limits in Docker](https://docs.docker.com/config/containers/resource_constraints/#memory) or Kubernetes.
+
+### My search latency increases under heavy write load. What should I do?
+
+Qdrant's background optimizer runs continuously, building HNSW indexes, merging segments, and applying quantization, while also serving search queries. Under heavy write load, the optimizer and queries compete for the same CPU, memory, and I/O. Here are the main levers to reduce that contention, ordered by impact:
+
+- **Prevent reads from large unindexed segments.** Enable [`prevent_unoptimized`](/documentation/ops-optimization/optimizer/#prevent-reads-from-large-unindexed-segments) to block searches over data that hasn't been indexed yet. When you do, also set `wait=false` on all write requests to avoid head-of-line blocking.
+- **Try smaller batch sizes.** Smaller batches shorten each write transaction, tightening the window during which it contends with reads.
+- **Lower the optimizer's CPU budget.** Use `optimizer_cpu_budget` to cap how many cores the optimizer can use, reserving more headroom for queries. A good starting point is 50% of available vCPUs.
+- **Tune optimizer threads.** Set `max_optimization_threads` to `1` per shard to serialize optimizer work and smooth out CPU spikes.
+- **Use delayed fan-outs.** If your collection has replicas, set `read_fan_out_delay_ms` to your p95 read latency so slow-replica requests automatically retry against a faster one.
+- **Scale out.** If you've exhausted per-node tuning, adding replicas or upgrading to a node with more RAM (so vectors fit in memory) removes entire classes of contention.
+
+For a full step-by-step walkthrough, see [Troubleshoot Read-Write Contention](/documentation/ops-optimization/read-write-contention/).
 
 ### My requests are very slow or time out. What should I do?
 

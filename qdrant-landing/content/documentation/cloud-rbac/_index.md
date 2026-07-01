@@ -1,5 +1,7 @@
 ---
 title: Cloud RBAC
+short_description: "Manage permissions for Qdrant Cloud resources with role-based access control across billing, IAM, clusters, and Hybrid Cloud."
+description: "Use Cloud RBAC to assign granular permissions across Qdrant Cloud billing, identity, clusters, and Hybrid Cloud so only authorized users access sensitive data."
 weight: 215
 partition: deploy
 ---

@@ -1,5 +1,6 @@
 ---
 title: "How ColPali Models Work"
+short_description: "Learn how ColPali turns document images into multi-vector representations, retrieving from PDFs, charts, and tables without an OCR step."
 description: Understand the inner workings of ColPali models and how they generate multi-vector representations for images and documents.
 weight: 1
 isLesson: true

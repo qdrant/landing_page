@@ -1,5 +1,7 @@
 ---
 title: CamelAI
+short_description: "Use Qdrant as the vector storage backend in CAMEL-AI to ingest, retrieve, and reason over data inside LLM-based agents."
+description: "Integrate Qdrant with CAMEL-AI as the vector storage backend for agent memory and retrieval, powering LLM agents that solve real-world tasks with grounded data."
 ---
 
 # Camel

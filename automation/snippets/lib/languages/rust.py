@@ -67,7 +67,7 @@ class LanguageRust(Language):
 
     RE_CODE = re.compile(
         r"""
-        (?P<uses> (?:use\s[^;]+;\n|\n)* )
+        (?P<uses> (?:use\s[^;]+;\n|//[^\n]*\n|\n)* )
         pub\s+async\s+fn\s+main\(\)\s*->\s*anyhow::Result<\(\)>\s*\{\n
         (?P<body> .*? )
         \s*Ok\(\(\)\)\n

@@ -1,5 +1,7 @@
 ---
 title: Vectors
+short_description: "Configure dense, sparse, and multivector representations in Qdrant to model text, images, and multimodal data."
+description: "Define dense, sparse, and multivector configurations in Qdrant collections to support text, image, multimodal, and late-interaction retrieval like ColBERT."
 weight: 10
 aliases:
   - /vectors
@@ -21,7 +23,7 @@ Usually, this algorithm is a neural network that converts the object into a fixe
 
 The neural network is usually [trained](/articles/metric-learning-tips/) on a pairs or [triplets](/articles/triplet-loss/) of similar and dissimilar objects, so it learns to recognize a specific type of similarity.
 
-By using this property of vectors, you can explore your data in a number of ways; e.g. by searching for similar objects, clustering objects, and more.
+By using this property of vectors, you can explore your data in a number of ways; for example, by searching for similar objects, clustering objects, and more.
 
 
 ## Vector Types
@@ -121,6 +123,8 @@ There are two scenarios where multivectors are useful:
 * **Late interaction embeddings** - Some text embedding models can output multiple vectors for a single text. 
 For example, a family of models such as ColBERT output a relatively small vector for each token in the text. 
 
+MaxSim returns a single combined score per point, not per subvector. For per-representation control across title, summary, and chunk embeddings, see [Named Vectors](#named-vectors) and the [Multi-Representation Search tutorial](/documentation/tutorials-search-engineering/multi-representation-search/). The [multivectors course](/course/multi-vector-search/) covers limitations at scale.
+
 In order to use multivectors, we need to specify a function that will be used to compare between matrices of vectors
 
 Currently, Qdrant supports `max_sim` function, which is defined as a sum of maximum similarities between each pair of vectors in the matrices.
@@ -131,7 +135,7 @@ $$
 
 Where $N$ is the number of vectors in the first matrix, $M$ is the number of vectors in the second matrix, and $\text{Sim}$ is a similarity function, for example, cosine similarity.
 
-To use multivectors, create a collection with the following configuration:
+To use multivectors, create a dense vector with a multivector comparator:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-multivector/" >}}
 
@@ -146,9 +150,9 @@ To search with multivector (available in `query` API):
 
 ## Named Vectors
 
-In Qdrant, you can store multiple vectors of different sizes and [types](#vector-types) in the same data [point](/documentation/manage-data/points/). This is useful when you need to define your data with multiple embeddings to represent different features or modalities (e.g., image, text or video). 
+In Qdrant, you can store multiple vectors of different sizes and [types](#vector-types) in the same data [point](/documentation/manage-data/points/). This is useful when you need to define your data with multiple embeddings to represent different features or modalities (for example, image, text, or video).
 
-To store different vectors for each point, you need to create separate named vector spaces in the [collection](/documentation/manage-data/collections/). You can define these vector spaces during collection creation and manage them independently.
+To store different vectors for each point, you need to create separate named vector spaces in the [collection](/documentation/manage-data/collections/). You can define these vector spaces during collection creation or [add them later](#adding-and-removing-named-vectors) and manage them independently.
 
 <aside role="status">
 Each vector should have a unique name. Vectors can represent different modalities and you can use different embedding models to generate them.
@@ -165,6 +169,19 @@ To insert a point with named vectors:
 To search with named vectors (available in `query` API):
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/named-vector/" >}}
+
+### Adding and Removing Named Vectors
+
+*Available as of v1.18.0*
+
+Named vectors can be added to or removed from an existing collection without having to recreate the collection.
+
+For example:
+
+{{< code-snippet path="/documentation/headless/snippets/create-named-vector/dense/" >}}
+
+Refer to [Update Vectors](/documentation/manage-data/collections/#update-vectors) for more details.
+
 
 ## Inference
 

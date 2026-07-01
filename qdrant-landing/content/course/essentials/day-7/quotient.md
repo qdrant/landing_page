@@ -1,5 +1,6 @@
 ---
 title: "Integrating with Quotient"
+short_description: "Monitor RAG quality with Quotient AI and Qdrant: detect hallucinations, score document relevance, and debug retrieval-augmented agents."
 description: Learn how Quotient and Qdrant combine to deliver end-to-end AI monitoring, hallucination detection, and performance analytics for reliable, high-quality retrieval-augmented generation systems.
 weight: 7
 isLesson: true

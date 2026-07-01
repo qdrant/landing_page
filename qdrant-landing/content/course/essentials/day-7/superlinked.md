@@ -1,5 +1,6 @@
 ---
 title: "Integrating with Superlinked"
+short_description: "Engineer richer vector representations with Superlinked's mixture-of-encoders approach over text, numeric, categorical, and temporal data in Qdrant."
 description: Learn how Superlinked’s Mixture of Encoders and Qdrant enable rich, multi-modal embeddings that fuse semantic, numerical, and temporal data for optimized vector retrieval.
 weight: 5
 isLesson: true

@@ -114,7 +114,7 @@
       }
 
       &[open=''] {
-        summary:after {
+        > summary:after {
           transform: rotate(180deg);
         }
       }
@@ -153,6 +153,50 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          color: $neutral-70;
+          font-weight: 400;
+        }
+
+        &.active {
+          a {
+            color: $primary-50;
+          }
+        }
+
+        &--section {
+          details {
+            summary {
+              cursor: pointer;
+              position: relative;
+              list-style: none;
+
+              &.active a {
+                color: $primary-50;
+              }
+
+              &::-webkit-details-marker {
+                display: none;
+              }
+
+            }
+
+            &[open=''] summary:after {
+              transform: rotate(180deg);
+            }
+          }
+        }
+      }
+    }
+
+    &-sub-submenu {
+      margin-bottom: 0;
+      padding-left: $spacer;
+
+      &-item {
+        list-style: none;
+
+        a {
+          display: flex;
           color: $neutral-70;
           font-weight: 400;
         }
@@ -333,7 +377,7 @@
         }
 
         &[open=''] {
-          summary:after {
+          > summary:after {
             transform: rotate(180deg);
           }
         }
@@ -344,6 +388,36 @@
       }
 
       &-submenu {
+        &-item {
+          a {
+            color: $neutral-30;
+
+            &:hover {
+              color: $primary-50;
+            }
+          }
+
+          &.active {
+            a {
+              color: $primary-50;
+            }
+          }
+
+          &--section {
+            details summary {
+              &:after {
+                background-image: url("data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Group'%3E%3Cpath id='Vector' d='M0.833374 1.4165L5.00004 5.58317L9.16671 1.4165' stroke='%2328324D' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E%0A");
+              }
+
+              &.active a {
+                color: $primary-50;
+              }
+            }
+          }
+        }
+      }
+
+      &-sub-submenu {
         &-item {
           a {
             color: $neutral-30;

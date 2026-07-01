@@ -1,5 +1,7 @@
 ---
 title: LangChain4j
+short_description: "Use Qdrant as the embedding store in LangChain4j to build context-aware AI applications in Java with full semantic retrieval support."
+description: "Integrate Qdrant with LangChain4j as the embedding store for Java AI apps, powering retrieval-augmented generation and semantic search over your data."
 ---
 
 # LangChain for Java

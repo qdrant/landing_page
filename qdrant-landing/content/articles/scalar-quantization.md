@@ -5,7 +5,7 @@ description: "Discover the efficiency of scalar quantization for optimized data 
 social_preview_image: /articles_data/scalar-quantization/social_preview.png
 small_preview_image: /articles_data/scalar-quantization/scalar-quantization-icon.svg
 preview_dir: /articles_data/scalar-quantization/preview
-weight: 5
+weight: 90
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-03-27T10:45:00+01:00
@@ -14,7 +14,7 @@ keywords:
   - vector search
   - scalar quantization
   - memory optimization
-category: qdrant-internals
+category: production-ops
 ---
 # Efficiency Unleashed: The Power of Scalar Quantization
 

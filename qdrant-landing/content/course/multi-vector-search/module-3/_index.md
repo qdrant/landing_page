@@ -1,5 +1,6 @@
 ---
 title: "Module 3: Scalability and Optimization"
+short_description: "Module 3: scale multi-vector search with quantization, pooling, MUVERA indexing, multi-stage retrieval, and pipeline evaluation."
 description: "Address scalability challenges in multi-vector search. Learn optimization techniques including quantization, pooling, MUVERA, and multi-stage retrieval."
 isLesson: true
 weight: 40

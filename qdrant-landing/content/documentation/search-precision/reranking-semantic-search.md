@@ -1,5 +1,7 @@
 ---
 title: Reranking for Better Search
+short_description: "Boost RAG and semantic search relevance in Qdrant with cross-encoder reranking layered on top of vector retrieval."
+description: "Improve semantic search and RAG quality in Qdrant by adding a reranking stage that re-scores top candidates with a cross-encoder for higher-precision results."
 weight: 1
 partition: ecosystem
 hideInSidebar: true

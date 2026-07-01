@@ -7,7 +7,8 @@ social_preview_image: /articles_data/agentic-builders-guide/preview/social_previ
 author: Thierry Damiba
 draft: false
 date: 2025-10-26T00:00:00.000Z
-category: rag-and-genai
+category: rag-and-agents
+weight: 10
 ---
 ## Overview
 

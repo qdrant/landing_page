@@ -1,6 +1,8 @@
 ---
 title: Monitoring & Telemetry
-weight: 130
+short_description: "Monitor Qdrant deployments with built-in metrics endpoints and Prometheus and Grafana stacks for self-hosted, Hybrid, and Managed Cloud."
+description: "Monitor Qdrant with Prometheus and Grafana using built-in OpenMetrics endpoints, with setup guides for Managed Cloud, Hybrid Cloud, and self-hosted clusters."
+weight: 148
 partition: deploy
 ---
 

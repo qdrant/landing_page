@@ -5,11 +5,11 @@ description: How to properly measure RAM usage and optimize Qdrant for memory co
 social_preview_image: /articles_data/memory-consumption/preview/social_preview.jpg
 preview_dir: /articles_data/memory-consumption/preview
 small_preview_image: /articles_data/memory-consumption/icon.svg
-weight: 7
+weight: 100
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
 date: 2022-12-07T10:18:00.000Z
-category: qdrant-internals
+category: production-ops
 # aliases: [ /articles/memory-consumption/ ]
 ---
 

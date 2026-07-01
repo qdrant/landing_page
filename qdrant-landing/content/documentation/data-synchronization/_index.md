@@ -1,5 +1,7 @@
 ---
 title: Data Synchronization
+short_description: "Keep Qdrant in sync with your source databases using event-driven CDC, batch reindexing, or dual-write patterns for fresh search results."
+description: "Synchronize Qdrant with source databases using CDC, batch reindexing, or dual-write patterns to keep vector search results consistent and up to date."
 weight: 400
 partition: ecosystem
 ---

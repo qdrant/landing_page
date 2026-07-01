@@ -1,5 +1,7 @@
 ---
 title: Make.com
+short_description: "Add Qdrant to Make scenarios with the official app to automate vector search and AI workflows alongside thousands of other integrations."
+description: "Connect Qdrant to Make.com using the official app, automating vector search inside no-code scenarios that link Qdrant to thousands of other services."
 aliases: [ ../frameworks/make/ ]
 ---
 

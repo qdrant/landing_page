@@ -1,4 +1,7 @@
 ```rust
+use qdrant_edge::*;
+use qdrant_edge::internal::*;
+
 let current_manifest = edge_shard.snapshot_manifest()?;
 
 let update_url = format!(

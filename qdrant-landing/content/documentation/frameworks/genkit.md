@@ -1,5 +1,7 @@
 ---
 title: Firebase Genkit
+short_description: "Build production AI apps with Firebase Genkit using Qdrant for indexing and semantic retrieval via the official Qdrant Genkit plugin."
+description: "Use the Qdrant Genkit plugin to add semantic retrieval and indexing to Firebase Genkit AI apps, with configurable embedders and collection options."
 ---
 
 # Firebase Genkit

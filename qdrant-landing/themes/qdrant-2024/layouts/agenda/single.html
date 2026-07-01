@@ -1,0 +1,110 @@
+{{ define "main" }}
+  <section class="agenda-page">
+    <div class="container">
+      {{ with .Params.hero_image }}
+        <div class="agenda-page__hero">
+          {{ partial "picture.html" (dict
+            "src" .
+            "alt" ""
+            "class" "agenda-page__hero-img"
+            "loading" "eager"
+            "decoding" "async"
+            "fetchpriority" "high"
+            "width" "1200"
+            "height" "1074"
+          ) }}
+        </div>
+      {{ end }}
+      <div class="agenda-page__header">
+        <h1 class="agenda-page__title">{{ .Params.heading | default .Title }}</h1>
+        {{ with .Params.logo }}
+          <img src="{{ . }}" alt="" class="agenda-page__logo" width="210" height="56" />
+        {{ end }}
+      </div>
+
+      <div class="agenda-page__meta">
+        <div class="agenda-page__meta-info">
+          {{ with .Params.subtitle }}
+            <p class="agenda-page__meta-text">{{ . | safeHTML }}</p>
+          {{ end }}
+        </div>
+        <div class="agenda-page__meta-details">
+          {{ with .Params.date_info }}
+            <span class="agenda-page__meta-date">{{ . }}</span>
+          {{ end }}
+          {{ with .Params.location }}
+            <span class="agenda-page__meta-location">{{ . }}</span>
+          {{ end }}
+        </div>
+      </div>
+
+      <div class="agenda-page__slots">
+        {{ range .Params.slots }}
+          {{ if eq .type "break" }}
+            <div class="agenda-page__break">
+              <span class="agenda-page__break-title">{{ .title }}</span>
+              <div class="agenda-page__slot-info">
+                <span class="agenda-page__slot-duration">
+                  {{ partial "svg" (dict "icon" "timer" "color" "currentColor") }}
+                  {{ .duration }}
+                </span>
+                <span class="agenda-page__slot-time">{{ .time }}</span>
+              </div>
+            </div>
+          {{ else }}
+            <div class="agenda-page__slot">
+              {{ if or .company_logo .badge }}
+                <div class="agenda-page__slot-header">
+                  {{ if .company_logo }}
+                    <img src="{{ .company_logo }}" alt="" class="agenda-page__slot-company-logo"
+                      {{ with .company_logo_offset }}
+                        style="margin-{{ .placement }}: {{ .value }}px;"
+                      {{ end }}
+                      loading="lazy" decoding="async" />
+                  {{ end }}
+                  {{ if .badge }}
+                    <span class="agenda-page__badge agenda-page__badge--{{ .badge_type }}">
+                      {{ with .badge_icon }}
+                        {{ partial "svg" (dict "icon" . "path" $.Params.badge_icons_path "color" "currentColor") }}
+                      {{ end }}
+                      {{ .badge }}
+                    </span>
+                  {{ end }}
+                </div>
+              {{ end }}
+
+              <h2 class="agenda-page__slot-title">{{ .title }}</h2>
+
+              {{ with .description }}
+                <p class="agenda-page__slot-description">{{ . }}</p>
+              {{ end }}
+
+              <div class="agenda-page__slot-footer">
+                <div class="agenda-page__slot-speaker">
+                  {{ with .speaker_avatar }}
+                    <img src="{{ . }}" alt="" class="agenda-page__slot-avatar" width="48" height="48" loading="lazy" decoding="async" />
+                  {{ end }}
+                  <div class="agenda-page__slot-speaker-info">
+                    {{ with .speaker_name }}
+                      <span class="agenda-page__slot-speaker-name">{{ . }}</span>
+                    {{ end }}
+                    {{ with .speaker_role }}
+                      <span class="agenda-page__slot-speaker-role">{{ . }}</span>
+                    {{ end }}
+                  </div>
+                </div>
+                <div class="agenda-page__slot-info">
+                  <span class="agenda-page__slot-duration">
+                  {{ partial "svg" (dict "icon" "timer" "color" "currentColor") }}
+                  {{ .duration }}
+                </span>
+                <span class="agenda-page__slot-time">{{ .time }}</span>
+              </div>
+              </div>
+            </div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

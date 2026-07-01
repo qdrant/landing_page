@@ -1,5 +1,7 @@
 ---
 title: Configure the Qdrant Operator 
+short_description: "Tune the Qdrant Operator in Hybrid Cloud with options for scheduling, security, ingress, networking, and snapshot management."
+description: "Tune the Qdrant Operator in Hybrid Cloud with advanced options for scheduling, security, ingress, networking, and automated snapshot management."
 weight: 20
 ---
 
@@ -137,7 +139,7 @@ settings:
         # The endpoint address the cluster manager could be reached
         # If set, this should be a full URL like: http://cluster-manager.qdrant-cloud-ns.svc.cluster.local:7333
         endpointAddress: http://qdrant-cluster-manager:80
-        # InvocationInterval is the interval between calls (started after the previous call is retured)
+        # InvocationInterval is the interval between calls (started after the previous call is returned)
         # Default is 10 seconds
         invocationInterval: 10s
         # Timeout is the duration a single call to the cluster manager is allowed to take.

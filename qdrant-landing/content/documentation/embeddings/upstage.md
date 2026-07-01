@@ -1,5 +1,7 @@
 ---
 title: Upstage
+short_description: "Embed queries and documents with Upstage Solar Embeddings and store them in Qdrant to power performant text retrieval and RAG."
+description: "Use Upstage Solar Embeddings with Qdrant to build fast text retrieval and RAG, leveraging dual query and passage models in a unified vector space."
 ---
 
 # Upstage

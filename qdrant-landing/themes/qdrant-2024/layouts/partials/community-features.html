@@ -5,14 +5,22 @@
       <div class="row g-4 gy-lg-3">
         {{ range $index, $element := .Params.features }}
           <div class="col-12 col-lg-4">
-            <a class="card community-features__card" href="{{ .link.url }}">
-              <img class="community-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
-              <h6 class="community-features__card-title">{{ .title }}</h6>
-              <p class="community-features__card-description">{{ .description }}</p>
-              <span class="community-features__card-link link link_md align-self-start">
-                {{ .link.text }}
-              </span>
-            </a>
+            {{ if and .link .link.url }}
+              <a class="card community-features__card" href="{{ .link.url }}">
+                <img class="community-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+                <h6 class="community-features__card-title">{{ .title }}</h6>
+                <p class="community-features__card-description">{{ .description }}</p>
+                <span class="community-features__card-link link link_md align-self-start">
+                  {{ .link.text }}
+                </span>
+              </a>
+            {{ else }}
+              <div class="card community-features__card">
+                <img class="community-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+                <h6 class="community-features__card-title">{{ .title }}</h6>
+                <p class="community-features__card-description">{{ .description }}</p>
+              </div>
+            {{ end }}
           </div>
         {{ end }}
       </div>

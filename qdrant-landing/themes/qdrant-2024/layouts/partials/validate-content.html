@@ -1,0 +1,9 @@
+{{ if and (not (in (slice "section" "home") .Kind)) (not .Content) (ne .Params.type "external-link") (ne .Params.build.render "always") }}
+  {{- $reset := "\033[0m" -}}
+  {{- $code := "\033[36m" -}}
+  {{- $msg := print
+    "Page %q has empty " $code ".Content" $reset ". If this is a headless file, consider adding build options to the parent " $code "_index.md" $reset " or the file itself to prevent it from being rendered. "
+    "Otherwise, add " $code "build.render: always" $reset " to the file."
+  -}}
+  {{ errorf $msg .Path }}
+{{ end }}

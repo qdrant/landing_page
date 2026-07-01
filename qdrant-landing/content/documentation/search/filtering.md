@@ -1,5 +1,7 @@
 ---
 title: Filtering
+short_description: "Combine vector similarity with payload filters in Qdrant to enforce business rules and refine search results."
+description: "Filter Qdrant search results with payload conditions on metadata and IDs, combining database-style clauses with vector similarity for precise retrieval."
 weight: 10
 aliases:
   - ../filtering
@@ -13,9 +15,9 @@ For example, you can impose conditions on both the [payload](/documentation/mana
 Setting additional conditions is important when it is impossible to express all the features of the object in the embedding.
 Examples include a variety of business requirements: stock availability, user location, or desired price range.
 
-## Related Content
-|[A Complete Guide to Filtering in Vector Search](/articles/vector-search-filtering/)|Developer advice on proper usage and advanced practices.|
-|-|-|
+<aside role="status">
+For performant filtering, create <a href="/documentation/manage-data/indexing/#payload-index">payload indexes</a> for the fields you plan to filter on. For best results, create payload indexes before ingesting data. Refer to <a href="/documentation/manage-data/indexing/#create-a-payload-index">Create a Payload Index</a> for more information.
+</aside>
 
 ## Filtering clauses
 
@@ -72,6 +74,8 @@ Filtered points would be:
   { "id": 4, "city": "Berlin", "color": "red" }
 ]
 ```
+
+<aside role="status">If all conditions inside <code>should</code> target the same field, use <a href="#match-any"><code>match any</code></a> instead. It's faster, especially when filtering on a large number of values.</aside>
 
 ### Must Not
 
@@ -156,8 +160,7 @@ Example:
 
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
 
-If the stored value is an array, it should have at least one value matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"black"` is in `["black", "yellow"]`.
-
+If the stored value is an array, it should have at least one value matching any of the given values. For example, if the stored value is `["black", "green"]`, the condition will be satisfied, because `"black"` is in `["black", "yellow"]`.
 
 ### Match Except
 
@@ -510,3 +513,7 @@ Some points in the collection might have all vectors, some might have only a sub
 This is how you can search for points which have the dense `image` vector defined:
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-has-vector/" >}}
+
+## Read More
+
+Refer to [A Complete Guide to Filtering in Vector Search](/articles/vector-search-filtering/) for developer advice on proper usage and advanced practices.

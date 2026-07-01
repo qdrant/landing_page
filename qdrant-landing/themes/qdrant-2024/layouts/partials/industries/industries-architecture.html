@@ -1,0 +1,68 @@
+<section class="industries-architecture">
+  <div class="container">
+    <h3 class="industries-architecture__title">{{ .Params.title }}</h3>
+    <p class="industries-architecture__description">{{ .Params.description | safeHTML }}</p>
+
+    <div class="industries-architecture__sections">
+      {{ range .Params.sections }}
+        <div class="row g-1 industries-architecture__section">
+          <div class="col-12 col-lg-6">
+            <div class="industries-architecture__checklist">
+              <div class="industries-architecture__checklist-top">
+                <h4 class="industries-architecture__checklist-title">{{ .title }}</h4>
+                <p class="industries-architecture__checklist-description">{{ .description }}</p>
+              </div>
+  
+              <div class="industries-architecture__checklist-bottom">
+                <a class="link link_md industries-architecture__checklist-link" href="{{ .link.href }}">
+                  {{ .link.text }}
+                </a>
+                <div class="industries-architecture__checklist-steps">
+                  {{ range .steps }}
+                  <div class="industries-architecture__checklist-step">
+                    <div class="industries-architecture__checklist-step-top">
+                      <img src="/icons/outline/circle-check-green.svg" alt="Check" />
+                      <h6 class="industries-architecture__checklist-step-title">{{ .title }}</h6>
+                    </div>
+                    <p class="industries-architecture__checklist-step-description">{{ .description }}</p>
+                  </div>
+                  {{ end }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="industries-architecture__code">
+              <div class="industries-architecture__code-tabs">
+                <button class="industries-architecture__code-tabs-button">{{ .language }}</button>
+                <button class="industries-architecture__code-button industries-architecture__code-copy">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_14927_49916)">
+                      <path d="M2 8C1.45 8 1 7.55 1 7V2C1 1.45 1.45 1 2 1H7C7.55 1 8 1.45 8 2M5 4H10C10.5523 4 11 4.44771 11 5V10C11 10.5523 10.5523 11 10 11H5C4.44771 11 4 10.5523 4 10V5C4 4.44771 4.44771 4 5 4Z" stroke="#B4BACC" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_14927_49916">
+                        <rect width="12" height="12" fill="white"/>
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </button>
+                <button class="industries-architecture__code-button industries-architecture__code-done">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 3L4.5 8.5L2 6" stroke="#F0F3FA" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="industries-architecture__code-content">
+                {{ with .code }}
+                  {{ $lang := $.Params.language | default "python" }}
+                  {{ highlight . $lang "" }}
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</section>

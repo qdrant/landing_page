@@ -54,5 +54,24 @@
 /documentation/tutorials-and-examples/managed-cloud-prometheus/*  /documentation/ops-monitoring/managed-cloud-prometheus/:splat     301
 /documentation/tutorials-and-examples/hybrid-cloud-prometheus/*   /documentation/ops-monitoring/hybrid-cloud-prometheus/:splat      301
 
+# Search tutorials reorg
+/documentation/tutorials-and-examples/cloud-inference-hybrid-search/*  /documentation/tutorials-basics/cloud-inference-hybrid-search/:splat  301
+/documentation/tutorials-search-engineering/code-search/*  /documentation/tutorials-develop/code-search/:splat  301
+/documentation/tutorials-search-engineering/neural-search/*  /documentation/tutorials-develop/neural-search/:splat 
+/documentation/tutorials-search-engineering/hybrid-search-fastembed/*  /documentation/tutorials-develop/hybrid-search-fastembed/:splat  301
+/documentation/tutorials-search-engineering/reranking-hybrid-search/*  /documentation/tutorials-basics/reranking-hybrid-search/:splat  301
+
 # Deploy tab landing page slug change
 /documentation/cloud-intro/*    /documentation/deploy-intro/:splat    301
+
+# High-traffic missing pages
+/documentation/hybrid-search/   /documentation/search/hybrid-queries/    301
+/documentation/scroll/           /documentation/manage-data/points/#scroll-points       301
+/documentation/discovery/        /documentation/search/explore/           301
+
+# Articles category reorganization (technical articles taxonomy)
+/articles/vector-search-manuals/   /articles/mastering-search/      301
+/articles/machine-learning/        /articles/embedding-research/    301
+/articles/ecosystem/               /articles/demos-and-tutorials/   301
+/articles/practicle-examples/      /articles/demos-and-tutorials/   301
+/articles/rag-and-genai/           /articles/rag-and-agents/        301

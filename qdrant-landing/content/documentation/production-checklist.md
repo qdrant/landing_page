@@ -1,5 +1,7 @@
 ---
 title: Production Checklist
+short_description: "Run through the Qdrant production checklist — sharding, replication, quantization, load balancing, and observability before launch."
+description: "Production-readiness checklist for Qdrant: distributed sharding, replication, quantization, load balancing, and monitoring for stable vector search."
 partition: deploy
 weight: 147
 ---
@@ -27,22 +29,39 @@ Distribute incoming requests evenly across cluster nodes to ensure consistent pe
 
 ---
 
-## 2. Quantization
+## 2. Security
+
+Lock down access before exposing your instance to any network. By default, self-hosted open source Qdrant instances are open to all interfaces without any authentication. On Qdrant Cloud, security features are enabled by default.
+
+- **[Set Up an API Key](/documentation/security/#authentication).**
+The minimum step required before any production deployment. Without it, an open source instance accepts requests from anyone who can reach it. On Qdrant Cloud, API key authentication is enabled by default.
+
+- **Use a Read-Only API Key for Query-Only Consumers.**
+Issue a separate [read-only key](/documentation/security/#read-only-api-key) for services or users that only need to query data. This limits the blast radius if a key is compromised. Both keys can be active simultaneously.
+
+- **Use [Fine-Grained Access Control](/documentation/security/#granular-access-api-keys).**
+Grant read or write permissions on individual collections, giving each client access only to what it needs.
+
+- **Enable TLS.**
+[Encrypt traffic](/documentation/security/#tls) between clients and your Qdrant instance (enabled by default on Qdrant Cloud).
+
+- **Bind to a Private Network Interface.**
+When self-hosting, prevent external access by [binding Qdrant to a private IP or loopback address](/documentation/security/#network-bind).
+
+---
+
+## 3. Quantization
 
 Compress vectors to reduce memory footprint. [Quantization](/documentation/manage-data/quantization/) is one of the most impactful changes you can make before going to production.
 
-- **Evaluate whether [Scalar Quantization](/documentation/manage-data/quantization/#scalar-quantization) fits your use case.**
-Scalar quantization converts `float32` to `uint8`, reducing memory by a factor of 4. The right default for most production workloads, especially with high-dimensional vectors.
-
-- **Consider [Binary Quantization](/documentation/manage-data/quantization/#binary-quantization) for maximum compression.**
-Binary quantization reduces memory by a factor of 32 and can significantly speed up searches. Best suited for compatible high-dimensional embedding models (for example, OpenAI `text-embedding-ada-002` or Cohere `embed-english-v2.0`).
+- **Quantization** reduces the memory footprint of vectors, by compressing them to fewer bits. This enables you to store more vectors in memory and on disk, which can improve query performance and reduce costs. Qdrant supports multiple quantization methods, each with different trade-offs between recall, speed, and compression. [Choose the right method](/documentation/manage-data/quantization/#how-to-choose-the-right-quantization-method) based on your requirements for recall, compression, and distance metrics.
 
 - **Benchmark retrieval quality after applying quantization.**
 Some models produce embeddings that can't be quantized efficiently. [Verify](/documentation/manage-data/quantization/#accuracy-tuning) that error rates stay within your acceptable threshold for your specific dataset and query patterns. Rescoring adds latency. [Tune](/documentation/manage-data/quantization/#memory-and-speed-tuning) quantization settings to ensure it meets your performance targets.
 
 ---
 
-## 3. Storage and Hardware
+## 4. Storage and Hardware
 
 Right-size your RAM, disk type, and storage mode. These decisions are difficult to change once you're in production.
 
@@ -63,7 +82,7 @@ When storing vectors and the HNSW index on disk, improve search performance by [
 
 ---
 
-## 4. Query Optimization
+## 5. Query Optimization
 
 Ensure your search is fast, accurate, and efficient under production load.
 

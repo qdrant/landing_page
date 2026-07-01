@@ -1,5 +1,5 @@
 use qdrant_client::Qdrant;
-use qdrant_client::qdrant::{Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
+use qdrant_client::qdrant::{PrefetchQueryBuilder, Query, QueryPointsBuilder, RrfBuilder};
 
 pub async fn main() -> anyhow::Result<()> {
     let client = Qdrant::from_url("http://localhost:6334").build()?;
@@ -16,7 +16,7 @@ pub async fn main() -> anyhow::Result<()> {
                 .using("dense")
                 .limit(20u64)
             )
-            .query(Query::new_fusion(Fusion::Rrf))
+            .query(Query::new_rrf(RrfBuilder::default()))
     ).await?;
 
     Ok(())

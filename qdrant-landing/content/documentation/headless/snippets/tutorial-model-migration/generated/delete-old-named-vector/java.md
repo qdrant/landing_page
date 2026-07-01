@@ -1,0 +1,9 @@
+```java
+client
+    .deleteVectorNameAsync(
+        DeleteVectorNameRequest.newBuilder()
+            .setCollectionName(COLLECTION)
+            .setVectorName(OLD_VECTOR)
+            .build())
+    .get();
+```

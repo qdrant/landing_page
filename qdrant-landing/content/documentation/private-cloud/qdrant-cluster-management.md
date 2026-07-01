@@ -1,5 +1,7 @@
 ---
 title: Managing a Cluster
+short_description: "Manage Qdrant Private Cloud clusters declaratively with Kubernetes resources to scale, upgrade, and expose them via Service or Ingress."
+description: "Manage Qdrant Private Cloud clusters declaratively in Kubernetes to scale resources, upgrade Qdrant versions, and expose clusters via Service or Ingress."
 weight: 15
 ---
 
@@ -69,7 +71,7 @@ spec:
       service.beta.kubernetes.io/aws-load-balancer-type: nlb
 ```
 
-Especially if you create a LoadBalancer Service, you may need to provide annotations for the loadbalancer configration. Please refer to the documention of your cloud provider for more details.
+Especially if you create a LoadBalancer Service, you may need to provide annotations for the loadbalancer configuration. Please refer to the documentation of your cloud provider for more details.
 
 Examples:
 
@@ -137,7 +139,7 @@ spec:
       jwt_rbac: true
 ```
 
-If you set the `jwt_rbac` flag, you will also be able to create granular [JWT tokens for role based access control](/documentation/security/#granular-access-control-with-jwt).
+If you set the `jwt_rbac` flag, you will also be able to create granular [JWT tokens for role based access control](/documentation/security/#granular-access-api-keys).
 
 ### Configuring TLS for Database Access
 

@@ -17,7 +17,7 @@ keywords:
     - vector similarity
     - exploration
     - recommendation
-category: ecosystem
+hideFromList: true
 ---
 
 

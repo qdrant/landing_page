@@ -1,9 +1,64 @@
 ---
 title: Changelog
+short_description: "Release notes for Qdrant Private Cloud, including supported Qdrant versions, new features, and stability improvements."
+description: "Track Qdrant Private Cloud releases, supported Qdrant versions, new features, performance improvements, and stability fixes across versions."
 weight: 35
 ---
 
 # Changelog
+
+## 1.9.10 (2026-06-25)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.37.0 |
+| operator                | 2.31.0  |
+| qdrant-cluster-manager  | v0.3.19 |
+| qdrant-cluster-exporter | 1.8.0   |
+
+Latest validated Qdrant version: 1.18.2
+
+* Updated operator and qdrant-kubernetes-api.
+* Added support for configurable load balancer service `LoadBalancerSourceRanges`.
+
+## 1.9.9 (2026-06-24)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.36.0 |
+| operator                | 2.30.0  |
+| qdrant-cluster-manager  | v0.3.19 |
+| qdrant-cluster-exporter | 1.8.0   |
+
+Latest validated Qdrant version: 1.18.2
+
+* Updated operator and qdrant-kubernetes-api.
+
+## 1.9.8 (2026-06-22)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.34.0 |
+| operator                | 2.28.4  |
+| qdrant-cluster-manager  | v0.3.19 |
+| qdrant-cluster-exporter | 1.18.0  |
+
+Latest validated Qdrant version: 1.18.2
+
+* Improvements for qdrant-cluster-manager.
+
+## 1.9.7 (2026-05-28)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.34.0 |
+| operator                | 2.28.4  |
+| qdrant-cluster-manager  | v0.3.18 |
+| qdrant-cluster-exporter | 1.18.0  |
+
+Latest validated Qdrant version: 1.18.1
+
+* Support for Qdrant 1.18
 
 ## 1.9.6 (2026-02-19)
 

@@ -13,10 +13,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openjdk-21-jdk-headless \
     # for python client
     python3 \
-    # for typescript client
-    nodejs \
-    npm \
     && rm -rf /var/lib/apt/lists/*
+
+# for typescript client - Node 22 (Node 18 EOL April 2025, pnpm requires 20+)
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y --no-install-recommends nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 # for csharp client
 RUN add-apt-repository ppa:dotnet/backports && \
@@ -27,7 +29,7 @@ RUN add-apt-repository ppa:dotnet/backports && \
 # for rust client
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
     CARGO_HOME=/opt/rust RUSTUP_HOME=/opt/rust \
-    sh -s -- -y --default-toolchain 1.94.0
+    sh -s -- -y --default-toolchain nightly
 
 # for typescript client
 RUN npm install --global --prefix /usr/local pnpm

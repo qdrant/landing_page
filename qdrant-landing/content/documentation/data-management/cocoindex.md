@@ -1,5 +1,7 @@
 ---
 title: CocoIndex
+short_description: "Build incremental ETL flows that transform documents into Qdrant-ready embeddings with CocoIndex for real-time AI pipelines."
+description: "Run real-time, incremental ETL with CocoIndex to transform raw data into embeddings and load them into Qdrant collections for AI retrieval workloads."
 ---
 
 # CocoIndex

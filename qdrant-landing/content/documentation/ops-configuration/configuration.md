@@ -1,5 +1,7 @@
 ---
 title: Configuration
+short_description: "Customize Qdrant with config files and environment variables to control storage, networking, performance tuning, and feature flags."
+description: "Configure Qdrant via config files and environment variables to set storage paths, network interfaces, performance parameters, and feature flags."
 weight: 5
 aliases:
   - /guides/configuration/
@@ -75,7 +77,7 @@ Environment variables follow this format: they should be prefixed with `QDRANT__
 docker run -p 6333:6333 \
     -e QDRANT__LOG_LEVEL=INFO \
     -e QDRANT__SERVICE__API_KEY=<MY_SECRET_KEY> \
-    -e QDRANT__SERVICE__ENABLE_TLS=1 \
+    -e QDRANT__SERVICE__ENABLE_TLS=true \
     -e QDRANT__TLS__CERT=./tls/cert.pem \
     qdrant/qdrant
 ```

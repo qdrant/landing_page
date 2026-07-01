@@ -1,5 +1,7 @@
 ---
 title: Upgrades
+short_description: "Upgrade Qdrant safely on Cloud, Kubernetes, or Docker with rolling restarts, replica-aware planning, and SDK compatibility checks."
+description: "Upgrade Qdrant clusters across Cloud, Kubernetes, Docker, and Compose with rolling restarts, version compatibility rules, and zero-downtime planning."
 partition: deploy
 weight: 140
 aliases:

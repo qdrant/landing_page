@@ -171,7 +171,7 @@ menuItems:
           - id: subMenu-4-3
             name: Careers
             icon: careers.svg
-            url: https://qdrant.join.com/
+            url: https://qdrant.to/jobs
           - id: subMenu-4-4
             name: Contact us
             icon: contact-us.svg

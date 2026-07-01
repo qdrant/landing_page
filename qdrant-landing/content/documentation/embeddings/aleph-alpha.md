@@ -1,5 +1,7 @@
 ---
 title: Aleph Alpha
+short_description: "Pair Aleph Alpha multilingual and multimodal embeddings with Qdrant to build cross-language and cross-modal semantic search over text and images."
+description: "Use Aleph Alpha embeddings with Qdrant to power multilingual and multimodal semantic search, mapping text and images into a single vector space."
 aliases:
   - /documentation/examples/aleph-alpha-search/
   - /documentation/tutorials/aleph-alpha-search/

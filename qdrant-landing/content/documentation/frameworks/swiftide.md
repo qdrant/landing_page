@@ -1,5 +1,7 @@
 ---
 title: Swiftide
+short_description: "Build streaming indexing and querying pipelines in Rust with Swiftide using Qdrant as the vector store for dense and hybrid retrieval."
+description: "Use Swiftide with Qdrant in Rust to build streaming indexing and querying pipelines for LLM apps, supporting dense and hybrid sparse/dense vector search."
 ---
 
 

@@ -6,7 +6,7 @@
 </script>
 
 <!-- OneTrust Cookies Consent Notice start for local.qdrant.tech -->
-{{ if .Site.Params.onetrustScriptID }}
+{{ if and (not hugo.IsServer) .Site.Params.onetrustScriptID }}
   <script
     src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
     type="text/javascript"
@@ -114,6 +114,11 @@
 
 {{ if eq .Section "customers" }}
   {{ $customersJs := resources.Get "js/customers-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $customersJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if eq .Section "industries" }}
+  {{ $customersJs := resources.Get "js/industries.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 

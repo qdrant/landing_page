@@ -1,5 +1,6 @@
 ---
 title: "Qdrant Essentials Certification"
+short_description: "Validate your Qdrant Essentials skills with an official certification exam covering HNSW indexing, hybrid search, and production optimization."
 description: Get officially certified by Qdrant today!
 isLesson: true
 weight: 100

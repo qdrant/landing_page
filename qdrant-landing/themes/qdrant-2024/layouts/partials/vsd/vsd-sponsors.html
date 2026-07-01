@@ -1,0 +1,28 @@
+{{ with (.Site.GetPage "/vsd/vsd-sponsors") }}
+  <section class="vsd-sponsors" id="sponsorship">
+    <div class="container">
+      {{ range .Params.blocks }}
+        <div class="vsd-sponsors__block">
+          {{ with .subtitle }}
+            <p class="vsd-sponsors__subtitle">{{ . }}</p>
+          {{ end }}
+          {{ with .logos }}
+            <div class="vsd-sponsors__logos">
+              {{ range . }}
+                <div class="vsd-sponsors__logo">
+                  <img src="{{ .src }}" alt="{{ .alt }}">
+                </div>
+              {{ end }}
+            </div>
+          {{ end }}
+          {{ with .description }}
+            <p class="vsd-sponsors__description">{{ . }}</p>
+          {{ end }}
+          {{ with .link }}
+            <a class="vsd-sponsors__link link link_md" href="{{ .url }}">{{ .text }}</a>
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

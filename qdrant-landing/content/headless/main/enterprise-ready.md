@@ -1,6 +1,9 @@
 ---
 title: Enterprise-ready tooling
 subtitle: Deploy on any cloud, hybrid, or edge environment with full data control. Choose the setup that fits your infrastructure and scale securely without compromise.
+button:
+  text: Talk to our Team
+  url: /contact-us/
 largeCards:
   - id: compliance
     title: SOC 2 · GDPR-aligned Options

@@ -4,11 +4,11 @@ short_description: "Standard dense embedding models perform surprisingly well in
 description: "We recently discovered that embedding models can become late interaction models & can perform surprisingly well in some scenarios. See what we learned here."
 preview_dir: /articles_data/late-interaction-models/preview
 social_preview_image: /articles_data/late-interaction-models/social-preview.png
-weight: -160
+weight: 30
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com
 date: 2024-08-14T00:00:00.000Z
-category: machine-learning
+category: embedding-research
 ---
 
 \* At least any open-source model, since you need access to its internals.

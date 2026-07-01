@@ -5,18 +5,17 @@ use qdrant_client::{
 use std::collections::HashMap;
 
 pub async fn main() -> anyhow::Result<()> {
-    let client = Qdrant::from_url("<your-qdrant-url>").build()?;
-    let mut options = HashMap::new();
-    options.insert("openrouter-api-key".to_string(), "<YOUR_OPENROUTER_API_KEY>".into());
+    let client = Qdrant::from_url("<your-qdrant-url>").build()?; // @hide
 
     client
+        .with_header("openrouter-api-key", "<YOUR_OPENROUTER_API_KEY>")
         .upsert_points(UpsertPointsBuilder::new("{collection_name}",
             vec![
                 PointStruct::new(1,
                     Document {
                       text: "Recipe for baking chocolate chip cookies".into(),
                       model: "openrouter/mistralai/mistral-embed-2312".into(),
-                      options,
+                      options: HashMap::new(),
                       },
                     Payload::default())
                 ]).wait(true))

@@ -57,6 +57,10 @@
     }
   }
 
+  &__button {
+    margin-top: $spacer * 0.5;
+  }
+
   // Slider: visible from md up (big screens)
   &__slider {
     display: none;

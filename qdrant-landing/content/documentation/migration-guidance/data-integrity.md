@@ -1,5 +1,7 @@
 ---
 title: Data Integrity
+short_description: "Verify that all points and payloads arrived intact after migrating to Qdrant, with vector counts and field-level checks."
+description: "Run data integrity checks after migrating to Qdrant by comparing vector counts, sample records, and payload fields against your source vector database."
 weight: 10
 partition: ecosystem
 aliases:

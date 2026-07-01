@@ -1,0 +1,1 @@
+This code snippet sets `sparse_config` on the strict mode configuration to cap the maximum length of sparse vectors for a named vector.

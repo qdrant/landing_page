@@ -28,7 +28,7 @@ tags:
 
 Historically, our API key supported basic read and write operations. However, recognizing the evolving needs of our user base, especially large organizations, we've implemented additional options for finer control over data access within internal environments.
 
-Qdrant now supports [granular access control using JSON Web Tokens (JWT)](/documentation/security/#granular-access-control-with-jwt). JWT will let you easily limit a user's access to the specific data they are permitted to view. Specifically, JWT-based authentication leverages tokens with restricted access to designated data segments, laying the foundation for implementing role-based access control (RBAC) on top of it. **You will be able to define permissions for users and restrict access to sensitive endpoints.**
+Qdrant now supports [granular access control using JSON Web Tokens (JWT)](/documentation/security/#granular-access-api-keys). JWT will let you easily limit a user's access to the specific data they are permitted to view. Specifically, JWT-based authentication leverages tokens with restricted access to designated data segments, laying the foundation for implementing role-based access control (RBAC) on top of it. **You will be able to define permissions for users and restrict access to sensitive endpoints.**
 
 **Dashboard users:** For your convenience, we have added a JWT generation tool the Qdrant Web UI under the 🔑 tab. If you're using the default url, you will find it at `http://localhost:6333/dashboard#/jwt`.
 

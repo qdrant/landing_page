@@ -1,5 +1,14 @@
 ```rust
+const COLLECTION_NAME: &str = "edge-collection";
 const SHARD_DIRECTORY: &str = "./qdrant-edge-directory";
+
+use std::path::*;
+use qdrant_edge::*;
+
+let snapshot_url = format!(
+    "{QDRANT_URL}/collections/{COLLECTION_NAME}/shards/0/snapshot"
+);
+
 let data_dir = Path::new(SHARD_DIRECTORY);
 
 let restore_dir = tempfile::Builder::new()

@@ -1,5 +1,7 @@
 ---
 title: VoltAgent
+short_description: "Build TypeScript AI agents with VoltAgent and Qdrant retrieval, using the framework's observability dashboard to monitor agent actions and tool calls."
+description: "Use VoltAgent with Qdrant retrievers to build observable TypeScript AI agents, combining modular tool integration with semantic search over your knowledge base."
 ---
 
 # VoltAgent

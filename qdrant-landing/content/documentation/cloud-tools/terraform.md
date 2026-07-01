@@ -1,5 +1,7 @@
 ---
 title: Terraform
+short_description: "Manage the Qdrant Cloud lifecycle declaratively with the Terraform provider — version, share, and reuse vector database infrastructure across teams."
+description: "Provision Qdrant Cloud clusters and database keys with the official Terraform provider to manage vector database infrastructure as code on AWS, GCP, and Azure."
 weight: 10
 aliases:
   - /documentation/infrastructure/terraform/

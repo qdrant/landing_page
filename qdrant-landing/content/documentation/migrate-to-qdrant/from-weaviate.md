@@ -1,5 +1,7 @@
 ---
 title: From Weaviate
+short_description: "Migrate Weaviate classes, vectors, and properties into Qdrant collections with a streamed, resumable, batched transfer."
+description: "Migrate from Weaviate to Qdrant by streaming classes, vectors, and properties into Qdrant collections using the Qdrant Migration Tool's Weaviate connector."
 weight: 10
 partition: ecosystem
 ---

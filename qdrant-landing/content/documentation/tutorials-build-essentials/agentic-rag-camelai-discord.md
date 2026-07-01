@@ -1,5 +1,7 @@
 ---
 title: Discord RAG Bot
+short_description: "Build an agentic RAG Discord bot powered by Qdrant vector search, CAMEL-AI agents, and OpenAI embeddings for context-aware answers."
+description: "Tutorial: build an agentic RAG Discord bot that uses Qdrant for vector retrieval, CAMEL-AI agents for reasoning, and OpenAI embeddings for context-aware replies."
 weight: 20
 #partition: ecosystem
 social_preview_image: /documentation/examples/agentic-rag-camelai-discord/social-preview.png

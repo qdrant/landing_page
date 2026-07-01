@@ -1,5 +1,7 @@
 ---
 title: "Quickstart" 
+short_description: "Get started with Qdrant Edge: install the Python or Rust bindings, configure a shard, and run local vector search in minutes."
+description: "Set up Qdrant Edge with Python or Rust bindings to configure shards, upsert points, build payload indexes, and run local vector search on-device."
 weight: 10
 partition: develop
 ---
@@ -24,6 +26,8 @@ Set up a configuration by creating an instance of `EdgeConfig`. For example:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="configure-edge-shard" >}}
 
+Qdrant Edge supports all Qdrant quantization methods: Scalar, Product, Binary, and TurboQuant. Configure quantization globally on `EdgeConfig.quantization_config` or override per-vector on `EdgeVectorParams.quantization_config`. See the [Quantization](/documentation/manage-data/quantization/) guide for configuration details.
+
 ## Initialize the Edge Shard
 
 Now you can create a new `EdgeShard` using `EdgeShard.create` (Python) or `EdgeShard::new` (Rust), passing the storage directory and configuration:
@@ -41,6 +45,18 @@ An Edge Shard has several methods to work with points. To add points, use the `u
 To retrieve a point by ID, use the `retrieve` method:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="retrieve-point" >}}
+
+## Modify the Vector Schema
+
+You can add or remove named vectors to an existing Edge Shard's schema. This is useful when migrating to a new embedding model or adding hybrid search to an Edge Shard that already contains data.
+
+For example, to add a sparse vector for [BM25 keyword search](/documentation/edge/edge-bm25/):
+
+{{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="modify-vector-schema" >}}
+
+Existing points aren't automatically populated with the new vector. Re-upsert them to add their values for the new field.
+
+To remove a named vector, use `UpdateOperation.delete_vector_name("text")` (Python) or `VectorNameOperations::DeleteVectorName` (Rust).
 
 ## Create a Payload Index
 
@@ -87,6 +103,14 @@ When shutting down your application, close the Edge Shard to ensure all data is 
 After closing an Edge Shard, you can reopen it by loading its data and configuration from disk using the `load` method:
 
 {{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="load-edge-shard" >}}
+
+## Custom WAL Size
+
+Qdrant Edge uses a Write-Ahead Log (WAL) to record every update before it's applied to storage. The WAL file is pre-allocated to 32 MB by default, inflating backup sizes and OS storage reports. To reduce the size, set `wal_options` on `EdgeConfig` when calling `new` or `load`. WAL options are only available in Rust.
+
+For example, to set the WAL size to 4 MB:
+
+{{< code-snippet path="/documentation/headless/snippets/edge/quickstart/" block="wal-options" >}}
 
 ## More Examples
 

@@ -1,5 +1,7 @@
 ---
 title: Create a Cluster
+short_description: "Create a Qdrant cluster in Hybrid Cloud with Kubernetes scheduling controls, node selectors, and secret-based API key authentication."
+description: "Create a production-ready Qdrant cluster in Hybrid Cloud with Kubernetes scheduling controls, node selectors, and secret-based API key authentication."
 weight: 10
 ---
 
@@ -11,7 +13,12 @@ Make sure to select your Hybrid Cloud Environment as the target.
 
 ![Create Hybrid Cloud Cluster](/documentation/cloud/hybrid_cloud_create_cluster.png)
 
-Note that in the "Kubernetes Configuration" section you can additionally configure:
+In the "Set up Your Storage" section, you can configure:
+- Database Storage Class, for the data stored within Qdrant.
+- Snapshot Storage Class, for [collection snapshots](/documentation/snapshots/). If you want to disable the snapshot volume, you can configure `emptyDir` as a Snapshot Storage Class to get an ephemeral volume for snapshots instead. Ephemeral volumes are not persistent and are recreated when the pod is restarted.
+- Volume Snapshot Class for backups. If you want to disable backups, you can configure `None` as the Volume Snapshot Class.
+
+In the "Kubernetes Configuration" section you can additionally configure:
 
 * NodeSelectors for the Qdrant database pods
 * Toleration for the Qdrant database pods
@@ -20,8 +27,6 @@ Note that in the "Kubernetes Configuration" section you can additionally configu
 * A service type and annotations for the Qdrant database service
 
 These settings can also be changed after the cluster is created on the cluster detail page.
-
-![Create Hybrid Cloud Cluster - Kubernetes Configuration](/documentation/cloud/hybrid_cloud_kubernetes_configuration.png)
 
 ### Scheduling Configuration
 
@@ -64,7 +69,7 @@ If you want to retrieve the secret again, you can also use `kubectl`:
 kubectl get secret qdrant-api-key -o jsonpath="{.data.api-key}" --namespace the-qdrant-namespace | base64 --decode
 ```
 
-After configuring the API key secret, you can create JWTs with granular access control in the Qdrant Cluster UI. Please refer to the [Granular access control with JWT](/documentation/security/#granular-access-control-with-jwt) documentation for more details.
+After configuring the API key secret, you can create JWTs with granular access control in the Qdrant Cluster UI. Please refer to the [Granular access API Keys](/documentation/security/#granular-access-api-keys) documentation for more details.
 
 #### Watch the Video
 
@@ -96,7 +101,7 @@ The service type and necessary annotations can be configured in the "Kubernetes 
 
 ![Hybrid Cloud API Key configuration](/documentation/cloud/hybrid_cloud_service.png)
 
-Especially if you create a LoadBalancer Service, you may need to provide annotations for the loadbalancer configration. Please refer to the documention of your cloud provider for more details.
+Especially if you create a LoadBalancer Service, you may need to provide annotations for the loadbalancer configuration. Please refer to the documentation of your cloud provider for more details.
 
 Examples:
 

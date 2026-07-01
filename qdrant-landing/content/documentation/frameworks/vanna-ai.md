@@ -1,5 +1,7 @@
 ---
 title: Vanna.AI
+short_description: "Train Vanna.AI text-to-SQL agents with Qdrant as the RAG vector store to generate accurate SQL queries grounded in your database schema and docs."
+description: "Use Qdrant as the vector store for Vanna.AI text-to-SQL agents, training RAG models on schema and documentation to generate accurate SQL for your database."
 ---
 
 # Vanna.AI
