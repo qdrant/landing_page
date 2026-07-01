@@ -92,7 +92,7 @@
 
     &-title {
       font-size: map-get($font-sizes-text, 'xl');
-      line-height: pxToRem(30);
+      line-height: 1;
       margin-bottom: $spacer * 0.5;
       color: $neutral-98;
     }
