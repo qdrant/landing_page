@@ -1,0 +1,13 @@
+{{ define "main" }}
+  {{ .Scratch.Set "vsdContentRoot" "/vsd-recap" }}
+
+  {{ partial "vsd/vsd-header" . }}
+
+  {{ partial "vsd/vsd-hero" . }}
+
+  {{ partial "vsd-recap/vsd-sessions" . }}
+
+  {{ partial "vsd-recap/vsd-speaker-lineup" . }}
+
+  {{ partial "vsd-recap/vsd-sponsors" . }}
+{{ end }}

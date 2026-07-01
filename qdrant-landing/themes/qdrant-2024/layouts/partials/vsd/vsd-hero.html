@@ -1,11 +1,14 @@
-{{ with (.Site.GetPage "/vsd/vsd-hero") }}
-  <section class="vsd-hero">
+{{ $root := .Scratch.Get "vsdContentRoot" | default "/vsd" }}
+{{ with (.Site.GetPage (printf "%s/vsd-hero" $root)) }}
+  <section class="vsd-hero{{ if eq $root "/vsd-recap" }} vsd-hero--recap{{ end }}">
     <div class="container">
       <div class="vsd-hero__banner">
         <div class="vsd-hero__place">
           <p>{{ .Params.place }}</p>
           <p>{{ .Params.eventDate }}</p>
-          <p>{{ .Params.time }}</p>
+          {{ with .Params.time }}
+            <p>{{ . }}</p>
+          {{ end }}
         </div>
         <h1 class="vsd-hero__title">{{ .Params.title | safeHTML }}</h1>
         <a href="{{ .Params.button.url }}" class="button button_contained button_lg vsd-hero__button">

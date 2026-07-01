@@ -151,4 +151,37 @@
       line-height: pxToRem(84);
     }
   }
+
+  &--recap {
+    @include media-breakpoint-down(lg) {
+      .vsd-hero__banner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        min-height: pxToRem(565);
+        padding: pxToRem(20);
+        text-align: center;
+      }
+
+      .vsd-hero__place {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: pxToRem(8);
+        margin-bottom: 0;
+        justify-content: center;
+
+        p {
+          font-size: pxToRem(16);
+          line-height: 1.5;
+        }
+      }
+
+      .vsd-hero__title {
+        margin-bottom: 0;
+        font-size: pxToRem(56);
+        line-height: 1.1;
+      }
+    }
+  }
 }

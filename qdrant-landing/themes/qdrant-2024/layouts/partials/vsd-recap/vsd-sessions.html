@@ -1,0 +1,104 @@
+{{ with (.Site.GetPage "/vsd-recap/vsd-sessions") }}
+  {{ $badgeIconsPath := .Params.badgeIconsPath }}
+  <section class="vsd-recap-sessions" id="sessions">
+    <div class="container">
+      <h2 class="vsd-recap-sessions__title">{{ .Params.title }}</h2>
+
+      {{ with .Params.featuredVideoId }}
+        <div class="vsd-recap-sessions__featured">
+          <iframe
+            src="https://www.youtube.com/embed/{{ . }}?rel=0"
+            title="Vector Space Day Highlights"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+      {{ end }}
+
+      <div class="vsd-recap-sessions__cards">
+        {{ range .Params.sessions }}
+          <article class="vsd-recap-sessions__card{{ if .reverse }} vsd-recap-sessions__card_reverse{{ end }}" data-speakers="{{ len .speakers }}">
+            <div class="vsd-recap-sessions__card-content">
+              <div class="vsd-recap-sessions__card-header">
+                {{ if .companyLogo }}
+                  <img
+                    src="{{ .companyLogo }}"
+                    alt=""
+                    class="vsd-recap-sessions__card-logo{{ if .companyLogoWide }} vsd-recap-sessions__card-logo_wide{{ end }}"
+                    {{ with .companyLogoOffset }}
+                      style="transform: translateY({{ .value }}px);"
+                    {{ end }}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                {{ end }}
+                {{ if .badge }}
+                  <span class="vsd-recap-sessions__badge vsd-recap-sessions__badge--{{ .badge_type }}">
+                    {{ with .badge_icon }}
+                      {{ partial "svg" (dict "icon" . "path" $badgeIconsPath) }}
+                    {{ end }}
+                    <span class="vsd-recap-sessions__badge-label">{{ .badge }}</span>
+                  </span>
+                {{ end }}
+              </div>
+
+              <div class="vsd-recap-sessions__card-body">
+                <h3 class="vsd-recap-sessions__card-title">{{ .title }}</h3>
+                <p class="vsd-recap-sessions__card-description">{{ .description }}</p>
+
+                {{ with .speakers }}
+                  <div class="vsd-recap-sessions__speakers">
+                    {{ range . }}
+                      <p class="vsd-recap-sessions__speaker">
+                        <span class="vsd-recap-sessions__speaker-name">{{ .name }}</span>
+                        <span class="vsd-recap-sessions__speaker-role">{{ .role }}</span>
+                      </p>
+                    {{ end }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+
+            <div class="vsd-recap-sessions__video">
+              {{ if .videoId }}
+                <iframe
+                  src="https://www.youtube.com/embed/{{ .videoId }}?rel=0"
+                  title="{{ .title }}"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                  loading="lazy"
+                ></iframe>
+              {{ else }}
+                <a
+                  class="vsd-recap-sessions__video-placeholder"
+                  href="{{ $.Params.playlistUrl }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>Watch on YouTube</span>
+                </a>
+              {{ end }}
+            </div>
+          </article>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+  <script>
+    (function () {
+      if (window.innerWidth < 992) return;
+      document.querySelectorAll('.vsd-recap-sessions__card-description').forEach(function (el) {
+        if (el.scrollHeight <= el.clientHeight) return;
+        var words = el.textContent.split(/\s+/);
+        while (words.length && el.scrollHeight > el.clientHeight) {
+          words.pop();
+          el.textContent = words.join(' ') + '\u2026';
+        }
+        el.textContent = words.join(' ').replace(/[,;:\-–—]+$/, '') + '\u2026';
+      });
+    })();
+  </script>
+{{ end }}
