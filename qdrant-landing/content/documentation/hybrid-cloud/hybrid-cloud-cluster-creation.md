@@ -15,8 +15,8 @@ Make sure to select your Hybrid Cloud Environment as the target.
 
 In the "Set up Your Storage" section, you can configure:
 - Database Storage Class, for the data stored within Qdrant.
-- Snapshot Storage Class, for [collection snapshots](/documentation/snapshots/).
-- Volume Snapshot Storage Class for backups. If you want to disable the snapshot volume, you can configure `None` as a Snapshot StorageClass, but you won't be able to make backups.
+- Snapshot Storage Class, for [collection snapshots](/documentation/snapshots/). If you want to disable the snapshot volume, you can configure `emptyDir` as a Snapshot Storage Class to get an ephemeral volume for snapshots instead. Ephemeral volumes are not persistent and are recreated when the pod is restarted.
+- Volume Snapshot Class for backups. If you want to disable backups, you can configure `None` as the Volume Snapshot Class.
 
 In the "Kubernetes Configuration" section you can additionally configure:
 
