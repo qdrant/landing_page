@@ -28,7 +28,7 @@ sessions:
       - name: Neil Kanungo
         role: Head of DevRel
   - title: Continual Learning Starts with Memory
-    description: Continual learning has long been treated as a training problem — new data, new gradients, new weights. But for production agents, the first unlock isn't retraining, it's memory. This talk reframed continual learning as a memory, retrieval, and state-management problem, showing how agents capture interactions, structure durable context, and improve decisions over time. Taranjeet shared patterns from building Mem0, including trade-offs of a memory layer on vector databases and what breaks at scale.
+    description: "Continual learning has long been treated as a training problem: new data, new gradients, new weights. But for production agents, the first unlock isn't retraining, it's memory. This talk reframed continual learning as a memory, retrieval, and state-management problem, showing how agents capture interactions, structure durable context, and improve decisions over time. Taranjeet shared patterns from building Mem0, including trade-offs of a memory layer on vector databases and what breaks at scale."
     companyLogo: /img/vsd-sf-26/vsd-logos-color/Mem0.svg
     badge: AGENTS & MEMORY
     badge_type: agents
@@ -61,7 +61,7 @@ sessions:
       - name: Paige Bailey
         role: Developer Relations Lead
   - title: Free Your Agent's Mind...with Context Graphs
-    description: AI systems need more than intelligence; they need context that persists. Without it, even strong models misinterpret information, lose decision rationale, or repeat mistakes. Context Graphs address this — a living graph capturing not just what was retrieved, but how context led to actions through tool calls, constraints, and outcomes, stitched across entities and time. This talk showed how context graphs complement retrieval with multi-hop structured assembly and built-in provenance for enterprise-ready AI.
+    description: "AI systems need more than intelligence; they need context that persists. Without it, even strong models misinterpret information, lose decision rationale, or repeat mistakes. Context Graphs address this: a living graph capturing not just what was retrieved, but how context led to actions through tool calls, constraints, and outcomes, stitched across entities and time. This talk showed how context graphs complement retrieval with multi-hop structured assembly and built-in provenance for enterprise-ready AI."
     companyLogo: /img/vsd-sf-26/vsd-logos-color/Neo4j.svg
     badge: AGENTS & MEMORY
     badge_type: agents
@@ -84,7 +84,7 @@ sessions:
       - name: Xin Liu
         role: Tech Lead
   - title: "Scaling to Billions: Lessons from Slack's Semantic Search Indexing"
-    description: Slack's semantic search indexes trillions of messages into vectors, kept searchable within seconds. This open discussion skipped the "perfect world" diagrams and covered what it actually takes to run a vector pipeline at this scale — a Lambda architecture with a "snowball" caching system to avoid recomputing billions of embeddings weekly, greedy batching for a 3x inference speedup, and a candid look at why complex quantization methods failed in production.
+    description: "Slack's semantic search indexes trillions of messages into vectors, kept searchable within seconds. This open discussion skipped the \"perfect world\" diagrams and covered what it actually takes to run a vector pipeline at this scale: a Lambda architecture with a \"snowball\" caching system to avoid recomputing billions of embeddings weekly, greedy batching for a 3x inference speedup, and a candid look at why complex quantization methods failed in production."
     companyLogo: /img/vsd-sf-26/vsd-logos-color/Slack.svg
     badge: SEARCH & RETRIEVAL
     badge_type: search
@@ -97,7 +97,7 @@ sessions:
       - name: Brian O'Grady
         role: Head of Solutions Architecture
   - title: Building the DNA of Search
-    description: Qdrant was engineered from the ground up for performance, scale, and flexibility — and Oncotelic Therapeutics put it to the test. Indexing 28M PubMed abstracts to power AI-driven drug development, Oncotelic compressed concept-to-clinic to ~2 years — a fraction of the typical biotech timeline. Qdrant Engineering and Oncotelic walked through what matters most for search at scale — hybrid retrieval, MeSH-enriched metadata filtering, and the operational realities of running a vector database in production.
+    description: "Qdrant was engineered from the ground up for performance, scale, and flexibility — and Oncotelic Therapeutics put it to the test. Indexing 28M PubMed abstracts to power AI-driven drug development, Oncotelic compressed concept-to-clinic to ~2 years — a fraction of the typical biotech timeline. In this conversation, Qdrant Engineering and Oncotelic walked through what matters most for search at scale: hybrid retrieval, MeSH-enriched metadata filtering, and the operational realities of running a vector database in production."
     companyLogo: /img/vsd-sf-26/vsd-logos-color/Co-Logos-Row.svg
     companyLogoWide: true
     companyLogoOffset:
@@ -115,7 +115,7 @@ sessions:
       - name: Scott Myers
         role: PM, Oncotelic Therapeutics
   - title: Building Distributed, Enterprise-ready Agentic AI
-    description: A high-level look at building intelligent, enterprise-grade AI agents using modern tools and infrastructure. This session explored how scalable systems can support context-aware reasoning, long-term memory, and real-time decision-making at production scale — from retrieval and orchestration to evaluation and observability. Gabriel Lebow shared how Vultr's global cloud infrastructure powers distributed AI workloads for companies shipping agents today.
+    description: A high-level look at building intelligent, enterprise-grade AI agents using modern tools and infrastructure. This session explored how scalable systems can support context-aware reasoning, long-term memory, and real-time decision-making at production scale. Gabriel Lebow framed the key architectural patterns behind reliable AI agents in enterprise environments, from retrieval and orchestration to evaluation and observability, and shared how Vultr's global cloud infrastructure powers distributed AI workloads for companies shipping agents today.
     companyLogo: /img/vsd-sf-26/vsd-logos-color/Vultr.svg
     badge: AGENTS & MEMORY
     badge_type: agents
@@ -136,7 +136,7 @@ sessions:
       - name: Preston Carlson
         role: AI Engineer
   - title: "Stop Vibe Shipping: Evaluate Your Retrieval"
-    description: '"Looks good to me" is not an evaluation strategy. Yet most teams ship retrieval systems that way — tweak the chunking, run a few demo queries, call it done. This talk replaced vibes with measurement, covering retrieval metrics that actually matter, how to build golden datasets that survive contact with reality, where LLM-as-judge helps and where it lies, and how to wire continuous evals into CI so regressions show up before customer complaints.'
+    description: '"Looks good to me" is not an evaluation strategy. Yet most teams ship retrieval systems that way: tweak the chunking, run a few demo queries, call it done. This talk replaced vibes with measurement. Laurie Voss covered retrieval metrics that actually matter, how to build golden datasets that survive contact with reality, where LLM-as-judge helps and where it lies, and how to wire continuous evals into CI so regressions show up before customer complaints.'
     companyLogo: /img/vsd-sf-26/vsd-logos-color/ArizeAI.svg
     badge: SEARCH & RETRIEVAL
     badge_type: search
@@ -157,7 +157,7 @@ sessions:
       - name: James Le
         role: Head of Dev Experience
   - title: The Long and the Short of AI Memory
-    description: What is AI Memory today? Where does it live — markdown files, vectors, graphs, or somewhere else? And where will it be tomorrow? The answer matters because memory is quickly becoming the differentiator between agents that forget everything between sessions and agents that actually compound knowledge over time. In this talk, Dave shared examples of how short-term and long-term memory are used in production today, using OpenClaw as a hands-on example to illustrate the patterns and trade-offs.
+    description: "What is AI Memory today? Where does it live: markdown files, vectors, graphs, or somewhere else? And where will it be tomorrow? The answer matters because memory is quickly becoming the differentiator between agents that forget everything between sessions and agents that actually compound knowledge over time. In this talk, Dave shared examples of how short-term and long-term memory are used in production today, using OpenClaw as a hands-on example to illustrate the patterns and trade-offs."
     companyLogo: /img/vsd-sf-26/vsd-logos-color/Cognee.svg
     badge: AGENTS & MEMORY
     badge_type: agents
@@ -178,7 +178,7 @@ sessions:
       - name: Dylan Couzon
         role: Developer Relations Engineer
   - title: "When Latency Is the Product: Practical Patterns for On-Device GenAI"
-    description: Agents are moving from the cloud to the edge — onto phones, PCs, and edge devices that perceive and act in real time. Alan Zhu shared practical patterns for building agentic AI on-device — how to run models and tap local context for retrieval and memory. He covered the NPU — a chip built for AI inference — and why sustained, private, low-latency AI workloads win on the edge, and how Qualcomm AI Hub lets you optimize any model and run it across devices.
+    description: "Agents are moving from the cloud to the edge — onto phones, PCs, and edge devices that perceive and act in real time. Alan Zhu shared practical patterns for building agentic AI on-device: how to run models and tap local context for retrieval and memory. He covered the NPU — a chip built for AI inference — and why sustained, private, low-latency AI workloads win on the edge, and how Qualcomm AI Hub lets you optimize any model and run it across devices."
     companyLogo: /img/vsd-sf-26/vsd-logos-color/Qualcomm.svg
     badge: EDGE & ROBOTICS
     badge_type: edge

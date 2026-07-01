@@ -19,7 +19,7 @@
 
       <div class="vsd-recap-sessions__cards">
         {{ range .Params.sessions }}
-          <article class="vsd-recap-sessions__card{{ if .reverse }} vsd-recap-sessions__card_reverse{{ end }}">
+          <article class="vsd-recap-sessions__card{{ if .reverse }} vsd-recap-sessions__card_reverse{{ end }}" data-speakers="{{ len .speakers }}">
             <div class="vsd-recap-sessions__card-content">
               <div class="vsd-recap-sessions__card-header">
                 {{ if .companyLogo }}
@@ -28,7 +28,7 @@
                     alt=""
                     class="vsd-recap-sessions__card-logo{{ if .companyLogoWide }} vsd-recap-sessions__card-logo_wide{{ end }}"
                     {{ with .companyLogoOffset }}
-                      style="margin-{{ .placement }}: {{ .value }}px;"
+                      style="transform: translateY({{ .value }}px);"
                     {{ end }}
                     loading="lazy"
                     decoding="async"
@@ -87,4 +87,18 @@
       </div>
     </div>
   </section>
+  <script>
+    (function () {
+      if (window.innerWidth < 992) return;
+      document.querySelectorAll('.vsd-recap-sessions__card-description').forEach(function (el) {
+        if (el.scrollHeight <= el.clientHeight) return;
+        var words = el.textContent.split(/\s+/);
+        while (words.length && el.scrollHeight > el.clientHeight) {
+          words.pop();
+          el.textContent = words.join(' ') + '\u2026';
+        }
+        el.textContent = words.join(' ').replace(/[,;:\-–—]+$/, '') + '\u2026';
+      });
+    })();
+  </script>
 {{ end }}

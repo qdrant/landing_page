@@ -28,28 +28,11 @@
   }
 
   &__banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: pxToRem(64);
     position: relative;
-    padding: pxToRem(80) pxToRem(20);
-    overflow: hidden;
-
-    &:before {
-      content: "";
-      display: block;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      translate: -50% -50%;
-      width: 100%;
-      max-width: pxToRem(1110);
-      height: pxToRem(369);
-      background-image: url('/img/vsd-sf-26/agenda/texture.png');
-      background-size: pxToRem(820) pxToRem(820);
-      background-position: top left;
-      background-repeat: no-repeat;
-      opacity: 0.8;
-      mix-blend-mode: overlay;
-      pointer-events: none;
-    }
   }
 
   &__intro,
@@ -64,7 +47,8 @@
     flex-direction: column;
     align-items: center;
     gap: pxToRem(64);
-    margin-bottom: pxToRem(64);
+    width: 100%;
+    max-width: pxToRem(780);
     text-align: center;
   }
 
@@ -111,7 +95,8 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    margin-bottom: pxToRem(64);
+    width: 100%;
+    max-width: pxToRem(1017);
   }
 
   &__card {
@@ -165,15 +150,6 @@
   }
 
   @include media-breakpoint-up(lg) {
-    &__banner {
-      padding: pxToRem(80) pxToRem(64);
-    }
-
-    &__intro {
-      max-width: pxToRem(780);
-      margin: 0 auto pxToRem(64);
-    }
-
     &__title {
       font-size: pxToRem(40);
     }

@@ -7,6 +7,7 @@
   &__title {
     margin: 0 0 pxToRem(64);
     font-size: pxToRem(32);
+    font-weight: 600;
     line-height: 1.3;
     letter-spacing: -0.5px;
     text-align: center;
@@ -64,14 +65,15 @@
 
   &__card-header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: pxToRem(16);
     flex-shrink: 0;
+    overflow: visible;
   }
 
   &__card-logo {
-    height: pxToRem(32);
+    height: pxToRem(24);
     width: auto;
     max-width: pxToRem(168);
     object-fit: contain;
@@ -81,10 +83,10 @@
   &__card-logo#{&}__card-logo_wide {
     max-width: none;
     width: auto;
-    height: pxToRem(28);
+    height: pxToRem(32);
 
     @include media-breakpoint-up(lg) {
-      height: pxToRem(56);
+      height: pxToRem(44);
     }
   }
 
@@ -240,7 +242,9 @@
 
     &__card {
       flex-direction: row;
-      align-items: flex-start;
+      align-items: stretch;
+      // height = video_width × (9/16) + 2 × padding = 500px × 0.5625 + 80px = 361.25px
+      height: calc(#{pxToRem(500)} * 9 / 16 + #{pxToRem(80)});
       gap: pxToRem(30);
       padding: pxToRem(40);
     }
@@ -249,7 +253,7 @@
       flex: 1 1 0;
       min-width: 0;
       min-height: 0;
-      gap: pxToRem(40);
+      gap: pxToRem(30);
       overflow: visible;
     }
 
@@ -266,20 +270,28 @@
       white-space: nowrap;
     }
 
+    &__card-logo {
+      margin-block: 0;
+    }
+
     &__card-description {
-      flex: 1 1 0;
-      min-height: 0;
+      flex: 0 0 auto;
       overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 5;
-      line-clamp: 5;
     }
+
+    &__card[data-speakers="0"] .vsd-recap-sessions__card-description { -webkit-line-clamp: 6; line-clamp: 6; }
+    &__card[data-speakers="1"] .vsd-recap-sessions__card-description { -webkit-line-clamp: 5; line-clamp: 5; }
+    &__card[data-speakers="2"] .vsd-recap-sessions__card-description { -webkit-line-clamp: 4; line-clamp: 4; }
+    &__card[data-speakers="3"] .vsd-recap-sessions__card-description { -webkit-line-clamp: 3; line-clamp: 3; }
+    &__card[data-speakers="4"] .vsd-recap-sessions__card-description { -webkit-line-clamp: 2; line-clamp: 2; }
 
     &__video {
       flex: 0 0 auto;
       width: pxToRem(500);
       max-width: calc(50% - #{pxToRem(15)});
+      align-self: center;
     }
 
     &__card-description,
@@ -294,8 +306,8 @@
     }
 
     &__speakers {
-      gap: pxToRem(4);
-      margin-top: pxToRem(4);
+      gap: 0;
+      margin-top: auto;
     }
 
     &__speaker {
