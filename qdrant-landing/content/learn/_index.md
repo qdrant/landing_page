@@ -103,6 +103,6 @@ content:
 
 # Learn
 
-* [Articles](/articles/index.md)
-* [Courses](/course/index.md)
-* [Tutorials](/documentation/tutorials-lp-overview/index.md)
+- **[Articles](/articles/index.md)**: Long-form technical pieces covering vector search concepts, system architecture, RAG pipelines, quantization, hybrid retrieval, and Qdrant internals.
+- **[Courses](/course/index.md)**: Structured, self-paced learning paths through Qdrant Academy. Two courses are currently available: *Qdrant Essentials* (9–12 hours) and *Multi-Vector Search* (4–6 hours), with beginner, intermediate, and advanced courses planned. Free, with certification.
+- **[Tutorials](/documentation/tutorials-lp-overview/index.md)**: Step-by-step guides organized into five categories: Basic, Search Engineering, Operations & Scale, Develop & Implement, and Migrate to Qdrant.
