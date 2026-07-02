@@ -125,7 +125,8 @@ Two simpler approaches exist, both with structural problems at scale:
 
 **Figure 2:** Pre-filtering narrows candidates by payload before similarity ranking.
 
-![pre-filtering-vector-search](/articles_data/vector-search-filtering/pre-filtering.png)
+<img width="667" height="350" alt="Screenshot 2026-07-03 at 01 16 48" src="https://github.com/user-attachments/assets/e32d2277-7971-465d-a65e-c05c94950c6d" />
+
 
 **Post-filtering** runs vector search first, retrieves a large candidate set, then applies the filter. This is accurate when the filter is broad (most candidates pass). When the filter is selective, most retrieved candidates are discarded, wasting computation—and if the qualifying points were not in the initial candidate set, they will never appear in results at all.
 
