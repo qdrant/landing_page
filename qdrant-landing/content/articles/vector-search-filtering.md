@@ -89,30 +89,12 @@ Not every query benefits from filtering. Applying a filter has coordination cost
 Use this decision tree to determine whether filtering is appropriate for a given query:
 
 ```mermaid
-flowchart TD
-    Start([Incoming query]) --> Q1{Requires a hard constraint<br/>on a payload field?<br/>exact value / range / category}
-
-    Q1 -->|No| PureVec[Pure vector search]
-    Q1 -->|Yes| Q2{Highly selective filter?<br/>low cardinality, matches<br/>small fraction of points}
-
-    Q2 -->|Yes| PayloadIdx[Filter with payload index<br/>planner switches from HNSW<br/>to payload-index retrieval]
-    Q2 -->|No| HNSW[Filter with HNSW<br/>filterable index<br/>index the field for accurate<br/>cardinality estimation]
-
-    PayloadIdx --> Q3
-    HNSW --> Q3
-    PureVec --> Q3
-
-    Q3{Order results by a payload<br/>field instead of<br/>similarity score?}
-    Q3 -->|Yes| Scroll[Use scroll with order_by]
-    Q3 -->|No| Search[Use search or query]
-
-    Scroll --> Q4
-    Search --> Q4
-
-    Q4{Multitenant system with<br/>per-tenant data isolation?}
-    Q4 -->|Yes| Tenant[Tenant index<br/>is_tenant: true on tenant field<br/>do NOT create a collection per tenant]
-    Q4 -->|No| Done([Done])
-    Tenant --> Done
+stateDiagram-v2
+    [*] --> EstimateCardinality: query + filter
+    EstimateCardinality --> PayloadIndex: low cardinality
+    EstimateCardinality --> FilterableHNSW: high cardinality
+    PayloadIndex --> [*]
+    FilterableHNSW --> [*]
 ```
 
 ## How Qdrant handles filtered vector search
