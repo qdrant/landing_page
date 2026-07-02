@@ -1,0 +1,39 @@
+{{ with (.Site.GetPage "/vsd-recap/vsd-speaker-lineup") }}
+  <section class="vsd-recap-speaker-lineup" id="speakers">
+    <div class="container">
+      <div class="vsd-recap-speaker-lineup__banner">
+        <div class="vsd-recap-speaker-lineup__intro">
+          <h2 class="vsd-recap-speaker-lineup__title">{{ .Params.title }}</h2>
+
+          <div class="vsd-recap-speaker-lineup__logos">
+            {{ range .Params.logos }}
+              <div class="vsd-recap-speaker-lineup__logo">
+                <img src="{{ .src }}" alt="{{ .alt }}" loading="lazy" decoding="async">
+              </div>
+            {{ end }}
+          </div>
+
+          <p class="vsd-recap-speaker-lineup__description">{{ .Params.description | safeHTML }}</p>
+        </div>
+
+        {{ with .Params.speakers }}
+          <div class="vsd-recap-speaker-lineup__cards">
+            {{ range . }}
+              <article class="vsd-recap-speaker-lineup__card">
+                {{ with .companyLogo }}
+                  <img src="{{ . }}" alt="" class="vsd-recap-speaker-lineup__card-logo" loading="lazy" decoding="async">
+                {{ end }}
+                <p class="vsd-recap-speaker-lineup__card-speaker">{{ .speaker | safeHTML }}</p>
+                <p class="vsd-recap-speaker-lineup__card-theme">{{ .theme }}</p>
+              </article>
+            {{ end }}
+          </div>
+        {{ end }}
+
+        <a href="{{ .Params.button.url }}" class="button button_contained button_lg vsd-recap-speaker-lineup__button">
+          {{ .Params.button.text }}
+        </a>
+      </div>
+    </div>
+  </section>
+{{ end }}

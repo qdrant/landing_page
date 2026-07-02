@@ -1,0 +1,343 @@
+@use '../../helpers/functions' as *;
+
+.vsd-recap-sessions {
+  padding: pxToRem(80) 0;
+  background-color: $neutral-94;
+
+  &__title {
+    margin: 0 0 pxToRem(64);
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    text-align: center;
+    color: $neutral-20;
+  }
+
+  &__featured {
+    position: relative;
+    width: 100%;
+    max-width: pxToRem(920);
+    aspect-ratio: 16 / 9;
+    height: auto;
+    margin: 0 auto pxToRem(64);
+    background-color: $neutral-90;
+    overflow: hidden;
+
+    iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(64);
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(20);
+    padding: pxToRem(20);
+    border: pxToRem(1) solid rgba(0, 0, 0, 0.12);
+    border-radius: pxToRem(8);
+    background-color: $neutral-98;
+
+    &_reverse {
+      .vsd-recap-sessions__card-content,
+      .vsd-recap-sessions__video {
+        order: unset;
+      }
+    }
+  }
+
+  &__card-content {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(20);
+    min-width: 0;
+  }
+
+  &__card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: pxToRem(16);
+    flex-shrink: 0;
+    overflow: visible;
+  }
+
+  &__card-logo {
+    height: pxToRem(24);
+    width: auto;
+    max-width: pxToRem(168);
+    object-fit: contain;
+  }
+
+  // Co-logo row: same height + width:auto principles as agenda-page__slot-company-logo
+  &__card-logo#{&}__card-logo_wide {
+    max-width: none;
+    width: auto;
+    height: pxToRem(32);
+
+    @include media-breakpoint-up(lg) {
+      height: pxToRem(44);
+    }
+  }
+
+  &__card-body {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(16);
+  }
+
+  &__card-title {
+    margin: 0;
+    font-size: pxToRem(20);
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    font-weight: 600;
+    color: $neutral-20;
+    flex-shrink: 0;
+  }
+
+  &__card-description {
+    margin: 0;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    color: $neutral-20;
+  }
+
+  &__speakers {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(16);
+    flex-shrink: 0;
+  }
+
+  &__speaker {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+  }
+
+  &__speaker-name {
+    font-weight: 600;
+    color: $neutral-20;
+  }
+
+  &__speaker-role {
+    color: $neutral-50;
+  }
+
+  &__video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    flex-shrink: 0;
+    align-self: flex-start;
+    background-color: $neutral-90;
+    border-radius: pxToRem(3);
+    overflow: hidden;
+
+    iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+
+  &__video-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: $neutral-90;
+    color: $neutral-50;
+    font-size: pxToRem(16);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      color: $primary-50;
+    }
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: pxToRem(7);
+    padding: pxToRem(6);
+    border-radius: pxToRem(8);
+    font-size: pxToRem(14);
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow:
+      inset 0 pxToRem(-1) pxToRem(1) rgba(0, 0, 0, 0.1),
+      inset 0 pxToRem(1) pxToRem(1) rgba(255, 255, 255, 0.1);
+
+    svg {
+      width: pxToRem(24);
+      height: pxToRem(24);
+      flex-shrink: 0;
+    }
+
+    &-label {
+      display: none;
+    }
+
+    &--qdrant {
+      color: $primary-50;
+      background-color: rgba($primary-50, 0.1);
+    }
+
+    &--search {
+      color: #00897b;
+      background-color: rgba(#009688, 0.1);
+    }
+
+    &--agents {
+      color: #6047ff;
+      background-color: rgba(96, 71, 255, 0.1);
+    }
+
+    &--edge {
+      color: #0288d1;
+      background-color: rgba(3, 169, 244, 0.1);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding: pxToRem(120) 0;
+
+    &__title {
+      max-width: pxToRem(840);
+      margin: 0 auto pxToRem(80);
+      font-size: pxToRem(40);
+      line-height: 1.2;
+    }
+
+    &__featured {
+      margin-bottom: pxToRem(80);
+    }
+
+    &__cards {
+      gap: pxToRem(80);
+    }
+
+    &__card {
+      flex-direction: row;
+      align-items: stretch;
+      // height = video_width × (9/16) + 2 × padding = 500px × 0.5625 + 80px = 361.25px
+      height: calc(#{pxToRem(500)} * 9 / 16 + #{pxToRem(80)});
+      gap: pxToRem(30);
+      padding: pxToRem(40);
+    }
+
+    &__card-content {
+      flex: 1 1 0;
+      min-width: 0;
+      min-height: 0;
+      gap: pxToRem(30);
+      overflow: visible;
+    }
+
+    &__card-body {
+      flex: 1 1 0;
+      min-height: 0;
+      gap: pxToRem(4);
+      overflow: hidden;
+    }
+
+    &__card-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &__card-logo {
+      margin-block: 0;
+    }
+
+    &__card-description {
+      flex: 0 0 auto;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+
+    &__card[data-speakers="0"] .vsd-recap-sessions__card-description { -webkit-line-clamp: 6; line-clamp: 6; }
+    &__card[data-speakers="1"] .vsd-recap-sessions__card-description { -webkit-line-clamp: 5; line-clamp: 5; }
+    &__card[data-speakers="2"] .vsd-recap-sessions__card-description { -webkit-line-clamp: 4; line-clamp: 4; }
+    &__card[data-speakers="3"] .vsd-recap-sessions__card-description { -webkit-line-clamp: 3; line-clamp: 3; }
+    &__card[data-speakers="4"] .vsd-recap-sessions__card-description { -webkit-line-clamp: 2; line-clamp: 2; }
+
+    &__video {
+      flex: 0 0 auto;
+      width: pxToRem(500);
+      max-width: calc(50% - #{pxToRem(15)});
+      align-self: center;
+    }
+
+    &__card-description,
+    &__speaker {
+      font-size: pxToRem(18);
+    }
+
+    &__card {
+      &_reverse {
+        flex-direction: row-reverse;
+      }
+    }
+
+    &__speakers {
+      gap: 0;
+      margin-top: auto;
+    }
+
+    &__speaker {
+      flex-direction: row;
+    }
+
+    &__speaker-name + &__speaker-role {
+      margin-left: pxToRem(10);
+    }
+
+    &__badge {
+      gap: pxToRem(7);
+      padding: pxToRem(6) pxToRem(11);
+      font-size: pxToRem(14);
+
+      svg {
+        width: pxToRem(17);
+        height: pxToRem(17);
+      }
+
+      &-label {
+        display: inline;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__featured {
+      width: pxToRem(920);
+      max-width: 100%;
+    }
+  }
+}

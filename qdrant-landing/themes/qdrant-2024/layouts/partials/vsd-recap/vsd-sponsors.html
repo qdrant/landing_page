@@ -1,0 +1,29 @@
+{{ with (.Site.GetPage "/vsd-recap/vsd-sponsors") }}
+  <section class="vsd-recap-sponsors" id="sponsorship">
+    <div class="container">
+      <div class="vsd-recap-sponsors__banner">
+        <div class="vsd-recap-sponsors__group">
+          <h2 class="vsd-recap-sponsors__title">{{ .Params.sponsors.title }}</h2>
+          <div class="vsd-recap-sponsors__logos">
+            {{ range .Params.sponsors.logos }}
+              <div class="vsd-recap-sponsors__logo">
+                <img src="{{ .src }}" alt="{{ .alt }}" loading="lazy" decoding="async">
+              </div>
+            {{ end }}
+          </div>
+        </div>
+
+        <div class="vsd-recap-sponsors__group vsd-recap-sponsors__group_community">
+          <p class="vsd-recap-sponsors__subtitle">{{ .Params.communitySponsor.title }}</p>
+          <div class="vsd-recap-sponsors__logos">
+            {{ range .Params.communitySponsor.logos }}
+              <div class="vsd-recap-sponsors__logo">
+                <img src="{{ .src }}" alt="{{ .alt }}" loading="lazy" decoding="async">
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
