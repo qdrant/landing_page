@@ -1,4 +1,4 @@
-<img width="300" height="136" alt="filterable-vector-index" src="https://github.com/user-attachments/assets/5728746a-8d0c-4c82-96aa-e5f029a983fc" />---
+---
 title: "A Complete Guide to Filtering in Vector Search"
 short_description: "How Qdrant combines semantic search with payload-level constraints to deliver precise, efficient results"
 description: "Learn how filtering works in Qdrant: the filterable HNSW index, payload indexing, filter cardinality, and the conditions and clauses you need to build high-precision vector search."
