@@ -10,8 +10,7 @@ author_link:
 date: 2026-07-02T00:00:00.000Z
 category: mastering-search
 ---
-
-In a typical vector search, the ranking criterion is geometric: results are ordered by cosine similarity or Euclidean distance to the query vector. This works well when the goal is approximate similarity retrieval. It becomes insufficient when the result set must also satisfy hard constraints—exact values, ranges, categorical membership, or payload-level conditions that similarity alone cannot enforce.
+Vector search is a ranking system, not a filter system. Every point in your collection is a candidate, which based on the semantic similarity to the query would get surfaced. That works well when you want "what's most relevant." It becomes insufficient when the result set must also satisfy hard constraints—exact values, ranges, categorical membership, or payload-level conditions that similarity alone cannot enforce.
 
 Filtering is Qdrant's mechanism for combining semantic retrieval with predicate-based constraints. This guide covers how it works internally, when to use it, and how to configure indexing to keep filtered queries fast and accurate.
 
@@ -38,7 +37,7 @@ Each item stored in Qdrant is a **point**, consisting of three components:
 
 Filters operate on payload fields. A filtered search returns only those points that (a) satisfy the filter predicate and (b) are nearest to the query vector within that filtered subset.
 
-## What filtering does—and when you need it
+## What is filtering?
 
 Pure vector search ranks by similarity. It will return the top-k results by score regardless of their payload values. If a user queries for "laptops under $1000," a similarity search over a product catalogue will surface the most semantically relevant laptops—but some may be priced above $1000.
 
