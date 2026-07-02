@@ -12,7 +12,7 @@ category: mastering-search
 ---
 Vector search is a ranking system, not a filter system. Every point in your collection is a candidate, which based on the semantic similarity to the query would get surfaced. That works well when you want "what's most relevant." It becomes insufficient when the result must also satisfy hard constraints: exact values, ranges, categorical membership, or payload-level conditions that similarity alone cannot enforce.
 
-Filtering is Qdrant's mechanism for combining semantic retrieval with predicate-based constraints. This guide covers how it works internally, when to use it, and how to configure indexing to keep filtered queries fast and accurate.
+Filtering is Qdrant's mechanism for combining semantic retrieval with predicate-based constraints. This guide covers how it works, when to use it, and how to configure indexing to keep filtered queries fast and accurate.
 
 ![vector-search-ecommerce](/articles_data/vector-search-filtering/vector-search-ecommerce.png)
 
