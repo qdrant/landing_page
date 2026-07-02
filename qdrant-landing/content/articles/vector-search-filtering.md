@@ -21,7 +21,7 @@ Take an e-commerce scenario where a customer searches for a budget computer. Vec
 
 ## Data model: points, vectors, and payloads
 
-Each item stored in Qdrant is a **point**, consisting of three components:
+When storing data in Qdrant, each product is a point, consisting of an id, a vector and payload:
 
 ```json
 {
@@ -34,22 +34,26 @@ Each item stored in Qdrant is a **point**, consisting of three components:
 }
 ```
 
-- `id` — a unique identifier within the collection.
-- `vector` — a dense embedding representing the point's semantic position in the vector space.
-- `payload` — arbitrary metadata attached to the point, queryable via filter conditions.
+- `id`: a unique identifier within the collection.
+- `vector`: a dense embedding representing the point's semantic position in the vector space.
+- `payload`: arbitrary metadata attached to the point, queryable via filter conditions.
 
-Filters operate on payload fields. A filtered search returns only those points that (a) satisfy the filter predicate and (b) are nearest to the query vector within that filtered subset.
+Though we may not be able to decipher the vector, we are able to derive additional information about the item from its metadata, In this specific case, we are looking at a data point for a laptop that costs $899.99.
 
 ## What is filtering?
 
-Pure vector search ranks by similarity. It will return the top-k results by score regardless of their payload values. If a user queries for "laptops under $1000," a similarity search over a product catalogue will surface the most semantically relevant laptops—but some may be priced above $1000.
+When searching for the perfect computer, your customers may end up with results that are mathematically similar to the search entry, but not exact. For example, if they are searching for laptops under $1000, a simple [vector search](https://qdrant.tech/advanced-search/) without constraints might still show other laptops over $1000.
 
-To enforce the price constraint, you need a filter:
+This is why semantic search alone may not be enough. In order to get the exact result, you would need to enforce a payload filter on the price. Only then can you be sure that the search results abide by the chosen characteristic.
+
+This is called filtering and it is one of the key features of vector databases.
+
+Here is how a filtered vector search looks behind the scenes. We’ll cover its mechanics in the following section.
 
 ```http
 POST /collections/online_store/points/search
 {
-  "vector": [0.2, 0.1, 0.9, 0.7],
+  "vector": [ 0.2, 0.1, 0.9, 0.7 ],
   "filter": {
     "must": [
       {
@@ -59,6 +63,9 @@ POST /collections/online_store/points/search
       {
         "key": "price",
         "range": {
+          "gt": null,
+          "gte": null,
+          "lt": null,
           "lte": 1000
         }
       }
@@ -70,10 +77,10 @@ POST /collections/online_store/points/search
 }
 ```
 
-Filtering serves two purposes that compound on each other:
+The filtered result will be a combination of the semantic search and the filtering conditions imposed upon the query. In the following pages, we will show that filtering is a key practice in vector search for two reasons:
 
-1. **Precision** — the result set satisfies both semantic and predicate constraints.
-2. **Efficiency** — when combined with a payload index, filtered queries avoid scanning the full vector space.
+1. With filtering in Qdrant, you can dramatically increase search precision. More on this in the next section.
+2. Filtering helps control resources and reduce compute use. More on this in [Payload Indexing](https://qdrant.tech/articles/vector-search-filtering/#filtering-with-the-payload-index).
 
 ## When to filter vs. when not to
 
