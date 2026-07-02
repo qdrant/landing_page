@@ -14,7 +14,8 @@ Vector search is a ranking system, not a filter system. Every point in your coll
 
 Filtering is Qdrant's mechanism for combining semantic retrieval with predicate-based constraints. This guide covers how it works, when to use it, and how to configure indexing to keep filtered queries fast and accurate.
 
-![vector-search-ecommerce](/articles_data/vector-search-filtering/vector-search-ecommerce.png)
+<img width="1600" height="946" alt="53dd43b7-1854-491b-8463-a8f702300756" src="https://github.com/user-attachments/assets/0c3317e8-5a4d-47dd-9f6c-6fe12544e7e8" />
+
 
 ## Data model: points, vectors, and payloads
 
