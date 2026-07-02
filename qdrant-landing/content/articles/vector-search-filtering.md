@@ -90,17 +90,16 @@ Use this decision tree to determine whether filtering is appropriate for a given
 
 ```mermaid
 quadrantChart
-    title Choosing a filter strategy
-    x-axis "Low cardinality" --> "High cardinality"
-    y-axis "Small dataset" --> "Large dataset"
-    quadrant-1 "Filterable HNSW"
-    quadrant-2 "Filterable HNSW"
-    quadrant-3 "Payload index scan"
-    quadrant-4 "Payload index scan"
-    "In-stock filter": [0.85, 0.7]
-    "Exact SKU lookup": [0.15, 0.4]
-    "Category = laptop": [0.7, 0.8]
-    "Rare tag match": [0.1, 0.75]
+    title How Qdrant picks a filter strategy
+    x-axis "LOW cardinality (small leftover pile)" --> "HIGH cardinality (big leftover pile)"
+    y-axis "Field NOT indexed" --> "Field is indexed"
+    quadrant-1 "Filterable HNSW: fast vector search"
+    quadrant-2 "Payload index scan: grab the few matches"
+    quadrant-3 "Add a payload index first"
+    quadrant-4 "Add a payload index first"
+    "Exact SKU lookup": [0.15, 0.85]
+    "in_stock = true": [0.85, 0.85]
+    "Unindexed price filter": [0.3, 0.2]
 ```
 
 ## How Qdrant handles filtered vector search
