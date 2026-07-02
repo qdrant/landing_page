@@ -46,7 +46,7 @@ When searching for the perfect computer, your customers may end up with results 
 
 This is why semantic search alone may not be enough. In order to get the exact result, you would need to enforce a payload filter on the price. Only then can you be sure that the search results abide by the chosen characteristic.
 
-This is called filtering and it is one of the key features of vector databases.
+> This is called **filtering** and it is one of the key features of [vector databases](https://qdrant.tech). 
 
 Here is how a filtered vector search looks behind the scenes. We’ll cover its mechanics in the following section.
 
