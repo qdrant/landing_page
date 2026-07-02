@@ -84,6 +84,11 @@ The filtered result will be a combination of the semantic search and the filteri
 
 ## When to filter vs. when not to
 
+Not every query benefits from filtering. Applying a filter has coordination cost: the query planner must resolve the filter against the index, estimate cardinality, and select an execution strategy. For very broad filters (high cardinality, matching most of the dataset), the overhead may outweigh the gain.
+
+Use this decision tree to determine whether filtering is appropriate for a given query:
+
+```mermaid
 flowchart TD
     Start([Incoming query]) --> Q1{Requires a hard constraint<br/>on a payload field?<br/>exact value / range / category}
 
@@ -108,25 +113,7 @@ flowchart TD
     Q4 -->|Yes| Tenant[Tenant index<br/>is_tenant: true on tenant field<br/>do NOT create a collection per tenant]
     Q4 -->|No| Done([Done])
     Tenant --> Done
-
-Not every query benefits from filtering. Applying a filter has coordination cost: the query planner must resolve the filter against the index, estimate cardinality, and select an execution strategy. For very broad filters (high cardinality, matching most of the dataset), the overhead may outweigh the gain.
-
-Use this decision tree to determine whether filtering is appropriate for a given query:
-
-**→ Does the query require a hard constraint on a payload field (exact value, range, category)?**
-- Yes → filter.
-- No → pure vector search.
-
-**→ Is the filter highly selective (low cardinality, matching a small fraction of points)?**
-- Yes → filter with a payload index. The planner will switch from HNSW to payload-index-based retrieval.
-- No → filter with HNSW (filterable index). Ensure the payload field is indexed for accurate cardinality estimation.
-
-**→ Do you need results ordered by a payload field rather than similarity score?**
-- Yes → use `scroll` with `order_by` instead of `search`.
-- No → use `search` or `query`.
-
-**→ Are you building a multitenant system with per-tenant data isolation?**
-- Yes → use a tenant index (`is_tenant: true`) on the tenant identifier field. Do not create separate collections per tenant.
+```
 
 ## How Qdrant handles filtered vector search
 
