@@ -1,5 +1,5 @@
 ---
-title: "Why Vector Search Needs a Dedicated Database, Not an Add-On"
+title: "Why Vector Search Needs a Dedicated Database"
 short_description: "Why add-on vector search looks good — until you actually use it."
 description: "Why add-on vector search looks good — until you actually use it."
 social_preview_image: /articles_data/dedicated-vector-search/preview/social_preview.jpg

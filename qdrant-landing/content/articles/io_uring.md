@@ -1,5 +1,5 @@
 ---
-title: "Faster Disk I/O for Vector Search"
+title: "Faster Disk I/O for Vector Search Using io_uring"
 short_description: "The Linux io_uring API offers great performance in certain cases. Here's how Qdrant uses it!"
 description: "Slow disk decelerating your Qdrant deployment? Get on top of IO overhead with this one trick!"
 social_preview_image: /articles_data/io_uring/social_preview.png

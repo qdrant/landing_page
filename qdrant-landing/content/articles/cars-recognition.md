@@ -12,7 +12,7 @@ date: 2022-06-28T13:00:00+03:00
 draft: false
 # aliases: [ /articles/cars-recognition/ ]
 category: embedding-research
-hideFromList: true
+hideFromList: false
 ---
 
 Supervised classification is one of the most widely used training objectives in machine learning,

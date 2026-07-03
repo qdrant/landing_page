@@ -1,5 +1,5 @@
 ---
-title: "Enhance Efficiency with Qdrant's Binary Quantization"
+title: "Enhance Search Efficiency with Binary Quantization"
 draft: false
 slug: binary-quantization-openai
 short_description: Use Qdrant's Binary Quantization to enhance OpenAI embeddings

@@ -1,5 +1,5 @@
 ---
-title: "Filterable HNSW: Filtered Vector Search Without Recall Loss"
+title: "Filterable HNSW Without Recall Loss"
 short_description: How to make ANN search with custom filtering?
 description: How to make ANN search with custom filtering? Search in selected subsets without losing the results.
 # external_link: https://blog.vasnetsov.com/posts/categorical-hnsw/

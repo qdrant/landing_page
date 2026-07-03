@@ -1,5 +1,5 @@
 ---
-title: "What is RAG: Understanding Retrieval-Augmented Generation"
+title: "Understanding Retrieval-Augmented Generation (RAG)"
 draft: false
 slug: what-is-rag-in-ai? 
 short_description:  What is RAG? 

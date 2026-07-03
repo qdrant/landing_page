@@ -1,5 +1,5 @@
 ---
-title: "Minimal RAM to Serve 1M Vectors: Qdrant mmap Benchmarks"
+title: "Minimal RAM to Serve 1M Vectors"
 short_description: How to properly measure RAM usage and optimize Qdrant for memory consumption.
 description: How to properly measure RAM usage and optimize Qdrant for memory consumption.
 social_preview_image: /articles_data/memory-consumption/preview/social_preview.jpg

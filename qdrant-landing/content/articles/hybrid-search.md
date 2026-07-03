@@ -1,5 +1,5 @@
 ---
-title: "Hybrid Search with Qdrant Query API: Fusion vs Reranking"
+title: "Hybrid Search with Qdrant's Query API"
 short_description: "Merging different search methods to improve the search quality was never easier"
 description: "Our new Query API allows you to build a hybrid search system that uses different search methods to improve search quality & experience. Learn more here."
 preview_dir: /articles_data/hybrid-search/preview

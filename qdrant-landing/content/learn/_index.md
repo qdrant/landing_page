@@ -37,8 +37,8 @@ content:
       list:
         title: "Featured articles:"
         elements:
-            - Distance-based data exploration
-            - Built for Vector Search
+            - Data Exploration with Qdrant's Distance Matrix API
+            - Why Vector Search Needs a Dedicated Database
             - Semantic Search As You Type
       link:
         url: /articles/

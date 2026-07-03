@@ -1,5 +1,5 @@
 ---
-title: "Vector Database vs Plugin: Do You Need a Dedicated One?"
+title: "Do You Need Dedicated Vector Search?"
 short_description: "Why vector search requires to be a dedicated service."
 description: "Why vector search requires a dedicated service."
 social_preview_image: /articles_data/dedicated-service/social-preview.png
