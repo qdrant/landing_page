@@ -18,7 +18,6 @@ Take an e-commerce scenario where a customer searches for a budget computer. Vec
 
 <img width="1600" height="946" alt="53dd43b7-1854-491b-8463-a8f702300756" src="https://github.com/user-attachments/assets/0c3317e8-5a4d-47dd-9f6c-6fe12544e7e8" />
 
-
 ## Data model: points, vectors, and payloads
 
 When storing data in Qdrant, each product is a point, consisting of an id, a vector and payload:
@@ -157,9 +156,12 @@ Clauses determine how multiple conditions are combined:
 
 For the complete reference, see the [filtering documentation](/documentation/search/filtering/).
 
-## Basic filtering example
+## Basic filtering example: ecommerce and laptops
 
-Five laptops with price and category payloads:
+We know that there are three possible laptops that suit our price point. 
+Let's see how Qdrant's filterable vector index works and why it is the best method of capturing all available results.  
+
+First, add five new laptops to your online store. Here is a sample input:
 
 ```python
 laptops = [
@@ -171,23 +173,124 @@ laptops = [
 ]
 ```
 
-Applying a `price <= 1000` filter returns only points 1, 3, and 5, ranked by similarity to the query vector:
+The four-dimensional vector can represent features like laptop CPU, RAM or battery life, but that isn’t specified. The payload, however, specifies the exact price and product category.
+
+Now, set the filter to "price is less than $1000":
+
+```json
+{
+  "key": "price",
+  "range": {
+    "gt": null,
+    "gte": null,
+    "lt": null,
+    "lte": 1000
+  }
+}
+```
+
+When a price filter of equal/less than $1000 is applied, vector search returns the following results:
 
 ```json
 [
-  { "id": 3, "score": 0.9978, "payload": { "price": 799.99, "category": "laptop" } },
-  { "id": 1, "score": 0.9938, "payload": { "price": 899.99, "category": "laptop" } },
-  { "id": 5, "score": 0.9903, "payload": { "price": 949.99, "category": "laptop" } }
+  {
+    "id": 3,
+    "score": 0.9978443564622781,
+    "payload": {
+      "price": 799.99,
+      "category": "laptop"
+    }
+  },
+  {
+    "id": 1,
+    "score": 0.9938079894227599,
+    "payload": {
+      "price": 899.99,
+      "category": "laptop"
+    }
+  },
+  {
+    "id": 5,
+    "score": 0.9903751498208603,
+    "payload": {
+      "price": 949.99,
+      "category": "laptop"
+    }
+  }
 ]
 ```
 
-Points 2 and 4 are excluded by the predicate before similarity ranking; they never appear in results regardless of their vector proximity to the query.
+As you can see, Qdrant's filtering method has a greater chance of capturing all possible search results. 
 
-> **Note on float filters:** Filtering on float fields with exact `match` conditions is unreliable due to floating-point representation. Use `range` with equal `gte` and `lte` bounds to match a specific value, which tolerates minor representation differences.
+This specific example uses the `range` condition for filtering. Qdrant, however, offers many other possible ways to structure a filter
 
-## Nested object filtering
+**For detailed usage examples, [filtering](/documentation/search/filtering/) docs are the best resource.** 
 
-Payload fields can contain arrays of objects. Consider two points representing dinosaurs with dietary preferences:
+### Scrolling instead of searching
+
+You don't need to use our `search` and `query` APIs to filter through data. The `scroll` API is another option that lets you retrieve lists of points which meet the filters.
+
+If you aren't interested in finding similar points, you can simply list the ones that match a given filter. While search gives you the most similar points based on some query vector, scroll will give you all points matching your filter not considering similarity. 
+
+In Qdrant, scrolling is used to iteratively **retrieve large sets of points from a collection**. It is particularly useful when you’re dealing with a large number of points and don’t want to load them all at once. Instead, Qdrant provides a way to scroll through the points **one page at a time**.
+
+You start by sending a scroll request to Qdrant with specific conditions like filtering by payload, vector search, or other criteria.
+
+Let's retrieve a list of top 10 laptops ordered by price in the store: 
+
+```http
+POST /collections/online_store/points/scroll
+{
+    "filter": {
+        "must": [
+            {
+                "key": "category",
+                "match": {
+                    "value": "laptop"
+                }
+            }
+        ]
+    },
+    "limit": 10,
+    "with_payload": true,
+    "with_vector": false,
+    "order_by": [
+        {
+            "key": "price",
+        }
+    ]
+}
+```
+The response contains a batch of points that match the criteria and a reference (offset or next page token) to retrieve the next set of points.
+
+> [**Scrolling**](/documentation/manage-data/points/#scroll-points) is designed to be efficient. It minimizes the load on the server and reduces memory consumption on the client side by returning only manageable chunks of data at a time.
+
+#### Available filtering conditions
+
+| **Condition**         | **Usage**                                | **Condition**         | **Usage**                                |
+|-----------------------|------------------------------------------|-----------------------|------------------------------------------|
+| **Match**             | Exact value match.                       | **Range**             | Filter by value range.                   |
+| **Match Any**         | Match multiple values.                   | **Datetime Range**    | Filter by date range.                    |
+| **Match Except**      | Exclude specific values.                 | **UUID Match**        | Filter by unique ID.                     |
+| **Nested Key**        | Filter by nested data.                   | **Geo**               | Filter by location.                      |
+| **Nested Object**     | Filter by nested objects.                | **Values Count**      | Filter by element count.                 |
+| **Full Text Match**   | Search in text fields.                   | **Is Empty**          | Filter empty fields.                     |
+| **Has ID**            | Filter by unique ID.                     | **Is Null**           | Filter null values.                      |
+
+> All clauses and conditions are outlined in Qdrant's [filtering](/documentation/search/filtering/) documentation. 
+
+#### Filtering clauses to remember
+
+| **Clause**          | **Description**                                       | **Clause**          | **Description**                                       |
+|---------------------|-------------------------------------------------------|---------------------|-------------------------------------------------------|
+| **Must**            | Includes items that meet the condition </br> (similar to `AND`). | **Should**          | Filters if at least one condition is met </br> (similar to `OR`). |
+| **Must Not**        | Excludes items that meet the condition </br> (similar to `NOT`).               | **Clauses Combination** | Combines multiple clauses to refine filtering </br> (similar to `AND`).        |
+
+## Advanced filtering example: dinosaur diets
+
+![advanced-payload-filtering](/articles_data/vector-search-filtering/advanced-payload-filtering.png)
+
+We can also use nested filtering to query arrays of objects within the payload. In this example, we have two points. They each represent a dinosaur with a list of food preferences (diet) that indicate what type of food they like or dislike:
 
 ```json
 [
@@ -195,59 +298,168 @@ Payload fields can contain arrays of objects. Consider two points representing d
     "id": 1,
     "dinosaur": "t-rex",
     "diet": [
-      { "food": "leaves", "likes": false },
-      { "food": "meat",   "likes": true  }
+      { "food": "leaves", "likes": false},
+      { "food": "meat", "likes": true}
     ]
   },
   {
     "id": 2,
     "dinosaur": "diplodocus",
     "diet": [
-      { "food": "leaves", "likes": true  },
-      { "food": "meat",   "likes": false }
+      { "food": "leaves", "likes": true},
+      { "food": "meat", "likes": false}
     ]
   }
 ]
 ```
+To ensure that both conditions are applied to the same array element (e.g., food = meat and likes = true must refer to the same diet item), you need to use a nested filter.
 
-### Flat array conditions
-
-Using `diet[].food` and `diet[].likes` as top-level conditions evaluates each condition independently across all elements:
+Nested filters are used to apply conditions within an array of objects. They ensure that the conditions are evaluated per array element, rather than across all elements.
 
 ```http
 POST /collections/dinosaurs/points/scroll
 {
-  "filter": {
-    "must": [
-      { "key": "diet[].food",  "match": { "value": "meat" } },
-      { "key": "diet[].likes", "match": { "value": true   } }
-    ]
-  }
+    "filter": {
+        "must": [
+            {
+                "key": "diet[].food",
+                  "match": {
+                    "value": "meat"
+                }
+            },
+            {
+                "key": "diet[].likes",
+                  "match": {
+                    "value": true
+                }
+            }
+        ]
+    }
 }
 ```
 
-Both points match: `t-rex` satisfies `food=meat` on element 1 and `likes=true` on element 1. `diplodocus` satisfies `food=meat` on element 1 and `likes=true` on element 0. The conditions are not scoped to the same array element.
+```python
+client.scroll(
+    collection_name="dinosaurs",
+    scroll_filter=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="diet[].food", match=models.MatchValue(value="meat")
+            ),
+            models.FieldCondition(
+                key="diet[].likes", match=models.MatchValue(value=True)
+            ),
+        ],
+    ),
+)
+```
 
-### Nested object filter
+```typescript
+client.scroll("dinosaurs", {
+  filter: {
+    must: [
+      {
+        key: "diet[].food",
+        match: { value: "meat" },
+      },
+      {
+        key: "diet[].likes",
+        match: { value: true },
+      },
+    ],
+  },
+});
+```
 
-To evaluate both conditions against the same array element, use the `nested` condition type:
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
+
+client
+    .scroll(
+        ScrollPointsBuilder::new("dinosaurs").filter(Filter::must([
+            Condition::matches("diet[].food", "meat".to_string()),
+            Condition::matches("diet[].likes", true),
+        ])),
+    )
+    .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.match;
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Common.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("dinosaurs")
+            .setFilter(
+                Filter.newBuilder()
+                    .addAllMust(
+                        List.of(matchKeyword("diet[].food", "meat"), match("diet[].likes", true)))
+                    .build())
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(
+	collectionName: "dinosaurs",
+	filter: MatchKeyword("diet[].food", "meat") & Match("diet[].likes", true)
+);
+```
+
+This happens because both points are matching the two conditions:
+
+- the "t-rex" matches food=meat on `diet[1].food` and likes=true on `diet[1].likes`
+- the "diplodocus" matches food=meat on `diet[1].food` and likes=true on `diet[0].likes`
+
+To retrieve only the points where the conditions apply to a specific element within an array (such as the point with id 1 in this example), you need to use a nested object filter.
+
+Nested object filters enable querying arrays of objects independently, ensuring conditions are checked within individual array elements.
+
+This is done by using the `nested` condition type, which consists of a payload key that targets an array and a filter to apply. The key should reference an array of objects and can be written with or without bracket notation (e.g., "data" or "data[]").
 
 ```http
 POST /collections/dinosaurs/points/scroll
 {
-  "filter": {
-    "must": [{
-      "nested": {
-        "key": "diet",
-        "filter": {
-          "must": [
-            { "key": "food",  "match": { "value": "meat" } },
-            { "key": "likes", "match": { "value": true   } }
-          ]
-        }
-      }
-    }]
-  }
+    "filter": {
+        "must": [{
+            "nested": {
+                "key": "diet",
+                "filter":{
+                    "must": [
+                        {
+                            "key": "food",
+                            "match": {
+                                "value": "meat"
+                            }
+                        },
+                        {
+                            "key": "likes",
+                            "match": {
+                                "value": true
+                            }
+                        }
+                    ]
+                }
+            }
+        }]
+    }
 }
 ```
 
@@ -261,8 +473,12 @@ client.scroll(
                     key="diet",
                     filter=models.Filter(
                         must=[
-                            models.FieldCondition(key="food",  match=models.MatchValue(value="meat")),
-                            models.FieldCondition(key="likes", match=models.MatchValue(value=True)),
+                            models.FieldCondition(
+                                key="food", match=models.MatchValue(value="meat")
+                            ),
+                            models.FieldCondition(
+                                key="likes", match=models.MatchValue(value=True)
+                            ),
                         ]
                     ),
                 )
@@ -272,167 +488,287 @@ client.scroll(
 )
 ```
 
-This returns only `t-rex` (id: 1), because `diplodocus` has no single `diet` element where both `food=meat` and `likes=true` hold simultaneously.
-
-The nested filter evaluates conditions at the element level. A document matches if at least one array element satisfies all nested conditions.
-
-## Scrolling vs. searching
-
-`search` and `query` return points ranked by similarity to a query vector. `scroll` returns points matching a filter without ranking—useful when you need a list of qualifying points rather than a similarity-ordered result.
-
-To retrieve all laptops ordered by price ascending:
-
-```http
-POST /collections/online_store/points/scroll
-{
-  "filter": {
-    "must": [
-      { "key": "category", "match": { "value": "laptop" } }
-    ]
+```typescript
+client.scroll("dinosaurs", {
+  filter: {
+    must: [
+      {
+        nested: {
+          key: "diet",
+          filter: {
+            must: [
+              {
+                key: "food",
+                match: { value: "meat" },
+              },
+              {
+                key: "likes",
+                match: { value: true },
+              },
+            ],
+          },
+        },
+      },
+    ],
   },
-  "limit": 10,
-  "with_payload": true,
-  "with_vector": false,
-  "order_by": [{ "key": "price" }]
-}
+});
 ```
 
-`scroll` returns a batch of results and a cursor for the next page, keeping memory consumption bounded for large collections.
+```rust
+use qdrant_client::qdrant::{Condition, Filter, NestedCondition, ScrollPointsBuilder};
 
-Filter conditions apply identically in `scroll` and `search`—the same clauses, conditions, and nested structures work in both endpoints.
+client
+    .scroll(
+        ScrollPointsBuilder::new("dinosaurs").filter(Filter::must([NestedCondition {
+            key: "diet".to_string(),
+            filter: Some(Filter::must([
+                Condition::matches("food", "meat".to_string()),
+                Condition::matches("likes", true),
+            ])),
+        }
+        .into()])),
+    )
+    .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.match;
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+import static io.qdrant.client.ConditionFactory.nested;
+
+import io.qdrant.client.grpc.Common.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("dinosaurs")
+            .setFilter(
+                Filter.newBuilder()
+                    .addMust(
+                        nested(
+                            "diet",
+                            Filter.newBuilder()
+                                .addAllMust(
+                                    List.of(
+                                        matchKeyword("food", "meat"), match("likes", true)))
+                                .build()))
+                    .build())
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(
+	collectionName: "dinosaurs",
+	filter: Nested("diet", MatchKeyword("food", "meat") & Match("likes", true))
+);
+```
+
+The matching logic is adjusted to operate at the level of individual elements within an array in the payload, rather than on all array elements together.
+
+Nested filters function as though each element of the array is evaluated separately. The parent document will be considered a match if at least one array element satisfies all the nested filter conditions.
+
+## Other creative uses for filters
+
+You can use filters to retrieve data points without knowing their `id`. You can search through data and manage it, solely by using filters. Let's take a look at some creative uses for filters:
+
+| Action | Description | Action | Description |
+|--------|-------------|--------|-------------|
+| [Delete Points](/documentation/manage-data/points/#delete-points) | Deletes all points matching the filter. | [Set Payload](/documentation/manage-data/payload/#set-payload) | Adds payload fields to all points matching the filter. |
+| [Scroll Points](/documentation/manage-data/points/#scroll-points) | Lists all points matching the filter. | [Update Payload](/documentation/manage-data/payload/#overwrite-payload) | Updates payload fields for points matching the filter. |
+| [Order Points](/documentation/manage-data/points/#order-points-by-payload-key) | Lists all points, sorted by the filter. | [Delete Payload](/documentation/manage-data/payload/#delete-payload-keys) | Deletes fields for points matching the filter. |
+| [Count Points](/documentation/manage-data/points/#counting-points) | Totals the points matching the filter. | | |
 
 ## Filtering with the payload index
 
-### Why the payload index matters
+![vector-search-filtering-vector-search](/articles_data/vector-search-filtering/scanning-lens.png)
 
-By default, Qdrant stores payloads alongside vector data. Without an index, filtered queries require a full scan of payload values to evaluate conditions—expensive at scale and incompatible with accurate cardinality estimation.
+When you start working with Qdrant, your data is by default organized in a vector index. 
+In addition to this, we recommend adding a secondary data structure - **the payload index**. 
 
-A payload index is a secondary data structure that maps field values to the point IDs that carry them:
+Just how the vector index organizes vectors, the payload index will structure your metadata.
 
-```
-Payload index on "category" (keyword):
-+-----------+----------+
-| category  | ids      |
-+-----------+----------+
-| laptop    | 1, 4, 7  |
-| desktop   | 2, 5, 9  |
-| speakers  | 3, 6, 8  |
-+-----------+----------+
-```
-
-With this structure, the query planner can resolve a `category = "laptop"` filter in O(1) lookups rather than a full scan.
-
-**Figure 4:** The payload index (green) allows the query planner to resolve filter predicates efficiently before or during HNSW traversal (red).
+**Figure 4:** The payload index is an additional data structure that supports vector search. A payload index (in green) organizes candidate results by cardinality, so that semantic search (in red) can traverse the vector index quickly.
 
 ![payload-index-vector-search](/articles_data/vector-search-filtering/payload-index-vector-search.png)
 
-### Creating a payload index
+On its own, semantic searching over terabytes of data can take up lots of RAM. [**Filtering**](/documentation/search/filtering/) and [**Indexing**](/documentation/manage-data/indexing/) are two easy strategies to reduce your compute usage and still get the best results. Remember, this is only a guide. For an exhaustive list of filtering options, you should read the [filtering documentation](/documentation/search/filtering/). 
+
+Here is how you can create a single index for a metadata field "category":
 
 ```http
 PUT /collections/computers/index
 {
-  "field_name": "category",
-  "field_schema": "keyword"
+    "field_name": "category",
+    "field_schema": "keyword"
 }
 ```
-
 ```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(url="http://localhost:6333")
+
 client.create_payload_index(
-    collection_name="computers",
-    field_name="category",
-    field_schema="keyword",
+   collection_name="computers",
+   field_name="category",
+   field_schema="keyword",
 )
 ```
+Once you mark a field indexable, **you don't need to do anything else**. Qdrant will handle all optimizations in the background.
 
-Index every field you filter by. There is no meaningful cost to creating additional indexes; the benefit is consistent.
+#### Why should you index metadata?
 
-### How the query planner uses cardinality
+![payload-index-filtering](/articles_data/vector-search-filtering/payload-index-filtering.png)
 
-Filter cardinality is the number of points that satisfy a given predicate. The query planner estimates cardinality using the payload index before selecting an execution strategy:
+The payload index acts as a secondary data structure that speeds up retrieval. Whenever you run vector search with a filter, Qdrant will consult a payload index - if there is one. 
 
-- **High cardinality** (filter matches a large fraction of points) → HNSW traversal with filterable links.
-- **Low cardinality** (filter is highly selective) → payload index scan, bypassing HNSW entirely. This is cheaper and faster when the qualifying set is small.
+<aside role="status">
+Indexing your metadata has a significant positive effect on search performance when searching with filters. 
+</aside>
 
-The default full-scan threshold is 10 kilobytes. Without a payload index, cardinality estimation is unavailable and the planner may select a suboptimal strategy, producing slow queries or degraded accuracy.
+As your dataset grows in complexity, Qdrant takes up additional resources to go through all data points. Without a proper data structure, the search can take longer - or run out of resources.
 
-### Available index types
+#### Payload indexing helps evaluate the most restrictive filters
 
-| Index type | Use case |
-|---|---|
-| Keyword / Integer / Float | Exact match and range conditions on scalar fields |
-| [Full-text index](/documentation/manage-data/indexing/#full-text-index) | Tokenised search within text fields |
-| [Tenant index](/documentation/manage-data/indexing/#tenant-index) | Data locality in multitenant collections |
-| [Principal index](/documentation/manage-data/indexing/#principal-index) | Primary entity isolation (users, accounts) |
-| [On-disk index](/documentation/manage-data/indexing/#on-disk-payload-index) | Large indexes that exceed available RAM |
-| [Parameterized index](/documentation/manage-data/indexing/#parameterized-index) | Dynamic queries on numeric fields with varying parameters |
+The payload index is also used to accurately estimate **filter cardinality**, which helps the query planning choose a search strategy. **Filter cardinality** refers to the number of distinct values that a filter can match within a dataset. Qdrant's search strategy can switch from **HNSW search** to **payload index-based search** if the cardinality is too low.
 
-### Multitenant deployments
+**How it affects your queries:** Depending on the filter used in the search - there are several possible scenarios for query execution. Qdrant chooses one of the query execution options depending on the available indexes, the complexity of the conditions and the cardinality of the filtering result. 
 
-A common mistake is creating one Qdrant collection per tenant. Each collection maintains its own HNSW graph and index structures; at scale, this exhausts memory and degrades cluster performance.
+- The planner estimates the cardinality of a filtered result before selecting a strategy.
+- Qdrant retrieves points using the **payload index** if cardinality is below threshold.
+- Qdrant uses the **filterable vector index** if the cardinality is above a threshold
 
-The correct approach is a single collection with a tenant index:
+<aside role="status">
+Our default full scan threshold is 10 kilobytes. 
+</aside>
+
+#### What happens if you don't use payload indexes?
+
+When using filters while querying, Qdrant needs to estimate cardinality of those filters to define a proper query plan. If you don't create a payload index, Qdrant will not be able to do this. It may end up choosing a sub-optimal way of searching causing extremely slow search times or low accuracy results.
+
+If you only rely on **searching for the nearest vector**, Qdrant will have to go through the entire vector index. It will calculate similarities against each vector in the collection, relevant or not. Alternatively, when you filter with the help of a payload index, the HSNW algorithm won't have to evaluate every point. Furthermore, the payload index will help HNSW  construct the graph with additional links.
+
+## How does the payload index look?
+
+A payload index is similar to conventional document-oriented databases. It connects metadata fields with their corresponding point id’s for quick retrieval. 
+
+In this example, you are indexing all of your computer hardware inside of the `computers` collection. Let’s take a look at a sample payload index for the field `category`. 
+
+```json
+Payload Index by keyword:
++------------+-------------+
+| category   | id          |
++------------+-------------+
+| laptop     | 1, 4, 7     |
+| desktop    | 2, 5, 9     |
+| speakers   | 3, 6, 8     |
+| keyboard   | 10, 11      |
++------------+-------------+
+```
+When fields are properly indexed, the search engine roughly knows where it can start its journey. It can start looking up points that contain relevant metadata, and it doesn’t need to scan the entire dataset. This reduces the engine’s workload by a lot. As a result, query results are faster and the system can easily scale.
+
+> You may create as many payload indexes as you want, and we recommend you do so for each field that you filter by.
+
+If your users are often filtering by **laptop** when looking up a product **category**, indexing all computer metadata will speed up retrieval and make the results more precise.
+
+#### Different types of payload indexes
+
+| Index Type          | Description                                                                                                                                           |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Full-text Index](/documentation/manage-data/indexing/#full-text-index)     | Enables efficient text search in large datasets.                                                                                                      |
+| [Tenant Index](/documentation/manage-data/indexing/#tenant-index)        | For data isolation and retrieval efficiency in multi-tenant architectures.                                                                            |
+| [Principal Index](/documentation/manage-data/indexing/#principal-index)     | Manages data based on primary entities like users or accounts.                                                                                        |
+|[On-Disk Index](/documentation/manage-data/indexing/#on-disk-payload-index)       | Stores indexes on disk to manage large datasets without memory usage.                                                                                 |
+| [Parameterized Index](/documentation/manage-data/indexing/#parameterized-index) | Allows for dynamic querying, where the index can adapt based on different parameters or conditions provided by the user. Useful for numeric data like prices or timestamps. |
+
+### Indexing payloads in multitenant setups
+
+Some applications need to have data segregated, whereby different users need to see different data inside of the same program. When setting up storage for such a complex application, many users think they need multiple databases for segregated users.    
+
+We see this quite often. Users very frequently make the mistake of creating a separate collection for each tenant inside of the same cluster. This can quickly exhaust the cluster’s resources. Running vector search through too many collections can start using up too much RAM. You may start seeing out-of-memory (OOM) errors and degraded performance. 
+
+To mitigate this, we offer extensive support for multitenant systems, so that you can build an entire global application in one single Qdrant collection. 
+
+When creating or updating a collection, you can mark a metadata field as indexable. To mark `user_id` as a tenant in a shared collection, do the following:
 
 ```http
 PUT /collections/{collection_name}/index
 {
-  "field_name": "user_id",
-  "field_schema": {
-    "type": "keyword",
-    "is_tenant": true
-  }
+   "field_name": "user_id",
+   "field_schema": {
+       "type": "keyword",
+       "is_tenant": true
+   }
+}
+```
+Additionally, we offer a way of organizing data efficiently by means of the tenant index. This is another variant of the payload index that makes tenant data more accessible. This time, the request will specify the field as a tenant. This means that you can mark various customer types and user id’s as `is_tenant: true`. 
+
+Read more about setting up [tenant defragmentation](/documentation/manage-data/indexing/?q=tenant#tenant-index) in multitenant environments,
+
+## Key takeaways in filtering and indexing
+![best-practices](/articles_data/vector-search-filtering/best-practices.png)
+
+### Filtering with float-point (decimal) numbers
+If you filter by the float data type, your search precision may be limited and inaccurate. 
+
+Float Datatype numbers have a decimal point and are 64 bits in size. Here is an example:
+
+```json
+{
+   "price": 11.99
 }
 ```
 
-The `is_tenant` flag tells Qdrant to physically co-locate points from the same tenant in storage, reducing the I/O cost of tenant-scoped queries. All standard filter conditions work as expected within a tenant-filtered query.
+When you filter for a specific float number, such as 11.99, you may get a different result, like 11.98 or 12.00. With decimals, numbers are rounded differently, so logically identical values may appear different. Unfortunately, searching for exact matches can be unreliable in this case.
 
-For a full guide, see [tenant defragmentation](/documentation/manage-data/indexing/?q=tenant#tenant-index).
+To avoid inaccuracies, use a different filtering method. We recommend that you try Range Based Filtering instead of exact matches. This method accounts for minor variations in data, and it boosts performance - especially with large datasets. 
 
-## Filters beyond search
+Here is a sample JSON range filter for values greater than or equal to 11.99 and less than or equal to the same number. This will retrieve any values within the range of 11.99, including those with additional decimal places.
 
-Filter conditions are not limited to `search` and `scroll`. They apply to any point-level operation:
+```json
+{
+ "key": "price",
+ "range": {
+   "gt": null,
+   "gte": 11.99,
+   "lt": null,
+   "lte": 11.99
+  }
+}
+```
+### Working with pagination in queries
 
-| Operation | Effect |
-|---|---|
-| [Delete points](/documentation/manage-data/points/#delete-points) | Deletes all points matching the filter |
-| [Count points](/documentation/manage-data/points/#counting-points) | Returns the count of matching points |
-| [Set payload](/documentation/manage-data/payload/#set-payload) | Adds payload fields to all matching points |
-| [Update payload](/documentation/manage-data/payload/#overwrite-payload) | Overwrites payload fields on all matching points |
-| [Delete payload](/documentation/manage-data/payload/#delete-payload-keys) | Removes payload keys from all matching points |
-| [Order points](/documentation/manage-data/points/#order-points-by-payload-key) | Lists matching points sorted by a payload field |
+When you're implementing pagination in filtered queries, indexing becomes even more critical. When paginating results, you often need to exclude items you've already seen. This is typically managed by applying filters that specify which IDs should not be included in the next set of results. 
 
-This allows bulk operations on subsets of a collection without enumerating individual point IDs.
+However, an interesting aspect of Qdrant's data model is that a single point can have multiple values for the same field, such as different color options for a product. This means that during filtering, an ID might appear multiple times if it matches on different values of the same field. 
 
-## Pagination considerations
+Proper indexing ensures that these queries are efficient, preventing duplicate results and making pagination smoother.
 
-When paginating filtered results, a single point can appear multiple times if it carries multiple values for the same indexed field (e.g. a product available in multiple colours). This is expected behaviour: each (point, value) pair is a separate index entry.
+## Conclusion: Real-life use cases of filtering
 
-To implement offset-based pagination, track the last-seen point ID and use it as an exclusion filter on the next page. Alternatively, use the `scroll` API's cursor-based pagination, which handles this consistently.
+Filtering in a [vector database](https://qdrant.tech) like Qdrant can significantly enhance search capabilities by enabling more precise and efficient retrieval of data. 
 
-A payload index on the field used for pagination is mandatory for acceptable performance at scale—without it, each page requires a full scan.
+As a conclusion to this guide, let's look at some real-life use cases where filtering is crucial:
 
-## Key practices
+| **Use Case**                         | **Vector Search**                                                | **Filtering**                                                           |
+|--------------------------------------|------------------------------------------------------------------|-------------------------------------------------------------------------|
+| [E-Commerce Product Search](/advanced-search/)        | Search for products by style or visual similarity                | Filter by price, color, brand, size, ratings                            |
+| [Recommendation Systems](/recommendations/)           | Recommend similar content (e.g., movies, songs)                  | Filter by release date, genre, etc. (e.g., movies after 2020)           |
+| [Geospatial Search in Ride-Sharing](/articles/geo-polygon-filter-gsoc/)| Find similar drivers or delivery partners                         | Filter by rating, distance radius, vehicle type                                |
+| [Fraud & Anomaly Detection](/data-analysis-anomaly-detection/)                  | Detect transactions similar to known fraud cases                 | Filter by amount, time, location                                        |
 
-- Index every payload field you filter by. Do this at collection setup, before data ingestion at scale.
-- Prefer `range` over `match` for float fields.
-- Do not create one collection per tenant. Use a tenant index within a single collection.
-- Use `scroll` when you need a list of qualifying points without a query vector. Use `search` or `query` when similarity ranking matters.
-- For nested object arrays, use the `nested` condition type when all sub-conditions must apply to the same array element.
+#### Before you go - all the code is in Qdrant's Dashboard 
 
-For the full reference on filtering conditions and clauses, see the [filtering documentation](/documentation/search/filtering/).
+The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/cloud-quickstart/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
 
-## Real-world use cases
-
-| Use case | Vector search role | Filtering role |
-|---|---|---|
-| [E-commerce product search](/advanced-search/) | Semantic similarity to query | Price, brand, size, colour, rating |
-| [Recommendation systems](/recommendations/) | Similarity to user history | Release date, genre, content rating |
-| [Geospatial search](/articles/geo-polygon-filter-gsoc/) | Similarity to driver or partner profile | Distance radius, vehicle type, rating |
-| [Fraud detection](/data-analysis-anomaly-detection/) | Similarity to known fraud patterns | Transaction amount, time window, location |
-
-Filtering is most powerful when it narrows the qualifying set to a semantically coherent subset. The vector search then ranks within that subset by similarity—producing results that satisfy both the predicate and the query intent.
-
----
-
-**Try filtering in a live cluster.** Qdrant's interactive [cloud quickstart](/documentation/cloud-quickstart/) includes a step-by-step tutorial covering cluster creation, data insertion, and filtered queries. All code samples in this guide run directly in the Qdrant dashboard.
+**It's all in your free cluster!**
 
 [![qdrant-hybrid-cloud](/docs/homepage/cloud-cta.png)](https://qdrant.to/cloud)
