@@ -41,3 +41,7 @@ A [Payload](/documentation/manage-data/payload/) is structured metadata you can 
 ## Multitenancy
 
 [Multitenancy](/documentation/manage-data/multitenancy/) explains strategies for isolating data across multiple users or tenants within a single Qdrant deployment.
+
+## Bulk Upload
+
+[Bulk Upload](/documentation/manage-data/bulk-upload/) covers strategies for ingesting large datasets efficiently, including batching, parallelization, and index configuration.

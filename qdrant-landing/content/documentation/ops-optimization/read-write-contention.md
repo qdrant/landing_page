@@ -180,4 +180,4 @@ Like Step 8, this step adds capacity rather than reallocating it. Where horizont
 - [Low-Latency Search](/documentation/search/low-latency-search/) covers delayed fan-outs and other techniques for reducing search latency.
 - [Qdrant under the Hood: io_uring](/articles/io_uring/) explains how async I/O works in Qdrant.
 - [Distributed Deployment](/documentation/distributed_deployment/) covers horizontal scaling with shards and replicas.
-- [Bulk Operations](/documentation/tutorials-develop/bulk-upload/) covers best practices for high-throughput ingestion.
+- [Bulk Upload](/documentation/manage-data/bulk-upload/) covers best practices for high-throughput ingestion.
