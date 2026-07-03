@@ -1,7 +1,7 @@
 ---
 title: Bulk Upload
-short_description: "Bulk-upload vectors into Qdrant collections efficiently by tuning indexing strategy and using high-performance client libraries."
-description: "Bulk-upload large vector datasets into Qdrant by deferring HNSW index construction and parallelizing client uploads for maximum throughput."
+short_description: "Speed up large dataset uploads to Qdrant by batching points, parallelizing threads, tuning sharding, and managing read-write contention."
+description: "A practical guide to bulk-uploading vectors into Qdrant: batch and parallelize uploads, create multiple shards, set up payload indexes before ingestion, store large datasets directly on disk with memmap, and mitigate read-write contention during continuous ingestion."
 aliases:
   - /documentation/tutorials/bulk-upload/
   - /documentation/database-tutorials/bulk-upload/
