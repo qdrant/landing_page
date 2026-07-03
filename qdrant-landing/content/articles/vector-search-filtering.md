@@ -120,7 +120,8 @@ The filterable vector index is Qdrant’s solves pre and post-filtering problems
 
 **Figure 3:** Post-filtering applies payload constraints after similarity ranking, which discards candidates that don't meet the filter.
 
-![post-filtering-vector-search](/articles_data/vector-search-filtering/post-filtering.png)
+<img width="826" height="429" alt="Screenshot 2026-07-03 at 18 54 46" src="https://github.com/user-attachments/assets/3369fa3f-6246-4114-bd38-167a02359bf1" />
+
 
 Qdrant's filterable HNSW avoids this trade-off by building graph links that remain valid under any filter. The query planner also switches dynamically between HNSW traversal and payload-index-based retrieval depending on estimated filter cardinality—see [Payload indexing](#filtering-with-the-payload-index) below.
 
