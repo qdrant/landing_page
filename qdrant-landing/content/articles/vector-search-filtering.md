@@ -288,7 +288,7 @@ The response contains a batch of points that match the criteria and a reference 
 
 ## Advanced filtering example: dinosaur diets
 
-![advanced-payload-filtering](/articles_data/vector-search-filtering/advanced-payload-filtering.png)
+## <img width="843" height="161" alt="Screenshot 2026-07-03 at 19 06 29" src="https://github.com/user-attachments/assets/ef43e215-fdf6-400c-8817-ac7d4b271982" />
 
 We can also use nested filtering to query arrays of objects within the payload. In this example, we have two points. They each represent a dinosaur with a list of food preferences (diet) that indicate what type of food they like or dislike:
 
@@ -589,7 +589,9 @@ You can use filters to retrieve data points without knowing their `id`. You can 
 
 ## Filtering with the payload index
 
-![vector-search-filtering-vector-search](/articles_data/vector-search-filtering/scanning-lens.png)
+<img width="840" height="133" alt="Screenshot 2026-07-03 at 19 08 11" src="https://github.com/user-attachments/assets/a5a8a36b-9ea4-42df-830b-0856cac9dc50" />
+<img width="839" height="623" alt="Screenshot 2026-07-03 at 19 08 35" src="https://github.com/user-attachments/assets/2ae4e907-d9b6-4fad-bd73-04d8786b3434" />
+
 
 When you start working with Qdrant, your data is by default organized in a vector index. 
 In addition to this, we recommend adding a secondary data structure - **the payload index**. 
@@ -598,7 +600,8 @@ Just how the vector index organizes vectors, the payload index will structure yo
 
 **Figure 4:** The payload index is an additional data structure that supports vector search. A payload index (in green) organizes candidate results by cardinality, so that semantic search (in red) can traverse the vector index quickly.
 
-![payload-index-vector-search](/articles_data/vector-search-filtering/payload-index-vector-search.png)
+<img width="834" height="623" alt="Screenshot 2026-07-03 at 19 09 07" src="https://github.com/user-attachments/assets/2975b7dc-aa76-4ff6-9720-5cd6c13088bd" />
+
 
 On its own, semantic searching over terabytes of data can take up lots of RAM. [**Filtering**](/documentation/search/filtering/) and [**Indexing**](/documentation/manage-data/indexing/) are two easy strategies to reduce your compute usage and still get the best results. Remember, this is only a guide. For an exhaustive list of filtering options, you should read the [filtering documentation](/documentation/search/filtering/). 
 
@@ -626,7 +629,8 @@ Once you mark a field indexable, **you don't need to do anything else**. Qdrant 
 
 #### Why should you index metadata?
 
-![payload-index-filtering](/articles_data/vector-search-filtering/payload-index-filtering.png)
+<img width="838" height="146" alt="Screenshot 2026-07-03 at 19 09 47" src="https://github.com/user-attachments/assets/0d4778ec-ba2a-4f9f-82fa-cbf1706b9d02" />
+
 
 The payload index acts as a secondary data structure that speeds up retrieval. Whenever you run vector search with a filter, Qdrant will consult a payload index - if there is one. 
 
@@ -714,7 +718,9 @@ Additionally, we offer a way of organizing data efficiently by means of the tena
 Read more about setting up [tenant defragmentation](/documentation/manage-data/indexing/?q=tenant#tenant-index) in multitenant environments,
 
 ## Key takeaways in filtering and indexing
-![best-practices](/articles_data/vector-search-filtering/best-practices.png)
+
+<img width="839" height="142" alt="Screenshot 2026-07-03 at 19 11 30" src="https://github.com/user-attachments/assets/232c6896-1dcf-4318-b2fc-187b43df348d" />
+
 
 ### Filtering with float-point (decimal) numbers
 If you filter by the float data type, your search precision may be limited and inaccurate. 
