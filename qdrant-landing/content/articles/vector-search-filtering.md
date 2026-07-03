@@ -590,8 +590,6 @@ You can use filters to retrieve data points without knowing their `id`. You can 
 ## Filtering with the payload index
 
 <img width="840" height="133" alt="Screenshot 2026-07-03 at 19 08 11" src="https://github.com/user-attachments/assets/a5a8a36b-9ea4-42df-830b-0856cac9dc50" />
-<img width="839" height="623" alt="Screenshot 2026-07-03 at 19 08 35" src="https://github.com/user-attachments/assets/2ae4e907-d9b6-4fad-bd73-04d8786b3434" />
-
 
 When you start working with Qdrant, your data is by default organized in a vector index. 
 In addition to this, we recommend adding a secondary data structure - **the payload index**. 
@@ -777,4 +775,3 @@ The easiest way to reach that "Hello World" moment is to [**try filtering in a l
 
 **It's all in your free cluster!**
 
-[![qdrant-hybrid-cloud](/docs/homepage/cloud-cta.png)](https://qdrant.to/cloud)
