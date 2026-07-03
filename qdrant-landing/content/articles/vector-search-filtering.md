@@ -88,19 +88,8 @@ Not every query benefits from filtering. Applying a filter has coordination cost
 
 Use this decision tree to determine whether filtering is appropriate for a given query:
 
-```mermaid
-quadrantChart
-    title How Qdrant picks a filter strategy
-    x-axis "LOW cardinality (small leftover pile)" --> "HIGH cardinality (big leftover pile)"
-    y-axis "Field NOT indexed" --> "Field is indexed"
-    quadrant-1 "Filterable HNSW: fast vector search"
-    quadrant-2 "Payload index scan: grab the few matches"
-    quadrant-3 "Add a payload index first"
-    quadrant-4 "Add a payload index first"
-    "Exact SKU lookup": [0.15, 0.85]
-    "in_stock = true": [0.85, 0.85]
-    "Unindexed price filter": [0.3, 0.2]
-```
+<img width="940" height="488" alt="Screenshot 2026-07-03 at 18 23 03" src="https://github.com/user-attachments/assets/554f104f-9357-4e8e-aa0e-ac9c73c60184" />
+
 
 ## How Qdrant handles filtered vector search
 
@@ -114,8 +103,6 @@ Qdrant solves this by building **additional edges** between eligible nodes that 
 
 **Figure 1:** Qdrant's filterable vector index maintains additional links between eligible points so the traversal can still reach valid nearest neighbors after filtering.
 
-<img width="940" height="488" alt="Screenshot 2026-07-03 at 18 23 03" src="https://github.com/user-attachments/assets/554f104f-9357-4e8e-aa0e-ac9c73c60184" />
-<img width="938" height="488" alt="Screenshot 2026-07-03 at 18 22 20" src="https://github.com/user-attachments/assets/9b3c50e3-fafc-4c62-a80b-53a5cb40f75f" />
 
 ### Pre-filtering and post-filtering: why neither works alone
 
