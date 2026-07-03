@@ -67,3 +67,9 @@ slower, and the optimizer can be a bottleneck when ingesting a large amount of
 data.
 
 For full configuration details, see [Configuring Memmap Storage](/documentation/manage-data/storage/#configuring-memmap-storage).
+
+## Mitigate Read-Write Contention
+
+Bulk uploads push a continuous stream of writes through Qdrant's background [optimizer](/documentation/ops-optimization/optimizer/): it must build HNSW indexes, merge segments, and apply quantization as new data arrives. If you are running search queries at the same time, the optimizer and your queries compete for the same CPU time, memory bandwidth, and I/O. This can raise query latency noticeably during ingestion.
+
+If you need to keep serving searches while uploading, see [Read-Write Contention](/documentation/ops-optimization/read-write-contention/) for a set of configuration changes that improve read latency under heavy write load.
