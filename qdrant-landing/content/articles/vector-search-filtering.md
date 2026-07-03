@@ -103,10 +103,12 @@ Qdrant solves this by building **additional edges** between eligible nodes that 
 
 **Figure 1:** Qdrant's filterable vector index maintains additional links between eligible points so the traversal can still reach valid nearest neighbors after filtering.
 
+<img width="1462" height="737" alt="Screenshot 2026-07-03 at 18 30 42" src="https://github.com/user-attachments/assets/65b2cf01-0c42-4d93-9f9f-f31395c15221" />
+
 
 ### Pre-filtering and post-filtering: why neither works alone
 
-Two simpler approaches exist, both with structural problems at scale:
+The filterable vector index is Qdrant’s solves pre and post-filtering problems by adding specialized links to the search graph. It aims to maintain the speed advantages of vector search while allowing for precise filtering, addressing the inefficiencies that can occur when applying filters after the vector search.
 
 **Pre-filtering** narrows the dataset by payload predicate first, then runs vector search over the filtered subset. This is efficient when the filter is highly selective (few results survive). When the filter is broad (many results survive), the HNSW graph over the filtered subset is fragmented—too many links have been removed—and search accuracy degrades.
 
