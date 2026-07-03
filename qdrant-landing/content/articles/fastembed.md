@@ -1,5 +1,5 @@
 ---
-title: "FastEmbed: Fast ONNX Text Embeddings in Python with Qdrant"
+title: "FastEmbed: Qdrant's Efficient Python Library for Embedding Generation"
 short_description: "FastEmbed: Quantized Embedding models for fast CPU Generation"
 description: "Learn how to accurately and efficiently create text embeddings with FastEmbed."
 social_preview_image: /articles_data/fastembed/preview/social_preview.jpg

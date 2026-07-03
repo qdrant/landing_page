@@ -1,5 +1,5 @@
 ---
-title: "Neural Search Tutorial: Build a Service with BERT & Qdrant"
+title: "Neural Search 101: A Complete Guide and Step-by-Step Tutorial"
 short_description: Step-by-step guide on how to build a neural search service.
 description: Discover the power of neural search. Learn what neural search is and follow our tutorial to build a neural search service using BERT, Qdrant, and FastAPI.
 # external_link: https://blog.qdrant.tech/neural-search-tutorial-3f034ab13adc

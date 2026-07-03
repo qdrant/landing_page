@@ -1,5 +1,5 @@
 ---
-title: "What is Vector Quantization? Scalar, Product & Binary Methods"
+title: "What is Vector Quantization?"
 draft: false
 slug: what-is-vector-quantization 
 short_description:  What is Vector Quantization? Methods & Examples 

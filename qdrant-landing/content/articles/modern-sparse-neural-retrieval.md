@@ -1,5 +1,5 @@
 ---
-title: "Sparse Neural Retrieval Explained"
+title: "Modern Sparse Neural Retrieval: From Theory to Practice"
 short_description: ""
 description: "A comprehensive guide to modern sparse neural retrievers: COIL, TILDEv2, SPLADE, and more. Find out how they work and learn how to use them effectively." 
 preview_dir: /articles_data/modern-sparse-neural-retrieval/preview

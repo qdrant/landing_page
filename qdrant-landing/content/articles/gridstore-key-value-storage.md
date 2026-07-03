@@ -1,5 +1,5 @@
 ---
-title: "Gridstore: Qdrant's Custom Key-Value Storage Engine"
+title: "Introducing Gridstore: Qdrant's Custom Key-Value Store"
 short_description: "Why and how we built our own key-value store."
 description: "Why and how we built our own key-value store. A short technical report on our procedure and results."
 preview_dir: /articles_data/gridstore-key-value-storage/preview
