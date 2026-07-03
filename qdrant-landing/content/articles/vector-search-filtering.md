@@ -103,8 +103,7 @@ Qdrant solves this by building **additional edges** between eligible nodes that 
 
 **Figure 1:** Qdrant's filterable vector index maintains additional links between eligible points so the traversal can still reach valid nearest neighbors after filtering.
 
-<img width="1462" height="737" alt="Screenshot 2026-07-03 at 18 30 42" src="https://github.com/user-attachments/assets/65b2cf01-0c42-4d93-9f9f-f31395c15221" />
-
+<img width="1470" height="709" alt="Screenshot 2026-07-03 at 18 35 05" src="https://github.com/user-attachments/assets/527e4c15-fcac-453e-beab-15d1f5d19aa4" />
 
 ### Pre-filtering and post-filtering: why neither works alone
 
