@@ -1,5 +1,6 @@
 @use '../../helpers/functions' as *;
 @use '../../mixins/mixins' as *;
+@use '../../mixins/table-variant-styles' as table-variant;
 
 .documentation-article {
   padding-bottom: $spacer * 1.5;
@@ -118,7 +119,7 @@
 
   .table-responsive {
     .table {
-      @extend .table-dark;
+      @include table-variant.variant('dark');
     }
     th,
     td {
@@ -169,7 +170,7 @@
 
     .table-responsive {
       .table {
-        @extend .table-light;
+        @include table-variant.variant('light');
       }
     }
     &__header-link {

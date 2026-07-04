@@ -1,14 +1,34 @@
 {{ $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") }}
 
+{{ if in (slice "blog" "docs" "documentation" "articles" "course" "learn" "customers") .Section }}
+  {{ $pageSearchCss := resources.Get "css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
+{{ end }}
+
+{{ $coreCss := resources.Get "css/core.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+<link href="{{ $coreCss.RelPermalink }}" rel="stylesheet" integrity="{{ $coreCss.Data.Integrity }}" />
+
 {{ if .IsHome }}
   <!--splide.js carousel core styles-->
   {{ $splideCss := resources.Get "css/vendor/splide.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $splideCss.RelPermalink }}" rel="stylesheet" integrity="{{ $splideCss.Data.Integrity }}" />
+  {{ $homeCss := resources.Get "css/home.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $homeCss.RelPermalink }}" rel="stylesheet" integrity="{{ $homeCss.Data.Integrity }}" />
 {{ end }}
 
-{{ if in (slice "blog" "docs" "documentation" "articles" "course" "learn" "customers") .Section }}
-  {{ $pageSearchCss := resources.Get "css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
-  <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
+{{ if eq .Section "pricing" }}
+  {{ $pricingCss := resources.Get "css/pricing.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $pricingCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pricingCss.Data.Integrity }}" />
+{{ end }}
+
+{{ if in (slice "industries" "healthcare" "edge" "elastic-lucene") .Section }}
+  {{ $industriesCss := resources.Get "css/industries.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $industriesCss.RelPermalink }}" rel="stylesheet" integrity="{{ $industriesCss.Data.Integrity }}" />
+{{ end }}
+
+{{ if in (slice "partners" "customers" "stars" "community" "qdrant-for-startups" "brand-resources") .Section }}
+  {{ $partnersCustomersCss := resources.Get "css/partners-customers.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $partnersCustomersCss.RelPermalink }}" rel="stylesheet" integrity="{{ $partnersCustomersCss.Data.Integrity }}" />
 {{ end }}
 
 {{ if eq .Section "hybrid-cloud" }}
@@ -16,7 +36,7 @@
   <link
     href="{{ $hybridCloudCss.RelPermalink }}"
     rel="stylesheet"
-    integrity="{{ .Data.Integrity }}"
+    integrity="{{ $hybridCloudCss.Data.Integrity }}"
     crossorigin="anonymous"
   />
 {{ end }}
@@ -35,7 +55,13 @@
   <link href="{{ $benchmarksCss.RelPermalink }}" rel="stylesheet" integrity="{{ $benchmarksCss.Data.Integrity }}" />
 {{ end }}
 
-{{ if not (in (slice "hybrid-cloud" "docs" "documentation" "course" "learn" "benchmarks") .Section) }}
+{{ if eq .Section "blog" }}
+  {{ $blogCss := resources.Get "css/blog.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $blogCss.RelPermalink }}" rel="stylesheet" integrity="{{ $blogCss.Data.Integrity }}" />
+{{ end }}
+
+{{ $excludedSections := slice "hybrid-cloud" "docs" "documentation" "articles" "course" "learn" "benchmarks" "pricing" "industries" "healthcare" "edge" "elastic-lucene" "partners" "customers" "stars" "community" "qdrant-for-startups" "brand-resources" "blog" }}
+{{ if and (not .IsHome) (not (in $excludedSections .Section)) }}
   {{ $mainCss := resources.Get "css/main.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
-  <link href="{{ $mainCss.RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+  <link href="{{ $mainCss.RelPermalink }}" rel="stylesheet" integrity="{{ $mainCss.Data.Integrity }}" crossorigin="anonymous" />
 {{ end }}

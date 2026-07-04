@@ -1,6 +1,6 @@
 @use 'sass:math';
 @use '../helpers/functions' as *;
-@use '../bootstrap-custom' as bs;
+@use '../bootstrap-tools' as *;
 
 @mixin base($paddingTop, $paddingTopMobile, $paddingBottom, $paddingBottomMobile, $contentWidth) {
   padding-top: $paddingTopMobile;
@@ -28,7 +28,7 @@
     display: none;
   }
 
-  @include bs.media-breakpoint-up(lg) {
+  @include media-breakpoint-up(lg) {
     padding-top: $paddingTop;
     padding-bottom: $paddingBottom;
 

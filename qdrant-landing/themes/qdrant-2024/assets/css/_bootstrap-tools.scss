@@ -1,0 +1,11 @@
+// Sass configuration only — no CSS output.
+// Used by section bundles and shared mixins. Bootstrap CSS is compiled once in core.css.
+@use 'sass:math';
+@use 'helpers/functions' as *;
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
+@import 'theme-variables';
+@import 'bootstrap/scss/maps';
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/utilities';

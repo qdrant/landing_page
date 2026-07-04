@@ -1,11 +1,12 @@
 @use '../helpers/functions' as *;
+@use '../mixins/site-container' as site-container;
 
 .brand-resources-content {
   padding-bottom: $spacer * 2.5;
   background-color: $neutral-94;
 
   &__container {
-    @extend .container;
+    @include site-container.base;
   }
 
   &__block {

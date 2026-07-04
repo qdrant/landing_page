@@ -1,6 +1,6 @@
 @use 'sass:math';
 @use '../helpers/functions' as *;
-@use '../bootstrap-custom' as bs;
+@use '../bootstrap-tools' as *;
 
 @mixin base(
   $height,
@@ -36,7 +36,7 @@
       width: pxToRem(80);
       z-index: 1;
 
-      @include bs.media-breakpoint-up(lg) {
+      @include media-breakpoint-up(lg) {
         width: pxToRem(165);
       }
     }

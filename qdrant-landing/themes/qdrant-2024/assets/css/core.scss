@@ -1,0 +1,4 @@
+// Shared foundation CSS: fonts, Bootstrap, base rules, components, header/footer.
+// Loaded on every page. Section bundles compile against base-vars (no CSS output)
+// so this code is never duplicated in the browser.
+@import 'base';

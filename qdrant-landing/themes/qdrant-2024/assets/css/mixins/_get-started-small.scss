@@ -1,6 +1,6 @@
 @use 'sass:math';
 @use '../helpers/functions' as *;
-@use '../bootstrap-custom' as bs;
+@use '../bootstrap-tools' as *;
 
 @mixin base(
   $paddingTop,
@@ -48,7 +48,7 @@
     line-height: pxToRem(34);
     text-align: center;
     color: #f0f3fa;
-    @include bs.media-breakpoint-up(lg) {
+    @include media-breakpoint-up(lg) {
       font-size: pxToRem(32);
       line-height: pxToRem(38);
     }
@@ -73,7 +73,7 @@
     background-size: cover;
   }
 
-  @include bs.media-breakpoint-up(lg) {
+  @include media-breakpoint-up(lg) {
     padding-top: $paddingTop;
     padding-bottom: $paddingBottom;
 

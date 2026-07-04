@@ -1,5 +1,6 @@
 @use '../helpers/functions' as *;
 @use 'sass:math';
+@use '../mixins/footer-bottom' as footer-bottom;
 
 .footer {
   background-color: $neutral-10;
@@ -116,14 +117,10 @@
   }
 
   &__bottom {
-    width: 100%;
-    padding: $spacer * 2.5 0;
+    @include footer-bottom.base;
 
     &-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: $spacer * 1.5;
+      @include footer-bottom.content;
     }
 
     &-copyright {
@@ -144,17 +141,7 @@
     }
 
     &-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: $spacer $spacer * 2.5;
-
-      a {
-        font-size: pxToRem(12);
-        line-height: pxToRem(21);
-        color: $neutral-70;
-      }
+      @include footer-bottom.links;
     }
   }
 
@@ -183,13 +170,11 @@
   @include media-breakpoint-up(lg) {
     &__bottom {
       &-content {
-        flex-direction: row;
-        gap: $spacer * 2.5;
+        @include footer-bottom.content-lg;
       }
 
       &-links {
-        flex-wrap: nowrap;
-        justify-content: flex-end;
+        @include footer-bottom.links-lg;
       }
     }
 

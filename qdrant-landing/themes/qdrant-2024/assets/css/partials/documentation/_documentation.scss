@@ -1,5 +1,6 @@
 @use '../../helpers/functions' as *;
 @use 'sass:color';
+@use '../../mixins/site-container' as site-container;
 
 .documentation {
   background-color: $neutral-10;
@@ -7,7 +8,7 @@
   color: $neutral-70;
 
   &__container {
-    @extend .container;
+    @include site-container.base;
     margin: 0;
     max-width: 100%;
     padding-top: $spacer * 1.5;
