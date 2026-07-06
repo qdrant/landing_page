@@ -1,5 +1,9 @@
 {{ $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") }}
 
+<!--Shared foundation (fonts, Bootstrap, base, header/footer) - loaded on every page-->
+{{ $coreCss := resources.Get "css/core.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+<link href="{{ $coreCss.RelPermalink }}" rel="stylesheet" integrity="{{ $coreCss.Data.Integrity }}" />
+
 {{ if .IsHome }}
   <!--splide.js carousel core styles-->
   {{ $splideCss := resources.Get "css/vendor/splide.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
@@ -11,31 +15,28 @@
   <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
 {{ end }}
 
-{{ if eq .Section "hybrid-cloud" }}
-  {{ $hybridCloudCss := resources.Get "css/hybrid-cloud.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
-  <link
-    href="{{ $hybridCloudCss.RelPermalink }}"
-    rel="stylesheet"
-    integrity="{{ .Data.Integrity }}"
-    crossorigin="anonymous"
-  />
+<!--Section bundle: page-specific styles on top of core.css (articles need two bundles)-->
+{{ $bundles := slice "default" }}
+{{ if .IsHome }}
+  {{ $bundles = slice "home" }}
+{{ else if eq .Section "blog" }}
+  {{ $bundles = slice "blog" }}
+{{ else if in (slice "docs" "documentation" "course" "learn") .Section }}
+  {{ $bundles = slice "documentation" }}
+{{ else if eq .Section "articles" }}
+  {{ $bundles = slice "documentation" "blog" }}
+{{ else if eq .Section "benchmarks" }}
+  {{ $bundles = slice "benchmarks" }}
+{{ else if eq .Section "hybrid-cloud" }}
+  {{ $bundles = slice "hybrid-cloud" }}
+{{ else if eq .Section "pricing" }}
+  {{ $bundles = slice "pricing" }}
+{{ else if in (slice "industries" "edge" "elastic-lucene" "healthcare") .Section }}
+  {{ $bundles = slice "industries" }}
+{{ else if in (slice "partners" "customers" "stars" "community" "qdrant-for-startups" "brand-resources") .Section }}
+  {{ $bundles = slice "partners-customers" }}
 {{ end }}
-
-{{ if in (slice "docs" "documentation" "articles" "course" "learn") .Section }}
-  {{ $documentationCss := resources.Get "css/documentation.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
-  <link
-    href="{{ $documentationCss.RelPermalink }}"
-    rel="stylesheet"
-    integrity="{{ $documentationCss.Data.Integrity }}"
-  />
-{{ end }}
-
-{{ if eq .Section "benchmarks" }}
-  {{ $benchmarksCss := resources.Get "css/benchmarks.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
-  <link href="{{ $benchmarksCss.RelPermalink }}" rel="stylesheet" integrity="{{ $benchmarksCss.Data.Integrity }}" />
-{{ end }}
-
-{{ if not (in (slice "hybrid-cloud" "docs" "documentation" "course" "learn" "benchmarks") .Section) }}
-  {{ $mainCss := resources.Get "css/main.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
-  <link href="{{ $mainCss.RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+{{ range $bundles }}
+  {{ $bundleCss := resources.Get (printf "css/%s.scss" .) | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $bundleCss.RelPermalink }}" rel="stylesheet" integrity="{{ $bundleCss.Data.Integrity }}" />
 {{ end }}
