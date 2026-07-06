@@ -1,17 +1,14 @@
 ---
 title: Bulk Upload
-short_description: "Bulk-upload vectors into Qdrant collections efficiently by tuning indexing strategy and using high-performance client libraries."
-description: "Tutorial: bulk-upload large vector datasets into Qdrant by deferring HNSW index construction and parallelizing client uploads for maximum throughput."
+short_description: "Speed up large dataset uploads to Qdrant by batching points, parallelizing threads, tuning sharding, and managing read-write contention."
+description: "A practical guide to bulk-uploading vectors into Qdrant: batch and parallelize uploads, create multiple shards, set up payload indexes before ingestion, store large datasets directly on disk with memmap, and mitigate read-write contention during continuous ingestion."
 aliases:
   - /documentation/tutorials/bulk-upload/
   - /documentation/database-tutorials/bulk-upload/
-weight: 1
+  - /documentation/tutorials-develop/bulk-upload/
 ---
 
 # Bulk Upload Vectors to a Qdrant Collection
-
-| Time: 20 min | Level: Intermediate |
-| --- | ----------- |
 
 Uploading a large dataset quickly can be a challenge, but Qdrant provides several strategies to help.
 
@@ -70,3 +67,9 @@ slower, and the optimizer can be a bottleneck when ingesting a large amount of
 data.
 
 For full configuration details, see [Configuring Memmap Storage](/documentation/manage-data/storage/#configuring-memmap-storage).
+
+## Mitigate Read-Write Contention
+
+Bulk uploads push a continuous stream of writes through Qdrant's background [optimizer](/documentation/ops-optimization/optimizer/): it must build HNSW indexes, merge segments, and apply quantization as new data arrives. If you are running search queries at the same time, the optimizer and your queries compete for the same CPU time, memory bandwidth, and I/O. This can raise query latency noticeably during ingestion.
+
+If you need to keep serving searches while uploading, see [Read-Write Contention](/documentation/ops-optimization/read-write-contention/) for a set of configuration changes that improve read latency under heavy write load.

@@ -69,6 +69,9 @@
 /documentation/scroll/           /documentation/manage-data/points/#scroll-points       301
 /documentation/discovery/        /documentation/search/explore/           301
 
+# Bulk upload moved from tutorials-develop to manage-data
+/documentation/tutorials-develop/bulk-upload/*  /documentation/manage-data/bulk-upload/:splat  301
+
 # Articles category reorganization (technical articles taxonomy)
 /articles/vector-search-manuals/   /articles/mastering-search/      301
 /articles/machine-learning/        /articles/embedding-research/    301

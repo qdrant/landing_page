@@ -259,7 +259,7 @@ See also: [Grey collection status](/documentation/manage-data/collections/#grey-
 
 ### How do I upload a large number of vectors into a Qdrant collection?
 
-Read about our recommendations in the [bulk upload](/documentation/tutorials-develop/bulk-upload/) tutorial.
+Read about our recommendations in the [Bulk Upload](/documentation/manage-data/bulk-upload/) guide.
 
 ### What's the recommended batch size for uploading vectors?
 
@@ -267,7 +267,7 @@ There is no universal recommended batch size. The optimum depends on your vector
 
 A good starting point is 64 to 256 points per batch. However, if operations within a batch are inherently expensive, such as updates impacting many points or updates by filter, it is more efficient to send individual requests.
 
-See also: [Bulk Operations](/documentation/tutorials-develop/bulk-upload/)
+See also: [Bulk Upload](/documentation/manage-data/bulk-upload/)
 
 ### Can I only store quantized vectors and discard full precision vectors?
 
