@@ -22,7 +22,9 @@ Qdrant Cloud enables you to manage granular permissions for your cloud resources
 
 > 💡 You can access this in **Access Management > User & Role Management** *if enabled.*
 
-For configuring Qdrant Cluster API Keys, please refer to the [Cluster API Key Management](/documentation/cloud/cluster-access/) guide.
+If you want to automate Qdrant Cloud with the Qdrant Cloud Management API, have a look at the [Cloud API](/documentation/cloud-api/) guide.
+
+For configuring Qdrant Cluster API Keys, please refer to the [Cluster API Key](/documentation/cloud/cluster-access/) guide.
 
 ## Guides
 
