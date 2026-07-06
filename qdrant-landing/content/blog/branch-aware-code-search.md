@@ -6,7 +6,7 @@ short_description: "A vector index over code is branch-blind: it returns whateve
 description: "Branch-aware code search in Qdrant scopes each query to one Git branch, so semantic code search returns the version your branch runs, not a stale one."
 preview_image: /blog/branch-aware-code-search/hero.png
 social_preview_image: /blog/branch-aware-code-search/hero.png
-date: 2026-06-01
+date: 2026-07-02
 author: Dylan Couzon
 featured: true
 tags:
