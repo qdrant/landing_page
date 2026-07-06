@@ -10,17 +10,19 @@ partition: deploy
 
 ## About Cloud RBAC
 
-Qdrant Cloud enables you to manage permissions for your cloud resources with greater precision within the Qdrant Cloud console. This feature ensures that only authorized users have access to sensitive data and capabilities, covering the following areas:
+Qdrant Cloud enables you to manage granular permissions for your cloud resources within the Qdrant Cloud console. This feature ensures that only authorized users have access to sensitive data and capabilities, covering the following areas:
 
 - Billing
 - Identity and Access Management
-- Clusters*
+- Clusters
 - Hybrid Cloud
 - Account Configuration
 
 *Note: Current permissions control access to ALL clusters. Per Cluster permissions will be in a future release.*
 
 > 💡 You can access this in **Access Management > User & Role Management** *if enabled.*
+
+For configuring Qdrant Cluster API Keys, please refer to the [Cluster API Key Management](/documentation/cloud/cluster-access/) guide.
 
 ## Guides
 
