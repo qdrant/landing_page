@@ -163,6 +163,10 @@
   @include media-breakpoint-up(xl) {
     padding-bottom: 0;
 
+    &__container {
+      max-width: map-get($container-max-widths, xl);
+    }
+
     &__block {
       padding-top: $spacer * 5;
       padding-bottom: $spacer * 5;

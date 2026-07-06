@@ -1,0 +1,4 @@
+// Cross-page partials that lived in monolithic main.scss and are used on
+// multiple section bundles (main, pricing, industries, etc.).
+@import 'base-vars';
+@import 'partials/top-and-bottom-overlay';
