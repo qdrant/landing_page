@@ -1,4 +1,5 @@
 @use '../../helpers/functions' as *;
+@use '../../mixins/footer-bottom' as footer-bottom;
 
 .docs-footer {
   &__cta {
@@ -22,11 +23,11 @@
 
   &__bottom {
     border-top: pxToRem(1) solid $neutral-20;
-    @extend .footer__bottom;
+    @include footer-bottom.base;
   }
 
   &__bottom-content {
-    @extend .footer__bottom-content;
+    @include footer-bottom.content;
 
     & span,
     & a {
@@ -42,18 +43,20 @@
   }
 
   &__bottom-links {
-    @extend .footer__bottom-links;
+    @include footer-bottom.links;
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__bottom-content {
+      @include footer-bottom.content-lg;
+    }
+
+    &__bottom-links {
+      @include footer-bottom.links-lg;
+    }
   }
 
   @include media-breakpoint-up(xl) {
-    &__bottom {
-      @extend .footer__bottom;
-    }
-
-    &__bottom-content {
-      @extend .footer__bottom-content;
-    }
-
     &__cta {
       flex-direction: row;
       justify-content: space-between;

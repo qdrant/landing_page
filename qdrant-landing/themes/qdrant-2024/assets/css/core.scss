@@ -1,3 +1,6 @@
+// Shared foundation CSS loaded on every page: fonts, Bootstrap, base rules,
+// components, header/footer. Section bundles compile against bootstrap-tools
+// (Sass tools only, no CSS output) so none of this is duplicated in the browser.
 @use 'sass:math';
 @use 'helpers/functions' as *;
 @import 'fonts/mona-sans-font';

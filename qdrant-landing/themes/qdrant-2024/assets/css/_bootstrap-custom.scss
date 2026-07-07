@@ -1,11 +1,4 @@
-// Configuration
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/variables-dark';
-@import 'theme-variables';
-@import 'bootstrap/scss/maps';
-@import 'bootstrap/scss/mixins';
-@import 'bootstrap/scss/utilities';
+@import 'bootstrap-tools';
 
 // Layout & components
 @import 'bootstrap/scss/root';
@@ -15,12 +8,12 @@
 @import 'bootstrap/scss/grid';
 @import 'bootstrap/scss/tables';
 @import 'bootstrap/scss/images';
-@import 'bootstrap/scss/forms';
 @import 'bootstrap/scss/buttons';
 @import 'bootstrap/scss/transitions';
-@import 'bootstrap/scss/dropdown';
-@import 'bootstrap/scss/button-group';
+// popover is required by copy-code.js ("copy" tooltip on code blocks)
 @import 'bootstrap/scss/popover';
+// forms, dropdown and button-group are not used anywhere;
+// benchmarks.scss imports the two form controls it needs
 
 // Helpers
 @import 'bootstrap/scss/helpers';

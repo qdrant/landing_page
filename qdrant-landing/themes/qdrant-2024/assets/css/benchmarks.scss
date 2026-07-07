@@ -1,4 +1,7 @@
-@import 'base';
+@import 'bootstrap-tools';
+// Bootstrap form controls used by the benchmark charts (not part of core.css)
+@import 'bootstrap/scss/forms/form-select';
+@import 'bootstrap/scss/forms/form-range';
 @import 'partials/qdrant-articles-hero';
 @import 'partials/qdrant-post';
 @import 'partials/share-buttons';
