@@ -1,5 +1,5 @@
 ---
-title: "What are Vector Embeddings? - Revolutionize Your Search Experience"
+title: "Vector Embeddings Explained: How They Work in ML & Search"
 draft: false
 slug: what-are-embeddings? 
 short_description: Explore the power of vector embeddings. Learn to use numerical machine learning representations to build a personalized Neural Search Service with Fastembed.

@@ -1,5 +1,5 @@
 ---
-title: "Any* Embedding Model Can Become a Late Interaction Model... If You Give It a Chance!"
+title: "Late Interaction Retrieval with Dense Token Embeddings"
 short_description: "Standard dense embedding models perform surprisingly well in late interaction scenarios."
 description: "We recently discovered that embedding models can become late interaction models & can perform surprisingly well in some scenarios. See what we learned here."
 preview_dir: /articles_data/late-interaction-models/preview

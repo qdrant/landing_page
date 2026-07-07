@@ -1,5 +1,5 @@
 ---
-title: Food Discovery Demo
+title: "Multimodal Food Search Demo"
 short_description: Feeling hungry? Find the perfect meal with Qdrant's multimodal semantic search.
 description: Feeling hungry? Find the perfect meal with Qdrant's multimodal semantic search.
 preview_dir: /articles_data/food-discovery-demo/preview

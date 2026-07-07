@@ -1,5 +1,5 @@
 ---
-title: "How to choose an embedding model"
+title: "How to Choose an Embedding Model: Evaluation & Tradeoffs"
 short_description: "There is no one-size-fits-all solution when it comes to embedding models. Learn how to choose the right one for your use case."
 description: "Building proper search requires selecting the right embedding model for your specific use case. This guide helps you navigate the selection process based on performance, cost, and other practical considerations."
 preview_dir: /articles_data/how-to-choose-an-embedding-model/preview

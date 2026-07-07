@@ -1,5 +1,5 @@
 ---
-title: Fine Tuning Similar Cars Search 
+title: "Fine Tuning Similar Cars Search"
 short_description: "How to use similarity learning to search for similar cars"
 description: Learn how to train a similarity model that can retrieve similar car images in novel categories.
 social_preview_image: /articles_data/cars-recognition/preview/social_preview.jpg
@@ -12,7 +12,7 @@ date: 2022-06-28T13:00:00+03:00
 draft: false
 # aliases: [ /articles/cars-recognition/ ]
 category: embedding-research
-hideFromList: true
+hideFromList: false
 ---
 
 Supervised classification is one of the most widely used training objectives in machine learning,

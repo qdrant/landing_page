@@ -1,5 +1,5 @@
 ---
-title: "What is a Sparse Vector? How to Achieve Vector-based Hybrid Search"
+title: "Understanding SPLADE and Sparse Vectors"
 short_description: "Discover sparse vectors, their function, and significance in modern data processing, including methods like SPLADE for efficient use."
 description: "Learn what sparse vectors are, how they work, and their importance in modern data processing. Explore methods like SPLADE for creating and leveraging sparse vectors efficiently."
 social_preview_image: /articles_data/sparse-vectors/social_preview.png

@@ -1,5 +1,5 @@
 ---
-title: "Scalar Quantization: Background, Practices & More | Qdrant"
+title: "Scalar Quantization for Vector Search"
 short_description: "Discover scalar quantization for optimized data storage and improved performance, including data compression benefits and efficiency enhancements."
 description: "Discover the efficiency of scalar quantization for optimized data storage and enhanced performance. Learn about its data compression benefits and efficiency improvements."
 social_preview_image: /articles_data/scalar-quantization/social_preview.png

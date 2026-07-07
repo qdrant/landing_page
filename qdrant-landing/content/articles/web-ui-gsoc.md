@@ -1,5 +1,5 @@
 ---
-title:  Google Summer of Code 2023 - Web UI for Visualization and Exploration
+title: "Google Summer of Code 2023 - Web UI for Visualization and Exploration"
 short_description: Gsoc'23 Web UI for Visualization and Exploration
 description: My journey as a Google Summer of Code 2023 student working on the "Web UI for Visualization and Exploration" project for Qdrant.
 preview_dir: /articles_data/web-ui-gsoc/preview

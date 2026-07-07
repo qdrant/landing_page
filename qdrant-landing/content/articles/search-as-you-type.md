@@ -1,5 +1,5 @@
 ---
-title: Semantic Search As You Type
+title: "Semantic Search As You Type"
 short_description: "Instant search using Qdrant"
 description: To show off Qdrant's performance, we show how to do a quick search-as-you-type that will come back within a few milliseconds.
 social_preview_image: /articles_data/search-as-you-type/preview/social_preview.jpg

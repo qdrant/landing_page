@@ -1,5 +1,5 @@
 ---
-title: Finding errors in datasets with Similarity Search
+title: "Detecting Dataset Errors with Similarity Search"
 short_description: Finding errors datasets with distance-based methods
 description: Improving quality of text-and-images datasets on the online furniture marketplace example.
 preview_dir: /articles_data/dataset-quality/preview

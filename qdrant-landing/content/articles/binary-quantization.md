@@ -1,5 +1,5 @@
 ---
-title: "Binary Quantization - Vector Search, 40x Faster "
+title: "Binary Quantization: 40x Faster Vector Search"
 short_description: "Binary Quantization is a newly introduced mechanism of reducing the memory footprint and increasing performance"
 description: "Binary Quantization is a newly introduced mechanism of reducing the memory footprint and increasing performance"
 social_preview_image: /articles_data/binary-quantization/social_preview.png

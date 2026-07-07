@@ -1,5 +1,5 @@
 ---
-title: Question Answering as a Service with Cohere and Qdrant
+title: "Question Answering as a Service with Cohere and Qdrant"
 short_description: "End-to-end Question Answering system for the biomedical data with SaaS tools: Cohere co.embed API and Qdrant"
 description: "End-to-end Question Answering system for the biomedical data with SaaS tools: Cohere co.embed API and Qdrant"
 social_preview_image: /articles_data/qa-with-cohere-and-qdrant/social_preview.png

@@ -1,5 +1,5 @@
 ---
-title: " Data Privacy with Qdrant: Implementing Role-Based Access Control (RBAC)" #required
+title: "Data Privacy with Qdrant's Role-Based Access Control (RBAC)"
 short_description: "Secure Your Data with Qdrant: Implementing RBAC"
 description: Discover how Qdrant's Role-Based Access Control (RBAC) ensures data privacy and compliance for your AI applications. Build secure and scalable systems with ease. Read more now!
 social_preview_image: /articles_data/data-privacy/preview/social_preview.jpg # This image will be used in social media previews, should be 1200x630px. Required.
