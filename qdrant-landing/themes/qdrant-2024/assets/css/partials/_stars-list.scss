@@ -2,6 +2,7 @@
 
 .stars-list {
   position: relative;
+  overflow: hidden;
   background-color: $neutral-10;
   padding-top: $spacer * 4;
   padding-bottom: $spacer * 4;

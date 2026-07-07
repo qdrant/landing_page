@@ -46,6 +46,16 @@
     @include footer-bottom.links;
   }
 
+  @include media-breakpoint-up(lg) {
+    &__bottom-content {
+      @include footer-bottom.content-lg;
+    }
+
+    &__bottom-links {
+      @include footer-bottom.links-lg;
+    }
+  }
+
   @include media-breakpoint-up(xl) {
     &__cta {
       flex-direction: row;
