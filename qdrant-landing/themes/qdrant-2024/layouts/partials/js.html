@@ -54,6 +54,11 @@
   <script src="{{ $pricingTableJs.RelPermalink }}"></script>
 {{ end }}
 
+{{ if eq .Section "capacity-planner" }}
+  {{ $capacityPlannerJs := resources.Get "/js/capacity-planner.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $capacityPlannerJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if .IsHome }}
   {{ $homeAnimationsJs := resources.Get "/js/home-animations.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $homeAnimationsJs.RelPermalink }}"></script>

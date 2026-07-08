@@ -1,0 +1,714 @@
+@use '../../helpers/functions' as *;
+
+.capacity-planner-hero {
+  position: relative;
+  overflow: hidden;
+  padding: $spacer * 6 0 $spacer * 4;
+  background-color: $neutral-10;
+  color: $neutral-98;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(60% 120% at 15% 0%, rgba($secondary-violet-50, 0.25) 0%, rgba($secondary-violet-50, 0) 60%),
+      radial-gradient(50% 120% at 90% 10%, rgba($secondary-blue-50, 0.22) 0%, rgba($secondary-blue-50, 0) 55%);
+  }
+
+  > .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__label {
+    display: inline-block;
+    margin-bottom: $spacer;
+    font-family: $font-family-monospace;
+    font-size: $font-size-s;
+    font-weight: 500;
+    letter-spacing: pxToRem(2);
+    text-transform: uppercase;
+    color: $secondary-blue-70;
+  }
+
+  &__title {
+    margin: 0 0 $spacer * 1.5;
+    font-size: $h2-font-size;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+  }
+
+  &__description {
+    max-width: pxToRem(720);
+    margin: 0;
+    font-size: $font-size-l;
+    line-height: 1.5;
+    color: $neutral-80;
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding: $spacer * 4 0 $spacer * 3;
+
+    &__title {
+      font-size: $h4-font-size;
+    }
+
+    &__description {
+      font-size: $font-size-md;
+    }
+  }
+}
+
+.capacity-planner {
+  padding: $spacer * 4 0 $spacer * 6;
+  background-color: $neutral-98;
+
+  &__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) pxToRem(380);
+    gap: $spacer * 2;
+    align-items: start;
+  }
+
+  &__inputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $spacer * 1.5;
+  }
+
+  &__results {
+    position: sticky;
+    top: $spacer * 5;
+  }
+
+  @include media-breakpoint-down(xl) {
+    &__layout {
+      grid-template-columns: minmax(0, 1fr) pxToRem(340);
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding: $spacer * 2.5 0 $spacer * 4;
+
+    &__layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    &__results {
+      position: static;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    &__inputs {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
+
+// ---------------- Input groups ----------------
+
+.cp-group {
+  margin: 0;
+  padding: $spacer * 1.5;
+  border: pxToRem(1) solid $neutral-90;
+  border-radius: $spacer;
+  background-color: $neutral-100;
+
+  // Full-width groups span both columns for a balanced grid.
+  &:nth-of-type(1),
+  &:nth-of-type(2) {
+    grid-column: 1 / -1;
+  }
+
+  &__title {
+    float: none;
+    width: auto;
+    margin: 0 0 $spacer * 1.25;
+    padding: 0;
+    font-family: $font-family-monospace;
+    font-size: $font-size-xs;
+    font-weight: 600;
+    letter-spacing: pxToRem(1.5);
+    text-transform: uppercase;
+    color: $neutral-50;
+  }
+}
+
+.cp-field {
+  & + & {
+    margin-top: $spacer * 1.25;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: $spacer * 0.5;
+    font-size: $font-size-s;
+    font-weight: 500;
+    color: $neutral-30;
+
+    &--slider {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &__value {
+    font-family: $font-family-monospace;
+    font-size: $font-size-s;
+    font-weight: 600;
+    color: $primary-50;
+  }
+
+  &__hint {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(16);
+    height: pxToRem(16);
+    margin-left: pxToRem(4);
+    border-radius: 50%;
+    background-color: $neutral-94;
+    color: $neutral-50;
+    font-size: pxToRem(10);
+    font-weight: 700;
+    cursor: help;
+    vertical-align: middle;
+  }
+
+  &__input {
+    color: $neutral-20;
+  }
+
+  &__combo {
+    display: flex;
+    gap: $spacer * 0.5;
+  }
+
+  &__unit {
+    width: pxToRem(84);
+    flex-shrink: 0;
+  }
+
+  &--switch {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacer;
+
+    .cp-field__label {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Full-width groups arrange their fields in a responsive multi-column grid
+// so the extra horizontal space is used well.
+.cp-group--grid {
+  @include media-breakpoint-up(sm) {
+    display: grid;
+    align-items: end;
+    grid-template-columns: repeat(var(--cp-cols, 2), minmax(0, 1fr));
+    gap: $spacer * 1.25 $spacer;
+
+    .cp-group__title {
+      grid-column: 1 / -1;
+      margin-bottom: 0;
+    }
+
+    .cp-field + .cp-field {
+      margin-top: 0;
+    }
+
+    // Wide controls read better spanning the full width.
+    .cp-field--span {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+select.q-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.33203 4.66666L7.9987 11.3333L14.6654 4.66666' stroke='%23576280' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right pxToRem(10) center;
+  padding-right: $spacer * 2;
+}
+
+// ---------------- Segmented control ----------------
+
+.cp-segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: pxToRem(4);
+  padding: pxToRem(4);
+  border: pxToRem(1) solid $neutral-90;
+  border-radius: $spacer * 0.5;
+  background-color: $neutral-98;
+
+  &__option {
+    margin: 0;
+    cursor: pointer;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: pxToRem(6) pxToRem(12);
+      border-radius: pxToRem(6);
+      font-size: $font-size-s;
+      font-weight: 500;
+      color: $neutral-50;
+      white-space: nowrap;
+      transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+    }
+
+    input:checked + span {
+      background-color: $neutral-20;
+      color: $neutral-100;
+    }
+
+    input:focus-visible + span {
+      box-shadow: 0 0 0 2px rgba($secondary-blue-50, 0.4);
+    }
+
+    &:hover span {
+      color: $neutral-20;
+    }
+  }
+}
+
+// ---------------- Switch ----------------
+
+.cp-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: pxToRem(40);
+  height: pxToRem(22);
+  margin: 0;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  &__track {
+    position: absolute;
+    inset: 0;
+    border-radius: pxToRem(22);
+    background-color: $neutral-90;
+    transition: background-color 0.15s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: pxToRem(2);
+      left: pxToRem(2);
+      width: pxToRem(18);
+      height: pxToRem(18);
+      border-radius: 50%;
+      background-color: $neutral-100;
+      box-shadow: 0 1px 2px rgba($neutral-10, 0.25);
+      transition: transform 0.15s ease;
+    }
+  }
+
+  input:checked + &__track {
+    background-color: $primary-50;
+
+    &::after {
+      transform: translateX(pxToRem(18));
+    }
+  }
+
+  input:focus-visible + &__track {
+    box-shadow: 0 0 0 2px rgba($primary-50, 0.35);
+  }
+}
+
+// ---------------- Slider ----------------
+
+.cp-slider {
+  width: 100%;
+  height: pxToRem(4);
+  margin: pxToRem(8) 0;
+  appearance: none;
+  border-radius: pxToRem(4);
+  background-color: $neutral-90;
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: pxToRem(18);
+    height: pxToRem(18);
+    border: none;
+    border-radius: 50%;
+    background-color: $primary-50;
+    box-shadow: 0 1px 3px rgba($neutral-10, 0.3);
+    cursor: pointer;
+  }
+
+  &::-moz-range-thumb {
+    width: pxToRem(18);
+    height: pxToRem(18);
+    border: none;
+    border-radius: 50%;
+    background-color: $primary-50;
+    cursor: pointer;
+  }
+}
+
+.cp-reset {
+  grid-column: 1 / -1;
+  justify-self: start;
+  color: $neutral-30;
+}
+
+// ---------------- Effect notes ----------------
+
+.cp-effect {
+  margin-top: $spacer * 0.5;
+  padding: $spacer;
+  border-radius: $spacer * 0.75;
+  background-color: $neutral-98;
+  border: pxToRem(1) solid $neutral-90;
+  border-left: pxToRem(3) solid $secondary-blue-50;
+
+  &[data-mode='binary'] {
+    border-left-color: $secondary-teal-50;
+  }
+  &[data-mode='product'] {
+    border-left-color: $secondary-violet-50;
+  }
+  &[data-mode='none'] {
+    border-left-color: $neutral-60;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: $spacer * 0.5;
+    margin: 0 0 $spacer * 0.75;
+    font-size: $font-size-s;
+    font-weight: 600;
+    color: $neutral-20;
+  }
+
+  &__badge {
+    padding: pxToRem(2) pxToRem(8);
+    border-radius: pxToRem(20);
+    background-color: $secondary-blue-90;
+    color: $secondary-blue-30;
+    font-family: $font-family-monospace;
+    font-size: $font-size-xs;
+    font-weight: 600;
+  }
+
+  &__list {
+    display: grid;
+    gap: $spacer * 0.5;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: grid;
+      grid-template-columns: pxToRem(72) 1fr;
+      gap: $spacer * 0.5;
+      font-size: $font-size-s;
+      line-height: 1.4;
+      color: $neutral-40;
+    }
+  }
+
+  &__key {
+    font-weight: 600;
+    color: $neutral-50;
+  }
+
+  &__note {
+    margin: $spacer * 0.75 0 0;
+    font-size: $font-size-s;
+    line-height: 1.5;
+    color: $neutral-50;
+  }
+}
+
+// ---------------- Results ----------------
+
+.capacity-planner__results-inner {
+  padding: $spacer * 1.5;
+  border-radius: $spacer;
+  background-color: $neutral-10;
+  color: $neutral-98;
+}
+
+.cp-results {
+  &__title {
+    margin: 0;
+    font-size: $font-size-xl;
+    font-weight: 600;
+  }
+
+  &__subtitle {
+    margin: pxToRem(2) 0 $spacer * 1.5;
+    font-size: $font-size-s;
+    color: $neutral-70;
+  }
+
+  &__cta {
+    margin-top: $spacer * 1.5;
+
+    .button {
+      width: 100%;
+    }
+  }
+}
+
+.cp-summary {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer * 0.75;
+
+  &__card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacer;
+    padding: $spacer $spacer * 1.25;
+    border-radius: $spacer * 0.75;
+    background-color: $neutral-20;
+    border-left: pxToRem(3) solid $neutral-40;
+
+    &--ram {
+      border-left-color: $secondary-blue-50;
+    }
+    &--storage {
+      border-left-color: $secondary-teal-50;
+    }
+    &--cpu {
+      border-left-color: $secondary-violet-50;
+    }
+  }
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(2);
+    min-width: 0;
+  }
+
+  &__label {
+    font-size: $font-size-s;
+    font-weight: 500;
+    color: $neutral-90;
+  }
+
+  &__value {
+    flex-shrink: 0;
+    font-family: $font-family-monospace;
+    font-size: $h6-font-size;
+    font-weight: 600;
+    line-height: 1.1;
+    color: $neutral-100;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  &__note {
+    font-size: pxToRem(11);
+    color: $neutral-60;
+  }
+
+  // On the full-width results panel (stacked mobile layout) show cards
+  // side-by-side to use the extra horizontal space.
+  @include media-breakpoint-down(lg) {
+    flex-direction: row;
+
+    &__card {
+      flex: 1 1 0;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: pxToRem(6);
+      border-left: none;
+      border-top: pxToRem(3) solid $neutral-40;
+
+      &--ram {
+        border-top-color: $secondary-blue-50;
+      }
+      &--storage {
+        border-top-color: $secondary-teal-50;
+      }
+      &--cpu {
+        border-top-color: $secondary-violet-50;
+      }
+    }
+
+    &__value {
+      font-size: $font-size-xl;
+      text-align: left;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+
+    &__card {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__value {
+      text-align: right;
+    }
+  }
+}
+
+.cp-breakdown {
+  margin-top: $spacer * 1.5;
+
+  &__title {
+    margin: 0 0 $spacer * 0.5;
+    font-size: $font-size-s;
+    font-weight: 600;
+    color: $neutral-80;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $font-size-s;
+
+    th,
+    td {
+      padding: pxToRem(8) pxToRem(4);
+      text-align: right;
+      border-bottom: pxToRem(1) solid $neutral-30;
+    }
+
+    th:first-child,
+    td:first-child {
+      text-align: left;
+    }
+
+    th {
+      font-size: $font-size-xs;
+      font-weight: 500;
+      color: $neutral-60;
+      text-transform: uppercase;
+      letter-spacing: pxToRem(0.5);
+    }
+
+    td {
+      color: $neutral-90;
+    }
+
+    td:not(:first-child) {
+      font-family: $font-family-monospace;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+  }
+
+  &__row--muted td {
+    color: $neutral-50;
+  }
+}
+
+.cp-advisories {
+  margin-top: $spacer * 1.5;
+
+  &__title {
+    margin: 0 0 $spacer * 0.75;
+    font-size: $font-size-s;
+    font-weight: 600;
+    color: $neutral-80;
+  }
+}
+
+.cp-advisory {
+  display: flex;
+  gap: $spacer * 0.75;
+  padding: $spacer * 0.75 $spacer;
+  border-radius: $spacer * 0.5;
+  background-color: $neutral-20;
+  font-size: $font-size-s;
+  line-height: 1.45;
+  color: $neutral-90;
+
+  & + & {
+    margin-top: $spacer * 0.5;
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: pxToRem(18);
+    height: pxToRem(18);
+    margin-top: pxToRem(1);
+    border-radius: 50%;
+    font-size: pxToRem(11);
+    font-weight: 700;
+    font-family: $font-family-monospace;
+    text-transform: lowercase;
+    color: $neutral-100;
+  }
+
+  &--tip {
+    border-left: pxToRem(3) solid $secondary-blue-50;
+
+    .cp-advisory__icon {
+      background-color: $secondary-blue-50;
+    }
+  }
+
+  &--warn {
+    border-left: pxToRem(3) solid $warning-50;
+
+    .cp-advisory__icon {
+      background-color: $warning-50;
+    }
+  }
+
+  code {
+    font-family: $font-family-monospace;
+    font-size: $font-size-xs;
+    color: $secondary-blue-70;
+  }
+}
+
+.cp-disclaimer {
+  margin: $spacer * 1.5 0 0;
+  font-size: $font-size-xs;
+  line-height: 1.5;
+  color: $neutral-70;
+
+  .link {
+    color: $secondary-blue-70;
+  }
+}

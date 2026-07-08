@@ -1,0 +1,390 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  <section class="capacity-planner-hero">
+    <div class="container">
+      <p class="capacity-planner-hero__label">{{ .Params.hero.label }}</p>
+      <h1 class="capacity-planner-hero__title">{{ .Params.hero.title }}</h1>
+      <p class="capacity-planner-hero__description">{{ .Params.hero.description }}</p>
+    </div>
+  </section>
+
+  <section class="capacity-planner">
+    <div class="container">
+      <form class="capacity-planner__layout" id="capacity-planner" autocomplete="off" novalidate>
+        <div class="capacity-planner__inputs">
+          {{/* ---------------- Data ---------------- */}}
+          <fieldset class="cp-group cp-group--grid" style="--cp-cols: 3">
+            <legend class="cp-group__title">Your data</legend>
+
+            <div class="cp-field">
+              <label class="cp-field__label" for="cp-vectors">
+                Number of vectors
+                <span class="cp-field__hint" title="Total number of points (rows) you plan to store in the collection.">?</span>
+              </label>
+              <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-vectors" min="0" step="1000" value="1000000" />
+            </div>
+
+            <div class="cp-field">
+              <label class="cp-field__label" for="cp-dimensions">
+                Vector dimensions
+                <span class="cp-field__hint" title="Dimensionality of a single dense vector (e.g. 768, 1536).">?</span>
+              </label>
+              <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-dimensions" min="1" step="1" value="768" />
+            </div>
+
+            <div class="cp-field">
+              <label class="cp-field__label" for="cp-vectors-per-point">
+                Named vectors per point
+                <span class="cp-field__hint" title="How many named dense vectors each point stores (e.g. a text + an image embedding). Usually 1.">?</span>
+              </label>
+              <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-vectors-per-point" min="1" step="1" value="1" />
+            </div>
+          </fieldset>
+
+          {{/* ---------------- Vector storage & quantization ---------------- */}}
+          <fieldset class="cp-group cp-group--grid" style="--cp-cols: 2">
+            <legend class="cp-group__title">Vector storage &amp; quantization</legend>
+
+            <div class="cp-field cp-field--span">
+              <span class="cp-field__label">Vector datatype
+                <span class="cp-field__hint" title="Storage precision of each dense vector element. float32 is default; float16 halves size with minimal accuracy loss; uint8 is for pre-quantized integer vectors.">?</span>
+              </span>
+              <div class="cp-segmented" data-cp-name="datatype">
+                <label class="cp-segmented__option"><input type="radio" name="cp-datatype" value="4" checked /><span>float32</span></label>
+                <label class="cp-segmented__option"><input type="radio" name="cp-datatype" value="2" /><span>float16</span></label>
+                <label class="cp-segmented__option"><input type="radio" name="cp-datatype" value="1" /><span>uint8</span></label>
+              </div>
+            </div>
+
+            <div class="cp-field cp-field--switch">
+              <label class="cp-field__label" for="cp-vectors-on-disk">
+                Store original vectors on disk
+                <span class="cp-field__hint" title="Keeps full-precision vectors on disk (memmap) instead of RAM. Recommended together with quantization.">?</span>
+              </label>
+              <label class="cp-switch">
+                <input type="checkbox" id="cp-vectors-on-disk" />
+                <span class="cp-switch__track"></span>
+              </label>
+            </div>
+
+            <div class="cp-field cp-field--span">
+              <span class="cp-field__label">Quantization
+                <span class="cp-field__hint" title="Compresses vectors to save memory. Scalar (int8) ~4× with tiny recall loss; Binary ~32× for high-dim embeddings; Product up to 64× with more accuracy loss. Originals are kept for rescoring.">?</span>
+              </span>
+              <div class="cp-segmented" data-cp-name="quantization">
+                <label class="cp-segmented__option"><input type="radio" name="cp-quantization" value="none" checked /><span>None</span></label>
+                <label class="cp-segmented__option"><input type="radio" name="cp-quantization" value="scalar" /><span>Scalar (int8)</span></label>
+                <label class="cp-segmented__option"><input type="radio" name="cp-quantization" value="binary" /><span>Binary</span></label>
+                <label class="cp-segmented__option"><input type="radio" name="cp-quantization" value="product" /><span>Product</span></label>
+              </div>
+            </div>
+
+            <div class="cp-field" id="cp-pq-ratio-field" hidden>
+              <label class="cp-field__label" for="cp-pq-ratio">
+                Product quantization compression
+                <span class="cp-field__hint" title="Compression ratio relative to float32 vectors.">?</span>
+              </label>
+              <select class="q-input q-input_light-bg cp-field__input" id="cp-pq-ratio">
+                <option value="4">x4</option>
+                <option value="8">x8</option>
+                <option value="16" selected>x16</option>
+                <option value="32">x32</option>
+                <option value="64">x64</option>
+              </select>
+            </div>
+
+            <div class="cp-field cp-field--switch" id="cp-quant-ram-field" hidden>
+              <label class="cp-field__label" for="cp-quant-ram">
+                Keep quantized vectors in RAM
+                <span class="cp-field__hint" title="Quantized vectors are small and are usually kept in RAM (always_ram) for fast search.">?</span>
+              </label>
+              <label class="cp-switch">
+                <input type="checkbox" id="cp-quant-ram" checked />
+                <span class="cp-switch__track"></span>
+              </label>
+            </div>
+
+            <div class="cp-field cp-field--span">
+              <div class="cp-effect" id="cp-quant-effect">
+                <p class="cp-effect__title">
+                  <span id="cp-quant-effect-name">No quantization</span>
+                  <span class="cp-effect__badge" id="cp-quant-effect-factor">1× memory</span>
+                </p>
+                <ul class="cp-effect__list">
+                  <li><span class="cp-effect__key">Recall</span><span id="cp-quant-effect-recall">–</span></li>
+                  <li><span class="cp-effect__key">Speed</span><span id="cp-quant-effect-speed">–</span></li>
+                  <li><span class="cp-effect__key">Best for</span><span id="cp-quant-effect-best">–</span></li>
+                </ul>
+              </div>
+            </div>
+          </fieldset>
+
+          {{/* ---------------- HNSW index ---------------- */}}
+          <fieldset class="cp-group">
+            <legend class="cp-group__title">HNSW index</legend>
+
+            <div class="cp-field">
+              <label class="cp-field__label cp-field__label--slider" for="cp-hnsw-m">
+                <span>Graph connections (m)
+                  <span class="cp-field__hint" title="Edges per node. Higher m improves recall but increases index memory.">?</span>
+                </span>
+                <output class="cp-field__value" id="cp-hnsw-m-value">16</output>
+              </label>
+              <input class="cp-slider" type="range" id="cp-hnsw-m" min="4" max="64" step="2" value="16" />
+            </div>
+
+            <div class="cp-field">
+              <label class="cp-field__label cp-field__label--slider" for="cp-hnsw-ef">
+                <span>ef_construct
+                  <span class="cp-field__hint" title="Beam size during index build. Affects build time and recall, not steady-state memory.">?</span>
+                </span>
+                <output class="cp-field__value" id="cp-hnsw-ef-value">100</output>
+              </label>
+              <input class="cp-slider" type="range" id="cp-hnsw-ef" min="16" max="512" step="4" value="100" />
+            </div>
+
+            <div class="cp-field cp-field--switch">
+              <label class="cp-field__label" for="cp-hnsw-on-disk">
+                Store HNSW index on disk (on_disk)
+                <span class="cp-field__hint" title="Stores the graph as a memory-mapped file. Frees RAM but relies on OS page cache for speed.">?</span>
+              </label>
+              <label class="cp-switch">
+                <input type="checkbox" id="cp-hnsw-on-disk" />
+                <span class="cp-switch__track"></span>
+              </label>
+            </div>
+
+            <div class="cp-field cp-field--switch">
+              <label class="cp-field__label" for="cp-tenant-index">
+                Tenant payload index (payload_m)
+                <span class="cp-field__hint" title="Builds additional in-graph HNSW links per tenant for fast, isolated multitenant search. Adds memory.">?</span>
+              </label>
+              <label class="cp-switch">
+                <input type="checkbox" id="cp-tenant-index" />
+                <span class="cp-switch__track"></span>
+              </label>
+            </div>
+
+            <div class="cp-field" id="cp-payload-m-field" hidden>
+              <label class="cp-field__label cp-field__label--slider" for="cp-payload-m">
+                <span>payload_m
+                  <span class="cp-field__hint" title="Edges per node in the tenant subgraph. Higher = faster filtered search, more memory.">?</span>
+                </span>
+                <output class="cp-field__value" id="cp-payload-m-value">16</output>
+              </label>
+              <input class="cp-slider" type="range" id="cp-payload-m" min="4" max="64" step="2" value="16" />
+            </div>
+
+            <p class="cp-effect__note" id="cp-hnsw-effect"></p>
+          </fieldset>
+
+          {{/* ---------------- Sparse vectors & hybrid search ---------------- */}}
+          <fieldset class="cp-group">
+            <legend class="cp-group__title">Sparse vectors &amp; hybrid search</legend>
+
+            <div class="cp-field cp-field--switch">
+              <label class="cp-field__label" for="cp-sparse">
+                Enable sparse vectors
+                <span class="cp-field__hint" title="Adds a sparse vector (e.g. BM25/SPLADE) per point for keyword-style matching and hybrid search.">?</span>
+              </label>
+              <label class="cp-switch">
+                <input type="checkbox" id="cp-sparse" />
+                <span class="cp-switch__track"></span>
+              </label>
+            </div>
+
+            <div class="cp-field" id="cp-sparse-nnz-field" hidden>
+              <label class="cp-field__label" for="cp-sparse-nnz">
+                Avg non-zero values per sparse vector
+                <span class="cp-field__hint" title="Number of non-zero dimensions in a typical sparse vector. Drives sparse index size.">?</span>
+              </label>
+              <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-sparse-nnz" min="1" step="1" value="100" />
+            </div>
+
+            <div class="cp-field cp-field--switch" id="cp-sparse-on-disk-field" hidden>
+              <label class="cp-field__label" for="cp-sparse-on-disk">
+                Store sparse index on disk (on_disk)
+                <span class="cp-field__hint" title="Keeps the sparse inverted index memory-mapped on disk instead of RAM.">?</span>
+              </label>
+              <label class="cp-switch">
+                <input type="checkbox" id="cp-sparse-on-disk" />
+                <span class="cp-switch__track"></span>
+              </label>
+            </div>
+
+            <div class="cp-field" id="cp-fusion-field" hidden>
+              <span class="cp-field__label">Hybrid fusion method
+                <span class="cp-field__hint" title="How dense and sparse results are combined at query time. RRF (Reciprocal Rank Fusion) merges by rank and is score-scale agnostic; DBSF (Distribution-Based Score Fusion) normalizes and sums raw scores. Query-time only — no memory impact.">?</span>
+              </span>
+              <div class="cp-segmented" data-cp-name="fusion">
+                <label class="cp-segmented__option"><input type="radio" name="cp-fusion" value="rrf" checked /><span>RRF</span></label>
+                <label class="cp-segmented__option"><input type="radio" name="cp-fusion" value="dbsf" /><span>DBSF</span></label>
+              </div>
+            </div>
+
+            <p class="cp-effect__note" id="cp-fusion-effect"></p>
+          </fieldset>
+
+          {{/* ---------------- Payload ---------------- */}}
+          <fieldset class="cp-group">
+            <legend class="cp-group__title">Payload &amp; identifiers</legend>
+
+            <div class="cp-field">
+              <label class="cp-field__label" for="cp-payload">
+                Average payload size per point
+                <span class="cp-field__hint" title="Average size of the JSON metadata stored with each point.">?</span>
+              </label>
+              <div class="cp-field__combo">
+                <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-payload" min="0" step="0.1" value="1" />
+                <select class="q-input q-input_light-bg cp-field__unit" id="cp-payload-unit">
+                  <option value="1">B</option>
+                  <option value="1024" selected>KB</option>
+                  <option value="1048576">MB</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="cp-field cp-field--switch">
+              <label class="cp-field__label" for="cp-payload-on-disk">
+                Store payload on disk (on_disk)
+                <span class="cp-field__hint" title="On by default. Turn off to keep payload in RAM for faster access at the cost of memory.">?</span>
+              </label>
+              <label class="cp-switch">
+                <input type="checkbox" id="cp-payload-on-disk" checked />
+                <span class="cp-switch__track"></span>
+              </label>
+            </div>
+
+            <div class="cp-field">
+              <label class="cp-field__label" for="cp-payload-index-fields">
+                Indexed payload fields
+                <span class="cp-field__hint" title="Number of payload fields with a payload index for filtering. Each adds in-RAM structures.">?</span>
+              </label>
+              <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-payload-index-fields" min="0" step="1" value="0" />
+            </div>
+
+            <div class="cp-field">
+              <span class="cp-field__label">Point ID type
+                <span class="cp-field__hint" title="Type of point identifiers. UUIDs cost more RAM in the ID tracker (~40 B/point) than integers (~24 B/point).">?</span>
+              </span>
+              <div class="cp-segmented" data-cp-name="id-type">
+                <label class="cp-segmented__option"><input type="radio" name="cp-id-type" value="integer" checked /><span>Integer</span></label>
+                <label class="cp-segmented__option"><input type="radio" name="cp-id-type" value="uuid" /><span>UUID</span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          {{/* ---------------- Deployment ---------------- */}}
+          <fieldset class="cp-group">
+            <legend class="cp-group__title">Deployment</legend>
+
+            <div class="cp-field">
+              <label class="cp-field__label" for="cp-replicas">
+                Replication factor
+                <span class="cp-field__hint" title="Number of copies of the data across the cluster for high availability.">?</span>
+              </label>
+              <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-replicas" min="1" step="1" value="1" />
+            </div>
+
+            <div class="cp-field">
+              <label class="cp-field__label" for="cp-shards">
+                Shards
+                <span class="cp-field__hint" title="Shards per collection. Each shard keeps its own write-ahead log.">?</span>
+              </label>
+              <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-shards" min="1" step="1" value="1" />
+            </div>
+
+            <div class="cp-field">
+              <label class="cp-field__label" for="cp-wal-capacity">
+                WAL capacity per shard (wal_capacity_mb)
+                <span class="cp-field__hint" title="Write-ahead log size reserved on disk per shard. Qdrant default is 32 MB.">?</span>
+              </label>
+              <select class="q-input q-input_light-bg cp-field__input" id="cp-wal-capacity">
+                <option value="32" selected>32 MB (default)</option>
+                <option value="64">64 MB</option>
+                <option value="128">128 MB</option>
+                <option value="256">256 MB</option>
+                <option value="512">512 MB</option>
+                <option value="1024">1024 MB</option>
+              </select>
+            </div>
+
+            <div class="cp-field">
+              <label class="cp-field__label" for="cp-qps">
+                Expected search throughput (queries/sec)
+                <span class="cp-field__hint" title="Optional. Used only to refine the CPU recommendation. Leave 0 to size CPU by data volume.">?</span>
+              </label>
+              <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-qps" min="0" step="10" value="0" />
+            </div>
+          </fieldset>
+
+          <button type="reset" class="button button_outlined button_md cp-reset" id="cp-reset">Reset to defaults</button>
+        </div>
+
+        {{/* ---------------- Results ---------------- */}}
+        <aside class="capacity-planner__results">
+          <div class="capacity-planner__results-inner">
+            <p class="cp-results__title">Estimated resources</p>
+            <p class="cp-results__subtitle">Total across all replicas</p>
+
+            <div class="cp-summary">
+              <div class="cp-summary__card cp-summary__card--ram">
+                <div class="cp-summary__head">
+                  <span class="cp-summary__label">Memory (RAM)</span>
+                  <span class="cp-summary__note" id="cp-out-ram-note">recommended</span>
+                </div>
+                <span class="cp-summary__value" id="cp-out-ram">–</span>
+              </div>
+              <div class="cp-summary__card cp-summary__card--storage">
+                <div class="cp-summary__head">
+                  <span class="cp-summary__label">Disk storage</span>
+                  <span class="cp-summary__note">with overhead</span>
+                </div>
+                <span class="cp-summary__value" id="cp-out-storage">–</span>
+              </div>
+              <div class="cp-summary__card cp-summary__card--cpu">
+                <div class="cp-summary__head">
+                  <span class="cp-summary__label">vCPU</span>
+                  <span class="cp-summary__note">guideline</span>
+                </div>
+                <span class="cp-summary__value" id="cp-out-cpu">–</span>
+              </div>
+            </div>
+
+            <div class="cp-advisories" id="cp-advisories" hidden></div>
+
+            <div class="cp-breakdown">
+              <p class="cp-breakdown__title">Breakdown</p>
+              <table class="cp-breakdown__table">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th>RAM</th>
+                    <th>Disk</th>
+                  </tr>
+                </thead>
+                <tbody id="cp-breakdown-body">
+                  <!-- rows injected by JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <p class="cp-disclaimer">
+              These figures are estimates to help you plan. Real usage depends on your data
+              distribution, segment layout, and Qdrant version. For production sizing, benchmark
+              with your own dataset. See the
+              <a href="/documentation/guides/capacity-planning/" class="link">capacity planning guide</a>.
+            </p>
+
+            <div class="cp-results__cta">
+              <a href="https://cloud.qdrant.io/signup" class="button button_contained button_lg" target="_blank" rel="noopener">Try Qdrant Cloud</a>
+            </div>
+          </div>
+        </aside>
+      </form>
+    </div>
+  </section>
+
+  {{ partial "get-started" . }}
+{{ end }}
