@@ -20,13 +20,13 @@ Elastic recently published a [benchmark](https://www.elastic.co/search-labs/blog
 
 Elastic set out to benchmark DiskBBQ against a Qdrant cluster configured for disk-based retrieval, but their methodology omitted the exact features Qdrant built for this workload. Instead of enabling our documented two-stage retrieval and async disk scoring, they effectively ran a stress test on unbounded sequential disk access and reported the resulting I/O bottleneck as a baseline metric.
 
-We took the same dataset and benchmarked it, demonstrating a \~2x higher throughput and \~50% lower latency at the same recall target, all without having to provision for the JVM heap. We leverage TurboQuant 4-bit (our recommended quantization for this recall range) on three **m6g.xlarge (4 vCPU x 16 GiB  x 64 GiB Disk)** instances, followed by another test on three even smaller **m6g.large (2 vCPU x 8 GiB x 32 GiB Disk)** instances.
+We took the same dataset and benchmarked it, demonstrating a \~2x higher throughput and \~50% lower latency at the same recall target, all without having to provision for the JVM heap. We leverage TurboQuant 4-bit (our recommended quantization for this recall range) on three **`m6g.xlarge` (4 vCPU x 16 GiB  x 64 GiB Disk)** instances, followed by another test on three even smaller **`m6g.large` (2 vCPU x 8 GiB x 32 GiB Disk)** instances.
 
 The highlight: **At matched recall, Qdrant achieves 2.1x higher throughput, 51% lower latency, on roughly one-third of Elastic's per-node CPU and RAM. Also, the Qdrant engine tested on OSS is the same available on our cloud.**
 
 ## The Benchmark Setup
 
-Elastic tested on three GCP n4-standard-8 nodes. Each pod was allocated 7 vCPU and 26 GB RAM, backed by 200 GiB Hyperdisk Balanced volumes at baseline allocation, with replication factor 2\. The corpus was [kenhktsui/wiki\_dpr\_e5](https://huggingface.co/datasets/kenhktsui/wiki_dpr_e5): 21 million passages, 768-dimensional e5-base-v2 embeddings, about 60 GiB of raw vector data. On their end, both engines ran at 2-bit quantization: Elasticsearch through bbq\_disk, its disk-optimized vector index, and Qdrant through filterable HNSW. Elastic notes bbq\_disk is only an Elasticsearch Enterprise feature. Qdrant is OSS under Apache 2.0 license.
+Elastic tested on three GCP `n4-standard-8 nodes`. Each pod was allocated 7 vCPU and 26 GB RAM, backed by 200 GiB Hyperdisk Balanced volumes at baseline allocation, with replication factor 2\. The corpus was [kenhktsui/wiki\_dpr\_e5](https://huggingface.co/datasets/kenhktsui/wiki_dpr_e5): 21 million passages, 768-dimensional `e5-base-v2` embeddings, about 60 GiB of raw vector data. On their end, both engines ran at 2-bit quantization: Elasticsearch through `bbq\_disk`, its disk-optimized vector index, and Qdrant through filterable HNSW. Elastic notes `bbq\_disk` is only an Elasticsearch Enterprise feature. Qdrant is OSS under Apache 2.0 license.
 
 | Item | Value |
 | :---- | ----: |
@@ -50,9 +50,11 @@ Our Qdrant configuration differed in the ways that matter for disk-rescore perfo
 * **Two-stage retrieval**: prefetch an oversampled candidate set from in-RAM quantized vectors, then rescore a bounded set against on-disk originals  
 * **Qdrant 1.18.2** on Qdrant Cloud (AWS), RF=1
 
-We used TurboQuant 4-bit for Qdrant, our current best-practice encoding for this recall band, not a bit-identical reproduction of their quantization choice. We tested replication factor \= 1 because we wanted to see the lowest footprint we could reasonably leverage to beat Elastic’s results. While we could have pushed the infrastructure footprint even lower to maximize throughput, benchmarking disk-based setups for a dataset of this size is largely an academic exercise. With Qdrant's compression, this entire corpus and its index consume as little as \~5GiB of RAM. In a real-world deployment, our users wouldn't even bother with disk here, they would simply run it in-memory for maximum performance.
+We used TurboQuant 4-bit for Qdrant, our current best-practice encoding for this recall band, not a bit-identical reproduction of their quantization choice. We tested replication factor \= 1 because we wanted to see the lowest footprint we could reasonably leverage to beat Elastic’s results.
 
-Queries were driven from a separate AWS c5.2xlarge instance (8 vCPU, 16 GiB, us-east-1) running our open harness against the Qdrant cluster over the network; the same client-and-server separation Elastic used with Jingra.
+While we could have pushed the infrastructure footprint even lower to maximize throughput, benchmarking disk-based setups for a dataset of this size is largely an academic exercise. Even without compression, using `fp16` representation, this entire corpus and its index fits on a single `[rc6.2xlarge](https://instances.vantage.sh/aws/ec2/r6g.2xlarge?currency=USD)` instance, which would cost roughly $295/mo with on-demand pricing. In a real-world deployment, our users wouldn't even bother with disk here, they would simply run it in-memory for maximum performance.
+
+Queries were driven from a separate AWS `c5.2xlarge` instance (8 vCPU, 16 GiB, us-east-1) running our open harness against the Qdrant cluster over the network; the same client-and-server separation Elastic used with Jingra.
 
 We measured two cluster sizes on the same collection:
 
