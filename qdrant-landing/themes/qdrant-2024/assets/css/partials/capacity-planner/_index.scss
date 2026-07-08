@@ -166,6 +166,7 @@
   }
 
   &__hint {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -179,6 +180,62 @@
     font-weight: 700;
     cursor: help;
     vertical-align: middle;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    // Tooltip bubble + arrow, shown on hover.
+    &::after,
+    &::before {
+      position: absolute;
+      left: 50%;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, pxToRem(4));
+      transition:
+        opacity 0.15s ease,
+        transform 0.15s ease;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    &::after {
+      content: attr(data-tip);
+      bottom: calc(100% + #{pxToRem(9)});
+      width: max-content;
+      max-width: pxToRem(230);
+      padding: pxToRem(9) pxToRem(11);
+      border-radius: pxToRem(8);
+      background-color: $neutral-10;
+      color: $neutral-98;
+      font-size: $font-size-xs;
+      font-weight: 400;
+      line-height: 1.45;
+      letter-spacing: 0;
+      text-align: left;
+      white-space: normal;
+      box-shadow: 0 pxToRem(8) pxToRem(24) rgba($neutral-10, 0.28);
+    }
+
+    &::before {
+      content: '';
+      bottom: calc(100% + #{pxToRem(4)});
+      width: 0;
+      height: 0;
+      border-left: pxToRem(5) solid transparent;
+      border-right: pxToRem(5) solid transparent;
+      border-top: pxToRem(5) solid $neutral-10;
+    }
+
+    &:hover {
+      background-color: $primary-50;
+      color: $neutral-100;
+
+      &::after,
+      &::before {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, 0);
+      }
+    }
   }
 
   &__input {

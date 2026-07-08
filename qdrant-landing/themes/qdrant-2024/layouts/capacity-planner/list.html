@@ -20,7 +20,7 @@
             <div class="cp-field">
               <label class="cp-field__label" for="cp-vectors">
                 Number of vectors
-                <span class="cp-field__hint" title="Total number of points (rows) you plan to store in the collection.">?</span>
+                <span class="cp-field__hint" data-tip="How many points (records) you expect to store in this collection.">?</span>
               </label>
               <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-vectors" min="0" step="1000" value="1000000" />
             </div>
@@ -28,7 +28,7 @@
             <div class="cp-field">
               <label class="cp-field__label" for="cp-dimensions">
                 Vector dimensions
-                <span class="cp-field__hint" title="Dimensionality of a single dense vector (e.g. 768, 1536).">?</span>
+                <span class="cp-field__hint" data-tip="The length of each embedding — for example, 768 for many BERT models or 1536 for OpenAI embeddings.">?</span>
               </label>
               <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-dimensions" min="1" step="1" value="768" />
             </div>
@@ -36,7 +36,7 @@
             <div class="cp-field">
               <label class="cp-field__label" for="cp-vectors-per-point">
                 Named vectors per point
-                <span class="cp-field__hint" title="How many named dense vectors each point stores (e.g. a text + an image embedding). Usually 1.">?</span>
+                <span class="cp-field__hint" data-tip="Most collections use one vector per point. Increase this only if each point holds several embeddings, such as text and image together.">?</span>
               </label>
               <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-vectors-per-point" min="1" step="1" value="1" />
             </div>
@@ -48,7 +48,7 @@
 
             <div class="cp-field cp-field--span">
               <span class="cp-field__label">Vector datatype
-                <span class="cp-field__hint" title="Storage precision of each dense vector element. float32 is default; float16 halves size with minimal accuracy loss; uint8 is for pre-quantized integer vectors.">?</span>
+                <span class="cp-field__hint" data-tip="How precisely each vector value is stored. float32 is the safe default, float16 halves the size with almost no accuracy loss, and uint8 suits vectors that are already integers.">?</span>
               </span>
               <div class="cp-segmented" data-cp-name="datatype">
                 <label class="cp-segmented__option"><input type="radio" name="cp-datatype" value="4" checked /><span>float32</span></label>
@@ -60,7 +60,7 @@
             <div class="cp-field cp-field--switch">
               <label class="cp-field__label" for="cp-vectors-on-disk">
                 Store original vectors on disk
-                <span class="cp-field__hint" title="Keeps full-precision vectors on disk (memmap) instead of RAM. Recommended together with quantization.">?</span>
+                <span class="cp-field__hint" data-tip="Keep the full-precision vectors on disk instead of in memory. Usually worth turning on whenever you use quantization.">?</span>
               </label>
               <label class="cp-switch">
                 <input type="checkbox" id="cp-vectors-on-disk" />
@@ -70,7 +70,7 @@
 
             <div class="cp-field cp-field--span">
               <span class="cp-field__label">Quantization
-                <span class="cp-field__hint" title="Compresses vectors to save memory. Scalar (int8) ~4× with tiny recall loss; Binary ~32× for high-dim embeddings; Product up to 64× with more accuracy loss. Originals are kept for rescoring.">?</span>
+                <span class="cp-field__hint" data-tip="Compress vectors to fit more in memory. Scalar (int8) shrinks them about 4× with barely any accuracy loss, Binary up to 32× for large embeddings, and Product up to 64× with a bigger trade-off. The originals are always kept so results can be re-scored.">?</span>
               </span>
               <div class="cp-segmented" data-cp-name="quantization">
                 <label class="cp-segmented__option"><input type="radio" name="cp-quantization" value="none" checked /><span>None</span></label>
@@ -83,7 +83,7 @@
             <div class="cp-field" id="cp-pq-ratio-field" hidden>
               <label class="cp-field__label" for="cp-pq-ratio">
                 Product quantization compression
-                <span class="cp-field__hint" title="Compression ratio relative to float32 vectors.">?</span>
+                <span class="cp-field__hint" data-tip="How aggressively Product quantization compresses each vector, measured against its full float32 size.">?</span>
               </label>
               <select class="q-input q-input_light-bg cp-field__input" id="cp-pq-ratio">
                 <option value="4">x4</option>
@@ -97,7 +97,7 @@
             <div class="cp-field cp-field--switch" id="cp-quant-ram-field" hidden>
               <label class="cp-field__label" for="cp-quant-ram">
                 Keep quantized vectors in RAM
-                <span class="cp-field__hint" title="Quantized vectors are small and are usually kept in RAM (always_ram) for fast search.">?</span>
+                <span class="cp-field__hint" data-tip="Quantized vectors are small, so keeping them in memory (always_ram) makes search noticeably faster.">?</span>
               </label>
               <label class="cp-switch">
                 <input type="checkbox" id="cp-quant-ram" checked />
@@ -127,7 +127,7 @@
             <div class="cp-field">
               <label class="cp-field__label cp-field__label--slider" for="cp-hnsw-m">
                 <span>Graph connections (m)
-                  <span class="cp-field__hint" title="Edges per node. Higher m improves recall but increases index memory.">?</span>
+                  <span class="cp-field__hint" data-tip="How many neighbours each node links to in the graph. Higher values improve recall but use more memory.">?</span>
                 </span>
                 <output class="cp-field__value" id="cp-hnsw-m-value">16</output>
               </label>
@@ -137,7 +137,7 @@
             <div class="cp-field">
               <label class="cp-field__label cp-field__label--slider" for="cp-hnsw-ef">
                 <span>ef_construct
-                  <span class="cp-field__hint" title="Beam size during index build. Affects build time and recall, not steady-state memory.">?</span>
+                  <span class="cp-field__hint" data-tip="How thoroughly the graph is built. Higher values give better recall and slower builds, but don't change memory once the index is ready.">?</span>
                 </span>
                 <output class="cp-field__value" id="cp-hnsw-ef-value">100</output>
               </label>
@@ -147,7 +147,7 @@
             <div class="cp-field cp-field--switch">
               <label class="cp-field__label" for="cp-hnsw-on-disk">
                 Store HNSW index on disk (on_disk)
-                <span class="cp-field__hint" title="Stores the graph as a memory-mapped file. Frees RAM but relies on OS page cache for speed.">?</span>
+                <span class="cp-field__hint" data-tip="Keep the graph on disk as a memory-mapped file. This frees up RAM but leans on the operating system's cache for speed.">?</span>
               </label>
               <label class="cp-switch">
                 <input type="checkbox" id="cp-hnsw-on-disk" />
@@ -158,7 +158,7 @@
             <div class="cp-field cp-field--switch">
               <label class="cp-field__label" for="cp-tenant-index">
                 Tenant payload index (payload_m)
-                <span class="cp-field__hint" title="Builds additional in-graph HNSW links per tenant for fast, isolated multitenant search. Adds memory.">?</span>
+                <span class="cp-field__hint" data-tip="For multitenant setups: builds a separate graph per tenant so filtered searches stay fast. Uses extra memory.">?</span>
               </label>
               <label class="cp-switch">
                 <input type="checkbox" id="cp-tenant-index" />
@@ -169,7 +169,7 @@
             <div class="cp-field" id="cp-payload-m-field" hidden>
               <label class="cp-field__label cp-field__label--slider" for="cp-payload-m">
                 <span>payload_m
-                  <span class="cp-field__hint" title="Edges per node in the tenant subgraph. Higher = faster filtered search, more memory.">?</span>
+                  <span class="cp-field__hint" data-tip="Neighbours per node within each tenant's graph. Higher means faster filtered search but more memory.">?</span>
                 </span>
                 <output class="cp-field__value" id="cp-payload-m-value">16</output>
               </label>
@@ -186,7 +186,7 @@
             <div class="cp-field cp-field--switch">
               <label class="cp-field__label" for="cp-sparse">
                 Enable sparse vectors
-                <span class="cp-field__hint" title="Adds a sparse vector (e.g. BM25/SPLADE) per point for keyword-style matching and hybrid search.">?</span>
+                <span class="cp-field__hint" data-tip="Add a sparse vector (such as BM25 or SPLADE) to each point for keyword-style matching and hybrid search.">?</span>
               </label>
               <label class="cp-switch">
                 <input type="checkbox" id="cp-sparse" />
@@ -197,7 +197,7 @@
             <div class="cp-field" id="cp-sparse-nnz-field" hidden>
               <label class="cp-field__label" for="cp-sparse-nnz">
                 Avg non-zero values per sparse vector
-                <span class="cp-field__hint" title="Number of non-zero dimensions in a typical sparse vector. Drives sparse index size.">?</span>
+                <span class="cp-field__hint" data-tip="Roughly how many non-zero values a typical sparse vector has. This is the main driver of the sparse index size.">?</span>
               </label>
               <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-sparse-nnz" min="1" step="1" value="100" />
             </div>
@@ -205,7 +205,7 @@
             <div class="cp-field cp-field--switch" id="cp-sparse-on-disk-field" hidden>
               <label class="cp-field__label" for="cp-sparse-on-disk">
                 Store sparse index on disk (on_disk)
-                <span class="cp-field__hint" title="Keeps the sparse inverted index memory-mapped on disk instead of RAM.">?</span>
+                <span class="cp-field__hint" data-tip="Keep the sparse inverted index on disk instead of in memory.">?</span>
               </label>
               <label class="cp-switch">
                 <input type="checkbox" id="cp-sparse-on-disk" />
@@ -215,7 +215,7 @@
 
             <div class="cp-field" id="cp-fusion-field" hidden>
               <span class="cp-field__label">Hybrid fusion method
-                <span class="cp-field__hint" title="How dense and sparse results are combined at query time. RRF (Reciprocal Rank Fusion) merges by rank and is score-scale agnostic; DBSF (Distribution-Based Score Fusion) normalizes and sums raw scores. Query-time only — no memory impact.">?</span>
+                <span class="cp-field__hint" data-tip="How dense and sparse results are merged. RRF combines them by rank and ignores score scale; DBSF normalises and adds the raw scores. This happens at query time, so it has no memory cost.">?</span>
               </span>
               <div class="cp-segmented" data-cp-name="fusion">
                 <label class="cp-segmented__option"><input type="radio" name="cp-fusion" value="rrf" checked /><span>RRF</span></label>
@@ -233,7 +233,7 @@
             <div class="cp-field">
               <label class="cp-field__label" for="cp-payload">
                 Average payload size per point
-                <span class="cp-field__hint" title="Average size of the JSON metadata stored with each point.">?</span>
+                <span class="cp-field__hint" data-tip="The typical size of the JSON metadata you attach to each point.">?</span>
               </label>
               <div class="cp-field__combo">
                 <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-payload" min="0" step="0.1" value="1" />
@@ -248,7 +248,7 @@
             <div class="cp-field cp-field--switch">
               <label class="cp-field__label" for="cp-payload-on-disk">
                 Store payload on disk (on_disk)
-                <span class="cp-field__hint" title="On by default. Turn off to keep payload in RAM for faster access at the cost of memory.">?</span>
+                <span class="cp-field__hint" data-tip="On by default. Turn it off to keep payload in memory for faster access, at the cost of more RAM.">?</span>
               </label>
               <label class="cp-switch">
                 <input type="checkbox" id="cp-payload-on-disk" checked />
@@ -259,14 +259,14 @@
             <div class="cp-field">
               <label class="cp-field__label" for="cp-payload-index-fields">
                 Indexed payload fields
-                <span class="cp-field__hint" title="Number of payload fields with a payload index for filtering. Each adds in-RAM structures.">?</span>
+                <span class="cp-field__hint" data-tip="How many payload fields you index for filtering. Each index adds a little in-memory data.">?</span>
               </label>
               <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-payload-index-fields" min="0" step="1" value="0" />
             </div>
 
             <div class="cp-field">
               <span class="cp-field__label">Point ID type
-                <span class="cp-field__hint" title="Type of point identifiers. UUIDs cost more RAM in the ID tracker (~40 B/point) than integers (~24 B/point).">?</span>
+                <span class="cp-field__hint" data-tip="The kind of IDs your points use. UUIDs take more memory per point (about 40 bytes) than plain integers (about 24 bytes).">?</span>
               </span>
               <div class="cp-segmented" data-cp-name="id-type">
                 <label class="cp-segmented__option"><input type="radio" name="cp-id-type" value="integer" checked /><span>Integer</span></label>
@@ -282,7 +282,7 @@
             <div class="cp-field">
               <label class="cp-field__label" for="cp-replicas">
                 Replication factor
-                <span class="cp-field__hint" title="Number of copies of the data across the cluster for high availability.">?</span>
+                <span class="cp-field__hint" data-tip="How many copies of the data you keep across the cluster for high availability.">?</span>
               </label>
               <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-replicas" min="1" step="1" value="1" />
             </div>
@@ -290,7 +290,7 @@
             <div class="cp-field">
               <label class="cp-field__label" for="cp-shards">
                 Shards
-                <span class="cp-field__hint" title="Shards per collection. Each shard keeps its own write-ahead log.">?</span>
+                <span class="cp-field__hint" data-tip="How many shards the collection is split into. Each shard keeps its own write-ahead log.">?</span>
               </label>
               <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-shards" min="1" step="1" value="1" />
             </div>
@@ -298,7 +298,7 @@
             <div class="cp-field">
               <label class="cp-field__label" for="cp-wal-capacity">
                 WAL capacity per shard (wal_capacity_mb)
-                <span class="cp-field__hint" title="Write-ahead log size reserved on disk per shard. Qdrant default is 32 MB.">?</span>
+                <span class="cp-field__hint" data-tip="Disk space reserved for the write-ahead log on each shard. Qdrant's default is 32 MB.">?</span>
               </label>
               <select class="q-input q-input_light-bg cp-field__input" id="cp-wal-capacity">
                 <option value="32" selected>32 MB (default)</option>
@@ -313,7 +313,7 @@
             <div class="cp-field">
               <label class="cp-field__label" for="cp-qps">
                 Expected search throughput (queries/sec)
-                <span class="cp-field__hint" title="Optional. Used only to refine the CPU recommendation. Leave 0 to size CPU by data volume.">?</span>
+                <span class="cp-field__hint" data-tip="Optional. Helps refine the CPU estimate. Leave it at 0 to size CPU from data volume alone.">?</span>
               </label>
               <input class="q-input q-input_light-bg cp-field__input" type="number" id="cp-qps" min="0" step="10" value="0" />
             </div>
