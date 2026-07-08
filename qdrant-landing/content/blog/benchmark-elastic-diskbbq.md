@@ -16,15 +16,17 @@ tags:
 
 ## TL;DR
 
-Elastic recently published a [benchmark](https://www.elastic.co/search-labs/blog/vector-search-benchmark-elasticsearch-vs-qdrant) reporting that Elasticsearch with DiskBBQ delivered up to 7x higher throughput than Qdrant on network-attached storage. 
+Elastic recently published a [benchmark](https://www.elastic.co/search-labs/blog/vector-search-benchmark-elasticsearch-vs-qdrant) claiming that their proprietary, disk-based index (dubbed “DiskBBQ”) delivers up to 7x higher throughput than Qdrant when deployed on nodes with network-attached storage. 
 
-Unfortunately, their benchmark did not test how Qdrant performs when optimally configured (the way we [document for large collections with vectors on disk](https://qdrant.tech/documentation/tutorials-operations/large-scale-search/)): two-stage retrieval, async disk scoring enabled. 
+Elastic set out to benchmark DiskBBQ against a Qdrant cluster configured for disk-based retrieval, but their methodology omitted the exact features Qdrant built for this workload. Instead of enabling our documented two-stage retrieval and async disk scoring, they effectively ran a stress test on unbounded sequential disk access and reported the resulting I/O bottleneck as a baseline metric.
 
-So we ran that configuration with TurboQuant 4-bit (our recommended quantization for this recall range); first on **3 × 4 vCPU / 16 GB** nodes, then on **3 × 2 vCPU / 8 GB** nodes after resizing the same cluster. At matched recall, the comparison reversed; Qdrant had 2.1x higher throughput, 51% lower latency, on roughly one-third of Elastic's per-node CPU and RAM.
+We took the same dataset and benchmarked it, demonstrating a \~2x higher throughput and \~50% lower latency at the same recall target, all without having to provision for the JVM heap. We leverage TurboQuant 4-bit (our recommended quantization for this recall range) on three **m6g.xlarge (4 vCPU x 16 GiB  x 64 GiB Disk)** instances, followed by another test on three even smaller **m6g.large (2 vCPU x 8 GiB x 32 GiB Disk)** instances.
+
+The highlight: **At matched recall, Qdrant achieves 2.1x higher throughput, 51% lower latency, on roughly one-third of Elastic's per-node CPU and RAM. Also, the Qdrant engine tested on OSS is the same available on our cloud.**
 
 ## The Benchmark Setup
 
-Elastic tested on three GCP n4-standard-8 nodes. Each pod was allocated 7 vCPU and 26 GB RAM, backed by 200 GiB Hyperdisk Balanced volumes at baseline allocation, with replication factor 2\. The corpus was [kenhktsui/wiki\_dpr\_e5](https://huggingface.co/datasets/kenhktsui/wiki_dpr_e5): 21 million passages, 768-dimensional e5-base-v2 embeddings, about 60 GiB of raw vector data. On their end, both engines ran at 2-bit quantization: Elasticsearch through bbq\_disk (its disk-optimized vector index,)and Qdrant through TurboQuant. Elastic notes bbq\_disk is only an Elasticsearch Enterprise feature.
+Elastic tested on three GCP n4-standard-8 nodes. Each pod was allocated 7 vCPU and 26 GB RAM, backed by 200 GiB Hyperdisk Balanced volumes at baseline allocation, with replication factor 2\. The corpus was [kenhktsui/wiki\_dpr\_e5](https://huggingface.co/datasets/kenhktsui/wiki_dpr_e5): 21 million passages, 768-dimensional e5-base-v2 embeddings, about 60 GiB of raw vector data. On their end, both engines ran at 2-bit quantization: Elasticsearch through bbq\_disk, its disk-optimized vector index, and Qdrant through filterable HNSW. Elastic notes bbq\_disk is only an Elasticsearch Enterprise feature. Qdrant is OSS under Apache 2.0 license.
 
 | Item | Value |
 | :---- | ----: |
@@ -32,13 +34,15 @@ Elastic tested on three GCP n4-standard-8 nodes. Each pod was allocated 7 vCPU a
 | Metric | recall@100 against prepared ground truth for 10,000 queries   |
 | Load model | Fixed client concurrency (4 workers), back-to-back queries, client-side latency |
 
-Their Qdrant configuration swept hnsw\_ef with single-stage rescore and oversampling fixed at 1\.  The async scorer, Qdrant's [io\_uring-based feature](https://qdrant.tech/articles/io_uring/) for parallelizing disk reads during rescore, was left off. At recall@100 around 0.96, Elastic reported Elasticsearch at 32.4 QPS and 122.6 ms average latency. Their Qdrant row at the same recall band: 4.5 QPS, 883 ms which is roughly seven times slower on throughput and latency.
+Their Qdrant configuration swept hnsw\_ef with segment-level rescoring and oversampling fixed at 1\. At recall@100 around 0.96, Elastic reported Elasticsearch at 32.4 QPS and 122.6 ms average latency. Their Qdrant row at the same recall band: 4.5 QPS, 883 ms which is roughly seven times slower on throughput and latency.
 
-The single-stage configuration is a major flaw, as its entire narrative is that Qdrant is slow because it reads original float32 vectors from disk during rescoring. But the setup Elastic tested is the one that maximizes that disk traffic: the async scorer was left off, and the [two-stage query plan Qdrant documents for exactly this workload](https://qdrant.tech/documentation/tutorials-operations/large-scale-search/) wasn't used.
+Elastic’s narrative attempts to frame Qdrant as bottlenecked by disk reads, positioning their proprietary DiskBBQ as the memory and disk efficient alternative. The glaring contradiction in their own benchmark is that this “memory-saving” index still requires 26 GB of RAM per pod just to keep the JVM stable for .
+
+But the setup Elastic tested maximizes disk traffic without any proper compensation. Qdrant’s [io\_uring-based](https://qdrant.tech/articles/io_uring/) async scorer, which helps to parallelize disk reads during the rescoring phase, was left off and the [two-stage query plan Qdrant documents for exactly this workload](https://qdrant.tech/documentation/tutorials-operations/large-scale-search/) wasn't used.
 
 ## What We Ran
 
-We used the same dataset, the same recall@100 metric, and the same closed-loop load model: 4 concurrent clients, back-to-back queries, 120 seconds per operating point, latency measured end-to-end on the client. We swept hnsw\_ef from 50 to 256 with oversampling fixed at 1\.
+We benchmarked the same dataset on Qdrant, targeting the same recall@100 metric and leveraging the same closed-loop load model: 4 concurrent clients, back-to-back queries, 120 seconds per operating point, latency measured end-to-end on the client. We swept hnsw\_ef from 50 to 256 and prefetched quantized vectors and rescored them with original vectors from disk.
 
 Our Qdrant configuration differed in the ways that matter for disk-rescore performance:
 
@@ -46,14 +50,14 @@ Our Qdrant configuration differed in the ways that matter for disk-rescore perfo
 * **Two-stage retrieval**: prefetch an oversampled candidate set from in-RAM quantized vectors, then rescore a bounded set against on-disk originals  
 * **Qdrant 1.18.2** on Qdrant Cloud (AWS), RF=1
 
-We used TurboQuant 4-bit for Qdrant, our current best-practice encoding for this recall band, not a bit-identical reproduction of their quantization choice. The comparison is Elastic's best published disk-rescore stack versus Qdrant's best published disk-rescore stack, at matched recall.
+We used TurboQuant 4-bit for Qdrant, our current best-practice encoding for this recall band, not a bit-identical reproduction of their quantization choice. We tested replication factor \= 1 because we wanted to see the lowest footprint we could reasonably leverage to beat Elastic’s results. While we could have pushed the infrastructure footprint even lower to maximize throughput, benchmarking disk-based setups for a dataset of this size is largely an academic exercise. With Qdrant's compression, this entire corpus and its index consume as little as \~5GiB of RAM. In a real-world deployment, our users wouldn't even bother with disk here, they would simply run it in-memory for maximum performance.
 
 Queries were driven from a separate AWS c5.2xlarge instance (8 vCPU, 16 GiB, us-east-1) running our open harness against the Qdrant cluster over the network; the same client-and-server separation Elastic used with Jingra.
 
 We measured two cluster sizes on the same collection:
 
-1. Before resize: 3 nodes × 4 vCPU / 16 GB RAM / 64 GB disk per node (12 vCPU, 48 GB RAM, 192 GB disk total)  
-2. After resize: 3 nodes × 2 vCPU / 8 GB RAM per node
+1. Before resize: 3 nodes × 4 vCPU / 16 GiB RAM / 64 GiB Disk (12 vCPU, 48 GiB RAM, 192 GiB Disk total)  
+2. After resize: 3 nodes × 2 vCPU / 8 GiB RAM / 32 GiB Disk (6 vCPU, 24 GiB RAM, 96GiB Disk total)  
 
 ## The Results
 
@@ -70,8 +74,6 @@ At recall@100 around 0.96:
 
 On the smallest nodes we tested (2 vCPU and 8 GB RAM per node), roughly 3× less CPU and RAM per node than Elastic's 7 vCPU / 26 GB pods, Qdrant delivered 2× the throughput and half the latency of Elasticsearch at the same recall. More hardware makes Qdrant faster; that is expected. The result that matters for the efficiency argument is that Qdrant already beats Elastic's published numbers on the smallest footprint we tested. 
 
-In Elastic's own results, single-stage Qdrant's latency climbs steeply as hnsw\_ef rises from about 315 ms to 880 ms across the sweep. That climb is the signature of unbounded disk reads: each increase in search breadth pulls more original vectors off disk during rescore, and on network-attached storage every one of those reads is expensive. Elasticsearch stays flat because DiskBBQ is built to limit that access. Two-stage Qdrant limits it a different way, by bounding the rescore set, so its latency rises far more gently across the same recall range.
-
 ## Reproducing This Benchmark
 
 The harness is in our [reproduction kit](https://github.com/qdrant-labs/wiki-dpr-disk-rescore-benchmark). The dataset is on [Hugging Face](https://huggingface.co/datasets/kenhktsui/wiki_dpr_e5); the 10k-query ground-truth file is documented in the kit.
@@ -85,10 +87,10 @@ To reproduce this on your own hardware:
 
 ## What This Means
 
-Disk-based rescoring is a standard way to run large vector search without keeping full-precision vectors in RAM. The index searches quantized vectors; the engine rescores against originals on disk to recover accuracy.
+Disk-based indexes attempt to run vector search at scale without keeping full-precision vectors in RAM. The index searches quantized vectors and then rescores against full-precision from disk to recover accuracy.
 
-Elastic's answer is DiskBBQ: a proprietary, Enterprise-only disk-rescore implementation. It reduces storage cost, but does not eliminate read amplification; the query plan determines how much disk I/O each search generates.
+Elastic's solution is DiskBBQ: a proprietary, IVF-style index. It is a band-aid that seeks to reduce the RAM footprint of the vectors in order to [leave 50% of it for the JVM heap](https://www.elastic.co/search-labs/blog/elasticsearch-heap-size-jvm-garbage-collection), while capping your max node size at 64GiB so you don’t accidentally trigger OOM.
 
-Qdrant's answer is open source, with TurboQuant, async disk scoring, and two-stage bounded rescore delivering 67 QPS at 59 ms on 2 vCPU / 8 GB nodes versus Elastic's published 32 QPS at 123 ms on 7 vCPU / 26 GB pods, at the same recall.
+Qdrant's answer is true open source, advanced quantization, async disk scoring, unbounded instance types, and two-stage bounded rescoring delivering 67 QPS at 59 ms on 2 vCPU / 8 GB nodes versus Elastic's published 32 QPS at 123 ms on 7 vCPU / 26 GB pods, at the same recall.
 
-If you want to talk through what this looks like on your workload, [get in touch.](https://qdrant.tech/contact-us/)
+If you want to talk through what this looks like on your workload, [get in touch.](https://qdrant.tech/contact-us/)  
