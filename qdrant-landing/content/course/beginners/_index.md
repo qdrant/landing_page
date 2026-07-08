@@ -110,28 +110,6 @@ Understand why traditional keyword search fails and how semantic (vector) search
     <br>
     <p style="margin-left: 0px;"><a href="/course/beginners/module-1/">→ Start Module 1</a></p>
 
-- title: "Module 2: First Principles of Vector Search"
-  content: |
-    - What is a Vector?
-    - How Dimensions Represent Meaning
-    - Similarity Under the Hood
-    - Your First Qdrant Collection
-    - Points, Payloads, and Queries
-    <br>
-    <br>
-    <p style="margin-left: 0px;"><a href="/course/beginners/module-2/">→ Start Module 2</a></p>
-
-- title: "Module 3: Sparse vs Dense vs Hybrid Search"
-  content: |
-    - The Two Families of Search
-    - Hybrid Search: Dense + Sparse + Filters
-    - Setting Up Hybrid Search in Qdrant
-    - Fusion Strategies
-    - Beyond Text: Multimodal Search
-    - Real-World Use Cases
-    <br>
-    <br>
-    <p style="margin-left: 0px;"><a href="/course/beginners/module-3/">→ Start Module 3</a></p>
 {{< /accordion >}}
 
 ## Who it's for
