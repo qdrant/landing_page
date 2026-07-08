@@ -36,7 +36,7 @@ Elastic tested on three GCP n4-standard-8 nodes. Each pod was allocated 7 vCPU a
 
 Their Qdrant configuration swept hnsw\_ef with segment-level rescoring and oversampling fixed at 1\. At recall@100 around 0.96, Elastic reported Elasticsearch at 32.4 QPS and 122.6 ms average latency. Their Qdrant row at the same recall band: 4.5 QPS, 883 ms which is roughly seven times slower on throughput and latency.
 
-Elastic’s narrative attempts to frame Qdrant as bottlenecked by disk reads, positioning their proprietary DiskBBQ as the memory and disk efficient alternative. The glaring contradiction in their own benchmark is that this “memory-saving” index still requires 26 GB of RAM per pod just to keep the JVM stable for .
+Elastic’s narrative attempts to frame Qdrant as bottlenecked by disk reads, positioning their proprietary DiskBBQ as the memory and disk efficient alternative. The glaring contradiction in their own benchmark is that this “memory-saving” index still requires 26 GB of RAM per pod just to keep the JVM stable.
 
 But the setup Elastic tested maximizes disk traffic without any proper compensation. Qdrant’s [io\_uring-based](https://qdrant.tech/articles/io_uring/) async scorer, which helps to parallelize disk reads during the rescoring phase, was left off and the [two-stage query plan Qdrant documents for exactly this workload](https://qdrant.tech/documentation/tutorials-operations/large-scale-search/) wasn't used.
 
@@ -82,7 +82,7 @@ To reproduce this on your own hardware:
 
 1. Load wiki\_dpr\_e5 (21M × 768d) with TurboQuant 4-bit, originals on disk, HNSW m=16, ef\_construct=256  
 2. Enable async\_scorer (self-hosted: qdrant\_config.yaml; Cloud: Advanced Optimizations)  
-3. Query with the two-stage prefetch-and-rescore pattern from the [Query API documentation](https://qdrant.tech/documentation/search/hybrid-queries/) covers the pattern.  
+3. Query with the two-stage prefetch-and-rescore pattern from the [Query API documentation](https://qdrant.tech/documentation/search/hybrid-queries/)
 4. Run closed-loop at concurrency 4 against the fixed 10k query set
 
 ## What This Means
