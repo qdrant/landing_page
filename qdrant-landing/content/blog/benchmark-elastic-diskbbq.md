@@ -1,7 +1,7 @@
 ---
 draft: false
 title: "Qdrant Beats Elastic’s DiskBBQ at 2x Throughput, Half the Latency, and 1/3 the Compute"
-short_description: "Configuring Qdrant for "
+short_description: "Elastic's recent benchmark claims Elasticsearch with DiskBBQ hits 7x higher throughput than Qdrant on network-attached storage. The problem: they never tested Qdrant configured correctly."
 description: "Elastic's recent benchmark claims Elasticsearch with DiskBBQ hits 7x higher throughput than Qdrant on network-attached storage. The problem: they never tested Qdrant configured correctly."
 date: 2026-07-08
 author: Alexis Musaelyan
