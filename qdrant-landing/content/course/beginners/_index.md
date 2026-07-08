@@ -121,17 +121,6 @@ Understand why traditional keyword search fails and how semantic (vector) search
     <br>
     <p style="margin-left: 0px;"><a href="/course/beginners/module-2/">→ Start Module 2</a></p>
 
-- title: "Module 3: Sparse vs Dense vs Hybrid Search"
-  content: |
-    - The Two Families of Search
-    - Hybrid Search: Dense + Sparse + Filters
-    - Setting Up Hybrid Search in Qdrant
-    - Fusion Strategies
-    - Beyond Text: Multimodal Search
-    - Real-World Use Cases
-    <br>
-    <br>
-    <p style="margin-left: 0px;"><a href="/course/beginners/module-3/">→ Start Module 3</a></p>
 {{< /accordion >}}
 
 ## Who it's for
