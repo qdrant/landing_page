@@ -321,7 +321,7 @@ However, there are a few options that you can use to control the search process:
 
 `ignore` - Toggle whether to ignore quantized vectors during the search process. By default, Qdrant will use quantized vectors if they are available.
 
-`rescore` - Qdrant can re-evaluate top-k search results using the original vectors. While this can improve search quality, it may decrease search speed, especially if the original vectors are stored on disk. In such cases, it is recommended to disable rescoring. By default, rescoring is only enabled for binary quantization. Other quantization methods do not rescore by default.
+`rescore` - Qdrant can re-evaluate top-k search results using the original vectors. While this can improve search quality, it may decrease search speed, especially if the original vectors are stored on disk. In such cases, it is recommended to disable rescoring. By default, rescoring is only enabled for four quantization methods: binary quantization TurboQuant 1 Bit, TurboQuant 1.5 Bit, and TurboQuant 2 Bit. Other quantization methods do not rescore by default.
 
 **Available as of v1.3.0**
 
@@ -345,7 +345,7 @@ By setting it to a value lower than 1.0, you can exclude extreme values (outlier
 For example, if you set the quantile to 0.99, 1% of the extreme values will be excluded.
 By adjusting the quantile, you find an optimal value that will provide the best search quality for your collection.
 
-- **Enable rescoring**: Qdrant can re-evaluate top-k search results using the original vectors. While this can improve search quality, it may decrease search speed, especially if the original vectors are stored on disk. In such cases, it is recommended to disable rescoring. By default, rescoring is only enabled for binary quantization. Other quantization methods do not rescore by default.
+- **Enable rescoring**: Qdrant can re-evaluate top-k search results using the original vectors. While this can improve search quality, it may decrease search speed, especially if the original vectors are stored on disk. In such cases, it is recommended to disable rescoring. By default, rescoring is only enabled for four quantization methods: binary quantization TurboQuant 1 Bit, TurboQuant 1.5 Bit, and TurboQuant 2 Bit. Other quantization methods do not rescore by default.
 
 ### Memory and Speed Tuning
 
