@@ -190,7 +190,7 @@ models.NestedCondition(
 )
 ```
 
-This is why the array of objects is the spine: one shape handles both exact match and ranges, so copying just this is correct for either. Boolean and datetime attributes follow the same pattern, each with a `bool` or `datetime` index on its value.
+This is why the array of objects is the spine: one shape handles both exact match and ranges, so copying just this is correct for either. The split extends to [every payload index type](/documentation/manage-data/indexing/#payload-index): boolean, datetime, geo, uuid, and full-text values each get their own typed array, indexed with the matching schema and queried through the same nested filter.
 
 ## Optimize Exact Match by Concatenating key=value
 
