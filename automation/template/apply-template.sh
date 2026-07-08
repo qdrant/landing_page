@@ -40,7 +40,7 @@ if [ -z "$BACKGROUND_PATH" ]; then
         -interline-spacing 0 \
         -font "RobotoB" \
         -fill '#F2F6FF' \
-        -size 640x \
+        -size 853x \
         -density 72 \
         -pointsize 80 \
         -background none \
@@ -62,7 +62,7 @@ else
         -interline-spacing 0 \
         -font "RobotoB" \
         -fill '#F2F6FF' \
-        -size 640x \
+        -size 853x \
         -density 72 \
         -pointsize 80 \
         -background none \
