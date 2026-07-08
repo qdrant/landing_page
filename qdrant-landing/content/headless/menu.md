@@ -102,6 +102,10 @@ menuItems:
             name: Documentation
             icon: documentation.svg
             url: /documentation/
+          - id: subMenu-2-6
+            name: Capacity Planner
+            icon: capacity-planner.svg
+            url: /capacity-planner/
           - id: subMenu-2-1
             name: Community
             icon: community.svg
