@@ -641,9 +641,22 @@ POST /collections/{collection_name}/cluster
 
 Keep in mind that a collection must contain at least one active replica of a shard.
 
-For step-by-step recovery procedures when a node fails permanently, see [Node Failure Recovery](/documentation/scaling/node-failure-recovery/). For how differently-configured clusters respond to a temporary node failure, see [Temporary Node Failure](/documentation/scaling/resilience/#temporary-node-failure) in Resilience.
+## Deploy Behind a Load Balancer
 
-For how to configure write consistency factor, read consistency, and write ordering, see [Consistency Guarantees](/documentation/scaling/consistency-guarantees/).
+In a multi-node Qdrant cluster, every node can accept requests and route them internally to the correct shards. To get the best performance and availability out of your cluster, distribute requests evenly across all nodes by routing requests through a load balancer.
+
+Routing all traffic to a single node creates two problems:
+
+- **Single point of failure:** If that node goes down, your application loses connectivity to the cluster even though the rest of it remains healthy. A load balancer automatically routes requests to any surviving node.
+- **Idle replicas:** If the receiving node holds a local replica of every shard, it handles the entire query locally and the replicas on all other nodes sit idle. You pay the storage and write cost of replication without gaining any read throughput. A load balancer lets each node serve reads from its own local replicas.
+
+Qdrant's clients don't distribute requests across nodes on their own. To take full advantage of replication, deploy Qdrant behind a load balancer. This:
+
+- Eliminates the single point of failure at the entry point.
+- Ensures replicas on all nodes serve reads.
+- Distributes the coordinator role across nodes. Each node that receives a request fans out the query to the relevant shards, merges the partial results, and returns the final response so the CPU and memory cost of aggregation is shared rather than concentrated on one node.
+
+On Qdrant Cloud, clusters are already behind a load balancer. Send all requests to the endpoint provided for each cluster, and Qdrant Cloud handles the load balancing. If you're self-hosting, you need to set up a load balancer yourself.
 
 ## Listener Mode
 
