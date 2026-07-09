@@ -7,7 +7,7 @@ weight: 5
 
 # Vertical Scaling
 
-Vertical scaling means increasing CPU, RAM, or disk on your existing Qdrant nodes rather than adding more nodes. It's simpler than horizontal scaling, avoids distributed system complexity, and is reversible, which makes it the recommended first step whenever a single node's resources are the bottleneck.
+Vertical scaling means resizing CPU, RAM, or disk on an existing node. It's simpler than horizontal scaling, avoids distributed system complexity, and is reversible, which makes it the recommended first step whenever a single node's resources are the bottleneck.
 
 ## When to Scale Vertically
 
@@ -28,13 +28,13 @@ Vertical scaling in Qdrant Cloud is managed through the [Cloud Console](https://
 2. Choose a larger node configuration, increasing CPU, RAM, or both.
 3. Confirm the resize.
 
-The resize runs as a rolling restart. If your collections have a `replication_factor` of two or more, the restart completes with no downtime, since other replicas keep serving traffic while each node restarts in turn. Set `replication_factor` to two or more before resizing if you need to avoid downtime.
+The resize runs as a rolling restart. If your collections have a replication factor of two or higher, the restart completes with no downtime, since other replicas keep serving traffic while each node restarts in turn. Set replication factor to two or higher before resizing if you need to avoid downtime.
 
 Scaling up is generally safe. Scaling down needs more care: if your working set no longer fits in RAM after downsizing, performance degrades severely due to cache eviction. Load test before scaling down.
 
 ## How to Scale Vertically Self-Hosted
 
-For self-hosted deployments, resize the underlying VM or container resources directly, then restart the affected nodes. The same rolling-restart guidance applies: a `replication_factor` of two or more lets you resize nodes one at a time without downtime.
+For self-hosted deployments, resize the underlying VM or container resources directly, then restart the affected nodes. If your collections have a replication factor of two or higher, you can resize nodes one at a time without downtime.
 
 ## RAM Sizing Guidelines
 
@@ -46,28 +46,26 @@ Exact RAM usage is difficult to predict precisely, but this formula gives a reas
 num_vectors * dimensions * 4 bytes * 1.5
 ```
 
-Quantization reduces this significantly:
+Quantization can reduce this estimate by a factor of 4 to 32, depending on the quantization method.
 
-- Scalar quantization (INT8) divides the estimate by about 4.
-- Binary quantization divides the estimate by about 32.
+On top of the vector data itself, budget for the HNSW index, which typically adds 20% to 30% overhead, along with payload indexes and the write-ahead log. Reserve about 20% headroom for optimizer operations and operating system cache.
 
-On top of the vector data itself, budget for the HNSW index, which typically adds 20% to 30% overhead, along with payload indexes and the write-ahead log. Reserve about 20% headroom for optimizer operations and operating system cache. See [Quantization](/documentation/manage-data/quantization/) for the tradeoffs between quantization methods, and monitor actual memory usage with Prometheus and Grafana before and after resizing (see [Monitoring & Telemetry](/documentation/ops-monitoring/)).
+See [Quantization](/documentation/manage-data/quantization/) for the tradeoffs between quantization methods, and monitor actual memory usage before and after resizing (see [Monitor Collection Memory Usage](/documentation/ops-monitoring/memory-usage/)).
 
 ## When Vertical Scaling Is No Longer Enough
 
 These signals mean it's time to scale horizontally instead of resizing further:
 
 - Your data volume exceeds what a single node can hold, even with quantization.
-- Disk I/O is saturated, since adding nodes gives you more independent disk throughput.
-- You need fault tolerance, which requires replicating data across nodes.
-- You need to isolate tenants onto dedicated shards.
 - CPU on your largest available node size is already maxed out with unacceptable query latency.
+- Disk I/O is saturated. Adding nodes gives you more independent disk throughput.
+- You need fault tolerance, which requires replicating data across nodes.
 
-When you hit these limits, see [Horizontal Scaling and Resilience](/documentation/scaling/horizontal-scaling/) and [Distributed Deployment](/documentation/scaling/distributed_deployment/) for how to scale out.
+When you hit these limits, see [Horizontal Scaling](/documentation/scaling/horizontal-scaling/) and [Distributed Deployment](/documentation/scaling/distributed_deployment/) for how to scale out.
 
-## What Not to Do
+## Best Practices
 
-- Don't scale down RAM without load testing first. Cache eviction can cause a latency regression that persists for days.
-- Don't ignore the 80% RAM threshold. Memory pressure in Qdrant causes a performance cliff, not a gradual slowdown.
-- Don't skip replication before resizing in Qdrant Cloud. A rolling restart without replicas causes downtime.
-- Don't assume more CPU always helps. Workloads bottlenecked on disk I/O won't improve from additional cores.
+- Load test before scaling down RAM. Cache eviction after downsizing can cause a latency regression.
+- Keep RAM usage below 80%. Memory pressure in Qdrant causes a performance cliff, not a gradual slowdown.
+- Set the replication factor to two or higher before resizing in Qdrant Cloud. A rolling restart without replicas causes downtime.
+- Diagnose the bottleneck before adding CPU. Workloads bound on disk I/O won't improve from additional cores.
