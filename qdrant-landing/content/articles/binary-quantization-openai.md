@@ -70,22 +70,19 @@ There's rarely a single best model. The right choice is the one that meets your 
 
 Suppose your embedding looks like this:
 
-```
-[0.24, -0.91, 1.32, -0.02, 0.67, ...]
+```[0.24, -0.91, 1.32, -0.02, 0.67, ...]
 ```
 
 Every value is normally stored as a 32-bit floating-point number. For a 4,096-dimensional embedding, that adds up quickly:
 
-```
-4,096 values × 32 bits
+```4,096 values × 32 bits
 ≈ 131,072 bits
 ≈ 16 KB
 ```
 
 Now imagine you have 100 million documents:
 
-```
-16 KB × 100,000,000
+```16 KB × 100,000,000
 ≈ 1.6 TB
 ```
 
@@ -93,14 +90,12 @@ That's just the vectors, not the index or metadata. At this scale, memory become
 
 Binary Quantization tackles this by replacing each floating-point value with a single bit: positive values become `1`, and negative values become `0`. So instead of storing:
 
-```
-[0.24, -0.91, 1.32, -0.02]
+```[0.24, -0.91, 1.32, -0.02]
 ```
 
 you store:
 
-```
-[1, 0, 1, 0]
+```[1, 0, 1, 0]
 ```
 
 Each dimension now costs 1 bit instead of 32 bits, which gives roughly a 32x reduction in storage for the quantized representation.
