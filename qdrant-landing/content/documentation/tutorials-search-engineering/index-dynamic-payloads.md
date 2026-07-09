@@ -3,8 +3,6 @@ title: Indexing Payloads of Random Shape
 short_description: "Index open-ended payloads whose keys are data in Qdrant, using a nested filter over a fixed key-value array instead of one index per key."
 description: "Model payloads with arbitrary keys in Qdrant. Reshape open-ended fields into a key-value array, index it at setup, and query exact matches and ranges with a nested filter."
 weight: 13
-aliases:
-  - /documentation/tutorials/index-dynamic-payloads/
 ---
 
 # Indexing Payloads of Random Shape
@@ -55,7 +53,7 @@ This works for the first hundred keys and becomes a liability as the key space g
 
 A 40,000-key catalog would extrapolate to tens of GB of index memory.
 
-Two costs compound the memory. Every index created after ingest triggers a rebuild of the HNSW graph, repeated for each new key. Because user uploads define the schema, no fixed field list exists to index against, so the set of indexes grows with the data instead of staying fixed.
+The memory and build time above are only part of it: because user uploads define the schema, there is no fixed field list to index against, so the set of indexes keeps growing with the data instead of staying fixed.
 
 ## Reshape Keys Into Values
 
