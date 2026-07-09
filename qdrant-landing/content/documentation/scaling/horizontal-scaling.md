@@ -34,6 +34,8 @@ In summary, single-node clusters are best for non-production workloads, replicat
 
 A Qdrant collection is made up of one or more shards. Each shard is an independent store of points capable of performing all the operations a collection supports, and shards manage non-intersecting subsets of a collection's points.
 
+{{< figure src="/documentation/scaling/cluster-no-replication.png" alt="A three-node cluster with a collection with three shards. Each shard holds one-third of the collection's points." caption="A three-node cluster with a collection with three shards. Each shard holds one-third of the collection's points." >}}
+
 Qdrant distributes points across shards in one of two ways:
 
 - **Automatic sharding** (default): points are assigned to shards using a [consistent hashing](https://en.wikipedia.org/wiki/Consistent_hashing) algorithm, so each shard manages a non-overlapping subset of points without manual placement.
@@ -48,6 +50,8 @@ See [Sharding](/documentation/scaling/distributed_deployment/#sharding) in Distr
 ## Replication
 
 Qdrant allows you to replicate shards between nodes in the cluster, keeping several copies of a shard spread across the cluster. This ensures the availability of data in case of node failures, except if all replicas are lost.
+
+{{< figure src="/documentation/scaling/cluster-with-replication.png" alt="A three-node cluster with a collection with three shards and a replication factor of two. Each of the three shards (0, 1, and 2) is replicated onto two nodes." caption="A three-node cluster with a collection with three shards and a replication factor of two. Each of the three shards (0, 1, and 2) is replicated onto two nodes." >}}
 
 By default, Qdrant has no primary or secondary replicas. Writes execute in parallel on all active replicas of a shard, and any replica can serve reads or writes. A "leader" replica only exists when a collection is configured with `medium` or `strong` [write ordering](/documentation/scaling/distributed_deployment/#write-ordering); even then, the leader is dynamically elected rather than fixed, and it exists to serialize writes for consistency, not to act as a permanent primary. See [Replication factor](/documentation/scaling/distributed_deployment/#replication-factor) and [Creating new shard replicas](/documentation/scaling/distributed_deployment/#creating-new-shard-replicas) for how to configure replication.
 
