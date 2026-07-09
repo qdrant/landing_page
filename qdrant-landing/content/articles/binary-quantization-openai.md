@@ -100,6 +100,31 @@ you store:
 
 Each dimension now costs 1 bit instead of 32 bits, which gives roughly a 32x reduction in storage for the quantized representation.
 
+flowchart LR
+    subgraph FP["Full precision — float32"]
+        direction TB
+        F0["bit 1"]
+        Fdots["... 30 more bits ..."]
+        F31["bit 32"]
+        F0 --- Fdots --- F31
+    end
+
+    subgraph BQ["Binary quantized"]
+        direction TB
+        B0["1 bit"]
+    end
+
+    FP -->|"keep the sign only:<br/>value ≥ 0 → 1, value &lt; 0 → 0"| BQ
+
+    FP --- N1["32 bits per dimension"]
+    BQ --- N2["1 bit per dimension"]
+    N1 -->|"≈ 32x smaller"| N2
+
+    classDef big fill:#fde2e2,stroke:#e05252,color:#000;
+    classDef small fill:#dcf5e3,stroke:#3aa76d,color:#000;
+    class FP,F0,Fdots,F31,N1 big;
+    class BQ,B0,N2 small;
+
 ### Dimension reduction vs accuracy with Binary Quantization 
 
 The accompanying chart shows the best accuracy achieved with Binary Quantization across two Matryoshka-trained models, `mxbai-embed-large-v1` and `nomic-embed-text-v1.5`, measured as recall@10 against full-precision search. At each model's native dimension, Binary Quantization preserves search quality remarkably well: `mxbai-embed-large-v1` holds 0.9707 at 1024 dimensions, and `nomic-embed-text-v1.5` holds 0.9067 at 768 dimensions. Accuracy declines as the vectors are truncated more aggressively, falling to roughly 0.80 and 0.73 at 256 dimensions, which tells you where the storage-versus-precision trade-off starts to bite. 
