@@ -85,7 +85,7 @@ The filtered result will be a combination of the semantic search and the filteri
 
 ## When to Filter vs. When Not To
 
-Not every query benefits from filtering. Applying a filter has coordination cost: the query planner must resolve the filter against the index, estimate cardinality, and select an execution strategy. For very broad filters (high cardinality, matching most of the dataset), the overhead may outweigh the gain.
+In [vector search](/advanced-search/), filtering and sorting are more interdependent than they are in traditional databases. While databases like SQL use commands such as `WHERE` and `ORDER BY`, the interplay between these processes in vector search is a bit more complex. Not every query benefits from filtering. Applying a filter has coordination cost: the query planner must resolve the filter against the index, estimate cardinality, and select an execution strategy. For very broad filters (high cardinality, matching most of the dataset), the overhead may outweigh the gain.
 
 Use this decision tree to determine whether filtering is appropriate for a given query:
 
