@@ -406,12 +406,12 @@ Each has pros, cons and specific requirements, some of which are:
 [^unordered]: Weak ordering for updates: All records are streamed to the target node in order.
     New updates are received on the target node in parallel, while the transfer
     of records is still happening. We therefore have `weak` ordering, regardless
-    of what [ordering](#write-ordering) is used for updates.
+    of what [ordering](/documentation/scaling/consistency-guarantees/#write-ordering) is used for updates.
 [^ordered]: Strong ordering for updates: A snapshot of the shard
     is created, it is transferred and recovered on the target node. That ensures
     the state of the shard is kept consistent. New updates are queued on the
     source node, and transferred in order to the target node. Updates therefore
-    have the same [ordering](#write-ordering) as the user selects, making
+    have the same [ordering](/documentation/scaling/consistency-guarantees/#write-ordering) as the user selects, making
     `strong` ordering possible.
 
 To select a shard transfer method, specify the `method` like:

@@ -104,7 +104,7 @@ To create a production-ready cluster, you need to ensure the following:
 
 **High Availability**
 
-Your cluster should have at least 3 nodes, and each collection should have a replication factor of at least 2. This ensures that is one node fails, or is restarted due to maintenance, a version upgrade, or a scaling operation, that the cluster remains fully operational. You can ensure this by checking the **High Availability** checkbox when creating a cluster. A cluster without these settings runs with a single replica of each shard by default, which gets none of these guarantees; see [Single-replica clusters get none of this](/documentation/scaling/horizontal-scaling/#single-replica-clusters-get-none-of-this) for details.
+Your cluster should have at least 3 nodes, and each collection should have a replication factor of at least 2. This ensures that is one node fails, or is restarted due to maintenance, a version upgrade, or a scaling operation, that the cluster remains fully operational. You can ensure this by checking the **High Availability** checkbox when creating a cluster. A cluster without these settings runs with a single replica of each shard by default, which gets none of these guarantees; see [Setting Up a Resilient Qdrant Cluster](/documentation/scaling/resilience/#setting-up-a-resilient-qdrant-cluster) for details.
 
 **Multi AZ Deployment (Premium only)**
 
