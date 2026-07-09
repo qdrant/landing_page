@@ -62,7 +62,7 @@ The top of the leaderboard is a starting point, not a final answer. A benchmark 
 - **Memory and cost**: A 27-billion-parameter model needs far more RAM and compute to run than an open model you can host yourself. The largest models in our own experiment didn't fit on a 16 GB machine, which shaped what we could measure.
 - **Context length**: Match the maximum token limit to your documents. A model with a huge context window adds no value if your passages are short, and a short window forces you to chunk longer documents.
 
-There's rarely a single best model. The right choice is the one that meets your accuracy target while respecting your constraints on speed, cost, and infrastructure. Binary quantization widens your options here, because it makes high-dimensional, high-accuracy models affordable to store and fast to search, so you can often pick a stronger model than your memory budget would otherwise allow. High-accuracy models that produce high-dimensional vectors is where Binary Quantization pays off the most: each vector is expensive to store and search, so compressing it has a large impact.
+There's rarely a single best model. The right choice is the one that meets your accuracy target while respecting your constraints on speed, cost, and infrastructure. Binary Quantization widens your options here, because it makes high-dimensional, high-accuracy models affordable to store and fast to search, so you can often pick a stronger model than your memory budget would otherwise allow. High-accuracy models that produce high-dimensional vectors is where Binary Quantization pays off the most: each vector is expensive to store and search, so compressing it has a large impact.
 
 ## Enhanced performance and efficiency with Binary Quantization
 
