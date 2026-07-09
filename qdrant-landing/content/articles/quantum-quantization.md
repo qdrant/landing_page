@@ -3,7 +3,7 @@ title: Vector Search in constant time
 short_description: Apply Quantum Computing to your search engine
 description: Quantum Quantization enables vector search in constant time. This article will discuss the concept of quantum quantization for ANN vector search.
 preview_dir: /articles_data/quantum-quantization/preview
-social_preview_image: /articles_data/quantum-quantization/social_preview.png
+social_preview_image: /articles_data/quantum-quantization/preview/social_preview.jpg
 small_preview_image: /articles_data/quantum-quantization/icon.svg
 weight: 1000
 author: Prankstorm Team

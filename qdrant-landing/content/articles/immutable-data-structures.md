@@ -2,7 +2,7 @@
 title: "Immutable Data Structures in Qdrant"
 short_description: "Learn how immutable data structures improve vector search performance in Qdrant."
 description: "Learn how immutable data structures improve vector search performance in Qdrant."
-social_preview_image: /articles_data/immutable-data-structures/social_preview.png
+social_preview_image: /articles_data/immutable-data-structures/preview/social_preview.jpg
 preview_dir: /articles_data/immutable-data-structures/preview
 weight: 20
 author: Andrey Vasnetsov

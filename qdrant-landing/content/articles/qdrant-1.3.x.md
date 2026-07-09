@@ -2,7 +2,7 @@
 title: "Introducing Qdrant 1.3.0"
 short_description: "New version is out! Our latest release brings about some exciting performance improvements and much-needed fixes."
 description: "New version is out! Our latest release brings about some exciting performance improvements and much-needed fixes."
-social_preview_image: /articles_data/qdrant-1.3.x/social_preview.png
+social_preview_image: /articles_data/qdrant-1.3.x/preview/social-preview.jpg
 small_preview_image: /articles_data/qdrant-1.3.x/icon.svg
 preview_dir: /articles_data/qdrant-1.3.x/preview
 weight: 2

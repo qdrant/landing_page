@@ -7,7 +7,7 @@ description: Explore how Qdrant's Binary Quantization can significantly improve 
 preview_dir: /articles_data/binary-quantization-openai/preview
 preview_image: /articles-data/binary-quantization-openai/Article-Image.png
 small_preview_image: /articles_data/binary-quantization-openai/icon.svg
-social_preview_image: /articles_data/binary-quantization-openai/preview/social-preview.png
+social_preview_image: /articles_data/binary-quantization-openai/preview/social_preview.jpg
 title_preview_image: /articles_data/binary-quantization-openai/preview/preview.webp
 
 date: 2024-02-21T13:12:08-08:00

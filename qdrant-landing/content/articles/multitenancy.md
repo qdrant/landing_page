@@ -2,7 +2,7 @@
 title: "How to Implement Multitenancy and Custom Sharding in Qdrant"
 short_description: "Explore how Qdrant's multitenancy and custom sharding streamline machine-learning operations, enhancing scalability and data security."
 description: "Discover how multitenancy and custom sharding in Qdrant can streamline your machine-learning operations. Learn how to scale efficiently and manage data securely."
-social_preview_image: /articles_data/multitenancy/social_preview.png
+social_preview_image: /articles_data/multitenancy/preview/social_preview.jpg
 preview_dir: /articles_data/multitenancy/preview
 small_preview_image: /articles_data/multitenancy/icon.svg
 weight: 60

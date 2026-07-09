@@ -2,7 +2,7 @@
 title: "Qdrant 1.7.0 has just landed!"
 short_description: "Qdrant 1.7.0 brought a bunch of new features. Let's take a closer look at them!"
 description: "Sparse vectors, Discovery API, user-defined sharding, and snapshot-based shard transfer. That's what you can find in the latest Qdrant 1.7.0 release!"
-social_preview_image: /articles_data/qdrant-1.7.x/social_preview.png
+social_preview_image: /articles_data/qdrant-1.7.x/preview/social_preview.jpg
 small_preview_image: /articles_data/qdrant-1.7.x/icon.svg
 preview_dir: /articles_data/qdrant-1.7.x/preview
 weight: -90

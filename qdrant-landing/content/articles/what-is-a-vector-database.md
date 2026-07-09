@@ -6,7 +6,6 @@ description: Discover what a vector database is, its core functionalities, and r
 preview_dir: /articles_data/what-is-a-vector-database/preview
 weight: 30
 social_preview_image: /articles_data/what-is-a-vector-database/preview/social_preview.png
-small_preview_image: /articles_data/what-is-a-vector-database/icon.svg
 date: 2024-10-09T09:29:33-03:00
 aliases: [ /blog/what-is-a-vector-database/ ]
 author: Sabrina Aquino 

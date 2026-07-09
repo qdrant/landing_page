@@ -2,7 +2,7 @@
 title: "Data Exploration with Qdrant's Distance Matrix API"
 short_description: "Efficient visualization and clusterization of high-dimensional data with Qdrant"
 description: "Explore your data under a new angle with Qdrant's tools for dimensionality reduction, clusterization, and visualization."
-social_preview_image: /articles_data/distance-based-exploration/social-preview.jpg
+social_preview_image: /articles_data/distance-based-exploration/preview/social_preview.jpg
 preview_dir: /articles_data/distance-based-exploration/preview
 weight: 10
 author: Andrey Vasnetsov
