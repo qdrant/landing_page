@@ -2,7 +2,7 @@
 title: Distributed Deployment
 short_description: "Run Qdrant in distributed mode across multiple nodes for higher availability, scalable throughput, and fault-tolerant vector search."
 description: "Configure distributed Qdrant deployments to scale storage, balance load, and tolerate node failures using sharding and replication across a cluster."
-weight: 15
+weight: 20
 aliases:
   - /documentation/distributed_deployment
   - /guides/distributed_deployment
@@ -11,7 +11,9 @@ aliases:
 
 # Distributed Deployment
 
-Since version v0.8.0 Qdrant supports a distributed deployment mode.
+*Available since Qdrant v0.8.0*
+
+Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
 ## Enabling Distributed Mode in Self-Hosted Qdrant
@@ -117,11 +119,9 @@ Note that enabling distributed mode does not automatically replicate your data. 
 
 For best results, first ensure your cluster is running Qdrant v1.7.4 or higher. Older versions of Qdrant do support distributed mode, but improvements in v1.7.4 make distributed clusters more resilient during outages.
 
-In the [Qdrant Cloud console](https://cloud.qdrant.io/), click "Scale Up" to increase your cluster size to >1. Qdrant Cloud configures the distributed mode settings automatically.
+To enable distributed mode, in the [Qdrant Cloud console](https://cloud.qdrant.io/), click "Scale Cluster" and select the desired node count.
 
 Additionally, Qdrant Cloud also offers the ability to automatically rebalance and to reshard your collections, which is not available in self-hosted Qdrant.  See the [Resharding](/documentation/cloud/cluster-scaling/#resharding) and [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing) sections in for more details.
-
-After the scale-up process completes, you will have a new empty node running alongside your existing node(s). To replicate data into this new empty node, see the next section.
 
 ## Making Use of a New Distributed Qdrant Cluster
 
@@ -132,19 +132,11 @@ When you enable distributed mode and scale up to two or more nodes, your data do
 * If you already have enough shards for each node, and you merely need to replicate your data, follow the directions for [creating new shard replicas](#creating-new-shard-replicas).
 * If you already have enough shards for each node, and your data is already replicated, you can move data (without replicating it) onto the new node(s) by [moving shards](#moving-shards).
 
-Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to keep the cluster topology and collection structure consistent across nodes. For how consensus works and what it means for availability, see [Raft consensus](/documentation/scaling/horizontal-scaling/#raft-consensus) in Horizontal Scaling and Resilience.
+Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to keep the cluster topology and collection structure consistent across nodes. For how consensus works and what it means for availability, see [Raft consensus](/documentation/scaling/horizontal-scaling/#raft-consensus) in Horizontal Scaling.
 
 ## Sharding
 
-A Collection in Qdrant is made of one or more shards.
-A shard is an independent store of points which is able to perform all operations provided by collections.
-There are two methods of distributing points across shards:
-
-- **Automatic sharding**: Points are distributed among shards by using a [consistent hashing](https://en.wikipedia.org/wiki/Consistent_hashing) algorithm, so that shards are managing non-intersecting subsets of points. This is the default behavior.
-
-- **User-defined sharding**: _Available as of v1.7.0_ - Each point is uploaded to a specific shard, so that operations can hit only the shard or shards they need. Even with this distribution, shards still ensure having non-intersecting subsets of points. [See more...](#user-defined-sharding)
-
-Each node knows where all parts of the collection are stored through the [consensus protocol](/documentation/scaling/horizontal-scaling/#raft-consensus), so when you send a search request to one Qdrant node, it automatically queries all other nodes to obtain the full search result.
+Qdrant distributes a collection's points across shards to scale horizontally. For how sharding works conceptually, see [Sharding](/documentation/scaling/horizontal-scaling/#sharding) in Horizontal Scaling.
 
 ### Choosing the Right Number of Shards
 
@@ -269,7 +261,11 @@ To ensure all nodes in your cluster are evenly utilized, the number of shards mu
 
 > Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/articles/multitenancy/).
 
-For guidance on how many shards to create, see [Sharding](/documentation/scaling/horizontal-scaling/#sharding) in Horizontal Scaling.
+We recommend creating at least 2 shards per node to allow future expansion without having to re-shard. [Resharding](/documentation/cloud/cluster-scaling/#resharding) is possible on Qdrant Cloud, but should be avoided if hosting elsewhere as it would require creating a new collection.
+
+If you anticipate a lot of growth, we recommend 12 shards since you can expand from 1 node up to 2, 3, 6, and 12 nodes without having to re-shard. Having more than 12 shards in a small cluster may not be worth the performance overhead.
+
+### Rebalancing
 
 Shards are evenly distributed across all existing nodes when a collection is first created.
 
@@ -281,6 +277,8 @@ When you add or remove nodes from the cluster, rebalancing of existing shards ac
 ### Resharding
 
 *Available as of v1.13.0 in Cloud*
+
+<aside role="alert">Resharding a large collection can take a long time. It's better to set the desired shard count when <a href="#choosing-the-right-number-of-shards">creating a collection</a>.</aside>
 
 Resharding allows you to change the number of shards in your existing collections if you're hosting with our [Cloud](/documentation/deploy-intro/) offering.
 
@@ -329,7 +327,9 @@ After that, Qdrant will exclude the node from the consensus, and the instance wi
 
 *Available as of v1.7.0*
 
-For why you'd use user-defined sharding, see [Sharding](/documentation/scaling/horizontal-scaling/#sharding) in Horizontal Scaling. To enable it, set `sharding_method` to `custom` during collection creation:
+Qdrant allows you to specify the shard for each point individually. This feature is useful if you want to control the shard placement of your data, so that operations can hit only the subset of shards they actually need. In big clusters, this can significantly improve the performance of operations that do not require the whole collection to be scanned.
+
+A use-case for this feature is managing a [multi-tenant collection](/documentation/manage-data/multitenancy/), where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-custom-sharding/" >}}
 
@@ -474,11 +474,11 @@ to recover dead shards.
 
 ## Replication
 
-Qdrant allows you to replicate shards between nodes in the cluster, keeping several copies of a shard spread across the cluster. For how replication shapes Qdrant's resilience model, including what happens to writes by default, see [Replication model](/documentation/scaling/horizontal-scaling/#replication-model) in Horizontal Scaling and Resilience.
+Shards can be [replicated](/documentation/scaling/horizontal-scaling/#replication) between nodes in the cluster, keeping several copies of a shard spread across the cluster. This enables you to scale your read throughput and tolerate node failures.
 
 ### Replication Factor
 
-When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/ops-configuration/configuration/#configuration-options). You can change that by setting the `replication_factor` when you create a collection.
+When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to `1`, meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/ops-configuration/configuration/#configuration-options). You can change the default per-collection by setting the `replication_factor` when you create a collection.
 
 The `replication_factor` can be updated for an existing collection, but the effect of this depends on how you're running Qdrant. If you're hosting the open source version of Qdrant yourself, changing the replication factor after collection creation doesn't do anything. You can manually [create](#creating-new-shard-replicas) or drop shard replicas to achieve your desired replication factor. In Qdrant Cloud (including Hybrid Cloud, Private Cloud) your shards will automatically be replicated or dropped to match your configured replication factor.
 
@@ -683,17 +683,3 @@ All shards, stored on the listener node, will be converted to the `Listener` sta
 
 Additionally, all write requests sent to the listener node will be processed with `wait=false` option, which means that the write operations will be considered successful once they are written to WAL.
 This mechanism should allow to minimize upsert latency in case of parallel snapshotting.
-
-## Consensus Checkpointing
-
-For what consensus checkpointing is and why Raft needs it, see [Raft Consensus](/documentation/scaling/horizontal-scaling/#raft-consensus) in Horizontal Scaling.
-
-To force a checkpoint, call the `/cluster/recover` API on the required node:
-
-```http
-POST /cluster/recover
-```
-
-This API can be triggered on any non-leader node, it will send a request to the current consensus leader to create a snapshot. The leader will in turn send the snapshot back to the requesting node for application.
-
-In some cases, this API can be used to recover from an inconsistent cluster state by forcing a snapshot creation.
