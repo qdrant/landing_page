@@ -16,11 +16,22 @@ Two settings determine how resilient a Qdrant cluster is:
 - **Replication factor** controls how many copies of each shard exist. More copies mean your data survives the loss of more nodes.
 - **Node count** controls how many independent machines those copies can be spread across, and how many nodes can vote in the [Raft consensus](/documentation/scaling/horizontal-scaling/#raft-consensus) that manages collection operations.
 
-These two settings work together. A high replication factor on a single node still leaves you with a single point of failure, since all copies sit on the same machine. A large node count with a replication factor of one means data loss is permanent the moment a node fails, even though the rest of the cluster keeps running. Resilience comes from provisioning both together: enough nodes, and enough replicas spread across them. See [How many Qdrant nodes should I run?](/documentation/scaling/distributed_deployment/#how-many-qdrant-nodes-should-i-run) for concrete recommendations.
+These two settings work together. A high replication factor on a single node still leaves you with a single point of failure, since all copies sit on the same machine. A large node count with a replication factor of one means data loss is permanent the moment a node fails, even though the rest of the cluster keeps running. Resilience comes from provisioning both together: enough nodes, and enough replicas spread across them. See [How many Qdrant nodes should I run?](/documentation/scaling/horizontal-scaling/#how-many-qdrant-nodes-should-i-run) for concrete recommendations.
 
 ### Single-Replica Clusters Get None of This
 
 By default, a Qdrant collection has a `replication_factor` of one: a single, unreplicated copy of each shard. A single-replica cluster gets none of the high-availability guarantees that replication enables, including Multi-AZ protection, automatic failover, and zero-downtime upgrades. All of these depend on having at least two replicas of every shard spread across at least two nodes. See [Replication factor](/documentation/scaling/distributed_deployment/#replication-factor) to configure it.
+
+## Temporary Node Failure
+
+If properly configured, running Qdrant in distributed mode makes your cluster resistant to outages when one node fails temporarily. Here is how differently-configured Qdrant clusters respond:
+
+- 1-node clusters: All operations time out or fail for up to a few minutes. It depends on how long it takes to restart and load data from disk.
+- 2-node clusters where shards ARE NOT replicated: All operations will time out or fail for up to a few minutes. It depends on how long it takes to restart and load data from disk.
+- 2-node clusters where all shards ARE replicated to both nodes: All requests except for operations on collections continue to work during the outage.
+- 3+-node clusters where all shards are replicated to at least 2 nodes: All requests continue to work during the outage.
+
+For the steps to recover from a permanent node loss, see [Node Failure Recovery](/documentation/scaling/distributed_deployment/#node-failure-recovery).
 
 ## Multi-AZ vs. Replication Factor
 
@@ -33,12 +44,12 @@ Creating a multi-node cluster with replication does not automatically distribute
 
 ## Resilience Terminology: Uptime vs. Data Integrity
 
-The [How many Qdrant nodes should I run?](/documentation/scaling/distributed_deployment/#how-many-qdrant-nodes-should-i-run) decision guide uses two specific senses of "resilience" that are easy to conflate:
+The [How many Qdrant nodes should I run?](/documentation/scaling/horizontal-scaling/#how-many-qdrant-nodes-should-i-run) decision guide uses two specific senses of "resilience" that are easy to conflate:
 
 - **Resilience (uptime)** refers narrowly to collection-management operations, such as create, edit, and delete. It does not mean query or write availability. A cluster can lose a node and keep serving search and write requests while still being unable to perform collection operations, which require a majority of nodes to be healthy.
 - **Resilience (data integrity)** refers to whether your data survives the permanent loss of a node. This depends on replication factor and node count together, not on uptime.
 
-See [Temporary Node Failure](/documentation/scaling/distributed_deployment/#temporary-node-failure) for exactly how differently-configured clusters behave when a node goes down.
+See [Temporary Node Failure](#temporary-node-failure) for exactly how differently-configured clusters behave when a node goes down.
 
 ## Failover Best Practices
 

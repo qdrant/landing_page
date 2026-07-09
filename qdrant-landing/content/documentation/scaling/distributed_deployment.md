@@ -14,27 +14,6 @@ aliases:
 Since version v0.8.0 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
-## How Many Qdrant Nodes Should I Run?
-
-The ideal number of Qdrant nodes depends on how much you value cost-saving, resilience, and performance/scalability in relation to each other.
-
-- **Prioritizing cost-saving**: If cost is most important to you, run a single Qdrant node. This is not recommended for production environments. Drawbacks:
-  - Resilience: Users will experience downtime during node restarts, and recovery is not possible unless you have backups or snapshots.
-  - Performance: Limited to the resources of a single server.
-
-- **Prioritizing resilience**: If resilience is most important to you, run a Qdrant cluster with three or more nodes and two or more shard replicas. Clusters with three or more nodes and replication can perform all operations even while one node is down. Additionally, they gain performance benefits from load-balancing and they can recover from the permanent loss of one node without the need for backups or snapshots (but backups are still strongly recommended). This is most recommended for production environments. Drawbacks:
-   - Cost: Larger clusters are more costly than smaller clusters, which is the only drawback of this configuration.
-
-- **Balancing cost, resilience, and performance**: Running a two-node Qdrant cluster with replicated shards allows the cluster to respond to most read/write requests even when one node is down, such as during maintenance events. Having two nodes also means greater performance than a single-node cluster while still being cheaper than a three-node cluster. Drawbacks:
-   - Resilience (uptime): "Uptime" here means the ability to perform operations on collections, such as create, edit, or delete, not the ability to serve search and write requests. The cluster cannot perform collection operations when one node is down, since those require >50% of nodes to be running, which is only possible in a 3+ node cluster. Since creating, editing, and deleting collections are usually rare operations, many users find this drawback to be negligible. See [Temporary node failure](#temporary-node-failure) for what actually happens to search and write requests during an outage.
-   - Resilience (data integrity): If the data on one of the two nodes is permanently lost or corrupted, it cannot be recovered aside from snapshots or backups. Only 3+ node clusters can recover from the permanent loss of a single node since recovery operations require >50% of the cluster to be healthy.
-   - Cost: Replicating your shards requires storing two copies of your data.
-   - Performance: The maximum performance of a Qdrant cluster increases as you add more nodes.
-
-"Uptime" and "data integrity" are both forms of resilience but mean different things; see [Resilience terminology](/documentation/scaling/horizontal-scaling/#resilience-terminology-uptime-vs-data-integrity) for the distinction, and [How resilience works](/documentation/scaling/horizontal-scaling/#how-resilience-works) for the bigger picture on how replication factor and node count together determine it.
-
-In summary, single-node clusters are best for non-production workloads, replicated 3+ node clusters are the gold standard, and replicated 2-node clusters strike a good balance.
-
 ## Enabling Distributed Mode in Self-Hosted Qdrant
 
 To enable distributed deployment - enable the cluster mode in the [configuration](/documentation/ops-configuration/configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
@@ -290,9 +269,7 @@ To ensure all nodes in your cluster are evenly utilized, the number of shards mu
 
 > Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/articles/multitenancy/).
 
-We recommend creating at least 2 shards per node to allow future expansion without having to re-shard. [Resharding](#resharding) is possible when using our cloud offering, but should be avoided if hosting elsewhere as it would require creating a new collection.
-
-If you anticipate a lot of growth, we recommend 12 shards since you can expand from 1 node up to 2, 3, 6, and 12 nodes without having to re-shard. Having more than 12 shards in a small cluster may not be worth the performance overhead.
+For guidance on how many shards to create, see [Sharding](/documentation/scaling/horizontal-scaling/#sharding) in Horizontal Scaling.
 
 Shards are evenly distributed across all existing nodes when a collection is first created.
 
@@ -352,11 +329,7 @@ After that, Qdrant will exclude the node from the consensus, and the instance wi
 
 *Available as of v1.7.0*
 
-Qdrant allows you to specify the shard for each point individually. This feature is useful if you want to control the shard placement of your data, so that operations can hit only the subset of shards they actually need. In big clusters, this can significantly improve the performance of operations that do not require the whole collection to be scanned.
-
-A clear use-case for this feature is managing a multi-tenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards.
-
-To enable user-defined sharding, set `sharding_method` to `custom` during collection creation:
+For why you'd use user-defined sharding, see [Sharding](/documentation/scaling/horizontal-scaling/#sharding) in Horizontal Scaling. To enable it, set `sharding_method` to `custom` during collection creation:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-custom-sharding/" >}}
 
@@ -668,20 +641,6 @@ POST /collections/{collection_name}/cluster
 
 Keep in mind that a collection must contain at least one active replica of a shard.
 
-### Error Handling
-
-Replicas can be in different states:
-
-- Active: healthy and ready to serve traffic
-- Dead: unhealthy and not ready to serve traffic
-- Partial: currently under resynchronization before activation
-
-A replica is marked as dead if it does not respond to internal healthchecks or if it fails to serve traffic.
-
-A dead replica will not receive traffic from other peers and might require a manual intervention if it does not recover automatically.
-
-This mechanism ensures data consistency and availability if a subset of the replicas fail during an update operation.
-
 ### Node Failure Recovery
 
 Sometimes hardware malfunctions might render some nodes of the Qdrant cluster unrecoverable.
@@ -733,16 +692,7 @@ The service will download the specified snapshot of the collection and recover s
 
 Once all shards of the collection are recovered, the collection will become operational again.
 
-### Temporary Node Failure
-
-If properly configured, running Qdrant in distributed mode can make your cluster resistant to outages when one node fails temporarily.
-
-Here is how differently-configured Qdrant clusters respond:
-
-* 1-node clusters: All operations time out or fail for up to a few minutes. It depends on how long it takes to restart and load data from disk.
-* 2-node clusters where shards ARE NOT replicated: All operations will time out or fail for up to a few minutes. It depends on how long it takes to restart and load data from disk.
-* 2-node clusters where all shards ARE replicated to both nodes: All requests except for operations on collections continue to work during the outage.
-* 3+-node clusters where all shards are replicated to at least 2 nodes: All requests continue to work during the outage.
+For how differently-configured clusters respond to a temporary node failure, see [Temporary Node Failure](/documentation/scaling/resilience/#temporary-node-failure) in Resilience.
 
 ## Consistency Guarantees
 
@@ -1311,15 +1261,9 @@ This mechanism should allow to minimize upsert latency in case of parallel snaps
 
 ## Consensus Checkpointing
 
-Consensus checkpointing is a technique used in Raft to improve performance and simplify log management by periodically creating a consistent snapshot of the system state.
-This snapshot represents a point in time where all nodes in the cluster have reached agreement on the state, and it can be used to truncate the log, reducing the amount of data that needs to be stored and transferred between nodes.
+For what consensus checkpointing is and why Raft needs it, see [Raft Consensus](/documentation/scaling/horizontal-scaling/#raft-consensus) in Horizontal Scaling.
 
-For example, if you attach a new node to the cluster, it should replay all the log entries to catch up with the current state.
-In long-running clusters, this can take a long time, and the log can grow very large.
-
-To prevent this, one can use a special checkpointing mechanism, that will truncate the log and create a snapshot of the current state.
-
-To use this feature, simply call the `/cluster/recover` API on required node:
+To force a checkpoint, call the `/cluster/recover` API on the required node:
 
 ```http
 POST /cluster/recover
