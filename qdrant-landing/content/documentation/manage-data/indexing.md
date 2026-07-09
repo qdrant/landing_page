@@ -47,6 +47,8 @@ To create a payload index for a field:
 
 You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](/documentation/search/filtering/#nested-key).
 
+When the payload keys themselves are open-ended, indexing each key separately does not scale. Reshape the keys into values under a fixed field and index it at collection setup. See [Indexing Payloads of Random Shape](/documentation/tutorials-search-engineering/index-dynamic-payloads/) for the modeling pattern.
+
 **Payload indexes should be created before ingesting data.** [Qdrant's filterable HNSW index](#filterable-hnsw-index) only benefits from additional filter-aware edges when it is generated after the payload indexes have been created. If you create a payload index after data has already been ingested, you need to [rebuild the HNSW index](#rebuild-the-hnsw-index) to take advantage of the new payload indexes.
 
 ### Block Queries That Filter on Unindexed Fields
