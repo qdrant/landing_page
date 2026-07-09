@@ -36,3 +36,4 @@ When a node fails, the recovery path depends on whether the lost shards have rep
 - [Horizontal Scaling](/documentation/scaling/horizontal-scaling/): how Qdrant's distributed model achieves scale.
 - [Resilience](/documentation/scaling/resilience/): fault tolerance, Multi-AZ, and failover best practices.
 - [Distributed Deployment](/documentation/scaling/distributed_deployment/): configure sharding, replication, and node recovery.
+- [Node Failure Recovery](/documentation/scaling/node-failure-recovery/): step-by-step procedures for recovering from a failed node.

@@ -39,7 +39,7 @@ Running Qdrant in distributed mode makes your cluster resistant to outages when 
 - 2-node clusters where all shards **are** replicated to both nodes: All requests except for operations on collections continue to work during the outage.
 - 3+-node clusters where all shards are replicated to at least 2 nodes: All requests continue to work during the outage.
 
-For the steps to recover from a permanent node loss, see [Node Failure Recovery](/documentation/scaling/distributed_deployment/#node-failure-recovery).
+For the steps to recover from a permanent node loss, see [Node Failure Recovery](/documentation/scaling/node-failure-recovery/).
 
 ## Multi-AZ vs. Replication Factor
 
@@ -56,7 +56,7 @@ How Qdrant responds to a node failure depends entirely on how the cluster is pro
 
 - **Run at least three nodes with a replication factor of two or more in production.** A single-replica cluster, which is the default, gets none of Qdrant's high-availability guarantees: no automatic failover, no Multi-AZ protection, and no zero-downtime upgrades. All of these depend on having replicated data spread across multiple nodes.
 - **Enable Multi-AZ if you need protection against a zone-level outage.** Replication alone doesn't guarantee that your nodes, and therefore your replicas, are spread across separate availability zones. Multi-AZ must be enabled explicitly at cluster creation.
-- **Self-hosted Qdrant does not fail over automatically.** If a node fails permanently, you need to remove it from consensus and attach a replacement node yourself. See [Node Failure Recovery](/documentation/scaling/distributed_deployment/#node-failure-recovery) for the recovery steps.
+- **Self-hosted Qdrant does not fail over automatically.** If a node fails permanently, you need to remove it from consensus and attach a replacement node yourself. See [Node Failure Recovery](/documentation/scaling/node-failure-recovery/) for the recovery steps.
 - **Qdrant Cloud (Managed, Hybrid, and Private) adds automatic failover on top of replication**, so Qdrant Cloud detects and replaces a failed node without manual intervention, provided your cluster has enough replicas to tolerate the loss.
 - **Monitor cluster health so you can react before a second failure compounds the first.** See [Monitoring & Telemetry](/documentation/ops-monitoring/) for setting up Prometheus and Grafana against your cluster.
 

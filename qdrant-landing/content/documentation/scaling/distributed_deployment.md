@@ -641,58 +641,7 @@ POST /collections/{collection_name}/cluster
 
 Keep in mind that a collection must contain at least one active replica of a shard.
 
-### Node Failure Recovery
-
-Sometimes hardware malfunctions might render some nodes of the Qdrant cluster unrecoverable.
-No system is immune to this.
-
-But several recovery scenarios allow qdrant to stay available for requests and even avoid performance degradation.
-Let's walk through them from best to worst.
-
-**Recover with replicated collection**
-
-If the number of failed nodes is less than the replication factor of the collection, then your cluster should still be able to perform read, search and update queries.
-
-Now, if the failed node restarts, consensus will trigger the replication process to update the recovering node with the newest updates it has missed.
-
-If the failed node never restarts, you can recover the lost shards if you have a 3+ node cluster. You cannot recover lost shards in smaller clusters because recovery operations go through [Raft](/documentation/scaling/horizontal-scaling/#raft-consensus) which requires >50% of the nodes to be healthy.
-
-**Recreate node with replicated collections**
-
-If a node fails and it is impossible to recover it, you should exclude the dead node from the consensus and create an empty node.
-
-To exclude failed nodes from the consensus, use [remove peer](https://api.qdrant.tech/master/api-reference/distributed/remove-peer) API.
-Apply the `force` flag if necessary.
-
-When you create a new node, make sure to attach it to the existing cluster by specifying `--bootstrap` CLI parameter with the URL of any of the running cluster nodes.
-
-Once the new node is ready and synchronized with the cluster, you might want to ensure that the collection shards are replicated enough. Remember that Qdrant will not automatically balance shards since this is an expensive operation.
-Use the [Replicate Shard Operation](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster) to create another copy of the shard on the newly connected node.
-
-It's worth mentioning that Qdrant only provides the necessary building blocks to create an automated failure recovery.
-Building a completely automatic process of collection scaling would require control over the cluster machines themself.
-Check out our [cloud solution](https://qdrant.to/cloud), where we made exactly that.
-
-
-**Recover from snapshot**
-
-If there are no copies of data in the cluster, it is still possible to recover from a snapshot.
-
-Follow the same steps to detach failed node and create a new one in the cluster:
-
-* To exclude failed nodes from the consensus, use [remove peer](https://api.qdrant.tech/master/api-reference/distributed/remove-peer) API. Apply the `force` flag if necessary.
-* Create a new node, making sure to attach it to the existing cluster by specifying the `--bootstrap` CLI parameter with the URL of any of the running cluster nodes.
-
-Snapshot recovery, used in single-node deployment, is different from cluster one.
-Consensus manages all metadata about all collections and does not require snapshots to recover it.
-But you can use snapshots to recover missing shards of the collections.
-
-Use the [Collection Snapshot Recovery API](/documentation/snapshots/#recover-in-cluster-deployment) to do it.
-The service will download the specified snapshot of the collection and recover shards with data from it.
-
-Once all shards of the collection are recovered, the collection will become operational again.
-
-For how differently-configured clusters respond to a temporary node failure, see [Temporary Node Failure](/documentation/scaling/resilience/#temporary-node-failure) in Resilience.
+For step-by-step recovery procedures when a node fails permanently, see [Node Failure Recovery](/documentation/scaling/node-failure-recovery/). For how differently-configured clusters respond to a temporary node failure, see [Temporary Node Failure](/documentation/scaling/resilience/#temporary-node-failure) in Resilience.
 
 ## Consistency Guarantees
 
