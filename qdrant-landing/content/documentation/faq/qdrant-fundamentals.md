@@ -205,7 +205,7 @@ By default, `hnsw_ef` equals `ef_construct` (default: 100). `ef_construct` is a 
 
 ### What are the default `rescore` values for different quantization methods?
 
-Only binary quantization uses rescoring by default. All other quantization methods do not rescore by default. The default behavior can be overridden with the query-time `rescore` parameter.
+By default, rescoring is only enabled for four quantization methods: binary quantization, TurboQuant 1 Bit, TurboQuant 1.5 Bit, and TurboQuant 2 Bit. Other quantization methods do not rescore by default. The default behavior can be overridden with the query-time `rescore` parameter.
 
 ### What does `ignore=true` do in quantization search params?
 
