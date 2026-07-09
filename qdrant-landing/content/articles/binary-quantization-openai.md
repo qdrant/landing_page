@@ -52,7 +52,17 @@ Because the rankings change constantly, the best way to stay current is to check
 | 2 | [tencent/KaLM-Embedding-Gemma3-12B-2511](https://huggingface.co/tencent/KaLM-Embedding-Gemma3-12B-2511) | 3840 | 32,768 | 72.32 |
 | 3 | [nvidia/llama-embed-nemotron-8b](https://huggingface.co/nvidia/llama-embed-nemotron-8b) | 4096 | 32,768 | 69.46 |
 
-These leaders are large, high-accuracy models that produce high-dimensional vectors, which is exactly the case where Binary Quantization pays off most: each vector is expensive to store and search, so compressing it has a large impact.
+### Choosing the right model for your use case
+
+The top of the leaderboard is a starting point, not a final answer. A benchmark reports an average score across many tasks, so the model that ranks first overall is rarely the model that fits your specific workload, hardware, and budget best. Before you commit, weigh the following factors against your requirements:
+
+- **Task and domain fit**: A model that leads a general benchmark may trail a smaller, specialized model on your domain, whether that's code, legal text, biomedical literature, or short product queries. Test candidates on your own data before you decide.
+- **Language coverage**: If you serve a specific set of languages, a model tuned for those languages can beat a higher-ranked multilingual model. A broad "100+ languages" claim doesn't guarantee strong quality for each one.
+- **Latency and throughput**: Larger models take longer to encode text and cost more per query. For real-time search or high query volumes, a faster mid-sized model often delivers a better experience than the top-ranked one.
+- **Memory and cost**: A 27-billion-parameter model needs far more RAM and compute to run than an open model you can host yourself. The largest models in our own experiment didn't fit on a 16 GB machine, which shaped what we could measure.
+- **Context length**: Match the maximum token limit to your documents. A model with a huge context window adds no value if your passages are short, and a short window forces you to chunk longer documents.
+
+There's rarely a single best model. The right choice is the one that meets your accuracy target while respecting your constraints on speed, cost, and infrastructure. Binary quantization widens your options here, because it makes high-dimensional, high-accuracy models affordable to store and fast to search, so you can often pick a stronger model than your memory budget would otherwise allow. High-accuracy models that produce high-dimensional vectors is where Binary Quantization pays off the most: each vector is expensive to store and search, so compressing it has a large impact.
 
 ## Enhanced performance and efficiency with Binary Quantization
 
