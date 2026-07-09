@@ -16,9 +16,11 @@ Filtering is Qdrant's mechanism for combining semantic retrieval with predicate-
 
 Take an e-commerce scenario where a customer searches for a budget computer. Vector search alone surfaces the most semantically similar results, but similarity has no concept of price. Without a payload filter, a $1,299 laptop ranks second simply because its embedding is close to the query. Add a `price ≤ $1,000` filter and Qdrant evaluates the constraint before scoring: over-budget candidates are excluded entirely, never ranked, never returned. The result set is both relevant and correct.
 
-<img width="1600" height="946" alt="53dd43b7-1854-491b-8463-a8f702300756" src="https://github.com/user-attachments/assets/0c3317e8-5a4d-47dd-9f6c-6fe12544e7e8" />
+<figure>
+  <img src="https://github.com/user-attachments/assets/0c3317e8-5a4d-47dd-9f6c-6fe12544e7e8" alt="A budget query where an over-budget laptop is excluded by a price filter before scoring" width="1600" height="946">
+</figure>
 
-## Data model: points, vectors, and payloads
+## Data Model: Points, Vectors, and Payloads
 
 When storing data in Qdrant, each product is a point, consisting of an id, a vector and payload:
 
@@ -39,7 +41,7 @@ When storing data in Qdrant, each product is a point, consisting of an id, a vec
 
 Though we may not be able to decipher the vector, we are able to derive additional information about the item from its metadata, In this specific case, we are looking at a data point for a laptop that costs $899.99.
 
-## What is filtering?
+## What Is Filtering?
 
 When searching for the perfect computer, your customers may end up with results that are mathematically similar to the search entry, but not exact. For example, if they are searching for laptops under $1000, a simple [vector search](https://qdrant.tech/advanced-search/) without constraints might still show other laptops over $1000.
 
@@ -81,18 +83,19 @@ The filtered result will be a combination of the semantic search and the filteri
 1. With filtering in Qdrant, you can dramatically increase search precision. More on this in the next section.
 2. Filtering helps control resources and reduce compute use. More on this in [Payload Indexing](https://qdrant.tech/articles/vector-search-filtering/#filtering-with-the-payload-index).
 
-## When to filter vs. when not to
+## When to Filter vs. When Not To
 
 Not every query benefits from filtering. Applying a filter has coordination cost: the query planner must resolve the filter against the index, estimate cardinality, and select an execution strategy. For very broad filters (high cardinality, matching most of the dataset), the overhead may outweigh the gain.
 
 Use this decision tree to determine whether filtering is appropriate for a given query:
 
-<img width="940" height="488" alt="Screenshot 2026-07-03 at 18 23 03" src="https://github.com/user-attachments/assets/554f104f-9357-4e8e-aa0e-ac9c73c60184" />
+<figure>
+  <img src="https://github.com/user-attachments/assets/554f104f-9357-4e8e-aa0e-ac9c73c60184" alt="Decision tree for choosing whether to apply a filter based on filter selectivity" width="940" height="488">
+</figure>
 
+## How Qdrant Handles Filtered Vector Search
 
-## How Qdrant handles filtered vector search
-
-### The filterable HNSW index
+### The Filterable HNSW Index
 
 Qdrant's default vector index is HNSW (Hierarchical Navigable Small World), a graph-based approximate nearest neighbor structure. Each point is a node; edges connect points that are geometrically close.
 
@@ -100,31 +103,32 @@ When a filter is applied, some nodes become ineligible. In a naive implementatio
 
 Qdrant solves this by building **additional edges** between eligible nodes that would otherwise be separated. This produces a filterable HNSW graph that remains traversable after any subset of nodes is excluded.
 
-**Figure 1:** Qdrant's filterable vector index maintains additional links between eligible points so the traversal can still reach valid nearest neighbors after filtering.
+<figure>
+  <img src="https://github.com/user-attachments/assets/527e4c15-fcac-453e-beab-15d1f5d19aa4" alt="A filterable HNSW graph with extra links keeping eligible points reachable after filtering" width="1470" height="709">
+  <figcaption>Figure 1: Qdrant's filterable vector index maintains additional links between eligible points so the traversal can still reach valid nearest neighbors after filtering.</figcaption>
+</figure>
 
-<img width="1470" height="709" alt="Screenshot 2026-07-03 at 18 35 05" src="https://github.com/user-attachments/assets/527e4c15-fcac-453e-beab-15d1f5d19aa4" />
-
-### Pre-filtering and post-filtering: why neither works alone
+### Pre-Filtering and Post-Filtering: Why Neither Works Alone
 
 The filterable vector index is Qdrant’s solves pre and post-filtering problems by adding specialized links to the search graph. It aims to maintain the speed advantages of vector search while allowing for precise filtering, addressing the inefficiencies that can occur when applying filters after the vector search.
 
 **Pre-filtering** narrows the dataset by payload predicate first, then runs vector search over the filtered subset. This is efficient when the filter is highly selective (few results survive). When the filter is broad (many results survive), the HNSW graph over the filtered subset is fragmented—too many links have been removed—and search accuracy degrades.
 
-**Figure 2:** Pre-filtering narrows candidates by payload before similarity ranking.
-
-<img width="667" height="350" alt="Screenshot 2026-07-03 at 01 16 48" src="https://github.com/user-attachments/assets/e32d2277-7971-465d-a65e-c05c94950c6d" />
-
+<figure>
+  <img src="https://github.com/user-attachments/assets/e32d2277-7971-465d-a65e-c05c94950c6d" alt="Pre-filtering narrowing candidates by payload before similarity ranking" width="667" height="350">
+  <figcaption>Figure 2: Pre-filtering narrows candidates by payload before similarity ranking.</figcaption>
+</figure>
 
 **Post-filtering** runs vector search first, retrieves a large candidate set, then applies the filter. This is accurate when the filter is broad (most candidates pass). When the filter is selective, most retrieved candidates are discarded, wasting computation—and if the qualifying points were not in the initial candidate set, they will never appear in results at all.
 
-**Figure 3:** Post-filtering applies payload constraints after similarity ranking, which discards candidates that don't meet the filter.
-
-<img width="826" height="429" alt="Screenshot 2026-07-03 at 18 54 46" src="https://github.com/user-attachments/assets/3369fa3f-6246-4114-bd38-167a02359bf1" />
-
+<figure>
+  <img src="https://github.com/user-attachments/assets/3369fa3f-6246-4114-bd38-167a02359bf1" alt="Post-filtering applying payload constraints after ranking and discarding non-matching candidates" width="826" height="429">
+  <figcaption>Figure 3: Post-filtering applies payload constraints after similarity ranking, which discards candidates that don't meet the filter.</figcaption>
+</figure>
 
 Qdrant's filterable HNSW avoids this trade-off by building graph links that remain valid under any filter. The query planner also switches dynamically between HNSW traversal and payload-index-based retrieval depending on estimated filter cardinality—see [Payload indexing](#filtering-with-the-payload-index) below.
 
-## Filtering mechanics: conditions and clauses
+## Filtering Mechanics: Conditions and Clauses
 
 ### Clauses
 
@@ -156,7 +160,7 @@ Clauses determine how multiple conditions are combined:
 
 For the complete reference, see the [filtering documentation](/documentation/search/filtering/).
 
-## Basic filtering example: ecommerce and laptops
+## Basic Filtering Example: Ecommerce and Laptops
 
 We know that there are three possible laptops that suit our price point. 
 Let's see how Qdrant's filterable vector index works and why it is the best method of capturing all available results.  
@@ -226,7 +230,7 @@ This specific example uses the `range` condition for filtering. Qdrant, however,
 
 **For detailed usage examples, [filtering](/documentation/search/filtering/) docs are the best resource.** 
 
-### Scrolling instead of searching
+### Scrolling Instead of Searching
 
 You don't need to use our `search` and `query` APIs to filter through data. The `scroll` API is another option that lets you retrieve lists of points which meet the filters.
 
@@ -261,11 +265,12 @@ POST /collections/online_store/points/scroll
     ]
 }
 ```
+
 The response contains a batch of points that match the criteria and a reference (offset or next page token) to retrieve the next set of points.
 
 > [**Scrolling**](/documentation/manage-data/points/#scroll-points) is designed to be efficient. It minimizes the load on the server and reduces memory consumption on the client side by returning only manageable chunks of data at a time.
 
-#### Available filtering conditions
+#### Available Filtering Conditions
 
 | **Condition**         | **Usage**                                | **Condition**         | **Usage**                                |
 |-----------------------|------------------------------------------|-----------------------|------------------------------------------|
@@ -279,16 +284,18 @@ The response contains a batch of points that match the criteria and a reference 
 
 > All clauses and conditions are outlined in Qdrant's [filtering](/documentation/search/filtering/) documentation. 
 
-#### Filtering clauses to remember
+#### Filtering Clauses to Remember
 
 | **Clause**          | **Description**                                       | **Clause**          | **Description**                                       |
 |---------------------|-------------------------------------------------------|---------------------|-------------------------------------------------------|
 | **Must**            | Includes items that meet the condition </br> (similar to `AND`). | **Should**          | Filters if at least one condition is met </br> (similar to `OR`). |
 | **Must Not**        | Excludes items that meet the condition </br> (similar to `NOT`).               | **Clauses Combination** | Combines multiple clauses to refine filtering </br> (similar to `AND`).        |
 
-## Advanced filtering example: dinosaur diets
+## Advanced Filtering Example: Dinosaur Diets
 
-## <img width="843" height="161" alt="Screenshot 2026-07-03 at 19 06 29" src="https://github.com/user-attachments/assets/ef43e215-fdf6-400c-8817-ac7d4b271982" />
+<figure>
+  <img src="https://github.com/user-attachments/assets/ef43e215-fdf6-400c-8817-ac7d4b271982" alt="Section banner for the dinosaur diets nested-filtering example" width="843" height="161">
+</figure>
 
 We can also use nested filtering to query arrays of objects within the payload. In this example, we have two points. They each represent a dinosaur with a list of food preferences (diet) that indicate what type of food they like or dislike:
 
@@ -312,6 +319,7 @@ We can also use nested filtering to query arrays of objects within the payload. 
   }
 ]
 ```
+
 To ensure that both conditions are applied to the same array element (e.g., food = meat and likes = true must refer to the same diet item), you need to use a nested filter.
 
 Nested filters are used to apply conditions within an array of objects. They ensure that the conditions are evaluated per array element, rather than across all elements.
@@ -338,6 +346,7 @@ POST /collections/dinosaurs/points/scroll
 }
 ```
 
+
 ```python
 client.scroll(
     collection_name="dinosaurs",
@@ -353,6 +362,7 @@ client.scroll(
     ),
 )
 ```
+
 
 ```typescript
 client.scroll("dinosaurs", {
@@ -371,6 +381,7 @@ client.scroll("dinosaurs", {
 });
 ```
 
+
 ```rust
 use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
 
@@ -383,6 +394,7 @@ client
     )
     .await?;
 ```
+
 
 ```java
 import java.util.List;
@@ -410,6 +422,7 @@ client
             .build())
     .get();
 ```
+
 
 ```csharp
 using Qdrant.Client;
@@ -463,6 +476,7 @@ POST /collections/dinosaurs/points/scroll
 }
 ```
 
+
 ```python
 client.scroll(
     collection_name="dinosaurs",
@@ -487,6 +501,7 @@ client.scroll(
     ),
 )
 ```
+
 
 ```typescript
 client.scroll("dinosaurs", {
@@ -514,6 +529,7 @@ client.scroll("dinosaurs", {
 });
 ```
 
+
 ```rust
 use qdrant_client::qdrant::{Condition, Filter, NestedCondition, ScrollPointsBuilder};
 
@@ -530,6 +546,7 @@ client
     )
     .await?;
 ```
+
 
 ```java
 import java.util.List;
@@ -560,6 +577,7 @@ client
     .get();
 ```
 
+
 ```csharp
 using Qdrant.Client;
 using static Qdrant.Client.Grpc.Conditions;
@@ -576,7 +594,7 @@ The matching logic is adjusted to operate at the level of individual elements wi
 
 Nested filters function as though each element of the array is evaluated separately. The parent document will be considered a match if at least one array element satisfies all the nested filter conditions.
 
-## Other creative uses for filters
+## Other Creative Uses for Filters
 
 You can use filters to retrieve data points without knowing their `id`. You can search through data and manage it, solely by using filters. Let's take a look at some creative uses for filters:
 
@@ -587,19 +605,21 @@ You can use filters to retrieve data points without knowing their `id`. You can 
 | [Order Points](/documentation/manage-data/points/#order-points-by-payload-key) | Lists all points, sorted by the filter. | [Delete Payload](/documentation/manage-data/payload/#delete-payload-keys) | Deletes fields for points matching the filter. |
 | [Count Points](/documentation/manage-data/points/#counting-points) | Totals the points matching the filter. | | |
 
-## Filtering with the payload index
+## Filtering with the Payload Index
 
-<img width="840" height="133" alt="Screenshot 2026-07-03 at 19 08 11" src="https://github.com/user-attachments/assets/a5a8a36b-9ea4-42df-830b-0856cac9dc50" />
+<figure>
+  <img src="https://github.com/user-attachments/assets/a5a8a36b-9ea4-42df-830b-0856cac9dc50" alt="Section banner for filtering with the payload index" width="840" height="133">
+</figure>
 
 When you start working with Qdrant, your data is by default organized in a vector index. 
 In addition to this, we recommend adding a secondary data structure - **the payload index**. 
 
 Just how the vector index organizes vectors, the payload index will structure your metadata.
 
-**Figure 4:** The payload index is an additional data structure that supports vector search. A payload index (in green) organizes candidate results by cardinality, so that semantic search (in red) can traverse the vector index quickly.
-
-<img width="834" height="623" alt="Screenshot 2026-07-03 at 19 09 07" src="https://github.com/user-attachments/assets/2975b7dc-aa76-4ff6-9720-5cd6c13088bd" />
-
+<figure>
+  <img src="https://github.com/user-attachments/assets/2975b7dc-aa76-4ff6-9720-5cd6c13088bd" alt="A payload index organizing candidates by cardinality alongside the vector index" width="834" height="623">
+  <figcaption>Figure 4: The payload index is an additional data structure that supports vector search. A payload index (in green) organizes candidate results by cardinality, so that semantic search (in red) can traverse the vector index quickly.</figcaption>
+</figure>
 
 On its own, semantic searching over terabytes of data can take up lots of RAM. [**Filtering**](/documentation/search/filtering/) and [**Indexing**](/documentation/manage-data/indexing/) are two easy strategies to reduce your compute usage and still get the best results. Remember, this is only a guide. For an exhaustive list of filtering options, you should read the [filtering documentation](/documentation/search/filtering/). 
 
@@ -612,6 +632,8 @@ PUT /collections/computers/index
     "field_schema": "keyword"
 }
 ```
+
+
 ```python
 from qdrant_client import QdrantClient
 
@@ -623,12 +645,14 @@ client.create_payload_index(
    field_schema="keyword",
 )
 ```
+
 Once you mark a field indexable, **you don't need to do anything else**. Qdrant will handle all optimizations in the background.
 
-#### Why should you index metadata?
+#### Why Should You Index Metadata?
 
-<img width="838" height="146" alt="Screenshot 2026-07-03 at 19 09 47" src="https://github.com/user-attachments/assets/0d4778ec-ba2a-4f9f-82fa-cbf1706b9d02" />
-
+<figure>
+  <img src="https://github.com/user-attachments/assets/0d4778ec-ba2a-4f9f-82fa-cbf1706b9d02" alt="Section banner for why you should index metadata" width="838" height="146">
+</figure>
 
 The payload index acts as a secondary data structure that speeds up retrieval. Whenever you run vector search with a filter, Qdrant will consult a payload index - if there is one. 
 
@@ -638,7 +662,7 @@ Indexing your metadata has a significant positive effect on search performance w
 
 As your dataset grows in complexity, Qdrant takes up additional resources to go through all data points. Without a proper data structure, the search can take longer - or run out of resources.
 
-#### Payload indexing helps evaluate the most restrictive filters
+#### Payload Indexing Helps Evaluate the Most Restrictive Filters
 
 The payload index is also used to accurately estimate **filter cardinality**, which helps the query planning choose a search strategy. **Filter cardinality** refers to the number of distinct values that a filter can match within a dataset. Qdrant's search strategy can switch from **HNSW search** to **payload index-based search** if the cardinality is too low.
 
@@ -652,13 +676,13 @@ The payload index is also used to accurately estimate **filter cardinality**, wh
 Our default full scan threshold is 10 kilobytes. 
 </aside>
 
-#### What happens if you don't use payload indexes?
+#### What Happens If You Don't Use Payload Indexes?
 
 When using filters while querying, Qdrant needs to estimate cardinality of those filters to define a proper query plan. If you don't create a payload index, Qdrant will not be able to do this. It may end up choosing a sub-optimal way of searching causing extremely slow search times or low accuracy results.
 
 If you only rely on **searching for the nearest vector**, Qdrant will have to go through the entire vector index. It will calculate similarities against each vector in the collection, relevant or not. Alternatively, when you filter with the help of a payload index, the HSNW algorithm won't have to evaluate every point. Furthermore, the payload index will help HNSW  construct the graph with additional links.
 
-## How does the payload index look?
+## How Does the Payload Index Look?
 
 A payload index is similar to conventional document-oriented databases. It connects metadata fields with their corresponding point id’s for quick retrieval. 
 
@@ -675,13 +699,14 @@ Payload Index by keyword:
 | keyboard   | 10, 11      |
 +------------+-------------+
 ```
+
 When fields are properly indexed, the search engine roughly knows where it can start its journey. It can start looking up points that contain relevant metadata, and it doesn’t need to scan the entire dataset. This reduces the engine’s workload by a lot. As a result, query results are faster and the system can easily scale.
 
 > You may create as many payload indexes as you want, and we recommend you do so for each field that you filter by.
 
 If your users are often filtering by **laptop** when looking up a product **category**, indexing all computer metadata will speed up retrieval and make the results more precise.
 
-#### Different types of payload indexes
+#### Different Types of Payload Indexes
 
 | Index Type          | Description                                                                                                                                           |
 |---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -691,7 +716,7 @@ If your users are often filtering by **laptop** when looking up a product **cate
 |[On-Disk Index](/documentation/manage-data/indexing/#on-disk-payload-index)       | Stores indexes on disk to manage large datasets without memory usage.                                                                                 |
 | [Parameterized Index](/documentation/manage-data/indexing/#parameterized-index) | Allows for dynamic querying, where the index can adapt based on different parameters or conditions provided by the user. Useful for numeric data like prices or timestamps. |
 
-### Indexing payloads in multitenant setups
+### Indexing Payloads in Multitenant Setups
 
 Some applications need to have data segregated, whereby different users need to see different data inside of the same program. When setting up storage for such a complex application, many users think they need multiple databases for segregated users.    
 
@@ -711,16 +736,18 @@ PUT /collections/{collection_name}/index
    }
 }
 ```
+
 Additionally, we offer a way of organizing data efficiently by means of the tenant index. This is another variant of the payload index that makes tenant data more accessible. This time, the request will specify the field as a tenant. This means that you can mark various customer types and user id’s as `is_tenant: true`. 
 
 Read more about setting up [tenant defragmentation](/documentation/manage-data/indexing/?q=tenant#tenant-index) in multitenant environments,
 
-## Key takeaways in filtering and indexing
+## Key Takeaways in Filtering and Indexing
 
-<img width="839" height="142" alt="Screenshot 2026-07-03 at 19 11 30" src="https://github.com/user-attachments/assets/232c6896-1dcf-4318-b2fc-187b43df348d" />
+<figure>
+  <img src="https://github.com/user-attachments/assets/232c6896-1dcf-4318-b2fc-187b43df348d" alt="Section banner for key takeaways in filtering and indexing" width="839" height="142">
+</figure>
 
-
-### Filtering with float-point (decimal) numbers
+### Filtering with Float-Point (Decimal) Numbers
 If you filter by the float data type, your search precision may be limited and inaccurate. 
 
 Float Datatype numbers have a decimal point and are 64 bits in size. Here is an example:
@@ -748,7 +775,8 @@ Here is a sample JSON range filter for values greater than or equal to 11.99 and
   }
 }
 ```
-### Working with pagination in queries
+
+### Working with Pagination in Queries
 
 When you're implementing pagination in filtered queries, indexing becomes even more critical. When paginating results, you often need to exclude items you've already seen. This is typically managed by applying filters that specify which IDs should not be included in the next set of results. 
 
@@ -756,7 +784,7 @@ However, an interesting aspect of Qdrant's data model is that a single point can
 
 Proper indexing ensures that these queries are efficient, preventing duplicate results and making pagination smoother.
 
-## Conclusion: Real-life use cases of filtering
+## Conclusion: Real-Life Use Cases of Filtering
 
 Filtering in a [vector database](https://qdrant.tech) like Qdrant can significantly enhance search capabilities by enabling more precise and efficient retrieval of data. 
 
@@ -769,9 +797,8 @@ As a conclusion to this guide, let's look at some real-life use cases where filt
 | [Geospatial Search in Ride-Sharing](/articles/geo-polygon-filter-gsoc/)| Find similar drivers or delivery partners                         | Filter by rating, distance radius, vehicle type                                |
 | [Fraud & Anomaly Detection](/data-analysis-anomaly-detection/)                  | Detect transactions similar to known fraud cases                 | Filter by amount, time, location                                        |
 
-#### Before you go - all the code is in Qdrant's Dashboard 
+#### Before You Go — All the Code Is in Qdrant's Dashboard 
 
 The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/cloud-quickstart/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
 
 **It's all in your free cluster!**
-
