@@ -18,18 +18,9 @@ Scale horizontally once vertical scaling isn't enough. That's the case when your
 
 If you're running in Qdrant Cloud, [Scale Clusters](/documentation/cloud/cluster-scaling/) covers the Cloud Console steps for both directions.
 
-## Failover Best Practices
-
-How Qdrant responds to a node failure depends entirely on how the cluster is provisioned beforehand:
-
-- **Run at least three nodes with a `replication_factor` of two or more in production.** A single-replica cluster, which is the default, gets none of Qdrant's high-availability guarantees: no automatic failover, no Multi-AZ protection, and no zero-downtime upgrades. All of these depend on having replicated data spread across multiple nodes.
-- **Enable Multi-AZ if you need protection against a zone-level outage.** Replication alone doesn't guarantee that your nodes, and therefore your replicas, are spread across separate availability zones. Multi-AZ must be enabled explicitly at cluster creation. See [Multi-AZ vs. replication factor](/documentation/scaling/horizontal-scaling/#multi-az-vs-replication-factor) for how the two settings differ.
-- **Self-hosted Qdrant does not fail over automatically.** If a node fails permanently, you need to remove it from consensus and attach a replacement node yourself. See [Node Failure Recovery](/documentation/scaling/distributed_deployment/#node-failure-recovery) for the recovery steps.
-- **Qdrant Cloud (Managed, Hybrid, and Private) adds automatic failover on top of replication**, so a failed node is detected and replaced without manual intervention, provided your cluster has enough replicas to tolerate the loss.
-- **Monitor cluster health so you can react before a second failure compounds the first.** See [Monitoring & Telemetry](/documentation/ops-monitoring/) for setting up Prometheus and Grafana against your cluster.
-
 ## Where to Go Next
 
 - [Vertical Scaling](/documentation/scaling/vertical-scaling/) — resize existing nodes.
-- [Horizontal Scaling and Resilience](/documentation/scaling/horizontal-scaling/) — how Qdrant's distributed model achieves scale and fault tolerance.
+- [Horizontal Scaling](/documentation/scaling/horizontal-scaling/) — how Qdrant's distributed model achieves scale.
+- [Resilience](/documentation/scaling/resilience/) — fault tolerance, Multi-AZ, and failover best practices.
 - [Distributed Deployment](/documentation/scaling/distributed_deployment/) — configure sharding, replication, and node recovery.
