@@ -81,7 +81,7 @@ To address this problem, in v1.16.0 Qdrant provides a built-in mechanism for tie
 With tiered multitenancy, you can implement two levels of tenant isolation within a single collection, keeping small tenants together inside a shared Shard, while isolating large tenants into their own dedicated Shards.
 There are 3 components in Qdrant, that allows you to implement tiered multitenancy:
 
-- [**User-defined Sharding**](/documentation/distributed_deployment/#user-defined-sharding) allows you to create named Shards within a collection. It allows to isolate large tenants into their own Shards.
+- [**User-defined Sharding**](/documentation/scaling/distributed_deployment/#user-defined-sharding) allows you to create named Shards within a collection. It allows to isolate large tenants into their own Shards.
 - **Fallback shards** - a special routing mechanism that allows to route request to either a dedicated Shard (if it exists) or to a shared Fallback Shard. It allows to keep requests unified, without the need to know whether a tenant is dedicated or shared.
 - **Tenant promotion** - a mechanism that allows to move tenants from the shared Fallback Shard to their own dedicated Shard when they grow large enough. This process is based on Qdrant's internal shard transfer mechanism, which makes promotion completely transparent for the application. Both read and write requests are supported during the promotion process.
 

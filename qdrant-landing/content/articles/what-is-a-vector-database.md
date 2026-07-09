@@ -413,7 +413,7 @@ client.create_collection(
 
 We recommend using sharding and replication together so that your data is both split across nodes and replicated for availability. 
 
-For more details on features like **user-defined sharding, node failure recovery**, and **consistency guarantees**, see our guide on [Distributed Deployment.](https://qdrant.tech/documentation/distributed_deployment/)
+For more details on features like **user-defined sharding, node failure recovery**, and **consistency guarantees**, see our guide on [Distributed Deployment.](https://qdrant.tech/documentation/scaling/distributed_deployment/)
 
 ## Multitenancy: Data Isolation for Multi-Tenant Architectures
 

@@ -315,7 +315,7 @@ storage:
   # Default shard transfer method to use if none is defined.
   # If null - don't have a shard transfer preference, choose automatically.
   # If stream_records, snapshot or wal_delta - prefer this specific method.
-  # More info: https://qdrant.tech/documentation/distributed_deployment/#shard-transfer-method
+  # More info: https://qdrant.tech/documentation/scaling/distributed_deployment/#shard-transfer-method
   shard_transfer_method: null
 
   # Default parameters for collections

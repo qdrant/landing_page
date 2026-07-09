@@ -17,7 +17,7 @@ A practical checklist to ensure Qdrant is optimized, stable, and ready to handle
 Architect for scale from day one. Retrofitting these patterns onto an existing deployment is costly.
 
 - **Ensure you have enough shards to scale.**
-Qdrant  [scales horizontally](/documentation/distributed_deployment/) through [sharding](/documentation/distributed_deployment/#sharding). Plan for enough shards to evenly distribute your data and load across the nodes in your cluster. At a minimum, you need one shard or replica per node.
+Qdrant  [scales horizontally](/documentation/scaling/distributed_deployment/) through [sharding](/documentation/scaling/distributed_deployment/#sharding). Plan for enough shards to evenly distribute your data and load across the nodes in your cluster. At a minimum, you need one shard or replica per node.
 
 - **Ensure you don't have too many shards.** While sharding is essential for scale, having too many shards can lead to performance degradation. Each collection has its own shards, so if you have many collections, you may end up with an excessive number of shards.
 

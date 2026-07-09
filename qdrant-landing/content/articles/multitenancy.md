@@ -19,14 +19,14 @@ category: production-ops
 
 # Scaling Your Machine Learning Setup: The Power of Multitenancy and Custom Sharding in Qdrant 
 
-We are seeing the topics of [multitenancy](/documentation/manage-data/multitenancy/) and [distributed deployment](/documentation/distributed_deployment/#sharding) pop-up daily on our [Discord support channel](https://qdrant.to/discord). This tells us that many of you are looking to scale Qdrant along with the rest of your machine learning setup. 
+We are seeing the topics of [multitenancy](/documentation/manage-data/multitenancy/) and [distributed deployment](/documentation/scaling/distributed_deployment/#sharding) pop-up daily on our [Discord support channel](https://qdrant.to/discord). This tells us that many of you are looking to scale Qdrant along with the rest of your machine learning setup. 
 
 Whether you are building a bank fraud-detection system, [RAG](https://qdrant.tech/articles/what-is-rag-in-ai/) for e-commerce, or services for the federal government - you will need to leverage a multitenant architecture to scale your product.
 In the world of SaaS and enterprise apps, this setup is the norm. It will considerably increase your application's performance and lower your hosting costs. 
 
 ## Multitenancy & custom sharding with Qdrant
 
-We have developed two major features just for this. __You can now scale a single Qdrant cluster and support all of your customers worldwide.__ Under [multitenancy](/documentation/manage-data/multitenancy/), each customer's data is completely isolated and only accessible by them. At times, if this data is location-sensitive, Qdrant also gives you the option to divide your cluster by region or other criteria that further secure your customer's access. This is called [custom sharding](/documentation/distributed_deployment/#user-defined-sharding). 
+We have developed two major features just for this. __You can now scale a single Qdrant cluster and support all of your customers worldwide.__ Under [multitenancy](/documentation/manage-data/multitenancy/), each customer's data is completely isolated and only accessible by them. At times, if this data is location-sensitive, Qdrant also gives you the option to divide your cluster by region or other criteria that further secure your customer's access. This is called [custom sharding](/documentation/scaling/distributed_deployment/#user-defined-sharding). 
 
 Combining these two will result in an efficiently-partitioned architecture that further leverages the convenience of a single Qdrant cluster. This article will briefly explain the benefits and show how you can get started using both features.
 
@@ -41,7 +41,7 @@ Qdrant is built to excel in a single collection with a vast number of tenants. Y
 
 ## Sharding your database
 
-With Qdrant, you can also specify a shard for each vector individually. This feature is useful if you want to [control where your data is kept in the cluster](/documentation/distributed_deployment/#sharding). For example, one set of vectors can be assigned to one shard on its own node, while another set can be on a completely different node.
+With Qdrant, you can also specify a shard for each vector individually. This feature is useful if you want to [control where your data is kept in the cluster](/documentation/scaling/distributed_deployment/#sharding). For example, one set of vectors can be assigned to one shard on its own node, while another set can be on a completely different node.
 
 During vector search, your operations will be able to hit only the subset of shards they actually need. In massive-scale deployments, __this can significantly improve the performance of operations that do not require the whole collection to be scanned__.
 
@@ -49,7 +49,7 @@ This works in the other direction as well. Whenever you search for something, yo
 
 ### Common use cases
 
-A clear use-case for this feature is managing a multitenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. Sharding solves the problem of region-based data placement, whereby certain data needs to be kept within specific locations. To do this, however, you will need to [move your shards between nodes](/documentation/distributed_deployment/#moving-shards).  
+A clear use-case for this feature is managing a multitenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. Sharding solves the problem of region-based data placement, whereby certain data needs to be kept within specific locations. To do this, however, you will need to [move your shards between nodes](/documentation/scaling/distributed_deployment/#moving-shards).  
 
 **Figure 2:** Users can both upsert and query shards that are relevant to them, all within the same collection. Regional sharding can help avoid cross-continental traffic. 
 ![Qdrant Multitenancy](/articles_data/multitenancy/shards.png)
@@ -79,7 +79,7 @@ client.create_shard_key("{tenant_data}", "germany")
 ```
 In this example, your cluster is divided between Germany and Canada. Canadian and German law differ when it comes to international data transfer. Let's say you are creating a RAG application that supports the healthcare industry. Your Canadian customer data will have to be clearly separated for compliance purposes from your German customer. 
 
-Even though it is part of the same collection, data from each shard is isolated from other shards and can be retrieved as such. For additional examples on shards and retrieval, consult [Distributed Deployments](/documentation/distributed_deployment/) documentation and [Qdrant Client specification](https://python-client.qdrant.tech).
+Even though it is part of the same collection, data from each shard is isolated from other shards and can be retrieved as such. For additional examples on shards and retrieval, consult [Distributed Deployments](/documentation/scaling/distributed_deployment/) documentation and [Qdrant Client specification](https://python-client.qdrant.tech).
 
 ## Configure a multitenant setup for users
 

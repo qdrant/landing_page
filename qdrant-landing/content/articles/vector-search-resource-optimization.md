@@ -325,7 +325,7 @@ Here’s how to choose the shard_number:
 | **Plan for Scalability**        | Start with at least **2 shards per node** to allow room for future growth.                                        |
 | **Future-Proofing**             | Starting with around **12 shards** is a good rule of thumb. This setup allows your system to scale seamlessly from 1 to 12 nodes without requiring re-sharding. |
 
-Learn more about [**Sharding in Distributed Deployment**](/documentation/distributed_deployment/)
+Learn more about [**Sharding in Distributed Deployment**](/documentation/scaling/distributed_deployment/)
 
 ---
 

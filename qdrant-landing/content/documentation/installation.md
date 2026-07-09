@@ -51,7 +51,7 @@ Each Qdrant instance requires three open ports:
 
 * `6333` - For the HTTP API, for the [Monitoring](/documentation/ops-monitoring/monitoring/) health and metrics endpoints
 * `6334` - For the [gRPC](/documentation/interfaces/#grpc-interface) API
-* `6335` - For [Distributed deployment](/documentation/distributed_deployment/)
+* `6335` - For [Distributed deployment](/documentation/scaling/distributed_deployment/)
 
 All Qdrant instances in a cluster must be able to:
 
@@ -85,7 +85,7 @@ We provide a Qdrant Enterprise Operator for Kubernetes installations as part of 
 
 ### Kubernetes
 
-You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in your Kubernetes cluster. While it is possible to deploy Qdrant in a distributed setup with the Helm chart, it does not come with the same level of features for zero-downtime upgrades, up and down-scaling, monitoring, logging, and backup and disaster recovery as the Qdrant Cloud offering or the Qdrant Private Cloud Enterprise Operator. Instead you must manage and set this up [yourself](/documentation/distributed_deployment/). Support for the Helm chart is limited to community support.
+You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in your Kubernetes cluster. While it is possible to deploy Qdrant in a distributed setup with the Helm chart, it does not come with the same level of features for zero-downtime upgrades, up and down-scaling, monitoring, logging, and backup and disaster recovery as the Qdrant Cloud offering or the Qdrant Private Cloud Enterprise Operator. Instead you must manage and set this up [yourself](/documentation/scaling/distributed_deployment/). Support for the Helm chart is limited to community support.
 
 The following table gives you an overview about the feature differences between the Qdrant Cloud and the Helm chart:
 
@@ -128,7 +128,7 @@ In addition, you have to make sure:
 
 * To use a performant [persistent storage](#storage) for your data
 * To configure the [security settings](/documentation/security/) for your deployment
-* To set up and configure Qdrant on multiple nodes for a highly available [distributed deployment](/documentation/distributed_deployment/)
+* To set up and configure Qdrant on multiple nodes for a highly available [distributed deployment](/documentation/scaling/distributed_deployment/)
 * To set up a load balancer for your Qdrant cluster
 * To create a [backup and disaster recovery strategy](/documentation/snapshots/) for your data
 * To integrate Qdrant with your [monitoring](/documentation/ops-monitoring/monitoring/) and logging solutions

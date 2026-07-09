@@ -2,20 +2,19 @@
 title: Distributed Deployment
 short_description: "Run Qdrant in distributed mode across multiple nodes for higher availability, scalable throughput, and fault-tolerant vector search."
 description: "Configure distributed Qdrant deployments to scale storage, balance load, and tolerate node failures using sharding and replication across a cluster."
-partition: deploy
-weight: 115
+weight: 15
 aliases:
   - /documentation/distributed_deployment
   - /guides/distributed_deployment
   - /documentation/operations/distributed_deployment
 ---
 
-# Distributed deployment
+# Distributed Deployment
 
 Since version v0.8.0 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
-## How many Qdrant nodes should I run?
+## How Many Qdrant Nodes Should I Run?
 
 The ideal number of Qdrant nodes depends on how much you value cost-saving, resilience, and performance/scalability in relation to each other.
 
@@ -27,14 +26,16 @@ The ideal number of Qdrant nodes depends on how much you value cost-saving, resi
    - Cost: Larger clusters are more costly than smaller clusters, which is the only drawback of this configuration.
 
 - **Balancing cost, resilience, and performance**: Running a two-node Qdrant cluster with replicated shards allows the cluster to respond to most read/write requests even when one node is down, such as during maintenance events. Having two nodes also means greater performance than a single-node cluster while still being cheaper than a three-node cluster. Drawbacks:
-   - Resilience (uptime): The cluster cannot perform operations on collections when one node is down. Those operations require >50% of nodes to be running, so this is only possible in a 3+ node cluster. Since creating, editing, and deleting collections are usually rare operations, many users find this drawback to be negligible.
+   - Resilience (uptime): "Uptime" here means the ability to perform operations on collections, such as create, edit, or delete, not the ability to serve search and write requests. The cluster cannot perform collection operations when one node is down, since those require >50% of nodes to be running, which is only possible in a 3+ node cluster. Since creating, editing, and deleting collections are usually rare operations, many users find this drawback to be negligible. See [Temporary node failure](#temporary-node-failure) for what actually happens to search and write requests during an outage.
    - Resilience (data integrity): If the data on one of the two nodes is permanently lost or corrupted, it cannot be recovered aside from snapshots or backups. Only 3+ node clusters can recover from the permanent loss of a single node since recovery operations require >50% of the cluster to be healthy.
    - Cost: Replicating your shards requires storing two copies of your data.
    - Performance: The maximum performance of a Qdrant cluster increases as you add more nodes.
 
+"Uptime" and "data integrity" are both forms of resilience but mean different things; see [Resilience terminology](/documentation/scaling/horizontal-scaling/#resilience-terminology-uptime-vs-data-integrity) for the distinction, and [How resilience works](/documentation/scaling/horizontal-scaling/#how-resilience-works) for the bigger picture on how replication factor and node count together determine it.
+
 In summary, single-node clusters are best for non-production workloads, replicated 3+ node clusters are the gold standard, and replicated 2-node clusters strike a good balance.
 
-## Enabling distributed mode in self-hosted Qdrant
+## Enabling Distributed Mode in Self-Hosted Qdrant
 
 To enable distributed deployment - enable the cluster mode in the [configuration](/documentation/ops-configuration/configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
 
@@ -133,7 +134,7 @@ Example result:
 
 Note that enabling distributed mode does not automatically replicate your data. See the section on [making use of a new distributed Qdrant cluster](#making-use-of-a-new-distributed-qdrant-cluster) for the next steps.
 
-## Enabling distributed mode in Qdrant Cloud
+## Enabling Distributed Mode in Qdrant Cloud
 
 For best results, first ensure your cluster is running Qdrant v1.7.4 or higher. Older versions of Qdrant do support distributed mode, but improvements in v1.7.4 make distributed clusters more resilient during outages.
 
@@ -143,7 +144,7 @@ Additionally, Qdrant Cloud also offers the ability to automatically rebalance an
 
 After the scale-up process completes, you will have a new empty node running alongside your existing node(s). To replicate data into this new empty node, see the next section.
 
-## Making use of a new distributed Qdrant cluster
+## Making Use of a New Distributed Qdrant Cluster
 
 When you enable distributed mode and scale up to two or more nodes, your data does not move to the new node automatically; it starts out empty. To make use of your new empty node, do one of the following:
 
@@ -152,22 +153,7 @@ When you enable distributed mode and scale up to two or more nodes, your data do
 * If you already have enough shards for each node, and you merely need to replicate your data, follow the directions for [creating new shard replicas](#creating-new-shard-replicas).
 * If you already have enough shards for each node, and your data is already replicated, you can move data (without replicating it) onto the new node(s) by [moving shards](#moving-shards).
 
-## Raft
-
-Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to maintain consistency regarding the cluster topology and the collections structure.
-
-Operations on points, on the other hand, do not go through the consensus infrastructure.
-Qdrant is not intended to have strong transaction guarantees, which allows it to perform point operations with low overhead.
-In practice, it means that Qdrant does not guarantee atomic distributed updates but allows you to wait until the [operation is complete](/documentation/manage-data/points/#awaiting-result) to see the results of your writes.
-
-Operations on collections, on the contrary, are part of the consensus which guarantees that all operations are durable and eventually executed by all nodes.
-In practice it means that a majority of nodes agree on what operations should be applied before the service will perform them.
-
-For high availability, run at least three voting nodes. A two-node cluster cannot form a majority if either node is unavailable, so Raft cannot elect or confirm a leader until both nodes can communicate again.
-
-Practically, it means that if the cluster is in a transition state - either electing a new leader after a failure or starting up, the collection update operations will be denied.
-
-You may use the cluster [REST API](https://api.qdrant.tech/master/api-reference/distributed/cluster-status) to check the state of the consensus.
+Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to keep the cluster topology and collection structure consistent across nodes. For how consensus works and what it means for availability, see [Raft consensus](/documentation/scaling/horizontal-scaling/#raft-consensus) in Horizontal Scaling and Resilience.
 
 ## Sharding
 
@@ -179,9 +165,9 @@ There are two methods of distributing points across shards:
 
 - **User-defined sharding**: _Available as of v1.7.0_ - Each point is uploaded to a specific shard, so that operations can hit only the shard or shards they need. Even with this distribution, shards still ensure having non-intersecting subsets of points. [See more...](#user-defined-sharding)
 
-Each node knows where all parts of the collection are stored through the [consensus protocol](#raft), so when you send a search request to one Qdrant node, it automatically queries all other nodes to obtain the full search result.
+Each node knows where all parts of the collection are stored through the [consensus protocol](/documentation/scaling/horizontal-scaling/#raft-consensus), so when you send a search request to one Qdrant node, it automatically queries all other nodes to obtain the full search result.
 
-### Choosing the right number of shards
+### Choosing the Right Number of Shards
 
 When you create a collection, Qdrant splits the collection into `shard_number` shards. If left unset, `shard_number` is set to the number of nodes in your cluster when the collection was created. The `shard_number` cannot be changed without recreating the collection.
 
@@ -325,7 +311,7 @@ Resharding can change the number of shards both up and down, without having to r
 
 Please refer to the [Resharding](/documentation/cloud/cluster-scaling/#resharding) section in our cloud documentation for more details.
 
-### Moving shards
+### Moving Shards
 
 *Available as of v0.9.0*
 
@@ -362,7 +348,7 @@ DELETE /cluster/peer/{peer_id}
 
 After that, Qdrant will exclude the node from the consensus, and the instance will be ready for shutdown.
 
-### User-defined sharding
+### User-Defined Sharding
 
 *Available as of v1.7.0*
 
@@ -416,7 +402,7 @@ Another use-case would be to have shards that track the data chronologically, so
 
 <img src="/docs/sharding-per-day.png" alt="Sharding per day" width="500" height="600">
 
-### Shard transfer method
+### Shard Transfer Method
 
 *Available as of v1.7.0*
 
@@ -515,12 +501,9 @@ to recover dead shards.
 
 ## Replication
 
-Qdrant allows you to replicate shards between nodes in the cluster.
+Qdrant allows you to replicate shards between nodes in the cluster, keeping several copies of a shard spread across the cluster. For how replication shapes Qdrant's resilience model, including what happens to writes by default, see [Replication model](/documentation/scaling/horizontal-scaling/#replication-model) in Horizontal Scaling and Resilience.
 
-Shard replication increases the reliability of the cluster by keeping several copies of a shard spread across the cluster.
-This ensures the availability of the data in case of node failures, except if all replicas are lost.
-
-### Replication factor
+### Replication Factor
 
 When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/ops-configuration/configuration/#configuration-options). You can change that by setting the `replication_factor` when you create a collection.
 
@@ -652,7 +635,7 @@ This code sample creates a collection with a total of 6 logical shards backed by
 
 Since a replication factor of "2" would require twice as much storage space, it is advised to make sure the hardware can host the additional shard replicas beforehand.
 
-### Creating new shard replicas
+### Creating New Shard Replicas
 
 It is possible to create or delete replicas manually on an existing collection using the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster). This is usually only necessary if you run Qdrant open-source. In Qdrant Cloud shard replication is handled and updated automatically, matching the configured `replication_factor`.
 
@@ -685,7 +668,7 @@ POST /collections/{collection_name}/cluster
 
 Keep in mind that a collection must contain at least one active replica of a shard.
 
-### Error handling
+### Error Handling
 
 Replicas can be in different states:
 
@@ -713,7 +696,7 @@ If the number of failed nodes is less than the replication factor of the collect
 
 Now, if the failed node restarts, consensus will trigger the replication process to update the recovering node with the newest updates it has missed.
 
-If the failed node never restarts, you can recover the lost shards if you have a 3+ node cluster. You cannot recover lost shards in smaller clusters because recovery operations go through [raft](#raft) which requires >50% of the nodes to be healthy.
+If the failed node never restarts, you can recover the lost shards if you have a 3+ node cluster. You cannot recover lost shards in smaller clusters because recovery operations go through [Raft](/documentation/scaling/horizontal-scaling/#raft-consensus) which requires >50% of the nodes to be healthy.
 
 **Recreate node with replicated collections**
 
@@ -750,7 +733,7 @@ The service will download the specified snapshot of the collection and recover s
 
 Once all shards of the collection are recovered, the collection will become operational again.
 
-### Temporary node failure
+### Temporary Node Failure
 
 If properly configured, running Qdrant in distributed mode can make your cluster resistant to outages when one node fails temporarily.
 
@@ -761,17 +744,9 @@ Here is how differently-configured Qdrant clusters respond:
 * 2-node clusters where all shards ARE replicated to both nodes: All requests except for operations on collections continue to work during the outage.
 * 3+-node clusters where all shards are replicated to at least 2 nodes: All requests continue to work during the outage.
 
-## Consistency guarantees
+## Consistency Guarantees
 
-By default, Qdrant focuses on availability and maximum throughput of search operations.
-For the majority of use cases, this is a preferable trade-off.
-
-During the normal state of operation, it is possible to search and modify data from any peers in the cluster.
-
-Before responding to the client, the peer handling the request dispatches all operations according to the current topology in order to keep the data synchronized across the cluster.
-
-- reads are using a partial fan-out strategy to optimize latency and availability
-- writes are executed in parallel on all active sharded replicas
+By default, Qdrant focuses on availability and maximum throughput of search operations, which is a preferable trade-off for most use cases. See [Consistency guarantees: the model](/documentation/scaling/horizontal-scaling/#consistency-guarantees-the-model) in Horizontal Scaling and Resilience for how this trade-off works, including what it means for concurrent writes.
 
 By default, concurrent updates on one point can result in an inconsistent state. For example, if two clients simultaneously update the same point in a collection with three replicas per shard. On some replicas, the point may reflect the update from one client, while on other replicas, the point may reflect the update from the other client.
 
@@ -786,7 +761,7 @@ Qdrant provides a few options to control consistency guarantees:
 - Write `ordering` param, can be used with update and delete operations to ensure that the operations are executed in the same order on all replicas. If this option is used, Qdrant will route the operation to the leader replica of the shard and wait for the response before responding to the client. This option is useful to avoid data inconsistency in case of concurrent updates of the same documents. This options is preferred if read operations are more frequent than update and if search performance is critical.
 
 
-### Write consistency factor
+### Write Consistency Factor
 
 The `write_consistency_factor` represents the number of replicas that must acknowledge a write operation before responding to the client. It is set to 1 by default.
 It can be configured at the collection's creation or when updating the
@@ -943,7 +918,7 @@ If the update is applied to enough replicas - according to the `write_consistenc
 For asynchronous updates and injection pipelines capable of handling errors and retries, this strategy might be preferable.
 
 
-### Read consistency
+### Read Consistency
 
 Read `consistency` can be specified for most read requests and will ensure that the returned result
 is consistent across cluster nodes.
@@ -1108,7 +1083,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 })
 ```
 
-### Write ordering
+### Write Ordering
 
 Write `ordering` can be specified for any write request to serialize it through a single "leader" node,
 which ensures that all write operations (issued with the same `ordering`) are performed and observed
@@ -1308,7 +1283,7 @@ client.Upsert(context.Background(), &qdrant.UpsertPoints{
 })
 ```
 
-## Listener mode
+## Listener Mode
 
 <aside role="alert">This is an experimental feature, its behavior may change in the future.</aside>
 

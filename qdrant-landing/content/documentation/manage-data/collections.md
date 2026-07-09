@@ -44,7 +44,7 @@ In addition to the required options, you can also specify custom values for the 
 * `hnsw_config` - see [indexing](/documentation/manage-data/indexing/#vector-index) for details.
 * `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](/documentation/manage-data/storage/#versioning).
 * `optimizers_config` - see [optimizer](/documentation/ops-optimization/optimizer/) for details.
-* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](/documentation/distributed_deployment/#sharding) section for details.
+* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](/documentation/scaling/distributed_deployment/#sharding) section for details.
 * `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
 * `quantization_config` - see [quantization](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant) for details.
 * `strict_mode_config` - see [strict mode](/documentation/ops-configuration/administration/#strict-mode) for details.
