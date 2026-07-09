@@ -66,64 +66,10 @@ There's rarely a single best model. The right choice is the one that meets your 
 
 ## Enhanced performance and efficiency with Binary Quantization
 
-### How Binary Quantization works
 
-Suppose your embedding looks like this:
-
-```[0.24, -0.91, 1.32, -0.02, 0.67, ...]
-```
-
-Every value is normally stored as a 32-bit floating-point number. For a 4,096-dimensional embedding, that adds up quickly:
-
-```4,096 values × 32 bits
-≈ 131,072 bits
-≈ 16 KB
-```
-
-Now imagine you have 100 million documents:
-
-```16 KB × 100,000,000
-≈ 1.6 TB
-```
-
-That's just the vectors, not the index or metadata. At this scale, memory becomes one of your biggest infrastructure costs.
-
-Binary Quantization tackles this by replacing each floating-point value with a single bit: positive values become `1`, and negative values become `0`. So instead of storing:
-
-```[0.24, -0.91, 1.32, -0.02]
-```
-
-you store:
-
-```[1, 0, 1, 0]
-```
-
-Each dimension now costs 1 bit instead of 32 bits, which gives roughly a 32x reduction in storage for the quantized representation.
-
-flowchart LR
-    subgraph FP["Full precision — float32"]
-        direction TB
-        F0["bit 1"]
-        Fdots["... 30 more bits ..."]
-        F31["bit 32"]
-        F0 --- Fdots --- F31
-    end
-
-    subgraph BQ["Binary quantized"]
-        direction TB
-        B0["1 bit"]
-    end
-
-    FP -->|"keep the sign only:<br/>value ≥ 0 → 1, value &lt; 0 → 0"| BQ
-
-    FP --- N1["32 bits per dimension"]
-    BQ --- N2["1 bit per dimension"]
-    N1 -->|"≈ 32x smaller"| N2
-
-    classDef big fill:#fde2e2,stroke:#e05252,color:#000;
-    classDef small fill:#dcf5e3,stroke:#3aa76d,color:#000;
-    class FP,F0,Fdots,F31,N1 big;
-    class BQ,B0,N2 small;
+<figure>
+  <img width="674" height="394" alt="Screenshot 2026-07-09 at 17 37 00" src="https://github.com/user-attachments/assets/69dce0af-c7d3-49e5-aee0-408d8680d26a" />
+</figure>
 
 ### Dimension reduction vs accuracy with Binary Quantization 
 
