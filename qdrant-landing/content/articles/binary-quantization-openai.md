@@ -268,6 +268,15 @@ We recommend the following best practices for leveraging Binary Quantization wit
 4. Rescoring: Enable rescoring to improve the accuracy of search results.
 5. RAM: Store the full vectors and payload on disk. Limit what you load from memory to the Binary Quantization index. This helps reduce the memory footprint and improve the overall efficiency of the system. The incremental latency from the disk read is negligible compared to the latency savings from the binary scoring in Qdrant, which uses SIMD instructions where possible.
 
+## When to Use Binary Quantization vs Other Methods
+
+Binary Quantization is the right tool for this article's scenario: large, high-dimensional embeddings where storage and speed dominate your costs, and where rescoring recovers the accuracy that aggressive compression gives up. But it's one of four quantization methods Qdrant supports, and the best choice depends on how much compression you need and how much accuracy you can trade for it.
+
+- **Scalar Quantization** is the most forgiving choice. It maps `float32` to `uint8` for a 4x reduction with little accuracy loss, so it's a reliable starting point, and the only method that accelerates Manhattan (L1) distance.
+- **Binary Quantization** shines with high-dimensional embeddings, exactly the case we studied here. With rescoring and oversampling enabled, the accuracy gap nearly closes while you keep 32x storage savings and the fastest search. For low-dimensional models the recall loss is harder to recover.
+- **Product Quantization** delivers the largest compression, up to 64x, but is the slowest and loses the most accuracy. Reserve it for cases where memory footprint is all that matters.
+- **[TurboQuant](https://qdrant.tech/articles/turboquant-quantization/)** is Qdrant's newest quantization method, a rotation-based technique from Google Research available in Qdrant 1.18 and later. It offers four operating points, 4-bit, 2-bit, 1.5-bit, and 1-bit, spanning 8x to 32x compression, so you can dial in the exact accuracy-versus-memory trade-off instead of accepting the fixed 32x of pure Binary Quantization, and it's the recommended default for new collections.
+
 ## What's next?
 
 Binary Quantization is exceptional if you need to work with large volumes of data under high recall expectations. To learn about other quantization methods check the [documentation](/documentation/manage-data/quantization/). You can try this feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
