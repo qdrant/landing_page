@@ -52,7 +52,7 @@ Our Qdrant configuration differed in the ways that matter for disk-rescore perfo
 
 We used TurboQuant 4-bit for Qdrant, our current best-practice encoding for this recall band, not a bit-identical reproduction of their quantization choice. We tested replication factor \= 1 because we wanted to see the lowest footprint we could reasonably leverage to beat Elastic’s results.
 
-While we could have pushed the infrastructure footprint even lower to maximize throughput, benchmarking disk-based setups for a dataset of this size is largely an academic exercise. Even without compression, using `fp16` representation, this entire corpus and its index fits on a single `[rc6.2xlarge](https://instances.vantage.sh/aws/ec2/r6g.2xlarge?currency=USD)` instance, which would cost roughly $295/mo with on-demand pricing. In a real-world deployment, our users wouldn't even bother with disk here, they would simply run it in-memory for maximum performance.
+While we could have pushed the infrastructure footprint even lower to maximize throughput, benchmarking disk-based setups for a dataset of this size is largely an academic exercise. Even without compression, using `fp16` representation, this entire corpus and its index fits on a single [rc6.2xlarge](https://instances.vantage.sh/aws/ec2/r6g.2xlarge?currency=USD) instance, which would cost roughly $295/mo with on-demand pricing. In a real-world deployment, our users wouldn't even bother with disk here, they would simply run it in-memory for maximum performance.
 
 Queries were driven from a separate AWS `c5.2xlarge` instance (8 vCPU, 16 GiB, us-east-1) running our open harness against the Qdrant cluster over the network; the same client-and-server separation Elastic used with Jingra.
 
