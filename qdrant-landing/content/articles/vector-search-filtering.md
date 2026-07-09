@@ -5,7 +5,7 @@ description: "Learn how filtering works in Qdrant: the filterable HNSW index, pa
 preview_dir: /articles_data/vector-search-filtering/preview
 social_preview_image: /articles_data/vector-search-filtering/social-preview.png
 weight: 70
-author: Sabrina Aquino, David Myriel
+author: Sabrina Aquino, David Myriel, Ewa Szyszka 
 author_link:
 date: 2026-07-02T00:00:00.000Z
 category: mastering-search
