@@ -7,7 +7,9 @@ weight: 10
 
 # Horizontal Scaling
 
-Horizontal scaling means adding more nodes to a Qdrant cluster instead of making existing nodes bigger. It's how Qdrant handles data that no longer fits on one node, and it's also the mechanism underlying Qdrant's fault tolerance. This page covers how it works under the hood: sharding, replication, Raft consensus, and consistency guarantees. For what these mechanics buy you in terms of fault tolerance and failover, see [Resilience](/documentation/scaling/resilience/). For the practical configuration steps, see [Distributed Deployment](/documentation/scaling/distributed_deployment/).
+Horizontal scaling means adding more nodes to a Qdrant cluster instead of making existing nodes bigger. It's how Qdrant handles data that no longer fits on one node, and it's also the mechanism underlying Qdrant's fault tolerance. This page covers how it works under the hood: sharding, replication, Raft consensus, and consistency guarantees.
+
+For what these mechanics buy you in terms of fault tolerance and failover, see [Resilience](/documentation/scaling/resilience/). For the practical configuration steps, see [Distributed Deployment](/documentation/scaling/distributed_deployment/).
 
 ## How Many Qdrant Nodes Should I Run?
 
@@ -35,18 +37,26 @@ Three nodes or more provide a highly available cluster, as long as the replicati
 - Cost: Replicating your shards requires storing two copies of your data.
 - Cost: Larger clusters are more costly than smaller clusters.
 
+### Which Configuration Is Right for You?
+
+In summary:
+
+- One node is suitable for non-production workloads.
+- Two nodes give you more capacity than one, without true high availability.
+- Three or more nodes and a replication factor of two or higher are the gold standard for production. 
+
 ## Sharding
 
-A Qdrant collection is made up of one or more shards. Each shard is an independent store of points capable of performing all the operations a collection supports, and shards manage non-intersecting subsets of a collection's points.
+A Qdrant collection is partitioned into one or more shards. Each shard is an independent store of points capable of performing all the operations a collection supports. Each shard holds a distinct portion of the collection's points.
 
 {{< figure src="/documentation/scaling/cluster-no-replication.png" alt="A three-node cluster with a collection with three shards. Each shard holds one-third of the collection's points." caption="A three-node cluster with a collection with three shards. Each shard holds one-third of the collection's points." >}}
 
 Qdrant distributes points across shards in one of two ways:
 
 - **Automatic sharding** (default): points are assigned to shards using a [consistent hashing](https://en.wikipedia.org/wiki/Consistent_hashing) algorithm, so each shard manages a non-overlapping subset of points without manual placement.
-- **User-defined sharding**: each point is uploaded to a shard you choose, so operations can target only the shard or shards they need. This is useful for isolating tenants or regions onto dedicated shards.
+- **[User-defined sharding](/documentation/scaling/distributed_deployment/#user-defined-sharding)**: each point is uploaded to a shard you choose, so operations can target only the shard or shards they need. This is useful for isolating tenants or regions onto dedicated shards.
 
-Every node knows where all parts of a collection are stored through [Raft consensus](#raft-consensus), so a search request sent to any single node automatically fans out to the rest of the cluster to gather the full result.
+Every node knows where all shards are stored through [Raft consensus](#raft-consensus), so a search request sent to any single node automatically fans out to the rest of the cluster to gather the full result.
 
 As a rule of thumb, create at least 2 shards per node so the cluster can grow without resharding, since [resharding](/documentation/scaling/distributed_deployment/#resharding) is only available in Qdrant Cloud and otherwise requires recreating the collection. If you anticipate significant growth, 12 shards is a common starting point, since it divides evenly as you scale from 1 node up to 2, 3, 6, and 12 nodes. Beyond that, more shards add overhead without much benefit on smaller clusters.
 
@@ -58,9 +68,13 @@ Qdrant allows you to replicate shards between nodes in the cluster, keeping seve
 
 {{< figure src="/documentation/scaling/cluster-with-replication.png" alt="A three-node cluster with a collection with three shards and a replication factor of two. Each of the three shards (0, 1, and 2) is replicated onto two nodes." caption="A three-node cluster with a collection with three shards and a replication factor of two. Each of the three shards (0, 1, and 2) is replicated onto two nodes." >}}
 
-By default, Qdrant has no primary or secondary replicas. Writes execute in parallel on all active replicas of a shard, and any replica can serve reads or writes. A "leader" replica only exists when a collection is configured with `medium` or `strong` [write ordering](/documentation/scaling/distributed_deployment/#write-ordering); even then, the leader is dynamically elected rather than fixed, and it exists to serialize writes for consistency, not to act as a permanent primary. See [Replication factor](/documentation/scaling/distributed_deployment/#replication-factor) and [Creating new shard replicas](/documentation/scaling/distributed_deployment/#creating-new-shard-replicas) for how to configure replication.
+By default, Qdrant has no primary or secondary replicas. Writes execute in parallel on all active replicas of a shard, and any replica can serve reads or writes. A "leader" replica only exists when a collection is configured with `medium` or `strong` [write ordering](/documentation/scaling/consistency-guarantees/#write-ordering); even then, the leader is dynamically elected rather than fixed, and it exists to serialize writes for consistency, not to act as a permanent primary. See [Replication factor](/documentation/scaling/distributed_deployment/#replication-factor) and [Creating new shard replicas](/documentation/scaling/distributed_deployment/#creating-new-shard-replicas) for how to configure replication.
 
 Each replica is in one of three states: active (healthy and serving traffic), dead (unresponsive to health checks or failing to serve traffic), or partial (resynchronizing before it can become active). A dead replica stops receiving traffic from other peers and may need manual intervention if it doesn't recover on its own. This state model is what keeps data consistent and available when only a subset of replicas fail during an update.
+
+### Consistency Guarantees
+
+Replication affects consistency. By default, Qdrant prioritizes availability and throughput, so concurrent updates to the same document can leave replicas temporarily inconsistent. The write consistency factor, read consistency, and write ordering options let you tighten those guarantees when your workload requires it. See [Consistency Guarantees](/documentation/scaling/consistency-guarantees/) for configuration details.
 
 ## Raft Consensus
 
@@ -72,17 +86,23 @@ Operations on collections, on the contrary, are part of the consensus which guar
 
 For high availability, run at least three voting nodes. A two-node cluster cannot form a majority if either node is unavailable, so Raft cannot elect or confirm a leader until both nodes can communicate again.
 
-Practically, it means that if the cluster is in a transition state, either electing a new leader after a failure or starting up, the collection update operations will be denied.
+Practically, it means that if the cluster is in a transition state, either electing a new leader after a failure or starting up, collection update operations will be denied.
 
 You may use the cluster [REST API](https://api.qdrant.tech/master/api-reference/distributed/cluster-status) to check the state of the consensus.
 
-To keep the Raft log from growing indefinitely, Qdrant supports consensus checkpointing: periodically creating a consistent snapshot of the cluster state that all nodes have agreed on, then truncating the log. Without this, a node that joins a long-running cluster would need to replay the entire log to catch up, which gets slower as the log grows. See [Consensus Checkpointing](/documentation/scaling/distributed_deployment/#consensus-checkpointing) in Distributed Deployment for how to trigger one.
+## Consensus Checkpointing
 
-## Consistency
+To keep the Raft log from growing indefinitely, Qdrant supports consensus checkpointing: periodically creating a consistent snapshot of the cluster state that all nodes have agreed on, then truncating the log. Without this, a node that joins a long-running cluster would need to replay the entire log to catch up, which gets slower as the log grows.
 
-By default, Qdrant focuses on availability and maximum throughput of search operations, which is a preferable trade-off for most use cases. During normal operation, you can search and modify data from any peer in the cluster: reads use a partial fan-out strategy to optimize latency and availability, and writes execute in parallel on all active sharded replicas.
+To force a checkpoint, call the `/cluster/recover` API on the required node:
 
-This default favors throughput over strict consistency, so concurrent updates to the same point can briefly diverge across replicas. Qdrant provides tunable knobs to trade some of that throughput for stronger guarantees when you need them. See [Consistency guarantees](/documentation/scaling/distributed_deployment/#consistency-guarantees) for the write consistency factor, read consistency, and write ordering options.
+```http
+POST /cluster/recover
+```
+
+This API can be triggered on any non-leader node, it will send a request to the current consensus leader to create a snapshot. The leader will in turn send the snapshot back to the requesting node for application.
+
+In some cases, this API can be used to recover from an inconsistent cluster state by forcing a snapshot creation.
 
 ## Where to Go Next
 
