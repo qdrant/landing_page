@@ -41,14 +41,15 @@ Running Qdrant in distributed mode makes your cluster resistant to outages when 
 
 For the steps to recover from a permanent node loss, see [Node Failure Recovery](/documentation/scaling/node-failure-recovery/).
 
-## Multi-AZ vs. Replication Factor
+## Multi-AZ Deployments
 
-Replication factor and Multi-AZ solve two different problems, and enabling one does not enable the other.
+An availability zone (AZ) is an isolated section of a cloud provider's infrastructure, typically a distinct data center or group of data centers within a region, with its own power and networking. A multi-AZ deployment spreads your cluster's nodes across more than one availability zone, so that the loss of a single zone, for example due to a power outage or a network failure, doesn't take down your whole cluster.
 
-- **Replication factor** governs data durability: how many copies of each shard exist across your nodes.
-- **Multi-AZ** governs zone placement: whether those nodes, and therefore those copies, are spread across separate availability zones.
+Creating a multi-node cluster with replication does not automatically distribute replicas across availability zones: all replicas may land in the same zone, so a single zone outage could take down every replica of a shard at once, even with a replication factor of two or higher.
 
-Creating a multi-node cluster with replication does not automatically distribute nodes across availability zones. Without Multi-AZ enabled at cluster creation, nodes may end up placed in the same availability zone, so a single zone outage could take down every replica of a shard at once, even with a replication factor of two or more. Enable Multi-AZ explicitly if you need protection against a zone-level failure. See [Create a Cluster](/documentation/cloud/create-cluster/) for how to enable it.
+On the [Qdrant Cloud premium tier](/documentation/cloud-premium/), checking the **Multi AZ** box at cluster creation makes Qdrant zone-aware: it automatically distributes shards across availability zones so that each shard has a replica in another zone, and it routes traffic between zones automatically so the cluster stays available if one zone goes down. See [Creating a Production-Ready Cluster](/documentation/cloud/create-cluster/#creating-a-production-ready-cluster).
+
+Self-hosted Qdrant clusters have no zone awareness and won't automatically distribute replicas across them. You need to spread your nodes across zones yourself, then [move replicas](/documentation/scaling/distributed_deployment/#moving-shards) so that each shard has at least one replica in a different zone.
 
 ## Failover Best Practices
 
@@ -64,3 +65,5 @@ How Qdrant responds to a node failure depends entirely on how the cluster is pro
 
 - [Horizontal Scaling](/documentation/scaling/horizontal-scaling/) covers Raft consensus, the replication model, and consistency guarantees.
 - [Distributed Deployment](/documentation/scaling/distributed_deployment/) covers the practical configuration: enabling distributed mode, sharding, replication, and node failure recovery.
+- [Node Failure Recovery](/documentation/scaling/node-failure-recovery/) covers the steps to remove a permanently failed node from consensus and attach a replacement.
+
