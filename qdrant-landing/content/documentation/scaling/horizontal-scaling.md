@@ -13,22 +13,27 @@ Horizontal scaling means adding more nodes to a Qdrant cluster instead of making
 
 The ideal number of Qdrant nodes depends on how much you value cost-saving, resilience, and performance/scalability in relation to each other.
 
-- **Prioritizing cost-saving**: If cost is most important to you, run a single Qdrant node. This is not recommended for production environments. Drawbacks:
-  - Resilience: Users will experience downtime during node restarts, and recovery is not possible unless you have backups or snapshots.
-  - Performance: Limited to the resources of a single server.
+### One Node
 
-- **Prioritizing resilience**: If resilience is most important to you, run a Qdrant cluster with three or more nodes and two or more shard replicas. Clusters with three or more nodes and replication can perform all operations even while one node is down. Additionally, they gain performance benefits from load-balancing and they can recover from the permanent loss of one node without the need for backups or snapshots (but backups are still strongly recommended). This is most recommended for production environments. Drawbacks:
-   - Cost: Larger clusters are more costly than smaller clusters, which is the only drawback of this configuration.
+One node gives you the lowest cost and is easy to  set up, but it offers no high availability. This is not recommended for production environments. Drawbacks:
 
-- **Balancing cost, resilience, and performance**: Running a two-node Qdrant cluster with replicated shards allows the cluster to respond to most read/write requests even when one node is down, such as during maintenance events. Having two nodes also means greater performance than a single-node cluster while still being cheaper than a three-node cluster. Drawbacks:
-   - Resilience (uptime): "Uptime" here means the ability to perform operations on collections, such as create, edit, or delete, not the ability to serve search and write requests. The cluster cannot perform collection operations when one node is down, since those require >50% of nodes to be running, which is only possible in a 3+ node cluster. Since creating, editing, and deleting collections are usually rare operations, many users find this drawback to be negligible. See [Temporary Node Failure](/documentation/scaling/resilience/#temporary-node-failure) for what actually happens to search and write requests during an outage.
-   - Resilience (data integrity): If the data on one of the two nodes is permanently lost or corrupted, it cannot be recovered aside from snapshots or backups. Only 3+ node clusters can recover from the permanent loss of a single node since recovery operations require >50% of the cluster to be healthy.
-   - Cost: Replicating your shards requires storing two copies of your data.
-   - Performance: The maximum performance of a Qdrant cluster increases as you add more nodes.
+- Resilience: Users will experience downtime during node restarts. If the data on the node is permanently lost or corrupted, it cannot be recovered aside from snapshots or backups.
+- Performance: Limited to the resources of a single server.
 
-"Uptime" and "data integrity" are both forms of resilience but mean different things; see [Resilience terminology](/documentation/scaling/resilience/#resilience-terminology-uptime-vs-data-integrity) for the distinction, and [How resilience works](/documentation/scaling/resilience/#how-resilience-works) for the bigger picture on how replication factor and node count together determine it.
+### Two Nodes
 
-In summary, single-node clusters are best for non-production workloads, replicated 3+ node clusters are the gold standard, and replicated 2-node clusters strike a good balance.
+Two nodes give you twice the capacity of a single node, and a two-node Qdrant cluster with replicated shards can respond to most read/write requests even when one node is down, such as during maintenance events. But it does not give you true high availability. Drawbacks:
+
+- No high availability for cluster-wide operations, like creating, editing, or deleting collections. The cluster cannot perform collection operations when one node is down, since those require >50% of nodes to be running, which is only possible in a 3+ node cluster. This may be acceptable if you don't require true high availability.
+- Data integrity: If the data on one of the two nodes is permanently lost or corrupted, it cannot be recovered aside from snapshots or backups. Only 3+ node clusters can recover from the permanent loss of a single node since recovery operations require >50% of the cluster to be healthy.
+- Cost: Replicating your shards requires storing two copies of your data.
+
+### Three or More Nodes
+
+Three nodes or more provide a highly available cluster, as long as the replication factor is two or higher. Clusters with three or more nodes and replication can perform all operations even while one node is down. They also gain performance benefits from load-balancing, and can recover from the permanent loss of one node without needing backups or snapshots (though backups are still strongly recommended). This is the recommended configuration for production environments. Drawbacks:
+
+- Cost: Replicating your shards requires storing two copies of your data.
+- Cost: Larger clusters are more costly than smaller clusters.
 
 ## Sharding
 
