@@ -11,7 +11,7 @@ social_preview_image: /articles_data/binary-quantization-openai/preview/social-p
 title_preview_image: /articles_data/binary-quantization-openai/preview/preview.webp
 
 date: 2026-06-30T13:12:08-08:00
-author: Nirant Kasliwal
+author: Nirant Kasliwal, Ewa Szyszka
 author_link: https://nirantk.com/about/
 
 featured: false
