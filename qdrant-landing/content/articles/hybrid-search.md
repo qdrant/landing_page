@@ -3,7 +3,7 @@ title: "Hybrid Search with Qdrant's Query API"
 short_description: "Merging different search methods to improve the search quality was never easier"
 description: "Our new Query API allows you to build a hybrid search system that uses different search methods to improve search quality & experience. Learn more here."
 preview_dir: /articles_data/hybrid-search/preview
-social_preview_image: /articles_data/hybrid-search/social-preview.png
+social_preview_image: /articles_data/hybrid-search/preview/social_preview.jpg
 weight: 80
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com

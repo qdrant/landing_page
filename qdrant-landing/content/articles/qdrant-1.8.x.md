@@ -4,7 +4,7 @@ draft: false
 slug: qdrant-1.8.x 
 short_description: "Faster sparse vectors.Optimized indexation. Optional CPU resource management."
 description: "Explore the latest in search technology with Qdrant 1.8.0! Discover faster performance, smarter indexing, and enhanced search capabilities." 
-social_preview_image: /articles_data/qdrant-1.8.x/social_preview.png
+social_preview_image: /articles_data/qdrant-1.8.x/preview/social_preview.jpg
 small_preview_image: /articles_data/qdrant-1.8.x/icon.svg
 preview_dir: /articles_data/qdrant-1.8.x/preview
 weight: -140

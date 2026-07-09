@@ -3,7 +3,7 @@ title: "Filterable HNSW Without Recall Loss"
 short_description: How to make ANN search with custom filtering?
 description: How to make ANN search with custom filtering? Search in selected subsets without losing the results.
 # external_link: https://blog.vasnetsov.com/posts/categorical-hnsw/
-social_preview_image: /articles_data/filterable-hnsw/social_preview.jpg
+social_preview_image: /articles_data/filterable-hnsw/preview/social_preview.jpg
 preview_dir: /articles_data/filterable-hnsw/preview
 small_preview_image: /articles_data/filterable-hnsw/global-network.svg
 weight: 40

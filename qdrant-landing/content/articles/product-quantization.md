@@ -2,7 +2,7 @@
 title: "Product Quantization for Vector Search"
 short_description: "Vector search with low memory? Try out our brand-new Product Quantization!"
 description: "Discover product quantization in vector search technology. Learn how it optimizes storage and accelerates search processes for high-dimensional data."
-social_preview_image: /articles_data/product-quantization/social_preview.png
+social_preview_image: /articles_data/product-quantization/preview/social_preview.jpg
 small_preview_image: /articles_data/product-quantization/product-quantization-icon.svg
 preview_dir: /articles_data/product-quantization/preview
 weight: 80

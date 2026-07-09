@@ -3,7 +3,7 @@ title: "Late Interaction Retrieval with Dense Token Embeddings"
 short_description: "Standard dense embedding models perform surprisingly well in late interaction scenarios."
 description: "We recently discovered that embedding models can become late interaction models & can perform surprisingly well in some scenarios. See what we learned here."
 preview_dir: /articles_data/late-interaction-models/preview
-social_preview_image: /articles_data/late-interaction-models/social-preview.png
+social_preview_image: /articles_data/late-interaction-models/preview/social_preview.jpg
 weight: 30
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com
