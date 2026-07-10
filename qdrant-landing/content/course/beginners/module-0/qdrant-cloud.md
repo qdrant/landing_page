@@ -173,3 +173,4 @@ Qdrant Cloud also offers **[Cloud Inference](/cloud-inference/)**—managed embe
 Cut steps from your pipeline: send raw text or images to Qdrant, get vectors and search results in one API call. This helps prototypes and production systems alike by ending the separate embedding-infrastructure layer.
 
 Learn more: [Qdrant Cloud Inference](/documentation/cloud/inference/)
+

@@ -108,7 +108,7 @@ Understand why traditional keyword search fails and how semantic (vector) search
     - References & Further Reading
     <br>
     <br>
-    <p style="margin-left: 0px;"><a href="/course/beginners/module-1/">→ Start Module 1</a></p>
+    <p style="margin-left: 0px;">→ Coming soon</p>
 
 - title: "Module 2: First Principles of Vector Search"
   content: |
@@ -119,7 +119,7 @@ Understand why traditional keyword search fails and how semantic (vector) search
     - Points, Payloads, and Queries
     <br>
     <br>
-    <p style="margin-left: 0px;"><a href="/course/beginners/module-2/">→ Start Module 2</a></p>
+    <p style="margin-left: 0px;">→ Coming soon</p>
 
 - title: "Module 3: Sparse vs Dense vs Hybrid Search"
   content: |
@@ -131,7 +131,7 @@ Understand why traditional keyword search fails and how semantic (vector) search
     - Real-World Use Cases
     <br>
     <br>
-    <p style="margin-left: 0px;"><a href="/course/beginners/module-3/">→ Start Module 3</a></p>
+    <p style="margin-left: 0px;">→ Coming soon</p>
 {{< /accordion >}}
 
 ## Who it's for
