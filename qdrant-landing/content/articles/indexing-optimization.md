@@ -8,6 +8,8 @@ weight: 30
 author: Sabrina Aquino  
 date: 2025-02-13T00:00:00.000Z  
 category: production-ops
+hideFromList: true
+draft: true
 ---
 
 # Optimizing Memory Consumption During Bulk Uploads
