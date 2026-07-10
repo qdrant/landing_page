@@ -329,6 +329,8 @@ After that, Qdrant will exclude the node from the consensus, and the instance wi
 
 Qdrant allows you to specify the shard for each point individually. This feature is useful if you want to control the shard placement of your data, so that operations can hit only the subset of shards they actually need. In big clusters, this can significantly improve the performance of operations that do not require the whole collection to be scanned.
 
+#### Multitenancy
+
 A use-case for this feature is managing a [multi-tenant collection](/documentation/manage-data/multitenancy/), where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-custom-sharding/" >}}
@@ -371,9 +373,11 @@ This is a limitation of the current implementation, and is an anti-pattern that 
 
 Now you can target the operations to specific shard(s) by specifying the `shard_key` on any operation you do. Operations that do not specify the shard key will be executed on __all__ shards.
 
-Another use-case would be to have shards that track the data chronologically, so that you can do more complex itineraries like uploading live data in one shard and archiving it once a certain age has passed.
+#### Time-Based Sharding
 
-<img src="/docs/sharding-per-day.png" alt="Sharding per day" width="500" height="600">
+Another use case for user-defined sharding is time-based sharding, where you route points to a specific shard (or shards) based on timestamp. This enables efficient querying of recent data and efficient data lifecycle management by deleting old shards once they pass a certain age. See the [Time-Based Sharding](/documentation/tutorials/time-based-sharding/) tutorial for more details.
+
+<img src="/documentation/tutorials/time-based-sharding/time-based-sharding.png" alt="Sharding per day">
 
 ### Shard Transfer Method
 
