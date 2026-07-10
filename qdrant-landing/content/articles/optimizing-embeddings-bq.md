@@ -88,17 +88,13 @@ you store:
 
 Each dimension now costs 1 bit instead of 32 bits, which gives roughly a 32x reduction in storage for the quantized representation.
 
-<figure>
-  <img src="/articles/2.png" alt="Binary Quantization explainer diagram" width="674" height="394">
-</figure>
+![binary quantization explainer](/articles_data/optimizing-embeddings-bq/2.png)
 
 ### Dimension reduction vs accuracy with Binary Quantization 
 
 The accompanying chart shows the best accuracy achieved with Binary Quantization across two Matryoshka-trained models, `mxbai-embed-large-v1` and `nomic-embed-text-v1.5`, measured as recall@10 against full-precision search. At each model's native dimension, Binary Quantization preserves search quality remarkably well: `mxbai-embed-large-v1` holds 0.9707 at 1024 dimensions, and `nomic-embed-text-v1.5` holds 0.9067 at 768 dimensions. Accuracy declines as the vectors are truncated more aggressively, falling to roughly 0.80 and 0.73 at 256 dimensions, which tells you where the storage-versus-precision trade-off starts to bite. 
 
-<figure>
-  <img src="/articles/3.png" alt="Bar chart comparing recall@10 for full-precision search against Binary Quantization across mxbai-embed-large-v1 and nomic-embed-text-v1.5 at several dimensions" width="1932" height="1036">
-</figure>
+![recall@10 for full-precision search against Binary Quantization](/articles_data/optimizing-embeddings-bq/3.png)
 
 To analyze the impact of rescoring (`True` or `False`), we compared results across different model configurations and search limits. Rescoring sets up a more precise search, based on results from an initial query. The efficiency gains from Binary Quantization are as follows:
 
@@ -148,9 +144,7 @@ To understand how Binary Quantization behaves in practice, we examined the two s
 
 #### Impact of Rescoring
 
-<figure>
-  <img src="/articles/4.png" alt="Grouped bar chart of recall@10 with and without rescoring across six model and dimension configurations, showing rescoring recovers most of the accuracy lost to Binary Quantization" width="1778" height="1035">
-</figure>
+![recall@10 comparing rescoring](/articles_data/optimizing-embeddings-bq/4.png)
 
 A few consistent patterns emerge:
 
@@ -212,9 +206,7 @@ In Binary Quantization, oversampling means retrieving more binary candidates tha
 
 The trade-off is computational. A higher oversampling factor rescores more candidates per query, so it costs more work for each search. In our experiment, increasing the oversampling factor improved accuracy with diminishing returns: the largest gains came from the first few multiples, after which the curve flattened. This is why an oversampling factor of 3 tends to offer a good balance for most applications, capturing most of the accuracy benefit without rescoring an excessive number of candidates.
 
-<figure>
-  <img src="/articles/5.png" alt="Line chart of recall@10 versus oversampling factor from 1 to 4 with rescoring enabled, plotted per model and dimension" width="1632" height="1032">
-</figure>
+![oversampling effect](/articles_data/optimizing-embeddings-bq/5.png)
 
 
 ### Have we optimized the embeddings? Evaluating with Ranx
