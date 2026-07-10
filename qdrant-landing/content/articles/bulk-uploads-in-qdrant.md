@@ -21,19 +21,17 @@ The goal is not simply to upload data as fast as possible. The goal is to upload
 
 Before we get into the best practices, it's important to remember that not all vectors behave the same way during ingestion. Dense and sparse vectors use different indexing approaches, which means they can create different performance considerations during bulk uploads.
 
-Let's quickly break down the difference before moving into the recommended upload strategies.
-
 ## Why Vector Type Matters
+
+Let's quickly break down the difference before moving into the recommended upload strategies.
 
 Dense and sparse vectors behave differently during ingestion because they use different indexing paths in Qdrant. Dense vectors rely on HNSW for fast similarity search. During a large upload, the background optimizer builds and updates this index as new segments are written. This can add CPU and memory pressure while uploads are in progress.
 
 Sparse vectors use a separate indexing approach, and the sparse index is updated as points are written. This means sparse vector ingestion should not be treated the same way as dense HNSW indexing.
 
-This difference matters because the right bulk upload strategy depends on the type of vectors being uploaded and the indexing work Qdrant has to handle during ingestion.
-
 ## Choosing the Right Bulk Upload Strategy
 
-Before we go through the best practices, understand there is no single configuration that works best for every bulk upload. The right approach depends on what you are trying to improve: upload speed, memory usage, search availability, or a balance of all three.
+Before we go through the best practices, understand **there is no single configuration that works best for every bulk upload**. The right approach depends on what you are trying to improve: upload speed, memory usage, search availability, or a balance of all three.
 
 The safest approach is to choose the right strategy for the workload instead of relying on one universal setting.
 
@@ -45,19 +43,13 @@ Memory usage can become one of the first bottlenecks during a large upload. Dens
 
 A safer approach is to store dense vectors directly on-disk when the collection is created. This allows incoming vector data to use memmap storage from the beginning, instead of relying on background optimization to move vectors from memory to disk later.
 
-<img src="/articles_data/bulk-uploads-in-qdrant/option1-memory.png" alt="Diagram: with on_disk=True, incoming dense vectors use memmap storage on disk from the start, avoiding the RAM pressure of the default in-memory path." style="width:100%; max-width:900px; display:block; margin:1.5rem auto;">
+![Diagram: with on_disk=True, incoming dense vectors use memmap storage on disk from the start, avoiding the RAM pressure of the default in-memory path.](/articles_data/bulk-uploads-in-qdrant/option1-memory.png)
 
 In Python, you can configure this with `on_disk=True` inside `VectorParams`:
 
 ```python
-from qdrant_client import QdrantClient, models
-
-collection_name = "my_collection"
-
-client = QdrantClient(url="http://localhost:6333")
-
 client.create_collection(
-    collection_name=collection_name,
+    collection_name="my_collection",
     vectors_config=models.VectorParams(
         size=768,
         distance=models.Distance.COSINE,
@@ -78,28 +70,13 @@ Use payload indexes before uploading points when you already know which fields w
 
 If those indexes are created after a large dataset has already been uploaded, filtered search will fall back to slower query-time strategies until the HNSW graph is rebuilt. Rebuilding the graph after the fact is resource-intensive and can take a long time.
 
-<img src="/articles_data/bulk-uploads-in-qdrant/option2-payload-index.png" alt="Diagram: creating the payload index before uploading makes filtered search fast immediately, while indexing after upload forces a slow query-time fallback and an expensive HNSW graph rebuild." style="width:100%; max-width:900px; display:block; margin:1.5rem auto;">
+![Diagram: creating the payload index before uploading makes filtered search fast immediately, while indexing after upload forces a slow query-time fallback and an expensive HNSW graph rebuild.](/articles_data/bulk-uploads-in-qdrant/option2-payload-index.png)
 
 In Python, this can look like:
 
 ```python
-from qdrant_client import QdrantClient, models
-
-collection_name = "my_collection"
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.create_collection(
-    collection_name=collection_name,
-    vectors_config=models.VectorParams(
-        size=768,
-        distance=models.Distance.COSINE,
-        on_disk=True,
-    ),
-)
-
 client.create_payload_index(
-    collection_name=collection_name,
+    collection_name="my_collection",
     field_name="category",
     field_schema=models.PayloadSchemaType.KEYWORD,
 )
@@ -117,19 +94,13 @@ Storing original vectors on-disk can help reduce memory pressure during large up
 
 Quantization can help balance this tradeoff. Instead of keeping full-size dense vectors in memory, Qdrant can keep a compressed version available while the original vectors remain on-disk.
 
-<img src="/articles_data/bulk-uploads-in-qdrant/option3-quantization.png" alt="Diagram: original full-size vectors stay on disk while a compressed INT8 copy is kept in RAM, so search stays fast with lower memory use." style="width:100%; max-width:900px; display:block; margin:1.5rem auto;">
+![Diagram: original full-size vectors stay on disk while a compressed INT8 copy is kept in RAM, so search stays fast with lower memory use.](/articles_data/bulk-uploads-in-qdrant/option3-quantization.png)
 
 In Python, scalar quantization can be configured when creating the collection:
 
 ```python
-from qdrant_client import QdrantClient, models
-
-collection_name = "my_collection"
-
-client = QdrantClient(url="http://localhost:6333")
-
 client.create_collection(
-    collection_name=collection_name,
+    collection_name="my_collection",
     vectors_config=models.VectorParams(
         size=768,
         distance=models.Distance.COSINE,
@@ -154,19 +125,13 @@ client.create_collection(
 
 For large sparse vector workloads, one option is to store the sparse vector index on-disk. This can help reduce memory usage when the sparse index becomes large.
 
-<img src="/articles_data/bulk-uploads-in-qdrant/option4-sparse-ondisk.png" alt="Diagram: keeping the sparse index in memory grows memory pressure, while storing it on disk lowers memory use at the cost of some search latency." style="width:100%; max-width:900px; display:block; margin:1.5rem auto;">
+![Diagram: keeping the sparse index in memory grows memory pressure, while storing it on disk lowers memory use at the cost of some search latency.](/articles_data/bulk-uploads-in-qdrant/option4-sparse-ondisk.png)
 
 In Python, this can look like:
 
 ```python
-from qdrant_client import QdrantClient, models
-
-collection_name = "my_collection"
-
-client = QdrantClient(url="http://localhost:6333")
-
 client.create_collection(
-    collection_name=collection_name,
+    collection_name="my_collection",
     vectors_config={},
     sparse_vectors_config={
         "text": models.SparseVectorParams(
@@ -190,39 +155,15 @@ Uploading points one at a time can add unnecessary overhead. Each request has to
 
 A better approach is to upload points in batches. Batching allows Qdrant to process groups of points together instead of handling every point as a separate request.
 
-<img src="/articles_data/bulk-uploads-in-qdrant/option5-batching.png" alt="Diagram: uploading one point per request creates high overhead, while grouping points into batches of 64-256 is about 5x faster." style="width:100%; max-width:900px; display:block; margin:1.5rem auto;">
+![Diagram: uploading one point per request creates high overhead, while grouping points into batches of 64-256 is about 5x faster.](/articles_data/bulk-uploads-in-qdrant/option5-batching.png)
 
 <div style="margin:1.5rem 0; padding:16px 18px; border:1px solid rgba(38,166,154,0.35); border-left:3px solid #26a69a; border-radius:8px; background:rgba(38,166,154,0.08);"><div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#4db6ac; margin-bottom:6px;">📊 Benchmark</div>In testing with 10,000 768-dim vectors, batching at <strong>64 points per request</strong> was <strong style="color:#4db6ac;">~5× faster</strong> than uploading one point at a time.</div>
 
 In Python, this can look like:
 
 ```python
-from qdrant_client import QdrantClient, models
-
-collection_name = "my_collection"
-
-client = QdrantClient(url="http://localhost:6333")
-
-client.create_collection(
-    collection_name=collection_name,
-    vectors_config=models.VectorParams(
-        size=768,
-        distance=models.Distance.COSINE,
-        on_disk=True,
-    ),
-)
-
-points = [
-    models.PointStruct(
-        id=i,
-        vector=[0.1] * 768,
-        payload={"category": "example"},
-    )
-    for i in range(1000)
-]
-
 client.upload_points(
-    collection_name=collection_name,
+    collection_name="my_collection",
     points=points,
     batch_size=256,
 )
@@ -240,7 +181,7 @@ A single upload stream may not fully use the available write capacity of your Qd
 
 Parallel uploads allow several workers to upload different parts of the dataset at the same time. This keeps Qdrant's write pipeline active, especially when the collection has multiple shards.
 
-<img src="/articles_data/bulk-uploads-in-qdrant/option6-parallel.png" alt="Diagram: a single upload worker underuses write capacity, while multiple parallel workers feed the write pipeline for roughly 2x throughput." style="width:100%; max-width:900px; display:block; margin:1.5rem auto;">
+![Diagram: a single upload worker underuses write capacity, while multiple parallel workers feed the write pipeline for roughly 2x throughput.](/articles_data/bulk-uploads-in-qdrant/option6-parallel.png)
 
 <div style="margin:1.5rem 0; padding:16px 18px; border:1px solid rgba(38,166,154,0.35); border-left:3px solid #26a69a; border-radius:8px; background:rgba(38,166,154,0.08);"><div style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#4db6ac; margin-bottom:6px;">📊 Benchmark</div>In testing with 10,000 768-dim vectors on a local deployment, uploading with <strong>4 parallel workers</strong> was <strong style="color:#4db6ac;">~2× faster</strong> than a single upload stream.</div>
 
@@ -249,14 +190,8 @@ Note: Parallelism gains are not always linear; in some configurations, 2 workers
 In Python, this can look like:
 
 ```python
-from qdrant_client import QdrantClient, models
-
-collection_name = "my_collection"
-
-client = QdrantClient(url="http://localhost:6333")
-
 client.upload_points(
-    collection_name=collection_name,
+    collection_name="my_collection",
     points=points,
     batch_size=256,
     parallel=4,
@@ -273,19 +208,13 @@ client.upload_points(
 
 For larger uploads, sharding can help Qdrant process writes in parallel. A collection can be created with more than one shard, and each shard has its own write path. With multiple shards, Qdrant distributes ingestion work across independent write paths.
 
-<img src="/articles_data/bulk-uploads-in-qdrant/option7-sharding.png" alt="Diagram: a single shard limits ingestion parallelism, while multiple shards give independent write paths for distributed ingestion." style="width:100%; max-width:900px; display:block; margin:1.5rem auto;">
+![Diagram: a single shard limits ingestion parallelism, while multiple shards give independent write paths for distributed ingestion.](/articles_data/bulk-uploads-in-qdrant/option7-sharding.png)
 
 In Python, this can look like:
 
 ```python
-from qdrant_client import QdrantClient, models
-
-collection_name = "my_collection"
-
-client = QdrantClient(url="http://localhost:6333")
-
 client.create_collection(
-    collection_name=collection_name,
+    collection_name="my_collection",
     vectors_config=models.VectorParams(
         size=768,
         distance=models.Distance.COSINE,
@@ -311,10 +240,12 @@ client.create_collection(
 | One upload worker is not enough             | Option 6: Parallelize Uploads                       | Option 7: Multiple Shards                              | Too much parallelism can create pressure on CPU, memory, disk I/O, and network resources.                       |
 | Very large dataset with high write volume   | Option 7: Multiple Shards                           | Option 5: Batch Uploads, Option 6: Parallelize Uploads | More shards add overhead, so shard count should match the deployment size and write parallelism needed.         |
 
+Still deciding exactly what to configure for your workload? [Qdrant Skills](https://skills.qdrant.tech) provides hands-on, scenario-based guidance that walks you through the specific settings for your situation.
+
 ## It's Not One-Size-Fits-All
 
 Bulk uploads are not just about sending as much data as possible into Qdrant. As datasets grow, the upload process also needs to account for memory usage, indexing behavior, disk writes, search availability, and overall system stability.
 
 The safest approach is to choose the right strategy for the workload instead of relying on one universal configuration. Dense vectors, sparse vectors, and hybrid setups can all create different performance considerations during ingestion.
 
-By designing the collection and upload process before ingestion starts, you can make bulk uploads more efficient, more stable, and easier to scale as your dataset grows. For help sizing your deployment, see the [Capacity Planning guide](/documentation/capacity-planning/).
+By designing the collection and upload process before ingestion starts, you can make bulk uploads more efficient, more stable, and easier to scale as your dataset grows. To size your deployment, use the [Qdrant sizing calculator](https://sizing.qdrant.tech).
