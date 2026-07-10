@@ -1,13 +1,13 @@
 ---
-title: "How to Handle Bulk Uploads in Qdrant"
-short_description: "Best practices for uploading large datasets into Qdrant safely and efficiently."
+title: "Bulk Uploading Data to Qdrant"
+short_description: "Plan bulk uploads in Qdrant at scale: batching, parallelization, sharding, payload indexes, quantization, and on-disk storage."
 description: "Learn how to plan bulk uploads in Qdrant: batching, parallelization, sharding, payload indexes, quantization, and on-disk storage for dense and sparse vectors."
 preview_dir: /articles_data/bulk-uploads-in-qdrant/preview
 social_preview_image: /articles_data/bulk-uploads-in-qdrant/preview/social_preview.jpg
 weight: 35
 author: John Kupchanko
 category: production-ops
-date: 2026-07-09T00:00:00.000Z
+date: 2026-07-14
 draft: false
 ---
 
