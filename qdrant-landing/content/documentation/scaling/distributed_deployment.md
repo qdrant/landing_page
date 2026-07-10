@@ -375,7 +375,7 @@ Now you can target the operations to specific shard(s) by specifying the `shard_
 
 #### Time-Based Sharding
 
-Another use case for user-defined sharding is time-based sharding, where you route points to a specific shard (or shards) based on timestamp. This enables efficient querying of recent data and efficient data lifecycle management by deleting old shards once they pass a certain age. See the [Time-Based Sharding](/documentation/tutorials/time-based-sharding/) tutorial for more details.
+Another use case for user-defined sharding is time-based sharding, where you route points to a specific shard (or shards) based on timestamp. This enables efficient querying of recent data and efficient data lifecycle management by deleting old shards once they pass a certain age. See the [Time-Based Sharding](/documentation/tutorials-operations/time-based-sharding/) tutorial for more details.
 
 <img src="/documentation/tutorials/time-based-sharding/time-based-sharding.png" alt="Sharding per day">
 

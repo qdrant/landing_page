@@ -11,7 +11,7 @@ Sometimes hardware malfunctions might render some nodes of the Qdrant cluster un
 
 ## Recover with Replicated Collection
 
-If the number of failed nodes is less than the replication factor of the collection, then your cluster should [still be able to perform read, search, and update queries](/documentation/scaling/resilience).
+If the number of failed nodes is less than the replication factor of the collection, then your cluster should [still be able to perform read, search, and update queries](/documentation/scaling/resilience/).
 
 If the failed node restarts, consensus will trigger the replication process to update the recovering node with any updates it missed.
 
