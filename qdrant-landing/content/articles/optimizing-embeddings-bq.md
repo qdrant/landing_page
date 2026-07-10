@@ -4,8 +4,8 @@ draft: false
 slug: optimize-embeddings-quantization
 short_description: "Use Qdrant's Binary Quantization to enhance modern text embeddings"
 description: "Explore how Qdrant's Binary Quantization can significantly improve the efficiency and performance of modern text embedding models."
-preview_image: /articles_data/optimizing-embeddings-bq/preview.jpg
-social_preview_image: /articles_data/optimizing-embeddings-bq/social_preview.jpg
+preview_dir: /articles_data/optimizing-embeddings-bq/preview
+social_preview_image: /articles_data/optimizing-embeddings-bq/preview/social_preview.jpg
 date: 2026-07-15
 author: Ewa Szyszka
 tags:
