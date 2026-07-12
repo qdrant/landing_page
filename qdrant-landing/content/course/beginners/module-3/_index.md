@@ -65,6 +65,8 @@ encode("cheap flights")    ≈  encode("affordable airfare")
 
 Sparse vectors are token-based. Only the dimensions corresponding to tokens that actually appear in the text have non-zero values - everything else is zero. BM25, SPLADE, and miniCOIL are the most common ways to produce them.
 
+![sparse.png](/courses/beginners/module-3/sparse.png)
+
 #### How Sparse Vectors Are Encoded
 
 A dense vector has a small, fixed number of dimensions (e.g. 384), and every single one holds a value. A sparse vector works the opposite way: it has one dimension per token in the vocabulary - often tens of thousands - but a given piece of text only ever activates the handful of tokens it actually contains. Everything else is implicitly zero.
@@ -94,6 +96,8 @@ Different sparse models decide *which* tokens get weight and *how much*:
 | miniCOIL | Neural, contextualized term weighting - keeps BM25's exact-token vocabulary but weights each occurrence using its surrounding context | Adds context-awareness to exact-match retrieval without the cost of full expansion models like SPLADE. |
 
 Start with BM25 for interpretable, exact-match retrieval. Reach for SPLADE or miniCOIL when you need sparse retrieval to be more forgiving of related wording, at some extra compute cost.
+
+![comparison.png](/courses/beginners/module-3/comparison.png)
 
 #### Indexing Sparse Vectors
 
@@ -172,20 +176,13 @@ Hybrid search runs dense and sparse retrieval simultaneously, then fuses the ran
 
 ### A Concrete Example
 
-Query: "Nike Pegasus 40 size 10"
+![nike-example.png](/courses/beginners/module-3/nike-example.png)
 
-**Dense**
-Understands: running shoes, athletic footwear, sport sneakers
+### RRF Fusion
 
-**Sparse**
-Exactly matches: Nike, Pegasus, 40, size, 10
+![fusion.png](/courses/beginners/module-3/fusion.png)
 
-**Filters**
-Enforces: in_stock=true, price ≤ 200
-
-↓ **RRF Fusion** ↓
-
-Best results: correct product, correct size, in stock
+You can learn more about fusion in the [Hybrid Queries documentation](https://qdrant.tech/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
 
 ## 5. Setting Up Hybrid Search in Qdrant
 
@@ -288,6 +285,8 @@ Once both retrievers return their candidate sets, a fusion algorithm merges them
 | RRF (Reciprocal Rank Fusion) | Combines rankings only - ignores raw score values. Robust, hard to game. | Default for most cases. Safe starting point when score scales differ between dense and sparse. |
 | DBSF (Distribution-Based Score Fusion) | Normalizes score distributions before merging. Sensitive to relative score differences. | Better when score gaps meaningfully encode relevance and both retrievers are well-calibrated. |
 
+You can learn more about fusion in the [Hybrid Queries documentation](https://qdrant.tech/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
+
 ### Starting point
 
 Start with RRF. It's the safer default because dense and sparse scores are on different scales - raw score fusion without normalization produces unreliable results. Switch to DBSF only after evaluating on a labeled test set.
@@ -311,6 +310,8 @@ Audio fingerprints or spectrogram embeddings
 - **Text**
 "cheap flights NYC" → semantic docs
 Sentence transformers, OpenAI embeddings, etc.
+
+![multimodal.png](/courses/beginners/module-3/multimodal.png)
 
 ### The Unifying Principle
 
