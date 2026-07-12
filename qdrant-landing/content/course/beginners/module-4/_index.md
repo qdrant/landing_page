@@ -34,6 +34,8 @@ Every vector search system, from a notebook prototype to a deployment serving mi
 - **Knowledge layer**: The data itself and how it's prepared: chunking, embedding model choice, payload schema design. Problems in this layer can't be fixed by tuning any other layer. Garbage in, garbage retrieved.
 - **Distribution layer**: How the system grows beyond one machine: sharding, replication, multi-node clusters. You don't need this on day one. Growing systems eventually do.
 
+![layers-of-stack](/courses/beginners/module-4/layers.png)
+
 ### Key insight
 
 Every design decision belongs to a layer. "Add a payload index" is an indexing decision. "Switch to a multilingual embedding model" is a knowledge decision. "Move to three nodes" is a distribution decision. Once you sort decisions into layers, intimidating architecture diagrams become checklists.
@@ -234,6 +236,8 @@ The news system's design runs unchanged on any deployment mode. Which one is rig
 | Hybrid Cloud (BYOC) | Data residency or security policy requires your infrastructure | Managed cloud would do; this adds Kubernetes ops complexity |
 | Private Cloud / On-Prem | Strictest requirements: defense, healthcare, finance | A lighter mode meets your needs |
 | Edge | On-device search, offline, ultra-low latency | You need distributed search (Edge is single-node) |
+
+![deployment modes](/courses/beginners/module-4/deployment.png)
 
 ## 6. Knowledge Check
 
