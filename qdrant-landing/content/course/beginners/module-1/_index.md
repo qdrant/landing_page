@@ -1,7 +1,7 @@
 ---
 title: "Module 1: Let's Understand Search"
-short_description: "Module 1 of the Beginners course: understand why traditional search fails and how semantic (vector) search solves it."
-description: "Understand why keyword search breaks and how vectors solve it. Learn about embeddings, distance metrics, and hybrid search systems."
+short_description: "Module 1 of the Beginners course: Understand why traditional search struggles and how modern semantic search improves it."
+description: "Understand why traditional search struggles and how modern semantic search improves it. Learn about embeddings, distance metrics, and hybrid search systems."
 isLesson: true
 weight: 20
 ---
@@ -10,7 +10,7 @@ weight: 20
 
 # Let's Understand Search
 
-Understand why traditional search fails, how semantic (vector) search solves it.
+Understand why traditional search struggles and how modern semantic search improves it.
 
 ## Today's path
 
@@ -45,7 +45,7 @@ This approach works for predictable, structured queries. It breaks immediately o
 | cheap flights NYC | affordable airfare to New York | ❌ Missed |
 | Apple stock | fruit company disambiguation? | ✔ Match |
 
-### The Three Core Failure Modes
+### The Four Core Failure Modes
 
 - **Synonyms**: "car" ≠ "automobile" to a keyword engine, even though they mean the same thing. No word overlap = no match.
 - **Paraphrasing**: Same meaning, completely different words. "cheap flights" vs. "affordable airfare" are identical in intent, invisible to grep.
@@ -95,7 +95,7 @@ Semantic search changes the question from:
 "Does this document contain the same words?"
 
 **Semantic search asks:**
-"Does this document mean the same thing?"
+"Does this document mean the same concept?"
 
 ### A Real-world example
 
@@ -136,6 +136,8 @@ Each dimension in the vector captures some aspect of the text's meaning. A 384-d
 - **Domain-specific models**: Fine-tuned on legal, medical, or code corpora. Outperform general models on specialized content.
 - **Multimodal models**: Project text and images into the same vector space. Used by Tripadvisor and others (see Module 4).
 
+Vector embeddings aren't limited by these models, however. They are theoretically capable of capturing any data into a transformed structured format.
+
 ## 5. Comparing Meaning: Distance Metrics
 
 Once we have vectors, we need a way to measure how similar two of them are. Different metrics suit different situations.
@@ -144,18 +146,11 @@ Once we have vectors, we need a way to measure how similar two of them are. Diff
 
 The most common metric for text. It measures the angle between two vectors, ignoring their magnitude (length) and focusing purely on direction. A score of 1.0 means that the vectors are pointing in the same direction and have exactly the same semantic meaning (identical meaning). A score of 0.0 means on the other hand can be interpreted as two sentences being semantically unrelated.
 
-```python
-import numpy as np
+$$
+\text{cosine\_similarity}(A, B) = \frac{A \cdot B}{\lVert A \rVert \, \lVert B \rVert}
+$$
 
-def cosine_similarity(a, b):
-    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
-
-query_vec = model.encode("car repair")
-doc_vec   = model.encode("automobile maintenance")
-
-score = cosine_similarity(query_vec, doc_vec)
-print(f"Similarity: {score:.3f}")   # e.g. 0.847
-```
+For example, embedding "car repair" and "automobile maintenance" and comparing the two vectors with this formula yields a similarity score around 0.847 - close to 1.0, reflecting their shared meaning despite having no words in common.
 
 ### Distance Metric Comparison
 
@@ -164,6 +159,7 @@ print(f"Similarity: {score:.3f}")   # e.g. 0.847
 | Cosine | Text similarity, NLP models | Robust to different vector magnitudes. Most common default. |
 | Dot product | When embeddings are normalized | Faster than cosine if vectors are unit-normalized at index time. |
 | Euclidean (L2) | Image embeddings, spatial data | Sensitive to magnitude - works best with models trained for it. |
+| Manhattan (L1) | Sparse or grid-like data | Sums absolute differences instead of squaring them - less sensitive to outliers than Euclidean. |
 
 ## 6. Why Similarity Alone Is Not Enough
 
@@ -188,7 +184,7 @@ Vector similarity is a powerful primitive. But a real search system needs severa
 #   SKU-48291  (score: 0.89)  ← only correct result returned
 ```
 
-### Key insight
+### Key Insight
 
 Dense similarity finds the neighborhood. Filters, exact matches, and payload constraints find the right point within that neighborhood. You need both.
 
@@ -200,7 +196,6 @@ Production search today combines multiple retrieval signals in a single pipeline
 
 - **Dense**: Semantic / vector - Intent, vibe, meaning
 - **Sparse**: BM25 / keyword - Exact terms, rare tokens
-- **Filters (Optional)**: Payload constraints - Hard rules, access control
 
 ### Where Hybrid Search Is Used
 
@@ -208,6 +203,7 @@ Production search today combines multiple retrieval signals in a single pipeline
 - **Agentic AI systems** - multi-step agents that query different data sources sequentially
 - **E-commerce** - find semantically similar products, then filter by price, brand, and availability
 - **Knowledge bases** - semantic over documents, keyword for exact references and code snippets
+- and more...
 
 ### Quick Comparison
 
@@ -220,7 +216,7 @@ Production search today combines multiple retrieval signals in a single pipeline
 
 ## 8. References & Further Reading
 
-- **Qdrant Documentation** - [Qdrant Overview](https://qdrant.tech/documentation/concepts/)
+- **Qdrant Concepts** - [Qdrant Overview](https://qdrant.tech/documentation/concepts/)
   - Overview of Qdrant's vector search engine - collections, points, payloads, and APIs.
 
 - **Distance Metrics Deep Dive** - [Distance Metrics - Qdrant](https://qdrant.tech/documentation/concepts/#distance-metrics)
@@ -229,7 +225,7 @@ Production search today combines multiple retrieval signals in a single pipeline
 - **Filtering & Hybrid Search** - [Filtering - Qdrant](https://qdrant.tech/documentation/concepts/filtering/)
   - Payload filter syntax, indexed fields, and combining filters with vector queries.
 
-- **RAG Tutorials** - https://qdrant.tech/rag
+- **RAG Tutorials** - [RAG Tutorials - Qdrant](https://qdrant.tech/rag)
   - End-to-end retrieval-augmented generation tutorials using Qdrant as the retriever.
 
 ## What's Next - Module 2

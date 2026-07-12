@@ -20,7 +20,7 @@ isLesson: true
 
 **Learn the fundamentals of vector search**
 
-Understand why traditional keyword search fails and how semantic (vector) search solves it. Learn about embeddings, distance metrics, and hybrid search systems.
+Understand why traditional search struggles and how modern semantic search improves it. Learn about embeddings, distance metrics, and hybrid search systems.
 
 <br/>
 
@@ -60,7 +60,7 @@ Understand why traditional keyword search fails and how semantic (vector) search
 
 **Module 0**: Setup. Configure your environment and get started with the basics.
 
-**Module 1**: Let's Understand Search. Understand why keyword search fails and how semantic search solves it.
+**Module 1**: Let's Understand Search. Understand why traditional search struggles and how modern semantic search improves it.
 
 **Module 2**: First Principles of Vector Search. Learn what vectors are, how dimensions represent meaning, similarity metrics, and build your first Qdrant collection.
 
