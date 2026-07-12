@@ -89,9 +89,7 @@ In [vector search](/advanced-search/), filtering and sorting are more interdepen
 
 Use this decision tree to determine whether filtering is appropriate for a given query:
 
-<figure>
-  <img src="https://github.com/user-attachments/assets/554f104f-9357-4e8e-aa0e-ac9c73c60184" alt="Decision tree for choosing whether to apply a filter based on filter selectivity" width="940" height="488">
-</figure>
+{{< figure src="https://github.com/user-attachments/assets/554f104f-9357-4e8e-aa0e-ac9c73c60184" alt="Decision tree for choosing whether to apply a filter based on filter selectivity" width="940" height="488" >}}
 
 ## How Qdrant Handles Filtered Vector Search
 
