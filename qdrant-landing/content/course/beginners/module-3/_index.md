@@ -1,7 +1,7 @@
 ---
 title: "Module 3: Sparse vs Dense vs Hybrid Search"
-short_description: "Module 3 of the Beginners course: understand dense vs sparse search, when each fails, and how hybrid systems combine them."
-description: "Understand dense vs sparse search, when each fails, and how hybrid systems combine them. Learn about fusion strategies, multimodal search, and real-world use cases."
+short_description: "Module 3 of the Beginners course: Understand dense versus sparse retrieval, their strengths, and how a hybrid approach can combine them."
+description: "Understand dense versus sparse retrieval, their strengths, and how a hybrid approach can combine them. Learn about fusion strategies and multimodal search."
 isLesson: true
 weight: 40
 ---
@@ -10,39 +10,39 @@ weight: 40
 
 # Sparse vs Dense vs Hybrid Search
 
-Understand dense vs sparse search, when each fails, and how hybrid systems combine them.
+Understand dense versus sparse retrieval, their strengths, and how a hybrid approach can combine them.
 
 ## Today's path
 
 1. Where We Left Off
 2. The Two Families of Search
-3. Hybrid Search: Dense + Sparse + Filters (Optional)
-4. Setting Up Hybrid Search in Qdrant
-5. Fusion Strategies
-6. Beyond Text: Multimodal Search
-7. Real-World Use Cases
+3. Filtering: Works with Any Retrieval Method (Optional)
+4. Hybrid Search: Dense + Sparse
+5. Setting Up Hybrid Search in Qdrant
+6. Fusion Strategies
+7. Beyond Text: Multimodal Search
 8. References & Further Reading
 
 By the end, you'll understand when to use dense, sparse, or hybrid search and how to implement them in Qdrant.
 
 ## 1. Where We Left Off
 
-In Module 2, you built a complete ingestion and retrieval pipeline: raw text → vector → store → top-K query. Dense-only search works well for natural language. It breaks immediately on structured identifiers.
+In Module 2, you built a complete ingestion and retrieval pipeline: raw text → vector → store → top-K query. Dense-only retrieval is best for semantic and contextual search. It struggles on precise product names and model numbers.
 
-| Query | SKU-48291 |
+| Query | iPhone 15 |
 |-------|-----------|
 | **The user wants exactly this product. No synonyms. No paraphrasing.** | |
 
 **Dense search returns**
 
-| SKU-48292 | (0.91) | ← wrong |
+| iPhone 14 | (0.93) | ← wrong model |
 |----------|--------|---------|
-| SKU-48291 | (0.89) | ← correct |
-| SKU-48290 | (0.87) | ← wrong |
+| iPhone 15 Pro Max | (0.91) | ← wrong model |
+| iPhone 15 | (0.89) | ← correct |
 
 ### The problem
 
-Dense search understands meaning - but that's exactly wrong here. IDs, codes, and rare tokens need exact matching, not semantic neighborhood. This is the gap sparse search fills.
+Dense search understands meaning - but that's exactly wrong here. "iPhone 14", "iPhone 15", and "iPhone 15 Pro Max" are close together in embedding space because they're about the same product line - but a shopper searching for one wants that exact model, not its closest semantic neighbor. IDs, codes, and specific model names need exact matching, not semantic neighborhood. This is the gap sparse search fills.
 
 ## 2. The Two Families of Search
 
@@ -63,19 +63,48 @@ encode("cheap flights")    ≈  encode("affordable airfare")
 
 ### Sparse Search (Keyword-Based)
 
-Sparse vectors are token-based. Only the dimensions corresponding to tokens that actually appear in the text have non-zero values - everything else is zero. BM25 and SPLADE are the most common sparse models.
+Sparse vectors are token-based. Only the dimensions corresponding to tokens that actually appear in the text have non-zero values - everything else is zero. BM25, SPLADE, and miniCOIL are the most common ways to produce them.
+
+#### How Sparse Vectors Are Encoded
+
+A dense vector has a small, fixed number of dimensions (e.g. 384), and every single one holds a value. A sparse vector works the opposite way: it has one dimension per token in the vocabulary - often tens of thousands - but a given piece of text only ever activates the handful of tokens it actually contains. Everything else is implicitly zero.
+
+Storing tens of thousands of mostly-zero numbers per point would be wasteful, so sparse vectors are represented as two parallel arrays instead: the `indices` of the non-zero dimensions, and the `values` at those positions. Nothing is stored for the dimensions that are zero.
 
 ```python
 # Sparse vector: most values are zero
-# Only the indices of present tokens are stored
+# Only the indices of present tokens are stored - not the full vocabulary
 sparse_vector = {
     "indices": [142, 9325, 44001],   # token IDs: 'nike', 'pegasus', '40'
-    "values":  [2.3,   1.2,    0.8],  # BM25 scores for each token
+    "values":  [2.3,   1.2,    0.8],  # weight for each token
 }
 
 # Exact match: 'SKU-48291' only matches the document
 # that contains those exact characters.
 ```
+
+#### Sparse Models: BM25, SPLADE, and miniCOIL
+
+Different sparse models decide *which* tokens get weight and *how much*:
+
+| Model | How it assigns weights | Notes |
+|-------|-------------------------|-------|
+| BM25 | Statistical - term frequency and inverse document frequency (IDF), no training involved | Classic, fast, fully interpretable. Only scores tokens exactly as written. Qdrant's default sparse model (`Qdrant/bm25`). |
+| SPLADE | Neural - a transformer learns to expand a text with related terms and assign them weights, even terms not in the original text | Captures some synonymy while staying sparse. More compute-intensive than BM25. |
+| miniCOIL | Neural, contextualized term weighting - keeps BM25's exact-token vocabulary but weights each occurrence using its surrounding context | Adds context-awareness to exact-match retrieval without the cost of full expansion models like SPLADE. |
+
+Start with BM25 for interpretable, exact-match retrieval. Reach for SPLADE or miniCOIL when you need sparse retrieval to be more forgiving of related wording, at some extra compute cost.
+
+#### Indexing Sparse Vectors
+
+Because the vast majority of dimensions are zero, comparing full vectors would waste effort scanning entries that don't matter. Qdrant indexes sparse vectors with a data structure similar to the **inverted index** used by text search engines: for every token, it keeps a posting list of every point where that token has a non-zero weight.
+
+```
+Token "nike"    → posting list: [point_1, point_5, point_42, ...]
+Token "pegasus" → posting list: [point_1, point_5, point_88, ...]
+```
+
+A query only walks the posting lists for tokens it actually contains, skipping every point that shares none of them. Unlike HNSW (Module 2), which is an approximate index, Qdrant's sparse index is exact - no accuracy is traded away for speed.
 
 ### Head-to-Head Comparison
 
@@ -95,9 +124,51 @@ sparse_vector = {
 
 Dense = meaning. Sparse = exact matching. Neither is complete alone. Every real-world query contains both semantic intent (what the user means) and exact constraints (what the user needs precisely). You need both.
 
-## 3. Hybrid Search: Dense + Sparse + Filters (Optional)
+## 3. Filtering: Works with Any Retrieval Method (Optional)
 
-Hybrid search runs dense and sparse retrieval simultaneously, then fuses the ranked candidate lists into a single result set. Payload filters can be applied as hard constraints throughout. The result: semantic understanding with exact-match precision.
+Payload filters are not a hybrid-only feature. The same `query_filter` applies whether you're running dense-only, sparse-only, or hybrid retrieval - it's evaluated as a hard constraint during the search itself, not as a separate step afterward.
+
+### Filtering a Dense Query
+
+```python
+from qdrant_client.models import Filter, FieldCondition, MatchValue
+
+results = client.query_points(
+    collection_name="products",
+    query=dense_query_vector,
+    using="dense",
+    query_filter=Filter(
+        must=[FieldCondition(key="in_stock", match=MatchValue(value=True))]
+    ),
+    limit=5,
+)
+```
+
+### Filtering a Sparse Query
+
+```python
+results = client.query_points(
+    collection_name="products",
+    query=sparse_query_vector,
+    using="sparse",
+    query_filter=Filter(
+        must=[FieldCondition(key="in_stock", match=MatchValue(value=True))]
+    ),
+    limit=5,
+)
+```
+
+### Filtering a Hybrid Query
+
+The identical `query_filter` parameter also applies when fusing dense and sparse prefetches together - see Section 5 for a full hybrid example with filters attached.
+
+### Why it matters
+
+Because filters are applied during the search rather than after it, out-of-scope points never take up a slot in your top-K results - regardless of whether the underlying retrieval is dense, sparse, or hybrid. This keeps results both relevant and valid: in stock, within permissions, within a date range.
+
+## 4. Hybrid Search: Dense + Sparse
+
+Hybrid search runs dense and sparse retrieval simultaneously, then fuses the ranked candidate lists into a single result set. The result: semantic understanding with exact-match precision. Filters (Section 3) can be layered on top of any of this.
 
 ### A Concrete Example
 
@@ -116,7 +187,7 @@ Enforces: in_stock=true, price ≤ 200
 
 Best results: correct product, correct size, in stock
 
-## 4. Setting Up Hybrid Search in Qdrant
+## 5. Setting Up Hybrid Search in Qdrant
 
 Hybrid search in Qdrant uses named vectors - dense and sparse stored together on the same point - and the Universal Query API to prefetch from each, then fuse the results.
 
@@ -208,7 +279,7 @@ results = client.query_points(
 
 Both prefetch calls run in parallel. Each returns 20 candidates. RRF fusion merges the two ranked lists based on position (not score), then the final limit=5 takes the top results. The filter applies throughout - out-of-stock products never enter the candidate set.
 
-## 5. Fusion Strategies
+## 6. Fusion Strategies
 
 Once both retrievers return their candidate sets, a fusion algorithm merges them into a single ranked list. Qdrant supports two strategies:
 
@@ -221,27 +292,23 @@ Once both retrievers return their candidate sets, a fusion algorithm merges them
 
 Start with RRF. It's the safer default because dense and sparse scores are on different scales - raw score fusion without normalization produces unreliable results. Switch to DBSF only after evaluating on a labeled test set.
 
-## 6. Beyond Text: Multimodal Search
+## 7. Beyond Text: Multimodal Search
 
 The same primitive - embed data, store as a vector, search by similarity - applies to any modality. Qdrant stores whatever vectors your embedding model produces. The retrieval mechanics are identical.
 
-🖼️
-**Images**
+- **Images**
 "red dress" → visually similar products
 CLIP, SigLIP embed images and text into the same space
 
-🎬
-**Video**
+- **Video**
 "factory fire" → matching video scenes
 Frames are sampled, embedded, stored as named vectors
 
-🎧
-**Audio**
+- **Audio**
 Hum a melody → matching songs
 Audio fingerprints or spectrogram embeddings
 
-📝
-**Text**
+- **Text**
 "cheap flights NYC" → semantic docs
 Sentence transformers, OpenAI embeddings, etc.
 
@@ -275,58 +342,6 @@ client.query_points(
 )
 ```
 
-## 7. Real-World Use Cases
-
-The dense + sparse + filters pattern repeats across domains. The signals change; the architecture does not. Here are five domains where hybrid retrieval is the standard approach:
-
-| Domain | Dense signal | Sparse signal | Key filters |
-|--------|-------------|---------------|-------------|
-| E-commerce | Dense → user intent, style, vibe | Sparse → product names, SKUs, brand | Price, in-stock, category, brand |
-| Legal Discovery | Dense → find semantically relevant docs | Sparse → match exact citations, statutes | Date range, jurisdiction, document type |
-| Agent Memory | Dense → retrieve relevant past context | Sparse → match exact session IDs, names | user_id, session_id, timestamp |
-| Customer Support | Dense → similar past tickets / answers | Sparse → error codes, version strings | Product, severity, resolved status |
-| Medical Search | Dense → symptom similarity | Sparse → ICD codes, drug names | Condition, date, patient cohort |
-
-### Deeper Dive: Agent Memory
-
-Agentic AI systems need to retrieve relevant context from past interactions. This is one of the most common hybrid search patterns in production LLM systems:
-
-```python
-# Storing an agent interaction as a memory point
-client.upsert(
-    collection_name="agent_memory",
-    points=[
-        models.PointStruct(
-            id=interaction_id,
-            vector={
-                "dense":  embed(interaction_text),
-                "sparse": bm25_encode(interaction_text),
-            },
-            payload={
-                "user_id":    user_id,
-                "session_id": session_id,
-                "timestamp":  unix_timestamp,
-                "summary":    interaction_text[:200],
-            },
-        )
-    ],
-)
-
-# Retrieving relevant past context for the current query
-results = client.query_points(
-    collection_name="agent_memory",
-    prefetch=[
-        models.Prefetch(query=embed(current_query), using="dense",  limit=20),
-        models.Prefetch(query=bm25_encode(current_query), using="sparse", limit=20),
-    ],
-    query=models.FusionQuery(fusion=models.Fusion.RRF),
-    query_filter=Filter(
-        must=[FieldCondition(key="user_id", match=MatchValue(value=user_id))]
-    ),
-    limit=5,
-)
-```
-
 ## 8. References & Further Reading
 
 - **Sparse Retrieval Demo** - [Demo: Keyword Search with Sparse Vectors - Qdrant](https://qdrant.tech/documentation/tutorials/sparse_search/)
@@ -338,6 +353,12 @@ results = client.query_points(
 - **Sparse Vectors Reference** - [Vectors - Qdrant](https://qdrant.tech/documentation/concepts/vectors/#sparse-vectors)
   - SparseVectorParams, index configuration, and storage options.
 
+- **Sparse Vector Indexing** - [Indexing - Qdrant](https://qdrant.tech/documentation/manage-data/indexing/#sparse-vector-index)
+  - How Qdrant's inverted-index-style sparse index works, and when it rebuilds into an immutable index.
+
+- **Working with miniCOIL** - [FastEmbed: miniCOIL - Qdrant](https://qdrant.tech/documentation/fastembed/fastembed-minicoil/)
+  - How miniCOIL's contextualized term weighting works, and how to use it via FastEmbed.
+
 - **Multimodal Search Tutorial** - [Multimodal and Multilingual RAG with LlamaIndex and Qdrant](https://qdrant.tech/documentation/tutorials/multimodal_rag/)
   - Text + image search with embeddings and named vectors.
 
@@ -348,9 +369,9 @@ results = client.query_points(
 
 Next, we'll explore:
 
-- Real enterprise architectures - Tripadvisor, HubSpot, and OpenTable in depth
 - Production patterns: multi-tenancy, agent memory, and RAG pipelines
 - Deployment options: Cloud, Hybrid Cloud, Edge, and self-hosted
 - Formula queries - when RRF and DBSF aren't enough
+- etc..
 
 End of Module 3. Continue to Module 4: Customer Use Cases and Production Architecture.
