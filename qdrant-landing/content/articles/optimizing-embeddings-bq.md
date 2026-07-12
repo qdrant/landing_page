@@ -1,18 +1,25 @@
 ---
 title: "Optimize Text Embedding Efficiency with Quantization"
-draft: false
-slug: optimize-embeddings-quantization
 short_description: "Use Qdrant's Binary Quantization to enhance modern text embeddings"
 description: "Explore how Qdrant's Binary Quantization can significantly improve the efficiency and performance of modern text embedding models."
-preview_dir: /articles_data/optimizing-embeddings-bq/preview
 social_preview_image: /articles_data/optimizing-embeddings-bq/preview/social_preview.jpg
-date: 2026-07-15
+preview_dir: /articles_data/optimizing-embeddings-bq/preview
+slug: optimize-embeddings-quantization
+weight: 30
 author: Ewa Szyszka
+author_link: https://github.com/ESzyszka
+date: 2026-07-15T10:00:00+02:00
+draft: false
 tags:
   - text embeddings
   - embedding models
   - quantization
 category: search-quality
+keywords:
+  - binary quantization
+  - vector quantization
+  - embedding optimization
+  - text embeddings
 ---
 
 Modern text embedding models are a powerful tool for natural language processing (NLP). However, the size of these embeddings is a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of the latest text embeddings.
