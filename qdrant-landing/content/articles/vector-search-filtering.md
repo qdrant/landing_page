@@ -293,9 +293,6 @@ The response contains a batch of points that match the criteria and a reference 
 
 ## Advanced Filtering Example: Dinosaur Diets
 
-<figure>
-  <img src="https://github.com/user-attachments/assets/ef43e215-fdf6-400c-8817-ac7d4b271982" alt="Section banner for the dinosaur diets nested-filtering example" width="843" height="161">
-</figure>
 
 We can also use nested filtering to query arrays of objects within the payload. In this example, we have two points. They each represent a dinosaur with a list of food preferences (diet) that indicate what type of food they like or dislike:
 
@@ -607,9 +604,6 @@ You can use filters to retrieve data points without knowing their `id`. You can 
 
 ## Filtering with the Payload Index
 
-<figure>
-  <img src="https://github.com/user-attachments/assets/a5a8a36b-9ea4-42df-830b-0856cac9dc50" alt="Section banner for filtering with the payload index" width="840" height="133">
-</figure>
 
 When you start working with Qdrant, your data is by default organized in a vector index. 
 In addition to this, we recommend adding a secondary data structure - **the payload index**. 
@@ -650,9 +644,6 @@ Once you mark a field indexable, **you don't need to do anything else**. Qdrant 
 
 #### Why Should You Index Metadata?
 
-<figure>
-  <img src="https://github.com/user-attachments/assets/0d4778ec-ba2a-4f9f-82fa-cbf1706b9d02" alt="Section banner for why you should index metadata" width="838" height="146">
-</figure>
 
 The payload index acts as a secondary data structure that speeds up retrieval. Whenever you run vector search with a filter, Qdrant will consult a payload index - if there is one. 
 
@@ -743,9 +734,6 @@ Read more about setting up [tenant defragmentation](/documentation/manage-data/i
 
 ## Key Takeaways in Filtering and Indexing
 
-<figure>
-  <img src="https://github.com/user-attachments/assets/232c6896-1dcf-4318-b2fc-187b43df348d" alt="Section banner for key takeaways in filtering and indexing" width="839" height="142">
-</figure>
 
 ### Filtering with Float-Point (Decimal) Numbers
 If you filter by the float data type, your search precision may be limited and inaccurate. 
