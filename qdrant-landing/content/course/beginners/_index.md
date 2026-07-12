@@ -26,8 +26,8 @@ Understand why traditional keyword search fails and how semantic (vector) search
 
 {{< cards-list >}}
 - icon: /icons/outline/play-white.svg
-  title: Multiple modules
-  content: Focused lessons building from fundamentals to practical applications
+  title: 7 modules
+  content: From setting up dependencies to a hands-on capstone project
 - icon: /icons/outline/cloud-check-blue.svg
   title: Shareable certificate
   content: Earn a digital certificate upon completion
@@ -58,11 +58,19 @@ Understand why traditional keyword search fails and how semantic (vector) search
 
 ### The Path
 
-**Module 0**: Setup. Configure your environment and get started with the basics.
+**Module 0**: Setting Up Dependencies. Configure your environment and get started with the basics.
 
-**Module 1**: Let's Understand Search. Understand why keyword search fails and how semantic search solves it.
+**Module 1**: Let's Understand Search. Understand why traditional search fails and how semantic (vector) search solves it.
 
-**Module 2**: First Principles of Vector Search. Learn what vectors are, how dimensions represent meaning, similarity metrics, and build your first Qdrant collection.
+**Module 2**: First Principles of Vector Search. Anatomy of a vector - how data is stored, indexed, and retrieved in Qdrant.
+
+**Module 3**: Sparse vs Dense vs Hybrid Search. Understand dense vs sparse search, when each fails, and how hybrid systems combine them.
+
+**Module 4**: Designing a Vector Search System. How to design a vector search system - layers, filtering, RAG, and deployment.
+
+**Module 5**: Capstone - Multimodal Supplier Risk Intelligence. Ingest, cluster, and query multimodal supplier signals across languages.
+
+**Module 6**: Bonus - Further Reading. A roundup of advanced techniques for further reading: score boosting, relevance feedback, MMR, and re-ranking.
 
 ## How the course works
 
@@ -132,6 +140,37 @@ Understand why traditional keyword search fails and how semantic (vector) search
     <br>
     <br>
     <p style="margin-left: 0px;">→ Coming soon</p>
+
+- title: "Module 4: Designing a Vector Search System"
+  content: |
+    - Architecture Layers of a Search System
+    - Filtering and Metadata Strategies
+    - Retrieval-Augmented Generation (RAG) Patterns
+    - Deployment Considerations
+    <br>
+    <br>
+    <p style="margin-left: 0px;">→ Coming soon</p>
+
+- title: "Module 5: Capstone - Multimodal Supplier Risk Intelligence"
+  content: |
+    - Ingesting Multimodal Supplier Signals
+    - Clustering Signals Across Languages
+    - Querying the Capstone System
+    - Putting It All Together
+    <br>
+    <br>
+    <p style="margin-left: 0px;">→ Coming soon</p>
+
+- title: "Module 6: Bonus - Further Reading"
+  content: |
+    - Score Boosting
+    - Relevance Feedback
+    - Maximal Marginal Relevance (MMR)
+    - Re-ranking
+    - Other Advanced Techniques
+    <br>
+    <br>
+    <p style="margin-left: 0px;">→ Coming soon</p>
 {{< /accordion >}}
 
 ## Who it's for
@@ -140,7 +179,11 @@ Anyone new to vector search who wants to understand the fundamentals. No prior e
 
 ## Time commitment
 
-- Duration: Multiple modules
+- Duration: 6 days at 1-2 hours/day + 1 optional bonus day
+- Video learning: ~3 hours
+- Hands-on learning: 4-5 hours
+- Final project: 2-4 hours
+- **Total: 9-12 hours**
 - Self-paced learning
 - Flexible schedule
 
