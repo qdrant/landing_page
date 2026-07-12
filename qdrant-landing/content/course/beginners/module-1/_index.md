@@ -14,7 +14,7 @@ Understand why traditional search struggles and how modern semantic search impro
 
 ## Today's path
 
-1. The Problem: Why Keyword Search Breaks
+1. The Problem: Why Keyword Search Struggles
 2. How Traditional Search Improved
 3. Enter Semantic Search
 4. How It Works: Embeddings
@@ -25,7 +25,7 @@ Understand why traditional search struggles and how modern semantic search impro
 
 By the end, you'll understand the limitations of keyword search and how semantic search with vectors addresses these problems.
 
-## 1. The Problem: Why Keyword Search Breaks
+## 1. The Problem: Why Keyword Search Struggles
 
 Traditional search works by matching exact words. That's it. If the query string appears in the document, it's a hit. If it doesn't, it's a miss - no matter how closely related the meaning is.
 
