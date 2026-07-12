@@ -45,6 +45,8 @@ The system has four stages. Each maps to Qdrant primitives you already know.
 3. **Store**: Upsert each signal as a PointStruct with all named vectors and a rich payload: supplier_id, source_type, language, country, published_at, risk_score.
 4. **Cluster + Query**: Daily batch: compute cluster centroids and tag signals with themes. On-demand: hybrid, cross-language queries for analyst investigations.
 
+![Four stages diagram](/courses/beginners/module-5/four-stage.png)
+
 ### Collection Schema
 
 One collection holds all modalities. Named vectors allow querying by text, image, or audio from the same point. Indexed payload fields make all filters fast, exactly as you designed in Module 4.
