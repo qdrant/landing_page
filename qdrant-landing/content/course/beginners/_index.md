@@ -1,8 +1,8 @@
 ---
 title: "Beginners Course"
 page_title: "Qdrant Beginners Course"
-short_description: "Learn the fundamentals of vector search: why keyword search fails, how semantic search works, embeddings, distance metrics, and hybrid systems."
-description: "Understand the fundamentals of vector search. Learn why keyword search breaks, how semantic search with vectors solves it, and build your first search system."
+short_description: "Learn the fundamentals of vector search: why keyword search struggles, how semantic search improves it, embeddings, distance metrics, and hybrid systems."
+description: "Understand why traditional search struggles and how modern semantic search improves it, and build your first search system."
 content:
   sidebarTitle: "Beginners Course"
   menuTitle:
@@ -11,7 +11,7 @@ content:
   nextButton: Continue to Next Step
   nextDay: Complete
   title: "Beginners Course"
-  description: "Understand the fundamentals of vector search. Learn why keyword search breaks, how semantic search with vectors solves it, and build your first search system."
+  description: "Understand why traditional search struggles and how modern semantic search improves it, and build your first search system."
 partition: course
 isLesson: true
 ---
