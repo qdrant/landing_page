@@ -174,3 +174,19 @@ Cut steps from your pipeline: send raw text or images to Qdrant, get vectors and
 
 Learn more: [Qdrant Cloud Inference](/documentation/cloud/inference/)
 
+## Qdrant Agent Skills
+
+If you're using an AI coding assistant (Claude Code, Cursor, and others) alongside this course, [Qdrant Skills](/documentation/skills/) are worth setting up early. Skills are open-source, machine-readable knowledge modules that teach your agent when and why to apply a technique - not just how to call an API. They're organized around symptoms and situations (e.g. "memory usage climbing," "search quality regressed") rather than features, so your agent can diagnose a problem before prescribing a fix.
+
+Skills are hosted at [skills.qdrant.tech](https://qdrant.tech/documentation/skills/) and can be pointed to directly by URL, with no local installation needed. For local or offline use, install them from the [qdrant/skills](https://github.com/qdrant/skills) repository:
+
+```bash
+# Claude Code
+/plugin marketplace add qdrant/skills
+
+# Any agent supporting the npx skills convention
+npx skills add https://github.com/qdrant/skills
+```
+
+Read more about the motivation and design behind them in the [Qdrant Skills release post](/blog/qdrant-skills-release/).
+
