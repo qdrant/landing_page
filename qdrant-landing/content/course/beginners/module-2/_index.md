@@ -10,8 +10,6 @@ weight: 30
 
 # First Principles of Vector Search
 
-Anatomy of a vector - how data is stored, indexed, and retrieved. Move from theory to actual system design in Qdrant.
-
 ## Today's path
 
 1. From Idea to System
@@ -30,24 +28,19 @@ By the end, you'll understand every building block needed to go from raw text to
 
 In Module 1, we saw how search evolved from matching words to understanding meaning. Now we move from theory to actual system design. This module covers every building block you need to go from raw text to a running Qdrant collection.
 
-📝
-**Raw Text**
+- **Raw Text**
 Documents, articles, PDFs
 
-✂️
-**Chunk**
+- **Chunk**
 Split into passages
 
-🧠
-**Embed**
+- **Embed**
 Convert to vectors
 
-🗄️
-**Store**
+- **Store**
 Upsert to Qdrant
 
-🔍
-**Query**
+- **Query**
 Retrieve top-K results
 
 ## 2. Core Data Model
@@ -110,10 +103,10 @@ client.upsert(
             id=1,
             vector=[0.12, -0.87, 0.33, ...],   # 384-dim embedding
             payload={
-                "title":    "Car Repair Guide",
+                "title": "Car Repair Guide",
                 "category": "automotive",
-                "year":     2024,
-                "region":   "EU",
+                "year": 2024,
+                "region": "EU",
             },
         )
     ],
@@ -124,12 +117,12 @@ client.upsert(
 
 When you query a collection, Qdrant computes similarity between your query vector and every stored vector using the distance metric you chose at collection creation. The most common for text is cosine similarity.
 
-| Metric | Best for | Notes |
-|--------|----------|-------|
-| models.Distance.COSINE | Text, NLP models (default) | Measures angle between vectors. Robust to magnitude differences. |
-| models.Distance.DOT | Normalized embeddings | Faster than cosine when vectors are unit-length at index time. |
-| models.Distance.EUCLID | Image embeddings, spatial | Measures absolute distance. Sensitive to vector magnitude. |
-| models.Distance.MANHATTAN | Sparse, high-dimensional | Sum of absolute differences. Useful for very sparse vectors. |
+| Metric | Notes |
+|--------|-------|
+| models.Distance.COSINE | Measures angle between vectors. Robust to magnitude differences. |
+| models.Distance.DOT | Faster than cosine when vectors are unit-length at index time. |
+| models.Distance.EUCLID | Measures absolute distance. Sensitive to vector magnitude. |
+| models.Distance.MANHATTAN | Sum of absolute differences. Useful for very sparse vectors. |
 
 ### Rule
 
@@ -152,7 +145,7 @@ for r in results.points:
 
 ### Why K matters
 
-Returning too few results (K=3) misses relevant content. Returning too many (K=100) passes noise to the LLM. In RAG pipelines, a common pattern is to retrieve K=20–50 with Qdrant, then rerank to K=5 for the LLM context window.
+Returning too few results (K=3) misses relevant content. Returning too many (K=100) creates noise in results. A common pattern is to retrieve K=20–50 with Qdrant, then rerank to K=5. We'll explain reranking later.
 
 ## 5. How Search is Fast: HNSW
 
@@ -193,10 +186,11 @@ results = client.query_points(
     limit=10,
 )
 ```
+To learn more about tuning HNSW, see the comprehensive [Qdrant Essentials Course](https://qdrant.tech/course/essentials/day-2/what-is-hnsw/).
 
 ### Starting point
 
-Default values (m=16, ef_construct=100) work well for most use cases. Only tune if you're measuring a recall or latency gap against a benchmark. See the HNSW deep dive at qdrant.tech/course/essentials/day-2/what-is-hnsw/ for parameter guidance.
+Default values (m=16, ef_construct=100) work well for most use cases. Only tune if you're measuring a recall or latency gap against a benchmark.
 
 ## 6. Payload Filtering
 
@@ -232,7 +226,7 @@ results = client.query_points(
 
 ### Index your filter fields
 
-For fields you filter on frequently, create a payload index. Without an index, Qdrant scans every payload at query time. With one, filtered queries run in logarithmic time. Use client.create_payload_index() for any field that appears in must, should, or must_not conditions.
+For fields you filter on frequently, create a payload index. Without an index, Qdrant scans every payload at query time. With one, filtered queries run in logarithmic time. Use client.create_payload_index() for any field that appears in must, should, or must_not conditions. See [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for the full list of index types and how to configure them.
 
 ## 7. Chunking Strategies
 
@@ -372,6 +366,6 @@ Next, we'll explore:
 - Sparse vs. dense search - when keyword precision beats semantic similarity
 - Hybrid search - combining dense + sparse in a single query with RRF fusion
 - Multimodal inputs - text, image, audio in one vector space
-- Real-world use cases: e-commerce, anomaly detection, and more
+- etc..
 
 End of Module 2. Continue to Module 3: Sparse vs Dense Search and Hybrid Retrieval.
