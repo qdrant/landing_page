@@ -20,7 +20,7 @@ isLesson: true
 
 **Learn the fundamentals of vector search**
 
-Understand why traditional keyword search fails and how semantic (vector) search solves it. Learn about embeddings, distance metrics, and hybrid search systems.
+Understand why traditional search struggles and how modern semantic search improves it. Learn about embeddings, distance metrics, and hybrid search systems.
 
 <br/>
 
@@ -48,7 +48,7 @@ Understand why traditional keyword search fails and how semantic (vector) search
  image="/icons/outline/training-white.svg"
  type="wide-list">}}
 
-- Why keyword search breaks and how semantic search solves it
+- Why traditional search struggles and how modern semantic search improves it
 - How embeddings convert text to vectors that capture meaning
 - Distance metrics: cosine similarity, dot product, and Euclidean
 - Hybrid search: combining dense and sparse retrieval
@@ -106,7 +106,7 @@ Understand why traditional keyword search fails and how semantic (vector) search
 
 - title: "Module 1: Let's Understand Search"
   content: |
-    - The Problem: Why Keyword Search Breaks
+    - The Problem: Why Traditional Search Struggles
     - How Traditional Search Improved
     - Enter Semantic Search
     - How It Works: Embeddings
