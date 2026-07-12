@@ -117,6 +117,12 @@ For a deeper breakdown of when to prefer each, see the [FAQ on RRF vs. DBSF](/do
 <aside role="status">A common request is "alpha-weighted linear combination of dense and sparse scores." This is unreliable without first normalizing the scores: dense (cosine, bounded) and sparse (BM25, unbounded) scores live on different scales that also shift per query, so a fixed alpha over raw scores tends to be dominated by whichever retriever has larger raw magnitudes on a given query. RRF sidesteps this by using ranks. DBSF sidesteps it by normalizing distributions.</aside>
 
 
+### Fusion in Distributed Collections
+
+In a multi-shard collection, a fusion merges results across all shards only when it is the main query. A fusion nested inside a prefetch runs independently on each shard and fuses that shard's local results, so the ranking is per shard rather than global. A fusion is nested whenever the main query is something else, such as a formula query or an outer fusion.
+
+To fuse across shards, make the fusion the main query, as in the [RRF](#reciprocal-rank-fusion-rrf) and [DBSF](#distribution-based-score-fusion-dbsf) examples above. A main query runs a single operation, so keeping a formula rescore over a fused result requires a single shard.
+
 ## Multi-Stage Queries
 
 In general, larger vector representations give more accurate search results, but makes them more expensive to compute.
@@ -162,6 +168,8 @@ A formula query lets you compose a final score from prefetch scores (`$score`), 
 <aside role="status">Calibrate the decay weight against the scale of your fused <code>$score</code>. RRF scores are small (sums of <code>1/(k+rank)</code> terms), while decay functions return values in <code>[0, 1]</code>, so an unweighted decay term will dominate the fused score unless you multiply it by a smaller coefficient. Wrap the decay in a multiplication expression with a coefficient tuned to your workload.</aside>
 
 The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) shows this pattern end-to-end with exponential decay on a `published_at` payload field. For full formula query and decay function syntax, see the [Search Relevance reference](/documentation/search/search-relevance/).
+
+<aside role="status">Because this pattern puts the fusion inside a prefetch, multi-shard collections compute that fusion per shard, not globally. See <a href="#fusion-in-distributed-collections">Fusion in Distributed Collections</a>.</aside>
 
 ## Grouping
 
