@@ -35,6 +35,8 @@ if "car repair" in document:
     return document
 ```
 
+![Keyword search only matches documents containing the exact words "car" and "repair"](/courses/beginners/module-1/car-repair.png)
+
 This approach works for predictable, structured queries. It breaks immediately on the language real users actually write.
 
 ### Real-World Failure Examples
@@ -44,6 +46,8 @@ This approach works for predictable, structured queries. It breaks immediately o
 | car repair | automobile maintenance guide | ❌ Missed |
 | cheap flights NYC | affordable airfare to New York | ❌ Missed |
 | Apple stock | fruit company disambiguation? | ✔ Match |
+
+![Cheap Flights Example](/courses/beginners/module-1/cheap-flights.png)
 
 ### The Four Core Failure Modes
 
@@ -113,6 +117,8 @@ Semantic search works by converting text into vectors - lists of numbers that ca
 
 An embedding model takes a piece of text and returns a fixed-length array of floating-point numbers. The exact numbers are less important than the relationships between them.
 
+![Generating a vector from text](/courses/beginners/module-1/generating-vector.png)
+
 ```python
 from sentence_transformers import SentenceTransformer
 
@@ -149,6 +155,8 @@ The most common metric for text. It measures the angle between two vectors, igno
 $$
 \text{cosine\_similarity}(A, B) = \frac{A \cdot B}{\lVert A \rVert \, \lVert B \rVert}
 $$
+
+![Cosine Similarity](/courses/beginners/module-1/cosine-similarity.png)
 
 For example, embedding "car repair" and "automobile maintenance" and comparing the two vectors with this formula yields a similarity score around 0.847 - close to 1.0, reflecting their shared meaning despite having no words in common.
 
