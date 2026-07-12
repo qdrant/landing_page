@@ -160,7 +160,7 @@ Clauses determine how multiple conditions are combined:
 
 For the complete reference, see the [filtering documentation](/documentation/search/filtering/).
 
-## Basic Filtering Example: Ecommerce and Laptops
+## Basic Filtering Example: E-commerce and Laptops
 
 We know that there are three possible laptops that suit our price point. 
 Let's see how Qdrant's filterable vector index works and why it is the best method of capturing all available results.  
@@ -735,7 +735,7 @@ Read more about setting up [tenant defragmentation](/documentation/manage-data/i
 ## Key Takeaways in Filtering and Indexing
 
 
-### Filtering with Float-Point (Decimal) Numbers
+### Filtering with Floating Point (Decimal) Numbers
 If you filter by the float data type, your search precision may be limited and inaccurate. 
 
 Float Datatype numbers have a decimal point and are 64 bits in size. Here is an example:
@@ -785,7 +785,7 @@ As a conclusion to this guide, let's look at some real-life use cases where filt
 | [Geospatial Search in Ride-Sharing](/articles/geo-polygon-filter-gsoc/)| Find similar drivers or delivery partners                         | Filter by rating, distance radius, vehicle type                                |
 | [Fraud & Anomaly Detection](/data-analysis-anomaly-detection/)                  | Detect transactions similar to known fraud cases                 | Filter by amount, time, location                                        |
 
-#### Before You Go — All the Code Is in Qdrant's Dashboard 
+#### Before You Go: All the Code Is in Qdrant's Dashboard 
 
 The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/cloud-quickstart/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
 
