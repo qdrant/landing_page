@@ -60,7 +60,7 @@ Understand why traditional search struggles and how modern semantic search impro
 
 **Module 0**: Setting Up Dependencies. Configure your environment and get started with the basics.
 
-**Module 1**: Let's Understand Search. Understand why traditional search fails and how semantic (vector) search solves it.
+**Module 1**: Let's Understand Search. Understand why traditional search struggles and how modern semantic search improves it.
 
 **Module 2**: First Principles of Vector Search. Anatomy of a vector - how data is stored, indexed, and retrieved in Qdrant.
 
