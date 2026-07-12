@@ -16,7 +16,7 @@ Filtering is Qdrant's mechanism for combining semantic retrieval with predicate-
 
 Take an e-commerce scenario where a customer searches for a budget computer. Vector search alone surfaces the most semantically similar results, but similarity has no concept of price. Without a payload filter, a $1,299 laptop ranks second simply because its embedding is close to the query. Add a `price ≤ $1,000` filter and Qdrant evaluates the constraint before scoring: over-budget candidates are excluded entirely, never ranked, never returned. The result set is both relevant and correct.
 
-{{< figure src="https://github.com/user-attachments/assets/0c3317e8-5a4d-47dd-9f6c-6fe12544e7e8" alt="A budget query where an over-budget laptop is excluded by a price filter before scoring" width="1600" height="946" >}}
+{{< figure src="/articles_data/vector-search-filtering/budget-query-example.png" alt="A budget query where an over-budget laptop is excluded by a price filter before scoring" width="1600" height="946" >}}
 
 ## Data Model: Points, Vectors, and Payloads
 
@@ -87,7 +87,7 @@ In [vector search](/advanced-search/), filtering and sorting are more interdepen
 
 Use this decision tree to determine whether filtering is appropriate for a given query:
 
-{{< figure src="https://github.com/user-attachments/assets/554f104f-9357-4e8e-aa0e-ac9c73c60184" alt="Decision tree for choosing whether to apply a filter based on filter selectivity" width="940" height="488" >}}
+{{< figure src="/articles_data/vector-search-filtering/filtering-decision-tree.png" alt="Decision tree for choosing whether to apply a filter based on filter selectivity" width="940" height="488" >}}
 
 ## How Qdrant Handles Filtered Vector Search
 
@@ -99,7 +99,7 @@ When a filter is applied, some nodes become ineligible. In a naive implementatio
 
 Qdrant solves this by building **additional edges** between eligible nodes that would otherwise be separated. This produces a filterable HNSW graph that remains traversable after any subset of nodes is excluded.
 
-{{< figure src="https://github.com/user-attachments/assets/527e4c15-fcac-453e-beab-15d1f5d19aa4" alt="A filterable HNSW graph with extra links keeping eligible points reachable after filtering" caption="Figure 1: Qdrant's filterable vector index maintains additional links between eligible points so the traversal can still reach valid nearest neighbors after filtering." width="1470" height="709" >}}
+{{< figure src="/articles_data/vector-search-filtering/filterable-hnsw.png" alt="A filterable HNSW graph with extra links keeping eligible points reachable after filtering" caption="Figure 1: Qdrant's filterable vector index maintains additional links between eligible points so the traversal can still reach valid nearest neighbors after filtering." width="1470" height="709" >}}
 
 ### Pre-Filtering and Post-Filtering: Why Neither Works Alone
 
@@ -107,11 +107,11 @@ The filterable vector index is Qdrant’s solves pre and post-filtering problems
 
 **Pre-filtering** narrows the dataset by payload predicate first, then runs vector search over the filtered subset. This is efficient when the filter is highly selective (few results survive). When the filter is broad (many results survive), the HNSW graph over the filtered subset is fragmented—too many links have been removed—and search accuracy degrades.
 
-{{< figure src="https://github.com/user-attachments/assets/e32d2277-7971-465d-a65e-c05c94950c6d" alt="Pre-filtering narrowing candidates by payload before similarity ranking" caption="Figure 2: Pre-filtering narrows candidates by payload before similarity ranking." width="667" height="350" >}}
+{{< figure src="/articles_data/vector-search-filtering/pre-filtering.png" alt="Pre-filtering narrowing candidates by payload before similarity ranking" caption="Figure 2: Pre-filtering narrows candidates by payload before similarity ranking." width="667" height="350" >}}
 
 **Post-filtering** runs vector search first, retrieves a large candidate set, then applies the filter. This is accurate when the filter is broad (most candidates pass). When the filter is selective, most retrieved candidates are discarded, wasting computation—and if the qualifying points were not in the initial candidate set, they will never appear in results at all.
 
-{{< figure src="https://github.com/user-attachments/assets/3369fa3f-6246-4114-bd38-167a02359bf1" alt="Post-filtering applying payload constraints after ranking and discarding non-matching candidates" caption="Figure 3: Post-filtering applies payload constraints after similarity ranking, which discards candidates that don't meet the filter." width="826" height="429" >}}
+{{< figure src="/articles_data/vector-search-filtering/post-filtering.png" alt="Post-filtering applying payload constraints after ranking and discarding non-matching candidates" caption="Figure 3: Post-filtering applies payload constraints after similarity ranking, which discards candidates that don't meet the filter." width="826" height="429" >}}
 
 Qdrant's filterable HNSW avoids this trade-off by building graph links that remain valid under any filter. The query planner also switches dynamically between HNSW traversal and payload-index-based retrieval depending on estimated filter cardinality—see [Payload indexing](#filtering-with-the-payload-index) below.
 
@@ -597,7 +597,7 @@ In addition to this, we recommend adding a secondary data structure - **the payl
 
 Just how the vector index organizes vectors, the payload index will structure your metadata.
 
-{{< figure src="https://github.com/user-attachments/assets/2975b7dc-aa76-4ff6-9720-5cd6c13088bd" alt="A payload index organizing candidates by cardinality alongside the vector index" caption="Figure 4: The payload index is an additional data structure that supports vector search. A payload index (in green) organizes candidate results by cardinality, so that semantic search (in red) can traverse the vector index quickly." width="834" height="623" >}}
+{{< figure src="/articles_data/vector-search-filtering/payload-index.png" alt="A payload index organizing candidates by cardinality alongside the vector index" caption="Figure 4: The payload index is an additional data structure that supports vector search. A payload index (in green) organizes candidate results by cardinality, so that semantic search (in red) can traverse the vector index quickly." width="834" height="623" >}}
 
 On its own, semantic searching over terabytes of data can take up lots of RAM. [**Filtering**](/documentation/search/filtering/) and [**Indexing**](/documentation/manage-data/indexing/) are two easy strategies to reduce your compute usage and still get the best results. Remember, this is only a guide. For an exhaustive list of filtering options, you should read the [filtering documentation](/documentation/search/filtering/). 
 
