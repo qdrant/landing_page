@@ -1,15 +1,22 @@
 ---
 title: "A Complete Guide to Filtering in Vector Search"
 short_description: "How Qdrant combines semantic search with payload-level constraints to deliver precise, efficient results"
-description: "Learn how filtering works in Qdrant: the filterable HNSW index, payload indexing, filter cardinality, and the conditions and clauses you need to build high-precision vector search."
+description: "How filtering works in Qdrant: the filterable HNSW index, payload indexing, cardinality, and the conditions behind precise search."
 preview_dir: /articles_data/vector-search-filtering/preview
 social_preview_image: /articles_data/vector-search-filtering/social-preview.png
 weight: 70
-author: Sabrina Aquino, David Myriel, Ewa Szyszka 
-author_link:
-date: 2026-07-02T00:00:00.000Z
+author: Sabrina Aquino, David Myriel, Ewa Szyszka
+author_link: https://github.com/sabrinaaquino
+date: 2026-07-02T10:00:00+02:00
+draft: false
 category: mastering-search
+tags:
+  - vector search
+  - filtering
+  - payload indexing
+  - HNSW
 ---
+
 Vector search is a ranking system, not a filter system. Every point in your collection is a candidate, which based on the semantic similarity to the query would get surfaced. That works well when you want "what's most relevant." It becomes insufficient when the result must also satisfy hard constraints: exact values, ranges, categorical membership, or payload-level conditions that similarity alone cannot enforce.
 
 Filtering is Qdrant's mechanism for combining semantic retrieval with predicate-based constraints. This guide covers how it works, when to use it, and how to configure indexing to keep filtered queries fast and accurate.
