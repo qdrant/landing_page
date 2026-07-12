@@ -201,7 +201,7 @@ One filtering pattern deserves a call-out because you'll meet it in almost any m
 2. Create a payload index on it.
 3. Filter on it at every query. Never omit it.
 
-One collection, complete per-tenant isolation at query time, and thanks to filtered traversal plus the index, it stays fast at any tenant count. This is the same mechanism as the country filter in the news system, just applied to identity instead of geography.
+One collection, complete per-tenant isolation at query time, and thanks to filtered traversal plus the index, it stays fast at any tenant count. This is the same mechanism as the country filter in the news system, just applied to identity instead of geography. See [Multitenancy - Qdrant](https://qdrant.tech/documentation/manage-data/multitenancy/) for the full pattern, including how to combine it with Qdrant's tenant-aware HNSW optimizations.
 
 ### Key insight
 
@@ -209,7 +209,7 @@ Design the payload schema before you ingest, driven by one question: what will I
 
 ## 4. The Production RAG Pipeline
 
-If the news system grows an "ask a question, get an answer with sources" feature, it becomes a Retrieval-Augmented Generation pipeline, the most common architecture built on vector search today. The production shape, using everything covered so far:
+Retrieval-Augmented Generation (RAG) is the pattern of retrieving relevant passages from a vector database and handing them to an LLM as context, so the model answers from your data instead of relying only on what it memorized during training. If the news system grows an "ask a question, get an answer with sources" feature, it becomes a RAG pipeline - the most common architecture built on vector search today. The production shape, using everything covered so far:
 
 1. **Query understanding**: Extract hard constraints from the request (dates, country, topic) into a filter. Embed the query as a dense vector and a sparse vector.
 2. **Hybrid retrieval**: `Prefetch(dense, filter, limit=50)` + `Prefetch(sparse, filter, limit=50)`, then `FusionQuery(RRF)`, returning the top 20 candidates. One `query_points` call.
