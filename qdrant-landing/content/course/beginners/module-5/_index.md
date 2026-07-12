@@ -32,9 +32,9 @@ Supply chain risk is invisible until it isn't. A factory fire in Vietnam, a labo
 
 This is the news search system you designed in Module 4, extended along two dimensions: more modalities (audio and imagery alongside text) and a new capability (clustering signals into risk themes). The five design questions from Module 4 already gave you the blueprint. Now you build it.
 
-- 📰 **Daily Signals**: News, earnings calls, satellite images, factory footage, ingested every 24 hours.
-- 🔍 **Clustering**: Group signals by supplier, topic, and risk theme using vector proximity.
-- 🌏 **Cross-Language Queries**: Ask in English, retrieve what Japanese and Chinese sources are saying.
+- **Daily Signals**: News, earnings calls, satellite images, factory footage, ingested every 24 hours.
+- **Clustering**: Group signals by supplier, topic, and risk theme using vector proximity.
+- **Cross-Language Queries**: Ask in English, retrieve what Japanese and Chinese sources are saying.
 
 ## 2. System Architecture
 
@@ -86,6 +86,8 @@ Each signal type requires a different embedding approach. The key principle: cho
 
 Supply chain news arrives in Japanese, Mandarin, Korean, Vietnamese, Hindi, and dozens of other languages before it reaches English. This is the knowledge-layer decision from Module 4's Question 4, now in action: multilingual-e5-large (1024 dimensions) projects all of these into the same vector space. A query in English surfaces relevant articles originally written in Japanese, without translation.
 
+You don't need to read Japanese to verify this - the gloss (a literal English translation, shown here only so the example is checkable) makes it clear the two texts share meaning, even though the model itself never sees the gloss:
+
 ```python
 from sentence_transformers import SentenceTransformer
 
@@ -97,6 +99,7 @@ query_vec = text_model.encode("supplier factory fire evacuation")
 
 # At ingestion: Japanese article embedded with the same model
 # text_model.encode("工場火災下の経営者声明")
+# Gloss (for verification only, not passed to the model): "Executive statement following factory fire"
 # Cosine similarity between these two vectors: ~0.81
 ```
 
