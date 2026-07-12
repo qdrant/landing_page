@@ -16,7 +16,7 @@ Understand dense versus sparse retrieval, their strengths, and how a hybrid appr
 
 1. Where We Left Off
 2. The Two Families of Search
-3. Filtering: Works with Any Retrieval Method (Optional)
+3. Filtering: Works with Any Retrieval Method
 4. Hybrid Search: Dense + Sparse
 5. Setting Up Hybrid Search in Qdrant
 6. Fusion Strategies
@@ -33,8 +33,7 @@ In Module 2, you built a complete ingestion and retrieval pipeline: raw text →
 |-------|-----------|
 | **The user wants exactly this product. No synonyms. No paraphrasing.** | |
 
-**Dense search returns**
-
+**Dense search returns:**
 | iPhone 14 | (0.93) | ← wrong model |
 |----------|--------|---------|
 | iPhone 15 Pro Max | (0.91) | ← wrong model |
@@ -112,23 +111,16 @@ A query only walks the posting lists for tokens it actually contains, skipping e
 
 ### Head-to-Head Comparison
 
-| Dense Search (Semantic) | | Sparse Search (Keyword) |
-|-------------------------|---|-------------------------|
-| **✔ Strengths** | | **✔ Strengths** |
-| Synonyms - car = automobile | | Exact token matches - IDs, codes, SKUs |
-| Paraphrasing - "cheap flights" ≈ "affordable airfare" | | Rare or domain-specific terms |
-| Multilingual queries across languages | | Interpretable - easy to debug and explain |
-| Intent and context understanding | | |
-| **✖ Weaknesses** | | **✖ Weaknesses** |
-| Exact IDs like SKU-48291 can drift | | Synonyms - car ≠ automobile |
-| Rare or invented tokens | | Paraphrasing and rewordings |
-| Precise code / serial number matching | | Cross-language queries |
+|  | Dense Search (Semantic) | Sparse Search (Keyword) |
+|---|---|---|
+| **✔ Strengths** | Synonyms - car = automobile<br>Paraphrasing - "cheap flights" ≈ "affordable airfare"<br>Multilingual queries across languages<br>Intent and context understanding | Exact token matches - IDs, codes, SKUs<br>Rare or domain-specific terms<br>Interpretable - easy to debug and explain |
+| **✖ Weaknesses** | Exact IDs like SKU-48291 can drift<br>Rare or invented tokens<br>Precise code / serial number matching | Synonyms - car ≠ automobile<br>Paraphrasing and rewordings<br>Cross-language queries |
 
 ### Key insight
 
 Dense = meaning. Sparse = exact matching. Neither is complete alone. Every real-world query contains both semantic intent (what the user means) and exact constraints (what the user needs precisely). You need both.
 
-## 3. Filtering: Works with Any Retrieval Method (Optional)
+## 3. Filtering: Works with Any Retrieval Method
 
 Payload filters are not a hybrid-only feature. The same `query_filter` applies whether you're running dense-only, sparse-only, or hybrid retrieval - it's evaluated as a hard constraint during the search itself, not as a separate step afterward.
 
