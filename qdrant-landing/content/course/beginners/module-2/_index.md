@@ -43,6 +43,8 @@ Upsert to Qdrant
 - **Query**
 Retrieve top-K results
 
+![Flow Diagram](/courses/beginners/module-2/flow.png)
+
 ## 2. Core Data Model
 
 Qdrant organizes data in a simple three-level hierarchy. Understanding this structure is the foundation for everything else in the course.
@@ -54,6 +56,8 @@ Collection
         ├── vector
         └── payload
 ```
+
+![Data Model Diagram](/courses/beginners/module-2/data-model.png)
 
 ### Collection
 
@@ -70,6 +74,8 @@ A list of floating-point numbers (e.g. 384 or 768 values) that represent the mea
 ### Payload
 
 Arbitrary JSON metadata attached to a point. Used for filtering, retrieval scoping, and result enrichment. Can hold strings, numbers, booleans, geo coordinates, or arrays.
+
+![Payload Diagram](/courses/beginners/module-2/data-flow-2.png)
 
 ### Creating a Collection
 
@@ -143,6 +149,8 @@ for r in results.points:
     print(r.id, r.score, r.payload)
 ```
 
+![Top-K Diagram](/courses/beginners/module-2/top-k.png)
+
 ### Why K matters
 
 Returning too few results (K=3) misses relevant content. Returning too many (K=100) creates noise in results. A common pattern is to retrieve K=20–50 with Qdrant, then rerank to K=5. We'll explain reranking later.
@@ -151,12 +159,25 @@ Returning too few results (K=3) misses relevant content. Returning too many (K=1
 
 Searching millions of vectors by computing similarity against every single one (brute force) is prohibitively slow. Qdrant uses HNSW - Hierarchical Navigable Small World - a graph-based approximate nearest neighbor (ANN) index that makes large-scale search fast without sacrificing meaningful accuracy.
 
+![HNSW Diagram](/courses/beginners/module-2/hnsw.png)
+
 ### How HNSW Works
 
 - **Graph structure**: Each vector is a node. Nodes are connected to their nearest neighbors by bidirectional edges, forming a navigable graph.
 - **Hierarchical layers**: The graph has multiple layers. The top layer has few nodes and long-range connections. Lower layers are denser with short-range connections.
 - **Search by traversal**: Query entry starts at the top layer. The search "jumps" through neighbors, zooming in on the region of interest at each layer.
 - **Approximate, not exact**: HNSW trades a small accuracy loss for massive speed gains. In practice, the accuracy loss is negligible for retrieval quality.
+
+<div class="video">
+<iframe
+  src="https://drive.google.com/file/d/1QaS7Pw3MMeV6GL0-PZMTIFG2Y8n9KVbB/preview"
+  frameborder="0"
+  allow="autoplay"
+  allowfullscreen>
+</iframe>
+</div>
+
+<br/>
 
 ### Tunable Parameters
 
@@ -214,6 +235,8 @@ results = client.query_points(
 )
 ```
 
+![Payload Filtering Diagram](/courses/beginners/module-2/payload.png)
+
 ### Filter Types
 
 | Condition | What it does | Example use case |
@@ -241,6 +264,24 @@ Embedding models have a maximum token limit - typically 256 to 512 tokens. Long 
 | Semantic | Create a new chunk when topic or meaning shifts significantly | New chunk when subject changes | High-quality retrieval over long, varied documents | Slower preprocessing; requires a sentence model to detect shifts |
 | Sliding Window | Chunks overlap with each other to preserve context continuity | Chunk 1: tokens 1–500, Chunk 2: tokens 400–900 | Conversational RAG, avoiding context loss at chunk edges | Increases storage and retrieval cost; duplicate content in results |
 
+### Fixed-Size
+
+Splits text every N tokens regardless of content boundaries - simple and fast, but can cut sentences mid-thought.
+
+![Fixed-size chunking splits text every N words regardless of content boundaries](/courses/beginners/module-2/fixed-size.png)
+
+### Semantic
+
+Creates a new chunk when the topic or meaning shifts significantly, keeping each chunk focused on one idea.
+
+![Semantic chunking splits text at meaning boundaries, keeping each topic in its own chunk](/courses/beginners/module-2/semantic.png)
+
+### Sliding Window
+
+Chunks overlap with each other so context carries across chunk boundaries instead of being lost at the cut.
+
+![Sliding window chunking overlaps consecutive chunks to preserve context across boundaries](/courses/beginners/module-2/sliding-window.png)
+
 ### Chunking in Practice
 
 ```python
@@ -256,6 +297,7 @@ splitter = RecursiveCharacterTextSplitter(
 chunks = splitter.split_text(document_text)
 # Each chunk is then embedded and stored as a separate point
 ```
+You can learn more about chunking strategies in the [Chunking Strategies](https://qdrant.tech/course/essentials/day-1/chunking-strategies/#text-chunking-strategy-comparison) section from the Qdrant's Essentials course.
 
 ## 8. Ingestion Pipeline: End-to-End
 
@@ -264,6 +306,8 @@ Let's put everything together. This section walks through the complete ingestion
 ### Step 1 - Create a Free Cluster
 
 Start with a free cluster at cloud.qdrant.io. Once created, you'll have a URL and an API key.
+
+![Create a free cluster at cloud.qdrant.io](/courses/beginners/module-2/qdrant-cloud.png)
 
 ```python
 from qdrant_client import QdrantClient
