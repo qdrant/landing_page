@@ -45,7 +45,7 @@ This approach works for predictable, structured queries. It breaks immediately o
 |-------|----------------------|--------|
 | car repair | automobile maintenance guide | ❌ Missed |
 | cheap flights NYC | affordable airfare to New York | ❌ Missed |
-| Apple stock | fruit company disambiguation? | ✔ Match |
+| Apple stock | fruit company disambiguation? | ❌ Missed |
 
 ![Cheap Flights Example](/courses/beginners/module-1/cheap-flights.png)
 
@@ -62,20 +62,16 @@ Over time, search systems became more diverse. However, they all shared the same
 
 ### Evolution of Search Techniques
 
-01
-**Grep / Exact Match**
+1. **Grep / Exact Match**
 Find the exact string
 
-02
-**Inverted Index**
+2. **Inverted Index**
 Fast word lookup
 
-03
-**TF-IDF / BM25 / SPLADE**
+3. **TF-IDF / BM25 / SPLADE**
 Weighted ranking
 
-04
-**Semantic Search**
+4. **Semantic Search**
 Meaning-aware
 
 ### What Each Improvement Added
@@ -101,14 +97,6 @@ Semantic search changes the question from:
 **Semantic search asks:**
 "Does this document mean the same concept?"
 
-### A Real-world example
-
-| Query | Matched document |
-|-------|------------------|
-| "How to fix a car" | "Repairing an automobile" ✔ |
-
-Zero shared words. Semantic search retrieves it anyway - because the meaning is equivalent.
-
 ## 4. How It Works: Embeddings
 
 Semantic search works by converting text into vectors - lists of numbers that capture meaning. Similar meanings produce vectors that are close together in high-dimensional space. Different meanings produce vectors that are far apart.
@@ -116,8 +104,6 @@ Semantic search works by converting text into vectors - lists of numbers that ca
 ### Generating a Vector
 
 An embedding model takes a piece of text and returns a fixed-length array of floating-point numbers. The exact numbers are less important than the relationships between them.
-
-![Generating a vector from text](/courses/beginners/module-1/generating-vector.png)
 
 ```python
 from sentence_transformers import SentenceTransformer
@@ -130,6 +116,8 @@ doc_vec   = model.encode("automobile maintenance")
 print(len(query_vec))   # 384 dimensions
 print(query_vec[:5])    # [-0.021, 0.104, -0.048, 0.231, -0.008]
 ```
+
+![Generating a vector from text](/courses/beginners/module-1/generating-vector.png)
 
 ### What Are Dimensions?
 
