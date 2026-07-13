@@ -1,0 +1,68 @@
+{{ $now := now.Unix }}
+{{ $upcoming := slice }}
+{{ $past := slice }}
+
+{{ range .Pages }}
+  {{ if not .Params.start }}{{ continue }}{{ end }}
+  
+  {{ $start := time.AsTime .Params.start }}
+  {{ $end := $start }}
+  {{ with .Params.end }}
+    {{ $end = time.AsTime . }}
+  {{ end }}
+  
+  {{ if ge $end.Unix $now }}
+    {{ $upcoming = $upcoming | append (dict "page" . "start" $start "end" $end) }}
+  {{ else }}
+    {{ $past = $past | append (dict "page" . "start" $start "end" $end) }}
+  {{ end }}
+{{ end }}
+
+{{ $upcoming = sort $upcoming "start" "asc" }}
+{{ $past = sort $past "end" "desc" }}
+
+<section class="events-list">
+ <div class="container">
+   <div class="events-list__section events-list__section-upcoming">
+     <div class="row gy-6">
+       <div class="col-12 col-lg-4 events-list__section-header">
+         <p class="events-list__section-subtitle">Events</p>
+         <h2 class="events-list__section-title">Upcoming Events</h2>
+       </div>
+
+       {{ if gt (len $upcoming) 0 }}
+         <div class="col-12 col-lg-8 ">
+           <div class="events-list__section-list">
+             {{ range $upcoming }}
+              {{ partial "events/events-card" .page }}
+             {{ end }}
+           </div>
+         </div>
+         {{ else }}
+           <div class="col-12 col-lg-8">
+             <p class="events-list__section-empty"></p>
+           </div>
+         {{ end }}
+     </div>
+   </div>
+
+   <div class="events-list__section events-list__section-past">
+     <div class="row gy-6">
+       <div class="col-12 col-lg-4 events-list__section-header">
+         <p class="events-list__section-subtitle">Events</p>
+         <h2 class="events-list__section-title">Past Events</h2>
+       </div>
+
+       {{ if gt (len $past) 0 }}
+         <div class="col-12 col-lg-8">
+           <div class="events-list__section-list">
+             {{ range $past }}
+              {{ partial "events/events-card" .page }}
+             {{ end }}
+           </div>
+         </div>
+       {{ end }}
+     </div>
+   </div>
+ </div>
+</section>
