@@ -163,6 +163,12 @@ A formula query lets you compose a final score from prefetch scores (`$score`), 
 
 The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) shows this pattern end-to-end with exponential decay on a `published_at` payload field. For full formula query and decay function syntax, see the [Search Relevance reference](/documentation/search/search-relevance/).
 
+### Fusion in Distributed Collections
+
+The previous example puts the fusion inside a prefetch. In a multi-shard collection, a fusion merges results across all shards only when it is the main query, held in the top-level `query` field with the retrievers as its prefetches, as in the [RRF](#reciprocal-rank-fusion-rrf) and [DBSF](#distribution-based-score-fusion-dbsf) examples. When it instead sits inside a prefetch, each shard computes the fusion on its local results, so the fused ranking is per shard rather than global.
+
+To fuse across shards, make the fusion the main query. A main query is a single operation, so it cannot be both a fusion and a formula. To keep a formula rescore over fused results, use a single shard.
+
 ## Grouping
 
 _Available as of v1.11.0_
