@@ -44,7 +44,7 @@ sessions:
     badge_type: search
     badge_icon: search
     reverse: true
-    videoId: ulnJo3eOUU8
+    videoId: KEW0KGsLIZw
     speakers:
       - name: Murthy Chandrapaty
         role: Principal Engineer
@@ -56,7 +56,7 @@ sessions:
     badge: AGENTS & MEMORY
     badge_type: agents
     badge_icon: brain
-    videoId: KEW0KGsLIZw
+    videoId: ulnJo3eOUU8
     speakers:
       - name: Paige Bailey
         role: Developer Relations Lead
