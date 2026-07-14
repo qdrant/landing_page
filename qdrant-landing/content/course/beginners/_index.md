@@ -26,7 +26,7 @@ Understand why traditional search struggles and how modern semantic search impro
 
 {{< cards-list >}}
 - icon: /icons/outline/play-white.svg
-  title: 7 modules
+  title: 6 modules
   content: From setting up dependencies to a hands-on capstone project
 - icon: /icons/outline/cloud-check-blue.svg
   title: Shareable certificate
@@ -70,24 +70,24 @@ Understand why traditional search struggles and how modern semantic search impro
 
 **Module 5**: Capstone - Multimodal Supplier Risk Intelligence. Ingest, cluster, and query multimodal supplier signals across languages.
 
-**Module 6**: Bonus - Further Reading. A roundup of advanced techniques for further reading: score boosting, relevance feedback, MMR, and re-ranking.
+**Bonus Module**: Further Reading. A roundup of advanced techniques for further reading: score boosting, relevance feedback, MMR, and re-ranking. Optional, and not counted among the 6 core modules.
 
 ## How the course works
 
 {{< cards-list >}}
 
 - icon: /icons/outline/training-purple.svg
-  title: Clear lessons
-  content: Focused modules by the Qdrant team
+  title: Bite-sized lessons
+  content: Short, friendly modules you can finish in one sitting
 - icon: /icons/outline/hacker-purple.svg
-  title: Hands-on learning
-  content: Practical examples and exercises
+  title: Learn by doing
+  content: Follow along with real examples and hands-on exercises
 - icon: /icons/outline/similarity-blue.svg
-  title: Progressive learning
-  content: Build from fundamentals to advanced concepts
+  title: One step at a time
+  content: Each module builds on the last, so nothing feels out of reach
 - icon: /icons/outline/copy.svg
-  title: Self-paced
-  content: Learn at your own speed
+  title: Go at your own pace
+  content: Pause anytime and pick up right where you left off
   {{< /cards-list >}}
 
 <br/>
@@ -161,7 +161,7 @@ Understand why traditional search struggles and how modern semantic search impro
     <br>
     <p style="margin-left: 0px;">→ Coming soon</p>
 
-- title: "Module 6: Bonus - Further Reading"
+- title: "Bonus Module: Further Reading"
   content: |
     - Score Boosting
     - Relevance Feedback
@@ -179,13 +179,11 @@ Anyone new to vector search who wants to understand the fundamentals. No prior e
 
 ## Time commitment
 
-- Duration: 6 days at 1-2 hours/day + 1 optional bonus day
-- Video learning: ~3 hours
-- Hands-on learning: 4-5 hours
-- Final project: 2-4 hours
-- **Total: 9-12 hours**
-- Self-paced learning
-- Flexible schedule
+- Core course (Modules 0-4): under 2 hours
+- Capstone project (Module 5): ~3 hours
+- **Total: under 5 hours**
+- Bonus module: optional, not included in the total above
+- Self-paced, flexible schedule
 
 
 {{< course-card

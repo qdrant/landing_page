@@ -188,5 +188,13 @@ Skills are hosted at [skills.qdrant.tech](https://qdrant.tech/documentation/skil
 npx skills add https://github.com/qdrant/skills
 ```
 
+If you just want a single assistant that can troubleshoot and advise on any Qdrant deployment, install the `qdrant-advisor` skill directly:
+
+```bash
+npx skills add qdrant/skills/meta/qdrant-advisor
+```
+
+`qdrant-advisor` doesn't answer Qdrant questions from memory. When you describe a problem - slow search, memory climbing toward an OOM, a stuck optimizer, a scaling decision - it searches `skills.qdrant.tech` live, pulls only the branch of the skill tree that matches your symptom, and grounds its diagnosis in that current, official guidance. It'll give you the likely causes in priority order, concrete steps (endpoints, metrics, config), and the doc links it drew from, so you're always working from up-to-date advice instead of stale training data.
+
 Read more about the motivation and design behind them in the [Qdrant Skills release post](/blog/qdrant-skills-release/).
 
