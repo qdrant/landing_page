@@ -1,0 +1,1 @@
+This code snippet sets `max_disk_usage_percent` on the strict mode configuration to reject disk-consuming write operations (upsert, set/overwrite payload, update vectors) when filesystem usage exceeds the given percentage. Delete operations remain allowed so it is still possible to free disk space.
