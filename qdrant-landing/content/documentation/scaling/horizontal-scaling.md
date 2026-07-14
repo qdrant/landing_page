@@ -78,31 +78,16 @@ Replication affects consistency. By default, Qdrant prioritizes availability and
 
 ## Raft Consensus
 
-Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to maintain consistency regarding the cluster topology and the collections structure.
+Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to maintain consistency regarding the cluster topology and the collections structure. Raft consensus only applies to cluster metadata, not to the data itself:
 
-Operations on points, on the other hand, do not go through the consensus infrastructure. Qdrant is not intended to have strong transaction guarantees, which allows it to perform point operations with low overhead. In practice, it means that Qdrant does not guarantee atomic distributed updates but allows you to wait until the [operation is complete](/documentation/manage-data/points/#awaiting-result) to see the results of your writes.
+- Collection operations are part of the consensus. This guarantees that all operations are durable and eventually executed by all nodes. A majority of nodes must agree on what operations to apply before Qdrant performs them.
+- Point operations don't go through the consensus infrastructure. Qdrant trades strong transaction guarantees for low overhead on point operations: it doesn't guarantee atomic distributed updates, but you can wait until an [operation is complete](/documentation/manage-data/points/#awaiting-result) to see the results of your writes.
 
-Operations on collections, on the contrary, are part of the consensus which guarantees that all operations are durable and eventually executed by all nodes. In practice it means that a majority of nodes agree on what operations should be applied before the service will perform them.
+Use the [Check Cluster Status API](https://api.qdrant.tech/master/api-reference/distributed/cluster-status) to check the consensus state.
 
-For high availability, run at least three voting nodes. A two-node cluster cannot form a majority if either node is unavailable, so Raft cannot elect or confirm a leader until both nodes can communicate again.
+For high availability, run at least three voting nodes. A two-node cluster can't form a majority if either node is unavailable, so Raft can't elect or confirm a leader until both nodes can communicate again. During this transition state — whether electing a new leader after a failure or starting up — Qdrant will deny collection update operations.
 
-Practically, it means that if the cluster is in a transition state, either electing a new leader after a failure or starting up, collection update operations will be denied.
-
-You may use the cluster [REST API](https://api.qdrant.tech/master/api-reference/distributed/cluster-status) to check the state of the consensus.
-
-## Consensus Checkpointing
-
-To keep the Raft log from growing indefinitely, Qdrant supports consensus checkpointing: periodically creating a consistent snapshot of the cluster state that all nodes have agreed on, then truncating the log. Without this, a node that joins a long-running cluster would need to replay the entire log to catch up, which gets slower as the log grows.
-
-To force a checkpoint, call the `/cluster/recover` API on the required node:
-
-```http
-POST /cluster/recover
-```
-
-This API can be triggered on any non-leader node, it will send a request to the current consensus leader to create a snapshot. The leader will in turn send the snapshot back to the requesting node for application.
-
-In some cases, this API can be used to recover from an inconsistent cluster state by forcing a snapshot creation.
+Qdrant keeps a Raft log of operations that have modified the cluster state. To keep the Raft log from growing indefinitely, Qdrant uses [consensus checkpointing](/documentation/scaling/node-failure-recovery/#consensus-checkpointing).
 
 ## Where to Go Next
 

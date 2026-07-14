@@ -37,3 +37,19 @@ First, detach the failed node and create a new one:
 1. Use the [Collection Snapshot Recovery API](/documentation/snapshots/#restore-snapshot) to restore the collection. The service will download the specified snapshot of the collection and recover shards with data from it. Snapshot recovery works differently in distributed mode than in single-node deployments. Consensus manages all collection metadata and doesn't require snapshots to restore it. But you can use snapshots to recover missing shards of the collections.
 
 Once all shards of the collection are recovered, the collection will become operational again.
+
+## Consensus Checkpointing
+
+A cluster uses [Raft consensus](/documentation/scaling/horizontal-scaling/#raft-consensus) to manage cluster metadata and ensure that all nodes have a consistent view of the cluster state. Qdrant keeps a Raft log of operations that have modified the cluster state. When a node joins the cluster, it can replay the log to catch up with the current state.
+
+To keep the Raft log from growing indefinitely, Qdrant uses consensus checkpointing: periodically creating a consistent snapshot of the cluster state that all nodes have agreed on, then truncating the log. Without this, a node that joins a long-running cluster would need to replay the entire log to catch up, which gets slower as the log grows.
+
+To force a checkpoint, call the `/cluster/recover` API on the required node:
+
+```http
+POST /cluster/recover
+```
+
+This API can be triggered on any non-leader node, it will send a request to the current consensus leader to create a snapshot. The leader will in turn send the snapshot back to the requesting node for application.
+
+In some cases, this API can be used to recover from an inconsistent cluster state by forcing a snapshot creation.
