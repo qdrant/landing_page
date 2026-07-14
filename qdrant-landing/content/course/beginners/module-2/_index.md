@@ -168,17 +168,6 @@ Searching millions of vectors by computing similarity against every single one (
 - **Search by traversal**: Query entry starts at the top layer. The search "jumps" through neighbors, zooming in on the region of interest at each layer.
 - **Approximate, not exact**: HNSW trades a small accuracy loss for massive speed gains. In practice, the accuracy loss is negligible for retrieval quality.
 
-<div class="video">
-<iframe
-  src="https://drive.google.com/file/d/1QaS7Pw3MMeV6GL0-PZMTIFG2Y8n9KVbB/preview"
-  frameborder="0"
-  allow="autoplay"
-  allowfullscreen>
-</iframe>
-</div>
-
-<br/>
-
 ### Tunable Parameters
 
 You can fine-tune the HNSW graph to balance search speed, recall accuracy, memory usage, and indexing time. Three key parameters:
