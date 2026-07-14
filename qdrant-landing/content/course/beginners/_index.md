@@ -70,7 +70,7 @@ Understand why traditional search struggles and how modern semantic search impro
 
 **Module 5**: Capstone - Multimodal Supplier Risk Intelligence. Ingest, cluster, and query multimodal supplier signals across languages.
 
-**Bonus Module**: Further Reading. A roundup of advanced techniques for further reading: score boosting, relevance feedback, MMR, and re-ranking. Optional, and not counted among the 6 core modules.
+**Bonus Module**: Further Reading. A roundup of advanced techniques for further reading: score boosting, relevance feedback, MMR, and re-ranking.
 
 ## How the course works
 
