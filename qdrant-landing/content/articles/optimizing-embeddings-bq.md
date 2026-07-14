@@ -176,23 +176,16 @@ Running every combination lets us isolate how much each setting contributes to a
 
 ### Results: Binary Quantization's Impact on Retrieval Accuracy
 
-To understand how Binary Quantization behaves in practice, we examined the two settings that most affect the trade-off between accuracy and speed: rescoring and oversampling.
+Rescoring reliably improves accuracy: across every model and dimension we tested, turning it on raised recall@10. The gain is largest at low dimensions, where more information is lost to quantization and rescoring has more ground to recover:
+ 
+- `mxbai-embed-large-v1` (1,024 dim): 0.70 → 0.97
+- `nomic-embed-text-v1.5` (768 dim): 0.61 → 0.91
+- `mxbai-embed-large-v1` (256 dim): 0.48 → 0.80
 
-#### Impact of Rescoring
+For a high-dimensional model like `llama-embed-nemotron-8b` at 4,096 dimensions, the binary sign pattern preserves most of the geometry, so we expect it at the strong end of this range once rescoring is enabled. That makes rescoring a crucial feature wherever precision shapes the experience, such as semantic search, content discovery, and recommendation systems.
 
 ![Impact of rescoring on recall@10](/articles_data/optimizing-embeddings-bq/4-rescoring-impact.png)
 
-A few consistent patterns emerge:
-
-1. **Rescoring reliably improves accuracy**:
-   - Across every model and dimension we tested, enabling rescoring produces higher recall@10 than leaving it off.
-   - The gain is substantial. For `mxbai-embed-large-v1` at 1,024 dimensions, recall@10 rises from 0.70 to 0.97, and for `nomic-embed-text-v1.5` at 768 dimensions it rises from 0.61 to 0.91.
-
-2. **Model and Dimension Specific Observations**:
-   - Lower effective dimensions lose more information to quantization, so rescoring has more ground to recover, and its impact is largest there. At 256 dimensions, rescoring lifts `mxbai-embed-large-v1` from 0.48 to 0.80.
-   - At high dimensions, the binary search already tracks the float ranking closely, so rescoring closes a smaller, but still meaningful, gap.
-
-For a high-dimensional model like `llama-embed-nemotron-8b` at 4,096 dimensions, the binary sign pattern preserves most of the geometry, so we expect it to sit at the strong end of this range once rescoring is enabled. In short, rescoring is a crucial feature for applications where precision matters, such as semantic search, content discovery, and recommendation systems, where result quality directly shapes the user experience.
 
 ### Model and Dataset Combinations
 
