@@ -113,22 +113,23 @@ Each dimension now costs 1 bit instead of 32 bits, which gives roughly a 32x red
 ![Binary Quantization explainer diagram](/articles_data/optimizing-embeddings-bq/2-binary-quantization-explainer.png)
 
 ### Dimension Reduction vs Accuracy with Binary Quantization
-
-Compressing 32 bits into one is lossy: the binary vector keeps only the sign of each value and discards its magnitude. As a result, the fast binary search can rank candidates slightly differently than a full-precision search would. Qdrant compensates for this with **rescoring**: after the binary stage retrieves a set of candidates, it recomputes their distances with the original full-precision vectors and reorders them, which restores most of the accuracy the compression gave up. Rescoring sets up a more precise search, based on results from an initial query.
-
-To analyze the impact of rescoring (`True` or `False`), we compared results across different model configurations and search limits. The efficiency gains from Binary Quantization are as follows:
-
-- Reduced storage footprint: It helps with large-scale datasets. It also saves on memory, reducing storage by up to 32x.
-- Enhanced speed of data retrieval: Smaller data sizes generally lead to faster searches.
-- Accelerated search process: It reduces distance calculations between vectors to bitwise operations. This enables real-time querying even in extensive databases.
-
-The accompanying chart shows the best accuracy achieved with Binary Quantization across two Matryoshka-trained models, `mxbai-embed-large-v1` and `nomic-embed-text-v1.5`, measured as recall@10 against full-precision search. At each model's native dimension, Binary Quantization preserves search quality remarkably well: `mxbai-embed-large-v1` holds 0.9707 at 1024 dimensions, and `nomic-embed-text-v1.5` holds 0.9067 at 768 dimensions. Accuracy declines as the vectors are truncated more aggressively, falling to roughly 0.80 and 0.73 at 256 dimensions, which tells you where the storage-versus-precision trade-off starts to bite.
-
+ 
+Compressing 32 bits into one is lossy: the binary vector keeps only the sign of each value and discards its magnitude, so the fast binary search can rank candidates slightly differently than a full-precision search would. Qdrant gives you two levers to recover that accuracy:
+ 
+- **Oversampling** retrieves more binary candidates than the number of results you actually want. Because the binary search is approximate, the true nearest neighbors sometimes fall just outside the top results, and widening the pool gives you a chance to catch them. You set it as a multiplier, so a factor of 3 with a limit of 10 pulls roughly 30 candidates before narrowing back to 10.
+- **Rescoring** takes those candidates and recomputes their distances with the original full-precision vectors, then reorders them. The final ranking matches what a full-precision search would return, which is why rescoring always improves accuracy. It pairs naturally with oversampling, since the wider candidate pool is exactly what it reorders.
+Despite the lossy compression, the efficiency gains from Binary Quantization are substantial:
+ 
+- **Reduced storage footprint**: up to 32x less memory, which matters most on large-scale datasets.
+- **Faster retrieval**: smaller vectors mean faster searches.
+- **Accelerated scoring**: distance calculations become bitwise operations, enabling real-time querying even on extensive databases.
+The chart below shows recall@10 against full-precision search for two Matryoshka-trained models. At their native dimension, Binary Quantization holds up well: `mxbai-embed-large-v1` scores 0.9707 at 1024 dimensions and `nomic-embed-text-v1.5` scores 0.9067 at 768. Accuracy drops as vectors are truncated further, to roughly 0.80 and 0.73 at 256 dimensions, which is where the storage-versus-precision trade-off starts to bite.
+ 
 ![Recall@10 for full-precision search vs Binary Quantization](/articles_data/optimizing-embeddings-bq/3-recall-full-precision-vs-bq.png)
 
 #### Matryoshka Representation Learning
 
-Many of the latest models are trained with a technique called "[Matryoshka Representation Learning](https://aniketrege.github.io/blog/2024/mrl/)". Developers can set up embeddings of different sizes (number of dimensions) and select the one that balances accuracy and size. For example, mxbai-embed-large-v1 keeps over 93% of its performance at 512 dimensions, and nomic-embed-text-v1.5 supports any size between 64 and 768.
+Many of the latest models are trained with a technique called "[Matryoshka Representation Learning](https://aniketrege.github.io/blog/2024/mrl/)". Developers can set up embeddings of different sizes (number of dimensions) and select the one that balances accuracy and size. For example, `mxbai-embed-large-v1` keeps over 93% of its performance at 512 dimensions, and nomic-embed-text-v1.5 supports any size between 64 and 768.
 
 Because Matryoshka models concentrate the most important information in the earlier dimensions, they pair well with Binary Quantization: you first trim the vector to the smallest dimension your recall target allows, then quantize each remaining dimension to a single bit. Later in this article, we show that the accuracy of Binary Quantization stays high across different dimensions.
 
@@ -143,23 +144,33 @@ The table below lists popular choices that support flexible dimensions or binary
 | [Qwen3-Embedding-0.6B](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) | 32-1024 (user-defined) | long-context | No |
 | [BGE-M3](https://huggingface.co/BAAI/bge-m3) | 1024 | 8192 | No |
 
-### Experiment Setup: llama-embed-nemotron-8b in Focus
-
-To measure Binary Quantization's impact on search efficiency and accuracy, we built our experiment around [llama-embed-nemotron-8b](https://huggingface.co/nvidia/llama-embed-nemotron-8b), a 7.5-billion-parameter retrieval model from NVIDIA. It's built on Llama-3.1-8B, produces 4,096-dimensional embeddings, handles context windows of up to 32,768 tokens, and was trained for multilingual retrieval across more than 1,000 languages. Unlike the Matryoshka models, this model produces a single fixed embedding size rather than truncatable dimensions, so we hold the dimension constant at 4,096 and isolate the effect of Binary Quantization itself.
-
+### Experiment Setup
+ 
+Our setup breaks into three parts: the model, the dataset, and the two search parameters we vary from run to run.
+ 
+#### The Model: llama-embed-nemotron-8b
+ 
+We built the experiment around [llama-embed-nemotron-8b](https://huggingface.co/nvidia/llama-embed-nemotron-8b), a retrieval model from NVIDIA. Unlike the Matryoshka models, it produces a single fixed embedding size rather than truncatable dimensions, so we hold the dimension constant at 4,096 and isolate the effect of Binary Quantization itself.
+ 
+| Property | Value |
+|-|-|
+| Base model | Llama-3.1-8B |
+| Parameters | 7.5 billion |
+| Embedding dimensions | 4,096 (fixed) |
+| Max context | 32,768 tokens |
+| Languages | 1,000+ (multilingual retrieval) |
+ 
 #### Dataset
-
-We draw our text passages from [AG News](https://huggingface.co/datasets/fancyzhx/ag_news), a standard collection of English news articles. From it, we randomly sample 1,500 passages to form the searchable corpus and hold out a separate set of 150 records to serve as queries. We then encode both sets and, for each query, we search the corpus for its nearest neighbors. The full-precision float results act as the ground truth, and we then repeat the search with binary-quantized vectors to measure how closely the compressed search reproduces that ground truth. This setup lets us assess how Binary Quantization influences both search precision and efficiency on realistic, high-dimensional embeddings.
-
-#### Parameters: Oversampling and Rescoring
-
-For each query, we run a parameter sweep over oversampling and rescoring. This lets us understand how each setting shapes search accuracy and efficiency. Our experiment was designed to assess Binary Quantization under a range of conditions, based on the following parameters:
-
-- **Oversampling**: Oversampling limits the information loss inherent in quantization by retrieving more binary candidates than the final result count, then rescoring them. You set it as a multiplier: with an oversampling factor of 3 and a limit of 10, Qdrant pulls roughly 30 candidates from the fast binary index before narrowing back down to the top 10. The binary search is approximate, so the true nearest neighbors sometimes fall just outside the top results. Widening the candidate pool gives the rescoring step a chance to recover them. Higher factors tend to improve accuracy with diminishing returns, and they cost more compute because every extra candidate has to be rescored.
-
-- **Rescoring**: Rescoring replaces the coarse bitwise Hamming scores from the binary stage with exact distances computed on the original full-precision vectors, then reorders the candidates. The final ordering matches what a full-precision search would return, which is why it **always** improves accuracy. In Qdrant, you enable it with the `rescore` flag, and it pairs naturally with oversampling, since the wider candidate pool is exactly what rescoring reorders. The extra cost is modest, because Qdrant only rescores the small oversampled candidate set rather than the whole collection, and it can keep the full vectors on disk and read just those candidates back when needed.
-
-Through this setup, our experiment aims to clarify the interplay between Binary Quantization and a modern, high-dimensional embedding model. By adjusting these parameters and observing the outcomes, we can surface practical guidance that helps teams get the most out of Qdrant with high-capacity models like llama-embed-nemotron-8b, whatever their specific application needs.
+ 
+We use [AG News](https://huggingface.co/datasets/fancyzhx/ag_news), a standard collection of English news articles. We sample 1,500 passages as the searchable corpus and hold out 150 as queries. For each query, the full-precision float results serve as ground truth, and we repeat the search with binary-quantized vectors to measure how closely the compressed search reproduces it.
+ 
+#### Independent Variables: Oversampling and Rescoring
+ 
+Oversampling and rescoring are the independent variables in this experiment: the inputs we manipulate while measuring recall@10 as the outcome. Both are defined in [Dimension Reduction vs Accuracy](#dimension-reduction-vs-accuracy-with-binary-quantization); here, we cross them into a grid of runs:
+ 
+- **Oversampling factor**: swept from 1 to 4.
+- **Rescoring**: run with the `rescore` flag both on and off.
+Running every combination lets us isolate how much each setting contributes to accuracy, and at what computational cost.
 
 ### Results: Binary Quantization's Impact on Retrieval Accuracy
 
