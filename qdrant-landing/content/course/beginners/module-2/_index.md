@@ -394,11 +394,11 @@ for r in results.points:
 
 ## What's Next - Module 3
 
-Next, we'll explore:
+In the next module, we'll break down:
 
-- Sparse vs. dense search - when keyword precision beats semantic similarity
-- Hybrid search - combining dense + sparse in a single query with RRF fusion
-- Multimodal inputs - text, image, audio in one vector space
-- etc..
+- The two families of search: dense vs. sparse, and when each one fails
+- How hybrid systems combine dense and sparse retrieval into a single query
+- Setting up hybrid search in Qdrant and choosing a fusion strategy
+- Beyond text: applying the same retrieval primitives to images, audio, and video
 
-End of Module 2. Continue to Module 3: Sparse vs Dense Search and Hybrid Retrieval.
+End of Module 2. Continue to Module 3: Sparse vs Dense vs Hybrid Search.
