@@ -265,7 +265,7 @@ print(report)
 
 Run this way, the evaluation confirms the optimization. With rescoring enabled, the binary-quantized run recovers the original ranking closely: in our reproducible experiment, recall@10 reaches 0.9707 for mxbai-embed-large-v1 at its native 1,024 dimensions, while storage drops by up to 32x. A higher-dimensional model like llama-embed-nemotron-8b, at 4,096 dimensions, is expected to retain even more of the original ranking, since each vector carries more information for the binary sign pattern to preserve. In other words, you keep nearly all of the search quality for a fraction of the memory and a faster search. That is the optimization we set out to validate.
 
-### Leveraging Binary Quantization: Best Practices
+### Best Practices
 
 We recommend the following best practices for leveraging Binary Quantization with modern text embeddings:
 
