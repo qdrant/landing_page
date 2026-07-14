@@ -193,7 +193,7 @@ Setting `max_collection_vector_size_bytes` and/or `max_collection_payload_size_b
 
 When a node is running low on disk space, new write operations can destabilize the cluster.
 
-Setting `max_disk_usage_percent` rejects disk-consuming write operations (such as upsert, set/overwrite payload, and update vectors) when filesystem usage exceeds the given percentage. Delete operations are not affected, so callers can still free disk space. Accepts values in the range 1–100.
+Setting `max_disk_usage_percent` rejects disk-consuming write operations (such as upsert, set/overwrite payload, and update vectors) when filesystem usage exceeds the given percentage. Delete operations are not affected, so it is still possible to free disk space. Accepts values in the range 1–100.
 
 {{< code-snippet path="/documentation/headless/snippets/strict-mode/max-disk-usage-percent/" >}}
 
