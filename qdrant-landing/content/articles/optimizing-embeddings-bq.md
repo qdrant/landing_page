@@ -118,11 +118,13 @@ Compressing 32 bits into one is lossy: the binary vector keeps only the sign of 
  
 - **Oversampling** retrieves more binary candidates than the number of results you actually want. Because the binary search is approximate, the true nearest neighbors sometimes fall just outside the top results, and widening the pool gives you a chance to catch them. You set it as a multiplier, so a factor of 3 with a limit of 10 pulls roughly 30 candidates before narrowing back to 10.
 - **Rescoring** takes those candidates and recomputes their distances with the original full-precision vectors, then reorders them. The final ranking matches what a full-precision search would return, which is why rescoring always improves accuracy. It pairs naturally with oversampling, since the wider candidate pool is exactly what it reorders.
+
 Despite the lossy compression, the efficiency gains from Binary Quantization are substantial:
  
 - **Reduced storage footprint**: up to 32x less memory, which matters most on large-scale datasets.
 - **Faster retrieval**: smaller vectors mean faster searches.
 - **Accelerated scoring**: distance calculations become bitwise operations, enabling real-time querying even on extensive databases.
+
 The chart below shows recall@10 against full-precision search for two Matryoshka-trained models. At their native dimension, Binary Quantization holds up well: `mxbai-embed-large-v1` scores 0.9707 at 1024 dimensions and `nomic-embed-text-v1.5` scores 0.9067 at 768. Accuracy drops as vectors are truncated further, to roughly 0.80 and 0.73 at 256 dimensions, which is where the storage-versus-precision trade-off starts to bite.
  
 ![Recall@10 for full-precision search vs Binary Quantization](/articles_data/optimizing-embeddings-bq/3-recall-full-precision-vs-bq.png)
