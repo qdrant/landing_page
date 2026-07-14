@@ -175,7 +175,7 @@ Understand why traditional search struggles and how modern semantic search impro
 
 ## Who it's for
 
-Anyone new to vector search who wants to understand the fundamentals. No prior experience with Qdrant or vector databases required.
+Anyone new to vector search who wants to understand the fundamentals. No prior experience with Qdrant or vector search engines required.
 
 ## Time commitment
 
