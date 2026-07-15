@@ -209,6 +209,32 @@ Production search today combines multiple retrieval signals in a single pipeline
 | Semantic / Dense | Understands meaning and intent | Can miss exact tokens - 'SKU-48291' may drift to similar IDs |
 | Hybrid | Covers both exact terms and intent | More complex to build, tune, and operate |
 
+### Try It Yourself: Compare Cosine Scores
+
+Reuse the embedding snippet from section 4 to embed three query/document pairs, then score each pair with cosine similarity (the formula from earlier, available directly as `util.cos_sim`).
+
+```python
+from sentence_transformers import SentenceTransformer, util
+
+model = SentenceTransformer("all-MiniLM-L6-v2")
+
+pairs = [
+    ("car repair", "automobile maintenance"),                    # synonyms
+    ("cheap flights to New York", "affordable airfare to NYC"),  # paraphrase
+    ("cheap flights to New York", "best pizza in Chicago"),      # unrelated
+]
+
+for query, document in pairs:
+    query_vec = model.encode(query)
+    doc_vec = model.encode(document)
+    score = util.cos_sim(query_vec, doc_vec).item()
+    print(f"{score:.3f}  |  {query!r}  vs  {document!r}")
+```
+
+**What to look for:** the first two pairs share little or no vocabulary, yet both score high, that's semantic search catching the synonym and the paraphrase that keyword search missed back in section 1. The third pair scores low, confirming the model separates unrelated meaning instead of matching surface words.
+
+**Your turn:** swap in a polysemy case: score `"apple stock"` against both `"shares of a tech company"` and `"a crisp red fruit"`. Which comes out higher, and does it match the sense you meant?
+
 ## 8. References & Further Reading
 
 - [Qdrant Concepts](https://qdrant.tech/documentation/concepts/)
@@ -229,4 +255,8 @@ In the next module, we'll break down:
 - How similarity really works under the hood - and when it fails.
 - Your first Qdrant collection: points, payloads, and your first query.
 
-End of Module 1. Continue to Module 2: First Principles of Vector Search.
+<a href="/course/beginners/module-2/"
+   style="display:inline-block;padding:12px 24px;background:#dc244c;color:#fff;
+          border-radius:6px;text-decoration:none;font-weight:600;">
+  Continue to Module 2 →
+</a>
