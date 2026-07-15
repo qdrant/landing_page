@@ -133,5 +133,5 @@ This architecture strikes a balance by keeping infrastructure costs low by minim
 > This open-source repository includes full scripts for downloading, processing, and uploading the LAION-400M dataset to Qdrant using efficient, production-ready patterns.
 
 > **Want to try this workflow hands-on?**  
-> Run the [Google Colab notebook](https://colab.research.google.com/drive/1X4EW-nymqcsyhwFYS2ZrmE8MPSnKKj62?usp=sharing) to see large-scale vector ingestion, quantized search, and efficient RAM/disk optimization in action!
+> Run the [Google Colab notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/course/day_4/large_scale_ingestion.ipynb) to see large-scale vector ingestion, quantized search, and efficient RAM/disk optimization in action!
 
