@@ -207,7 +207,7 @@ Production search today combines multiple retrieval signals in a single pipeline
 | Keyword / Grep | Fast, exact matching | No semantic understanding - misses synonyms and paraphrases |
 | BM25 / TF-IDF | Great for rare or specific terms | No synonym handling - relies entirely on word overlap |
 | Semantic / Dense | Understands meaning and intent | Can miss exact tokens - 'SKU-48291' may drift to similar IDs |
-| Hybrid | Best of both worlds | More complex to build, tune, and operate |
+| Hybrid | Covers both exact terms and intent | More complex to build, tune, and operate |
 
 ## 8. References & Further Reading
 
