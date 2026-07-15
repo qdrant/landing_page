@@ -146,7 +146,11 @@ client.create_collection(
 
 **Watch for:** Storing the sparse index on-disk may slow down search because queries can depend more on disk access. If sparse vector search is latency-sensitive, keeping the sparse index in memory may be better.
 
-## Option 5: Batch Your Uploads
+## Best Practices for Every Upload
+
+The strategies above depend on your workload, such as vector type, memory limits, and search needs. The following techniques are different. Batching, parallelization, and sharding are not situational choices; they apply to any bulk upload and help improve ingestion throughput and stability regardless of how your collection is configured.
+
+### Batch Your Uploads
 
 _Dense & sparse vectors_
 
@@ -172,7 +176,7 @@ client.upload_points(
 
 **Watch for:** A batch size of 64-256 points is a reasonable starting range. Larger batches can improve throughput but increase memory usage and make retries more expensive if a request fails.
 
-## Option 6: Parallelize Uploads
+### Parallelize Uploads
 
 _Dense & sparse vectors_
 
@@ -201,7 +205,7 @@ client.upload_points(
 
 **Watch for:** Too much parallelism can create extra pressure on CPU, memory, disk I/O, and network resources. Start with a smaller number first, then increase based on system behavior.
 
-## Option 7: Multiple Shards for Larger Uploads
+### Use Multiple Shards for Larger Uploads
 
 _Dense & sparse vectors_
 
@@ -229,15 +233,7 @@ client.create_collection(
 
 ## Choosing the Right Mix
 
-| Workload / Concern                          | Start With                                          | Can Also Pair With                                     | Keep in Mind                                                                                                    |
-| ------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| Large dense vector upload with RAM pressure | Option 1: Reduce Memory Pressure                    | Option 3: Quantization, Option 5: Batch Uploads        | Storing vectors on-disk can shift more search work toward disk access.                                          |
-| Dense vector search with limited memory     | Option 3: Quantization                              | Option 1: Reduce Memory Pressure                       | Test search quality and latency with your own data.                                                             |
-| Filtered dense vector search                | Option 2: Create Payload Indexes (Before Uploading) | Option 5: Batch Uploads, Option 6: Parallelize Uploads | Only index fields that are actually used for filtering.                                                         |
-| Large sparse vector index                   | Option 4: Reduce Sparse Index Memory                | Option 5: Batch Uploads                                | Storing the sparse index on-disk may increase search latency.                                                   |
-| Slow ingestion from too many small requests | Option 5: Batch Uploads                             | Option 6: Parallelize Uploads                          | Larger batches can improve throughput, but they can also increase memory usage and make retries more expensive. |
-| One upload worker is not enough             | Option 6: Parallelize Uploads                       | Option 7: Multiple Shards                              | Too much parallelism can create pressure on CPU, memory, disk I/O, and network resources.                       |
-| Very large dataset with high write volume   | Option 7: Multiple Shards                           | Option 5: Batch Uploads, Option 6: Parallelize Uploads | More shards add overhead, so shard count should match the deployment size and write parallelism needed.         |
+![Decision tree for choosing the right bulk upload strategy: dense, sparse, or hybrid vectors, with memory, quantization, and sharding options](/articles_data/bulk-uploads-in-qdrant/choosing-the-right-mix.png)
 
 Still deciding exactly what to configure for your workload? [Qdrant's Agent Skills](https://qdrant.tech/documentation/skills/) provide hands-on, scenario-based guidance that walks you through the specific settings for your situation.
 
