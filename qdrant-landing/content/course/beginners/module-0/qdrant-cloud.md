@@ -61,7 +61,7 @@ Use the Web UI to manage collections, inspect data, and debug search performance
 
 #### Inside a Collection
 
-When you open a collection by clicking it's name,
+When you open a collection by clicking its name,
 
 ![Select collection](/courses/day0/select-collection.png)
 
@@ -69,7 +69,7 @@ you'll get a detailed view with these tabs:
 
 ![Collection points](/courses/day0/collection-points.png)
 
-* **Points Tab**: Inspect, search, and manage individual points. Use the search bar to find by ID or filter by payload fields (e.g., `colony: "Mars"`). For each point, you can:
+* **Points Tab**: Inspect, search, and manage individual points. Use the search bar to find by ID or filter by payload fields, for example  `colony: "Mars"`. For each point, you can:
 
   * See its payload and vector(s).
   * Click **Find Similar** to run an ad-hoc similarity search.
@@ -94,7 +94,7 @@ you'll get a detailed view with these tabs:
 
 ## Connect from Python
 
-Store credentials in an `.env` file at the root of your working directory or in colab:
+Store credentials in an `.env` file at the root of your working directory or in Colab:
 
 ```env
 QDRANT_URL=https://YOUR-CLUSTER.cloud.qdrant.io:6333
@@ -158,7 +158,7 @@ curl -s "$QDRANT_URL/collections" -H "api-key: $QDRANT_API_KEY"
 
 ## Qdrant Cloud Inference
 
-Qdrant Cloud also offers **[Cloud Inference](/cloud-inference/)**—managed embedding generation for text and images. Skip running your own embedding models; create vectors in Qdrant Cloud and write them straight into your collections.
+Qdrant Cloud also offers **[Cloud Inference](/cloud-inference/)**: managed embedding generation for text and images. Skip running your own embedding models; create vectors in Qdrant Cloud and write them straight into your collections.
 
 <div class="video">
 <iframe
@@ -176,9 +176,9 @@ Learn more: [Qdrant Cloud Inference](/documentation/cloud/inference/)
 
 ## Qdrant Agent Skills
 
-If you're using an AI coding assistant (Claude Code, Cursor, and others) alongside this course, [Qdrant Skills](/documentation/skills/) are worth setting up early. Skills are open-source, machine-readable knowledge modules that teach your agent when and why to apply a technique - not just how to call an API. They're organized around symptoms and situations (e.g. "memory usage climbing," "search quality regressed") rather than features, so your agent can diagnose a problem before prescribing a fix.
+If you're using an AI coding assistant (Claude Code, Cursor, and others) alongside this course, [Qdrant Skills](/documentation/skills/) are worth setting up early. Skills are open-source, machine-readable knowledge modules that teach your agent when and why to apply a technique - not just how to call an API. They're organized around symptoms and situations, for example "memory usage climbing" and "search quality regressed" rather than features, so your agent can diagnose a problem before prescribing a fix.
 
-Skills are hosted at [skills.qdrant.tech](https://qdrant.tech/documentation/skills/) and can be pointed to directly by URL, with no local installation needed. For local or offline use, install them from the [qdrant/skills](https://github.com/qdrant/skills) repository:
+Skills are hosted at [skills.qdrant.tech](https://skills.qdrant.tech/) and can be pointed to directly by URL, with no local installation needed. For local or offline use, install them from the [qdrant/skills](https://github.com/qdrant/skills) repository:
 
 ```bash
 # Claude Code
