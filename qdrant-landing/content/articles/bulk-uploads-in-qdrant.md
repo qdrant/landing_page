@@ -168,9 +168,9 @@ Uploading points one at a time can add unnecessary overhead. Each request has to
 
 A better approach is to upload points in batches. Batching allows Qdrant to process groups of points together instead of handling every point as a separate request.
 
-![Diagram: uploading one point per request creates high overhead, while grouping points into batches of 64-256 is about 5x faster.](/articles_data/bulk-uploads-in-qdrant/option5-batching.png)
+![Diagram: uploading one point per request creates high overhead, while grouping points into batches of 64-256 is far faster.](/articles_data/bulk-uploads-in-qdrant/option5-batching.png)
 
-> **Benchmark:** On a local single-node Qdrant 1.18.2 (Windows 11, `qdrant-client` 1.12.0, 10,000 synthetic 768-dim vectors), batching at 64 points per request was about 5× faster than uploading one point at a time. This is a small dataset chosen to show the pattern; the gap widens as datasets grow into the millions, and exact numbers depend on hardware and Qdrant version.
+> **Benchmark:** On a local single-node Qdrant 1.18.2 (Windows 11, `qdrant-client` 1.12.0, 10,000 synthetic 768-dim vectors), uploading in batches of 64 took 8.17s versus 152.19s one point at a time — about 18× faster. Most of that gap is per-request overhead (network and write-path round-trips), so batching pays off at essentially any scale; exact numbers still depend on hardware and Qdrant version.
 
 Set a batch size when uploading points:
 
