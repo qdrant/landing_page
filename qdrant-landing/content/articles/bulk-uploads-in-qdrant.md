@@ -170,8 +170,6 @@ A better approach is to upload points in batches. Batching allows Qdrant to proc
 
 ![Diagram: uploading one point per request creates high overhead, while grouping points into batches of 64-256 is far faster.](/articles_data/bulk-uploads-in-qdrant/option5-batching.png)
 
-> **Benchmark:** On a local single-node Qdrant 1.18.2 (Windows 11, `qdrant-client` 1.12.0, 10,000 synthetic 768-dim vectors), uploading in batches of 64 took 8.17s versus 152.19s one point at a time — about 18× faster. Most of that gap is per-request overhead (network and write-path round-trips), so batching pays off at essentially any scale; exact numbers still depend on hardware and Qdrant version.
-
 Set a batch size when uploading points:
 
 ```python
@@ -194,9 +192,7 @@ A single upload stream may not fully use the available write capacity of your Qd
 
 Parallel uploads allow several workers to upload different parts of the dataset at the same time. This keeps Qdrant's write pipeline active, especially when the collection has multiple shards.
 
-![Diagram: a single upload worker underuses write capacity, while multiple parallel workers feed the write pipeline for roughly 2x throughput.](/articles_data/bulk-uploads-in-qdrant/option6-parallel.png)
-
-> **Benchmark:** On the same local single-node setup (Qdrant 1.18.2, Windows 11, `qdrant-client` 1.12.0, 10,000 synthetic 768-dim vectors, batch size 256), going from 1 to 4 parallel workers cut upload time from 5.58s to 4.61s (~1.2× faster). On a single local node the gain is modest — the workers share the same CPU — and grows more meaningful against a remote or multi-node deployment with more shards.
+![Diagram: a single upload worker underuses write capacity, while multiple parallel workers feed the write pipeline for higher throughput.](/articles_data/bulk-uploads-in-qdrant/option6-parallel.png)
 
 Note: Parallelism gains are not always linear; in some configurations, 2 workers may perform similarly to 1 before improvements appear at higher counts.
 
