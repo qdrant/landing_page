@@ -1,13 +1,20 @@
 ---
 title: "Bulk Uploading Data to Qdrant"
 short_description: "Plan bulk uploads in Qdrant at scale: batching, parallelization, sharding, payload indexes, quantization, and on-disk storage."
-description: "Learn how to plan bulk uploads in Qdrant: batching, parallelization, sharding, payload indexes, quantization, and on-disk storage for dense and sparse vectors."
+description: "Plan bulk uploads in Qdrant: batching, parallelization, sharding, payload indexes, quantization, and on-disk storage."
 preview_dir: /articles_data/bulk-uploads-in-qdrant/preview
 social_preview_image: /articles_data/bulk-uploads-in-qdrant/preview/social_preview.jpg
 weight: 35
 author: John Kupchanko
+author_link: https://github.com/jkupchanko
+keywords:
+  - bulk upload
+  - vector database
+  - batching
+  - quantization
+  - sharding
 category: production-ops
-date: 2026-07-14
+date: 2026-07-14T00:00:00.000Z
 draft: false
 ---
 
@@ -72,7 +79,7 @@ If those indexes are created after a large dataset has already been uploaded, fi
 
 ![Diagram: creating the payload index before uploading makes filtered search fast immediately, while indexing after upload forces a slow query-time fallback and an expensive HNSW graph rebuild.](/articles_data/bulk-uploads-in-qdrant/option2-payload-index.png)
 
-In Python, this can look like:
+Create the payload index before uploading:
 
 ```python
 client.create_payload_index(
@@ -96,7 +103,7 @@ Quantization can help balance this tradeoff. Instead of keeping full-size dense 
 
 ![Diagram: original full-size vectors stay on disk while a compressed copy is kept in RAM, so search stays fast with lower memory use.](/articles_data/bulk-uploads-in-qdrant/option3-quantization.png)
 
-In Python, TurboQuant quantization can be configured when creating the collection:
+In Python, configure TurboQuant when creating the collection. The `bits` parameter sets the compression level: `BITS4` (the default) stays closest to full precision, while `BITS1` gives the most compression.
 
 ```python
 client.create_collection(
@@ -109,6 +116,7 @@ client.create_collection(
     quantization_config=models.TurboQuantization(
         turbo=models.TurboQuantQuantizationConfig(
             always_ram=True,
+            bits=models.TurboQuantBitSize.BITS4,
         )
     ),
 )
@@ -126,7 +134,7 @@ For large sparse vector workloads, one option is to store the sparse vector inde
 
 ![Diagram: keeping the sparse index in memory grows memory pressure, while storing it on disk lowers memory use at the cost of some search latency.](/articles_data/bulk-uploads-in-qdrant/option4-sparse-ondisk.png)
 
-In Python, this can look like:
+Enable on-disk storage for the sparse index:
 
 ```python
 client.create_collection(
@@ -150,6 +158,8 @@ client.create_collection(
 
 The strategies above depend on your workload, such as vector type, memory limits, and search needs. The following techniques are different. Batching, parallelization, and sharding are not situational choices; they apply to any bulk upload and help improve ingestion throughput and stability regardless of how your collection is configured.
 
+> **Tip:** Connect with `QdrantClient(url, prefer_grpc=True)` for bulk work. gRPC has lower overhead than HTTP and is meaningfully faster for large uploads.
+
 ### Batch Your Uploads
 
 _Dense & sparse vectors_
@@ -162,7 +172,7 @@ A better approach is to upload points in batches. Batching allows Qdrant to proc
 
 > **Benchmark:** In testing with 10,000 768-dim vectors, batching at 64 points per request was ~5× faster than uploading one point at a time.
 
-In Python, this can look like:
+Set a batch size when uploading points:
 
 ```python
 client.upload_points(
@@ -190,7 +200,7 @@ Parallel uploads allow several workers to upload different parts of the dataset 
 
 Note: Parallelism gains are not always linear; in some configurations, 2 workers may perform similarly to 1 before improvements appear at higher counts.
 
-In Python, this can look like:
+Add parallel workers to the upload:
 
 ```python
 client.upload_points(
@@ -213,7 +223,7 @@ For larger uploads, sharding can help Qdrant process writes in parallel. A colle
 
 ![Diagram: a single shard limits ingestion parallelism, while multiple shards give independent write paths for distributed ingestion.](/articles_data/bulk-uploads-in-qdrant/option7-sharding.png)
 
-In Python, this can look like:
+Set the shard count when creating the collection:
 
 ```python
 client.create_collection(
@@ -242,5 +252,7 @@ Still deciding exactly what to configure for your workload? [Qdrant's Agent Skil
 Bulk uploads are not just about sending as much data as possible into Qdrant. As datasets grow, the upload process also needs to account for memory usage, indexing behavior, disk writes, search availability, and overall system stability.
 
 The safest approach is to choose the right strategy for the workload instead of relying on one universal configuration. Dense vectors, sparse vectors, and hybrid setups can all create different performance considerations during ingestion.
+
+> **Tip:** After a large upload, confirm the collection status is green and the optimizers have finished before serving production traffic.
 
 By designing the collection and upload process before ingestion starts, you can make bulk uploads more efficient, more stable, and easier to scale as your dataset grows. To size your deployment, use the [Qdrant sizing calculator](https://sizing.qdrant.tech).
