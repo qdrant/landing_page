@@ -78,3 +78,6 @@
 /articles/ecosystem/               /articles/demos-and-tutorials/   301
 /articles/practicle-examples/      /articles/demos-and-tutorials/   301
 /articles/rag-and-genai/           /articles/rag-and-agents/        301
+
+# Unpublished indexing-optimization article superseded by bulk-uploads-in-qdrant
+/articles/indexing-optimization/   /articles/bulk-uploads-in-qdrant/   301
