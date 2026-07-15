@@ -132,7 +132,7 @@ Understand why traditional search struggles and how modern semantic search impro
 - title: "Module 3: Sparse vs Dense vs Hybrid Search"
   content: |
     - The Two Families of Search
-    - Hybrid Search: Dense + Sparse + Filters
+    - Hybrid Search: Dense + Sparse
     - Setting Up Hybrid Search in Qdrant
     - Fusion Strategies
     - Beyond Text: Multimodal Search
