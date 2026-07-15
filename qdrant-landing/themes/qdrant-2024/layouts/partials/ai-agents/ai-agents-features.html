@@ -1,0 +1,37 @@
+{{ with (.Site.GetPage "/ai-agents/ai-agents-features") }}
+  <section class="ai-agents-features">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="ai-agents-features__header">
+            <p class="ai-agents-features__subtitle">{{ .Params.subtitle }}</p>
+            <h2 class="ai-agents-features__title">{{ .Params.title }}</h2>
+            <p class="ai-agents-features__description">{{ .Params.description }}</p>
+            <a href="{{ .Params.button.url }}" class="button button_contained button_lg">
+              {{ .Params.button.text }}
+            </a>
+          </div>
+
+          <div class="ai-agents-features__code-container">
+            {{ partial "ai-agents/ai-agents-code-window" (dict
+              "block" "ai-agents-features"
+              "codeBar" .Params.codeBar
+              "code" .Params.code
+              "language" (.Params.language | default "python")
+              "id" "features"
+            ) }}
+          </div>
+
+          <div class="ai-agents-features__list">
+            {{ range .Params.features }}
+              <div class="ai-agents-features__item">
+                <img class="ai-agents-features__item-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}">
+                <p class="ai-agents-features__item-content">{{ .content | safeHTML }}</p>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

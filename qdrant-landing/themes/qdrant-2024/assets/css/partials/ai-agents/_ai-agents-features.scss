@@ -1,0 +1,235 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.ai-agents-features {
+  padding-bottom: $spacer * 5;
+  background: radial-gradient(
+    115.51% 123.53% at 50% -4.94%, 
+    rgba($ai-agents-violet-gradient-base, 0) 0%, 
+    rgba($ai-agents-violet-gradient-base, 0) 75%, 
+    rgba($ai-agents-violet-gradient-base, 0.8) 90%, 
+    $ai-agents-violet-gradient-end 100%),
+    $neutral-10;
+  
+  &__header {
+    margin-bottom: $spacer * 4;
+    padding-top: $spacer * 5;
+    border-top: pxToRem(1) solid $neutral-30;
+    text-align: center;
+  }
+
+  &__subtitle {
+    margin-bottom: $spacer;
+    font-family: 'Geist Mono', $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-70;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin-bottom: $spacer;
+    text-align: center;
+    font-size: $h4-font-size;
+    line-height: $spacer * 3;
+    color: $neutral-98;
+  }
+
+  &__description {
+    margin-bottom: $spacer;
+    text-align: center;
+    color: $neutral-70;
+  }
+  
+  &__code-container {
+    position: relative;
+
+    &:after {
+      display: block;
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: pxToRem(240);
+      background: linear-gradient(180deg, rgba($neutral-10, 0) 4.25%, $neutral-10 88.85%);
+    }
+  }
+  
+  &__code {
+    overflow: hidden;
+    width: 100%;
+    height: pxToRem(520);
+    margin-bottom: $spacer * 4;
+    border-radius: $spacer;
+    background-color: $neutral-10;
+    border: pxToRem(1) solid $neutral-20;
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: $spacer * 3;
+      padding: 0 $spacer * 1.5;
+      background-color: $neutral-10;
+      border-bottom: pxToRem(1) solid $neutral-20;
+    }
+
+    &-window-buttons {
+      display: flex;
+      gap: pxToRem(6);
+
+      div {
+        height: pxToRem(11);
+        width: pxToRem(11);
+        border-radius: 50%;
+      }
+
+      &__close {
+        background-color: $error-50;
+      }
+
+      &__minimize {
+        background-color: $neutral-60;
+      }
+
+      &__expand {
+        background-color: $success-50;
+      }
+    }
+
+    &-bar {
+      margin-bottom: 0;
+      font-size: $font-size-s;
+      line-height: $line-height-sm;
+      color: $neutral-100;
+    }
+
+    &-content {
+      display: flex;
+      align-items: flex-start;
+      height: pxToRem(472);
+      margin: 0 math.div($spacer, 4);
+      padding: pxToRem(28) pxToRem(20) pxToRem(28) pxToRem(28);
+      background: linear-gradient($neutral-20, $ai-agents-code-bg-end);
+      border-right: pxToRem(1) solid $neutral-20;
+      border-left: pxToRem(1) solid $neutral-20;
+      overflow-y: auto;
+      overflow-x: hidden;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
+
+      .highlight {
+        width: calc(100% - pxToRem(24));
+        margin-bottom: $spacer * 10;
+        background: transparent;
+
+        pre {
+          display: block;
+          width: 100%;
+          padding: 0;
+          background: transparent;
+          white-space: pre-wrap;
+          overflow-x: hidden;
+        }
+
+        code {
+          display: block;
+          width: 100%;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+
+          .line {
+            margin-bottom: 0;
+          }
+
+          * {
+            font-size: $font-size-md;
+            line-height: $spacer * 1.5;
+            color: $neutral-94;
+          }
+        }
+      }
+
+      &-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: pxToRem(7);
+        border: pxToRem(1) solid $neutral-30;
+        border-radius: math.div($spacer, 4);
+        background: linear-gradient($neutral-20, $ai-agents-code-bg-end);
+        color: $neutral-80;
+
+        &.js-copy-code__done {
+          color: $neutral-98;
+        }
+
+        svg {
+          height: pxToRem(14);
+          width: pxToRem(14);
+        }
+      }
+    }
+  }
+  
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2;
+  }
+  
+  &__item {
+    flex: 1;
+    
+    &-icon {
+      margin-bottom: math.div($spacer, 2);
+      height: $spacer * 1.5;
+      width: $spacer * 1.5;
+    }
+    
+    &-content {
+      margin-bottom: 0;
+      color: $neutral-80;
+      
+      b {
+        color: $neutral-98;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 10;
+    background: radial-gradient(
+      115.51% 123.53% at 50% -9.94%,
+      rgba($ai-agents-violet-gradient-base, 0) 0%,
+      rgba($ai-agents-violet-gradient-base, 0) 75%,
+      rgba($ai-agents-violet-gradient-base, 0.8) 90%,
+      $ai-agents-violet-gradient-end 100%),
+      $neutral-10;
+
+    &__title {
+      font-size: $h3-font-size;
+      line-height: pxToRem(52);
+    }
+
+    &__description {
+      font-size: $font-size-l;
+      line-height: $line-height-lg;
+    }
+
+    &__list {
+      flex-direction: row;
+      gap: $spacer * 3;
+    }
+  }
+}

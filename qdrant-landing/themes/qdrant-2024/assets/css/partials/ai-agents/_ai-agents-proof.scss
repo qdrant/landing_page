@@ -1,0 +1,61 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.ai-agents-proof {
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-94;
+  
+  &__items {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__item {
+    flex: 1;
+    flex-shrink: 0;
+    
+    &-title {
+      margin-bottom: math.div($spacer, 2);
+      color: $secondary-blue-50;
+      font-size: $h3-font-size;
+      line-height: pxToRem(58);
+      font-weight: $font-weight-medium;
+    }
+    
+    &-description {
+      margin-bottom: 0;
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+      font-weight: $font-weight-light;
+      color: $neutral-30;
+    }
+  }
+
+  &__divider {
+    flex-shrink: 0;
+    width: 100%;
+    height: pxToRem(1);
+    margin: $spacer * 2 0;
+    background-color: $neutral-80;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7;
+    padding-bottom: $spacer * 7;
+    
+    &__items {
+      flex-direction: row;
+    }
+    
+    &__item {
+      padding: $spacer 0;
+    }
+
+    &__divider {
+      width: pxToRem(1);
+      height: auto;
+      margin: 0 $spacer * 3;
+    }
+  }
+}

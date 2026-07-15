@@ -1,26 +1,21 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
 
-  {{ with (.Site.GetPage "/ai-agents/ai-agents-hero") }}
-    {{ partial "use-cases-vector-hero" . }}
-  {{ end }}
+  {{ partial "ai-agents/ai-agents-hero" . }}
 
-  <div id="ai-agents"></div>
-  {{ partial "ai-agents-features" . }}
+  {{ partial "ai-agents/ai-agents-how-it-works" . }}
 
-  {{ with (.Site.GetPage "/ai-agents/ai-agents-integrations") }}
-    {{ partial "use-cases-vector-integrations" (dict "context" . "class" "ai-agents-integrations") }}
-  {{ end }}
+  {{ partial "ai-agents/ai-agents-builder-patterns" . }}
 
-  {{ partial "ai-agents-webinar" . }}
+  {{ partial "ai-agents/ai-agents-integrations" . }}
 
-  {{ with (.Site.GetPage "/ai-agents/ai-agents-use-cases") }}
-    {{ partial "use-cases-vector-cases" (dict "context" . "class" "ai-agents-use-cases") }}
-  {{ end }}
+  {{ partial "ai-agents/ai-agents-features" . }}
 
-  {{ partial "ai-agents-video" . }}
+  {{ partial "ai-agents/ai-agents-proof" . }}
 
-  {{ with (.Site.GetPage "/ai-agents/ai-agents-get-started") }}
-    {{ partial "get-started-small" (dict "context" . "class" "ai-agents-get-started") }}
+  {{ partial "ai-agents/ai-agents-resources" . }}
+
+  {{ with (.Site.GetPage "/ai-agents/ai-agents-cta-banner") }}
+    {{ partial "cta-banner" . }}
   {{ end }}
 {{ end }}
