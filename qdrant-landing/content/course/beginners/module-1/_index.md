@@ -12,7 +12,7 @@ weight: 20
 
 Understand why traditional search struggles and how modern semantic search improves it.
 
-## Today's path
+## Today's Path
 
 1. The Problem: Why Keyword Search Struggles
 2. How Traditional Search Improved
@@ -68,7 +68,7 @@ Find the exact string
 2. **Inverted Index**
 Fast word lookup
 
-3. **TF-IDF / BM25 / SPLADE**
+3. **TF-IDF / BM25 
 Weighted ranking
 
 4. **Semantic Search**
@@ -80,10 +80,10 @@ Meaning-aware
 |-----------|---------------|---------------|
 | Inverted index | Fast lookup across millions of documents without scanning each one | No ranking, no relevance - just presence or absence |
 | TF-IDF / BM25 | Relevance ranking based on term frequency and inverse document frequency | No synonyms, no semantic understanding |
-| Keyword matching | Tolerance for typos and near-spellings (receive → receive) | Still word-based - 'automobile' is not a typo of 'car' |
+| Fuzzy matching | Tolerance for typos and near-spellings (receave → receive) | Still word-based - 'automobile' is not a typo of 'car' |
 | Stemming | Reduces words to their root form (running → run) | Misses cross-vocabulary synonyms entirely |
 
-### Core limitation
+### Core Limitation
 
 All of these techniques still rely on matching words, not understanding meaning. They can't know that "car" and "automobile" are synonyms unless you hard-code that fact. And you can't hard-code the entire language.
 
@@ -138,7 +138,7 @@ Once we have vectors, we need a way to measure how similar two of them are. Diff
 
 ### Cosine Similarity
 
-The most common metric for text. It measures the angle between two vectors, ignoring their magnitude (length) and focusing purely on direction. A score of 1.0 means that the vectors are pointing in the same direction and have exactly the same semantic meaning (identical meaning). A score of 0.0 means on the other hand can be interpreted as two sentences being semantically unrelated.
+The most common metric for text. It measures the angle between two vectors, ignoring their magnitude (length) and focusing purely on direction. A score of 1.0 means the vectors point in the same direction. A score near 0.0 means the texts are semantically unrelated.
 
 $$
 \text{cosine\_similarity}(A, B) = \frac{A \cdot B}{\lVert A \rVert \, \lVert B \rVert}
@@ -146,7 +146,7 @@ $$
 
 ![Cosine Similarity](/courses/beginners/module-1/cosine-similarity.png)
 
-For example, embedding "car repair" and "automobile maintenance" and comparing the two vectors with this formula yields a similarity score around 0.847 - close to 1.0, reflecting their shared meaning despite having no words in common.
+For example, embedding "car repair" and "automobile maintenance" and comparing the two vectors with this formula yields a similarity score around 0.85 - close to 1.0, reflecting their shared meaning despite having no words in common.
 
 ### Distance Metric Comparison
 
@@ -199,7 +199,6 @@ Production search today combines multiple retrieval signals in a single pipeline
 - **Agentic AI systems** - multi-step agents that query different data sources sequentially
 - **E-commerce** - find semantically similar products, then filter by price, brand, and availability
 - **Knowledge bases** - semantic over documents, keyword for exact references and code snippets
-- and more...
 
 ### Quick Comparison
 
@@ -212,16 +211,13 @@ Production search today combines multiple retrieval signals in a single pipeline
 
 ## 8. References & Further Reading
 
-- **Qdrant Concepts** - [Qdrant Overview](https://qdrant.tech/documentation/concepts/)
+- [Qdrant Concepts](https://qdrant.tech/documentation/concepts/)
   - Overview of Qdrant's vector search engine - collections, points, payloads, and APIs.
-
-- **Distance Metrics Deep Dive** - [Distance Metrics - Qdrant](https://qdrant.tech/documentation/concepts/#distance-metrics)
+- [Distance Metrics Deep Dive](https://qdrant.tech/documentation/concepts/#distance-metrics)
   - Cosine, dot product, Euclidean, and Manhattan - when to use each.
-
-- **Filtering & Hybrid Search** - [Filtering - Qdrant](https://qdrant.tech/documentation/concepts/filtering/)
+- [Filtering & Hybrid Search](https://qdrant.tech/documentation/concepts/filtering/)
   - Payload filter syntax, indexed fields, and combining filters with vector queries.
-
-- **RAG Tutorials** - [RAG Tutorials - Qdrant](https://qdrant.tech/rag)
+- [RAG Tutorials](https://qdrant.tech/rag)
   - End-to-end retrieval-augmented generation tutorials using Qdrant as the retriever.
 
 ## What's Next - Module 2
