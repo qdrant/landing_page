@@ -114,7 +114,7 @@ query_vec = model.encode("car repair")
 doc_vec   = model.encode("automobile maintenance")
 
 print(len(query_vec))   # 384 dimensions
-print(query_vec[:5])    # [-0.021, 0.104, -0.048, 0.231, -0.008]
+print(query_vec[:5])    # [-0.12456684  0.03955902  0.08732592 -0.02361243 -0.0705409 ]
 ```
 
 ![Generating a vector from text](/courses/beginners/module-1/generating-vector.png)
