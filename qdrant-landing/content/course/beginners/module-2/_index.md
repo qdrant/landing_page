@@ -274,7 +274,7 @@ Chunks overlap with each other so context carries across chunk boundaries instea
 ### Chunking in Practice
 
 ```python
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # Fixed-size with overlap (sliding window)
 splitter = RecursiveCharacterTextSplitter(
