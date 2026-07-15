@@ -170,7 +170,7 @@ A better approach is to upload points in batches. Batching allows Qdrant to proc
 
 ![Diagram: uploading one point per request creates high overhead, while grouping points into batches of 64-256 is about 5x faster.](/articles_data/bulk-uploads-in-qdrant/option5-batching.png)
 
-> **Benchmark:** On a local single-node Qdrant instance (Qdrant `vX.X`, ~10,000 768-dim vectors), batching at 64 points per request was about 5× faster than uploading one point at a time. This is a small dataset chosen to show the pattern; the gap widens as datasets grow into the millions, and exact numbers depend on hardware and Qdrant version.
+> **Benchmark:** On a local single-node Qdrant (Windows 11, `qdrant-client` 1.12.0, ~10,000 synthetic 768-dim vectors), batching at 64 points per request was about 5× faster than uploading one point at a time. This is a small dataset chosen to show the pattern; the gap widens as datasets grow into the millions, and exact numbers depend on hardware and Qdrant version.
 
 Set a batch size when uploading points:
 
@@ -196,7 +196,7 @@ Parallel uploads allow several workers to upload different parts of the dataset 
 
 ![Diagram: a single upload worker underuses write capacity, while multiple parallel workers feed the write pipeline for roughly 2x throughput.](/articles_data/bulk-uploads-in-qdrant/option6-parallel.png)
 
-> **Benchmark:** On the same local single-node setup (Qdrant `vX.X`, ~10,000 768-dim vectors), uploading with 4 parallel workers was about 2× faster than a single upload stream. As with batching, treat these as directional: gains grow with larger datasets and more capable hardware.
+> **Benchmark:** On the same local single-node setup (Windows 11, `qdrant-client` 1.12.0, ~10,000 synthetic 768-dim vectors, batch size 256), uploading with 4 parallel workers was about 2× faster than a single stream. As with batching, treat these as directional: gains grow with larger datasets and more capable hardware.
 
 Note: Parallelism gains are not always linear; in some configurations, 2 workers may perform similarly to 1 before improvements appear at higher counts.
 
