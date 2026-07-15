@@ -18,6 +18,10 @@ These pages cover the settings and runtime options available for customizing and
 
 [Administration](/documentation/ops-configuration/administration/) covers runtime administration tools that let you modify instance behavior without restarting — including recovery mode for resolving out-of-memory situations.
 
+## Memory Tiers
+
+[Memory Tiers](/documentation/ops-configuration/memory-tiers/) explains how the `memory` parameter (`cold`, `cached`, `pinned`) controls RAM residency for vectors, indexes, quantized data, and payloads.
+
 ## Usage Statistics
 
 [Usage Statistics](/documentation/ops-configuration/usage-statistics/) explains what anonymized telemetry the open-source Qdrant image collects, why it's collected, and how to opt out.
