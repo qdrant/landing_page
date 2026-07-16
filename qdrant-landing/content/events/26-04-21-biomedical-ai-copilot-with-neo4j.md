@@ -4,6 +4,6 @@ description: "Build a Biomedical GraphRAG AI assistant combining Neo4j knowledge
 type: webinar
 start: "2026-04-21T17:00:00"
 place: Online
-link: "https://luma.com/a7ai1y4t"
+link: "https://www.youtube.com/watch?v=10g1iJnfLWQ"
 sitemapExclude: true
 ---

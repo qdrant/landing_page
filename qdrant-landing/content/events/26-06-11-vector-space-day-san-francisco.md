@@ -6,6 +6,6 @@ start: "2026-06-11T08:30:00-07:00"
 end: "2026-06-11T18:30:00-07:00"
 timezoneLabel: "GMT-7"
 place: San Francisco, CA
-link: "https://luma.com/vsd-sf"
+link: "https://qdrant.tech/vector-space-day-sf-26-recap/"
 sitemapExclude: true
 ---

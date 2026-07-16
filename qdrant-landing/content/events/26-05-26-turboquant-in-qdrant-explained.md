@@ -4,6 +4,6 @@ description: "A session covering TurboQuant, Qdrant's quantization option offeri
 type: webinar
 start: "2026-05-26T17:00:00"
 place: Online
-link: "https://luma.com/qdrant-turboquant"
+link: "https://www.youtube.com/watch?v=KawnBQWmtcU"
 sitemapExclude: true
 ---

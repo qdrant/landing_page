@@ -6,6 +6,6 @@ start: "2026-07-08T17:30:00+02:00"
 end: "2026-07-08T18:30:00+02:00"
 timezoneLabel: "CEST"
 place: Online
-link: "https://luma.com/fdok2snb"
+link: "https://www.youtube.com/watch?v=VZ2p3dLsFOs"
 sitemapExclude: true
 ---
