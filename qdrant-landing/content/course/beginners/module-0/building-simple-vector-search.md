@@ -6,33 +6,32 @@ weight: 3
 isLesson: true
 ---
 
-{{< date >}} Day 0 {{< /date >}}
+{{< date >}} Module 0 {{< /date >}}
 
 # Implementing a Basic Vector Search
 
-<div class="video">
-<iframe 
-  src="https://www.youtube.com/embed/_83L9ZIoOjM?si=ZTpn6fMXSjc_7JgL"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen>
-</iframe>
-</div>
+<!--
+TODO (video): the previous embed here (_83L9ZIoOjM) is the Essentials-course
+recording — the narration names "Day 0 of the Essentials course," which
+contradicts this Beginners Module 0 page. Drop in a beginner-specific cut here,
+or leave this commented out until one exists.
+-->
 
-Follow along as we build your first collection, insert vectors, and run similarity searches. This guided tutorial walks you through each step.
+In this lesson you'll build your very first search, one small step at a time. You'll connect to Qdrant, create a place to store data, add a few example vectors, and then ask Qdrant to find the closest match. Every step has runnable code, so follow along in a notebook or script.
+
+A quick vocabulary note before you start: a **vector** is just a list of numbers that represents something (a piece of text, an image, a product). Searching by vectors means finding the entries whose numbers are closest to your query's numbers. That's the whole idea, and the code below makes it concrete.
 
 ## Step 1: Install the Qdrant Client
 
-To interact with Qdrant, we need the Python client. This enables us to communicate with the Qdrant service, manage collections, and perform vector searches.
+The **client** is the Python library that lets your code talk to Qdrant. Install it first:
 
 ```python
 !pip install qdrant-client
 ```
 
-## Step 2: Import Required Libraries
+## Step 2: Import the Libraries You'll Need
 
-Import the necessary modules from the qdrant-client package. The QdrantClient class establishes connection to Qdrant, while the models module provides configurations for `Distance`, `VectorParams`, and `PointStruct`.
+Import two things from the package: `QdrantClient`, which opens the connection, and `models`, which holds the building blocks you'll use to describe collections and points.
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -40,7 +39,7 @@ from qdrant_client import QdrantClient, models
 
 ## Step 3: Connect to Qdrant Cloud
 
-To connect to Qdrant Cloud, you need your cluster URL and API key from your Qdrant Cloud dashboard. Replace with your actual credentials:
+Use the cluster URL and API key from the previous lesson. If you saved them in a `.env` file, this reads them automatically:
 
 ```python
 import os
@@ -52,65 +51,60 @@ client = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API
 # client = QdrantClient(url=userdata.get("QDRANT_URL"), api_key=userdata.get("QDRANT_API_KEY"))
 ```
 
-**Note:** You can also use in-memory mode for testing: `client = QdrantClient(":memory:")`, but data won't persist after restart.
+**Tip:** For quick experiments with no cloud account at all, you can use `client = QdrantClient(":memory:")`. It runs entirely in memory, but your data disappears when the program stops.
 
 ## Step 4: Create a Collection
 
-A [collection](/documentation/manage-data/collections/) in Qdrant is like a table in relational databases - a container for storing vectors and their metadata. When creating a collection, specify:
+A [collection](/documentation/manage-data/collections/) is where your vectors live. It's a lot like a table in a regular database: a named container for related data. When you create one, you tell Qdrant two things:
 
-- **Name**: A unique identifier for the collection
-- **Vector Configuration**:
-  - **Size**: The dimensionality of the vectors
-  - **Distance Metric**: The method to measure similarity between vectors
+- **Size:** how many numbers each vector has.
+- **Distance metric:** how Qdrant measures whether two vectors are "close."
 
 ```python
-# Define the collection name
+# Name your collection
 collection_name = "my_first_collection"
 
-# Create the collection with specified vector parameters
+# Create it, describing the vectors it will hold
 client.create_collection(
     collection_name=collection_name,
     vectors_config=models.VectorParams(
-        size=4,  # Dimensionality of the vectors
-        distance=models.Distance.COSINE  # Distance metric for similarity search
+        size=4,  # each vector has 4 numbers
+        distance=models.Distance.COSINE  # how we measure closeness
     )
 )
 ```
 
-Expected output: `True` (indicating successful creation)
+This returns `True` when it works.
 
-**Distance metrics explained** ([learn more](/documentation/manage-data/collections/#distance-metrics)):
-- **Euclidean**: Measures straight-line distance between points in space
-- **Cosine**: Measures the angle between vectors, focusing on orientation rather than magnitude
-- **Dot**: Measures the dot product of vectors, capturing both magnitude and direction
+**What's a distance metric?** It's the rule for deciding how similar two vectors are. Qdrant supports a few, and you can [read the full explanation in the collections documentation](/documentation/manage-data/collections/#distance-metrics):
 
-## Step 5: Verify Collection Creation
+- **Cosine:** compares the *direction* two vectors point, ignoring their length. This is the most common choice for text search, and the one you'll use here.
+- **Euclidean:** the straight-line distance between two points.
+- **Dot:** considers both direction and length.
 
-Confirm that your collection was successfully created by retrieving the list of existing collections:
+## Step 5: Confirm the Collection Exists
+
+Ask Qdrant for the list of collections to check that yours was created:
 
 ```python
-# Retrieve and display the list of collections
 collections = client.get_collections()
 print("Existing collections:", collections)
 ```
 
-The `get_collections()` method returns all collections in your Qdrant instance, useful for managing multiple collections dynamically.
+## Step 6: Add Some Points
 
-## Step 6: Insert Points into the Collection
+A [point](/documentation/manage-data/points/) is one entry in your collection. Each point has three parts:
 
-[Points](/documentation/manage-data/points/) are the core data entities in Qdrant. Each point contains:
-
-- **ID**: A unique identifier
-- **Vector Data**: An array of numerical values representing the data point in vector space
-- **Payload (Optional)**: Additional metadata
+- **ID:** a unique number or string to identify it.
+- **Vector:** the list of numbers.
+- **Payload:** optional extra information, such as a name or a category. This is what you'll filter and display later.
 
 ```python
-# Define the vectors to be inserted
 points = [
     models.PointStruct(
         id=1,
-        vector=[0.1, 0.2, 0.3, 0.4],  # 4D vector
-        payload={"category": "example"}  # Metadata (optional)
+        vector=[0.1, 0.2, 0.3, 0.4],
+        payload={"category": "example"}
     ),
     models.PointStruct(
         id=2,
@@ -119,34 +113,28 @@ points = [
     )
 ]
 
-# Insert vectors into the collection
 client.upsert(
     collection_name=collection_name,
     points=points
 )
 ```
 
-Expected output: `UpdateResult(operation_id=2, status=<UpdateStatus.COMPLETED: 'completed'>)`
+When this finishes, you'll see a result with `status=<UpdateStatus.COMPLETED>`, which means your points are stored.
 
-## Step 7: Retrieve Collection Details
+## Step 7: Check What You Stored
 
-Now that we've inserted vectors, let's confirm they're stored correctly by getting collection information:
+Have a look at the collection to confirm your points landed:
 
 ```python
 collection_info = client.get_collection(collection_name)
 print("Collection info:", collection_info)
 ```
 
-Expected output: Detailed collection information showing `points_count=2`, vector configuration, and [HNSW](/articles/filterable-hnsw/) settings.
+You'll see `points_count=2` along with the vector settings and index details.
 
-## Step 8: Run Your First Similarity Search
+## Step 8: Run Your First Search
 
-Find the most similar vector to a given query using Qdrant's search capabilities:
-
-**How Similarity Search Works:**
-- Qdrant searches the collection to find the vectors that are closest to your query vector.
-- The results are ranked by their similarity score, with the best matches appearing first.
-
+Now the payoff. You give Qdrant a **query vector**, and it returns the stored points closest to it. The closest match comes first, ranked by a similarity score:
 
 ```python
 query_vector = [0.08, 0.14, 0.33, 0.28]
@@ -154,10 +142,12 @@ query_vector = [0.08, 0.14, 0.33, 0.28]
 search_results = client.query_points(
     collection_name=collection_name,
     query=query_vector,
-    limit=1  # Return the top 1 most similar vector
+    limit=1  # return only the single closest match
 )
 
 print("Search results:", search_results)
 ```
 
-Expected output: `points=[ScoredPoint(id=1, score=0.97642946, payload={'category': 'example'})]`
+You'll get back something like `points=[ScoredPoint(id=1, score=0.976..., payload={'category': 'example'})]`. The `score` is how close the match is — higher means more similar.
+
+That's a complete vector search, start to finish. In the next lesson you'll take these same pieces and build a small project of your own.
