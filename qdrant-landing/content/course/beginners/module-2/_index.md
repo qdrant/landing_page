@@ -271,21 +271,6 @@ Chunks overlap with each other so context carries across chunk boundaries instea
 
 ![Sliding window chunking overlaps consecutive chunks to preserve context across boundaries](/courses/beginners/module-2/sliding-window.png)
 
-### Chunking in Practice
-
-```python
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-
-# Fixed-size with overlap (sliding window)
-splitter = RecursiveCharacterTextSplitter(
-    chunk_size=500,
-    chunk_overlap=100,
-    separators=["\n\n", "\n", " ", ""],
-)
-
-chunks = splitter.split_text(document_text)
-# Each chunk is then embedded and stored as a separate point
-```
 You can learn more about chunking strategies in the [Chunking Strategies](https://qdrant.tech/course/essentials/day-1/chunking-strategies/#text-chunking-strategy-comparison) section from the Qdrant's Essentials course.
 
 ## 8. Ingestion Pipeline: End-to-End
