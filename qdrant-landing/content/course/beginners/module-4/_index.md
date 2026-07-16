@@ -120,7 +120,7 @@ results = client.query_points(
         must=[
             models.FieldCondition(key="country", match=models.MatchValue(value="VN")),
             models.FieldCondition(key="published_at",
-                                  range=models.Range(gte="2026-07-01T00:00:00Z")),
+                                  range=models.DatetimeRange(gte="2026-07-01T00:00:00Z")),
         ]
     ),
     limit=10,
