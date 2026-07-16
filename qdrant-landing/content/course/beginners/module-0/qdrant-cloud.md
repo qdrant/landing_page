@@ -22,86 +22,74 @@ isLesson: true
 
 <br/>
 
-Spin up production-grade vector search in minutes. Qdrant Cloud gives you a managed endpoint with TLS, automatic backups, high-availability options, and a clean API.
+Welcome to your first hands-on step. Before you can search anything, you need a place to store your vectors. That's what Qdrant Cloud gives you: a managed database that runs in the cloud, so there's nothing to install and nothing to keep running on your own machine. It comes with a secure connection, automatic backups, and a clean interface you'll use throughout this course.
 
-## Create your cluster
+Don't worry if some words here are new. You'll set up a cluster, get a key that lets your code talk to it, and run one quick check to confirm it's working. That's the whole goal for this lesson.
+
+## Create Your Cluster
+
+A **cluster** is your personal Qdrant instance in the cloud. Here's how to create one:
 
 1. Sign up at [cloud.qdrant.io](https://cloud.qdrant.io/signup) with email, Google, or GitHub.
-2. Open **Clusters** → **Create a Free Cluster**. The Free Tier is enough for this course.
+2. Open **Clusters** and select **Create a Free Cluster**. The Free Tier is enough for this whole course, and you won't be asked for a card.
 
-![Create cluster](/docs/gettingstarted/gui-quickstart/create-cluster.png)
+![Screenshot of the Qdrant Cloud page for creating a new cluster](/docs/gettingstarted/gui-quickstart/create-cluster.png)
 
-3. Pick a region close to your users or app.
-4. When the cluster is ready, copy the API key and store it securely. You can make new keys later from **API Keys** on the cluster page.
+3. Pick a region close to you or your users. This keeps things fast.
+4. When the cluster is ready, copy the **API key** and store it somewhere safe. An API key is like a password your code uses to prove it's allowed to reach your cluster, so treat it like one. You can always create new keys later from the **API Keys** section on the cluster page.
 
-![Get API key](/docs/gettingstarted/gui-quickstart/api-key.png)
-
+![Screenshot of the API key panel in Qdrant Cloud](/docs/gettingstarted/gui-quickstart/api-key.png)
 
 ## Access the Web UI
 
-1. Click **Cluster UI** in the top-right of the cluster page to open the dashboard.
+The **Web UI** is a dashboard for looking at your data and running searches without writing code. It's the fastest way to see what's happening inside your cluster while you learn.
 
-![Access dashboard](/docs/gettingstarted/gui-quickstart/access-dashboard.png)
+1. Select **Cluster UI** in the top corner of the cluster page to open the dashboard.
 
-### What you can do in the Web UI
+![Screenshot of the Qdrant Cloud dashboard](/docs/gettingstarted/gui-quickstart/access-dashboard.png)
 
-Use the Web UI to manage collections, inspect data, and debug search performance.
+### What You Can Do in the Web UI
+
+Use the Web UI to manage collections, inspect data, and check how your searches perform.
 
 #### Main Navigation
 
-**Console**: Run REST calls in the browser. Test endpoints, inspect responses, and debug queries without writing code. Handy for exploring the full API.
+- **Console:** Run commands against Qdrant right in the browser. Great for testing and seeing responses without writing a program.
+- **Collections:** See and manage all your collections in one place, and track their status, size, and settings at a glance.
+- **Tutorial:** Follow a guided walkthrough with sample data. You create a collection, add vectors, and run a search with live results.
 
-**Collections**: See and manage all collections. Create collections, upload snapshots, and track status, size, and configuration at a glance.
+![Screenshot of the interactive tutorial in the Qdrant Web UI](/docs/gettingstarted/gui-quickstart/interactive-tutorial.png)
 
-**Tutorial**: Follow an interactive walkthrough with sample data. Create a collection, add vectors, and run semantic search with live results.
-
-![Interactive tutorial](/docs/gettingstarted/gui-quickstart/interactive-tutorial.png)
-
-**Datasets**: Bulk-load preconfigured public datasets into your cluster.
+- **Datasets:** Load ready-made public datasets into your cluster with one click.
 
 #### Inside a Collection
 
-When you open a collection by clicking its name,
+When you open a collection by selecting its name,
 
-![Select collection](/courses/day0/select-collection.png)
+![Screenshot showing how to select a collection in the Web UI](/courses/day0/select-collection.png)
 
-you'll get a detailed view with these tabs:
+you'll see a detailed view with several tabs. You don't need all of these yet, so here's a plain-language tour you can come back to later:
 
-![Collection points](/courses/day0/collection-points.png)
+![Screenshot of the points view inside a collection](/courses/day0/collection-points.png)
 
-* **Points Tab**: Inspect, search, and manage individual points. Use the search bar to find by ID or filter by payload fields, for example  `colony: "Mars"`. For each point, you can:
-
-  * See its payload and vector(s).
-  * Click **Find Similar** to run an ad-hoc similarity search.
-  * Click **Open Graph** to jump to a graph view of its HNSW connections.
-
-* **Info Tab**: Get a full overview of collection health, config, and stats. Key fields:
-
-  * `status`: `green` means healthy.
-  * `points_count`: Number of active points.
-  * `indexed_vectors_count`: Points currently in the HNSW index. If this lags behind `points_count`, background indexing is still running.
-  * `config`: JSON view of all parameters, from vector settings to optimizer options.
-
-* **Cluster Tab**: See how shards are placed across nodes. Use it to monitor health, find hot spots, and verify shard placement in distributed setups.
-
-* **Search Quality Tab**: Evaluate and benchmark retrieval precision against ground truth. Tune parameters and measure the impact on accuracy.
-
-* **Snapshots Tab**: Manage backups for this collection. Create a [snapshot](/documentation/snapshots/), restore it later, or migrate it to another cluster.
-
-* **Visualize Tab**: Explore your vector space with an interactive 2D projection. See clusters, spot outliers, and build intuition about your embeddings.
-
-* **Graph Tab**: Explore the HNSW graph interactively. Start from any point, follow nearest neighbors, and see how the graph structure powers fast search.
+- **Points Tab:** Look at, search, and manage your individual data entries. You can view each entry's data, run a quick "find similar" search, or open a graph view of how it connects to its neighbors.
+- **Info Tab:** A health check for the collection. The one field to know for now is `status` — `green` means everything is healthy.
+- **Cluster Tab:** Shows how your data is spread across machines. You'll care about this only once you scale up.
+- **Search Quality Tab:** Measures how accurate your searches are. Useful later, when you start tuning.
+- **Snapshots Tab:** Manage backups of the collection. You can create a [collection snapshot](/documentation/snapshots/), restore it, or move it to another cluster.
+- **Visualize Tab:** See your vectors as a 2D map. A nice way to build intuition once you have real data loaded.
+- **Graph Tab:** Explore how points connect to their nearest neighbors.
 
 ## Connect from Python
 
-Store credentials in an `.env` file at the root of your working directory or in Colab:
+Now let's connect from code. First, store your credentials in a file named `.env` at the root of your project (or set them in Colab). Keeping them in a separate file means you won't accidentally paste your key into shared code:
 
 ```env
 QDRANT_URL=https://YOUR-CLUSTER.cloud.qdrant.io:6333
 QDRANT_API_KEY=YOUR_API_KEY
 ```
 
-Load the credentials from the environment and create a Qdrant client:
+Then load those values and create a client. The **client** is the object your Python code uses to send requests to Qdrant:
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -118,23 +106,25 @@ collections = client.get_collections()
 print(f"Connected to Qdrant Cloud: {len(collections.collections)} collections")
 ```
 
-## Other ways to connect
+If that prints a line about being connected, you're done. That's the whole setup.
 
-You can also send your key in the `Authorization` header:
+## Other Ways to Connect
+
+You can also reach your cluster directly over the web, without Python. This is handy for a quick test:
 
 ```bash
-# Using api-key header
+# Using the api-key header
 curl -X GET https://xyz-example.eu-central.aws.cloud.qdrant.io:6333/collections \
   --header 'api-key: <your-api-key>'
 
-# Using Authorization header  
+# Using the Authorization header
 curl -X GET https://xyz-example.eu-central.aws.cloud.qdrant.io:6333/collections \
   --header 'Authorization: Bearer <your-api-key>'
 ```
 
-## Quick validation
+## Quick Validation
 
-Check basic connectivity:
+If you want to double-check the connection, these two commands confirm your cluster is up and reachable:
 
 ```bash
 # Service health
@@ -144,21 +134,22 @@ curl -s "$QDRANT_URL/healthz" -H "api-key: $QDRANT_API_KEY"
 curl -s "$QDRANT_URL/collections" -H "api-key: $QDRANT_API_KEY"
 ```
 
-## Good practices
+## Good Practices
 
-* Keep secrets out of code; use environment variables or a secret manager.
-* Restrict access with IP allow-lists or private networking.
-* Rotate API keys regularly from the cluster **Access** tab.
-* Use HTTPS only; turn on RBAC and strict limits when exposing endpoints to untrusted clients.
+A few habits worth starting now:
 
-## Common issues
+- Keep your key out of your code. Use an environment variable or a secrets manager.
+- Rotate your API keys now and then from the cluster **Access** tab.
+- Use HTTPS only, and tighten access before you expose a cluster to the public internet.
 
-* **Authentication error**: Recheck the API key and the `api-key` header.
-* **Connection error**: Confirm cluster status and region URL; some corporate proxies block outbound TLS.
+## Common Issues
+
+- **Authentication error:** Recheck the API key and the `api-key` header. A stray space or a missing character is the usual cause.
+- **Connection error:** Confirm the cluster is running and the region URL is correct. Some workplace networks block outbound connections, so try from a personal network if a request hangs.
 
 ## Qdrant Cloud Inference
 
-Qdrant Cloud also offers **[Cloud Inference](/cloud-inference/)**: managed embedding generation for text and images. Skip running your own embedding models; create vectors in Qdrant Cloud and write them straight into your collections.
+This part is optional, but good to know it exists. Normally you turn text or images into vectors yourself before storing them. **[Cloud Inference](/cloud-inference/)** does that step for you inside Qdrant Cloud: you send raw text or images, and Qdrant creates the vectors and stores them in one call. You'll create vectors by hand in the next lessons so you understand what's happening, but this is a shortcut you can reach for later.
 
 <div class="video">
 <iframe
@@ -170,15 +161,13 @@ Qdrant Cloud also offers **[Cloud Inference](/cloud-inference/)**: managed embed
 </iframe>
 </div>
 
-Cut steps from your pipeline: send raw text or images to Qdrant, get vectors and search results in one API call. This helps prototypes and production systems alike by ending the separate embedding-infrastructure layer.
-
-Learn more: [Qdrant Cloud Inference](/documentation/cloud/inference/)
+Learn more in the [Qdrant Cloud Inference documentation](/documentation/cloud/inference/).
 
 ## Qdrant Agent Skills
 
-If you're using an AI coding assistant (Claude Code, Cursor, and others) alongside this course, [Qdrant Skills](/documentation/skills/) are worth setting up early. Skills are open-source, machine-readable knowledge modules that teach your agent when and why to apply a technique - not just how to call an API. They're organized around symptoms and situations, for example "memory usage climbing" and "search quality regressed" rather than features, so your agent can diagnose a problem before prescribing a fix.
+If you're using an AI coding assistant (Claude Code, Cursor, and others) alongside this course, [Qdrant Skills](/documentation/skills/) are worth setting up early. Skills are open-source, machine-readable knowledge modules that teach your agent when and why to apply a technique, not just how to call an API. They're organized around symptoms and situations, for example "memory usage climbing" and "search quality regressed" rather than features, so your agent can diagnose a problem before prescribing a fix.
 
-Skills are hosted at [skills.qdrant.tech](https://skills.qdrant.tech/) and can be pointed to directly by URL, with no local installation needed. For local or offline use, install them from the [qdrant/skills](https://github.com/qdrant/skills) repository:
+Skills are hosted at [skills.qdrant.tech](https://skills.qdrant.tech/) and can be pointed to directly by URL, with no local installation needed. For local or offline use, install them from the [qdrant/skills repository](https://github.com/qdrant/skills):
 
 ```bash
 # Claude Code
@@ -194,7 +183,6 @@ If you just want a single assistant that can troubleshoot and advise on any Qdra
 npx skills add qdrant/skills/meta/qdrant-advisor
 ```
 
-`qdrant-advisor` doesn't answer Qdrant questions from memory. When you describe a problem - slow search, memory climbing toward an OOM, a stuck optimizer, a scaling decision - it searches `skills.qdrant.tech` live, pulls only the branch of the skill tree that matches your symptom, and grounds its diagnosis in that current, official guidance. It'll give you the likely causes in priority order, concrete steps (endpoints, metrics, config), and the doc links it drew from, so you're always working from up-to-date advice instead of stale training data.
+`qdrant-advisor` doesn't answer Qdrant questions from memory. When you describe a problem — slow search, memory climbing toward an out-of-memory crash, a stuck optimizer, a scaling decision — it searches `skills.qdrant.tech` live, pulls only the branch of the skill tree that matches your symptom, and grounds its diagnosis in that current, official guidance. It gives you the likely causes in priority order, concrete steps (endpoints, metrics, config), and the documentation links it drew from, so you're always working from up-to-date advice instead of stale training data.
 
 Read more about the motivation and design behind them in the [Qdrant Skills release post](/blog/qdrant-skills-release/).
-
