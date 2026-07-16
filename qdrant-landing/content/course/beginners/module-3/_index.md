@@ -12,7 +12,14 @@ weight: 40
 
 Understand dense versus sparse retrieval, their strengths, and how a hybrid approach can combine them.
 
-## Today's path
+<!-- TODO (video): add the Module 3 overview video before launch. Follow the Essentials embed pattern. Outro bumper yes, Intro bumper no.
+<div class="video">
+  <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+  </iframe>
+</div>
+-->
+
+## Today's Path
 
 1. Where We Left Off
 2. The Two Families of Search
@@ -37,7 +44,7 @@ Take the query `iPhone 15`. The user wants exactly this product: no synonyms, no
 | iPhone 15 Pro Max | 0.91 | Wrong model |
 | iPhone 15 | 0.89 | Correct |
 
-### The problem
+### The Problem
 
 Dense search understands meaning, but that's exactly wrong here. "iPhone 14", "iPhone 15", and "iPhone 15 Pro Max" are close together in embedding space because they're about the same product line, yet a shopper searching for one wants that exact model, not its closest semantic neighbor. IDs, codes, and specific model names need exact matching, not semantic neighborhood. This is the gap sparse search fills.
 
@@ -60,13 +67,13 @@ encode("cheap flights")    ≈  encode("affordable airfare")
 
 ### Sparse Search (Keyword-Based)
 
-Sparse vectors are token-based. Only the dimensions corresponding to tokens that actually appear in the text have non-zero values, everything else is zero. BM25, SPLADE, and miniCOIL are the most common ways to produce them.
+Sparse vectors are token-based. Only the dimensions corresponding to tokens that appear in the text have non-zero values, everything else is zero. BM25, SPLADE, and miniCOIL are the most common ways to produce them.
 
 ![A sparse vector: one dimension per vocabulary token, with non-zero weights only at the handful of tokens present in the text and zeros everywhere else.](/courses/beginners/module-3/sparse.png)
 
 #### How Sparse Vectors Are Encoded
 
-A dense vector has a small, fixed number of dimensions (e.g. 384), and every single one holds a value. A sparse vector works the opposite way: it has one dimension per token in the vocabulary, often tens of thousands, but a given piece of text only ever activates the handful of tokens it actually contains. Everything else is implicitly zero.
+A dense vector has a small, fixed number of dimensions (for example, 384), and every single one holds a value. A sparse vector works the opposite way: it has one dimension per token in the vocabulary, often tens of thousands, but a given piece of text only ever activates the handful of tokens it contains. Everything else is implicitly zero.
 
 Storing tens of thousands of mostly-zero numbers per point would be wasteful, so sparse vectors are represented as two parallel arrays instead: the `indices` of the non-zero dimensions, and the `values` at those positions. Nothing is stored for the dimensions that are zero.
 
@@ -114,7 +121,7 @@ A query only walks the posting lists for tokens it actually contains, skipping e
 | **Strengths** | Synonyms - car = automobile<br>Paraphrasing - "cheap flights" ≈ "affordable airfare"<br>Multilingual queries across languages<br>Intent and context understanding | Exact token matches - IDs, codes, SKUs<br>Rare or domain-specific terms<br>Interpretable - easy to debug and explain |
 | **Weaknesses** | Exact IDs like SKU-48291 can drift<br>Rare or invented tokens<br>Precise code / serial number matching | Synonyms - car ≠ automobile<br>Paraphrasing and rewordings<br>Cross-language queries |
 
-### Key insight
+### Key Insight
 
 Dense = meaning. Sparse = exact matching. Neither is complete alone. Every real-world query contains both semantic intent (what the user means) and exact constraints (what the user needs precisely). You need both.
 
@@ -156,7 +163,7 @@ results = client.query_points(
 
 The identical `query_filter` parameter also applies when fusing dense and sparse prefetches together, see Section 5 for a full hybrid example with filters attached.
 
-### Why it matters
+### Why It Matters
 
 Because filters are applied during the search rather than after it, out-of-scope points never take up a slot in your top-K results, regardless of whether the underlying retrieval is dense, sparse, or hybrid. This keeps results both relevant and valid: in stock, within permissions, within a date range.
 
@@ -262,9 +269,17 @@ results = client.query_points(
 )
 ```
 
-### How it works
+### How It Works
 
 Both prefetch calls run in parallel. Each returns 20 candidates. RRF fusion merges the two ranked lists based on position (not score), then the final limit=5 takes the top results. The filter applies throughout, out-of-stock products never enter the candidate set.
+
+### Try It
+
+Put the three sections together and watch the behavior change:
+
+1. Run the hybrid query from Step 3 and note where "Nike Pegasus 40 size 10" lands.
+2. Run the same query dense-only: drop the sparse prefetch and the `FusionQuery`, and query with `using="dense"`. Compare the ranking. The exact model and size should sit higher once the sparse signal is fused back in.
+3. Flip `in_stock` to `False` on that point and rerun both queries. Confirm it disappears from the results, that is the filter doing its work during the search, not after it.
 
 ## 6. Fusion Strategies
 
@@ -277,7 +292,7 @@ Once both retrievers return their candidate sets, a fusion algorithm merges them
 
 You can learn more about fusion in the [Hybrid Queries documentation](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
 
-### Starting point
+### Starting Point
 
 Start with RRF. It's the safer default because dense and sparse scores are on different scales, raw score fusion without normalization produces unreliable results. Switch to DBSF only after evaluating on a labeled test set.
 
