@@ -27,25 +27,23 @@ By the end, you'll understand when to use dense, sparse, or hybrid search and ho
 
 ## 1. Where We Left Off
 
-In Module 2, you built a complete ingestion and retrieval pipeline: raw text → vector → store → top-K query. Dense-only retrieval is best for semantic and contextual search. It struggles on precise product names and model numbers.
+In Module 2, you built a complete ingestion and retrieval pipeline: raw text → vector → store → top-K query. Dense-only retrieval is best for semantic and contextual search, but it struggles on precise product names and model numbers.
 
-| Query | iPhone 15 |
-|-------|-----------|
-| **The user wants exactly this product. No synonyms. No paraphrasing.** | |
+Take the query `iPhone 15`. The user wants exactly this product: no synonyms, no paraphrasing. Here is what a dense-only search returns:
 
-**Dense search returns:**
-| iPhone 14 | (0.93) | ← wrong model |
-|----------|--------|---------|
-| iPhone 15 Pro Max | (0.91) | ← wrong model |
-| iPhone 15 | (0.89) | ← correct |
+| Result | Score | Match |
+|--------|-------|-------|
+| iPhone 14 | 0.93 | Wrong model |
+| iPhone 15 Pro Max | 0.91 | Wrong model |
+| iPhone 15 | 0.89 | Correct |
 
 ### The problem
 
-Dense search understands meaning - but that's exactly wrong here. "iPhone 14", "iPhone 15", and "iPhone 15 Pro Max" are close together in embedding space because they're about the same product line - but a shopper searching for one wants that exact model, not its closest semantic neighbor. IDs, codes, and specific model names need exact matching, not semantic neighborhood. This is the gap sparse search fills.
+Dense search understands meaning, but that's exactly wrong here. "iPhone 14", "iPhone 15", and "iPhone 15 Pro Max" are close together in embedding space because they're about the same product line, yet a shopper searching for one wants that exact model, not its closest semantic neighbor. IDs, codes, and specific model names need exact matching, not semantic neighborhood. This is the gap sparse search fills.
 
 ## 2. The Two Families of Search
 
-Every retrieval system is built from one or both of these families. Understanding what each does - and what it cannot do - is the foundation of production search design.
+Every retrieval system is built from one or both of these families. Understanding what each does, and what it cannot do, is the foundation of production search design.
 
 ### Dense Search (Semantic)
 
@@ -62,13 +60,13 @@ encode("cheap flights")    ≈  encode("affordable airfare")
 
 ### Sparse Search (Keyword-Based)
 
-Sparse vectors are token-based. Only the dimensions corresponding to tokens that actually appear in the text have non-zero values - everything else is zero. BM25, SPLADE, and miniCOIL are the most common ways to produce them.
+Sparse vectors are token-based. Only the dimensions corresponding to tokens that actually appear in the text have non-zero values, everything else is zero. BM25, SPLADE, and miniCOIL are the most common ways to produce them.
 
-![sparse.png](/courses/beginners/module-3/sparse.png)
+![A sparse vector: one dimension per vocabulary token, with non-zero weights only at the handful of tokens present in the text and zeros everywhere else.](/courses/beginners/module-3/sparse.png)
 
 #### How Sparse Vectors Are Encoded
 
-A dense vector has a small, fixed number of dimensions (e.g. 384), and every single one holds a value. A sparse vector works the opposite way: it has one dimension per token in the vocabulary - often tens of thousands - but a given piece of text only ever activates the handful of tokens it actually contains. Everything else is implicitly zero.
+A dense vector has a small, fixed number of dimensions (e.g. 384), and every single one holds a value. A sparse vector works the opposite way: it has one dimension per token in the vocabulary, often tens of thousands, but a given piece of text only ever activates the handful of tokens it actually contains. Everything else is implicitly zero.
 
 Storing tens of thousands of mostly-zero numbers per point would be wasteful, so sparse vectors are represented as two parallel arrays instead: the `indices` of the non-zero dimensions, and the `values` at those positions. Nothing is stored for the dimensions that are zero.
 
@@ -96,7 +94,7 @@ Different sparse models decide *which* tokens get weight and *how much*:
 
 Start with BM25 for interpretable, exact-match retrieval. Reach for SPLADE or miniCOIL when you need sparse retrieval to be more forgiving of related wording, at some extra compute cost.
 
-![comparison.png](/courses/beginners/module-3/comparison.png)
+![Side-by-side comparison of BM25, SPLADE, and miniCOIL, showing how each assigns weights to tokens: BM25 scores only tokens as written, SPLADE expands with related terms, and miniCOIL weights exact tokens by context.](/courses/beginners/module-3/comparison.png)
 
 #### Indexing Sparse Vectors
 
@@ -107,14 +105,14 @@ Token "nike"    → posting list: [point_1, point_5, point_42, ...]
 Token "pegasus" → posting list: [point_1, point_5, point_88, ...]
 ```
 
-A query only walks the posting lists for tokens it actually contains, skipping every point that shares none of them. Unlike HNSW (Module 2), which is an approximate index, Qdrant's sparse index is exact - no accuracy is traded away for speed.
+A query only walks the posting lists for tokens it actually contains, skipping every point that shares none of them. Unlike HNSW (Module 2), which is an approximate index, Qdrant's sparse index is exact, no accuracy is traded away for speed.
 
 ### Head-to-Head Comparison
 
 |  | Dense Search (Semantic) | Sparse Search (Keyword) |
 |---|---|---|
-| **✔ Strengths** | Synonyms - car = automobile<br>Paraphrasing - "cheap flights" ≈ "affordable airfare"<br>Multilingual queries across languages<br>Intent and context understanding | Exact token matches - IDs, codes, SKUs<br>Rare or domain-specific terms<br>Interpretable - easy to debug and explain |
-| **✖ Weaknesses** | Exact IDs like SKU-48291 can drift<br>Rare or invented tokens<br>Precise code / serial number matching | Synonyms - car ≠ automobile<br>Paraphrasing and rewordings<br>Cross-language queries |
+| **Strengths** | Synonyms - car = automobile<br>Paraphrasing - "cheap flights" ≈ "affordable airfare"<br>Multilingual queries across languages<br>Intent and context understanding | Exact token matches - IDs, codes, SKUs<br>Rare or domain-specific terms<br>Interpretable - easy to debug and explain |
+| **Weaknesses** | Exact IDs like SKU-48291 can drift<br>Rare or invented tokens<br>Precise code / serial number matching | Synonyms - car ≠ automobile<br>Paraphrasing and rewordings<br>Cross-language queries |
 
 ### Key insight
 
@@ -122,7 +120,7 @@ Dense = meaning. Sparse = exact matching. Neither is complete alone. Every real-
 
 ## 3. Filtering: Works with Any Retrieval Method
 
-Payload filters are not a hybrid-only feature. The same `query_filter` applies whether you're running dense-only, sparse-only, or hybrid retrieval - it's evaluated as a hard constraint during the search itself, not as a separate step afterward.
+Payload filters are not a hybrid-only feature. The same `query_filter` applies whether you're running dense-only, sparse-only, or hybrid retrieval, it's evaluated as a hard constraint during the search itself, not as a separate step afterward.
 
 ### Filtering a Dense Query
 
@@ -156,11 +154,11 @@ results = client.query_points(
 
 ### Filtering a Hybrid Query
 
-The identical `query_filter` parameter also applies when fusing dense and sparse prefetches together - see Section 5 for a full hybrid example with filters attached.
+The identical `query_filter` parameter also applies when fusing dense and sparse prefetches together, see Section 5 for a full hybrid example with filters attached.
 
 ### Why it matters
 
-Because filters are applied during the search rather than after it, out-of-scope points never take up a slot in your top-K results - regardless of whether the underlying retrieval is dense, sparse, or hybrid. This keeps results both relevant and valid: in stock, within permissions, within a date range.
+Because filters are applied during the search rather than after it, out-of-scope points never take up a slot in your top-K results, regardless of whether the underlying retrieval is dense, sparse, or hybrid. This keeps results both relevant and valid: in stock, within permissions, within a date range.
 
 ## 4. Hybrid Search: Dense + Sparse
 
@@ -168,17 +166,17 @@ Hybrid search runs dense and sparse retrieval simultaneously, then fuses the ran
 
 ### A Concrete Example
 
-![nike-example.png](/courses/beginners/module-3/nike-example.png)
+![Hybrid search for the query "Nike Pegasus 40 size 10": dense retrieval contributes semantically related running shoes while sparse retrieval locks onto the exact model and size tokens, and fusion combines both into one ranked list.](/courses/beginners/module-3/nike-example.png)
 
 ### RRF Fusion
 
-![fusion.png](/courses/beginners/module-3/fusion.png)
+![Reciprocal Rank Fusion merging a dense ranked list and a sparse ranked list into a single fused ranking based on each candidate's position in the two lists.](/courses/beginners/module-3/fusion.png)
 
-You can learn more about fusion in the [Hybrid Queries documentation](https://qdrant.tech/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
+You can learn more about fusion in the [Hybrid Queries documentation](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
 
 ## 5. Setting Up Hybrid Search in Qdrant
 
-Hybrid search in Qdrant uses named vectors - dense and sparse stored together on the same point - and the Universal Query API to prefetch from each, then fuse the results.
+Hybrid search in Qdrant uses named vectors, dense and sparse stored together on the same point, and the Universal Query API to prefetch from each, then fuse the results.
 
 ### Step 1 - Create a Hybrid Collection
 
@@ -205,7 +203,7 @@ client.create_collection(
 
 ### Step 2 - Insert Points with Both Vectors
 
-Each point carries a dense embedding and a sparse vector. Pass a models.Document object and specify the model - Qdrant handles embedding on the server side.
+Each point carries a dense embedding and a sparse vector. Pass a `models.Document` object and specify the model. The client embeds it locally using FastEmbed before upload.
 
 ```python
 client.upload_points(
@@ -266,7 +264,7 @@ results = client.query_points(
 
 ### How it works
 
-Both prefetch calls run in parallel. Each returns 20 candidates. RRF fusion merges the two ranked lists based on position (not score), then the final limit=5 takes the top results. The filter applies throughout - out-of-stock products never enter the candidate set.
+Both prefetch calls run in parallel. Each returns 20 candidates. RRF fusion merges the two ranked lists based on position (not score), then the final limit=5 takes the top results. The filter applies throughout, out-of-stock products never enter the candidate set.
 
 ## 6. Fusion Strategies
 
@@ -277,15 +275,15 @@ Once both retrievers return their candidate sets, a fusion algorithm merges them
 | RRF (Reciprocal Rank Fusion) | Combines rankings only - ignores raw score values. Robust, hard to game. | Default for most cases. Safe starting point when score scales differ between dense and sparse. |
 | DBSF (Distribution-Based Score Fusion) | Normalizes score distributions before merging. Sensitive to relative score differences. | Better when score gaps meaningfully encode relevance and both retrievers are well-calibrated. |
 
-You can learn more about fusion in the [Hybrid Queries documentation](https://qdrant.tech/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
+You can learn more about fusion in the [Hybrid Queries documentation](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
 
 ### Starting point
 
-Start with RRF. It's the safer default because dense and sparse scores are on different scales - raw score fusion without normalization produces unreliable results. Switch to DBSF only after evaluating on a labeled test set.
+Start with RRF. It's the safer default because dense and sparse scores are on different scales, raw score fusion without normalization produces unreliable results. Switch to DBSF only after evaluating on a labeled test set.
 
 ## 7. Beyond Text: Multimodal Search
 
-The same primitive - embed data, store as a vector, search by similarity - applies to any modality. Qdrant stores whatever vectors your embedding model produces. The retrieval mechanics are identical.
+The same primitive, embed data, store as a vector, search by similarity, applies to any modality. Qdrant stores whatever vectors your embedding model produces. The retrieval mechanics are identical.
 
 - **Images**
 "red dress" → visually similar products
@@ -301,9 +299,9 @@ Audio fingerprints or spectrogram embeddings
 
 - **Text**
 "cheap flights NYC" → semantic docs
-Sentence transformers, OpenAI embeddings, etc.
+Sentence transformers or OpenAI embeddings
 
-![multimodal.png](/courses/beginners/module-3/multimodal.png)
+![Multimodal search pipeline: text, image, video, and audio inputs each pass through an embedding model to produce vectors that are stored in and queried from Qdrant using the same mechanics.](/courses/beginners/module-3/multimodal.png)
 
 ### The Unifying Principle
 
@@ -337,25 +335,25 @@ client.query_points(
 
 ## 8. References & Further Reading
 
-- **Sparse Retrieval Demo** - [Demo: Keyword Search with Sparse Vectors - Qdrant](https://qdrant.tech/documentation/tutorials/sparse_search/)
-  - Live comparison of BM25, SPLADE, and dense embeddings on the same queries.
+- **Understanding SPLADE and Sparse Vectors** - [Sparse Vectors - Qdrant](/articles/sparse-vectors/)
+  - How sparse vectors work, how SPLADE builds them, and how they compare to BM25, with runnable examples.
 
-- **Hybrid Queries (RRF + DBSF)** - [Hybrid Queries - Qdrant](https://qdrant.tech/documentation/concepts/hybrid_query/)
+- **Hybrid Queries (RRF + DBSF)** - [Hybrid Queries - Qdrant](/documentation/search/hybrid-queries/)
   - Full reference for prefetch, FusionQuery, RRF, and DBSF in the Qdrant API.
 
-- **Sparse Vectors Reference** - [Vectors - Qdrant](https://qdrant.tech/documentation/concepts/vectors/#sparse-vectors)
+- **Sparse Vectors Reference** - [Vectors - Qdrant](/documentation/manage-data/vectors/#sparse-vectors)
   - SparseVectorParams, index configuration, and storage options.
 
-- **Sparse Vector Indexing** - [Indexing - Qdrant](https://qdrant.tech/documentation/manage-data/indexing/#sparse-vector-index)
+- **Sparse Vector Indexing** - [Indexing - Qdrant](/documentation/manage-data/indexing/#sparse-vector-index)
   - How Qdrant's inverted-index-style sparse index works, and when it rebuilds into an immutable index.
 
-- **Working with miniCOIL** - [FastEmbed: miniCOIL - Qdrant](https://qdrant.tech/documentation/fastembed/fastembed-minicoil/)
+- **Working with miniCOIL** - [FastEmbed: miniCOIL - Qdrant](/documentation/fastembed/fastembed-minicoil/)
   - How miniCOIL's contextualized term weighting works, and how to use it via FastEmbed.
 
-- **Multimodal Search Tutorial** - [Multimodal and Multilingual RAG with LlamaIndex and Qdrant](https://qdrant.tech/documentation/tutorials/multimodal_rag/)
+- **Multimodal Search Tutorial** - [Multimodal and Multilingual RAG with LlamaIndex and Qdrant](/documentation/tutorials-build-essentials/multimodal-search/)
   - Text + image search with embeddings and named vectors.
 
-- **Named Vectors** - [Collections - Qdrant](https://qdrant.tech/documentation/concepts/collections/#multiple-vectors)
+- **Named Vectors** - [Collections - Qdrant](/documentation/manage-data/collections/#multiple-vectors)
   - How to configure and query multiple named vectors on the same point.
 
 ## What's Next - Module 4
@@ -364,7 +362,4 @@ Next, we'll explore:
 
 - Production patterns: multi-tenancy, agent memory, and RAG pipelines
 - Deployment options: Cloud, Hybrid Cloud, Edge, and self-hosted
-- Formula queries - when RRF and DBSF aren't enough
-- etc..
-
-End of Module 3. Continue to Module 4: Customer Use Cases and Production Architecture.
+- Formula queries: when RRF and DBSF aren't enough
