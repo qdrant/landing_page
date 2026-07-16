@@ -9,6 +9,9 @@ weight: 20
 {{< date >}} Module 1 {{< /date >}}
 
 <!--
+TODO (video): add the Module 1 overview video before launch. Follow the
+Essentials embed pattern. Outro bumper yes, Intro bumper no.
+
 <div class="video">
 <iframe
   src="https://www.youtube.com/embed/VIDEO_ID?rel=0"
@@ -24,7 +27,7 @@ weight: 20
 
 Understand why traditional search struggles and how modern semantic search improves it.
 
-## Today's Path
+## Today's path
 
 1. The Problem: Why Keyword Search Struggles
 2. How Traditional Search Improved
@@ -39,7 +42,7 @@ By the end, you'll understand the limitations of keyword search and how semantic
 
 ## 1. The Problem: Why Keyword Search Struggles
 
-Traditional search works by matching exact words. That's it. If the query string appears in the document, it's a hit. If it doesn't, it's a miss - no matter how closely related the meaning is.
+Traditional search works by matching exact words. That's it. If the query string appears in the document, it's a hit. If it doesn't, it's a miss, no matter how closely related the meaning is.
 
 ```python
 # Simple keyword search
@@ -47,7 +50,7 @@ if "car repair" in document:
     return document
 ```
 
-![Keyword search only matches documents containing the exact words "car" and "repair"](/courses/beginners/module-1/car-repair.png)
+![Keyword search only matches documents that contain the exact words "car" and "repair"](/courses/beginners/module-1/car-repair.png)
 
 This approach works for predictable, structured queries. It breaks immediately on the language real users actually write.
 
@@ -55,17 +58,17 @@ This approach works for predictable, structured queries. It breaks immediately o
 
 | Query | Document in the index | Result |
 |-------|----------------------|--------|
-| car repair | automobile maintenance guide | ❌ Missed |
-| cheap flights NYC | affordable airfare to New York | ❌ Missed |
-| Apple stock | fruit company disambiguation? | ❌ Missed |
+| car repair | automobile maintenance guide | Missed |
+| cheap flights NYC | affordable airfare to New York | Missed |
+| Apple stock | apple harvest season guide | Wrong sense matched |
 
-![Cheap Flights Example](/courses/beginners/module-1/cheap-flights.png)
+![The query "cheap flights NYC" misses the document "affordable airfare to New York" because the two share no exact words](/courses/beginners/module-1/cheap-flights.png)
 
 ### The Four Core Failure Modes
 
-- **Synonyms**: "car" ≠ "automobile" to a keyword engine, even though they mean the same thing. No word overlap = no match.
-- **Paraphrasing**: Same meaning, completely different words. "cheap flights" vs. "affordable airfare" are identical in intent, invisible to grep.
-- **Polysemy**: One word, multiple meanings. "apple" is a fruit company, a fruit, a music label. Context determines meaning that keywords can't.
+- **Synonyms**: "car" and "automobile" mean the same thing, but to a keyword engine they're unrelated. No word overlap, no match.
+- **Paraphrasing**: Same meaning, completely different words. "cheap flights" and "affordable airfare" are identical in intent, invisible to grep.
+- **Polysemy**: One word, multiple meanings. "apple" is a fruit company, a fruit, and a music label. Context determines the meaning that keywords can't.
 - **Word order**: "dog bites man" and "man bites dog" use identical words. Keyword search treats them as equivalent.
 
 ## 2. How Traditional Search Improved
@@ -80,7 +83,7 @@ Find the exact string
 2. **Inverted Index**
 Fast word lookup
 
-3. TF-IDF / BM25 
+3. **TF-IDF / BM25**
 Weighted ranking
 
 4. **Semantic Search**
@@ -90,9 +93,9 @@ Meaning-aware
 
 | Technique | What it added | Still missing |
 |-----------|---------------|---------------|
-| Inverted index | Fast lookup across millions of documents without scanning each one | No ranking, no relevance - just presence or absence |
+| Inverted index | Fast lookup across millions of documents without scanning each one | No ranking, no relevance, just presence or absence |
 | TF-IDF / BM25 | Relevance ranking based on term frequency and inverse document frequency | No synonyms, no semantic understanding |
-| Fuzzy matching | Tolerance for typos and near-spellings (receave → receive) | Still word-based - 'automobile' is not a typo of 'car' |
+| Fuzzy matching | Tolerance for typos and near-spellings (receave → receive) | Still word-based; "automobile" is not a typo of "car" |
 | Stemming | Reduces words to their root form (running → run) | Misses cross-vocabulary synonyms entirely |
 
 ### Core Limitation
@@ -111,7 +114,7 @@ Semantic search changes the question from:
 
 ## 4. How It Works: Embeddings
 
-Semantic search works by converting text into vectors - lists of numbers that capture meaning. Similar meanings produce vectors that are close together in high-dimensional space. Different meanings produce vectors that are far apart.
+Semantic search works by converting text into vectors: lists of numbers that capture meaning. Similar meanings produce vectors that are close together in high-dimensional space. Different meanings produce vectors that are far apart.
 
 ### Generating a Vector
 
@@ -129,11 +132,11 @@ print(len(query_vec))   # 384 dimensions
 print(query_vec[:5])    # [-0.12456684  0.03955902  0.08732592 -0.02361243 -0.0705409 ]
 ```
 
-![Generating a vector from text](/courses/beginners/module-1/generating-vector.png)
+![An embedding model turns the text "car repair" into a fixed-length list of 384 numbers](/courses/beginners/module-1/generating-vector.png)
 
 ### What Are Dimensions?
 
-Each dimension in the vector captures some aspect of the text's meaning. A 384-dimension model has 384 such aspects. No single dimension maps cleanly to a human concept like "color" or "emotional tone" - it's the combination of all dimensions together that encodes meaning.
+Each dimension in the vector captures some aspect of the text's meaning. A 384-dimension model has 384 such aspects. No single dimension maps cleanly to a human concept like "color" or "emotional tone." It's the combination of all dimensions together that encodes meaning.
 
 ### Model Types
 
@@ -142,7 +145,7 @@ Each dimension in the vector captures some aspect of the text's meaning. A 384-d
 - **Domain-specific models**: Fine-tuned on legal, medical, or code corpora. Outperform general models on specialized content.
 - **Multimodal models**: Project text and images into the same vector space. Used by Tripadvisor and others (see Module 4).
 
-Vector embeddings aren't limited by these models, however. They are theoretically capable of capturing any data into a transformed structured format.
+Embeddings aren't text-only: the same idea works for images, audio, and code, which is how multimodal search in Module 4 works.
 
 ## 5. Comparing Meaning: Distance Metrics
 
@@ -150,15 +153,15 @@ Once we have vectors, we need a way to measure how similar two of them are. Diff
 
 ### Cosine Similarity
 
-The most common metric for text. It measures the angle between two vectors, ignoring their magnitude (length) and focusing purely on direction. A score of 1.0 means the vectors point in the same direction. A score near 0.0 means the texts are semantically unrelated.
+The most common metric for text. It measures the angle between two vectors, ignoring their magnitude (length) and focusing purely on direction. A score of 1.0 means the vectors point in the same direction, and a score near 0.0 means the texts are semantically unrelated. Cosine similarity can in principle range from -1 to 1, where negative values mean the vectors point in opposite directions. In practice, normalized text-embedding models like the one used here rarely produce negative scores, so unrelated text usually lands as a small positive number rather than below zero.
 
 $$
 \text{cosine\_similarity}(A, B) = \frac{A \cdot B}{\lVert A \rVert \, \lVert B \rVert}
 $$
 
-![Cosine Similarity](/courses/beginners/module-1/cosine-similarity.png)
+![Cosine similarity measures the angle between two vectors: a smaller angle gives a score closer to 1, and unrelated vectors score near 0](/courses/beginners/module-1/cosine-similarity.png)
 
-For example, embedding "car repair" and "automobile maintenance" and comparing the two vectors with this formula yields a similarity score around 0.85 - close to 1.0, reflecting their shared meaning despite having no words in common.
+For example, embedding "car repair" and "automobile maintenance" and comparing the two vectors with this formula yields a similarity score around 0.73, far higher than an unrelated pair would score, reflecting their shared meaning despite having no words in common.
 
 ### Distance Metric Comparison
 
@@ -166,8 +169,8 @@ For example, embedding "car repair" and "automobile maintenance" and comparing t
 |--------|----------|-------|
 | Cosine | Text similarity, NLP models | Robust to different vector magnitudes. Most common default. |
 | Dot product | When embeddings are normalized | Faster than cosine if vectors are unit-normalized at index time. |
-| Euclidean (L2) | Image embeddings, spatial data | Sensitive to magnitude - works best with models trained for it. |
-| Manhattan (L1) | Sparse or grid-like data | Sums absolute differences instead of squaring them - less sensitive to outliers than Euclidean. |
+| Euclidean (L2) | Image embeddings, spatial data | Sensitive to magnitude; works best with models trained for it. |
+| Manhattan (L1) | Sparse or grid-like data | Sums absolute differences instead of squaring them, so it's less sensitive to outliers than Euclidean. |
 
 ## 6. Why Similarity Alone Is Not Enough
 
@@ -176,9 +179,9 @@ Vector similarity is a powerful primitive. But a real search system needs severa
 - **Filtering**: Return only documents within the last 30 days. Return only items the current user has permission to see.
 - **Exact matching**: A query for "SKU-48291" must match that exact SKU. Semantic similarity might drift to adjacent IDs.
 - **Access control**: Multi-tenant systems must scope results to the current workspace. Similarity search crosses tenant boundaries.
-- **Ranking signals**: Recency, popularity, personalization - payload values that should influence result order beyond pure similarity.
+- **Ranking signals**: Recency, popularity, and personalization are payload values that should influence result order beyond pure similarity.
 
-### The SKU Problem - A Concrete Example
+### The SKU Problem: A Concrete Example
 
 ```python
 # Query: "SKU-48291 issue"
@@ -202,23 +205,23 @@ Production search today combines multiple retrieval signals in a single pipeline
 
 ### Hybrid Search Components
 
-- **Dense**: Semantic / vector - Intent, vibe, meaning
-- **Sparse**: BM25 / keyword - Exact terms, rare tokens
+- **Dense**: Semantic or vector search, for intent, vibe, and meaning.
+- **Sparse**: BM25 or keyword search, for exact terms and rare tokens.
 
 ### Where Hybrid Search Is Used
 
-- **Multimodal RAG** - retrieve relevant text, images, audio, and video for LLM context windows
-- **Agentic AI systems** - multi-step agents that query different data sources sequentially
-- **E-commerce** - find semantically similar products, then filter by price, brand, and availability
-- **Knowledge bases** - semantic over documents, keyword for exact references and code snippets
+- **Multimodal RAG**: retrieve relevant text, images, audio, and video for LLM context windows.
+- **Agentic AI systems**: multi-step agents that query different data sources sequentially.
+- **E-commerce**: find semantically similar products, then filter by price, brand, and availability.
+- **Knowledge bases**: semantic search over documents, keyword search for exact references and code snippets.
 
 ### Quick Comparison
 
 | Approach | Strength | Limitation |
 |----------|----------|------------|
-| Keyword / Grep | Fast, exact matching | No semantic understanding - misses synonyms and paraphrases |
-| BM25 / TF-IDF | Great for rare or specific terms | No synonym handling - relies entirely on word overlap |
-| Semantic / Dense | Understands meaning and intent | Can miss exact tokens - 'SKU-48291' may drift to similar IDs |
+| Keyword / Grep | Fast, exact matching | No semantic understanding; misses synonyms and paraphrases |
+| BM25 / TF-IDF | Great for rare or specific terms | No synonym handling; relies entirely on word overlap |
+| Semantic / Dense | Understands meaning and intent | Can miss exact tokens; "SKU-48291" may drift to similar IDs |
 | Hybrid | Covers both exact terms and intent | More complex to build, tune, and operate |
 
 ### Try It Yourself: Compare Cosine Scores
@@ -243,9 +246,9 @@ for query, document in pairs:
     print(f"{score:.3f}  |  {query!r}  vs  {document!r}")
 ```
 
-**What to look for:** the first two pairs share little or no vocabulary, yet both score high, that's semantic search catching the synonym and the paraphrase that keyword search missed back in section 1. The third pair scores low, confirming the model separates unrelated meaning instead of matching surface words.
+**What to look for:** the first two pairs share little or no vocabulary, yet both score high. That's semantic search catching the synonym and the paraphrase that keyword search missed back in section 1. The third pair scores much lower, confirming the model separates unrelated meaning instead of matching surface words.
 
-**Your turn:** swap in a polysemy case: score `"apple stock"` against both `"shares of a tech company"` and `"a crisp red fruit"`. Which comes out higher, and does it match the sense you meant?
+**Your turn:** swap in a polysemy case. Score `"apple stock"` against both `"shares of a tech company"` and `"a crisp red fruit"`. Which comes out higher, and does it match the sense you meant?
 
 ## 8. References & Further Reading
 
@@ -258,12 +261,11 @@ for query, document in pairs:
 - [What Is RAG in AI?](/articles/what-is-rag-in-ai/)
   - How retrieval-augmented generation works and where a vector search engine fits in.
 
-## What's Next - Module 2
+## What's Next: Module 2
 
 In the next module, we'll break down:
 
-- What is a vector and why does it have hundreds of dimensions?
+- What is a vector, and why does it have hundreds of dimensions?
 - How do dimensions actually represent meaning?
-- How similarity really works under the hood - and when it fails.
+- How similarity really works under the hood, and when it fails.
 - Your first Qdrant collection: points, payloads, and your first query.
-
