@@ -8,6 +8,18 @@ weight: 20
 
 {{< date >}} Module 1 {{< /date >}}
 
+<!--
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/VIDEO_ID?rel=0"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+-->
+
 # Let's Understand Search
 
 Understand why traditional search struggles and how modern semantic search improves it.
@@ -68,7 +80,7 @@ Find the exact string
 2. **Inverted Index**
 Fast word lookup
 
-3. **TF-IDF / BM25 
+3. TF-IDF / BM25 
 Weighted ranking
 
 4. **Semantic Search**
@@ -237,14 +249,14 @@ for query, document in pairs:
 
 ## 8. References & Further Reading
 
-- [Qdrant Concepts](https://qdrant.tech/documentation/concepts/)
-  - Overview of Qdrant's vector search engine - collections, points, payloads, and APIs.
-- [Distance Metrics Deep Dive](https://qdrant.tech/documentation/concepts/#distance-metrics)
-  - Cosine, dot product, Euclidean, and Manhattan - when to use each.
-- [Filtering & Hybrid Search](https://qdrant.tech/documentation/concepts/filtering/)
+- [Qdrant Documentation Overview](/documentation/overview/)
+  - How Qdrant's vector search engine fits together: collections, points, payloads, and APIs.
+- [Distance Metrics](/documentation/manage-data/collections/#distance-metrics)
+  - Cosine, dot product, Euclidean, and Manhattan, and when to use each.
+- [Filtering](/documentation/search/filtering/)
   - Payload filter syntax, indexed fields, and combining filters with vector queries.
-- [RAG Tutorials](https://qdrant.tech/rag)
-  - End-to-end retrieval-augmented generation tutorials using Qdrant as the retriever.
+- [What Is RAG in AI?](/articles/what-is-rag-in-ai/)
+  - How retrieval-augmented generation works and where a vector search engine fits in.
 
 ## What's Next - Module 2
 
@@ -255,8 +267,3 @@ In the next module, we'll break down:
 - How similarity really works under the hood - and when it fails.
 - Your first Qdrant collection: points, payloads, and your first query.
 
-<a href="/course/beginners/module-2/"
-   style="display:inline-block;padding:12px 24px;background:#dc244c;color:#fff;
-          border-radius:6px;text-decoration:none;font-weight:600;">
-  Continue to Module 2 →
-</a>
