@@ -24,6 +24,18 @@ Understand why traditional search struggles and how modern semantic search impro
 
 <br/>
 
+<!--
+<div class="video">
+<iframe 
+  src="https://www.youtube.com/embed/QnRjMolv8Qk?si=uqWQLcLp_oBWt3bO"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
+-->
+
 {{< cards-list >}}
 - icon: /icons/outline/play-white.svg
   title: 6 modules
