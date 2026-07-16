@@ -158,7 +158,7 @@ As a reference point: 1 KB ≈ one vector of 256 dimensions. A value of `100000`
 
 The previous steps all operate within a fixed hardware budget: they reallocate CPU between the optimizer and queries. If you've exhausted those options and latency is still too high, the answer is more capacity.
 
-[Adding nodes to your cluster](/documentation/distributed_deployment/) and increasing the replication factor distributes read traffic across more peers. Because every replica of a shard contains the same data, Qdrant can route read requests to any of them. More replicas mean more vCPUs available to serve queries, and the optimizer on each node only contends with the query load that node carries instead of the full cluster load.
+[Adding nodes to your cluster](/documentation/scaling/distributed_deployment/) and increasing the replication factor distributes read traffic across more peers. Because every replica of a shard contains the same data, Qdrant can route read requests to any of them. More replicas mean more vCPUs available to serve queries, and the optimizer on each node only contends with the query load that node carries instead of the full cluster load.
 
 For example, a collection with three shards and a replication factor of two has six replicas total. On a three-node cluster, each node handles two replicas. A read request hits one replica per shard, so query load is spread evenly across all three nodes.
 
@@ -179,5 +179,5 @@ Like Step 8, this step adds capacity rather than reallocating it. Where horizont
 - [Optimizer](/documentation/ops-optimization/optimizer/) covers all optimizer settings referenced in this guide, including how to monitor deferred points.
 - [Low-Latency Search](/documentation/search/low-latency-search/) covers delayed fan-outs and other techniques for reducing search latency.
 - [Qdrant under the Hood: io_uring](/articles/io_uring/) explains how async I/O works in Qdrant.
-- [Distributed Deployment](/documentation/distributed_deployment/) covers horizontal scaling with shards and replicas.
+- [Distributed Deployment](/documentation/scaling/distributed_deployment/) covers horizontal scaling with shards and replicas.
 - [Bulk Upload](/documentation/manage-data/bulk-upload/) covers best practices for high-throughput ingestion.

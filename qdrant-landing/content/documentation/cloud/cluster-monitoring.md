@@ -282,7 +282,7 @@ The account owner will receive automatic alerts via email if your cluster has an
     
     **Where can I learn more about this alert?**
     
-    Learn more about distributed deployments and resharding [here](/documentation/distributed_deployment/#resharding).
+    Learn more about distributed deployments and resharding [here](/documentation/scaling/distributed_deployment/#resharding).
     
     Learn more about cloud rebalancing [here](/documentation/cloud/configure-cluster/#shard-rebalancing).
 

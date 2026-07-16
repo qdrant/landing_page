@@ -40,6 +40,9 @@
 /documentation/operations/security/*                              /documentation/security/:splat                                    301
 /documentation/operations/common-errors/*                         /documentation/common-errors/:splat                               301
 
+# distributed_deployment moved under the Scaling & Resilience section
+/documentation/distributed_deployment/*                           /documentation/scaling/distributed_deployment/:splat              301
+
 # Operations sub-pages moved to new sub-sections (docs reorganization)
 /documentation/operations/configuration/*                         /documentation/ops-configuration/configuration/:splat             301
 /documentation/operations/administration/*                        /documentation/ops-configuration/administration/:splat            301

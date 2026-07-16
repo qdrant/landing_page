@@ -126,7 +126,7 @@ The same agent that speeds through a toy dataset with 10,000 points will become 
 
 We’ll talk about three concepts you can take advantage of to improve your scale, but if you want even more information on how to scale, check out this [article](https://qdrant.tech/documentation/database-tutorials/large-scale-search/) on large scale search.
 
-As your dataset and traffic grow, Qdrant Cloud offers a suite of features to ensure your system can scale effectively. Horizontal scaling is achieved through [sharding](https://qdrant.tech/articles/multitenancy/), which splits your collection across multiple nodes to distribute the load and improve performance. For high availability and fault tolerance, Qdrant supports [replication](https://qdrant.tech/documentation/distributed_deployment/), creating copies of your shards across the cluster. 
+As your dataset and traffic grow, Qdrant Cloud offers a suite of features to ensure your system can scale effectively. Horizontal scaling is achieved through [sharding](https://qdrant.tech/articles/multitenancy/), which splits your collection across multiple nodes to distribute the load and improve performance. For high availability and fault tolerance, Qdrant supports [replication](https://qdrant.tech/documentation/scaling/distributed_deployment/), creating copies of your shards across the cluster. 
 
 Qdrant provides robust tools for resource and cost optimization. Vector [quantization](https://qdrant.tech/documentation/manage-data/quantization/) compresses your data, significantly reducing its memory footprint and speeding up search.
 

@@ -115,7 +115,7 @@ Many people have been asking about point filtering in web UI. And now it's back,
 As an open source project, we welcome contributions from the Qdrant community. This release features two contributions from community members:
 
 - Not all payload field indexes are used in combination with dense vector queries. With this release, you can [specify whether individual payload field indexes should be reflected in the HNSW index](/documentation/manage-data/indexing/#disable-the-creation-of-extra-edges-for-payload-fields).
-- A new API endpoint is available to [list all user-defined shard keys](/documentation/distributed_deployment/#user-defined-sharding).
+- A new API endpoint is available to [list all user-defined shard keys](/documentation/scaling/distributed_deployment/#user-defined-sharding).
 
 Additionally, this release adds the following features:
 
