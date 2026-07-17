@@ -97,16 +97,13 @@ which is suitable for ingesting a large amount of data.
 
 *Available as of v1.9.0*
 
-Some embedding providers may provide embeddings in a pre-quantized format.
-One of the most notable examples is the [Cohere int8 & binary embeddings](https://cohere.com/blog/int8-binary-embeddings).
-Qdrant has direct support for uint8 embeddings, which you can also use in combination with binary quantization.
+By default, Qdrant stores each vector dimension as a 32-bit float. Memory and storage grow linearly with dimensionality, so for large vectors this adds up quickly. To reduce that cost, or to store vectors that are already lower precision, you can configure a different datatype: `float16` (half-precision), `uint8` (unsigned 8-bit integers), or `turbo4` (4 bits).
 
-To create a collection with uint8 embeddings, you can use the following configuration:
+For example, to create a collection with `uint8` embeddings:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-uint8/" >}}
 
-Vectors with `uint8` datatype are stored in a more compact format, which can save memory and improve search speed at the cost of some precision.
-If you choose to use the `uint8` datatype, elements of the vector will be stored as unsigned 8-bit integers, which can take values **from 0 to 255**.
+See [Datatypes](/documentation/manage-data/vectors/#datatypes) for the full set of options and their tradeoffs.
 
 
 ### Collection with Sparse Vectors
