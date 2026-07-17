@@ -1,0 +1,75 @@
+{{ $event := . }}
+{{ $start := time.AsTime $event.Params.start }}
+
+{{ $end := $start }}
+{{ with $event.Params.end }}
+  {{ $end = time.AsTime . }}
+{{ end }}
+
+{{ $hasStartTime := findRE "T" $event.Params.start }}
+{{ $hasEndTime := false }}
+{{ with $event.Params.end }}
+  {{ $hasEndTime = findRE "T" . }}
+{{ end }}
+
+<a href="{{ $event.Params.link }}" class="events-card">
+  <div class="events-card__date">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5.33333 1.33203V3.9987M10.6667 1.33203V3.9987M2 6.66536H14M5.33333 9.33203H5.34M8 9.33203H8.00667M10.6667 9.33203H10.6733M5.33333 11.9987H5.34M8 11.9987H8.00667M10.6667 11.9987H10.6733M3.33333 2.66536H12.6667C13.403 2.66536 14 3.26232 14 3.9987V13.332C14 14.0684 13.403 14.6654 12.6667 14.6654H3.33333C2.59695 14.6654 2 14.0684 2 13.332V3.9987C2 3.26232 2.59695 2.66536 3.33333 2.66536Z" stroke="#D4D9E6" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p>
+      {{ if eq ($start.Format "2006-01-02") ($end.Format "2006-01-02") }}
+        {{ $start.Format "Mon, Jan 2, 2006" }}
+      {{ else }}
+        {{ $start.Format "Mon, Jan 2, 2006" }} - {{ $end.Format "Mon, Jan 2, 2006" }}
+      {{ end }}
+    </p>
+  </div>
+  
+  <div class="events-card__content">
+    <span class="events-card__type events-card__type-{{ $event.Params.type }}">{{ $event.Params.type }}</span>
+    <h3 class="events-card__title">{{ $event.Title }}</h3>
+    <p class="events-card__description">{{ $event.Params.description }}</p>
+
+    <div class="events-card__location">
+      <span class="events-card__type events-card__type-mobile events-card__type-{{ $event.Params.type }}">
+        {{ $event.Params.type }}
+      </span>
+      <p class="events-card__place">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13.3333 6.66536C13.3333 9.99403 9.64066 13.4607 8.40066 14.5314C8.28514 14.6182 8.14452 14.6652 7.99999 14.6652C7.85546 14.6652 7.71484 14.6182 7.59932 14.5314C6.35932 13.4607 2.66666 9.99403 2.66666 6.66536C2.66666 5.25088 3.22856 3.89432 4.22875 2.89413C5.22895 1.89393 6.5855 1.33203 7.99999 1.33203C9.41448 1.33203 10.771 1.89393 11.7712 2.89413C12.7714 3.89432 13.3333 5.25088 13.3333 6.66536Z" stroke="#8F98B3" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7.99999 8.66536C9.10456 8.66536 9.99999 7.76993 9.99999 6.66536C9.99999 5.5608 9.10456 4.66536 7.99999 4.66536C6.89542 4.66536 5.99999 5.5608 5.99999 6.66536C5.99999 7.76993 6.89542 8.66536 7.99999 8.66536Z" stroke="#8F98B3" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        {{ $event.Params.place }}
+      </p>
+
+      {{ if $hasStartTime }}
+        {{ $timeFormat := "3:04 PM" }}
+        {{ if $event.Params.timezoneLabel }}
+          {{ $timeFormat = "15:04" }}
+        {{ end }}
+  
+        <p class="events-card__time">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_18745_21059)">
+              <path d="M8 3.9987V7.9987L10.6667 6.66536M14.6667 7.9987C14.6667 11.6806 11.6819 14.6654 8 14.6654C4.3181 14.6654 1.33333 11.6806 1.33333 7.9987C1.33333 4.3168 4.3181 1.33203 8 1.33203C11.6819 1.33203 14.6667 4.3168 14.6667 7.9987Z" stroke="#8F98B3" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_18745_21059">
+                <rect width="16" height="16" fill="white"/>
+              </clipPath>
+            </defs>
+          </svg>
+
+          {{ $start.Format $timeFormat }}
+          {{ if and $hasEndTime (ne ($start.Format "15:04") ($end.Format "15:04")) }}
+            - {{ $end.Format $timeFormat }}
+          {{ end }}
+          {{ with $event.Params.timezoneLabel }}
+            <span class="events-card__timezone">{{ . }}</span>
+          {{ end }}
+        </p>
+      {{ end }}
+    </div>
+  </div>
+</a>

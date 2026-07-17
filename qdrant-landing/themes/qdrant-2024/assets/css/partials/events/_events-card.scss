@@ -1,0 +1,204 @@
+@use 'sass:math';
+@use '../../helpers/functions' as *;
+
+.events-card {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer * 4;
+  padding: $spacer * 2 $spacer * 1.5;
+  border: pxToRem(1) solid $neutral-20;
+  color: $neutral-70;
+
+  &__date {
+    display: flex;
+    gap: $spacer * 0.5;
+    align-items: center;
+    color: $neutral-90;
+    
+    p {
+      margin-bottom: 0;
+      font-weight: $font-weight-medium;
+    }
+    
+    svg {
+      flex-shrink: 0;
+    }
+  }
+  
+  &__title {
+    margin-top: $spacer;
+    margin-bottom: $spacer;
+    font-size: $h6-font-size;
+    line-height: $spacer * 2;
+    color: $neutral-90;
+  }
+  
+  &__description {
+    margin-bottom: $spacer * 4;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  &__location {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: $spacer;
+  }
+  
+  &__type {
+    padding: pxToRem(2) pxToRem(10);
+    border-radius: pxToRem(20);
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    text-transform: capitalize;
+    display: inline-block;
+    
+    &-mobile {
+      display: none;
+    }
+    
+    &-webinar {
+      border: pxToRem(1) solid $secondary-blue-50;
+      color: $secondary-blue-50;
+      background-color: rgba($secondary-blue-50, 0.1);
+    }
+    
+    &-conference {
+      border: pxToRem(1) solid $secondary-violet-50;
+      color: $secondary-violet-50;
+      background-color: rgba($secondary-violet-50, 0.1);
+    }
+    
+    &-meetup {
+      border: pxToRem(1) solid $secondary-teal-50;
+      color: $secondary-teal-50;
+      background-color: rgba($secondary-teal-50, 0.1);
+    }
+  }
+  
+  &__place {
+    display: flex;
+    align-items: center;
+    gap: math.div($spacer, 4);
+    margin-bottom: 0;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    
+    svg {
+      height: $spacer;
+      width: $spacer;
+    }
+  }
+  
+  &__time {
+    display: flex;
+    align-items: center;
+    gap: math.div($spacer, 4);
+    margin-bottom: 0;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+
+    svg {
+      height: $spacer;
+      width: $spacer;
+    }
+  }
+  
+  &:hover {
+    background: linear-gradient(180deg, rgba(14, 20, 36, 0.00) 0%, $neutral-20 100%);
+    
+    .events-card__date,
+    .events-card__description,
+    .events-card__place,
+    .events-card__time {
+      color: $neutral-90;
+
+      svg {
+        path {
+          stroke: $neutral-90;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    flex-direction: row;
+    align-items: start;
+    gap: $spacer * 2;
+
+    &:not(:last-child) {
+      border-bottom: 0;
+    }
+
+    &__date {
+      flex-shrink: 0;
+      width: pxToRem(228);
+      color: $neutral-70;
+
+      p {
+        margin-bottom: 0;
+        font-weight: $font-weight-medium;
+        font-size: $font-size-l;
+        line-height: $spacer * 1.5;
+      }
+      
+      svg {
+        height: pxToRem(18);
+        width: pxToRem(18);
+        
+        path {
+          stroke: $neutral-70;
+        }
+      }
+    }
+
+    &__title {
+      margin-top: 0;
+      margin-bottom: $spacer * 0.5;
+    }
+
+    &__description {
+      margin-bottom: $spacer * 2;
+    }
+
+    &__location {
+      gap: $spacer $spacer * 2;
+    }
+    
+    &__type {
+      font-size: $font-size-xs;
+      line-height: pxToRem(18);
+      padding: pxToRem(1) pxToRem(10);
+      display: none;
+
+      &-mobile {
+        display: block;
+      }
+    }
+
+    &__place {
+      font-size: $font-size-xs;
+      line-height: pxToRem(18);
+
+      svg {
+        height: pxToRem(12);
+        width: pxToRem(12);
+      }
+    }
+
+    &__time {
+      font-size: $font-size-xs;
+      line-height: pxToRem(18);
+
+      svg {
+        height: pxToRem(12);
+        width: pxToRem(12);
+      }
+    }
+  }
+}
