@@ -7,6 +7,22 @@ weight: 35
 
 # Changelog
 
+## 1.9.12 (2026-07-17)
+
+| Component               | Version |
+|-------------------------|---------|
+| qdrant-kubernetes-api   | v1.37.1 |
+| operator                | 2.34.0  |
+| qdrant-cluster-manager  | v0.3.19 |
+| qdrant-cluster-exporter | 1.8.0   |
+
+Latest validated Qdrant version: 1.18.2
+
+* Updated operator to 2.34.0.
+* Tightened operator RBAC to least privilege: namespace-scoped resources now use Roles in watched namespaces, leader-election Lease access is limited to the release namespace, and VolumeAttributesClass access is create-only.
+* Traefik ingress and routing write permissions are now feature-gated, and unused ServiceAccount, Role, RoleBinding, and OpenShift SCC management permissions were removed.
+* Helm now rejects conflicting or unscoped limited-RBAC watch settings.
+
 ## 1.9.11 (2026-07-08)
 
 | Component               | Version |
