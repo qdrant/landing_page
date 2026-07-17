@@ -209,14 +209,14 @@ The choice between datatypes is a trade-off between memory consumption and preci
 
 Qdrant supports a number of datatypes for both dense and sparse vectors:
 
-**Float32**
+### Float32
 
 This is the default datatype for vectors in Qdrant. It is a 32-bit (4 bytes) floating-point number. 
 The standard OpenAI embedding of 1536 dimensionality will require 6KB of memory to store in Float32.
 
 You don't need to specify the datatype for vectors in Qdrant, as it is set to Float32 by default.
 
-**Float16**
+### Float16
 
 This is a 16-bit (2 bytes) floating-point number. It is also known as half-precision float.
 Intuitively, it looks like this:
@@ -237,7 +237,7 @@ To use Float16, you need to specify the datatype for vectors in the collection c
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-float16-sparse-and-dense/" >}}
 
-**Uint8**
+### Uint8
 
 Another step towards memory optimization is to use the Uint8 datatype for vectors.
 Unlike Float16, Uint8 is not a floating-point number, but an integer number in the range from 0 to 255.
@@ -259,6 +259,22 @@ Dense vectors are required to be in the range from 0 to 255, while sparse vector
 
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-uint8-sparse-and-dense/" >}}
+
+### Turbo4
+
+*Available as of v1.19.0*
+
+The `turbo4` datatype stores each vector as a compact 4-bit representation per dimension instead of a 32-bit floating-point number. This shrinks vector storage to about one-eighth of its original size.
+
+`turbo4` is built on TurboQuant, [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). Each vector is first rotated mathematically, spreading each dimension's information evenly across the whole vector so no single dimension loses a disproportionate share of detail during compression. Each rotated value is then stored as one of 16 levels (the maximum 4 bits can represent).
+
+To use `turbo4`, specify the `turbo4` datatype for the vector when creating a collection or when adding a new vector to an existing collection's schema:
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-turbo4/" >}}
+
+The `turbo4` datatype is only supported for dense vectors. It cannot be used to configure sparse vectors.
+
+You can combine `turbo4` with the [quantization feature](/documentation/manage-data/quantization/#turboquant-quantization) for memory-efficient rescoring. For example, adding 1-bit TurboQuant on top of `turbo4` uses a compact index for the initial search, then rescores against the 4-bit `turbo4` vectors. This is more storage-efficient than pairing 1-bit quantization with full-precision vectors, at the cost of rescoring precision.
 
 ## Quantization
 
