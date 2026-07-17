@@ -12,7 +12,14 @@ weight: 60
 
 Apply every concept from Modules 1-4 in a single end-to-end system: ingest daily news, audio, and satellite data about suppliers, cluster risk signals into themes, and surface what local-language sources are saying before it reaches English media.
 
-## Today's path
+<!-- TODO (video): add the Module 5 overview video before launch. Follow the Essentials embed pattern. Outro bumper yes, Intro bumper no.
+<div class="video">
+  <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+  </iframe>
+</div>
+-->
+
+## Today's Path
 
 1. Project Overview
 2. System Architecture
@@ -45,7 +52,7 @@ The system has four stages. Each maps to Qdrant primitives you already know.
 3. **Store**: Upsert each signal as a PointStruct with all named vectors and a rich payload: supplier_id, source_type, language, country, published_at, risk_score.
 4. **Cluster + Query**: Daily batch: compute cluster centroids and tag signals with themes. On-demand: hybrid, cross-language queries for analyst investigations.
 
-![Four stages diagram](/courses/beginners/module-5/four-stage.png)
+![The four capstone stages, ingest, embed, store, then cluster and query, flowing left to right into a single Qdrant collection of supplier signals.](/courses/beginners/module-5/four-stage.png)
 
 ### Collection Schema
 
@@ -80,7 +87,7 @@ Each signal type requires a different embedding approach. The key principle: cho
 | News articles | text | multilingual-e5-large | supplier_id, country, language, date, risk_score |
 | Earnings calls | audio -> text | Whisper + MiniLM | supplier_id, quarter, sentiment, date |
 | Factory footage | video -> frames | CLIP per keyframe | supplier_id, facility_id, alert_type, timestamp |
-| Satellite imagery | image | CLIP / ResNet | supplier_id, facility_id, region, capture_date |
+| Satellite imagery | image | CLIP | supplier_id, facility_id, region, capture_date |
 | Financial filings | text | fin-e5 or MiniLM | supplier_id, filing_type, fiscal_year, currency |
 | Social / forums | text | multilingual-e5-large + BM25 | supplier_id, platform, language, date, severity |
 
@@ -88,19 +95,21 @@ Each signal type requires a different embedding approach. The key principle: cho
 
 Supply chain news arrives in Japanese, Mandarin, Korean, Vietnamese, Hindi, and dozens of other languages before it reaches English. This is the knowledge-layer decision from Module 4's Question 4, now in action: multilingual-e5-large (1024 dimensions) projects all of these into the same vector space. A query in English surfaces relevant articles originally written in Japanese, without translation.
 
+Note the `query:` and `passage:` prefixes below. The e5 family is trained with them: use `query:` for search text and `passage:` for stored content. Skipping them measurably lowers retrieval quality.
+
 You don't need to read Japanese to verify this - the gloss (a literal English translation, shown here only so the example is checkable) makes it clear the two texts share meaning, even though the model itself never sees the gloss:
 
 ```python
 from sentence_transformers import SentenceTransformer
 
 # Same model for all 100+ languages
-text_model = SentenceTransformer("intfloat/multilingual-e5-large")
+dense_model = SentenceTransformer("intfloat/multilingual-e5-large")
 
 # English query finds Japanese-language articles
-query_vec = text_model.encode("supplier factory fire evacuation")
+query_vec = dense_model.encode("query: supplier factory fire evacuation")
 
 # At ingestion: Japanese article embedded with the same model
-# text_model.encode("工場火災下の経営者声明")
+# dense_model.encode("passage: 工場火災下の経営者声明")
 # Gloss (for verification only, not passed to the model): "Executive statement following factory fire"
 # Cosine similarity between these two vectors: ~0.81
 ```
@@ -113,8 +122,8 @@ Earnings calls, analyst briefings, and supplier press conferences arrive as audi
 import whisper
 from sentence_transformers import SentenceTransformer
 
-asr_model  = whisper.load_model("base")
-text_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+asr_model        = whisper.load_model("base")
+audio_text_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
 def embed_audio(audio_path: str):
     transcript = asr_model.transcribe(audio_path)["text"]
@@ -122,7 +131,7 @@ def embed_audio(audio_path: str):
     return [
         {
             "text":   chunk,
-            "vector": text_model.encode(chunk).tolist(),
+            "vector": audio_text_model.encode(chunk).tolist(),
         }
         for chunk in chunks
     ]
@@ -202,7 +211,7 @@ import uuid
 from qdrant_client.models import PointStruct
 
 def ingest_news_article(article: dict):
-    text_dense_vec  = text_model.encode(article["text"]).tolist()
+    text_dense_vec  = dense_model.encode(f"passage: {article['text']}").tolist()
     text_sparse_vec = bm25_encode(article["text"])   # {indices, values}
     risk_score      = score_risk(article["text"])    # 0.0 - 1.0
 
@@ -262,7 +271,7 @@ Clustering groups signals that discuss the same underlying risk event, even when
 
 ```python
 from datetime import datetime, timedelta
-from qdrant_client.models import Filter, FieldCondition, MatchValue, Range
+from qdrant_client.models import Filter, FieldCondition, MatchValue, DatetimeRange
 
 def get_supplier_signals_last_24h(supplier_id: str):
     yesterday = (datetime.utcnow() - timedelta(hours=24)).isoformat()
@@ -274,7 +283,7 @@ def get_supplier_signals_last_24h(supplier_id: str):
                 FieldCondition(key="supplier_id", match=MatchValue(value=supplier_id)),
                 FieldCondition(
                     key="published_at",
-                    range=Range(gte=yesterday),
+                    range=DatetimeRange(gte=yesterday),
                 ),
             ]
         ),
@@ -332,7 +341,7 @@ def cross_language_risk_query(supplier_id: str, query_en: str, languages: list[s
     Useful for finding what local sources are saying about a supplier
     that hasn't surfaced in English news yet.
     """
-    query_vec = text_model.encode(query_en).tolist()
+    query_vec = dense_model.encode(f"query: {query_en}").tolist()
 
     return client.query_points(
         collection_name="supplier_signals",
@@ -342,7 +351,7 @@ def cross_language_risk_query(supplier_id: str, query_en: str, languages: list[s
             must=[
                 models.FieldCondition(
                     key="supplier_id",
-                    match=models.MatchValue(value="SUP-7291"),
+                    match=models.MatchValue(value=supplier_id),
                 ),
                 models.FieldCondition(
                     key="language",
@@ -368,7 +377,7 @@ For focused investigations, combine everything: hybrid retrieval over dense and 
 
 ```python
 def query_supplier_risk(supplier_id: str, query_text: str):
-    query_vec    = text_model.encode(query_text).tolist()
+    query_vec    = dense_model.encode(f"query: {query_text}").tolist()
     query_sparse = bm25_encode(query_text)
     cutoff       = (datetime.utcnow() - timedelta(days=7)).isoformat()
 
@@ -391,7 +400,7 @@ def query_supplier_risk(supplier_id: str, query_text: str):
                 ),
                 models.FieldCondition(
                     key="published_at",
-                    range=models.Range(gte=cutoff),
+                    range=models.DatetimeRange(gte=cutoff),
                 ),
             ]
         ),
@@ -443,7 +452,7 @@ This module completes the Qdrant Beginners course. Here's what was covered acros
 | Module 4 | Designing a System | The layers of the stack; five design questions; filtering in depth; the RAG pipeline; deployment options. |
 | Module 5 | Multimodal Supplier Risk | End-to-end capstone: ingest news, audio, and images; cluster risk signals; query across languages. |
 
-### The same six primitives, recombined
+### The Same Six Primitives, Recombined
 
 Collection · Point · Vector · Payload · Index · Query
 
@@ -451,16 +460,16 @@ Every system in this course, and every system you'll build, is a combination of 
 
 ## 9. References & Further Reading
 
-- **Multimodal Search Tutorial** - [Multimodal Search - Qdrant](https://qdrant.tech/documentation/tutorials/multimodal-search/)
+- **Multimodal Search Tutorial** - [Multimodal Search - Qdrant](/documentation/tutorials-build-essentials/multimodal-search/)
   - Text + image search with CLIP embeddings and named vectors: the foundation of the image pipeline in this project.
 
-- **Hybrid Search Reference** - [Hybrid Queries - Qdrant](https://qdrant.tech/documentation/concepts/hybrid-queries/)
+- **Hybrid Search Reference** - [Hybrid Queries - Qdrant](/documentation/search/hybrid-queries/)
   - Prefetch, FusionQuery, RRF, and DBSF in the Qdrant API.
 
-- **Payload Indexes** - [Indexing - Qdrant](https://qdrant.tech/documentation/concepts/indexing/)
+- **Payload Indexes** - [Indexing - Qdrant](/documentation/manage-data/indexing/)
   - How to configure keyword, datetime, float, and geo payload indexes for fast filtering.
 
-- **Filtering Reference** - [Filtering - Qdrant](https://qdrant.tech/documentation/concepts/filtering/)
+- **Filtering Reference** - [Filtering - Qdrant](/documentation/search/filtering/)
   - Full filter syntax used throughout the capstone, including MatchAny and datetime ranges.
 
 - **multilingual-e5-large** - [multilingual-e5-large - Hugging Face](https://huggingface.co/intfloat/multilingual-e5-large)
@@ -469,4 +478,4 @@ Every system in this course, and every system you'll build, is a combination of 
 - **OpenAI CLIP** - [clip-vit-base-patch32 - Hugging Face](https://huggingface.co/openai/clip-vit-base-patch32)
   - Model card for CLIP, used for image and satellite embedding in this project.
 
-End of Module 5. Qdrant Beginners Course complete.
+<!-- TODO (course completion): let the theme render the course-complete element here instead of plain text. Confirm whether the certificate / completion CTA (as in Essentials) should render on this final module. -->
