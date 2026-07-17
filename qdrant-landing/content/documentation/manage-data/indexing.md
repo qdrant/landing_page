@@ -25,7 +25,7 @@ Creating an index requires additional computational resources and memory, so cho
 
 The following field types support payload indexing:
 
-* `keyword` - for [keyword](/documentation/manage-data/payload/#keyword) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions.
+* `keyword` - for [keyword](/documentation/manage-data/payload/#keyword) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions. Can optionally enable [prefix matching](#keyword-index).
 * `integer` - for [integer](/documentation/manage-data/payload/#integer) payload, affects [Match](/documentation/search/filtering/#match) and [Range](/documentation/search/filtering/#range) filtering conditions.
 * `float` - for [float](/documentation/manage-data/payload/#float) payload, affects [Range](/documentation/search/filtering/#range) filtering conditions.
 * `bool` - for [bool](/documentation/manage-data/payload/#bool) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions (available as of v1.4.0).
@@ -64,25 +64,27 @@ For more information, refer to [Disable Retrieving via Non Indexed Payload](/doc
 
 ### Parameterized Index
 
+Beyond selecting the field type, you can set parameters on a payload index to fine-tune how it is stored and which filtering conditions it can serve. The available parameters depend on the field type, and are described in the subsections below.
+
+#### Integer Index
+
 *Available as of v1.8.0*
 
-We've added a parameterized variant to the `integer` index, which allows
-you to fine-tune indexing and search performance.
+The parameterized variant of the `integer` index allows you to fine-tune indexing and search performance.
 
-Both the regular and parameterized `integer` indexes use the following flags:
+Parameterized `integer` indexes use the following flags:
 
 - `lookup`: enables support for direct lookup using
  [Match](/documentation/search/filtering/#match) filters.
 - `range`: enables support for
  [Range](/documentation/search/filtering/#range) filters.
 
-The regular `integer` index assumes both `lookup` and `range` are `true`. In
-contrast, to configure a parameterized index, you would set only one of these
-filters to `true`:
+The `integer` index assumes both `lookup` and `range` are `true` by default.
+To configure a parameterized index, set only one of these filters to `true`:
 
 | `lookup` | `range` | Result                      |
 |----------|---------|-----------------------------|
-| `true` | `true` | Regular integer index       |
+| `true` | `true` | Default behavior for integer indices       |
 | `true` | `false` | Parameterized integer index |
 | `false` | `true` | Parameterized integer index |
 | `false` | `false` | No integer index            |
@@ -101,7 +103,29 @@ supports only range filters:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/integer-with-params/" >}}
 
-### On-Disk Payload Index
+#### Keyword Index
+
+*Available as of v1.19.0*
+
+By default, a `keyword` index only supports exact [Match](/documentation/search/filtering/#match) conditions. Set the `prefix` flag to `true` to additionally enable prefix matching, so that you can filter for keyword values that start with a given string using the [Prefix Match](/documentation/search/filtering/#prefix-match) condition.
+
+This is useful for prefix filtering over identifier-like values such as URLs, paths, or SKUs, and for building filter-value autocompletion (for example, combining a facet request with a prefix filter on the same field). A `text` index is not a good fit for these cases: tokenization breaks identifiers apart, and a `text` schema loses exact keyword matching.
+
+<aside role="alert">
+    This is unrelated to the full-text <code>prefix</code> <a href="#tokenizers">tokenizer</a>. The tokenizer builds prefixes of the individual words of a <code>text</code> index, while this flag enables prefix matching over whole <code>keyword</code> values.
+</aside>
+
+To enable prefix matching, set the `prefix` flag to `true` when creating a keyword index:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/keyword-with-prefix/" >}}
+
+Enabling `prefix` builds a dedicated index structure, so prefix filters on the field are served by the index and are as fast as other indexed filters. Matching is byte-wise (hence, for valid UTF-8, character-wise) and case-sensitive, consistent with exact keyword matching.
+
+The `prefix` flag can be enabled on a new index. Enabling it on an existing keyword index triggers a full rebuild of the index, because the schema is incompatible with the previous one.
+
+When [strict mode](/documentation/ops-configuration/administration/#strict-mode) is enabled with `unindexed_filtering_retrieve` or `unindexed_filtering_update` set to `false`, a prefix condition on a field that does not have a prefix-enabled keyword index is rejected.
+
+#### On-Disk Payload Index
 
 *Available as of v1.11.0*
 
@@ -130,7 +154,7 @@ Payload index on-disk is supported for the following types:
 
 The list will be extended in future versions.
 
-### Tenant Index
+#### Tenant Index
 
 *Available as of v1.11.0*
 
@@ -157,7 +181,7 @@ Tenant optimization is supported for the following datatypes:
 * `keyword`
 * `uuid`
 
-### Principal Index
+#### Principal Index
 
 *Available as of v1.11.0*
 
@@ -172,7 +196,6 @@ Principal optimization is supported for following types:
 * `integer`
 * `float`
 * `datetime`
-
 
 ## Full-Text Index
 
