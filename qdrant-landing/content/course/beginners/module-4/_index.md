@@ -12,7 +12,14 @@ weight: 50
 
 You know the primitives. This module is about judgment: how to go from "I have data and users" to a concrete design, making the same decisions you'd make on a real project.
 
-## Today's path
+<!-- TODO (video): add the Module 4 overview video before launch. Follow the Essentials embed pattern. Outro bumper yes, Intro bumper no.
+<div class="video">
+  <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+  </iframe>
+</div>
+-->
+
+## Today's Path
 
 1. The Layers of the Stack
 2. Worked Example: Designing a Multilingual News Search System
@@ -28,15 +35,15 @@ By the end, you'll be able to reason about any vector search architecture layer 
 
 Every vector search system, from a notebook prototype to a deployment serving millions of queries, is built from the same five layers. When something is slow, wrong, or expensive, the first diagnostic question is always the same: which layer is the problem in?
 
-- **Query layer**: Where user intent becomes a search. Embedding the query, choosing dense vs. sparse vs. hybrid, fusing results, setting limits. This is the layer you worked in throughout Module 3.
+- **Query layer**: Where user intent becomes a search. Embedding the query, choosing dense vs. sparse vs. hybrid, fusing results, and setting limits. This is the layer you worked in throughout Module 3.
 - **Indexing layer**: The structures that make search fast: the HNSW graph for vectors (Module 2) and payload indexes for filter fields. Mistakes here don't make results wrong. They make everything slow.
 - **Storage layer**: Where points actually live: vectors, payloads, and IDs on disk and in memory. Decisions about what goes in each point's payload, and how big your vectors are, land here.
-- **Knowledge layer**: The data itself and how it's prepared: chunking, embedding model choice, payload schema design. Problems in this layer can't be fixed by tuning any other layer. Garbage in, garbage retrieved.
-- **Distribution layer**: How the system grows beyond one machine: sharding, replication, multi-node clusters. You don't need this on day one. Growing systems eventually do.
+- **Knowledge layer**: The data itself and how it's prepared: chunking, embedding model choice, and payload schema design. Problems in this layer can't be fixed by tuning any other layer. Garbage in, garbage retrieved.
+- **Distribution layer**: How the system grows beyond one machine: sharding, replication, and multi-node clusters. You don't need this on day one. Growing systems eventually do.
 
-![layers-of-stack](/courses/beginners/module-4/layers.png)
+![The five layers of a vector search stack, from the query layer at the top down through indexing, storage, and knowledge to the distribution layer at the base.](/courses/beginners/module-4/layers.png)
 
-### Key insight
+### Key Insight
 
 Every design decision belongs to a layer. "Add a payload index" is an indexing decision. "Switch to a multilingual embedding model" is a knowledge decision. "Move to three nodes" is a distribution decision. Once you sort decisions into layers, intimidating architecture diagrams become checklists.
 
@@ -84,7 +91,7 @@ client.create_collection(
 
 *Which constraints are hard rules, not similarity signals?*
 
-From the brief: country, topic, date range, and source. These aren't "nice to rank higher" signals. An analyst scoping to "Vietnam, last 7 days" means exactly that. Hard rules go in the payload; Section 3 covers why this works at speed.
+From the brief: country, topic, date range, and source. These aren't "nice to rank higher" signals. An analyst scoping to "Vietnam, last seven days" means exactly that. Hard rules go in the payload; Section 3 covers why this works at speed.
 
 **Decision**: the payload schema, designed now, before ingestion:
 
@@ -145,7 +152,7 @@ A research firm with a small engineering team, no residency restrictions, and a 
 | Pipeline | Hybrid + filters; multilingual model; no reranker yet | Query, knowledge |
 | Deployment | Managed; design independent of the choice | Distribution |
 
-### Key insight
+### Key Insight
 
 Nothing in this design is exotic. It's the Module 2 pipeline plus the Module 3 hybrid pattern plus a payload schema that was thought about before ingestion. That last part is what separates systems that scale from systems that get re-ingested three times. Use the five questions on any system you're asked to design, including the one you'll build in Module 5.
 
@@ -157,7 +164,7 @@ Filters showed up in every module so far: a `must` condition here, a date range 
 
 There are two ways to combine filters with vector search.
 
-- **Post-filtering (the naive way)**: Retrieve top-K by similarity, then discard results that fail the filter. The problem: with a selective filter, say one country out of two hundred or one week out of a decade of archives, the top-K may contain zero valid results. Retrieving a bigger K to compensate gets slow fast, and there's no K that guarantees correctness.
+- **Post-filtering (the naive way)**: Retrieve top-K by similarity, then discard results that fail the filter. The problem: with a selective filter, say one country out of 200 or one week out of a decade of archives, the top-K may contain zero valid results. Retrieving a bigger K to compensate gets slow fast, and there's no K that guarantees correctness.
 - **Filtered traversal**: The filter is applied while walking the HNSW graph. Invalid points never enter the candidate set, so results are both semantically relevant and guaranteed valid, at speed. This is how Qdrant applies `query_filter`, and it's why filtering on every query is a safe default rather than a performance concern.
 
 ### The Filter Toolbox
@@ -167,7 +174,7 @@ There are two ways to combine filters with vector search.
 | must | AND: all conditions true | country = VN AND topic = shipping |
 | should | OR: at least one true | topic = shipping OR topic = logistics |
 | must_not | Exclude matches | Exclude source = press-release wire |
-| Range | Numeric or datetime bounds | published_at within the last 7 days |
+| Range | Numeric or datetime bounds | published_at within the last seven days |
 | Geo | Radius or bounding box | Events within 100 km of a port |
 | MatchAny | Value in a set | language in ["ja", "zh", "ko"] |
 | Nested | Conditions inside array payloads | Any mention with company = X AND sentiment < 0 |
@@ -176,7 +183,7 @@ Conditions compose. A realistic analyst query combines `must` (country), `Range`
 
 ### Index What You Filter
 
-Without a payload index, Qdrant scans every payload at query time: O(n). With one, filtered queries run in logarithmic time. The rule: **every field that appears in `must`, `should`, or `must_not` gets an index**, with a schema type matching the data.
+Without a payload index, Qdrant scans every payload at query time: O(n). With one, filtered queries run far faster. The rule: **every field that appears in `must`, `should`, or `must_not` gets an index**, with a schema type matching the data.
 
 ```python
 for field in ["country", "language", "topic", "source"]:
@@ -203,22 +210,22 @@ One filtering pattern deserves a call-out because you'll meet it in almost any m
 2. Create a payload index on it.
 3. Filter on it at every query. Never omit it.
 
-One collection, complete per-tenant isolation at query time, and thanks to filtered traversal plus the index, it stays fast at any tenant count. This is the same mechanism as the country filter in the news system, just applied to identity instead of geography. See [Multitenancy - Qdrant](https://qdrant.tech/documentation/manage-data/multitenancy/) for the full pattern, including how to combine it with Qdrant's tenant-aware HNSW optimizations.
+One collection, complete per-tenant isolation at query time, and thanks to filtered traversal plus the index, it stays fast at any tenant count. This is the same mechanism as the country filter in the news system, just applied to identity instead of geography. See [Multitenancy - Qdrant](/documentation/manage-data/multitenancy/) for the full pattern, including how to combine it with Qdrant's tenant-aware HNSW optimizations.
 
-### Key insight
+### Key Insight
 
 Design the payload schema before you ingest, driven by one question: what will I need to filter on? Time, geography, identity, permissions, and status flags are the usual suspects. Adding a payload field later is easy. Discovering at query time that you never stored `language` is not.
 
 ## 4. The Production RAG Pipeline
 
-Retrieval-Augmented Generation (RAG) is the pattern of retrieving relevant passages from a vector database and handing them to an LLM as context, so the model answers from your data instead of relying only on what it memorized during training. If the news system grows an "ask a question, get an answer with sources" feature, it becomes a RAG pipeline - the most common architecture built on vector search today. The production shape, using everything covered so far:
+Retrieval-Augmented Generation (RAG) is the pattern of retrieving relevant passages from a vector search engine and handing them to an LLM as context, so the model answers from your data instead of relying only on what it memorized during training. If the news system grows an "ask a question, get an answer with sources" feature, it becomes a RAG pipeline, the most common architecture built on vector search today. The production shape, using everything covered so far:
 
 1. **Query understanding**: Extract hard constraints from the request (dates, country, topic) into a filter. Embed the query as a dense vector and a sparse vector.
 2. **Hybrid retrieval**: `Prefetch(dense, filter, limit=50)` + `Prefetch(sparse, filter, limit=50)`, then `FusionQuery(RRF)`, returning the top 20 candidates. One `query_points` call.
-3. **Optional reranking**: A cross-encoder scores the top 20 and keeps the top 5. Add this stage only when evaluation shows fused results need refinement.
+3. **Optional reranking**: A cross-encoder scores the top 20 and keeps the top five. Add this stage only when evaluation shows fused results need refinement.
 4. **LLM generation**: The top-k passages go in as context; the model generates the answer.
 
-### Rule of thumb
+### Rule of Thumb
 
 When RAG quality disappoints, improve step 2 before reaching for a bigger model in step 4. Retrieval quality caps answer quality: the model can't cite a passage it never received.
 
@@ -232,12 +239,12 @@ The news system's design runs unchanged on any deployment mode. Which one is rig
 |-----------------|----------|------------|
 | Local Mode | Prototyping, notebooks, CI tests, teaching | Production or benchmarking (different storage format) |
 | Docker (Self-Hosted) | Full infra control, air-gapped, regulated environments | You don't yet have monitoring and backups in place |
-| Managed Cloud | Small ops team, standard requirements: upgrades, backups, HA handled for you | Data can't leave your infrastructure |
-| Hybrid Cloud (BYOC) | Data residency or security policy requires your infrastructure | Managed cloud would do; this adds Kubernetes ops complexity |
+| Managed Cloud | Small ops team, standard requirements: upgrades, backups, and high availability handled for you | Data can't leave your infrastructure |
+| Hybrid Cloud (Bring Your Own Cloud, BYOC) | Data residency or security policy requires your infrastructure | Managed cloud would do; this adds Kubernetes ops complexity |
 | Private Cloud / On-Prem | Strictest requirements: defense, healthcare, finance | A lighter mode meets your needs |
 | Edge | On-device search, offline, ultra-low latency | You need distributed search (Edge is single-node) |
 
-![deployment modes](/courses/beginners/module-4/deployment.png)
+![Qdrant deployment modes, from Local Mode and Docker through Managed Cloud, Hybrid Cloud, and Private Cloud to Edge, each mapped to when to use it and when to avoid it.](/courses/beginners/module-4/deployment.png)
 
 ## 6. Knowledge Check
 
@@ -269,19 +276,19 @@ A: Choose it when data residency or security policy requires your own infrastruc
 
 ## 7. References & Further Reading
 
-- **Filtering Reference** - [Filtering - Qdrant](https://qdrant.tech/documentation/concepts/filtering/)
+- **Filtering Reference** - [Filtering - Qdrant](/documentation/search/filtering/)
   - Full filter syntax: must, should, must_not, range, geo, and nested conditions.
 
-- **Payload Indexes** - [Indexing - Qdrant](https://qdrant.tech/documentation/concepts/indexing/)
+- **Payload Indexes** - [Indexing - Qdrant](/documentation/manage-data/indexing/)
   - Keyword, datetime, float, and geo payload index configuration.
 
-- **Multi-Tenancy Guide** - [Multiple Partitions - Qdrant](https://qdrant.tech/documentation/guides/multiple-partitions/)
+- **Multitenancy Guide** - [Multitenancy - Qdrant](/documentation/manage-data/multitenancy/)
   - The payload-based tenant scoping pattern in depth.
 
-- **Hybrid Search Tutorial** - [Hybrid Search with FastEmbed - Qdrant](https://qdrant.tech/documentation/tutorials/hybrid-search-fastembed/)
+- **Hybrid Search Tutorial** - [Hybrid Search with FastEmbed - Qdrant](/documentation/beginner-tutorials/hybrid-search-fastembed/)
   - Dense + sparse with FastEmbed and RRF fusion, step by step.
 
-- **Deployment Documentation** - [Qdrant Cloud - Qdrant](https://qdrant.tech/documentation/cloud/)
+- **Deployment Documentation** - [Deploy Qdrant - Qdrant](/documentation/cloud-intro/)
   - All deployment modes with configuration references.
 
 ## What's Next - Module 5
@@ -292,5 +299,3 @@ Next, the capstone extends the system you just designed. Same design questions, 
 - Embed each modality into named vectors on shared points
 - Cluster signals into risk themes across suppliers
 - Query across languages: ask in English, retrieve Japanese and Chinese sources
-
-End of Module 4. Continue to Module 5: the hands-on capstone project.
