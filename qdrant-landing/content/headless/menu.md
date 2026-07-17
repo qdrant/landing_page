@@ -140,14 +140,18 @@ menuItems:
             icon: articles.svg
             url: /articles/
           - id: subMenu-3-3
+            name: Events
+            icon: partners.svg
+            url: /events/
+          - id: subMenu-3-4
             name: Demos
             icon: demos.svg
             url: /demo/
-          - id: subMenu-3-4
+          - id: subMenu-3-5
             name: Startup Program
             icon: qdrant-for-startups.svg
             url: /qdrant-for-startups/
-          - id: subMenu-3-5
+          - id: subMenu-3-6
             name: Bug Bounty Program
             icon: bug-bounty-program.svg
             url: /security/bug-bounty-program/

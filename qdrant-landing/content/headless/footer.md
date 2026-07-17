@@ -112,13 +112,16 @@ menuItems:
       - id: 2
         name: Articles
         url: /articles/
-      - id: 3
+      - id: 4
+        name: Events
+        url: /events/
+      - id: 5
         name: Startup Program
         url: /qdrant-for-startups/
-      - id: 4
+      - id: 6
         name: Demos
         url: /demo/
-      - id: 5
+      - id: 7
         name: Bug Bounty
         url: /security/bug-bounty-program/
   - title: Company
