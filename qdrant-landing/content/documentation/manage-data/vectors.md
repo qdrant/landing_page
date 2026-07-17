@@ -199,15 +199,15 @@ Similarly, you can use inference at query time by providing the text or image to
 
 ## Datatypes
 
-Newest versions of embeddings models generate vectors with very large dimensionalities.
-With OpenAI's `text-embedding-3-large` embedding model, the dimensionality can go up to 3072.
+*Available as of v1.9.0*
 
-The amount of memory required to store such vectors grows linearly with the dimensionality,
-so it is important to choose the right datatype for the vectors.
+By default, Qdrant stores each vector dimension as a 32-bit floating-point number. This isn't always necessary: you may not need that level of precision for your use case, or the embedding model you're using may already produce lower-precision vectors, for example 8-bit integers.
 
-The choice between datatypes is a trade-off between memory consumption and precision of vectors.
+Storing vectors as 32-bit floats has a cost: memory and storage grow linearly with dimensionality. For example, with OpenAI's `text-embedding-3-large` model, vectors can reach 3072 dimensions, which adds up fast.
 
-Qdrant supports a number of datatypes for both dense and sparse vectors:
+To reduce vector size or efficiently store vectors that are already lower precision, you can configure a per-vector datatype: [Float32](#float32) (default), [Float16](#float16), [Uint8](#uint8), or [Turbo4](#turbo4).
+
+Note that datatypes are distinct from the [quantization feature](/documentation/manage-data/quantization/). Quantization creates a separate quantized representation of vectors alongside the original ones, while datatypes determine the representation of the original vectors themselves.
 
 ### Float32
 
@@ -233,30 +233,19 @@ float32 -> float16 delta (float32 - float16).abs
 
 The main advantage of Float16 is that it requires half the memory of Float32, while having virtually no impact on the quality of vector search.
 
-To use Float16, you need to specify the datatype for vectors in the collection configuration:
+To use Float16, you need to specify the datatype for vectors in the collection configuration when creating a collection or when adding a new vector to an existing collection's schema:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-float16-sparse-and-dense/" >}}
 
 ### Uint8
 
 Another step towards memory optimization is to use the Uint8 datatype for vectors.
-Unlike Float16, Uint8 is not a floating-point number, but an integer number in the range from 0 to 255.
+Unlike Float16, Uint8 is not a floating-point number, but an integer number in the range from 0 to 255. The impact of this depends on whether you use dense or sparse vectors:
 
-Not all embeddings models generate vectors in the range from 0 to 255, so you need to be careful when using Uint8 datatype.
+- Dense vectors are required to be in the range from 0 to 255. Not all embeddings models generate vectors in the range from 0 to 255, so you need to be careful when using Uint8 datatype. 
+- Sparse vectors can be quantized in-flight.
 
-In order to convert a number from float range to Uint8 range, you need to apply a process called quantization.
-
-Some embedding providers may provide embeddings in a pre-quantized format.
-One of the most notable examples is the [Cohere int8 & binary embeddings](https://cohere.com/blog/int8-binary-embeddings).
-
-For other embeddings, you will need to apply quantization yourself.
-
-
-<aside role="alert">
-There is a difference in how Uint8 vectors are handled for dense and sparse vectors.
-Dense vectors are required to be in the range from 0 to 255, while sparse vectors can be quantized in-flight.
-</aside>
-
+In order to convert a number from float range to Uint8 range, you need to apply a process called quantization. Some embedding providers may provide embeddings in a pre-quantized format. One of the most notable examples is the [Cohere int8 & binary embeddings](https://cohere.com/blog/int8-binary-embeddings). For other embeddings, you will need to apply quantization yourself.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-uint8-sparse-and-dense/" >}}
 
