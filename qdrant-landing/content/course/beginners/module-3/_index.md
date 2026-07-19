@@ -373,8 +373,10 @@ client.query_points(
 
 ## What's Next - Module 4
 
-Next, we'll explore:
+Next, we'll go from primitives to judgment - designing a complete vector search system end to end:
 
-- Production patterns: multi-tenancy, agent memory, and RAG pipelines
-- Deployment options: Cloud, Hybrid Cloud, Edge, and self-hosted
-- Formula queries: when RRF and DBSF aren't enough
+- The five layers of a vector search stack: query, indexing, storage, knowledge, and distribution
+- A worked example: designing a multilingual news search system, decision by decision
+- Filtering in production: filtered traversal vs. post-filtering, and multitenancy via payload filters
+- The production RAG pipeline, from query understanding to generation
+- Deployment options: Local, Docker, Managed Cloud, Hybrid Cloud, Private Cloud, and Edge
