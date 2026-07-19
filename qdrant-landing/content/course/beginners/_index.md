@@ -148,7 +148,6 @@ Understand why traditional search struggles and how modern semantic search impro
     - Setting Up Hybrid Search in Qdrant
     - Fusion Strategies
     - Beyond Text: Multimodal Search
-    - Real-World Use Cases
     <br>
     <br>
     <p style="margin-left: 0px;">→ Coming soon</p>
