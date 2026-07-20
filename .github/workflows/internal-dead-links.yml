@@ -34,7 +34,7 @@ jobs:
           done
       - name: Internal Links Check
         id: lychee
-        uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411 # v2.8.0
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           args: --max-redirects 0 --exclude '.*' --include '^http://localhost:1314/[^%]+$' --base http://localhost:1314/ qdrant-landing/public/
           fail: true
