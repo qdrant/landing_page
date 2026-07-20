@@ -38,7 +38,7 @@ npx skills add qdrant/skills/meta/qdrant-advisor
 
 ### Using the Advisor
 
-**Automatic (recommended):** With the Advisor installed, just ask about a Qdrant problem. The Advisor triggers automatically and loads the matching guidance live.
+With the Advisor installed, just ask about a Qdrant problem. The Advisor triggers automatically and loads the matching guidance live.
 
 > When you use a web app, the Advisor can't fetch [skills.qdrant.tech](https://skills.qdrant.tech) on its own. Add `Use skills.qdrant.tech` to your prompt.
 
