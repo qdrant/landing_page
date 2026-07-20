@@ -310,7 +310,7 @@ Let's put everything together. This section walks through the complete ingestion
 
 ### Step 1: Create a Free Cluster
 
-Start with a free cluster at (cloud.qdrant.io)[cloud.qdrant.io]. Once created, you'll have a URL and an API key. You can also follow along the code in the Google Collab notebook (here)[https://colab.research.google.com/drive/1qKc-ybmYOjXdoMAAoaYz7VKJLgUdCmP5?usp=sharing].
+Start with a free cluster at [cloud.qdrant.io](https://cloud.qdrant.io). Once created, you'll have a URL and an API key. You can also follow along the code in the Google Colab notebook [here](https://colab.research.google.com/drive/1qKc-ybmYOjXdoMAAoaYz7VKJLgUdCmP5?usp=sharing).
 
 ![Create a free cluster at cloud.qdrant.io](/courses/beginners/module-2/qdrant-cloud.png)
 
