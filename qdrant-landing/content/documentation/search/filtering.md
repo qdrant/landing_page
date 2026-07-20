@@ -319,7 +319,7 @@ Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/match-prefix/" >}}
 
 <aside role="status">
-    For efficient prefix matching, create a <a href="/documentation/manage-data/indexing/#keyword-index">keyword index with the <code>prefix</code> option</a> on the field. If no such index exists, the condition still works, but falls back to a full scan. When <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled with <code>unindexed_filtering_retrieve</code> or <code>unindexed_filtering_update</code> set to <code>false</code>, a prefix condition on a field without a prefix-enabled keyword index is rejected.
+    For efficient prefix matching, create a <a href="/documentation/manage-data/indexing/#keyword-index">keyword index with the <code>prefix</code> option</a> on the field. Without it, the condition still returns correct results but is not accelerated (it is checked per point rather than served by the index). When <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled with <code>unindexed_filtering_retrieve</code> or <code>unindexed_filtering_update</code> set to <code>false</code>, a prefix condition is rejected unless the field has a prefix-enabled keyword index — a plain keyword index (<code>prefix: false</code>) does not qualify.
 </aside>
 
 ### Full Text Match
