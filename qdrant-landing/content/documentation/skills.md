@@ -12,7 +12,7 @@ Qdrant ships a set of agent skills: structured knowledge files that help your AI
 
 > Skills are hosted at [skills.qdrant.tech](https://skills.qdrant.tech).
 
-The recommended way to get started is the [Qdrant Advisor](#recommended-the-qdrant-advisor): install it once, then ask your agent about a Qdrant problem and it loads the matching guidance live.
+The recommended way to get started is the [Qdrant Advisor](#the-qdrant-advisor): install it once, then ask your agent about a Qdrant problem and it loads the matching guidance live.
 
 You can also work with skills directly.
 Pass the [skills.qdrant.tech](https://skills.qdrant.tech) URL to your agent and it will use it immediately, no installation required, which keeps your agent’s context focused on the problem at hand.
