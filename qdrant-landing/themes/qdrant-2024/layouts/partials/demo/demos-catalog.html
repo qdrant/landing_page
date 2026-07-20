@@ -1,19 +1,16 @@
 {{- $all := .Params.demos | default slice -}}
-{{- $categories := .Params.categories | default slice -}}
+{{- $filters := .Params.filters | default slice -}}
+{{- $batchSize := .Params.batchSize | default 8 -}}
 
-{{- if eq (len $categories) 0 -}}
-  {{- range $all -}}
-    {{- with .category }}{{ $categories = $categories | append . }}{{ end -}}
-  {{- end -}}
-  {{- $categories = sort (uniq $categories) -}}
+{{- $filterKeySlice := slice -}}
+{{- range $filters -}}
+  {{- $filterKeySlice = $filterKeySlice | append .key -}}
 {{- end -}}
-
-{{- $batchSize := 8 -}}
 
 <section
   class="demos-catalog"
   data-catalog-filters
-  data-filter-keys="category"
+  data-filter-keys="{{ delimit $filterKeySlice "," }}"
   data-batch-size="{{ $batchSize }}"
 >
   <div class="container demos-catalog__container">
@@ -28,25 +25,36 @@
       </div>
 
       <div class="demos-catalog__accordion">
-        <div class="demos-catalog__accordion-item active" data-catalog-accordion-item>
-          <p class="demos-catalog__accordion-header" data-catalog-accordion-header>
-            Categories
-          </p>
-          <div class="demos-catalog__accordion-body" data-catalog-accordion-body>
-            <div class="demos-catalog__accordion-inner">
-              <div class="demos-catalog__accordion-option">
-                <input type="checkbox" data-filter-input data-filter-all data-filter-key="category" value="all" id="demo-category-all" checked>
-                <label for="demo-category-all">All</label>
-              </div>
-              {{ range $categories }}
+        {{ range $filter := $filters }}
+          {{- $key := $filter.key -}}
+          {{- $label := $filter.label | default $key -}}
+          {{- $values := $filter.values | default slice -}}
+          {{- if eq (len $values) 0 -}}
+            {{- range $all -}}
+              {{- with index . $key }}{{ $values = $values | append . }}{{ end -}}
+            {{- end -}}
+            {{- $values = sort (uniq $values) -}}
+          {{- end -}}
+          <div class="demos-catalog__accordion-item active" data-catalog-accordion-item>
+            <p class="demos-catalog__accordion-header" data-catalog-accordion-header>
+              {{ $label }}
+            </p>
+            <div class="demos-catalog__accordion-body" data-catalog-accordion-body>
+              <div class="demos-catalog__accordion-inner">
                 <div class="demos-catalog__accordion-option">
-                  <input type="checkbox" data-filter-input data-filter-key="category" value="{{ . }}" id="demo-category-{{ . | urlize }}">
-                  <label for="demo-category-{{ . | urlize }}">{{ . }}</label>
+                  <input type="checkbox" data-filter-input data-filter-all data-filter-key="{{ $key }}" value="all" id="demo-{{ $key }}-all" checked>
+                  <label for="demo-{{ $key }}-all">All</label>
                 </div>
-              {{ end }}
+                {{ range $values }}
+                  <div class="demos-catalog__accordion-option">
+                    <input type="checkbox" data-filter-input data-filter-key="{{ $key }}" value="{{ . }}" id="demo-{{ $key }}-{{ . | urlize }}">
+                    <label for="demo-{{ $key }}-{{ . | urlize }}">{{ . }}</label>
+                  </div>
+                {{ end }}
+              </div>
             </div>
           </div>
-        </div>
+        {{ end }}
       </div>
 
       <div class="demos-catalog__filters-footer">
@@ -105,7 +113,7 @@
             data-name="{{ .title }}"
             data-category="{{ .category }}"
             data-search="{{ .title }} {{ .description }} {{ .category }}"
-            {{ if $isExternal }}target="_blank" rel="noopener noreferrer"{{ end }}
+            {{ if $isExternal }}target="_blank"{{ end }}
           >
             <div class="demos-catalog__card-image">
               {{ partial "picture.html" (dict

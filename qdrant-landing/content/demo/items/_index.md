@@ -1,10 +1,9 @@
 ---
 sitemapExclude: true
-categories:
-  - Basics
-  - Search Engineering
-  - Operations
-  - Develop
+batchSize: 8
+filters:
+  - key: category
+    label: Categories
 demos:
   - id: semantic-search
     title: Semantic Search Demo - Startup Search
