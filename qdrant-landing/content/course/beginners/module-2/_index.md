@@ -8,20 +8,15 @@ weight: 30
 
 {{< date >}} Module 2 {{< /date >}}
 
-<!--
-TODO (video): add the Module 2 overview video before launch. Follow the
-Essentials embed pattern. Outro bumper yes, Intro bumper no.
-
 <div class="video">
 <iframe
-  src="https://www.youtube.com/embed/VIDEO_ID?rel=0"
+  src="https://www.youtube.com/embed/zrUswSTeQMI?rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   referrerpolicy="strict-origin-when-cross-origin"
   allowfullscreen>
 </iframe>
 </div>
--->
 
 # First Principles of Vector Search
 
@@ -315,7 +310,7 @@ Let's put everything together. This section walks through the complete ingestion
 
 ### Step 1: Create a Free Cluster
 
-Start with a free cluster at cloud.qdrant.io. Once created, you'll have a URL and an API key.
+Start with a free cluster at (cloud.qdrant.io)[cloud.qdrant.io]. Once created, you'll have a URL and an API key. You can also follow along the code in the Google Collab notebook (here)[https://colab.research.google.com/drive/1qKc-ybmYOjXdoMAAoaYz7VKJLgUdCmP5?usp=sharing].
 
 ![Create a free cluster at cloud.qdrant.io](/courses/beginners/module-2/qdrant-cloud.png)
 
