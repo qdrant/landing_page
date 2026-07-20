@@ -40,7 +40,7 @@ npx skills add qdrant/skills/meta/qdrant-advisor
 
 With the Advisor installed, just ask about a Qdrant problem. The Advisor triggers automatically and loads the matching guidance live.
 
-> When you use a web app, the Advisor can't fetch [skills.qdrant.tech](https://skills.qdrant.tech) on its own. Add `Use skills.qdrant.tech` to your prompt.
+> When you use the claude.ai web app, the Advisor can't fetch [skills.qdrant.tech](https://skills.qdrant.tech) on its own. You need to add `Use skills.qdrant.tech` to your prompt directly.
 
 ## Philosophy
 
