@@ -13,11 +13,11 @@ Qdrant persists all collection data to disk. For faster search, you can also loa
 
 This page covers how to control where data structures live, the different placement tiers available, and how to optimize for disk-based retrieval.
 
+## Configuring Memory Tiers
+
 <aside role="status">
 This page covers the <code>memory</code> parameter introduced in Qdrant v1.19. If you're using an older version, see the <a href="#legacy-settings">Legacy Settings</a> section for how to map the new parameter to the old ones.
-  </aside>
-
-## Configuring Memory Tiers
+</aside>
 
 Each collection in Qdrant is backed by several independent structures:
 
@@ -30,15 +30,11 @@ Each collection in Qdrant is backed by several independent structures:
 
 Each of these structures accepts a `memory` parameter that determines whether it lives in pinned RAM, in a warm disk cache, or on disk. The available tiers are:
 
-- **`pinned`**: Qdrant loads the data onto the heap and never evicts it. Requests stay fast, but the structure must fit in RAM at all times.
+- **`pinned`**: Qdrant loads the data onto the heap and never evicts it. Requests stay fast, but the structure must fit in RAM at all times. Because it allocates data on the heap, it's [only available for structures that support a heap-backed in-RAM representation](#limitations).
 - **`cached`**: Qdrant pre-loads the data into the disk cache when it starts up, so the first request is fast. Under memory pressure, the operating system can evict this data if it decides another component's data is used more often.
 - **`cold`**: Qdrant doesn't pre-load the data into RAM. The first request against it may be slower, since Qdrant reads from disk, but the operating system caches pages as they're accessed.
 
-`cold` and `cached` both back the data with a memory-mapped file; the only difference is whether Qdrant proactively warms the operating system's page cache on load. `pinned` allocates the data on the heap instead, so it's only available for structures that support a heap-backed in-RAM representation. 
-
-For example, this configures a collection so the vectors are cached in RAM, the HNSW graph is cold, the quantized vectors are pinned, and the payload is cached:
-
-{{< code-snippet path="/documentation/headless/snippets/create-collection/with-memory-tiers/" >}}
+`cold` and `cached` both back the data with a memory-mapped file; the only difference is whether Qdrant proactively warms the operating system's page cache on load. The OS evicts both tiers using the same criteria, so `cached` data gets no priority over `cold` data under memory pressure.
 
 ### Limitations
 
@@ -53,16 +49,30 @@ If you don't explicitly set `memory` on a structure, Qdrant defaults to the foll
 |---|---|
 | Dense vectors | `cached` |
 | HNSW graph index | `cached` |
-| Quantized vectors | Follows the placement of the original dense vectors: `pinned` if original vectors are `cached`, `cold` if original vectors are `cold`. |
+| Quantized vectors | Depends on the placement of the original dense vectors: `pinned` if original vectors are `cached`, `cold` if original vectors are `cold`. |
 | Sparse vector index | `pinned` |
 | Payloads | `cold` |
 | Payload indexes | `pinned` |
 
 [Low Memory Mode](/documentation/ops-configuration/administration/#low-memory-mode) can degrade these defaults at startup under memory constraints, without changing the persisted collection configuration.
 
+## Example
+
+This example configures a collection so the vectors are cached in RAM, the HNSW graph is cold, the quantized vectors are pinned, and the payload is cached:
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/with-memory-tiers/" >}}
+
 ## Optimizing for Disk-Based Retrieval
 
 When structures are in the `cold` tier, retrieval may involve reading from disk. Use these techniques to keep search fast despite the extra disk I/O.
+
+### Quantization
+
+[Quantization](/documentation/manage-data/quantization/) compresses vectors into a smaller representation. The quantized copy fits comfortably in RAM even when the original vectors are `cold`. This enables Qdrant to score most candidates against the quantized copy and only read the original vectors from disk to rescore the top results. Quantization cuts down on how much data needs to come from disk during search, at the cost of the small accuracy loss it introduces.
+
+Keep the quantized vectors in RAM by setting `memory: "pinned"` in the `quantization_config`. Without pinning, the quantized copy may be evicted under memory pressure, forcing Qdrant to read both the quantized and original vectors from disk.
+
+If the accuracy loss is acceptable, you can disable rescoring against the original vectors entirely by setting `rescore: false` in the `quantization_config`. This avoids any disk reads during search.
 
 ### Async I/O
 
@@ -75,14 +85,6 @@ storage:
 ```
 
 This uses [io_uring](/articles/io_uring/), a Linux kernel interface for asynchronous I/O, and requires a kernel that supports it. Async I/O helps most when the original vectors are `cold` and quantization is enabled, since rescoring the top candidates against the on-disk originals is where sequential disk reads would otherwise add up.
-
-### Quantization
-
-[Quantization](/documentation/manage-data/quantization/) compresses vectors into a smaller representation. The quantized copy fits comfortably in RAM even when the original vectors are `cold`. This enables Qdrant to score most candidates against the quantized copy and only read the original vectors from disk to rescore the top results. Quantization cuts down on how much data needs to come from disk during search, at the cost of the small accuracy loss it introduces.
-
-Keep the quantized vectors in RAM by setting `memory: "pinned"` in the `quantization_config`. Without pinning, the quantized copy may be evicted under memory pressure, forcing Qdrant to read both the quantized and original vectors from disk.
-
-If the accuracy loss is acceptable, you can disable rescoring against the original vectors entirely by setting `rescore: false` in the `quantization_config`. This avoids any disk reads during search.
 
 ### Local NVMe/SSD Storage
 
