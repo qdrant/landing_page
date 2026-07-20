@@ -6,5 +6,6 @@
 | [Time-Based Sharding](/documentation/tutorials-operations/time-based-sharding/) | Efficiently manage time-series data with user-defined sharding. | <span class="pill">Any</span> | 1h | <span class="text-yellow">Intermediate</span> |
 | [Large-Scale Search](/documentation/tutorials-operations/large-scale-search/) | Cost-efficient search for LAION-400M datasets. | <span class="pill">Any</span> | 48h | <span class="text-red">Advanced</span> |
 | [Secure a Self-Hosted Instance](/documentation/tutorials-operations/secure-qdrant/) | Enable TLS, API keys, and JWT access control. | <span class="pill">Any</span> | 45m | <span class="text-yellow">Intermediate</span> |
+| [Incremental Embedding Updates](/documentation/tutorials-operations/incremental-embedding-updates/) | Sync embeddings with changing raw text data. | <span class="pill">Python</span> | 25m | <span class="text-green">Beginner</span> |
 | [Qdrant Cloud Prometheus Monitoring](/documentation/ops-monitoring/managed-cloud-prometheus/) | Observability with Prometheus and Grafana. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Self-Hosted Prometheus Monitoring](/documentation/ops-monitoring/hybrid-cloud-prometheus/) | Observability for hybrid/private cloud setups. | <span class="pill">Prometheus</span> | 30m | <span class="text-yellow">Intermediate</span> |
