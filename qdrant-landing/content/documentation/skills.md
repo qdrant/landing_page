@@ -30,7 +30,7 @@ Instead of shipping static content of its own, it searches [skills.qdrant.tech](
 
 ### Installing the Advisor
 
-Using `npx`:
+Install the Qdrant Advisor by using `npx`:
 
 ```bash
 npx skills add qdrant/skills/meta/qdrant-advisor
