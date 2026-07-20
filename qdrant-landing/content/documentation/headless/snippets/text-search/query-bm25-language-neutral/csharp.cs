@@ -15,7 +15,8 @@ public class Snippet
                 Model = "qdrant/bm25",
                 Options =
                 {
-                    ["language"] = "none",
+                    ["stemmer"] = new Dictionary<string, Value> { ["type"] = "none" },
+                    ["stopwords"] = new Dictionary<string, Value>(),
                     ["tokenizer"] = "multilingual",
                     ["ascii_folding"] = true,
                 },
