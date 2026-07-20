@@ -1,7 +1,11 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
 
-  {{ partial "demo" . }}
-  {{ partial "tutorials" . }}
+  {{ partial "demo/demos-hero" . }}
+
+  {{ with (.Site.GetPage "/demo/items") }}
+    {{ partial "demo/demos-catalog" . }}
+  {{ end }}
+
   {{ partial "get-started" . }}
 {{ end }}
