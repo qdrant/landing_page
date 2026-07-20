@@ -1,0 +1,1 @@
+This code snippet runs a query with a read `consistency` of `majority`. Qdrant queries multiple replicas and returns only the points present on the majority of them, which helps avoid inconsistent results when replicas are concurrently updated.

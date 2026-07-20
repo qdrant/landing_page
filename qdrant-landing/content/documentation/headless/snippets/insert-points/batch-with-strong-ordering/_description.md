@@ -1,0 +1,1 @@
+This code snippet upserts a batch of points with a write `ordering` of `strong`. Qdrant routes the operation through the permanent shard leader so that all writes issued with the same ordering are applied and observed sequentially across replicas.
