@@ -306,6 +306,22 @@ The `has_id` condition is not supported within the nested object filter. If you 
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-with-nested-clause-and-has-id/" >}}
 
+### Prefix Match
+
+*Available as of v1.19.0*
+
+A match `prefix` condition matches [keyword](/documentation/manage-data/payload/#keyword) values that start with the specified string.
+
+For example, the prefix `"https://qdrant."` matches the value `"https://qdrant.tech/documentation"`, but the prefix `"qdrant"` does not.
+
+Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It is also case-sensitive, consistent with exact keyword matching. Unlike [Full Text Match](#full-text-match), prefix matching does not tokenize the value, so it is well suited to identifiers such as URLs, paths, or SKUs.
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/match-prefix/" >}}
+
+<aside role="status">
+    For efficient prefix matching, create a <a href="/documentation/manage-data/indexing/#keyword-index">keyword index with the <code>prefix</code> option</a> on the field. Without it, the condition still returns correct results but is not accelerated (it is checked per point rather than served by the index). When <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled with <code>unindexed_filtering_retrieve</code> or <code>unindexed_filtering_update</code> set to <code>false</code>, a prefix condition is rejected unless the field has a prefix-enabled keyword index — a plain keyword index (<code>prefix: false</code>) does not qualify.
+</aside>
+
 ### Full Text Match
 
 *Available as of v0.10.0*
