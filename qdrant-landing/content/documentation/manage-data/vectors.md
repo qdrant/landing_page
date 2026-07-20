@@ -214,7 +214,7 @@ Note that datatypes are distinct from the [quantization feature](/documentation/
 This is the default datatype for vectors in Qdrant. It is a 32-bit (4 bytes) floating-point number. 
 The standard OpenAI embedding of 1536 dimensionality will require 6KB of memory to store in Float32.
 
-You don't need to specify the datatype for vectors in Qdrant, as it is set to Float32 by default.
+You don't need to explicitly specify this datatype for vectors in Qdrant, as it is set to Float32 by default.
 
 ### Float16
 
@@ -240,7 +240,7 @@ To use Float16, you need to specify the datatype for vectors in the collection c
 ### Uint8
 
 Another step towards memory optimization is to use the Uint8 datatype for vectors.
-Unlike Float16, Uint8 is not a floating-point number, but an integer number in the range from 0 to 255. The impact of this depends on whether you use dense or sparse vectors:
+Unlike Float16, Uint8 is not a floating-point number, but an integer number in the range from 0 to 255. The impact of this range depends on whether you use dense or sparse vectors:
 
 - Dense vectors are required to be in the range from 0 to 255. Not all embeddings models generate vectors in the range from 0 to 255, so you need to be careful when using Uint8 datatype. 
 - Sparse vectors can be quantized in-flight.
