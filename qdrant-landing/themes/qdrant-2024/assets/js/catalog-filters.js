@@ -207,22 +207,6 @@ function getAccordionBodyClass(header) {
   return null;
 }
 
-function closeAllFilterAccordions(root) {
-  getAccordionHeaders(root).forEach((header) => {
-    header.parentElement?.classList.remove("active");
-    const panel = header.nextElementSibling;
-    const bodyClass = getAccordionBodyClass(header);
-    const isBody =
-      panel &&
-      (header.hasAttribute("data-catalog-accordion-header") ||
-        (bodyClass && panel.classList.contains(bodyClass)));
-
-    if (isBody) {
-      panel.style.maxHeight = null;
-    }
-  });
-}
-
 function expandAccordionItem(item) {
   const header = item.querySelector(
     "[data-catalog-accordion-header], .customers-case-studies__accordion-header, .demos-catalog__accordion-header"
@@ -238,6 +222,35 @@ function expandAccordionItem(item) {
 
   item.classList.add("active");
   panel.style.maxHeight = `${panel.scrollHeight}px`;
+}
+
+function collapseAccordionItem(item) {
+  const header = item.querySelector(
+    "[data-catalog-accordion-header], .customers-case-studies__accordion-header, .demos-catalog__accordion-header"
+  );
+  const panel = header?.nextElementSibling;
+  if (!header || !panel) return;
+
+  item.classList.remove("active");
+  panel.style.maxHeight = null;
+}
+
+function toggleAccordionItem(item) {
+  if (item.classList.contains("active")) {
+    collapseAccordionItem(item);
+  } else {
+    expandAccordionItem(item);
+  }
+}
+
+function closeAllFilterAccordions(root) {
+  root
+    .querySelectorAll(
+      "[data-catalog-accordion-item], .customers-case-studies__accordion-item, .demos-catalog__accordion-item"
+    )
+    .forEach((item) => {
+      collapseAccordionItem(item);
+    });
 }
 
 function syncAccordionExpansion(root, state, filterKeys) {
@@ -268,20 +281,9 @@ function initAccordionToggle(root) {
     if (header.dataset.catalogAccordionBound) return;
     header.dataset.catalogAccordionBound = "true";
     header.addEventListener("click", () => {
-      header.parentElement?.classList.toggle("active");
-      const panel = header.nextElementSibling;
-      const bodyClass = getAccordionBodyClass(header);
-      const isBody =
-        panel &&
-        (header.hasAttribute("data-catalog-accordion-header") ||
-          (bodyClass && panel.classList.contains(bodyClass)));
-      if (!isBody) return;
-
-      if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
-      } else {
-        panel.style.maxHeight = `${panel.scrollHeight}px`;
-      }
+      const item = header.parentElement;
+      if (!item) return;
+      toggleAccordionItem(item);
     });
   });
 }
@@ -514,6 +516,8 @@ function initCatalogFilters(root) {
       if (isDesktop()) return;
       draftState = appliedState;
       applyStateToControls(draftState);
+      closeAllFilterAccordions(root);
+      syncAccordionExpansion(root, appliedState, filterKeys);
     },
     onClose: () => {
       if (isDesktop()) return;
