@@ -104,6 +104,7 @@
         data-results-grid
       >
         {{ range $all }}
+          {{ $demo := . }}
           {{ $isExternal := strings.HasPrefix .link.url "http" }}
           <a
             href="{{ .link.url }}"
@@ -115,15 +116,19 @@
             data-search="{{ .title }} {{ .description }} {{ .category }}"
             {{ if $isExternal }}target="_blank"{{ end }}
           >
-            <div class="demos-catalog__card-image">
-              {{ partial "picture.html" (dict
-                "src" .image
-                "alt" .title
-                "loading" "lazy"
-                "decoding" "async"
-                "width" "800"
-                "height" "296"
-              ) }}
+            <div class="demos-catalog__card-image{{ if not .image }} demos-catalog__card-image--placeholder{{ end }}">
+              {{ with .image }}
+                {{ partial "picture.html" (dict
+                  "src" .
+                  "alt" $demo.title
+                  "loading" "lazy"
+                  "decoding" "async"
+                  "width" "400"
+                  "height" "148"
+                ) }}
+              {{ else }}
+                <span class="demos-catalog__card-image-label" aria-hidden="true">Demo</span>
+              {{ end }}
             </div>
             <div class="demos-catalog__card-body">
               <span class="demos-catalog__card-badge">{{ .category }}</span>
@@ -140,6 +145,7 @@
         data-results-list
       >
         {{ range $all }}
+          {{ $demo := . }}
           {{ $isExternal := strings.HasPrefix .link.url "http" }}
           <a
             href="{{ .link.url }}"
@@ -151,15 +157,19 @@
             data-search="{{ .title }} {{ .description }} {{ .category }}"
             {{ if $isExternal }}target="_blank" rel="noopener noreferrer"{{ end }}
           >
-            <div class="demos-catalog__card-image">
-              {{ partial "picture.html" (dict
-                "src" .image
-                "alt" .title
-                "loading" "lazy"
-                "decoding" "async"
-                "width" "800"
-                "height" "296"
-              ) }}
+            <div class="demos-catalog__card-image{{ if not .image }} demos-catalog__card-image--placeholder{{ end }}">
+              {{ with .image }}
+                {{ partial "picture.html" (dict
+                  "src" .
+                  "alt" $demo.title
+                  "loading" "lazy"
+                  "decoding" "async"
+                  "width" "800"
+                  "height" "296"
+                ) }}
+              {{ else }}
+                <span class="demos-catalog__card-image-label" aria-hidden="true">Demo</span>
+              {{ end }}
             </div>
             <div class="demos-catalog__card-body">
               <span class="demos-catalog__card-badge">{{ .category }}</span>
