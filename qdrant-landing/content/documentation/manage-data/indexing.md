@@ -66,7 +66,7 @@ For more information, refer to [Disable Retrieving via Non Indexed Payload](/doc
 
 Beyond selecting the field type, you can set parameters on a payload index to fine-tune how it is stored and which filtering conditions it can serve. The available parameters depend on the field type, and are described in the subsections below.
 
-#### Integer Index
+#### Using `lookup` and `range` in Integer Indices
 
 *Available as of v1.8.0*
 
@@ -103,15 +103,15 @@ supports only range filters:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/integer-with-params/" >}}
 
-#### Keyword Index
+#### Prefix Matching in Keyword Indices
 
 *Available as of v1.19.0*
 
-By default, a `keyword` index only supports exact [Match](/documentation/search/filtering/#match) conditions. Set the `prefix` flag to `true` to additionally enable prefix matching, so that you can filter for keyword values that start with a given string using the [Prefix Match](/documentation/search/filtering/#prefix-match) condition.
+By default, a `keyword` index only supports exact matching. Set the `prefix` flag to `true` to additionally enable prefix matching, so that you can filter for keyword values that start with a given string using the [Prefix Match](/documentation/search/filtering/#prefix-match) condition.
 
 This is useful for prefix filtering over identifier-like values such as URLs, paths, or SKUs, and for building filter-value autocompletion (for example, combining a facet request with a prefix filter on the same field). A `text` index is not a good fit for these cases: tokenization breaks identifiers apart, and a `text` schema loses exact keyword matching.
 
-<aside role="alert">
+<aside role="note">
     This is unrelated to the full-text <code>prefix</code> <a href="#tokenizers">tokenizer</a>. The tokenizer builds prefixes of the individual words of a <code>text</code> index, while this flag enables prefix matching over whole <code>keyword</code> values.
 </aside>
 
