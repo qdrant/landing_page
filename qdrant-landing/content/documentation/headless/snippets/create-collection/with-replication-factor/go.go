@@ -7,14 +7,12 @@ import (
 )
 
 func Main() {
-	// @hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{
 		Host: "localhost",
 		Port: 6334,
 	})
 
-	if err != nil { panic(err) }
-	// @hide-end
+	if err != nil { panic(err) } // @hide
 
 	client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 		CollectionName: "{collection_name}",
