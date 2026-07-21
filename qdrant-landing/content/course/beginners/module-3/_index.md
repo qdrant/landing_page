@@ -54,6 +54,8 @@ Every retrieval system is built from one or both of these families. Understandin
 
 ### Dense Search (Semantic)
 
+![Dense search](/courses/beginners/module-3/dense-search.png)
+
 A dense vector has a small, fixed number of dimensions (for example, 384), and every single one holds a value. Two pieces of text with similar meaning produce vectors that are close in high-dimensional space, regardless of whether they share any words.
 
 ```python
@@ -66,6 +68,8 @@ encode("cheap flights")    ≈  encode("affordable airfare")
 ```
 
 ### Sparse Search (Keyword-Based)
+
+![Sparse search](/courses/beginners/module-3/sparse-search.png)
 
 Sparse vectors are token-based. Each dimension maps to a token, and only the tokens that actually appear in your text carry a non-zero value. Everything else stays zero. BM25, SPLADE, and miniCOIL are the most common ways to produce them.
 
