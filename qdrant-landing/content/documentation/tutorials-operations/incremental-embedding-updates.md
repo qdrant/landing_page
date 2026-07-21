@@ -466,6 +466,9 @@ Whatever LATEST_CHUNKS does not contain no longer exists at the source. The dele
 
 **Note:** *It's a good practice to put some guardrails on the number of deletions before running it: if it is suspiciously large, you might want to skip deletion and investigate instead. Mind the edge case: an empty incoming list would match every point in the collection, so refuse to sync empty input.*
 
+**Note:** Frequent re-embeddings and deletions don't degrade the index over time: background [optimizers](/documentation/ops-optimization/optimizer/) rebuild and merge index segments as changes accumulate.
+
+
 ```python
 def delete_gone(incoming_ids):
     """Remove every point the current crawl no longer contains. Returns how many."""
