@@ -12,12 +12,10 @@ weight: 40
 
 Understand dense versus sparse retrieval, their strengths, and how a hybrid approach can combine them.
 
-<!-- TODO (video): add the Module 3 overview video before launch. Follow the Essentials embed pattern. Outro bumper yes, Intro bumper no.
 <div class="video">
-  <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+  <iframe src="https://www.youtube.com/embed/9XXz21jmWes?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
   </iframe>
 </div>
--->
 
 ## Today's Path
 
