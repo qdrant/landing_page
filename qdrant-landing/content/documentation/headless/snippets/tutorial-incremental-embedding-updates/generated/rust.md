@@ -11,11 +11,9 @@ use qdrant_client::qdrant::{
 use qdrant_client::{Payload, Qdrant};
 use sha2::{Digest, Sha256};
 
-let qdrant_url = std::env::var("QDRANT_URL")?;
-let qdrant_api_key = std::env::var("QDRANT_API_KEY")?;
-
-let client = Qdrant::from_url(&qdrant_url)
-    .api_key(qdrant_api_key)
+// Replace the URL and API key with your own from https://cloud.qdrant.io
+let client = Qdrant::from_url("https://xyz-example.qdrant.io:6334")
+    .api_key("<your-api-key>")
     .build()?;
 
 const MODEL: &str = "sentence-transformers/all-MiniLM-L6-v2";

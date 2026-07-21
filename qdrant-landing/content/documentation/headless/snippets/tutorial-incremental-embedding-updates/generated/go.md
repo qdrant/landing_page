@@ -4,7 +4,6 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"os"
 	"regexp"
 	"strings"
 	"time"
@@ -13,12 +12,10 @@ import (
 	"github.com/qdrant/go-client/qdrant"
 )
 
-QDRANT_URL := os.Getenv("QDRANT_URL")
-QDRANT_API_KEY := os.Getenv("QDRANT_API_KEY")
-
+// Replace the host and API key with your own from https://cloud.qdrant.io
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host:   QDRANT_URL,
-	APIKey: QDRANT_API_KEY,
+	Host:   "xyz-example.qdrant.io",
+	APIKey: "<your-api-key>",
 	UseTLS: true,
 })
 

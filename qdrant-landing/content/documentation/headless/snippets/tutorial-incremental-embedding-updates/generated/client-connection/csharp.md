@@ -1,10 +1,8 @@
 ```csharp
-var QDRANT_URL = Environment.GetEnvironmentVariable("QDRANT_URL");
-var QDRANT_API_KEY = Environment.GetEnvironmentVariable("QDRANT_API_KEY");
-
+// Replace the host and API key with your own from https://cloud.qdrant.io
 var client = new QdrantClient(
-	host: QDRANT_URL!,
+	host: "xyz-example.qdrant.io",
 	https: true,
-	apiKey: QDRANT_API_KEY
+	apiKey: "<your-api-key>"
 );
 ```

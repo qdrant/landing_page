@@ -1,10 +1,8 @@
 ```java
-static final String QDRANT_URL = System.getenv("QDRANT_URL");
-static final String QDRANT_API_KEY = System.getenv("QDRANT_API_KEY");
-
+// Replace the host and API key with your own from https://cloud.qdrant.io
 static final QdrantClient client =
     new QdrantClient(
-        QdrantGrpcClient.newBuilder(QDRANT_URL, 6334, true)
-            .withApiKey(QDRANT_API_KEY)
+        QdrantGrpcClient.newBuilder("xyz-example.qdrant.io", 6334, true)
+            .withApiKey("<your-api-key>")
             .build());
 ```

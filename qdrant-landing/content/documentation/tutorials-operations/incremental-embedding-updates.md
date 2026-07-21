@@ -208,7 +208,7 @@ incoming chunk
                 -> gone: delete (last, after all writes)
 ```
 
-**Note:** Optional footgun-guard: take a [snapshot](/documentation/snapshots/) before sync, delete it later when everything looks fine.
+**Note:** Optional safety net: take a [snapshot](/documentation/snapshots/) before sync, delete it later when everything looks fine.
 
 ### Input of a Sync Pipeline
 

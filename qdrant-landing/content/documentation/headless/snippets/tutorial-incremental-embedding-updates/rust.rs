@@ -12,11 +12,9 @@ use sha2::{Digest, Sha256};
 
 pub async fn main() -> anyhow::Result<()> {
     // @block-start client-connection
-    let qdrant_url = std::env::var("QDRANT_URL")?;
-    let qdrant_api_key = std::env::var("QDRANT_API_KEY")?;
-
-    let client = Qdrant::from_url(&qdrant_url)
-        .api_key(qdrant_api_key)
+    // Replace the URL and API key with your own from https://cloud.qdrant.io
+    let client = Qdrant::from_url("https://xyz-example.qdrant.io:6334")
+        .api_key("<your-api-key>")
         .build()?;
     // @block-end client-connection
 

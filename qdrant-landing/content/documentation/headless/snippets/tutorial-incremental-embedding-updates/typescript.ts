@@ -1,12 +1,10 @@
 // @block-start client-connection
 import { QdrantClient, Schemas } from "@qdrant/js-client-rest";
 
-const QDRANT_URL = process.env.QDRANT_URL;
-const QDRANT_API_KEY = process.env.QDRANT_API_KEY;
-
+// Replace url and apiKey with your own from https://cloud.qdrant.io
 const client = new QdrantClient({
-    url: QDRANT_URL,
-    apiKey: QDRANT_API_KEY,
+    url: "https://xyz-example.qdrant.io:6333",
+    apiKey: "<your-api-key>",
 });
 // @block-end client-connection
 

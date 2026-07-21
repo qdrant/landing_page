@@ -1,14 +1,10 @@
 ```python
-import os
-
 from qdrant_client import QdrantClient, models
 
-QDRANT_URL = os.getenv("QDRANT_URL")
-QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
-
+# Replace url and api_key with your own from https://cloud.qdrant.io
 client = QdrantClient(
-    url=QDRANT_URL,
-    api_key=QDRANT_API_KEY,
+    url="https://xyz-example.qdrant.io:6333",
+    api_key="<your-api-key>",
     cloud_inference=True
 )
 
