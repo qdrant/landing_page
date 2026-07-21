@@ -1,0 +1,1 @@
+This code snippet creates a collection with shard replication by setting `shard_number` to 6 and `replication_factor` to 2. Each shard is stored on two nodes, which improves resilience and availability when a node goes down.
