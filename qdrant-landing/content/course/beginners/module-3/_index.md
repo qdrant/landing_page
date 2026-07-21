@@ -255,7 +255,7 @@ You can learn more about fusion in the [Hybrid Queries documentation](/documenta
 
 Start with RRF. It's the safer default because dense and sparse scores are on different scales, raw score fusion without normalization produces unreliable results. Switch to DBSF only after evaluating on a labeled test set.
 
-## 7. Beyond Text: Multimodal Search
+## 6. Beyond Text: Multimodal Search
 
 The same primitive, embed data, store as a vector, search by similarity, applies to any modality. Qdrant stores whatever vectors your embedding model produces. The retrieval mechanics are identical.
 
