@@ -114,14 +114,12 @@ Its output dimension is 384, its context window is 256 tokens, which is exactly 
 
 ### Collection Metadata
 
-There are other types of drift harmful for production vector search, for example, a change in the embedding model version or in the data preparation pipeline.  
-Vectors produced by different embedding models, or by the same model over differently prepared text, almost certainly should not mix in one collection: retrieval will degrade and it will be hard to detect why.
-
-Let's consider a simple guardrail: save which model and which pipeline version produced the data points, in [**collection metadata**](/documentation/manage-data/collections/#collection-metadata), and verify against it. If one of the two changed, we need to trigger full collection re-embedding.
+Vectors produced by different embedding models, or by the same model over differently prepared text, should not mix in one collection: retrieval will degrade and it will be hard to detect why.  
+A simple guardrail: save which model and which pipeline version produced the data points in [**collection metadata**](/documentation/manage-data/collections/#collection-metadata), and if one of the two changed, trigger full collection re-embedding.
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-incremental-embedding-updates/" block="create-collection" >}}
 
-The gate against mixing embedding generations is then a simple check at the start of every run:
+The gate is then a simple check at the start of every run:
 
 {{< code-snippet path="/documentation/headless/snippets/tutorial-incremental-embedding-updates/" block="check-gate" >}}
 
