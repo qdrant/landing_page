@@ -54,7 +54,7 @@ Every retrieval system is built from one or both of these families. Understandin
 
 ### Dense Search (Semantic)
 
-Dense vectors are embeddings: fixed-length lists of floating-point numbers that encode meaning. Two pieces of text with similar meaning produce vectors that are close in high-dimensional space, regardless of whether they share any words.
+A dense vector has a small, fixed number of dimensions (for example, 384), and every single one holds a value. Two pieces of text with similar meaning produce vectors that are close in high-dimensional space, regardless of whether they share any words.
 
 ```python
 # Dense vector: all dimensions have non-zero values
@@ -67,13 +67,9 @@ encode("cheap flights")    ≈  encode("affordable airfare")
 
 ### Sparse Search (Keyword-Based)
 
-Sparse vectors are token-based. Only the dimensions corresponding to tokens that appear in the text have non-zero values, everything else is zero. BM25, SPLADE, and miniCOIL are the most common ways to produce them.
+Sparse vectors are token-based. Each dimension maps to a token, and only the tokens that actually appear in your text carry a non-zero value. Everything else stays zero. BM25, SPLADE, and miniCOIL are the most common ways to produce them.
 
-![A sparse vector: one dimension per vocabulary token, with non-zero weights only at the handful of tokens present in the text and zeros everywhere else.](/courses/beginners/module-3/sparse.png)
-
-#### How Sparse Vectors Are Encoded
-
-A dense vector has a small, fixed number of dimensions (for example, 384), and every single one holds a value. A sparse vector works the opposite way: it has one dimension per token in the vocabulary, often tens of thousands, but a given piece of text only ever activates the handful of tokens it contains. Everything else is implicitly zero.
+A sparse vector has one dimension per token in the vocabulary, often tens of thousands, but a given piece of text only ever activates the handful of tokens it contains. Everything else is implicitly zero.
 
 Storing tens of thousands of mostly-zero numbers per point would be wasteful, so sparse vectors are represented as two parallel arrays instead: the `indices` of the non-zero dimensions, and the `values` at those positions. Nothing is stored for the dimensions that are zero.
 
