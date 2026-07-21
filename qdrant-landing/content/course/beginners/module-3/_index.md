@@ -23,11 +23,11 @@ Understand dense versus sparse retrieval, their strengths, and how a hybrid appr
 
 1. Where We Left Off
 2. The Two Families of Search
-3. Filtering: Works with Any Retrieval Method
-4. Hybrid Search: Dense + Sparse
-5. Setting Up Hybrid Search in Qdrant
-6. Fusion Strategies
-7. Beyond Text: Multimodal Search
+3. Hybrid Search: Dense + Sparse
+4. Setting Up Hybrid Search in Qdrant
+5. Fusion Strategies
+6. Beyond Text: Multimodal Search
+7. Filtering: Works with Any Retrieval Method
 8. References & Further Reading
 
 By the end, you'll understand when to use dense, sparse, or hybrid search and how to implement them in Qdrant.
@@ -125,49 +125,8 @@ A query only walks the posting lists for tokens it actually contains, skipping e
 
 Dense = meaning. Sparse = exact matching. Neither is complete alone. Every real-world query contains both semantic intent (what the user means) and exact constraints (what the user needs precisely). You need both.
 
-## 3. Filtering: Works with Any Retrieval Method
 
-Payload filters are not a hybrid-only feature. The same `query_filter` applies whether you're running dense-only, sparse-only, or hybrid retrieval, it's evaluated as a hard constraint during the search itself, not as a separate step afterward.
-
-### Filtering a Dense Query
-
-```python
-from qdrant_client.models import Filter, FieldCondition, MatchValue
-
-results = client.query_points(
-    collection_name="products",
-    query=dense_query_vector,
-    using="dense",
-    query_filter=Filter(
-        must=[FieldCondition(key="in_stock", match=MatchValue(value=True))]
-    ),
-    limit=5,
-)
-```
-
-### Filtering a Sparse Query
-
-```python
-results = client.query_points(
-    collection_name="products",
-    query=sparse_query_vector,
-    using="sparse",
-    query_filter=Filter(
-        must=[FieldCondition(key="in_stock", match=MatchValue(value=True))]
-    ),
-    limit=5,
-)
-```
-
-### Filtering a Hybrid Query
-
-The identical `query_filter` parameter also applies when fusing dense and sparse prefetches together, see Section 5 for a full hybrid example with filters attached.
-
-### Why It Matters
-
-Because filters are applied during the search rather than after it, out-of-scope points never take up a slot in your top-K results, regardless of whether the underlying retrieval is dense, sparse, or hybrid. This keeps results both relevant and valid: in stock, within permissions, within a date range.
-
-## 4. Hybrid Search: Dense + Sparse
+## 3. Hybrid Search: Dense + Sparse
 
 Hybrid search runs dense and sparse retrieval simultaneously, then fuses the ranked candidate lists into a single result set. The result: semantic understanding with exact-match precision. Filters (Section 3) can be layered on top of any of this.
 
@@ -181,7 +140,7 @@ Hybrid search runs dense and sparse retrieval simultaneously, then fuses the ran
 
 You can learn more about fusion in the [Hybrid Queries documentation](/documentation/search/hybrid-queries/#reciprocal-rank-fusion-rrf).
 
-## 5. Setting Up Hybrid Search in Qdrant
+## 4. Setting Up Hybrid Search in Qdrant
 
 Hybrid search in Qdrant uses named vectors, dense and sparse stored together on the same point, and the Universal Query API to prefetch from each, then fuse the results.
 
@@ -281,7 +240,7 @@ Put the three sections together and watch the behavior change:
 2. Run the same query dense-only: drop the sparse prefetch and the `FusionQuery`, and query with `using="dense"`. Compare the ranking. The exact model and size should sit higher once the sparse signal is fused back in.
 3. Flip `in_stock` to `False` on that point and rerun both queries. Confirm it disappears from the results, that is the filter doing its work during the search, not after it.
 
-## 6. Fusion Strategies
+## 5. Fusion Strategies
 
 Once both retrievers return their candidate sets, a fusion algorithm merges them into a single ranked list. Qdrant supports two strategies:
 
@@ -347,6 +306,48 @@ client.query_points(
     limit=10,
 )
 ```
+
+## 7. Filtering: Works with Any Retrieval Method
+
+Payload filters are not a hybrid-only feature. The same `query_filter` applies whether you're running dense-only, sparse-only, or hybrid retrieval, it's evaluated as a hard constraint during the search itself, not as a separate step afterward.
+
+### Filtering a Dense Query
+
+```python
+from qdrant_client.models import Filter, FieldCondition, MatchValue
+
+results = client.query_points(
+    collection_name="products",
+    query=dense_query_vector,
+    using="dense",
+    query_filter=Filter(
+        must=[FieldCondition(key="in_stock", match=MatchValue(value=True))]
+    ),
+    limit=5,
+)
+```
+
+### Filtering a Sparse Query
+
+```python
+results = client.query_points(
+    collection_name="products",
+    query=sparse_query_vector,
+    using="sparse",
+    query_filter=Filter(
+        must=[FieldCondition(key="in_stock", match=MatchValue(value=True))]
+    ),
+    limit=5,
+)
+```
+
+### Filtering a Hybrid Query
+
+The identical `query_filter` parameter also applies when fusing dense and sparse prefetches together, see Section 5 for a full hybrid example with filters attached.
+
+### Why It Matters
+
+Because filters are applied during the search rather than after it, out-of-scope points never take up a slot in your top-K results, regardless of whether the underlying retrieval is dense, sparse, or hybrid. This keeps results both relevant and valid: in stock, within permissions, within a date range.
 
 ## 8. References & Further Reading
 
