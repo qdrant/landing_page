@@ -150,11 +150,13 @@ client.create_collection(
 
 The gate against mixing embedding generations is then a simple check at the start of every run:
 
-```text
-check_gate():
-    read embedding_model and pipeline_version from collection metadata
-    if either differs from this pipeline's constants:
-        stop: full re-embed into a fresh collection required
+```python
+def check_gate():
+    # compare this pipeline's constants against what the collection records about itself
+    meta = client.get_collection(COLLECTION).config.metadata or {}
+
+    if meta.get("embedding_model") != MODEL or meta.get("pipeline_version") != PIPELINE:
+        raise RuntimeError(f"collection was built by {meta}: full re-embed into a fresh collection required")
 ```
 
 ## Characteristics of a Document Chunk
