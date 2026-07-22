@@ -408,7 +408,7 @@ The only requirement is to enable the IDF modifier in the collection configurati
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-idf/" >}}
 
-Qdrant uses the following formula to calculate the IDF modifier:
+IDF statistics are calculating per shard using the following formula:
 
 $$
 \text{IDF}(q_i) = \ln \left(\frac{N - n(q_i) + 0.5}{n(q_i) + 0.5}+1\right)
@@ -416,5 +416,7 @@ $$
 
 Where:
 
-- `N` is the total number of documents in the collection.
+- `N` is the total number of documents in the shard.
 - `n` is the number of documents containing non-zero values for the given vector element.
+
+By default, `N` and `n` are computed across the entire shard. To scope these statistics to a subset of points instead (for example, per tenant when using multi-tenancy), use the `idf` search parameter. See [Per-Query IDF Statistics](/documentation/search/text-search/full-text-search/#per-query-idf-statistics).
