@@ -92,6 +92,7 @@ Currently, it could be:
 * `indexed_only` - With this option you can disable the search in those segments where vector index is not built yet. This may be useful if you want to minimize the impact to the search performance whilst the collection is also being updated. Using this option may lead to a partial result if the collection is not fully indexed yet, consider using it only if eventual consistency is acceptable for your use case.
 * `quantization` - parameters related to quantization. See [Searching with Quantization](/documentation/manage-data/quantization/#searching-with-quantization) guide.
 * `acorn` - parameters related to the [ACORN search algorithm](#acorn-search-algorithm).
+* `idf` - which population sparse vector IDF statistics are computed over. See [Per-Query IDF Statistics](/documentation/search/text-search/full-text-search/#per-query-idf-statistics).
 
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
 See details of possible filters and their work in the [filtering](/documentation/search/filtering/) section.
