@@ -12,7 +12,7 @@
   "founders": [
     {
       "@type": "Person",
-      "name": "{{ .Site.Params.Author }}"
+      "name": "Andrey Vasnetsov"
     }, {
       "@type": "Person",
       "name": "Andre Zayarni"
