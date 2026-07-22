@@ -32,7 +32,7 @@ When an instance is shared between multiple users, you may need to partition vec
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-filter-by-group-id/" >}}
 
 <aside role="status">
-When using multitenancy with <a href="/documentation/search/text-search/full-text-search/">sparse vector search</a> and the <a href="/documentation/manage-data/indexing/#idf-modifier">IDF modifier</a>, payload-based partitioning alone doesn't isolate IDF statistics. By default, all tenants still share the same collection-wide term frequencies. Use the <code>idf</code> search parameter to scope statistics to a single tenant. See <a href="/documentation/search/text-search/full-text-search/#per-query-idf-statistics">Per-Query IDF Statistics</a>.
+When using multitenancy with <a href="/documentation/search/text-search/full-text-search/">sparse vector search</a> and the <a href="/documentation/manage-data/indexing/#idf-modifier">IDF modifier</a>, payload-based partitioning alone doesn't isolate IDF statistics. By default, all tenants still share the same shard-wide term frequencies. Use the <code>idf</code> search parameter to scope statistics to a single tenant. See <a href="/documentation/search/text-search/full-text-search/#per-query-idf-statistics">Per-Query IDF Statistics</a>.
 </aside>
 
 ## Calibrate performance

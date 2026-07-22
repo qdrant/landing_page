@@ -123,7 +123,7 @@ miniCOIL can be [used with the FastEmbed library](/documentation/fastembed/faste
 
 *Available as of v1.19.0*
 
-By default, [IDF statistics](/documentation/manage-data/indexing/#idf-modifier), used by both [BM25](#bm25) and [miniCOIL](#minicoil), are computed across the entire collection. When using [payload filter based multi-tenancy](/documentation/manage-data/multitenancy/), this blends every tenant's vocabulary into one set of statistics, so a term's IDF no longer reflects its rarity within a specific tenant's data.
+By default, [IDF statistics](/documentation/manage-data/indexing/#idf-modifier), used by both [BM25](#bm25) and [miniCOIL](#minicoil), are computed across the entire shard being queried. When using [payload filter based multi-tenancy](/documentation/manage-data/multitenancy/), this blends every tenant's vocabulary into one set of statistics, so a term's IDF no longer reflects its rarity within a specific tenant's data.
 
 The `idf` search parameter lets you correct this by narrowing down the population — the *IDF corpus* — that Qdrant computes statistics over. It accepts a payload filter that scopes the data.
 
@@ -131,7 +131,7 @@ Note that this filter is independent of any retrieval filters. The filter that d
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-idf-corpus/" >}}
 
-- `idf` defaults to `global` (collection-wide statistics), the same as omitting it.
+- `idf` defaults to `global` (shard-wide statistics), the same as omitting it.
 - Only applicable to queries on a sparse vector with the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier) enabled; using `idf` on a vector without it returns an error.
-- If the corpus filter matches no points, IDF statistics do not fall back to collection-wide statistics. Instead, every term gets the same minimal IDF weight, since there's no data in the corpus to tell which terms are rare.
+- If the corpus filter matches no points, IDF statistics do not fall back to shard-wide statistics. Instead, every term gets the same minimal IDF weight, since there's no data in the corpus to tell which terms are rare.
 - When using [user-defined sharding](/documentation/scaling/distributed_deployment/#user-defined-sharding), routing a search request to a single tenant's dedicated shard already scopes IDF to that tenant's data. This shard-locality also applies to the `idf` filter: if it matches points that live in a different shard than the one being queried, Qdrant does not reach across shards to satisfy it. It silently computes statistics from whatever overlap exists locally, which can be empty or partial.
