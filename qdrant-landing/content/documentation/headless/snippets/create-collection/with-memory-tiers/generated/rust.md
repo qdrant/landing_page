@@ -1,0 +1,23 @@
+```rust
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, HnswConfigDiffBuilder, Memory, PayloadStorageParamsBuilder,
+    QuantizationType, ScalarQuantizationBuilder, VectorParamsBuilder,
+};
+use qdrant_client::Qdrant;
+
+client
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(
+                VectorParamsBuilder::new(768, Distance::Cosine).memory(Memory::Cached),
+            )
+            .hnsw_config(HnswConfigDiffBuilder::default().memory(Memory::Cold))
+            .quantization_config(
+                ScalarQuantizationBuilder::default()
+                    .r#type(QuantizationType::Int8.into())
+                    .memory(Memory::Pinned),
+            )
+            .payload(PayloadStorageParamsBuilder::default().memory(Memory::Cached)),
+    )
+    .await?;
+```
