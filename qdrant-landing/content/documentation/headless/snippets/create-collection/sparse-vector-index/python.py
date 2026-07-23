@@ -9,7 +9,7 @@ client.create_collection(
     vectors_config={},
     sparse_vectors_config={
         "text": models.SparseVectorParams(
-            index=models.SparseIndexParams(memory=models.Memory.COLD),
+            index=models.SparseIndexParams(),
         )
     },
 )

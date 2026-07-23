@@ -2,8 +2,6 @@
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
-var client = new QdrantClient("localhost", 6334);
-
 await client.CreatePayloadIndexAsync(
  collectionName: "{collection_name}",
  fieldName: "payload_field_name",
@@ -12,7 +10,7 @@ await client.CreatePayloadIndexAsync(
  {
   KeywordIndexParams = new KeywordIndexParams
   {
-   OnDisk   = true
+   Memory   = Memory.Cold
   }
  }
 );

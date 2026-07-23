@@ -13,7 +13,6 @@ client.createCollectionAsync(
                     .setIndex(
                         Collections.SparseIndexConfig
                             .newBuilder()
-                            .setMemory(Collections.Memory.Cold)
                             .build()
                     ).build()
             ).build()

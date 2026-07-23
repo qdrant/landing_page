@@ -10,9 +10,7 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
 		map[string]*qdrant.SparseVectorParams{
 			"text": {
-				Index: &qdrant.SparseIndexConfig{
-					Memory: qdrant.Memory_Cold.Enum(),
-				}},
+				Index: &qdrant.SparseIndexConfig{}},
 		}),
 })
 ```

@@ -2,11 +2,10 @@
 use qdrant_client::qdrant::{
     CreateFieldIndexCollectionBuilder,
     KeywordIndexParamsBuilder,
-    FieldType
+    FieldType,
+    Memory
 };
 use qdrant_client::Qdrant;
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client.create_field_index(
     CreateFieldIndexCollectionBuilder::new(
@@ -16,7 +15,7 @@ client.create_field_index(
     )
     .field_index_params(
         KeywordIndexParamsBuilder::default()
-            .on_disk(true),
+            .memory(Memory::Cold),
     ),
 ).await?;
 ```

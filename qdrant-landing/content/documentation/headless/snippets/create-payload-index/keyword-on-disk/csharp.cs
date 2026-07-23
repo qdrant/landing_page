@@ -5,7 +5,9 @@ public class Snippet
 {
 	public static async Task Run()
 	{
+		// @hide-start
 		var client = new QdrantClient("localhost", 6334);
+		// @hide-end
 
 		await client.CreatePayloadIndexAsync(
 		 collectionName: "{collection_name}",
@@ -15,7 +17,7 @@ public class Snippet
 		 {
 		  KeywordIndexParams = new KeywordIndexParams
 		  {
-		   OnDisk   = true
+		   Memory   = Memory.Cold
 		  }
 		 }
 		);

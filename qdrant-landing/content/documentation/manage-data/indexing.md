@@ -105,30 +105,17 @@ supports only range filters:
 
 *Available as of v1.11.0*
 
-By default all payload-related structures are stored in memory. In this way, the vector index can quickly access payload values during search.
-As latency in this case is critical, it is recommended to keep hot payload indexes in memory.
+Payload indexes are always persisted to disk. By default, they are also loaded into the `pinned` [memory tier](/documentation/ops-configuration/memory-tiers/). This keeps the index on the heap, so payload values can be accessed during search without extra disk I/O.
 
-There are, however, cases when payload indexes are too large or rarely used. In those cases, it is possible to store payload indexes on disk.
+There are, however, cases when payload indexes are too large or rarely used. In those cases, you can move a payload index to the `cached` or `cold` tier.
 
 <aside role="alert">
- On-disk payload index might affect cold requests latency, as it requires additional disk I/O operations.
+A payload index in the <code>cached</code> or <code>cold</code> tier might affect request latency, as it may require additional disk I/O operations.
 </aside>
 
-To configure on-disk payload index, you can use the following index parameters:
+To configure a payload index's memory tier, use the `memory` parameter:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/keyword-on-disk/" >}}
-
-Payload index on-disk is supported for the following types:
-
-* `keyword`
-* `integer`
-* `float`
-* `datetime`
-* `uuid`
-* `text`
-* `geo`
-
-The list will be extended in future versions.
 
 ### Tenant Index
 
@@ -379,12 +366,17 @@ This approach is particularly useful for collections storing both dense and spar
 
 To configure a sparse vector index, create a collection with the following parameters:
 
-{{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-index-on-disk/" >}}`
+{{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-index/" >}}
 
-The following parameters may affect performance:
+The sparse vector index is persisted on disk and loaded into heap memory by default for faster access. You can configure a memory tier to trade off between search speed and memory usage, for example, move a rarely-queried sparse index to the `cold` tier to save memory. The following [memory tiers](/documentation/ops-configuration/memory-tiers/) are available:
 
-- `on_disk: true` - The index is stored on disk, which lets you save memory. This may slow down search performance.
-- `on_disk: false` - The index is still persisted on disk, but it is also loaded into memory for faster search.
+- `pinned` - the index is loaded into memory for faster search. This is the default.
+- `cached` - the index is pre-loaded into the disk cache on startup, though it may be evicted under memory pressure.
+- `cold` - the index is stored on disk, which saves memory at the cost of search performance.
+
+The following configuration creates a sparse vector index in the `cold` memory tier:
+
+{{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-index-on-disk/" >}}
 
 Unlike a dense vector index, a sparse vector index does not require a predefined vector size. It automatically adjusts to the size of the vectors added to the collection.
 

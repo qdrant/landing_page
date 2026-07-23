@@ -21,9 +21,7 @@ func Main() {
 		SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
 			map[string]*qdrant.SparseVectorParams{
 				"text": {
-					Index: &qdrant.SparseIndexConfig{
-						Memory: qdrant.Memory_Cold.Enum(),
-					}},
+					Index: &qdrant.SparseIndexConfig{}},
 			}),
 	})
 }
