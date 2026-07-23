@@ -1,20 +1,20 @@
 ```rust
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, Distance, QuantizationType, ScalarQuantizationBuilder,
+    CreateCollectionBuilder, Distance, Memory, QuantizationType, ScalarQuantizationBuilder,
     VectorParamsBuilder,
 };
 use qdrant_client::Qdrant;
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 client
     .create_collection(
         CreateCollectionBuilder::new("{collection_name}")
-            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
+            .vectors_config(
+                VectorParamsBuilder::new(768, Distance::Cosine).memory(Memory::Cold),
+            )
             .quantization_config(
                 ScalarQuantizationBuilder::default()
                     .r#type(QuantizationType::Int8.into())
-                    .always_ram(true),
+                    .memory(Memory::Pinned),
             ),
     )
     .await?;

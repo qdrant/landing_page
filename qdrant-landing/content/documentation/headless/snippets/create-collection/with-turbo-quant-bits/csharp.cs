@@ -14,7 +14,7 @@ public class Snippet
 			vectorsConfig: new VectorParams { Size = 1536, Distance = Distance.Cosine },
 			quantizationConfig: new QuantizationConfig
 			{
-				Turboquant = new TurboQuantization { AlwaysRam = true, Bits = TurboQuantBitSize.Bits2 }
+				Turboquant = new TurboQuantization { Memory = Memory.Pinned, Bits = TurboQuantBitSize.Bits2 }
 			}
 		);
 	}
