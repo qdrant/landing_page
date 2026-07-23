@@ -32,9 +32,9 @@ Each of these structures accepts a `memory` parameter that determines whether it
 
 - **`pinned`**: Qdrant loads the data onto the heap and never evicts it. Requests stay fast, but the structure must fit in RAM at all times. Because it allocates data on the heap, it's [only available for structures that support a heap-backed in-RAM representation](#limitations).
 - **`cached`**: Qdrant pre-loads the data into the disk cache when it starts up, so the first request is fast. Under memory pressure, the operating system can evict this data if it decides another component's data is used more often.
-- **`cold`**: Qdrant doesn't pre-load the data into RAM. The first request against it may be slower, since Qdrant reads from disk, but the operating system caches pages as they're accessed.
+- **`cold`**: Qdrant doesn't pre-load the data into RAM. Startup is faster and uses less memory, but the first access to any page requires a disk read until the OS caches it.
 
-`cold` and `cached` both back the data with a memory-mapped file; the only difference is whether Qdrant proactively warms the operating system's page cache on load. The OS evicts both tiers using the same criteria, so `cached` data gets no priority over `cold` data under memory pressure.
+`cold` and `cached` both back the data with a memory-mapped file; the only difference is whether Qdrant proactively warms the operating system's page cache on load. The OS evicts both tiers using the same criteria, so `cached` data gets no priority over `cold` data under memory pressure. Under heavy I/O load, pages evicted from either tier require disk reads to reload, which adds latency.
 
 ### Limitations
 
@@ -64,7 +64,7 @@ This example configures a collection so the vectors are cached in RAM, the HNSW 
 
 ## Optimizing for Disk-Based Retrieval
 
-When structures are in the `cold` tier, retrieval may involve reading from disk. Use these techniques to keep search fast despite the extra disk I/O.
+When structures are in the `cold` tier, retrieval may involve reading from disk. Use these techniques to reduce search latency despite the extra disk I/O.
 
 ### Quantization
 
@@ -72,7 +72,7 @@ When structures are in the `cold` tier, retrieval may involve reading from disk.
 
 Keep the quantized vectors in RAM by setting `memory: "pinned"` in the `quantization_config`. Without pinning, the quantized copy may be evicted under memory pressure, forcing Qdrant to read both the quantized and original vectors from disk.
 
-If the accuracy loss is acceptable, you can disable rescoring against the original vectors entirely by setting `rescore: false` in the `quantization_config`. This avoids any disk reads during search.
+If the accuracy loss is acceptable, you can disable rescoring against the original vectors entirely by setting `rescore: false` in the `quantization_config`. This avoids any disk reads during search, and the memory tier of the original vectors no longer affects search latency.
 
 ### Async I/O
 
