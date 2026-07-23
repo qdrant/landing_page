@@ -140,6 +140,8 @@ You can learn more about fusion in the [Hybrid Queries documentation](/documenta
 
 ## 4. Setting Up Hybrid Search in Qdrant
 
+**Follow along in Colab.** Every example from here through Section 7 is runnable in this notebook, no setup or API keys required: [Open in Google Colab](https://colab.research.google.com/drive/1YwUzhfP_Dxy_mgxP6dV8zJyYQvsWRn2i?usp=sharing).
+
 Hybrid search in Qdrant uses named vectors, dense and sparse stored together on the same point, and the Universal Query API to prefetch from each, then fuse the results.
 
 ### Step 1 - Create a Hybrid Collection
