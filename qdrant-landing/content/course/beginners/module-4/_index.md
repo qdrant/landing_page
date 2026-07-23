@@ -53,15 +53,7 @@ Analysts at a research firm need to search global news. Articles arrive continuo
 
 That's realistic, and it's messy in exactly the ways real projects are. We'll design it by answering five questions. Each answer is a decision in a specific layer.
 
-### Question 1: What's the workload shape?
-
-*How much data, in what modalities, arriving how fast?*
-
-Millions of articles, text-only for now, arriving continuously. Hundreds of thousands of new chunks per day, and analysts expect this morning's news to be searchable this morning.
-
-**Decisions**: one collection; continuous upserts rather than batch rebuilds (Qdrant indexes as it ingests, so there's nothing to design around); plan the payload schema now, because re-ingesting millions of articles later is painful. *(Storage and knowledge layers.)*
-
-### Question 2: What do the queries look like?
+### Question 1: What do the queries look like?
 
 *Natural language? Exact tokens? Both?*
 
@@ -85,7 +77,7 @@ client.create_collection(
 )
 ```
 
-### Question 3: What must the system filter on?
+### Question 2: What must the system filter on?
 
 *Which constraints are hard rules, not similarity signals?*
 
@@ -105,11 +97,19 @@ payload:
 
 *(Knowledge and indexing layers.)*
 
+### Question 3: What's the workload shape?
+
+*How much data, in what modalities, arriving how fast?*
+
+Millions of articles, text-only for now, arriving continuously. Hundreds of thousands of new chunks per day, and analysts expect this morning's news to be searchable this morning.
+
+**Decisions**: one collection; continuous upserts rather than batch rebuilds (Qdrant indexes as it ingests, so there's nothing to design around); plan the payload schema now, because re-ingesting millions of articles later is painful. *(Storage and knowledge layers.)*
+
 ### Question 4: What does the retrieval pipeline look like?
 
 *Dense-only? Hybrid? Reranking?*
 
-Start with the simplest pipeline that fits the query analysis: hybrid (from Question 2) plus filters (from Question 3), fused with RRF. No reranker yet. Add one only if evaluation shows fused results need refinement. Complexity is added when data proves it's needed, never in advance.
+Start with the simplest pipeline that fits the query analysis: hybrid (from Question 1) plus filters (from Question 2), fused with RRF. No reranker yet. Add one only if evaluation shows fused results need refinement. Complexity is added when data proves it's needed, never in advance.
 
 One knowledge-layer decision hides in here: **the embedding model must be multilingual.** Analysts query in English but articles arrive in Japanese, Vietnamese, and Mandarin. A multilingual model projects all languages into one vector space, so an English query retrieves a Japanese article with no translation step. A monolingual English model makes cross-language retrieval structurally impossible, and no amount of query-layer tuning fixes a knowledge-layer mistake.
 
@@ -144,9 +144,9 @@ A research firm with a small engineering team, no residency restrictions, and a 
 
 | Question | Answer for this system | Layer |
 |----------|------------------------|-------|
-| Workload shape | Millions of text chunks, continuous ingestion | Storage, knowledge |
 | Query type | Mixed semantic + exact, so hybrid with RRF | Query |
 | Filter scope | country, topic, source, date in an indexed payload | Knowledge, indexing |
+| Workload shape | Millions of text chunks, continuous ingestion | Storage, knowledge |
 | Pipeline | Hybrid + filters; multilingual model; no reranker yet | Query, knowledge |
 | Deployment | Managed; design independent of the choice | Distribution |
 
