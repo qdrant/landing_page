@@ -168,8 +168,8 @@ help you with that. [Running the evaluation process](/rag/rag-evaluation-guide/)
 a sense of how they perform on your data. You can test even proprietary models that way. However, it's not the only 
 thing you should consider when choosing the best model.
 
-Please do not be afraid of building your evaluation dataset. It’s not as complicated as it might seem, and it's a 
-critical step! You don’t need millions of samples to get a good idea of how the model performs. A few hundred 
+Please do not be afraid of building your evaluation dataset. It's not as complicated as it might seem, and it's a 
+critical step! You don't need millions of samples to get a good idea of how the model performs. A few hundred 
 well-curated examples might be a good starting point. Even dozens are better than nothing!
 
 ## Compute resource constraints
@@ -226,6 +226,10 @@ Remember that this doesn't have to be a one-time decision. As your application e
 choice of the embedding model. Qdrant's architecture makes it relatively easy to migrate to a different model if needed.
 Named vectors help to create a system with multiple models and switch between them based on the query, or build a 
 [hybrid search](/articles/hybrid-search/) that takes advantage of different models or more complex search pipelines.
+
+Choosing the right embedding model is one of the most important design decisions in a vector search system, but it is just one of several levers. 
+Memory usage can often be reduced with techniques such as quantization or Matryoshka embeddings, while retrieval quality may benefit more from hybrid search or reranking than from switching to a larger embedding model. 
+The key takeaway is that while the embedding model matters a great deal, cost, retrieval quality, latency, and throughput are properties of the retrieval pipeline and system as a whole.
 
 An important decision to make is also where to host the embedding model. Maybe you prefer not to deal with the 
 infrastructure management and send the data you process in its original form? Qdrant now has something for you!
