@@ -39,6 +39,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Neo4j GraphRAG](/documentation/frameworks/neo4j-graphrag/)   | Package to build graph retrieval augmented generation (GraphRAG) applications using Neo4j and Python.                |
 | [NLWeb](/documentation/frameworks/nlweb/)                     | A framework to turn websites into chat-ready data using schema.org and associated data formats.                      |
 | [Rig-rs](/documentation/frameworks/rig-rs/)                   | Rust library for building scalable, modular, and ergonomic LLM-powered applications.                                 |
+| [RocketRide](/documentation/frameworks/rocketride/)           | Open-source AI development environment and C++ runtime for building RAG pipelines and agents with Qdrant.             |
 | [Semantic Router](/documentation/frameworks/semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.                             |
 | [SmolAgents](/documentation/frameworks/smolagents/)           | Barebones library for agents. Agents write python code to call tools and orchestrate other agent.                    |
 | [Spring AI](/documentation/frameworks/spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design.                 |
