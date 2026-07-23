@@ -45,7 +45,7 @@ In addition to the required options, you can also specify custom values for the 
 * `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](/documentation/manage-data/storage/#versioning).
 * `optimizers_config` - see [optimizer](/documentation/ops-optimization/optimizer/) for details.
 * `shard_number` - which defines how many shards the collection should have. See [distributed deployment](/documentation/distributed_deployment/#sharding) section for details.
-* `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
+* `payload.memory` - configures the [memory tier](/documentation/ops-configuration/memory-tiers/) for payload storage.
 * `quantization_config` - see [quantization](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant) for details.
 * `strict_mode_config` - see [strict mode](/documentation/ops-configuration/administration/#strict-mode) for details.
 
@@ -55,11 +55,7 @@ See [schema definitions](https://api.qdrant.tech/api-reference/collections/creat
 
 *Available as of v1.2.0*
 
-Vectors all live in RAM for very quick access. The `on_disk` parameter can be
-set in the vector configuration. If true, all vectors will live on disk. This
-will enable the use of
-[memmaps](/documentation/manage-data/storage/#configuring-memmap-storage),
-which is suitable for ingesting a large amount of data.
+Qdrant always [stores vectors on disk](/documentation/manage-data/storage/#vector-storage). You can configure a [memory tier](/documentation/ops-configuration/memory-tiers/) for each vector to control how much of that data also lives in memory.
 
 
 ### Collection with Multiple Vectors
@@ -86,11 +82,7 @@ search performance on a vector level.
 
 *Available as of v1.2.0*
 
-Vectors all live in RAM for very quick access. On a per-vector basis you can set
-`on_disk` to true to store all vectors on disk at all times. This will enable
-the use of
-[memmaps](/documentation/manage-data/storage/#configuring-memmap-storage),
-which is suitable for ingesting a large amount of data.
+Qdrant always [stores vectors on disk](/documentation/manage-data/storage/#vector-storage). On a per-vector basis, you can configure a [memory tier](/documentation/ops-configuration/memory-tiers/) to control how much of that data also lives in memory.
 
 
 ### Vector Datatypes
@@ -175,8 +167,8 @@ The following parameters can be updated:
 * `optimizers_config` - see [optimizer](/documentation/ops-optimization/optimizer/) for details.
 * `hnsw_config` - see [indexing](/documentation/manage-data/indexing/#vector-index) for details.
 * `quantization_config` - see [quantization](/documentation/manage-data/quantization/#setting-up-quantization-in-qdrant) for details.
-* `vectors_config` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
-* `params` - other collection parameters, including `read_fan_out_delay_ms`, `write_consistency_factor` and `on_disk_payload`. 
+* `vectors_config` - vector-specific configuration, including individual `hnsw_config`, `quantization_config`, and [`memory`](/documentation/ops-configuration/memory-tiers/) tier settings.
+* `params` - other collection parameters, including `read_fan_out_delay_ms`, `write_consistency_factor`, and the payload's [`memory`](/documentation/ops-configuration/memory-tiers/) tier.
 * `strict_mode_config` - see [strict mode](/documentation/ops-configuration/administration/#strict-mode) for details.
 
 Full API specification is available in [schema definitions](https://api.qdrant.tech/api-reference/collections/update-collection).

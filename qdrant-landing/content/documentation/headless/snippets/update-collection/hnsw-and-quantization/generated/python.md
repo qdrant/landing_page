@@ -10,10 +10,10 @@ client.update_collection(
             quantization_config=models.ProductQuantization(
                 product=models.ProductQuantizationConfig(
                     compression=models.CompressionRatio.X32,
-                    always_ram=True,
+                    memory=models.Memory.PINNED,
                 ),
             ),
-            on_disk=True,
+            memory=models.Memory.COLD,
         ),
     },
     hnsw_config=models.HnswConfigDiff(
@@ -23,7 +23,7 @@ client.update_collection(
         scalar=models.ScalarQuantizationConfig(
             type=models.ScalarType.INT8,
             quantile=0.8,
-            always_ram=False,
+            memory=models.Memory.CACHED,
         ),
     ),
 )
