@@ -33,6 +33,12 @@ The pattern applies when your chunking is deterministic and enumerating the curr
 
 The tutorial has an accompanying [notebook](https://github.com/qdrant/examples/blob/master/temporal-data-drift/sync_raw_data_to_embeddings.ipynb).
 
+<aside role="alert">
+<p><strong>Scale note.</strong>  This design re-reads the whole collection on every run: it pulls every point's hash and diffs the full stored set against the incoming one. Per-run cost scales with corpus size, not with what actually changed.</p>
+<p>At around 100,000 points, this stays cheap. By around 1 million points, each run moves hundreds of MB and hits Qdrant's 32 MB request cap (<a href="/documentation/ops-configuration/configuration/"><code>max_request_size_mb</code></a>). Batching doesn't help — it just splits the same full scan into more round trips. The result: a full corpus scan to update a handful of chunks.</p>
+<p>A follow-up post will cover a version that groups chunks into hash buckets and checks only the buckets that changed, so cost stays flat as the corpus grows.</p>
+</aside>
+
 ## Prerequisites
 
 Install the [Qdrant client of your choice](/documentation/interfaces/#client-libraries).
