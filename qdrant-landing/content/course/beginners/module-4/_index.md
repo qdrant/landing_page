@@ -12,12 +12,10 @@ weight: 50
 
 You know the primitives. This module is about judgment: how to go from "I have data and users" to a concrete design, making the same decisions you'd make on a real project.
 
-<!-- TODO (video): add the Module 4 overview video before launch. Follow the Essentials embed pattern. Outro bumper yes, Intro bumper no.
 <div class="video">
-  <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+  <iframe src="https://www.youtube.com/embed/CT5leRzcL5M?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
   </iframe>
 </div>
--->
 
 ## Today's Path
 
