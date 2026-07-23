@@ -302,7 +302,7 @@ Parent document is considered to match the condition if at least one element of 
 
 **Limitations**
 
-The `has_id` condition is not supported within the nested object filter. If you need it, place it in an adjacent `must` clause.
+The `has_id` and `slice` conditions are not supported within the nested object filter. If you need them, place them in an adjacent `must` clause.
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-with-nested-clause-and-has-id/" >}}
 
@@ -513,6 +513,22 @@ Some points in the collection might have all vectors, some might have only a sub
 This is how you can search for points which have the dense `image` vector defined:
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-has-vector/" >}}
+
+### Slice
+
+*Available as of v1.19.0*
+
+The `slice` condition divides a collection into a specific number of deterministic, disjoint subsets and matches all points in one of those subsets.
+
+Slicing is useful to [scroll](/documentation/manage-data/points/#scroll-points) through several subsets of a collection in parallel, for example to export, migrate, or re-embed points. Give each worker its own `index` to let every worker scan a separate subset of the collection.
+
+You can also use it to reproducibly sample a subset of the data for recall evaluation, train/test splits, or canary rollouts. Unlike [random sampling](/documentation/search/search/#random-sampling), a given slice always returns the same subset of points. It can be combined with any other filter condition for stratified sampling.
+
+For example, to scroll through slice 3 out of a total of 8 slices:
+
+{{< code-snippet path="/documentation/headless/snippets/filter-condition/slice/" >}}
+
+Slicing is based on a hash of the point IDs. A point matches slice `index` of `total` if `hash(id) % total == index`. For a fixed `total`, slices `0` through `total - 1` are disjoint and together cover every point in the collection. The hash is [SipHash-2-4](https://en.wikipedia.org/wiki/SipHash) with a zero key over the ID bytes, and it won't change across Qdrant versions. Slices with different `total` values are correlated, so slice `0` of `total: 4` is always a subset of slice `0` of `total: 2`.
 
 ## Read More
 
