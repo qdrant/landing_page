@@ -47,8 +47,8 @@ Three modes are available:
 | Mode | Description |
 | --- | --- |
 | `disabled` | Default. Loads all components as persisted. |
-| `no_resident` | Forces quantization to behave as `always_ram: false`, payload field indexes to `on_disk: true`, and payload storage to mmap with lazy populate. |
-| `no_populate` | Same as `no_resident`, and additionally skips mmap prefetch for vectors, the HNSW graph, and payload storage. Offers the lowest startup memory footprint, but first queries will be slower until the OS page cache warms up. |
+| `no_resident` | Downgrades quantized vectors and payload field indexes to the `cold` [memory tier](/documentation/ops-configuration/memory-tiers/), regardless of their configured tier. |
+| `no_populate` | Same as `no_resident`, and additionally forces vectors and the HNSW graph to `cold` by skipping mmap prefetch on load. Offers the lowest startup memory footprint, but first queries will be slower until the OS page cache warms up. |
 
 To enable low memory mode, set `storage.low_memory_mode` in the node's configuration file:
 
@@ -63,7 +63,7 @@ Or use the environment variable:
 QDRANT__STORAGE__LOW_MEMORY_MODE=no_populate
 ```
 
-Low memory mode takes effect on the next restart. It doesn't modify the [vector storage](/documentation/manage-data/storage/) settings persisted in your collections.
+Low memory mode takes effect on the next restart. It doesn't modify the [memory tier](/documentation/ops-configuration/memory-tiers/) settings persisted in your collections — it only overrides where data gets loaded for that startup.
 
 ## Strict Mode
 
