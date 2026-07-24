@@ -106,14 +106,22 @@
         {{ range $all }}
           {{ $demo := . }}
           {{ $isExternal := strings.HasPrefix .link.url "http" }}
+          {{- $searchParts := slice .title .description -}}
+          {{- range $filterKeySlice -}}
+            {{- with index $demo . -}}
+              {{- $searchParts = $searchParts | append . -}}
+            {{- end -}}
+          {{- end -}}
           <a
             href="{{ .link.url }}"
             class="demos-catalog__card"
             data-catalog-card
             data-id="{{ .id }}"
             data-name="{{ .title }}"
-            data-category="{{ .category }}"
-            data-search="{{ .title }} {{ .description }} {{ .category }}"
+            {{- range $filterKeySlice }}
+            data-{{ . }}="{{ index $demo . }}"
+            {{- end }}
+            data-search="{{ delimit $searchParts " " }}"
             {{ if $isExternal }}target="_blank"{{ end }}
           >
             <div class="demos-catalog__card-image{{ if not .image }} demos-catalog__card-image--placeholder{{ end }}">
@@ -147,14 +155,22 @@
         {{ range $all }}
           {{ $demo := . }}
           {{ $isExternal := strings.HasPrefix .link.url "http" }}
+          {{- $searchParts := slice .title .description -}}
+          {{- range $filterKeySlice -}}
+            {{- with index $demo . -}}
+              {{- $searchParts = $searchParts | append . -}}
+            {{- end -}}
+          {{- end -}}
           <a
             href="{{ .link.url }}"
             class="demos-catalog__card demos-catalog__card--list"
             data-catalog-card
             data-id="{{ .id }}"
             data-name="{{ .title }}"
-            data-category="{{ .category }}"
-            data-search="{{ .title }} {{ .description }} {{ .category }}"
+            {{- range $filterKeySlice }}
+            data-{{ . }}="{{ index $demo . }}"
+            {{- end }}
+            data-search="{{ delimit $searchParts " " }}"
             {{ if $isExternal }}target="_blank" rel="noopener noreferrer"{{ end }}
           >
             <div class="demos-catalog__card-image{{ if not .image }} demos-catalog__card-image--placeholder{{ end }}">

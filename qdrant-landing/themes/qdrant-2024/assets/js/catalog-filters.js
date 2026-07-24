@@ -329,19 +329,25 @@ function initMobileFilters(root, { onClose, onOpen, onApply, onClear, onAfterApp
   clearBtn?.addEventListener("click", () => onClear?.());
 }
 
-function syncAllCheckbox(filterInputs, filters, filterKeys) {
-  const allInput = filterInputs.find((input) => input.hasAttribute("data-filter-all"));
-  if (!allInput) return;
+function inputsForFilterKey(filterInputs, key) {
+  return filterInputs.filter((input) => input.dataset.filterKey === key);
+}
 
-  const hasCategoryFilters = filterKeys.some((key) => (filters[key] ?? []).length > 0);
-  allInput.checked = !hasCategoryFilters;
+function syncAllCheckbox(filterInputs, filters, filterKeys) {
+  for (const key of filterKeys) {
+    const groupInputs = inputsForFilterKey(filterInputs, key);
+    const allInput = groupInputs.find((input) => input.hasAttribute("data-filter-all"));
+    if (!allInput) continue;
+    allInput.checked = (filters[key] ?? []).length === 0;
+  }
 }
 
 function handleAllCheckboxChange(changedInput, filterInputs) {
   if (!changedInput.hasAttribute("data-filter-all")) return false;
 
   if (changedInput.checked) {
-    filterInputs.forEach((input) => {
+    const key = changedInput.dataset.filterKey;
+    inputsForFilterKey(filterInputs, key).forEach((input) => {
       if (!input.hasAttribute("data-filter-all")) {
         input.checked = false;
       }
@@ -353,7 +359,8 @@ function handleAllCheckboxChange(changedInput, filterInputs) {
 function handleCategoryCheckboxChange(changedInput, filterInputs) {
   if (changedInput.hasAttribute("data-filter-all") || !changedInput.checked) return;
 
-  filterInputs.forEach((input) => {
+  const key = changedInput.dataset.filterKey;
+  inputsForFilterKey(filterInputs, key).forEach((input) => {
     if (input.hasAttribute("data-filter-all")) {
       input.checked = false;
     }
