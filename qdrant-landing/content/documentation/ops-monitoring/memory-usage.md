@@ -44,6 +44,12 @@ Each component reports four values:
 | **Cached** | Evictable RAM: file pages currently resident in the OS page cache. |
 | **Expected Cache** | The amount of data that should ideally be cached for best performance. Compare this against **Cached** to see how much of the working set is warm. |
 
+These roughly map to the [memory tiers](/documentation/ops-configuration/memory-tiers/) available per component:
+
+- `pinned` components report their full size under **RAM**.
+- `cached` components are pre-loaded and typically show up under **Cached**, though evicted pages fall back to **Disk** under memory pressure.
+- `cold` components mainly show as **Disk**, since Qdrant doesn't pre-load them, though pages can still appear under **Cached** once the OS warms them up from actual access.
+
 ## API
 
 You can retrieve the same data though Qdrant's API:
