@@ -32,7 +32,7 @@ After setting up your account, you can create a Qdrant Cluster by following the 
 
 For a production-ready environment, consider deploying a multi-node Qdrant cluster (at least three nodes) with replication enabled. More details are available in the [Distributed Deployment](/documentation/distributed_deployment/) guide. For more information on how to create a production-ready cluster, see our [Vector Search in Production](/articles/vector-search-production/) article.
 
-If you are looking to optimize costs, you can reduce memory usage through [Quantization](/documentation/manage-data/quantization/) or by [offloading vectors to disk](/documentation/manage-data/storage/#configuring-memmap-storage).
+If you are looking to optimize costs, you can reduce memory usage through [Quantization](/documentation/manage-data/quantization/) or by moving vectors to the [`cold` memory tier](/documentation/manage-data/storage/#configuring-memmap-storage).
 
 ## Infrastructure as Code Automation
 
