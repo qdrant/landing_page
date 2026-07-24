@@ -1,20 +1,18 @@
 ```rust
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{
-    BinaryQuantizationBuilder, CreateCollectionBuilder, Distance, HnswConfigDiffBuilder,
+    BinaryQuantizationBuilder, CreateCollectionBuilder, Distance, HnswConfigDiffBuilder, Memory,
     VectorParamsBuilder,
 };
-
-let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(
         CreateCollectionBuilder::new("{collection_name}")
-            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine).on_disk(true))
-            .quantization_config(BinaryQuantizationBuilder::new(false))
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine).memory(Memory::Cold))
+            .quantization_config(BinaryQuantizationBuilder::default().memory(Memory::Cold))
             .hnsw_config(
                 HnswConfigDiffBuilder::default()
-                    .on_disk(true)
+                    .memory(Memory::Cold)
                     .inline_storage(true),
             ),
     )

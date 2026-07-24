@@ -2,15 +2,13 @@
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
-var client = new QdrantClient("localhost", 6334);
-
 await client.CreateCollectionAsync(
 	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine, OnDisk = true },
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine, Memory = Memory.Cold },
 	quantizationConfig: new QuantizationConfig
 	{
-		Binary = new BinaryQuantization { AlwaysRam = false }
+		Binary = new BinaryQuantization { Memory = Memory.Cold }
 	},
-	hnswConfig: new HnswConfigDiff { OnDisk = true, InlineStorage = true }
+	hnswConfig: new HnswConfigDiff { Memory = Memory.Cold, InlineStorage = true }
 );
 ```

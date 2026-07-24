@@ -21,15 +21,19 @@ This guide will walk you three main optimization strategies:
 
 ![qdrant resource tradeoffs](/docs/tradeoff.png)
 
+<aside role="status">
+This page covers the <code>memory</code> parameter introduced in Qdrant v1.19. If you're using an older version, see the <a href="/documentation/ops-configuration/memory-tiers/#legacy-settings">Legacy Settings</a> section for how to map the new parameter to the old ones.
+</aside>
+
 ## 1. High-Speed Search with Low Memory Usage
 
 To achieve high search speed with minimal memory usage, you can store vectors on disk while minimizing the number of disk reads. Vector quantization is a technique that compresses vectors, allowing more of them to be stored in memory, thus reducing the need to read from disk.
 
 To configure in-memory quantization, with on-disk original vectors, you need to create a collection with the following parameters:
 
-- `on_disk`: Stores original vectors on disk.
+- `memory`: Set to `cold` to store the original vectors on disk.
 - `quantization_config`: Compresses quantized vectors to `int8` using the `scalar` method.
-- `always_ram`: Keeps quantized vectors in RAM.
+- `quantization_config.memory`: Set to `pinned` to keep the quantized vectors in RAM.
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/scalar-quantization-in-ram/" >}}
 
@@ -43,7 +47,7 @@ This is completely optional. Disabling rescoring with search `params` can furthe
 
 If you require high precision but have limited RAM, you can store both vectors and the HNSW index on disk. This setup reduces memory usage while maintaining search precision.
 
-To store the vectors `on_disk`, you need to configure both the vectors and the HNSW index:
+To move the vectors to the `cold` [memory tier](/documentation/ops-configuration/memory-tiers/), you need to configure both the vectors and the HNSW index:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-vectors-and-hnsw-on-disk/" >}}
 
@@ -56,7 +60,7 @@ Increase the `ef` and `m` parameters of the HNSW index to improve precision, eve
 "hnsw_config": {
     "m": 64,
     "ef_construct": 512,
-    "on_disk": true
+    "memory": "cold"
 }
 ...
 ```
@@ -68,7 +72,7 @@ You can use [fio](https://gist.github.com/superboum/aaa45d305700a7873a8ebbab1abd
 
 *Available as of v1.16.0*
 
-When storing vectors and the HNSW index on disk, you can improve search performance by enabling the `inline_storage` option in the `hnsw_config`.
+When vectors and the HNSW index are in the `cold` memory tier, you can improve search performance by enabling the `inline_storage` option in the `hnsw_config`.
 With inline storage, Qdrant stores copies of vectors directly within the HNSW index file.
 It makes searches faster by reducing the number of IO operations, at the cost of 3-4x increased storage usage.
 It requires quantization to be enabled.
@@ -123,7 +127,7 @@ Large segments benefit from the size of the index and overall smaller number of 
 
 By adjusting configurations like vector storage, quantization, and search parameters, you can optimize Qdrant for different use cases:
 - **Low Memory + High Speed:** Use vector quantization.
-- **High Precision + Low Memory:** Store vectors and HNSW index on disk.
+- **High Precision + Low Memory:** Store vectors and HNSW index in the `cold` memory tier.
 - **High Precision + High Speed:** Keep data in RAM, use quantization with re-scoring.
 - **Latency vs. Throughput:** Adjust segment numbers based on the priority.
 
