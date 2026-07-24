@@ -54,18 +54,17 @@ Following this sequence means Qdrant builds the graph in a single pass, rather t
 
 ## Upload Directly to Disk
 
-When the vectors you upload do not all fit in RAM, you likely want to use
-[memmap](/documentation/manage-data/storage/#configuring-memmap-storage)
-support.
+When the vectors you upload do not all fit in RAM, you likely want to move them to the
+[`cold` memory tier](/documentation/ops-configuration/memory-tiers/) directly.
 
 During [collection
 creation](/documentation/manage-data/collections/#create-collection),
-memmaps can be enabled on a per-vector basis using the `on_disk` parameter. This
+you can set the `memory` parameter to `cold` on a per-vector basis. This
 will store vector data directly on disk at all times.
 
 Using `memmap_threshold` is not recommended in this case. This requires
 the [optimizer](/documentation/ops-optimization/optimizer/) to constantly
-transform in-memory segments into memmap segments on disk. This process is
+transform segments to the `cold` tier. This process is
 slower, and the optimizer can be a bottleneck when ingesting a large amount of
 data.
 
