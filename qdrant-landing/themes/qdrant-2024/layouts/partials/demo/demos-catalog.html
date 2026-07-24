@@ -1,0 +1,206 @@
+{{- $all := .Params.demos | default slice -}}
+{{- $filters := .Params.filters | default slice -}}
+{{- $batchSize := .Params.batchSize | default 8 -}}
+
+{{- $filterKeySlice := slice -}}
+{{- range $filters -}}
+  {{- $filterKeySlice = $filterKeySlice | append .key -}}
+{{- end -}}
+
+<section
+  class="demos-catalog"
+  data-catalog-filters
+  data-filter-keys="{{ delimit $filterKeySlice "," }}"
+  data-batch-size="{{ $batchSize }}"
+>
+  <div class="container demos-catalog__container">
+    <aside class="demos-catalog__filters" data-filters>
+      <div class="demos-catalog__filters-header">
+        <h6 class="demos-catalog__filters-title">Filter and Sort</h6>
+        <button type="button" class="demos-catalog__filters-close-button" data-filters-close aria-label="Close filters">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M18.3642 4.22258C18.7547 3.83206 19.3887 3.83206 19.7792 4.22258C20.1695 4.61305 20.1695 5.24617 19.7792 5.63664L13.415 11.9999L19.7792 18.3642C20.1697 18.7547 20.1697 19.3887 19.7792 19.7792C19.3888 20.1696 18.7557 20.1693 18.3652 19.7792L12.0009 13.415L5.63664 19.7792C5.24618 20.1694 4.61305 20.1695 4.22258 19.7792C3.83206 19.3887 3.83206 18.7547 4.22258 18.3642L10.5859 11.9999L4.22258 5.63664C3.83209 5.24612 3.83209 4.6131 4.22258 4.22258C4.6131 3.83206 5.24612 3.83208 5.63664 4.22258L11.9999 10.5859L18.3642 4.22258Z" fill="#161E33"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="demos-catalog__accordion">
+        {{ range $filter := $filters }}
+          {{- $key := $filter.key -}}
+          {{- $label := $filter.label | default $key -}}
+          {{- $values := $filter.values | default slice -}}
+          {{- if eq (len $values) 0 -}}
+            {{- range $all -}}
+              {{- with index . $key }}{{ $values = $values | append . }}{{ end -}}
+            {{- end -}}
+            {{- $values = sort (uniq $values) -}}
+          {{- end -}}
+          <div class="demos-catalog__accordion-item active" data-catalog-accordion-item>
+            <p class="demos-catalog__accordion-header" data-catalog-accordion-header>
+              {{ $label }}
+            </p>
+            <div class="demos-catalog__accordion-body" data-catalog-accordion-body>
+              <div class="demos-catalog__accordion-inner">
+                <div class="demos-catalog__accordion-option">
+                  <input type="checkbox" data-filter-input data-filter-all data-filter-key="{{ $key }}" value="all" id="demo-{{ $key }}-all" checked>
+                  <label for="demo-{{ $key }}-all">All</label>
+                </div>
+                {{ range $values }}
+                  <div class="demos-catalog__accordion-option">
+                    <input type="checkbox" data-filter-input data-filter-key="{{ $key }}" value="{{ . }}" id="demo-{{ $key }}-{{ . | urlize }}">
+                    <label for="demo-{{ $key }}-{{ . | urlize }}">{{ . }}</label>
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+
+      <div class="demos-catalog__filters-footer">
+        <button type="button" class="button button_outlined button_lg demos-catalog__filters-clear-button" data-filters-clear>
+          Clear Filters
+        </button>
+        <button type="button" class="button button_contained button_lg demos-catalog__filters-apply-button" data-filters-apply>
+          Apply
+        </button>
+      </div>
+    </aside>
+
+    <div class="demos-catalog__content">
+      <div class="demos-catalog__content-header">
+        <button type="button" class="demos-catalog__filter-mobile-button" data-filters-open aria-label="Open filters">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1.8457 3.69238H12.9226M4.30724 7.38469H10.4611M6.1534 11.077H8.61493" stroke="#111824" stroke-width="1.23" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <label class="demos-catalog__search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M14.6723 14.6723L11.6679 11.6679M13.2749 7.68531C13.2749 10.7724 10.7724 13.2749 7.68531 13.2749C4.59825 13.2749 2.0957 10.7724 2.0957 7.68531C2.0957 4.59825 4.59825 2.0957 7.68531 2.0957C10.7724 2.0957 13.2749 4.59825 13.2749 7.68531Z" stroke="#28324D" stroke-width="1.3974" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <input
+            type="search"
+            class="demos-catalog__search-input"
+            data-search-input
+            placeholder="Search demos..."
+            aria-label="Search demos"
+          >
+        </label>
+
+        <div class="demos-catalog__toggle" data-catalog-view-toggle>
+          <button type="button" class="demos-catalog__toggle-btn active" data-view-btn="grid">
+            <span>Grid</span>
+          </button>
+          <button type="button" class="demos-catalog__toggle-btn" data-view-btn="list">
+            <span>List</span>
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="demos-catalog__results demos-catalog__results--grid active"
+        data-view-block="grid"
+        data-results-grid
+      >
+        {{ range $all }}
+          {{ $demo := . }}
+          {{ $isExternal := strings.HasPrefix .link.url "http" }}
+          {{- $searchParts := slice .title .description -}}
+          {{- range $filterKeySlice -}}
+            {{- with index $demo . -}}
+              {{- $searchParts = $searchParts | append . -}}
+            {{- end -}}
+          {{- end -}}
+          <a
+            href="{{ .link.url }}"
+            class="demos-catalog__card"
+            data-catalog-card
+            data-id="{{ .id }}"
+            data-name="{{ .title }}"
+            {{- range $filterKeySlice }}
+            data-{{ . }}="{{ index $demo . }}"
+            {{- end }}
+            data-search="{{ delimit $searchParts " " }}"
+            {{ if $isExternal }}target="_blank"{{ end }}
+          >
+            <div class="demos-catalog__card-image{{ if not .image }} demos-catalog__card-image--placeholder{{ end }}">
+              {{ with .image }}
+                {{ partial "picture.html" (dict
+                  "src" .
+                  "alt" $demo.title
+                  "loading" "lazy"
+                  "decoding" "async"
+                  "width" "400"
+                  "height" "148"
+                ) }}
+              {{ else }}
+                <span class="demos-catalog__card-image-label" aria-hidden="true">Demo</span>
+              {{ end }}
+            </div>
+            <div class="demos-catalog__card-body">
+              <span class="demos-catalog__card-badge">{{ .category }}</span>
+              <h3 class="demos-catalog__card-title">{{ .title }}</h3>
+              <p class="demos-catalog__card-description">{{ .description }}</p>
+            </div>
+          </a>
+        {{ end }}
+      </div>
+
+      <div
+        class="demos-catalog__results demos-catalog__results--list"
+        data-view-block="list"
+        data-results-list
+      >
+        {{ range $all }}
+          {{ $demo := . }}
+          {{ $isExternal := strings.HasPrefix .link.url "http" }}
+          {{- $searchParts := slice .title .description -}}
+          {{- range $filterKeySlice -}}
+            {{- with index $demo . -}}
+              {{- $searchParts = $searchParts | append . -}}
+            {{- end -}}
+          {{- end -}}
+          <a
+            href="{{ .link.url }}"
+            class="demos-catalog__card demos-catalog__card--list"
+            data-catalog-card
+            data-id="{{ .id }}"
+            data-name="{{ .title }}"
+            {{- range $filterKeySlice }}
+            data-{{ . }}="{{ index $demo . }}"
+            {{- end }}
+            data-search="{{ delimit $searchParts " " }}"
+            {{ if $isExternal }}target="_blank" rel="noopener noreferrer"{{ end }}
+          >
+            <div class="demos-catalog__card-image{{ if not .image }} demos-catalog__card-image--placeholder{{ end }}">
+              {{ with .image }}
+                {{ partial "picture.html" (dict
+                  "src" .
+                  "alt" $demo.title
+                  "loading" "lazy"
+                  "decoding" "async"
+                  "width" "800"
+                  "height" "296"
+                ) }}
+              {{ else }}
+                <span class="demos-catalog__card-image-label" aria-hidden="true">Demo</span>
+              {{ end }}
+            </div>
+            <div class="demos-catalog__card-body">
+              <span class="demos-catalog__card-badge">{{ .category }}</span>
+              <h3 class="demos-catalog__card-title">{{ .title }}</h3>
+              <p class="demos-catalog__card-description">{{ .description }}</p>
+            </div>
+          </a>
+        {{ end }}
+      </div>
+
+      {{- if gt (len $all) $batchSize -}}
+        <button type="button" class="button button_outlined demos-catalog__button" data-load-more hidden>
+          View More
+        </button>
+      {{- end -}}
+    </div>
+  </div>
+</section>
