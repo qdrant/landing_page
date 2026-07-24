@@ -25,6 +25,9 @@
     - [Images](#images)
     - [Important notes](#important-notes)
   - [Agenda](#agenda)
+  - [Demo](#demo)
+    - [Add a demo](#add-a-demo)
+    - [Add a filter](#add-a-filter)
   - [Shortcodes 🧩🧩🧩](#shortcodes-)
     - [Built-in shortcodes](#built-in-shortcodes)
     - [Custom shortcodes](#custom-shortcodes)
@@ -362,6 +365,52 @@ Optional talk parameters:
 - `company_logo_offset` — adjust logo position with `placement` (top/bottom/left/right) and `value` (px)
 
 The layout lives at `themes/qdrant-2024/layouts/agenda/single.html` and styles at `themes/qdrant-2024/assets/css/partials/_agenda.scss`.
+
+## Demo
+
+Demos and filters for the `/demo` page live in `qdrant-landing/content/demo/items/_index.md`. Edit that file only — no template changes needed for new demos or filters.
+
+### Add a demo
+
+Append an entry under `demos:`:
+
+```yaml
+demos:
+  - id: my-new-demo          # unique slug
+    title: My New Demo
+    description: Short description shown on the card.
+    category: Semantic Search  # must match a filter field (see below)
+    image: /img/demos/demo-0.png  # optional; omit for a placeholder
+    link:
+      text: View Demo
+      url: https://example.com/
+```
+
+Put card images in `themes/qdrant-2024/static/img/demos/`. Provide a PNG at **800×296px** (2x) and WebP at both **1x (400×148px)** and **2x (800×296px)**. Only list the PNG file in the markdown; WebP will be used automatically if available.
+
+### Add a filter
+
+Each filter needs a `key` that matches a field on every demo, and a `label` for the sidebar. Filter options are collected automatically from demo values unless you set `values` explicitly.
+
+```yaml
+filters:
+  - key: category
+    label: Categories
+  - key: industry          # new filter
+    label: Industries
+
+demos:
+  - id: my-new-demo
+    title: My New Demo
+    description: Short description shown on the card.
+    category: Semantic Search
+    industry: Healthcare   # same key as the new filter
+    link:
+      text: View Demo
+      url: https://example.com/
+```
+
+Optional: `batchSize` controls how many cards show before “View More” (default `8`).
 
 ## Shortcodes 🧩🧩🧩
 

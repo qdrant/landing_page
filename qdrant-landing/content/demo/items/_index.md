@@ -1,4 +1,5 @@
 ---
+# How to update: see README.md#demo
 sitemapExclude: true
 batchSize: 8
 filters:
