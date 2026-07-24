@@ -25,8 +25,6 @@ Most of the millions of terabytes of data we generate each day is **unstructured
 
 Unstructured data lacks a strict format or schema, making it challenging for conventional databases to manage. Yet, this unstructured data holds immense potential for **AI**, **machine learning**, and **modern search engines**.
 
-> A [Vector Database](https://qdrant.tech/qdrant-vector-database/) is a specialized system designed to efficiently handle high-dimensional vector data. It excels at indexing, querying, and retrieving this data, enabling advanced analysis and similarity searches that traditional databases cannot easily perform.
-
 ### The Challenge with Traditional Databases
 
 Traditional [OLTP](https://www.ibm.com/topics/oltp) and [OLAP](https://www.ibm.com/topics/olap) databases have been the backbone of data storage for decades. They are great at managing structured data with well-defined schemas, like `name`, `address`, `phone number`, and `purchase history`.
@@ -41,11 +39,13 @@ Also, this applies to more than just PDF documents. Think about the vast amounts
 
 <img src="/articles_data/what-is-a-vector-database/vector-db-structure.png" alt="Structure of a Vector Database" width="400">
 
-Vector databases allow you to understand the **context** or **conceptual similarity** of unstructured data by representing them as vectors, enabling advanced analysis and retrieval based on data similarity.
+This is where vector databases come in. They index and query unstructured data as **vectors** that capture patterns and relationships, enabling applications to search and retrieve information based on meaning rather than exact matches.
 
-## When to Use a Vector Database
+> A [Vector Database](https://qdrant.tech/qdrant-vector-database/) is a specialized system designed to efficiently handle high-dimensional vector data. It excels at indexing, querying, and retrieving this data, enabling advanced analysis and similarity searches that traditional databases cannot easily perform.
 
-Not sure if you should use a vector database or a traditional database? This chart may help.
+## Traditional Databases vs Vector Databases
+
+Traditional and vector databases aren't rivals; they solve different problems. The table below shows how they compare across data structure, query method, and typical use cases.
 
 | **Feature**         | **OLTP Database**       | **OLAP Database**             | **Vector Database**                        |
 |---------------------|--------------------------------------|--------------------------------------------|--------------------------------------------|
@@ -56,36 +56,13 @@ Not sure if you should use a vector database or a traditional database? This cha
 | **Performance**      | Optimized for high-volume transactions | Optimized for complex analytical queries   | Optimized for unstructured data retrieval  |
 | **Use Cases**        | Inventory, order processing, CRM    | Business intelligence, data warehousing    | Similarity search, recommendations, RAG, anomaly detection, etc. |
 
-
 ## What Is a Vector?
 
 ![vector-database-vector](/articles_data/what-is-a-vector-database/vector-database-7.jpeg)
 
 When a machine needs to process unstructured data - an image, a piece of text, or an audio file, it first has to translate that data into a format it can work with: **vectors**.
 
-> A **vector** is a numerical representation of data that can capture the **context** and **semantics** of data. 
-
-When you deal with unstructured data, traditional databases struggle to understand its meaning. However, a vector can translate that data into something a machine can process. For example, a vector generated from text can represent relationships and meaning between words, making it possible for a machine to compare and understand their context.
-
-There are three key elements that define a vector in a vector database: the **ID**, the **dimensions**, and the **payload**. These components work together to represent a vector effectively within the system. Together, they form a **point**, which is the core unit of data stored and retrieved in a vector database.
-
-<img src="/articles_data/what-is-a-vector-database/point.png" alt="Representation of a Point in Qdrant" width="700">
-
-Each one of these parts plays an important role in how vectors are stored, retrieved, and interpreted. Let's see how. 
-
-### 1. The ID: Your Vector’s Unique Identifier
-
-Just like in a relational database, each vector in a vector database gets a unique ID. Think of it as your vector’s name tag, a **primary key** that ensures the vector can be easily found later. When a vector is added to the database, the ID is created automatically.
-
-While the ID itself doesn't play a part in the similarity search (which operates on the vector's numerical data), it is essential for associating the vector with its corresponding "real-world" data, whether that’s a document, an image, or a sound file. 
-
-After a search is performed and similar vectors are found, their IDs are returned. These can then be used to **fetch additional details or metadata** tied to the result. 
-
-### 2. The Dimensions: The Core Representation of the Data
-
-At the core of every vector is a set of numbers, which together form a representation of the data in a **multi-dimensional** space.
-
-#### From Text to Vectors: How Does It Work?
+> A **vector** is a numerical representation of data in a **multi-dimensional space** that captures the **context** and **semantics** of data.
 
 These numbers are generated by **embedding models**, such as deep learning algorithms, and capture the essential patterns or relationships within the data. That's why the term **embedding** is often used interchangeably with vector when referring to the output of these models.
 
@@ -99,9 +76,77 @@ For that reason, when comparing two similar sentences, their embeddings will tur
 
 That’s the beauty of embeddings. The complexity of the data is distilled into something that can be compared across a multi-dimensional space.
 
-### 3. The Payload: Adding Context with Metadata
+## The Vector Search Workflow
 
-Sometimes you're going to need more than just numbers to fully understand or refine a search. While the dimensions capture the essence of the data, the payload holds **metadata** for structured information.
+Before diving into the individual concepts, it helps to see the full picture. Regardless of the use case, the underlying vector search workflow consists of two complementary paths: the **ingestion path**, where data is processed and stored as vectors, and the **query path**, where user queries are matched against the stored vectors.
+
+### Ingestion Path
+
+1. **Generate embeddings:** An embedding model converts raw data into vectors that capture its semantic meaning.
+
+2. **Store and index the vectors:** The vectors, along with any associated metadata, are stored in the vector database, which builds an index for efficient similarity search.
+
+### Query Path
+
+3. **Embed the query:** When a user submits a search query, the same embedding model converts it into a vector.
+
+4. **Search for similar vectors:** The vector database compares the query vector against the indexed vectors and returns the closest matches, ranked by similarity.
+
+5. **Power your application:** The retrieved results can then be used in applications such as semantic search, recommendation systems, anomaly detection, and Retrieval-Augmented Generation (RAG).
+
+<img src="/articles_data/what-is-a-vector-database/search-workflow.png" alt=" Vector search workflow diagram" width="1000">
+
+## Common Applications of Vector Search
+
+Vector search enables a wide range of applications by allowing systems to retrieve information based on meaning rather than exact matches. Some of the most common use cases include:
+
+| **Use Case**                     | **How It Works**                                                                                      | **Examples**                                             |
+|-----------------------------------|------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+| **Similarity Search**             | Finds similar data points using vector distances                                                    | Find similar product images, retrieve documents based on themes, discover related topics |
+| **Anomaly Detection**             | Identifies outliers based on deviations in vector space                                               | Detect unusual user behavior in banking, spot irregular patterns |
+| **Recommendation Systems**        | Uses vector embeddings to learn and model user preferences                                    | Personalized movie or music recommendations, e-commerce product suggestions |
+| **RAG (Retrieval-Augmented Generation)** | Combines vector search with large language models (LLMs) for contextually relevant answers                     | Customer support, auto-generate summaries of documents, research reports |
+| **Multimodal Search**             | Search across different types of data like text, images, and audio in a single query.                  | Search for products with a description and image, retrieve images based on audio or text |
+| **Voice & Audio Recognition**     | Uses vector representations to recognize and retrieve audio content                                 | Speech-to-text transcription, voice-controlled smart devices, identify and categorize sounds |
+| **Knowledge Graph Augmentation**  | Links unstructured data to concepts in knowledge graphs using vectors                        | Link research papers to related studies, connect customer reviews to product features, organize patents by innovation trends|
+
+## The Architecture of a Vector Database
+
+> A quick note on naming. You'll almost always hear these systems called vector databases, but the term is a little misleading. Traditional databases like Postgres or MySQL are built on ACID principles: transactions, strong consistency, and atomicity. Most "vector databases" aren't databases in that sense. They're really **vector search engines**, designed for horizontal scalability, low-latency queries, and high availability. Those priorities lead to different architectural decisions that are not reproducible in general-purpose databases. The label vector database stuck for marketing reasons, so we use it throughout this article, but vector search engine is the more accurate description.
+
+A vector database is made of multiple different entities and relations. Let's understand a bit of what's happening here:
+<img src="/articles_data/what-is-a-vector-database/vector-database-architecture.png" alt="Architecture Diagram of a Vector Database" width="900">
+
+### Points
+[Points](https://qdrant.tech/documentation/manage-data/points/) are the core units of data stored and retrieved. They are the central entity that Qdrant operates with.
+
+There are three key elements that form a point: the **ID**, one or more **vector(s)**, and the **payload**. 
+<img src="/articles_data/what-is-a-vector-database/point.png" alt="Representation of a Point in Qdrant" width="700">
+
+Each one of these parts plays an important role in how a point is stored, retrieved, and interpreted. Let's see how. 
+
+#### 1. The ID: The Point's Unique Identifier
+
+Just like in a relational database, each point in a vector database gets a unique ID that ensures it can be easily found later. When a vector is added to the database, the ID is created automatically.
+
+While the ID itself doesn't play a part in the similarity search (which operates on the vector's numerical data), it is essential for associating the vector with its corresponding "real-world" data, whether that’s a document, an image, or a sound file. 
+
+After a search is performed and similar vectors are found, their IDs are returned. These can then be used to **fetch additional details or metadata** tied to the result. 
+
+#### 2. The Vector(s): One or More Representations of the Data
+
+The vector is the numerical representation that powers similarity search (see [What Is a Vector?](#what-is-a-vector)).
+
+It is possible to attach more than one vector to a single point. In Qdrant we call these **named vectors**.
+
+With named vectors, one point can hold several vectors, each with its own name, dimensionality, and distance metric. 
+
+This lets you store multiple representations of the same object side by side, for example a **dense** and a **sparse** vector for the same piece of text, or separate embeddings for an image and its caption. At search time you can combine these representations to power [hybrid search](#hybrid-search).
+
+
+#### 3. The Payload: Adding Context with Metadata
+
+Sometimes you're going to need more than just numbers to fully understand or refine a search. While the vectors capture the essence of the data, the payload holds **metadata** for structured information.
 
 It could be textual data like descriptions, tags, categories, or it could be numerical values like dates or prices. This extra information is vital when you want to filter or rank search results based on criteria that aren’t directly encoded in the vector.
 
@@ -111,20 +156,16 @@ For example, if you’re searching for a picture of a dog, the vector helps the 
 
 <img src="/articles_data/what-is-a-vector-database/filtering-example.png" alt="Filtering Example" width="500">
 
-The payload can help you narrow down those results by ignoring vectors that don't match your query vector filtering criteria. If you want the full picture of how filtering works in Qdrant, check out our [Complete Guide to Filtering.](https://qdrant.tech/articles/vector-search-filtering/)
-
-## The Architecture of a Vector Database
-
-A vector database is made of multiple different entities and relations. Let's understand a bit of what's happening here:
-<img src="/articles_data/what-is-a-vector-database/architecture-vector-db.png" alt="Architecture Diagram of a Vector Database" width="900">
+The payload can help you narrow down those results by ignoring vectors that don't match your filtering criteria. If you want the full picture of how filtering works in Qdrant, check out our [Complete Guide to Filtering.](https://qdrant.tech/articles/vector-search-filtering/)
 
 ### Collections
 
-A [collection](https://qdrant.tech/documentation/manage-data/collections/) is essentially a group of **vectors** (or “[points](https://qdrant.tech/documentation/manage-data/points/)”) that are logically grouped together **based on similarity or a specific task**. Every vector within a collection shares the same dimensionality and can be compared using a single metric. Avoid creating multiple collections unless necessary; instead, consider techniques like **sharding** for scaling across nodes or **multitenancy** for handling different use cases within the same infrastructure.
+A [collection](https://qdrant.tech/documentation/manage-data/collections/) is essentially a set of points that you can search over together. Within a collection, vectors of the same name must share the same dimensionality and be compared with a single distance metric. 
+Avoid creating multiple collections unless necessary; instead, consider techniques like **sharding** for scaling across nodes or **multitenancy** for handling different use cases within the same infrastructure.
 
 ### Distance Metrics 
 
-These metrics defines how similarity between vectors is calculated. The choice of distance metric is made when creating a collection and the right choice depends on the type of data you’re working with and how the vectors were created. Here are the three most common distance metrics:
+These metrics define how similarity between vectors is calculated. The choice of distance metric is made when creating a collection and the right choice depends on the type of data you’re working with and how the vectors were created. Here are the three most common distance metrics:
 
 - **Euclidean Distance:** The straight-line path. It’s like measuring the physical distance between two points in space. Pick this one when the actual distance (like spatial data) matters.
 
@@ -157,7 +198,7 @@ For other configurations like `hnsw_config.on_disk` or `memmap_threshold`, see t
 
 ### SDKs
 
-Qdrant offers a range of SDKs. You can use the programming language you're most comfortable with, whether you're coding in [Python](https://github.com/qdrant/qdrant-client), [Go](https://github.com/qdrant/go-client), [Rust](https://github.com/qdrant/rust-client), [Javascript/Typescript](https://github.com/qdrant/qdrant-js), [C#](https://github.com/qdrant/qdrant-dotnet) or [Java](https://github.com/qdrant/java-client).
+Qdrant offers a range of SDKs. You can use the programming language you're most comfortable with, whether you're coding in [Python](https://github.com/qdrant/qdrant-client), [Go](https://github.com/qdrant/go-client), [Rust](https://github.com/qdrant/rust-client), [JavaScript/TypeScript](https://github.com/qdrant/qdrant-js), [C#](https://github.com/qdrant/qdrant-dotnet) or [Java](https://github.com/qdrant/java-client).
 
 ## The Core Functionalities of Vector Databases
 
@@ -165,10 +206,11 @@ Qdrant offers a range of SDKs. You can use the programming language you're most 
 
 When you think of a traditional database, the operations are familiar: you **create**, **read**, **update**, and **delete** records. These are the fundamentals. And guess what? In many ways, vector databases work the same way, but the operations are translated for the complexity of vectors.
 
-### 1. Indexing: HNSW Index and Sending Data to Qdrant
+### 1. Indexing
 
 Indexing your vectors is like creating an entry in a traditional database. But for vector databases, this step is very important. Vectors need to be indexed in a way that makes them easy to search later on. 
 
+#### 1.1 HNSW Indexing
 **HNSW** (Hierarchical Navigable Small World) is a powerful indexing algorithm that most vector databases rely on to organize vectors for fast and efficient search.
 
 It builds a multi-layered graph, where each vector is a node and connections represent similarity. The higher layers connect broadly similar vectors, while lower layers link vectors that are closely related, making searches progressively more refined as they go deeper.
@@ -177,7 +219,7 @@ It builds a multi-layered graph, where each vector is a node and connections rep
 
 When you run a search, HNSW starts at the top, quickly narrowing down the search by hopping between layers. It focuses only on relevant vectors as it goes deeper, refining the search with each step.
 
-### 1.1 Payload Indexing
+#### 1.2 Payload Indexing
 
 In Qdrant, indexing is modular. You can configure indexes for **both vectors and payloads independently**. The payload index is responsible for optimizing filtering based on metadata. Each payload index is built for a specific field and allows you to quickly filter vectors based on specific conditions.
 
@@ -201,13 +243,13 @@ The search then moves down progressively narrowing down to more closely related 
 
 Here's a high-level overview of this process:
 
-<img src="/articles_data/what-is-a-vector-database/simple-arquitecture.png" alt="Vector Database Searching Functionality" width="520">
+<img src="/articles_data/what-is-a-vector-database/simple-architecture.png" alt="Vector Database Searching Functionality" width="520">
 
-### 3. Updating Vectors: Real-Time and Bulk Adjustments
+### 3. Updating Points: Real-Time and Bulk Adjustments
 
-Data isn't static, and neither are vectors. Keeping your vectors up to date is crucial for maintaining relevance in your searches.
+Data isn't static, and neither are vectors. Keeping your points up to date is crucial for maintaining relevance in your searches.
 
-Vector updates don’t always need to happen instantly, but when they do, Qdrant handles real-time modifications efficiently with a simple API call:
+Point updates don’t always need to happen instantly, but when they do, Qdrant handles real-time modifications efficiently with a simple API call:
 
 ```python
 client.upsert(
@@ -216,7 +258,7 @@ client.upsert(
 )
 ```
 
-For large-scale changes, like re-indexing vectors after a model update, batch updating allows you to update multiple vectors in one operation without impacting search performance:
+For large-scale changes, like re-indexing vectors after a model update, batch updating allows you to update multiple points in one operation without impacting search performance:
 
 ```python
 batch_of_updates = [
@@ -231,11 +273,11 @@ client.upsert(
 )
 ```
 
-### 4. Deleting Vectors: Managing Outdated and Duplicate Data
+### 4. Deleting Points: Managing Outdated and Duplicate Data
 
-Efficient vector management is key to keeping your searches accurate and your database lean. Deleting vectors that represent outdated or irrelevant data, such as expired products, old news articles, or archived profiles, helps maintain both performance and relevance.
+Efficient vector management is key to keeping your searches accurate and your database lean. Deleting points that represent outdated or irrelevant data, such as expired products, old news articles, or archived profiles, helps maintain both performance and relevance.
 
-In Qdrant, removing vectors is straightforward, requiring only the vector IDs to be specified:
+In Qdrant, removing points is straightforward, requiring only the point IDs to be specified:
 
 ```python
 client.delete(
@@ -245,13 +287,19 @@ client.delete(
 ```
 You can use deletion to remove outdated data, clean up duplicates, and manage the lifecycle of vectors by automatically deleting them after a set period to keep your dataset relevant and focused.
 
-## Dense vs. Sparse Vectors
 
+## Hybrid Search 
 ![vector-database-dense-sparse](/articles_data/what-is-a-vector-database/vector-database-4.jpeg)
 
-Now that you understand what vectors are and how they are created, let's learn more about the two possible types of vectors you can use: **dense** or **sparse**. The main difference between the two are: 
+Sometimes context alone isn’t enough. Sometimes you need precision, too. Dense vectors (embeddings we've talked about so far) are fantastic when you need to retrieve results based on the context or meaning behind the data. Sparse vectors are useful when you also need **keyword or specific attribute matching**.
 
-### 1. Dense Vectors
+> With hybrid search you don’t have to choose one over the other and use both to get searches that are more **relevant** and **filtered**. 
+
+### Dense vs. Sparse Vectors
+
+Dense and sparse vectors represent data in fundamentally different ways, and each excels at a different type of retrieval. Understanding their strengths and limitations explains why combining them can produce better search results than relying on either approach alone.
+
+#### 1. Dense Vectors
 
 Dense vectors are, quite literally, dense with information. Every element in the vector contributes to the **semantic meaning**, **relationships** and **nuances** of the data. A dense vector representation of this sentence might look like this:
 
@@ -259,15 +307,15 @@ Dense vectors are, quite literally, dense with information. Every element in the
 
 Each number holds weight. Together, they convey the overall meaning of the sentence, and are better for identifying contextually similar items, even if the words don’t match exactly.
 
-### 2. Sparse Vectors
+#### 2. Sparse Vectors
 
-Sparse vectors  operate differently. They focus only on the essentials. In most sparse vectors, a large number of elements are zeros. When a feature or token is present, it’s marked—otherwise, zero. 
+Sparse vectors operate differently. They focus only on the essentials. In most sparse vectors, a large number of elements are zeros. When a feature or token is present, it’s marked; otherwise, zero. 
 
 In the image, you can see a sentence, *“I love Vector Similarity,”* broken down into tokens like *“i,” “love,” “vector”* through tokenization. Each token is assigned a unique `ID` from a large vocabulary. For example, *“i”* becomes `193`, and *“vector”* becomes `15012`.
 
 <img src="/articles_data/what-is-a-vector-database/sparse.png" alt="How Sparse Vectors are Created" width="700">
 
-Sparse vectors, are used for **exact matching** and specific token-based identification. The values on the right, such as `193: 0.04` and `9182: 0.12`, are the scores or weights for each token, showing how relevant or important each token is in the context. The final result is a sparse vector:
+Sparse vectors are used for **exact matching** and specific token-based identification. The values on the right, such as `193: 0.04` and `9182: 0.12`, are the scores or weights for each token, showing how relevant or important each token is in the context. The final result is a sparse vector:
 
 ```json
 {
@@ -281,42 +329,42 @@ Sparse vectors, are used for **exact matching** and specific token-based identif
 
 Everything else in the vector space is assumed to be zero.
 
-Sparse vectors are ideal for tasks like **keyword search** or **metadata filtering**, where you need to check for the presence of specific tokens without needing to capture the full meaning or context. They suited for exact matches within the **data itself**, rather than relying on external metadata, which is handled by payload filtering.
+Sparse vectors are ideal for tasks like **keyword search** where you need to check for the presence of specific tokens without needing to capture the full meaning or context. They are suited for exact matches within the **data itself**.
 
-## Benefits of Hybrid Search
+> Unlike dense vectors, which are indexed using HNSW, sparse vectors use a different indexing structure called an **inverted index**. An inverted index maps each non-zero dimension (token ID) to the vectors that contain it, along with the corresponding weights. At query time, only vectors sharing non-zero dimensions with the query are considered and scored using **dot product** based on their overlapping terms.
 
-![vector-database-get-started](/articles_data/what-is-a-vector-database/vector-database-5.jpeg)
+### Fusion
 
-Sometimes context alone isn’t enough. Sometimes you need precision, too. Dense vectors are fantastic when you need to retrieve results based on the context or meaning behind the data. Sparse vectors are useful when you also need **keyword or specific attribute matching**.
-
-> With hybrid search you don’t have to choose one over the other and use both to get searches that are more **relevant** and **filtered**. 
-
-To achieve this balance, Qdrant uses **normalization** and **fusion** techniques to blend results from multiple search methods. One common approach is **Reciprocal Rank Fusion (RRF)**, where results from different methods are merged, giving higher importance to items ranked highly by both methods. This ensures that the best candidates, whether identified through dense or sparse vectors, appear at the top of the results.
-
-Qdrant combines dense and sparse vector results through a process of **normalization** and **fusion**.
+Qdrant uses **normalization** and **fusion** techniques to blend results from multiple search methods, such as dense and sparse. One common approach is **Reciprocal Rank Fusion (RRF)**, where results from different methods are merged, giving higher importance to items ranked highly by both methods. This ensures that the best candidates, whether identified through dense or sparse vectors, appear at the top of the results.
 
 <img src="/articles_data/what-is-a-vector-database/hybrid-search-2.png" alt="Hybrid Search API - How it works" width="500">
 
 ### How to Use Hybrid Search in Qdrant
 Qdrant makes it easy to implement hybrid search through its Query API. Here’s how you can make it happen in your own project:
 
-<img src="/articles_data/what-is-a-vector-database/hybrid-query-1.png" alt="Hybrid Query Example" width="700">
+<img src="/articles_data/what-is-a-vector-database/hybrid-query2.png" alt="Hybrid Query Example" width="700">
 
-**Example Hybrid Query:** Let’s say a researcher is looking for papers on NLP, but the paper must specifically mention "transformers" in the content:
+**Example Hybrid Query:**
 
-```json
-search_query = {
-    "vector": query_vector,  # Dense vector for semantic search
-    "filter": {  # Filtering for specific terms
-        "must": [
-            {"key": "text", "match": "transformers"}  # Exact keyword match in the paper
-        ]
-    }
-}
+```python
+client.query_points(
+    collection_name="{collection_name}",
+    prefetch=[
+        models.Prefetch(
+            query=models.SparseVector(indices=[1, 42], values=[0.22, 0.8]),
+            using="sparse",
+            limit=20,
+        ),
+        models.Prefetch(
+            query=[0.01, 0.45, 0.67],  # <-- dense vector
+            using="dense",
+            limit=20,
+        ),
+    ],
+    query=models.RrfQuery(rrf=models.Rrf()),
+)
+
 ```
-
-In this query the dense vector search finds papers related to the broad topic of NLP and the sparse vector filtering ensures that the papers specifically mention “transformers”. 
-
 This is just a simple example and there's so much more you can do with it. See our complete [article on Hybrid Search](https://qdrant.tech/articles/hybrid-search/) guide to see what's happening behind the scenes and all the possibilities when building a hybrid search system.
 
 ## Quantization: Get 40x Faster Results 
@@ -325,15 +373,15 @@ This is just a simple example and there's so much more you can do with it. See o
 
 As your vector dataset grows larger, so do the computational demands of searching through it. 
 
-Quantized vectors are much smaller and easier to compare. With methods like [**Binary Quantization**](https://qdrant.tech/articles/binary-quantization/), you can see **search speeds improve by up to 40x while memory usage decreases by 32x**. Improvements that can be decisive when dealing with large datasets or needing low-latency results.
+Quantized vectors are much smaller and easier to compare. With methods like [**Binary Quantization**](https://qdrant.tech/articles/binary-quantization/), you can see **search speeds improve by up to 40x while memory usage decreases by 32x**, improvements that can be decisive when dealing with large datasets or needing low-latency results.
 
 It works by converting high-dimensional vectors, which typically use `4 bytes` per dimension, into binary representations, using just `1 bit` per dimension. Values above zero become "1", and everything else becomes "0".
 
-<img src="/articles_data/what-is-a-vector-database/binary-quantization.png" alt=" Binary Quantization example" width="600">
+<img src="/articles_data/what-is-a-vector-database/binary-quantization-2.png" alt=" Binary Quantization example" width="600">
 
-Quantization reduces data precision, and yes, this does lead to some loss of accuracy.  However, for binary quantization, **OpenAI embeddings** achieves this performance improvement at a cost of only 5% of accuracy. If you apply techniques like **oversampling** and **rescoring**, this loss can be brought down even further.
+Quantization reduces data precision, and yes, this does lead to some loss of accuracy. However, for binary quantization, **OpenAI embeddings** achieve this performance improvement at a cost of only 5% drop of accuracy. If you apply techniques like **oversampling** and **rescoring**, this loss can be brought down even further.
 
-However, binary quantization isn’t the only available option. Techniques like [**Scalar Quantization**](https://qdrant.tech/documentation/manage-data/quantization/#scalar-quantization) and [**Product Quantization**](https://qdrant.tech/documentation/manage-data/quantization/#product-quantization) are also popular alternatives when optimizing vector compression.
+However, binary quantization isn’t the only available option. Techniques like [**TurboQuant Quantization**](https://qdrant.tech/documentation/manage-data/quantization/#turboquant-quantization), [**Scalar Quantization**](https://qdrant.tech/documentation/manage-data/quantization/#scalar-quantization) and [**Product Quantization**](https://qdrant.tech/documentation/manage-data/quantization/#product-quantization) are also popular alternatives when optimizing vector compression.
 
 You can set up your chosen quantization method using the `quantization_config` parameter when creating a new collection:
 
@@ -353,7 +401,7 @@ client.create_collection(
     ),
 )
 ```
-You can store original vectors on disk within the `vectors_config` by setting `on_disk=True` to save RAM space, while keeping quantized vectors in RAM for faster access
+You can store original vectors on disk within the `vectors_config` by setting `on_disk=True` to save RAM space, while keeping quantized vectors in RAM for faster access.
 
 We recommend checking out our [Vector Quantization guide](https://qdrant.tech/articles/what-is-vector-quantization/) for a full breakdown of methods and tips on **optimizing performance** for your specific use case.
 
@@ -363,9 +411,9 @@ When thinking about scaling, the key factors to consider are **fault tolerance**
 
 ### Sharding: Distributing Data Across Nodes
 
-In a distributed Qdrant cluster, data is split into smaller units called **shards**, which are distributed across different nodes. which helps balance the load and ensures that queries can be processed in parallel.
+In a distributed Qdrant cluster, data is split into smaller units called **shards**, which are distributed across different nodes. This helps balance the load and ensures that queries can be processed in parallel.
 
-Each collection—a group of related data points—can be split into non-overlapping subsets, which are then managed by different nodes.
+Each collection can be split into non-overlapping subsets, which are then managed by different nodes.
 
 <img src="/articles_data/what-is-a-vector-database/sharding-raft.png" alt=" Distributed vector database with sharding and Raft consensus" width="1000">
 
@@ -386,7 +434,7 @@ There are two main types of sharding:
 1. **Automatic Sharding:** Points (vectors) are automatically distributed across shards using consistent hashing. Each shard contains non-overlapping subsets of the data. 
 2. **User-defined Sharding:** Specify how points are distributed, enabling more control over your data organization, especially for use cases like **multitenancy**, where each tenant (a user, client, or organization) has their own isolated data. 
 
-Each shard is divided into **segments**. They are a smaller storage unit within a shard, storing a subset of vectors and their associated payloads (metadata). When a query is executed, it targets the only relevant segments, processing them in parallel.
+Each shard is divided into **segments**. They are a smaller storage unit within a shard, storing a subset of vectors and their associated payloads (metadata). When a query is executed, it targets only the relevant segments, processing them in parallel.
 
 <img src="/articles_data/what-is-a-vector-database/segments.png" alt="Segments act as smaller storage units within a shard" width="700">
 
@@ -449,7 +497,9 @@ If you want to learn more about working with a multitenant setup in Qdrant, you 
 
 A common security risk in vector databases is the possibility of **embedding inversion attacks**, where attackers could reconstruct the original data from embeddings. There are many layers of protection you can use to secure your instance that are very important before getting your vector database into production.
 
-For quick security in simpler use cases, you can use the **API key authentication**. To enable it, set up the API key in the configuration or environment variable.
+> Self-hosted open source deployments are not secure by default and are not production-ready. Qdrant Cloud deployments are always secure and production-ready.
+
+For quick security in simpler use cases of your self-hosted instances, you can use the **API key authentication**. To enable it, set up the API key in the configuration or environment variable.
 
 ```yaml
 service:
@@ -472,28 +522,17 @@ In more advanced setups, Qdrant uses **JWT (JSON Web Tokens)** to enforce **Role
 
 RBAC defines roles and assigns permissions, while JWT securely encodes these roles into tokens. Each request is validated against the user's JWT, ensuring they can only access or modify data based on their assigned permissions. 
 
-You can easily setup your access tokens and secure access to sensitive data through the **Qdrant Web UI:**
+You can easily set up your access tokens and secure access to sensitive data through the **Qdrant Web UI:**
 
-<img src="/articles_data/what-is-a-vector-database/jwt-web-ui.png" alt="Qdrant Web UI for generating a new access token." width="1000">
+<img src="/articles_data/what-is-a-vector-database/jwt-ui.png" alt="Qdrant Web UI for generating a new access token." width="1000">
 
-By default, Qdrant instances are **unsecured**, so it's important to configure security measures before moving to production. To learn more about how to configure security for your Qdrant instance and other advanced options, please check out the [official Qdrant documentation on security.](https://qdrant.tech/documentation/security/)
+By default, self-hosted Qdrant instances are **unsecure**, so it's important to configure security measures before moving to production. To learn more about how to configure security for your Qdrant instance and other advanced options, please check out the [official Qdrant documentation on security.](https://qdrant.tech/documentation/security/)
 
 ## Time to Experiment
 
 As we've seen in this article, a vector database is definitely not **just** a database as we traditionally know it. It opens up a world of possibilities, from advanced similarity search to hybrid search that allows content retrieval with both context and precision. 
 
 But there’s no better way to learn than by doing. Try building a [semantic search engine](https://qdrant.tech/documentation/tutorials/search-beginners/) or experiment deploying a [hybrid search service](https://qdrant.tech/documentation/tutorials/hybrid-search-fastembed/) from zero. You'll realize there are endless ways you can take advantage of vectors.
-
-| **Use Case**                     | **How It Works**                                                                                      | **Examples**                                             |
-|-----------------------------------|------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
-| **Similarity Search**             | Finds similar data points using vector distances                                                    | Find similar product images, retrieve documents based on themes, discover related topics |
-| **Anomaly Detection**             | Identifies outliers based on deviations in vector space                                               | Detect unusual user behavior in banking, spot irregular patterns |
-| **Recommendation Systems**        | Uses vector embeddings to learn and model user preferences                                    | Personalized movie or music recommendations, e-commerce product suggestions |
-| **RAG (Retrieval-Augmented Generation)** | Combines vector search with large language models (LLMs) for contextually relevant answers                     | Customer support, auto-generate summaries of documents, research reports |
-| **Multimodal Search**             | Search across different types of data like text, images, and audio in a single query.                  | Search for products with a description and image, retrieve images based on audio or text |
-| **Voice & Audio Recognition**     | Uses vector representations to recognize and retrieve audio content                                 | Speech-to-text transcription, voice-controlled smart devices, identify and categorize sounds |
-| **Knowledge Graph Augmentation**  | Links unstructured data to concepts in knowledge graphs using vectors                        | Link research papers to related studies, connect customer reviews to product features, organize patents by innovation trends|
-
 
 You can also watch our video tutorial and get started with Qdrant to generate semantic search results and recommendations from a sample dataset. 
 
