@@ -170,7 +170,7 @@ Like Step 8, this step adds capacity rather than reallocating it. Where horizont
 
 **CPU.** More vCPUs mean the optimizer and queries share a larger pool. The ratios from Steps 3 and 4 still apply, but with 32 vCPUs instead of eight, even a 25% optimizer budget leaves more absolute cores for queries. Vertical CPU scaling amplifies the effect of the tuning you've already done.
 
-**RAM.** This is often the highest-leverage upgrade. When vectors and the HNSW index fit entirely in memory, disk I/O drops out of the picture: the optimizer and queries no longer compete for it. If you're currently using memmap storage because your dataset outgrew RAM, adding memory may let you move to in-memory storage and eliminate a whole class of contention.
+**RAM.** This is often the highest-leverage upgrade. When vectors and the HNSW index are [loaded](/documentation/ops-configuration/memory-tiers/) in RAM, disk I/O drops out of the picture: the optimizer and queries no longer compete for it. If you're currently keeping vectors in the `cold` tier because your dataset outgrew RAM, adding memory may let you move them to the `cached` tier and eliminate a whole class of contention.
 
 **Input/Output Operations per Second (IOPS).** If vectors or the HNSW index are stored on disk, disk throughput is a shared resource between the optimizer and queries. The optimizer continuously reads and writes segment data: merging segments, flushing the write-ahead log, and rebuilding indexes. Higher IOPS lets it complete that work faster, shortening the window of I/O contention.
 
