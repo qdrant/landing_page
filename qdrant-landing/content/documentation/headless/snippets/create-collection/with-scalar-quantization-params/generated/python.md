@@ -1,8 +1,6 @@
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
-
 client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
@@ -10,7 +8,7 @@ client.create_collection(
         scalar=models.ScalarQuantizationConfig(
             type=models.ScalarType.INT8,
             quantile=0.99,
-            always_ram=True,
+            memory=models.Memory.PINNED,
         ),
     ),
 )

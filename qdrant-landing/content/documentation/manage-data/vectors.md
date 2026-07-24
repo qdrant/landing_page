@@ -272,7 +272,4 @@ More information about the quantization process can be found in the [Quantizatio
 
 ## Vector Storage
 
-Depending on the requirements of the application, Qdrant can use one of the data storage options.
-Keep in mind that you will have to tradeoff between search speed and the size of RAM used.
-
-More information about the storage options can be found in the [Storage](/documentation/manage-data/storage/#vector-storage) section.
+Qdrant always [stores vectors on disk](/documentation/manage-data/storage/#vector-storage). To improve query latency, you can also load a copy of the vectors into memory for faster access by configuring [a memory tier](/documentation/ops-configuration/memory-tiers/).

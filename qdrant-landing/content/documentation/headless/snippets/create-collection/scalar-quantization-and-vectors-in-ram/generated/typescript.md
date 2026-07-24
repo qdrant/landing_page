@@ -1,8 +1,6 @@
 ```typescript
 import { QdrantClient } from "@qdrant/js-client-rest";
 
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
 client.createCollection("{collection_name}", {
   vectors: {
     size: 768,
@@ -11,7 +9,7 @@ client.createCollection("{collection_name}", {
   quantization_config: {
     scalar: {
       type: "int8",
-      always_ram: true,
+      memory: "pinned",
     },
   },
 });

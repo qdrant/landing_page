@@ -8,7 +8,7 @@ PUT /collections/{collection_name}
     "quantization_config": {
         "turbo": {
             "bits": "bits2",
-            "always_ram": true
+            "memory": "pinned"
         }
     }
 }

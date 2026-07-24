@@ -7,12 +7,14 @@ import (
 )
 
 func Main() {
+	// @hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{
 		Host: "localhost",
 		Port: 6334,
 	})
 
-	if err != nil { panic(err) } // @hide
+	if err != nil { panic(err) }
+	// @hide-end
 
 	client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
 		CollectionName: "{collection_name}",
@@ -20,7 +22,7 @@ func Main() {
 		FieldType:      qdrant.FieldType_FieldTypeKeyword.Enum(),
 		FieldIndexParams: qdrant.NewPayloadIndexParamsKeyword(
 			&qdrant.KeywordIndexParams{
-				OnDisk: qdrant.PtrOf(true),
+				Memory: qdrant.Memory_Cold.Enum(),
 			}),
 	})
 }

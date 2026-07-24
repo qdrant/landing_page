@@ -2,8 +2,8 @@ use std::collections::HashMap;
 
 use qdrant_client::qdrant::{
     quantization_config_diff::Quantization, vectors_config_diff::Config, HnswConfigDiffBuilder,
-    QuantizationType, ScalarQuantizationBuilder, UpdateCollectionBuilder, VectorParamsDiffBuilder,
-    VectorParamsDiffMap,
+    Memory, QuantizationType, ScalarQuantizationBuilder, UpdateCollectionBuilder,
+    VectorParamsDiffBuilder, VectorParamsDiffMap,
 };
 
 pub async fn main() -> anyhow::Result<()> {
@@ -25,7 +25,7 @@ pub async fn main() -> anyhow::Result<()> {
                     ScalarQuantizationBuilder::default()
                         .r#type(QuantizationType::Int8.into())
                         .quantile(0.8)
-                        .always_ram(true)
+                        .memory(Memory::Cached)
                         .build(),
                 )),
         )
