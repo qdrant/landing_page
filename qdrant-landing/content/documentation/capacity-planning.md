@@ -68,11 +68,11 @@ The total_payload_size is approximately 5,000,000 bytes, or about 4.77 GB.
 
 For optimal performance, you should store only frequently accessed data in RAM. The rest should be offloaded to the disk. For example, extra payload fields that you don't use for filtering can be stored on disk. 
 
-Only [indexed fields](/documentation/manage-data/indexing/#payload-index) should be stored in RAM. You can read more about payload storage in the [Storage](/documentation/manage-data/storage/#payload-storage) section.
+Only [indexed fields](/documentation/manage-data/indexing/#payload-index) are `pinned` in RAM by default. You can read more about payload storage and [memory tiers](/documentation/ops-configuration/memory-tiers/) in the [Storage](/documentation/manage-data/storage/#payload-storage) section.
 
 ### Storage-focused configuration
 
-If your priority is to handle large volumes of vectors with average search latency, it's recommended to configure [memory-mapped (mmap) storage](/documentation/manage-data/storage/#configuring-memmap-storage). In this setup, vectors are stored on disk in memory-mapped files, while only the most frequently accessed vectors are cached in RAM.
+If your priority is to handle large volumes of vectors with average search latency, it's recommended to move vectors to the [`cold` memory tier](/documentation/ops-configuration/memory-tiers/). In this setup, vectors are stored on disk in memory-mapped files, while only the most recently accessed pages get cached in RAM by the OS.
 
 The amount of available RAM greatly impacts search performance. As a general rule, if you store half as many vectors in RAM, search latency will roughly double.
 
@@ -80,7 +80,7 @@ Disk speed is also crucial. [Contact us](/documentation/support/) if you have sp
 
 ### Subgroup-oriented configuration
 
-If your use case involves splitting vectors into multiple collections or subgroups based on payload values (e.g., serving searches for multiple users, each with their own subset of vectors), memory-mapped storage is recommended.
+If your use case involves splitting vectors into multiple collections or subgroups based on payload values (e.g., serving searches for multiple users, each with their own subset of vectors), the `cold` memory tier is recommended.
 
 In this scenario, only the active subset of vectors will be cached in RAM, allowing for fast searches for the most recent and active users. You can estimate the required memory size as:
 
