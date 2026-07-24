@@ -216,14 +216,14 @@ index, quantization and disk configurations can now be changed without
 recreating a collection. Segments (with index and quantized data) will
 automatically be rebuilt in the background to match updated parameters.
 
-To put vector data on disk for a collection that **does not have** named vectors,
+To move vector data to the `cold` [memory tier](/documentation/ops-configuration/memory-tiers/) for a collection that **does not have** named vectors,
 use `""` as name:
 
 
 {{< code-snippet path="/documentation/headless/snippets/update-collection/vectors-to-disk-default/" >}}
 
 
-To put vector data on disk for a collection that **does have** named vectors:
+To move vector data to the `cold` memory tier for a collection that **does have** named vectors:
 
 Note: To create a vector name, follow the procedure from our [Points](/documentation/manage-data/points/#create-vector-name).
 
