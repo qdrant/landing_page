@@ -1,7 +1,7 @@
 ---
 title: "Fine-Tuning Sparse Embeddings for E-Commerce Search | Part 5: From Research to Product"
 short_description: "One command to fine-tune SPLADE for your catalog. No ML pipeline assembly required."
-description: "Part 5 of the sparse embeddings series. We packaged the entire training pipeline from Parts 1-4 into an open-source CLI and web dashboard that fine-tunes SPLADE models for any product catalog in minutes."
+description: "Part 5 of a 5-part series on fine-tuning SPLADE sparse embeddings for e-commerce search. We packaged the entire training pipeline from Parts 1-4 into an open-source CLI and web dashboard that fine-tunes SPLADE models for any product catalog in minutes."
 preview_dir: /articles_data/sparse-embeddings-ecommerce-part-5/preview
 social_preview_image: /articles_data/sparse-embeddings-ecommerce-part-5/preview/social_preview.jpg
 weight: 50
