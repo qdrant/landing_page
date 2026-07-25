@@ -50,7 +50,7 @@ Quantization can reduce this estimate by a factor of 4 to 32, depending on the q
 
 <aside role="status">To get a more detailed sizing estimate, try the <a href="https://sizing.qdrant.tech/estimate">Qdrant Sizing Calculator</a>.</aside>
 
-<aside role="status"> On top of the vector data itself, budget for the HNSW index, which typically adds 20% to 30% overhead, along with payload indexes and the write-ahead log. Reserve about 20% headroom for optimizer operations and operating system cache.</aside>
+On top of the vector data itself, budget for the HNSW index, which typically adds 20% to 30% overhead, along with payload indexes and the write-ahead log. Reserve about 20% headroom for optimizer operations and operating system cache.
 
 ## When Vertical Scaling Is No Longer Enough
 
