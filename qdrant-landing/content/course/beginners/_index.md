@@ -62,7 +62,7 @@ Understand why traditional search struggles and how modern semantic search impro
 
 - Why traditional search struggles and how modern semantic search improves it
 - How embeddings convert text to vectors that capture meaning
-- Distance metrics: cosine similarity, dot product, and Euclidean
+- Distance metrics: cosine similarity, dot product, Euclidean and Manhattan
 - Hybrid search: combining dense and sparse retrieval
 - Building your first Qdrant collection and queries
 
