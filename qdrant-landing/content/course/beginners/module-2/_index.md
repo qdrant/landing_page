@@ -165,7 +165,7 @@ When you query a collection, Qdrant computes similarity between your query vecto
 
 ### Rule
 
-Choose your distance metric at collection creation; it cannot be changed later. Match it to the metric your embedding model was trained with. Most sentence-transformer models use cosine.
+Choose your distance metric at collection creation; it cannot be changed later. HNSW parameters like m and ef_construct can be updated after creation, and Qdrant will rebuild the index in the background with no downtime. Match your distance metric to what your embedding model was trained with. Most sentence-transformer models use cosine.
 
 ## 4. Top-K Retrieval
 
@@ -279,11 +279,11 @@ results = client.query_points(
 
 ### Index Your Filter Fields
 
-For fields you filter on frequently, create a payload index. Without an index, Qdrant scans every payload at query time. With one, filtered queries run in logarithmic time. Use `client.create_payload_index()` for any field that appears in must, should, or must_not conditions. See [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for the full list of index types and how to configure them.
+For fields you filter on frequently, create a payload index. Without an index, Qdrant scans every payload at query time. With one, Qdrant jumps directly to matching points rather than scanning the collection, making filtered queries run significantly faster. Use `client.create_payload_index()` for any field that appears in must, should, or must_not conditions. See [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for the full list of index types and how to configure them.
 
 ## 7. Chunking Strategies
 
-Embedding models have a maximum token limit, typically 256 to 512 tokens. Long documents must be split into chunks before embedding. How you chunk directly affects retrieval quality.
+Embedding models have a maximum token limit that varies widely, from 256 tokens for compact models like all-MiniLM-L6-v2 to 8,000+ tokens for modern large models. Check your model's card before choosing a chunk size. Long documents must be split into chunks before embedding. How you chunk directly affects retrieval quality.
 
 - **Too large a chunk**: Exceeds model token limit. One embedding represents many topics, so retrieval becomes imprecise.
 - **Too small a chunk**: Loses surrounding context. Retrieved chunks are too short to be useful as LLM context.
@@ -370,7 +370,8 @@ points = [
     )
     for doc in documents
 ]
-
+# upload_points handles batching and retries automatically — preferred for lists of points.
+# upsert is the raw operation, better for single points or small real-time updates.
 client.upload_points(collection_name="articles", points=points)
 ```
 
