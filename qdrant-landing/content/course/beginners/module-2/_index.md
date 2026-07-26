@@ -8,6 +8,10 @@ weight: 30
 
 {{< date >}} Module 2 {{< /date >}}
 
+# First Principles of Vector Search
+
+Understand collections, points, vectors, payloads, and the HNSW index, and move from theory to actual system design in Qdrant.
+
 <div class="video">
 <iframe
   src="https://www.youtube.com/embed/zrUswSTeQMI?rel=0"
@@ -18,7 +22,7 @@ weight: 30
 </iframe>
 </div>
 
-# First Principles of Vector Search
+<br/>
 
 ## Today's Path
 
@@ -87,7 +91,7 @@ The atomic unit of data. Every point has an ID (integer or UUID), a vector, and 
 
 ### Vector
 
-A list of floating-point numbers (such as 384 or 768 values) that represent the meaning of the original content. Similar content produces similar vectors.
+A list of floating-point numbers (such as 384 or 768 values, known as dimensions) that represent the meaning of the original content. Similar content produces similar vectors.
 
 ### Payload
 
@@ -106,8 +110,14 @@ When you create a collection, you fix two things: the size of vectors it will ac
 
 ```python
 from qdrant_client import QdrantClient, models
+import os
 
-client = QdrantClient(":memory:")  # or use cloud URL + API key
+client = QdrantClient(
+    url=os.getenv("QDRANT_URL"),      # e.g. https://6cec7aec.eu-west-1-0.aws.cloud.qdrant.io
+    api_key=os.getenv("QDRANT_API_KEY"),
+)
+# For quick, throwaway experiments without a server, you can instead use:
+# client = QdrantClient(":memory:")
 
 client.create_collection(
     collection_name="articles",
@@ -176,7 +186,7 @@ for r in results.points:
 
 ### Why K Matters
 
-Returning too few results (K=3) misses relevant content. Returning too many (K=100) creates noise in results. A common pattern is to retrieve K=20–50 with Qdrant, then rerank to K=5. We'll explain reranking later.
+Returning too few results (K=3) misses relevant content. Returning too many (K=100) creates noise in results. A common approach is to overfetch: retrieve a larger candidate pool, then rerank it down to the smaller K you actually show the user. Qdrant supports this natively via [multi-stage queries](/documentation/concepts/hybrid-queries/#multi-stage-queries) - for example, prefetching a large candidate set and reranking it down to a much smaller final `limit`. We'll cover reranking in detail later.
 
 ## 5. How Search Is Fast: HNSW
 
@@ -269,7 +279,7 @@ results = client.query_points(
 
 ### Index Your Filter Fields
 
-For fields you filter on frequently, create a payload index. Without an index, Qdrant scans every payload at query time. With one, filtered queries run in logarithmic time. Use client.create_payload_index() for any field that appears in must, should, or must_not conditions. See [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for the full list of index types and how to configure them.
+For fields you filter on frequently, create a payload index. Without an index, Qdrant scans every payload at query time. With one, filtered queries run in logarithmic time. Use `client.create_payload_index()` for any field that appears in must, should, or must_not conditions. See [Payload Indexing](/documentation/manage-data/indexing/#payload-index) for the full list of index types and how to configure them.
 
 ## 7. Chunking Strategies
 
@@ -310,7 +320,9 @@ Let's put everything together. This section walks through the complete ingestion
 
 ### Step 1: Create a Free Cluster
 
-Start with a free cluster at [cloud.qdrant.io](https://cloud.qdrant.io). Once created, you'll have a URL and an API key. You can also follow along the code in the Google Colab notebook [here](https://colab.research.google.com/drive/1qKc-ybmYOjXdoMAAoaYz7VKJLgUdCmP5?usp=sharing).
+Start with a free cluster at [cloud.qdrant.io](https://cloud.qdrant.io). Once created, you'll have a URL and an API key. You can also follow along the code in the Google Colab notebook [here](https://colab.research.google.com/github/qdrant/examples/blob/master/course-beginners/getting_started.ipynb).
+
+<!-- TODO: notebook currently lives on the unmerged "add-module-2-cloud-setup-notebook" branch (qdrant/examples PR #114). Merge that PR so this master-branch link resolves. -->
 
 ![Create a free cluster at cloud.qdrant.io](/courses/beginners/module-2/qdrant-cloud.png)
 
