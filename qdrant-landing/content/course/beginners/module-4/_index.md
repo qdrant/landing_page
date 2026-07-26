@@ -72,7 +72,9 @@ client.create_collection(
         "dense": models.VectorParams(size=1024, distance=models.Distance.COSINE),
     },
     sparse_vectors_config={
-        "sparse": models.SparseVectorParams(),
+        "sparse": models.SparseVectorParams(
+            modifier=models.Modifier.IDF  # Required for correct BM25 scoring as discussed in Module 3
+        ),
     },
 )
 ```
@@ -238,7 +240,7 @@ The news system's design runs unchanged on any deployment mode. Which one is rig
 | Local Mode | Prototyping, notebooks, CI tests, teaching | Production or benchmarking (different storage format) |
 | Docker (Self-Hosted) | Full infra control, air-gapped, regulated environments | You don't yet have monitoring and backups in place |
 | Managed Cloud | Small ops team, standard requirements: upgrades, backups, and high availability handled for you | Data can't leave your infrastructure |
-| Hybrid Cloud (Bring Your Own Cloud, BYOC) | Data residency or security policy requires your infrastructure | Managed cloud would do; this adds Kubernetes ops complexity |
+| Hybrid Cloud (Bring Your Own Cloud, BYOC) | Data residency or security policy requires your infrastructure | Managed cloud would meet your needs with less operational overhead, Hybrid Cloud adds Kubernetes complexity that isn't always necessary. |
 | Private Cloud / On-Prem | Strictest requirements: defense, healthcare, finance | A lighter mode meets your needs |
 | Edge | On-device search, offline, ultra-low latency | You need distributed search (Edge is single-node) |
 
