@@ -97,7 +97,9 @@ Different sparse models decide *which* tokens get weight and *how much*:
 | SPLADE | Neural - a transformer learns to expand a text with related terms and assign them weights, even terms not in the original text | Captures some synonymy while staying sparse. More compute-intensive than BM25. |
 | miniCOIL | Neural, contextualized term weighting - keeps BM25's exact-token vocabulary but weights each occurrence using its surrounding context | Adds context-awareness to exact-match retrieval without the cost of full expansion models like SPLADE. |
 
-Start with BM25 for interpretable, exact-match retrieval. Reach for SPLADE or miniCOIL when you need sparse retrieval to be more forgiving of related wording, at some extra compute cost.
+Use miniCOIL for new projects, it matches BM25's exact-token vocabulary while adding context-awareness at low extra cost. Reach for BM25 when you need full interpretability or the simplest, cheapest-to-run scoring with no model inference. Reach for SPLADE when you need aggressive term expansion across a large vocabulary.
+
+---
 
 ![Side-by-side comparison of BM25, SPLADE, and miniCOIL, showing how each assigns weights to tokens: BM25 scores only tokens as written, SPLADE expands with related terms, and miniCOIL weights exact tokens by context.](/courses/beginners/module-3/comparison.png)
 
@@ -126,7 +128,7 @@ Dense = meaning. Sparse = exact matching. Neither is complete alone. Every real-
 
 ## 3. Hybrid Search: Dense + Sparse
 
-Hybrid search runs dense and sparse retrieval simultaneously, then fuses the ranked candidate lists into a single result set. The result: semantic understanding with exact-match precision. Filters (Section 3) can be layered on top of any of this.
+Hybrid search runs dense and sparse retrieval simultaneously, then fuses the ranked candidate lists into a single result set. The result: semantic understanding with exact-match precision. Filters (Section 7) can be layered on top of any of this.
 
 ### A Concrete Example
 
@@ -162,10 +164,13 @@ client.create_collection(
         ),
     },
     sparse_vectors_config={
-        "sparse": models.SparseVectorParams(),
+        "sparse": models.SparseVectorParams(
+            modifier=models.Modifier.IDF  # Required for correct BM25 scoring
+        ),
     },
 )
 ```
+**Note:** The IDF modifier is needed because BM25-style sparse vectors intentionally store only term frequency, so `modifier=models.Modifier.IDF` tells Qdrant to compute and apply the missing inverse-document-frequency weighting at scoring time.
 
 ### Step 2 - Insert Points with Both Vectors
 
