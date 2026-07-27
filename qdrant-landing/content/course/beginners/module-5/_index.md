@@ -547,11 +547,6 @@ This module completes the Qdrant Beginners course. Here's what was covered acros
 | Module 4 | Designing a System | The layers of the stack; five design questions; filtering in depth; the RAG pipeline; deployment options. |
 | Module 5 | Multimodal Supplier Risk | End-to-end capstone: ingest news, audio, and images; cluster risk signals; query across languages. |
 
-### The Same Six Primitives, Recombined
-
-Collection · Point · Vector · Payload · Index · Query
-
-Every system in this course, and every system you'll build, is a combination of these.
 
 ## 9. References & Further Reading
 - [Multimodal Search](/documentation/multimodal-search/)
