@@ -36,8 +36,6 @@ Understand collections, points, vectors, payloads, and the HNSW index, and move 
 8. Ingestion Pipeline: End-to-End
 9. References & Further Reading
 
-By the end, you'll understand every building block needed to go from raw text to a running Qdrant collection.
-
 ## 1. From Idea to System
 
 In Module 1, we saw how search evolved from matching words to understanding meaning. Now we move from theory to actual system design. This module covers every building block you need to go from raw text to a running Qdrant collection.
