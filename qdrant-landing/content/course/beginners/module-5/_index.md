@@ -31,13 +31,12 @@ Apply every concept from Modules 1-4 in a single end-to-end system: ingest daily
 8. Course Summary
 9. References & Further Reading
 
-By the end, you'll have built a working Qdrant pipeline: ingest, embed, cluster, and query multimodal signals across languages.
 
 ## 1. Project Overview
 
 Supply chain risk is invisible until it isn't. A factory fire in Vietnam, a labor dispute in Bangladesh, a regulatory change in China: these events appear as signals across dozens of data sources, in different languages, in different modalities, before they become formal incidents. The goal of this project is to make those signals retrievable before the incident.
 
-This is the news search system you designed in Module 4, extended along two dimensions: more modalities (audio and imagery alongside text) and a new capability (clustering signals into risk themes). The five design questions from Module 4 already gave you the blueprint. Now you build it.
+This is the news search system you designed in Module 4, extended along two dimensions: more modalities (audio and imagery alongside text) and a new capability (clustering signals into risk themes). The five design questions from Module 4 already gave you the blueprint:
 
 - **Daily Signals**: News, earnings calls, satellite images, factory footage, ingested every 24 hours.
 - **Clustering**: Group signals by supplier, topic, and risk theme using vector proximity.
@@ -58,7 +57,7 @@ The system has four stages. Each maps to Qdrant primitives you already know.
 
 One collection holds all modalities. Named vectors allow querying by text, image, or audio from the same point. Indexed payload fields make all filters fast, exactly as you designed in Module 4.
 
-```
+```yaml
 Collection: supplier_signals
 
 Named vectors:
@@ -416,29 +415,29 @@ A useful analyst workflow: run the same query twice, once filtered to English so
 
 These questions cover the capstone. Work through each before considering the course complete.
 
-**Q: Why does the supplier risk system use multilingual-e5-large instead of a monolingual English model?**
-
-A: Supply chain risk signals appear in local-language sources (Japanese, Mandarin, Korean, Vietnamese) before they reach English media. multilingual-e5-large projects 100+ languages into the same vector space, so an English query retrieves semantically relevant articles originally written in any language, without translation at query time.
-
-**Q: Why does the collection use named vectors instead of one collection per modality?**
-
-A: A single signal (one point) can carry text, image, and audio evidence about the same event. Named vectors keep them on the same point, queryable independently or together, with one shared payload for filtering. Separate collections would fragment the same event across systems and triple the filtering logic.
-
-**Q: How does CLIP make the query "smoke above factory" match a satellite photo with no text attached?**
-
-A: CLIP is trained on image-caption pairs and projects both images and text into the same vector space. The text query and a visually matching image land close together in that space, so cosine similarity retrieves the image directly.
-
-**Q: A supplier's English coverage looks routine, but the same query filtered to Japanese and Chinese sources returns shutdown-related signals. What does this tell you, and what makes the comparison possible?**
-
-A: The local-language narrative is ahead of the English one, which is where early warnings usually appear first. The comparison works because the multilingual model embeds all languages into one vector space, so the same English query is meaningful against sources in any language, and the `language` payload filter scopes each run.
-
-**Q: How would you extend this system to detect a new risk theme that affects 15 different suppliers simultaneously?**
-
-A: Run cross-supplier clustering over all signals from the last 24-48 hours without filtering by supplier_id. A shared risk theme forms a tight cluster across multiple suppliers' signals, and the cluster centroid represents the emerging narrative.
-
-**Q: Why does the analyst investigation query use hybrid retrieval rather than dense-only?**
-
-A: Analyst queries mix semantic intent ("production disruption") with exact tokens (supplier codes, facility IDs, ticker symbols). Dense captures the intent; sparse pins the exact tokens; RRF fuses both, exactly as in the Module 4 news system.
+{{< details summary="Why does the supplier risk system use multilingual-e5-large instead of a monolingual English model?" >}}
+Supply chain risk signals surface in local-language sources, Japanese, Mandarin, Korean, and Vietnamese, before they reach English media. multilingual-e5-large is initialized from XLM-RoBERTa and inherits its 100 languages, all projected into one shared vector space, so an English query retrieves relevant articles whatever language they were written in, with no translation step at query time. Two caveats the model card is explicit about: prefix every input with `query: ` or `passage: `, because the model was trained that way and omitting it quietly degrades retrieval rather than failing, and expect weaker results on low-resource languages.
+{{< /details >}}
+ 
+{{< details summary="Why does the collection use named vectors instead of one collection per modality?" >}}
+One signal, one point. A single event can carry text, image, and audio evidence at the same time, and named vectors keep all three on that one point, queryable separately or together, sharing a single payload for filtering. Splitting by modality would scatter one event across three collections, triplicate the filtering logic, and leave you joining results in application code.
+{{< /details >}}
+ 
+{{< details summary="How does CLIP match the query 'smoke above factory' to a satellite photo with no text attached?" >}}
+CLIP is trained contrastively on image and caption pairs, which places images and text in one shared embedding space. The query vector and a visually matching image vector land close together in that space, so ordinary cosine similarity retrieves the photo. No caption, filename, or tag is involved, which is the whole point: the image is searchable by what it shows.
+{{< /details >}}
+ 
+{{< details summary="A supplier's English coverage looks routine, but the same query filtered to Japanese and Chinese sources returns shutdown-related signals. What does that tell you, and what makes the comparison possible?" >}}
+The local-language narrative is running ahead of the English one, which is where early warning usually appears first. The comparison is only possible because one multilingual model embeds every language into a single space, so a single English query is meaningful against sources in any language, and because an indexed `language` payload field lets you scope each run to a different set of sources.
+{{< /details >}}
+ 
+{{< details summary="How would you extend this system to detect a risk theme affecting 15 suppliers at once?" >}}
+Cluster across suppliers rather than within one: run clustering over every signal from the last 24 to 48 hours with no `supplier_id` filter applied. A shared theme appears as one tight cluster drawing signals from many suppliers at once, and the cluster centroid gives you a vector for the emerging narrative, which you can then use as a query to find more of it.
+{{< /details >}}
+ 
+{{< details summary="Why does the analyst investigation query use hybrid retrieval rather than dense-only?" >}}
+Analyst queries mix semantic intent ("production disruption") with exact tokens: supplier codes, facility IDs, ticker symbols. Dense retrieval carries the intent, sparse pins the exact tokens, and Reciprocal Rank Fusion combines the two rankings. It's the same pattern as the Module 4 news system, including where the filter goes: inside each prefetch, never on the outer query.
+{{< /details >}}
 
 ## 8. Course Summary
 
