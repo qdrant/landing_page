@@ -28,12 +28,6 @@ When querying a collection, Qdrant reads from one replica of each given shard. E
 
 However, keep in mind that replicas are not free. You need more hardware to run more peers. Because writes need to be replicated across all replicas, increasing the replication factor can increase write latency. Therefore, it's important to find the right balance between read performance and resource usage when configuring the replication factor.
 
-### Pin Reads with Route Affinity
-
-*Available as of v1.19.0*
-
-Because reads are spread across replicas, successive requests for the same query can land on different replicas. While updates are still propagating, this can cause "blinking" results, where a point appears and disappears across otherwise identical reads. To keep reads stable for a given client, send the `X-Qdrant-Route-Affinity` HTTP header with a stable value (such as a user or session id) to pin all of that client's reads to the same replica, without giving up load balancing across other clients. Refer to [Read Affinity](/documentation/scaling/consistency-guarantees/#read-affinity) for details.
-
 ## Use Delayed Fan-Outs
 
 *Available as of v1.17.0*
@@ -88,3 +82,9 @@ Refer to [Prevent Reads from Large Unindexed Segments](/documentation/ops-optimi
 <aside role="status">
 Set the <code>wait</code> parameter to <code>false</code> on write requests when <code>prevent_unoptimized</code> is enabled. See <a href="/documentation/ops-optimization/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
 </aside>
+
+### Pin Reads with Route Affinity
+
+*Available as of v1.19.0*
+
+Enabling `prevent_unoptimized` makes cross-replica "blinking" more prominent: deferred points become visible on each replica at slightly different times, and because reads are spread across replicas, successive requests for the same query can land on different replicas and see a point appear, disappear, then reappear. To keep reads stable for a given client, send the `X-Qdrant-Route-Affinity` HTTP header with a stable value (such as a user or session ID) to pin all of that client's reads to the same replica, without giving up load balancing across other clients. Refer to [Read Affinity](/documentation/scaling/consistency-guarantees/#read-affinity) for details.

@@ -480,8 +480,6 @@ to recover dead shards.
 
 Shards can be [replicated](/documentation/scaling/horizontal-scaling/#replication) between nodes in the cluster, keeping several copies of a shard spread across the cluster. This enables you to scale your read throughput and tolerate node failures.
 
-<aside role="status">Reads are spread across replicas. Repeated reads for the same query can land on different replicas and "blink" while updates are still propagating: a point appears in one read, then disappears from the next, then reappears. To pin a client's reads to a single replica, refer to <a href="/documentation/scaling/consistency-guarantees/#read-affinity">Read Affinity</a>.</aside>
-
 ### Replication Factor
 
 When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to `1`, meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/ops-configuration/configuration/#configuration-options). You can change the default per-collection by setting the `replication_factor` when you create a collection.

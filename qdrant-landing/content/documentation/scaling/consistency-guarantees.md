@@ -350,18 +350,11 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 
 Read `consistency` resolves inconsistencies by querying multiple replicas and comparing their results, at the cost of extra load. When you only need repeated reads to stay stable for a given client, read affinity is a lighter-weight alternative.
 
-By default, Qdrant reads from a single replica of each shard, preferring a local replica if one exists and otherwise picking a remote replica. In a multi-replica cluster, this means successive reads for the same query can land on different replicas. When updates are still propagating, a point may already be visible on one replica but not yet on another. Reads that bounce between replicas then "blink": a point appears, disappears, and reappears across otherwise identical requests. This is especially noticeable with [deferred points](/documentation/search/low-latency-search/#prevent_unoptimized-optimizer-setting), which become visible on each replica at slightly different times.
+By default, Qdrant reads from a single replica of each shard, preferring a local replica if one exists and otherwise picking a remote replica. In a multi-replica cluster, this means successive reads for the same query can land on different replicas. When updates are still propagating, a point may already be visible on one replica but not yet on another. Reads that bounce between replicas then "blink": a point appears, disappears, and reappears across otherwise identical requests. This is especially noticeable when [`prevent_unoptimized`](/documentation/ops-optimization/optimizer/#prevent-reads-from-large-unindexed-segments) is enabled, since points held back until a segment is optimized become visible on each replica at slightly different times.
 
-To keep reads stable, send the `X-Qdrant-Route-Affinity` HTTP header with a stable value, such as a user id, session id, or hashed API key. Qdrant hashes this value and deterministically pins every request carrying the same value to the same replica. Because the hash is computed identically on every node, all peers resolve a given value to the same replica, so a client consistently reads from one replica and no longer experiences blinking. Different values are spread across replicas, so read load is still balanced across users. The same key can be set as gRPC metadata.
+To keep reads stable, send the `X-Qdrant-Route-Affinity` HTTP header with a stable value, such as a user ID, session ID, or hashed API key. Qdrant hashes this value and deterministically pins every request carrying the same value to the same replica. Because the hash is computed identically on every node, all peers resolve a given value to the same replica, so a client consistently reads from one replica and no longer experiences blinking. Different values are spread across replicas, so read load is still balanced across users. The same key can be set as gRPC metadata.
 
-```http
-POST /collections/{collection_name}/points/query
-X-Qdrant-Route-Affinity: user-42
-{
-    "query": [0.2, 0.1, 0.9, 0.7],
-    "limit": 3
-}
-```
+{{< code-snippet path="/documentation/headless/snippets/route-affinity/simple/" >}}
 
 When the header is absent or empty, routing falls back to the default local-preferred behavior. When it is set, local-replica preference is intentionally disabled, otherwise each node would answer from its own copy and the value would have no effect.
 
