@@ -10,7 +10,7 @@ weight: 50
 
 # Designing a Vector Search System
 
-You know the primitives. This module is about judgment: how to go from "I have data and users" to a concrete design, making the same decisions you'd make on a real project.
+Modules 1 through 3 gave you the parts: embeddings, collections, HNSW, hybrid retrieval, filters. The next step is learning about reasoning that turns "we have articles and analysts" into a payload schema, a retrieval pipeline, and a deployment mode. 
 
 <div class="video">
   <iframe src="https://www.youtube.com/embed/CT5leRzcL5M?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
@@ -26,8 +26,6 @@ You know the primitives. This module is about judgment: how to go from "I have d
 5. Deployment Options
 6. Knowledge Check
 7. References & Further Reading
-
-By the end, you'll be able to reason about any vector search architecture layer by layer, and you'll have designed one system end to end.
 
 ## 1. The Layers of the Stack
 
@@ -47,19 +45,19 @@ Every design decision belongs to a layer. "Add a payload index" is an indexing d
 
 ## 2. Worked Example: Designing a Multilingual News Search System
 
-Rather than reading about someone else's architecture, let's design one. The brief:
+Here's the brief, the kind you'd get on a real project:
 
 Analysts at a research firm need to search global news. Articles arrive continuously in many languages. Analysts ask questions in English ("port congestion in Southeast Asia"), expect results from any language, and need to scope searches by country, topic, date range, and source. Some queries name exact things, like a company ticker or a ship name, that must match precisely.
 
-That's realistic, and it's messy in exactly the ways real projects are. We'll design it by answering five questions. Each answer is a decision in a specific layer.
+That's realistic, and it's messy in exactly the ways real projects are. We'll design it by answering five questions.
 
 ### Question 1: What Do the Queries Look Like?
 
 *Natural language? Exact tokens? Both?*
 
-Both, and this is the single most consequential observation in the whole design. "Port congestion in Southeast Asia" is semantic intent: dense territory. "MAERSK-B.CO delisting" is an exact token that dense search will happily blur into neighboring tickers. You saw this failure in Module 3 as the SKU problem.
+Both, and this is the single most consequential observation in the whole design. "Port congestion in Southeast Asia" is semantic intent: dense territory. "MAERSK-B.CO delisting" is an exact token that dense search will happily blur into neighboring tickers. You saw this failure in Module 3, while in retrieving exact IDs like "SKU-48291".
 
-**Decision**: hybrid from the start. Named dense and sparse vectors on every point, fused at query time. *(Query layer.)*
+**Decision**: Hybrid search: named dense and sparse vectors on every point, fused at query time. *(Query layer.)*
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -86,16 +84,16 @@ client.create_collection(
 
 From the brief: country, topic, date range, and source. These aren't "nice to rank higher" signals. An analyst scoping to "Vietnam, last seven days" means exactly that. Hard rules go in the payload; Section 3 covers why this works at speed.
 
-**Decision**: the payload schema, designed now, before ingestion:
+**Decision**: The payload schema, designed before ingestion:
 
-```
+```yaml
 payload:
-  country       string    (indexed)
-  language      string    (indexed)
-  topic         string    (indexed)
-  source        string    (indexed)
-  published_at  datetime  (indexed)
-  summary       string    (not indexed: returned, never filtered)
+  country: string         # indexed
+  language: string        # indexed
+  topic: string           # indexed
+  source: string          # indexed
+  published_at: datetime  # indexed
+  summary: string         # not indexed: returned, never filtered
 ```
 
 Create those indexes now too, in the same setup step, before a single point is uploaded. This ordering is not a style preference. Qdrant extends the HNSW graph with extra edges derived from indexed payload values, and it can only add those edges for indexes that already exist when the graph is built. Create a payload index after ingesting, and you have to rebuild the HNSW index to get any benefit from it, which is slow and expensive on millions of points.
@@ -123,7 +121,7 @@ So the build order for any collection you filter on is: create the collection, c
 
 Millions of articles, text-only for now, arriving continuously. Hundreds of thousands of new chunks per day, and analysts expect this morning's news to be searchable this morning.
 
-**Decisions**: one collection, and continuous upserts rather than periodic rebuilds. Two things still need designing here.
+**Decisions**: One collection, and continuous upserts rather than periodic rebuilds. Two things still need designing here.
 
 First, the initial backfill of millions of articles is a bulk load, not a stream. Batch your upserts, and consider disabling indexing for the duration so the optimizer builds the graph once at the end instead of rebuilding it as data lands. Leaving HNSW index building on during a large load is a common way to saturate CPU and push query latency up for everything else on the cluster.
 
@@ -167,7 +165,7 @@ Reciprocal Rank Fusion is the right default because it works from ranks rather t
 
 *Latency budget, data residency, cost, and who operates this thing?*
 
-A research firm with a small engineering team, no residency restrictions, and a "please don't page us at night" operational budget points to a managed deployment. The same design would run self-hosted if the constraints said otherwise. The design and the deployment mode are independent decisions; Section 5 lays out the full option space. *(Distribution layer.)*
+A research firm with a small engineering team, no residency restrictions, and a "please don't page us at night" operational budget points to a managed deployment. The same design would run self-hosted if the constraints said otherwise. The design and the deployment mode are independent decisions; Section 5 lays out the full option space. *(Distribution layer)*
 
 ### The Design on One Page
 
