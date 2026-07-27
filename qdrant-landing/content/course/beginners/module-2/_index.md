@@ -22,6 +22,8 @@ weight: 30
 
 Understand collections, points, vectors, payloads, and the HNSW index, and move from theory to actual system design in Qdrant.
 
+**Follow-along code**: [Module 2 notebook](https://github.com/qdrant/examples/blob/master/Beginner-course/Module2.ipynb)
+
 <br/>
 
 ## Today's Path
@@ -318,7 +320,7 @@ Let's put everything together. This section walks through the complete ingestion
 
 ### Step 1: Create a Free Cluster
 
-Start with a free cluster at [cloud.qdrant.io](https://cloud.qdrant.io). Once created, you'll have a URL and an API key. You can also follow along the code in the Google Colab notebook [here](https://colab.research.google.com/github/qdrant/examples/blob/master/course-beginners/getting_started.ipynb).
+Start with a free cluster at [cloud.qdrant.io](https://cloud.qdrant.io). Once created, you'll have a URL and an API key.
 
 <!-- TODO: notebook currently lives on the unmerged "add-module-2-cloud-setup-notebook" branch (qdrant/examples PR #114). Merge that PR so this master-branch link resolves. -->
 
